@@ -1,0 +1,42 @@
+{
+  "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+  "checkout": "/tmp/veritile-body77",
+  "explicit_modules": 4468,
+  "scope": "All cumulative task/example/frontend roots and their full import closure.",
+  "project_build_initially_present": false,
+  "veritile_cache_initially_present": false,
+  "project_objects_imported_from_other_checkouts": false,
+  "fixed_external_packages_reused": "/home/argustest/lizn/VeriTile/.lake/packages",
+  "previous_cache_cleanup": {
+    "removed": "/tmp/veritile-body77/.lake/build",
+    "reason": "Remove only this owned, completed KvCacheFilling project cache after its published receipt; source and evidence are retained. Rebuild all 4468 cumulative roots and their dependency closure from empty project objects. Shared frontend changes require the cumulative independent replay.",
+    "previous_receipt": "9bb3f570bb6cc025dc11576014f1796e42bc2ff0"
+  },
+  "changed_source_sha256": {
+    "VeriTile/Triton/DSL/CallSignature.lean": "eabda311fa6be9b144bde6442e25f1f33e5c16ed8c820567e065329517a5476c",
+    "VeriTile/Triton/DSL/TypedStorageReduction.lean": "26c50b50885cb0cc8a81863783fc01c8917be74a01efb6f47eff1d560fa9707d",
+    "VeriTile/Triton/DSL/TypedStores.lean": "9f38c2dda870acd0580a9909aec613a66a34bee2bbb275664a3f0c226bd19b57",
+    "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Candidate.lean": "4f20a3315470ff7171be9dea9b3375b98935197e5aa7246a21a8c5b4ad296ca3",
+    "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Kernels.lean": "af745e86f7257b763cd7453fb3cd555122f05f256c3debf5290da1f519813b92",
+    "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Misc/TensorBridge.lean": "d9b4eebad7d6d8d226ac5ef1624e29e8d1eba2bfbb3a72df1c8cf72c3e354b83",
+    "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/AddressSchedule.lean": "690e62eb81abd294690181a6c3cddbf7d01e811dc756d0c82018f2b3ba59ff47",
+    "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/FPContract.lean": "9aad624b3ad89e5efdefeccf2133ac4fa14f045ae728535ad0193a37bc5f2f0e",
+    "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/FPLoop.lean": "01cb6517944e687f2ab21caf9bfacf54a901ea7cdfb46153a7726a8127284505",
+    "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/FPPrefix.lean": "9895bc22a598b886382356ef0780b9c4348f79383de6c8e4559f797594ab5340",
+    "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/FPReference.lean": "7719b23e10b143d8e7c375205eacb02e37fd739dc3942f61d64b5d41f9d22efe",
+    "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/FPSource.lean": "ae55cc3abbfbbfb75188ff89dcc6f1da9925f022e7b313af8c29caec3f87fbfe",
+    "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/IOSourceSafety.lean": "94fae84aeaba83de96e073dbb78d9b340474283548fdec519859348666fa7a59",
+    "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/IOValues.lean": "5441fa914453af5ffba76f71c0c9a7c8b91dac0bc2a125123c14063df59de0d6",
+    "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/KernelNativeResults.lean": "cb12ca9d5a95173be3dc2564ca521de54e01cd2cfec58fe02b90743a70f1255d",
+    "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/PrecisionProfile.lean": "dd342031a36e7c3beb71164328cb371394816fb4570b35e413719f3d822ea2d1",
+    "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/README.md": "566eeadb110eaf1b37cf530f3fd9c3809324b684e299dbff7b98f25be2e186dd",
+    "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Targets.lean": "8d3bd663e4ad633313ebc7582f1817e82f1b181da5f0c498217271c71414746e",
+    "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/jit-correspondence.json": "4fc13e86d28582c6b97a15abb997d77b257c0f871a0054580ba0c1fa49180aba",
+    "bench/source-correspondence.json": "014d61e45bba1b3d1abb2466299a76716efa55d504c619027752cab6f7dfb916",
+    "bench/tests/PositionalReductionLoop.lean": "4c0840db0aa93702ce7ba6cc4d4814ab79823ba7e11e4797e33d005b7bbaff2b",
+    "bench/tests/test_softmax_reducev_body.py": "8fcb3fec7693352758a468ceaf6e7bc9c34126cde6337bf987242906ea953460",
+    "lakefile.toml": "b6af6be2cae5cebab0dcd378c549305da3c91308bd9da3e8aaf43123074c962d"
+  },
+  "build_exit_code": 0,
+  "joint_exit_code": 0
+}

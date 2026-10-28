@@ -1,0 +1,49 @@
+{
+  "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+  "raw_bodies": [
+    {
+      "name": "raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+      "log": "/tmp/reducev101-raw-body-check.log",
+      "status": "PASS"
+    }
+  ],
+  "candidate_rewrites": [
+    {
+      "status": "PASS",
+      "scope": "Seven SoftmaxReduceVBodyTests check both complete raw bodies, exactly the existing two early-address assignments, explicit precision boundaries, clamp, masked padding, metadata ABI and loop extent."
+    }
+  ],
+  "cpu": {
+    "name": "cpu-check",
+    "command": [
+      "python3",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/check_contract.py"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-cpu-check.log",
+    "status": "UNAVAILABLE",
+    "reason": "The unchanged CPU guard/launch capture checker requires Torch, which is not installed."
+  },
+  "original_python_and_public_specifications": {
+    "status": "PASS",
+    "sha256": {
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Contract.lean": "81adb6da040b75e470300feccc74197e40db9994c6c9fd522d271fc3b1400c20",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Correct.lean": "d0222d17cc6d59ff4e217b9aa36c34e5c9e3bcea825868dc3aaf3b3ef0db04ce",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/FPEquiv.lean": "34bd42a47fd0be3f6efed4134b09ede093b12cd043cdfd11faac20574b855b67",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/check_contract.py": "d29f34612cddaf41cd17eb926a0e298da065f83987f9702dbc782f976908c641",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/check_cuda_lowering.py": "11c94cc725a8ce2649d6743b5f8041d970d17f8a171f10ca0e85076afd2b419c",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/check_neginf.py": "9f1b7efd1a3791486e52105f16d066422268923cbd8a5ce852cf8bc159a04b65",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/softmax_reducev_neginf_checked.py": "791635f0fd19c4eef49556ed127718b61fabbd71e1289127248ccf39135d5bee"
+    }
+  },
+  "scope": "Two complete original/existing address-scheduled candidate mappings retain every statement. Caller types and scalars remain external. Typed storage reduction projection tracks actual load/copy provenance without arbitrary carrier identities. Actual complete execution, safety, frames and independent Real/FP connections are reverified, including all canonical optional roots. Corrected literal/padding annotations preserve previous NativeGraph and RealModel target values for all inputs and reduction plans by proved equalities. Public Correct/FPEquiv/Contract and original Python are unchanged. No new domain restriction, whole-kernel premise, GPU or numerical experiment."
+}

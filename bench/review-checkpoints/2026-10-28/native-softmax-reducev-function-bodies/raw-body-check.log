@@ -1,0 +1,82 @@
+[
+  {
+    "python_function": "_fwd_kernel",
+    "lean_definition": "sourceBody",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "max_input_len": "max_input_len",
+      "stride_logic_h": "stride_logic_h",
+      "stride_logic_bs": "stride_logic_bs",
+      "stride_vbs": "stride_vbs",
+      "stride_vh": "stride_vh",
+      "stride_vd": "stride_vd",
+      "stride_obs": "stride_obs",
+      "stride_oh": "stride_oh",
+      "stride_od": "stride_od",
+      "stride_b_loc_b": "stride_b_loc_b",
+      "stride_b_loc_s": "stride_b_loc_s",
+      "other_kv_index": "other_kv_index"
+    },
+    "statements": 18,
+    "runtime_parameters": {
+      "max_input_len": "integer",
+      "stride_logic_h": "integer",
+      "stride_logic_bs": "integer",
+      "stride_vbs": "integer",
+      "stride_vh": "integer",
+      "stride_vd": "integer",
+      "stride_obs": "integer",
+      "stride_oh": "integer",
+      "stride_od": "integer",
+      "stride_b_loc_b": "integer",
+      "stride_b_loc_s": "integer",
+      "other_kv_index": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_DMODEL",
+      "BLOCK_N"
+    ]
+  },
+  {
+    "python_function": "_fwd_kernel_early_address",
+    "lean_definition": "earlyAddressBody",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "max_input_len": "max_input_len",
+      "stride_logic_h": "stride_logic_h",
+      "stride_logic_bs": "stride_logic_bs",
+      "stride_vbs": "stride_vbs",
+      "stride_vh": "stride_vh",
+      "stride_vd": "stride_vd",
+      "stride_obs": "stride_obs",
+      "stride_oh": "stride_oh",
+      "stride_od": "stride_od",
+      "stride_b_loc_b": "stride_b_loc_b",
+      "stride_b_loc_s": "stride_b_loc_s",
+      "other_kv_index": "other_kv_index"
+    },
+    "statements": 18,
+    "runtime_parameters": {
+      "max_input_len": "integer",
+      "stride_logic_h": "integer",
+      "stride_logic_bs": "integer",
+      "stride_vbs": "integer",
+      "stride_vh": "integer",
+      "stride_vd": "integer",
+      "stride_obs": "integer",
+      "stride_oh": "integer",
+      "stride_od": "integer",
+      "stride_b_loc_b": "integer",
+      "stride_b_loc_s": "integer",
+      "other_kv_index": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_DMODEL",
+      "BLOCK_N"
+    ]
+  }
+]

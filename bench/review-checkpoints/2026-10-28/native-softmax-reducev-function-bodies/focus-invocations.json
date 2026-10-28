@@ -1,0 +1,45 @@
+[
+  {
+    "tag": "frontend-build",
+    "explicit_modules": 118,
+    "exit_code": 0
+  },
+  {
+    "tag": "focus-build",
+    "explicit_modules": 47,
+    "exit_code": 0
+  },
+  {
+    "tag": "focus-joint",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/reducev101-focus-joint.lean"
+    ],
+    "log": "/tmp/reducev101-focus-joint.log",
+    "exit_code": 0
+  },
+  {
+    "tag": "audit",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/reducev101-audit.lean"
+    ],
+    "log": "/tmp/reducev101-audit.log",
+    "exit_code": 0
+  },
+  {
+    "tag": "positionalreductionloop-audit",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "bench/tests/PositionalReductionLoop.lean"
+    ],
+    "log": "/tmp/reducev101-positionalreductionloop-audit.log",
+    "exit_code": 0
+  }
+]

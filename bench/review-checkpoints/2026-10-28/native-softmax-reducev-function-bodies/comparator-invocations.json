@@ -1,0 +1,818 @@
+[
+  {
+    "name": "VeriTile__Triton__DSL__CallSignature-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "VeriTile/Triton/DSL/CallSignature.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-VeriTile__Triton__DSL__CallSignature-comparator.log",
+    "file": "VeriTile/Triton/DSL/CallSignature.lean",
+    "sha256": "eabda311fa6be9b144bde6442e25f1f33e5c16ed8c820567e065329517a5476c",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "VeriTile__Triton__DSL__TypedStorageReduction-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "VeriTile/Triton/DSL/TypedStorageReduction.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-VeriTile__Triton__DSL__TypedStorageReduction-comparator.log",
+    "file": "VeriTile/Triton/DSL/TypedStorageReduction.lean",
+    "sha256": "26c50b50885cb0cc8a81863783fc01c8917be74a01efb6f47eff1d560fa9707d",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "VeriTile__Triton__DSL__TypedStores-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "VeriTile/Triton/DSL/TypedStores.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-VeriTile__Triton__DSL__TypedStores-comparator.log",
+    "file": "VeriTile/Triton/DSL/TypedStores.lean",
+    "sha256": "9f38c2dda870acd0580a9909aec613a66a34bee2bbb275664a3f0c226bd19b57",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__AddressIO-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/AddressIO.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__AddressIO-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/AddressIO.lean",
+    "sha256": "3f3093bf54e532e6706abeae04c91a36acb368425d516de9740c5e190d23b6c5",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Candidate-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Candidate.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Candidate-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Candidate.lean",
+    "sha256": "4f20a3315470ff7171be9dea9b3375b98935197e5aa7246a21a8c5b4ad296ca3",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Contract-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Contract.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Contract-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Contract.lean",
+    "sha256": "81adb6da040b75e470300feccc74197e40db9994c6c9fd522d271fc3b1400c20",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Correct-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Correct.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Correct-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Correct.lean",
+    "sha256": "d0222d17cc6d59ff4e217b9aa36c34e5c9e3bcea825868dc3aaf3b3ef0db04ce",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__FPEquiv-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/FPEquiv.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__FPEquiv-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/FPEquiv.lean",
+    "sha256": "34bd42a47fd0be3f6efed4134b09ede093b12cd043cdfd11faac20574b855b67",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__IO-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/IO.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__IO-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/IO.lean",
+    "sha256": "227b287bc65bb8d8289de58097af1c67be1e14a613f1a747f940f100b84b3377",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Kernels-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Kernels.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Kernels-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Kernels.lean",
+    "sha256": "af745e86f7257b763cd7453fb3cd555122f05f256c3debf5290da1f519813b92",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Misc__NativeCorrect-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Misc/NativeCorrect.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Misc__NativeCorrect-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Misc/NativeCorrect.lean",
+    "sha256": "5fec287c70ccb6967de103f8e56ac6fcb85604be99cbe851a3a7499bb5213e92",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Misc__TensorBridge-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Misc/TensorBridge.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Misc__TensorBridge-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Misc/TensorBridge.lean",
+    "sha256": "d9b4eebad7d6d8d226ac5ef1624e29e8d1eba2bfbb3a72df1c8cf72c3e354b83",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__ABI-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/ABI.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__ABI-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/ABI.lean",
+    "sha256": "8a6aa5cf1814c603733bc05a4c9cf613040495ef6fa6b6cbdcbe205dbe77076a",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__AddressIO-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/AddressIO.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__AddressIO-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/AddressIO.lean",
+    "sha256": "5a43855e7357f27c206cd71676f65351103e4b6217f42d6451a6b197defef624",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__AddressSchedule-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/AddressSchedule.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__AddressSchedule-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/AddressSchedule.lean",
+    "sha256": "690e62eb81abd294690181a6c3cddbf7d01e811dc756d0c82018f2b3ba59ff47",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__Addresses-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/Addresses.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__Addresses-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/Addresses.lean",
+    "sha256": "038ea75f444ad29d57806285d81f7bdf28a567c82eb925f2390ddbf1beb2615b",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__Admission-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/Admission.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__Admission-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/Admission.lean",
+    "sha256": "1a6285fd760ad43c64ce47a00f69e6772b2c41e01ffdca53e33b8f215d256365",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__Completion-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/Completion.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__Completion-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/Completion.lean",
+    "sha256": "0535e166effe6fbb46bc02c7052191b9e3a71a2400d5494320760fafb1628d54",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__Contents-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/Contents.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__Contents-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/Contents.lean",
+    "sha256": "d15af4655fb271e76b96d33a0d1703758b9ebb46b727788d4e97fb4a46525b5e",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__Domain-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/Domain.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__Domain-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/Domain.lean",
+    "sha256": "38fad5ef657a3281a32d619a061fafdcf6b83dc0603252daf7c6b34dec1a33b0",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__FPContract-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/FPContract.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__FPContract-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/FPContract.lean",
+    "sha256": "9aad624b3ad89e5efdefeccf2133ac4fa14f045ae728535ad0193a37bc5f2f0e",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__FPLoop-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/FPLoop.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__FPLoop-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/FPLoop.lean",
+    "sha256": "01cb6517944e687f2ab21caf9bfacf54a901ea7cdfb46153a7726a8127284505",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__FPPrefix-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/FPPrefix.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__FPPrefix-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/FPPrefix.lean",
+    "sha256": "9895bc22a598b886382356ef0780b9c4348f79383de6c8e4559f797594ab5340",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__FPReference-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/FPReference.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__FPReference-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/FPReference.lean",
+    "sha256": "7719b23e10b143d8e7c375205eacb02e37fd739dc3942f61d64b5d41f9d22efe",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__FPSource-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/FPSource.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__FPSource-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/FPSource.lean",
+    "sha256": "ae55cc3abbfbbfb75188ff89dcc6f1da9925f022e7b313af8c29caec3f87fbfe",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__Host-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/Host.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__Host-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/Host.lean",
+    "sha256": "2ed7c83bc556e3ecd724b5deb0a0ef31dcd5e9c5fc818380698e8ea7284d432e",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__IOBindings-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/IOBindings.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__IOBindings-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/IOBindings.lean",
+    "sha256": "c139f39a5ac6e939c7dd05a527ed5d13f8228a508c60431f342ff62ab31e6342",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__IOCompatibility-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/IOCompatibility.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__IOCompatibility-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/IOCompatibility.lean",
+    "sha256": "d2c9e7161dc9975bc3dbe4dccc5eb41276148095c548fde6ed71f2dddf41417c",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__IOCoverage-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/IOCoverage.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__IOCoverage-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/IOCoverage.lean",
+    "sha256": "3a02b5960f7549ccb7c0693f43d78601f2bbb8f9415e3e9ec05b72c34eab3f24",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__IOGrid-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/IOGrid.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__IOGrid-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/IOGrid.lean",
+    "sha256": "58c413d5e4526dcb9f5d2f3ff39ecdd32ee9e970f7e44bd518f85651591f50fa",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__IONative-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/IONative.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__IONative-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/IONative.lean",
+    "sha256": "7af4441344092ea77f3395ecd0f92abd9a83f1375b9ef5c426f470c1a920a8bd",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__IOReal-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/IOReal.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__IOReal-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/IOReal.lean",
+    "sha256": "a05389364f26090cbb7b2e862057829f01e2884bec8d91500f2fdb21021fa3a7",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__IOSourceSafety-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/IOSourceSafety.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__IOSourceSafety-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/IOSourceSafety.lean",
+    "sha256": "94fae84aeaba83de96e073dbb78d9b340474283548fdec519859348666fa7a59",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__IOValues-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/IOValues.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__IOValues-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/IOValues.lean",
+    "sha256": "5441fa914453af5ffba76f71c0c9a7c8b91dac0bc2a125123c14063df59de0d6",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__KernelInterface-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/KernelInterface.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__KernelInterface-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/KernelInterface.lean",
+    "sha256": "3dc67af28dc2b1abfa4188ebde7770aa978b903e8659b95e059133b74e1d029e",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__KernelNativeResults-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/KernelNativeResults.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__KernelNativeResults-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/KernelNativeResults.lean",
+    "sha256": "cb12ca9d5a95173be3dc2564ca521de54e01cd2cfec58fe02b90743a70f1255d",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__KernelRealResults-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/KernelRealResults.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__KernelRealResults-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/KernelRealResults.lean",
+    "sha256": "2822746d347f84ed8eb153c33e32a8222782388b569a7815dfff3c29f355b318",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__LogicalResult-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/LogicalResult.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__LogicalResult-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/LogicalResult.lean",
+    "sha256": "a8c0ace4c1c96a23a0ab111e09b44a4696b8313e7622e0531d35528323a48590",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__NativeGraph-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/NativeGraph.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__NativeGraph-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/NativeGraph.lean",
+    "sha256": "b5a89a0670f95bf4910d7dc9354e33ec6ee63cb7fe50fbeb077eaa75d9805737",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__NativeProfile-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/NativeProfile.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__NativeProfile-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/NativeProfile.lean",
+    "sha256": "c117afed642da2291b9cc65f49937ba1d1ce6f14e2e54c1a4ee7946508c5fcb1",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__NativePublic-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/NativePublic.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__NativePublic-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/NativePublic.lean",
+    "sha256": "8ad3276d4d1f9c228b626efa6ac8fae22521afdcdf9d2f21a90c26f568930111",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__Observations-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/Observations.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__Observations-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/Observations.lean",
+    "sha256": "771f669381727162b27dcafa90bde3213db0fab245c11a6381fe0dceee556da2",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__PrecisionProfile-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/PrecisionProfile.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__PrecisionProfile-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/PrecisionProfile.lean",
+    "sha256": "dd342031a36e7c3beb71164328cb371394816fb4570b35e413719f3d822ea2d1",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__Range-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/Range.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__Range-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/Range.lean",
+    "sha256": "ea943808b8e47d57d30f2b58456b9df76ba92d290494bba80bda8d297ef40a84",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__RealMath-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/RealMath.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__RealMath-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/RealMath.lean",
+    "sha256": "812b9dcfe2f90cde35ad9915ab025aa9619470d7d9eaeb85f7d6da9e2cbc7e28",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__RealPublic-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/RealPublic.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__RealPublic-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/RealPublic.lean",
+    "sha256": "59c81c2f778555996b2e7650e384b1f1eb0a9533b9e40f3653dccdf5f1fb38ba",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__RealSource-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/RealSource.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__RealSource-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/RealSource.lean",
+    "sha256": "ac6c2502d88c7cd46cb037b7e5728e9802927ed90a94a45eab342c672a86424c",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__TensorHost-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/TensorHost.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__TensorHost-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/TensorHost.lean",
+    "sha256": "66db5989352ef2bd53ee3a3f98467a4cbb7bfd145f8c350ded8f1a88fa62adcb",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__WholeHost-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/WholeHost.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__WholeHost-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/WholeHost.lean",
+    "sha256": "40a9b0acfad1651f5c68d755d1dc52fcfeb4428334b6a35ce30d70f9e84c0157",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Targets-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Targets.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Targets-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Targets.lean",
+    "sha256": "8d3bd663e4ad633313ebc7582f1817e82f1b181da5f0c498217271c71414746e",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__tests__PositionalReductionLoop-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/tests/PositionalReductionLoop.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+    "log": "/tmp/reducev101-bench__tests__PositionalReductionLoop-comparator.log",
+    "file": "bench/tests/PositionalReductionLoop.lean",
+    "sha256": "4c0840db0aa93702ce7ba6cc4d4814ab79823ba7e11e4797e33d005b7bbaff2b",
+    "status": "UNAVAILABLE"
+  }
+]

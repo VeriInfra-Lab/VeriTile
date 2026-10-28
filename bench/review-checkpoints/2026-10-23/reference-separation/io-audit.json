@@ -32283,40 +32283,12 @@
         "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/FPEquiv.lean"
       ],
       "assessment": {
-        "organization": "Moved the remaining PublicIO.realIO interpretation adapter from RealIO.lean into IO.lean verbatim and redirected the only source import. LogicalInputs/logicalIO and the complete memory interface were already in IO.lean; execution and full judgment proofs remain in Proofs.",
-        "preservation": {
-          "evidence": {
-            "path": ".veritile-cache/io-unification-20261023/queue13/preservation.json",
-            "sha256": "e78a27baa5ecccc32ec3a0c06ff3db83ec0f87688608194ffe877fab568c44b6"
-          },
-          "all_selected_public_entry_bytes_unchanged": true,
-          "complete_judgment_connection_retained": {
-            "theorem": "PublicIO.logical_real_iff",
-            "detail": "The whole logical ProgramIO.ImplementsOn LogicalRealDomain judgment is iff original realIO.ImplementsOn RealDomain mathematical. Full input/output equivalences and exact domain/target equality retain all inactive/padded values, typed metadata, complete workset permutation, source safety, execution and frame."
-          },
-          "source_preservation_check": {
-            "source_files": 46,
-            "byte_changed_files": [
-              "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/IO.lean",
-              "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/IOReal.lean",
-              "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/RealIO.lean"
-            ],
-            "added_files": [],
-            "all_public_contract_correct_fpequiv_bytes_unchanged": true
-          },
-          "definition_preservation": {
-            "name": "VeriTile.Bench.Repairs.SoftmaxReduceVNegInfChecked.PublicIO.realIO",
-            "source_body_verbatim": true,
-            "declaration_bytes_sha256": "bd19597a8f1593bf8c144e6109d499a85c4a39ff06283377368501afd3a6fa39",
-            "original_io_recovered_exactly_after_removing_new_import_and_verbatim_declaration": true,
-            "only_reference_changed_in_IOReal_is_import": true,
-            "full_public_judgment_preservation": "All selected Contract/Correct/FPEquiv source bytes are unchanged. IOReal proof/judgment bytes unchanged except module import. Every pre-existing IO declaration is unchanged; relocated realIO body is byte-identical. Fresh per-task joint includes an rfl equality check of the moved complete ProgramIO instance."
-          }
-        },
-        "different_stage_or_encoding_exceptions": [],
+        "organization": "Logical inputs, typed memory, masks, counts-derived covering schedule and complete public domains remain in IO.lean and the distinct address view. Public readers and all IO source bytes are unchanged.",
+        "source_update": "The complete raw original and existing early-address candidate replace historical annotated presentations. Full execution, safety, output and frame proofs reconnect the existing IO. Corrected internal literal/padding annotations preserve prior NativeGraph and RealModel target values, proved for all inputs and reduction plans.",
+        "verification": "All 47 own modules, full cumulative warm and independent empty-project replay plus joint imports pass on the current actual source. No whole-kernel premise or additional public input condition.",
         "previous_assessment": {
-          "manifest": "bench/review-checkpoints/2026-10-22/logical-readers/io-audit.json",
-          "task": "softmax_reducev"
+          "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/previous-io-review.json",
+          "sha256": "719c1a9e30700966949d429cd1abf1e9bb17098cee11d4d5705f62afb902ce07"
         }
       },
       "distinct_views": "Real WithBot interpretation and native Word-to-Node graph with per-job profile/store-replica observation need different codecs/observers. Both share sourceIO, memory and the counts-derived covering extent; no maximum-length restriction is added.",
@@ -32352,16 +32324,17 @@
           "sha256": "227b287bc65bb8d8289de58097af1c67be1e14a613f1a747f940f100b84b3377"
         }
       ],
-      "changed_paths": [
-        "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/IO.lean"
-      ],
+      "changed_paths": [],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/softmax_reducev.json",
-        "sha256": "b955975a90f42be51389d0937c83d807501107c51e3eaaa7870a3049b55e4f7d",
-        "task": "softmax_reducev"
+        "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/review.json",
+        "sha256": "349da0f4b9b08f0fa2296eadf3a55fe68f50ea54e59b0324e045b3b85432e41e"
       },
       "preservation_and_build_passed": true,
-      "validation_limits": {},
+      "validation_limits": {
+        "official_comparator": "Unavailable due host isolation; actual attempts recorded.",
+        "numerical_receipt": "Known unchanged Structural receipt hash error; no false repin.",
+        "scope": "Full source replay on current public domains; no GPU or new numerical experiment."
+      },
       "remaining_issues": [],
       "main_formula_review": {
         "audit": "bench/review-checkpoints/2026-10-22/main-formulas/audit.json",
@@ -32458,6 +32431,10 @@
         "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/softmax_reducev.json",
         "sha256": "b955975a90f42be51389d0937c83d807501107c51e3eaaa7870a3049b55e4f7d",
         "task": "softmax_reducev"
+      },
+      "current_body_source_review": {
+        "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/review.json",
+        "sha256": "349da0f4b9b08f0fa2296eadf3a55fe68f50ea54e59b0324e045b3b85432e41e"
       }
     },
     {

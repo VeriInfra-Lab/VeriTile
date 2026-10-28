@@ -1,0 +1,610 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "01442ebf6cdf213e6375d58a066b27c25529f2cb",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "softmax_reducev"
+  ],
+  "regression_only_pending_body_tasks": [],
+  "semantic_review": {
+    "adam_update_triton": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "add_example": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "add_value": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "apply_penalty": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "attention_fwd_triton1": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "batched_vecmat_mult": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "bgmv_expand_slice": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "bmm_optimized": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "cache_transform_triton": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "chunk_cumsum_kernel": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "chunk_cumsum_vector": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "chunk_delta_fwd": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "chunked_cumsum_fwd": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "cosine_compute": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "cross_entropy1": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "cross_entropy2": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "cross_entropy_ops": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "decay_cumsum": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "dequantize_matmul": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "dequantize_rowwise": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "destindex_copy": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "destindex_copy_kv1": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "destindex_copy_kv2": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "diag_ssm_triton": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "dropout_triton": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "embedding_triton_kernel": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "f8_conversion_utils": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "fast_ce_loss": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "fast_rope_embedding": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "fifth_order_sph_harmonics": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "flash_decode2_llama": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "flash_decode2_phi": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "fused_activation": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "fused_recurrent_hgrn": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "fused_rotary_embedding": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "geglu_tanh_triton": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "index_select_bwd": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "index_select_cat": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "int8_matmul_kernel": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "isfinite_kernel": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "kcache_copy_triton": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "kldiv_compute": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "kldiv_ops": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "kldiv_triton": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "kv_cache_copy": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "kv_cache_filling": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "l2_norm_bwd": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "l2_norm_triton1": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "l2_norm_triton2": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "log_softmax": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "logsumexp_fwd": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "masked_add_cuda": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "masked_select": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "matmul_kernel": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "matmul_tma": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "matrix_reduction": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "matrix_transpose": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "max_reduction": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "mean_reduction": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "mul_exponent_compensator": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "nested_loops_processing": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "pow_scalar_tensor": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "quant_transpose_kernel": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "quantize_copy_kv": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "quantize_global": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "quantize_kv_copy": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "quantize_kv_transform": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "relu_strided_buffer": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "relu_triton_kernel": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "reversed_cumsum": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "reversed_cumsum_scalar": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "rms_norm_triton": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "rmsnorm_fused": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "rmsnorm_fused_llama": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "rmsnorm_implementation": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "rmsnorm_triton": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "rope_backward_transform": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "rope_embedding": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "rope_transform": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "rotary_emb": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "rotary_emb_nopad": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "rotary_transform": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "rotary_transform_ops": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "rowwise_quantization_triton": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "seeded_dropout": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "sin_computation": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "sin_kernel": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "softmax_optimize": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "softmax_reducev": "Both complete raw original and existing early-address candidate bodies preserve all 18 top-level statements, including return, masks, online normalization, casts and loop extent. The existing candidate only moves the two output-address assignments ahead of the final division. Caller types, scalar values and constexpr widths remain external. Actual full source execution, access safety, output/frame, native graph and independent Real connections are reverified. Corrected initialization/padding precision annotations match the original source; new proofs show all previous NativeGraph and RealModel target values are unchanged for arbitrary inputs and reduction plans. Original Python and public Correct/FPEquiv/Contract are byte-identical. No arbitrary cast identity, historical AST identity, input restriction, whole-kernel premise or numerical rewrite assumption.",
+    "softmax_triton1": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "softmax_triton2": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "softmax_triton3": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "square_matrix": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "swiglu_backward": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "swiglu_fwd": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "swiglu_triton": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "token_attn_llama2": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "token_attn_mistral": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "token_attn_reduceV": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "token_softmax_bloom": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "token_softmax_llama": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "triton_argmax": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "triton_mul2": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "triton_softmax": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "var_len_copy": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "vector_addition": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "vector_addition_custom": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims."
+  },
+  "compiler_change": {
+    "files": [
+      "VeriTile/Triton/DSL/CallSignature.lean",
+      "VeriTile/Triton/DSL/TypedStorageReduction.lean",
+      "VeriTile/Triton/DSL/TypedStores.lean"
+    ],
+    "behavior": "Positional tl.max retains dtype information. For typed FP32 storage, reduction lowering projects only operands proven to retain storage representation through actual loads, pointer aliases and copies; ordinary arithmetic carriers gain no extra identity casts. All 118 frontend roots and all 4468 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims."
+  },
+  "verification": {
+    "baseline": {
+      "status": "PASS",
+      "explicit_modules": 46,
+      "jobs": 8529,
+      "reason": "All original canonical task roots pass before migration. The retained prototype failures record rejected broad cast insertion and precision annotation mismatches; they are repaired before final verification."
+    },
+    "frontend_preflight": {
+      "status": "PASS",
+      "explicit_modules": 118,
+      "jobs": 3775,
+      "scope": "All registered frontend roots, including actual storage load/copy provenance, nested positional reductions and arithmetic reassignment."
+    },
+    "focused": {
+      "status": "PASS",
+      "explicit_modules": 47,
+      "jobs": 8531,
+      "additional_scope": "Joint import, 3 standalone frontend proof footprints, 165 task theorem audits and the empty public FP assumption report. Final cumulative builds and audits include removal of trailing whitespace from two raw lines."
+    },
+    "warm_and_joint": {
+      "status": "PASS",
+      "explicit_modules": 4468,
+      "jobs": 14149
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 4468,
+      "jobs": 14149,
+      "project_build_initially_present": false,
+      "project_objects_imported_from_other_checkouts": false,
+      "only_fixed_external_dependencies_imported": true,
+      "setup": {
+        "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/final-clean-setup.json",
+        "sha256": "725580376784d9f21f70bd8c21c7797e90fecd31d59e805fa4828dea634d6266"
+      }
+    },
+    "trust": "PASS: 165 task theorem footprints and 3 standalone frontend proof footprints use only standard base. The public complete source pair prints no FP assumptions.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 237
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 482,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by old numerical receipt; no false repin."
+    },
+    "source": "PASS: two complete raw original/existing early-address candidate mappings and caller bindings; original Python and public specifications unchanged; actual branches, casts, masks, stores, return, complete source execution/safety and independent target preservation reverified.",
+    "official_comparator": "UNAVAILABLE: 51 actual final-source attempts with verified pinned binaries. Host Landlock ABI v4 is below required v5; no systemd user isolation or bypass.",
+    "cpu": "UNAVAILABLE: the unchanged check_contract.py CPU source interpreter requires missing Torch. No GPU or new numerical experiment was requested or run.",
+    "gpu_or_numerical_experiment": "Not run.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending; the known unchanged numerical receipt failure remains explicit."
+  },
+  "source_pairs": {
+    "total": 359,
+    "pasted_body": 359,
+    "legacy_ast": 0
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/source-closure.json",
+    "sha256": "8b973ccd746ea88ba2ad9a540b7215dd0ef580a184705c9382278f580c08d322"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "selected_body_copy_checked": 107,
+      "uncovered_jit_functions": 76
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 333,
+    "uncovered_selected_jit_functions": 161,
+    "primary_files_with_int64_screen_warning": 22,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 54,
+        "antiquotes": 60,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "example_regression_scope": "All 19 selected examples and all previous recorded task roots replay warm/joint and independently from empty project objects. Unselected historical model gaps are not relabeled as passing.",
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/VeriTile__Triton__DSL__CallSignature-comparator.log",
+      "sha256": "e46280daa09c2bf72d4bc325e6256deb7ed828c431d33af9944dc329ae6cc241"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/VeriTile__Triton__DSL__TypedStorageReduction-comparator.log",
+      "sha256": "e46280daa09c2bf72d4bc325e6256deb7ed828c431d33af9944dc329ae6cc241"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/VeriTile__Triton__DSL__TypedStores-comparator.log",
+      "sha256": "803f6a5ec687db3ab2cb29512a898dc91e56656e2ea5919b3a81c1773e956163"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/all-python.log",
+      "sha256": "da4bfbe27bb1f3449680a6fa1ec03b6394efca8277d542491da9c8776ba3263a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/audit-targets.json",
+      "sha256": "7f64dab84dd4401c8062b8cc68dc89007057782f758f84e3dd85c837a23fe221"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/audit.lean",
+      "sha256": "1a73d638187e94585948f98223d8816edbd2aa9f9db82a1933755c57012fa0a4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/audit.log.gz",
+      "sha256": "3856915076dde28e01eee28318440617393b431d56bec926c2e64f3bf6f8e7e4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/baseline-build.log.gz",
+      "sha256": "cd33a979a78bce6955de779698dfb3665e3839bf5c87c2b283643a344a8e98b9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/baseline.json",
+      "sha256": "fd1e5708300e682c827906ac9f03f3832f8b7494a444ab5db90a58b849f0187b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__AddressIO-comparator.log",
+      "sha256": "803f6a5ec687db3ab2cb29512a898dc91e56656e2ea5919b3a81c1773e956163"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Candidate-comparator.log",
+      "sha256": "803f6a5ec687db3ab2cb29512a898dc91e56656e2ea5919b3a81c1773e956163"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Contract-comparator.log",
+      "sha256": "803f6a5ec687db3ab2cb29512a898dc91e56656e2ea5919b3a81c1773e956163"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Correct-comparator.log",
+      "sha256": "803f6a5ec687db3ab2cb29512a898dc91e56656e2ea5919b3a81c1773e956163"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__FPEquiv-comparator.log",
+      "sha256": "803f6a5ec687db3ab2cb29512a898dc91e56656e2ea5919b3a81c1773e956163"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__IO-comparator.log",
+      "sha256": "803f6a5ec687db3ab2cb29512a898dc91e56656e2ea5919b3a81c1773e956163"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Kernels-comparator.log",
+      "sha256": "a0a78c470e9aabafe81463812fb7e36f8040c6671e2dc981cf0abe50f17915fb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Misc__NativeCorrect-comparator.log",
+      "sha256": "a0a78c470e9aabafe81463812fb7e36f8040c6671e2dc981cf0abe50f17915fb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Misc__TensorBridge-comparator.log",
+      "sha256": "a0a78c470e9aabafe81463812fb7e36f8040c6671e2dc981cf0abe50f17915fb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__ABI-comparator.log",
+      "sha256": "a0a78c470e9aabafe81463812fb7e36f8040c6671e2dc981cf0abe50f17915fb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__AddressIO-comparator.log",
+      "sha256": "a0a78c470e9aabafe81463812fb7e36f8040c6671e2dc981cf0abe50f17915fb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__AddressSchedule-comparator.log",
+      "sha256": "a0a78c470e9aabafe81463812fb7e36f8040c6671e2dc981cf0abe50f17915fb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__Addresses-comparator.log",
+      "sha256": "a0a78c470e9aabafe81463812fb7e36f8040c6671e2dc981cf0abe50f17915fb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__Admission-comparator.log",
+      "sha256": "a0a78c470e9aabafe81463812fb7e36f8040c6671e2dc981cf0abe50f17915fb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__Completion-comparator.log",
+      "sha256": "a0a78c470e9aabafe81463812fb7e36f8040c6671e2dc981cf0abe50f17915fb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__Contents-comparator.log",
+      "sha256": "e2a7e0c3b08a2aaee1b35c7114b7016ad2c62fb6fef4d0a9a224c322ecb597d6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__Domain-comparator.log",
+      "sha256": "e2a7e0c3b08a2aaee1b35c7114b7016ad2c62fb6fef4d0a9a224c322ecb597d6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__FPContract-comparator.log",
+      "sha256": "e2a7e0c3b08a2aaee1b35c7114b7016ad2c62fb6fef4d0a9a224c322ecb597d6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__FPLoop-comparator.log",
+      "sha256": "e2a7e0c3b08a2aaee1b35c7114b7016ad2c62fb6fef4d0a9a224c322ecb597d6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__FPPrefix-comparator.log",
+      "sha256": "e2a7e0c3b08a2aaee1b35c7114b7016ad2c62fb6fef4d0a9a224c322ecb597d6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__FPReference-comparator.log",
+      "sha256": "e2a7e0c3b08a2aaee1b35c7114b7016ad2c62fb6fef4d0a9a224c322ecb597d6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__FPSource-comparator.log",
+      "sha256": "e2a7e0c3b08a2aaee1b35c7114b7016ad2c62fb6fef4d0a9a224c322ecb597d6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__Host-comparator.log",
+      "sha256": "e2a7e0c3b08a2aaee1b35c7114b7016ad2c62fb6fef4d0a9a224c322ecb597d6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__IOBindings-comparator.log",
+      "sha256": "e2a7e0c3b08a2aaee1b35c7114b7016ad2c62fb6fef4d0a9a224c322ecb597d6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__IOCompatibility-comparator.log",
+      "sha256": "e2a7e0c3b08a2aaee1b35c7114b7016ad2c62fb6fef4d0a9a224c322ecb597d6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__IOCoverage-comparator.log",
+      "sha256": "472e560aab0f5b3d49b2d2a5775ba2fa55dd8143f9a4958c785968fd018abc07"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__IOGrid-comparator.log",
+      "sha256": "472e560aab0f5b3d49b2d2a5775ba2fa55dd8143f9a4958c785968fd018abc07"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__IONative-comparator.log",
+      "sha256": "472e560aab0f5b3d49b2d2a5775ba2fa55dd8143f9a4958c785968fd018abc07"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__IOReal-comparator.log",
+      "sha256": "472e560aab0f5b3d49b2d2a5775ba2fa55dd8143f9a4958c785968fd018abc07"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__IOSourceSafety-comparator.log",
+      "sha256": "472e560aab0f5b3d49b2d2a5775ba2fa55dd8143f9a4958c785968fd018abc07"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__IOValues-comparator.log",
+      "sha256": "472e560aab0f5b3d49b2d2a5775ba2fa55dd8143f9a4958c785968fd018abc07"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__KernelInterface-comparator.log",
+      "sha256": "472e560aab0f5b3d49b2d2a5775ba2fa55dd8143f9a4958c785968fd018abc07"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__KernelNativeResults-comparator.log",
+      "sha256": "472e560aab0f5b3d49b2d2a5775ba2fa55dd8143f9a4958c785968fd018abc07"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__KernelRealResults-comparator.log",
+      "sha256": "41f68e8393b0364b0240bbca8ad8ad20a3d5d151196c239eefd6f9a7d08ef78b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__LogicalResult-comparator.log",
+      "sha256": "41f68e8393b0364b0240bbca8ad8ad20a3d5d151196c239eefd6f9a7d08ef78b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__NativeGraph-comparator.log",
+      "sha256": "41f68e8393b0364b0240bbca8ad8ad20a3d5d151196c239eefd6f9a7d08ef78b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__NativeProfile-comparator.log",
+      "sha256": "41f68e8393b0364b0240bbca8ad8ad20a3d5d151196c239eefd6f9a7d08ef78b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__NativePublic-comparator.log",
+      "sha256": "41f68e8393b0364b0240bbca8ad8ad20a3d5d151196c239eefd6f9a7d08ef78b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__Observations-comparator.log",
+      "sha256": "41f68e8393b0364b0240bbca8ad8ad20a3d5d151196c239eefd6f9a7d08ef78b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__PrecisionProfile-comparator.log",
+      "sha256": "41f68e8393b0364b0240bbca8ad8ad20a3d5d151196c239eefd6f9a7d08ef78b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__Range-comparator.log",
+      "sha256": "41f68e8393b0364b0240bbca8ad8ad20a3d5d151196c239eefd6f9a7d08ef78b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__RealMath-comparator.log",
+      "sha256": "41f68e8393b0364b0240bbca8ad8ad20a3d5d151196c239eefd6f9a7d08ef78b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__RealPublic-comparator.log",
+      "sha256": "41f68e8393b0364b0240bbca8ad8ad20a3d5d151196c239eefd6f9a7d08ef78b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__RealSource-comparator.log",
+      "sha256": "41f68e8393b0364b0240bbca8ad8ad20a3d5d151196c239eefd6f9a7d08ef78b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__TensorHost-comparator.log",
+      "sha256": "31d6b7b2ea10dc25f78330b713c02780ec3284a83918dc9d7d7d82be2ce0ec11"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__WholeHost-comparator.log",
+      "sha256": "31d6b7b2ea10dc25f78330b713c02780ec3284a83918dc9d7d7d82be2ce0ec11"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Targets-comparator.log",
+      "sha256": "31d6b7b2ea10dc25f78330b713c02780ec3284a83918dc9d7d7d82be2ce0ec11"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/bench__tests__PositionalReductionLoop-comparator.log",
+      "sha256": "31d6b7b2ea10dc25f78330b713c02780ec3284a83918dc9d7d7d82be2ce0ec11"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/build-invocations.json",
+      "sha256": "df151aa8f95109c1bfe366cf3212150680958ba0f7b20325fcf5119dc06ce979"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/canonical-task-files.json",
+      "sha256": "10a5a52e6cfdfc654bdcd618ce0505c6696be2cf33ffafb543a4cf067bde52f0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/comparator-invocations.json",
+      "sha256": "b7c05e3a04d8e3584b92a92f337e56656b800a98de2c000b933376d7c589cb72"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/comparator-tools.json",
+      "sha256": "28998e17d51b0fb5930f7489e64512a57f8a8146d1470063a624a75bbabdb0d3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/corpus-guard.log",
+      "sha256": "afd913a164bdd5b57f95bdae5de533342ab62ac15cd1025d4b3d363602e1d673"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/cpu-check.log",
+      "sha256": "1fa5bbe20441b51170a67de4d3fd5b4071ca6a78e56be9f40bfc5dfc20358b7e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/final-clean-build.log.gz",
+      "sha256": "0742c7168ff2e2348d819d808e8bd759e5172f5297401f4a1f758992038560f4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/final-clean-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/final-clean-setup.json",
+      "sha256": "725580376784d9f21f70bd8c21c7797e90fecd31d59e805fa4828dea634d6266"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/focus-build.log.gz",
+      "sha256": "b10c8cf507968d4fd1141ba1bc20067cdf9d1f87a1ac36410e6957be5dabb030"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/focus-invocations.json",
+      "sha256": "a0f494c5183060f23b375f2d0bb9fe8996e3a4c5b5339e235a536bdb58e82126"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/focus-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/focus-modules.txt",
+      "sha256": "bbb00699323209f2258305bc54f816b2bbe1cbf1fad35262aabf6e975e8040a0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/frontend-build.log.gz",
+      "sha256": "b2a6b5ea6cb7d955772789bd65ef624cbc5ef31422f6c862111cc88f370c7a40"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/frontend-modules.txt",
+      "sha256": "b383be612e02d2da0fc3f26a2b42658b58861932520e0ac566c224f8099eca1f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/inspections.json",
+      "sha256": "ea4a072bc07170d5c1ea63ed2954f1435036a164cd0d7bf61e49d489d9a27054"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/integration-final.log.gz",
+      "sha256": "036bcd3ff8d3d2be496647323f1959e01477bc5ca2687cc03044576cf3aad7c9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/io-guard.log",
+      "sha256": "0f30b59dbce8b6a941f456fa71d69795b1865a876e70f3aaa8ba54be4f0dbe9c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/joint-all.lean",
+      "sha256": "1eed1aad5b0bd958cb1cd6b64d8b110fa1a2ee79a5fdd86ef7f7cf01d36c5caa"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/joint-final.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/modules.json",
+      "sha256": "d299650cebdbb19a5ff483f5520e7c83267afa83bc4b422d8547d75ab4474e37"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/old-logical-profile-failure.log.gz",
+      "sha256": "b5854841d95e706c8f2a81ef10899c896bee6d10de6211986e2ada951e9de06f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/old-padding-projection-failure.log.gz",
+      "sha256": "ff5a6278591ddb3f4e9509888430422cb9a717197619543d7a2091c3771b55da"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/pairs.json",
+      "sha256": "693220648c2fddd7875b06ca0b8adce9fc38e15d4a683700ada954e1b67ca1b9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/positionalreductionloop-audit.log",
+      "sha256": "1ee9b4633544ace692e9aa45544987972e1016ca4c31a837b989ae7075239b5c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/previous-io-review.json",
+      "sha256": "719c1a9e30700966949d429cd1abf1e9bb17098cee11d4d5705f62afb902ce07"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/previous-reviews.json.gz",
+      "sha256": "140f55fa3a314e469f24fbf45b8e65ccdcf94318e9f8646ead05321422ff7d87"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/python-invocations.json",
+      "sha256": "2a3b88663524302d033b6db326bbd6661950370cb1a8606574f2e6d5b854e120"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/python-tests.log",
+      "sha256": "27f4e2d4730a93e319539974276322894edc73fc20ba7f66376d5b14556a606e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/raw-body-check.log",
+      "sha256": "78496346a14a8ce0f1546a1942a61a464daff9a97c9354ff6686dc46989c46d4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/source-closure.json",
+      "sha256": "8b973ccd746ea88ba2ad9a540b7215dd0ef580a184705c9382278f580c08d322"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/transferred-files.json",
+      "sha256": "db3e562b35040b8a2d41f6f63d073301734cf89aa8be677d50890068a29ad855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/unscoped-failure.log.gz",
+      "sha256": "772e7be01ae222ddc53a43f442f2e20e9ac54f12806a7a1abd3f432a7a4201ba"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/warm-final-invocation.json",
+      "sha256": "35549ea1487fb8bf88f1758a39aef3f0f18140de52840f723515a5a7530431ac"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-softmax-reducev-function-bodies/workflow-counts.json",
+      "sha256": "f2b5b66309c5d80173b8f698e2d32b6f50a8c2c73ca2b8430dd420ec7c03d94f"
+    }
+  ]
+}
