@@ -1,0 +1,657 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "e79ca9afc54302ce133b6ac95306ac44e3f69643",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "kv_cache_filling"
+  ],
+  "regression_only_pending_body_tasks": [],
+  "semantic_review": {
+    "adam_update_triton": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "add_example": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "add_value": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "apply_penalty": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "attention_fwd_triton1": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "batched_vecmat_mult": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "bgmv_expand_slice": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "bmm_optimized": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "cache_transform_triton": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "chunk_cumsum_kernel": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "chunk_cumsum_vector": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "chunk_delta_fwd": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "chunked_cumsum_fwd": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "cosine_compute": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "cross_entropy1": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "cross_entropy2": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "cross_entropy_ops": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "decay_cumsum": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "dequantize_matmul": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "dequantize_rowwise": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "destindex_copy": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "destindex_copy_kv1": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "destindex_copy_kv2": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "diag_ssm_triton": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "dropout_triton": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "embedding_triton_kernel": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "f8_conversion_utils": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "fast_ce_loss": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "fast_rope_embedding": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "fifth_order_sph_harmonics": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "flash_decode2_llama": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "flash_decode2_phi": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "fused_activation": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "fused_recurrent_hgrn": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "fused_rotary_embedding": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "geglu_tanh_triton": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "index_select_bwd": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "index_select_cat": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "int8_matmul_kernel": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "isfinite_kernel": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "kcache_copy_triton": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "kldiv_compute": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "kldiv_ops": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "kldiv_triton": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "kv_cache_copy": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "kv_cache_filling": "The complete quantizer helper and six complete policy-0/8/4 original/candidate profiles retain all source branches, casts, helper calls, masks and stores. Caller types and checked policy constants remain external. The second INT4 half still calls the helper; underscore results remain actual assignments. Implicit uint8 packing is handled by the frontend without adding a cast to the raw source. The existing candidate changes only three vector key-address products. Actual full execution and access-safety proofs reconnect the unchanged independent Real specification, FP pair and complete frames. Original Python, public Correct/FPEquiv and Contract remain unchanged. The retained baseline failed because optional WholeBacking source, output projections and imports were missing. All canonical roots are now rebuilt after restoring explicit physical input byte/stride/scheduler bindings, actual-state output projection, and proved readback/frame. This optional input-only ABI does not narrow the primary domain. No historical AST identity, whole-kernel premise or numerical rewrite assumption.",
+    "l2_norm_bwd": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "l2_norm_triton1": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "l2_norm_triton2": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "log_softmax": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "logsumexp_fwd": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "masked_add_cuda": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "masked_select": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "matmul_kernel": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "matmul_tma": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "matrix_reduction": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "matrix_transpose": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "max_reduction": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "mean_reduction": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "mul_exponent_compensator": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "nested_loops_processing": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "pow_scalar_tensor": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "quant_transpose_kernel": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "quantize_copy_kv": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "quantize_global": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "quantize_kv_copy": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "quantize_kv_transform": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "relu_strided_buffer": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "relu_triton_kernel": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "reversed_cumsum": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "reversed_cumsum_scalar": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rms_norm_triton": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rmsnorm_fused": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rmsnorm_fused_llama": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rmsnorm_implementation": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rmsnorm_triton": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rope_backward_transform": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rope_embedding": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rope_transform": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rotary_emb": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rotary_emb_nopad": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rotary_transform": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rotary_transform_ops": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rowwise_quantization_triton": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "seeded_dropout": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "sin_computation": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "sin_kernel": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "softmax_optimize": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "softmax_triton1": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "softmax_triton2": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "softmax_triton3": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "square_matrix": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "swiglu_backward": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "swiglu_fwd": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "swiglu_triton": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "token_attn_llama2": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "token_attn_mistral": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "token_attn_reduceV": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "token_softmax_bloom": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "token_softmax_llama": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "triton_argmax": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "triton_mul2": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "triton_softmax": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "var_len_copy": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "vector_addition": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "vector_addition_custom": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims."
+  },
+  "compiler_change": {
+    "files": [
+      "VeriTile/Triton/DSL/CallSignature.lean",
+      "VeriTile/Triton/DSL/NarrowUnsigned.lean",
+      "VeriTile/Triton/DSL/SourceFunction.lean",
+      "VeriTile/Triton/DSL/SourceFunctionStatements.lean"
+    ],
+    "behavior": "Shared frontend changes preserve pasted helper bodies, ordinary assignment prefixes, checked constexpr parameters, single argument evaluation, hygienic locals, simultaneous tuple outputs and readable Python underscore assignments. Unsigned byte/halfword add/multiply retain implicit width through aliases, direct cast loads and intervening stores. All117 frontend roots and all4420 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims."
+  },
+  "verification": {
+    "baseline": {
+      "status": "PREEXISTING_FAILURE",
+      "explicit_modules": 51,
+      "reason": "Retained optional WholeBacking source, actual-state output projections and imports were missing; original failure log is retained. Every canonical task root is required to pass after repair."
+    },
+    "frontend_preflight": {
+      "status": "PASS",
+      "explicit_modules": 117,
+      "jobs": 3773,
+      "scope": "All registered frontend roots, including helper evaluation, local scope, tuple/underscore assignments, implicit unsigned arithmetic and stores."
+    },
+    "focused": {
+      "status": "PASS",
+      "explicit_modules": 55,
+      "jobs": 8372,
+      "additional_scope": "Joint import, 7 standalone frontend proof footprints, 255 task theorem audits and the empty public FP assumption report."
+    },
+    "warm_and_joint": {
+      "status": "PASS",
+      "explicit_modules": 4420,
+      "jobs": 14100
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 4420,
+      "jobs": 14100,
+      "project_build_initially_present": false,
+      "project_objects_imported_from_other_checkouts": false,
+      "only_fixed_external_dependencies_imported": true,
+      "setup": {
+        "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/final-clean-setup.json",
+        "sha256": "ee5b9ebc120672655b328a5eff1cb9b2e8c210983034d278b387f2fc1b37f712"
+      }
+    },
+    "trust": "PASS: 255 task theorem footprints and 7 standalone frontend proof footprints use only standard base. The public complete source pair prints no FP assumptions.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 230
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 475,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by old numerical receipt; no false repin."
+    },
+    "source": "PASS: seven complete raw helper and policy original/existing index candidate mappings and caller profile bindings; original Python and public specifications unchanged; actual branches, casts, masks, stores and complete source execution/safety reverified.",
+    "official_comparator": "UNAVAILABLE: 63 actual final-source attempts with verified pinned binaries. Host Landlock ABI v4 is below required v5; no systemd user isolation or bypass.",
+    "cpu": "UNAVAILABLE: the unchanged check_contract.py CPU source interpreter requires missing Torch. No GPU or new numerical experiment was requested or run.",
+    "gpu_or_numerical_experiment": "Not run.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending; the known unchanged numerical receipt failure remains explicit."
+  },
+  "source_pairs": {
+    "total": 357,
+    "pasted_body": 357,
+    "legacy_ast": 0
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/source-closure.json",
+    "sha256": "712a22f7defb5b4d4f652003a7f4b4de3a4484eb0bc0e35b3a6dee231ac61ec5"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "selected_body_copy_checked": 106,
+      "uncovered_jit_functions": 77
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 333,
+    "uncovered_selected_jit_functions": 163,
+    "primary_files_with_int64_screen_warning": 22,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 55,
+        "antiquotes": 61,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "example_regression_scope": "All 19 selected examples and all previous recorded task roots replay warm/joint and independently from empty project objects. Unselected historical model gaps are not relabeled as passing.",
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/VeriTile__Triton__DSL__CallSignature-comparator.log",
+      "sha256": "d7ba9c1e4304487c17c1070ed3f5fdc1da75cd496f47c7c06abe03a3c1bbe451"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/VeriTile__Triton__DSL__NarrowUnsigned-comparator.log",
+      "sha256": "88fc935aaac0d52fc2ffecbc09417670935e205943648ae97f710b97e24d8194"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/VeriTile__Triton__DSL__SourceFunction-comparator.log",
+      "sha256": "88fc935aaac0d52fc2ffecbc09417670935e205943648ae97f710b97e24d8194"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/VeriTile__Triton__DSL__SourceFunctionStatements-comparator.log",
+      "sha256": "88fc935aaac0d52fc2ffecbc09417670935e205943648ae97f710b97e24d8194"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/all-python.log",
+      "sha256": "a7a259b67b8b5aead64ffed1a005c46743c91386398b7337e69f698a80960be8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/audit-targets.json",
+      "sha256": "c250b4642307a78f3193fec2afced088646edf0bef1a80cf85ede4b1922f1543"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/audit.lean",
+      "sha256": "6d2b757fd7ce9493a7f29f643d5ff33bb6801fdfa9e08365a88730756ec2a903"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/audit.log.gz",
+      "sha256": "73f22273f3436e09b967c42f7a44979b16f759f80a308a704698ff1cc6a80b63"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/baseline-build.log.gz",
+      "sha256": "b19ee5c078627c05f839388d63a533cb7039378b8e5274838f6e8304b10096a6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/baseline.json",
+      "sha256": "881a831f4d5fe704ae5643e840397ee71f15f8469a61051a7b6e2b602907332d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__Contract-comparator.log",
+      "sha256": "88fc935aaac0d52fc2ffecbc09417670935e205943648ae97f710b97e24d8194"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__Correct-comparator.log",
+      "sha256": "88fc935aaac0d52fc2ffecbc09417670935e205943648ae97f710b97e24d8194"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__FPEquiv-comparator.log",
+      "sha256": "88fc935aaac0d52fc2ffecbc09417670935e205943648ae97f710b97e24d8194"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__IO-comparator.log",
+      "sha256": "88fc935aaac0d52fc2ffecbc09417670935e205943648ae97f710b97e24d8194"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__KernelOnly__Correct-comparator.log",
+      "sha256": "88fc935aaac0d52fc2ffecbc09417670935e205943648ae97f710b97e24d8194"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__KernelOnly__FPEquiv-comparator.log",
+      "sha256": "88fc935aaac0d52fc2ffecbc09417670935e205943648ae97f710b97e24d8194"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__KernelOnly__IO-comparator.log",
+      "sha256": "88fc935aaac0d52fc2ffecbc09417670935e205943648ae97f710b97e24d8194"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__KernelOnly__Misc__NativeCorrect-comparator.log",
+      "sha256": "88fc935aaac0d52fc2ffecbc09417670935e205943648ae97f710b97e24d8194"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__KernelOnly__Misc__TensorBridge-comparator.log",
+      "sha256": "973a0a3c57ac2f7e79270b057f40daa4e6d0953d52d8a4771988a280a9089b93"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__KernelOnly__Proofs__AccessSafety-comparator.log",
+      "sha256": "973a0a3c57ac2f7e79270b057f40daa4e6d0953d52d8a4771988a280a9089b93"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__KernelOnly__Proofs__IOCorrect-comparator.log",
+      "sha256": "973a0a3c57ac2f7e79270b057f40daa4e6d0953d52d8a4771988a280a9089b93"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__KernelOnly__Proofs__IONative-comparator.log",
+      "sha256": "973a0a3c57ac2f7e79270b057f40daa4e6d0953d52d8a4771988a280a9089b93"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__KernelOnly__Proofs__IOReal-comparator.log",
+      "sha256": "973a0a3c57ac2f7e79270b057f40daa4e6d0953d52d8a4771988a280a9089b93"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__KernelOnly__Proofs__Interface-comparator.log",
+      "sha256": "973a0a3c57ac2f7e79270b057f40daa4e6d0953d52d8a4771988a280a9089b93"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__KernelOnly__Proofs__LogicalIO-comparator.log",
+      "sha256": "973a0a3c57ac2f7e79270b057f40daa4e6d0953d52d8a4771988a280a9089b93"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__KernelOnly__Proofs__RawCorrect-comparator.log",
+      "sha256": "973a0a3c57ac2f7e79270b057f40daa4e6d0953d52d8a4771988a280a9089b93"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__KernelOnly__Proofs__RawFPEquiv-comparator.log",
+      "sha256": "f71b5ee081b7671e98c402ca30858241100efc6b39fe15e54737b0bc16686635"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__KernelOnly__Proofs__Readback-comparator.log",
+      "sha256": "f71b5ee081b7671e98c402ca30858241100efc6b39fe15e54737b0bc16686635"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__KernelOnly__Proofs__RowCongruence-comparator.log",
+      "sha256": "f71b5ee081b7671e98c402ca30858241100efc6b39fe15e54737b0bc16686635"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__Kernels-comparator.log",
+      "sha256": "f71b5ee081b7671e98c402ca30858241100efc6b39fe15e54737b0bc16686635"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__Model-comparator.log",
+      "sha256": "f71b5ee081b7671e98c402ca30858241100efc6b39fe15e54737b0bc16686635"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__Proofs__Contract-comparator.log",
+      "sha256": "f71b5ee081b7671e98c402ca30858241100efc6b39fe15e54737b0bc16686635"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__Proofs__CopyBinding-comparator.log",
+      "sha256": "f71b5ee081b7671e98c402ca30858241100efc6b39fe15e54737b0bc16686635"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__Proofs__CopyExecution-comparator.log",
+      "sha256": "f71b5ee081b7671e98c402ca30858241100efc6b39fe15e54737b0bc16686635"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__Proofs__CopySource-comparator.log",
+      "sha256": "f71b5ee081b7671e98c402ca30858241100efc6b39fe15e54737b0bc16686635"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__Proofs__Counterexamples-comparator.log",
+      "sha256": "f71b5ee081b7671e98c402ca30858241100efc6b39fe15e54737b0bc16686635"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__Proofs__Execution-comparator.log",
+      "sha256": "f71b5ee081b7671e98c402ca30858241100efc6b39fe15e54737b0bc16686635"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__Proofs__FP-comparator.log",
+      "sha256": "cbc28514529fcec74ce0ede0f56426f7bfd58608cdd75c8a837640a74fdffd40"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__Proofs__HelperState-comparator.log",
+      "sha256": "cbc28514529fcec74ce0ede0f56426f7bfd58608cdd75c8a837640a74fdffd40"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__Proofs__Host-comparator.log",
+      "sha256": "cbc28514529fcec74ce0ede0f56426f7bfd58608cdd75c8a837640a74fdffd40"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__Proofs__Ideal-comparator.log",
+      "sha256": "cbc28514529fcec74ce0ede0f56426f7bfd58608cdd75c8a837640a74fdffd40"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__Proofs__Memory-comparator.log",
+      "sha256": "cbc28514529fcec74ce0ede0f56426f7bfd58608cdd75c8a837640a74fdffd40"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__Proofs__Native-comparator.log",
+      "sha256": "cbc28514529fcec74ce0ede0f56426f7bfd58608cdd75c8a837640a74fdffd40"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__Proofs__NativeProfile-comparator.log",
+      "sha256": "cbc28514529fcec74ce0ede0f56426f7bfd58608cdd75c8a837640a74fdffd40"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__Proofs__Order-comparator.log",
+      "sha256": "cbc28514529fcec74ce0ede0f56426f7bfd58608cdd75c8a837640a74fdffd40"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__Proofs__PtxCast-comparator.log",
+      "sha256": "cbc28514529fcec74ce0ede0f56426f7bfd58608cdd75c8a837640a74fdffd40"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__Proofs__QuantExecution-comparator.log",
+      "sha256": "cbc28514529fcec74ce0ede0f56426f7bfd58608cdd75c8a837640a74fdffd40"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__Proofs__QuantExecution4-comparator.log",
+      "sha256": "cbc28514529fcec74ce0ede0f56426f7bfd58608cdd75c8a837640a74fdffd40"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__Proofs__QuantNative-comparator.log",
+      "sha256": "cbc28514529fcec74ce0ede0f56426f7bfd58608cdd75c8a837640a74fdffd40"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__Proofs__QuantProfile-comparator.log",
+      "sha256": "01ff9adc86e41cdf05f0d04a1b1eb3975f19dbd4e135505d453e05a7e04694b1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__Proofs__QuantReal-comparator.log",
+      "sha256": "01ff9adc86e41cdf05f0d04a1b1eb3975f19dbd4e135505d453e05a7e04694b1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__Proofs__QuantSource-comparator.log",
+      "sha256": "01ff9adc86e41cdf05f0d04a1b1eb3975f19dbd4e135505d453e05a7e04694b1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__Proofs__QuantStores-comparator.log",
+      "sha256": "01ff9adc86e41cdf05f0d04a1b1eb3975f19dbd4e135505d453e05a7e04694b1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__Proofs__QuantValues-comparator.log",
+      "sha256": "01ff9adc86e41cdf05f0d04a1b1eb3975f19dbd4e135505d453e05a7e04694b1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__Proofs__Real-comparator.log",
+      "sha256": "01ff9adc86e41cdf05f0d04a1b1eb3975f19dbd4e135505d453e05a7e04694b1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__Proofs__Schedule-comparator.log",
+      "sha256": "01ff9adc86e41cdf05f0d04a1b1eb3975f19dbd4e135505d453e05a7e04694b1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__Proofs__SharedExecution-comparator.log",
+      "sha256": "01ff9adc86e41cdf05f0d04a1b1eb3975f19dbd4e135505d453e05a7e04694b1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__Proofs__SharedReadback-comparator.log",
+      "sha256": "01ff9adc86e41cdf05f0d04a1b1eb3975f19dbd4e135505d453e05a7e04694b1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__Proofs__SharedTarget-comparator.log",
+      "sha256": "01ff9adc86e41cdf05f0d04a1b1eb3975f19dbd4e135505d453e05a7e04694b1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__Proofs__Source-comparator.log",
+      "sha256": "0aaa4c0dfe4b2095e7f4c71dccb0c70081ac8b0c662062d8b287cf633bbd441c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__Proofs__SourceBlocks-comparator.log",
+      "sha256": "0aaa4c0dfe4b2095e7f4c71dccb0c70081ac8b0c662062d8b287cf633bbd441c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__Proofs__SourcePreservation-comparator.log",
+      "sha256": "0aaa4c0dfe4b2095e7f4c71dccb0c70081ac8b0c662062d8b287cf633bbd441c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__Proofs__Store-comparator.log",
+      "sha256": "0aaa4c0dfe4b2095e7f4c71dccb0c70081ac8b0c662062d8b287cf633bbd441c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__Proofs__Tensor-comparator.log",
+      "sha256": "0aaa4c0dfe4b2095e7f4c71dccb0c70081ac8b0c662062d8b287cf633bbd441c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__repairs__tritonbench_g__kv_cache_filling__Proofs__WholeBacking-comparator.log",
+      "sha256": "0aaa4c0dfe4b2095e7f4c71dccb0c70081ac8b0c662062d8b287cf633bbd441c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__tests__NarrowUnsignedBody-comparator.log",
+      "sha256": "0aaa4c0dfe4b2095e7f4c71dccb0c70081ac8b0c662062d8b287cf633bbd441c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__tests__NarrowUnsignedMemoryBody-comparator.log",
+      "sha256": "0aaa4c0dfe4b2095e7f4c71dccb0c70081ac8b0c662062d8b287cf633bbd441c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__tests__SourceFunction-comparator.log",
+      "sha256": "0aaa4c0dfe4b2095e7f4c71dccb0c70081ac8b0c662062d8b287cf633bbd441c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/bench__tests__StatementSourceFunction-comparator.log",
+      "sha256": "0aaa4c0dfe4b2095e7f4c71dccb0c70081ac8b0c662062d8b287cf633bbd441c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/build-invocations.json",
+      "sha256": "81f90a68ffe6e58d77214f5896a4ec4a9738806a29f32c11489a1186c60c785e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/canonical-task-files.json",
+      "sha256": "42c5a657f6be235b0ac75807893e06b2c724b4cca54183290572afeeefc75eda"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/comparator-invocations.json",
+      "sha256": "d7bf87aaee053a297d79ef2ed1d97b0b733e51dd9830c97bb5a94ce34606ebc8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/comparator-tools.json",
+      "sha256": "28998e17d51b0fb5930f7489e64512a57f8a8146d1470063a624a75bbabdb0d3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/corpus-guard.log",
+      "sha256": "ccbebdb283ded221c52fdd5d6560602d6bde515ad0fc130342c23a3b16aad3ad"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/cpu-check.log",
+      "sha256": "281c58ea10bd51c5fc70bb8d5e3a2b88ae8e25cd2b3cd539eb7d82055673628b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/final-clean-build.log.gz",
+      "sha256": "e354e951b5bf46730b3d16e4706871901cefeb423fb7fd431dbb93ff4b193948"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/final-clean-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/final-clean-setup.json",
+      "sha256": "ee5b9ebc120672655b328a5eff1cb9b2e8c210983034d278b387f2fc1b37f712"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/focus-build.log.gz",
+      "sha256": "c39aaf31cc229347ffd6a5bc853d3d9b5ac67bbd48a7ece72f9ce94c2c6fe995"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/focus-invocations.json",
+      "sha256": "a357bac0ede742b9c74536e7bac921b28fdaaafac865eed74f63bb38e40091e2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/focus-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/focus-modules.txt",
+      "sha256": "f3800e67ede8e784a7d2b9e4b7d3b5c7096156fd952743b7b33496091d52b6b9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/frontend-build.log.gz",
+      "sha256": "cb2d1116ca685523407ec3a1fb137e9010fe9e5315a445f1b1463c2b188e145f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/frontend-modules.txt",
+      "sha256": "1bc92529117e7d30a8cf26190755cf9e6d813fbba3129342e36f16c9ffdcf8b6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/inspections.json",
+      "sha256": "0787eecbba117683e2370baaa85136e67d7d29be4bbed33a994e88da4887fe8b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/integration-final.log.gz",
+      "sha256": "cba3d9a9013477324dcc621a501adced603e0b07ca8da31c533c242c6815fd0e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/io-guard.log",
+      "sha256": "0f30b59dbce8b6a941f456fa71d69795b1865a876e70f3aaa8ba54be4f0dbe9c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/joint-all.lean",
+      "sha256": "72544d3e498337c99f769996e09043930d309f7b1afa9174412d1fc448bdf695"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/joint-final.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/modules.json",
+      "sha256": "6339dad663888264b61080527095ca84a2fd737791c03a5b5ebb9fbbd1fba1d9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/narrowunsignedbody-audit.log",
+      "sha256": "60e508be35c5a82a2c6a327550fd25a65ca6132e25317fff4546c1ef1ff50e01"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/narrowunsignedmemorybody-audit.log",
+      "sha256": "941f6c38f04845dbf24e9c0c9d31e0d77a3d63f11946da1c1b7f844d03557d6d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/pairs.json",
+      "sha256": "c4009a61e52e52146e4918e392604b66a79d55974b93a50b1c0bfd3095074fd4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/previous-io-review.json",
+      "sha256": "7b675cc226c14f9507d3755e407669ffeb9e67c299608413a5da78f16dc58af4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/previous-reviews.json.gz",
+      "sha256": "1f11b08137417c22154f7cbcde147f8437c4a25dec29ca9f122749aeba530aef"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/python-invocations.json",
+      "sha256": "17199a6102aae1001f109ee238fe68674be444e05eebef26edb8166163539fcf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/python-tests.log",
+      "sha256": "1ebfb34daa754e0ba49d305d9462936890bc41f6060e5e7b862c0935408ab22b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/raw-body-check.log",
+      "sha256": "2a27277c32f0dd03302b345c2abc13d9aa6e59a78dc42cc43d612ebc0e8d7636"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/source-closure.json",
+      "sha256": "712a22f7defb5b4d4f652003a7f4b4de3a4484eb0bc0e35b3a6dee231ac61ec5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/sourcefunction-audit.log",
+      "sha256": "7eb2f05f4a9d92cfb0ebcbb6e95d7f0fd77e015cd95fd27b5626feb560595809"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/statementsourcefunction-audit.log",
+      "sha256": "6e3a123c30cfa82efd535488a44761516cd5cfc082c61dbd73e22e14df9a1347"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/transferred-files.json",
+      "sha256": "83ab86e2375c5fde1bca2a187633872ed38949c762b8d3e2fbb78cc193553dea"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/warm-final-invocation.json",
+      "sha256": "304414d116a6b45d009da7203e67782acdc3f513173688137377123dabef977a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/workflow-counts.json",
+      "sha256": "9c65402c9d87872d52b1289621c2911bdd3484e4a4924169684c95ce4acb8e7f"
+    }
+  ]
+}

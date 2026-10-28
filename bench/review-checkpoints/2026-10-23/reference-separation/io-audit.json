@@ -17299,8 +17299,8 @@
       "task": "kv_cache_filling",
       "status": "fixed",
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/kv-reconstruction/review.json",
-        "sha256": "5357964c1d07b5ee7e193cffb02a645cc26421e9319bd6b47029691d36c90bf3"
+        "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/review.json",
+        "sha256": "700c60e2e207f87fd88256791c1ae71feacb33c105c09a58b6227e53b94012fd"
       },
       "remaining_issues": [],
       "superseded_review": {
@@ -17312,9 +17312,18 @@
         "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Correct.lean",
         "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/FPEquiv.lean"
       ],
-      "assessment": "The task IO.lean owns the sole memory/schedule/channel interface and both bijective named mathematical views. Correct displays mathematical results; FPEquiv selects actual source variants. Proofs/LogicalIO proves the complete contract connection.",
+      "assessment": {
+        "organization": "KernelOnly/IO.lean retains the canonical complete typed/logical interface and adds pure actual-state output projections. Root IO.lean owns the distinct physical-byte ABI and heap materialization; Proofs/WholeBacking supplies the complete semantic connections. Public readers stay thin.",
+        "source_update": "Complete source helper and policy bodies retain every original statement. Helper scope/evaluation/tuple semantics and implicit unsigned arithmetic belong to frontend lowering. The previously missing optional physical source/imports are restored. No output or successful-execution premise is inserted.",
+        "verification": "All55 canonical task roots, all117 frontend roots and all4420 cumulative roots pass with joint imports and an independent empty-project replay. Original Python, Correct/FPEquiv/Contract and primary input domains are unchanged.",
+        "previous_assessment": {
+          "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/previous-io-review.json",
+          "sha256": "7b675cc226c14f9507d3755e407669ffeb9e67c299608413a5da78f16dc58af4"
+        }
+      },
       "distinct_views": [
-        "Typed regional ProgramIO and bijective named mathematical view of exactly the same data."
+        "The existing typed regional ProgramIO and its bijective named mathematical view retain their complete definitions and public domains.",
+        "The optional physical-byte IO binds caller descriptors, observed metadata strides, signed bytes and scheduler buffers to that regional input, and materializes actual output stores. It is a distinct encoding/ABI view with proved input and byte readback/frame connections."
       ],
       "readers": [
         {
@@ -17329,24 +17338,35 @@
       "io_sources": [
         {
           "path": "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/IO.lean",
-          "sha256": "ba9ff521ee6eda71c7fa23966704538e711758c986b658a953bf3479fe0e8904"
+          "sha256": "13cd6cf4b9d2364e03988b740c421a9c185785a158876ff8d09b4e01cf3b8a52"
         },
         {
           "path": "VeriTile/Triton/Float/LogicalProgramIO.lean",
           "sha256": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/kv_cache_filling/IO.lean",
+          "sha256": "46514798329b69fe9196b8d5b1293ecc0d67072776a8bb7392e08f2ff73d132d"
         }
       ],
       "changed_paths": [
         "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/IO.lean",
-        "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Proofs/LogicalIO.lean"
+        "bench/repairs/tritonbench_g/kv_cache_filling/IO.lean"
       ],
       "preservation_and_build_passed": true,
-      "validation_limits": [
-        "Official comparator unavailable; Lean kernel and statement/axiom audits were run.",
-        "Pinned external Lean/Mathlib dependencies reuse installed artifacts. No GPU or new numerical experiment.",
-        "Historical optional raw/Tensor/host delivery remains unrecovered and is not certified by this main-kernel reconstruction.",
-        "The 183-task scan checks source availability, not fresh proof validity of every task."
-      ]
+      "validation_limits": {
+        "official_comparator": "Unavailable due host isolation; actual final-source attempts are retained.",
+        "numerical_receipt": "Known unchanged Structural receipt hash error; no false repin.",
+        "physical_scope": "Actual caller metadata/stride and allocated INT64 scheduler buffers are explicit input ABI bindings. Host allocation and launch realization are outside the kernel theorem.",
+        "scope": "No GPU or new numerical experiment; corpus migration remains incomplete."
+      },
+      "main_formula_review": {
+        "io_data_unchanged": false
+      },
+      "current_body_source_review": {
+        "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/review.json",
+        "sha256": "700c60e2e207f87fd88256791c1ae71feacb33c105c09a58b6227e53b94012fd"
+      }
     },
     {
       "task": "l2_norm_bwd",

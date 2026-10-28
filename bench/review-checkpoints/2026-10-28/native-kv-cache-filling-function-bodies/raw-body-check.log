@@ -1,0 +1,160 @@
+[
+  {
+    "python_function": "_quant_row",
+    "lean_definition": "quantRow",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "inferred_helper_values",
+    "call_bindings": null,
+    "statements": 5,
+    "runtime_parameters": {},
+    "constexpr_parameters": [
+      "LEVELS"
+    ],
+    "body_kind": "helper",
+    "helper_parameters": [
+      "x",
+      "lo",
+      "hi",
+      "LEVELS"
+    ]
+  },
+  {
+    "python_function": "_fill_rows",
+    "lean_definition": "originalKernel",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "runtime_registers",
+    "call_bindings": null,
+    "statements": 8,
+    "runtime_parameters": {},
+    "constexpr_parameters": [
+      "BK",
+      "BV",
+      "CK",
+      "CV",
+      "DK",
+      "DV",
+      "POLICY"
+    ],
+    "source_functions": [
+      "quantRow"
+    ],
+    "profile_variant": "0"
+  },
+  {
+    "python_function": "_fill_rows_commuted",
+    "lean_definition": "commutedKernel",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "runtime_registers",
+    "call_bindings": null,
+    "statements": 8,
+    "runtime_parameters": {},
+    "constexpr_parameters": [
+      "BK",
+      "BV",
+      "CK",
+      "CV",
+      "DK",
+      "DV",
+      "POLICY"
+    ],
+    "source_functions": [
+      "quantRow"
+    ],
+    "profile_variant": "0"
+  },
+  {
+    "python_function": "_fill_rows",
+    "lean_definition": "original8Kernel",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "runtime_registers",
+    "call_bindings": null,
+    "statements": 8,
+    "runtime_parameters": {},
+    "constexpr_parameters": [
+      "BK",
+      "BV",
+      "CK",
+      "CV",
+      "DK",
+      "DV",
+      "POLICY"
+    ],
+    "source_functions": [
+      "quantRow"
+    ],
+    "profile_variant": "8"
+  },
+  {
+    "python_function": "_fill_rows_commuted",
+    "lean_definition": "commuted8Kernel",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "runtime_registers",
+    "call_bindings": null,
+    "statements": 8,
+    "runtime_parameters": {},
+    "constexpr_parameters": [
+      "BK",
+      "BV",
+      "CK",
+      "CV",
+      "DK",
+      "DV",
+      "POLICY"
+    ],
+    "source_functions": [
+      "quantRow"
+    ],
+    "profile_variant": "8"
+  },
+  {
+    "python_function": "_fill_rows",
+    "lean_definition": "original4Kernel",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "runtime_registers",
+    "call_bindings": null,
+    "statements": 8,
+    "runtime_parameters": {},
+    "constexpr_parameters": [
+      "BK",
+      "BV",
+      "CK",
+      "CV",
+      "DK",
+      "DV",
+      "POLICY"
+    ],
+    "source_functions": [
+      "quantRow"
+    ],
+    "profile_variant": "4"
+  },
+  {
+    "python_function": "_fill_rows_commuted",
+    "lean_definition": "commuted4Kernel",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "runtime_registers",
+    "call_bindings": null,
+    "statements": 8,
+    "runtime_parameters": {},
+    "constexpr_parameters": [
+      "BK",
+      "BV",
+      "CK",
+      "CV",
+      "DK",
+      "DV",
+      "POLICY"
+    ],
+    "source_functions": [
+      "quantRow"
+    ],
+    "profile_variant": "4"
+  }
+]

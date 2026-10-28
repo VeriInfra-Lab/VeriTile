@@ -1,0 +1,53 @@
+{
+  "task": "kv_cache_filling",
+  "status": "fixed",
+  "review_evidence": {
+    "path": "bench/review-checkpoints/2026-10-23/kv-reconstruction/review.json",
+    "sha256": "5357964c1d07b5ee7e193cffb02a645cc26421e9319bd6b47029691d36c90bf3"
+  },
+  "remaining_issues": [],
+  "superseded_review": {
+    "path": "bench/review-checkpoints/2026-10-23/kv-reconstruction/superseded-selection.json",
+    "sha256": "f1970e347dee4e23900fbe8c1e77d273f70447e13ae1aa92cf47d8a02cae3f0e"
+  },
+  "selected_public_entries": [
+    "bench/repairs/tritonbench_g/kv_cache_filling/Contract.lean",
+    "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Correct.lean",
+    "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/FPEquiv.lean"
+  ],
+  "assessment": "The task IO.lean owns the sole memory/schedule/channel interface and both bijective named mathematical views. Correct displays mathematical results; FPEquiv selects actual source variants. Proofs/LogicalIO proves the complete contract connection.",
+  "distinct_views": [
+    "Typed regional ProgramIO and bijective named mathematical view of exactly the same data."
+  ],
+  "readers": [
+    {
+      "path": "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Correct.lean",
+      "sha256": "2198046b504bb6373323c8b5007129da97e935e2b402a1247287fce687e0f69e"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/FPEquiv.lean",
+      "sha256": "416cac7f0b298a65744e564e7207f66e5abf042629e16e4c50f2e468f00616a2"
+    }
+  ],
+  "io_sources": [
+    {
+      "path": "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/IO.lean",
+      "sha256": "ba9ff521ee6eda71c7fa23966704538e711758c986b658a953bf3479fe0e8904"
+    },
+    {
+      "path": "VeriTile/Triton/Float/LogicalProgramIO.lean",
+      "sha256": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358"
+    }
+  ],
+  "changed_paths": [
+    "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/IO.lean",
+    "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Proofs/LogicalIO.lean"
+  ],
+  "preservation_and_build_passed": true,
+  "validation_limits": [
+    "Official comparator unavailable; Lean kernel and statement/axiom audits were run.",
+    "Pinned external Lean/Mathlib dependencies reuse installed artifacts. No GPU or new numerical experiment.",
+    "Historical optional raw/Tensor/host delivery remains unrecovered and is not certified by this main-kernel reconstruction.",
+    "The 183-task scan checks source availability, not fresh proof validity of every task."
+  ]
+}

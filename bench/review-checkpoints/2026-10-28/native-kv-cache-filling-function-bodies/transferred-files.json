@@ -1,0 +1,43 @@
+{
+  "parent": "3bc7786da4da0bc40b5b9909effe2da29517d76e",
+  "shared_core_changed": [
+    "VeriTile/Triton/DSL/CallSignature.lean",
+    "VeriTile/Triton/DSL/NarrowUnsigned.lean",
+    "VeriTile/Triton/DSL/SourceFunction.lean",
+    "VeriTile/Triton/DSL/SourceFunctionStatements.lean"
+  ],
+  "files": {
+    "VeriTile/Triton/DSL/CallSignature.lean": "de90d8b595a259bb78337a39aeca8e28f65c55660a2334bbd1393a5dff0b50e8",
+    "VeriTile/Triton/DSL/SourceFunction.lean": "96e9accd0140a9c09560dfd869a8c391c10cb9bc7ab9be59a5027ba4d34f6f8f",
+    "bench/jit_correspondence.py": "81a9c8b44f27313c3cd9b1ed3e670d3dd36d9def8ad75c0a91a39844ae4b4102",
+    "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/IO.lean": "13cd6cf4b9d2364e03988b740c421a9c185785a158876ff8d09b4e01cf3b8a52",
+    "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Misc/NativeCorrect.lean": "72ca14372a155964caa1c48da3cdc6aca8818e69e43bc352ee1223a4fa656efb",
+    "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Misc/TensorBridge.lean": "05fc841152d2caa1d79addeb709842bcefd01b87ea466b1608ebbbb9c4c277de",
+    "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Proofs/AccessSafety.lean": "8c4493c2a022aecad91a0f92975a073db9719f244d212c4c93a763386af58ca9",
+    "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Proofs/RawCorrect.lean": "060b613b660ad3a2b6d1471ff143dabd01fa8e4f3800dd95a41d01de558c1949",
+    "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Proofs/RawFPEquiv.lean": "3397c0364b2eb5654470bfa2ba6ecedd38c34a81dc085be50840b89dc36c9a86",
+    "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Proofs/Readback.lean": "2d3dbfa06ada490eeebdbaf3fba8ecdd07f4ca6c35e9458aa0e7c2e8ab0205c9",
+    "bench/repairs/tritonbench_g/kv_cache_filling/Kernels.lean": "245f094665eaf596fac4f27ae055cc0730f01dc285a96f745db61d0c653748aa",
+    "bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantExecution.lean": "e53e3243ed07a81aeb6b91b9ed59a9540a0a5ac19bfad6823fcf98e7fb578814",
+    "bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantExecution4.lean": "e8445869c79d99baea85400083619ea35a22f618a040086c96f8056374882066",
+    "bench/repairs/tritonbench_g/kv_cache_filling/Proofs/SourcePreservation.lean": "c01c6c29e0d58640121e7becaab18e51ec2ce5fdfd2c3c858df0e33e0ea2e51c",
+    "bench/repairs/tritonbench_g/kv_cache_filling/README.md": "a7594618eb5ee45cc05f90c92f349fa0915af8909eeeda167d80720c08386de2",
+    "bench/tests/SourceFunction.lean": "536a5a06c9d3e18c68d2e0a8c94814e258da506adbad4e04def8f8344bba5938",
+    "lakefile.toml": "ce1c1d41c4ee4e47fbbeb0b0e7802e4a527f2c31bf615977743d8525101700c6",
+    "VeriTile/Triton/DSL/NarrowUnsigned.lean": "b705eab3631823b87ded1758f470cdae8a30980a4394fa9462c2c9b55d6b638f",
+    "VeriTile/Triton/DSL/SourceFunctionStatements.lean": "ec986d063264fd50647d267fc77d120b5296327c61de4835e4dbef87d6437885",
+    "bench/repairs/tritonbench_g/kv_cache_filling/IO.lean": "46514798329b69fe9196b8d5b1293ecc0d67072776a8bb7392e08f2ff73d132d",
+    "bench/repairs/tritonbench_g/kv_cache_filling/Proofs/HelperState.lean": "cc15abd2131d3bbe3be4ba5d3df0bd3b63dd93b02de8368bafdcb2afdb52e52e",
+    "bench/repairs/tritonbench_g/kv_cache_filling/Proofs/SourceBlocks.lean": "febd8fd18e4f693da990af2e533dfabf55aa82ba04172bff92f697b15f23a5c3",
+    "bench/repairs/tritonbench_g/kv_cache_filling/Proofs/WholeBacking.lean": "d1ece2d6c46d7d4b143cb7e3f263d624d2758975eacaa45690e218f706fef9a6",
+    "bench/repairs/tritonbench_g/kv_cache_filling/candidate_kernels.py": "b8367680ecd6fc43aca580c895e2bec61b81bf33082104a9fa884752422fb6a8",
+    "bench/repairs/tritonbench_g/kv_cache_filling/jit-correspondence.json": "e0fb84312425be9a77c8c2ed4c2bc21110556f6b0353e0818988c54a41d9c314",
+    "bench/tests/NarrowUnsignedBody.lean": "88859b6cb425f24c773bc8cfb4a4126f406197d30458efb679580b21e6b3caeb",
+    "bench/tests/NarrowUnsignedMemoryBody.lean": "0a3493c1e2a0b98bb46a603511e059366f163da3553496535cae661acd8122c7",
+    "bench/tests/StatementSourceFunction.lean": "be61add727b5a5eea8f0b0fefaf2bbc72debae71640515552b03dc63c10b3c3f",
+    "bench/tests/test_kv_cache_filling_body.py": "e39ac4be92ad15fc786c9d04de4e73a37907e24932d0f372ed23c57d44fc6d3b"
+  },
+  "code_commit": "e79ca9afc54302ce133b6ac95306ac44e3f69643",
+  "original_python_and_public_specifications_unchanged": true,
+  "actual_source_connection": "The complete quantizer helper and all six policy source/candidate profiles retain every original statement and cast. Hygienic helper argument/result evaluation and implicit uint8 arithmetic belong to the frontend. Actual complete execution, access safety, independent Real target and unchanged FP pair are reconnected without narrowing the domain. Missing optional physical-backing source and imports are restored with explicit input-only byte/stride/scheduler ABI bindings and proved actual-store readback/frame. No whole-kernel premise, arbitrary cast identity or historical AST identity is introduced."
+}

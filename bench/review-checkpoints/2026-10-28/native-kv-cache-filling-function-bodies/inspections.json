@@ -1,0 +1,50 @@
+{
+  "code_commit": "e79ca9afc54302ce133b6ac95306ac44e3f69643",
+  "raw_bodies": [
+    {
+      "name": "raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/kv_cache_filling/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "e79ca9afc54302ce133b6ac95306ac44e3f69643",
+      "log": "/tmp/kv100-raw-body-check.log",
+      "status": "PASS"
+    }
+  ],
+  "candidate_rewrites": [
+    {
+      "status": "PASS",
+      "scope": "Ten KvCacheFillingBodyTests check the complete helper and all six policy profiles, exact caller constants, explicit int64 casts, repeated second-half helper evaluation, uint8 cache types, and only the three pre-existing vector key-address multiplication commutations."
+    }
+  ],
+  "cpu": {
+    "name": "cpu-check",
+    "command": [
+      "python3",
+      "bench/repairs/tritonbench_g/kv_cache_filling/check_contract.py"
+    ],
+    "exit_code": 1,
+    "code_commit": "e79ca9afc54302ce133b6ac95306ac44e3f69643",
+    "log": "/tmp/kv100-cpu-check.log",
+    "status": "UNAVAILABLE",
+    "reason": "The unchanged CPU guard/launch capture checker requires Torch, which is not installed."
+  },
+  "original_python_and_public_specifications": {
+    "status": "PASS",
+    "sha256": {
+      "bench/repairs/tritonbench_g/kv_cache_filling/kv_cache_filling_repaired.py": "c2652aa0fca4bb8343693e3ae35b749ba36eb28c1e18ad4a04d52ba213508506",
+      "bench/repairs/tritonbench_g/kv_cache_filling/Contract.lean": "e51881b1f1b24ef55e6b41971923d47326cd492b82d6b66b4908bed69923674f",
+      "bench/repairs/tritonbench_g/kv_cache_filling/Correct.lean": "2dd623f5a7db135fcd290cd8be368d030b679e3568aaed0ecb398e5c324b3543",
+      "bench/repairs/tritonbench_g/kv_cache_filling/check_contract.py": "8796fe4e2e4064b64581bb2a5d06a0b8e87949736e0747f8327518d64f203fab",
+      "bench/repairs/tritonbench_g/kv_cache_filling/FPEquiv.lean": "4f268c328165d53243839515aa77176e766873f26cc279f4ab5aaeeb417f4fcc",
+      "bench/repairs/tritonbench_g/kv_cache_filling/Proofs/Contract.lean": "c749844fc7c84e3d92ee2bde2a9d8dcb5e3b37fb3027464fe855c68a38917597",
+      "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Correct.lean": "2198046b504bb6373323c8b5007129da97e935e2b402a1247287fce687e0f69e",
+      "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/FPEquiv.lean": "416cac7f0b298a65744e564e7207f66e5abf042629e16e4c50f2e468f00616a2"
+    }
+  },
+  "scope": "Seven complete raw mappings cover the helper and all policy original/candidate calls. Source branches, casts, helper calls, masks and stores remain unchanged. Shared frontend changes preserve helper scope/evaluation/tuple semantics and implicit uint8 arithmetic. All canonical task roots, including the restored optional physical-byte bridge, are reverified. Public kernel inputs and specifications are unchanged; optional host stride and scheduler bindings are explicit input ABI. No arbitrary cast identity, historical AST identity, whole-kernel premise, GPU or numerical experiment."
+}
