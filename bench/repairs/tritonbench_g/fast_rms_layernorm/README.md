@@ -2,8 +2,14 @@
 
 The selected source is `fast_rms_layernorm_repaired.py` (FP32), as recorded in
 `task_progress.json`. The production Python and all four kernel ASTs are
-unchanged. `Kernels.lean` is the shared readable typed source for ordinary/Gemma
+unchanged. `Kernels.lean` contains the original function bodies for ordinary/Gemma
 forward, the in-place input gradient and the increasing-row weight gradient.
+Each body is copied into `triton { ... }` without dtype declarations or Lean
+syntax inside it. Checked call signatures supply pointer/scalar types and values
+outside the body; original docstrings, assignments, casts and control flow remain.
+`fast_rms_layernorm_index_commuted.py` supplies the explicit Python candidate;
+only the X row-stride multiplication order and the corresponding JIT names/calls
+change. Its fourth (weight-gradient) JIT body is unchanged.
 The original source remains unchanged and defective: backward overwrites caller
 upstream storage and returns no weight gradient. The regression checker reproduces
 both defects.
@@ -64,9 +70,9 @@ Forward also takes `EpsilonABI.Binding`: the actual finite Python binary64 word,
 its runtime FP32 argument, and the local round-to-nearest-even conversion law.
 `RuntimeForward` binds that word to the distinct `eps` source register and uses
 an independent epsilon input in its reference. Signed zero is preserved without
-changing literal padding zeros. Each forward kernel has one authoritative source quotation, instantiated with
-either a mathematical literal or the runtime register. The task-local frontend
-supplies only the external scalar's type and emits no declaration statement. `RuntimeForward.Source.runtime_body` and `runtime_length` prove the
+changing literal padding zeros. Each forward body has checked runtime-epsilon and mathematical-literal
+instantiations with identical Python body text. The shared call-signature
+frontend supplies the scalar binding and emits no declaration statement. `RuntimeForward.Source.runtime_body` and `runtime_length` prove the
 typed statement lists coincide outside the inverse-statistic assignment. The
 Real/optional historical path keeps the literal specialization.
 The Real backward saved-r relation is exactly the independent relation
@@ -131,13 +137,17 @@ Both programs are safe and succeed, active typed outputs agree, and both
 complete exterior frames hold. Empty rows retain the existing explicit zero-DW
 input domain. No finite-word restriction or experimental rewrite is introduced.
 
-All selected sources are ordinary `triton` quotations; runtime epsilon uses
-`tl.param eps : tl.float32`. Complete new/previous source identities are checked
-in the campaign's `source-preservation.lean`. `Proofs/SourcePair.lean` proves the
-candidate's identity with the historical FP32 candidate and the complete
-runtime-source execution/safety connection. `Proofs/IOPair.lean` composes the
-actual schedules and transports the retained complete IO proof. The original
-independent Real targets and optional native/Tensor/host applications remain
-available at their existing scope.
+The body-correspondence manifest checks all eleven source/profile mappings,
+including the runtime/literal epsilon instantiations. It rejects omitted casts,
+changed branches, extra body directives and candidate mutations. Integer metadata
+and row loops retain the original signed casts. `LegacyKernels.lean` is only a
+historical presentation; the actual IO sources come from the copied bodies.
+`Proofs/RealSource.lean` derives their final-memory equivalence to the earlier
+algebraic presentation without equating register files or ASTs. The signed
+weight loop has its own execution, value, frame and safety proofs.
+`Proofs/SourcePair.lean` compares the complete copied source/candidate bodies
+and proves both execution and access-safety equivalence. `Proofs/IOPair.lean`
+composes their actual complete schedules. The independent Real targets and
+optional native/Tensor/host applications retain their existing domains.
 
 Optional application proofs and readers are under `Misc/`; their declaration namespaces and theorem statements are unchanged. Required main proof helpers remain under `Proofs/`.

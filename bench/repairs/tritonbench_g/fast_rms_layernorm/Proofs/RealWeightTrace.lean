@@ -23,7 +23,7 @@ theorem tail_safe (h : Call) (K pid : Nat) (bounds : RegionBounds) (u : BlockSta
   simp [tail,Stmt.TraceSafeList,Stmt.TraceSafe,Op.SafeAt.eq_def,MaskOpt.SafeAt,MemAccess.SafeAt,
     MemAccess.ActiveAddressSafe,memAccessActiveAddressSafe,MaskOpt.Active,Op.PointerAddressesSafeOn,Op.MemorySafe,
     colOp,maskOp,refOp,stepStmt,stepStmts,evalOp,evalOp.eq_def,ready.col,ready.mask,ha,
-    columns,masks,Option.bind,Tile.bop,Tile.cop,Tile.vec,NumericDType.add,NumericDType.mul]
+    columns,masks,Option.bind,Tile.bop,Tile.cop,Tile.uop,Tile.vec,NumericDType.add,NumericDType.mul]
   exact inside.output
 
 theorem complete (h : Call) (K : Nat) (bounds : RegionBounds) (u : BlockState)
@@ -32,18 +32,18 @@ theorem complete (h : Call) (K : Nat) (bounds : RegionBounds) (u : BlockState)
   have ready : Ready h K (u.pids 0) init := by
     refine ⟨?_,?_,⟨fun _ => 0,?_⟩⟩ <;> simp [init,initial]
   obtain ⟨v,he,inv⟩:=RealWeightLoop.loop_executes h K (u.pids 0) u 0 init (RealWeightLoop.initial_holds h K u)
-  have step : stepStmt (.forRangeDyn "row" (.constNat 0) (.constNat h.rows) (.constNat 1) (loopBody h K)) init=some v := by
-    simpa [stepStmt,evalOp_constNat] using he
+  have step : stepStmt (.forRangeInt "row" (.constInt 0) (.castNatToInt (.constNat h.rows)) (.constNat 1) (loopBody h K)) init=some v := by
+    simpa [stepStmt,evalOp.eq_def,Tile.uop] using he
   have safe : Stmt.TraceSafe bounds
-      (.forRangeDyn "row" (.constNat 0) (.constNat h.rows) (.constNat 1) (loopBody h K)) init := by
-    simpa [Stmt.TraceSafe,Op.SafeAt.eq_def,evalOp_constNat] using loop_safe h K (u.pids 0) bounds init ready inside
+      (.forRangeInt "row" (.constInt 0) (.castNatToInt (.constNat h.rows)) (.constNat 1) (loopBody h K)) init := by
+    simpa [Stmt.TraceSafe,Op.SafeAt.eq_def,evalOp.eq_def,Tile.uop] using loop_safe h K (u.pids 0) bounds init ready inside
   change Stmt.TraceSafeList bounds (source h K).body u
   rw [source_body,List.append_assoc]
   apply TraceProofs.append_safe (prefixCode h K) u (prefix_safe h K bounds u)
   intro s hs
   have same : init=s := Option.some.inj ((prefix_executes h K u).symm.trans hs)
   subst s
-  change Stmt.TraceSafeList bounds (.forRangeDyn _ _ _ _ _ :: tailCode h K) init
+  change Stmt.TraceSafeList bounds (.forRangeInt _ _ _ _ _ :: tailCode h K) init
   rw [TraceProofs.cons_of_run_iff step]
   exact ⟨safe,tail_safe h K (u.pids 0) bounds v ⟨inv.col,inv.mask,⟨_,inv.acc⟩⟩ inside⟩
 

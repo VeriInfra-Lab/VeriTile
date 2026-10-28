@@ -14,7 +14,7 @@ def carry (M : Algebra α) (h : Call) (K pid : Nat) (initial : State α) (n : Na
 
 structure Holds (M : Algebra α) (h : Call) (K pid : Nat) (initial : State α) (n : Nat) (u : State α) : Prop where
   bound : n≤h.rows
-  col : u.regs .nat [K] "col"=some (columns K pid)
+  col : u.regs .int [K] "col"=some (columns K pid)
   mask : u.regs .bool [K] "mask"=some (masks h K pid)
   acc : u.regs .real [K] "acc"=some (carry M h K pid initial n)
   mem : u.mem=initial.mem
@@ -29,7 +29,7 @@ theorem initial_holds (M : Algebra α) (h : Call) (K : Nat) (u : State α) :
 
 theorem loop_executes (M : Algebra α) (h : Call) (K pid : Nat) (initial : State α)
     (n : Nat) (u : State α) (inv : Holds M h K pid initial n u) :
-    ∃ v, FP.Structural.range (engine M) "row" n h.rows 1 (loopBody h K) u=some v ∧
+    ∃ v, FP.Structural.rangeInt (engine M) "row" (n : Int) (h.rows : Int) 1 (loopBody h K) u=some v ∧
       Holds M h K pid initial h.rows v := by
   by_cases hn : n<h.rows
   · obtain ⟨v,he,hmem,_,hcol,hmask,hacc⟩ := iteration M h K pid n u
@@ -41,11 +41,11 @@ theorem loop_executes (M : Algebra α) (h : Call) (K pid : Nat) (initial : State
       ⟨Nat.succ_le_of_lt hn,hcol,hmask,by rw [next] at hacc; exact hacc,hmem.trans inv.mem⟩
     obtain ⟨w,hw,hf⟩ := loop_executes M h K pid initial (n+1) v hv
     refine ⟨w,?_,hf⟩
-    rw [FP.Structural.range]
-    simpa [hn,he] using hw
+    rw [FP.Structural.rangeInt]
+    simpa [hn, he, Int.natCast_add] using hw
   · have eq : n=h.rows := Nat.le_antisymm inv.bound (Nat.le_of_not_gt hn)
     refine ⟨u,?_,by simpa [eq] using inv⟩
-    rw [FP.Structural.range]
+    rw [FP.Structural.rangeInt]
     simp [hn]
 termination_by h.rows-n
 

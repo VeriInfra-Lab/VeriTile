@@ -56,8 +56,11 @@ regressions corroborate the source repair and input contract but are not the FP
 proof. Lean checks use only the standard propext, Quot.sound and Classical.choice
 axioms.
 
-The 2026-10-21 pair-entry review retains the single-source native results as
-ordinary theorems in `NativeCorrect.lean`. The main implementation-pair result
-remains `proof_connection_pending`: the historical integer-index candidate has
-not been connected to the selected repaired source and complete schedules.
-This missing program proof adds no numerical assumption or experiment obligation.
+The implementation-pair entry connects the explicit Python row-index candidate
+to the complete copied source bodies and their schedules. Its only computation
+change is signed integer multiplication commutation for the X row address;
+no FP operation is rewritten. The structural reference retains actual integer
+conversion of the column count and every explicit source cast, including the
+ordinary weight-gradient cast chain. It adds no explicit cast at stores where
+the Python body has none. Historical single-source native results remain ordinary
+theorems in `Misc/NativeCorrect.lean`.

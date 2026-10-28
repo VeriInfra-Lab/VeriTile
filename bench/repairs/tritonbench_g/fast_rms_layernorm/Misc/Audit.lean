@@ -12,9 +12,11 @@ namespace VeriTile.Bench.Repairs.FastRmsLayernorm.KernelAudit
 #axiomsClean FPEquiv.kernel_forward
 #axiomsClean FPEquiv.kernel_backward
 #axiomsClean FPEquiv.zero_bytes
-#axiomsClean Kernels.regular_source
-#axiomsClean Kernels.gemma_source
-#axiomsClean Kernels.input_gradient_source
+#axiomsClean RealSource.forward_memory
+#axiomsClean RealSource.backward_memory
+#axiomsClean FPWeightMemory.source_memory
+#axiomsClean RealWeightMemory.complete
+#axiomsClean NativeWeightSafety.complete
 #axiomsClean KernelTensor.logical_read
 #axiomsClean Contract.observed_tensor_checks
 #axiomsClean Contract.python_checks_iff

@@ -21,6 +21,7 @@ specification kernel_equivalent (R : Reductions) (h : Call) (backward : Bool) (e
   apply ProgramIO.Implementation.of_equivalentOn
   exact IOPair.equivalent R h backward epsilon
 
+#print_fp_assumptions kernel_equivalent
 #axiomsClean kernel_equivalent
 end
 end VeriTile.Bench.Repairs.FastRmsLayernorm.FPEquiv

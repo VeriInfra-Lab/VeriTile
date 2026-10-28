@@ -5,19 +5,8 @@ namespace VeriTile.Bench.Repairs.FastRmsLayernorm.SourcePair
 open VeriTile Triton FP.Structural
 noncomputable section
 set_option maxHeartbeats 5000000
-
-/-- The selected mathematical sources and existing candidate agree completely
-with the preserved original FP32 profile. -/
-theorem regular_candidate : Kernels.regularSourceIndexCommuted = Original.forward .fp32 .fp32 Bool.true := rfl
-theorem gemma_candidate : Kernels.gemmaSourceIndexCommuted = Original.gemma .fp32 .fp32 Bool.true := rfl
-theorem gradient_candidate : Kernels.inputGradientSourceIndexCommuted = Original.backward .fp32 .fp32 Bool.true := rfl
-
-/-- Proof-only decomposition of the single changed address assignment. -/
-def xStep (candidate : Bool) (stride : Nat) : ComputeStmt :=
-  let a : Op .nat [] := .ref .nat [] "row_idx"
-  let b : Op .nat [] := .constNat stride
-  .assign .ptr [] "X" (.alg (.ptrAdd .nil (.ptrBase (⟨"x"⟩ : Region .real))
-    (if candidate then .mul .nat .nil b a else .mul .nat .nil a b)))
+set_option maxRecDepth 30000
+set_option linter.unusedSimpArgs false
 
 def original (h : Call) (backward : Bool) : ComputeKernel :=
   if backward then Kernels.backward h else Kernels.forwardRuntime h
@@ -26,53 +15,75 @@ def source (candidate : Bool) (h : Call) (backward : Bool) : ComputeKernel :=
   if backward then if candidate then Kernels.backwardIndexCommuted h else Kernels.backward h
   else if candidate then Kernels.forwardRuntimeIndexCommuted h else Kernels.forwardRuntime h
 
-theorem source_split (candidate : Bool) (h : Call) (backward : Bool) :
-    (source candidate h backward).surfaceBody =
-      (original h backward).surfaceBody.take 4 ++ [xStep candidate h.cols] ++
-      (original h backward).surfaceBody.drop 5 := by
-  cases candidate <;> cases backward <;> cases mode : h.gemma <;>
-    simp only [source,original,Kernels.forwardRuntime,Kernels.forwardRuntimeIndexCommuted,
-      Kernels.backward,Kernels.backwardIndexCommuted,mode,Bool.false_eq_true,↓reduceIte] <;> rfl
+private def SameStep {α : Type} [Inhabited α] (M : Algebra α)
+    (left right : ComputeStmt) : Prop :=
+  (∀ s, step M left s = step M right s) ∧
+  (∀ bounds s, Safety.stepSafe M bounds left s ↔ Safety.stepSafe M bounds right s)
 
-theorem x_step {α : Type} [Inhabited α] (M : Algebra α) (s : State α) (stride : Nat) :
-    step M (xStep Bool.false stride) s = step M (xStep Bool.true stride) s := by
-  have product : evalOp M none
-      (.mul .nat .nil (.ref .nat [] "row_idx") (.constNat stride)) s =
-    evalOp M none (.mul .nat .nil (.constNat stride) (.ref .nat [] "row_idx")) s := by
-    simp only [evalOp]
-    cases hr : s.regs .nat [] "row_idx" <;> simp_all [numeric]
-    funext i
-    exact Nat.mul_comm _ _
-  simp only [xStep,Bool.false_eq_true,↓reduceIte,step,evalExpr]
-  change ((evalOp M none (.mul .nat .nil (.ref .nat [] "row_idx") (.constNat stride)) s).bind
-    (fun offsets => some (bop (fun (p : RegionName × Nat) n => (p.1,p.2+n))
-      .nil (fun _ => ("x",0)) offsets))).bind _ = _
-  rw [product]
-  rfl
+private theorem same_refl {α : Type} [Inhabited α] (M : Algebra α) (st : ComputeStmt) :
+    SameStep M st st := ⟨fun _ => rfl, fun _ _ => Iff.rfl⟩
 
-theorem x_run {α : Type} [Inhabited α] (M : Algebra α) (stride : Nat) :
-    run M [xStep Bool.false stride] = run M [xStep Bool.true stride] := by
-  funext s
-  simp only [run,x_step]
+/-- Pair the complete actual bodies. Only the fifth statement changes, and
+its transformation is signed integer multiplication commutativity. -/
+private theorem source_steps {α : Type} [Inhabited α] (M : Algebra α)
+    (h : Call) (backward : Bool) :
+    List.Forall₂ (SameStep M) (source Bool.false h backward).surfaceBody
+      (source Bool.true h backward).surfaceBody := by
+  cases backward <;> cases mode : h.gemma
+  all_goals
+    simp only [source, Kernels.forwardRuntime, Kernels.forwardRuntimeIndexCommuted,
+      Kernels.backward, Kernels.backwardIndexCommuted, mode, Bool.false_eq_true, ↓reduceIte]
+    refine .cons (same_refl M _) (.cons (same_refl M _)
+      (.cons (same_refl M _) (.cons (same_refl M _) (.cons ?_ ?_))))
+    · constructor
+      · intro s
+        cases rowValue : s.regs .int [] "row_idx" <;>
+          simp [rowValue, step, evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, evalDeltas,
+            Option.bind, numeric, bop, Broadcast.leftIndex, Broadcast.rightIndex, Int.mul_comm]
+      · intro bounds s
+        simp [Safety.stepSafe_unfold, Safety.safeExpr_unfold, Safety.safeOp_unfold]
+    · exact List.forall₂_same.mpr (fun st _ => same_refl M st)
 
-theorem x_safe {α : Type} [Inhabited α] (M : Algebra α) (bounds : RegionName → Nat)
-    (candidate : Bool) (stride : Nat) (s : State α) :
-    Safety.traceSafeList M bounds [xStep candidate stride] s := by
-  rw [Safety.traceSafeList]
-  constructor
-  · cases candidate <;> simp [xStep,Safety.stepSafe,Safety.safeExpr,Safety.safeOp]
-  · cases step M (xStep candidate stride) s <;> simp
+private theorem paired_run {α : Type} [Inhabited α] (M : Algebra α)
+    {left right : List ComputeStmt} (paired : List.Forall₂ (SameStep M) left right)
+    (s : State α) : run M left s = run M right s := by
+  induction paired generalizing s with
+  | nil => rfl
+  | @cons a b left right same rest ih =>
+    simp only [run, same.1 s]
+    cases step M b s with
+    | none => rfl
+    | some t => exact ih t
 
-theorem source_exec {α : Type} [Inhabited α] (M : Algebra α) (s : State α) (h : Call) (backward : Bool) :
-    exec M (source Bool.false h backward) s = exec M (source Bool.true h backward) s := by
-  change run M (source Bool.false h backward).surfaceBody s = run M (source Bool.true h backward).surfaceBody s
-  simp only [source_split,run_append,x_run]
+private theorem paired_safe {α : Type} [Inhabited α] (M : Algebra α)
+    {left right : List ComputeStmt} (paired : List.Forall₂ (SameStep M) left right)
+    (bounds : RegionName → Nat) (s : State α) :
+    Safety.traceSafeList M bounds left s ↔ Safety.traceSafeList M bounds right s := by
+  induction paired generalizing s with
+  | nil => exact Iff.rfl
+  | @cons a b left right same rest ih =>
+    rw [Safety.traceSafeList_unfold M bounds (a :: left) s,
+      Safety.traceSafeList_unfold M bounds (b :: right) s]
+    dsimp only
+    rw [same.1 s, same.2 bounds s]
+    cases step M b s with
+    | none => exact Iff.rfl
+    | some t => exact and_congr_right (fun _ => ih t)
+
+/-- The complete state, including failure, agrees for every floating model.
+Successful full-grid IO is proved separately from the actual source. -/
+theorem source_exec {α : Type} [Inhabited α] (M : Algebra α) (s : State α)
+    (h : Call) (backward : Bool) :
+    exec M (source Bool.false h backward) s = exec M (source Bool.true h backward) s :=
+  paired_run M (source_steps M h backward) s
 
 theorem source_safe {α : Type} [Inhabited α] (M : Algebra α) (s : State α)
     (bounds : RegionName → Nat) (h : Call) (backward : Bool) :
-    TraceSafe M bounds (source Bool.false h backward) s ↔ TraceSafe M bounds (source Bool.true h backward) s := by
-  change Safety.traceSafeList M bounds (source Bool.false h backward).surfaceBody s ↔
-    Safety.traceSafeList M bounds (source Bool.true h backward).surfaceBody s
-  simp only [source_split,Safety.traceSafeList_append,run_append,x_run,x_safe]
+    TraceSafe M bounds (source Bool.false h backward) s ↔
+      TraceSafe M bounds (source Bool.true h backward) s :=
+  paired_safe M (source_steps M h backward) bounds s
+
+#axiomsClean source_exec
+#axiomsClean source_safe
 end
 end VeriTile.Bench.Repairs.FastRmsLayernorm.SourcePair

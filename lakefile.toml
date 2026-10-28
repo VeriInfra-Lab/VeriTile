@@ -61,6 +61,8 @@ globs = [
   "bench.tests.CallSignature", "bench.tests.CallRandomABI",
   "bench.tests.SourceFunction", "bench.tests.RankOneBlockPtr",
   "bench.tests.StatementSourceFunction",
+  "bench.tests.AttributeCastChain",
+  "bench.tests.ValueDTypeBody",
   "bench.tests.NarrowUnsignedBody",
   "bench.tests.NarrowUnsignedMemoryBody",
   "bench.tests.FloatInfinityLiteral",

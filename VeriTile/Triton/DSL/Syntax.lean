@@ -53,7 +53,10 @@ syntax (name := tritonRandRoundsKw) "tl.rand(" tritonExpr ", " tritonExpr "," "n
 -- Generated only by the source-profile prepass; a direct surface use is rejected.
 syntax (name := tritonRandProfiled) "tl.__rand_profiled(" term ", " tritonExpr ", " tritonExpr ")" : tritonExpr
 -- Only explicitly bound source helpers are admitted by the random prepass.
-syntax (name := tritonSourceHelperCall) (priority := low) ident "(" tritonExpr ")" : tritonExpr
+-- Python call results are atoms for postfix casts and indexing. This also
+-- lets an attribute-target cast, initially lexed as a dotted helper name,
+-- be followed by another cast before its checked syntax normalization.
+syntax:max (name := tritonSourceHelperCall) (priority := low) ident "(" tritonExpr ")" : tritonExpr
 syntax (name := tritonUniform32Profiled) "tl.__uniform32_profiled(" tritonExpr ")" : tritonExpr
 syntax (name := tritonUnsignedAddProfiled) "tl.__unsigned_add_profiled(" num ", " term ", " term ", " tritonExpr ", " tritonExpr ")" : tritonExpr
 syntax (name := tritonUnsignedMulProfiled) "tl.__unsigned_mul_profiled(" num ", " term ", " term ", " tritonExpr ", " tritonExpr ")" : tritonExpr
