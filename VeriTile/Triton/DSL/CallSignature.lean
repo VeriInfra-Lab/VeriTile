@@ -348,6 +348,40 @@ private partial def checkedArangeTerm? (value : Expr) : TermElabM (Option (TSynt
     return some (← `(_root_.VeriTile.Triton.Random.i32ArangeSize $size $proof))
   return none
 
+/-- A scalar signed full of a checked natural constant is a known forward
+range stride. Keep its source assignment, and specialize only the loop bound.
+Only a unique preceding top-level definition is accepted; any later, nested,
+tuple or iterator write invalidates the fact for the entire body. -/
+private partial def substituteRangeStrides (known : List (Name × TSyntax `tritonExpr))
+    (raw : Syntax) : MacroM Syntax := do
+  let args ← raw.getArgs.mapM (substituteRangeStrides known)
+  let rebuilt := match raw with
+    | .node info kind _ => Syntax.node info kind args
+    | _ => raw
+  if let `(tritonStmt| for $i:ident in range($a:tritonExpr, $b:tritonExpr, $step:ident) { $body:tritonStmt* }) := rebuilt then
+    if let some (_, value) := known.find? (fun p => p.1 == step.getId.eraseMacroScopes) then
+      return (← `(tritonStmt| for $i in range($a, $b, $value:tritonExpr) { $body* })).raw
+  return rebuilt
+
+private def specializeImmutableRangeStrides (body : Array (TSyntax `tritonStmt)) :
+    TermElabM (Array (TSyntax `tritonStmt)) := do
+  let written := body.toList.flatMap (fun s => assignedNames s.raw)
+  let mut known : List (Name × TSyntax `tritonExpr) := []
+  let mut out := #[]
+  for stmt in body do
+    out := out.push (⟨← liftMacroM <| substituteRangeStrides known stmt.raw⟩ : TSyntax `tritonStmt)
+    if let `(tritonStmt| $id:ident = tl.full([], $value:tritonExpr, tl.int64)) := stmt then
+      let name := id.getId.eraseMacroScopes
+      unless (written.filter (· == name)).length == 1 do continue
+      let `(tritonExpr| $($term:term)) := value | continue
+      let term ← elabTerm term (some (mkConst ``Nat))
+      let checked ← checkedArangeTerm? term
+      let closed ← getNatValue? (← whnf term)
+      unless checked.isSome || closed.any (· < 2^31) do continue
+      known := (name,value) :: known
+  return out
+
+
 /-- Finite literal results of an immutable string caller expression. The union
 is conservative: correlations between caller conditions are never assumed. -/
 private partial def finiteStringValues (value : Expr) : TermElabM (List String) := do
@@ -877,6 +911,7 @@ private def elaborateCallCore (profile : TSyntax `term) (stmts : Array (TSyntax 
       -- Conditional, tuple and augmented first assignments still fail closed.
       let rebindable := integerArguments ++ pointers.map (fun p => Name.mkSimple p.1)
       let stmts ← bindCallStatements rebindable values stmts
+      let stmts ← specializeImmutableRangeStrides stmts
       let stmts ← RankOneBlockPtr.lower stmts
       let stmts ← liftMacroM <| stmts.mapM fun st => do
         return (⟨← normalizeBoundaryTuples st.raw⟩ : TSyntax `tritonStmt)

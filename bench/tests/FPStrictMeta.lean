@@ -176,4 +176,65 @@ info:   model: exact-natural-addition-test
 #guard_msgs (drop info) in
 #axiomsClean forwarded_mixed
 
+
+/-- Abstract data must not make a structural derivation appear to use an
+opaque numerical proof. The theory itself remains an explicit parameter. -/
+theorem structural_data {α : Type} [StatementTheory α] (payload : α) :
+    Derivation [] [payload] [payload] := .refl _
+
+/-- A numerical premise applied to abstract data must still be reported. -/
+theorem opaque_from_data {α : Type} (payload : α) (a b : Nat)
+    (obtainProof : α → Derivation [] [a] [b]) : Derivation [] [a] [b] :=
+  obtainProof payload
+
+structure PackedProof (a b : Nat) where
+  proof : Derivation [] [a] [b]
+
+/-- Proof-bearing records are data, but their proof projections are inspected. -/
+theorem opaque_projection (a b : Nat) (packed : PackedProof a b) :
+    Derivation [] [a] [b] := packed.proof
+
+theorem certificate_from_data {α : Type} (payload : α) (a b : Nat)
+    (certificate : α → natTheory.Certified [a] [b]) : Derivation [] [a] [b] :=
+  .strict (certificate payload)
+
+/-- info: FP assumptions used by structural_data:
+---
+info:   none -/
+#guard_msgs in
+#print_fp_assumptions structural_data
+
+/-- info: FP assumptions used by opaque_from_data:
+---
+info:   unresolved FP proof: obtainProof payload (atomic assumptions unavailable) -/
+#guard_msgs in
+#print_fp_assumptions opaque_from_data
+
+/-- info: FP assumptions used by opaque_projection:
+---
+info:   unresolved FP proof: packed.1 (atomic assumptions unavailable) -/
+#guard_msgs in
+#print_fp_assumptions opaque_projection
+
+/-- info: FP assumptions used by certificate_from_data:
+---
+info:   unresolved FP proof: certificate payload (atomic assumptions unavailable)
+---
+info: Strict model certificates used by certificate_from_data:
+---
+info:   model: exact-natural-addition-test
+    certificate: certificate payload
+    conditional on proof premises: certificate -/
+#guard_msgs in
+#print_fp_assumptions certificate_from_data
+
+#guard_msgs (drop info) in
+#axiomsClean structural_data
+#guard_msgs (drop info) in
+#axiomsClean opaque_from_data
+#guard_msgs (drop info) in
+#axiomsClean opaque_projection
+#guard_msgs (drop info) in
+#axiomsClean certificate_from_data
+
 end FPStrictMetaTests

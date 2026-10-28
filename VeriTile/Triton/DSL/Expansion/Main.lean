@@ -2359,7 +2359,21 @@ private partial def hasKnownFloatingValue (env : Env) (raw : Syntax) : Bool :=
   let explicitLiteral := match (⟨raw⟩ : TSyntax `tritonExpr) with
     | `(tritonExpr| $_:scientific) => Bool.true
     | _ => Bool.false
-  here || explicitLiteral || raw.getArgs.any (hasKnownFloatingValue env)
+  -- An explicitly floating zero/full constructor is also source type
+  -- evidence. A later integer divisor can pin its accumulator in the coarse
+  -- whole-body scan, but cannot turn this assignment into integer arithmetic.
+  let rec floatingDTypeToken (value : Syntax) : Bool :=
+    let names := ["tl.float16", "tl.bfloat16", "tl.float32", "tl.float64",
+      "tl.float8e4nv", "tl.float8e5"]
+    if value.isAtom then names.contains value.getAtomVal
+    else if value.isIdent then names.contains value.getId.eraseMacroScopes.toString
+    else if value.getNumArgs == 1 then floatingDTypeToken value[0]
+    else Bool.false
+  let args := raw.getArgs
+  let explicitConstructor := args[0]?.any (fun first => first.isAtom &&
+      ["tl.zeros(", "tl.full("].contains first.getAtomVal) &&
+    args.any floatingDTypeToken
+  here || explicitLiteral || explicitConstructor || raw.getArgs.any (hasKnownFloatingValue env)
 
 /-- Carry known floating and int32 storage into nested load expressions, and
 preserve integer storage underneath unsigned casts. This is

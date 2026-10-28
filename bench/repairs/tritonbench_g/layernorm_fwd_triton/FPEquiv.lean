@@ -22,6 +22,7 @@ specification source_equivalence {α : Type} [Inhabited α] (M : Algebra α)
     (PairIO.equivalent M shape st eps injective)
 
 #axiomsClean source_equivalence
+#print_fp_assumptions source_equivalence
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end

@@ -30,7 +30,7 @@ abbrev layernormIO (R : NativeKernel.Reductions) (shape : Shape) (st : Strides)
   schedule := fun _ => (Source.programs shape).map (fun row => {
     kernel := Source.kernel (Source.parameters st shape.columns)
     backend := NativeKernel.algebra R
-    arguments := [⟨"eps_arg",.real,[],fun _ => epsilon⟩]
+    arguments := [⟨"eps",.real,[],fun _ => epsilon⟩]
     pids := fun dim => if dim=0 then row.1.val else if dim=1 then row.2.val else 0})
   encode := id
   observe := fun _ _ => id

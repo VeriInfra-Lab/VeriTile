@@ -15,7 +15,7 @@ def add (M : Algebra α) := M.binary (some .fp32) .real .add
 def sub (M : Algebra α) := M.binary (some .fp32) .real .sub
 def mul (M : Algebra α) := M.binary (some .fp32) .real .mul
 def divide (M : Algebra α) (N : Nat) (x : α) :=
-  M.binary (some .fp32) .real .div x (M.literal (some .fp32) .real N)
+  M.binary (some .fp32) .real .div x (M.fromInt (some .fp32) (N : Int))
 def sum (M : Algebra α) (a : Fin 128 → α) : α :=
   M.reduceSum (some .fp32) ⟨0,by simp⟩ Bool.false
     (fun i : TileIndex [128] => a i.1) PUnit.unit
@@ -62,10 +62,10 @@ theorem source_mean (M : Algebra α) (p : Source.Parameters) (s : State α)
     (hb : p.block=128) (x : Nat → α)
     (hx : ∀ j, j<p.columns → (s.mem p.x (Source.xBase p s+j*p.xDimStride)).read .fp32=x j) :
     Source.meanValue M p s=mean M p.columns x := by
-  rcases p with ⟨rx,rw,ry,xs,xh,xd,ys,yh,yd,wh,wd,N,B⟩
+  rcases p with ⟨rx,rw,ry,xs,xh,xd,ys,yh,yd,wh,wd,N,B,validBlock⟩
   dsimp only at hb
   subst B
-  let p : Source.Parameters := ⟨rx,rw,ry,xs,xh,xd,ys,yh,yd,wh,wd,N,128⟩
+  let p : Source.Parameters := ⟨rx,rw,ry,xs,xh,xd,ys,yh,yd,wh,wd,N,128,⟨by decide, by decide, 7, by decide⟩⟩
   have hv : Source.xValue M p s=loadX M p.columns x := by
     funext j
     by_cases h : j<p.columns
@@ -83,16 +83,16 @@ theorem source_mean (M : Algebra α) (p : Source.Parameters) (s : State α)
   rw [hs]
   exact congrArg (fun (values : TileIndex [128] → α) => M.binary (some .fp32) .real .div
       (M.reduceSum (some .fp32) ⟨0,by simp⟩ Bool.false values PUnit.unit)
-      (M.literal (some .fp32) .real p.columns)) hf
+      (M.fromInt (some .fp32) (p.columns : Int))) hf
 
 theorem source_variance (M : Algebra α) (p : Source.Parameters) (s : State α)
     (hb : p.block=128) (x : Nat → α)
     (hx : ∀ j, j<p.columns → (s.mem p.x (Source.xBase p s+j*p.xDimStride)).read .fp32=x j) :
     Source.varianceValue M p s=variance M p.columns x (mean M p.columns x) := by
-  rcases p with ⟨rx,rw,ry,xs,xh,xd,ys,yh,yd,wh,wd,N,B⟩
+  rcases p with ⟨rx,rw,ry,xs,xh,xd,ys,yh,yd,wh,wd,N,B,validBlock⟩
   dsimp only at hb
   subst B
-  let p : Source.Parameters := ⟨rx,rw,ry,xs,xh,xd,ys,yh,yd,wh,wd,N,128⟩
+  let p : Source.Parameters := ⟨rx,rw,ry,xs,xh,xd,ys,yh,yd,wh,wd,N,128,⟨by decide, by decide, 7, by decide⟩⟩
   have hm := source_mean M p s rfl x hx
   have hv : Source.xValue M p s=loadX M p.columns x := by
     funext j
@@ -116,7 +116,7 @@ theorem source_variance (M : Algebra α) (p : Source.Parameters) (s : State α)
   rw [hs]
   exact congrArg (fun (values : TileIndex [128] → α) => M.binary (some .fp32) .real .div
       (M.reduceSum (some .fp32) ⟨0,by simp⟩ Bool.false values PUnit.unit)
-      (M.literal (some .fp32) .real p.columns)) hf
+      (M.fromInt (some .fp32) (p.columns : Int))) hf
 
 theorem source_output (M : Algebra α) (p : Source.Parameters) (s : State α)
     (hb : p.block=128) (x w : Nat → α)

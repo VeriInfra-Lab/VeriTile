@@ -11,7 +11,7 @@ abbrev invocation {α : Type} (M : Algebra α) (shape : Shape) (st : Strides)
     (eps : α) (row : Row shape) : Invocation α where
   kernel := Source.kernel (Source.parameters st shape.columns)
   backend := M
-  arguments := [⟨"eps_arg",.real,[],fun _ => eps⟩]
+  arguments := [⟨"eps",.real,[],fun _ => eps⟩]
   pids := fun dim => if dim=0 then row.1.val else if dim=1 then row.2.val else 0
 
 def rowOf (shape : Shape) (j : TileIndex [shape.sequences,shape.heads,shape.columns]) : Row shape :=

@@ -1,0 +1,178 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/layernorm_fwd_triton/layernorm_fwd_triton_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Kernels.lean",
+    "python_function": "_layer_norm_fwd_kernel",
+    "lean_definition": "runtimeSource",
+    "signature_definition": "signature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "W",
+          "fp32"
+        ],
+        [
+          "Y",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_x_N",
+          "i64"
+        ],
+        [
+          "stride_x_hn",
+          "i64"
+        ],
+        [
+          "stride_x_hd",
+          "i64"
+        ],
+        [
+          "stride_y_N",
+          "i64"
+        ],
+        [
+          "stride_y_hn",
+          "i64"
+        ],
+        [
+          "stride_y_hd",
+          "i64"
+        ],
+        [
+          "stride_w_hn",
+          "i64"
+        ],
+        [
+          "stride_w_hd",
+          "i64"
+        ],
+        [
+          "N",
+          "i64"
+        ],
+        [
+          "eps",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "typedFP32Storage": true,
+      "readPorts": [
+        "X",
+        "W"
+      ],
+      "writePorts": [
+        "Y"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_x_N": "stride_x_N",
+      "stride_x_hn": "stride_x_hn",
+      "stride_x_hd": "stride_x_hd",
+      "stride_y_N": "stride_y_N",
+      "stride_y_hn": "stride_y_hn",
+      "stride_y_hd": "stride_y_hd",
+      "stride_w_hn": "stride_w_hn",
+      "stride_w_hd": "stride_w_hd",
+      "N": "N"
+    },
+    "profile_variant": "fp32_storage_i64_indices_runtime_epsilon"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/layernorm_fwd_triton/layernorm_fwd_triton_scheduled.py",
+    "lean": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Kernels.lean",
+    "python_function": "_layer_norm_fwd_kernel_scheduled",
+    "lean_definition": "runtimeSourceCandidate",
+    "signature_definition": "signature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "W",
+          "fp32"
+        ],
+        [
+          "Y",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_x_N",
+          "i64"
+        ],
+        [
+          "stride_x_hn",
+          "i64"
+        ],
+        [
+          "stride_x_hd",
+          "i64"
+        ],
+        [
+          "stride_y_N",
+          "i64"
+        ],
+        [
+          "stride_y_hn",
+          "i64"
+        ],
+        [
+          "stride_y_hd",
+          "i64"
+        ],
+        [
+          "stride_w_hn",
+          "i64"
+        ],
+        [
+          "stride_w_hd",
+          "i64"
+        ],
+        [
+          "N",
+          "i64"
+        ],
+        [
+          "eps",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "typedFP32Storage": true,
+      "readPorts": [
+        "X",
+        "W"
+      ],
+      "writePorts": [
+        "Y"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_x_N": "stride_x_N",
+      "stride_x_hn": "stride_x_hn",
+      "stride_x_hd": "stride_x_hd",
+      "stride_y_N": "stride_y_N",
+      "stride_y_hn": "stride_y_hn",
+      "stride_y_hd": "stride_y_hd",
+      "stride_w_hn": "stride_w_hn",
+      "stride_w_hd": "stride_w_hd",
+      "N": "N"
+    },
+    "profile_variant": "fp32_storage_i64_indices_runtime_epsilon"
+  }
+]

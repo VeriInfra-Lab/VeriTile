@@ -76,6 +76,7 @@ private partial def dtypeToken (raw : Syntax) : Option Name :=
 
 private def explicitCastType (pointers : Types) (values : Values) (e : TSyntax `tritonExpr) : Option Triton.PointerType := do
   let direct : Option (TSyntax `tritonDType) := match e with
+    | `(tritonExpr| tl.cast($_:tritonExpr, $dtype:tritonDType)) => some dtype
     | `(tritonExpr| tl.load($_:tritonExpr $[, $_:tritonMemKwarg]*).to($dtype:tritonDType)) => some dtype
     | `(tritonExpr| tl.load($_:tritonExpr, $_:tritonExpr $[, $_:tritonMemKwarg]*).to($dtype:tritonDType)) => some dtype
     | _ => none
@@ -457,6 +458,37 @@ private def convertedValue (pointers : Types) (values : Values) (destination val
 private partial def mentions (names : List Name) (raw : Syntax) : Bool :=
   (raw.isIdent && names.contains raw.getId.eraseMacroScopes) || raw.getArgs.any (mentions names)
 
+/-- Conservatively identify writes in a loop, including tuple/reduction
+assignments and nested iterators. Unknown productions mentioning a name count
+as writes. Only proven immutable entry facts may survive an empty loop. -/
+private partial def mayWrite (target : Name) (raw : Syntax) : Bool := Id.run do
+  if raw.isIdent || raw.isAtom then return Bool.false
+  let args := raw.getArgs
+  if args[0]?.any Syntax.isIdent then
+    if let some position := args.findIdx? (fun arg => arg.isAtom &&
+        ["=",":=","+=","-=","*=","/=","//=","%="].contains arg.getAtomVal.trimAscii.toString) then
+      return (args.extract 0 position).any (mentions [target])
+  if args.size > 1 && args[0]!.isAtom && args[1]!.isIdent &&
+      ["for","tl.for"].contains args[0]!.getAtomVal.trimAscii.toString then
+    if args[1]!.getId.eraseMacroScopes == target then return Bool.true
+  -- Expressions cannot mutate a scalar binding. Recurse through control-flow
+  -- nodes; unsupported statement forms are deliberately not assumed harmless.
+  if (raw.getKind.toString.splitOn "tritonStmt").length > 1 then
+    match (⟨raw⟩ : TSyntax `tritonStmt) with
+    | `(tritonStmt| if $_:tritonExpr { $yes:tritonStmt* } else { $no:tritonStmt* }) =>
+        return (yes ++ no).any (fun s => mayWrite target s.raw)
+    | `(tritonStmt| if $_:tritonExpr { $yes:tritonStmt* }) =>
+        return yes.any (fun s => mayWrite target s.raw)
+    | `(tritonStmt| for $_:ident in range($_:tritonExpr, $_:tritonExpr, $_:tritonExpr) { $body:tritonStmt* })
+    | `(tritonStmt| for $_:ident in range($_:tritonExpr, $_:tritonExpr) { $body:tritonStmt* })
+    | `(tritonStmt| for $_:ident in range($_:tritonExpr) { $body:tritonStmt* }) =>
+        return body.any (fun s => mayWrite target s.raw)
+    | `(tritonStmt| tl.store($_:tritonExpr, $_:tritonExpr))
+    | `(tritonStmt| tl.store($_:tritonExpr, $_:tritonExpr, $_:tritonMemKwarg $[, $_:tritonMemKwarg]*)) =>
+        return Bool.false
+    | _ => return mentions [target] raw
+  return args.any (mayWrite target)
+
 private def checkInvariant (invariants : Values) (id : Ident) (value : Option ValueInfo) : MacroM Unit := do
   if let some (_, expected) := invariants.find? (fun p => p.1 == name id) then
     unless value == some expected do
@@ -515,19 +547,16 @@ private partial def lowerWithState (pointers : Types) (values : Values)
         if (lookup pointers iterator).isSome || values.any (fun p => p.1 == name iterator) then
           Macro.throwErrorAt iterator "loop iterator shadows a tracked pointer or value"
         for st in body do rejectPointerRebinding pointers st.raw
-        -- This pass proves floating store precision, not integer SSA widths.
-        -- Forget integer entry facts before lowering a possibly zero-trip loop:
-        -- arithmetic can reassign those registers, and unknown integer widths
-        -- must retain the destination conversion. Explicit source casts remain
-        -- in the ordinary expression compiler. Floating carried facts still
-        -- require a stable dtype on every assignment and every branch.
-        let stable := values.filter (fun p => match p.2 with
+        -- Floating carried values must keep their dtype on every path.
+        -- Other facts survive only when no body statement can rebind them;
+        -- this includes the zero-trip path and avoids inventing integer SSA
+        -- widths for mutated loop registers.
+        let floating := values.filter (fun p => match p.2 with
           | .typed dtype => [.fp16,.bf16,.fp32,.fp64,.f8e4,.f8e5,.inputFloat,.outputFloat].contains dtype
           | _ => Bool.false)
-        let entry := values.filter (fun p => match p.2 with
-          | .typed dtype => [.fp16,.bf16,.fp32,.fp64,.f8e4,.f8e5,.inputFloat,.outputFloat].contains dtype
-          | _ => Bool.true)
-        let (body,_,_) ← lowerWithState pointers entry body.toList (invariants ++ stable)
+        let stable := values.filter (fun p =>
+          floating.any (fun q => q.1 == p.1) || !body.any (fun st => mayWrite p.1 st.raw))
+        let (body,_,_) ← lowerWithState pointers stable body.toList (invariants ++ floating)
         return (body.toArray, stable)
       match stmt with
       | `(tritonStmt| $a:ident, $b:ident = tl.broadcast($x:tritonExpr, $y:tritonExpr))

@@ -1,6 +1,14 @@
 # Three-pass strided FP32 layer normalization: kernel proof
 
-The current entries prove the repaired kernel itself. `Source.launch` executes
+`Kernels.lean` now contains the complete original 25-statement Python body and
+the existing scheduled candidate in `runtimeSource` and `runtimeSourceCandidate`.
+Caller types, runtime scalar bindings and the checked block size remain outside
+`triton { ... }`. Every int64 cast, `tl.full`, signed loop, FP32 cast, mask and
+output conversion is retained. The selected source profile has FP32 tensor
+storage and a runtime FP32 epsilon; optional host ABI conversion remains explicit.
+`LegacyKernels.lean` retains the old literal Real quotation for historical helpers.
+
+The public proof statements retain their previous complete kernel scope. `Source.launch` executes
 the canonical typed DSL for every program in the original `(S,H)` grid. The
 public IO results prove actual source access safety, successful execution,
 every output, and the complete memory frame. `Correctness.layernormIO` and
@@ -50,7 +58,10 @@ unrestricted. Empty tensors need no unused alignment or address bound.
 ## Execution, native precision, and addresses
 
 `SourceModel`, `SourceAccumulate`, `SourceOutput`, `SourceComplete`, and
-`SourceContract` adapt the historical typed proofs to the repaired strides.
+`SourceContract` describe the actual signed source loops. `SignedRange.values`
+connects their signed induction registers to the ordered nonnegative recurrence.
+The column divisor uses the actual `fromInt` conversion after the explicit
+int64 cast, rather than an unrelated floating literal.
 Only active output addresses need to be injective, preserving zero and huge
 unused singleton strides. `KernelGrid` composes all programs and proves every
 regional output and exterior cell, retaining exact dtype tags.
@@ -71,7 +82,7 @@ expand complete ordered trees; no callback can supply a reduction or final
 result. `sourceOrderProfile` witnesses consistency of the profile interface.
 
 `KernelABI` retains actual epsilon host/packed scalar kinds and their local
-FP32 conversion. The converted word enters `eps_arg` for every program and
+FP32 conversion. The converted word enters `eps` for every program and
 the independent output graph through the same external scalar leaf. Compiler
 shapes erase its payload. Both public interpretations use one runtime source
 quotation; the Real theorem supplies the ideal Real epsilon scalar. It proves modulo-64 products and pointer updates, including unused
@@ -118,7 +129,7 @@ and leaves cell3 unwritten. The current source regression reproduces that
 collision and verifies the repaired scatter. The Lean counterexample proves
 the colliding original and distinct repaired address expressions.
 
-Targeted CPU source regression passes 13 shape/view cases, 16 rejected calls,
+Retained historical CPU source regression records cover 13 shape/view cases, 16 rejected calls,
 bool epsilon, and the original collision. Cases include all empty axes,
 singletons, tails, multiple chunks, offsets, broadcasts, input aliases and huge
 unused singleton strides. CUDA and host operations are mocked; these are source
@@ -132,7 +143,8 @@ The primary `layernorm_fwd_triton_kernel_real` and optional
 `layernorm_fwd_triton_kernel_native` in `Misc/NativeCorrect.lean` take shape/strides,
 output-coordinate injectivity, and scalar operands; shared IO binds logical
 inputs and keeps execution states out of the main statement. Complete Tensor
-applications remain unchanged in `Misc/TensorBridge.lean`; `KernelBoundary` supplies
+applications retain their public parameters and input conditions in
+`Misc/TensorBridge.lean`; `KernelBoundary` supplies
 the original-input correspondence to the same `KernelGrid.complete` foundation.
 
 `Proofs/SourceSafetySteps.lean` checks all three actual loop bodies, and
@@ -150,13 +162,13 @@ register-scheduling candidate; no measured speedup is claimed. The three streami
 passes, every loop iteration, reduction order, FP32 operation/cast, mask, stride,
 int64 Python index widening and output remain unchanged.
 
-`Kernels.lean` contains ordinary complete `triton` quotations for the historical
-literal instance, actual runtime instance, and candidate. Runtime epsilon uses
-standard `tl.param eps_arg : tl.float32`, with the original per-invocation scalar
-binding and no dummy assignment. Complete original and runtime AST identities
-against the former frontend/template are checked by reflexivity in the campaign
-preservation artifact. Proof-only source decomposition lives in
-`Proofs/SourceModel.lean`.
+`Kernels.lean` contains the two complete Python function bodies in ordinary
+`triton` quotations. The external call signature supplies runtime epsilon as
+`eps : tl.float32`, pointer storage dtypes and signed metadata; the pasted body
+contains no `tl.param` or `tl.region` declarations. The historical literal
+quotation is retained separately in `LegacyKernels.lean`. Proof-only source
+decomposition and the semantic connection to the actual signed source live in
+`Proofs/SourceModel.lean` and its execution helpers.
 
 `PairSource` proves the scheduled body returns the same complete state by
 commuting independent register assignments. `PairExecution` lifts this through
@@ -167,10 +179,18 @@ condition remains explicit; read-only X/W aliasing, arbitrary accepted strides,
 empty axes, tails and all input words remain admitted. The main pair has an empty
 experimental rule set and introduces no numerical experiment obligations.
 
-The candidate passes the existing bounded CPU checker: 13 full source/storage
-cases, 16 guard rejections, bool epsilon and the original inner-stride collision.
+Retained historical candidate CPU checks cover 13 full source/storage cases,
+16 guard rejections, bool epsilon and the original inner-stride collision.
+Current Torch availability and replay results are recorded separately in the
+source-migration receipt.
 The complete Python AST differs only by public identifiers and the documented
 load scheduling. The independent Real theorem and optional native/Tensor results
 remain at their original scope.
 
 可选证明入口统一位于 `Misc/`：`Misc/TensorBridge.lean`, `Misc/NativeCorrect.lean`, `Misc/PublicAudit.lean`。文件迁移保留声明全名、类型、证明和原有状态；主入口不再为兼容重导出可选 native 结果。所需 IO、公式及连接助手继续保留原位置。
+
+The two 25-statement source mappings and their mutation tests pass. Targeted
+proof replay covers full IO, independent Real mathematics, the actual FP pair and
+the retained optional applications. The frozen review receipt records cumulative
+replay, the independent clean build, trust audits and unavailable checks; source
+correspondence alone is not proof acceptance.
