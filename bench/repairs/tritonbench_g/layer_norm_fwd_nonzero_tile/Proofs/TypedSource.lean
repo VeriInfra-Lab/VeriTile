@@ -1,4 +1,4 @@
-import bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.SourceBinding
+import bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.RawSource
 import bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.WholeReduction
 import bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.TypedSupport
 
@@ -17,7 +17,7 @@ set_option linter.unusedSimpArgs false
 
 def Ready {α : Type} (f : Flags) (r : Regions) (stride : Strides)
     (block row : Nat) (s : State α) : Prop :=
-  s.regs .nat [] "row" = some (fun _ => row) ∧
+  s.regs .int [] "row" = some (fun _ => (row : Int)) ∧
   s.regs .nat [block] "cols" = some (fun j => j.1.val) ∧
   s.regs .ptr [] "Y" = some (fun _ => (r.y,row*stride.y)) ∧
   (f.x1=Bool.true → s.regs .ptr [] "X1" = some (fun _ => (r.x1,row*stride.x1))) ∧
@@ -28,20 +28,21 @@ def Ready {α : Type} (f : Flags) (r : Regions) (stride : Strides)
 
 def stagePrefix (f : Flags) (r : Regions) (stride : Strides) (M N : Nat)
     (eps p : ℝ) (block : Nat) (hb : Random.ArangeSizeDomain block) : List ComputeStmt :=
-  (repaired f r stride M N eps p block hb).surfaceBody.take 10
+  (actual f r stride M N eps p block hb).surfaceBody.take 9
 
 theorem prefix_success {α : Type} [Inhabited α] (A : Algebra α)
     (f : Flags) (r : Regions) (stride : Strides) (M N : Nat)
     (eps p : ℝ) (block : Nat) (hb : Random.ArangeSizeDomain block) (s : State α) :
     ∃ t, run (engine A) (stagePrefix f r stride M N eps p block hb) s = some t ∧
       Ready f r stride block (s.pids 0) t := by
-  rcases f with ⟨rms,res,resout,bias,drop,mask,scale,x1,w1,b1⟩
-  cases res <;> cases resout <;> cases x1 <;> cases w1
-  all_goals simp [stagePrefix,repaired,original,ComputeKernel.surfaceBody,
+  by_cases hN : N = 1
+  all_goals rcases f with ⟨rms,res,resout,bias,drop,mask,scale,x1,w1,b1⟩
+  all_goals cases res <;> cases resout <;> cases x1 <;> cases w1
+  all_goals simp [stagePrefix,actual,Source.kernel,Source.rawKernel,Source.rawKernelOne,hN,sourceFlags,sourceRegions,sourceStrides,ComputeKernel.surfaceBody,
     run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,integralMod,bop,natLt,
     numericLt,Cell.read,ofFloat,toFloat,Region.cast,Random.i32ArangeSize,
-    State.setReg,Ready]
+    State.setReg,Ready,←Int.natCast_mul,←Int.natCast_add,-Nat.cast_mul,-Nat.cast_add]
   all_goals (repeat' apply And.intro)
   all_goals (funext i; cases i; simp [FP.Structural.bop])
 

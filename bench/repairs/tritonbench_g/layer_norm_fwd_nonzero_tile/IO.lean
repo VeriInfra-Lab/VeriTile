@@ -77,7 +77,9 @@ def outputAddress (stride : Strides) (M N : Nat) (o : Fin 7) (j : Nat) : Nat :=
   | 5 => j
   | 6 => M*N+j
 
-/-- Seven writable channels; unchanged input/residual and seed views follow
+/-- Historical algorithm view retained for its existing proof helpers. The current
+pasted-source Real interface is the mathematical instance of NativeInterface.io.
+Seven writable channels; unchanged input/residual and seed views follow
 from the exact exterior frame and are retained in the raw result helpers. -/
 def io (f : Flags) (r : Regions) (stride : Strides) (M N : Nat) (eps p : ℝ) :
     AlgorithmProgramIO where
@@ -101,7 +103,7 @@ def io (f : Flags) (r : Regions) (stride : Strides) (M N : Nat) (eps p : ℝ) :
   omask := fun o _ _ _ _ _ => outputActive f o
   swin := fun i => Fin.elim0 i
   smask := fun i => Fin.elim0 i
-  stages := fun _ => [.ordinary ⟨(quoted f r stride M N eps p).eraseDType,by
+  stages := fun _ => [.ordinary ⟨(repaired f r stride M N eps p (tile N) (tile_arange N)).eraseDType,by
     exact RealSurface.erase_projection _ (original_toAlgorithm_supported f r stride M N eps p (tile N) (tile_arange N))⟩ (WholeGrid.grid M)]
 
 abbrev Arrays (M N : Nat) := (i : Fin 9) → Fin (inputArity M N i) → (inputType i).carrier

@@ -29,14 +29,14 @@ def RowValues {α : Type} [Inhabited α] (A : Algebra α) (cmp : Comparisons A)
     t.mem r.y1 (row*stride.y1+j.1.val)=Cell.mk .real
       (affineValue A f.b1 (normalizedValues A f.rms N eps v j)
         (raw A s r.weight1 0 N j.1.val) (raw A s r.bias1 0 N j.1.val))) ∧
-  t.mem r.rstd row=Cell.mk .real (cast A (rstdValue A f.rms N eps v)) ∧
-  (f.rms=Bool.false → t.mem r.mean row=Cell.mk .real (cast A (meanValue A N v)))
+  t.mem r.rstd row=Cell.mk .real (rstdValue A f.rms N eps v) ∧
+  (f.rms=Bool.false → t.mem r.mean row=Cell.mk .real (meanValue A N v))
 
 structure GridRun {α : Type} [Inhabited α] (A : Algebra α) (f : Flags) (r : Regions)
     (stride : Strides) (M N : Nat) (eps p : ℝ) (block : Nat)
     (hb : Random.ArangeSizeDomain block) (initial final : State α) where
   rows : Fin M → State α
-  executed : ∀ i, FP.Structural.exec (engine A) (repaired f r stride M N eps p block hb)
+  executed : ∀ i, FP.Structural.exec (engine A) (actual f r stride M N eps p block hb)
     (atRow initial M i.val)=some (rows i)
   framed : ∀ i, Frame f r stride M N i.val (atRow initial M i.val) (rows i)
   disjoint : ∀ (i j : Fin M) region offset,
@@ -93,7 +93,7 @@ theorem source_grid_post {α : Type} [Inhabited α] (A : Algebra α) (cmp : Comp
     ∃ t, Nonempty (GridRun A f r stride M N eps p block hb s t) ∧
       GridPost A cmp f r stride M N eps p block s t := by
   have hrows : ∀ i : Fin M, ∃ t,
-      FP.Structural.exec (engine A) (repaired f r stride M N eps p block hb) (atRow s M i.val)=some t ∧
+      FP.Structural.exec (engine A) (actual f r stride M N eps p block hb) (atRow s M i.val)=some t ∧
       RowPost A cmp f r stride M N eps p block i.val (atRow s M i.val) t := by
     intro i
     simpa [atRow] using source_row_post A cmp f r stride M N eps p block hb (atRow s M i.val) hsep hgeo (by simpa [atRow] using i.isLt)

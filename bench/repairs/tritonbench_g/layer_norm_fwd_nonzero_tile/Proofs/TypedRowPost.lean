@@ -37,15 +37,15 @@ def RowPost {α : Type} [Inhabited α] (A : Algebra α) (cmp : Comparisons A)
     t.mem r.y1 (row*stride.y1+j.1.val)=Cell.mk .real
       (affineValue A f.b1 (normalizedValues A f.rms N eps v j)
         (raw A s r.weight1 0 N j.1.val) (raw A s r.bias1 0 N j.1.val))) ∧
-  t.mem r.rstd row=Cell.mk .real (cast A (rstdValue A f.rms N eps v)) ∧
-  (f.rms=Bool.false → t.mem r.mean row=Cell.mk .real (cast A (meanValue A N v)))
+  t.mem r.rstd row=Cell.mk .real (rstdValue A f.rms N eps v) ∧
+  (f.rms=Bool.false → t.mem r.mean row=Cell.mk .real (meanValue A N v))
 
 theorem source_row_post {α : Type} [Inhabited α] (A : Algebra α) (cmp : Comparisons A)
     (f : Flags) (r : Regions) (stride : Strides) (M N : Nat)
     (eps p : ℝ) (block : Nat) (hb : Random.ArangeSizeDomain block) (s : State α)
     (hsep : Domain.ReadWriteSeparated f r) (hgeo : NativeGeometry.Geometry f r stride M N)
     (hrow : s.pids 0<M) :
-    ∃ t, FP.Structural.exec (engine A) (repaired f r stride M N eps p block hb) s=some t ∧
+    ∃ t, FP.Structural.exec (engine A) (actual f r stride M N eps p block hb) s=some t ∧
       RowPost A cmp f r stride M N eps p block (s.pids 0) s t := by
   have hn := hgeo.outputs
   simp only [List.nodup_cons,List.mem_cons,List.not_mem_nil,not_or,List.nodup_nil,and_true] at hn
@@ -78,10 +78,12 @@ theorem source_row_post {α : Type} [Inhabited α] (A : Algebra α) (cmp : Compa
   have hresmem : t.mem r.residualOut=u.mem r.residualOut := funext (hkeep _ (Or.inl rfl))
   have hmaskmem : t.mem r.dropoutMask=u.mem r.dropoutMask := funext (hkeep _ (Or.inr rfl))
   refine ⟨t,?_,hfu.trans (hfv.trans hft),?_,?_,?_,?_,?_⟩
-  · have hcode : (repaired f r stride M N eps p block hb).surfaceBody=
-        (repaired f r stride M N eps p block hb).surfaceBody.take 15 ++
-        normalization f r stride M N eps p block hb ++ affine f r stride M N eps p block hb := rfl
-    change run (engine A) (repaired f r stride M N eps p block hb).surfaceBody s=some t
+  · have hcode : (actual f r stride M N eps p block hb).surfaceBody=
+        (actual f r stride M N eps p block hb).surfaceBody.take 14 ++
+        normalization f r stride M N eps p block hb ++ affine f r stride M N eps p block hb := by
+      by_cases hN : N = 1 <;>
+        simp only [normalization,affine,actual,Source.kernel,hN,ite_true,ite_false] <;> rfl
+    change run (engine A) (actual f r stride M N eps p block hb).surfaceBody s=some t
     rw [hcode]
     simp only [run_append,hu,hv,ht,Option.bind_some]
   · simpa only [InputPost,hresmem,hmaskmem] using hpu

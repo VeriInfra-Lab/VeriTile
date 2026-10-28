@@ -12,9 +12,9 @@ def quoted (f : Flags) (r : Regions) (stride : Strides) (M N : Nat) (eps p : ℝ
     M N eps p (tile N) (tile_arange N)
 
 theorem source_exact (f : Flags) (r : Regions) (stride : Strides) (M N : Nat) (eps p : ℝ) :
-    quoted f r stride M N eps p=repaired f r stride M N eps p (tile N) (tile_arange N) := rfl
+    quoted f r stride M N eps p=TypedSource.actual f r stride M N eps p (tile N) (tile_arange N) := rfl
 
-/-- Complete shared source execution is proved for the repaired positive tile,
+/-- Complete pasted source execution is proved for the repaired positive tile,
 including N=0. No execution-success or arithmetic-result premise is supplied. -/
 theorem source_row {α : Type} [Inhabited α] (A : Algebra α) (cmp : TypedSource.Comparisons A)
     (f : Flags) (r : Regions) (stride : Strides) (M N : Nat) (eps p : ℝ) (s : State α)

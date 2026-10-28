@@ -39,31 +39,39 @@ theorem affine_y_readback {α : Type} [Inhabited α] (A : Algebra α)
     t.mem r.y (row*stride.y+j.1.val)=Cell.mk .real
       (affineValue A f.bias (normalizedValues A f.rms N eps v j)
         (raw A s r.weight 0 N j.1.val) (raw A s r.bias 0 N j.1.val)) := by
-  rcases hs with ⟨hrow,hcols,hy,hx1,hres,hresout,hy1,_⟩
-  cases hrms : f.rms
-  · have hmean := hm hrms
-    cases hbias : f.bias <;> cases hw1 : f.w1 <;> cases hb1 : f.b1
-    all_goals simp [affine,repaired,original,ComputeKernel.surfaceBody,
-      run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
-      Option.bind,ComputeDType.eraseDType,numeric,FP.Structural.bop,natLt,
+  by_cases hN : N = 1
+  all_goals
+    rcases hs with ⟨hrow,hcols,hy,hx1,hres,hresout,hy1,_⟩
+    cases hrms : f.rms
+    · have hmean := hm hrms
+      cases hbias : f.bias <;> cases hw1 : f.w1 <;> cases hb1 : f.b1
+      all_goals simp [affine,actual,Source.kernel,Source.rawKernel,Source.rawKernelOne,hN,sourceFlags,sourceRegions,sourceStrides,ComputeKernel.surfaceBody,
+        run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
+        Option.bind,ComputeDType.eraseDType,numeric,FP.Structural.bop,natLt,
+        ←Int.natCast_mul,←Int.natCast_add,-Nat.cast_mul,-Nat.cast_add,
       numericLt,Region.cast,Random.i32ArangeSize,hcols,hy,hy1,hx,hstd,hmean,hrms,hbias,hw1,hb1] at ht
-    all_goals subst t
-    all_goals try rw [vector_frame r.y1 r.y _ _ _ _ _ _ (by simp [hysep])]
-    all_goals try simp only [State.setReg_mem]
-    all_goals rw [vector_readback _ _ _ _ _ _ j hj]
-    all_goals simp [affineValue,normalizedValues,raw,cast,op,defaultOp,hrms,hbias,hj,ofFloat,toFloat]
-    all_goals try rfl
-  · cases hbias : f.bias <;> cases hw1 : f.w1 <;> cases hb1 : f.b1
-    all_goals simp [affine,repaired,original,ComputeKernel.surfaceBody,
-      run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
-      Option.bind,ComputeDType.eraseDType,numeric,FP.Structural.bop,natLt,
+      all_goals subst t
+      all_goals try subst N
+      all_goals try simp only [← Nat.lt_one_iff]
+      all_goals try rw [vector_frame r.y1 r.y _ _ _ _ _ _ (by simp [hysep])]
+      all_goals try simp only [State.setReg_mem]
+      all_goals rw [vector_readback _ _ _ _ _ _ j hj]
+      all_goals simp [affineValue,normalizedValues,raw,cast,op,defaultOp,hrms,hbias,hj,ofFloat,toFloat]
+      all_goals try rfl
+    · cases hbias : f.bias <;> cases hw1 : f.w1 <;> cases hb1 : f.b1
+      all_goals simp [affine,actual,Source.kernel,Source.rawKernel,Source.rawKernelOne,hN,sourceFlags,sourceRegions,sourceStrides,ComputeKernel.surfaceBody,
+        run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
+        Option.bind,ComputeDType.eraseDType,numeric,FP.Structural.bop,natLt,
+        ←Int.natCast_mul,←Int.natCast_add,-Nat.cast_mul,-Nat.cast_add,
       numericLt,Region.cast,Random.i32ArangeSize,hcols,hy,hy1,hx,hstd,hrms,hbias,hw1,hb1] at ht
-    all_goals subst t
-    all_goals try rw [vector_frame r.y1 r.y _ _ _ _ _ _ (by simp [hysep])]
-    all_goals try simp only [State.setReg_mem]
-    all_goals rw [vector_readback _ _ _ _ _ _ j hj]
-    all_goals simp [affineValue,normalizedValues,raw,cast,op,defaultOp,hrms,hbias,hj,ofFloat,toFloat]
-    all_goals try rfl
+      all_goals subst t
+      all_goals try subst N
+      all_goals try simp only [← Nat.lt_one_iff]
+      all_goals try rw [vector_frame r.y1 r.y _ _ _ _ _ _ (by simp [hysep])]
+      all_goals try simp only [State.setReg_mem]
+      all_goals rw [vector_readback _ _ _ _ _ _ j hj]
+      all_goals simp [affineValue,normalizedValues,raw,cast,op,defaultOp,hrms,hbias,hj,ofFloat,toFloat]
+      all_goals try rfl
 
 /-- The optional second affine store uses its own weight and bias from the
 incoming input memory, even though the first output has already been stored. -/
@@ -80,40 +88,50 @@ theorem affine_y1_readback {α : Type} [Inhabited α] (A : Algebra α)
     t.mem r.y1 (row*stride.y1+j.1.val)=Cell.mk .real
       (affineValue A f.b1 (normalizedValues A f.rms N eps v j)
         (raw A s r.weight1 0 N j.1.val) (raw A s r.bias1 0 N j.1.val)) := by
-  have hwsep : r.weight1 ≠ r.y :=
-    hsep r.weight1 (by simp [Domain.readRegion,hw1]) r.y (by simp [Domain.writeRegion])
-  have hbsep : f.b1=Bool.true → r.bias1 ≠ r.y := by
-    intro hb1
-    exact hsep r.bias1 (by simp [Domain.readRegion,hw1,hb1]) r.y (by simp [Domain.writeRegion])
-  rcases hs with ⟨hrow,hcols,hy,hx1,hres,hresout,hy1,_⟩
-  cases hrms : f.rms
-  · have hmean := hm hrms
-    cases hbias : f.bias <;> cases hb1 : f.b1
-    all_goals simp [affine,repaired,original,ComputeKernel.surfaceBody,
-      run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
-      Option.bind,ComputeDType.eraseDType,numeric,FP.Structural.bop,natLt,
+  by_cases hN : N = 1
+  all_goals
+    have hwsep : r.weight1 ≠ r.y :=
+      hsep r.weight1 (by simp [Domain.readRegion,hw1]) r.y (by simp [Domain.writeRegion])
+    have hbsep : f.b1=Bool.true → r.bias1 ≠ r.y := by
+      intro hb1
+      exact hsep r.bias1 (by simp [Domain.readRegion,hw1,hb1]) r.y (by simp [Domain.writeRegion])
+    rcases hs with ⟨hrow,hcols,hy,hx1,hres,hresout,hy1,_⟩
+    cases hrms : f.rms
+    · have hmean := hm hrms
+      cases hbias : f.bias <;> cases hb1 : f.b1
+      all_goals simp [affine,actual,Source.kernel,Source.rawKernel,Source.rawKernelOne,hN,sourceFlags,sourceRegions,sourceStrides,ComputeKernel.surfaceBody,
+        run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
+        Option.bind,ComputeDType.eraseDType,numeric,FP.Structural.bop,natLt,
+        ←Int.natCast_mul,←Int.natCast_add,-Nat.cast_mul,-Nat.cast_add,
       numericLt,Region.cast,Random.i32ArangeSize,hcols,hy,hy1,hx,hstd,hmean,hrms,hbias,hw1,hb1] at ht
-    all_goals subst t
-    all_goals rw [vector_readback _ _ _ _ _ _ j hj]
-    all_goals simp [affineValue,normalizedValues,raw,cast,op,defaultOp,hrms,hb1,hj,ofFloat,toFloat]
-    all_goals try rfl
-    all_goals rw [vector_frame r.y r.weight1 _ _ _ _ _ _ (by simp [hwsep])]
-    all_goals try rw [vector_frame r.y r.bias1 _ _ _ _ _ _ (by simp [hbsep hb1])]
-    all_goals simp only [State.setReg_mem]
-    all_goals rfl
-  · cases hbias : f.bias <;> cases hb1 : f.b1
-    all_goals simp [affine,repaired,original,ComputeKernel.surfaceBody,
-      run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
-      Option.bind,ComputeDType.eraseDType,numeric,FP.Structural.bop,natLt,
+      all_goals subst t
+      all_goals try subst N
+      all_goals try simp only [← Nat.lt_one_iff]
+      all_goals rw [vector_readback _ _ _ _ _ _ j hj]
+      all_goals simp [affineValue,normalizedValues,raw,cast,op,defaultOp,hrms,hb1,hj,ofFloat,toFloat]
+      all_goals try rfl
+      all_goals try simp only [← Nat.lt_one_iff]
+      all_goals rw [vector_frame r.y r.weight1 _ _ _ _ _ _ (by simp [hwsep])]
+      all_goals try rw [vector_frame r.y r.bias1 _ _ _ _ _ _ (by simp [hbsep hb1])]
+      all_goals simp only [State.setReg_mem]
+      all_goals rfl
+    · cases hbias : f.bias <;> cases hb1 : f.b1
+      all_goals simp [affine,actual,Source.kernel,Source.rawKernel,Source.rawKernelOne,hN,sourceFlags,sourceRegions,sourceStrides,ComputeKernel.surfaceBody,
+        run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
+        Option.bind,ComputeDType.eraseDType,numeric,FP.Structural.bop,natLt,
+        ←Int.natCast_mul,←Int.natCast_add,-Nat.cast_mul,-Nat.cast_add,
       numericLt,Region.cast,Random.i32ArangeSize,hcols,hy,hy1,hx,hstd,hrms,hbias,hw1,hb1] at ht
-    all_goals subst t
-    all_goals rw [vector_readback _ _ _ _ _ _ j hj]
-    all_goals simp [affineValue,normalizedValues,raw,cast,op,defaultOp,hrms,hb1,hj,ofFloat,toFloat]
-    all_goals try rfl
-    all_goals rw [vector_frame r.y r.weight1 _ _ _ _ _ _ (by simp [hwsep])]
-    all_goals try rw [vector_frame r.y r.bias1 _ _ _ _ _ _ (by simp [hbsep hb1])]
-    all_goals simp only [State.setReg_mem]
-    all_goals rfl
+      all_goals subst t
+      all_goals try subst N
+      all_goals try simp only [← Nat.lt_one_iff]
+      all_goals rw [vector_readback _ _ _ _ _ _ j hj]
+      all_goals simp [affineValue,normalizedValues,raw,cast,op,defaultOp,hrms,hb1,hj,ofFloat,toFloat]
+      all_goals try rfl
+      all_goals try simp only [← Nat.lt_one_iff]
+      all_goals rw [vector_frame r.y r.weight1 _ _ _ _ _ _ (by simp [hwsep])]
+      all_goals try rw [vector_frame r.y r.bias1 _ _ _ _ _ _ (by simp [hbsep hb1])]
+      all_goals simp only [State.setReg_mem]
+      all_goals rfl
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

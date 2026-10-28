@@ -331,6 +331,23 @@ private partial def staticNatBound (constants assigned : List Name)
       if ← isDefEq (← inferType value) (mkConst ``Nat) then return some term else return none
   | _ => return none
 
+/-- Retain a checked arange bound through immutable caller aliases. Inspect the
+actual constant before reduction; an arbitrary symbolic Nat or a same-named
+local function cannot manufacture the checked integer profile. -/
+private partial def checkedArangeTerm? (value : Expr) : TermElabM (Option (TSyntax `term)) := do
+  let value ← instantiateMVars value
+  if let .fvar id := value then
+    if let some rhs := (← id.getDecl).value? then return ← checkedArangeTerm? rhs
+  if let .letE _ _ rhs body _ := value then
+    return ← checkedArangeTerm? (body.instantiate1 rhs)
+  if let .mdata _ inner := value then return ← checkedArangeTerm? inner
+  if value.isAppOfArity ``VeriTile.Triton.Random.i32ArangeSize 2 then
+    let args := value.getAppArgs
+    let size ← exprToSyntax args[0]!
+    let proof ← exprToSyntax args[1]!
+    return some (← `(_root_.VeriTile.Triton.Random.i32ArangeSize $size $proof))
+  return none
+
 /-- Finite literal results of an immutable string caller expression. The union
 is conservative: correlations between caller conditions are never assumed. -/
 private partial def finiteStringValues (value : Expr) : TermElabM (List String) := do
@@ -840,6 +857,8 @@ private def elaborateCallCore (profile : TSyntax `term) (stmts : Array (TSyntax 
             if let some n ← getNatValue? (← whnf value) then
               let literal : TSyntax `num := ⟨Syntax.mkNumLit (toString n)⟩
               liftMacroM `(tritonExpr| $(($literal:num : Nat)))
+            else if let some checked ← checkedArangeTerm? value then
+              liftMacroM `(tritonExpr| $($checked:term))
             else liftMacroM `(tritonExpr| $(($id:term : Nat)))
           else if ← isDefEq dtype (mkConst ``Int) then
             liftMacroM `(tritonExpr| $(($id:term : Int)))

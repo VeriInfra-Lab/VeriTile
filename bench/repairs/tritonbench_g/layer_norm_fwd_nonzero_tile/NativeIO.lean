@@ -1,5 +1,6 @@
 import bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.IO
 import VeriTile.Triton.Float.OrdinaryProgramIO
+import bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.RealModel
 
 namespace VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.NativeInterface
 open VeriTile.Triton FP.Structural FP.ProfiledRewrite
@@ -96,7 +97,7 @@ def combined (A : Algebra α) (cmp : TypedSource.Comparisons A) (f : Flags)
   fun j=>if f.residual then TypedSource.op A .add (both j) (loaded A N (values.residual row) j.1.val) else both j
 
 /-- Original opaque source arithmetic, including masked padding operations,
-load/store casts, reduction order, both dropout streams and zero-column stats. -/
+explicit load casts, reduction order, both dropout streams and zero-column stats. -/
 def target (A : Algebra α) (cmp : TypedSource.Comparisons A) (f : Flags)
     (r : Regions) (stride : Strides) (M N : Nat) (eps p : ℝ) (width : N≤tile N)
     (a : Arrays r M N α) : ChannelValues α (outputPorts r M N) :=
@@ -111,9 +112,9 @@ def target (A : Algebra α) (cmp : TypedSource.Comparisons A) (f : Flags)
       (TypedSource.normalizedValues A f.rms N eps (values (j.1.val/N))
         (⟨j.1.val%N,lt_of_lt_of_le (Nat.mod_lt _ (by have:=j.1.isLt; nlinarith)) width⟩,()))
       (loaded A N inputs.weight1 (j.1.val%N)) (loaded A N inputs.bias1 (j.1.val%N))
-  | ⟨2,_⟩ => TypedSource.cast A (TypedSource.meanValue A N (values j.1.val))
-  | ⟨3,_⟩ => TypedSource.cast A (TypedSource.rstdValue A f.rms N eps (values j.1.val))
-  | ⟨4,_⟩ => TypedSource.cast A (values (j.1.val/N)
+  | ⟨2,_⟩ => (TypedSource.meanValue A N (values j.1.val))
+  | ⟨3,_⟩ => (TypedSource.rstdValue A f.rms N eps (values j.1.val))
+  | ⟨4,_⟩ => (values (j.1.val/N)
       (⟨j.1.val%N,lt_of_lt_of_le (Nat.mod_lt _ (by have:=j.1.isLt; nlinarith)) width⟩,()))
   | ⟨5,_⟩ => TypedSource.keepValue A cmp (inputs.seeds (j.1.val/N)) p (j.1.val%N)
   | ⟨6,_⟩ => TypedSource.keepValue A cmp (inputs.seeds (M+j.1.val/N)) p (j.1.val%N)
@@ -121,3 +122,84 @@ def target (A : Algebra α) (cmp : TypedSource.Comparisons A) (f : Flags)
 #specNonCircular target avoiding [FP.Structural.exec,FP.Structural.run,quoted,TypedSource.oracle]
 end
 end VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.NativeInterface
+
+namespace VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.ActualLogical
+open VeriTile.Triton FP.Structural
+open VeriTile.Bench.TritonBenchG.LayerNormFwd
+open VeriTile.Bench.Repairs.LayerNormFwd
+noncomputable section
+set_option maxHeartbeats 3000000
+set_option maxRecDepth 12000
+
+/-- Bijective channel coordinates; no input, including inactive channels, is discarded. -/
+def inputArrays (r : Regions) (M N : Nat) :
+    NativeInterface.Arrays r M N ℝ ≃ RealInterface.Arrays M N where
+  toFun := fun a i => match i with
+    | 0 => fun j => a 0 (j,())
+    | 1 => fun j => a 1 (j,())
+    | 2 => fun j => a 2 (j,())
+    | 3 => fun j => a 3 (j,())
+    | 4 => fun j => a 4 (j,())
+    | 5 => fun j => a 5 (j,())
+    | 6 => fun j => a 6 (j,())
+    | 7 => fun j => a 7 (j,())
+    | 8 => fun j => a 8 (j,())
+  invFun := fun a i => match i with
+    | ⟨0,_⟩ => fun j => a 0 j.1
+    | ⟨1,_⟩ => fun j => a 1 j.1
+    | ⟨2,_⟩ => fun j => a 2 j.1
+    | ⟨3,_⟩ => fun j => a 3 j.1
+    | ⟨4,_⟩ => fun j => a 4 j.1
+    | ⟨5,_⟩ => fun j => a 5 j.1
+    | ⟨6,_⟩ => fun j => a 6 j.1
+    | ⟨7,_⟩ => fun j => a 7 j.1
+    | ⟨8,_⟩ => fun j => a 8 j.1
+  left_inv := by
+    intro a
+    funext i j
+    fin_cases i <;> rcases j with ⟨j,⟨⟩⟩ <;> rfl
+  right_inv := by
+    intro a
+    funext i j
+    fin_cases i <;> rfl
+
+def outputArrays (r : Regions) (M N : Nat) :
+    ChannelValues ℝ (NativeInterface.outputPorts r M N) ≃
+      ((o : Fin 7) → Fin (RealInterface.outputArity M N o) → (RealInterface.outputType o).carrier) where
+  toFun := fun a i => match i with
+    | 0 => fun j => a 0 (j,())
+    | 1 => fun j => a 1 (j,())
+    | 2 => fun j => a 2 (j,())
+    | 3 => fun j => a 3 (j,())
+    | 4 => fun j => a 4 (j,())
+    | 5 => fun j => a 5 (j,())
+    | 6 => fun j => a 6 (j,())
+  invFun := fun a i => match i with
+    | ⟨0,_⟩ => fun j => a 0 j.1
+    | ⟨1,_⟩ => fun j => a 1 j.1
+    | ⟨2,_⟩ => fun j => a 2 j.1
+    | ⟨3,_⟩ => fun j => a 3 j.1
+    | ⟨4,_⟩ => fun j => a 4 j.1
+    | ⟨5,_⟩ => fun j => a 5 j.1
+    | ⟨6,_⟩ => fun j => a 6 j.1
+  left_inv := by
+    intro a
+    funext i j
+    fin_cases i <;> rcases j with ⟨j,⟨⟩⟩ <;> rfl
+  right_inv := by
+    intro a
+    funext i j
+    fin_cases i <;> rfl
+
+/-- The current mathematical view of the complete actual pasted source grid.
+This instantiates the same successful execution, safety, output and frame
+judgment as the opaque source result, with exact Real arithmetic primitives. -/
+def io (f : Flags) (r : Regions) (stride : Strides) (M N : Nat) (eps p : ℝ) :
+    VeriTile.Triton.LogicalIO (NativeInterface.Arrays r M N ℝ)
+      (ChannelValues ℝ (NativeInterface.outputPorts r M N))
+      (LogicalIO.Inputs M N) (LogicalIO.Outputs M N)
+      (NativeInterface.io ActualMathematics.algebra f r stride M N eps p).Implements where
+  inputs := (inputArrays r M N).trans (LogicalIO.inputs M N)
+  outputs := (outputArrays r M N).trans (LogicalIO.outputs M N)
+end
+end VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.ActualLogical

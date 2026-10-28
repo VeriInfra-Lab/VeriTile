@@ -6,8 +6,8 @@
     "tasks": 183,
     "examples": 19,
     "task_status": {
-      "selected_body_copy_checked": 110,
-      "uncovered_jit_functions": 73
+      "selected_body_copy_checked": 111,
+      "uncovered_jit_functions": 72
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
@@ -15,12 +15,12 @@
       "spec_derived_body_copy_checked": 15
     },
     "selected_jit_functions": 333,
-    "uncovered_selected_jit_functions": 157,
-    "primary_files_with_int64_screen_warning": 22,
+    "uncovered_selected_jit_functions": 156,
+    "primary_files_with_int64_screen_warning": 21,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 52,
-        "antiquotes": 58,
+        "in_body_type_directives": 51,
+        "antiquotes": 57,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 8
       },
@@ -10714,10 +10714,10 @@
       "lean": "bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Kernels.lean",
       "source_provenance": "selected_revision",
       "lean_screen": {
-        "quotations": 2,
-        "in_body_type_directives": 8,
-        "antiquotes": 58,
-        "dsl_assignment": 6,
+        "quotations": 4,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 64,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -10735,18 +10735,210 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_layer_norm_fwd_1pass_kernel",
+          "lean_definition": "rawKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "stride_x_row": "stride_x_row",
+            "stride_y_row": "stride_y_row",
+            "stride_res_row": "stride_res_row",
+            "stride_res_out_row": "stride_res_out_row",
+            "stride_x1_row": "stride_x1_row",
+            "stride_y1_row": "stride_y1_row",
+            "M": "M",
+            "N": "N",
+            "eps": "eps",
+            "dropout_p": "dropout_p"
+          },
+          "statements": 24,
+          "runtime_parameters": {
+            "stride_x_row": "i32",
+            "stride_y_row": "i32",
+            "stride_res_row": "i32",
+            "stride_res_out_row": "i32",
+            "stride_x1_row": "i32",
+            "stride_y1_row": "i32",
+            "M": "i32",
+            "N": "i32",
+            "eps": "fp32",
+            "dropout_p": "fp32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_N",
+            "HAS_B1",
+            "HAS_BIAS",
+            "HAS_DROPOUT",
+            "HAS_RESIDUAL",
+            "HAS_ROWSCALE",
+            "HAS_W1",
+            "HAS_X1",
+            "IS_RMS_NORM",
+            "STORE_DROPOUT_MASK",
+            "STORE_RESIDUAL_OUT"
+          ],
+          "profile_variant": "runtime_i32_metadata_fp32",
           "python": "bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/layer_norm_fwd_nonzero_tile.py",
-          "function": "_layer_norm_fwd_1pass_kernel"
+          "lean": "bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Kernels.lean"
+        },
+        {
+          "python_function": "_layer_norm_fwd_1pass_kernel",
+          "lean_definition": "rawIndexCommuted",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "stride_x_row": "stride_x_row",
+            "stride_y_row": "stride_y_row",
+            "stride_res_row": "stride_res_row",
+            "stride_res_out_row": "stride_res_out_row",
+            "stride_x1_row": "stride_x1_row",
+            "stride_y1_row": "stride_y1_row",
+            "M": "M",
+            "N": "N",
+            "eps": "eps",
+            "dropout_p": "dropout_p"
+          },
+          "statements": 24,
+          "runtime_parameters": {
+            "stride_x_row": "i32",
+            "stride_y_row": "i32",
+            "stride_res_row": "i32",
+            "stride_res_out_row": "i32",
+            "stride_x1_row": "i32",
+            "stride_y1_row": "i32",
+            "M": "i32",
+            "N": "i32",
+            "eps": "fp32",
+            "dropout_p": "fp32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_N",
+            "HAS_B1",
+            "HAS_BIAS",
+            "HAS_DROPOUT",
+            "HAS_RESIDUAL",
+            "HAS_ROWSCALE",
+            "HAS_W1",
+            "HAS_X1",
+            "IS_RMS_NORM",
+            "STORE_DROPOUT_MASK",
+            "STORE_RESIDUAL_OUT"
+          ],
+          "profile_variant": "runtime_i32_metadata_fp32",
+          "python": "bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/layer_norm_fwd_index_commuted.py",
+          "lean": "bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Kernels.lean"
+        },
+        {
+          "python_function": "_layer_norm_fwd_1pass_kernel",
+          "lean_definition": "rawKernelOne",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "stride_x_row": "stride_x_row",
+            "stride_y_row": "stride_y_row",
+            "stride_res_row": "stride_res_row",
+            "stride_res_out_row": "stride_res_out_row",
+            "stride_x1_row": "stride_x1_row",
+            "stride_y1_row": "stride_y1_row",
+            "M": "M",
+            "eps": "eps",
+            "dropout_p": "dropout_p"
+          },
+          "statements": 24,
+          "runtime_parameters": {
+            "stride_x_row": "i32",
+            "stride_y_row": "i32",
+            "stride_res_row": "i32",
+            "stride_res_out_row": "i32",
+            "stride_x1_row": "i32",
+            "stride_y1_row": "i32",
+            "M": "i32",
+            "eps": "fp32",
+            "dropout_p": "fp32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_N",
+            "HAS_B1",
+            "HAS_BIAS",
+            "HAS_DROPOUT",
+            "HAS_RESIDUAL",
+            "HAS_ROWSCALE",
+            "HAS_W1",
+            "HAS_X1",
+            "IS_RMS_NORM",
+            "STORE_DROPOUT_MASK",
+            "STORE_RESIDUAL_OUT"
+          ],
+          "native_integer_one_specializations": [
+            "N"
+          ],
+          "profile_variant": "native_integer_one_constexpr",
+          "python": "bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/layer_norm_fwd_nonzero_tile.py",
+          "lean": "bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Kernels.lean"
+        },
+        {
+          "python_function": "_layer_norm_fwd_1pass_kernel",
+          "lean_definition": "rawIndexCommutedOne",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "stride_x_row": "stride_x_row",
+            "stride_y_row": "stride_y_row",
+            "stride_res_row": "stride_res_row",
+            "stride_res_out_row": "stride_res_out_row",
+            "stride_x1_row": "stride_x1_row",
+            "stride_y1_row": "stride_y1_row",
+            "M": "M",
+            "eps": "eps",
+            "dropout_p": "dropout_p"
+          },
+          "statements": 24,
+          "runtime_parameters": {
+            "stride_x_row": "i32",
+            "stride_y_row": "i32",
+            "stride_res_row": "i32",
+            "stride_res_out_row": "i32",
+            "stride_x1_row": "i32",
+            "stride_y1_row": "i32",
+            "M": "i32",
+            "eps": "fp32",
+            "dropout_p": "fp32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_N",
+            "HAS_B1",
+            "HAS_BIAS",
+            "HAS_DROPOUT",
+            "HAS_RESIDUAL",
+            "HAS_ROWSCALE",
+            "HAS_W1",
+            "HAS_X1",
+            "IS_RMS_NORM",
+            "STORE_DROPOUT_MASK",
+            "STORE_RESIDUAL_OUT"
+          ],
+          "native_integer_one_specializations": [
+            "N"
+          ],
+          "profile_variant": "native_integer_one_constexpr",
+          "python": "bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/layer_norm_fwd_index_commuted.py",
+          "lean": "bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Kernels.lean"
         }
       ],
-      "int64_screen": "cast_not_visible_in_primary_quotation",
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Kernels.lean": "802d360125349c69ae4724c08f5350fc11408de07bd199570702c1c25ad87eda",
+        "bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Kernels.lean": "b1e49b7c54d721e5a151ccbf76b5c14688dc1f8a558df20bf3687a9d05a30cc2",
+        "bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/jit-correspondence.json": "23ea9aa5c4447258fb4644baeef0bc964b9802e624fcfaa9fd7051fd0e2dbd8d",
+        "bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/layer_norm_fwd_index_commuted.py": "6f757c5de0110cc8e5c580b9c3f3281000398695d4dd81d135299289cc32fe24",
         "bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/layer_norm_fwd_nonzero_tile.py": "0b53dbb1504fd27fad7a00e9ed2be38b63468eb6d7b88b744507c51fded7fcc1"
       }
     },
