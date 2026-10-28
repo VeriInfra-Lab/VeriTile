@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.lora_expand_gemv.Proofs.Reader",
+  "start": 1793194524.5507653,
+  "end": 1793194532.6673994,
+  "log": "/tmp/lora103-direct-Reader-1793194524550753889.log",
+  "stop_file": "/tmp/lora103-direct-Reader-1793194524550753889.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

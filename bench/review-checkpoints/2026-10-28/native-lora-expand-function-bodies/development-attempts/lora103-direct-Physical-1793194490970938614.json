@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.lora_expand_gemv.Proofs.Direct.Physical",
+  "start": 1793194490.97095,
+  "end": 1793194495.6868062,
+  "log": "/tmp/lora103-direct-Physical-1793194490970938614.log",
+  "stop_file": "/tmp/lora103-direct-Physical-1793194490970938614.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

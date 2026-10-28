@@ -1,0 +1,12 @@
+/tmp/lora103-staging/bench/tritonbench_g/lora_expand_gemv/Proofs/BranchBodyValue.lean:40:2: warning: 'all_goals try rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/lora103-staging/bench/tritonbench_g/lora_expand_gemv/Proofs/BranchBodyValue.lean:40:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.bodyMemory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.bodyInvariant: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

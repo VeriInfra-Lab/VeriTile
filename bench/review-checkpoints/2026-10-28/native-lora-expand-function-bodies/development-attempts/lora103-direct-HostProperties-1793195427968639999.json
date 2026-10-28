@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.lora_expand_gemv.Proofs.HostProperties",
+  "start": 1793195427.968656,
+  "end": 1793195434.0847905,
+  "log": "/tmp/lora103-direct-HostProperties-1793195427968639999.log",
+  "stop_file": "/tmp/lora103-direct-HostProperties-1793195427968639999.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

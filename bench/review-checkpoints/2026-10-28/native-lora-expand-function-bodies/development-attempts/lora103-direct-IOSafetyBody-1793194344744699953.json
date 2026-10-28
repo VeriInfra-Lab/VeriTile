@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.lora_expand_gemv.ByteSeparated.Proofs.IOSafetyBody",
+  "start": 1793194344.7447112,
+  "end": 1793194357.412886,
+  "log": "/tmp/lora103-direct-IOSafetyBody-1793194344744699953.log",
+  "stop_file": "/tmp/lora103-direct-IOSafetyBody-1793194344744699953.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

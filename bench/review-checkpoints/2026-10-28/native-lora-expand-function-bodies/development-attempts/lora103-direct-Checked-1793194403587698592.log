@@ -1,0 +1,5 @@
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.valid: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+Axiom audit: headlines=0
+headlines: []

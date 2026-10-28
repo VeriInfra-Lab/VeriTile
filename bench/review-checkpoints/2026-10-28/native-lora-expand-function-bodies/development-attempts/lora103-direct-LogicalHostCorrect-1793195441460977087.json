@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.lora_expand_gemv.LogicalHostCorrect",
+  "start": 1793195441.4609888,
+  "end": 1793195444.970003,
+  "log": "/tmp/lora103-direct-LogicalHostCorrect-1793195441460977087.log",
+  "stop_file": "/tmp/lora103-direct-LogicalHostCorrect-1793195441460977087.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

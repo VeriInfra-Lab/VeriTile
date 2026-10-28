@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.lora_expand_gemv.ByteSeparated.Misc.NativeCorrect",
+  "start": 1793194432.1517212,
+  "end": 1793194436.1547055,
+  "log": "/tmp/lora103-direct-NativeCorrect-1793194432151710536.log",
+  "stop_file": "/tmp/lora103-direct-NativeCorrect-1793194432151710536.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

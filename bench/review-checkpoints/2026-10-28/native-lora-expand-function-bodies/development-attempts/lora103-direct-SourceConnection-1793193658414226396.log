@@ -1,0 +1,68 @@
+/tmp/lora103-staging/bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Proofs/SourceConnection.lean:111:86: error: unsolved goals
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+a b : List ComputeStmt
+body : CodeEq M a b
+s : State α
+⊢ (((s.regs TileDType.int [] "lora_index").bind fun __do_lift =>
+          some (bop (fun a b => decide (a = b)) Broadcast.nil __do_lift fun x => -1)).bind
+      fun v => some fun i => !v i) =
+    (s.regs TileDType.int [] "lora_index").bind fun a =>
+      some (bop (fun a b => !decide (a = b)) Broadcast.nil a fun x => -1)
+/tmp/lora103-staging/bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Proofs/SourceConnection.lean:124:63: error: unsolved goals
+case none
+shape : TileShape
+rest : FP.Structural.Algebra Word
+cfg : FP.Config
+plans : (n : ℕ) → ReductionPlan n
+precision : Option ComputeDType
+e : Op TileDType.real shape
+s : State Word
+⊢ ∀ (a : Values Word TileDType.real shape),
+    ¬FP.Structural.evalOp
+          { literal := fun p d x => if x = 0 then Word.zero else rest.literal p d x, negInf := rest.negInf,
+            binary := fun p d op x y =>
+              match
+                match d with
+                | FloatDType.fp16 => some TritonBenchG.LoraExpandGemv.FPValue.OutputFormat.half
+                | FloatDType.bf16 => some TritonBenchG.LoraExpandGemv.FPValue.OutputFormat.bfloat
+                | FloatDType.fp32 => some TritonBenchG.LoraExpandGemv.FPValue.OutputFormat.single
+                | FloatDType.real => some TritonBenchG.LoraExpandGemv.FPValue.OutputFormat.single
+                | x => none,
+                op with
+              | some fmt, Binary.mul => mulWord cfg fmt x y
+              | some fmt, Binary.add => addWord cfg fmt x y
+              | x_1, x_2 => rest.binary p d op x y,
+            fma := rest.fma, atomicAdd := rest.atomicAdd, unary := rest.unary, libdevicePowi := rest.libdevicePowi,
+            isFinite := rest.isFinite, compareLt := rest.compareLt, compareLe := rest.compareLe,
+            compareEq := rest.compareEq, floatToInt := rest.floatToInt, floatToNat := rest.floatToNat,
+            cast := fun p src dst x =>
+              match
+                match src with
+                | FloatDType.fp16 => some TritonBenchG.LoraExpandGemv.FPValue.OutputFormat.half
+                | FloatDType.bf16 => some TritonBenchG.LoraExpandGemv.FPValue.OutputFormat.bfloat
+                | FloatDType.fp32 => some TritonBenchG.LoraExpandGemv.FPValue.OutputFormat.single
+                | FloatDType.real => some TritonBenchG.LoraExpandGemv.FPValue.OutputFormat.single
+                | x => none,
+                match dst with
+                | FloatDType.fp16 => some TritonBenchG.LoraExpandGemv.FPValue.OutputFormat.half
+                | FloatDType.bf16 => some TritonBenchG.LoraExpandGemv.FPValue.OutputFormat.bfloat
+                | FloatDType.fp32 => some TritonBenchG.LoraExpandGemv.FPValue.OutputFormat.single
+                | FloatDType.real => some TritonBenchG.LoraExpandGemv.FPValue.OutputFormat.single
+                | x => none with
+              | some a, some b =>
+                if a = b then x
+                else
+                  match x with
+                  | Word.zero => Word.zero
+                  | x_1 => Word.cast a b x
+              | x_1, x_2 => rest.cast p src dst x,
+            fromNat := rest.fromNat, fromInt := rest.fromInt, fp32Bits := rest.fp32Bits,
+            float8E5Bits := rest.float8E5Bits, fp32Load := id, reduceMin := rest.reduceMin, reduceMax := rest.reduceMax,
+            reduceSum := fun x {shape} => sumValues cfg TritonBenchG.LoraExpandGemv.FPValue.OutputFormat.single plans,
+            reduceSumTyped := fun x d {shape} => typedSum cfg plans d, reduceMaxTyped := rest.reduceMaxTyped,
+            indexedMax := rest.indexedMax, scan := rest.scan, dot := rest.dot, dotWithOptions := rest.dotWithOptions,
+            dotTyped := rest.dotTyped, dotAcc := rest.dotAcc, integerDot := rest.integerDot, fmaTyped := rest.fmaTyped,
+            minimum := rest.minimum, divRN := rest.divRN }
+          precision e s =

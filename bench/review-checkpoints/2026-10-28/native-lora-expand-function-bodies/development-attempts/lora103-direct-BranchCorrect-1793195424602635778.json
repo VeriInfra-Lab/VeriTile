@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.lora_expand_gemv.BranchCorrect",
+  "start": 1793195424.6026475,
+  "end": 1793195427.9682574,
+  "log": "/tmp/lora103-direct-BranchCorrect-1793195424602635778.log",
+  "stop_file": "/tmp/lora103-direct-BranchCorrect-1793195424602635778.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

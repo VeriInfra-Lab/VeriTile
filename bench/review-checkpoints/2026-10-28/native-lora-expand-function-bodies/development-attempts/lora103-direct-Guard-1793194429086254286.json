@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.lora_expand_gemv.ByteSeparated.Misc.Guard",
+  "start": 1793194429.0862663,
+  "end": 1793194432.1513307,
+  "log": "/tmp/lora103-direct-Guard-1793194429086254286.log",
+  "stop_file": "/tmp/lora103-direct-Guard-1793194429086254286.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

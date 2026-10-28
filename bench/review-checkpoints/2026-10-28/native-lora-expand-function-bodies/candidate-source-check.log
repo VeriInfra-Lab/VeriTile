@@ -1,0 +1,7 @@
+{
+  "status": "PASS",
+  "full_ast_preserved_after_restoring": "one cdiv(N,SPLIT_N) -> 1 assignment and kernel name",
+  "unchanged": "all wrapper checks, byte interval admission, empty returns, scalar bindings, grid (N,B), FP instructions, masks, branches, loop and stores",
+  "original_sha256": "85f452b177066c749577b51a730ac49b81acd153ed4f5fc6d141762b4075ae03",
+  "candidate_sha256": "c2303e4867a0321a9cf3169d0792802221295691953901a30f1ac3ef6e874cf2"
+}

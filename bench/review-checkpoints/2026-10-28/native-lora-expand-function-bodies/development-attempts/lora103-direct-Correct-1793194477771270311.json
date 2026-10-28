@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.lora_expand_gemv.Correct",
+  "start": 1793194477.771283,
+  "end": 1793194481.6873012,
+  "log": "/tmp/lora103-direct-Correct-1793194477771270311.log",
+  "stop_file": "/tmp/lora103-direct-Correct-1793194477771270311.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

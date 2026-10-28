@@ -1,0 +1,5 @@
+VeriTile.Bench.Repairs.LoraExpandGemv.Direct.NativeCall.compiled: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+Axiom audit: headlines=0
+headlines: []

@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.lora_expand_gemv.Kernels",
+  "start": 1793193577.284508,
+  "end": 1793193583.054386,
+  "log": "/tmp/lora103-direct-Kernels-1793193577284485284.log",
+  "stop_file": "/tmp/lora103-direct-Kernels-1793193577284485284.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

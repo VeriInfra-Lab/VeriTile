@@ -1,0 +1,12 @@
+/tmp/lora103-staging/LoraDiffProbe.lean:71:10: error: Type mismatch
+  Lean.Elab.Term.elabTerm __do_lift✝.raw none
+has type
+  Lean.Elab.TermElabM Lean.Expr
+but is expected to have type
+  Lean.MetaM ?m.57
+/tmp/lora103-staging/LoraDiffProbe.lean:72:10: error: Type mismatch
+  Lean.Elab.Term.elabTerm __do_lift✝.raw none
+has type
+  Lean.Elab.TermElabM Lean.Expr
+but is expected to have type
+  Lean.MetaM ?m.111

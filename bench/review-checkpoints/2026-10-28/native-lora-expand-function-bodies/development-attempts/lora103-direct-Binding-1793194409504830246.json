@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.lora_expand_gemv.ByteSeparated.Misc.Binding",
+  "start": 1793194409.504842,
+  "end": 1793194412.7705112,
+  "log": "/tmp/lora103-direct-Binding-1793194409504830246.log",
+  "stop_file": "/tmp/lora103-direct-Binding-1793194409504830246.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.lora_expand_gemv.ByteSeparated.Proofs.LogicalReader",
+  "start": 1793194384.3634763,
+  "end": 1793194386.9784229,
+  "log": "/tmp/lora103-direct-LogicalReader-1793194384363464276.log",
+  "stop_file": "/tmp/lora103-direct-LogicalReader-1793194384363464276.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

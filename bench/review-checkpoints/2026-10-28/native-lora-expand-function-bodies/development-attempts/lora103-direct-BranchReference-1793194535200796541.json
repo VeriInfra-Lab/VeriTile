@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.lora_expand_gemv.Proofs.BranchReference",
+  "start": 1793194535.2008083,
+  "end": 1793194537.7657518,
+  "log": "/tmp/lora103-direct-BranchReference-1793194535200796541.log",
+  "stop_file": "/tmp/lora103-direct-BranchReference-1793194535200796541.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

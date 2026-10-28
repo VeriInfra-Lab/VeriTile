@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.lora_expand_gemv.Proofs.Direct.Native",
+  "start": 1793194481.6876912,
+  "end": 1793194487.0039883,
+  "log": "/tmp/lora103-direct-Native-1793194481687679329.log",
+  "stop_file": "/tmp/lora103-direct-Native-1793194481687679329.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

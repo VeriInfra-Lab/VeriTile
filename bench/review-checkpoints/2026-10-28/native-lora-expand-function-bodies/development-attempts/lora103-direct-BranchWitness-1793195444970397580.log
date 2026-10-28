@@ -1,0 +1,9 @@
+VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.alias_expected_value: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.add_cast_alias_execution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.signed_sentinel_execution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

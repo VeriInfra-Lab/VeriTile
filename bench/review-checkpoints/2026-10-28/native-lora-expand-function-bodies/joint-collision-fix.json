@@ -1,0 +1,8 @@
+{
+  "file": "bench/repairs/tritonbench_g/relu_strided_buffer/Proofs/NativeGridIO.lean",
+  "reason": "Initial 190-root build passed, but joint imports found two independently compiled local instances exported with the same fully qualified name. Rename only the NativeGridIO local instance and its surface-check reference. Its type/body and all theorem statements/proofs are otherwise byte-identical.",
+  "old_sha256": "f2e41c12311587e2f89a02df630a64ba027b189dfa4e3a084c8fe6e75523cd51",
+  "new_sha256": "e576acca6f7a9f76f78b78f67ea8ecaa32ab3885d5b73ec25ca2e55c3a7598f2",
+  "rename_only_restore_byte_exact": true,
+  "prior_attempt_directory": "/tmp/lora103-formal-attempts/initial-joint-collision"
+}

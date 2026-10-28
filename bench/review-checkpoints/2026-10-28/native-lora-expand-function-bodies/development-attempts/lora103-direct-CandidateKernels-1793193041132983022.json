@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.lora_expand_gemv.ByteSeparated.CandidateKernels",
+  "start": 1793193041.133,
+  "end": 1793193046.3082237,
+  "log": "/tmp/lora103-direct-CandidateKernels-1793193041132983022.log",
+  "stop_file": "/tmp/lora103-direct-CandidateKernels-1793193041132983022.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

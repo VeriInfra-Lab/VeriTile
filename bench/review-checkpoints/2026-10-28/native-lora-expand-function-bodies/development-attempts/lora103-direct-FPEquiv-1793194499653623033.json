@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.lora_expand_gemv.FPEquiv",
+  "start": 1793194499.653635,
+  "end": 1793194504.5698957,
+  "log": "/tmp/lora103-direct-FPEquiv-1793194499653623033.log",
+  "stop_file": "/tmp/lora103-direct-FPEquiv-1793194499653623033.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.lora_expand_gemv.ByteSeparated.Proofs.Pair",
+  "start": 1793194392.9543703,
+  "end": 1793194398.3708835,
+  "log": "/tmp/lora103-direct-Pair-1793194392954358873.log",
+  "stop_file": "/tmp/lora103-direct-Pair-1793194392954358873.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

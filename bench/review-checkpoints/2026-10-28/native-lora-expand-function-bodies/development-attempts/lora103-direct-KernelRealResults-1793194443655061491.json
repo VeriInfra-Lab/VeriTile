@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.lora_expand_gemv.ByteSeparated.Proofs.KernelRealResults",
+  "start": 1793194443.655073,
+  "end": 1793194447.5710242,
+  "log": "/tmp/lora103-direct-KernelRealResults-1793194443655061491.log",
+  "stop_file": "/tmp/lora103-direct-KernelRealResults-1793194443655061491.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

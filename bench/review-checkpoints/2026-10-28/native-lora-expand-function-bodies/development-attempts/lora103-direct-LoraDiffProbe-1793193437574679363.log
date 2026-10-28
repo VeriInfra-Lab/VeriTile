@@ -1,0 +1,93 @@
+/tmp/lora103-staging/LoraDiffProbe.lean:72:0: error: Unknown option `pp.maxDepth`
+DIFFERENCE .body.2.2.1.3.2.2.2:
+NEW { name := #0.4.1 }
+OLD #0.4
+DIFFERENCE .body.2.2.2.1.0:
+NEW (Op.eq ComparableDType.int Broadcast.nil (Op.ref TileDType.int [] "lora_index")
+    (Op.constInt (Int.negSucc 0))).boolNot
+OLD Op.ne ComparableDType.int Broadcast.nil (Op.ref TileDType.int [] "lora_index") (Op.constInt (Int.negSucc 0))
+DIFFERENCE .body.2.2.2.1.1.2.2.1.2.1.3.2.3.3.1.0:
+NEW Real.zero✝
+OLD { cauchy := Quot.mk (fun f g => (f - g).LimZero) ⟨fun x => Rat.ofScientific 0 «true» 1, ⋯⟩ }
+DIFFERENCE .body.2.2.2.1.1.2.2.2.2.1.1.2.2.2.1.4.2.2.1.3.2.4.6.2.2:
+NEW fullSource._proof_1 #0
+OLD previousBody._proof_1 #0
+DIFFERENCE .body.2.2.2.1.1.2.2.2.2.1.1.2.2.2.1.4.2.2.1.3.2.5.6.2.2:
+NEW fullSource._proof_2 #0
+OLD previousBody._proof_2 #0
+DIFFERENCE .body.2.2.2.1.1.2.2.2.2.1.1.2.2.2.1.4.2.2.2.2.1.3.2.2.2.4.5.6.2.2:
+NEW fullSource._proof_1 #0
+OLD previousBody._proof_1 #0
+DIFFERENCE .body.2.2.2.1.1.2.2.2.2.1.1.2.2.2.1.4.2.2.2.2.1.3.2.2.2.5.6.2.2:
+NEW fullSource._proof_2 #0
+OLD previousBody._proof_2 #0
+DIFFERENCE .body.2.2.2.1.1.2.2.2.2.1.1.2.2.2.1.4.2.2.2.2.2.1.1.2.1.3.2.2.6.3.2.2:
+NEW fullSource._proof_3 #0
+OLD previousBody._proof_3 #0
+DIFFERENCE .body.2.2.2.1.1.2.2.2.2.1.1.2.2.2.1.4.2.2.2.2.2.1.1.2.2.1.3.2.2:
+NEW Op.ref TileDType.real [#0.15] "accumulator"
+OLD Op.castFloat FloatDType.real FloatDType.real (Op.ref TileDType.real [#0.15] "accumulator")
+DIFFERENCE .body.2.2.2.1.1.2.2.2.2.1.1.2.2.2.1.4.2.2.2.2.2.1.2.1.3.2.2.2:
+NEW fullSource._proof_3 #0
+OLD previousBody._proof_3 #0
+DIFFERENCE .body.2.2.2.1.1.2.2.2.2.1.2.2.2.1.4.2.2.1.3.2.4.6.2.2:
+NEW fullSource._proof_1 #0
+OLD previousBody._proof_1 #0
+DIFFERENCE .body.2.2.2.1.1.2.2.2.2.1.2.2.2.1.4.2.2.1.3.2.5.6.2.2:
+NEW fullSource._proof_2 #0
+OLD previousBody._proof_2 #0
+DIFFERENCE .body.2.2.2.1.1.2.2.2.2.1.2.2.2.1.4.2.2.2.2.1.3.2.2.2.4.5.6.2.2:
+NEW fullSource._proof_1 #0
+OLD previousBody._proof_1 #0
+DIFFERENCE .body.2.2.2.1.1.2.2.2.2.1.2.2.2.1.4.2.2.2.2.1.3.2.2.2.5.6.2.2:
+NEW fullSource._proof_2 #0
+OLD previousBody._proof_2 #0
+DIFFERENCE .body.2.2.2.1.1.2.2.2.2.1.2.2.2.1.4.2.2.2.2.2.1.1.2.1.3.2.2.6.1.2:
+NEW fullSource._proof_3 #0
+OLD previousBody._proof_3 #0
+DIFFERENCE .body.2.2.2.1.1.2.2.2.2.1.2.2.2.1.4.2.2.2.2.2.1.2.1.3.1.1.2:
+NEW fullSource._proof_3 #0
+OLD previousBody._proof_3 #0
+DIFFERENCE .body.2.2.2.1.1.2.2.2.2.1.2.2.2.1.4.2.2.2.2.2.1.2.1.3.2.0.1.2:
+NEW fullSource._proof_3 #0
+OLD previousBody._proof_3 #0
+DIFFERENCE .body.2.2.2.1.1.2.2.2.2.1.2.2.2.1.4.2.2.2.2.2.1.2.1.3.2.2.1.2:
+NEW fullSource._proof_3 #0
+OLD previousBody._proof_3 #0
+DIFFERENCE .body.2.2.2.1.1.2.2.2.2.1.2.2.2.1.4.2.2.2.2.2.2.1.3.2.2:
+NEW Op.ref TileDType.real [#0.15] "accumulator"
+OLD Op.castFloat FloatDType.real FloatDType.real (Op.ref TileDType.real [#0.15] "accumulator")
+/tmp/lora103-staging/LoraDiffProbe.lean:72:0: error: linter Lean.Linter.MissingDocs.missingDocs failed: Unknown option `pp.maxDepth`
+/tmp/lora103-staging/LoraDiffProbe.lean:72:0: error: linter Lean.Linter.List.indexLinter failed: Unknown option `pp.maxDepth`
+/tmp/lora103-staging/LoraDiffProbe.lean:72:0: error: linter Lean.Linter.List.listVariablesLinter failed: Unknown option `pp.maxDepth`
+/tmp/lora103-staging/LoraDiffProbe.lean:72:0: error: linter Mathlib.Linter.Style.header.headerLinter✝ failed: Unknown option `pp.maxDepth`
+/tmp/lora103-staging/LoraDiffProbe.lean:72:0: error: linter Mathlib.Linter.DocPrime.docPrimeLinter✝ failed: Unknown option `pp.maxDepth`
+/tmp/lora103-staging/LoraDiffProbe.lean:72:0: error: linter Mathlib.Linter.Style.docStringLinter✝ failed: Unknown option `pp.maxDepth`
+/tmp/lora103-staging/LoraDiffProbe.lean:72:0: error: linter Mathlib.Linter.Style.moduleDocVersoLinter✝ failed: Unknown option `pp.maxDepth`
+/tmp/lora103-staging/LoraDiffProbe.lean:72:0: error: linter Mathlib.Linter.EmptyLine.emptyLineLinter failed: Unknown option `pp.maxDepth`
+/tmp/lora103-staging/LoraDiffProbe.lean:72:0: error: linter Mathlib.Linter.globalAttributeInLinter.globalAttributeIn✝ failed: Unknown option `pp.maxDepth`
+/tmp/lora103-staging/LoraDiffProbe.lean:72:0: error: linter Mathlib.Linter.HashCommandLinter.hashCommandLinter✝ failed: Unknown option `pp.maxDepth`
+/tmp/lora103-staging/LoraDiffProbe.lean:72:0: error: linter Mathlib.Linter.Flexible.flexibleLinter✝ failed: Unknown option `pp.maxDepth`
+/tmp/lora103-staging/LoraDiffProbe.lean:72:0: error: linter Mathlib.Linter.Style.multiGoal.multiGoalLinter✝ failed: Unknown option `pp.maxDepth`
+/tmp/lora103-staging/LoraDiffProbe.lean:72:0: error: linter Mathlib.Linter.Style.oldObtainLinter✝ failed: Unknown option `pp.maxDepth`
+/tmp/lora103-staging/LoraDiffProbe.lean:72:0: error: linter Mathlib.Linter.UnusedTactic.unusedTacticLinter✝ failed: Unknown option `pp.maxDepth`
+/tmp/lora103-staging/LoraDiffProbe.lean:72:0: error: linter Mathlib.Linter.Style.setOption.setOptionLinter✝ failed: Unknown option `pp.maxDepth`
+/tmp/lora103-staging/LoraDiffProbe.lean:72:0: error: linter Mathlib.Linter.Style.missingEnd.missingEndLinter✝ failed: Unknown option `pp.maxDepth`
+/tmp/lora103-staging/LoraDiffProbe.lean:72:0: error: linter Mathlib.Linter.Style.cdotLinter✝ failed: Unknown option `pp.maxDepth`
+/tmp/lora103-staging/LoraDiffProbe.lean:72:0: error: linter Mathlib.Linter.Style.dollarSyntax.dollarSyntaxLinter✝ failed: Unknown option `pp.maxDepth`
+/tmp/lora103-staging/LoraDiffProbe.lean:72:0: error: linter Mathlib.Linter.Style.lambdaSyntax.lambdaSyntaxLinter✝ failed: Unknown option `pp.maxDepth`
+/tmp/lora103-staging/LoraDiffProbe.lean:72:0: error: linter Mathlib.Linter.Style.longFile.longFileLinter✝ failed: Unknown option `pp.maxDepth`
+/tmp/lora103-staging/LoraDiffProbe.lean:72:0: error: linter Mathlib.Linter.Style.longLine.longLineLinter✝ failed: Unknown option `pp.maxDepth`
+/tmp/lora103-staging/LoraDiffProbe.lean:72:0: error: linter Mathlib.Linter.Style.nameCheck.doubleUnderscore✝ failed: Unknown option `pp.maxDepth`
+/tmp/lora103-staging/LoraDiffProbe.lean:72:0: error: linter Mathlib.Linter.Style.show.showLinter✝ failed: Unknown option `pp.maxDepth`
+/tmp/lora103-staging/LoraDiffProbe.lean:72:0: error: linter Mathlib.Linter.Style.Whitespace.whitespaceLinter✝ failed: Unknown option `pp.maxDepth`
+/tmp/lora103-staging/LoraDiffProbe.lean:72:0: error: linter Mathlib.TacticAnalysis.tacticAnalysis failed: Unknown option `pp.maxDepth`
+/tmp/lora103-staging/LoraDiffProbe.lean:72:0: error: linter Mathlib.Linter.DupNamespaceLinter.dupNamespace✝ failed: Unknown option `pp.maxDepth`
+/tmp/lora103-staging/LoraDiffProbe.lean:72:0: error: linter Batteries.Linter.UnreachableTactic.unreachableTacticLinter failed: Unknown option `pp.maxDepth`
+/tmp/lora103-staging/LoraDiffProbe.lean:72:0: error: linter Batteries.Linter.UnnecessarySeqFocus.unnecessarySeqFocusLinter failed: Unknown option `pp.maxDepth`
+/tmp/lora103-staging/LoraDiffProbe.lean:72:0: error: linter Mathlib.Linter.DeprecatedModule.deprecated.moduleLinter✝ failed: Unknown option `pp.maxDepth`
+/tmp/lora103-staging/LoraDiffProbe.lean:72:0: error: linter Mathlib.Linter.haveLet.haveLetLinter✝ failed: Unknown option `pp.maxDepth`
+/tmp/lora103-staging/LoraDiffProbe.lean:72:0: error: linter Mathlib.Linter.MinImports.minImportsLinter✝ failed: Unknown option `pp.maxDepth`
+/tmp/lora103-staging/LoraDiffProbe.lean:72:0: error: linter Mathlib.Linter.PPRoundtrip.ppRoundtrip✝ failed: Unknown option `pp.maxDepth`
+/tmp/lora103-staging/LoraDiffProbe.lean:72:0: error: linter Mathlib.Linter.DoubleImports.upstreamableDeclLinter✝ failed: Unknown option `pp.maxDepth`
+/tmp/lora103-staging/LoraDiffProbe.lean:72:0: error: linter Mathlib.Linter.CountHeartbeats.countHeartbeatsLinter failed: Unknown option `pp.maxDepth`

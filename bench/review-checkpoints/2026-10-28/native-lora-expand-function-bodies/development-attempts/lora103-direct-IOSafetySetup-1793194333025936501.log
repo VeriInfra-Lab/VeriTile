@@ -1,0 +1,3 @@
+/tmp/lora103-staging/bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Proofs/IOSafetySetup.lean:37:2: warning: 'all_goals try simp only [Safety.traceSafeList, Safety.stepSafe]' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`

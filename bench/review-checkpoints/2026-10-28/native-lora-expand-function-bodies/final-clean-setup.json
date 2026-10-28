@@ -1,0 +1,39 @@
+{
+  "code_commit": "62c1632733dfecadc19a57f2515bdda1dc579e1f",
+  "checkout": "/tmp/veritile-body77",
+  "explicit_modules": 190,
+  "cumulative_warm_modules": 4732,
+  "scope": "All 190 task and affected production roots with their complete local import closure; unaffected roots retain source-identical published 102 clean-build evidence and are also included in the current 4732-root warm/joint replay.",
+  "project_build_initially_present": false,
+  "veritile_cache_initially_present": false,
+  "project_objects_imported_from_other_checkouts": false,
+  "fixed_external_packages_reused": "/home/argustest/lizn/VeriTile/.lake/packages",
+  "previous_cache_cleanup": {
+    "removed": "/tmp/veritile-body77/.lake/build",
+    "reason": "Remove only this owned, completed Ksoftmax project cache after its published receipt; source and evidence are retained. Rebuild all 190 task and affected production roots and their dependency closure from empty project objects. Source-only parameter extraction affects existing metadata importers; the complete static import graph identifies and includes all affected roots.",
+    "previous_receipt": "efd0015c7dffc9a97aba209a79f49c7770866c2b"
+  },
+  "changed_source_sha256": {
+    "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/CandidateKernels.lean": "eedfe198b48ac99279572f71d8951ac791f717976457be43f21e3869503c916b",
+    "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/IO.lean": "6cb88d82b58b2b745395dbc54bb3fc9e36fabbd05bdde9a8539f73ee9dba4756",
+    "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Kernels.lean": "58588c55bfcf74613216068526daa53b99b48881838c88010ceeccfd5f7e8a98",
+    "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Proofs/IOGrid.lean": "fb65a5efd06c9d8eccd7f9130d74efa96a5e2ee0241b851d4baf0b5ee4f28629",
+    "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Proofs/IOSafetyComplete.lean": "064eb72b52b5c20c1666f4eaf697f404be0c6c860e1c78da1b86ce079946edf3",
+    "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Proofs/Pair.lean": "68cd7a7d655c5184abc4a377f7ba1682d42efc6a0eb8d2cb8e6941a34be6fea6",
+    "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Proofs/SourceConnection.lean": "229f3e432fa8d630ce08ae623eb969982de80b74c34e2a6d313d9a0f2145106d",
+    "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/README.md": "06820cb135e1c9b37756bfc330652e9d8e4994d43cc9093e0d9b3d5b7bc1c36b",
+    "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/SourceCompatibility.lean": "4eccff633df371f0d136c915945588cbec42e3c88135094ce0349ff78d402cce",
+    "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/jit-correspondence.json": "dc076656117af6eb77e72ab8451d9c16886cf59df9ebac16e0f7fc6a6d6e96c2",
+    "bench/repairs/tritonbench_g/lora_expand_gemv/Kernels.lean": "654e8341be6e1b85073bda36ad3c13bb4091d5b0e87a027318d98b72b6374760",
+    "bench/repairs/tritonbench_g/lora_expand_gemv/SourceParameters.lean": "88e09d9fed290c66713bb63244592abc9f7fbba0ee2344701e091cb1a3268e1f",
+    "bench/repairs/tritonbench_g/lora_expand_gemv/check_byte_separated.py": "703f51b432eb8f6f9a7a1a41b2be86672aa4069db8c0947c24e081951154c8e2",
+    "bench/repairs/tritonbench_g/lora_expand_gemv/source_pin.json": "a0596e3bb1a4a3bb6ca746f37a8dd26f3a2df88e164300653e44efe83a762e56",
+    "bench/repairs/tritonbench_g/relu_strided_buffer/Proofs/NativeGridIO.lean": "e576acca6f7a9f76f78b78f67ea8ecaa32ab3885d5b73ec25ca2e55c3a7598f2",
+    "bench/source-correspondence.json": "9e9f143189e04b4bb583daddb274f8433bafdce5b51530a52702492eb699ffe6",
+    "bench/tests/test_lora_expand_body.py": "2b0aea9843d1411d76ba6c0bf4adf7489219f56f6f9b2064050a3abb60c8207f",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchSource.lean": "c4360c2016586f608718e4c593fecfd0d1ba13386e8e81451d4823f2fc7f41a4",
+    "bench/tritonbench_g/lora_expand_gemv/SourceParameters.lean": "bf992c377eb34d1b21e147d4bf29da172ce46c3926855a470698370702ed0d60"
+  },
+  "build_exit_code": 0,
+  "joint_exit_code": 0
+}

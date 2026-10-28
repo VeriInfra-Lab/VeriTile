@@ -1,0 +1,9 @@
+{
+  "module": "LoraConnectionHelpers",
+  "start": 1793193747.4826245,
+  "end": 1793193862.2749205,
+  "log": "/tmp/lora103-direct-LoraConnectionHelpers-1793193747482601025.log",
+  "stop_file": "/tmp/lora103-direct-LoraConnectionHelpers-1793193747482601025.stop",
+  "status": "COMPLETED",
+  "exit_code": -15
+}

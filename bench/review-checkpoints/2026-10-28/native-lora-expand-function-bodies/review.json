@@ -1,0 +1,1940 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "62c1632733dfecadc19a57f2515bdda1dc579e1f",
+  "merge_policy": "Keep draft. Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "lora_expand_gemv"
+  ],
+  "regression_only_pending_body_tasks": [],
+  "semantic_review": {
+    "adam_update_triton": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "add_example": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "add_value": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "apply_penalty": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "attention_fwd_triton1": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "batched_vecmat_mult": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "bgmv_expand_slice": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "bmm_optimized": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "cache_transform_triton": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "chunk_cumsum_kernel": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "chunk_cumsum_vector": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "chunk_delta_fwd": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "chunked_cumsum_fwd": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "cosine_compute": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "cross_entropy1": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "cross_entropy2": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "cross_entropy_ops": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "decay_cumsum": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "dequantize_matmul": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "dequantize_rowwise": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "destindex_copy": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "destindex_copy_kv1": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "destindex_copy_kv2": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "diag_ssm_triton": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "dropout_triton": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "embedding_triton_kernel": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "f8_conversion_utils": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "fast_ce_loss": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "fast_rope_embedding": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "fifth_order_sph_harmonics": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "flash_decode2_llama": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "flash_decode2_phi": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "fused_activation": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "fused_recurrent_hgrn": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "fused_rotary_embedding": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "geglu_tanh_triton": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "index_select_bwd": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "index_select_cat": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "int8_matmul_kernel": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "isfinite_kernel": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "kcache_copy_triton": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "kldiv_compute": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "kldiv_ops": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "kldiv_triton": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "ksoftmax_triton": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "kv_cache_copy": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "kv_cache_filling": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "l2_norm_bwd": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "l2_norm_triton1": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "l2_norm_triton2": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "log_softmax": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "logsumexp_fwd": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "lora_expand_gemv": "Four complete original/existing unit-split candidate mappings preserve both signed index-storage ABIs, all statements, early return, casts, flag branches, loop and stores. The complete original final-state execution and access safety reconnect the previous proof presentation for all source parameters under its existing concrete graph engine. Full grid Real correctness, native observation, safe successful execution, outputs/frames and actual original/candidate FP equivalence are reverified. Original Python and public Correct/FPEquiv/Contract files are unchanged; IO changes only its compatibility import. Exact source-only data extraction preserves declarations. No extra input gate, arbitrary cast identity, whole-kernel premise or numerical experiment.",
+    "masked_add_cuda": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "masked_select": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "matmul_kernel": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "matmul_tma": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "matrix_reduction": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "matrix_transpose": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "max_reduction": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "mean_reduction": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "mul_exponent_compensator": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "nested_loops_processing": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "pow_scalar_tensor": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "quant_transpose_kernel": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "quantize_copy_kv": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "quantize_global": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "quantize_kv_copy": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "quantize_kv_transform": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "relu_strided_buffer": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "relu_triton_kernel": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "reversed_cumsum": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "reversed_cumsum_scalar": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "rms_norm_triton": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "rmsnorm_fused": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "rmsnorm_fused_llama": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "rmsnorm_implementation": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "rmsnorm_triton": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "rope_backward_transform": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "rope_embedding": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "rope_transform": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "rotary_emb": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "rotary_emb_nopad": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "rotary_transform": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "rotary_transform_ops": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "rowwise_quantization_triton": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "seeded_dropout": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "sin_computation": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "sin_kernel": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "softmax_optimize": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "softmax_reducev": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "softmax_triton1": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "softmax_triton2": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "softmax_triton3": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "square_matrix": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "swiglu_backward": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "swiglu_fwd": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "swiglu_triton": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "token_attn_llama2": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "token_attn_mistral": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "token_attn_reduceV": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "token_softmax_bloom": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "token_softmax_llama": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "triton_argmax": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "triton_mul2": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "triton_softmax": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "var_len_copy": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "vector_addition": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged.",
+    "vector_addition_custom": "All 4732 cumulative roots and joint imports replay on the final frozen source. All 190 task/affected production roots replay independently from empty project objects with pinned external packages only. The remaining 4542 previous roots have no changed transitive dependency and retain the published 102 clean-build evidence; their complete source closure is hash-identical. No shared compiler changes. The NativeGridIO local instance is renamed to remove a pre-existing joint-import declaration collision; its type/body and all theorem statements/proofs are otherwise unchanged."
+  },
+  "compiler_change": {
+    "files": [],
+    "behavior": "No shared compiler changes; exact parameter declarations move into source-only modules; one ReLU local-instance name is disambiguated without changing its type/body or theorem statements/proofs."
+  },
+  "verification": {
+    "baseline": {
+      "status": "PASS",
+      "explicit_modules": 90,
+      "code_commit": "8569fda23bee2837aef00143f2f006740a0a522d"
+    },
+    "focused": {
+      "status": "PASS",
+      "explicit_modules": 190,
+      "canonical_task_roots": 94,
+      "additional_affected_roots": 96,
+      "jobs": 3887,
+      "theorem_footprints": 4097
+    },
+    "warm_and_joint": {
+      "status": "PASS",
+      "explicit_modules": 4732,
+      "jobs": 14436
+    },
+    "independent_clean_affected_checkout": {
+      "status": "PASS",
+      "explicit_modules": 190,
+      "jobs": 3887,
+      "local_lean_files": 596,
+      "project_build_initially_present": false,
+      "project_objects_imported_from_other_checkouts": false,
+      "only_fixed_external_dependencies_imported": true,
+      "setup": {
+        "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/final-clean-setup.json",
+        "sha256": "152c704a03c3aaffb3e9a515ce5b2a2fcf25b5d61efb50f91c168f5784cd23e6"
+      }
+    },
+    "source_identical_previous_clean_roots": {
+      "status": "PASS",
+      "explicit_modules": 4542,
+      "previous_receipt": "efd0015c7dffc9a97aba209a79f49c7770866c2b",
+      "closure": {
+        "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/unchanged-previous-closure.json",
+        "sha256": "4d64f2c875b6e3ed16a873c7ffa193b3869dab2815308eb5752f75332c43f440"
+      }
+    },
+    "trust": "PASS: all 4097 elaborated theorem roots in the 190 focused modules, including private helpers, use only the standard base. A shared traversal of one immutable checked Lean environment checks the accumulated axiom union after every root. Public grid_equiv prints no FP assumptions.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 257
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 502,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by old numerical receipt; no false repin."
+    },
+    "source": "PASS: four full raw mappings and twelve focused body/ABI/candidate regressions; original Python and public specifications unchanged; complete source execution, safety, outputs/frames and independent formulas reconnected.",
+    "official_comparator": "UNAVAILABLE: 190 actual final-source attempts with pinned official binaries; Landlock ABI 4 is below required 5 and user-systemd isolation is unavailable. No bypass.",
+    "cpu": "PASS: retained complete candidate AST differs only by the existing single split-length specialization and symbol rename. Wrapper/launch syntax preserved; no arithmetic or GPU.",
+    "torch": {
+      "name": "torch-check",
+      "command": [
+        "python3",
+        "bench/repairs/tritonbench_g/lora_expand_gemv/check_byte_separated.py"
+      ],
+      "exit_code": 1,
+      "code_commit": "62c1632733dfecadc19a57f2515bdda1dc579e1f",
+      "log": "/tmp/lora103-torch-check.log",
+      "status": "UNAVAILABLE",
+      "reason": "Existing Tensor/CPU checks require Torch, which is not installed. The obsolete alias spelling guard was replaced by strict complete-body mappings; numerical profile pins unchanged."
+    },
+    "gpu_or_numerical_experiment": "Not run.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending; the known unchanged numerical receipt failure remains explicit."
+  },
+  "source_pairs": {
+    "total": 365,
+    "pasted_body": 365,
+    "legacy_ast": 0
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/source-closure.json",
+    "sha256": "101401344f4aedf3392457013ce823dac24269bbdc27cbb8d56f3c4a355057a3"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "selected_body_copy_checked": 109,
+      "uncovered_jit_functions": 74
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 333,
+    "uncovered_selected_jit_functions": 158,
+    "primary_files_with_int64_screen_warning": 22,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 53,
+        "antiquotes": 59,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/all-python.log",
+      "sha256": "96fa3f246c29e5f52a25f6f2f2b4fa81fe2ef481254777fa0f8851e5d390639f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/audit-targets.json",
+      "sha256": "7404750cf233f42035d5cf37105496b4875d0b980151ae98e66e2063a5f88508"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/audit.lean",
+      "sha256": "b63c45c78d7c35cbad2b8a2cc951bb304fd0905edb7141598b3c3e10951880d4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/audit.log.gz",
+      "sha256": "c9822d0a028585eb2c025bb87301802b60bbc1ee1dbaef423d8c9c527e095e2c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/baseline-build.log.gz",
+      "sha256": "f0dd985edc9dfd8a180d75998308843671d91caa7049ab69b69560dd0d75577c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/baseline.json",
+      "sha256": "29da03e7fed2aaccf3c9f698dcebacd0ff184c41206f50b4c72d9a986b4dfd1b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__isfinite_kernel__Correct-comparator.log",
+      "sha256": "f78cafe59cbff8983781e138cf426b8e2a8d5430256dfcd7628d92b8121a12da"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__isfinite_kernel__FPEquiv-comparator.log",
+      "sha256": "f78cafe59cbff8983781e138cf426b8e2a8d5430256dfcd7628d92b8121a12da"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__isfinite_kernel__Misc__LegacyCorrect-comparator.log",
+      "sha256": "f78cafe59cbff8983781e138cf426b8e2a8d5430256dfcd7628d92b8121a12da"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__isfinite_kernel__Misc__LegacyFPEquiv-comparator.log",
+      "sha256": "f78cafe59cbff8983781e138cf426b8e2a8d5430256dfcd7628d92b8121a12da"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__isfinite_kernel__Misc__NativeEndpoints-comparator.log",
+      "sha256": "f78cafe59cbff8983781e138cf426b8e2a8d5430256dfcd7628d92b8121a12da"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__isfinite_kernel__Misc__RealEndpoints-comparator.log",
+      "sha256": "f78cafe59cbff8983781e138cf426b8e2a8d5430256dfcd7628d92b8121a12da"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__isfinite_kernel__Misc__TensorBridge-comparator.log",
+      "sha256": "f78cafe59cbff8983781e138cf426b8e2a8d5430256dfcd7628d92b8121a12da"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__isfinite_kernel__Misc__WordCorrect-comparator.log",
+      "sha256": "f78cafe59cbff8983781e138cf426b8e2a8d5430256dfcd7628d92b8121a12da"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__isfinite_kernel__Proofs__Contract-comparator.log",
+      "sha256": "f78cafe59cbff8983781e138cf426b8e2a8d5430256dfcd7628d92b8121a12da"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__isfinite_kernel__Proofs__EquivIO-comparator.log",
+      "sha256": "f78cafe59cbff8983781e138cf426b8e2a8d5430256dfcd7628d92b8121a12da"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__isfinite_kernel__Proofs__Equivalence-comparator.log",
+      "sha256": "f78cafe59cbff8983781e138cf426b8e2a8d5430256dfcd7628d92b8121a12da"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__isfinite_kernel__Proofs__Finite-comparator.log",
+      "sha256": "f78cafe59cbff8983781e138cf426b8e2a8d5430256dfcd7628d92b8121a12da"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__isfinite_kernel__Proofs__Host-comparator.log",
+      "sha256": "f78cafe59cbff8983781e138cf426b8e2a8d5430256dfcd7628d92b8121a12da"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__isfinite_kernel__Proofs__IO-comparator.log",
+      "sha256": "f78cafe59cbff8983781e138cf426b8e2a8d5430256dfcd7628d92b8121a12da"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__isfinite_kernel__Proofs__Kernel-comparator.log",
+      "sha256": "7a6697621df6cfe4efe9131051684e1ab8efe61b86f3844c542b5cb903b37ec7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__isfinite_kernel__Proofs__LogicalReader-comparator.log",
+      "sha256": "7a6697621df6cfe4efe9131051684e1ab8efe61b86f3844c542b5cb903b37ec7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__isfinite_kernel__Proofs__Lowering-comparator.log",
+      "sha256": "7a6697621df6cfe4efe9131051684e1ab8efe61b86f3844c542b5cb903b37ec7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__isfinite_kernel__Proofs__Memory-comparator.log",
+      "sha256": "7a6697621df6cfe4efe9131051684e1ab8efe61b86f3844c542b5cb903b37ec7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__isfinite_kernel__Proofs__SourceBridge-comparator.log",
+      "sha256": "7a6697621df6cfe4efe9131051684e1ab8efe61b86f3844c542b5cb903b37ec7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__isfinite_kernel__Proofs__Storage-comparator.log",
+      "sha256": "7a6697621df6cfe4efe9131051684e1ab8efe61b86f3844c542b5cb903b37ec7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__ByteSeparated__CandidateKernels-comparator.log",
+      "sha256": "7a6697621df6cfe4efe9131051684e1ab8efe61b86f3844c542b5cb903b37ec7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__ByteSeparated__Contract-comparator.log",
+      "sha256": "7a6697621df6cfe4efe9131051684e1ab8efe61b86f3844c542b5cb903b37ec7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__ByteSeparated__Correct-comparator.log",
+      "sha256": "7a6697621df6cfe4efe9131051684e1ab8efe61b86f3844c542b5cb903b37ec7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__ByteSeparated__FPEquiv-comparator.log",
+      "sha256": "7a6697621df6cfe4efe9131051684e1ab8efe61b86f3844c542b5cb903b37ec7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__ByteSeparated__IO-comparator.log",
+      "sha256": "7a6697621df6cfe4efe9131051684e1ab8efe61b86f3844c542b5cb903b37ec7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__ByteSeparated__Kernels-comparator.log",
+      "sha256": "7a6697621df6cfe4efe9131051684e1ab8efe61b86f3844c542b5cb903b37ec7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__ByteSeparated__Misc__Access-comparator.log",
+      "sha256": "7a6697621df6cfe4efe9131051684e1ab8efe61b86f3844c542b5cb903b37ec7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__ByteSeparated__Misc__Binding-comparator.log",
+      "sha256": "7a6697621df6cfe4efe9131051684e1ab8efe61b86f3844c542b5cb903b37ec7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__ByteSeparated__Misc__Checked-comparator.log",
+      "sha256": "7a6697621df6cfe4efe9131051684e1ab8efe61b86f3844c542b5cb903b37ec7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__ByteSeparated__Misc__Guard-comparator.log",
+      "sha256": "7a6697621df6cfe4efe9131051684e1ab8efe61b86f3844c542b5cb903b37ec7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__ByteSeparated__Misc__Native-comparator.log",
+      "sha256": "7a6697621df6cfe4efe9131051684e1ab8efe61b86f3844c542b5cb903b37ec7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__ByteSeparated__Misc__NativeCorrect-comparator.log",
+      "sha256": "7a6697621df6cfe4efe9131051684e1ab8efe61b86f3844c542b5cb903b37ec7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__ByteSeparated__Misc__OutputFrame-comparator.log",
+      "sha256": "7a6697621df6cfe4efe9131051684e1ab8efe61b86f3844c542b5cb903b37ec7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__ByteSeparated__Misc__Physical-comparator.log",
+      "sha256": "7a6697621df6cfe4efe9131051684e1ab8efe61b86f3844c542b5cb903b37ec7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__ByteSeparated__Misc__PublicAudit-comparator.log",
+      "sha256": "7a6697621df6cfe4efe9131051684e1ab8efe61b86f3844c542b5cb903b37ec7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__ByteSeparated__Misc__Scheduling-comparator.log",
+      "sha256": "7a6697621df6cfe4efe9131051684e1ab8efe61b86f3844c542b5cb903b37ec7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__ByteSeparated__Misc__TensorBridge-comparator.log",
+      "sha256": "7a6697621df6cfe4efe9131051684e1ab8efe61b86f3844c542b5cb903b37ec7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__ByteSeparated__Misc__UnitSplitBytes-comparator.log",
+      "sha256": "e0c0348cd6ab8371ea7b027a47bebb3eb17e5c846b0c139f08b709e203c6af7c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__ByteSeparated__PairIO-comparator.log",
+      "sha256": "e0c0348cd6ab8371ea7b027a47bebb3eb17e5c846b0c139f08b709e203c6af7c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__ByteSeparated__Proofs__IOBinding-comparator.log",
+      "sha256": "e0c0348cd6ab8371ea7b027a47bebb3eb17e5c846b0c139f08b709e203c6af7c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__ByteSeparated__Proofs__IOCorrect-comparator.log",
+      "sha256": "e0c0348cd6ab8371ea7b027a47bebb3eb17e5c846b0c139f08b709e203c6af7c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__ByteSeparated__Proofs__IOGrid-comparator.log",
+      "sha256": "e0c0348cd6ab8371ea7b027a47bebb3eb17e5c846b0c139f08b709e203c6af7c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__ByteSeparated__Proofs__IOResults-comparator.log",
+      "sha256": "e0c0348cd6ab8371ea7b027a47bebb3eb17e5c846b0c139f08b709e203c6af7c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__ByteSeparated__Proofs__IOSafety-comparator.log",
+      "sha256": "e0c0348cd6ab8371ea7b027a47bebb3eb17e5c846b0c139f08b709e203c6af7c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__ByteSeparated__Proofs__IOSafetyBody-comparator.log",
+      "sha256": "e0c0348cd6ab8371ea7b027a47bebb3eb17e5c846b0c139f08b709e203c6af7c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__ByteSeparated__Proofs__IOSafetyComplete-comparator.log",
+      "sha256": "e0c0348cd6ab8371ea7b027a47bebb3eb17e5c846b0c139f08b709e203c6af7c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__ByteSeparated__Proofs__IOSafetyControl-comparator.log",
+      "sha256": "e0c0348cd6ab8371ea7b027a47bebb3eb17e5c846b0c139f08b709e203c6af7c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__ByteSeparated__Proofs__IOSafetyLoop-comparator.log",
+      "sha256": "e0c0348cd6ab8371ea7b027a47bebb3eb17e5c846b0c139f08b709e203c6af7c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__ByteSeparated__Proofs__IOSafetySetup-comparator.log",
+      "sha256": "e0c0348cd6ab8371ea7b027a47bebb3eb17e5c846b0c139f08b709e203c6af7c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__ByteSeparated__Proofs__KernelNativeResults-comparator.log",
+      "sha256": "e0c0348cd6ab8371ea7b027a47bebb3eb17e5c846b0c139f08b709e203c6af7c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__ByteSeparated__Proofs__KernelRealResults-comparator.log",
+      "sha256": "e0c0348cd6ab8371ea7b027a47bebb3eb17e5c846b0c139f08b709e203c6af7c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__ByteSeparated__Proofs__LogicalReader-comparator.log",
+      "sha256": "e0c0348cd6ab8371ea7b027a47bebb3eb17e5c846b0c139f08b709e203c6af7c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__ByteSeparated__Proofs__Pair-comparator.log",
+      "sha256": "e0c0348cd6ab8371ea7b027a47bebb3eb17e5c846b0c139f08b709e203c6af7c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__ByteSeparated__Proofs__SourceConnection-comparator.log",
+      "sha256": "e0c0348cd6ab8371ea7b027a47bebb3eb17e5c846b0c139f08b709e203c6af7c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__ByteSeparated__SourceCompatibility-comparator.log",
+      "sha256": "e0c0348cd6ab8371ea7b027a47bebb3eb17e5c846b0c139f08b709e203c6af7c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__Contract-comparator.log",
+      "sha256": "e0c0348cd6ab8371ea7b027a47bebb3eb17e5c846b0c139f08b709e203c6af7c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__Correct-comparator.log",
+      "sha256": "e0c0348cd6ab8371ea7b027a47bebb3eb17e5c846b0c139f08b709e203c6af7c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__FPEquiv-comparator.log",
+      "sha256": "e0c0348cd6ab8371ea7b027a47bebb3eb17e5c846b0c139f08b709e203c6af7c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__Kernels-comparator.log",
+      "sha256": "e0c0348cd6ab8371ea7b027a47bebb3eb17e5c846b0c139f08b709e203c6af7c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__Proofs__Bounds-comparator.log",
+      "sha256": "e0c0348cd6ab8371ea7b027a47bebb3eb17e5c846b0c139f08b709e203c6af7c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__Proofs__BranchAssembly-comparator.log",
+      "sha256": "8bc9d092bc765318949ebca215ee29f721be49ee11e5659d8590a11a2a164ed7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__Proofs__BranchBody-comparator.log",
+      "sha256": "8bc9d092bc765318949ebca215ee29f721be49ee11e5659d8590a11a2a164ed7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__Proofs__BranchBodyValue-comparator.log",
+      "sha256": "8bc9d092bc765318949ebca215ee29f721be49ee11e5659d8590a11a2a164ed7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__Proofs__BranchComplete-comparator.log",
+      "sha256": "8bc9d092bc765318949ebca215ee29f721be49ee11e5659d8590a11a2a164ed7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__Proofs__BranchExecution-comparator.log",
+      "sha256": "8bc9d092bc765318949ebca215ee29f721be49ee11e5659d8590a11a2a164ed7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__Proofs__BranchFrame-comparator.log",
+      "sha256": "8bc9d092bc765318949ebca215ee29f721be49ee11e5659d8590a11a2a164ed7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__Proofs__BranchLoop-comparator.log",
+      "sha256": "8bc9d092bc765318949ebca215ee29f721be49ee11e5659d8590a11a2a164ed7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__Proofs__BranchReference-comparator.log",
+      "sha256": "8bc9d092bc765318949ebca215ee29f721be49ee11e5659d8590a11a2a164ed7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__Proofs__Caller-comparator.log",
+      "sha256": "8bc9d092bc765318949ebca215ee29f721be49ee11e5659d8590a11a2a164ed7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__Proofs__Direct__Checked-comparator.log",
+      "sha256": "8bc9d092bc765318949ebca215ee29f721be49ee11e5659d8590a11a2a164ed7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__Proofs__Direct__Compiler-comparator.log",
+      "sha256": "8bc9d092bc765318949ebca215ee29f721be49ee11e5659d8590a11a2a164ed7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__Proofs__Direct__Native-comparator.log",
+      "sha256": "8bc9d092bc765318949ebca215ee29f721be49ee11e5659d8590a11a2a164ed7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__Proofs__Direct__Physical-comparator.log",
+      "sha256": "8bc9d092bc765318949ebca215ee29f721be49ee11e5659d8590a11a2a164ed7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__Proofs__Direct__Real-comparator.log",
+      "sha256": "8bc9d092bc765318949ebca215ee29f721be49ee11e5659d8590a11a2a164ed7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__Proofs__Direct__Scheduling-comparator.log",
+      "sha256": "8bc9d092bc765318949ebca215ee29f721be49ee11e5659d8590a11a2a164ed7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__Proofs__Geometry-comparator.log",
+      "sha256": "8bc9d092bc765318949ebca215ee29f721be49ee11e5659d8590a11a2a164ed7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__Proofs__Grid-comparator.log",
+      "sha256": "8bc9d092bc765318949ebca215ee29f721be49ee11e5659d8590a11a2a164ed7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__Proofs__Host-comparator.log",
+      "sha256": "8bc9d092bc765318949ebca215ee29f721be49ee11e5659d8590a11a2a164ed7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__Proofs__LegacyCorrect-comparator.log",
+      "sha256": "8bc9d092bc765318949ebca215ee29f721be49ee11e5659d8590a11a2a164ed7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__Proofs__LegacyFPEquiv-comparator.log",
+      "sha256": "8bc9d092bc765318949ebca215ee29f721be49ee11e5659d8590a11a2a164ed7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__Proofs__Native-comparator.log",
+      "sha256": "8bc9d092bc765318949ebca215ee29f721be49ee11e5659d8590a11a2a164ed7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__Proofs__Physical-comparator.log",
+      "sha256": "8bc9d092bc765318949ebca215ee29f721be49ee11e5659d8590a11a2a164ed7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__Proofs__Reader-comparator.log",
+      "sha256": "8bc9d092bc765318949ebca215ee29f721be49ee11e5659d8590a11a2a164ed7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__Proofs__Real-comparator.log",
+      "sha256": "8bc9d092bc765318949ebca215ee29f721be49ee11e5659d8590a11a2a164ed7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__Proofs__Single-comparator.log",
+      "sha256": "fc2fbbde8b7f1c52564464dc100763bbc2a5da20130c567a4f77327063cd6359"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__Proofs__Witness-comparator.log",
+      "sha256": "fc2fbbde8b7f1c52564464dc100763bbc2a5da20130c567a4f77327063cd6359"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__lora_expand_gemv__SourceParameters-comparator.log",
+      "sha256": "fc2fbbde8b7f1c52564464dc100763bbc2a5da20130c567a4f77327063cd6359"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Correct-comparator.log",
+      "sha256": "fc2fbbde8b7f1c52564464dc100763bbc2a5da20130c567a4f77327063cd6359"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__FPEquiv-comparator.log",
+      "sha256": "fc2fbbde8b7f1c52564464dc100763bbc2a5da20130c567a4f77327063cd6359"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__IO-comparator.log",
+      "sha256": "fc2fbbde8b7f1c52564464dc100763bbc2a5da20130c567a4f77327063cd6359"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Misc__NativeObservation-comparator.log",
+      "sha256": "fc2fbbde8b7f1c52564464dc100763bbc2a5da20130c567a4f77327063cd6359"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Misc__TensorBridge-comparator.log",
+      "sha256": "fc2fbbde8b7f1c52564464dc100763bbc2a5da20130c567a4f77327063cd6359"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__Contract-comparator.log",
+      "sha256": "fc2fbbde8b7f1c52564464dc100763bbc2a5da20130c567a4f77327063cd6359"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__HostFP32-comparator.log",
+      "sha256": "fc2fbbde8b7f1c52564464dc100763bbc2a5da20130c567a4f77327063cd6359"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__HostReal-comparator.log",
+      "sha256": "fc2fbbde8b7f1c52564464dc100763bbc2a5da20130c567a4f77327063cd6359"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__IOInterface-comparator.log",
+      "sha256": "fc2fbbde8b7f1c52564464dc100763bbc2a5da20130c567a4f77327063cd6359"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__IOResults-comparator.log",
+      "sha256": "fc2fbbde8b7f1c52564464dc100763bbc2a5da20130c567a4f77327063cd6359"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__Kernel-comparator.log",
+      "sha256": "fc2fbbde8b7f1c52564464dc100763bbc2a5da20130c567a4f77327063cd6359"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__KernelAccess-comparator.log",
+      "sha256": "fc2fbbde8b7f1c52564464dc100763bbc2a5da20130c567a4f77327063cd6359"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__KernelInterface-comparator.log",
+      "sha256": "fc2fbbde8b7f1c52564464dc100763bbc2a5da20130c567a4f77327063cd6359"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__KernelSafety-comparator.log",
+      "sha256": "fc2fbbde8b7f1c52564464dc100763bbc2a5da20130c567a4f77327063cd6359"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__LogicalReader-comparator.log",
+      "sha256": "fc2fbbde8b7f1c52564464dc100763bbc2a5da20130c567a4f77327063cd6359"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__Physical-comparator.log",
+      "sha256": "fc2fbbde8b7f1c52564464dc100763bbc2a5da20130c567a4f77327063cd6359"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__RawCorrect-comparator.log",
+      "sha256": "fc2fbbde8b7f1c52564464dc100763bbc2a5da20130c567a4f77327063cd6359"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__RawNative-comparator.log",
+      "sha256": "fc2fbbde8b7f1c52564464dc100763bbc2a5da20130c567a4f77327063cd6359"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__ReaderBefore-comparator.log",
+      "sha256": "fc2fbbde8b7f1c52564464dc100763bbc2a5da20130c567a4f77327063cd6359"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__SafetySteps-comparator.log",
+      "sha256": "fefdde241907a0dbeecf4c4cedc1b17d94e03f20caf3327718e3e9df3f09dedf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__Source-comparator.log",
+      "sha256": "fefdde241907a0dbeecf4c4cedc1b17d94e03f20caf3327718e3e9df3f09dedf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__SourceResults-comparator.log",
+      "sha256": "fefdde241907a0dbeecf4c4cedc1b17d94e03f20caf3327718e3e9df3f09dedf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__TileSafety-comparator.log",
+      "sha256": "fefdde241907a0dbeecf4c4cedc1b17d94e03f20caf3327718e3e9df3f09dedf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__relu_strided_buffer__Contract-comparator.log",
+      "sha256": "fefdde241907a0dbeecf4c4cedc1b17d94e03f20caf3327718e3e9df3f09dedf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__relu_strided_buffer__Correct-comparator.log",
+      "sha256": "fefdde241907a0dbeecf4c4cedc1b17d94e03f20caf3327718e3e9df3f09dedf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__relu_strided_buffer__FPEquiv-comparator.log",
+      "sha256": "fefdde241907a0dbeecf4c4cedc1b17d94e03f20caf3327718e3e9df3f09dedf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__relu_strided_buffer__IO-comparator.log",
+      "sha256": "fefdde241907a0dbeecf4c4cedc1b17d94e03f20caf3327718e3e9df3f09dedf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__relu_strided_buffer__Misc__TensorBridge-comparator.log",
+      "sha256": "fefdde241907a0dbeecf4c4cedc1b17d94e03f20caf3327718e3e9df3f09dedf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__relu_strided_buffer__Proofs__Contract-comparator.log",
+      "sha256": "fefdde241907a0dbeecf4c4cedc1b17d94e03f20caf3327718e3e9df3f09dedf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__relu_strided_buffer__Proofs__Host-comparator.log",
+      "sha256": "fefdde241907a0dbeecf4c4cedc1b17d94e03f20caf3327718e3e9df3f09dedf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__relu_strided_buffer__Proofs__HostFP32-comparator.log",
+      "sha256": "fefdde241907a0dbeecf4c4cedc1b17d94e03f20caf3327718e3e9df3f09dedf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__relu_strided_buffer__Proofs__HostReal-comparator.log",
+      "sha256": "fefdde241907a0dbeecf4c4cedc1b17d94e03f20caf3327718e3e9df3f09dedf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__relu_strided_buffer__Proofs__Kernel-comparator.log",
+      "sha256": "fefdde241907a0dbeecf4c4cedc1b17d94e03f20caf3327718e3e9df3f09dedf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__relu_strided_buffer__Proofs__KernelNativeResult-comparator.log",
+      "sha256": "fefdde241907a0dbeecf4c4cedc1b17d94e03f20caf3327718e3e9df3f09dedf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__relu_strided_buffer__Proofs__KernelRealResult-comparator.log",
+      "sha256": "fefdde241907a0dbeecf4c4cedc1b17d94e03f20caf3327718e3e9df3f09dedf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__relu_strided_buffer__Proofs__LogicalReader-comparator.log",
+      "sha256": "fefdde241907a0dbeecf4c4cedc1b17d94e03f20caf3327718e3e9df3f09dedf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__relu_strided_buffer__Proofs__Memory-comparator.log",
+      "sha256": "fefdde241907a0dbeecf4c4cedc1b17d94e03f20caf3327718e3e9df3f09dedf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__relu_strided_buffer__Proofs__NativeGridIO-comparator.log",
+      "sha256": "fefdde241907a0dbeecf4c4cedc1b17d94e03f20caf3327718e3e9df3f09dedf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__relu_strided_buffer__Proofs__PublicIO-comparator.log",
+      "sha256": "fefdde241907a0dbeecf4c4cedc1b17d94e03f20caf3327718e3e9df3f09dedf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__relu_strided_buffer__Proofs__RawKernel-comparator.log",
+      "sha256": "fefdde241907a0dbeecf4c4cedc1b17d94e03f20caf3327718e3e9df3f09dedf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__relu_strided_buffer__Proofs__ReaderBefore-comparator.log",
+      "sha256": "fefdde241907a0dbeecf4c4cedc1b17d94e03f20caf3327718e3e9df3f09dedf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__relu_strided_buffer__Proofs__Source-comparator.log",
+      "sha256": "75d6ed8088f8e4d7f9a18e30a444740b77223b084e1b9cdb6c08fa0ee8f176d6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__relu_strided_buffer__Proofs__SourceEquivalence-comparator.log",
+      "sha256": "75d6ed8088f8e4d7f9a18e30a444740b77223b084e1b9cdb6c08fa0ee8f176d6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__relu_strided_buffer__Proofs__SourceSafety-comparator.log",
+      "sha256": "75d6ed8088f8e4d7f9a18e30a444740b77223b084e1b9cdb6c08fa0ee8f176d6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__repairs__tritonbench_g__relu_strided_buffer__Proofs__TileSafety-comparator.log",
+      "sha256": "75d6ed8088f8e4d7f9a18e30a444740b77223b084e1b9cdb6c08fa0ee8f176d6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__lora_expand_gemv__BranchCorrect-comparator.log",
+      "sha256": "75d6ed8088f8e4d7f9a18e30a444740b77223b084e1b9cdb6c08fa0ee8f176d6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__lora_expand_gemv__FPCorrect-comparator.log",
+      "sha256": "75d6ed8088f8e4d7f9a18e30a444740b77223b084e1b9cdb6c08fa0ee8f176d6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__lora_expand_gemv__LogicalHostCorrect-comparator.log",
+      "sha256": "75d6ed8088f8e4d7f9a18e30a444740b77223b084e1b9cdb6c08fa0ee8f176d6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__lora_expand_gemv__LoraExpandGemv-comparator.log",
+      "sha256": "75d6ed8088f8e4d7f9a18e30a444740b77223b084e1b9cdb6c08fa0ee8f176d6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__lora_expand_gemv__Proofs__BranchAssembly-comparator.log",
+      "sha256": "75d6ed8088f8e4d7f9a18e30a444740b77223b084e1b9cdb6c08fa0ee8f176d6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__lora_expand_gemv__Proofs__BranchBody-comparator.log",
+      "sha256": "75d6ed8088f8e4d7f9a18e30a444740b77223b084e1b9cdb6c08fa0ee8f176d6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__lora_expand_gemv__Proofs__BranchBodyValue-comparator.log",
+      "sha256": "75d6ed8088f8e4d7f9a18e30a444740b77223b084e1b9cdb6c08fa0ee8f176d6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__lora_expand_gemv__Proofs__BranchComplete-comparator.log",
+      "sha256": "75d6ed8088f8e4d7f9a18e30a444740b77223b084e1b9cdb6c08fa0ee8f176d6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__lora_expand_gemv__Proofs__BranchExecution-comparator.log",
+      "sha256": "75d6ed8088f8e4d7f9a18e30a444740b77223b084e1b9cdb6c08fa0ee8f176d6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__lora_expand_gemv__Proofs__BranchFrame-comparator.log",
+      "sha256": "75d6ed8088f8e4d7f9a18e30a444740b77223b084e1b9cdb6c08fa0ee8f176d6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__lora_expand_gemv__Proofs__BranchLoop-comparator.log",
+      "sha256": "75d6ed8088f8e4d7f9a18e30a444740b77223b084e1b9cdb6c08fa0ee8f176d6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__lora_expand_gemv__Proofs__BranchReference-comparator.log",
+      "sha256": "75d6ed8088f8e4d7f9a18e30a444740b77223b084e1b9cdb6c08fa0ee8f176d6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__lora_expand_gemv__Proofs__BranchShape-comparator.log",
+      "sha256": "75d6ed8088f8e4d7f9a18e30a444740b77223b084e1b9cdb6c08fa0ee8f176d6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__lora_expand_gemv__Proofs__BranchSource-comparator.log",
+      "sha256": "75d6ed8088f8e4d7f9a18e30a444740b77223b084e1b9cdb6c08fa0ee8f176d6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__lora_expand_gemv__Proofs__BranchWitness-comparator.log",
+      "sha256": "75d6ed8088f8e4d7f9a18e30a444740b77223b084e1b9cdb6c08fa0ee8f176d6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__lora_expand_gemv__Proofs__FPComplete-comparator.log",
+      "sha256": "75d6ed8088f8e4d7f9a18e30a444740b77223b084e1b9cdb6c08fa0ee8f176d6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__lora_expand_gemv__Proofs__FPExecution-comparator.log",
+      "sha256": "75d6ed8088f8e4d7f9a18e30a444740b77223b084e1b9cdb6c08fa0ee8f176d6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__lora_expand_gemv__Proofs__FPModel-comparator.log",
+      "sha256": "75d6ed8088f8e4d7f9a18e30a444740b77223b084e1b9cdb6c08fa0ee8f176d6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__lora_expand_gemv__Proofs__FPReference-comparator.log",
+      "sha256": "a398eb6da938d2f67a0225700cd62bd7ab89da8dd57c8c2c471ce97e9f36eebf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__lora_expand_gemv__Proofs__FPShape-comparator.log",
+      "sha256": "a398eb6da938d2f67a0225700cd62bd7ab89da8dd57c8c2c471ce97e9f36eebf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__lora_expand_gemv__Proofs__FPTypedSource-comparator.log",
+      "sha256": "a398eb6da938d2f67a0225700cd62bd7ab89da8dd57c8c2c471ce97e9f36eebf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__lora_expand_gemv__Proofs__FPWitness-comparator.log",
+      "sha256": "a398eb6da938d2f67a0225700cd62bd7ab89da8dd57c8c2c471ce97e9f36eebf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__lora_expand_gemv__Proofs__HostCases-comparator.log",
+      "sha256": "a398eb6da938d2f67a0225700cd62bd7ab89da8dd57c8c2c471ce97e9f36eebf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__lora_expand_gemv__Proofs__HostGrid-comparator.log",
+      "sha256": "a398eb6da938d2f67a0225700cd62bd7ab89da8dd57c8c2c471ce97e9f36eebf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__lora_expand_gemv__Proofs__HostMetadata-comparator.log",
+      "sha256": "a398eb6da938d2f67a0225700cd62bd7ab89da8dd57c8c2c471ce97e9f36eebf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__lora_expand_gemv__Proofs__HostProperties-comparator.log",
+      "sha256": "a398eb6da938d2f67a0225700cd62bd7ab89da8dd57c8c2c471ce97e9f36eebf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__lora_expand_gemv__SourceParameters-comparator.log",
+      "sha256": "a398eb6da938d2f67a0225700cd62bd7ab89da8dd57c8c2c471ce97e9f36eebf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__pow_scalar_tensor__Correct-comparator.log",
+      "sha256": "a398eb6da938d2f67a0225700cd62bd7ab89da8dd57c8c2c471ce97e9f36eebf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__pow_scalar_tensor__FPEquiv-comparator.log",
+      "sha256": "a398eb6da938d2f67a0225700cd62bd7ab89da8dd57c8c2c471ce97e9f36eebf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__pow_scalar_tensor__Proofs__Audit-comparator.log",
+      "sha256": "a398eb6da938d2f67a0225700cd62bd7ab89da8dd57c8c2c471ce97e9f36eebf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__pow_scalar_tensor__Proofs__Numerics-comparator.log",
+      "sha256": "a398eb6da938d2f67a0225700cd62bd7ab89da8dd57c8c2c471ce97e9f36eebf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__pow_scalar_tensor__Proofs__WholeAccess-comparator.log",
+      "sha256": "a398eb6da938d2f67a0225700cd62bd7ab89da8dd57c8c2c471ce97e9f36eebf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__pow_scalar_tensor__Proofs__WholeFP32-comparator.log",
+      "sha256": "a398eb6da938d2f67a0225700cd62bd7ab89da8dd57c8c2c471ce97e9f36eebf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__pow_scalar_tensor__Proofs__WholeHost-comparator.log",
+      "sha256": "a398eb6da938d2f67a0225700cd62bd7ab89da8dd57c8c2c471ce97e9f36eebf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__pow_scalar_tensor__Proofs__WholeMetadata-comparator.log",
+      "sha256": "a398eb6da938d2f67a0225700cd62bd7ab89da8dd57c8c2c471ce97e9f36eebf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__pow_scalar_tensor__Proofs__WholeReal-comparator.log",
+      "sha256": "a398eb6da938d2f67a0225700cd62bd7ab89da8dd57c8c2c471ce97e9f36eebf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__pow_scalar_tensor__Proofs__WholeScalarABI-comparator.log",
+      "sha256": "a398eb6da938d2f67a0225700cd62bd7ab89da8dd57c8c2c471ce97e9f36eebf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__pow_scalar_tensor__Proofs__WholeSource-comparator.log",
+      "sha256": "a398eb6da938d2f67a0225700cd62bd7ab89da8dd57c8c2c471ce97e9f36eebf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__pow_scalar_tensor__Proofs__WholeTile-comparator.log",
+      "sha256": "a398eb6da938d2f67a0225700cd62bd7ab89da8dd57c8c2c471ce97e9f36eebf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__relu_strided_buffer__Correct-comparator.log",
+      "sha256": "a398eb6da938d2f67a0225700cd62bd7ab89da8dd57c8c2c471ce97e9f36eebf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__relu_strided_buffer__FPEquiv-comparator.log",
+      "sha256": "a398eb6da938d2f67a0225700cd62bd7ab89da8dd57c8c2c471ce97e9f36eebf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__relu_strided_buffer__Kernels-comparator.log",
+      "sha256": "9301da1363b45fcbab894d275618ddaa3fc4764a99aa2708a1022ac43cae6b8d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__relu_strided_buffer__Proofs__CandidateReal-comparator.log",
+      "sha256": "9301da1363b45fcbab894d275618ddaa3fc4764a99aa2708a1022ac43cae6b8d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__relu_strided_buffer__Proofs__FP-comparator.log",
+      "sha256": "9301da1363b45fcbab894d275618ddaa3fc4764a99aa2708a1022ac43cae6b8d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__relu_strided_buffer__Proofs__HostExecution-comparator.log",
+      "sha256": "9301da1363b45fcbab894d275618ddaa3fc4764a99aa2708a1022ac43cae6b8d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__relu_strided_buffer__Proofs__HostIndex32-comparator.log",
+      "sha256": "9301da1363b45fcbab894d275618ddaa3fc4764a99aa2708a1022ac43cae6b8d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__relu_strided_buffer__Proofs__HostPlan-comparator.log",
+      "sha256": "9301da1363b45fcbab894d275618ddaa3fc4764a99aa2708a1022ac43cae6b8d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__relu_strided_buffer__Proofs__Real-comparator.log",
+      "sha256": "9301da1363b45fcbab894d275618ddaa3fc4764a99aa2708a1022ac43cae6b8d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__relu_strided_buffer__Proofs__SourceHostExecution-comparator.log",
+      "sha256": "9301da1363b45fcbab894d275618ddaa3fc4764a99aa2708a1022ac43cae6b8d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__relu_strided_buffer__Proofs__StructuralHost-comparator.log",
+      "sha256": "9301da1363b45fcbab894d275618ddaa3fc4764a99aa2708a1022ac43cae6b8d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__relu_strided_buffer__Proofs__StructuralTile-comparator.log",
+      "sha256": "9301da1363b45fcbab894d275618ddaa3fc4764a99aa2708a1022ac43cae6b8d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__relu_strided_buffer__Proofs__WholeAccess-comparator.log",
+      "sha256": "9301da1363b45fcbab894d275618ddaa3fc4764a99aa2708a1022ac43cae6b8d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__relu_strided_buffer__Proofs__WholeFP32-comparator.log",
+      "sha256": "9301da1363b45fcbab894d275618ddaa3fc4764a99aa2708a1022ac43cae6b8d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__relu_strided_buffer__Proofs__WholeMetadata-comparator.log",
+      "sha256": "9301da1363b45fcbab894d275618ddaa3fc4764a99aa2708a1022ac43cae6b8d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__relu_strided_buffer__Proofs__WholeReal-comparator.log",
+      "sha256": "9301da1363b45fcbab894d275618ddaa3fc4764a99aa2708a1022ac43cae6b8d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__relu_strided_buffer__Proofs__WholeSource-comparator.log",
+      "sha256": "9301da1363b45fcbab894d275618ddaa3fc4764a99aa2708a1022ac43cae6b8d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__relu_strided_buffer__Proofs__WordHost-comparator.log",
+      "sha256": "9301da1363b45fcbab894d275618ddaa3fc4764a99aa2708a1022ac43cae6b8d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/bench__tritonbench_g__relu_strided_buffer__Proofs__WordTile-comparator.log",
+      "sha256": "9301da1363b45fcbab894d275618ddaa3fc4764a99aa2708a1022ac43cae6b8d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/candidate-source-check.log",
+      "sha256": "6b3347cfb1de726adca6fb5c7335f972961a05825bea73fc19036798fb064645"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/clean-source-closure.json",
+      "sha256": "ef3e12311dfa4a9f2e0546582b20de503e68faa5abf686cdbcf96c0a08c71860"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/comparator-invocations.json",
+      "sha256": "153699f19d9d66a94b033843e9114ff7a46f19832e814a6e12a7194bb2beb413"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/comparator-tools.json",
+      "sha256": "28998e17d51b0fb5930f7489e64512a57f8a8146d1470063a624a75bbabdb0d3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/corpus-guard.log",
+      "sha256": "eba9184abbcfb4e291bce7e8072abd6fe910409d480b1ff4c77533a6ece46e47"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Access-1793194425270187649.json",
+      "sha256": "9a61a6af242c4a4ae6d185701b74e3bea412b9ddb5a4a61ee6506531487cfe3a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Access-1793194425270187649.log",
+      "sha256": "986ac386d05bab0c45d8600959b8301f0eb16e34ce992f74be41123ffe9173de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Binding-1793194409504830246.json",
+      "sha256": "440757e99886fa00e458abe68e5a3ac95f473a2d910a5fd37d752fb98ed076a8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Binding-1793194409504830246.log",
+      "sha256": "e6d86b37604e1bd0bacd45c32564119c5687d82302b9f1296be0972e281916e9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Bounds-1793194421954071457.json",
+      "sha256": "8f6a8d82122450e9bd65a2a362ec0930a58e6415d7310fa3f211acd4c21a5213"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Bounds-1793194421954071457.log",
+      "sha256": "68de09513ee27fbd82a16ae6bf3bbb928c362246c79a1730b931fd05db673a63"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-BranchAssembly-1793194197969737263.json",
+      "sha256": "6678f22e184b1573d7fd4e73cc9ac831717707b3c39c5110e4dbc576b2d1fc2f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-BranchAssembly-1793194197969737263.log",
+      "sha256": "32ae8bcb6e094b992ede0a61394a2ef6aeb9bbf9361c44cb2468fb8aec7b474d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-BranchAssembly-1793195408617721382.json",
+      "sha256": "5bbcefa1c5ac30e6e4aff6bd9ec744f02df32101e4854808bb39b593cc2de50e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-BranchAssembly-1793195408617721382.log",
+      "sha256": "6eb7f7e8419de1c6b5404e338a47d0e18ad1963ce3b04cb5ca465b9e134983f3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-BranchBody-1793193970078078751.json",
+      "sha256": "3143fd895038467f9d43f0e603da333ef28b03ff37eb70495fbe246593c812d4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-BranchBody-1793193970078078751.log",
+      "sha256": "198bb9c749f73e9ed8511e63c1d631e4e96e7d33fcf4ddb3ead9fac1d2a294e7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-BranchBody-1793194742495276587.json",
+      "sha256": "2d9647e161b0a6224a6463d0a9e57ef9d38608b9e172d056e8dd388be539a311"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-BranchBody-1793194742495276587.log",
+      "sha256": "7d08916a32c641e7013a571a8a01412e596ea818fe96b79a5a70b288695ba9f9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-BranchBodyValue-1793194163312081444.json",
+      "sha256": "424a0538b4c077764c7830ba91bcda2e97193abbccfa0323569552a23f14544f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-BranchBodyValue-1793194163312081444.log",
+      "sha256": "eb9c2ab23822ce738a1f267bb14d3a561f5b650f9799d91503cc1ed3286d646e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-BranchBodyValue-1793194910964567629.json",
+      "sha256": "5314a1727ebc8816b238e2056fcc9af8d66beca678da15c06eb52a6c287bbd25"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-BranchBodyValue-1793194910964567629.log",
+      "sha256": "a0e142d506902a8edd78450c3dba3e6e8581721573d886689c7bd73c8dd9c3a4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-BranchComplete-1793194209688227490.json",
+      "sha256": "491e19392cf807094a9596fbc592ec287f07ae031baa8c37e056006ec10759e3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-BranchComplete-1793194209688227490.log",
+      "sha256": "7d520ec1cebdcf23e487e07cf136ad03389aacce19c573e371401814daf1b0da"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-BranchComplete-1793195420236122763.json",
+      "sha256": "7765f43beac4d776cf43a02e0818987b5f17e0aa8331a808fd565e6033684adf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-BranchComplete-1793195420236122763.log",
+      "sha256": "1b4bf38915cf2c75b64547fcd8be07a354727ff05f870ce463e48195baf14605"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-BranchCorrect-1793195424602635778.json",
+      "sha256": "b76e4ab016f152344e91737e5b41b3ce6b0c7774098364f47b4fa5a305486764"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-BranchCorrect-1793195424602635778.log",
+      "sha256": "a7f60878542428e8f0b45a3b2859d205e5a44dd50ce1d771a2ed9ca2062a8651"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-BranchExecution-1793193646836935526.json",
+      "sha256": "1617f37ee813300731336f4b48e3254e9e5ef8dde44ae3f1927f6eab5b14b956"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-BranchExecution-1793193646836935526.log",
+      "sha256": "092ebbbcda443c68ebf1ce66af5bd23eeec1212d971f4dc2d99881eb4c3394ad"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-BranchExecution-1793194537766123993.json",
+      "sha256": "58c820038ac6d3b011d86683c4c47e4ff498eb748e12a4c37baf6cc2b9e8726f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-BranchExecution-1793194537766123993.log",
+      "sha256": "2814872f070e1505b2ae9e3862c28c87551e658a689aba1c3c24f49d92d6a382"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-BranchFrame-1793194195452702758.json",
+      "sha256": "dc72bbb6f9835a6e6c156d7a01e9e59f7233728c4d4b18b8925471c4954fa280"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-BranchFrame-1793194195452702758.log",
+      "sha256": "d07021355b3acdf6f40a148cc1e1a04510754d13e8b6dabea3903d4276a17c7a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-BranchFrame-1793195406052362279.json",
+      "sha256": "bd5f8528a7aae2b479ea51d17a200f8d381d487576e977b3584f99fa44a62496"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-BranchFrame-1793195406052362279.log",
+      "sha256": "293a9521b376d7c57da67b5a3b86f7cca53c9f0f76c84240dba162ebdd0a34f7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-BranchLoop-1793194192186763501.json",
+      "sha256": "92abb1ad52511916615e59d983761f461640b2ca7735dd56645aa136dc74b81e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-BranchLoop-1793194192186763501.log",
+      "sha256": "f550cb81117a1208a7a12e87aad5fb82e4e52c7c565869b691ac65cc80b3a8a0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-BranchLoop-1793195402836610454.json",
+      "sha256": "1f5f5d9298e2ca07157ffe105db49a8fdf8aae3f4eafe61761f4b14aca7649c7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-BranchLoop-1793195402836610454.log",
+      "sha256": "175779bf96cf0559e5a4915ecd9550e692ff0d94ef5da18fceff3b76b468b066"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-BranchReference-1793193634872093210.json",
+      "sha256": "d38b3a67f20f1f7b689784e1dc683fc35d516e06c99f22bcfc3ea0d25353e419"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-BranchReference-1793193634872093210.log",
+      "sha256": "e60538bf31dbf7ab30198b2a9119ae9d31a26ead5755377c3977ba666c0a6b98"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-BranchReference-1793194535200796541.json",
+      "sha256": "1e2502fbfab7938e5ac688a8518646bfdc4cf21b33b801dcf90a160f5f7f3458"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-BranchReference-1793194535200796541.log",
+      "sha256": "ab7e7596cac5f9f7807e0bace6ee99271fe500d3304830b44176af6892db421c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-BranchShape-1793193479096002125.json",
+      "sha256": "274ef6eabf87bc192568e49c29a1dcb646235008e2d8c5e48f656f14c1bee690"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-BranchShape-1793193479096002125.log",
+      "sha256": "6557b69755eafc115d18f94f693f81be5d692e696d244605b3f9227a430f6bcf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-BranchSource-1793193460713505341.json",
+      "sha256": "66ff69a9329bbc3cf59372d99b449354feb3ea597367030f234b63ce65d08432"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-BranchSource-1793193460713505341.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-BranchWitness-1793195444970397580.json",
+      "sha256": "04aaef42ac9839886c6dcea812b4f255993ee770e6166017212af539d4d53f43"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-BranchWitness-1793195444970397580.log",
+      "sha256": "3a98a1a089777f1f1db2df72bba6a28140fbc421faaf0eddd610f63c1034d142"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Caller-1793194513102733166.json",
+      "sha256": "613ac6d18b8248cd6a91578f3dd94f375533aca7d63137df12b37fcbe44d416a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Caller-1793194513102733166.log",
+      "sha256": "40c06f83d6882d5fa0f79891db3fd0b5ad3213d36adedb4bf35af18c924a3507"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-CandidateKernels-1793193041132983022.json",
+      "sha256": "d11d1ea34332f59d360cb30c4ee81596db482034e16938e22eb9a94a4a3c1733"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-CandidateKernels-1793193041132983022.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-CandidateKernels-1793194047529090173.json",
+      "sha256": "01c87b503be7836df00ba74ded9c5158c7065d9b0c389823125924494b18450b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-CandidateKernels-1793194047529090173.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Checked-1793194403587698592.json",
+      "sha256": "2c0b7e95b58760a2214a6198bc333ec6553918338ea3a7521f2c4ec8fb99fe49"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Checked-1793194403587698592.log",
+      "sha256": "fbc52ac3f0b5d652c8945805cd0104599ae8b64d6826d51be2a312720fd65156"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Checked-1793194467988034706.json",
+      "sha256": "6defd404d08927987e5443d7b3efaa29cff5c8cfa4e53ed64ddaa5d8f81441f0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Checked-1793194467988034706.log",
+      "sha256": "e7e431aa24f9859725c9e40ed52b199ca405366c96221383cdc2500425aebba1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Compiler-1793194495687150815.json",
+      "sha256": "bad47ac3baf67927b49acf2e61df1ba53ea5f7f10b82cf712090555cd941c523"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Compiler-1793194495687150815.log",
+      "sha256": "cfc1996b7daac4d70aede25c78d1bcf990c49e266383ca5af38d78551ce6dcd1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Contract-1793193589633288365.json",
+      "sha256": "2b44e77ba664616d87df2051901d5c7bcac0886d0bfe4d420511643047d4b6fc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Contract-1793193589633288365.log",
+      "sha256": "009f41827ee3ee6929be0138424baa29c64c2883d87aaf1e70ac9671cf5bdcce"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Contract-1793193624075327844.json",
+      "sha256": "fb335a17d025ab605f1ce30eedee9806f9ceca8e103bcc50699de4684c9bb54f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Contract-1793193624075327844.log",
+      "sha256": "f17abe5c027dfc492cd8df1c55dac81f6374531e240da14da6fb6e5aff9fc629"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Correct-1793194386978794890.json",
+      "sha256": "27af1d256b1188057dd51270dfc6a4b404ed1a2272a92bf5a7f4f85e19213429"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Correct-1793194386978794890.log",
+      "sha256": "976603cc76067775208ae2dab132d7526cd0e728313db1beedc5f4918deb807c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Correct-1793194477771270311.json",
+      "sha256": "4bda86d5122d46f62eba69ee54b349e91fbe5ccdb4490ac40984979e8d956880"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Correct-1793194477771270311.log",
+      "sha256": "84a80aaf96f6fb2e1eafaef6ec6f641ca9b3eb9d4ac996093133a869c65e43f4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-FPEquiv-1793194398371275339.json",
+      "sha256": "5d90e5a7ee5f350ad516b2fd57d492bf32dbe0affa14333462e2dc0bef850c84"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-FPEquiv-1793194398371275339.log",
+      "sha256": "17221720a8f694ff9ee0a78e3dd58e22539a7c864cf2a4cef08c3f9f8a65d98d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-FPEquiv-1793194499653623033.json",
+      "sha256": "3478d64ccabfa4459cd92dc8d26682ec8900c104247acd8d9cc5abfda93f9fa4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-FPEquiv-1793194499653623033.log",
+      "sha256": "ebe4b3d2e534c357abfd5128bc814a21315249fbf43ed908a5c7790d54039fd1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Geometry-1793193583054880536.json",
+      "sha256": "3ab1c0010d98e5fddf6539dc4d715c7ef91d5447c2901577799c4176c775dbfe"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Geometry-1793193583054880536.log",
+      "sha256": "aacdf3b12b876dbdb258b13c40d88e224dc71500437fc844832e476b3f3d2378"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Grid-1793194214054760663.json",
+      "sha256": "6bdc43ef6ad33c935f01dd7b6de7941265c913bcece2a29bb37031da982f84ab"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Grid-1793194214054760663.log",
+      "sha256": "40abedaf142c4a0c0e4036a63a9f0d9a4b91bb5e4b7b529947e71e0719e3de07"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Guard-1793194429086254286.json",
+      "sha256": "080329223a9c747a284dd67c53fc127f128c911d4c08c035133a699c93aff558"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Guard-1793194429086254286.log",
+      "sha256": "bb3cad4dbb8f05918df4359e18e01303044a6141c54400970ba080cd874f6624"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Host-1793194504570316939.json",
+      "sha256": "e5fdf5afbdcab52622999ddfbcbae3fdfd3ef41ac9ed2cb94ed65539dc129567"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Host-1793194504570316939.log",
+      "sha256": "c7628e6bac4648fb75d042c6ed6805f8577c40dd286a03009d588efb3e2bf839"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-HostCases-1793195438594892918.json",
+      "sha256": "c65949891852fbab89b5a34a1944f3ee46cc72e73943f8121c13460609fbb75c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-HostCases-1793195438594892918.log",
+      "sha256": "abc18b16180e16249af5f54738d702878f8480420eb17de45882b734639ff387"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-HostGrid-1793195434085145406.json",
+      "sha256": "2531ba79300de87245fb6661962b85275f9eaf4e3f7a7a01fa7883a5c8906cc2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-HostGrid-1793195434085145406.log",
+      "sha256": "46803299df3bf07401d5a7b5d562dc084e0e85450daae862d31595b779e2eda4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-HostMetadata-1793193571211770691.json",
+      "sha256": "d32c1d1147f6e9df8d15e789c0b7606fa31856da6ea418203040d9012e1e9d01"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-HostMetadata-1793193571211770691.log",
+      "sha256": "9ed9e6b80caede0de7d94fbaacedf8f5fea788d65a6d2c04d11958a55d863d79"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-HostProperties-1793195427968639999.json",
+      "sha256": "c4e9863aa3fd8394cb1e69a15b2d1632a62d1a0410180733b3692ca90cfc4ea9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-HostProperties-1793195427968639999.log",
+      "sha256": "277f0e2e3571dd6a49954cc59bd4f1b08bc593f5a4d42d7c69eae03c12392b1c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-IO-1793194225720929866.json",
+      "sha256": "15c23333825330e0fe035a02093c3dbef666714b24948d629f4934c19bdcb904"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-IO-1793194225720929866.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-IOBinding-1793194367310444042.json",
+      "sha256": "9d32e188205cbd34722f95c7ea01ba22730a91f1374ba95864398730cd86d028"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-IOBinding-1793194367310444042.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-IOCorrect-1793194378696755326.json",
+      "sha256": "057fa909ce909853fc43bf96f5bdaa28e60ede3cc4c996cf8a501ba2f93a78b4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-IOCorrect-1793194378696755326.log",
+      "sha256": "cb9995cb68e652139637892efd9c78ba2102987c638f216e69c2b25ebc021b8b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-IOGrid-1793194362694268501.json",
+      "sha256": "b4b8b4c3ecb6e50211eb5b80d03b192e8d3e5fb539b1db44fc46986d1f4f069d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-IOGrid-1793194362694268501.log",
+      "sha256": "24845ac3f4308cc87d5aae2ed754f0cb755db20415c8214c8573017444e8264f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-IOResults-1793194374830304707.json",
+      "sha256": "3a0a761f0a7c219d244ae19737f445db15cb1d8e91eee24ca3fe0ad4c753d19f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-IOResults-1793194374830304707.log",
+      "sha256": "f92c1ad52daa3318c1941e118a33e3903bd606746e2e40b414e2002f1f7a4d96"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-IOSafety-1793194330109612173.json",
+      "sha256": "e9fb16afda660f1ed1dd4b6653f23dbbac67edb0d118e336208cd8cf86c9e148"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-IOSafety-1793194330109612173.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-IOSafetyBody-1793194344744699953.json",
+      "sha256": "468b8bf9f5b77dd1272bd87a44cf17e505ddb9fef96b6440ea7b4e609cf2acfa"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-IOSafetyBody-1793194344744699953.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-IOSafetyComplete-1793194370312429073.json",
+      "sha256": "cdc3f19ab5112514b3429b2e386de1d61a77d24ba95c1cadcb9c3cbfa6efef08"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-IOSafetyComplete-1793194370312429073.log",
+      "sha256": "e7f2afeab24582ef28d97ec5c4b199964d4db7cdd0537ccf054b5e0863f61757"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-IOSafetyControl-1793194360028633144.json",
+      "sha256": "b554db064be364bc36b0464900699e2f83f06a4cc1147f2e855949e279b7c643"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-IOSafetyControl-1793194360028633144.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-IOSafetyLoop-1793194357413276678.json",
+      "sha256": "0b699d96bf7567c9fad67f1a4ba6f37bc8239b59c4f39e292c0996841a3e706a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-IOSafetyLoop-1793194357413276678.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-IOSafetySetup-1793194333025936501.json",
+      "sha256": "4718981e2c66d1964b9d5c3515cd94996c843dcee6fa1873bb9becb2fb79b6a8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-IOSafetySetup-1793194333025936501.log",
+      "sha256": "7f97bf9b6a74f0ee1eff786d7b6690512c6a2df538964f1185951ae6b132091d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-KernelNativeResults-1793194447571421978.json",
+      "sha256": "fc98cfe5d98e344a739908c4135109abf6fd29896b3d51ff633e174956ae4ec4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-KernelNativeResults-1793194447571421978.log",
+      "sha256": "2690f4061c77378e88a497b8ec9da4cc39a1d340cf6962c30b3c41ce14d28889"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-KernelRealResults-1793194443655061491.json",
+      "sha256": "179ad38b84f96fea6fa111a0f5d6bd156a5102d72fab77f582f5f40a8f58d520"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-KernelRealResults-1793194443655061491.log",
+      "sha256": "16b1d92fb79c14b29eca9bdc5e44ef3bb55fda671ca832f5c2c3b8ef8d8b2fad"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Kernels-1793193035358722927.json",
+      "sha256": "5e85a54e52b947208989b9a0e5a145041a10ac60b2c5a4b4518561a82ea1994f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Kernels-1793193035358722927.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Kernels-1793193577284485284.json",
+      "sha256": "91fec2324168fc6c241003db885b8058a6319d90ba5dcbd17ae24ab68285fa87"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Kernels-1793193577284485284.log",
+      "sha256": "062530d6424fac19951d1f0df78bae2fdfddf2304fb20e0f699ee702c7edea92"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-LegacyCorrect-1793194515717953240.json",
+      "sha256": "d66d9dcd49f817254b388334c78c49ddc9e27bab6bf4deba74287d7c15cd213d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-LegacyCorrect-1793194515717953240.log",
+      "sha256": "7e76e8dfd0800619c92dbb165667f6b2b4bd3b306ac83e01fd9d7fe620725aea"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-LegacyFPEquiv-1793194520084063060.json",
+      "sha256": "8d4d38c8bb99cf0b56aadee3aec272407dabdabbe1e76471cf234ee8040c5d4f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-LegacyFPEquiv-1793194520084063060.log",
+      "sha256": "f2cdb5238b0432e015e58da6e9822ed0771acd9ea28c6999737233eae35a8343"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-LogicalHostCorrect-1793195441460977087.json",
+      "sha256": "cd366c213664cd871876cf64ca67a32bf28cee0ab342e83419e6d5991d133be0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-LogicalHostCorrect-1793195441460977087.log",
+      "sha256": "418f142041be9de9d9f36f3bde2e1b5ac35bd9df2b7a1bc731a3cba3a731e253"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-LogicalReader-1793194384363464276.json",
+      "sha256": "728f60f612aff9f18d09e665dfadb0b8e82d62b5db2bd5ee82412a7e93619659"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-LogicalReader-1793194384363464276.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-LoraConnectionHelpers-1793193747482601025.json",
+      "sha256": "0024c664b33ad202a8531ca38f323134c440615525417df4d5a6b3410809c741"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-LoraConnectionHelpers-1793193747482601025.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-LoraConnectionHelpers-1793193887713889853.json",
+      "sha256": "bb3af050b7028f42f37b471132376ee33f06c2b05c6a1a314ede12e0650f3c13"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-LoraConnectionHelpers-1793193887713889853.log.gz",
+      "sha256": "f1002a7fa9d136edab8ce1729375d1cb27bd745d983b1b47f37b4d16261a92a7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-LoraConnectionHelpers-1793193948378679368.json",
+      "sha256": "68431ee2f396f0e776e36a50317e20795de3289e6a600778be626c12cb0ff644"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-LoraConnectionHelpers-1793193948378679368.log",
+      "sha256": "8fed3da06c50638333e94e4c51b3011424e17a791cfbaa667b0a4cc2bad290bf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-LoraDiffProbe-1793193398305039349.json",
+      "sha256": "9d768857d25e2998dc48b50f7c703d05447f1cfeb73f069a6ca4b72d9e5b1062"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-LoraDiffProbe-1793193398305039349.log",
+      "sha256": "d8de8da15d0b5d4b6c671bc5a7afb4747b4e0947623056dedd6805ab0b67719f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-LoraDiffProbe-1793193437574679363.json",
+      "sha256": "4bedcc00d3c2c573865beb00583a38b14e926feed3dda0c9476da45035652b79"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-LoraDiffProbe-1793193437574679363.log",
+      "sha256": "e8cb3583ecccf5fc27a0fe447f9240836e324c961ebbd25fd8dcc22e0482e23a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-LoraPreviousBodyProbe-1793193314175451792.json",
+      "sha256": "88f948ae3e10e8ab8110402bab219b661a2780bfa335f4448b2c20fd51e85570"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-LoraPreviousBodyProbe-1793193314175451792.log",
+      "sha256": "10b0ad6b334b40bb9b9262ae64d0ac2908f27350bcd1c751f077aa7b8958d4bd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Native-1793194222855013983.json",
+      "sha256": "b6380e1dc97ff7238aa38fb4e8bb076c7cbc6b3ac7adbbb2f277f4dd2e4781bf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Native-1793194222855013983.log",
+      "sha256": "0b8d1e3278d996c2058fdb3485ccf5922d7498a35fb5eda10783ac80ab42c29e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Native-1793194412770897063.json",
+      "sha256": "0cbdbfb3e481d4a5e93f045bcd72577a16f6d34cfcae899dfc3cd0707a10fc7a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Native-1793194412770897063.log",
+      "sha256": "01423ace82b25a11ee438612f7a0826d8e7d64a13ecd3215311207c47393223e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Native-1793194481687679329.json",
+      "sha256": "cbf4cb9cb4dde0188d76c06e4ab8cb82bb7fd5a67c8948703f7ed4491fc5692c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Native-1793194481687679329.log",
+      "sha256": "eb31b9f9612bf62bfa192c031ea71a57388499bdfc86c551415593f886343411"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-NativeCorrect-1793194432151710536.json",
+      "sha256": "bc69e64815e304b8d19c0f4cf606b3a45a252f61ec4f377e9770aa3828db4044"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-NativeCorrect-1793194432151710536.log",
+      "sha256": "f277244b60ae4c997074fe2ea5fce455a0d593440fa548af3de65f24c4fbf30e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-OutputFrame-1793194436155065451.json",
+      "sha256": "acac88bde2b1e72941e358672ccdae1264678efe05e042549de1bc49872a8c2f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-OutputFrame-1793194436155065451.log",
+      "sha256": "6c99bbc0ff29557bd6cd37c712a743693709588d5cf4aad2029aa299f18a4ec9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Pair-1793194392954358873.json",
+      "sha256": "6c1e9f89fb1cc261ecb681eb231b14228d7636f5a35e9b104827bc94e8d2105f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Pair-1793194392954358873.log",
+      "sha256": "f1b85b356657325e353d10e16f0a60c1eb78c473f006bc878c9b4900ab272c40"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-PairIO-1793194390488331199.json",
+      "sha256": "999fed4a04b6c10f811f19dddb8ae0e773d41e68fe1866e64012a9b77c474200"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-PairIO-1793194390488331199.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Physical-1793194418037650833.json",
+      "sha256": "67076322b6fc7f2fe0dd29153c152f1a9cda98d39fdac0ae345480ecf81368b7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Physical-1793194418037650833.log",
+      "sha256": "877274e9900c8a60d9c85a853ce402595ff4ce9e29cb6b6852e811698caa4f5f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Physical-1793194490970938614.json",
+      "sha256": "e08cfd3262b226e589c5ae2039a8424de41ccd8796c720fa973d7d0846735472"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Physical-1793194490970938614.log",
+      "sha256": "d7a8905aa4f3dc9cfcaa3ef518595ae77d62280ef47c93a6717eef81d7c791c7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Physical-1793194508436638348.json",
+      "sha256": "e01a34db4571938f8e57f1ca6aeb3e15e4ae7445876681320f010ff878faa69d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Physical-1793194508436638348.log",
+      "sha256": "26f24d8ab39ac6d551c2a97951a98a28f312c1e0b9ea2339dc0652b295b44607"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-PublicAudit-1793194457304572217.json",
+      "sha256": "fadcdedcc0687d3995c20d98f379e8d98d3b9b39870ee9d1590e7d89283832bb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-PublicAudit-1793194457304572217.log",
+      "sha256": "45972e371b0aae642d90d48447258cb84afe40eb67c00a80c5650c89213f313b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Reader-1793194524550753889.json",
+      "sha256": "e7b8e5d261e12eee0ef15e6faac8c2013abe71236f9f4fdc623f04d67983fd46"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Reader-1793194524550753889.log",
+      "sha256": "398eb21ba37b08693f31e29a6a03014295079af28b096a88f61b7e5001070836"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Real-1793194219589139726.json",
+      "sha256": "9a6066b445af88cd4ec725bdfa2fe7748a73f5e4c7870c3194301a4fef42803a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Real-1793194219589139726.log",
+      "sha256": "29a51ceb6a346ca0881aff6a5848b664959a6219a432298c7a1b70da3867608b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Real-1793194473804936975.json",
+      "sha256": "902636a5da95f98d3f41aead3e941ac4eec40daf43bb17a898f750710f67d36c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Real-1793194473804936975.log",
+      "sha256": "93ebb5285f19ad4457deb2dca60cf452cb7cc86e6e8f3d471363f0496370b1d8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Scheduling-1793194439688503777.json",
+      "sha256": "c1965bbee18dbd2af7ad817b79dd3f6520610ed2978d834f9706b0faeeca361d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Scheduling-1793194439688503777.log",
+      "sha256": "b5621580af1c58bba7ce917a40bf0ce3d20249efc9d8947ac1fb843fff85e1d1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Scheduling-1793194487004399625.json",
+      "sha256": "f104a9b67fd7b24b3c70f2849fb9bc4a2a86b26a786db16c70000657d0e78591"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Scheduling-1793194487004399625.log",
+      "sha256": "7753db8577306fff8500e196cbfc8a6a2f4003da6fd921c6eed346be870849a3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Single-1793193640040811639.json",
+      "sha256": "d6a387d5d2ae92f77f0073bf27dec8bf9a7e1d1305a3ad94c38a8ecb7651f471"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Single-1793193640040811639.log",
+      "sha256": "5a478de5c79f072b9356d808291cf07587c6760a7c6875377f49d812eba52cb9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-SourceCompatibility-1793193630446889183.json",
+      "sha256": "a55d857580256cb1d6bc5d06a43dfebc74f9c72c4bd2176f9e883316d461fe52"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-SourceCompatibility-1793193630446889183.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-SourceConnection-1793193658414226396.json",
+      "sha256": "4d6d02e3a3ba7deb82f72c71ab63f7834e1b7d4f3d477027877aae899ad81ddf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-SourceConnection-1793193658414226396.log",
+      "sha256": "532ce0a18fc8a5f5c40188bb5bb3461d62a040231c623d5fb045aeb642f9ede2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-SourceConnection-1793193990574880325.json",
+      "sha256": "b8358c76b1fbc61c8f5731e91a4955b5212953a9566e03c390c179acd559afff"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-SourceConnection-1793193990574880325.log",
+      "sha256": "4e6859fbe5535785a06ff0d6a7be112125871b211a664692e86b06813cb59a75"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-SourceParameters-1793193028964568799.json",
+      "sha256": "656bc21b79eb461dcc7c14752506ea06beb6ab1f4c8d33ad203cd0414f285844"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-SourceParameters-1793193028964568799.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-SourceParameters-1793193032236692639.json",
+      "sha256": "aca1e2fa22fffbdfe05b87f2cf60382094074b8ca1686d0e7d389593967a15e4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-SourceParameters-1793193032236692639.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-TensorBridge-1793194451487749305.json",
+      "sha256": "02849c13aef7ec6da1896b52ed4885aaf73af121be6a4814e9e3d4b37a003140"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-TensorBridge-1793194451487749305.log",
+      "sha256": "a1b7c63a0328799191d40a6c92f09455aa68dc2036ef6949704af8b4f61b88d0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-UnitSplitBytes-1793194464772214093.json",
+      "sha256": "be86083c92a52ea6fbd4b6603c22b28ddf528cc3205c33c3ddf4cc324df31222"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-UnitSplitBytes-1793194464772214093.log",
+      "sha256": "b2ec4cd344dcf518b50ed09be23a643db2bb87f8dc985e7e9e8b10c488cb2f44"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Witness-1793194532667805502.json",
+      "sha256": "fc77a672571bbb72e5538ea2a5733c344be0e47d568fd1c19a226eba97f588ac"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/development-attempts/lora103-direct-Witness-1793194532667805502.log",
+      "sha256": "b27502f30c22e18065a01a7661b02b2b5648015686c9cdb7e25014ddb7c6434b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/final-clean-build.log.gz",
+      "sha256": "f6fea47da4d10345d23fdc5b8a035f9302fac7ee0b73343e2bcc9211bf473dd4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/final-clean-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/final-clean-setup.json",
+      "sha256": "152c704a03c3aaffb3e9a515ce5b2a2fcf25b5d61efb50f91c168f5784cd23e6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/focus-build.log.gz",
+      "sha256": "46f448fde73af44caf32cbe5cbe6b35168bb5b9b1ce067010471e9075b3f1446"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/focus-invocations.json",
+      "sha256": "a3239eb9a655ffd75e82123515398c86acb9844603a1f74ec27a412f62d2abc6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/focus-joint.lean",
+      "sha256": "468d00c8cbdfb9b58419bb07635b968674da81deafdbdcc5d6e4eb36c3e952e2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/focus-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/focus-modules.txt",
+      "sha256": "91ee25f32771adb68b026968f5dd49e4850a73e994d0ff33bf091fa0bbd4ffaa"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/formal-attempts/initial-joint-collision/lora103-focus-build.log.gz",
+      "sha256": "96101518a2521e7a6362fb82ceaffc8c1a2a2dc335e44ea485b50118f78fa4cf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/formal-attempts/initial-joint-collision/lora103-focus-invocations.json",
+      "sha256": "7c99ee2794ba4852f4b1b48b6708b7b3df3d905add703e750de543e956abaf9b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/formal-attempts/initial-joint-collision/lora103-focus-joint.log",
+      "sha256": "039ed794804000c3a424c5647bc699d9a09a3640901123a3c7ee4c0d5fcfde94"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/impact.json",
+      "sha256": "fdd5c5f68e73597183293180075bdf9bb439b14b0b96e1c5753106f9f4f99ce4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/inspections.json",
+      "sha256": "d5f8b7999fd936bc6f1cf432854a9ce7172c879a53d95d9e7d6061a8b4c988bb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/integration-final.log.gz",
+      "sha256": "750f936e08927473113e1eff65dbabc106c271ab7de4facd636426df254cb99d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/io-guard.log",
+      "sha256": "0f30b59dbce8b6a941f456fa71d69795b1865a876e70f3aaa8ba54be4f0dbe9c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/joint-all.lean",
+      "sha256": "c96e0ac16e1957260c1e5fcc6862b4fc4b521e6c24de58ce695d0bd66df907b0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/joint-collision-fix.json",
+      "sha256": "1b91cd5044d20bec6a2db08afe00de207b52bc008f27d48ea71af70702099015"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/joint-final.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/modules.json",
+      "sha256": "f16c0e9640e60b550eb6c6b850791c8fe5b30c5213d8cb42fd917e596586bc78"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/pairs.json",
+      "sha256": "7343315218a9b971e86da61bc1241d81082c9432c254ddb4eb4b162028b58d14"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/previous-io-review.json",
+      "sha256": "c43c72730afe152ca1ef50f597448b7c83b549f5a037d638afaf23bbb8f6a311"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/previous-reviews.json.gz",
+      "sha256": "a5707b132826d520401ee10bc1fb3257f4c3ef4823b67f14c368dfb0caee0c48"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/python-invocations.json",
+      "sha256": "70d96d93b115ddb959002185d0a6ad8198c8cad70fdfdf248f60229d4b1b0bde"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/python-tests.log",
+      "sha256": "1011307a7ed90abd265894fef391979d790d4f2a8252b1b0ea988f28c81f2c0c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/raw-body-check.log",
+      "sha256": "def95efd11607c648d1d67c05d72e7c024080ec9d4daaf9641896919eb0514f3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/source-closure.json",
+      "sha256": "101401344f4aedf3392457013ce823dac24269bbdc27cbb8d56f3c4a355057a3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/source-layout-preservation.json",
+      "sha256": "d25ba78244b985e993b8f200c001f95f86b339b6c63c80cf4adeaae2777b7bc8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/task-files.json",
+      "sha256": "ac8f1fd159cf7142f73ab9f822858d8ef76ea1d8404afc42fb66db7058f13938"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/task-modules.txt",
+      "sha256": "848025d4388b0942d025649eda0bab9b2004ec1ce976d6c6d018dd7763eaf222"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/torch-check.log",
+      "sha256": "794deaf2cf1f019cb4c4af4b1f3b47bcfe143e76b28d38e96d33ea1578a7ed98"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/transferred-files.json",
+      "sha256": "bbbfccb69631c60ca6500c805e33830903ad423f3c1fa9d120013478b8510085"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/unchanged-previous-closure.json",
+      "sha256": "4d64f2c875b6e3ed16a873c7ffa193b3869dab2815308eb5752f75332c43f440"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/warm-final-invocation.json",
+      "sha256": "502d5e51bf766b6fed07243900259c5fc50354ab0a91e633e2676c2b612187cb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/workflow-counts.json",
+      "sha256": "2a85baeeacff2152896703a8d18be1f08967357afd06c9a8b139e0cb21e6b794"
+    }
+  ]
+}

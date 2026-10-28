@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.lora_expand_gemv.ByteSeparated.Misc.Scheduling",
+  "start": 1793194439.6885328,
+  "end": 1793194443.6546888,
+  "log": "/tmp/lora103-direct-Scheduling-1793194439688503777.log",
+  "stop_file": "/tmp/lora103-direct-Scheduling-1793194439688503777.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.lora_expand_gemv.Proofs.Host",
+  "start": 1793194504.5703285,
+  "end": 1793194508.4362714,
+  "log": "/tmp/lora103-direct-Host-1793194504570316939.log",
+  "stop_file": "/tmp/lora103-direct-Host-1793194504570316939.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

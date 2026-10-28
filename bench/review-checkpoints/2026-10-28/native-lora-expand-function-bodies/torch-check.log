@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/tmp/veritile-pr18-review/bench/repairs/tritonbench_g/lora_expand_gemv/check_byte_separated.py", line 29, in <module>
+    adapter = module('lora_byte_separated_adapter', HERE / 'check_contract.py')
+  File "/tmp/veritile-pr18-review/bench/repairs/tritonbench_g/lora_expand_gemv/check_byte_separated.py", line 25, in module
+    spec.loader.exec_module(value)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 1026, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/tmp/veritile-pr18-review/bench/repairs/tritonbench_g/lora_expand_gemv/check_contract.py", line 10, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'

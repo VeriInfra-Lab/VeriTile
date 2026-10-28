@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.lora_expand_gemv.ByteSeparated.Proofs.IOGrid",
+  "start": 1793194362.69428,
+  "end": 1793194367.310064,
+  "log": "/tmp/lora103-direct-IOGrid-1793194362694268501.log",
+  "stop_file": "/tmp/lora103-direct-IOGrid-1793194362694268501.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

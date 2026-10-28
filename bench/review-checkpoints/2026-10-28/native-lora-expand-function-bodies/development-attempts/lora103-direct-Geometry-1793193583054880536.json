@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.lora_expand_gemv.Proofs.Geometry",
+  "start": 1793193583.0548997,
+  "end": 1793193589.6326776,
+  "log": "/tmp/lora103-direct-Geometry-1793193583054880536.log",
+  "stop_file": "/tmp/lora103-direct-Geometry-1793193583054880536.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,56 @@
+/tmp/lora103-staging/LoraConnectionHelpers.lean:141:2: error: unsolved goals
+case left
+rest : FP.Structural.Algebra Word
+cfg : FP.Config
+plans : (n : ℕ) → ReductionPlan n
+rows : ℕ
+mem : MemAccess TileDType.real [rows]
+e : Op TileDType.real [rows]
+mask : MaskOpt TileDType.real [rows]
+s : State Word
+⊢ (do
+      let __do_lift ← FP.Structural.evalOp (Branches.engine rest cfg plans) (some ComputeDType.fp32) e s
+      store (Branches.engine rest cfg plans) mem mask __do_lift s) =
+    do
+    let __do_lift ← FP.Structural.evalOp (Branches.engine rest cfg plans) (some ComputeDType.fp32) e s
+    store (Branches.engine rest cfg plans) mem mask __do_lift s
+/tmp/lora103-staging/LoraConnectionHelpers.lean:152:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  Safety.safeOp (Branches.engine rest cfg plans) ?precision bounds s (Op.castFloat FloatDType.real FloatDType.real e)
+in the target expression
+  Safety.safeAddress (Branches.engine rest cfg plans) none bounds s mem ∧
+      Safety.safeOp (Branches.engine rest cfg plans) (some ComputeDType.fp32) bounds s e ∧
+        Safety.safeMask (Branches.engine rest cfg plans) none bounds s mask ∧
+          Safety.addressSafe (Branches.engine rest cfg plans) none bounds s mem
+            (Safety.maskActive (Branches.engine rest cfg plans) none s mask) ↔
+    Safety.safeAddress (Branches.engine rest cfg plans) none bounds s mem ∧
+      Safety.safeOp (Branches.engine rest cfg plans) (some ComputeDType.fp32) bounds s
+          (Op.castFloat FloatDType.real FloatDType.real e) ∧
+        Safety.safeMask (Branches.engine rest cfg plans) none bounds s mask ∧
+          Safety.addressSafe (Branches.engine rest cfg plans) none bounds s mem
+            (Safety.maskActive (Branches.engine rest cfg plans) none s mask)
+
+case right
+rest : FP.Structural.Algebra Word
+cfg : FP.Config
+plans : (n : ℕ) → ReductionPlan n
+rows : ℕ
+mem : MemAccess TileDType.real [rows]
+e : Op TileDType.real [rows]
+mask : MaskOpt TileDType.real [rows]
+bounds : RegionName → ℕ
+s : State Word
+hc :
+  ∀ (precision : Option ComputeDType),
+    Safety.safeOp (Branches.engine rest cfg plans) precision bounds s (Op.castFloat FloatDType.real FloatDType.real e) ↔
+      Safety.safeOp (Branches.engine rest cfg plans) precision bounds s e
+⊢ Safety.safeAddress (Branches.engine rest cfg plans) none bounds s mem ∧
+      Safety.safeOp (Branches.engine rest cfg plans) (some ComputeDType.fp32) bounds s e ∧
+        Safety.safeMask (Branches.engine rest cfg plans) none bounds s mask ∧
+          Safety.addressSafe (Branches.engine rest cfg plans) none bounds s mem
+            (Safety.maskActive (Branches.engine rest cfg plans) none s mask) ↔
+    Safety.safeAddress (Branches.engine rest cfg plans) none bounds s mem ∧
+      Safety.safeOp (Branches.engine rest cfg plans) (some ComputeDType.fp32) bounds s
+          (Op.castFloat FloatDType.real FloatDType.real e) ∧
+        Safety.safeMask (Branches.engine rest cfg plans) none bounds s mask ∧
+          Safety.addressSafe (Branches.engine rest cfg plans) none bounds s mem
+            (Safety.maskActive (Branches.engine rest cfg plans) none s mask)

@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.lora_expand_gemv.ByteSeparated.Misc.OutputFrame",
+  "start": 1793194436.155077,
+  "end": 1793194439.6881814,
+  "log": "/tmp/lora103-direct-OutputFrame-1793194436155065451.log",
+  "stop_file": "/tmp/lora103-direct-OutputFrame-1793194436155065451.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

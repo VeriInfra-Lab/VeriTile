@@ -1,0 +1,2 @@
+VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.expectedMemory: definition does not reference [VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.source,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓

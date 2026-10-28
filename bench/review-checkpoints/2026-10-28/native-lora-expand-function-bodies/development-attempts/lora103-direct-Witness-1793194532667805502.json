@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.lora_expand_gemv.Proofs.Witness",
+  "start": 1793194532.6678205,
+  "end": 1793194535.2004404,
+  "log": "/tmp/lora103-direct-Witness-1793194532667805502.log",
+  "stop_file": "/tmp/lora103-direct-Witness-1793194532667805502.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

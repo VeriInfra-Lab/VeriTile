@@ -22599,37 +22599,12 @@
         "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/FPEquiv.lean"
       ],
       "assessment": {
-        "organization": "The original memory IO and complete logical input/output view now share the task IO.lean; original namespaces, encodings/stages and definitions are retained; proof connections remain in Proofs.",
-        "preservation": {
-          "evidence": {
-            "path": ".veritile-cache/io-unification-20261023/queue09/source-preservation.json",
-            "sha256": "17c7342caa6fb24ea081d4ef30b05bff7774be00d799760f073c758490b30c47"
-          },
-          "moved_definition_bodies": "byte-identical chunks with the same namespace and public declaration names",
-          "complete_judgments": "all selected Contract/Correct/FPEquiv files are byte-identical; all LogicalReader non-import bodies, including full judgment equivalences, are byte-identical",
-          "selected_public_files": {
-            "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Contract.lean": {
-              "before": "1004510e475f747bb9fa90b78ff9320615261a1f923774324ee38d20586e91f1",
-              "current": "1004510e475f747bb9fa90b78ff9320615261a1f923774324ee38d20586e91f1"
-            },
-            "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Correct.lean": {
-              "before": "c0e51ff6920f34d6f9a89d35f48389293fa78b299192d2a85b183e2cd9a4ed4f",
-              "current": "c0e51ff6920f34d6f9a89d35f48389293fa78b299192d2a85b183e2cd9a4ed4f"
-            },
-            "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/FPEquiv.lean": {
-              "before": "a2b583bce227c6dd7a7d1e2545f60631cf2f626735bd3614e11ca3750ddd45e5",
-              "current": "a2b583bce227c6dd7a7d1e2545f60631cf2f626735bd3614e11ca3750ddd45e5"
-            }
-          },
-          "connection_proof_nonimport_body_equal": true,
-          "kernels_unchanged": {
-            "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Kernels.lean": "5a870605b5c6cbfc3eb12d39c6337c0e1545fcfcc700f75299a9a847a958abf0"
-          }
-        },
-        "different_stage_or_encoding_exceptions": [],
+        "organization": "All memory views, exact labeled inputs/domain, schedules, graph/native observations and independent Real targets stay in IO.lean byte-identically; only the compatibility import changes. Public reader bytes are unchanged.",
+        "source_update": "Four complete raw original/existing candidate mappings cover both signed index-storage ABIs. Full-state execution and access-safety equalities reconnect the proof presentation; whole-grid successful execution, outputs, frames and actual original/candidate FP pair are reverified without new premises.",
+        "verification": "190 task/affected production roots and joint import pass focused and independently from empty project objects. All 4732 cumulative roots/joint import pass warm; the remaining 4542 roots have a hash-identical dependency closure and retain published 102 clean evidence.",
         "previous_assessment": {
-          "manifest": "bench/review-checkpoints/2026-10-22/logical-readers/io-audit.json",
-          "task": "lora_expand_gemv"
+          "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/previous-io-review.json",
+          "sha256": "c43c72730afe152ca1ef50f597448b7c83b549f5a037d638afaf23bbb8f6a311"
         }
       },
       "distinct_views": "Real/native observations interpret the same byte-separated token graph using different scalar observations. Candidate preserves all source pids, bindings, memory channels and complete-grid order, changing only the actual candidate source.",
@@ -22658,7 +22633,7 @@
         },
         {
           "path": "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/IO.lean",
-          "sha256": "f11418d76b32ede30ea87f8be3c8403ad549d1ed913920ff9741b8cdd2adebf1"
+          "sha256": "6cb88d82b58b2b745395dbc54bb3fc9e36fabbd05bdde9a8539f73ee9dba4756"
         },
         {
           "path": "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/PairIO.lean",
@@ -22669,13 +22644,15 @@
         "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/IO.lean"
       ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/lora_expand_gemv.json",
-        "sha256": "8a4cfb39452b46fb97ab20d6eb79f1e7e10928e5e074a6aa452d92ddd0c25949",
-        "task": "lora_expand_gemv"
+        "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/review.json",
+        "sha256": "58ed1178276609bf1e259ea6673ce1f996fa5167e09f4c7fbd4fe62272dcabd4"
       },
       "preservation_and_build_passed": true,
       "validation_limits": {
-        "compilation_scope_note": "An initial broader attempt added candidate data to IO.lean and recompiled an unchanged safety helper; its existing simplification proof failed with an Algebra.mk application type mismatch. No shared module, numerical code or safety proof was altered. The final extraction uses a separate candidate IO module; changed modules, FPEquiv, affected audit and fresh full selected joint imports all pass. The initial failure is preserved and not represented as a failed established theorem."
+        "official_comparator": "Unavailable due host isolation; 190 actual attempts recorded.",
+        "torch": "Unavailable; strict raw body/ABI and complete retained candidate AST checks pass.",
+        "numerical_receipt": "Known unchanged Structural receipt hash error; no false numerical repin.",
+        "scope": "Full source replay on current public domains; no GPU or new numerical experiment."
       },
       "remaining_issues": [],
       "main_formula_review": {
@@ -22759,6 +22736,10 @@
         "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/lora_expand_gemv.json",
         "sha256": "8a4cfb39452b46fb97ab20d6eb79f1e7e10928e5e074a6aa452d92ddd0c25949",
         "task": "lora_expand_gemv"
+      },
+      "current_body_source_review": {
+        "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/review.json",
+        "sha256": "58ed1178276609bf1e259ea6673ce1f996fa5167e09f4c7fbd4fe62272dcabd4"
       }
     },
     {

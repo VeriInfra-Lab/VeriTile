@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.lora_expand_gemv.Proofs.HostGrid",
+  "start": 1793195434.0851564,
+  "end": 1793195438.5945554,
+  "log": "/tmp/lora103-direct-HostGrid-1793195434085145406.log",
+  "stop_file": "/tmp/lora103-direct-HostGrid-1793195434085145406.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

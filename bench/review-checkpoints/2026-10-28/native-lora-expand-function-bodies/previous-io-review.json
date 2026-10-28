@@ -1,0 +1,171 @@
+{
+  "task": "lora_expand_gemv",
+  "status": "fixed",
+  "selected_public_entries": [
+    "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Contract.lean",
+    "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Correct.lean",
+    "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/FPEquiv.lean"
+  ],
+  "assessment": {
+    "organization": "The original memory IO and complete logical input/output view now share the task IO.lean; original namespaces, encodings/stages and definitions are retained; proof connections remain in Proofs.",
+    "preservation": {
+      "evidence": {
+        "path": ".veritile-cache/io-unification-20261023/queue09/source-preservation.json",
+        "sha256": "17c7342caa6fb24ea081d4ef30b05bff7774be00d799760f073c758490b30c47"
+      },
+      "moved_definition_bodies": "byte-identical chunks with the same namespace and public declaration names",
+      "complete_judgments": "all selected Contract/Correct/FPEquiv files are byte-identical; all LogicalReader non-import bodies, including full judgment equivalences, are byte-identical",
+      "selected_public_files": {
+        "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Contract.lean": {
+          "before": "1004510e475f747bb9fa90b78ff9320615261a1f923774324ee38d20586e91f1",
+          "current": "1004510e475f747bb9fa90b78ff9320615261a1f923774324ee38d20586e91f1"
+        },
+        "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Correct.lean": {
+          "before": "c0e51ff6920f34d6f9a89d35f48389293fa78b299192d2a85b183e2cd9a4ed4f",
+          "current": "c0e51ff6920f34d6f9a89d35f48389293fa78b299192d2a85b183e2cd9a4ed4f"
+        },
+        "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/FPEquiv.lean": {
+          "before": "a2b583bce227c6dd7a7d1e2545f60631cf2f626735bd3614e11ca3750ddd45e5",
+          "current": "a2b583bce227c6dd7a7d1e2545f60631cf2f626735bd3614e11ca3750ddd45e5"
+        }
+      },
+      "connection_proof_nonimport_body_equal": true,
+      "kernels_unchanged": {
+        "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Kernels.lean": "5a870605b5c6cbfc3eb12d39c6337c0e1545fcfcc700f75299a9a847a958abf0"
+      }
+    },
+    "different_stage_or_encoding_exceptions": [],
+    "previous_assessment": {
+      "manifest": "bench/review-checkpoints/2026-10-22/logical-readers/io-audit.json",
+      "task": "lora_expand_gemv"
+    }
+  },
+  "distinct_views": "Real/native observations interpret the same byte-separated token graph using different scalar observations. Candidate preserves all source pids, bindings, memory channels and complete-grid order, changing only the actual candidate source.",
+  "readers": [
+    {
+      "path": "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Correct.lean",
+      "sha256": "c0e51ff6920f34d6f9a89d35f48389293fa78b299192d2a85b183e2cd9a4ed4f"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/FPEquiv.lean",
+      "sha256": "a2b583bce227c6dd7a7d1e2545f60631cf2f626735bd3614e11ca3750ddd45e5"
+    }
+  ],
+  "io_sources": [
+    {
+      "path": "VeriTile/Triton/Float/LogicalProgramIO.lean",
+      "sha256": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358"
+    },
+    {
+      "path": "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean",
+      "sha256": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+    },
+    {
+      "path": "VeriTile/Triton/Memory/LogicalIO.lean",
+      "sha256": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/IO.lean",
+      "sha256": "f11418d76b32ede30ea87f8be3c8403ad549d1ed913920ff9741b8cdd2adebf1"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/PairIO.lean",
+      "sha256": "e9f83a0be2040c4cab913ed92e136f9a6af3b2e539182258c8216bbdb8e2b49d"
+    }
+  ],
+  "changed_paths": [
+    "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/IO.lean"
+  ],
+  "review_evidence": {
+    "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/lora_expand_gemv.json",
+    "sha256": "8a4cfb39452b46fb97ab20d6eb79f1e7e10928e5e074a6aa452d92ddd0c25949",
+    "task": "lora_expand_gemv"
+  },
+  "preservation_and_build_passed": true,
+  "validation_limits": {
+    "compilation_scope_note": "An initial broader attempt added candidate data to IO.lean and recompiled an unchanged safety helper; its existing simplification proof failed with an Algebra.mk application type mismatch. No shared module, numerical code or safety proof was altered. The final extraction uses a separate candidate IO module; changed modules, FPEquiv, affected audit and fresh full selected joint imports all pass. The initial failure is preserved and not represented as a failed established theorem."
+  },
+  "remaining_issues": [],
+  "main_formula_review": {
+    "audit": "bench/review-checkpoints/2026-10-22/main-formulas/audit.json",
+    "review_evidence": {
+      "path": ".veritile-cache/headline-formulas-20261022/queue09/result.json",
+      "sha256": "2dde02cdfdf23a0606104df16f9c3f68ddba1cc241ee7e8e169fa677d494971c",
+      "task_index": 3,
+      "task": "lora_expand_gemv"
+    },
+    "io_data_unchanged": true
+  },
+  "previous_io_sources": [
+    {
+      "path": "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/IO.lean",
+      "sha256": "63f82d9217ed71ed4203a6be80785349e2908ef0fd4b44ec2f2b76ff18785dc6"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/PairIO.lean",
+      "sha256": "e9f83a0be2040c4cab913ed92e136f9a6af3b2e539182258c8216bbdb8e2b49d"
+    }
+  ],
+  "previous_review_evidence": {
+    "path": "bench/review-checkpoints/2026-10-22/logical-readers/tasks/lora_expand_gemv.json",
+    "sha256": "09e7bca39bc29889279fee5ad6518c650b6a097d5006333061830338bdacc20d",
+    "task": "lora_expand_gemv"
+  },
+  "unchanged_prior_io_source_origins": {
+    "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/IO.lean": [
+      {
+        "path": "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/IO.lean",
+        "sha256": "63f82d9217ed71ed4203a6be80785349e2908ef0fd4b44ec2f2b76ff18785dc6"
+      }
+    ],
+    "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/PairIO.lean": [
+      {
+        "path": "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/PairIO.lean",
+        "sha256": "e9f83a0be2040c4cab913ed92e136f9a6af3b2e539182258c8216bbdb8e2b49d"
+      }
+    ]
+  },
+  "logical_reader_review": {
+    "path": "bench/review-checkpoints/2026-10-22/logical-readers/tasks/lora_expand_gemv.json",
+    "sha256": "09e7bca39bc29889279fee5ad6518c650b6a097d5006333061830338bdacc20d",
+    "task": "lora_expand_gemv"
+  },
+  "previous_assessment": {
+    "canonical_io": [
+      "IO.lean: LoraIO.memoryIO/launch/io (byte-identical)",
+      "PairIO.lean: Pair.invocation/variant"
+    ],
+    "before_finding": "Original logical and memory data were already canonical; reusable candidate invocation and variant data were in mixed Proofs/Pair.lean.",
+    "change": "Added the explicit root-level candidate IO module PairIO.lean and moved the two definitions there unchanged. Proofs/Pair imports it; the existing canonical IO.lean remains byte-identical. This minimizes affected dependencies.",
+    "distinct_views": "Real/native observations interpret the same byte-separated token graph using different scalar observations. Candidate preserves all source pids, bindings, memory channels and complete-grid order, changing only the actual candidate source.",
+    "inspected_helpers": [
+      "IO.lean",
+      "CandidateKernels.lean",
+      "Proofs/Pair.lean",
+      "Proofs/IOCorrect.lean",
+      "Proofs/IOSafetySetup.lean"
+    ],
+    "compilation_scope_note": "An initial broader attempt added candidate data to IO.lean and recompiled an unchanged safety helper; its existing simplification proof failed with an Algebra.mk application type mismatch. No shared module, numerical code or safety proof was altered. The final extraction uses a separate candidate IO module; changed modules, FPEquiv, affected audit and fresh full selected joint imports all pass. The initial failure is preserved and not represented as a failed established theorem."
+  },
+  "previous_changed_paths": [
+    "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/PairIO.lean",
+    "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Proofs/Pair.lean"
+  ],
+  "previous_canonical_io_declarations": [
+    {
+      "path": "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/IO.lean",
+      "reported_definitions": "LoraIO.memoryIO/launch/io (byte-identical)",
+      "sha256": "63f82d9217ed71ed4203a6be80785349e2908ef0fd4b44ec2f2b76ff18785dc6"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/PairIO.lean",
+      "reported_definitions": "Pair.invocation/variant",
+      "sha256": "e9f83a0be2040c4cab913ed92e136f9a6af3b2e539182258c8216bbdb8e2b49d"
+    }
+  ],
+  "io_unification_review": {
+    "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/lora_expand_gemv.json",
+    "sha256": "8a4cfb39452b46fb97ab20d6eb79f1e7e10928e5e074a6aa452d92ddd0c25949",
+    "task": "lora_expand_gemv"
+  }
+}

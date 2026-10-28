@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.lora_expand_gemv.ByteSeparated.Proofs.SourceConnection",
+  "start": 1793193658.41425,
+  "end": 1793193721.8222241,
+  "log": "/tmp/lora103-direct-SourceConnection-1793193658414226396.log",
+  "stop_file": "/tmp/lora103-direct-SourceConnection-1793193658414226396.stop",
+  "status": "COMPLETED",
+  "exit_code": -15
+}

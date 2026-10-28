@@ -1,0 +1,76 @@
+{
+  "code_commit": "62c1632733dfecadc19a57f2515bdda1dc579e1f",
+  "raw_bodies": [
+    {
+      "name": "raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "62c1632733dfecadc19a57f2515bdda1dc579e1f",
+      "log": "/tmp/lora103-raw-body-check.log",
+      "status": "PASS"
+    }
+  ],
+  "candidate_rewrites": [
+    {
+      "name": "candidate-source-check",
+      "command": [
+        "python3",
+        "bench/repairs/tritonbench_g/lora_expand_gemv/check_unit_split_source.py"
+      ],
+      "exit_code": 0,
+      "code_commit": "62c1632733dfecadc19a57f2515bdda1dc579e1f",
+      "log": "/tmp/lora103-candidate-source-check.log",
+      "status": "PASS",
+      "scope": "Complete retained Python candidate AST differs only by cdiv(N,SPLIT_N) -> 1 and kernel symbol; all wrapper checks and launch bindings are retained. No kernel arithmetic or GPU."
+    }
+  ],
+  "cpu": {
+    "name": "candidate-source-check",
+    "command": [
+      "python3",
+      "bench/repairs/tritonbench_g/lora_expand_gemv/check_unit_split_source.py"
+    ],
+    "exit_code": 0,
+    "code_commit": "62c1632733dfecadc19a57f2515bdda1dc579e1f",
+    "log": "/tmp/lora103-candidate-source-check.log",
+    "status": "PASS",
+    "scope": "Complete retained Python candidate AST differs only by cdiv(N,SPLIT_N) -> 1 and kernel symbol; all wrapper checks and launch bindings are retained. No kernel arithmetic or GPU."
+  },
+  "torch": {
+    "name": "torch-check",
+    "command": [
+      "python3",
+      "bench/repairs/tritonbench_g/lora_expand_gemv/check_byte_separated.py"
+    ],
+    "exit_code": 1,
+    "code_commit": "62c1632733dfecadc19a57f2515bdda1dc579e1f",
+    "log": "/tmp/lora103-torch-check.log",
+    "status": "UNAVAILABLE",
+    "reason": "Existing Tensor/CPU checks require Torch, which is not installed. The obsolete alias spelling guard was replaced by strict complete-body mappings; numerical profile pins unchanged."
+  },
+  "original_python_and_public_specifications": {
+    "status": "PASS",
+    "sha256": {
+      "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Contract.lean": "1004510e475f747bb9fa90b78ff9320615261a1f923774324ee38d20586e91f1",
+      "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Correct.lean": "c0e51ff6920f34d6f9a89d35f48389293fa78b299192d2a85b183e2cd9a4ed4f",
+      "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/FPEquiv.lean": "a2b583bce227c6dd7a7d1e2545f60631cf2f626735bd3614e11ca3750ddd45e5",
+      "bench/repairs/tritonbench_g/lora_expand_gemv/Contract.lean": "2f2eaf07c63d45c8bb1542a7560371a33b7ec4310fc583af1bc3fc1a47673199",
+      "bench/repairs/tritonbench_g/lora_expand_gemv/Correct.lean": "fc18c00cb309ac54b7559194086e6a8fbbc9a44b58d4dcb0cee5dadd6e72d351",
+      "bench/repairs/tritonbench_g/lora_expand_gemv/FPEquiv.lean": "403cf173311cac342a702651a130c7bc9cea638b18ee2f118d285305842440a0",
+      "bench/repairs/tritonbench_g/lora_expand_gemv/check_contract.py": "9bfbe85cbe2e5c8256f8c4c84929fdcd7f6e28f66ff8bafa0ed87b3806379cd5",
+      "bench/repairs/tritonbench_g/lora_expand_gemv/check_unit_split_source.py": "15b334046ce7590e2931d069607be7dafd15a7221cb2dc8b25589abf4cc1e151",
+      "bench/repairs/tritonbench_g/lora_expand_gemv/lora_expand_gemv_byte_separated.py": "85f452b177066c749577b51a730ac49b81acd153ed4f5fc6d141762b4075ae03",
+      "bench/repairs/tritonbench_g/lora_expand_gemv/lora_expand_gemv_repaired.py": "8f36abb103e6dbe0b646c65a8d763a7d57afdd901a9888ea398987f219e70d81",
+      "bench/repairs/tritonbench_g/lora_expand_gemv/lora_expand_gemv_unit_split.py": "c2303e4867a0321a9cf3169d0792802221295691953901a30f1ac3ef6e874cf2",
+      "bench/tritonbench_g/lora_expand_gemv/lora_expand_gemv.py": "212f030cd93c3381dc1fe6aab372d8568fbed9330954772cd49c69670575a3d3"
+    }
+  },
+  "io_declarations": "PASS: only the compatibility import changes; all memory views, exact labeled domain, schedules, observations and targets are byte-identical.",
+  "numerical_profile": "PASS: byte-identical; no numerical receipt repin or new experiment.",
+  "scope": "Four complete raw source/candidate mappings cover both signed index-storage ABIs. Existing early return, all casts/flag branches, loop and stores remain intact. The old proof presentation is connected by complete final-state execution equality and independent access-safety equivalence for all parameters, using the existing concrete graph model. Existing full-grid Real and FP pair proofs, successful outputs and exterior frames are reverified."
+}

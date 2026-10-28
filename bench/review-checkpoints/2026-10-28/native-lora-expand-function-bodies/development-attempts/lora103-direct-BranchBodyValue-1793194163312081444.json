@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.lora_expand_gemv.Proofs.BranchBodyValue",
+  "start": 1793194163.3121047,
+  "end": 1793194192.1863716,
+  "log": "/tmp/lora103-direct-BranchBodyValue-1793194163312081444.log",
+  "stop_file": "/tmp/lora103-direct-BranchBodyValue-1793194163312081444.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

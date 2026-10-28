@@ -1,0 +1,7 @@
+/tmp/lora103-staging/LoraPreviousBodyProbe.lean:54:98: error: Tactic `rfl` failed: The left-hand side
+  (fullSource p).surfaceBody
+is not definitionally equal to the right-hand side
+  (previousBody p).surfaceBody
+
+p : Branches.Parameters
+⊢ (fullSource p).surfaceBody = (previousBody p).surfaceBody

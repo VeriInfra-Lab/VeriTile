@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.lora_expand_gemv.ByteSeparated.Proofs.IOBinding",
+  "start": 1793194367.3104718,
+  "end": 1793194370.3120155,
+  "log": "/tmp/lora103-direct-IOBinding-1793194367310444042.log",
+  "stop_file": "/tmp/lora103-direct-IOBinding-1793194367310444042.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

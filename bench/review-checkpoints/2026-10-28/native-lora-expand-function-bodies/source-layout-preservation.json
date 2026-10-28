@@ -1,0 +1,8 @@
+{
+  "root_kernel": "bench/repairs/tritonbench_g/lora_expand_gemv/Kernels.lean",
+  "old_sha256": "c83247dcef70484cbd417157825bb66140ff20da6ac4a6414bba2411017c53d3",
+  "new_sha256": "654e8341be6e1b85073bda36ad3c13bb4091d5b0e87a027318d98b72b6374760",
+  "restoring_only_parameter_aliases_and_old_imports_recovers_exact_previous_file": true,
+  "original_parameter_block_sha256": "4038cb4020a642cfa6dd7e64f140b30a38bde8308bf5ead944b2c0ae85fecf60",
+  "source_pin_only_non_numerical_update": true
+}

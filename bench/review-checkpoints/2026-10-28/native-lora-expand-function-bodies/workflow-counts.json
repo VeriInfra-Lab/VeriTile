@@ -1,0 +1,18 @@
+{
+  "task": 94,
+  "focus": 190,
+  "all": 4732,
+  "targeted_python": 257,
+  "all_python": 502,
+  "new_body_tests": 12,
+  "comparator_targets": 190,
+  "expected_task_coverage": 109,
+  "expected_examples": 19,
+  "expected_pasted_pairs": 365,
+  "expected_pending_tasks": 74,
+  "clean_rebuild_roots": 190,
+  "source_identical_previous_clean_roots": 4542,
+  "verification_state": "Frozen62c1632:190focused roots+joint,4097theorem footprints PASS;4732cumulative warm/joint PASS;190affectedroots independentempty-projectbuild+joint PASS3887jobs.257targetPythonPASS;502fullknown1Structuralreceipt error;190officialcomparatorUNAVAILABLE;TorchUNAVAILABLE. Receipt guards and publishing pending.",
+  "source_files_changed": 18,
+  "current_code_commit": "62c1632733dfecadc19a57f2515bdda1dc579e1f"
+}

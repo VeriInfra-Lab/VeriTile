@@ -1,0 +1,20 @@
+/tmp/lora103-staging/bench/repairs/tritonbench_g/lora_expand_gemv/Proofs/Native.lean:67:14: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+/tmp/lora103-staging/bench/repairs/tritonbench_g/lora_expand_gemv/Proofs/Native.lean:67:14: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+/tmp/lora103-staging/bench/repairs/tritonbench_g/lora_expand_gemv/Proofs/Native.lean:70:14: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+/tmp/lora103-staging/bench/repairs/tritonbench_g/lora_expand_gemv/Proofs/Native.lean:70:14: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+VeriTile.Bench.Repairs.LoraExpandGemv.Native.narrow_supported: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LoraExpandGemv.Native.widen_supported: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LoraExpandGemv.Native.tree_supported: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LoraExpandGemv.Native.value_supported: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LoraExpandGemv.Native.operations_eq: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.LoraExpandGemv.Native.ScalarLaws: definition does not reference [VeriTile.Bench.Repairs.LoraExpandGemv.Branches.source,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.LoraExpandGemv.value] — non-circular ✓

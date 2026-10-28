@@ -1,0 +1,9 @@
+{
+  "module": "LoraDiffProbe",
+  "start": 1793193437.5747068,
+  "end": 1793193441.4412007,
+  "log": "/tmp/lora103-direct-LoraDiffProbe-1793193437574679363.log",
+  "stop_file": "/tmp/lora103-direct-LoraDiffProbe-1793193437574679363.stop",
+  "status": "COMPLETED",
+  "exit_code": 1
+}

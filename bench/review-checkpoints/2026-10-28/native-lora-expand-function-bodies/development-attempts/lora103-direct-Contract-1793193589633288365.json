@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.lora_expand_gemv.Contract",
+  "start": 1793193589.633307,
+  "end": 1793193624.0745444,
+  "log": "/tmp/lora103-direct-Contract-1793193589633288365.log",
+  "stop_file": "/tmp/lora103-direct-Contract-1793193589633288365.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}
