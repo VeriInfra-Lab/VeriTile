@@ -1,0 +1,16 @@
+{
+  "parent": "71b6928984f667879df486ece7f470d31a9a9b79",
+  "shared_core_changed": [],
+  "files": {
+    "bench/repairs/tritonbench_g/cross_entropy1/Kernels.lean": "bef1e4b8c08ee5c57f15fc7b6fa4dec55da5c4f3b79f8d78de99ddc463e4576f",
+    "bench/repairs/tritonbench_g/cross_entropy1/Proofs/KernelNative.lean": "b1f77d290d3d357ddd4fd25ece59c6ded9347251d4c09381bdde7e89d3add160",
+    "bench/repairs/tritonbench_g/cross_entropy1/Proofs/OrderedReference.lean": "af722adc996595b8697cfee791e5fb3d3f2c302c73028e718d396c11ca5def61",
+    "bench/repairs/tritonbench_g/cross_entropy1/Proofs/SourcePreservation.lean": "f878cc0f71338b0a8019508b47a6b1554ecc4feff800bd07481028ef5d9d2b61",
+    "bench/repairs/tritonbench_g/cross_entropy1/README.md": "13e4cafe9d84b133af439084b14804950ef5d4f0fc61c48e0a3a65431fe3a22e",
+    "bench/repairs/tritonbench_g/cross_entropy1/candidate_kernels.py": "59b10053c283beb63d1dd8d8f24a8267a8a06822f21634cc91a6cf3cceb028f1",
+    "bench/repairs/tritonbench_g/cross_entropy1/jit-correspondence.json": "5de55f3270827e37517617aad4e40aada7966e83f137e24b9ebf9518ce9f790e",
+    "bench/tests/test_cross_entropy1_body.py": "3d730eb8966bbd618d71d9e38afe457deca7a2163b352b841e3ea51c18737458"
+  },
+  "code_commit": "f0c608f2de76cf4b50a612ded8d811db22d130f7",
+  "original_python_wrappers_and_public_statements_unchanged": true
+}

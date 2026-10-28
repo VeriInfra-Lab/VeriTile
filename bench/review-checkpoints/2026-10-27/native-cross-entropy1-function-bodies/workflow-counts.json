@@ -1,0 +1,11 @@
+{
+  "task_modules": 129,
+  "frontend_modules": 104,
+  "cumulative_modules": 4074,
+  "transferred_files": 8,
+  "audits": 50,
+  "comparator_targets": 129,
+  "python_targeted": 164,
+  "python_full": 409,
+  "raw_pairs_added": 4
+}

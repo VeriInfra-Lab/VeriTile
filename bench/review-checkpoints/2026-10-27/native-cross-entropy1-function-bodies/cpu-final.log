@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/tmp/veritile-pr18-review/bench/repairs/tritonbench_g/cross_entropy1/check_contract.py", line 15, in <module>
+    spec.loader.exec_module(probe)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 1026, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/tmp/veritile-pr18-review/bench/repairs/tritonbench_g/cross_entropy1/Proofs/probe.py", line 20, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'

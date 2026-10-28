@@ -1,0 +1,52 @@
+{
+  "code_commit": "f0c608f2de76cf4b50a612ded8d811db22d130f7",
+  "raw_bodies": [
+    {
+      "name": "raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/cross_entropy1/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "f0c608f2de76cf4b50a612ded8d811db22d130f7",
+      "log": "/tmp/crossce92-raw-body-check.log",
+      "status": "PASS"
+    }
+  ],
+  "candidate_rewrites": [
+    {
+      "status": "PASS",
+      "scope": "All two complete original signatures, heuristics/jit decorators and function ASTs checked by CrossEntropy1FunctionBodyTests; only the existing integer column/block product is commuted."
+    }
+  ],
+  "cpu": {
+    "name": "cpu-final",
+    "command": [
+      "python3",
+      "bench/repairs/tritonbench_g/cross_entropy1/check_contract.py"
+    ],
+    "exit_code": 1,
+    "code_commit": "f0c608f2de76cf4b50a612ded8d811db22d130f7",
+    "log": "/tmp/crossce92-cpu-final.log",
+    "status": "UNAVAILABLE"
+  },
+  "original_python_wrappers_and_public_statements": {
+    "status": "PASS",
+    "sha256": {
+      "bench/repairs/tritonbench_g/cross_entropy1/Contract.lean": "4bb58404bec5abccc3bab186b8a0b1b6416765ea627053583c03c89159777970",
+      "bench/repairs/tritonbench_g/cross_entropy1/Correct.lean": "40d7e6a25cd7c38739cede3584c4ff54f7b4ab545a1a377c4e7dac9ea283eb00",
+      "bench/repairs/tritonbench_g/cross_entropy1/FPEquiv.lean": "6d23653c459c7854d7ab6296800afcfa4129eb49e1a0abd880a37d7cf376787e",
+      "bench/repairs/tritonbench_g/cross_entropy1/IO.lean": "e63a513cd8ea6e1ffee34ffb56e1d4624519ce17cf55bc18b66ba49ad30518ac",
+      "bench/repairs/tritonbench_g/cross_entropy1/Proofs/Contract.lean": "abdce1407bba8fe4fd70dbb59b891ab3458fac39cf01529055227bfdba160d9f",
+      "bench/repairs/tritonbench_g/cross_entropy1/Proofs/check_kernel.py": "02215dad6a1dc7db73af90e85cd78c2a79392f57c1b35068b5dcb8950c22a0d4",
+      "bench/repairs/tritonbench_g/cross_entropy1/Proofs/probe.py": "353f816a98a998e84a09eda35b88502a2517334d3164a6a6391848f60115f5b9",
+      "bench/repairs/tritonbench_g/cross_entropy1/Proofs/source_binding.py": "0dac12c125246bde55ffee072cd5bd736897d22daa739b296fbebaae793a2d59",
+      "bench/repairs/tritonbench_g/cross_entropy1/check_contract.py": "bb441f3d98232a34ec08b0be381116729fe5da0c30db44ec0d50a0cc012cdaf3",
+      "bench/repairs/tritonbench_g/cross_entropy1/cross_entropy1_conditional.py": "edfc7f0c6adb8c9a2050660c04d43034083fdefb58f068192208d91f676278d5",
+      "bench/repairs/tritonbench_g/cross_entropy1/cross_entropy1_repaired.py": "e6932518ddf889508a922c49c256fd521eee4041d9115ba2d34954647ba24957"
+    }
+  },
+  "scope": "Four complete raw forward/backward original and existing column-index candidates. Original casts, branches, masks, pointer rebinding, signatures and decorators retained; caller offsets and signed class count are external. Actual execution, memory, safety, independent Real and complete original/candidate FP proofs replayed. The ordered floating graph retains the forward loss-store conversion omitted by the old expansion. No equality with the old AST/graph, arbitrary cast identity, domain narrowing or new numerical law is assumed. No GPU experiment."
+}

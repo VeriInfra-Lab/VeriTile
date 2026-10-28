@@ -1,0 +1,905 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "f0c608f2de76cf4b50a612ded8d811db22d130f7",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "cross_entropy1"
+  ],
+  "regression_only_pending_body_tasks": [
+    "cross_entropy2"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "add_example": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "add_value": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "apply_penalty": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "attention_fwd_triton1": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "batched_vecmat_mult": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "bgmv_expand_slice": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "bmm_optimized": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "cache_transform_triton": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "chunk_cumsum_kernel": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "chunk_cumsum_vector": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "chunk_delta_fwd": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "chunked_cumsum_fwd": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "cosine_compute": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "cross_entropy1": "Four complete raw original/existing candidate forward/backward bodies retain all 12/15 source statements, explicit casts, masks, branches, signatures and decorators. Candidates only commute the existing integer column/block product. Caller types, values and offsets are external; signed total_classes preserves its integer-to-floating use. Original Python/wrappers, public entries and independent Real formulas are unchanged. Actual forward loss-store conversion is retained in both the generic execution and ordered floating reference; equality with the old omitted-conversion AST/graph, arbitrary cast identity and compiler schedule invariance are not assumed. Historical expansion remains diagnostic; current statement inventories and full actual source execution, memory frames, safety, independent Real correctness and source/candidate FP pairs are checked. All public/native/Tensor/host consumers replay. No new domain restriction, whole-kernel premise, numerical law or GPU experiment.",
+    "cross_entropy2": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims. Python-body migration remains pending; its correspondence status is retained.",
+    "cross_entropy_ops": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "dequantize_matmul": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "dequantize_rowwise": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "destindex_copy": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "destindex_copy_kv1": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "destindex_copy_kv2": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "diag_ssm_triton": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "dropout_triton": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "embedding_triton_kernel": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "f8_conversion_utils": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "fast_ce_loss": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "fast_rope_embedding": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "fifth_order_sph_harmonics": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "flash_decode2_llama": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "flash_decode2_phi": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "fused_activation": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "fused_recurrent_hgrn": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "fused_rotary_embedding": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "geglu_tanh_triton": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "index_select_bwd": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "index_select_cat": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "int8_matmul_kernel": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "isfinite_kernel": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "kcache_copy_triton": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "kldiv_compute": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "kldiv_ops": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "kldiv_triton": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "kv_cache_copy": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "l2_norm_bwd": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "l2_norm_triton1": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "l2_norm_triton2": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "log_softmax": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "logsumexp_fwd": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "masked_add_cuda": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "masked_select": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "matmul_kernel": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "matrix_reduction": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "matrix_transpose": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "max_reduction": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "mean_reduction": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "mul_exponent_compensator": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "nested_loops_processing": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "quant_transpose_kernel": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "quantize_copy_kv": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "quantize_global": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "quantize_kv_copy": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "quantize_kv_transform": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "relu_strided_buffer": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "relu_triton_kernel": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "reversed_cumsum": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "reversed_cumsum_scalar": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "rms_norm_triton": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "rmsnorm_fused": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "rmsnorm_fused_llama": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "rmsnorm_implementation": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "rmsnorm_triton": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "rope_backward_transform": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "rope_embedding": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "rope_transform": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "rotary_emb": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "rotary_emb_nopad": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "rowwise_quantization_triton": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "seeded_dropout": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "sin_computation": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "sin_kernel": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "softmax_optimize": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "softmax_triton1": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "softmax_triton2": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "softmax_triton3": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "square_matrix": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "swiglu_backward": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "swiglu_fwd": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "swiglu_triton": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "token_attn_mistral": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "token_attn_reduceV": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "token_softmax_bloom": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "token_softmax_llama": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "triton_argmax": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "triton_mul2": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "triton_softmax": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "var_len_copy": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "vector_addition": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "vector_addition_custom": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims."
+  },
+  "compiler_change": {
+    "files": [],
+    "behavior": "The shared frontend is unchanged. All 104 registered frontend roots and 4074 cumulative roots replay warm and jointly. An independent empty-project build covers 464 roots across CrossEntropy1, CrossEntropyOps, CrossEntropy2, FastCE and dequantize_matmul, including all 421 roots transitively importing a changed Lean file. Only pinned external packages are reused; unchanged dependencies retain the preceding full cumulative clean receipt. Previously migrated tasks receive regression evidence, not new migration claims."
+  },
+  "verification": {
+    "baseline": {
+      "status": "PASS",
+      "explicit_modules": 129,
+      "jobs": 2089
+    },
+    "frontend_preflight": {
+      "status": "PASS",
+      "explicit_modules": 104,
+      "jobs": 3757,
+      "scope": "All registered FPFrontendRegressions roots, including pointer rebinding/offsets, branch-local nested compute-load and signed integer/floating branch AST checks."
+    },
+    "focused": {
+      "status": "PASS",
+      "explicit_modules": 129,
+      "jobs": 2102,
+      "additional_scope": "Joint import and 50 actual-source/public/IO audits and two empty FP assumption reports."
+    },
+    "warm_and_joint": {
+      "status": "PASS",
+      "explicit_modules": 4074,
+      "jobs": 13703
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 464,
+      "scope": "Complete affected-task closure covering all 421 reverse-import affected roots. Full cumulative clean receipt is retained from the unchanged frontend parent.",
+      "prior_full_clean_receipt": "71b6928984f667879df486ece7f470d31a9a9b79",
+      "jobs": 8911,
+      "project_build_initially_present": false,
+      "project_objects_imported_from_other_checkouts": false,
+      "only_fixed_external_dependencies_imported": true,
+      "setup": {
+        "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/final-clean-setup.json",
+        "sha256": "2f26fcbb431beccd28fc8e905e9345b090ba8af6b7d5c3fb7049d71d17facf35"
+      }
+    },
+    "trust": "PASS: 50 actual-source/public/IO footprints use only standard base. Both public FP entries print no FP assumptions.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 164
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 409,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by old numerical receipt; no false repin."
+    },
+    "source": "PASS: four complete raw original/existing candidate bodies and exact caller bindings; original Python/wrappers/public statements unchanged, actual-source deep proofs updated and replayed.",
+    "official_comparator": "UNAVAILABLE: 129 actual final-source attempts with verified pinned binaries. Host Landlock ABI v4 is below required v5; no systemd user isolation or bypass.",
+    "cpu": "UNAVAILABLE: actual check_contract.py CPU invocation requires missing Torch.",
+    "gpu_or_numerical_experiment": "Not run.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending; the known unchanged numerical receipt failure remains explicit."
+  },
+  "source_pairs": {
+    "total": 309,
+    "pasted_body": 309,
+    "legacy_ast": 0
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/source-closure.json",
+    "sha256": "2324f1bf243671c1cf1b261509babfdf5e4b8f8196c663294fa508ec70988592"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "selected_body_copy_checked": 98,
+      "uncovered_jit_functions": 85
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 333,
+    "uncovered_selected_jit_functions": 177,
+    "primary_files_with_int64_screen_warning": 23,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 60,
+        "antiquotes": 68,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "example_regression_scope": "All 19 selected examples and all previous recorded task roots replay warm/joint. The independent empty-project rebuild covers all affected tasks; unchanged example dependencies retain the preceding full cumulative clean receipt. Unselected historical model gaps are not relabeled as passing.",
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/affected-closure.json",
+      "sha256": "ec78a92d433453e8f3353ff1462d0c4f988dec1b79452e6a7e0c4aea26349b82"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/all-python.log",
+      "sha256": "f2baafe460fff424cffac16a665b819985c155312d84d6232659c4464487aca4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/audit-targets.json",
+      "sha256": "0e402041e9e1b160e4b6f01e392c743e82ed66d62db902324b0ae95226e88da2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/audit.lean",
+      "sha256": "7becc4611b49bb52972496cc09432778b0279820e85200b636de9f3997747be4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/audit.log",
+      "sha256": "1c382a32c4d805ffd8c9a6810f1d63ae97796a2dbea1c600733f1a92315b0304"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/baseline-build.log.gz",
+      "sha256": "729a852cbc33c90ba99354ee719ce482f2c84ace66d512c4a7bd33e693fc2f29"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/baseline.json",
+      "sha256": "23d3d0121afc02a9d0cc74560763844a79e68bd1e6190f12b522e5eb102a0a42"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Contract-comparator.log",
+      "sha256": "ecf58dff28d348a4f857b1d7d04c8dc472f847638da5c5d5d1393a74d848ba0d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Correct-comparator.log",
+      "sha256": "ecf58dff28d348a4f857b1d7d04c8dc472f847638da5c5d5d1393a74d848ba0d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__FPEquiv-comparator.log",
+      "sha256": "ecf58dff28d348a4f857b1d7d04c8dc472f847638da5c5d5d1393a74d848ba0d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__IO-comparator.log",
+      "sha256": "ecf58dff28d348a4f857b1d7d04c8dc472f847638da5c5d5d1393a74d848ba0d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Kernels-comparator.log",
+      "sha256": "ecf58dff28d348a4f857b1d7d04c8dc472f847638da5c5d5d1393a74d848ba0d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Misc__BindingRejections-comparator.log",
+      "sha256": "ecf58dff28d348a4f857b1d7d04c8dc472f847638da5c5d5d1393a74d848ba0d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Misc__DependencyAudit-comparator.log",
+      "sha256": "ecf58dff28d348a4f857b1d7d04c8dc472f847638da5c5d5d1393a74d848ba0d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Misc__FloatingDependencyAudit-comparator.log",
+      "sha256": "ecf58dff28d348a4f857b1d7d04c8dc472f847638da5c5d5d1393a74d848ba0d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Misc__HostCorrect-comparator.log",
+      "sha256": "ecf58dff28d348a4f857b1d7d04c8dc472f847638da5c5d5d1393a74d848ba0d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Misc__HostFPEquiv-comparator.log",
+      "sha256": "ecf58dff28d348a4f857b1d7d04c8dc472f847638da5c5d5d1393a74d848ba0d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Misc__KernelExecutionAudit-comparator.log",
+      "sha256": "ecf58dff28d348a4f857b1d7d04c8dc472f847638da5c5d5d1393a74d848ba0d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Misc__NativeCorrect-comparator.log",
+      "sha256": "ecf58dff28d348a4f857b1d7d04c8dc472f847638da5c5d5d1393a74d848ba0d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Misc__RawNative-comparator.log",
+      "sha256": "ecf58dff28d348a4f857b1d7d04c8dc472f847638da5c5d5d1393a74d848ba0d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Misc__Revision004Audit-comparator.log",
+      "sha256": "ecf58dff28d348a4f857b1d7d04c8dc472f847638da5c5d5d1393a74d848ba0d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Misc__Revision005Audit-comparator.log",
+      "sha256": "ecf58dff28d348a4f857b1d7d04c8dc472f847638da5c5d5d1393a74d848ba0d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Misc__TensorBridge-comparator.log",
+      "sha256": "f9c61e184300284e06b1fe37e34d2b7f610a78940c2029e776e6d10c763b7226"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__PairIO-comparator.log",
+      "sha256": "f9c61e184300284e06b1fe37e34d2b7f610a78940c2029e776e6d10c763b7226"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__ActualCalls-comparator.log",
+      "sha256": "f9c61e184300284e06b1fe37e34d2b7f610a78940c2029e776e6d10c763b7226"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__AggregateTrace-comparator.log",
+      "sha256": "f9c61e184300284e06b1fe37e34d2b7f610a78940c2029e776e6d10c763b7226"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__Aggregation-comparator.log",
+      "sha256": "f9c61e184300284e06b1fe37e34d2b7f610a78940c2029e776e6d10c763b7226"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__AggregationValues-comparator.log",
+      "sha256": "f9c61e184300284e06b1fe37e34d2b7f610a78940c2029e776e6d10c763b7226"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__Autograd-comparator.log",
+      "sha256": "f9c61e184300284e06b1fe37e34d2b7f610a78940c2029e776e6d10c763b7226"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__AutogradReturn-comparator.log",
+      "sha256": "f9c61e184300284e06b1fe37e34d2b7f610a78940c2029e776e6d10c763b7226"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__BackwardBuffers-comparator.log",
+      "sha256": "f9c61e184300284e06b1fe37e34d2b7f610a78940c2029e776e6d10c763b7226"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__BackwardFrames-comparator.log",
+      "sha256": "f9c61e184300284e06b1fe37e34d2b7f610a78940c2029e776e6d10c763b7226"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__BackwardGrid-comparator.log",
+      "sha256": "f9c61e184300284e06b1fe37e34d2b7f610a78940c2029e776e6d10c763b7226"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__BackwardKernel-comparator.log",
+      "sha256": "f9c61e184300284e06b1fe37e34d2b7f610a78940c2029e776e6d10c763b7226"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__BackwardReads-comparator.log",
+      "sha256": "f9c61e184300284e06b1fe37e34d2b7f610a78940c2029e776e6d10c763b7226"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__CallCompletion-comparator.log",
+      "sha256": "f9c61e184300284e06b1fe37e34d2b7f610a78940c2029e776e6d10c763b7226"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__CallerBytes-comparator.log",
+      "sha256": "f9c61e184300284e06b1fe37e34d2b7f610a78940c2029e776e6d10c763b7226"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__CausalExecution-comparator.log",
+      "sha256": "f9c61e184300284e06b1fe37e34d2b7f610a78940c2029e776e6d10c763b7226"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__Collectives-comparator.log",
+      "sha256": "f9c61e184300284e06b1fe37e34d2b7f610a78940c2029e776e6d10c763b7226"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__CommunicationProtocol-comparator.log",
+      "sha256": "f9c61e184300284e06b1fe37e34d2b7f610a78940c2029e776e6d10c763b7226"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__CompilerSites-comparator.log",
+      "sha256": "f9c61e184300284e06b1fe37e34d2b7f610a78940c2029e776e6d10c763b7226"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__Composition-comparator.log",
+      "sha256": "f9c61e184300284e06b1fe37e34d2b7f610a78940c2029e776e6d10c763b7226"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__Contract-comparator.log",
+      "sha256": "f9c61e184300284e06b1fe37e34d2b7f610a78940c2029e776e6d10c763b7226"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__Correction-comparator.log",
+      "sha256": "f9c61e184300284e06b1fe37e34d2b7f610a78940c2029e776e6d10c763b7226"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__DenseGeometry-comparator.log",
+      "sha256": "add32b093f76db7fa87c1368c38178b9f6d0108b4bcd04029f586a167f3b2b87"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__Descriptors-comparator.log",
+      "sha256": "add32b093f76db7fa87c1368c38178b9f6d0108b4bcd04029f586a167f3b2b87"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__Entries-comparator.log",
+      "sha256": "add32b093f76db7fa87c1368c38178b9f6d0108b4bcd04029f586a167f3b2b87"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__EntryFrames-comparator.log",
+      "sha256": "add32b093f76db7fa87c1368c38178b9f6d0108b4bcd04029f586a167f3b2b87"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__Execution-comparator.log",
+      "sha256": "add32b093f76db7fa87c1368c38178b9f6d0108b4bcd04029f586a167f3b2b87"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__ExecutionLedger-comparator.log",
+      "sha256": "add32b093f76db7fa87c1368c38178b9f6d0108b4bcd04029f586a167f3b2b87"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__Floating-comparator.log",
+      "sha256": "add32b093f76db7fa87c1368c38178b9f6d0108b4bcd04029f586a167f3b2b87"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__ForwardArrays-comparator.log",
+      "sha256": "add32b093f76db7fa87c1368c38178b9f6d0108b4bcd04029f586a167f3b2b87"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__ForwardKernel-comparator.log",
+      "sha256": "add32b093f76db7fa87c1368c38178b9f6d0108b4bcd04029f586a167f3b2b87"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__ForwardPreservation-comparator.log",
+      "sha256": "add32b093f76db7fa87c1368c38178b9f6d0108b4bcd04029f586a167f3b2b87"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__ForwardTrace-comparator.log",
+      "sha256": "add32b093f76db7fa87c1368c38178b9f6d0108b4bcd04029f586a167f3b2b87"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__ForwardValues-comparator.log",
+      "sha256": "add32b093f76db7fa87c1368c38178b9f6d0108b4bcd04029f586a167f3b2b87"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__ForwardViews-comparator.log",
+      "sha256": "add32b093f76db7fa87c1368c38178b9f6d0108b4bcd04029f586a167f3b2b87"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__Frames-comparator.log",
+      "sha256": "add32b093f76db7fa87c1368c38178b9f6d0108b4bcd04029f586a167f3b2b87"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__Geometry-comparator.log",
+      "sha256": "add32b093f76db7fa87c1368c38178b9f6d0108b4bcd04029f586a167f3b2b87"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__GradientGraph-comparator.log",
+      "sha256": "add32b093f76db7fa87c1368c38178b9f6d0108b4bcd04029f586a167f3b2b87"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__Grid-comparator.log",
+      "sha256": "add32b093f76db7fa87c1368c38178b9f6d0108b4bcd04029f586a167f3b2b87"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__Host-comparator.log",
+      "sha256": "add32b093f76db7fa87c1368c38178b9f6d0108b4bcd04029f586a167f3b2b87"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__HostContract-comparator.log",
+      "sha256": "add32b093f76db7fa87c1368c38178b9f6d0108b4bcd04029f586a167f3b2b87"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__HostTrace-comparator.log",
+      "sha256": "add32b093f76db7fa87c1368c38178b9f6d0108b4bcd04029f586a167f3b2b87"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__IOBinding-comparator.log",
+      "sha256": "add32b093f76db7fa87c1368c38178b9f6d0108b4bcd04029f586a167f3b2b87"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__InstructionBinding-comparator.log",
+      "sha256": "1142e0ec3ccd4f976a99ce161ebce9cf8c97a10a92d096e6b488e1dae9b05223"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__InvocationCalls-comparator.log",
+      "sha256": "1142e0ec3ccd4f976a99ce161ebce9cf8c97a10a92d096e6b488e1dae9b05223"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__JointExecution-comparator.log",
+      "sha256": "1142e0ec3ccd4f976a99ce161ebce9cf8c97a10a92d096e6b488e1dae9b05223"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__KernelAccess-comparator.log",
+      "sha256": "1142e0ec3ccd4f976a99ce161ebce9cf8c97a10a92d096e6b488e1dae9b05223"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__KernelBackward-comparator.log",
+      "sha256": "1142e0ec3ccd4f976a99ce161ebce9cf8c97a10a92d096e6b488e1dae9b05223"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__KernelContract-comparator.log",
+      "sha256": "1142e0ec3ccd4f976a99ce161ebce9cf8c97a10a92d096e6b488e1dae9b05223"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__KernelCorrect-comparator.log",
+      "sha256": "1142e0ec3ccd4f976a99ce161ebce9cf8c97a10a92d096e6b488e1dae9b05223"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__KernelFloating-comparator.log",
+      "sha256": "1142e0ec3ccd4f976a99ce161ebce9cf8c97a10a92d096e6b488e1dae9b05223"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__KernelMath-comparator.log",
+      "sha256": "1142e0ec3ccd4f976a99ce161ebce9cf8c97a10a92d096e6b488e1dae9b05223"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__KernelNative-comparator.log",
+      "sha256": "1142e0ec3ccd4f976a99ce161ebce9cf8c97a10a92d096e6b488e1dae9b05223"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__KernelProfile-comparator.log",
+      "sha256": "1142e0ec3ccd4f976a99ce161ebce9cf8c97a10a92d096e6b488e1dae9b05223"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__KernelReal-comparator.log",
+      "sha256": "1142e0ec3ccd4f976a99ce161ebce9cf8c97a10a92d096e6b488e1dae9b05223"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__KernelSafety-comparator.log",
+      "sha256": "1142e0ec3ccd4f976a99ce161ebce9cf8c97a10a92d096e6b488e1dae9b05223"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__KernelTailSafety-comparator.log",
+      "sha256": "1142e0ec3ccd4f976a99ce161ebce9cf8c97a10a92d096e6b488e1dae9b05223"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__KernelTensor-comparator.log",
+      "sha256": "1142e0ec3ccd4f976a99ce161ebce9cf8c97a10a92d096e6b488e1dae9b05223"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__LaunchBinding-comparator.log",
+      "sha256": "1142e0ec3ccd4f976a99ce161ebce9cf8c97a10a92d096e6b488e1dae9b05223"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__Library-comparator.log",
+      "sha256": "1142e0ec3ccd4f976a99ce161ebce9cf8c97a10a92d096e6b488e1dae9b05223"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__Lifetimes-comparator.log",
+      "sha256": "1142e0ec3ccd4f976a99ce161ebce9cf8c97a10a92d096e6b488e1dae9b05223"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__LinkedReturn-comparator.log",
+      "sha256": "1142e0ec3ccd4f976a99ce161ebce9cf8c97a10a92d096e6b488e1dae9b05223"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__LocalReduction-comparator.log",
+      "sha256": "1142e0ec3ccd4f976a99ce161ebce9cf8c97a10a92d096e6b488e1dae9b05223"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__LocalRewrites-comparator.log",
+      "sha256": "1142e0ec3ccd4f976a99ce161ebce9cf8c97a10a92d096e6b488e1dae9b05223"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__LocatedGraph-comparator.log",
+      "sha256": "1142e0ec3ccd4f976a99ce161ebce9cf8c97a10a92d096e6b488e1dae9b05223"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__LogicalInputs-comparator.log",
+      "sha256": "1142e0ec3ccd4f976a99ce161ebce9cf8c97a10a92d096e6b488e1dae9b05223"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__LogicalReader-comparator.log",
+      "sha256": "84f42a0ea6765601a871a828750ca60926dc08ca14725b76e0b0eb4559708216"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__LogicalTransport-comparator.log",
+      "sha256": "84f42a0ea6765601a871a828750ca60926dc08ca14725b76e0b0eb4559708216"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__Lowering-comparator.log",
+      "sha256": "84f42a0ea6765601a871a828750ca60926dc08ca14725b76e0b0eb4559708216"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__Mask-comparator.log",
+      "sha256": "84f42a0ea6765601a871a828750ca60926dc08ca14725b76e0b0eb4559708216"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__MaskBytes-comparator.log",
+      "sha256": "84f42a0ea6765601a871a828750ca60926dc08ca14725b76e0b0eb4559708216"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__Math-comparator.log",
+      "sha256": "84f42a0ea6765601a871a828750ca60926dc08ca14725b76e0b0eb4559708216"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__Native-comparator.log",
+      "sha256": "84f42a0ea6765601a871a828750ca60926dc08ca14725b76e0b0eb4559708216"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__NativeByteTrace-comparator.log",
+      "sha256": "84f42a0ea6765601a871a828750ca60926dc08ca14725b76e0b0eb4559708216"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__NativeEntry-comparator.log",
+      "sha256": "84f42a0ea6765601a871a828750ca60926dc08ca14725b76e0b0eb4559708216"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__NativeInputs-comparator.log",
+      "sha256": "84f42a0ea6765601a871a828750ca60926dc08ca14725b76e0b0eb4559708216"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__NativeReturns-comparator.log",
+      "sha256": "84f42a0ea6765601a871a828750ca60926dc08ca14725b76e0b0eb4559708216"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__NativeSelectedReturn-comparator.log",
+      "sha256": "84f42a0ea6765601a871a828750ca60926dc08ca14725b76e0b0eb4559708216"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__NativeSupport-comparator.log",
+      "sha256": "84f42a0ea6765601a871a828750ca60926dc08ca14725b76e0b0eb4559708216"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__NegativeStorage-comparator.log",
+      "sha256": "84f42a0ea6765601a871a828750ca60926dc08ca14725b76e0b0eb4559708216"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__OrderedReference-comparator.log",
+      "sha256": "84f42a0ea6765601a871a828750ca60926dc08ca14725b76e0b0eb4559708216"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__PairEquivalence-comparator.log",
+      "sha256": "84f42a0ea6765601a871a828750ca60926dc08ca14725b76e0b0eb4559708216"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__PeerGraphs-comparator.log",
+      "sha256": "84f42a0ea6765601a871a828750ca60926dc08ca14725b76e0b0eb4559708216"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__PeerRuns-comparator.log",
+      "sha256": "84f42a0ea6765601a871a828750ca60926dc08ca14725b76e0b0eb4559708216"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__Preparation-comparator.log",
+      "sha256": "84f42a0ea6765601a871a828750ca60926dc08ca14725b76e0b0eb4559708216"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__PublicBackward-comparator.log",
+      "sha256": "84f42a0ea6765601a871a828750ca60926dc08ca14725b76e0b0eb4559708216"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__PublicIO-comparator.log",
+      "sha256": "84f42a0ea6765601a871a828750ca60926dc08ca14725b76e0b0eb4559708216"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__RawCorrect-comparator.log",
+      "sha256": "84f42a0ea6765601a871a828750ca60926dc08ca14725b76e0b0eb4559708216"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__Real-comparator.log",
+      "sha256": "84f42a0ea6765601a871a828750ca60926dc08ca14725b76e0b0eb4559708216"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__RealBackward-comparator.log",
+      "sha256": "aefffa0fe55f4462c9039f4bea1632232e46d63f35130cb2748e28ad15aaec1f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__RealHost-comparator.log",
+      "sha256": "aefffa0fe55f4462c9039f4bea1632232e46d63f35130cb2748e28ad15aaec1f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__RealIO-comparator.log",
+      "sha256": "aefffa0fe55f4462c9039f4bea1632232e46d63f35130cb2748e28ad15aaec1f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__RealLocal-comparator.log",
+      "sha256": "aefffa0fe55f4462c9039f4bea1632232e46d63f35130cb2748e28ad15aaec1f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__RealRanks-comparator.log",
+      "sha256": "aefffa0fe55f4462c9039f4bea1632232e46d63f35130cb2748e28ad15aaec1f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__RealUnsplit-comparator.log",
+      "sha256": "aefffa0fe55f4462c9039f4bea1632232e46d63f35130cb2748e28ad15aaec1f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__ReductionSchedules-comparator.log",
+      "sha256": "aefffa0fe55f4462c9039f4bea1632232e46d63f35130cb2748e28ad15aaec1f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__ReturnBacking-comparator.log",
+      "sha256": "aefffa0fe55f4462c9039f4bea1632232e46d63f35130cb2748e28ad15aaec1f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__RoleBindings-comparator.log",
+      "sha256": "aefffa0fe55f4462c9039f4bea1632232e46d63f35130cb2748e28ad15aaec1f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__SavedBoundary-comparator.log",
+      "sha256": "aefffa0fe55f4462c9039f4bea1632232e46d63f35130cb2748e28ad15aaec1f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__SavedMetadata-comparator.log",
+      "sha256": "aefffa0fe55f4462c9039f4bea1632232e46d63f35130cb2748e28ad15aaec1f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__ScalarGraph-comparator.log",
+      "sha256": "aefffa0fe55f4462c9039f4bea1632232e46d63f35130cb2748e28ad15aaec1f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__SelectedExecution-comparator.log",
+      "sha256": "aefffa0fe55f4462c9039f4bea1632232e46d63f35130cb2748e28ad15aaec1f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__SelectedPlan-comparator.log",
+      "sha256": "aefffa0fe55f4462c9039f4bea1632232e46d63f35130cb2748e28ad15aaec1f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__SourcePair-comparator.log",
+      "sha256": "aefffa0fe55f4462c9039f4bea1632232e46d63f35130cb2748e28ad15aaec1f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__SourcePreservation-comparator.log",
+      "sha256": "aefffa0fe55f4462c9039f4bea1632232e46d63f35130cb2748e28ad15aaec1f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__SourceResults-comparator.log",
+      "sha256": "aefffa0fe55f4462c9039f4bea1632232e46d63f35130cb2748e28ad15aaec1f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__Storage-comparator.log",
+      "sha256": "aefffa0fe55f4462c9039f4bea1632232e46d63f35130cb2748e28ad15aaec1f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__StorageWitness-comparator.log",
+      "sha256": "aefffa0fe55f4462c9039f4bea1632232e46d63f35130cb2748e28ad15aaec1f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__TensorModel-comparator.log",
+      "sha256": "aefffa0fe55f4462c9039f4bea1632232e46d63f35130cb2748e28ad15aaec1f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__TensorOps-comparator.log",
+      "sha256": "aefffa0fe55f4462c9039f4bea1632232e46d63f35130cb2748e28ad15aaec1f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__TorchSchedule-comparator.log",
+      "sha256": "aefffa0fe55f4462c9039f4bea1632232e46d63f35130cb2748e28ad15aaec1f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__TypedReads-comparator.log",
+      "sha256": "aefffa0fe55f4462c9039f4bea1632232e46d63f35130cb2748e28ad15aaec1f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__WholeGraph-comparator.log",
+      "sha256": "843e62923b0a2cb298080218ae49889a7d2c4ef9d77653123e1ff70c9e33b5dc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__WholeReal-comparator.log",
+      "sha256": "843e62923b0a2cb298080218ae49889a7d2c4ef9d77653123e1ff70c9e33b5dc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/build-invocations.json",
+      "sha256": "94d74c67aca97692a38c5f1991b0d6585e683e1cdf3fc46303530ca5db64902e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/canonical-task-files.json",
+      "sha256": "280b59a6772cf7ef8466d6f442f09d32847c9d0696b42ae8a7a15370fa3e08dc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/clean-joint.lean",
+      "sha256": "329da9bafab282a13c9a33c7d9436fb0d4d1cb143421eb7b9c7c03d84bb519c4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/clean-modules.txt",
+      "sha256": "625ed536484f658e8520699e67e4fc2a1aa479065fd649cac4445cbb4843ca40"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/comparator-invocations.json",
+      "sha256": "945f029ff4ae13aeb444e6b18415e4f61e49dad2af61558ae5c216d39222d210"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/comparator-tools.json",
+      "sha256": "28998e17d51b0fb5930f7489e64512a57f8a8146d1470063a624a75bbabdb0d3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/corpus-guard.log",
+      "sha256": "29385123917c9a657b155ef9aba9da596dafee78eb6ef2a293c11535e0568bb8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/cpu-final.log",
+      "sha256": "3f63209ccfdc9fea8347586825500863db7016d460c4953fb30bd4c477a2422d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/final-clean-build.log.gz",
+      "sha256": "7514b6a5666be89793ae5e41e2b50d42e3bbc1d28d5ba9c97b5011fafe8d632f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/final-clean-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/final-clean-setup.json",
+      "sha256": "2f26fcbb431beccd28fc8e905e9345b090ba8af6b7d5c3fb7049d71d17facf35"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/focus-build.log.gz",
+      "sha256": "45015333aaf9fe9fa14e146008e2072442afa82d4d95c3286f8a61718f11a0a5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/focus-invocations.json",
+      "sha256": "3175dc7f962ef4c55163b3b47d6bb66a225c417af79ce467536352f8a98451ae"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/focus-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/focus-modules.txt",
+      "sha256": "92e258c124ee805c094116ad6f1f5b992d5000e3ad79b0bd48aee89e1effb596"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/frontend-build.log.gz",
+      "sha256": "036eacd0fb6a0107eded71f057429729ec60d7af075383e8c3b3a0905b81c62f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/frontend-modules.txt",
+      "sha256": "16a8ac226371b747f91c1c94e52647bd6127589f25864609a05220acb70f3e3d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/inspections.json",
+      "sha256": "b7956c785f869a326d91da1dd944699628f1d18f8c505951ac818a0a7e49d7b1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/integration-final.log.gz",
+      "sha256": "8733687d5ce611c40efb238bafec56fce5e23c720cb7ddef3c380bb85810f3fe"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/joint-all.lean",
+      "sha256": "a698a72e3fde2e45bfc0910d3a4a48421e29d63e8e7e2291739a75547b5c00d0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/joint-final.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/modules.json",
+      "sha256": "6e754ca5ca4d7071ba6e8271dcd12e5d31ed0269e65d9edab6f8aeac22d899a2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/pairs.json",
+      "sha256": "9ab32db1e877ac5588652fc0d3565b3e5b2d67df7872ac9c47428cf5e487610b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/previous-reviews.json.gz",
+      "sha256": "127ff6becb9bb6d07df55045743bfb1a6a529ea5ae2ea232b930184b94d64506"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/python-invocations.json",
+      "sha256": "9e39b2539bfcc2c1abee83ceb9c4560d84db489655c4948a48dd71ccfbfcd6b4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/python-tests.log",
+      "sha256": "e9837e5dd048ff0cb11569779e81fbf85edd7734c18a2f256a286d05e2f285ff"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/raw-body-check.log",
+      "sha256": "93df00eac9c19a0596edff4db5e62e9700d7338f4460dfb21f884591272f40f6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/source-closure.json",
+      "sha256": "2324f1bf243671c1cf1b261509babfdf5e4b8f8196c663294fa508ec70988592"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/transferred-files.json",
+      "sha256": "596aa94f11816988606909fc30f45e8825f540c0206b370bbabac53e02bc1382"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/warm-final-invocation.json",
+      "sha256": "e9fc93a69c7d5c62f4dbc64f0a1ac0063512f8f152632d25a332cccdb249159e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy1-function-bodies/workflow-counts.json",
+      "sha256": "3c06d4df4cceaf01ff5732ac884b3f81f0c698e35e40f3d94901e560edf9abe5"
+    }
+  ]
+}
