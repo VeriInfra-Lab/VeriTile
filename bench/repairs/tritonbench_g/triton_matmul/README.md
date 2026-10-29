@@ -157,3 +157,50 @@ imported explicitly from `Misc/`. The primary `Contract.lean`, `Correct.lean` an
 not re-export optional native conclusions. Declaration names, statements and
 proof bodies are preserved; this file organization changes no input domain,
 precision, numerical rule or task completion status.
+
+
+## Literal function-body migration
+
+The selected Python source remains `triton_matmul_repaired.py`, function
+`matmul_kernel_repaired`; the comparison source remains
+`KernelOnly/triton_matmul_shifted.py`, function `matmul_kernel_shifted`.
+Neither Python module is edited by this migration. Each of their 29 top-level
+statements is retained in each FP16/E4M3 `triton { ... }` body. Pointer and scalar
+dtypes belong to the external `CallSignature`; no `tl.region` declaration is
+inserted into the pasted body. The source `launch_metadata` callback is recorded
+by the correspondence checker, not interpreted as a numerical proof premise.
+
+The bodies retain the simultaneous metadata cast assignments, every
+`.to(tl.int64)`, quotient/remainder ceilings with the Boolean-to-int64 casts,
+the computed `blocks_k`, the signed loop, live FP32 dot accumulator, and both
+branches of the storage-dtype-dependent final conversion. The candidate's only
+change remains its guarded group-width shift and entry names. The complete-module
+AST restoration check continues to check the surrounding Python code as well.
+
+`Proofs/RawPrelude*`, `RawBody*`, `RawLoop`, and `RawMemory` evaluate the actual
+copied source. `RawCoordinates`, `RawModel`, `RawLaunch`, and `RawWritten` connect
+its signed coordinates, masks, pointers and computed loop count to the existing
+independent matrix recurrence. The source does not use the old independent
+`numKBlocks` field: the host-derived value is proved equal to the computed count.
+`RawInactive` proves that ids beyond the row groups write no output, retaining
+the generic host helpers' domain. The bridge equates final memory, not temporary
+registers or syntax trees. It assumes no floating identity or complete execution
+result.
+
+`RawSafety` and `RawSafetyLoop` follow the actual signed loop and its successor
+states. The public safety proof derives the needed coordinate facts from the
+existing legal grid condition. `KernelOnly/Proofs/SourcePair.lean` proves the
+actual original/candidate statement and trace equivalence; `Pair.lean` lifts it
+through the unchanged public schedule. The selected Real and FP declarations,
+complete grid permutations, storage profiles, zero-axis behavior, input strides,
+and independent mathematical specifications retain their public domains.
+
+The historical `LogicalViewDefect` witness now constructs its own explicit
+Real algebra instead of referring to a separately revised FP backend with an
+incompatible carrier type. Its aligned +64 versus logical -64 counterexample
+and the downstream Real bridge are retained; this is not a native FP claim.
+
+Current migration verification is recorded separately from the historical
+interpreter/offline-lowering results above. This environment has no Torch/Triton
+runtime or usable official comparator isolation, so this revision claims no new
+GPU execution, numerical correspondence measurement, or performance result.

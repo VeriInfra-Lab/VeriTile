@@ -6,8 +6,8 @@
     "tasks": 183,
     "examples": 19,
     "task_status": {
-      "selected_body_copy_checked": 113,
-      "uncovered_jit_functions": 70
+      "selected_body_copy_checked": 116,
+      "uncovered_jit_functions": 67
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
@@ -15,12 +15,12 @@
       "spec_derived_body_copy_checked": 15
     },
     "selected_jit_functions": 333,
-    "uncovered_selected_jit_functions": 151,
+    "uncovered_selected_jit_functions": 147,
     "primary_files_with_int64_screen_warning": 19,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 49,
-        "antiquotes": 55,
+        "in_body_type_directives": 47,
+        "antiquotes": 53,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 8
       },
@@ -1544,13 +1544,13 @@
       "lean": "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Kernels.lean",
       "source_provenance": "selected_revision",
       "lean_screen": {
-        "quotations": 4,
-        "in_body_type_directives": 8,
-        "antiquotes": 88,
-        "dsl_assignment": 26,
+        "quotations": 8,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 106,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 4
+        "load_dtype_extension": 8
       },
       "python_jits": [
         {
@@ -1593,19 +1593,329 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_bgmv_shrink_kernel",
+          "lean_definition": "original_fp16_i32",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "mixed_integer_calls_and_runtime_registers",
+          "call_bindings": {
+            "N": "N",
+            "K": "K",
+            "xm_stride": "xm_stride",
+            "xk_stride": "xk_stride",
+            "l0_stride": "l0_stride",
+            "lora_k_stride": "lora_k_stride",
+            "lora_n_stride": "lora_n_stride",
+            "cm_stride": "cm_stride",
+            "cn_stride": "cn_stride"
+          },
+          "statements": 15,
+          "runtime_parameters": {
+            "N": "i32",
+            "K": "i32",
+            "xm_stride": "i32",
+            "xk_stride": "i32",
+            "l0_stride": "i32",
+            "lora_k_stride": "i32",
+            "lora_n_stride": "i32",
+            "cm_stride": "i32",
+            "cn_stride": "i32",
+            "scaling": "fp32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_K",
+            "BLOCK_N",
+            "SPLIT_K"
+          ],
+          "profile_variant": "fp16_i32",
           "python": "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/bgmv_shrink_kernel_repaired.py",
-          "function": "_bgmv_shrink_kernel"
+          "lean": "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Kernels.lean"
+        },
+        {
+          "python_function": "_bgmv_shrink_kernel_scalar_left",
+          "lean_definition": "scalarLeft_fp16_i32",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "mixed_integer_calls_and_runtime_registers",
+          "call_bindings": {
+            "N": "N",
+            "K": "K",
+            "xm_stride": "xm_stride",
+            "xk_stride": "xk_stride",
+            "l0_stride": "l0_stride",
+            "lora_k_stride": "lora_k_stride",
+            "lora_n_stride": "lora_n_stride",
+            "cm_stride": "cm_stride",
+            "cn_stride": "cn_stride"
+          },
+          "statements": 15,
+          "runtime_parameters": {
+            "N": "i32",
+            "K": "i32",
+            "xm_stride": "i32",
+            "xk_stride": "i32",
+            "l0_stride": "i32",
+            "lora_k_stride": "i32",
+            "lora_n_stride": "i32",
+            "cm_stride": "i32",
+            "cn_stride": "i32",
+            "scaling": "fp32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_K",
+            "BLOCK_N",
+            "SPLIT_K"
+          ],
+          "profile_variant": "fp16_i32",
+          "python": "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/bgmv_shrink_scalar_left.py",
+          "lean": "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Kernels.lean"
+        },
+        {
+          "python_function": "_bgmv_shrink_kernel",
+          "lean_definition": "original_fp16_i64",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "mixed_integer_calls_and_runtime_registers",
+          "call_bindings": {
+            "N": "N",
+            "K": "K",
+            "xm_stride": "xm_stride",
+            "xk_stride": "xk_stride",
+            "l0_stride": "l0_stride",
+            "lora_k_stride": "lora_k_stride",
+            "lora_n_stride": "lora_n_stride",
+            "cm_stride": "cm_stride",
+            "cn_stride": "cn_stride"
+          },
+          "statements": 15,
+          "runtime_parameters": {
+            "N": "i32",
+            "K": "i32",
+            "xm_stride": "i32",
+            "xk_stride": "i32",
+            "l0_stride": "i32",
+            "lora_k_stride": "i32",
+            "lora_n_stride": "i32",
+            "cm_stride": "i32",
+            "cn_stride": "i32",
+            "scaling": "fp32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_K",
+            "BLOCK_N",
+            "SPLIT_K"
+          ],
+          "profile_variant": "fp16_i64",
+          "python": "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/bgmv_shrink_kernel_repaired.py",
+          "lean": "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Kernels.lean"
+        },
+        {
+          "python_function": "_bgmv_shrink_kernel_scalar_left",
+          "lean_definition": "scalarLeft_fp16_i64",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "mixed_integer_calls_and_runtime_registers",
+          "call_bindings": {
+            "N": "N",
+            "K": "K",
+            "xm_stride": "xm_stride",
+            "xk_stride": "xk_stride",
+            "l0_stride": "l0_stride",
+            "lora_k_stride": "lora_k_stride",
+            "lora_n_stride": "lora_n_stride",
+            "cm_stride": "cm_stride",
+            "cn_stride": "cn_stride"
+          },
+          "statements": 15,
+          "runtime_parameters": {
+            "N": "i32",
+            "K": "i32",
+            "xm_stride": "i32",
+            "xk_stride": "i32",
+            "l0_stride": "i32",
+            "lora_k_stride": "i32",
+            "lora_n_stride": "i32",
+            "cm_stride": "i32",
+            "cn_stride": "i32",
+            "scaling": "fp32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_K",
+            "BLOCK_N",
+            "SPLIT_K"
+          ],
+          "profile_variant": "fp16_i64",
+          "python": "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/bgmv_shrink_scalar_left.py",
+          "lean": "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Kernels.lean"
+        },
+        {
+          "python_function": "_bgmv_shrink_kernel",
+          "lean_definition": "original_bf16_i32",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "mixed_integer_calls_and_runtime_registers",
+          "call_bindings": {
+            "N": "N",
+            "K": "K",
+            "xm_stride": "xm_stride",
+            "xk_stride": "xk_stride",
+            "l0_stride": "l0_stride",
+            "lora_k_stride": "lora_k_stride",
+            "lora_n_stride": "lora_n_stride",
+            "cm_stride": "cm_stride",
+            "cn_stride": "cn_stride"
+          },
+          "statements": 15,
+          "runtime_parameters": {
+            "N": "i32",
+            "K": "i32",
+            "xm_stride": "i32",
+            "xk_stride": "i32",
+            "l0_stride": "i32",
+            "lora_k_stride": "i32",
+            "lora_n_stride": "i32",
+            "cm_stride": "i32",
+            "cn_stride": "i32",
+            "scaling": "fp32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_K",
+            "BLOCK_N",
+            "SPLIT_K"
+          ],
+          "profile_variant": "bf16_i32",
+          "python": "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/bgmv_shrink_kernel_repaired.py",
+          "lean": "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Kernels.lean"
+        },
+        {
+          "python_function": "_bgmv_shrink_kernel_scalar_left",
+          "lean_definition": "scalarLeft_bf16_i32",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "mixed_integer_calls_and_runtime_registers",
+          "call_bindings": {
+            "N": "N",
+            "K": "K",
+            "xm_stride": "xm_stride",
+            "xk_stride": "xk_stride",
+            "l0_stride": "l0_stride",
+            "lora_k_stride": "lora_k_stride",
+            "lora_n_stride": "lora_n_stride",
+            "cm_stride": "cm_stride",
+            "cn_stride": "cn_stride"
+          },
+          "statements": 15,
+          "runtime_parameters": {
+            "N": "i32",
+            "K": "i32",
+            "xm_stride": "i32",
+            "xk_stride": "i32",
+            "l0_stride": "i32",
+            "lora_k_stride": "i32",
+            "lora_n_stride": "i32",
+            "cm_stride": "i32",
+            "cn_stride": "i32",
+            "scaling": "fp32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_K",
+            "BLOCK_N",
+            "SPLIT_K"
+          ],
+          "profile_variant": "bf16_i32",
+          "python": "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/bgmv_shrink_scalar_left.py",
+          "lean": "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Kernels.lean"
+        },
+        {
+          "python_function": "_bgmv_shrink_kernel",
+          "lean_definition": "original_bf16_i64",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "mixed_integer_calls_and_runtime_registers",
+          "call_bindings": {
+            "N": "N",
+            "K": "K",
+            "xm_stride": "xm_stride",
+            "xk_stride": "xk_stride",
+            "l0_stride": "l0_stride",
+            "lora_k_stride": "lora_k_stride",
+            "lora_n_stride": "lora_n_stride",
+            "cm_stride": "cm_stride",
+            "cn_stride": "cn_stride"
+          },
+          "statements": 15,
+          "runtime_parameters": {
+            "N": "i32",
+            "K": "i32",
+            "xm_stride": "i32",
+            "xk_stride": "i32",
+            "l0_stride": "i32",
+            "lora_k_stride": "i32",
+            "lora_n_stride": "i32",
+            "cm_stride": "i32",
+            "cn_stride": "i32",
+            "scaling": "fp32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_K",
+            "BLOCK_N",
+            "SPLIT_K"
+          ],
+          "profile_variant": "bf16_i64",
+          "python": "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/bgmv_shrink_kernel_repaired.py",
+          "lean": "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Kernels.lean"
+        },
+        {
+          "python_function": "_bgmv_shrink_kernel_scalar_left",
+          "lean_definition": "scalarLeft_bf16_i64",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "mixed_integer_calls_and_runtime_registers",
+          "call_bindings": {
+            "N": "N",
+            "K": "K",
+            "xm_stride": "xm_stride",
+            "xk_stride": "xk_stride",
+            "l0_stride": "l0_stride",
+            "lora_k_stride": "lora_k_stride",
+            "lora_n_stride": "lora_n_stride",
+            "cm_stride": "cm_stride",
+            "cn_stride": "cn_stride"
+          },
+          "statements": 15,
+          "runtime_parameters": {
+            "N": "i32",
+            "K": "i32",
+            "xm_stride": "i32",
+            "xk_stride": "i32",
+            "l0_stride": "i32",
+            "lora_k_stride": "i32",
+            "lora_n_stride": "i32",
+            "cm_stride": "i32",
+            "cn_stride": "i32",
+            "scaling": "fp32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_K",
+            "BLOCK_N",
+            "SPLIT_K"
+          ],
+          "profile_variant": "bf16_i64",
+          "python": "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/bgmv_shrink_scalar_left.py",
+          "lean": "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Kernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Kernels.lean": "28cbd0857a8db8bccf4776483a523deb38ece7dda36f9393b6e6e680fbea3f13",
-        "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/bgmv_shrink_kernel_repaired.py": "a310a815f1fbee12660da58c646ca05cb1e3570e5cabcd8295d357cbc4052052"
+        "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Kernels.lean": "1d6f86cbb497e28cf8ac02af2a1e340a785ff1640c3aaeeb64098b5f401da95e",
+        "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/bgmv_shrink_kernel_repaired.py": "a310a815f1fbee12660da58c646ca05cb1e3570e5cabcd8295d357cbc4052052",
+        "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/bgmv_shrink_scalar_left.py": "25e4aa852c67e2029723e46be2161bf4860fb5f0a53317f0f7de30245f92acb4",
+        "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/jit-correspondence.json": "ab830e05222777a4542d801124ce7140a1de68704ff2ce88f2e33601f94f368a"
       }
     },
     {
@@ -14075,9 +14385,9 @@
       "source_provenance": "selected_revision",
       "lean_screen": {
         "quotations": 5,
-        "in_body_type_directives": 5,
-        "antiquotes": 69,
-        "dsl_assignment": 5,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 69,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 5
@@ -14096,22 +14406,169 @@
           "explicit_int64_casts": []
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_multinomial_sampling_kernel",
+          "lean_definition": "original",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "stride_sb": "stride_sb",
+            "stride_st": "stride_st",
+            "stride_ib": "stride_ib",
+            "stride_it": "stride_it",
+            "num_batchs": "num_batchs",
+            "num_tokens": "num_tokens"
+          },
+          "statements": 12,
+          "runtime_parameters": {
+            "stride_sb": "i32",
+            "stride_st": "i32",
+            "stride_ib": "i32",
+            "stride_it": "i32",
+            "num_batchs": "i32",
+            "num_tokens": "i32"
+          },
+          "constexpr_parameters": [
+            "BLOCK",
+            "BLOCK_N"
+          ],
+          "profile_variant": "original",
           "python": "bench/repairs/tritonbench_g/multinomial_sampling/multinomial_sampling_repaired.py",
-          "function": "_multinomial_sampling_kernel"
+          "lean": "bench/repairs/tritonbench_g/multinomial_sampling/Kernels.lean"
         },
         {
+          "python_function": "_multinomial_sampling_kernel",
+          "lean_definition": "original16",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "stride_sb": "stride_sb",
+            "stride_st": "stride_st",
+            "stride_ib": "stride_ib",
+            "stride_it": "stride_it",
+            "num_batchs": "num_batchs",
+            "num_tokens": "num_tokens"
+          },
+          "statements": 12,
+          "runtime_parameters": {
+            "stride_sb": "i32",
+            "stride_st": "i32",
+            "stride_ib": "i32",
+            "stride_it": "i32",
+            "num_batchs": "i32",
+            "num_tokens": "i32"
+          },
+          "constexpr_parameters": [
+            "BLOCK",
+            "BLOCK_N"
+          ],
+          "profile_variant": "original16",
           "python": "bench/repairs/tritonbench_g/multinomial_sampling/multinomial_sampling_repaired.py",
-          "function": "_multinomial_sampling_unrolled_kernel"
+          "lean": "bench/repairs/tritonbench_g/multinomial_sampling/Kernels.lean"
+        },
+        {
+          "python_function": "_multinomial_sampling_kernel",
+          "lean_definition": "originalBfloat16",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "stride_sb": "stride_sb",
+            "stride_st": "stride_st",
+            "stride_ib": "stride_ib",
+            "stride_it": "stride_it",
+            "num_batchs": "num_batchs",
+            "num_tokens": "num_tokens"
+          },
+          "statements": 12,
+          "runtime_parameters": {
+            "stride_sb": "i32",
+            "stride_st": "i32",
+            "stride_ib": "i32",
+            "stride_it": "i32",
+            "num_batchs": "i32",
+            "num_tokens": "i32"
+          },
+          "constexpr_parameters": [
+            "BLOCK",
+            "BLOCK_N"
+          ],
+          "profile_variant": "originalBfloat16",
+          "python": "bench/repairs/tritonbench_g/multinomial_sampling/multinomial_sampling_repaired.py",
+          "lean": "bench/repairs/tritonbench_g/multinomial_sampling/Kernels.lean"
+        },
+        {
+          "python_function": "_multinomial_sampling_kernel",
+          "lean_definition": "original64",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "stride_sb": "stride_sb",
+            "stride_st": "stride_st",
+            "stride_ib": "stride_ib",
+            "stride_it": "stride_it",
+            "num_batchs": "num_batchs",
+            "num_tokens": "num_tokens"
+          },
+          "statements": 12,
+          "runtime_parameters": {
+            "stride_sb": "i32",
+            "stride_st": "i32",
+            "stride_ib": "i32",
+            "stride_it": "i32",
+            "num_batchs": "i32",
+            "num_tokens": "i32"
+          },
+          "constexpr_parameters": [
+            "BLOCK",
+            "BLOCK_N"
+          ],
+          "profile_variant": "original64",
+          "python": "bench/repairs/tritonbench_g/multinomial_sampling/multinomial_sampling_repaired.py",
+          "lean": "bench/repairs/tritonbench_g/multinomial_sampling/Kernels.lean"
+        },
+        {
+          "python_function": "_multinomial_sampling_unrolled_kernel",
+          "lean_definition": "unrolled",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "stride_sb": "stride_sb",
+            "stride_st": "stride_st",
+            "stride_ib": "stride_ib",
+            "stride_it": "stride_it",
+            "num_batchs": "num_batchs"
+          },
+          "statements": 12,
+          "runtime_parameters": {
+            "stride_sb": "i32",
+            "stride_st": "i32",
+            "stride_ib": "i32",
+            "stride_it": "i32",
+            "num_batchs": "i32"
+          },
+          "constexpr_parameters": [
+            "BLOCK",
+            "BLOCK_N",
+            "num_tokens"
+          ],
+          "profile_variant": "unrolled",
+          "python": "bench/repairs/tritonbench_g/multinomial_sampling/multinomial_sampling_repaired.py",
+          "lean": "bench/repairs/tritonbench_g/multinomial_sampling/Kernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/multinomial_sampling/Kernels.lean": "cba8923091a91921a53313317c8b29b530126dd6978a164b67fbd83d9a775bab",
+        "bench/repairs/tritonbench_g/multinomial_sampling/Kernels.lean": "3c3b9fe9af6284af3e3c5342614698efab4bf5b4e12457f6a9faa876371b0683",
+        "bench/repairs/tritonbench_g/multinomial_sampling/jit-correspondence.json": "9d4bc01ef1d08f36869fcb8757ad18ee921e4b56c3750b129664866da86fe414",
         "bench/repairs/tritonbench_g/multinomial_sampling/multinomial_sampling_repaired.py": "88b41d56a241c2427f65eea76606b6ca9d2fa41fd272e205cb3b245a7b99aa61"
       }
     },
@@ -22117,18 +22574,186 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "matmul_kernel_repaired",
+          "lean_definition": "halfSource",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "M": "M",
+            "N": "N",
+            "K": "K",
+            "stride_am": "stride_am",
+            "stride_ak": "stride_ak",
+            "stride_bk": "stride_bk",
+            "stride_bn": "stride_bn",
+            "stride_cm": "stride_cm",
+            "stride_cn": "stride_cn"
+          },
+          "statements": 29,
+          "runtime_parameters": {
+            "M": "i64",
+            "N": "i64",
+            "K": "i64",
+            "stride_am": "i64",
+            "stride_ak": "i64",
+            "stride_bk": "i64",
+            "stride_bn": "i64",
+            "stride_cm": "i64",
+            "stride_cn": "i64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_K",
+            "BLOCK_SIZE_M",
+            "BLOCK_SIZE_N",
+            "GROUP_SIZE_M"
+          ],
+          "jit_options": {
+            "launch_metadata": "_matmul_launch_metadata"
+          },
+          "profile_variant": "fp16",
           "python": "bench/repairs/tritonbench_g/triton_matmul/triton_matmul_repaired.py",
-          "function": "matmul_kernel_repaired"
+          "lean": "bench/repairs/tritonbench_g/triton_matmul/Kernels.lean"
+        },
+        {
+          "python_function": "matmul_kernel_repaired",
+          "lean_definition": "byteSource",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "M": "M",
+            "N": "N",
+            "K": "K",
+            "stride_am": "stride_am",
+            "stride_ak": "stride_ak",
+            "stride_bk": "stride_bk",
+            "stride_bn": "stride_bn",
+            "stride_cm": "stride_cm",
+            "stride_cn": "stride_cn"
+          },
+          "statements": 29,
+          "runtime_parameters": {
+            "M": "i64",
+            "N": "i64",
+            "K": "i64",
+            "stride_am": "i64",
+            "stride_ak": "i64",
+            "stride_bk": "i64",
+            "stride_bn": "i64",
+            "stride_cm": "i64",
+            "stride_cn": "i64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_K",
+            "BLOCK_SIZE_M",
+            "BLOCK_SIZE_N",
+            "GROUP_SIZE_M"
+          ],
+          "jit_options": {
+            "launch_metadata": "_matmul_launch_metadata"
+          },
+          "profile_variant": "f8e4",
+          "python": "bench/repairs/tritonbench_g/triton_matmul/triton_matmul_repaired.py",
+          "lean": "bench/repairs/tritonbench_g/triton_matmul/Kernels.lean"
+        },
+        {
+          "python_function": "matmul_kernel_shifted",
+          "lean_definition": "halfSource",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "M": "M",
+            "N": "N",
+            "K": "K",
+            "stride_am": "stride_am",
+            "stride_ak": "stride_ak",
+            "stride_bk": "stride_bk",
+            "stride_bn": "stride_bn",
+            "stride_cm": "stride_cm",
+            "stride_cn": "stride_cn"
+          },
+          "statements": 29,
+          "runtime_parameters": {
+            "M": "i64",
+            "N": "i64",
+            "K": "i64",
+            "stride_am": "i64",
+            "stride_ak": "i64",
+            "stride_bk": "i64",
+            "stride_bn": "i64",
+            "stride_cm": "i64",
+            "stride_cn": "i64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_K",
+            "BLOCK_SIZE_M",
+            "BLOCK_SIZE_N",
+            "GROUP_SIZE_M"
+          ],
+          "jit_options": {
+            "launch_metadata": "_matmul_launch_metadata"
+          },
+          "profile_variant": "fp16",
+          "python": "bench/repairs/tritonbench_g/triton_matmul/KernelOnly/triton_matmul_shifted.py",
+          "lean": "bench/repairs/tritonbench_g/triton_matmul/KernelOnly/CandidateKernels.lean"
+        },
+        {
+          "python_function": "matmul_kernel_shifted",
+          "lean_definition": "byteSource",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "M": "M",
+            "N": "N",
+            "K": "K",
+            "stride_am": "stride_am",
+            "stride_ak": "stride_ak",
+            "stride_bk": "stride_bk",
+            "stride_bn": "stride_bn",
+            "stride_cm": "stride_cm",
+            "stride_cn": "stride_cn"
+          },
+          "statements": 29,
+          "runtime_parameters": {
+            "M": "i64",
+            "N": "i64",
+            "K": "i64",
+            "stride_am": "i64",
+            "stride_ak": "i64",
+            "stride_bk": "i64",
+            "stride_bn": "i64",
+            "stride_cm": "i64",
+            "stride_cn": "i64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_K",
+            "BLOCK_SIZE_M",
+            "BLOCK_SIZE_N",
+            "GROUP_SIZE_M"
+          ],
+          "jit_options": {
+            "launch_metadata": "_matmul_launch_metadata"
+          },
+          "profile_variant": "f8e4",
+          "python": "bench/repairs/tritonbench_g/triton_matmul/KernelOnly/triton_matmul_shifted.py",
+          "lean": "bench/repairs/tritonbench_g/triton_matmul/KernelOnly/CandidateKernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
+        "bench/repairs/tritonbench_g/triton_matmul/KernelOnly/CandidateKernels.lean": "08dc889d524cb5903768b1804b1e4a6e41a7343c7f73902c0e75d7233313be25",
         "bench/repairs/tritonbench_g/triton_matmul/KernelOnly/Kernels.lean": "98d499d5116611b1c415d5f462bfb488891920a10f3ebc53a22cd7dd315569ec",
+        "bench/repairs/tritonbench_g/triton_matmul/KernelOnly/jit-correspondence.json": "0ebbf517ed6473d6a6aa7cd2d9f9d65ed1048461d1f1b6ee44b4faf58faaa25d",
+        "bench/repairs/tritonbench_g/triton_matmul/KernelOnly/triton_matmul_shifted.py": "b36cc4410d2b946bc00a045e53478849fec7bb7c6d78da6593d23dbbec4493f7",
+        "bench/repairs/tritonbench_g/triton_matmul/Kernels.lean": "39b816aae4a03a1cb91af9c4f104608c89e7e9973bfc597fd737af20b898c169",
         "bench/repairs/tritonbench_g/triton_matmul/triton_matmul_repaired.py": "ae92db50d9682c192a9404f75686f30dd02e9881d6fd440d00dce82ccd68c84f"
       }
     },

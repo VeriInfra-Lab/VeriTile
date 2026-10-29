@@ -24,88 +24,20 @@ def function(path, name):
     return next(n for n in ast.parse(path.read_text()).body if isinstance(n, ast.FunctionDef) and n.name == name)
 
 
-def unquote(text):
-    while "$(" in text:
-        start = text.index("$(")
-        pos, depth = start + 2, 1
-        while depth:
-            depth += (text[pos] == "(") - (text[pos] == ")")
-            pos += 1
-        value = text[start + 2:pos - 1]
-        value = re.sub(r"\s*:\s*(Int|Nat|ℝ)", "", value)
-        text = text[:start] + value + text[pos:]
-    return text
-
-
-def quote_body():
-    text = (HERE / "SurfaceSource.lean").read_text().split("(triton {", 1)[1].split("}).surfaceBody.drop 1)", 1)[0]
-    text = unquote(text).replace("$scale", "accumulator * scaling")
-    lines, depth = [], 0
-    for raw in text.splitlines():
-        line = raw.strip()
-        if not line or line.startswith("tl.region"):
-            continue
-        if line.startswith("}"):
-            depth -= 1
-            line = line[1:].strip()
-        if not line:
-            continue
-        opening = line.endswith("{")
-        if opening:
-            line = line[:-1].strip() + ":"
-        lines.append("    " * depth + line)
-        depth += opening
-    assert depth == 0
-    body = ast.parse("\n".join(lines)).body
-    assert ast.unparse(body[0]) == "scaling = 0 .to(tl.float32)"
-    # This declaration only establishes the launch-register type; `.drop 1`
-    # removes it from actual execution. The register is seeded from the ABI.
-    return body[1:]
-
-
-class Normalize(ast.NodeTransformer):
-    def visit_AugAssign(self, node):
-        node = self.generic_visit(node)
-        read = copy.deepcopy(node.target)
-        read.ctx = ast.Load()
-        return ast.Assign([node.target], ast.BinOp(read, node.op, node.value))
-
-    def visit_List(self, node):
-        return ast.Tuple([self.visit(x) for x in node.elts], ast.Load())
-
-    def visit_Call(self, node):
-        node = self.generic_visit(node)
-        if isinstance(node.func, ast.Attribute) and isinstance(node.func.value, ast.Name):
-            if node.func.value.id == "tl" and node.func.attr == "cast":
-                assert len(node.args) == 2 and not node.keywords
-                return ast.Call(ast.Attribute(node.args[0], "to", ast.Load()), [node.args[1]], [])
-        if isinstance(node.func, ast.Attribute) and node.func.attr == "to" and len(node.args) == 1:
-            if isinstance(node.args[0], ast.Name) and node.args[0].id == "OUT_DTYPE":
-                return node.func.value
-        return node
-
-
-def canonical(body):
-    return ast.dump(Normalize().visit(ast.Module(body=copy.deepcopy(body), type_ignores=[])), include_attributes=False)
-
-
-def source_body(node):
-    prefix, guard, *tail = node.body
-    # Locate exactly the actual sentinel-return statement, preserving all other statements.
-    for pos, stmt in enumerate(node.body):
-        if isinstance(stmt, ast.If) and len(stmt.body) == 1 and isinstance(stmt.body[0], ast.Return):
-            assert ast.unparse(stmt.test) == "lora_index == -1" and not stmt.orelse
-            condition = copy.deepcopy(stmt.test)
-            condition.ops = [ast.NotEq()]
-            return node.body[:pos] + [ast.If(condition, node.body[pos + 1:], [])]
-    raise AssertionError("missing original sentinel guard")
-
-
 def check_source():
-    before, candidate = function(ORIGINAL, "_bgmv_shrink_kernel"), function(SOURCE, "_bgmv_shrink_kernel")
-    assert ast.dump(before) == ast.dump(candidate), "original JIT body or signature changed"
-    expected = canonical(quote_body())
-    assert canonical(source_body(candidate)) == expected, "full shared quotation differs"
+    # Check the pasted source and fixed caller ABI without normalizing casts,
+    # assignment forms, tuple/list spellings or the source sentinel return.
+    import sys
+    sys.path.insert(0, str(ROOT))
+    from bench.jit_correspondence import check, check_manifest
+    before = function(ORIGINAL, "_bgmv_shrink_kernel")
+    selected = function(SOURCE, "_bgmv_shrink_kernel")
+    assert ast.dump(before) == ast.dump(selected), "original JIT body or signature changed"
+    pairs = json.loads((HERE / "jit-correspondence.json").read_text())
+    results = check_manifest(ROOT, HERE / "jit-correspondence.json")
+    assert len(results) == 8 and all(row["status"] == "PASS" for row in results)
+    row = pairs[0]
+    lean = (ROOT / row["lean"]).read_text()
     mutations = [
         ("BLOCK_K * SPLIT_K", "BLOCK_K"),
         ("other=0.0", "other=1.0"),
@@ -117,13 +49,26 @@ def check_source():
     ]
     for old, new in mutations:
         text = SOURCE.read_text().replace(old, new, 1)
-        node = next(n for n in ast.parse(text).body if isinstance(n, ast.FunctionDef) and n.name == candidate.name)
-        assert canonical(source_body(node)) != expected, (old, new)
+        assert text != SOURCE.read_text()
+        try:
+            check(text, lean, row["python_function"], row["lean_definition"],
+                  signature_definition=row["signature_definition"],
+                  expected_signature=row["expected_signature"],
+                  expected_call_bindings=row["expected_call_bindings"])
+        except ValueError:
+            pass
+        else:
+            raise AssertionError((old, new))
+    pair_spec = importlib.util.spec_from_file_location("bgmv_shrink_exact_pair", HERE / "check_pair_source.py")
+    pair = importlib.util.module_from_spec(pair_spec)
+    pair_spec.loader.exec_module(pair)
+    pair.check_pair()
     old_wrapper, wrapper = function(ORIGINAL, "_bgmv_shrink"), function(SOURCE, "_bgmv_shrink")
     launch = lambda f: next(n for n in ast.walk(f) if isinstance(n, ast.Call) and isinstance(n.func, ast.Subscript))
     assert ast.dump(launch(old_wrapper)) == ast.dump(launch(wrapper)), "64-split launch changed"
     return {"full_ast_match": True, "jit_body_unchanged": True, "launch_unchanged": True,
-            "source_mutants_rejected": len(mutations)}
+            "raw_body_profiles": len(results), "source_mutants_rejected": len(mutations),
+            "candidate_full_module": True}
 
 
 def check_guards(candidate_text=None):
@@ -244,7 +189,7 @@ if __name__ == "__main__":
     guards = check_guards()
     guard_mutants = check_guard_mutants()
     report = {"source_sha256": hashlib.sha256(SOURCE.read_bytes()).hexdigest(),
-              "quote_sha256": hashlib.sha256((HERE / "SurfaceSource.lean").read_bytes()).hexdigest(),
+              "quote_sha256": hashlib.sha256((HERE / "Kernels.lean").read_bytes()).hexdigest(),
               "source": source, "guards": guards, "guard_mutants_rejected": guard_mutants, "gpu_execution": False,
               "scope": "Exact Python AST with CPU tensor storage and CUDA launch metadata stubs."}
     EVIDENCE.mkdir(exist_ok=True)

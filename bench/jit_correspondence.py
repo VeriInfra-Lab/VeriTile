@@ -549,6 +549,19 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
         jit_options = {}
         parameters = [a.arg for a in function.args.args]
         for kw in decorator.keywords:
+            if kw.arg == "launch_metadata":
+                if kw.arg in jit_options:
+                    raise ValueError("duplicate triton.jit decorator option")
+                if not isinstance(kw.value, ast.Name):
+                    raise ValueError("launch_metadata requires a named top-level callback")
+                callbacks = [n for n in ast.parse(python_text).body
+                             if isinstance(n, ast.FunctionDef) and n.name == kw.value.id]
+                if len(callbacks) != 1 or callbacks[0].decorator_list:
+                    raise ValueError("launch_metadata requires one undecorated top-level callback")
+                # Profiling metadata does not enter the pasted JIT body. Record
+                # its source spelling; no host callback execution/proof is claimed.
+                jit_options[kw.arg] = kw.value.id
+                continue
             if kw.arg not in ("do_not_specialize", "do_not_specialize_on_alignment"):
                 raise ValueError("unsupported triton.jit decorator option")
             if kw.arg in jit_options:

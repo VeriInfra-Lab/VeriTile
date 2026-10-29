@@ -24,6 +24,8 @@ private def name (id : Ident) : Name := id.getId.eraseMacroScopes
 entry values. A later RHS that reads an earlier target would require register
 capture; reject it instead of silently changing Python evaluation order. -/
 private partial def readsTupleTarget (target : Name) (raw : Syntax) : Bool :=
+  -- Caller-owned Lean terms are immutable values, not source register reads.
+  if let `(tritonExpr| $($_:term)) := raw then Bool.false else
   if raw.isIdent then
     let value := raw.getId.eraseMacroScopes.toString
     value == target.toString || value.startsWith (target.toString ++ ".")
@@ -151,6 +153,12 @@ private partial def valueType (pointers : Types) (values : Values)
             [.i8,.i16,.i32,.i64,.u8,.u16,.u32,.u64,.boolean].contains left then some (if right == .bf16 then .fp32 else right)
         else none
     | _, _ => none
+  let dotInputs (a b : TSyntax `tritonExpr) : Bool :=
+    match valueType pointers values a, valueType pointers values b with
+    | some (.typed left), some (.typed right) =>
+        (left == right && [.fp16,.bf16,.fp32].contains left) ||
+          ([PointerType.f8e4,.f8e5].contains left && [.f8e4,.f8e5].contains right)
+    | _, _ => Bool.false
   if let some dtype := (explicitCastType pointers values e).orElse (fun _ => constructorType pointers e) then some (.typed dtype) else
   match e with
   | `(tritonExpr| tl.__python_literal($inner:tritonExpr)) => valueType pointers values inner
@@ -235,14 +243,14 @@ private partial def valueType (pointers : Types) (values : Values)
   | `(tritonExpr| $a:tritonExpr[None, :, :])
   | `(tritonExpr| $a:tritonExpr[:, :, None]) => valueType pointers values a
   | `(tritonExpr| tl.dot($a:tritonExpr, $b:tritonExpr, $acc:tritonExpr)) =>
-      if valueType pointers values a == some (.typed .fp32) &&
-          valueType pointers values b == some (.typed .fp32) &&
+      if dotInputs a b &&
           valueType pointers values acc == some (.typed .fp32)
       then some (.typed .fp32) else none
   | `(tritonExpr| tl.dot($a:tritonExpr, $b:tritonExpr, $acc:tritonExpr $[, $kwargs:tritonReduceKwarg]*)) => do
-      -- The live FP32 accumulator is an operand, never a separate add.
-      unless valueType pointers values a == some (.typed .fp32) &&
-          valueType pointers values b == some (.typed .fp32) &&
+      -- Triton 3.7.1 semantic.dot accepts matching fp16/bf16/fp32 inputs
+      -- or any supported fp8 pair with an FP32 accumulator/out_dtype.
+      -- The live accumulator is an operand, never a separate add.
+      unless dotInputs a b &&
           valueType pointers values acc == some (.typed .fp32) do failure
       for kw in kwargs do
         if let `(tritonReduceKwarg| out_dtype=$dtype:tritonDType) := kw then
@@ -443,10 +451,10 @@ private partial def rejectPointerRebinding (pointers : Types) (raw : Syntax) : M
         Macro.throwErrorAt raw "pointer tuple rebinding inside control flow is unsupported"
   for arg in raw.getArgs do rejectPointerRebinding pointers arg
 
-private def convertedValue (pointers : Types) (values : Values) (destination value : TSyntax `tritonExpr) :
-    MacroM (TSyntax `tritonExpr) := do
+private def convertedValue (pointers : Types) (values : Values) (destination value : TSyntax `tritonExpr)
+    (operation : String := "tl.store") : MacroM (TSyntax `tritonExpr) := do
   let some dtype := pointerType pointers destination
-    | Macro.throwErrorAt value "cannot determine tl.store destination dtype from the call signature"
+    | Macro.throwErrorAt value s!"cannot determine {operation} destination dtype from the call signature"
   if valueType pointers values value == some (.typed dtype) then return value
   let some dt ← dtypeSyntaxOfName? (PointerType.dtypeName dtype)
     | Macro.throwError "unsupported implicit store dtype"
@@ -483,6 +491,7 @@ private partial def mayWrite (target : Name) (raw : Syntax) : Bool := Id.run do
     | `(tritonStmt| for $_:ident in range($_:tritonExpr, $_:tritonExpr) { $body:tritonStmt* })
     | `(tritonStmt| for $_:ident in range($_:tritonExpr) { $body:tritonStmt* }) =>
         return body.any (fun s => mayWrite target s.raw)
+    | `(tritonStmt| tl.atomic_add($_:tritonExpr, $_:tritonExpr $[, $_:tritonMemKwarg]*))
     | `(tritonStmt| tl.store($_:tritonExpr, $_:tritonExpr))
     | `(tritonStmt| tl.store($_:tritonExpr, $_:tritonExpr, $_:tritonMemKwarg $[, $_:tritonMemKwarg]*)) =>
         return Bool.false
@@ -498,6 +507,44 @@ private def checkInvariant (invariants : Values) (id : Ident) (value : Option Va
 This tracks dtype, never equality of pointer addresses or computed values. -/
 private def commonInfo [BEq α] (yes no : List (Name × α)) : List (Name × α) :=
   yes.filter (fun entry => no.any (fun other => other.1 == entry.1 && other.2 == entry.2))
+
+/-- Dtype predicates are compiler metadata. Resolve them only from the current
+checked pointer/value provenance; a missing or polymorphic type is not false. -/
+private partial def sourceDTypeCondition (pointers : Types) (values : Values)
+    (condition : TSyntax `tritonExpr) : MacroM (TSyntax `tritonExpr) := do
+  let resolve (attr : Ident) (target : TSyntax `tritonDType) (negate : Bool) := do
+    let actual := match name attr with
+      | .str (.str pointer "dtype") "element_ty"
+      | .str (.str pointer "type") "element_ty" => lookup pointers (mkIdent pointer)
+      | .str value "dtype" => do
+          let (_, .typed kind) ← values.find? (fun entry => entry.1 == value) | none
+          pure kind
+      | _ => none
+    let some actual := actual
+      | Macro.throwErrorAt attr "dtype predicate requires a known pointer element or tensor value type"
+    let some targetName := dtypeToken target.raw
+      | Macro.throwErrorAt target "unsupported dtype predicate target"
+    let some expected := sourceKinds.find? (fun kind => PointerType.dtypeName kind == targetName)
+      | Macro.throwErrorAt target "unsupported dtype predicate target"
+    if [PointerType.inputFloat,PointerType.outputFloat].contains actual ||
+        [PointerType.inputFloat,PointerType.outputFloat].contains expected then
+      Macro.throwErrorAt condition "dtype predicate requires a specialized source type"
+    let result := if negate then actual != expected else actual == expected
+    let term ← if result then `(term| Bool.true) else `(term| Bool.false)
+    `(tritonExpr| $(($term:term : Bool)))
+  match condition with
+  | `(tritonExpr| $attr:ident == $target:tritonExpr) =>
+      if target.raw.getKind == ``tritonSourceDTypeValue then
+        resolve attr ⟨target.raw[0]⟩ Bool.false
+      else pure condition
+  | `(tritonExpr| $attr:ident != $target:tritonExpr) =>
+      if target.raw.getKind == ``tritonSourceDTypeValue then
+        resolve attr ⟨target.raw[0]⟩ Bool.true
+      else pure condition
+  | `(tritonExpr| ($inner:tritonExpr)) =>
+      let inner ← sourceDTypeCondition pointers values inner
+      `(tritonExpr| ($inner:tritonExpr))
+  | _ => pure condition
 
 /-- A supplied Bool term is a constexpr value, not a tensor condition.
 Only such conditions may carry different source dtypes into the continuation. -/
@@ -712,7 +759,16 @@ private partial def lowerWithState (pointers : Types) (values : Values)
           rejectNestedLoads pointers value.raw
           let value ← convertedValue pointers values destination value
           stmt ← `(tritonStmt| tl.store($destination:tritonExpr, $value:tritonExpr, $kwarg:tritonMemKwarg $[, $kwargs:tritonMemKwarg]*))
+      | `(tritonStmt| tl.atomic_add($destination:tritonExpr, $value:tritonExpr $[, $kwargs:tritonMemKwarg]*)) =>
+          checkDivRN pointers values stmt.raw
+          rejectNestedLoads pointers value.raw
+          -- Triton converts the atomic operand to the pointed-to storage type
+          -- before selecting its atomic addition primitive (semantic.py,
+          -- atom_red_typechecking_impl). Keep that conversion in the program.
+          let value ← convertedValue pointers values destination value "tl.atomic_add"
+          stmt ← `(tritonStmt| tl.atomic_add($destination:tritonExpr, $value:tritonExpr $[, $kwargs:tritonMemKwarg]*))
       | `(tritonStmt| if $condition:tritonExpr { $yes:tritonStmt* } else { $no:tritonStmt* }) =>
+          let condition ← sourceDTypeCondition pointers values condition
           checkDivRN pointers values condition.raw
           rejectNestedLoads pointers condition.raw
           for st in yes ++ no do rejectPointerRebinding pointers st.raw
@@ -737,6 +793,7 @@ private partial def lowerWithState (pointers : Types) (values : Values)
           nextPointers := commonInfo yesPointers noPointers
           nextValues := commonInfo yesValues noValues
       | `(tritonStmt| if $condition:tritonExpr { $yes:tritonStmt* }) =>
+          let condition ← sourceDTypeCondition pointers values condition
           checkDivRN pointers values condition.raw
           rejectNestedLoads pointers condition.raw
           for st in yes do rejectPointerRebinding pointers st.raw

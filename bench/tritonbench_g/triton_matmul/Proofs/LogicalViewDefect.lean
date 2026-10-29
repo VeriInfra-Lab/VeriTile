@@ -1,5 +1,4 @@
 import bench.tritonbench_g.triton_matmul.Proofs.SourceScope
-import bench.tritonbench_g.context_attn_fwd.Proofs.FPModel
 import Mathlib.Data.Fintype.Card
 
 /-! Aligned original-source logical-view defect. The observed Torch wrapper
@@ -34,7 +33,27 @@ termination_by batch.length
 def idealDot : DotAcc ℝ where
   apply := fun _ _ _ _ _ {batch} {m} {k} {n} a b acc i => acc i+idealDotValue (batch:=batch) a b i
 
-abbrev ideal := ContextAttnFwd.FPModel.model
+/-- Explicit ideal Real arithmetic for this historical logical-view witness.
+No native floating-point cast identity is asserted. -/
+def ideal : Algebra ℝ where
+  literal := fun _ _ x => x
+  negInf := 0
+  binary := fun _ _ op a b => match op with
+    | .add => a+b | .sub => a-b | .mul => a*b | .div => a/b
+    | .max => max a b | .pow => 0
+  fma := fun _ => some (fun a b c => a*b+c)
+  atomicAdd := fun _ => some (· + ·)
+  unary := fun _ _ _ => 0
+  cast := fun _ _ _ x => x
+  fromNat := fun _ n => n
+  fromInt := fun _ n => n
+  fp32Bits := fun _ => 0
+  fp32Load := id
+  reduceMax := fun _ {_} _ _ _ _ => 0
+  reduceSum := fun _ {_} _ _ _ _ => 0
+  scan := fun _ {_} _ _ _ _ => none
+  dot := fun _ {_} {_} {_} {_} _ _ => none
+
 
 theorem physical_value (i : CIndex p) : outputValue ideal idealDot p .half initial i=64 := by
   have ha (j : AIndex p) : aValue ideal p .half initial 0 j=1 := by

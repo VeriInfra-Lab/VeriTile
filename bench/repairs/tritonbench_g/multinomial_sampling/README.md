@@ -161,3 +161,25 @@ It uses the shared structural interpreter directly, with no result callback.
 The pair covers the original complete per-program scope and arbitrary primitive
 models, including every retained software scan/max plan; no new grid or host
 obligation is introduced. No numerical rule or experiment is needed.
+
+## Literal Python function bodies
+
+`Kernels.lean` now accepts the original `_multinomial_sampling_kernel` and
+`_multinomial_sampling_unrolled_kernel` bodies verbatim. Pointer/scalar types and
+checked arange sizes are caller metadata outside `triton { ... }`. No BLOCK_arg
+setup statements, renamed variables or rewritten casts are inserted into the
+quoted source. The five mappings retain the selected FP32 original/candidate
+and the existing historical FP16/BF16/FP64 source instances; the Python wrapper
+still admits FP32 scores only.
+
+The proof-side prefix/loop/epilogue decomposition follows these actual bodies.
+Signed offset narrowing, canonical Philox inputs, every scan and carry update,
+interval endpoints, masked reads, the totalized label address, output labels
+and exterior frames retain their existing meanings. The original and candidate
+Python functions are checked in full: only constexpr token-count specialization
+and the existing static loop expansion differ. Public Real and FP readers and
+contracts remain unchanged. The FP comparison introduces no numerical rule.
+
+Raw-body and candidate mutation tests require no Torch. These checks do not
+execute the host wrapper or GPU. Full proof replay and environment limitations
+are recorded separately in the frozen review checkpoint.

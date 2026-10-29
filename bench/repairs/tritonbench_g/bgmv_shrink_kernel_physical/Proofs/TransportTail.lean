@@ -21,7 +21,7 @@ def finish_rebased (M : Algebra α) (P : Primitives α) (h : Call)
   all_goals
     refine ⟨?_, ?_⟩
     swap
-    simp only [tail,active,code,Surface.source,Kernels.source,Kernels.originalFP16,Kernels.originalBF16,
+    simp only [tail,active,code,Surface.source,Kernels.source,Kernels.originalFP16,Kernels.originalBF16,Kernels.original_fp16_i64,Kernels.original_bf16_i64,
       ComputeKernel.surfaceBody,List.drop,Source.conditional?,Source.intRange?,
       Option.map_some,Option.getD_some,beq_self_eq_true]
     simp (config := {maxSteps := 300000}) [Source.intRange?,Option.map,Option.getD,

@@ -70,7 +70,7 @@ theorem program_render (M : Algebra Word) (D : DotAcc Word) (r : Request) (c : T
     (hc : r.C=outputC) (size : r.rows*r.columns=c.metadata.numel) (base : t.baseC=c.metadata.dataPtr.toNat) (read : Read) (s : State Word) :
     program M D r c pid (s,render read r.storage c s)=
       (FiniteExecution.program M D r pid s).map (fun final => (final,render read r.storage c final)) := by
-  simp only [program,FiniteExecution.program,Option.map_map]
+  simp only [program,FiniteExecution.program,FiniteExecution.writeResult_eq,Option.map_map]
   apply Option.map_congr
   intro carry _
   exact fold_render r c basis t pid hp hl hc size base _ read _ (instanceState r pid s)

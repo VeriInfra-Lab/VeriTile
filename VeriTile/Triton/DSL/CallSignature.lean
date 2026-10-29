@@ -255,7 +255,9 @@ private partial def rejectArgumentMutation (names : List Name) (raw : Syntax)
 assignment reads its entry value on the RHS and binds the original source LHS.
 All later uses read that local register, including after a zero-trip loop.
 A conditional first assignment specializes each arm with its continuation.
-Loop, tuple, augmented and FP parameter writes remain rejected. -/
+A tuple of first integer parameter assignments captures every RHS from the
+entry environment before binding any target. Other tuple, loop, augmented and
+FP parameter writes remain rejected. -/
 private partial def bindCallStatements (rebindable : List Name)
     (values : List (Name × TSyntax `tritonExpr))
     (stmts : Array (TSyntax `tritonStmt)) : TermElabM (Array (TSyntax `tritonStmt)) := do
@@ -269,6 +271,27 @@ private partial def bindCallStatements (rebindable : List Name)
         let rhs : TSyntax `tritonExpr := ⟨← liftMacroM <| bindSourceValues current rhs.raw⟩
         result := result.push (← liftMacroM `(tritonStmt| $id:ident = $rhs:tritonExpr))
         current := current.filter (fun value => value.1 != name)
+        continue
+    if let `(tritonStmt| $a:ident, $b:ident $[, $ids:ident]* =
+        $x:tritonExpr, $y:tritonExpr $[, $rhs:tritonExpr]*) := st then
+      let targets := #[a,b] ++ ids
+      let expressions := #[x,y] ++ rhs
+      let names := targets.toList.map (fun id => id.getId.eraseMacroScopes)
+      if names.all (fun name => rebindable.contains name &&
+          current.any (fun value => value.1 == name)) then
+        unless targets.size == expressions.size && names.eraseDups.length == names.length do
+          throwErrorAt st "caller tuple assignment requires distinct targets and matching arity"
+        -- Substitute every original caller input before any target is bound.
+        -- The existing tuple lowering can then execute sequentially without
+        -- mistaking an earlier tuple write for the entry value of a later RHS.
+        let expressions ← expressions.mapM fun value => do
+          return (⟨← liftMacroM <| bindSourceValues current value.raw⟩ : TSyntax `tritonExpr)
+        let x := expressions[0]!
+        let y := expressions[1]!
+        let rhs := expressions.extract 2 expressions.size
+        result := result.push (← liftMacroM `(tritonStmt| $a:ident, $b:ident $[, $ids:ident]* =
+          $x:tritonExpr, $y:tritonExpr $[, $rhs:tritonExpr]*))
+        current := current.filter (fun value => !names.contains value.1)
         continue
     let branches : Option (TSyntax `tritonExpr × Array (TSyntax `tritonStmt) × Array (TSyntax `tritonStmt)) :=
       match st with

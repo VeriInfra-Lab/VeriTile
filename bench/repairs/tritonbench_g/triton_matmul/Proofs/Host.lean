@@ -11,7 +11,7 @@ theorem grid_executes {α : Type} [Inhabited α] (M : Algebra α) (D : FPValue.D
   induction ids generalizing s with
   | nil => exact ⟨s,rfl⟩
   | cons pid ids ih =>
-    obtain ⟨next,he,_⟩ := Source.execution_memory M D r.parameters r.storage (instanceState r pid s)
+    obtain ⟨next,he,_⟩ := Source.execution_memory M D r (instanceState r pid s)
     obtain ⟨final,hf⟩ := ih next
     exact ⟨final,by simpa only [runPrograms,kernel,he,Option.bind_some] using hf⟩
 

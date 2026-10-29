@@ -93,7 +93,8 @@ theorem source_safe (M : Algebra α) (P : Primitives α) (h : Call)
           Option.some.inj (startRun.symm.trans (MemoryTransport.setup M P h batch split _ data metadata memory))
         subst start
         apply Safety.traceSafeList_cons_intro
-        · simpa only [FPProgram.loop,Safety.stepSafe_unfold,Safety.safeOp_unfold,evalOp_unfold,
+        · apply ((SourceControl.constant_stride (machine M P) h.K (body h)).safe bounds _).2
+          simpa only [Safety.stepSafe_unfold,Safety.safeOp_unfold,evalOp_unfold,
             Nat.zero_mul,Int.natCast_zero,true_and] using
             range_safe M P h batch split _ 0 data _ (Nat.zero_le _)
               (FPInvariant.setup_ready M P h batch split _ data metadata) memory

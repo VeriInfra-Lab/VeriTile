@@ -9,13 +9,13 @@ set_option maxRecDepth 24000
 /-- Transfer the existing complete per-program readback/frame theorem using
 the newly proved actual candidate execution. No successful-run input. -/
 theorem candidate_correctness {α : Type} [Inhabited α] (M : Algebra α) (D : FPValue.DotAcc α)
-    (p : FPValue.Parameters) (st : FPValue.Storage) (initial : State α)
-    (hw : ∀ i j, FPValue.active p initial i → FPValue.active p initial j →
-      FPValue.cOffset p initial i=FPValue.cOffset p initial j → i=j) :
-    ∃ final, FP.Structural.exec (FPValue.backend M D) (Source.typed p st) initial=some final ∧
-      FPValue.Post p st initial final (FPValue.outputValue M D p st initial) := by
-  obtain ⟨reference,_,hm,hvalue,hframe⟩ := FPValue.correctness M D p st initial hw
-  obtain ⟨final,he,hf⟩ := Source.execution_memory M D p st initial
+    (r : Request) (initial : State α)
+    (hw : ∀ i j, FPValue.active r.parameters initial i → FPValue.active r.parameters initial j →
+      FPValue.cOffset r.parameters initial i=FPValue.cOffset r.parameters initial j → i=j) :
+    ∃ final, FP.Structural.exec (FPValue.backend M D) (Source.typed r.parameters r.storage) initial=some final ∧
+      FPValue.Post r.parameters r.storage initial final (FPValue.outputValue M D r.parameters r.storage initial) := by
+  obtain ⟨reference,_,hm,hvalue,hframe⟩ := FPValue.correctness M D r.parameters r.storage initial hw
+  obtain ⟨final,he,hf⟩ := Source.execution_memory M D r initial
   refine ⟨final,he,?_,?_⟩
   · simpa only [hf,←hm] using hvalue
   · simpa only [hf,←hm] using hframe
@@ -125,7 +125,7 @@ theorem program_correct {α : Type} [Inhabited α]
       (∀ row<r.rows, ∀ col<r.columns, Good Q r initial current row col → Good Q r initial next row col) ∧
       (∀ row<r.rows, ∀ col<r.columns, Covered r initial [pid] row col → Good Q r initial next row col) := by
   let start := instanceState r pid current
-  obtain ⟨next,he,hv,hf⟩ := candidate_correctness M D r.parameters r.storage start
+  obtain ⟨next,he,hv,hf⟩ := candidate_correctness M D r start
     (active_injective r start)
   have value (i : FPValue.CIndex r.parameters) (hi : FPValue.active r.parameters start i) :
       Good Q r initial next (FPValue.row r.parameters start i.1) (FPValue.col r.parameters start i.2.1) := by

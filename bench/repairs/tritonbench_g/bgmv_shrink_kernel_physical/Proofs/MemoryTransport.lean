@@ -24,7 +24,7 @@ theorem prefix_transport (M : Algebra α) (P : Primitives α) (h : Call)
   rcases h with ⟨batches,adapters,N,K,BN,columns,positive,covered,outputCovered,storage,outputType,scaling⟩
   cases storage
   all_goals
-    simp [prelude,code,Surface.source,Kernels.source,Kernels.originalFP16,Kernels.originalBF16,ComputeKernel.surfaceBody,List.drop,
+    simp [prelude,code,Surface.source,Kernels.source,Kernels.originalFP16,Kernels.originalBF16,Kernels.original_fp16_i64,Kernels.original_bf16_i64,ComputeKernel.surfaceBody,List.drop,
       run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
       preguard,rebase,entry,Data.cells,State.setReg,Region.cast,indexRead]
     <;> simp only [Cell.read]
@@ -37,7 +37,7 @@ theorem setup (M : Algebra α) (P : Primitives α) (h : Call)
   rcases h with ⟨batches,adapters,N,K,BN,columns,positive,covered,outputCovered,storage,outputType,scaling⟩
   cases storage
   all_goals
-    simp (config := {maxSteps := 400000}) [FPProgram.setup,active,code,Surface.source,Kernels.source,Kernels.originalFP16,Kernels.originalBF16,
+    simp (config := {maxSteps := 400000}) [FPProgram.setup,active,code,Surface.source,Kernels.source,Kernels.originalFP16,Kernels.originalBF16,Kernels.original_fp16_i64,Kernels.original_bf16_i64,
       Source.intRange?,Source.conditional?,ComputeKernel.surfaceBody,List.drop,
       run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
       preloop,preguard,rebase,entry,Data.cells,State.setReg,Cell.read,Region.cast,metadata,

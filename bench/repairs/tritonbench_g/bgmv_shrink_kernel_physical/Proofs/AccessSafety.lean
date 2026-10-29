@@ -17,7 +17,7 @@ theorem prefix_safe (M : Algebra α) (P : Primitives α) (h : Call)
   rcases h with ⟨batches,adapters,N,K,BN,columns,positive,covered,outputCovered,storage,outputType,scaling⟩
   cases storage
   all_goals
-    simpa [prelude,code,Surface.source,Kernels.source,Kernels.originalFP16,Kernels.originalBF16,Source.intRange?, Option.map, Option.getD, Source.conditional?,
+    simpa [prelude,code,Surface.source,Kernels.source,Kernels.originalFP16,Kernels.originalBF16,Kernels.original_fp16_i64,Kernels.original_bf16_i64,Source.intRange?, Option.map, Option.getD, Source.conditional?,
       ComputeKernel.surfaceBody, List.drop, beq_self_eq_true,
       Safety.traceSafeList_unfold, Safety.stepSafe_unfold, Safety.safeExpr_unfold,
       Safety.safeCompute_unfold, Safety.safeOp_unfold, Safety.safeAddress_unfold,
@@ -34,7 +34,7 @@ theorem setup_safe (M : Algebra α) (P : Primitives α) (h : Call)
   rcases h with ⟨batches,adapters,N,K,BN,columns,positive,covered,outputCovered,storage,outputType,scaling⟩
   cases storage
   all_goals
-    simp (config := {maxSteps := 300000}) [setup,active,code,Surface.source,Kernels.source,Kernels.originalFP16,Kernels.originalBF16,Source.intRange?, Option.map, Option.getD, Source.conditional?,
+    simp (config := {maxSteps := 300000}) [setup,active,code,Surface.source,Kernels.source,Kernels.originalFP16,Kernels.originalBF16,Kernels.original_fp16_i64,Kernels.original_bf16_i64,Source.intRange?, Option.map, Option.getD, Source.conditional?,
       ComputeKernel.surfaceBody, List.drop, beq_self_eq_true,
       Safety.traceSafeList_unfold, Safety.stepSafe_unfold, Safety.safeExpr_unfold,
       Safety.safeCompute_unfold, Safety.safeOp_unfold, Safety.safeAddress_unfold,
@@ -54,7 +54,7 @@ theorem body_safe (M : Algebra α) (P : Primitives α) (h : Call)
   rcases h with ⟨batches,adapters,N,K,BN,columns,positive,covered,outputCovered,storage,outputType,scaling⟩
   cases storage
   all_goals
-    simp (config := {maxSteps := 400000}) [body,active,code,Surface.source,Kernels.source,Kernels.originalFP16,Kernels.originalBF16,Source.intRange?, Option.map, Option.getD, Source.conditional?,
+    simp (config := {maxSteps := 400000}) [body,active,code,Surface.source,Kernels.source,Kernels.originalFP16,Kernels.originalBF16,Kernels.original_fp16_i64,Kernels.original_bf16_i64,Source.intRange?, Option.map, Option.getD, Source.conditional?,
       ComputeKernel.surfaceBody, List.drop, beq_self_eq_true,
       Safety.traceSafeList_unfold, Safety.stepSafe_unfold, Safety.safeExpr_unfold,
       Safety.safeCompute_unfold, Safety.safeOp_unfold, Safety.safeAddress_unfold,
@@ -65,12 +65,23 @@ theorem body_safe (M : Algebra α) (P : Primitives α) (h : Call)
       State.setReg, Cell.read, ofFloat, toFloat, TileShape.axisDim, Region.cast, Data.cells, dtype,ready.memory,ready.scaleReg,ready.batchReg,ready.offsetN,ready.offsetK,ready.inputPtr,ready.weightPtr,ready.acc, Broadcast.leftIndex, Broadcast.rightIndex]
     constructor
     · intro e active
-      norm_cast at active
-      simpa only [inputOffset,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast] using inputBounds (c*16384+(e.val+split*256)) (by change _ < K; exact Int.ofNat_lt.mp active)
-    · intro n e hn hk
-      norm_cast at hk
-      simpa only [weightOffset,Nat.mul_comm,Nat.add_assoc,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast] using
-        weightBounds n.val (c*16384+(e.val+split*256)) hn (by change _ < K; exact Int.ofNat_lt.mp hk)
+      have hk : c*16384+(e.val+split*256) < K := by
+        have integral : ((c*16384+(e.val+split*256) : Nat) : Int) < (K : Int) := by
+          simpa only [Int.natCast_add,Int.natCast_mul] using active
+        exact Int.ofNat_lt.mp integral
+      have bound := inputBounds (c*16384+(e.val+split*256)) hk
+      unfold inputOffset at bound
+      convert bound using 1 <;> norm_cast <;>
+        simp only [←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,FPInvariant.negative_nat,FPInvariant.negative_sum,Nat.sub_zero,Nat.mul_comm,Nat.add_assoc]
+    · intro n e hn active
+      have hk : c*16384+(e.val+split*256) < K := by
+        have integral : ((c*16384+(e.val+split*256) : Nat) : Int) < (K : Int) := by
+          simpa only [Int.natCast_add,Int.natCast_mul] using active
+        exact Int.ofNat_lt.mp integral
+      have bound := weightBounds n.val (c*16384+(e.val+split*256)) hn hk
+      unfold weightOffset at bound
+      convert bound using 1 <;> norm_cast <;>
+        simp only [←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,FPInvariant.negative_nat,FPInvariant.negative_sum,Nat.sub_zero,Nat.mul_comm,Nat.add_assoc]
 
 theorem tail_safe (M : Algebra α) (P : Primitives α) (h : Call)
     (batch split slot : Nat) (data : Data α) (a : Fin h.BN → α) (s : State α)
@@ -80,7 +91,7 @@ theorem tail_safe (M : Algebra α) (P : Primitives α) (h : Call)
   rcases h with ⟨batches,adapters,N,K,BN,columns,positive,covered,outputCovered,storage,outputType,scaling⟩
   cases storage <;> cases outputType
   all_goals
-    simp (config := {maxSteps := 400000}) [tail,active,code,Surface.source,Kernels.source,Kernels.originalFP16,Kernels.originalBF16,Source.intRange?, Option.map, Option.getD, Source.conditional?,
+    simp (config := {maxSteps := 400000}) [tail,active,code,Surface.source,Kernels.source,Kernels.originalFP16,Kernels.originalBF16,Kernels.original_fp16_i64,Kernels.original_bf16_i64,Source.intRange?, Option.map, Option.getD, Source.conditional?,
       ComputeKernel.surfaceBody, List.drop, beq_self_eq_true,
       Safety.traceSafeList_unfold, Safety.stepSafe_unfold, Safety.safeExpr_unfold,
       Safety.safeCompute_unfold, Safety.safeOp_unfold, Safety.safeAddress_unfold,

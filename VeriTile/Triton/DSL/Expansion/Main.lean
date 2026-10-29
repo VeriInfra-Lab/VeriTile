@@ -311,6 +311,9 @@ private def machineIntegerCast? (dst : TSyntax `tritonDType) (src : EOut) :
     | .int32 => return some src
     | .int8 => return some { src with dtype := .int32 }
     | _ => return none
+  if let `(tritonDType| tl.int64) := dst then
+    if src.dtype == .bool then
+      return some ⟨← `(Op.boolToInt $src.term), .int, src.shape, none, none⟩
   let some width := unsignedCastWidth? dst | return none
   let bits : TSyntax `term := ⟨Syntax.mkNumLit (toString width)⟩
   let term ← match src.dtype with
@@ -321,7 +324,8 @@ private def machineIntegerCast? (dst : TSyntax `tritonDType) (src : EOut) :
 
 private def signedMachineCast (dt : TSyntax `tritonDType) : Bool :=
   match dt with
-  | `(tritonDType| tl.int8) | `(tritonDType| tl.int16) | `(tritonDType| tl.int32) => Bool.true
+  | `(tritonDType| tl.int8) | `(tritonDType| tl.int16) | `(tritonDType| tl.int32)
+  | `(tritonDType| tl.int64) => Bool.true
   | _ => Bool.false
 
 /-- Facts about immutable, external constexpr parameters on the current path.
@@ -514,7 +518,7 @@ partial def expandIntExpectedExpr (env : Env) (stx : TSyntax `tritonExpr) :
     let args := stx.raw.getArgs
     if h : 0 < args.size then
       let e : TSyntax `tritonExpr := ⟨args[0]⟩
-      if methodCastTargetName? stx == some `tl.int32 then
+      if [some `tl.int32, some `tl.int64].contains (methodCastTargetName? stx) then
         natToInt (← expandExpr env stx)
       else expandIntExpectedExpr env e
     else
@@ -1253,7 +1257,7 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
       match target with
       | some .int =>
           let original ← expandExpr env e
-          if methodCastTargetName? stx == some `tl.int32 then
+          if [some `tl.int32, some `tl.int64].contains (methodCastTargetName? stx) then
             if let some cast ← machineIntegerCast? (← `(tritonDType| tl.int32)) original then
               return cast
           expandIntExpectedExpr env e

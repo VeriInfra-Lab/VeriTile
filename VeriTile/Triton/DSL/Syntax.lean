@@ -20,7 +20,7 @@ declare_syntax_cat tritonInlineAsmKwarg
 -- An inline instruction keeps its literal text and complete call ABI. The
 -- expander accepts only explicitly modeled instruction/constraint profiles.
 syntax ident "=" tritonExpr : tritonInlineAsmKwarg
-syntax ident "=" tritonDType : tritonInlineAsmKwarg
+-- Dtypes are expressions; a second dtype production would make dtype=tl.int32 ambiguous.
 syntax ident "=" "[" tritonExpr,* "]" : tritonInlineAsmKwarg
 syntax (name := tritonInlineAsm) "tl.inline_asm_elementwise(" str
   ("," tritonInlineAsmKwarg)* ")" : tritonExpr
@@ -175,6 +175,9 @@ syntax "tl.uint32" : tritonDType
 syntax "tl.uint64" : tritonDType
 syntax "OUT_DTYPE" : tritonDType
 syntax "DTYPE" : tritonDType
+
+-- Source metadata predicates are resolved from the checked type environment.
+syntax:max (name := tritonSourceDTypeValue) tritonDType : tritonExpr
 
 -- Block-level matrix multiply.
 syntax "tl.dot(" tritonExpr ", " tritonExpr ")" : tritonExpr

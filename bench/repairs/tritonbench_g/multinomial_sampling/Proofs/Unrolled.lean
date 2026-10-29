@@ -18,7 +18,7 @@ def chunks (p : Parameters) := (p.tokens+p.blockTokens-1)/p.blockTokens
 
 def body (p : Parameters) : List ComputeStmt :=
   let code : List ComputeStmt := (kernel p).surfaceBody
-  match code[11]? with
+  match code[9]? with
   | some (ComputeStmt.forLoop _ _ b)=>b
   | _=>[]
 
