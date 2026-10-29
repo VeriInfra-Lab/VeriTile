@@ -2,7 +2,12 @@ import VeriTile.Meta.StatementAudit
 import bench.repairs.tritonbench_g.token_attn_reduceV.Source
 namespace VeriTile.Bench.Repairs.TokenAttnReduceV.RawBodyReplay
 open VeriTile.Triton
-private def previousSource (dtype : FloatDType)
+
+/-! Internal typed elaboration witnesses, not historical-source identities.
+The literal source assignment creates an int32 scalar tensor; the explicit
+constructor below exposes that lowering only inside this proof model.
+The authoritative original/candidate Python bodies remain in Source.lean. -/
+private def typedSourceModel (dtype : FloatDType)
     (Prob V Out : RegionName)
     (Req_to_tokens B_req_idx B_Start_Loc B_Seqlen : Region .nat)
     (stride_b_req_idx stride_b_start_loc stride_b_seq_len : Nat)
@@ -16,7 +21,7 @@ private def previousSource (dtype : FloatDType)
   offs_n = tl.arange(0, $(BLOCK_N))
   offs_d = tl.arange(0, $(BLOCK_DMODEL))
   cur_batch_seq_len = tl.load(B_Seqlen + cur_batch * $(stride_b_seq_len))
-  cur_batch_start_index = 0
+  cur_batch_start_index = tl.full([], 0, tl.int32)
   cur_batch_in_all_start_index = tl.load(B_Start_Loc + cur_batch * $(stride_b_start_loc))
   cur_batch_req_idx = tl.load(B_req_idx + cur_batch * $(stride_b_req_idx))
   v_loc_off = cur_batch_req_idx * $(stride_req_to_tokens_b) +
@@ -42,11 +47,11 @@ private def previousSource (dtype : FloatDType)
   tl.store(out_ptrs, acc)
 }
 
-theorem source_body (p : Parameters) : (kernel p).surfaceBody = (previousSource .fp32 p.prob p.value p.output p.tokens p.request p.start p.length p.requestStride p.startStride p.lengthStride p.requestBatchStride p.requestTokenStride p.probHeadStride p.probTokenStride p.valueBatchStride p.valueHeadStride p.valueDimStride p.outputBatchStride p.outputHeadStride p.outputDimStride p.kvGroup p.width p.block).surfaceBody := by
+theorem source_body (p : Parameters) : (kernel p).surfaceBody = (typedSourceModel .fp32 p.prob p.value p.output p.tokens p.request p.start p.length p.requestStride p.startStride p.lengthStride p.requestBatchStride p.requestTokenStride p.probHeadStride p.probTokenStride p.valueBatchStride p.valueHeadStride p.valueDimStride p.outputBatchStride p.outputHeadStride p.outputDimStride p.kvGroup p.width p.block).surfaceBody := by
   rfl
 #axiomsClean source_body
 
-private def previousAffineSource (dtype : FloatDType)
+private def typedAffineModel (dtype : FloatDType)
     (Prob V Out : RegionName)
     (Req_to_tokens B_req_idx B_Start_Loc B_Seqlen : Region .nat)
     (stride_b_req_idx stride_b_start_loc stride_b_seq_len : Nat)
@@ -60,7 +65,7 @@ private def previousAffineSource (dtype : FloatDType)
   offs_n = tl.arange(0, $(BLOCK_N))
   offs_d = tl.arange(0, $(BLOCK_DMODEL))
   cur_batch_seq_len = tl.load(B_Seqlen + cur_batch * $(stride_b_seq_len))
-  cur_batch_start_index = 0
+  cur_batch_start_index = tl.full([], 0, tl.int32)
   cur_batch_in_all_start_index = tl.load(B_Start_Loc + cur_batch * $(stride_b_start_loc))
   cur_batch_req_idx = tl.load(B_req_idx + cur_batch * $(stride_b_req_idx))
   v_loc_off = cur_batch_req_idx * $(stride_req_to_tokens_b) +
@@ -87,7 +92,7 @@ private def previousAffineSource (dtype : FloatDType)
 }
 
 theorem affine_body (p : Parameters) : (affineSource p.prob p.value p.output p.tokens p.request p.start p.length p.requestStride p.startStride p.lengthStride p.requestBatchStride p.requestTokenStride p.probHeadStride p.probTokenStride p.valueBatchStride p.valueHeadStride p.valueDimStride p.outputBatchStride p.outputHeadStride p.outputDimStride p.kvGroup p.width p.block).surfaceBody =
-    (previousAffineSource .fp32 p.prob p.value p.output p.tokens p.request p.start p.length p.requestStride p.startStride p.lengthStride p.requestBatchStride p.requestTokenStride p.probHeadStride p.probTokenStride p.valueBatchStride p.valueHeadStride p.valueDimStride p.outputBatchStride p.outputHeadStride p.outputDimStride p.kvGroup p.width p.block).surfaceBody := by
+    (typedAffineModel .fp32 p.prob p.value p.output p.tokens p.request p.start p.length p.requestStride p.startStride p.lengthStride p.requestBatchStride p.requestTokenStride p.probHeadStride p.probTokenStride p.valueBatchStride p.valueHeadStride p.valueDimStride p.outputBatchStride p.outputHeadStride p.outputDimStride p.kvGroup p.width p.block).surfaceBody := by
   rfl
 #axiomsClean affine_body
 end VeriTile.Bench.Repairs.TokenAttnReduceV.RawBodyReplay
