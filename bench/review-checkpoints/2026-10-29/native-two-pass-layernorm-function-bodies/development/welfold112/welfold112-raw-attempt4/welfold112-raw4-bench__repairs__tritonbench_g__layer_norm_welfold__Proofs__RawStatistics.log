@@ -1,0 +1,144 @@
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/RawStatistics.lean:62:4: error: Tactic `simp` failed with a nested error:
+(deterministic) timeout at `whnf`, maximum number of heartbeats (1000000) has been reached
+
+Note: Use `set_option maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/RawStatistics.lean:78:12: error: Tactic `rfl` failed: The left-hand side
+  fun r' o' =>
+    if r' = { name := Mean.name } ∧ o' = s.pids 0 then
+      Cell.mk TileDType.real (M.binary none FloatDType.real Binary.div total (M.fromNat none D))
+    else s.mem r' o'
+is not definitionally equal to the right-hand side
+  fun r' o' =>
+    if r' = Mean ∧ o' = s.pids 0 then
+      Cell.mk TileDType.real
+        (M.binary (some ComputeDType.fp32) FloatDType.real Binary.div total (M.fromNat (some ComputeDType.fp32) D))
+    else s.mem r' o'
+
+case mem
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+s t : State α
+Mean : RegionName
+S D B : ℕ
+tree : DSL.WelfordSource.Tree B
+mean total : α
+h : Summed «false» s t B mean total
+htotal : t.regs TileDType.real [1, 1] "tmp3" = some fun x => total
+⊢ (fun r' o' =>
+      if r' = { name := Mean.name } ∧ o' = s.pids 0 then
+        Cell.mk TileDType.real (M.binary none FloatDType.real Binary.div total (M.fromNat none D))
+      else s.mem r' o') =
+    fun r' o' =>
+    if r' = Mean ∧ o' = s.pids 0 then
+      Cell.mk TileDType.real
+        (M.binary (some ComputeDType.fp32) FloatDType.real Binary.div total (M.fromNat (some ComputeDType.fp32) D))
+    else s.mem r' o'
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/RawStatistics.lean:78:12: error: Tactic `rfl` failed: The left-hand side
+  bop (M.binary none FloatDType.real Binary.div) Broadcast.scalarR (fun x => total) fun i => M.fromNat none D
+is not definitionally equal to the right-hand side
+  fun x => M.binary (some ComputeDType.fp32) FloatDType.real Binary.div total (M.fromNat (some ComputeDType.fp32) D)
+
+case mean
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+s t : State α
+Mean : RegionName
+S D B : ℕ
+tree : DSL.WelfordSource.Tree B
+mean total : α
+h : Summed «false» s t B mean total
+htotal : t.regs TileDType.real [1, 1] "tmp3" = some fun x => total
+⊢ (bop (M.binary none FloatDType.real Binary.div) Broadcast.scalarR (fun x => total) fun i => M.fromNat none D) =
+    fun x => M.binary (some ComputeDType.fp32) FloatDType.real Binary.div total (M.fromNat (some ComputeDType.fp32) D)
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/RawStatistics.lean:101:12: error: Tactic `rfl` failed: The left-hand side
+  fun r' o' =>
+    if r' = { name := Rstd.name } ∧ o' = s.pids 0 then
+      Cell.mk TileDType.real
+        (M.unary (some ComputeDType.fp32) Unary.libdeviceRsqrt
+          (M.binary (some ComputeDType.fp32) FloatDType.real Binary.add
+            (M.binary none FloatDType.real Binary.div total (M.fromNat none D))
+            (M.literal (some ComputeDType.fp32) FloatDType.real 1e-5)))
+    else s.mem r' o'
+is not definitionally equal to the right-hand side
+  fun r' o' =>
+    if r' = Rstd ∧ o' = s.pids 0 then
+      Cell.mk TileDType.real
+        (M.unary (some ComputeDType.fp32) Unary.libdeviceRsqrt
+          (M.binary (some ComputeDType.fp32) FloatDType.real Binary.add
+            (M.binary (some ComputeDType.fp32) FloatDType.real Binary.div total (M.fromNat (some ComputeDType.fp32) D))
+            (M.literal (some ComputeDType.fp32) FloatDType.real 1e-5)))
+    else s.mem r' o'
+
+case mem
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+s t : State α
+Rstd : RegionName
+S D B : ℕ
+tree : DSL.WelfordSource.Tree B
+mean total : α
+h : Summed «true» s t B mean total
+htotal : t.regs TileDType.real [1, 1] "tmp12" = some fun x => total
+⊢ (fun r' o' =>
+      if r' = { name := Rstd.name } ∧ o' = s.pids 0 then
+        Cell.mk TileDType.real
+          (M.unary (some ComputeDType.fp32) Unary.libdeviceRsqrt
+            (M.binary (some ComputeDType.fp32) FloatDType.real Binary.add
+              (M.binary none FloatDType.real Binary.div total (M.fromNat none D))
+              (M.literal (some ComputeDType.fp32) FloatDType.real 1e-5)))
+      else s.mem r' o') =
+    fun r' o' =>
+    if r' = Rstd ∧ o' = s.pids 0 then
+      Cell.mk TileDType.real
+        (M.unary (some ComputeDType.fp32) Unary.libdeviceRsqrt
+          (M.binary (some ComputeDType.fp32) FloatDType.real Binary.add
+            (M.binary (some ComputeDType.fp32) FloatDType.real Binary.div total (M.fromNat (some ComputeDType.fp32) D))
+            (M.literal (some ComputeDType.fp32) FloatDType.real 1e-5)))
+    else s.mem r' o'
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/RawStatistics.lean:101:12: error: Tactic `rfl` failed: The left-hand side
+  M.unary (some ComputeDType.fp32) Unary.libdeviceRsqrt ∘
+    bop (M.binary (some ComputeDType.fp32) FloatDType.real Binary.add) Broadcast.scalarR
+      (bop (M.binary none FloatDType.real Binary.div) Broadcast.scalarR (fun x => total) fun i => M.fromNat none D)
+      fun x => M.literal (some ComputeDType.fp32) FloatDType.real 1e-5
+is not definitionally equal to the right-hand side
+  fun x =>
+    M.unary (some ComputeDType.fp32) Unary.libdeviceRsqrt
+      (M.binary (some ComputeDType.fp32) FloatDType.real Binary.add
+        (M.binary (some ComputeDType.fp32) FloatDType.real Binary.div total (M.fromNat (some ComputeDType.fp32) D))
+        (M.literal (some ComputeDType.fp32) FloatDType.real 1e-5))
+
+case inverse
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+s t : State α
+Rstd : RegionName
+S D B : ℕ
+tree : DSL.WelfordSource.Tree B
+mean total : α
+h : Summed «true» s t B mean total
+htotal : t.regs TileDType.real [1, 1] "tmp12" = some fun x => total
+⊢ (M.unary (some ComputeDType.fp32) Unary.libdeviceRsqrt ∘
+      bop (M.binary (some ComputeDType.fp32) FloatDType.real Binary.add) Broadcast.scalarR
+        (bop (M.binary none FloatDType.real Binary.div) Broadcast.scalarR (fun x => total) fun i => M.fromNat none D)
+        fun x => M.literal (some ComputeDType.fp32) FloatDType.real 1e-5) =
+    fun x =>
+    M.unary (some ComputeDType.fp32) Unary.libdeviceRsqrt
+      (M.binary (some ComputeDType.fp32) FloatDType.real Binary.add
+        (M.binary (some ComputeDType.fp32) FloatDType.real Binary.div total (M.fromNat (some ComputeDType.fp32) D))
+        (M.literal (some ComputeDType.fp32) FloatDType.real 1e-5))
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/RawStatistics.lean:146:0: error: VeriTile.Bench.Repairs.LayerNormWelfold.Raw.stats_run: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.Repairs.LayerNormWelfold.Raw.tree_eval: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/RawStatistics.lean:148:0: error: VeriTile.Bench.Repairs.LayerNormWelfold.Raw.sum_run: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/RawStatistics.lean:149:0: error: VeriTile.Bench.Repairs.LayerNormWelfold.Raw.mean_run: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.Repairs.LayerNormWelfold.Raw.reset_mean_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/RawStatistics.lean:151:0: error: VeriTile.Bench.Repairs.LayerNormWelfold.Raw.inverse_run: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

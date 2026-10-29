@@ -12114,9 +12114,8 @@
         }
       ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/layer_norm_welfold.json",
-        "sha256": "69ccd210cdec8e7947a52edf3ac365ff32af8c517f573787ae064f3791d8ad8e",
-        "task": "layer_norm_welfold"
+        "path": "bench/review-checkpoints/2026-10-29/native-two-pass-layernorm-function-bodies/review.json",
+        "sha256": "e80439ccad63b1ff8f829fb30ec3718bef54c3026b9d42e910b9d972ca6dc860"
       },
       "change": null,
       "new_misc_entries": [],
@@ -12151,7 +12150,8 @@
         "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/layer_norm_welfold.json",
         "sha256": "69ccd210cdec8e7947a52edf3ac365ff32af8c517f573787ae064f3791d8ad8e",
         "task": "layer_norm_welfold"
-      }
+      },
+      "current_body_source_review": "Both complete 23-statement two-pass LayerNorm bodies retain the actual element-offset range loops, two-dimensional tiles, temporary names, casts, None masks, barriers, ordered sums and libdevice.rsqrt. The original Python is unchanged. A newly tracked Python candidate expresses the existing Lean row-address reuse; its whole-module AST restores exactly to the original after that sole rewrite. Actual prefix, loop, reduction, normalization, row/grid, access-safety and exterior-frame proofs reconnect to the independent Real formula and full FP program pair. The corrected unrolled reference is a proof aid, not a claim of unchanged historical AST equality. Public contracts and input domains remain unchanged; no new numerical assumption is introduced."
     },
     {
       "task": "layernorm_fwd_triton",

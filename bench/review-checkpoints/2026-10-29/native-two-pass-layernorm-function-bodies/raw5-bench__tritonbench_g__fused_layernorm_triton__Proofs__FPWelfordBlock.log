@@ -1,0 +1,21 @@
+/tmp/welfold112-frontend/bench/tritonbench_g/fused_layernorm_triton/Proofs/FPWelfordBlock.lean:166:5: warning: unused variable `hpositive`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/welfold112-frontend/bench/tritonbench_g/fused_layernorm_triton/Proofs/FPWelfordBlock.lean:166:28: warning: unused variable `hblock`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/welfold112-frontend/bench/tritonbench_g/fused_layernorm_triton/Proofs/FPWelfordBlock.lean:166:53: warning: unused variable `htree`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.TritonBenchG.FusedLayernormTriton.FPStages.welford_prefix_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.FusedLayernormTriton.FPStages.welford_tuple_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.FusedLayernormTriton.FPStages.welford_suffix_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.FusedLayernormTriton.FPStages.welford_block_fp32: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

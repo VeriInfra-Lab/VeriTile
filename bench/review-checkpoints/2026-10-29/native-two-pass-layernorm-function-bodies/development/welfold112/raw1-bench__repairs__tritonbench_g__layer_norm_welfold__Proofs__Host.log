@@ -1,0 +1,16 @@
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/Host.lean:29:62: warning: unused variable `eq32`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/Host.lean:60:4: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/Host.lean:44:5: warning: unused variable `domain`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.Repairs.LayerNormWelfold.inverse_view_alias: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.LayerNormWelfold.host_complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormWelfold.host_real_complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

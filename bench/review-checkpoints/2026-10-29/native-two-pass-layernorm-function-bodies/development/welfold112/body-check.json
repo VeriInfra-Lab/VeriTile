@@ -1,0 +1,24 @@
+{
+  "status": "PASS",
+  "original": {
+    "python_function": "triton_red_fused_native_layer_norm_no_welford",
+    "lean_definition": "kernel",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "xnumel": "xnumel",
+      "rnumel": "rnumel"
+    },
+    "statements": 23,
+    "runtime_parameters": {
+      "xnumel": "i32",
+      "rnumel": "i32"
+    },
+    "constexpr_parameters": [
+      "RBLOCK",
+      "XBLOCK"
+    ]
+  },
+  "mutants_rejected": 4
+}

@@ -1,0 +1,4 @@
+/tmp/welfold112-frontend/ReducedProbe.lean:8:2: error: unexpected syntax
+  triton
+    {tl.ports
+      inputs=[X],outputs=[Y]tl.region X = tl.float32 tl.region Y = tl.float32 x = tl.load(X)tl.store(Y, x, None)}

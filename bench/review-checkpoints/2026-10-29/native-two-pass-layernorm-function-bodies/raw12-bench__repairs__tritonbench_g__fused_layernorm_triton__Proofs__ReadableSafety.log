@@ -1,0 +1,25 @@
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/ReadableSafety.lean:179:98: error: unsolved goals
+case each.inr.inl
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+bounds : RegionName → ℕ
+s : State α
+X W Bias Y Mean Rstd : RegionName
+S D B : ℕ
+tree : Kernels.ReductionTree B
+t : State α
+⊢ Safety.safeOp M (some ComputeDType.fp32) bounds t (Op.ref TileDType.real [1, 1] "tmp3")
+
+case each.inr.inr
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+bounds : RegionName → ℕ
+s : State α
+X W Bias Y Mean Rstd : RegionName
+S D B : ℕ
+tree : Kernels.ReductionTree B
+t : State α
+⊢ Safety.safeOp M (some ComputeDType.fp32) bounds t (Op.ref TileDType.real [1, 1] "tmp10")
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/ReadableSafety.lean:294:0: error: VeriTile.Bench.Repairs.FusedLayernormTriton.ReadableSafety.source_safe_for: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

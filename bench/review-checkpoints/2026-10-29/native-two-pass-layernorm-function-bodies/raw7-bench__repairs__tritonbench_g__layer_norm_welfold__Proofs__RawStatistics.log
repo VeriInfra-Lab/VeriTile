@@ -1,0 +1,16 @@
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/RawStatistics.lean:73:12: error: `simp` made no progress
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/RawStatistics.lean:73:12: error: `simp` made no progress
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/RawStatistics.lean:155:0: error: VeriTile.Bench.Repairs.LayerNormWelfold.Raw.stats_run: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.Repairs.LayerNormWelfold.Raw.tree_eval: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/RawStatistics.lean:157:0: error: VeriTile.Bench.Repairs.LayerNormWelfold.Raw.sum_run: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.Repairs.LayerNormWelfold.Raw.mean_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormWelfold.Raw.reset_mean_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormWelfold.Raw.inverse_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

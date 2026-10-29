@@ -1,0 +1,49 @@
+{
+  "status": "PASS",
+  "rows": [
+    {
+      "python_function": "triton_red_fused_native_layer_norm_no_welford",
+      "lean_definition": "rowKernel",
+      "status": "PASS",
+      "mode": "pasted_body",
+      "argument_mode": "integer_per_call_specialization",
+      "call_bindings": {
+        "xnumel": "S",
+        "rnumel": "D"
+      },
+      "statements": 23,
+      "runtime_parameters": {
+        "xnumel": "i32",
+        "rnumel": "i32"
+      },
+      "constexpr_parameters": [
+        "RBLOCK",
+        "XBLOCK"
+      ]
+    },
+    {
+      "python_function": "triton_red_fused_native_layer_norm_no_welford_row_offset_reused",
+      "lean_definition": "rowOffsetReusedKernel",
+      "status": "PASS",
+      "mode": "pasted_body",
+      "argument_mode": "integer_per_call_specialization",
+      "call_bindings": {
+        "xnumel": "S",
+        "rnumel": "D"
+      },
+      "statements": 23,
+      "runtime_parameters": {
+        "xnumel": "i32",
+        "rnumel": "i32"
+      },
+      "constexpr_parameters": [
+        "RBLOCK",
+        "XBLOCK"
+      ]
+    }
+  ],
+  "pair": {
+    "status": "PASS",
+    "scope": "Full module AST; one row-product assignment, two uses and JIT entry/call names only."
+  }
+}

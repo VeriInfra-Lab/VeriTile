@@ -1,0 +1,10 @@
+/tmp/welfold112-frontend/VeriTile/Triton/DSL/OrderedRowSum.lean:28:5: error: unexpected token 'axis'; expected '(', ':=', 'rec', '|', identifier or term
+/tmp/welfold112-frontend/VeriTile/Triton/DSL/OrderedRowSum.lean:44:35: error(lean.invalidField): Invalid field notation: Type of
+  st
+is not known; cannot resolve field `raw`
+
+Hint: Consider replacing the field projection with a call to one of the following:
+  • `TSyntax.raw`
+  • `TSyntaxArray.raw`
+  • `pp.raw`
+  • `FP.Value.raw`

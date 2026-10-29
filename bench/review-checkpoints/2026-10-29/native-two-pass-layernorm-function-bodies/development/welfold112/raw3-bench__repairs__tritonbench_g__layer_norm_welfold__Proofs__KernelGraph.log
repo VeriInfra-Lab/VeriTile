@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.LayerNormWelfold.KernelGraph.mean_congr: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayerNormWelfold.KernelGraph.inverse_congr: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayerNormWelfold.KernelGraph.output_congr: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayerNormWelfold.KernelGraph.observed_agreement: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

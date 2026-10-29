@@ -1,0 +1,12 @@
+VeriTile.Bench.Repairs.LayerNormWelfold.TensorBridge.python_checks_iff_preconditions: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayerNormWelfold.TensorBridge.layer_norm_welfold_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormWelfold.TensorBridge.layer_norm_welfold_native: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormWelfold.TensorBridge.layer_norm_welfold_native_physical: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

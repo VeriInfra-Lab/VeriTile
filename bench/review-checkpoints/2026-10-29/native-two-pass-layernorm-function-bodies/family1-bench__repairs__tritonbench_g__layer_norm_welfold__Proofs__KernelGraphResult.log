@@ -1,0 +1,4 @@
+VeriTile.Bench.Repairs.LayerNormWelfold.FPEquiv.kernel_graph: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormWelfold.FPEquiv.kernel_graph: statement's project surface ⊆ allowlist ✓

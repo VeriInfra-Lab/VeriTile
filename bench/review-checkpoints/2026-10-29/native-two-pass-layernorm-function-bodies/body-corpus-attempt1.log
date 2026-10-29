@@ -1,0 +1,25 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/tmp/veritile-pr18-review/bench/check_body_corpus.py", line 354, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/tmp/veritile-pr18-review/bench/check_body_corpus.py", line 333, in main
+    result = scan(args.root)
+  File "/tmp/veritile-pr18-review/bench/check_body_corpus.py", line 267, in scan
+    tasks.append(inspect(root, entry["task"], revision["source"], revision["kernel_source"], "task"))
+                 ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/veritile-pr18-review/bench/check_body_corpus.py", line 226, in inspect
+    results = check_manifest(root, manifest)
+  File "/tmp/veritile-pr18-review/bench/jit_correspondence.py", line 895, in check_manifest
+    result = check((root / record["python"]).read_text(), (root / record["lean"]).read_text(),
+                   record["python_function"], record["lean_definition"],
+    ...<3 lines>...
+                   record.get("expected_specialized_booleans"), record.get("expected_constexpr_bindings"),
+                   record.get("expected_signature_arguments"))
+  File "/tmp/veritile-pr18-review/bench/jit_correspondence.py", line 703, in check
+    profile = call_signature(lean_text, signature_definition)
+  File "/tmp/veritile-pr18-review/bench/jit_correspondence.py", line 348, in call_signature
+    entries = ast.literal_eval(globals_match["body"])
+                               ~~~~~~~~~~~~~^^^^^^^^
+IndexError: no such group

@@ -1,0 +1,21 @@
+/tmp/welfold112-frontend/bench/tritonbench_g/fused_layernorm_triton/Proofs/WholeMoments.lean:59:6: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/welfold112-frontend/bench/tritonbench_g/fused_layernorm_triton/Proofs/WholeMoments.lean:63:6: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/welfold112-frontend/bench/tritonbench_g/fused_layernorm_triton/Proofs/WholeMoments.lean:99:25: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+VeriTile.Bench.TritonBenchG.FusedLayernormTriton.Whole.moments_update: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.FusedLayernormTriton.Whole.moments_tree: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.FusedLayernormTriton.Whole.moments_combine: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.FusedLayernormTriton.Whole.moments_result: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

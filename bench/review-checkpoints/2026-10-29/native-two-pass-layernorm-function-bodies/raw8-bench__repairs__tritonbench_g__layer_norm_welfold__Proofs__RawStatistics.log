@@ -1,0 +1,46 @@
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/RawStatistics.lean:58:59: error: unsolved goals
+case false.total
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+s t : State α
+S D B : ℕ
+tree : ReductionTree B
+values : Fin B → α
+mean : α
+h : Ready «false» s t values mean
+he :
+  FP.Structural.evalOp M (some ComputeDType.fp32)
+      (DSL.WelfordSource.sumExpression (Op.ref TileDType.real [1, B] "_tmp3") (Readable.tree tree)) t =
+    some fun x => treeValue M values tree
+⊢ (fun i => treeValue M values tree) = fun x => treeValue M values tree
+
+case true.total
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+s t : State α
+S D B : ℕ
+tree : ReductionTree B
+values : Fin B → α
+mean : α
+h : Ready «true» s t values mean
+he :
+  FP.Structural.evalOp M (some ComputeDType.fp32)
+      (DSL.WelfordSource.sumExpression (Op.ref TileDType.real [1, B] "_tmp12") (Readable.tree tree)) t =
+    some fun x => treeValue M values tree
+⊢ (fun i => treeValue M values tree) = fun x => treeValue M values tree
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/RawStatistics.lean:155:0: error: VeriTile.Bench.Repairs.LayerNormWelfold.Raw.stats_run: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.Repairs.LayerNormWelfold.Raw.tree_eval: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/RawStatistics.lean:157:0: error: VeriTile.Bench.Repairs.LayerNormWelfold.Raw.sum_run: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.Repairs.LayerNormWelfold.Raw.mean_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormWelfold.Raw.reset_mean_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormWelfold.Raw.inverse_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

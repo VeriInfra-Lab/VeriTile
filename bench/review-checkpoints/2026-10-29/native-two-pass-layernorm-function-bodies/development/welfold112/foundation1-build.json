@@ -1,0 +1,34 @@
+{
+  "status": "FAIL",
+  "start": 1793242885.659469,
+  "results": [
+    {
+      "module": "bench.tests.OrderedRowSumRejected",
+      "source_sha256": "c23c26dd82e1df957245f7f524ed2b2633800e95235d1d501e96de4faa64cb6c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793242885.659613,
+      "end": 1793242887.2382772,
+      "log": "/tmp/welfold112-foundation1-bench__tests__OrderedRowSumRejected.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.Structural",
+      "source_sha256": "521b439af402a242c0fb62073b6acdba219bcdadbff73c0f80d89545389c283f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793242887.2386117,
+      "end": 1793242985.5566425,
+      "log": "/tmp/welfold112-foundation1-VeriTile__Triton__Float__Structural.log"
+    },
+    {
+      "module": "bench.tests.LibdeviceRsqrtBody",
+      "source_sha256": "367b45aa98c061ce25a9c0901d3a833f64971e2ca743c6f50d5bb8980f50449c",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793242985.5568895,
+      "end": 1793242990.544592,
+      "log": "/tmp/welfold112-foundation1-bench__tests__LibdeviceRsqrtBody.log"
+    }
+  ],
+  "end": 1793242990.5447733
+}

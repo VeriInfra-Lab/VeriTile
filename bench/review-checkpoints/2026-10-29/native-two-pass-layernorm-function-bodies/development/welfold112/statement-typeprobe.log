@@ -1,0 +1,7 @@
+parsed tl.debug_barrier(): VeriTile.Triton.DSL.«tritonStmtTl.debug_barrier()»
+types after: [tmp6]
+parsed tl.store(in_out_ptr0 + (x0), tmp6, None): VeriTile.Triton.DSL.«tritonStmtTl.store(_,_,_,_)_1»
+types after: []
+parsed _tmp12 = tl.full([XBLOCK, RBLOCK], 0, tl.float32): VeriTile.Triton.DSL.«tritonStmt_=_»
+types after: [_tmp12, tmp6]
+dtype assignment _tmp12: tl.float32

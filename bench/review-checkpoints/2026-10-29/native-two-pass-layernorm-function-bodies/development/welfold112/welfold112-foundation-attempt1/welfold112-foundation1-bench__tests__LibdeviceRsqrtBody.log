@@ -1,0 +1,13 @@
+/tmp/welfold112-frontend/bench/tests/LibdeviceRsqrtBody.lean:29:4: error(lean.invalidDottedIdent): Invalid dotted identifier notation: The expected type of `.libdeviceRsqrt`
+  UnaryOp
+is not of the form `C ...` or `... → C ...` where C is a constant
+/tmp/welfold112-frontend/bench/tests/LibdeviceRsqrtBody.lean:59:16: error(lean.unknownIdentifier): Unknown identifier `load`
+/tmp/welfold112-frontend/bench/tests/LibdeviceRsqrtBody.lean:55:55: error: unsolved goals
+⊢ sorry () = 107
+/tmp/welfold112-frontend/bench/tests/LibdeviceRsqrtBody.lean:57:44: warning: declaration uses `sorry`
+/tmp/welfold112-frontend/bench/tests/LibdeviceRsqrtBody.lean:66:16: error(lean.unknownIdentifier): Unknown identifier `load`
+/tmp/welfold112-frontend/bench/tests/LibdeviceRsqrtBody.lean:62:55: error: unsolved goals
+⊢ sorry () = 207
+/tmp/welfold112-frontend/bench/tests/LibdeviceRsqrtBody.lean:64:44: warning: declaration uses `sorry`
+/tmp/welfold112-frontend/bench/tests/LibdeviceRsqrtBody.lean:68:0: error: VeriTile.Tests.LibdeviceRsqrtBody.library_uses_its_own_port: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/welfold112-frontend/bench/tests/LibdeviceRsqrtBody.lean:69:0: error: VeriTile.Tests.LibdeviceRsqrtBody.intrinsic_keeps_its_port: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

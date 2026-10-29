@@ -1,0 +1,12 @@
+{
+  "status": "FAIL",
+  "code_commit": "8c4637b1b878ba8ab5da9b3530a45c05ab638b6c",
+  "checkout": "/tmp/veritile-hgrn54-clean",
+  "explicit_modules": 5657,
+  "start": 1793249006.4224355,
+  "scope": "All cumulative task/example/frontend roots, now including all 102 two-pass LayerNorm and frontend roots, plus their full local import closure and joint import.",
+  "build_status": "COMPLETED",
+  "build_exit_code": 1,
+  "build_end": 1793249007.2357218,
+  "end": 1793249007.2359426
+}

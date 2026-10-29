@@ -1,0 +1,28 @@
+Auto packing the repository in background for optimum performance.
+See "git help gc" for manual housekeeping.
+[codex/body-copy-cache-and-constexpr 8c4637b1b] Copy two-pass LayerNorm bodies and preserve typed views
+ 57 files changed, 2037 insertions(+), 930 deletions(-)
+ create mode 100644 VeriTile/Triton/DSL/OrderedRowSum.lean
+ rewrite bench/repairs/tritonbench_g/layer_norm_welfold/Kernels.lean (78%)
+ create mode 100644 bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/RawAccumulate.lean
+ copy bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/{ReadableGrid.lean => RawGrid.lean} (95%)
+ copy bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/{ReadableNormalize.lean => RawNormalize.lean} (51%)
+ copy bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/{ReadableRow.lean => RawRow.lean} (89%)
+ create mode 100644 bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/RawSafety.lean
+ create mode 100644 bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/RawStatistics.lean
+ create mode 100644 bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/RawSyntax.lean
+ rewrite bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/ReadableAccumulate.lean (99%)
+ rewrite bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/ReadableGrid.lean (99%)
+ rewrite bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/ReadableNormalize.lean (99%)
+ rewrite bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/ReadableRow.lean (99%)
+ rewrite bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/ReadableSafety.lean (99%)
+ rewrite bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/ReadableStatistics.lean (99%)
+ rewrite bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/ReadableSyntax.lean (99%)
+ create mode 100644 bench/repairs/tritonbench_g/layer_norm_welfold/check_pair_source.py
+ create mode 100644 bench/repairs/tritonbench_g/layer_norm_welfold/jit-correspondence.json
+ create mode 100644 bench/repairs/tritonbench_g/layer_norm_welfold/layer_norm_welfold_row_offset_reused.py
+ create mode 100644 bench/tests/BarrierLoopBody.lean
+ create mode 100644 bench/tests/LibdeviceRsqrtBody.lean
+ create mode 100644 bench/tests/OrderedRowSumBody.lean
+ create mode 100644 bench/tests/OrderedRowSumRejected.lean
+ create mode 100644 bench/tests/test_two_pass_layernorm_body.py

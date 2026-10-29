@@ -1,0 +1,6 @@
+VeriTile.Bench.TritonBenchG.FusedLayernormTriton.Whole.ideal_tree: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.FusedLayernormTriton.Whole.recurrence_moments: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

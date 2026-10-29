@@ -1,0 +1,15 @@
+/tmp/welfold112-frontend/bench/tests/BarrierLoopBody.lean:14:2: error: tl.store mask: dtype mismatch
+/tmp/welfold112-frontend/bench/tests/BarrierLoopBody.lean:49:53: error: unsolved goals
+⊢ ∃ a,
+    run
+          { literal := fun x x_1 x_2 => 0, negInf := 0, binary := fun x x_1 x_2 a b => a + b,
+            unary := fun x x_1 x_2 => x_2, cast := fun x x_1 x_2 x_3 => x_3 + 1000, fromNat := fun x n => n,
+            fromInt := fun x n => n.toNat, fp32Bits := fun x => 0, fp32Load := id,
+            reduceMax := fun x {x_1} x_2 x_3 x_4 x_5 => 0, reduceSum := fun x {x_1} x_2 x_3 x_4 x_5 => 0 }
+          (sorry ()).3
+          { mem := fun x x_1 => Cell.mk TileDType.real 3, regs := fun x x_1 x_2 => none, pids := fun x => 0,
+            numPids := fun x => 1, undef := fun d x x_1 => defaultValue d } =
+        some a ∧
+      a.mem { name := "y" } 0 = Cell.mk TileDType.real 9
+/tmp/welfold112-frontend/bench/tests/BarrierLoopBody.lean:50:27: warning: declaration uses `sorry`
+/tmp/welfold112-frontend/bench/tests/BarrierLoopBody.lean:55:0: error: VeriTile.Tests.BarrierLoopBody.barrier_preserves_carried_dtype: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

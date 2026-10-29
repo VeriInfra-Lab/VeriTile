@@ -1,0 +1,15 @@
+  apply list_safe
+  intro st member before
+  cases phase
+  all_goals
+    simp only [sumCode,code,SourceCode.rowKernel,ComputeKernel.surfaceBody,
+      Bool.false_eq_true,↓reduceIte,List.drop,List.take,List.mem_singleton] at member
+    subst st
+    simp only [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold]
+    rw [Safety.safeOp_unfold]
+    dsimp only
+    rw [Safety.safeOp_unfold]
+    dsimp only
+    rw [Safety.safeOp_unfold]
+    dsimp only
+    exact tree_safe M before _ tree bounds

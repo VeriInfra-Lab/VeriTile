@@ -1,0 +1,6 @@
+Updating 8c4637b1b..c072de255
+Fast-forward
+Auto packing the repository in background for optimum performance.
+See "git help gc" for manual housekeeping.
+ lakefile.toml | 3 +++
+ 1 file changed, 3 insertions(+)

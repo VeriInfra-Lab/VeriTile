@@ -1,0 +1,78 @@
+{
+  "status": "PASS_WITH_RECORDED_LIMITS",
+  "code_commit": "8c4637b1b878ba8ab5da9b3530a45c05ab638b6c",
+  "start": 1793249007.8467712,
+  "end": 1793249089.034441,
+  "python": {
+    "targeted": {
+      "status": "PASS",
+      "tests": 362
+    },
+    "full": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 607,
+      "errors": 1
+    }
+  },
+  "raw_bodies": [
+    {
+      "name": "raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/layer_norm_welfold/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "8c4637b1b878ba8ab5da9b3530a45c05ab638b6c",
+      "log": "/tmp/welfold112-raw-body-check.log",
+      "status": "PASS"
+    }
+  ],
+  "cpu": {
+    "status": "PASS",
+    "scope": "Full Python module AST restoration permits only the existing row-address reuse, including definition-before-use ordering. The original Python remains unchanged; the candidate Python is newly tracked from the existing Lean transformation. No GPU or numerical execution.",
+    "pair_checker": {
+      "name": "full-pair-source-check",
+      "command": [
+        "python3",
+        "bench/repairs/tritonbench_g/layer_norm_welfold/check_pair_source.py"
+      ],
+      "exit_code": 0,
+      "code_commit": "8c4637b1b878ba8ab5da9b3530a45c05ab638b6c",
+      "log": "/tmp/welfold112-full-pair-source-check.log"
+    },
+    "public_statements": "Public Real/FP readers, contracts and existing Python files are text-identical, including all parameters and premises."
+  },
+  "torch": {
+    "name": "torch-dependencies",
+    "command": [
+      "python3",
+      "-c",
+      "import torch; import triton"
+    ],
+    "exit_code": 1,
+    "code_commit": "8c4637b1b878ba8ab5da9b3530a45c05ab638b6c",
+    "log": "/tmp/welfold112-torch-dependencies.log",
+    "status": "UNAVAILABLE",
+    "reason": "The retained Torch source checker requires absent Torch/Triton. No GPU or numerical experiment was run."
+  },
+  "original_python_and_contracts": {
+    "status": "PASS",
+    "sha256": {
+      "bench/repairs/tritonbench_g/layer_norm_welfold/Contract.lean": "b0615a26b70c92c70760282fdf49db2c8ca8b938992c6998cff2f2b32b1415e8",
+      "bench/repairs/tritonbench_g/layer_norm_welfold/Correct.lean": "9b05fddde5936c057b16d2224895fa5b9b603e3a302b618cb5fa1ce99f101e86",
+      "bench/repairs/tritonbench_g/layer_norm_welfold/FPEquiv.lean": "4ddc099e963b8cd60d0f808f5eb08c5bd89dc21e113210350139cba52df32b7b",
+      "bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/Contract.lean": "29f11570b4f170a4865a61a5ac60ce718a4ae64f9fd45fc1b946e1ff2c65c210",
+      "bench/repairs/tritonbench_g/layer_norm_welfold/check_contract.py": "129962c156a5957a3eef0255569c475ae9ed836ba4a035fc368155ad6fb2bb93",
+      "bench/repairs/tritonbench_g/layer_norm_welfold/layer_norm_welfold_repaired.py": "73275d9885b7f63480d94dfeb2f9312f92266d030d2482061a3c41d9c9171742"
+    }
+  },
+  "comparator": {
+    "attempts": 102,
+    "statuses": [
+      "UNAVAILABLE"
+    ]
+  },
+  "scope": "Exact frozen source. Complete two-pass source execution, typed views and the distinct libdevice intrinsic, trace safety, full grid/frame, independent Real mathematics and actual FP pairs are verified separately by Lean; body tests are source correspondence checks, not hardware/numerical evidence."
+}

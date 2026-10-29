@@ -1,0 +1,9 @@
+VeriTile.Bench.Repairs.LayerNormWelfold.FPEquiv.nativeFormula: definition does not reference [VeriTile.Bench.Repairs.LayerNormWelfold.Source.rowKernel,
+ VeriTile.Bench.Repairs.LayerNormWelfold.Source.launch,
+ VeriTile.Bench.Repairs.LayerNormWelfold.meanValue,
+ VeriTile.Bench.Repairs.LayerNormWelfold.inverseValue,
+ VeriTile.Bench.Repairs.LayerNormWelfold.rowOutput] — non-circular ✓
+VeriTile.Bench.Repairs.LayerNormWelfold.FPEquiv.kernel_native: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormWelfold.FPEquiv.kernel_native: statement's project surface ⊆ allowlist ✓

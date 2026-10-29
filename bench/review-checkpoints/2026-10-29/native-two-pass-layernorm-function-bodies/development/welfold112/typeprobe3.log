@@ -1,0 +1,4 @@
+/tmp/welfold112-frontend/TypeProbe.lean:13:17: error(lean.unknownIdentifier): Unknown identifier `_private.VeriTile.Triton.DSL.TypedStores.«0».VeriTile.Triton.DSL.TypedStores.valueType`
+/tmp/welfold112-frontend/TypeProbe.lean:15:14: error(lean.invalidDottedIdent): Invalid dotted identifier notation: The expected type of `.typed`
+  ?m.146 env text r✝ parsed
+is not of the form `C ...` or `... → C ...` where C is a constant

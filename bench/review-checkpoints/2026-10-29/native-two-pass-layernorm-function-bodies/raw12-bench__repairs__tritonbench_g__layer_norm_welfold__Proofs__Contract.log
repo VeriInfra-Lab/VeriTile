@@ -1,0 +1,7 @@
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/Contract.lean:36:4: warning: aesop: failed to prove the goal after exhaustive search.
+VeriTile.Bench.Repairs.LayerNormWelfold.Admission.checkInputs_iff: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayerNormWelfold.Admission.source_domain: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

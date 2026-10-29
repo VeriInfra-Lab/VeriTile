@@ -1,0 +1,13 @@
+{
+  "status": "DRAFT_NOT_VERIFIED",
+  "files": [
+    "bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/Source.lean",
+    "bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/LegacySource.lean",
+    "bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/Statistics.lean",
+    "bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/SourceGraph.lean",
+    "bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/KernelGraph.lean",
+    "bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/NativeKernel.lean",
+    "bench/tritonbench_g/fused_layernorm_triton/Proofs/WholeReal.lean"
+  ],
+  "reason": "Correct task-local scalar source ports and materialized epsilon. No FP identity is assumed between distinct unary operations or precisions; the unrolled reference is updated and all bridges need reproof."
+}

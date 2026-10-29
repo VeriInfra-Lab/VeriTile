@@ -1,0 +1,7 @@
+tl.sum(_tmp3, 1)[:, None]: tl.float32
+tmp3 / tmp5: tl.float32
+tl.broadcast_to(tmp10, [XBLOCK, RBLOCK]): tl.float32
+tmp8 - tmp6: tl.float32
+tl.where(rmask, tmp9 * tmp9, 0.0): tl.float32
+_tmp12 + tmp11: tl.float32
+$((_root_.VeriTile.Triton.Random.sourceNatCallValue VeriTile.Triton.Random.IntegerType.i32 rnumel : Nat)): integerScalar

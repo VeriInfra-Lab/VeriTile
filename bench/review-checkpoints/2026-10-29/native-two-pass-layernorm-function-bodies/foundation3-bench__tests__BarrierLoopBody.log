@@ -1,0 +1,63 @@
+/tmp/welfold112-frontend/bench/tests/BarrierLoopBody.lean:49:53: error: unsolved goals
+⊢ ∃ a,
+    (match
+          match
+            match
+              numericLt
+                { literal := fun x x_1 x_2 => 0, negInf := 0, binary := fun x x_1 x_2 a b => a + b,
+                  unary := fun x x_1 x_2 => x_2, cast := fun x x_1 x_2 x_3 => x_3 + 1000, fromNat := fun x n => n,
+                  fromInt := fun x n => n.toNat, fp32Bits := fun x => 0, fp32Load := id,
+                  reduceMax := fun x {x_1} x_2 x_3 x_4 x_5 => 0, reduceSum := fun x {x_1} x_2 x_3 x_4 x_5 => 0 }
+                none ComparableDType.real,
+              fun f => some (bop f Broadcast.nil (fun x => 0) fun x => 0) with
+            | none, x => none
+            | some a, f => f a,
+            fun active =>
+            some
+              { mem := fun x x_1 => Cell.mk TileDType.real 3,
+                regs := fun d sh n =>
+                  if n = "y" then
+                    if h : TileDType.real = d then if h_1 : sh = [] then some (⋯ ▸ ⋯ ▸ fun i => 3) else none else none
+                  else
+                    if n = "x" then
+                      if h : TileDType.real = d then if h_1 : sh = [] then some (⋯ ▸ ⋯ ▸ fun i => 3) else none else none
+                    else none,
+                pids := fun x => 0, numPids := fun x => 1, undef := fun d x x_1 => defaultValue d } with
+          | none, x => none
+          | some a, f => f a,
+          fun __do_lift =>
+          match
+            range
+              { literal := fun x x_1 x_2 => 0, negInf := 0, binary := fun x x_1 x_2 a b => a + b,
+                unary := fun x x_1 x_2 => x_2, cast := fun x x_1 x_2 x_3 => x_3 + 1000, fromNat := fun x n => n,
+                fromInt := fun x n => n.toNat, fp32Bits := fun x => 0, fp32Load := id,
+                reduceMax := fun x {x_1} x_2 x_3 x_4 x_5 => 0, reduceSum := fun x {x_1} x_2 x_3 x_4 x_5 => 0 }
+              "i" 0 2 1
+              [ComputeStmt.assign TileDType.real [] "y"
+                  (ComputeExpr.compute
+                    (ComputeOp.alg ComputeDType.fp32
+                      (Op.add NumericDType.real Broadcast.nil (Op.ref TileDType.real [] "y")
+                        (Op.ref TileDType.real [] "x"))))]
+              __do_lift,
+            fun __do_lift =>
+            match
+              match __do_lift.regs TileDType.real [] "y", fun __do_lift_1 =>
+                some
+                  {
+                    mem := fun r' o' =>
+                      if r' = { name := "y" } ∧ o' = 0 then Cell.mk TileDType.real (__do_lift_1 PUnit.unit)
+                      else __do_lift.mem r' o',
+                    regs := __do_lift.regs, pids := __do_lift.pids, numPids := __do_lift.numPids,
+                    undef := __do_lift.undef } with
+              | none, x => none
+              | some a, f => f a,
+              fun __do_lift => some __do_lift with
+            | none, x => none
+            | some a, f => f a with
+          | none, x => none
+          | some a, f => f a with
+        | none, x => none
+        | some a, f => f a) =
+        some a ∧
+      a.mem { name := "y" } 0 = Cell.mk TileDType.real 9
+/tmp/welfold112-frontend/bench/tests/BarrierLoopBody.lean:55:0: error: VeriTile.Tests.BarrierLoopBody.barrier_preserves_carried_dtype: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

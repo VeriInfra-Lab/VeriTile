@@ -1,0 +1,156 @@
+/tmp/welfold112-frontend/Probe.lean:20:2: error: unexpected syntax
+  triton
+    {tl.ports inputs=[in_ptr0, in_ptr1, in_ptr2],outputs=[in_out_ptr0, in_out_ptr1,
+      out_ptr0]tl.region in_out_ptr0 =
+      tl.float32
+        tl.region in_out_ptr1 =
+      tl.float32
+        tl.region in_ptr0 =
+      tl.float32
+        tl.region in_ptr1 =
+      tl.float32
+        tl.region in_ptr2 =
+      tl.float32
+        tl.region out_ptr0 =
+      tl.bfloat16
+        xoffset =
+      tl.program_id(0) *
+        $((1 :
+            Nat✝))xindex =
+      xoffset +
+        tl.arange(0,
+            $((1 :
+                Nat✝)))[:,None]xmask =
+      xindex <
+        $((_root_.VeriTile.Triton.Random.sourceNatCallValue✝ VeriTile.Triton.Random.IntegerType.i32✝ xnumel :
+            Nat✝))rbase =
+      tl.arange(0,
+          $((RBLOCK :
+              Nat✝)))[None,:]x0 =
+      xindex
+        _tmp3 =
+      tl.full([$((1 : Nat✝)), $((RBLOCK : Nat✝))], 0,
+        tl.float32)for roffset in range($((0 : Nat✝)),
+      $((_root_.VeriTile.Triton.Random.sourceNatCallValue✝ VeriTile.Triton.Random.IntegerType.i32✝ rnumel : Nat✝)),
+      $((RBLOCK : Nat✝))) {
+      rindex =
+        roffset +
+          rbase
+            rmask =
+        rindex <
+          $((_root_.VeriTile.Triton.Random.sourceNatCallValue✝ VeriTile.Triton.Random.IntegerType.i32✝ rnumel :
+              Nat✝))r1 =
+        rindex
+          tmp0 =
+        tl.load(in_ptr0 +
+            (r1 +
+                ($((_root_.VeriTile.Triton.Random.sourceNatCallValue✝ VeriTile.Triton.Random.IntegerType.i32✝ rnumel :
+                        Nat✝)) *
+                    x0)),
+          rmask,other =
+            0.0,eviction_policy="evict_last").to(tl.float32)tmp1 =
+        tmp0.to(tl.float32)tmp2 =
+        tl.broadcast_to(tmp1, [$((1 : Nat✝)),
+          $((RBLOCK :
+              Nat✝))])tmp4 =
+        _tmp3 +
+          tmp2
+            _tmp3 =
+        tmp4 }tmp3 =
+      tl.reshape(tl.sum(_tmp3, axis=1, tree=$(?m✝), keep_dims=true),
+          [1])[:,None]tmp5 =
+      $((_root_.VeriTile.Triton.Random.sourceNatCallValue✝ VeriTile.Triton.Random.IntegerType.i32✝ rnumel :
+          Nat✝))tmp6 =
+      tmp3 /
+        tmp5
+          tl.debug_barrier()tl.store(in_out_ptr0 + (x0), tmp6,
+      None)_tmp12 =
+      tl.full([$((1 : Nat✝)), $((RBLOCK : Nat✝))], 0,
+        tl.float32)for roffset in range($((0 : Nat✝)),
+      $((_root_.VeriTile.Triton.Random.sourceNatCallValue✝ VeriTile.Triton.Random.IntegerType.i32✝ rnumel : Nat✝)),
+      $((RBLOCK : Nat✝))) {
+      rindex =
+        roffset +
+          rbase
+            rmask =
+        rindex <
+          $((_root_.VeriTile.Triton.Random.sourceNatCallValue✝ VeriTile.Triton.Random.IntegerType.i32✝ rnumel :
+              Nat✝))r1 =
+        rindex
+          tmp7 =
+        tl.load(in_ptr0 +
+            (r1 +
+                ($((_root_.VeriTile.Triton.Random.sourceNatCallValue✝ VeriTile.Triton.Random.IntegerType.i32✝ rnumel :
+                        Nat✝)) *
+                    x0)),
+          rmask,other =
+            0.0,eviction_policy="evict_last").to(tl.float32)tmp8 =
+        tmp7.to(tl.float32)tmp9 =
+        tmp8 -
+          tmp6
+            tmp10 =
+        tl.where(rmask, tmp9 * tmp9,
+          tl.__python_literal(0.0))tmp11 =
+        tl.broadcast_to(tmp10, [$((1 : Nat✝)),
+          $((RBLOCK :
+              Nat✝))])tmp13 =
+        _tmp12 +
+          tmp11
+            _tmp12 =
+        tmp13 }tmp12 =
+      tl.reshape(tl.sum(_tmp12, axis=1, tree=$(?m✝¹), keep_dims=true),
+          [1])[:,None]tmp14 =
+      $((_root_.VeriTile.Triton.Random.sourceNatCallValue✝ VeriTile.Triton.Random.IntegerType.i32✝ rnumel :
+          Nat✝))tmp15 =
+      tmp12 /
+        tmp14
+          tmp16 =
+      tl.full([], 1e-05,
+        dtype=tl.float32)tmp17 =
+      tmp15 +
+        tmp16
+          tmp18 =
+      libdevice.rsqrt(tmp17)tl.debug_barrier()tl.store(in_out_ptr1 + (x0), tmp18,
+      None)for roffset in range($((0 : Nat✝)),
+      $((_root_.VeriTile.Triton.Random.sourceNatCallValue✝ VeriTile.Triton.Random.IntegerType.i32✝ rnumel : Nat✝)),
+      $((RBLOCK : Nat✝))) {
+      rindex =
+        roffset +
+          rbase
+            rmask =
+        rindex <
+          $((_root_.VeriTile.Triton.Random.sourceNatCallValue✝ VeriTile.Triton.Random.IntegerType.i32✝ rnumel :
+              Nat✝))r1 =
+        rindex
+          tmp19 =
+        tl.load(in_ptr0 +
+            (r1 +
+                ($((_root_.VeriTile.Triton.Random.sourceNatCallValue✝ VeriTile.Triton.Random.IntegerType.i32✝ rnumel :
+                        Nat✝)) *
+                    x0)),
+          rmask,eviction_policy="evict_first").to(tl.float32)tmp23 =
+        tl.load(in_ptr1 + (r1),
+          rmask,eviction_policy="evict_last").to(tl.float32)tmp26 =
+        tl.load(in_ptr2 + (r1),
+          rmask,eviction_policy="evict_last").to(tl.float32)tmp20 =
+        tmp19.to(tl.float32)tmp21 =
+        tmp20 -
+          tmp6
+            tmp22 =
+        tmp21 *
+          tmp18
+            tmp24 =
+        tmp23.to(tl.float32)tmp25 =
+        tmp22 *
+          tmp24
+            tmp27 =
+        tmp26.to(tl.float32)tmp28 =
+        tmp25 +
+          tmp27
+            tmp29 =
+        tmp28.to(tl.float32)tl.store(out_ptr0 +
+          (r1 +
+              ($((_root_.VeriTile.Triton.Random.sourceNatCallValue✝ VeriTile.Triton.Random.IntegerType.i32✝ rnumel :
+                      Nat✝)) *
+                  x0)),
+        (tmp29).to(tl.bfloat16), rmask) }}

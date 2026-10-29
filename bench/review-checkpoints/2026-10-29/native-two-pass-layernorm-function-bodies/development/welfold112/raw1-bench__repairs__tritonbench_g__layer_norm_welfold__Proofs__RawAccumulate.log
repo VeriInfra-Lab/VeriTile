@@ -1,0 +1,25 @@
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/RawAccumulate.lean:29:65: error: unsolved goals
+case row
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+s : State α
+S D B : ℕ
+tree : DSL.WelfordSource.Tree B
+⊢ (bop (fun x1 x2 => x1 + x2) Broadcast.scalarL
+      (bop (fun x1 x2 => x1 * x2) Broadcast.nil (fun x => s.pids 0) fun x => 1) fun i => 0) =
+    fun x => s.pids 0
+
+case base
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+s : State α
+S D B : ℕ
+tree : DSL.WelfordSource.Tree B
+⊢ (fun i => ↑i.2.1) = fun i => ↑i.2.1
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/RawAccumulate.lean:48:28: error: `simp` made no progress
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/RawAccumulate.lean:48:28: error: `simp` made no progress
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/RawAccumulate.lean:80:0: error: VeriTile.Bench.Repairs.LayerNormWelfold.Raw.prefix_run: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/RawAccumulate.lean:81:0: error: VeriTile.Bench.Repairs.LayerNormWelfold.Raw.phase_run: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/RawAccumulate.lean:82:0: error: VeriTile.Bench.Repairs.LayerNormWelfold.Raw.phase_loop: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

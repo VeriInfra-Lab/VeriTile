@@ -1,0 +1,15 @@
+{
+  "status": "UPSTREAM_RULE_CHECKED",
+  "scope": "Triton v3.7.1 compiler rules, not an installed Torch/Triton version or hardware conformance claim.",
+  "assignment": {
+    "url": "https://github.com/triton-lang/triton/blob/v3.7.1/python/triton/compiler/code_generator.py#L707-L729",
+    "blob_sha": "3ffb9045745c5f1ca8bda18b902928c82ba63e2e",
+    "rule": "An ordinary non-tensor numeric assignment is sanitized through semantic.to_tensor."
+  },
+  "scalar_dtype": {
+    "url": "https://github.com/triton-lang/triton/blob/v3.7.1/python/triton/language/semantic.py#L118-L157",
+    "blob_sha": "691c471296e90d9f78ee35915e50f4e388360032",
+    "rule": "to_tensor_type selects FP32 for a finite float in the FP32 normal range; 1e-5 is in that range."
+  },
+  "conclusion": "The original tmp16 = 1e-05 assignment materializes an FP32 scalar. The separate library rsqrt port remains distinct from the intrinsic in FP semantics."
+}

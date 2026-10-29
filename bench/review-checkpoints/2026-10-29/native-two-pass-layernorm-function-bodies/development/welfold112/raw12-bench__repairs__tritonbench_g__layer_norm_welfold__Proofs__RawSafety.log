@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.LayerNormWelfold.Raw.source_safe: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,277 @@
+{
+  "status": "PASS",
+  "start": 1793245719.641197,
+  "results": [
+    {
+      "module": "VeriTile.Triton.DSL.Expansion.Main",
+      "source_sha256": "1472ae319a2a4c2361fb81a4716408e58d24028a10ea010742a9fe328d54daf5",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793245719.641695,
+      "end": 1793245814.1260748,
+      "log": "/tmp/welfold112-foundation11-VeriTile__Triton__DSL__Expansion__Main.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Expansion",
+      "source_sha256": "abf572865569f8411e47bca680bf6f7a2ff1cfd2f0d4cac2a581d8212ba19802",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793245814.1263556,
+      "end": 1793245815.3465796,
+      "log": "/tmp/welfold112-foundation11-VeriTile__Triton__DSL__Expansion.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL",
+      "source_sha256": "2423c62c7d2ce4f66fb836f36c35d2b904fc759e8f782684a28af52d0ab7faf4",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793245815.3468196,
+      "end": 1793245816.5744529,
+      "log": "/tmp/welfold112-foundation11-VeriTile__Triton__DSL.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.SourceDType",
+      "source_sha256": "1be7dc331ac611ad0ee68e85f1010519d9ddfa7c3eea80c095b0c1e713708999",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793245816.5747118,
+      "end": 1793245818.5857227,
+      "log": "/tmp/welfold112-foundation11-VeriTile__Triton__DSL__SourceDType.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.PointerType",
+      "source_sha256": "2b409ab95e27f68ad359b5b8065b04ce954ffcc580ea7e35c742f65f3d8b7fe7",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793245818.5859725,
+      "end": 1793245819.9198196,
+      "log": "/tmp/welfold112-foundation11-VeriTile__Triton__DSL__PointerType.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.TypedStores",
+      "source_sha256": "79e5bc8bfcb26c6408d8a3fd8ebc924ab7324549103e1314f20a19c511c2e26d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793245819.92015,
+      "end": 1793245828.06209,
+      "log": "/tmp/welfold112-foundation11-VeriTile__Triton__DSL__TypedStores.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.TypedStorageReduction",
+      "source_sha256": "26c50b50885cb0cc8a81863783fc01c8917be74a01efb6f47eff1d560fa9707d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793245828.0623972,
+      "end": 1793245829.9716966,
+      "log": "/tmp/welfold112-foundation11-VeriTile__Triton__DSL__TypedStorageReduction.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Constexpr",
+      "source_sha256": "167269e39e3f81eb1f568a4cbb7cffb1777b5c5cc004b55ef40ba57dcb90cf75",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793245829.9719522,
+      "end": 1793245831.384525,
+      "log": "/tmp/welfold112-foundation11-VeriTile__Triton__DSL__Constexpr.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.CallSignature",
+      "source_sha256": "fda4e3d84bc60fcdd02e4e5ea83ec017549395f6ab311c130abb1947bb681746",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793245831.3848424,
+      "end": 1793245872.3666193,
+      "log": "/tmp/welfold112-foundation11-VeriTile__Triton__DSL__CallSignature.log"
+    },
+    {
+      "module": "bench.tests.LibdeviceRsqrtBody",
+      "source_sha256": "844f447a928f17e73c38ba5cb1ed5a5a546e82e968ef469ff6a3bf8cb81c7249",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793245872.3669176,
+      "end": 1793245877.3405704,
+      "log": "/tmp/welfold112-foundation11-bench__tests__LibdeviceRsqrtBody.log"
+    },
+    {
+      "module": "bench.tests.BarrierLoopBody",
+      "source_sha256": "44e76a2f9e8d06c80a1fc1375e7f6004e9b4dc1de4f878b0eb632f08c564695c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793245877.3408349,
+      "end": 1793245882.934568,
+      "log": "/tmp/welfold112-foundation11-bench__tests__BarrierLoopBody.log"
+    },
+    {
+      "module": "bench.tests.OrderedRowSumBody",
+      "source_sha256": "a90e873e2bb3e5330339d5814ba0eae96f585caf8f42c266443547eafcdb1f1d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793245882.9348364,
+      "end": 1793245889.473997,
+      "log": "/tmp/welfold112-foundation11-bench__tests__OrderedRowSumBody.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_welfold.Kernels",
+      "source_sha256": "f64b702c8101dfba26456f1c711ab4569b9568866d342b5e8a178f593180532d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793245889.4743292,
+      "end": 1793245891.723362,
+      "log": "/tmp/welfold112-foundation11-bench__repairs__tritonbench_g__layer_norm_welfold__Kernels.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_welfold.Proofs.RawSyntax",
+      "source_sha256": "460ac3d90d82a69494a4bb72e26e04a4783b14c2569c0b5e15f97109f78876d6",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793245891.723651,
+      "end": 1793245893.5826123,
+      "log": "/tmp/welfold112-foundation11-bench__repairs__tritonbench_g__layer_norm_welfold__Proofs__RawSyntax.log"
+    },
+    {
+      "module": "bench.tests.TypedStores",
+      "source_sha256": "1e01ed6d8f0e03848d505f5a5ca836b8b1418a874f9af96927b6d60ac40bc747",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793245893.5829082,
+      "end": 1793245897.2300947,
+      "log": "/tmp/welfold112-foundation11-bench__tests__TypedStores.log"
+    },
+    {
+      "module": "bench.tests.CallSignature",
+      "source_sha256": "f713a665021b4d38e4cdec2635349fdfdf5d64c5dcf086797f49b409d530eaf1",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793245897.2304587,
+      "end": 1793245911.4402626,
+      "log": "/tmp/welfold112-foundation11-bench__tests__CallSignature.log"
+    },
+    {
+      "module": "bench.tests.ConstexprMaskBody",
+      "source_sha256": "41cc1f33ca954aa213c3caae820779dca8c5a1287e95f96426348d70b55208ac",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793245911.4405603,
+      "end": 1793245913.0690715,
+      "log": "/tmp/welfold112-foundation11-bench__tests__ConstexprMaskBody.log"
+    },
+    {
+      "module": "bench.tests.BranchStoreDType",
+      "source_sha256": "caad7a54c66f183d5f70dbc1b0a60f19adcc64dfdc865b96bf02bd86396ab724",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793245913.0694127,
+      "end": 1793245914.7987208,
+      "log": "/tmp/welfold112-foundation11-bench__tests__BranchStoreDType.log"
+    },
+    {
+      "module": "bench.tests.TypedFP32CallArithmetic",
+      "source_sha256": "7708a00780580eb575b73c1d40ccb4c07ed9aaa22e387b12b2ffba4a132a499d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793245914.7990181,
+      "end": 1793245920.1052036,
+      "log": "/tmp/welfold112-foundation11-bench__tests__TypedFP32CallArithmetic.log"
+    },
+    {
+      "module": "bench.tests.PositionalReductionLoop",
+      "source_sha256": "4c0840db0aa93702ce7ba6cc4d4814ab79823ba7e11e4797e33d005b7bbaff2b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793245920.1055079,
+      "end": 1793245922.0115037,
+      "log": "/tmp/welfold112-foundation11-bench__tests__PositionalReductionLoop.log"
+    },
+    {
+      "module": "bench.tests.ValueDTypeBody",
+      "source_sha256": "71154c994ac93d516996b10481b6c28730a88ef4f5597afad488756c7f18976f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793245922.0118074,
+      "end": 1793245923.523427,
+      "log": "/tmp/welfold112-foundation11-bench__tests__ValueDTypeBody.log"
+    },
+    {
+      "module": "bench.tests.AtomicStoreDTypeBody",
+      "source_sha256": "5828a75174abdb6fdf291caff1e4bc1493d542fc7305a6b85cfe9e068752685e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793245923.5237608,
+      "end": 1793245929.018159,
+      "log": "/tmp/welfold112-foundation11-bench__tests__AtomicStoreDTypeBody.log"
+    },
+    {
+      "module": "bench.tests.SourceDTypeBody",
+      "source_sha256": "ba44441a4d3ce8d1a42f0db88a2ec3c981c4e13895d7865c1d7d749def99fbc1",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793245929.0185,
+      "end": 1793245930.8846598,
+      "log": "/tmp/welfold112-foundation11-bench__tests__SourceDTypeBody.log"
+    },
+    {
+      "module": "bench.tests.FP32CallValue",
+      "source_sha256": "e5ae7a4e503554e61195dfb0a8d2970d5e0752594f697ceedba9dc9076d02936",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793245930.8849735,
+      "end": 1793245936.7855074,
+      "log": "/tmp/welfold112-foundation11-bench__tests__FP32CallValue.log"
+    },
+    {
+      "module": "bench.tests.DTypeResolution",
+      "source_sha256": "2e85f90bc7c582887cb64ae18b34176a102e00b151fde4418375b6cb89f2478b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793245936.7858298,
+      "end": 1793245939.192898,
+      "log": "/tmp/welfold112-foundation11-bench__tests__DTypeResolution.log"
+    },
+    {
+      "module": "bench.tests.SignedRangeCallBody",
+      "source_sha256": "e40ec553e94dcd0d6be62b8a8e96dae6524257c56beff6fa9a081a7f66e1a19e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793245939.1932688,
+      "end": 1793245941.1736925,
+      "log": "/tmp/welfold112-foundation11-bench__tests__SignedRangeCallBody.log"
+    },
+    {
+      "module": "bench.tests.LoopBody",
+      "source_sha256": "b897702e6e8db6175d6c303a646d0a687f4168ae8167acb3b68e47289d3d8c5b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793245941.1740103,
+      "end": 1793245943.042363,
+      "log": "/tmp/welfold112-foundation11-bench__tests__LoopBody.log"
+    },
+    {
+      "module": "bench.tests.LoopTupleLoadBody",
+      "source_sha256": "21b70186808fa13b79722fc0e7a9dbdc6067c4f2d8b521c99080a0d33fe90f6d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793245943.042681,
+      "end": 1793245944.5726206,
+      "log": "/tmp/welfold112-foundation11-bench__tests__LoopTupleLoadBody.log"
+    },
+    {
+      "module": "bench.tests.NativeMaxLoop",
+      "source_sha256": "41a80c188e6a69b419c4c61d04a5cf1a135f5d1ca00c007c3a4d105b9dc19ae6",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793245944.5729318,
+      "end": 1793245945.969613,
+      "log": "/tmp/welfold112-foundation11-bench__tests__NativeMaxLoop.log"
+    },
+    {
+      "module": "bench.tests.NativeMatrixLoop",
+      "source_sha256": "65607ff95a4330194f8f69ca97ddb40f394e2a71d2e7da0000ada931b6ca0be2",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793245945.9699342,
+      "end": 1793245947.5137234,
+      "log": "/tmp/welfold112-foundation11-bench__tests__NativeMatrixLoop.log"
+    }
+  ],
+  "end": 1793245947.5139835
+}

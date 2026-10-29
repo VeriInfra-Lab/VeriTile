@@ -1,0 +1,1 @@
+{'status': 'PASS', 'scope': 'Full module AST; one row-product assignment, two uses and JIT entry/call names only.'}

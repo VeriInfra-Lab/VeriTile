@@ -1,0 +1,43 @@
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/LogicalIO.lean:28:10: warning: This simp argument is unused:
+  LogicalProgramIO.lift
+
+Hint: Omit it from the simp argument list.
+  simp [̵L̵o̵g̵i̵c̵a̵l̵P̵r̵o̵g̵r̵a̵m̵I̵O̵.̵l̵i̵f̵t̵,̵i̵o̵,̵i̵n̵p̵u̵t̵s̵,̵o̵u̵t̵p̵u̵t̵s̵,̵I̵O̵.̵r̵e̵s̵u̵l̵t̵,̵R̵e̵a̵d̵a̵b̵l̵e̵.̵r̵e̵a̵l̵F̵o̵r̵m̵u̵l̵a̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵M̵a̵t̵h̵.̵o̵u̵t̵p̵u̵t̵,̵M̵a̵t̵h̵.̵i̵n̵v̵e̵r̵s̵e̵,̵M̵a̵t̵h̵.̵v̵a̵r̵i̵a̵n̵c̵e̵,̵M̵a̵t̵h̵.̵m̵e̵a̵n̵,̵s̵u̵m̵_̵r̵a̵n̵g̵e̵_̵l̵i̵s̵t̵,̵I̵O̵P̵r̵o̵o̵f̵.̵a̵r̵r̵a̵y̵X̵_̵a̵t̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵I̵O̵.̵a̵r̵r̵a̵y̵W̵,̵I̵O̵.̵a̵r̵r̵a̵y̵B̵]̵[̲i̲o̲,̲ ̲i̲n̲p̲u̲t̲s̲,̲ ̲o̲u̲t̲p̲u̲t̲s̲,̲ ̲I̲O̲.̲r̲e̲s̲u̲l̲t̲,̲ ̲R̲e̲a̲d̲a̲b̲l̲e̲.̲r̲e̲a̲l̲F̲o̲r̲m̲u̲l̲a̲,̲ ̲M̲a̲t̲h̲.̲o̲u̲t̲p̲u̲t̲,̲ ̲M̲a̲t̲h̲.̲i̲n̲v̲e̲r̲s̲e̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲M̲a̲t̲h̲.̲v̲a̲r̲i̲a̲n̲c̲e̲,̲ ̲M̲a̲t̲h̲.̲m̲e̲a̲n̲,̲ ̲s̲u̲m̲_̲r̲a̲n̲g̲e̲_̲l̲i̲s̲t̲,̲ ̲I̲O̲P̲r̲o̲o̲f̲.̲a̲r̲r̲a̲y̲X̲_̲a̲t̲,̲ ̲I̲O̲.̲a̲r̲r̲a̲y̲W̲,̲ ̲I̲O̲.̲a̲r̲r̲a̲y̲B̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/LogicalIO.lean:28:32: warning: This simp argument is unused:
+  io
+
+Hint: Omit it from the simp argument list.
+  simp [LogicalProgramIO.lift, ̲io̵,̵i̵nputs, ̲outputs, ̲IO.result, ̲Readable.realFormula,
+  ̵  ̵ ̵ ̵ ̵ ̵Math.output,
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲Math.inverse, ̲Math.variance, ̲Math.mean, ̲sum_range_list, ̲IOProof.arrayX_at,
+  ̵  ̵ ̵ ̵ ̵ ̵IO.arrayW,
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲IO.arrayB]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/LogicalIO.lean:28:35: warning: This simp argument is unused:
+  inputs
+
+Hint: Omit it from the simp argument list.
+  simp [̵L̵o̵g̵i̵c̵a̵l̵P̵r̵o̵g̵r̵a̵m̵I̵O̵.̵l̵i̵f̵t̵,̵i̵o̵,̵i̵n̵p̵u̵t̵s̵,̵o̵u̵t̵p̵u̵t̵s̵,̵I̵O̵.̵r̵e̵s̵u̵l̵t̵,̵R̵e̵a̵d̵a̵b̵l̵e̵.̵r̵e̵a̵l̵F̵o̵r̵m̵u̵l̵a̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵M̵a̵t̵h̵.̵o̵u̵t̵p̵u̵t̵,̵M̵a̵t̵h̵.̵i̵n̵v̵e̵r̵s̵e̵,̵M̵a̵t̵h̵.̵v̵a̵r̵i̵a̵n̵c̵e̵,̵M̵a̵t̵h̵.̵m̵e̵a̵n̵,̵s̵u̵m̵_̵r̵a̵n̵g̵e̵_̵l̵i̵s̵t̵,̵I̵O̵P̵r̵o̵o̵f̵.̵a̵r̵r̵a̵y̵X̵_̵a̵t̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵I̵O̵.̵a̵r̵r̵a̵y̵W̵,̵I̵O̵.̵a̵r̵r̵a̵y̵B̵]̵[̲L̲o̲g̲i̲c̲a̲l̲P̲r̲o̲g̲r̲a̲m̲I̲O̲.̲l̲i̲f̲t̲,̲ ̲i̲o̲,̲ ̲o̲u̲t̲p̲u̲t̲s̲,̲ ̲I̲O̲.̲r̲e̲s̲u̲l̲t̲,̲ ̲R̲e̲a̲d̲a̲b̲l̲e̲.̲r̲e̲a̲l̲F̲o̲r̲m̲u̲l̲a̲,̲ ̲M̲a̲t̲h̲.̲o̲u̲t̲p̲u̲t̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲M̲a̲t̲h̲.̲i̲n̲v̲e̲r̲s̲e̲,̲ ̲M̲a̲t̲h̲.̲v̲a̲r̲i̲a̲n̲c̲e̲,̲ ̲M̲a̲t̲h̲.̲m̲e̲a̲n̲,̲ ̲s̲u̲m̲_̲r̲a̲n̲g̲e̲_̲l̲i̲s̲t̲,̲ ̲I̲O̲P̲r̲o̲o̲f̲.̲a̲r̲r̲a̲y̲X̲_̲a̲t̲,̲ ̲I̲O̲.̲a̲r̲r̲a̲y̲W̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲I̲O̲.̲a̲r̲r̲a̲y̲B̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/LogicalIO.lean:28:42: warning: This simp argument is unused:
+  outputs
+
+Hint: Omit it from the simp argument list.
+  simp [̵L̵o̵g̵i̵c̵a̵l̵P̵r̵o̵g̵r̵a̵m̵I̵O̵.̵l̵i̵f̵t̵,̵i̵o̵,̵i̵n̵p̵u̵t̵s̵,̵o̵u̵t̵p̵u̵t̵s̵,̵I̵O̵.̵r̵e̵s̵u̵l̵t̵,̵R̵e̵a̵d̵a̵b̵l̵e̵.̵r̵e̵a̵l̵F̵o̵r̵m̵u̵l̵a̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵M̵a̵t̵h̵.̵o̵u̵t̵p̵u̵t̵,̵M̵a̵t̵h̵.̵i̵n̵v̵e̵r̵s̵e̵,̵M̵a̵t̵h̵.̵v̵a̵r̵i̵a̵n̵c̵e̵,̵M̵a̵t̵h̵.̵m̵e̵a̵n̵,̵s̵u̵m̵_̵r̵a̵n̵g̵e̵_̵l̵i̵s̵t̵,̵I̵O̵P̵r̵o̵o̵f̵.̵a̵r̵r̵a̵y̵X̵_̵a̵t̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵I̵O̵.̵a̵r̵r̵a̵y̵W̵,̵I̵O̵.̵a̵r̵r̵a̵y̵B̵]̵[̲L̲o̲g̲i̲c̲a̲l̲P̲r̲o̲g̲r̲a̲m̲I̲O̲.̲l̲i̲f̲t̲,̲ ̲i̲o̲,̲ ̲i̲n̲p̲u̲t̲s̲,̲ ̲I̲O̲.̲r̲e̲s̲u̲l̲t̲,̲ ̲R̲e̲a̲d̲a̲b̲l̲e̲.̲r̲e̲a̲l̲F̲o̲r̲m̲u̲l̲a̲,̲ ̲M̲a̲t̲h̲.̲o̲u̲t̲p̲u̲t̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲M̲a̲t̲h̲.̲i̲n̲v̲e̲r̲s̲e̲,̲ ̲M̲a̲t̲h̲.̲v̲a̲r̲i̲a̲n̲c̲e̲,̲ ̲M̲a̲t̲h̲.̲m̲e̲a̲n̲,̲ ̲s̲u̲m̲_̲r̲a̲n̲g̲e̲_̲l̲i̲s̲t̲,̲ ̲I̲O̲P̲r̲o̲o̲f̲.̲a̲r̲r̲a̲y̲X̲_̲a̲t̲,̲ ̲I̲O̲.̲a̲r̲r̲a̲y̲W̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲I̲O̲.̲a̲r̲r̲a̲y̲B̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

@@ -1,0 +1,7 @@
+{
+  "status": "INTERRUPTED_BOTTLENECK_IDENTIFIED",
+  "start": 1793247291.9949837,
+  "scope": "Diagnostic-only sequential theorem profiling, not production compilation.",
+  "end": 1793247320.6306698,
+  "declaration": "tree_safe"
+}

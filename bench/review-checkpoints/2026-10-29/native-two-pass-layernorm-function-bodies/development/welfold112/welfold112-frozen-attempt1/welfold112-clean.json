@@ -1,0 +1,10 @@
+{
+  "status": "NOT_RUN_WARM_FAILED",
+  "code_commit": "8c4637b1b878ba8ab5da9b3530a45c05ab638b6c",
+  "checkout": "/tmp/veritile-body77",
+  "explicit_modules": 5657,
+  "start": 1793249007.3672352,
+  "scope": "All cumulative task/example/frontend roots, now including all 102 two-pass LayerNorm and frontend roots, plus their full local import closure and joint import.",
+  "warm_status": "FAIL",
+  "end": 1793249007.3673987
+}

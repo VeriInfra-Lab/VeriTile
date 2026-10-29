@@ -1,0 +1,18 @@
+/tmp/welfold112-frontend/VeriTile/Triton/Memory/KernelSpec/StreamEmit.lean:1273:12: warning: unused variable `pid₀`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/welfold112-frontend/VeriTile/Triton/Memory/KernelSpec/StreamEmit.lean:1273:17: warning: unused variable `pid₁`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/welfold112-frontend/VeriTile/Triton/Memory/KernelSpec/StreamEmit.lean:1273:22: warning: unused variable `pid₂`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/welfold112-frontend/VeriTile/Triton/Memory/KernelSpec/StreamEmit.lean:1344:12: warning: unused variable `pid₀`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/welfold112-frontend/VeriTile/Triton/Memory/KernelSpec/StreamEmit.lean:1344:17: warning: unused variable `pid₁`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/welfold112-frontend/VeriTile/Triton/Memory/KernelSpec/StreamEmit.lean:1344:22: warning: unused variable `pid₂`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`

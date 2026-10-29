@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.LayerNormWelfold.Raw.whole_row: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

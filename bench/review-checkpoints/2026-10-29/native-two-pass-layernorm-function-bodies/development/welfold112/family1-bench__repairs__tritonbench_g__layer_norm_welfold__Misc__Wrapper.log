@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.LayerNormWelfold.Checked.source_host_binding: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormWelfold.Checked.admitted: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

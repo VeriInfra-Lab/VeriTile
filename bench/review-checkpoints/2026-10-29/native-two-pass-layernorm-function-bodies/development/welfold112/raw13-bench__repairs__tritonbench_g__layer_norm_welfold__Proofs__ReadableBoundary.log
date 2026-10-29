@@ -1,0 +1,21 @@
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/ReadableBoundary.lean:90:19: error: Application type mismatch: The argument
+  reuse
+has type
+  Bool
+of sort `Type` but is expected to have type
+  0 < c.block
+of sort `Prop` in the application
+  whole_grid M (fun x x_1 => «false») s { name := "X" } { name := "W" } { name := "Bias" } Y Mean Rstd S D c.block
+    c.tree reuse
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/ReadableBoundary.lean:89:9: error: Tactic `rcases` failed: `x✝ : ?m.19` is not an inductive datatype
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/ReadableBoundary.lean:105:19: error: Application type mismatch: The argument
+  reuse
+has type
+  Bool
+of sort `Type` but is expected to have type
+  0 < c.block
+of sort `Prop` in the application
+  whole_grid M (fun x x_1 => «false») s { name := "X" } { name := "W" } { name := "Bias" } Y Mean Rstd S D c.block
+    c.tree reuse
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/ReadableBoundary.lean:104:9: error: Tactic `rcases` failed: `x✝ : ?m.51` is not an inductive datatype
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/ReadableBoundary.lean:107:0: error: VeriTile.Bench.Repairs.LayerNormWelfold.Readable.preserve: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

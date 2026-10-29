@@ -1,0 +1,3 @@
+VeriTile.Bench.TritonBenchG.FusedLayernormTriton.Whole.normalize_chunk_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

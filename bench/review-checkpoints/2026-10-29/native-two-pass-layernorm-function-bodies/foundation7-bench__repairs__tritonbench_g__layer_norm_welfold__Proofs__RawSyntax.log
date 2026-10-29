@@ -1,0 +1,37 @@
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/RawSyntax.lean:14:3: error: unexpected token 'prefix'; expected identifier
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/RawSyntax.lean:20:10: error(lean.invalidDottedIdent): Invalid dotted identifier notation: The expected type of `.forRange`
+  ?m.16
+is not of the form `C ...` or `... → C ...` where C is a constant
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/RawSyntax.lean:20:2: error: Invalid pattern(s): `body` is an explicit pattern variable, but it only occurs in positions that are inaccessible to pattern matching:
+  some ?m.17
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/RawSyntax.lean:42:10: error(lean.invalidDottedIdent): Invalid dotted identifier notation: The expected type of `.forRange`
+  ?m.11
+is not of the form `C ...` or `... → C ...` where C is a constant
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/RawSyntax.lean:42:2: error: Invalid pattern(s): `body` is an explicit pattern variable, but it only occurs in positions that are inaccessible to pattern matching:
+  some ?m.12
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/RawSyntax.lean:47:34: error: unexpected token 'prefix'; expected term
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/RawSyntax.lean:48:12: error: unexpected identifier; expected ':'
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/RawSyntax.lean:58:18: error: Tactic `rfl` failed: The left-hand side
+  (SourceCode.selected «false» X W Bias Y Mean Rstd S D B tree).surfaceBody
+is not definitionally equal to the right-hand side
+  stats X Mean Rstd S D B tree ++ [ComputeStmt.forRange "roffset" 0 D B (normalizeBody «false» X W Bias Y S D B tree)]
+
+case false
+X W Bias Y Mean Rstd : RegionName
+S D B : ℕ
+tree : DSL.WelfordSource.Tree B
+⊢ (SourceCode.selected «false» X W Bias Y Mean Rstd S D B tree).surfaceBody =
+    stats X Mean Rstd S D B tree ++ [ComputeStmt.forRange "roffset" 0 D B (normalizeBody «false» X W Bias Y S D B tree)]
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/RawSyntax.lean:58:18: error: Tactic `rfl` failed: The left-hand side
+  (SourceCode.selected «true» X W Bias Y Mean Rstd S D B tree).surfaceBody
+is not definitionally equal to the right-hand side
+  stats X Mean Rstd S D B tree ++ [ComputeStmt.forRange "roffset" 0 D B (normalizeBody «true» X W Bias Y S D B tree)]
+
+case true
+X W Bias Y Mean Rstd : RegionName
+S D B : ℕ
+tree : DSL.WelfordSource.Tree B
+⊢ (SourceCode.selected «true» X W Bias Y Mean Rstd S D B tree).surfaceBody =
+    stats X Mean Rstd S D B tree ++ [ComputeStmt.forRange "roffset" 0 D B (normalizeBody «true» X W Bias Y S D B tree)]
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/RawSyntax.lean:60:0: error: VeriTile.Bench.Repairs.LayerNormWelfold.Raw.stats_split: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/welfold112-frontend/bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/RawSyntax.lean:61:0: error: VeriTile.Bench.Repairs.LayerNormWelfold.Raw.source_split: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

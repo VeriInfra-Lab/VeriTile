@@ -1,0 +1,26 @@
+{
+  "task": "layer_norm_welfold",
+  "base": "bench/repairs/tritonbench_g/layer_norm_welfold/",
+  "note": "Both complete 23-statement two-pass LayerNorm bodies retain the actual element-offset range loops, two-dimensional tiles, temporary names, casts, None masks, barriers, ordered sums and libdevice.rsqrt. The original Python is unchanged. A newly tracked Python candidate expresses the existing Lean row-address reuse; its whole-module AST restores exactly to the original after that sole rewrite. Actual prefix, loop, reduction, normalization, row/grid, access-safety and exterior-frame proofs reconnect to the independent Real formula and full FP program pair. The corrected unrolled reference is a proof aid, not a claim of unchanged historical AST equality. Public contracts and input domains remain unchanged; no new numerical assumption is introduced.",
+  "regression": "The frontend retains FP compute precision through reshape and broadcast views, preserves dtype across positional stores and barriers, accepts direct None masks, and binds axis-one ordered sums through external reduction-tree metadata. libdevice.rsqrt has its own structural operation and Real projection, without identifying it with tl.rsqrt. Four new regressions distinguish intrinsic ports, nonidentity casts, ordered nonassociative reductions and typed versus untyped division; sixteen prior frontend regressions are replayed. All cumulative task/example roots are rebuilt with the final shared semantics. A separate standalone integer-literal assignment inference issue remains recorded for the ongoing migration; this task uses its original typed runtime alias.",
+  "roots": 102,
+  "comparator_targets": 102,
+  "cumulative": 5657,
+  "audit_modules": 1940,
+  "body_pairs": 415,
+  "covered_tasks": 118,
+  "pending_tasks": 65,
+  "targeted_tests": 362,
+  "full_tests": 607,
+  "bridges": {
+    "raw_bodies": "Kernels.lean",
+    "actual_range": "Proofs/RawAccumulate.lean",
+    "ordered_statistics": "Proofs/RawStatistics.lean",
+    "normalization": "Proofs/RawNormalize.lean",
+    "complete_grid": "Proofs/RawGrid.lean",
+    "trace_safety": "Proofs/RawSafety.lean",
+    "complete_io": "Proofs/ReadableResults.lean",
+    "independent_real": "Proofs/Real.lean",
+    "actual_fp_pair": "Proofs/PairEquivalence.lean"
+  }
+}

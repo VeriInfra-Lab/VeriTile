@@ -1,0 +1,11 @@
+/tmp/welfold112-frontend/bench/tests/BarrierLoopBody.lean:50:64: warning: Possibly looping simp theorem: `step.eq_3`
+
+Note: Possibly caused by: `store`, `evalOp_unfold`, and `ofFloat`
+
+Hint: You can disable a simp theorem from the default simp set by passing `- theoremName` to `simp`.
+/tmp/welfold112-frontend/bench/tests/BarrierLoopBody.lean:50:64: error: (deterministic) timeout at `whnf`, maximum number of heartbeats (1000000) has been reached
+
+Note: Use `set_option maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+/tmp/welfold112-frontend/bench/tests/BarrierLoopBody.lean:55:0: error: VeriTile.Tests.BarrierLoopBody.barrier_preserves_carried_dtype: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

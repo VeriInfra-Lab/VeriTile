@@ -1,0 +1,51 @@
+/tmp/welfold112-frontend/bench/tests/OrderedRowSumBody.lean:91:59: error: unsolved goals
+⊢ ∃ a,
+    (match
+          match Option.map (fun offsets i => ({ name := "y" }, offsets i)) (some fun i => 0), fun addresses =>
+            some
+              {
+                mem := fun r' o' =>
+                  if r' = (addresses (0, 0, PUnit.unit)).1 ∧ o' = (addresses (0, 0, PUnit.unit)).2 then
+                    Cell.mk TileDType.real 1020304
+                  else Cell.mk TileDType.real (if r' = { name := "x" } then o' + 1 else 0),
+                regs := fun d sh n =>
+                  if n = "mean" then
+                    if hd : TileDType.real = d then
+                      if hs : [1, 1] = sh then
+                        some (hd ▸ hs ▸ bop (fun a b => a + b) Broadcast.scalarR (fun i => 1020304) fun x => 0)
+                      else none
+                    else none
+                  else
+                    if n = "denominator" then
+                      if h : TileDType.real = d then if h_1 : sh = [] then some (⋯ ▸ ⋯ ▸ fun x => 0) else none else none
+                    else
+                      if n = "total" then
+                        if hd : TileDType.real = d then
+                          if hs : [1, 1] = sh then some (hd ▸ hs ▸ fun i => 1020304) else none
+                        else none
+                      else
+                        if n = "values" then
+                          if hd : TileDType.real = d then
+                            if hs : [1, 4] = sh then some (hd ▸ hs ▸ fun i => ↑i.2.1 + 1) else none
+                          else none
+                        else
+                          if n = "offsets" then
+                            if hd : TileDType.nat = d then
+                              if hs : [1, 4] = sh then some (hd ▸ hs ▸ fun i => ↑i.2.1) else none
+                            else none
+                          else none,
+                pids := fun x => 0, numPids := fun x => 1, undef := fun d x x_1 => defaultValue d } with
+          | none, x => none
+          | some a, f => f a,
+          fun __do_lift => some __do_lift with
+        | none, x => none
+        | some a, f => f a) =
+        some a ∧
+      a.mem { name := "y" } 0 = Cell.mk TileDType.real 1020308
+/tmp/welfold112-frontend/bench/tests/OrderedRowSumBody.lean:99:0: error: VeriTile.Tests.OrderedRowSumBody.division_precision: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Tests.OrderedRowSumBody.left_order: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.OrderedRowSumBody.right_order: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

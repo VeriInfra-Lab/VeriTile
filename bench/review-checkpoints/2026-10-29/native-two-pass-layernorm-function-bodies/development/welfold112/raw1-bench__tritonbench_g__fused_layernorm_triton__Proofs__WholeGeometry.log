@@ -1,0 +1,18 @@
+/tmp/welfold112-frontend/bench/tritonbench_g/fused_layernorm_triton/Proofs/WholeGeometry.lean:56:8: warning: This simp argument is unused:
+  hc
+
+Hint: Omit it from the simp argument list.
+  simp ̵[̵h̵c̵]̵
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.TritonBenchG.FusedLayernormTriton.Whole.column_chunk: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.FusedLayernormTriton.Whole.chunk_unique: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.FusedLayernormTriton.Whole.row_column_injective: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.FusedLayernormTriton.Whole.output_bounds: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.FusedLayernormTriton.Whole.statistics_reinterpret: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

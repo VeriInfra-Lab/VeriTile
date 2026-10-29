@@ -1,0 +1,7 @@
+VeriTile.Bench.Repairs.LayerNormWelfold.InputBinding.address_logical: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayerNormWelfold.InputBinding.native_address: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayerNormWelfold.InputBinding.observed: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

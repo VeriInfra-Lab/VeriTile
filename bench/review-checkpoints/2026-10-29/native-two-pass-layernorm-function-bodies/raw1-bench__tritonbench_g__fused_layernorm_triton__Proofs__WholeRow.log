@@ -1,0 +1,6 @@
+/tmp/welfold112-frontend/bench/tritonbench_g/fused_layernorm_triton/Proofs/WholeRow.lean:66:4: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+VeriTile.Bench.TritonBenchG.FusedLayernormTriton.Whole.whole_row: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

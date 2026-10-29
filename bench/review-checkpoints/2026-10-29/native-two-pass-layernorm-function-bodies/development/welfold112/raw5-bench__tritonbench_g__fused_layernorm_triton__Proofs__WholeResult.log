@@ -1,0 +1,6 @@
+VeriTile.Bench.TritonBenchG.FusedLayernormTriton.Whole.row_real_output: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.FusedLayernormTriton.Whole.whole_real_grid: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

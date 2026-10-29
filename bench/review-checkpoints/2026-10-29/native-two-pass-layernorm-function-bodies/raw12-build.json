@@ -1,0 +1,223 @@
+{
+  "status": "FAIL",
+  "start": 1793247347.6320052,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_welfold.Proofs.RawSafety",
+      "source_sha256": "753264daffa4c6745cf8bc9a66c05fc7917ecb476a55d2fe8f7a8ae30adad091",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247347.6321838,
+      "end": 1793247358.801779,
+      "log": "/tmp/welfold112-raw12-bench__repairs__tritonbench_g__layer_norm_welfold__Proofs__RawSafety.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_welfold.Proofs.ReadableSafety",
+      "source_sha256": "4ab5410fad676e80a28a3a09b56ad0a1bc6002177afe4bac95ce1089e2c56e20",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247358.8020437,
+      "end": 1793247361.4672134,
+      "log": "/tmp/welfold112-raw12-bench__repairs__tritonbench_g__layer_norm_welfold__Proofs__ReadableSafety.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_welfold.Proofs.LoweringPlan",
+      "source_sha256": "29b6695824c19daa50bbdb4e0b37d2c458a0c064023fb68f372343981519de2c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247361.4674711,
+      "end": 1793247364.0701134,
+      "log": "/tmp/welfold112-raw12-bench__repairs__tritonbench_g__layer_norm_welfold__Proofs__LoweringPlan.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_welfold.Proofs.NativeHost",
+      "source_sha256": "cc4697faf787250c850ad187e191fc8ef669e5fbf9f8d23af3777ba899686281",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247364.0704112,
+      "end": 1793247367.4599314,
+      "log": "/tmp/welfold112-raw12-bench__repairs__tritonbench_g__layer_norm_welfold__Proofs__NativeHost.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_welfold.Proofs.NativeABI",
+      "source_sha256": "1f34720a9aaccd0e554798feafa8dcc2d4ab494cba0425a23ac046b0b719821d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247367.4602547,
+      "end": 1793247371.3211372,
+      "log": "/tmp/welfold112-raw12-bench__repairs__tritonbench_g__layer_norm_welfold__Proofs__NativeABI.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_welfold.Proofs.Contract",
+      "source_sha256": "29f11570b4f170a4865a61a5ac60ce718a4ae64f9fd45fc1b946e1ff2c65c210",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247371.3214273,
+      "end": 1793247375.9623327,
+      "log": "/tmp/welfold112-raw12-bench__repairs__tritonbench_g__layer_norm_welfold__Proofs__Contract.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_welfold.Proofs.KernelBoundary",
+      "source_sha256": "946feaad48a7efb352b792d8a303dd8aba3bb320ce29775bb252490b49d69481",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247375.9626143,
+      "end": 1793247379.4213288,
+      "log": "/tmp/welfold112-raw12-bench__repairs__tritonbench_g__layer_norm_welfold__Proofs__KernelBoundary.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.fused_layernorm_triton.Kernels",
+      "source_sha256": "eff744a6951eca44f744094dab82c288815feeec9efd51aff3c4fcbd78c4c6f1",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247379.421598,
+      "end": 1793247383.2001317,
+      "log": "/tmp/welfold112-raw12-bench__repairs__tritonbench_g__fused_layernorm_triton__Kernels.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.fused_layernorm_triton.Proofs.LegacySource",
+      "source_sha256": "42a8bb8170157aa01ecdcc785249f48e78fa4dfa1499619f98e4908445dc8295",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247383.200445,
+      "end": 1793247386.283622,
+      "log": "/tmp/welfold112-raw12-bench__repairs__tritonbench_g__fused_layernorm_triton__Proofs__LegacySource.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.fused_layernorm_triton.Proofs.Source",
+      "source_sha256": "8a688dac7a24b55b4ce3848fe5589610c51ee86581f2226446e2f4e76f897b2b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247386.2839055,
+      "end": 1793247389.7688928,
+      "log": "/tmp/welfold112-raw12-bench__repairs__tritonbench_g__fused_layernorm_triton__Proofs__Source.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.fused_layernorm_triton.Contract",
+      "source_sha256": "a99da7f114db8de85c60447ef81405434849332131cb0d977ca91c28c4af9777",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247389.7692072,
+      "end": 1793247392.5817378,
+      "log": "/tmp/welfold112-raw12-bench__repairs__tritonbench_g__fused_layernorm_triton__Contract.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.fused_layernorm_triton.Proofs.Contract",
+      "source_sha256": "eebf5042feb091418c2be0c2639b5ef3a7920ec08c2aaa77a607b69ca334fb6c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247392.582031,
+      "end": 1793247396.171771,
+      "log": "/tmp/welfold112-raw12-bench__repairs__tritonbench_g__fused_layernorm_triton__Proofs__Contract.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.fused_layernorm_triton.Proofs.Binding",
+      "source_sha256": "bd0758df227d392b7f35d0eaef2e485ef419eaf60af6d9d36b9881039c1d729a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247396.1721997,
+      "end": 1793247399.6039681,
+      "log": "/tmp/welfold112-raw12-bench__repairs__tritonbench_g__fused_layernorm_triton__Proofs__Binding.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.fused_layernorm_triton.Proofs.NativeIndex",
+      "source_sha256": "63c2b50dbb8f5ef4edbd795e2f9706ee89d1195c12c44b56a2e3f11a24e0ea5d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247399.604309,
+      "end": 1793247406.98219,
+      "log": "/tmp/welfold112-raw12-bench__repairs__tritonbench_g__fused_layernorm_triton__Proofs__NativeIndex.log"
+    },
+    {
+      "module": "VeriTile.Triton.Source",
+      "source_sha256": "e6e0894c4353ca12fb6b0de4908c11057df0c7449aa57a7532a197d63b5ae05f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247406.982503,
+      "end": 1793247408.5044358,
+      "log": "/tmp/welfold112-raw12-VeriTile__Triton__Source.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.fused_layernorm_triton.Proofs.SourcePieces",
+      "source_sha256": "80b70599133e8a23cd0e8be8ca5ec0e3362e536b9d8bd010623e00503b7aab35",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247408.5047271,
+      "end": 1793247411.935074,
+      "log": "/tmp/welfold112-raw12-bench__repairs__tritonbench_g__fused_layernorm_triton__Proofs__SourcePieces.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.Control",
+      "source_sha256": "d892831117300292003ebe68dc9aa9f8dfc2629a9f1a6fdd25123e678209c413",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247411.935422,
+      "end": 1793247414.878336,
+      "log": "/tmp/welfold112-raw12-VeriTile__Triton__Float__Control.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.fused_layernorm_triton.Proofs.ReadableStatistics",
+      "source_sha256": "e3be51ae4dba7be7a1aba908b1d615c6c09b83bbf84246b01157b344b72e8864",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247414.8787382,
+      "end": 1793247454.0133367,
+      "log": "/tmp/welfold112-raw12-bench__repairs__tritonbench_g__fused_layernorm_triton__Proofs__ReadableStatistics.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.fused_layernorm_triton.Proofs.ReadableNormalize",
+      "source_sha256": "2fbdc1d769d7fc668d25775857a62733eaffb5f3fff44dc390328195929b78b1",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247454.013678,
+      "end": 1793247460.041181,
+      "log": "/tmp/welfold112-raw12-bench__repairs__tritonbench_g__fused_layernorm_triton__Proofs__ReadableNormalize.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.fused_layernorm_triton.Proofs.ReadableNormalizeLoop",
+      "source_sha256": "9e2d34134d44bb737ca76456e381221c4b239f030b0d0537b1c53f47e8a29cfc",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247460.0414925,
+      "end": 1793247463.004625,
+      "log": "/tmp/welfold112-raw12-bench__repairs__tritonbench_g__fused_layernorm_triton__Proofs__ReadableNormalizeLoop.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.fused_layernorm_triton.Proofs.ReadableWhole",
+      "source_sha256": "4c886709d50dbfd9bada4a0cf11b7bc3d1160be4a5a4bff326f59a33729177ad",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247463.0050435,
+      "end": 1793247466.8217874,
+      "log": "/tmp/welfold112-raw12-bench__repairs__tritonbench_g__fused_layernorm_triton__Proofs__ReadableWhole.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.fused_layernorm_triton.Proofs.Kernel",
+      "source_sha256": "e19974b9fe47063e4fceb72ea684af77542df9f72fd4f4cdb0a1a4c6cc7384df",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247466.8221107,
+      "end": 1793247470.6630871,
+      "log": "/tmp/welfold112-raw12-bench__repairs__tritonbench_g__fused_layernorm_triton__Proofs__Kernel.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.StructuralSafetyLoops",
+      "source_sha256": "d94ecfa0653a900202753e32ec58ff4f707a04677cf4215cbbf7ba56d2c30259",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247470.6634297,
+      "end": 1793247472.1444297,
+      "log": "/tmp/welfold112-raw12-VeriTile__Triton__Float__StructuralSafetyLoops.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.fused_layernorm_triton.Proofs.ReadableSafety",
+      "source_sha256": "de83871bbefb42d279a63d601fa2710c2defd9be411742e1ca543186a45b0ea9",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793247472.1447618,
+      "end": 1793247487.6980865,
+      "log": "/tmp/welfold112-raw12-bench__repairs__tritonbench_g__fused_layernorm_triton__Proofs__ReadableSafety.log"
+    }
+  ],
+  "end": 1793247487.6984444
+}

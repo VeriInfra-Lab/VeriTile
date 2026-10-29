@@ -1,0 +1,34 @@
+{
+  "status": "PASS",
+  "start": 1793242808.645502,
+  "results": [
+    {
+      "module": "VeriTile.Triton.DSL.ConstexprMask",
+      "source_sha256": "0c48958f6e6fcd343269d137a7602242cdbfb92caeda6ee9bfb321610b4bdaff",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793242808.6456609,
+      "end": 1793242809.5998118,
+      "log": "/tmp/welfold112-probe8-VeriTile__Triton__DSL__ConstexprMask.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.CallSignature",
+      "source_sha256": "fda4e3d84bc60fcdd02e4e5ea83ec017549395f6ab311c130abb1947bb681746",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793242809.600147,
+      "end": 1793242850.5331044,
+      "log": "/tmp/welfold112-probe8-VeriTile__Triton__DSL__CallSignature.log"
+    },
+    {
+      "module": "Probe",
+      "source_sha256": "9d4dfab031a9991581ec4db199af6619ddce1fe1522dcbe838d54c8ffcae1152",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793242850.5334685,
+      "end": 1793242852.2563581,
+      "log": "/tmp/welfold112-probe8-Probe.log"
+    }
+  ],
+  "end": 1793242852.2565491
+}

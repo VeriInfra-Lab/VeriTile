@@ -1,0 +1,16 @@
+{
+  "status": "FAIL",
+  "start": 1793243081.4194782,
+  "results": [
+    {
+      "module": "bench.tests.BarrierLoopBody",
+      "source_sha256": "a421ad85772a81cad0f53e5b915c497ba0445c4fa0b9d476547127e749b1690e",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793243081.4196196,
+      "end": 1793243086.5512807,
+      "log": "/tmp/welfold112-foundation3-bench__tests__BarrierLoopBody.log"
+    }
+  ],
+  "end": 1793243086.5514705
+}

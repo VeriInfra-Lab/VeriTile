@@ -1,0 +1,10 @@
+/tmp/welfold112-frontend/bench/tests/BarrierLoopBody.lean:50:2: error: Tactic `rfl` failed: The left-hand side
+  Option.map (fun s => s.mem { name := "y" } 0)
+    (exec model (kernel { name := "x" } { name := "y" } { name := "scratch" }) initial)
+is not definitionally equal to the right-hand side
+  some (Cell.mk TileDType.real 9)
+
+⊢ Option.map (fun s => s.mem { name := "y" } 0)
+      (exec model (kernel { name := "x" } { name := "y" } { name := "scratch" }) initial) =
+    some (Cell.mk TileDType.real 9)
+/tmp/welfold112-frontend/bench/tests/BarrierLoopBody.lean:52:0: error: VeriTile.Tests.BarrierLoopBody.barrier_preserves_carried_dtype: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

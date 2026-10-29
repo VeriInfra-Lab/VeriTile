@@ -1,0 +1,44 @@
+{
+  "status": "INTERRUPTED_FOR_PROFILING",
+  "start": 1793246528.2868373,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_welfold.Proofs.RawStatistics",
+      "source_sha256": "c744defd1bea8184843784ea81cf1b617bde1f98a6d398f62f19cbe1cbbeac27",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793246528.287055,
+      "end": 1793246535.2837396,
+      "log": "/tmp/welfold112-raw9-bench__repairs__tritonbench_g__layer_norm_welfold__Proofs__RawStatistics.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_welfold.Proofs.RawNormalize",
+      "source_sha256": "d98e767528da9c3e4f29773b5ae28ef1c194f44560017eb7402eb753a8d5d332",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793246535.2840042,
+      "end": 1793246543.398787,
+      "log": "/tmp/welfold112-raw9-bench__repairs__tritonbench_g__layer_norm_welfold__Proofs__RawNormalize.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_welfold.Proofs.RawRow",
+      "source_sha256": "f857bae81b6663e7ca66f46f8b2ef40527990d466f99d87e99b9647c88869f60",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793246543.4005697,
+      "end": 1793246546.521461,
+      "log": "/tmp/welfold112-raw9-bench__repairs__tritonbench_g__layer_norm_welfold__Proofs__RawRow.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_welfold.Proofs.RawGrid",
+      "source_sha256": "34ad332ba3e68476a4a85b309d845ff97624c0f00f0087ecace61ba63dfa9f92",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793246546.5217147,
+      "end": 1793246549.6538045,
+      "log": "/tmp/welfold112-raw9-bench__repairs__tritonbench_g__layer_norm_welfold__Proofs__RawGrid.log"
+    }
+  ],
+  "end": 1793247144.0491457,
+  "note": "RawSafety produced no result after about ten minutes; preserve four successful module results, no safety PASS claim. Replace unbounded recursive simplification by controlled structural proof and profile next attempt."
+}

@@ -1,0 +1,14 @@
+/tmp/welfold112-frontend/VeriTile/Triton/Semantics/BlockPtrEval.lean:82:54: warning: This simp argument is unused:
+  Option.bind_some
+
+Hint: Omit it from the simp argument list.
+  simp only [List.map_cons, List.mapM_cons, hc, O̵p̵t̵i̵o̵n̵.̵b̵i̵n̵d̵_̵s̵o̵m̵e̵,̵ ̵Tile.scalar, ih]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/welfold112-frontend/VeriTile/Triton/Semantics/BlockPtrEval.lean:97:25: warning: This simp argument is unused:
+  Option.bind
+
+Hint: Omit it from the simp argument list.
+  simp only [evalOp, hp,̵ ̵O̵p̵t̵i̵o̵n̵.̵b̵i̵n̵d̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

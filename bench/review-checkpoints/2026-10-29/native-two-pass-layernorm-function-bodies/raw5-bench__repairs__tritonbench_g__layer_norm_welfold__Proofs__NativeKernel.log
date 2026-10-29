@@ -1,0 +1,8 @@
+VeriTile.Bench.Repairs.LayerNormWelfold.NativeKernel.eval: definition does not reference [VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.Repairs.LayerNormWelfold.NativeKernel.reference: definition does not reference [VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.LayerNormWelfold.meanValue,
+ VeriTile.Bench.Repairs.LayerNormWelfold.inverseValue,
+ VeriTile.Bench.Repairs.LayerNormWelfold.rowOutput] — non-circular ✓
+VeriTile.Bench.Repairs.LayerNormWelfold.NativeKernel.bindings: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

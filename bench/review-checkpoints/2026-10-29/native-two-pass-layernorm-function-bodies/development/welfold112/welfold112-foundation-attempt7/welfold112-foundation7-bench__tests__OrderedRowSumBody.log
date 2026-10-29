@@ -1,0 +1,6 @@
+VeriTile.Tests.OrderedRowSumBody.left_order: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.OrderedRowSumBody.right_order: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,128 @@
+_private.VeriTile.Triton.DSL.TypedStores.0.VeriTile.Triton.DSL.TypedStores.valueType
+tl.sum(_tmp3, 1)[:, None]: Lean.Syntax.node
+  (Lean.SourceInfo.none)
+  `VeriTile.Triton.DSL.«tritonExpr__[:,None]»
+  #[Lean.Syntax.node
+      (Lean.SourceInfo.none)
+      `VeriTile.Triton.DSL.«tritonExprTl.sum(_,_)»
+      #[Lean.Syntax.atom
+          (Lean.SourceInfo.original "".toRawSubstring { byteIdx := 0 } "".toRawSubstring { byteIdx := 7 })
+          "tl.sum(",
+        Lean.Syntax.node
+          (Lean.SourceInfo.none)
+          `VeriTile.Triton.DSL.tritonExpr__3
+          #[Lean.Syntax.ident
+              (Lean.SourceInfo.original "".toRawSubstring { byteIdx := 7 } "".toRawSubstring { byteIdx := 12 })
+              "_tmp3".toRawSubstring
+              `_tmp3
+              []],
+        Lean.Syntax.node
+          (Lean.SourceInfo.none)
+          `null
+          #[Lean.Syntax.node
+              (Lean.SourceInfo.none)
+              `group
+              #[Lean.Syntax.atom
+                  (Lean.SourceInfo.original "".toRawSubstring { byteIdx := 12 } " ".toRawSubstring { byteIdx := 13 })
+                  ",",
+                Lean.Syntax.node
+                  (Lean.SourceInfo.none)
+                  `VeriTile.Triton.DSL.tritonReduceKwarg_
+                  #[Lean.Syntax.node
+                      (Lean.SourceInfo.none)
+                      `num
+                      #[Lean.Syntax.atom
+                          (Lean.SourceInfo.original
+                            "".toRawSubstring
+                            { byteIdx := 14 }
+                            "".toRawSubstring
+                            { byteIdx := 15 })
+                          "1"]]]],
+        Lean.Syntax.atom
+          (Lean.SourceInfo.original "".toRawSubstring { byteIdx := 15 } "".toRawSubstring { byteIdx := 16 })
+          ")"],
+    Lean.Syntax.atom
+      (Lean.SourceInfo.original "".toRawSubstring { byteIdx := 16 } "".toRawSubstring { byteIdx := 17 })
+      "[",
+    Lean.Syntax.atom
+      (Lean.SourceInfo.original "".toRawSubstring { byteIdx := 17 } "".toRawSubstring { byteIdx := 18 })
+      ":",
+    Lean.Syntax.atom
+      (Lean.SourceInfo.original "".toRawSubstring { byteIdx := 18 } " ".toRawSubstring { byteIdx := 19 })
+      ",",
+    Lean.Syntax.atom
+      (Lean.SourceInfo.original "".toRawSubstring { byteIdx := 20 } "".toRawSubstring { byteIdx := 24 })
+      "None",
+    Lean.Syntax.atom
+      (Lean.SourceInfo.original "".toRawSubstring { byteIdx := 24 } "".toRawSubstring { byteIdx := 25 })
+      "]"]
+tmp3 / tmp5: Lean.Syntax.node
+  (Lean.SourceInfo.none)
+  `VeriTile.Triton.DSL.«tritonExpr_/_»
+  #[Lean.Syntax.node
+      (Lean.SourceInfo.none)
+      `VeriTile.Triton.DSL.tritonExpr__3
+      #[Lean.Syntax.ident
+          (Lean.SourceInfo.original "".toRawSubstring { byteIdx := 0 } " ".toRawSubstring { byteIdx := 4 })
+          "tmp3".toRawSubstring
+          `tmp3
+          []],
+    Lean.Syntax.atom
+      (Lean.SourceInfo.original "".toRawSubstring { byteIdx := 5 } " ".toRawSubstring { byteIdx := 6 })
+      "/",
+    Lean.Syntax.node
+      (Lean.SourceInfo.none)
+      `VeriTile.Triton.DSL.tritonExpr__3
+      #[Lean.Syntax.ident
+          (Lean.SourceInfo.original "".toRawSubstring { byteIdx := 7 } "".toRawSubstring { byteIdx := 11 })
+          "tmp5".toRawSubstring
+          `tmp5
+          []]]
+tl.broadcast_to(tmp10, [XBLOCK, RBLOCK]): Lean.Syntax.node
+  (Lean.SourceInfo.none)
+  `VeriTile.Triton.DSL.«tritonExprTl.broadcast_to(_,[_])»
+  #[Lean.Syntax.atom
+      (Lean.SourceInfo.original "".toRawSubstring { byteIdx := 0 } "".toRawSubstring { byteIdx := 16 })
+      "tl.broadcast_to(",
+    Lean.Syntax.node
+      (Lean.SourceInfo.none)
+      `VeriTile.Triton.DSL.tritonExpr__3
+      #[Lean.Syntax.ident
+          (Lean.SourceInfo.original "".toRawSubstring { byteIdx := 16 } "".toRawSubstring { byteIdx := 21 })
+          "tmp10".toRawSubstring
+          `tmp10
+          []],
+    Lean.Syntax.atom
+      (Lean.SourceInfo.original "".toRawSubstring { byteIdx := 21 } " ".toRawSubstring { byteIdx := 22 })
+      ",",
+    Lean.Syntax.atom
+      (Lean.SourceInfo.original "".toRawSubstring { byteIdx := 23 } "".toRawSubstring { byteIdx := 24 })
+      "[",
+    Lean.Syntax.node
+      (Lean.SourceInfo.none)
+      `null
+      #[Lean.Syntax.node
+          (Lean.SourceInfo.none)
+          `VeriTile.Triton.DSL.tritonExpr__3
+          #[Lean.Syntax.ident
+              (Lean.SourceInfo.original "".toRawSubstring { byteIdx := 24 } "".toRawSubstring { byteIdx := 30 })
+              "XBLOCK".toRawSubstring
+              `XBLOCK
+              []],
+        Lean.Syntax.atom
+          (Lean.SourceInfo.original "".toRawSubstring { byteIdx := 30 } " ".toRawSubstring { byteIdx := 31 })
+          ",",
+        Lean.Syntax.node
+          (Lean.SourceInfo.none)
+          `VeriTile.Triton.DSL.tritonExpr__3
+          #[Lean.Syntax.ident
+              (Lean.SourceInfo.original "".toRawSubstring { byteIdx := 32 } "".toRawSubstring { byteIdx := 38 })
+              "RBLOCK".toRawSubstring
+              `RBLOCK
+              []]],
+    Lean.Syntax.atom
+      (Lean.SourceInfo.original "".toRawSubstring { byteIdx := 38 } "".toRawSubstring { byteIdx := 39 })
+      "]",
+    Lean.Syntax.atom
+      (Lean.SourceInfo.original "".toRawSubstring { byteIdx := 39 } "".toRawSubstring { byteIdx := 40 })
+      ")"]

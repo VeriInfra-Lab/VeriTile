@@ -1,0 +1,3 @@
+/tmp/welfold112-frontend/TypeProbe.lean:13:17: error(lean.unknownIdentifier): Unknown identifier `_private.VeriTile.Triton.DSL.TypedStores`
+/tmp/welfold112-frontend/TypeProbe.lean:13:57: error: Invalid field notation: Identifier or numeral expected
+/tmp/welfold112-frontend/TypeProbe.lean:13:58: error: unexpected identifier after decimal point; consider parenthesizing the number

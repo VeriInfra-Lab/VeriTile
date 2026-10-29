@@ -1,0 +1,6 @@
+{
+  "Triton": "https://raw.githubusercontent.com/triton-lang/triton/v3.7.1/third_party/nvidia/language/cuda/libdevice.py",
+  "Triton_scope": "Lines 83\u201389 bind fp32/fp64 rsqrt to separate __nv_rsqrtf/__nv_rsqrt extern calls. No numerical identity asserted.",
+  "PyTorch_example": "https://raw.githubusercontent.com/pytorch/pytorch/v2.6.0/torch/_inductor/runtime/triton_helpers.py",
+  "PyTorch_scope": "Lines 8\u201321 select a libdevice module with fallbacks. This is an inspected upstream example, not evidence that the absent local Torch has this version. The task assumes its selected CUDA libdevice binding; no local import, GPU test or fallback validation ran."
+}

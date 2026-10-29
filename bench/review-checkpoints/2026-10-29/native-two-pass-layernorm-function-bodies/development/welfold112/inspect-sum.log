@@ -1,0 +1,240 @@
+/tmp/welfold112-frontend/InspectSum.lean:7:96: error: unsolved goals
+S D B : ℕ
+tree : DSL.WelfordSource.Tree B
+⊢ List.take 1
+      (List.drop (if «false» = «true» then 14 else 7)
+        [ComputeStmt.assign TileDType.nat [] "xoffset"
+            (ComputeExpr.alg (Op.mul NumericDType.nat Broadcast.nil (Op.programId 0) (Op.constNat 1))),
+          ComputeStmt.assign TileDType.nat [1, 1] "xindex"
+            (ComputeExpr.alg
+              (Op.add NumericDType.nat Broadcast.scalarL (Op.ref TileDType.nat [] "xoffset")
+                (Op.expandDim ⟨1, SourceCode.rowKernel._proof_1⟩ (Op.arange 1)))),
+          ComputeStmt.assign TileDType.bool [1, 1] "xmask"
+            (ComputeExpr.alg
+              (Op.lt ComparableDType.nat Broadcast.scalarR (Op.ref TileDType.nat [1, 1] "xindex") (Op.constNat S))),
+          ComputeStmt.assign TileDType.nat [1, B] "rbase" (ComputeExpr.alg (Op.expandDim ⟨0, ⋯⟩ (Op.arange B))),
+          ComputeStmt.assign TileDType.nat [1, 1] "x0" (ComputeExpr.alg (Op.ref TileDType.nat [1, 1] "xindex")),
+          ComputeStmt.assign TileDType.real [1, B] "_tmp3"
+            (ComputeExpr.compute (ComputeOp.full [1, B] (ComputeOp.alg ComputeDType.fp32 (Op.const 0)))),
+          ComputeStmt.forRange "roffset" 0 D B
+            [ComputeStmt.assign TileDType.nat [1, B] "rindex"
+                (ComputeExpr.alg
+                  (Op.add NumericDType.nat Broadcast.scalarL (Op.ref TileDType.nat [] "roffset")
+                    (Op.ref TileDType.nat [1, B] "rbase"))),
+              ComputeStmt.assign TileDType.bool [1, B] "rmask"
+                (ComputeExpr.alg
+                  (Op.lt ComparableDType.nat Broadcast.scalarR (Op.ref TileDType.nat [1, B] "rindex") (Op.constNat D))),
+              ComputeStmt.assign TileDType.nat [1, B] "r1" (ComputeExpr.alg (Op.ref TileDType.nat [1, B] "rindex")),
+              ComputeStmt.assign TileDType.real [1, B] "tmp0"
+                (ComputeExpr.compute
+                  (ComputeOp.alg ComputeDType.fp32
+                    (Op.castFloat FloatDType.real FloatDType.real
+                      (Op.load TileDType.real
+                        (MemAccess.region { name := "X" }
+                          (Op.add NumericDType.nat Broadcast.nil.consR.consL (Op.ref TileDType.nat [1, B] "r1")
+                            (Op.mul NumericDType.nat Broadcast.scalarL (Op.constNat D)
+                              (Op.ref TileDType.nat [1, 1] "x0"))))
+                        (MaskOpt.maskOther
+                          (Op.remap [1, B] Broadcast.nil.consSame.consL.leftIndex
+                            (Op.ref TileDType.bool [1, B] "rmask"))
+                          ((Op.const 0.0).broadcast [1, B])))))),
+              ComputeStmt.assign TileDType.real [1, B] "tmp1"
+                (ComputeExpr.compute
+                  (ComputeOp.alg ComputeDType.fp32
+                    (Op.castFloat FloatDType.real FloatDType.real (Op.ref TileDType.real [1, B] "tmp0")))),
+              ComputeStmt.assign TileDType.real [1, B] "tmp2"
+                (ComputeExpr.compute (ComputeOp.alg ComputeDType.fp32 (Op.ref TileDType.real [1, B] "tmp1"))),
+              ComputeStmt.assign TileDType.real [1, B] "tmp4"
+                (ComputeExpr.compute
+                  (ComputeOp.alg ComputeDType.fp32
+                    (Op.add NumericDType.real Broadcast.nil.consSame.consSame (Op.ref TileDType.real [1, B] "_tmp3")
+                      (Op.ref TileDType.real [1, B] "tmp2")))),
+              ComputeStmt.assign TileDType.real [1, B] "_tmp3"
+                (ComputeExpr.compute (ComputeOp.alg ComputeDType.fp32 (Op.ref TileDType.real [1, B] "tmp4")))],
+          ComputeStmt.assign TileDType.real [1, 1] "tmp3"
+            (ComputeExpr.compute
+              (ComputeOp.alg ComputeDType.fp32
+                (Op.expandDim ⟨1, SourceCode.rowKernel._proof_1⟩
+                  (Op.reshape [1]
+                    (Op.full [1, 1] (DSL.WelfordSource.sumExpression (Op.ref TileDType.real [1, B] "_tmp3") tree)))))),
+          ComputeStmt.assign TileDType.nat [] "tmp5" (ComputeExpr.alg (Op.constNat D)),
+          ComputeStmt.assign TileDType.real [1, 1] "tmp6"
+            (ComputeExpr.compute
+              (ComputeOp.alg ComputeDType.fp32
+                (Op.div NumericDType.real Broadcast.scalarR (Op.ref TileDType.real [1, 1] "tmp3")
+                  (Op.ref TileDType.nat [] "tmp5").natToReal))),
+          ComputeStmt.effectMarker "tl.debug_barrier",
+          ComputeStmt.store TileDType.real [1, 1]
+            (MemAccess.region { name := "Mean" } (Op.ref TileDType.nat [1, 1] "x0"))
+            (ComputeExpr.compute (ComputeOp.alg ComputeDType.fp32 (Op.ref TileDType.real [1, 1] "tmp6"))) MaskOpt.none,
+          ComputeStmt.assign TileDType.real [1, B] "_tmp12"
+            (ComputeExpr.compute (ComputeOp.full [1, B] (ComputeOp.alg ComputeDType.fp32 (Op.const 0)))),
+          ComputeStmt.forRange "roffset" 0 D B
+            [ComputeStmt.assign TileDType.nat [1, B] "rindex"
+                (ComputeExpr.alg
+                  (Op.add NumericDType.nat Broadcast.scalarL (Op.ref TileDType.nat [] "roffset")
+                    (Op.ref TileDType.nat [1, B] "rbase"))),
+              ComputeStmt.assign TileDType.bool [1, B] "rmask"
+                (ComputeExpr.alg
+                  (Op.lt ComparableDType.nat Broadcast.scalarR (Op.ref TileDType.nat [1, B] "rindex") (Op.constNat D))),
+              ComputeStmt.assign TileDType.nat [1, B] "r1" (ComputeExpr.alg (Op.ref TileDType.nat [1, B] "rindex")),
+              ComputeStmt.assign TileDType.real [1, B] "tmp7"
+                (ComputeExpr.compute
+                  (ComputeOp.alg ComputeDType.fp32
+                    (Op.castFloat FloatDType.real FloatDType.real
+                      (Op.load TileDType.real
+                        (MemAccess.region { name := "X" }
+                          (Op.add NumericDType.nat Broadcast.nil.consR.consL (Op.ref TileDType.nat [1, B] "r1")
+                            (Op.mul NumericDType.nat Broadcast.scalarL (Op.constNat D)
+                              (Op.ref TileDType.nat [1, 1] "x0"))))
+                        (MaskOpt.maskOther
+                          (Op.remap [1, B] Broadcast.nil.consSame.consL.leftIndex
+                            (Op.ref TileDType.bool [1, B] "rmask"))
+                          ((Op.const 0.0).broadcast [1, B])))))),
+              ComputeStmt.assign TileDType.real [1, B] "tmp8"
+                (ComputeExpr.compute
+                  (ComputeOp.alg ComputeDType.fp32
+                    (Op.castFloat FloatDType.real FloatDType.real (Op.ref TileDType.real [1, B] "tmp7")))),
+              ComputeStmt.assign TileDType.real [1, B] "tmp9"
+                (ComputeExpr.compute
+                  (ComputeOp.alg ComputeDType.fp32
+                    (Op.sub NumericDType.real Broadcast.nil.consR.consL (Op.ref TileDType.real [1, B] "tmp8")
+                      (Op.ref TileDType.real [1, 1] "tmp6")))),
+              ComputeStmt.assign TileDType.real [1, B] "tmp10"
+                (ComputeExpr.compute
+                  (ComputeOp.alg ComputeDType.fp32
+                    ((Op.ref TileDType.bool [1, B] "rmask").where
+                      (Op.mul NumericDType.real Broadcast.nil.consSame.consSame (Op.ref TileDType.real [1, B] "tmp9")
+                        (Op.ref TileDType.real [1, B] "tmp9"))
+                      ((Op.const 0.0).broadcast [1, B])))),
+              ComputeStmt.assign TileDType.real [1, B] "tmp11"
+                (ComputeExpr.compute
+                  (ComputeOp.alg ComputeDType.fp32
+                    (Op.remap [1, B] Broadcast.nil.consSame.consL.leftIndex (Op.ref TileDType.real [1, B] "tmp10")))),
+              ComputeStmt.assign TileDType.real [1, B] "tmp13"
+                (ComputeExpr.compute
+                  (ComputeOp.alg ComputeDType.fp32
+                    (Op.add NumericDType.real Broadcast.nil.consSame.consSame (Op.ref TileDType.real [1, B] "_tmp12")
+                      (Op.ref TileDType.real [1, B] "tmp11")))),
+              ComputeStmt.assign TileDType.real [1, B] "_tmp12"
+                (ComputeExpr.compute (ComputeOp.alg ComputeDType.fp32 (Op.ref TileDType.real [1, B] "tmp13")))],
+          ComputeStmt.assign TileDType.real [1, 1] "tmp12"
+            (ComputeExpr.compute
+              (ComputeOp.alg ComputeDType.fp32
+                (Op.expandDim ⟨1, SourceCode.rowKernel._proof_1⟩
+                  (Op.reshape [1]
+                    (Op.full [1, 1] (DSL.WelfordSource.sumExpression (Op.ref TileDType.real [1, B] "_tmp12") tree)))))),
+          ComputeStmt.assign TileDType.nat [] "tmp14" (ComputeExpr.alg (Op.constNat D)),
+          ComputeStmt.assign TileDType.real [1, 1] "tmp15"
+            (ComputeExpr.compute
+              (ComputeOp.alg ComputeDType.fp32
+                (Op.div NumericDType.real Broadcast.scalarR (Op.ref TileDType.real [1, 1] "tmp12")
+                  (Op.ref TileDType.nat [] "tmp14").natToReal))),
+          ComputeStmt.assign TileDType.real [] "tmp16"
+            (ComputeExpr.compute (ComputeOp.full [] (ComputeOp.alg ComputeDType.fp32 (Op.const 1e-5)))),
+          ComputeStmt.assign TileDType.real [1, 1] "tmp17"
+            (ComputeExpr.compute
+              (ComputeOp.alg ComputeDType.fp32
+                (Op.add NumericDType.real Broadcast.scalarR (Op.ref TileDType.real [1, 1] "tmp15")
+                  (Op.ref TileDType.real [] "tmp16")))),
+          ComputeStmt.assign TileDType.real [1, 1] "tmp18"
+            (ComputeExpr.compute
+              (ComputeOp.alg ComputeDType.fp32 (Op.ref TileDType.real [1, 1] "tmp17").libdeviceRsqrt)),
+          ComputeStmt.effectMarker "tl.debug_barrier",
+          ComputeStmt.store TileDType.real [1, 1]
+            (MemAccess.region { name := "Rstd" } (Op.ref TileDType.nat [1, 1] "x0"))
+            (ComputeExpr.compute (ComputeOp.alg ComputeDType.fp32 (Op.ref TileDType.real [1, 1] "tmp18"))) MaskOpt.none,
+          ComputeStmt.forRange "roffset" 0 D B
+            [ComputeStmt.assign TileDType.nat [1, B] "rindex"
+                (ComputeExpr.alg
+                  (Op.add NumericDType.nat Broadcast.scalarL (Op.ref TileDType.nat [] "roffset")
+                    (Op.ref TileDType.nat [1, B] "rbase"))),
+              ComputeStmt.assign TileDType.bool [1, B] "rmask"
+                (ComputeExpr.alg
+                  (Op.lt ComparableDType.nat Broadcast.scalarR (Op.ref TileDType.nat [1, B] "rindex") (Op.constNat D))),
+              ComputeStmt.assign TileDType.nat [1, B] "r1" (ComputeExpr.alg (Op.ref TileDType.nat [1, B] "rindex")),
+              ComputeStmt.assign TileDType.real [1, B] "tmp19"
+                (ComputeExpr.compute
+                  (ComputeOp.alg ComputeDType.fp32
+                    (Op.castFloat FloatDType.real FloatDType.real
+                      (Op.load TileDType.real
+                        (MemAccess.region { name := "X" }
+                          (Op.add NumericDType.nat Broadcast.nil.consR.consL (Op.ref TileDType.nat [1, B] "r1")
+                            (Op.mul NumericDType.nat Broadcast.scalarL (Op.constNat D)
+                              (Op.ref TileDType.nat [1, 1] "x0"))))
+                        (MaskOpt.mask
+                          (Op.remap [1, B] Broadcast.nil.consSame.consL.leftIndex
+                            (Op.ref TileDType.bool [1, B] "rmask"))))))),
+              ComputeStmt.assign TileDType.real [1, B] "tmp23"
+                (ComputeExpr.compute
+                  (ComputeOp.alg ComputeDType.fp32
+                    (Op.castFloat FloatDType.real FloatDType.real
+                      (Op.load TileDType.real (MemAccess.region { name := "W" } (Op.ref TileDType.nat [1, B] "r1"))
+                        (MaskOpt.mask (Op.ref TileDType.bool [1, B] "rmask")))))),
+              ComputeStmt.assign TileDType.real [1, B] "tmp26"
+                (ComputeExpr.compute
+                  (ComputeOp.alg ComputeDType.fp32
+                    (Op.castFloat FloatDType.real FloatDType.real
+                      (Op.load TileDType.real (MemAccess.region { name := "Bias" } (Op.ref TileDType.nat [1, B] "r1"))
+                        (MaskOpt.mask (Op.ref TileDType.bool [1, B] "rmask")))))),
+              ComputeStmt.assign TileDType.real [1, B] "tmp20"
+                (ComputeExpr.compute
+                  (ComputeOp.alg ComputeDType.fp32
+                    (Op.castFloat FloatDType.real FloatDType.real (Op.ref TileDType.real [1, B] "tmp19")))),
+              ComputeStmt.assign TileDType.real [1, B] "tmp21"
+                (ComputeExpr.compute
+                  (ComputeOp.alg ComputeDType.fp32
+                    (Op.sub NumericDType.real Broadcast.nil.consR.consL (Op.ref TileDType.real [1, B] "tmp20")
+                      (Op.ref TileDType.real [1, 1] "tmp6")))),
+              ComputeStmt.assign TileDType.real [1, B] "tmp22"
+                (ComputeExpr.compute
+                  (ComputeOp.alg ComputeDType.fp32
+                    (Op.mul NumericDType.real Broadcast.nil.consR.consSame (Op.ref TileDType.real [1, B] "tmp21")
+                      (Op.ref TileDType.real [1, 1] "tmp18")))),
+              ComputeStmt.assign TileDType.real [1, B] "tmp24"
+                (ComputeExpr.compute
+                  (ComputeOp.alg ComputeDType.fp32
+                    (Op.castFloat FloatDType.real FloatDType.real (Op.ref TileDType.real [1, B] "tmp23")))),
+              ComputeStmt.assign TileDType.real [1, B] "tmp25"
+                (ComputeExpr.compute
+                  (ComputeOp.alg ComputeDType.fp32
+                    (Op.mul NumericDType.real Broadcast.nil.consSame.consSame (Op.ref TileDType.real [1, B] "tmp22")
+                      (Op.ref TileDType.real [1, B] "tmp24")))),
+              ComputeStmt.assign TileDType.real [1, B] "tmp27"
+                (ComputeExpr.compute
+                  (ComputeOp.alg ComputeDType.fp32
+                    (Op.castFloat FloatDType.real FloatDType.real (Op.ref TileDType.real [1, B] "tmp26")))),
+              ComputeStmt.assign TileDType.real [1, B] "tmp28"
+                (ComputeExpr.compute
+                  (ComputeOp.alg ComputeDType.fp32
+                    (Op.add NumericDType.real Broadcast.nil.consSame.consSame (Op.ref TileDType.real [1, B] "tmp25")
+                      (Op.ref TileDType.real [1, B] "tmp27")))),
+              ComputeStmt.assign TileDType.real [1, B] "tmp29"
+                (ComputeExpr.compute
+                  (ComputeOp.alg ComputeDType.fp32
+                    (Op.castFloat FloatDType.real FloatDType.real (Op.ref TileDType.real [1, B] "tmp28")))),
+              ComputeStmt.store TileDType.bf16 [1, B]
+                (MemAccess.region { name := "Y" }.cast
+                  (Op.add NumericDType.nat Broadcast.nil.consR.consL (Op.ref TileDType.nat [1, B] "r1")
+                    (Op.mul NumericDType.nat Broadcast.scalarL (Op.constNat D) (Op.ref TileDType.nat [1, 1] "x0"))))
+                (ComputeExpr.alg
+                  (Op.castFloat FloatDType.real FloatDType.bf16
+                    (Op.withPrecision FloatDType.real IndexComputePrecision.fp32
+                      (Op.ref TileDType.real [1, B] "tmp29"))))
+                (MaskOpt.mask
+                  (Op.remap [1, B] Broadcast.nil.consSame.consL.leftIndex (Op.ref TileDType.bool [1, B] "rmask")))]]) =
+    []
+/tmp/welfold112-frontend/InspectSum.lean:8:73: warning: This simp argument is unused:
+  List.drop
+
+Hint: Omit it from the simp argument list.
+  simp only [sumCode, ̲code, ̲SourceCode.rowKernel, ̲ComputeKernel.surfaceBody, ̲List.d̵r̵o̵p̵,̵L̵i̵s̵t.̵t̵ake]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/welfold112-frontend/InspectSum.lean:8:83: warning: This simp argument is unused:
+  List.take
+
+Hint: Omit it from the simp argument list.
+  simp only [sumCode, ̲code, ̲SourceCode.rowKernel, ̲ComputeKernel.surfaceBody, ̲List.drop,̵L̵i̵s̵t̵.̵t̵a̵k̵e̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

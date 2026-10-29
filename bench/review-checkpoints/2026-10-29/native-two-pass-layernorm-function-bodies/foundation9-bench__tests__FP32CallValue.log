@@ -1,0 +1,70 @@
+/tmp/welfold112-frontend/bench/tests/FP32CallValue.lean:66:106: warning: This simp argument is unused:
+  ofFloat
+
+Hint: Omit it from the simp argument list.
+  simp [float64Context, FP.Structural.exec, run, step, evalExpr, evalComputeOp,
+  ̵  ̵ ̵ ̵evalOp_unfold,
+  ̲  ̲ ̲ ̲numeric, store, State.setReg, ComputeDType.eraseDType, Region.cast, FP.Structural.bop, o̵f̵F̵l̵o̵a̵t,̵ ̵t̵oFloat]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/welfold112-frontend/bench/tests/FP32CallValue.lean:66:115: warning: This simp argument is unused:
+  toFloat
+
+Hint: Omit it from the simp argument list.
+  simp [float64Context, FP.Structural.exec, run, step, evalExpr, evalComputeOp,
+  ̵  ̵ ̵ ̵evalOp_unfold,
+  ̲  ̲ ̲ ̲numeric, store, State.setReg, ComputeDType.eraseDType, Region.cast, FP.Structural.bop, ofFloat,̵ ̵t̵o̵F̵l̵o̵a̵t̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/welfold112-frontend/bench/tests/FP32CallValue.lean:76:64: warning: This simp argument is unused:
+  evalComputeOp
+
+Hint: Omit it from the simp argument list.
+  simp [narrowContext, FP.Structural.exec, run, step, evalExpr, e̵v̵a̵l̵C̵o̵m̵p̵u̵t̵e̵O̵p̵,̵evalOp_unfold, numeric, store,
+  ̲  ̲ ̲ ̲ofFloat, toFloat]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/welfold112-frontend/bench/tests/FP32CallValue.lean:77:19: warning: This simp argument is unused:
+  numeric
+
+Hint: Omit it from the simp argument list.
+  simp [narrowContext, FP.Structural.exec, run, step, evalExpr, evalComputeOp,
+  ̵  ̵ ̵ ̵evalOp_unfold, n̵u̵m̵s̲t̲o̲r̲er̵i̵c̵,
+  ̲ s̵t̵o̵r̵e̵,̵  ̲ ̲ofFloat, toFloat]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Tests.FP32CallValue.fp32_context: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+VeriTile.Tests.FP32CallValue.widened_parameter: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.FP32CallValue.narrowed_parameter: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/welfold112-frontend/bench/tests/FP32CallValue.lean:104:21: warning: This simp argument is unused:
+  numeric
+
+Hint: Omit it from the simp argument list.
+  simp [source, FP.Structural.exec, run, step, evalExpr, evalComputeOp,
+  ̵  ̵ ̵ ̵ ̵ ̵evalOp_unfold, n̵u̵m̵s̲t̲o̲r̲er̵i̵c̵,
+  ̲ s̵t̵o̵r̵e̵,̵  ̲ ̲ ̲ ̲State.setReg, State.write, ComputeDType.eraseDType, Region.cast, FP.Structural.bop, ofFloat,
+  ̲  ̲ ̲ ̲ ̲ ̲toFloat]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/welfold112-frontend/bench/tests/FP32CallValue.lean:104:102: warning: This simp argument is unused:
+  FP.Structural.bop
+
+Hint: Omit it from the simp argument list.
+  simp [source, FP.Structural.exec, run, step, evalExpr, evalComputeOp,
+  ̵  ̵ ̵ ̵ ̵ ̵evalOp_unfold, numeric,
+  ̲  ̲ ̲ ̲ ̲ ̲store, State.setReg, State.write, ComputeDType.eraseDType, Region.cast, F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵b̵op̵,̵ ̵o̵fFloat, toFloat]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/welfold112-frontend/bench/tests/FP32CallValue.lean:105:2: warning: 'all_goals rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/welfold112-frontend/bench/tests/FP32CallValue.lean:105:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+VeriTile.Tests.FP32CallValue.Selection.selection_precision: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,14 @@
+/tmp/welfold112-frontend/bench/tritonbench_g/fused_layernorm_triton/Proofs/WholeHost.lean:121:4: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+/tmp/welfold112-frontend/bench/tritonbench_g/fused_layernorm_triton/Proofs/WholeHost.lean:105:5: warning: unused variable `domain`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.TritonBenchG.FusedLayernormTriton.Whole.inverse_view_alias: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.FusedLayernormTriton.Whole.host_complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.FusedLayernormTriton.Whole.host_real_complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.LayerNormWelfold.Raw.stats_split: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormWelfold.Raw.source_split: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

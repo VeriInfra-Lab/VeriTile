@@ -1,0 +1,187 @@
+{
+  "status": "PASS",
+  "start": 1793247622.018645,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_welfold.Proofs.LogicalIO",
+      "source_sha256": "3d8bf48aba937c5bacbdf714c90d15f89998a7139067ed9899daea541ffb3291",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247622.018808,
+      "end": 1793247626.3483598,
+      "log": "/tmp/welfold112-family1-bench__repairs__tritonbench_g__layer_norm_welfold__Proofs__LogicalIO.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_welfold.Correct",
+      "source_sha256": "9b05fddde5936c057b16d2224895fa5b9b603e3a302b618cb5fa1ce99f101e86",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247626.3486142,
+      "end": 1793247629.4258127,
+      "log": "/tmp/welfold112-family1-bench__repairs__tritonbench_g__layer_norm_welfold__Correct.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_welfold.FPEquiv",
+      "source_sha256": "4ddc099e963b8cd60d0f808f5eb08c5bd89dc21e113210350139cba52df32b7b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247629.4260662,
+      "end": 1793247633.616205,
+      "log": "/tmp/welfold112-family1-bench__repairs__tritonbench_g__layer_norm_welfold__FPEquiv.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_welfold.Proofs.GraphExecution",
+      "source_sha256": "541ec202de4254fb5d045fbe9c7980fdd1e97f7f454313657de7caca5c6a2483",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247633.6164534,
+      "end": 1793247636.6563761,
+      "log": "/tmp/welfold112-family1-bench__repairs__tritonbench_g__layer_norm_welfold__Proofs__GraphExecution.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_welfold.Proofs.KernelNativeResult",
+      "source_sha256": "ff70a0c02ec7eca9e302d03be5457fbf6fecdbf7e8994ecb9ec52c88664a257c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247636.6566381,
+      "end": 1793247640.0138402,
+      "log": "/tmp/welfold112-family1-bench__repairs__tritonbench_g__layer_norm_welfold__Proofs__KernelNativeResult.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_welfold.Proofs.IOResults",
+      "source_sha256": "7ac60ad5fe092c887e3490b2d844e3242abc031c37d05291be20226786bea3fa",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247640.0142515,
+      "end": 1793247644.5937243,
+      "log": "/tmp/welfold112-family1-bench__repairs__tritonbench_g__layer_norm_welfold__Proofs__IOResults.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_welfold.Proofs.KernelGraphResult",
+      "source_sha256": "dfbe4c7a458bbf4c16fbe1d3386af3c533a82496c3dbc908dec1ede0d5d7be9e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247644.594009,
+      "end": 1793247647.6290705,
+      "log": "/tmp/welfold112-family1-bench__repairs__tritonbench_g__layer_norm_welfold__Proofs__KernelGraphResult.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_welfold.Misc.NativeCorrect",
+      "source_sha256": "0af23a3c984a6baa45c1e16f734a86c22f69719af7c696030b9abbf8f26780b9",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247647.6293297,
+      "end": 1793247650.638093,
+      "log": "/tmp/welfold112-family1-bench__repairs__tritonbench_g__layer_norm_welfold__Misc__NativeCorrect.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_welfold.Proofs.NativeInputs",
+      "source_sha256": "cde85d03176d1aeb360ea6f06010377528be9ad12ebd726334bfd467bdffc5ae",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247650.6383839,
+      "end": 1793247653.5711243,
+      "log": "/tmp/welfold112-family1-bench__repairs__tritonbench_g__layer_norm_welfold__Proofs__NativeInputs.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_welfold.Proofs.Physical",
+      "source_sha256": "89d4ceb8b4fa1000d74cc06a47475b1dea2526cf8f778f7c16d4000c2b85d741",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247653.5714338,
+      "end": 1793247658.5381603,
+      "log": "/tmp/welfold112-family1-bench__repairs__tritonbench_g__layer_norm_welfold__Proofs__Physical.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_welfold.Misc.TensorBridge",
+      "source_sha256": "9b9604d30e2315883df1f2572f557ec383a109754ae07a2d2974013de40302fb",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247658.5385218,
+      "end": 1793247663.1293266,
+      "log": "/tmp/welfold112-family1-bench__repairs__tritonbench_g__layer_norm_welfold__Misc__TensorBridge.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_welfold.Misc.Audit",
+      "source_sha256": "08ccfabd6d4370eb37fc060590287e5b7f2002730ed5dee5bce439400d556a88",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247663.1296139,
+      "end": 1793247668.1188173,
+      "log": "/tmp/welfold112-family1-bench__repairs__tritonbench_g__layer_norm_welfold__Misc__Audit.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_welfold.Misc.PublicAudit",
+      "source_sha256": "59f0dcf2ac0c2d9931d2bba49af1620ea63c63b40dcd98dea965226e66c4cdf2",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247668.1190917,
+      "end": 1793247671.819104,
+      "log": "/tmp/welfold112-family1-bench__repairs__tritonbench_g__layer_norm_welfold__Misc__PublicAudit.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_welfold.Misc.Wrapper",
+      "source_sha256": "9c05bda54c59838d3894db7dd98a6589d837938bc8ed8a5141a8d55dbce9e840",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247671.8194258,
+      "end": 1793247674.6835485,
+      "log": "/tmp/welfold112-family1-bench__repairs__tritonbench_g__layer_norm_welfold__Misc__Wrapper.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_welfold.Proofs.ReadableAccumulate",
+      "source_sha256": "ae67b8adfedc7ee802193bb7c4c9fc296d9a5dc07c65d642b6f6f52c485c68b9",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247674.6838493,
+      "end": 1793247677.0723412,
+      "log": "/tmp/welfold112-family1-bench__repairs__tritonbench_g__layer_norm_welfold__Proofs__ReadableAccumulate.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_welfold.Proofs.ReadableGrid",
+      "source_sha256": "a43933559a519446cb415ae4b378c162fd6fdd921a83e9dc1afea5f47f78e212",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247677.0726533,
+      "end": 1793247679.4648976,
+      "log": "/tmp/welfold112-family1-bench__repairs__tritonbench_g__layer_norm_welfold__Proofs__ReadableGrid.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_welfold.Proofs.ReadableNormalize",
+      "source_sha256": "9a4f5be0cb05e44e863c1dd52f34084243521b2c15a0a9cd70247656465db1db",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247679.4652183,
+      "end": 1793247681.864525,
+      "log": "/tmp/welfold112-family1-bench__repairs__tritonbench_g__layer_norm_welfold__Proofs__ReadableNormalize.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_welfold.Proofs.ReadableRow",
+      "source_sha256": "2470828b2740adb40c51186f4a6a941dafa58110919df0aebfab42c02b1c898d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247681.864826,
+      "end": 1793247684.2692676,
+      "log": "/tmp/welfold112-family1-bench__repairs__tritonbench_g__layer_norm_welfold__Proofs__ReadableRow.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_welfold.Proofs.ReadableStatistics",
+      "source_sha256": "cafd8dbb334b997ca0b48a15001271d27e59394be4ed26f1eff93203e44afe4b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247684.2695615,
+      "end": 1793247686.6546345,
+      "log": "/tmp/welfold112-family1-bench__repairs__tritonbench_g__layer_norm_welfold__Proofs__ReadableStatistics.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_welfold.Proofs.ReadableSyntax",
+      "source_sha256": "c6105369a71d7434b32ac926ccb63c3a2b8d015341f1188b4a0dbbd7079573c9",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247686.6549435,
+      "end": 1793247687.9660015,
+      "log": "/tmp/welfold112-family1-bench__repairs__tritonbench_g__layer_norm_welfold__Proofs__ReadableSyntax.log"
+    }
+  ],
+  "end": 1793247687.9662888
+}

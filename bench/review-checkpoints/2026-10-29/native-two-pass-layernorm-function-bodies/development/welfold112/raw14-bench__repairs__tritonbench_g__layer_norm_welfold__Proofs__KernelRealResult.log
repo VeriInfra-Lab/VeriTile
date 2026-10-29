@@ -1,0 +1,9 @@
+VeriTile.Bench.Repairs.LayerNormWelfold.Math.mean: definition does not reference [VeriTile.Bench.Repairs.LayerNormWelfold.Source.rowKernel,
+ VeriTile.Bench.Repairs.LayerNormWelfold.Source.launch] — non-circular ✓
+VeriTile.Bench.Repairs.LayerNormWelfold.Math.variance: definition does not reference [VeriTile.Bench.Repairs.LayerNormWelfold.Source.rowKernel,
+ VeriTile.Bench.Repairs.LayerNormWelfold.Source.launch] — non-circular ✓
+VeriTile.Bench.Repairs.LayerNormWelfold.Math.output: definition does not reference [VeriTile.Bench.Repairs.LayerNormWelfold.Source.rowKernel,
+ VeriTile.Bench.Repairs.LayerNormWelfold.Source.launch] — non-circular ✓
+VeriTile.Bench.Repairs.LayerNormWelfold.KernelRealResult.kernel_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

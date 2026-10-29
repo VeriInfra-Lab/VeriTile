@@ -1,0 +1,16 @@
+{
+  "status": "FAIL",
+  "start": 1793246491.9032893,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_welfold.Proofs.RawStatistics",
+      "source_sha256": "faa0c00faad715494168cd3aeac3971367281df806d3854e75bc78f867c735ae",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793246491.9034483,
+      "end": 1793246499.027318,
+      "log": "/tmp/welfold112-raw8-bench__repairs__tritonbench_g__layer_norm_welfold__Proofs__RawStatistics.log"
+    }
+  ],
+  "end": 1793246499.0275679
+}

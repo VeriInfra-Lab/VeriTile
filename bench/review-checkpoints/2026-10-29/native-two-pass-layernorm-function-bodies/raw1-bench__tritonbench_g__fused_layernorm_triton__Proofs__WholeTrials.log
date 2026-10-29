@@ -1,0 +1,3 @@
+VeriTile.Bench.TritonBenchG.FusedLayernormTriton.Whole.selected_after_trials: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

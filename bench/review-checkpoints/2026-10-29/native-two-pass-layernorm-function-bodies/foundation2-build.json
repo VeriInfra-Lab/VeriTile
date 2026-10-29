@@ -1,0 +1,25 @@
+{
+  "status": "FAIL",
+  "start": 1793243030.4501085,
+  "results": [
+    {
+      "module": "bench.tests.LibdeviceRsqrtBody",
+      "source_sha256": "844f447a928f17e73c38ba5cb1ed5a5a546e82e968ef469ff6a3bf8cb81c7249",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793243030.4503484,
+      "end": 1793243035.4514961,
+      "log": "/tmp/welfold112-foundation2-bench__tests__LibdeviceRsqrtBody.log"
+    },
+    {
+      "module": "bench.tests.BarrierLoopBody",
+      "source_sha256": "a90033006357a19d315e8f86751fc0a09620cfd6d91b09a05e18f1527ea15442",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793243035.4517438,
+      "end": 1793243039.7297566,
+      "log": "/tmp/welfold112-foundation2-bench__tests__BarrierLoopBody.log"
+    }
+  ],
+  "end": 1793243039.7299433
+}

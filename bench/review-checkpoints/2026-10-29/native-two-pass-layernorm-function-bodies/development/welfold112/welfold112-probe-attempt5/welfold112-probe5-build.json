@@ -1,0 +1,43 @@
+{
+  "status": "FAIL",
+  "start": 1793242386.8392751,
+  "results": [
+    {
+      "module": "VeriTile.Triton.DSL.TypedStores",
+      "source_sha256": "0440ca9f72fa7403985c39c022d5271d5d52eab42b0558023c553acb6b89a7d9",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793242386.8394825,
+      "end": 1793242394.8444808,
+      "log": "/tmp/welfold112-probe5-VeriTile__Triton__DSL__TypedStores.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.TypedStorageReduction",
+      "source_sha256": "26c50b50885cb0cc8a81863783fc01c8917be74a01efb6f47eff1d560fa9707d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793242394.844741,
+      "end": 1793242396.7693498,
+      "log": "/tmp/welfold112-probe5-VeriTile__Triton__DSL__TypedStorageReduction.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.CallSignature",
+      "source_sha256": "630c59ce08725ea7aa88318dc9072b3e7d04ebf7db1c045512b181f3f5201bb4",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793242396.7696881,
+      "end": 1793242437.222444,
+      "log": "/tmp/welfold112-probe5-VeriTile__Triton__DSL__CallSignature.log"
+    },
+    {
+      "module": "Probe",
+      "source_sha256": "9d4dfab031a9991581ec4db199af6619ddce1fe1522dcbe838d54c8ffcae1152",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793242437.222689,
+      "end": 1793242438.5387928,
+      "log": "/tmp/welfold112-probe5-Probe.log"
+    }
+  ],
+  "end": 1793242438.5389838
+}

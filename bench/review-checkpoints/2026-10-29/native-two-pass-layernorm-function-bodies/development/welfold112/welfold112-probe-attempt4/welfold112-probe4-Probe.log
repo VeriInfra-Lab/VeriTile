@@ -1,0 +1,1 @@
+/tmp/welfold112-frontend/Probe.lean:27:9: error: loop-carried value _tmp12 requires stable source dtype tl.float32; found unknown
