@@ -23,10 +23,10 @@ def expected (M : Algebra α) (dot : DotBackend α) (h : Call) (c : Config) (pos
 structure Holds (M : Algebra α) (dot : DotBackend α) (initial : State α) (h : Call) (c : Config)
     (p : Geometry.Program h) (q : Nat) (u : State α) : Prop where
   count : q≤Geometry.chunks h c
-  batch : u.regs .nat [] "i_b"=some (fun _ => p.row/h.H)
-  head : u.regs .nat [] "i_h"=some (fun _ => p.row%h.H)
+  batch : u.regs .int [] "i_b"=some (fun _ => (p.row/h.H:Int))
+  head : u.regs .int [] "i_h"=some (fun _ => (p.row%h.H:Int))
   mask : u.regs .bool [BS] "active_s"=some (axisMask h.S BS (p.feature*BS))
-  columns : u.regs .nat [BS] "columns"=some (coordinate h.S BS (p.feature*BS))
+  columns : u.regs .int [BS] "columns"=some (coordinate h.S BS (p.feature*BS))
   triangular : u.regs .real [c.BT,c.BT] "m_s"=some (triangular M c)
   carryReg : u.regs .real [BS] "b_z"=some (carry M h c p.feature p.row initial q)
   reads : ∀ off, u.mem h.input off=initial.mem h.input off
@@ -40,7 +40,7 @@ structure Holds (M : Algebra α) (dot : DotBackend α) (initial : State α) (h :
 theorem iteration (M : Algebra α) (dot : DotBackend α) (initial : State α)
     (h : Call) (layout : Geometry.OutputLayout h) (c : Config) (positive : 0<c.BT)
     (p : Geometry.Program h) (q : Nat) (u : State α) (hq : q<Geometry.chunks h c)
-    (hr : u.regs .nat [] "i_t"=some (fun _ => q)) (inv : Holds M dot initial h c p q u) :
+    (hr : u.regs .int [] "i_t"=some (fun _ => (q:Int))) (inv : Holds M dot initial h c p q u) :
     ∃ v, run (machine M dot) (loopBody h c) u=some v ∧ Holds M dot initial h c p (q+1) v := by
   let acc := carry M h c p.feature p.row initial q
   let values := FPValues.output M dot c (loaded M h c p.feature p.row initial q) acc
@@ -88,32 +88,32 @@ theorem invariant (M : Algebra α) (dot : DotBackend α) (h : Call) (c : Config)
 
 theorem bind_invariant (M : Algebra α) (dot : DotBackend α) (initial : State α)
     (h : Call) (c : Config) (p : Geometry.Program h) (q : Nat) (u : State α)
-    (inv : Holds M dot initial h c p q u) : Holds M dot initial h c p q (u.setReg "i_t" .nat [] (fun _ => q)) := by
+    (inv : Holds M dot initial h c p q u) : Holds M dot initial h c p q (u.setReg "i_t" .int [] (fun _ => (q:Int))) := by
   refine ⟨inv.count,?_,?_,?_,?_,?_,?_,inv.reads,inv.undef,inv.output,inv.frame⟩
   all_goals first | simpa using inv.batch | simpa using inv.head | simpa using inv.mask | simpa using inv.columns | simpa using inv.triangular | simpa using inv.carryReg
 
 theorem loop_executes (M : Algebra α) (dot : DotBackend α) (initial : State α)
     (h : Call) (layout : Geometry.OutputLayout h) (c : Config) (positive : 0<c.BT)
     (p : Geometry.Program h) (q : Nat) (u : State α) (inv : Holds M dot initial h c p q u) :
-    ∃ v, FP.Structural.range (machine M dot) "i_t" q (Geometry.chunks h c) 1 (loopBody h c) u=some v ∧
+    ∃ v, FP.Structural.rangeInt (machine M dot) "i_t" (q:Int) (Geometry.chunks h c:Int) 1 (loopBody h c) u=some v ∧
       Holds M dot initial h c p (Geometry.chunks h c) v := by
   by_cases hq : q<Geometry.chunks h c
   · obtain ⟨v,he,hv⟩ := iteration M dot initial h layout c positive p q
-      (u.setReg "i_t" .nat [] (fun _ => q)) hq (by simp) (bind_invariant M dot initial h c p q u inv)
+      (u.setReg "i_t" .int [] (fun _ => (q:Int))) hq (by simp) (bind_invariant M dot initial h c p q u inv)
     obtain ⟨w,hw,hf⟩ := loop_executes M dot initial h layout c positive p (q+1) v hv
     refine ⟨w,?_,hf⟩
-    rw [FP.Structural.range]
-    simp only [Nat.one_ne_zero,if_false,hq,if_true,he,bind,Option.bind_some]
-    exact hw
+    rw [FP.Structural.rangeInt]
+    simp only [Nat.one_ne_zero,if_false,Int.ofNat_lt,hq,if_true,he,bind,Option.bind_some]
+    simpa only [Int.natCast_add,Int.natCast_one] using hw
   · have eq : q=Geometry.chunks h c := Nat.le_antisymm inv.count (Nat.le_of_not_gt hq)
     refine ⟨u,?_,by simpa only [eq] using inv⟩
-    rw [FP.Structural.range]
-    simp only [Nat.one_ne_zero,if_false,hq]
+    rw [FP.Structural.rangeInt]
+    simp only [Nat.one_ne_zero,if_false,Int.ofNat_lt,hq]
 termination_by Geometry.chunks h c-q
 
 theorem statement_eval (M : Algebra α) (h : Call) (c : Config) (u : State α) :
-    step M (.forRangeDyn "i_t" (.constNat 0) (countOp h c) (.constNat 1) (loopBody h c)) u=
-      FP.Structural.range M "i_t" 0 (Geometry.chunks h c) 1 (loopBody h c) u := by
+    step M (.forRangeInt "i_t" (.constInt 0) (.castNatToInt (countOp h c)) (.constNat 1) (loopBody h c)) u=
+      FP.Structural.rangeInt M "i_t" 0 (Geometry.chunks h c:Int) 1 (loopBody h c) u := by
   simp [step,countOp,FP.Structural.evalOp,numeric,bop,Broadcast.leftIndex,Broadcast.rightIndex,Geometry.chunks]
 
 theorem source_correct (M : Algebra α) (dot : DotBackend α) (h : Call) (layout : Geometry.OutputLayout h)
@@ -125,10 +125,12 @@ theorem source_correct (M : Algebra α) (dot : DotBackend α) (h : Call) (layout
           FPMemory.stored M h (expected M dot h c positive p u time j)) ∧
       FPMemory.Frame h p u v := by
   obtain ⟨v,he,inv⟩ := loop_executes M dot u h layout c positive p 0 (initial M h c p u) (invariant M dot h c p u)
+  simp only [Nat.cast_zero] at he
   refine ⟨v,?_,?_,inv.frame⟩
   · change run (machine M dot) (Kernels.sumLeft h c).surfaceBody u=some v
     rw [source_body,body,run_append,init_executes M dot h c p u hf hr]
-    simp only [Option.bind_some,run,statement_eval,he]
+    simp only [Option.bind_some,run,statement_eval]
+    rw [he]
     rfl
   · intro time j ht hj
     have cover := Geometry.coordinate_cover h.T c.BT time positive ht

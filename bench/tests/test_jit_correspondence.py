@@ -307,6 +307,94 @@ class ScalarCallModeCorrespondence(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "duplicate ABI"):
             validate_manifest_records([record, duplicate])
 
+
+class SourceFunctionBodyTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / "bench/repairs/tritonbench_g/relu_strided_buffer"
+        self.lean = (self.directory / "Kernels.lean").read_text()
+        self.python = (self.directory / "relu_strided_buffer_repaired.py").read_text()
+        self.manifest = self.directory / "jit-correspondence.json"
+
+    def test_helper_and_both_complete_branches(self):
+        pairs = check_manifest(ROOT, self.manifest)
+        self.assertEqual(len(pairs), 3)
+        self.assertEqual(pairs[0]["body_kind"], "helper")
+        self.assertEqual(pairs[0]["helper_parameters"], ["x"])
+        for pair in pairs[1:]:
+            self.assertEqual(pair["source_functions"], ["reluFunction"])
+
+    def test_helper_source_and_parameter_names_cannot_change(self):
+        for before, after in [("relu_forward(x)", "relu_forward(y)"),
+                              ("return tl.where(x > 0, x, 0)", "return tl.where(x >= 0, x, 0)")]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.assertIn(before, self.lean)
+                check(self.python, self.lean.replace(before, after, 1),
+                      "relu_forward", "reluFunction")
+
+    def test_helper_pair_cannot_be_omitted_from_manifest(self):
+        import tempfile
+        records = json.loads(self.manifest.read_text())[1:]
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".json") as temporary:
+            json.dump(records, temporary)
+            temporary.flush()
+            with self.assertRaisesRegex(ValueError, "helper"):
+                check_manifest(ROOT, Path(temporary.name))
+
+    def test_original_casts_tuples_and_boundary_checks_are_checked(self):
+        record = json.loads(self.manifest.read_text())[1]
+        for before, after in [(".to(in0_ptr.type.element_ty)", ""),
+                              ("boundary_check=(in0_stride_order0,)", "boundary_check=(1,)"),
+                              ("(in0_stride0,)", "(1,)"),
+                              ("num_tasks := c.n", "num_tasks := c.tiles")]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.assertIn(before, self.lean)
+                check(self.python, self.lean.replace(before, after, 1),
+                      record["python_function"], record["lean_definition"],
+                      record["signature_definition"], record["expected_signature"],
+                      expected_call_bindings=record["expected_call_bindings"],
+                      expected_pointer_offsets=record["expected_pointer_offsets"])
+
+
+class SwigluSourceFunctionTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / "bench/repairs/tritonbench_g/swiglu_triton"
+        self.lean = (self.directory / "Kernels.lean").read_text()
+        self.python = (self.directory / "swiglu_triton_repaired.py").read_text()
+        self.manifest = self.directory / "jit-correspondence.json"
+        self.records = json.loads(self.manifest.read_text())
+
+    def compare(self, lean, position):
+        record = self.records[position]
+        return check(self.python, lean, record["python_function"], record["lean_definition"],
+                     record["signature_definition"], record["expected_signature"],
+                     expected_call_bindings=record["expected_call_bindings"])
+
+    def test_original_helper_and_all_four_complete_writers(self):
+        pairs = check_manifest(ROOT, self.manifest)
+        self.assertEqual(len(pairs), 5)
+        self.assertEqual(pairs[0]["body_kind"], "helper")
+        self.assertEqual(pairs[1]["source_functions"], ["siluFunction"])
+        self.assertEqual(pairs[3]["source_functions"], ["siluFunction"])
+
+    def test_same_named_shorthand_cannot_hide_changed_helper_source(self):
+        changed = self.lean.replace("return x * tl.sigmoid(x)", "return x", 1)
+        with self.assertRaises(ValueError):
+            check(self.python, changed, "silu", "siluFunction")
+
+    def test_original_casts_and_integer_products_are_retained(self):
+        for before, after in [(".to(tl.int64)", ""),
+                              ("a_ptr += program_id * stride", "a_ptr += stride * program_id")]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.assertIn(before, self.lean)
+                self.compare(self.lean.replace(before, after, 1), 1)
+
+    def test_backward_floating_order_is_retained(self):
+        before = "dc_row * (silu_a * (1 - sig_a) + sig_a) * b_row"
+        after = "(dc_row * b_row) * (silu_a * (1 - sig_a) + sig_a)"
+        self.assertIn(before, self.lean)
+        with self.assertRaises(ValueError):
+            self.compare(self.lean.replace(before, after, 1), 2)
+
 if __name__ == "__main__":
     unittest.main()
 
@@ -729,3 +817,225 @@ class ApplyPenaltyRawBodyTests(unittest.TestCase):
                     check((ROOT / record["python"]).read_text(), lean.replace(before, after),
                           record["python_function"], record["lean_definition"], record["signature_definition"],
                           record["expected_signature"], record["expected_call_bindings"])
+
+
+class ChunkCumsumVectorRawBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/chunk_cumsum_vector"
+
+    def test_both_complete_bodies_preserve_signed_indices_and_fp_order(self):
+        records = json.loads((self.directory / "jit-correspondence.json").read_text())
+        pairs = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual(len(pairs), 2)
+        self.assertTrue(all((p["mode"], p["statements"]) == ("pasted_body", 11) for p in pairs))
+        lean = (self.directory / "Kernels.lean").read_text()
+        for record in records:
+            for before, after in [
+                ("tl.program_id(0).to(tl.int64)", "tl.program_id(0)"),
+                ("tl.program_id(1).to(tl.int64)", "tl.program_id(1)"),
+                ("tl.arange(0, BS).to(tl.int64)", "tl.arange(0, BS)"),
+                ("tl.arange(0, BT).to(tl.int64)", "tl.arange(0, BT)"),
+                ("tl.cast(tl.cdiv(T, BT), tl.int64)", "tl.cdiv(T, BT)"),
+                ("tl.cast(i_t, tl.int64)", "i_t"),
+                ("mask=active, other=0", "mask=active"),
+                ("allow_tf32=False", "allow_tf32=True"),
+                ("b_c.to(p_z.dtype.element_ty)", "b_c"),
+                ('("s",.inputFloat)', '("s",.fp32)'),
+            ]:
+                with self.subTest(definition=record["lean_definition"], before=before), self.assertRaises(ValueError):
+                    self.assertIn(before, lean)
+                    check((ROOT / record["python"]).read_text(), lean.replace(before, after),
+                          record["python_function"], record["lean_definition"], record["signature_definition"],
+                          record["expected_signature"])
+
+
+class GatheredTokenAttentionRawBodyTests(unittest.TestCase):
+    def test_complete_weighted_sum_bodies_bind_the_selected_fp32_calls(self):
+        for task, statements in [("token_attn_reduceV", 19), ("token_attn_mistral", 20)]:
+            directory = ROOT / "bench/repairs/tritonbench_g" / (task + "_grid_y_checked")
+            records = json.loads((directory / "jit-correspondence.json").read_text())
+            pairs = check_manifest(ROOT, directory / "jit-correspondence.json")
+            self.assertEqual(len(pairs), 2)
+            self.assertTrue(all((p["mode"], p["statements"]) == ("pasted_body", statements) for p in pairs))
+            self.assertEqual({r["lean_definition"] for r in records}, {"source", "affineSource"})
+            for record in records:
+                lean = (ROOT / record["lean"]).read_text()
+                for before, after in [
+                    ("start_n * stride_pbs", "start_n"),
+                    ("acc += tl.sum(p_value[:, None] * v_value, 0)", "acc += tl.sum(p_value[:, None] * v_value, 1)"),
+                    ("acc = acc.to(Out.dtype.element_ty)", "acc = acc"),
+                    ('("Prob",.fp32)', '("Prob",.fp16)'),
+                    ('("B_Seqlen",.i32)', '("B_Seqlen",.i64)'),
+                    ("stride_vh := stride_vh", "stride_vh := stride_vbs"),
+                ]:
+                    with self.subTest(task=task, definition=record["lean_definition"], before=before), self.assertRaises(ValueError):
+                        self.assertIn(before, lean)
+                        check((ROOT / record["python"]).read_text(), lean.replace(before, after),
+                              record["python_function"], record["lean_definition"], record["signature_definition"],
+                              record["expected_signature"], record["expected_call_bindings"])
+
+    def test_sliding_window_value_mask_retains_its_own_sequence_bound(self):
+        directory = ROOT / "bench/repairs/tritonbench_g/token_attn_mistral_grid_y_checked"
+        for record in json.loads((directory / "jit-correspondence.json").read_text()):
+            lean = (ROOT / record["lean"]).read_text()
+            before = "mask=(start_n + offs_n + cur_batch_start_index) < cur_batch_seq_len"
+            self.assertIn(before, lean)
+            with self.subTest(definition=record["lean_definition"]), self.assertRaises(ValueError):
+                check((ROOT / record["python"]).read_text(),
+                      lean.replace(before, "mask=(start_n + offs_n) < cur_att_seq_len"),
+                      record["python_function"], record["lean_definition"], record["signature_definition"],
+                      record["expected_signature"], record["expected_call_bindings"])
+
+
+class QuantizeGlobalPreciseBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/quantize_global"
+
+    def test_full_body_keeps_precise_division_signed_casts_and_i64_arguments(self):
+        record = json.loads((self.directory / "jit-correspondence.json").read_text())[0]
+        pairs = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual([(p["mode"], p["statements"]) for p in pairs], [("pasted_body", 13)])
+        lean = (self.directory / "Kernels.lean").read_text()
+        for before, after in [
+            ("tl.program_id(axis=0).to(tl.int64)", "tl.program_id(axis=0)"),
+            ("tl.arange(0, BLOCK_SIZE).to(tl.int64)", "tl.arange(0, BLOCK_SIZE)"),
+            ("tl.div_rn(x, denominator)", "x / denominator"),
+            ("scaled < -127.0", "scaled <= -127.0"),
+            ('("n_elements",.i64)', '("n_elements",.integer)'),
+            ("base := base", "base := N"),
+            ("output, mask=mask", "output"),
+        ]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.assertIn(before, lean)
+                check((ROOT / record["python"]).read_text(), lean.replace(before, after),
+                      record["python_function"], record["lean_definition"], record["signature_definition"],
+                      record["expected_signature"], record["expected_call_bindings"])
+
+
+class RowwiseQuantizationRawBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/rowwise_quantization_triton"
+
+    def test_both_bodies_keep_signed_coordinates_zero_type_and_store_order(self):
+        records = json.loads((self.directory / "jit-correspondence.json").read_text())
+        pairs = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual([(p["mode"], p["statements"]) for p in pairs],
+                         [("pasted_body", 12), ("pasted_body", 12)])
+        lean = (self.directory / "Kernels.lean").read_text()
+        for record in records:
+            for before, after in [
+                ("tl.program_id(axis=0).to(tl.int64)", "tl.program_id(axis=0)"),
+                ("tl.full((), BLOCK_SIZE, tl.int64)", "BLOCK_SIZE"),
+                ("tl.where(row_mask, abs_x, 0)", "tl.where(row_mask, abs_x, 0.0)"),
+                ("x / safe_max", "safe_max / x"),
+                ("output, mask=row_mask", "output"),
+                ("tl.store(output_maxs + pid, max_val)",
+                 "tl.store(output_maxs + pid, max_val.to(tl.float16))"),
+                ('("output_maxs",.fp16)', '("output_maxs",.fp32)'),
+            ]:
+                with self.subTest(definition=record["lean_definition"], mutation=before):
+                    self.assertIn(before, lean)
+                    with self.assertRaises(ValueError):
+                        check((ROOT / record["python"]).read_text(), lean.replace(before, after),
+                              record["python_function"], record["lean_definition"],
+                              record["signature_definition"], record["expected_signature"])
+
+
+class QuantizedScatterRawBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/quantize_copy_kv"
+
+    def test_both_bodies_preserve_half_scale_and_zero_maximum_branch(self):
+        records = json.loads((self.directory / "jit-correspondence.json").read_text())
+        pairs = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual([(p["mode"], p["statements"]) for p in pairs],
+                         [("pasted_body", 14), ("pasted_body", 14)])
+        lean = (self.directory / "Kernels.lean").read_text()
+        for record in records:
+            for before, after in [
+                ("tl.program_id(0).to(tl.int64)", "tl.program_id(0)"),
+                ("(maximum / 127.0).to(tl.float16)", "(maximum / 127.0).to(tl.float32)"),
+                ("data_scale.to(tl.float32)", "data_scale"),
+                ("maximum[:, None] == 0.0", "data_scale == 0.0"),
+                ("stride_dest := 1", "stride_dest := p.width"),
+                ("stride_o_bs := denseStride", "stride_o_bs := p.width"),
+                ("q_src_data, mask=offs_h[:, None] < head_num", "q_src_data"),
+            ]:
+                with self.subTest(definition=record["lean_definition"], mutation=before):
+                    self.assertIn(before, lean)
+                    with self.assertRaises(ValueError):
+                        check((ROOT / record["python"]).read_text(), lean.replace(before, after),
+                              record["python_function"], record["lean_definition"],
+                              record["signature_definition"], record["expected_signature"],
+                              record["expected_call_bindings"])
+
+
+class QuantizedCacheVariantsRawBodyTests(unittest.TestCase):
+    def verify_variant(self, task, count, mutations):
+        directory = ROOT / "bench/repairs/tritonbench_g" / task
+        records = json.loads((directory / "jit-correspondence.json").read_text())
+        pairs = check_manifest(ROOT, directory / "jit-correspondence.json")
+        self.assertEqual([(p["mode"], p["statements"]) for p in pairs],
+                         [("pasted_body", count), ("pasted_body", count)])
+        lean = (directory / "Kernels.lean").read_text()
+        for record in records:
+            for before, after in mutations:
+                with self.subTest(task=task, definition=record["lean_definition"], mutation=before):
+                    self.assertIn(before, lean)
+                    with self.assertRaises(ValueError):
+                        check((ROOT / record["python"]).read_text(), lean.replace(before, after),
+                              record["python_function"], record["lean_definition"],
+                              record["signature_definition"], record["expected_signature"],
+                              record["expected_call_bindings"])
+
+    def test_logical_width_mask_and_fp32_scale_dtype_access(self):
+        self.verify_variant("quantize_kv_transform", 14, [
+            ("tl.program_id(0).to(tl.int64)", "tl.program_id(0)"),
+            ("tl.load(Dest_loc + cur_index * stride_dest).to(tl.int64)",
+             "tl.load(Dest_loc + cur_index * stride_dest)"),
+            ("(offs_d[None, :] < head_dim)", "(offs_d[None, :] < head_num)"),
+            ("(maximum / 127.0).to(Out_scale.dtype.element_ty)", "(maximum / 127.0)"),
+            ("data_scale.to(tl.float32)", "data_scale"),
+            ("head_dim := p.columns", "head_dim := p.width"),
+            ('("Dest_loc",.i32)', '("Dest_loc",.i64)'),
+        ])
+
+    def test_two_dimensional_group_geometry_and_scale_mask(self):
+        self.verify_variant("quantize_kv_copy", 15, [
+            ("tl.program_id(1).to(tl.int64)", "tl.program_id(1)"),
+            ("tl.arange(0, BLOCK_GROUP_DIM).to(tl.int64)",
+             "tl.arange(0, BLOCK_GROUP_DIM)"),
+            ("(maximum / 127.0).to(Out_scale.dtype.element_ty)", "(maximum / 127.0)"),
+            ("src_data / denominator[:, None]", "src_data / denominator"),
+            ("data_scale, mask=offs_g < group_size", "data_scale"),
+            ("stride_os_h := groups", "stride_os_h := heads"),
+            ('("Dest_loc",.i32)', '("Dest_loc",.i64)'),
+        ])
+
+
+class LogSoftmaxRawBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/log_softmax"
+
+    def test_forward_backward_and_existing_candidates_keep_signed_tuple_and_padding(self):
+        records = json.loads((self.directory / "jit-correspondence.json").read_text())
+        pairs = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual([p["mode"] for p in pairs], ["pasted_body"] * 4)
+        lean = (self.directory / "Kernels.lean").read_text()
+        for record in records:
+            common = [
+                ("tl.program_id(0).to(tl.int64)", "tl.program_id(0)"),
+                ("tl.program_id(1).to(tl.int64)", "tl.program_id(1)"),
+                ("tl.arange(0, BLOCK_N).to(tl.int64)", "tl.arange(0, BLOCK_N)"),
+                ("tl.cast(M, tl.int64)", "M"),
+                ("tl.cast(N, tl.int64)", "N"),
+                ("tl.cast(K, tl.int64)", "K"),
+                ("safe_n = tl.minimum(n_offset, n64 - 1)", "safe_n = n_offset"),
+                ("N := N", "N := K"),
+            ]
+            if record["lean_definition"].startswith("backward"):
+                common.append(("out_grad_ptr + offset, mask=mask, other=0.0",
+                               "out_grad_ptr + offset, mask=mask"))
+            for before, after in common:
+                with self.subTest(definition=record["lean_definition"], mutation=before):
+                    self.assertIn(before, lean)
+                    with self.assertRaises(ValueError):
+                        check((ROOT / record["python"]).read_text(), lean.replace(before, after),
+                              record["python_function"], record["lean_definition"],
+                              record["signature_definition"], record["expected_signature"],
+                              record["expected_call_bindings"])

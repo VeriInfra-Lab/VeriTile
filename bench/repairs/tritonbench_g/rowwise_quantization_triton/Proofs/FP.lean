@@ -65,7 +65,7 @@ branch; there is no assumed result for a row or for a complete task. -/
 structure ZeroLaws (ops : Operations Word) : Prop where
   abs : ops.abs ops.zero = ops.zero
   maximum : ops.maximum ops.zero ops.zero = ops.zero
-  isZero : ops.isZero ops.zero = true
+  isZero : ops.isZero ops.zero = Bool.true
   divide : ops.divide ops.zero ops.one = ops.zero
   multiply : ops.multiply ops.scale ops.zero = ops.zero
   llrint : ops.llrint ops.zero = 0

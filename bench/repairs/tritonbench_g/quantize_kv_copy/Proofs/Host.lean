@@ -7,11 +7,11 @@ set_option maxHeartbeats 2000000
 
 /-- The actual occupied-set loop, represented as its membership-equivalent list. -/
 def reserve (capacity : Nat) : List Nat → List Nat → Bool
-  | _, [] => true
-  | seen, x :: xs => if x < capacity ∧ x ∉ seen then reserve capacity (x :: seen) xs else false
+  | _, [] => Bool.true
+  | seen, x :: xs => if x < capacity ∧ x ∉ seen then reserve capacity (x :: seen) xs else Bool.false
 
 theorem reserve_iff (capacity : Nat) (xs seen : List Nat) :
-    reserve capacity seen xs = true ↔
+    reserve capacity seen xs = Bool.true ↔
       (∀ x ∈ xs, x < capacity ∧ x ∉ seen) ∧ xs.Nodup := by
   induction xs generalizing seen with
   | nil => simp [reserve]
@@ -42,7 +42,7 @@ theorem reserve_iff (capacity : Nat) (xs seen : List Nat) :
 
 def destinations (p : Request) : List Nat := (List.range p.tokens).map p.slot
 
-theorem checked_destinations (p : Request) (ok : reserve p.capacity [] (destinations p) = true) :
+theorem checked_destinations (p : Request) (ok : reserve p.capacity [] (destinations p) = Bool.true) :
     (∀ s, s < p.tokens → p.slot s < p.capacity) ∧
     (∀ s t, s < p.tokens → t < p.tokens → p.slot s = p.slot t → s = t) := by
   obtain ⟨bounds, unique⟩ := (reserve_iff p.capacity (destinations p) []).mp ok
@@ -55,7 +55,7 @@ theorem checked_destinations (p : Request) (ok : reserve p.capacity [] (destinat
 theorem checked_domain (p : Request) (heads : 0 < p.headCount) (groups : 0 < p.groups)
     (sources : p.tokens ≤ p.sourceRows)
     (logical_int32 : ∀ s, s < p.tokens → p.slot s < 2^31)
-    (ok : reserve p.capacity [] (destinations p) = true) : Domain p :=
+    (ok : reserve p.capacity [] (destinations p) = Bool.true) : Domain p :=
   ⟨heads, groups, sources, (checked_destinations p ok).1, logical_int32, (checked_destinations p ok).2⟩
 
 /-- A bijective encoding of the actual two-dimensional program ID. -/
@@ -151,12 +151,12 @@ def guardedCall {α η : Type} (ops : Operations α η) (p : Request) (plan : Pl
 
 theorem rejected_unchanged {α η : Type} (ops : Operations α η) (p : Request) (plan : Plan p)
     (decode : (Fin 4 → Byte) → α) (encode : η → Fin 4 → Byte) (v : Layout)
-    (schedule : Schedule p) (heap : Heap) (rejected : reserve p.capacity [] (destinations p) = false) :
+    (schedule : Schedule p) (heap : Heap) (rejected : reserve p.capacity [] (destinations p) = Bool.false) :
     guardedCall ops p plan decode encode v schedule heap = (heap, none) := by simp [guardedCall,rejected]
 
 theorem accepted_call {α η : Type} (ops : Operations α η) (p : Request) (plan : Plan p)
     (decode : (Fin 4 → Byte) → α) (encode : η → Fin 4 → Byte) (v : Layout)
-    (schedule : Schedule p) (heap : Heap) (ok : reserve p.capacity [] (destinations p) = true) :
+    (schedule : Schedule p) (heap : Heap) (ok : reserve p.capacity [] (destinations p) = Bool.true) :
     guardedCall ops p plan decode encode v schedule heap =
       ((call ops p plan decode encode v schedule heap).1, some none) := by simp [guardedCall,ok,call]
 

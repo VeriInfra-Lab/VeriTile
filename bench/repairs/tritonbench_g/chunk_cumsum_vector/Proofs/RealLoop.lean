@@ -1,3 +1,4 @@
+import bench.tritonbench_g.reversed_cumsum.Proofs.SignedRange
 import bench.repairs.tritonbench_g.chunk_cumsum_vector.Proofs.RealStep
 import bench.repairs.tritonbench_g.chunk_cumsum_vector.Proofs.RealData
 
@@ -22,10 +23,10 @@ structure Holds (initial : BlockState) (h : Call) (c : Config) (p : Geometry.Pro
     (a : Nat → ℝ) (q : Nat) (u : BlockState) : Prop where
   undef : u.undef=initial.undef
   count : q≤Geometry.chunks h c
-  batch : u.regs .nat [] "i_b"=some (Tile.scalar (p.row/h.H))
-  head : u.regs .nat [] "i_h"=some (Tile.scalar (p.row%h.H))
+  batch : u.regs .int [] "i_b"=some (Tile.scalar (p.row/h.H))
+  head : u.regs .int [] "i_h"=some (Tile.scalar (p.row%h.H))
   mask : u.regs .bool [BS] "active_s"=some (axisMask h.S BS (p.feature*BS))
-  columns : u.regs .nat [BS] "columns"=some (coordinate h.S BS (p.feature*BS))
+  columns : u.regs .int [BS] "columns"=some (coordinate h.S BS (p.feature*BS))
   triangular : u.regs .real [c.BT,c.BT] "m_s"=some (lowerTriTile c.BT)
   accumulated : u.regs .real [BS] "b_z"=some (Tile.vec fun j =>
     some (carry c (value h c p.feature p.row a (initial.undef h.input)) q j))
@@ -59,11 +60,11 @@ theorem iteration (initial : BlockState) (h : Call) (c : Config) (hc : 0<c.BT)
     (p : Geometry.Program h) (a : Nat → ℝ) (distinct : h.input≠h.output)
     (unique : NoCollision h p) (q : Nat) (u : BlockState)
     (hq : q<Geometry.chunks h c) (inv : Holds initial h c p a q u) :
-    ∃ v, stepStmts (loopBody h c) (u.setReg "i_t" .nat [] (Tile.scalar q))=some v ∧
+    ∃ v, stepStmts (loopBody h c) (u.setReg "i_t" .int [] (Tile.scalar q))=some v ∧
       Holds initial h c p a (q+1) v := by
   let f := value h c p.feature p.row a (initial.undef h.input)
   let acc := carry c f q
-  let entry := u.setReg "i_t" .nat [] (Tile.scalar q)
+  let entry := u.setReg "i_t" .int [] (Tile.scalar q)
   let pre := beforeStore h c p.feature p.row q f acc entry
   let v := result h c p.feature p.row q f acc entry
   have he := RealStep.executes h c p.feature p.row q f acc entry
@@ -126,22 +127,30 @@ theorem iteration (initial : BlockState) (h : Call) (c : Config) (hc : 0<c.BT)
     exact (inv.frame r off hn).trans (frame r off hn)
 
 def statement (h : Call) (c : Config) : Stmt :=
-  .forRangeDyn "i_t" (.constNat 0) (countOp h c) (.constNat 1) (loopBody h c)
+  .forRangeInt "i_t" (.constInt 0) (.castNatToInt (countOp h c)) (.constNat 1) (loopBody h c)
 theorem count_eval (h : Call) (c : Config) (u : BlockState) :
     evalOp (countOp h c) u=some (Tile.scalar (Geometry.chunks h c)) := by
-  simp only [countOp,evalOp_div,evalOp_sub,evalOp_add,evalOp_constNat,Option.bind_some,Option.bind_eq_bind]
-  rfl
+  simp only [countOp,evalOp_constNat]
+
 
 theorem executes (initial : BlockState) (h : Call) (c : Config) (hc : 0<c.BT)
     (p : Geometry.Program h) (a : Nat → ℝ) (distinct : h.input≠h.output)
     (unique : NoCollision h p) (u : BlockState) (inv : Holds initial h c p a 0 u) :
     ∃ v, stepStmt (statement h c) u=some v ∧ Holds initial h c p a (Geometry.chunks h c) v := by
-  obtain ⟨final,v,he,hf,hv⟩ := forRangeDyn_inv (P:=Holds initial h c p a)
-    (evalOp_constNat 0 u) (count_eval h c u) (evalOp_constNat 1 u) (by decide) inv
-    (fun q u hq inv => iteration initial h c hc p a distinct unique q u hq inv)
-  have eq : final=Geometry.chunks h c := Nat.le_antisymm hv.count hf
-  subst final
-  exact ⟨v,he,hv⟩
+  let P := fun j : Int => fun v : BlockState =>
+    0 ≤ j ∧ Holds initial h c p a j.toNat v
+  have step (j : Int) (v : BlockState) (hj : j < (Geometry.chunks h c:Int)) (hv : P j v) :
+      ∃ w, stepStmts (loopBody h c) (v.setReg "i_t" .int [] (Tile.scalar j))=some w ∧ P (j+1) w := by
+    have inside : j.toNat < Geometry.chunks h c := by dsimp [P] at hv; omega
+    obtain ⟨w,he,hw⟩ := iteration initial h c hc p a distinct unique j.toNat v inside hv.2
+    refine ⟨w,?_,by dsimp [P] at *; exact ⟨by omega,by simpa only [show (j+1).toNat=j.toNat+1 by omega] using hw⟩⟩
+    simpa only [Int.toNat_of_nonneg hv.1] using he
+  obtain ⟨final,v,he,hf,hv⟩ := VeriTile.Bench.TritonBenchG.ReversedCumsum.SignedRange.executes
+    "i_t" (Geometry.chunks h c:Int) 1 (loopBody h c) P (by decide) step 0 u ⟨by omega,by simpa using inv⟩
+  have eq : final.toNat=Geometry.chunks h c := by have := hv.2.count; dsimp [P] at hv; omega
+  refine ⟨v,?_,by simpa only [eq] using hv.2⟩
+  rw [statement,stepForRangeIntAux.forRangeInt_unfold]
+  simpa only [evalOp,Option.bind_some,Option.bind_eq_bind,countOp] using he
 
 #axiomsClean executes
 end

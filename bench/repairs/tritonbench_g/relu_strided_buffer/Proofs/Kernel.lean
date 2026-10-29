@@ -11,7 +11,7 @@ open TritonBenchG.ReluStridedBuffer
 open SignedView StructuralTile StructuralGrid StructuralControl
 noncomputable section
 set_option maxRecDepth 16000
-set_option maxHeartbeats 2000000
+set_option maxHeartbeats 6000000
 
 def kernelIds (c : Parameters) (s : State α) : List Nat :=
   if c.oneTile then [s.pids 0]
@@ -39,28 +39,29 @@ theorem kernel_execution [Inhabited α] (M : Algebra α) (cmp : α → α → Bo
     refine ⟨actual,flat,?_,?_,obs⟩
     · simpa [kernel,branch,gridStrideKernel,perTile,oneTileKernel,
         FP.Structural.exec,StructuralControl.gridBody,StructuralControl.loopBody,SourceForRange.tileIdStmt,SourceForRange.numTilesStmt,
-        ComputeKernel.surfaceBody,run,step,stepAlg,evalExpr,evalOp_unfold,numeric,range_assign] using ran
+        originalBody,foldedBody,ComputeKernel.surfaceBody,run,step,stepAlg,evalExpr,evalOp_unfold,numeric,range_assign] using ran
     · simpa only [kernelIds,branch,Bool.false_eq_true,if_false] using flatRan
   · obtain ⟨actual,ran,obs⟩ := one_tile_execution M
       (tileOutput M cmp (views c)) (perTile c) (tile_implementation M cmp hc c) c.n c.B s
     refine ⟨actual,flatState (tileOutput M cmp (views c)) (s.pids 0) s,?_,?_,obs⟩
     · simpa [kernel,branch,oneTileKernel,perTile,FP.Structural.exec,StructuralControl.oneTileBody,
-        SourceForRange.numTilesStmt,ComputeKernel.surfaceBody,run,step,stepAlg,evalExpr,evalOp_unfold,numeric,range_assign] using ran
+        SourceForRange.numTilesStmt,originalBody,foldedBody,ComputeKernel.surfaceBody,run,step,stepAlg,evalExpr,evalOp_unfold,numeric,range_assign] using ran
     · simp [kernelIds,branch,runTiles,flatTile]
 
 /-- The displayed signed-pointer DSL is an observational lowering of the
 historical FP32 block-pointer source: successful execution, all memory cells,
-and arbitrary masked-load observations agree. Only private pointer registers
-change from cell indices to signed pre-conversion offsets. -/
+and arbitrary masked-load observations agree. The historical helper's inserted zero cast is interpreted by the explicit
+literalBridge adapter; actual kernels retain the source FP32 zero literal.
+Coordinate/shape captures and signed pre-conversion pointer registers are private. -/
 theorem signed_source_lowering [Inhabited α] (M : Algebra α) (cmp : α → α → Bool)
     (hc : M.compareLt none .fp32 = some cmp) (c : Parameters) (s : State α) :
     ∃ displayed historical,
       FP.Structural.exec M (kernel c) s = some displayed ∧
-      FP.Structural.exec M (StructuralTile.kernelSource (views c) c.oneTile c.tiles) s = some historical ∧
+      FP.Structural.exec (literalBridge M) (StructuralTile.kernelSource (views c) c.oneTile c.tiles) s = some historical ∧
       displayed.mem = historical.mem ∧ displayed.undef = historical.undef := by
   obtain ⟨displayed,flat,ran,flatRan,obs⟩ := kernel_execution M cmp hc c s
   obtain ⟨historical,flat',oldRan,oldFlatRan,oldObs⟩ :=
-    StructuralHost.kernel_execution M cmp hc (views c) c.oneTile c.tiles s
+    StructuralHost.kernel_execution (literalBridge M) cmp hc (views c) c.oneTile c.tiles s
   have equal : flat = flat' := Option.some.inj (flatRan.symm.trans oldFlatRan)
   subst flat'
   exact ⟨displayed,historical,ran,oldRan,obs.1.trans oldObs.1.symm,obs.2.trans oldObs.2.symm⟩
@@ -72,7 +73,7 @@ theorem folded_execution [Inhabited α] (M : Algebra α) (c : Parameters) (s : S
     exec M (kernel c) s = exec M (foldedKernel c) s := by
   cases branch : c.oneTile <;>
     simp [kernel,foldedKernel,branch,oneTileKernel,oneTileFolded,gridStrideKernel,gridStrideFolded,
-      FP.Structural.exec,ComputeKernel.surfaceBody,run,step,stepAlg,evalExpr,evalOp_unfold,numeric] <;> rfl
+      FP.Structural.exec,originalBody,foldedBody,ComputeKernel.surfaceBody,run,step,stepAlg,evalExpr,evalOp_unfold,numeric] <;> rfl
 
 /-- Single-CTA mathematical/value scope: every valid logical element covered
 by this CTA's tiles is written, and all other cells preserve entry memory. -/
@@ -93,7 +94,7 @@ theorem kernel_result [Inhabited α] (M : Algebra α) (cmp : α → α → Bool)
           a ≠ (views c).outputView.address (tile * c.B + lane.1.val)) → final.mem r a = s.mem r a) := by
   obtain ⟨flat,flatRan,result,inputFrame,frame⟩ := tiles_success hout hstride hsep
     (fun x => Cell.mk .fp32 (scalarResult M cmp x)) (flatTile (tileOutput M cmp (views c)))
-    (StructuralHost.tile_contract M cmp (views c) hout hstride) (kernelIds c s) s
+    (StructuralHost.tile_contract (literalBridge M) cmp (views c) hout hstride) (kernelIds c s) s
   obtain ⟨actual,flat',ran,flatRan',obs⟩ := kernel_execution M cmp hc c s
   have equal : flat = flat' := Option.some.inj (flatRan.symm.trans flatRan')
   subst flat'
@@ -144,7 +145,7 @@ theorem grid_result [Inhabited α] (M : Algebra α) (cmp : α → α → Bool)
   let c := views (parameters a)
   obtain ⟨flat,hflat,hvalues,hinput,hframe,hbounds⟩ := capped_grid_success hin hout hstride
     (HostPlan.block_pos hn) hsep (fun x => Cell.mk .fp32 (scalarResult M cmp x))
-    (flatTile (tileOutput M cmp c)) (StructuralHost.tile_contract M cmp c hout hstride)
+    (flatTile (tileOutput M cmp c)) (StructuralHost.tile_contract (literalBridge M) cmp c hout hstride)
     (cappedTileIds n (HostPlan.block n)) (List.Perm.refl _) s
   obtain ⟨actual,flat',hactual,hflat',hobs⟩ := grid_execution M cmp hc a s
   have equal : flat = flat' := Option.some.inj (hflat.symm.trans (by

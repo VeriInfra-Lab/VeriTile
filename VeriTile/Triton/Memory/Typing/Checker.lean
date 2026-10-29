@@ -372,6 +372,7 @@ def Op.check (ctx : CheckCtx) : Op dtype shape → Except CheckError Unit
   | .sub _ _ a b => a.check ctx *> b.check ctx
   | .mul _ _ a b => a.check ctx *> b.check ctx
   | .div _ _ a b => a.check ctx *> b.check ctx
+  | .divRN _ a b => a.check ctx *> b.check ctx
   | .floorDiv _ _ a b => a.check ctx *> b.check ctx
   | .mod _ _ a b => a.check ctx *> b.check ctx
   | .bitAnd _ a b => a.check ctx *> b.check ctx

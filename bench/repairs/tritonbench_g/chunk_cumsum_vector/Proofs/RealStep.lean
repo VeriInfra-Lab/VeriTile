@@ -19,10 +19,10 @@ def scatter (h : Call) (c : Config) (feature row q : Nat)
 
 def beforeStore (h : Call) (c : Config) (feature row q : Nat)
     (f : Nat → Fin BS → ℝ) (acc : Fin BS → ℝ) (u : BlockState) : BlockState :=
-  let u1 := u.setReg "start_t" .nat [] (Tile.scalar (q*c.BT))
-  let u2 := u1.setReg "lanes_t" .nat [c.BT] (lanes c.BT)
+  let u1 := u.setReg "start_t" .int [] (Tile.scalar (q*c.BT))
+  let u2 := u1.setReg "lanes_t" .int [c.BT] (lanes c.BT)
   let u3 := u2.setReg "active_t" .bool [c.BT] (axisMask h.T c.BT (q*c.BT))
-  let u4 := u3.setReg "times" .nat [c.BT] (coordinate h.T c.BT (q*c.BT))
+  let u4 := u3.setReg "times" .int [c.BT] (coordinate h.T c.BT (q*c.BT))
   let u5 := u4.setReg "active" .bool [c.BT,BS] (mask h c feature q)
   let u6 := u5.setReg "p_s" .ptr [c.BT,BS] (pointer h c feature row q h.input h.inputStrides)
   let u7 := u6.setReg "p_z" .ptr [c.BT,BS] (pointer h c feature row q h.output h.outputStrides)
@@ -47,11 +47,11 @@ theorem store_eval (h : Call) (c : Config) (feature row q : Nat)
 
 theorem executes (h : Call) (c : Config) (feature row q : Nat)
     (f : Nat → Fin BS → ℝ) (acc : Fin BS → ℝ) (u : BlockState)
-    (ht : u.regs .nat [] "i_t"=some (Tile.scalar q))
-    (hb : u.regs .nat [] "i_b"=some (Tile.scalar (row/h.H)))
-    (hh : u.regs .nat [] "i_h"=some (Tile.scalar (row%h.H)))
+    (ht : u.regs .int [] "i_t"=some (Tile.scalar q))
+    (hb : u.regs .int [] "i_b"=some (Tile.scalar (row/h.H)))
+    (hh : u.regs .int [] "i_h"=some (Tile.scalar (row%h.H)))
     (hs : u.regs .bool [BS] "active_s"=some (axisMask h.S BS (feature*BS)))
-    (hj : u.regs .nat [BS] "columns"=some (coordinate h.S BS (feature*BS)))
+    (hj : u.regs .int [BS] "columns"=some (coordinate h.S BS (feature*BS)))
     (hm : u.regs .real [c.BT,c.BT] "m_s"=some (lowerTriTile c.BT))
     (ha : u.regs .real [BS] "b_z"=some (Tile.vec fun j => some (acc j)))
     (read : ∀ (i : Fin c.BT) (j : Fin BS),
@@ -60,8 +60,8 @@ theorem executes (h : Call) (c : Config) (feature row q : Nat)
       else 0)=f (q*c.BT+i.val) j) :
     stepStmts (loopBody h c) u=some (result h c feature row q f acc u) := by
   unfold loopBody
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (start_eval "i_t" c.BT q u ht))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (show evalOp (.arange c.BT) _=some (lanes c.BT) from by simpa [lanes,Tile.vec] using evalOp_arange c.BT _))]
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some (timeStart_eval c q u ht))]
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some (show evalOp (.castNatToInt (.arange c.BT)) _=some (lanes c.BT) from by simp [evalOp,lanes,Tile.vec]))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (active_eval h.T c.BT (q*c.BT) "lanes_t" "start_t" _ (by simp) (by simp)))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (coordinate_eval h.T c.BT (q*c.BT) "start_t" "active_t" "lanes_t" _ (by simp) (by simp) (by simp)))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (mask_eval h c feature q _ (by simp) (by simp [hs])))]
@@ -71,15 +71,15 @@ theorem executes (h : Call) (c : Config) (feature row q : Nat)
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (output_eval c f q acc _ (by simp [ha]) (by simp [hm]) (by simp)))]
   rw [stepStmts.cons_some (store_eval h c feature row q f acc _ (by simp) (by simp) (by simp))]
   change stepStmts [.ifThen _ _] (scatter h c feature row q f acc (beforeStore h c feature row q f acc u))=_
-  have hc : evalOp (.ge .nat .nil (.ref .nat [] "i_t") (.constNat 0))
+  have hc : evalOp (.ge .int .nil (.ref .int [] "i_t") (.constInt 0))
       (scatter h c feature row q f acc (beforeStore h c feature row q f acc u))=some (Tile.scalar Bool.true) := by
-    have hr : (scatter h c feature row q f acc (beforeStore h c feature row q f acc u)).regs .nat [] "i_t"=some (Tile.scalar q) := by simp [scatter,beforeStore,ht]
+    have hr : (scatter h c feature row q f acc (beforeStore h c feature row q f acc u)).regs .int [] "i_t"=some (Tile.scalar q) := by simp [scatter,beforeStore,ht]
     rw [evalOp]
-    simp only [evalOp_ref,hr,evalOp_constNat,Option.bind_some,Option.bind_eq_bind]
+    simp only [evalOp_ref,hr,evalOp.eq_def,Option.bind_some,Option.bind_eq_bind]
     apply congrArg some
     apply Tile.ext
     intro i
-    change decide (0≤q)=Bool.true
+    change decide ((0:Int)≤(q:Int))=Bool.true
     simp
   rw [stepStmts,stepStmt,hc]
   simp only [Option.bind_some,Option.bind_eq_bind,Tile.scalar_data,↓reduceIte]

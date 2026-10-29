@@ -1,0 +1,42 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/quantize_global/quantize_global_repaired.py",
+    "python_function": "_quantize_global_repaired",
+    "lean": "bench/repairs/tritonbench_g/quantize_global/Kernels.lean",
+    "lean_definition": "source",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "x_ptr",
+          "fp32"
+        ],
+        [
+          "absmax_ptr",
+          "fp32"
+        ],
+        [
+          "output_ptr",
+          "i8"
+        ]
+      ],
+      "scalars": [
+        [
+          "n_elements",
+          "i64"
+        ],
+        [
+          "base",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ]
+    },
+    "expected_call_bindings": {
+      "n_elements": "N",
+      "base": "base"
+    }
+  }
+]

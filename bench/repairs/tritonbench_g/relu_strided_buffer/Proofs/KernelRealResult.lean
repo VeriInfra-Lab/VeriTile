@@ -6,6 +6,10 @@ open VeriTile.Triton FP.Structural
 open TritonBenchG.ReluStridedBuffer HostPlan SignedView Whole
 noncomputable section
 
+theorem source_scalar (rest : Algebra ℝ) (z : ℝ) :
+    scalarResult (realBackend rest) (fun x y => decide (x < y)) z = max 0 z :=
+  (scalarResult_eq_historical _ _ (by rfl) z).trans (real_scalar rest z)
+
 /-- Complete Real kernel grid over raw signed pointers: all outputs, input and
 exterior frames, and active bounds. The two original branches are retained. -/
 theorem relu_strided_buffer_kernel_correctness (rest : Algebra ℝ) (x y : SignedView.View)
@@ -28,8 +32,9 @@ theorem relu_strided_buffer_kernel_correctness (rest : Algebra ℝ) (x y : Signe
   refine ⟨final,ran,?_,inputFrame,frame,bounds⟩
   intro i hi
   rw [result i hi,values i hi]
-  simp [Cell.read,real_scalar]
+  simp [Cell.read,source_scalar]
 
+#axiomsClean source_scalar
 #axiomsClean relu_strided_buffer_kernel_correctness
 end
 end VeriTile.Bench.Repairs.ReluStridedBuffer.KernelRealResult

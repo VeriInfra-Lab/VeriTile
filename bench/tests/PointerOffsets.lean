@@ -50,9 +50,28 @@ def wrongRole (X Y : RegionName) (xb n B : Nat) : ComputeKernel :=
     tl.store(Y + offsets, x)
   }
 
-/-- error: pointer offset must have a Nat element-offset carrier -/
-#guard_msgs in
 def signedOffset (X Y : RegionName) (xb : Int) (n B : Nat) : ComputeKernel :=
+  with_triton_call profile call_args [n := n] pointer_offsets [X := xb] in
+  triton {
+    offsets = tl.arange(0, B)
+    x = tl.load(X + offsets)
+    tl.store(Y + offsets, x)
+  }
+
+def expandedSigned (X Y : RegionName) (xb : Int) (n B : Nat) : ComputeKernel := triton {
+  tl.region X = tl.float32, Y = tl.float32
+  offsets = tl.arange(0, $((B : Nat)))
+  x = tl.load(X + $((xb : Int)) + offsets)
+  tl.store(Y + offsets, x)
+}
+
+/-- The whole signed element offset is retained until address conversion. -/
+theorem complete_signed_source (X Y : RegionName) (xb : Int) (n B : Nat) :
+    signedOffset X Y xb n B = expandedSigned X Y xb n B := rfl
+
+/-- error: pointer offset must have a Nat or Int element-offset carrier -/
+#guard_msgs in
+def floatingOffset (X Y : RegionName) (xb : ℝ) (n B : Nat) : ComputeKernel :=
   with_triton_call profile call_args [n := n] pointer_offsets [X := xb] in
   triton {
     offsets = tl.arange(0, B)
@@ -72,4 +91,5 @@ def mutated (X Y : RegionName) (xb n B : Nat) : ComputeKernel :=
   }
 
 #axiomsClean complete_source
+#axiomsClean complete_signed_source
 end VeriTile.Tests.PointerOffsets

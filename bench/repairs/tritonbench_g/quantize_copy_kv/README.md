@@ -23,8 +23,17 @@ guard.
 
 `Kernels.lean` now holds the sole readable Triton DSL source. The second version
 only commutes `1 * offs_d` to `offs_d * 1` in an input address. All floating
-operations, their order, masks and casts are unchanged. No separate optimized
-Python implementation or performance improvement is claimed.
+operations, their order, masks and casts are unchanged. Both complete
+fourteen-statement quotations now copy their Python bodies without Lean type
+directives or antiquotes. The invocation supplies pointer storage, runtime
+strides and constexpr sizes outside the bodies. SourceIdentity proves their
+entire executable statement lists equal to the previous original and candidate,
+including signed metadata, FP16 scale conversion/promotion and INT8 codes.
+
+The selected Python original is unchanged. candidate_kernels.py is an authored
+Python counterpart of the already existing Lean integer-address candidate;
+it is explicitly marked as such and is not a recovered historical original.
+No performance improvement is claimed.
 `Proofs/KernelSource.lean` is a compatibility import. The previous scalar/event
 model has moved to `Proofs/Model.lean`; its existing proofs are retained.
 

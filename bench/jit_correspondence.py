@@ -36,7 +36,7 @@ def quotation(text: str, definition: str) -> tuple[str, str]:
         raise ValueError("missing quotation body")
     if start.start() + opening >= boundary:
         raise ValueError(f"definition has no direct quotation: {definition}")
-    native = bool(re.search(r"\bwith_triton_(?:signature|call)\b", code[:opening]))
+    native = bool(re.search(r"\b(?:with_triton_(?:signature|call)|triton_function)\b", code[:opening]))
     if native:
         fragment = selected[opening:]
         offsets = [0]
@@ -222,6 +222,14 @@ def call_signature(text: str, name: str) -> dict:
                 or not set(selected) <= {n for n, dtype in fields["pointers"] if dtype in integers}):
             raise ValueError("natural integer pointers must be distinct integer pointer parameter names")
         fields["naturalIntegerPointers"] = selected
+    functions = re.search(r"\bfunctions\s*:=\s*\[([^\]]*)\]", match[1])
+    if re.search(r"\bfunctions\s*:=", match[1]) and not functions:
+        raise ValueError("source functions must be a literal list of declarations")
+    if functions:
+        names = [name.strip() for name in functions[1].split(",") if name.strip()]
+        if any(not re.fullmatch(r"\w+(?:\.\w+)*", name) for name in names) or len(names) != len(set(names)):
+            raise ValueError("source functions must be distinct named declarations")
+        fields["functions"] = names
     names = [n for n, _ in fields["pointers"] + fields["scalars"]] + fields["constexpr"]
     if len(names) != len(set(names)):
         raise ValueError("duplicate call signature parameter")
@@ -280,7 +288,17 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
     pointer_offsets = None
     if expected_pointer_offsets is not None and signature_definition is None:
         raise ValueError("pointer offsets require a checked call signature")
-    if signature_definition is not None:
+    helper = re.search(r"\btriton_function\s+(\w+)\s*\(([^)]*)\)\s+in\s+triton\s*$", signature)
+    if helper:
+        if signature_definition is not None or expected_signature is not None or expected_call_bindings is not None:
+            raise ValueError("source helpers use inferred argument values, not a kernel ABI")
+        arguments = [name.strip() for name in helper[2].split(",") if name.strip()]
+        if helper[1] != python_function or arguments != [a.arg for a in function.args.args]:
+            raise ValueError("source helper name or parameters differ from Python")
+        if constants or runtime or len(arguments) != len(set(arguments)):
+            raise ValueError("unsupported source helper parameter annotations")
+        profile = {"pointers": [], "scalars": [], "constexpr": []}
+    elif signature_definition is not None:
         if expected_signature is None:
             raise ValueError("pasted body requires an independently reviewed call signature")
         masked = list(body)
@@ -342,6 +360,10 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
                 continue
             if arg.arg in pointer_names and t == "tl.tensor":
                 continue
+            if t == "int" and dict(profile["scalars"]).get(arg.arg) == "integer":
+                # Python int is not a fixed native-width Triton annotation.
+                # Keep the existing exact caller value and separate width proof.
+                continue
             if supplied.get(arg.arg) != t:
                 raise ValueError("runtime scalar annotation differs from call signature")
     if profile is not None:
@@ -378,6 +400,12 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
             "call_bindings": call_bindings,
             "statements": len(function.body),
             "runtime_parameters": dict(profile["scalars"]) if profile is not None else runtime, "constexpr_parameters": sorted(constants)}
+    if helper:
+        result["body_kind"] = "helper"
+        result["helper_parameters"] = arguments
+        result["argument_mode"] = "inferred_helper_values"
+    if profile is not None and "functions" in profile:
+        result["source_functions"] = profile["functions"]
     if pointer_offsets is not None:
         result["pointer_offsets"] = pointer_offsets
     if jit_options is not None:
@@ -434,6 +462,12 @@ def check_manifest(root: Path, manifest: Path) -> list[dict]:
         if "profile_variant" in record:
             result["profile_variant"] = record["profile_variant"]
         results.append(result)
+    for record, result in zip(records, results):
+        for helper in result.get("source_functions", []):
+            if not any(other["lean"] == record["lean"] and other["lean_definition"] == helper
+                       and checked.get("body_kind") == "helper"
+                       for other, checked in zip(records, results)):
+                raise ValueError("registered source helper lacks a checked original body")
     return results
 
 

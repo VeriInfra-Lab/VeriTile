@@ -269,3 +269,57 @@ theorem branch_precision (X Y : RegionName) : branched X Y = triton {
 #axiomsClean branch_precision
 end
 end VeriTile.Tests.PythonBody.ReservedAndControlFlow
+
+
+
+namespace VeriTile.Tests.PythonBody.ParenthesizedAssignment
+open VeriTile.Triton
+
+def signature : CallSignature where
+  scalars := [("n",.integer)]
+
+def pasted (n : Int) : ComputeKernel :=
+  with_triton_call signature call_args [n := n] in triton {
+    a, b, c = (tl.cast(n, tl.int64), tl.cast(n + 1, tl.int64), tl.cast(n - 1, tl.int64))
+  }
+
+def unparenthesized (n : Int) : ComputeKernel :=
+  with_triton_call signature call_args [n := n] in triton {
+    a, b, c = tl.cast(n, tl.int64), tl.cast(n + 1, tl.int64), tl.cast(n - 1, tl.int64)
+  }
+
+theorem same_complete_program (n : Int) : pasted n = unparenthesized n := rfl
+
+/-- Every original cast/value reaches the corresponding register in order. -/
+theorem independent_tuple_executes {A : Type} [Inhabited A]
+    (M : FP.Structural.Algebra A) (s : FP.Structural.State A) (n : Int) :
+    (FP.Structural.exec M (pasted n) s).bind
+      (fun t => do
+        let a ← t.regs .int [] "a"
+        let b ← t.regs .int [] "b"
+        let c ← t.regs .int [] "c"
+        return (a PUnit.unit, b PUnit.unit, c PUnit.unit)) = some (n, n + 1, n - 1) := by
+  simp [pasted, FP.Structural.exec, ComputeKernel.surfaceBody, FP.Structural.run,
+    FP.Structural.step, FP.Structural.evalExpr, FP.Structural.evalOp_unfold,
+    FP.Structural.State.setReg, FP.Structural.numeric, FP.Structural.bop,
+    ComputeDType.eraseDType]
+
+/-- error: tuple assignment needs unsupported simultaneous register capture -/
+#guard_msgs in
+def dependent_swap (n : Int) : ComputeKernel :=
+  with_triton_call signature call_args [n := n] in triton {
+    a = n
+    b = n + 1
+    a, b = (b, a)
+  }
+
+/-- error: tuple assignment needs one value per target -/
+#guard_msgs in
+def incorrect_arity (n : Int) : ComputeKernel :=
+  with_triton_call signature call_args [n := n] in triton {
+    a, b = (n, n + 1, n - 1)
+  }
+
+#axiomsClean same_complete_program
+#axiomsClean independent_tuple_executes
+end VeriTile.Tests.PythonBody.ParenthesizedAssignment

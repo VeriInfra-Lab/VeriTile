@@ -1,13 +1,10 @@
 import bench.repairs.tritonbench_g.quantize_global.Kernels
 import bench.tritonbench_g.quantize_global.Kernels
 import bench.tritonbench_g.quantize_global.Proofs.IntegerSemantics
-/-! Separate repair candidate. Source FP32, output int8, and the original two
-autotune configurations are retained. The candidate deliberately changes the
-reciprocal graph to div.rn.f32 followed by mul.f32. `source` is the natural-index
-projection: the i64 casts are justified in Proofs/Indices; its `/` node denotes
-the explicit div.rn operation, never Triton's approximate `/` lowering.
-The native source and this projection are pinned by the evidence source audit.
--/
+/-! The selected source retains FP32 precise division, multiplication, clamp,
+llrint64 and INT8 storage under both original autotune configurations. Runtime
+INT64 casts remain in the raw quotation. The separate index refinement and
+ordinary primitive/host boundaries remain explicit in the proof layers. -/
 namespace QuantizeGlobalRepair
 open VeriTile.Triton FP.Structural
 open QuantizeIntegerStage
@@ -23,8 +20,8 @@ structure Scalar (α : Type) where
   literal : ℝ → α
   neg : α → α
   mul : α → α → α
-  /-- The Python source's explicit `tl.div_rn` primitive. The DSL `/` node is
-  interpreted through this binding, not through Triton's approximate division. -/
+  /-- The Python source's explicit precise `tl.div_rn` primitive. It is bound
+  only to the independent divRN callback, never to ordinary `/`. -/
   div : α → α → α
   lt : α → α → Bool
   eq : α → α → Bool
@@ -47,13 +44,14 @@ noncomputable def backend (rest : Algebra α) (a : Scalar α) : Algebra α :=
   { rest with
     literal := fun _ _ => a.literal
     binary := fun p d op => match op with
-      | .mul => a.mul | .div => a.div | op => rest.binary p d op
+      | .mul => a.mul | op => rest.binary p d op
     unary := fun p op => match op with
       | .neg _ => a.neg | op => rest.unary p op
     compareLt := fun _ _ => some a.lt
     compareEq := fun _ _ => some a.eq
     cast := fun _ _ _ => id
-    fp32Load := id }
+    fp32Load := id
+    divRN := some a.div }
 
 structure Invocation where
   base : Nat

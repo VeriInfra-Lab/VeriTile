@@ -72,3 +72,26 @@ namespaces, full theorem statements, proof bodies and prior acceptance status
 are preserved. `Correct.lean`, `FPEquiv.lean` and their required proof helpers
 do not import these optional entries. This directory move adds no correctness
 claim or numerical validation.
+
+
+The original and existing sum-left candidate are now quoted directly from
+`chunk_cumsum_vector_repaired.py`. Both eleven-statement function bodies are
+checked independently by `jit-correspondence.json`; the selected Python JITs
+are unchanged. The two program-ID casts, tuple quotient/remainder, both lane
+casts, signed range bound and time-index cast, masks, explicit padding,
+TF32-disabled dot, output conversion and post-store carry order are preserved.
+Pointer types and all thirteen constexpr arguments are declared outside the
+body. All six input and six output float profiles and nine configurations
+remain available to the existing generic theorems.
+
+Proof-only program views are proved equal to the actual raw quotations and
+their dtype erasure. Initialization, signed forward loops, ordered FP
+execution, independent Real prefix formula and actual access safety are
+re-proved against these views. Strict Nat/Int identities connect nonnegative
+program indices and addresses; no floating-point identity or additional input
+condition is used for that connection. The existing finite-carry domain,
+strict ADD-COMMUTE certificate, full tagged-memory comparison, frames and
+public/Tensor/host/native scopes remain. The source regression check rejects
+removed casts, padding or output conversions, a changed TF32 setting, and a
+narrowed input float family. This migration runs no GPU or new numerical
+experiment; its frozen-source build receipts are recorded in the task ledger.

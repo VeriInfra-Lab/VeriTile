@@ -1,5 +1,6 @@
 import bench.repairs.tritonbench_g.rowwise_quantization_triton.Kernels
 import VeriTile.Triton
+import VeriTile.Triton.DSL.CallSignature
 
 namespace VeriTile.Bench.Repairs.QuantizeKvTransform
 set_option autoImplicit false
@@ -220,62 +221,62 @@ open VeriTile.Triton
 structure Parameters where
   (heads columns height width : Nat)
 
+def callSignature : CallSignature where
+  pointers := [("K",.fp32),("Dest_loc",.i32),("Out",.i8),("Out_scale",.fp32)]
+  scalars := [("stride_k_bs",.integer),("stride_k_h",.integer),("stride_k_d",.integer),("stride_dest",.integer),("stride_o_bs",.integer),("stride_o_h",.integer),("stride_o_d",.integer),("stride_os_bs",.integer),("stride_os_h",.integer),("head_num",.integer),("head_dim",.integer)]
+  constexpr := ["BLOCK_DMODEL","BLOCK_HEAD"]
+
 def kernel (p : Parameters) : ComputeKernel :=
-  let K : RegionName := "input"
-  let DestLoc : RegionName := "destination"
-  let Out : RegionName := "output"
-  let OutScale : RegionName := "scale"
-  triton {
-    tl.ports inputs=[K,DestLoc], outputs=[Out,OutScale]
-    tl.region K = tl.float32, DestLoc = tl.int32, Out = tl.int8, OutScale = tl.float32
+  let K := ("input" : RegionName)
+  let Dest_loc := ("destination" : RegionName)
+  let Out := ("output" : RegionName)
+  let Out_scale := ("scale" : RegionName)
+  let BLOCK_DMODEL := p.width
+  let BLOCK_HEAD := p.height
+  let denseStride := p.heads * p.columns
+  with_triton_call callSignature call_args [
+    stride_k_bs := denseStride, stride_k_h := p.columns, stride_k_d := 1, stride_dest := 1, stride_o_bs := denseStride, stride_o_h := p.columns, stride_o_d := 1, stride_os_bs := p.heads, stride_os_h := 1, head_num := p.heads, head_dim := p.columns] in triton {
     cur_index = tl.program_id(0).to(tl.int64)
-    offs_h = tl.arange(0, $(p.height)).to(tl.int64)
-    offs_d = tl.arange(0, $(p.width)).to(tl.int64)
-    dest_index = tl.load(DestLoc + cur_index * $(1)).to(tl.int64)
-    src_data = tl.load(K + cur_index * $(p.heads * p.columns) +
-      offs_h[:, None] * $(p.columns) + $(1) * offs_d[None, :],
-      mask=(offs_h[:, None] < $(p.heads)) & (offs_d[None, :] < $(p.columns)), other=0.0)
+    offs_h = tl.arange(0, BLOCK_HEAD).to(tl.int64)
+    offs_d = tl.arange(0, BLOCK_DMODEL).to(tl.int64)
+    dest_index = tl.load(Dest_loc + cur_index * stride_dest).to(tl.int64)
+    src_data = tl.load(K + cur_index * stride_k_bs + offs_h[:, None] * stride_k_h + stride_k_d * offs_d[None, :], mask=(offs_h[:, None] < head_num) & (offs_d[None, :] < head_dim), other=0.0)
     abs_data = tl.abs(src_data)
     maximum = tl.max(abs_data, axis=1)
-    data_scale = ((maximum / 127.0).to(OutScale.dtype.element_ty))[:, None]
+    data_scale = (maximum / 127.0).to(Out_scale.dtype.element_ty)[:, None]
     denominator = tl.where(maximum[:, None] == 0.0, 1.0, data_scale.to(tl.float32))
     q_src_data = (src_data / denominator).to(tl.int8)
-    o_ptrs = Out + dest_index * $(p.heads * p.columns) +
-      $(p.columns) * offs_h[:, None] + $(1) * offs_d[None, :]
-    os_ptrs = OutScale + dest_index * $(p.heads) + $(1) * offs_h[:, None]
-    tl.store(o_ptrs, q_src_data,
-      mask=(offs_h[:, None] < $(p.heads)) & (offs_d[None, :] < $(p.columns)))
-    tl.store(os_ptrs, data_scale, mask=offs_h[:, None] < $(p.heads))
+    o_ptrs = Out + dest_index * stride_o_bs + stride_o_h * offs_h[:, None] + stride_o_d * offs_d[None, :]
+    os_ptrs = Out_scale + dest_index * stride_os_bs + stride_os_h * offs_h[:, None]
+    tl.store(o_ptrs, q_src_data, mask=(offs_h[:, None] < head_num) & (offs_d[None, :] < head_dim))
+    tl.store(os_ptrs, data_scale, mask=offs_h[:, None] < head_num)
   }
 
-/-- Pure output pointer formation is scheduled before floating quantization.
-This exposes instruction overlap without changing numerical operations. -/
 def addressEarly (p : Parameters) : ComputeKernel :=
-  let K : RegionName := "input"
-  let DestLoc : RegionName := "destination"
-  let Out : RegionName := "output"
-  let OutScale : RegionName := "scale"
-  triton {
-    tl.ports inputs=[K,DestLoc], outputs=[Out,OutScale]
-    tl.region K = tl.float32, DestLoc = tl.int32, Out = tl.int8, OutScale = tl.float32
+  let K := ("input" : RegionName)
+  let Dest_loc := ("destination" : RegionName)
+  let Out := ("output" : RegionName)
+  let Out_scale := ("scale" : RegionName)
+  let BLOCK_DMODEL := p.width
+  let BLOCK_HEAD := p.height
+  let denseStride := p.heads * p.columns
+  with_triton_call callSignature call_args [
+    stride_k_bs := denseStride, stride_k_h := p.columns, stride_k_d := 1, stride_dest := 1, stride_o_bs := denseStride, stride_o_h := p.columns, stride_o_d := 1, stride_os_bs := p.heads, stride_os_h := 1, head_num := p.heads, head_dim := p.columns] in triton {
     cur_index = tl.program_id(0).to(tl.int64)
-    offs_h = tl.arange(0, $(p.height)).to(tl.int64)
-    offs_d = tl.arange(0, $(p.width)).to(tl.int64)
-    dest_index = tl.load(DestLoc + cur_index * $(1)).to(tl.int64)
-    src_data = tl.load(K + cur_index * $(p.heads * p.columns) +
-      offs_h[:, None] * $(p.columns) + $(1) * offs_d[None, :],
-      mask=(offs_h[:, None] < $(p.heads)) & (offs_d[None, :] < $(p.columns)), other=0.0)
-    o_ptrs = Out + dest_index * $(p.heads * p.columns) +
-      $(p.columns) * offs_h[:, None] + $(1) * offs_d[None, :]
-    os_ptrs = OutScale + dest_index * $(p.heads) + $(1) * offs_h[:, None]
+    offs_h = tl.arange(0, BLOCK_HEAD).to(tl.int64)
+    offs_d = tl.arange(0, BLOCK_DMODEL).to(tl.int64)
+    dest_index = tl.load(Dest_loc + cur_index * stride_dest).to(tl.int64)
+    src_data = tl.load(K + cur_index * stride_k_bs + offs_h[:, None] * stride_k_h + stride_k_d * offs_d[None, :], mask=(offs_h[:, None] < head_num) & (offs_d[None, :] < head_dim), other=0.0)
+    o_ptrs = Out + dest_index * stride_o_bs + stride_o_h * offs_h[:, None] + stride_o_d * offs_d[None, :]
+    os_ptrs = Out_scale + dest_index * stride_os_bs + stride_os_h * offs_h[:, None]
     abs_data = tl.abs(src_data)
     maximum = tl.max(abs_data, axis=1)
-    data_scale = ((maximum / 127.0).to(OutScale.dtype.element_ty))[:, None]
+    data_scale = (maximum / 127.0).to(Out_scale.dtype.element_ty)[:, None]
     denominator = tl.where(maximum[:, None] == 0.0, 1.0, data_scale.to(tl.float32))
     q_src_data = (src_data / denominator).to(tl.int8)
-    tl.store(o_ptrs, q_src_data,
-      mask=(offs_h[:, None] < $(p.heads)) & (offs_d[None, :] < $(p.columns)))
-    tl.store(os_ptrs, data_scale, mask=offs_h[:, None] < $(p.heads))
+    tl.store(o_ptrs, q_src_data, mask=(offs_h[:, None] < head_num) & (offs_d[None, :] < head_dim))
+    tl.store(os_ptrs, data_scale, mask=offs_h[:, None] < head_num)
   }
+
 
 end VeriTile.Bench.Repairs.QuantizeKvTransform.KernelSource

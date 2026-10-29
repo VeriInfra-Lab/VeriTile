@@ -3,12 +3,16 @@ import ast
 import contextlib
 import importlib.util
 import hashlib
+import sys
 from pathlib import Path
 import re
 from types import SimpleNamespace
 import torch
 
 HERE = Path(__file__).resolve().parent
+ROOT = HERE.parents[3]
+sys.path.insert(0, str(ROOT))
+from bench.jit_correspondence import check_manifest
 SOURCE = HERE / 'quantize_kv_copy_repaired.py'
 ORIGINAL = HERE.parents[2] / 'tritonbench_g/quantize_kv_copy/quantize_kv_copy.py'
 ACCEPTED_AST_SHA256 = '2c8270da01af4c1cd41b64b03441b9108bd22619a178efdd90dbc93ee906b721'
@@ -30,6 +34,7 @@ class Tensor(helpers.Tensor):
 
 
 def source_binding():
+    assert [(p["mode"], p["statements"]) for p in check_manifest(ROOT, HERE / "jit-correspondence.json")] == [("pasted_body", 15), ("pasted_body", 15)]
     assert hashlib.sha256(ast.dump(function(SOURCE, NAME), include_attributes=False).encode()).hexdigest() == ACCEPTED_AST_SHA256
     wrapper = function(SOURCE, 'destindex_copy_quantize_kv')
     guards = [n for n in wrapper.body if isinstance(n, ast.If) and any(isinstance(s, ast.Raise) for s in n.body)]
