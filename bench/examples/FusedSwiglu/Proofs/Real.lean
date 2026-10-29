@@ -37,7 +37,7 @@ def silu_step_math (X S : RegionName) (ncols BLOCK_N : Nat) : ComputeKernel := t
 def mul_step_math (S Y OUT : RegionName) (ncols BLOCK_N : Nat) : ComputeKernel := triton {
   start_col = tl.program_id(0) * $(BLOCK_N)
   cols = start_col + tl.arange(0, $(BLOCK_N))
-  z = tl.load(S + cols, mask=cols < $(ncols))
+  z = tl.load(S + cols, mask=cols < $(ncols), other=0.0)
   y = tl.load(Y + cols, mask=cols < $(ncols), other=0.0)
   out = z * y
   tl.store(OUT + cols, out, mask=cols < $(ncols))
@@ -51,28 +51,28 @@ theorem fused_projection (X Y OUT : RegionName) (n B : Nat) :
     (swiglu_fused X Y OUT n B).eraseDType.toAlgorithm? =
       Except.ok (swiglu_fused_math X Y OUT n B).toAlgKernel := by
   simp [swiglu_fused, swiglu_fused_math, ComputeKernel.eraseDType,
-    ComputeStmt.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeExpr.toAlgorithm?,
+    ComputeStmt.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, ComputeDType.eraseDType,
     Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,
     Op.eraseDType, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType,
     MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def]
   repeat' apply And.intro
   all_goals
     rw [Op.eraseDType.eq_def]
-    simp [Op.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType]
+    simp [Op.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType]
 
 theorem unfused_projection (X Y S OUT : RegionName) (n B : Nat) :
     (swiglu_unfused X Y S OUT n B).eraseDType.toAlgorithm? =
       Except.ok (swiglu_unfused_math X Y S OUT n B).toAlgKernel := by
-  simp [swiglu_unfused, swiglu_unfused_math, silu_step, silu_step_source, siluPrecision,
+  simp [swiglu_unfused, swiglu_unfused_math, silu_step,
     mul_step, silu_step_math, mul_step_math, ComputeKernel.eraseDType,
-    ComputeStmt.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeExpr.toAlgorithm?,
+    ComputeStmt.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, ComputeDType.eraseDType,
     Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,
     Op.eraseDType, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType,
     MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def]
   repeat' apply And.intro
   all_goals
     rw [Op.eraseDType.eq_def]
-    simp [Op.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType]
+    simp [Op.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType]
 
 private theorem foldl_store_preserve_cell {α : Type} {region : RegionName}
     (offsetFn : α → Nat) (valueFn : α → ℝ) (P : α → Prop) [DecidablePred P]

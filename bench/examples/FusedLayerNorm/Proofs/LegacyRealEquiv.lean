@@ -1,4 +1,4 @@
-import bench.examples.FusedLayerNorm.Kernels
+import bench.examples.FusedLayerNorm.Proofs.LegacyBody
 import Mathlib.Data.Real.Basic
 import Mathlib.Algebra.BigOperators.Group.Finset.Basic
 import Mathlib.Algebra.BigOperators.Field
@@ -16,7 +16,7 @@ The two-gates FP specification is in ../FPEquiv.lean.
 
 # LayerNorm: two-pass vs fused single-pass — kernel equivalence `≡[R]`
 
-Sources are in Kernels.lean. The proof below derives the real relation,
+Historical untyped sources are frozen in Proofs/LegacyBody.lean. Current native source proofs are in Correct.lean and FPEquiv.lean. The proof below derives the real relation,
 checks termination and memory framing, and states the public specification.
 
 `twoPassLayerNormKernel` computes mean/variance with two `tl.sum` passes then the
@@ -67,7 +67,7 @@ so a self-referential spec is impossible by construction (and there is no
 -/
 
 namespace VeriTile.Bench.Examples.LayerNorm
-open VeriTile.Bench.Examples.FusedLayerNorm.Kernels
+open VeriTile.Bench.Examples.FusedLayerNorm.LegacyBody
 open VeriTile.Triton VeriTile.Examples
 open VeriTile.Triton.TiledReduction.WelfordRec
 open scoped VeriTile.Triton.KernelIO₃

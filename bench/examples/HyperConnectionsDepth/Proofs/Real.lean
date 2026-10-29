@@ -1,4 +1,4 @@
-import bench.examples.HyperConnectionsDepth.Kernels
+import bench.examples.HyperConnectionsDepth.Proofs.MathKernels
 import VeriTile.Triton.Math.Sinkhorn
 import VeriTile.Triton.Math.MatrixRewrite
 import VeriTile.Triton.Core
@@ -13,8 +13,8 @@ import VeriTile.Triton.Math.SinkhornMemory
 /-! Real execution, arithmetic and memory lemmas for HyperConnectionsDepth.
 The public IO contracts and mathematical specifications are in ../Correct.lean. -/
 
-namespace VeriTile.Bench.Examples.HyperConnectionsDepth.Memory
-open VeriTile Triton TraceProofs Kernels
+namespace VeriTile.Bench.Examples.HyperConnectionsDepth.Mathematical.Memory
+open VeriTile Triton TraceProofs MathKernels
 
 set_option maxHeartbeats 6400000
 
@@ -147,10 +147,10 @@ theorem flattenOk (optimized : Bool) (S T D iters : Nat) (tau : ℝ) :
   cases optimized <;> simp [Kernel.FlattenOk, matrixOriginal, matrixKernel, matrixOptimized, ComputeKernel.toAlgKernel,
     StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def]
 
-end VeriTile.Bench.Examples.HyperConnectionsDepth.Memory
+end VeriTile.Bench.Examples.HyperConnectionsDepth.Mathematical.Memory
 
-namespace VeriTile.Bench.Examples.HyperConnectionsDepth
-open VeriTile.Bench.Examples.HyperConnectionsDepth.Kernels
+namespace VeriTile.Bench.Examples.HyperConnectionsDepth.Mathematical
+open VeriTile.Bench.Examples.HyperConnectionsDepth.MathKernels
 
 attribute [local simp] VeriTile.Triton.ComputeExpr.toAlgorithm?
   VeriTile.Triton.ComputeOp.toAlgorithm? VeriTile.Triton.ComputeDType.eraseDType
@@ -355,11 +355,11 @@ theorem optimized_exec (tau : ℝ) (s : BlockState) :
 
 end Optimized
 
-end VeriTile.Bench.Examples.HyperConnectionsDepth
+end VeriTile.Bench.Examples.HyperConnectionsDepth.Mathematical
 
-namespace VeriTile.Bench.Examples.HyperConnectionsDepth.MatrixCorrect
+namespace VeriTile.Bench.Examples.HyperConnectionsDepth.Mathematical.MatrixCorrect
 open VeriTile Triton LogSinkhorn
-open VeriTile.Bench.Examples.HyperConnectionsDepth.Kernels
+open VeriTile.Bench.Examples.HyperConnectionsDepth.MathKernels
 
 set_option maxHeartbeats 3200000
 
@@ -482,4 +482,4 @@ theorem matrix_region_run (optimized : Bool) (S T D iters : Nat) (tau : ℝ)
     · intro r o h
       exact matrix_frame hf r o h
 
-end VeriTile.Bench.Examples.HyperConnectionsDepth.MatrixCorrect
+end VeriTile.Bench.Examples.HyperConnectionsDepth.Mathematical.MatrixCorrect

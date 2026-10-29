@@ -21,7 +21,7 @@ theorem no_underflow (byte width : Nat) : (byte / width) * width ≤ byte :=
 Only exact integer arithmetic is normalized; floating ports are never used. -/
 theorem execution {A : Type} [Inhabited A] (M : Algebra A) (p : Parameters) (s : State A) :
     FP.Structural.exec M (source p) s = FP.Structural.exec M (quotientRemainder p) s := by
-  simp [source,quotientRemainder,FP.Structural.exec,ComputeKernel.surfaceBody,
+  simp [source,body,quotientRemainder,quotientRemainderBody,FP.Structural.exec,ComputeKernel.surfaceBody,
     FP.Structural.run,FP.Structural.step,FP.Structural.evalExpr,
     FP.Structural.evalComputeOp,FP.Structural.evalOp_unfold,
     FP.Structural.evalOffsets,FP.Structural.store,FP.Structural.numeric,
@@ -38,7 +38,7 @@ theorem safety {A : Type} [Inhabited A] (M : Algebra A) (p : Parameters)
     TraceSafe M bounds (source p) s ↔ TraceSafe M bounds (quotientRemainder p) s := by
   simp [TraceSafe,Safety.traceSafeList,Safety.stepSafe,Safety.safeAlg,Safety.safeExpr,
     Safety.safeCompute,Safety.safeOp_unfold,Safety.safeMask,Safety.safeAddress,Safety.addressSafe,
-    Safety.maskActive,source,quotientRemainder,ComputeKernel.surfaceBody,
+    Safety.maskActive,source,body,quotientRemainder,quotientRemainderBody,ComputeKernel.surfaceBody,
     FP.Structural.run,FP.Structural.step,FP.Structural.evalExpr,
     FP.Structural.evalComputeOp,FP.Structural.evalOp_unfold,
     FP.Structural.evalOffsets,FP.Structural.store,FP.Structural.numeric,

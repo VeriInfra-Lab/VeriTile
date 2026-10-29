@@ -1,0 +1,56 @@
+[
+  {
+    "python": "bench/examples/VectorAdd/native_kernels.py",
+    "lean": "bench/examples/VectorAdd/Kernels.lean",
+    "python_function": "addKernel",
+    "lean_definition": "addKernel",
+    "signature_definition": "originalSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "xReg",
+          "fp32"
+        ],
+        [
+          "yReg",
+          "fp32"
+        ],
+        [
+          "outReg",
+          "fp32"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "blockSize"
+      ]
+    }
+  },
+  {
+    "python": "bench/examples/VectorAdd/native_kernels.py",
+    "lean": "bench/examples/VectorAdd/Kernels.lean",
+    "python_function": "optimizedKernel",
+    "lean_definition": "optimizedKernel",
+    "signature_definition": "optimizedSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "x_ptr",
+          "fp32"
+        ],
+        [
+          "y_ptr",
+          "fp32"
+        ],
+        [
+          "out_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "blockSize"
+      ]
+    }
+  }
+]

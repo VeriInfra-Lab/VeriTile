@@ -71,12 +71,12 @@ example : ∃ t, FP.Structural.exec model (AdamUpdateGridLaunch.Kernels.original
     ComputeDType.eraseDType, numeric, numericEq, numericLt, natLt, bop, store,
     State.setReg, TileShape.allIndices, List.finRange_succ]
 example : ∃ t, FP.Structural.exec model (HyperConnectionsDepth.Kernels.originalKernel 1) initial = some t := by
-  simp [HyperConnectionsDepth.Kernels.originalKernel, HyperConnectionsDepth.Kernels.mhcDepthConnectionKernel, FP.Structural.exec, run, step,
+  simp [HyperConnectionsDepth.Kernels.originalKernel, HyperConnectionsDepth.Kernels.mhcDepthConnectionKernel, HyperConnectionsDepth.Kernels.scalarKernel, FP.Structural.exec, run, step,
     FP.Structural.evalExpr, evalComputeOp, evalOp_unfold, model, initial,
     ComputeDType.eraseDType, numeric, numericEq, numericLt, natLt, bop, store,
     State.setReg, TileShape.allIndices, List.finRange_succ]
 example : ∃ t, FP.Structural.exec model (HyperConnectionsWidth.Kernels.originalKernel 1) initial = some t := by
-  simp [HyperConnectionsWidth.Kernels.originalKernel, HyperConnectionsWidth.Kernels.mhcWidthConnectionKernel, FP.Structural.exec, run, step,
+  simp [HyperConnectionsWidth.Kernels.originalKernel, HyperConnectionsWidth.Kernels.mhcWidthConnectionKernel, HyperConnectionsWidth.Kernels.scalarKernel, FP.Structural.exec, run, step,
     FP.Structural.evalExpr, evalComputeOp, evalOp_unfold, model, initial,
     ComputeDType.eraseDType, numeric, numericEq, numericLt, natLt, bop, store,
     State.setReg, TileShape.allIndices, List.finRange_succ]

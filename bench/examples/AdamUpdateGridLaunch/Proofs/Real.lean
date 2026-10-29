@@ -1,4 +1,5 @@
-import bench.examples.AdamUpdateGridLaunch.Kernels
+import bench.examples.AdamUpdateGridLaunch.Proofs.MathKernels
+import bench.examples.AdamUpdateGridLaunch.IO
 import VeriTile.Examples.Common
 import VeriTile.Triton.Core
 import VeriTile.Triton.Semantics
@@ -13,8 +14,8 @@ import VeriTile.Meta.StatementAudit
 /-! Real execution, arithmetic and memory lemmas for AdamUpdateGridLaunch.
 The public IO contracts and mathematical specifications are in ../Correct.lean. -/
 
-namespace VeriTile.Bench.Examples.AdamUpdateGridLaunch
-open VeriTile.Bench.Examples.AdamUpdateGridLaunch.Kernels
+namespace VeriTile.Bench.Examples.AdamUpdateGridLaunch.Mathematical
+open VeriTile.Bench.Examples.AdamUpdateGridLaunch.MathKernels
 
 attribute [local simp] VeriTile.Triton.ComputeExpr.toAlgorithm?
   VeriTile.Triton.ComputeOp.toAlgorithm? VeriTile.Triton.ComputeDType.eraseDType
@@ -113,22 +114,24 @@ theorem update_fn_kernel_p_correct
       set g := s.readMem grad_ptr (s.pids 0 * BLOCK_SIZE + i.val) with hg
       set p := s.readMem p_ptr (s.pids 0 * BLOCK_SIZE + i.val) with hp
       have heq : (m - g) * beta1 + g = beta1 * m + (1 - beta1) * g := by ring
-      split_ifs with c1 c2
-      · have hd : beta1 * m + (1 - beta1) * g = 0 := heq ▸ Option.some_inj.mp c1
-        simp only [WithBot.some_eq_coe, WithBot.unbotD_coe, hd, Real.sign_zero]
-        ring
-      · have hd : (0 : ℝ) < beta1 * m + (1 - beta1) * g :=
-          heq ▸ WithBot.coe_lt_coe.mp c2
-        simp only [WithBot.some_eq_coe, WithBot.unbotD_coe, Real.sign_of_pos hd]
-        norm_num
-        ring
-      · have hne : (m - g) * beta1 + g ≠ 0 := fun hc => c1 (congrArg some hc)
-        have hnp : ¬ (0 : ℝ) < (m - g) * beta1 + g :=
-          fun hc => c2 (WithBot.coe_lt_coe.mpr hc)
-        have hd : beta1 * m + (1 - beta1) * g < 0 :=
-          heq ▸ lt_of_le_of_ne (not_lt.mp hnp) hne
-        simp only [WithBot.some_eq_coe, WithBot.unbotD_coe, Real.sign_of_neg hd]
-        ring
+      by_cases hz : (m - g) * beta1 + g = 0
+      · have hd : beta1 * m + (1 - beta1) * g = 0 := heq ▸ hz
+        simp [hz, hd, WithBot.some_eq_coe, WithBot.unbotD_coe, Real.sign_zero]
+        <;> ring
+      · have hne : some ((m - g) * beta1 + g) ≠ some 0 :=
+          fun h => hz (Option.some_inj.mp h)
+        by_cases hpos : (0 : ℝ) < (m - g) * beta1 + g
+        · have hc : (0 : WithBot ℝ) < (((m - g) * beta1 + g : ℝ) : WithBot ℝ) :=
+            WithBot.coe_lt_coe.mpr hpos
+          have hd : (0 : ℝ) < beta1 * m + (1 - beta1) * g := heq ▸ hpos
+          simp [← WithBot.coe_mul, ← WithBot.coe_add, hne, hc, hz, hpos, WithBot.some_eq_coe, WithBot.unbotD_coe, Real.sign_of_pos hd]
+          <;> ring
+        · have hc : ¬ (0 : WithBot ℝ) < (((m - g) * beta1 + g : ℝ) : WithBot ℝ) :=
+            fun h => hpos (WithBot.coe_lt_coe.mp h)
+          have hd : beta1 * m + (1 - beta1) * g < 0 :=
+            heq ▸ lt_of_le_of_ne (not_lt.mp hpos) hz
+          simp [← WithBot.coe_mul, ← WithBot.coe_add, hne, hc, hz, hpos, WithBot.some_eq_coe, WithBot.unbotD_coe, Real.sign_of_neg hd]
+          <;> ring
     · simp [hi]
   · exact False.elim (hB (Nat.lt_of_le_of_lt (Nat.zero_le _) i.isLt))
 
@@ -183,7 +186,7 @@ theorem adam_writeWithin
       simp [BlockState.setReg_mem]
 
 /-- 1-D launch grid of `m` programs. -/
-abbrev adamGrid (m : Nat) : Grid := { dims := [m] }
+abbrev adamGrid := IO.adamGrid
 
 /-- The Python launch uses `m = cdiv n_elements BLOCK_SIZE` programs, which is
 exactly enough to cover every in-bounds index: `k < n_elements → k/BLOCK < m`. -/
@@ -641,4 +644,16 @@ theorem optimized_exec (lr wd beta1 beta2 : ℝ) (n B : Nat) (s : BlockState) :
 
 end Optimized
 
+end VeriTile.Bench.Examples.AdamUpdateGridLaunch.Mathematical
+
+/- Compatibility for mathematical grid consumers. Complete native-to-math
+kernel equality is definitional, as recorded in NativeProjection. These are
+execution frames for that same complete algorithm, not a reduced source. -/
+namespace VeriTile.Bench.Examples.AdamUpdateGridLaunch
+abbrev adamGrid := IO.adamGrid
+noncomputable abbrev adamFrame := Mathematical.adamFrame
+noncomputable abbrev adamLaunch := Mathematical.adamLaunch
+noncomputable abbrev adamWritesFP := Mathematical.adamWritesFP
+abbrev update_fn_kernel_grid_correct_unconditional :=
+  Mathematical.update_fn_kernel_grid_correct_unconditional
 end VeriTile.Bench.Examples.AdamUpdateGridLaunch

@@ -261,6 +261,7 @@ syntax "tl.broadcast(" tritonExpr ", " tritonExpr ")" : tritonExpr
 syntax "tl.broadcast_to(" tritonExpr ", " "[" tritonExpr,* "]" ")" : tritonExpr
 
 syntax "tl.full(" "[" tritonExpr,* "]" ", " tritonExpr ")" : tritonExpr
+syntax "tl.full(" "[" tritonExpr,* "]" ", " tritonExpr ", " tritonDType ")" : tritonExpr
 syntax (priority := low) "tl.full(" "[" tritonExpr,* "]" ", " tritonExpr ", " ident "=" tritonDType ")" : tritonExpr
 syntax (priority := high) "tl.full(" "[" tritonExpr,* "]" ", " tritonExpr ", " ident "=" ident ")" : tritonExpr
 syntax "tl.full(" "[" tritonExpr,* "]" ", " tritonExpr ", " ident "=" ident "." ident "." ident ")" : tritonExpr

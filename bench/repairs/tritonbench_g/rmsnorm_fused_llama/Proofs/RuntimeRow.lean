@@ -48,7 +48,7 @@ theorem write_congr {ι : Type} (xs : List ι) (Y : RegionName) (off : ι → Na
 single-tile regime, executes and emits this typed scalar graph. -/
 theorem complete (A : Algebra α) (s : State α) (X Y W : RegionName)
     (N B : Nat) (eps : α) (hN : 0<N) (hNB : N≤B) :
-    ∃ t, exec A (runtimeKernel X Y W N B) (s.setReg "eps_arg" .real [] (fun _=>eps))=some t ∧
+    ∃ t, exec A (runtimeKernel X Y W N B) (s.setReg "eps" .real [] (fun _=>eps))=some t ∧
       t.mem=(block A s X Y W (s.pids 0) N B eps).mem := by
   have hB : B≠0 := by omega
   have hz : (0.0 : ℝ)=0 := by norm_num

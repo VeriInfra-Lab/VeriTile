@@ -39,6 +39,9 @@ inductive Site where
       (numerator : Op .real (n :: rest)) (denominator : ℝ)
   | divScalar (before : List ComputeStmt) (n : Nat) (rest : TileShape)
       (numerator : Op .real (n :: rest)) (denominator : Op .real [])
+  /-- Tile/scalar division inside an explicit FP32 source computation. -/
+  | divScalarFP32 (before : List ComputeStmt) (n : Nat) (rest : TileShape)
+      (numerator : Op .real (n :: rest)) (denominator : Op .real [])
   /-- Broadcast division inside an explicit fp32 computation. -/
   | divBroadcast (before : List ComputeStmt) (sa : TileShape) (n : Nat) (rest : TileShape)
       (numerator : Op .real sa) (denominator : Op .real (n :: rest))
@@ -104,6 +107,11 @@ def Site.Holds {α : Type} [Inhabited α] (M : Algebra α) (D : Domain α)
     ∀ t, run (engine M) before s = some t →
       ∀ a b, Structural.evalOp (engine M) none numerator t = some a →
         Structural.evalOp (engine M) none denominator t = some b →
+        (∀ i, D .finite (a i)) ∧ D .finite (b PUnit.unit) ∧ D .nonzero (b PUnit.unit)
+  | .divScalarFP32 before _ _ numerator denominator =>
+    ∀ t, run (engine M) before s = some t →
+      ∀ a b, Structural.evalOp (engine M) (some .fp32) numerator t = some a →
+        Structural.evalOp (engine M) (some .fp32) denominator t = some b →
         (∀ i, D .finite (a i)) ∧ D .finite (b PUnit.unit) ∧ D .nonzero (b PUnit.unit)
   | .divBroadcast before _ _ _ numerator denominator =>
     ∀ t, run (engine M) before s = some t →
@@ -522,6 +530,52 @@ in the unchanged prefix and suffix. -/
     rw [ediv, emul]
     cases ha : Structural.evalOp (engine M) none a t <;>
       cases hb : Structural.evalOp (engine M) none b t
+    all_goals simp only [bind, pure, Option.bind_none, Option.bind_some]
+    rename_i va vb
+    obtain ⟨hva, hvb, hn⟩ := hd t hp va vb ha hb
+    congr 2
+    funext i
+    exact ScalarArithmetic.div_mul_rcp R M D hM t _ _ (hva i) hvb hn
+
+/-- The same admitted local reciprocal rule at an explicit FP32 source site.
+Operand guards are evaluated in that same context; full surrounding execution,
+including failures, register effects, stores and loops, is retained. -/
+@[spec_rule] theorem contextual_fp32_div_scalar_mul_rcp {α : Type} [Inhabited α]
+    (R : ScalarArithmetic.Rules) (M : Algebra α) (D : Domain α)
+    (hM : Models R.assumptions M D) (s : State α) (before after : List ComputeStmt)
+    (out : RegName) (a : Op .real (n :: rest)) (b : Op .real [])
+    (hd : (Site.divScalarFP32 before n rest a b).Holds M D s) :
+    Contextual M s before after
+      (.assign .real (n :: rest) out (.compute (.alg .fp32 (.div .real .scalarR a b))))
+      (.assign .real (n :: rest) out
+        (.compute (.alg .fp32 (.mul .real .scalarR a (.div .real .nil (.const 1) b))))) := by
+  unfold Contextual
+  rw [run_append, run_append]
+  cases hp : run (engine M) before s with
+  | none => rfl
+  | some t =>
+    simp only [Option.bind_some, run, step, Structural.evalExpr, evalComputeOp, ComputeDType.eraseDType]
+    have ediv : Structural.evalOp (engine M) (some .fp32) (.div .real .scalarR a b) t =
+        (Structural.evalOp (engine M) (some .fp32) a t >>= fun va =>
+          Structural.evalOp (engine M) (some .fp32) b t >>= fun vb =>
+            some (fun i => (engine M).binary none .real .div (va i) (vb PUnit.unit))) := rfl
+    have emul : Structural.evalOp (engine M) (some .fp32)
+        (.mul .real .scalarR a (.div .real .nil (.const 1) b)) t =
+        (Structural.evalOp (engine M) (some .fp32) a t >>= fun va =>
+          Structural.evalOp (engine M) (some .fp32) b t >>= fun vb =>
+            some (fun i => (engine M).binary none .real .mul (va i)
+              ((engine M).binary none .real .div ((engine M).literal none .real 1)
+                (vb PUnit.unit)))) := by
+      change (Structural.evalOp (engine M) (some .fp32) a t >>= fun va =>
+        (Structural.evalOp (engine M) (some .fp32) b t >>= fun vb =>
+          some (fun _ : TileIndex [] => (engine M).binary none .real .div
+            ((engine M).literal none .real 1) (vb PUnit.unit))) >>= fun inv =>
+          some (fun i => (engine M).binary none .real .mul (va i) (inv PUnit.unit))) = _
+      cases Structural.evalOp (engine M) (some .fp32) a t <;>
+        cases Structural.evalOp (engine M) (some .fp32) b t <;> rfl
+    rw [ediv, emul]
+    cases ha : Structural.evalOp (engine M) (some .fp32) a t <;>
+      cases hb : Structural.evalOp (engine M) (some .fp32) b t
     all_goals simp only [bind, pure, Option.bind_none, Option.bind_some]
     rename_i va vb
     obtain ⟨hva, hvb, hn⟩ := hd t hp va vb ha hb

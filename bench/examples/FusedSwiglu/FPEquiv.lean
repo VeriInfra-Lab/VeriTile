@@ -16,20 +16,8 @@ open FP.Structural
 
 set_option maxHeartbeats 1200000
 
-def unfusedIO (n B : Nat) : MaskedKernelIO₂ where
-  kernel := swiglu_unfused "X" "Y" "S" "OUT" n B
-  in1 := "X"
-  in2 := "Y"
-  out := "OUT"
-  B := B
-  read1 := fun pid => pid * B
-  read2 := fun pid => pid * B
-  write := fun pid => pid * B
-  mask := fun pid i => pid * B + i.val < n
-  scratch := [("S", fun pid => pid * B)]
-
-def fusedIO (n B : Nat) : MaskedKernelIO₂ :=
-  { (unfusedIO n B).withKernel (swiglu_fused "X" "Y" "OUT" n B) with scratch := [] }
+abbrev unfusedIO := FusedSwiglu.IO.unfusedIO
+abbrev fusedIO := FusedSwiglu.IO.fusedIO
 
 def R : Spec.Assumptions ComputeStmt := []
 

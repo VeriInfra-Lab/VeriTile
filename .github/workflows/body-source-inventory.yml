@@ -2,7 +2,7 @@ name: Body source inventory
 
 on:
   pull_request:
-    branches: [main, fp-examples]
+    branches: [main, fp-examples, 'codex/pr22-*']
     paths: ['bench/**', 'VeriTile/Triton/DSL/**', '.github/workflows/body-source-inventory.yml']
   push:
     branches: [main, fp-examples]

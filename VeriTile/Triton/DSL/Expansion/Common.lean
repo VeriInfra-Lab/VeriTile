@@ -1,3 +1,4 @@
+import VeriTile.Triton.DSL.CallValue
 /-
 VeriTile.Triton.DSL.Expansion.Common
 
@@ -96,6 +97,18 @@ partial def normalizePrecisionScopes (precision : Option DInfo) (raw : Syntax) :
 source expression's independent context. Narrow destinations use fp32 profile;
 the destination FloatDType still determines their rounding format. -/
 def explicitFloatCast (dst : DInfo) (e : EOut) : MacroM EOut := do
+  if [.nat, .int, .int8, .int32].contains e.dtype then
+    unless dst == .fp32 || dst == .real do
+      Macro.throwError "integer-to-float cast requires an explicit FP32 or FP64 destination"
+    if let some compute := e.computeTerm then
+      unless (match compute with | `(ComputeExpr.alg $_) => Bool.true | _ => Bool.false) do
+        Macro.throwError "materialize a compute-only integer before converting it to float"
+    let alg ← if e.dtype == .nat then `(Op.natToReal $e.term)
+      else `(Op.intToReal $e.term)
+    let compute ← if dst == .fp32 then
+        `(ComputeExpr.compute (ComputeOp.alg ComputeDType.fp32 $alg))
+      else `(ComputeExpr.compute (ComputeOp.alg ComputeDType.fp64 $alg))
+    return ⟨alg, .real, e.shape, some compute, some dst⟩
   let srcProof ← e.dtype.floatProof
   let dstAlg := if dst == .fp32 then DInfo.real else dst
   let dstProof ← dstAlg.floatProof
@@ -127,8 +140,21 @@ def EOut.integerIdentityCast (e : EOut) (dt : TSyntax `tritonDType) : EOut :=
   | `(tritonDType| tl.int32) => if e.dtype == .int32 then e else e.forgetStorageWidth
   | _ => e.forgetStorageWidth
 
+/-- A supplied runtime FP32 scalar remains a strong FP32 source operand even
+when its call value is represented by an external Real carrier. The marker is
+still checked in the resulting computation context; it is not a weak Python
+constexpr float and does not itself insert a numerical cast. -/
+def suppliedFP32Literal? (e : TSyntax `tritonExpr) : MacroM (Option EOut) := do
+  match e with
+  | `(tritonExpr| $((VeriTile.Triton.DSL.TypedStores.fp32CallValue $value:term : ℝ))) =>
+      return some ⟨← `(Op.const (VeriTile.Triton.DSL.TypedStores.fp32CallValue $value)),
+        .real, SInfo.scalar, none, some .fp32⟩
+  | _ => return none
+
 def expandLeanAntiquoteAs? (dtype : DInfo) (e : TSyntax `tritonExpr) :
     MacroM (Option EOut) := do
+  if dtype == .real then
+    if let some out ← suppliedFP32Literal? e then return some out
   match e with
   | `(tritonExpr| $($t:term)) =>
       let out ←

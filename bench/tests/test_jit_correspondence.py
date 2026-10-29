@@ -108,5 +108,143 @@ class PastedBodyTests(unittest.TestCase):
             check(self.python, self.lean, self.record["python_function"], "body", "callSignature")
 
 
+class BodyMigrationBatchTests(unittest.TestCase):
+    def test_all_original_and_candidate_pairs(self):
+        directories = [ROOT / "bench/examples" / name for name in
+                       ("VectorAdd", "FlatVectorAdd", "TritonBenchVectorAddition")]
+        directories.append(ROOT / "bench/repairs/tritonbench_g/cache_transform_triton")
+        for directory in directories:
+            with self.subTest(directory=directory.name):
+                pairs = check_manifest(ROOT, directory / "jit-correspondence.json")
+                self.assertEqual(len(pairs), 2)
+                self.assertTrue(all(pair["mode"] == "pasted_body" for pair in pairs))
+
+    def test_byte_indices_casts_and_mask_stay_in_the_body(self):
+        directory = ROOT / "bench/repairs/tritonbench_g/cache_transform_triton"
+        record = json.loads((directory / "jit-correspondence.json").read_text())[0]
+        python = (ROOT / record["python"]).read_text()
+        lean = (ROOT / record["lean"]).read_text()
+        for before, after in ((".to(tl.uint64)", ""), ("mask=active", "mask=True")):
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                check(python, lean.replace(before, after, 1), record["python_function"], "body",
+                      "callSignature", record["expected_signature"])
+
+    def test_real_example_retains_its_runtime_integer_abi(self):
+        directory = ROOT / "bench/examples/TritonBenchVectorAddition"
+        record = json.loads((directory / "jit-correspondence.json").read_text())[0]
+        python = (ROOT / record["python"]).read_text().replace("n_elements: tl.int32", "n_elements: tl.constexpr", 1)
+        with self.assertRaisesRegex(ValueError, "parameters and call signature"):
+            check(python, (ROOT / record["lean"]).read_text(), record["python_function"],
+                  record["lean_definition"], "callSignature", record["expected_signature"],
+                  record["expected_call_bindings"])
+
+
+class IntegerCallBodyTests(unittest.TestCase):
+    tasks = ("add_example", "add_value", "vector_addition", "vector_addition_custom",
+             "cosine_compute", "sin_computation", "sin_kernel", "square_matrix",
+             "matrix_transpose", "index_select_bwd", "swiglu_fwd", "kldiv_compute", "l2_norm_triton1",
+             "rmsnorm_fused", "rmsnorm_fused_llama", "rmsnorm_triton", "rmsnorm_implementation")
+
+    def test_every_migrated_original_and_candidate(self):
+        for task in self.tasks:
+            with self.subTest(task=task):
+                records = check_manifest(ROOT, ROOT / "bench/repairs/tritonbench_g" / task / "jit-correspondence.json")
+                self.assertTrue(all(r["mode"] == "pasted_body" for r in records))
+                self.assertTrue(all(r["argument_mode"] in
+                                    ("integer_per_call_specialization", "mixed_integer_calls_and_runtime_registers")
+                                    for r in records))
+
+    def test_spec_derived_example_bodies_remain_exact(self):
+        references = json.loads((ROOT / "bench/examples/source-references.json").read_text())
+        for name in ("LogExp", "SoftmaxReciprocal", "FloatDTypeSoftmax", "RowWiseSum",
+                     "RowWiseMax", "FloatDTypeAdd", "SoftmaxStable", "StableLogSumExp",
+                     "Welford", "FusedLayerNorm", "OnlineSoftmax"):
+            with self.subTest(example=name):
+                self.assertEqual(references[name]["provenance"], "spec_derived_native_source")
+                records = check_manifest(ROOT, ROOT / "bench/examples" / name / "jit-correspondence.json")
+                self.assertTrue(all(r["mode"] == "pasted_body" for r in records))
+
+    def test_wrong_missing_and_unreviewed_argument_binding_rejected(self):
+        directory = ROOT / "bench/repairs/tritonbench_g/square_matrix"
+        record = json.loads((directory / "jit-correspondence.json").read_text())[0]
+        python, lean = ((ROOT / record[k]).read_text() for k in ("python", "lean"))
+        for before, after in (("n_cols := cols", "n_cols := 1"),
+                              (", n_cols := cols", ""),
+                              ("input_row_stride := cols", "input_row_stride := cols, input_row_stride := cols"),
+                              ('("n_cols",.i32)', '("n_cols",.integer)')):
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.assertIn(before, lean)
+                check(python, lean.replace(before, after, 1), record["python_function"],
+                      record["lean_definition"], record["signature_definition"],
+                      record["expected_signature"], record["expected_call_bindings"])
+        with self.assertRaisesRegex(ValueError, "reviewed invocation"):
+            check(python, lean, record["python_function"], record["lean_definition"],
+                  record["signature_definition"], record["expected_signature"])
+
+    def test_float_argument_stays_a_typed_runtime_register(self):
+        directory = ROOT / "bench/repairs/tritonbench_g/l2_norm_triton1"
+        record = json.loads((directory / "jit-correspondence.json").read_text())[0]
+        result = check_manifest(ROOT, directory / "jit-correspondence.json")[0]
+        self.assertEqual(result["argument_mode"], "mixed_integer_calls_and_runtime_registers")
+        self.assertEqual(result["runtime_parameters"]["eps"], "fp32")
+        self.assertNotIn("eps", result["call_bindings"])
+        python, lean = ((ROOT / record[k]).read_text() for k in ("python", "lean"))
+        for before, after in (('readPorts := ["X"]', 'readPorts := ["Y"]'),
+                              ("var + eps", "var + eps.to(tl.float32)"),
+                              ("N := N", "N := N, eps := 1")):
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.assertIn(before, lean)
+                check(python, lean.replace(before, after, 1), record["python_function"],
+                      record["lean_definition"], record["signature_definition"],
+                      record["expected_signature"], record["expected_call_bindings"])
+
+    def test_reviewed_fp32_literal_call_keeps_its_runtime_abi(self):
+        directory = ROOT / "bench/repairs/tritonbench_g/rmsnorm_fused_llama"
+        record = json.loads((directory / "jit-correspondence.json").read_text())[0]
+        python, lean = ((ROOT / record[k]).read_text() for k in ("python", "lean"))
+        bindings = {**record["expected_call_bindings"], "eps": "eps"}
+        result = check(python, lean, record["python_function"], "kernel",
+                       record["signature_definition"], record["expected_signature"], bindings)
+        self.assertEqual(result["argument_mode"], "typed_per_call_specialization")
+        self.assertEqual(result["runtime_parameters"]["eps"], "fp32")
+        with self.assertRaisesRegex(ValueError, "supported scalar kinds"):
+            signature = {**record["expected_signature"], "scalars": [
+                [n, "fp64" if n == "eps" else t] for n, t in record["expected_signature"]["scalars"]]}
+            check(python, lean.replace('(\"eps\",.fp32)', '(\"eps\",.fp64)'),
+                  record["python_function"], "kernel", record["signature_definition"], signature, bindings)
+
+    def test_original_constexpr_epsilon_is_not_relabelled_runtime(self):
+        directory = ROOT / "bench/repairs/tritonbench_g/rmsnorm_implementation"
+        record = json.loads((directory / "jit-correspondence.json").read_text())[0]
+        self.assertIn("eps", record["expected_signature"]["constexpr"])
+        self.assertNotIn("eps", dict(record["expected_signature"]["scalars"]))
+        python, lean = ((ROOT / record[k]).read_text() for k in ("python", "lean"))
+        with self.assertRaisesRegex(ValueError, "parameters and call signature"):
+            check(python.replace("eps: tl.constexpr", "eps"), lean,
+                  record["python_function"], record["lean_definition"],
+                  record["signature_definition"], record["expected_signature"],
+                  record["expected_call_bindings"])
+
+    def test_python_comments_and_docstring_cannot_terminate_or_inject_a_body(self):
+        directory = ROOT / "bench/repairs/tritonbench_g/vector_addition_custom"
+        record = json.loads((directory / "jit-correspondence.json").read_text())[0]
+        python, lean = ((ROOT / record[k]).read_text() for k in ("python", "lean"))
+        marker = '    """'
+        self.assertIn(marker, python)
+        # Put misleading Lean delimiters in Python metadata, in both sources.
+        addition = '\n    } $ tl.region\ndef fake_definition:\nend fake_namespace\n    '
+        python = python.replace(marker, marker + addition, 1)
+        lean = lean.replace(marker, marker + addition, 1)
+        result = check(python, lean, record["python_function"], record["lean_definition"],
+                       record["signature_definition"], record["expected_signature"],
+                       record["expected_call_bindings"])
+        self.assertEqual(result["status"], "PASS")
+        with self.assertRaises(ValueError):
+            check(python, lean.replace("tl.store(C +", "tl.store(A +", 1),
+                  record["python_function"], record["lean_definition"],
+                  record["signature_definition"], record["expected_signature"],
+                  record["expected_call_bindings"])
+
+
 if __name__ == "__main__":
     unittest.main()

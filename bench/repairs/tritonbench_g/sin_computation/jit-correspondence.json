@@ -1,0 +1,64 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/sin_computation/sin_computation_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/sin_computation/Kernels.lean",
+    "python_function": "sin_kernel",
+    "lean_definition": "kernel",
+    "signature_definition": "callSignature",
+    "expected_call_bindings": {
+      "n_elements": "n"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "in_ptr0",
+          "fp32"
+        ],
+        [
+          "out_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "n_elements",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ]
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/sin_computation/sin_computation_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/sin_computation/Kernels.lean",
+    "python_function": "sin_kernel_index_commuted",
+    "lean_definition": "indexCommutedKernel",
+    "signature_definition": "callSignature",
+    "expected_call_bindings": {
+      "n_elements": "n"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "in_ptr0",
+          "fp32"
+        ],
+        [
+          "out_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "n_elements",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ]
+    }
+  }
+]

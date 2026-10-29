@@ -37,7 +37,7 @@ theorem naive_projection (xReg yReg : RegionName) (B : Nat) :
     (naiveSoftmaxKernel xReg yReg B).eraseDType.toAlgorithm? =
       Except.ok (naiveMathKernel xReg yReg B).toAlgKernel := by
   simp [naiveSoftmaxKernel, naiveMathKernel, ComputeKernel.eraseDType,
-    ComputeStmt.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeExpr.toAlgorithm?,
+    ComputeStmt.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, ComputeDType.eraseDType,
     Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,
     Op.eraseDType, VeriTile.Triton.eraseDType, NumericDType.eraseDType,
     MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def]
@@ -51,7 +51,7 @@ theorem stable_projection (xReg yReg : RegionName) (B : Nat) :
       Except.ok (OnlineSoftmax.Kernels.batchSoftmaxKernel xReg yReg B).toAlgKernel := by
   simp [stableSoftmaxKernel, OnlineSoftmax.Kernels.batchSoftmaxKernel,
     OnlineSoftmax.Kernels.stableSoftmaxKernel, ComputeKernel.eraseDType,
-    ComputeStmt.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeExpr.toAlgorithm?,
+    ComputeStmt.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, ComputeDType.eraseDType,
     Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,
     Op.eraseDType, VeriTile.Triton.eraseDType, NumericDType.eraseDType,
     MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def]

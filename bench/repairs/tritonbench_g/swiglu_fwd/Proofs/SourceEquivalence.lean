@@ -1,4 +1,4 @@
-import bench.repairs.tritonbench_g.swiglu_fwd.Kernels
+import bench.repairs.tritonbench_g.swiglu_fwd.Proofs.SourcePreservation
 import bench.tritonbench_g.swiglu_fwd.Proofs.FP
 
 namespace VeriTile.Bench.Repairs.SwigluFwd.SourceEquivalence
@@ -18,6 +18,7 @@ theorem decomposition (v : Bool) (X Y OUT : RegionName) (sx sy so N B : Nat) :
     (typedKernel .fp32 .fp32 .fp32 v X Y OUT sx sy so N B).surfaceBody =
       sourcePrefix v X Y OUT sx sy so B ++
         (kernel X Y OUT sx sy so N B).surfaceBody.drop 5 := by
+  rw [SourcePreservation.original]
   cases v <;> rfl
 
 /-- Reuse the original complete-suffix proof, with selected FP32 storage fixed.
@@ -28,10 +29,9 @@ theorem equivalent (X Y OUT : RegionName) (sx sy so N B : Nat) :
   apply Spec.FloatingPoint.ofNumerical (structural := fun _ _ => False)
     (lhs := original X Y OUT sx sy so N B) (rhs := indexCommuted X Y OUT sx sy so N B) rfl rfl
   intro α _ M D _ s _
-  change run (engine M)
-      (typedKernel .fp32 .fp32 .fp32 Bool.false X Y OUT sx sy so N B).surfaceBody s =
-    run (engine M)
-      (typedKernel .fp32 .fp32 .fp32 Bool.true X Y OUT sx sy so N B).surfaceBody s
+  change run (engine M) (kernel X Y OUT sx sy so N B).surfaceBody s =
+    run (engine M) (indexCommutedKernel X Y OUT sx sy so N B).surfaceBody s
+  rw [SourcePreservation.original, SourcePreservation.indexCommuted]
   rw [decomposition Bool.false X Y OUT sx sy so N B,
     decomposition Bool.true X Y OUT sx sy so N B]
   exact prefix_run M s X Y OUT sx sy so B _

@@ -2,7 +2,7 @@ import bench.tritonbench_g.rmsnorm_fused_llama.Kernels
 import VeriTile.Triton.Float.Structural
 import VeriTile.Meta.StatementAudit
 
-/-! Task-local external-scalar frontend. It seeds only eps_arg's FP32 erased
+/-! Task-local external-scalar frontend. It seeds only eps's FP32 erased
 register type and emits no placeholder statement or scalar value. -/
 open Lean VeriTile.Triton VeriTile.Triton.DSL
 syntax "llama_source" "[" ident "]" "{" tritonStmt* "}" : term
@@ -35,8 +35,8 @@ macro_rules
     unless literal || binding.getId.eraseMacroScopes == `runtime do
       Macro.throwError "expected literal or runtime epsilon binding"
     let epsilon : TSyntax `tritonExpr ← if literal then
-      `(tritonExpr| $((eps : ℝ))) else `(tritonExpr| eps_arg)
-    let source ← `(ComputeKernel.mk [X,W] [Y] (llama_source[eps_arg] {
+      `(tritonExpr| $((eps : ℝ))) else `(tritonExpr| eps)
+    let source ← `(ComputeKernel.mk [X,W] [Y] (llama_source[eps] {
     tl.region X = tl.float32, W = tl.float32, Y = tl.float32
     row = tl.program_id(0)
     Y += row * $(N)

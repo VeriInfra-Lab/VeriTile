@@ -23,11 +23,12 @@ def twopassMathKernel (xReg meanReg varReg : RegionName)
   pid    := tl.program_id(0)
   offs   := pid * $(rowStride) + tl.arange($(blockSize))
   x      := tl.load($(xReg) + offs)
+  count  := tl.toReal(tl.full([], $(blockSize), dtype=tl.uint64))
   s_x    := tl.sum(x)
-  μ      := s_x / tl.toReal($(blockSize))
+  μ      := s_x / count
   d      := x - μ
   s_d2   := tl.sum(d * d)
-  v      := s_d2 / tl.toReal($(blockSize))
+  v      := s_d2 / count
   tl.store($(meanReg), μ)
   tl.store($(varReg), v)
 }
@@ -44,8 +45,9 @@ def onlineMathKernel (xReg meanReg varReg : RegionName)
     delta2 := xi - M
     S      := S + delta * delta2
   }
+  count := tl.toReal(tl.full([], $(blockSize), dtype=tl.uint64))
   tl.store($(meanReg), M)
-  tl.store($(varReg), S / tl.toReal($(blockSize)))
+  tl.store($(varReg), S / count)
 }
 
 variable (rowStride : Nat)
@@ -200,11 +202,13 @@ theorem twopass_projection (xReg meanReg varReg : RegionName) (N stride : Nat) :
     (twopassWelfordKernel xReg meanReg varReg N stride).eraseDType.toAlgorithm? =
       Except.ok (twopassMathKernel xReg meanReg varReg N stride).toAlgKernel := by
   simp [twopassWelfordKernel, twopassMathKernel, ComputeKernel.eraseDType,
-    ComputeStmt.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeExpr.toAlgorithm?,
+    ComputeStmt.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
+    ComputeDType.eraseDType, Except.bind,
     Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,
     Op.eraseDType, VeriTile.Triton.eraseDType, NumericDType.eraseDType,
     MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def]
   repeat' apply And.intro
+  all_goals try norm_num
   all_goals
     rw [Op.eraseDType.eq_def]
     simp [Op.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType]
@@ -213,11 +217,13 @@ theorem online_projection (xReg meanReg varReg : RegionName) (N stride : Nat) :
     (onlineWelfordKernel xReg meanReg varReg N stride).eraseDType.toAlgorithm? =
       Except.ok (onlineMathKernel xReg meanReg varReg N stride).toAlgKernel := by
   simp [onlineWelfordKernel, onlineMathKernel, ComputeKernel.eraseDType,
-    ComputeStmt.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeExpr.toAlgorithm?,
+    ComputeStmt.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
+    ComputeDType.eraseDType, Except.bind,
     Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,
     Op.eraseDType, VeriTile.Triton.eraseDType, NumericDType.eraseDType,
     MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def]
   repeat' apply And.intro
+  all_goals try norm_num
   all_goals
     rw [Op.eraseDType.eq_def]
     simp [Op.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType]
@@ -256,19 +262,20 @@ theorem online_region_run (N stride : Nat) (s : BlockState) (xs : Fin N → ℝ)
       (∀ (r : RegionName) o, (r ≠ "mean" ∨ o ≠ 0) → (r ≠ "var" ∨ o ≠ 0) →
         t.mem r o = s.mem r o) := by
   obtain ⟨t, he, hM, hS, _, _, hmem⟩ := welford_loop_run N stride "x" s xs hx
-  let result := (t.writeMem "mean" 0 (twoPassMean xs)).writeMem "var" 0 (twoPassS xs / N)
+  let counted := t.setReg "count" .real [] (Tile.scalar (some (N:ℝ)))
+  let result := (counted.writeMem "mean" 0 (twoPassMean xs)).writeMem "var" 0 (twoPassS xs / N)
   refine ⟨result, ?_, ?_, ?_, ?_⟩
   · simp [onlineMathKernel, exec, stepStmts, stepStmt, evalOp.eq_def,
       Tile.bop, Tile.natToReal]
     simp only [loopInitial, onlineWelfordLoopBody] at he
     rw [he]
-    simp [NumericDType.div, hM, hS, result]
-  · simp [result, BlockState.writeMem_readMem]
-  · simp [result, BlockState.writeMem_readMem]
+    simp [NumericDType.div, hM, hS, result, counted]
+  · simp [result, counted, BlockState.writeMem_readMem]
+  · simp [result, counted, BlockState.writeMem_readMem]
   · intro r o hm hv
     have hm' : ¬ (r = "mean" ∧ o = 0) := by tauto
     have hv' : ¬ (r = "var" ∧ o = 0) := by tauto
-    simp [result, BlockState.writeMem_mem, hm', hv', hmem]
+    simp [result, counted, BlockState.writeMem_mem, hm', hv', hmem]
 
 section Safety
 
@@ -376,6 +383,9 @@ theorem twopass_traceSafe (bounds : RegionBounds)
         (by simp [BlockState.setReg]) xReg hxb⟩
   intro s3 hs3
   obtain ⟨v3, hv3, rfl⟩ := stepStmt_assign_inv hs3
+  refine Stmt.TraceSafeList.cons_intro (by simp [Stmt.TraceSafe, Op.SafeAt.eq_def]) ?_
+  intro countedState hcount
+  obtain ⟨countValue, hcountValue, rfl⟩ := stepStmt_assign_inv hcount
   refine Stmt.TraceSafeList.cons_intro
     (by simp [Stmt.TraceSafe, Op.SafeAt.eq_def]) ?_
   intro s4 hs4
@@ -515,6 +525,9 @@ theorem online_traceSafe (bounds : RegionBounds)
     exact welfordLoop_traceSafe xReg blockSize rowStride  bounds (s.pids 0)
       hxb blockSize 0 _ (by omega) (by simp [BlockState.setReg])
   intro s4 hs4
+  refine Stmt.TraceSafeList.cons_intro (by simp [Stmt.TraceSafe, Op.SafeAt.eq_def]) ?_
+  intro countedState hcount
+  obtain ⟨countValue, hcountValue, rfl⟩ := stepStmt_assign_inv hcount
   refine Stmt.TraceSafeList.cons_intro ?_ ?_
   · simp only [Stmt.TraceSafe, MemAccess.SafeAt, MaskOpt.SafeAt, Op.SafeAt]
     exact ⟨trivial, by simp, trivial,

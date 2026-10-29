@@ -292,7 +292,13 @@ partial def expandBoolMaskMul? (expandExpr : ExprExpander) (env : Env)
     let valTerm ← coerceShape val.term val.shape outShape "bool mask multiplication value"
     let zeroTerm ← coerceShape (← `(Op.const 0)) SInfo.scalar outShape
       "bool mask multiplication zero"
-    let algTerm ← `(Op.where $condTerm $valTerm $zeroTerm)
+    let oneTerm ← coerceShape (← `(Op.const 1)) SInfo.scalar outShape
+      "bool mask multiplication one"
+    -- Triton promotes Bool to a floating 0/1 operand and still multiplies.
+    -- Selecting val/0 would erase the multiplication (including NaN * 0).
+    let maskTerm ← `(Op.where $condTerm $oneTerm $zeroTerm)
+    let (sameShape, _) ← broadcastTerm outShape outShape "bool mask multiplication"
+    let algTerm ← `(Op.mul NumericDType.real $sameShape $valTerm $maskTerm)
     let computeTerm? ←
       match val.computeDType? with
       | some .fp32 => pure (some (← fp32ComputeExpr algTerm))

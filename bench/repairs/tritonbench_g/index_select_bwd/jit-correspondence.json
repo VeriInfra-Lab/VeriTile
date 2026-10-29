@@ -1,0 +1,38 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/index_select_bwd/index_select_bwd_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/index_select_bwd/Kernels.lean",
+    "python_function": "index_select_cat_bwd_repaired_kernel",
+    "lean_definition": "kernel",
+    "signature_definition": "callSignature",
+    "expected_call_bindings": {
+      "count": "countValue",
+      "stride": "strideValue"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "grad_source_ptr",
+          "fp32"
+        ],
+        [
+          "grad_output_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "count",
+          "integer"
+        ],
+        [
+          "stride",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK"
+      ]
+    }
+  }
+]

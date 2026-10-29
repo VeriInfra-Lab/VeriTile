@@ -1,0 +1,72 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/vector_addition_custom/vector_addition_custom_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/vector_addition_custom/Kernels.lean",
+    "python_function": "_add_kernel",
+    "lean_definition": "add_kernel",
+    "signature_definition": "callSignature",
+    "expected_call_bindings": {
+      "size": "n_elements"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "A",
+          "fp32"
+        ],
+        [
+          "B",
+          "fp32"
+        ],
+        [
+          "C",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "size",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK"
+      ]
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/vector_addition_custom/vector_addition_custom_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/vector_addition_custom/Kernels.lean",
+    "python_function": "_add_commuted_kernel",
+    "lean_definition": "add_commuted_kernel",
+    "signature_definition": "callSignature",
+    "expected_call_bindings": {
+      "size": "n_elements"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "A",
+          "fp32"
+        ],
+        [
+          "B",
+          "fp32"
+        ],
+        [
+          "C",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "size",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK"
+      ]
+    }
+  }
+]

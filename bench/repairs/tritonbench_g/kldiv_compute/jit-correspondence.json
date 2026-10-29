@@ -1,0 +1,72 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/kldiv_compute/kldiv_compute_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/kldiv_compute/Kernels.lean",
+    "python_function": "kldivergence_kernel",
+    "lean_definition": "kernel",
+    "signature_definition": "callSignature",
+    "expected_call_bindings": {
+      "n_elements": "p.n"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "x_ptr",
+          "fp32"
+        ],
+        [
+          "y_ptr",
+          "fp32"
+        ],
+        [
+          "output_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "n_elements",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ]
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/kldiv_compute/candidate_kernels.py",
+    "lean": "bench/repairs/tritonbench_g/kldiv_compute/Kernels.lean",
+    "python_function": "kldivergence_kernel_index_commuted",
+    "lean_definition": "commutedKernel",
+    "signature_definition": "callSignature",
+    "expected_call_bindings": {
+      "n_elements": "p.n"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "x_ptr",
+          "fp32"
+        ],
+        [
+          "y_ptr",
+          "fp32"
+        ],
+        [
+          "output_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "n_elements",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ]
+    }
+  }
+]

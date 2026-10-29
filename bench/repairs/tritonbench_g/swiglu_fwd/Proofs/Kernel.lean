@@ -1,4 +1,4 @@
-import bench.repairs.tritonbench_g.swiglu_fwd.Kernels
+import bench.repairs.tritonbench_g.swiglu_fwd.Proofs.SourcePreservation
 import bench.tritonbench_g.swiglu_fwd.Proofs.WholeTile
 
 namespace VeriTile.Bench.Repairs.SwigluFwd.KernelProof
@@ -20,6 +20,7 @@ theorem run {α : Type} [Inhabited α] (M : Algebra α) (c : Layout)
     ∃ final, exec M (kernel c.X c.Y c.OUT c.sx c.sy c.so c.cols B)
       (tileState M c B row tile entry) = some final ∧
       Result (scalar M) c B row tile entry final := by
+  rw [SourcePreservation.original]
   refine ⟨(sourceRun M c B row tile entry).val,
     (sourceRun M c B row tile entry).property, ?_, ?_⟩
   · intro j hj

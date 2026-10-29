@@ -8,7 +8,7 @@ theorem epsilon_site (N B : Nat) :
     (source N B).surfaceBody[7]? = some
       (.assign .real [] "rstd" (.compute (.alg .fp32 (.div .real .nil (.const 1)
         (.sqrt (.add .real .nil (.ref .real [] "var")
-          (.castFloat .real .real (.ref .real [] "eps")))))))) := by rfl
+          (.ref .real [] "eps"))))))) := by rfl
 
 theorem full_body_length (N B : Nat) : (source N B).surfaceBody.length=11 := by rfl
 
@@ -37,7 +37,6 @@ def variance {α : Type} (M : Algebra α) (N B : Nat) (xs : Nat → α) : α :=
 def scalar {α : Type} (M : Algebra α) (N B : Nat) (eps : α) (xs : Nat → α)
     (i : Nat) : α :=
   let x := M.cast (some .fp32) .real .real (xs i)
-  let eps := M.cast (some .fp32) .real .real eps
   let root := M.unary (some .fp32) .sqrt
     (M.binary (some .fp32) .real .add (variance M N B xs) eps)
   let reciprocal := M.binary (some .fp32) .real .div (M.literal (some .fp32) .real 1) root

@@ -1,0 +1,84 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/square_matrix/square_matrix_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/square_matrix/Kernels.lean",
+    "python_function": "square_kernel",
+    "lean_definition": "fp32Kernel",
+    "signature_definition": "callSignature",
+    "expected_call_bindings": {
+      "input_row_stride": "cols",
+      "output_row_stride": "cols",
+      "n_cols": "cols"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "output_ptr",
+          "fp32"
+        ],
+        [
+          "input_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "input_row_stride",
+          "i32"
+        ],
+        [
+          "output_row_stride",
+          "i32"
+        ],
+        [
+          "n_cols",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ]
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/square_matrix/square_matrix_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/square_matrix/Kernels.lean",
+    "python_function": "square_index_commuted_kernel",
+    "lean_definition": "indexCommutedKernel",
+    "signature_definition": "callSignature",
+    "expected_call_bindings": {
+      "input_row_stride": "cols",
+      "output_row_stride": "cols",
+      "n_cols": "cols"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "output_ptr",
+          "fp32"
+        ],
+        [
+          "input_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "input_row_stride",
+          "i32"
+        ],
+        [
+          "output_row_stride",
+          "i32"
+        ],
+        [
+          "n_cols",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ]
+    }
+  }
+]

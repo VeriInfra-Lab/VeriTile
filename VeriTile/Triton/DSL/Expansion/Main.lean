@@ -721,6 +721,23 @@ partial def expandWhereFromCond (env : Env) (c' : EOut)
     (a b : TSyntax `tritonExpr) : MacroM EOut := do
   let a' ← expandExpr env a
   let b' ← expandExpr env b
+  -- Python integer scalars acquire the integer tensor branch's carrier.
+  -- Do not reinterpret floating literals, explicit casts or runtime values.
+  let rec integerLiteral (dtype : DInfo) (e : TSyntax `tritonExpr) : MacroM (Option EOut) := do
+    match e with
+    | `(tritonExpr| ($inner:tritonExpr)) => integerLiteral dtype inner
+    | `(tritonExpr| $n:num) =>
+        if dtype == .nat then return some ⟨← `(Op.constNat $n), .nat, .scalar, none, none⟩
+        if dtype == .int || dtype == .int8 || dtype == .int32 then
+          return some ⟨← `(Op.constInt $n), .int, .scalar, none, none⟩
+        return none
+    | `(tritonExpr| -$n:num) =>
+        if dtype == .int || dtype == .int8 || dtype == .int32 then
+          return some ⟨← `(Op.constInt (-($n : Int))), .int, .scalar, none, none⟩
+        return none
+    | _ => return none
+  let a' := (← integerLiteral b'.dtype a).getD a'
+  let b' := (← integerLiteral a'.dtype b).getD b'
   let (a', b') := if a'.dtype == b'.dtype then (a', b')
     else (a'.forgetStorageWidth, b'.forgetStorageWidth)
   -- Triton 3.5.1 casts integer conditions to int1 with `value != 0`.
@@ -1258,6 +1275,10 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
         else if env.any (fun entry => entry.1 == userName) then userName
         else erasedName
       expandIdentRefByName env name
+  | `(tritonExpr| $((VeriTile.Triton.DSL.TypedStores.fp32CallValue $value:term : ℝ))) => do
+      let some out ← suppliedFP32Literal? stx
+        | Macro.throwError "invalid internal FP32 call literal"
+      return out
   | `(tritonExpr| $(($t:term : ℝ))) =>
       pure ⟨← `(Op.const $t), .real, SInfo.scalar, none, none⟩
   | `(tritonExpr| $(($t:term : Real))) =>
@@ -2090,6 +2111,8 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
       expandSplit expandExpr env e side.getNat
   | `(tritonExpr| tl.full([$dims:tritonExpr,*], $v:tritonExpr)) => do
       expandFull expandExpr env dims.getElems v
+  | `(tritonExpr| tl.full([$dims:tritonExpr,*], $v:tritonExpr, $dt:tritonDType)) => do
+      expandComputeFull expandExpr env dims.getElems v dt
   | `(tritonExpr| tl.full([$dims:tritonExpr,*], $v:tritonExpr, $name:ident=$dt:tritonDType)) => do
       unless name.getId.getString! == "dtype" do
         Macro.throwError

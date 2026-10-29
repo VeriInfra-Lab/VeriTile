@@ -1,0 +1,48 @@
+[
+  {
+    "python": "bench/examples/LogExp/native_kernels.py",
+    "lean": "bench/examples/LogExp/Kernels.lean",
+    "python_function": "originalKernel",
+    "lean_definition": "originalKernel",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "xReg",
+          "fp32"
+        ],
+        [
+          "yReg",
+          "fp32"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "blockSize"
+      ]
+    }
+  },
+  {
+    "python": "bench/examples/LogExp/native_kernels.py",
+    "lean": "bench/examples/LogExp/Kernels.lean",
+    "python_function": "optimizedKernel",
+    "lean_definition": "optimizedKernel",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "xReg",
+          "fp32"
+        ],
+        [
+          "yReg",
+          "fp32"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "blockSize"
+      ]
+    }
+  }
+]
