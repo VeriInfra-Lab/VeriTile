@@ -1,9 +1,10 @@
-import VeriTile.Triton.Float.ScalarBackend
+import VeriTile.Triton.Float.IntegerLiteralBackend
 import VeriTile.Triton.Float.MaximumExact
 import VeriTile.Triton.Float.ExponentialExact
 
 /-! The fixed software profile used to certify shared strict FP32 rules.
-Arithmetic and integer conversion use nearest-even without flushing. Maximum
+Arithmetic, integer conversion and integer-valued literals use the same
+nearest-even rounder without flushing. Maximum
 uses the existing maxnum profile. The two exponential primitives use their
 separate documented special-value dispatches, with arbitrary finite residual
 algorithms and an explicit canonical NaN choice. In this adapter the `rest`
@@ -28,6 +29,7 @@ def strictLibdeviceExpResidual (rest : Algebra (FP.Value .fp32)) :
 noncomputable def strictFP32 (rest : Algebra (FP.Value .fp32)) : Algebra (FP.Value .fp32) :=
   let scalar := scalarFP32 rest .ieeeValue
   { scalar with
+    literal := integerLiteralFP32 scalar
     binary := fun p d op a b =>
       if fp32Context p d then
         match op with

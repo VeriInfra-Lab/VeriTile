@@ -29,7 +29,8 @@ def commuted (n : Nat) : Program :=
   { original n with kernel := commutedKernel n }
 
 /-- Both displayed sources execute successfully and agree on every typed
-memory cell by strict FP32 addition commutation at the existing operand site. The candidate's
+memory cell by strict integer-to-FP32 constant conversion followed by addition
+commutation at the existing operand site. The candidate's
 extra local register `y` is private and need not occur in the original. -/
 specification add_value_commuted_equiv (n : Nat) :
     original n ≡[([] : Spec.Assumptions FP.GuardedFragment)] commuted n := by

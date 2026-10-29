@@ -116,3 +116,14 @@ Python comparison/select numeric literals receive the tensor operand dtype only
 in the copied-function-body frontend. The historical typed DSL retains its
 existing literal convention. Internal source-origin annotations are compiler
 metadata and are rejected in user bodies and registered helper definitions.
+
+普通整数赋值（例如 `denominator = 4`）按 Triton 3.7.1 的规则创建整数张量：
+先选 int32，再选 uint32、int64、uint64；超出 64 位范围直接拒绝。参与浮点
+运算时保留整数到浮点的转换。行内 `value / 4` 的 `4` 仍是弱标量，不能用
+省略转换的方式把两种源码路径混为一谈。类型选择在编译器内部完成，粘贴的
+函数体不需要添加类型声明。当前范围不涵盖尚未实现的其他 Python 语法。
+
+严格 FP32 软件模型对整数值字面量与整数转换使用同一个最近偶数舍入器。
+`FP.IntegerLiteral.from_int_literal` 证明两条路径在该明确模型中相等；它不是
+关于任意数值端口的公理，也不要求整数恰好可表示。模型标识包含
+`integer-literals`，与旧解释区分。具体硬件一致性仍是独立边界。

@@ -300,8 +300,34 @@ private partial def literalTensorFloatType (e : TSyntax `tritonExpr) : Option Tr
       | _ => none
   | _ => none
 
+/-- Ordinary integer assignments create tensors. Inline integer literals
+remain weak scalars. Match Triton's signed/unsigned 32/64-bit selection before
+the value enters register dataflow; never round a large integer through Real. -/
+private partial def literalTensorIntegerValue (e : TSyntax `tritonExpr) : Option Int :=
+  match e with
+  | `(tritonExpr| tl.__python_literal($inner:tritonExpr))
+  | `(tritonExpr| ($inner:tritonExpr)) => literalTensorIntegerValue inner
+  | `(tritonExpr| -$inner:tritonExpr) => (literalTensorIntegerValue inner).map Int.neg
+  | `(tritonExpr| $n:num) => some (Int.ofNat n.getNat)
+  | _ => none
+
+private def literalTensorIntegerType (value : Int) : Option Triton.PointerType :=
+  if -(2^31) ≤ value && value < 2^31 then some .i32
+  else if 2^31 ≤ value && value < 2^32 then some .u32
+  else if -(2^63) ≤ value && value < 2^63 then some .i64
+  else if 2^63 ≤ value && value < 2^64 then some .u64
+  else none
+
+private def checkedIntegerLiteralType (e : TSyntax `tritonExpr) (value : Int) :
+    MacroM Triton.PointerType := do
+  match literalTensorIntegerType value with
+  | some dtype => return dtype
+  | none => Macro.throwErrorAt e "integer scalar literal assignment is outside Triton's 64-bit range"
+
 private def assignedValueType (pointers : Types) (values : Values)
     (e : TSyntax `tritonExpr) : MacroM (Option ValueInfo) := do
+  if let some value := literalTensorIntegerValue e then
+    return some (.typed (← checkedIntegerLiteralType e value))
   match literalTensorFloatType e with
   | some .fp32 => return some (.typed .fp32)
   | some .fp64 =>
@@ -314,6 +340,20 @@ For finite decimal literals, check the intervening Python binary64 rounding
 before using the existing exact-literal FP32 node. -/
 private partial def materializeLiteral (e : TSyntax `tritonExpr) :
     MacroM (TSyntax `tritonExpr) := do
+  if let some value := literalTensorIntegerValue e then
+    let dtype ← checkedIntegerLiteralType e value
+    let dtypeName := mkIdent `dtype
+    let magnitude : TSyntax `num := ⟨Syntax.mkNumLit (toString value.natAbs)⟩
+    let signed : TSyntax `term ← if value < 0 then `(-($magnitude:num : Int))
+      else `(($magnitude:num : Int))
+    let signedValue ← `(tritonExpr| $(($signed:term : Int)))
+    let unsignedValue ← `(tritonExpr| $(($magnitude:num : Nat)))
+    match dtype with
+    | .i32 => return ← `(tritonExpr| tl.full([], $signedValue:tritonExpr, $dtypeName:ident=tl.int32))
+    | .u32 => return ← `(tritonExpr| tl.full([], $unsignedValue:tritonExpr, $dtypeName:ident=tl.uint32))
+    | .i64 => return ← `(tritonExpr| tl.full([], $signedValue:tritonExpr, $dtypeName:ident=tl.int64))
+    | .u64 => return ← `(tritonExpr| tl.full([], $unsignedValue:tritonExpr, $dtypeName:ident=tl.uint64))
+    | _ => Macro.throwErrorAt e "internal integer literal dtype mismatch"
   unless literalTensorFloatType e == some .fp32 do return e
   let rec infinity (e : TSyntax `tritonExpr) : Bool :=
     match e with

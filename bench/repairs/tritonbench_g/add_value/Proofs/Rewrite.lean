@@ -1,6 +1,7 @@
 import bench.repairs.tritonbench_g.add_value.Kernels
 import bench.tritonbench_g.vector_addition.Proofs.Value
 import VeriTile.Triton.Float.ProfiledMemory
+import VeriTile.Triton.Float.IntegerLiteral
 import VeriTile.Meta.StatementAudit
 
 namespace VeriTile.Bench.Repairs.AddValue.Contiguous.Rewrite
@@ -58,13 +59,16 @@ theorem site_values_iff {α : Type} [Inhabited α] (M : Algebra α) (D : Domain 
     engine, Algebra.withDefaultPrecision, resolvePrecision]
 
 /-- Complete memory equality for the two displayed kernels. Local `y` is
-executed normally; only strict FP32 addition commutation changes the arithmetic. -/
+executed as an integer tensor. Its FP32 conversion is linked to the inline
+literal by a strict software certificate, then addition commutation applies. -/
 @[spec_rule] theorem commuted_memory {α : Type} [Inhabited α]
     (M : Algebra α) (D : Domain α)
     (hM : Models [] M D) (n : Nat) (s : State α)
     (hd : (additionSite n).Holds M D s) :
     (originalExecution M n s).val.mem = (commutedExecution M n s).val.mem := by
   have finite := (site_values_iff M D n s).mp hd
+  have literal_coherent : M.fromInt (some .fp32) 10 = M.literal (some .fp32) .real 10 := by
+    simpa using FP.IntegerLiteral.from_int_literal M D hM s 10
   have hvalues (i : TileIndex [blockSize]) (hi : s.pids 0 * blockSize + i.1.val < n) :
       M.binary (some .fp32) .real .add (loadedValue M n s i)
         (M.literal (some .fp32) .real 10) =
@@ -77,6 +81,7 @@ executed normally; only strict FP32 addition commutation changes the arithmetic.
     State.setReg_mem]
   simp only [engine, Algebra.withDefaultPrecision, resolvePrecision,
     Option.getD_some, Option.getD_none]
+  simp only [literal_coherent]
   simp only [loadedValue] at hvalues
   simp only [blockSize] at hvalues ⊢
   congr 1

@@ -144,7 +144,7 @@ info:   none
 ---
 info: Strict model certificates used by strict_commutation:
 ---
-info:   model: VeriTile.Software.strictFP32/ieeeValue/maxnum/documented-exp-special-values
+info:   model: VeriTile.Software.strictFP32/ieeeValue/integer-literals/maxnum/documented-exp-special-values
     certificate: List.Forall₂.cons
   (ScalarArithmetic.strict_certificate ScalarArithmetic.Atom.addCommute (of_decide_eq_true (id (Eq.refl true))))
   List.Forall₂.nil -/
@@ -157,7 +157,7 @@ info:   none
 ---
 info: Strict model certificates used by strict_multiplication_commutation:
 ---
-info:   model: VeriTile.Software.strictFP32/ieeeValue/maxnum/documented-exp-special-values
+info:   model: VeriTile.Software.strictFP32/ieeeValue/integer-literals/maxnum/documented-exp-special-values
     certificate: List.Forall₂.cons
   (ScalarArithmetic.strict_certificate ScalarArithmetic.Atom.mulCommute (of_decide_eq_true (id (Eq.refl true))))
   List.Forall₂.nil -/
@@ -170,7 +170,7 @@ info:   none
 ---
 info: Strict model certificates used by strict_count_successor:
 ---
-info:   model: VeriTile.Software.strictFP32/ieeeValue/maxnum/documented-exp-special-values
+info:   model: VeriTile.Software.strictFP32/ieeeValue/integer-literals/maxnum/documented-exp-special-values
     certificate: List.Forall₂.cons (CountConversion.strict_sound CountConversion.Atom.successor) List.Forall₂.nil -/
 #guard_msgs in
 #print_fp_assumptions strict_count_successor

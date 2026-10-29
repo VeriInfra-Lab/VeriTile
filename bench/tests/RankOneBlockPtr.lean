@@ -32,7 +32,7 @@ def expanded (X Y : RegionName) (B N : Nat) (stride origin : Int) : ComputeKerne
     __veritile_block_p_shape = (parent).to(tl.int64)
     p = ($((origin : Int))).to(tl.int64) + __veritile_block_p_coordinates * ($((stride : Int))).to(tl.int64)
     offset = (99).to(tl.int64)
-    parent = 0
+    parent = tl.full([], $((0 : Int)), dtype=tl.int32)
     x = tl.load(X + p, mask=($((0 : Int)) <= __veritile_block_p_coordinates) & (__veritile_block_p_coordinates < __veritile_block_p_shape))
     lanes = tl.arange(0, $((B : Nat)))
     tl.store(Y + lanes, x)

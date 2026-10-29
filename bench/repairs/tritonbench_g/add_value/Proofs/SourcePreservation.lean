@@ -3,7 +3,10 @@ import VeriTile.Meta.StatementAudit
 
 /-! Previous full programs are proof-only snapshots; current Kernels.lean
 remains authoritative. Runtime sizes keep their source ABI in the signature
-and are specialized to the invocation value, not reclassified as constexpr. -/
+and are specialized to the invocation value, not reclassified as constexpr.
+The historical candidate below represented y as a floating literal. Its AST
+is deliberately not identified with the corrected integer-tensor source;
+Proofs/Rewrite proves the actual pair using strict conversion and addition. -/
 namespace VeriTile.Bench.Repairs.AddValue.Contiguous.SourcePreservation
 open VeriTile.Triton
 noncomputable section
@@ -51,10 +54,6 @@ def previous_commutedKernel (n : Nat) : ComputeKernel :=
 theorem kernel_preserved (X O : RegionName) (n B : Nat) :
     kernel X O n B = previous_kernel X O n B := rfl
 
-theorem commutedKernel_preserved (n : Nat) :
-    commutedKernel n = previous_commutedKernel n := rfl
-
 #axiomsClean kernel_preserved
-#axiomsClean commutedKernel_preserved
 end
 end VeriTile.Bench.Repairs.AddValue.Contiguous.SourcePreservation

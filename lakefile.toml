@@ -50,6 +50,7 @@ globs = [
   "bench.tests.ConstexprMaskBody",
   "bench.tests.DTypeResolution",
   "bench.tests.SourceDTypeBody",
+  "bench.tests.IntegerLiteralAssignmentBody",
   "bench.tests.FPDebugBarrier",
   "bench.tests.ConditionalCast",
   "bench.tests.RegisterDTypeLoad",
