@@ -21,11 +21,11 @@ abbrev CIndex (p : Parameters) := TileIndex [BHW p,OF p]
 def prelude (p : Parameters) := (source p).surfaceBody.take 14
 def hBody (p : Parameters) : List ComputeStmt :=
   match (source p).surfaceBody[14]? with
-  | some (ComputeStmt.forRange _ _ _ _ code) => code
+  | some (ComputeStmt.forLoop _ _ code) => code
   | _ => []
 def wBody (p : Parameters) : List ComputeStmt :=
   match (hBody p)[0]? with
-  | some (ComputeStmt.forRange _ _ _ _ code) => code
+  | some (ComputeStmt.forLoop _ _ code) => code
   | _ => []
 def cBody (p : Parameters) : List ComputeStmt :=
   match (wBody p)[0]? with
@@ -47,10 +47,10 @@ def backend {α : Type} (rest : Algebra α) (D : Dot α) : Algebra α :=
 
 theorem decomposition (p : Parameters) :
     (source p).surfaceBody = prelude p ++
-      [.forRange "h" 0 p.kernel_height 1 (hBody p)] ++ epilogue p := by rfl
+      [.forLoop "h" p.kernel_height (hBody p)] ++ epilogue p := by rfl
 
 theorem hBody_shape (p : Parameters) :
-    hBody p = [.forRange "w" 0 p.kernel_width 1 (wBody p)] := by rfl
+    hBody p = [.forLoop "w" p.kernel_width (wBody p)] := by rfl
 
 theorem wBody_shape (p : Parameters) :
     wBody p = [.forRangeDyn "c" (.constNat 0) (.ref .nat [] "in_group_dim")

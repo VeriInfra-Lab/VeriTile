@@ -31,7 +31,7 @@ theorem forward_value (rest : Algebra ℝ) (p : ForwardParameters) (s : State �
   unfold KernelReference.forwardY Forward.unspecified
   rw [Logical.z_value,Logical.mean_value rest p s hb,Logical.rstd_value rest p s hb]
   cases hr : p.rms <;> cases hbb : p.hasBias <;>
-    simp [hi,hr,hbb,Logical.y,Logical.normalized,Logical.mean,Forward.cast,Forward.unhintedBinary,
+    simp [hi,hr,hbb,Logical.y,Logical.normalized,Logical.mean,Forward.cast,Forward.unhintedBinary,Forward.binary,
       Logical.algebra,LayerNormLiger.Logical.algebra]
 
 theorem dx_value (rest : Algebra ℝ) (p : BackwardParameters) (s : State ℝ)
@@ -54,7 +54,7 @@ theorem y_value (rest : Algebra ℝ) (p : BackwardParameters) (s : State ℝ)
   rw [Logical.backward_xhat]
   cases hb : p.hasBias <;>
     simp [rowY,readRow,Logical.bhat,Logical.bx,Logical.bmu,Logical.binv,
-      Backward.initial,Backward.loaded,Forward.cast,Forward.unhintedBinary,
+      Backward.initial,Backward.loaded,Forward.cast,Forward.unhintedBinary,Forward.binary,
       Logical.algebra,LayerNormLiger.Logical.algebra,hi,hb]
 
 theorem inputs_fresh (p : BackwardParameters) (h : KernelReadback.Admissible p) : Logical.InputsFresh p := by

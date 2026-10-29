@@ -1,5 +1,5 @@
 import bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardWhole
-import bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ForwardRun
+import bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ForwardSafety
 import VeriTile.Triton.Float.StructuralSafety
 
 /-! Access safety of the selected forward program and bounded backward loop.
@@ -12,40 +12,7 @@ set_option maxRecDepth 30000
 set_option linter.unusedSimpArgs false
 variable {α : Type} [Inhabited α]
 
-theorem forward (M : Algebra α) (p : ForwardParameters) (s : State α)
-    (bounds : RegionName → Nat)
-    (hx : ∀ i : Fin p.block,i.val<p.columns → s.pids 0*p.xStride+i.val<bounds p.x)
-    (hw : ∀ i : Fin p.block,i.val<p.columns → i.val<bounds p.weight)
-    (hb : p.hasBias=Bool.true → ∀ i : Fin p.block,i.val<p.columns → i.val<bounds p.bias)
-    (hres : p.hasResidual=Bool.true → ∀ i : Fin p.block,i.val<p.columns →
-      s.pids 0*p.residualStride+i.val<bounds p.residual)
-    (hy : ∀ i : Fin p.block,i.val<p.columns → s.pids 0*p.yStride+i.val<bounds p.y)
-    (hresout : p.storeResidual=Bool.true → ∀ i : Fin p.block,i.val<p.columns →
-      s.pids 0*p.residualOutStride+i.val<bounds p.residualOut)
-    (hm : p.rms=Bool.false → s.pids 0<bounds p.mean)
-    (hr : s.pids 0<bounds p.rstd) :
-    TraceSafe M bounds (forwardKernel p) s := by
-  cases hR : p.rms <;> cases hA : p.hasResidual <;>
-    cases hS : p.storeResidual <;> cases hB : p.hasBias
-  all_goals
-    simp [TraceSafe,forwardKernel,forwardSource,ComputeKernel.surfaceBody,
-      traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
-      safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
-      run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,Option.bind,
-      ComputeDType.eraseDType,FloatDType.toTileDType,FloatDType.numericDType,ofFloat,toFloat,
-      numeric,bop,numericLt,natLt,Region.cast,hR,hA,hS,hB,hx,hw,hb,hres,hy,hresout,hm,hr]
-  all_goals repeat' first
-    | apply And.intro
-    | exact hx
-    | exact hw
-    | exact hy
-    | exact hr
-    | exact hb hB
-    | exact hres hA
-    | exact hresout hS
-    | exact hm hR
 
-#axiomsClean forward
 
 private theorem append_safe (M : Algebra α) (bounds : RegionName → Nat)
     (a b : List ComputeStmt) (s t : State α)
@@ -67,10 +34,10 @@ theorem prelude_safe (M : Algebra α) (p : BackwardParameters) (s : State α)
     (hb : p.recompute=Bool.true → p.hasBias=Bool.true →
       ∀ i : Fin p.block,i.val<p.columns → i.val<bounds p.bias) :
     traceSafeList M bounds (prelude p) s := by
-  cases hD : p.hasDres <;> cases hS : p.storeDres <;>
+  cases hR : p.rms <;> cases hD : p.hasDres <;> cases hS : p.storeDres <;>
     cases hB : p.hasBias <;> cases hY : p.recompute
   all_goals
-    simp [prelude,backwardKernel,backwardSource,ComputeKernel.surfaceBody,
+    simp [prelude,isRowLoop,hR,backwardKernel,backwardSource,ComputeKernel.surfaceBody,
       traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
       safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,numeric,bop,
@@ -99,7 +66,7 @@ theorem body_safe (M : Algebra α) (p : BackwardParameters)
   cases hR : p.rms <;> cases hD : p.hasDres <;> cases hS : p.storeDres <;>
     cases hB : p.hasBias <;> cases hY : p.recompute
   all_goals
-    simp [body,backwardKernel,backwardSource,ComputeKernel.surfaceBody,
+    simp [body,isRowLoop,backwardKernel,backwardSource,ComputeKernel.surfaceBody,
       traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
       safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,Option.bind,
@@ -125,9 +92,10 @@ theorem postlude_safe (M : Algebra α) (p : BackwardParameters)
     (hdb : p.hasBias=Bool.true → ∀ i : Fin p.block,i.val<p.columns →
       s.pids 0*p.columns+i.val<bounds p.db) :
     traceSafeList M bounds (postlude p) t := by
-  cases hB : p.hasBias
+  cases hR : p.rms <;> cases hD : p.hasDres <;> cases hS : p.storeDres <;>
+    cases hY : p.recompute <;> cases hB : p.hasBias
   all_goals
-    simp [postlude,backwardKernel,backwardSource,ComputeKernel.surfaceBody,
+    simp [postlude,isRowLoop,hR,hD,hS,hY,backwardKernel,backwardSource,ComputeKernel.surfaceBody,
       traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
       safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,Option.bind,

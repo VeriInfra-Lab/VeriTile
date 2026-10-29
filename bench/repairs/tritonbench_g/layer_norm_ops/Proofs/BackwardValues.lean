@@ -86,12 +86,12 @@ theorem backward_hat_eq (A : Algebra α) (p : BackwardParameters) (pid : Nat)
   have hx := backward_load_eq A p s p.x (row*p.xStride) _ (bound.x row live)
   funext i
   change (if i.1.val<p.columns then
-    Forward.unhintedBinary A .mul
+    Forward.binary A .mul
       (if p.rms then Backward.loaded A p s p.x (row*p.xStride) i else
-        Forward.unhintedBinary A .sub (Backward.loaded A p s p.x (row*p.xStride) i)
-          (A.cast none .fp32 .real ((s.mem p.mean (row*p.meanStride)).read .fp32)))
-      (A.cast none .fp32 .real ((s.mem p.rstd (row*p.rstdStride)).read .fp32))
-    else A.literal none .real 0)=_
+        Forward.binary A .sub (Backward.loaded A p s p.x (row*p.xStride) i)
+          (Forward.cast A ((s.mem p.mean (row*p.meanStride)).read .fp32)))
+      (Forward.cast A ((s.mem p.rstd (row*p.rstdStride)).read .fp32))
+    else Forward.literal A 0)=_
   rw [hx,bound.rstd row live]
   cases hm : p.rms
   · simp only [backwardHat,hm,Bool.false_eq_true,if_false,bound.mean hm row live]

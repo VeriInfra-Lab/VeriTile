@@ -262,8 +262,15 @@ private partial def valueType (pointers : Types) (values : Values)
           unless (← dtypeToken dtype.raw) == PointerType.dtypeName .fp32 do failure
       return .typed .fp32
   | `(tritonExpr| tl.dot($a:tritonExpr, $b:tritonExpr $[, $kwargs:tritonReduceKwarg]*)) => do
-      unless valueType pointers values a == some (.typed .fp32) &&
-          valueType pointers values b == some (.typed .fp32) do failure
+      unless dotInputs a b do failure
+      let fp32Inputs := valueType pointers values a == some (.typed .fp32) &&
+        valueType pointers values b == some (.typed .fp32)
+      -- The newly supported non-FP32 input path retains the default FP32
+      -- result. Other explicit result formats need their own checked path.
+      if !fp32Inputs then
+        for kw in kwargs do
+          if let `(tritonReduceKwarg| out_dtype=$dtype:tritonDType) := kw then
+            unless (← dtypeToken dtype.raw) == PointerType.dtypeName .fp32 do failure
       let mut result := Triton.PointerType.fp32
       for kw in kwargs do
         if let `(tritonReduceKwarg| out_dtype=$dtype:tritonDType) := kw then

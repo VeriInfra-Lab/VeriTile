@@ -1,3 +1,4 @@
+import VeriTile.Triton.Float.StructuralLoopNormalization
 import bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelDefaultExecution
 namespace VeriTile.Bench.Repairs.Conv2d.KernelDefault
 open VeriTile.Triton FP.Structural
@@ -63,12 +64,12 @@ theorem widthLoop {α : Type} [Inhabited α] (M : Algebra α) (D : Dot α)
     (by intro n a t hi; exact hi) ⟨ctx,ha,hh⟩
   refine ⟨t, ?_, hc, ha'⟩
   rw [hBody_shape]
-  simpa [run, step] using ht
+  simpa [run, step, loop_eq_range] using ht
 
 theorem heightLoop {α : Type} [Inhabited α] (M : Algebra α) (D : Dot α)
     (p : Parameters) (initial current : State α) (a : CIndex p → α)
     (ctx : Context p initial current) (ha : HasAcc p a current) :
-    ∃ t, run (backend M D) [.forRange "h" 0 p.kernel_height 1 (hBody p)] current = some t ∧
+    ∃ t, run (backend M D) [.forLoop "h" p.kernel_height (hBody p)] current = some t ∧
       Context p initial t ∧
       HasAcc p (foldRange (widths M D p initial) 0 p.kernel_height 1 a) t := by
   let I := fun (_ : Nat) (a : CIndex p → α) (t : State α) => Context p initial t ∧ HasAcc p a t
@@ -80,7 +81,7 @@ theorem heightLoop {α : Type} [Inhabited α] (M : Algebra α) (D : Dot α)
         (hi.1.set_loop p initial t "h" h (Or.inl rfl)) (by simpa using hi.2) (by simp)
       exact ⟨u,he,hc,ha⟩)
     (by intro n a t hi; exact hi) ⟨ctx,ha⟩
-  exact ⟨t, by simpa [run, step] using ht, hc, ha'⟩
+  exact ⟨t, by simpa [run, step, loop_eq_range] using ht, hc, ha'⟩
 
 #axiomsClean channelLoop
 #axiomsClean widthLoop

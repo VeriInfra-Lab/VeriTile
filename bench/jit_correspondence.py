@@ -882,6 +882,7 @@ def validate_manifest_records(records: list[dict]) -> None:
                 "abi": {key: signature.get(key) for key in ("pointers", "scalars", "constexpr", "optionalPointers")},
                 "specialized_scalars": sorted(bindings),
                 "constexpr_bindings": record.get("expected_constexpr_bindings") or {},
+                "specialized_booleans": record.get("expected_specialized_booleans") or {},
             }, sort_keys=True))
         if len(abis) != len(set(abis)):
             raise ValueError("reused Python correspondence has duplicate ABI profiles and scalar call modes")

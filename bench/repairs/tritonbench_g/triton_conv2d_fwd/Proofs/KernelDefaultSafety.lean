@@ -21,7 +21,7 @@ structure Bounds (p : Parameters) (s : State α) (bounds : RegionName → Nat) :
 theorem prelude_safe (M : Algebra α) (D : Dot α) (p : Parameters)
     (s : State α) (bounds : RegionName → Nat) :
     Safety.traceSafeList (backend M D) bounds (prelude p) s := by
-  simp [prelude,source,typed,
+  simp [prelude,source,defaultBody,
     ComputeKernel.surfaceBody,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeOp_unfold,Safety.safeCompute_unfold,
     Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
@@ -40,7 +40,7 @@ theorem body_safe (M : Algebra α) (D : Dot α) (p : Parameters)
     Safety.traceSafeList (backend M D) bounds (cBody p)
       (current.setReg "c" .nat [] (fun _ => c)) := by
   simp only [HasAcc] at ha
-  simp [cBody,wBody,hBody,source,typed,
+  simp [cBody,wBody,hBody,source,defaultBody,
     ComputeKernel.surfaceBody,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeOp_unfold,Safety.safeCompute_unfold,
     Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
@@ -52,7 +52,18 @@ theorem body_safe (M : Algebra α) (D : Dot α) (p : Parameters)
     ctx.wi,ctx.ip,ctx.wp,ha,hh,hw]
   constructor
   · intro i k hn hc hy0 hy hx0 hx
-    exact hb.input h hhb w hwb c hcb (i,k,()) ⟨⟨⟨⟨⟨hn,hc⟩,hy0⟩,hy⟩,hx0⟩,hx⟩
+    have hh : 0 ≤ (p.input_height_stride : Int) * ih p initial h i :=
+      mul_nonneg (Int.natCast_nonneg _) hy0
+    have hw : 0 ≤ (p.input_width_stride : Int) * iw p initial w i :=
+      mul_nonneg (Int.natCast_nonneg _) hx0
+    have hhn : (-((p.input_height_stride : Int) * ih p initial h i)).toNat = 0 :=
+      Int.toNat_eq_zero.mpr (neg_nonpos.mpr hh)
+    have hwn : (-((p.input_width_stride : Int) * iw p initial w i)).toNat = 0 :=
+      Int.toNat_eq_zero.mpr (neg_nonpos.mpr hw)
+    dsimp only [ih] at hhn
+    dsimp only [iw] at hwn
+    simpa only [inputOffset,ih,iw,hhn,hwn,Nat.sub_zero] using
+      hb.input h hhb w hwb c hcb (i,k,()) ⟨⟨⟨⟨⟨hn,hc⟩,hy0⟩,hy⟩,hx0⟩,hx⟩
   · intro k j hc hf
     exact hb.weight h hhb w hwb c hcb (k,j,()) ⟨hc,hf⟩
 
@@ -62,7 +73,7 @@ theorem epilogue_safe (M : Algebra α) (D : Dot α) (p : Parameters)
     (bounds : RegionName → Nat) (hb : Bounds p initial bounds) :
     Safety.traceSafeList (backend M D) bounds (epilogue p) current := by
   simp only [HasAcc] at ha
-  simp [epilogue,source,typed,
+  simp [epilogue,source,defaultBody,
     ComputeKernel.surfaceBody,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeOp_unfold,Safety.safeCompute_unfold,
     Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
@@ -106,7 +117,7 @@ theorem width_safe (M : Algebra α) (D : Dot α) (p : Parameters)
     Safety.traceSafeList (backend M D) bounds (hBody p) current := by
   rw [hBody_shape,Safety.traceSafeList_cons]
   refine ⟨?_,fun _ _ => Safety.traceSafeList_nil _ _ _⟩
-  simp only [Safety.stepSafe_unfold]
+  simp only [Safety.stepSafe_unfold, Safety.loopSafe_eq_rangeSafe]
   apply Safety.rangeSafe_of_invariant (backend M D) bounds "w" p.kernel_width 1 (wBody p)
     (fun _ t => ∃ a, Context p initial t ∧ HasAcc p a t ∧ t.regs .nat [] "h"=some (fun _ => h))
   · rintro w hw t ⟨a,ctx,ha,hh⟩
@@ -126,8 +137,8 @@ theorem height_safe (M : Algebra α) (D : Dot α) (p : Parameters)
     (initial current : State α) (a : CIndex p → α)
     (ctx : Context p initial current) (ha : HasAcc p a current)
     (bounds : RegionName → Nat) (hb : Bounds p initial bounds) :
-    Safety.stepSafe (backend M D) bounds (.forRange "h" 0 p.kernel_height 1 (hBody p)) current := by
-  simp only [Safety.stepSafe_unfold]
+    Safety.stepSafe (backend M D) bounds (.forLoop "h" p.kernel_height (hBody p)) current := by
+  simp only [Safety.stepSafe_unfold, Safety.loopSafe_eq_rangeSafe]
   apply Safety.rangeSafe_of_invariant (backend M D) bounds "h" p.kernel_height 1 (hBody p)
     (fun _ t => ∃ a, Context p initial t ∧ HasAcc p a t)
   · rintro h hh t ⟨a,ctx,ha⟩
@@ -157,7 +168,7 @@ theorem source_safe (M : Algebra α) (D : Dot α) (p : Parameters)
   refine ⟨height_safe M D p s _ _ ctx ha bounds hb,?_⟩
   intro u hu
   obtain ⟨v,hv,hc,ha'⟩ := heightLoop M D p s _ _ ctx ha
-  have hx : step (backend M D) (.forRange "h" 0 p.kernel_height 1 (hBody p))
+  have hx : step (backend M D) (.forLoop "h" p.kernel_height (hBody p))
       (preludeExecution M D p s).val=some v := by simpa [run] using hv
   have eq := Option.some.inj (hx.symm.trans hu)
   subst u

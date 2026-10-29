@@ -4,6 +4,8 @@ import copy
 import hashlib
 import json
 from pathlib import Path
+from bench.jit_correspondence import quotation
+from bench.repairs.tritonbench_g.triton_conv2d_fwd.check_body_source import check_sources
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[3]
@@ -53,26 +55,27 @@ def main():
     assert dump(restored_host) == dump(old_host)
     assert dump(host.args) == dump(old_host.args)
     assert sha(CANDIDATE) == "37ad52bccd9a329291c6509200adfb8a3125975225685c9e2c4f300578a8561b"
-    snapshot = ROOT / ".veritile-cache/task-deliveries/triton_conv2d_fwd/initial-snapshot"
+    # Tracked source hashes replace the unavailable private snapshot dependency.
+    # This checks preservation from the reviewed pre-migration public contract;
+    # it does not claim to rerun the historical initial-snapshot comparison.
+    baseline = {'Contract.lean': 'b90c5a99e90b960b94c9fa11bb52683d08df829e13fca36faeab6cec71a5e994', 'Proofs/Contract.lean': 'b99a4f6a6db1e407048f7303ad944c09160591806ee1b10d449bd449b7c4471c'}
     domain_hashes = {}
-    for relative in ["Contract.lean", "Proofs/Contract.lean"]:
-        previous = (snapshot / relative).read_text()
-        qualified = previous.replace("≠true", "≠Bool.true").replace("=true", "=Bool.true")
-        assert (HERE / relative).read_text() == qualified, (relative, "admitted domain changed")
-        domain_hashes[relative] = {"initial_sha256": sha(snapshot / relative), "current_sha256": sha(HERE / relative),
-                                  "only_change": "qualify true as Bool.true for the imported Triton parser"}
-    kernels = (HERE / "Kernels.lean").read_text()
+    for relative, expected in baseline.items():
+        assert sha(HERE / relative) == expected, (relative, "admitted domain changed")
+        domain_hashes[relative] = {"baseline_commit": "c369f8e2da7dba42d02878022b4ace716afbea0c",
+                                  "baseline_sha256": expected, "current_sha256": sha(HERE / relative),
+                                  "scope": "Byte-identical reviewed public contract before raw-body migration."}
+    bodies = check_sources(ROOT)
+    rows = json.loads((HERE / "jit-correspondence.json").read_text())
     quotations = []
-    for branch, casts in [("KernelHalf", 2), ("KernelDefault", 0)]:
-        namespace = "VeriTile.Bench.Repairs.Conv2d." + branch
-        block = kernels.split("namespace " + namespace + "\n", 1)[1].split("end " + namespace, 1)[0]
-        assert block.count("other=0.0") == 2
-        assert block.count(".to(tl.float16)") == casts
-        assert "accum += tl.dot(input_block, weight_block, allow_tf32=_tf32)" in block
-        assert "tl.store(Output, (accum).to(DTYPE), mask=output_mask)" in block
-        assert "for h in range" in block and "for w in range" in block and "for c in range" in block
-        quotations.append({"branch": branch, "sha256": hashlib.sha256(block.encode()).hexdigest(),
-                           "explicit_zero_loads": 2, "operand_half_casts": casts})
+    for row in rows:
+        _, body = quotation((ROOT / row["lean"]).read_text(), row["lean_definition"])
+        quotations.append({"lean": row["lean"], "definition": row["lean_definition"],
+                           "body_sha256": hashlib.sha256(body.encode()).hexdigest(),
+                           "fp16": row["expected_specialized_booleans"]["fp16"],
+                           "explicit_zero_loads": body.count("other=0.0"),
+                           "source_operand_half_casts": body.count(".to(tl.float16)")})
+    kernels = (HERE / "Kernels.lean").read_text()
     assert "if fp16 then KernelHalf.source p else KernelDefault.source p" in kernels
     lean = {str(path.relative_to(ROOT)): sha(path) for path in sorted(HERE.rglob("*.lean"))}
     report = {
@@ -92,8 +95,9 @@ def main():
                      "nonempty launch grid Y and Z at most 65535"],
         "formal_route": "same repaired shared typed DSL, complete original grid, independent initial-array Real/native references, actual Tensor readback, per-store concrete bytes and full frames",
         "readable_DSL": quotations,
+        "raw_body_correspondence": bodies,
         "domain_unchanged": domain_hashes,
-        "source_binding_scope": "Python AST preservation and quotation structure/hash checks; not a verified Python-to-DSL translator",
+        "source_binding_scope": "Exact original/candidate bodies for both fp16 specializations, public invocation aliases and historical Python repair delta; not a verified Python-to-DSL translator",
         "compiler_carry_lowering": "source dot remains pending until outer add; compiler interpretation supplies the old carry to the first native instruction without asserting rounded split/fused equality",
         "compiler_scope": "pinned concrete Triton 3.7.1 SM90 profiles and symbolic PTX binding; not universal compiler correctness",
         "numerical_boundary": ["scalar fma.rn.f32 equality to IEEE RN-even software profile",
@@ -105,7 +109,7 @@ def main():
         "lean_sources": lean,
     }
     (HERE / "source-binding.json").write_text(json.dumps(report, indent=2) + "\n")
-    print(f"PASS: two zero-fill kernel edits; host preservation; {len(lean)} Lean sources pinned")
+    print(f"PASS: exact four raw bodies; two zero-fill kernel edits; host and domain preservation; {len(lean)} Lean sources pinned")
 
 
 if __name__ == "__main__":

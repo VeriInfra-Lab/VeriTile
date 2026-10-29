@@ -1131,6 +1131,9 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
     (pointerPresence : Option (Array (TSyntax `tritonCallBinding)) := none) : TermElabM Expr := do
   let signature ← elabTermEnsuringType profile (mkConst ``Triton.CallSignature)
   let selected ← (← listValues (← mkAppM ``Triton.CallSignature.specializeBooleans #[signature])).mapM stringValue
+  let optionalPointers ← listValues (← mkAppM ``Triton.CallSignature.optionalPointers #[signature])
+  let optionalConditional := !optionalPointers.isEmpty &&
+    stmts.any (fun st => OptionalPointer.needsConditionalSpecialization st.raw)
   if !selected.isEmpty then
     for stmt in stmts do rejectBodyMetadata stmt.raw
     let constants ← (← listValues (← mkAppM ``Triton.CallSignature.constexpr #[signature])).mapM stringValue
@@ -1148,9 +1151,10 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
       choices := choices ++ [(id,reduced.isConstOf ``Bool.true)]
     let body ← liftMacroM <| stmts.mapM fun st => do
       return (⟨← Inference.normalizeControlFlow st.raw⟩ : TSyntax `tritonStmt)
-    let body ← liftMacroM <| ConstexprMask.lower choices body
+    let body ← liftMacroM <| ConstexprMask.lower choices body optionalConditional
     return ← elaborateCallCore profile body callValues pointerOffsets pointerPresence
-  unless stmts.any (fun st => ConstexprMask.needed st.raw || ConstexprMask.directMaskNeeded st.raw) do
+  unless optionalConditional ||
+      stmts.any (fun st => ConstexprMask.needed st.raw || ConstexprMask.directMaskNeeded st.raw) do
     return ← elaborateCallCore profile stmts callValues pointerOffsets pointerPresence
   for stmt in stmts do rejectBodyMetadata stmt.raw
   let signature ← elabTermEnsuringType profile (mkConst ``Triton.CallSignature)
@@ -1168,7 +1172,7 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
   let rec cases (remaining : List (Name × Expr)) (choices : ConstexprMask.Choices) : TermElabM Expr := do
     match remaining with
     | [] =>
-        let body ← liftMacroM <| ConstexprMask.lower choices stmts
+        let body ← liftMacroM <| ConstexprMask.lower choices stmts optionalConditional
         elaborateCallCore profile body callValues pointerOffsets pointerPresence
     | (name,value) :: rest =>
         let reduced ← whnf value

@@ -6,17 +6,28 @@ open VeriTile.Triton FP.Structural
 open VeriTile.Bench.TritonBenchG.ParallelAttention.FPStages (foldRange)
 noncomputable section
 
-def prelude (p : BackwardParameters) := (backwardKernel p).surfaceBody.take 15
+/-- Locate the actual source loop after constexpr specialization. Conditional
+pointer updates and bias initialization change the prelude length by branch. -/
+def isRowLoop : ComputeStmt → Bool
+  | .forRangeDyn "row" _ _ _ _ => Bool.true
+  | _ => Bool.false
+
+def prelude (p : BackwardParameters) :=
+  (backwardKernel p).surfaceBody.takeWhile (fun st => !isRowLoop st)
 def body (p : BackwardParameters) : List ComputeStmt :=
-  let code : List ComputeStmt := (backwardKernel p).surfaceBody
-  match code[15]? with
-  | some (ComputeStmt.forRangeDyn _ _ _ _ code) => code
+  match ((backwardKernel p).surfaceBody.dropWhile (fun st => !isRowLoop st)).head? with
+  | some (.forRangeDyn _ _ _ _ code) => code
   | _ => []
-def postlude (p : BackwardParameters) := (backwardKernel p).surfaceBody.drop 16
+def postlude (p : BackwardParameters) :=
+  ((backwardKernel p).surfaceBody.dropWhile (fun st => !isRowLoop st)).drop 1
 
 theorem source_split (p : BackwardParameters) : (backwardKernel p).surfaceBody = prelude p ++
     [.forRangeDyn "row" (Op.ref .nat [] "row_start") (Op.ref .nat [] "row_end")
-      (Op.constNat 1) (body p)] ++ postlude p := by rfl
+      (Op.constNat 1) (body p)] ++ postlude p := by
+  cases hr : p.rms <;> cases hd : p.hasDres <;> cases hs : p.storeDres <;>
+    cases hb : p.hasBias <;> cases hy : p.recompute
+  all_goals simp [backwardKernel,backwardSource,prelude,body,postlude,isRowLoop,
+    ComputeKernel.surfaceBody,hr,hd,hs,hb,hy]
 
 abbrev binary := @Forward.binary
 abbrev unhintedBinary := @Forward.unhintedBinary
@@ -38,7 +49,7 @@ def initial {α : Type} [Inhabited α] (M : Algebra α) (p : BackwardParameters)
     fun _ => literal M 0, fun _ => literal M 0⟩
 
 def meanValue {α : Type} [Inhabited α] (M : Algebra α) (p : BackwardParameters)
-    (a : Acc α p) (row : Nat) := M.cast none .fp32 .real ((a.state.mem p.mean (row*p.meanStride)).read .fp32)
+    (a : Acc α p) (row : Nat) := cast M ((a.state.mem p.mean (row*p.meanStride)).read .fp32)
 def rstdValue {α : Type} [Inhabited α] (M : Algebra α) (p : BackwardParameters)
     (a : Acc α p) (row : Nat) := cast M ((a.state.mem p.rstd (row*p.rstdStride)).read .fp32)
 
@@ -46,16 +57,16 @@ def xhat {α : Type} [Inhabited α] (M : Algebra α) (p : BackwardParameters)
     (a : Acc α p) (row : Nat) (i : TileIndex [p.block]) :=
   if i.1.val < p.columns then
     let x := loaded M p a.state p.x (row*p.xStride) i
-    unhintedBinary M .mul (if p.rms then x else unhintedBinary M .sub x (meanValue M p a row))
-      (M.cast none .fp32 .real ((a.state.mem p.rstd (row*p.rstdStride)).read .fp32))
-  else M.literal none .real 0
+    binary M .mul (if p.rms then x else binary M .sub x (meanValue M p a row))
+      (cast M ((a.state.mem p.rstd (row*p.rstdStride)).read .fp32))
+  else literal M 0
 
 def dy {α : Type} [Inhabited α] (M : Algebra α) (p : BackwardParameters)
     (a : Acc α p) (row : Nat) := loaded M p a.state p.dy (row*p.dyStride)
 def wdy {α : Type} [Inhabited α] (M : Algebra α) (p : BackwardParameters)
     (a : Acc α p) (row : Nat) (i : TileIndex [p.block]) := binary M .mul (a.weight i) (dy M p a row i)
 def average {α : Type} (M : Algebra α) (p : BackwardParameters) (f : TileIndex [p.block] → α) :=
-  binary M .div (M.reduceSum (some .fp32) ⟨0,by simp⟩ Bool.false f PUnit.unit) (literal M (p.columns : ℝ))
+  binary M .div (M.reduceSum (some .fp32) ⟨0,by simp⟩ Bool.false f PUnit.unit) (M.fromNat (some .fp32) p.columns)
 def c1 {α : Type} [Inhabited α] (M : Algebra α) (p : BackwardParameters) (a : Acc α p) (row : Nat) :=
   average M p (fun i => binary M .mul (xhat M p a row i) (wdy M p a row i))
 def c2 {α : Type} [Inhabited α] (M : Algebra α) (p : BackwardParameters) (a : Acc α p) (row : Nat) :=
@@ -67,8 +78,8 @@ def dxBase {α : Type} [Inhabited α] (M : Algebra α) (p : BackwardParameters)
      if p.rms then projection else binary M .add projection (c2 M p a row))) (rstdValue M p a row)
 def yValue {α : Type} [Inhabited α] (M : Algebra α) (p : BackwardParameters)
     (a : Acc α p) (row : Nat) (i : TileIndex [p.block]) :=
-  let result := unhintedBinary M .mul (xhat M p a row i) (a.weight i)
-  if p.hasBias then unhintedBinary M .add result (a.bias i) else result
+  let result := binary M .mul (xhat M p a row i) (a.weight i)
+  if p.hasBias then binary M .add result (a.bias i) else result
 
 def scatter {α : Type} (p : BackwardParameters) (row : Nat) (region : RegionName) (stride : Nat)
     (values : TileIndex [p.block] → Cell α) (s : State α) : State α :=

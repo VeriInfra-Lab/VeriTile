@@ -3,8 +3,8 @@ import Lean
 
 /-! Keep a floating load as a complete compute expression when composing it
 with arithmetic. The inserted registers are compiler temporaries; source text
-and source evaluation order remain unchanged. Conditional expressions and
-loads in conditions are left to the existing fail-closed checker. -/
+and source evaluation order remain unchanged. A conditional assignment keeps its loads inside the selected branch.
+Loads inside conditions and other unsupported expression positions fail closed. -/
 namespace VeriTile.Triton.DSL.NestedLoadAssignments
 open Lean
 
@@ -100,6 +100,12 @@ private partial def block (pointers : List Name) (body : Array (TSyntax `tritonS
   for st in body do
     match st with
     | `(tritonStmt| $id:ident = $rhs:tritonExpr) =>
+        if let `(tritonExpr| ($yes:tritonExpr if $condition:tritonExpr else $no:tritonExpr)) := rhs then
+          if hasFloatingLoad pointers rhs.raw then
+            let yes ← block pointers #[← `(tritonStmt| $id:ident = $yes:tritonExpr)]
+            let no ← block pointers #[← `(tritonStmt| $id:ident = $no:tritonExpr)]
+            result := result.push (← `(tritonStmt| if $condition:tritonExpr { $yes* } else { $no* }))
+            continue
         if arithmeticRoot rhs && hasFloatingLoad pointers rhs.raw then
           let (prelude,rhs) ← operands pointers rhs
           result := result ++ prelude
@@ -111,6 +117,15 @@ private partial def block (pointers : List Name) (body : Array (TSyntax `tritonS
     | `(tritonStmt| if $c:tritonExpr { $yes:tritonStmt* }) =>
         let yes ← block pointers yes
         result := result.push (← `(tritonStmt| if $c:tritonExpr { $yes* }))
+    | `(tritonStmt| for $i:ident in range($start:tritonExpr, $stop:tritonExpr, $step:tritonExpr) { $body:tritonStmt* }) =>
+        let body ← block pointers body
+        result := result.push (← `(tritonStmt| for $i:ident in range($start,$stop,$step) { $body* }))
+    | `(tritonStmt| for $i:ident in range($start:tritonExpr, $stop:tritonExpr) { $body:tritonStmt* }) =>
+        let body ← block pointers body
+        result := result.push (← `(tritonStmt| for $i:ident in range($start,$stop) { $body* }))
+    | `(tritonStmt| for $i:ident in range($stop:tritonExpr) { $body:tritonStmt* }) =>
+        let body ← block pointers body
+        result := result.push (← `(tritonStmt| for $i:ident in range($stop) { $body* }))
     | _ => result := result.push st
   return result
 

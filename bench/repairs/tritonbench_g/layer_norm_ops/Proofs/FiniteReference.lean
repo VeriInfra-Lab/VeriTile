@@ -33,7 +33,8 @@ def forwardY (A : Algebra α) (p : ForwardParameters) (v : ForwardValues α p)
     Forward.unhintedBinary A .sub (forwardZ A p v i) (forwardMean A p v)
   let normalized := Forward.unhintedBinary A .mul base (forwardInverse A p v)
   let weighted := Forward.unhintedBinary A .mul normalized (Forward.cast A (forwardWeight v i))
-  if p.hasBias then Forward.unhintedBinary A .add weighted (Forward.cast A (forwardBias v i)) else weighted
+  A.cast (some .fp32) .real .real
+    (if p.hasBias then Forward.unhintedBinary A .add weighted (Forward.cast A (forwardBias v i)) else weighted)
 def forwardGraph (A : Algebra α) (p : ForwardParameters) (v : ForwardValues α p) :
     ChannelValues α (forwardOutputs p) :=
   forwardResult (fun i => A.cast none .real .fp32 (forwardY A p v i))
@@ -71,11 +72,11 @@ def backwardHat (A : Algebra α) (p : BackwardParameters) (v : BackwardValues α
     (row : Nat) (i : TileIndex [p.block]) : α :=
   if i.1.val<p.columns then
     let x := backwardLoad A p (backwardX v row) i
-    Forward.unhintedBinary A .mul
-      (if p.rms then x else Forward.unhintedBinary A .sub x
-        (A.cast none .fp32 .real (backwardMean v row)))
-      (A.cast none .fp32 .real (backwardInverse v row))
-  else A.literal none .real 0
+    Forward.binary A .mul
+      (if p.rms then x else Forward.binary A .sub x
+        (Forward.cast A (backwardMean v row)))
+      (Forward.cast A (backwardInverse v row))
+  else Forward.literal A 0
 def backwardWdy (A : Algebra α) (p : BackwardParameters) (v : BackwardValues α p)
     (row : Nat) (i : TileIndex [p.block]) : α :=
   Forward.binary A .mul (backwardLoad A p (backwardWeight v) i)
@@ -93,9 +94,9 @@ def backwardDX (A : Algebra α) (p : BackwardParameters) (v : BackwardValues α 
   if p.hasDres then Forward.binary A .add dx (backwardLoad A p (backwardDres v row) i) else dx
 def backwardY (A : Algebra α) (p : BackwardParameters) (v : BackwardValues α p)
     (row : Nat) (i : TileIndex [p.block]) : α :=
-  let y := Forward.unhintedBinary A .mul (backwardHat A p v row i)
+  let y := Forward.binary A .mul (backwardHat A p v row i)
     (backwardLoad A p (backwardWeight v) i)
-  if p.hasBias then Forward.unhintedBinary A .add y (backwardLoad A p (backwardBias v) i) else y
+  if p.hasBias then Forward.binary A .add y (backwardLoad A p (backwardBias v) i) else y
 def backwardRowDW (A : Algebra α) (p : BackwardParameters) (v : BackwardValues α p)
     (row : Nat) (i : TileIndex [p.block]) : α :=
   Forward.binary A .mul (backwardLoad A p (backwardDY v row) i) (backwardHat A p v row i)

@@ -65,6 +65,36 @@ def inputValue {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s :
     (s.mem p.Input (inputOffset p s h w c i)).read .fp32
     else M.cast none .real .fp32 (M.literal none .real 0.0))
 
+/-- The raw Python pointer additions retain their signed offsets. The source
+mask, rather than a stronger input premise, removes negative terms at reads. -/
+def sourceInputValue {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : State α)
+    (h w c : Nat) (i : AIndex p) : α :=
+  M.cast none .fp32 .fp16 (if inputMask p s h w c i then
+    (s.mem p.Input (inputBase p s i.1 + p.input_in_feat_stride * (c + i.2.1.val) +
+      ((p.input_height_stride : Int) * ih p s h i.1).toNat -
+      (-((p.input_height_stride : Int) * ih p s h i.1)).toNat +
+      ((p.input_width_stride : Int) * iw p s w i.1).toNat -
+      (-((p.input_width_stride : Int) * iw p s w i.1)).toNat)).read .fp32
+    else M.cast none .real .fp32 (M.literal none .real 0.0))
+
+theorem sourceInputValue_eq {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
+    (s : State α) (h w c : Nat) :
+    sourceInputValue M p s h w c = inputValue M p s h w c := by
+  funext i
+  by_cases hm : inputMask p s h w c i
+  · have hh : 0 ≤ (p.input_height_stride : Int) * ih p s h i.1 :=
+      mul_nonneg (Int.natCast_nonneg _) hm.1.1.1.2
+    have hw : 0 ≤ (p.input_width_stride : Int) * iw p s w i.1 :=
+      mul_nonneg (Int.natCast_nonneg _) hm.1.2
+    have hhn : (-((p.input_height_stride : Int) * ih p s h i.1)).toNat = 0 :=
+      Int.toNat_eq_zero.mpr (neg_nonpos.mpr hh)
+    have hwn : (-((p.input_width_stride : Int) * iw p s w i.1)).toNat = 0 :=
+      Int.toNat_eq_zero.mpr (neg_nonpos.mpr hw)
+    simp [sourceInputValue,inputValue,inputOffset,hm,hhn,hwn]
+  · simp [sourceInputValue,inputValue,hm]
+
+#axiomsClean sourceInputValue_eq
+
 def weightValue {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : State α)
     (h w c : Nat) (i : BIndex p) : α :=
   M.cast none .fp32 .fp16 (if weightMask p s c i then

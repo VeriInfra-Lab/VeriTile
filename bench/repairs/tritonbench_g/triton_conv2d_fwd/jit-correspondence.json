@@ -1,0 +1,614 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/triton_conv2d_fwd/triton_conv2d_fwd_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/triton_conv2d_fwd/Kernels.lean",
+    "python_function": "conv2d_forward_kernel",
+    "lean_definition": "halfBody",
+    "signature_definition": "sourceSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "input_pointer",
+          "fp32"
+        ],
+        [
+          "weight_pointer",
+          "fp32"
+        ],
+        [
+          "output_pointer",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "batch_dim",
+          "integer"
+        ],
+        [
+          "in_feat_dim",
+          "integer"
+        ],
+        [
+          "in_height",
+          "integer"
+        ],
+        [
+          "in_width",
+          "integer"
+        ],
+        [
+          "out_feat_dim",
+          "integer"
+        ],
+        [
+          "out_height",
+          "integer"
+        ],
+        [
+          "out_width",
+          "integer"
+        ],
+        [
+          "input_batch_stride",
+          "integer"
+        ],
+        [
+          "input_in_feat_stride",
+          "integer"
+        ],
+        [
+          "input_height_stride",
+          "integer"
+        ],
+        [
+          "input_width_stride",
+          "integer"
+        ],
+        [
+          "weight_out_feat_stride",
+          "integer"
+        ],
+        [
+          "weight_in_feat_stride",
+          "integer"
+        ],
+        [
+          "weight_height_stride",
+          "integer"
+        ],
+        [
+          "weight_width_stride",
+          "integer"
+        ],
+        [
+          "output_batch_stride",
+          "integer"
+        ],
+        [
+          "output_out_feat_stride",
+          "integer"
+        ],
+        [
+          "output_height_stride",
+          "integer"
+        ],
+        [
+          "output_width_stride",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "kernel_height",
+        "kernel_width",
+        "stride_height",
+        "stride_width",
+        "padding_height",
+        "padding_width",
+        "groups",
+        "fp16",
+        "tf32",
+        "BLOCK_SIZE_BATCH_HEIGHT_WIDTH",
+        "BLOCK_SIZE_IN_FEAT",
+        "BLOCK_SIZE_OUT_FEAT"
+      ],
+      "specializeBooleans": [
+        "fp16"
+      ],
+      "readPorts": [
+        "input_pointer",
+        "weight_pointer"
+      ],
+      "writePorts": [
+        "output_pointer"
+      ],
+      "typedFP32Storage": true
+    },
+    "expected_call_bindings": {
+      "batch_dim": "p.batch_dim",
+      "in_feat_dim": "p.in_feat_dim",
+      "in_height": "p.in_height",
+      "in_width": "p.in_width",
+      "out_feat_dim": "p.out_feat_dim",
+      "out_height": "p.out_height",
+      "out_width": "p.out_width",
+      "input_batch_stride": "p.input_batch_stride",
+      "input_in_feat_stride": "p.input_in_feat_stride",
+      "input_height_stride": "p.input_height_stride",
+      "input_width_stride": "p.input_width_stride",
+      "weight_out_feat_stride": "p.weight_out_feat_stride",
+      "weight_in_feat_stride": "p.weight_in_feat_stride",
+      "weight_height_stride": "p.weight_height_stride",
+      "weight_width_stride": "p.weight_width_stride",
+      "output_batch_stride": "p.output_batch_stride",
+      "output_out_feat_stride": "p.output_out_feat_stride",
+      "output_height_stride": "p.output_height_stride",
+      "output_width_stride": "p.output_width_stride"
+    },
+    "expected_specialized_booleans": {
+      "fp16": true
+    },
+    "expected_constexpr_bindings": {},
+    "profile_variant": "fp16_operands"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/triton_conv2d_fwd/triton_conv2d_fwd_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/triton_conv2d_fwd/Kernels.lean",
+    "python_function": "conv2d_forward_kernel",
+    "lean_definition": "defaultBody",
+    "signature_definition": "sourceSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "input_pointer",
+          "fp32"
+        ],
+        [
+          "weight_pointer",
+          "fp32"
+        ],
+        [
+          "output_pointer",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "batch_dim",
+          "integer"
+        ],
+        [
+          "in_feat_dim",
+          "integer"
+        ],
+        [
+          "in_height",
+          "integer"
+        ],
+        [
+          "in_width",
+          "integer"
+        ],
+        [
+          "out_feat_dim",
+          "integer"
+        ],
+        [
+          "out_height",
+          "integer"
+        ],
+        [
+          "out_width",
+          "integer"
+        ],
+        [
+          "input_batch_stride",
+          "integer"
+        ],
+        [
+          "input_in_feat_stride",
+          "integer"
+        ],
+        [
+          "input_height_stride",
+          "integer"
+        ],
+        [
+          "input_width_stride",
+          "integer"
+        ],
+        [
+          "weight_out_feat_stride",
+          "integer"
+        ],
+        [
+          "weight_in_feat_stride",
+          "integer"
+        ],
+        [
+          "weight_height_stride",
+          "integer"
+        ],
+        [
+          "weight_width_stride",
+          "integer"
+        ],
+        [
+          "output_batch_stride",
+          "integer"
+        ],
+        [
+          "output_out_feat_stride",
+          "integer"
+        ],
+        [
+          "output_height_stride",
+          "integer"
+        ],
+        [
+          "output_width_stride",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "kernel_height",
+        "kernel_width",
+        "stride_height",
+        "stride_width",
+        "padding_height",
+        "padding_width",
+        "groups",
+        "fp16",
+        "tf32",
+        "BLOCK_SIZE_BATCH_HEIGHT_WIDTH",
+        "BLOCK_SIZE_IN_FEAT",
+        "BLOCK_SIZE_OUT_FEAT"
+      ],
+      "specializeBooleans": [
+        "fp16"
+      ],
+      "readPorts": [
+        "input_pointer",
+        "weight_pointer"
+      ],
+      "writePorts": [
+        "output_pointer"
+      ],
+      "typedFP32Storage": true
+    },
+    "expected_call_bindings": {
+      "batch_dim": "p.batch_dim",
+      "in_feat_dim": "p.in_feat_dim",
+      "in_height": "p.in_height",
+      "in_width": "p.in_width",
+      "out_feat_dim": "p.out_feat_dim",
+      "out_height": "p.out_height",
+      "out_width": "p.out_width",
+      "input_batch_stride": "p.input_batch_stride",
+      "input_in_feat_stride": "p.input_in_feat_stride",
+      "input_height_stride": "p.input_height_stride",
+      "input_width_stride": "p.input_width_stride",
+      "weight_out_feat_stride": "p.weight_out_feat_stride",
+      "weight_in_feat_stride": "p.weight_in_feat_stride",
+      "weight_height_stride": "p.weight_height_stride",
+      "weight_width_stride": "p.weight_width_stride",
+      "output_batch_stride": "p.output_batch_stride",
+      "output_out_feat_stride": "p.output_out_feat_stride",
+      "output_height_stride": "p.output_height_stride",
+      "output_width_stride": "p.output_width_stride"
+    },
+    "expected_specialized_booleans": {
+      "fp16": false
+    },
+    "expected_constexpr_bindings": {},
+    "profile_variant": "fp32_operands"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/triton_conv2d_fwd/triton_conv2d_fwd_shifted.py",
+    "lean": "bench/repairs/tritonbench_g/triton_conv2d_fwd/CandidateKernels.lean",
+    "python_function": "conv2d_forward_shifted_kernel",
+    "lean_definition": "halfBody",
+    "signature_definition": "candidateSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "input_pointer",
+          "fp32"
+        ],
+        [
+          "weight_pointer",
+          "fp32"
+        ],
+        [
+          "output_pointer",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "batch_dim",
+          "integer"
+        ],
+        [
+          "in_feat_dim",
+          "integer"
+        ],
+        [
+          "in_height",
+          "integer"
+        ],
+        [
+          "in_width",
+          "integer"
+        ],
+        [
+          "out_feat_dim",
+          "integer"
+        ],
+        [
+          "out_height",
+          "integer"
+        ],
+        [
+          "out_width",
+          "integer"
+        ],
+        [
+          "input_batch_stride",
+          "integer"
+        ],
+        [
+          "input_in_feat_stride",
+          "integer"
+        ],
+        [
+          "input_height_stride",
+          "integer"
+        ],
+        [
+          "input_width_stride",
+          "integer"
+        ],
+        [
+          "weight_out_feat_stride",
+          "integer"
+        ],
+        [
+          "weight_in_feat_stride",
+          "integer"
+        ],
+        [
+          "weight_height_stride",
+          "integer"
+        ],
+        [
+          "weight_width_stride",
+          "integer"
+        ],
+        [
+          "output_batch_stride",
+          "integer"
+        ],
+        [
+          "output_out_feat_stride",
+          "integer"
+        ],
+        [
+          "output_height_stride",
+          "integer"
+        ],
+        [
+          "output_width_stride",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "kernel_height",
+        "kernel_width",
+        "stride_height",
+        "stride_width",
+        "padding_height",
+        "padding_width",
+        "groups",
+        "fp16",
+        "tf32",
+        "BLOCK_SIZE_BATCH_HEIGHT_WIDTH",
+        "BLOCK_SIZE_IN_FEAT",
+        "BLOCK_SIZE_OUT_FEAT"
+      ],
+      "specializeBooleans": [
+        "fp16"
+      ],
+      "readPorts": [
+        "input_pointer",
+        "weight_pointer"
+      ],
+      "writePorts": [
+        "output_pointer"
+      ],
+      "typedFP32Storage": true
+    },
+    "expected_call_bindings": {
+      "batch_dim": "p.batch_dim",
+      "in_feat_dim": "p.in_feat_dim",
+      "in_height": "p.in_height",
+      "in_width": "p.in_width",
+      "out_feat_dim": "p.out_feat_dim",
+      "out_height": "p.out_height",
+      "out_width": "p.out_width",
+      "input_batch_stride": "p.input_batch_stride",
+      "input_in_feat_stride": "p.input_in_feat_stride",
+      "input_height_stride": "p.input_height_stride",
+      "input_width_stride": "p.input_width_stride",
+      "weight_out_feat_stride": "p.weight_out_feat_stride",
+      "weight_in_feat_stride": "p.weight_in_feat_stride",
+      "weight_height_stride": "p.weight_height_stride",
+      "weight_width_stride": "p.weight_width_stride",
+      "output_batch_stride": "p.output_batch_stride",
+      "output_out_feat_stride": "p.output_out_feat_stride",
+      "output_height_stride": "p.output_height_stride",
+      "output_width_stride": "p.output_width_stride"
+    },
+    "expected_specialized_booleans": {
+      "fp16": true
+    },
+    "expected_constexpr_bindings": {
+      "BLOCK_SIZE_BATCH_HEIGHT_WIDTH": 128
+    },
+    "profile_variant": "fp16_operands"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/triton_conv2d_fwd/triton_conv2d_fwd_shifted.py",
+    "lean": "bench/repairs/tritonbench_g/triton_conv2d_fwd/CandidateKernels.lean",
+    "python_function": "conv2d_forward_shifted_kernel",
+    "lean_definition": "defaultBody",
+    "signature_definition": "candidateSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "input_pointer",
+          "fp32"
+        ],
+        [
+          "weight_pointer",
+          "fp32"
+        ],
+        [
+          "output_pointer",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "batch_dim",
+          "integer"
+        ],
+        [
+          "in_feat_dim",
+          "integer"
+        ],
+        [
+          "in_height",
+          "integer"
+        ],
+        [
+          "in_width",
+          "integer"
+        ],
+        [
+          "out_feat_dim",
+          "integer"
+        ],
+        [
+          "out_height",
+          "integer"
+        ],
+        [
+          "out_width",
+          "integer"
+        ],
+        [
+          "input_batch_stride",
+          "integer"
+        ],
+        [
+          "input_in_feat_stride",
+          "integer"
+        ],
+        [
+          "input_height_stride",
+          "integer"
+        ],
+        [
+          "input_width_stride",
+          "integer"
+        ],
+        [
+          "weight_out_feat_stride",
+          "integer"
+        ],
+        [
+          "weight_in_feat_stride",
+          "integer"
+        ],
+        [
+          "weight_height_stride",
+          "integer"
+        ],
+        [
+          "weight_width_stride",
+          "integer"
+        ],
+        [
+          "output_batch_stride",
+          "integer"
+        ],
+        [
+          "output_out_feat_stride",
+          "integer"
+        ],
+        [
+          "output_height_stride",
+          "integer"
+        ],
+        [
+          "output_width_stride",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "kernel_height",
+        "kernel_width",
+        "stride_height",
+        "stride_width",
+        "padding_height",
+        "padding_width",
+        "groups",
+        "fp16",
+        "tf32",
+        "BLOCK_SIZE_BATCH_HEIGHT_WIDTH",
+        "BLOCK_SIZE_IN_FEAT",
+        "BLOCK_SIZE_OUT_FEAT"
+      ],
+      "specializeBooleans": [
+        "fp16"
+      ],
+      "readPorts": [
+        "input_pointer",
+        "weight_pointer"
+      ],
+      "writePorts": [
+        "output_pointer"
+      ],
+      "typedFP32Storage": true
+    },
+    "expected_call_bindings": {
+      "batch_dim": "p.batch_dim",
+      "in_feat_dim": "p.in_feat_dim",
+      "in_height": "p.in_height",
+      "in_width": "p.in_width",
+      "out_feat_dim": "p.out_feat_dim",
+      "out_height": "p.out_height",
+      "out_width": "p.out_width",
+      "input_batch_stride": "p.input_batch_stride",
+      "input_in_feat_stride": "p.input_in_feat_stride",
+      "input_height_stride": "p.input_height_stride",
+      "input_width_stride": "p.input_width_stride",
+      "weight_out_feat_stride": "p.weight_out_feat_stride",
+      "weight_in_feat_stride": "p.weight_in_feat_stride",
+      "weight_height_stride": "p.weight_height_stride",
+      "weight_width_stride": "p.weight_width_stride",
+      "output_batch_stride": "p.output_batch_stride",
+      "output_out_feat_stride": "p.output_out_feat_stride",
+      "output_height_stride": "p.output_height_stride",
+      "output_width_stride": "p.output_width_stride"
+    },
+    "expected_specialized_booleans": {
+      "fp16": false
+    },
+    "expected_constexpr_bindings": {
+      "BLOCK_SIZE_BATCH_HEIGHT_WIDTH": 128
+    },
+    "profile_variant": "fp32_operands"
+  }
+]
