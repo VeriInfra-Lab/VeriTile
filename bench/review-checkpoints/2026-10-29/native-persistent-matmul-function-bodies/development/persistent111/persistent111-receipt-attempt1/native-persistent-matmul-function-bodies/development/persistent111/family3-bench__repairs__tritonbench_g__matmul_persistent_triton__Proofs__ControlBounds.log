@@ -1,0 +1,9 @@
+VeriTile.Bench.Repairs.MatmulPersistentTriton.group_intermediates: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MatmulPersistentTriton.k_control: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MatmulPersistentTriton.Tensor.pointer_products: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

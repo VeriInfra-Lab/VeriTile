@@ -1,0 +1,63 @@
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.prelude_invariant: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.bodyExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.innerLoop: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.suffixExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.outerExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.programExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.gridExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Physical.materialize_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Public.complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.kernel_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.TensorBridge.correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.kernel_fp_equiv: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.TensorBridge.fp_equiv: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.executeGrid: definition does not reference [VeriTile.Bench.Repairs.MatmulPersistentTriton.Source.run,
+ VeriTile.Bench.Repairs.MatmulPersistentTriton.Source.step] — non-circular ✓
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Public.invoke: definition does not reference [VeriTile.Bench.Repairs.MatmulPersistentTriton.Source.run,
+ VeriTile.Bench.Repairs.MatmulPersistentTriton.Source.step] — non-circular ✓
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Targets.result: definition does not reference [VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.executeGrid,
+ VeriTile.Bench.Repairs.MatmulPersistentTriton.Source.run,
+ VeriTile.Bench.Repairs.MatmulPersistentTriton.Source.step,
+ VeriTile.Bench.Repairs.MatmulPersistentTriton.Source.accumulator] — non-circular ✓
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Physical.Bindings: definition does not reference [VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Targets.result,
+ VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Public.invoke,
+ VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.executeGrid] — non-circular ✓
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.TensorBinding.Laws: definition does not reference [VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Targets.result,
+ VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Public.invoke,
+ VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.executeGrid] — non-circular ✓
+VeriTile.Bench.Repairs.MatmulPersistentTriton.Floating.LocalPorts: definition does not reference [VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Targets.result,
+ VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Public.invoke,
+ VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.executeGrid,
+ VeriTile.Bench.Repairs.MatmulPersistentTriton.Source.run,
+ VeriTile.Bench.Repairs.MatmulPersistentTriton.Source.accumulator] — non-circular ✓
+'VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.TensorBridge.correct' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.TensorBridge.fp_equiv' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

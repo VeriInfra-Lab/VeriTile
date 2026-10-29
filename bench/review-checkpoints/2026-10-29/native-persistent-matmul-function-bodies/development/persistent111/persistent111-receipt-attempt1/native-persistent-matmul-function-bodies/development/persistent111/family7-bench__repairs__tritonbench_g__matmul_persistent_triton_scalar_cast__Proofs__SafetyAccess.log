@@ -1,0 +1,186 @@
+/tmp/persistent111-frontend/bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Proofs/SafetyAccess.lean:98:10: error: Tactic `introN` failed: There are no additional binders or `let` bindings in the goal to introduce
+
+α : Type
+inst✝ : Inhabited α
+P : Source.Arithmetic α α
+initial current : State α
+tile : ℕ
+bounds : RegionName → ℕ
+am ak bk bn cm cn M N K SMS : ℕ
+h✝ :
+  InnerInvariant P
+    { problem := { M := M, N := N, K := K, SMS := SMS, profile := TypedSource.Storage.fp16 }, am := am, ak := ak,
+      bk := bk, bn := bn, cm := cm, cn := cn }
+    initial tile
+    { problem := { M := M, N := N, K := K, SMS := SMS, profile := TypedSource.Storage.fp16 }, am := am, ak := ak,
+          bk := bk, bn := bn, cm := cm, cn := cn }.problem.kTiles
+    current
+ho✝ :
+  ∀ (i : CIndex),
+    active
+        { problem := { M := M, N := N, K := K, SMS := SMS, profile := TypedSource.Storage.fp16 }, am := am, ak := ak,
+          bk := bk, bn := bn, cm := cm, cn := cn }
+        tile i →
+      cOffset
+          { problem := { M := M, N := N, K := K, SMS := SMS, profile := TypedSource.Storage.fp16 }, am := am, ak := ak,
+            bk := bk, bn := bn, cm := cm, cn := cn }
+          tile i <
+        bounds { name := "C" }
+p : Core.Parameters :=
+  { problem := { M := M, N := N, K := K, SMS := SMS, profile := TypedSource.Storage.fp16 }, am := am, ak := ak,
+    bk := bk, bn := bn, cm := cm, cn := cn }
+h : InnerInvariant P p initial tile p.problem.kTiles current
+ho : ∀ (i : CIndex), active p tile i → cOffset p tile i < bounds { name := "C" }
+⊢ (∀ (a : Fin 128) (a_1 : Fin 256),
+      { M := M, N := N, K := K, SMS := SMS, profile := TypedSource.Storage.fp16 }.row tile ↑a < M →
+        { M := M, N := N, K := K, SMS := SMS, profile := TypedSource.Storage.fp16 }.column tile ↑a_1 < N →
+          Int.toNat
+              (↑cm *
+                  ↑(clamp M ({ M := M, N := N, K := K, SMS := SMS, profile := TypedSource.Storage.fp16 }.row tile ↑a)) +
+                ↑cn *
+                  ↑(clamp N
+                      ({ M := M, N := N, K := K, SMS := SMS, profile := TypedSource.Storage.fp16 }.column tile ↑a_1))) <
+            bounds { name := "C" }) ∧
+    match
+      run
+        {
+          literal := fun x d x_1 =>
+            if d = FloatDType.real ∨ d = FloatDType.fp32 then P.accumulatorZero else P.inputZero,
+          negInf := P.inputZero, binary := fun x x_1 x_2 x_3 x_4 => P.inputZero, unary := fun x x_1 x_2 => P.inputZero,
+          cast := fun x x_1 dst x_2 =>
+            match dst with
+            | FloatDType.fp16 => P.cast TypedSource.Storage.fp16 x_2
+            | FloatDType.f8e4 => P.cast TypedSource.Storage.f8e4 x_2
+            | x => x_2,
+          fromNat := fun x x_1 => P.inputZero, fromInt := fun x x_1 => P.inputZero, fp32Bits := fun x => P.inputZero,
+          fp32Load := id, reduceMax := fun x x_1 x_2 x_3 x_4 x_5 => P.inputZero,
+          reduceSum := fun x x_1 x_2 x_3 x_4 x_5 => P.inputZero, reduceSumTyped := fun x x_1 {x_2} x_3 x_4 x_5 => none,
+          reduceMaxTyped := fun x x_1 {x_2} x_3 x_4 x_5 => none, indexedMax := fun x x_1 {x_2} x_3 x_4 => none,
+          dotTyped := fun x x_1 x_2 x_3 x_4 {x_5} {x_6 x_7 x_8} x_9 x_10 => none,
+          dotAcc := fun x left right out x_1 {batch} {m k n} a b acc =>
+            match batch, left, right, out, a, b, acc with
+            | [], FloatDType.fp16, FloatDType.fp16, FloatDType.real, a, b, acc => matrix P a b acc
+            | [], FloatDType.f8e4, FloatDType.f8e4, FloatDType.real, a, b, acc => matrix P a b acc
+            | x, x_2, x_3, x_4, a, b, acc => none }
+        [ComputeStmt.assign TileDType.fp16 [128, 256] "c"
+            (ComputeExpr.alg
+              (Op.castFloat FloatDType.real FloatDType.fp16
+                (Op.withPrecision FloatDType.real IndexComputePrecision.fp32
+                  (Op.ref TileDType.real [128, 256] "accumulator")))),
+          ComputeStmt.store TileDType.fp16 [128, 256] (MemAccess.ptr (Op.ref TileDType.ptr [128, 256] "c_ptrs"))
+            (ComputeExpr.alg (Op.ref TileDType.fp16 [128, 256] "c"))
+            (MaskOpt.mask (Op.ref TileDType.bool [128, 256] "c_mask"))]
+        ((current.setReg "c_ptrs" TileDType.ptr [128, 256]
+              (bop (fun a b => (a.1, a.2 + b)) Broadcast.scalarL (fun x => ({ name := "C" }, 0)) fun i =>
+                Int.toNat
+                  (↑cm *
+                      ↑(clamp M
+                          ({ M := M, N := N, K := K, SMS := SMS, profile := TypedSource.Storage.fp16 }.row tile ↑i.1)) +
+                    ↑cn *
+                      ↑(clamp N
+                          ({ M := M, N := N, K := K, SMS := SMS, profile := TypedSource.Storage.fp16 }.column tile
+                            ↑i.2.1))))).setReg
+          "c_mask" TileDType.bool [128, 256]
+          (bop (fun x1 x2 => x1 && x2) Broadcast.nil.consL.consR
+            (bop (fun a b => decide (a < b)) Broadcast.scalarR
+              (fun i => ↑({ M := M, N := N, K := K, SMS := SMS, profile := TypedSource.Storage.fp16 }.row tile ↑i.1))
+              fun x => ↑M)
+            (bop (fun a b => decide (a < b)) Broadcast.scalarR
+              (fun i =>
+                ↑({ M := M, N := N, K := K, SMS := SMS, profile := TypedSource.Storage.fp16 }.column tile ↑i.2.1))
+              fun x => ↑N))) with
+    | some t => True
+    | none => True
+/tmp/persistent111-frontend/bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Proofs/SafetyAccess.lean:113:10: error: Tactic `introN` failed: There are no additional binders or `let` bindings in the goal to introduce
+
+α : Type
+inst✝ : Inhabited α
+P : Source.Arithmetic α α
+initial current : State α
+tile : ℕ
+bounds : RegionName → ℕ
+am ak bk bn cm cn M N K SMS : ℕ
+h✝ :
+  InnerInvariant P
+    { problem := { M := M, N := N, K := K, SMS := SMS, profile := TypedSource.Storage.f8e4 }, am := am, ak := ak,
+      bk := bk, bn := bn, cm := cm, cn := cn }
+    initial tile
+    { problem := { M := M, N := N, K := K, SMS := SMS, profile := TypedSource.Storage.f8e4 }, am := am, ak := ak,
+          bk := bk, bn := bn, cm := cm, cn := cn }.problem.kTiles
+    current
+ho✝ :
+  ∀ (i : CIndex),
+    active
+        { problem := { M := M, N := N, K := K, SMS := SMS, profile := TypedSource.Storage.f8e4 }, am := am, ak := ak,
+          bk := bk, bn := bn, cm := cm, cn := cn }
+        tile i →
+      cOffset
+          { problem := { M := M, N := N, K := K, SMS := SMS, profile := TypedSource.Storage.f8e4 }, am := am, ak := ak,
+            bk := bk, bn := bn, cm := cm, cn := cn }
+          tile i <
+        bounds { name := "C" }
+p : Core.Parameters :=
+  { problem := { M := M, N := N, K := K, SMS := SMS, profile := TypedSource.Storage.f8e4 }, am := am, ak := ak,
+    bk := bk, bn := bn, cm := cm, cn := cn }
+h : InnerInvariant P p initial tile p.problem.kTiles current
+ho : ∀ (i : CIndex), active p tile i → cOffset p tile i < bounds { name := "C" }
+⊢ (∀ (a : Fin 128) (a_1 : Fin 256),
+      { M := M, N := N, K := K, SMS := SMS, profile := TypedSource.Storage.f8e4 }.row tile ↑a < M →
+        { M := M, N := N, K := K, SMS := SMS, profile := TypedSource.Storage.f8e4 }.column tile ↑a_1 < N →
+          Int.toNat
+              (↑cm *
+                  ↑(clamp M ({ M := M, N := N, K := K, SMS := SMS, profile := TypedSource.Storage.f8e4 }.row tile ↑a)) +
+                ↑cn *
+                  ↑(clamp N
+                      ({ M := M, N := N, K := K, SMS := SMS, profile := TypedSource.Storage.f8e4 }.column tile ↑a_1))) <
+            bounds { name := "C" }) ∧
+    match
+      run
+        {
+          literal := fun x d x_1 =>
+            if d = FloatDType.real ∨ d = FloatDType.fp32 then P.accumulatorZero else P.inputZero,
+          negInf := P.inputZero, binary := fun x x_1 x_2 x_3 x_4 => P.inputZero, unary := fun x x_1 x_2 => P.inputZero,
+          cast := fun x x_1 dst x_2 =>
+            match dst with
+            | FloatDType.fp16 => P.cast TypedSource.Storage.fp16 x_2
+            | FloatDType.f8e4 => P.cast TypedSource.Storage.f8e4 x_2
+            | x => x_2,
+          fromNat := fun x x_1 => P.inputZero, fromInt := fun x x_1 => P.inputZero, fp32Bits := fun x => P.inputZero,
+          fp32Load := id, reduceMax := fun x x_1 x_2 x_3 x_4 x_5 => P.inputZero,
+          reduceSum := fun x x_1 x_2 x_3 x_4 x_5 => P.inputZero, reduceSumTyped := fun x x_1 {x_2} x_3 x_4 x_5 => none,
+          reduceMaxTyped := fun x x_1 {x_2} x_3 x_4 x_5 => none, indexedMax := fun x x_1 {x_2} x_3 x_4 => none,
+          dotTyped := fun x x_1 x_2 x_3 x_4 {x_5} {x_6 x_7 x_8} x_9 x_10 => none,
+          dotAcc := fun x left right out x_1 {batch} {m k n} a b acc =>
+            match batch, left, right, out, a, b, acc with
+            | [], FloatDType.fp16, FloatDType.fp16, FloatDType.real, a, b, acc => matrix P a b acc
+            | [], FloatDType.f8e4, FloatDType.f8e4, FloatDType.real, a, b, acc => matrix P a b acc
+            | x, x_2, x_3, x_4, a, b, acc => none }
+        [ComputeStmt.assign TileDType.f8e4 [128, 256] "c"
+            (ComputeExpr.alg
+              (Op.castFloat FloatDType.real FloatDType.f8e4
+                (Op.withPrecision FloatDType.real IndexComputePrecision.fp32
+                  (Op.ref TileDType.real [128, 256] "accumulator")))),
+          ComputeStmt.store TileDType.f8e4 [128, 256] (MemAccess.ptr (Op.ref TileDType.ptr [128, 256] "c_ptrs"))
+            (ComputeExpr.alg (Op.ref TileDType.f8e4 [128, 256] "c"))
+            (MaskOpt.mask (Op.ref TileDType.bool [128, 256] "c_mask"))]
+        ((current.setReg "c_ptrs" TileDType.ptr [128, 256]
+              (bop (fun a b => (a.1, a.2 + b)) Broadcast.scalarL (fun x => ({ name := "C" }, 0)) fun i =>
+                Int.toNat
+                  (↑cm *
+                      ↑(clamp M
+                          ({ M := M, N := N, K := K, SMS := SMS, profile := TypedSource.Storage.f8e4 }.row tile ↑i.1)) +
+                    ↑cn *
+                      ↑(clamp N
+                          ({ M := M, N := N, K := K, SMS := SMS, profile := TypedSource.Storage.f8e4 }.column tile
+                            ↑i.2.1))))).setReg
+          "c_mask" TileDType.bool [128, 256]
+          (bop (fun x1 x2 => x1 && x2) Broadcast.nil.consL.consR
+            (bop (fun a b => decide (a < b)) Broadcast.scalarR
+              (fun i => ↑({ M := M, N := N, K := K, SMS := SMS, profile := TypedSource.Storage.f8e4 }.row tile ↑i.1))
+              fun x => ↑M)
+            (bop (fun a b => decide (a < b)) Broadcast.scalarR
+              (fun i =>
+                ↑({ M := M, N := N, K := K, SMS := SMS, profile := TypedSource.Storage.f8e4 }.column tile ↑i.2.1))
+              fun x => ↑N))) with
+    | some t => True
+    | none => True

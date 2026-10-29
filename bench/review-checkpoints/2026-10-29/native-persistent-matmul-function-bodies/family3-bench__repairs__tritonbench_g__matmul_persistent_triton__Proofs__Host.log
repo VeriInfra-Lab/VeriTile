@@ -1,0 +1,17 @@
+/tmp/persistent111-frontend/bench/repairs/tritonbench_g/matmul_persistent_triton/Proofs/Host.lean:166:18: warning: This simp argument is unused:
+  Option.bind_some
+
+Hint: Omit it from the simp argument list.
+  simp only [hp,̵O̵p̵t̵i̵o̵n̵.̵b̵i̵n̵d̵_̵s̵o̵m̵e̵] at executed
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/persistent111-frontend/bench/repairs/tritonbench_g/matmul_persistent_triton/Proofs/Host.lean:171:20: warning: This simp argument is unused:
+  Option.bind_some
+
+Hint: Omit it from the simp argument list.
+  simp only [ha,̵O̵p̵t̵i̵o̵n̵.̵b̵i̵n̵d̵_̵s̵o̵m̵e̵] at executed
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.MatmulPersistentTriton.Host.complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

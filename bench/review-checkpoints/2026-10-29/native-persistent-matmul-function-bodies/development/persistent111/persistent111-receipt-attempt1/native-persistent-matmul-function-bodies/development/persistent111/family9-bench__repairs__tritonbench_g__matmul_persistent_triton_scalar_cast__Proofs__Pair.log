@@ -1,0 +1,86 @@
+/tmp/persistent111-frontend/bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Proofs/Pair.lean:191:45: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  rangeInt (backend P) "ki" (↑0) (↑p.problem.kTiles) 1 (Core.inner p) ↑setup
+in the target expression
+  (do
+      let __do_lift ← rangeInt (backend P) "ki" 0 (↑p.problem.kTiles) 1 (Core.inner p) ↑setup
+      run (backend P) (tileSuffix p) __do_lift) =
+    some (suffixResult P p initial last (p.problem.tile pid ordinal))
+
+α : Type
+inst✝ : Inhabited α
+P : Source.Arithmetic α α
+p : Parameters
+initial : State α
+pid ordinal : ℕ
+regs : Registers p pid initial
+tileBound : p.problem.tile pid ordinal < p.problem.tiles
+setup : { t //
+  run (backend P) (tilePrelude p) (initial.setReg "tile_ordinal" TileDType.int [] fun x => ↑ordinal) = some t } :=
+  tilePreludeExecution P p pid ordinal initial regs
+invariant :
+  InnerInvariant P p initial (p.problem.tile pid ordinal) 0 ↑(tilePreludeExecution P p pid ordinal initial regs)
+registers : Registers p pid ↑(tilePreludeExecution P p pid ordinal initial regs)
+last : State α
+ran : rangeInt (backend P) "ki" (↑0) (↑p.problem.kTiles) 1 (Core.inner p) ↑setup = some last
+inv : InnerInvariant P p initial (p.problem.tile pid ordinal) p.problem.kTiles last
+reg : Registers p pid last
+⊢ (do
+      let __do_lift ← rangeInt (backend P) "ki" 0 (↑p.problem.kTiles) 1 (Core.inner p) ↑setup
+      run (backend P) (tileSuffix p) __do_lift) =
+    some (suffixResult P p initial last (p.problem.tile pid ordinal))
+/tmp/persistent111-frontend/bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Proofs/Pair.lean:194:8: warning: automatically included section variable(s) unused in theorem `_private.bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.Pair.0.VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Pair.sequence_terminates`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/tmp/persistent111-frontend/bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Proofs/Pair.lean:234:43: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  rangeInt ?M ?name (↑?start) (↑?stop) 1 ?body ?s
+in the target expression
+  (do
+      let __do_lift ← rangeInt (backend P) "tile_ordinal" 0 (↑(p.problem.work pid)) 1 (outer p) ↑prepared
+      run (backend P) [] __do_lift) =
+    some final
+
+α : Type
+inst✝ : Inhabited α
+P : Source.Arithmetic α α
+p : Parameters
+sms : 0 < p.problem.SMS
+pid : ℕ
+valid : pid < p.problem.grid
+initial : State α
+prepared : { t //
+  run (backend P) (prelude p) (IntScaledMatmul.Revision001.GridExecution.atProgram initial pid) = some t } :=
+  preludeExecution P p (IntScaledMatmul.Revision001.GridExecution.atProgram initial pid)
+regs : Registers p pid ↑prepared
+single :
+  ∀ ordinal < p.problem.work pid,
+    ∀ (current : State α),
+      Registers p pid current →
+        ∃ final,
+          Compose.ordinal (backend P) "tile_ordinal" (outer p) ordinal current = some final ∧ Registers p pid final
+final : State α
+ran :
+  IntScaledMatmul.Revision001.GridExecution.sequence (Compose.ordinal (backend P) "tile_ordinal" (outer p))
+      (List.range' 0 (p.problem.work pid)) ↑prepared =
+    some final
+right✝ : Registers p pid final
+⊢ (do
+      let __do_lift ← rangeInt (backend P) "tile_ordinal" 0 (↑(p.problem.work pid)) 1 (outer p) ↑prepared
+      run (backend P) [] __do_lift) =
+    some final
+/tmp/persistent111-frontend/bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Proofs/Pair.lean:291:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Pair.Program.schedule_io`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Pair.kernel_equal: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Pair.kernel_safety_equal: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/persistent111-frontend/bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Proofs/Pair.lean:330:0: error: VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Pair.schedule_terminates: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/persistent111-frontend/bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Proofs/Pair.lean:331:0: error: VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Pair.equivalent: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

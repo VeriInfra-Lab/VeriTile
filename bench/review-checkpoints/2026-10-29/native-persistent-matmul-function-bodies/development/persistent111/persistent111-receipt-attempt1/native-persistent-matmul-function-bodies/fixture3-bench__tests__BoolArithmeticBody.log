@@ -1,0 +1,15 @@
+/tmp/persistent111-frontend/bench/tests/BoolArithmeticBody.lean:39:4: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  a ≤ -1
+where
+ a := n
+case neg.h
+α : Type
+inst✝ : Inhabited α
+M : Algebra α
+s : State α
+n : ℤ
+h : ¬n = 0
+i : TileIndex []
+⊢ n + 1 + (1 + n) + (n - 1) + 1 * n + (n + 1) = 5 * n + 2
+/tmp/persistent111-frontend/bench/tests/BoolArithmeticBody.lean:41:0: error: VeriTile.Tests.BoolArithmeticBody.arithmetic: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

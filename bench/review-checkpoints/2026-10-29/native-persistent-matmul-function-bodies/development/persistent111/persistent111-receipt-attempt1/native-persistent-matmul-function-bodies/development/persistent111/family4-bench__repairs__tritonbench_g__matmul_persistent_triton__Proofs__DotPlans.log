@@ -1,0 +1,8 @@
+VeriTile.Bench.Repairs.MatmulPersistentTriton.Floating.DotLayout.k_bijective: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.MatmulPersistentTriton.Floating.Plan.equivalent: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.MatmulPersistentTriton.Floating.LocalPorts: definition does not reference [VeriTile.Bench.Repairs.MatmulPersistentTriton.Floating.Plan,
+ VeriTile.Bench.Repairs.MatmulPersistentTriton.Floating.Plan.graph,
+ VeriTile.Bench.Repairs.MatmulPersistentTriton.Floating.dotGraph,
+ VeriTile.Bench.Repairs.MatmulPersistentTriton.Source.accumulator] — non-circular ✓

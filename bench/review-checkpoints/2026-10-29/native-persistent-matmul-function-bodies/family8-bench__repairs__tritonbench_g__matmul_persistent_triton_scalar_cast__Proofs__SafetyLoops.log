@@ -1,0 +1,27 @@
+/tmp/persistent111-frontend/bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Proofs/SafetyLoops.lean:77:49: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  rangeInt (backend P) "ki" (↑0) (↑p.problem.kTiles) 1 (Core.inner p) ↑setup
+in the target expression
+  rangeInt (backend P) "ki" 0 (↑p.problem.kTiles) 1 (Core.inner p) ↑setup = some last
+
+α : Type
+inst✝ : Inhabited α
+P : Source.Arithmetic α α
+p : Parameters
+initial : State α
+pid ordinal : ℕ
+regs : Registers p pid initial
+tileBound : p.problem.tile pid ordinal < p.problem.tiles
+bounds : RegionName → ℕ
+hb : TileBounds p bounds (p.problem.tile pid ordinal)
+setup : { t //
+  run (backend P) (tilePrelude p) (initial.setReg "tile_ordinal" TileDType.int [] fun x => ↑ordinal) = some t } :=
+  tilePreludeExecution P p pid ordinal initial regs
+invariant :
+  InnerInvariant P p initial (p.problem.tile pid ordinal) 0 ↑(tilePreludeExecution P p pid ordinal initial regs)
+registers : Registers p pid ↑(tilePreludeExecution P p pid ordinal initial regs)
+last : State α
+ran : rangeInt (backend P) "ki" (↑0) (↑p.problem.kTiles) 1 (Core.inner p) ↑setup = some last
+inv : InnerInvariant P p initial (p.problem.tile pid ordinal) p.problem.kTiles last
+reg : Registers p pid last
+⊢ rangeInt (backend P) "ki" 0 (↑p.problem.kTiles) 1 (Core.inner p) ↑setup = some last
+/tmp/persistent111-frontend/bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Proofs/SafetyLoops.lean:131:0: error: VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.SourceSafety.program_safe: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

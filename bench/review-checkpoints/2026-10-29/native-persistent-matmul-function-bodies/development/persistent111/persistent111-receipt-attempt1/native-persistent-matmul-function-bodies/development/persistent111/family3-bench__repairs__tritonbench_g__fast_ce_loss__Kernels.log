@@ -1,0 +1,12 @@
+/tmp/persistent111-frontend/bench/repairs/tritonbench_g/fast_ce_loss/Kernels.lean:187:6: warning: unused variable `DO_SOFTCAPPING`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/persistent111-frontend/bench/repairs/tritonbench_g/fast_ce_loss/Kernels.lean:188:6: warning: unused variable `DO_LOGIT_SCALING`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/persistent111-frontend/bench/repairs/tritonbench_g/fast_ce_loss/Kernels.lean:233:6: warning: unused variable `DO_SOFTCAPPING`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/persistent111-frontend/bench/repairs/tritonbench_g/fast_ce_loss/Kernels.lean:234:6: warning: unused variable `DO_LOGIT_SCALING`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`

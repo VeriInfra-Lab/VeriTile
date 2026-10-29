@@ -1,0 +1,6 @@
+/tmp/persistent111-prefixexact/PrefixExact.lean:91:4: error: (deterministic) timeout at `whnf`, maximum number of heartbeats (1000000) has been reached
+
+Note: Use `set_option maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+/tmp/persistent111-prefixexact/PrefixExact.lean:93:0: error: VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.prelude_invariant: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

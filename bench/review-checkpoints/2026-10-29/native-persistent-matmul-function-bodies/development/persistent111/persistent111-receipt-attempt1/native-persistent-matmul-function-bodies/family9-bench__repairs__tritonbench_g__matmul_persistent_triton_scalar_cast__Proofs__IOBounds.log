@@ -1,0 +1,9 @@
+/tmp/persistent111-frontend/bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Proofs/IOBounds.lean:24:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.PublicData.tile_bounds`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.PublicData.schedule_safe: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

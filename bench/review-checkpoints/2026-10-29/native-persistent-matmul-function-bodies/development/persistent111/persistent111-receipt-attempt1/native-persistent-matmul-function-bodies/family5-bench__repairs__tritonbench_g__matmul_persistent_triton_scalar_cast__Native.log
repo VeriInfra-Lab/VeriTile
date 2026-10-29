@@ -1,0 +1,11 @@
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Native.padding_zero: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Native.stage_equivalent: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Native.arithmetic_equivalent: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Native.target_equivalent: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.MatmulPersistentTriton.Floating.LocalPorts: definition does not reference [VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Targets.result,
+ VeriTile.Bench.Repairs.MatmulPersistentTriton.Source.run,
+ VeriTile.Bench.Repairs.MatmulPersistentTriton.Source.accumulator] — non-circular ✓

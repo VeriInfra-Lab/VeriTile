@@ -1,0 +1,281 @@
+def VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.preludeExecution : {α : Type} →
+  [inst : Inhabited α] →
+    (P : VeriTile.Bench.Repairs.MatmulPersistentTriton.Source.Arithmetic α α) →
+      (p : VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.Parameters) →
+        (s : VeriTile.Triton.FP.Structural.State α) →
+          { t //
+            VeriTile.Triton.FP.Structural.run (VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.backend P)
+                (VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.prelude p) s =
+              some t } :=
+fun {α} [Inhabited α] P p s =>
+  ⟨(((((((((((((((((((s.setReg "start_pid" VeriTile.Triton.TileDType.int [] fun i => ↑(s.pids 0)).setReg "M"
+                                                                              VeriTile.Triton.TileDType.int [] fun i =>
+                                                                              ↑p.problem.M).setReg
+                                                                          "N" VeriTile.Triton.TileDType.int [] fun i =>
+                                                                          ↑p.problem.N).setReg
+                                                                      "K" VeriTile.Triton.TileDType.int [] fun i =>
+                                                                      ↑p.problem.K).setReg
+                                                                  "stride_am" VeriTile.Triton.TileDType.int [] fun i =>
+                                                                  ↑p.am).setReg
+                                                              "stride_ak" VeriTile.Triton.TileDType.int [] fun i =>
+                                                              ↑p.ak).setReg
+                                                          "stride_bk" VeriTile.Triton.TileDType.int [] fun i =>
+                                                          ↑p.bk).setReg
+                                                      "stride_bn" VeriTile.Triton.TileDType.int [] fun i =>
+                                                      ↑p.bn).setReg
+                                                  "stride_cm" VeriTile.Triton.TileDType.int [] fun i => ↑p.cm).setReg
+                                              "stride_cn" VeriTile.Triton.TileDType.int [] fun i => ↑p.cn).setReg
+                                          "num_pid_m" VeriTile.Triton.TileDType.int []
+                                          (VeriTile.Triton.FP.Structural.bop (fun x1 x2 => x1 + x2)
+                                            VeriTile.Triton.Broadcast.nil
+                                            (fun i =>
+                                              if ↑p.problem.M < 0 then -(-↑p.problem.M / 128) else ↑p.problem.M / 128)
+                                            fun i =>
+                                            if
+                                                (↑p.problem.M -
+                                                    if ↑p.problem.M < 0 then -(128 * (-↑p.problem.M / 128))
+                                                    else 128 * (↑p.problem.M / 128)) =
+                                                  0 then
+                                              0
+                                            else 1)).setReg
+                                      "num_pid_n" VeriTile.Triton.TileDType.int []
+                                      (VeriTile.Triton.FP.Structural.bop (fun x1 x2 => x1 + x2)
+                                        VeriTile.Triton.Broadcast.nil
+                                        (fun i =>
+                                          if ↑p.problem.N < 0 then -(-↑p.problem.N / 256) else ↑p.problem.N / 256)
+                                        fun i =>
+                                        if
+                                            (↑p.problem.N -
+                                                if ↑p.problem.N < 0 then -(256 * (-↑p.problem.N / 256))
+                                                else 256 * (↑p.problem.N / 256)) =
+                                              0 then
+                                          0
+                                        else 1)).setReg
+                                  "k_tiles" VeriTile.Triton.TileDType.int []
+                                  (VeriTile.Triton.FP.Structural.bop (fun x1 x2 => x1 + x2)
+                                    VeriTile.Triton.Broadcast.nil
+                                    (fun i =>
+                                      if ↑p.problem.K < 0 then -(-↑p.problem.K / ↑p.problem.profile.blockK)
+                                      else ↑p.problem.K / ↑p.problem.profile.blockK)
+                                    fun i =>
+                                    if
+                                        (↑p.problem.K -
+                                            if ↑p.problem.K < 0 then
+                                              -(↑p.problem.profile.blockK * (-↑p.problem.K / ↑p.problem.profile.blockK))
+                                            else
+                                              ↑p.problem.profile.blockK * (↑p.problem.K / ↑p.problem.profile.blockK)) =
+                                          0 then
+                                      0
+                                    else 1)).setReg
+                              "num_tiles" VeriTile.Triton.TileDType.int []
+                              (VeriTile.Triton.FP.Structural.bop (fun x1 x2 => x1 * x2) VeriTile.Triton.Broadcast.nil
+                                (VeriTile.Triton.FP.Structural.bop (fun x1 x2 => x1 + x2) VeriTile.Triton.Broadcast.nil
+                                  (fun i => if ↑p.problem.M < 0 then -(-↑p.problem.M / 128) else ↑p.problem.M / 128)
+                                  fun i =>
+                                  if
+                                      (↑p.problem.M -
+                                          if ↑p.problem.M < 0 then -(128 * (-↑p.problem.M / 128))
+                                          else 128 * (↑p.problem.M / 128)) =
+                                        0 then
+                                    0
+                                  else 1)
+                                (VeriTile.Triton.FP.Structural.bop (fun x1 x2 => x1 + x2) VeriTile.Triton.Broadcast.nil
+                                  (fun i => if ↑p.problem.N < 0 then -(-↑p.problem.N / 256) else ↑p.problem.N / 256)
+                                  fun i =>
+                                  if
+                                      (↑p.problem.N -
+                                          if ↑p.problem.N < 0 then -(256 * (-↑p.problem.N / 256))
+                                          else 256 * (↑p.problem.N / 256)) =
+                                        0 then
+                                    0
+                                  else 1))).setReg
+                          "tiles_per_SM" VeriTile.Triton.TileDType.int []
+                          (VeriTile.Triton.FP.Structural.bop (fun x1 x2 => x1 + x2) VeriTile.Triton.Broadcast.nil
+                            (fun i =>
+                              if
+                                  ((if ↑p.problem.M < 0 then -(-↑p.problem.M / 128) else ↑p.problem.M / 128) +
+                                        if
+                                            (↑p.problem.M -
+                                                if ↑p.problem.M < 0 then -(128 * (-↑p.problem.M / 128))
+                                                else 128 * (↑p.problem.M / 128)) =
+                                              0 then
+                                          0
+                                        else 1) *
+                                      ((if ↑p.problem.N < 0 then -(-↑p.problem.N / 256) else ↑p.problem.N / 256) +
+                                        if
+                                            (↑p.problem.N -
+                                                if ↑p.problem.N < 0 then -(256 * (-↑p.problem.N / 256))
+                                                else 256 * (↑p.problem.N / 256)) =
+                                              0 then
+                                          0
+                                        else 1) <
+                                    0 then
+                                -(-(((if ↑p.problem.M < 0 then -(-↑p.problem.M / 128) else ↑p.problem.M / 128) +
+                                          if
+                                              (↑p.problem.M -
+                                                  if ↑p.problem.M < 0 then -(128 * (-↑p.problem.M / 128))
+                                                  else 128 * (↑p.problem.M / 128)) =
+                                                0 then
+                                            0
+                                          else 1) *
+                                        ((if ↑p.problem.N < 0 then -(-↑p.problem.N / 256) else ↑p.problem.N / 256) +
+                                          if
+                                              (↑p.problem.N -
+                                                  if ↑p.problem.N < 0 then -(256 * (-↑p.problem.N / 256))
+                                                  else 256 * (↑p.problem.N / 256)) =
+                                                0 then
+                                            0
+                                          else 1)) /
+                                    ↑p.problem.SMS)
+                              else
+                                ((if ↑p.problem.M < 0 then -(-↑p.problem.M / 128) else ↑p.problem.M / 128) +
+                                      if
+                                          (↑p.problem.M -
+                                              if ↑p.problem.M < 0 then -(128 * (-↑p.problem.M / 128))
+                                              else 128 * (↑p.problem.M / 128)) =
+                                            0 then
+                                        0
+                                      else 1) *
+                                    ((if ↑p.problem.N < 0 then -(-↑p.problem.N / 256) else ↑p.problem.N / 256) +
+                                      if
+                                          (↑p.problem.N -
+                                              if ↑p.problem.N < 0 then -(256 * (-↑p.problem.N / 256))
+                                              else 256 * (↑p.problem.N / 256)) =
+                                            0 then
+                                        0
+                                      else 1) /
+                                  ↑p.problem.SMS)
+                            fun i =>
+                            if
+                                ↑(s.pids 0) <
+                                  ((if ↑p.problem.M < 0 then -(-↑p.problem.M / 128) else ↑p.problem.M / 128) +
+                                        if
+                                            (↑p.problem.M -
+                                                if ↑p.problem.M < 0 then -(128 * (-↑p.problem.M / 128))
+                                                else 128 * (↑p.problem.M / 128)) =
+                                              0 then
+                                          0
+                                        else 1) *
+                                      ((if ↑p.problem.N < 0 then -(-↑p.problem.N / 256) else ↑p.problem.N / 256) +
+                                        if
+                                            (↑p.problem.N -
+                                                if ↑p.problem.N < 0 then -(256 * (-↑p.problem.N / 256))
+                                                else 256 * (↑p.problem.N / 256)) =
+                                              0 then
+                                          0
+                                        else 1) -
+                                    if
+                                        ((if ↑p.problem.M < 0 then -(-↑p.problem.M / 128) else ↑p.problem.M / 128) +
+                                              if
+                                                  (↑p.problem.M -
+                                                      if ↑p.problem.M < 0 then -(128 * (-↑p.problem.M / 128))
+                                                      else 128 * (↑p.problem.M / 128)) =
+                                                    0 then
+                                                0
+                                              else 1) *
+                                            ((if ↑p.problem.N < 0 then -(-↑p.problem.N / 256) else ↑p.problem.N / 256) +
+                                              if
+                                                  (↑p.problem.N -
+                                                      if ↑p.problem.N < 0 then -(256 * (-↑p.problem.N / 256))
+                                                      else 256 * (↑p.problem.N / 256)) =
+                                                    0 then
+                                                0
+                                              else 1) <
+                                          0 then
+                                      -(↑p.problem.SMS *
+                                          (-(((if ↑p.problem.M < 0 then -(-↑p.problem.M / 128)
+                                                  else ↑p.problem.M / 128) +
+                                                  if
+                                                      (↑p.problem.M -
+                                                          if ↑p.problem.M < 0 then -(128 * (-↑p.problem.M / 128))
+                                                          else 128 * (↑p.problem.M / 128)) =
+                                                        0 then
+                                                    0
+                                                  else 1) *
+                                                ((if ↑p.problem.N < 0 then -(-↑p.problem.N / 256)
+                                                  else ↑p.problem.N / 256) +
+                                                  if
+                                                      (↑p.problem.N -
+                                                          if ↑p.problem.N < 0 then -(256 * (-↑p.problem.N / 256))
+                                                          else 256 * (↑p.problem.N / 256)) =
+                                                        0 then
+                                                    0
+                                                  else 1)) /
+                                            ↑p.problem.SMS))
+                                    else
+                                      ↑p.problem.SMS *
+                                        (((if ↑p.problem.M < 0 then -(-↑p.problem.M / 128) else ↑p.problem.M / 128) +
+                                              if
+                                                  (↑p.problem.M -
+                                                      if ↑p.problem.M < 0 then -(128 * (-↑p.problem.M / 128))
+                                                      else 128 * (↑p.problem.M / 128)) =
+                                                    0 then
+                                                0
+                                              else 1) *
+                                            ((if ↑p.problem.N < 0 then -(-↑p.problem.N / 256) else ↑p.problem.N / 256) +
+                                              if
+                                                  (↑p.problem.N -
+                                                      if ↑p.problem.N < 0 then -(256 * (-↑p.problem.N / 256))
+                                                      else 256 * (↑p.problem.N / 256)) =
+                                                    0 then
+                                                0
+                                              else 1) /
+                                          ↑p.problem.SMS) then
+                              1
+                            else 0)).setReg
+                      "active_group_m" VeriTile.Triton.TileDType.int [] fun i =>
+                      if
+                          8 <
+                            (if ↑p.problem.M < 0 then -(-↑p.problem.M / 128) else ↑p.problem.M / 128) +
+                              if
+                                  (↑p.problem.M -
+                                      if ↑p.problem.M < 0 then -(128 * (-↑p.problem.M / 128))
+                                      else 128 * (↑p.problem.M / 128)) =
+                                    0 then
+                                0
+                              else 1 then
+                        8
+                      else
+                        (if ↑p.problem.M < 0 then -(-↑p.problem.M / 128) else ↑p.problem.M / 128) +
+                          if
+                              (↑p.problem.M -
+                                  if ↑p.problem.M < 0 then -(128 * (-↑p.problem.M / 128))
+                                  else 128 * (↑p.problem.M / 128)) =
+                                0 then
+                            0
+                          else 1).setReg
+                  "num_pid_in_group" VeriTile.Triton.TileDType.int []
+                  (VeriTile.Triton.FP.Structural.bop (fun x1 x2 => x1 * x2) VeriTile.Triton.Broadcast.nil
+                    (fun i =>
+                      if
+                          8 <
+                            (if ↑p.problem.M < 0 then -(-↑p.problem.M / 128) else ↑p.problem.M / 128) +
+                              if
+                                  (↑p.problem.M -
+                                      if ↑p.problem.M < 0 then -(128 * (-↑p.problem.M / 128))
+                                      else 128 * (↑p.problem.M / 128)) =
+                                    0 then
+                                0
+                              else 1 then
+                        8
+                      else
+                        (if ↑p.problem.M < 0 then -(-↑p.problem.M / 128) else ↑p.problem.M / 128) +
+                          if
+                              (↑p.problem.M -
+                                  if ↑p.problem.M < 0 then -(128 * (-↑p.problem.M / 128))
+                                  else 128 * (↑p.problem.M / 128)) =
+                                0 then
+                            0
+                          else 1)
+                    (VeriTile.Triton.FP.Structural.bop (fun x1 x2 => x1 + x2) VeriTile.Triton.Broadcast.nil
+                      (fun i => if ↑p.problem.N < 0 then -(-↑p.problem.N / 256) else ↑p.problem.N / 256) fun i =>
+                      if
+                          (↑p.problem.N -
+                              if ↑p.problem.N < 0 then -(256 * (-↑p.problem.N / 256)) else 256 * (↑p.problem.N / 256)) =
+                            0 then
+                        0
+                      else 1))).setReg
+              "lanes_m" VeriTile.Triton.TileDType.int [128] fun i => ↑↑i.1).setReg
+          "lanes_n" VeriTile.Triton.TileDType.int [256] fun i => ↑↑i.1).setReg
+      "offs_k_for_mask" VeriTile.Triton.TileDType.int [p.problem.profile.blockK] fun i => ↑↑i.1,
+    ⋯⟩

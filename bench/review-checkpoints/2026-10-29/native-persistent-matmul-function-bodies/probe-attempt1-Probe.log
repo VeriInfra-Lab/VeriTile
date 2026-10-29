@@ -1,0 +1,4 @@
+/tmp/persistent111-frontend/Probe.lean:17:2: error: int expression: dtype mismatch
+/tmp/persistent111-frontend/Probe.lean:77:2: error: int expression: dtype mismatch
+/tmp/persistent111-frontend/Probe.lean:137:2: error: int expression: dtype mismatch
+/tmp/persistent111-frontend/Probe.lean:197:2: error: int expression: dtype mismatch

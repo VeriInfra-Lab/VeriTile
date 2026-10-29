@@ -1,0 +1,4 @@
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.TensorBinding.logical_read: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.TensorBinding.input_storage_frame: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.TensorBinding.Laws: definition does not reference [VeriTile.Bench.Repairs.MatmulPersistentTriton.Source.run,
+ VeriTile.Bench.Repairs.MatmulPersistentTriton.Source.accumulator] — non-circular ✓

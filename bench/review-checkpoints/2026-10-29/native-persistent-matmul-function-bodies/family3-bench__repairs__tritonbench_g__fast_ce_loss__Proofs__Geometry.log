@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.FastCeLoss.Geometry.ceil_cover: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.FastCeLoss.Geometry.owner_bound: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.FastCeLoss.Geometry.chunk_starts: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.FastCeLoss.Geometry.backward_owner: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])

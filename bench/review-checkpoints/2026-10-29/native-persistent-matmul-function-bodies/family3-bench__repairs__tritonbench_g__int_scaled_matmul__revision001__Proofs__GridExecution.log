@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.GridExecution.compose: axiom footprint ⊆ standard base ✓  ([Quot.sound,
+ propext,
+ Classical.choice])

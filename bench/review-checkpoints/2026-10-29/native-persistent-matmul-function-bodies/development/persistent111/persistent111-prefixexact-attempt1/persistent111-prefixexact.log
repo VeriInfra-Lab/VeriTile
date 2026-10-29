@@ -1,0 +1,42 @@
+/tmp/persistent111-prefixexact/PrefixExact.lean:26:86: error: unsolved goals
+case neg
+n d : ℕ
+h : ¬n % d = 0
+⊢ ¬↑d ∣ ↑n
+/tmp/persistent111-prefixexact/PrefixExact.lean:78:4: error: unsolved goals
+case left.work
+α : Type
+inst✝ : Inhabited α
+P : Source.Arithmetic α α
+p : Parameters
+s : State α
+hm : computedCeil p.problem.M 128 = ↑p.problem.rows
+hn : computedCeil p.problem.N 256 = ↑p.problem.columns
+hk : computedCeil p.problem.K p.problem.profile.blockK = ↑p.problem.kTiles
+⊢ (fun x =>
+      ↑p.problem.rows * ↑p.problem.columns / ↑p.problem.SMS +
+        if ↑(s.pids 0) < ↑p.problem.rows * ↑p.problem.columns % ↑p.problem.SMS then 1 else 0) =
+    fun x =>
+    ↑p.problem.rows * ↑p.problem.columns / ↑p.problem.SMS +
+      if s.pids 0 < p.problem.rows * p.problem.columns % p.problem.SMS then 1 else 0
+/tmp/persistent111-prefixexact/PrefixExact.lean:84:14: error: Tactic `rfl` failed: The left-hand side
+  (↑(preludeExecution P p s)).regs TileDType.int [p.problem.profile.blockK] "offs_k_for_mask"
+is not definitionally equal to the right-hand side
+  some fun i => ↑↑i.1
+
+case left.lanesK
+α : Type
+inst✝ : Inhabited α
+P : Source.Arithmetic α α
+p : Parameters
+s : State α
+hm : computedCeil p.problem.M 128 = ↑p.problem.rows
+hn : computedCeil p.problem.N 256 = ↑p.problem.columns
+hk : computedCeil p.problem.K p.problem.profile.blockK = ↑p.problem.kTiles
+⊢ (↑(preludeExecution P p s)).regs TileDType.int [p.problem.profile.blockK] "offs_k_for_mask" = some fun i => ↑↑i.1
+/tmp/persistent111-prefixexact/PrefixExact.lean:85:4: error: (deterministic) timeout at `whnf`, maximum number of heartbeats (1000000) has been reached
+
+Note: Use `set_option maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+/tmp/persistent111-prefixexact/PrefixExact.lean:87:0: error: VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.prelude_invariant: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

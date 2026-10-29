@@ -1,0 +1,2 @@
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.accumulation_source: axiom footprint ⊆ standard base ✓  ([Quot.sound,
+ propext])

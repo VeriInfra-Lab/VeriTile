@@ -1,0 +1,25 @@
+/tmp/persistent111-frontend/bench/repairs/tritonbench_g/cross_entropy1/Proofs/Native.lean:95:2: warning: 'norm_num at addressSpace ⊢' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+VeriTile.Bench.Repairs.CrossEntropy1.Native.scalar_output_word: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.CrossEntropy1.Native.all_lane_index_signed: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.CrossEntropy1.Native.shifted_label: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.CrossEntropy1.Native.ignored_label_shift: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.CrossEntropy1.Native.source_mask: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.CrossEntropy1.Native.element_word: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.CrossEntropy1.Native.backed_address: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.CrossEntropy1.Native.fp32_index_signed: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.CrossEntropy1.Native.row_address_injective: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.CrossEntropy1.Native.tile_lane_unique: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])

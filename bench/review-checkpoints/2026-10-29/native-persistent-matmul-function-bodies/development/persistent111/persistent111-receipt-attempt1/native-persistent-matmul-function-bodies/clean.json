@@ -1,0 +1,24 @@
+{
+  "status": "PASS",
+  "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+  "checkout": "/tmp/veritile-body77",
+  "explicit_modules": 5572,
+  "start": 1793243531.9595547,
+  "scope": "All cumulative task/example/frontend roots, now including all 48 persistent matmul roots and the shared Boolean arithmetic frontend, plus their full local import closure and joint import.",
+  "cache_cleanup": {
+    "removed": "/tmp/veritile-body77/.lake/build",
+    "previous_verified_code": "25346edde39ae449543e5cd023e092fae092e9ac",
+    "reason": "Remove only the completed owned 110 project cache before independent persistent matmul replay. Historical evidence and pinned external dependencies are retained."
+  },
+  "project_build_initially_present": false,
+  "veritile_cache_initially_present": false,
+  "project_objects_imported_from_other_checkouts": false,
+  "fixed_external_packages_reused": "/home/argustest/lizn/VeriTile/.lake/packages",
+  "build_status": "COMPLETED",
+  "build_exit_code": 0,
+  "build_end": 1793248849.4931486,
+  "joint_status": "COMPLETED",
+  "joint_exit_code": 0,
+  "joint_end": 1793248856.986383,
+  "end": 1793248857.1499012
+}

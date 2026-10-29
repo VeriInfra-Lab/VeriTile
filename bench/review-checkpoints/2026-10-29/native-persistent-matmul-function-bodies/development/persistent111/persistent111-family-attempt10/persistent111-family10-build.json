@@ -1,0 +1,25 @@
+{
+  "status": "FAIL",
+  "start": 1793240945.92868,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.Pair",
+      "source_sha256": "c34cd8b3ff9169c8dc3aec77c60da215b5ba860f60ae445f1c2788094dd82e43",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793240945.9288497,
+      "end": 1793240951.6811914,
+      "log": "/tmp/persistent111-family10-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Proofs__Pair.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.PairIO",
+      "source_sha256": "1354657b40065d4efc73537fc126f23f57ee7597d92c83e9d6a7ef9456892982",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793240951.681448,
+      "end": 1793240957.8320014,
+      "log": "/tmp/persistent111-family10-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Proofs__PairIO.log"
+    }
+  ],
+  "end": 1793240957.832211
+}

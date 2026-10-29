@@ -1,0 +1,1199 @@
+{
+  "roots": [
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Compose",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Contract",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Coordinates",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Correct",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Execution",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.FPEquiv",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Geometry",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.IO",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Inner",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Kernels",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Loop",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Misc.Audit",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Misc.CandidateCorrect",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Misc.NativeCorrect",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Misc.TensorBridge",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Model",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Native",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Outer",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.PairIO",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Physical",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Pointer",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.PrefixExecution",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Prelude",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.IOBounds",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.InputConnection",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.KernelNativeResult",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.KernelRealResult",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.LogicalIO",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.Pair",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.PairIO",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.PublicData",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.PublicResult",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.SafetyAccess",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.SafetyLoops",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.SafetySteps",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Public",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.RawKernel",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Registers",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Setup",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Store",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Suffix",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Targets",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Tensor",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Tile",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Values",
+    "bench.tests.BoolArithmeticBody",
+    "bench.tritonbench_g.matmul_persistent_triton.Proofs.Source",
+    "bench.tritonbench_g.matmul_persistent_triton.Types"
+  ],
+  "modules": [
+    "VeriTile.Spec",
+    "VeriTile.Meta.Specification",
+    "VeriTile.Meta.StatementAudit",
+    "VeriTile.Triton.DSL.Syntax",
+    "VeriTile.Triton.DSL.PythonConstants",
+    "VeriTile.Triton.DSL.SourceConstant",
+    "VeriTile.Triton.DSL.NestedLoadAssignments",
+    "VeriTile.Triton.DSL.ConstexprMask",
+    "VeriTile.Triton.Core.Types",
+    "VeriTile.Triton.Core.Shape",
+    "VeriTile.Triton.Core.Float8",
+    "VeriTile.Triton.Float.BitValue",
+    "VeriTile.Triton.Float.ScalarOps",
+    "VeriTile.Triton.Random.Philox",
+    "VeriTile.Triton.Random.SourceProfile",
+    "VeriTile.Triton.Random.Direct",
+    "VeriTile.Triton.Random.DirectProfile",
+    "VeriTile.Triton.Core.Ast",
+    "VeriTile.Triton.Core",
+    "VeriTile.Triton.DSL.CallValue",
+    "VeriTile.Triton.DSL.Metadata",
+    "VeriTile.Triton.DSL.Typing",
+    "VeriTile.Triton.DSL.Expansion.Common",
+    "VeriTile.Triton.DSL.PythonBody",
+    "VeriTile.Triton.DSL.SourceFunction",
+    "VeriTile.Triton.DSL.SourceIntrinsic",
+    "VeriTile.Triton.DSL.OptionalPointer",
+    "VeriTile.Triton.DSL.OptionalString",
+    "VeriTile.Triton.DSL.Inference",
+    "VeriTile.Triton.Core.Integer",
+    "VeriTile.Triton.Core.FixedInteger",
+    "VeriTile.Triton.Core.SignedCast",
+    "VeriTile.Triton.DSL.Expansion.Memory",
+    "VeriTile.Triton.DSL.Expansion.Compute",
+    "VeriTile.Triton.DSL.Expansion.Control",
+    "VeriTile.Triton.DSL.RandomProfile",
+    "VeriTile.Triton.DSL.FiniteHelperSource",
+    "VeriTile.Triton.DSL.WelfordSource",
+    "VeriTile.Triton.DSL.Expansion.DType",
+    "VeriTile.Triton.DSL.Expansion.InlineAsm",
+    "VeriTile.Triton.DSL.Expansion.DirectRandom",
+    "VeriTile.Triton.DSL.Expansion.Main",
+    "VeriTile.Triton.DSL.Expansion",
+    "VeriTile.Triton.DSL",
+    "VeriTile.Triton.DSL.SourceDType",
+    "VeriTile.Triton.DSL.PointerType",
+    "VeriTile.Triton.DSL.TypedStores",
+    "VeriTile.Triton.DSL.TypedStorageReduction",
+    "VeriTile.Triton.DSL.RankOneBlockPtr",
+    "VeriTile.Triton.DSL.SourceFunctionStatements",
+    "VeriTile.Triton.DSL.NarrowUnsigned",
+    "VeriTile.Triton.DSL.Constexpr",
+    "VeriTile.Triton.DSL.CallSignature",
+    "VeriTile.Triton.Core.DiscreteReduction",
+    "VeriTile.Triton.Core.Reshape",
+    "VeriTile.Triton.Float.Structural",
+    "bench.tests.BoolArithmeticBody",
+    "VeriTile.Triton.Semantics.Scalar",
+    "VeriTile.Triton.Semantics.State",
+    "VeriTile.Triton.Semantics.Offset",
+    "VeriTile.Triton.Math.Erf",
+    "VeriTile.Triton.Semantics.TileOps",
+    "VeriTile.Triton.Semantics.Float8",
+    "VeriTile.Triton.Random.Proofs.Dyadic",
+    "VeriTile.Triton.Random.Proofs.RoundQuotientBridge",
+    "VeriTile.Triton.Random.Proofs.RoundExpansion",
+    "VeriTile.Triton.Random.Proofs.DyadicExponent",
+    "VeriTile.Triton.Random.Proofs.DyadicStep",
+    "VeriTile.Triton.Random.Proofs.PackDecode",
+    "VeriTile.Triton.Random.Proofs.PackRoundedProof",
+    "VeriTile.Triton.Random.Proofs.SignificandBounds",
+    "VeriTile.Triton.Random.Proofs.RoundDyadic",
+    "VeriTile.Triton.Random.Proofs.CanonicalUniformBridge",
+    "VeriTile.Triton.Random.Values",
+    "VeriTile.Triton.Random.UniformValues",
+    "VeriTile.Triton.Semantics.EvalOp",
+    "VeriTile.Triton.Semantics.AtomicReduction",
+    "VeriTile.Triton.Semantics.Step",
+    "VeriTile.Triton.Semantics.Eval",
+    "VeriTile.Triton.Math.LogSumExp",
+    "VeriTile.Triton.Semantics.TiledIndexing",
+    "VeriTile.Triton.Semantics.LaneBridge",
+    "VeriTile.Triton.Semantics.StreamBridge",
+    "VeriTile.Triton.Math.L2Norm",
+    "VeriTile.Triton.Semantics.MaskedReduction",
+    "VeriTile.Triton.Semantics.BroadcastReshape.Attr",
+    "VeriTile.Triton.Semantics.BroadcastReshape",
+    "VeriTile.Triton.Semantics.BlockPtrEval",
+    "VeriTile.Triton.Math.Attention",
+    "VeriTile.Triton.Semantics.StreamingAccumulator",
+    "VeriTile.Triton.Semantics",
+    "VeriTile.Triton.Memory.View",
+    "VeriTile.Triton.Memory.Bounds",
+    "VeriTile.Triton.Memory.Frame.Basic",
+    "VeriTile.Triton.Memory.Frame.Stmt",
+    "VeriTile.Triton.Memory.Frame.Kernel",
+    "VeriTile.Triton.Memory.Frame",
+    "VeriTile.Triton.Memory.Footprint",
+    "VeriTile.Triton.Memory.Typing.Region",
+    "VeriTile.Triton.Memory.Typing.Contracts",
+    "VeriTile.Triton.Memory.Typing.Checker",
+    "VeriTile.Triton.Memory.Typing",
+    "VeriTile.Triton.Float.RoundingModel",
+    "VeriTile.Triton.Float.EvalOpR",
+    "VeriTile.Triton.Semantics.BlockPadding",
+    "VeriTile.Triton.Memory.Flatten",
+    "VeriTile.Triton.Float.StepR",
+    "VeriTile.Triton.Memory.FlattenR",
+    "VeriTile.Triton.Memory.FlattenTolerant",
+    "VeriTile.Triton.Memory.Locality",
+    "VeriTile.Triton.Memory.Denotation",
+    "VeriTile.Triton.Memory.Layout",
+    "VeriTile.Triton.Memory.KernelCore",
+    "VeriTile.Triton.Memory.KernelSpec.Base",
+    "VeriTile.Triton.Memory.KernelSpec.Basic",
+    "VeriTile.Triton.Memory.KernelSpec.Masked",
+    "VeriTile.Triton.Memory.KernelSpec.MaskedND",
+    "VeriTile.Triton.Memory.KernelSpec.BooleanMasked",
+    "VeriTile.Triton.Memory.KernelSpec.Metadata",
+    "VeriTile.Triton.Memory.KernelSpec.Scatter",
+    "VeriTile.Triton.Memory.KernelSpec.Gather",
+    "VeriTile.Triton.Memory.KernelSpec.Grouped",
+    "VeriTile.Triton.Memory.KernelSpec.Stream",
+    "VeriTile.Triton.Memory.KernelSpec.StreamEmit",
+    "VeriTile.Triton.Memory.KernelSpec.StreamAttention",
+    "VeriTile.Triton.Memory.KernelSpec.StreamAttentionMetadata",
+    "VeriTile.Triton.Memory.KernelSpec.TileIndex",
+    "VeriTile.Triton.Memory.KernelSpec.Tile",
+    "VeriTile.Triton.Memory.KernelSpec.TileND",
+    "VeriTile.Triton.Memory.KernelSpec.TileMetadata",
+    "VeriTile.Triton.Memory.KernelSpec.TileGather",
+    "VeriTile.Triton.Memory.KernelSpec",
+    "VeriTile.Triton.Memory",
+    "VeriTile.Triton.KernelLemmas.EvalHelpers",
+    "VeriTile.Triton.KernelLemmas.OffsetInjective",
+    "VeriTile.Triton.KernelLemmas.Matmul",
+    "VeriTile.Triton.KernelLemmas.ScatterStore",
+    "VeriTile.Triton.KernelLemmas.LoopInvariant",
+    "VeriTile.Triton.Float.Erasure",
+    "VeriTile.Triton.Float.StateErasure",
+    "VeriTile.Triton.ExternalCheck",
+    "VeriTile.Triton.Correctness",
+    "VeriTile.Triton.KernelLemmas.CarryFold",
+    "VeriTile.Triton.KernelLemmas",
+    "VeriTile.Triton.Float.Refine",
+    "VeriTile.Triton.Float.Pipeline",
+    "VeriTile.Triton.Float.Equivalence",
+    "VeriTile.Triton.Float",
+    "VeriTile.Triton.Math.Activation",
+    "VeriTile.Triton.Math.Loss",
+    "VeriTile.Triton.Math.Optimizer",
+    "VeriTile.Triton.Math.Reduction",
+    "VeriTile.Triton.Math.RMSNorm",
+    "VeriTile.Triton.Math.Softmax",
+    "VeriTile.Triton.Math",
+    "VeriTile.Triton.Launch.Grid",
+    "VeriTile.Triton.Launch.Composition",
+    "VeriTile.Triton.Launch",
+    "VeriTile.Triton.Concurrency.Trace",
+    "VeriTile.Triton.Concurrency.Discipline",
+    "VeriTile.Triton.Concurrency.Refinement",
+    "VeriTile.Triton.Concurrency.ProducerConsumer",
+    "VeriTile.Triton.Concurrency.Atomic",
+    "VeriTile.Triton.Concurrency",
+    "VeriTile.Triton",
+    "VeriTile.Triton.Float.UnsignedCast",
+    "VeriTile.Triton.Float.FixedInteger",
+    "VeriTile.Triton.Float.SignedCast",
+    "VeriTile.Triton.Float.IntegerDotPlan",
+    "VeriTile.Triton.Float.WordIntegerDot",
+    "VeriTile.Triton.Float.IntegerDot",
+    "bench.repairs.tritonbench_g.int_scaled_matmul.revision001.Kernels",
+    "bench.tritonbench_g.int_scaled_matmul.IntScaledMatmul",
+    "bench.tritonbench_g.kcache_copy_triton.KcacheCopyTriton",
+    "VeriTile.Triton.Source",
+    "VeriTile.Triton.Float.ReportedRules",
+    "VeriTile.Triton.Float.GuardedRules",
+    "VeriTile.Triton.Float.Equational",
+    "VeriTile.Triton.Float.TermModel",
+    "VeriTile.Triton.Float.StructuralIO",
+    "VeriTile.Triton.Float.ExecutionProfile",
+    "VeriTile.Triton.Float.GuardedSemantics",
+    "VeriTile.Triton.Float.ScalarBackend",
+    "VeriTile.Triton.Float.MaximumExact",
+    "VeriTile.Triton.Float.ScalarOpsLaws",
+    "VeriTile.Triton.Float.ExponentialExact",
+    "VeriTile.Triton.Float.StrictBackend",
+    "VeriTile.Triton.Float.GuardedStrict",
+    "VeriTile.Triton.Float.GuardedIO",
+    "VeriTile.Triton.Float.ReportedAdmission",
+    "VeriTile.Triton.Float.SupplementalAdmission",
+    "VeriTile.Triton.Float.Reciprocal",
+    "VeriTile.Triton.Float.CastExact.Fields",
+    "VeriTile.Triton.Float.BitValueLaws",
+    "VeriTile.Triton.Float.CastExact.SameFormat",
+    "VeriTile.Triton.Float.ScalarArithmetic",
+    "VeriTile.Triton.Float.ScalarArithmeticLaws",
+    "VeriTile.Triton.Float.GuardedRewrite",
+    "VeriTile.Triton.Float.Loop",
+    "VeriTile.Triton.Float.ProfiledRewrite",
+    "bench.tritonbench_g.kcache_copy_triton.Proofs.TypedCopy",
+    "bench.repairs.tritonbench_g.int_scaled_matmul.revision001.Proofs.BlockWordSource",
+    "bench.repairs.tritonbench_g.int_scaled_matmul.revision001.Proofs.BlockWordReference",
+    "bench.repairs.tritonbench_g.int_scaled_matmul.revision001.Proofs.LogicalSum",
+    "bench.repairs.tritonbench_g.int_scaled_matmul.revision001.Proofs.GroupedGrid",
+    "bench.repairs.tritonbench_g.int_scaled_matmul.revision001.Proofs.GridExecution",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Compose",
+    "bench.tritonbench_g.matmul_persistent_triton.Types",
+    "bench.tritonbench_g.matmul_persistent_triton.Proofs.Source",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton.Kernels",
+    "bench.tritonbench_g.matmul_persistent_triton.Proofs.Parameters",
+    "bench.tritonbench_g.matmul_persistent_triton.Proofs.Schedule",
+    "bench.tritonbench_g.matmul_persistent_triton.Proofs.ScheduleInjective",
+    "bench.tritonbench_g.matmul_persistent_triton.Proofs.ScheduleCoverage",
+    "bench.tritonbench_g.matmul_persistent_triton.Proofs.RealMath",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton.Proofs.Types",
+    "bench.repairs.tritonbench_g.fast_ce_loss.Kernels",
+    "bench.repairs.tritonbench_g.cross_entropy1.Kernels",
+    "bench.repairs.tritonbench_g.cross_entropy1.Proofs.Execution",
+    "bench.repairs.tritonbench_g.cross_entropy1.Proofs.TensorModel",
+    "bench.repairs.tritonbench_g.cross_entropy1.Proofs.NativeSupport",
+    "bench.repairs.tritonbench_g.cross_entropy1.Proofs.Native",
+    "bench.repairs.tritonbench_g.cross_entropy1.Proofs.Math",
+    "bench.repairs.tritonbench_g.cross_entropy1.Proofs.Grid",
+    "bench.repairs.tritonbench_g.fast_ce_loss.Proofs.Source",
+    "bench.repairs.tritonbench_g.fast_ce_loss.Proofs.Geometry",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton.Proofs.Bounds",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton.Proofs.ControlBounds",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton.Proofs.Execution",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton.Proofs.OutputCoverage",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton.Proofs.Host",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton.Contract",
+    "VeriTile.Torch.Tensor",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Tensor",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Kernels",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Model",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Values",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Contract",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Coordinates",
+    "VeriTile.Triton.Float.StructuralSafety",
+    "VeriTile.Triton.Float.ProgramIO",
+    "VeriTile.Triton.Memory.LogicalIO",
+    "VeriTile.Triton.Float.LogicalProgramIO",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Registers",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.PrefixExecution",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Prelude",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Tile",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Setup",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Inner",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Loop",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Suffix",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton.Proofs.Real",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton.Proofs.InstructionGraph",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton.Proofs.DotPlans",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Targets",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Geometry",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Store",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Outer",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Execution",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.RawKernel",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.IO",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.PublicData",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.InputConnection",
+    "VeriTile.Triton.Float.StructuralSafetyLoops",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.SafetySteps",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.SafetyAccess",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.SafetyLoops",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.IOBounds",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Native",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.PublicResult",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.LogicalIO",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Correct",
+    "VeriTile.Triton.Float.ProgramEquivalence",
+    "VeriTile.Triton.Float.InputBindingIO",
+    "VeriTile.Triton.Float.ProgramEquivalenceSyntax",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.PairIO",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.Pair",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.PairIO",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.FPEquiv",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Misc.NativeCorrect",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.KernelRealResult",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.KernelNativeResult",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Physical",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Pointer",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Public",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Misc.TensorBridge",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Misc.Audit",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Misc.CandidateCorrect"
+  ],
+  "compile": [
+    "bench.tests.BoolArithmeticBody",
+    "VeriTile.Triton",
+    "bench.repairs.tritonbench_g.int_scaled_matmul.revision001.Kernels",
+    "bench.tritonbench_g.int_scaled_matmul.IntScaledMatmul",
+    "bench.tritonbench_g.kcache_copy_triton.KcacheCopyTriton",
+    "bench.tritonbench_g.kcache_copy_triton.Proofs.TypedCopy",
+    "bench.repairs.tritonbench_g.int_scaled_matmul.revision001.Proofs.BlockWordSource",
+    "bench.repairs.tritonbench_g.int_scaled_matmul.revision001.Proofs.BlockWordReference",
+    "bench.repairs.tritonbench_g.int_scaled_matmul.revision001.Proofs.LogicalSum",
+    "bench.repairs.tritonbench_g.int_scaled_matmul.revision001.Proofs.GroupedGrid",
+    "bench.repairs.tritonbench_g.int_scaled_matmul.revision001.Proofs.GridExecution",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Compose",
+    "bench.tritonbench_g.matmul_persistent_triton.Types",
+    "bench.tritonbench_g.matmul_persistent_triton.Proofs.Source",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton.Kernels",
+    "bench.tritonbench_g.matmul_persistent_triton.Proofs.Parameters",
+    "bench.tritonbench_g.matmul_persistent_triton.Proofs.Schedule",
+    "bench.tritonbench_g.matmul_persistent_triton.Proofs.ScheduleInjective",
+    "bench.tritonbench_g.matmul_persistent_triton.Proofs.ScheduleCoverage",
+    "bench.tritonbench_g.matmul_persistent_triton.Proofs.RealMath",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton.Proofs.Types",
+    "bench.repairs.tritonbench_g.fast_ce_loss.Kernels",
+    "bench.repairs.tritonbench_g.cross_entropy1.Kernels",
+    "bench.repairs.tritonbench_g.cross_entropy1.Proofs.Execution",
+    "bench.repairs.tritonbench_g.cross_entropy1.Proofs.Native",
+    "bench.repairs.tritonbench_g.cross_entropy1.Proofs.Math",
+    "bench.repairs.tritonbench_g.cross_entropy1.Proofs.Grid",
+    "bench.repairs.tritonbench_g.fast_ce_loss.Proofs.Source",
+    "bench.repairs.tritonbench_g.fast_ce_loss.Proofs.Geometry",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton.Proofs.Bounds",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton.Proofs.ControlBounds",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton.Proofs.Execution",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton.Proofs.OutputCoverage",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton.Proofs.Host",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton.Contract",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Tensor",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Kernels",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Model",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Values",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Contract",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Coordinates",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Registers",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.PrefixExecution",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Prelude",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Tile",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Setup",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Inner",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Loop",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Suffix",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton.Proofs.Real",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton.Proofs.InstructionGraph",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton.Proofs.DotPlans",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Targets",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Geometry",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Store",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Outer",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Execution",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.RawKernel",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.IO",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.PublicData",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.InputConnection",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.SafetySteps",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.SafetyAccess",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.SafetyLoops",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.IOBounds",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Native",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.PublicResult",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.LogicalIO",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Correct",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.PairIO",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.Pair",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.PairIO",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.FPEquiv",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Misc.NativeCorrect",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.KernelRealResult",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.KernelNativeResult",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Physical",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Pointer",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Public",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Misc.TensorBridge",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Misc.Audit",
+    "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Misc.CandidateCorrect"
+  ],
+  "copied_unaffected": [
+    {
+      "module": "VeriTile.Meta.StatementAudit",
+      "source_sha256": "9df42851029c91f1643293ff7f7ec89bc135179dcd8d04d8208dd9bcbb6d6d64",
+      "provider": "/tmp/multinomial110-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Core.DiscreteReduction",
+      "source_sha256": "afa9c2d98feab63377d0f8a1c558411b5f49468f6bc3f3fd5b859efe4cbf4e9c",
+      "provider": "/tmp/multinomial110-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Core.Reshape",
+      "source_sha256": "4e3e858f5b928bcdd25b207ec6a43a78fbe46011ed42fc6e55041690d5bb20e9",
+      "provider": "/tmp/multinomial110-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.Structural",
+      "source_sha256": "3ae38b05ef1cf466fe8b9afd1e6ca57c496f231aa5e192b47dae2482ad1167dd",
+      "provider": "/tmp/multinomial110-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.Scalar",
+      "source_sha256": "f64e84224c4998ef36b99d0f4fe1b7b26bb28faf739b5f9c5e6b317e801377ce",
+      "provider": "/tmp/multinomial110-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.State",
+      "source_sha256": "e505bc73033417f411aca7fe9deed4510a2e87f183fe3597b13dd0ec9d0c9cdb",
+      "provider": "/tmp/multinomial110-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.Offset",
+      "source_sha256": "4554d0b999c47059742ec69104ab9eae2a9d6e6cd9a970c8653ff567f308fffa",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Math.Erf",
+      "source_sha256": "ec935c59c2569790cf8dcfac003947565c5c8a22889f99445b89a39c996d8e32",
+      "provider": "/tmp/multinomial110-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.TileOps",
+      "source_sha256": "2a2484f0168183838fbaae835c92d16013fdc77f1cad8f60fd02ca1408ebde45",
+      "provider": "/tmp/multinomial110-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.Float8",
+      "source_sha256": "dff538de87e46bdd7cf041faba3188696dd9532d9650653d5cb37af7769e90b1",
+      "provider": "/tmp/multinomial110-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Proofs.Dyadic",
+      "source_sha256": "3b5d946b8df775934f9113a1de483f1949c4a24bdc7ad3e37964c8e7ccdef4b4",
+      "provider": "/tmp/multinomial110-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Proofs.RoundQuotientBridge",
+      "source_sha256": "81481928ad4594579c8e85fc9bbbd87fd16a6f611a77208c2c4be5bb2d715237",
+      "provider": "/tmp/multinomial110-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Proofs.RoundExpansion",
+      "source_sha256": "e866ae4a5a6a918ba92be25082d59931bce3d17fcfc4a56367cd3bb8db83cde9",
+      "provider": "/tmp/multinomial110-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Proofs.DyadicExponent",
+      "source_sha256": "4c899ee927a6519e12c867cc452087ed827f3af5262b9dd1886acb5485ee7ddd",
+      "provider": "/tmp/multinomial110-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Proofs.DyadicStep",
+      "source_sha256": "fd79754a45a24b8de2cc85cc1a2cb0a4aa5360f8d19dae6ceadae9ccf3f389b5",
+      "provider": "/tmp/multinomial110-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Proofs.PackDecode",
+      "source_sha256": "1ae0557bb8844952317dedf27641eb69ea6bebad185362b78524e62cf2b3e5e2",
+      "provider": "/tmp/multinomial110-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Proofs.PackRoundedProof",
+      "source_sha256": "e0b324729400380ff8d3f9e9ddd1a31e6084456ff0f31d84d2c0ac36c9ed4346",
+      "provider": "/tmp/multinomial110-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Proofs.SignificandBounds",
+      "source_sha256": "9fd6c6ebf6cc0f2e252a7dd0010e1fabed9042e044a08afb29b8d234fe7ff181",
+      "provider": "/tmp/multinomial110-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Proofs.RoundDyadic",
+      "source_sha256": "351506829a6a90e45afb1ef6f7b31d3f58ee5d653092bc9850011adbd495d91e",
+      "provider": "/tmp/multinomial110-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Proofs.CanonicalUniformBridge",
+      "source_sha256": "e744120a52249bf3753ac4dc81967dd37930c8c3cc71b4cc234da110c9994938",
+      "provider": "/tmp/multinomial110-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Values",
+      "source_sha256": "74055de9bdcb4b5b338c5f1294f4781bcf715f207a78c1ddddf900c22c9e3c85",
+      "provider": "/tmp/multinomial110-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Random.UniformValues",
+      "source_sha256": "d2cb297b2aa730102adf8edab25581357071495da672876c22497e3669be90bb",
+      "provider": "/tmp/multinomial110-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.EvalOp",
+      "source_sha256": "26e1d2f49db66169d477bc57c9be3f32726a26bb95d8d011564bad36df573745",
+      "provider": "/tmp/multinomial110-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.AtomicReduction",
+      "source_sha256": "47bc59ef56e2a0bf9eac3d65fe2e3f5a6c033525dbd001406c6ddd15d2219efc",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.Step",
+      "source_sha256": "709189a5c592f0dde041cfeb17e6b2d6bdde8b48e4c618104aa7baf8bde452d5",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.Eval",
+      "source_sha256": "c981d48a41d1a1cccd61376afc8d273754b397b160f257e80edf597453e61148",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Math.LogSumExp",
+      "source_sha256": "b7bc8b44d7144a88450a9720de9216e24817510bb8a76c87305831cdffe41697",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.TiledIndexing",
+      "source_sha256": "8425f2f91c45531afcc7bdf63bd7f3b0fe5b7993f7ee5602f872c98ff002c022",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.LaneBridge",
+      "source_sha256": "cba3a5c109464d5018e1b9aa47a6688040e42e07de81fc9178a7ec74a780a85d",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.StreamBridge",
+      "source_sha256": "85f1e61730d3d76071d6bbd82093f20263329a6922942ea2bb96c329fe9009c6",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Math.L2Norm",
+      "source_sha256": "ea38e69c53fdb4ffa7336c8d0c3998010cfa28de80c2006fd7bf0c8edcb5ab94",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.MaskedReduction",
+      "source_sha256": "679ec47fa431c57fda950756e5ae1a22dfc145224d6eb21c68ff43f950a942a8",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.BroadcastReshape.Attr",
+      "source_sha256": "10d5e6207c051ca7ebcac33dea3cde3a38dfe662091422182cc8ea1ac9521ef0",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.BroadcastReshape",
+      "source_sha256": "693f8fa230e9ee1f1bc7341df73be2d2765e1d4df23d46de759565214d19d8ee",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.BlockPtrEval",
+      "source_sha256": "50145ec9e7feca0282f1dc351017f7e7bbb83776b905eb96f5894c658e6e742f",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Math.Attention",
+      "source_sha256": "bd83e1c4debe6448af1c99b37608f1429c0e9fde03caf9ab394cab873a338e78",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.StreamingAccumulator",
+      "source_sha256": "19fdebafec049bd11c48abba4ec0daf711436d9a0fa242b0d063a9e609e5bd40",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics",
+      "source_sha256": "c766bb73f0eada86490c02bc145e7b011de1d184609b8021325648d949678346",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.View",
+      "source_sha256": "81902179bc5303b70f7e76fa8896df3d3ac0c130e7b25950ab21c546f286f077",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Bounds",
+      "source_sha256": "f23d3e570350a2ef329b0699701729a4e6c13a0f23564b9bc9e9c3dcb202ab3d",
+      "provider": "/tmp/multinomial110-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Frame.Basic",
+      "source_sha256": "14e010c95c718cb6b994031fab88ee85da4fe0ad623c8adeadf3bb755bc1c593",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Frame.Stmt",
+      "source_sha256": "98a4a4032c574773dc719d85d79452c1d1c745f11db296da9ce78019cddbf116",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Frame.Kernel",
+      "source_sha256": "d15f68b693226f9d4d6ac64428fca447e973a0141b5310e98026c755a293c0ee",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Frame",
+      "source_sha256": "69ceb0d4ffea1563dcd1dd3a1ea1ca12f7d4f7a1bca192edd7c6a300091ad49e",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Footprint",
+      "source_sha256": "ef80d79ae760c927093577188f384f31aae7f54527dc67358308389ee0af7eb2",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Typing.Region",
+      "source_sha256": "1dc180cb6dce4ca8380bd736a9aaaf18b9832ea89b1bd00d60f36aafb1e5497a",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Typing.Contracts",
+      "source_sha256": "9da5d54e956067cd427007e9fcef1dca889a09360b9e13baf86939052bcb64ab",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Typing.Checker",
+      "source_sha256": "167cbf4feb0711bc83bb1d2f66dc47497f64d7442ce6f6befe032cf65f602f8b",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Typing",
+      "source_sha256": "20ed89f4c6e4040275af913ce63ecc706bcbdb9a5b20ce4cbaed493cdc6542b6",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.RoundingModel",
+      "source_sha256": "daf9e33b135dada924c82ff35858160eccee563486eaa3c0806698647821a673",
+      "provider": "/tmp/multinomial110-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.EvalOpR",
+      "source_sha256": "46dcc32626fb61f936069b5278bd73fe8ba8860c9891930f104531ba9e0fa4df",
+      "provider": "/tmp/multinomial110-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.BlockPadding",
+      "source_sha256": "157d22d7b2bc8c299457836eb29e45efd8ecfef0b4d75610cec905d978cad00c",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Flatten",
+      "source_sha256": "c9b5c390c4963772e72e641ed61cab072347f7f665d85a96f97d0f0a436f5a83",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.StepR",
+      "source_sha256": "72982c87c66f95566d3cf03be69cfedb2088fc0fdd643bba5801981d1a72df32",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.FlattenR",
+      "source_sha256": "ac66af79f891bceefc284a81f4958b0e1f299e57feb4a6c5bd55ca64fa20e23b",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.FlattenTolerant",
+      "source_sha256": "3465fcb1233e1ad47c3f7c89c3377fae203cd168f9cf47c34485ea480f71a66a",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Locality",
+      "source_sha256": "cb033b6afe2f3689c6f1a3ec9fa0374ed84868b09232ff8d983b3ca6eea37b8d",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Denotation",
+      "source_sha256": "d0708c4acf9061d947132f579f2d70077ac72e7e9d71174170f95589e9f2df75",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Layout",
+      "source_sha256": "e0532314b8f5de6b4abc349368cdf2fd369280ee2ce97eedf364cd12f847996a",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelCore",
+      "source_sha256": "617a8949869c9a9bf366bfe74a02f7a98c1b001f496d7af3f40662445702f311",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Base",
+      "source_sha256": "4497d69d92d2bc9baa0861fc0cec9bcf8eab5309c2c582f2d9aa0e5da27c54a8",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Basic",
+      "source_sha256": "2a5b4b4946ade9c9bc25414589a5b1a4f815b001847c88b455718f7131981e81",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Masked",
+      "source_sha256": "cf1ea6e930e5832c72d9c95e1bb4345e2e21cd4fe9028e019d09efe92f62ff8c",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.MaskedND",
+      "source_sha256": "e4056b3085024808ab8fc1e04d3af2381a879fea9374ab0f4751ba9fbdf15532",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.BooleanMasked",
+      "source_sha256": "7dc158c61ed167c2d6dcd50ebfb2285094ee5862195d2f50fe6446ed6fe628fb",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Metadata",
+      "source_sha256": "27672a7a080cce048c2556e3f9705abba985fc4c20b3e378e0ea31e929c01009",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Scatter",
+      "source_sha256": "e32c3d321b97105b4ce5d192d87c94bed970c38b750f5b26ff10d71a237a4b24",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Gather",
+      "source_sha256": "aa6b2a6a0b9cfc873d3194a9ce4c8cad9c1f881e6c0e7454000065d0101ae457",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Grouped",
+      "source_sha256": "809d66cfa5021f0ffc7f569ef5aa1b91edea5afafb56d123f8093ab24c18850f",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Stream",
+      "source_sha256": "308da848372ad8982ece008ea561836d1b2f96bac711cef3436cc859c2aa254e",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.StreamEmit",
+      "source_sha256": "e723e4737a7384bd4ed69011b5d7135d8630f7c540c1848be3d18a8f1c94c02a",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.StreamAttention",
+      "source_sha256": "a3d9812b4dea7ab67edffe5d338f108f91464f79910fb88abed54b9dff2f7a30",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.StreamAttentionMetadata",
+      "source_sha256": "c4d582356c4ced27762da21e73b7d22ffea362c2014dd336d1522de988998a99",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.TileIndex",
+      "source_sha256": "07294995905ab00ee3c4981cbae5e18bf50796815cd9bd49e93b8d427e72c8b1",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Tile",
+      "source_sha256": "6056b7cf40200213a953c9249bfc1ecdb81534363fc5686a7538220fbea66872",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.TileND",
+      "source_sha256": "d1b1fd6fd0be7fb1741e34d6bffec81b1f46db04eb7866db363e2d8cb7b4645a",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.TileMetadata",
+      "source_sha256": "c457a30724b6288584a6e2e5e8533bcdbf59300eb4b20f8d82ca9be36efbe77c",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.TileGather",
+      "source_sha256": "964d1e68747a97b25d3f65d1728efc51d913d937ef5cb08e40ba991e99dbf0a9",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec",
+      "source_sha256": "f6e211da67da821f3853b0dbf6ce13b648bdb5df98816193024b94170758dbe3",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory",
+      "source_sha256": "95ded98671abf69963028f62c116ea94ad838d2e784fe59f350f688f1c0618f0",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas.EvalHelpers",
+      "source_sha256": "4a19550e09aabcadc3434134e8f6fdccf0dbcc3d634820c7b491d3bc3cecb9d9",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas.OffsetInjective",
+      "source_sha256": "f91a71264bd1a72de9cb368592047dcce3377ebd8dbf1dc59734481a8ead8efc",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas.Matmul",
+      "source_sha256": "93eee78a5a29fe9526eada5beb986df35c6f9a24768a20ff9c9a64f8b156ce80",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas.ScatterStore",
+      "source_sha256": "b48c2d047c8ffc611d7791c14d4f98128bf17208f5a134edffe9c8678da7ff17",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas.LoopInvariant",
+      "source_sha256": "ed17ccd8157fd3fd026d950a6b73eccd04fa13626048792e2d93ae7fcdf564f0",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.Erasure",
+      "source_sha256": "b171f1da84b6cfdf06d0ecf8ef6d23b35cf038c62a020fa717fdd5da5012bc6f",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.StateErasure",
+      "source_sha256": "d87d2d39b9cff48d8f7011f451329afefc3bc76ae600776bd599ec5b62b3b93e",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.ExternalCheck",
+      "source_sha256": "df0c83664a16531f22d5c4c7898d358dffbae95a64173cddc2ace6257feabb95",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Correctness",
+      "source_sha256": "0e5c59fe03bdf99aa94059eb533b44bd5764fa48e844751e9603891b730a03ce",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas.CarryFold",
+      "source_sha256": "652e516656ffb90b3e85d37f47942c4bfe1a26f1fbc98218879f5a47da03bd49",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas",
+      "source_sha256": "22dba3bab9b64beb95ccae479e1e4fd0df8982a30751b814bbd38cd8bac87d9d",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.Refine",
+      "source_sha256": "fa767a47f0f9e79c951c2b5d074455612c3464438220ee829de29f17e5eabc83",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.Pipeline",
+      "source_sha256": "5a892afbc554b181bcff18de0901bef31fa70f659fe420274e6c8cfcd5975646",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.Equivalence",
+      "source_sha256": "965c88093e53e551c6b947880faeb750cdbe66db04a8cdf2e98a49cc82bb6bf7",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float",
+      "source_sha256": "92d888b138f8b593d5337806b3128af63832e8c2a1ab482efceedbd432821b7d",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Math.Activation",
+      "source_sha256": "7fe53782eb9cab940d8fe722311c429d5a3dccf6cef6f1ca880109bfc752027f",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Math.Loss",
+      "source_sha256": "a449d710a036ccb84cca2bbad6c12175add8154c1baf63a8b1e67c7a1d4fa775",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Math.Optimizer",
+      "source_sha256": "5935dd7e4bf5bcfb75c9ff5cdb51cb7bae43fcda91daa0fc83d6d4c1edb3f896",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Math.Reduction",
+      "source_sha256": "ef4e0f3e0f78128941ead72b49e44322c1fd6960d0cf703c1af3c7793f42a516",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Math.RMSNorm",
+      "source_sha256": "75461e0a3513065eadeac912211b6578bf63cc7527be13fb1197ac440bde6934",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Math.Softmax",
+      "source_sha256": "1ab0be1a888802002a7cfd0ce9cc156216353ed0f6764242cd46eb7996c691e3",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Math",
+      "source_sha256": "9000ce833e405e6652bcd66c930a51d8374c909ca6fe464e0fe77d0cd3648d09",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Launch.Grid",
+      "source_sha256": "74c1c565e02dc30e35751531333bd59ba16f4f9305f40a7ca591e4b24e251925",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Launch.Composition",
+      "source_sha256": "1a4db9f31530ff88a9727478b8cfa1df9de9934168c759a2934c4367877090a3",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Launch",
+      "source_sha256": "2dd3ea1acf4cecd1ba4f24dee9868bf5089fa898ca9bf73a6074b4717241b4e6",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Concurrency.Trace",
+      "source_sha256": "85b2f0867c77795663ca6de96344f8896014bb919e9632ea400479138cc52c8c",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Concurrency.Discipline",
+      "source_sha256": "3901bcbadeaf513cb0723a0db9c77f23e8f4700bf6b076cb9da0869abf17395a",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Concurrency.Refinement",
+      "source_sha256": "0baf4b34389f4d1b1ea978e8fd4525e306e8110733a33c9793f3cad851b93196",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Concurrency.ProducerConsumer",
+      "source_sha256": "0ba0c4c59a75b83b52782a2bc7f58880af134e9c2718e03fd8e5ca831d8de06a",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Concurrency.Atomic",
+      "source_sha256": "03dc2a7547ff4c90ca22d3af13867ca243306fbb06e73ddc424d41545129da52",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Concurrency",
+      "source_sha256": "b6312bcc71e3596bb9fbfd039b11b412a22df3a4cbcd6e740c703c9271739f6e",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.UnsignedCast",
+      "source_sha256": "297f5a3cd7b5911ea8995a46b8c4d5f4dec4f9596475bcb6003ea27cdeb56b9d",
+      "provider": "/tmp/multinomial110-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.FixedInteger",
+      "source_sha256": "376b99eb05cb9fa3433ea9fb3ebe3edb4aa90b535323b71eac600300bc40fdda",
+      "provider": "/tmp/multinomial110-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.SignedCast",
+      "source_sha256": "79fb0af591b285287bc861973fe18571f5ae8528605f0ee783d1417c6bbe8c6c",
+      "provider": "/tmp/multinomial110-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.IntegerDotPlan",
+      "source_sha256": "e329e3fb5ed06e12079eda894ac2ce31d73c27a146c7818c30430036790e50d3",
+      "provider": "/tmp/tritonmatmul108-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.WordIntegerDot",
+      "source_sha256": "c8aaf78b76b9b8ff27f835c18830f298911deecf040ca29c78e84ebdc0859251",
+      "provider": "/tmp/tritonmatmul108-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.IntegerDot",
+      "source_sha256": "e3464587431a9df43a698e9d02a22d15632d580b6e71f9cd5e360278e1ed00d7",
+      "provider": "/tmp/tritonmatmul108-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Source",
+      "source_sha256": "e6e0894c4353ca12fb6b0de4908c11057df0c7449aa57a7532a197d63b5ae05f",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ReportedRules",
+      "source_sha256": "6910d43ae15259593ca662e6cb00c0e5437bc7d40e95a1288bdb0f525bbecee1",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.GuardedRules",
+      "source_sha256": "15acecc27397a84fd00eb7b813c2dfbf7b24c64a54934ccfd6ce0b7ee9d37406",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.Equational",
+      "source_sha256": "8e2b9fa6d36ed83a7a5e10449f34db08079c6695a84c529d005bd80196a4e14a",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.TermModel",
+      "source_sha256": "e8c98fd3d0bb93493e4570e5c4dab2369f1b5dcb3795f1696ec7bbe85e073e6d",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.StructuralIO",
+      "source_sha256": "5e6e54ae8278efcc205fa34c281c2995d1b373070a02c3ba86d8983cd9352b07",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ExecutionProfile",
+      "source_sha256": "2adc75f97617c8158ea68bf70c85e6326345e338aad5da8019ceeddb4de27ba2",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.GuardedSemantics",
+      "source_sha256": "d2f22934cfba1785788b1736972688f1a6fdb116625ed4f65c581b23807c01b2",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ScalarBackend",
+      "source_sha256": "9c65d7e398cd81da6ec925b48e77092719a4f9aa745b9dbb39f75eda909e2f3b",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.MaximumExact",
+      "source_sha256": "c4c3f140f91c826e13dccc63ea5cc8072f547ff346dd95c32a5ebd851beadc97",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ScalarOpsLaws",
+      "source_sha256": "457e4ce46d521a924cc6a36622faa79a5ba6c3135a4d012090b50c9b0cbd1e42",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ExponentialExact",
+      "source_sha256": "cb5d527edfd3b9db0c4610301317aa06b7edc787bef52c7e9797e7358d8ff612",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.StrictBackend",
+      "source_sha256": "3b98130fb527087d8cae4cfe22a12d11e4b96bb9f84037ed2cd40c88a3ffa862",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.GuardedStrict",
+      "source_sha256": "da2c8e30160dcc124e78e072a902cc58eccc7640f5b6e2cd28baa8096f5dc922",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.GuardedIO",
+      "source_sha256": "80db0df27dcd7844984d20b2004fab5b59daf6bcfecf16b24df5acaf1b7d93c7",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ReportedAdmission",
+      "source_sha256": "12513789960352cefe7de70a2f1e8221bef281929bc97e4a785303ab2cc78fce",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.SupplementalAdmission",
+      "source_sha256": "557870486ad5b86f158cd92c21c7387b21b3a3ac91c2c5fe80b4226615b3c141",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.Reciprocal",
+      "source_sha256": "6fc50b9bbf8b23cf4c4fdac670126082bc71a0cc238819e96ed8ac8e71911c86",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.CastExact.Fields",
+      "source_sha256": "b713c434320eda792f833671291058d47a35bd48553c47e4a366dffa366ce0f8",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.BitValueLaws",
+      "source_sha256": "3557fb56e80e2b6c5c71d107816116cda72c8c8de64f0733cfb495786363c37e",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.CastExact.SameFormat",
+      "source_sha256": "0cebe579634305ffe45ee277d62b0fb547181636e384b6c8b150899650d68e2f",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ScalarArithmetic",
+      "source_sha256": "dad64aca5363620aedb71b24878e7cb159542d3d70577d66014befe54d768478",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ScalarArithmeticLaws",
+      "source_sha256": "83497519da0c786b873f557d8cefb9e74ea7c2909c842353dd079a917d67412f",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.GuardedRewrite",
+      "source_sha256": "f242e954ff7c8f3901140c2e90f323b9b84d73c6fa09a445e440fcac06cc9652",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.Loop",
+      "source_sha256": "3b67954d45467ed5755158c9ef280e078c9fe911b5c906c34020249edc412336",
+      "provider": "/tmp/tritonmatmul108-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ProfiledRewrite",
+      "source_sha256": "4d1a5b21949314b91fe4fdef667f9cf04ebec002bf643cfaedc426a8ef3e3085",
+      "provider": "/tmp/tritonmatmul108-frontend"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.cross_entropy1.Proofs.TensorModel",
+      "source_sha256": "13355cc74353c9cf88ba8430f50cd8301e4976d5b4e49b0106ccaea952280076",
+      "provider": "/tmp/rwkv104-staging"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.cross_entropy1.Proofs.NativeSupport",
+      "source_sha256": "76c024cd5e8d97ccb0fc7c40b598e457a64dda2c94b431f39d972218773acc75",
+      "provider": "/tmp/rwkv104-staging"
+    },
+    {
+      "module": "VeriTile.Torch.Tensor",
+      "source_sha256": "5ffea95271519b19b6ac5bd006cb95f778ebc99c21648700ca74d054557db052",
+      "provider": "/tmp/multinomial110-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.StructuralSafety",
+      "source_sha256": "f114c12d820012319e3599ac6d1f0bf9ed7faf2e011b75bb4d34ab9295034af2",
+      "provider": "/tmp/multinomial110-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ProgramIO",
+      "source_sha256": "f183b7baec0a20c9110eeb11272865e59450114bcec3ed6fd345442a44b1a79c",
+      "provider": "/tmp/multinomial110-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.LogicalIO",
+      "source_sha256": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+      "provider": "/tmp/multinomial110-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.LogicalProgramIO",
+      "source_sha256": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+      "provider": "/tmp/bgmvshrink109-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.StructuralSafetyLoops",
+      "source_sha256": "d94ecfa0653a900202753e32ec58ff4f707a04677cf4215cbbf7ba56d2c30259",
+      "provider": "/tmp/rwkv104-staging"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ProgramEquivalence",
+      "source_sha256": "93360ffda212b689ebe045632d788229b81a7dff56c9b15b60266ed7e4052dd2",
+      "provider": "/tmp/multinomial110-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.InputBindingIO",
+      "source_sha256": "890674d40a551619de13a468e7edd3bd42bf1755bc77ed7973eab10a8b49b0d6",
+      "provider": "/tmp/multinomial110-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ProgramEquivalenceSyntax",
+      "source_sha256": "fba88608cc0280eae95daab44617cf985aac9a17f10f186b6272c6e71cd39a63",
+      "provider": "/tmp/multinomial110-frontend"
+    }
+  ],
+  "scope": "Full persistent scalar-cast family and source predecessor dependencies with literal-body frontend. Development only; later frozen and clean replay required."
+}

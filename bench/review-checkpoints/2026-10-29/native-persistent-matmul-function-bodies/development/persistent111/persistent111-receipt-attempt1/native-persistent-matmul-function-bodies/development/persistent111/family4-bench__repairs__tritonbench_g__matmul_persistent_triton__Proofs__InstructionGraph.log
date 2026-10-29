@@ -1,0 +1,4 @@
+VeriTile.Bench.Repairs.MatmulPersistentTriton.Floating.Graph.equivalent: axiom footprint ⊆ standard base ✓  ([Quot.sound])
+VeriTile.Bench.Repairs.MatmulPersistentTriton.Floating.LocalPorts: definition does not reference [VeriTile.Bench.Repairs.MatmulPersistentTriton.Source.run,
+ VeriTile.Bench.Repairs.MatmulPersistentTriton.Source.accumulator,
+ VeriTile.Bench.Repairs.MatmulPersistentTriton.Floating.Expr.dot] — non-circular ✓

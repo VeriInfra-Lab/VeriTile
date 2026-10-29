@@ -1,0 +1,12 @@
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.kernel_fp_equiv: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.nativeExpected: definition does not reference [VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.executeGrid,
+ VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.program,
+ VeriTile.Bench.Repairs.MatmulPersistentTriton.Source.run,
+ VeriTile.Bench.Repairs.MatmulPersistentTriton.Source.accumulator] — non-circular ✓
+VeriTile.Bench.Repairs.MatmulPersistentTriton.Floating.LocalPorts: definition does not reference [VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.executeGrid,
+ VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Targets.result,
+ VeriTile.Bench.Repairs.MatmulPersistentTriton.Source.run,
+ VeriTile.Bench.Repairs.MatmulPersistentTriton.Source.accumulator] — non-circular ✓
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.kernel_fp_equiv: statement's project surface ⊆ allowlist ✓

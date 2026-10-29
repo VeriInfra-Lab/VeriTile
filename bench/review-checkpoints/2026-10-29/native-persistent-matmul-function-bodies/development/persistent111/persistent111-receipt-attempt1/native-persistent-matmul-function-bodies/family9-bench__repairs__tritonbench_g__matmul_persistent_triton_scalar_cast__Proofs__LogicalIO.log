@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.LogicalIOProof.headline_iff: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.LogicalIOProof.implements: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

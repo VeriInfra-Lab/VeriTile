@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Compose.ready: axiom footprint ⊆ standard base ✓  ([Quot.sound,
+ propext,
+ Classical.choice])
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Compose.range_sequence: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

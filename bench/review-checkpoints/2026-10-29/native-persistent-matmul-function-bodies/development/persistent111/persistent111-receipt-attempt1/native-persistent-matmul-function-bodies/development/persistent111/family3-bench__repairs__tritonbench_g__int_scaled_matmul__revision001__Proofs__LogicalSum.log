@@ -1,0 +1,27 @@
+/tmp/persistent111-frontend/bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Proofs/LogicalSum.lean:25:32: warning: This simp argument is unused:
+  Nat.add_assoc
+
+Hint: Omit it from the simp argument list.
+  simp [sum, ih, N̵a̵t̵.̵a̵d̵d̵_̵a̵s̵s̵o̵c̵,̵ ̵Int.add_assoc]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/persistent111-frontend/bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Proofs/LogicalSum.lean:35:31: warning: This simp argument is unused:
+  hnext
+
+Hint: Omit it from the simp argument list.
+  simp [sum, ih, hn, hmin,̵ ̵h̵n̵e̵x̵t̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.LogicalSum.sum_congr: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.LogicalSum.fin_fold: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.LogicalSum.sum_add: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.LogicalSum.sum_padding: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.LogicalSum.chunks_eq: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.LogicalSum.ceil_cover: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.LogicalSum.ceil_exact: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

@@ -1,0 +1,16 @@
+{
+  "status": "FAIL",
+  "start": 1793239495.1675136,
+  "results": [
+    {
+      "module": "PrefixProbe",
+      "source_sha256": "69c9c0a6e5af0e7e4e75dffb65044286ebcb23e6a4dd3816b484e85d75a1a6dc",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793239495.1676593,
+      "end": 1793240403.0965679,
+      "log": "/tmp/persistent111-prefixprobe-PrefixProbe.log"
+    }
+  ],
+  "end": 1793240403.0967727
+}

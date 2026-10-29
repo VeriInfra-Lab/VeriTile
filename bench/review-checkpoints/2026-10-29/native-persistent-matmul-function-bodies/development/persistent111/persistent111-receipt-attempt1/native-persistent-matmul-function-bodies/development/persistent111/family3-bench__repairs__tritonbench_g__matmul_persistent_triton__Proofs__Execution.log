@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.MatmulPersistentTriton.Source.frozen: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.MatmulPersistentTriton.Source.tiles_exact: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

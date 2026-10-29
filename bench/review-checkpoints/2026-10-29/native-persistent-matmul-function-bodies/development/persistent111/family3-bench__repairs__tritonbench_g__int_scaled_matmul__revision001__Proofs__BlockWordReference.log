@@ -1,0 +1,2 @@
+VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.BlockWord.before_stop: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

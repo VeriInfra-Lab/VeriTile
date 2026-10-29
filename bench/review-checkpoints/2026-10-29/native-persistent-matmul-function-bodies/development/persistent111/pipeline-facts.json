@@ -1,0 +1,26 @@
+{
+  "task": "matmul_persistent_triton",
+  "base": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/",
+  "note": "The complete original and existing row-product-commuted Python bodies have four verbatim FP16/E4M3 mappings. All 16 top-level statements remain: int64 casts, simultaneous metadata assignments, Boolean ceiling arithmetic, persistent signed tile/K loops, clamped pointers, live FP32 dot and output-dtype branches. Full Python module AST restoration permits exactly the row-index product operand commutation. Original Python, public Real/FP readers and contracts remain unchanged. Exact signed prefix arithmetic derives all counts from source; complete grid execution, trace safety, outputs and exterior frames reconnect to independent full-K mathematics and the actual FP pair. Historical false AST preservation is removed and raw execution is proved directly. No new numerical assumption or public domain restriction is introduced.",
+  "regression": "The shared frontend widens Boolean values to zero or one when combined with signed integer operands, preserving the original quotient-plus-remainder-test syntax. A symbolic integer regression verifies both operand orders, subtraction, multiplication and an inline predicate. This is integer arithmetic, not an FP numerical identity. Every preceding task/example/frontend root is replayed with this final frontend in warm and independent empty-project-clean builds and joint imports.",
+  "roots": 48,
+  "comparator_targets": 50,
+  "cumulative": 5572,
+  "audit_modules": 1855,
+  "body_pairs": 413,
+  "covered_tasks": 117,
+  "pending_tasks": 66,
+  "targeted_tests": 347,
+  "full_tests": 592,
+  "bridges": {
+    "raw_bodies": "Kernels.lean",
+    "exact_prefix": "Prelude.lean",
+    "signed_loops": "Loop.lean",
+    "complete_execution": "Execution.lean",
+    "trace_safety": "Proofs/SafetyLoops.lean",
+    "complete_io": "Proofs/PublicResult.lean",
+    "independent_real": "Proofs/LogicalIO.lean",
+    "actual_fp_pair": "Proofs/Pair.lean",
+    "pair_io_frames": "Proofs/PairIO.lean"
+  }
+}

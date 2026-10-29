@@ -1,0 +1,6 @@
+/tmp/persistent111-frontend/bench/tests/BoolArithmeticBody.lean:38:4: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  a ≤ -1
+where
+ a := n
+/tmp/persistent111-frontend/bench/tests/BoolArithmeticBody.lean:40:0: error: VeriTile.Tests.BoolArithmeticBody.arithmetic: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

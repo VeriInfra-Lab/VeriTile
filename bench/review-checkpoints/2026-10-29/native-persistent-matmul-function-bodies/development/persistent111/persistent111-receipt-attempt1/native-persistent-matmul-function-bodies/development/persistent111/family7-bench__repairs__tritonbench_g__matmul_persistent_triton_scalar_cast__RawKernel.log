@@ -1,0 +1,10 @@
+/tmp/persistent111-frontend/bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/RawKernel.lean:60:4: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.RawKernel.Layout.descriptors: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.RawKernel.real_reference: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.RawKernel.reference: definition does not reference [VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.executeGrid,
+ VeriTile.Bench.Repairs.MatmulPersistentTriton.Source.run,
+ VeriTile.Bench.Repairs.MatmulPersistentTriton.Source.accumulator] — non-circular ✓

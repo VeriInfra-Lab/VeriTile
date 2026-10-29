@@ -1,0 +1,3 @@
+/tmp/persistent111-frontend/bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Kernels.lean:85:17: warning: unused variable `stride_s1n`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`

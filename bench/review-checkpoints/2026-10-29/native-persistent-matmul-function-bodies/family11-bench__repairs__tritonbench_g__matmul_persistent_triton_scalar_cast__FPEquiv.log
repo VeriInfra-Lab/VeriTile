@@ -1,0 +1,11 @@
+/tmp/persistent111-frontend/bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/FPEquiv.lean:10:67: warning: unused variable `sms`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/persistent111-frontend/bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/FPEquiv.lean:12:68: warning: unused variable `sms`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+FP assumptions used by source_pair_equiv:
+  none
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.FPEquiv.source_pair_equiv: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Contract: definition does not reference [VeriTile.Bench.Repairs.MatmulPersistentTriton.Source.run,
+ VeriTile.Bench.Repairs.MatmulPersistentTriton.Source.step,
+ VeriTile.Bench.Repairs.MatmulPersistentTriton.Source.accumulator] — non-circular ✓

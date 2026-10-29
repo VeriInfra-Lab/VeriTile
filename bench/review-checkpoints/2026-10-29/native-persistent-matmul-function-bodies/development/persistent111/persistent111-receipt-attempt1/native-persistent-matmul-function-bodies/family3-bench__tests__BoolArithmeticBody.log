@@ -1,0 +1,6 @@
+/tmp/persistent111-frontend/bench/tests/BoolArithmeticBody.lean:36:4: warning: 'congr 1' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+VeriTile.Tests.BoolArithmeticBody.arithmetic: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

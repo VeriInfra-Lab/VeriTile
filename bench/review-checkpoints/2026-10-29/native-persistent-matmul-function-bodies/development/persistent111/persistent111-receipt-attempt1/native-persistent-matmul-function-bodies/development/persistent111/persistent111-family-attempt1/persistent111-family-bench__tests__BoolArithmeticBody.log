@@ -1,0 +1,20 @@
+/tmp/persistent111-frontend/bench/tests/BoolArithmeticBody.lean:33:46: error: unknown tactic
+/tmp/persistent111-frontend/bench/tests/BoolArithmeticBody.lean:28:52: error: unsolved goals
+case neg.h
+α : Type
+inst✝ : Inhabited α
+M : Algebra α
+s : State α
+n : ℤ
+h : ¬n = 0
+i : TileIndex []
+⊢ bop (fun x1 x2 => x1 + x2) Broadcast.nil
+      (bop (fun x1 x2 => x1 + x2) Broadcast.nil
+        (bop (fun x1 x2 => x1 + x2) Broadcast.nil
+          (bop (fun x1 x2 => x1 + x2) Broadcast.nil (bop (fun x1 x2 => x1 + x2) Broadcast.nil (fun x => n) fun x => 1)
+            (bop (fun x1 x2 => x1 + x2) Broadcast.nil (fun x => 1) fun x => n))
+          (bop (fun x1 x2 => x1 - x2) Broadcast.nil (fun x => n) fun x => 1))
+        (bop (fun x1 x2 => x1 * x2) Broadcast.nil (fun x => 1) fun x => n))
+      (bop (fun x1 x2 => x1 + x2) Broadcast.nil (fun x => n) fun x => 1) i =
+    5 * n + 2
+/tmp/persistent111-frontend/bench/tests/BoolArithmeticBody.lean:35:0: error: VeriTile.Tests.BoolArithmeticBody.arithmetic: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

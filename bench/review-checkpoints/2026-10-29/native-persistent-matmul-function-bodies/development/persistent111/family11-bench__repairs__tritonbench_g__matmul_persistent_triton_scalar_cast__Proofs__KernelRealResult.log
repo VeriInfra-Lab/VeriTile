@@ -1,0 +1,5 @@
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.KernelRealResult.kernel_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.MatmulPersistentTriton.RealMath.formula: definition does not reference [VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.executeGrid,
+ VeriTile.Bench.Repairs.MatmulPersistentTriton.Source.run] — non-circular ✓

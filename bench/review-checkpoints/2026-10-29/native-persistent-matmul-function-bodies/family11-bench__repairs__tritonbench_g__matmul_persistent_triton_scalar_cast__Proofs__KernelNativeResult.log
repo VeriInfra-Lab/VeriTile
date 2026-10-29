@@ -1,0 +1,7 @@
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.KernelNativeResult.kernel_fp_equiv: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MatmulPersistentTriton.Floating.LocalPorts: definition does not reference [VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.executeGrid,
+ VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Targets.result,
+ VeriTile.Bench.Repairs.MatmulPersistentTriton.Source.run,
+ VeriTile.Bench.Repairs.MatmulPersistentTriton.Source.accumulator] — non-circular ✓

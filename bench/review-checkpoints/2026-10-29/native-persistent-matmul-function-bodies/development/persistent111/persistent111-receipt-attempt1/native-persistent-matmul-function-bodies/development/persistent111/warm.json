@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+  "checkout": "/tmp/veritile-hgrn54-clean",
+  "explicit_modules": 5572,
+  "start": 1793243530.7902973,
+  "scope": "All cumulative task/example/frontend roots, now including all 48 persistent matmul roots and the shared Boolean arithmetic frontend, plus their full local import closure and joint import.",
+  "build_status": "COMPLETED",
+  "build_exit_code": 0,
+  "build_end": 1793246067.2538686,
+  "joint_status": "COMPLETED",
+  "joint_exit_code": 0,
+  "joint_end": 1793246074.6907597,
+  "end": 1793246074.8535016
+}

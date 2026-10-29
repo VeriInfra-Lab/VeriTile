@@ -1,0 +1,77 @@
+{
+  "status": "PASS_WITH_RECORDED_LIMITS",
+  "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+  "start": 1793243534.4515562,
+  "end": 1793243613.132278,
+  "python": {
+    "targeted": {
+      "status": "PASS",
+      "tests": 347
+    },
+    "full": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 592,
+      "errors": 1
+    }
+  },
+  "raw_bodies": [
+    {
+      "name": "raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+      "log": "/tmp/persistent111-raw-body-check.log",
+      "status": "PASS"
+    }
+  ],
+  "cpu": {
+    "status": "PASS",
+    "scope": "Full Python module AST restoration permits only the existing row-index multiplication operand commutation. No GPU or numerical execution.",
+    "pair_checker": {
+      "name": "full-pair-source-check",
+      "command": [
+        "python3",
+        "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/check_pair_source.py"
+      ],
+      "exit_code": 0,
+      "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+      "log": "/tmp/persistent111-full-pair-source-check.log"
+    },
+    "public_statements": "Public Real/FP readers, contracts and existing Python files are text-identical, including all parameters and premises."
+  },
+  "torch": {
+    "name": "torch-dependencies",
+    "command": [
+      "python3",
+      "-c",
+      "import torch; import triton"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-torch-dependencies.log",
+    "status": "UNAVAILABLE",
+    "reason": "The retained Torch source checker requires absent Torch/Triton. No GPU or numerical experiment was run."
+  },
+  "original_python_and_contracts": {
+    "status": "PASS",
+    "sha256": {
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Contract.lean": "56b0abc694bb706d04a0e41182ba02fcde6c84bb91be8fa0e27657c9c4a0fada",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Correct.lean": "b1300deb7bed533a972649c0f3168c014558b1848f0dd6b8e94352a45528f063",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/FPEquiv.lean": "40043ce50fbe32083a93554fc2ad11dcb564ff4d753134ef1e7b3da6678a1be5",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/matmul_persistent_triton_reordered.py": "b06a0018b927fa23f159e92a9084825e8d68865b3f4fc2da64f89143adb4a0ab",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/matmul_persistent_triton_scalar_cast.py": "cbc4b8cf640d36422da090fe981e5d84a1d5a7f3e686e6b7842a43271ef875b6"
+    }
+  },
+  "comparator": {
+    "attempts": 50,
+    "statuses": [
+      "UNAVAILABLE"
+    ]
+  },
+  "scope": "Exact frozen source. Complete persistent source execution, integer Boolean promotion, trace safety, full grid/frame, independent Real mathematics and actual FP pairs are verified separately by Lean; body tests are source correspondence checks, not hardware/numerical evidence."
+}

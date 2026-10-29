@@ -1,0 +1,10 @@
+Auto packing the repository in background for optimum performance.
+See "git help gc" for manual housekeeping.
+[codex/body-copy-cache-and-constexpr 3ac09beb9] Copy persistent matmul Python bodies and prove signed schedules
+ 31 files changed, 1234 insertions(+), 424 deletions(-)
+ rewrite bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Kernels.lean (84%)
+ create mode 100644 bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/check_pair_source.py
+ create mode 100644 bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/jit-correspondence.json
+ create mode 100644 bench/tests/BoolArithmeticBody.lean
+ create mode 100644 bench/tests/test_persistent_matmul_body.py
+ create mode 100644 bench/tritonbench_g/matmul_persistent_triton/Types.lean

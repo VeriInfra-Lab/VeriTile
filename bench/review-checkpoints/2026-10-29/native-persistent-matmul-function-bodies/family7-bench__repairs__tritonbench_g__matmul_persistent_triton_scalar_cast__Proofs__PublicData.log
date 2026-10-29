@@ -1,0 +1,7 @@
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.PublicData.mathematical: definition does not reference [VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.executeGrid,
+ VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.program,
+ VeriTile.Bench.Repairs.MatmulPersistentTriton.Source.run] — non-circular ✓
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.PublicData.result: definition does not reference [VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.executeGrid,
+ VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.program,
+ VeriTile.Bench.Repairs.MatmulPersistentTriton.Source.run,
+ VeriTile.Bench.Repairs.MatmulPersistentTriton.Source.accumulator] — non-circular ✓

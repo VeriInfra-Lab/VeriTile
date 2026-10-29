@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Pair.invoke_equal: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])

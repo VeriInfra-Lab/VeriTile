@@ -1,0 +1,8 @@
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.written_post: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.suffix_post: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.suffix_registers: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

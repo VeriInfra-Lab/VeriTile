@@ -1,0 +1,12 @@
+VeriTile.Bench.Repairs.CrossEntropy1.Schedule.freeze_reads: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.CrossEntropy1.Schedule.fixed_output: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.CrossEntropy1.Schedule.fixed_frame: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.CrossEntropy1.Grid.forward_outputs: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.CrossEntropy1.Grid.forward_complete_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.CrossEntropy1.Grid.forward_frozen: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

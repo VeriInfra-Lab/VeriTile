@@ -1,0 +1,61 @@
+{
+  "status": "FAIL",
+  "start": 1793240579.1605775,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Execution",
+      "source_sha256": "4c324c3c8bea9cb93864b687236643793ed14e3fc14877e58a0c75a8bc339d29",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793240579.1607232,
+      "end": 1793240583.912721,
+      "log": "/tmp/persistent111-family7-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Execution.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.RawKernel",
+      "source_sha256": "9a42967eafc7079d45c5bcb6e4f93ccdd022675252c35c74a99250603fa2e3a5",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793240583.9129858,
+      "end": 1793240586.7441223,
+      "log": "/tmp/persistent111-family7-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__RawKernel.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.IO",
+      "source_sha256": "1cb942856e6d13d8580850ed3a423fba5b39062ec4189946a310eadde2ebdf83",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793240586.7443993,
+      "end": 1793240589.6167064,
+      "log": "/tmp/persistent111-family7-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__IO.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.PublicData",
+      "source_sha256": "a83381b6c75b87665bf59e8a2538103da10371bcfd4d7414f5a7b39444c4b06c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793240589.616961,
+      "end": 1793240592.1891232,
+      "log": "/tmp/persistent111-family7-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Proofs__PublicData.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.InputConnection",
+      "source_sha256": "e2af259a23e2f7b425427b6bb230e6dbaa9fa6765a43ffbc02184e7fc8d4876b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793240592.189403,
+      "end": 1793240594.8840501,
+      "log": "/tmp/persistent111-family7-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Proofs__InputConnection.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.SafetyAccess",
+      "source_sha256": "b232d5da36426dbcc0ef9cfff9352879a95979bfe986e7ce29cb1e6159b83171",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793240594.884359,
+      "end": 1793240608.262096,
+      "log": "/tmp/persistent111-family7-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Proofs__SafetyAccess.log"
+    }
+  ],
+  "end": 1793240608.2623148
+}

@@ -1,0 +1,802 @@
+[
+  {
+    "name": "VeriTile__Triton__DSL__Expansion__Common-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "VeriTile/Triton/DSL/Expansion/Common.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-VeriTile__Triton__DSL__Expansion__Common-comparator.log",
+    "file": "VeriTile/Triton/DSL/Expansion/Common.lean",
+    "sha256": "12582daa4110c4601f6654b54ccd9a5f51e5dd434626d3958fdc15124965e065",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "VeriTile__Triton__DSL__Expansion__Main-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "VeriTile/Triton/DSL/Expansion/Main.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-VeriTile__Triton__DSL__Expansion__Main-comparator.log",
+    "file": "VeriTile/Triton/DSL/Expansion/Main.lean",
+    "sha256": "c669fe4a5ad4f483936e11a6e43dda66cf106003e10def2f972757eae37c49de",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Compose-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Compose.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Compose-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Compose.lean",
+    "sha256": "710725130d020ab006de96069112f4740cd5a12b1d1fb152198fb74218f14990",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Contract-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Contract.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Contract-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Contract.lean",
+    "sha256": "56b0abc694bb706d04a0e41182ba02fcde6c84bb91be8fa0e27657c9c4a0fada",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Coordinates-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Coordinates.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Coordinates-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Coordinates.lean",
+    "sha256": "b61bab13b1747d90358a45ca469ee3774c877fb1b547dd03a684743a36cd9268",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Correct-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Correct.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Correct-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Correct.lean",
+    "sha256": "b1300deb7bed533a972649c0f3168c014558b1848f0dd6b8e94352a45528f063",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Execution-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Execution.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Execution-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Execution.lean",
+    "sha256": "4c324c3c8bea9cb93864b687236643793ed14e3fc14877e58a0c75a8bc339d29",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__FPEquiv-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/FPEquiv.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__FPEquiv-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/FPEquiv.lean",
+    "sha256": "40043ce50fbe32083a93554fc2ad11dcb564ff4d753134ef1e7b3da6678a1be5",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Geometry-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Geometry.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Geometry-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Geometry.lean",
+    "sha256": "99559b3ac8ec347e93749fe5757c28090fdd9e8b9388cd18e32b3a7554429295",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__IO-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/IO.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__IO-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/IO.lean",
+    "sha256": "1cb942856e6d13d8580850ed3a423fba5b39062ec4189946a310eadde2ebdf83",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Inner-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Inner.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Inner-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Inner.lean",
+    "sha256": "943093ed289c901a2fcedc3da5077b2a756fb5932e127a9a5e47d7e6660ab389",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Kernels-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Kernels.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Kernels-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Kernels.lean",
+    "sha256": "3dc4fc469ac77c2b035a96b0f084cf5761a6ca2b3ee1e8038b7db51f2c3bd92b",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Loop-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Loop.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Loop-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Loop.lean",
+    "sha256": "513acfcd1e4eac2a142b1a3dc676e0c40d6660110e6f608f6c831d832fe57baf",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Misc__Audit-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Misc/Audit.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Misc__Audit-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Misc/Audit.lean",
+    "sha256": "d705604d58c6db45713236478c684af4fe372c42db35c847042e957dfc60f1ed",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Misc__CandidateCorrect-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Misc/CandidateCorrect.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Misc__CandidateCorrect-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Misc/CandidateCorrect.lean",
+    "sha256": "5efb62c9f2ff903b97abd4022ee711ada5131b651f516d29a1cfaf372528d0bb",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Misc__NativeCorrect-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Misc/NativeCorrect.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Misc__NativeCorrect-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Misc/NativeCorrect.lean",
+    "sha256": "7c3a75fdb07250d86527ffbe5b729c83a1556ffd42ce50821b0ee4e54ed35fc2",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Misc__TensorBridge-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Misc/TensorBridge.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Misc__TensorBridge-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Misc/TensorBridge.lean",
+    "sha256": "aaf92c1c373d87de5e7bd5b85284dcd37ffafd0f4340dd0a97f5c0bd1231ec63",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Model-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Model.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Model-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Model.lean",
+    "sha256": "868b75144c46c382e7be85547e793d372516509b262a1cf0bbc3f1cfd4b57b3d",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Native-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Native.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Native-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Native.lean",
+    "sha256": "538489b73a62e064b018ace1b96b2a0224838a5a842fe698df9ba3d2b49c85e3",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Outer-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Outer.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Outer-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Outer.lean",
+    "sha256": "8438c775c4b5e5a8256c4d955715f3a3ecb05bc1fd962ca6b3134d236f7324ee",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__PairIO-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/PairIO.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__PairIO-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/PairIO.lean",
+    "sha256": "8c02761e604d622c525e4c4f102a3cd67c1b84126b82b4e49dcbbd463d05cb86",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Physical-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Physical.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Physical-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Physical.lean",
+    "sha256": "42ef90726827134331ad177754787d7264f3e915b7688bc858b2091462d0461a",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Pointer-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Pointer.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Pointer-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Pointer.lean",
+    "sha256": "7ee19fac315de2c3c267eb92e56a54420ccd4c21c70cd0d96984f7e3de352a21",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__PrefixExecution-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/PrefixExecution.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__PrefixExecution-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/PrefixExecution.lean",
+    "sha256": "d317e447a941a91f1c79c4f695b6bd2146ab346643ef29ccfab6b16bdbaf47a5",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Prelude-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Prelude.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Prelude-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Prelude.lean",
+    "sha256": "a8ee41b16d5ad338b7a089e5b78a0f2e4dd6329a0b6bd115cc7e8793ccb07143",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Proofs__IOBounds-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Proofs/IOBounds.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Proofs__IOBounds-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Proofs/IOBounds.lean",
+    "sha256": "7e5b0ffa7abd421157922a750f18dd4580acb0bab59c2466b2b35c1626f54471",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Proofs__InputConnection-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Proofs/InputConnection.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Proofs__InputConnection-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Proofs/InputConnection.lean",
+    "sha256": "e2af259a23e2f7b425427b6bb230e6dbaa9fa6765a43ffbc02184e7fc8d4876b",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Proofs__KernelNativeResult-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Proofs/KernelNativeResult.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Proofs__KernelNativeResult-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Proofs/KernelNativeResult.lean",
+    "sha256": "131941b02af8126bae7531af24f5b02b949fb7f4bec63d02e7fe7359c4b7be6b",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Proofs__KernelRealResult-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Proofs/KernelRealResult.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Proofs__KernelRealResult-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Proofs/KernelRealResult.lean",
+    "sha256": "733f8450cdc25900ceb978fe917634eaa93b4ca5502f0f968303e71f9a9a3242",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Proofs__LogicalIO-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Proofs/LogicalIO.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Proofs__LogicalIO-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Proofs/LogicalIO.lean",
+    "sha256": "057a2ea8a0860e8317da455227d8e9fcc4a82995ae7a268a0d0dfca106552911",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Proofs__Pair-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Proofs/Pair.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Proofs__Pair-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Proofs/Pair.lean",
+    "sha256": "c34cd8b3ff9169c8dc3aec77c60da215b5ba860f60ae445f1c2788094dd82e43",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Proofs__PairIO-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Proofs/PairIO.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Proofs__PairIO-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Proofs/PairIO.lean",
+    "sha256": "c0bed46e3a40af78ba7bc99adccde7aa7563ca96a5ff85a81791bd1a1ee9d3f4",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Proofs__PublicData-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Proofs/PublicData.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Proofs__PublicData-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Proofs/PublicData.lean",
+    "sha256": "a83381b6c75b87665bf59e8a2538103da10371bcfd4d7414f5a7b39444c4b06c",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Proofs__PublicResult-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Proofs/PublicResult.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Proofs__PublicResult-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Proofs/PublicResult.lean",
+    "sha256": "f50009d5e728b8a9ca4981ffd8f0fa8c5cb1abfdc2c27fe0dcf054a336b14283",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Proofs__SafetyAccess-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Proofs/SafetyAccess.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Proofs__SafetyAccess-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Proofs/SafetyAccess.lean",
+    "sha256": "b2bac37698f078ab2a22f8ebc82bb0bc709143aea8a00d3f9ad768116335169f",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Proofs__SafetyLoops-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Proofs/SafetyLoops.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Proofs__SafetyLoops-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Proofs/SafetyLoops.lean",
+    "sha256": "ce2669c10acd9dc2073ab59df6b435ee8d26a850f6a8da600bebc4612d078c28",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Proofs__SafetySteps-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Proofs/SafetySteps.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Proofs__SafetySteps-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Proofs/SafetySteps.lean",
+    "sha256": "8f2248cb9ee30a1630eb65c87b9cd5579a357041d67ddb6afe9fe1b84616561f",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Public-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Public.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Public-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Public.lean",
+    "sha256": "89756cd4c8d414228deaabb7c5fa005549d7c6ce5b43653e0e064660f07b5aa5",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__RawKernel-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/RawKernel.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__RawKernel-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/RawKernel.lean",
+    "sha256": "9a42967eafc7079d45c5bcb6e4f93ccdd022675252c35c74a99250603fa2e3a5",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Registers-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Registers.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Registers-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Registers.lean",
+    "sha256": "b96613432fbef28dcc49bec3e11c38cd4feb842060361359cc8ad3f0d7056166",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Setup-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Setup.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Setup-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Setup.lean",
+    "sha256": "a26618c805ad517eecff77a90f661782ede505bb56d146d06105ed151fc5950c",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Store-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Store.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Store-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Store.lean",
+    "sha256": "113a1d7502ae1c902f35a8699924b79f2c6dcb102e5dce1a4ce4c756d2b11ea6",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Suffix-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Suffix.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Suffix-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Suffix.lean",
+    "sha256": "028db4fae856c458d48f2048f5b44e5881434c11e351a5f3facc93973e77364a",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Targets-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Targets.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Targets-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Targets.lean",
+    "sha256": "6115c41bbfa05007970a10b4dfd12372e411a353dadaf5c426e097237bf7eb52",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Tensor-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Tensor.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Tensor-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Tensor.lean",
+    "sha256": "63485f5d05176b06cc5fa1e45efa4f8cc7f84aaab316725bcf840f1ad74a3422",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Tile-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Tile.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Tile-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Tile.lean",
+    "sha256": "24b20e6a05cb17ea5eb62f30fc5a5451279aee89fa6aea2da5d9958b24411f0b",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Values-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Values.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Values-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Values.lean",
+    "sha256": "f49201211734600f893923eb3a543d49ad6808738a220f9b8ddec1ce9131a9f3",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__tests__BoolArithmeticBody-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/tests/BoolArithmeticBody.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__tests__BoolArithmeticBody-comparator.log",
+    "file": "bench/tests/BoolArithmeticBody.lean",
+    "sha256": "79c871659d6fced4acc9513537257c49babc66c7b599bd93c0aeda8720249719",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__tritonbench_g__matmul_persistent_triton__Proofs__Source-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/tritonbench_g/matmul_persistent_triton/Proofs/Source.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__tritonbench_g__matmul_persistent_triton__Proofs__Source-comparator.log",
+    "file": "bench/tritonbench_g/matmul_persistent_triton/Proofs/Source.lean",
+    "sha256": "d8c22e29b19aa185cc49235f9ac68d90c54cf328fcb6860c261598469eda6dcc",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__tritonbench_g__matmul_persistent_triton__Types-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/tritonbench_g/matmul_persistent_triton/Types.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3ac09beb9da8fe5ceab10a2c855c683a67e45afd",
+    "log": "/tmp/persistent111-bench__tritonbench_g__matmul_persistent_triton__Types-comparator.log",
+    "file": "bench/tritonbench_g/matmul_persistent_triton/Types.lean",
+    "sha256": "f321949795bd68aef318155f622227f055c228e746549b47762a047635c77740",
+    "status": "UNAVAILABLE"
+  }
+]

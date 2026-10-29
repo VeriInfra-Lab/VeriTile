@@ -1,0 +1,16 @@
+{
+  "status": "FAIL",
+  "start": 1793238507.2368832,
+  "results": [
+    {
+      "module": "Probe",
+      "source_sha256": "cf3fe1dd17324c68fcc74fd828727582fda5125fd228106deb6f89f6a321596d",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793238507.237149,
+      "end": 1793238510.5454276,
+      "log": "/tmp/persistent111-probe-Probe.log"
+    }
+  ],
+  "end": 1793238510.545846
+}

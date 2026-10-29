@@ -1,0 +1,13 @@
+/tmp/persistent111-frontend/bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Public.lean:22:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Public.target_zero`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Public.complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Physical.Bindings: definition does not reference [VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Public.invoke,
+ VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Targets.result] — non-circular ✓
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.TensorBinding.Laws: definition does not reference [VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Public.invoke,
+ VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Targets.result] — non-circular ✓

@@ -1,0 +1,15 @@
+/tmp/persistent111-frontend/bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Proofs/BlockWordSource.lean:14:40: warning: unused variable `m`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/persistent111-frontend/bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Proofs/BlockWordSource.lean:14:44: warning: unused variable `k`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/persistent111-frontend/bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Proofs/BlockWordSource.lean:14:48: warning: unused variable `n`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.BlockWord.original_decomposition: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.BlockWord.source_boundaries: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

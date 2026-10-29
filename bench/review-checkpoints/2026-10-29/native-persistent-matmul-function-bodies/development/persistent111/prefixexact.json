@@ -1,0 +1,8 @@
+{
+  "status": "FAIL",
+  "start": 1793240359.5798378,
+  "source_sha256": "6080731080918caa7cb0d3a5b857e78f1ed7bc850f7cf1acf142c79840d50fab",
+  "scope": "Explicit signed control projections plus independent integer schedule identities, copied stable prefixprobe dependencies; not family acceptance.",
+  "exit_code": 1,
+  "end": 1793240422.780948
+}

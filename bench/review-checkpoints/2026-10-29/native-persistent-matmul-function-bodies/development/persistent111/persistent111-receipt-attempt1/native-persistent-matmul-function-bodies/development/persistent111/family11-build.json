@@ -1,0 +1,97 @@
+{
+  "status": "PASS",
+  "start": 1793240980.245145,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.PairIO",
+      "source_sha256": "c0bed46e3a40af78ba7bc99adccde7aa7563ca96a5ff85a81791bd1a1ee9d3f4",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793240980.245325,
+      "end": 1793240986.733543,
+      "log": "/tmp/persistent111-family11-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Proofs__PairIO.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.FPEquiv",
+      "source_sha256": "40043ce50fbe32083a93554fc2ad11dcb564ff4d753134ef1e7b3da6678a1be5",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793240986.7338264,
+      "end": 1793240993.099755,
+      "log": "/tmp/persistent111-family11-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__FPEquiv.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Misc.NativeCorrect",
+      "source_sha256": "7c3a75fdb07250d86527ffbe5b729c83a1556ffd42ce50821b0ee4e54ed35fc2",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793240993.100011,
+      "end": 1793240996.219291,
+      "log": "/tmp/persistent111-family11-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Misc__NativeCorrect.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.KernelRealResult",
+      "source_sha256": "733f8450cdc25900ceb978fe917634eaa93b4ca5502f0f968303e71f9a9a3242",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793240996.2196965,
+      "end": 1793240999.236238,
+      "log": "/tmp/persistent111-family11-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Proofs__KernelRealResult.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.KernelNativeResult",
+      "source_sha256": "131941b02af8126bae7531af24f5b02b949fb7f4bec63d02e7fe7359c4b7be6b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793240999.2364953,
+      "end": 1793241002.2151806,
+      "log": "/tmp/persistent111-family11-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Proofs__KernelNativeResult.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Physical",
+      "source_sha256": "42ef90726827134331ad177754787d7264f3e915b7688bc858b2091462d0461a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793241002.2154646,
+      "end": 1793241004.9648337,
+      "log": "/tmp/persistent111-family11-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Physical.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Public",
+      "source_sha256": "89756cd4c8d414228deaabb7c5fa005549d7c6ce5b43653e0e064660f07b5aa5",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793241004.9652033,
+      "end": 1793241008.0404618,
+      "log": "/tmp/persistent111-family11-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Public.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Misc.TensorBridge",
+      "source_sha256": "aaf92c1c373d87de5e7bd5b85284dcd37ffafd0f4340dd0a97f5c0bd1231ec63",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793241008.0407176,
+      "end": 1793241011.454716,
+      "log": "/tmp/persistent111-family11-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Misc__TensorBridge.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Misc.Audit",
+      "source_sha256": "d705604d58c6db45713236478c684af4fe372c42db35c847042e957dfc60f1ed",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793241011.4549847,
+      "end": 1793241019.8796186,
+      "log": "/tmp/persistent111-family11-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Misc__Audit.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Misc.CandidateCorrect",
+      "source_sha256": "5efb62c9f2ff903b97abd4022ee711ada5131b651f516d29a1cfaf372528d0bb",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793241019.8798974,
+      "end": 1793241022.7168982,
+      "log": "/tmp/persistent111-family11-bench__repairs__tritonbench_g__matmul_persistent_triton_scalar_cast__Misc__CandidateCorrect.log"
+    }
+  ],
+  "end": 1793241022.7171304
+}

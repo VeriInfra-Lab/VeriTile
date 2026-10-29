@@ -1,0 +1,10 @@
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Pointer.scalar_bounds: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Pointer.a_offset_pointer: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Pointer.b_offset_pointer: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Pointer.c_offset_pointer: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/tmp/record_persistent111_review.py", line 83, in <module>
+    assert set(Path('/tmp/persistent111-focused-modules.txt').read_text().split())<=set(mods)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

@@ -1,0 +1,8 @@
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.programExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.gridExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Targets.result: definition does not reference [VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.program,
+ VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.executeGrid] — non-circular ✓

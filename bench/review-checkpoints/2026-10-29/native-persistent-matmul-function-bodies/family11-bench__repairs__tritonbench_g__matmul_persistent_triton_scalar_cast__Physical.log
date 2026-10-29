@@ -1,0 +1,11 @@
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Physical.materialize_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Physical.materialize_values: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Physical.tensor_read: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Physical.Bindings: definition does not reference [VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Targets.result,
+ VeriTile.Bench.Repairs.MatmulPersistentTriton.Source.run,
+ VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.executeGrid] — non-circular ✓

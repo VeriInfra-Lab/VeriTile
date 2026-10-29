@@ -1,0 +1,8 @@
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Targets.accumulation: axiom footprint ⊆ standard base ✓  ([Quot.sound])
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Targets.source_result: axiom footprint ⊆ standard base ✓  ([Quot.sound,
+ propext])
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Targets.real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Targets.result: definition does not reference [VeriTile.Bench.Repairs.MatmulPersistentTriton.Source.run,
+ VeriTile.Bench.Repairs.MatmulPersistentTriton.Source.accumulator] — non-circular ✓

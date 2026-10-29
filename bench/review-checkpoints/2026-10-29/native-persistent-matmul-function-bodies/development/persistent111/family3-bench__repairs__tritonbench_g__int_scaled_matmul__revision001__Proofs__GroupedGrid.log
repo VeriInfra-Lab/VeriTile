@@ -1,0 +1,18 @@
+VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.GroupedGrid.facts: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.GroupedGrid.bounds: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.GroupedGrid.row_group: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.GroupedGrid.injective: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.GroupedGrid.bijective: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.GroupedGrid.covers: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

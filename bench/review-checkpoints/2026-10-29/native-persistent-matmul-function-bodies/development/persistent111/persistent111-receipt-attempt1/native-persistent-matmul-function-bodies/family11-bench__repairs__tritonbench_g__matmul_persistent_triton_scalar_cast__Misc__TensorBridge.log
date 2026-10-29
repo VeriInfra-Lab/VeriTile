@@ -1,0 +1,14 @@
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.TensorBridge.correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.MatmulPersistentTriton.RealMath.formula: definition does not reference [VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Public.invoke,
+ VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.executeGrid,
+ VeriTile.Bench.Repairs.MatmulPersistentTriton.Source.run] — non-circular ✓
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.TensorBridge.fp_equiv: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.MatmulPersistentTriton.Floating.LocalPorts: definition does not reference [VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Public.invoke,
+ VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.executeGrid,
+ VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Targets.result,
+ VeriTile.Bench.Repairs.MatmulPersistentTriton.Source.run,
+ VeriTile.Bench.Repairs.MatmulPersistentTriton.Source.accumulator] — non-circular ✓

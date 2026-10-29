@@ -1,0 +1,16 @@
+{
+  "status": "FAIL",
+  "start": 1793239015.8748877,
+  "results": [
+    {
+      "module": "bench.tests.BoolArithmeticBody",
+      "source_sha256": "74723fc6bcc2284f7402e52a7f36a2aebfdaa8adbaece3507ef79c9a61b63084",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793239015.87512,
+      "end": 1793239032.2262511,
+      "log": "/tmp/persistent111-family2-bench__tests__BoolArithmeticBody.log"
+    }
+  ],
+  "end": 1793239032.226515
+}

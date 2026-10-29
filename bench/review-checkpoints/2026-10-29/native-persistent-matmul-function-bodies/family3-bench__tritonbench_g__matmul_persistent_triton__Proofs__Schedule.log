@@ -1,0 +1,31 @@
+/tmp/persistent111-frontend/bench/tritonbench_g/matmul_persistent_triton/Proofs/Schedule.lean:12:15: warning: unused variable `rows`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/persistent111-frontend/bench/tritonbench_g/matmul_persistent_triton/Proofs/Schedule.lean:33:29: warning: This simp argument is unused:
+  Nat.add_mul
+
+Hint: Omit it from the simp argument list.
+  simp only [Nat.succ_mul, Nat.a̵d̵d̵_̵m̵u̵l̵,̵ ̵N̵a̵t̵.̵one_mul] at hmul
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/persistent111-frontend/bench/tritonbench_g/matmul_persistent_triton/Proofs/Schedule.lean:33:42: warning: This simp argument is unused:
+  Nat.one_mul
+
+Hint: Omit it from the simp argument list.
+  simp only [Nat.succ_mul, Nat.add_mul,̵ ̵N̵a̵t̵.̵o̵n̵e̵_̵m̵u̵l̵] at hmul
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/persistent111-frontend/bench/tritonbench_g/matmul_persistent_triton/Proofs/Schedule.lean:42:31: warning: This simp argument is unused:
+  Nat.add_mul
+
+Hint: Omit it from the simp argument list.
+  simp only [Nat.succ_mul, Nat.a̵d̵d̵_̵m̵u̵l̵,̵ ̵N̵a̵t̵.̵one_mul] at hmul
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/persistent111-frontend/bench/tritonbench_g/matmul_persistent_triton/Proofs/Schedule.lean:42:44: warning: This simp argument is unused:
+  Nat.one_mul
+
+Hint: Omit it from the simp argument list.
+  simp only [Nat.succ_mul, Nat.add_mul,̵ ̵N̵a̵t̵.̵o̵n̵e̵_̵m̵u̵l̵] at hmul
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

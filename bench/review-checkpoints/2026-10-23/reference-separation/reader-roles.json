@@ -13737,9 +13737,8 @@
         }
       ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/matmul_persistent_triton.json",
-        "sha256": "3bf24c35029f1edaa3e2347dd6199ad15e527bd1bc43c91bddea22c4ad15b8e9",
-        "task": "matmul_persistent_triton"
+        "path": "bench/review-checkpoints/2026-10-29/native-persistent-matmul-function-bodies/review.json",
+        "sha256": "941942d72070b67fa89bc22c5c7b37a983dab926d19a717903c4701d0bfcbc34"
       },
       "change": null,
       "new_misc_entries": [],
@@ -13774,7 +13773,8 @@
         "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/matmul_persistent_triton.json",
         "sha256": "3bf24c35029f1edaa3e2347dd6199ad15e527bd1bc43c91bddea22c4ad15b8e9",
         "task": "matmul_persistent_triton"
-      }
+      },
+      "current_body_source_review": "The complete original and existing row-product-commuted Python bodies have four verbatim FP16/E4M3 mappings. All 16 top-level statements remain: int64 casts, simultaneous metadata assignments, Boolean ceiling arithmetic, persistent signed tile/K loops, clamped pointers, live FP32 dot and output-dtype branches. Full Python module AST restoration permits exactly the row-index product operand commutation. Original Python, public Real/FP readers and contracts remain unchanged. Exact signed prefix arithmetic derives all counts from source; complete grid execution, trace safety, outputs and exterior frames reconnect to independent full-K mathematics and the actual FP pair. Historical false AST preservation is removed and raw execution is proved directly. No new numerical assumption or public domain restriction is introduced."
     },
     {
       "task": "matmul_tma",

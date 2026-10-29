@@ -1,0 +1,7 @@
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.kernel_correct: statement's project surface ⊆ allowlist ✓
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.kernel_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.PublicData.mathematical: definition does not reference [VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.executeGrid,
+ VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.program,
+ VeriTile.Bench.Repairs.MatmulPersistentTriton.Source.run] — non-circular ✓

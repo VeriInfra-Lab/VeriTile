@@ -1,0 +1,37 @@
+/tmp/persistent111-frontend/bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Outer.lean:36:45: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  rangeInt (backend P) "ki" (↑0) (↑p.problem.kTiles) 1 (inner p) ↑setup
+in the target expression
+  (do
+      let __do_lift ← rangeInt (backend P) "ki" 0 (↑p.problem.kTiles) 1 (inner p) ↑setup
+      run (backend P) (tileSuffix p) __do_lift) =
+    some (suffixResult P p initial last (p.problem.tile pid ordinal))
+
+α : Type
+inst✝ : Inhabited α
+P : Source.Arithmetic α α
+p : Parameters
+b : Buffers
+initial : State α
+entry : Memory α
+pid ordinal : ℕ
+layout : Layout p.problem b
+strides : Strides p b
+inputs : Inputs p b initial entry
+zero : P.cast p.problem.profile P.accumulatorZero = P.inputZero
+regs : Registers p pid initial
+tileBound : p.problem.tile pid ordinal < p.problem.tiles
+setup : { t //
+  run (backend P) (tilePrelude p) (initial.setReg "tile_ordinal" TileDType.int [] fun x => ↑ordinal) = some t } :=
+  tilePreludeExecution P p pid ordinal initial regs
+invariant :
+  InnerInvariant P p initial (p.problem.tile pid ordinal) 0 ↑(tilePreludeExecution P p pid ordinal initial regs)
+registers : Registers p pid ↑(tilePreludeExecution P p pid ordinal initial regs)
+last : State α
+ran : rangeInt (backend P) "ki" (↑0) (↑p.problem.kTiles) 1 (inner p) ↑setup = some last
+inv : InnerInvariant P p initial (p.problem.tile pid ordinal) p.problem.kTiles last
+reg : Registers p pid last
+⊢ (do
+      let __do_lift ← rangeInt (backend P) "ki" 0 (↑p.problem.kTiles) 1 (inner p) ↑setup
+      run (backend P) (tileSuffix p) __do_lift) =
+    some (suffixResult P p initial last (p.problem.tile pid ordinal))
+/tmp/persistent111-frontend/bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Outer.lean:39:0: error: VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.outerExecution: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

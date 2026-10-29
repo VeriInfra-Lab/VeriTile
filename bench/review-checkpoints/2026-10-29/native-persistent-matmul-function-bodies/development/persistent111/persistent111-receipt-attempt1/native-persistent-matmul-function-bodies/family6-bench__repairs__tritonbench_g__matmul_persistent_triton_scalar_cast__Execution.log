@@ -1,0 +1,55 @@
+/tmp/persistent111-frontend/bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Execution.lean:73:45: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  rangeInt ?M ?name (↑?start) (↑?stop) 1 ?body ?s
+in the target expression
+  (do
+      let __do_lift ← rangeInt (backend P) "tile_ordinal" 0 (↑(p.problem.work pid)) 1 (outer p) ↑prepared
+      run (backend P) [] __do_lift) =
+    some final
+
+case refine_1
+α : Type
+inst✝ : Inhabited α
+P : Source.Arithmetic α α
+p : Parameters
+b : Buffers
+initial : State α
+entry : Memory α
+pid : ℕ
+layout : Layout p.problem b
+strides : Strides p b
+inputs : Inputs p b initial entry
+zero : P.cast p.problem.profile P.accumulatorZero = P.inputZero
+sms : 0 < p.problem.SMS
+pidBound : pid < p.problem.grid
+prepared : { t // run (backend P) (prelude p) (atProgram initial pid) = some t } :=
+  preludeExecution P p (atProgram initial pid)
+regs : Registers p pid ↑prepared
+memory : (↑prepared).mem = initial.mem
+ip : Inputs p b (↑prepared) entry
+single :
+  ∀ ordinal < p.problem.work pid,
+    ∀ (current : State α),
+      Outside { name := "C" } (↑prepared) current →
+        Registers p pid current →
+          ∃ final,
+            Compose.ordinal (backend P) "tile_ordinal" (outer p) ordinal current = some final ∧
+              Post { name := "C" } (logicalAddress p) (referenceValue P p b entry) (Owns p (p.problem.tile pid ordinal))
+                  current final ∧
+                Registers p pid final
+final : State α
+ran :
+  GridExecution.sequence (Compose.ordinal (backend P) "tile_ordinal" (outer p)) (List.range' 0 (p.problem.work pid))
+      ↑prepared =
+    some final
+post :
+  Post { name := "C" } (logicalAddress p) (referenceValue P p b entry)
+    (fun x => ∃ pid_1 ∈ List.range' 0 (p.problem.work pid), Owns p (p.problem.tile pid pid_1) x) (↑prepared) final
+ready : Registers p pid final
+⊢ (do
+      let __do_lift ← rangeInt (backend P) "tile_ordinal" 0 (↑(p.problem.work pid)) 1 (outer p) ↑prepared
+      run (backend P) [] __do_lift) =
+    some final
+/tmp/persistent111-frontend/bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Execution.lean:102:0: error: VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.programExecution: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/persistent111-frontend/bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Execution.lean:103:0: error: VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.gridExecution: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Targets.result: definition does not reference [VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.program,
+ VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core.executeGrid] — non-circular ✓
