@@ -10,7 +10,7 @@ def algorithmShapes : Stmt → List TileShape
   | .atomicAdd _ shape _ _ _ => [shape]
   | .atomicRMW _ _ shape _ _ _ _ _ => [shape]
   | .forLoop _ _ body | .forRange _ _ _ _ body | .forRangeDyn _ _ _ _ body
-    | .forRangeInt _ _ _ _ body | .ifThen _ body => algorithmListShapes body
+    | .forRangeInt _ _ _ _ body | .whileLoop _ body | .ifThen _ body => algorithmListShapes body
   | .ifThenElse _ left right => algorithmListShapes left ++ algorithmListShapes right
 def algorithmListShapes : List Stmt → List TileShape
   | [] => []
@@ -25,7 +25,7 @@ def statementShapes : ComputeStmt → List TileShape
   | .atomicRMW _ _ shape _ _ _ _ _ => [shape]
   | .effectMarker _ => []
   | .forLoop _ _ body | .forRange _ _ _ _ body | .forRangeDyn _ _ _ _ body
-    | .forRangeInt _ _ _ _ body | .ifThen _ body => statementListShapes body
+    | .forRangeInt _ _ _ _ body | .whileLoop _ body | .ifThen _ body => statementListShapes body
   | .ifThenElse _ left right => statementListShapes left ++ statementListShapes right
 def statementListShapes : List ComputeStmt → List TileShape
   | [] => []

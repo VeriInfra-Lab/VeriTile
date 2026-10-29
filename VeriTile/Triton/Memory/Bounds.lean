@@ -295,6 +295,9 @@ def MemorySafe (bounds : RegionBounds) : Stmt → Prop
   | .forRangeInt _ start stop step body =>
       start.MemorySafe bounds ∧ stop.MemorySafe bounds ∧ step.MemorySafe bounds ∧
         MemorySafeList bounds body
+  -- The legacy flattening contracts do not yet cover unbounded control flow.
+  -- Structural FP/Real execution uses Safety.stepSafe's reachable-state rule.
+  | .whileLoop _ _ => False
   | .ifThen cond body => cond.MemorySafe bounds ∧ MemorySafeList bounds body
   | .ifThenElse cond thenBody elseBody =>
       cond.MemorySafe bounds ∧

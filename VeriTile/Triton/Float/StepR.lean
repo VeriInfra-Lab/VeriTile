@@ -175,6 +175,10 @@ noncomputable def stepStmtR (R : RoundingModel) : Stmt → BlockState → Option
       let step' ← evalOpR R step s
       stepForRangeIntAuxR R idx (start'.data PUnit.unit) (stop'.data PUnit.unit)
         (step'.data PUnit.unit) body s
+  | .whileLoop cond body, s =>
+      Control.While.run
+        (fun current => (evalOpR R cond current).map (fun c => c.data PUnit.unit))
+        (stepStmtsR R body) s
   | .ifThen cond body, s => do
       let c ← evalOpR R cond s
       if c.data PUnit.unit then stepStmtsR R body s else some s
@@ -299,6 +303,16 @@ theorem stepStmtR_triv : ∀ (st : Stmt) (s : BlockState),
           | some step' =>
             exact stepForRangeIntAuxR_triv idx (start'.data PUnit.unit) (stop'.data PUnit.unit)
               (step'.data PUnit.unit) body s
+  | .whileLoop cond body, s => by
+      simp only [stepStmtR, stepStmt]
+      have guardEq : (fun current => (evalOpR .triv cond current).map (fun c => c.data PUnit.unit)) =
+          (fun current => (evalOp cond current).map (fun c => c.data PUnit.unit)) := by
+        funext current
+        rw [evalOpR_triv]
+      have bodyEq : stepStmtsR .triv body = stepStmts body := by
+        funext current
+        exact stepStmtsR_triv body current
+      rw [guardEq, bodyEq]
   | .ifThen cond body, s => by
       simp only [stepStmtR, stepStmt, evalOpR_triv cond s, stepStmtsR_triv body s]
   | .ifThenElse cond thenBody elseBody, s => by

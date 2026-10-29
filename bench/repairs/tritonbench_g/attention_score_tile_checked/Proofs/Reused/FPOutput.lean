@@ -26,8 +26,8 @@ def executes (M : Algebra α) (dot : Dot α) (B D : Nat) (p : RealSource.Paramet
     {t : State α // run (engine (withDot M dot)) (parts B D p).after current=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [parts,kernel,RealSource.source,TypedSource.original,
-    ComputeKernel.surfaceBody,Source.dynamicRange?,Source.prefixBefore,Option.map,Option.getD,
+  simp [parts,FPEngine.kernel,RealSource.source,TypedSource.original,Whole002.TypedSource.widened,
+    ComputeKernel.surfaceBody,Source.intRange?,Source.prefixBefore,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,
@@ -46,31 +46,35 @@ theorem memory (M : Algebra α) (dot : Dot α) (B D : Nat) (p : RealSource.Param
   simp [executes,written,masked_scatter_memory,ctx.memory,active,address,value,
     FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,
     Nat.add_assoc,Nat.add_comm,Nat.add_left_comm]
+  simp only [← Int.natCast_add, ← Int.natCast_mul, ← Int.natCast_ediv,
+    ← Int.natCast_emod, Int.toNat_natCast, Int.ofNat_lt]
+  simp only [Nat.add_assoc, Nat.add_comm, Nat.add_left_comm]
 
 theorem source_parts (B D : Nat) (p : RealSource.Parameters) :
-    (kernel B D p).surfaceBody=(parts B D p).before ++
-      [.forRangeDyn "start_m" (parts B D p).start (parts B D p).stop (parts B D p).stride (parts B D p).body] ++
+    (FPEngine.kernel B D p).surfaceBody=(parts B D p).before ++
+      [.forRangeInt "start_m" (parts B D p).start (parts B D p).stop (parts B D p).stride (parts B D p).body] ++
       (parts B D p).after := rfl
 
 /-- The entire actual typed source runs and returns precisely the finite masked
 stores of the independently defined ordered primitive recurrence. -/
-theorem source_memory (M : Algebra α) (dot : Dot α) (B D : Nat) (p : RealSource.Parameters) (s : State α) :
-    ∃ t, FP.Structural.exec (engine (withDot M dot)) (kernel B D p) s=some t ∧
+theorem source_memory (M : Algebra α) (dot : Dot α) (B D : Nat) (p : RealSource.Parameters) (s : State α)
+    (keyOffsetBound : s.pids 0*B < 2147483648) :
+    ∃ t, FP.Structural.exec (engine (withDot M dot)) (FPEngine.kernel B D p) s=some t ∧
       t.mem=(written M B p s (FPLoop.accumulated M dot B D p s)).mem := by
   let start := FPEntry.executes M dot B D p s
-  obtain ⟨mid,hm,row,hc⟩ := FPLoop.executes M dot B D p s start.val (entry_context M dot B D p s)
+  obtain ⟨mid,hm,row,hc⟩ := FPLoop.executes M dot B D p s start.val (entry_context M dot B D p s keyOffsetBound)
   let finish := executes M dot B D p s mid row (FPLoop.accumulated M dot B D p s) hc
   refine ⟨finish.val,?_,memory M dot B D p s mid row _ hc⟩
   have hl : step (engine (withDot M dot))
-      (.forRangeDyn "start_m" (parts B D p).start (parts B D p).stop (parts B D p).stride (parts B D p).body)
+      (.forRangeInt "start_m" (parts B D p).start (parts B D p).stop (parts B D p).stride (parts B D p).body)
       start.val=some mid := by
-    have h0 : (parts B D p).start=.ref .nat [] "lo" := rfl
-    have hn : (parts B D p).stop=.ref .nat [] "hi" := rfl
+    have h0 : (parts B D p).start=.ref .int [] "lo" := rfl
+    have hn : (parts B D p).stop=.ref .int [] "hi" := rfl
     have hb : (parts B D p).stride=.constNat B := rfl
-    have hlo : start.val.regs .nat [] "lo"=some (fun _ => 0) := (FPLoop.entry_limits M dot B D p s).1
-    have hhi : start.val.regs .nat [] "hi"=some (fun _ => p.queryContext) := (FPLoop.entry_limits M dot B D p s).2
+    have hlo : start.val.regs .int [] "lo"=some (fun _ => 0) := (FPLoop.entry_limits M dot B D p s).1
+    have hhi : start.val.regs .int [] "hi"=some (fun _ => (p.queryContext : Int)) := (FPLoop.entry_limits M dot B D p s).2
     simpa only [step,h0,hn,hb,evalOp_unfold,hlo,hhi,Option.bind,Option.bind_some] using hm
-  change run (engine (withDot M dot)) (kernel B D p).surfaceBody s=some finish.val
+  change run (engine (withDot M dot)) (FPEngine.kernel B D p).surfaceBody s=some finish.val
   rw [source_parts,List.append_assoc,run_append,start.property]
   simp only [Option.bind_some,List.singleton_append,run,hl,bind,finish.property]
 

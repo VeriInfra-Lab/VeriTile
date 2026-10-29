@@ -11,11 +11,11 @@ def target (c : Shape) (s : BlockState) (offset size : Int) (scale : ℝ)
   LogicalFormula.column (inputs c s z.val h.val) scale c.N window complement offset size j.val
 
 theorem grid_tensor (c : Shape) (s : BlockState) (offset size : Int) (scale : ℝ)
-    (window complement : Bool) :
+    (window complement : Bool) (hOffsets : KeyOffsetsFit c) :
     ∃ t, run c offset size scale window complement (jobs c) s=some t ∧ InputsSame s t ∧
       ∀ (z : Fin c.Z) (h : Fin c.H) (j : Fin c.NK),
         t.readMem "out" (c.outputBase z.val h.val+j.val)=target c s offset size scale window complement z h j := by
-  obtain ⟨t,ht,hs,ho⟩ := whole_grid c s offset size scale window complement
+  obtain ⟨t,ht,hs,ho⟩ := whole_grid c s offset size scale window complement hOffsets
   refine ⟨t,ht,hs,?_⟩
   intro z h j
   obtain ⟨hb,hl,he⟩ := owner c j
@@ -25,11 +25,11 @@ theorem grid_tensor (c : Shape) (s : BlockState) (offset size : Int) (scale : �
   simpa [target,address,job,lane,Nat.add_assoc,he] using hv
 
 theorem invoke_frame (c : Shape) (s t : BlockState) (offset size : Int) (scale : ℝ)
-    (window complement : Bool) (job : Job c)
+    (window complement : Bool) (hOffsets : KeyOffsetsFit c) (job : Job c)
     (hrun : invoke c offset size scale window complement job s=some t)
     (r : RegionName) (a : Nat) (hf : r≠"out" ∨ c.outputSize≤a) : t.mem r a=s.mem r a := by
   obtain ⟨u,hu,_,hframe⟩ := DenseSource.executes c s job.2.2.val job.1.val job.2.1
-    offset size scale window complement
+    offset size scale window complement (hOffsets job.2.2)
   have he : u=t := Option.some.inj (hu.symm.trans hrun)
   subst t
   apply hframe r a
@@ -42,7 +42,7 @@ theorem invoke_frame (c : Shape) (s t : BlockState) (offset size : Int) (scale :
     simp only [Nat.add_assoc] at ha
     exact Nat.not_lt_of_ge ha hb
 
-theorem run_frame (c : Shape) (offset size : Int) (scale : ℝ) (window complement : Bool)
+theorem run_frame (c : Shape) (offset size : Int) (scale : ℝ) (window complement : Bool) (hOffsets : KeyOffsetsFit c)
     (order : List (Job c)) (s t : BlockState)
     (hrun : run c offset size scale window complement order s=some t)
     (r : RegionName) (a : Nat) (hf : r≠"out" ∨ c.outputSize≤a) : t.mem r a=s.mem r a := by
@@ -54,7 +54,7 @@ theorem run_frame (c : Shape) (offset size : Int) (scale : ℝ) (window compleme
       | none => simp [hi] at hrun
       | some u =>
           have hu : run c offset size scale window complement rest u=some t := by simpa [hi] using hrun
-          exact (ih u hu).trans (invoke_frame c s u offset size scale window complement job hi r a hf)
+          exact (ih u hu).trans (invoke_frame c s u offset size scale window complement hOffsets job hi r a hf)
 
 def zeroOutput (c : Shape) (s : BlockState) : BlockState :=
   {s with mem := fun r a => if r="out" ∧ a<c.outputSize then MemCell.real 0 else s.mem r a}
@@ -79,7 +79,7 @@ def hostRun (c : Shape) (s : BlockState) (offset size : Int) (scale : ℝ)
   else run c offset size scale window complement (jobs c) initialized
 
 theorem host_returned (c : Shape) (s : BlockState) (offset size : Int) (scale : ℝ)
-    (window complement : Bool) :
+    (window complement : Bool) (hOffsets : c.N ≠ 0 → c.outputSize ≠ 0 → KeyOffsetsFit c) :
     ∃ t, hostRun c s offset size scale window complement=some t ∧ InputsSame s t ∧
       (∀ (z : Fin c.Z) (h : Fin c.H) (j : Fin c.NK),
         t.readMem "out" (c.outputBase z.val h.val+j.val)=target c s offset size scale window complement z h j) ∧
@@ -100,7 +100,8 @@ theorem host_returned (c : Shape) (s : BlockState) (offset size : Int) (scale : 
       simp
     · rw [ho] at hb
       omega
-  · obtain ⟨t,ht,hs,hv⟩ := grid_tensor c (zeroOutput c s) offset size scale window complement
+  · have fits := hOffsets (by tauto) (by tauto)
+    obtain ⟨t,ht,hs,hv⟩ := grid_tensor c (zeroOutput c s) offset size scale window complement fits
     refine ⟨t,by simp [hostRun,hempty,ht],?_,?_,?_⟩
     · intro r a hr
       exact (hs r a hr).trans (zero_inputs c s r a hr)
@@ -108,7 +109,7 @@ theorem host_returned (c : Shape) (s : BlockState) (offset size : Int) (scale : 
       have ho := hv z h j
       simpa only [target,slice_same c s (zeroOutput c s) (zero_inputs c s)] using ho
     · intro r a hf
-      exact (run_frame c offset size scale window complement (jobs c) (zeroOutput c s) t ht r a hf).trans
+      exact (run_frame c offset size scale window complement fits (jobs c) (zeroOutput c s) t ht r a hf).trans
         (zframe r a hf)
 
 #guard_msgs (drop info) in

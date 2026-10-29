@@ -375,6 +375,7 @@ def flattenStmt (A : FlatAlloc) : Stmt → Stmt
   | .forRangeInt idx start stop step body =>
       .forRangeInt idx (A.flattenOp start) (A.flattenOp stop) (A.flattenOp step)
         (A.flattenStmts body)
+  | .whileLoop c body => .whileLoop (A.flattenOp c) (A.flattenStmts body)
   | .ifThen c body => .ifThen (A.flattenOp c) (A.flattenStmts body)
   | .ifThenElse c tb eb =>
       .ifThenElse (A.flattenOp c) (A.flattenStmts tb) (A.flattenStmts eb)
@@ -2549,6 +2550,8 @@ def Stmt.TraceSafe (bounds : RegionBounds) : Stmt → BlockState → Prop
             Stmt.forRangeIntTraceSafe bounds idx (a.data PUnit.unit)
               (b.data PUnit.unit) (c.data PUnit.unit) body s
         | _, _, _ => True)
+  -- Deliberately outside the legacy flattening proof fragment.
+  | .whileLoop _ _, _ => False
   | .ifThen c body, s =>
       c.SafeAt bounds s ∧
       (match evalOp c s with
@@ -3251,6 +3254,7 @@ def Stmt.FlattenOk : Stmt → Prop
   | .forRangeInt _ start stop step body =>
       start.FlattenOk ∧ stop.FlattenOk ∧ step.FlattenOk
         ∧ StmtList.FlattenOk body
+  | .whileLoop _ _ => False
   | .ifThen c body => c.FlattenOk ∧ StmtList.FlattenOk body
   | .ifThenElse c tb eb =>
       c.FlattenOk ∧ StmtList.FlattenOk tb ∧ StmtList.FlattenOk eb
@@ -3307,6 +3311,7 @@ def Stmt.FlattenOkR : Stmt → Prop
   | .forRangeInt _ start stop step body =>
       start.FlattenOkR ∧ stop.FlattenOkR ∧ step.FlattenOkR
         ∧ StmtList.FlattenOkR body
+  | .whileLoop _ _ => False
   | .ifThen c body => c.FlattenOkR ∧ StmtList.FlattenOkR body
   | .ifThenElse c tb eb =>
       c.FlattenOkR ∧ StmtList.FlattenOkR tb ∧ StmtList.FlattenOkR eb
@@ -3369,6 +3374,7 @@ theorem Stmt.FlattenOk.toR : ∀ (st : Stmt), st.FlattenOk → st.FlattenOkR
       simp only [Stmt.FlattenOk] at h
       simp only [Stmt.FlattenOkR]
       exact ⟨h.1.toR, h.2.1.toR, h.2.2.1.toR, StmtList.FlattenOk.toR body h.2.2.2⟩
+  | .whileLoop _ _, h => False.elim h
   | .ifThen c body, h => by
       simp only [Stmt.FlattenOk] at h
       simp only [Stmt.FlattenOkR]
@@ -3846,6 +3852,7 @@ theorem stepStmt_undef : ∀ (st : Stmt) (s s' : BlockState),
                       (b.data PUnit.unit) (c.data PUnit.unit) body s
                       = some s' := h
                   exact stepForRangeIntAux_undef idx _ _ _ body s s' hok.2.2.2 h
+  | .whileLoop _ _, _, _, hok, _ => False.elim hok
   | .ifThen c body, s, s', hok, h => by
       simp only [Stmt.FlattenOk] at hok
       simp only [stepStmt] at h
@@ -4759,6 +4766,7 @@ theorem FlatAlloc.stepStmt_flatten (A : FlatAlloc) (hd : A.Disjoint)
                       (c.data PUnit.unit) body s := hmsb
                   exact A.stepForRangeIntAux_flatten hd hcov idx _ _ _ body s
                     hmsb hokb hu
+  | .whileLoop _ _, _, _, hok, _ => False.elim hok
   | .ifThen c body, s, hms, hok, hu => by
       simp only [Stmt.TraceSafe] at hms
       simp only [Stmt.FlattenOk] at hok

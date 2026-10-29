@@ -5,7 +5,6 @@ namespace VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.Geometry
 open VeriTile.Triton
 noncomputable section
 
-def Supported (B : Nat) : Prop := B = 16 ∨ B = 32 ∨ B = 64
 def shrink (B : Nat) : Nat := max 16 (B / 2)
 
 /-- The wrapper may complete its first launch or its single retry. The selected
@@ -32,14 +31,6 @@ theorem selected_supported (initial : Nat) (h : Supported initial) (path : Compl
 theorem supported_positive (B : Nat) (h : Supported B) : 0 < B := by
   rcases h with rfl | rfl | rfl <;> norm_num [Supported, shrink]
 
-structure Shape where
-  (Z H HK N R NK D B : Nat)
-  kvPositive : 0 < HK
-  headDivides : H % HK = 0
-  normalizerCapacity : N ≤ R
-  feature : ∃ k : Nat, 4 ≤ k ∧ D = 2 ^ k
-  block : Supported B
-
 def Shape.querySize (c : Shape) := c.Z * c.H * c.N * c.D
 def Shape.keySize (c : Shape) := c.Z * c.HK * c.NK * c.D
 def Shape.normalizerSize (c : Shape) := c.Z * c.H * c.R
@@ -49,6 +40,11 @@ def Shape.keyBase (c : Shape) (z h : Nat) := (z * c.HK + h / (c.H / c.HK)) * c.N
 def Shape.normalizerBase (c : Shape) (z h : Nat) := (z * c.H + h) * c.R
 def Shape.outputBase (c : Shape) (z h : Nat) := (z * c.H + h) * c.NK
 def Shape.programs (c : Shape) := RealLoop.tripCount c.NK c.B
+
+/-- The source's explicit int32 key-block offset is exact on every launched
+program. Public callers derive this from their existing padded-key bound. -/
+def KeyOffsetsFit (c : Shape) : Prop :=
+  ∀ block : Fin c.programs, block.val * c.B < 2147483648
 
 theorem digit_bound (a A b B : Nat) (ha : a < A) (hb : b < B) : a * B + b < A * B := by
   have h := Nat.mul_le_mul_right B (Nat.succ_le_of_lt ha)
@@ -102,37 +98,6 @@ theorem owner_unique (B j block lane : Nat) (hB : 0 < B) (hl : lane < B)
   constructor
   · rw [Nat.mul_comm block B, Nat.mul_add_div hB, Nat.div_eq_of_lt hl, Nat.add_zero]
   · exact (Nat.mul_add_mod_of_lt hl).symm
-
-def parameters (c : Shape) (offset size : Int) (scale : ℝ)
-    (window complement : Bool) : RealSource.Parameters where
-  Q := "q"
-  K := "k"
-  M := "m"
-  Out := "out"
-  queryBatch := c.H * c.N * c.D
-  queryHead := c.N * c.D
-  queryRow := c.D
-  queryDim := 1
-  keyBatch := c.HK * c.NK * c.D
-  keyHead := c.NK * c.D
-  keyRow := c.D
-  keyDim := 1
-  outputBatch := c.H * c.NK
-  outputHead := c.NK
-  outputInner := 1
-  batches := c.Z
-  heads := c.H
-  kvHeads := c.HK
-  queryContext := c.N
-  roundedContext := c.R
-  keyContext := c.NK
-  offset := offset
-  size := size
-  scale := scale
-  window := window
-  complement := complement
-  evenM := decide (c.N % c.B = 0)
-  evenN := decide (c.NK % c.B = 0)
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

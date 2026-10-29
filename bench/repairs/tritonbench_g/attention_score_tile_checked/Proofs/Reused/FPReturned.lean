@@ -17,11 +17,11 @@ def target (M : Algebra α) (dot : Dot α) (c : Shape) (offset size : Int) (scal
   values M dot c offset size scale window complement s (ownerJob c z h j) (ownerLane c j)
 
 theorem grid_tensor (M : Algebra α) (dot : Dot α) (c : Shape) (s : State α)
-    (offset size : Int) (scale : ℝ) (window complement : Bool) :
+    (offset size : Int) (scale : ℝ) (window complement : Bool) (hOffsets : KeyOffsetsFit c) :
     ∃ t, run M dot c offset size scale window complement (jobs c) s=some t ∧ InputsSame s t ∧
       ∀ (z : Fin c.Z) (h : Fin c.H) (j : Fin c.NK),
         t.mem "out" (c.outputBase z.val h.val+j.val)=.mk .real (target M dot c offset size scale window complement s z h j) := by
-  obtain ⟨t,ht,hs,ho⟩ := whole_grid M dot c s offset size scale window complement
+  obtain ⟨t,ht,hs,ho⟩ := whole_grid M dot c s offset size scale window complement hOffsets
   refine ⟨t,ht,hs,?_⟩
   intro z h j
   have he := (owner c j).2.2
@@ -30,12 +30,12 @@ theorem grid_tensor (M : Algebra α) (dot : Dot α) (c : Shape) (s : State α)
   simpa [target,WholeGrid.address,ownerJob,ownerLane,Nat.add_assoc,he] using hv
 
 theorem invoke_frame (M : Algebra α) (dot : Dot α) (c : Shape) (s t : State α)
-    (offset size : Int) (scale : ℝ) (window complement : Bool) (job : Job c)
+    (offset size : Int) (scale : ℝ) (window complement : Bool) (hOffsets : KeyOffsetsFit c) (job : Job c)
     (hrun : invoke M dot c offset size scale window complement job s=some t)
     (r : RegionName) (a : Nat) (hf : r≠"out" ∨ c.outputSize≤a) : t.mem r a=s.mem r a := by
   let p := parameters c offset size scale window complement
   let initial := programState c s job
-  obtain ⟨u,hu,hmem⟩ := FPOutput.source_memory M dot c.B c.D p initial
+  obtain ⟨u,hu,hmem⟩ := FPOutput.source_memory M dot c.B c.D p initial (by simpa [initial,programState] using hOffsets job.2.2)
   have he : u=t := Option.some.inj (hu.symm.trans hrun)
   subst t
   rw [hmem]
@@ -52,7 +52,7 @@ theorem invoke_frame (M : Algebra α) (dot : Dot α) (c : Shape) (s t : State α
     exact Nat.not_lt_of_ge ha' (by simpa [WholeGrid.address,Nat.add_assoc] using hb)
 
 theorem run_frame (M : Algebra α) (dot : Dot α) (c : Shape) (offset size : Int)
-    (scale : ℝ) (window complement : Bool) (order : List (Job c)) (s t : State α)
+    (scale : ℝ) (window complement : Bool) (hOffsets : KeyOffsetsFit c) (order : List (Job c)) (s t : State α)
     (hrun : run M dot c offset size scale window complement order s=some t)
     (r : RegionName) (a : Nat) (hf : r≠"out" ∨ c.outputSize≤a) : t.mem r a=s.mem r a := by
   induction order generalizing s with
@@ -63,7 +63,7 @@ theorem run_frame (M : Algebra α) (dot : Dot α) (c : Shape) (offset size : Int
       | none => simp [hi] at hrun
       | some u =>
           have hu : run M dot c offset size scale window complement rest u=some t := by simpa [hi] using hrun
-          exact (ih u hu).trans (invoke_frame M dot c s u offset size scale window complement job hi r a hf)
+          exact (ih u hu).trans (invoke_frame M dot c s u offset size scale window complement hOffsets job hi r a hf)
 
 def zeroOutput (M : Algebra α) (c : Shape) (s : State α) : State α :=
   {s with mem := fun r a => if r="out" ∧ a<c.outputSize then .mk .real (FPContext.zero M) else s.mem r a}
@@ -86,7 +86,7 @@ def returnedValue (M : Algebra α) (dot : Dot α) (c : Shape) (s : State α)
   if c.N=0 then FPContext.zero M else target M dot c offset size scale window complement s z h j
 
 theorem host_returned (M : Algebra α) (dot : Dot α) (c : Shape) (s : State α)
-    (offset size : Int) (scale : ℝ) (window complement : Bool) :
+    (offset size : Int) (scale : ℝ) (window complement : Bool) (hOffsets : c.N ≠ 0 → c.outputSize ≠ 0 → KeyOffsetsFit c) :
     ∃ t, hostRun M dot c s offset size scale window complement=some t ∧ InputsSame s t ∧
       (∀ (z : Fin c.Z) (h : Fin c.H) (j : Fin c.NK),
         t.mem "out" (c.outputBase z.val h.val+j.val)=.mk .real (returnedValue M dot c s offset size scale window complement z h j)) ∧
@@ -104,7 +104,8 @@ theorem host_returned (M : Algebra α) (dot : Dot α) (c : Shape) (s : State α)
     · simp [returnedValue,hn,zeroOutput,hb]
     · rw [ho] at hb
       omega
-  · obtain ⟨t,ht,hs,hv⟩ := grid_tensor M dot c (zeroOutput M c s) offset size scale window complement
+  · have fits := hOffsets (by tauto) (by tauto)
+    obtain ⟨t,ht,hs,hv⟩ := grid_tensor M dot c (zeroOutput M c s) offset size scale window complement fits
     refine ⟨t,by simp [hostRun,hempty,ht],?_,?_,?_⟩
     · intro r a hr
       exact (hs r a hr).trans (zero_inputs M c s r a hr)
@@ -113,7 +114,7 @@ theorem host_returned (M : Algebra α) (dot : Dot α) (c : Shape) (s : State α)
       simp only [returnedValue,if_neg (fun h => hempty (Or.inl h)),target,
         values_same M dot c offset size scale window complement s (zeroOutput M c s) (zero_inputs M c s)]
     · intro r a hf
-      exact (run_frame M dot c offset size scale window complement (jobs c) (zeroOutput M c s) t ht r a hf).trans (zframe r a hf)
+      exact (run_frame M dot c offset size scale window complement fits (jobs c) (zeroOutput M c s) t ht r a hf).trans (zframe r a hf)
 
 #specNonCircular returnedValue avoiding [FP.Structural.exec,FPGrid.run,hostRun]
 #guard_msgs (drop info) in

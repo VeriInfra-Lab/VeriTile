@@ -247,6 +247,14 @@ private partial def valueType (pointers : Types) (values : Values)
   | `(tritonExpr| $a:tritonExpr[:, None, :])
   | `(tritonExpr| $a:tritonExpr[None, :, :])
   | `(tritonExpr| $a:tritonExpr[:, :, None]) => valueType pointers values a
+  | `(tritonExpr| tl.fma($a:tritonExpr, $b:tritonExpr, $c:tritonExpr)) =>
+      -- Preserve a source FP32 accumulator across an explicit FMA loop.
+      if [a,b,c].all (fun e => valueType pointers values e == some (.typed .fp32))
+      then some (.typed .fp32) else none
+  | `(tritonExpr| tl.dot($a:tritonExpr, $b:tritonExpr)) =>
+      -- The grammar has a distinct no-keyword production. Matching input
+      -- types retain the same default FP32 result as the keyword form.
+      if dotInputs a b then some (.typed .fp32) else none
   | `(tritonExpr| tl.dot($a:tritonExpr, $b:tritonExpr, $acc:tritonExpr)) =>
       if dotInputs a b &&
           valueType pointers values acc == some (.typed .fp32)
@@ -539,6 +547,7 @@ private partial def mayWrite (target : Name) (raw : Syntax) : Bool := Id.run do
         return (yes ++ no).any (fun s => mayWrite target s.raw)
     | `(tritonStmt| if $_:tritonExpr { $yes:tritonStmt* }) =>
         return yes.any (fun s => mayWrite target s.raw)
+    | `(tritonStmt| while $_:tritonExpr { $body:tritonStmt* })
     | `(tritonStmt| for $_:ident in range($_:tritonExpr, $_:tritonExpr, $_:tritonExpr) { $body:tritonStmt* })
     | `(tritonStmt| for $_:ident in range($_:tritonExpr, $_:tritonExpr) { $body:tritonStmt* })
     | `(tritonStmt| for $_:ident in range($_:tritonExpr) { $body:tritonStmt* }) =>
@@ -877,6 +886,12 @@ private partial def lowerWithState (pointers : Types) (values : Values)
           stmt ← `(tritonStmt| if $condition { $yes* })
           nextPointers := commonInfo yesPointers pointers
           nextValues := commonInfo yesValues values
+      | `(tritonStmt| while $condition:tritonExpr { $body:tritonStmt* }) =>
+          checkDivRN pointers values condition.raw
+          rejectNestedLoads pointers condition.raw
+          let (body, stable) ← loopBody (mkIdent `__while_no_iterator) body
+          stmt ← `(tritonStmt| while $condition { $body* })
+          nextValues := stable
       | `(tritonStmt| for $i:ident in range($start:tritonExpr, $stop:tritonExpr, $step:tritonExpr) { $body:tritonStmt* }) =>
           checkDivRN pointers values start.raw
           checkDivRN pointers values stop.raw

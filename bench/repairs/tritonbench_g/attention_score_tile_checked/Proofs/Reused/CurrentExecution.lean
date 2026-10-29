@@ -39,6 +39,7 @@ theorem run_eq (c : Shape) (offset size : Int) (scale : ℝ) (window complement 
   induction order generalizing s with
   | nil => rfl
   | cons job rest ih => simp only [run,WholeGrid.run,invoke,WholeGrid.invoke,kernel_eq,ih]
+      <;> rfl
 
 def hostRun (c : Shape) (s : BlockState) (offset size : Int) (scale : ℝ)
     (window complement : Bool) : Option BlockState :=

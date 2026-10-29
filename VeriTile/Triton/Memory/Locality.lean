@@ -1618,6 +1618,8 @@ theorem stepStmt_agreeOn (bounds : RegionBounds) :
                       (c.data PUnit.unit) body s₁ := hnext
                   exact stepForRangeIntAux_agreeOn bounds idx _ _ _ body s₁ s₂
                     hnext hag
+  | .whileLoop _ _, _, _, hms, _ => by
+      simp only [Stmt.TraceSafe] at hms
   | .ifThen c body, s₁, s₂, hms, hag => by
       simp only [Stmt.TraceSafe] at hms
       have IHc := evalOp_agreeOn bounds c s₁ s₂ hag hms.1

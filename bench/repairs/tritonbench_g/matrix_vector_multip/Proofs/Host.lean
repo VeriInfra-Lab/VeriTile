@@ -30,9 +30,11 @@ structure DirectBinding (α : Type) (x : Inputs) (entry : Nat → α)
 theorem compatible (x y : TensorMetadata) (h : InputContract x y) (ma vb : Nat) :
     (inputs x y ma vb).columns = (inputs x y ma vb).vectorLength := h.dimensions
 
-theorem source_binding (x y : TensorMetadata) (ma vb : Nat) (c : Config) :
+/-- Historical natural-number host model only. The actual raw while source
+is connected by SourceOutput.tile_result and TensorBridge. -/
+theorem historical_source_binding (x y : TensorMetadata) (ma vb : Nat) (c : Config) :
     WholeSource.source ((inputs x y ma vb).parameters c) =
-      Kernels.source (rows x) (columns x) c.blockRows c.blockColumns := rfl
+      Typed.kernel .fp32 ((inputs x y ma vb).parameters c) := rfl
 
 /-- The wrapper checks metadata before allocation or launch. -/
 def executeChecked {α : Type} {x y : TensorMetadata} {ma vb : Nat}
@@ -51,7 +53,7 @@ theorem checked_run {α : Type} {x y : TensorMetadata} {ma vb : Nat}
     executeChecked run rt = .ok (run rt) := by
   simp [executeChecked, (checkTensorInputs_iff x y).mpr h]
 
-#axiomsClean source_binding
+#axiomsClean historical_source_binding
 #axiomsClean checked_run
 end
 end VeriTile.Bench.Repairs.MatrixVectorMultip

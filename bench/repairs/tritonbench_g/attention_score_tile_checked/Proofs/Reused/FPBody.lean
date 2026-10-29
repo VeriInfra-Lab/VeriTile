@@ -14,15 +14,15 @@ def executes (M : Algebra α) (dot : Dot α) (B D : Nat) (p : RealSource.Paramet
     (initial current : State α) (row : Nat) (acc : Fin B → α)
     (ctx : Context M B D p initial row acc current) :
     {t : State α // run (engine (withDot M dot)) (parts B D p).body
-      (current.setReg "start_m" .nat [] (fun _ => row))=some t} := by
+      (current.setReg "start_m" .int [] (fun _ => (row : Int)))=some t} := by
   by_cases hm : p.evenM = Bool.true
   all_goals by_cases hw : p.window = Bool.true
   all_goals by_cases hc : p.complement = Bool.true
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp [parts,kernel,RealSource.source,TypedSource.original,hm,hw,hc,
-      ComputeKernel.surfaceBody,Source.dynamicRange?,Source.prefixBefore,Option.map,Option.getD,
+    simp [parts,FPEngine.kernel,RealSource.source,TypedSource.original,Whole002.TypedSource.widened,hm,hw,hc,
+      ComputeKernel.surfaceBody,Source.intRange?,Source.prefixBefore,Option.map,Option.getD,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
       Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
       numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,

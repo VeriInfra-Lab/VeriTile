@@ -204,7 +204,7 @@ theorem u64_min_conversion :
   simp [FP.Structural.exec,u64_minSource,ComputeKernel.surfaceBody,run,step,
     evalExpr,evalComputeOp,evalOp_unfold,Option.bind,Option.map,model,initial,
     ComputeDType.eraseDType,ofFloat,toFloat,Region.cast,State.setReg,
-    TileShape.allIndices,State.write,Cell.read,numeric,bop,store,String.reduceEq]
+    TileShape.allIndices,State.write,Cell.read,numeric,bop,store,String.reduceEq,integralMod]
 
 #axiomsClean u64_min_conversion
 
@@ -222,7 +222,7 @@ theorem u64_max_conversion :
   simp [FP.Structural.exec,u64_maxSource,ComputeKernel.surfaceBody,run,step,
     evalExpr,evalComputeOp,evalOp_unfold,Option.bind,Option.map,model,initial,
     ComputeDType.eraseDType,ofFloat,toFloat,Region.cast,State.setReg,
-    TileShape.allIndices,State.write,Cell.read,numeric,bop,store,String.reduceEq]
+    TileShape.allIndices,State.write,Cell.read,numeric,bop,store,String.reduceEq,integralMod]
 
 #axiomsClean u64_max_conversion
 

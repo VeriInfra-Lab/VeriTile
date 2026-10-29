@@ -37,28 +37,28 @@ theorem load_key (s : BlockState) (Q K M : RegionName)
 theorem load_prefix (initial s : BlockState) (Q K M : RegionName)
     (B D N baseQ baseK baseM sqm sqk skn skk row : Nat) (evenM : Bool)
     (hmem : s.mem = initial.mem)
-    (hr : s.regs .nat [] "start_m" = some (Tile.scalar row))
+    (hr : s.regs .int [] "start_m" = some (Tile.scalar (row : Int)))
     (hp : s.regs .blockPtr [B,D] "Q_block_ptr" = some (RealLoads.queryPointer Q B D N baseQ sqm sqk row))
     (hmp : s.regs .ptr [B] "m_ptrs" = some (RealLoads.normalizerPointers M B baseM row)) :
     let xs := RealLoads.inputs initial Q K M D baseQ baseK baseM sqm sqk skn skk
     ∃ t, stepStmts (RealBody.loadPrefix B D N evenM) s = some t ∧
-      t.regs .nat [] "start_m" = some (Tile.scalar row) ∧
+      t.regs .int [] "start_m" = some (Tile.scalar (row : Int)) ∧
       t.regs .real [B,D] "q" = some (RealTiles.query xs B N row evenM) ∧
       t.regs .real [B] "m" = some (RealTiles.normalizer xs B N row) ∧
       Frame RealBody.prefixWrites s t := by
   dsimp only
   let xs := RealLoads.inputs initial Q K M D baseQ baseK baseM sqm sqk skn skk
-  let sm := s.setReg "start_m" .nat [] (Tile.scalar row)
+  let sm := s.setReg "start_m" .int [] (Tile.scalar (row : Int))
   let sq := sm.setReg "q" .real [B,D] (RealTiles.query xs B N row evenM)
   let st := sq.setReg "m" .real [B] (RealTiles.normalizer xs B N row)
-  have hs : stepStmt (.assign .nat [] "start_m" (.ref .nat [] "start_m")) s = some sm := by
+  have hs : stepStmt (.assign .int [] "start_m" (.ref .int [] "start_m")) s = some sm := by
     simp [stepStmt, evalOp_ref, hr, sm]
   have hq : stepStmt (RealBody.loadQuery B D evenM) sm = some sq := by
     have h := load_query sm Q K M B D N baseQ baseK baseM sqm sqk skn skk row evenM (by simp [sm,hp])
     rw [RealLoads.inputs_same_memory sm initial Q K M D baseQ baseK baseM sqm sqk skn skk hmem] at h
     exact h
   have hm : stepStmt (.assign .real [B] "m" (.load .real (.ptr (.ref .ptr [B] "m_ptrs"))
-      (.maskOther (.lt .nat .scalarR (.add .nat .scalarL (.ref .nat [] "start_m") (.arange B)) (.constNat N)) (.broadcast (.const 0) [B])) .zero)) sq = some st := by
+      (.maskOther (.lt .int .scalarR (.add .int .scalarL (.ref .int [] "start_m") (.castNatToInt (.arange B))) (.castNatToInt (.constNat N))) (.broadcast (.const 0) [B])) .zero)) sq = some st := by
     have h := RealLoads.normalizer_load sq Q K M B D N baseQ baseK baseM sqm sqk skn skk row (by simp [sq,sm,hmp]) (by simp [sq,sm])
     rw [RealLoads.inputs_same_memory sq initial Q K M D baseQ baseK baseM sqm sqk skn skk hmem] at h
     simp only [stepStmt, h, bind, Option.bind, st, xs]
@@ -113,8 +113,8 @@ theorem correct (initial s : BlockState) (Q K M : RegionName)
     (offset size : Int) (scale : ℝ) (window complement evenM evenN candidate : Bool)
     (old : Fin B → ℝ)
     (hmem : s.mem = initial.mem)
-    (hr : s.regs .nat [] "start_m" = some (Tile.scalar row))
-    (hn : s.regs .nat [] "start_n" = some (Tile.scalar startN))
+    (hr : s.regs .int [] "start_m" = some (Tile.scalar (row : Int)))
+    (hn : s.regs .int [] "start_n" = some (Tile.scalar (startN : Int)))
     (hp : s.regs .blockPtr [B,D] "Q_block_ptr" = some (RealLoads.queryPointer Q B D N baseQ sqm sqk row))
     (hmp : s.regs .ptr [B] "m_ptrs" = some (RealLoads.normalizerPointers M B baseM row))
     (hk : s.regs .real [D,B] "k" = some (RealTiles.key
@@ -133,7 +133,7 @@ theorem correct (initial s : BlockState) (Q K M : RegionName)
   let xs := RealLoads.inputs initial Q K M D baseQ baseK baseM sqm sqk skn skk
   obtain ⟨loaded, hl, hr', hq', hm', fl⟩ := load_prefix initial s Q K M
     B D N baseQ baseK baseM sqm sqk skn skk row evenM hmem hr hp hmp
-  have hn' := (fl.regs .nat [] "start_n" (by simp [RealBody.prefixWrites])).trans hn
+  have hn' := (fl.regs .int [] "start_n" (by simp [RealBody.prefixWrites])).trans hn
   have hk' := (fl.regs .real [D,B] "k" (by simp [RealBody.prefixWrites])).trans hk
   have hs' := (fl.regs .real [] "qk_scale" (by simp [RealBody.prefixWrites])).trans hs
   have ho' := (fl.regs .real [B] "o" (by simp [RealBody.prefixWrites])).trans ho

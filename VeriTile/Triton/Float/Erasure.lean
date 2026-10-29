@@ -288,6 +288,8 @@ def Stmt.eraseDType : Stmt → Stmt
   | .forRangeInt idx start stop step body =>
       .forRangeInt idx start.eraseDType stop.eraseDType step.eraseDType
         (Stmt.eraseDTypeList body)
+  | .whileLoop cond body =>
+      .whileLoop cond.eraseDType (Stmt.eraseDTypeList body)
   | .ifThen cond body =>
       .ifThen cond.eraseDType (Stmt.eraseDTypeList body)
   | .ifThenElse cond thenBody elseBody =>

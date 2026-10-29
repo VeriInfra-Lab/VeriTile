@@ -34,7 +34,8 @@ def execute (M : Algebra α) (dot : Dot α) (c : Shape) (abi : ABI c) (physical 
 source recurrence, input projections are preserved, and all other physical
 addresses retain their old contents. No final-output or successful-run premise. -/
 theorem returned (M : Algebra α) (dot : Dot α) (c : Shape) (abi : ABI c) (physical : Nat → α)
-    (offset size : Int) (scale : ℝ) (window complement : Bool) :
+    (offset size : Int) (scale : ℝ) (window complement : Bool)
+    (hOffsets : c.N ≠ 0 → c.outputSize ≠ 0 → KeyOffsetsFit c) :
     ∃ result, execute M dot c abi physical offset size scale window complement=some result ∧
       (∀ (z : Fin c.Z) (h : Fin c.H) (j : Fin c.NK),
         result ((abi.alloc "out").base+c.outputBase z.val h.val+j.val)=
@@ -42,7 +43,7 @@ theorem returned (M : Algebra α) (dot : Dot α) (c : Shape) (abi : ABI c) (phys
       (∀ (r : RegionName), tracked r → r≠"out" → ∀ i, i<(abi.alloc r).length →
         result ((abi.alloc r).base+i)=physical ((abi.alloc r).base+i)) ∧
       (∀ a, ¬(abi.alloc "out").Contains a → result a=physical a) := by
-  obtain ⟨t,ht,_,hv,_⟩ := FPReturned.host_returned M dot c (initial abi physical) offset size scale window complement
+  obtain ⟨t,ht,_,hv,_⟩ := FPReturned.host_returned M dot c (initial abi physical) offset size scale window complement hOffsets
   refine ⟨flush (abi.alloc "out") (exportMemory t "out") physical,?_,?_,?_,?_⟩
   · simp [execute,ht]
   · intro z h j

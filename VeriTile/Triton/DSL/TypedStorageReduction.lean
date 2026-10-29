@@ -112,6 +112,10 @@ private partial def block (pointers values : List Name) (body : List (TSyntax `t
           let yes := yes.toArray
           stmt ← `(tritonStmt| if $c { $yes* })
           nextPointers := common pointers p; nextValues := common values v
+      | `(tritonStmt| while $condition:tritonExpr { $body:tritonStmt* }) =>
+          let (body,p,v) ← loop (mkIdent `__while_no_iterator) body
+          stmt ← `(tritonStmt| while $condition { $body* })
+          nextPointers := p; nextValues := v
       | `(tritonStmt| for $id:ident in range($a:tritonExpr, $b:tritonExpr, $c:tritonExpr) { $body:tritonStmt* }) =>
           let (body,p,v) ← loop id body
           stmt ← `(tritonStmt| for $id:ident in range($a:tritonExpr, $b:tritonExpr, $c:tritonExpr) { $body* })

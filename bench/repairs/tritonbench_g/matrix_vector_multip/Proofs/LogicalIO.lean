@@ -10,12 +10,13 @@ noncomputable section
 def target (N M BN pid : Nat) (av : (Fin N → Fin M → ℝ) × (Fin M → ℝ)) (row : Fin BN) : ℝ :=
   ∑ col : Fin M, IO.logicalRow av.1 (pid*BN+row.val) col * av.2 col
 
-theorem headline_iff (N M BN BM pid : Nat) :
-    (IO.logicalIO WholeMath.algebra N M BN BM pid ⊨ target N M BN pid) ↔
-    (IO.io WholeMath.algebra N M BN BM pid id id).Implements
+theorem headline_iff (N M BN BM pid : Nat)
+    (rowShape : Random.ArangeSizeDomain BN) (columnShape : Random.ArangeSizeDomain BM) :
+    (IO.logicalIO WholeMath.algebra N M BN BM pid rowShape columnShape ⊨ target N M BN pid) ↔
+    (IO.io WholeMath.algebra N M BN BM pid rowShape columnShape id id).Implements
       (fun vals => IO.outputValues (fun i => KernelRealResult.matrixVector M
         (IO.matrixValues vals) (IO.vectorValues vals) (pid*BN+i.val))) := by
-  have formula : (IO.logicalIO WholeMath.algebra N M BN BM pid).lift (target N M BN pid) =
+  have formula : (IO.logicalIO WholeMath.algebra N M BN BM pid rowShape columnShape).lift (target N M BN pid) =
       (fun vals => IO.outputValues (fun i => KernelRealResult.matrixVector M
         (IO.matrixValues vals) (IO.vectorValues vals) (pid*BN+i.val))) := by
     funext xs port i
@@ -28,12 +29,13 @@ theorem headline_iff (N M BN BM pid : Nat) :
     by_cases active : pid*BN+i.1.val<N
     · simp [IO.logicalRow,IO.logicalInputs,IO.matrixValues,IO.vectorValues,active,col.isLt,zero]
     · simp [IO.logicalRow,IO.logicalInputs,IO.matrixValues,IO.vectorValues,active,col.isLt,zero]
-  change (IO.io _ _ _ _ _ _ _ _).Implements _ ↔ _
+  change (IO.io _ _ _ _ _ _ _ _ _ _).Implements _ ↔ _
   rw [formula]
 
-theorem implements (N M BN BM pid : Nat) (width : 0<BM) :
-    (IO.logicalIO WholeMath.algebra N M BN BM pid ⊨ target N M BN pid) :=
-  (headline_iff N M BN BM pid).2 (KernelRealResult.io_correct N M BN BM pid width)
+theorem implements (N M BN BM pid : Nat) (width : 0<BM)
+    (rowShape : Random.ArangeSizeDomain BN) (columnShape : Random.ArangeSizeDomain BM) (domain : SourceDomain N M BN BM pid) :
+    (IO.logicalIO WholeMath.algebra N M BN BM pid rowShape columnShape ⊨ target N M BN pid) :=
+  (headline_iff N M BN BM pid rowShape columnShape).2 (KernelRealResult.io_correct N M BN BM pid width rowShape columnShape domain)
 
 #axiomsClean headline_iff
 #axiomsClean implements

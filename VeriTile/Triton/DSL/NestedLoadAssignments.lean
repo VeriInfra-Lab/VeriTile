@@ -117,6 +117,9 @@ private partial def block (pointers : List Name) (body : Array (TSyntax `tritonS
     | `(tritonStmt| if $c:tritonExpr { $yes:tritonStmt* }) =>
         let yes ← block pointers yes
         result := result.push (← `(tritonStmt| if $c:tritonExpr { $yes* }))
+    | `(tritonStmt| while $condition:tritonExpr { $body:tritonStmt* }) =>
+        let body ← block pointers body
+        result := result.push (← `(tritonStmt| while $condition { $body* }))
     | `(tritonStmt| for $i:ident in range($start:tritonExpr, $stop:tritonExpr, $step:tritonExpr) { $body:tritonStmt* }) =>
         let body ← block pointers body
         result := result.push (← `(tritonStmt| for $i:ident in range($start,$stop,$step) { $body* }))

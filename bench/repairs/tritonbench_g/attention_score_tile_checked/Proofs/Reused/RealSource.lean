@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.attention_score_tile_checked.SourceParameters
 import bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealSafety
 import bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealExecution
 
@@ -10,16 +11,6 @@ set_option maxHeartbeats 1000000
 set_option maxRecDepth 16000
 set_option linter.unusedSimpArgs false
 noncomputable section
-
-structure Parameters where
-  (Q K M Out : RegionName)
-  (queryBatch queryHead queryRow queryDim : Nat)
-  (keyBatch keyHead keyRow keyDim : Nat)
-  (outputBatch outputHead outputInner : Nat)
-  (batches heads kvHeads queryContext roundedContext keyContext : Nat)
-  (offset size : Int)
-  scale : ℝ
-  (window complement evenM evenN : Bool)
 
 def source (B D : Nat) (p : Parameters) (candidate : Bool) : ComputeKernel :=
   (if candidate then TypedSource.scalarLeft else TypedSource.original) p.Q p.K p.M p.Out
@@ -83,16 +74,16 @@ theorem flatten_ok (B D : Nat) (p : Parameters) (candidate : Bool) :
     simp [RealExpressions.distanceExpr, Op.FlattenOk.eq_def]
 
 theorem safe (bounds : RegionBounds) (s : BlockState) (B D : Nat) (p : Parameters)
-    (candidate : Bool) (hB : 0 < B)
+    (candidate : Bool) (hB : 0 < B) (keyOffsetBound : s.pids 0 * B < 2147483648)
     (hb : RealSafety.Bounds bounds (config B D p candidate s) p.queryContext p.Out (outputBase p (s.pids 1))) :
     (kernel B D p candidate).toAlgKernel.TraceSafe bounds s := by
   rw [Kernel.TraceSafe, body]
   exact RealSafety.correct bounds s p.Q p.K p.M p.Out
     p.queryBatch p.queryHead p.queryRow p.queryDim p.keyBatch p.keyHead p.keyRow p.keyDim
     p.outputBatch p.outputHead p.heads p.kvHeads p.queryContext p.roundedContext p.keyContext B D
-    p.offset p.size p.scale p.window p.complement p.evenM p.evenN candidate hB hb
+    p.offset p.size p.scale p.window p.complement p.evenM p.evenN candidate hB keyOffsetBound hb
 
-theorem executes (s : BlockState) (B D : Nat) (p : Parameters) (candidate : Bool) (hB : 0 < B) :
+theorem executes (s : BlockState) (B D : Nat) (p : Parameters) (candidate : Bool) (hB : 0 < B) (keyOffsetBound : s.pids 0 * B < 2147483648) :
     ∃ t, exec (kernel B D p candidate).toAlgKernel s = some t ∧
       (∀ i : Fin B, t.readMem p.Out (outputBase p (s.pids 1)+s.pids 0*B+i.val) =
         if s.pids 0*B+i.val < p.keyContext then (config B D p candidate s).column s (blocks B p) i
@@ -103,7 +94,7 @@ theorem executes (s : BlockState) (B D : Nat) (p : Parameters) (candidate : Bool
   exact RealExecution.correct s p.Q p.K p.M p.Out
     p.queryBatch p.queryHead p.queryRow p.queryDim p.keyBatch p.keyHead p.keyRow p.keyDim
     p.outputBatch p.outputHead p.heads p.kvHeads p.queryContext p.roundedContext p.keyContext B D
-    p.offset p.size p.scale p.window p.complement p.evenM p.evenN candidate hB
+    p.offset p.size p.scale p.window p.complement p.evenM p.evenN candidate hB keyOffsetBound
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

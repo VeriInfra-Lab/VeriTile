@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.FPOutput
 import bench.repairs.tritonbench_g.attention_score_tile_checked.Kernels
 import VeriTile.Triton.Float.StructuralSafety
 
@@ -42,8 +43,8 @@ theorem prelude_tail (M : Algebra α) (dot : Dot α) (B D : Nat) (p : RealSource
   apply pure_safe
   intro stmt member current
   by_cases hn : p.evenN=Bool.true
-  all_goals simp [parts,FPEngine.kernel,RealSource.source,TypedSource.original,hn,
-    ComputeKernel.surfaceBody,Source.dynamicRange?,Source.prefixBefore,
+  all_goals simp [parts,FPEngine.kernel,RealSource.source,TypedSource.original,Whole002.TypedSource.widened,hn,
+    ComputeKernel.surfaceBody,Source.intRange?,Source.prefixBefore,
     Option.map,Option.getD,List.drop_succ_cons,List.drop_zero,List.drop_nil,
     List.mem_cons,List.not_mem_nil,or_false,ite_true,ite_false] at member
   all_goals rcases member with rfl|rfl|rfl|rfl
@@ -60,8 +61,8 @@ theorem body_tail (M : Algebra α) (dot : Dot α) (B D : Nat) (p : RealSource.Pa
   by_cases hm : p.evenM=Bool.true
   all_goals by_cases hw : p.window=Bool.true
   all_goals by_cases hc : p.complement=Bool.true
-  all_goals simp [parts,FPEngine.kernel,RealSource.source,TypedSource.original,hm,hw,hc,
-    ComputeKernel.surfaceBody,Source.dynamicRange?,Source.prefixBefore,
+  all_goals simp [parts,FPEngine.kernel,RealSource.source,TypedSource.original,Whole002.TypedSource.widened,hm,hw,hc,
+    ComputeKernel.surfaceBody,Source.intRange?,Source.prefixBefore,
     Option.map,Option.getD,List.drop_succ_cons,List.drop_zero,List.drop_nil,
     List.mem_cons,List.not_mem_nil,or_false,ite_true,ite_false] at member
   all_goals rcases member with rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl

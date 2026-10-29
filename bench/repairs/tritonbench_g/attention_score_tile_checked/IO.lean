@@ -1,5 +1,5 @@
 import VeriTile.Triton.Memory.LogicalIO
-import bench.repairs.tritonbench_g.attention_score_tile_checked.Kernels
+import bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.SourceBridge
 import VeriTile.Triton.Memory.AlgorithmProgramIO
 /-! Full score-grid Real IO with the original input roles and empty dispatch.
 The already allocated zero output is an explicit input only when the source
