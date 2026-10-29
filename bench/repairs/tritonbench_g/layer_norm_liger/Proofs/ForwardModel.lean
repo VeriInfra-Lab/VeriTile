@@ -18,7 +18,7 @@ def bValues {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : St
   input M p s p.bias 0
 
 def denominator {α : Type} (M : Algebra α) (p : Parameters) : α :=
-  M.cast (some .fp32) .real .real (M.literal (some .fp32) .real (p.columns : ℝ))
+  M.fromInt (some .fp32) (p.columns : Int)
 def meanValue {α : Type} [Inhabited α] (M : Algebra α) (R : SumPrimitive α)
     (p : Parameters) (s : State α) : α :=
   M.binary (some .fp32) .real .div

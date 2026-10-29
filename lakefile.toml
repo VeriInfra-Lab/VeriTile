@@ -51,6 +51,8 @@ globs = [
   "bench.tests.DTypeResolution",
   "bench.tests.SourceDTypeBody",
   "bench.tests.IntegerLiteralAssignmentBody",
+  "bench.tests.TypedIntegerOperandBody",
+  "bench.tests.KnownIntegerRangeStepBody",
   "bench.tests.GuardedRewriteTactics",
   "bench.tests.OptionalPointerBody",
   "bench.tests.OptionalPointerExpressionBody",

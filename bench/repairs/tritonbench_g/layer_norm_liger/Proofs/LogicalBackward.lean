@@ -18,7 +18,7 @@ theorem backward_xhat (rest : Algebra ℝ) (p : Backward.Parameters) (a : Backwa
     Backward.xhat (algebra rest) p a row i = if i.1.val < p.columns then
       xhat (bx p a row) (Backward.mean p a row) (Backward.rstd p a row) i.1.val else 0 := by
   by_cases hi : i.1.val < p.columns <;>
-    simp [Backward.xhat, Backward.load, Backward.cast, algebra, bx, xhat, hi]
+    simp [Backward.xhat, Backward.xhatTyped, Backward.load, Backward.cast, algebra, bx, xhat, hi]
 
 theorem backward_wdy (rest : Algebra ℝ) (p : Backward.Parameters) (a : Backward.Acc ℝ p)
     (row : Nat) (i : TileIndex [p.block]) :
@@ -65,8 +65,8 @@ theorem backward_dw_step (rest : Algebra ℝ) (p : Backward.Parameters) (a : Bac
     (row : Nat) (i : TileIndex [p.block]) (hi : i.1.val < p.columns) :
     (Backward.update (algebra rest) sumPrimitive p row a).dw i = a.dw i +
       bdy p a row i.1.val*xhat (bx p a row) (Backward.mean p a row) (Backward.rstd p a row) i.1.val := by
-  simp only [Backward.update, backward_xhat]
-  simp [Backward.binary, Backward.cast, Backward.load, algebra, bdy, hi]
+  simp [Backward.update, Backward.xhatTyped, Backward.binary, Backward.cast,
+    Backward.load, algebra, bx, bdy, xhat, hi]
 
 theorem backward_db_step (rest : Algebra ℝ) (p : Backward.Parameters) (a : Backward.Acc ℝ p)
     (row : Nat) (i : TileIndex [p.block]) (hi : i.1.val < p.columns) :

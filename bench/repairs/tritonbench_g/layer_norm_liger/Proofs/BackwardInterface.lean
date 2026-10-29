@@ -62,9 +62,12 @@ private theorem b_step_match (M : Algebra α) (R : SumPrimitive α) (p : Backwar
       (bStep M R p (bInitial p pid v) row z) := by
   obtain ⟨hx,hw,hdy,hm,hrstd⟩ := b_loads M R p pid v s hin row hr a z h.1
   let base := bInitial p pid v
+  have typedXhat : Backward.xhatTyped M p a row=bXhatTyped M p base z row := by
+    funext i
+    simp only [Backward.xhatTyped,bXhatTyped,hx,hm,hrstd] <;> rfl
   have xhat : Backward.xhat M p a row=bXhat M p base z row := by
     funext i
-    simp only [Backward.xhat,bXhat,hx,hm,hrstd] <;> rfl
+    simp only [Backward.xhat,bXhat,typedXhat] <;> rfl
   have wdy : Backward.wdy M p a row=bWdy M p base z row := by
     funext i
     simp only [Backward.wdy,bWdy,hw,hdy] <;> rfl
@@ -80,7 +83,7 @@ private theorem b_step_match (M : Algebra α) (R : SumPrimitive α) (p : Backwar
     simp only [Backward.stored,dx]
     exact match_scatter h.1 _ _ _ _
   · funext i
-    simp only [Backward.update,bStep,h.2.1,hdy,xhat] <;> rfl
+    simp only [Backward.update,bStep,h.2.1,hdy,typedXhat] <;> rfl
   · funext i
     simp only [Backward.update,bStep,h.2.2,hdy] <;> rfl
 

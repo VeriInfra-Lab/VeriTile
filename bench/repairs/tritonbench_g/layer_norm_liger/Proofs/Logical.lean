@@ -36,6 +36,8 @@ finite sums; no per-kernel output law is an assumption of this interpreter. -/
 def algebra (rest : Algebra ℝ) : Algebra ℝ :=
   { rest with
     literal := fun _ _ x => x
+    fromNat := fun _ n => n
+    fromInt := fun _ n => n
     cast := fun _ _ _ x => x
     binary := fun _ _ op x y => match op with
       | .add => x+y | .sub => x-y | .mul => x*y | .div => x/y

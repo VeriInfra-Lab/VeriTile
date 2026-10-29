@@ -13,6 +13,7 @@ import VeriTile.Triton.DSL.SourceFunctionStatements
 import VeriTile.Triton.DSL.NarrowUnsigned
 import VeriTile.Triton.DSL.SourceDType
 import VeriTile.Triton.DSL.Constexpr
+import VeriTile.Triton.DSL.KnownRangeStep
 import VeriTile.Triton.DSL.OrderedRowSum
 import Lean
 
@@ -780,7 +781,14 @@ private def elaborateCallCore (profile : TSyntax `term) (stmts : Array (TSyntax 
       let names := pointers.map Prod.fst ++ scalars.map Prod.fst ++ constants
       unless names.eraseDups.length == names.length do throwError "duplicate name in call signature"
       if usesTypedFP32 && names.contains "dtype" then
-        throwError "typed FP32 storage reserves the metadata dtype alias"
+        unless constants.contains "dtype" do
+          throwError "typed FP32 storage reserves the metadata dtype alias"
+        let sourceDType ← elabTerm (mkIdent `dtype) none
+        unless (← whnf (← inferType sourceDType)).isConstOf ``Triton.FloatDType &&
+            (← whnf sourceDType).isConstOf ``Triton.FloatDType.fp32 do
+          throwError "typed FP32 storage requires its dtype constexpr to be the closed fp32 caller value"
+        for stmt in stmts do
+          rejectArgumentMutation [`dtype] stmt.raw "dtype constexpr mutation is unsupported"
       for stmt in stmts do rejectBodyMetadata stmt.raw
       let orderedRowSums ← bindings (fun value => do
         let value ← whnf value
@@ -985,6 +993,9 @@ private def elaborateCallCore (profile : TSyntax `term) (stmts : Array (TSyntax 
       for constant in constants do
         let name := Name.mkSimple constant
         if assigned.contains name || optionalStrings.contains name then continue
+        -- The checked source dtype parameter above is the same FP32 alias
+        -- that preserves typed storage; it is not a numeric constexpr value.
+        if usesTypedFP32 && constant == "dtype" then continue
         let id : TSyntax `term := ⟨mkIdent name⟩
         let value ← elabTerm id none
         let dtype ← inferType value
@@ -1093,6 +1104,7 @@ private def elaborateCallCore (profile : TSyntax `term) (stmts : Array (TSyntax 
         let floatingPointers := pointers.filterMap fun (name,kind) =>
           if [.fp16,.bf16,.fp32,.fp64,.f8e4,.f8e5,.inputFloat,.outputFloat].contains kind
             then some (Name.mkSimple name) else none
+        let stmts ← KnownRangeStep.lower stmts
         let stmts ← NestedLoadAssignments.lower floatingPointers stmts
         let body ← TypedStores.lower (pointers.map (fun (name, kind) => (Name.mkSimple name, kind))) scalarTypes stmts.toList
         let storagePointers := pointers.filterMap fun (name,kind) =>

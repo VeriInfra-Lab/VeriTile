@@ -89,9 +89,11 @@ def visitedRows (first last : Nat) : List Nat := (List.range (last-first)).map (
 entry state without executing even one body statement or memory load. -/
  theorem inactive_range {α : Type} [Inhabited α] (M : Algebra α)
     (c : BackwardCall) (s : State α) (inactive : c.last ≤ c.first) :
-    FP.Structural.range M "_row" c.first c.last 1 (Backward.body c.parameters) s = some s := by
-  rw [FP.Structural.range]
-  simp [Nat.not_lt_of_ge inactive]
+    FP.Structural.rangeInt M "_" c.first c.last 1 (Backward.body c.parameters) s = some s := by
+  rw [FP.Structural.rangeInt]
+  have empty : ¬ (c.first : Int) < (c.last : Int) := by
+    exact_mod_cast Nat.not_lt_of_ge inactive
+  simp [empty]
 
 /-- An idle source program's entire memory result is its two zero-partial
 stores. Prelude pointer values (including wrapped ones) are not loaded. -/
@@ -134,7 +136,7 @@ def BackwardAddresses (c : BackwardCall) (pointers : RegionName → Nat) : Prop 
       address pointers (c.dy.region,row*c.columns+col)) ∧
   (c.last ≤ c.first → visitedRows c.first c.last = []) ∧
   (∀ (α : Type) [Inhabited α] (M : Algebra α) (s : State α), c.last ≤ c.first →
-    FP.Structural.range M "_row" c.first c.last 1 (Backward.body c.parameters) s = some s)
+    FP.Structural.rangeInt M "_" c.first c.last 1 (Backward.body c.parameters) s = some s)
 
  theorem forward_addresses (c : ForwardCall) (h : ForwardDomain c pointers) : ForwardAddresses c pointers := by
   intro col hc

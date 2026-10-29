@@ -43,6 +43,13 @@ load 前执行了 `X += offset`。这只是接口元数据，不是访存安全�
 证明；编译器能识别的实际访问必须出现在声明中。没有指定时按签名中的指针
 顺序收集访问，并去重。
 
+对已经声明 `typedFP32Storage := true` 的调用，typed FP32 load、乘法结果与
+整数 tensor 混合计算时，前端保留实际整数到 FP32 的转换。只对能确认类型的
+表达式进行这一步；它不改变粘贴的原文，也不把整数 tensor 当作浮点字面量。
+原始 `.to(dtype)` 可以使用在函数体外绑定的 `let dtype : FloatDType := .fp32`，
+并将 `dtype` 列入 constexpr 签名。该路径检查绑定必须是 FP32 且函数体没有
+改写 dtype；其他 dtype 不会默默按 FP32 接受。对应清单同时核对这个外部绑定。
+
 原始注释、docstring、跨行调用、调用末尾逗号和 Python 缩进保存在 quotation
 中。前端只适配执行语法；不支持的表达式或控制流会报错。隐式 store 转换由
 外部存储类型决定，显式 `.to(...)` 留在原源码中。
@@ -52,6 +59,10 @@ load 前执行了 `X += offset`。这只是接口元数据，不是访存安全�
 或 constexpr 参数时才会特化，函数体内被覆盖的参数继续按局部值执行。
 不可变 constexpr 的 `Nat`、`Int`、`ℝ`、`Bool` 值从函数体外提供；constexpr
 浮点数按 Python 弱标量处理，由周围的 tensor 运算决定精度，不强制改成 FP32。
+顺序语句中可确定的整数常量步长及其副本可用于三参数 `range`，例如
+`one = tl.full((), 1, tl.int64)` 后的 `range(start, stop, one)`。原始赋值保留，
+循环在入口捕获步长；循环体中的后续改写不会改变本次步长。未知运行值不会
+被截断成 Nat 来凑出步长，无法支持时仍报错，零步长直接拒绝。
 constexpr 名称不能同时充当循环变量。`tl.zeros((B,), tl.float32)` 和
 `tl.full((), 0.0, tl.float32)` 等原生 tuple 形状可直接粘贴；`(B)` 不是 tuple，
 不会被当作 `[B]` 接受。

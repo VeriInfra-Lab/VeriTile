@@ -6,8 +6,8 @@
     "tasks": 183,
     "examples": 19,
     "task_status": {
-      "selected_body_copy_checked": 121,
-      "uncovered_jit_functions": 62
+      "selected_body_copy_checked": 122,
+      "uncovered_jit_functions": 61
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
@@ -15,12 +15,12 @@
       "spec_derived_body_copy_checked": 15
     },
     "selected_jit_functions": 333,
-    "uncovered_selected_jit_functions": 140,
-    "primary_files_with_int64_screen_warning": 19,
+    "uncovered_selected_jit_functions": 138,
+    "primary_files_with_int64_screen_warning": 18,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 44,
-        "antiquotes": 49,
+        "in_body_type_directives": 43,
+        "antiquotes": 48,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 8
       },
@@ -11621,9 +11621,9 @@
       "source_provenance": "selected_revision",
       "lean_screen": {
         "quotations": 4,
-        "in_body_type_directives": 4,
-        "antiquotes": 59,
-        "dsl_assignment": 8,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 72,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 4
@@ -11708,22 +11708,154 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_layer_norm_forward_kernel",
+          "lean_definition": "forwardSource",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "Y_row_stride": "Y_row_stride",
+            "X_row_stride": "X_row_stride",
+            "W_row_stride": "W_row_stride",
+            "B_row_stride": "B_row_stride",
+            "Mean_row_stride": "Mean_row_stride",
+            "RSTD_row_stride": "RSTD_row_stride",
+            "n_cols": "n_cols",
+            "eps": "eps"
+          },
+          "statements": 22,
+          "runtime_parameters": {
+            "Y_row_stride": "integer",
+            "X_row_stride": "integer",
+            "W_row_stride": "integer",
+            "B_row_stride": "integer",
+            "Mean_row_stride": "integer",
+            "RSTD_row_stride": "integer",
+            "n_cols": "integer",
+            "eps": "fp32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/repairs/tritonbench_g/layer_norm_liger/layer_norm_liger_repaired.py",
-          "function": "_layer_norm_forward_kernel"
+          "lean": "bench/repairs/tritonbench_g/layer_norm_liger/Kernels.lean"
         },
         {
+          "python_function": "_layer_norm_backward_kernel",
+          "lean_definition": "backwardSource",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "stride_x": "stride_x",
+            "stride_dx": "stride_dx",
+            "stride_dw": "stride_dw",
+            "stride_db": "stride_db",
+            "stride_dy": "stride_dy",
+            "n_rows": "n_rows",
+            "n_cols": "n_cols"
+          },
+          "statements": 24,
+          "runtime_parameters": {
+            "stride_x": "integer",
+            "stride_dx": "integer",
+            "stride_dw": "integer",
+            "stride_db": "integer",
+            "stride_dy": "integer",
+            "n_rows": "integer",
+            "n_cols": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "dtype",
+            "rows_per_program"
+          ],
+          "dtype_bindings": {
+            "dtype": "fp32"
+          },
           "python": "bench/repairs/tritonbench_g/layer_norm_liger/layer_norm_liger_repaired.py",
-          "function": "_layer_norm_backward_kernel"
+          "lean": "bench/repairs/tritonbench_g/layer_norm_liger/Kernels.lean"
+        },
+        {
+          "python_function": "_layer_norm_forward_kernel",
+          "lean_definition": "forwardCandidateSource",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "Y_row_stride": "Y_row_stride",
+            "X_row_stride": "X_row_stride",
+            "W_row_stride": "W_row_stride",
+            "B_row_stride": "B_row_stride",
+            "Mean_row_stride": "Mean_row_stride",
+            "RSTD_row_stride": "RSTD_row_stride",
+            "n_cols": "n_cols",
+            "eps": "eps"
+          },
+          "statements": 23,
+          "runtime_parameters": {
+            "Y_row_stride": "integer",
+            "X_row_stride": "integer",
+            "W_row_stride": "integer",
+            "B_row_stride": "integer",
+            "Mean_row_stride": "integer",
+            "RSTD_row_stride": "integer",
+            "n_cols": "integer",
+            "eps": "fp32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
+          "python": "bench/repairs/tritonbench_g/layer_norm_liger/layer_norm_liger_optimized.py",
+          "lean": "bench/repairs/tritonbench_g/layer_norm_liger/Kernels.lean"
+        },
+        {
+          "python_function": "_layer_norm_backward_kernel",
+          "lean_definition": "backwardCandidateSource",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "stride_x": "stride_x",
+            "stride_dx": "stride_dx",
+            "stride_dw": "stride_dw",
+            "stride_db": "stride_db",
+            "stride_dy": "stride_dy",
+            "n_rows": "n_rows",
+            "n_cols": "n_cols"
+          },
+          "statements": 25,
+          "runtime_parameters": {
+            "stride_x": "integer",
+            "stride_dx": "integer",
+            "stride_dw": "integer",
+            "stride_db": "integer",
+            "stride_dy": "integer",
+            "n_rows": "integer",
+            "n_cols": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "dtype",
+            "rows_per_program"
+          ],
+          "dtype_bindings": {
+            "dtype": "fp32"
+          },
+          "python": "bench/repairs/tritonbench_g/layer_norm_liger/layer_norm_liger_optimized.py",
+          "lean": "bench/repairs/tritonbench_g/layer_norm_liger/Kernels.lean"
         }
       ],
-      "int64_screen": "cast_not_visible_in_primary_quotation",
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/layer_norm_liger/Kernels.lean": "5169eef7a79fc1abdb23d98bfac6e96101f6b9089e9da06351b6875d4a1cb12e",
+        "bench/repairs/tritonbench_g/layer_norm_liger/Kernels.lean": "3c1b6b6b8f04c2d2035f9f6c9f427aef8838c4cc422fa294c8b77f3fd7548db5",
+        "bench/repairs/tritonbench_g/layer_norm_liger/jit-correspondence.json": "3bc78a7e20a3478cb2d124e7351028f28dd99d728ace5c73d2d48e0b8dc90c27",
+        "bench/repairs/tritonbench_g/layer_norm_liger/layer_norm_liger_optimized.py": "58666428abc0f9d3a6d686e65f31e04782d1c5456bdab9a3acc1db36ea2d0bb8",
         "bench/repairs/tritonbench_g/layer_norm_liger/layer_norm_liger_repaired.py": "6ba82f8c92986e02bca37469e5c17f2e1471137f939191d7fef4b48bd7266a28"
       }
     },

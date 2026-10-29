@@ -100,11 +100,19 @@ def bMean (p : Backward.Parameters) (base : RegionName → Nat → α) (a : Carr
   read base a.writes p.mean row
 def bRstd (p : Backward.Parameters) (base : RegionName → Nat → α) (a : Carries α p) (row : Nat) : α :=
   read base a.writes p.rstd row
+def bXhatTyped (M : Algebra α) (p : Backward.Parameters) (base : RegionName → Nat → α)
+    (a : Carries α p) (row : Nat) (i : TileIndex [p.block]) : α :=
+  if i.1.val<p.columns then M.binary none .fp32 .mul
+    (M.binary none .fp32 .sub (bLoad M p base a p.x (row*p.xStride) i)
+      (bMean p base a row)) (bRstd p base a row) else M.literal none .fp32 0
+
 def bXhat (M : Algebra α) (p : Backward.Parameters) (base : RegionName → Nat → α)
     (a : Carries α p) (row : Nat) (i : TileIndex [p.block]) : α :=
-  if i.1.val<p.columns then Backward.cast M (M.binary (some .fp32) .fp32 .mul
-    (M.binary (some .fp32) .fp32 .sub (bLoad M p base a p.x (row*p.xStride) i)
-      (bMean p base a row)) (bRstd p base a row)) else M.literal none .real 0
+  Backward.cast M (bXhatTyped M p base a row i)
+
+/-- Explicit source dtype conversion, followed by the memory-store conversion. -/
+def bStored (M : Algebra α) (v : α) : α :=
+  M.cast none .real .fp32 (M.cast (some .fp32) .real .real v)
 
 def bWdy (M : Algebra α) (p : Backward.Parameters) (base : RegionName → Nat → α)
     (a : Carries α p) (row : Nat) (i : TileIndex [p.block]) : α :=
@@ -127,10 +135,10 @@ def bDX (M : Algebra α) (R : SumPrimitive α) (p : Backward.Parameters) (base :
 def bStep (M : Algebra α) (R : SumPrimitive α) (p : Backward.Parameters) (base : RegionName → Nat → α)
     (row : Nat) (a : Carries α p) : Carries α p where
   writes := scatter p.block p.columns p.dx (fun i => row*p.dxStride+i.1.val)
-    (fun i => stored M (bDX M R p base a row i)) a.writes
+    (fun i => bStored M (bDX M R p base a row i)) a.writes
   dw := fun i => Backward.binary M .add (a.dw i)
-    (Backward.binary M .mul (Backward.cast M (bLoad M p base a p.dy (row*p.dyStride) i))
-      (bXhat M p base a row i))
+    (Backward.cast M (M.binary (some .fp32) .fp32 .mul
+      (bLoad M p base a p.dy (row*p.dyStride) i) (bXhatTyped M p base a row i)))
   db := fun i => Backward.binary M .add (a.db i)
     (Backward.cast M (bLoad M p base a p.dy (row*p.dyStride) i))
 
@@ -141,8 +149,8 @@ def bAccumulated (M : Algebra α) (R : SumPrimitive α) (p : Backward.Parameters
   foldRange (bStep M R p (bInitial p pid v)) (first p pid) (last p pid) 1 (bZero M p)
 def bFinish (M : Algebra α) (p : Backward.Parameters) (pid : Nat) (a : Carries α p) : Writes α :=
   let w := scatter p.block p.columns p.dw (fun i => pid*p.dwStride+i.1.val)
-    (fun i => stored M (a.dw i)) a.writes
-  scatter p.block p.columns p.db (fun i => pid*p.dbStride+i.1.val) (fun i => stored M (a.db i)) w
+    (fun i => bStored M (a.dw i)) a.writes
+  scatter p.block p.columns p.db (fun i => pid*p.dbStride+i.1.val) (fun i => bStored M (a.db i)) w
 
 def backwardWrites (M : Algebra α) (R : SumPrimitive α) (p : Backward.Parameters)
     (pid : Nat) (v : ChannelValues α (bInputs p)) : Writes α :=

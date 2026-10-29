@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.layer_norm_liger.Proofs.SourceOffsets
 import bench.repairs.tritonbench_g.layer_norm_liger.Proofs.CandidateBackwardRun
 namespace VeriTile.Bench.Repairs.LayerNormLiger.Backward.Candidate
 open VeriTile.Triton FP.Structural
@@ -13,29 +14,37 @@ set_option linter.unusedSimpArgs false
 theorem range_run {α : Type} [Inhabited α] (M : Algebra α) (R : SumPrimitive α)
     (p : Parameters) (s t : State α) (row finishRow : Nat) (a : Acc α p)
     (h : Ready M p s t row a) :
-    ∃ u, FP.Structural.range (withSum M R) "_row" row finishRow 1 (body p) t = some u ∧
+    ∃ u, FP.Structural.rangeInt (withSum M R) "_" row finishRow 1 (body p) t = some u ∧
       ∃ k, Ready M p s u k (foldRange (update M R p) row finishRow 1 a) := by
-  apply range_values (withSum M R) "_row" (body p) (update M R p)
-    (fun n a t => Ready M p s t n a) (fun a t => ∃ k, Ready M p s t k a)
-    row finishRow 1 a t
-  · intro n a u hu _
-    exact body_run M R p s u n a hu
-  · intro n a u hu
-    exact ⟨n,hu⟩
-  · exact h
+  by_cases hlt : row < finishRow
+  · obtain ⟨u,hu,hr⟩ := body_run M R p s t row a h
+    obtain ⟨v,hv,k,hk⟩ := range_run M R p s u (row+1) finishRow (update M R p row a) hr
+    refine ⟨v,?_,k,?_⟩
+    · rw [FP.Structural.rangeInt, if_neg (by decide),
+        if_pos (by exact_mod_cast hlt : (row : Int) < (finishRow : Int)), hu]
+      simpa only [Option.bind_some, Nat.cast_add, Nat.cast_one] using hv
+    · rw [foldRange]
+      simpa only [Nat.one_ne_zero, hlt, if_false, if_true] using hk
+  · refine ⟨t,?_,row,?_⟩
+    · rw [FP.Structural.rangeInt, if_neg (by decide),
+        if_neg (by exact_mod_cast hlt : ¬ (row : Int) < (finishRow : Int))]
+    · rw [foldRange]
+      simpa only [Nat.one_ne_zero, hlt, if_false] using h
+termination_by finishRow - row
+ decreasing_by omega
 
 theorem postlude_run {α : Type} [Inhabited α] (M : Algebra α) (R : SumPrimitive α)
     (p : Parameters) (s t : State α) (row : Nat) (a : Acc α p)
     (h : Ready M p s t row a) :
     ∃ u, run (withSum M R) (postlude p) t = some u ∧
       u.mem = (finish M p (s.pids 0) a).mem := by
-  simp [postlude, candidateKernel, candidateSource, ComputeKernel.surfaceBody, run, step, evalExpr,
+  simp [postlude, candidateKernel, candidateSource, backwardCandidateSource, ComputeKernel.surfaceBody, run, step, evalExpr,
     evalComputeOp, evalOp_unfold, evalOffsets, store, Option.bind, ComputeDType.eraseDType,
     FloatDType.toTileDType, FloatDType.numericDType, ofFloat, toFloat,
     numeric, FP.Structural.bop, numericLt, natLt, Region.cast, withSum,
-    h.mem, h.pid, h.cols, h.mask, h.dw, h.db]
+    h.mem, h.sdw, h.sdb, h.pid, h.cols, h.mask, h.dw, h.db]
   simp only [finish, fold_writes_mem, State.setReg_mem]
-  simp [stored, h.mem]
+  simp only [stored, h.mem]
 
 theorem complete_run {α : Type} [Inhabited α] (M : Algebra α) (R : SumPrimitive α)
     (p : Parameters) (s : State α) :

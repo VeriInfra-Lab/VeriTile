@@ -549,7 +549,8 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
           expected_pointer_presence: dict | None = None,
           expected_specialized_booleans: dict | None = None,
           expected_constexpr_bindings: dict | None = None,
-          expected_signature_arguments: list[str] | None = None) -> dict:
+          expected_signature_arguments: list[str] | None = None,
+          expected_dtype_bindings: dict[str, str] | None = None) -> dict:
     native_ones: set[str] = set()
     functions = [n for n in ast.parse(python_text).body
                  if isinstance(n, ast.FunctionDef) and n.name == python_function]
@@ -709,6 +710,14 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
             raise ValueError("source dtype pointer declaration and invocation differ")
         if expected_signature is not None and profile != expected_signature:
             raise ValueError("call signature differs from the reviewed launch types")
+        dtype_bindings = dict(re.findall(
+            r"\blet\s+(\w+)\s*:\s*FloatDType\s*:=\s*\.(\w+)\b", signature))
+        dtype_bindings = {n: v for n, v in dtype_bindings.items() if n in profile["constexpr"]}
+        if dtype_bindings != (expected_dtype_bindings or {}):
+            raise ValueError("source dtype constexpr differs from the reviewed caller binding")
+        if dtype_bindings and (dtype_bindings != {"dtype": "fp32"} or
+                               not profile.get("typedFP32Storage", False)):
+            raise ValueError("only the checked typed-FP32 dtype constexpr is supported")
         for name, value in (expected_constexpr_bindings or {}).items():
             if name not in profile["constexpr"]:
                 raise ValueError("constexpr binding requires a declared natural-valued parameter")
@@ -842,6 +851,8 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
         result["pointer_presence"] = pointer_presence
     if source_dtype is not None:
         result["source_dtype"] = source_dtype
+    if expected_dtype_bindings is not None:
+        result["dtype_bindings"] = dtype_bindings
     if jit_options is not None:
         result["jit_options"] = jit_options
     if profile is not None and profile.get("binaryImports"):
@@ -899,7 +910,7 @@ def check_manifest(root: Path, manifest: Path) -> list[dict]:
                        record.get("expected_call_bindings"), record.get("expected_pointer_offsets"),
                        record.get("expected_source_dtype"), record.get("expected_pointer_presence"),
                        record.get("expected_specialized_booleans"), record.get("expected_constexpr_bindings"),
-                       record.get("expected_signature_arguments"))
+                       record.get("expected_signature_arguments"), record.get("expected_dtype_bindings"))
         if "profile_variant" in record:
             result["profile_variant"] = record["profile_variant"]
         results.append(result)
