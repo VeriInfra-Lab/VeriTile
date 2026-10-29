@@ -1,0 +1,17 @@
+/tmp/fp4_114-frontend/bench/tests/SignedWhereLiteralBody.lean:12:2: error: `|`: signed bitwise rhs requires retained storage width
+/tmp/fp4_114-frontend/bench/tests/SignedWhereLiteralBody.lean:28:52: error: unsolved goals
+⊢ (match
+      run
+        { literal := fun x x_1 x_2 => 9000, negInf := 0,
+          binary := fun p x x_1 a b => if p = some ComputeDType.fp32 then a + b else 5000,
+          unary := fun x x_1 x_2 => x_2, cast := fun x x_1 x_2 x_3 => x_3, fromNat := fun x n => -↑n,
+          fromInt := fun p n => if p = some ComputeDType.fp32 then n else 7000 + n, fp32Bits := fun x => 0,
+          fp32Load := id, reduceMax := fun x {x_1} x_2 x_3 x_4 x_5 => 0, reduceSum := fun x {x_1} x_2 x_3 x_4 x_5 => 0 }
+        (sorry ()).3
+        { mem := fun x x_1 => Cell.mk TileDType.int 0, regs := fun x x_1 x_2 => none, pids := fun x => 0,
+          numPids := fun x => 1, undef := fun d x x_1 => defaultValue d } with
+    | some x => some (x.mem { name := "y" } 0)
+    | none => none) =
+    some (Cell.mk TileDType.int 8)
+/tmp/fp4_114-frontend/bench/tests/SignedWhereLiteralBody.lean:29:27: warning: declaration uses `sorry`
+/tmp/fp4_114-frontend/bench/tests/SignedWhereLiteralBody.lean:33:0: error: VeriTile.Tests.SignedWhereLiteralBody.signed_selection: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

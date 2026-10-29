@@ -1,0 +1,25 @@
+{
+  "status": "FAIL",
+  "start": 1793252944.8797746,
+  "results": [
+    {
+      "module": "bench.tests.IntegerLiteralAssignmentBody",
+      "source_sha256": "4b847ca9fbbb6b66a95801a615f4302236a67260095c109546940f38114ead2d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793252944.8800259,
+      "end": 1793252974.2364185,
+      "log": "/tmp/fp4_114-probe3-bench__tests__IntegerLiteralAssignmentBody.log"
+    },
+    {
+      "module": "bench.tests.SourceHelperLiteralBody",
+      "source_sha256": "62e0dbbe0fef4b6b55d65ed75c392b1687652d8c69684016ff8aed96ee2b749a",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793252974.2367952,
+      "end": 1793252988.1187527,
+      "log": "/tmp/fp4_114-probe3-bench__tests__SourceHelperLiteralBody.log"
+    }
+  ],
+  "end": 1793252988.144213
+}

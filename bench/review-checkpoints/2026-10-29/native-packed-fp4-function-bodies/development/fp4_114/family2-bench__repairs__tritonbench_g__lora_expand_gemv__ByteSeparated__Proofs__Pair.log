@@ -1,0 +1,21 @@
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Proofs/Pair.lean:155:4: warning: 'change mapCell _ (final.mem _ _) = mapCell _ (other.mem _ _)' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.Pair.candidate_index_profiles: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.Pair.original_source: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.Pair.kernel_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.Pair.kernel_safe: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.Pair.equivalent: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.Pair.execute_same: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

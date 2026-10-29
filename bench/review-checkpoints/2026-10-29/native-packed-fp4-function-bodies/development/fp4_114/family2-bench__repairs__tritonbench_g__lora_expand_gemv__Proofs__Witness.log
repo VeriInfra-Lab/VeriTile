@@ -1,0 +1,2 @@
+VeriTile.Bench.Repairs.LoraExpandGemv.Witness.domain_nonempty: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LoraExpandGemv.Witness.stride2_distinguishes_logical_index: axiom footprint ⊆ standard base ✓  ([])

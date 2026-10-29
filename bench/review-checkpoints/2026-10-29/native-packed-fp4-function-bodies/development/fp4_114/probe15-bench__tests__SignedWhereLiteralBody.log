@@ -1,0 +1,6 @@
+VeriTile.Tests.SignedWhereLiteralBody.signed_selection: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.SignedWhereLiteralBody.minimum_signed_branch: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

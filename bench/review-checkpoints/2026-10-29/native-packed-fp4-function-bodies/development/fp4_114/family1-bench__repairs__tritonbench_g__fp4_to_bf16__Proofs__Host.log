@@ -1,0 +1,19 @@
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/Host.lean:115:27: warning: 'cases success' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/Host.lean:115:27: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+VeriTile.Bench.Repairs.Fp4ToBf16.Connection.ResultSpec: definition does not reference [VeriTile.Bench.Repairs.Fp4ToBf16.Connection.observe,
+ VeriTile.Bench.TritonBenchG.Fp4ToBf16.HostSchedule.runSchedule,
+ VeriTile.Bench.Repairs.Fp4ToBf16.Launch.run,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.Repairs.Fp4ToBf16.Connection.observe_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Fp4ToBf16.Connection.completion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Fp4ToBf16.Connection.protocol_success: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.Fp4ToBf16.Connection.empty_without_launch: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.Fp4ToBf16.Connection.allocation_before_asserts: axiom footprint ⊆ standard base ✓  ([])

@@ -1,0 +1,2 @@
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.TypedBits.fold_writes_regs: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.TypedBits.fold_writes_mem: axiom footprint ⊆ standard base ✓  ([propext])

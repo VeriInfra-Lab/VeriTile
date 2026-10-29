@@ -1,0 +1,6 @@
+/tmp/fp4_114-frontend/bench/examples/TritonBenchVectorAddition/Kernels.lean:24:6: warning: unused variable `BLOCK_SIZE`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fp4_114-frontend/bench/examples/TritonBenchVectorAddition/Kernels.lean:42:6: warning: unused variable `BLOCK_SIZE`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`

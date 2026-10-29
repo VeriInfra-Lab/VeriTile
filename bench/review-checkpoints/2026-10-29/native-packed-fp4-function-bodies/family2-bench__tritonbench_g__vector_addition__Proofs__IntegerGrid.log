@@ -1,0 +1,16 @@
+VeriTile.Bench.TritonBenchG.VectorAddition.IntegerSource.gridExpectedMemory: definition does not reference [VeriTile.Bench.TritonBenchG.VectorAddition.IntegerSource.source,
+ VeriTile.Bench.TritonBenchG.VectorAddition.IntegerSource.runGrid,
+ VeriTile.Bench.TritonBenchG.VectorAddition.IntegerSource.runGridPrefix,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.TritonBenchG.VectorAddition.IntegerSource.next_tile_inputs: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.VectorAddition.IntegerSource.reference_step: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.IntegerSource.grid_prefix_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.IntegerSource.grid_reference_complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.VectorAddition.IntegerSource.grid_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

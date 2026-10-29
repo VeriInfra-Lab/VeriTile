@@ -1,0 +1,9 @@
+VeriTile.Bench.Repairs.Fp4ToBf16.KernelNativeResult.fp4_to_bf16_native: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Fp4ToBf16.KernelNativeResult.native_masks: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.Fp4ToBf16.Bits.expectedBits: definition does not reference [VeriTile.Bench.TritonBenchG.Fp4ToBf16.FPValue.source,
+ VeriTile.Bench.Repairs.Fp4ToBf16.Kernels.source,
+ VeriTile.Bench.Repairs.Fp4ToBf16.Launch.run] — non-circular ✓

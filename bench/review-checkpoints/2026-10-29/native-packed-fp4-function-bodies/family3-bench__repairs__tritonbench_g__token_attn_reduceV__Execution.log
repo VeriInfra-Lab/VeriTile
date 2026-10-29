@@ -1,0 +1,12 @@
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/token_attn_reduceV/Execution.lean:59:2: warning: 'all_goals try rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+VeriTile.Bench.Repairs.TokenAttnReduceV.prelude_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.TokenAttnReduceV.body_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.TokenAttnReduceV.range_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

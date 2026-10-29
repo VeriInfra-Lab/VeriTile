@@ -1,0 +1,57 @@
+[
+  {
+    "python_function": "_fp4_packed_to_bf16",
+    "lean_definition": "packedToBf16",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "inferred_helper_values",
+    "call_bindings": null,
+    "statements": 22,
+    "runtime_parameters": {},
+    "constexpr_parameters": [],
+    "body_kind": "helper",
+    "helper_parameters": [
+      "x_packed",
+      "sign_mask_f4",
+      "mantissa_mask_f4",
+      "mbits_f4_e2m1",
+      "ebits_f4_e2m1",
+      "f4_e2m1_exp_bias",
+      "mbits_f32",
+      "ebits_f32",
+      "f32_exp_bias",
+      "zero_bits_f32",
+      "zero_point_five_bits_f32"
+    ]
+  },
+  {
+    "python_function": "triton_f4_to_bf16_kernel_repaired",
+    "lean_definition": "body",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "n_elements_in": "n"
+    },
+    "statements": 13,
+    "runtime_parameters": {
+      "n_elements_in": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE_IN",
+      "ebits_f32",
+      "ebits_f4_e2m1",
+      "f32_exp_bias",
+      "f4_e2m1_exp_bias",
+      "mantissa_mask_f4",
+      "mbits_f32",
+      "mbits_f4_e2m1",
+      "sign_mask_f4",
+      "zero_bits_f32",
+      "zero_point_five_bits_f32"
+    ],
+    "source_functions": [
+      "packedToBf16"
+    ]
+  }
+]

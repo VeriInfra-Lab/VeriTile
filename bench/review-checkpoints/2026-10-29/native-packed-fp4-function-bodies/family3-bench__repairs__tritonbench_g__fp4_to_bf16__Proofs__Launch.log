@@ -1,0 +1,18 @@
+VeriTile.Bench.Repairs.Fp4ToBf16.Launch.program_source: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Fp4ToBf16.Launch.program_memory_congr: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Fp4ToBf16.Launch.program_refinement: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Fp4ToBf16.Launch.schedule_memory_congr: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Fp4ToBf16.Launch.complete_refinement: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Fp4ToBf16.Launch.complete_transfer: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,94 @@
+def VeriTile.Tests.NarrowUnsignedLoadBody.byteSource : RegionName → RegionName → ComputeKernel :=
+fun X Y =>
+  ComputeKernel.mk [X] [Y]
+    [ComputeStmt.assign TileDType.nat [] "x"
+        (ComputeExpr.alg (Op.load TileDType.nat (MemAccess.region (Region.cast X) (Op.constNat 0)) MaskOpt.none)),
+      ComputeStmt.assign TileDType.nat [] "exponent"
+        (ComputeExpr.alg
+          (Op.natToUnsigned 8
+            (Op.add NumericDType.nat Broadcast.nil
+              (Op.intToUnsigned 8
+                (Op.sub NumericDType.int Broadcast.nil (Op.ref TileDType.nat [] "x").castNatToInt
+                  (Op.floatToInt none FloatDType.real 64 (Op.const 1))))
+              (Op.constNat 127)))),
+      ComputeStmt.store TileDType.nat [] (MemAccess.region (Region.cast Y) (Op.constNat 0))
+        (ComputeExpr.alg (Op.ref TileDType.nat [] "exponent")) MaskOpt.none]
+/tmp/fp4_114-frontend/UnsignedDiagnostic.lean:46:52: error: unsolved goals
+⊢ (match do
+      let __do_lift ←
+        do
+          let v ←
+            do
+              let _ ← some fun i => ({ name := "x" }, 0)
+              let active ← some fun x => «true»
+              let other ← some fun i => defaultValue TileDType.nat
+              pure fun i => if active i = «true» then if h : True then 0 else defaultValue TileDType.nat else other i
+          pure
+              { mem := fun x x_1 => Cell.mk TileDType.nat 0,
+                regs := fun d sh n =>
+                  if n = "x" then
+                    if hd : TileDType.nat = d then if hs : [] = sh then some (hd ▸ hs ▸ v) else none else none
+                  else none,
+                pids := fun x => 0, numPids := fun x => 1, undef := fun d x x_1 => defaultValue d }
+      let __do_lift ←
+        do
+          let v ←
+            do
+              let __do_lift ←
+                do
+                  let __do_lift ←
+                    do
+                      let v ←
+                        do
+                          let __do_lift ←
+                            do
+                              let __do_lift ←
+                                do
+                                  let v ← __do_lift.regs TileDType.nat [] "x"
+                                  pure fun i => Int.ofNat (v i)
+                              let __do_lift_1 ←
+                                do
+                                  let convert ← none
+                                  let v ← some fun x => 9000
+                                  collectValues? fun i => convert (id (v i))
+                              pure (bop (fun x1 x2 => x1 - x2) Broadcast.nil __do_lift __do_lift_1)
+                          let __do_lift_1 ←
+                            do
+                              let v ← some fun x => 2 ^ 8
+                              pure fun x => v PUnit.unit
+                          pure (bop (fun x1 x2 => x1 % x2) (IntegerExpr.sameShape []) __do_lift __do_lift_1)
+                      pure fun i => Int.toNat (v i)
+                  let __do_lift_1 ← some fun x => 127
+                  pure (bop (fun x1 x2 => x1 + x2) Broadcast.nil __do_lift __do_lift_1)
+              let __do_lift_1 ←
+                do
+                  let v ← some fun x => 2 ^ 8
+                  pure fun x => v PUnit.unit
+              pure (bop (fun x1 x2 => x1 % x2) (IntegerExpr.sameShape []) __do_lift __do_lift_1)
+          pure
+              { mem := __do_lift.mem,
+                regs := fun d sh n =>
+                  if n = "exponent" then
+                    if hd : TileDType.nat = d then if hs : [] = sh then some (hd ▸ hs ▸ v) else none else none
+                  else __do_lift.regs d sh n,
+                pids := __do_lift.pids, numPids := __do_lift.numPids, undef := __do_lift.undef }
+      let __do_lift ←
+        do
+          let __do_lift_1 ← __do_lift.regs TileDType.nat [] "exponent"
+          let addresses ← some fun i => ({ name := "y" }, 0)
+          let active ← some fun x => «true»
+          pure
+              (List.foldl
+                (fun t i =>
+                  if active i = «true» then
+                    {
+                      mem := fun r' o' =>
+                        if r' = (addresses i).1 ∧ o' = (addresses i).2 then Cell.mk TileDType.nat (__do_lift_1 i)
+                        else t.mem r' o',
+                      regs := t.regs, pids := t.pids, numPids := t.numPids, undef := t.undef }
+                  else t)
+                __do_lift [PUnit.unit])
+      some __do_lift with
+    | some x => some (x.mem { name := "y" } 0)
+    | none => none) =
+    some (Cell.mk TileDType.nat 126)

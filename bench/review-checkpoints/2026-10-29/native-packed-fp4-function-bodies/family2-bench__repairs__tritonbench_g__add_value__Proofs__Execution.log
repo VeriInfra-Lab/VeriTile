@@ -1,0 +1,17 @@
+VeriTile.Bench.Repairs.AddValue.Contiguous.Native.result: definition does not reference [VeriTile.Bench.Repairs.AddValue.Contiguous.Native.runJob,
+ VeriTile.Bench.Repairs.AddValue.Contiguous.Native.runJobs,
+ VeriTile.Bench.Repairs.AddValue.Contiguous.Source.runProgram,
+ VeriTile.Bench.Repairs.AddValue.Contiguous.Source.executeBody,
+ VeriTile.Bench.Repairs.AddValue.Contiguous.Source.executeInstruction,
+ VeriTile.Bench.TritonBenchG.AddExample.Finite.applyWrites] — non-circular ✓
+VeriTile.Bench.Repairs.AddValue.Contiguous.Native.source_job: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AddValue.Contiguous.Native.writes_read: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.AddValue.Contiguous.Native.jobs_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AddValue.Contiguous.Native.launch_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

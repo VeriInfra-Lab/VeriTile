@@ -1,0 +1,7 @@
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/SourcePair.lean:98:81: warning: This simp argument is unused:
+  forall_const
+
+Hint: Omit it from the simp argument list.
+  simp only [̵p̵o̵w̵e̵r̵s̵,̵S̵a̵f̵e̵t̵y̵.̵t̵r̵a̵c̵e̵S̵a̵f̵e̵L̵i̵s̵t̵_̵a̵p̵p̵e̵n̵d̵,̵g̵r̵o̵u̵p̵_̵s̵a̵f̵e̵,̵t̵r̵u̵e̵_̵a̵n̵d̵,̵i̵m̵p̵l̵i̵e̵s̵_̵t̵r̵u̵e̵,̵f̵o̵r̵a̵l̵l̵_̵c̵o̵n̵s̵t̵]̵[̲p̲o̲w̲e̲r̲s̲,̲ ̲S̲a̲f̲e̲t̲y̲.̲t̲r̲a̲c̲e̲S̲a̲f̲e̲L̲i̲s̲t̲_̲a̲p̲p̲e̲n̲d̲,̲ ̲g̲r̲o̲u̲p̲_̲s̲a̲f̲e̲,̲ ̲t̲r̲u̲e̲_̲a̲n̲d̲,̲ ̲i̲m̲p̲l̲i̲e̲s̲_̲t̲r̲u̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

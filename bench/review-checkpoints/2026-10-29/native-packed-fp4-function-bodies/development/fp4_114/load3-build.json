@@ -1,0 +1,16 @@
+{
+  "status": "FAIL",
+  "start": 1793254833.1107626,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.fp4_to_bf16.Proofs.SourceLoad",
+      "source_sha256": "3721dd4b48800cf80cfd3c83e4f9cd9cc934caebff33a49d1a650a618f8d2852",
+      "status": "FAIL",
+      "exit_code": -6,
+      "start": 1793254833.1109197,
+      "end": 1793254857.128966,
+      "log": "/tmp/fp4_114-load3-bench__repairs__tritonbench_g__fp4_to_bf16__Proofs__SourceLoad.log"
+    }
+  ],
+  "end": 1793254857.1291919
+}

@@ -1,0 +1,6 @@
+VeriTile.Tests.LoopTupleLoadBody.nested_arithmetic_load_order: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.LoopTupleLoadBody.preserves_load_negation_and_loop: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

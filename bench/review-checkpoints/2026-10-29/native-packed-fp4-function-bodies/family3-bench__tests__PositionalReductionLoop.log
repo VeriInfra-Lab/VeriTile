@@ -1,0 +1,21 @@
+VeriTile.Tests.PositionalReductionLoop.complete_source: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.PositionalReductionLoop.all_executions: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/fp4_114-frontend/bench/tests/PositionalReductionLoop.lean:64:15: warning: unused variable `Copy`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fp4_114-frontend/bench/tests/PositionalReductionLoop.lean:64:37: warning: unused variable `N`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fp4_114-frontend/bench/tests/PositionalReductionLoop.lean:76:23: warning: unused variable `Copy`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fp4_114-frontend/bench/tests/PositionalReductionLoop.lean:76:45: warning: unused variable `N`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Tests.PositionalReductionLoop.aliases_and_reassignment: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

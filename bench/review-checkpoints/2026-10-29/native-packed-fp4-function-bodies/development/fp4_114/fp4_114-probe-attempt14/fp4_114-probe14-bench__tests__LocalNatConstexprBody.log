@@ -1,0 +1,6 @@
+VeriTile.Tests.LocalNatConstexprBody.six_lane_output: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.LocalNatConstexprBody.interleaved_output: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,8 @@
+VeriTile.Bench.Repairs.Fp4ToBf16.FPEquiv.fp4_to_bf16_native: statement's project surface ⊆ allowlist ✓
+VeriTile.Bench.Repairs.Fp4ToBf16.ConversionIO.nativeTarget: definition does not reference [VeriTile.Bench.TritonBenchG.Fp4ToBf16.FPValue.source,
+ VeriTile.Bench.Repairs.Fp4ToBf16.Kernels.source,
+ VeriTile.Bench.Repairs.Fp4ToBf16.Launch.run,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.Repairs.Fp4ToBf16.FPEquiv.fp4_to_bf16_native: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,51 @@
+VeriTile.Bench.Repairs.Fp4ToBf16.Source.maskExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceArithmetic.lean:78:64: warning: unused variable `j`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceArithmetic.lean:86:75: warning: unused variable `j`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.Repairs.Fp4ToBf16.Source.addBiasExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceArithmetic.lean:161:67: warning: unused variable `j`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceArithmetic.lean:169:78: warning: unused variable `j`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.Repairs.Fp4ToBf16.Source.expExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceArithmetic.lean:244:63: warning: unused variable `j`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceArithmetic.lean:252:74: warning: unused variable `j`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.Repairs.Fp4ToBf16.Source.normalExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceArithmetic.lean:327:66: warning: unused variable `j`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceArithmetic.lean:335:77: warning: unused variable `j`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.Repairs.Fp4ToBf16.Source.signExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceArithmetic.lean:410:64: warning: unused variable `j`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceArithmetic.lean:418:75: warning: unused variable `j`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.Repairs.Fp4ToBf16.Source.storeExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Fp4ToBf16.Source.execution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

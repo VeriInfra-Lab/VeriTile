@@ -1,0 +1,6 @@
+FP assumptions used by fp4_to_bf16_schedule_equiv:
+  none
+VeriTile.Bench.Repairs.Fp4ToBf16.FPEquiv.fp4_to_bf16_schedule_equiv: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Fp4ToBf16.FPEquiv.fp4_to_bf16_schedule_equiv: statement's project surface ⊆ allowlist ✓

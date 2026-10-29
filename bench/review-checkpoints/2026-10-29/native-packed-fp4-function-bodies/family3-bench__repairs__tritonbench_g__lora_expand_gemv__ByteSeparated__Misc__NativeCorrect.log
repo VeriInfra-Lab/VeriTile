@@ -1,0 +1,7 @@
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.FPEquiv.kernel_native: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.LoraIO.nativeTarget: definition does not reference [VeriTile.Bench.Repairs.LoraExpandGemv.execute,
+ VeriTile.Bench.Repairs.LoraExpandGemv.Branches.source,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.FPEquiv.kernel_native: statement's project surface ⊆ allowlist ✓

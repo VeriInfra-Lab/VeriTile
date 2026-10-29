@@ -1,0 +1,4 @@
+VeriTile.Bench.TritonBenchG.LoraExpandGemv.Host.nextPowerOfTwo_zero: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.LoraExpandGemv.Host.nextPowerOfTwo_pos: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.LoraExpandGemv.Host.squeeze_four_contiguous: axiom footprint ⊆ standard base ✓  ([])

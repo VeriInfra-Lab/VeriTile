@@ -1,0 +1,6 @@
+{
+  "status": "UNRESOLVED_FRONTEND_LIMIT",
+  "trigger": "tl.full([], 8, tl.int32) | a_retained_int32_tensor",
+  "evidence": "/tmp/fp4_114-probe-attempt10/bench/tests/SignedWhereLiteralBody.lean",
+  "description": "Existing generic full constructor erases the signed machine-width metadata to the mathematical Int carrier. Original FP4 uses explicit .to(tl.int32) before shifts, not this constructor. Revised focused selection tests use the actual explicit-cast pattern; the old failing diagnostic is retained, and generic full-width support is not claimed."
+}

@@ -1,0 +1,15 @@
+VeriTile.Bench.TritonBenchG.Fp4ToBf16.HostSchedule.scheduledMemory: definition does not reference [VeriTile.Bench.TritonBenchG.Fp4ToBf16.HostSchedule.runSchedule,
+ VeriTile.Bench.TritonBenchG.Fp4ToBf16.FPValue.execution,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.TritonBenchG.Fp4ToBf16.FPValue.source] — non-circular ✓
+VeriTile.Bench.TritonBenchG.Fp4ToBf16.HostSchedule.program_memory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.Fp4ToBf16.HostSchedule.schedule_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.Fp4ToBf16.HostSchedule.complete_schedule: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.Fp4ToBf16.HostSchedule.distinct_program_writes: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.TritonBenchG.Fp4ToBf16.HostSchedule.writes_preserve_input_region: axiom footprint ⊆ standard base ✓  ([])

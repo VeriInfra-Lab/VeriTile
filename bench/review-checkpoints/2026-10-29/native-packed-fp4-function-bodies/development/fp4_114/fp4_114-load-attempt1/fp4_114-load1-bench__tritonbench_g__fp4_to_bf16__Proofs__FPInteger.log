@@ -1,0 +1,6 @@
+VeriTile.Bench.TritonBenchG.Fp4ToBf16.FPValue.integer_payload: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.Fp4ToBf16.FPValue.byte_halves: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.TritonBenchG.Fp4ToBf16.FPValue.converted_table: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

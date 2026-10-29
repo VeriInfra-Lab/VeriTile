@@ -1,0 +1,9 @@
+VeriTile.Tests.SourceFunction.registered_definition_owns_callee: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.SourceFunction.complete_expansion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.SourceFunction.capture_evaluates_once: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,12 @@
+/tmp/fp4_114-frontend/bench/tests/SignedRangeCallBody.lean:17:6: warning: unused variable `BLOCK`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Tests.SignedRangeCallBody.variance_dtype: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.SignedRangeCallBody.signed_loop: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.SignedRangeCallBody.kept_step_assignment: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

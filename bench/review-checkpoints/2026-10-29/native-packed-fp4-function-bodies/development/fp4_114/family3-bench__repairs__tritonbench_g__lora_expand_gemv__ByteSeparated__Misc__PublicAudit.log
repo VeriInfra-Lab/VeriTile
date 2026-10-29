@@ -1,0 +1,61 @@
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.Contract.python_checks_iff: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.Contract.python_separate_iff: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.valid: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.FP32Binding.logical_read: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.TensorBridge.checked_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.TensorBridge.checked_fp: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.TensorBridge.checked_caller_bytes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.caller_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.sentinel_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.output_padding_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.failure_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.empty: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.signed_formed: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.addresses: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.metadata_span: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.Real.target: definition does not reference [VeriTile.Bench.Repairs.LoraExpandGemv.execute,
+ VeriTile.Bench.Repairs.LoraExpandGemv.Branches.source,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.LoraExpandGemv.value] — non-circular ✓
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.TensorBridge.nativeReference: definition does not reference [VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.execution,
+ VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.finalMemory,
+ VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.sourceStores,
+ VeriTile.Bench.Repairs.LoraExpandGemv.execute,
+ VeriTile.Bench.Repairs.LoraExpandGemv.Branches.source,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.TensorBridge.CompilerBinding: definition does not reference [VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.execution,
+ VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.finalMemory,
+ VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.sourceStores,
+ VeriTile.Bench.Repairs.LoraExpandGemv.execute,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+Axiom audit: headlines=0
+headlines: []

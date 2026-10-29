@@ -1,0 +1,12 @@
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceContract.lean:50:2: error: `simp` made no progress
+VeriTile.Bench.Repairs.Fp4ToBf16.Source.rawWritten_memory_congr: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceContract.lean:134:0: error: VeriTile.Bench.Repairs.Fp4ToBf16.Source.tail_memory: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceContract.lean:135:0: error: VeriTile.Bench.Repairs.Fp4ToBf16.Source.undef_independent: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceContract.lean:137:0: error: VeriTile.Bench.Repairs.Fp4ToBf16.Source.raw_execution_memory: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.Repairs.Fp4ToBf16.Source.active_lane_table: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceContract.lean:139:0: error: VeriTile.Bench.Repairs.Fp4ToBf16.Source.execution_memory: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceContract.lean:140:0: error: VeriTile.Bench.Repairs.Fp4ToBf16.Source.residual_backend_independent: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

@@ -1,0 +1,9 @@
+VeriTile.Bench.TritonBenchG.Fp4ToBf16.Bits.all_nibbles: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.Fp4ToBf16.Bits.every_packed_byte: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.Fp4ToBf16.Bits.ordering_and_zero_vectors: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

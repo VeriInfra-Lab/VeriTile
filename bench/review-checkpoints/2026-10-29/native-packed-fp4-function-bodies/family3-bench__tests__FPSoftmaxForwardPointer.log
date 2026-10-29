@@ -1,0 +1,142 @@
+/tmp/fp4_114-frontend/bench/tests/FPSoftmaxForwardPointer.lean:62:28: warning: This simp argument is unused:
+  evalComputeOp
+
+Hint: Omit it from the simp argument list.
+  simp [branched, ComputeKernel.surfaceBody, run, step,
+  ̵  ̵ ̵ ̵FP.Structural.evalExpr, evalC̵O̲p̲_̲u̲n̲f̲om̵p̵u̵t̵e̵O̵p̵l̲d̲,
+  ̲ e̵v̵a̵l̵O̵p̵_̵u̵n̵f̵o̵l̵d̵,̵  ̲ ̲Option.bind,
+  ̵  ̵ ̵ ̵engine, Algebra.withDefaultPrecision, resolvePrecision, TypedExecution.model,
+      ComputeDType.eraseDType, numeric, bop, initial, Cell.read, ofFloat, toFloat,
+  ̵  ̵ ̵ ̵Region.cast,
+  ̲  ̲ ̲ ̲State.setReg, FP.Structural.store, State.write,
+  ̵  ̵ ̵ ̵TileShape.allIndices, List.finRange_succ, hYM]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/fp4_114-frontend/bench/tests/FPSoftmaxForwardPointer.lean:64:4: warning: This simp argument is unused:
+  ComputeDType.eraseDType
+
+Hint: Omit it from the simp argument list.
+  simp [branched, ComputeKernel.surfaceBody, run, step,
+  ̵  ̵ ̵ ̵FP.Structural.evalExpr, evalComputeOp,
+  ̲  ̲ ̲ ̲evalOp_unfold, Option.bind,
+  ̵  ̵ ̵ ̵engine, Algebra.withDefaultPrecision, resolvePrecision,
+  ̲  ̲ ̲ ̲TypedExecution.model,
+  ̵  ̵ ̵ ̵C̵o̵m̵p̵u̵t̵e̵D̵T̵y̵p̵e̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵,̵ ̵numeric, bop, initial, Cell.read, ofFloat, toFloat,
+  ̵  ̵ ̵ ̵Region.cast,
+  ̲  ̲ ̲ ̲State.setReg, FP.Structural.store, State.write,
+  ̵  ̵ ̵ ̵TileShape.allIndices, List.finRange_succ, hYM]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/fp4_114-frontend/bench/tests/FPSoftmaxForwardPointer.lean:66:46: warning: This simp argument is unused:
+  hYM
+
+Hint: Omit it from the simp argument list.
+  simp [branched, ComputeKernel.surfaceBody, run, step,
+  ̵  ̵ ̵ ̵FP.Structural.evalExpr, evalComputeOp,
+  ̲  ̲ ̲ ̲evalOp_unfold, Option.bind,
+  ̵  ̵ ̵ ̵engine, Algebra.withDefaultPrecision, resolvePrecision,
+  ̲  ̲ ̲ ̲TypedExecution.model,
+  ̵  ̵ ̵ ̵ComputeDType.eraseDType, numeric, bop, initial, Cell.read, ofFloat,
+  ̲  ̲ ̲ ̲toFloat,
+  ̵  ̵ ̵ ̵Region.cast, State.setReg, FP.Structural.store, State.write,
+  ̵  ̵ ̵ ̵TileShape.allIndices,
+  ̲  ̲ ̲ ̲List.finRange_succ,̵ ̵h̵Y̵M̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/fp4_114-frontend/bench/tests/FPSoftmaxForwardPointer.lean:67:2: warning: 'all_goals rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/fp4_114-frontend/bench/tests/FPSoftmaxForwardPointer.lean:67:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/fp4_114-frontend/bench/tests/FPSoftmaxForwardPointer.lean:74:28: warning: This simp argument is unused:
+  evalComputeOp
+
+Hint: Omit it from the simp argument list.
+  simp [branched, ComputeKernel.surfaceBody, run, step,
+  ̵  ̵ ̵ ̵FP.Structural.evalExpr, evalC̵O̲p̲_̲u̲n̲f̲om̵p̵u̵t̵e̵O̵p̵l̲d̲,
+  ̲ e̵v̵a̵l̵O̵p̵_̵u̵n̵f̵o̵l̵d̵,̵  ̲ ̲Option.bind,
+  ̵  ̵ ̵ ̵engine, Algebra.withDefaultPrecision, resolvePrecision, TypedExecution.model,
+      ComputeDType.eraseDType, numeric, bop, initial, Cell.read, ofFloat, toFloat,
+  ̵  ̵ ̵ ̵Region.cast,
+  ̲  ̲ ̲ ̲State.setReg, FP.Structural.store, State.write,
+  ̵  ̵ ̵ ̵TileShape.allIndices, List.finRange_succ, hYM]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/fp4_114-frontend/bench/tests/FPSoftmaxForwardPointer.lean:76:4: warning: This simp argument is unused:
+  ComputeDType.eraseDType
+
+Hint: Omit it from the simp argument list.
+  simp [branched, ComputeKernel.surfaceBody, run, step,
+  ̵  ̵ ̵ ̵FP.Structural.evalExpr, evalComputeOp,
+  ̲  ̲ ̲ ̲evalOp_unfold, Option.bind,
+  ̵  ̵ ̵ ̵engine, Algebra.withDefaultPrecision, resolvePrecision,
+  ̲  ̲ ̲ ̲TypedExecution.model,
+  ̵  ̵ ̵ ̵C̵o̵m̵p̵u̵t̵e̵D̵T̵y̵p̵e̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵,̵ ̵numeric, bop, initial, Cell.read, ofFloat, toFloat,
+  ̵  ̵ ̵ ̵Region.cast,
+  ̲  ̲ ̲ ̲State.setReg, FP.Structural.store, State.write,
+  ̵  ̵ ̵ ̵TileShape.allIndices, List.finRange_succ, hYM]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/fp4_114-frontend/bench/tests/FPSoftmaxForwardPointer.lean:78:46: warning: This simp argument is unused:
+  hYM
+
+Hint: Omit it from the simp argument list.
+  simp [branched, ComputeKernel.surfaceBody, run, step,
+  ̵  ̵ ̵ ̵FP.Structural.evalExpr, evalComputeOp,
+  ̲  ̲ ̲ ̲evalOp_unfold, Option.bind,
+  ̵  ̵ ̵ ̵engine, Algebra.withDefaultPrecision, resolvePrecision,
+  ̲  ̲ ̲ ̲TypedExecution.model,
+  ̵  ̵ ̵ ̵ComputeDType.eraseDType, numeric, bop, initial, Cell.read, ofFloat,
+  ̲  ̲ ̲ ̲toFloat,
+  ̵  ̵ ̵ ̵Region.cast, State.setReg, FP.Structural.store, State.write,
+  ̵  ̵ ̵ ̵TileShape.allIndices,
+  ̲  ̲ ̲ ̲List.finRange_succ,̵ ̵h̵Y̵M̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/fp4_114-frontend/bench/tests/FPSoftmaxForwardPointer.lean:79:2: warning: 'all_goals rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/fp4_114-frontend/bench/tests/FPSoftmaxForwardPointer.lean:79:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/fp4_114-frontend/bench/tests/FPSoftmaxForwardPointer.lean:84:28: warning: This simp argument is unused:
+  evalComputeOp
+
+Hint: Omit it from the simp argument list.
+  simp [branched, ComputeKernel.surfaceBody, run, step, FP.Structural.evalExpr, e̵v̵a̵l̵C̵o̵m̵p̵u̵t̵e̵O̵p̵,̵ ̵evalOp_unfold,
+  ̲  ̲ ̲ ̲Option.bind, engine, Algebra.withDefaultPrecision, resolvePrecision, initial, State.setReg]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/fp4_114-frontend/bench/tests/FPSoftmaxForwardPointer.lean:102:28: warning: This simp argument is unused:
+  evalComputeOp
+
+Hint: Omit it from the simp argument list.
+  simp [runtimePartial, ComputeKernel.surfaceBody, run, step,
+  ̵  ̵ ̵ ̵FP.Structural.evalExpr, evalC̵O̲p̲_̲u̲n̲f̲om̵p̵u̵t̵e̵O̵p̵l̲d̲,
+  ̲ e̵v̵a̵l̵O̵p̵_̵u̵n̵f̵o̵l̵d̵,̵  ̲ ̲Option.bind,
+  ̵  ̵ ̵ ̵engine, Algebra.withDefaultPrecision, resolvePrecision, initial, State.setReg,
+      natLt, bop]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.TritonBenchG.KsoftmaxTriton.Forward.PointerRegression.elif_is_nested: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.KsoftmaxTriton.Forward.PointerRegression.qk_nonzero: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.KsoftmaxTriton.Forward.PointerRegression.bk_nonzero: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.KsoftmaxTriton.Forward.PointerRegression.unknown_mode_fails: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.KsoftmaxTriton.Forward.PointerRegression.runtime_missing_fails: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.KsoftmaxTriton.Forward.PointerRegression.branch_region_inventory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.KsoftmaxTriton.Forward.PointerRegression.wide_all_arms_precision: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

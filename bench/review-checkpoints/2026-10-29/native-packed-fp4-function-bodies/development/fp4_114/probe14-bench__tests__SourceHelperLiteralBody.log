@@ -1,0 +1,21 @@
+/tmp/fp4_114-frontend/bench/tests/SourceHelperLiteralBody.lean:32:6: warning: unused variable `DENOMINATOR`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fp4_114-frontend/bench/tests/SourceHelperLiteralBody.lean:47:6: warning: unused variable `DENOMINATOR`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Tests.SourceHelperLiteralBody.literal_argument_remains_weak: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.SourceHelperLiteralBody.caller_constexpr_remains_weak: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.SourceHelperLiteralBody.helper_assignment_materializes_tensor: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.SourceHelperLiteralBody.named_helper_assignment_materializes_tensor: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.SourceHelperLiteralBody.caller_tensor_remains_tensor: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

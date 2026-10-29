@@ -1,0 +1,34 @@
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/lora_expand_gemv/Proofs/Bounds.lean:28:13: warning: This simp argument is unused:
+  BitVec.toNat_udiv
+
+Hint: Omit it from the simp argument list.
+  simp only ̵[̵B̵i̵t̵V̵e̵c̵.̵t̵o̵N̵a̵t̵_̵u̵d̵i̵v̵]̵
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.LoraExpandGemv.Bounds.sdiv_word: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.Bounds.cdiv_word: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.Bounds.pointer_projection: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.Bounds.signed_index: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.LoraExpandGemv.Bounds.x_projection: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.Bounds.w_projection: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.Bounds.y_projection: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.Bounds.input_mask: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.LoraExpandGemv.Bounds.masks: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.Bounds.active_bounds: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.LoraExpandGemv.Bounds.byte_bound: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

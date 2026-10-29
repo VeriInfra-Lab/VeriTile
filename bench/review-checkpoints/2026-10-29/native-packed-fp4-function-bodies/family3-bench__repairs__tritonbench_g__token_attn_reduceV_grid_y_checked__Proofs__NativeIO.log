@@ -1,0 +1,13 @@
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/token_attn_reduceV_grid_y_checked/Proofs/NativeIO.lean:38:28: warning: This simp argument is unused:
+  nativeIO
+
+Hint: Omit it from the simp argument list.
+  simp [̵n̵a̵t̵i̵v̵e̵I̵O̵,̵p̵r̵o̵g̵r̵a̵m̵I̵O̵,̵m̵e̵m̵o̵r̵y̵,̵o̵u̵t̵p̵u̵t̵s̵]̵[̲p̲r̲o̲g̲r̲a̲m̲I̲O̲,̲ ̲m̲e̲m̲o̲r̲y̲,̲ ̲o̲u̲t̲p̲u̲t̲s̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.Interface.native_observes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.Interface.old_native_formula: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

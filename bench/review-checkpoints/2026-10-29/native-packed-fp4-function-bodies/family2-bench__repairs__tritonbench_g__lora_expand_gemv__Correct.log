@@ -1,0 +1,9 @@
+VeriTile.Bench.Repairs.LoraExpandGemv.Correct.checked_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.Real.target: definition does not reference [VeriTile.Bench.Repairs.LoraExpandGemv.execute,
+ VeriTile.Bench.Repairs.LoraExpandGemv.Branches.source,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.LoraExpandGemv.value] — non-circular ✓
+Axiom audit: headlines=0
+headlines: []

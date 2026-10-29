@@ -1,0 +1,27 @@
+{
+  "status": "PREPARED_ONLY_NOT_RUN",
+  "focused": 410,
+  "cumulative": 5729,
+  "audit_modules": 2209,
+  "tasks": 119,
+  "pairs": 417,
+  "pending": 64,
+  "parent_required": "integer113 must finish its exact replay/receipt and publication before source copy; final 410-root focus must pass",
+  "note": "The unchanged selected repaired Python helper and caller are copied in full, with 22 and 13 statements. All signed64 casts, helper argument/result copies, uint8 wrap, signed32 payload selection, FP32 bitcast and BF16 conversion are executed. Complete source execution and access safety connect to the independent E2M1/BF16 tables; complete schedule transfer proves equality of entire memory, allowing private helper registers to differ. Public Real/FP statements, IO, admitted bytes, finite-address conditions and existing schedule-reordering candidate remain unchanged. No old/new AST equality or extra numerical assumption is asserted.",
+  "regression": "Unannotated helper arguments preserve weak literal/constexpr values until an actual assignment materializes a tensor; symbolic local Nat constexpr products preserve tile shapes. Known u8/u16 load and alias operations retain wrapping arithmetic and range-checked weak scalars. Signed where branches retain machine-width metadata and reject out-of-range scalars. These are checked source rules with focused semantic regressions and cumulative proof replay. The separate tl.full signed-width propagation limitation remains explicitly unresolved; original FP4 uses explicit int32 casts and does not require it. No new numerical or hardware experiment was run.",
+  "base": "bench/repairs/tritonbench_g/fp4_to_bf16/",
+  "bridges": {
+    "raw_helper_and_caller": "Kernels.lean",
+    "actual_loads": "Proofs/SourceLoad.lean",
+    "integer_wrap": "Proofs/SourceInteger.lean",
+    "actual_execution": "Proofs/SourceArithmetic.lean",
+    "entire_memory": "Proofs/SourceContract.lean",
+    "access_safety": "Proofs/SourceSafety.lean",
+    "schedule_memory_transfer": "Proofs/Launch.lean",
+    "complete_io": "Proofs/PublicIO.lean",
+    "public_real": "Correct.lean",
+    "public_pair": "FPEquiv.lean"
+  },
+  "targeted_tests": 378,
+  "full_tests": 623
+}

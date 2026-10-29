@@ -1,0 +1,54 @@
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/adam_update_triton/Proofs/Bytes.lean:28:35: warning: This simp argument is unused:
+  BitVec.getElem_append
+
+Hint: Omit it from the simp argument list.
+  simp [̵B̵i̵t̵V̵e̵c̵.̵g̵e̵t̵E̵l̵e̵m̵_̵a̵p̵p̵e̵n̵d̵,̵B̵i̵t̵V̵e̵c̵.̵g̵e̵t̵E̵l̵e̵m̵_̵e̵x̵t̵r̵a̵c̵t̵L̵s̵b̵'̵]̵[̲B̲i̲t̲V̲e̲c̲.̲g̲e̲t̲E̲l̲e̲m̲_̲e̲x̲t̲r̲a̲c̲t̲L̲s̲b̲'̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/adam_update_triton/Proofs/Bytes.lean:28:57: warning: This simp argument is unused:
+  BitVec.getElem_extractLsb'
+
+Hint: Omit it from the simp argument list.
+  simp [BitVec.getElem_append,̵B̵i̵t̵V̵e̵c̵.̵g̵e̵t̵E̵l̵e̵m̵_̵e̵x̵t̵r̵a̵c̵t̵L̵s̵b̵'̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/adam_update_triton/Proofs/Bytes.lean:94:27: warning: This simp argument is unused:
+  show ¬bit < 16 by omega
+
+Hint: Omit it from the simp argument list.
+  simp [̵B̵i̵t̵V̵e̵c̵.̵g̵e̵t̵L̵s̵b̵D̵_̵o̵f̵_̵g̵e̵,̵s̵h̵o̵w̵ ̵3̵2̵≤̵b̵i̵t̵[̲B̲i̲t̲V̲e̲c̲.̲g̲e̲t̲L̲s̲b̲D̲_̲o̲f̲_̲g̲e̲,̲ ̲s̲h̲o̲w̲ ̲3̲2̲ ̲≤̲ ̲b̲i̲t̲ by omega, show ¬̵b̵i̵t̵<̵8̵¬̲b̲i̲t̲ ̲<̲ ̲8̲ by o̵m̵e̵g̵a̵,̵s̵h̵o̵w̵ ̵¬̵b̵i̵t̵<̵1̵6̵ ̵b̵y̵ ̵o̵m̵e̵g̵a̵,̵s̵h̵o̵w̵ ̵¬̵b̵i̵t̵<̵2̵4̵ ̵b̵y̵ ̵omega,
+      show ¬̵b̵i̵t̵-̵2̵4̵<̵8̵¬̲b̲i̲t̲ ̲<̲ ̲2̲4̲ by o̲m̲e̲g̲a̲,̲ ̲s̲h̲o̲w̲ ̲¬̲b̲i̲t̲ ̲-̲ ̲2̲4̲ ̲<̲ ̲8̲ ̲b̲y̲ ̲omega]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/adam_update_triton/Proofs/Bytes.lean:94:49: warning: This simp argument is unused:
+  show ¬bit < 24 by omega
+
+Hint: Omit it from the simp argument list.
+  simp [̵B̵i̵t̵V̵e̵c̵.̵g̵e̵t̵L̵s̵b̵D̵_̵o̵f̵_̵g̵e̵,̵s̵h̵o̵w̵ ̵3̵2̵≤̵b̵i̵t̵[̲B̲i̲t̲V̲e̲c̲.̲g̲e̲t̲L̲s̲b̲D̲_̲o̲f̲_̲g̲e̲,̲ ̲s̲h̲o̲w̲ ̲3̲2̲ ̲≤̲ ̲b̲i̲t̲ by omega, show ¬̵b̵i̵t̵<̵8̵¬̲b̲i̲t̲ ̲<̲ ̲8̲ by o̵m̵e̵g̵a̵,̵s̵h̵o̵w̵ ̵¬̵b̵i̵t̵<̵1̵6̵ ̵b̵y̵ ̵o̵m̵e̵g̵a̵,̵s̵h̵o̵w̵ ̵¬̵b̵i̵t̵<̵2̵4̵ ̵b̵y̵ ̵omega,
+      show ¬̵b̵i̵t̵-̵2̵4̵<̵8̵¬̲b̲i̲t̲ ̲<̲ ̲1̲6̲ by o̲m̲e̲g̲a̲,̲ ̲s̲h̲o̲w̲ ̲¬̲b̲i̲t̲ ̲-̲ ̲2̲4̲ ̲<̲ ̲8̲ ̲b̲y̲ ̲omega]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/adam_update_triton/Proofs/Bytes.lean:95:6: warning: This simp argument is unused:
+  show ¬bit - 24 < 8 by omega
+
+Hint: Omit it from the simp argument list.
+  simp [̵B̵i̵t̵V̵e̵c̵.̵g̵e̵t̵L̵s̵b̵D̵_̵o̵f̵_̵g̵e̵,̵s̵h̵o̵w̵ ̵3̵2̵≤̵b̵i̵t̵[̲B̲i̲t̲V̲e̲c̲.̲g̲e̲t̲L̲s̲b̲D̲_̲o̲f̲_̲g̲e̲,̲ ̲s̲h̲o̲w̲ ̲3̲2̲ ̲≤̲ ̲b̲i̲t̲ by omega, show ¬̵b̵i̵t̵<̵8̵¬̲b̲i̲t̲ ̲<̲ ̲8̲ by o̵m̵e̵g̵a̵,̵s̵h̵o̵w̵ ̵¬̵b̵i̵t̵<̵1̵6̵ ̵b̵y̵ ̵o̵m̵e̵g̵a̵,̵s̵h̵o̵w̵ ̵¬̵b̵i̵t̵<̵2̵4̵ ̵b̵y̵ ̵omega,
+      show ¬̵b̵i̵t̵-̵2̵4̵<̵8̵¬̲b̲i̲t̲ ̲<̲ ̲1̲6̲ by o̲m̲e̲g̲a̲,̲ ̲s̲h̲o̲w̲ ̲¬̲b̲i̲t̲ ̲<̲ ̲2̲4̲ ̲b̲y̲ ̲omega]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.AdamUpdateTriton.Bytes.pack_unpack: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.AdamUpdateTriton.Bytes.unpack_pack: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AdamUpdateTriton.Bytes.read_same: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AdamUpdateTriton.Bytes.read_other: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AdamUpdateTriton.Bytes.xor_transport: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AdamUpdateTriton.Bytes.gather_logical: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

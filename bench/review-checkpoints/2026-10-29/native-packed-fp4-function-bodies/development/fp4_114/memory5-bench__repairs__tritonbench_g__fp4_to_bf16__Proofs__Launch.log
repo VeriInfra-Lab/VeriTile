@@ -1,0 +1,19 @@
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/Launch.lean:66:2: error: maximum recursion depth has been reached
+use `set_option maxRecDepth <num>` to increase limit
+use `set_option diagnostics true` to get diagnostic information
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/Launch.lean:127:18: error: Application type mismatch: The argument
+  actual
+has type
+  run rest h jobs initial = some final
+but is expected to have type
+  some final = some final
+in the application
+  And.intro actual
+VeriTile.Bench.Repairs.Fp4ToBf16.Launch.program_source: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/Launch.lean:131:0: error: VeriTile.Bench.Repairs.Fp4ToBf16.Launch.program_memory_congr: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/Launch.lean:132:0: error: VeriTile.Bench.Repairs.Fp4ToBf16.Launch.program_refinement: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/Launch.lean:133:0: error: VeriTile.Bench.Repairs.Fp4ToBf16.Launch.schedule_memory_congr: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/Launch.lean:134:0: error: VeriTile.Bench.Repairs.Fp4ToBf16.Launch.complete_refinement: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/Launch.lean:135:0: error: VeriTile.Bench.Repairs.Fp4ToBf16.Launch.complete_transfer: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

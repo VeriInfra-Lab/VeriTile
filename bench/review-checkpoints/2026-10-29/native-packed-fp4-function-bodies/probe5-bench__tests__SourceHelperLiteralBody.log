@@ -1,0 +1,15 @@
+/tmp/fp4_114-frontend/bench/tests/SourceHelperLiteralBody.lean:32:6: warning: unused variable `DENOMINATOR`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Tests.SourceHelperLiteralBody.literal_argument_remains_weak: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.SourceHelperLiteralBody.caller_constexpr_remains_weak: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/fp4_114-frontend/bench/tests/SourceHelperLiteralBody.lean:76:53: error: unsolved goals
+⊢ False
+/tmp/fp4_114-frontend/bench/tests/SourceHelperLiteralBody.lean:81:0: error: VeriTile.Tests.SourceHelperLiteralBody.helper_assignment_materializes_tensor: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Tests.SourceHelperLiteralBody.caller_tensor_remains_tensor: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

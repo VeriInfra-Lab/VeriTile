@@ -1,0 +1,1 @@
+VeriTile.Tests.BoolInt64Body.widening: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])

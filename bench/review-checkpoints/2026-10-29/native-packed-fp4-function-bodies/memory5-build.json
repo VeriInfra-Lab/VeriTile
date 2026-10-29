@@ -1,0 +1,79 @@
+{
+  "status": "FAIL",
+  "start": 1793255629.4485967,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.fp4_to_bf16.Proofs.SourceContract",
+      "source_sha256": "76333c068d22b31e69a480cf6d11736575aea23bc8cd4b93ac03797fe827ac5a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793255629.4487388,
+      "end": 1793255634.0517404,
+      "log": "/tmp/fp4_114-memory5-bench__repairs__tritonbench_g__fp4_to_bf16__Proofs__SourceContract.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.fp4_to_bf16.Proofs.SourceSafety",
+      "source_sha256": "70581e68922a14f238dcbc99bc9c34908405fc3e11c4325a3f576246ac002b68",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793255634.0520022,
+      "end": 1793255638.7857528,
+      "log": "/tmp/fp4_114-memory5-bench__repairs__tritonbench_g__fp4_to_bf16__Proofs__SourceSafety.log"
+    },
+    {
+      "module": "bench.tritonbench_g.fp4_to_bf16.Proofs.KernelCorrect",
+      "source_sha256": "53565ede1ff83ef2c6c6c3c6b01122e9236a1e0d4ff660829612b4e70722883d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793255638.7860117,
+      "end": 1793255641.5177274,
+      "log": "/tmp/fp4_114-memory5-bench__tritonbench_g__fp4_to_bf16__Proofs__KernelCorrect.log"
+    },
+    {
+      "module": "bench.tritonbench_g.fp4_to_bf16.Proofs.Host",
+      "source_sha256": "7302d3380b239b0eeeed2a09390e5e49fc4d83719ab33ac03d92f61b393b0712",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793255641.5179849,
+      "end": 1793255673.1926785,
+      "log": "/tmp/fp4_114-memory5-bench__tritonbench_g__fp4_to_bf16__Proofs__Host.log"
+    },
+    {
+      "module": "bench.tritonbench_g.fp4_to_bf16.Proofs.HostCorrect",
+      "source_sha256": "e0e43a34bfa434bb0e1c02050abcd73084bc43f351c71c62800196d4a761cb96",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793255673.1929789,
+      "end": 1793255676.6562557,
+      "log": "/tmp/fp4_114-memory5-bench__tritonbench_g__fp4_to_bf16__Proofs__HostCorrect.log"
+    },
+    {
+      "module": "bench.tritonbench_g.fp4_to_bf16.Proofs.HostSchedule",
+      "source_sha256": "8cd3ccfb21e5de06948f9c55f42ece6bfc91c5916cf01d81d2b1f8b902f1810f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793255676.656532,
+      "end": 1793255706.3896403,
+      "log": "/tmp/fp4_114-memory5-bench__tritonbench_g__fp4_to_bf16__Proofs__HostSchedule.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.fp4_to_bf16.Proofs.Finite",
+      "source_sha256": "fc8bf9b679a74da56389f7fdce41c50f7b4ddadce843a8a02f4fff3e711907b0",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793255706.3899102,
+      "end": 1793255709.7528708,
+      "log": "/tmp/fp4_114-memory5-bench__repairs__tritonbench_g__fp4_to_bf16__Proofs__Finite.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.fp4_to_bf16.Proofs.Launch",
+      "source_sha256": "4fee6e524549ed39042866c7cced599228d5cf0400bea9d040bbe6d2c5acabed",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793255709.7531505,
+      "end": 1793255713.4236217,
+      "log": "/tmp/fp4_114-memory5-bench__repairs__tritonbench_g__fp4_to_bf16__Proofs__Launch.log"
+    }
+  ],
+  "end": 1793255713.4238312
+}

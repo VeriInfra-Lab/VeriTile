@@ -1,0 +1,6 @@
+VeriTile.Tests.StatementSourceFunction.local_scope_and_parallel_results: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.StatementSourceFunction.ignored_results_retain_first: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

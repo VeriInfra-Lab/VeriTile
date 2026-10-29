@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.Fp4ToBf16.RawKernel.complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

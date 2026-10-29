@@ -1,0 +1,3 @@
+VeriTile.Bench.TritonBenchG.VectorAddition.IntegerWordGridCorrect.vector_addition_integer_word_grid_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,106 @@
+{
+  "status": "FAIL",
+  "start": 1793253402.1179893,
+  "results": [
+    {
+      "module": "VeriTile.Triton.DSL.PythonConstants",
+      "source_sha256": "7543626e3f134e1317d03d1cd1ea630aecd008776db4b03cc413bd9c72502e04",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793253402.1182096,
+      "end": 1793253403.3310616,
+      "log": "/tmp/fp4_114-probe6-VeriTile__Triton__DSL__PythonConstants.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.SourceConstant",
+      "source_sha256": "1ce3264b5945845566d92c001762c7019e11fc7cefd063fb9375de2bd9d5de4d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793253403.331333,
+      "end": 1793253404.2826285,
+      "log": "/tmp/fp4_114-probe6-VeriTile__Triton__DSL__SourceConstant.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.TypedStores",
+      "source_sha256": "e86440a7ab2b09f5c03bf76590d6ff0187f1eea19833438d652e88bd040be7b7",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793253404.2829642,
+      "end": 1793253412.9629488,
+      "log": "/tmp/fp4_114-probe6-VeriTile__Triton__DSL__TypedStores.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.TypedStorageReduction",
+      "source_sha256": "26c50b50885cb0cc8a81863783fc01c8917be74a01efb6f47eff1d560fa9707d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793253412.9632409,
+      "end": 1793253414.9268749,
+      "log": "/tmp/fp4_114-probe6-VeriTile__Triton__DSL__TypedStorageReduction.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.SourceFunctionStatements",
+      "source_sha256": "83fb073da8c909806638c1349dc7ac36c111d9ae96e86b86a3794604fd97659c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793253414.9271395,
+      "end": 1793253417.079851,
+      "log": "/tmp/fp4_114-probe6-VeriTile__Triton__DSL__SourceFunctionStatements.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.CallSignature",
+      "source_sha256": "7ad01a09a5cf7235548567015e54f521b913a8a8a4d9579f8200f8b6ea74433b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793253417.0802295,
+      "end": 1793253461.063418,
+      "log": "/tmp/fp4_114-probe6-VeriTile__Triton__DSL__CallSignature.log"
+    },
+    {
+      "module": "bench.tests.IntegerLiteralAssignmentBody",
+      "source_sha256": "4b847ca9fbbb6b66a95801a615f4302236a67260095c109546940f38114ead2d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793253461.0636954,
+      "end": 1793253475.5398533,
+      "log": "/tmp/fp4_114-probe6-bench__tests__IntegerLiteralAssignmentBody.log"
+    },
+    {
+      "module": "bench.tests.SourceHelperLiteralBody",
+      "source_sha256": "7538096af53dcb5e0ec32a7abd4ddc98e10044cd45f5d8d16b0eb3cbe1bdf62d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793253475.5402572,
+      "end": 1793253483.1471233,
+      "log": "/tmp/fp4_114-probe6-bench__tests__SourceHelperLiteralBody.log"
+    },
+    {
+      "module": "bench.tests.StatementSourceFunction",
+      "source_sha256": "eac7870002887d10e1ed18e8c029f00b2b8c5469ed54719964d76a045cb409d7",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793253483.1474164,
+      "end": 1793253492.7093854,
+      "log": "/tmp/fp4_114-probe6-bench__tests__StatementSourceFunction.log"
+    },
+    {
+      "module": "bench.tests.SourceFunction",
+      "source_sha256": "536a5a06c9d3e18c68d2e0a8c94814e258da506adbad4e04def8f8344bba5938",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793253492.7096539,
+      "end": 1793253494.3853593,
+      "log": "/tmp/fp4_114-probe6-bench__tests__SourceFunction.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.fp4_to_bf16.Kernels",
+      "source_sha256": "113d4866dd1205e1ef270a85bf82819ab04eea416887732ebff23aa9b115ea76",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793253494.3856294,
+      "end": 1793253496.8659508,
+      "log": "/tmp/fp4_114-probe6-bench__repairs__tritonbench_g__fp4_to_bf16__Kernels.log"
+    }
+  ],
+  "end": 1793253496.8661609
+}

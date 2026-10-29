@@ -1,0 +1,45 @@
+/tmp/fp4_114-frontend/bench/tritonbench_g/decay_cumsum/Proofs/RealReference.lean:211:13: warning: unused variable `G`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fp4_114-frontend/bench/tritonbench_g/decay_cumsum/Proofs/RealReference.lean:211:15: warning: unused variable `GO`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fp4_114-frontend/bench/tritonbench_g/decay_cumsum/Proofs/RealReference.lean:211:33: warning: unused variable `s_qk_h`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fp4_114-frontend/bench/tritonbench_g/decay_cumsum/Proofs/RealReference.lean:211:40: warning: unused variable `BT`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+/tmp/fp4_114-frontend/bench/tritonbench_g/decay_cumsum/Proofs/RealReference.lean:791:14: warning: unused variable `Q`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fp4_114-frontend/bench/tritonbench_g/decay_cumsum/Proofs/RealReference.lean:791:16: warning: unused variable `K`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fp4_114-frontend/bench/tritonbench_g/decay_cumsum/Proofs/RealReference.lean:791:18: warning: unused variable `G`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fp4_114-frontend/bench/tritonbench_g/decay_cumsum/Proofs/RealReference.lean:791:20: warning: unused variable `QG`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fp4_114-frontend/bench/tritonbench_g/decay_cumsum/Proofs/RealReference.lean:791:23: warning: unused variable `KG`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fp4_114-frontend/bench/tritonbench_g/decay_cumsum/Proofs/RealReference.lean:791:41: warning: unused variable `s_qk_h`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fp4_114-frontend/bench/tritonbench_g/decay_cumsum/Proofs/RealReference.lean:791:51: warning: unused variable `BT`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fp4_114-frontend/bench/tritonbench_g/decay_cumsum/Proofs/RealReference.lean:828:74: warning: unused variable `hBT`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fp4_114-frontend/bench/tritonbench_g/decay_cumsum/Proofs/RealReference.lean:2545:39: warning: unused variable `hm`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`

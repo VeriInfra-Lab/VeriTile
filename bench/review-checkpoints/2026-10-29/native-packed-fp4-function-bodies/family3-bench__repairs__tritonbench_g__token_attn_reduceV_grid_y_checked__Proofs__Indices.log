@@ -1,0 +1,16 @@
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.launch_bounds: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.formed32: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.active32: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.scalar32: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.metadata_bounds: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.signed_index: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.address64: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

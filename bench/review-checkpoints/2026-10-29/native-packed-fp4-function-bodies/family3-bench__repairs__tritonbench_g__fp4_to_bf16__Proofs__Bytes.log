@@ -1,0 +1,23 @@
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/Bytes.lean:145:27: warning: This simp argument is unused:
+  Nat.add_zero
+
+Hint: Omit it from the simp argument list.
+  simp only [byte, read,̵ ̵N̵a̵t̵.̵a̵d̵d̵_̵z̵e̵r̵o̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.Fp4ToBf16.Bytes.physical_initial: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Fp4ToBf16.Bytes.represent_correct: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.Fp4ToBf16.Bytes.physical_store: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Fp4ToBf16.Bytes.targetNibble: definition does not reference [VeriTile.Bench.Repairs.Fp4ToBf16.Bytes.physical,
+ VeriTile.Bench.TritonBenchG.Fp4ToBf16.Host.run,
+ VeriTile.Bench.TritonBenchG.Fp4ToBf16.HostSchedule.runSchedule] — non-circular ✓
+VeriTile.Bench.Repairs.Fp4ToBf16.Bytes.physical_read: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Fp4ToBf16.Bytes.physical_frame: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.Fp4ToBf16.Bytes.physical_input: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.Fp4ToBf16.Bytes.nibble_from_bytes: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])

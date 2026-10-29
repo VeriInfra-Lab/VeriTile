@@ -1,0 +1,5 @@
+VeriTile.Bench.Repairs.SwigluTriton.Memory.readback: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.SwigluTriton.Memory.copyback_readback: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.SwigluTriton.Memory.bytes_frame: axiom footprint ⊆ standard base ✓  ([propext])

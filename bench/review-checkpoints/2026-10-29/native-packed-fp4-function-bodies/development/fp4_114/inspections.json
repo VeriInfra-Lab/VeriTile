@@ -1,0 +1,70 @@
+{
+  "status": "PASS_WITH_RECORDED_LIMITS",
+  "code_commit": "27b110de187c0dfdbbe28224940feb9a9ef601c8",
+  "start": 1793264839.4978435,
+  "end": 1793264935.9902954,
+  "python": {
+    "targeted": {
+      "status": "PASS",
+      "tests": 378
+    },
+    "full": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 623,
+      "errors": 1
+    }
+  },
+  "raw_bodies": [
+    {
+      "name": "fp4-raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/fp4_to_bf16/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "27b110de187c0dfdbbe28224940feb9a9ef601c8",
+      "log": "/tmp/fp4_114-fp4-raw-body-check.log",
+      "status": "PASS"
+    }
+  ],
+  "cpu": {
+    "status": "PASS",
+    "scope": "Both complete selected repaired Python bodies are checked. Original Python, public Real/FP statements, input domain and IO/schedule data are byte-identical. This is a source check, not interpreter, GPU or numerical execution.",
+    "public_statements": "Statements, parameters and premises unchanged."
+  },
+  "torch": {
+    "name": "torch-dependencies",
+    "command": [
+      "python3",
+      "-c",
+      "import torch; import triton"
+    ],
+    "exit_code": 1,
+    "code_commit": "27b110de187c0dfdbbe28224940feb9a9ef601c8",
+    "log": "/tmp/fp4_114-torch-dependencies.log",
+    "status": "UNAVAILABLE",
+    "reason": "The retained Torch source checker requires absent Torch/Triton. No GPU or numerical experiment was run."
+  },
+  "original_python_and_contracts": {
+    "status": "PASS",
+    "sha256": {
+      "bench/repairs/tritonbench_g/fp4_to_bf16/Contract.lean": "12d9e4a87c9692c9b9f2500bbec567506e78fbc3d867d9e540c94b29ccd86e2f",
+      "bench/repairs/tritonbench_g/fp4_to_bf16/Correct.lean": "5e002702225e8ab4af5023f8f43997be9c1a3f35673c45c44a4b95b62f4c1b3c",
+      "bench/repairs/tritonbench_g/fp4_to_bf16/FPEquiv.lean": "f61159807d386a32e485164bd997fa3623c85597dfd62c33eaa54c580c2aa2e1",
+      "bench/repairs/tritonbench_g/fp4_to_bf16/IO.lean": "123fcf43b42d4625a6b0a7fce58ce1f659c4c60c3290443722096fad4f2684ee",
+      "bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/Contract.lean": "0ab9a8793360b6381b49e07cbf1f4243d1e5a13913959a393510b9f12fdc0172",
+      "bench/repairs/tritonbench_g/fp4_to_bf16/ScheduleIO.lean": "c1e0d754736f1458cf039b138e48ffeac45d0ac6d36af50c143a231a8172808b",
+      "bench/repairs/tritonbench_g/fp4_to_bf16/fp4_to_bf16_repaired.py": "70f10f7ab112fd50f29511e24c8dac26374d51e3ea8bb6dc769e899bdc6d22be",
+      "bench/repairs/tritonbench_g/fp4_to_bf16/test_revision.py": "8c2e3ba7460eb39eeb0ef27277a00b0061b324c62b3a72db1a67f18eee314732"
+    }
+  },
+  "comparator": {
+    "attempts": 411,
+    "statuses": [
+      "UNAVAILABLE"
+    ]
+  },
+  "scope": "Exact frozen source. The actual FP4 source, helper propagation, signed/unsigned operations and all affected task/frontend roots are verified separately by Lean; source checks are not hardware or numerical evidence."
+}

@@ -1,0 +1,17 @@
+VeriTile.Bench.Repairs.Fp4ToBf16.KernelResult.initial_realization: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Fp4ToBf16.KernelResult.native_complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Fp4ToBf16.KernelResult.mathematical: definition does not reference [VeriTile.Bench.TritonBenchG.Fp4ToBf16.FPValue.source,
+ VeriTile.Bench.Repairs.Fp4ToBf16.Kernels.source,
+ VeriTile.Bench.Repairs.Fp4ToBf16.Launch.run,
+ VeriTile.Bench.Repairs.Fp4ToBf16.KernelResult.initial,
+ VeriTile.Bench.Repairs.Fp4ToBf16.Bytes.physical,
+ VeriTile.Bench.Repairs.Fp4ToBf16.KernelResult.nativeTarget] — non-circular ✓
+VeriTile.Bench.Repairs.Fp4ToBf16.KernelResult.nativeTarget: definition does not reference [VeriTile.Bench.TritonBenchG.Fp4ToBf16.FPValue.source,
+ VeriTile.Bench.Repairs.Fp4ToBf16.Kernels.source,
+ VeriTile.Bench.Repairs.Fp4ToBf16.Launch.run,
+ VeriTile.Bench.Repairs.Fp4ToBf16.KernelResult.initial,
+ VeriTile.Bench.Repairs.Fp4ToBf16.Bytes.physical] — non-circular ✓

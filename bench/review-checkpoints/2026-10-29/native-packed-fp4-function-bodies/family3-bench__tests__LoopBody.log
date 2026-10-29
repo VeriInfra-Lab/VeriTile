@@ -1,0 +1,20 @@
+VeriTile.Tests.LoopBody.complete_loop: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+VeriTile.Tests.LoopBody.overwritten_bound: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+VeriTile.Tests.LoopBody.ImmutableTwoArgumentRange.literal_constructor: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.LoopBody.ImmutableTwoArgumentRange.complete_program: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.LoopBody.ImmutableTwoArgumentRange.local_endpoint: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/fp4_114-frontend/bench/tests/LoopBody.lean:158:13: warning: unused variable `N`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Tests.LoopBody.CompositeCallerEndpoint.rebound_division: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.LoopBody.CompositeCallerEndpoint.complete_program: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

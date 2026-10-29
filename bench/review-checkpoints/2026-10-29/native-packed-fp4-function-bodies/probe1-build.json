@@ -1,0 +1,25 @@
+{
+  "status": "FAIL",
+  "start": 1793252788.9874578,
+  "results": [
+    {
+      "module": "bench.tritonbench_g.fp4_to_bf16.Kernels",
+      "source_sha256": "91ce4263ce223eb97100331955d510a61dc17725f121e60b47e0b036e7b0d677",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793252788.9879315,
+      "end": 1793252794.045482,
+      "log": "/tmp/fp4_114-probe1-bench__tritonbench_g__fp4_to_bf16__Kernels.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.fp4_to_bf16.Kernels",
+      "source_sha256": "49dc3025c57a9a9c968a503c87b00676e839c6067fe631b35c2368c5c8eef54a",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793252794.0459008,
+      "end": 1793252799.0613914,
+      "log": "/tmp/fp4_114-probe1-bench__repairs__tritonbench_g__fp4_to_bf16__Kernels.log"
+    }
+  ],
+  "end": 1793252799.061666
+}

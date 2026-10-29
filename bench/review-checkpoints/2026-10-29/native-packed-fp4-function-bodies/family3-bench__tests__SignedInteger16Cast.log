@@ -1,0 +1,39 @@
+/tmp/fp4_114-frontend/bench/tests/SignedInteger16Cast.lean:29:48: warning: This simp argument is unused:
+  BitVec.toInt_ofNat'
+
+Hint: Omit it from the simp argument list.
+  simp [evalOp, BlockState.setReg, Tile.scalar, B̵i̵t̵V̵e̵c̵.̵t̵o̵I̵n̵t̵_̵o̵f̵N̵a̵t̵'̵,̵ ̵-Tile.scalar_eta]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Triton.signedBits_int_mod: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+VeriTile.Triton.eval_intToSigned: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+VeriTile.Triton.evalOpR_intToSigned: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+VeriTile.Triton.FP.Structural.eval_intToSigned: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.eval_boolToInt: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+VeriTile.Triton.evalOpR_boolToInt: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+VeriTile.Triton.FP.Structural.eval_boolToInt: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.SignedInteger16Cast.signed_exec: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.SignedInteger16Cast.natural_exec: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.SignedInteger16Cast.sign_boundary: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.SignedInteger16Cast.natural_sign_boundary: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.SignedInteger16Cast.load_narrows_after_signed_read: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.SignedInteger16Cast.unsigned_load_before_signed_cast: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.SignedInteger16Cast.fp4_scale_exact: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

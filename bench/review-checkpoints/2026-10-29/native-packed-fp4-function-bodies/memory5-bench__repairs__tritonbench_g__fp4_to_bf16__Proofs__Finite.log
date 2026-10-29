@@ -1,0 +1,17 @@
+VeriTile.Bench.Repairs.Fp4ToBf16.Finite.native_count_refinement: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Fp4ToBf16.Finite.native_pid_refinement: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Fp4ToBf16.Finite.indices_exact: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.Fp4ToBf16.Finite.masks_exact: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.Fp4ToBf16.Finite.active_input_address: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.Fp4ToBf16.Finite.active_output_address: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.Fp4ToBf16.Finite.byte_ownership: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.Fp4ToBf16.Finite.original_counterexample_repaired: axiom footprint ⊆ standard base ✓  ([])

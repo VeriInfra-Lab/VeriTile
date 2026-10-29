@@ -1,0 +1,10 @@
+VeriTile.Bench.Repairs.Fp4ToBf16.TensorBridge.fp4_to_bf16_kernel_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Fp4ToBf16.TensorBridge.fp4_to_bf16_kernel_native: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Fp4ToBf16.TensorBridge.native_lane_refinement: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.Fp4ToBf16.TensorBridge.python_checks_iff_preconditions: axiom footprint ⊆ standard base ✓  ([propext])

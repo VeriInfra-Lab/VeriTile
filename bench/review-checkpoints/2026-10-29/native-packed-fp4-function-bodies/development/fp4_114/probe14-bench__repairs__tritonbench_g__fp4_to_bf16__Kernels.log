@@ -1,0 +1,30 @@
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Kernels.lean:81:6: warning: unused variable `sign_mask_f4`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Kernels.lean:82:6: warning: unused variable `mantissa_mask_f4`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Kernels.lean:83:6: warning: unused variable `mbits_f4_e2m1`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Kernels.lean:84:6: warning: unused variable `ebits_f4_e2m1`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Kernels.lean:85:6: warning: unused variable `f4_e2m1_exp_bias`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Kernels.lean:86:6: warning: unused variable `mbits_f32`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Kernels.lean:87:6: warning: unused variable `ebits_f32`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Kernels.lean:88:6: warning: unused variable `f32_exp_bias`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Kernels.lean:89:6: warning: unused variable `zero_bits_f32`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Kernels.lean:90:6: warning: unused variable `zero_point_five_bits_f32`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`

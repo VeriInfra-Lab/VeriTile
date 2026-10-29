@@ -1,0 +1,7 @@
+VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.Geometry.programs_unique: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.Geometry.programs_complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.Geometry.active_output: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

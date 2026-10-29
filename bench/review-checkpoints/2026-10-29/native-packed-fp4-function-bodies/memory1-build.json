@@ -1,0 +1,43 @@
+{
+  "status": "FAIL",
+  "start": 1793255368.8692715,
+  "results": [
+    {
+      "module": "bench.tritonbench_g.fp4_to_bf16.Proofs.FPExecution",
+      "source_sha256": "5d5723d6769ac57ea850881d058979fd2477c43ab10281bd2c461679a5c0edd0",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793255368.8694232,
+      "end": 1793255376.0871093,
+      "log": "/tmp/fp4_114-memory1-bench__tritonbench_g__fp4_to_bf16__Proofs__FPExecution.log"
+    },
+    {
+      "module": "bench.tritonbench_g.fp4_to_bf16.Proofs.FPArithmetic",
+      "source_sha256": "9f35b333e4243abc0b2212df119f0cd16fb61724d266d900f540a730c0ddca9d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793255376.0874808,
+      "end": 1793255387.289971,
+      "log": "/tmp/fp4_114-memory1-bench__tritonbench_g__fp4_to_bf16__Proofs__FPArithmetic.log"
+    },
+    {
+      "module": "bench.tritonbench_g.fp4_to_bf16.Proofs.FPContract",
+      "source_sha256": "63e584c73100a852cabb09ec4c38832dfbcf8c7cfa6e407eef2f9be2e522ff40",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793255387.2902749,
+      "end": 1793255391.4272525,
+      "log": "/tmp/fp4_114-memory1-bench__tritonbench_g__fp4_to_bf16__Proofs__FPContract.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.fp4_to_bf16.Proofs.SourceContract",
+      "source_sha256": "48e1da2239725a00caae592aee8f572ba199122a99906f9a87a33305eec28cd7",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793255391.427506,
+      "end": 1793255395.7173903,
+      "log": "/tmp/fp4_114-memory1-bench__repairs__tritonbench_g__fp4_to_bf16__Proofs__SourceContract.log"
+    }
+  ],
+  "end": 1793255395.717584
+}

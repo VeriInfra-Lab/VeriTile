@@ -1,0 +1,14 @@
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Correct.harmonic: definition does not reference [VeriTile.Bench.Repairs.FifthOrderSphHarmonics.forwardKernel,
+ VeriTile.Bench.Repairs.FifthOrderSphHarmonics.backwardKernel,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Correct.jacobianTranspose: definition does not reference [VeriTile.Bench.Repairs.FifthOrderSphHarmonics.forwardKernel,
+ VeriTile.Bench.Repairs.FifthOrderSphHarmonics.backwardKernel,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Correct.forward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Correct.backward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Correct.forward: statement's project surface ⊆ allowlist ✓
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Correct.backward: statement's project surface ⊆ allowlist ✓

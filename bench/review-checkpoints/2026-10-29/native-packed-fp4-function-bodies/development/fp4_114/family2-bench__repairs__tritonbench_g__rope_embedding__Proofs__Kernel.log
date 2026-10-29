@@ -1,0 +1,11 @@
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/rope_embedding/Proofs/Kernel.lean:80:5: warning: unused variable `hr`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.Repairs.RopeEmbedding.Kernel.executes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.RopeEmbedding.Kernel.tail_not_written: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.RopeEmbedding.Kernel.complete_coverage: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.RopeEmbedding.Kernel.other_program_not_written: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

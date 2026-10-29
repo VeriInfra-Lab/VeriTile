@@ -1,0 +1,6 @@
+VeriTile.Bench.TritonBenchG.VectorAddition.MixedFP32ValueCorrect.vector_addition_mixed_fp32_total_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.MixedFP32ValueCorrect.vector_addition_mixed_fp32_defined_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

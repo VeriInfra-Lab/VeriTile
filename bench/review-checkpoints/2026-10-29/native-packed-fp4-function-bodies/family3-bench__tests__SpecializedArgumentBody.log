@@ -1,0 +1,12 @@
+/tmp/fp4_114-frontend/bench/tests/SpecializedArgumentBody.lean:18:6: warning: unused variable `IS_POINTER`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fp4_114-frontend/bench/tests/SpecializedArgumentBody.lean:30:6: warning: unused variable `IS_POINTER`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Tests.SpecializedArgumentBody.scalar_complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.SpecializedArgumentBody.pointer_complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

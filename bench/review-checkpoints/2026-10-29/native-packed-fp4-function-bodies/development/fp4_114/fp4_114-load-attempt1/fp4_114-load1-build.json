@@ -1,0 +1,61 @@
+{
+  "status": "FAIL",
+  "start": 1793254716.6667562,
+  "results": [
+    {
+      "module": "bench.tritonbench_g.fp4_to_bf16.Proofs.FP4Bits",
+      "source_sha256": "6876d841a7f76a9ca8a636468147a6caaff5a4bb01d7d91e36f56af69b978545",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793254716.6669338,
+      "end": 1793254719.2294328,
+      "log": "/tmp/fp4_114-load1-bench__tritonbench_g__fp4_to_bf16__Proofs__FP4Bits.log"
+    },
+    {
+      "module": "bench.tritonbench_g.fp4_to_bf16.Proofs.FPSource",
+      "source_sha256": "89dbc93f35a5f21ae252136ab5ba39310b44dcc95b692af3fc8bc4d06a1f75d1",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793254719.2296975,
+      "end": 1793254721.5939271,
+      "log": "/tmp/fp4_114-load1-bench__tritonbench_g__fp4_to_bf16__Proofs__FPSource.log"
+    },
+    {
+      "module": "bench.tritonbench_g.fp4_to_bf16.Proofs.FPReference",
+      "source_sha256": "b9cfd728e7b2629628287805dc4fb22c090cbfdefa5ccac02182f7cb8f3243bb",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793254721.5942125,
+      "end": 1793254724.1363664,
+      "log": "/tmp/fp4_114-load1-bench__tritonbench_g__fp4_to_bf16__Proofs__FPReference.log"
+    },
+    {
+      "module": "bench.tritonbench_g.fp4_to_bf16.Proofs.FPInteger",
+      "source_sha256": "f83a00d7e4d1ea32be40c8aa9497138a0eb6a439ec2a4ca636c92fdc4cca14e1",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793254724.136608,
+      "end": 1793254726.73453,
+      "log": "/tmp/fp4_114-load1-bench__tritonbench_g__fp4_to_bf16__Proofs__FPInteger.log"
+    },
+    {
+      "module": "bench.tritonbench_g.fp4_to_bf16.Proofs.FPLayout",
+      "source_sha256": "f3503d3df6f83fce62349e4f3205edac97f451239ebf7812fc6bfda706a40ef9",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793254726.7347953,
+      "end": 1793254729.330705,
+      "log": "/tmp/fp4_114-load1-bench__tritonbench_g__fp4_to_bf16__Proofs__FPLayout.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.fp4_to_bf16.Proofs.SourceLoad",
+      "source_sha256": "7d3a94ea5dcd06fb29754cf6252ce374fac9336fcd5d363bd359516384db16f2",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793254729.330965,
+      "end": 1793254736.3508105,
+      "log": "/tmp/fp4_114-load1-bench__repairs__tritonbench_g__fp4_to_bf16__Proofs__SourceLoad.log"
+    }
+  ],
+  "end": 1793254736.3510108
+}

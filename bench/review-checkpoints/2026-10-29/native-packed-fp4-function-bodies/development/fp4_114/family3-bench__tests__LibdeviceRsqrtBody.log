@@ -1,0 +1,6 @@
+VeriTile.Tests.LibdeviceRsqrtBody.library_uses_its_own_port: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.LibdeviceRsqrtBody.intrinsic_keeps_its_port: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,25 @@
+{
+  "status": "FAIL",
+  "start": 1793254389.1072714,
+  "results": [
+    {
+      "module": "bench.tritonbench_g.fp4_to_bf16.Kernels",
+      "source_sha256": "91ce4263ce223eb97100331955d510a61dc17725f121e60b47e0b036e7b0d677",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793254389.107404,
+      "end": 1793254391.715924,
+      "log": "/tmp/fp4_114-probe13-bench__tritonbench_g__fp4_to_bf16__Kernels.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.fp4_to_bf16.Kernels",
+      "source_sha256": "113d4866dd1205e1ef270a85bf82819ab04eea416887732ebff23aa9b115ea76",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793254391.7162158,
+      "end": 1793254394.1513898,
+      "log": "/tmp/fp4_114-probe13-bench__repairs__tritonbench_g__fp4_to_bf16__Kernels.log"
+    }
+  ],
+  "end": 1793254394.1515656
+}

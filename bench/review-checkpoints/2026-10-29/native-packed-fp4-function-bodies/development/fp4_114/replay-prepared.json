@@ -1,0 +1,11 @@
+{
+  "status": "PREPARED_ONLY_NOT_RUN",
+  "focused": 411,
+  "cumulative": 5729,
+  "audit_modules": 2210,
+  "tasks": 119,
+  "pairs": 417,
+  "pending": 64,
+  "parent_required": "integer113 must finish its exact replay/receipt and publication before source copy; final 411-root focus must pass",
+  "note": "The unchanged selected repaired Python helper and caller retain all 22/13 statements. Actual helper execution, signed64 masks/addresses, uint8 exponent operations, signed32 payload construction, FP32 bitcast and BF16 conversion are connected to independent E2M1 tables and full IO. Complete schedules transfer entire memory, without equating changed private registers. The shared frontend preserves unannotated helper constants, local symbolic constexpr arithmetic, unsigned-byte operations and signed where widths. Four meaningful frontend regressions and 16 source mutation checks accompany 411 focused roots. Final cumulative/empty-project replay and audit are required before counting 119/183 tasks, 417 mappings and 64 pending. Generic signed full-constructor width propagation remains a recorded separate limit. No GPU or new numerical experiment. Keep draft; no merge."
+}

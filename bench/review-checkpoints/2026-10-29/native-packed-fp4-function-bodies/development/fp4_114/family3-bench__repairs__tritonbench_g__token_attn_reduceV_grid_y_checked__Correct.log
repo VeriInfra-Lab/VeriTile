@@ -1,0 +1,7 @@
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.grid_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.Logical.domain: definition does not reference [VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.kernel,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.TokenAttnReduceV.Grid.run,
+ VeriTile.Bench.Repairs.TokenAttnReduceV.outputValues] — non-circular ✓

@@ -1,0 +1,21 @@
+_private.bench.repairs.tritonbench_g.fp4_to_bf16.Proofs.SourceLoad.0.VeriTile.Bench.Repairs.Fp4ToBf16.Source.packedExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceLoad.lean:38:91: warning: 'rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceLoad.lean:38:91: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceLoad.lean:41:87: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+VeriTile.Bench.Repairs.Fp4ToBf16.Source.loadExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceLoad.lean:90:64: warning: unused variable `j`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceLoad.lean:98:75: warning: unused variable `j`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`

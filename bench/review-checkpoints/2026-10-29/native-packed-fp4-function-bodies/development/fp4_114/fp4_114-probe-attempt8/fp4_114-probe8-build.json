@@ -1,0 +1,16 @@
+{
+  "status": "FAIL",
+  "start": 1793253753.7896695,
+  "results": [
+    {
+      "module": "bench.tests.LocalNatConstexprBody",
+      "source_sha256": "4fd7f120a61c3cdcd23ad25cdc3a61d3585c819925b8b566cf3a46d647f7b79a",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793253753.7898061,
+      "end": 1793253755.5334952,
+      "log": "/tmp/fp4_114-probe8-bench__tests__LocalNatConstexprBody.log"
+    }
+  ],
+  "end": 1793253755.5336905
+}

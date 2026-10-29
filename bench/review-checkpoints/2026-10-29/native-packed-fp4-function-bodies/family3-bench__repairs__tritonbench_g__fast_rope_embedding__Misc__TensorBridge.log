@@ -1,0 +1,10 @@
+VeriTile.Bench.Repairs.FastRopeEmbedding.TensorBridge.fast_rope_kernel_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRopeEmbedding.TensorBridge.fast_rope_kernel_coverage: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FastRopeEmbedding.TensorBridge.fast_rope_no_launch: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FastRopeEmbedding.TensorBridge.fast_rope_kernel_fp32: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

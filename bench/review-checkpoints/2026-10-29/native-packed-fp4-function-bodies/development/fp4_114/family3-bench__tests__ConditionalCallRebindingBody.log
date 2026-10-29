@@ -1,0 +1,3 @@
+VeriTile.Tests.ConditionalCallRebindingBody.complete_conditional_binding: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

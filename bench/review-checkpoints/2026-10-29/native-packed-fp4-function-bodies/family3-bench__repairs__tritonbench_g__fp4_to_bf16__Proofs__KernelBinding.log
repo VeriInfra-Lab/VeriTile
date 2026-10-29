@@ -1,0 +1,19 @@
+VeriTile.Bench.Repairs.Fp4ToBf16.KernelBinding.PackedTensor.direct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.Fp4ToBf16.KernelBinding.PackedTensor.actual_pointer: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.Fp4ToBf16.KernelBinding.Bf16Tensor.direct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.Fp4ToBf16.KernelBinding.Bf16Tensor.actual_pointer: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.Fp4ToBf16.KernelBinding.Binding.input_pointer: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.Fp4ToBf16.KernelBinding.Binding.output_pointer: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.Fp4ToBf16.KernelBinding.logical_nibble: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.Fp4ToBf16.KernelBinding.output_read: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Fp4ToBf16.KernelBinding.input_storage_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

@@ -1,0 +1,15 @@
+Auto packing the repository in background for optimum performance.
+See "git help gc" for manual housekeeping.
+[codex/body-copy-cache-and-constexpr 27b110de1] Paste complete FP4 helper and caller with actual execution proofs
+ 29 files changed, 1942 insertions(+), 177 deletions(-)
+ create mode 100644 bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceArithmetic.lean
+ create mode 100644 bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceContract.lean
+ create mode 100644 bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceInteger.lean
+ create mode 100644 bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceLoad.lean
+ create mode 100644 bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceOperations.lean
+ create mode 100644 bench/repairs/tritonbench_g/fp4_to_bf16/jit-correspondence.json
+ create mode 100644 bench/tests/LocalNatConstexprBody.lean
+ create mode 100644 bench/tests/NarrowUnsignedLoadBody.lean
+ create mode 100644 bench/tests/SignedWhereLiteralBody.lean
+ create mode 100644 bench/tests/SourceHelperLiteralBody.lean
+ create mode 100644 bench/tests/test_packed_fp4_body.py

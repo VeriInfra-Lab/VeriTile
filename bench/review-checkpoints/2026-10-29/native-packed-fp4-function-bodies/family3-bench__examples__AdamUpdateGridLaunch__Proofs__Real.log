@@ -1,0 +1,109 @@
+/tmp/fp4_114-frontend/bench/examples/AdamUpdateGridLaunch/Proofs/Real.lean:127:16: warning: This simp argument is unused:
+  ← WithBot.coe_mul
+
+Hint: Omit it from the simp argument list.
+  simp [← W̵i̵t̵h̵B̵o̵t̵.̵c̵o̵e̵_̵m̵u̵l̵,̵ ̵←̵ ̵WithBot.coe_add, hne, hc, hz, hpos, WithBot.some_eq_coe, WithBot.unbotD_coe,
+  ̲  ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲Real.sign_of_pos hd]
+
+Note: Simp arguments with `←` have the additional effect of removing the other direction from the simp set, even if the simp argument itself is unused. If the hint above does not work, try replacing `←` with `-` to only get that effect and silence this warning.
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/fp4_114-frontend/bench/examples/AdamUpdateGridLaunch/Proofs/Real.lean:127:35: warning: This simp argument is unused:
+  ← WithBot.coe_add
+
+Hint: Omit it from the simp argument list.
+  simp [← WithBot.coe_mul, ←̵ ̵W̵i̵t̵h̵B̵o̵t̵.̵c̵o̵e̵_̵a̵d̵d̵,̵ ̵hne, hc, hz, hpos, WithBot.some_eq_coe, WithBot.unbotD_coe,
+  ̲  ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲Real.sign_of_pos hd]
+
+Note: Simp arguments with `←` have the additional effect of removing the other direction from the simp set, even if the simp argument itself is unused. If the hint above does not work, try replacing `←` with `-` to only get that effect and silence this warning.
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/fp4_114-frontend/bench/examples/AdamUpdateGridLaunch/Proofs/Real.lean:127:54: warning: This simp argument is unused:
+  hne
+
+Hint: Omit it from the simp argument list.
+  simp [← WithBot.coe_mul, ← WithBot.coe_add, hn̵e̵,̵ ̵h̵c, hz, hpos, WithBot.some_eq_coe,
+  ̲  ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲WithBot.unbotD_coe, Real.sign_of_pos hd]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/fp4_114-frontend/bench/examples/AdamUpdateGridLaunch/Proofs/Real.lean:127:67: warning: This simp argument is unused:
+  hpos
+
+Hint: Omit it from the simp argument list.
+  simp [← WithBot.coe_mul, ← WithBot.coe_add, hne, hc, hz, h̵p̵o̵s̵,̵ ̵WithBot.some_eq_coe,
+  ̲  ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲WithBot.unbotD_coe, Real.sign_of_pos hd]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/fp4_114-frontend/bench/examples/AdamUpdateGridLaunch/Proofs/Real.lean:133:16: warning: This simp argument is unused:
+  ← WithBot.coe_mul
+
+Hint: Omit it from the simp argument list.
+  simp [← W̵i̵t̵h̵B̵o̵t̵.̵c̵o̵e̵_̵m̵u̵l̵,̵ ̵←̵ ̵WithBot.coe_add, hne, hc, hz, hpos, WithBot.some_eq_coe, WithBot.unbotD_coe,
+  ̲  ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲Real.sign_of_neg hd]
+
+Note: Simp arguments with `←` have the additional effect of removing the other direction from the simp set, even if the simp argument itself is unused. If the hint above does not work, try replacing `←` with `-` to only get that effect and silence this warning.
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/fp4_114-frontend/bench/examples/AdamUpdateGridLaunch/Proofs/Real.lean:133:35: warning: This simp argument is unused:
+  ← WithBot.coe_add
+
+Hint: Omit it from the simp argument list.
+  simp [← WithBot.coe_mul, ←̵ ̵W̵i̵t̵h̵B̵o̵t̵.̵c̵o̵e̵_̵a̵d̵d̵,̵ ̵hne, hc, hz, hpos, WithBot.some_eq_coe, WithBot.unbotD_coe,
+  ̲  ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲Real.sign_of_neg hd]
+
+Note: Simp arguments with `←` have the additional effect of removing the other direction from the simp set, even if the simp argument itself is unused. If the hint above does not work, try replacing `←` with `-` to only get that effect and silence this warning.
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/fp4_114-frontend/bench/examples/AdamUpdateGridLaunch/Proofs/Real.lean:133:54: warning: This simp argument is unused:
+  hne
+
+Hint: Omit it from the simp argument list.
+  simp [← WithBot.coe_mul, ← WithBot.coe_add, hn̵e̵,̵ ̵h̵c, hz, hpos, WithBot.some_eq_coe,
+  ̲  ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲WithBot.unbotD_coe, Real.sign_of_neg hd]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/fp4_114-frontend/bench/examples/AdamUpdateGridLaunch/Proofs/Real.lean:133:67: warning: This simp argument is unused:
+  hpos
+
+Hint: Omit it from the simp argument list.
+  simp [← WithBot.coe_mul, ← WithBot.coe_add, hne, hc, hz, h̵p̵o̵s̵,̵ ̵WithBot.some_eq_coe,
+  ̲  ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲WithBot.unbotD_coe, Real.sign_of_neg hd]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/fp4_114-frontend/bench/examples/AdamUpdateGridLaunch/Proofs/Real.lean:120:8: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/fp4_114-frontend/bench/examples/AdamUpdateGridLaunch/Proofs/Real.lean:128:10: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/fp4_114-frontend/bench/examples/AdamUpdateGridLaunch/Proofs/Real.lean:134:10: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/fp4_114-frontend/bench/examples/AdamUpdateGridLaunch/Proofs/Real.lean:508:40: warning: This simp argument is unused:
+  Op.FlattenOk
+
+Hint: Omit it from the simp argument list.
+  simp [update_fn_kernel, ComputeKernel.toAlgKernel,
+  ̵  ̵ ̵ ̵StmtList.FlattenOk, Stmt.FlattenOk,
+  ̲ O̵p̵.̵F̵l̵a̵t̵t̵e̵n̵O̵k̵,̵  ̲ ̲Op.FlattenOk.eq_def]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/fp4_114-frontend/bench/examples/AdamUpdateGridLaunch/Proofs/Real.lean:532:40: warning: This simp argument is unused:
+  Op.SafeAt
+
+Hint: Omit it from the simp argument list.
+  simp [update_fn_kernel, ComputeKernel.toAlgKernel,
+  ̵  ̵ ̵ ̵Stmt.TraceSafeList, Stmt.TraceSafe,
+  ̲ O̵p̵.̵S̵a̵f̵e̵A̵t̵,̵  ̲ ̲Op.SafeAt.eq_def, MaskOpt.SafeAt,
+  ̵  ̵ ̵ ̵stepStmt, evalOp.eq_def,
+  ̵  ̵ ̵ ̵Tile.bop, Tile.cop, Tile.ptrAdd,
+  ̲  ̲ ̲ ̲Tile.select,
+  ̵  ̵ ̵ ̵NumericDType.add, NumericDType.mul, NumericDType.sub,
+  ̵  ̵ ̵ ̵ComparableDType.lt,
+  ̲  ̲ ̲ ̲ComparableDType.gt, ComparableDType.ne,
+  ̵  ̵ ̵ ̵MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe,
+  ̲  ̲ ̲ ̲MemAccess.SafeAt,
+  ̵  ̵ ̵ ̵Op.PointerAddressesSafeOn, Op.MemorySafe, MaskOpt.Active,
+  ̵  ̵ ̵ ̵BlockState.setReg]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

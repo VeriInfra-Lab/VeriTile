@@ -1,0 +1,9 @@
+VeriTile.Tests.NarrowUnsignedLoadBody.byte_subtraction_wraps: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.NarrowUnsignedLoadBody.halfword_alias_subtraction_wraps: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.NarrowUnsignedLoadBody.tensor_operand_promotes_signed: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

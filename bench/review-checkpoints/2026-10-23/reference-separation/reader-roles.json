@@ -8204,9 +8204,8 @@
         }
       ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/fp4_to_bf16.json",
-        "sha256": "3e89f5b527c4ee6dfff577bf4ef15bc0bf7c51c692a5f745e0a88843e06be315",
-        "task": "fp4_to_bf16"
+        "path": "bench/review-checkpoints/2026-10-29/native-packed-fp4-function-bodies/review.json",
+        "sha256": "19c32bce6e2ba0882c46c0e079a977b1881a27b342a05f2bd76c8bd4a3ead381"
       },
       "change": null,
       "new_misc_entries": [],
@@ -8241,7 +8240,8 @@
         "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/fp4_to_bf16.json",
         "sha256": "3e89f5b527c4ee6dfff577bf4ef15bc0bf7c51c692a5f745e0a88843e06be315",
         "task": "fp4_to_bf16"
-      }
+      },
+      "current_body_source_review": "The unchanged selected repaired Python helper and caller are copied in full, with 22 and 13 statements. All signed64 casts, helper argument/result copies, uint8 wrap, signed32 payload selection, FP32 bitcast and BF16 conversion are executed. Complete source execution and access safety connect to the independent E2M1/BF16 tables; complete schedule transfer proves equality of entire memory, allowing private helper registers to differ. Public Real/FP statements, IO, admitted bytes, finite-address conditions and existing schedule-reordering candidate remain unchanged. No old/new AST equality or extra numerical assumption is asserted."
     },
     {
       "task": "fused_activation",

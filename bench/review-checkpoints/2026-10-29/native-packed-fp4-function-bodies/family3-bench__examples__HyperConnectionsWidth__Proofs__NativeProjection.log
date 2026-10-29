@@ -1,0 +1,27 @@
+VeriTile.Bench.Examples.HyperConnectionsWidth.NativeProjection.matrixKernel_projection: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Examples.HyperConnectionsWidth.NativeProjection.scalarKernel_projection: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Examples.HyperConnectionsWidth.NativeProjection.mhcWidthConnectionKernel_projection: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Examples.HyperConnectionsWidth.NativeProjection.originalKernel_projection: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Examples.HyperConnectionsWidth.NativeProjection.optimizedKernel_projection: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Examples.HyperConnectionsWidth.NativeProjection.matrixOriginal_projection: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Examples.HyperConnectionsWidth.NativeProjection.matrixOptimized_projection: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Examples.HyperConnectionsWidth.NativeProjection.middleKernel_projection: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Examples.HyperConnectionsWidth.NativeProjection.matrixMiddle_projection: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

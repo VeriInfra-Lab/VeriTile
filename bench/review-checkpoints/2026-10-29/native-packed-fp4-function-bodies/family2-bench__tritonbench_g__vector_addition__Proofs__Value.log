@@ -1,0 +1,32 @@
+/tmp/fp4_114-frontend/bench/tritonbench_g/vector_addition/Proofs/Value.lean:64:58: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+VeriTile.Bench.TritonBenchG.VectorAddition.ValueProofs.expectedMemory: definition does not reference [VeriTile.Bench.TritonBenchG.VectorAddition.ValueProofs.source,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Triton.FP.Structural.run] — non-circular ✓
+VeriTile.Bench.TritonBenchG.VectorAddition.ValueProofs.source_admitted: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.ValueProofs.execution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.ValueProofs.masked_scatter_memory: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.VectorAddition.ValueProofs.execution_memory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.ValueProofs.expectedMemory_eq_scatter: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.ValueProofs.offset_injective: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.VectorAddition.ValueProofs.expected_readback: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.ValueProofs.expected_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.ValueProofs.expected_cell: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.ValueProofs.complete_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

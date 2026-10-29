@@ -1,0 +1,24 @@
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/Execution.lean:76:2: warning: 'all_goals try simp only [Int.toNat_natCast, Int.ofNat_lt]' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/Execution.lean:79:2: warning: 'all_goals congr! 4 <;> norm_cast' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/Execution.lean:79:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/Execution.lean:97:2: warning: 'all_goals try simp only [Int.toNat_natCast, Int.ofNat_lt]' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/Execution.lean:100:2: warning: 'all_goals congr! 4 <;> norm_cast' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/Execution.lean:100:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Execution.backward_memory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Execution.forward_memory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

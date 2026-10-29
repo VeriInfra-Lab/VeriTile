@@ -1,0 +1,62 @@
+/tmp/fp4_114-frontend/bench/tests/RankOneBlockPtr.lean:95:21: warning: This simp argument is unused:
+  ComputeKernel.surfaceBody
+
+Hint: Omit it from the simp argument list.
+  simp [̵s̵i̵g̵n̵e̵d̵O̵f̵f̵s̵e̵t̵,̵C̵o̵m̵p̵u̵t̵e̵K̵e̵r̵n̵e̵l̵.̵s̵u̵r̵f̵a̵c̵e̵B̵o̵d̵y̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵e̵x̵e̵c̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵r̵u̵n̵,̵
+  ̵ ̵ ̵ ̵ ̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵s̵t̵e̵p̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵s̵t̵e̵p̵A̵l̵g̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵e̵v̵a̵l̵E̵x̵p̵r̵,̵
+  ̵ ̵ ̵ ̵ ̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵e̵v̵a̵l̵O̵p̵_̵u̵n̵f̵o̵l̵d̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵n̵u̵m̵e̵r̵i̵c̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵n̵u̵m̵e̵r̵i̵c̵L̵t̵,̵
+  ̵ ̵ ̵ ̵ ̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵n̵u̵m̵e̵r̵i̵c̵L̵e̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵n̵a̵t̵L̵t̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵n̵a̵t̵L̵e̵,̵
+  ̵ ̵ ̵ ̵ ̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵b̵o̵p̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵s̵t̵o̵r̵e̵,̵T̵i̵l̵e̵S̵h̵a̵p̵e̵.̵a̵l̵l̵I̵n̵d̵i̵c̵e̵s̵,̵R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵]̵[̲s̲i̲g̲n̲e̲d̲O̲f̲f̲s̲e̲t̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲e̲x̲e̲c̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲r̲u̲n̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲s̲t̲e̲p̲,̲
+  ̲ ̲ ̲ ̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲s̲t̲e̲p̲A̲l̲g̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲e̲v̲a̲l̲E̲x̲p̲r̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲e̲v̲a̲l̲O̲p̲_̲u̲n̲f̲o̲l̲d̲,̲
+  ̲ ̲ ̲ ̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲n̲u̲m̲e̲r̲i̲c̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲n̲u̲m̲e̲r̲i̲c̲L̲t̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲n̲u̲m̲e̲r̲i̲c̲L̲e̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲n̲a̲t̲L̲t̲,̲
+  ̲ ̲ ̲ ̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲n̲a̲t̲L̲e̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲b̲o̲p̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲s̲t̲o̲r̲e̲,̲ ̲T̲i̲l̲e̲S̲h̲a̲p̲e̲.̲a̲l̲l̲I̲n̲d̲i̲c̲e̲s̲,̲ ̲R̲e̲g̲i̲o̲n̲.̲c̲a̲s̲t̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/fp4_114-frontend/bench/tests/RankOneBlockPtr.lean:96:23: warning: This simp argument is unused:
+  FP.Structural.stepAlg
+
+Hint: Omit it from the simp argument list.
+  simp [̵s̵i̵g̵n̵e̵d̵O̵f̵f̵s̵e̵t̵,̵C̵o̵m̵p̵u̵t̵e̵K̵e̵r̵n̵e̵l̵.̵s̵u̵r̵f̵a̵c̵e̵B̵o̵d̵y̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵e̵x̵e̵c̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵r̵u̵n̵,̵
+  ̵ ̵ ̵ ̵ ̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵s̵t̵e̵p̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵s̵t̵e̵p̵A̵l̵g̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵e̵v̵a̵l̵E̵x̵p̵r̵,̵
+  ̵ ̵ ̵ ̵ ̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵e̵v̵a̵l̵O̵p̵_̵u̵n̵f̵o̵l̵d̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵n̵u̵m̵e̵r̵i̵c̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵n̵u̵m̵e̵r̵i̵c̵L̵t̵,̵
+  ̵ ̵ ̵ ̵ ̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵n̵u̵m̵e̵r̵i̵c̵L̵e̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵n̵a̵t̵L̵t̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵n̵a̵t̵L̵e̵,̵
+  ̵ ̵ ̵ ̵ ̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵b̵o̵p̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵s̵t̵o̵r̵e̵,̵T̵i̵l̵e̵S̵h̵a̵p̵e̵.̵a̵l̵l̵I̵n̵d̵i̵c̵e̵s̵,̵R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵]̵[̲s̲i̲g̲n̲e̲d̲O̲f̲f̲s̲e̲t̲,̲ ̲C̲o̲m̲p̲u̲t̲e̲K̲e̲r̲n̲e̲l̲.̲s̲u̲r̲f̲a̲c̲e̲B̲o̲d̲y̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲e̲x̲e̲c̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲r̲u̲n̲,̲
+  ̲ ̲ ̲ ̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲s̲t̲e̲p̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲e̲v̲a̲l̲E̲x̲p̲r̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲e̲v̲a̲l̲O̲p̲_̲u̲n̲f̲o̲l̲d̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲n̲u̲m̲e̲r̲i̲c̲,̲
+  ̲ ̲ ̲ ̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲n̲u̲m̲e̲r̲i̲c̲L̲t̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲n̲u̲m̲e̲r̲i̲c̲L̲e̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲n̲a̲t̲L̲t̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲n̲a̲t̲L̲e̲,̲
+  ̲ ̲ ̲ ̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲b̲o̲p̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲s̲t̲o̲r̲e̲,̲ ̲T̲i̲l̲e̲S̲h̲a̲p̲e̲.̲a̲l̲l̲I̲n̲d̲i̲c̲e̲s̲,̲ ̲R̲e̲g̲i̲o̲n̲.̲c̲a̲s̲t̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/fp4_114-frontend/bench/tests/RankOneBlockPtr.lean:98:28: warning: This simp argument is unused:
+  FP.Structural.natLt
+
+Hint: Omit it from the simp argument list.
+  simp [̵s̵i̵g̵n̵e̵d̵O̵f̵f̵s̵e̵t̵,̵C̵o̵m̵p̵u̵t̵e̵K̵e̵r̵n̵e̵l̵.̵s̵u̵r̵f̵a̵c̵e̵B̵o̵d̵y̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵e̵x̵e̵c̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵r̵u̵n̵,̵
+  ̵ ̵ ̵ ̵ ̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵s̵t̵e̵p̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵s̵t̵e̵p̵A̵l̵g̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵e̵v̵a̵l̵E̵x̵p̵r̵,̵
+  ̵ ̵ ̵ ̵ ̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵e̵v̵a̵l̵O̵p̵_̵u̵n̵f̵o̵l̵d̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵n̵u̵m̵e̵r̵i̵c̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵n̵u̵m̵e̵r̵i̵c̵L̵t̵,̵
+  ̵ ̵ ̵ ̵ ̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵n̵u̵m̵e̵r̵i̵c̵L̵e̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵n̵a̵t̵L̵t̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵n̵a̵t̵L̵e̵,̵
+  ̵ ̵ ̵ ̵ ̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵b̵o̵p̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵s̵t̵o̵r̵e̵,̵T̵i̵l̵e̵S̵h̵a̵p̵e̵.̵a̵l̵l̵I̵n̵d̵i̵c̵e̵s̵,̵R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵]̵[̲s̲i̲g̲n̲e̲d̲O̲f̲f̲s̲e̲t̲,̲ ̲C̲o̲m̲p̲u̲t̲e̲K̲e̲r̲n̲e̲l̲.̲s̲u̲r̲f̲a̲c̲e̲B̲o̲d̲y̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲e̲x̲e̲c̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲r̲u̲n̲,̲
+  ̲ ̲ ̲ ̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲s̲t̲e̲p̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲s̲t̲e̲p̲A̲l̲g̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲e̲v̲a̲l̲E̲x̲p̲r̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲e̲v̲a̲l̲O̲p̲_̲u̲n̲f̲o̲l̲d̲,̲
+  ̲ ̲ ̲ ̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲n̲u̲m̲e̲r̲i̲c̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲n̲u̲m̲e̲r̲i̲c̲L̲t̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲n̲u̲m̲e̲r̲i̲c̲L̲e̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲n̲a̲t̲L̲e̲,̲
+  ̲ ̲ ̲ ̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲b̲o̲p̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲s̲t̲o̲r̲e̲,̲ ̲T̲i̲l̲e̲S̲h̲a̲p̲e̲.̲a̲l̲l̲I̲n̲d̲i̲c̲e̲s̲,̲ ̲R̲e̲g̲i̲o̲n̲.̲c̲a̲s̲t̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/fp4_114-frontend/bench/tests/RankOneBlockPtr.lean:98:48: warning: This simp argument is unused:
+  FP.Structural.natLe
+
+Hint: Omit it from the simp argument list.
+  simp [̵s̵i̵g̵n̵e̵d̵O̵f̵f̵s̵e̵t̵,̵C̵o̵m̵p̵u̵t̵e̵K̵e̵r̵n̵e̵l̵.̵s̵u̵r̵f̵a̵c̵e̵B̵o̵d̵y̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵e̵x̵e̵c̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵r̵u̵n̵,̵
+  ̵ ̵ ̵ ̵ ̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵s̵t̵e̵p̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵s̵t̵e̵p̵A̵l̵g̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵e̵v̵a̵l̵E̵x̵p̵r̵,̵
+  ̵ ̵ ̵ ̵ ̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵e̵v̵a̵l̵O̵p̵_̵u̵n̵f̵o̵l̵d̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵n̵u̵m̵e̵r̵i̵c̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵n̵u̵m̵e̵r̵i̵c̵L̵t̵,̵
+  ̵ ̵ ̵ ̵ ̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵n̵u̵m̵e̵r̵i̵c̵L̵e̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵n̵a̵t̵L̵t̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵n̵a̵t̵L̵e̵,̵
+  ̵ ̵ ̵ ̵ ̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵b̵o̵p̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵s̵t̵o̵r̵e̵,̵T̵i̵l̵e̵S̵h̵a̵p̵e̵.̵a̵l̵l̵I̵n̵d̵i̵c̵e̵s̵,̵R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵]̵[̲s̲i̲g̲n̲e̲d̲O̲f̲f̲s̲e̲t̲,̲ ̲C̲o̲m̲p̲u̲t̲e̲K̲e̲r̲n̲e̲l̲.̲s̲u̲r̲f̲a̲c̲e̲B̲o̲d̲y̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲e̲x̲e̲c̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲r̲u̲n̲,̲
+  ̲ ̲ ̲ ̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲s̲t̲e̲p̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲s̲t̲e̲p̲A̲l̲g̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲e̲v̲a̲l̲E̲x̲p̲r̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲e̲v̲a̲l̲O̲p̲_̲u̲n̲f̲o̲l̲d̲,̲
+  ̲ ̲ ̲ ̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲n̲u̲m̲e̲r̲i̲c̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲n̲u̲m̲e̲r̲i̲c̲L̲t̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲n̲u̲m̲e̲r̲i̲c̲L̲e̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲n̲a̲t̲L̲t̲,̲
+  ̲ ̲ ̲ ̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲b̲o̲p̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲s̲t̲o̲r̲e̲,̲ ̲T̲i̲l̲e̲S̲h̲a̲p̲e̲.̲a̲l̲l̲I̲n̲d̲i̲c̲e̲s̲,̲ ̲R̲e̲g̲i̲o̲n̲.̲c̲a̲s̲t̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Tests.RankOneBlockPtr.negative_coordinate_uses_undefined: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.RankOneBlockPtr.signed_and_captured: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

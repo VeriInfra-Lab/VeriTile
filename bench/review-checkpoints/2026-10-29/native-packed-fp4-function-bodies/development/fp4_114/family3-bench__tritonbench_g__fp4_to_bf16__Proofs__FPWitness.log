@@ -1,0 +1,7 @@
+VeriTile.Bench.TritonBenchG.Fp4ToBf16.FPValue.byteState_typed: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.Fp4ToBf16.FPValue.alias_tail_execution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.Fp4ToBf16.FPValue.host512_tail_execution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

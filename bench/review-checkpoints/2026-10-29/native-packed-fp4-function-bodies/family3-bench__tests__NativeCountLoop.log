@@ -1,0 +1,9 @@
+VeriTile.Tests.NativeCountLoop.conversion_channels: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.NativeCountLoop.conversion_execution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.NativeCountLoop.loop_channel: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,35 @@
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/rope_embedding/Proofs/FP.lean:33:22: warning: This simp argument is unused:
+  hb
+
+Hint: Omit it from the simp argument list.
+  simp only [signed,h̵b̵,̵ ̲↓reduceIte]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/rope_embedding/Proofs/FP.lean:44:20: warning: This simp argument is unused:
+  hi
+
+Hint: Omit it from the simp argument list.
+  simp only [pair,h̵i̵,̵ ̲Bool.false_eq_true, ̲↓reduceIte]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/rope_embedding/Proofs/FP.lean:47:20: warning: This simp argument is unused:
+  hi
+
+Hint: Omit it from the simp argument list.
+  simp only [pair,h̵i̵,̵ ̲↓reduceIte]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/rope_embedding/Proofs/FP.lean:64:27: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+VeriTile.Bench.Repairs.RopeEmbedding.Numerics.LocalExact: definition does not reference [VeriTile.Bench.Repairs.RopeEmbedding.Source.source,
+ VeriTile.Bench.Repairs.RopeEmbedding.Native.entry,
+ VeriTile.Bench.Repairs.RopeEmbedding.Memory.run,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.Repairs.RopeEmbedding.Numerics.source_profile: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.Repairs.RopeEmbedding.Numerics.pair_decode: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.RopeEmbedding.Numerics.result_decode: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

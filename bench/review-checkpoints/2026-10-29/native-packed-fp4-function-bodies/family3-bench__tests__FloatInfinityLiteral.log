@@ -1,0 +1,12 @@
+/tmp/fp4_114-frontend/bench/tests/FloatInfinityLiteral.lean:36:36: warning: This simp argument is unused:
+  ComputeKernel.surfaceBody
+
+Hint: Omit it from the simp argument list.
+  simp [̵p̵o̵s̵i̵t̵i̵v̵e̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵e̵x̵e̵c̵,̵C̵o̵m̵p̵u̵t̵e̵K̵e̵r̵n̵e̵l̵.̵s̵u̵r̵f̵a̵c̵e̵B̵o̵d̵y̵,̵r̵u̵n̵,̵s̵t̵e̵p̵,̵e̵v̵a̵l̵E̵x̵p̵r̵,̵
+  ̵ ̵ ̵ ̵ ̵e̵v̵a̵l̵C̵o̵m̵p̵u̵t̵e̵O̵p̵,̵e̵v̵a̵l̵O̵p̵_̵u̵n̵f̵o̵l̵d̵,̵O̵p̵t̵i̵o̵n̵.̵b̵i̵n̵d̵,̵S̵t̵a̵t̵e̵.̵s̵e̵t̵R̵e̵g̵]̵[̲p̲o̲s̲i̲t̲i̲v̲e̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲e̲x̲e̲c̲,̲ ̲r̲u̲n̲,̲ ̲s̲t̲e̲p̲,̲ ̲e̲v̲a̲l̲E̲x̲p̲r̲,̲ ̲e̲v̲a̲l̲C̲o̲m̲p̲u̲t̲e̲O̲p̲,̲ ̲e̲v̲a̲l̲O̲p̲_̲u̲n̲f̲o̲l̲d̲,̲
+  ̲ ̲ ̲ ̲ ̲O̲p̲t̲i̲o̲n̲.̲b̲i̲n̲d̲,̲ ̲S̲t̲a̲t̲e̲.̲s̲e̲t̲R̲e̲g̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Tests.FloatInfinityLiteral.execution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

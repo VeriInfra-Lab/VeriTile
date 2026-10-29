@@ -1,0 +1,7 @@
+VeriTile.Bench.Repairs.FastRopeEmbedding.checked_inputs: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.FastRopeEmbedding.StorageLaws.firstApartK: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.FastRopeEmbedding.StorageLaws.outputApart: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

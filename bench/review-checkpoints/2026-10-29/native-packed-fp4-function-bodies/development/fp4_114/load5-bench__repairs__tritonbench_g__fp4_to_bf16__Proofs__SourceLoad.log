@@ -1,0 +1,56 @@
+_private.bench.repairs.tritonbench_g.fp4_to_bf16.Proofs.SourceLoad.0.VeriTile.Bench.Repairs.Fp4ToBf16.Source.packedExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceLoad.lean:40:104: error: unsolved goals
+rest : FP.Structural.Algebra Word
+p : Parameters
+s : State Word
+⊢ (bop (fun x1 x2 => x1 * x2) Broadcast.nil (fun i => ↑p.count) fun x => 2) = fun x => ↑p.count * 2
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceLoad.lean:43:106: error: unsolved goals
+case h
+rest : FP.Structural.Algebra Word
+p : Parameters
+s : State Word
+j : TileIndex [p.block]
+⊢ (if ↑(s.pids 0) * ↑p.block + ↑↑j.1 < ↑p.count then
+      Cell.read TileDType.nat (s.mem { name := p.input.name } (Int.toNat (↑(s.pids 0) * ↑p.block + ↑↑j.1)))
+    else s.undef TileDType.nat { name := p.input.name } (Int.toNat (↑(s.pids 0) * ↑p.block + ↑↑j.1))) =
+    if s.pids 0 * p.block + ↑j.1 < p.count then Cell.read TileDType.nat (s.mem p.input (s.pids 0 * p.block + ↑j.1))
+    else s.undef TileDType.nat p.input (s.pids 0 * p.block + ↑j.1)
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceLoad.lean:70:0: error: VeriTile.Bench.Repairs.Fp4ToBf16.Source.loadExecution: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceLoad.lean:78:26: warning: '(funext j; norm_cast)' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceLoad.lean:78:26: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceLoad.lean:87:26: warning: '(funext j; norm_cast)' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceLoad.lean:87:26: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceLoad.lean:91:64: warning: unused variable `j`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceLoad.lean:96:2: warning: 'all_goals
+  first
+  | rfl
+  | (funext j; norm_cast)' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceLoad.lean:96:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceLoad.lean:100:75: warning: unused variable `j`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceLoad.lean:105:2: warning: 'all_goals
+  first
+  | rfl
+  | (funext j; norm_cast)' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceLoad.lean:105:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`

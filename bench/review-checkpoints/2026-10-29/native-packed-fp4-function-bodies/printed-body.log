@@ -1,0 +1,261 @@
+/tmp/fp4_114-frontend/PrintBody.lean:4:0: error: Unknown option `pp.width`
+def VeriTile.Bench.Repairs.Fp4ToBf16.Kernels.body : VeriTile.Triton.RegionName →
+  VeriTile.Triton.RegionName → ℕ → ℕ → VeriTile.Triton.ComputeKernel :=
+fun x_ptr output_ptr n BLOCK_SIZE_IN =>
+  have sign_mask_f4 := 8;
+  have mantissa_mask_f4 := 1;
+  have mbits_f4_e2m1 := 1;
+  have ebits_f4_e2m1 := 2;
+  have f4_e2m1_exp_bias := 1;
+  have mbits_f32 := 23;
+  have ebits_f32 := 8;
+  have f32_exp_bias := 127;
+  have zero_bits_f32 := 0;
+  have zero_point_five_bits_f32 := 1056964608;
+  VeriTile.Triton.ComputeKernel.mk [x_ptr] [output_ptr]
+    (have y :=
+      have y :=
+        have y :=
+          [VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.bf16 [BLOCK_SIZE_IN * 2] "output"
+              (VeriTile.Triton.ComputeExpr.alg
+                (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.bf16 [BLOCK_SIZE_IN * 2]
+                  "__veritile_helper_15_result")),
+            VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.int [] "block_start_out"
+              (VeriTile.Triton.ComputeExpr.alg
+                (VeriTile.Triton.Op.mul VeriTile.Triton.NumericDType.int VeriTile.Triton.Broadcast.nil
+                  (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.int [] "pid")
+                  (VeriTile.Triton.Op.constInt (Int.ofNat (BLOCK_SIZE_IN * 2))))),
+            VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.int [BLOCK_SIZE_IN * 2] "offsets_out"
+              (VeriTile.Triton.ComputeExpr.alg
+                (VeriTile.Triton.Op.add VeriTile.Triton.NumericDType.int VeriTile.Triton.Broadcast.scalarL
+                  (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.int [] "block_start_out")
+                  (VeriTile.Triton.Op.arange (BLOCK_SIZE_IN * 2)).castNatToInt)),
+            VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.bool [BLOCK_SIZE_IN * 2] "mask_out"
+              (VeriTile.Triton.ComputeExpr.alg
+                (VeriTile.Triton.Op.lt VeriTile.Triton.ComparableDType.int VeriTile.Triton.Broadcast.scalarR
+                  (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.int [BLOCK_SIZE_IN * 2] "offsets_out")
+                  (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.int [] "n_elements_out"))),
+            VeriTile.Triton.ComputeStmt.store VeriTile.Triton.TileDType.bf16 [BLOCK_SIZE_IN * 2]
+              (VeriTile.Triton.MemAccess.region (VeriTile.Triton.Region.cast output_ptr)
+                (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.int [BLOCK_SIZE_IN * 2] "offsets_out").castIntToNat)
+              (VeriTile.Triton.ComputeExpr.alg
+                (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.bf16 [BLOCK_SIZE_IN * 2] "output"))
+              (VeriTile.Triton.MaskOpt.mask
+                (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.bool [BLOCK_SIZE_IN * 2] "mask_out"))];
+        VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.int [BLOCK_SIZE_IN * 2]
+            "__veritile_helper_13_local_result"
+            (VeriTile.Triton.ComputeExpr.alg
+              (VeriTile.Triton.Op.unsignedToInt 32
+                (VeriTile.Triton.Op.bitOr VeriTile.Triton.Broadcast.nil.consSame
+                  (VeriTile.Triton.Op.intToUnsigned 32
+                    (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.int [BLOCK_SIZE_IN * 2]
+                      "__veritile_helper_13_local_result"))
+                  (VeriTile.Triton.Op.intToUnsigned 32
+                    (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.int [BLOCK_SIZE_IN * 2]
+                      "__veritile_helper_14_local_sign_f32"))))) ::
+          VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.real [BLOCK_SIZE_IN * 2]
+              "__veritile_helper_12_local_output"
+              (VeriTile.Triton.ComputeExpr.compute
+                (VeriTile.Triton.ComputeOp.bitcast VeriTile.Triton.ComputeDType.int32 VeriTile.Triton.ComputeDType.fp32
+                  VeriTile.Bench.Repairs.Fp4ToBf16.Kernels.body._proof_1
+                  (VeriTile.Triton.ComputeOp.alg VeriTile.Triton.ComputeDType.int32
+                    (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.int [BLOCK_SIZE_IN * 2]
+                      "__veritile_helper_13_local_result")))) ::
+            VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.bf16 [BLOCK_SIZE_IN * 2]
+                "__veritile_helper_12_local_output"
+                (VeriTile.Triton.ComputeExpr.alg
+                  (VeriTile.Triton.Op.castFloat VeriTile.Triton.FloatDType.real VeriTile.Triton.FloatDType.bf16
+                    (VeriTile.Triton.Op.withPrecision VeriTile.Triton.FloatDType.real
+                      VeriTile.Triton.IndexComputePrecision.fp32
+                      (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.real [BLOCK_SIZE_IN * 2]
+                        "__veritile_helper_12_local_output")))) ::
+              VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.bf16 [BLOCK_SIZE_IN * 2]
+                  "__veritile_helper_15_result"
+                  (VeriTile.Triton.ComputeExpr.alg
+                    (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.bf16 [BLOCK_SIZE_IN * 2]
+                      "__veritile_helper_12_local_output")) ::
+                y;
+      have y :=
+        VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.int [BLOCK_SIZE_IN * 2]
+            "__veritile_helper_13_local_result"
+            (VeriTile.Triton.ComputeExpr.alg
+              (VeriTile.Triton.Op.unsignedToInt 32
+                (VeriTile.Triton.Op.bitOr VeriTile.Triton.Broadcast.nil.consSame
+                  (VeriTile.Triton.Op.intToUnsigned 32
+                    (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.int [BLOCK_SIZE_IN * 2]
+                      "__veritile_helper_9_local_exp_biased_f32"))
+                  (VeriTile.Triton.Op.intToUnsigned 32
+                    (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.int [BLOCK_SIZE_IN * 2]
+                      "__veritile_helper_11_local_mantissa_f32"))))) ::
+          VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.int [BLOCK_SIZE_IN * 2]
+              "__veritile_helper_13_local_result"
+              (VeriTile.Triton.ComputeExpr.alg
+                ((VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.bool [BLOCK_SIZE_IN * 2]
+                      "__veritile_helper_6_local_zero_mask").where
+                  ((VeriTile.Triton.Op.constInt 0).broadcast [BLOCK_SIZE_IN * 2])
+                  (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.int [BLOCK_SIZE_IN * 2]
+                    "__veritile_helper_13_local_result"))) ::
+            VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.int [BLOCK_SIZE_IN * 2]
+                "__veritile_helper_13_local_result"
+                (VeriTile.Triton.ComputeExpr.alg
+                  ((VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.bool [BLOCK_SIZE_IN * 2]
+                        "__veritile_helper_7_local_denormal_mask").where
+                    ((VeriTile.Triton.Op.constInt 1056964608).broadcast [BLOCK_SIZE_IN * 2])
+                    (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.int [BLOCK_SIZE_IN * 2]
+                      "__veritile_helper_13_local_result"))) ::
+              VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.int [BLOCK_SIZE_IN * 2]
+                  "__veritile_helper_14_local_sign_f32"
+                  (VeriTile.Triton.ComputeExpr.alg
+                    (VeriTile.Triton.Op.intToSigned 32
+                      (VeriTile.Triton.Op.mul VeriTile.Triton.NumericDType.int VeriTile.Triton.Broadcast.scalarR
+                        (VeriTile.Triton.Op.intToSigned 32
+                          (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.nat [BLOCK_SIZE_IN * 2]
+                              "__veritile_helper_4_local_sign_f4").castNatToInt)
+                        (VeriTile.Triton.Op.shiftLeft (VeriTile.Triton.IntegerExpr.sameShape [])
+                            (VeriTile.Triton.Op.full [] (VeriTile.Triton.Op.constNat 1))
+                            (VeriTile.Triton.Op.constNat 28)).castNatToInt))) ::
+                y;
+      VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.int [BLOCK_SIZE_IN * 2]
+          "__veritile_helper_9_local_exp_biased_f32"
+          (VeriTile.Triton.ComputeExpr.alg
+            (VeriTile.Triton.Op.intToSigned 32
+              (VeriTile.Triton.Op.mul VeriTile.Triton.NumericDType.int VeriTile.Triton.Broadcast.scalarR
+                (VeriTile.Triton.Op.intToSigned 32
+                  (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.nat [BLOCK_SIZE_IN * 2]
+                      "__veritile_helper_9_local_exp_biased_f32").castNatToInt)
+                (VeriTile.Triton.Op.shiftLeft (VeriTile.Triton.IntegerExpr.sameShape [])
+                    (VeriTile.Triton.Op.full [] (VeriTile.Triton.Op.constNat 1))
+                    (VeriTile.Triton.Op.constNat 23)).castNatToInt))) ::
+        VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.nat [BLOCK_SIZE_IN * 2]
+            "__veritile_helper_10_local_mantissa_f4"
+            (VeriTile.Triton.ComputeExpr.alg
+              (VeriTile.Triton.Op.bitAnd VeriTile.Triton.Broadcast.scalarR
+                (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.nat [BLOCK_SIZE_IN * 2]
+                  "__veritile_helper_5_local_x_pos")
+                (VeriTile.Triton.Op.constNat 1))) ::
+          VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.int [BLOCK_SIZE_IN * 2]
+              "__veritile_helper_11_local_mantissa_f32"
+              (VeriTile.Triton.ComputeExpr.alg
+                (VeriTile.Triton.Op.intToSigned 32
+                  (VeriTile.Triton.Op.mul VeriTile.Triton.NumericDType.int VeriTile.Triton.Broadcast.scalarR
+                    (VeriTile.Triton.Op.intToSigned 32
+                      (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.nat [BLOCK_SIZE_IN * 2]
+                          "__veritile_helper_10_local_mantissa_f4").castNatToInt)
+                    (VeriTile.Triton.Op.shiftLeft (VeriTile.Triton.IntegerExpr.sameShape [])
+                        (VeriTile.Triton.Op.full [] (VeriTile.Triton.Op.constNat 1))
+                        (VeriTile.Triton.Op.constNat 22)).castNatToInt))) ::
+            VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.int [BLOCK_SIZE_IN * 2]
+                "__veritile_helper_12_local_output"
+                (VeriTile.Triton.ComputeExpr.alg
+                  (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.int [BLOCK_SIZE_IN * 2]
+                    "__veritile_helper_11_local_mantissa_f32")) ::
+              y;
+    have y :=
+      have y :=
+        VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.nat [BLOCK_SIZE_IN * 2]
+            "__veritile_helper_5_local_x_pos"
+            (VeriTile.Triton.ComputeExpr.alg
+              (VeriTile.Triton.Op.bitXor VeriTile.Triton.Broadcast.nil.consSame
+                (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.nat [BLOCK_SIZE_IN * 2] "__veritile_helper_3_local_x")
+                (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.nat [BLOCK_SIZE_IN * 2]
+                  "__veritile_helper_4_local_sign_f4"))) ::
+          VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.bool [BLOCK_SIZE_IN * 2]
+              "__veritile_helper_6_local_zero_mask"
+              (VeriTile.Triton.ComputeExpr.alg
+                (VeriTile.Triton.Op.eq VeriTile.Triton.ComparableDType.nat VeriTile.Triton.Broadcast.scalarR
+                  (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.nat [BLOCK_SIZE_IN * 2]
+                    "__veritile_helper_5_local_x_pos")
+                  (VeriTile.Triton.Op.constNat 0))) ::
+            VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.bool [BLOCK_SIZE_IN * 2]
+                "__veritile_helper_7_local_denormal_mask"
+                (VeriTile.Triton.ComputeExpr.alg
+                  (VeriTile.Triton.Op.eq VeriTile.Triton.ComparableDType.nat VeriTile.Triton.Broadcast.scalarR
+                    (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.nat [BLOCK_SIZE_IN * 2]
+                      "__veritile_helper_5_local_x_pos")
+                    (VeriTile.Triton.Op.constNat 1))) ::
+              VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.nat [BLOCK_SIZE_IN * 2]
+                  "__veritile_helper_8_local_exp_biased_f4"
+                  (VeriTile.Triton.ComputeExpr.alg
+                    (VeriTile.Triton.Op.shiftRight VeriTile.Triton.Broadcast.scalarR
+                      (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.nat [BLOCK_SIZE_IN * 2]
+                        "__veritile_helper_5_local_x_pos")
+                      (VeriTile.Triton.Op.constNat 1))) ::
+                VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.nat [BLOCK_SIZE_IN * 2]
+                    "__veritile_helper_9_local_exp_biased_f32"
+                    (VeriTile.Triton.ComputeExpr.alg
+                      (VeriTile.Triton.Op.natToUnsigned 8
+                        (VeriTile.Triton.Op.add VeriTile.Triton.NumericDType.nat VeriTile.Triton.Broadcast.scalarR
+                          (VeriTile.Triton.Op.intToUnsigned 8
+                            (VeriTile.Triton.Op.sub VeriTile.Triton.NumericDType.int VeriTile.Triton.Broadcast.scalarR
+                              (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.nat [BLOCK_SIZE_IN * 2]
+                                  "__veritile_helper_8_local_exp_biased_f4").castNatToInt
+                              (VeriTile.Triton.Op.full [] (VeriTile.Triton.Op.constInt 1))))
+                          (VeriTile.Triton.Op.constNat 127)))) ::
+                  y;
+      VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.nat [BLOCK_SIZE_IN]
+          "__veritile_helper_1_local_x_low_bits"
+          (VeriTile.Triton.ComputeExpr.alg
+            (VeriTile.Triton.Op.shiftRight VeriTile.Triton.Broadcast.scalarR
+              (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.nat [BLOCK_SIZE_IN] "__veritile_helper_0_arg_x_packed")
+              (VeriTile.Triton.Op.constNat 4))) ::
+        VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.nat [BLOCK_SIZE_IN]
+            "__veritile_helper_2_local_x_high_bits"
+            (VeriTile.Triton.ComputeExpr.alg
+              (VeriTile.Triton.Op.bitAnd VeriTile.Triton.Broadcast.scalarR
+                (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.nat [BLOCK_SIZE_IN]
+                  "__veritile_helper_0_arg_x_packed")
+                (VeriTile.Triton.Op.constNat 15))) ::
+          VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.nat [BLOCK_SIZE_IN * 2]
+              "__veritile_helper_3_local_x"
+              (VeriTile.Triton.ComputeExpr.alg
+                (VeriTile.Triton.Op.reshape [BLOCK_SIZE_IN * 2]
+                  ((VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.nat [BLOCK_SIZE_IN]
+                        "__veritile_helper_1_local_x_low_bits").join
+                    (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.nat [BLOCK_SIZE_IN]
+                      "__veritile_helper_2_local_x_high_bits")))) ::
+            VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.nat [BLOCK_SIZE_IN * 2]
+                "__veritile_helper_4_local_sign_f4"
+                (VeriTile.Triton.ComputeExpr.alg
+                  (VeriTile.Triton.Op.bitAnd VeriTile.Triton.Broadcast.scalarR
+                    (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.nat [BLOCK_SIZE_IN * 2]
+                      "__veritile_helper_3_local_x")
+                    (VeriTile.Triton.Op.constNat 8))) ::
+              y;
+    have y :=
+      VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.int [BLOCK_SIZE_IN] "offsets_in"
+          (VeriTile.Triton.ComputeExpr.alg
+            (VeriTile.Triton.Op.add VeriTile.Triton.NumericDType.int VeriTile.Triton.Broadcast.scalarL
+              (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.int [] "block_start_in")
+              (VeriTile.Triton.Op.arange BLOCK_SIZE_IN).castNatToInt)) ::
+        VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.bool [BLOCK_SIZE_IN] "mask_in"
+            (VeriTile.Triton.ComputeExpr.alg
+              (VeriTile.Triton.Op.lt VeriTile.Triton.ComparableDType.int VeriTile.Triton.Broadcast.scalarR
+                (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.int [BLOCK_SIZE_IN] "offsets_in")
+                (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.int [] "n_elements_in"))) ::
+          VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.nat [BLOCK_SIZE_IN] "x_packed"
+              (VeriTile.Triton.ComputeExpr.alg
+                (VeriTile.Triton.Op.load VeriTile.Triton.TileDType.nat
+                  (VeriTile.Triton.MemAccess.region (VeriTile.Triton.Region.cast x_ptr)
+                    (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.int [BLOCK_SIZE_IN] "offsets_in").castIntToNat)
+                  (VeriTile.Triton.MaskOpt.mask
+                    (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.bool [BLOCK_SIZE_IN] "mask_in")))) ::
+            VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.nat [BLOCK_SIZE_IN]
+                "__veritile_helper_0_arg_x_packed"
+                (VeriTile.Triton.ComputeExpr.alg
+                  (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.nat [BLOCK_SIZE_IN] "x_packed")) ::
+              y;
+    VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.int [] "pid"
+        (VeriTile.Triton.ComputeExpr.alg (VeriTile.Triton.Op.programId 0).castNatToInt) ::
+      VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.int [] "n_elements_in"
+          (VeriTile.Triton.ComputeExpr.alg (VeriTile.Triton.Op.constNat n).castNatToInt) ::
+        VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.int [] "n_elements_out"
+            (VeriTile.Triton.ComputeExpr.alg
+              (VeriTile.Triton.Op.mul VeriTile.Triton.NumericDType.int VeriTile.Triton.Broadcast.nil
+                (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.int [] "n_elements_in")
+                (VeriTile.Triton.Op.constInt 2))) ::
+          VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.int [] "block_start_in"
+              (VeriTile.Triton.ComputeExpr.alg
+                (VeriTile.Triton.Op.mul VeriTile.Triton.NumericDType.int VeriTile.Triton.Broadcast.nil
+                  (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.int [] "pid")
+                  (VeriTile.Triton.Op.constInt (Int.ofNat BLOCK_SIZE_IN)))) ::
+            y)

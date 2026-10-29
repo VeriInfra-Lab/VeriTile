@@ -1,0 +1,15 @@
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/Geometry.lean:28:26: warning: This simp argument is unused:
+  Nat.div_add_mod
+
+Hint: Omit it from the simp argument list.
+  simp [̵c̵o̵l̵u̵m̵n̵,̵o̵w̵n̵e̵r̵,̵l̵a̵n̵e̵,̵N̵a̵t̵.̵d̵i̵v̵_̵a̵d̵d̵_̵m̵o̵d̵]̵[̲c̲o̲l̲u̲m̲n̲,̲ ̲o̲w̲n̲e̲r̲,̲ ̲l̲a̲n̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.FastRmsLayernorm.Geometry.covered: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.Geometry.row_injective: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.Geometry.column_injective: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

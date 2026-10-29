@@ -1,0 +1,225 @@
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceLoad.lean:15:122: error: unsolved goals
+case refine_2
+rest : FP.Structural.Algebra Word
+p : Parameters
+s : State Word
+⊢ (match
+      match
+        match
+          numericLt
+            { literal := rest.literal, negInf := rest.negInf, binary := rest.binary, fma := rest.fma,
+              atomicAdd := rest.atomicAdd, unary := rest.unary, libdevicePowi := rest.libdevicePowi,
+              isFinite := rest.isFinite, compareLt := rest.compareLt, compareLe := rest.compareLe,
+              compareEq := rest.compareEq, floatToInt := rest.floatToInt, floatToNat := rest.floatToNat,
+              cast := fun precision src dst x =>
+                match src, dst with
+                | FloatDType.real, FloatDType.bf16 => embed (Bits.narrow x)
+                | FloatDType.fp32, FloatDType.bf16 => embed (Bits.narrow x)
+                | src, dst => rest.cast precision src dst x,
+              fromNat := rest.fromNat, fromInt := rest.fromInt, fp32Bits := fun bits => { bits := bits.bits },
+              float8E5Bits := rest.float8E5Bits, fp32Load := rest.fp32Load, reduceMin := rest.reduceMin,
+              reduceMax := rest.reduceMax, reduceSum := rest.reduceSum, reduceSumTyped := rest.reduceSumTyped,
+              reduceMaxTyped := rest.reduceMaxTyped, indexedMax := rest.indexedMax, scan := rest.scan, dot := rest.dot,
+              dotWithOptions := rest.dotWithOptions, dotTyped := rest.dotTyped, dotAcc := rest.dotAcc,
+              integerDot := rest.integerDot, fmaTyped := rest.fmaTyped, minimum := rest.minimum, divRN := rest.divRN }
+            none ComparableDType.int,
+          fun f =>
+          some
+            (bop f Broadcast.scalarR
+              (bop (fun x1 x2 => x1 + x2) Broadcast.scalarL
+                (bop (fun x1 x2 => x1 * x2) Broadcast.nil (fun i => ↑(s.pids 0)) fun x => ↑p.block) fun i => ↑↑i.1)
+              fun i => ↑p.count) with
+        | none, x => none
+        | some a, f => f a,
+        fun v =>
+        some
+          ((((((s.setReg "pid" TileDType.int [] fun i => ↑(s.pids 0)).setReg "n_elements_in" TileDType.int [] fun i =>
+                            ↑p.count).setReg
+                        "n_elements_out" TileDType.int []
+                        (bop (fun x1 x2 => x1 * x2) Broadcast.nil (fun i => ↑p.count) fun x => 2)).setReg
+                    "block_start_in" TileDType.int []
+                    (bop (fun x1 x2 => x1 * x2) Broadcast.nil (fun i => ↑(s.pids 0)) fun x => ↑p.block)).setReg
+                "offsets_in" TileDType.int [p.block]
+                (bop (fun x1 x2 => x1 + x2) Broadcast.scalarL
+                  (bop (fun x1 x2 => x1 * x2) Broadcast.nil (fun i => ↑(s.pids 0)) fun x => ↑p.block) fun i =>
+                  ↑↑i.1)).setReg
+            "mask_in" TileDType.bool [p.block] v) with
+      | none, x => none
+      | some a, f => f a,
+      fun __do_lift =>
+      match
+        match
+          match
+            Option.map (fun offsets i => ({ name := p.input.name }, offsets i))
+              (match __do_lift.regs TileDType.int [p.block] "offsets_in", fun v => some fun i => Int.toNat (v i) with
+              | none, x => none
+              | some a, f => f a),
+            fun addresses =>
+            match __do_lift.regs TileDType.bool [p.block] "mask_in", fun active =>
+              some fun i =>
+                if active i = «true» then Cell.read TileDType.nat (__do_lift.mem (addresses i).1 (addresses i).2)
+                else __do_lift.undef TileDType.nat (addresses i).1 (addresses i).2 with
+            | none, x => none
+            | some a, f => f a with
+          | none, x => none
+          | some a, f => f a,
+          fun v => some (__do_lift.setReg "x_packed" TileDType.nat [p.block] v) with
+        | none, x => none
+        | some a, f => f a,
+        fun __do_lift =>
+        match
+          match __do_lift.regs TileDType.nat [p.block] "x_packed", fun v =>
+            some (__do_lift.setReg "__veritile_helper_0_arg_x_packed" TileDType.nat [p.block] v) with
+          | none, x => none
+          | some a, f => f a,
+          fun __do_lift =>
+          match
+            match
+              match __do_lift.regs TileDType.nat [p.block] "__veritile_helper_0_arg_x_packed", fun va =>
+                some (bop (fun x1 x2 => x1 >>> x2) Broadcast.scalarR va fun x => 4) with
+              | none, x => none
+              | some a, f => f a,
+              fun v => some (__do_lift.setReg "__veritile_helper_1_local_x_low_bits" TileDType.nat [p.block] v) with
+            | none, x => none
+            | some a, f => f a,
+            fun __do_lift =>
+            match
+              match
+                match __do_lift.regs TileDType.nat [p.block] "__veritile_helper_0_arg_x_packed", fun va =>
+                  some (bop (fun x1 x2 => x1 &&& x2) Broadcast.scalarR va fun x => 15) with
+                | none, x => none
+                | some a, f => f a,
+                fun v => some (__do_lift.setReg "__veritile_helper_2_local_x_high_bits" TileDType.nat [p.block] v) with
+              | none, x => none
+              | some a, f => f a,
+              fun __do_lift =>
+              match
+                match
+                  match
+                    match __do_lift.regs TileDType.nat [p.block] "__veritile_helper_1_local_x_low_bits", fun va =>
+                      match __do_lift.regs TileDType.nat [p.block] "__veritile_helper_2_local_x_high_bits", fun vb =>
+                        some fun i => if i.2.1 = 0 then va (i.1, PUnit.unit) else vb (i.1, PUnit.unit) with
+                      | none, x => none
+                      | some a, f => f a with
+                    | none, x => none
+                    | some a, f => f a,
+                    fun v => some fun i => v (⟨↑i.1 / 2, ⋯⟩, ⟨↑i.1 % 2, ⋯⟩, PUnit.unit) with
+                  | none, x => none
+                  | some a, f => f a,
+                  fun v => some (__do_lift.setReg "__veritile_helper_3_local_x" TileDType.nat [p.block * 2] v) with
+                | none, x => none
+                | some a, f => f a,
+                fun __do_lift =>
+                match
+                  match
+                    match __do_lift.regs TileDType.nat [p.block * 2] "__veritile_helper_3_local_x", fun va =>
+                      some (bop (fun x1 x2 => x1 &&& x2) Broadcast.scalarR va fun x => 8) with
+                    | none, x => none
+                    | some a, f => f a,
+                    fun v =>
+                    some (__do_lift.setReg "__veritile_helper_4_local_sign_f4" TileDType.nat [p.block * 2] v) with
+                  | none, x => none
+                  | some a, f => f a,
+                  fun __do_lift =>
+                  match
+                    match
+                      match __do_lift.regs TileDType.nat [p.block * 2] "__veritile_helper_3_local_x", fun va =>
+                        match __do_lift.regs TileDType.nat [p.block * 2] "__veritile_helper_4_local_sign_f4", fun vb =>
+                          some (bop (fun x1 x2 => x1 ^^^ x2) Broadcast.nil.consSame va vb) with
+                        | none, x => none
+                        | some a, f => f a with
+                      | none, x => none
+                      | some a, f => f a,
+                      fun v =>
+                      some (__do_lift.setReg "__veritile_helper_5_local_x_pos" TileDType.nat [p.block * 2] v) with
+                    | none, x => none
+                    | some a, f => f a,
+                    fun __do_lift => some __do_lift with
+                  | none, x => none
+                  | some a, f => f a with
+                | none, x => none
+                | some a, f => f a with
+              | none, x => none
+              | some a, f => f a with
+            | none, x => none
+            | some a, f => f a with
+          | none, x => none
+          | some a, f => f a with
+        | none, x => none
+        | some a, f => f a with
+      | none, x => none
+      | some a, f => f a with
+    | none, x => none
+    | some a, f => f a) =
+    some ?refine_1
+
+case refine_1
+rest : FP.Structural.Algebra Word
+p : Parameters
+s : State Word
+⊢ State Word
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceLoad.lean:30:0: error: VeriTile.Bench.Repairs.Fp4ToBf16.Source.loadExecution: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceLoad.lean:33:138: error: unsolved goals
+rest : FP.Structural.Algebra Word
+p : Parameters
+s : State Word
+⊢ sorry.regs TileDType.nat [p.block * 2] "__veritile_helper_5_local_x_pos" =
+    some fun j =>
+      (if ↑j.1 % 2 = 0 then
+          (if s.pids 0 * p.block + ↑j.1 / 2 < p.count then
+              Cell.read TileDType.nat (s.mem p.input (s.pids 0 * p.block + ↑j.1 / 2))
+            else s.undef TileDType.nat p.input (s.pids 0 * p.block + ↑j.1 / 2)) >>>
+            4
+        else
+          (if s.pids 0 * p.block + ↑j.1 / 2 < p.count then
+              Cell.read TileDType.nat (s.mem p.input (s.pids 0 * p.block + ↑j.1 / 2))
+            else s.undef TileDType.nat p.input (s.pids 0 * p.block + ↑j.1 / 2)) &&&
+            15) ^^^
+        (if ↑j.1 % 2 = 0 then
+            (if s.pids 0 * p.block + ↑j.1 / 2 < p.count then
+                Cell.read TileDType.nat (s.mem p.input (s.pids 0 * p.block + ↑j.1 / 2))
+              else s.undef TileDType.nat p.input (s.pids 0 * p.block + ↑j.1 / 2)) >>>
+              4
+          else
+            (if s.pids 0 * p.block + ↑j.1 / 2 < p.count then
+                Cell.read TileDType.nat (s.mem p.input (s.pids 0 * p.block + ↑j.1 / 2))
+              else s.undef TileDType.nat p.input (s.pids 0 * p.block + ↑j.1 / 2)) &&&
+              15) &&&
+          8
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceLoad.lean:34:8: warning: declaration uses `sorry`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceLoad.lean:42:136: error: unsolved goals
+rest : FP.Structural.Algebra Word
+p : Parameters
+s : State Word
+⊢ sorry.regs TileDType.nat [p.block * 2] "__veritile_helper_4_local_sign_f4" =
+    some fun j =>
+      (if ↑j.1 % 2 = 0 then
+          (if s.pids 0 * p.block + ↑j.1 / 2 < p.count then
+              Cell.read TileDType.nat (s.mem p.input (s.pids 0 * p.block + ↑j.1 / 2))
+            else s.undef TileDType.nat p.input (s.pids 0 * p.block + ↑j.1 / 2)) >>>
+            4
+        else
+          (if s.pids 0 * p.block + ↑j.1 / 2 < p.count then
+              Cell.read TileDType.nat (s.mem p.input (s.pids 0 * p.block + ↑j.1 / 2))
+            else s.undef TileDType.nat p.input (s.pids 0 * p.block + ↑j.1 / 2)) &&&
+            15) &&&
+        8
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceLoad.lean:43:8: warning: declaration uses `sorry`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceLoad.lean:51:90: error: unsolved goals
+rest : FP.Structural.Algebra Word
+p : Parameters
+s : State Word
+⊢ sorry.regs TileDType.int [] "pid" = some fun j => ↑(s.pids 0)
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceLoad.lean:52:8: warning: declaration uses `sorry`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceLoad.lean:60:102: error: unsolved goals
+rest : FP.Structural.Algebra Word
+p : Parameters
+s : State Word
+⊢ sorry.regs TileDType.int [] "n_elements_out" = some fun j => ↑p.count * 2
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceLoad.lean:61:8: warning: declaration uses `sorry`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceLoad.lean:69:48: error: unsolved goals
+rest : FP.Structural.Algebra Word
+p : Parameters
+s : State Word
+⊢ sorry.mem = s.mem
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceLoad.lean:69:57: warning: declaration uses `sorry`

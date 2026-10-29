@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.AffineEquivalence.execution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.AffineEquivalence.safety: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

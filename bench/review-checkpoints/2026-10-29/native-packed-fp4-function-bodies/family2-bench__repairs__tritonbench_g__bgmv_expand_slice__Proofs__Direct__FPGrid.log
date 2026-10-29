@@ -1,0 +1,21 @@
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/bgmv_expand_slice/Proofs/Direct/FPGrid.lean:66:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.FPGrid.value_after_other`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/bgmv_expand_slice/Proofs/Direct/FPGrid.lean:73:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.FPGrid.frame`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.FPGrid.executes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.FPGrid.values: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.FPGrid.frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

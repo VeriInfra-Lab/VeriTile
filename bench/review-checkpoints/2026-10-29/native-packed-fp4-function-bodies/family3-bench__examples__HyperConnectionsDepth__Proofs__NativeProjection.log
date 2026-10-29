@@ -1,0 +1,21 @@
+VeriTile.Bench.Examples.HyperConnectionsDepth.NativeProjection.matrixKernel_projection: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Examples.HyperConnectionsDepth.NativeProjection.scalarKernel_projection: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Examples.HyperConnectionsDepth.NativeProjection.mhcDepthConnectionKernel_projection: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Examples.HyperConnectionsDepth.NativeProjection.originalKernel_projection: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Examples.HyperConnectionsDepth.NativeProjection.optimizedKernel_projection: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Examples.HyperConnectionsDepth.NativeProjection.matrixOriginal_projection: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Examples.HyperConnectionsDepth.NativeProjection.matrixOptimized_projection: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

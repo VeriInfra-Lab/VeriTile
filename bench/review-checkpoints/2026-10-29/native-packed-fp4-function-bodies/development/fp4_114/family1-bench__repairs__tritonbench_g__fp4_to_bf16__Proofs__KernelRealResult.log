@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.Fp4ToBf16.KernelRealResult.fp4_to_bf16_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.Fp4ToBf16.RealSpec.e2m1: definition does not reference [VeriTile.Bench.TritonBenchG.Fp4ToBf16.FPValue.source,
+ VeriTile.Bench.Repairs.Fp4ToBf16.Kernels.source,
+ VeriTile.Bench.Repairs.Fp4ToBf16.Launch.run] — non-circular ✓

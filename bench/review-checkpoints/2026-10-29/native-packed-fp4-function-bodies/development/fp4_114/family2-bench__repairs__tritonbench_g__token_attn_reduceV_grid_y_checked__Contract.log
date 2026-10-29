@@ -1,0 +1,8 @@
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/token_attn_reduceV_grid_y_checked/Contract.lean:80:85: warning: The syntax is now `structure S : Type extends P` rather than `structure S extends P : Type`
+
+Note: The purpose of this change is to accommodate `structure S extends toP : P` syntax for naming parent projections.
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.exact_domain: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.python_checks_iff: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.empty_domain_unchanged: axiom footprint ⊆ standard base ✓  ([propext])

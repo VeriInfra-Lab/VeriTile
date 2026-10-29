@@ -1,0 +1,40 @@
+/tmp/fp4_114-frontend/VeriTile/Triton/DSL/SourceFunctionStatements.lean:92:36: error: unexpected token ':'; expected '%', '*=', '+=', ',', '-=', '/=', ':=' or '='
+/tmp/fp4_114-frontend/VeriTile/Triton/DSL/SourceFunctionStatements.lean:89:4: error: don't know how to synthesize placeholder
+context:
+functions : List Checked
+statements : Array (TSyntax `tritonStmt)
+stack known✝¹ : List Name
+output✝ : Array (?m.96 functions statements stack known✝¹) := ⋯
+known✝ : List Name := known✝¹
+r✝ : MProd (List Name) (Array (?m.96 functions statements stack known✝¹))
+known : List Name
+output : Array (?m.96 functions statements stack known✝¹)
+⊢ Type
+/tmp/fp4_114-frontend/VeriTile/Triton/DSL/SourceFunctionStatements.lean:90:6: error: don't know how to synthesize placeholder for argument `α`
+context:
+functions : List Checked
+statements : Array (TSyntax `tritonStmt)
+stack known✝¹ : List Name
+output✝ : Array (?m.96 functions statements stack known✝¹) := ⋯
+known✝ : List Name := known✝¹
+statement : TSyntax `tritonStmt
+r✝ : MProd (List Name) (Array (?m.96 functions statements stack known✝¹))
+known : List Name := ⋯
+output : Array (?m.96 functions statements stack known✝¹) := ⋯
+⊢ Type
+/tmp/fp4_114-frontend/VeriTile/Triton/DSL/SourceFunctionStatements.lean:89:4: error: don't know how to synthesize placeholder for argument `α`
+context:
+functions : List Checked
+statements : Array (TSyntax `tritonStmt)
+stack known✝ : List Name
+output : Array (?m.96 functions statements stack known✝) := ⋯
+known : List Name := known✝
+⊢ Type
+/tmp/fp4_114-frontend/VeriTile/Triton/DSL/SourceFunctionStatements.lean:158:88: error(lean.unknownIdentifier): Unknown identifier `known`
+/tmp/fp4_114-frontend/VeriTile/Triton/DSL/SourceFunctionStatements.lean:162:54: error(lean.unknownIdentifier): Unknown identifier `known`
+/tmp/fp4_114-frontend/VeriTile/Triton/DSL/SourceFunctionStatements.lean:163:52: error(lean.unknownIdentifier): Unknown identifier `known`
+/tmp/fp4_114-frontend/VeriTile/Triton/DSL/SourceFunctionStatements.lean:167:56: error(lean.unknownIdentifier): Unknown identifier `known`
+/tmp/fp4_114-frontend/VeriTile/Triton/DSL/SourceFunctionStatements.lean:172:0: error: Missing name after `end`: Expected the current scope name `SourceFunction`
+
+Hint: To end the current scope `SourceFunction`, specify its name:
+  end ̲S̲o̲u̲r̲c̲e̲F̲u̲n̲c̲t̲i̲o̲n̲

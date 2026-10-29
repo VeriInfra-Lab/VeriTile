@@ -1,0 +1,111 @@
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Kernels.lean:91:2: error: unexpected syntax
+  triton
+    {tl.ports
+      inputs=[x_ptr],outputs=[output_ptr]tl.region x_ptr =
+      tl.uint8
+        tl.region output_ptr =
+      tl.bfloat16
+        pid =
+      (tl.program_id(axis=0)).to(tl.int64)n_elements_in =
+      tl.cast($((n : Nat✝)),
+        tl.int64)n_elements_out =
+      n_elements_in *
+        2BLOCK_SIZE_OUT : tl.constexpr =
+      ($((BLOCK_SIZE_IN : Nat✝)) *
+          2)block_start_in =
+      pid *
+        $((BLOCK_SIZE_IN :
+            Nat✝))offsets_in =
+      block_start_in +
+        ((tl.arange(0,
+                $((BLOCK_SIZE_IN :
+                    Nat✝))))).to(tl.int64)mask_in =
+      offsets_in <
+        n_elements_in
+          x_packed =
+      tl.load(x_ptr +
+          offsets_in,mask =
+          mask_in)__veritile_helper_0_arg_x_packed =
+      x_packed
+        __veritile_helper_1_arg_sign_mask_f4 =
+      $((8 :
+          Nat✝))__veritile_helper_2_arg_mantissa_mask_f4 =
+      $((1 :
+          Nat✝))__veritile_helper_3_arg_mbits_f4_e2m1 =
+      $((1 :
+          Nat✝))__veritile_helper_4_arg_ebits_f4_e2m1 =
+      $((2 :
+          Nat✝))__veritile_helper_5_arg_f4_e2m1_exp_bias =
+      $((1 :
+          Nat✝))__veritile_helper_6_arg_mbits_f32 =
+      $((23 :
+          Nat✝))__veritile_helper_7_arg_ebits_f32 =
+      $((8 :
+          Nat✝))__veritile_helper_8_arg_f32_exp_bias =
+      $((127 :
+          Nat✝))__veritile_helper_9_arg_zero_bits_f32 =
+      $((0 :
+          Nat✝))__veritile_helper_10_arg_zero_point_five_bits_f32 =
+      $((1056964608 :
+          Nat✝))__veritile_helper_11_local_x_low_bits =
+      __veritile_helper_0_arg_x_packed >>
+        4
+          __veritile_helper_12_local_x_high_bits =
+      __veritile_helper_0_arg_x_packed &
+        0xF
+          __veritile_helper_13_local_x =
+      tl.interleave(__veritile_helper_11_local_x_low_bits,
+        __veritile_helper_12_local_x_high_bits)__veritile_helper_14_local_sign_f4 =
+      __veritile_helper_13_local_x &
+        __veritile_helper_1_arg_sign_mask_f4
+          __veritile_helper_15_local_x_pos =
+      __veritile_helper_13_local_x ^
+        __veritile_helper_14_local_sign_f4
+          __veritile_helper_16_local_zero_mask =
+      __veritile_helper_15_local_x_pos ==
+        tl.__python_literal(0)__veritile_helper_17_local_denormal_mask =
+      __veritile_helper_15_local_x_pos ==
+        tl.__python_literal(1)__veritile_helper_18_local_exp_biased_f4 =
+      __veritile_helper_15_local_x_pos >>
+        __veritile_helper_3_arg_mbits_f4_e2m1
+          __veritile_helper_19_local_exp_biased_f32 =
+      __veritile_helper_18_local_exp_biased_f4 - __veritile_helper_5_arg_f4_e2m1_exp_bias +
+        __veritile_helper_8_arg_f32_exp_bias
+          __veritile_helper_19_local_exp_biased_f32 =
+      (__veritile_helper_19_local_exp_biased_f32).to(tl.int32) <<
+        __veritile_helper_6_arg_mbits_f32
+          __veritile_helper_20_local_mantissa_f4 =
+      __veritile_helper_15_local_x_pos &
+        __veritile_helper_2_arg_mantissa_mask_f4
+          __veritile_helper_21_local_mantissa_f32 =
+      (__veritile_helper_20_local_mantissa_f4).to(tl.int32) <<
+        (__veritile_helper_6_arg_mbits_f32 -
+            __veritile_helper_3_arg_mbits_f4_e2m1)__veritile_helper_22_local_output =
+      __veritile_helper_21_local_mantissa_f32
+        __veritile_helper_23_local_result =
+      __veritile_helper_19_local_exp_biased_f32 |
+        __veritile_helper_21_local_mantissa_f32
+          __veritile_helper_23_local_result =
+      tl.where(__veritile_helper_16_local_zero_mask, __veritile_helper_9_arg_zero_bits_f32,
+        __veritile_helper_23_local_result)__veritile_helper_23_local_result =
+      tl.where(__veritile_helper_17_local_denormal_mask, __veritile_helper_10_arg_zero_point_five_bits_f32,
+        __veritile_helper_23_local_result)__veritile_helper_24_local_sign_f32 =
+      (__veritile_helper_14_local_sign_f4).to(tl.int32) <<
+        (__veritile_helper_6_arg_mbits_f32 - __veritile_helper_3_arg_mbits_f4_e2m1 + __veritile_helper_7_arg_ebits_f32 -
+            __veritile_helper_4_arg_ebits_f4_e2m1)__veritile_helper_23_local_result =
+      __veritile_helper_23_local_result |
+        __veritile_helper_24_local_sign_f32
+          __veritile_helper_22_local_output =
+      __veritile_helper_23_local_result.to(tl.float32,bitcast=True)__veritile_helper_22_local_output =
+      (__veritile_helper_22_local_output).to(tl.bfloat16)__veritile_helper_25_result =
+      __veritile_helper_22_local_output
+        output =
+      __veritile_helper_25_result
+        block_start_out =
+      pid *
+        BLOCK_SIZE_OUT
+          offsets_out =
+      block_start_out +
+        (tl.arange(0,
+              BLOCK_SIZE_OUT)).to(tl.int64)mask_out =
+      offsets_out < n_elements_out tl.store(output_ptr + offsets_out, output, mask = mask_out)}

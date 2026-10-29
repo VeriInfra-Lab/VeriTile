@@ -1,0 +1,7 @@
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/SourcePair.lean:52:50: warning: This simp argument is unused:
+  Safety.traceSafeList
+
+Hint: Omit it from the simp argument list.
+  simp ̵[̵S̵a̵f̵e̵t̵y̵.̵t̵r̵a̵c̵e̵S̵a̵f̵e̵L̵i̵s̵t̵]̵
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

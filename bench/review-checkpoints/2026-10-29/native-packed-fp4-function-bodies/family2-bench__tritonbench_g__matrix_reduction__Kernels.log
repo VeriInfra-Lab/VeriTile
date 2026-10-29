@@ -1,0 +1,12 @@
+/tmp/fp4_114-frontend/bench/tritonbench_g/matrix_reduction/Kernels.lean:24:25: warning: unused variable `stride_y`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fp4_114-frontend/bench/tritonbench_g/matrix_reduction/Kernels.lean:38:25: warning: unused variable `stride_y`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fp4_114-frontend/bench/tritonbench_g/matrix_reduction/Kernels.lean:58:25: warning: unused variable `stride_y`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fp4_114-frontend/bench/tritonbench_g/matrix_reduction/Kernels.lean:72:25: warning: unused variable `stride_y`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`

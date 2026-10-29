@@ -1,0 +1,3 @@
+VeriTile.Bench.TritonBenchG.LoraExpandGemv.FPValue.source_decomposition: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

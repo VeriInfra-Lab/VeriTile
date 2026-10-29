@@ -1,0 +1,17 @@
+VeriTile.Bench.Examples.HyperConnectionsDepth.mhc_depth_optimized_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Examples.HyperConnectionsDepth.mhc_depth_optimized_correctness: statement's project surface ⊆ allowlist ✓
+VeriTile.Bench.Examples.HyperConnectionsDepth.mhc_depth_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Examples.HyperConnectionsDepth.mhc_depth_correctness: statement's project surface ⊆ allowlist ✓
+VeriTile.Bench.Examples.HyperConnectionsDepth.MatrixCorrect.mhc_depth_matrix_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Examples.HyperConnectionsDepth.MatrixCorrect.mhc_depth_matrix_optimized_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Examples.HyperConnectionsDepth.MatrixCorrect.mhc_depth_matrix_flat_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

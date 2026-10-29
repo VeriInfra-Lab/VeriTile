@@ -1,0 +1,5 @@
+VeriTile.Tests.SignedWhereLiteralBody.signed_selection: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/fp4_114-frontend/bench/tests/SignedWhereLiteralBody.lean:44:8: error: (kernel) deep recursion detected
+/tmp/fp4_114-frontend/bench/tests/SignedWhereLiteralBody.lean:52:0: error: VeriTile.Tests.SignedWhereLiteralBody.minimum_signed_branch: DISALLOWED axioms [VeriTile.Tests.SignedWhereLiteralBody.minimum_signed_branch] (sorryAx ⇒ fake proof)

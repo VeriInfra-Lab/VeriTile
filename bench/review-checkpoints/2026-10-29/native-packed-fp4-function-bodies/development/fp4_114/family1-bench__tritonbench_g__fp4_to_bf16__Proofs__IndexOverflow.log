@@ -1,0 +1,14 @@
+VeriTile.Bench.TritonBenchG.Fp4ToBf16.IndexOverflow.output_count_wraps: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.TritonBenchG.Fp4ToBf16.IndexOverflow.all_output_masks_false: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.Fp4ToBf16.IndexOverflow.no_launch_stores: axiom footprint ⊆ standard base ✓  ([Quot.sound,
+ propext,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.Fp4ToBf16.IndexOverflow.lane_bounds: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.Fp4ToBf16.IndexOverflow.byte_storage_witness: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.TritonBenchG.Fp4ToBf16.IndexOverflow.permitted_allocation_counterexample: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

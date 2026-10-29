@@ -1,0 +1,7 @@
+VeriTile.Triton.FP.IntegerLiteral.strict_certificate: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.IntegerLiteral.strict: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+VeriTile.Triton.FP.IntegerLiteral.from_int_literal: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

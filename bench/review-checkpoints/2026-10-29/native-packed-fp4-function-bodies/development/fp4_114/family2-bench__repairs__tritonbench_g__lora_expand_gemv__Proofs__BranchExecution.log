@@ -1,0 +1,15 @@
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/lora_expand_gemv/Proofs/BranchExecution.lean:81:2: warning: 'all_goals try rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/lora_expand_gemv/Proofs/BranchExecution.lean:81:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+VeriTile.Bench.Repairs.LoraExpandGemv.Branches.headerExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.Branches.setupExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.Branches.setupInvariant: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

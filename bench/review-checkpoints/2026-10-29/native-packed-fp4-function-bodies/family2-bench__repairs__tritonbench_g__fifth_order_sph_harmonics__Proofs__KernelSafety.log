@@ -1,0 +1,9 @@
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/KernelSafety.lean:92:22: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.KernelSafety.forward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.KernelSafety.backward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

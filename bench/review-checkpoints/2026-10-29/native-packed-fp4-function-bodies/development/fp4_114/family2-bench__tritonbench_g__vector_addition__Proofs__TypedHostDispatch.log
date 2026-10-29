@@ -1,0 +1,6 @@
+VeriTile.Bench.TritonBenchG.VectorAddition.TypedHost.route_matches_admission: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.VectorAddition.TypedHost.route_signature_checked: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.VectorAddition.TypedHost.route_signature: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.VectorAddition.TypedHost.wide_route_supported: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.VectorAddition.TypedHost.route_inventory: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.VectorAddition.TypedHost.parse_dtype: axiom footprint ⊆ standard base ✓  ([])

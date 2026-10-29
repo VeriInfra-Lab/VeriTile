@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.HeadlinePolynomial.jacobian_eq_deriv: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

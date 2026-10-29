@@ -1,0 +1,27 @@
+/tmp/fp4_114-frontend/bench/tritonbench_g/decay_cumsum/Proofs/BackwardExecution.lean:36:55: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/fp4_114-frontend/bench/tritonbench_g/decay_cumsum/Proofs/BackwardExecution.lean:36:67: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/fp4_114-frontend/bench/tritonbench_g/decay_cumsum/Proofs/BackwardExecution.lean:61:4: warning: This simp argument is unused:
+  Op.broadcast
+
+Hint: Omit it from the simp argument list.
+  simp only [RealReference.bwdIterBodyG, ̲ComputeDType.eraseDType, ̲FlatAlloc.flattenStmts,
+      FlatAlloc.flattenStmt, ̲FlatAlloc.flattenOp, ̲FlatAlloc.flattenAccess, ̲FlatAlloc.flattenMask,̵
+  ̵ ̵ ̵ ̵ ̵O̵p̵.̵b̵r̵o̵a̵d̵c̵a̵s̵t̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/fp4_114-frontend/bench/tritonbench_g/decay_cumsum/Proofs/BackwardExecution.lean:68:4: warning: This simp argument is unused:
+  Op.broadcast
+
+Hint: Omit it from the simp argument list.
+  simp only [̵B̵a̵c̵k̵w̵a̵r̵d̵L̵o̵o̵p̵.̵s̵o̵u̵r̵c̵e̵B̵o̵d̵y̵,̵R̵e̵a̵l̵R̵e̵f̵e̵r̵e̵n̵c̵e̵.̵b̵w̵d̵I̵t̵e̵r̵B̵o̵d̵y̵G̵,̵L̵i̵s̵t̵.̵d̵r̵o̵p̵,̵
+  ̵ ̵ ̵ ̵ ̵L̵i̵s̵t̵.̵c̵o̵n̵s̵_̵a̵p̵p̵e̵n̵d̵,̵L̵i̵s̵t̵.̵n̵i̵l̵_̵a̵p̵p̵e̵n̵d̵,̵C̵o̵m̵p̵u̵t̵e̵D̵T̵y̵p̵e̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵,̵F̵l̵a̵t̵A̵l̵l̵o̵c̵.̵f̵l̵a̵t̵t̵e̵n̵S̵t̵m̵t̵s̵,̵
+  ̵ ̵ ̵ ̵ ̵F̵l̵a̵t̵A̵l̵l̵o̵c̵.̵f̵l̵a̵t̵t̵e̵n̵S̵t̵m̵t̵,̵F̵l̵a̵t̵A̵l̵l̵o̵c̵.̵f̵l̵a̵t̵t̵e̵n̵O̵p̵,̵F̵l̵a̵t̵A̵l̵l̵o̵c̵.̵f̵l̵a̵t̵t̵e̵n̵A̵c̵c̵e̵s̵s̵,̵F̵l̵a̵t̵A̵l̵l̵o̵c̵.̵f̵l̵a̵t̵t̵e̵n̵M̵a̵s̵k̵,̵
+  ̵ ̵ ̵ ̵ ̵O̵p̵.̵b̵r̵o̵a̵d̵c̵a̵s̵t̵]̵[̲B̲a̲c̲k̲w̲a̲r̲d̲L̲o̲o̲p̲.̲s̲o̲u̲r̲c̲e̲B̲o̲d̲y̲,̲ ̲R̲e̲a̲l̲R̲e̲f̲e̲r̲e̲n̲c̲e̲.̲b̲w̲d̲I̲t̲e̲r̲B̲o̲d̲y̲G̲,̲ ̲L̲i̲s̲t̲.̲d̲r̲o̲p̲,̲ ̲L̲i̲s̲t̲.̲c̲o̲n̲s̲_̲a̲p̲p̲e̲n̲d̲,̲
+  ̲ ̲ ̲ ̲ ̲L̲i̲s̲t̲.̲n̲i̲l̲_̲a̲p̲p̲e̲n̲d̲,̲ ̲C̲o̲m̲p̲u̲t̲e̲D̲T̲y̲p̲e̲.̲e̲r̲a̲s̲e̲D̲T̲y̲p̲e̲,̲ ̲F̲l̲a̲t̲A̲l̲l̲o̲c̲.̲f̲l̲a̲t̲t̲e̲n̲S̲t̲m̲t̲s̲,̲ ̲F̲l̲a̲t̲A̲l̲l̲o̲c̲.̲f̲l̲a̲t̲t̲e̲n̲S̲t̲m̲t̲,̲
+  ̲ ̲ ̲ ̲ ̲F̲l̲a̲t̲A̲l̲l̲o̲c̲.̲f̲l̲a̲t̲t̲e̲n̲O̲p̲,̲ ̲F̲l̲a̲t̲A̲l̲l̲o̲c̲.̲f̲l̲a̲t̲t̲e̲n̲A̲c̲c̲e̲s̲s̲,̲ ̲F̲l̲a̲t̲A̲l̲l̲o̲c̲.̲f̲l̲a̲t̲t̲e̲n̲M̲a̲s̲k̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

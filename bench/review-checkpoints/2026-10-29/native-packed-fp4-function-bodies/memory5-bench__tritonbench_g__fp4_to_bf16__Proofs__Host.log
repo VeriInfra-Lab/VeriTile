@@ -1,0 +1,19 @@
+VeriTile.Bench.TritonBenchG.Fp4ToBf16.Host.expectedMemory: definition does not reference [VeriTile.Bench.TritonBenchG.Fp4ToBf16.Host.run,
+ VeriTile.Bench.TritonBenchG.Fp4ToBf16.Host.runPrefix,
+ VeriTile.Bench.TritonBenchG.Fp4ToBf16.Host.prefixState,
+ VeriTile.Bench.TritonBenchG.Fp4ToBf16.FPValue.execution,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.TritonBenchG.Fp4ToBf16.Host.input_numel: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.Fp4ToBf16.Host.output_numel: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.Fp4ToBf16.Host.run_prefix: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.Fp4ToBf16.Host.prefix_memory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.Fp4ToBf16.Host.launch_memory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.Fp4ToBf16.Host.expected_decode: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

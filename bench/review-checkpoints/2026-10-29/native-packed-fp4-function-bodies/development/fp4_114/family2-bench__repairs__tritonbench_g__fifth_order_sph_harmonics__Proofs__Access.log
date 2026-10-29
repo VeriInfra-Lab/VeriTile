@@ -1,0 +1,7 @@
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Access.storage_access: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Access.active_pointer: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Access.input_output_disjoint: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

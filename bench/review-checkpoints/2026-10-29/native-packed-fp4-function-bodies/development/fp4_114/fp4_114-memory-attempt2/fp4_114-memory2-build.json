@@ -1,0 +1,16 @@
+{
+  "status": "FAIL",
+  "start": 1793255426.4781585,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.fp4_to_bf16.Proofs.SourceContract",
+      "source_sha256": "f572a49ae75953f49751b82dc4771d04f8f330f01da2a5279cae3f6f152356ce",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793255426.4783168,
+      "end": 1793255430.886734,
+      "log": "/tmp/fp4_114-memory2-bench__repairs__tritonbench_g__fp4_to_bf16__Proofs__SourceContract.log"
+    }
+  ],
+  "end": 1793255430.8869288
+}

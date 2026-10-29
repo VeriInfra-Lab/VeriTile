@@ -1,0 +1,11 @@
+/tmp/fp4_114-frontend/bench/tests/CallRandomABI.lean:20:6: warning: unused variable `B`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fp4_114-frontend/bench/tests/CallRandomABI.lean:28:6: warning: unused variable `B`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fp4_114-frontend/bench/tests/CallRandomABI.lean:36:6: warning: unused variable `B`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Tests.CallRandomABI.invalid_i32: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+VeriTile.Tests.CallRandomABI.invalid_u64: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])

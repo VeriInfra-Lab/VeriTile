@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.AddValue.Contiguous.SourcePreservation.kernel_preserved: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

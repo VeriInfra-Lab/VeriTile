@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.AddValue.Contiguous.checkTensorInput_iff: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.AddValue.Contiguous.checkInput_iff: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.AddValue.Contiguous.native_indices: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

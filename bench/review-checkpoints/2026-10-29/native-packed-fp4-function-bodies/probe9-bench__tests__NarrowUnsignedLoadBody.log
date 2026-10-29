@@ -1,0 +1,23 @@
+/tmp/fp4_114-frontend/bench/tests/NarrowUnsignedLoadBody.lean:23:48: error: unsupported Python Triton body: <input>:2:0: expected '}'
+/tmp/fp4_114-frontend/bench/tests/NarrowUnsignedLoadBody.lean:45:54: error: unsolved goals
+⊢ False
+/tmp/fp4_114-frontend/bench/tests/NarrowUnsignedLoadBody.lean:50:0: error: VeriTile.Tests.NarrowUnsignedLoadBody.byte_subtraction_wraps: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/fp4_114-frontend/bench/tests/NarrowUnsignedLoadBody.lean:54:52: error: unsolved goals
+⊢ (match
+      run
+        { literal := fun x x_1 x_2 => 9000, negInf := 0,
+          binary := fun p x x_1 a b => if p = some ComputeDType.fp32 then a + b else 5000,
+          unary := fun x x_1 x_2 => x_2, cast := fun x x_1 x_2 x_3 => x_3, fromNat := fun x n => -↑n,
+          fromInt := fun p n => if p = some ComputeDType.fp32 then n else 7000 + n, fp32Bits := fun x => 0,
+          fp32Load := id, reduceMax := fun x {x_1} x_2 x_3 x_4 x_5 => 0, reduceSum := fun x {x_1} x_2 x_3 x_4 x_5 => 0 }
+        (sorry ()).3
+        { mem := fun x x_1 => Cell.mk TileDType.nat 0, regs := fun x x_1 x_2 => none, pids := fun x => 0,
+          numPids := fun x => 1, undef := fun d x x_1 => defaultValue d } with
+    | some x => some (x.mem { name := "y" } 0)
+    | none => none) =
+    some (Cell.mk TileDType.nat 1)
+/tmp/fp4_114-frontend/bench/tests/NarrowUnsignedLoadBody.lean:55:27: warning: declaration uses `sorry`
+/tmp/fp4_114-frontend/bench/tests/NarrowUnsignedLoadBody.lean:59:0: error: VeriTile.Tests.NarrowUnsignedLoadBody.halfword_alias_subtraction_wraps: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Tests.NarrowUnsignedLoadBody.tensor_operand_promotes_signed: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

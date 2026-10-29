@@ -1,0 +1,106 @@
+{
+  "status": "FAIL",
+  "start": 1793254494.279846,
+  "results": [
+    {
+      "module": "VeriTile.Triton.DSL.CallSignature",
+      "source_sha256": "6f6a64d0b98fb64058918698204c9ec8e5a813db3974835f26ce33cdb9528325",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793254494.2800896,
+      "end": 1793254537.7698598,
+      "log": "/tmp/fp4_114-probe14-VeriTile__Triton__DSL__CallSignature.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.fp4_to_bf16.Kernels",
+      "source_sha256": "113d4866dd1205e1ef270a85bf82819ab04eea416887732ebff23aa9b115ea76",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793254537.7701206,
+      "end": 1793254540.4055696,
+      "log": "/tmp/fp4_114-probe14-bench__repairs__tritonbench_g__fp4_to_bf16__Kernels.log"
+    },
+    {
+      "module": "bench.tests.IntegerLiteralAssignmentBody",
+      "source_sha256": "4b847ca9fbbb6b66a95801a615f4302236a67260095c109546940f38114ead2d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793254540.405829,
+      "end": 1793254554.2446456,
+      "log": "/tmp/fp4_114-probe14-bench__tests__IntegerLiteralAssignmentBody.log"
+    },
+    {
+      "module": "bench.tests.SourceHelperLiteralBody",
+      "source_sha256": "7538096af53dcb5e0ec32a7abd4ddc98e10044cd45f5d8d16b0eb3cbe1bdf62d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793254554.2448943,
+      "end": 1793254561.632387,
+      "log": "/tmp/fp4_114-probe14-bench__tests__SourceHelperLiteralBody.log"
+    },
+    {
+      "module": "bench.tests.StatementSourceFunction",
+      "source_sha256": "eac7870002887d10e1ed18e8c029f00b2b8c5469ed54719964d76a045cb409d7",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793254561.6327126,
+      "end": 1793254570.9398766,
+      "log": "/tmp/fp4_114-probe14-bench__tests__StatementSourceFunction.log"
+    },
+    {
+      "module": "bench.tests.SourceFunction",
+      "source_sha256": "536a5a06c9d3e18c68d2e0a8c94814e258da506adbad4e04def8f8344bba5938",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793254570.9401362,
+      "end": 1793254572.6063962,
+      "log": "/tmp/fp4_114-probe14-bench__tests__SourceFunction.log"
+    },
+    {
+      "module": "bench.tests.LocalNatConstexprBody",
+      "source_sha256": "e39618b3dd85dfd1015911062f8d5d56873226bbc460bc2b7657166d511cd844",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793254572.6066675,
+      "end": 1793254575.5716312,
+      "log": "/tmp/fp4_114-probe14-bench__tests__LocalNatConstexprBody.log"
+    },
+    {
+      "module": "bench.tests.NarrowUnsignedLoadBody",
+      "source_sha256": "8aaf6d9ebd132cc33e01baf3fa0b3723d62f9b93f0ffc56064de3cb3b2ff97d6",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793254575.5719066,
+      "end": 1793254579.230395,
+      "log": "/tmp/fp4_114-probe14-bench__tests__NarrowUnsignedLoadBody.log"
+    },
+    {
+      "module": "bench.tests.NarrowUnsignedBody",
+      "source_sha256": "88859b6cb425f24c773bc8cfb4a4126f406197d30458efb679580b21e6b3caeb",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793254579.2306433,
+      "end": 1793254585.337385,
+      "log": "/tmp/fp4_114-probe14-bench__tests__NarrowUnsignedBody.log"
+    },
+    {
+      "module": "bench.tests.NarrowUnsignedMemoryBody",
+      "source_sha256": "0a3493c1e2a0b98bb46a603511e059366f163da3553496535cae661acd8122c7",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793254585.3376443,
+      "end": 1793254592.1490245,
+      "log": "/tmp/fp4_114-probe14-bench__tests__NarrowUnsignedMemoryBody.log"
+    },
+    {
+      "module": "bench.tests.SignedWhereLiteralBody",
+      "source_sha256": "de20b18e3b815ab3729b95acbd2314e431bf7fb87d45c903ebc8cc51da64a2c6",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793254592.149332,
+      "end": 1793254597.419318,
+      "log": "/tmp/fp4_114-probe14-bench__tests__SignedWhereLiteralBody.log"
+    }
+  ],
+  "end": 1793254597.419526
+}

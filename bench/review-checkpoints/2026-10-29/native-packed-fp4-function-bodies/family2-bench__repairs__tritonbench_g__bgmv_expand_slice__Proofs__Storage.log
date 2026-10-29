@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.BgmvExpandSlice.Storage.all_source_offsets: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.BgmvExpandSlice.Storage.byte_span: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])

@@ -1,0 +1,34 @@
+/tmp/fp4_114-frontend/bench/examples/HyperConnectionsDepth/Proofs/MathematicalCorrect.lean:62:10: warning: This simp argument is unused:
+  optimizedIO
+
+Hint: Omit it from the simp argument list.
+  s̵i̵m̵p̵ ̵[̵o̵p̵t̵i̵m̵i̵z̵e̵d̵I̵O̵,̵ ̵I̵O̵.̵s̵c̵a̵l̵a̵r̵L̵a̵y̵o̵u̵t̵,̵ ̵o̵p̵t̵i̵m̵i̵z̵e̵d̵K̵e̵r̵n̵e̵l̵,̵ ̵K̵e̵r̵n̵e̵l̵.̵F̵l̵a̵t̵t̵e̵n̵O̵k̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵S̵t̵m̵t̵L̵i̵s̵t̵.̵F̵l̵a̵t̵t̵e̵n̵O̵k̵,̵ ̵S̵t̵m̵t̵.̵F̵l̵a̵t̵t̵e̵n̵O̵k̵,̵ ̵O̵p̵.̵F̵l̵a̵t̵t̵e̵n̵O̵k̵.̵e̵q̵_̵d̵e̵f̵]̵s̲i̲m̲p̲ ̲[̲I̲O̲.̲s̲c̲a̲l̲a̲r̲L̲a̲y̲o̲u̲t̲,̲ ̲o̲p̲t̲i̲m̲i̲z̲e̲d̲K̲e̲r̲n̲e̲l̲,̲ ̲K̲e̲r̲n̲e̲l̲.̲F̲l̲a̲t̲t̲e̲n̲O̲k̲,̲ ̲S̲t̲m̲t̲L̲i̲s̲t̲.̲F̲l̲a̲t̲t̲e̲n̲O̲k̲,̲ ̲S̲t̲m̲t̲.̲F̲l̲a̲t̲t̲e̲n̲O̲k̲,̲
+  ̲ ̲ ̲ ̲ ̲O̲p̲.̲F̲l̲a̲t̲t̲e̲n̲O̲k̲.̲e̲q̲_̲d̲e̲f̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/fp4_114-frontend/bench/examples/HyperConnectionsDepth/Proofs/MathematicalCorrect.lean:62:23: warning: This simp argument is unused:
+  IO.scalarLayout
+
+Hint: Omit it from the simp argument list.
+  simp [optimizedIO, I̵O̵.̵s̵c̵a̵l̵a̵r̵L̵a̵y̵o̵u̵t̵,̵ ̵optimizedKernel, Kernel.FlattenOk, StmtList.FlattenOk, Stmt.FlattenOk,
+  ̲  ̲ ̲ ̲Op.FlattenOk.eq_def]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Examples.HyperConnectionsDepth.Mathematical.mhc_depth_optimized_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Examples.HyperConnectionsDepth.Mathematical.mhc_depth_optimized_correctness: statement's project surface ⊆ allowlist ✓
+VeriTile.Bench.Examples.HyperConnectionsDepth.Mathematical.mhc_depth_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Examples.HyperConnectionsDepth.Mathematical.mhc_depth_correctness: statement's project surface ⊆ allowlist ✓
+VeriTile.Bench.Examples.HyperConnectionsDepth.Mathematical.MatrixCorrect.mhc_depth_matrix_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Examples.HyperConnectionsDepth.Mathematical.MatrixCorrect.mhc_depth_matrix_optimized_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Examples.HyperConnectionsDepth.Mathematical.MatrixCorrect.mhc_depth_matrix_flat_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

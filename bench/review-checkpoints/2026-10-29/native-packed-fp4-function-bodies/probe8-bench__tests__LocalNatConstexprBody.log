@@ -1,0 +1,50 @@
+/tmp/fp4_114-frontend/bench/tests/LocalNatConstexprBody.lean:26:48: error: unsolved goals
+⊢ (List.foldl
+            (fun t i =>
+              {
+                mem := fun r' o' =>
+                  if r' = { name := "y" } ∧ o' = ↑i.1 then Cell.mk TileDType.int ↑↑i.1 else t.mem r' o',
+                regs := t.regs, pids := t.pids, numPids := t.numPids, undef := t.undef })
+            { mem := fun x x_1 => Cell.mk TileDType.real 1,
+              regs := fun d sh n =>
+                if n = "offsets" then
+                  if hd : TileDType.nat = d then if hs : [6] = sh then some (hd ▸ hs ▸ fun i => ↑i.1) else none
+                  else none
+                else none,
+              pids := fun x => 0, numPids := fun x => 1, undef := fun d x x_1 => defaultValue d }
+            (List.flatMap (fun i => [(i, PUnit.unit)]) (List.finRange 6))).mem
+        { name := "y" } 5 =
+      Cell.mk TileDType.int 5 ∧
+    (List.foldl
+              (fun t i =>
+                {
+                  mem := fun r' o' =>
+                    if r' = { name := "y" } ∧ o' = ↑i.1 then Cell.mk TileDType.int ↑↑i.1 else t.mem r' o',
+                  regs := t.regs, pids := t.pids, numPids := t.numPids, undef := t.undef })
+              { mem := fun x x_1 => Cell.mk TileDType.real 1,
+                regs := fun d sh n =>
+                  if n = "offsets" then
+                    if hd : TileDType.nat = d then if hs : [6] = sh then some (hd ▸ hs ▸ fun i => ↑i.1) else none
+                    else none
+                  else none,
+                pids := fun x => 0, numPids := fun x => 1, undef := fun d x x_1 => defaultValue d }
+              (List.flatMap (fun i => [(i, PUnit.unit)]) (List.finRange 6))).mem
+          { name := "y" } 6 =
+        Cell.mk TileDType.real 1 ∧
+      (List.foldl
+              (fun t i =>
+                {
+                  mem := fun r' o' =>
+                    if r' = { name := "y" } ∧ o' = ↑i.1 then Cell.mk TileDType.int ↑↑i.1 else t.mem r' o',
+                  regs := t.regs, pids := t.pids, numPids := t.numPids, undef := t.undef })
+              { mem := fun x x_1 => Cell.mk TileDType.real 1,
+                regs := fun d sh n =>
+                  if n = "offsets" then
+                    if hd : TileDType.nat = d then if hs : [6] = sh then some (hd ▸ hs ▸ fun i => ↑i.1) else none
+                    else none
+                  else none,
+                pids := fun x => 0, numPids := fun x => 1, undef := fun d x x_1 => defaultValue d }
+              (List.flatMap (fun i => [(i, PUnit.unit)]) (List.finRange 6))).regs
+          TileDType.nat [] "BLOCK_SIZE_OUT" =
+        none
+/tmp/fp4_114-frontend/bench/tests/LocalNatConstexprBody.lean:31:0: error: VeriTile.Tests.LocalNatConstexprBody.six_lane_output: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

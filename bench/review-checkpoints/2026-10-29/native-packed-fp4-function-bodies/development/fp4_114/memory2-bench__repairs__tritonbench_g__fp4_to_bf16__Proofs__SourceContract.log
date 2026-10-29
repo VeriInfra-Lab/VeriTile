@@ -1,0 +1,54 @@
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceContract.lean:40:29: error: unsolved goals
+case refl
+rest : FP.Structural.Algebra Word
+p : Parameters
+start : State Word
+pid : ℕ
+words : TileIndex [p.block * 2] → ℤ
+hw : start.regs TileDType.int [p.block * 2] "__veritile_helper_13_local_result" = some words
+hp : start.regs TileDType.int [] "pid" = some fun x => ↑pid
+hc : start.regs TileDType.int [] "n_elements_out" = some fun x => ↑p.count * 2
+⊢ List.foldl
+      (fun m i =>
+        if ↑pid * (↑p.block * 2) + ↑↑i.1 < ↑p.count * 2 then fun r' o =>
+          if r' = { name := p.output.name } ∧ o = Int.toNat (↑pid * (↑p.block * 2) + ↑↑i.1) then
+            Cell.mk TileDType.bf16 (embed (Bits.narrow { bits := BitVec.ofInt 32 (words i) }))
+          else m r' o
+        else m)
+      start.mem (TileShape.allIndices [p.block * 2]) =
+    List.foldl
+      (fun mem j =>
+        if pid * (p.block * 2) + ↑j.1 < p.count * 2 then fun r o =>
+          if r = p.output ∧ o = pid * (p.block * 2) + ↑j.1 then
+            Cell.mk TileDType.bf16 (embed (Bits.narrow { bits := BitVec.ofInt 32 (words j) }))
+          else mem r o
+        else mem)
+      start.mem (TileShape.allIndices [p.block * 2])
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceContract.lean:120:2: error: unsolved goals
+case pos
+p : Parameters
+a b : State Word
+memory : a.mem = b.mem
+pid : a.pids 0 = b.pids 0
+m : RegionName → ℕ → Cell Word
+j : TileIndex [p.block * 2]
+parent : active p a j → inputOffset p b (↑j.1 / 2) < p.count
+live : active p a j
+inside : inputOffset p b (↑j.1 / 2) < p.count
+equalNibble : laneNibble p a j = laneNibble p b j
+other : active p b j
+⊢ (fun r' o =>
+      if r' = p.output ∧ o = b.pids 0 * (p.block * 2) + ↑j.1 then Cell.mk TileDType.bf16 (converted (laneNibble p b j))
+      else m r' o) =
+    fun r' o =>
+    if r' = p.output ∧ o = b.pids 0 * (p.block * 2) + ↑j.1 then Cell.mk TileDType.bf16 (converted (laneNibble p b j))
+    else m r' o
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceContract.lean:129:0: error: VeriTile.Bench.Repairs.Fp4ToBf16.Source.rawWritten_memory_congr: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceContract.lean:131:0: error: VeriTile.Bench.Repairs.Fp4ToBf16.Source.tail_memory: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceContract.lean:132:0: error: VeriTile.Bench.Repairs.Fp4ToBf16.Source.undef_independent: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceContract.lean:134:0: error: VeriTile.Bench.Repairs.Fp4ToBf16.Source.raw_execution_memory: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.Repairs.Fp4ToBf16.Source.active_lane_table: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceContract.lean:136:0: error: VeriTile.Bench.Repairs.Fp4ToBf16.Source.execution_memory: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/fp4_114-frontend/bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/SourceContract.lean:137:0: error: VeriTile.Bench.Repairs.Fp4ToBf16.Source.residual_backend_independent: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
