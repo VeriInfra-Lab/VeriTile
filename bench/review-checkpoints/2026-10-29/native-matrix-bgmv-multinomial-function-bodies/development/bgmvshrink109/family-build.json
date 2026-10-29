@@ -1,0 +1,286 @@
+{
+  "status": "FAIL",
+  "start": 1793235962.2307172,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.bgmv_shrink_kernel_physical.Types",
+      "source_sha256": "602ec570ff72f5ef27b9744db2cf2708769625a68cb62bf1015fac7cfdef4a4f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793235962.2308803,
+      "end": 1793235963.4923327,
+      "log": "/tmp/bgmvshrink109-family-bench__repairs__tritonbench_g__bgmv_shrink_kernel_physical__Types.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.bgmv_shrink_kernel_physical.Proofs.FPValues",
+      "source_sha256": "8f8952f986b9926ef0db31eecf28c6f90d019ded3edf1f1e6f27d19003b84d52",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793235963.49258,
+      "end": 1793235964.9693716,
+      "log": "/tmp/bgmvshrink109-family-bench__repairs__tritonbench_g__bgmv_shrink_kernel_physical__Proofs__FPValues.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.bgmv_shrink_kernel_physical.Target",
+      "source_sha256": "fa66c6dc87f777c43d016625692951436bd81cf6316e8a304f7b1c63aa71d41c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793235964.9696052,
+      "end": 1793235968.056212,
+      "log": "/tmp/bgmvshrink109-family-bench__repairs__tritonbench_g__bgmv_shrink_kernel_physical__Target.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.bgmv_shrink_kernel_physical.Contract",
+      "source_sha256": "6105c7434e2b2096ce8eb8b01a6b189608b9cdbdef8ef268e6f543f21e446fe4",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793235968.056458,
+      "end": 1793235971.5680304,
+      "log": "/tmp/bgmvshrink109-family-bench__repairs__tritonbench_g__bgmv_shrink_kernel_physical__Contract.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.bgmv_shrink_kernel_physical.Kernels",
+      "source_sha256": "1d6f86cbb497e28cf8ac02af2a1e340a785ff1640c3aaeeb64098b5f401da95e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793235971.568318,
+      "end": 1793235974.6245754,
+      "log": "/tmp/bgmvshrink109-family-bench__repairs__tritonbench_g__bgmv_shrink_kernel_physical__Kernels.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.bgmv_shrink_kernel_physical.SurfaceSource",
+      "source_sha256": "4d5590bcfa1b5a5ce22f6b51de65b0f4635634f60595b492774fce86cf5627ea",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793235974.6248426,
+      "end": 1793235975.8842115,
+      "log": "/tmp/bgmvshrink109-family-bench__repairs__tritonbench_g__bgmv_shrink_kernel_physical__SurfaceSource.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ReportedRules",
+      "source_sha256": "6910d43ae15259593ca662e6cb00c0e5437bc7d40e95a1288bdb0f525bbecee1",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793235975.8844738,
+      "end": 1793235976.1526213,
+      "log": "/tmp/bgmvshrink109-family-VeriTile__Triton__Float__ReportedRules.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.GuardedRules",
+      "source_sha256": "15acecc27397a84fd00eb7b813c2dfbf7b24c64a54934ccfd6ce0b7ee9d37406",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793235976.152874,
+      "end": 1793235977.450915,
+      "log": "/tmp/bgmvshrink109-family-VeriTile__Triton__Float__GuardedRules.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.Equational",
+      "source_sha256": "8e2b9fa6d36ed83a7a5e10449f34db08079c6695a84c529d005bd80196a4e14a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793235977.4512303,
+      "end": 1793235979.1239069,
+      "log": "/tmp/bgmvshrink109-family-VeriTile__Triton__Float__Equational.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.TermModel",
+      "source_sha256": "e8c98fd3d0bb93493e4570e5c4dab2369f1b5dcb3795f1696ec7bbe85e073e6d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793235979.1241415,
+      "end": 1793235980.629847,
+      "log": "/tmp/bgmvshrink109-family-VeriTile__Triton__Float__TermModel.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.StructuralIO",
+      "source_sha256": "5e6e54ae8278efcc205fa34c281c2995d1b373070a02c3ba86d8983cd9352b07",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793235980.6301105,
+      "end": 1793235983.1117356,
+      "log": "/tmp/bgmvshrink109-family-VeriTile__Triton__Float__StructuralIO.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.GuardedSemantics",
+      "source_sha256": "d2f22934cfba1785788b1736972688f1a6fdb116625ed4f65c581b23807c01b2",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793235983.112009,
+      "end": 1793235985.502269,
+      "log": "/tmp/bgmvshrink109-family-VeriTile__Triton__Float__GuardedSemantics.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ScalarBackend",
+      "source_sha256": "9c65d7e398cd81da6ec925b48e77092719a4f9aa745b9dbb39f75eda909e2f3b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793235985.5025477,
+      "end": 1793235987.6883254,
+      "log": "/tmp/bgmvshrink109-family-VeriTile__Triton__Float__ScalarBackend.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.MaximumExact",
+      "source_sha256": "c4c3f140f91c826e13dccc63ea5cc8072f547ff346dd95c32a5ebd851beadc97",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793235987.688616,
+      "end": 1793235991.1155546,
+      "log": "/tmp/bgmvshrink109-family-VeriTile__Triton__Float__MaximumExact.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ScalarOpsLaws",
+      "source_sha256": "457e4ce46d521a924cc6a36622faa79a5ba6c3135a4d012090b50c9b0cbd1e42",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793235991.1158442,
+      "end": 1793235993.2310064,
+      "log": "/tmp/bgmvshrink109-family-VeriTile__Triton__Float__ScalarOpsLaws.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ExponentialExact",
+      "source_sha256": "cb5d527edfd3b9db0c4610301317aa06b7edc787bef52c7e9797e7358d8ff612",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793235993.2313268,
+      "end": 1793235996.8762412,
+      "log": "/tmp/bgmvshrink109-family-VeriTile__Triton__Float__ExponentialExact.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.StrictBackend",
+      "source_sha256": "3b98130fb527087d8cae4cfe22a12d11e4b96bb9f84037ed2cd40c88a3ffa862",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793235996.876523,
+      "end": 1793235999.5406525,
+      "log": "/tmp/bgmvshrink109-family-VeriTile__Triton__Float__StrictBackend.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.GuardedStrict",
+      "source_sha256": "da2c8e30160dcc124e78e072a902cc58eccc7640f5b6e2cd28baa8096f5dc922",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793235999.540947,
+      "end": 1793236001.9452417,
+      "log": "/tmp/bgmvshrink109-family-VeriTile__Triton__Float__GuardedStrict.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.GuardedIO",
+      "source_sha256": "80db0df27dcd7844984d20b2004fab5b59daf6bcfecf16b24df5acaf1b7d93c7",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793236001.9455464,
+      "end": 1793236004.4520042,
+      "log": "/tmp/bgmvshrink109-family-VeriTile__Triton__Float__GuardedIO.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ReportedAdmission",
+      "source_sha256": "12513789960352cefe7de70a2f1e8221bef281929bc97e4a785303ab2cc78fce",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793236004.4523532,
+      "end": 1793236004.819517,
+      "log": "/tmp/bgmvshrink109-family-VeriTile__Triton__Float__ReportedAdmission.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.SupplementalAdmission",
+      "source_sha256": "557870486ad5b86f158cd92c21c7387b21b3a3ac91c2c5fe80b4226615b3c141",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793236004.8198447,
+      "end": 1793236006.2340775,
+      "log": "/tmp/bgmvshrink109-family-VeriTile__Triton__Float__SupplementalAdmission.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.Reciprocal",
+      "source_sha256": "6fc50b9bbf8b23cf4c4fdac670126082bc71a0cc238819e96ed8ac8e71911c86",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793236006.2344074,
+      "end": 1793236013.401223,
+      "log": "/tmp/bgmvshrink109-family-VeriTile__Triton__Float__Reciprocal.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.CastExact.Fields",
+      "source_sha256": "b713c434320eda792f833671291058d47a35bd48553c47e4a366dffa366ce0f8",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793236013.4015443,
+      "end": 1793236016.0771208,
+      "log": "/tmp/bgmvshrink109-family-VeriTile__Triton__Float__CastExact__Fields.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.BitValueLaws",
+      "source_sha256": "3557fb56e80e2b6c5c71d107816116cda72c8c8de64f0733cfb495786363c37e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793236016.0774622,
+      "end": 1793236019.7302527,
+      "log": "/tmp/bgmvshrink109-family-VeriTile__Triton__Float__BitValueLaws.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.CastExact.SameFormat",
+      "source_sha256": "0cebe579634305ffe45ee277d62b0fb547181636e384b6c8b150899650d68e2f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793236019.7305744,
+      "end": 1793236023.0203264,
+      "log": "/tmp/bgmvshrink109-family-VeriTile__Triton__Float__CastExact__SameFormat.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ScalarArithmetic",
+      "source_sha256": "dad64aca5363620aedb71b24878e7cb159542d3d70577d66014befe54d768478",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793236023.0206625,
+      "end": 1793236036.5685546,
+      "log": "/tmp/bgmvshrink109-family-VeriTile__Triton__Float__ScalarArithmetic.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ScalarArithmeticLaws",
+      "source_sha256": "83497519da0c786b873f557d8cefb9e74ea7c2909c842353dd079a917d67412f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793236036.5688806,
+      "end": 1793236039.2895155,
+      "log": "/tmp/bgmvshrink109-family-VeriTile__Triton__Float__ScalarArithmeticLaws.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.GuardedRewrite",
+      "source_sha256": "f242e954ff7c8f3901140c2e90f323b9b84d73c6fa09a445e440fcac06cc9652",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793236039.2898483,
+      "end": 1793236042.0215409,
+      "log": "/tmp/bgmvshrink109-family-VeriTile__Triton__Float__GuardedRewrite.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.StructuralSafety",
+      "source_sha256": "f114c12d820012319e3599ac6d1f0bf9ed7faf2e011b75bb4d34ab9295034af2",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793236042.0218844,
+      "end": 1793236072.4397132,
+      "log": "/tmp/bgmvshrink109-family-VeriTile__Triton__Float__StructuralSafety.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.bgmv_shrink_kernel_physical.Proofs.PairConnection",
+      "source_sha256": "489d11ae23806e7fbdac232700e29a0d3a85faeb1f953331b58173686af70b1a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793236072.4400427,
+      "end": 1793236075.3028579,
+      "log": "/tmp/bgmvshrink109-family-bench__repairs__tritonbench_g__bgmv_shrink_kernel_physical__Proofs__PairConnection.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.bgmv_shrink_kernel_physical.Proofs.SourceControl",
+      "source_sha256": "813a56f5f3bdc7357ba0cef14e3f0da0ae17483444f69114bbb2f817bd98ead4",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793236075.3031998,
+      "end": 1793236214.941789,
+      "log": "/tmp/bgmvshrink109-family-bench__repairs__tritonbench_g__bgmv_shrink_kernel_physical__Proofs__SourceControl.log"
+    }
+  ],
+  "end": 1793236214.9420545
+}

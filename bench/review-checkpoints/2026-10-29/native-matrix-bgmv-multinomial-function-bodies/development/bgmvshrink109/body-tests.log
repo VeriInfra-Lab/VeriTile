@@ -1,0 +1,19 @@
+test_all_eight_profiles (bgmv_shrink_body109.BgmvShrinkBody.test_all_eight_profiles) ... ok
+test_atomic_write (bgmv_shrink_body109.BgmvShrinkBody.test_atomic_write) ... ok
+test_candidate_host_change_rejected (bgmv_shrink_body109.BgmvShrinkBody.test_candidate_host_change_rejected) ... ok
+test_candidate_other_cast_change_rejected (bgmv_shrink_body109.BgmvShrinkBody.test_candidate_other_cast_change_rejected) ... ok
+test_early_return (bgmv_shrink_body109.BgmvShrinkBody.test_early_return) ... ok
+test_full_candidate_module (bgmv_shrink_body109.BgmvShrinkBody.test_full_candidate_module) ... ok
+test_implicit_output_conversion (bgmv_shrink_body109.BgmvShrinkBody.test_implicit_output_conversion) ... ok
+test_metadata_cast (bgmv_shrink_body109.BgmvShrinkBody.test_metadata_cast) ... ok
+test_original_augmented_assignment (bgmv_shrink_body109.BgmvShrinkBody.test_original_augmented_assignment) ... ok
+test_program_id_cast (bgmv_shrink_body109.BgmvShrinkBody.test_program_id_cast) ... ok
+test_reduction_axis (bgmv_shrink_body109.BgmvShrinkBody.test_reduction_axis) ... ok
+test_sentinel_branch (bgmv_shrink_body109.BgmvShrinkBody.test_sentinel_branch) ... ok
+test_signed_bound_cast (bgmv_shrink_body109.BgmvShrinkBody.test_signed_bound_cast) ... ok
+test_split_loop_stride (bgmv_shrink_body109.BgmvShrinkBody.test_split_loop_stride) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.384s
+
+OK

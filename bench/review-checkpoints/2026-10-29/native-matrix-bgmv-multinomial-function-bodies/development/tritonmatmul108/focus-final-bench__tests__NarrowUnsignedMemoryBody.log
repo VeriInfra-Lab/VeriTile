@@ -1,0 +1,3 @@
+VeriTile.Tests.NarrowUnsignedMemoryBody.stores_preserve_byte_arithmetic: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

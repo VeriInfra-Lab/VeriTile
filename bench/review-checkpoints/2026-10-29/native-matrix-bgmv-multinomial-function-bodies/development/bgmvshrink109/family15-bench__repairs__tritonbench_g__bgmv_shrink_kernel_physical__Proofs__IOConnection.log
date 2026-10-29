@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.IOConnection.real_trace: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.IOConnection.native_physical: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

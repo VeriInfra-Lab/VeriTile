@@ -1,0 +1,68 @@
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/KernelOnly/Proofs/SourcePair.lean:47:55: error: unsolved goals
+case pos
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+bounds : RegionName → ℕ
+p : Parameters
+s : State α
+hg : p.GROUP_SIZE_M = 8
+⊢ match do
+    let f ← some fun a b => decide (a = b)
+    let __do_lift ← some fun x => 8
+    let __do_lift_1 ← some fun x => 8
+    pure (bop f Broadcast.nil __do_lift __do_lift_1) with
+  | some c => if c PUnit.unit = «true» then True else True
+  | none => True
+
+case neg
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+bounds : RegionName → ℕ
+p : Parameters
+s : State α
+hg : ¬p.GROUP_SIZE_M = 8
+⊢ match do
+    let f ← some fun a b => decide (a = b)
+    let __do_lift ← some fun x => p.GROUP_SIZE_M
+    let __do_lift_1 ← some fun x => 8
+    pure (bop f Broadcast.nil __do_lift __do_lift_1) with
+  | some c => if c PUnit.unit = «true» then True else True
+  | none => True
+
+case pos
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+bounds : RegionName → ℕ
+p : Parameters
+s : State α
+hg : p.GROUP_SIZE_M = 8
+⊢ match do
+    let f ← some fun a b => decide (a = b)
+    let __do_lift ← some fun x => 8
+    let __do_lift_1 ← some fun x => 8
+    pure (bop f Broadcast.nil __do_lift __do_lift_1) with
+  | some c => if c PUnit.unit = «true» then True else True
+  | none => True
+
+case neg
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+bounds : RegionName → ℕ
+p : Parameters
+s : State α
+hg : ¬p.GROUP_SIZE_M = 8
+⊢ match do
+    let f ← some fun a b => decide (a = b)
+    let __do_lift ← some fun x => p.GROUP_SIZE_M
+    let __do_lift_1 ← some fun x => 8
+    pure (bop f Broadcast.nil __do_lift __do_lift_1) with
+  | some c => if c PUnit.unit = «true» then True else True
+  | none => True
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelOnly.SourcePair.kernel_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/KernelOnly/Proofs/SourcePair.lean:86:0: error: VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelOnly.SourcePair.kernel_safe: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

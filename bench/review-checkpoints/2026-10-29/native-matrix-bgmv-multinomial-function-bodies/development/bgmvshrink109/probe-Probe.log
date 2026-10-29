@@ -1,0 +1,24 @@
+/tmp/bgmvshrink109-frontend/Probe.lean:18:44: warning: unused variable `xk_stride`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/bgmvshrink109-frontend/Probe.lean:61:44: warning: unused variable `xk_stride`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/bgmvshrink109-frontend/Probe.lean:111:44: warning: unused variable `xk_stride`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/bgmvshrink109-frontend/Probe.lean:154:44: warning: unused variable `xk_stride`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/bgmvshrink109-frontend/Probe.lean:204:44: warning: unused variable `xk_stride`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/bgmvshrink109-frontend/Probe.lean:247:44: warning: unused variable `xk_stride`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/bgmvshrink109-frontend/Probe.lean:297:44: warning: unused variable `xk_stride`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/bgmvshrink109-frontend/Probe.lean:340:44: warning: unused variable `xk_stride`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`

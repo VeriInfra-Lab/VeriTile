@@ -1,0 +1,6 @@
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/parallel_attention/Kernels.lean:84:22: warning: unused variable `i_h`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/parallel_attention/Kernels.lean:243:22: warning: unused variable `i_h`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`

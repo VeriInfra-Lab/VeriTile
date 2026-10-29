@@ -1,0 +1,19 @@
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawPrelude.lean:10:67: error: Function expected at
+  DotAcc
+but this term has type
+  ?m.1
+
+Note: Expected a function because this term is being applied to the argument
+  α
+
+Hint: The identifier `DotAcc` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawPrelude.lean:12:25: error: Function expected at
+  backend
+but this term has type
+  ?m.2
+
+Note: Expected a function because this term is being applied to the argument
+  M
+
+Hint: The identifier `backend` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawPrelude.lean:22:0: error: VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.preludeExecution: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

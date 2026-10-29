@@ -1,0 +1,12 @@
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.active_model: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.outputOffset_model: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.written_model: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.execution_model: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

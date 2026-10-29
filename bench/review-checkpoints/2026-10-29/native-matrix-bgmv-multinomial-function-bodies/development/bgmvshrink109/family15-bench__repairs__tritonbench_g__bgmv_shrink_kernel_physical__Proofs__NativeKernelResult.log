@@ -1,0 +1,11 @@
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.NativeKernelResult.kernel_native: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.Target.target: definition does not reference [VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.FPWorkset.SourceWorkset,
+ VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.Surface.source,
+ VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.Kernels.source,
+ VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.Kernels.originalFP16,
+ VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.Kernels.originalBF16,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+Axiom audit: headlines=0
+headlines: []

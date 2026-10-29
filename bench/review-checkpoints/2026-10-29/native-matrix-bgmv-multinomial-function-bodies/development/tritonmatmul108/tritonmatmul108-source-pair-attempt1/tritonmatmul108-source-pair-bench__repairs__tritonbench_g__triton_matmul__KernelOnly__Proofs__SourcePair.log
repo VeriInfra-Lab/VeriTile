@@ -1,0 +1,148 @@
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/KernelOnly/Proofs/SourcePair.lean:10:36: error: Application type mismatch: The argument
+  FP.Value.zero FP.Format.fp32
+has type
+  FP.Value FP.Format.fp32
+but is expected to have type
+  Word
+in the application
+  { default := FP.Value.zero FP.Format.fp32 }
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/KernelOnly/Proofs/SourcePair.lean:34:12: error: `simp` made no progress
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/KernelOnly/Proofs/SourcePair.lean:34:12: error: `simp` made no progress
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/KernelOnly/Proofs/SourcePair.lean:34:26: warning: This simp argument is unused:
+  decide_true
+
+Hint: Omit it from the simp argument list.
+  simp only [̵h̵g̵,̵d̵e̵c̵i̵d̵e̵_̵t̵r̵u̵e̵,̵d̵e̵c̵i̵d̵e̵_̵f̵a̵l̵s̵e̵]̵[̲h̲g̲,̲ ̲d̲e̲c̲i̲d̲e̲_̲f̲a̲l̲s̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/KernelOnly/Proofs/SourcePair.lean:34:38: warning: This simp argument is unused:
+  decide_false
+
+Hint: Omit it from the simp argument list.
+  simp only [̵h̵g̵,̵d̵e̵c̵i̵d̵e̵_̵t̵r̵u̵e̵,̵d̵e̵c̵i̵d̵e̵_̵f̵a̵l̵s̵e̵]̵[̲h̲g̲,̲ ̲d̲e̲c̲i̲d̲e̲_̲t̲r̲u̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/KernelOnly/Proofs/SourcePair.lean:47:55: error: unsolved goals
+case pos
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+bounds : RegionName → ℕ
+p : Parameters
+s : State α
+hg : p.GROUP_SIZE_M = 8
+⊢ match do
+    let f ← numericEq M none ComparableDType.nat
+    let __do_lift ← some fun x => 8
+    let __do_lift_1 ← some fun x => 8
+    pure (bop f Broadcast.nil __do_lift __do_lift_1) with
+  | some c => if c PUnit.unit = «true» then True else True
+  | none => True
+
+case neg
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+bounds : RegionName → ℕ
+p : Parameters
+s : State α
+hg : ¬p.GROUP_SIZE_M = 8
+⊢ match do
+    let f ← numericEq M none ComparableDType.nat
+    let __do_lift ← some fun x => p.GROUP_SIZE_M
+    let __do_lift_1 ← some fun x => 8
+    pure (bop f Broadcast.nil __do_lift __do_lift_1) with
+  | some c => if c PUnit.unit = «true» then True else True
+  | none => True
+
+case pos
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+bounds : RegionName → ℕ
+p : Parameters
+s : State α
+hg : p.GROUP_SIZE_M = 8
+⊢ match do
+    let f ← numericEq M none ComparableDType.nat
+    let __do_lift ← some fun x => 8
+    let __do_lift_1 ← some fun x => 8
+    pure (bop f Broadcast.nil __do_lift __do_lift_1) with
+  | some c => if c PUnit.unit = «true» then True else True
+  | none => True
+
+case neg
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+bounds : RegionName → ℕ
+p : Parameters
+s : State α
+hg : ¬p.GROUP_SIZE_M = 8
+⊢ match do
+    let f ← numericEq M none ComparableDType.nat
+    let __do_lift ← some fun x => p.GROUP_SIZE_M
+    let __do_lift_1 ← some fun x => 8
+    pure (bop f Broadcast.nil __do_lift __do_lift_1) with
+  | some c => if c PUnit.unit = «true» then True else True
+  | none => True
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/KernelOnly/Proofs/SourcePair.lean:53:26: warning: This simp argument is unused:
+  decide_true
+
+Hint: Omit it from the simp argument list.
+  simp only [̵h̵g̵,̵d̵e̵c̵i̵d̵e̵_̵t̵r̵u̵e̵,̵d̵e̵c̵i̵d̵e̵_̵f̵a̵l̵s̵e̵,̵S̵a̵f̵e̵t̵y̵.̵s̵t̵e̵p̵S̵a̵f̵e̵_̵u̵n̵f̵o̵l̵d̵,̵S̵a̵f̵e̵t̵y̵.̵s̵a̵f̵e̵E̵x̵p̵r̵_̵u̵n̵f̵o̵l̵d̵,̵
+  ̵ ̵ ̵ ̵ ̵S̵a̵f̵e̵t̵y̵.̵s̵a̵f̵e̵O̵p̵_̵u̵n̵f̵o̵l̵d̵,̵S̵a̵f̵e̵t̵y̵.̵t̵r̵a̵c̵e̵S̵a̵f̵e̵L̵i̵s̵t̵_̵c̵o̵n̵s̵,̵S̵a̵f̵e̵t̵y̵.̵t̵r̵a̵c̵e̵S̵a̵f̵e̵L̵i̵s̵t̵_̵n̵i̵l̵,̵e̵v̵a̵l̵O̵p̵_̵u̵n̵f̵o̵l̵d̵,̵O̵p̵.̵i̵n̵t̵S̵h̵i̵f̵t̵L̵e̵f̵t̵,̵
+  ̵ ̵ ̵ ̵ ̵i̵m̵p̵l̵i̵e̵s̵_̵t̵r̵u̵e̵,̵a̵n̵d̵_̵t̵r̵u̵e̵,̵t̵r̵u̵e̵_̵a̵n̵d̵,̵B̵o̵o̵l̵.̵f̵a̵l̵s̵e̵_̵e̵q̵_̵t̵r̵u̵e̵,̵i̵f̵_̵t̵r̵u̵e̵,̵i̵f̵_̵f̵a̵l̵s̵e̵]̵[̲h̲g̲,̲ ̲d̲e̲c̲i̲d̲e̲_̲f̲a̲l̲s̲e̲,̲ ̲S̲a̲f̲e̲t̲y̲.̲s̲t̲e̲p̲S̲a̲f̲e̲_̲u̲n̲f̲o̲l̲d̲,̲ ̲S̲a̲f̲e̲t̲y̲.̲s̲a̲f̲e̲E̲x̲p̲r̲_̲u̲n̲f̲o̲l̲d̲,̲
+  ̲ ̲ ̲ ̲ ̲S̲a̲f̲e̲t̲y̲.̲s̲a̲f̲e̲O̲p̲_̲u̲n̲f̲o̲l̲d̲,̲ ̲S̲a̲f̲e̲t̲y̲.̲t̲r̲a̲c̲e̲S̲a̲f̲e̲L̲i̲s̲t̲_̲c̲o̲n̲s̲,̲ ̲S̲a̲f̲e̲t̲y̲.̲t̲r̲a̲c̲e̲S̲a̲f̲e̲L̲i̲s̲t̲_̲n̲i̲l̲,̲ ̲e̲v̲a̲l̲O̲p̲_̲u̲n̲f̲o̲l̲d̲,̲
+  ̲ ̲ ̲ ̲ ̲O̲p̲.̲i̲n̲t̲S̲h̲i̲f̲t̲L̲e̲f̲t̲,̲ ̲i̲m̲p̲l̲i̲e̲s̲_̲t̲r̲u̲e̲,̲ ̲a̲n̲d̲_̲t̲r̲u̲e̲,̲ ̲t̲r̲u̲e̲_̲a̲n̲d̲,̲ ̲B̲o̲o̲l̲.̲f̲a̲l̲s̲e̲_̲e̲q̲_̲t̲r̲u̲e̲,̲ ̲i̲f̲_̲t̲r̲u̲e̲,̲ ̲i̲f̲_̲f̲a̲l̲s̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/KernelOnly/Proofs/SourcePair.lean:53:38: warning: This simp argument is unused:
+  decide_false
+
+Hint: Omit it from the simp argument list.
+  simp only [̵h̵g̵,̵d̵e̵c̵i̵d̵e̵_̵t̵r̵u̵e̵,̵d̵e̵c̵i̵d̵e̵_̵f̵a̵l̵s̵e̵,̵S̵a̵f̵e̵t̵y̵.̵s̵t̵e̵p̵S̵a̵f̵e̵_̵u̵n̵f̵o̵l̵d̵,̵S̵a̵f̵e̵t̵y̵.̵s̵a̵f̵e̵E̵x̵p̵r̵_̵u̵n̵f̵o̵l̵d̵,̵
+  ̵ ̵ ̵ ̵ ̵S̵a̵f̵e̵t̵y̵.̵s̵a̵f̵e̵O̵p̵_̵u̵n̵f̵o̵l̵d̵,̵S̵a̵f̵e̵t̵y̵.̵t̵r̵a̵c̵e̵S̵a̵f̵e̵L̵i̵s̵t̵_̵c̵o̵n̵s̵,̵S̵a̵f̵e̵t̵y̵.̵t̵r̵a̵c̵e̵S̵a̵f̵e̵L̵i̵s̵t̵_̵n̵i̵l̵,̵e̵v̵a̵l̵O̵p̵_̵u̵n̵f̵o̵l̵d̵,̵O̵p̵.̵i̵n̵t̵S̵h̵i̵f̵t̵L̵e̵f̵t̵,̵
+  ̵ ̵ ̵ ̵ ̵i̵m̵p̵l̵i̵e̵s̵_̵t̵r̵u̵e̵,̵a̵n̵d̵_̵t̵r̵u̵e̵,̵t̵r̵u̵e̵_̵a̵n̵d̵,̵B̵o̵o̵l̵.̵f̵a̵l̵s̵e̵_̵e̵q̵_̵t̵r̵u̵e̵,̵i̵f̵_̵t̵r̵u̵e̵,̵i̵f̵_̵f̵a̵l̵s̵e̵]̵[̲h̲g̲,̲ ̲d̲e̲c̲i̲d̲e̲_̲t̲r̲u̲e̲,̲ ̲S̲a̲f̲e̲t̲y̲.̲s̲t̲e̲p̲S̲a̲f̲e̲_̲u̲n̲f̲o̲l̲d̲,̲ ̲S̲a̲f̲e̲t̲y̲.̲s̲a̲f̲e̲E̲x̲p̲r̲_̲u̲n̲f̲o̲l̲d̲,̲
+  ̲ ̲ ̲ ̲ ̲S̲a̲f̲e̲t̲y̲.̲s̲a̲f̲e̲O̲p̲_̲u̲n̲f̲o̲l̲d̲,̲ ̲S̲a̲f̲e̲t̲y̲.̲t̲r̲a̲c̲e̲S̲a̲f̲e̲L̲i̲s̲t̲_̲c̲o̲n̲s̲,̲ ̲S̲a̲f̲e̲t̲y̲.̲t̲r̲a̲c̲e̲S̲a̲f̲e̲L̲i̲s̲t̲_̲n̲i̲l̲,̲ ̲e̲v̲a̲l̲O̲p̲_̲u̲n̲f̲o̲l̲d̲,̲
+  ̲ ̲ ̲ ̲ ̲O̲p̲.̲i̲n̲t̲S̲h̲i̲f̲t̲L̲e̲f̲t̲,̲ ̲i̲m̲p̲l̲i̲e̲s̲_̲t̲r̲u̲e̲,̲ ̲a̲n̲d̲_̲t̲r̲u̲e̲,̲ ̲t̲r̲u̲e̲_̲a̲n̲d̲,̲ ̲B̲o̲o̲l̲.̲f̲a̲l̲s̲e̲_̲e̲q̲_̲t̲r̲u̲e̲,̲ ̲i̲f̲_̲t̲r̲u̲e̲,̲ ̲i̲f̲_̲f̲a̲l̲s̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/KernelOnly/Proofs/SourcePair.lean:55:35: warning: This simp argument is unused:
+  Bool.false_eq_true
+
+Hint: Omit it from the simp argument list.
+  simp only [̵h̵g̵,̵d̵e̵c̵i̵d̵e̵_̵t̵r̵u̵e̵,̵d̵e̵c̵i̵d̵e̵_̵f̵a̵l̵s̵e̵,̵S̵a̵f̵e̵t̵y̵.̵s̵t̵e̵p̵S̵a̵f̵e̵_̵u̵n̵f̵o̵l̵d̵,̵S̵a̵f̵e̵t̵y̵.̵s̵a̵f̵e̵E̵x̵p̵r̵_̵u̵n̵f̵o̵l̵d̵,̵
+  ̵ ̵ ̵ ̵ ̵S̵a̵f̵e̵t̵y̵.̵s̵a̵f̵e̵O̵p̵_̵u̵n̵f̵o̵l̵d̵,̵S̵a̵f̵e̵t̵y̵.̵t̵r̵a̵c̵e̵S̵a̵f̵e̵L̵i̵s̵t̵_̵c̵o̵n̵s̵,̵S̵a̵f̵e̵t̵y̵.̵t̵r̵a̵c̵e̵S̵a̵f̵e̵L̵i̵s̵t̵_̵n̵i̵l̵,̵e̵v̵a̵l̵O̵p̵_̵u̵n̵f̵o̵l̵d̵,̵O̵p̵.̵i̵n̵t̵S̵h̵i̵f̵t̵L̵e̵f̵t̵,̵
+  ̵ ̵ ̵ ̵ ̵i̵m̵p̵l̵i̵e̵s̵_̵t̵r̵u̵e̵,̵a̵n̵d̵_̵t̵r̵u̵e̵,̵t̵r̵u̵e̵_̵a̵n̵d̵,̵B̵o̵o̵l̵.̵f̵a̵l̵s̵e̵_̵e̵q̵_̵t̵r̵u̵e̵,̵i̵f̵_̵t̵r̵u̵e̵,̵i̵f̵_̵f̵a̵l̵s̵e̵]̵[̲h̲g̲,̲ ̲d̲e̲c̲i̲d̲e̲_̲t̲r̲u̲e̲,̲ ̲d̲e̲c̲i̲d̲e̲_̲f̲a̲l̲s̲e̲,̲ ̲S̲a̲f̲e̲t̲y̲.̲s̲t̲e̲p̲S̲a̲f̲e̲_̲u̲n̲f̲o̲l̲d̲,̲
+  ̲ ̲ ̲ ̲ ̲S̲a̲f̲e̲t̲y̲.̲s̲a̲f̲e̲E̲x̲p̲r̲_̲u̲n̲f̲o̲l̲d̲,̲ ̲S̲a̲f̲e̲t̲y̲.̲s̲a̲f̲e̲O̲p̲_̲u̲n̲f̲o̲l̲d̲,̲ ̲S̲a̲f̲e̲t̲y̲.̲t̲r̲a̲c̲e̲S̲a̲f̲e̲L̲i̲s̲t̲_̲c̲o̲n̲s̲,̲
+  ̲ ̲ ̲ ̲ ̲S̲a̲f̲e̲t̲y̲.̲t̲r̲a̲c̲e̲S̲a̲f̲e̲L̲i̲s̲t̲_̲n̲i̲l̲,̲ ̲e̲v̲a̲l̲O̲p̲_̲u̲n̲f̲o̲l̲d̲,̲ ̲O̲p̲.̲i̲n̲t̲S̲h̲i̲f̲t̲L̲e̲f̲t̲,̲ ̲i̲m̲p̲l̲i̲e̲s̲_̲t̲r̲u̲e̲,̲ ̲a̲n̲d̲_̲t̲r̲u̲e̲,̲ ̲t̲r̲u̲e̲_̲a̲n̲d̲,̲
+  ̲ ̲ ̲ ̲ ̲i̲f̲_̲t̲r̲u̲e̲,̲ ̲i̲f̲_̲f̲a̲l̲s̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/KernelOnly/Proofs/SourcePair.lean:55:54: warning: This simp argument is unused:
+  if_true
+
+Hint: Omit it from the simp argument list.
+  simp only [̵h̵g̵,̵d̵e̵c̵i̵d̵e̵_̵t̵r̵u̵e̵,̵d̵e̵c̵i̵d̵e̵_̵f̵a̵l̵s̵e̵,̵S̵a̵f̵e̵t̵y̵.̵s̵t̵e̵p̵S̵a̵f̵e̵_̵u̵n̵f̵o̵l̵d̵,̵S̵a̵f̵e̵t̵y̵.̵s̵a̵f̵e̵E̵x̵p̵r̵_̵u̵n̵f̵o̵l̵d̵,̵
+  ̵ ̵ ̵ ̵ ̵S̵a̵f̵e̵t̵y̵.̵s̵a̵f̵e̵O̵p̵_̵u̵n̵f̵o̵l̵d̵,̵S̵a̵f̵e̵t̵y̵.̵t̵r̵a̵c̵e̵S̵a̵f̵e̵L̵i̵s̵t̵_̵c̵o̵n̵s̵,̵S̵a̵f̵e̵t̵y̵.̵t̵r̵a̵c̵e̵S̵a̵f̵e̵L̵i̵s̵t̵_̵n̵i̵l̵,̵e̵v̵a̵l̵O̵p̵_̵u̵n̵f̵o̵l̵d̵,̵O̵p̵.̵i̵n̵t̵S̵h̵i̵f̵t̵L̵e̵f̵t̵,̵
+  ̵ ̵ ̵ ̵ ̵i̵m̵p̵l̵i̵e̵s̵_̵t̵r̵u̵e̵,̵a̵n̵d̵_̵t̵r̵u̵e̵,̵t̵r̵u̵e̵_̵a̵n̵d̵,̵B̵o̵o̵l̵.̵f̵a̵l̵s̵e̵_̵e̵q̵_̵t̵r̵u̵e̵,̵i̵f̵_̵t̵r̵u̵e̵,̵i̵f̵_̵f̵a̵l̵s̵e̵]̵[̲h̲g̲,̲ ̲d̲e̲c̲i̲d̲e̲_̲t̲r̲u̲e̲,̲ ̲d̲e̲c̲i̲d̲e̲_̲f̲a̲l̲s̲e̲,̲ ̲S̲a̲f̲e̲t̲y̲.̲s̲t̲e̲p̲S̲a̲f̲e̲_̲u̲n̲f̲o̲l̲d̲,̲
+  ̲ ̲ ̲ ̲ ̲S̲a̲f̲e̲t̲y̲.̲s̲a̲f̲e̲E̲x̲p̲r̲_̲u̲n̲f̲o̲l̲d̲,̲ ̲S̲a̲f̲e̲t̲y̲.̲s̲a̲f̲e̲O̲p̲_̲u̲n̲f̲o̲l̲d̲,̲ ̲S̲a̲f̲e̲t̲y̲.̲t̲r̲a̲c̲e̲S̲a̲f̲e̲L̲i̲s̲t̲_̲c̲o̲n̲s̲,̲
+  ̲ ̲ ̲ ̲ ̲S̲a̲f̲e̲t̲y̲.̲t̲r̲a̲c̲e̲S̲a̲f̲e̲L̲i̲s̲t̲_̲n̲i̲l̲,̲ ̲e̲v̲a̲l̲O̲p̲_̲u̲n̲f̲o̲l̲d̲,̲ ̲O̲p̲.̲i̲n̲t̲S̲h̲i̲f̲t̲L̲e̲f̲t̲,̲ ̲i̲m̲p̲l̲i̲e̲s̲_̲t̲r̲u̲e̲,̲ ̲a̲n̲d̲_̲t̲r̲u̲e̲,̲ ̲t̲r̲u̲e̲_̲a̲n̲d̲,̲
+  ̲ ̲ ̲ ̲ ̲B̲o̲o̲l̲.̲f̲a̲l̲s̲e̲_̲e̲q̲_̲t̲r̲u̲e̲,̲ ̲i̲f̲_̲f̲a̲l̲s̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/KernelOnly/Proofs/SourcePair.lean:55:62: warning: This simp argument is unused:
+  if_false
+
+Hint: Omit it from the simp argument list.
+  simp only [̵h̵g̵,̵d̵e̵c̵i̵d̵e̵_̵t̵r̵u̵e̵,̵d̵e̵c̵i̵d̵e̵_̵f̵a̵l̵s̵e̵,̵S̵a̵f̵e̵t̵y̵.̵s̵t̵e̵p̵S̵a̵f̵e̵_̵u̵n̵f̵o̵l̵d̵,̵S̵a̵f̵e̵t̵y̵.̵s̵a̵f̵e̵E̵x̵p̵r̵_̵u̵n̵f̵o̵l̵d̵,̵
+  ̵ ̵ ̵ ̵ ̵S̵a̵f̵e̵t̵y̵.̵s̵a̵f̵e̵O̵p̵_̵u̵n̵f̵o̵l̵d̵,̵S̵a̵f̵e̵t̵y̵.̵t̵r̵a̵c̵e̵S̵a̵f̵e̵L̵i̵s̵t̵_̵c̵o̵n̵s̵,̵S̵a̵f̵e̵t̵y̵.̵t̵r̵a̵c̵e̵S̵a̵f̵e̵L̵i̵s̵t̵_̵n̵i̵l̵,̵e̵v̵a̵l̵O̵p̵_̵u̵n̵f̵o̵l̵d̵,̵O̵p̵.̵i̵n̵t̵S̵h̵i̵f̵t̵L̵e̵f̵t̵,̵
+  ̵ ̵ ̵ ̵ ̵i̵m̵p̵l̵i̵e̵s̵_̵t̵r̵u̵e̵,̵a̵n̵d̵_̵t̵r̵u̵e̵,̵t̵r̵u̵e̵_̵a̵n̵d̵,̵B̵o̵o̵l̵.̵f̵a̵l̵s̵e̵_̵e̵q̵_̵t̵r̵u̵e̵,̵i̵f̵_̵t̵r̵u̵e̵,̵i̵f̵_̵f̵a̵l̵s̵e̵]̵[̲h̲g̲,̲ ̲d̲e̲c̲i̲d̲e̲_̲t̲r̲u̲e̲,̲ ̲d̲e̲c̲i̲d̲e̲_̲f̲a̲l̲s̲e̲,̲ ̲S̲a̲f̲e̲t̲y̲.̲s̲t̲e̲p̲S̲a̲f̲e̲_̲u̲n̲f̲o̲l̲d̲,̲
+  ̲ ̲ ̲ ̲ ̲S̲a̲f̲e̲t̲y̲.̲s̲a̲f̲e̲E̲x̲p̲r̲_̲u̲n̲f̲o̲l̲d̲,̲ ̲S̲a̲f̲e̲t̲y̲.̲s̲a̲f̲e̲O̲p̲_̲u̲n̲f̲o̲l̲d̲,̲ ̲S̲a̲f̲e̲t̲y̲.̲t̲r̲a̲c̲e̲S̲a̲f̲e̲L̲i̲s̲t̲_̲c̲o̲n̲s̲,̲
+  ̲ ̲ ̲ ̲ ̲S̲a̲f̲e̲t̲y̲.̲t̲r̲a̲c̲e̲S̲a̲f̲e̲L̲i̲s̲t̲_̲n̲i̲l̲,̲ ̲e̲v̲a̲l̲O̲p̲_̲u̲n̲f̲o̲l̲d̲,̲ ̲O̲p̲.̲i̲n̲t̲S̲h̲i̲f̲t̲L̲e̲f̲t̲,̲ ̲i̲m̲p̲l̲i̲e̲s̲_̲t̲r̲u̲e̲,̲ ̲a̲n̲d̲_̲t̲r̲u̲e̲,̲ ̲t̲r̲u̲e̲_̲a̲n̲d̲,̲
+  ̲ ̲ ̲ ̲ ̲B̲o̲o̲l̲.̲f̲a̲l̲s̲e̲_̲e̲q̲_̲t̲r̲u̲e̲,̲ ̲i̲f̲_̲t̲r̲u̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/KernelOnly/Proofs/SourcePair.lean:84:0: error: VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelOnly.SourcePair.kernel_run: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/KernelOnly/Proofs/SourcePair.lean:85:0: error: VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelOnly.SourcePair.kernel_safe: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

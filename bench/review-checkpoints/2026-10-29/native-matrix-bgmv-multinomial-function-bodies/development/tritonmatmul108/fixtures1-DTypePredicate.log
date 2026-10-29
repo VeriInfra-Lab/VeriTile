@@ -1,0 +1,10 @@
+/tmp/tritonmatmul108-staging/DTypePredicate.lean:1:13: error: Application type mismatch: The argument
+  Y
+has type
+  RegionName
+but is expected to have type
+  ℕ
+in the application
+  Op.constNat Y
+/tmp/tritonmatmul108-staging/DTypePredicate.lean:90:27: warning: declaration uses `sorry`
+/tmp/tritonmatmul108-staging/DTypePredicate.lean:87:8: warning: declaration uses `sorry`

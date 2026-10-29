@@ -1,0 +1,10 @@
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Proofs/FPExecution.lean:63:31: warning: This simp argument is unused:
+  Option.bind_some
+
+Hint: Omit it from the simp argument list.
+  simp only [̵r̵u̵n̵,̵l̵o̵o̵p̵R̵u̵n̵,̵O̵p̵t̵i̵o̵n̵.̵b̵i̵n̵d̵_̵s̵o̵m̵e̵]̵[̲r̲u̲n̲,̲ ̲l̲o̲o̲p̲R̲u̲n̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.FPExecution.source_executes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,7 @@
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.FPEquiv.kernel_native: statement's project surface ⊆ allowlist ✓
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.Mathematical.native: definition does not reference [VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.Surface.source,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.FPValues.target] — non-circular ✓
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.FPEquiv.kernel_native: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

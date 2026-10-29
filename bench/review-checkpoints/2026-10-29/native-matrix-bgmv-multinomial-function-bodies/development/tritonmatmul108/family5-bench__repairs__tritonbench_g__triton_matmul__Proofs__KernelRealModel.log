@@ -1,0 +1,34 @@
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/KernelRealModel.lean:39:34: warning: unused variable `m`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/KernelRealModel.lean:39:38: warning: unused variable `k`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/KernelRealModel.lean:39:42: warning: unused variable `n`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/KernelRealModel.lean:98:168: warning: This simp argument is unused:
+  hh
+
+Hint: Omit it from the simp argument list.
+  simp [h̵h̵,̵SourceScope.blockK]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelRealModel.cast_identity: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelRealModel.ideal_primitives: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelRealModel.foldRange_sum: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelRealModel.sum_blocks: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelRealModel.ideal_accumulator: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelRealModel.ideal_reference: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

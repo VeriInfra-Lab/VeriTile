@@ -1,0 +1,15 @@
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/triton_matmul/Proofs/FPTypedSource.lean:20:40: warning: unused variable `batch`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/triton_matmul/Proofs/FPTypedSource.lean:20:48: warning: unused variable `m`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/triton_matmul/Proofs/FPTypedSource.lean:20:52: warning: unused variable `k`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/triton_matmul/Proofs/FPTypedSource.lean:20:56: warning: unused variable `n`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.TritonBenchG.TritonMatmul.FPValue.source_decomposition: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

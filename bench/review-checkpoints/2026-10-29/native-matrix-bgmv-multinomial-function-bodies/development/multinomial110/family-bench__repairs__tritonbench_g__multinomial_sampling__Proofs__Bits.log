@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.MultinomialSampling.Admission.checked_bits: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

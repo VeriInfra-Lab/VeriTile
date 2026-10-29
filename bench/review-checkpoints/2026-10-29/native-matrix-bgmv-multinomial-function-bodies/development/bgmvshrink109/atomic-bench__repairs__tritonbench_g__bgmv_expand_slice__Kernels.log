@@ -1,0 +1,4 @@
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_expand_slice/Kernels.lean:58:2: warning: 'change (h.N + h.N - 1) / h.N = 1' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+VeriTile.Bench.Repairs.BgmvExpandSlice.Kernels.split_length: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])

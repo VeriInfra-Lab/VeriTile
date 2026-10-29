@@ -1,0 +1,11 @@
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/ByteExecution.lean:76:8: error: maximum recursion depth has been reached
+use `set_option maxRecDepth <num>` to increase limit
+use `set_option diagnostics true` to get diagnostic information
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.ByteExecution.store_address: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.ByteExecution.offset_bound: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/ByteExecution.lean:100:0: error: VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.ByteExecution.program_render: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/ByteExecution.lean:101:0: error: VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.ByteExecution.grid_render: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

@@ -1,0 +1,15 @@
+fun h =>
+  some
+    [ComputeStmt.atomicAdd NumericDType.real [h.5] (MemAccess.ptr (Op.ref TileDType.ptr [h.5] "c_ptr"))
+        (ComputeExpr.compute (ComputeOp.alg ComputeDType.fp32 (Op.ref TileDType.real [h.5] "accumulator")))
+        (MaskOpt.mask (Op.ref TileDType.bool [h.5] "c_mask"))]
+fun h =>
+  some
+    [ComputeStmt.atomicAdd
+        (FloatDType.rec NumericDType.real NumericDType.fp32 NumericDType.fp16 NumericDType.bf16 NumericDType.f8e4
+          NumericDType.f8e5 h.11)
+        [h.5] (MemAccess.ptr (Op.ref TileDType.ptr [h.5] "c_ptr"))
+        (ComputeExpr.alg
+          (Op.castFloat FloatDType.real h.11
+            (Op.withPrecision FloatDType.real IndexComputePrecision.fp32 (Op.ref TileDType.real [h.5] "accumulator"))))
+        (MaskOpt.mask (Op.ref TileDType.bool [h.5] "c_mask"))]

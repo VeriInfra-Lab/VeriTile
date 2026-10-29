@@ -1,0 +1,9 @@
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Correct.python_checks_iff_preconditions: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Correct.matmul_checked_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Correct.matmul_checked: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

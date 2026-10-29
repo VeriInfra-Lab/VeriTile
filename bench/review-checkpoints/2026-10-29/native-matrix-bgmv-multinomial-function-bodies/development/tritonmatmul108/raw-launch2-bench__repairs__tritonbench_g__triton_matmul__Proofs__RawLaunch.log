@@ -1,0 +1,15 @@
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawLaunch.lean:21:36: error: linarith failed to find a contradiction
+case h
+α : Type
+A B C : RegionName
+st : Storage
+M N K sam sak sbk sbn : ℕ
+s : State α
+hp : s.pids 0 < (M + 127) / 128 * ((N + 255) / 256)
+p : Parameters := SourceScope.parameters A B C st M N K sam sak sbk sbn
+hm : signedCeil p.M (BM p) = ↑(blocksM p)
+hn : signedCeil p.N (BN p) = ↑(blocksN p)
+a✝ : (N + 255) / 256 ≤ 0
+⊢ False
+failed
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawLaunch.lean:33:0: error: VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.launch_parameters: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

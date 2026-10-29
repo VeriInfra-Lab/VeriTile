@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.BgmvShrinkKernel.Direct.AtomicOrder.fiber: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvShrinkKernel.Direct.AtomicOrder.contribution_readback: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

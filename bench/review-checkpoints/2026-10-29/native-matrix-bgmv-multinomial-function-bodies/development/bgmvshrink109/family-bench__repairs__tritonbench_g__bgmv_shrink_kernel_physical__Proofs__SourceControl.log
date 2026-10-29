@@ -1,0 +1,17 @@
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Proofs/SourceControl.lean:16:2: error: Tactic `simp` failed with a nested error:
+(deterministic) timeout at `whnf`, maximum number of heartbeats (1000000) has been reached
+
+Note: Use `set_option maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Proofs/SourceControl.lean:34:4: error: Tactic `simp` failed with a nested error:
+(deterministic) timeout at `whnf`, maximum number of heartbeats (1000000) has been reached
+
+Note: Use `set_option maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Proofs/SourceControl.lean:54:0: error: VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.SourceControl.eval_not_eq: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Proofs/SourceControl.lean:55:0: error: VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.SourceControl.early_return: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.SourceControl.constant_stride: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

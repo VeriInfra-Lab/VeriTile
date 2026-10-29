@@ -1,0 +1,43 @@
+{
+  "status": "FAIL",
+  "start": 1793230589.9419463,
+  "results": [
+    {
+      "module": "bench.tests.DTypePredicate",
+      "source_sha256": "7bcf608146b8cfce8804a0c635e2b9f1e6bdd303d108edb571e0158d3b46358d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793230589.9420886,
+      "end": 1793230595.464446,
+      "log": "/tmp/tritonmatmul108-fixture-modules2-bench__tests__DTypePredicate.log"
+    },
+    {
+      "module": "bench.tests.TupleCallBody",
+      "source_sha256": "b084672ef5c1c042d1e5503111e74dfb57f83c2114dc4d02929c41d44d169f2a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793230595.4646995,
+      "end": 1793230600.7775912,
+      "log": "/tmp/tritonmatmul108-fixture-modules2-bench__tests__TupleCallBody.log"
+    },
+    {
+      "module": "bench.tests.BoolInt64Body",
+      "source_sha256": "eac3412c8d8b08b9d989ad10ea317e4e40caa4042d8aae3bd97231d4c805ff24",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793230600.7778153,
+      "end": 1793230607.6303918,
+      "log": "/tmp/tritonmatmul108-fixture-modules2-bench__tests__BoolInt64Body.log"
+    },
+    {
+      "module": "InspectSource",
+      "source_sha256": "c9bc77c678e3a1f15daa42b711777f8e590eeef5e72cb9488921b6b4546889e3",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793230607.630648,
+      "end": 1793230610.152743,
+      "log": "/tmp/tritonmatmul108-fixture-modules2-InspectSource.log"
+    }
+  ],
+  "end": 1793230610.1530128
+}

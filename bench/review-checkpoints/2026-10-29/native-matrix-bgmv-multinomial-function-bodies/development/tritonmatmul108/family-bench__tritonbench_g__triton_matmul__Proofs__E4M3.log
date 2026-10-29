@@ -1,0 +1,9 @@
+VeriTile.Bench.TritonBenchG.TritonMatmul.E4M3.decode_boundaries: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonMatmul.E4M3.rounding_boundaries: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonMatmul.E4M3.finite_roundtrip: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

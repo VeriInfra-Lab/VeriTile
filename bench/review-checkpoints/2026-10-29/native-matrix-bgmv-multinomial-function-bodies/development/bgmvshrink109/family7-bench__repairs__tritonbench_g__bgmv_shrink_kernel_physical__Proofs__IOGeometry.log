@@ -1,0 +1,9 @@
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Proofs/IOGeometry.lean:53:14: warning: Local variable 'unit' resembles constructor 'PUnit.unit' - write '.unit' (with a dot) or 'PUnit.unit' to use the constructor.
+
+Note: This linter can be disabled with `set_option linter.constructorNameAsVariable false`
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Proofs/IOGeometry.lean:74:14: warning: Local variable 'unit' resembles constructor 'PUnit.unit' - write '.unit' (with a dot) or 'PUnit.unit' to use the constructor.
+
+Note: This linter can be disabled with `set_option linter.constructorNameAsVariable false`
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.IOGeometry.schedule_complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

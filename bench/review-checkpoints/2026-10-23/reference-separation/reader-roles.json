@@ -2087,9 +2087,8 @@
         }
       ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/bgmv_shrink_kernel.json",
-        "sha256": "52b3e2e9e0496903c6d224fd8b18a7dc3f3f66ac25f1d1bc31bae5d08c9e0e7a",
-        "task": "bgmv_shrink_kernel"
+        "path": "bench/review-checkpoints/2026-10-29/native-matrix-bgmv-multinomial-function-bodies/review.json",
+        "sha256": "2a6ef0f8d5c37514f9fe7cd43c1b4407a68b29642438deca3b3cb7458d3ca44b"
       },
       "change": null,
       "new_misc_entries": [],
@@ -2124,7 +2123,8 @@
         "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/bgmv_shrink_kernel.json",
         "sha256": "52b3e2e9e0496903c6d224fd8b18a7dc3f3f66ac25f1d1bc31bae5d08c9e0e7a",
         "task": "bgmv_shrink_kernel"
-      }
+      },
+      "current_body_source_review": "The complete selected BGMV shrink body is copied, including sentinel return, metadata casts, signed split-K loop, half/bfloat product/reduction, augmented scaling and implicit store/atomic conversion. Eight original/candidate storage/metadata ABI mappings preserve the generic existing output-type domain. The existing scalar-left candidate now has an explicit Python module; full-module AST restoration permits only that final multiplication and JIT names. Only source checking changed in the historical checker; the original program, launch, host guard tests, contracts and public Real/FP readers remain. Actual execution, access safety, all batch-by-64 programs, per-address atomic orders, outputs/frames, independent Real formula and strict FP pair reconnect. The existing strict all-word FP32 multiplication certificate is reused; no experiment or numerical law is added."
     },
     {
       "task": "block_sparse_attn",
@@ -15112,9 +15112,8 @@
         }
       ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/multinomial_sampling.json",
-        "sha256": "c31432f1e43c556f298c26801258f42e847ff7ea93fe928850959d0650a603aa",
-        "task": "multinomial_sampling"
+        "path": "bench/review-checkpoints/2026-10-29/native-matrix-bgmv-multinomial-function-bodies/review.json",
+        "sha256": "2a6ef0f8d5c37514f9fe7cd43c1b4407a68b29642438deca3b3cb7458d3ca44b"
       },
       "change": null,
       "new_misc_entries": [],
@@ -15149,7 +15148,8 @@
         "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/multinomial_sampling.json",
         "sha256": "c31432f1e43c556f298c26801258f42e847ff7ea93fe928850959d0650a603aa",
         "task": "multinomial_sampling"
-      }
+      },
+      "current_body_source_review": "Multinomial sampling copies both complete existing JIT bodies, with five exact mappings for the selected FP32 pair and historical FP16/BF16/FP64 originals. Caller metadata replaces the old artificial BLOCK_arg setup statements; signed offset narrowing, canonical Philox, scan, carry, interval endpoints, masked label clamp and stores remain. The candidate only specializes the token count and expands its loop. Full original/candidate function ASTs are checked. Actual execution, access safety, complete outputs/exterior frame, independent Real inverse-CDF mathematics and the existing FP pair reconnect. Python, contracts and public readers remain unchanged; historical storage profiles do not enlarge wrapper admission. No numerical assumption is added."
     },
     {
       "task": "nested_loops_processing",
@@ -21115,9 +21115,8 @@
         }
       ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/triton_matmul.json",
-        "sha256": "39e24e136a2c345038b8db6f76bd031e55594031e402a89c2d60afc9dc886fb2",
-        "task": "triton_matmul"
+        "path": "bench/review-checkpoints/2026-10-29/native-matrix-bgmv-multinomial-function-bodies/review.json",
+        "sha256": "2a6ef0f8d5c37514f9fe7cd43c1b4407a68b29642438deca3b3cb7458d3ca44b"
       },
       "change": null,
       "new_misc_entries": [],
@@ -21152,7 +21151,8 @@
         "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/triton_matmul.json",
         "sha256": "39e24e136a2c345038b8db6f76bd031e55594031e402a89c2d60afc9dc886fb2",
         "task": "triton_matmul"
-      }
+      },
+      "current_body_source_review": "The original matrix source and existing guarded group-width-shift candidate have four verbatim FP16/E4M3 body/ABI mappings. Tuple casts, every int64 cast, quotient/remainder ceilings, computed signed K loop, live FP32 accumulation and output-dtype branch remain. Both Python modules, contracts and public Real/FP readers are unchanged. Actual signed execution, safety, complete grid outputs/frame and computed loop count connect to independent full-K mathematics and the actual FP pair; out-of-group ids retain no-write behavior. No arbitrary independent loop-count equality is assumed."
     },
     {
       "task": "triton_mul2",

@@ -1,0 +1,18 @@
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.RealTensor.returned_value: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.RealTensor.all_values: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.RealTensor.frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.RealTensor.value: definition does not reference [VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.Target.real,
+ VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.Real.readback,
+ VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.Surface.source,
+ VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.Kernels.source,
+ VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.Kernels.originalFP16,
+ VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.Kernels.originalBF16,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+Axiom audit: headlines=0
+headlines: []

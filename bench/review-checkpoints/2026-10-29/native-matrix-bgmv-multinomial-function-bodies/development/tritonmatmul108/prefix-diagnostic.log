@@ -1,0 +1,84 @@
+PrefixDiagnostic.lean:16:71: warning: unused variable `BLOCK_SIZE_M`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+PrefixDiagnostic.lean:16:84: warning: unused variable `BLOCK_SIZE_N`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+PrefixDiagnostic.lean:16:97: warning: unused variable `BLOCK_SIZE_K`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+PrefixDiagnostic.lean:16:110: warning: unused variable `GROUP_SIZE_M`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+PrefixDiagnostic.lean:23:71: warning: unused variable `BLOCK_SIZE_M`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+PrefixDiagnostic.lean:23:84: warning: unused variable `BLOCK_SIZE_N`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+PrefixDiagnostic.lean:23:97: warning: unused variable `BLOCK_SIZE_K`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+PrefixDiagnostic.lean:23:110: warning: unused variable `GROUP_SIZE_M`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+PrefixDiagnostic.lean:31:71: warning: unused variable `BLOCK_SIZE_M`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+PrefixDiagnostic.lean:31:84: warning: unused variable `BLOCK_SIZE_N`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+PrefixDiagnostic.lean:31:97: warning: unused variable `BLOCK_SIZE_K`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+PrefixDiagnostic.lean:31:110: warning: unused variable `GROUP_SIZE_M`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+PrefixDiagnostic.lean:40:71: warning: unused variable `BLOCK_SIZE_M`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+PrefixDiagnostic.lean:40:84: warning: unused variable `BLOCK_SIZE_N`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+PrefixDiagnostic.lean:40:97: warning: unused variable `BLOCK_SIZE_K`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+PrefixDiagnostic.lean:40:110: warning: unused variable `GROUP_SIZE_M`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+PrefixDiagnostic.lean:50:71: warning: unused variable `BLOCK_SIZE_M`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+PrefixDiagnostic.lean:50:84: warning: unused variable `BLOCK_SIZE_N`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+PrefixDiagnostic.lean:50:97: warning: unused variable `BLOCK_SIZE_K`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+PrefixDiagnostic.lean:50:110: warning: unused variable `GROUP_SIZE_M`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+PrefixDiagnostic.lean:62:2: error: arithmetic: dtype mismatch
+PrefixDiagnostic.lean:75:2: error: arithmetic: dtype mismatch
+PrefixDiagnostic.lean:89:2: error: arithmetic: dtype mismatch
+PrefixDiagnostic.lean:104:2: error: arithmetic: dtype mismatch
+PrefixDiagnostic.lean:120:2: error: arithmetic: dtype mismatch
+PrefixDiagnostic.lean:137:2: error: arithmetic: dtype mismatch
+PrefixDiagnostic.lean:155:2: error: arithmetic: dtype mismatch
+PrefixDiagnostic.lean:174:2: error: arithmetic: dtype mismatch
+PrefixDiagnostic.lean:194:2: error: arithmetic: dtype mismatch
+PrefixDiagnostic.lean:216:2: error: arithmetic: dtype mismatch
+PrefixDiagnostic.lean:239:2: error: arithmetic: dtype mismatch
+PrefixDiagnostic.lean:264:2: error: arithmetic: dtype mismatch
+PrefixDiagnostic.lean:290:2: error: arithmetic: dtype mismatch
+PrefixDiagnostic.lean:317:2: error: arithmetic: dtype mismatch
+PrefixDiagnostic.lean:345:2: error: arithmetic: dtype mismatch
+PrefixDiagnostic.lean:375:2: error: arithmetic: dtype mismatch
+PrefixDiagnostic.lean:406:2: error: arithmetic: dtype mismatch
+PrefixDiagnostic.lean:440:2: error: arithmetic: dtype mismatch
+PrefixDiagnostic.lean:476:2: error: arithmetic: dtype mismatch
+PrefixDiagnostic.lean:514:2: error: arithmetic: dtype mismatch
+PrefixDiagnostic.lean:561:2: error: arithmetic: dtype mismatch
+PrefixDiagnostic.lean:613:2: error: arithmetic: dtype mismatch
+PrefixDiagnostic.lean:667:2: error: arithmetic: dtype mismatch
+PrefixDiagnostic.lean:722:2: error: arithmetic: dtype mismatch

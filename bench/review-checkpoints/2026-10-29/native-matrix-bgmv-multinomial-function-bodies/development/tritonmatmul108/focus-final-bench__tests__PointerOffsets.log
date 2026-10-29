@@ -1,0 +1,15 @@
+/tmp/tritonmatmul108-frontend/bench/tests/PointerOffsets.lean:61:50: warning: unused variable `n`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/tritonmatmul108-frontend/bench/tests/PointerOffsets.lean:91:44: warning: unused variable `n`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Tests.PointerOffsets.complete_mutated_source: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.PointerOffsets.complete_source: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.PointerOffsets.complete_signed_source: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,12 @@
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Proofs/MemoryTransport.lean:30:8: warning: 'simp only [Cell.read]' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Proofs/MemoryTransport.lean:30:8: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.MemoryTransport.prefix_transport: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.MemoryTransport.setup: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

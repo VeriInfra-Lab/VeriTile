@@ -1,0 +1,6 @@
+dtype=tl.int32: kind=choice, args=2, firstKind=VeriTile.Triton.DSL.«tritonInlineAsmKwarg_=__1», firstIdent=false
+  alternative kind=VeriTile.Triton.DSL.«tritonInlineAsmKwarg_=__1», args=3, firstKind=ident, firstIdent=true
+  alternative kind=VeriTile.Triton.DSL.«tritonInlineAsmKwarg_=_», args=3, firstKind=ident, firstIdent=true
+constraints="=r,r,r": kind=VeriTile.Triton.DSL.«tritonInlineAsmKwarg_=_», args=3, firstKind=ident, firstIdent=true
+is_pure=True: kind=VeriTile.Triton.DSL.«tritonInlineAsmKwarg_=_», args=3, firstKind=ident, firstIdent=true
+pack=1: kind=VeriTile.Triton.DSL.«tritonInlineAsmKwarg_=_», args=3, firstKind=ident, firstIdent=true

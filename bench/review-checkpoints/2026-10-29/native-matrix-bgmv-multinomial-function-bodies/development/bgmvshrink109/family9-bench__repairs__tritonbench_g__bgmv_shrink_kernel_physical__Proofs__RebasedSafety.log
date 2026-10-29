@@ -1,0 +1,336 @@
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Proofs/RebasedSafety.lean:69:52: error: mod_cast has type
+  ↑(c * 16384 + (↑e + split * 256)) < ↑K
+but is expected to have type
+  c * 16384 + (↑e + split * 256) < K
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Proofs/RebasedSafety.lean:68:4: error: unsolved goals
+case h.e'_3
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+P : Primitives α
+batch split slot c : ℕ
+data : Data α
+s : State α
+memory : RegionName → ℕ → Cell α
+bounds : RegionName → ℕ
+batches adapters N K BN columns : ℕ
+positive : 0 < BN
+covered : N ≤ BN
+outputCovered : N ≤ columns
+outputType : FloatDType
+scaling : ℝ
+a :
+  Fin
+      { batches := batches, adapters := adapters, N := N, K := K, BN := BN, columns := columns,
+          blockPositive := positive, rowsCovered := covered, outputCovered := outputCovered,
+          storage := TritonBenchG.BgmvShrinkKernel.TypedSource.Storage.fp16, outputType := outputType,
+          scaling := scaling }.BN →
+    α
+ready :
+  Invariant
+    { batches := batches, adapters := adapters, N := N, K := K, BN := BN, columns := columns, blockPositive := positive,
+      rowsCovered := covered, outputCovered := outputCovered,
+      storage := TritonBenchG.BgmvShrinkKernel.TypedSource.Storage.fp16, outputType := outputType, scaling := scaling }
+    data batch split slot a s
+inputBounds :
+  ∀
+    k <
+      { batches := batches, adapters := adapters, N := N, K := K, BN := BN, columns := columns,
+          blockPositive := positive, rowsCovered := covered, outputCovered := outputCovered,
+          storage := TritonBenchG.BgmvShrinkKernel.TypedSource.Storage.fp16, outputType := outputType,
+          scaling := scaling }.K,
+    inputOffset
+        { batches := batches, adapters := adapters, N := N, K := K, BN := BN, columns := columns,
+          blockPositive := positive, rowsCovered := covered, outputCovered := outputCovered,
+          storage := TritonBenchG.BgmvShrinkKernel.TypedSource.Storage.fp16, outputType := outputType,
+          scaling := scaling }
+        batch k <
+      bounds { name := "X" }
+weightBounds :
+  ∀ (n k : ℕ),
+    n <
+        { batches := batches, adapters := adapters, N := N, K := K, BN := BN, columns := columns,
+            blockPositive := positive, rowsCovered := covered, outputCovered := outputCovered,
+            storage := TritonBenchG.BgmvShrinkKernel.TypedSource.Storage.fp16, outputType := outputType,
+            scaling := scaling }.N →
+      k <
+          { batches := batches, adapters := adapters, N := N, K := K, BN := BN, columns := columns,
+              blockPositive := positive, rowsCovered := covered, outputCovered := outputCovered,
+              storage := TritonBenchG.BgmvShrinkKernel.TypedSource.Storage.fp16, outputType := outputType,
+              scaling := scaling }.K →
+        weightOffset
+            { batches := batches, adapters := adapters, N := N, K := K, BN := BN, columns := columns,
+              blockPositive := positive, rowsCovered := covered, outputCovered := outputCovered,
+              storage := TritonBenchG.BgmvShrinkKernel.TypedSource.Storage.fp16, outputType := outputType,
+              scaling := scaling }
+            slot n k <
+          bounds { name := "W" }
+e : Fin 256
+active : ↑c * 16384 + (↑↑e + ↑split * 256) < ↑K
+hk : c * 16384 + (↑e + split * 256) < K
+bound :
+  batch *
+        { batches := batches, adapters := adapters, N := N, K := K, BN := BN, columns := columns,
+            blockPositive := positive, rowsCovered := covered, outputCovered := outputCovered,
+            storage := TritonBenchG.BgmvShrinkKernel.TypedSource.Storage.fp16, outputType := outputType,
+            scaling := scaling }.K +
+      (c * 16384 + (↑e + split * 256)) <
+    bounds { name := "X" }
+⊢ batch * K + Int.toNat ↑(c * 16384 + (↑e + split * 256)) = batch * K + (c * 16384 + (↑e + split * 256))
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Proofs/RebasedSafety.lean:75:52: error: mod_cast has type
+  ↑(c * 16384 + (↑e + split * 256)) < ↑K
+but is expected to have type
+  c * 16384 + (↑e + split * 256) < K
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Proofs/RebasedSafety.lean:74:4: error: unsolved goals
+case h.e'_3
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+P : Primitives α
+batch split slot c : ℕ
+data : Data α
+s : State α
+memory : RegionName → ℕ → Cell α
+bounds : RegionName → ℕ
+batches adapters N K BN columns : ℕ
+positive : 0 < BN
+covered : N ≤ BN
+outputCovered : N ≤ columns
+outputType : FloatDType
+scaling : ℝ
+a :
+  Fin
+      { batches := batches, adapters := adapters, N := N, K := K, BN := BN, columns := columns,
+          blockPositive := positive, rowsCovered := covered, outputCovered := outputCovered,
+          storage := TritonBenchG.BgmvShrinkKernel.TypedSource.Storage.fp16, outputType := outputType,
+          scaling := scaling }.BN →
+    α
+ready :
+  Invariant
+    { batches := batches, adapters := adapters, N := N, K := K, BN := BN, columns := columns, blockPositive := positive,
+      rowsCovered := covered, outputCovered := outputCovered,
+      storage := TritonBenchG.BgmvShrinkKernel.TypedSource.Storage.fp16, outputType := outputType, scaling := scaling }
+    data batch split slot a s
+inputBounds :
+  ∀
+    k <
+      { batches := batches, adapters := adapters, N := N, K := K, BN := BN, columns := columns,
+          blockPositive := positive, rowsCovered := covered, outputCovered := outputCovered,
+          storage := TritonBenchG.BgmvShrinkKernel.TypedSource.Storage.fp16, outputType := outputType,
+          scaling := scaling }.K,
+    inputOffset
+        { batches := batches, adapters := adapters, N := N, K := K, BN := BN, columns := columns,
+          blockPositive := positive, rowsCovered := covered, outputCovered := outputCovered,
+          storage := TritonBenchG.BgmvShrinkKernel.TypedSource.Storage.fp16, outputType := outputType,
+          scaling := scaling }
+        batch k <
+      bounds { name := "X" }
+weightBounds :
+  ∀ (n k : ℕ),
+    n <
+        { batches := batches, adapters := adapters, N := N, K := K, BN := BN, columns := columns,
+            blockPositive := positive, rowsCovered := covered, outputCovered := outputCovered,
+            storage := TritonBenchG.BgmvShrinkKernel.TypedSource.Storage.fp16, outputType := outputType,
+            scaling := scaling }.N →
+      k <
+          { batches := batches, adapters := adapters, N := N, K := K, BN := BN, columns := columns,
+              blockPositive := positive, rowsCovered := covered, outputCovered := outputCovered,
+              storage := TritonBenchG.BgmvShrinkKernel.TypedSource.Storage.fp16, outputType := outputType,
+              scaling := scaling }.K →
+        weightOffset
+            { batches := batches, adapters := adapters, N := N, K := K, BN := BN, columns := columns,
+              blockPositive := positive, rowsCovered := covered, outputCovered := outputCovered,
+              storage := TritonBenchG.BgmvShrinkKernel.TypedSource.Storage.fp16, outputType := outputType,
+              scaling := scaling }
+            slot n k <
+          bounds { name := "W" }
+n : Fin BN
+e : Fin 256
+hn : ↑n < N
+active : ↑c * 16384 + (↑↑e + ↑split * 256) < ↑K
+hk : c * 16384 + (↑e + split * 256) < K
+bound :
+  slot *
+          ({ batches := batches, adapters := adapters, N := N, K := K, BN := BN, columns := columns,
+                blockPositive := positive, rowsCovered := covered, outputCovered := outputCovered,
+                storage := TritonBenchG.BgmvShrinkKernel.TypedSource.Storage.fp16, outputType := outputType,
+                scaling := scaling }.N *
+            { batches := batches, adapters := adapters, N := N, K := K, BN := BN, columns := columns,
+                blockPositive := positive, rowsCovered := covered, outputCovered := outputCovered,
+                storage := TritonBenchG.BgmvShrinkKernel.TypedSource.Storage.fp16, outputType := outputType,
+                scaling := scaling }.K) +
+        ↑n *
+          { batches := batches, adapters := adapters, N := N, K := K, BN := BN, columns := columns,
+              blockPositive := positive, rowsCovered := covered, outputCovered := outputCovered,
+              storage := TritonBenchG.BgmvShrinkKernel.TypedSource.Storage.fp16, outputType := outputType,
+              scaling := scaling }.K +
+      (c * 16384 + (↑e + split * 256)) <
+    bounds { name := "W" }
+⊢ slot * (N * K) + Int.toNat (↑↑n * ↑K) - Int.toNat (-(↑↑n * ↑K)) + Int.toNat ↑(c * 16384 + (↑e + split * 256)) =
+    slot * (N * K) + (K * ↑n + (c * 16384 + (↑e + split * 256)))
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Proofs/RebasedSafety.lean:68:4: error: unsolved goals
+case h.e'_3
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+P : Primitives α
+batch split slot c : ℕ
+data : Data α
+s : State α
+memory : RegionName → ℕ → Cell α
+bounds : RegionName → ℕ
+batches adapters N K BN columns : ℕ
+positive : 0 < BN
+covered : N ≤ BN
+outputCovered : N ≤ columns
+outputType : FloatDType
+scaling : ℝ
+a :
+  Fin
+      { batches := batches, adapters := adapters, N := N, K := K, BN := BN, columns := columns,
+          blockPositive := positive, rowsCovered := covered, outputCovered := outputCovered,
+          storage := TritonBenchG.BgmvShrinkKernel.TypedSource.Storage.bf16, outputType := outputType,
+          scaling := scaling }.BN →
+    α
+ready :
+  Invariant
+    { batches := batches, adapters := adapters, N := N, K := K, BN := BN, columns := columns, blockPositive := positive,
+      rowsCovered := covered, outputCovered := outputCovered,
+      storage := TritonBenchG.BgmvShrinkKernel.TypedSource.Storage.bf16, outputType := outputType, scaling := scaling }
+    data batch split slot a s
+inputBounds :
+  ∀
+    k <
+      { batches := batches, adapters := adapters, N := N, K := K, BN := BN, columns := columns,
+          blockPositive := positive, rowsCovered := covered, outputCovered := outputCovered,
+          storage := TritonBenchG.BgmvShrinkKernel.TypedSource.Storage.bf16, outputType := outputType,
+          scaling := scaling }.K,
+    inputOffset
+        { batches := batches, adapters := adapters, N := N, K := K, BN := BN, columns := columns,
+          blockPositive := positive, rowsCovered := covered, outputCovered := outputCovered,
+          storage := TritonBenchG.BgmvShrinkKernel.TypedSource.Storage.bf16, outputType := outputType,
+          scaling := scaling }
+        batch k <
+      bounds { name := "X" }
+weightBounds :
+  ∀ (n k : ℕ),
+    n <
+        { batches := batches, adapters := adapters, N := N, K := K, BN := BN, columns := columns,
+            blockPositive := positive, rowsCovered := covered, outputCovered := outputCovered,
+            storage := TritonBenchG.BgmvShrinkKernel.TypedSource.Storage.bf16, outputType := outputType,
+            scaling := scaling }.N →
+      k <
+          { batches := batches, adapters := adapters, N := N, K := K, BN := BN, columns := columns,
+              blockPositive := positive, rowsCovered := covered, outputCovered := outputCovered,
+              storage := TritonBenchG.BgmvShrinkKernel.TypedSource.Storage.bf16, outputType := outputType,
+              scaling := scaling }.K →
+        weightOffset
+            { batches := batches, adapters := adapters, N := N, K := K, BN := BN, columns := columns,
+              blockPositive := positive, rowsCovered := covered, outputCovered := outputCovered,
+              storage := TritonBenchG.BgmvShrinkKernel.TypedSource.Storage.bf16, outputType := outputType,
+              scaling := scaling }
+            slot n k <
+          bounds { name := "W" }
+e : Fin 256
+active : ↑c * 16384 + (↑↑e + ↑split * 256) < ↑K
+hk : c * 16384 + (↑e + split * 256) < K
+bound :
+  batch *
+        { batches := batches, adapters := adapters, N := N, K := K, BN := BN, columns := columns,
+            blockPositive := positive, rowsCovered := covered, outputCovered := outputCovered,
+            storage := TritonBenchG.BgmvShrinkKernel.TypedSource.Storage.bf16, outputType := outputType,
+            scaling := scaling }.K +
+      (c * 16384 + (↑e + split * 256)) <
+    bounds { name := "X" }
+⊢ batch * K + Int.toNat ↑(c * 16384 + (↑e + split * 256)) = batch * K + (c * 16384 + (↑e + split * 256))
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Proofs/RebasedSafety.lean:75:52: error: mod_cast has type
+  ↑(c * 16384 + (↑e + split * 256)) < ↑K
+but is expected to have type
+  c * 16384 + (↑e + split * 256) < K
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Proofs/RebasedSafety.lean:74:4: error: unsolved goals
+case h.e'_3
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+P : Primitives α
+batch split slot c : ℕ
+data : Data α
+s : State α
+memory : RegionName → ℕ → Cell α
+bounds : RegionName → ℕ
+batches adapters N K BN columns : ℕ
+positive : 0 < BN
+covered : N ≤ BN
+outputCovered : N ≤ columns
+outputType : FloatDType
+scaling : ℝ
+a :
+  Fin
+      { batches := batches, adapters := adapters, N := N, K := K, BN := BN, columns := columns,
+          blockPositive := positive, rowsCovered := covered, outputCovered := outputCovered,
+          storage := TritonBenchG.BgmvShrinkKernel.TypedSource.Storage.bf16, outputType := outputType,
+          scaling := scaling }.BN →
+    α
+ready :
+  Invariant
+    { batches := batches, adapters := adapters, N := N, K := K, BN := BN, columns := columns, blockPositive := positive,
+      rowsCovered := covered, outputCovered := outputCovered,
+      storage := TritonBenchG.BgmvShrinkKernel.TypedSource.Storage.bf16, outputType := outputType, scaling := scaling }
+    data batch split slot a s
+inputBounds :
+  ∀
+    k <
+      { batches := batches, adapters := adapters, N := N, K := K, BN := BN, columns := columns,
+          blockPositive := positive, rowsCovered := covered, outputCovered := outputCovered,
+          storage := TritonBenchG.BgmvShrinkKernel.TypedSource.Storage.bf16, outputType := outputType,
+          scaling := scaling }.K,
+    inputOffset
+        { batches := batches, adapters := adapters, N := N, K := K, BN := BN, columns := columns,
+          blockPositive := positive, rowsCovered := covered, outputCovered := outputCovered,
+          storage := TritonBenchG.BgmvShrinkKernel.TypedSource.Storage.bf16, outputType := outputType,
+          scaling := scaling }
+        batch k <
+      bounds { name := "X" }
+weightBounds :
+  ∀ (n k : ℕ),
+    n <
+        { batches := batches, adapters := adapters, N := N, K := K, BN := BN, columns := columns,
+            blockPositive := positive, rowsCovered := covered, outputCovered := outputCovered,
+            storage := TritonBenchG.BgmvShrinkKernel.TypedSource.Storage.bf16, outputType := outputType,
+            scaling := scaling }.N →
+      k <
+          { batches := batches, adapters := adapters, N := N, K := K, BN := BN, columns := columns,
+              blockPositive := positive, rowsCovered := covered, outputCovered := outputCovered,
+              storage := TritonBenchG.BgmvShrinkKernel.TypedSource.Storage.bf16, outputType := outputType,
+              scaling := scaling }.K →
+        weightOffset
+            { batches := batches, adapters := adapters, N := N, K := K, BN := BN, columns := columns,
+              blockPositive := positive, rowsCovered := covered, outputCovered := outputCovered,
+              storage := TritonBenchG.BgmvShrinkKernel.TypedSource.Storage.bf16, outputType := outputType,
+              scaling := scaling }
+            slot n k <
+          bounds { name := "W" }
+n : Fin BN
+e : Fin 256
+hn : ↑n < N
+active : ↑c * 16384 + (↑↑e + ↑split * 256) < ↑K
+hk : c * 16384 + (↑e + split * 256) < K
+bound :
+  slot *
+          ({ batches := batches, adapters := adapters, N := N, K := K, BN := BN, columns := columns,
+                blockPositive := positive, rowsCovered := covered, outputCovered := outputCovered,
+                storage := TritonBenchG.BgmvShrinkKernel.TypedSource.Storage.bf16, outputType := outputType,
+                scaling := scaling }.N *
+            { batches := batches, adapters := adapters, N := N, K := K, BN := BN, columns := columns,
+                blockPositive := positive, rowsCovered := covered, outputCovered := outputCovered,
+                storage := TritonBenchG.BgmvShrinkKernel.TypedSource.Storage.bf16, outputType := outputType,
+                scaling := scaling }.K) +
+        ↑n *
+          { batches := batches, adapters := adapters, N := N, K := K, BN := BN, columns := columns,
+              blockPositive := positive, rowsCovered := covered, outputCovered := outputCovered,
+              storage := TritonBenchG.BgmvShrinkKernel.TypedSource.Storage.bf16, outputType := outputType,
+              scaling := scaling }.K +
+      (c * 16384 + (↑e + split * 256)) <
+    bounds { name := "W" }
+⊢ slot * (N * K) + Int.toNat (↑↑n * ↑K) - Int.toNat (-(↑↑n * ↑K)) + Int.toNat ↑(c * 16384 + (↑e + split * 256)) =
+    slot * (N * K) + (K * ↑n + (c * 16384 + (↑e + split * 256)))

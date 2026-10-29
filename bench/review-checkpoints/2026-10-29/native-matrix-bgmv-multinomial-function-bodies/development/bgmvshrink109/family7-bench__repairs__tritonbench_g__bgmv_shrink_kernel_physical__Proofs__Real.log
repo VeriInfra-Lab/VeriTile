@@ -1,0 +1,8 @@
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.Real.payload: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.Real.readback: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+Axiom audit: headlines=0
+headlines: []

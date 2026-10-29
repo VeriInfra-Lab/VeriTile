@@ -1,0 +1,29 @@
+{
+  "status": "FAIL",
+  "results": [
+    {
+      "name": "Probe",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793230003.1070695,
+      "end": 1793230004.845304,
+      "log": "/tmp/tritonmatmul108-fixtures3-Probe.log"
+    },
+    {
+      "name": "DTypePredicate",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793230004.8456855,
+      "end": 1793230011.5593522,
+      "log": "/tmp/tritonmatmul108-fixtures3-DTypePredicate.log"
+    },
+    {
+      "name": "TupleCallBody",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793230011.559638,
+      "end": 1793230017.3455067,
+      "log": "/tmp/tritonmatmul108-fixtures3-TupleCallBody.log"
+    }
+  ]
+}

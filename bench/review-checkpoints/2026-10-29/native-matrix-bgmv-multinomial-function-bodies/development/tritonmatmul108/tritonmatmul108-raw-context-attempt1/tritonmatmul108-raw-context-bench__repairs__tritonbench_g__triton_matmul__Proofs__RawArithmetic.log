@@ -1,0 +1,8 @@
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawArithmetic.lean:9:87: error: unsolved goals
+case neg
+n block : ℕ
+h : ¬n % block = 0
+⊢ ¬↑block ∣ ↑n
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawArithmetic.lean:29:0: error: VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.signedCeil_nat: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawArithmetic.lean:30:0: error: VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.signedCeil_nonnegative: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawArithmetic.lean:31:0: error: VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.signedCeil_configs: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

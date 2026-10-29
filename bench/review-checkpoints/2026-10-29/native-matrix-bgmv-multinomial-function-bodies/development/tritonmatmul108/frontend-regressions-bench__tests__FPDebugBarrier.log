@@ -1,0 +1,37 @@
+/tmp/tritonmatmul108-frontend/bench/tests/FPDebugBarrier.lean:71:31: warning: This simp argument is unused:
+  Tile.scalar_data
+
+Hint: Omit it from the simp argument list.
+  simp [̵s̵t̵e̵p̵S̵t̵m̵t̵,̵e̵v̵a̵l̵O̵p̵.̵e̵q̵_̵d̵e̵f̵,̵T̵i̵l̵e̵.̵s̵c̵a̵l̵a̵r̵_̵d̵a̵t̵a̵]̵[̲s̲t̲e̲p̲S̲t̲m̲t̲,̲ ̲e̲v̲a̲l̲O̲p̲.̲e̲q̲_̲d̲e̲f̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+FPDebugBarrierTests.debug_barrier_state: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+FPDebugBarrierTests.debug_barrier_run: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+FPDebugBarrierTests.debug_barrier_between: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+FPDebugBarrierTests.unknown_effect: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+FPDebugBarrierTests.async_copy_rejected: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+FPDebugBarrierTests.async_wait_rejected: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+FPDebugBarrierTests.bare_barrier_name_rejected: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+FPDebugBarrierTests.call_spelling_rejected: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+FPDebugBarrierTests.suffixed_barrier_rejected: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+FPDebugBarrierTests.async_before_barrier_rejected: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+FPDebugBarrierTests.async_after_barrier_rejected: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+FPDebugBarrierTests.unsupported_projects: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+FPDebugBarrierTests.unsupported_stays_failed: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+FPDebugBarrierTests.failed_pair_not_success: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+FPDebugBarrierTests.mathematical_projection: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+FPDebugBarrierTests.projected_state: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])

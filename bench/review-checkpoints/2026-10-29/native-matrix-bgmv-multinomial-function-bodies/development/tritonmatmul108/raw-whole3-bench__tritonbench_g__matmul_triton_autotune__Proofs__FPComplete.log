@@ -1,0 +1,12 @@
+VeriTile.Bench.TritonBenchG.MatmulTritonAutotune.FPValue.loopExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.MatmulTritonAutotune.FPValue.epilogueExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.MatmulTritonAutotune.FPValue.epilogueMemory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.MatmulTritonAutotune.FPValue.correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

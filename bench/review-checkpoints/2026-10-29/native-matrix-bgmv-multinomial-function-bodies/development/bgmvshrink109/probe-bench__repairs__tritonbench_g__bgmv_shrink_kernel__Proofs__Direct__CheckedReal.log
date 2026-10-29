@@ -1,0 +1,15 @@
+VeriTile.Bench.Repairs.BgmvShrinkKernel.Direct.CheckedReal.source_workset: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvShrinkKernel.Direct.CheckedReal.readback: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvShrinkKernel.Direct.CheckedReal.complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvShrinkKernel.Direct.CheckedReal.math: definition does not reference [VeriTile.Bench.Repairs.BgmvShrinkKernel.Direct.CheckedReal.Run,
+ VeriTile.Bench.Repairs.BgmvShrinkKernel.Direct.RealExecution.contribution,
+ VeriTile.Bench.Repairs.BgmvShrinkKernel.Direct.Kernels.source,
+ VeriTile.Triton.exec] — non-circular ✓
+Axiom audit: headlines=0
+headlines: []

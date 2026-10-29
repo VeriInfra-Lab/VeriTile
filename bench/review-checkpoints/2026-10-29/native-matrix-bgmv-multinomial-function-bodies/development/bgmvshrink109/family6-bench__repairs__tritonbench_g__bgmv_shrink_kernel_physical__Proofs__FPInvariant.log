@@ -1,0 +1,112 @@
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Proofs/FPInvariant.lean:36:65: error: unsolved goals
+case fp16.acc.h.e_a.e_a.e_a.h
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+P : Primitives α
+batch split slot c : ℕ
+data : Data α
+s : State α
+batches adapters N K BN columns : ℕ
+positive : 0 < BN
+covered : N ≤ BN
+outputCovered : N ≤ columns
+outputType : FloatDType
+scaling : ℝ
+a :
+  Fin
+      { batches := batches, adapters := adapters, N := N, K := K, BN := BN, columns := columns,
+          blockPositive := positive, rowsCovered := covered, outputCovered := outputCovered,
+          storage := TritonBenchG.BgmvShrinkKernel.TypedSource.Storage.fp16, outputType := outputType,
+          scaling := scaling }.BN →
+    α
+ready :
+  Invariant
+    { batches := batches, adapters := adapters, N := N, K := K, BN := BN, columns := columns, blockPositive := positive,
+      rowsCovered := covered, outputCovered := outputCovered,
+      storage := TritonBenchG.BgmvShrinkKernel.TypedSource.Storage.fp16, outputType := outputType, scaling := scaling }
+    data batch split slot a s
+i : TileIndex [BN]
+j : TileIndex [BN, 256]
+⊢ M.binary (some ComputeDType.fp32) FloatDType.fp16 Binary.mul
+      (if c * 16384 + (↑j.2.1 + split * 256) < K then
+        data.input
+          (batch * K + (c * 16384 + (↑j.2.1 + split * 256)) - Int.toNat (-↑(split * 256) + -↑↑j.2.1 + -↑(c * 16384)))
+      else
+        M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.fp16
+          (M.literal (some ComputeDType.fp32) FloatDType.real 0.0))
+      (if ↑j.1 < N ∧ c * 16384 + (↑j.2.1 + split * 256) < K then
+        data.weights
+          (slot * (N * K) + ↑j.1 * K - Int.toNat (-↑(↑j.1 * K)) + (c * 16384 + (↑j.2.1 + split * 256)) -
+            Int.toNat (-↑(split * 256) + -↑↑j.2.1 + -↑(c * 16384)))
+      else
+        M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.fp16
+          (M.literal (some ComputeDType.fp32) FloatDType.real 0.0)) =
+    M.binary (some ComputeDType.fp32) FloatDType.fp16 Binary.mul
+      (if c * 16384 + (↑j.2.1 + split * 256) < K then data.input (batch * K + (c * 16384 + (↑j.2.1 + split * 256)))
+      else
+        M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.fp16
+          (M.literal (some ComputeDType.fp32) FloatDType.real 0.0))
+      (if ↑j.1 < N ∧ c * 16384 + (↑j.2.1 + split * 256) < K then
+        data.weights (slot * (N * K) + (K * ↑j.1 + (c * 16384 + (↑j.2.1 + split * 256))))
+      else
+        M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.fp16
+          (M.literal (some ComputeDType.fp32) FloatDType.real 0.0))
+
+case bf16.acc.h.e_a.e_a.e_a.h
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+P : Primitives α
+batch split slot c : ℕ
+data : Data α
+s : State α
+batches adapters N K BN columns : ℕ
+positive : 0 < BN
+covered : N ≤ BN
+outputCovered : N ≤ columns
+outputType : FloatDType
+scaling : ℝ
+a :
+  Fin
+      { batches := batches, adapters := adapters, N := N, K := K, BN := BN, columns := columns,
+          blockPositive := positive, rowsCovered := covered, outputCovered := outputCovered,
+          storage := TritonBenchG.BgmvShrinkKernel.TypedSource.Storage.bf16, outputType := outputType,
+          scaling := scaling }.BN →
+    α
+ready :
+  Invariant
+    { batches := batches, adapters := adapters, N := N, K := K, BN := BN, columns := columns, blockPositive := positive,
+      rowsCovered := covered, outputCovered := outputCovered,
+      storage := TritonBenchG.BgmvShrinkKernel.TypedSource.Storage.bf16, outputType := outputType, scaling := scaling }
+    data batch split slot a s
+i : TileIndex [BN]
+j : TileIndex [BN, 256]
+⊢ M.binary (some ComputeDType.fp32) FloatDType.bf16 Binary.mul
+      (if c * 16384 + (↑j.2.1 + split * 256) < K then
+        data.input
+          (batch * K + (c * 16384 + (↑j.2.1 + split * 256)) - Int.toNat (-↑(split * 256) + -↑↑j.2.1 + -↑(c * 16384)))
+      else
+        M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.bf16
+          (M.literal (some ComputeDType.fp32) FloatDType.real 0.0))
+      (if ↑j.1 < N ∧ c * 16384 + (↑j.2.1 + split * 256) < K then
+        data.weights
+          (slot * (N * K) + ↑j.1 * K - Int.toNat (-↑(↑j.1 * K)) + (c * 16384 + (↑j.2.1 + split * 256)) -
+            Int.toNat (-↑(split * 256) + -↑↑j.2.1 + -↑(c * 16384)))
+      else
+        M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.bf16
+          (M.literal (some ComputeDType.fp32) FloatDType.real 0.0)) =
+    M.binary (some ComputeDType.fp32) FloatDType.bf16 Binary.mul
+      (if c * 16384 + (↑j.2.1 + split * 256) < K then data.input (batch * K + (c * 16384 + (↑j.2.1 + split * 256)))
+      else
+        M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.bf16
+          (M.literal (some ComputeDType.fp32) FloatDType.real 0.0))
+      (if ↑j.1 < N ∧ c * 16384 + (↑j.2.1 + split * 256) < K then
+        data.weights (slot * (N * K) + (K * ↑j.1 + (c * 16384 + (↑j.2.1 + split * 256))))
+      else
+        M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.bf16
+          (M.literal (some ComputeDType.fp32) FloatDType.real 0.0))
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.FPInvariant.setup_ready: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Proofs/FPInvariant.lean:64:0: error: VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.FPInvariant.iteration_ready: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

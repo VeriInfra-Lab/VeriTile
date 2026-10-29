@@ -1,0 +1,7 @@
+FP assumptions used by equivalent:
+  none
+Strict model certificates used by equivalent:
+  model: VeriTile.Software.strictFP32/ieeeValue/maxnum/documented-exp-special-values
+    certificate: List.Forall₂.cons FP.TypedScalarArithmetic.strict_certificate List.Forall₂.nil
+  model: VeriTile.Software.strictFP32/ieeeValue/maxnum/documented-exp-special-values
+    certificate: List.Forall₂.cons (FP.ScalarArithmetic.strict_certificate FP.ScalarArithmetic.Atom.mulCommute rfl) List.Forall₂.nil

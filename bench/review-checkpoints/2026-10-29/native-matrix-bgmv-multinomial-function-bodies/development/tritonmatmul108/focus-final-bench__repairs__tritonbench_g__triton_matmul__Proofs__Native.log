@@ -1,0 +1,22 @@
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/Native.lean:49:18: warning: unused variable `batch`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/Native.lean:49:26: warning: unused variable `m`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/Native.lean:49:30: warning: unused variable `k`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/Native.lean:49:34: warning: unused variable `n`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Native.primitives: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Native.instruction_lanes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Native.lane_partition: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Native.instructions_eq: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

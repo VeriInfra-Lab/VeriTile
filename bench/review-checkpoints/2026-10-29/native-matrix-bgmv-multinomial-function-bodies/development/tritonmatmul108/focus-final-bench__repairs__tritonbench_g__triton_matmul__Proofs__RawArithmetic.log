@@ -1,0 +1,9 @@
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.signedCeil_nat: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.signedCeil_nonnegative: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.signedCeil_configs: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.MultinomialSampling.Boundary.rounded_boundary: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MultinomialSampling.Boundary.exactly_normalized: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

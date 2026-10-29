@@ -1,0 +1,16 @@
+{
+  "status": "FAIL",
+  "start": 1793232114.4797394,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.triton_matmul.Proofs.RawMemory",
+      "source_sha256": "248ca6f9d0af0d1fd58389087ebb4afae62165fe05ac5f76ed438e83725bd57c",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793232114.479972,
+      "end": 1793232120.5768085,
+      "log": "/tmp/tritonmatmul108-raw-coordinates2-bench__repairs__tritonbench_g__triton_matmul__Proofs__RawMemory.log"
+    }
+  ],
+  "end": 1793232120.5772805
+}

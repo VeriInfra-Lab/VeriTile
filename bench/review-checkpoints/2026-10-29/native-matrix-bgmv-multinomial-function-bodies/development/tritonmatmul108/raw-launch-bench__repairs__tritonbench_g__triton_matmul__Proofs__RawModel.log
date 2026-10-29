@@ -1,0 +1,69 @@
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawModel.lean:11:2: error: omega could not prove the goal:
+No usable constraints found. You may need to unfold definitions so `omega` can see linear arithmetic facts about `Nat` and `Int`, which may also involve multiplication, division, and modular remainder by constants.
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawModel.lean:20:10: warning: Possibly looping simp theorem: `addressA.eq_1`
+
+Note: Possibly caused by: `innerOffset`, `innerMask_model`, `decide_eq_true_eq`, `← Int.natCast_mul`, and `Nat.cast_mul`
+
+Hint: You can disable a simp theorem from the default simp set by passing `- theoremName` to `simp`.
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawModel.lean:20:50: warning: Possibly looping simp theorem: `innerOffset.eq_1`
+
+Note: Possibly caused by: `innerMask_model`, `decide_eq_true_eq`, `← Int.natCast_mul`, and `Nat.cast_mul`
+
+Hint: You can disable a simp theorem from the default simp set by passing `- theoremName` to `simp`.
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawModel.lean:21:6: warning: Possibly looping simp theorem: `← Int.natCast_mul`
+
+Note: Possibly caused by: `Nat.cast_mul`
+
+Hint: You can disable a simp theorem from the default simp set by passing `- theoremName` to `simp`.
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawModel.lean:21:24: warning: Possibly looping simp theorem: `← Int.natCast_add`
+
+Note: Possibly caused by: `Nat.cast_add`
+
+Hint: You can disable a simp theorem from the default simp set by passing `- theoremName` to `simp`.
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawModel.lean:20:4: error: Tactic `simp` failed with a nested error:
+maximum recursion depth has been reached
+use `set_option maxRecDepth <num>` to increase limit
+use `set_option diagnostics true` to get diagnostic information
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawModel.lean:16:52: warning: This simp argument is unused:
+  Bool.decide_eq_true
+
+Hint: Omit it from the simp argument list.
+  simp only [̵R̵a̵w̵S̵o̵u̵r̵c̵e̵.̵l̵o̵a̵d̵A̵,̵i̵n̵n̵e̵r̵M̵a̵s̵k̵_̵m̵o̵d̵e̵l̵,̵a̵V̵a̵l̵u̵e̵,̵B̵o̵o̵l̵.̵d̵e̵c̵i̵d̵e̵_̵e̵q̵_̵t̵r̵u̵e̵]̵[̲R̲a̲w̲S̲o̲u̲r̲c̲e̲.̲l̲o̲a̲d̲A̲,̲ ̲i̲n̲n̲e̲r̲M̲a̲s̲k̲_̲m̲o̲d̲e̲l̲,̲ ̲a̲V̲a̲l̲u̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawModel.lean:32:10: warning: Possibly looping simp theorem: `addressB.eq_1`
+
+Note: Possibly caused by: `innerOffset`, `innerMask_model`, `decide_eq_true_eq`, `← Int.natCast_mul`, and `Nat.cast_mul`
+
+Hint: You can disable a simp theorem from the default simp set by passing `- theoremName` to `simp`.
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawModel.lean:32:50: warning: Possibly looping simp theorem: `innerOffset.eq_1`
+
+Note: Possibly caused by: `innerMask_model`, `decide_eq_true_eq`, `← Int.natCast_mul`, and `Nat.cast_mul`
+
+Hint: You can disable a simp theorem from the default simp set by passing `- theoremName` to `simp`.
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawModel.lean:33:6: warning: Possibly looping simp theorem: `← Int.natCast_mul`
+
+Note: Possibly caused by: `Nat.cast_mul`
+
+Hint: You can disable a simp theorem from the default simp set by passing `- theoremName` to `simp`.
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawModel.lean:33:24: warning: Possibly looping simp theorem: `← Int.natCast_add`
+
+Note: Possibly caused by: `Nat.cast_add`
+
+Hint: You can disable a simp theorem from the default simp set by passing `- theoremName` to `simp`.
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawModel.lean:32:4: error: Tactic `simp` failed with a nested error:
+maximum recursion depth has been reached
+use `set_option maxRecDepth <num>` to increase limit
+use `set_option diagnostics true` to get diagnostic information
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawModel.lean:28:52: warning: This simp argument is unused:
+  Bool.decide_eq_true
+
+Hint: Omit it from the simp argument list.
+  simp only [̵R̵a̵w̵S̵o̵u̵r̵c̵e̵.̵l̵o̵a̵d̵B̵,̵i̵n̵n̵e̵r̵M̵a̵s̵k̵_̵m̵o̵d̵e̵l̵,̵b̵V̵a̵l̵u̵e̵,̵B̵o̵o̵l̵.̵d̵e̵c̵i̵d̵e̵_̵e̵q̵_̵t̵r̵u̵e̵]̵[̲R̲a̲w̲S̲o̲u̲r̲c̲e̲.̲l̲o̲a̲d̲B̲,̲ ̲i̲n̲n̲e̲r̲M̲a̲s̲k̲_̲m̲o̲d̲e̲l̲,̲ ̲b̲V̲a̲l̲u̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawModel.lean:60:0: error: VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.innerMask_model: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawModel.lean:61:0: error: VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.loadA_model: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawModel.lean:62:0: error: VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.loadB_model: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawModel.lean:63:0: error: VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.update_model: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawModel.lean:64:0: error: VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.accumulation_model: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

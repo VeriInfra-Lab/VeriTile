@@ -1,0 +1,54 @@
+[
+  {
+    "name": "python-tests",
+    "command": [
+      "python3",
+      "-m",
+      "unittest",
+      "bench.tests.test_jit_correspondence",
+      "bench.tests.test_body_corpus",
+      "bench.tests.test_diag_ssm_body",
+      "bench.tests.test_fast_ce_body",
+      "bench.tests.test_delegated_body_sources",
+      "bench.tests.test_cross_entropy_ops_body",
+      "bench.tests.test_cross_entropy1_body",
+      "bench.tests.test_cross_entropy2_body",
+      "bench.tests.test_decay_cumsum_body",
+      "bench.tests.test_pow_scalar_tensor_body",
+      "bench.tests.test_matmul_tma_body",
+      "bench.tests.test_token_attn_llama2_body",
+      "bench.tests.test_rotary_transform_body",
+      "bench.tests.test_rotary_transform_ops_body",
+      "bench.tests.test_kv_cache_filling_body",
+      "bench.tests.test_softmax_reducev_body",
+      "bench.tests.test_ksoftmax_body",
+      "bench.tests.test_lora_expand_body",
+      "bench.tests.test_rwkv6_body",
+      "bench.tests.test_layernorm_fwd_body",
+      "bench.tests.test_threepass_layernorm_body",
+      "bench.tests.test_fast_rms_body",
+      "bench.tests.test_triton_matmul_body",
+      "bench.tests.test_bgmv_shrink_body",
+      "bench.tests.test_multinomial_body"
+    ],
+    "exit_code": 0,
+    "code_commit": "25346edde39ae449543e5cd023e092fae092e9ac",
+    "log": "/tmp/matrixsampling110-python-tests.log"
+  },
+  {
+    "name": "all-python",
+    "command": [
+      "python3",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "bench/tests",
+      "-p",
+      "test_*.py"
+    ],
+    "exit_code": 1,
+    "code_commit": "25346edde39ae449543e5cd023e092fae092e9ac",
+    "log": "/tmp/matrixsampling110-all-python.log"
+  }
+]

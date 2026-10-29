@@ -1,0 +1,21 @@
+{
+  "status": "FAIL",
+  "results": [
+    {
+      "name": "Probe",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793229827.0128298,
+      "end": 1793229829.5543349,
+      "log": "/tmp/tritonmatmul108-fixtures2-Probe.log"
+    },
+    {
+      "name": "DTypePredicate",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793229829.5546346,
+      "end": 1793229840.351338,
+      "log": "/tmp/tritonmatmul108-fixtures2-DTypePredicate.log"
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.BgmvShrinkKernel.Direct.RealExecution.source_executes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

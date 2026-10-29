@@ -1,0 +1,30 @@
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawCoordinates.lean:19:17: warning: This simp argument is unused:
+  Int.ofNat_tdiv
+
+Hint: Omit it from the simp argument list.
+  simp [firstM,̵I̵n̵t̵.̵o̵f̵N̵a̵t̵_̵t̵d̵i̵v̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawCoordinates.lean:38:17: error: Application type mismatch: The argument
+  decide
+has type
+  (p : Prop) → [h : Decidable p] → Bool
+but is expected to have type
+  Prop → ?m.57
+in the application
+  congrArg decide
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawCoordinates.lean:50:17: error: Application type mismatch: The argument
+  decide
+has type
+  (p : Prop) → [h : Decidable p] → Bool
+but is expected to have type
+  Prop → ?m.57
+in the application
+  congrArg decide
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.control_coordinates: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawCoordinates.lean:71:0: error: VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.maskM_model: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawCoordinates.lean:72:0: error: VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.maskN_model: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawCoordinates.lean:73:0: error: VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.offsetM_model: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawCoordinates.lean:74:0: error: VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.offsetN_model: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

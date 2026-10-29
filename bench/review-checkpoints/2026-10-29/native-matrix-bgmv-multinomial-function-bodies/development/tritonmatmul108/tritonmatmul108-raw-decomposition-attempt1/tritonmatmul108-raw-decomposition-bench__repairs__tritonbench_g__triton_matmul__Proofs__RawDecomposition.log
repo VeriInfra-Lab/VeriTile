@@ -1,0 +1,36 @@
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawDecomposition.lean:11:10: error(lean.invalidDottedIdent): Invalid dotted identifier notation: The expected type of `.forRangeInt`
+  ?m.11
+is not of the form `C ...` or `... → C ...` where C is a constant
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawDecomposition.lean:11:2: error: Invalid pattern(s): `code` is an explicit pattern variable, but it only occurs in positions that are inaccessible to pattern matching:
+  some ?m.12
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawDecomposition.lean:21:15: error: Tactic `rfl` failed: The left-hand side
+  (Source.typed p Storage.half).surfaceBody
+is not definitionally equal to the right-hand side
+  prelude p Storage.half ++
+      [ComputeStmt.forRangeInt "k" (Op.constInt 0) (Op.ref TileDType.int [] "blocks_k") (Op.constNat 1)
+          (body p Storage.half)] ++
+    epilogue p Storage.half
+
+case half
+p : Parameters
+⊢ (Source.typed p Storage.half).surfaceBody =
+    prelude p Storage.half ++
+        [ComputeStmt.forRangeInt "k" (Op.constInt 0) (Op.ref TileDType.int [] "blocks_k") (Op.constNat 1)
+            (body p Storage.half)] ++
+      epilogue p Storage.half
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawDecomposition.lean:21:15: error: Tactic `rfl` failed: The left-hand side
+  (Source.typed p Storage.e4m3).surfaceBody
+is not definitionally equal to the right-hand side
+  prelude p Storage.e4m3 ++
+      [ComputeStmt.forRangeInt "k" (Op.constInt 0) (Op.ref TileDType.int [] "blocks_k") (Op.constNat 1)
+          (body p Storage.e4m3)] ++
+    epilogue p Storage.e4m3
+
+case e4m3
+p : Parameters
+⊢ (Source.typed p Storage.e4m3).surfaceBody =
+    prelude p Storage.e4m3 ++
+        [ComputeStmt.forRangeInt "k" (Op.constInt 0) (Op.ref TileDType.int [] "blocks_k") (Op.constNat 1)
+            (body p Storage.e4m3)] ++
+      epilogue p Storage.e4m3
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawDecomposition.lean:23:0: error: VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.decomposition: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

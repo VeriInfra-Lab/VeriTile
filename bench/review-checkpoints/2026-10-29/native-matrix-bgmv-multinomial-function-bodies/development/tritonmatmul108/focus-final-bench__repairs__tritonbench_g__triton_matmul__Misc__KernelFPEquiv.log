@@ -1,0 +1,8 @@
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelFPEquiv.expected: definition does not reference [VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.typed,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.runPrograms,
+ VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.FiniteGrid.grid,
+ VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.ByteExecution.grid] — non-circular ✓
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelFPEquiv.kernel_native_if_local: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

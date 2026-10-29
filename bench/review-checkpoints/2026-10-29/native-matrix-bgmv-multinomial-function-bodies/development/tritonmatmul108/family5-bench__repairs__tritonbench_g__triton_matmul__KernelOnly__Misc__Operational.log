@@ -1,0 +1,12 @@
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelOnly.Operational.mathematical: definition does not reference [VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.typed,
+ VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.runPrograms,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelOnly.Operational.kernel_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelOnly.Operational.nativeExpected: definition does not reference [VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.typed,
+ VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.runPrograms,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelOnly.Operational.kernel_native_if_local: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

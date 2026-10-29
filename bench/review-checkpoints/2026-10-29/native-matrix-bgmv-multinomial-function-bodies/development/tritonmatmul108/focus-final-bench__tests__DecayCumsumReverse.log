@@ -1,0 +1,69 @@
+/tmp/tritonmatmul108-frontend/bench/tests/DecayCumsumReverse.lean:25:31: warning: This simp argument is unused:
+  IntegralDType.eraseDType
+
+Hint: Omit it from the simp argument list.
+  simp only [backward, ̲BackwardExecution.sourceLoop, ̲BackwardLoop.sourceBody,
+      RealReference.bwdIterBodyG, ̲Bool.false_eq_true, ̲↓reduceIte, ̲ComputeKernel.surfaceBody,
+      ComputeKernel.eraseDType, ̲ComputeKernel.toAlgorithm?, ̲ComputeKernel.toAlgKernel,
+      ComputeKernel.fromKernelBody, ̲ComputeStmt.listToAlgorithm?, ̲ComputeStmt.toAlgorithm?,
+      ComputeExpr.toAlgorithm?, ̲ComputeOp.toAlgorithm?, ̲ComputeDType.eraseDType,
+  ̵  ̵ ̵ ̵List.map_cons,
+  ̲ ̲ ̲ ̲ ̲List.map_nil, ̲Kernel.eraseDType, ̲Stmt.eraseDTypeList, ̲Stmt.eraseDType, ̲O̲p̲.̲e̲r̲a̲s̲e̲D̲T̲y̲p̲e̲,̲
+      O̵p̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵,̵MemAccess.eraseDType, ̲MaskOpt.eraseDType, ̲NumericDType.eraseDType,
+  ̵  ̵ ̵ ̵ComparableDType.eraseDType,I̵n̵t̵e̵g̵r̵a̵l̵D̵T̵y̵p̵e̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵,̵
+  ̲ ̲ ̲ ̲ ̲Except.bind, ̲bind, ̲eraseDType_float]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/tests/DecayCumsumReverse.lean:25:73: warning: This simp argument is unused:
+  eraseDType_float
+
+Hint: Omit it from the simp argument list.
+  simp only [backward, ̲BackwardExecution.sourceLoop, ̲BackwardLoop.sourceBody,
+      RealReference.bwdIterBodyG, ̲Bool.false_eq_true, ̲↓reduceIte, ̲ComputeKernel.surfaceBody,
+      ComputeKernel.eraseDType, ̲ComputeKernel.toAlgorithm?, ̲ComputeKernel.toAlgKernel,
+      ComputeKernel.fromKernelBody, ̲ComputeStmt.listToAlgorithm?, ̲ComputeStmt.toAlgorithm?,
+      ComputeExpr.toAlgorithm?, ̲ComputeOp.toAlgorithm?, ̲ComputeDType.eraseDType,
+  ̵  ̵ ̵ ̵List.map_cons,
+  ̲ ̲ ̲ ̲ ̲List.map_nil, ̲Kernel.eraseDType, ̲Stmt.eraseDTypeList, ̲Stmt.eraseDType, ̲O̲p̲.̲e̲r̲a̲s̲e̲D̲T̲y̲p̲e̲,̲
+      O̵p̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵,̵MemAccess.eraseDType, ̲MaskOpt.eraseDType, ̲NumericDType.eraseDType,
+  ̵  ̵ ̵ ̵ComparableDType.eraseDType,
+  ̲ ̲ ̲ ̲ ̲IntegralDType.eraseDType, ̲Except.bind, ̲bind,̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵_̵f̵l̵o̵a̵t̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/tests/DecayCumsumReverse.lean:27:54: warning: This simp argument is unused:
+  NumericDType.eraseDType
+
+Hint: Omit it from the simp argument list.
+  simp only [Op.eraseDType.eq_def, ̲MemAccess.eraseDType.eq_def, ̲MaskOpt.eraseDType.eq_def,
+      VeriTile.Triton.eraseDType, ̲FloatDType.toTileDType,N̵u̵m̵e̵r̵i̵c̵D̵T̵y̵p̵e̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵,̵
+  ̵  ̵ ̵ ̵ComparableDType.eraseDType,
+  ̲ ̲ ̲ ̲ ̲IntegralDType.eraseDType]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/tests/DecayCumsumReverse.lean:28:4: warning: This simp argument is unused:
+  ComparableDType.eraseDType
+
+Hint: Omit it from the simp argument list.
+  simp only [Op.eraseDType.eq_def, ̲MemAccess.eraseDType.eq_def, ̲MaskOpt.eraseDType.eq_def,
+      VeriTile.Triton.eraseDType, ̲FloatDType.toTileDType, ̲NumericDType.eraseDType,
+      C̵o̵m̵p̵a̵r̵a̵b̵l̵e̵D̵T̵y̵p̵e̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵,̵IntegralDType.eraseDType]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/tests/DecayCumsumReverse.lean:28:31: warning: This simp argument is unused:
+  IntegralDType.eraseDType
+
+Hint: Omit it from the simp argument list.
+  simp only [Op.eraseDType.eq_def, ̲MemAccess.eraseDType.eq_def, ̲MaskOpt.eraseDType.eq_def,
+      VeriTile.Triton.eraseDType, ̲FloatDType.toTileDType, ̲NumericDType.eraseDType,
+      ComparableDType.eraseDType,̵I̵n̵t̵e̵g̵r̵a̵l̵D̵T̵y̵p̵e̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/tests/DecayCumsumReverse.lean:39:65: warning: This simp argument is unused:
+  stepStmt
+
+Hint: Omit it from the simp argument list.
+  simp [BackwardExecution.singleton, ̲BackwardExecution.sourceLoop,s̵t̵ ̲ep̵S̵t̵m̵t̵,̵e̵valOp,
+  ̵  ̵ ̵ ̵NumericDType.sub,
+  ̲ ̲ ̲ ̲ ̲Tile.bop, ̲Int.ofNat_eq_natCast]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

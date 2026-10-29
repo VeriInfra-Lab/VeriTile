@@ -1,0 +1,14 @@
+/tmp/bgmvshrink109-frontend/Compare.lean:7:66: error: Tactic `rfl` failed: The left-hand side
+  source_fp16 h
+is not definitionally equal to the right-hand side
+  Kernels.originalFP16 h
+
+h : Call
+⊢ source_fp16 h = Kernels.originalFP16 h
+/tmp/bgmvshrink109-frontend/Compare.lean:8:66: error: Tactic `rfl` failed: The left-hand side
+  source_bf16 h
+is not definitionally equal to the right-hand side
+  Kernels.originalBF16 h
+
+h : Call
+⊢ source_bf16 h = Kernels.originalBF16 h

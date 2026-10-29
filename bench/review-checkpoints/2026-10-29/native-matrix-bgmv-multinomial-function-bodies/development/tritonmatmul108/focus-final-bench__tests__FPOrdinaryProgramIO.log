@@ -1,0 +1,28 @@
+/tmp/tritonmatmul108-frontend/bench/tests/FPOrdinaryProgramIO.lean:80:15: warning: This simp argument is unused:
+  jobs
+
+Hint: Omit it from the simp argument list.
+  simp only [j̵o̵b̵s̵,̵ ̵runSchedule, producer_run, Option.bind_some, consumer_run]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Triton.FP.Structural.OrdinaryRegression.producer_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.Structural.OrdinaryRegression.consumer_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.Structural.OrdinaryRegression.gridRun: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.Structural.OrdinaryRegression.reads_common_initial: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.Structural.OrdinaryRegression.serial_reads_written: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.Structural.OrdinaryRegression.exterior: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.Structural.OrdinaryRegression.empty_grid_identity: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,27 @@
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.Native.scalar_word: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.Native.address_injective: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.Native.source_read: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.Native.source_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.Native.checked_source: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.Native.whole: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.Native.reference: definition does not reference [VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.FPWorkset.SourceWorkset,
+ VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.Surface.source,
+ VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.Kernels.source,
+ VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.Kernels.originalFP16,
+ VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.Kernels.originalBF16,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.Native.sourceBytes] — non-circular ✓
+Axiom audit: headlines=0
+headlines: []

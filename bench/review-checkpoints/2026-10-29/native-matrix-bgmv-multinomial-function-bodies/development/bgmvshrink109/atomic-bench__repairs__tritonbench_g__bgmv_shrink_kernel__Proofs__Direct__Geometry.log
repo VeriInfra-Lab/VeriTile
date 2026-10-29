@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.BgmvShrinkKernel.Direct.Geometry.rank_coverage: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvShrinkKernel.Direct.Geometry.output_injective: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

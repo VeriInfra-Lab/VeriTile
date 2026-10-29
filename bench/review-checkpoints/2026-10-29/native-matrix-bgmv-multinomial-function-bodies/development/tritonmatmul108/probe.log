@@ -1,0 +1,2 @@
+/tmp/tritonmatmul108-probe/Probe.lean:18:9: error: unsupported Python Triton body: <input>:36:30: expected tritonExpr
+/tmp/tritonmatmul108-probe/Probe.lean:82:9: error: unsupported Python Triton body: <input>:36:30: expected tritonExpr

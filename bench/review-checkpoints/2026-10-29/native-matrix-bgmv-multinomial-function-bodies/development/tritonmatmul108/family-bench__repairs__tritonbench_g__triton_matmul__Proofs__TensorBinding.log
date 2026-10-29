@@ -1,0 +1,6 @@
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.TensorBinding.direct_read: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.TensorBinding.logical_left: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.TensorBinding.logical_right: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

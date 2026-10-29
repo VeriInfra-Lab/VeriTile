@@ -1,0 +1,16 @@
+{
+  "status": "FAIL",
+  "start": 1793231288.8640034,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.triton_matmul.Proofs.RawArithmetic",
+      "source_sha256": "aafefdf422ea4942949c10660c99a63b99c621215767480e9aced60a60cc0237",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793231288.864149,
+      "end": 1793231291.9936445,
+      "log": "/tmp/tritonmatmul108-raw-context-bench__repairs__tritonbench_g__triton_matmul__Proofs__RawArithmetic.log"
+    }
+  ],
+  "end": 1793231291.9939232
+}

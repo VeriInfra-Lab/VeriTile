@@ -1,0 +1,6 @@
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelOnly.SourcePair.kernel_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelOnly.SourcePair.kernel_safe: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

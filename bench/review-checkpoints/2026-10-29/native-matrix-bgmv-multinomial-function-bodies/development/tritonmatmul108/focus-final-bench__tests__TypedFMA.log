@@ -1,0 +1,67 @@
+/tmp/tritonmatmul108-frontend/bench/tests/TypedFMA.lean:62:4: warning: This simp argument is unused:
+  ofFloat
+
+Hint: Omit it from the simp argument list.
+  simp [̵s̵p̵l̵i̵t̵,̵e̵v̵a̵l̵E̵x̵p̵r̵,̵e̵v̵a̵l̵O̵p̵_̵u̵n̵f̵o̵l̵d̵,̵n̵u̵m̵e̵r̵i̵c̵,̵b̵o̵p̵,̵m̵o̵d̵e̵l̵,̵i̵n̵i̵t̵i̵a̵l̵,̵C̵e̵l̵l̵.̵r̵e̵a̵d̵,̵
+  ̵ ̵ ̵ ̵ ̵o̵f̵F̵l̵o̵a̵t̵,̵t̵o̵F̵l̵o̵a̵t̵,̵R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵,̵B̵r̵o̵a̵d̵c̵a̵s̵t̵.̵l̵e̵f̵t̵I̵n̵d̵e̵x̵,̵B̵r̵o̵a̵d̵c̵a̵s̵t̵.̵r̵i̵g̵h̵t̵I̵n̵d̵e̵x̵]̵[̲s̲p̲l̲i̲t̲,̲ ̲e̲v̲a̲l̲E̲x̲p̲r̲,̲ ̲e̲v̲a̲l̲O̲p̲_̲u̲n̲f̲o̲l̲d̲,̲ ̲n̲u̲m̲e̲r̲i̲c̲,̲ ̲b̲o̲p̲,̲ ̲m̲o̲d̲e̲l̲,̲ ̲i̲n̲i̲t̲i̲a̲l̲,̲ ̲C̲e̲l̲l̲.̲r̲e̲a̲d̲,̲ ̲t̲o̲F̲l̲o̲a̲t̲,̲
+  ̲ ̲ ̲ ̲ ̲R̲e̲g̲i̲o̲n̲.̲c̲a̲s̲t̲,̲ ̲B̲r̲o̲a̲d̲c̲a̲s̲t̲.̲l̲e̲f̲t̲I̲n̲d̲e̲x̲,̲ ̲B̲r̲o̲a̲d̲c̲a̲s̲t̲.̲r̲i̲g̲h̲t̲I̲n̲d̲e̲x̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/tests/TypedFMA.lean:62:12: warning: This simp argument is unused:
+  toFloat
+
+Hint: Omit it from the simp argument list.
+  simp [split, ̲evalExpr, ̲evalOp_unfold, ̲numeric, ̲bop, ̲model, ̲initial, ̲Cell.read,
+  ̵  ̵ ̵ ̵ofFloat,t̵o̵F̵l̵o̵a̵t̵,̵
+  ̲ ̲ ̲ ̲ ̲Region.cast, ̲Broadcast.leftIndex, ̲Broadcast.rightIndex]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/tests/TypedFMA.lean:62:32: warning: This simp argument is unused:
+  Broadcast.leftIndex
+
+Hint: Omit it from the simp argument list.
+  simp [̵s̵p̵l̵i̵t̵,̵e̵v̵a̵l̵E̵x̵p̵r̵,̵e̵v̵a̵l̵O̵p̵_̵u̵n̵f̵o̵l̵d̵,̵n̵u̵m̵e̵r̵i̵c̵,̵b̵o̵p̵,̵m̵o̵d̵e̵l̵,̵i̵n̵i̵t̵i̵a̵l̵,̵C̵e̵l̵l̵.̵r̵e̵a̵d̵,̵
+  ̵ ̵ ̵ ̵ ̵o̵f̵F̵l̵o̵a̵t̵,̵t̵o̵F̵l̵o̵a̵t̵,̵R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵,̵B̵r̵o̵a̵d̵c̵a̵s̵t̵.̵l̵e̵f̵t̵I̵n̵d̵e̵x̵,̵B̵r̵o̵a̵d̵c̵a̵s̵t̵.̵r̵i̵g̵h̵t̵I̵n̵d̵e̵x̵]̵[̲s̲p̲l̲i̲t̲,̲ ̲e̲v̲a̲l̲E̲x̲p̲r̲,̲ ̲e̲v̲a̲l̲O̲p̲_̲u̲n̲f̲o̲l̲d̲,̲ ̲n̲u̲m̲e̲r̲i̲c̲,̲ ̲b̲o̲p̲,̲ ̲m̲o̲d̲e̲l̲,̲ ̲i̲n̲i̲t̲i̲a̲l̲,̲ ̲C̲e̲l̲l̲.̲r̲e̲a̲d̲,̲ ̲o̲f̲F̲l̲o̲a̲t̲,̲ ̲t̲o̲F̲l̲o̲a̲t̲,̲
+  ̲ ̲ ̲ ̲ ̲R̲e̲g̲i̲o̲n̲.̲c̲a̲s̲t̲,̲ ̲B̲r̲o̲a̲d̲c̲a̲s̲t̲.̲r̲i̲g̲h̲t̲I̲n̲d̲e̲x̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/tests/TypedFMA.lean:62:52: warning: This simp argument is unused:
+  Broadcast.rightIndex
+
+Hint: Omit it from the simp argument list.
+  simp [̵s̵p̵l̵i̵t̵,̵e̵v̵a̵l̵E̵x̵p̵r̵,̵e̵v̵a̵l̵O̵p̵_̵u̵n̵f̵o̵l̵d̵,̵n̵u̵m̵e̵r̵i̵c̵,̵b̵o̵p̵,̵m̵o̵d̵e̵l̵,̵i̵n̵i̵t̵i̵a̵l̵,̵C̵e̵l̵l̵.̵r̵e̵a̵d̵,̵
+  ̵ ̵ ̵ ̵ ̵o̵f̵F̵l̵o̵a̵t̵,̵t̵o̵F̵l̵o̵a̵t̵,̵R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵,̵B̵r̵o̵a̵d̵c̵a̵s̵t̵.̵l̵e̵f̵t̵I̵n̵d̵e̵x̵,̵B̵r̵o̵a̵d̵c̵a̵s̵t̵.̵r̵i̵g̵h̵t̵I̵n̵d̵e̵x̵]̵[̲s̲p̲l̲i̲t̲,̲ ̲e̲v̲a̲l̲E̲x̲p̲r̲,̲ ̲e̲v̲a̲l̲O̲p̲_̲u̲n̲f̲o̲l̲d̲,̲ ̲n̲u̲m̲e̲r̲i̲c̲,̲ ̲b̲o̲p̲,̲ ̲m̲o̲d̲e̲l̲,̲ ̲i̲n̲i̲t̲i̲a̲l̲,̲ ̲C̲e̲l̲l̲.̲r̲e̲a̲d̲,̲ ̲o̲f̲F̲l̲o̲a̲t̲,̲ ̲t̲o̲F̲l̲o̲a̲t̲,̲
+  ̲ ̲ ̲ ̲ ̲R̲e̲g̲i̲o̲n̲.̲c̲a̲s̲t̲,̲ ̲B̲r̲o̲a̲d̲c̲a̲s̲t̲.̲l̲e̲f̲t̲I̲n̲d̲e̲x̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/tests/TypedFMA.lean:154:69: warning: This simp argument is unused:
+  Region.cast
+
+Hint: Omit it from the simp argument list.
+  simp [maskedStore, ̲fused, ̲load, ̲Safety.stepSafe_unfold, ̲Safety.safeExpr_unfold,
+      Safety.safeOp_unfold, ̲Safety.safeAddress_unfold, ̲Safety.safeMask_unfold,
+      Safety.addressSafe_unfold, ̲Safety.maskActive_unfold, ̲evalOp_unfold,̵R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Tests.TypedFMA.single_half_primitive: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.TypedFMA.fused_not_split: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+VeriTile.Tests.TypedFMA.store_keeps_half_tag: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.TypedFMA.wrong_tag_uses_existing_read: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.TypedFMA.missing_empty_fails: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.TypedFMA.broadcast_half: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+VeriTile.Tests.TypedFMA.integer_stage_keeps_half_primitive: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.TypedFMA.projection_typed: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+VeriTile.Tests.TypedFMA.legacy_dispatch: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+VeriTile.Tests.TypedFMA.masked_output_still_checks_reads: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

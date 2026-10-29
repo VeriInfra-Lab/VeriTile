@@ -1,0 +1,15 @@
+/tmp/tritonmatmul108-frontend/bench/tests/ConstexprTypedContinuation.lean:37:6: warning: unused variable `dtype`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Tests.ConstexprTypedContinuation.complete_call: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.ConstexprTypedContinuation.false_retains_bf16: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.ConstexprTypedContinuation.true_casts_fp32: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.ConstexprTypedContinuation.both_arms_succeed: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

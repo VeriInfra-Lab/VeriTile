@@ -1,0 +1,59 @@
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/Index.lean:71:21: warning: This simp argument is unused:
+  BitVec.ofNat_add_ofNat
+
+Hint: Omit it from the simp argument list.
+  simp [̵h̵,̵s̵a̵f̵e̵C̵e̵i̵l̵,̵B̵i̵t̵V̵e̵c̵.̵o̵f̵N̵a̵t̵_̵a̵d̵d̵_̵o̵f̵N̵a̵t̵]̵[̲h̲,̲ ̲s̲a̲f̲e̲C̲e̲i̲l̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/Index.lean:121:39: warning: This simp argument is unused:
+  h
+
+Hint: Omit it from the simp argument list.
+  simp only [h̵,̵SourceScope.blockK]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/Index.lean:122:147: warning: This simp argument is unused:
+  Nat.add_sub_assoc
+
+Hint: Omit it from the simp argument list.
+  simp [̵R̵e̵q̵u̵e̵s̵t̵.̵p̵a̵r̵a̵m̵e̵t̵e̵r̵s̵,̵S̵o̵u̵r̵c̵e̵S̵c̵o̵p̵e̵.̵p̵a̵r̵a̵m̵e̵t̵e̵r̵s̵,̵S̵o̵u̵r̵c̵e̵S̵c̵o̵p̵e̵.̵b̵l̵o̵c̵k̵K̵,̵h̵,̵N̵a̵t̵.̵a̵d̵d̵_̵s̵u̵b̵_̵a̵s̵s̵o̵c̵]̵[̲R̲e̲q̲u̲e̲s̲t̲.̲p̲a̲r̲a̲m̲e̲t̲e̲r̲s̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲S̲o̲u̲r̲c̲e̲S̲c̲o̲p̲e̲.̲p̲a̲r̲a̲m̲e̲t̲e̲r̲s̲,̲ ̲S̲o̲u̲r̲c̲e̲S̲c̲o̲p̲e̲.̲b̲l̲o̲c̲k̲K̲,̲ ̲h̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/Index.lean:123:149: warning: This simp argument is unused:
+  Nat.add_sub_assoc
+
+Hint: Omit it from the simp argument list.
+  simp [̵R̵e̵q̵u̵e̵s̵t̵.̵p̵a̵r̵a̵m̵e̵t̵e̵r̵s̵,̵S̵o̵u̵r̵c̵e̵S̵c̵o̵p̵e̵.̵p̵a̵r̵a̵m̵e̵t̵e̵r̵s̵,̵S̵o̵u̵r̵c̵e̵S̵c̵o̵p̵e̵.̵b̵l̵o̵c̵k̵K̵,̵h̵,̵N̵a̵t̵.̵a̵d̵d̵_̵s̵u̵b̵_̵a̵s̵s̵o̵c̵]̵[̲R̲e̲q̲u̲e̲s̲t̲.̲p̲a̲r̲a̲m̲e̲t̲e̲r̲s̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲S̲o̲u̲r̲c̲e̲S̲c̲o̲p̲e̲.̲p̲a̲r̲a̲m̲e̲t̲e̲r̲s̲,̲ ̲S̲o̲u̲r̲c̲e̲S̲c̲o̲p̲e̲.̲b̲l̲o̲c̲k̲K̲,̲ ̲h̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/Index.lean:179:40: warning: This simp argument is unused:
+  hs
+
+Hint: Omit it from the simp argument list.
+  simp only [h̵s̵,̵SourceScope.blockK]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/Index.lean:180:148: warning: This simp argument is unused:
+  Nat.add_sub_assoc
+
+Hint: Omit it from the simp argument list.
+  simp [̵R̵e̵q̵u̵e̵s̵t̵.̵p̵a̵r̵a̵m̵e̵t̵e̵r̵s̵,̵S̵o̵u̵r̵c̵e̵S̵c̵o̵p̵e̵.̵p̵a̵r̵a̵m̵e̵t̵e̵r̵s̵,̵S̵o̵u̵r̵c̵e̵S̵c̵o̵p̵e̵.̵b̵l̵o̵c̵k̵K̵,̵h̵s̵,̵N̵a̵t̵.̵a̵d̵d̵_̵s̵u̵b̵_̵a̵s̵s̵o̵c̵]̵[̲R̲e̲q̲u̲e̲s̲t̲.̲p̲a̲r̲a̲m̲e̲t̲e̲r̲s̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲S̲o̲u̲r̲c̲e̲S̲c̲o̲p̲e̲.̲p̲a̲r̲a̲m̲e̲t̲e̲r̲s̲,̲ ̲S̲o̲u̲r̲c̲e̲S̲c̲o̲p̲e̲.̲b̲l̲o̲c̲k̲K̲,̲ ̲h̲s̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/Index.lean:181:150: warning: This simp argument is unused:
+  Nat.add_sub_assoc
+
+Hint: Omit it from the simp argument list.
+  simp [̵R̵e̵q̵u̵e̵s̵t̵.̵p̵a̵r̵a̵m̵e̵t̵e̵r̵s̵,̵S̵o̵u̵r̵c̵e̵S̵c̵o̵p̵e̵.̵p̵a̵r̵a̵m̵e̵t̵e̵r̵s̵,̵S̵o̵u̵r̵c̵e̵S̵c̵o̵p̵e̵.̵b̵l̵o̵c̵k̵K̵,̵h̵s̵,̵N̵a̵t̵.̵a̵d̵d̵_̵s̵u̵b̵_̵a̵s̵s̵o̵c̵]̵[̲R̲e̲q̲u̲e̲s̲t̲.̲p̲a̲r̲a̲m̲e̲t̲e̲r̲s̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲S̲o̲u̲r̲c̲e̲S̲c̲o̲p̲e̲.̲p̲a̲r̲a̲m̲e̲t̲e̲r̲s̲,̲ ̲S̲o̲u̲r̲c̲e̲S̲c̲o̲p̲e̲.̲b̲l̲o̲c̲k̲K̲,̲ ̲h̲s̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Index.correspondence: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Index.control_word: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

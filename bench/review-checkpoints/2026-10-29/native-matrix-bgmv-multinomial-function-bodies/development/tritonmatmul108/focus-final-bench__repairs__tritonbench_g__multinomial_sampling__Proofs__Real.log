@@ -1,0 +1,9 @@
+VeriTile.Bench.Repairs.MultinomialSampling.Real.primitive_sample: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MultinomialSampling.Real.argmax_true: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.MultinomialSampling.Real.boolCount_positive: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,25 @@
+{
+  "status": "FAIL",
+  "start": 1793232257.2294075,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.triton_matmul.Proofs.RawModel",
+      "source_sha256": "42be80db05fcfea92a6161cd28a57f9b84626b071f2a68aed29c25e4292dc9f4",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793232257.229652,
+      "end": 1793232262.7887533,
+      "log": "/tmp/tritonmatmul108-raw-launch2-bench__repairs__tritonbench_g__triton_matmul__Proofs__RawModel.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.triton_matmul.Proofs.RawLaunch",
+      "source_sha256": "8531543ba6ac23b734c8c5918c281f40e598f89bf8cc5bd90b13049f02d9d89d",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793232262.7890954,
+      "end": 1793232268.908233,
+      "log": "/tmp/tritonmatmul108-raw-launch2-bench__repairs__tritonbench_g__triton_matmul__Proofs__RawLaunch.log"
+    }
+  ],
+  "end": 1793232268.9086375
+}

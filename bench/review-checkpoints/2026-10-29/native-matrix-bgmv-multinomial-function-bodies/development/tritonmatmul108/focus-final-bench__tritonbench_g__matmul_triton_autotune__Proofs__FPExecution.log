@@ -1,0 +1,15 @@
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/matmul_triton_autotune/Proofs/FPExecution.lean:77:2: warning: 'all_goals try rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+VeriTile.Bench.TritonBenchG.MatmulTritonAutotune.FPValue.preludeExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.MatmulTritonAutotune.FPValue.preludeContext: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.MatmulTritonAutotune.FPValue.bodyExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.MatmulTritonAutotune.FPValue.bodyContext: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

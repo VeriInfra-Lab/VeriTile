@@ -1,0 +1,9 @@
+/tmp/tritonmatmul108-frontend/bench/tests/PythonSignedConditionalBody.lean:10:6: warning: unused variable `ZERO`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/tritonmatmul108-frontend/bench/tests/PythonSignedConditionalBody.lean:16:6: warning: unused variable `ZERO`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Tests.PythonSignedConditionalBody.signed_zero: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

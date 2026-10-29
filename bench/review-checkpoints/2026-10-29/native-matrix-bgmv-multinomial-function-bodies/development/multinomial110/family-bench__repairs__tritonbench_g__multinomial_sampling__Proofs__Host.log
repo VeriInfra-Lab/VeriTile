@@ -1,0 +1,36 @@
+/tmp/multinomial110-frontend/bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Host.lean:90:170: warning: This simp argument is unused:
+  params
+
+Hint: Omit it from the simp argument list.
+  simp [prepared, ̲VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.Host.kernelInitial,
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.Host.cloneFirstColumn,p̵a̵r̵a̵m̵s̵,̵
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.Host.wrapperParameters, ̲hout]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/multinomial110-frontend/bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Host.lean:182:6: warning: 'change
+  Result p a s o
+    ((VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.Host.expectedMemory Real.primitives .fp32 (params p a)
+          (prepared p a s) p.output o).read
+      .int)' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+VeriTile.Bench.Repairs.MultinomialSampling.Host.wrapper_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MultinomialSampling.Host.prepared_input: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MultinomialSampling.Host.prepared_labels: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.MultinomialSampling.Host.value_result: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MultinomialSampling.Host.singleton_result: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MultinomialSampling.Host.whole_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MultinomialSampling.Host.Result: definition does not reference [VeriTile.Bench.Repairs.MultinomialSampling.Host.invoke,
+ VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.Host.run,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓

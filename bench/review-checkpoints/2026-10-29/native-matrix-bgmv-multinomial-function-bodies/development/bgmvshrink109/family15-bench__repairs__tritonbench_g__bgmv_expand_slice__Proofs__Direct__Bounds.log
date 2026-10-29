@@ -1,0 +1,30 @@
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_expand_slice/Proofs/Direct/Bounds.lean:102:50: warning: This simp argument is unused:
+  true_and
+
+Hint: Omit it from the simp argument list.
+  simp only [̵i̵n̵p̵u̵t̵W̵o̵r̵d̵,̵w̵e̵i̵g̵h̵t̵W̵o̵r̵d̵,̵o̵u̵t̵p̵u̵t̵W̵o̵r̵d̵,̵N̵a̵t̵i̵v̵e̵I̵n̵d̵e̵x̵.̵w̵i̵d̵e̵n̵3̵2̵[̲i̲n̲p̲u̲t̲W̲o̲r̲d̲,̲ ̲w̲e̲i̲g̲h̲t̲W̲o̲r̲d̲,̲ ̲o̲u̲t̲p̲u̲t̲W̲o̲r̲d̲,̲ ̲N̲a̲t̲i̲v̲e̲I̲n̲d̲e̲x̲.̲w̲i̲d̲e̲n̲3̲2̲ _ b̵3̵2̵,̵N̵a̵t̵i̵v̵e̵I̵n̵d̵e̵x̵.̵w̵i̵d̵e̵n̵3̵2̵b̲3̲2̲,̲
+  ̲ ̲ ̲ ̲ ̲N̲a̲t̲i̲v̲e̲I̲n̲d̲e̲x̲.̲w̲i̲d̲e̲n̲3̲2̲ _ r32, i̵n̵p̵u̵t̵O̵f̵f̵s̵e̵t̵,̵w̵e̵i̵g̵h̵t̵O̵f̵f̵s̵e̵t̵,̵o̵u̵t̵p̵u̵t̵O̵f̵f̵s̵e̵t̵,̵B̵i̵t̵V̵e̵c̵.̵o̵f̵N̵a̵t̵_̵a̵d̵d̵,̵B̵i̵t̵V̵e̵c̵.̵o̵f̵N̵a̵t̵_̵m̵u̵l̵,̵
+  ̵ ̵ ̵ ̵ ̵B̵i̵t̵V̵e̵c̵.̵m̵u̵l̵_̵o̵n̵e̵,̵B̵i̵t̵V̵e̵c̵.̵o̵n̵e̵_̵m̵u̵l̵,̵B̵i̵t̵V̵e̵c̵.̵m̵u̵l̵_̵c̵o̵m̵m̵,̵t̵r̵u̵e̵_̵a̵n̵d̵,̵a̵n̵d̵_̵t̵r̵u̵e̵]̵i̲n̲p̲u̲t̲O̲f̲f̲s̲e̲t̲,̲ ̲w̲e̲i̲g̲h̲t̲O̲f̲f̲s̲e̲t̲,̲ ̲o̲u̲t̲p̲u̲t̲O̲f̲f̲s̲e̲t̲,̲ ̲B̲i̲t̲V̲e̲c̲.̲o̲f̲N̲a̲t̲_̲a̲d̲d̲,̲
+  ̲ ̲ ̲ ̲ ̲B̲i̲t̲V̲e̲c̲.̲o̲f̲N̲a̲t̲_̲m̲u̲l̲,̲ ̲B̲i̲t̲V̲e̲c̲.̲m̲u̲l̲_̲o̲n̲e̲,̲ ̲B̲i̲t̲V̲e̲c̲.̲o̲n̲e̲_̲m̲u̲l̲,̲ ̲B̲i̲t̲V̲e̲c̲.̲m̲u̲l̲_̲c̲o̲m̲m̲,̲ ̲a̲n̲d̲_̲t̲r̲u̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.Bounds.matrix_numel: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.Bounds.weights_numel: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.Bounds.active: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.Bounds.formed: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.Bounds.word_offsets: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.Bounds.signed_offsets: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+Axiom audit: headlines=0
+headlines: []

@@ -1,0 +1,34 @@
+{
+  "status": "FAIL",
+  "start": 1793237859.3112755,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.bgmv_shrink_kernel_physical.Proofs.AccessSafety",
+      "source_sha256": "004178c0a98837c493fee77cd1881de24127bf07d42961e751cd6be7754d7397",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237859.3114238,
+      "end": 1793237889.3256652,
+      "log": "/tmp/bgmvshrink109-family16-bench__repairs__tritonbench_g__bgmv_shrink_kernel_physical__Proofs__AccessSafety.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.bgmv_shrink_kernel_physical.Proofs.LegacySurface",
+      "source_sha256": "3970cd60b2b11af1ccc44aab24858af6ce1dff20855c87ddc3a42967b34b7cf1",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237889.325949,
+      "end": 1793237893.0155504,
+      "log": "/tmp/bgmvshrink109-family16-bench__repairs__tritonbench_g__bgmv_shrink_kernel_physical__Proofs__LegacySurface.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.bgmv_shrink_kernel_physical.Proofs.SourcePreservation",
+      "source_sha256": "55e1c35cc688d8f7b8e1ff0ac4e59862540909ecb217578debe85aaeb70279d8",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793237893.015829,
+      "end": 1793237896.2101486,
+      "log": "/tmp/bgmvshrink109-family16-bench__repairs__tritonbench_g__bgmv_shrink_kernel_physical__Proofs__SourcePreservation.log"
+    }
+  ],
+  "end": 1793237896.210355
+}

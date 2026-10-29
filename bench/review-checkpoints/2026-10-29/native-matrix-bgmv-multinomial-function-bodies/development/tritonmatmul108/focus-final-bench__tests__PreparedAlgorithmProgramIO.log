@@ -1,0 +1,9 @@
+/tmp/tritonmatmul108-frontend/bench/tests/PreparedAlgorithmProgramIO.lean:83:2: warning: Try `simp at ran` instead of `simpa using ran`
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+PreparedAlgorithmRegression.failed_execution_rejected: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+PreparedAlgorithmRegression.unbacked_read_rejected: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,73 @@
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawBodyContext.lean:14:70: error: unsolved goals
+case half.right
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+D : DotAcc α
+p : Parameters
+initial current : State α
+k : ℕ
+a : CIndex p → α
+ctx : Context p initial current
+ha : HasAcc p a current
+⊢ D.apply (some ComputeDType.fp32) FloatDType.fp16 FloatDType.fp16 FloatDType.real { }
+      (fun i =>
+        if ↑↑i.2.1 < ↑p.K - ↑k * ↑(BK p) then
+          Cell.read TileDType.fp16
+            (initial.mem { name := p.A.name }
+              (Int.toNat
+                (offsetM p initial i.1 * ↑p.stride_am +
+                  ((if ↑↑i.2.1 < ↑p.K - ↑k * ↑(BK p) then ↑k * ↑(BK p) else 0) +
+                      if ↑↑i.2.1 < ↑p.K - ↑k * ↑(BK p) then ↑↑i.2.1 else 0) *
+                    ↑p.stride_ak)))
+        else M.cast none FloatDType.real FloatDType.fp16 (M.literal none FloatDType.real 0.0))
+      (fun i =>
+        if ↑↑i.1 < ↑p.K - ↑k * ↑(BK p) then
+          Cell.read TileDType.fp16
+            (initial.mem { name := p.B.name }
+              (Int.toNat
+                (((if ↑↑i.1 < ↑p.K - ↑k * ↑(BK p) then ↑k * ↑(BK p) else 0) +
+                      if ↑↑i.1 < ↑p.K - ↑k * ↑(BK p) then ↑↑i.1 else 0) *
+                    ↑p.stride_bk +
+                  offsetN p initial i.2.1 * ↑p.stride_bn)))
+        else M.cast none FloatDType.real FloatDType.fp16 (M.literal none FloatDType.real 0.0))
+      a =
+    D.apply (some ComputeDType.fp32) FloatDType.fp16 FloatDType.fp16 FloatDType.real { }
+      (loadA M p Storage.half initial k) (loadB M p Storage.half initial k) a
+
+case e4m3.right
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+D : DotAcc α
+p : Parameters
+initial current : State α
+k : ℕ
+a : CIndex p → α
+ctx : Context p initial current
+ha : HasAcc p a current
+⊢ D.apply (some ComputeDType.fp32) FloatDType.f8e4 FloatDType.f8e4 FloatDType.real { }
+      (fun i =>
+        if ↑↑i.2.1 < ↑p.K - ↑k * ↑(BK p) then
+          Cell.read TileDType.f8e4
+            (initial.mem { name := p.A.name }
+              (Int.toNat
+                (offsetM p initial i.1 * ↑p.stride_am +
+                  ((if ↑↑i.2.1 < ↑p.K - ↑k * ↑(BK p) then ↑k * ↑(BK p) else 0) +
+                      if ↑↑i.2.1 < ↑p.K - ↑k * ↑(BK p) then ↑↑i.2.1 else 0) *
+                    ↑p.stride_ak)))
+        else M.cast none FloatDType.real FloatDType.f8e4 (M.literal none FloatDType.real 0.0))
+      (fun i =>
+        if ↑↑i.1 < ↑p.K - ↑k * ↑(BK p) then
+          Cell.read TileDType.f8e4
+            (initial.mem { name := p.B.name }
+              (Int.toNat
+                (((if ↑↑i.1 < ↑p.K - ↑k * ↑(BK p) then ↑k * ↑(BK p) else 0) +
+                      if ↑↑i.1 < ↑p.K - ↑k * ↑(BK p) then ↑↑i.1 else 0) *
+                    ↑p.stride_bk +
+                  offsetN p initial i.2.1 * ↑p.stride_bn)))
+        else M.cast none FloatDType.real FloatDType.f8e4 (M.literal none FloatDType.real 0.0))
+      a =
+    D.apply (some ComputeDType.fp32) FloatDType.f8e4 FloatDType.f8e4 FloatDType.real { }
+      (loadA M p Storage.e4m3 initial k) (loadB M p Storage.e4m3 initial k) a
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawBodyContext.lean:24:0: error: VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.bodyContext: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

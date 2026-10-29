@@ -1,0 +1,2 @@
+/tmp/tritonmatmul108-staging/Probe.lean:29:9: error: loop-carried value requires a stable, known source dtype
+/tmp/tritonmatmul108-staging/Probe.lean:29:9: error: loop-carried value requires a stable, known source dtype

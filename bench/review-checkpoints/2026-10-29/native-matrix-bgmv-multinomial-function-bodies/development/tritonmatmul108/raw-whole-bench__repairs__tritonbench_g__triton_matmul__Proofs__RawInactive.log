@@ -1,0 +1,10 @@
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawInactive.lean:11:23: error: unexpected token 'false'; expected term
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawInactive.lean:37:8: warning: declaration uses `sorry`
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawInactive.lean:44:2: warning: 'simp [RawSource.written, FPValue.written, RawSource.active, hr, hm]' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawInactive.lean:44:2: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawInactive.lean:46:0: error: VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.outside_group_masks: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawInactive.lean:47:0: error: VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.written_outside: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

@@ -1,0 +1,81 @@
+/tmp/tritonmatmul108-frontend/bench/tests/FPExpandDimsPrecision.lean:28:21: warning: This simp argument is unused:
+  evalOffsets
+
+Hint: Omit it from the simp argument list.
+  simp [source, FP.Structural.exec, run, step, evalExpr, evalComputeOp,
+  ̵  ̵ ̵ ̵ ̵ ̵evalOp_unfold,
+  ̲ e̵v̵a̵l̵O̵f̵f̵s̵e̵t̵s̵,̵  ̲ ̲State.setReg, ofFloat, toFloat, numeric, bop,
+  ̵  ̵ ̵ ̵ ̵ ̵FloatDType.toTileDType, FloatDType.numericDType,
+  ̲  ̲ ̲ ̲ComputeDType.eraseDType]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/tests/FPExpandDimsPrecision.lean:28:75: warning: This simp argument is unused:
+  bop
+
+Hint: Omit it from the simp argument list.
+  simp [source, FP.Structural.exec, run, step, evalExpr, evalComputeOp,
+  ̵  ̵ ̵ ̵ ̵ ̵evalOp_unfold,
+  ̲  ̲ ̲ ̲evalOffsets, State.setReg, ofFloat, toFloat, numeric, b̵o̵p̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵FloatDType.toTileDType,
+  ̲  ̲ ̲ ̲FloatDType.numericDType, ComputeDType.eraseDType]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/tests/FPExpandDimsPrecision.lean:29:6: warning: This simp argument is unused:
+  FloatDType.toTileDType
+
+Hint: Omit it from the simp argument list.
+  simp [source, FP.Structural.exec, run, step, evalExpr, evalComputeOp, evalOp_unfold,
+  ̲  ̲ ̲ ̲evalOffsets, State.setReg, ofFloat, toFloat, numeric, bop, F̵l̵o̵a̵t̵D̵T̵y̵p̵e̵.̵t̵o̵T̵i̵l̵e̵D̵T̵y̵p̵e̵,̵ ̵FloatDType.numericDType,
+  ̲  ̲ ̲ ̲ComputeDType.eraseDType]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/tests/FPExpandDimsPrecision.lean:29:30: warning: This simp argument is unused:
+  FloatDType.numericDType
+
+Hint: Omit it from the simp argument list.
+  simp [source, FP.Structural.exec, run, step, evalExpr, evalComputeOp, evalOp_unfold,
+  ̲  ̲ ̲ ̲evalOffsets, State.setReg, ofFloat, toFloat, numeric, bop, FloatDType.toTileDType,
+  ̲  ̲ ̲ ̲F̵l̵o̵a̵t̵D̵T̵y̵p̵e̵.̵n̵u̵m̵e̵r̵i̵c̵D̵T̵y̵p̵e̵,̵ ̵ComputeDType.eraseDType]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/tests/FPExpandDimsPrecision.lean:31:10: warning: This simp argument is unused:
+  State.setReg
+
+Hint: Omit it from the simp argument list.
+  simp [̵S̵t̵a̵t̵e̵.̵s̵e̵t̵R̵e̵g̵,̵ ̵b̵o̵p̵,̵[̲b̲o̲p̲,̲ Broadcast.leftIndex, Broadcast.rightIndex, TileShape.dropInsertedIndex]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/tests/FPExpandDimsPrecision.lean:31:24: warning: This simp argument is unused:
+  bop
+
+Hint: Omit it from the simp argument list.
+  simp [State.setReg, b̵o̵p̵,̵ ̵Broadcast.leftIndex, Broadcast.rightIndex,
+  ̵  ̵ ̵ ̵ ̵ ̵TileShape.dropInsertedIndex]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/tests/FPExpandDimsPrecision.lean:31:29: warning: This simp argument is unused:
+  Broadcast.leftIndex
+
+Hint: Omit it from the simp argument list.
+  simp [State.setReg, bop, B̵r̵o̵a̵d̵c̵a̵s̵t̵.̵l̵e̵f̵t̵I̵n̵d̵e̵x̵,̵ ̵Broadcast.rightIndex, TileShape.dropInsertedIndex]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/tests/FPExpandDimsPrecision.lean:31:50: warning: This simp argument is unused:
+  Broadcast.rightIndex
+
+Hint: Omit it from the simp argument list.
+  simp [State.setReg, bop, Broadcast.leftIndex, B̵r̵o̵a̵d̵c̵a̵s̵t̵.̵r̵i̵g̵h̵t̵I̵n̵d̵e̵x̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵TileShape.dropInsertedIndex]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/tests/FPExpandDimsPrecision.lean:32:6: warning: This simp argument is unused:
+  TileShape.dropInsertedIndex
+
+Hint: Omit it from the simp argument list.
+  simp [State.setReg, bop, Broadcast.leftIndex, Broadcast.rightIndex,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵T̵i̵l̵e̵S̵h̵a̵p̵e̵.̵d̵r̵o̵p̵I̵n̵s̵e̵r̵t̵e̵d̵I̵n̵d̵e̵x̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Tests.FPExpandDimsPrecision.expanded_multiply_is_fp32: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

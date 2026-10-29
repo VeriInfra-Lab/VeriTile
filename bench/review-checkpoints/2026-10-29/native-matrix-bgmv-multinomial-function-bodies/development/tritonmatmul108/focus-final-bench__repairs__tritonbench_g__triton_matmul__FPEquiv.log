@@ -1,0 +1,7 @@
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.FPEquiv.expected: definition does not reference [VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.ByteHost.call,
+ VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.FiniteHost.call,
+ VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.typed,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.FPEquiv.matmul_checked_if_local: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

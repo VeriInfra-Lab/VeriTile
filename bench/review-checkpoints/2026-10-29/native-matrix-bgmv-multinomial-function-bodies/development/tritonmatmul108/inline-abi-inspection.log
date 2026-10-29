@@ -1,0 +1,2 @@
+/tmp/tritonmatmul108-frontend/InspectInlineABI.lean:2:15: error: unknown namespace `Command`
+/tmp/tritonmatmul108-frontend/InspectInlineABI.lean:3:0: error: to use this command, include `import Lean.Elab.Command`

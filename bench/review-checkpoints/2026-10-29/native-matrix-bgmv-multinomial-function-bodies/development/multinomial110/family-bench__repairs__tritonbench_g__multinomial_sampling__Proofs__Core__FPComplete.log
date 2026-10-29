@@ -1,0 +1,24 @@
+/tmp/multinomial110-frontend/bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Core/FPComplete.lean:64:8: warning: automatically included section variable(s) unused in theorem `_private.bench.repairs.tritonbench_g.multinomial_sampling.Proofs.Core.FPComplete.0.VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.masked_mem_eq`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/tmp/multinomial110-frontend/bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Core/FPComplete.lean:79:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.output_injective`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.before_count: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.loopExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.epilogueExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

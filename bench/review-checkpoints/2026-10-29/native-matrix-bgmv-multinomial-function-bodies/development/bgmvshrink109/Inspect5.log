@@ -1,0 +1,4 @@
+fun h => some (Op.mul NumericDType.nat Broadcast.nil (Op.constNat 256) (Op.constNat 64))
+fun h => some (Op.constNat 16384)
+fun h => some (Op.eq ComparableDType.nat Broadcast.nil (Op.constNat 64) (Op.constNat 1))
+fun h => some (Op.eq ComparableDType.nat Broadcast.nil (Op.constNat 64) (Op.constNat 1))

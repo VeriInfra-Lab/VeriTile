@@ -1,0 +1,19 @@
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/IdealTensor.lean:121:30: warning: unused variable `b`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.IdealTensor.expected: definition does not reference [VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.FiniteHost.call,
+ VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.CheckedHost.call,
+ VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.typed,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.IdealTensor.direct_read: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.IdealTensor.tensorAPI: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.IdealTensor.source_inputs: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.IdealTensor.reference: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

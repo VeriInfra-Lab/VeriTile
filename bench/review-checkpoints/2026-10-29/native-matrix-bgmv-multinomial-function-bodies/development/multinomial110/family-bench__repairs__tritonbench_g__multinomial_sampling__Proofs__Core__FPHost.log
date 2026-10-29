@@ -1,0 +1,13 @@
+VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.Host.expectedMemory: definition does not reference [VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.Host.run,
+ VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.Host.runPrefix,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.source] — non-circular ✓
+VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.Host.rounds_congr: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.Host.prefix_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.Host.launch_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

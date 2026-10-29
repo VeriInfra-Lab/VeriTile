@@ -1,0 +1,6 @@
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSafety.range_safe: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSafety.source_safe: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

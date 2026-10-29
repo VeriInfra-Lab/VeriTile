@@ -1,0 +1,15 @@
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.control_coordinates: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.maskM_model: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.maskN_model: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.offsetM_model: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.offsetN_model: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

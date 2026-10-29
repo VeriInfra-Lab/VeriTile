@@ -1,0 +1,3 @@
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Proofs/TransportBody.lean:64:13: error: `simp` made no progress
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Proofs/TransportBody.lean:64:13: error: `simp` made no progress
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Proofs/TransportBody.lean:67:0: error: VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.MemoryTransport.body_transport: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.storage_boundary_vectors: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

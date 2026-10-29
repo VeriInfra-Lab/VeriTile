@@ -1,0 +1,23 @@
+fun h => 4
+fun h =>
+  some
+    (Op.eq ComparableDType.int Broadcast.nil (Op.ref TileDType.int [] "lora_index")
+        (Op.constInt (Int.negSucc 0))).boolNot
+fun h =>
+  some (Op.ne ComparableDType.int Broadcast.nil (Op.ref TileDType.int [] "lora_index") (Op.constInt (Int.negSucc 0)))
+fun h => 11
+fun h => 11
+/tmp/bgmvshrink109-frontend/Inspect2.lean:24:65: error: Tactic `rfl` failed: The left-hand side
+  (newActive h)[5]?
+is not definitionally equal to the right-hand side
+  (oldActive h)[5]?
+
+h : Call
+⊢ (newActive h)[5]? = (oldActive h)[5]?
+/tmp/bgmvshrink109-frontend/Inspect2.lean:29:67: error: Tactic `rfl` failed: The left-hand side
+  (newActive h)[10]?
+is not definitionally equal to the right-hand side
+  (oldActive h)[10]?
+
+h : Call
+⊢ (newActive h)[10]? = (oldActive h)[10]?

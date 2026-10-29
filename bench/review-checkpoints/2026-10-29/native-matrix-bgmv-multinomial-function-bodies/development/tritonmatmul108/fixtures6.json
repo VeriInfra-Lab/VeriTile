@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "results": [
+    {
+      "name": "BoolInt64Body",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793230359.9750965,
+      "end": 1793230366.9776096,
+      "log": "/tmp/tritonmatmul108-fixtures6-BoolInt64Body.log"
+    }
+  ]
+}

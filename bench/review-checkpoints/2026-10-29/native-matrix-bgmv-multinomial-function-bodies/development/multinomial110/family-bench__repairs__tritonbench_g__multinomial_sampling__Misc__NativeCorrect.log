@@ -1,0 +1,12 @@
+VeriTile.Bench.Repairs.MultinomialSampling.Interface.nativeReference: definition does not reference [VeriTile.Bench.Repairs.MultinomialSampling.kernel,
+ VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.source,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Triton.FP.Structural.run,
+ VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.rounds,
+ VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.written] — non-circular ✓
+VeriTile.Bench.Repairs.MultinomialSampling.multinomial_native_observation: statement's project surface ⊆ allowlist ✓
+VeriTile.Bench.Repairs.MultinomialSampling.multinomial_native_observation: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+Axiom audit: headlines=0
+headlines: []

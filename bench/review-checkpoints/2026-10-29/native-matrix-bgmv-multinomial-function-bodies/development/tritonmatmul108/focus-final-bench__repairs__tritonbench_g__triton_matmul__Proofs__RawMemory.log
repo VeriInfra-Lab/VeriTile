@@ -1,0 +1,6 @@
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.epilogueMemory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.execution_memory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

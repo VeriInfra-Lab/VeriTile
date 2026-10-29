@@ -1,0 +1,18 @@
+/tmp/tritonmatmul108-frontend/bench/tests/FPObservedProgramEquivalence.lean:94:21: warning: This simp argument is unused:
+  runSchedule
+
+Hint: Omit it from the simp argument list.
+  simp [io, ̲failedJob,r̵u̵n̵S̵c̵h̵e̵d̵u̵l̵e̵,̵ ̲Invocation.run, ̲Invocation.initial, ̲bindRegisters,
+  ̵  ̵ ̵ ̵exec, ̲run, ̲step, ̲evalExpr,
+  ̲ ̲ ̲ ̲ ̲evalOp_unfold, ̲ComputeKernel.surfaceBody] at ran
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/tests/FPObservedProgramEquivalence.lean:95:41: warning: This simp argument is unused:
+  ComputeKernel.surfaceBody
+
+Hint: Omit it from the simp argument list.
+  simp [̵i̵o̵,̵f̵a̵i̵l̵e̵d̵J̵o̵b̵,̵r̵u̵n̵S̵c̵h̵e̵d̵u̵l̵e̵,̵I̵n̵v̵o̵c̵a̵t̵i̵o̵n̵.̵r̵u̵n̵,̵I̵n̵v̵o̵c̵a̵t̵i̵o̵n̵.̵i̵n̵i̵t̵i̵a̵l̵,̵b̵i̵n̵d̵R̵e̵g̵i̵s̵t̵e̵r̵s̵,̵
+  ̵ ̵ ̵ ̵ ̵e̵x̵e̵c̵,̵r̵u̵n̵,̵s̵t̵e̵p̵,̵e̵v̵a̵l̵E̵x̵p̵r̵,̵e̵v̵a̵l̵O̵p̵_̵u̵n̵f̵o̵l̵d̵,̵C̵o̵m̵p̵u̵t̵e̵K̵e̵r̵n̵e̵l̵.̵s̵u̵r̵f̵a̵c̵e̵B̵o̵d̵y̵]̵[̲i̲o̲,̲ ̲f̲a̲i̲l̲e̲d̲J̲o̲b̲,̲ ̲r̲u̲n̲S̲c̲h̲e̲d̲u̲l̲e̲,̲ ̲I̲n̲v̲o̲c̲a̲t̲i̲o̲n̲.̲r̲u̲n̲,̲ ̲I̲n̲v̲o̲c̲a̲t̲i̲o̲n̲.̲i̲n̲i̲t̲i̲a̲l̲,̲ ̲b̲i̲n̲d̲R̲e̲g̲i̲s̲t̲e̲r̲s̲,̲ ̲e̲x̲e̲c̲,̲ ̲r̲u̲n̲,̲
+  ̲ ̲ ̲ ̲ ̲s̲t̲e̲p̲,̲ ̲e̲v̲a̲l̲E̲x̲p̲r̲,̲ ̲e̲v̲a̲l̲O̲p̲_̲u̲n̲f̲o̲l̲d̲]̲ at ran
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

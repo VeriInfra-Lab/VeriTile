@@ -1,0 +1,11 @@
+VeriTile.Bench.Repairs.MultinomialSampling.TensorBridge.TensorResult: definition does not reference [VeriTile.Bench.Repairs.MultinomialSampling.kernel,
+ VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.source,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.rounds,
+ VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.written] — non-circular ✓
+VeriTile.Bench.Repairs.MultinomialSampling.TensorBridge.tensor_kernel_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MultinomialSampling.TensorBridge.tensor_kernel_words: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,115 @@
+{
+  "status": "FAIL",
+  "start": 1793233551.9607038,
+  "results": [
+    {
+      "module": "bench.tests.FPDebugBarrier",
+      "source_sha256": "8412cf30c1a70cdb2b939384c6b9e498a7e0395cc01f9bb3b49553da76b0a331",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793233551.9608872,
+      "end": 1793233558.357464,
+      "log": "/tmp/tritonmatmul108-frontend-regressions-bench__tests__FPDebugBarrier.log"
+    },
+    {
+      "module": "bench.tests.ConditionalCast",
+      "source_sha256": "7f0c7743efa7a5c9b00e10be5ae2452e955033714bab254bf7174d7ca4a31550",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793233558.3577218,
+      "end": 1793233564.3528693,
+      "log": "/tmp/tritonmatmul108-frontend-regressions-bench__tests__ConditionalCast.log"
+    },
+    {
+      "module": "bench.tests.RegisterDTypeLoad",
+      "source_sha256": "3500c0aa8a77f57666c0e3d0053cf587efeee4a146bef59a31cd64ac393450ae",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793233564.3531122,
+      "end": 1793233569.3437426,
+      "log": "/tmp/tritonmatmul108-frontend-regressions-bench__tests__RegisterDTypeLoad.log"
+    },
+    {
+      "module": "bench.tests.LoadCastStorage",
+      "source_sha256": "fbea6b5ddc023911474b94b1a7fa51574d196b830a77e9b94d5c24e02bc82db5",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793233569.3439863,
+      "end": 1793233571.0367682,
+      "log": "/tmp/tritonmatmul108-frontend-regressions-bench__tests__LoadCastStorage.log"
+    },
+    {
+      "module": "bench.tests.RuntimeIntegerDivision",
+      "source_sha256": "91cfd4e5862dfbda6c4907f3e631ce5aff24ea9ab1ae09c0559b81709bf2f71b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793233571.0370266,
+      "end": 1793233578.360105,
+      "log": "/tmp/tritonmatmul108-frontend-regressions-bench__tests__RuntimeIntegerDivision.log"
+    },
+    {
+      "module": "bench.tests.FPExpandDimsPrecision",
+      "source_sha256": "3d0bb8da9714b24323121343eddd2fa83b54e7c203980c3701794dac019074bd",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793233578.3603828,
+      "end": 1793233586.1848106,
+      "log": "/tmp/tritonmatmul108-frontend-regressions-bench__tests__FPExpandDimsPrecision.log"
+    },
+    {
+      "module": "bench.tests.FPDotRebinding",
+      "source_sha256": "1340eff0dd8462b00ad996e8e0facb733456d5cc928c291a5bd082bf9a785874",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793233586.1850688,
+      "end": 1793233588.866652,
+      "log": "/tmp/tritonmatmul108-frontend-regressions-bench__tests__FPDotRebinding.log"
+    },
+    {
+      "module": "bench.tests.FPNarrowScope",
+      "source_sha256": "3054448fdfee1ca4d0c666b2171767453de79bc65aecaad1a44f391bb5cd2762",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793233588.866903,
+      "end": 1793233594.758562,
+      "log": "/tmp/tritonmatmul108-frontend-regressions-bench__tests__FPNarrowScope.log"
+    },
+    {
+      "module": "bench.tests.IntegerDotSource",
+      "source_sha256": "1150d32cb716d68cabe461febf4e51f72be378413a74134e033a8e49d582007b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793233594.7588358,
+      "end": 1793233602.1562526,
+      "log": "/tmp/tritonmatmul108-frontend-regressions-bench__tests__IntegerDotSource.log"
+    },
+    {
+      "module": "bench.tests.SignedBitwiseSource",
+      "source_sha256": "e9be2ff8dbfa64ed39f9d2ae7ff9ddb5c1cf5bb18519c84136c3d9ec90d8dd9c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793233602.156524,
+      "end": 1793233608.13095,
+      "log": "/tmp/tritonmatmul108-frontend-regressions-bench__tests__SignedBitwiseSource.log"
+    },
+    {
+      "module": "bench.tests.SourceDType",
+      "source_sha256": "6b057187eb0b5bfdd79d4b595aae1846fba448855324cc331b29c63e6dd2c81a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793233608.1312623,
+      "end": 1793233610.2846134,
+      "log": "/tmp/tritonmatmul108-frontend-regressions-bench__tests__SourceDType.log"
+    },
+    {
+      "module": "bench.tests.CallSignature",
+      "source_sha256": "f713a665021b4d38e4cdec2635349fdfdf5d64c5dcf086797f49b409d530eaf1",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793233610.2849147,
+      "end": 1793233624.2320297,
+      "log": "/tmp/tritonmatmul108-frontend-regressions-bench__tests__CallSignature.log"
+    }
+  ],
+  "end": 1793233624.2324011
+}

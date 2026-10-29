@@ -1,0 +1,11 @@
+VeriTile.Bench.Repairs.MultinomialSampling.Correct.Result: definition does not reference [VeriTile.Bench.Repairs.MultinomialSampling.kernel,
+ VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.source,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.rounds,
+ VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.written] — non-circular ✓
+VeriTile.Bench.Repairs.MultinomialSampling.Correct.recurrence_result: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MultinomialSampling.Correct.multinomial_kernel_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

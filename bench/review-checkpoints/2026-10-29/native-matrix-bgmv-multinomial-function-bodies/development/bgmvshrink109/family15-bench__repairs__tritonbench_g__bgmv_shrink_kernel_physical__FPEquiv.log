@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.Equivalence.scalar_left_strict: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

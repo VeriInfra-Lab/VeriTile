@@ -1,0 +1,6 @@
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.addressA_model: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.addressB_model: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

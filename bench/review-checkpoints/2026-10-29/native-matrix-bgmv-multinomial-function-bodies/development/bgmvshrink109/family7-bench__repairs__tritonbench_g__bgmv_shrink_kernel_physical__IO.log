@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.IO.selected_inside: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.IO.program_mem: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

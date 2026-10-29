@@ -1,0 +1,16 @@
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/matmul_triton_autotune/Proofs/Real.lean:33:34: warning: unused variable `m`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/matmul_triton_autotune/Proofs/Real.lean:33:38: warning: unused variable `k`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/matmul_triton_autotune/Proofs/Real.lean:33:42: warning: unused variable `n`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/matmul_triton_autotune/Proofs/Real.lean:86:110: warning: This simp argument is unused:
+  hh
+
+Hint: Omit it from the simp argument list.
+  simp [h̵h̵,̵Config.bk]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

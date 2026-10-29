@@ -1,0 +1,4 @@
+VeriTile.Bench.Examples.TritonBenchVectorAdditionCorrect.vector_addition_optimized_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Examples.TritonBenchVectorAdditionCorrect.vector_addition_optimized_correct: statement's project surface ⊆ allowlist ✓

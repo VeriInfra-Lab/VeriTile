@@ -1,0 +1,10 @@
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Proofs/SourceControl.lean:51:6: error: No goals to be solved
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Proofs/SourceControl.lean:55:6: error: No goals to be solved
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Proofs/SourceControl.lean:59:6: error: No goals to be solved
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.SourceControl.eval_not_eq: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Proofs/SourceControl.lean:84:0: error: VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.SourceControl.early_return: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.SourceControl.constant_stride: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

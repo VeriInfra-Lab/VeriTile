@@ -1,0 +1,21 @@
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/triton_matmul/Proofs/LogicalViewDefect.lean:34:34: warning: unused variable `m`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/triton_matmul/Proofs/LogicalViewDefect.lean:34:38: warning: unused variable `k`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/triton_matmul/Proofs/LogicalViewDefect.lean:34:42: warning: unused variable `n`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.TritonBenchG.TritonMatmul.LogicalViewDefect.aligned_access_bounds: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonMatmul.LogicalViewDefect.complete_tile_coordinates: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonMatmul.LogicalViewDefect.physical_value: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonMatmul.LogicalViewDefect.aligned_source_disagrees: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,22 @@
+/tmp/tritonmatmul108-staging/BoolInt64Body.lean:25:48: error: unsolved goals
+case pos
+α : Type
+inst✝ : Inhabited α
+M : Algebra α
+s : State α
+n : ℤ
+h : n = 0
+⊢ (bop (fun x1 x2 => x1 + x2) Broadcast.nil (bop (fun x1 x2 => x1 + x2) Broadcast.nil (fun x => 0) fun x => 0) fun x =>
+      0) =
+    fun x => 0
+
+case neg
+α : Type
+inst✝ : Inhabited α
+M : Algebra α
+s : State α
+n : ℤ
+h : ¬n = 0
+⊢ (bop (fun x1 x2 => x1 + x2) Broadcast.nil (bop (fun x1 x2 => x1 + x2) Broadcast.nil (fun x => 1) fun x => 1) fun x =>
+      1) =
+    fun x => 3

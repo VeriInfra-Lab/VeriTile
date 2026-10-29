@@ -1,0 +1,17 @@
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Proofs/SourcePreservation.lean:34:8: error: Invalid simp theorem: Expected a proposition, but found
+  Kernel → BlockState → Option BlockState
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Proofs/SourcePreservation.lean:34:8: error: Ambiguous term
+  exec
+Possible interpretations:
+  FP.Structural.exec : FP.Structural.Algebra ?m.59 → ComputeKernel → State ?m.59 → Option (State ?m.59)
+  
+  Triton.exec : Kernel → BlockState → Option BlockState
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.SourcePreservation.original_code: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.SourcePreservation.original: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.SourcePreservation.original_safe: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,20 @@
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawMemory.lean:35:2: warning: 'all_goals rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawMemory.lean:35:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawMemory.lean:55:4: error: Type mismatch: After simplification, term
+  hm
+ has type
+  rangeInt (backend M D) "k" 0 (signedCeil p.K (BK p)) 1 (body p st) ↑start = some mid
+but is expected to have type
+  ((FP.Structural.evalOp (backend M D) none (Op.constInt 0) ↑start).bind fun a =>
+      (FP.Structural.evalOp (backend M D) none (Op.ref TileDType.int [] "blocks_k") ↑start).bind fun b =>
+        (FP.Structural.evalOp (backend M D) none (Op.constNat 1) ↑start).bind fun d =>
+          rangeInt (backend M D) "k" (a PUnit.unit) (b PUnit.unit) (d PUnit.unit) (body p st) ↑start) =
+    some mid
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.epilogueMemory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawMemory.lean:60:0: error: VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.execution_memory: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

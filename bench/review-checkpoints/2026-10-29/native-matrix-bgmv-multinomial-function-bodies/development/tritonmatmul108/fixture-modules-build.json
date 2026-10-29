@@ -1,0 +1,25 @@
+{
+  "status": "FAIL",
+  "start": 1793230495.804295,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.triton_matmul.KernelOnly.CandidateKernels",
+      "source_sha256": "08dc889d524cb5903768b1804b1e4a6e41a7343c7f73902c0e75d7233313be25",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793230495.8044531,
+      "end": 1793230499.2522085,
+      "log": "/tmp/tritonmatmul108-fixture-modules-bench__repairs__tritonbench_g__triton_matmul__KernelOnly__CandidateKernels.log"
+    },
+    {
+      "module": "bench.tests.DTypePredicate",
+      "source_sha256": "7bcf608146b8cfce8804a0c635e2b9f1e6bdd303d108edb571e0158d3b46358d",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793230499.252447,
+      "end": 1793230499.3943357,
+      "log": "/tmp/tritonmatmul108-fixture-modules-bench__tests__DTypePredicate.log"
+    }
+  ],
+  "end": 1793230499.3946025
+}

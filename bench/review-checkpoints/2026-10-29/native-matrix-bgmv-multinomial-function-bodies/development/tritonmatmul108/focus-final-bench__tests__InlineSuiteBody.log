@@ -1,0 +1,3 @@
+VeriTile.Tests.InlineSuiteBody.statement_scope: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

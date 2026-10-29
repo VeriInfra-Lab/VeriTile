@@ -1,0 +1,4 @@
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Contract.checkInputs_iff: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Contract.execution_nonempty: axiom footprint ⊆ standard base ✓  ([propext])

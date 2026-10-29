@@ -1,0 +1,21 @@
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel/Proofs/Direct/AtomicScatter.lean:53:21: warning: This simp argument is unused:
+  if_false
+
+Hint: Omit it from the simp argument list.
+  simp only [yes,̵i̵f̵_̵f̵a̵l̵s̵e̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel/Proofs/Direct/AtomicScatter.lean:109:68: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+VeriTile.Bench.Repairs.BgmvShrinkKernel.Direct.AtomicScatter.tile_value: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvShrinkKernel.Direct.AtomicScatter.tile_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvShrinkKernel.Direct.AtomicScatter.memory_congr: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.BgmvShrinkKernel.Direct.AtomicScatter.distinct_fold: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.BgmvShrinkKernel.Direct.AtomicScatter.masked: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

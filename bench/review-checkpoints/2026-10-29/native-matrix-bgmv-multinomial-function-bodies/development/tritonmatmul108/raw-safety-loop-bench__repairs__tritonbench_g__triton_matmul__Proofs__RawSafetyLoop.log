@@ -1,0 +1,64 @@
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawSafetyLoop.lean:62:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  rangeInt (backend M D) "k" 0 (RawSource.signedCeil p.K (BK p)) 1 (RawSource.body p st)
+    ↑(RawSource.preludeExecution M D p st initial)
+in the target expression
+  match do
+    let a ← some fun x => 0
+    let b ← some fun x => RawSource.signedCeil p.K (BK p)
+    let d ← some fun x => 1
+    rangeInt (backend M D) "k" (a PUnit.unit) (b PUnit.unit) (d PUnit.unit) (RawSource.body p st)
+        ↑(RawSource.preludeExecution M D p st initial) with
+  | some t => Safety.traceSafeList (backend M D) bounds (RawSource.epilogue p st) t
+  | none => True
+
+case refine_2
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+D : DotAcc α
+p : Parameters
+st : Storage
+bounds : RegionName → ℕ
+initial : State α
+ha : ∀ (q : ℕ) (i : AIndex p), RawSource.innerMask p q i.2.1 = «true» → RawSource.addressA p initial q i < bounds p.A
+hb : ∀ (q : ℕ) (i : BIndex p), RawSource.innerMask p q i.1 = «true» → RawSource.addressB p initial q i < bounds p.B
+hc : ∀ (i : CIndex p), RawSource.active p initial i = «true» → RawSource.outputOffset p initial i < bounds p.C
+ran : run (backend M D) (RawSource.prelude p st) initial = some ↑(RawSource.preludeExecution M D p st initial)
+context : RawSource.Context p initial ↑(RawSource.preludeExecution M D p st initial)
+hblocks :
+  (↑(RawSource.preludeExecution M D p st initial)).regs TileDType.int [] "blocks_k" =
+    some fun x => RawSource.signedCeil p.K (BK p)
+hstop : ↑(RawSource.blockCount p) = RawSource.signedCeil p.K (BK p)
+middle : State α
+loop :
+  rangeInt (backend M D) "k" 0 (RawSource.signedCeil p.K (BK p)) 1 (RawSource.body p st)
+      ↑(RawSource.preludeExecution M D p st initial) =
+    some middle
+ctx : RawSource.Context p initial middle
+acc : RawSource.HasAcc p (RawSource.accumulation M D p st initial) middle
+⊢ match do
+    let a ← some fun x => 0
+    let b ← some fun x => RawSource.signedCeil p.K (BK p)
+    let d ← some fun x => 1
+    rangeInt (backend M D) "k" (a PUnit.unit) (b PUnit.unit) (d PUnit.unit) (RawSource.body p st)
+        ↑(RawSource.preludeExecution M D p st initial) with
+  | some t => Safety.traceSafeList (backend M D) bounds (RawSource.epilogue p st) t
+  | none => True
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawSafetyLoop.lean:61:20: warning: This simp argument is unused:
+  evalExpr
+
+Hint: Omit it from the simp argument list.
+  simp only [̵s̵t̵e̵p̵,̵e̵v̵a̵l̵E̵x̵p̵r̵,̵e̵v̵a̵l̵O̵p̵_̵u̵n̵f̵o̵l̵d̵,̵h̵b̵l̵o̵c̵k̵s̵,̵O̵p̵t̵i̵o̵n̵.̵b̵i̵n̵d̵_̵s̵o̵m̵e̵]̵[̲s̲t̲e̲p̲,̲ ̲e̲v̲a̲l̲O̲p̲_̲u̲n̲f̲o̲l̲d̲,̲ ̲h̲b̲l̲o̲c̲k̲s̲,̲ ̲O̲p̲t̲i̲o̲n̲.̲b̲i̲n̲d̲_̲s̲o̲m̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawSafetyLoop.lean:61:51: warning: This simp argument is unused:
+  Option.bind_some
+
+Hint: Omit it from the simp argument list.
+  simp only [̵s̵t̵e̵p̵,̵e̵v̵a̵l̵E̵x̵p̵r̵,̵e̵v̵a̵l̵O̵p̵_̵u̵n̵f̵o̵l̵d̵,̵h̵b̵l̵o̵c̵k̵s̵,̵O̵p̵t̵i̵o̵n̵.̵b̵i̵n̵d̵_̵s̵o̵m̵e̵]̵[̲s̲t̲e̲p̲,̲ ̲e̲v̲a̲l̲E̲x̲p̲r̲,̲ ̲e̲v̲a̲l̲O̲p̲_̲u̲n̲f̲o̲l̲d̲,̲ ̲h̲b̲l̲o̲c̲k̲s̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSafety.range_safe: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawSafetyLoop.lean:66:0: error: VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSafety.source_safe: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

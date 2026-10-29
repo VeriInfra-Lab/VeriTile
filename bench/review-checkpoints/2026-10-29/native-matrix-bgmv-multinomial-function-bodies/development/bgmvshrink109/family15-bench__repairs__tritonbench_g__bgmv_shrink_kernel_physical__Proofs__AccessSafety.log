@@ -1,0 +1,31 @@
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Proofs/AccessSafety.lean:69:6: error: Type mismatch: After simplification, term
+  inputBounds (c * 16384 + (↑e + split * 256)) (id (Int.ofNat_lt.mp active))
+ has type
+  batch * K + (c * 16384 + (↑e + split * 256)) < bounds { name := "X" }
+but is expected to have type
+  batch * K + Int.toNat (↑c * 16384 + (↑↑e + ↑split * 256)) - Int.toNat (-(↑split * 256) + -↑↑e + -(↑c * 16384)) <
+    bounds { name := "X" }
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Proofs/AccessSafety.lean:72:6: error: Type mismatch: After simplification, term
+  weightBounds (↑n) (c * 16384 + (↑e + split * 256)) hn (id (Int.ofNat_lt.mp hk))
+ has type
+  slot * (N * K) + (K * ↑n + (c * 16384 + (↑e + split * 256))) < bounds { name := "W" }
+but is expected to have type
+  slot * (N * K) + K * ↑n - Int.toNat (-↑(K * ↑n)) + Int.toNat (↑c * 16384 + (↑↑e + ↑split * 256)) -
+      Int.toNat (-(↑split * 256) + -↑↑e + -(↑c * 16384)) <
+    bounds { name := "W" }
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Proofs/AccessSafety.lean:69:169: error: Application type mismatch: The argument
+  active
+has type
+  c * 16384 + (↑e + split * 256) < K
+but is expected to have type
+  ↑(c * 16384 + (↑e + split * 256)) < ↑K
+in the application
+  Int.ofNat_lt.mp active
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Proofs/AccessSafety.lean:72:6: error: Type mismatch: After simplification, term
+  weightBounds (↑n) (c * 16384 + (↑e + split * 256)) hn (id (Int.ofNat_lt.mp hk))
+ has type
+  slot * (N * K) + (K * ↑n + (c * 16384 + (↑e + split * 256))) < bounds { name := "W" }
+but is expected to have type
+  slot * (N * K) + K * ↑n - Int.toNat (-↑(K * ↑n)) + Int.toNat (↑c * 16384 + (↑↑e + ↑split * 256)) -
+      Int.toNat (-(↑split * 256) + -↑↑e + -(↑c * 16384)) <
+    bounds { name := "W" }

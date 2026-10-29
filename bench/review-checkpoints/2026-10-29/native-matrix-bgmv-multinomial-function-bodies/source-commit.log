@@ -1,0 +1,47 @@
+Auto packing the repository in background for optimum performance.
+See "git help gc" for manual housekeeping.
+[codex/body-copy-cache-and-constexpr 25346edde] Copy matrix, BGMV shrink and multinomial Python bodies
+ 81 files changed, 5531 insertions(+), 1122 deletions(-)
+ rewrite bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Kernels.lean (77%)
+ create mode 100644 bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Proofs/SourceControl.lean
+ rewrite bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Proofs/SourcePreservation.lean (63%)
+ create mode 100644 bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/bgmv_shrink_scalar_left.py
+ create mode 100644 bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/check_pair_source.py
+ create mode 100644 bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/jit-correspondence.json
+ rewrite bench/repairs/tritonbench_g/multinomial_sampling/Kernels.lean (74%)
+ create mode 100644 bench/repairs/tritonbench_g/multinomial_sampling/check_pair_source.py
+ create mode 100644 bench/repairs/tritonbench_g/multinomial_sampling/jit-correspondence.json
+ rewrite bench/repairs/tritonbench_g/triton_matmul/KernelOnly/CandidateKernels.lean (85%)
+ create mode 100644 bench/repairs/tritonbench_g/triton_matmul/KernelOnly/Proofs/SourcePair.lean
+ rewrite bench/repairs/tritonbench_g/triton_matmul/KernelOnly/Proofs/SourceSafety.lean (90%)
+ create mode 100644 bench/repairs/tritonbench_g/triton_matmul/KernelOnly/jit-correspondence.json
+ rewrite bench/repairs/tritonbench_g/triton_matmul/Kernels.lean (83%)
+ rewrite bench/repairs/tritonbench_g/triton_matmul/Proofs/Execution.lean (86%)
+ create mode 100644 bench/repairs/tritonbench_g/triton_matmul/Proofs/RawAccess.lean
+ create mode 100644 bench/repairs/tritonbench_g/triton_matmul/Proofs/RawArithmetic.lean
+ create mode 100644 bench/repairs/tritonbench_g/triton_matmul/Proofs/RawBody.lean
+ create mode 100644 bench/repairs/tritonbench_g/triton_matmul/Proofs/RawBodyContext.lean
+ create mode 100644 bench/repairs/tritonbench_g/triton_matmul/Proofs/RawControl.lean
+ create mode 100644 bench/repairs/tritonbench_g/triton_matmul/Proofs/RawCoordinates.lean
+ create mode 100644 bench/repairs/tritonbench_g/triton_matmul/Proofs/RawDecomposition.lean
+ create mode 100644 bench/repairs/tritonbench_g/triton_matmul/Proofs/RawEpilogue.lean
+ create mode 100644 bench/repairs/tritonbench_g/triton_matmul/Proofs/RawInactive.lean
+ create mode 100644 bench/repairs/tritonbench_g/triton_matmul/Proofs/RawLaunch.lean
+ create mode 100644 bench/repairs/tritonbench_g/triton_matmul/Proofs/RawLoop.lean
+ create mode 100644 bench/repairs/tritonbench_g/triton_matmul/Proofs/RawLoopModel.lean
+ create mode 100644 bench/repairs/tritonbench_g/triton_matmul/Proofs/RawMemory.lean
+ create mode 100644 bench/repairs/tritonbench_g/triton_matmul/Proofs/RawModel.lean
+ create mode 100644 bench/repairs/tritonbench_g/triton_matmul/Proofs/RawPrelude.lean
+ create mode 100644 bench/repairs/tritonbench_g/triton_matmul/Proofs/RawPreludeContext.lean
+ create mode 100644 bench/repairs/tritonbench_g/triton_matmul/Proofs/RawSafety.lean
+ create mode 100644 bench/repairs/tritonbench_g/triton_matmul/Proofs/RawSafetyLoop.lean
+ create mode 100644 bench/repairs/tritonbench_g/triton_matmul/Proofs/RawWritten.lean
+ create mode 100644 bench/repairs/tritonbench_g/triton_matmul/Proofs/SourceArithmetic.lean
+ rewrite bench/repairs/tritonbench_g/triton_matmul/Proofs/SourceDecomposition.lean (99%)
+ create mode 100644 bench/tests/AtomicStoreDTypeBody.lean
+ create mode 100644 bench/tests/BoolInt64Body.lean
+ create mode 100644 bench/tests/DTypePredicate.lean
+ create mode 100644 bench/tests/TupleCallBody.lean
+ create mode 100644 bench/tests/test_bgmv_shrink_body.py
+ create mode 100644 bench/tests/test_multinomial_body.py
+ create mode 100644 bench/tests/test_triton_matmul_body.py

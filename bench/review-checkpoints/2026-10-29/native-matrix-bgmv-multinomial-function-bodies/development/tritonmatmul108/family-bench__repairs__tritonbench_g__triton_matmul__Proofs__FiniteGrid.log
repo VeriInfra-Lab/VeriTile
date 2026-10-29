@@ -1,0 +1,14 @@
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.FiniteGrid.loop_mem: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.FiniteGrid.store_fold_mem: axiom footprint ⊆ standard base ✓  ([Quot.sound,
+ propext])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.FiniteGrid.program_mem: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.FiniteGrid.program_mem: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.FiniteGrid.source: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,9 @@
+VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.written: definition does not reference [VeriTile.Bench.Repairs.MultinomialSampling.kernel,
+ VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.source,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.Repairs.MultinomialSampling.FPEquiv.exact_kernel_words: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MultinomialSampling.FPEquiv.opaque_kernel_outcome: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

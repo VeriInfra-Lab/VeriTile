@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "code_commit": "25346edde39ae449543e5cd023e092fae092e9ac",
+  "checkout": "/tmp/veritile-hgrn54-clean",
+  "explicit_modules": 5524,
+  "start": 1793238093.8163745,
+  "scope": "All cumulative task/example/frontend roots, now including all 331 matrix/BGMV/multinomial and frontend roots, plus their full local import closure and joint import.",
+  "build_status": "COMPLETED",
+  "build_exit_code": 0,
+  "build_end": 1793240624.5444486,
+  "joint_status": "COMPLETED",
+  "joint_exit_code": 0,
+  "joint_end": 1793240632.1297512,
+  "end": 1793240632.2912169
+}

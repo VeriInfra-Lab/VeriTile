@@ -1,0 +1,106 @@
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawCoordinates.lean:14:45: error: unsolved goals
+α : Type
+p : Parameters
+s : State α
+hm : signedCeil p.M (BM p) = ↑(blocksM p)
+hn : signedCeil p.N (BN p) = ↑(blocksN p)
+hf : firstM p s ≤ blocksM p
+hwidth : ↑p.GROUP_SIZE_M * ↑(blocksN p) = ↑(perGroup p)
+hfirst : (↑(s.pids 0)).tdiv ↑(perGroup p) * ↑p.GROUP_SIZE_M = ↑(firstM p s)
+hsize : min (↑(blocksM p) - ↑(firstM p s)) ↑p.GROUP_SIZE_M = ↑(groupSize p s)
+⊢ (↑(s.pids 0)).tmod ↑(groupSize p s) = ↑(s.pids 0) % ↑(groupSize p s) ∧
+    ((↑(s.pids 0)).tmod ↑(perGroup p)).tdiv ↑(groupSize p s) = ↑(s.pids 0) % ↑(perGroup p) / ↑(groupSize p s)
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawCoordinates.lean:19:17: warning: This simp argument is unused:
+  Int.ofNat_tdiv
+
+Hint: Omit it from the simp argument list.
+  simp [firstM,̵I̵n̵t̵.̵o̵f̵N̵a̵t̵_̵t̵d̵i̵v̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawCoordinates.lean:25:18: warning: This simp argument is unused:
+  Int.ofNat_tdiv
+
+Hint: Omit it from the simp argument list.
+  simp [̵p̵i̵d̵M̵,̵p̵i̵d̵N̵,̵I̵n̵t̵.̵o̵f̵N̵a̵t̵_̵t̵d̵i̵v̵,̵I̵n̵t̵.̵o̵f̵N̵a̵t̵_̵t̵m̵o̵d̵]̵[̲p̲i̲d̲M̲,̲ ̲p̲i̲d̲N̲,̲ ̲I̲n̲t̲.̲o̲f̲N̲a̲t̲_̲t̲m̲o̲d̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawCoordinates.lean:25:33: warning: This simp argument is unused:
+  Int.ofNat_tmod
+
+Hint: Omit it from the simp argument list.
+  simp [̵p̵i̵d̵M̵,̵p̵i̵d̵N̵,̵I̵n̵t̵.̵o̵f̵N̵a̵t̵_̵t̵d̵i̵v̵,̵I̵n̵t̵.̵o̵f̵N̵a̵t̵_̵t̵m̵o̵d̵]̵[̲p̲i̲d̲M̲,̲ ̲p̲i̲d̲N̲,̲ ̲I̲n̲t̲.̲o̲f̲N̲a̲t̲_̲t̲d̲i̲v̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawCoordinates.lean:36:2: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  a ≥ 0
+where
+ a := ↑(pidM p s)
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawCoordinates.lean:47:2: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  a ≥ 0
+where
+ a := ↑(pidN p s)
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawCoordinates.lean:51:42: error: unsolved goals
+case neg
+α : Type
+p : Parameters
+s : State α
+h : (control p s).pidM = ↑(pidM p s)
+i : Fin (BM p)
+hs : (control p s).startM = ↑(pidM p s) * ↑(BM p)
+h✝¹ : decide (row p s i < p.M) = «true»
+h✝ : ¬row p s i < p.M
+⊢ ↑(pidM p s) * ↑(BM p) + ↑↑i = 0
+
+case pos
+α : Type
+p : Parameters
+s : State α
+h : (control p s).pidM = ↑(pidM p s)
+i : Fin (BM p)
+hs : (control p s).startM = ↑(pidM p s) * ↑(BM p)
+h✝¹ : ¬decide (row p s i < p.M) = «true»
+h✝ : row p s i < p.M
+⊢ 0 = ↑(pidM p s) * ↑(BM p) + ↑↑i
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawCoordinates.lean:55:42: warning: This simp argument is unused:
+  Bool.decide_eq_true
+
+Hint: Omit it from the simp argument list.
+  simp only [̵o̵f̵f̵s̵e̵t̵M̵,̵m̵a̵s̵k̵M̵_̵m̵o̵d̵e̵l̵[̲o̲f̲f̲s̲e̲t̲M̲,̲ ̲m̲a̲s̲k̲M̲_̲m̲o̲d̲e̲l̲ p s h̵,̵h̵s̵,̵B̵o̵o̵l̵.̵d̵e̵c̵i̵d̵e̵_̵e̵q̵_̵t̵r̵u̵e̵,̵a̵R̵o̵w̵]̵h̲,̲ ̲h̲s̲,̲ ̲a̲R̲o̲w̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawCoordinates.lean:60:42: error: unsolved goals
+case neg
+α : Type
+p : Parameters
+s : State α
+h : (control p s).pidN = ↑(pidN p s)
+i : Fin (BN p)
+hs : (control p s).startN = ↑(pidN p s) * ↑(BN p)
+h✝¹ : decide (col p s i < p.N) = «true»
+h✝ : ¬col p s i < p.N
+⊢ ↑(pidN p s) * ↑(BN p) + ↑↑i = 0
+
+case pos
+α : Type
+p : Parameters
+s : State α
+h : (control p s).pidN = ↑(pidN p s)
+i : Fin (BN p)
+hs : (control p s).startN = ↑(pidN p s) * ↑(BN p)
+h✝¹ : ¬decide (col p s i < p.N) = «true»
+h✝ : col p s i < p.N
+⊢ 0 = ↑(pidN p s) * ↑(BN p) + ↑↑i
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawCoordinates.lean:64:42: warning: This simp argument is unused:
+  Bool.decide_eq_true
+
+Hint: Omit it from the simp argument list.
+  simp only [̵o̵f̵f̵s̵e̵t̵N̵,̵m̵a̵s̵k̵N̵_̵m̵o̵d̵e̵l̵[̲o̲f̲f̲s̲e̲t̲N̲,̲ ̲m̲a̲s̲k̲N̲_̲m̲o̲d̲e̲l̲ p s h̵,̵h̵s̵,̵B̵o̵o̵l̵.̵d̵e̵c̵i̵d̵e̵_̵e̵q̵_̵t̵r̵u̵e̵,̵b̵C̵o̵l̵]̵h̲,̲ ̲h̲s̲,̲ ̲b̲C̲o̲l̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawCoordinates.lean:67:0: error: VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.control_coordinates: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawCoordinates.lean:68:0: error: VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.maskM_model: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawCoordinates.lean:69:0: error: VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.maskN_model: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawCoordinates.lean:70:0: error: VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.offsetM_model: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawCoordinates.lean:71:0: error: VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.offsetN_model: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

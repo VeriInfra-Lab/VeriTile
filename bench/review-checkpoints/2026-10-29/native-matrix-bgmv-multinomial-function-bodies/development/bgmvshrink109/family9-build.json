@@ -1,0 +1,16 @@
+{
+  "status": "FAIL",
+  "start": 1793237152.6665447,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.bgmv_shrink_kernel_physical.Proofs.RebasedSafety",
+      "source_sha256": "c8a24decde1e52801cca8400313205c62898b42a18f7c8c3de9c10f450a0e38c",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793237152.6667595,
+      "end": 1793237182.3288734,
+      "log": "/tmp/bgmvshrink109-family9-bench__repairs__tritonbench_g__bgmv_shrink_kernel_physical__Proofs__RebasedSafety.log"
+    }
+  ],
+  "end": 1793237182.3291218
+}

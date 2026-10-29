@@ -1,0 +1,17 @@
+test_all_four_profiles (test_matmul108.TritonMatmulBody.test_all_four_profiles) ... ok
+test_boolean_widening (test_matmul108.TritonMatmulBody.test_boolean_widening) ... ok
+test_computed_callback_rejected (test_matmul108.TritonMatmulBody.test_computed_callback_rejected) ... ok
+test_dtype_branch (test_matmul108.TritonMatmulBody.test_dtype_branch) ... ok
+test_explicit_output_cast (test_matmul108.TritonMatmulBody.test_explicit_output_cast) ... ok
+test_full_candidate_module (test_matmul108.TritonMatmulBody.test_full_candidate_module) ... ok
+test_live_accumulator (test_matmul108.TritonMatmulBody.test_live_accumulator) ... ok
+test_missing_callback_rejected (test_matmul108.TritonMatmulBody.test_missing_callback_rejected) ... ok
+test_other_jit_options_remain_rejected (test_matmul108.TritonMatmulBody.test_other_jit_options_remain_rejected) ... ok
+test_pid_cast (test_matmul108.TritonMatmulBody.test_pid_cast) ... ok
+test_signed_source_loop (test_matmul108.TritonMatmulBody.test_signed_source_loop) ... ok
+test_simultaneous_metadata_casts (test_matmul108.TritonMatmulBody.test_simultaneous_metadata_casts) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.164s
+
+OK

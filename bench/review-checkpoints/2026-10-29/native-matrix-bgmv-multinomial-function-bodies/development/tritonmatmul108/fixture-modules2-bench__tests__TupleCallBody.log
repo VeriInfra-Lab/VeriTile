@@ -1,0 +1,3 @@
+VeriTile.Tests.TupleCallBody.rotate_executes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

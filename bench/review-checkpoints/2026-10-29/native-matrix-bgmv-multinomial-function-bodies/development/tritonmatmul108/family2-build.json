@@ -1,0 +1,43 @@
+{
+  "status": "FAIL",
+  "start": 1793233141.4198902,
+  "results": [
+    {
+      "module": "bench.tritonbench_g.triton_matmul.Proofs.LogicalViewDefect",
+      "source_sha256": "4db274ba033a6b45491defbda536f8caadf017c141935aaf244cef3e33a88cb3",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793233141.4200416,
+      "end": 1793233147.2464013,
+      "log": "/tmp/tritonmatmul108-family2-bench__tritonbench_g__triton_matmul__Proofs__LogicalViewDefect.log"
+    },
+    {
+      "module": "bench.tritonbench_g.matmul_leakyrelu.Proofs.RealAlgebra",
+      "source_sha256": "98d11c3f0437f4f677264d79ab50534bbfa09c43d50c7ea8a9e88b6aac435508",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793233147.2466657,
+      "end": 1793233149.018972,
+      "log": "/tmp/tritonmatmul108-family2-bench__tritonbench_g__matmul_leakyrelu__Proofs__RealAlgebra.log"
+    },
+    {
+      "module": "bench.tritonbench_g.matmul_triton_autotune.Proofs.Real",
+      "source_sha256": "9c383d1da48bf65528e36525c4a8c80a45460c857f35c5b5b823909fba676f4a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793233149.019266,
+      "end": 1793233153.0550022,
+      "log": "/tmp/tritonmatmul108-family2-bench__tritonbench_g__matmul_triton_autotune__Proofs__Real.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.triton_matmul.Proofs.Real",
+      "source_sha256": "98ddc75230929438419927ff46f19975620dad65011f222776f76d2a2f12eab8",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793233153.055284,
+      "end": 1793233157.9062564,
+      "log": "/tmp/tritonmatmul108-family2-bench__repairs__tritonbench_g__triton_matmul__Proofs__Real.log"
+    }
+  ],
+  "end": 1793233157.906565
+}

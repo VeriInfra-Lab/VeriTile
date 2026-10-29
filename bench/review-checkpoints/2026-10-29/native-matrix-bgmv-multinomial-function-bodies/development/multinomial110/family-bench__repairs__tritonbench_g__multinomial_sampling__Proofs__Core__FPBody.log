@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.bodyExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.bodyInvariant: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

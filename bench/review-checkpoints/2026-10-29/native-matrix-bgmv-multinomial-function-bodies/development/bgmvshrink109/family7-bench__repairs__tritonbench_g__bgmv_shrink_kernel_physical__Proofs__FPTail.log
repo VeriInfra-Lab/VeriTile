@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.FPTail.finish_memory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.FPTail.finish: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,12 @@
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/KernelOnly/Proofs/PublicIO.lean:14:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelOnly.PublicIO.initial_eq`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelOnly.PublicIO.schedule_safe: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelOnly.PublicIO.implements: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

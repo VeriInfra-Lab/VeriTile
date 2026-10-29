@@ -1,0 +1,8 @@
+VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.ascending_leaves: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.software: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.maxnum_vectors: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

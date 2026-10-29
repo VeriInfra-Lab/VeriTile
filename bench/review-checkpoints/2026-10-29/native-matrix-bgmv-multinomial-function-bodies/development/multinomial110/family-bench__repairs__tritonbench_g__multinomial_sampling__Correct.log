@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.MultinomialSampling.multinomial_categorical_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

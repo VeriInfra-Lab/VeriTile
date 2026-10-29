@@ -1,0 +1,45 @@
+{
+  "status": "FAIL",
+  "results": [
+    {
+      "name": "Probe",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793230280.217481,
+      "end": 1793230282.296142,
+      "log": "/tmp/tritonmatmul108-fixtures4-Probe.log"
+    },
+    {
+      "name": "CandidateProbe",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793230282.2963817,
+      "end": 1793230284.352744,
+      "log": "/tmp/tritonmatmul108-fixtures4-CandidateProbe.log"
+    },
+    {
+      "name": "DTypePredicate",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793230284.3529713,
+      "end": 1793230289.4336572,
+      "log": "/tmp/tritonmatmul108-fixtures4-DTypePredicate.log"
+    },
+    {
+      "name": "TupleCallBody",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793230289.4338982,
+      "end": 1793230294.6367202,
+      "log": "/tmp/tritonmatmul108-fixtures4-TupleCallBody.log"
+    },
+    {
+      "name": "BoolInt64Body",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793230294.6369557,
+      "end": 1793230300.8124452,
+      "log": "/tmp/tritonmatmul108-fixtures4-BoolInt64Body.log"
+    }
+  ]
+}

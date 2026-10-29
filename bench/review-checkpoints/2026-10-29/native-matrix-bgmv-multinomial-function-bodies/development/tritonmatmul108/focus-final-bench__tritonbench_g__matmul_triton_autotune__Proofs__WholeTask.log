@@ -1,0 +1,3 @@
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/matmul_triton_autotune/Proofs/WholeTask.lean:11:15: warning: unused variable `rows`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`

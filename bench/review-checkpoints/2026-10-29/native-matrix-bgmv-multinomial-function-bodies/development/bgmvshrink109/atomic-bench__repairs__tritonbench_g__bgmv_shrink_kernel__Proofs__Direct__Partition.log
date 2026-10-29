@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.BgmvShrinkKernel.Direct.Partition.sum_partition: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvShrinkKernel.Direct.Partition.contributions: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

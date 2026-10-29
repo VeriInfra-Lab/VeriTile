@@ -1,0 +1,127 @@
+{
+  "status": "PASS_WITH_RECORDED_LIMITS",
+  "code_commit": "25346edde39ae449543e5cd023e092fae092e9ac",
+  "start": 1793238097.481138,
+  "end": 1793238188.26553,
+  "python": {
+    "targeted": {
+      "status": "PASS",
+      "tests": 335
+    },
+    "full": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 580,
+      "errors": 1
+    }
+  },
+  "raw_bodies": [
+    {
+      "name": "triton_matmul-raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/triton_matmul/KernelOnly/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "25346edde39ae449543e5cd023e092fae092e9ac",
+      "log": "/tmp/matrixsampling110-triton_matmul-raw-body-check.log",
+      "status": "PASS"
+    },
+    {
+      "name": "bgmv_shrink_kernel_physical-raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "25346edde39ae449543e5cd023e092fae092e9ac",
+      "log": "/tmp/matrixsampling110-bgmv_shrink_kernel_physical-raw-body-check.log",
+      "status": "PASS"
+    },
+    {
+      "name": "multinomial_sampling-raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/multinomial_sampling/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "25346edde39ae449543e5cd023e092fae092e9ac",
+      "log": "/tmp/matrixsampling110-multinomial_sampling-raw-body-check.log",
+      "status": "PASS"
+    }
+  ],
+  "cpu": {
+    "status": "PASS",
+    "scope": "The targeted tests check complete Python AST restoration of each existing candidate: one guarded group-width shift or final scalar-left multiplication plus JIT names. No numerical/GPU execution is implied.",
+    "public_statements": "All eight selected and parent public Real/FP reader files are text-identical, including every parameter and premise.",
+    "task_source_checker": {
+      "name": "bgmv-pure-source-check",
+      "command": [
+        "python3",
+        "-c",
+        "from pathlib import Path\nimport ast,json,importlib.util\nroot=Path.cwd();base=root/'bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical';path=base/'check_candidate.py'\nselected=[node for node in ast.parse(path.read_text()).body if isinstance(node,ast.FunctionDef) and node.name in ['function','check_source']]\nenv={'HERE':base,'ROOT':root,'SOURCE':base/'bgmv_shrink_kernel_repaired.py','ORIGINAL':base.parent/'bgmv_shrink_kernel/bgmv_shrink_kernel_repaired.py','ast':ast,'json':json,'importlib':__import__('importlib')}\nexec(compile(ast.Module(selected,type_ignores=[]),str(path),'exec'),env)\nprint(json.dumps(env['check_source'](),sort_keys=True))\n"
+      ],
+      "exit_code": 0,
+      "code_commit": "25346edde39ae449543e5cd023e092fae092e9ac",
+      "log": "/tmp/matrixsampling110-bgmv-pure-source-check.log",
+      "status": "PASS",
+      "scope": "Only source/ABI and seven source mutation checks executed; Torch-dependent host tests not run."
+    },
+    "multinomial_pair_checker": {
+      "name": "multinomial-pair-source-check",
+      "command": [
+        "python3",
+        "bench/repairs/tritonbench_g/multinomial_sampling/check_pair_source.py"
+      ],
+      "exit_code": 0,
+      "code_commit": "25346edde39ae449543e5cd023e092fae092e9ac",
+      "log": "/tmp/matrixsampling110-multinomial-pair-source-check.log",
+      "status": "PASS",
+      "scope": "Complete existing JIT pair: token constexpr annotation and static loop expansion only. No host/GPU run."
+    }
+  },
+  "torch": {
+    "name": "torch-dependencies",
+    "command": [
+      "python3",
+      "-c",
+      "import torch; import triton"
+    ],
+    "exit_code": 1,
+    "code_commit": "25346edde39ae449543e5cd023e092fae092e9ac",
+    "log": "/tmp/matrixsampling110-torch-dependencies.log",
+    "status": "UNAVAILABLE",
+    "reason": "The retained Torch source checker requires absent Torch/Triton. No GPU or numerical experiment was run."
+  },
+  "original_python_and_contracts": {
+    "status": "PASS",
+    "sha256": {
+      "bench/repairs/tritonbench_g/triton_matmul/Contract.lean": "3efc628273772327458c6ac8939e6dc0c0c08f8da4b70ef3b0375470e6bd04ba",
+      "bench/repairs/tritonbench_g/triton_matmul/KernelOnly/Contract.lean": "1ae7a65020053f8fcf7ba089bfc327b57d27e7965f368a48b93a28b0fd431791",
+      "bench/repairs/tritonbench_g/triton_matmul/KernelOnly/check_pair_source.py": "6ddd20b5a20cce66af6d7a42edfb66a04a892f85f93fdd81b8c3644be443d4af",
+      "bench/repairs/tritonbench_g/triton_matmul/KernelOnly/triton_matmul_shifted.py": "b36cc4410d2b946bc00a045e53478849fec7bb7c6d78da6593d23dbbec4493f7",
+      "bench/repairs/tritonbench_g/triton_matmul/Proofs/Contract.lean": "2c2f88dac6dcf9467cab190e42ddc9a72c391bf581218d749291c5470679daa3",
+      "bench/repairs/tritonbench_g/triton_matmul/check_contract.py": "8f82cffda505fc1152a11bef52396ac7973647c0d1a4c392c7e32da44e1608c0",
+      "bench/repairs/tritonbench_g/triton_matmul/check_cuda_lowering.py": "6c14dbca4079386f18d663feae5d92909f5c4e687706813b1f48337f8d8b04da",
+      "bench/repairs/tritonbench_g/triton_matmul/triton_matmul_repaired.py": "ae92db50d9682c192a9404f75686f30dd02e9881d6fd440d00dce82ccd68c84f",
+      "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Contract.lean": "6105c7434e2b2096ce8eb8b01a6b189608b9cdbdef8ef268e6f543f21e446fe4",
+      "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/bgmv_shrink_kernel_repaired.py": "a310a815f1fbee12660da58c646ca05cb1e3570e5cabcd8295d357cbc4052052",
+      "bench/repairs/tritonbench_g/multinomial_sampling/Contract.lean": "b724cd216b697bb9296f9ff50791872ba853aaba6165ced4e67b0253c585fc05",
+      "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Contract.lean": "44f0c71d24b8d82056c6e8d88c01a9c0d32d1bf1ecc7f0ac8bb50dfa62c5cef9",
+      "bench/repairs/tritonbench_g/multinomial_sampling/check_contract.py": "a80130d191a9b0edbf2db104d4cb41b9db3a950b3c46372d6f0257139f558b30",
+      "bench/repairs/tritonbench_g/multinomial_sampling/multinomial_sampling_repaired.py": "88b41d56a241c2427f65eea76606b6ca9d2fa41fd272e205cb3b245a7b99aa61"
+    }
+  },
+  "comparator": {
+    "attempts": 331,
+    "statuses": [
+      "UNAVAILABLE"
+    ]
+  },
+  "scope": "Exact frozen source. Complete matrix, BGMV and multinomial source execution, atomic storage conversion, trace safety, full grid/frame, independent Real mathematics and actual FP pairs are verified separately by Lean; body tests are source correspondence checks, not hardware/numerical evidence."
+}

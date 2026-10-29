@@ -1,0 +1,88 @@
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawCoordinates.lean:26:9: error: Application type mismatch: The argument
+  rfl
+has type
+  ?m.53 = ?m.53
+but is expected to have type
+  True
+in the application
+  And.intro rfl
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawCoordinates.lean:19:17: warning: This simp argument is unused:
+  Int.ofNat_tdiv
+
+Hint: Omit it from the simp argument list.
+  simp [firstM,̵I̵n̵t̵.̵o̵f̵N̵a̵t̵_̵t̵d̵i̵v̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawCoordinates.lean:37:2: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  a ≥ 0
+where
+ a := ↑(pidM p s)
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawCoordinates.lean:48:2: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  a ≥ 0
+where
+ a := ↑(pidN p s)
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawCoordinates.lean:52:42: error: unsolved goals
+case pos
+α : Type
+p : Parameters
+s : State α
+h : (control p s).pidM = ↑(pidM p s)
+i : Fin (BM p)
+hs : (control p s).startM = ↑(pidM p s) * ↑(BM p)
+hi : row p s i < p.M
+⊢ ((if pidM p s * BM p + ↑i < p.M then ↑(pidM p s) * ↑(BM p) else 0) + if pidM p s * BM p + ↑i < p.M then ↑↑i else 0) =
+    if pidM p s * BM p + ↑i < p.M then ↑(pidM p s) * ↑(BM p) + ↑↑i else 0
+
+case neg
+α : Type
+p : Parameters
+s : State α
+h : (control p s).pidM = ↑(pidM p s)
+i : Fin (BM p)
+hs : (control p s).startM = ↑(pidM p s) * ↑(BM p)
+hi : ¬row p s i < p.M
+⊢ ((if pidM p s * BM p + ↑i < p.M then ↑(pidM p s) * ↑(BM p) else 0) + if pidM p s * BM p + ↑i < p.M then ↑↑i else 0) =
+    if pidM p s * BM p + ↑i < p.M then ↑(pidM p s) * ↑(BM p) + ↑↑i else 0
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawCoordinates.lean:57:44: warning: This simp argument is unused:
+  hi
+
+Hint: Omit it from the simp argument list.
+  simp [offsetM, ̲maskM_model p s h, ̲hs, ̲aRow,h̵i̵,̵ ̲row]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawCoordinates.lean:61:42: error: unsolved goals
+case pos
+α : Type
+p : Parameters
+s : State α
+h : (control p s).pidN = ↑(pidN p s)
+i : Fin (BN p)
+hs : (control p s).startN = ↑(pidN p s) * ↑(BN p)
+hi : col p s i < p.N
+⊢ ((if pidN p s * BN p + ↑i < p.N then ↑(pidN p s) * ↑(BN p) else 0) + if pidN p s * BN p + ↑i < p.N then ↑↑i else 0) =
+    if pidN p s * BN p + ↑i < p.N then ↑(pidN p s) * ↑(BN p) + ↑↑i else 0
+
+case neg
+α : Type
+p : Parameters
+s : State α
+h : (control p s).pidN = ↑(pidN p s)
+i : Fin (BN p)
+hs : (control p s).startN = ↑(pidN p s) * ↑(BN p)
+hi : ¬col p s i < p.N
+⊢ ((if pidN p s * BN p + ↑i < p.N then ↑(pidN p s) * ↑(BN p) else 0) + if pidN p s * BN p + ↑i < p.N then ↑↑i else 0) =
+    if pidN p s * BN p + ↑i < p.N then ↑(pidN p s) * ↑(BN p) + ↑↑i else 0
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawCoordinates.lean:66:44: warning: This simp argument is unused:
+  hi
+
+Hint: Omit it from the simp argument list.
+  simp [offsetN, ̲maskN_model p s h, ̲hs, ̲bCol,h̵i̵,̵ ̲col]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawCoordinates.lean:68:0: error: VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.control_coordinates: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawCoordinates.lean:69:0: error: VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.maskM_model: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawCoordinates.lean:70:0: error: VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.maskN_model: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawCoordinates.lean:71:0: error: VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.offsetM_model: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/RawCoordinates.lean:72:0: error: VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.offsetN_model: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

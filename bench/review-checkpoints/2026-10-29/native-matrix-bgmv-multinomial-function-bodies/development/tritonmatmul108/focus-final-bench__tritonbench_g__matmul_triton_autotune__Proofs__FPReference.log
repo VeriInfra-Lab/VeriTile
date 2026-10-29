@@ -1,0 +1,3 @@
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/matmul_triton_autotune/Proofs/FPReference.lean:34:23: warning: unused variable `st`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`

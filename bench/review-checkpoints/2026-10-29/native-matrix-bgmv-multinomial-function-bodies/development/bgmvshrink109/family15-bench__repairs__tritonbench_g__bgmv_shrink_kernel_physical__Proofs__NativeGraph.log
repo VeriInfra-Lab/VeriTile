@@ -1,0 +1,11 @@
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.NativeGraph.atomic_is_distinct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.NativeGraph.compiled_expression: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.NativeGraph.eval: definition does not reference [VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.FPValues.target,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.BgmvShrinkKernel.Direct.Kernels.source] — non-circular ✓
+Axiom audit: headlines=0
+headlines: []

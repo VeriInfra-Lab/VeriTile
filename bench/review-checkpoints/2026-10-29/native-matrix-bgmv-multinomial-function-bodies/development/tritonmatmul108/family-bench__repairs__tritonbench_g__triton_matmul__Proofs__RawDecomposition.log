@@ -1,0 +1,3 @@
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.RawSource.decomposition: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

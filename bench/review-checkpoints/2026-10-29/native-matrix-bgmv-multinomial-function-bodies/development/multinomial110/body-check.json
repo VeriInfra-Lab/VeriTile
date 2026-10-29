@@ -1,0 +1,146 @@
+[
+  {
+    "python_function": "_multinomial_sampling_kernel",
+    "lean_definition": "original",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "stride_sb": "stride_sb",
+      "stride_st": "stride_st",
+      "stride_ib": "stride_ib",
+      "stride_it": "stride_it",
+      "num_batchs": "num_batchs",
+      "num_tokens": "num_tokens"
+    },
+    "statements": 12,
+    "runtime_parameters": {
+      "stride_sb": "i32",
+      "stride_st": "i32",
+      "stride_ib": "i32",
+      "stride_it": "i32",
+      "num_batchs": "i32",
+      "num_tokens": "i32"
+    },
+    "constexpr_parameters": [
+      "BLOCK",
+      "BLOCK_N"
+    ],
+    "profile_variant": "original"
+  },
+  {
+    "python_function": "_multinomial_sampling_kernel",
+    "lean_definition": "original16",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "stride_sb": "stride_sb",
+      "stride_st": "stride_st",
+      "stride_ib": "stride_ib",
+      "stride_it": "stride_it",
+      "num_batchs": "num_batchs",
+      "num_tokens": "num_tokens"
+    },
+    "statements": 12,
+    "runtime_parameters": {
+      "stride_sb": "i32",
+      "stride_st": "i32",
+      "stride_ib": "i32",
+      "stride_it": "i32",
+      "num_batchs": "i32",
+      "num_tokens": "i32"
+    },
+    "constexpr_parameters": [
+      "BLOCK",
+      "BLOCK_N"
+    ],
+    "profile_variant": "original16"
+  },
+  {
+    "python_function": "_multinomial_sampling_kernel",
+    "lean_definition": "originalBfloat16",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "stride_sb": "stride_sb",
+      "stride_st": "stride_st",
+      "stride_ib": "stride_ib",
+      "stride_it": "stride_it",
+      "num_batchs": "num_batchs",
+      "num_tokens": "num_tokens"
+    },
+    "statements": 12,
+    "runtime_parameters": {
+      "stride_sb": "i32",
+      "stride_st": "i32",
+      "stride_ib": "i32",
+      "stride_it": "i32",
+      "num_batchs": "i32",
+      "num_tokens": "i32"
+    },
+    "constexpr_parameters": [
+      "BLOCK",
+      "BLOCK_N"
+    ],
+    "profile_variant": "originalBfloat16"
+  },
+  {
+    "python_function": "_multinomial_sampling_kernel",
+    "lean_definition": "original64",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "stride_sb": "stride_sb",
+      "stride_st": "stride_st",
+      "stride_ib": "stride_ib",
+      "stride_it": "stride_it",
+      "num_batchs": "num_batchs",
+      "num_tokens": "num_tokens"
+    },
+    "statements": 12,
+    "runtime_parameters": {
+      "stride_sb": "i32",
+      "stride_st": "i32",
+      "stride_ib": "i32",
+      "stride_it": "i32",
+      "num_batchs": "i32",
+      "num_tokens": "i32"
+    },
+    "constexpr_parameters": [
+      "BLOCK",
+      "BLOCK_N"
+    ],
+    "profile_variant": "original64"
+  },
+  {
+    "python_function": "_multinomial_sampling_unrolled_kernel",
+    "lean_definition": "unrolled",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "stride_sb": "stride_sb",
+      "stride_st": "stride_st",
+      "stride_ib": "stride_ib",
+      "stride_it": "stride_it",
+      "num_batchs": "num_batchs"
+    },
+    "statements": 12,
+    "runtime_parameters": {
+      "stride_sb": "i32",
+      "stride_st": "i32",
+      "stride_ib": "i32",
+      "stride_it": "i32",
+      "num_batchs": "i32"
+    },
+    "constexpr_parameters": [
+      "BLOCK",
+      "BLOCK_N",
+      "num_tokens"
+    ],
+    "profile_variant": "unrolled"
+  }
+]

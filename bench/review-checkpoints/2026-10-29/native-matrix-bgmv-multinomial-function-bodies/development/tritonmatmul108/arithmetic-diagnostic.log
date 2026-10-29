@@ -1,0 +1,56 @@
+ArithmeticDiagnostic.lean:16:84: warning: unused variable `BLOCK_SIZE_N`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+ArithmeticDiagnostic.lean:16:97: warning: unused variable `BLOCK_SIZE_K`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+ArithmeticDiagnostic.lean:16:110: warning: unused variable `GROUP_SIZE_M`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+ArithmeticDiagnostic.lean:28:84: warning: unused variable `BLOCK_SIZE_N`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+ArithmeticDiagnostic.lean:28:97: warning: unused variable `BLOCK_SIZE_K`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+ArithmeticDiagnostic.lean:28:110: warning: unused variable `GROUP_SIZE_M`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+ArithmeticDiagnostic.lean:40:84: warning: unused variable `BLOCK_SIZE_N`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+ArithmeticDiagnostic.lean:40:97: warning: unused variable `BLOCK_SIZE_K`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+ArithmeticDiagnostic.lean:40:110: warning: unused variable `GROUP_SIZE_M`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+ArithmeticDiagnostic.lean:53:2: error: int expression: dtype mismatch
+ArithmeticDiagnostic.lean:65:2: error: arithmetic: dtype mismatch
+def TritonMatmul108Probe.diag_quot : RegionName →
+  RegionName → RegionName → ℕ → ℕ → ℕ → ℕ → ℕ → ℕ → ℕ → ℕ → ℕ → ℕ → ℕ → ℕ → ℕ → ComputeKernel :=
+fun a_ptr b_ptr c_ptr M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn BLOCK_SIZE_M BLOCK_SIZE_N
+    BLOCK_SIZE_K GROUP_SIZE_M =>
+  ComputeKernel.mk [a_ptr, b_ptr] [c_ptr]
+    [ComputeStmt.assign TileDType.int [] "pid" (ComputeExpr.alg (Op.programId 0).castNatToInt),
+      ComputeStmt.ifThen (Op.constBool «true»)
+        [ComputeStmt.assign TileDType.int [] "M" (ComputeExpr.alg (Op.constNat M).castNatToInt),
+          ComputeStmt.assign TileDType.int [] "N" (ComputeExpr.alg (Op.constNat N).castNatToInt),
+          ComputeStmt.assign TileDType.int [] "K" (ComputeExpr.alg (Op.constNat K).castNatToInt)],
+      ComputeStmt.ifThen (Op.constBool «true»)
+        [ComputeStmt.assign TileDType.int [] "stride_am" (ComputeExpr.alg (Op.constNat stride_am).castNatToInt),
+          ComputeStmt.assign TileDType.int [] "stride_ak" (ComputeExpr.alg (Op.constNat stride_ak).castNatToInt)],
+      ComputeStmt.ifThen (Op.constBool «true»)
+        [ComputeStmt.assign TileDType.int [] "stride_bk" (ComputeExpr.alg (Op.constNat stride_bk).castNatToInt),
+          ComputeStmt.assign TileDType.int [] "stride_bn" (ComputeExpr.alg (Op.constNat stride_bn).castNatToInt)],
+      ComputeStmt.ifThen (Op.constBool «true»)
+        [ComputeStmt.assign TileDType.int [] "stride_cm" (ComputeExpr.alg (Op.constNat stride_cm).castNatToInt),
+          ComputeStmt.assign TileDType.int [] "stride_cn" (ComputeExpr.alg (Op.constNat stride_cn).castNatToInt)],
+      ComputeStmt.assign TileDType.int [] "value"
+        (ComputeExpr.alg
+          (Op.truncDiv Broadcast.nil (Op.ref TileDType.int [] "M") (Op.constInt (Int.ofNat BLOCK_SIZE_M))))]
+def TritonMatmul108Probe.diag_cast : RegionName →
+  RegionName → RegionName → ℕ → ℕ → ℕ → ℕ → ℕ → ℕ → ℕ → ℕ → ℕ → ℕ → ℕ → ℕ → ℕ → ComputeKernel :=
+fun a_ptr b_ptr c_ptr M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn BLOCK_SIZE_M BLOCK_SIZE_N
+    BLOCK_SIZE_K GROUP_SIZE_M =>
+  sorry

@@ -1,0 +1,13 @@
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Proofs/FPLoop.lean:27:89: warning: This simp argument is unused:
+  Option.bind_some
+
+Hint: Omit it from the simp argument list.
+  simp only [show (̵1̵6̵3̵8̵4̵:̵N̵a̵t̵)̵(̲1̲6̲3̲8̲4̲ ̲:̲ ̲N̲a̲t̲)̲ ≠ 0 from by d̵e̵c̵i̵d̵e̵,̵i̵f̵_̵f̵a̵l̵s̵e̵,̵a̵c̵t̵i̵v̵e̵,̵i̵f̵_̵t̵r̵u̵e̵,̵n̵e̵x̵t̵.̵p̵r̵o̵p̵e̵r̵t̵y̵,̵O̵p̵t̵i̵o̵n̵.̵b̵i̵n̵d̵_̵s̵o̵m̵e̵]̵d̲e̲c̲i̲d̲e̲,̲ ̲i̲f̲_̲f̲a̲l̲s̲e̲,̲ ̲a̲c̲t̲i̲v̲e̲,̲ ̲i̲f̲_̲t̲r̲u̲e̲,̲ ̲n̲e̲x̲t̲.̲p̲r̲o̲p̲e̲r̲t̲y̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.FPLoop.range_runs: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.FPLoop.loop_runs: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

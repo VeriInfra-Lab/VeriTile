@@ -1,0 +1,14 @@
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/ByteExecution.lean:69:0: error: (deterministic) timeout at `whnf`, maximum number of heartbeats (1000000) has been reached
+
+Note: Use `set_option maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/ByteExecution.lean:83:8: error: (kernel) unknown constant 'VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.ByteExecution.program_render'
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.ByteExecution.store_address: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.ByteExecution.offset_bound: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.ByteExecution.program_render: axiom footprint ⊆ standard base ✓  ([])
+/tmp/tritonmatmul108-frontend/bench/repairs/tritonbench_g/triton_matmul/Proofs/ByteExecution.lean:102:0: error: VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.ByteExecution.grid_render: DISALLOWED axioms [VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.ByteExecution.grid_render] (sorryAx ⇒ fake proof)

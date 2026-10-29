@@ -1,0 +1,23 @@
+[
+  {
+    "module": "VeriTile.Triton.Core.DiscreteReduction",
+    "source_sha256": "afa9c2d98feab63377d0f8a1c558411b5f49468f6bc3f3fd5b859efe4cbf4e9c",
+    "copied_objects": [
+      ".olean"
+    ]
+  },
+  {
+    "module": "VeriTile.Triton.Core.Reshape",
+    "source_sha256": "4e3e858f5b928bcdd25b207ec6a43a78fbe46011ed42fc6e55041690d5bb20e9",
+    "copied_objects": [
+      ".olean"
+    ]
+  },
+  {
+    "module": "VeriTile.Triton.Float.Structural",
+    "source_sha256": "3ae38b05ef1cf466fe8b9afd1e6ca57c496f231aa5e192b47dae2482ad1167dd",
+    "copied_objects": [
+      ".olean"
+    ]
+  }
+]

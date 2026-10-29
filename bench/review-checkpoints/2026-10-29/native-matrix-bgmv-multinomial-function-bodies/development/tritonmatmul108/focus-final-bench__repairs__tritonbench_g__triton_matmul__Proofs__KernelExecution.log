@@ -1,0 +1,10 @@
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelSource.empty_programs: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelSource.executes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelSource.safety: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelSource.post: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

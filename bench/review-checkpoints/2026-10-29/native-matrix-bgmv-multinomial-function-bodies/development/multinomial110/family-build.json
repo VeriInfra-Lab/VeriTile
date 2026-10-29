@@ -1,0 +1,565 @@
+{
+  "status": "PASS",
+  "start": 1793237580.1087773,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Contract",
+      "source_sha256": "b724cd216b697bb9296f9ff50791872ba853aaba6165ced4e67b0253c585fc05",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237580.1089194,
+      "end": 1793237581.421415,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Contract.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Kernels",
+      "source_sha256": "3c3b9fe9af6284af3e3c5342614698efab4bf5b4e12457f6a9faa876371b0683",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237581.4216688,
+      "end": 1793237584.2700984,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Kernels.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.UnsignedCast",
+      "source_sha256": "297f5a3cd7b5911ea8995a46b8c4d5f4dec4f9596475bcb6003ea27cdeb56b9d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237584.2703645,
+      "end": 1793237586.765786,
+      "log": "/tmp/multinomial110-family-VeriTile__Triton__Float__UnsignedCast.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.FixedInteger",
+      "source_sha256": "376b99eb05cb9fa3433ea9fb3ebe3edb4aa90b535323b71eac600300bc40fdda",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237586.7660384,
+      "end": 1793237589.8574815,
+      "log": "/tmp/multinomial110-family-VeriTile__Triton__Float__FixedInteger.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.SignedCast",
+      "source_sha256": "79fb0af591b285287bc861973fe18571f5ae8528605f0ee783d1417c6bbe8c6c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237589.8577356,
+      "end": 1793237592.4094768,
+      "log": "/tmp/multinomial110-family-VeriTile__Triton__Float__SignedCast.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.Core.FPSource",
+      "source_sha256": "a6b8e7ce2c34426c77510e531be9e811455319843d6556f04b6c489377e55eac",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237592.4097319,
+      "end": 1793237595.1448343,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Proofs__Core__FPSource.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.Core.FPBackend",
+      "source_sha256": "608b5036154b1994a37ad2803b0ba3676aa758115df48b08c22053f6ea9bdfd1",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237595.145097,
+      "end": 1793237597.6461995,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Proofs__Core__FPBackend.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.Core.FPReference",
+      "source_sha256": "18262da355c62f9f55f6f37b966df7df8cb926b23424e41a18ef91c8112eb6d6",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237597.6464758,
+      "end": 1793237600.2839496,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Proofs__Core__FPReference.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.Core.FPInvariant",
+      "source_sha256": "533329c3f50451e7385737571c8d16bcaad010fffadb99b063b9820fe1fad2fa",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237600.2842553,
+      "end": 1793237602.7234168,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Proofs__Core__FPInvariant.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.Core.FPPrologue",
+      "source_sha256": "5d67a82be44a5d8c82870c6eb68e992abbac80a8ac15391b7aabbd160537483e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237602.7236953,
+      "end": 1793237610.2729676,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Proofs__Core__FPPrologue.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.Core.FPBody",
+      "source_sha256": "b28db6171fc83263fa12037108e3c70f748eee6e231160c47aa4633341554dd0",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237610.2732847,
+      "end": 1793237625.1516035,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Proofs__Core__FPBody.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.Core.FPComplete",
+      "source_sha256": "3eb1ba86cde3747ba044385d9870f8625f1cf5f002d2807818726288651b736b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237625.1518948,
+      "end": 1793237628.6131487,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Proofs__Core__FPComplete.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.SourceSafety",
+      "source_sha256": "dc41f2bd670639cb216e94ccd648d2181ca79c7a61e1d4432d0dd79e45fc28ec",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237628.6134653,
+      "end": 1793237638.2829475,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Proofs__SourceSafety.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.KernelSource",
+      "source_sha256": "da2f4c299080bbdca4c245a7d9be3b061081165b526def438f5f35f9b93198b2",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237638.2833042,
+      "end": 1793237640.7227402,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Proofs__KernelSource.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.Spec",
+      "source_sha256": "9ffbb049d1825bbb7b06c96dbfdb47b32a6b862c5f0c3d381dd825d71794fc51",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237640.723037,
+      "end": 1793237644.461199,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Proofs__Spec.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.UndefProgramIO",
+      "source_sha256": "d71586f5548e5189d80c3399873b6d346eaee594cafe457537e7d041ace34e77",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237644.4614942,
+      "end": 1793237646.155669,
+      "log": "/tmp/multinomial110-family-VeriTile__Triton__Float__UndefProgramIO.log"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.LogicalDomainRelationIO",
+      "source_sha256": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237646.155953,
+      "end": 1793237646.7457666,
+      "log": "/tmp/multinomial110-family-VeriTile__Triton__Memory__LogicalDomainRelationIO.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.Real",
+      "source_sha256": "f4d34298bd21d0193e495b19650b2ac351e427da22569b41f03281896ffa857b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237646.7460651,
+      "end": 1793237650.3488464,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Proofs__Real.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.IO",
+      "source_sha256": "487234088a259cb11b1f37e949ec9b6bfd1427b0ae97375f7c8f51d4e18fb21f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237650.3491526,
+      "end": 1793237654.2912254,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__IO.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.IOUndef",
+      "source_sha256": "2045005bd8dee93d1f71a3c90d7623bd7a83fb3dbff5a542dfa869eb53efd2f7",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237654.2915277,
+      "end": 1793237657.0786252,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Proofs__IOUndef.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.IOFacts",
+      "source_sha256": "cdad069717f51e74d7e86975ba528d6d1bb1e2215313eb6b3fc0b313b98899f4",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237657.0789773,
+      "end": 1793237660.0633445,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Proofs__IOFacts.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.IOSafety",
+      "source_sha256": "7fae2303435e9f5a634fef948c3464737630d0c9f9d369a2f52eb9b3ec07d131",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237660.0636706,
+      "end": 1793237662.7936025,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Proofs__IOSafety.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.LogicalTransport",
+      "source_sha256": "5e39dd1c889968f38bf0b0e9387599b25674871540450def1e43d63cb88031bb",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237662.7939184,
+      "end": 1793237665.8674319,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Proofs__LogicalTransport.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.IOResult",
+      "source_sha256": "20fd3bd9c63e2cef0f733d53d7c6002c1c61659e02e691001a029477e7935b35",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237665.867748,
+      "end": 1793237668.4694374,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Proofs__IOResult.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.CDFBridge",
+      "source_sha256": "ea0455e542dbe320f67da08d59c3d18d41698c89a44c58329dcf4c00b7393f15",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237668.4697762,
+      "end": 1793237672.4162304,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Proofs__CDFBridge.log"
+    },
+    {
+      "module": "VeriTile.Torch.FP32",
+      "source_sha256": "013a646a19c94863c9348e5797b89a4ae95e10bb79b4109f6df36433bd168082",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237672.4166,
+      "end": 1793237673.7873201,
+      "log": "/tmp/multinomial110-family-VeriTile__Torch__FP32.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.KernelMemory",
+      "source_sha256": "1bac125203d8aeca478637c346cb65e7ff3d847f244bb1eea8ecfdd0d8baf596",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237673.7876923,
+      "end": 1793237678.1611319,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Proofs__KernelMemory.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.KernelCompatibility",
+      "source_sha256": "67376aacb0cfc917bbd540b984d48e87ea40c64f6d0935e794d46b43a755f37a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237678.1614866,
+      "end": 1793237681.9218042,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Proofs__KernelCompatibility.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.IORealResult",
+      "source_sha256": "72e9f175a81033e0f974e710dfdb0f7b043c8cb0f7e904d33eb7c4e829a437f6",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237681.9221354,
+      "end": 1793237684.832549,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Proofs__IORealResult.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.IOComplete",
+      "source_sha256": "6d345acf9f01d89f64679df3ad117366bd55c4f52f6b95c544e25b7834b5af52",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237684.8328726,
+      "end": 1793237687.8526886,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Proofs__IOComplete.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.ReaderBefore",
+      "source_sha256": "4ae5ee57ec8a000ecafe2a5d66bac65fdf956bf595a051b87047bc555d47e537",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237687.8530276,
+      "end": 1793237690.2596178,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Proofs__ReaderBefore.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.LogicalReader",
+      "source_sha256": "3cc460493eecf504523cfc8d292504ac6fa609aa375cc460ef0f762f4072c669",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237690.2599463,
+      "end": 1793237692.7900498,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Proofs__LogicalReader.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Correct",
+      "source_sha256": "0f3a41477fbf99850156dc2c070528b6353152138358045cee2e6426b022b26b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237692.790419,
+      "end": 1793237695.5725307,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Correct.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ProgramEquivalenceSyntax",
+      "source_sha256": "fba88608cc0280eae95daab44617cf985aac9a17f10f186b6272c6e71cd39a63",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237695.572897,
+      "end": 1793237697.6533172,
+      "log": "/tmp/multinomial110-family-VeriTile__Triton__Float__ProgramEquivalenceSyntax.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.Unrolled",
+      "source_sha256": "9de71bf4011351bb67faa29bd40a0162f5cac4fabdf9185fc703f9903e97de35",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237697.6536868,
+      "end": 1793237700.8909569,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Proofs__Unrolled.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.PairIO",
+      "source_sha256": "4988ab3338e04c0bebabffceaaa044b9fc2a0cfd657a9705cbf249e02e8bf9f7",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237700.891331,
+      "end": 1793237703.5403028,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__PairIO.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.UnrolledPair",
+      "source_sha256": "73bc825cdb281caf22d8f208885c11326b7af82ba3657dfd5370d3e757d3d4ea",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237703.5406523,
+      "end": 1793237706.2508702,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Proofs__UnrolledPair.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.FPEquiv",
+      "source_sha256": "27dc2f08125df3ef1b2451a697f057327f5d9cadf5eb24743a2b112ed90a4c0a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237706.251277,
+      "end": 1793237711.020088,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__FPEquiv.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.Core.FPHost",
+      "source_sha256": "1ee5e290c04af2a40c028713486d3b8365406c6a4540666c1e066d29beac59c4",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237711.0204723,
+      "end": 1793237714.887857,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Proofs__Core__FPHost.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.Core.FPWrapper",
+      "source_sha256": "508fda76572e4cb591977f0a52360138d86f68d539c6df9c6719939d42759915",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237714.888358,
+      "end": 1793237718.45584,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Proofs__Core__FPWrapper.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.Host",
+      "source_sha256": "54f56bfece5099898f4d0a67ae67dafffcbbde3c3a63c0f4110472ba89feca3f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237718.4562523,
+      "end": 1793237722.947769,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Proofs__Host.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.Physical",
+      "source_sha256": "c189fe121d2a7e38c9ed8a9f801810a78b7a84d621efc88e5b4f1d5d1c5ad43c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237722.9481568,
+      "end": 1793237726.4142463,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Proofs__Physical.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.Native",
+      "source_sha256": "29822df9582cd30f27b9c7893025569bb560ec224f00caa47bc1893382d28f0a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237726.4146125,
+      "end": 1793237730.191305,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Proofs__Native.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.Model",
+      "source_sha256": "67189f7550082764f0a9332c8a0d764d62900e321d2aef04d1dbcb51335ddf55",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237730.1916854,
+      "end": 1793237733.3758216,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Proofs__Model.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Misc.CorrectPublic",
+      "source_sha256": "cf8df71cb986a175e2a644b7266468defe5fe8a7eb3a3f38b166b3d6f0490637",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237733.3762183,
+      "end": 1793237736.9404516,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Misc__CorrectPublic.log"
+    },
+    {
+      "module": "bench.tritonbench_g.matmul_dequant_int4.Proofs.Binary16",
+      "source_sha256": "ef053d0e862f6e197d900a47de3593f4c5c898c9812dc4a07ab15eacbab80858",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237736.9408333,
+      "end": 1793237737.9988608,
+      "log": "/tmp/multinomial110-family-bench__tritonbench_g__matmul_dequant_int4__Proofs__Binary16.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.Core.FPStorage",
+      "source_sha256": "1c978555e24fdc54763aea009db63211e8825375026f8d9b0857a8c62491682e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237737.9992938,
+      "end": 1793237740.4997456,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Proofs__Core__FPStorage.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.Core.FPSoftware",
+      "source_sha256": "ad551be7fc3fe61d83fcd0d683127904840ffd37401757f51856339de18e6026",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237740.500139,
+      "end": 1793237743.0820773,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Proofs__Core__FPSoftware.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.NumericTrees",
+      "source_sha256": "a188db659dab867847915d196a6cff1f68a4c88de2fb81caa9e25a0b24d43b65",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237743.0825136,
+      "end": 1793237746.6438978,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Proofs__NumericTrees.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.Numerics",
+      "source_sha256": "e96bc89574ca4476549ff2ed19db8266902ebdf81f4f9f69701f027c929a8dea",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237746.644342,
+      "end": 1793237751.3743892,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Proofs__Numerics.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Misc.FPEquivPublic",
+      "source_sha256": "817945d430c7a61b01ab226e742298970f46d25859c3aae2b8d4135a950acd01",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237751.3747993,
+      "end": 1793237754.8587456,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Misc__FPEquivPublic.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.Contract",
+      "source_sha256": "44f0c71d24b8d82056c6e8d88c01a9c0d32d1bf1ecc7f0ac8bb50dfa62c5cef9",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237754.859191,
+      "end": 1793237758.314316,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Proofs__Contract.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.Guarded",
+      "source_sha256": "d8f2bc3b1862b7e9a639d75289e11fdd1f818304b0a3face5471bc4603021dbe",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237758.3147452,
+      "end": 1793237761.3355348,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Proofs__Guarded.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Misc.HostCorrect",
+      "source_sha256": "c8d2c22f31750f9fc1d1c9e29d974b7a8b1920a1facc34c47762afec417b859f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237761.3359313,
+      "end": 1793237764.5758991,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Misc__HostCorrect.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.Bits",
+      "source_sha256": "1f7c11c2b00696fb6e922bfa48ab81cc09c58f0278abcb5878eb65db46d761fd",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237764.576314,
+      "end": 1793237767.6806362,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Proofs__Bits.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Misc.HostFPEquiv",
+      "source_sha256": "0f91fbafcfbbca39b8aa0f19d8f7b84941d61a114ef4619d755ced1f49d971bb",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237767.6810458,
+      "end": 1793237770.980138,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Misc__HostFPEquiv.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.FPCompatibility",
+      "source_sha256": "cd7aa7105d06fb6edaf441ec54880850c5d2b2f6ac5959b3ad9bb06c21b821e6",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237770.980557,
+      "end": 1793237774.233438,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Proofs__FPCompatibility.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Misc.NativeCorrect",
+      "source_sha256": "48ffb48a4dd2882f02a7c7581f82451ca2c9cbb190d965791bb6d69f6400a7ff",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237774.233841,
+      "end": 1793237777.4050775,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Misc__NativeCorrect.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.TensorInputs",
+      "source_sha256": "c54da00270eb9aa3dd5eab435ad59fe7c33114713ac386ad9691e3a2dc26ed06",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237777.405518,
+      "end": 1793237781.123577,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Proofs__TensorInputs.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.TensorReference",
+      "source_sha256": "14a7caf682a614e7f4f42fd46a0ef5e61896bc4ebc38e681919deef13aefbf81",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237781.1239865,
+      "end": 1793237785.3254302,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Proofs__TensorReference.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Misc.TensorBridge",
+      "source_sha256": "51cb8e988493f32ebf9edb70e180346610d1c73b7e1b273a2cc219f269d0badc",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237785.3258567,
+      "end": 1793237789.1497543,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Misc__TensorBridge.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.Boundary",
+      "source_sha256": "c30cb8d796fb705049ab9d9b55ba0fb6916b7ef7907bd5b27ccc04f87a937584",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237789.1502206,
+      "end": 1793237792.3779068,
+      "log": "/tmp/multinomial110-family-bench__repairs__tritonbench_g__multinomial_sampling__Proofs__Boundary.log"
+    }
+  ],
+  "end": 1793237792.3783026
+}

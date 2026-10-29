@@ -1,0 +1,5 @@
+/tmp/multinomial110-frontend/bench/repairs/tritonbench_g/multinomial_sampling/Kernels.lean:26:4: error: binding is not a runtime scalar parameter
+/tmp/multinomial110-frontend/bench/repairs/tritonbench_g/multinomial_sampling/Kernels.lean:83:4: error: binding is not a runtime scalar parameter
+/tmp/multinomial110-frontend/bench/repairs/tritonbench_g/multinomial_sampling/Kernels.lean:140:4: error: binding is not a runtime scalar parameter
+/tmp/multinomial110-frontend/bench/repairs/tritonbench_g/multinomial_sampling/Kernels.lean:197:4: error: binding is not a runtime scalar parameter
+/tmp/multinomial110-frontend/bench/repairs/tritonbench_g/multinomial_sampling/Kernels.lean:253:30: error: binding is not a runtime scalar parameter

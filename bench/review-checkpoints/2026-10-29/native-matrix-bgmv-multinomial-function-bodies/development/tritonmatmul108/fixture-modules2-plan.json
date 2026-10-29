@@ -1,0 +1,8 @@
+{
+  "compile": [
+    "bench.tests.DTypePredicate",
+    "bench.tests.TupleCallBody",
+    "bench.tests.BoolInt64Body",
+    "InspectSource"
+  ]
+}

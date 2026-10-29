@@ -1,0 +1,500 @@
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Proofs/FPSetup.lean:24:4: error: Tactic `rfl` failed: The left-hand side
+  run (machine M P)
+    (List.take 3
+      (Kernels.original_fp16_i64 { name := "X" } { name := "W" } { name := "Y" } { name := "Indices" } outputType N K K
+          1 (N * K) K 1 columns 1 BN 256 64).3)
+    {
+      mem :=
+        Data.cells
+          { batches := batches, adapters := adapters, N := N, K := K, BN := BN, columns := columns,
+            blockPositive := positive, rowsCovered := covered, outputCovered := outputCovered,
+            storage := TritonBenchG.BgmvShrinkKernel.TypedSource.Storage.fp16, outputType := outputType,
+            scaling := scaling }
+          data,
+      regs := fun d sh n =>
+        if n = "scaling" then
+          if h : TileDType.real = d then if h_1 : sh = [] then some (⋯ ▸ ⋯ ▸ fun x => data.scaling) else none else none
+        else none,
+      pids := fun ax => if ax = 0 then split else if ax = 1 then batch else 0,
+      numPids := fun ax => if ax = 0 then 64 else if ax = 1 then batches else 1, undef := data.padding }
+is not definitionally equal to the right-hand side
+  some ?fp16.refine_1
+
+case fp16.refine_2
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+P : Primitives α
+batch split : ℕ
+data : Data α
+batches adapters N K BN columns : ℕ
+positive : 0 < BN
+covered : N ≤ BN
+outputCovered : N ≤ columns
+outputType : FloatDType
+scaling : ℝ
+⊢ run (machine M P)
+      (List.take 3
+        (Kernels.original_fp16_i64 { name := "X" } { name := "W" } { name := "Y" } { name := "Indices" } outputType N K
+            K 1 (N * K) K 1 columns 1 BN 256 64).3)
+      {
+        mem :=
+          Data.cells
+            { batches := batches, adapters := adapters, N := N, K := K, BN := BN, columns := columns,
+              blockPositive := positive, rowsCovered := covered, outputCovered := outputCovered,
+              storage := TritonBenchG.BgmvShrinkKernel.TypedSource.Storage.fp16, outputType := outputType,
+              scaling := scaling }
+            data,
+        regs := fun d sh n =>
+          if n = "scaling" then
+            if h : TileDType.real = d then if h_1 : sh = [] then some (⋯ ▸ ⋯ ▸ fun x => data.scaling) else none
+            else none
+          else none,
+        pids := fun ax => if ax = 0 then split else if ax = 1 then batch else 0,
+        numPids := fun ax => if ax = 0 then 64 else if ax = 1 then batches else 1, undef := data.padding } =
+    some ?fp16.refine_1
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Proofs/FPSetup.lean:24:4: error: Tactic `rfl` failed: The left-hand side
+  run (machine M P)
+    (List.take 3
+      (Kernels.original_bf16_i64 { name := "X" } { name := "W" } { name := "Y" } { name := "Indices" } outputType N K K
+          1 (N * K) K 1 columns 1 BN 256 64).3)
+    {
+      mem :=
+        Data.cells
+          { batches := batches, adapters := adapters, N := N, K := K, BN := BN, columns := columns,
+            blockPositive := positive, rowsCovered := covered, outputCovered := outputCovered,
+            storage := TritonBenchG.BgmvShrinkKernel.TypedSource.Storage.bf16, outputType := outputType,
+            scaling := scaling }
+          data,
+      regs := fun d sh n =>
+        if n = "scaling" then
+          if h : TileDType.real = d then if h_1 : sh = [] then some (⋯ ▸ ⋯ ▸ fun x => data.scaling) else none else none
+        else none,
+      pids := fun ax => if ax = 0 then split else if ax = 1 then batch else 0,
+      numPids := fun ax => if ax = 0 then 64 else if ax = 1 then batches else 1, undef := data.padding }
+is not definitionally equal to the right-hand side
+  some ?bf16.refine_1
+
+case bf16.refine_2
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+P : Primitives α
+batch split : ℕ
+data : Data α
+batches adapters N K BN columns : ℕ
+positive : 0 < BN
+covered : N ≤ BN
+outputCovered : N ≤ columns
+outputType : FloatDType
+scaling : ℝ
+⊢ run (machine M P)
+      (List.take 3
+        (Kernels.original_bf16_i64 { name := "X" } { name := "W" } { name := "Y" } { name := "Indices" } outputType N K
+            K 1 (N * K) K 1 columns 1 BN 256 64).3)
+      {
+        mem :=
+          Data.cells
+            { batches := batches, adapters := adapters, N := N, K := K, BN := BN, columns := columns,
+              blockPositive := positive, rowsCovered := covered, outputCovered := outputCovered,
+              storage := TritonBenchG.BgmvShrinkKernel.TypedSource.Storage.bf16, outputType := outputType,
+              scaling := scaling }
+            data,
+        regs := fun d sh n =>
+          if n = "scaling" then
+            if h : TileDType.real = d then if h_1 : sh = [] then some (⋯ ▸ ⋯ ▸ fun x => data.scaling) else none
+            else none
+          else none,
+        pids := fun ax => if ax = 0 then split else if ax = 1 then batch else 0,
+        numPids := fun ax => if ax = 0 then 64 else if ax = 1 then batches else 1, undef := data.padding } =
+    some ?bf16.refine_1
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Proofs/FPSetup.lean:31:55: error: unsolved goals
+case fp16.refine_2
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+P : Primitives α
+batch split slot : ℕ
+data : Data α
+metadata : data.indices batch = ↑slot
+batches adapters N K BN columns : ℕ
+positive : 0 < BN
+covered : N ≤ BN
+outputCovered : N ≤ columns
+outputType : FloatDType
+scaling : ℝ
+⊢ run
+      {
+        literal := fun q =>
+          M.literal
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        negInf := M.negInf,
+        binary := fun q =>
+          M.binary
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        fma := M.fma, atomicAdd := fun d => some (P.atomic d),
+        unary := fun q =>
+          M.unary
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        libdevicePowi := fun q =>
+          M.libdevicePowi
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        isFinite := M.isFinite,
+        compareLt := fun q =>
+          M.compareLt
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        compareLe := fun q =>
+          M.compareLe
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        compareEq := fun q =>
+          M.compareEq
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        floatToInt := M.floatToInt, floatToNat := M.floatToNat,
+        cast := fun q =>
+          M.cast
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        fromNat := fun q =>
+          M.fromNat
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        fromInt := fun q =>
+          M.fromInt
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        fp32Bits := M.fp32Bits, float8E5Bits := M.float8E5Bits, fp32Load := M.fp32Load,
+        reduceMin := fun q {shape} =>
+          M.reduceMin
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        reduceMax := fun q {shape} =>
+          M.reduceMax
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        reduceSum := fun q {shape} =>
+          M.reduceSum
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        reduceSumTyped := fun q d {x} ax keep v =>
+          some
+            (P.reduction.apply
+              (some
+                (match q with
+                | some x => x
+                | none => ComputeDType.fp32))
+              d ax keep v),
+        reduceMaxTyped := fun q =>
+          M.reduceMaxTyped
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        indexedMax := fun q =>
+          M.indexedMax
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        scan := fun q {shape} =>
+          M.scan
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        dot := fun q {batch} {m k n} =>
+          M.dot
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        dotWithOptions := fun q =>
+          M.dotWithOptions
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        dotTyped := fun q =>
+          M.dotTyped
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        dotAcc := fun q =>
+          M.dotAcc
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        integerDot := M.integerDot, fmaTyped := M.fmaTyped,
+        minimum := fun q =>
+          M.minimum
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        divRN := M.divRN }
+      (match
+        match
+          Source.intRange?
+            (match
+              match
+                Source.conditional?
+                  (Kernels.original_fp16_i64 { name := "X" } { name := "W" } { name := "Y" } { name := "Indices" }
+                      outputType N K K 1 (N * K) K 1 columns 1 BN 256 64).3
+                  fun b => (Source.intRange? b "k").isSome with
+              | some x => some x.yes
+              | none => none with
+            | some x => x
+            | none => [])
+            "k" with
+        | some x => some x.before
+        | none => none with
+      | some x => x
+      | none => [])
+      ↑sorry =
+    some ?fp16.refine_1
+
+case fp16.refine_1
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+P : Primitives α
+batch split slot : ℕ
+data : Data α
+metadata : data.indices batch = ↑slot
+batches adapters N K BN columns : ℕ
+positive : 0 < BN
+covered : N ≤ BN
+outputCovered : N ≤ columns
+outputType : FloatDType
+scaling : ℝ
+⊢ State α
+
+case bf16.refine_2
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+P : Primitives α
+batch split slot : ℕ
+data : Data α
+metadata : data.indices batch = ↑slot
+batches adapters N K BN columns : ℕ
+positive : 0 < BN
+covered : N ≤ BN
+outputCovered : N ≤ columns
+outputType : FloatDType
+scaling : ℝ
+⊢ run
+      {
+        literal := fun q =>
+          M.literal
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        negInf := M.negInf,
+        binary := fun q =>
+          M.binary
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        fma := M.fma, atomicAdd := fun d => some (P.atomic d),
+        unary := fun q =>
+          M.unary
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        libdevicePowi := fun q =>
+          M.libdevicePowi
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        isFinite := M.isFinite,
+        compareLt := fun q =>
+          M.compareLt
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        compareLe := fun q =>
+          M.compareLe
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        compareEq := fun q =>
+          M.compareEq
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        floatToInt := M.floatToInt, floatToNat := M.floatToNat,
+        cast := fun q =>
+          M.cast
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        fromNat := fun q =>
+          M.fromNat
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        fromInt := fun q =>
+          M.fromInt
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        fp32Bits := M.fp32Bits, float8E5Bits := M.float8E5Bits, fp32Load := M.fp32Load,
+        reduceMin := fun q {shape} =>
+          M.reduceMin
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        reduceMax := fun q {shape} =>
+          M.reduceMax
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        reduceSum := fun q {shape} =>
+          M.reduceSum
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        reduceSumTyped := fun q d {x} ax keep v =>
+          some
+            (P.reduction.apply
+              (some
+                (match q with
+                | some x => x
+                | none => ComputeDType.fp32))
+              d ax keep v),
+        reduceMaxTyped := fun q =>
+          M.reduceMaxTyped
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        indexedMax := fun q =>
+          M.indexedMax
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        scan := fun q {shape} =>
+          M.scan
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        dot := fun q {batch} {m k n} =>
+          M.dot
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        dotWithOptions := fun q =>
+          M.dotWithOptions
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        dotTyped := fun q =>
+          M.dotTyped
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        dotAcc := fun q =>
+          M.dotAcc
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        integerDot := M.integerDot, fmaTyped := M.fmaTyped,
+        minimum := fun q =>
+          M.minimum
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        divRN := M.divRN }
+      (match
+        match
+          Source.intRange?
+            (match
+              match
+                Source.conditional?
+                  (Kernels.original_bf16_i64 { name := "X" } { name := "W" } { name := "Y" } { name := "Indices" }
+                      outputType N K K 1 (N * K) K 1 columns 1 BN 256 64).3
+                  fun b => (Source.intRange? b "k").isSome with
+              | some x => some x.yes
+              | none => none with
+            | some x => x
+            | none => [])
+            "k" with
+        | some x => some x.before
+        | none => none with
+      | some x => x
+      | none => [])
+      ↑sorry =
+    some ?bf16.refine_1
+
+case bf16.refine_1
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+P : Primitives α
+batch split slot : ℕ
+data : Data α
+metadata : data.indices batch = ↑slot
+batches adapters N K BN columns : ℕ
+positive : 0 < BN
+covered : N ≤ BN
+outputCovered : N ≤ columns
+outputType : FloatDType
+scaling : ℝ
+⊢ State α
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Proofs/FPSetup.lean:48:0: error: VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.FPSetup.preguard: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Proofs/FPSetup.lean:49:0: error: VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.FPSetup.preloop: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

@@ -1,0 +1,252 @@
+/tmp/tritonmatmul108-staging/BoolInt64Body.lean:25:48: error: unsolved goals
+case pos
+α : Type
+inst✝ : Inhabited α
+M : Algebra α
+s : State α
+n : ℤ
+h : n = 0
+⊢ (match
+      match
+        match
+          match numericEq M none ComparableDType.int, fun f =>
+            some (bop (fun a b => !f a b) Broadcast.nil (fun x => 0) fun x => 0) with
+          | none, x => none
+          | some a, f => f a,
+          fun v =>
+          some
+            { mem := s.mem,
+              regs := fun d sh n =>
+                if n = "flag" then
+                  if h : TileDType.bool = d then if h_1 : sh = [] then some (⋯ ▸ ⋯ ▸ v) else none else none
+                else s.regs d sh n,
+              pids := s.pids, numPids := s.numPids, undef := s.undef } with
+        | none, x => none
+        | some a, f => f a,
+        fun __do_lift =>
+        match
+          match
+            match __do_lift.regs TileDType.bool [] "flag", fun vc => some fun i => if vc i = «true» then 1 else 0 with
+            | none, x => none
+            | some a, f => f a,
+            fun v =>
+            some
+              { mem := __do_lift.mem,
+                regs := fun d sh n =>
+                  if n = "from_name" then
+                    if h : TileDType.int = d then if h_1 : sh = [] then some (⋯ ▸ ⋯ ▸ v) else none else none
+                  else __do_lift.regs d sh n,
+                pids := __do_lift.pids, numPids := __do_lift.numPids, undef := __do_lift.undef } with
+          | none, x => none
+          | some a, f => f a,
+          fun __do_lift =>
+          match
+            match
+              match
+                match numericEq M none ComparableDType.int, fun f =>
+                  some (bop (fun a b => !f a b) Broadcast.nil (fun x => 0) fun x => 0) with
+                | none, x => none
+                | some a, f => f a,
+                fun vc => some fun i => if vc i = «true» then 1 else 0 with
+              | none, x => none
+              | some a, f => f a,
+              fun v =>
+              some
+                { mem := __do_lift.mem,
+                  regs := fun d sh n =>
+                    if n = "from_expression" then
+                      if h : TileDType.int = d then if h_1 : sh = [] then some (⋯ ▸ ⋯ ▸ v) else none else none
+                    else __do_lift.regs d sh n,
+                  pids := __do_lift.pids, numPids := __do_lift.numPids, undef := __do_lift.undef } with
+            | none, x => none
+            | some a, f => f a,
+            fun __do_lift =>
+            match
+              match
+                match
+                  match numericEq M none ComparableDType.int, fun f =>
+                    some (bop (fun a b => !f a b) Broadcast.nil (fun x => 0) fun x => 0) with
+                  | none, x => none
+                  | some a, f => f a,
+                  fun vc => some fun i => if vc i = «true» then 1 else 0 with
+                | none, x => none
+                | some a, f => f a,
+                fun v =>
+                some
+                  { mem := __do_lift.mem,
+                    regs := fun d sh n =>
+                      if n = "from_function" then
+                        if h : TileDType.int = d then if h_1 : sh = [] then some (⋯ ▸ ⋯ ▸ v) else none else none
+                      else __do_lift.regs d sh n,
+                    pids := __do_lift.pids, numPids := __do_lift.numPids, undef := __do_lift.undef } with
+              | none, x => none
+              | some a, f => f a,
+              fun __do_lift =>
+              match
+                match
+                  match
+                    match __do_lift.regs TileDType.int [] "from_name", fun __do_lift_1 =>
+                      match __do_lift.regs TileDType.int [] "from_expression", fun __do_lift =>
+                        some (bop (fun x1 x2 => x1 + x2) Broadcast.nil __do_lift_1 __do_lift) with
+                      | none, x => none
+                      | some a, f => f a with
+                    | none, x => none
+                    | some a, f => f a,
+                    fun __do_lift_1 =>
+                    match __do_lift.regs TileDType.int [] "from_function", fun __do_lift =>
+                      some (bop (fun x1 x2 => x1 + x2) Broadcast.nil __do_lift_1 __do_lift) with
+                    | none, x => none
+                    | some a, f => f a with
+                  | none, x => none
+                  | some a, f => f a,
+                  fun v =>
+                  some
+                    { mem := __do_lift.mem,
+                      regs := fun d sh n =>
+                        if n = "result" then
+                          if h : TileDType.int = d then if h_1 : sh = [] then some (⋯ ▸ ⋯ ▸ v) else none else none
+                        else __do_lift.regs d sh n,
+                      pids := __do_lift.pids, numPids := __do_lift.numPids, undef := __do_lift.undef } with
+                | none, x => none
+                | some a, f => f a,
+                fun __do_lift => some __do_lift with
+              | none, x => none
+              | some a, f => f a with
+            | none, x => none
+            | some a, f => f a with
+          | none, x => none
+          | some a, f => f a with
+        | none, x => none
+        | some a, f => f a with
+      | none, x => none
+      | some a, f => f a,
+      fun t => t.regs TileDType.int [] "result" with
+    | none, x => none
+    | some a, f => f a) =
+    some fun x => 0
+
+case neg
+α : Type
+inst✝ : Inhabited α
+M : Algebra α
+s : State α
+n : ℤ
+h : ¬n = 0
+⊢ (match
+      match
+        match
+          match numericEq M none ComparableDType.int, fun f =>
+            some (bop (fun a b => !f a b) Broadcast.nil (fun x => n) fun x => 0) with
+          | none, x => none
+          | some a, f => f a,
+          fun v =>
+          some
+            { mem := s.mem,
+              regs := fun d sh n =>
+                if n = "flag" then
+                  if h : TileDType.bool = d then if h_1 : sh = [] then some (⋯ ▸ ⋯ ▸ v) else none else none
+                else s.regs d sh n,
+              pids := s.pids, numPids := s.numPids, undef := s.undef } with
+        | none, x => none
+        | some a, f => f a,
+        fun __do_lift =>
+        match
+          match
+            match __do_lift.regs TileDType.bool [] "flag", fun vc => some fun i => if vc i = «true» then 1 else 0 with
+            | none, x => none
+            | some a, f => f a,
+            fun v =>
+            some
+              { mem := __do_lift.mem,
+                regs := fun d sh n =>
+                  if n = "from_name" then
+                    if h : TileDType.int = d then if h_1 : sh = [] then some (⋯ ▸ ⋯ ▸ v) else none else none
+                  else __do_lift.regs d sh n,
+                pids := __do_lift.pids, numPids := __do_lift.numPids, undef := __do_lift.undef } with
+          | none, x => none
+          | some a, f => f a,
+          fun __do_lift =>
+          match
+            match
+              match
+                match numericEq M none ComparableDType.int, fun f =>
+                  some (bop (fun a b => !f a b) Broadcast.nil (fun x => n) fun x => 0) with
+                | none, x => none
+                | some a, f => f a,
+                fun vc => some fun i => if vc i = «true» then 1 else 0 with
+              | none, x => none
+              | some a, f => f a,
+              fun v =>
+              some
+                { mem := __do_lift.mem,
+                  regs := fun d sh n =>
+                    if n = "from_expression" then
+                      if h : TileDType.int = d then if h_1 : sh = [] then some (⋯ ▸ ⋯ ▸ v) else none else none
+                    else __do_lift.regs d sh n,
+                  pids := __do_lift.pids, numPids := __do_lift.numPids, undef := __do_lift.undef } with
+            | none, x => none
+            | some a, f => f a,
+            fun __do_lift =>
+            match
+              match
+                match
+                  match numericEq M none ComparableDType.int, fun f =>
+                    some (bop (fun a b => !f a b) Broadcast.nil (fun x => n) fun x => 0) with
+                  | none, x => none
+                  | some a, f => f a,
+                  fun vc => some fun i => if vc i = «true» then 1 else 0 with
+                | none, x => none
+                | some a, f => f a,
+                fun v =>
+                some
+                  { mem := __do_lift.mem,
+                    regs := fun d sh n =>
+                      if n = "from_function" then
+                        if h : TileDType.int = d then if h_1 : sh = [] then some (⋯ ▸ ⋯ ▸ v) else none else none
+                      else __do_lift.regs d sh n,
+                    pids := __do_lift.pids, numPids := __do_lift.numPids, undef := __do_lift.undef } with
+              | none, x => none
+              | some a, f => f a,
+              fun __do_lift =>
+              match
+                match
+                  match
+                    match __do_lift.regs TileDType.int [] "from_name", fun __do_lift_1 =>
+                      match __do_lift.regs TileDType.int [] "from_expression", fun __do_lift =>
+                        some (bop (fun x1 x2 => x1 + x2) Broadcast.nil __do_lift_1 __do_lift) with
+                      | none, x => none
+                      | some a, f => f a with
+                    | none, x => none
+                    | some a, f => f a,
+                    fun __do_lift_1 =>
+                    match __do_lift.regs TileDType.int [] "from_function", fun __do_lift =>
+                      some (bop (fun x1 x2 => x1 + x2) Broadcast.nil __do_lift_1 __do_lift) with
+                    | none, x => none
+                    | some a, f => f a with
+                  | none, x => none
+                  | some a, f => f a,
+                  fun v =>
+                  some
+                    { mem := __do_lift.mem,
+                      regs := fun d sh n =>
+                        if n = "result" then
+                          if h : TileDType.int = d then if h_1 : sh = [] then some (⋯ ▸ ⋯ ▸ v) else none else none
+                        else __do_lift.regs d sh n,
+                      pids := __do_lift.pids, numPids := __do_lift.numPids, undef := __do_lift.undef } with
+                | none, x => none
+                | some a, f => f a,
+                fun __do_lift => some __do_lift with
+              | none, x => none
+              | some a, f => f a with
+            | none, x => none
+            | some a, f => f a with
+          | none, x => none
+          | some a, f => f a with
+        | none, x => none
+        | some a, f => f a with
+      | none, x => none
+      | some a, f => f a,
+      fun t => t.regs TileDType.int [] "result" with
+    | none, x => none
+    | some a, f => f a) =
+    some fun x => 3

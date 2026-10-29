@@ -1,0 +1,298 @@
+[
+  {
+    "python_function": "_bgmv_shrink_kernel",
+    "lean_definition": "original_fp16_i32",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "mixed_integer_calls_and_runtime_registers",
+    "call_bindings": {
+      "N": "N",
+      "K": "K",
+      "xm_stride": "xm_stride",
+      "xk_stride": "xk_stride",
+      "l0_stride": "l0_stride",
+      "lora_k_stride": "lora_k_stride",
+      "lora_n_stride": "lora_n_stride",
+      "cm_stride": "cm_stride",
+      "cn_stride": "cn_stride"
+    },
+    "statements": 15,
+    "runtime_parameters": {
+      "N": "i32",
+      "K": "i32",
+      "xm_stride": "i32",
+      "xk_stride": "i32",
+      "l0_stride": "i32",
+      "lora_k_stride": "i32",
+      "lora_n_stride": "i32",
+      "cm_stride": "i32",
+      "cn_stride": "i32",
+      "scaling": "fp32"
+    },
+    "constexpr_parameters": [
+      "BLOCK_K",
+      "BLOCK_N",
+      "SPLIT_K"
+    ],
+    "profile_variant": "fp16_i32"
+  },
+  {
+    "python_function": "_bgmv_shrink_kernel_scalar_left",
+    "lean_definition": "scalarLeft_fp16_i32",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "mixed_integer_calls_and_runtime_registers",
+    "call_bindings": {
+      "N": "N",
+      "K": "K",
+      "xm_stride": "xm_stride",
+      "xk_stride": "xk_stride",
+      "l0_stride": "l0_stride",
+      "lora_k_stride": "lora_k_stride",
+      "lora_n_stride": "lora_n_stride",
+      "cm_stride": "cm_stride",
+      "cn_stride": "cn_stride"
+    },
+    "statements": 15,
+    "runtime_parameters": {
+      "N": "i32",
+      "K": "i32",
+      "xm_stride": "i32",
+      "xk_stride": "i32",
+      "l0_stride": "i32",
+      "lora_k_stride": "i32",
+      "lora_n_stride": "i32",
+      "cm_stride": "i32",
+      "cn_stride": "i32",
+      "scaling": "fp32"
+    },
+    "constexpr_parameters": [
+      "BLOCK_K",
+      "BLOCK_N",
+      "SPLIT_K"
+    ],
+    "profile_variant": "fp16_i32"
+  },
+  {
+    "python_function": "_bgmv_shrink_kernel",
+    "lean_definition": "original_fp16_i64",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "mixed_integer_calls_and_runtime_registers",
+    "call_bindings": {
+      "N": "N",
+      "K": "K",
+      "xm_stride": "xm_stride",
+      "xk_stride": "xk_stride",
+      "l0_stride": "l0_stride",
+      "lora_k_stride": "lora_k_stride",
+      "lora_n_stride": "lora_n_stride",
+      "cm_stride": "cm_stride",
+      "cn_stride": "cn_stride"
+    },
+    "statements": 15,
+    "runtime_parameters": {
+      "N": "i32",
+      "K": "i32",
+      "xm_stride": "i32",
+      "xk_stride": "i32",
+      "l0_stride": "i32",
+      "lora_k_stride": "i32",
+      "lora_n_stride": "i32",
+      "cm_stride": "i32",
+      "cn_stride": "i32",
+      "scaling": "fp32"
+    },
+    "constexpr_parameters": [
+      "BLOCK_K",
+      "BLOCK_N",
+      "SPLIT_K"
+    ],
+    "profile_variant": "fp16_i64"
+  },
+  {
+    "python_function": "_bgmv_shrink_kernel_scalar_left",
+    "lean_definition": "scalarLeft_fp16_i64",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "mixed_integer_calls_and_runtime_registers",
+    "call_bindings": {
+      "N": "N",
+      "K": "K",
+      "xm_stride": "xm_stride",
+      "xk_stride": "xk_stride",
+      "l0_stride": "l0_stride",
+      "lora_k_stride": "lora_k_stride",
+      "lora_n_stride": "lora_n_stride",
+      "cm_stride": "cm_stride",
+      "cn_stride": "cn_stride"
+    },
+    "statements": 15,
+    "runtime_parameters": {
+      "N": "i32",
+      "K": "i32",
+      "xm_stride": "i32",
+      "xk_stride": "i32",
+      "l0_stride": "i32",
+      "lora_k_stride": "i32",
+      "lora_n_stride": "i32",
+      "cm_stride": "i32",
+      "cn_stride": "i32",
+      "scaling": "fp32"
+    },
+    "constexpr_parameters": [
+      "BLOCK_K",
+      "BLOCK_N",
+      "SPLIT_K"
+    ],
+    "profile_variant": "fp16_i64"
+  },
+  {
+    "python_function": "_bgmv_shrink_kernel",
+    "lean_definition": "original_bf16_i32",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "mixed_integer_calls_and_runtime_registers",
+    "call_bindings": {
+      "N": "N",
+      "K": "K",
+      "xm_stride": "xm_stride",
+      "xk_stride": "xk_stride",
+      "l0_stride": "l0_stride",
+      "lora_k_stride": "lora_k_stride",
+      "lora_n_stride": "lora_n_stride",
+      "cm_stride": "cm_stride",
+      "cn_stride": "cn_stride"
+    },
+    "statements": 15,
+    "runtime_parameters": {
+      "N": "i32",
+      "K": "i32",
+      "xm_stride": "i32",
+      "xk_stride": "i32",
+      "l0_stride": "i32",
+      "lora_k_stride": "i32",
+      "lora_n_stride": "i32",
+      "cm_stride": "i32",
+      "cn_stride": "i32",
+      "scaling": "fp32"
+    },
+    "constexpr_parameters": [
+      "BLOCK_K",
+      "BLOCK_N",
+      "SPLIT_K"
+    ],
+    "profile_variant": "bf16_i32"
+  },
+  {
+    "python_function": "_bgmv_shrink_kernel_scalar_left",
+    "lean_definition": "scalarLeft_bf16_i32",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "mixed_integer_calls_and_runtime_registers",
+    "call_bindings": {
+      "N": "N",
+      "K": "K",
+      "xm_stride": "xm_stride",
+      "xk_stride": "xk_stride",
+      "l0_stride": "l0_stride",
+      "lora_k_stride": "lora_k_stride",
+      "lora_n_stride": "lora_n_stride",
+      "cm_stride": "cm_stride",
+      "cn_stride": "cn_stride"
+    },
+    "statements": 15,
+    "runtime_parameters": {
+      "N": "i32",
+      "K": "i32",
+      "xm_stride": "i32",
+      "xk_stride": "i32",
+      "l0_stride": "i32",
+      "lora_k_stride": "i32",
+      "lora_n_stride": "i32",
+      "cm_stride": "i32",
+      "cn_stride": "i32",
+      "scaling": "fp32"
+    },
+    "constexpr_parameters": [
+      "BLOCK_K",
+      "BLOCK_N",
+      "SPLIT_K"
+    ],
+    "profile_variant": "bf16_i32"
+  },
+  {
+    "python_function": "_bgmv_shrink_kernel",
+    "lean_definition": "original_bf16_i64",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "mixed_integer_calls_and_runtime_registers",
+    "call_bindings": {
+      "N": "N",
+      "K": "K",
+      "xm_stride": "xm_stride",
+      "xk_stride": "xk_stride",
+      "l0_stride": "l0_stride",
+      "lora_k_stride": "lora_k_stride",
+      "lora_n_stride": "lora_n_stride",
+      "cm_stride": "cm_stride",
+      "cn_stride": "cn_stride"
+    },
+    "statements": 15,
+    "runtime_parameters": {
+      "N": "i32",
+      "K": "i32",
+      "xm_stride": "i32",
+      "xk_stride": "i32",
+      "l0_stride": "i32",
+      "lora_k_stride": "i32",
+      "lora_n_stride": "i32",
+      "cm_stride": "i32",
+      "cn_stride": "i32",
+      "scaling": "fp32"
+    },
+    "constexpr_parameters": [
+      "BLOCK_K",
+      "BLOCK_N",
+      "SPLIT_K"
+    ],
+    "profile_variant": "bf16_i64"
+  },
+  {
+    "python_function": "_bgmv_shrink_kernel_scalar_left",
+    "lean_definition": "scalarLeft_bf16_i64",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "mixed_integer_calls_and_runtime_registers",
+    "call_bindings": {
+      "N": "N",
+      "K": "K",
+      "xm_stride": "xm_stride",
+      "xk_stride": "xk_stride",
+      "l0_stride": "l0_stride",
+      "lora_k_stride": "lora_k_stride",
+      "lora_n_stride": "lora_n_stride",
+      "cm_stride": "cm_stride",
+      "cn_stride": "cn_stride"
+    },
+    "statements": 15,
+    "runtime_parameters": {
+      "N": "i32",
+      "K": "i32",
+      "xm_stride": "i32",
+      "xk_stride": "i32",
+      "l0_stride": "i32",
+      "lora_k_stride": "i32",
+      "lora_n_stride": "i32",
+      "cm_stride": "i32",
+      "cn_stride": "i32",
+      "scaling": "fp32"
+    },
+    "constexpr_parameters": [
+      "BLOCK_K",
+      "BLOCK_N",
+      "SPLIT_K"
+    ],
+    "profile_variant": "bf16_i64"
+  }
+]

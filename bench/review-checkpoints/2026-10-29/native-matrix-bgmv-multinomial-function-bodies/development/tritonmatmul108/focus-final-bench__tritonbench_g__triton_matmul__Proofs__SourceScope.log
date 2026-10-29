@@ -1,0 +1,3 @@
+VeriTile.Bench.TritonBenchG.TritonMatmul.SourceScope.config_table: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.TritonBenchG.TritonMatmul.SourceScope.active_injective: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

@@ -1,0 +1,8 @@
+{
+  "compile": [
+    "bench.repairs.tritonbench_g.triton_matmul.KernelOnly.CandidateKernels",
+    "bench.tests.DTypePredicate",
+    "bench.tests.TupleCallBody",
+    "bench.tests.BoolInt64Body"
+  ]
+}

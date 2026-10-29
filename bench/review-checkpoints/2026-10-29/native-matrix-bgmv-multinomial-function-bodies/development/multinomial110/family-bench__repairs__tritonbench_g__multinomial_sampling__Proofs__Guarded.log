@@ -1,0 +1,8 @@
+VeriTile.Bench.Repairs.MultinomialSampling.Admission.rawResult: definition does not reference [VeriTile.Bench.Repairs.MultinomialSampling.Admission.guarded,
+ VeriTile.Bench.Repairs.MultinomialSampling.Host.invoke,
+ VeriTile.Bench.Repairs.MultinomialSampling.Native.entry,
+ VeriTile.Bench.Repairs.MultinomialSampling.Physical.run,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.Repairs.MultinomialSampling.Admission.returned_word: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

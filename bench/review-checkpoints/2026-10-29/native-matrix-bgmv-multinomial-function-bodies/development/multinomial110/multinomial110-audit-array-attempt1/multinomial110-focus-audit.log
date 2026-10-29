@@ -1,0 +1,3 @@
+/tmp/multinomial110-focus-audit.lean:58:0: error: Audit root not imported: bench.repairs.tritonbench_g.triton_matmul.Contract
+FP assumptions used by static_unroll_equiv:
+  none

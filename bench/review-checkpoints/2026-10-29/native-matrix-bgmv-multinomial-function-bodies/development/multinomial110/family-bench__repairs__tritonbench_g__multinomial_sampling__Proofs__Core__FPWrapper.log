@@ -1,0 +1,24 @@
+/tmp/multinomial110-frontend/bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Core/FPWrapper.lean:108:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.Host.default_indices`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.Host.wrapperExpectedMemory: definition does not reference [VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.Host.invoke,
+ VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.Host.run,
+ VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.Host.runPrefix,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.source] — non-circular ✓
+VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.Host.single_token: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.Host.default_indices: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.Host.clone_readback: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.Host.initialized_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.Host.wrapper_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

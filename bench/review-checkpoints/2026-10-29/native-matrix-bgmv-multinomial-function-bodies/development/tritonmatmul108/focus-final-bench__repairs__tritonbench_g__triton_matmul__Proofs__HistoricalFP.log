@@ -1,0 +1,48 @@
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.matmul_repaired_whole_execution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.matmul_repaired_fp_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.matmul_repaired_software_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.matmul_repaired_wrapper_execution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.matmul_repaired_wrapper_fp_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.matmul_repaired_wrapper_software_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+structure VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.PrimitiveLaws {α : Type} (M : FP.Structural.Algebra α)
+  (D : DotAcc α) (Q : Numerics α) (st : Storage) : Prop
+number of parameters: 5
+fields:
+  VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.PrimitiveLaws.initialZero : M.literal (some ComputeDType.fp32)
+        FloatDType.real 0 =
+      Q.zero
+  VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.PrimitiveLaws.loadZero : M.cast none FloatDType.real (dtype st)
+        (M.literal none FloatDType.real 0.0) =
+      Q.loadZero
+  VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.PrimitiveLaws.dotAcc : ∀ (m k n : ℕ) (a : TileIndex [m, k] → α)
+      (b : TileIndex [k, n] → α) (acc : TileIndex [m, n] → α) (i : TileIndex [m, n]),
+      D.apply (some ComputeDType.fp32) (dtype st) (dtype st) FloatDType.real { } a b acc i =
+        Q.dotAcc k (fun j => a (i.1, j, PUnit.unit)) (fun j => b (j, i.2.1, PUnit.unit)) (acc i)
+  VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.PrimitiveLaws.outputCast : ∀ (x : α),
+      M.cast none FloatDType.real (dtype st) x = Q.castOutput x
+constructor:
+  VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.PrimitiveLaws.mk {α : Type} {M : FP.Structural.Algebra α}
+    {D : DotAcc α} {Q : Numerics α} {st : Storage}
+    (initialZero : M.literal (some ComputeDType.fp32) FloatDType.real 0 = Q.zero)
+    (loadZero : M.cast none FloatDType.real (dtype st) (M.literal none FloatDType.real 0.0) = Q.loadZero)
+    (dotAcc :
+      ∀ (m k n : ℕ) (a : TileIndex [m, k] → α) (b : TileIndex [k, n] → α) (acc : TileIndex [m, n] → α)
+        (i : TileIndex [m, n]),
+        D.apply (some ComputeDType.fp32) (dtype st) (dtype st) FloatDType.real { } a b acc i =
+          Q.dotAcc k (fun j => a (i.1, j, PUnit.unit)) (fun j => b (j, i.2.1, PUnit.unit)) (acc i))
+    (outputCast : ∀ (x : α), M.cast none FloatDType.real (dtype st) x = Q.castOutput x) : PrimitiveLaws M D Q st
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.software_primitives: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

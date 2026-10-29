@@ -1,0 +1,10 @@
+FP assumptions used by static_unroll_equiv:
+  none
+VeriTile.Bench.Repairs.MultinomialSampling.FPEquiv.static_unroll_equiv: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MultinomialSampling.FPEquiv.static_unroll_equiv: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+Axiom audit: headlines=1
+headlines: [VeriTile.Bench.Repairs.MultinomialSampling.FPEquiv.static_unroll_equiv]

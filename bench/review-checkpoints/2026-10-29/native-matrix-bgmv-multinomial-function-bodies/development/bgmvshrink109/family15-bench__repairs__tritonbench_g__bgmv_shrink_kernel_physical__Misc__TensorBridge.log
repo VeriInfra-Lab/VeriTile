@@ -1,0 +1,25 @@
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.TensorBridge.source_workset: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.TensorBridge.checked_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.TensorBridge.checked_real_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.TensorBridge.checked_fp: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.TensorBridge.checked_caller_bytes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.Target.real: definition does not reference [VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.Real.Run,
+ VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.Surface.source,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.RealTensor.invoke] — non-circular ✓
+VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.TensorBridge.nativeReference: definition does not reference [VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.FPWorkset.SourceWorkset,
+ VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.Surface.source,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.Native.sourceBytes] — non-circular ✓
+Axiom audit: headlines=0
+headlines: []

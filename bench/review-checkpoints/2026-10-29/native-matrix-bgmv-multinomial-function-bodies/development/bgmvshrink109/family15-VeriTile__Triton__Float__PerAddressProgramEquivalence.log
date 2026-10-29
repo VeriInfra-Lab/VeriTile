@@ -1,0 +1,12 @@
+VeriTile.Triton.FP.Structural.PerAddressProgramIO.EquivalentOnCells.of_implementsOnCells: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.Structural.PerAddressProgramIO.Variant.trace_of_run_safe: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.Structural.PerAddressProgramIO.Variant.implements_of_run_safe: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.Structural.PerAddressProgramIO.EquivalentOnCells.of_run_safe: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

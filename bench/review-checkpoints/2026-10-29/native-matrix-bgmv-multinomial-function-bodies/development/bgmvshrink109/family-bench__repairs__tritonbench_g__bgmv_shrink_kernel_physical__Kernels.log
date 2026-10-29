@@ -1,0 +1,24 @@
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Kernels.lean:19:44: warning: unused variable `xk_stride`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Kernels.lean:62:44: warning: unused variable `xk_stride`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Kernels.lean:112:44: warning: unused variable `xk_stride`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Kernels.lean:155:44: warning: unused variable `xk_stride`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Kernels.lean:205:44: warning: unused variable `xk_stride`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Kernels.lean:248:44: warning: unused variable `xk_stride`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Kernels.lean:298:44: warning: unused variable `xk_stride`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/bgmvshrink109-frontend/bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Kernels.lean:341:44: warning: unused variable `xk_stride`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`

@@ -1,0 +1,3 @@
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelSource.tensorAPI: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

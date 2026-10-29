@@ -1,0 +1,43 @@
+pid = tl.program_id(axis=0).to(tl.int64)
+M, N, K = tl.cast(M, tl.int64), tl.cast(N, tl.int64), tl.cast(K, tl.int64)
+stride_am, stride_ak = tl.cast(stride_am, tl.int64), tl.cast(stride_ak, tl.int64)
+stride_bk, stride_bn = tl.cast(stride_bk, tl.int64), tl.cast(stride_bn, tl.int64)
+stride_cm, stride_cn = tl.cast(stride_cm, tl.int64), tl.cast(stride_cn, tl.int64)
+num_pid_m = M // BLOCK_SIZE_M + (M % BLOCK_SIZE_M != 0).to(tl.int64)
+num_pid_n = N // BLOCK_SIZE_N + (N % BLOCK_SIZE_N != 0).to(tl.int64)
+num_pid_in_group = GROUP_SIZE_M * num_pid_n
+group_id = pid // num_pid_in_group
+first_pid_m = group_id * GROUP_SIZE_M
+group_size_m = min(num_pid_m - first_pid_m, GROUP_SIZE_M)
+pid_m = first_pid_m + (pid % group_size_m)
+pid_n = (pid % num_pid_in_group) // group_size_m
+start_m = pid_m * BLOCK_SIZE_M
+start_n = pid_n * BLOCK_SIZE_N
+lanes_m = tl.arange(0, BLOCK_SIZE_M).to(tl.int64)
+lanes_n = tl.arange(0, BLOCK_SIZE_N).to(tl.int64)
+mask_m = lanes_m < M - start_m
+mask_n = lanes_n < N - start_n
+offs_am = tl.where(mask_m, start_m, 0) + tl.where(mask_m, lanes_m, 0)
+offs_bn = tl.where(mask_n, start_n, 0) + tl.where(mask_n, lanes_n, 0)
+offs_k = tl.arange(0, BLOCK_SIZE_K).to(tl.int64)
+accumulator = tl.zeros([BLOCK_SIZE_M, BLOCK_SIZE_N], dtype=tl.float32)
+blocks_k = K // BLOCK_SIZE_K + (K % BLOCK_SIZE_K != 0).to(tl.int64)
+for k in range((0), blocks_k) {
+base_k = k * BLOCK_SIZE_K
+mask_k = offs_k < K - base_k
+safe_k = tl.where(mask_k, base_k, 0) + tl.where(mask_k, offs_k, 0)
+a_ptrs = a_ptr + (offs_am[:, None] * stride_am + safe_k[None, :] * stride_ak)
+b_ptrs = b_ptr + (safe_k[:, None] * stride_bk + offs_bn[None, :] * stride_bn)
+a = tl.load(a_ptrs, mask=mask_k[None, :], other=0.0)
+b = tl.load(b_ptrs, mask=mask_k[:, None], other=0.0)
+accumulator = tl.dot(a, b, accumulator)
+}
+if (c_ptr.dtype.element_ty == tl.float8e4nv) {
+c = accumulator.to(tl.float8e4nv)
+}
+else {
+c = accumulator.to(tl.float16)
+}
+c_ptrs = c_ptr + stride_cm * offs_am[:, None] + stride_cn * offs_bn[None, :]
+c_mask = mask_m[:, None] & mask_n[None, :]
+tl.store(c_ptrs, c, mask=c_mask)

@@ -1,0 +1,4 @@
+VeriTile.Bench.Repairs.BgmvShrinkKernel.Direct.Linearization.Trace.fold: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.Repairs.BgmvShrinkKernel.Direct.Linearization.Run.readback: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

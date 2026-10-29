@@ -1,0 +1,8 @@
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelOnly.nativeExpected: definition does not reference [VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.typed,
+ VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.runPrograms,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Triton.FP.Structural.runSchedule] — non-circular ✓
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelOnly.kernel_native_if_local: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelOnly.kernel_native_if_local: statement's project surface ⊆ allowlist ✓

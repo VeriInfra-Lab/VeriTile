@@ -1,0 +1,13 @@
+{
+  "status": "FAIL",
+  "results": [
+    {
+      "name": "BoolInt64Body",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793230307.597978,
+      "end": 1793230314.4297318,
+      "log": "/tmp/tritonmatmul108-fixtures5-BoolInt64Body.log"
+    }
+  ]
+}

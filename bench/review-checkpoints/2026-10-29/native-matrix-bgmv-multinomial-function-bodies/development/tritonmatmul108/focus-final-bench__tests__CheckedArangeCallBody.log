@@ -1,0 +1,6 @@
+/tmp/tritonmatmul108-frontend/bench/tests/CheckedArangeCallBody.lean:19:6: warning: unused variable `BLOCK`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Tests.CheckedArangeCallBody.symbolic_rng_profile: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

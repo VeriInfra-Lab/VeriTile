@@ -1,0 +1,70 @@
+{
+  "status": "FAIL",
+  "start": 1793233182.2497447,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.triton_matmul.Proofs.Real",
+      "source_sha256": "6f98807771517ce4f66cafd620801741e682f60b086d22817b1deedfa7722191",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793233182.2498915,
+      "end": 1793233187.1173737,
+      "log": "/tmp/tritonmatmul108-family3-bench__repairs__tritonbench_g__triton_matmul__Proofs__Real.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.triton_matmul.Proofs.CheckedMath",
+      "source_sha256": "de168c4f0309fd83162723f68e1f7ec23a786388fe51ddb83960b3820814b3d5",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793233187.1176965,
+      "end": 1793233189.7956285,
+      "log": "/tmp/tritonmatmul108-family3-bench__repairs__tritonbench_g__triton_matmul__Proofs__CheckedMath.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.triton_matmul.Proofs.IdealTensor",
+      "source_sha256": "97f66b7594e6ea09bfd58a8372ef65951c705a4452a1b4ce5417759f8d69b7b6",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793233189.7960064,
+      "end": 1793233193.26075,
+      "log": "/tmp/tritonmatmul108-family3-bench__repairs__tritonbench_g__triton_matmul__Proofs__IdealTensor.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.triton_matmul.Proofs.IdealHost",
+      "source_sha256": "0dc5fd114a74f6330d3eeec62032508c8849a7004f84f70b20447c2d66d81f77",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793233193.2611413,
+      "end": 1793233197.1059546,
+      "log": "/tmp/tritonmatmul108-family3-bench__repairs__tritonbench_g__triton_matmul__Proofs__IdealHost.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.triton_matmul.Correct",
+      "source_sha256": "beb57807a1e275f65711a006724caeab2a011b96dccec0ac62a65c40dbe6f11a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793233197.1063752,
+      "end": 1793233200.5541544,
+      "log": "/tmp/tritonmatmul108-family3-bench__repairs__tritonbench_g__triton_matmul__Correct.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.triton_matmul.Proofs.OutputBytes",
+      "source_sha256": "5cac83f905a7915e920553dbd428aa2d92c9a5c6d6dffc0b89dd24e6b4039ad3",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793233200.5545232,
+      "end": 1793233203.809662,
+      "log": "/tmp/tritonmatmul108-family3-bench__repairs__tritonbench_g__triton_matmul__Proofs__OutputBytes.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.triton_matmul.Proofs.ByteExecution",
+      "source_sha256": "8d82d8ec05050fd539a66f5c24574cafea30fadade33a5d0f02549908bb05e74",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793233203.810023,
+      "end": 1793233207.5473564,
+      "log": "/tmp/tritonmatmul108-family3-bench__repairs__tritonbench_g__triton_matmul__Proofs__ByteExecution.log"
+    }
+  ],
+  "end": 1793233207.5477781
+}

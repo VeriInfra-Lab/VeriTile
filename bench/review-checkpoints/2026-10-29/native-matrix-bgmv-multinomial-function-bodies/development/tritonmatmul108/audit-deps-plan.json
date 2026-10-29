@@ -1,0 +1,12 @@
+{
+  "modules": [
+    "VeriTile.Spec",
+    "VeriTile.Meta.Specification",
+    "VeriTile.Meta.StatementAudit"
+  ],
+  "compile": [
+    "VeriTile.Meta.StatementAudit"
+  ],
+  "copied_unaffected": [],
+  "scope": "Metadata and raw kernel compilation only; no source proof acceptance. Affected new imports are recompiled against current 108 frontend; stable objects have exact source bytes."
+}

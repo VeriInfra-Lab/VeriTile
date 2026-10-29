@@ -1,0 +1,4 @@
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.InputAdapter.tensorAPI: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.InputAdapter.allocated_inputs: axiom footprint ⊆ standard base ✓  ([propext])

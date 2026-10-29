@@ -1,0 +1,56 @@
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/decay_cumsum/Proofs/BackwardRegisterFrame.lean:28:31: warning: This simp argument is unused:
+  ComputeDType.eraseDType
+
+Hint: Omit it from the simp argument list.
+  simp [̵s̵e̵t̵O̵f̵f̵s̵,̵C̵o̵m̵p̵u̵t̵e̵D̵T̵y̵p̵e̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵,̵e̵v̵a̵l̵O̵p̵]̵[̲s̲e̲t̲O̲f̲f̲s̲,̲ ̲e̲v̲a̲l̲O̲p̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/decay_cumsum/Proofs/BackwardRegisterFrame.lean:28:55: warning: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp [̵s̵e̵t̵O̵f̵f̵s̵,̵C̵o̵m̵p̵u̵t̵e̵D̵T̵y̵p̵e̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵,̵e̵v̵a̵l̵O̵p̵]̵[̲s̲e̲t̲O̲f̲f̲s̲,̲ ̲C̲o̲m̲p̲u̲t̲e̲D̲T̲y̲p̲e̲.̲e̲r̲a̲s̲e̲D̲T̲y̲p̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/decay_cumsum/Proofs/BackwardRegisterFrame.lean:29:31: warning: This simp argument is unused:
+  ComputeDType.eraseDType
+
+Hint: Omit it from the simp argument list.
+  simp [̵s̵e̵t̵O̵f̵f̵s̵,̵C̵o̵m̵p̵u̵t̵e̵D̵T̵y̵p̵e̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵,̵e̵v̵a̵l̵O̵p̵]̵[̲s̲e̲t̲O̲f̲f̲s̲,̲ ̲e̲v̲a̲l̲O̲p̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/decay_cumsum/Proofs/BackwardRegisterFrame.lean:29:55: warning: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp [̵s̵e̵t̵O̵f̵f̵s̵,̵C̵o̵m̵p̵u̵t̵e̵D̵T̵y̵p̵e̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵,̵e̵v̵a̵l̵O̵p̵]̵[̲s̲e̲t̲O̲f̲f̲s̲,̲ ̲C̲o̲m̲p̲u̲t̲e̲D̲T̲y̲p̲e̲.̲e̲r̲a̲s̲e̲D̲T̲y̲p̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/decay_cumsum/Proofs/BackwardRegisterFrame.lean:30:31: warning: This simp argument is unused:
+  ComputeDType.eraseDType
+
+Hint: Omit it from the simp argument list.
+  simp [̵s̵e̵t̵O̵f̵f̵s̵,̵C̵o̵m̵p̵u̵t̵e̵D̵T̵y̵p̵e̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵,̵e̵v̵a̵l̵O̵p̵]̵[̲s̲e̲t̲O̲f̲f̲s̲,̲ ̲e̲v̲a̲l̲O̲p̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/decay_cumsum/Proofs/BackwardRegisterFrame.lean:30:55: warning: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp [̵s̵e̵t̵O̵f̵f̵s̵,̵C̵o̵m̵p̵u̵t̵e̵D̵T̵y̵p̵e̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵,̵e̵v̵a̵l̵O̵p̵]̵[̲s̲e̲t̲O̲f̲f̲s̲,̲ ̲C̲o̲m̲p̲u̲t̲e̲D̲T̲y̲p̲e̲.̲e̲r̲a̲s̲e̲D̲T̲y̲p̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/decay_cumsum/Proofs/BackwardRegisterFrame.lean:35:31: warning: This simp argument is unused:
+  ComputeDType.eraseDType
+
+Hint: Omit it from the simp argument list.
+  simp [̵s̵e̵t̵O̵f̵f̵s̵,̵C̵o̵m̵p̵u̵t̵e̵D̵T̵y̵p̵e̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵,̵e̵v̵a̵l̵O̵p̵]̵[̲s̲e̲t̲O̲f̲f̲s̲,̲ ̲e̲v̲a̲l̲O̲p̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/decay_cumsum/Proofs/BackwardRegisterFrame.lean:42:33: warning: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp [setOffs,̵e̵v̵a̵l̵O̵p̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

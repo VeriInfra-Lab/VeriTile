@@ -1,0 +1,162 @@
+[
+  {
+    "python_function": "matmul_kernel_repaired",
+    "lean_definition": "halfSource",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "M": "M",
+      "N": "N",
+      "K": "K",
+      "stride_am": "stride_am",
+      "stride_ak": "stride_ak",
+      "stride_bk": "stride_bk",
+      "stride_bn": "stride_bn",
+      "stride_cm": "stride_cm",
+      "stride_cn": "stride_cn"
+    },
+    "statements": 29,
+    "runtime_parameters": {
+      "M": "i64",
+      "N": "i64",
+      "K": "i64",
+      "stride_am": "i64",
+      "stride_ak": "i64",
+      "stride_bk": "i64",
+      "stride_bn": "i64",
+      "stride_cm": "i64",
+      "stride_cn": "i64"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE_K",
+      "BLOCK_SIZE_M",
+      "BLOCK_SIZE_N",
+      "GROUP_SIZE_M"
+    ],
+    "jit_options": {
+      "launch_metadata": "_matmul_launch_metadata"
+    },
+    "profile_variant": "fp16"
+  },
+  {
+    "python_function": "matmul_kernel_repaired",
+    "lean_definition": "byteSource",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "M": "M",
+      "N": "N",
+      "K": "K",
+      "stride_am": "stride_am",
+      "stride_ak": "stride_ak",
+      "stride_bk": "stride_bk",
+      "stride_bn": "stride_bn",
+      "stride_cm": "stride_cm",
+      "stride_cn": "stride_cn"
+    },
+    "statements": 29,
+    "runtime_parameters": {
+      "M": "i64",
+      "N": "i64",
+      "K": "i64",
+      "stride_am": "i64",
+      "stride_ak": "i64",
+      "stride_bk": "i64",
+      "stride_bn": "i64",
+      "stride_cm": "i64",
+      "stride_cn": "i64"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE_K",
+      "BLOCK_SIZE_M",
+      "BLOCK_SIZE_N",
+      "GROUP_SIZE_M"
+    ],
+    "jit_options": {
+      "launch_metadata": "_matmul_launch_metadata"
+    },
+    "profile_variant": "f8e4"
+  },
+  {
+    "python_function": "matmul_kernel_shifted",
+    "lean_definition": "halfSource",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "M": "M",
+      "N": "N",
+      "K": "K",
+      "stride_am": "stride_am",
+      "stride_ak": "stride_ak",
+      "stride_bk": "stride_bk",
+      "stride_bn": "stride_bn",
+      "stride_cm": "stride_cm",
+      "stride_cn": "stride_cn"
+    },
+    "statements": 29,
+    "runtime_parameters": {
+      "M": "i64",
+      "N": "i64",
+      "K": "i64",
+      "stride_am": "i64",
+      "stride_ak": "i64",
+      "stride_bk": "i64",
+      "stride_bn": "i64",
+      "stride_cm": "i64",
+      "stride_cn": "i64"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE_K",
+      "BLOCK_SIZE_M",
+      "BLOCK_SIZE_N",
+      "GROUP_SIZE_M"
+    ],
+    "jit_options": {
+      "launch_metadata": "_matmul_launch_metadata"
+    },
+    "profile_variant": "fp16"
+  },
+  {
+    "python_function": "matmul_kernel_shifted",
+    "lean_definition": "byteSource",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "M": "M",
+      "N": "N",
+      "K": "K",
+      "stride_am": "stride_am",
+      "stride_ak": "stride_ak",
+      "stride_bk": "stride_bk",
+      "stride_bn": "stride_bn",
+      "stride_cm": "stride_cm",
+      "stride_cn": "stride_cn"
+    },
+    "statements": 29,
+    "runtime_parameters": {
+      "M": "i64",
+      "N": "i64",
+      "K": "i64",
+      "stride_am": "i64",
+      "stride_ak": "i64",
+      "stride_bk": "i64",
+      "stride_bn": "i64",
+      "stride_cm": "i64",
+      "stride_cn": "i64"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE_K",
+      "BLOCK_SIZE_M",
+      "BLOCK_SIZE_N",
+      "GROUP_SIZE_M"
+    ],
+    "jit_options": {
+      "launch_metadata": "_matmul_launch_metadata"
+    },
+    "profile_variant": "f8e4"
+  }
+]

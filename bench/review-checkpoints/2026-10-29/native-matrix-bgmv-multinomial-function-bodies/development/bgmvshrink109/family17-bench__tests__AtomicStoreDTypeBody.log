@@ -1,0 +1,9 @@
+VeriTile.Tests.AtomicStoreDTypeBody.implicit_cast_and_storage_atomic: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.AtomicStoreDTypeBody.matching_dtype_has_no_added_cast: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.AtomicStoreDTypeBody.false_mask_preserves_output: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

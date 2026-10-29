@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "source": {
+    "full_ast_match": true,
+    "jit_body_unchanged": true,
+    "launch_unchanged": true,
+    "raw_body_profiles": 8,
+    "source_mutants_rejected": 7,
+    "candidate_full_module": true
+  },
+  "scope": "Only the pure source-check functions were executed; Torch-dependent host guards not run."
+}

@@ -1,0 +1,214 @@
+{
+  "status": "FAIL",
+  "start": 1793236936.0173087,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.bgmv_shrink_kernel_physical.Proofs.FPInvariant",
+      "source_sha256": "4d26d83b8f500ad69251fc04f33fd4f26a6305937d3b3985eba69dc5a3c4b1c8",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793236936.017454,
+      "end": 1793236948.8850856,
+      "log": "/tmp/bgmvshrink109-family7-bench__repairs__tritonbench_g__bgmv_shrink_kernel_physical__Proofs__FPInvariant.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.bgmv_shrink_kernel_physical.Proofs.FPLoop",
+      "source_sha256": "49d02ffdee7b4ae964e3699e0d00c3e40744fa30b30a93b68c26352210a7e190",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793236948.8854115,
+      "end": 1793236952.1132743,
+      "log": "/tmp/bgmvshrink109-family7-bench__repairs__tritonbench_g__bgmv_shrink_kernel_physical__Proofs__FPLoop.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.bgmv_shrink_kernel.Proofs.Direct.AtomicScatter",
+      "source_sha256": "5287d4c913ffc42716d081809c44e1049c55f16f5cd90ba428ac1fef36e83b38",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793236952.1135268,
+      "end": 1793236953.7033231,
+      "log": "/tmp/bgmvshrink109-family7-bench__repairs__tritonbench_g__bgmv_shrink_kernel__Proofs__Direct__AtomicScatter.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.bgmv_shrink_kernel_physical.Proofs.FPTail",
+      "source_sha256": "499e2f7ec33ddc43e1d735c9478299225dfd68b8da86e5c0b85526a9b7fc7713",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793236953.7035775,
+      "end": 1793236976.1125443,
+      "log": "/tmp/bgmvshrink109-family7-bench__repairs__tritonbench_g__bgmv_shrink_kernel_physical__Proofs__FPTail.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.bgmv_expand_slice.Proofs.FPControl",
+      "source_sha256": "1d0602596b9d7a3f221cee99d15141cdafa9453de942ab8f36b8041f1cc2e9a5",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793236976.1128187,
+      "end": 1793236978.790214,
+      "log": "/tmp/bgmvshrink109-family7-bench__repairs__tritonbench_g__bgmv_expand_slice__Proofs__FPControl.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.bgmv_shrink_kernel_physical.Proofs.FPExecution",
+      "source_sha256": "32981e10f51f40e1cf7b8156707bc5cd0f8b19ac4e8cd4c88b619faf9bd08369",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793236978.790478,
+      "end": 1793236981.7436144,
+      "log": "/tmp/bgmvshrink109-family7-bench__repairs__tritonbench_g__bgmv_shrink_kernel_physical__Proofs__FPExecution.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.bgmv_shrink_kernel_physical.Proofs.FPReadback",
+      "source_sha256": "93b9757b303d394c4a1f9eb0d32f7352dbf78114a63702318c6502483e5c1d1d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793236981.7438874,
+      "end": 1793236984.824238,
+      "log": "/tmp/bgmvshrink109-family7-bench__repairs__tritonbench_g__bgmv_shrink_kernel_physical__Proofs__FPReadback.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.bgmv_shrink_kernel_physical.Proofs.FPWorkset",
+      "source_sha256": "b59aed74fbddea58872ad2205dd87332501494fd57c1cdd3d43f1acc20c91cee",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793236984.824502,
+      "end": 1793236988.1475866,
+      "log": "/tmp/bgmvshrink109-family7-bench__repairs__tritonbench_g__bgmv_shrink_kernel_physical__Proofs__FPWorkset.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ProgramIO",
+      "source_sha256": "f183b7baec0a20c9110eeb11272865e59450114bcec3ed6fd345442a44b1a79c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793236988.1478615,
+      "end": 1793236990.765037,
+      "log": "/tmp/bgmvshrink109-family7-VeriTile__Triton__Float__ProgramIO.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.MemoryIOJudgments",
+      "source_sha256": "3e5fef1ffd1226d60ada740660ca3144537ffa9b3a861f6cfa198d1b5b379f35",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793236990.7653377,
+      "end": 1793236992.558007,
+      "log": "/tmp/bgmvshrink109-family7-VeriTile__Triton__Float__MemoryIOJudgments.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ProgramEquivalence",
+      "source_sha256": "93360ffda212b689ebe045632d788229b81a7dff56c9b15b60266ed7e4052dd2",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793236992.5582826,
+      "end": 1793236994.1516292,
+      "log": "/tmp/bgmvshrink109-family7-VeriTile__Triton__Float__ProgramEquivalence.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.InputBindingIO",
+      "source_sha256": "890674d40a551619de13a468e7edd3bd42bf1755bc77ed7973eab10a8b49b0d6",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793236994.1519303,
+      "end": 1793236995.7852101,
+      "log": "/tmp/bgmvshrink109-family7-VeriTile__Triton__Float__InputBindingIO.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.PerAddressProgramIO",
+      "source_sha256": "9aa00989994bea4448fecdf1cde2fc342b94745dc59ebaba4c122a29e6c7a1d0",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793236995.7855163,
+      "end": 1793236998.898664,
+      "log": "/tmp/bgmvshrink109-family7-VeriTile__Triton__Float__PerAddressProgramIO.log"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.LogicalIO",
+      "source_sha256": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793236998.8989973,
+      "end": 1793236999.6583185,
+      "log": "/tmp/bgmvshrink109-family7-VeriTile__Triton__Memory__LogicalIO.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.LogicalProgramIO",
+      "source_sha256": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793236999.6586118,
+      "end": 1793237001.3196342,
+      "log": "/tmp/bgmvshrink109-family7-VeriTile__Triton__Float__LogicalProgramIO.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.bgmv_shrink_kernel_physical.Proofs.TargetBridge",
+      "source_sha256": "fe00b2fa4b763a81dd1d5a2b333ef82b02b845611cdba74973d6e29a4b193376",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237001.319934,
+      "end": 1793237004.6598926,
+      "log": "/tmp/bgmvshrink109-family7-bench__repairs__tritonbench_g__bgmv_shrink_kernel_physical__Proofs__TargetBridge.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.bgmv_shrink_kernel_physical.Proofs.Real",
+      "source_sha256": "bbe3cc3dd0639a7d942a09d94e6d0ba3f7599d955f94f306be492e04cdc20c13",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237004.6602428,
+      "end": 1793237008.808127,
+      "log": "/tmp/bgmvshrink109-family7-bench__repairs__tritonbench_g__bgmv_shrink_kernel_physical__Proofs__Real.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.bgmv_shrink_kernel_physical.IO",
+      "source_sha256": "83b2241d6d890a1dae05125634c4783224a96b00814236fddf4297640d4ce290",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237008.8084748,
+      "end": 1793237012.272385,
+      "log": "/tmp/bgmvshrink109-family7-bench__repairs__tritonbench_g__bgmv_shrink_kernel_physical__IO.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.bgmv_shrink_kernel_physical.Proofs.IOGeometry",
+      "source_sha256": "a56c306b8f0e024d622183ab5bcb4b9b2ac56fd7a92ce4f75dbb4f56a71a7cad",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237012.2726905,
+      "end": 1793237015.0508857,
+      "log": "/tmp/bgmvshrink109-family7-bench__repairs__tritonbench_g__bgmv_shrink_kernel_physical__Proofs__IOGeometry.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.bgmv_shrink_kernel_physical.Proofs.IOValues",
+      "source_sha256": "1b8dcddc853a348fa5a1e64caa77cc93273750b06f6ed6ba0e1a72e9212c7250",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237015.0512187,
+      "end": 1793237017.9606557,
+      "log": "/tmp/bgmvshrink109-family7-bench__repairs__tritonbench_g__bgmv_shrink_kernel_physical__Proofs__IOValues.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.bgmv_shrink_kernel_physical.Proofs.IOBinding",
+      "source_sha256": "85fe5e6ebd8906a168aafafc766e710e08654492ad2d572186f9ed0435939c7d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237017.960967,
+      "end": 1793237021.4439933,
+      "log": "/tmp/bgmvshrink109-family7-bench__repairs__tritonbench_g__bgmv_shrink_kernel_physical__Proofs__IOBinding.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.bgmv_shrink_kernel_physical.Proofs.MemoryTransport",
+      "source_sha256": "cb13ae1eae95e50a517bf819e1826536c9187f02b1b782da6cd177cc1b21dbc7",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793237021.4443405,
+      "end": 1793237028.1554468,
+      "log": "/tmp/bgmvshrink109-family7-bench__repairs__tritonbench_g__bgmv_shrink_kernel_physical__Proofs__MemoryTransport.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.bgmv_shrink_kernel_physical.Proofs.RebasedSafety",
+      "source_sha256": "78bf54719b2a9ae3179be70a97472403ac4da99f80c3540fb422f7c71b994c56",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793237028.1557744,
+      "end": 1793237057.898741,
+      "log": "/tmp/bgmvshrink109-family7-bench__repairs__tritonbench_g__bgmv_shrink_kernel_physical__Proofs__RebasedSafety.log"
+    }
+  ],
+  "end": 1793237057.8989923
+}

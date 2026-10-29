@@ -1,0 +1,6 @@
+....................................
+----------------------------------------------------------------------
+Ran 36 tests in 0.503s
+
+OK
+PASS: exact full-module AST restoration; GROUP_SIZE_M=8 shift and generic fallback; both storage configs, branches, helpers and host preserved

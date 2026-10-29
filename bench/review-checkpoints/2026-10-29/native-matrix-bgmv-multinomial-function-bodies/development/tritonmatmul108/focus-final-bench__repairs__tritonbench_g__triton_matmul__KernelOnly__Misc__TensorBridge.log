@@ -1,0 +1,15 @@
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelOnly.TensorBridge.kernel_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelOnly.TensorBridge.kernel_native_if_local: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelOnly.TensorBridge.empty_programs: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelOnly.TensorBridge.safety: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelOnly.TensorBridge.real_tensor: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelOnly.TensorBridge.input_bytes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

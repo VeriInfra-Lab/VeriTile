@@ -1,0 +1,175 @@
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/triton_matmul/Proofs/LogicalViewDefect.lean:35:34: warning: unused variable `m`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/triton_matmul/Proofs/LogicalViewDefect.lean:35:38: warning: unused variable `k`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/triton_matmul/Proofs/LogicalViewDefect.lean:35:42: warning: unused variable `n`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/triton_matmul/Proofs/LogicalViewDefect.lean:39:58: error: Application type mismatch: The argument
+  idealDot
+has type
+  DotAcc ℝ
+but is expected to have type
+  DotAcc ContextAttnFwd.FPModel.Number
+in the application
+  outputValue ideal idealDot
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/triton_matmul/Proofs/LogicalViewDefect.lean:39:85: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  OfNat ContextAttnFwd.FPModel.Number 64
+numerals are polymorphic in Lean, but the numeral `64` cannot be used in a context where the expected type is
+  ContextAttnFwd.FPModel.Number
+due to the absence of the instance above
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/triton_matmul/Proofs/LogicalViewDefect.lean:40:48: error: Application type mismatch: The argument
+  initial
+has type
+  State ℝ
+but is expected to have type
+  State ContextAttnFwd.FPModel.Number
+in the application
+  aValue ideal p Storage.half initial
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/triton_matmul/Proofs/LogicalViewDefect.lean:40:60: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  OfNat ContextAttnFwd.FPModel.Number 1
+numerals are polymorphic in Lean, but the numeral `1` cannot be used in a context where the expected type is
+  ContextAttnFwd.FPModel.Number
+due to the absence of the instance above
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/triton_matmul/Proofs/LogicalViewDefect.lean:40:65: error: unsolved goals
+i : CIndex p
+j : AIndex p
+hj : ↑j.2.1 < 64
+⊢ (if h :
+        ((sorry ()).1 { name := "A" }
+              (aOffset
+                { A := { name := "A" }, B := { name := "B" }, C := { name := "C" }, M := 128, N := 256, K := 64,
+                  stride_am := 64, stride_ak := 1, stride_bk := 256, stride_bn := 1, stride_cm := max 256 1,
+                  stride_cn := 1, BLOCK_SIZE_M := 128, BLOCK_SIZE_N := 256, BLOCK_SIZE_K := 64, GROUP_SIZE_M := 8,
+                  numKBlocks := 1 }
+                (sorry ()) 0 j)).1 =
+          TileDType.fp16 then
+      ⋯ ▸
+        ((sorry ()).1 { name := "A" }
+            (aOffset
+              { A := { name := "A" }, B := { name := "B" }, C := { name := "C" }, M := 128, N := 256, K := 64,
+                stride_am := 64, stride_ak := 1, stride_bk := 256, stride_bn := 1, stride_cm := max 256 1,
+                stride_cn := 1, BLOCK_SIZE_M := 128, BLOCK_SIZE_N := 256, BLOCK_SIZE_K := 64, GROUP_SIZE_M := 8,
+                numKBlocks := 1 }
+              (sorry ()) 0 j)).2
+    else defaultValue TileDType.fp16) =
+    1
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/triton_matmul/Proofs/LogicalViewDefect.lean:43:48: error: Application type mismatch: The argument
+  initial
+has type
+  State ℝ
+but is expected to have type
+  State ContextAttnFwd.FPModel.Number
+in the application
+  bValue ideal p Storage.half initial
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/triton_matmul/Proofs/LogicalViewDefect.lean:43:60: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  OfNat ContextAttnFwd.FPModel.Number 1
+numerals are polymorphic in Lean, but the numeral `1` cannot be used in a context where the expected type is
+  ContextAttnFwd.FPModel.Number
+due to the absence of the instance above
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/triton_matmul/Proofs/LogicalViewDefect.lean:43:65: error: unsolved goals
+i : CIndex p
+j : BIndex p
+hj : ↑j.1 < 64
+⊢ (if h :
+        ((sorry ()).1 { name := "B" }
+              (bOffset
+                { A := { name := "A" }, B := { name := "B" }, C := { name := "C" }, M := 128, N := 256, K := 64,
+                  stride_am := 64, stride_ak := 1, stride_bk := 256, stride_bn := 1, stride_cm := max 256 1,
+                  stride_cn := 1, BLOCK_SIZE_M := 128, BLOCK_SIZE_N := 256, BLOCK_SIZE_K := 64, GROUP_SIZE_M := 8,
+                  numKBlocks := 1 }
+                (sorry ()) 0 j)).1 =
+          TileDType.fp16 then
+      ⋯ ▸
+        ((sorry ()).1 { name := "B" }
+            (bOffset
+              { A := { name := "A" }, B := { name := "B" }, C := { name := "C" }, M := 128, N := 256, K := 64,
+                stride_am := 64, stride_ak := 1, stride_bk := 256, stride_bn := 1, stride_cm := max 256 1,
+                stride_cn := 1, BLOCK_SIZE_M := 128, BLOCK_SIZE_N := 256, BLOCK_SIZE_K := 64, GROUP_SIZE_M := 8,
+                numKBlocks := 1 }
+              (sorry ()) 0 j)).2
+    else defaultValue TileDType.fp16) =
+    1
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/triton_matmul/Proofs/LogicalViewDefect.lean:46:46: error: Application type mismatch: The argument
+  idealDot
+has type
+  DotAcc ℝ
+but is expected to have type
+  DotAcc ContextAttnFwd.FPModel.Number
+in the application
+  update ideal idealDot
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/triton_matmul/Proofs/LogicalViewDefect.lean:46:79: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  HAdd ℝ ℕ ContextAttnFwd.FPModel.Number
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/triton_matmul/Proofs/LogicalViewDefect.lean:48:4: error: `simp` made no progress
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/triton_matmul/Proofs/LogicalViewDefect.lean:52:9: error: Tactic `unfold` failed to unfold `outputValue` in
+  (CIndex p → ℝ) → HAdd ℝ ℕ ContextAttnFwd.FPModel.Number
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/triton_matmul/Proofs/LogicalViewDefect.lean:42:56: warning: This simp argument is unused:
+  initial
+
+Hint: Omit it from the simp argument list.
+  simp [̵a̵V̵a̵l̵u̵e̵,̵p̵,̵p̵a̵r̵a̵m̵e̵t̵e̵r̵s̵,̵b̵l̵o̵c̵k̵K̵,̵B̵K̵,̵h̵j̵,̵F̵P̵V̵a̵l̵u̵e̵.̵r̵e̵a̵d̵,̵i̵n̵i̵t̵i̵a̵l̵,̵C̵e̵l̵l̵.̵r̵e̵a̵d̵]̵[̲a̲V̲a̲l̲u̲e̲,̲ ̲p̲,̲ ̲p̲a̲r̲a̲m̲e̲t̲e̲r̲s̲,̲ ̲b̲l̲o̲c̲k̲K̲,̲ ̲B̲K̲,̲ ̲h̲j̲,̲ ̲F̲P̲V̲a̲l̲u̲e̲.̲r̲e̲a̲d̲,̲ ̲C̲e̲l̲l̲.̲r̲e̲a̲d̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/triton_matmul/Proofs/LogicalViewDefect.lean:45:56: warning: This simp argument is unused:
+  initial
+
+Hint: Omit it from the simp argument list.
+  simp [̵b̵V̵a̵l̵u̵e̵,̵p̵,̵p̵a̵r̵a̵m̵e̵t̵e̵r̵s̵,̵b̵l̵o̵c̵k̵K̵,̵B̵K̵,̵h̵j̵,̵F̵P̵V̵a̵l̵u̵e̵.̵r̵e̵a̵d̵,̵i̵n̵i̵t̵i̵a̵l̵,̵C̵e̵l̵l̵.̵r̵e̵a̵d̵]̵[̲b̲V̲a̲l̲u̲e̲,̲ ̲p̲,̲ ̲p̲a̲r̲a̲m̲e̲t̲e̲r̲s̲,̲ ̲b̲l̲o̲c̲k̲K̲,̲ ̲B̲K̲,̲ ̲h̲j̲,̲ ̲F̲P̲V̲a̲l̲u̲e̲.̲r̲e̲a̲d̲,̲ ̲C̲e̲l̲l̲.̲r̲e̲a̲d̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/triton_matmul/Proofs/LogicalViewDefect.lean:92:47: error: Application type mismatch: The argument
+  idealDot
+has type
+  DotAcc ℝ
+but is expected to have type
+  DotAcc ContextAttnFwd.FPModel.Number
+in the application
+  backend ideal idealDot
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/triton_matmul/Proofs/LogicalViewDefect.lean:93:22: error: Type mismatch
+  Cell.mk TileDType.fp16 64
+has type
+  Cell ℝ
+but is expected to have type
+  Cell ContextAttnFwd.FPModel.Number
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/triton_matmul/Proofs/LogicalViewDefect.lean:95:49: error: Application type mismatch: The argument
+  idealDot
+has type
+  DotAcc ℝ
+but is expected to have type
+  DotAcc ContextAttnFwd.FPModel.Number
+in the application
+  correctness ideal idealDot
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/triton_matmul/Proofs/LogicalViewDefect.lean:98:6: error(lean.unknownIdentifier): Unknown identifier `physical_value`
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/triton_matmul/Proofs/LogicalViewDefect.lean:93:87: error: unsolved goals
+final : State ContextAttnFwd.FPModel.Number
+he : FP.Structural.exec (backend ideal sorry) (source p Storage.half) sorry = some final
+left✝ : final.mem = (written ideal sorry p Storage.half sorry).mem
+hv :
+  ∀ (i : CIndex p),
+    active p sorry i →
+      final.mem p.C (cOffset p sorry i) = stored Storage.half (outputValue ideal sorry p Storage.half sorry i)
+hf :
+  ∀ (r : RegionName) (o : ℕ),
+    (r ≠ p.C ∨ ∀ (i : CIndex p), active p sorry i → o ≠ cOffset p sorry i) → final.mem r o = sorry.mem r o
+h : final.mem p.C (cOffset p sorry lane) = stored Storage.half (outputValue ideal sorry p Storage.half sorry lane)
+⊢ ∃ final,
+    FP.Structural.exec (backend ideal sorry) (source p Storage.half) sorry = some final ∧
+      sorry ∧ logical = -64 ∧ 64 ≠ logical
+VeriTile.Bench.TritonBenchG.TritonMatmul.LogicalViewDefect.aligned_access_bounds: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonMatmul.LogicalViewDefect.complete_tile_coordinates: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/triton_matmul/Proofs/LogicalViewDefect.lean:108:13: error(lean.unknownIdentifier): Unknown constant `physical_value`
+/tmp/tritonmatmul108-frontend/bench/tritonbench_g/triton_matmul/Proofs/LogicalViewDefect.lean:109:0: error: VeriTile.Bench.TritonBenchG.TritonMatmul.LogicalViewDefect.aligned_source_disagrees: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

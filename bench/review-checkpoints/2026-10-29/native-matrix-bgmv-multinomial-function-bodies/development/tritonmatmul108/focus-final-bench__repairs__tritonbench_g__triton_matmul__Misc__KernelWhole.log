@@ -1,0 +1,35 @@
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelCorrect.expected: definition does not reference [VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.typed,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.runPrograms,
+ VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.FiniteGrid.grid,
+ VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.CheckedHost.call,
+ VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.FiniteHost.call] — non-circular ✓
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelFPEquiv.expected: definition does not reference [VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.typed,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.runPrograms,
+ VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.FiniteGrid.grid,
+ VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.ByteExecution.grid,
+ VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.ByteHost.call] — non-circular ✓
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelSource.executes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelSource.safety: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.source_store_unique: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelCorrect.kernel_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelTensor.real_tensor: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelNative.correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelFPEquiv.kernel_native_if_local: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelWhole.input_bytes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

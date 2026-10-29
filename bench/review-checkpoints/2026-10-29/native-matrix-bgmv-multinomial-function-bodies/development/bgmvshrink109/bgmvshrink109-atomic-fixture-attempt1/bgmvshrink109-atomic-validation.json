@@ -1,0 +1,16 @@
+{
+  "status": "FAIL",
+  "start": 1793235793.5835934,
+  "results": [
+    {
+      "name": "AtomicStoreDTypeBody",
+      "status": "FAIL",
+      "start": 1793235829.5892086,
+      "end": 1793235834.8212035,
+      "source_sha256": "850b1ab576795d473f4aa48773d76467a3bdc47166234f8b8ae687f11eee19a5",
+      "log": "/tmp/bgmvshrink109-AtomicStoreDTypeBody.log",
+      "exit_code": 1
+    }
+  ],
+  "end": 1793235834.8214152
+}

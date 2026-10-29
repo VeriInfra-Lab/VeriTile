@@ -1,0 +1,6 @@
+/tmp/tritonmatmul108-staging/TupleCallBody.lean:13:2: error: tuple assignment needs unsupported simultaneous register capture
+/tmp/tritonmatmul108-staging/TupleCallBody.lean:24:13: warning: declaration uses `sorry`
+/tmp/tritonmatmul108-staging/TupleCallBody.lean:20:8: warning: declaration uses `sorry`
+/tmp/tritonmatmul108-staging/TupleCallBody.lean:27:2: warning: 'rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`

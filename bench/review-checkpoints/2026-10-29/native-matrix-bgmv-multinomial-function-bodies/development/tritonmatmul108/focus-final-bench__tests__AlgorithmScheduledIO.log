@@ -1,0 +1,10 @@
+/tmp/tritonmatmul108-frontend/bench/tests/AlgorithmScheduledIO.lean:37:4: warning: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp [runAlgorithmSchedule, AlgorithmLaunch.run, exec, stepStmts, stepStmt, e̵v̵a̵l̵O̵p̵,̵ ̵increment, Tile.bop,
+  ̲  ̲ ̲ ̲Tile.scalar, TileShape.allIndices, BlockState.readMemValue, BlockState.readMemTyped,
+  ̲  ̲ ̲ ̲BlockState.writeMemTyped, MemCell.of, MemCell.readAs, initial, AlgorithmLaunch.initial,
+  ̲  ̲ ̲ ̲Region.cast, NumericDType.add, -Tile.scalar_eta]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

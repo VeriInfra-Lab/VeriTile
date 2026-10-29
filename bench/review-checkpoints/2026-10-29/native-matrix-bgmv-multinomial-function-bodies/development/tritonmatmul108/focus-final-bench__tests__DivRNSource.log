@@ -1,0 +1,26 @@
+/tmp/tritonmatmul108-frontend/bench/tests/DivRNSource.lean:82:29: warning: This simp argument is unused:
+  Option.bind_some
+
+Hint: Omit it from the simp argument list.
+  simp only [̵e̵v̵a̵l̵O̵p̵,̵h̵x̵,̵h̵y̵,̵h̵f̵,̵O̵p̵t̵i̵o̵n̵.̵b̵i̵n̵d̵_̵s̵o̵m̵e̵]̵[̲e̲v̲a̲l̲O̲p̲,̲ ̲h̲x̲,̲ ̲h̲y̲,̲ ̲h̲f̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Tests.DivRNSource.precise_node: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+VeriTile.Tests.DivRNSource.erasure_keeps_identity: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.DivRNSource.distinct_callbacks: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.DivRNSource.no_ordinary_fallback: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.DivRNSource.empty_tile_still_requires_primitive: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.DivRNSource.broadcast_operands: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.DivRNSource.nested_precision_preserved: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
