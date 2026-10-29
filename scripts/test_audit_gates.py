@@ -253,6 +253,26 @@ class AuditGateTests(unittest.TestCase):
             self.assertNotEqual(result.returncode, 0)
             self.assertIn('kernel module is not imported', result.stdout)
 
+    def test_standalone_spec_is_independent_even_without_selected_kernel_modules(self):
+        cases = [
+            ('@[standalone_spec] def expectedSpec (n : Nat) : Prop := n = n\n', True, 'independentSpecs=1'),
+            ('@[standalone_spec] def expectedSpec := '
+             '(VeriTile.Bench.Examples.VectorAdd.Kernels.addKernel "x" "y" "out" 1).toAlgKernel.inputs.length\n',
+             False, 'SELF-REFERENTIAL'),
+            ('@[standalone_spec, kernel_spec] def expectedSpec (n : Nat) : Prop := n = n\n',
+             False, 'cannot also be a kernel specification'),
+        ]
+        for declaration, accepted, marker in cases:
+            with self.subTest(declaration=declaration), tempfile.TemporaryDirectory() as temp:
+                path = Path(temp) / 'ScalarAudit.lean'
+                path.write_text('import VeriTile.Meta.StatementAudit\n'
+                                'import bench.examples.VectorAdd.Kernels\n' +
+                                declaration + '#auditModuleSpecs\n')
+                result = subprocess.run(['lake', 'env', 'lean', str(path)], cwd=ROOT,
+                                        text=True, capture_output=True, timeout=90)
+                self.assertEqual(result.returncode == 0, accepted, result.stdout + result.stderr)
+                self.assertIn(marker, result.stdout)
+
     def test_split_benchmark_audit_checks_actual_imported_source(self):
         prep = load('split_benchmark_audit_prep', 'bench/audit_trust_prep.py')
         prefix = ('import bench.tritonbench_g.softmax_triton1.Kernels\n'

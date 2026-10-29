@@ -73,6 +73,30 @@ class ComparatorGateTests(unittest.TestCase):
         self.assertGreaterEqual(reports[0]['theorem_count'], 2)
         self.assertTrue(any('a.b' in name for name in inventories[0]['theorems']))
 
+    def test_module_header_and_private_imports_are_replayed(self):
+        source = (ROOT / 'bench/repairs/tritonbench_g/fast_layernorm/Proofs/Settings.lean').read_text()
+        result, reports, inventories = self.run_check(
+            source, script='bench/audit_trust.sh')
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertTrue(reports[0]['accepted'])
+        names = inventories[0]['theorems']
+        self.assertTrue(any(name.endswith('Settings.nextPower_covers') for name in names), names)
+        self.assertTrue(any('.nextPower_covers.go' in name for name in names), names)
+
+    def test_core_module_audit_rejects_axioms_and_specifications(self):
+        for declaration, diagnostic in [
+            ('axiom injected : False\ntheorem target : False := injected\n', 'axiom'),
+            ('theorem target : False := by sorry\n', 'DISALLOWED axiom'),
+            ('def expectedSpec : Nat := 0\n', 'specification declarations'),
+            ('def VeriTile.Triton.ComputeKernel : Nat := 0\n', 'kernel declarations')]:
+            with self.subTest(declaration=declaration):
+                result, reports, _ = self.run_check(
+                    'module\npublic import Init\npublic section\n' + declaration,
+                    script='bench/audit_trust.sh')
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn(diagnostic, result.stderr)
+                self.assertFalse(any(report['accepted'] for report in reports))
+
     def test_compiling_unapproved_proofs_fail_in_every_gate(self):
         for script in ('bench/check_ports.sh', 'bench/audit_trust.sh', None):
             with self.subTest(script=script):

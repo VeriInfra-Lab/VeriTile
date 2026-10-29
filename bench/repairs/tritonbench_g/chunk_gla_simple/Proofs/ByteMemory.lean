@@ -1,4 +1,4 @@
-import bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.CheckedHost
+import bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.Admission
 
 namespace VeriTile.Bench.Repairs.ChunkGlaSimple.ByteMemory
 open VeriTile Triton FP.Structural

@@ -8,8 +8,7 @@ abbrev Word := FP.Value .fp32
 `st.global.b8`. This is signed-16 saturation followed by a low-byte observation,
 not direct saturation to signed int8 and not a total portable LLVM fptosi.
 
-PTX conversion and store rules (official pages already captured in the sibling
-kv_cache_filling evidence packet):
+PTX conversion and store rules:
 https://docs.nvidia.com/cuda/parallel-thread-execution/index.html#data-movement-and-conversion-instructions-cvt
 https://docs.nvidia.com/cuda/parallel-thread-execution/index.html#data-movement-and-conversion-instructions-st
 Rounding is toward zero, integer conversion clamps to the destination range,
@@ -27,7 +26,7 @@ def cvtS16 (x : Word) : Int :=
 def byte (x : Word) : BitVec 8 := BitVec.ofInt 8 (cvtS16 x)
 def signedByte (x : Word) : Int := (byte x).toInt
 
-def CvtS16Spec (x : Word) (z : Int) : Prop :=
+@[standalone_spec] def CvtS16Spec (x : Word) (z : Int) : Prop :=
   match x.toRat? with
   | some q => ∃ k, FP.IntegerConversion.TowardZero q k ∧ z = min 32767 (max (-32768) k)
   | none => z = if x.isNaN then 0 else if x.sign then -32768 else 32767

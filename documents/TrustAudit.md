@@ -24,11 +24,13 @@ bash bench/audit_tritonbench_g.sh
 ```
 
 CI checks the final inventory and library once, builds all 334 draft interfaces,
-and builds/replays the retained corpus in 16 independent shards. Each shard
+and builds/replays the retained corpus in 64 independent shards. Each shard
 builds its selected modules and their complete dependencies before creating
 its isolated comparator workspace. The final gate requires every job to pass;
 a global-only result does not establish corpus acceptance. See the
 [CI stage commands](../scripts/README.md#shared-comparator-gate).
+
+Independent mathematical reference modules can use `@[standalone_spec]` without a kernel in scope. The audit still rejects any reachable kernel dependency, including one outside the selected source modules. Core-only Lean `module` helpers retain their module headers and private imports; their complete theorem dependencies are checked against the standard axiom base and replayed by the official comparator.
 
 Each exits `0` only after every selected file reports a result and all checks
 pass. Invalid concurrency, a launcher failure, and missing/duplicate results

@@ -9,7 +9,7 @@ abbrev Byte := BitVec 8
 byte observation of `st.global.b8`. This module models that emitted profile,
 not a total LLVM `fptoui` instruction and not every Triton backend.
 
-Primary sources (read and captured in the task's kernel-evidence directory):
+Primary sources:
 https://docs.nvidia.com/cuda/parallel-thread-execution/index.html#data-movement-and-conversion-instructions-cvt
 `rzi` rounds toward zero; float-to-integer conversion clamps to the destination
 range by default; this f32/u16 combination converts NaN to zero. No `.ftz` is
@@ -30,7 +30,7 @@ def byte (x : Word) : Byte := BitVec.ofNat 8 (cvtU16 x)
 
 /-- Independent rounding interval plus unsigned saturation and special-value
 clauses for the emitted PTX instruction. -/
-def CvtU16Spec (x : Word) (z : Nat) : Prop :=
+@[standalone_spec] def CvtU16Spec (x : Word) (z : Nat) : Prop :=
   match x.toRat? with
   | some q => ∃ k : Int, FP.IntegerConversion.TowardZero q k ∧ z = min 65535 k.toNat
   | none => z = if x.isNaN || x.sign then 0 else 65535

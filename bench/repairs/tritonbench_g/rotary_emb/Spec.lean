@@ -4,7 +4,7 @@ namespace VeriTile.Bench.Repairs.RotaryEmb
 
 /-- Interleaved rotary formula, independently indexed by an arbitrary tensor
 column. The cosine and sine row strides are independent. -/
-@[kernel_spec] noncomputable def formula (s : Shape) (m : Memory ℝ)
+@[standalone_spec] noncomputable def formula (s : Shape) (m : Memory ℝ)
     (key : Bool) (token head dim : Nat) : ℝ :=
   let x0 := m (dataRegion key) ((token*s.heads key+head)*s.width+(dim/2)*2)
   let x1 := m (dataRegion key) ((token*s.heads key+head)*s.width+(dim/2)*2+1)

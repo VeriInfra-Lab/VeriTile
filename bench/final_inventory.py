@@ -54,7 +54,7 @@ def modules(text):
     lines = lean_code_mask(text).splitlines()
     result = set()
     for i, line in enumerate(lines):
-        match = re.match(r'^\s*(?:public\s+)?(?:meta\s+)?import\s+(.*)', line)
+        match = re.match(r'^\s*(?:public\s+)?(?:meta\s+)?import(?:\s+all)?\s+(.*)', line)
         if not match:
             continue
         body = match[1]

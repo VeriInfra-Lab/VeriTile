@@ -33,12 +33,63 @@ NEGATIVE_SPEC_FIXTURES = {
     "bench/tests/ModuleSpecAudit.lean",
 }
 
+# Lean's new `module` files cannot import the older VeriTile module format.
+# Core-only mathematical helpers use the same standard-axiom boundary and
+# reject kernel/specification declarations; comparator still replays every
+# theorem, including private recursive equations, from the original source.
+CORE_MODULE_AUDIT = r'''
+open Lean Elab Command in
+run_cmd do
+  let env ← getEnv
+  for entry in env.header.modules do
+    unless #[`Init, `Std, `Lean, `Lake, `Mathlib, `Batteries, `Aesop, `Qq,
+             `ProofWidgets, `ImportGraph, `LeanSearchClient, `Plausible, `Cli].any
+        (·.isPrefixOf entry.module) do
+      throwError "Core-only audit cannot import project module {entry.module}"
+  if env.contains `VeriTile.Triton.ComputeKernel then
+    throwError "Core-only audit cannot contain kernel declarations"
+  let allowed : Array Name := #[`propext, `Classical.choice, `Quot.sound]
+  -- Exported module interfaces intentionally hide imported proof bodies as
+  -- opaque axioms. Load the complete trusted imports before traversing them.
+  let imported ← liftIO <| importModules env.header.imports {} (level := .private)
+  let kernel := env.toKernelEnv
+  let importedKernel := imported.toKernelEnv
+  let mut pending : Array Name := #[]
+  let mut checked := 0
+  for (name, info) in kernel.constants.toList do
+    if (env.getModuleIdxFor? name).isSome then continue
+    let userName := ((privateToUserName? name).getD name).eraseMacroScopes
+    if info.isDefinition && userName.getString!.endsWith "Spec" then
+      throwError "Core-only audit cannot contain specification declarations: {name}"
+    if let .axiomInfo _ := info then
+      throwError "Core-only audit cannot declare axioms: {name}"
+    if let .thmInfo _ := info then
+      pending := pending.push name
+      checked := checked + 1
+  let mut seen : NameSet := {}
+  while !pending.isEmpty do
+    let name := pending.back!
+    pending := pending.pop
+    if seen.contains name then continue
+    seen := seen.insert name
+    let info := if (env.getModuleIdxFor? name).isSome then importedKernel.find? name
+      else kernel.find? name <|> importedKernel.find? name
+    let some info := info | throwError "Missing proof dependency: {name}"
+    if let .axiomInfo _ := info then
+      unless allowed.contains name do throwError "DISALLOWED axiom: {name}"
+    pending := pending ++ info.type.getUsedConstants
+    if let some value := info.value? then pending := pending ++ value.getUsedConstants
+    if let .inductInfo value := info then pending := pending ++ value.ctors.toArray
+  logInfo m!"Axiom audit: core module theorems={checked}, standard base only"
+  logInfo "Spec audit: kernels=0, independentSpecs=0; core-only module checked"
+'''
+
 def imported_modules(source):
     """Read real imports, including multiline imports of repaired sources."""
     lines = lean_code_mask(source).splitlines()
     module = r'(?:[A-Z]\w*|[A-Za-z_]\w*\.[\w.]+)'
     for i, line in enumerate(lines):
-        match = re.match(r'^\s*(?:public\s+)?(?:meta\s+)?import\s+(.*)', line)
+        match = re.match(r'^\s*(?:public\s+)?(?:meta\s+)?import(?:\s+all)?\s+(.*)', line)
         if not match:
             continue
         body = match[1]
@@ -66,19 +117,35 @@ def manifest_names_for(rel_path, manifest=MANIFEST):
     return names
 
 
-def prepare_source(text, rel, manifest=MANIFEST):
+def add_import(text, module):
+    """Keep Lean's module/prelude header and multiline imports in place."""
     lines = text.splitlines()
+    code = lean_code_mask(text).splitlines()
+    first_import = next((i for i, line in enumerate(code)
+                         if re.match(r'^\s*(?:public\s+)?(?:meta\s+)?import\b', line)), None)
+    if first_import is None:
+        first_import = 0
+        for i, line in enumerate(code):
+            if not line.strip():
+                continue
+            if line.strip() in ('module', 'prelude'):
+                first_import = i + 1
+            else:
+                break
+    if not any(re.fullmatch(r'\s*(?:public\s+)?import\s+' + re.escape(module) + r'\s*', line)
+               for line in code):
+        lines.insert(first_import, 'import ' + module)
+    return '\n'.join(lines) + '\n'
+
+
+def prepare_source(text, rel, manifest=MANIFEST):
+    if re.search(r'^\s*module\s*$', lean_code_mask(text), re.M):
+        return add_import(text, 'Lean') + CORE_MODULE_AUDIT
 
     # Explicit manifest entries supplement the Lean-registered headline set.
     axioms_targets = list(dict.fromkeys(manifest_names_for(rel, manifest)))
 
-    # Insert before the first import, preserving multiline import declarations.
-    first_import = next((i for i, line in enumerate(lean_code_mask(text).splitlines())
-                         if re.match(r'^\s*(?:public\s+)?(?:meta\s+)?import\b', line)), 0)
-    new_lines = list(lines)
-    audit_import = "import VeriTile.Meta.StatementAudit"
-    if audit_import not in new_lines:
-        new_lines.insert(first_import, audit_import)
+    new_lines = add_import(text, 'VeriTile.Meta.StatementAudit').splitlines()
 
     footer = ["", "-- ==== external trust audit (appended by bench/audit_trust.sh) ===="]
     footer.append("#auditModuleAxioms")

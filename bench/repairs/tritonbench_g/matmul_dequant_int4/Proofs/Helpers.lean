@@ -56,10 +56,10 @@ def weightNibble (s : Shape) (a : Arithmetic α) (order : ReductionOrder s.group
     (a.fromInt ((zeroNibble s a order initial (k/s.group) n).toNat : Int)))
 
 /-- Independent packed layout objective, indexed by output matrix coordinates. -/
-def weightSpec (s : Shape) (a : Arithmetic α) (order : ReductionOrder s.group)
+@[standalone_spec] def weightSpec (s : Shape) (a : Arithmetic α) (order : ReductionOrder s.group)
     (initial : State α) (p n : Nat) :=
   packedSpec (fun i => weightNibble s a order initial (p*8+i) n)
-def zeroSpec (s : Shape) (a : Arithmetic α) (order : ReductionOrder s.group)
+@[standalone_spec] def zeroSpec (s : Shape) (a : Arithmetic α) (order : ReductionOrder s.group)
     (initial : State α) (g p : Nat) :=
   packedSpec (fun i => zeroNibble s a order initial g (p*8+i))
 

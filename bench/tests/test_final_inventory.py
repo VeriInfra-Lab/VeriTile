@@ -98,9 +98,11 @@ class FinalReviewTests(unittest.TestCase):
             read(self.root, 'duplicate.json')
 
     def test_imports_ignore_strings_comments_and_keep_continuations(self):
-        source = ('/- import bench.fake -/\nimport VeriTile.Triton\n  VeriTile.Spec bench.fixture.IO\n'
+        source = ('module\n/- import bench.fake -/\nimport all Init.Data.Nat.Power2.Basic\n'
+                  'import VeriTile.Triton\n  VeriTile.Spec bench.fixture.IO\n'
                   'def label := "import bench.fake"\nimport bench.fixture.Proofs\n')
-        self.assertEqual(modules(source), {'VeriTile.Triton', 'VeriTile.Spec', 'bench.fixture.IO', 'bench.fixture.Proofs'})
+        self.assertEqual(modules(source), {'Init.Data.Nat.Power2.Basic', 'VeriTile.Triton',
+                                          'VeriTile.Spec', 'bench.fixture.IO', 'bench.fixture.Proofs'})
 
     def test_repaired_reader_audits_transitive_kernel(self):
         helper = self.root / 'bench/repairs/fixture/Proofs/Real.lean'

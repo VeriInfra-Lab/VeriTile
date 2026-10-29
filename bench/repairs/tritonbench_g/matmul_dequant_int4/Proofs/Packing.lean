@@ -37,7 +37,7 @@ theorem difference_no_overflow (a b : BitVec 32) :
 def packLoop (q : Fin 8 → BitVec 4) : Nat → Word
   | 0 => 0
   | n+1 => packLoop q n + ((q ⟨n%8,Nat.mod_lt _ (by decide)⟩).zeroExtend 32 <<< (4*n))
-def packedSpec (q : Fin 8 → BitVec 4) : Word :=
+@[standalone_spec] def packedSpec (q : Fin 8 → BitVec 4) : Word :=
   q 7 ++ q 6 ++ q 5 ++ q 4 ++ q 3 ++ q 2 ++ q 1 ++ q 0
 
 theorem append_nat (a : BitVec m) (b : BitVec n) : (a++b).toNat=a.toNat*2^n+b.toNat := by

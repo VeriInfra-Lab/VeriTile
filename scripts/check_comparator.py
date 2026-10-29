@@ -19,7 +19,7 @@ from comparator_common import comparator_command, require_tools, snapshot_projec
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'bench'))
-from audit_trust_prep import prepare_source
+from audit_trust_prep import add_import, prepare_source
 
 # Alias actual Lean names instead of trying to parse private, quoted, or
 # hygienic names through comparator's dotted-string config format.
@@ -145,7 +145,7 @@ def check(workspace, source=None, trust=False, library=False):
     selection = '#[' + ', '.join(f'{json.dumps(n)}.toName' for n in selected) + ']'
     footer = INVENTORY.replace('__SELECTED__', selection).replace(
         '__REPORT__', json.dumps(str(metadata)))
-    program = 'import Lean\n' + text + '\n' + footer
+    program = add_import(text, 'Lean') + '\n' + footer
     (judge / 'VeriTileComparator' / (tag + '.lean')).write_text(program)
     (job_logs / 'Source.lean').write_text(program)
     # These are trusted repository sources, not an untrusted agent submission.

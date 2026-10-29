@@ -53224,10 +53224,10 @@
     "lakefile.toml": "af966429e65ef77286eeefdfeb353ca4807902cb8f26927a3799b7ab91f52321"
   },
   "main_integration": {
-    "validation": "LOCAL_BUILD_PASS",
+    "validation": "BUILD_AND_REPLAY_REQUIRED_BY_CI",
     "dependency_source_sha256": {
       "VeriTile/Meta/Specification.lean": "7580bdc657b49d3cb8c518cbc08bcd7f405f0ede509e3a7deb6dd8ab9dbdb8fe",
-      "VeriTile/Meta/StatementAudit.lean": "e1ac36f818e15228ad1e14fece5b314b103d36e953a0c7f0869e178a4da69dec",
+      "VeriTile/Meta/StatementAudit.lean": "ceaf19099e999da6a9df4378821d18bf9cc0b81ddea73c65df2d12c5eaa37f04",
       "VeriTile/Spec.lean": "d3a6e4170f61cc2ba8f28a776f26016005aa0c2d9675fb3322e7b5eaeb3c9201",
       "VeriTile/Triton/Core/Ast.lean": "7f730e55e8a2b75e105ad4930dd6323e146fbf8cfeb3ecf15cf7e05e38aed68b",
       "VeriTile/Triton/Core/DiscreteReduction.lean": "afa9c2d98feab63377d0f8a1c558411b5f49468f6bc3f3fd5b859efe4cbf4e9c",
@@ -53336,6 +53336,6 @@
       "lake-manifest.json": "de981cfa9d3ed8d548669570dde19d20b103c081d0772c0184d6e401f9fe96f7",
       "lean-toolchain": "651c8accb402b0c071cd336e9d3dc0a55516b1bfb434ddc4801f14936785b1d2"
     },
-    "scope": "Complete final library/corpus/regression build, fresh isolated compilation of all 334 tasks and joint collection import against the final shared framework. Official comparator CI must also pass before merge."
+    "scope": "CI builds the complete retained library, corpus, regressions and all 334 interfaces, and requires official comparator replay before merge. Isolated collection records bind the collection sources and shared adapters within the evidence limit stated above."
   }
 }

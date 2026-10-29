@@ -119,7 +119,7 @@ the same pinned tools through `.github/actions/setup-comparator`.
 
 The Bench audit workflow checks the final source and contract inventory,
 builds/replays the library, builds all 334 benchmark interfaces, and builds and
-replays the retained proof corpus in 16 independent shards. Each worker builds
+replays the retained proof corpus in 64 independent shards. Each worker builds
 its complete dependency closure. The final gate requires the global job, draft
 build and every shard to succeed; failed, cancelled or skipped jobs fail it.
 

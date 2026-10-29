@@ -34,6 +34,11 @@ namespace VeriTile.Meta
 initialize independentSpecAttr : TagAttribute ←
   registerTagAttribute `kernel_spec "An independent mathematical kernel specification."
 
+/-- A standalone mathematical reference can be checked without a kernel in scope.
+Its definition must still be independent of every reachable ComputeKernel. -/
+initialize standaloneSpecAttr : TagAttribute ←
+  registerTagAttribute `standalone_spec "An independent mathematical reference defined separately from its kernel."
+
 /-- Execution denotations are inventoried separately, not independent specifications. -/
 initialize kernelDenotationAttr : TagAttribute ←
   registerTagAttribute `kernel_denotation "A kernel execution denotation."
@@ -168,17 +173,29 @@ def auditModuleSpecs (kernelModules : Array Name := #[]) : CommandElabM Unit := 
     if origin.isSome then continue
     let isDenotation := kernelDenotationAttr.hasTag env name
     if isDenotation then denotations := denotations.push name
-    if independentSpecAttr.hasTag env name ||
+    if standaloneSpecAttr.hasTag env name &&
+        (independentSpecAttr.hasTag env name || isDenotation) then
+      throwError "Standalone reference cannot also be a kernel specification or denotation: {name}"
+    if independentSpecAttr.hasTag env name || standaloneSpecAttr.hasTag env name ||
         (!isDenotation && userName.getString!.endsWith "Spec") then
       specs := specs.push name
   kernels := kernels.qsort (·.toString < ·.toString)
   specs := specs.qsort (·.toString < ·.toString)
   denotations := denotations.qsort (·.toString < ·.toString)
-  if !specs.isEmpty && kernels.isEmpty then
+  if specs.any (fun spec => !standaloneSpecAttr.hasTag env spec) && kernels.isEmpty then
     throwError "Spec audit found {specs.size} specifications but no ComputeKernel declarations"
   for spec in specs do
     let closure := projValueClosure env #[spec] {}
-    let hit := kernels.filter (closure.contains ·)
+    let mut hit := kernels.filter (closure.contains ·)
+    if standaloneSpecAttr.hasTag env spec then
+      -- A standalone annotation cannot hide a source dependency, including a
+      -- kernel imported outside the caller's explicit module selection.
+      for name in closure.toList do
+        if let some info := env.find? name then
+          let isKernel ← liftTermElabM do
+            Meta.forallTelescopeReducing info.type fun _ result => do
+              return result.isConstOf `VeriTile.Triton.ComputeKernel
+          if isKernel && !hit.contains name then hit := hit.push name
     unless hit.isEmpty do
       throwError "{spec}: SELF-REFERENTIAL — definition transitively uses kernel(s) {hit}"
   let display := fun (names : Array Name) =>

@@ -5042,7 +5042,7 @@
       ],
       "source_sha256": {
         "VeriTile/Meta/Specification.lean": "7580bdc657b49d3cb8c518cbc08bcd7f405f0ede509e3a7deb6dd8ab9dbdb8fe",
-        "VeriTile/Meta/StatementAudit.lean": "e1ac36f818e15228ad1e14fece5b314b103d36e953a0c7f0869e178a4da69dec",
+        "VeriTile/Meta/StatementAudit.lean": "ceaf19099e999da6a9df4378821d18bf9cc0b81ddea73c65df2d12c5eaa37f04",
         "VeriTile/Spec.lean": "d3a6e4170f61cc2ba8f28a776f26016005aa0c2d9675fb3322e7b5eaeb3c9201",
         "VeriTile/Torch/Tensor.lean": "5ffea95271519b19b6ac5bd006cb95f778ebc99c21648700ca74d054557db052",
         "VeriTile/Triton/Concurrency/Atomic.lean": "03dc2a7547ff4c90ca22d3af13867ca243306fbb06e73ddc424d41545129da52",
@@ -9557,7 +9557,7 @@
       ],
       "source_sha256": {
         "VeriTile/Meta/Specification.lean": "7580bdc657b49d3cb8c518cbc08bcd7f405f0ede509e3a7deb6dd8ab9dbdb8fe",
-        "VeriTile/Meta/StatementAudit.lean": "e1ac36f818e15228ad1e14fece5b314b103d36e953a0c7f0869e178a4da69dec",
+        "VeriTile/Meta/StatementAudit.lean": "ceaf19099e999da6a9df4378821d18bf9cc0b81ddea73c65df2d12c5eaa37f04",
         "VeriTile/Spec.lean": "d3a6e4170f61cc2ba8f28a776f26016005aa0c2d9675fb3322e7b5eaeb3c9201",
         "VeriTile/Torch/Tensor.lean": "5ffea95271519b19b6ac5bd006cb95f778ebc99c21648700ca74d054557db052",
         "VeriTile/Triton/Core/Ast.lean": "7f730e55e8a2b75e105ad4930dd6323e146fbf8cfeb3ecf15cf7e05e38aed68b",
@@ -9620,7 +9620,7 @@
         "bench/repairs/tritonbench_g/kv_cache_filling/Proofs/CopyExecution.lean": "d1c97886b9787079bf7d6f2f3567b1ad7003627515eb86d5e88d2dbcf9b00444",
         "bench/repairs/tritonbench_g/kv_cache_filling/Proofs/CopySource.lean": "67f425bc798e4dc322c86a739c1d30c0e344bf22edb2f5e0cfc4044582469d9a",
         "bench/repairs/tritonbench_g/kv_cache_filling/Proofs/NativeProfile.lean": "3ef8d0896d783d960074052e5feec4810bc658b44833591560407e855b420d95",
-        "bench/repairs/tritonbench_g/kv_cache_filling/Proofs/PtxCast.lean": "2e20514fa5db5600a1d254bdeeec7430d1f9ee965ac7e33cd9c118431633840c",
+        "bench/repairs/tritonbench_g/kv_cache_filling/Proofs/PtxCast.lean": "03ac4520b018298227a9ac61dd9ef7d5943586c9ee3f56283a7f531d15f8c71c",
         "bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantExecution.lean": "606e3a09541052b2716ee2854a5e033694159243801e241c6cf1e84e098606de",
         "bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantExecution4.lean": "2e59e4c1f36637edb600490e76a55aa43e719cf8f01069fbfa7dc85ca26a7f3c",
         "bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantNative.lean": "1b3bca37862103b815cb03189092ca26c4231ba66a66e5d87e8a0abaccbcba5e",
@@ -13550,7 +13550,7 @@
         "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8",
         "bench/repairs/tritonbench_g/quant_transpose_kernel/Kernels.lean": "2a87e316a49398a7f0562aa6be82a5c182755ccd24c423ffc1289bbc2fd49b51",
         "bench/repairs/tritonbench_g/quant_transpose_kernel/IO.lean": "500c6a9054c057e36c4b4372259662c81c5f64c88fa2acdff70f9771e1cd0fa5",
-        "bench/repairs/tritonbench_g/quant_transpose_kernel/Proofs/KernelModels.lean": "283de9e543040f8303417def8545d2b906465b72ab85c59854f89a622420a8c6",
+        "bench/repairs/tritonbench_g/quant_transpose_kernel/Proofs/KernelModels.lean": "97720ef0a0a6f59b6b4a6f736a6f2dce2659eb152c5eb35d5f86d39f5e2d6b22",
         "bench/repairs/tritonbench_g/quant_transpose_kernel/Proofs/ByteIO.lean": "9abb5d2d942124788741b9db6756fe1e41b7bfbe723259c8059eb0013b47c466",
         "bench/repairs/tritonbench_g/quant_transpose_kernel/Proofs/KernelSafety.lean": "bcbb16929e7ac79d863d32a9b8a3ad0c787599d7e793e18271926b55d3a833e1",
         "bench/repairs/tritonbench_g/quant_transpose_kernel/Proofs/KernelResult.lean": "5d10f74e4318f6314277b787424e9772e86169e2505b41c23a70bbc87fd4b61e",
@@ -13652,7 +13652,7 @@
         "bench/repairs/tritonbench_g/quantize_copy_kv/Proofs/KernelRealModel.lean": "7fe4de3c6f0401377c65c4f1434f14e7555f64fa7617f5bb0092b6251b59bbaf",
         "bench/repairs/tritonbench_g/quantize_copy_kv/Proofs/Model.lean": "a191d089a8752649cf3dcd807307b1d09c8b9e34084c44b177fac607d6fa42a7",
         "bench/repairs/tritonbench_g/quantize_copy_kv/Proofs/RawNative.lean": "dfb9ca422a6693f5c196f80c9e5d3bcd5b4470a41a1bbd9b11f3a3d9515d1e61",
-        "bench/repairs/tritonbench_g/quantize_copy_kv/Proofs/PtxSigned.lean": "52a5b695bf6781d079b63974ca49c1b92151cd855ee0479774ac0d0114a50558",
+        "bench/repairs/tritonbench_g/quantize_copy_kv/Proofs/PtxSigned.lean": "a579544f3393b8905919246f1fe48975250ffbb3dbd87e4703b0ab66c9a5cf7b",
         "bench/repairs/tritonbench_g/quantize_copy_kv/Proofs/KernelNativeResult.lean": "19e4e725cd10b1cc0ac9760c49f8d8defe2093828ecc065c4cee86c255aa993a"
       },
       "readers": [
@@ -15418,7 +15418,7 @@
         "bench/repairs/tritonbench_g/rotary_emb/Proofs/TypedNative.lean": "c66a082b6e287194ff5fa37bb252764fcd3adc13206c413e6ab74f8ce56249fa",
         "bench/repairs/tritonbench_g/rotary_emb/Proofs/TypedResult.lean": "82f4c5c2279fe4b8e9b37f901591c06f3a371869cdd91cee6a84ad68ef43f5f6",
         "bench/repairs/tritonbench_g/rotary_emb/Proofs/Vector.lean": "c2cbdef8c79c0d95da0371087bb5b1dd42c9d05d0b0ee67454e3df2b22f82dd2",
-        "bench/repairs/tritonbench_g/rotary_emb/Spec.lean": "a7da9410ab78ba33972699f9a721b90bad4c936ecc5cd0afdff1bf0efd92b15c"
+        "bench/repairs/tritonbench_g/rotary_emb/Spec.lean": "5d016fa662a46a84d729748a54acef82b6d1ed969ea9228da046e75e2c959d84"
       },
       "readers": [
         {
@@ -17951,7 +17951,7 @@
       ],
       "source_sha256": {
         "VeriTile/Meta/Specification.lean": "7580bdc657b49d3cb8c518cbc08bcd7f405f0ede509e3a7deb6dd8ab9dbdb8fe",
-        "VeriTile/Meta/StatementAudit.lean": "e1ac36f818e15228ad1e14fece5b314b103d36e953a0c7f0869e178a4da69dec",
+        "VeriTile/Meta/StatementAudit.lean": "ceaf19099e999da6a9df4378821d18bf9cc0b81ddea73c65df2d12c5eaa37f04",
         "VeriTile/Spec.lean": "d3a6e4170f61cc2ba8f28a776f26016005aa0c2d9675fb3322e7b5eaeb3c9201",
         "VeriTile/Torch/FP32.lean": "013a646a19c94863c9348e5797b89a4ae95e10bb79b4109f6df36433bd168082",
         "VeriTile/Torch/Tensor.lean": "5ffea95271519b19b6ac5bd006cb95f778ebc99c21648700ca74d054557db052",

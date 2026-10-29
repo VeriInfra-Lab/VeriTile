@@ -11,10 +11,10 @@ def score (K : Nat) (scale : ℝ) (x : Inputs ℝ) (t j : Nat) : ℝ :=
 def weight (K : Nat) (scale : ℝ) (x : Inputs ℝ) (t j : Nat) : ℝ :=
   if j ≤ t then (score K scale x t j)^2 else 0
 
-def outputSpec (T K : Nat) (scale : ℝ) (x : Inputs ℝ) (t p : Nat) : ℝ :=
+@[standalone_spec] def outputSpec (T K : Nat) (scale : ℝ) (x : Inputs ℝ) (t p : Nat) : ℝ :=
   ∑ j ∈ Finset.range T, weight K scale x t j * x.v j p
 
-def normalizerSpec (T K : Nat) (scale : ℝ) (x : Inputs ℝ) (t : Nat) : ℝ :=
+@[standalone_spec] def normalizerSpec (T K : Nat) (scale : ℝ) (x : Inputs ℝ) (t : Nat) : ℝ :=
   ∑ j ∈ Finset.range T, weight K scale x t j
 
 /-- Both public scale branches; no native rounding identity is asserted. -/
@@ -22,7 +22,7 @@ def selectedScale (K : Nat) (useScale : Bool) : ℝ :=
   if useScale then (Real.sqrt (K : ℝ))⁻¹ else 1
 
 /-- Return-both has priority over the normalization flag. -/
-def publicSpec (T K : Nat) (scale eps : ℝ) (x : Inputs ℝ)
+@[standalone_spec] def publicSpec (T K : Nat) (scale eps : ℝ) (x : Inputs ℝ)
     (returnBoth normalize : Bool) : PublicResult ℝ :=
   let o := outputSpec T K scale x
   let z := normalizerSpec T K scale x
@@ -43,17 +43,17 @@ def gradientCoefficient (K V : Nat) (scale : ℝ) (x : Inputs ℝ)
     (g : Cotangent ℝ) (t j : Nat) : ℝ :=
   if j ≤ t then 2 * scale * scoreCotangent V x g t j * score K scale x t j else 0
 
-def querySpec (T K V : Nat) (scale : ℝ) (x : Inputs ℝ) (g : Cotangent ℝ) (t e : Nat) : ℝ :=
+@[standalone_spec] def querySpec (T K V : Nat) (scale : ℝ) (x : Inputs ℝ) (g : Cotangent ℝ) (t e : Nat) : ℝ :=
   ∑ j ∈ Finset.range T, gradientCoefficient K V scale x g t j * x.k j e
 
-def keySpec (T K V : Nat) (scale : ℝ) (x : Inputs ℝ) (g : Cotangent ℝ) (j e : Nat) : ℝ :=
+@[standalone_spec] def keySpec (T K V : Nat) (scale : ℝ) (x : Inputs ℝ) (g : Cotangent ℝ) (j e : Nat) : ℝ :=
   ∑ t ∈ Finset.range T, gradientCoefficient K V scale x g t j * x.q t e
 
-def valueSpec (T K : Nat) (scale : ℝ) (x : Inputs ℝ) (g : Cotangent ℝ) (j p : Nat) : ℝ :=
+@[standalone_spec] def valueSpec (T K : Nat) (scale : ℝ) (x : Inputs ℝ) (g : Cotangent ℝ) (j p : Nat) : ℝ :=
   ∑ t ∈ Finset.range T, weight K scale x t j * g.output t p
 
 /-- First-order variation, independently expanded by causal pair and feature. -/
-def directionalSpec (T K V : Nat) (scale : ℝ) (x dx : Inputs ℝ) (g : Cotangent ℝ) : ℝ :=
+@[standalone_spec] def directionalSpec (T K V : Nat) (scale : ℝ) (x dx : Inputs ℝ) (g : Cotangent ℝ) : ℝ :=
   ∑ t ∈ Finset.range T, ∑ j ∈ Finset.range T,
     ((∑ e ∈ Finset.range K,
       gradientCoefficient K V scale x g t j * (dx.q t e * x.k j e + x.q t e * dx.k j e)) +

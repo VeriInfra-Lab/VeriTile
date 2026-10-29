@@ -48,10 +48,9 @@ abbrev Word := FP.Value .fp32
 instance : Inhabited Word := ⟨FP.Value.zero .fp32⟩
 def levels : Word := FP.Value.ofBits .fp32 0x42fe0000
 
-/-! Pinned conversion model for the observed Triton 3.7.1, CUDA sm80 lowering:
-`cvt.rni.ftz.s64.f32`, followed by `st.global.b8`. The offline explicit i32
-signature evidence is in kernel-evidence/quant_transpose_kernel; it is not a
-captured Python JIT binding trace or GPU execution.
+/-! Conversion model for the selected Triton 3.7.1, CUDA sm80 instruction
+profile: `cvt.rni.ftz.s64.f32`, followed by `st.global.b8`. Python JIT binding
+and GPU execution require separate validation.
 
 Official instruction references:
 https://docs.nvidia.com/cuda/parallel-thread-execution/index.html#data-movement-and-conversion-instructions-cvt
