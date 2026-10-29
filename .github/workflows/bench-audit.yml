@@ -121,7 +121,18 @@ jobs:
           build: false
           test: false
           lint: false
-          use-mathlib-cache: auto
+          use-mathlib-cache: false
+      - name: Fetch Mathlib cache with bounded network retries
+        env:
+          MATHLIB_CACHE_GET_URL: https://cache.mathlib.org/mathlib4
+        run: |
+          for delay in 0 5 15; do
+            sleep "$delay"
+            if lake exe cache get; then
+              exit 0
+            fi
+          done
+          exit 1
       - name: Build every selected module and its complete dependencies
         run: |
           if [ "$AUDIT_MODE" = --final-inventory ]; then
