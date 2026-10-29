@@ -202,7 +202,7 @@ structure Reduce where
 structure Program where
   first : First
   mac : Mac
-  full : Full
+  «full» : Full
   reduce : Reduce
   deriving Repr
 
@@ -211,7 +211,7 @@ structure Sources where
   linear : List Statement
   mac : List Statement
   first : List Statement
-  full : List Statement
+  «full» : List Statement
   reduce : List Statement
   deriving Repr
 

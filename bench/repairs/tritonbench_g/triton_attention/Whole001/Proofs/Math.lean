@@ -30,11 +30,11 @@ noncomputable def causalWeight (Q K : Tensor N D) (scale : ℝ) (i j : Fin N) : 
 noncomputable def partition (Q K : Tensor N D) (scale : ℝ) (i : Fin N) : ℝ :=
   ∑ j, causalWeight Q K scale i j
 
-@[kernel_spec] noncomputable def probability (Q K : Tensor N D) (scale : ℝ)
+@[standalone_spec] noncomputable def probability (Q K : Tensor N D) (scale : ℝ)
     (i j : Fin N) : ℝ :=
   causalWeight Q K scale i j / partition Q K scale i
 
-@[kernel_spec] noncomputable def attention (Q K V : Tensor N D) (scale : ℝ) :
+@[standalone_spec] noncomputable def attention (Q K V : Tensor N D) (scale : ℝ) :
     Tensor N D := fun i e => ∑ j, probability Q K scale i j * V j e
 
 noncomputable def dotGV (V G : Tensor N D) (i j : Fin N) : ℝ :=
@@ -44,17 +44,17 @@ noncomputable def correction (Q K V G : Tensor N D) (scale : ℝ) (i : Fin N) : 
   ∑ j, probability Q K scale i j * dotGV V G i j
 
 /-- Cotangent of the scaled score, using the ordinary softmax Jacobian. -/
-@[kernel_spec] noncomputable def scoreGradient (Q K V G : Tensor N D) (scale : ℝ)
+@[standalone_spec] noncomputable def scoreGradient (Q K V G : Tensor N D) (scale : ℝ)
     (i j : Fin N) : ℝ :=
   probability Q K scale i j * (dotGV V G i j - correction Q K V G scale i)
 
-@[kernel_spec] noncomputable def gradientQ (Q K V G : Tensor N D) (scale : ℝ) :
+@[standalone_spec] noncomputable def gradientQ (Q K V G : Tensor N D) (scale : ℝ) :
     Tensor N D := fun i e => ∑ j, (scoreGradient Q K V G scale i j * scale) * K j e
 
-@[kernel_spec] noncomputable def gradientK (Q K V G : Tensor N D) (scale : ℝ) :
+@[standalone_spec] noncomputable def gradientK (Q K V G : Tensor N D) (scale : ℝ) :
     Tensor N D := fun j e => ∑ i, (scoreGradient Q K V G scale i j * scale) * Q i e
 
-@[kernel_spec] noncomputable def gradientV (Q K : Tensor N D) (G : Tensor N D)
+@[standalone_spec] noncomputable def gradientV (Q K : Tensor N D) (G : Tensor N D)
     (scale : ℝ) : Tensor N D := fun j e => ∑ i, probability Q K scale i j * G i e
 
 def causalSet (i : Fin N) : Finset (Fin N) := Finset.univ.filter (· ≤ i)
@@ -63,7 +63,7 @@ theorem causalSet_nonempty (i : Fin N) : (causalSet i).Nonempty := by
   exact ⟨i, by simp [causalSet]⟩
 
 /-- The saved maximum is derived from Q/K, rather than supplied as an output premise. -/
-@[kernel_spec] noncomputable def savedMax (Q K : Tensor N D) (scale : ℝ)
+@[standalone_spec] noncomputable def savedMax (Q K : Tensor N D) (scale : ℝ)
     (i : Fin N) : ℝ :=
   (causalSet i).sup' (causalSet_nonempty i) (score Q K scale i)
 
@@ -72,10 +72,10 @@ noncomputable def sourceP (Q K : Tensor N D) (scale : ℝ) (M : Fin N → ℝ)
     (i j : Fin N) : ℝ :=
   if j ≤ i then Real.exp (score Q K scale i j - M i) else 0
 
-@[kernel_spec] noncomputable def savedNormalizer (Q K : Tensor N D) (scale : ℝ)
+@[standalone_spec] noncomputable def savedNormalizer (Q K : Tensor N D) (scale : ℝ)
     (i : Fin N) : ℝ := ∑ j, sourceP Q K scale (savedMax Q K scale) i j
 
-@[kernel_spec] noncomputable def savedOutput (Q K V : Tensor N D) (scale : ℝ) :
+@[standalone_spec] noncomputable def savedOutput (Q K V : Tensor N D) (scale : ℝ) :
     Tensor N D := fun i e =>
   (∑ j, sourceP Q K scale (savedMax Q K scale) i j * V j e) /
     savedNormalizer Q K scale i

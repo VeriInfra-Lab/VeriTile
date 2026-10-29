@@ -55,7 +55,7 @@ structure OnlineRow (D : Nat) where
   output : Fin D → ℝ
 
 /-- Independent closed form for a finite visible-key set. -/
-@[kernel_spec] noncomputable def batchRow (s : Fin N → ℝ) (V : Tensor N D)
+@[standalone_spec] noncomputable def batchRow (s : Fin N → ℝ) (V : Tensor N D)
     (A : Finset (Fin N)) (hA : A.Nonempty) : OnlineRow D :=
   let m := A.sup' hA s
   ⟨m, blockMass s A m, fun e => blockNumerator s V A m e / blockMass s A m⟩

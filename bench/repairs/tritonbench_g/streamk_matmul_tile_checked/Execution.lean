@@ -213,7 +213,7 @@ def firstEvents (p : Source.Parameters) (s : Program) (ops : Instructions α) : 
 structure Events (α : Type) (p : Source.Parameters) where
   first : List (Source.Event α p)
   reduce : List (Source.Event α p)
-  full : List (Source.Event α p)
+  «full» : List (Source.Event α p)
 
 def events (p : Source.Parameters) (s : Program) (ops : Instructions α) : Option (Events α p) := do
   if typed s then
