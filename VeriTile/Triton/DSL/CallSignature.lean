@@ -527,6 +527,9 @@ private partial def specializeStringBlock (choices : StringChoices)
         else `(tritonStmt| if $cond { $yes* })]
       continue
     match st with
+    | `(tritonStmt| while $condition:tritonExpr { $body:tritonStmt* }) =>
+        let body := (← specializeStringBlock choices body.toList).toArray
+        result := result ++ [← `(tritonStmt| while $condition { $body* })]
     | `(tritonStmt| for $i:ident in range($a:tritonExpr, $b:tritonExpr, $c:tritonExpr) { $body:tritonStmt* }) =>
         let body := (← specializeStringBlock choices body.toList).toArray
         result := result ++ [← `(tritonStmt| for $i in range($a,$b,$c) { $body* })]

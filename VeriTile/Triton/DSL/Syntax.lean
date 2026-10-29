@@ -433,6 +433,7 @@ syntax "tl.debug_barrier()" : tritonStmt
 syntax "tl.static_print(" term ")" : tritonStmt
 syntax "tl.static_assert(" tritonExpr ("," str)? ")" : tritonStmt
 syntax (name := tritonReturn) "return" : tritonStmt
+syntax (name := tritonWhile) "while " tritonExpr " { " tritonStmt* " }" : tritonStmt
 syntax "tl.for " ident " in " "$(" term ")" " { " tritonStmt* " }" : tritonStmt
 syntax "tl.for " ident " in " num " { " tritonStmt* " }" : tritonStmt
 syntax "for " ident " in " "range(0, " "$(" term ")" ", " "$(" term ")" ")" " { " tritonStmt* " }" : tritonStmt

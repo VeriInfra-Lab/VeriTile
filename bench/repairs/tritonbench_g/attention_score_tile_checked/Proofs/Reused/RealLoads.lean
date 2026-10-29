@@ -44,7 +44,7 @@ theorem query_load (s : BlockState) (Q K M : RegionName)
   cases evenM
   all_goals simp [checks, queryPointer, RealTiles.query, inputs, d.isLt,
     BlockState.readMemValue_real, BlockState.defaultCarrier]
-  all_goals split_ifs <;> rfl
+  all_goals split_ifs <;> first | rfl | omega
 
 theorem key_load (s : BlockState) (Q K M : RegionName)
     (B D NK baseQ baseK baseM sqm sqk skn skk startN : Nat) (evenN : Bool)
@@ -58,21 +58,21 @@ theorem key_load (s : BlockState) (Q K M : RegionName)
   cases evenN
   all_goals simp [checks, keyPointer, RealTiles.key, inputs, d.isLt,
     BlockState.readMemValue_real, BlockState.defaultCarrier]
-  all_goals split_ifs <;> rfl
+  all_goals split_ifs <;> first | rfl | omega
 
 theorem normalizer_load (s : BlockState) (Q K M : RegionName)
     (B D N baseQ baseK baseM sqm sqk skn skk row : Nat)
     (hp : s.regs .ptr [B] "m_ptrs" = some (normalizerPointers M B baseM row))
-    (hr : s.regs .nat [] "start_m" = some (Tile.scalar row)) :
+    (hr : s.regs .int [] "start_m" = some (Tile.scalar (row : Int))) :
     evalOp (.load .real (.ptr (.ref .ptr [B] "m_ptrs"))
-      (.maskOther (.lt .nat .scalarR (.add .nat .scalarL (.ref .nat [] "start_m") (.arange B)) (.constNat N)) (.broadcast (.const 0) [B])) .zero) s =
+      (.maskOther (.lt .int .scalarR (.add .int .scalarL (.ref .int [] "start_m") (.castNatToInt (.arange B))) (.castNatToInt (.constNat N))) (.broadcast (.const 0) [B])) .zero) s =
       some (RealTiles.normalizer (inputs s Q K M D baseQ baseK baseM sqm sqk skn skk) B N row) := by
   simp only [evalOp.eq_def, hp, hr, bind, Option.bind]
   congr 1
   apply Tile.ext
   rintro ⟨i,⟨⟩⟩
   simp [normalizerPointers, RealTiles.normalizer, inputs, Nat.add_assoc, Region.cast, NumericDType.add, BlockState.defaultCarrier]
-  split_ifs <;> rfl
+  split_ifs <;> first | rfl | omega
 
 /-- The source advances Q by one query block, leaving its shape and strides. -/
 theorem query_advance (s : BlockState) (Q : RegionName)

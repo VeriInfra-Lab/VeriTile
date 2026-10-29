@@ -46,16 +46,18 @@ theorem twopass_run {α : Type} [Inhabited α] (M : Algebra α)
     (x g b y : RegionName) (stride : Nat) (ε : ℝ) (xs gs bs : Fin N → α) (s : State α)
     (hx : ∀ i : Fin N, M.fp32Load ((s.mem x (s.pids 0 * stride + i.val)).read .real) = xs i)
     (hg : ∀ i : Fin N, M.fp32Load ((s.mem g i.val).read .real) = gs i)
-    (hb : ∀ i : Fin N, M.fp32Load ((s.mem b i.val).read .real) = bs i) :
+    (hb : ∀ i : Fin N, M.fp32Load ((s.mem b i.val).read .real) = bs i)
+    (h64 : N < 18446744073709551616) :
     ∃ t, FP.Structural.exec (sourceEngine M) (twoPassLayerNormKernel x g b y N stride ε) s = some t ∧
       (∀ i : Fin N, t.mem y (s.pids 0 * stride + i.val) =
         .mk .bf16 (outputValue (sourceEngine M) ε (xs i) (gs i) (bs i) (twopassMean (sourceEngine M) xs) (twopassVariance (sourceEngine M) xs))) ∧
       (∀ r o, (r ≠ y ∨ ∀ i : Fin N, o ≠ s.pids 0 * stride + i.val) → t.mem r o = s.mem r o) := by
+  have hmod : N % 18446744073709551616 = N := Nat.mod_eq_of_lt h64
   have hinj : Function.Injective (fun i : TileIndex [N] => s.pids 0 * stride + i.1.val) := by
     rintro ⟨a, _⟩ ⟨b, _⟩ hab
     obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab)
     rfl
-  simp [sourceEngine, Algebra.withDefaultPrecision, resolvePrecision, ComputeDType.eraseDType, twoPassLayerNormKernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp, evalOp_unfold,
+  simp [sourceEngine, Algebra.withDefaultPrecision, resolvePrecision, ComputeDType.eraseDType, twoPassLayerNormKernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp, evalOp_unfold, integralMod, hmod,
     numeric, FP.Structural.bop, store, TileShape.eraseAxis, Region.cast, ofFloat, toFloat,
     hx, hg, hb, WelfordFPExecution.sumValue, twopassMean, twopassVariance, outputValue]
   refine ⟨fun i => ?_, fun r o hmiss => ?_⟩
@@ -72,11 +74,13 @@ theorem fused_run {α : Type} [Inhabited α] (M : Algebra α)
     (x g b y : RegionName) (stride : Nat) (ε : ℝ) (xs gs bs : Fin N → α) (s : State α)
     (hx : ∀ i : Fin N, M.fp32Load ((s.mem x (s.pids 0 * stride + i.val)).read .real) = xs i)
     (hg : ∀ i : Fin N, M.fp32Load ((s.mem g i.val).read .real) = gs i)
-    (hb : ∀ i : Fin N, M.fp32Load ((s.mem b i.val).read .real) = bs i) :
+    (hb : ∀ i : Fin N, M.fp32Load ((s.mem b i.val).read .real) = bs i)
+    (h64 : N < 18446744073709551616) :
     ∃ t, FP.Structural.exec (sourceEngine M) (fusedLayerNormKernel x g b y N stride ε) s = some t ∧
       (∀ i : Fin N, t.mem y (s.pids 0 * stride + i.val) =
         .mk .bf16 (outputValue (sourceEngine M) ε (xs i) (gs i) (bs i) (recurrence (sourceEngine M) xs N).1 (onlineVariance (sourceEngine M) xs))) ∧
       (∀ r o, (r ≠ y ∨ ∀ i : Fin N, o ≠ s.pids 0 * stride + i.val) → t.mem r o = s.mem r o) := by
+  have hmod : N % 18446744073709551616 = N := Nat.mod_eq_of_lt h64
   obtain ⟨u, hu, hm, hv, hpid, hmem, _⟩ :=
     WelfordFPExecution.loop_run_with_pid M x stride xs s hx
   have he : FP.Structural.exec (sourceEngine M) (fusedLayerNormKernel x g b y N stride ε) s =
@@ -88,7 +92,7 @@ theorem fused_run {α : Type} [Inhabited α] (M : Algebra α)
     obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab)
     rfl
   rw [he, run_append, hu]
-  simp [sourceEngine, Algebra.withDefaultPrecision, resolvePrecision, ComputeDType.eraseDType, suffix, fusedLayerNormKernel, ComputeKernel.surfaceBody, List.drop, run, step, evalExpr, evalComputeOp, evalOp_unfold,
+  simp [sourceEngine, Algebra.withDefaultPrecision, resolvePrecision, ComputeDType.eraseDType, suffix, fusedLayerNormKernel, ComputeKernel.surfaceBody, List.drop, run, step, evalExpr, evalComputeOp, evalOp_unfold, integralMod, hmod,
     numeric, FP.Structural.bop, store, Region.cast, ofFloat, toFloat,
     hm, hv, hpid, hmem, hx, hg, hb, outputValue, onlineVariance]
   refine ⟨fun i => ?_, fun r o hmiss => ?_⟩
@@ -219,7 +223,8 @@ theorem original_runs_under_count {α : Type} [Inhabited α] (R : Rules) (M : Al
     (D : Domain α) (hM : Models R.assumptions M D) (s : State α) (plans : Schedules)
     (x g b y : RegionName) (N stride : Nat) (ε : ℝ) (empty : ReductionPlan 0)
     (hc : CountConversion M N)
-    (hd : (requirements x N stride empty plans).Holds M D s) :
+    (hd : (requirements x N stride empty plans).Holds M D s)
+    (h64 : N < 18446744073709551616) :
     PrivateScratch (fused x g b y N stride ε empty).io ∧
     PrivateScratch (twopass x g b y N stride ε empty).io ∧
     ∃ a z,
@@ -242,9 +247,9 @@ theorem original_runs_under_count {α : Type} [Inhabited α] (R : Rules) (M : Al
   let gs : Fin N → α := fun i => M.fp32Load ((s.mem g i.val).read .real)
   let bs : Fin N → α := fun i => M.fp32Load ((s.mem b i.val).read .real)
   obtain ⟨a, ha, hva, hfa⟩ := fused_run (FP.ScalarReduction.algebra M plans) x g b y stride ε
-    (rowPrefix xs N) gs bs s (fun _ => rfl) (fun _ => rfl) (fun _ => rfl)
+    (rowPrefix xs N) gs bs s (fun _ => rfl) (fun _ => rfl) (fun _ => rfl) h64
   obtain ⟨z, hz, hvz, hfz⟩ := twopass_run (FP.ScalarReduction.algebra M plans) x g b y stride ε
-    (rowPrefix xs N) gs bs s (fun _ => rfl) (fun _ => rfl) (fun _ => rfl)
+    (rowPrefix xs N) gs bs s (fun _ => rfl) (fun _ => rfl) (fun _ => rfl) h64
   refine ⟨by simp [fused, PrivateScratch, fusedIO, twopassIO],
     by simp [twopass, PrivateScratch, twopassIO], a, z, ha, hz, ?_,
     (fun r o ho _ => hfa r o ho), (fun r o ho _ => hfz r o ho)⟩
@@ -265,6 +270,7 @@ theorem equivalent (N stride : Nat) (hBound : N ≤ FP.CountConversion.limit) (�
   intro α _ M D hM plans s hd
   exact (original_runs_under_count R.arithmetic M D (FP.CountConversion.arithmetic_models R M D hM)
     s plans "x" "gamma" "beta" "y" N stride ε empty
-    (FP.CountConversion.conversion R M D hM s N hBound) hd).2.2
+    (FP.CountConversion.conversion R M D hM s N hBound) hd
+    (lt_of_le_of_lt hBound (by decide : FP.CountConversion.limit < 18446744073709551616))).2.2
 
 end VeriTile.Bench.Examples.LayerNormFPContract

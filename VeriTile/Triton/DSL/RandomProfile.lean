@@ -184,7 +184,11 @@ private def loadInfo (ctx : Ctx) (p : TSyntax `tritonExpr) : Info :=
       pure pair.2 }
 
 private def castInfo (source : Info) (dst : TSyntax `tritonDType) : Info :=
-  match source.machine, integerType? dst with
+  -- The result of an explicit unsigned conversion has its target width,
+  -- even when the caller supplied an unbounded mathematical integer.
+  if integerType? dst == some .u32 then { machine := some .u32 }
+  else if integerType? dst == some .u64 then { machine := some .u64 }
+  else match source.machine, integerType? dst with
   | some src, some dst =>
       if dst == .u32 || dst == .u64 || src == dst || (src == .i32 && dst == .i64) || (src == .i64 && dst == .i32)
       then { machine := some dst }
@@ -261,12 +265,17 @@ private partial def exprInfo (ctx : Ctx) (e : TSyntax `tritonExpr) : MacroM Info
       return loadInfo ctx p
   | `(tritonExpr| tl.load($p:tritonExpr, $_mask:tritonExpr $[, $_kwargs:tritonMemKwarg]*)) =>
       return loadInfo ctx p
+  | `(tritonExpr| tl.full([ $_dims:tritonExpr,* ], $_a:tritonExpr, $dt:tritonDType))
+  | `(tritonExpr| tl.full([ $_dims:tritonExpr,* ], $_a:tritonExpr, $_kw:ident=$dt:tritonDType)) =>
+      -- Only the uint64 constructor has the explicit low-bit lowering added
+      -- with while support. Do not infer widths for unrelated full forms.
+      return if integerType? dt == some .u64 then { machine := some .u64 } else {}
   | `(tritonExpr| tl.cast($a:tritonExpr, $dt:tritonDType)) =>
       return castInfo (← exprInfo ctx a) dt
   | _ => return {}
 
 private partial def containsFeature (raw : Syntax) : Bool :=
-  raw.getKind == ``tritonRand || raw.getKind == ``tritonRandRounds ||
+  raw.getKind == ``tritonWhile || raw.getKind == ``tritonRand || raw.getKind == ``tritonRandRounds ||
   raw.getKind == ``tritonRandRoundsKw || raw.getKind == ``tritonRandProfiled ||
   raw.getKind == ``tritonSourceInteger || raw.getKind == ``tritonPhiloxTuple ||
   raw.getKind == ``tritonPhiloxTupleProfiled ||
@@ -533,6 +542,26 @@ private partial def prepareStmt (ctx : Ctx) (st : TSyntax `tritonStmt) :
       -- The target may change its integer promotion or cease to be constexpr;
       -- unrelated offsets/seeds retain their established source provenance.
       return ([⟨← rewriteRaw ctx st.raw⟩], ctx.bind i {})
+  | `(tritonStmt| while $cond:tritonExpr { $body:tritonStmt* }) =>
+      -- Discard entry constants for every loop-carried name before expanding
+      -- the first iteration. Width evidence must survive a complete body.
+      let rec written (raw : Syntax) : List String :=
+        let args := raw.getArgs
+        let here := if args[0]?.any Syntax.isIdent && args.any (fun a => a.isAtom &&
+            ["=",":=","+=","-=","*=","/="].contains a.getAtomVal.trimAscii.toString)
+          then [key ⟨args[0]!⟩] else []
+        here ++ args.toList.flatMap written
+      let changed := body.toList.flatMap (fun st => written st.raw)
+      let entry : Ctx := { ctx with values := ctx.values.map fun (name,info) =>
+        (name, if changed.contains name then { machine := info.machine } else info) }
+      let (lowered, finalCtx) ← prepareStmts entry body.toList
+      for (name,info) in entry.values do
+        if changed.contains name && info.machine.isSome then
+          unless (finalCtx.lookup (mkIdent (Name.mkSimple name))).machine == info.machine do
+            Macro.throwError "while-carried integer must preserve its source width"
+      let cond' : TSyntax `tritonExpr := ⟨← rewriteRaw entry cond.raw⟩
+      let lowered := lowered.toArray
+      return ([← `(tritonStmt| while $cond' { $lowered* })], mergeCtx entry finalCtx)
   | `(tritonStmt| if $cond:tritonExpr { $thenStmts:tritonStmt* } else { $elseStmts:tritonStmt* }) =>
       let cond' : TSyntax `tritonExpr := ⟨← rewriteRaw ctx cond.raw⟩
       let (ts, tc) ← prepareStmts ctx thenStmts.toList

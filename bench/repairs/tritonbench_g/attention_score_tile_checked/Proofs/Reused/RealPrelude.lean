@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.IndexProjection
 import bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealProgram
 import bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealLoop
 
@@ -6,7 +7,7 @@ initial input memory. Grouped-head addresses are mathematical Nat addresses;
 legal launch divisors and physical allocation bounds belong to the IO contract. -/
 namespace VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.RealPrelude
 open VeriTile.Triton RealFrame
-set_option maxHeartbeats 1000000
+set_option maxHeartbeats 2000000
 set_option maxRecDepth 16000
 set_option linter.unusedSimpArgs false
 noncomputable section
@@ -37,6 +38,9 @@ def config (s : BlockState) (Q K M : RegionName)
   evenM := evenM
   evenN := evenN
   candidate := candidate
+
+private theorem evalOp_constInt (n : Int) (s : BlockState) :
+    evalOp (.constInt n) s = some (Tile.scalar n) := by rw [evalOp]
 
 private theorem eval_floorDiv {dtype a b shape} (h : IntegralDType dtype)
     (bc : Broadcast a b shape) (x : Op dtype a) (y : Op dtype b) (s : BlockState) :
@@ -76,19 +80,42 @@ private theorem makePointer (r : RegionName) (base : Op .nat [])
   simp only [he, bind, Option.bind]
   rfl
 
+private theorem naturalScalar (value : Op .int []) (s : BlockState) (n : Nat)
+    (he : evalOp value s = some (Tile.scalar (n : Int))) :
+    evalOp (.castIntToNat value) s = some (Tile.scalar n) := by
+  rw [evalOp, he]
+  rfl
+
+private theorem keyPointer (r : RegionName) (base off : Op .nat [])
+    (D B NK skk skn : Nat) (s : BlockState) (b n : Nat)
+    (hb : evalOp base s = some (Tile.scalar b))
+    (hn : evalOp off s = some (Tile.scalar n)) :
+    evalOp (.makeBlockPtrDynOffsets r base [D,NK] [D,B] [skk,skn]
+      [.constNat 0,off]) s = some (⟨fun _ => {
+        region := r
+        baseOffset := b
+        parentShape := [D,NK]
+        blockShape := [D,B]
+        strides := [skk,skn]
+        offsets := [0,n] }⟩ : Tile .blockPtr [D,B]) := by
+  rw [makeBlockPtr2_eval]
+  simp only [hb, List.mapM_cons, List.mapM_nil, evalOp_constNat, hn,
+    bind, Option.bind, pure, Tile.scalar_data]
+
 /-- Initialize every loop-carried register from program coordinates and the
 actual K load. No register contents or output equations are assumed. -/
 theorem correct (s : BlockState) (Q K M : RegionName)
     (H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk : Nat)
-    (offset size : Int) (scale : ℝ) (window complement evenM evenN candidate : Bool) :
+    (offset size : Int) (scale : ℝ) (window complement evenM evenN candidate : Bool)
+    (keyOffsetBound : s.pids 0 * B < 2147483648) :
     ∃ t, stepStmts (RealProgram.prelude Q K M scale H HK N RN NK B D
       sqz sqh sqm sqk skz skh skn skk evenN) s = some t ∧
       RealLoop.Invariant (config s Q K M H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk
         offset size scale window complement evenM evenN candidate) s 0 t ∧
-      t.regs .nat [] "lo" = some (Tile.scalar 0) ∧
-      t.regs .nat [] "hi" = some (Tile.scalar N) ∧
-      t.regs .nat [] "off_z" = some (Tile.scalar (s.pids 1 / H)) ∧
-      t.regs .nat [] "off_h" = some (Tile.scalar (s.pids 1 % H)) ∧
+      t.regs .int [] "lo" = some (Tile.scalar 0) ∧
+      t.regs .int [] "hi" = some (Tile.scalar (N : Int)) ∧
+      t.regs .int [] "off_z" = some (Tile.scalar ((s.pids 1 / H : Nat) : Int)) ∧
+      t.regs .int [] "off_h" = some (Tile.scalar ((s.pids 1 % H : Nat) : Int)) ∧
       t.regs .blockPtr [D,B] "K_block_ptr" = some (RealLoads.keyPointer K B D NK
         (s.pids 1 / H * skz + (s.pids 1 % H) / (H / HK) * skh) skn skk (s.pids 0)) ∧
       Frame RealProgram.writes s t := by
@@ -96,96 +123,103 @@ theorem correct (s : BlockState) (Q K M : RegionName)
       sqz sqh sqm sqk skz skh skn skk evenN) s = some t ∧
       RealLoop.Invariant (config s Q K M H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk
         offset size scale window complement evenM evenN candidate) s 0 t ∧
-      t.regs .nat [] "lo" = some (Tile.scalar 0) ∧
-      t.regs .nat [] "hi" = some (Tile.scalar N) ∧
-      t.regs .nat [] "off_z" = some (Tile.scalar (s.pids 1 / H)) ∧
-      t.regs .nat [] "off_h" = some (Tile.scalar (s.pids 1 % H)) ∧
+      t.regs .int [] "lo" = some (Tile.scalar 0) ∧
+      t.regs .int [] "hi" = some (Tile.scalar (N : Int)) ∧
+      t.regs .int [] "off_z" = some (Tile.scalar ((s.pids 1 / H : Nat) : Int)) ∧
+      t.regs .int [] "off_h" = some (Tile.scalar ((s.pids 1 % H : Nat) : Int)) ∧
       t.regs .blockPtr [D,B] "K_block_ptr" = some (RealLoads.keyPointer K B D NK
         (s.pids 1 / H * skz + (s.pids 1 % H) / (H / HK) * skh) skn skk (s.pids 0)) by
     obtain ⟨t,ht,hi,hlo,hhi,hz,hh,hk⟩ := he
     exact ⟨t,ht,hi,hlo,hhi,hz,hh,hk,(RealProgram.prelude_code Q K M scale H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk evenN).frame ht⟩
   unfold RealProgram.prelude
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (evalOp_programId 0 s))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (evalOp_programId 1 _))]
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some (show evalOp (.castNatToInt (.programId 0)) s = some (Tile.scalar ((s.pids 0 : Nat) : Int)) by simp [evalOp.eq_def, Tile.scalar, -Tile.scalar_eta]))]
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some (show evalOp (.castNatToInt (.programId 1)) _ = some (Tile.scalar ((s.pids 1 : Nat) : Int)) by simp [evalOp.eq_def, Tile.scalar, -Tile.scalar_eta]))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
-    (show evalOp (Op.floorDiv IntegralDType.nat Broadcast.nil (Op.ref .nat [] "off_hz") (Op.constNat H)) _
-        = some (Tile.scalar (s.pids 1 / H)) from by
-      rw [eval_floorDiv]
-      simp only [evalOp_ref, evalOp_constNat, BlockState.setReg_same, BlockState.setReg_pids,
+    (show evalOp (Op.truncDiv Broadcast.nil (Op.ref .int [] "off_hz") (Op.constInt H)) _
+        = some (Tile.scalar ((s.pids 1 / H : Nat) : Int)) from by
+      rw [eval_truncDiv]
+      simp only [evalOp_ref, evalOp_constInt, evalOp_constNat, BlockState.setReg_same, BlockState.setReg_pids,
         Option.bind_eq_bind, Option.bind_some]
+      simp only [scalarBop]
       rfl))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
-    (show evalOp (Op.mod IntegralDType.nat Broadcast.nil (Op.ref .nat [] "off_hz") (Op.constNat H)) _
-        = some (Tile.scalar (s.pids 1 % H)) from by
-      rw [eval_mod]
-      simp only [evalOp_ref, evalOp_constNat, BlockState.setReg_same, BlockState.setReg_ne_name,
+    (show evalOp (Op.truncMod Broadcast.nil (Op.ref .int [] "off_hz") (Op.constInt H)) _
+        = some (Tile.scalar ((s.pids 1 % H : Nat) : Int)) from by
+      rw [eval_truncMod]
+      simp only [evalOp_ref, evalOp_constInt, evalOp_constNat, BlockState.setReg_same, BlockState.setReg_ne_name,
         BlockState.setReg_pids, ne_eq, String.reduceEq, not_false_eq_true, Option.bind_eq_bind, Option.bind_some]
+      simp only [scalarBop]
       rfl))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
-    (show evalOp (Op.floorDiv IntegralDType.nat Broadcast.nil (Op.ref .nat [] "off_h")
-        (Op.floorDiv IntegralDType.nat Broadcast.nil (Op.constNat H) (Op.constNat HK))) _
-        = some (Tile.scalar ((s.pids 1 % H) / (H / HK))) from by
-      rw [eval_floorDiv, eval_floorDiv]
-      simp only [evalOp_ref, evalOp_constNat, BlockState.setReg_same, BlockState.setReg_pids,
+    (show evalOp (Op.truncDiv Broadcast.nil (Op.ref .int [] "off_h")
+        (Op.truncDiv Broadcast.nil (Op.constInt H) (Op.constInt HK))) _
+        = some (Tile.scalar (((s.pids 1 % H) / (H / HK) : Nat) : Int)) from by
+      rw [eval_truncDiv, eval_truncDiv]
+      simp only [evalOp_ref, evalOp_constInt, evalOp_constNat, BlockState.setReg_same, BlockState.setReg_pids,
         Option.bind_eq_bind, Option.bind_some]
-      rw [scalarBop, scalarBop]; rfl))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some
-    (show evalOp (Op.add NumericDType.nat Broadcast.nil
-        (Op.mul NumericDType.nat Broadcast.nil (Op.ref .nat [] "off_z") (Op.constNat sqz))
-        (Op.mul NumericDType.nat Broadcast.nil (Op.ref .nat [] "off_h") (Op.constNat sqh))) _
-        = some (Tile.scalar ((s.pids 1 / H * sqz + s.pids 1 % H * sqh))) from by
-      rw [evalOp_add, evalOp_mul, evalOp_mul]
-      simp only [evalOp_constNat, evalOp_ref, BlockState.setReg_same, BlockState.setReg_ne_name,
-        ne_eq, String.reduceEq, not_false_eq_true, Option.bind_eq_bind, Option.bind_some]
+      simp only [scalarBop]
       rfl))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
-    (show evalOp (Op.add NumericDType.nat Broadcast.nil
-        (Op.mul NumericDType.nat Broadcast.nil (Op.ref .nat [] "off_z") (Op.constNat skz))
-        (Op.mul NumericDType.nat Broadcast.nil (Op.ref .nat [] "off_hkv") (Op.constNat skh))) _
-        = some (Tile.scalar ((s.pids 1 / H * skz + (s.pids 1 % H) / (H / HK) * skh))) from by
+    (show evalOp (Op.add NumericDType.int Broadcast.nil
+        (Op.mul NumericDType.int Broadcast.nil (Op.ref .int [] "off_z") (Op.constInt sqz))
+        (Op.mul NumericDType.int Broadcast.nil (Op.ref .int [] "off_h") (Op.constInt sqh))) _
+        = some (Tile.scalar ((s.pids 1 / H * sqz + s.pids 1 % H * sqh : Nat) : Int)) from by
       rw [evalOp_add, evalOp_mul, evalOp_mul]
-      simp only [evalOp_constNat, evalOp_ref, BlockState.setReg_same, BlockState.setReg_ne_name,
+      simp only [evalOp_constInt, evalOp_constNat, evalOp_ref, BlockState.setReg_same, BlockState.setReg_ne_name,
         ne_eq, String.reduceEq, not_false_eq_true, Option.bind_eq_bind, Option.bind_some]
-      rfl))]
+      simp [scalarBop, NumericDType.add, NumericDType.mul, Int.ofNat_tdiv, Int.ofNat_tmod, Nat.cast_add, Nat.cast_mul]))]
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some
+    (show evalOp (Op.add NumericDType.int Broadcast.nil
+        (Op.mul NumericDType.int Broadcast.nil (Op.ref .int [] "off_z") (Op.constInt skz))
+        (Op.mul NumericDType.int Broadcast.nil (Op.ref .int [] "off_hkv") (Op.constInt skh))) _
+        = some (Tile.scalar ((s.pids 1 / H * skz + (s.pids 1 % H) / (H / HK) * skh : Nat) : Int)) from by
+      rw [evalOp_add, evalOp_mul, evalOp_mul]
+      simp only [evalOp_constInt, evalOp_constNat, evalOp_ref, BlockState.setReg_same, BlockState.setReg_ne_name,
+        ne_eq, String.reduceEq, not_false_eq_true, Option.bind_eq_bind, Option.bind_some]
+      simp [scalarBop, NumericDType.add, NumericDType.mul, Int.ofNat_tdiv, Int.ofNat_tmod, Nat.cast_add, Nat.cast_mul]))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (show evalOp (Op.ptrAdd Broadcast.scalarL (Op.ptrBase M)
-        (Op.add NumericDType.nat Broadcast.scalarL
-          (Op.mul NumericDType.nat Broadcast.nil (Op.ref .nat [] "off_hz") (Op.constNat RN))
-          (Op.arange B))) _
-        = some (⟨fun idx : TileIndex [B] => (M.cast, s.pids 1 * RN + idx.1.val)⟩ : Tile .ptr [B]) from by
-      rw [eval_ptrAdd, evalOp_add, evalOp_mul]
-      simp only [eval_ptrBase, evalOp_constNat, evalOp_ref, evalOp_arange,
-        BlockState.setReg_same, BlockState.setReg_ne_name, ne_eq, String.reduceEq, not_false_eq_true,
-        Option.bind_some]
-      refine congrArg some ?_; ext idx
-      · rfl
-      · simp only [Tile.ptrAdd_data, Tile.bop_data, Tile.scalar, Tile.vec, Broadcast.leftIndex,
-          Broadcast.rightIndex, NumericDType.add, NumericDType.mul, BlockState.setReg_pids]
-        omega))]
+        (.castIntToNat (.add .int .scalarL
+          (.mul .int .nil (.ref .int [] "off_hz") (.castNatToInt (.constNat RN)))
+          (.castNatToInt (.arange B))))) _ =
+        some (⟨fun idx : TileIndex [B] => (M.cast, s.pids 1 * RN + idx.1.val)⟩ : Tile .ptr [B]) from by
+      simp only [evalOp.eq_def, BlockState.setReg_same, BlockState.setReg_ne_name,
+        BlockState.setReg_pids, ne_eq, String.reduceEq, not_false_eq_true, bind, Option.bind]
+      congr 1
+      apply Tile.ext
+      intro idx
+      simp [Tile.ptrAdd, Tile.bop, Tile.scalar, Tile.vec, Broadcast.leftIndex,
+        Broadcast.rightIndex, NumericDType.add, NumericDType.mul,
+        ← Int.natCast_add, ← Int.natCast_mul, -Nat.cast_add, -Nat.cast_mul, -Tile.scalar_eta]))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (show evalOp (Op.full [B] (Op.const 0)) _
         = some (⟨fun _ : TileIndex [B] => some (0 : ℝ)⟩ : Tile .real [B]) from by
       simp [evalOp_full]))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
-    (makePointer Q (Op.ref .nat [] "q_offset") [N, D] [B, D] [sqm, sqk] [0, 0] _
-      ((s.pids 1 / H * sqz + s.pids 1 % H * sqh)) (by rw [evalOp_ref]; simp)))]
+    (makePointer Q (.castIntToNat (Op.ref .int [] "q_offset")) [N, D] [B, D] [sqm, sqk] [0, 0] _
+      ((s.pids 1 / H * sqz + s.pids 1 % H * sqh)) (naturalScalar _ _ _ (by simp))))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
-    (show evalOp (Op.makeBlockPtrDynOffsets K (Op.ref .nat [] "k_offset") [D, NK] [D, B] [skk, skn]
-        [Op.constNat 0, Op.mul NumericDType.nat Broadcast.nil (Op.ref .nat [] "start_n") (Op.constNat B)]) _
-        = some (⟨fun _ : TileIndex [D, B] =>
-            { region := K, baseOffset := (s.pids 1 / H * skz + (s.pids 1 % H) / (H / HK) * skh), parentShape := [D, NK],
-              blockShape := [D, B], strides := [skk, skn], offsets := [0, s.pids 0 * B] }⟩
-            : Tile .blockPtr [D, B]) from by
-      rw [makeBlockPtr2_eval]
-      simp only [evalOp_ref, evalOp_constNat, evalOp_mul, BlockState.setReg_same,
-        BlockState.setReg_ne_name, ne_eq, String.reduceEq, not_false_eq_true, Option.bind_eq_bind,
-        Option.bind_some, List.mapM_cons, List.mapM_nil, scalarBop]
-      refine congrArg some ?_; ext idx <;> rfl))]
+    (show evalOp (Op.makeBlockPtrDynOffsets K (.castIntToNat (.ref .int [] "k_offset"))
+        [D, NK] [D, B] [skk, skn]
+        [.constNat 0, .castIntToNat (.intToSigned 32
+          (.mul .int .nil (.ref .int [] "start_n") (.castNatToInt (.constNat B))))]) _ =
+        some (⟨fun _ => {
+            region := K
+            baseOffset := s.pids 1 / H * skz + (s.pids 1 % H) / (H / HK) * skh
+            parentShape := [D, NK]
+            blockShape := [D, B]
+            strides := [skk, skn]
+            offsets := [0, s.pids 0 * B] }⟩ : Tile .blockPtr [D, B]) from by
+      apply keyPointer
+      · exact naturalScalar _ _ _ (by simp)
+      · apply IndexProjection.key_offset _ _ (s.pids 0 * B) _ keyOffsetBound
+        simp [evalOp.eq_def, Tile.scalar, -Tile.scalar_eta, Tile.bop, NumericDType.mul,
+          Broadcast.leftIndex, Broadcast.rightIndex]))]
   rw [stepStmts.cons_some (RealIteration.load_key _ Q K M B D NK
     ((s.pids 1 / H * sqz + s.pids 1 % H * sqh)) ((s.pids 1 / H * skz + (s.pids 1 % H) / (H / HK) * skh))
     (s.pids 1 * RN) sqm sqk skn skk (s.pids 0) evenN (by simp [RealLoads.keyPointer]))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (show evalOp (Op.constNat 0) _ = _ from evalOp_constNat 0 _))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (show evalOp (Op.constNat N) _ = _ from evalOp_constNat N _))]
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some (show evalOp (Op.full [] (Op.constInt 0)) _ = some (Tile.scalar (0 : Int)) by simp [evalOp.eq_def, Tile.scalar, -Tile.scalar_eta]))]
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some (show evalOp (.castNatToInt (Op.constNat N)) _ = some (Tile.scalar (N : Int)) by simp [evalOp.eq_def, Tile.scalar, -Tile.scalar_eta]))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (show evalOp (Op.const scale) _ = _ from evalOp_const scale _))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (show evalOp (Op.mul NumericDType.real Broadcast.nil (Op.ref .real [] "qk_scale")

@@ -6,6 +6,7 @@ Statement stepping, kernel execution, and execution-state preservation lemmas.
 
 import VeriTile.Triton.Semantics.EvalOp
 import VeriTile.Triton.Semantics.AtomicReduction
+import VeriTile.Triton.Control.While
 
 namespace VeriTile.Triton
 
@@ -225,6 +226,9 @@ noncomputable def stepStmt : Stmt → BlockState → Option BlockState
       let step' ← evalOp step s
       stepForRangeIntAux idx (start'.data PUnit.unit) (stop'.data PUnit.unit)
         (step'.data PUnit.unit) body s
+  | .whileLoop cond body, s =>
+      Control.While.run (fun current => (evalOp cond current).map (fun c => c.data PUnit.unit))
+        (fun current => stepStmts body current) s
   | .ifThen cond body, s => do
       let c ← evalOp cond s
       if c.data PUnit.unit then stepStmts body s else some s
@@ -915,6 +919,11 @@ theorem stepStmt_pid {st : Stmt} {s s' : BlockState}
         | some stepTile =>
           simp [hstart, hstop, hstep] at h
           exact stepForRangeIntAux_pid h
+  case whileLoop cond body =>
+    rw [stepStmt] at h
+    exact Control.While.run_preserves (body := fun current => stepStmts body current)
+      (fun t : BlockState => t.pid = s.pid)
+      (fun current next hc ran => (stepStmts_pid (body := body) ran).trans hc) h rfl
   case ifThen cond body =>
     cases hcond : evalOp cond s with
     | none => simp [stepStmt, hcond] at h
@@ -1057,6 +1066,7 @@ def storeFree : Stmt → Bool
   | .forRange _ _ _ _ _ => Bool.false
   | .forRangeDyn _ _ _ _ _ => Bool.false
   | .forRangeInt _ _ _ _ _ => Bool.false
+  | .whileLoop _ _ => Bool.false
   | .ifThen _ body => body.attach.all (fun ⟨st, _⟩ => storeFree st)
   | .ifThenElse _ t e =>
       t.attach.all (fun ⟨st, _⟩ => storeFree st) &&
@@ -1098,6 +1108,7 @@ theorem storeFree_stepStmt_mem (st : Stmt) (s s' : BlockState)
   | .forRangeDyn _ _ _ _ _ => simp [storeFree] at hsf
 
   | .forRangeInt _ _ _ _ _ => simp [storeFree] at hsf
+  | .whileLoop _ _ => simp [storeFree] at hsf
 
 /-- A list of store-free statements preserves all of memory. -/
 theorem storeFree_stepStmts_mem (stmts : List Stmt) (s s' : BlockState)

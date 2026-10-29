@@ -1,10 +1,34 @@
-# attention_score: independently checked static-tile candidate
+# attention_score: checked static tiles and literal Triton bodies
 
-Preserved raw endpoint readers are also in Misc: `Misc/RawCorrect.lean`, `Misc/RawNative.lean`. Their full declarations are unchanged.
+`Kernels.lean` contains the complete function body of `_score_kernel` from
+`attention_score_tile_checked.py`, plus the complete body of
+`_score_scalar_left_kernel` from `attention_score_scalar_left.py`. Each quote
+has the same 21 top-level Python statements. Caller types, runtime arguments
+and constexpr settings live outside `triton { ... }`; source casts, block
+pointers, masks, branches, loop bounds and stores remain inside it.
 
-Optional proofs (layout review 2026-10-21): Native correctness, Tensor applications, and optional readers/audits are now imported explicitly from Misc. Declaration namespaces, theorem types/proofs, kernel-stage boundaries, input domains and prior completion/blocker status are unchanged. Main `FPEquiv.lean` no longer re-exports optional native theorems. Moved entries: `Misc/TensorBridge.lean`, `Misc/PhysicalIOBinding.lean`, `Misc/NativeCorrect.lean`.
+`attention_score_scalar_left.py` is an authored counterpart of the existing
+scalar-left Lean rewrite, using the independent score-sum specification and
+the unchanged selected Python source. Its only numerical change is
+`qk * qk_scale` to `qk_scale * qk`. It is not recovered historical Python.
+`jit-correspondence.json` and the body checker record both mappings and caller
+bindings. The original selected Python file is unchanged.
 
-Current source-pair review (2026-10-21): The current `FPEquiv.lean` headline compares the complete selected repaired FP32 `original` source with the already specified `scalarLeft` source. It uses the retained reached-site finite qk/scale domain and the shared strict FP32 MUL-COMMUTE software certificate; actual experimental rules used: zero. `PairIO.lean` exposes the programs/domain and `Proofs/SourcePair.lean` proves the source-specific context. The previous unrestricted full-grid `kernel_native` declaration keeps its full name, statement and proof as an ordinary theorem in `Misc/NativeCorrect.lean`. The main pair is a source-kernel equivalence uniform in PID, not a newly proved native whole-grid pair or a hardware FMA/TF32 claim.
+The execution proofs use these actual signed-index quotations. In particular,
+the key block offset retains `.to(tl.int32)`; its exact natural-address
+projection follows from the existing nonempty-launch padded-key bound.
+`Proofs/Reused/IndexModel.lean` contains compatibility aliases to the actual
+quotations. It does not substitute a separately handwritten natural-index
+program. `SourceDecomposition.lean` derives proof slices from the complete
+source decomposition. The public Real, FP and raw endpoint statements keep
+their existing domains, full output ranges and exterior memory frames.
+
+The main `FPEquiv.lean` compares the two complete source kernels using the
+reached-site finite qk/scale domain and the strict FP32 multiplication
+commutativity certificate. It uses no experimental numerical rule. Its
+source-kernel result is uniform in program IDs; optional native execution and
+Tensor endpoints remain in `Misc/`. Native instruction models and source
+correspondence are separate from hardware conformance claims.
 
 This sibling adds one guard to the selected repaired Python source:
 `block * d <= 1048576` before each nonempty launch attempt. The JIT body, its
@@ -23,16 +47,16 @@ B16/D65536, B32/D32768 and B64/D16384 retain their own boundaries. Empty query
 or empty output returns still skip the launch checks. The guard raises
 `ValueError`, so it is not reclassified as a resource retry.
 
-Installed reference: Triton 3.7.1 `_utils.TRITON_MAX_TENSOR_NUMEL` and
-`validate_block_shape`; `language.core.block_type` invokes that validator,
-and `language.semantic.make_block_ptr` constructs the block type. Their exact
-source hashes and two original actual-binder/offline SM80 compiler controls
-are pinned in the frozen original diagnosis:
-`../../../../.veritile-cache/kernel-evidence/attention_score/delivery.json`.
+The tile limit was checked against the pinned Triton 3.7.1 sources during the
+original host-guard review. Its old delivery packet lived under
+`.veritile-cache/kernel-evidence/attention_score`; that historical local packet
+is not a current build input or a reproducible receipt in this checkout.
+Current builds use the source files tracked in Git. The source-only recovery
+and its limits are recorded in
+[`source-closure`](../../../review-checkpoints/2026-10-23/source-closure/README.md).
 Triton API references: [make_block_ptr](https://triton-lang.org/main/python-api/generated/triton.language.make_block_ptr.html),
 [dot](https://triton-lang.org/main/python-api/generated/triton.language.dot.html),
 [load](https://triton-lang.org/main/python-api/generated/triton.language.load.html).
-Core `VeriTile/Torch/FP32.lean` records the Tensor API/storage binding references.
 
 ## Mathematical target and precision
 
@@ -63,16 +87,20 @@ lowering model, not universal CUDA/compiler conformance proofs.
 
 ## Proof organization and boundary
 
-`Kernels.lean` exposes the existing readable widened quotation; the actual
-selected Python JIT AST is unchanged. `Contract.lean` states the existing
+`Kernels.lean` owns both complete quotations and imports no proof module.
+`SourceParameters.lean` owns caller parameters and shape data;
+`SourceDefinitions.lean` is a compatibility import. `Proofs/SourceBridge.lean`
+contains execution and tile-formation connections. The selected original
+Python JIT AST is unchanged. `Contract.lean` states the existing
 input/range/address contract plus the exact conditional tile guard and proves
 empty-domain preservation.
 
-`RealIO.lean` declares the exact Real source projection, Q/K/M/Out flat
-channels, identity windows, active masks and complete original job schedule.
-`Misc/NativeIO.lean` declares the same authoritative typed source and schedule,
-exact input-cell encoding and graph observation. `Correct.lean` has one public
-`AlgorithmProgramIO.ImplementsOn` specification; `Misc/NativeCorrect.lean` retains the ordinary
+`IO.lean` owns the Real source projection, Q/K/M/Out channels, active masks,
+complete original schedule and logical tensor views. `RealIO.lean` is a thin
+compatibility import. `Misc/NativeIO.lean` declares the same authoritative
+typed source and schedule, exact input-cell encoding and graph observation.
+`Correct.lean` displays the independent finite score sum through the logical
+IO judgment; `Misc/NativeCorrect.lean` retains the ordinary
 `ProgramIO.ObservesOnCells` theorem. These shared judgments include
 actual source access safety, successful complete execution, every output and
 exact raw exterior memory preservation. Main signatures retain the prior
@@ -114,12 +142,11 @@ public IO results also retain their original empty branches.
 `TensorBridge.empty_query_target` states the zero mathematical target; empty
 output has no element to prove.
 
-`Proofs/Reused/` is an isolated namespace port of the necessary existing
-attention-score proof chain. This was required by a demonstrated backend ABI
-mismatch: the old cached `NativeStaging.algebra.fp32Load` fails its current-field
-probe. The port rebuilds the source proofs against the current core without
-changing core, historical sources, or their recorded acceptance. It does not
-add a separate Python implementation or handwritten source AST.
+`Proofs/Reused/` retains the isolated namespace of the existing attention-score
+proof chain. Its source execution lemmas now follow the literal signed-index
+program, including the retained key-offset cast, loop and output cast.
+Shared access-safety helpers live under `VeriTile/Triton/Memory`; they do not
+load historical attention-forward proof objects from a cache.
 
 The executable grid model uses ordinary prepared/zeroed output storage and
 source jobs. Theorems assume no whole-kernel result, successful execution or
@@ -127,43 +154,32 @@ host return. Allocation/API implementation, device resources and general
 compiler conformance remain explicit model boundaries. The postponed shared
 grid-product issue is unchanged. There are no deferred numerical experiments.
 
-## Scoped validation
+## Validation and historical evidence
 
-`check_candidate.py`: 16 actual-wrapper cases, 8 actual JIT binder captures;
-three block boundaries and rejections, all empty branches, grouped heads,
-window/complement, read alias/storage offset, and the single 64-to-32 retry.
-Only CUDA classification/context and launcher are replaced; no GPU or
-interpreter kernel runs. Two existing compiler controls are reused after
-checking unchanged source AST and artifact hashes. New compilation experiments
-are unnecessary for this host-guard-only change.
+`bench/tests/test_attention_score_body.py` checks both complete mappings and
+mutation failures for deleted casts, masks, loop statements and changed caller
+bindings. Syntax correspondence is separate from the Lean execution, safety,
+full-grid formula, source-pair equivalence and axiom checks.
 
-The frozen delivery packet records targeted Lean builds, current backend ABI
-probe, axiom/noncircular audits, source/import hashes, preserved baseline and
-these validation limits. Counts of built modules are not task-completion counts.
+`check_candidate.py` retains the original host-wrapper checks: 16 wrapper
+cases and 8 JIT binder captures, including tile boundaries, empty branches,
+grouped heads, windows, read aliases/storage offsets and the single 64-to-32
+retry. Those checks replace CUDA classification/context and the launcher;
+they do not run a GPU or interpreter kernel. Torch/Triton availability is
+reported separately in the current validation receipt.
 
-All 61 candidate Lean modules have fresh successful build receipts; the 54
-reused modules differ from their preserved sources only in import paths and
-namespace qualification. `import-provenance.json` records three historical
-attention-fwd cache/source differences, recovered Git sources matching their
-saved Lake checksums, and exact loaded object/interface hashes. A conservative
-type/body/projection audit finds no dependency of either public endpoint on
-attention-fwd declarations. The retained access-safety proof uses the listed
-generic helpers and does not depend on the three changed historical modules.
-The packet does not claim that their current source produced those caches.
+Earlier host-guard and IO-format reviews covered their then-current source
+and imported objects. Their counts, compiler controls and saved cache hashes
+do not certify this literal-body migration. The current migration rebuilds
+the changed proof chain from tracked source and records focused and cumulative
+results separately. No new numerical experiment or hardware-conformance
+claim follows from a successful Lean build.
 
-## Public IO format validation (2026-10-20)
-
-The new Real/native IO helpers, main entries, retained raw endpoints, physical
-binding and Tensor consumer have targeted current builds. Main statement-surface,
-noncircular-formula and standard-base axiom checks pass. Python, `Kernels.lean`
-and `Contract.lean` are unchanged. This formatting work adds no numerical
-assumption and performs no new compiler/GPU experiment or independent replay.
-
-
-Source-only organization (2026-10-22): `SourceDefinitions.lean` now owns the
-three unchanged complete ordinary FP32 quotations (original, scalar-left and
-widened). `Kernels.lean` imports that source authority explicitly;
-`Proofs/Reused/Kernels.lean` remains a compatibility import. All complete
-source functions are preserved by `rfl`; public declarations, input domains,
-precision, candidate, numerical rules and existing completion status are
-unchanged. Geometry, execution and source-shape proofs stay under `Proofs/`.
+An additional replay of the unselected historical attention-score modules
+found four existing failures: `attention_score.Proofs.RealProgram`,
+`attention_score.Proofs.LegacyNaturalWindow`,
+`attention_fwd_triton3.Proofs.RealHeaderSource` and
+`attention_fwd_triton3.Proofs.FPModel`. All four reproduce on the preceding
+Liger source revision with identical error headers. None belongs to this
+selected repaired task's import closure. They remain recorded as failed
+historical diagnostics; this migration does not certify those old versions.

@@ -155,3 +155,16 @@ metadata and are rejected in user bodies and registered helper definitions.
 `FP.IntegerLiteral.from_int_literal` 证明两条路径在该明确模型中相等；它不是
 关于任意数值端口的公理，也不要求整数恰好可表示。模型标识包含
 `integer-literals`，与旧解释区分。具体硬件一致性仍是独立边界。
+
+
+函数体现在可保留 `while condition:`。条件须为标量布尔表达式；循环体更新已有
+寄存器时必须保持 dtype 和 shape。`tl.full(..., dtype=tl.uint64)` 的值保留
+uint64 转换，循环中的计数器运算也保留回绕。入口的常量传播不能把第一次
+迭代的值当成后续迭代的常量，条件中的访存不能被提前移出循环。
+
+`Control.While.run` 使用 Option 最小不动点，每次以当前状态重新求条件；不
+插入任意 fuel，也不把源代码改写成固定次数的 for。有限执行证据与成功结果
+等价。`FP.Structural.Safety` 检查每个可达条件/循环体状态；旧的平坦内存算法
+桥接仍保守地拒绝 while。矩阵向量乘使用前一种安全判断，按原函数体证明
+零次迭代、完整循环、尾部 mask、输出和 frame。`break`/`continue` 及其他尚未
+迁移的 while 任务不包含在这次支持范围内。

@@ -1,0 +1,142 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/matrix_vector_multip/matrix_vector_multip_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/matrix_vector_multip/Kernels.lean",
+    "python_function": "mv_contiguous_kernel",
+    "lean_definition": "source",
+    "signature_definition": "sourceSignature",
+    "expected_signature": {
+      "typedFP32Storage": true,
+      "pointers": [
+        [
+          "A",
+          "fp32"
+        ],
+        [
+          "B",
+          "fp32"
+        ],
+        [
+          "C",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "M",
+          "integer"
+        ],
+        [
+          "stride_an",
+          "integer"
+        ],
+        [
+          "stride_am",
+          "integer"
+        ],
+        [
+          "stride_bm",
+          "integer"
+        ],
+        [
+          "stride_cn",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_N",
+        "BLOCK_M"
+      ],
+      "readPorts": [
+        "A",
+        "B"
+      ],
+      "writePorts": [
+        "C"
+      ]
+    },
+    "expected_call_bindings": {
+      "N": "N",
+      "M": "M",
+      "stride_an": "stride_an",
+      "stride_am": "stride_am",
+      "stride_bm": "stride_bm",
+      "stride_cn": "stride_cn"
+    },
+    "mode": "pasted_body"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/matrix_vector_multip/matrix_vector_multip_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/matrix_vector_multip/Kernels.lean",
+    "python_function": "mv_contiguous_fma_kernel",
+    "lean_definition": "explicitFMA",
+    "signature_definition": "sourceSignature",
+    "expected_signature": {
+      "typedFP32Storage": true,
+      "pointers": [
+        [
+          "A",
+          "fp32"
+        ],
+        [
+          "B",
+          "fp32"
+        ],
+        [
+          "C",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "M",
+          "integer"
+        ],
+        [
+          "stride_an",
+          "integer"
+        ],
+        [
+          "stride_am",
+          "integer"
+        ],
+        [
+          "stride_bm",
+          "integer"
+        ],
+        [
+          "stride_cn",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_N",
+        "BLOCK_M"
+      ],
+      "readPorts": [
+        "A",
+        "B"
+      ],
+      "writePorts": [
+        "C"
+      ]
+    },
+    "expected_call_bindings": {
+      "N": "N",
+      "M": "M",
+      "stride_an": "stride_an",
+      "stride_am": "stride_am",
+      "stride_bm": "stride_bm",
+      "stride_cn": "stride_cn"
+    },
+    "mode": "pasted_body"
+  }
+]

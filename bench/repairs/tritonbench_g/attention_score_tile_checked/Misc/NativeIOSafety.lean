@@ -69,7 +69,8 @@ theorem source_bounds (c : Shape) (offset size : Int) (scale : ℝ) (window comp
 
 theorem invocation_safe (c : Shape) (offset size : Int) (scale : ℝ) (window complement : Bool)
     (job : WholeGrid.Job c) (s : State NativeStaging.Expr) (bounds : RegionName → Nat)
-    (cap : ∀ r a, a < DenseSafety.bounds c r → a < bounds r) :
+    (cap : ∀ r a, a < DenseSafety.bounds c r → a < bounds r)
+    (hOffsets : KeyOffsetsFit c) :
     (invocation c offset size scale window complement job).Safe bounds s := by
   unfold Invocation.Safe
   rw [invocation_initial]
@@ -77,16 +78,17 @@ theorem invocation_safe (c : Shape) (offset size : Int) (scale : ℝ) (window co
   rw [shared_source]
   exact NativeSafety.source_safe algebra dotModel c.B c.D (parameters c offset size scale window complement)
     (FPGrid.programState c s job) bounds (source_bounds c offset size scale window complement s job bounds cap)
-    (supported_positive c.B c.block)
+    (supported_positive c.B c.block) (by simpa [FPGrid.programState] using hOffsets job.2.2)
 
 theorem schedule_safe (c : Shape) (offset size : Int) (scale : ℝ) (window complement : Bool)
     (order : List (WholeGrid.Job c)) (s : State NativeStaging.Expr) (bounds : RegionName → Nat)
-    (cap : ∀ r a, a < DenseSafety.bounds c r → a < bounds r) :
+    (cap : ∀ r a, a < DenseSafety.bounds c r → a < bounds r)
+    (hOffsets : KeyOffsetsFit c) :
     ScheduleSafe bounds (order.map (invocation c offset size scale window complement)) s := by
   induction order generalizing s with
   | nil => trivial
   | cons job rest ih =>
-    exact ⟨invocation_safe c offset size scale window complement job s bounds cap,fun next _ => ih next⟩
+    exact ⟨invocation_safe c offset size scale window complement job s bounds cap hOffsets,fun next _ => ih next⟩
 
 #axiomsClean schedule_safe
 end

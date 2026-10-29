@@ -266,6 +266,8 @@ def Stmt.RespectsRegionTyping (Γ : RegionTyping) : Stmt → Prop
   | .forRangeInt _ start stop step body =>
       start.RespectsRegionTyping Γ ∧ stop.RespectsRegionTyping Γ ∧
         step.RespectsRegionTyping Γ ∧ StmtList.RespectsRegionTyping Γ body
+  | .whileLoop cond body =>
+      cond.RespectsRegionTyping Γ ∧ StmtList.RespectsRegionTyping Γ body
   | .ifThen cond body =>
       cond.RespectsRegionTyping Γ ∧ StmtList.RespectsRegionTyping Γ body
   | .ifThenElse cond thenBody elseBody =>

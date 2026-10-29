@@ -13,9 +13,10 @@ theorem statement_iff (c : Shape) (offset size : Int) (scale : ℝ) (window comp
   rw [connection]
 
 theorem correct (c : Shape) (offset size : Int) (scale : ℝ) (window complement : Bool) (f : LogicalIO.Inputs c → LogicalIO.Outputs c)
+    (hOffsets : c.N ≠ 0 → c.outputSize ≠ 0 → KeyOffsetsFit c)
     (connection : (LogicalIO.io c offset size scale window complement).lift f = RealInterface.formula c offset size scale window complement) :
     (LogicalIO.io c offset size scale window complement).ImplementsOn (LogicalIO.initialOutput c) f :=
-  (statement_iff c offset size scale window complement f connection).mpr (RealInterface.Proof.implements c offset size scale window complement)
+  (statement_iff c offset size scale window complement f connection).mpr (RealInterface.Proof.implements c offset size scale window complement hOffsets)
 
 #axiomsClean statement_iff
 #axiomsClean correct

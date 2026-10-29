@@ -2189,70 +2189,19 @@
         "bench/repairs/tritonbench_g/attention_score_tile_checked/FPEquiv.lean"
       ],
       "assessment": {
+        "organization": "Task-level IO retains channels, layouts, strides and launch schedule. Attention-score preserves its input domain. Matrix-vector explicitly adds legal arange and machine/address premises to raw-source entries; existing checked Tensor contracts discharge them. Actual source execution, safety and complete pair connections remain in Proofs.",
+        "source_update": "The original attention-score body and explicitly labelled scalar-left scale candidate are preserved as complete 21-statement quotations. The actual signed cursor, int64 casts, masks, bare tl.dot and source accumulation order are retained. Independent Real results, selected generic/native FP execution, full memory IO, safety/frame and the complete source pair are reconnected. Original Python, Contract.lean, IO data and public Correct/FPEquiv theorem headers remain unchanged. Four optional historical failures outside the selected closure reproduce on the published baseline and remain separately recorded; they are not accepted as passing.",
+        "verification": "Necessary Welford/FusedLayerNorm regressions correct overbroad Real count claims with explicit N < 2^64 premises; formulas and Python/Lean bodies remain unchanged, and public FP bounds remain unchanged. The final shared frontend supports statement-preserving while with a current-state guard and no arbitrary fuel, modular uint64 constructor/cast propagation, stable loop-carried dtype/shape, FP32 FMA result typing, bare-dot typed stores and existing typed FP32 arithmetic. Explicit unsigned casts keep their source semantics. Only the uint64 full constructor needed here is added; signed full-constructor extensions and other pending tasks are outside this closing scope. The legacy flat MemorySafe/TraceSafe bridges conservatively reject while; the actual matrix-vector proof uses recursive Structural.Safety. Existing exhaustive shape and flatten walkers recurse through the new while node as a compatibility repair; this does not migrate additional tasks. All cumulative selected roots are rechecked. No numerical or hardware experiment was run.",
         "previous_assessment": {
-          "organization": "Moved existing same-kernel memory/Real IO adapters and the main-reader logical view into IO.lean, preserving namespaces and definition bodies.",
-          "preservation": {
-            "byte_move_evidence": {
-              "path": ".veritile-cache/io-unification-20261023/queue01/byte-preservation.json",
-              "sha256": "eb181e7e53783503e3b909a6fa0a5c5a9b8822ed718f8d7ff9819de7ed8cf851"
-            },
-            "public_judgment_evidence": {
-              "path": ".veritile-cache/io-unification-20261023/queue01/public-entry-preservation.json",
-              "sha256": "1c94235d9b21c8a05159930320ebc2c42ba4c061c2b2f9c7e8f47032d58d96ff"
-            },
-            "public_entries": {
-              "bench/repairs/tritonbench_g/attention_score_tile_checked/Contract.lean": {
-                "before_sha256": "de3a1121736d7a9cb8d86de54967d4955ce9b3491050bf9ea5b8397bf004d745",
-                "source_sha256": "de3a1121736d7a9cb8d86de54967d4955ce9b3491050bf9ea5b8397bf004d745",
-                "byte_identical": true,
-                "complete_non_import_body_identical": true
-              },
-              "bench/repairs/tritonbench_g/attention_score_tile_checked/Correct.lean": {
-                "before_sha256": "538289fbc3dae195d24dc988c0f64d68905623e50bba04b7c0407a3139522b1c",
-                "source_sha256": "538289fbc3dae195d24dc988c0f64d68905623e50bba04b7c0407a3139522b1c",
-                "byte_identical": true,
-                "complete_non_import_body_identical": true
-              },
-              "bench/repairs/tritonbench_g/attention_score_tile_checked/FPEquiv.lean": {
-                "before_sha256": "a566f1c608823b91214f5cee8cdb1ec463a0e0756641aaac06f20ff7e9b571f6",
-                "source_sha256": "a566f1c608823b91214f5cee8cdb1ec463a0e0756641aaac06f20ff7e9b571f6",
-                "byte_identical": true,
-                "complete_non_import_body_identical": true
-              },
-              "bench/repairs/tritonbench_g/attention_score_tile_checked/Kernels.lean": {
-                "before_sha256": "2f786da4d1da40fd5903ff37e7f45e8fe351be6a026dde253578c96221ac17d8",
-                "source_sha256": "2f786da4d1da40fd5903ff37e7f45e8fe351be6a026dde253578c96221ac17d8",
-                "byte_identical": true,
-                "complete_non_import_body_identical": true
-              }
-            },
-            "connection_proof_bodies": "Proofs/LogicalReader.lean is identical after removing import lines; all entire-judgment equivalence/execution/safety proofs remain in Proofs.",
-            "baseline_binding": {
-              "path": ".veritile-cache/io-unification-20261023/queue01/baseline-binding.json",
-              "sha256": "050c94762f8e4d617cdfc3c7882f248df151e061427610eb493fcbcddd9c5b91"
-            },
-            "description": "Existing definitions are relocated with unchanged names and bodies. No source program, formula, premise, mathematical range, schedule, frame, observer, cast, rule set, or numeric classification changed."
-          },
-          "different_stage_or_encoding_exceptions": [],
-          "previous_assessment": {
-            "manifest": "bench/review-checkpoints/2026-10-22/logical-readers/io-audit.json",
-            "task": "attention_score"
-          }
-        },
-        "reference_separation": {
-          "organization": "The reference is a dedicated source-ordered native Graph formula used only by the optional native observation chain. The complete exclusive adapter chain (NativeReference, NativeIO, NativeBinding, NativeIOValues, NativeIOSafety, NativeIOProof) moves into Misc with its original namespaces and non-import source bodies. Two existing Misc consumers import the new paths. The main Real and FP pair never depend on this chain.",
-          "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/reference-separation/tasks/attention_score.json",
-            "sha256": "b787613ebe3d37608ea76d90e7369ff8c3754499ce0750b218893b95e46758e2",
-            "task": "attention_score"
-          }
+          "path": "bench/review-checkpoints/2026-10-29/native-attention-matvec-while-bodies/previous-reviews.json.gz",
+          "sha256": "1e59178acf28fc195e9b29823bc3cb6a2e864a1e5740a5edfee0c2c04ea70e2b"
         }
       },
       "distinct_views": "Real uses AlgorithmProgramIO and its dtype-erased source projection with flat finite Real windows. Native uses ProgramIO Graph NativeStaging.Expr, empty-dispatch literal encoding and lower observation. These are genuinely different carriers and observations; the local reached-site FP pair is a distinct program view, not a duplicate complete IO record.",
       "readers": [
         {
           "path": "bench/repairs/tritonbench_g/attention_score_tile_checked/Correct.lean",
-          "sha256": "538289fbc3dae195d24dc988c0f64d68905623e50bba04b7c0407a3139522b1c"
+          "sha256": "27391c6bdc379d95720958de13c090d33e0365478d1f085f92f092252279c8c1"
         },
         {
           "path": "bench/repairs/tritonbench_g/attention_score_tile_checked/FPEquiv.lean",
@@ -2274,7 +2223,7 @@
         },
         {
           "path": "bench/repairs/tritonbench_g/attention_score_tile_checked/IO.lean",
-          "sha256": "9507b4df91fa80e839e76dc116bd08131fcc4f0a1634c9eda27873520d563854"
+          "sha256": "88eb746bb4c88d060d17d77516656fbf60f47dce3abf0a1902ca29a1200f0a05"
         },
         {
           "path": "bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/NativeIO.lean",
@@ -2282,7 +2231,7 @@
         },
         {
           "path": "bench/repairs/tritonbench_g/attention_score_tile_checked/PairIO.lean",
-          "sha256": "0e8a81a1e257b2fa066b36e743e537ad71961bd1970db5cde596f4de60e2e68f"
+          "sha256": "4a1280288c8b934f44bc2be41b0f649c8b08c2e1301c45c1b81793419030f709"
         },
         {
           "path": "bench/repairs/tritonbench_g/attention_score_tile_checked/RealIO.lean",
@@ -2290,17 +2239,20 @@
         }
       ],
       "changed_paths": [
+        "bench/repairs/tritonbench_g/attention_score_tile_checked/Correct.lean",
         "bench/repairs/tritonbench_g/attention_score_tile_checked/IO.lean",
-        "bench/repairs/tritonbench_g/attention_score_tile_checked/RealIO.lean"
+        "bench/repairs/tritonbench_g/attention_score_tile_checked/PairIO.lean"
       ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/reference-separation/tasks/attention_score.json",
-        "sha256": "b787613ebe3d37608ea76d90e7369ff8c3754499ce0750b218893b95e46758e2",
-        "task": "attention_score"
+        "path": "bench/pr22-split/receipts/native-attention-matvec-while-bodies.json",
+        "sha256": "ccc682d75e843e8cee3213dcae0e6426695b260b10d05c86a1d63dfb57b113a8"
       },
       "preservation_and_build_passed": true,
       "validation_limits": {
-        "numerical_status_preserved": true
+        "official_comparator": "Unavailable; actual final-source attempts retained.",
+        "torch": "Unavailable.",
+        "numerical_receipt": "Pre-existing historical Structural receipt import error; while and raw source integer/dot changes are separately recorded.",
+        "scope": "Attention-score public premises remain unchanged. Matrix-vector raw-source premise correction is documented and discharged by existing Tensor contracts. No new numerical experiment. Original per-task storage profiles and explicit optional native modeling boundaries remain."
       },
       "remaining_issues": [],
       "main_formula_review": {
@@ -2311,7 +2263,7 @@
           "task_index": 11,
           "task": "attention_score"
         },
-        "io_data_unchanged": true
+        "io_data_unchanged": false
       },
       "previous_io_sources": [
         {
@@ -2385,6 +2337,10 @@
         "path": "bench/review-checkpoints/2026-10-23/reference-separation/tasks/attention_score.json",
         "sha256": "b787613ebe3d37608ea76d90e7369ff8c3754499ce0750b218893b95e46758e2",
         "task": "attention_score"
+      },
+      "current_body_source_review": {
+        "path": "bench/pr22-split/receipts/native-attention-matvec-while-bodies.json",
+        "sha256": "ccc682d75e843e8cee3213dcae0e6426695b260b10d05c86a1d63dfb57b113a8"
       }
     },
     {
@@ -24236,30 +24192,23 @@
         "bench/repairs/tritonbench_g/matrix_vector_multip/FPEquiv.lean"
       ],
       "assessment": {
-        "organization": "The main logical tensor equivalences/views already live in the selected task IO.lean, with complete judgment and execution connections in Proofs/. No separate same-task logical-view definition remains to migrate; distinct candidate/native thin views are retained.",
-        "preservation": {
-          "all_recorded_source_bytes_unchanged": true,
-          "full_public_judgment_types": "All selected Correct/FPEquiv and IO source bytes match saved before and the pinned prior owner report; their previous successful full-scope/source/joint checks are reused, with no fresh Lean replay claimed.",
-          "audit": {
-            "path": ".veritile-cache/io-unification-20261023/queue10/audit.json",
-            "sha256": "b916c524819e4d2aeb54d8b0da86ac8fa5acadac06522b6a90fc19ada2136a5b"
-          }
-        },
-        "different_stage_or_encoding_exceptions": [],
+        "organization": "Task-level IO retains channels, layouts, strides and launch schedule. Attention-score preserves its input domain. Matrix-vector explicitly adds legal arange and machine/address premises to raw-source entries; existing checked Tensor contracts discharge them. Actual source execution, safety and complete pair connections remain in Proofs.",
+        "source_update": "Both complete matrix-vector bodies retain all 18 top-level statements, the original seven-statement while body, casts, masks, pointer increments, reduction and store. The authored candidate changes only multiply-add syntax to explicit tl.fma. The actual raw-source execution is connected to an independent ordered matrix-vector sum and existing selected native FP model, with termination, memory safety, frame and complete source/candidate execution equivalence proved. Raw-source entry points now explicitly require legal arange sizes and SourceDomain machine/address bounds: N and M below 2^63, PID below 2^31, and active matrix offsets below 2^64. This corrects the old all-Nat source claim, which was invalid for the retained uint64 casts; it is a disclosed premise correction, not an unchanged theorem domain. Existing checked Tensor contracts discharge these bounds and all 48 shape configurations. Original Python and Contract.lean remain unchanged; no new Python guard or value restriction was added. Historical natural-number host models are labelled separately, without asserting AST equality to the raw while program.",
+        "verification": "Necessary Welford/FusedLayerNorm regressions correct overbroad Real count claims with explicit N < 2^64 premises; formulas and Python/Lean bodies remain unchanged, and public FP bounds remain unchanged. The final shared frontend supports statement-preserving while with a current-state guard and no arbitrary fuel, modular uint64 constructor/cast propagation, stable loop-carried dtype/shape, FP32 FMA result typing, bare-dot typed stores and existing typed FP32 arithmetic. Explicit unsigned casts keep their source semantics. Only the uint64 full constructor needed here is added; signed full-constructor extensions and other pending tasks are outside this closing scope. The legacy flat MemorySafe/TraceSafe bridges conservatively reject while; the actual matrix-vector proof uses recursive Structural.Safety. Existing exhaustive shape and flatten walkers recurse through the new while node as a compatibility repair; this does not migrate additional tasks. All cumulative selected roots are rechecked. No numerical or hardware experiment was run.",
         "previous_assessment": {
-          "manifest": "bench/review-checkpoints/2026-10-22/logical-readers/io-audit.json",
-          "task": "matrix_vector_multip"
+          "path": "bench/review-checkpoints/2026-10-29/native-attention-matvec-while-bodies/previous-reviews.json.gz",
+          "sha256": "1e59178acf28fc195e9b29823bc3cb6a2e864a1e5740a5edfee0c2c04ea70e2b"
         }
       },
       "distinct_views": "The Real single-program output has shape [BN] and an active pid*BN row mask. Native whole-grid output has shape [N], a supplied arbitrary invocation list, word encoding and payload observation. Those output/schedule/encoding differences require distinct records while common input indexing is shared.",
       "readers": [
         {
           "path": "bench/repairs/tritonbench_g/matrix_vector_multip/Correct.lean",
-          "sha256": "b298700cd4c443ffc7a472c8829825f0985f40a8ce13627b7f2aa21485dd5de8"
+          "sha256": "d6ecfd9a1afc2a46c5d86fd835fc69eb8e93161426641ba625b6097b02463003"
         },
         {
           "path": "bench/repairs/tritonbench_g/matrix_vector_multip/FPEquiv.lean",
-          "sha256": "03c9dcfc70273e0c60668ba6f2357ebbc004800e9c6fec5d552cf2824981dbfb"
+          "sha256": "b70b37409bdc53da2c8642bf43cd67edeb1e954fd0aa3c09ecdee1a2306af805"
         }
       ],
       "io_sources": [
@@ -24277,21 +24226,30 @@
         },
         {
           "path": "bench/repairs/tritonbench_g/matrix_vector_multip/CandidateIO.lean",
-          "sha256": "2fb5eb5c3536efdb9b008d5abeb7e22792d11e4bd7592cbaee15669938dab665"
+          "sha256": "03daffb5044242b5527bd3d778d392d43cfc2fbb17bc10293e86c3b763815c3c"
         },
         {
           "path": "bench/repairs/tritonbench_g/matrix_vector_multip/IO.lean",
-          "sha256": "749266553d2b950bf2048e3619bb11dd6afeebc98db17a9362854ed6f564e2a6"
+          "sha256": "bb2b66b7082c341fc1abc81368b88d80ab3d9cbfa0bde73c6b181876e35f7ae1"
         }
       ],
-      "changed_paths": [],
+      "changed_paths": [
+        "bench/repairs/tritonbench_g/matrix_vector_multip/Correct.lean",
+        "bench/repairs/tritonbench_g/matrix_vector_multip/FPEquiv.lean",
+        "bench/repairs/tritonbench_g/matrix_vector_multip/CandidateIO.lean",
+        "bench/repairs/tritonbench_g/matrix_vector_multip/IO.lean"
+      ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/matrix_vector_multip.json",
-        "sha256": "debe1b43a9fa3b2918a117f1799146c60f41454c5de956e1062e0e71642869d5",
-        "task": "matrix_vector_multip"
+        "path": "bench/pr22-split/receipts/native-attention-matvec-while-bodies.json",
+        "sha256": "ccc682d75e843e8cee3213dcae0e6426695b260b10d05c86a1d63dfb57b113a8"
       },
       "preservation_and_build_passed": true,
-      "validation_limits": {},
+      "validation_limits": {
+        "official_comparator": "Unavailable; actual final-source attempts retained.",
+        "torch": "Unavailable.",
+        "numerical_receipt": "Pre-existing historical Structural receipt import error; while and raw source integer/dot changes are separately recorded.",
+        "scope": "Attention-score public premises remain unchanged. Matrix-vector raw-source premise correction is documented and discharged by existing Tensor contracts. No new numerical experiment. Original per-task storage profiles and explicit optional native modeling boundaries remain."
+      },
       "remaining_issues": [],
       "main_formula_review": {
         "audit": "bench/review-checkpoints/2026-10-22/main-formulas/audit.json",
@@ -24301,7 +24259,7 @@
           "task_index": 7,
           "task": "matrix_vector_multip"
         },
-        "io_data_unchanged": true
+        "io_data_unchanged": false
       },
       "previous_io_sources": [
         {
@@ -24385,6 +24343,10 @@
         "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/matrix_vector_multip.json",
         "sha256": "debe1b43a9fa3b2918a117f1799146c60f41454c5de956e1062e0e71642869d5",
         "task": "matrix_vector_multip"
+      },
+      "current_body_source_review": {
+        "path": "bench/pr22-split/receipts/native-attention-matvec-while-bodies.json",
+        "sha256": "ccc682d75e843e8cee3213dcae0e6426695b260b10d05c86a1d63dfb57b113a8"
       }
     },
     {

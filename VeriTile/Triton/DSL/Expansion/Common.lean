@@ -147,8 +147,13 @@ constexpr float and does not itself insert a numerical cast. -/
 def suppliedFP32Literal? (e : TSyntax `tritonExpr) : MacroM (Option EOut) := do
   match e with
   | `(tritonExpr| $((VeriTile.Triton.DSL.TypedStores.fp32CallValue $value:term : ℝ))) =>
-      return some ⟨← `(Op.const (VeriTile.Triton.DSL.TypedStores.fp32CallValue $value)),
-        .real, SInfo.scalar, none, some .fp32⟩
+      let term ← `(Op.const (VeriTile.Triton.DSL.TypedStores.fp32CallValue $value))
+      -- A plain source copy also materializes the supplied FP32 scalar.
+      -- Carry its computation context into assignment, before any later
+      -- arithmetic can supply an enclosing precision. This is a literal
+      -- input binding, not an added source cast.
+      let computation ← `(ComputeExpr.compute (ComputeOp.alg ComputeDType.fp32 $term))
+      return some ⟨term, .real, SInfo.scalar, some computation, some .fp32⟩
   | _ => return none
 
 def expandLeanAntiquoteAs? (dtype : DInfo) (e : TSyntax `tritonExpr) :

@@ -1,0 +1,300 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/attention_score_tile_checked/attention_score_tile_checked.py",
+    "lean": "bench/repairs/tritonbench_g/attention_score_tile_checked/Kernels.lean",
+    "python_function": "_score_kernel",
+    "lean_definition": "widened",
+    "signature_definition": "scoreSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Q",
+          "fp32"
+        ],
+        [
+          "K",
+          "fp32"
+        ],
+        [
+          "M",
+          "fp32"
+        ],
+        [
+          "Out",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_qz",
+          "integer"
+        ],
+        [
+          "stride_qh",
+          "integer"
+        ],
+        [
+          "stride_qm",
+          "integer"
+        ],
+        [
+          "stride_qk",
+          "integer"
+        ],
+        [
+          "stride_kz",
+          "integer"
+        ],
+        [
+          "stride_kh",
+          "integer"
+        ],
+        [
+          "stride_kn",
+          "integer"
+        ],
+        [
+          "stride_kk",
+          "integer"
+        ],
+        [
+          "stride_oz",
+          "integer"
+        ],
+        [
+          "stride_oh",
+          "integer"
+        ],
+        [
+          "stride_on",
+          "integer"
+        ],
+        [
+          "Z",
+          "integer"
+        ],
+        [
+          "H",
+          "integer"
+        ],
+        [
+          "H_KV",
+          "integer"
+        ],
+        [
+          "N_CTX",
+          "integer"
+        ],
+        [
+          "ROUND_CTX",
+          "integer"
+        ],
+        [
+          "NKV_CTX",
+          "integer"
+        ],
+        [
+          "sliding_window_offset",
+          "integer"
+        ],
+        [
+          "sliding_window_size",
+          "integer"
+        ],
+        [
+          "sm_scale",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "SLIDING_WINDOW",
+        "COMPLEMENT_SLIDING_WINDOW",
+        "IS_EVEN_M",
+        "IS_EVEN_N",
+        "BLOCK_M",
+        "BLOCK_DMODEL",
+        "BLOCK_N"
+      ],
+      "readPorts": [
+        "Q",
+        "K",
+        "M"
+      ],
+      "writePorts": [
+        "Out"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_qz": "stride_qz",
+      "stride_qh": "stride_qh",
+      "stride_qm": "stride_qm",
+      "stride_qk": "stride_qk",
+      "stride_kz": "stride_kz",
+      "stride_kh": "stride_kh",
+      "stride_kn": "stride_kn",
+      "stride_kk": "stride_kk",
+      "stride_oz": "stride_oz",
+      "stride_oh": "stride_oh",
+      "stride_on": "stride_on",
+      "Z": "Z",
+      "H": "H",
+      "H_KV": "H_KV",
+      "N_CTX": "N_CTX",
+      "ROUND_CTX": "ROUND_CTX",
+      "NKV_CTX": "NKV_CTX",
+      "sliding_window_offset": "sliding_window_offset",
+      "sliding_window_size": "sliding_window_size",
+      "sm_scale": "sm_scale"
+    },
+    "mode": "pasted_body"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/attention_score_tile_checked/attention_score_scalar_left.py",
+    "lean": "bench/repairs/tritonbench_g/attention_score_tile_checked/Kernels.lean",
+    "python_function": "_score_scalar_left_kernel",
+    "lean_definition": "widenedScalarLeft",
+    "signature_definition": "scoreSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Q",
+          "fp32"
+        ],
+        [
+          "K",
+          "fp32"
+        ],
+        [
+          "M",
+          "fp32"
+        ],
+        [
+          "Out",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_qz",
+          "integer"
+        ],
+        [
+          "stride_qh",
+          "integer"
+        ],
+        [
+          "stride_qm",
+          "integer"
+        ],
+        [
+          "stride_qk",
+          "integer"
+        ],
+        [
+          "stride_kz",
+          "integer"
+        ],
+        [
+          "stride_kh",
+          "integer"
+        ],
+        [
+          "stride_kn",
+          "integer"
+        ],
+        [
+          "stride_kk",
+          "integer"
+        ],
+        [
+          "stride_oz",
+          "integer"
+        ],
+        [
+          "stride_oh",
+          "integer"
+        ],
+        [
+          "stride_on",
+          "integer"
+        ],
+        [
+          "Z",
+          "integer"
+        ],
+        [
+          "H",
+          "integer"
+        ],
+        [
+          "H_KV",
+          "integer"
+        ],
+        [
+          "N_CTX",
+          "integer"
+        ],
+        [
+          "ROUND_CTX",
+          "integer"
+        ],
+        [
+          "NKV_CTX",
+          "integer"
+        ],
+        [
+          "sliding_window_offset",
+          "integer"
+        ],
+        [
+          "sliding_window_size",
+          "integer"
+        ],
+        [
+          "sm_scale",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "SLIDING_WINDOW",
+        "COMPLEMENT_SLIDING_WINDOW",
+        "IS_EVEN_M",
+        "IS_EVEN_N",
+        "BLOCK_M",
+        "BLOCK_DMODEL",
+        "BLOCK_N"
+      ],
+      "readPorts": [
+        "Q",
+        "K",
+        "M"
+      ],
+      "writePorts": [
+        "Out"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_qz": "stride_qz",
+      "stride_qh": "stride_qh",
+      "stride_qm": "stride_qm",
+      "stride_qk": "stride_qk",
+      "stride_kz": "stride_kz",
+      "stride_kh": "stride_kh",
+      "stride_kn": "stride_kn",
+      "stride_kk": "stride_kk",
+      "stride_oz": "stride_oz",
+      "stride_oh": "stride_oh",
+      "stride_on": "stride_on",
+      "Z": "Z",
+      "H": "H",
+      "H_KV": "H_KV",
+      "N_CTX": "N_CTX",
+      "ROUND_CTX": "ROUND_CTX",
+      "NKV_CTX": "NKV_CTX",
+      "sliding_window_offset": "sliding_window_offset",
+      "sliding_window_size": "sliding_window_size",
+      "sm_scale": "sm_scale"
+    },
+    "mode": "pasted_body"
+  }
+]

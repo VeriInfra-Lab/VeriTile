@@ -1,4 +1,4 @@
-import bench.repairs.tritonbench_g.attention_score_tile_checked.Kernels
+import bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.SourceBridge
 import bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.CurrentMachine
 
 namespace VeriTile.Bench.Repairs.AttentionScoreTileChecked.RawNative
@@ -30,7 +30,7 @@ theorem kernel_native (I : ISA (BitVec 32)) (c : Shape) (abi : ABI c)
           result ((abi.alloc r).base+i)=Graph.bits (physical ((abi.alloc r).base+i))) ∧
         (∀ a, ¬(abi.alloc "out").Contains a → result a=Graph.bits (physical a)) := by
   obtain ⟨result,run,values,inputs,frame⟩ := NativePhysical.returned c abi physical
-    offset size scale window complement
+    offset size scale window complement (Whole002.Representation.Domain.key_offsets_fit c abi offset size window domain)
   refine ⟨Whole002.Machine.closed c abi offset size window domain,
     kernel_tiles_bounded c offset size scale window complement tile,result,?_,?_,inputs,frame⟩
   · simpa only [nativeExecute,Whole002.Execution.Native.execute_eq] using run

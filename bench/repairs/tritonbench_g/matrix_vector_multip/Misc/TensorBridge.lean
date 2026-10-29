@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.matrix_vector_multip.SourceShapes
 import bench.repairs.tritonbench_g.matrix_vector_multip.Correct
 import bench.repairs.tritonbench_g.matrix_vector_multip.Misc.NativeCorrect
 import bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.RealResult
@@ -5,7 +6,7 @@ import bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.NativeResult
 import bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.KernelBinding
 
 /-! Optional actual Tensor applications and Python-check correspondence.
-The primary mathematical and native kernel specifications are unchanged. -/
+Raw-source integer and block-size conditions below are derived from the existing Tensor contract. -/
 namespace VeriTile.Bench.Repairs.MatrixVectorMultip.TensorBridge
 open VeriTile VeriTile.Triton FP.Structural KernelSource
 open VeriTile.Bench.TritonBenchG.MatrixVectorMultip WholeNative
@@ -53,7 +54,7 @@ theorem mv_checked_kernel_correctness
       checkInputs (.tensor x.metadata) (.tensor y.metadata) = .ok () ∧
       KernelIndex.CheckedCorrespondence x.metadata y.metadata c pid
         (KernelBinding.memory x y lx ly h out) ∧
-      ∃ t, exec WholeMath.algebra (Kernels.source N M c.blockRows c.blockColumns) s = some t ∧
+      ∃ t, exec WholeMath.algebra (Kernels.source N M c.blockRows c.blockColumns c.rowShape c.columnShape) s = some t ∧
         t.mem = (reference N c.blockRows s
           (fun i => Correct.matrixVector M matrix vector (row c.blockRows pid i.val))).mem ∧
         (∀ i : Fin c.blockRows, row c.blockRows pid i.val < N →
@@ -64,8 +65,11 @@ theorem mv_checked_kernel_correctness
   refine ⟨(checkInputs_iff _ _).mpr h,
     KernelIndex.checked_correspondence (KernelBinding.contract x y lx ly h out c pid program programABI), ?_⟩
   have run := KernelRealResult.mv_kernel_correctness (rows x.metadata) (columns x.metadata)
-    c.blockRows c.blockColumns (KernelIndex.config_bounds c).2.2.1
+    c.blockRows c.blockColumns (KernelIndex.config_bounds c).2.2.1 c.rowShape c.columnShape
     (KernelBinding.state x y lx ly h out decode read pid surrounding)
+    (by
+      simpa only [KernelBinding.state_pid] using
+        (SourceDomain.of_kernel_contract (KernelBinding.contract x y lx ly h out c pid program programABI)))
     (TensorBinding.matrix x lx decode read) (TensorBinding.vector y ly decode read)
     (KernelBinding.matrix_read x y lx ly h out decode read pid surrounding)
     (KernelBinding.vector_read x y lx ly h out decode read pid surrounding)
@@ -91,7 +95,7 @@ theorem mv_checked_fp32_kernel_equiv
     checkInputs (.tensor x.metadata) (.tensor y.metadata) = .ok () ∧
     KernelIndex.CheckedCorrespondence x.metadata y.metadata c pid
       (KernelBinding.memory x y lx ly h out) ∧
-    ∃ t, exec (algebra native g) (Kernels.source N M c.blockRows c.blockColumns) s = some t ∧
+    ∃ t, exec (algebra native g) (Kernels.source N M c.blockRows c.blockColumns c.rowShape c.columnShape) s = some t ∧
       t.mem = (reference N c.blockRows s (fun i => Payload.word
         (KernelFP.formula native N M c.blockRows c.blockColumns g matrix vector pid i))).mem ∧
       (∀ i : Fin c.blockRows, row c.blockRows pid i.val < N →
@@ -102,8 +106,11 @@ theorem mv_checked_fp32_kernel_equiv
   refine ⟨(checkInputs_iff _ _).mpr h,
     KernelIndex.checked_correspondence (KernelBinding.contract x y lx ly h out c pid program programABI), ?_⟩
   have run := KernelNativeResult.mv_fp32_kernel_equiv native (rows x.metadata) (columns x.metadata)
-    c.blockRows c.blockColumns g (KernelIndex.config_bounds c).2.2.1
+    c.blockRows c.blockColumns g (KernelIndex.config_bounds c).2.2.1 c.rowShape c.columnShape
     (KernelBinding.fpState x y lx ly h out read pid surrounding)
+    (by
+      simpa only [KernelBinding.fpState,KernelBinding.state_pid] using
+        (SourceDomain.of_kernel_contract (KernelBinding.contract x y lx ly h out c pid program programABI)))
     (TensorBinding.matrix x lx KernelBinding.bits read)
     (TensorBinding.vector y ly KernelBinding.bits read)
     (KernelBinding.input_words x y lx ly h out read pid surrounding)

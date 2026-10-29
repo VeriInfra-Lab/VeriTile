@@ -6,8 +6,8 @@ derived by the already-proved initialization and the frame of the remaining
 register assignments. No independently assumed pointer register is required. -/
 namespace VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.RealSafetyPrelude
 open VeriTile.Triton
-open VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.RealAccess
-open VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.RealRegisterSafety
+open VeriTile.Triton.Memory.AccessHelpers
+open VeriTile.Triton.Memory.RegisterSafety
 set_option maxHeartbeats 1000000
 set_option maxRecDepth 16000
 set_option linter.unusedSimpArgs false
@@ -15,6 +15,7 @@ noncomputable section
 
 theorem correct (bounds : RegionBounds) (s : BlockState) (Q K M : RegionName)
     (H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk : Nat) (scale : ℝ) (evenN : Bool)
+    (keyOffsetBound : s.pids 0 * B < 2147483648)
     (hbK : BlockBounds bounds (RealLoads.keyPointer K B D NK
       (s.pids 1 / H * skz + (s.pids 1 % H) / (H / HK) * skh) skn skk (s.pids 0))
       (RealLoads.checks evenN)) :
@@ -39,7 +40,7 @@ theorem correct (bounds : RegionBounds) (s : BlockState) (Q K M : RegionName)
       | apply RealFrame.Code.nil
       | simp
   obtain ⟨t,he,_,_,_,_,_,hk,_⟩ := RealPrelude.correct s Q K M H HK N RN NK B D
-    sqz sqh sqm sqk skz skh skn skk 0 0 scale Bool.false Bool.false Bool.false evenN Bool.false
+    sqz sqh sqm sqk skz skh skn skk 0 0 scale Bool.false Bool.false Bool.false evenN Bool.false keyOffsetBound
   change stepStmts code s = some t at he
   rw [hsplit, ProgramRewrite.append] at he
   cases hp : stepStmts before s with

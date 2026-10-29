@@ -45,6 +45,16 @@ structure Domain (c : Shape) (abi : ABI c) (offset size : Int) (window : Bool) :
   addresses : c.N ≠ 0 → c.outputSize ≠ 0 → ∀ r, tracked r →
     4*((abi.alloc r).base+extent c r) < 18446744073709551616
 
+/-- Existing launch admission already bounds the retained source int32 cast. -/
+theorem Domain.key_offsets_fit (c : Shape) (abi : ABI c) (offset size : Int) (window : Bool)
+    (domain : Domain c abi offset size window) :
+    c.N ≠ 0 → c.outputSize ≠ 0 → KeyOffsetsFit c := by
+  intro hN hOut block
+  have bound := (domain.launch hN hOut).paddedKey
+  have blockBound := Nat.mul_le_mul_right c.B (Nat.le_of_lt block.isLt)
+  dsimp [kPad, i32max] at bound
+  omega
+
 theorem ofInt64_exact (x : Int) (h : Signed64 x) : (BitVec.ofInt 64 x).toInt=x := by
   exact BitVec.toInt_ofInt_eq_self (by decide) h.1 (by dsimp [Signed64] at h; norm_num; omega)
 

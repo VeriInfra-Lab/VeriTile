@@ -10,17 +10,21 @@ noncomputable section
 def matrixVector (M : Nat) (matrix : Nat → Nat → ℝ) (vector : Nat → ℝ) (i : Nat) : ℝ :=
   ∑ j : Fin M, matrix i j.val * vector j.val
 
-/-- Both complete inputs and the original single invocation's output tile.
+/-- Source domain bounds N/M, PID and active uint64 matrix offsets.
+These are derived from the existing checked Tensor contract.
+Both complete inputs and the original single invocation's output tile.
 The row mask remains exactly `pid * BN + row < N`, including the final tail. -/
-abbrev matrixVectorIO (N M BN BM pid : Nat) := IO.logicalIO WholeMath.algebra N M BN BM pid
-specification mv_kernel_correctness (N M BN BM pid : Nat) (width : 0 < BM) :
-    Spec.Real (matrixVectorIO N M BN BM pid ⊨ fun ⟨matrix,vector⟩ row =>
+abbrev matrixVectorIO (N M BN BM pid : Nat)
+    (rowShape : Random.ArangeSizeDomain BN) (columnShape : Random.ArangeSizeDomain BM) := IO.logicalIO WholeMath.algebra N M BN BM pid rowShape columnShape
+specification mv_kernel_correctness (N M BN BM pid : Nat) (width : 0 < BM)
+    (rowShape : Random.ArangeSizeDomain BN) (columnShape : Random.ArangeSizeDomain BM) (domain : SourceDomain N M BN BM pid) :
+    Spec.Real (matrixVectorIO N M BN BM pid rowShape columnShape ⊨ fun ⟨matrix,vector⟩ row =>
       ∑ col : Fin M, IO.logicalRow matrix (pid*BN+row.val) col * vector col) :=
-  LogicalIOProof.implements N M BN BM pid width
+  LogicalIOProof.implements N M BN BM pid width rowShape columnShape domain
 
 #specNonCircular matrixVector avoiding [Kernels.source]
 #stmtSurfaceSubset mv_kernel_correctness ⊆
-  [mv_kernel_correctness.match_1,Spec.Real,matrixVectorIO,LogicalProgramIO.Implements,IO.logicalRow]
+  [mv_kernel_correctness.match_1,Random.ArangeSizeDomain,SourceDomain,Spec.Real,matrixVectorIO,LogicalProgramIO.Implements,IO.logicalRow]
 #axiomsClean mv_kernel_correctness
 #guard_msgs (drop info) in
 #auditModuleAxioms

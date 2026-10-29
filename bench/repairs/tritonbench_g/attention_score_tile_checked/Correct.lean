@@ -40,7 +40,8 @@ specification kernel_correct (c : Shape) (abi : ABI c)
     (_tile : c.B*c.D≤1048576) :
     Spec.Real (kernelIO c offset size scale window complement ⊨{LogicalIO.initialOutput c}
       fun xs z h key => scoreSum c xs offset size scale window complement z h key) :=
-  LogicalReader.correct c offset size scale window complement _ rfl
+  LogicalReader.correct c offset size scale window complement _
+    (Whole002.Representation.Domain.key_offsets_fit c abi offset size window _domain) rfl
 
 #specNonCircular scoreSum avoiding [kernel,realExecute,Triton.exec]
 #axiomsClean kernel_correct

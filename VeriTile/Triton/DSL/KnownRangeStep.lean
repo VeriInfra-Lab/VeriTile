@@ -63,6 +63,9 @@ private partial def lowerStmts (known : Known) (body : List (TSyntax `tritonStmt
       | `(tritonStmt| $id:ident -= $_:tritonExpr)
       | `(tritonStmt| $id:ident *= $_:tritonExpr)
       | `(tritonStmt| $id:ident /= $_:tritonExpr) => pure (st, forget known id)
+      | `(tritonStmt| while $condition:tritonExpr { $nested:tritonStmt* }) => do
+          let nested := (← lowerStmts [] nested.toList).toArray
+          pure (← `(tritonStmt| while $condition { $nested* }), [])
       | `(tritonStmt| for $id:ident in range($start:tritonExpr, $stop:tritonExpr, $stride:tritonExpr) { $nested:tritonStmt* }) => do
           let stride ← match literal known stride with
             | some n => stepExpr n

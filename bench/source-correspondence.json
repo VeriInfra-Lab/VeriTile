@@ -6,8 +6,8 @@
     "tasks": 183,
     "examples": 19,
     "task_status": {
-      "selected_body_copy_checked": 122,
-      "uncovered_jit_functions": 61
+      "selected_body_copy_checked": 124,
+      "uncovered_jit_functions": 59
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
@@ -15,12 +15,12 @@
       "spec_derived_body_copy_checked": 15
     },
     "selected_jit_functions": 333,
-    "uncovered_selected_jit_functions": 138,
+    "uncovered_selected_jit_functions": 135,
     "primary_files_with_int64_screen_warning": 18,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 43,
-        "antiquotes": 48,
+        "in_body_type_directives": 42,
+        "antiquotes": 47,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 8
       },
@@ -955,13 +955,13 @@
       "lean": "bench/repairs/tritonbench_g/attention_score_tile_checked/Kernels.lean",
       "source_provenance": "selected_revision",
       "lean_screen": {
-        "quotations": 0,
+        "quotations": 2,
         "in_body_type_directives": 0,
         "antiquotes": 0,
-        "dsl_assignment": 6,
+        "dsl_assignment": 51,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 0
+        "load_dtype_extension": 4
       },
       "python_jits": [
         {
@@ -1036,19 +1036,143 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_score_kernel",
+          "lean_definition": "widened",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "stride_qz": "stride_qz",
+            "stride_qh": "stride_qh",
+            "stride_qm": "stride_qm",
+            "stride_qk": "stride_qk",
+            "stride_kz": "stride_kz",
+            "stride_kh": "stride_kh",
+            "stride_kn": "stride_kn",
+            "stride_kk": "stride_kk",
+            "stride_oz": "stride_oz",
+            "stride_oh": "stride_oh",
+            "stride_on": "stride_on",
+            "Z": "Z",
+            "H": "H",
+            "H_KV": "H_KV",
+            "N_CTX": "N_CTX",
+            "ROUND_CTX": "ROUND_CTX",
+            "NKV_CTX": "NKV_CTX",
+            "sliding_window_offset": "sliding_window_offset",
+            "sliding_window_size": "sliding_window_size",
+            "sm_scale": "sm_scale"
+          },
+          "statements": 21,
+          "runtime_parameters": {
+            "stride_qz": "integer",
+            "stride_qh": "integer",
+            "stride_qm": "integer",
+            "stride_qk": "integer",
+            "stride_kz": "integer",
+            "stride_kh": "integer",
+            "stride_kn": "integer",
+            "stride_kk": "integer",
+            "stride_oz": "integer",
+            "stride_oh": "integer",
+            "stride_on": "integer",
+            "Z": "integer",
+            "H": "integer",
+            "H_KV": "integer",
+            "N_CTX": "integer",
+            "ROUND_CTX": "integer",
+            "NKV_CTX": "integer",
+            "sliding_window_offset": "integer",
+            "sliding_window_size": "integer",
+            "sm_scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_DMODEL",
+            "BLOCK_M",
+            "BLOCK_N",
+            "COMPLEMENT_SLIDING_WINDOW",
+            "IS_EVEN_M",
+            "IS_EVEN_N",
+            "SLIDING_WINDOW"
+          ],
           "python": "bench/repairs/tritonbench_g/attention_score_tile_checked/attention_score_tile_checked.py",
-          "function": "_score_kernel"
+          "lean": "bench/repairs/tritonbench_g/attention_score_tile_checked/Kernels.lean"
+        },
+        {
+          "python_function": "_score_scalar_left_kernel",
+          "lean_definition": "widenedScalarLeft",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "stride_qz": "stride_qz",
+            "stride_qh": "stride_qh",
+            "stride_qm": "stride_qm",
+            "stride_qk": "stride_qk",
+            "stride_kz": "stride_kz",
+            "stride_kh": "stride_kh",
+            "stride_kn": "stride_kn",
+            "stride_kk": "stride_kk",
+            "stride_oz": "stride_oz",
+            "stride_oh": "stride_oh",
+            "stride_on": "stride_on",
+            "Z": "Z",
+            "H": "H",
+            "H_KV": "H_KV",
+            "N_CTX": "N_CTX",
+            "ROUND_CTX": "ROUND_CTX",
+            "NKV_CTX": "NKV_CTX",
+            "sliding_window_offset": "sliding_window_offset",
+            "sliding_window_size": "sliding_window_size",
+            "sm_scale": "sm_scale"
+          },
+          "statements": 21,
+          "runtime_parameters": {
+            "stride_qz": "integer",
+            "stride_qh": "integer",
+            "stride_qm": "integer",
+            "stride_qk": "integer",
+            "stride_kz": "integer",
+            "stride_kh": "integer",
+            "stride_kn": "integer",
+            "stride_kk": "integer",
+            "stride_oz": "integer",
+            "stride_oh": "integer",
+            "stride_on": "integer",
+            "Z": "integer",
+            "H": "integer",
+            "H_KV": "integer",
+            "N_CTX": "integer",
+            "ROUND_CTX": "integer",
+            "NKV_CTX": "integer",
+            "sliding_window_offset": "integer",
+            "sliding_window_size": "integer",
+            "sm_scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_DMODEL",
+            "BLOCK_M",
+            "BLOCK_N",
+            "COMPLEMENT_SLIDING_WINDOW",
+            "IS_EVEN_M",
+            "IS_EVEN_N",
+            "SLIDING_WINDOW"
+          ],
+          "python": "bench/repairs/tritonbench_g/attention_score_tile_checked/attention_score_scalar_left.py",
+          "lean": "bench/repairs/tritonbench_g/attention_score_tile_checked/Kernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/attention_score_tile_checked/Kernels.lean": "2f786da4d1da40fd5903ff37e7f45e8fe351be6a026dde253578c96221ac17d8",
-        "bench/repairs/tritonbench_g/attention_score_tile_checked/attention_score_tile_checked.py": "01b60924cbd5d95928d0f043e534ed057267faf02309633b1bf32027b59381e6"
+        "bench/repairs/tritonbench_g/attention_score_tile_checked/Kernels.lean": "14e01207686acbd868d9ff314bf5fd7827a38b27a4031b1580285b46c347d595",
+        "bench/repairs/tritonbench_g/attention_score_tile_checked/attention_score_scalar_left.py": "6fb08c359ede841e338fb2076932186746cc3a38173d5e860204f0f125eb68f6",
+        "bench/repairs/tritonbench_g/attention_score_tile_checked/attention_score_tile_checked.py": "01b60924cbd5d95928d0f043e534ed057267faf02309633b1bf32027b59381e6",
+        "bench/repairs/tritonbench_g/attention_score_tile_checked/jit-correspondence.json": "6b357969b9dda5024e455f7a37058e56dc51d613f541012e0ffc2820107ff2ae"
       }
     },
     {
@@ -14442,9 +14566,9 @@
       "source_provenance": "selected_revision",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 34,
-        "dsl_assignment": 10,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 38,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 2
@@ -14463,22 +14587,75 @@
           "explicit_int64_casts": []
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "mv_contiguous_kernel",
+          "lean_definition": "source",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "N": "N",
+            "M": "M",
+            "stride_an": "stride_an",
+            "stride_am": "stride_am",
+            "stride_bm": "stride_bm",
+            "stride_cn": "stride_cn"
+          },
+          "statements": 18,
+          "runtime_parameters": {
+            "N": "integer",
+            "M": "integer",
+            "stride_an": "integer",
+            "stride_am": "integer",
+            "stride_bm": "integer",
+            "stride_cn": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_M",
+            "BLOCK_N"
+          ],
           "python": "bench/repairs/tritonbench_g/matrix_vector_multip/matrix_vector_multip_repaired.py",
-          "function": "mv_contiguous_kernel"
+          "lean": "bench/repairs/tritonbench_g/matrix_vector_multip/Kernels.lean"
         },
         {
+          "python_function": "mv_contiguous_fma_kernel",
+          "lean_definition": "explicitFMA",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "N": "N",
+            "M": "M",
+            "stride_an": "stride_an",
+            "stride_am": "stride_am",
+            "stride_bm": "stride_bm",
+            "stride_cn": "stride_cn"
+          },
+          "statements": 18,
+          "runtime_parameters": {
+            "N": "integer",
+            "M": "integer",
+            "stride_an": "integer",
+            "stride_am": "integer",
+            "stride_bm": "integer",
+            "stride_cn": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_M",
+            "BLOCK_N"
+          ],
           "python": "bench/repairs/tritonbench_g/matrix_vector_multip/matrix_vector_multip_repaired.py",
-          "function": "mv_contiguous_fma_kernel"
+          "lean": "bench/repairs/tritonbench_g/matrix_vector_multip/Kernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/matrix_vector_multip/Kernels.lean": "6cb45a8bf486f6f2b3fc95534a6ffd83963d9be36fb3594fa390139d740e9d3d",
+        "bench/repairs/tritonbench_g/matrix_vector_multip/Kernels.lean": "4b0542a4fbee0f3ca584b44364bd632e31efa75dc299f27a59cc6197109705da",
+        "bench/repairs/tritonbench_g/matrix_vector_multip/jit-correspondence.json": "5a7469804c20d2923c6f92afe3c707c049097ce051300acf20126e1a9f0add2b",
         "bench/repairs/tritonbench_g/matrix_vector_multip/matrix_vector_multip_repaired.py": "31a43e4edb448c41b28c99b6a5132a359368a093e75fa806e4cd14d13294e208"
       }
     },
@@ -24584,14 +24761,14 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "spec_derived_body_copy_checked",
       "source_sha256": {
-        "bench/examples/FusedLayerNorm/Correct.lean": "5023cfb2e095414d9d43f3d4936937f2362f272b49c0463124ee4fd20734075d",
+        "bench/examples/FusedLayerNorm/Correct.lean": "91e5d5822f0b5395c4bbdc15592ad575802c3573360189e4acca251454a5be26",
         "bench/examples/FusedLayerNorm/Kernels.lean": "b4f1e07e399684ad3718fbd093d57578e48d94e5e77a0f333a05fb1bf5a954db",
         "bench/examples/FusedLayerNorm/jit-correspondence.json": "7b89da85e4ee66c57f89d4d5dcc07fad154c2d8e994b12133af404d592a591ff",
         "bench/examples/FusedLayerNorm/native_kernels.py": "f1ac489a38d4d0f10a9d1388b87be02cc1d0b5d0d2cdd39796e573a197d8ebcd"
       },
-      "source_note": "New Python derived from the independent public population-statistics/affine specifications, not recovered historical source. Preserve FP32 inputs, BF16 outputs and full original IO scope; explicit uint64-to-FP32 counts and native loop casts replace Lean-only toReal. Source execution and numerical domains are re-proved for the actual typed reads. Welford writes both scalar outputs at zero; LayerNorm retains its second input read and empty-row case. Separate arithmetic uses enable_fp_fusion=False.",
+      "source_note": "New Python derived from the independent public population-statistics/affine specifications, not recovered historical source. Preserve FP32 inputs, BF16 outputs and full original IO scope; explicit uint64-to-FP32 counts and native loop casts replace Lean-only toReal. Source execution and numerical domains are re-proved for the actual typed reads. Welford writes both scalar outputs at zero; LayerNorm retains its second input read and empty-row case. Separate arithmetic uses enable_fp_fusion=False. The uint64 full-constructor semantics is now enforced: the Real population-statistics claims explicitly require N < 2^64 to exclude count wraparound. This corrects the old overbroad all-Nat Real claim; formulas are unchanged. Public FP specifications already require N <= CountConversion.limit and retain their original headers. Python and quoted Lean kernels are byte-identical to the published source.",
       "mathematical_spec_sha256": {
-        "bench/examples/FusedLayerNorm/Correct.lean": "5023cfb2e095414d9d43f3d4936937f2362f272b49c0463124ee4fd20734075d"
+        "bench/examples/FusedLayerNorm/Correct.lean": "91e5d5822f0b5395c4bbdc15592ad575802c3573360189e4acca251454a5be26"
       }
     },
     {
@@ -25924,14 +26101,14 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "spec_derived_body_copy_checked",
       "source_sha256": {
-        "bench/examples/Welford/Correct.lean": "b67dec22b919918295b2799afc232b5c168e2eb9a5d8d1a18502f40dce645500",
+        "bench/examples/Welford/Correct.lean": "4d7696a99b4832848d4df70a1917c070e383ca44e7183c3b778626a0eb819703",
         "bench/examples/Welford/Kernels.lean": "7c3d0bdf6cd4780457d7884c6f266c2d3a0b1e57285818d0702cd1ea499102a9",
         "bench/examples/Welford/jit-correspondence.json": "ead1d8431df104b8bfc5e68e1e5c87f4d1fa462a1aacb3d4ccdeabc3134c4a7a",
         "bench/examples/Welford/native_kernels.py": "5b021702042d4df0bf7213b5dabec155956f757dc489268d057273fbc9f51601"
       },
-      "source_note": "New Python derived from the independent public population-statistics/affine specifications, not recovered historical source. Preserve FP32 inputs, BF16 outputs and full original IO scope; explicit uint64-to-FP32 counts and native loop casts replace Lean-only toReal. Source execution and numerical domains are re-proved for the actual typed reads. Welford writes both scalar outputs at zero; LayerNorm retains its second input read and empty-row case. Separate arithmetic uses enable_fp_fusion=False.",
+      "source_note": "New Python derived from the independent public population-statistics/affine specifications, not recovered historical source. Preserve FP32 inputs, BF16 outputs and full original IO scope; explicit uint64-to-FP32 counts and native loop casts replace Lean-only toReal. Source execution and numerical domains are re-proved for the actual typed reads. Welford writes both scalar outputs at zero; LayerNorm retains its second input read and empty-row case. Separate arithmetic uses enable_fp_fusion=False. The uint64 full-constructor semantics is now enforced: the Real population-statistics claims explicitly require N < 2^64 to exclude count wraparound. This corrects the old overbroad all-Nat Real claim; formulas are unchanged. Public FP specifications already require N <= CountConversion.limit and retain their original headers. Python and quoted Lean kernels are byte-identical to the published source.",
       "mathematical_spec_sha256": {
-        "bench/examples/Welford/Correct.lean": "b67dec22b919918295b2799afc232b5c168e2eb9a5d8d1a18502f40dce645500"
+        "bench/examples/Welford/Correct.lean": "4d7696a99b4832848d4df70a1917c070e383ca44e7183c3b778626a0eb819703"
       }
     }
   ]

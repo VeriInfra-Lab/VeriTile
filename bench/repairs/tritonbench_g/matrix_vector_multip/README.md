@@ -30,9 +30,17 @@ condition is hidden in the contract.
 
 `KernelConfig` retains all 48 combinations: `BLOCK_N ∈ {1,2,4,8}`,
 `BLOCK_M ∈ {32,64,128}`, stages in `{3,4}`, and warps in `{4,8}`. The mathematical
-and FP theorems are more general in block sizes; positive `BLOCK_M` is their
-only block-size premise. `KernelIndex.config_bounds` connects the actual
-configuration set to finite-coordinate safety.
+and FP theorems admit source-valid arange sizes: positive powers of two no larger
+than 1,048,576. `SourceShapes.lean` derives both size certificates for all 48
+configurations. These certificates are caller metadata outside `triton { ... }`.
+
+The actual-source correctness and successful-IO theorems now expose
+`SourceDomain`: `N,M < 2**63`, `pid < 2**31`, and each active row-major matrix
+offset below `2**64`. `SourceDomain.of_kernel_contract` derives these conditions
+from the existing checked Tensor contract and backing-memory bounds. No new
+Python guards or FP-value restrictions are introduced. This corrects the old
+unbounded-Nat theorem scope: the actual `uint64` casts wrap, so the old
+all-Nat claim cannot apply to the raw body (for example `N = 2**64` casts to 0).
 
 `KernelMemory` describes aligned FP32 word bases, complete-word address bounds,
 and output/input separation for one invocation. In the public checked theorems,
@@ -71,13 +79,28 @@ negative views are separately rejected because their raw pointer exposes the
 unnegated storage. Pointer alignment is checked against the actual pointer,
 including possible byte-offset storage slices.
 
-The DSL displays the mathematical index/control interpretation of that loop.
-`KernelIndex` proves the uint64 interpretation: scalar/program/lane ABI,
-unsigned row and column masks, initial and final while guards, modular pointer
-rebinding, exact active addresses, and output/input separation at byte
-precision. Inactive formed pointers may wrap. No bound on inactive pointer
-formation is imposed. The source-binding AST check independently verifies that
-the Python repair changes only the reviewed integer/control operations.
+`Kernels.lean` copies both Python function bodies statement for statement:
+all six metadata casts, PID/lane casts, masked loads and `.to(tl.float32)`,
+`tl.full((), 0, tl.uint64)`, the original `while m < M`, pointer increments,
+reduction and store remain in the quotations. Dtype, port and constexpr facts
+come from `sourceSignature` and caller bindings outside the body. The only
+candidate-body change is `acc += a * b` to `acc = tl.fma(a, b, acc)`.
+`jit-correspondence.json` records the two 18-statement top-level mappings.
+
+The frontend emits an actual `whileLoop`, with 14 preceding statements, seven
+body statements and three following statements. The shared Option least-fixed-
+point interpreter reevaluates the guard in the current state on every iteration;
+it does not insert a fuel limit or replace the loop with a for-range.
+`SourcePrelude`, `SourceBody`, `SourceLoop` and `SourceOutput` prove execution of
+that exact code and its semantic connection to the existing ordered dot-product
+recurrence. Only active addresses are projected from modular words to natural
+coordinates; inactive formed pointers may wrap.
+
+`SourceSafety` proves safety at every reachable loop guard and body state.
+`KernelIndex` separately connects the checked logical coordinates to physical
+uint64 byte addresses, including input aliases and output separation. The old
+flat-memory algorithm bridge conservatively rejects while loops; these source
+IO proofs use `FP.Structural.Safety` directly.
 
 ## Kernel specifications and Tensor applications
 
@@ -87,7 +110,7 @@ the Python repair changes only the reviewed integer/control operations.
 | `TensorBridge.mv_checked_fp32_kernel_equiv` | Derives actual logical FP32 input words from the same physical read map, then proves successful execution of the same tagged source and complete typed-memory equality with the independent ordered FMA/add graph. |
 | `Correct.mv_kernel_correctness`, `FPEquiv.grid_explicit_fma_equiv` | Independent Real specification and complete-grid actual program pair; typed `ProgramIO` judgments include access safety, success, outputs and exterior frames. The additional single-program `FPEquiv.explicit_fma_equiv` remains an ordinary theorem in `Misc/TileEquiv.lean`; the native observation remains in `Misc/NativeCorrect.lean`. |
 | `TensorBridge.real_kernel_contract_sound`, `TensorBridge.fp32_kernel_contract_sound` | Exact Python admission and the unsigned index/access correspondence from `KernelContract`. |
-| `KernelSource.source_binding` | Literal equality of the displayed source and the established full-loop source used by the reusable execution proof. |
+| `KernelSource.source_binding` | Exact decomposition of the quoted source around its real while constructor. `KernelSource.execution` supplies the semantic connection to the established recurrence. |
 
 `Proofs/InputBinding.lean` contains the reused input-only Tensor view, base,
 logical-coordinate and pointer facts. The optional historical Tensor adapter
@@ -95,9 +118,10 @@ imports these same declarations. `Proofs/KernelBinding.lean` composes them into
 the required kernel State, `KernelMemory`, `KernelContract` and `InputWords`
 without importing host, allocator or returned-Tensor modules.
 
-`Proofs/KernelSource.lean` reuses the full-loop `WholeSource` execution proof,
-not the old one-block slice. `WholeMath` supplies the independent finite-sum
-argument. `Proofs/KernelFP.lean` independently defines the masked native
+`Proofs/KernelSource.lean` applies the raw-while execution proof. The historical
+`WholeSource.accumulated` recurrence is reused through that semantic proof; no
+AST equality with its old for-range source is asserted. `WholeMath` supplies the
+independent finite-sum argument. `Proofs/KernelFP.lean` independently defines the masked native
 instruction recurrence and ordered reduction on logical bit words, then proves
 its connection to actual typed source execution. The reference scatter is only
 the memory effect of the supplied mathematical/native row formula; it never
@@ -147,15 +171,17 @@ required numerical TODO.
 
 ## Validation
 
-The complete kernel build and targeted eight-module Tensor-bridge rebuild
-validate all 18 required kernel modules and 22 preserved compatibility
-modules with Lean 4.29.0 (`LEAN_NUM_THREADS=2`): 40 distinct modules,
-62 distinct standard-base axiom checks, and zero compiler errors. The required
-import closure contains no historical host, allocator, returned-Tensor, or
-`Proofs/TensorBinding` module. Both independent reference formulas passed
-non-circularity audits. The focused Python
-check passed 22 pre-allocation rejection cases and 434 actual interpreter
-launches across all 48 source configurations.
+The copied-body regression suite is
+`bench/tests/test_matrix_vector_while_body.py`. It checks both raw quotations,
+all casts, masks, pointer/counter updates and the candidate's single expression
+change. `bench/tests/WhileExecution.lean` checks zero trips, repeated guard
+evaluation and unsigned counter wrap against the actual interpreter.
+
+Historical CPU-interpreter coverage recorded 22 pre-allocation rejection cases
+and 434 launches across all 48 source configurations. That historical result
+is not a new run of the current source migration. The final migration receipt
+records the exact Lean snapshot, joint build, axiom audit and source checks;
+Torch/Triton runtime and comparator availability are reported separately.
 
 Run the existing source/guard/interpreter check with:
 
@@ -197,7 +223,7 @@ and add equal FMA. The pair uses an empty experimental rule set on the full
 original all-word domain. Native primitives and the ordered compiler graph
 remain explicit model parameters, as in the existing source interpretation.
 
-`Proofs/AccessSafety.lean` follows every actual loop predecessor state and
+`Proofs/SourceSafety.lean` follows every actual loop predecessor state and
 changing A/B pointer; its proof covers the prefix, all column chunks and the
 final masked store. `Proofs/RealResult.lean` and `Proofs/NativeResult.lean`
 retain the earlier raw execution/results and connect them to the public IO.
@@ -208,7 +234,8 @@ Tensor binding implementation in `Proofs/KernelBinding.lean`.
 ## Optional proof layout (2026-10-21)
 
 Optional native, Tensor, host and audit applications are in `Misc/`; import them
-explicitly. Declaration namespaces, theorem statements, proof bodies and the
-program-pair review status are preserved. The required entries do not re-export
+explicitly. The historical host endpoints remain explicitly historical; their natural-number
+model is not an AST binding to the raw while source. Current kernel and Tensor
+applications use the new source execution proof and explicit machine domain. The required entries do not re-export
 optional native conclusions. This file organization adds no mathematical or
 numerical completion claim.
