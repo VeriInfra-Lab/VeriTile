@@ -5,7 +5,7 @@ open VeriTile.Triton FP.Structural
 open VeriTile.Bench.TritonBenchG.Fp4ToBf16 FPValue Host
 open scoped VeriTile.Triton.FP.Structural.LogicalProgramIO
 noncomputable section
-local instance : Inhabited Word := ⟨FP.Value.zero .fp32⟩
+local instance inhabitedWord : Inhabited Word := ⟨FP.Value.zero .fp32⟩
 
 /-- Independent E2M1 value of one nibble: sign, biased exponent and
 one fraction bit. The high nibble is output first; exponent zero is subnormal. -/
@@ -29,7 +29,7 @@ specification fp4_to_bf16_real (rest : Algebra Word) (h : Input)
 
 #stmtSurfaceSubset fp4_to_bf16_real ⊆
   [VeriTile.Spec.Real,FP.Structural.Algebra,Word,FP.Value,FP.Value.zero,FloatDType.fp32,
-   RegionName,instInhabitedWord,Input,Input.input,Input.output,Input.shape,Shape.count,Finite.Storage,grid,
+   RegionName,inhabitedWord,Input,Input.input,Input.output,Input.shape,Shape.count,Finite.Storage,grid,
    ConversionIO.logicalRealIO,LogicalProgramIO.ImplementsOn,ConversionIO.LogicalByteDomain,
    ConversionIO.logicalNibble,nibbleReal]
 #specNonCircular ConversionIO.mathematical avoiding [source,Kernels.source,Launch.run,FP.Structural.exec]

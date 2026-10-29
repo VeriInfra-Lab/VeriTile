@@ -238,9 +238,9 @@ verso/                     Slide deck / overview
 - `scripts/check-artifact.sh` — `lake build` ∧ `no sorry` ∧ axiom
   whitelist ∧ kernel-manifest schema ∧ README/doc-term drift
 - `bench/check_ports.sh` — per-port elaboration and official comparator replay
-- `bench/audit_tritonbench_g.sh` — the full bench gate: structural scans,
-  proof-gap manifest, library comparator, and standalone trust/comparator audit
-- `bench/audit_trust.sh` — trust gates and comparator replay for every standalone bench file
+- `bench/audit_tritonbench_g.sh` — the full final-corpus gate: source/contract inventory,
+  complete builds, library comparator and corpus trust/replay checks
+- `bench/audit_trust.sh --final-inventory` — trust gates and comparator replay for every retained corpus module
 
 ## Environment
 

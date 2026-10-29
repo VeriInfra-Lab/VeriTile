@@ -1,5 +1,7 @@
 """Exercise aggregate audit modes and the real corpus-shard launcher."""
 import os
+import json
+import hashlib
 from pathlib import Path
 import shutil
 import subprocess
@@ -20,14 +22,18 @@ class AuditAggregateTests(unittest.TestCase):
         ports = self.root / 'bench/tritonbench_g'
         ports.mkdir(parents=True)
         (self.root / 'scripts').mkdir()
-        for name in ['audit_tritonbench_g.sh', 'audit_source.py', 'source_helpers.py', 'source_orders.py', 'source_extern.py', 'source_pointer_dtypes.py', 'source_materializations.py', 'source_control_materializations.py', 'source_uniform_materializations.py', 'source_dtype_constexpr.py', 'port_layout.py']:
-            shutil.copyfile(ROOT / 'bench' / name, self.root / 'bench' / name)
-        for name in ['proof_blockers.md', 'completion_audit.md']:
-            (ports / name).touch()
+        shutil.copyfile(ROOT / 'bench/audit_tritonbench_g.sh', self.root / 'bench/audit_tritonbench_g.sh')
+        (self.root / 'bench/check_body_corpus.py').write_text('')
+        (self.root / 'bench/check_imported_kernel_review.py').write_text('')
+        tools = self.root / 'bin'
+        tools.mkdir()
+        lake = tools / 'lake'
+        lake.write_text('#!/bin/sh\nexit "${FAIL_BUILD:-0}"\n')
+        lake.chmod(0o755)
         # Empty source fixtures exercise the actual structural rule dispatch.
         # Replace the manifest and proof executors to inject independent failures.
         for path, label, failure in [
-            ('bench/check_proof_gap_manifest.py', 'structural', 'FAIL_STATIC'),
+            ('bench/final_inventory.py', 'structural', 'FAIL_STATIC'),
             ('scripts/check_comparator.py', 'library', 'FAIL_LIBRARY')]:
             (self.root / path).write_text(
                 'import os\nfrom pathlib import Path\n'
@@ -38,6 +44,7 @@ class AuditAggregateTests(unittest.TestCase):
         trust.chmod(0o755)
         self.env = {key: value for key, value in os.environ.items()
                     if not key.startswith(('AUDIT_TRUST_', 'FAIL_'))}
+        self.env['PATH'] = str(tools) + os.pathsep + self.env['PATH']
 
     def run_aggregate(self, args=(), env=None):
         calls = self.root / 'calls'
@@ -71,7 +78,7 @@ class AuditAggregateTests(unittest.TestCase):
 
     def test_global_failures_fail_both_modes(self):
         for args in [(), ('--global-only',)]:
-            for failure in ['FAIL_STATIC', 'FAIL_LIBRARY']:
+            for failure in ['FAIL_STATIC', 'FAIL_LIBRARY', 'FAIL_BUILD']:
                 with self.subTest(args=args, failure=failure):
                     result, calls = self.run_aggregate(args, {failure: '1'})
                     self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
@@ -125,6 +132,19 @@ class AuditShardTests(unittest.TestCase):
             path = self.root / target
             path.parent.mkdir(parents=True, exist_ok=True)
             path.touch()
+        (self.root / 'bench/validation').mkdir()
+        (self.root / 'bench/validation/source.json').write_text(json.dumps({
+            target: hashlib.sha256(b'').hexdigest() for target in self.targets}))
+        # The inventory's semantic/source checks have their own adversarial
+        # tests. This small fixture exposes its target-and-drift CLI contract.
+        (self.root / 'bench/final_inventory.py').write_text('''
+import hashlib, json
+from pathlib import Path
+data = json.loads(Path('bench/validation/source.json').read_text())
+for path, expected in sorted(data.items()):
+    assert hashlib.sha256(Path(path).read_bytes()).hexdigest() == expected
+    print(path)
+''')
         # Substitute only proof execution; target selection, xargs dispatch,
         # result accounting and failure propagation use the production scripts.
         (self.root / 'scripts/check_comparator.py').write_text('''

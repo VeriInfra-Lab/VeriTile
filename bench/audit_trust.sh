@@ -48,6 +48,9 @@ TESTS_ROOT="bench/tests"
 catalog=''
 catalog_sha256=''
 final_inventory=false
+if [ "$#" -eq 0 ]; then
+  set -- --final-inventory
+fi
 if [ "${1-}" = '--final-inventory' ]; then
   final_inventory=true
   catalog='bench/validation/source.json'

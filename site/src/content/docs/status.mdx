@@ -14,13 +14,10 @@ import CorpusStats from '../../components/CorpusStats.astro';
 Use the [searchable proof coverage table](/VeriTile/proofs/coverage/) to inspect
 each kernel's theorem, source functions, numeric model, assumptions, and gaps.
 
-The [completion audit](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/current_source_acceptance.md)
-records the corpus review. Use the
-[proof-gap manifest](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/validation/contracts.json)
-and [documented blockers](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/validation/contracts.json)
-to inspect the scope of individual results. A paired port is an inventory
-entry; its theorem statement, assumptions, and registered deviations determine
-what has been proved.
+The [final validation guide](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/current_source_acceptance.md)
+provides the current commands. The [contract review](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/validation/contracts.json)
+records each selected entry's formula, assumptions, numerical dependencies and
+scope. Source counts alone do not establish proof completion or native execution.
 
 The website build counts source files. It does not rerun the Lean proof
 audits or certify a new audit result.

@@ -129,7 +129,7 @@ def collect(root=ROOT):
     inputs = set(paths) | {REVIEW, LEDGER, 'lean-toolchain', 'lakefile.toml', 'lake-manifest.json',
                            'bench/final_inventory.py', 'bench/current_catalog_vendor/lean_import_scan.py',
                            'bench/current_catalog_vendor/spec_sheet.py',
-                           'bench/audit_trust.sh', 'bench/audit_trust_prep.py',
+                           'bench/audit_trust.sh', 'bench/audit_trust_prep.py', 'bench/audit_tritonbench_g.sh',
                            'bench/select_audit_shard.py', 'bench/check_worker_results.py',
                            'scripts/check_comparator.py', 'scripts/comparator_common.py',
                            'scripts/kernel-manifest.tsv'}

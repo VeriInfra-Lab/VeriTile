@@ -117,22 +117,21 @@ require the official comparator and the sandbox tools installed above. Missing
 tools, export failures, and comparator rejections fail the gate. CI installs
 the same pinned tools through `.github/actions/setup-comparator`.
 
-The public Bench audit workflow first runs one global job: the full library
-build, structural checks, and library comparator. Four dependent jobs build
-the lite `VeriTile` target and audit disjoint shards of the standalone corpus.
-Each runner keeps its own mutable comparator workspace. The final
-`TritonBench-G audit complete` check requires both the global job and every
-shard to succeed; failed, cancelled, or skipped dependencies fail that check.
+The Bench audit workflow checks the final source and contract inventory,
+builds/replays the library, builds all 334 benchmark interfaces, and builds and
+replays the retained proof corpus in 16 independent shards. Each worker builds
+its complete dependency closure. The final gate requires the global job, draft
+build and every shard to succeed; failed, cancelled or skipped jobs fail it.
 
 Local `bench/audit_tritonbench_g.sh` runs still cover all gates and the whole
 corpus by default. To reproduce the CI stages separately:
 
 ```bash
 bench/audit_tritonbench_g.sh --global-only
-AUDIT_TRUST_SHARD_COUNT=4 AUDIT_TRUST_SHARD_INDEX=0 bench/audit_trust.sh
+AUDIT_TRUST_SHARD_COUNT=16 AUDIT_TRUST_SHARD_INDEX=0 bench/audit_trust.sh --final-inventory
 ```
 
-Shard indices are 0–3; run every index for a complete corpus audit. Both shard
+Shard indices are 0–15; run every index for a complete corpus audit. Both shard
 variables are required, and sharding cannot be combined with named targets or
 `--global-only`. A global-only result or a single shard is not a completed
 audit. The existing sharded aggregate command also remains available: setting
@@ -166,13 +165,11 @@ trust pass. Batch workers share one independent snapshot, with separate output
 modules, and concurrency accounts for export/replay memory. Raw `lake build`
 remains the build step; use these gates for proof acceptance.
 
-The structural rules in `bench/audit_tritonbench_g.sh` share source extraction
-through `bench/audit_source.py`. Kernel selection and call formatting are explicit
-options. The source-view gates, including augmented assignments, compare the
-explicitly selected JIT with its selected Lean body; other JITs require their
-own views. These text scans complement the Lean/comparator gates;
-they do not discover proof obligations. Run their parser and failure regressions
-with `python3 -m unittest scripts.test_audit_source scripts.test_correctness_surface_audit scripts.test_source_shape_audit scripts.test_source_dtype_audit scripts.test_source_constexpr_profile scripts.test_source_runtime_scalar_profile scripts.test_source_helpers scripts.test_source_extern_orders scripts.test_source_pointer_dtype_profile scripts.test_source_materializations scripts.test_source_control_materializations scripts.test_source_uniform_materializations`.
+The final aggregate checks `bench/final_inventory.py`, source correspondence
+and the imported benchmark review before the build and proof gates. Generic
+source-parser regressions remain in `scripts/test_source_*.py`; they test
+extraction and rejection behavior without supplying archived corpus evidence.
+
 The allocation regressions run the production zeros/full gate and check that
 dtype attributes resolve consistently while changed shapes, fill values,
 precisions and reassigned pointers still fail.

@@ -6908,7 +6908,7 @@
       ],
       "source_sha256": {
         "bench/repairs/tritonbench_g/fp4_to_bf16/Contract.lean": "12d9e4a87c9692c9b9f2500bbec567506e78fbc3d867d9e540c94b29ccd86e2f",
-        "bench/repairs/tritonbench_g/fp4_to_bf16/Correct.lean": "5e002702225e8ab4af5023f8f43997be9c1a3f35673c45c44a4b95b62f4c1b3c",
+        "bench/repairs/tritonbench_g/fp4_to_bf16/Correct.lean": "e2c631022aaffde4dbae7f3cb4c4afe74517a455badea564f138a64f4baa7541",
         "bench/repairs/tritonbench_g/fp4_to_bf16/FPEquiv.lean": "f61159807d386a32e485164bd997fa3623c85597dfd62c33eaa54c580c2aa2e1",
         "bench/repairs/tritonbench_g/fp4_to_bf16/IO.lean": "123fcf43b42d4625a6b0a7fce58ce1f659c4c60c3290443722096fad4f2684ee",
         "bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/LogicalCoordinates.lean": "a3bf4b75c1b1f964edea7ecca2e0c35bdb854b9f8ff0687130c68c7f9c42de4a",
@@ -6928,7 +6928,7 @@
       "readers": [
         {
           "path": "bench/repairs/tritonbench_g/fp4_to_bf16/Correct.lean",
-          "sha256": "5e002702225e8ab4af5023f8f43997be9c1a3f35673c45c44a4b95b62f4c1b3c",
+          "sha256": "e2c631022aaffde4dbae7f3cb4c4afe74517a455badea564f138a64f4baa7541",
           "specifications": [
             {
               "kind": "specification",
