@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.rms_norm_triton.Proofs.RuntimeObserved
 import bench.repairs.tritonbench_g.rms_norm_triton.IO
 import bench.repairs.tritonbench_g.rms_norm_triton.Proofs.PublicIO
 
@@ -33,8 +34,8 @@ theorem kernel_native_equivalence (c : Layout) (eps : ℝ)
     (xSeparate : c.X≠c.Y) (wSeparate : c.W≠c.Y)
     (rows : List Nat) (schedule : rows.Perm (List.range c.M)) :
     (nativeIO c eps M profile rows).Implements (expected c eps M profile rows) := by
-  exact GridPublic.implements graphAlgebra Term.input (interpret M profile) c eps rows schedule
-    xSeparate wSeparate (formula M profile c.N c.B) (source_graph_lowering M profile c eps)
+  exact GridPublic.implements_argument graphAlgebra Term.input (interpret M profile) c eps (.parameter "eps") rows schedule
+    xSeparate wSeparate (formula M profile c.N c.B) (RuntimeObserved.source_graph_lowering M profile c)
 
 #specNonCircular formula avoiding [RmsNormTriton.kernel,lower,interpret,rowValue,sourceRun,runRows]
 #axiomsClean kernel_native_equivalence

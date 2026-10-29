@@ -126,3 +126,21 @@ equivalence, execution and grid proofs stay in `Proofs/`. Complete function
 equalities by `rfl` and fresh joint main/retained optional imports are checked
 in the source-only cache. Both programs, source precision, domain, shared Bloom
 correspondence and proof completion status remain unchanged.
+
+
+## Raw function body correspondence
+
+The selected repaired Python function is unchanged. Its eleven top-level
+statements are pasted verbatim in the shared token_softmax_llama/Kernels.lean
+quotation, including both program-ID casts, the arange cast, both loaded
+metadata casts, padding, reduction order and store mask. Independent manifests
+check the Llama and Bloom originals against that one shared source. Both existing Python candidate files are unchanged and checked against the
+shared length-address multiplication candidate quotation.
+
+Invocation metadata records signed INT32 start/length storage and the existing
+natural-valued mathematical IO channels, signed INT64 runtime strides and the
+block constexpr. These logical channels do not prove native nonnegativity or
+width; the existing Tensor binding, content admission and native index proofs
+retain those obligations. FloatDType remains a caller parameter covering all
+previous floating channel cases; the checked Python wrapper still requires
+FP32 payload and output. No input domain is narrowed for the migration.

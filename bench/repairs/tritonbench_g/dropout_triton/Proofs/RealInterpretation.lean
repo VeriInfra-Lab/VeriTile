@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.dropout_triton.Proofs.Region
 import bench.repairs.tritonbench_g.dropout_triton.Proofs.Wrapper
 import bench.repairs.tritonbench_g.dropout_triton.Proofs.RealGrid
 
@@ -32,11 +33,10 @@ theorem scalar (n : Nat) (p : ℝ) (mem : RegionName → Nat → Cell ℝ) (i : 
       .mk .real (expected (fun i => (mem "x" i).read .real)
         (fun i => (mem "keep" i).read .int) p i) := rfl
 
-theorem same_erased_source (n : Nat) (p : ℝ) :
-    (kernel n p).eraseDType.toAlgKernel.body =
-      (RealGrid.kernel .int32 "x" "keep" "out" n p).body :=
-  VeriTile.Bench.TritonBenchG.DropoutTriton.Erasure.body .fp32 .int32 Bool.false
-    "x" "keep" "out" n 1024 p
+theorem same_erased_source (n : Nat) (p : ℝ) (s : BlockState) :
+    VeriTile.Triton.exec (kernel n p).eraseDType.toAlgKernel s =
+      VeriTile.Triton.exec (RealGrid.kernel .int32 "x" "keep" "out" n p) s :=
+  RegionProof.original_execution n p s
 
 #axiomsClean same_erased_source
 #axiomsClean scalar

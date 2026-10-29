@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.chunk_cumsum_kernel.Proofs.SourcePreservation
 import bench.repairs.tritonbench_g.chunk_cumsum_kernel.Proofs.RealRow
 
 namespace VeriTile.Bench.Repairs.ChunkCumsumKernel.RealIndexBridge
@@ -41,7 +42,7 @@ theorem actual_body (input output : RegionName) (T BT : Nat) :
     (actual input output T BT).body=prelude ++
       [.forRangeInt "i_t" (.constInt 0) (.constInt ((T+BT-1)/BT : Nat)) (.constNat 1)
         (actualBody input output T BT)] := by
-  simp only [actual,repairedKernel,ComputeKernel.surfaceBody,
+  simp only [actual,SourcePreservation.original,LegacyKernels.repairedKernel,ComputeKernel.surfaceBody,
     ComputeKernel.eraseDType,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
     ComputeKernel.fromKernelBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,ComputeDType.eraseDType,

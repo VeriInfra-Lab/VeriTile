@@ -1,0 +1,178 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/swiglu_backward/swiglu_backward_checked.py",
+    "python_function": "_swiglu_bwd_kernel",
+    "lean": "bench/repairs/tritonbench_g/swiglu_backward/Kernels.lean",
+    "lean_definition": "kernel",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "Y",
+          "fp32"
+        ],
+        [
+          "DOUT",
+          "fp32"
+        ],
+        [
+          "OUT",
+          "fp32"
+        ],
+        [
+          "DX",
+          "fp32"
+        ],
+        [
+          "DY",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_x_row",
+          "i32"
+        ],
+        [
+          "stride_y_row",
+          "i32"
+        ],
+        [
+          "stride_dout_row",
+          "i32"
+        ],
+        [
+          "stride_out_row",
+          "i32"
+        ],
+        [
+          "stride_dx_row",
+          "i32"
+        ],
+        [
+          "stride_dy_row",
+          "i32"
+        ],
+        [
+          "ncols",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_N",
+        "RECOMPUTE_OUTPUT"
+      ],
+      "readPorts": [
+        "X",
+        "Y",
+        "DOUT"
+      ],
+      "writePorts": [
+        "DX",
+        "DY",
+        "OUT"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_x_row": "sx",
+      "stride_y_row": "sy",
+      "stride_dout_row": "sd",
+      "stride_out_row": "so",
+      "stride_dx_row": "sdx",
+      "stride_dy_row": "sdy",
+      "ncols": "cols"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/swiglu_backward/candidate_kernels.py",
+    "python_function": "swiglu_bwd_commuted",
+    "lean": "bench/repairs/tritonbench_g/swiglu_backward/Kernels.lean",
+    "lean_definition": "commutedKernel",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "Y",
+          "fp32"
+        ],
+        [
+          "DOUT",
+          "fp32"
+        ],
+        [
+          "OUT",
+          "fp32"
+        ],
+        [
+          "DX",
+          "fp32"
+        ],
+        [
+          "DY",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_x_row",
+          "i32"
+        ],
+        [
+          "stride_y_row",
+          "i32"
+        ],
+        [
+          "stride_dout_row",
+          "i32"
+        ],
+        [
+          "stride_out_row",
+          "i32"
+        ],
+        [
+          "stride_dx_row",
+          "i32"
+        ],
+        [
+          "stride_dy_row",
+          "i32"
+        ],
+        [
+          "ncols",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_N",
+        "RECOMPUTE_OUTPUT"
+      ],
+      "readPorts": [
+        "X",
+        "Y",
+        "DOUT"
+      ],
+      "writePorts": [
+        "DX",
+        "DY",
+        "OUT"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_x_row": "sx",
+      "stride_y_row": "sy",
+      "stride_dout_row": "sd",
+      "stride_out_row": "so",
+      "stride_dx_row": "sdx",
+      "stride_dy_row": "sdy",
+      "ncols": "cols"
+    }
+  }
+]

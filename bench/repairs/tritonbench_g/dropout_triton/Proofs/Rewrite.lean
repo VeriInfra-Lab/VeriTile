@@ -16,7 +16,7 @@ def originalExecution {α : Type} [Inhabited α] (M : Algebra α)
     {t : State α // FP.Structural.exec (engine M) (kernel n p) s = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [kernel, sourceKernel, FP.Structural.exec, ComputeKernel.surfaceBody,
+  simp [kernel, sourceKernel, VeriTile.Triton.DSL.TypedStores.fp32CallValue, FP.Structural.exec, ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
     numericLt, numericEq, natLt, bop, store, Region.cast,
     numeric, ofFloat, toFloat, ComputeDType.eraseDType]

@@ -1,4 +1,6 @@
+import bench.repairs.tritonbench_g.nested_loops_processing.Proofs.SignedOffsets
 import bench.repairs.tritonbench_g.nested_loops_processing.Proofs.KernelState
+import bench.repairs.tritonbench_g.nested_loops_processing.Proofs.TypedFP
 import bench.repairs.tritonbench_g.nested_loops_processing.Proofs.Synchronization
 
 namespace VeriTile.Bench.Repairs.NestedLoopsProcessing.KernelRealResult
@@ -17,11 +19,12 @@ theorem kernel_correctness {α : Type} [Inhabited α]
       exec M (Kernels.source (rows*cols) cols) s = some final ∧
       (∀ i, i<rows*cols → ((final.mem "output" i).read .int : ℝ) = realTarget rows cols i) ∧
       (∀ (r : RegionName) i, r ≠ "output" ∨ rows*cols ≤ i → final.mem r i = s.mem r i) := by
-  refine ⟨finalState (rows*cols) cols s, source_run M _ _ _, ?_, final_frame _ _ _⟩
-  intro i hi
-  rw [initialized_cell s rows cols positive inputs outputs i hi, Cell.read_same]
-  exact int32_real_exact rows cols i
-
+  refine ⟨actualFinalState (rows*cols) cols s, source_run M _ _ _, ?_, ?_⟩
+  · intro i hi
+    rw [source_memory,initialized_cell s rows cols positive inputs outputs i hi, Cell.read_same]
+    exact int32_real_exact rows cols i
+  · rw [source_memory]
+    exact final_frame _ _ _
 /-- Empty extents take the wrapper's skip-launch branch and query no pointers. -/
 theorem empty_output (rows cols : Nat) (empty : rows*cols=0) :
     ∀ i, i<rows*cols → realTarget rows cols i=0 := by
@@ -30,9 +33,9 @@ theorem empty_output (rows cols : Nat) (empty : rows*cols=0) :
 
 abbrev empty_kernel_skip := @empty_launch
 
-abbrev source_barriers := @TypedExecution.inner_barriers
+abbrev source_barriers := @SignedExecution.inner_barriers
 abbrev native_store_order := @CtaBarrierContract.cross_store_order
-abbrev source_final_offsets := @TypedExecution.final_offsets
+abbrev source_final_offsets := @SignedExecution.final_offsets
 abbrev source_integer_offsets := @offset_intermediates
 abbrev physical_frame := @execute_frame
 

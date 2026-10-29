@@ -55,7 +55,16 @@ witness records why widening only the lower endpoint was insufficient.
 
 ## Actual candidate and floating-point rule
 
-`Kernels.lean` contains readable original and `sumLeftKernel` DSL sources only.
+`Kernels.lean` contains two unchanged Python function bodies, `body` and
+`sumLeftBody`, with all dtype/constexpr metadata outside the quotations.
+The call signature selects the existing typed FP32 storage channel, preserving
+the public IO encoding. `LegacyKernels.lean` explicitly retains the earlier
+generic-dtype model. `Proofs/SourcePreservation.lean` proves complete program
+identity for every prior generic instantiation and identifies both selected
+FP32 wrappers with the actual pasted bodies; no cast identity is assumed.
+The frontend retains the exact signed loop bounds and output-pointer cast.
+Only immutable constexpr cdiv and widening casts are evaluated at call setup;
+mutable/runtime expressions keep their runtime path.
 The appended Python JIT `chunk_global_cumsum_scalar_kernel_sum_left` matches the
 candidate. The sole change is `b_z += b_zz` to `b_z = b_zz + b_z`; production
 dispatch remains as before.

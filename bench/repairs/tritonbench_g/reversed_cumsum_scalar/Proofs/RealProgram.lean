@@ -6,7 +6,9 @@ open VeriTile.Triton
 set_option maxHeartbeats 2400000
 set_option maxRecDepth 24000
 
-abbrev initCode := VeriTile.Bench.TritonBenchG.ReversedCumsumScalar.RealProgram.initCode
+def initCode : List Stmt :=
+  [.assign .int [] "i_bh" (.castNatToInt (.programId 0)),
+   .assign .real [] "b_z" (.full [] (.const 0))]
 abbrev numChunks := Geometry.chunks
 
 def startOp (c : Config) : Op .int [] :=
@@ -18,13 +20,15 @@ def timeOp (c : Config) : Op .int [c.BT] :=
   .add .int .scalarL (.ref .int [] "start_t")
     (.castNatToInt (.where (.ref .bool [c.BT] "active") (.ref .nat [c.BT] "lanes")
       (.broadcast (.constNat 0) [c.BT])))
-def baseOp (H : Nat) (strides : Strides) : Op .nat [] :=
-  .add .nat .nil
-    (.mul .nat .nil (.floorDiv .nat .nil (.ref .nat [] "i_bh") (.constNat H)) (.constNat strides.batch))
-    (.mul .nat .nil (.mod .nat .nil (.ref .nat [] "i_bh") (.constNat H)) (.constNat strides.head))
+def baseOp (H : Nat) (strides : Strides) : Op .int [] :=
+  .add .int .nil
+    (.mul .int .nil (.tritonDiv .int .nil (.ref .int [] "i_bh") (.castNatToInt (.constNat H)))
+      (.castNatToInt (.constNat strides.batch)))
+    (.mul .int .nil (.tritonMod .int .nil (.ref .int [] "i_bh") (.castNatToInt (.constNat H)))
+      (.castNatToInt (.constNat strides.head)))
 def pointerOp (h : Call) (c : Config) (r : RegionName) (strides : Strides) : Op .ptr [c.BT] :=
   .ptrAdd .scalarL (.ptrBase r)
-    (.castIntToNat (.add .int .scalarL (.castNatToInt (baseOp h.H strides))
+    (.castIntToNat (.add .int .scalarL (baseOp h.H strides)
       (.mul .int .scalarR (.ref .int [c.BT] "times") (.castNatToInt (.constNat strides.time)))))
 def loadOp (c : Config) : Op .real [c.BT] :=
   .load .real (.ptr (.ref .ptr [c.BT] "p_s"))
@@ -45,8 +49,18 @@ def loopBody (h : Call) (c : Config) : List Stmt :=
    .store .real [c.BT] (.ptr (.ref .ptr [c.BT] "p_o"))
      (.ref .real [c.BT] "b_o") (.mask (.ref .bool [c.BT] "active"))]
 
+def startIndexOp (h : Call) (c : Config) : Op .int [] :=
+  .sub .int .nil (.constInt 0) (.sub .int .nil (.castNatToInt (.constNat (Geometry.chunks h c))) (.constInt 1))
+
+theorem startIndex_eval (h : Call) (c : Config) (u : BlockState) :
+    evalOp (startIndexOp h c) u=some (Tile.scalar (1-(numChunks h c:Int))) := by
+  simp [-Tile.scalar_eta,startIndexOp,evalOp,Tile.scalar,Tile.bop,
+    Broadcast.leftIndex,Broadcast.rightIndex,NumericDType.sub,zero_sub,neg_sub]
+
 def statement (h : Call) (c : Config) : Stmt :=
-  .forRangeInt "__rev_i_t" (VeriTile.Bench.TritonBenchG.ReversedCumsumScalar.TypedProgram.startOp h.T c.BT) (.constInt 1) (.constNat 1) (loopBody h c)
+  .forRangeInt "__rev_i_t"
+    (startIndexOp h c)
+    (.constInt 1) (.constNat 1) (loopBody h c)
 def body (h : Call) (c : Config) := initCode ++ [statement h c]
 
 theorem source_body (h : Call) (c : Config) :

@@ -31,11 +31,16 @@ theorem source (M : Algebra α) (lt : α→α→Bool)
       ComputeDType.eraseDType,numeric,numericLt,natLt,bop,Region.cast,State.setReg,
       engine,Algebra.withDefaultPrecision,resolvePrecision,hlt,hp,hf,hr,hs,he]
   all_goals
+    simp only [←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt]
     have hi' (j : Fin B) := hi (j,PUnit.unit)
     have hc' (j : Fin B) := hc (j,PUnit.unit)
     have hx' (j : Fin B) := hx (j,PUnit.unit)
     simp only [Rewrite.active,Rewrite.start,Rewrite.stop,Rewrite.address] at hi' hc' hx'
-    exact ⟨hi',hc',hx'⟩
+    refine ⟨hi',hc',?_,?_⟩
+    all_goals
+      intro j hj
+      have bound := hx' j hj
+      simpa only [hj,↓reduceIte,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast] using bound
 
 #axiomsClean source
 end

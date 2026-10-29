@@ -38,10 +38,10 @@ theorem execution {A : Type} [Inhabited A] (algebra : FP.Structural.Algebra A)
       FP.Structural.exec (engine algebra) (candidateKernel p) s := by
   change Contextual algebra s ((kernel .fp32 p).surfaceBody.take 3)
     ((kernel .fp32 p).surfaceBody.drop 4)
-    (.assign .nat [] "cur_batch_seq_len" (.alg (.load .nat (.region p.length
-      (.mul .nat .nil (.ref .nat [] "cur_batch") (.constNat p.lengthStride))) .none)))
-    (.assign .nat [] "cur_batch_seq_len" (.alg (.load .nat (.region p.length
-      (.mul .nat .nil (.constNat p.lengthStride) (.ref .nat [] "cur_batch"))) .none)))
+    (.assign .int [] "cur_batch_seq_len" (.alg (.castNatToInt (.load .nat (.region p.length
+      (.castIntToNat (.mul .int .nil (.ref .int [] "cur_batch") (.castNatToInt (.constNat p.lengthStride))))) .none))))
+    (.assign .int [] "cur_batch_seq_len" (.alg (.castNatToInt (.load .nat (.region p.length
+      (.castIntToNat (.mul .int .nil (.castNatToInt (.constNat p.lengthStride)) (.ref .int [] "cur_batch")))) .none))))
   fp_prove
 
 def candidateLaunch {α} [Inhabited α] (M : FP.Structural.Algebra α) (p : Parameters)

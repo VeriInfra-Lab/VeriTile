@@ -77,6 +77,7 @@ import VeriTile.Triton.DSL.Expansion.Memory
 import VeriTile.Triton.DSL.Expansion.Compute
 import VeriTile.Triton.DSL.Expansion.DType
 import VeriTile.Triton.DSL.Expansion.Control
+import VeriTile.Triton.DSL.Expansion.InlineAsm
 import VeriTile.Triton.DSL.Expansion.DirectRandom
 import VeriTile.Triton.DSL.Syntax
 import VeriTile.Triton.DSL.Typing
@@ -1111,6 +1112,15 @@ partial def natBlockPtrOffsets (env : Env) (ctx : String)
   pure (← natListTerm staticOffsets.toList, ← opListTerm offsetOps.toList, hasDynamic)
 
 partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := do
+  if let `(tritonExpr| tl.inline_asm_elementwise($assembly:str $[, $kwargs:tritonInlineAsmKwarg]*)) := stx then
+    let (a,b) ← inlineAddU32Arguments assembly kwargs
+    let left ← expandExpr env a
+    let right ← expandExpr env b
+    unless [.int,.int32].contains left.dtype && [.int,.int32].contains right.dtype do
+      Macro.throwError "inline ASM add.u32: operands must use integer registers"
+    -- Each operand is a register read, used once. Preserve the exact prior
+    -- modulo32/signed32 primitive; this is not floating addition or an FMA.
+    return ← expandExpr env (← `(tritonExpr| (($a:tritonExpr + $b:tritonExpr).to(tl.uint32)).to(tl.int32)))
   -- The source's explicit output-pointer cast can be Bool -> Bool. Preserve
   -- its actual operand instead of treating the register as a numeric load.
   if let some (e, dt) := methodCast? stx then
@@ -1685,7 +1695,16 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
           pure ⟨algTerm, dst.algDType, e'.shape,
             some (← `(ComputeExpr.compute $op)), none⟩
   | `(tritonExpr| tl.cast($e:tritonExpr, $dt:tritonDType)) => do
-      let e' ← expandExpr env e
+      -- A Python integer literal is an integer source value, including when
+      -- passed directly to tl.cast. Do not route it through an FP conversion.
+      let integerTarget := (unsignedCastWidth? dt).isSome || signedMachineCast dt ||
+        (match dt with | `(tritonDType| tl.int64) => Bool.true | _ => Bool.false)
+      let e' ← if integerTarget then
+          match e with
+          | `(tritonExpr| $_:num) => expandNatExpectedExpr env e
+          | `(tritonExpr| -$_:num) => expandIntExpectedExpr env e
+          | _ => expandExpr env e
+        else expandExpr env e
       if let some cast ← machineIntegerCast? dt e' then return cast
       let dst ← expandDType dt
       match dst with
@@ -1725,16 +1744,28 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
       unless n.getNat == 0 do
         Macro.throwError "float(integer): only the exact builtin literal float(0) is supported"
       expandExpr env (← `(tritonExpr| 0.0))
-  | `(tritonExpr| - float ($arg:term)) =>
-      let argString := toString arg.raw
-      unless argString.contains "inf" do
-        Macro.throwError "float(...): only `float(\"inf\")` is supported in Triton DSL expressions"
-      pure ⟨← `(Op.negInf), .real, SInfo.scalar, none, none⟩
-  | `(tritonExpr| float ($arg:term)) =>
-      let argString := toString arg.raw
-      unless argString.contains "-inf" do
-        Macro.throwError "float(...): only `float(\"-inf\")` is supported in Triton DSL expressions"
-      pure ⟨← `(Op.negInf), .real, SInfo.scalar, none, none⟩
+  | `(tritonExpr| - float ($arg:term)) => do
+      let `(term| $value:str) := arg
+        | Macro.throwError "float(...): expected a literal infinity string"
+      if value.getString == "inf" then
+        return ⟨← `(Op.negInf), .real, SInfo.scalar, none, none⟩
+      if value.getString == "-inf" then
+        let dtype := mkIdent `dtype
+        return ← expandExpr env (← `(tritonExpr|
+          tl.bitcast(tl.full([], 2139095040, $dtype:ident=tl.uint32), tl.float32)))
+      Macro.throwError "float(...): only literal inf and -inf are supported"
+  | `(tritonExpr| float ($arg:term)) => do
+      let `(term| $value:str) := arg
+        | Macro.throwError "float(...): expected a literal infinity string"
+      if value.getString == "-inf" then
+        return ⟨← `(Op.negInf), .real, SInfo.scalar, none, none⟩
+      if value.getString == "inf" then
+        -- Infinity has an exact binary32 encoding. Use the existing literal
+        -- backend, with no finite Real proxy or numerical identity assumption.
+        let dtype := mkIdent `dtype
+        return ← expandExpr env (← `(tritonExpr|
+          tl.bitcast(tl.full([], 2139095040, $dtype:ident=tl.uint32), tl.float32)))
+      Macro.throwError "float(...): only literal inf and -inf are supported"
   | `(tritonExpr| tl.dot($a:tritonExpr, $b:tritonExpr)) => do
       expandDot expandExpr env a b
   | `(tritonExpr| tl.dot($a:tritonExpr, $b:tritonExpr $[, $kwargs:tritonReduceKwarg]*)) => do
@@ -2787,6 +2818,25 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
     | `(tritonExpr| tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*).to(tl.int1)) =>
         integerBoolLoadCast p kwargs none
     | _ => return none
+  -- A natural-valued logical memory channel still needs its explicit signed
+  -- widening. The destination of .to(int64) cannot retag the source load as
+  -- an Int cell, even when later address uses pin its destination register.
+  let naturalLoadWidening? (dest : Ident) (e : TSyntax `tritonExpr) : MacroM (Option EOut) := do
+    let load? ← match e with
+      | `(tritonExpr| (tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*)).to(tl.int64))
+      | `(tritonExpr| tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*).to(tl.int64)) =>
+          pure (some (p, kwargs, some mask))
+      | `(tritonExpr| (tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*)).to(tl.int64))
+      | `(tritonExpr| tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*).to(tl.int64)) =>
+          pure (some (p, kwargs, none))
+      | _ => pure none
+    let some (p, kwargs, mask) := load? | return none
+    let hint ← loadDTypeHint dest p
+    if hint != some DInfo.nat then return none
+    let loaded ← expandLoad expandExpr expandStaticPtrExpr env p kwargs
+      (defaultDType := hint) (positionalMask := mask)
+    ensureDType .nat loaded.dtype "natural load widened to signed int64"
+    return some ⟨← `(Op.castNatToInt $loaded.term), .int, loaded.shape, none, none⟩
   -- Preserve signed source storage and apply explicit i32 narrowing before
   -- assignment inference. Same-width i32 casts retain their existing AST.
   let signedLoadCast? (dest : Ident) (e : TSyntax `tritonExpr) : MacroM (Option EOut) := do
@@ -2880,6 +2930,7 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
   let expandUpdateOperand (dest : Ident) (e : TSyntax `tritonExpr) : MacroM EOut := do
     if let some loaded ← machineLoadCast? e then return loaded
     if let some loaded ← floatLoadCast? dest e then return loaded
+    if let some loaded ← naturalLoadWidening? dest e then return loaded
     if let some loaded ← signedLoadCast? dest e then return loaded
     -- A machine cast establishes the signed result before address-use
     -- inference. Keep its negative values until the final address projection.
@@ -2914,6 +2965,7 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
     if let some loaded ← machineLoadCast? e then return loaded
     if let some loaded ← integerBoolLoadCast? e then return loaded
     if let some loaded ← floatLoadCast? dest e then return loaded
+    if let some loaded ← naturalLoadWidening? dest e then return loaded
     if let some loaded ← signedLoadCast? dest e then return loaded
     -- A machine cast establishes the signed result before address-use
     -- inference. Keep its negative values until the final address projection.
@@ -2999,17 +3051,10 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
       MacroM (TSyntax `term × TSyntax `term × Env × Bool) := do
     if dest.getId.getString! != old.getId.getString! then
       let sumExpr : TSyntax `tritonExpr ← `(tritonExpr| $old:ident + $rhs:tritonExpr)
-      let e' ←
-        if intPinned.contains dest.getId.toString then
-          if (Inference.pointerElementDType? regionDTypes ptrElems sumExpr).isSome then
-            let inferred ← expandExpr env sumExpr
-            if inferred.dtype == DInfo.ptr then pure inferred
-            else expandIntExpectedExpr env sumExpr
-          else expandIntExpectedExpr env sumExpr
-        else if pinned.contains dest.getId.toString then
-          expandNatExpectedExpr env sumExpr
-        else
-          expandExpr env sumExpr
+      -- A fresh `dest = old + rhs` is an ordinary assignment. Use the same
+      -- source-width and known-register inference as every other expression;
+      -- preliminary Nat address pins cannot retag an already signed operand.
+      let e' ← expandAssignment dest sumExpr
       emitAssign dest e'
     else
       let rawName := old.getId.toString
@@ -3644,7 +3689,7 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
             let lhs : EOut :=
               { term := lhsTerm, dtype := lhsDType, shape := lhsShape,
                 computeTerm := lhsComputeTerm?, computeDType? := lhsComputeDType? }
-            let rhs0 ← expandUpdateOperand i e
+            let rhs0 ← integralSourceLiteral lhs.dtype e (← expandUpdateOperand i e)
             let rhs ←
               if lhs.dtype == .real && rhs0.dtype == .nat then
                 match ← expandLeanAntiquoteAs? .real e with
@@ -3652,6 +3697,7 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
                 | none => pure rhs0
               else
                 pure rhs0
+            let (lhs, rhs) ← coerceNatIntOperands "`+=`" lhs rhs
             let (lhs, rhs) ← coerceRealArithOperands "`+=`" lhs rhs
             ensureComputeArithComposable "`+=` lhs" lhs
             ensureComputeArithComposable "`+=` rhs" rhs
@@ -3734,7 +3780,7 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
       let lhs : EOut :=
         { term := lhsTerm, dtype := lhsDType, shape := lhsShape,
           computeTerm := lhsComputeTerm?, computeDType? := lhsComputeDType? }
-      let rhs0 ← expandUpdateOperand i e
+      let rhs0 ← integralSourceLiteral lhs.dtype e (← expandUpdateOperand i e)
       let rhs ←
         if lhs.dtype == .real && rhs0.dtype == .nat then
           match ← expandLeanAntiquoteAs? .real e with
@@ -3742,6 +3788,7 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
           | none => pure rhs0
         else
           pure rhs0
+      let (lhs, rhs) ← coerceNatIntOperands "`-=`" lhs rhs
       let (lhs, rhs) ← coerceRealArithOperands "`-=`" lhs rhs
       ensureComputeArithComposable "`-=` lhs" lhs
       ensureComputeArithComposable "`-=` rhs" rhs
@@ -3787,7 +3834,7 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
       let lhs : EOut :=
         { term := lhsTerm, dtype := lhsDType, shape := lhsShape,
           computeTerm := lhsComputeTerm?, computeDType? := lhsComputeDType? }
-      let rhs0 ← expandUpdateOperand i e
+      let rhs0 ← integralSourceLiteral lhs.dtype e (← expandUpdateOperand i e)
       let rhs ←
         if lhs.dtype == .real && rhs0.dtype == .nat then
           match ← expandLeanAntiquoteAs? .real e with
@@ -3795,6 +3842,7 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
           | none => pure rhs0
         else
           pure rhs0
+      let (lhs, rhs) ← coerceNatIntOperands "`*=`" lhs rhs
       let (lhs, rhs) ← coerceRealArithOperands "`*=`" lhs rhs
       ensureComputeArithComposable "`*=` lhs" lhs
       ensureComputeArithComposable "`*=` rhs" rhs
@@ -3911,8 +3959,11 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
         Bool.false)
   | `(tritonStmt| tl.static_assert($cond:tritonExpr $[, $_msg:str]?)) => do
       discard <| expandExpr env cond
+      -- Static admission belongs to the caller's compile-time contract. Keep
+      -- the canonical no-runtime-work marker executable by both interpreters;
+      -- an arbitrary projected algorithm statement remains unsupported.
       pure (← `(Stmt.ifThen (Op.constBool Bool.false) []),
-        ← `(ComputeStmt.alg (Stmt.ifThen (Op.constBool Bool.false) [])), env,
+        ← `(ComputeStmt.ifThen (Op.constBool Bool.false) []), env,
         Bool.false)
   | `(tritonStmt| tl.for $i:ident in $($n:term) { $stmts:tritonStmt* }) => do
       let nameLit ← identAsStr i

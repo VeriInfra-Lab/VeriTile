@@ -1,9 +1,9 @@
-import bench.repairs.tritonbench_g.nested_loops_processing.Kernels
+import bench.repairs.tritonbench_g.nested_loops_processing.Proofs.LegacyPastedSurface
 import VeriTile.Triton.Float.Structural
 import VeriTile.Meta.StatementAudit
 
 namespace VeriTile.Bench.Repairs.NestedLoopsProcessing.TypedExecution
-open VeriTile.Triton FP.Structural Kernels
+open VeriTile.Triton FP.Structural Kernels.LegacyPastedSurface
 set_option maxHeartbeats 1500000
 set_option maxRecDepth 10000
 set_option linter.unusedSimpArgs false
@@ -25,8 +25,9 @@ def inner (count cols : Nat) : List ComputeStmt :=
   | some (.forRange "k" 0 2 1 body) => body
   | _ => []
 
-/-- The canonical source retains all loop bodies and the three barriers
-in each inner iteration. Region declarations select int32 loads and stores. -/
+/-- Shape of the historical natural-address proof skeleton. The current raw
+Python body is connected to this skeleton in `SourcePreservation`; this lemma
+is not an AST equality with the current signed-address source. -/
 theorem full_loop_shape (count cols : Nat) :
     (source count cols).surfaceBody.length = 8 ∧
     (outer count cols).length = 3 ∧

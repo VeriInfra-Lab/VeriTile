@@ -42,7 +42,7 @@ theorem implements {α : Type} [Inhabited α] (M : Algebra α) (candidate : Bool
       have h := binding 1 (⟨i,hi⟩,()) trivial
       change s.mem "output" i = .mk .int (vals 1 (⟨i,hi⟩,())) at h
       exact h.trans (congrArg (Cell.mk .int) (domain.2 (⟨i,hi⟩,())))
-    refine ⟨finalState (rows*cols) cols s,?_,?_,?_⟩
+    refine ⟨actualFinalState (rows*cols) cols s,?_,?_,?_⟩
     · rw [runSchedule_singleton]
       change exec M (Kernels.kernel candidate "input" "output" (rows*cols) cols)
         ((IO.invocation M candidate rows cols).initial s) = _
@@ -52,11 +52,12 @@ theorem implements {α : Type} [Inhabited α] (M : Algebra α) (candidate : Bool
       · exact candidate_run M (rows*cols) cols s
     · intro o j _
       fin_cases o
-      change mapCell id ((finalState (rows*cols) cols s).mem "output" j.1.val) =
+      change mapCell id ((actualFinalState (rows*cols) cols s).mem "output" j.1.val) =
         Cell.mk .int (signedValue (wordTarget rows cols j.1.val))
-      rw [initialized_cell s rows cols positive input output j.1.val j.1.isLt]
+      rw [source_memory,initialized_cell s rows cols positive input output j.1.val j.1.isLt]
       rfl
     · intro r i outside
+      rw [source_memory]
       apply final_frame
       by_cases same : r = "output"
       · right

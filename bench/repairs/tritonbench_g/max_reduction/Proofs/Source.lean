@@ -60,6 +60,7 @@ theorem stage1_exec [Inhabited A] (e : Engine A) (inp mid : RegionName)
     ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,store,Option.bind,
     ComputeDType.eraseDType,numeric,bop,natLt,numericLt,Region.cast,Engine.algebra,
     reduceWith,scalarValue,TileShape.allIndices,TileShape.axisDim,hb,State.write,State.setReg]
+  simp only [← Int.natCast_add, ← Int.natCast_mul, Int.ofNat_lt, Int.toNat_natCast]
   rfl
 
 theorem stage2_exec [Inhabited A] (e : Engine A) (mid out : RegionName)
@@ -114,6 +115,7 @@ theorem dimension_exec [Inhabited A] (e : Engine A) (inp ov oi : RegionName)
     ComputeDType.eraseDType,numeric,bop,natLt,numericLt,Region.cast,Engine.algebra,
     indexedWith,rowValue,dimensionStores,TileShape.allIndices,TileShape.axisDim,TileShape.insertAxisIndex,toFloat,ofFloat,hn,Nat.ne_of_gt hn,
     State.setReg]
+  simp only [← Int.natCast_add, ← Int.natCast_mul, Int.ofNat_lt, Int.toNat_natCast]
 
 /-- Exact native/Real finite-tree construction; invalid fallback leaves never
 occur in a ReductionPlan. Thus whole-reduction equality is proved, not assumed. -/
@@ -142,6 +144,23 @@ theorem row_tree (algebra : Compute.Algebra A) (plans : Nat → Tree)
   apply Compute.tree_congr
   intro i hi
   simp [complete i hi,active,treeEngine]
+
+/-- Dtype erasure retains a supported Algorithm projection of the actual raw
+source, including its widened integer address operations. -/
+theorem stage1_algorithm (inp out : RegionName) (N B : Nat) :
+    (stage1 inp out N B).eraseDType.toAlgorithm? =
+      .ok (stage1 inp out N B).eraseDType.toAlgKernel := by
+  have h : (stage1 inp out N B).toAlgorithm? = .ok (stage1 inp out N B).toAlgKernel := rfl
+  simp only [ComputeKernel.eraseDType, h, ComputeKernel.toAlgorithm?_fromKernelBody,
+    ComputeKernel.toAlgKernel_fromKernelBody]
+theorem stage2_algorithm (inp out : RegionName) (N B : Nat) :
+    (stage2 inp out N B).eraseDType.toAlgorithm? =
+      .ok (stage2 inp out N B).eraseDType.toAlgKernel := by
+  have h : (stage2 inp out N B).toAlgorithm? = .ok (stage2 inp out N B).toAlgKernel := rfl
+  simp only [ComputeKernel.eraseDType, h, ComputeKernel.toAlgorithm?_fromKernelBody,
+    ComputeKernel.toAlgKernel_fromKernelBody]
+#axiomsClean stage1_algorithm
+#axiomsClean stage2_algorithm
 
 #axiomsClean stage1_exec
 #axiomsClean stage2_exec

@@ -97,7 +97,21 @@ def written (cast : Word32 → Byte) (p : Parameters) (initial : State Word32) :
 theorem epilogueMemory (cast : Word32 → Byte) (M : Algebra Word32) (p : Parameters)
     (initial current : State Word32) (h : OuterInvariant cast p initial 4 current) :
     (epilogueExecution cast M p initial current h).val.mem = (written cast p initial).mem := by
-  simp +contextual [epilogueExecution, written, masked_scatter_memory, h.memory,
+  have cast32 (i : CIndex p) :
+      (if 2 * ((outerValues cast p initial 4 i % 4294967296).toNat % 4294967296) < 4294967296 then
+        max (outerValues cast p initial 4 i % 4294967296) 0 % 4294967296
+       else max (outerValues cast p initial 4 i % 4294967296) 0 % 4294967296 - 4294967296) =
+        outerValues cast p initial 4 i := by
+    have normalize (x : Int) :
+        (if 2 * ((x % 4294967296).toNat % 4294967296) < 4294967296 then
+          max (x % 4294967296) 0 % 4294967296
+         else max (x % 4294967296) 0 % 4294967296 - 4294967296) = wrap 32 x := by
+      simpa [IntegerExpr.signedBits, wrap] using signedBits_int_mod 32 x
+    rw [normalize]
+    obtain ⟨word,hw⟩ := outerValues_word cast p initial 4 i
+    rw [hw]
+    simp only [wrap,BitVec.ofInt_toInt]
+  simp +contextual [epilogueExecution, written, masked_scatter_memory, h.memory,cast32,
     active, outputOffset, FP.Structural.bop, Broadcast.leftIndex, Broadcast.rightIndex,
     and_assoc, and_comm, and_left_comm]
 
@@ -119,8 +133,8 @@ theorem correctness (cast : Word32 → Byte) (M : Algebra Word32) (p : Parameter
   · change run (backend cast M) (source p).surfaceBody initial = some finish.val
     rw [source_decomposition]
     rw [run_append, run_append, start.property]
-    have hs (s : State Word32) : run (backend cast M) [.forRangeDyn "i" (.constNat 0) (.constNat 4) (.constNat 1) (outerBody p)] s =
-        FP.Structural.range (backend cast M) "i" 0 4 1 (outerBody p) s := by simp [run, step, evalOp_unfold]
+    have hs (s : State Word32) : run (backend cast M) [.forLoop "i" 4 (outerBody p)] s =
+        FP.Structural.range (backend cast M) "i" 0 4 1 (outerBody p) s := by simp [run, step, evalOp_unfold, loop_eq_range]
     simp only [Option.bind_some, hs, hm]
     exact finish.property
   · intro i hi

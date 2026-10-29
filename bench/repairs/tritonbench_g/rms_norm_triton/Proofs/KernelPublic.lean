@@ -1,4 +1,6 @@
 import bench.repairs.tritonbench_g.rms_norm_triton.Kernels
+import bench.repairs.tritonbench_g.rms_norm_triton.Proofs.LegacyPastedSurface
+import bench.repairs.tritonbench_g.rms_norm_triton.Proofs.ActualRow
 import bench.repairs.tritonbench_g.rms_norm_triton.Proofs.KernelNative
 import bench.tritonbench_g.rms_norm_triton.Proofs.KernelIndex
 import bench.tritonbench_g.rms_norm_triton.Proofs.KernelBinding
@@ -52,8 +54,11 @@ structure KernelStorage (api : PreparedAPI a n) (x w xc wc y : ActualTensor) : P
   storage : ∀ v ∈ [x.view,w.view,xc.view,wc.view,y.view],
     api.byteBase v.allocation=v.storageBase ∧ api.capacity v.allocation=v.capacity
 
- theorem source_row_identity (c : Whole.Layout) (eps : ℝ) :
-    c.source eps = kernel c.Y c.X c.W c.N c.B eps := rfl
+ theorem legacy_source_row_identity (c : Whole.Layout) (eps : ℝ) :
+    c.source eps = LegacyPastedSurface.kernel c.Y c.X c.W c.N c.B eps := rfl
+
+ theorem source_row_identity (c : Whole.Layout) :
+    ActualRow.source c = runtimeKernel c.Y c.X c.W c.N c.B := rfl
 
 
  theorem logical_tensor_result [Inhabited α] (a : Whole.Prepared α input weight entry live)

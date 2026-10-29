@@ -82,3 +82,33 @@ The optional native, Tensor, audit and application entries for this selected rev
 - `KernelOnly/Misc/TensorBridge.lean`
 
 The primary Contract/Correct/FPEquiv entries and their required IO, source and Proofs dependencies keep their existing statements and scope. This layout change adds no mathematical or numerical claims.
+
+
+The selected Python body now appears unchanged inside `triton { ... }` in
+`Kernels.lean`. Pointer types, the seventeen mathematical integer call values,
+two runtime FP32 clamp registers, four constexpr arguments and memory roles
+are declared outside that quotation. The existing native index refinement
+continues to justify actual unsigned64 source arithmetic; the integer call
+metadata does not claim one fixed width for all unannotated Python arguments.
+
+`candidate_kernels.py` is an explicitly new native counterpart of the existing
+`scaleFirst` Lean candidate, swapping only the operands in `dA = dt * A[:, None]`.
+It does not replace or modify the selected historical Python file.
+
+`Proofs/SourcePreservation.lean` proves exact complete statement-body identities
+and complete optional-state execution equality for both programs and every
+backend, including failure. The explicit call ports now describe the canonical
+three-input/two-output IO; the old collector returned empty port lists after
+pointer rebinding. All prior IO channels and mathematical domains remain in
+their public interfaces. The mixed typed/profiled FP32 cell representations are
+preserved individually; no floating conversion is assumed to be an identity.
+
+The older literal-bound comparison models remain explicitly archived in
+`bench/tritonbench_g/chunked_cumsum_fwd/LegacyComparisonModels.lean`, with their
+original names re-exported by the compatibility import. Their finite clamp is
+spelled compare/select so the earlier arbitrary-backend statements keep their
+actual program and premises. They do not claim current Python or IEEE minimum
+conformance. The current repaired quotations retain `tl.minimum` and its
+independent primitive. The retained mathematical compatibility lemma proves
+that real minimum and the former comparison spelling agree for every Real
+state, including failure/undefined cells; it asserts no floating-point law.

@@ -14,6 +14,11 @@ private theorem scalar_mul (a b : Nat) :
       (fun _ : TileIndex [] => a) (fun _ : TileIndex [] => b) =
       (fun _ : TileIndex [] => a * b) := rfl
 
+private theorem scalar_mul_int (a b : Int) :
+    bop (fun x y : Int => x * y) Broadcast.nil
+      (fun _ : TileIndex [] => a) (fun _ : TileIndex [] => b) =
+      (fun _ : TileIndex [] => a * b) := rfl
+
 private theorem lane_lt (N B : Nat) :
     bop (fun a b : Nat => decide (a < b)) Broadcast.scalarR
       (fun i : TileIndex [B] => i.1.val) (fun _ : TileIndex [] => N) =
@@ -25,7 +30,7 @@ theorem stage1_same_run [Inhabited A] (e : Source.Engine A) (inp out : RegionNam
       FP.Structural.exec e.algebra (stage1Commuted inp out N B) s := by
   simp [stage1,stage1Commuted,VeriTile.Bench.TritonBenchG.MaxReduction.stage1,FP.Structural.exec,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
-    ComputeDType.eraseDType,numeric,bop,natLt,natLe,numericLt,numericLe,Region.cast,scalar_mul,lane_lt,State.setReg,Source.Engine.algebra,Source.reduceWith,Source.indexedWith,Nat.mul_comm]
+    ComputeDType.eraseDType,numeric,bop,natLt,natLe,numericLt,numericLe,Region.cast,scalar_mul,scalar_mul_int,lane_lt,State.setReg,Source.Engine.algebra,Source.reduceWith,Source.indexedWith,Nat.mul_comm,Int.mul_comm]
 
 theorem stage2_candidate_exec [Inhabited A] (e : Source.Engine A)
     (inp out : RegionName) (N B : Nat) (s : State A) (hb : 0 < B) :
@@ -45,7 +50,7 @@ theorem dimension_same_run [Inhabited A] (e : Source.Engine A) (inp ov oi : Regi
       FP.Structural.exec e.algebra (dimensionCommuted inp ov oi M N K BM BN) s := by
   simp [dimension,dimensionCommuted,VeriTile.Bench.TritonBenchG.MaxReduction.dimensionSource,FP.Structural.exec,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
-    ComputeDType.eraseDType,numeric,bop,natLt,natLe,numericLt,numericLe,Region.cast,scalar_mul,lane_lt,State.setReg,Source.Engine.algebra,Source.reduceWith,Source.indexedWith,Nat.mul_comm]
+    ComputeDType.eraseDType,numeric,bop,natLt,natLe,numericLt,numericLe,Region.cast,scalar_mul,scalar_mul_int,lane_lt,State.setReg,Source.Engine.algebra,Source.reduceWith,Source.indexedWith,Nat.mul_comm,Int.mul_comm]
 
 #axiomsClean stage1_same_run
 #axiomsClean stage2_candidate_exec

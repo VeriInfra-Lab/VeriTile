@@ -7,7 +7,7 @@ set_option maxHeartbeats 3600000
 set_option maxRecDepth 24000
 
 def initCode : List ComputeStmt :=
-  [.assign .nat [] "i_bh" (.alg (.programId 0)),
+  [.assign .int [] "i_bh" (.alg (.castNatToInt (.programId 0))),
    .assign .real [] "b_z" (.compute (.full [] (.alg .fp32 (.const 0))))]
 def startOp (c : Config) : Op .int [] :=
   .mul .int .nil (.ref .int [] "i_t") (.constInt c.BT)
@@ -18,13 +18,15 @@ def timeOp (c : Config) : Op .int [c.BT] :=
   .add .int .scalarL (.ref .int [] "start_t")
     (.castNatToInt (.where (.ref .bool [c.BT] "active") (.ref .nat [c.BT] "lanes")
       (.broadcast (.constNat 0) [c.BT])))
-def baseOp (H : Nat) (strides : Strides) : Op .nat [] :=
-  .add .nat .nil
-    (.mul .nat .nil (.tritonDiv .nat .nil (.ref .nat [] "i_bh") (.constNat H)) (.constNat strides.batch))
-    (.mul .nat .nil (.tritonMod .nat .nil (.ref .nat [] "i_bh") (.constNat H)) (.constNat strides.head))
+def baseOp (H : Nat) (strides : Strides) : Op .int [] :=
+  .add .int .nil
+    (.mul .int .nil (.tritonDiv .int .nil (.ref .int [] "i_bh") (.castNatToInt (.constNat H)))
+      (.castNatToInt (.constNat strides.batch)))
+    (.mul .int .nil (.tritonMod .int .nil (.ref .int [] "i_bh") (.castNatToInt (.constNat H)))
+      (.castNatToInt (.constNat strides.head)))
 def pointerOp (h : Call) (c : Config) (r : RegionName) (strides : Strides) : Op .ptr [c.BT] :=
   .ptrAdd .scalarL (.ptrBase r)
-    (.castIntToNat (.add .int .scalarL (.castNatToInt (baseOp h.H strides))
+    (.castIntToNat (.add .int .scalarL (baseOp h.H strides)
       (.mul .int .scalarR (.ref .int [c.BT] "times") (.castNatToInt (.constNat strides.time)))))
 def loadOp (h : Call) (c : Config) : Op .real [c.BT] :=
   .castFloat h.inputDType .real (.load h.inputDType.toTileDType (.ptr (.ref .ptr [c.BT] "p_s"))
@@ -53,7 +55,7 @@ def loopBody (h : Call) (c : Config) : List ComputeStmt :=
    .assign .real [c.BT] "b_o" (.compute (.alg .fp32 (outputOp c))),
    storeOp h c]
 def countOp (h : Call) (c : Config) : Op .nat [] :=
-  .div .nat .nil (.sub .nat .nil (.add .nat .nil (.constNat h.T) (.constNat c.BT)) (.constNat 1)) (.constNat c.BT)
+  .constNat (Geometry.chunks h c)
 def loopStart (h : Call) (c : Config) : Op .int [] :=
   .sub .int .nil (.constInt 0) (.sub .int .nil (.castNatToInt (countOp h c)) (.constInt 1))
 def statement (h : Call) (c : Config) : ComputeStmt :=

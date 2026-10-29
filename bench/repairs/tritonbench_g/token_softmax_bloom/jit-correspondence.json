@@ -1,0 +1,138 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/token_softmax_bloom/token_softmax_bloom_repaired.py",
+    "python_function": "_fwd_kernel_token_softmax",
+    "lean": "bench/repairs/tritonbench_g/token_softmax_llama/Kernels.lean",
+    "lean_definition": "source",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Logics",
+          "inputFloat"
+        ],
+        [
+          "B_Start_Loc",
+          "i32"
+        ],
+        [
+          "B_Seqlen",
+          "i32"
+        ],
+        [
+          "Prob_Out",
+          "inputFloat"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_start",
+          "i64"
+        ],
+        [
+          "stride_length",
+          "i64"
+        ],
+        [
+          "stride_logic_h",
+          "i64"
+        ],
+        [
+          "stride_logic_bs",
+          "i64"
+        ],
+        [
+          "stride_prob_h",
+          "i64"
+        ],
+        [
+          "stride_prob_bs",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "naturalIntegerPointers": [
+        "B_Start_Loc",
+        "B_Seqlen"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_start": "stride_start",
+      "stride_length": "stride_length",
+      "stride_logic_h": "stride_logic_h",
+      "stride_logic_bs": "stride_logic_bs",
+      "stride_prob_h": "stride_prob_h",
+      "stride_prob_bs": "stride_prob_bs"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/token_softmax_bloom/token_softmax_bloom_index_commuted.py",
+    "python_function": "_fwd_kernel_token_softmax",
+    "lean": "bench/repairs/tritonbench_g/token_softmax_llama/Kernels.lean",
+    "lean_definition": "indexCommutedSource",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Logics",
+          "inputFloat"
+        ],
+        [
+          "B_Start_Loc",
+          "i32"
+        ],
+        [
+          "B_Seqlen",
+          "i32"
+        ],
+        [
+          "Prob_Out",
+          "inputFloat"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_start",
+          "i64"
+        ],
+        [
+          "stride_length",
+          "i64"
+        ],
+        [
+          "stride_logic_h",
+          "i64"
+        ],
+        [
+          "stride_logic_bs",
+          "i64"
+        ],
+        [
+          "stride_prob_h",
+          "i64"
+        ],
+        [
+          "stride_prob_bs",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "naturalIntegerPointers": [
+        "B_Start_Loc",
+        "B_Seqlen"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_start": "stride_start",
+      "stride_length": "stride_length",
+      "stride_logic_h": "stride_logic_h",
+      "stride_logic_bs": "stride_logic_bs",
+      "stride_prob_h": "stride_prob_h",
+      "stride_prob_bs": "stride_prob_bs"
+    }
+  }
+]

@@ -1,0 +1,52 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/masked_select/masked_select_repaired.py",
+    "python_function": "masked_select_kernel",
+    "lean": "bench/repairs/tritonbench_g/masked_select/Kernels.lean",
+    "lean_definition": "kernel",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "inp_ptr",
+          "fp32"
+        ],
+        [
+          "select_mask_ptr",
+          "boolean"
+        ],
+        [
+          "prefix_sum_ptr",
+          "i64"
+        ],
+        [
+          "out_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "n_elements",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "naturalIntegerPointers": [
+        "prefix_sum_ptr"
+      ],
+      "readPorts": [
+        "inp_ptr",
+        "select_mask_ptr",
+        "prefix_sum_ptr"
+      ],
+      "writePorts": [
+        "out_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "n_elements": "p.size"
+    }
+  }
+]

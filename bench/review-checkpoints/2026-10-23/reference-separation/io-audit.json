@@ -25247,19 +25247,12 @@
         "bench/repairs/tritonbench_g/max_reduction/FPEquiv.lean"
       ],
       "assessment": {
-        "organization": "The main logical tensor equivalences/views already live in the selected task IO.lean, with complete judgment and execution connections in Proofs/. No separate same-task logical-view definition remains to migrate; distinct candidate/native thin views are retained.",
-        "preservation": {
-          "all_recorded_source_bytes_unchanged": true,
-          "full_public_judgment_types": "All selected Correct/FPEquiv and IO source bytes match saved before and the pinned prior owner report; their previous successful full-scope/source/joint checks are reused, with no fresh Lean replay claimed.",
-          "audit": {
-            "path": ".veritile-cache/io-unification-20261023/queue10/audit.json",
-            "sha256": "b916c524819e4d2aeb54d8b0da86ac8fa5acadac06522b6a90fc19ada2136a5b"
-          }
-        },
-        "different_stage_or_encoding_exceptions": [],
-        "previous_assessment": {
-          "manifest": "bench/review-checkpoints/2026-10-22/logical-readers/io-audit.json",
-          "task": "max_reduction"
+        "organization": "stage1Real and stage2Real now name supported projections of the actual raw source. Existing read/write windows, dimensions and masks remain. flatDimensionReal is the retained complete Algorithm/flat-placement value-and-index view, now explicitly naming the actual raw repaired dimension source. Its former generic source result remains separately labelled legacy_dimension_math_correct.",
+        "distinct_semantic_views": "The mathematical Algorithm/flat-placement view uses BlockState Real cells and arbitrary FlatAlloc placements. The existing opaque reduction-engine/native ProgramIO view fixes an Engine interpretation and typed channels. These are different encodings and semantic scopes; they share the one authoritative raw kernel and cannot replace each other. No detailed IO record was added to a reader or proof module.",
+        "preservation": "Original mathematical/public domains and all input/output/frame scopes are retained by actual source execution transport and full proof replay. This replaces the old unchanged-bytes statement for the changed current IO file.",
+        "evidence": {
+          "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/io-organization-delta.json",
+          "sha256": "ad46d17e54e276791a82266552175e1e58975fb77696511371db5fbd08f5b313"
         }
       },
       "distinct_views": "Masked Algorithm stage views and structural source/native ProgramIO views use different value encodings; dimension reduction also has strided value and signed-int64 index channels and cannot be merged with the two actual one-dimensional stages. All three main results remain.",
@@ -25288,14 +25281,15 @@
         },
         {
           "path": "bench/repairs/tritonbench_g/max_reduction/IO.lean",
-          "sha256": "b571d1f68489a4c1c61b8319453523de010432af5249d218242bb85d9e83535c"
+          "sha256": "23eae84c2aa4096c481d454d9c55c99df5cd21763eb1b0d979fe126519580378"
         }
       ],
-      "changed_paths": [],
+      "changed_paths": [
+        "bench/repairs/tritonbench_g/max_reduction/IO.lean"
+      ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/max_reduction.json",
-        "sha256": "4b36bcfb3cd96dbfa8fcfb5a30f4acf97e2848b6f2b0180127b66067969980ca",
-        "task": "max_reduction"
+        "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/io-organization-delta.json",
+        "sha256": "ad46d17e54e276791a82266552175e1e58975fb77696511371db5fbd08f5b313"
       },
       "preservation_and_build_passed": true,
       "validation_limits": {
@@ -25312,7 +25306,11 @@
           "task_index": 8,
           "task": "max_reduction"
         },
-        "io_data_unchanged": true
+        "io_data_unchanged": true,
+        "current_raw_body_io_review": {
+          "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/io-organization-delta.json",
+          "sha256": "ad46d17e54e276791a82266552175e1e58975fb77696511371db5fbd08f5b313"
+        }
       },
       "previous_io_sources": [
         {
@@ -25357,6 +25355,47 @@
         }
       ],
       "io_unification_review": {
+        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/max_reduction.json",
+        "sha256": "4b36bcfb3cd96dbfa8fcfb5a30f4acf97e2848b6f2b0180127b66067969980ca",
+        "task": "max_reduction"
+      },
+      "previous_raw_body_io_assessment": {
+        "organization": "The main logical tensor equivalences/views already live in the selected task IO.lean, with complete judgment and execution connections in Proofs/. No separate same-task logical-view definition remains to migrate; distinct candidate/native thin views are retained.",
+        "preservation": {
+          "all_recorded_source_bytes_unchanged": true,
+          "full_public_judgment_types": "All selected Correct/FPEquiv and IO source bytes match saved before and the pinned prior owner report; their previous successful full-scope/source/joint checks are reused, with no fresh Lean replay claimed.",
+          "audit": {
+            "path": ".veritile-cache/io-unification-20261023/queue10/audit.json",
+            "sha256": "b916c524819e4d2aeb54d8b0da86ac8fa5acadac06522b6a90fc19ada2136a5b"
+          }
+        },
+        "different_stage_or_encoding_exceptions": [],
+        "previous_assessment": {
+          "manifest": "bench/review-checkpoints/2026-10-22/logical-readers/io-audit.json",
+          "task": "max_reduction"
+        }
+      },
+      "canonical_io_declarations": [
+        {
+          "path": "bench/repairs/tritonbench_g/max_reduction/IO.lean",
+          "sha256": "23eae84c2aa4096c481d454d9c55c99df5cd21763eb1b0d979fe126519580378",
+          "definitions": [
+            "PublicIO.stage1Real",
+            "PublicIO.stage2Real",
+            "PublicIO.stageLaunch",
+            "PublicIO.stageIO",
+            "PublicIO.stageCandidate",
+            "PublicIO.dimensionLaunch",
+            "PublicIO.dimensionIO",
+            "PublicIO.dimensionCandidate",
+            "PublicIO.flatDimensionReal",
+            "PublicIO.logicalStage1IO",
+            "PublicIO.logicalStage2IO",
+            "PublicIO.logicalDimensionIO"
+          ]
+        }
+      ],
+      "previous_raw_body_io_evidence": {
         "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/max_reduction.json",
         "sha256": "4b36bcfb3cd96dbfa8fcfb5a30f4acf97e2848b6f2b0180127b66067969980ca",
         "task": "max_reduction"
@@ -29141,9 +29180,10 @@
         "previous_assessment": {
           "manifest": "bench/review-checkpoints/2026-10-22/logical-readers/io-audit.json",
           "task": "rms_norm_triton"
-        }
+        },
+        "current_source_body_followup": "One complete GridPublic.io retains all input/output channels, masks, windows, row permutations and observers. Its added epsilon argument chooses the actual FP32 call value; the default explicitly preserves the old M.cast(M.literal eps) interpretation. KernelSafety.invocation binds that value outside the eleven-statement runtime source. NativeIO and candidate select the same parameter node, lowered by RuntimeObserved to NativeModel.epsilon. ActualRow/ActualGrid/PublicIO prove actual safe successful execution, every output and full frame; SourcePreservation proves complete historical optional memory observations at the compatibility argument; literal_memory_connection proves the specialized-call mode. All prior Real/native/domain/host/Tensor scopes replay in 1704-root local/joint/independent-cold checks at the code commit in this receipt. No extra complete IO record is introduced."
       },
-      "distinct_views": "The single generic GridPublic.io describes X/Y [M,N], weights [N], row-major windows and arbitrary complete row launch order, including empty grids. Real and native carriers/observations are interpretations of that same layout.",
+      "distinct_views": "One complete generic GridPublic.io with an explicit scalar invocation argument. Real/literal-compatible and actual native parameter-word views select an interpretation of that same descriptor; candidate replaces only the actual source kernel.",
       "readers": [
         {
           "path": "bench/repairs/tritonbench_g/rms_norm_triton/Correct.lean",
@@ -29169,16 +29209,15 @@
         },
         {
           "path": "bench/repairs/tritonbench_g/rms_norm_triton/IO.lean",
-          "sha256": "47470c4b253976e1ded8489d51970ad01c95b544a255f0aed4b234a6896a3ed7"
+          "sha256": "f291ce8e5fbaf0c285712fd151e954fb0ad1e1815132f823e1a098a182811480"
         }
       ],
       "changed_paths": [
         "bench/repairs/tritonbench_g/rms_norm_triton/IO.lean"
       ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/rms_norm_triton.json",
-        "sha256": "fe77afab7d0fc1b44eb3bdee5f25db34133ba24a3fb3c2fb14483859028db743",
-        "task": "rms_norm_triton"
+        "path": "bench/pr22-split/receipts/native-rmsnorm-body.json",
+        "sha256": "8b567f456c9b69cd9fe0da2828fe63ccb835b56327beee3e63ae83fe421c69f8"
       },
       "preservation_and_build_passed": true,
       "validation_limits": {},
@@ -29262,6 +29301,20 @@
         "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/rms_norm_triton.json",
         "sha256": "fe77afab7d0fc1b44eb3bdee5f25db34133ba24a3fb3c2fb14483859028db743",
         "task": "rms_norm_triton"
+      },
+      "previous_source_body_io_evidence": {
+        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/rms_norm_triton.json",
+        "sha256": "fe77afab7d0fc1b44eb3bdee5f25db34133ba24a3fb3c2fb14483859028db743",
+        "task": "rms_norm_triton"
+      },
+      "current_source_body_review": {
+        "code_commit": "8a3d868f25a399413776c7d7a62e69238cefa236",
+        "review_evidence": {
+          "path": "bench/pr22-split/receipts/native-rmsnorm-body.json",
+          "sha256": "8b567f456c9b69cd9fe0da2828fe63ccb835b56327beee3e63ae83fe421c69f8"
+        },
+        "preservation_kind": "complete_execution_memory_and_actual_runtime_argument_bridges",
+        "single_complete_io_retained": true
       }
     },
     {
@@ -36665,6 +36718,12 @@
     "fixed": 117,
     "no_issue_identified": 66
   },
+  "raw_body_io_followups": [
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/io-organization-delta.json",
+      "sha256": "ad46d17e54e276791a82266552175e1e58975fb77696511371db5fbd08f5b313"
+    }
+  ],
   "pr22_split_base_integration": {
     "base_commit": "25ad2949386cd0b992e2d3cb7cf26fac86f6a25c",
     "source": "VeriTile/Triton/Memory/LogicalScheduledKernelIO.lean",

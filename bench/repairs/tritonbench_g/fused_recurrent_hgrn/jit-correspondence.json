@@ -1,0 +1,156 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/fused_recurrent_hgrn/fused_recurrent_hgrn_repaired.py",
+    "python_function": "fused_recurrent_hgrn_fwd_kernel",
+    "lean": "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Kernels.lean",
+    "lean_definition": "forward",
+    "signature_definition": "forwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "x",
+          "fp32"
+        ],
+        [
+          "g",
+          "fp32"
+        ],
+        [
+          "o",
+          "fp32"
+        ],
+        [
+          "h0",
+          "fp32"
+        ],
+        [
+          "ht",
+          "fp32"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "T",
+        "D",
+        "BD",
+        "USE_INITIAL_STATE",
+        "STORE_FINAL_STATE"
+      ],
+      "readPorts": [
+        "x",
+        "g",
+        "h0"
+      ],
+      "writePorts": [
+        "o",
+        "ht"
+      ]
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/fused_recurrent_hgrn/fused_recurrent_hgrn_repaired.py",
+    "python_function": "fused_recurrent_hgrn_bwd_kernel",
+    "lean": "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Kernels.lean",
+    "lean_definition": "backward",
+    "signature_definition": "backwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "g",
+          "fp32"
+        ],
+        [
+          "o",
+          "fp32"
+        ],
+        [
+          "dx",
+          "fp32"
+        ],
+        [
+          "dg",
+          "fp32"
+        ],
+        [
+          "do",
+          "fp32"
+        ],
+        [
+          "h0",
+          "fp32"
+        ],
+        [
+          "dht",
+          "fp32"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "T",
+        "D",
+        "BD",
+        "USE_INITIAL_STATE",
+        "USE_FINAL_GRAD"
+      ],
+      "readPorts": [
+        "g",
+        "o",
+        "h0",
+        "do",
+        "dht"
+      ],
+      "writePorts": [
+        "dx",
+        "dg"
+      ]
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/fused_recurrent_hgrn/fused_recurrent_hgrn_stride_folded.py",
+    "python_function": "fused_recurrent_hgrn_fwd_kernel",
+    "lean": "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Kernels.lean",
+    "lean_definition": "forwardStrideFolded",
+    "signature_definition": "forwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "x",
+          "fp32"
+        ],
+        [
+          "g",
+          "fp32"
+        ],
+        [
+          "o",
+          "fp32"
+        ],
+        [
+          "h0",
+          "fp32"
+        ],
+        [
+          "ht",
+          "fp32"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "T",
+        "D",
+        "BD",
+        "USE_INITIAL_STATE",
+        "STORE_FINAL_STATE"
+      ],
+      "readPorts": [
+        "x",
+        "g",
+        "h0"
+      ],
+      "writePorts": [
+        "o",
+        "ht"
+      ]
+    }
+  }
+]

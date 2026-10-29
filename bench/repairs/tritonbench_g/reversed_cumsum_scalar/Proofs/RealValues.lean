@@ -59,7 +59,7 @@ theorem time_eval (h : Call) (c : Config) (q : Nat) (u : BlockState)
 
 theorem pointer_eval (h : Call) (c : Config) (row q : Nat) (r : RegionName)
     (strides : Strides) (u : BlockState)
-    (hr : u.regs .nat [] "i_bh"=some (Tile.scalar row))
+    (hr : u.regs .int [] "i_bh"=some (Tile.scalar (row:Int)))
     (ht : u.regs .int [c.BT] "times"=some (times h c q)) :
     evalOp (pointerOp h c r strides) u=some (pointer h c row q r strides) := by
   simp only [pointerOp,baseOp,evalOp,hr,ht]
@@ -69,9 +69,13 @@ theorem pointer_eval (h : Call) (c : Config) (row q : Nat) (r : RegionName)
   simp [-Tile.scalar_eta,pointer,times,Strides.address,Strides.base,Tile.bop,Tile.scalar,
     Broadcast.leftIndex,Broadcast.rightIndex,NumericDType.add,NumericDType.mul,
     IntegralDType.floorDiv,IntegralDType.mod]
-  rw [←Int.natCast_ediv,←Int.natCast_emod,←Int.natCast_mul,←Int.natCast_mul,
-    ←Int.natCast_add,←Int.natCast_mul,←Int.natCast_add]
-  rfl
+  have nonnegative : ¬(row:Int)<0 := by omega
+  simp only [NumericDType.sub,nonnegative,↓reduceIte]
+  have remainder : (row:Int)-(h.H:Int)*((row/h.H:Nat):Int)=((row%h.H:Nat):Int) := by
+    simp only [Int.natCast_ediv,Int.natCast_emod,Int.emod_def]
+  simp only [←Int.natCast_ediv]
+  rw [remainder]
+  simp only [←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast]
 
 theorem load_eval (h : Call) (c : Config) (row q : Nat) (input : Nat → ℝ) (u : BlockState)
     (hq : q*c.BT<h.T)

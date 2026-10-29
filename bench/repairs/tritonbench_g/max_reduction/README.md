@@ -33,10 +33,23 @@ No extra floating dtype is selected. Real is the mathematical specification.
 
 ## Sources and implementation equivalence
 
-`Kernels.lean` selects the readable typed Triton DSL quotations shared with
-`bench/tritonbench_g/max_reduction/Kernels.lean`. Both public proof entries
-refer to those exact selections; no handwritten AST is maintained. Reduction
-models are in `Proofs/ReductionModel.lean`, not in the source module.
+`Kernels.lean` directly pastes the three complete, unchanged `@triton.jit`
+function bodies from `max_reduction_repaired.py`. The three bodies in
+`candidate_kernels.py` are newly written native counterparts of the existing
+Lean integer/mask variants, not recovered historical Python. Every cast,
+statement, paired reduction, mask and store remains in source order.
+`jit-correspondence.json` checks all six complete bodies. Pointer storage,
+annotated int32 runtime arguments and constexpr bindings are outside the
+quotations; no Lean declarations or antiquotations are inserted into a body.
+Reduction models remain in `Proofs/ReductionModel.lean`.
+
+`Proofs/Source.lean` re-proves execution of these actual widened sources,
+including both dimension output streams and complete memory effects.
+`Proofs/AccessSafety.lean` checks their actual successor-state traces. The
+address connection uses integer cast identities, without floating conversion
+assumptions. Paired `tl.max(..., return_indices=True)` retains its FP32 value
+result and the existing signed-int64 output-index conversion; lowering does
+not introduce an extra FP32 value cast.
 
 The pre-existing candidates are retained:
 
@@ -120,7 +133,7 @@ the public entries and Tensor bridge. Existing attained-maximum target lemmas we
 
 Targeted Lean builds audit public statement surfaces and theorem axioms against
 the standard base. All three equivalences print an empty floating-assumption
-report. This format pass changes no selected Python, kernel or input contract.
+report. The original Python repair and input contract are unchanged; the Lean sources now retain their original integer casts explicitly.
 The following Python/lowering results are retained prior evidence: `python check_contract.py` passes 71 actual-wrapper/body cases, including
 all block choices, ties, tail blocks, empty outer shapes, noncontiguous
 dimension inputs, rejection paths and allocation/input frames. The Python
@@ -133,11 +146,12 @@ Optional proof entries are in `Misc/`: [TensorBridge.lean](Misc/TensorBridge.lea
 
 The 2026-10-22 source-only cleanup writes all 36 retained canonical typed
 configurations as complete ordinary `triton` quotations: six storage choices,
-two existing source variants, and three kernels. The repair transparently
-selects the same FP32 functions. `Proofs/SourcePreservation.lean` proves complete
-function equality to a frozen proof-only snapshot for each storage and variant,
+two existing source variants, and three kernels. Those generic historical definitions remain unchanged. The repair now uses
+its own raw bodies above. `Proofs/SourcePreservation.lean` proves complete
+function equality of the generic historical sources to a frozen proof-only snapshot for each storage and variant,
 including the public input/output signatures. Negative-infinity padding,
 precision conversions, value/index reduction order, signed-int64 index stores,
 masks, dimensions and all source parameters are identical. Compatibility
-macros only name these ordinary sources. No proof status, mathematical contract,
-candidate, runtime binding or numerical obligation changes in this cleanup.
+macros only name these ordinary sources. This historical snapshot equality is separate from the direct execution and
+address proofs for the current raw repaired sources. Mathematical contracts,
+retained candidate transformations and numerical requirements are unchanged.

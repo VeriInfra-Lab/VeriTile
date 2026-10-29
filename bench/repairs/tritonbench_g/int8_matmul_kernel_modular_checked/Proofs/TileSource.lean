@@ -1,6 +1,7 @@
 import bench.repairs.tritonbench_g.int8_matmul_kernel_modular_checked.Kernels
 import bench.repairs.tritonbench_g.int8_matmul_kernel_modular_checked.Proofs.NativeArithmetic
 import VeriTile.Triton.Float.IntegerDot
+import VeriTile.Triton.Float.StructuralLoopNormalization
 import bench.tritonbench_g.kcache_copy_triton.Proofs.TypedCopy
 
 namespace VeriTile.Bench.Repairs.Int8MatmulKernelModularChecked.TileModel
@@ -23,20 +24,23 @@ def quotedSource (p : Parameters) : ComputeKernel := kernel
   p.rows p.columns p.inner p.inputRowStride p.inputInnerStride p.weightInnerStride p.weightColumnStride
   p.outputRowStride p.outputColumnStride p.blockRows p.blockColumns p.blockInner p.groupRows
 
-/-- The existing frontend records the one leading compile-time assertion as
-an algorithm no-op, which the structural evaluator does not execute. This
-finite projection recognizes only that exact leading metadata node. It keeps
-all ports and every subsequent statement; it never ignores an arbitrary
-conditional. The assertion's configuration predicate is a public premise. -/
+/-- Historical compatibility for the former leading algorithm-only marker.
+Current raw source emission uses an executable ComputeStmt no-op directly and
+`source` below does not apply this projection. This helper still recognizes
+only that exact old leading node, preserving its complete tail and ports. -/
 def compileAssertionProjection : ComputeKernel → ComputeKernel
   | .mk inputs outputs (.alg (.ifThen (.constBool Bool.false) []) :: body) =>
       .mk inputs outputs (.ifThen (.constBool Bool.false) [] :: body)
   | quoted => quoted
 
-def source (p : Parameters) : ComputeKernel := compileAssertionProjection (quotedSource p)
+/-- The current raw quotation executes directly. The historical projection
+above remains available only for the old algorithm-only marker. -/
+def source (p : Parameters) : ComputeKernel := quotedSource p
+
+theorem source_eq_quoted (p : Parameters) : source p = quotedSource p := rfl
 
 theorem quoted_assertion_node (p : Parameters) :
-    (quotedSource p).surfaceBody.head? = some (.alg (.ifThen (.constBool Bool.false) [])) := by rfl
+    (quotedSource p).surfaceBody.head? = some (.ifThen (.constBool Bool.false) []) := by rfl
 
 theorem projection_exact (p : Parameters) : (source p).surfaceBody =
     .ifThen (.constBool Bool.false) [] :: (quotedSource p).surfaceBody.tail := by rfl
@@ -49,28 +53,22 @@ theorem projection_length (p : Parameters) :
 
 def prelude (p : Parameters) := (source p).surfaceBody.take 16
 def outerBody (p : Parameters) : List ComputeStmt := match (source p).surfaceBody[16]? with
-  | some (ComputeStmt.forRangeDyn _ _ _ _ body) => body
+  | some (ComputeStmt.forLoop _ _ body) => body
   | _ => []
 def outerPrelude (p : Parameters) := (outerBody p).take 1
 def innerBody (p : Parameters) : List ComputeStmt := match (outerBody p)[1]? with
-  | some (ComputeStmt.forRangeDyn _ _ _ _ body) => body
+  | some (ComputeStmt.forRange _ _ _ _ body) => body
   | _ => []
 def epilogue (p : Parameters) := (source p).surfaceBody.drop 17
 
-/-- Exact expression retained by the source's dynamic range syntax. -/
-def stepsExpr (p : Parameters) : Op .nat [] :=
-  .div .nat .nil
-    (.sub .nat .nil
-      (.add .nat .nil (.floorDiv .nat .nil (.constNat p.inner) (.constNat 4))
-        (.constNat p.blockInner)) (.constNat 1)) (.constNat p.blockInner)
+/-- The original constexpr bound is evaluated once at specialization. -/
+def stepsExpr (p : Parameters) : Op .nat [] := .constNat p.steps
 
 theorem source_decomposition (p : Parameters) : (source p).surfaceBody =
-    prelude p ++ [.forRangeDyn "i" (.constNat 0) (.constNat 4) (.constNat 1)
-      (outerBody p)] ++ epilogue p := by rfl
+    prelude p ++ [.forLoop "i" 4 (outerBody p)] ++ epilogue p := by rfl
 
 theorem outer_decomposition (p : Parameters) : outerBody p =
-    outerPrelude p ++ [.forRangeDyn "j" (.constNat 0) (stepsExpr p) (.constNat 1)
-      (innerBody p)] := by rfl
+    outerPrelude p ++ [.forRange "j" 0 p.steps 1 (innerBody p)] := by rfl
 
 theorem inner_length (p : Parameters) : (innerBody p).length = 10 := by rfl
 
@@ -106,6 +104,7 @@ def wordDot {m k n : Nat} (a : TileIndex [m,k] → Int) (b : TileIndex [k,n] →
 
 def wrap (width : Nat) (value : Int) : Int := (BitVec.ofInt width value).toInt
 
+#axiomsClean source_eq_quoted
 #axiomsClean source_decomposition
 #axiomsClean quoted_assertion_node
 #axiomsClean projection_exact

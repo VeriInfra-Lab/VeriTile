@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.chunk_cumsum_kernel.Proofs.SourcePreservation
 import bench.repairs.tritonbench_g.chunk_cumsum_kernel.Proofs.Rewrite
 import VeriTile.Triton.Float.StructuralSafetyLoops
 
@@ -24,7 +25,7 @@ private theorem body_safe {α : Type} [Inhabited α] (ops : FPRow.Ops α) (v : B
   obtain ⟨carry,hz⟩ := Option.isSome_iff_exists.mp hz
   cases v <;>
     simp (config := {maxSteps := 300000}) [body,FPIndexBridge.parts,Rewrite.candidateParts,
-      repairedKernel,sumLeftKernel,ComputeKernel.surfaceBody,Source.intRange?,
+      SourcePreservation.original,LegacyKernels.repairedKernel,SourcePreservation.candidate,LegacyKernels.sumLeftKernel,ComputeKernel.surfaceBody,Source.intRange?,
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
       Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
       Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -49,7 +50,7 @@ private theorem body_ready {α : Type} [Inhabited α] (ops : FPRow.Ops α) (v : 
   | «true» =>
     obtain ⟨hp,hz⟩ := ready
     obtain ⟨carry,hz⟩ := Option.isSome_iff_exists.mp hz
-    simp (config := {maxSteps := 300000}) [body,Rewrite.candidateParts,sumLeftKernel,
+    simp (config := {maxSteps := 300000}) [body,Rewrite.candidateParts,SourcePreservation.candidate,LegacyKernels.sumLeftKernel,
       ComputeKernel.surfaceBody,Source.intRange?,run,step,evalExpr,
       evalComputeOp,evalOp_unfold,evalOffsets,store,Option.bind,
       engine,Algebra.withDefaultPrecision,resolvePrecision,FPRow.Ops.algebra,
@@ -88,7 +89,7 @@ theorem trace_safe {α : Type} [Inhabited α] (ops : FPRow.Ops α) (v : Bool)
   unfold TraceSafe
   rw [hsplit,Safety.traceSafeList_append]
   constructor
-  · simp [FPIndexBridge.parts,repairedKernel,ComputeKernel.surfaceBody,Source.intRange?,
+  · simp [FPIndexBridge.parts,SourcePreservation.original,LegacyKernels.repairedKernel,ComputeKernel.surfaceBody,Source.intRange?,
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
       Safety.safeCompute_unfold,Safety.safeOp_unfold,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind]
   · intro t ht

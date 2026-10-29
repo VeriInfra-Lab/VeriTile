@@ -14,12 +14,25 @@ inductive ScalarType where
   | fp32 | fp64 | integer
   /-- Source ABI widths. Per-call integer specialization retains the source
   annotation; native range/refinement obligations remain with the caller IO. -/
-  | i32 | i64
+  | i32 | i64 | u32 | u64
 
 structure CallSignature where
-  pointers : List (String × SourceDType) := []
+  pointers : List (String × PointerType) := []
   scalars : List (String × ScalarType) := []
   constexpr : List String := []
+  /-- Keep the typed FP32 memory channel used by a caller's existing IO.
+  This chooses an interpreter representation, not another source dtype or an
+  extra cast. The default uses the profiled real carrier. -/
+  typedFP32Storage : Bool := Bool.false
+  /-- Select typed FP32 input/output channels individually when the existing
+  IO mixes typed and profiled FP32 memory representations. No source cast is
+  inserted and every named pointer still has source dtype FP32. -/
+  typedFP32Pointers : List String := []
+  /-- Keep a caller's already typed natural-valued integer memory channel.
+  The pointer still has its declared source integer storage dtype. This is a
+  mathematical carrier choice for the existing IO, not a native range proof;
+  the caller must retain its storage-width/nonnegative refinement. -/
+  naturalIntegerPointers : List String := []
   /-- Optional public memory roles when pointer rebinding prevents the legacy
   collector from recovering the original region. These are interface metadata,
   not instructions or claims that an access succeeds. -/
@@ -50,17 +63,18 @@ private def stringValue (value : Expr) : TermElabM String := do
   if let .lit (.strVal s) := value then return s
   throwError "call signature names must be string literals"
 
-private def dtypeValue (value : Expr) : TermElabM Triton.SourceDType := do
+private def dtypeValue (value : Expr) : TermElabM Triton.PointerType := do
   let value ← whnf value
-  let kinds : List (Name × Triton.SourceDType) :=
-    [(``Triton.SourceDType.fp16,.fp16),(``Triton.SourceDType.bf16,.bf16),
-     (``Triton.SourceDType.fp32,.fp32),(``Triton.SourceDType.fp64,.fp64),
-     (``Triton.SourceDType.f8e4,.f8e4),(``Triton.SourceDType.f8e5,.f8e5),
-     (``Triton.SourceDType.i8,.i8),(``Triton.SourceDType.i16,.i16),
-     (``Triton.SourceDType.i32,.i32),(``Triton.SourceDType.i64,.i64),
-     (``Triton.SourceDType.u8,.u8),(``Triton.SourceDType.u16,.u16),
-     (``Triton.SourceDType.u32,.u32),(``Triton.SourceDType.u64,.u64),
-     (``Triton.SourceDType.boolean,.boolean)]
+  let kinds : List (Name × Triton.PointerType) :=
+    [(``Triton.PointerType.fp16,.fp16),(``Triton.PointerType.bf16,.bf16),
+     (``Triton.PointerType.fp32,.fp32),(``Triton.PointerType.fp64,.fp64),
+     (``Triton.PointerType.f8e4,.f8e4),(``Triton.PointerType.f8e5,.f8e5),
+     (``Triton.PointerType.i8,.i8),(``Triton.PointerType.i16,.i16),
+     (``Triton.PointerType.i32,.i32),(``Triton.PointerType.i64,.i64),
+     (``Triton.PointerType.u8,.u8),(``Triton.PointerType.u16,.u16),
+     (``Triton.PointerType.u32,.u32),(``Triton.PointerType.u64,.u64),
+     (``Triton.PointerType.boolean,.boolean),
+     (``Triton.PointerType.inputFloat,.inputFloat),(``Triton.PointerType.outputFloat,.outputFloat)]
   if let some (_,kind) := kinds.find? (fun p => value.isConstOf p.1) then return kind
   throwError "call signature dtypes must be statically known"
 
@@ -71,6 +85,8 @@ private def scalarTypeValue (value : Expr) : TermElabM ScalarType := do
   if value.isConstOf ``ScalarType.integer then return .integer
   if value.isConstOf ``ScalarType.i32 then return .i32
   if value.isConstOf ``ScalarType.i64 then return .i64
+  if value.isConstOf ``ScalarType.u32 then return .u32
+  if value.isConstOf ``ScalarType.u64 then return .u64
   throwError "unsupported runtime scalar type"
 
 private def bindings {α : Type} (decode : Expr → TermElabM α) (value : Expr) :
@@ -190,6 +206,28 @@ private partial def rejectArgumentMutation (names : List Name) (raw : Syntax)
     reject ⟨raw[1]⟩
   for arg in raw.getArgs do rejectArgumentMutation names arg message
 
+/-- Specialize call inputs in statement order. A direct integer-parameter
+assignment reads its entry value on the RHS and binds the original source LHS.
+All later uses read that local register, including after a zero-trip loop.
+Conditional/loop overwrites before definite assignment, tuple/augmented writes
+and FP parameter rebinding remain rejected by the existing mutation checker. -/
+private def bindCallStatements (integers : List Name)
+    (values : List (Name × TSyntax `tritonExpr))
+    (stmts : Array (TSyntax `tritonStmt)) : TermElabM (Array (TSyntax `tritonStmt)) := do
+  let mut current := values
+  let mut result := #[]
+  for st in stmts do
+    if let `(tritonStmt| $id:ident = $rhs:tritonExpr) := st then
+      let name := id.getId.eraseMacroScopes
+      if integers.contains name && current.any (fun value => value.1 == name) then
+        let rhs : TSyntax `tritonExpr := ⟨← liftMacroM <| bindSourceValues current rhs.raw⟩
+        result := result.push (← liftMacroM `(tritonStmt| $id:ident = $rhs:tritonExpr))
+        current := current.filter (fun value => value.1 != name)
+        continue
+    rejectArgumentMutation (current.map Prod.fst) st.raw
+    result := result.push (⟨← liftMacroM <| bindSourceValues current st.raw⟩ : TSyntax `tritonStmt)
+  return result
+
 private partial def assignedNames (raw : Syntax) : List Name := Id.run do
   let mut names := assignmentTargets raw
   if raw.getNumArgs > 1 && raw[0].isAtom && raw[1].isIdent &&
@@ -210,6 +248,15 @@ private partial def staticNatBound (constants assigned : List Name)
   match e with
   | `(tritonExpr| ($inner:tritonExpr)) => staticNatBound constants assigned inner
   | `(tritonExpr| $n:num) => return some (← `(($n : Nat)))
+  | `(tritonExpr| tl.cdiv($a:tritonExpr, $b:tritonExpr)) =>
+      -- Supplied immutable Nat dimensions can determine a range endpoint.
+      -- Mutable source locals remain on the dynamic path. Preserve the
+      -- explicit zero-divisor path used by literal source expressions.
+      if let `(tritonExpr| $zero:num) := b then
+        if zero.getNat == 0 then return none
+      let some a ← staticNatBound constants assigned a | return none
+      let some b ← staticNatBound constants assigned b | return none
+      return some (← `((((($a : Nat) + ($b : Nat) - 1) / ($b : Nat)) : Nat)))
   | `(tritonExpr| $($term:term)) =>
       let value ← elabTerm term none
       if ← isDefEq (← inferType value) (mkConst ``Nat) then return some term else return none
@@ -220,6 +267,79 @@ private partial def staticNatBound (constants assigned : List Name)
       let value ← elabTerm term none
       if ← isDefEq (← inferType value) (mkConst ``Nat) then return some term else return none
   | _ => return none
+
+/-- Finite literal results of an immutable string caller expression. The union
+is conservative: correlations between caller conditions are never assumed. -/
+private partial def finiteStringValues (value : Expr) : TermElabM (List String) := do
+  let value ← instantiateMVars value
+  if let .lit (.strVal s) := value then return [s]
+  if let .fvar id := value then
+    if let some rhs := (← id.getDecl).value? then return ← finiteStringValues rhs
+  if let .letE _ _ rhs body _ := value then
+    return ← finiteStringValues (body.instantiate1 rhs)
+  if let .mdata _ inner := value then return ← finiteStringValues inner
+  if value.isAppOfArity ``ite 5 then
+    let args := value.getAppArgs
+    return ((← finiteStringValues args[3]!) ++ (← finiteStringValues args[4]!)).eraseDups
+  let reduced ← whnf value
+  if let .lit (.strVal s) := reduced then return [s]
+  throwError "string constexpr requires a literal or a finite conditional of string literals"
+
+private abbrev StringChoices := List (Name × List String)
+
+/-- Eliminate only string tests forced by the actual caller's finite literal
+choices and preceding tests on that same immutable name. This lets dtype flow
+see exhaustive if/elif source paths without inventing an else for other values. -/
+private partial def specializeStringBlock (choices : StringChoices)
+    (stmts : List (TSyntax `tritonStmt)) : MacroM (List (TSyntax `tritonStmt)) := do
+  let mut result := []
+  for st in stmts do
+    let branches : Option (TSyntax `tritonExpr × Array (TSyntax `tritonStmt) ×
+        Array (TSyntax `tritonStmt) × Bool) := match st with
+      | `(tritonStmt| if $cond:tritonExpr { $yes:tritonStmt* } else { $no:tritonStmt* }) =>
+          some (cond,yes,no,Bool.true)
+      | `(tritonStmt| if $cond:tritonExpr { $yes:tritonStmt* }) =>
+          some (cond,yes,#[],Bool.false)
+      | _ => none
+    if let some (cond,yes,no,hasElse) := branches then
+      let test : Option (Name × String × Bool) := match cond with
+        | `(tritonExpr| $id:ident == $s:str) => some (id.getId.eraseMacroScopes,s.getString,Bool.true)
+        | `(tritonExpr| $id:ident != $s:str) => some (id.getId.eraseMacroScopes,s.getString,Bool.false)
+        | _ => none
+      if let some (name,literal,equal) := test then
+        if let some (_,values) := choices.find? (fun p => p.1 == name) then
+          let yesValues := values.filter (fun s => (s == literal) == equal)
+          let noValues := values.filter (fun s => (s == literal) != equal)
+          let replace (values : List String) := choices.map (fun p =>
+            if p.1 == name then (name,values) else p)
+          if yesValues.isEmpty then
+            result := result ++ (← specializeStringBlock (replace noValues) no.toList)
+            continue
+          if noValues.isEmpty then
+            result := result ++ (← specializeStringBlock (replace yesValues) yes.toList)
+            continue
+          let yes := (← specializeStringBlock (replace yesValues) yes.toList).toArray
+          let no := (← specializeStringBlock (replace noValues) no.toList).toArray
+          result := result ++ [← if hasElse then `(tritonStmt| if $cond { $yes* } else { $no* })
+            else `(tritonStmt| if $cond { $yes* })]
+          continue
+      let yes := (← specializeStringBlock choices yes.toList).toArray
+      let no := (← specializeStringBlock choices no.toList).toArray
+      result := result ++ [← if hasElse then `(tritonStmt| if $cond { $yes* } else { $no* })
+        else `(tritonStmt| if $cond { $yes* })]
+      continue
+    match st with
+    | `(tritonStmt| for $i:ident in range($a:tritonExpr, $b:tritonExpr, $c:tritonExpr) { $body:tritonStmt* }) =>
+        let body := (← specializeStringBlock choices body.toList).toArray
+        result := result ++ [← `(tritonStmt| for $i in range($a,$b,$c) { $body* })]
+    | `(tritonStmt| for $i:ident in range($a:tritonExpr, $b:tritonExpr) { $body:tritonStmt* }) =>
+        let body := (← specializeStringBlock choices body.toList).toArray
+        result := result ++ [← `(tritonStmt| for $i in range($a,$b) { $body* })]
+    | `(tritonStmt| for $i:ident in range($a:tritonExpr) { $body:tritonStmt* }) =>
+        let body := (← specializeStringBlock choices body.toList).toArray
+        result := result ++ [← `(tritonStmt| for $i in range($a) { $body* })]
+    | _ => result := result ++ [st]
+  return result
 
 /-- Evaluate immutable Nat constexpr quotients at specialization time, as the
 source JIT does for valid compile-time dimensions. Literal zero divisors keep
@@ -236,11 +356,32 @@ private partial def foldStaticNatQuotients (constants assigned : List Name)
     if let some lhs ← staticNatBound constants assigned dividend then
       if let some rhs ← staticNatBound constants assigned divisor then
         return (← liftMacroM `(tritonExpr| $((($lhs:term : Nat) / ($rhs:term : Nat) : Nat)))).raw
+  if let `(tritonExpr| tl.cdiv($a:tritonExpr, $b:tritonExpr)) := expression then
+    if let `(tritonExpr| $zero:num) := b then
+      if zero.getNat == 0 then return next
+    if let some lhs ← staticNatBound constants assigned a then
+      if let some rhs ← staticNatBound constants assigned b then
+        return (← liftMacroM `(tritonExpr| $((((($lhs : Nat) + ($rhs : Nat) - 1) / ($rhs : Nat)) : Nat)))).raw
   if let `(tritonStmt| for $i:ident in tl.static_range($bound:tritonExpr) { $body:tritonStmt* }) := next then
     if let some n ← staticNatBound constants assigned bound then
       return (← liftMacroM `(tritonStmt| for $i in tl.static_range($($n)) { $body* })).raw
     throwErrorAt bound "tl.static_range requires an immutable Nat constexpr bound"
   return next
+
+/-- Normalize only signed range endpoints whose source explicitly widens an
+immutable Nat constexpr. Casts in values stay visible to source ABI/RNG analysis. -/
+private def staticSignedRangeBound (constants assigned : List Name)
+    (e : TSyntax `tritonExpr) : TermElabM (TSyntax `tritonExpr) := do
+  if let `(tritonExpr| tl.cast($value:tritonExpr, tl.int64)) := e then
+    if let some value ← staticNatBound constants assigned value then
+      return ← liftMacroM `(tritonExpr| $((Int.ofNat ($value : Nat) : Int)))
+  return e
+
+/-- A Nat caller/constexpr value has already been substituted by this pass.
+Literal-only source ranges retain their existing dynamic AST representation. -/
+private partial def suppliedRangeBound (raw : Syntax) : Bool :=
+  if let `(tritonExpr| $($_:term)) := raw then Bool.true
+  else raw.getArgs.any suppliedRangeBound
 
 /-- A per-call size has already been supplied before executing the body.
 Select the existing constant-bound range constructor only for known immutable
@@ -248,10 +389,26 @@ Nat bounds. Runtime locals and signed casts retain their dynamic range path. -/
 private partial def specializeRanges (constants assigned : List Name) (raw : Syntax) : TermElabM Syntax := do
   let args ← raw.getArgs.mapM (specializeRanges constants assigned)
   let next := match raw with | .node info kind _ => Syntax.node info kind args | _ => raw
+  if let `(tritonStmt| for $i:ident in range($a:tritonExpr, $b:tritonExpr) { $body:tritonStmt* }) := next then
+    let aa ← staticSignedRangeBound constants assigned a
+    let bb ← staticSignedRangeBound constants assigned b
+    if aa.raw != a.raw || bb.raw != b.raw then
+      return (← liftMacroM `(tritonStmt| for $i in range($aa, $bb) { $body* })).raw
+    -- Preserve the existing dynamic constructor for literal-only source loops.
+    -- A specialized caller endpoint (e.g. range(0,T)) is an explicit antiquote
+    -- by this pass; source literals alone need no representation change.
+    if suppliedRangeBound a.raw || suppliedRangeBound b.raw then
+      if let some start ← staticNatBound constants assigned a then
+        if let some stop ← staticNatBound constants assigned b then
+          return (← liftMacroM `(tritonStmt| for $i in range($($start), $($stop), $((1 : Nat))) { $body* })).raw
   if let `(tritonStmt| for $i:ident in range($n:tritonExpr) { $body:tritonStmt* }) := next then
     if let some n ← staticNatBound constants assigned n then
       return (← liftMacroM `(tritonStmt| tl.for $i in $($n) { $body* })).raw
   if let `(tritonStmt| for $i:ident in range($a:tritonExpr, $b:tritonExpr, $c:tritonExpr) { $body:tritonStmt* }) := next then
+    let aa ← staticSignedRangeBound constants assigned a
+    let bb ← staticSignedRangeBound constants assigned b
+    if aa.raw != a.raw || bb.raw != b.raw then
+      return (← liftMacroM `(tritonStmt| for $i in range($aa, $bb, $c) { $body* })).raw
     if let some a ← staticNatBound constants assigned a then
       if let some b ← staticNatBound constants assigned b then
         if let some c ← staticNatBound constants assigned c then
@@ -296,6 +453,38 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
     (pointerOffsets : Option (Array (TSyntax `tritonCallBinding)) := none) : TermElabM Expr := do
       let profile ← elabTermEnsuringType profile (mkConst ``Triton.CallSignature)
       let pointers ← bindings dtypeValue (← mkAppM ``Triton.CallSignature.pointers #[profile])
+      let storage ← whnf (← mkAppM ``Triton.CallSignature.typedFP32Storage #[profile])
+      let typedFP32 := storage.isConstOf ``Bool.true
+      unless typedFP32 || storage.isConstOf ``Bool.false do
+        throwError "typed FP32 storage selection must be statically known"
+      let typedFP32Names ← (← listValues (← mkAppM ``Triton.CallSignature.typedFP32Pointers #[profile])).mapM stringValue
+      unless typedFP32Names.eraseDups.length == typedFP32Names.length &&
+          typedFP32Names.all (fun name => pointers.any (fun p => p.1 == name && p.2 == .fp32)) do
+        throwError "typed FP32 pointers must be distinct FP32 pointer parameter names"
+      let usesTypedFP32 := typedFP32 || !typedFP32Names.isEmpty
+      -- Family aliases are caller-owned FloatDType values, not constexpr
+      -- scalar expressions and not a promise that every case is FP32.
+      for (kind, familyName) in [(PointerType.inputFloat, "dtype"), (PointerType.outputFloat, "out_dtype")] do
+        if pointers.any (fun p => p.2 == kind) then
+          if familyName == "dtype" && usesTypedFP32 then
+            throwError "inputFloat metadata cannot share the fixed typed-FP32 dtype alias"
+          let value ← elabTerm (mkIdent (Name.mkSimple familyName)) none
+          unless (← whnf (← inferType value)).isConstOf ``Triton.FloatDType do
+            throwError "floating pointer family requires an already typed FloatDType caller alias"
+      let naturalIntegerNames ← (← listValues
+        (← mkAppM ``Triton.CallSignature.naturalIntegerPointers #[profile])).mapM stringValue
+      let integerStorage : List PointerType := [.i8,.i16,.i32,.i64,.u8,.u16,.u32,.u64]
+      unless naturalIntegerNames.eraseDups.length == naturalIntegerNames.length &&
+          naturalIntegerNames.all (fun name => pointers.any
+            (fun p => p.1 == name && integerStorage.contains p.2)) do
+        throwError "natural integer pointers must be distinct integer pointer parameter names"
+      for name in naturalIntegerNames do
+        let id := mkIdent (Name.mkSimple name)
+        let value ← elabTerm (⟨id.raw⟩ : TSyntax `term) none
+        let type ← whnf (← inferType value)
+        unless type.isAppOfArity ``Triton.Region 1 &&
+            type.getAppArgs[0]!.isConstOf ``Triton.TileDType.nat do
+          throwError "natural integer pointer requires an already typed Region .nat caller"
       let scalars ← bindings scalarTypeValue (← mkAppM ``Triton.CallSignature.scalars #[profile])
       let constants ← (← listValues (← mkAppM ``Triton.CallSignature.constexpr #[profile])).mapM stringValue
       let readPorts ← (← listValues (← mkAppM ``Triton.CallSignature.readPorts #[profile])).mapM stringValue
@@ -303,8 +492,13 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
       for ports in [readPorts,writePorts] do
         unless ports.eraseDups.length == ports.length && ports.all (fun name => pointers.any (fun p => p.1 == name)) do
           throwError "memory ports must be distinct pointer parameter names"
+      -- Dtype dataflow must see the same structured if/elif tree as execution.
+      let stmts ← liftMacroM <| stmts.mapM fun st => do
+        return (⟨← Inference.normalizeControlFlow st.raw⟩ : TSyntax `tritonStmt)
       let names := pointers.map Prod.fst ++ scalars.map Prod.fst ++ constants
       unless names.eraseDups.length == names.length do throwError "duplicate name in call signature"
+      if usesTypedFP32 && names.contains "dtype" then
+        throwError "typed FP32 storage reserves the metadata dtype alias"
       for stmt in stmts do rejectBodyMetadata stmt.raw
       let mut values : List (Name × TSyntax `tritonExpr) := []
       let mut fp32Values := Bool.false
@@ -324,18 +518,30 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
                   throwErrorAt value "per-call FP32 literal must have a Real carrier"
                 fp32Values := Bool.true
                 liftMacroM `(tritonExpr| $((VeriTile.Triton.DSL.TypedStores.fp32CallValue $value:term : ℝ)))
-            | .i32 | .i64 | .integer => do
+            | .i32 | .i64 | .u32 | .u64 | .integer => do
+                let sourceKind ← match kind with
+                  | .i32 => `(VeriTile.Triton.Random.IntegerType.i32)
+                  | .i64 => `(VeriTile.Triton.Random.IntegerType.i64)
+                  | .u32 => `(VeriTile.Triton.Random.IntegerType.u32)
+                  | _ => `(VeriTile.Triton.Random.IntegerType.u64)
                 if ← isDefEq dtype (mkConst ``Nat) then
-                  liftMacroM `(tritonExpr| $(($value:term : Nat)))
+                  if kind matches .integer then
+                    liftMacroM `(tritonExpr| $(($value:term : Nat)))
+                  else
+                    liftMacroM `(tritonExpr| $((_root_.VeriTile.Triton.Random.sourceNatCallValue $sourceKind:term $value:term : Nat)))
                 else if ← isDefEq dtype (mkConst ``Int) then
-                  liftMacroM `(tritonExpr| $(($value:term : Int)))
+                  if kind matches .u32 | .u64 then
+                    throwErrorAt value "unsigned per-call integer value must have a Nat carrier"
+                  if kind matches .integer then
+                    liftMacroM `(tritonExpr| $(($value:term : Int)))
+                  else
+                    liftMacroM `(tritonExpr| $((_root_.VeriTile.Triton.Random.sourceIntCallValue $sourceKind:term $value:term : Int)))
                 else throwErrorAt value "per-call integer value must have a Nat or Int carrier"
             | .fp64 => throwErrorAt value "per-call FP64 literal specialization is unsupported; use runtime scalar binding"
           values := values ++ [(name, expression)]
         unless scalars.all (fun (name,kind) =>
             (kind matches .fp32 | .fp64) || values.any (fun p => p.1.toString == name)) do
           throwError "every integer runtime scalar needs an explicit call binding"
-        for stmt in stmts do rejectArgumentMutation (values.map Prod.fst) stmt.raw
       -- A pointer argument may already point into an allocation. This
       -- binds that call value without changing the pasted callee body. Offset
       -- units are elements in the existing region model; native byte/width
@@ -369,6 +575,17 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
       let stmts ← liftMacroM <| Constexpr.lower stmts.toList
       let stmts := stmts.toArray
       let assigned := stmts.toList.flatMap (fun st => assignedNames st.raw)
+      let mut strings : StringChoices := []
+      for constant in constants do
+        let name := Name.mkSimple constant
+        let value ← elabTerm (mkIdent name) none
+        -- Classification must not solve an untyped numeral's carrier as
+        -- String. The existing Nat/Int/Real specialization owns that choice.
+        if (← whnf (← inferType value)).isConstOf ``String then
+          for st in stmts do
+            rejectArgumentMutation [name] st.raw "string constexpr mutation is unsupported"
+          strings := strings ++ [(name, ← finiteStringValues value)]
+      let stmts := (← liftMacroM <| specializeStringBlock strings stmts.toList).toArray
       for stmt in stmts do rejectConstexprIteratorShadow constants stmt.raw
       let stmts ← stmts.mapM fun st => do
         return (⟨← foldStaticNatQuotients (constants.map Name.mkSimple) assigned st.raw⟩ : TSyntax `tritonStmt)
@@ -381,19 +598,31 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
         let id : TSyntax `term := ⟨mkIdent name⟩
         let value ← elabTerm id none
         let dtype ← inferType value
+        -- String comparisons are compile-time Boolean expressions in the DSL.
+        -- Keep the caller's String name visible to that existing compiler;
+        -- finite branch pruning above has already checked its possible values.
+        if (← whnf dtype).isConstOf ``String then continue
         let expression ←
           if ← isDefEq dtype (mkConst ``Nat) then
-            liftMacroM `(tritonExpr| $(($id:term : Nat)))
+            -- Expose actual closed constexpr literals to the source-width
+            -- prepass, which validates legal arange sizes and integer promotion.
+            if let some n ← getNatValue? (← whnf value) then
+              let literal : TSyntax `num := ⟨Syntax.mkNumLit (toString n)⟩
+              liftMacroM `(tritonExpr| $(($literal:num : Nat)))
+            else liftMacroM `(tritonExpr| $(($id:term : Nat)))
           else if ← isDefEq dtype (mkConst ``Int) then
             liftMacroM `(tritonExpr| $(($id:term : Int)))
           else if ← isDefEq dtype (mkConst ``Real) then
             liftMacroM `(tritonExpr| $(($id:term : ℝ)))
           else if ← isDefEq dtype (mkConst ``Bool) then
             liftMacroM `(tritonExpr| $(($id:term : Bool)))
-          else throwError "unsupported constexpr carrier; expected Nat, Int, Real or Bool"
+          else throwError "unsupported constexpr carrier; expected Nat, Int, Real, Bool or a finite String"
         values := values ++ [(name,expression)]
-      let stmts ← liftMacroM <| stmts.mapM fun st => do
-        return (⟨← bindSourceValues values st.raw⟩ : TSyntax `tritonStmt)
+      let integerArguments := scalars.filterMap fun (name,kind) =>
+        match kind with
+        | .integer | .i32 | .i64 | .u32 | .u64 => some (Name.mkSimple name)
+        | _ => none
+      let stmts ← bindCallStatements integerArguments values stmts
       let metadata ← liftMacroM <| stmts.toList.mapM fun st => do
         return (⟨← sourcePortView st.raw⟩ : TSyntax `tritonStmt)
       let (reads, writes) := Metadata.blockRegions metadata
@@ -429,8 +658,21 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
         declarations := declarations.push (← `(tritonStmt| tl.ports inputs=[$inputs,*], outputs=[$outputs,*]))
         for (name, kind) in pointers do
           let id := mkIdent (Name.mkSimple name)
-          let some dt ← dtypeSyntaxOfName? (SourceDType.dtypeName kind)
-            | Macro.throwError "unsupported pointer dtype"
+          if naturalIntegerNames.contains name then
+            -- The existing unsigned storage spelling selects the Nat memory
+            -- carrier in the expression compiler. Source signedness/width
+            -- remains the declared PointerType above; this mathematical view
+            -- introduces neither an instruction nor an unsigned native ABI.
+            -- An explicit source .to(int64) must cast this load, never change
+            -- its underlying memory channel through later address-use hints.
+            declarations := declarations.push (← `(tritonStmt| tl.region $id:ident = tl.uint64))
+            continue
+          let dt ← if (typedFP32 || typedFP32Names.contains name) && kind == .fp32 then
+              `(tritonDType| DTYPE)
+            else do
+              let some dt ← dtypeSyntaxOfName? (PointerType.dtypeName kind)
+                | Macro.throwError "unsupported pointer dtype"
+              pure dt
           declarations := declarations.push (← `(tritonStmt| tl.region $id:ident = $dt:tritonDType))
         for (name, kind) in scalars do
           if values.any (fun p => p.1.toString == name) then continue
@@ -438,6 +680,7 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
           let dtName := match kind with
             | .fp32 => `tl.float32 | .fp64 => `tl.float64
             | .integer | .i64 => `tl.int64 | .i32 => `tl.int32
+            | .u32 => `tl.uint32 | .u64 => `tl.uint64
           let some dt ← dtypeSyntaxOfName? dtName
             | Macro.throwError "unsupported scalar dtype"
           declarations := declarations.push (← `(tritonStmt| tl.param $id:ident : $dt:tritonDType))
@@ -449,17 +692,26 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
             | _ => none
         let body ← TypedStores.lower (pointers.map (fun (name, kind) => (Name.mkSimple name, kind))) scalarTypes stmts.toList
         let emitted := declarations ++ body.toArray
-        `(triton { $emitted* })
+        let compiled ← `(triton { $emitted* })
+        if usesTypedFP32 then
+          -- DTYPE is interface metadata, evaluated before any source statement.
+          let dtype := mkIdent `dtype
+          `(let $dtype:ident : FloatDType := FloatDType.fp32; $compiled)
+        else pure compiled
       let term : TSyntax `term := ⟨← specializeRanges constants assigned term.raw⟩
       let result ← elabTerm term none
       if fp32Values then
         synthesizeSyntheticMVarsNoPostponing
-        let result ← instantiateMVars result
-        checkFP32CallPrecision result
-        -- Erase checked, definitionally identity provenance before publishing IR.
-        return result.replace fun e =>
-          if e.isAppOfArity ``TypedStores.fp32CallValue 1 then some e.appArg! else none
-      return result
+        let checked ← instantiateMVars result
+        checkFP32CallPrecision checked
+      let result ← instantiateMVars result
+      -- ABI provenance has already selected the checked RNG source profile.
+      -- Erase these defined identity adapters from published values, just as
+      -- with the checked FP32 precision marker. The RNG width/domain stays IR.
+      return result.replace fun e =>
+        if e.isAppOfArity ``TypedStores.fp32CallValue 1 then some e.appArg! else
+        if e.isAppOfArity ``Random.sourceIntCallValue 2 ||
+            e.isAppOfArity ``Random.sourceNatCallValue 2 then some e.appArg! else none
 
 elab_rules : term
   | `(with_triton_signature $profile:term in triton $body:tritonPythonBody) => do

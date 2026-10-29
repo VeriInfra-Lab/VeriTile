@@ -1,0 +1,64 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/reversed_cumsum_scalar/reversed_cumsum_scalar_repaired.py",
+    "python_function": "chunk_global_reversed_cumsum_scalar_kernel",
+    "lean": "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Kernels.lean",
+    "lean_definition": "source",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "s",
+          "inputFloat"
+        ],
+        [
+          "o",
+          "outputFloat"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "T",
+        "H",
+        "stride_sb",
+        "stride_sh",
+        "stride_st",
+        "stride_ob",
+        "stride_oh",
+        "stride_ot",
+        "BT"
+      ]
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/reversed_cumsum_scalar/reversed_cumsum_scalar_repaired.py",
+    "python_function": "chunk_global_reversed_cumsum_scalar_kernel_index_commuted",
+    "lean": "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Kernels.lean",
+    "lean_definition": "indexCommuted",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "s",
+          "inputFloat"
+        ],
+        [
+          "o",
+          "outputFloat"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "T",
+        "H",
+        "stride_sb",
+        "stride_sh",
+        "stride_st",
+        "stride_ob",
+        "stride_oh",
+        "stride_ot",
+        "BT"
+      ]
+    }
+  }
+]

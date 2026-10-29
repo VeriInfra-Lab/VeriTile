@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.chunk_cumsum_kernel.Proofs.SourcePreservation
 import bench.repairs.tritonbench_g.chunk_cumsum_kernel.Proofs.FPRow
 
 namespace VeriTile.Bench.Repairs.ChunkCumsumKernel.FPIndexBridge
@@ -81,7 +82,7 @@ theorem body {α : Type} [Inhabited α] (ops : FPRow.Ops α)
   obtain ⟨carry,hz⟩ := Option.isSome_iff_exists.mp hz
   have ha := hi.trans hb
   have hca := hc.trans hz
-  simp (config := {maxSteps := 300000}) [parts,repairedKernel,FPRow.parts,kernel,TypedSource.original,
+  simp (config := {maxSteps := 300000}) [parts,SourcePreservation.original,LegacyKernels.repairedKernel,FPRow.parts,kernel,TypedSource.original,
     ComputeKernel.surfaceBody,Source.intRange?,Source.dynamicRange?,run,step,FP.Structural.evalExpr,
     evalComputeOp,evalOp_unfold,evalOffsets,FP.Structural.store,Option.bind,engine,Algebra.withDefaultPrecision,
     resolvePrecision,FPRow.Ops.algebra,ComputeDType.eraseDType,numeric,numericLt,bop,ofFloat,toFloat,

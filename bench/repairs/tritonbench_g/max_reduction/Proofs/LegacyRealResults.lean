@@ -1,4 +1,5 @@
 import bench.repairs.tritonbench_g.max_reduction.IO
+import bench.repairs.tritonbench_g.max_reduction.Proofs.AlgorithmSource
 import bench.repairs.tritonbench_g.max_reduction.Proofs.Contract
 import bench.repairs.tritonbench_g.max_reduction.Proofs.KernelMath
 import bench.tritonbench_g.max_reduction.Proofs.DimensionIO
@@ -18,7 +19,7 @@ maximizing index, storing FP32 values and signed-int64 indices. The public
 width is the wrapper's next power of two, so no reduction-axis input is
 silently omitted. Flat placements, active access bounds and memory frames are
 part of DimensionIO; K>0 gives distinct output rows. -/
-theorem dimension_math_correct (inp ov oi : RegionName) (M N K BM : Nat)
+theorem legacy_dimension_math_correct (inp ov oi : RegionName) (M N K BM : Nat)
     (hRegions : ov ≠ oi) (hK : 0 < K) :
     Spec.Real (VeriTile.Bench.TritonBenchG.MaxReduction.DimensionIO .fp32 Bool.false
       inp ov oi M N K BM (nextPower N)) := by
@@ -52,11 +53,44 @@ theorem dimension_argmax_correct (M N K BM p k : Nat) (hN : 0 < N)
   KernelMath.dimension_rows M N K BM (nextPower N) p k hN (nextPower_covers N)
     plan hk input s binding
 
-/-- The typed source used by the dimension IO theorem is the same DSL
-source used by FPEquiv, including its signed-index output stream. -/
-theorem dimension_source (inp ov oi : RegionName) (M N K BM BN : Nat) :
-    VeriTile.Bench.TritonBenchG.MaxReduction.dimensionSource .fp32 Bool.false
-      inp ov oi M N K BM BN = dimension inp ov oi M N K BM BN := rfl
+/-- Complete flattened execution has the same success/failure and final
+memory as the prior mathematical source. Integer register carriers differ,
+so this is an evaluated memory connection, not a source AST equality. -/
+theorem dimension_source (A : FlatAlloc) (inp ov oi : RegionName) (M N K BM BN : Nat)
+    (hN : 0 < BN) (s : BlockState) :
+    (exec (A.flattenKernel (dimension inp ov oi M N K BM BN).eraseDType.toAlgKernel) s).map BlockState.mem =
+    (exec (A.flattenKernel (VeriTile.Bench.TritonBenchG.MaxReduction.dimensionSource .fp32 Bool.false
+      inp ov oi M N K BM BN).eraseDType.toAlgKernel) s).map BlockState.mem := by
+  rw [VeriTile.Bench.TritonBenchG.MaxReduction.dimension_flat_exec]
+  exact AlgorithmSource.dimension_memory A inp ov oi M N K BM BN hN s
+
+/-- The retained complete flat-placement mathematical scope now names the
+actual raw repaired source, including both value/index outputs and every
+exterior memory cell. -/
+theorem dimension_math_correct (inp ov oi : RegionName) (M N K BM : Nat)
+    (hRegions : ov ≠ oi) (hK : 0 < K) :
+    Spec.Real (PublicIO.flatDimensionReal inp ov oi M N K BM (nextPower N)) := by
+  intro A hd hr hc s xs hu hi hv hx hpins
+  obtain ⟨t,he,values,frame⟩ := legacy_dimension_math_correct inp ov oi M N K BM hRegions hK
+    A hd hr hc s xs hu hi hv hx hpins
+  have same := dimension_source A inp ov oi M N K BM (nextPower N)
+    (nextPower_positive N) (A.flattenState s)
+  rw [he] at same
+  cases actual : exec (A.flattenKernel
+      (dimension inp ov oi M N K BM (nextPower N)).eraseDType.toAlgKernel) (A.flattenState s) with
+  | none => simp [actual] at same
+  | some u =>
+    have memory : u.mem = t.mem := by simpa only [actual,Option.map_some,Option.some.injEq] using same
+    refine ⟨u,rfl,?_,?_⟩
+    · intro i active
+      simpa only [BlockState.readMem,BlockState.readMemValue,BlockState.readMemTyped,memory] using values i active
+    · intro r o outside
+      change u.mem r o = (A.flattenState s).mem r o
+      rw [memory]
+      exact frame r o outside
+
+#axiomsClean dimension_source
+#axiomsClean legacy_dimension_math_correct
 
 #axiomsClean dimension_math_correct
 #axiomsClean dimension_argmax_correct

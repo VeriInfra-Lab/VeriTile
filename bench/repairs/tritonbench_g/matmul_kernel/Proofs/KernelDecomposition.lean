@@ -1,4 +1,4 @@
-import bench.repairs.tritonbench_g.matmul_kernel.Kernels
+import bench.repairs.tritonbench_g.matmul_kernel.Proofs.SourcePreservation
 
 namespace VeriTile.Bench.Repairs.MatmulKernel.KernelSource
 open VeriTile.Triton

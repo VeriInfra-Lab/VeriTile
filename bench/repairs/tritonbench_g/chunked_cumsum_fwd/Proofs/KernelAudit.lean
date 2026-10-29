@@ -1,3 +1,9 @@
+import bench.repairs.tritonbench_g.chunked_cumsum_fwd.Proofs.KernelContract
+import bench.repairs.tritonbench_g.chunked_cumsum_fwd.Proofs.KernelNumerics
+import bench.repairs.tritonbench_g.chunked_cumsum_fwd.KernelOnly.Correct
+import bench.repairs.tritonbench_g.chunked_cumsum_fwd.KernelOnly.FPEquiv
+import bench.repairs.tritonbench_g.chunked_cumsum_fwd.Proofs.KernelBytes
+import bench.repairs.tritonbench_g.chunked_cumsum_fwd.Proofs.KernelRealTensor
 import bench.repairs.tritonbench_g.chunked_cumsum_fwd.Correct
 import bench.repairs.tritonbench_g.chunked_cumsum_fwd.FPEquiv
 

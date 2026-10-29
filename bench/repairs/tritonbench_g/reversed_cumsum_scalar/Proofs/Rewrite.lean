@@ -8,24 +8,29 @@ noncomputable section
 set_option maxHeartbeats 3600000
 set_option maxRecDepth 24000
 
-/-- Only the two natural row/stride products in the input pointer are commuted. -/
-def candidateBase (H : Nat) (strides : Strides) : Op .nat [] :=
-  .add .nat .nil
-    (.mul .nat .nil (.constNat strides.batch) (.tritonDiv .nat .nil (.ref .nat [] "i_bh") (.constNat H)))
-    (.mul .nat .nil (.constNat strides.head) (.tritonMod .nat .nil (.ref .nat [] "i_bh") (.constNat H)))
+/-- Only the two signed logical row/stride products in the input pointer are commuted. -/
+def candidateBase (H : Nat) (strides : Strides) : Op .int [] :=
+  .add .int .nil
+    (.mul .int .nil (.castNatToInt (.constNat strides.batch))
+      (.tritonDiv .int .nil (.ref .int [] "i_bh") (.castNatToInt (.constNat H))))
+    (.mul .int .nil (.castNatToInt (.constNat strides.head))
+      (.tritonMod .int .nil (.ref .int [] "i_bh") (.castNatToInt (.constNat H))))
 
 def candidatePointer (h : Call) (c : Config) : Op .ptr [c.BT] :=
   .ptrAdd .scalarL (.ptrBase h.input)
-    (.castIntToNat (.add .int .scalarL (.castNatToInt (candidateBase h.H h.inputStrides))
+    (.castIntToNat (.add .int .scalarL (candidateBase h.H h.inputStrides)
       (.mul .int .scalarR (.ref .int [c.BT] "times") (.castNatToInt (.constNat h.inputStrides.time)))))
 
 theorem pointer_step {α : Type} [Inhabited α] (M : Algebra α)
     (h : Call) (c : Config) (u : State α) :
     step M (.assign .ptr [c.BT] "p_s" (.alg (pointerOp h c h.input h.inputStrides))) u =
       step M (.assign .ptr [c.BT] "p_s" (.alg (candidatePointer h c))) u := by
-  cases hi : u.regs .nat [] "i_bh" <;>
+  cases hi : u.regs .int [] "i_bh" <;>
+    cases ht : u.regs .int [c.BT] "times" <;>
     simp [pointerOp,baseOp,candidatePointer,candidateBase,step,FP.Structural.evalExpr,
-      evalOp_unfold,Op.tritonDiv,Op.tritonMod,hi,numeric,bop,Nat.mul_comm]
+      evalOp_unfold,Op.tritonDiv,Op.tritonMod,hi,ht,numeric,numericLt,
+      FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,
+      IntegerExpr.same_left,IntegerExpr.same_right,Int.mul_comm]
 
 def candidateBody (h : Call) (c : Config) : List ComputeStmt :=
   (loopBody h c).take 5 ++

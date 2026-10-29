@@ -1,0 +1,170 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/matmul_kernel/matmul_kernel_repaired.py",
+    "python_function": "matmul_kernel",
+    "lean": "bench/repairs/tritonbench_g/matmul_kernel/Kernels.lean",
+    "lean_definition": "typed",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "c_ptr",
+          "fp32"
+        ],
+        [
+          "a_ptr",
+          "fp32"
+        ],
+        [
+          "b_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "K",
+          "integer"
+        ],
+        [
+          "stride_am",
+          "integer"
+        ],
+        [
+          "stride_ak",
+          "integer"
+        ],
+        [
+          "stride_bk",
+          "integer"
+        ],
+        [
+          "stride_bn",
+          "integer"
+        ],
+        [
+          "stride_cm",
+          "integer"
+        ],
+        [
+          "stride_cn",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE_M",
+        "BLOCK_SIZE_N",
+        "BLOCK_SIZE_K"
+      ],
+      "readPorts": [
+        "a_ptr",
+        "b_ptr"
+      ],
+      "writePorts": [
+        "c_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "M": "cfg.M",
+      "N": "cfg.N",
+      "K": "cfg.K",
+      "stride_am": "cfg.A.sr",
+      "stride_ak": "cfg.A.sc",
+      "stride_bk": "cfg.B.sr",
+      "stride_bn": "cfg.B.sc",
+      "stride_cm": "cfg.C.sr",
+      "stride_cn": "cfg.C.sc"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/matmul_kernel/matmul_kernel_remaining_k.py",
+    "python_function": "matmul_kernel",
+    "lean": "bench/repairs/tritonbench_g/matmul_kernel/Kernels.lean",
+    "lean_definition": "typedRemaining",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "c_ptr",
+          "fp32"
+        ],
+        [
+          "a_ptr",
+          "fp32"
+        ],
+        [
+          "b_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "K",
+          "integer"
+        ],
+        [
+          "stride_am",
+          "integer"
+        ],
+        [
+          "stride_ak",
+          "integer"
+        ],
+        [
+          "stride_bk",
+          "integer"
+        ],
+        [
+          "stride_bn",
+          "integer"
+        ],
+        [
+          "stride_cm",
+          "integer"
+        ],
+        [
+          "stride_cn",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE_M",
+        "BLOCK_SIZE_N",
+        "BLOCK_SIZE_K"
+      ],
+      "readPorts": [
+        "a_ptr",
+        "b_ptr"
+      ],
+      "writePorts": [
+        "c_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "M": "cfg.M",
+      "N": "cfg.N",
+      "K": "cfg.K",
+      "stride_am": "cfg.A.sr",
+      "stride_ak": "cfg.A.sc",
+      "stride_bk": "cfg.B.sr",
+      "stride_bn": "cfg.B.sc",
+      "stride_cm": "cfg.C.sr",
+      "stride_cn": "cfg.C.sc"
+    }
+  }
+]

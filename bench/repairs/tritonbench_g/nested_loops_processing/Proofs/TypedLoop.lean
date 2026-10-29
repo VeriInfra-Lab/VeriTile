@@ -1,7 +1,7 @@
 import bench.repairs.tritonbench_g.nested_loops_processing.Proofs.TypedStep
 
 namespace VeriTile.Bench.Repairs.NestedLoopsProcessing.TypedExecution
-open VeriTile.Triton FP.Structural Kernels
+open VeriTile.Triton FP.Structural Kernels.LegacyPastedSurface
 set_option maxHeartbeats 1000000
 set_option maxRecDepth 10000
 set_option linter.unusedSimpArgs false

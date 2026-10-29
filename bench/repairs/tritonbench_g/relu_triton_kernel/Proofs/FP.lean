@@ -53,7 +53,7 @@ theorem special_words :
     (reference (FP.Value.ofBits .fp32 1)).bits=1 ∧
     (reference (FP.Value.ofBits .fp32 0x80000001)).bits=0 := by decide
 
-#specNonCircular reference avoiding [kernel,Host.runWrapper,Structural.scalar,wordRelu]
+#specNonCircular reference avoiding [kernel, Coordinates.kernel,Host.runWrapper,Structural.scalar,wordRelu]
 #axiomsClean classification
 #axiomsClean scalar_if_local
 #axiomsClean special_words

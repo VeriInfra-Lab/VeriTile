@@ -1,0 +1,50 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/relu_triton_kernel/relu_triton_kernel_repaired.py",
+    "python_function": "relu_kernel",
+    "lean": "bench/repairs/tritonbench_g/relu_triton_kernel/Kernels.lean",
+    "lean_definition": "body",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "x_ptr",
+          "fp32"
+        ],
+        [
+          "out_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "N",
+        "block_size"
+      ]
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/relu_triton_kernel/relu_triton_kernel_repaired.py",
+    "python_function": "relu_inlined_kernel",
+    "lean": "bench/repairs/tritonbench_g/relu_triton_kernel/Kernels.lean",
+    "lean_definition": "inlinedBody",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "x_ptr",
+          "fp32"
+        ],
+        [
+          "out_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "N",
+        "block_size"
+      ]
+    }
+  }
+]

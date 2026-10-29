@@ -1,0 +1,48 @@
+{
+  "task": "max_reduction",
+  "code_commit": "22db3680cfcd55f5305bed58588c2c7fea414dbe",
+  "status": "reviewed_canonical_IO_and_actual_source_transport",
+  "previous_review": {
+    "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/previous-io-organization-review.json",
+    "sha256": "a15c0dea246a3acbf5b024fe58111f0cc4669ef4349306aeaa3f3efda4f31a56"
+  },
+  "canonical_source": {
+    "path": "bench/repairs/tritonbench_g/max_reduction/IO.lean",
+    "sha256": "23eae84c2aa4096c481d454d9c55c99df5cd21763eb1b0d979fe126519580378"
+  },
+  "changes": "stage1Real and stage2Real now name supported projections of the actual raw source. Existing read/write windows, dimensions and masks remain. flatDimensionReal is the retained complete Algorithm/flat-placement value-and-index view, now explicitly naming the actual raw repaired dimension source. Its former generic source result remains separately labelled legacy_dimension_math_correct.",
+  "distinct_views": "The mathematical Algorithm/flat-placement view uses BlockState Real cells and arbitrary FlatAlloc placements. The existing opaque reduction-engine/native ProgramIO view fixes an Engine interpretation and typed channels. These are different encodings and semantic scopes; they share the one authoritative raw kernel and cannot replace each other. No detailed IO record was added to a reader or proof module.",
+  "source_connections": {
+    "Proofs/AlgorithmSource.lean": {
+      "path": "bench/repairs/tritonbench_g/max_reduction/Proofs/AlgorithmSource.lean",
+      "sha256": "b5d0ccd84fcbb67324c4c1b96e971c479f6ea6ee925edaca26f8d1eaa2f0576a"
+    },
+    "Proofs/LogicalIO.lean": {
+      "path": "bench/repairs/tritonbench_g/max_reduction/Proofs/LogicalIO.lean",
+      "sha256": "e27b41c5de5b114589de97eb02ea1ced88d5d57b6e492d9b3bc1b3752b1ffe9d"
+    },
+    "Proofs/LegacyRealResults.lean": {
+      "path": "bench/repairs/tritonbench_g/max_reduction/Proofs/LegacyRealResults.lean",
+      "sha256": "c1fc608f0ba9a267da012bc7931bf9ce86d4baaa1d120f1b9e717d2884d6e9dd"
+    },
+    "Proofs/DimensionIO.lean": {
+      "path": "bench/repairs/tritonbench_g/max_reduction/Proofs/DimensionIO.lean",
+      "sha256": "dae14b9368885172032733eb410c11632ee0356664b43a4e42b180c578a6ec35"
+    },
+    "Proofs/RealIO.lean": {
+      "path": "bench/repairs/tritonbench_g/max_reduction/Proofs/RealIO.lean",
+      "sha256": "49886803a73dcd52a5e04a2429e6877071bc8716d7fca49981461749f357ad0e"
+    }
+  },
+  "validation": {
+    "complete_combined_roots": 2077,
+    "jobs_local_and_independent_clean": 11270,
+    "joint_import": "PASS",
+    "all_41_task_modules": "PASS",
+    "source_closure": {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/source-closure.json",
+      "sha256": "4cd57bf856e28fb040002d7c1d0698be24225bb0d4ad8ddd8ff2e486c43f5d78"
+    }
+  },
+  "limits": "This reviews current IO organization and proof connections; no GPU or new numerical experiment, changed public dimensions/domain, or whole IO AST identity is claimed."
+}

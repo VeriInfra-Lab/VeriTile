@@ -107,8 +107,9 @@ theorem final_offsets (count cols : Nat) (s : State α) :
     middlePrefixState, innerLoopState, innerState, prefixState,
     advances, bump_offsets, initialA_offsets, initialC_offsets]
 
-/-- Exact complete output-cell state of the typed source. This bridge is
-proved by the successful source execution, cache stability and all 24 stores. -/
+/-- Complete output-cell result of the explicit historical skeleton. The
+actual signed source reaches this same complete memory through `SignedMemory`
+and `SourcePreservation`, including all cached loads and 24 stores. -/
 theorem final_output (count cols : Nat) (s : State α) :
     (finalState count cols s).mem "output" =
       logicalRun (.mk .int 0) count cols (inputCells s) (s.mem "output") := by

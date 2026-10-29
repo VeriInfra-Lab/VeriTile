@@ -1,0 +1,132 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/embedding_triton_kernel/embedding_triton_kernel_repaired.py",
+    "python_function": "embedding_kernel_repaired",
+    "lean": "bench/repairs/tritonbench_g/embedding_triton_kernel/Kernels.lean",
+    "lean_definition": "source",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "weight",
+          "fp32"
+        ],
+        [
+          "input_ids",
+          "i32"
+        ],
+        [
+          "out",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "vob_start_id",
+          "i64"
+        ],
+        [
+          "vob_end_id",
+          "i64"
+        ],
+        [
+          "stride_weight_seq",
+          "i64"
+        ],
+        [
+          "stride_out_seq",
+          "i64"
+        ],
+        [
+          "n_ctx",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "hiden_size",
+        "BLOCK_DMODEL",
+        "BLOCK_N",
+        "BLOCK_NN"
+      ],
+      "readPorts": [
+        "weight",
+        "input_ids"
+      ],
+      "writePorts": [
+        "out"
+      ]
+    },
+    "expected_call_bindings": {
+      "vob_start_id": "p.first",
+      "vob_end_id": "p.last",
+      "stride_weight_seq": "p.weightStride",
+      "stride_out_seq": "p.outputStride",
+      "n_ctx": "p.n"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/embedding_triton_kernel/embedding_triton_kernel_repaired.py",
+    "python_function": "embedding_kernel_index_commuted",
+    "lean": "bench/repairs/tritonbench_g/embedding_triton_kernel/Kernels.lean",
+    "lean_definition": "indexCommutedSource",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "weight",
+          "fp32"
+        ],
+        [
+          "input_ids",
+          "i32"
+        ],
+        [
+          "out",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "vob_start_id",
+          "i64"
+        ],
+        [
+          "vob_end_id",
+          "i64"
+        ],
+        [
+          "stride_weight_seq",
+          "i64"
+        ],
+        [
+          "stride_out_seq",
+          "i64"
+        ],
+        [
+          "n_ctx",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "hiden_size",
+        "BLOCK_DMODEL",
+        "BLOCK_N",
+        "BLOCK_NN"
+      ],
+      "readPorts": [
+        "weight",
+        "input_ids"
+      ],
+      "writePorts": [
+        "out"
+      ]
+    },
+    "expected_call_bindings": {
+      "vob_start_id": "p.first",
+      "vob_end_id": "p.last",
+      "stride_weight_seq": "p.weightStride",
+      "stride_out_seq": "p.outputStride",
+      "n_ctx": "p.n"
+    }
+  }
+]

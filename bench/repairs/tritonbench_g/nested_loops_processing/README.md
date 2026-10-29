@@ -56,9 +56,15 @@ words from the same physical-memory API and buffer addresses used in the
 physical execution proof. Arange and zero initialization are constructor
 API facts. There is no assumed final-output equation.
 
-`TypedStep` through `TypedFinish` prove successful `FP.Structural.exec` of
-the actual DSL. `TypedMemory.final_output` connects every cached load and
-store to the independent copy oracle; `final_frame` preserves full cells,
+`SignedStep` through `SignedFinish` prove successful `FP.Structural.exec` of
+the current pasted source, including its signed registers and runtime argument
+initialization. `TypedStep` through `TypedFinish` explicitly describe the
+historical natural-address skeleton. `SignedMemory.finalState_memory` and
+`SourcePreservation` connect both complete original/candidate executions to
+that skeleton, preserving success/failure and every memory cell. Internal
+registers with different types are not equated. `TypedMemory.final_output` then
+connects every cached load and store to the independent copy oracle;
+`final_frame` preserves full cells,
 including dtype tags, outside the output allocation. `KernelResult` proves
 the signed Real result, exact int32 words, four bytes per word, and agreement
 with physical execution for every permitted within-store lane permutation.
@@ -84,7 +90,8 @@ There are no deferred numerical obligations.
 
 ## Validation
 
-All 24 required kernel modules and all 34 repair modules compile. The public
+The earlier validation recorded 24 required kernel modules and 34 repair modules.
+The current full-directory replay is recorded separately in the migration checkpoint. The public
 entries and source/memory/binding bridges pass standard-base axiom audits;
 the target definitions pass the non-circularity checks. A combined import
 audit checks coexistence with the preserved historical entries.
@@ -96,8 +103,10 @@ python bench/repairs/tritonbench_g/nested_loops_processing/check_contract.py
 ```
 
 It executes the actual repaired Python AST with a small adapter over CPU
-Torch int32 storage and mocked CUDA allocation/launch/print. It passes
+Torch int32 storage and mocked CUDA allocation/launch/print. The prior CPU validation reported
 12 guard rejections, 20 admissions, and 16 nonempty program executions.
+This historical result is not a claim that the current environment has Torch
+or that a new CPU/GPU run has passed.
 Each execution observes 14 loads, 24 stores, and 24 barriers, with reversed
 within-store lane order. Cases cover empty/wide-empty, one-column aliases,
 overlapping stores, partial tiles, larger shapes, output guard words,
@@ -138,11 +147,23 @@ Additional optional reader paths: `Misc/KernelRealResult.lean`, `Misc/KernelNati
 `Kernels.lean` now contains complete ordinary `triton` quotations for both the
 original and existing index-commuted kernel. Transparent source aliases retain
 the complete function interface and existing proof unfolding. The whole-source
-macro is removed. Complete old/new function equality is checked by `rfl`; all
-three loops, cache loads, clamping, unique-lane masks, stores and 24 uniform
-barriers remain exactly the same.
+macro was removed in that organization pass. The current raw-body migration
+retains the Python int64 casts and signed address registers; its connection to
+the older natural-address proof is a complete execution/memory theorem in
+`SourcePreservation`, not whole-state or AST identity. All three loops, cached
+loads, clamping, unique-lane masks, stores and 24 uniform barriers remain.
+`SourceSafety` separately checks the actual signed source and its runtime
+argument invariant through every loop successor.
 
 The scoped source-only delivery records targeted dependency builds and a fresh
 joint check of the existing public and optional entries. This organizational
 change does not reopen proof completion, change contracts or add a numerical,
 host, compiler or hardware acceptance requirement.
+
+### 逐句 Python 函数体
+
+原始 Python 不变，Kernels 直接粘贴三层循环的完整函数体，保留三个
+运行整数参数在开头的 int64 cast、四个 arange cast、每次递增、clamp、
+全部 unique/mask、缓存读取、每次 store 和 barrier。三项调用实参在体外；
+保留旧连续输入范围的实际 minor stride = 1，raw quotation 也接收完整实参。
+新 index_commuted.py 仅对应既有 Lean 初始整数乘法候选，来源明确标注。

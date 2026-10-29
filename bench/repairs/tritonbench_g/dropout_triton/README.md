@@ -18,8 +18,12 @@ expressions, masks, loads and stores. Both versions appear in
 
 The ordered floating expression converts the runtime Python float `p` to FP32,
 computes FP32 `1-p`, evaluates `x/(1-p)` eagerly, selects that quotient or zero
-using integer nonzero truthiness, then stores FP32. The DSL's explicit
-same-dtype store cast represents Triton's destination conversion. Division is
+using integer nonzero truthiness, then stores FP32. The actual Python store
+has no explicit cast, and the pasted body adds none. The historical extra
+self-cast is retained only in a labeled proof skeleton. Complete typed-state
+connections use the already-defined identity-cast backend; complete regional
+and flat Real executions and access traces are connected separately. No
+identity law is assumed for an arbitrary floating backend. Division is
 the selected primitive's ordinary Triton FP32 division, not a newly asserted
 correctly rounded IEEE division. Basic literal conversion, arithmetic, casts
 and load/store meaning are modeling boundaries; they are not numerical
@@ -89,8 +93,10 @@ The earlier flat-memory results remain explicitly named
 `Proofs/RealEndpoints.lean`. Their pairwise-disjoint `FlatAlloc`
 premise is stronger than Python admission; they are optional corollaries and
 do not replace the primary alias-permitting result. `Proofs/Region.lean`
-reuses the original regional execution and index-prefix proofs through exact
-canonical source projections, without introducing wrapper or allocator work.
+connects the actual source to the original regional execution and index-prefix
+proofs through complete execution and trace-safety equalities, without
+introducing wrapper or allocator work. Algorithm projection is checked on the
+actual raw source; whole AST identity with the older extra-cast source is not claimed.
 
 The total Real projection uses Lean's total division. It is named separately
 from the conventional partial formula `mathematicalValue`. That independent formula
@@ -159,3 +165,11 @@ numerical replay were not performed.
 
 `Misc/TensorBridge.lean` contains the optional Tensor/check correspondence theorems;
 `Correct.lean` and `FPEquiv.lean` retain the primary kernel specifications.
+
+### 逐句 Python 函数体
+
+两份既有 Python 原始/候选均保持不变，完整函数体直接粘贴。保留
+整数 mask 读取、原条件选择、包括未选分支在内的 eager division、
+原始存储和所有 mask；旧 Lean 多出的 output.to(float32) 不出现在
+实际源码中。FP32 概率、指针类型和 constexpr/调用实参均在体外。
+旧模型仅用于明确的完整语义连接，不作为 Python 权威源码。
