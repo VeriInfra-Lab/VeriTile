@@ -163,4 +163,3 @@ problem drafts (261 LOCAL and 8 TE). Each has its own literal Triton programs,
 typed IO, mathematical contract, and Real/FP goals. The equivalence proofs and
 native backend connections remain unsolved; these drafts do not change the
 completed TritonBench-G counts.
-
