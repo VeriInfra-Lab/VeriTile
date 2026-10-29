@@ -2,7 +2,7 @@
 
 Workspace for VeriTile's port of [TritonBench-G v1](https://github.com/thunlp/TritonBench/tree/main/data/TritonBench_G_v1) — 184 GitHub-scraped real Triton kernels released as the headline channel of TritonBench (ACL 2025 Findings).
 
-This directory holds one subdirectory per kernel. Each subdirectory bundles **upstream Python source + VeriTile DSL port + a per-kernel README**, so a single port lives entirely under one folder.
+This directory holds one subdirectory per kernel. Imported ports bundle **upstream Python source + VeriTile DSL port + a per-kernel README**. The current source catalog distinguishes shared-DSL ports, task-local SC models and repaired candidates; see the current review below.
 
 ## Layout
 
@@ -12,22 +12,150 @@ bench/tritonbench_g/
 └── <kernel_name>/
     ├── README.md                   per-kernel notes (status, gotchas, TODO)
     ├── <kernel_name>.py            upstream Python source (pinned, see Provenance)
-    └── <KernelName>.lean           VeriTile DSL port; namespace `VeriTile.Bench.TritonBenchG.<KernelName>`
+    ├── Kernels.lean                original and candidate Triton sources
+    ├── Correct.lean                real IO contracts and mathematical formulas
+    ├── FPEquiv.lean                admitted-atom FP equivalence and domain
+    ├── FPCorrect.lean              typed operation/value or software-bit contracts
+    └── Proofs/                     execution and supporting lemmas
 ```
 
-The Lean filename is the **CamelCase form** of the directory name (e.g. `vector_addition/` contains `VectorAddition.lean`). The namespace mirrors that — no `.Port` suffix or other padding.
+Current source and public-declaration discovery uses
+[`bench/current_source_catalog.py`](../current_source_catalog.py), including
+`FPCorrect`, `SourceCorrect`, `ConcurrentCorrect` and `ProtocolCorrect` files.
+The historical layout scanner remains available for replaying its own snapshots.
 
-## Status interpretation
+## Current floating-point review
+
+Installed classification: **184 tasks, 58 software bit-value profiles, 125 backend-dependent profiles and one repaired candidate**. The original 41 remains **35 software / 6 backend-dependent**. There are **893 public declarations**: 747 historical plus 146 new (142 value, two frame, one identity, one protocol).
+
+The [Retention source extension](../review-checkpoints/2026-10-15/retention-query-source-proof/README.md) adds full fp32 DQ and sequential DQ/barrier/DK/DV helper contracts after index specialization. Its 20 named axiom checks passed; numerical bindings remain in the [deferred experiment queue](deferred_numerical_experiments.md). No additional software bit-closed task or GPU success is claimed.
+
+The preceding destindex_copy and matrix_transpose contracts prove complete original typed bit values from independent initial memory, including accepted aliases and full frames. Existing scopes and output-address premises remain; fixed witnesses do not substitute for parameterized proofs. See the [current review/table](../review-checkpoints/2026-10-15/raw-copy-software-metadata/README.md), [value ledger](fp_value_current_status.md) and [reproduction guide](../current_source_acceptance.md). Build evidence combines 3,826 revalidated records with eight independent compilations and 44 named axiom checks.
+
+The [previous dequant acceptance](../review-checkpoints/2026-10-15/dequant-int4-source-compiled-software-metadata/README.md) and [native capture package](../review-checkpoints/2026-10-15/dequant-int4-native-characterization/README.md) retain their own scopes; GPU execution remains NOT_RUN. Official comparator replay targets frozen F3's 365 files / 872 headlines, excluding 21 later declarations. No full-batch success or live progress is asserted. The [daily index](../review-checkpoints/2026-10-15/README.md) links frozen results, experiments and remaining work. Historical workflow counts below are unchanged.
+
+## Historical port workflow
 
 A port goes through three stages, tracked per-kernel in `README.md`:
 
-1. **DSL port** — `<KernelName>.lean` follows the **faithful 1:1 transcription** contract for the upstream `.py` kernel in `triton { ... }` syntax. Allowed mechanical Lean-syntax changes are documented in [`review_criteria.md`](./review_criteria.md); explicit translation exceptions are registered in [`completion_audit.md`](./completion_audit.md#remaining-blockers). The port may not compile if it uses DSL surface that has not yet landed — failing-to-compile is the intended signal that the DSL surface needs extension. **Inventory: 173 Python/Lean port pairs; 11 of the 184 work directories are README-only scaffolds.** Compilation and audit evidence is described below.
+1. **DSL port** — `<KernelName>.lean` follows the **faithful 1:1 transcription** contract for the upstream `.py` kernel in `triton { ... }` syntax. Allowed mechanical Lean-syntax changes are documented in [`review_criteria.md`](./review_criteria.md); explicit translation exceptions are registered in [`completion_audit.md`](./completion_audit.md#remaining-blockers). The port may not compile if it uses DSL surface that has not yet landed — failing-to-compile is the intended signal that the DSL surface needs extension. **Inventory: 178 Python/Lean port pairs; 6 of the 184 work directories remain source-import scaffolds.** Staged proof helpers do not count as imported ports. Compilation and audit evidence is described below.
 2. **Spec** — Real-valued mathematical specification of the kernel's intended output is written.
 3. **Verification** — `ComputeCorrect.Realizes` / `ComputeRefine.Realizes` theorem is proved and registered in `scripts/kernel-manifest.tsv`.
 
 Stage 1 is the verbatim transcription contract; reaching stage 3 (verification) requires both the DSL gap to close and a proof to land.
 
-## Current audit state
+## Historical 41-task audit snapshot
+
+The [checked inventory](current_completion_inventory.md) lists all 184 tasks,
+178 imported source pairs and 747 public entry records. These are inventory
+counts, not completed-task counts.
+
+The original 41 mathematical-only tasks now have 118 additional public value
+contracts in their explicitly accepted configuration and stage scopes. The
+[value-contract review](fp_value_repairs.md) distinguishes backend-parametric
+contracts, software bit interpretation and fixed witnesses. Their primitive and
+native bindings remain pending in the [per-task validation list](fp_value_native_tasks.json).
+An empty extra-law list does not establish GPU correctness.
+
+The [remaining model gaps](fp_proof_gaps.md) retain 23 cast/store-only tasks,
+three tasks with a refuted unrestricted rounding identity, and six missing
+source pairs. Existing relative equivalence results and reports retain their
+own conditions; they do not establish independent native value correctness.
+
+Every proof module in the repaired 41 task directories is included in the
+registered library builds. The [historical review](../review-checkpoints/2026-10-14/ACCEPTANCE.zh-CN.md)
+records actual build and gate results with frozen inputs. Historical receipts
+certify their own snapshots. Official independent replay also requires the
+comparator's host isolation support.
+
+```sh
+python3 bench/fp_value_repairs.py --check
+python3 bench/numerical_obligations.py --check
+python3 bench/inventory_tritonbench_g_completion.py --check
+python3 bench/acceptance_tritonbench_g.py --output /tmp/tritonbench-review
+python3 bench/acceptance_tritonbench_g.py --check /tmp/tritonbench-review
+```
+
+The bundle includes all task records, an input archive, gate logs and hashes.
+The acceptance commands return failure for missing sources, failed/skipped gates
+or stale inputs. Passing mechanical checks does not enlarge theorem domains,
+prove native refinement, or discharge pending experimental bindings.
+
+## Historical audit notes (earlier snapshots)
+
+The following notes describe earlier source/proof snapshots. Their wording and
+historical replay counts must not be read as acceptance of the current files;
+several older temporary evidence paths are no longer available.
+
+The [block-padding review](block_padding_review.md) reopened three earlier
+accepted cases because omitted padding was translated as zero. Scalar and
+vector cumsum have now been repaired and independently replayed, including
+proofs that their valid real outputs are independent of arbitrary tail values.
+Dqkg is also repaired and replayed: its real contract retains zero unspecified
+values, and a full-source counterexample shows why that condition is necessary.
+Chunk delta now also has complete source contracts and a checked counterexample
+showing its zero-unspecified-value premise is necessary.
+The historical acceptance ledger recorded 59 cases and 125 pending. That count
+has not been re-established for the current tree. The four older attention
+cases reopened for padding-source alignment now pass the complete repair,
+72-entry rebuild and independent replay; see `verification_round.md`.
+Earlier audit snapshots do not certify later source corrections.
+`chunk_gla_fwd` now has all five complete source/candidate pairs, ten real
+contracts, five conditional FP equivalences and a full-source padding
+counterexample. Its 82-file independent replay is accepted.
+`chunk_gla_simple` also passes its complete source/real/FP review and 13-file
+replay. Its real formula covers every K block, and its FP proof uses only
+`mul_commute`. `chunk_linear_attn` now also passes: all four complete source
+pairs, eight real flat-memory contracts and four conditional FP equivalences,
+with all 19 case/regression files independently replayed. `chunk_retention`
+also passes all four source/real/FP pairs and its 20-file independent replay.
+`chunk_retention_ops` also passes all four pairs, including its distinct
+reverse-state recurrence, three-chunk regression and 10-file replay.
+`chunked_cumsum_fwd` also passes its full finite/default-infinite clamp, real
+flat IO and FP review, with 35-file replay and a six-file follow-up for clamp
+dtype checking. `context_attn_bloom` now also passes its complete real flat IO
+and admitted FP review, typed/signed source checks and 68-file independent
+replay. Its real formula retains the finite causal sentinel and accumulator
+guard. `context_attn_fwd` now also passes both real flat IO contracts, admitted
+FP equivalence, accumulator-dot regressions and 71-file independent replay.
+Llama and Mistral context attention now also pass their complete real/FP
+contracts, source checks and joint 97-file independent replay.
+Nopad context attention and cosine now also pass complete real/FP contracts,
+source checks and joint 59-file independent replay.
+Cross entropy now passes both complete JITs, four real specifications, two FP
+equivalences and 19-file independent replay.
+Scaled cross entropy also passes both complete JITs, the gated z-loss output,
+four real specifications, two FP equivalences and 22-file independent replay.
+Cross entropy ops also passes both complete JITs, the gated z-loss output,
+four real specifications, two FP equivalences and 19-file independent replay.
+Decay cumsum also passes all three complete JITs, six real specifications,
+three FP equivalences and 27-file independent replay.
+Matrix dequantization also passes its complete signed-integer JIT, two real
+specifications, FP equivalence and 13-file independent replay.
+Rowwise dequantization also passes its complete signed-integer source, two real
+specifications, FP equivalence and 10-file independent replay.
+Destination-indexed dual copy also passes its complete signed-metadata source,
+two real specifications, FP equivalence and 14-file independent replay.
+Masked multi-head copy also passes its complete signed-metadata source,
+two real specifications, FP equivalence and 13-file independent replay.
+Head-masked multi-head copy also passes its complete signed-metadata source,
+two real specifications, FP equivalence and 13-file independent replay.
+Diagonal SSM also passes all four typed sources, eight real specifications,
+four FP equivalences and 50-file independent replay.
+Dropout also passes complete typed int32/bool keep sources, two real specifications,
+FP equivalence and 19-file independent replay including the frontend change.
+Embedding also passes the full signed-ID source, arbitrary chunk loop,
+finite flat real contracts, FP equivalence and 16-file independent replay.
+Both fp8 conversion kernels now pass four real specifications, two typed FP
+equivalences, precision/cast checks and 11-file independent replay.
+`fast_ce_loss` now passes three complete source pairs, six real contracts,
+three atom-free FP equivalences and 163-file independent replay. Its capped
+padding and unwritten chunk outputs are explicitly recorded source behaviors;
+ordinary CE and host aggregation correctness are not claimed. `fast_layernorm`,
+`fast_rms_layernorm` and `fast_rope_embedding` also pass their full review and
+52-file replay; source-specific padding, stride and aliasing behavior is
+explicit. `fifth_order_sph_harmonics` is in development. See
+[`verification_round.md`](./verification_round.md).
 
 The current sweep is tracked in [`completion_audit.md`](./completion_audit.md).
 `bench/check_ports.sh` compiles every Python/Lean port pair and requires
@@ -42,10 +170,12 @@ proof blockers should be listed in [`proof_blockers.md`](./proof_blockers.md).
 The stronger #2 proof-status audit is tracked in
 [`proof_gap_manifest.tsv`](./proof_gap_manifest.tsv) and checked by
 [`../check_proof_gap_manifest.py`](../check_proof_gap_manifest.py). That
-manifest covers all 345 headline declarations across 173 ports. The explicit
-2026-09-24 review records 8 `full_value_candidate`, 296 `specialization`,
-37 `precomputed_input_slice`, 3 `pre_rounding_slice`, and 1 `blocked_summary`
-rows. [`coverage_review.json`](./coverage_review.json) records each headline's
+manifest covers public real-correctness and FP-equivalence declarations across
+the 175 imported ports. The review inventory, checked on 2026-10-13, records
+257 `full_value_candidate`, 382 `specialization`, 4 `projection_only`,
+26 `precomputed_input_slice`, 3 `pre_rounding_slice`, and 2 `blocked_summary`
+rows: 674 declarations across 278 public specification files.
+[`coverage_review.json`](./coverage_review.json) records each headline's
 actual scope and checks it against Lean/Python source fingerprints and Python
 function links. Explicit source annotations remain binding; source changes
 require a new review. A candidate label does not certify GPU execution, and
@@ -54,13 +184,18 @@ closing it completed a proof.
 
 ## Build
 
-These ports are intentionally **not** part of the main library glob in `lakefile.toml`. They live alongside the upstream sources in the benchmark workspace. To compile them:
+The migrated directories are importable through the separate
+`TritonBenchGVerified` Lake library. Unmigrated ports remain standalone. Neither
+is part of the default VeriTile library build. To check them:
 
 ```bash
 # all currently-ported kernels
 bench/check_ports.sh
 
-# mechanical audit gates for the current TritonBench-G sweep
+# source/metadata checks without proof replay
+bench/audit_tritonbench_g.sh --source-only
+
+# complete source and proof audit
 bench/audit_tritonbench_g.sh
 
 # reviewed scope classification for every headline declaration
@@ -70,8 +205,9 @@ python3 bench/check_proof_gap_manifest.py
 bench/check_ports.sh vector_addition softmax_triton1
 ```
 
-The port-check script elaborates each `<KernelName>.lean` and requires official
-comparator export/replay, reports per-kernel pass/fail, and exits non-zero on
+The port-check script elaborates every selected Lean file, including nested
+proofs, and requires official comparator export/replay. It reports per-file
+pass/fail and exits non-zero on
 any failure. The aggregate audit combines compilation, Lean trust/statement
 checks, and comparator replay in `bench/audit_trust.sh`, avoiding a duplicate
 port-build pass. The public CI workflow runs the structural and library gates

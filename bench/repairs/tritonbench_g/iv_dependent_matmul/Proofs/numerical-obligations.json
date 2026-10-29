@@ -1,0 +1,110 @@
+{
+  "schema": 1,
+  "task": "iv_dependent_matmul",
+  "candidate": "iv_dependent_matmul_i64.py",
+  "candidate_sha256": "351b0a2ed3d2dca1e1e8e57ecd337f34fe53b85ccb509dc54f13c01894142f78",
+  "target": {
+    "triton": "3.7.1",
+    "gpu": "SM80",
+    "torch_default_dtype": "float32",
+    "input_dtype": "fp32",
+    "accumulator_dtype": "fp32",
+    "terminal_register_dtype": "fp16",
+    "output_allocation_dtype": "fp32",
+    "dot_options_in_source": {},
+    "observed_compiled_input_precision": "tf32",
+    "compiled_mma": "mma.sync.aligned.m16n8k8.row.col.f32.tf32.tf32.f32",
+    "stages": {
+      "post_load_three_iters": 4,
+      "other_documented_selectors": 3
+    },
+    "num_warps": 4
+  },
+  "ports": [
+    {
+      "id": "iv_dependent_matmul_i64.zero",
+      "lean_field": "VeriTile.Bench.Repairs.IvDependentMatmul.Conformance.Calls.zero",
+      "graph": "both",
+      "operation_configuration": "FP32 zero constant",
+      "operand_domain": "initial accumulator lanes and inactive masked operand lanes",
+      "relation": "primitive result bit equality to the configured reference primitive at the reached call",
+      "status": "deferred_native_primitive_conformance",
+      "registered_authority": false,
+      "assumes_output_or_success_or_memory": false
+    },
+    {
+      "id": "iv_dependent_matmul_i64.dot",
+      "lean_field": "VeriTile.Bench.Repairs.IvDependentMatmul.Conformance.Calls.dot",
+      "graph": "source",
+      "operation_configuration": "FP32 operands, compiler-selected TF32 input precision on SM80, FP32 Dot result",
+      "operand_domain": "the exact two masked tiles at k < finite ceil(K/BK)",
+      "relation": "primitive result bit equality to the configured reference primitive at the reached call",
+      "status": "deferred_native_primitive_conformance",
+      "registered_authority": false,
+      "assumes_output_or_success_or_memory": false
+    },
+    {
+      "id": "iv_dependent_matmul_i64.add",
+      "lean_field": "VeriTile.Bench.Repairs.IvDependentMatmul.Conformance.Calls.add",
+      "graph": "source",
+      "operation_configuration": "separate FP32 addition under FP.Config",
+      "operand_domain": "the reached accumulator and returned source Dot value, never fused with DotAcc",
+      "relation": "primitive result bit equality to the configured reference primitive at the reached call",
+      "status": "deferred_native_primitive_conformance",
+      "registered_authority": false,
+      "assumes_output_or_success_or_memory": false
+    },
+    {
+      "id": "iv_dependent_matmul_i64.dotAcc",
+      "lean_field": "VeriTile.Bench.Repairs.IvDependentMatmul.Conformance.Calls.dotAcc",
+      "graph": "compiled",
+      "operation_configuration": "FP32 accumulator; SM80 TF32 MMA operand mode, exact callback schedule/order",
+      "operand_domain": "the same two masked input tiles and reached accumulator tile",
+      "relation": "primitive result bit equality to the configured reference primitive at the reached call",
+      "status": "deferred_native_primitive_conformance",
+      "registered_authority": false,
+      "assumes_output_or_success_or_memory": false
+    },
+    {
+      "id": "iv_dependent_matmul_i64.narrow",
+      "lean_field": "VeriTile.Bench.Repairs.IvDependentMatmul.Conformance.Calls.narrow",
+      "graph": "both",
+      "operation_configuration": "binary32 to binary16; observed cvt.rn.f16x2.f32",
+      "operand_domain": "terminal reached FP32 accumulator at each produced lane",
+      "relation": "primitive result bit equality to the configured reference primitive at the reached call",
+      "status": "deferred_native_primitive_conformance",
+      "registered_authority": false,
+      "assumes_output_or_success_or_memory": false
+    },
+    {
+      "id": "iv_dependent_matmul_i64.widen",
+      "lean_field": "VeriTile.Bench.Repairs.IvDependentMatmul.Conformance.Calls.widen",
+      "graph": "both",
+      "operation_configuration": "binary16 to binary32; observed cvt.f32.f16",
+      "operand_domain": "the actual binary16 result of the preceding narrowing",
+      "relation": "primitive result bit equality to the configured reference primitive at the reached call",
+      "status": "deferred_native_primitive_conformance",
+      "registered_authority": false,
+      "assumes_output_or_success_or_memory": false
+    }
+  ],
+  "composition": "Conformance.host_equal; Conformance.WrapperCalls; Conformance.wrapper_equal; FPEquiv.repaired_whole_wrapper_native_under_local_calls",
+  "configuration_binding_required": true,
+  "forbidden_identifications": [
+    "source Dot+Add = compiled DotAcc",
+    "native TF32 Dot = sequential FP32 software Dot",
+    "rounded FP result = arbitrary exact Real sum"
+  ],
+  "exact_real_auxiliary": {
+    "file": "Proofs/Numerical.lean",
+    "status": "conditional mathematical domain only; generally false on arbitrary rounded inputs",
+    "publicly_imported": false,
+    "native_conformance_obligation": false
+  },
+  "numerical_authorities_changed": false,
+  "original_acceptance_increment": 0,
+  "native_gpu_execution": false,
+  "source_kind": "separate_repair",
+  "repair_kind": "int64_address_widening",
+  "whole_wrapper_scope": "Actual ordinary allocation results, returned C identity/metadata, per-cell values, exact error prefixes/partial state, and complete pre-call frame; only six reached primitive bit fields deferred"
+}

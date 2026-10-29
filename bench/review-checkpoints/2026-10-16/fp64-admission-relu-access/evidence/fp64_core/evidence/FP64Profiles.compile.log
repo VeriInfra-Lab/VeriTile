@@ -1,0 +1,7 @@
+VeriTile.Bench.TritonBenchG.VectorAddition.FP64Profiles.expectedRoutes: definition does not reference [VeriTile.Bench.TritonBenchG.VectorAddition.FP64TypedCore.source,
+ VeriTile.Bench.TritonBenchG.VectorAddition.FP64Profiles.dependencyRoute] — non-circular ✓
+VeriTile.Bench.TritonBenchG.VectorAddition.FP64Profiles.storages_complete: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.VectorAddition.FP64Profiles.profiles_exact: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.VectorAddition.FP64Profiles.profiles_cardinality: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.TritonBenchG.VectorAddition.FP64Profiles.all_routes_match: axiom footprint ⊆ standard base ✓  ([propext])

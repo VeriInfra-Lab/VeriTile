@@ -1,0 +1,47 @@
+/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/bench/tritonbench_g/add_example/Proofs/FiniteSource.lean:164:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  applyWrites ?ops ?d
+    (List.map (fun lane => { address := ?addresses lane, value := ?values lane }) (List.filter ?mask ?lanes)) ?s
+in the target expression
+  List.foldl
+      (fun memory lane =>
+        if (BitVec.ofNat 32 pid * 4#32 + BitVec.ofNat 32 lane).slt (BitVec.ofNat 32 n) = «true» then
+          ops.write memory (views O).dtype ((views O).at (BitVec.ofNat 32 pid * 4#32 + BitVec.ofNat 32 lane))
+            (compute
+              (if (BitVec.ofNat 32 pid * 4#32 + BitVec.ofNat 32 lane).slt (BitVec.ofNat 32 n) = «true» then
+                ops.read s (views X).dtype ((views X).at (BitVec.ofNat 32 pid * 4#32 + BitVec.ofNat 32 lane))
+              else undef)
+              (if (BitVec.ofNat 32 pid * 4#32 + BitVec.ofNat 32 lane).slt (BitVec.ofNat 32 n) = «true» then
+                ops.read s (views Y).dtype ((views Y).at (BitVec.ofNat 32 pid * 4#32 + BitVec.ofNat 32 lane))
+              else undef))
+        else memory)
+      s (List.range 4) =
+    applyWrites ops (views O).dtype (uncheckedWrites ops compute (views X) (views Y) (views O) n pid s) s
+
+case e_val
+M A : Type
+ops : MemoryPrimitives M A
+compute : A → A → A
+views : RegionName → PhysicalView
+undef : A
+X Y O : RegionName
+n pid : ℕ
+s : M
+⊢ List.foldl
+      (fun memory lane =>
+        if (BitVec.ofNat 32 pid * 4#32 + BitVec.ofNat 32 lane).slt (BitVec.ofNat 32 n) = «true» then
+          ops.write memory (views O).dtype ((views O).at (BitVec.ofNat 32 pid * 4#32 + BitVec.ofNat 32 lane))
+            (compute
+              (if (BitVec.ofNat 32 pid * 4#32 + BitVec.ofNat 32 lane).slt (BitVec.ofNat 32 n) = «true» then
+                ops.read s (views X).dtype ((views X).at (BitVec.ofNat 32 pid * 4#32 + BitVec.ofNat 32 lane))
+              else undef)
+              (if (BitVec.ofNat 32 pid * 4#32 + BitVec.ofNat 32 lane).slt (BitVec.ofNat 32 n) = «true» then
+                ops.read s (views Y).dtype ((views Y).at (BitVec.ofNat 32 pid * 4#32 + BitVec.ofNat 32 lane))
+              else undef))
+        else memory)
+      s (List.range 4) =
+    applyWrites ops (views O).dtype (uncheckedWrites ops compute (views X) (views Y) (views O) n pid s) s
+VeriTile.Bench.TritonBenchG.AddExample.Finite.original_ast_lowering: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.AddExample.Finite.fold_source_stores: axiom footprint ⊆ standard base ✓  ([propext])
+/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/bench/tritonbench_g/add_example/Proofs/FiniteSource.lean:173:0: error: VeriTile.Bench.TritonBenchG.AddExample.Finite.source_program_reduction: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

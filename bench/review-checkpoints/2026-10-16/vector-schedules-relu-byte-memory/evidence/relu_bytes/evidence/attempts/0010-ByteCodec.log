@@ -1,0 +1,32 @@
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.ByteMemory.loadLE: definition does not reference [VeriTile.Bench.TritonBenchG.ReluTritonKernel.TypedValue.source,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.GatedGrid.runGrid,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.ByteMemory.load_bit: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.ByteMemory.load_congr: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.ByteMemory.store_byte: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.ByteMemory.store_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.ByteMemory.load_store: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.ByteMemory.split_load: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.ByteMemory.store_load: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.ByteMemory.input_word_roundtrip: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.ByteMemory.input_bytes_roundtrip: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.ByteMemory.finite_pointer_load: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.ByteMemory.finite_pointer_store: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

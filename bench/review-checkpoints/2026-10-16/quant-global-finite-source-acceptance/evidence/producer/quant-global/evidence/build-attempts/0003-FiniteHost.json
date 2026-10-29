@@ -1,0 +1,25 @@
+{
+  "module": "bench.tritonbench_g.quantize_global.FiniteHostCorrect",
+  "source_sha256": "eb38b5e05666b229b53f90489503e73f15eae3fdc67522ae53859727d48360ff",
+  "saved_source": "evidence/build-attempts/0003-FiniteHost.lean.txt",
+  "command": [
+    "/tmp/veritile-lean-toolchain/bin/lean",
+    "--root=/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/frozen-v2/overlay",
+    "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/frozen-v2/overlay/bench/tritonbench_g/quantize_global/FiniteHostCorrect.lean",
+    "-o",
+    "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/frozen-v2/overlay/bench/tritonbench_g/quantize_global/FiniteHostCorrect.olean"
+  ],
+  "LEAN_PATH": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/frozen-v2/overlay:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean",
+  "exit_code": 0,
+  "seconds": 2.5005021560937166,
+  "log": "evidence/build-attempts/0003-FiniteHost.log",
+  "log_sha256": "5e2a90d9d8e444f397bf54725b632d61f51855e3260a5b5f76bd08fb51697c7e",
+  "source_unchanged": true,
+  "compiled_artifacts": [
+    {
+      "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/frozen-v2/overlay/bench/tritonbench_g/quantize_global/FiniteHostCorrect.olean",
+      "sha256": "0fcf6570033b7ad3d01a37a934267657cd324d5406109f99bca67e606fd60e36",
+      "bytes": 1145440
+    }
+  ]
+}

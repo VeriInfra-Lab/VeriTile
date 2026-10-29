@@ -1,0 +1,22 @@
+QuantTransposeFinite.NativeResult: definition does not reference [QuantTransposeFinite.executeNativeAPI,
+ QuantTransposeFinite.executeNativeHost,
+ QuantTransposeFinite.executeNativeTrials,
+ QuantTransposeFinite.executeNativeGrid,
+ QuantTransposeFinite.executeNativeProgram,
+ QuantTransposeFinite.source,
+ QuantTransposeFinite.Expr.eval] — non-circular ✓
+QuantTransposeFinite.native_host_all_outcomes: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+QuantTransposeFinite.native_cpu_pointer_before_launch: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+QuantTransposeFinite.native_context_before_grid: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+QuantTransposeFinite.native_admitted_route: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+QuantTransposeFinite.native_grid_rejection: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+QuantTransposeFinite.native_small_dtype_inventory: axiom footprint ⊆ standard base ✓  ([propext])
+QuantTransposeFinite.native_grid_before_pointer: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+QuantTransposeFinite.cpu_oversized_grid_first_error: axiom footprint ⊆ standard base ✓  ([propext])
+QuantTransposeFinite.cpu_small_grid_pointer_error: axiom footprint ⊆ standard base ✓  ([propext])
+QuantTransposeFinite.cpu_half_compilation_before_oversized_grid: axiom footprint ⊆ standard base ✓  ([propext])
+QuantTransposeFinite.native_rejected_source_outcome: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

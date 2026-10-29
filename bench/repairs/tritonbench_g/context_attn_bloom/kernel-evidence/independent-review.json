@@ -1,0 +1,114 @@
+{
+  "task": "context_attn_bloom",
+  "reviewer": "/root/cross_entropy1_kernel",
+  "status": "accepted_with_documented_numerical_compiler_cache_and_resource_boundaries",
+  "blocking_findings": [],
+  "decision": "ACCEPT the revised frozen package for its declared kernel-only shared-source exact-Real result and fixed native Tensor/byte result with full frames. The initial operand-order finding is resolved. Parent owns canonical selection and ledger integration. No whole-domain SM80 execution claim is accepted.",
+  "delivery": {
+    "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_bloom/kernel-evidence/delivery.json",
+    "sha256": "8c9321c5ce96560d773b801b68f415075ac30e9438c742f4c68efd912d56c932"
+  },
+  "verification": {
+    "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_bloom/kernel-evidence/independent-verification.json",
+    "sha256": "7516444ab127a11e70214becd4fa3906afdc6e022f6d42eb5e94ee5ac9f93dc5"
+  },
+  "read_only_verifier": {
+    "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_bloom/kernel-evidence/independent_review_verify.py",
+    "sha256": "cabac047169a516ab3f5a985d5cdadbc81f4427561d699645f3b58193d8f4181"
+  },
+  "resolved_finding_record": {
+    "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_bloom/kernel-evidence/independent-review-findings.json",
+    "sha256": "daea2344f122d3abd101f871d27ad7188e30a91791d50d0fa0f6fd004a213c6b"
+  },
+  "independent_findings": [
+    {
+      "topic": "Selected source, precision and preservation",
+      "assessment": "PASS",
+      "evidence": "Selected Python SHA remains 9b80a67487612a00769133e0794cea1f39b61ee23cbf02fedbaf61d661d7faee. Independently erased only tl.int64 index widening and compared the whole _fwd_kernel AST with the original. All 36 retained entry files are byte-identical. Removing the one context_attn_fwd FPSuccess compatibility import from Whole001/FPCore.lean reproduces its historical hash. The shared quotation preserves grouped heads, page loads, all masks, finite sentinel, FP32 probability cast, guarded accumulator retention and both live dot updates."
+    },
+    {
+      "topic": "Payload-independent compiler profile",
+      "assessment": "PASS after revision",
+      "evidence": "KernelNative.form discards raw-word and Real-literal payloads. Plan routing depends only on producer edge and owner; cross-warp selection depends on dimensions/tile size; reduction trees depend on width and owner; multiplication reversal sees only Form. selector_payload_independent proves invariance under arbitrary raw-word/literal replacement. The public endpoint supplies no caller Plan or Profile."
+    },
+    {
+      "topic": "Resolved QK/PV orientation overlap",
+      "assessment": "RESOLVED",
+      "evidence": "The first frozen package reversed old PV accumulator times literal-one retention on a reachable future tile. The owner restricted the QK addition seed to Form.literal and added pv_literal_factor_order, an rfl equality of actual Native.lower preserving the old PV output on the left. Reviewed the exact source delta against the preserved initial archive and verified the two current corrective build receipts and explicit standard-base audit of this theorem. No numerical payload inspection or commutativity premise was added."
+    },
+    {
+      "topic": "Ordered reduction topology and live MMA seeds",
+      "assessment": "PASS",
+      "evidence": "Independently parsed 34 concrete Lean tree definitions and checked all 10 complete trees against the adjacent-pair/local left-fold, XOR2/1 warp and XOR4/2/1 shared-broadcast structures. The saved static all-thread audit checks 102400 max coordinates and 11008 sum replicas across ten profiles, scalar/FMA operand orientation, shared producer routes, live first PV seeds and K8 counts. Native.dot explicitly folds fixed m16n8k8 TF32 coordinates with the previous accumulator seed and zero-padded absent lanes. No whole-dot numerical port exists."
+    },
+    {
+      "topic": "Actual source execution to independent native result",
+      "assessment": "PASS",
+      "evidence": "FPReference inputs contain original arrays, pages and launch metadata; advance/iterate/output are a separately written tile recurrence. Prelude/body/complete/grid proofs execute the complete shared structural DSL and establish equality to that recurrence. KernelOnly.run consumes the actual resulting graph; nativeTarget is source-execution independent and uses the checked launch-scale table. native_tensor assumes neither source success nor final output equality."
+    },
+    {
+      "topic": "Independent exact Real target",
+      "assessment": "PASS",
+      "evidence": "The target is Public.normalizedBlocks through Checked.mathematical: natural exponential prefix sums, finite -100000000 sentinel, padded zero V and the source future-tile retention guard. It does not use a source interpreter or running maximum. The theorem establishes actual shared-source grid execution, flattened execution, all active mathematical values, complete logical coverage and frames for arbitrary Real arrays. Saved distinguishing CPU controls establish 5/63 for the finite-sentinel example and 1+7/128 versus 71/128 for future-tile retention; these were reviewed without rerunning them."
+    },
+    {
+      "topic": "Original Tensor inputs, output bytes and full frame",
+      "assessment": "PASS",
+      "evidence": "input_tensor connects original logical input Tensor words to physical reads under the ordinary storage/layout/role interfaces. Returned.whole_bytes uses successful actual source execution and its final memory; address_unique derives the active byte writer from checked geometry. CheckedTensor.logical_output reconstructs the original output Tensor word from those four bytes and the original data pointer. native_tensor proves active output words, every active output byte, every exterior physical byte, all read windows, tagged memory frame and complete no-work byte equality."
+    },
+    {
+      "topic": "Premises and numerical scope",
+      "assessment": "PASS within declared boundary",
+      "evidence": "MachineFacts is derived from checked geometry, observed initial signed metadata, storage binding and labels. Public native premises expose only nine instruction-local WordISA families, ordinary Tensor/storage/role interfaces and LaunchScale.Bound. Actual runtime scale is FP32 in all ten native binder records; the saved scalar check covers all 241 widths. Raw NaNs, infinities and signed zeros are allowed by the structural native theorem. No native-equals-Real result or error bound is asserted."
+    },
+    {
+      "topic": "Actual binder and frozen evidence",
+      "assessment": "PASS",
+      "evidence": "Reviewed the actual wrapper AST capture, unchanged JIT signature/body, normal native specialization and _pack_args invocation. Independently checked all ten saved profile signatures, source-selected tile/warp/stage constants, TF32 precision, fusion flag, K8 counts and forty artifact pins. Verified 534 frozen file pins and each of 535 archived members against current bytes. Reviewed existing CPU/compilation/topology logs; no historical experiments or builds were rerun."
+    },
+    {
+      "topic": "Current source/object consistency",
+      "assessment": "PASS with reused-cache boundary",
+      "evidence": "Verified all 37 current task receipt source hashes and object hashes; 35 receipts remain from the complete build and KernelProfile/KernelOnly are from the corrective build. Independently reconstructed the 428-source public closure and 432-source all-task closure, resolved every effective object using receipt LEAN_PATH and checked all 372 available .ilean direct-import lists. The 60 missing .ilean files belong only to reused dependencies and are fully inventoried."
+    }
+  ],
+  "validation_summary": {
+    "frozen_file_pins": 534,
+    "archive_members_byte_verified": 535,
+    "historical_files_byte_preserved": 36,
+    "fresh_task_receipts_verified": 37,
+    "public_repository_source_closure": 428,
+    "all_task_module_repository_source_closure": 432,
+    "effective_repository_objects_inventoried": 432,
+    "source_ilean_direct_imports_checked": 372,
+    "build_log_axiom_checks": 78,
+    "review_fix_log_axiom_checks": 6,
+    "statement_log_axiom_checks": 4,
+    "build_log_noncircular_checks": 7,
+    "review_fix_log_noncircular_checks": 1,
+    "review_fix_current_module_receipts": 2,
+    "native_artifact_pins_checked": 40,
+    "saved_topology_max_coordinates": 102400,
+    "saved_topology_sum_replicas": 11008
+  },
+  "nonblocking_boundaries": [
+    "B128/D256 requires 327680 shared bytes, above the SM80 architectural per-CTA opt-in bound of 166912. The saved Triton runtime check rejects requirements above the selected device limit. This is an explicit external resource applicability limit, not a static-source defect or a request to add a guard. The existing Python guard remains unchanged. Full admitted-domain SM80 launch success is not established; no device-property query or GPU execution was performed.",
+    "The compiler connection is a trusted instruction-pattern boundary supported by ten representative actual-wrapper/native-binder artifacts, not a proof of compiler internals or universal compilation. The source initial 0 + -inf versus compiler-folded -inf requires the documented local scalar-add identity.",
+    "Nine local numerical instruction families, including one fixed K8 TF32 output coordinate, remain deferred. This review adds no primitive numerical experiment, error bound or Real-to-native equality claim.",
+    "Only the 37 current task modules have fresh task receipts. The remaining effective objects are reused cache. Current source hashes and effective object hashes are inventoried; available .ilean direct imports match source, while 60 sidecars are absent. The package and review do not claim a cold rebuild of the full transitive Lean/Mathlib environment.",
+    "Initial metadata observation, Tensor layout laws, physical storage windows, role labels and LaunchScale.Bound are ordinary kernel interfaces. The Real theorem concerns arbitrary Real arrays and tagged/flattened memory; the native theorem supplies original FP32 Tensor and byte readback. Full Python launcher execution is outside this package."
+  ],
+  "review_execution": {
+    "read_only_verification_session": 55983,
+    "exit_code": 0,
+    "first_review_verifier_session": 72422,
+    "first_review_verifier_exit_code": 1,
+    "first_verifier_failure": "The review parser initially included an adjacent Lean theorem in a concrete tree definition. Corrected the review-only parser, separately checked all 34 tree definitions, and the complete final read-only verification passed. This was distinct from the real QK/PV orientation finding, which the owner fixed and rebuilt.",
+    "source_modified_by_reviewer": false,
+    "core_Lake_ledger_or_selection_modified_by_reviewer": false,
+    "recompiled_by_reviewer": false,
+    "historical_compiler_CPU_or_primitive_experiments_rerun": false,
+    "GPU_execution": false
+  },
+  "frozen_delivery_unchanged_after_review": true
+}

@@ -135,6 +135,7 @@ def safeOp {α : Type} [Inhabited α] (M : Algebra α) (p : Option ComputeDType)
   | .libdevicePowi _ a b => safeOp M p bounds s a ∧ safeOp M p bounds s b
   | .where c a b => safeOp M p bounds s c ∧ safeOp M p bounds s a ∧ safeOp M p bounds s b
   | .ite c a b => safeOp M p bounds s c ∧ safeOp M p bounds s a ∧ safeOp M p bounds s b
+  | .reduceMin _ _ a => safeOp M p bounds s a
   | .reduceMax _ _ a => safeOp M p bounds s a
   | .reduceMaxNat _ _ a => safeOp M p bounds s a
   | .reduceMaxInt _ _ a => safeOp M p bounds s a

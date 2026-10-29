@@ -1,0 +1,86 @@
+{
+  "status": "passed",
+  "source_sha256": "0ceaf829e152415896fea92229c45c00f34ade1ff5f0da7aaefa8769a84c5957",
+  "kernel_ast_identical": true,
+  "source_ast_sha256": "8fb8a67d2d9fe2b9e811cef9243e97ffb69c06fdead4941fd29f12a80f918004",
+  "triton_version": "3.7.1",
+  "primitive_files": {
+    "/usr/local/lib/python3.12/site-packages/triton/language/semantic.py": "22b7669ff8ba591fc1540ce01a4030cf54aa2dccfdb21c2d31fa55d5cab77c7c",
+    "/usr/local/lib/python3.12/site-packages/triton/language/core.py": "373eebe68a4c1f6959c81ae6c382b65c5c2893d53274a205f5ff9bbb100fb31b"
+  },
+  "signature": {
+    "M": "*fp16",
+    "Out": "*fp16",
+    "matrix_stridex": "i32",
+    "matrix_stridey": "i32",
+    "out_stridex": "i32",
+    "out_stridey": "i32"
+  },
+  "target": {
+    "backend": "cuda",
+    "arch": 90,
+    "warp_size": 32
+  },
+  "options": {
+    "num_warps": 4,
+    "num_ctas": 1,
+    "num_stages": 3,
+    "warp_size": 32,
+    "maxnreg": null,
+    "ptx_version": null,
+    "ptx_options": null,
+    "ir_override": null,
+    "enable_fp_fusion": true,
+    "enable_reflect_ftz": true,
+    "launch_cooperative_grid": false,
+    "launch_pdl": false,
+    "supported_fp8_dtypes": [
+      "fp8e4b15",
+      "fp8e4nv",
+      "fp8e5"
+    ],
+    "deprecated_fp8_dot_operand_dtypes": [
+      "fp8e4b15"
+    ],
+    "default_dot_input_precision": "tf32",
+    "allowed_dot_input_precisions": [
+      "tf32",
+      "tf32x3",
+      "ieee",
+      "bf16x3",
+      "bf16x6"
+    ],
+    "max_num_imprecise_acc_default": 1073741824,
+    "extern_libs": [
+      [
+        "libdevice",
+        "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+      ]
+    ],
+    "debug": false,
+    "backend_name": "cuda",
+    "sanitize_overflow": true,
+    "arch": "sm90",
+    "instrumentation_mode": ""
+  },
+  "successful_pairs": 231,
+  "all_individually_legal_pairs": 441,
+  "product_limit_rejections": 210,
+  "additional_boundary_rejections": 14,
+  "successful_domain": "m=2^a,d=2^b,a>=0,b>=0,a+b<=20",
+  "frontend_only": true,
+  "native_backend_execution": false,
+  "gpu_execution": false,
+  "artifacts": {
+    "extracted_kernel.py": "c88dc539ce4868a8818360f7b39c43daf78c503009be7d2b003c1e1f12138180",
+    "source-1x1048576.ttir": "3db7b8f3ea9efab6825e1fe68544bf30d7bd9469ec9a92df6f5471bb2db24ec9",
+    "source-1024x1024.ttir": "c6d6e4c7951756c4a816946606e2bb3fa57c1070e9b4f4d64a2a7316e79688aa",
+    "source-1x1.ttir": "048f22b2ce4b928c2ada177a54c526179c7cd1796b80de276d0b400332bd0252",
+    "source-1048576x1.ttir": "052a71ea5dfd35cbb83db68a010b3ffbab4d9f229615225cce1f96088c44425a",
+    "source-32x64.ttir": "5d37583feae530043ee5597b184b9e7fc8c8aa9813b8d14baf5ed6ff1f03b957",
+    "frontend-rejections.json": "7f5962de10d9e702a84806c24ada8b2bbcdd93ae93899537010d01d3a6f49e81",
+    "frontend-success.json": "05a9d595c3737797b94c23a672f0d6e8b2236777795085ccc6c15416f98cd6cc",
+    "source-16x16.ttir": "726443e41bdfbd346c82c5fad74bb9c18ed864355aaf98101e325b45fac19718",
+    "trusted-frontend-primitives.json": "106f1372c08d81aa99d56c8991f167e9dff8a26d0392a2b5d025366c61d018b9"
+  }
+}

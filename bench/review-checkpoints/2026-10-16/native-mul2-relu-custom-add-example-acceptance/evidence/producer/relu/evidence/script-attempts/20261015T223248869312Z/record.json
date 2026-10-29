@@ -1,0 +1,9 @@
+{
+  "script": "propose.py",
+  "exit_code": 0,
+  "artifacts": {
+    "console.log": "61f31c5df549de1f57423dc7a48995372e108a2512003ba6d39f9e3440e5eb84",
+    "propose.py.txt": "2086e5cb544e2db9dfaef10c4507cbd7a2a7f32813785ed90a1414c2ff826b61",
+    "authority_adapter.py.txt": "e63079d2fe513cea98009c2ee0962159aea2f593c14974ab252f226d52aeb24b"
+  }
+}

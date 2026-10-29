@@ -1,0 +1,12 @@
+{
+  "task": "token_softmax_llama",
+  "files": {
+    "bench/tritonbench_g/token_softmax_llama/token_softmax_llama.py": "0fa02ee678899b4524478c77876bd07c331494faf2320e76f5f7669d458a1f41",
+    "bench/tritonbench_g/token_softmax_llama/FPCorrect.lean": "59d3b113eab85bf25bba634314738d9f41152bf0b462a1e5161a3dd867cfe35d",
+    "bench/tritonbench_g/token_softmax_llama/TokenSoftmaxLlama.lean": "6dd633e57e5fdb3e6df6283724b684ff6a103d1779046427f37eca42979b136e",
+    "bench/tritonbench_g/token_softmax_llama/Proofs/TypedShape.lean": "cb9f8897e547db3e55e0d86073179dd6e0de3543971419d5a3eb1f5d454feac6",
+    "bench/tritonbench_g/token_softmax_bloom/Proofs/TypedSource.lean": "4c93e1493b6d7f40c7240422432a56d7a21c5a3dfe18bbcb4a2237f029513ffe",
+    "bench/tritonbench_g/token_softmax_bloom/Proofs/TypedContract.lean": "af1cd2e47c3cdc5ba08dbf8e8d97266e46c0d9f8fdbe0a0e0b7c54372bc668cf",
+    "bench/tritonbench_g/token_softmax_bloom/Proofs/TypedShape.lean": "5359e06927349936c6ecdae34fed1082f87eff39ae8197fe1d11805660090d97"
+  }
+}

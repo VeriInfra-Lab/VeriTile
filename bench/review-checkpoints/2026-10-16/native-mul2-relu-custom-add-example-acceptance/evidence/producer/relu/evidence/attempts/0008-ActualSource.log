@@ -1,0 +1,36 @@
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ActualSource.lean:164:2: error: unsolved goals
+case neg
+b : Numerics
+d : Storage
+pointers : RegionName → BitVec 64
+undef : Word d
+X O : RegionName
+n pid : ℕ
+memory : ByteMemory.Memory
+hp : stores32 pid = «true»
+hp' : (BitVec.ofNat 32 pid == 0#32) = «true»
+state : ByteMemory.Memory
+lane : ℕ
+ha : mask n (BitVec.ofNat 32 pid * 1024#32 + BitVec.ofNat 32 lane) = «false»
+⊢ (if «false» = «true» then
+      ByteMemory.storeLE 4 state (address (pointers O) 4 (BitVec.ofNat 32 pid * 1024#32 + BitVec.ofNat 32 lane))
+        (scalarFormula b d
+          (if «false» = «true» then
+            readWord d memory (address (pointers X) d.bytes (BitVec.ofNat 32 pid * 1024#32 + BitVec.ofNat 32 lane))
+          else undef))
+    else state) =
+    if «false» = «true» then
+      ByteMemory.storeLE 4 state (address (pointers O) 4 (BitVec.ofNat 32 pid * 1024#32 + BitVec.ofNat 32 lane))
+        (scalarFormula b d
+          (readWord d memory (address (pointers X) d.bytes (BitVec.ofNat 32 pid * 1024#32 + BitVec.ofNat 32 lane))))
+    else state
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.programWrites: definition does not reference [VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.runProgram,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.executeBody,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.step,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.applyWrites,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.scalarSource] — non-circular ✓
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.original_ast_lowering: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.fold_stores: axiom footprint ⊆ standard base ✓  ([propext])
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ActualSource.lean:184:0: error: VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.source_program_correspondence: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

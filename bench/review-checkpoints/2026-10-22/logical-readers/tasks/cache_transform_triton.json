@@ -1,0 +1,153 @@
+{
+  "schema": 1,
+  "task": "cache_transform_triton",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue02/result.json",
+    "sha256": "6313bc4c19a098ef093b809d9e781b5fcf735f96ac8c070354d6e6d8279fda8f",
+    "task_index": 8
+  },
+  "finding": "The byte-gather formula still selected output channel zero and exposed flattened cache payload addresses.",
+  "resolution": "Named signed metadata and cache(row,byte) axes with a logical output byte stream and the same exact-cell domain.",
+  "mathematical_target": "Every output byte j is payload[rows[j/rowBytes]*rowBytes + j%rowBytes], with signed row metadata interpreted under its public nonnegative/range domain.",
+  "conditions_and_scope": {
+    "scope": "All p.count output bytes of the actual START=0, BLOCK=256 source grid, including the final partial block and empty launches. This is byte gathering, not a claim about FP32 rounded values.",
+    "preserved_conditions": [
+      "p.start=0",
+      "p.block=256",
+      "blocks p.count≤gridLimit",
+      "CacheIO.Domain: on live calls count=n*rowBytes, positive rowBytes, output separation, capacity≤i64Max and every actual metadata row within capacity",
+      "Exact-cell input/tag binding and ProgramIO access bounds retain the unconditional metadata-row load, masked payload load/store, safety, success, outputs and frame"
+    ],
+    "all_original_masks_schedules_safety_success_and_frames_retained": true
+  },
+  "proof_connection": {
+    "complete_previous_new_judgment_iff": "VeriTile.Bench.Repairs.CacheTransform.CacheIO.logical_iff",
+    "path": "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/LogicalReader.lean",
+    "domain_and_target_transport": "The full original judgment, including observer/exact-cell/regional/scheduled scope where present, is instantiated unchanged; bijective input/output views transport its complete formula and domain.",
+    "input_output_bijections": "bench/repairs/tritonbench_g/cache_transform_triton/LogicalIO.lean",
+    "proof_helpers_do_not_depend_on_Misc": true
+  },
+  "fp_review": {
+    "pair": "Equivalence.original versus Equivalence.quotientRemainder using the same cacheIO and exactCells mode.",
+    "scope_and_conditions": "Complete actual source/candidate grids, all byte/tag outputs, identical uint64 casts and signed row loads, both source safety/success/frame results on the unchanged CacheIO.Domain.",
+    "source_unchanged": true
+  },
+  "numerical_dependencies": {
+    "experimental_rule_instances": [],
+    "new_experiments_or_deferrals": 0,
+    "strict_model_context": "Empty experimental R; integer quotient/remainder identity with retained non-underflow/range proofs, no floating rewrite."
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "Every output byte j is payload[rows[j/rowBytes]*rowBytes + j%rowBytes], with signed row metadata interpreted under its public nonnegative/range domain.",
+    "required_conditions": {
+      "public_conditions": [
+        "p.start=0",
+        "p.block=256",
+        "blocks p.count≤gridLimit",
+        "CacheIO.Domain: on live calls count=n*rowBytes, positive rowBytes, output separation, capacity≤i64Max and every actual metadata row within capacity",
+        "Exact-cell input/tag binding and ProgramIO access bounds retain the unconditional metadata-row load, masked payload load/store, safety, success, outputs and frame"
+      ],
+      "contract_domain_source": "Contract.Request checks actual INT32 length metadata, FP32 contiguous cache shapes, devices and length/native bounds. The regional theorem uses prepared signed-int64 rows and uint8 payloads; the unchanged exact-cell input mode and domain maintain this distinction."
+    },
+    "scope": "All p.count output bytes of the actual START=0, BLOCK=256 source grid, including the final partial block and empty launches. This is byte gathering, not a claim about FP32 rounded values.",
+    "canonical_connection": {
+      "canonical_target": "CacheIO.formula",
+      "display_equality": "Proof-local canonical equality in the main specification proof; no auxiliary theorem is left in the reader. Correct.gatherFormula_eq",
+      "implementation": "IOProof.implements",
+      "scope_connection": "IOResult combines safe_grid, capacities, exact input cells and KernelInterface.complete; bounds include the safe=0 metadata load in the final masked lanes"
+    },
+    "fp_program_pair": {
+      "fp_pair": "Equivalence.original versus Equivalence.quotientRemainder using the same cacheIO and exactCells mode.",
+      "fp_scope_and_conditions": "Complete actual source/candidate grids, all byte/tag outputs, identical uint64 casts and signed row loads, both source safety/success/frame results on the unchanged CacheIO.Domain."
+    },
+    "numerical_dependencies": "Empty experimental R; integer quotient/remainder identity with retained non-underflow/range proofs, no floating rewrite."
+  },
+  "verification": [
+    {
+      "task": "cache_transform_triton",
+      "kind": "logical IO / complete iff / Correct final receipt",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue02/build.py",
+        "bench/repairs/tritonbench_g/cache_transform_triton/LogicalIO.lean",
+        "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/LogicalReader.lean",
+        "bench/repairs/tritonbench_g/cache_transform_triton/Correct.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue02/cache_transform_triton-logical-final.log",
+      "log_sha256": "e37cedd27e382d830a05f120675409badc652df8afb70ff99cbbae60a1cb6366"
+    },
+    {
+      "task": "cache_transform_triton",
+      "kind": "FPEquiv source",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue02/build.py",
+        "bench/repairs/tritonbench_g/cache_transform_triton/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue02/cache_transform_triton-fp.log",
+      "log_sha256": "b1e751e3645b7a5525a5d05e1cebb154ac7a93fa88018dd77df42e875148e327"
+    },
+    {
+      "task": "cache_transform_triton",
+      "kind": "per-task Correct + FPEquiv joint imports",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue02/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue02/fixtures/cache_transform_triton_joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue02/cache_transform_triton-joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fixture": ".veritile-cache/logical-reader-review-20261022/queue02/fixtures/cache_transform_triton_joint.lean",
+      "fixture_sha256": "b002b01dd1fa1b7837261bd21b725aa5c268456e2c48d674440bf24616d66190"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/cache_transform_triton/Contract.lean": "34f75f253f9affb86bda44900bc061b14a65748a753bf14331785bb585cfef08",
+    "bench/repairs/tritonbench_g/cache_transform_triton/Correct.lean": "835c1248387d5b708e7a87e14d17cb3d343c222d924462d215273f7d9e16608b",
+    "bench/repairs/tritonbench_g/cache_transform_triton/FPEquiv.lean": "1c9b93b51366cfd6bc5e85921a4c962c3e1db40aa3c694d9669eb918c0ce404c",
+    "bench/repairs/tritonbench_g/cache_transform_triton/IO.lean": "628b2c3ceeb023deecc37bd8f17b2e03ffd2b1a98a9686f51bdf5637918bc4d0",
+    "bench/repairs/tritonbench_g/cache_transform_triton/LogicalIO.lean": "ea3001c18046e6d6370026a4fca8d7c583f02bdaffb30e5cf795091c9e87fc78",
+    "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/IOResult.lean": "4e6f1b7e83c4c56da434820f128fee2893a41622422c422d394ff961940715a9",
+    "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/LogicalReader.lean": "924334b94a222c32da8a2915efa3b8b35b12037c30da409501f34c3fa590cb75",
+    "bench/repairs/tritonbench_g/cache_transform_triton/Kernels.lean": "f224539a28785d7d69e56d2a112c39ab374425f3ee9f08366360104072cf7d7f",
+    "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/AccessSafety.lean": "49d22cfa23af6c5bb7d56d36f8156f8082c24f65fe24b1220698f27fb7c8761c",
+    "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/AdmissionCore.lean": "9b11fd85723aeed2469e41860564ab1664edbe339415dcbd54ce0f9a20cfa2d0",
+    "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/Bounds.lean": "f5dafb28f1af47c811b0e757c8600238b0650642f1a5ea13149699bce966bfa9",
+    "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/Contract.lean": "3df9c57a777923643bc5357b23eb025bed6eaee9d0e31766a48a8f14e5b4594d",
+    "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/Execution.lean": "b01e81e5ed13bd73ffc3bbc3b5272b5d4c874af0693027c1de85fcd5e4c3415c",
+    "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/Grid.lean": "1c2aa02b240afd266476f3036c8fdafe1e2efdb4f3b9123be879bcc28c8b8a31",
+    "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/IO.lean": "eba072c271f411759be8e23daaba19a53f6d00ebe8381bf4ade941eb001f1aff",
+    "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/IOSafety.lean": "71d0916ae0ec190e9e7a4baa53513387b3c0ccef355138e87d53df17c122b0a9",
+    "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/KernelInterface.lean": "f93d8b5ec35d417a85a3a85b45799dbfbaec40823c7c491570f74d3eb00cfbb2",
+    "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/KernelSource.lean": "855688931bad7fc8b82bc82001a4f1a5d3146553489877cf4042f862e230d3bb",
+    "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/Math.lean": "ae8baa4bbd27947ab634c490418fc25dba895bc13d61daa5fc379b52c7c0f175",
+    "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/Native.lean": "39d8694b272fa41462abec62bc77a5a09ac0ea86d21b6f3af3cf4dec26ff05a3",
+    "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/PairConnection.lean": "324c25b53f0e605aa18df6c285c0a72048914c1ff4f11263ef93ba536d64aa1d",
+    "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/PairIO.lean": "2b925235e9fdae31fa94732549f8397d6a23e120ad5f6bd2cfbf7a279c403c64",
+    "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/Tensor.lean": "c77339e9e9478e22edd733b0fc7cc9ffa8fb1f01a39b128e850fba9d49176016",
+    "bench/tritonbench_g/kcache_copy_triton/KcacheCopyTriton.lean": "fb16f21d28e45b01dff210b98a37029c4d623b8710d6a91b43edea53f967bb74",
+    "bench/tritonbench_g/kcache_copy_triton/Proofs/TypedCopy.lean": "727b75143b5d44732b8240aadd0a5e62ab1bd4ba81cd37420d89e02b1a73ca34",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [
+    "The accepted unchanged implementation/native proof closure is reused read-only; this campaign compiles new coordinate data, full-judgment connections, Correct and unchanged FPEquiv readers, plus per-task joint imports. No new hardware/native/host/numerical obligation is inferred."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

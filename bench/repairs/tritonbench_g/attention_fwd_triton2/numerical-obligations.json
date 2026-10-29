@@ -1,0 +1,54 @@
+{
+  "task": "attention_fwd_triton2",
+  "scope": "Complete kernel-only exact-Real correctness and native BF16 word equality under one fixed instruction model.",
+  "selected_source": "Whole001/attention_fwd_triton2_repaired.py",
+  "source_sha256": "eb7192d0aaab5db92b98eba026b05eb728774263b5f3afecbd7270d9d84bc005",
+  "native_endpoint": "FPEquiv.kernel_native",
+  "native_target": "KernelOnly.Specification.algorithm / KernelOnly.nativeReference",
+  "raw_input_words": "BitVec32 identity leaves through one shared physical reader",
+  "output_words": "BitVec16 BF16; observation zero-extends output only and preserves original FP32 exterior words",
+  "instruction_families": [
+    "literal32",
+    "add32",
+    "sub32",
+    "mul32",
+    "maxNum32",
+    "divFull32",
+    "exp2ApproxFTZ",
+    "narrow16",
+    "widen16",
+    "narrowBF16",
+    "fma32",
+    "mmaTF32 fixed m16n8k8 coordinate",
+    "mmaHalf fixed m16n8k16 half-output coordinate"
+  ],
+  "visible_structure": [
+    "ordered QS and KS multiplication",
+    "16 K8 QK zero-seeded steps over padded D128",
+    "four K16 PV zero-seeded steps over BN64 with FP16 output",
+    "four owner replicas",
+    "16 ordered local values and xor2 then xor1 reduction",
+    "initial m=-inf,l=1,acc=0",
+    "all live online blocks and tails",
+    "FP32 widening, online FMA and division",
+    "BF16 final narrowing"
+  ],
+  "deferred_numerical_equalities": [],
+  "deferred_numerical_experiments": [],
+  "new_numerical_transformations": [],
+  "native_equals_real_claim": false,
+  "whole_lowered_result_hypothesis": false,
+  "model_boundaries": [
+    "Truthful ordinary Tensor API shape, layout, dtype, device, indexing, capacity and data-pointer observations; fresh output allocation.",
+    "Stable input memory; read aliases use one physical reader.",
+    "One fixed scalar/conversion/fixed-ISA interpretation for every source operation and every input word.",
+    "Compiler/source/ISA interpretation and applicability, CUDA driver and resource availability are external runtime conditions. The finite offline artifacts are evidence, not a universal compiler theorem."
+  ],
+  "excluded_scope": [
+    "host allocator and copyback implementation",
+    "unified final byteheap",
+    "GPU runtime/resource proof",
+    "shared grid-product compatibility implementation"
+  ],
+  "historical_transport": "Original conditional LocalTransport theorems are retained, but the current public one-model kernel theorem does not use them."
+}

@@ -1,0 +1,19 @@
+{
+  "reviewer": "root",
+  "status": "artifact_and_scope_review_pass_pending_integration",
+  "receipt_sha256": "197cc4d38a42bdde5f00c885c6e50de327e2da7e93e86a3495aa5b3bd1daa26c",
+  "manifest_sha256": "f51ce1f06fb7e1ba2d7319df6edf9adfd042af1754c684e89df325567e2cc8be",
+  "manifest_files_verified": 187,
+  "compiled_records_verified": 79,
+  "changed_sources_verified": 8,
+  "findings": [
+    "kernel_exact binds the whole executed source to parsedKernel without restoredLoop. maximum_source_nodes checks both loop positions and actual maximumFloat dtype/precision/reduction operands.",
+    "The entire independent FPReference and FPCorrect files are byte-identical to the existing workspace. No new finite or nonNaN premise, source loop cut or replacement expected output is introduced.",
+    "The prior accepted fixed eight block steps, one column iteration under BN>=16 and full writeback/frame remain the declared scope. The column-mask source adaptation remains disclosed and is not a claim of native JIT shape validity.",
+    "Historical mathematical helper modifications use private WithBot Real comparison/select bridges; these are not floating arithmetic identities.",
+    "The forward result remains a backend-value contract with dot, exp2, reductions, literal encoding and half casts to bind. The software epilogue retains a half-cast callback; neither is promoted to full native correctness."
+  ],
+  "workspace_mutated": false,
+  "canonical_counts_updated": false,
+  "native_execution": false
+}

@@ -1,0 +1,60 @@
+/tmp/veritile-standardization-20261015/relu-fp64-source-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/FP64Source.lean:109:68: error: unexpected token '('; expected '}'
+/tmp/veritile-standardization-20261015/relu-fp64-source-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/FP64Source.lean:138:58: error: unsolved goals
+num : Numerics
+x y : RegionName
+N B pid : ℕ
+s : State B
+⊢ (fun i => if pid * B + ↑i < N then s.mem.f64 x (pid * B + ↑i) else s.undef i) = loadedValue x N B pid s
+/tmp/veritile-standardization-20261015/relu-fp64-source-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/FP64Source.lean:139:22: warning: declaration uses `sorry`
+/tmp/veritile-standardization-20261015/relu-fp64-source-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/FP64Source.lean:144:47: error: unsolved goals
+case isTrue
+num : Numerics
+x y : RegionName
+N B pid : ℕ
+s : State B
+h✝ : pid = 0
+⊢ (fun i => if pid * B + ↑i < N then s.mem.f64 x (pid * B + ↑i) else s.undef i) = loadedValue x N B pid s
+
+case isFalse
+num : Numerics
+x y : RegionName
+N B pid : ℕ
+s : State B
+h✝ : ¬pid = 0
+⊢ (sorry ()).regs =
+      { pid := pid, blockStart := pid * B, offsets := fun i => pid * B + ↑i, mask := fun i => decide (pid * B + ↑i < N),
+        loaded := loadedValue x N B pid s,
+        result := fun i =>
+          if orderedGeZero64 (if pid * B + ↑i < N then s.mem.f64 x (pid * B + ↑i) else s.undef i) = «true» then
+            if pid * B + ↑i < N then s.mem.f64 x (pid * B + ↑i) else s.undef i
+          else 0#64 } ∧
+    (sorry ()).undef = s.undef
+/tmp/veritile-standardization-20261015/relu-fp64-source-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/FP64Source.lean:145:65: warning: declaration uses `sorry`
+/tmp/veritile-standardization-20261015/relu-fp64-source-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/FP64Source.lean:177:2: error: unsolved goals
+case neg
+num : Numerics
+x y : RegionName
+N B pid : ℕ
+s : State B
+hp : ¬pid = 0
+⊢ (sorry ()).mem = s.mem
+/tmp/veritile-standardization-20261015/relu-fp64-source-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/FP64Source.lean:156:67: warning: declaration uses `sorry`
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.FP64Source.reference: definition does not reference [VeriTile.Bench.TritonBenchG.ReluTritonKernel.FP64Source.source,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.FP64Source.step,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.FP64Source.exec,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.FP64Source.run] — non-circular ✓
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.FP64Source.scatter32_readback: axiom footprint ⊆ standard base ✓  ([Quot.sound,
+ propext,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.FP64Source.scatter32_frame: axiom footprint ⊆ standard base ✓  ([Quot.sound,
+ propext,
+ Classical.choice])
+/tmp/veritile-standardization-20261015/relu-fp64-source-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/FP64Source.lean:218:0: error: VeriTile.Bench.TritonBenchG.ReluTritonKernel.FP64Source.pre_gate_registers: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/relu-fp64-source-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/FP64Source.lean:219:0: error: VeriTile.Bench.TritonBenchG.ReluTritonKernel.FP64Source.source_registers: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/relu-fp64-source-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/FP64Source.lean:220:0: error: VeriTile.Bench.TritonBenchG.ReluTritonKernel.FP64Source.source_memory: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/relu-fp64-source-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/FP64Source.lean:221:0: error: VeriTile.Bench.TritonBenchG.ReluTritonKernel.FP64Source.source_f64_frame: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.FP64Source.reference_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.FP64Source.reference_idempotent: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.FP64Source.comparison_boundaries: axiom footprint ⊆ standard base ✓  ([propext])

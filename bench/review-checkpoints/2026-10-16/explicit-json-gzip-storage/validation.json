@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "base_commit": "94c62a4bc4f188cfeb869add00b479a5dbefb7cc",
+  "status": "passed",
+  "candidate_files": {
+    "bench/adapter_common.py": "f553afe1345a77c499a77278c5b8a91942917d1c08745fc1e1679e6c67e9c4b7",
+    "bench/tests/test_gzip_source_audit.py": "bf3989a34d15100649a8ade78088da359b97c2f42d2a36a1b67e0047669e6053",
+    "bench/tests/test_json_storage.py": "a8b5a5d9c95d2e86828d544662b247274c195a43d3c522f1320f36137024c7eb",
+    "scripts/test_audit_shards.py": "6bbfce8897305f037ca71a1abb9a76fa2b02035d72c239debc4457b09acc05af"
+  },
+  "checkpoint_files": {
+    "install.py": "a67ae0611bb42b1a0594ab4d1c56438118961f6505750eea95a08fa92b8b4b18",
+    "producer-evidence.zip": "43190998639d4f89f7de7cc6ed1891ad434dbd662001cfd82747ac4862b8896c",
+    "producer-receipt.json": "48b2f06eb4b0194e8a13c7c03fda82e9ca50cf88f1a4fd9701fc854ad9b6ef0e",
+    "archive-index.json": "23190c0d37efc584b5e9db24ce5980a3f82f7fdbcd8f7076e7f958f172b0787f",
+    "root-review.json": "5fc4d932afb343081b503186a35178156293ecaf2af4df4c2ad03fde7ec8395f",
+    "installed-tests.log": "08e58a5b23bc979dbac5266b7360b25b96d4924d8f660aa1181e6f2fd1cbbb60",
+    "README.md": "9e44b9bdb6b1d988111ceadac63f922847f99d03b1371b4b7f3d6739a044bf1d"
+  },
+  "installed_tests": 228,
+  "accepted_programs": 4
+}

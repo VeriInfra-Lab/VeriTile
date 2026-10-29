@@ -1,0 +1,12 @@
+VeriTile.Bench.TritonBenchG.VectorAddition.SoftwareFP32.expected: definition does not reference [VeriTile.Bench.TritonBenchG.VectorAddition.ValueProofs.source,
+ VeriTile.Bench.TritonBenchG.VectorAddition.ValueProofs.runGrid,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.TritonBenchG.VectorAddition.SoftwareFP32.exact_grid: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.SoftwareFP32.typedExpected: definition does not reference [VeriTile.Bench.TritonBenchG.VectorAddition.TypedFloat.source,
+ VeriTile.Bench.TritonBenchG.VectorAddition.TypedFloat.runGrid,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.TritonBenchG.VectorAddition.SoftwareFP32.exact_typed_grid: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

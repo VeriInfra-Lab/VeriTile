@@ -1,0 +1,603 @@
+{
+  "schema": 1,
+  "kind": "acceptance_standard_calibration",
+  "reviewer": "/root/numerical_adapter_finish",
+  "created_at_utc": "2026-10-15T19:29:21.374322+00:00",
+  "authority": "Parent-assigned calibration of user wording: 覆盖原程序全部声明的阶段、dtype 和分支；缺少验证的 numerical assumptions 可明确登记后延期。",
+  "status": "proposed_for_root_review_no_acceptance",
+  "repository_edits": 0,
+  "git_mutations": 0,
+  "new_lean_runs": 0,
+  "new_frontend_runs": 0,
+  "gpu_runs": 0,
+  "acceptance_increment": 0,
+  "summary": "Current scope-gap prose overextends the standard to generic compiler/runtime/hardware and harness correctness. Preserve finite source-specific obligations and exact numerical deferrals; do not relax evidence, hide source bugs or count rejected dtypes as successful kernels.",
+  "checked_current_catalog": "bench/review-checkpoints/2026-10-16/quantization-and-mixed-softmax/current-source-catalog.json",
+  "checker_requires_generic_native_refinement": false,
+  "checker_required_boundary_explanation": "The gate checks the reviewed structural_gaps list and exact scope/numerical evidence. Generic native/compiler obligations arise in ledger/review prose, not a separate checker predicate. Source-to-model semantic review remains mandatory.",
+  "finite_acceptance_definition": [
+    {
+      "id": "A1",
+      "requirement": "Freeze exact original source and production entrypoints; inventory every production kernel/helper/wrapper, literal dtype branch, implicit promotion, output cast, mask, loop and declared launch configuration. Retain test helpers in inventory but mark them test_harness only after the checker production-call/JIT review. Top-level test invocations do not require proving Python import or RNG internals.",
+      "evidence": [
+        "checker_inventory",
+        "checker_gate"
+      ]
+    },
+    {
+      "id": "A2",
+      "requirement": "State a finite supported API/target dtype domain grounded in source declarations and actual canonical signature admission. For each case, classify success or first rejection. A missing Python guard does not quantify over every possible Python object. A rejected route is covered by faithful rejection, never by inventing a successful kernel; a known accepted route cannot be omitted.",
+      "evidence": [
+        "checker_inventory",
+        "vector_admission",
+        "relu_old_profile_counts"
+      ]
+    },
+    {
+      "id": "A3",
+      "requirement": "For successful cases, execute every source stage and operation and prove the complete source-visible returned memory/metadata/frame, including loops, tails, masks, casts and source store gates. Source-to-model correspondence is substantively reviewed and pinned; a standalone numerical formula or source-independent protocol is insufficient. Different faithful typed interpreters are permitted.",
+      "evidence": [
+        "checker_evidence",
+        "checker_gate"
+      ]
+    },
+    {
+      "id": "A4",
+      "requirement": "Host composition is a finite sequence of specified Python/Torch/launch primitives: allocation metadata/freshness, exact size/stride calculations, assertions, selected configs, calls and return wiring. Primitive implementation correctness is trusted. Primitive numerical operations such as abs/max/reciprocal may be abstract or deferred numerically, but producer/consumer wiring must be proved. Do not replace launch success or final values with an unconstrained assumed result.",
+      "evidence": [
+        "relu_host_typed",
+        "vector_host",
+        "quant_global_source"
+      ]
+    },
+    {
+      "id": "A5",
+      "requirement": "Make source-relevant memory/layout and integer-address admission explicit. Bind actual view bases/strides/offsets; prove or represent finite-width behavior, lane/program ownership, source races and actual masks. Under fresh disjoint output and disjoint access footprints, a finite independence argument suffices; proving CUDA allocators, MMUs, schedulers, caches and compilers is outside this standard. New safety restrictions must be named and justified, not silently presented as coverage of a larger source domain.",
+      "evidence": [
+        "vector_source",
+        "vector_defined_domain",
+        "relu_source_grid",
+        "matrix_source"
+      ]
+    },
+    {
+      "id": "A6",
+      "requirement": "Every unverified numerical law or callback, including concrete software arithmetic-to-native correspondence, must be registered by exact statement/case/dtype/operation/configuration and future validation. Such conformance may be deferred. Missing fp64 operations, incorrect promotion, undefined-value-domain restrictions, omitted source stages or known false conclusions cannot be numerically deferred. An OutputDefined premise needs a documented defined-behavior domain or a faithful complementary outcome, not a promise that all inputs satisfy it.",
+      "evidence": [
+        "checker_numerics",
+        "exact_numerical_gate",
+        "vector_defined_domain"
+      ]
+    },
+    {
+      "id": "A7",
+      "requirement": "Bind current public whole-stage execution evidence through scope_schema2, exact original_scope IDs/cases and complete dtype-domain metadata, then obtain an independent substantive root review. Keep required build/axiom/source/comparator checks separate. No blanket compiler/hardware correctness gate may be added merely because native_functional_correctness remains not_established.",
+      "evidence": [
+        "checker_gate",
+        "global_boundary"
+      ]
+    },
+    {
+      "id": "A8",
+      "requirement": "Keep as-written behavior and the intended mathematical operator distinct. A source bug is not repaired by broadening metadata or numerical assumptions. Full source characterization may be recorded truthfully, but a refuted intended functional claim cannot count as verified. ReLU pid-zero-only tail behavior remains explicit even after fp64 completion.",
+      "evidence": [
+        "relu_source",
+        "relu_public_and_bug"
+      ]
+    }
+  ],
+  "function_inventory_crosscheck": {
+    "relu_triton_kernel": [
+      {
+        "function": "relu_kernel",
+        "line": 6,
+        "may_be_test_harness": false,
+        "assertion_lines": [],
+        "automatic_branch_lines": [
+          20
+        ]
+      },
+      {
+        "function": "relu",
+        "line": 23,
+        "may_be_test_harness": false,
+        "assertion_lines": [],
+        "automatic_branch_lines": []
+      },
+      {
+        "function": "test_relu",
+        "line": 45,
+        "may_be_test_harness": true,
+        "assertion_lines": [],
+        "automatic_branch_lines": []
+      }
+    ],
+    "vector_addition": [
+      {
+        "function": "add_kernel",
+        "line": 6,
+        "may_be_test_harness": false,
+        "assertion_lines": [],
+        "automatic_branch_lines": []
+      },
+      {
+        "function": "add",
+        "line": 21,
+        "may_be_test_harness": false,
+        "assertion_lines": [
+          23
+        ],
+        "automatic_branch_lines": []
+      },
+      {
+        "function": "test_add",
+        "line": 34,
+        "may_be_test_harness": true,
+        "assertion_lines": [],
+        "automatic_branch_lines": []
+      }
+    ],
+    "matrix_transpose": [
+      {
+        "function": "kernel",
+        "line": 6,
+        "may_be_test_harness": false,
+        "assertion_lines": [],
+        "automatic_branch_lines": []
+      },
+      {
+        "function": "wrapper",
+        "line": 23,
+        "may_be_test_harness": false,
+        "assertion_lines": [],
+        "automatic_branch_lines": []
+      },
+      {
+        "function": "test_triton_vs_torch",
+        "line": 45,
+        "may_be_test_harness": true,
+        "assertion_lines": [],
+        "automatic_branch_lines": []
+      }
+    ],
+    "quantize_global": [
+      {
+        "function": "_quantize_global",
+        "line": 15,
+        "may_be_test_harness": false,
+        "assertion_lines": [],
+        "automatic_branch_lines": []
+      },
+      {
+        "function": "quantize_global",
+        "line": 31,
+        "may_be_test_harness": false,
+        "assertion_lines": [
+          35
+        ],
+        "automatic_branch_lines": []
+      },
+      {
+        "function": "test_quantize_global",
+        "line": 50,
+        "may_be_test_harness": true,
+        "assertion_lines": [],
+        "automatic_branch_lines": []
+      }
+    ],
+    "quant_transpose_kernel": [
+      {
+        "function": "_quantize_global_transpose",
+        "line": 16,
+        "may_be_test_harness": false,
+        "assertion_lines": [],
+        "automatic_branch_lines": []
+      },
+      {
+        "function": "quantize_global_transpose",
+        "line": 57,
+        "may_be_test_harness": false,
+        "assertion_lines": [
+          63,
+          64,
+          65
+        ],
+        "automatic_branch_lines": []
+      },
+      {
+        "function": "test_quantize_global_transpose",
+        "line": 90,
+        "may_be_test_harness": true,
+        "assertion_lines": [],
+        "automatic_branch_lines": []
+      }
+    ]
+  },
+  "relu_old_evidence": {
+    "original_source_hash_matches_current": true,
+    "canonical": 17,
+    "frontend_generated": 13,
+    "frontend_rejected": 4,
+    "successful_inputs": [
+      "bool",
+      "int8",
+      "uint8",
+      "int16",
+      "uint16",
+      "int32",
+      "uint32",
+      "int64",
+      "uint64",
+      "float16",
+      "bfloat16",
+      "float32",
+      "float64"
+    ],
+    "rejected_inputs": [
+      "float8_e4m3fn",
+      "float8_e5m2",
+      "float8_e4m3fnuz",
+      "float8_e5m2fnuz"
+    ],
+    "represented_successful_profiles": 12,
+    "missing_successful_profile": "float64",
+    "old_run_boundary": "N1025,B1024,CUDAsm90,Triton3.7.1,frontend only; no new execution and no all-config empirical inference."
+  },
+  "gap_classification": [
+    {
+      "task": "relu_triton_kernel",
+      "original_gap_index": 0,
+      "original_finding": "RELU-C-S1: Native storage, access and address correspondence. The allocation/read/write maps and ordered byte failures remain selected mathematical semantics. Native allocation, layout/strides, little-endian storage, alignment, pointer provenance, access rights, finite-width index/pointer behavior and native fault/poison/trap order are not related to this interpreter. Existing finite-address certificates are preserved but are not a native pointer simulation.",
+      "action": "split",
+      "retained_finite_obligation": "Bind source element offsets/masks to tensor views and a stated admitted integer-address domain. Account for actual source-visible out-of-bounds/overflow rather than assuming safe arbitrary shapes.",
+      "trusted_boundary_or_non_obligation": "Little-endian hardware implementation, allocator provenance implementation, MMU/access-fault/trap/poison ordering and compiler pointer simulation are ordinary target semantics boundaries; no universal proof is demanded by this standard.",
+      "evidence": [
+        "relu_source",
+        "relu_source_grid",
+        "checker_gate"
+      ]
+    },
+    {
+      "task": "relu_triton_kernel",
+      "original_gap_index": 1,
+      "original_finding": "RELU-C-S2: Python/frontend/native compiler and host/module stages. The checked program now composes with all seven exact statements of the frozen manually materialized TypedValue.source, using its real step and exec functions. This closes the earlier custom-load-to-source-block gap and computes every pid result. It is not independent Python extraction, TTIR/LLVM/backend correctness, native empty_like freshness, wrapper/layout validation, launch admission/error or import-time test-harness/module closure.",
+      "action": "split_and_credit_existing_host",
+      "retained_finite_obligation": "Retain a reviewed exact source-to-model correspondence and public composition of wrapper dtype/device/numel/block/grid/return with all successful typed routes. Existing HostWrapper.relu_logical_correct covers12 routes and should receive credit.",
+      "trusted_boundary_or_non_obligation": "Independent verified Python extractor, LLVM/backend correctness, implementation proof of empty_like and import-time harness/module closure are not additional production-stage requirements.",
+      "evidence": [
+        "relu_source",
+        "relu_host",
+        "relu_host_typed",
+        "checker_inventory"
+      ]
+    },
+    {
+      "task": "relu_triton_kernel",
+      "original_gap_index": 2,
+      "original_finding": "RELU-C-S3: Native scheduling and error correspondence. Every complete permutation of whole programs is executed against preceding state, with a complete source trace per pid. Programs remain atomic relative to one another. Native instruction interleavings, synchronization, races, concurrency faults and callback evaluation side effects remain outside the model. Structural failures and per-byte access failures are explicit custom errors, not proofs of native observable errors.",
+      "action": "split",
+      "retained_finite_obligation": "Check finite source read/write footprints and independence under a fresh disjoint output; all active high-pid loads and pre-gate computations remain required. Preserve genuine source races if they exist.",
+      "trusted_boundary_or_non_obligation": "Universal GPU instruction interleavings, synchronizer/runtime/fault implementation and hypothetical numerical callback side effects are not separate blockers. Numerical callbacks are pure functions in the accepted semantics.",
+      "evidence": [
+        "relu_source",
+        "relu_source_grid",
+        "global_boundary"
+      ]
+    },
+    {
+      "task": "relu_triton_kernel",
+      "original_gap_index": 3,
+      "original_finding": "RELU-C-S4: Remaining original dtype and admission/error families. This package refines only the same nine integer/bool profiles. Floating fp16/bf16/fp32 byte/source composition, fp64 and fp8 execution/admission/error routes, and noncanonical/complex/quantized/packed dtype/device/layout/module branches remain structural work. The original17-profile audit and12-profile logical materialization are unchanged.",
+      "action": "replace_with_supported_domain_inventory",
+      "retained_finite_obligation": "Add actual fp64 source execution, integrate13 successful profiles, classify4 observed fp8 rejection routes at their real first stages, and bind the finite wrapper domain. Preserve source-specific layout/address assumptions.",
+      "trusted_boundary_or_non_obligation": "Do not demand successful rejected fp8 kernels, duplicate byte-level proofs for the already executed fp16/bf16/fp32 logical paths, or every arbitrary Python object/complex/quantized/packed type merely because no dtype assert is written. Any claimed accepted extra route requires positive source/API admission evidence.",
+      "evidence": [
+        "relu_typed_source",
+        "relu_old_profile_counts",
+        "relu_fp64_old_route",
+        "relu_fp8_old_rejections"
+      ]
+    },
+    {
+      "task": "vector_addition",
+      "original_gap_index": 0,
+      "original_finding": "VA-F64-S1: Source, extraction and compiler correspondence. The typed AST and memory/grid interpreter are task-local, separate from shared FP.Structural. Inherited raw TTIR route observations do not formally relate the original source/compiler to this interpreter.",
+      "action": "split",
+      "retained_finite_obligation": "Review the29 typed source routes against exact original load/add/store/promotion and host dispatch. Different interpreters are allowed when their source/domain correspondence is explicit.",
+      "trusted_boundary_or_non_obligation": "A machine-verified Python-to-TTIR-to-LLVM-to-GPU compiler proof and mandatory migration into shared FP.Structural are not required.",
+      "evidence": [
+        "vector_source",
+        "vector_fp64",
+        "checker_evidence"
+      ]
+    },
+    {
+      "task": "vector_addition",
+      "original_gap_index": 1,
+      "original_finding": "VA-F64-S2-remaining: Native instruction trace and scheduling. Logical memory, masks, stores, frames and complete sequential program permutations are proved. runLanes computes/writes each lane in order with reads from a fixed program-entry snapshot; it does not execute or refine load-all/compute-all/store-all phases, native instruction interleavings or memory races.",
+      "action": "narrow_to_source_independence",
+      "retained_finite_obligation": "Use fresh output and disjoint lane windows to justify the same result for source load/compute/store ordering. Retain source-level races for APIs that permit writable aliases.",
+      "trusted_boundary_or_non_obligation": "Do not prove the whole GPU scheduler or all native instruction traces. Here input-input aliases are harmless reads; empty_like supplies a distinct live output under the trusted API contract.",
+      "evidence": [
+        "vector_source",
+        "vector_order",
+        "vector_defined_domain"
+      ]
+    },
+    {
+      "task": "vector_addition",
+      "original_gap_index": 2,
+      "original_finding": "VA-F64-S3: Native storage, finite addresses and memory admission. String/Nat logical regions and indexed words do not establish physical byte layout/endianness, provenance, allocation extent, native pointer admission, signed i32 pid/offset/mask arithmetic or overflow behavior.",
+      "action": "split",
+      "retained_finite_obligation": "Bind tensor views/storage offset/extent and finite pid/offset arithmetic to the successful-domain theorem. A missing logical input cell is not silently a valid source input.",
+      "trusted_boundary_or_non_obligation": "Do not require per-task implementation proofs of endianness, CUDA provenance or physical byte memory when typed load/store semantics already define widths.",
+      "evidence": [
+        "vector_source",
+        "vector_defined_domain"
+      ]
+    },
+    {
+      "task": "vector_addition",
+      "original_gap_index": 3,
+      "original_finding": "VA-F64-S4: Wrapper, inactive-lane, errors and host composition. Output separation is an explicit selected-domain premise, not wrapper freshness or physical nonaliasing. Logical missing-input/undefined-conversion errors return no final memory and prove no native poison, traps, partial-write visibility or rollback. Native masked-load behavior, allocation/device dispatch and Python/Torch module/harness composition remain open.",
+      "action": "split",
+      "retained_finite_obligation": "Compose empty_like dtype/shape/freshness, CUDA assertion, output.numel, block1024/grid and return with typed execution. Treat undefined numeric conversions as explicit operation outcomes or faithfully modeled policies; do not claim native rollback from custom errors.",
+      "trusted_boundary_or_non_obligation": "Generic allocation/runtime failure machinery, exact poison/trap/partial-write visibility and module/harness composition are not required absent a source-specific observable claim.",
+      "evidence": [
+        "vector_host",
+        "vector_source",
+        "vector_defined_domain",
+        "checker_inventory"
+      ]
+    },
+    {
+      "task": "vector_addition",
+      "original_gap_index": 4,
+      "original_finding": "VA-F64-S5: Remaining original dtype and error branches. The 28 semantically promoted fnuz frontend rejection pairs have no successful logical grid; original-program rejection/error contracts are not established by these successful fp64 profiles.",
+      "action": "correct_stale_success_requirement",
+      "retained_finite_obligation": "Represent first-stage dtype rejection in the finite wrapper outcome contract:64 signature rejects plus36 addition rejects among289 canonical pairs.",
+      "trusted_boundary_or_non_obligation": "The28 promoted fnuz pairs are in the64 signature rejects. Their lack of a successful logical grid is correct and not a missing success branch.",
+      "evidence": [
+        "vector_admission",
+        "vector_admission_public"
+      ]
+    },
+    {
+      "task": "vector_addition",
+      "original_gap_index": 5,
+      "original_finding": "VA-ADMISSION-S1: Python/AST-to-model semantic refinement",
+      "action": "narrow",
+      "retained_finite_obligation": "Substantive exact source-to-model review with hashes and all operations preserved.",
+      "trusted_boundary_or_non_obligation": "No general Python/AST semantics theorem or verified extractor required.",
+      "evidence": [
+        "checker_evidence",
+        "vector_source"
+      ]
+    },
+    {
+      "task": "vector_addition",
+      "original_gap_index": 6,
+      "original_finding": "VA-ADMISSION-S2: host allocation/assertions and original module/harness effects",
+      "action": "split",
+      "retained_finite_obligation": "Keep allocation result metadata/freshness and actual CUDA assertion outcome in the finite wrapper.",
+      "trusted_boundary_or_non_obligation": "Drop original module/harness effects from production completion after explicit test_harness classification.",
+      "evidence": [
+        "vector_source",
+        "vector_host",
+        "vector_harness",
+        "checker_inventory"
+      ]
+    },
+    {
+      "task": "vector_addition",
+      "original_gap_index": 7,
+      "original_finding": "VA-ADMISSION-S3: fresh-ASTSource versus JIT/cache/launch path composition",
+      "action": "move_to_trusted_boundary",
+      "retained_finite_obligation": "Pin the chosen frontend/target admission semantics and preserve any source-declared launch option.",
+      "trusted_boundary_or_non_obligation": "Fresh ASTSource versus JIT/cache implementation equivalence is not source-program work; source-independent cache bugs and environment overrides are not newly invented branches.",
+      "evidence": [
+        "vector_admission",
+        "checker_gate"
+      ]
+    },
+    {
+      "task": "vector_addition",
+      "original_gap_index": 8,
+      "original_finding": "VA-ADMISSION-S4: unsupported/noncanonical dtype families and overrides",
+      "action": "finite_domain_review",
+      "retained_finite_obligation": "Use an explicit canonical dtype/API domain and known rejection classes. Check actual source-declared or positively admitted aliases without assuming all Python values are supported.",
+      "trusted_boundary_or_non_obligation": "No unbounded requirement for arbitrary user objects, custom tensor subclasses, monkey patches, hidden compiler overrides or dtype families unsupported by the pinned ABI.",
+      "evidence": [
+        "checker_inventory",
+        "vector_admission"
+      ]
+    },
+    {
+      "task": "vector_addition",
+      "original_gap_index": 9,
+      "original_finding": "VA-ADMISSION-S5: exact exception wrapping",
+      "action": "move_to_trusted_boundary",
+      "retained_finite_obligation": "Preserve rejection stage and source assertion/error propagation where relevant to the public outcome.",
+      "trusted_boundary_or_non_obligation": "Exact native exception class wrapping, diagnostic spelling and traceback construction are ordinary runtime behavior, not required kernel semantics.",
+      "evidence": [
+        "vector_host",
+        "vector_admission_public"
+      ]
+    },
+    {
+      "task": "vector_addition",
+      "original_gap_index": 10,
+      "original_finding": "VA-ADMISSION-S6: native lowering/runtime/debug/sanitizer behavior",
+      "action": "move_to_trusted_boundary",
+      "retained_finite_obligation": "Pin declared source configuration and preserve genuine integer overflow/unsafe-memory behavior in the source contract.",
+      "trusted_boundary_or_non_obligation": "General native lowering/runtime/debug/sanitizer correctness is not a source branch.",
+      "evidence": [
+        "global_boundary",
+        "checker_gate"
+      ]
+    },
+    {
+      "task": "vector_addition",
+      "original_gap_index": 11,
+      "original_finding": "VA-ADMISSION-S7: physical memory and GPU execution",
+      "action": "move_to_trusted_boundary",
+      "retained_finite_obligation": "Typed source loads/stores, masks, extent and ownership remain in scope.",
+      "trusted_boundary_or_non_obligation": "A universal physical-memory/GPU execution refinement proof is not separately required.",
+      "evidence": [
+        "vector_source",
+        "global_boundary"
+      ]
+    },
+    {
+      "task": "vector_addition",
+      "original_gap_index": 12,
+      "original_finding": "The prior 160 logical profiles use shared FP.Structural and concrete software operations. The new 29 use a separate task-local fp64 typed memory/grid interpreter and 15 unverified callback families. Combined inventory 189/217 is across two models, not one 189-profile interpreter.",
+      "action": "replace_with_dispatch_composition",
+      "retained_finite_obligation": "Compose the160 shared-interpreter routes and29 fp64 routes by exact dtype dispatch, using a common external typed result contract or explicit relation between their memory carriers.",
+      "trusted_boundary_or_non_obligation": "There is no requirement for one monolithic189-profile interpreter. Cardinality alone is not coverage, but heterogeneity alone is not a defect.",
+      "evidence": [
+        "vector_fp64",
+        "vector_host",
+        "checker_evidence"
+      ]
+    },
+    {
+      "task": "vector_addition",
+      "original_gap_index": 13,
+      "original_finding": "The remaining 28 promoted fnuz pairs have no successful logical grid. Four finite admission protocol contracts classify selected frozen gates but establish no original Python/JIT/compiler exception or execution theorem.",
+      "action": "retain_only_execution_link",
+      "retained_finite_obligation": "Existing admission model is supporting evidence; construct a source-bound host outcome contract whose rejected branch does not launch and whose admitted branch invokes the actual grid theorem.",
+      "trusted_boundary_or_non_obligation": "Do not demand successful execution for28 rejected fnuz profiles or a correctness proof for all Python/JIT exception machinery.",
+      "evidence": [
+        "vector_admission_public",
+        "vector_admission",
+        "checker_evidence"
+      ]
+    },
+    {
+      "task": "vector_addition",
+      "original_gap_index": 14,
+      "original_finding": "Only precisely registered native numerical correspondence may be deferred. All original host/module/harness/stage/dtype/branch and native storage/address/compiler/error/scheduling gaps remain structural blockers.",
+      "action": "replace_overbroad_policy",
+      "retained_finite_obligation": "All real source operations/stages/admitted dtype routes/branch outcomes and exact numerical bindings must be covered. Preserve known mismatches, unsafe value assumptions and incomplete host wiring.",
+      "trusted_boundary_or_non_obligation": "The blanket host/module/harness/native storage/address/compiler/error/scheduling statement conflates finite source obligations with the trusted semantic boundary; replace it with the explicit finite policy below.",
+      "evidence": [
+        "checker_inventory",
+        "checker_gate",
+        "global_boundary"
+      ]
+    }
+  ],
+  "quantization_calibration": {
+    "scope": "Current quantization-and-mixed-softmax root-review additions only; frozen producer and integrated proofs remain unchanged.",
+    "replace_generic_remaining_obligation": "Move Native physical memory/runtime/launch refinement into a named trusted-boundary record. Keep precise source allocation metadata, pointer/stride/address domain and launch/grid composition as finite structural obligations.",
+    "quantize_global_keep": [
+      "Source abs/max/unsqueeze/reciprocal producer relation to loaded inverse scale and returned absmax.",
+      "Exact output shape/int8 allocation, CUDA assertion, n_elements and returned tuple.",
+      "Both declared BLOCK_SIZE1024/2048 paths and complete ceil-grid coverage.",
+      "An evidence-grounded admitted input/scale dtype inventory and rejection categories; fp32 alone is selected scope."
+    ],
+    "quant_transpose_keep": [
+      "All preceding producer/allocation/dtype obligations adapted to 2D.",
+      "Actual grouped one-dimensional pid mapping including last partial group.",
+      "Input/output stride argument order, masks, host assertions and full output coverage."
+    ],
+    "numerical_deferrable": [
+      "llrintf exceptional-input and rounding policy for the explicit fp32-to-BitVec64 port.",
+      "Floating multiplications, reduction/reciprocal and any rounding/fusion/denormal correspondence, per source operation and config.",
+      "Signed-int8 modulo256 store conversion is structurally implemented; native scalar cast correspondence may be an explicit operation binding, without demanding a whole memory-system proof."
+    ],
+    "not_deferrable": [
+      "Missing absmax producer-to-kernel relation.",
+      "Missing grouped scheduling/grid composition.",
+      "Missing actually admitted dtype routes.",
+      "Reclassifying the supplied-coordinate transpose tile as a complete host program."
+    ],
+    "evidence": [
+      "quant_review_global",
+      "quant_review_transpose",
+      "quant_global_source",
+      "quant_transpose_source"
+    ]
+  },
+  "nearest_closure_candidates": [
+    {
+      "rank": 1,
+      "task": "matrix_transpose",
+      "reason": "Smallest whole-program closure candidate: hardcoded fp16 wrapper and existing public whole-host exact-bit transpose/frame; no arithmetic callback is required to transpose arbitrary sampled words.",
+      "actions": [
+        "Review a finite successful launch domain for arange/tile/resource/index admissibility and explicitly classify known zero/non-power-of-two rejection, without claiming arbitrary Nat compiles.",
+        "Use trusted randn/zeros primitive specs to bind fresh regions, shape, strides and returned tensor; no RNG distribution or allocator implementation proof.",
+        "Publish/bind the existing HostCorrect result to exact wrapper/kernel scope IDs and fp16 complete wrapper domain; classify test harness.",
+        "Preserve rejected caller/configuration boundaries and run normal current-source/build checks on any actual change."
+      ],
+      "evidence": [
+        "matrix_source",
+        "matrix_host",
+        "matrix_public"
+      ]
+    },
+    {
+      "rank": 2,
+      "task": "relu_triton_kernel",
+      "reason": "Small finite dtype execution deficit:13 old frontend-admitted profiles,12 represented. Parent-selected next implementation is the missing fp64 source route. Full mathematical ReLU remains false for N>1024, irrespective of scope closure.",
+      "actions": [
+        "Add a genuine64-bit input carrier and source-ordered ordered-ge-zero/select-f64/store-narrow-f32 route. Do not encode fp64 as mathematical real or fp32.",
+        "Execute original address/mask/load/result statements for all pids and preserve pid==0 store gate, full grid and arbitrary initial output tail.",
+        "Use the existing12-profile typed and nine-profile stronger word/byte proofs as evidence; do not require duplicating byte machinery for all floating profiles.",
+        "Bind host dispatch13 successes plus4 known fp8 rejections using the finite original source/API domain.",
+        "Register new exact numerical callback ports and configurations. Current old ReLU queue binding at N1025/access-grid is not a blanket source-grid/all-N binding.",
+        "Keep the known source bug/counterexample visible; do not turn source behavior coverage into an unqualified whole-tensor ReLU theorem."
+      ],
+      "evidence": [
+        "relu_old_profile_counts",
+        "relu_typed_source",
+        "relu_fp64_old_route",
+        "relu_fp8_old_rejections",
+        "relu_public_and_bug"
+      ]
+    },
+    {
+      "rank": 3,
+      "task": "vector_addition",
+      "reason": "Successful dtype-route inventory already totals189 under the pinned canonical17x17 domain, with100 finite dtype rejections. Main remaining work is finite typed host dispatch, source-domain/address binding, value-outcome treatment and numerical registration, rather than missing28 successful fnuz kernels.",
+      "actions": [
+        "Compose81 integer/bool,25 small-float,18 mixed-fp32,36 mixed-small and29 fp64 routes with exact promotion/store and x-typed output.",
+        "Replace legacy real host logicalLaunch in the accepted public wrapper contract with dtype dispatch to existing execution proofs; bind empty_like, CUDA assertion, numel, block1024 and return.",
+        "Compose first64 signature and36 addition rejection outcomes under the trusted frontend primitive semantics. Keep protocol tables supporting evidence until the host execution statement exists.",
+        "State input byte/view/extent and finite index domain; use output freshness and disjoint access ownership instead of universal GPU scheduling proof.",
+        "Resolve OutputDefined outside-domain coverage and register every used numerical family, including software arithmetic conformance. Do not count9 fp64 integer-output routes as value-unrestricted.",
+        "Publish exact original_scope cases and complete dtype-domain evidence, with independent substantive review."
+      ],
+      "evidence": [
+        "vector_source",
+        "vector_host",
+        "vector_admission",
+        "vector_admission_public",
+        "vector_fp64",
+        "vector_defined_domain"
+      ]
+    }
+  ],
+  "suggested_ledger_revision": {
+    "apply_only_after_root_review": true,
+    "preserve": [
+      "All frozen checkpoints, producer receipts, existing proof sources, initial_structural_gaps and reviewed_partial_extensions.",
+      "Exact old gap strings in this supplement, with original task/index and source hashes.",
+      "Current pending statuses and zero acceptance increment until actual finite obligations are discharged."
+    ],
+    "new_current_fields_recommended": [
+      "A versioned acceptance_boundary_review referencing this calibration.",
+      "trusted_semantics with explicit Python/Torch/Triton/load-store/allocation contracts, distinct from deferred_numerical_assumptions.",
+      "current finite structural_gaps with an operation/stage/source path and a concrete closure action.",
+      "known_source_counterexamples and supported/rejected domain cases so known wrong behavior is never made green by editing prose."
+    ],
+    "mechanics": [
+      "No changes to checker needed merely to remove overbroad generic gap prose after substantive review; structural_gaps is a reviewed list, not a generated native-obligation set.",
+      "Do not bypass full_execution_evidence or relabel DTypeAdmission protocol tables as execution. Compose source-bound outcomes first.",
+      "Do not change current-source hashes/status to accepted without complete schema2 stage/dtype/branch evidence, exact numerical bindings and review.",
+      "Where the current metadata schema cannot express a needed source rejection outcome cleanly, add a narrowly scoped reviewed execution/outcome contract rather than weaken existing evidence checks."
+    ]
+  },
+  "independence_limit": "Read-only independent semantic calibration. No proof compilation, no frontend/native rerun, no repository integration, no acceptance. Frozen source observations remain scoped evidence and are not hardware correctness proofs."
+}

@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/tmp/veritile-standardization-20261015/prepare_native_vector_quant_integration.py", line 33, in <module>
+    assert all(t==prior_rows[t['task']] for t in current['tasks'] if t['task']!='quant_transpose_kernel')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

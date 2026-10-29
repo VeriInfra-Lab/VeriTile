@@ -1,0 +1,58 @@
+{
+  "original": "bench/tritonbench_g/l2_norm_bwd/l2_norm_bwd.py",
+  "original_sha256": "5292032417de1cc1b43af26b5ed7846094dd07baf0154f8e06f933532552ab37",
+  "candidate": "bench/repairs/tritonbench_g/l2_norm_bwd/l2_norm_bwd_repaired.py",
+  "candidate_sha256": "903617999fe0163c1ca94565c57df91d295f5c62358ffe2129249cc2211cdcb1",
+  "source_mainline": "Checked direct contiguous nonnegative FP32 CUDA views; DY grouping, extra DY prefix, original kernel/fusion and runtime FP32 epsilon retained",
+  "selected_profile": {
+    "triton": "3.7.1",
+    "target": "CUDA SM90",
+    "warp_size": 32,
+    "num_warps": 4,
+    "num_ctas": 1,
+    "num_stages": 3,
+    "fusion": true,
+    "runtime_specialization": false,
+    "runtime_alignment_specialization": false,
+    "blocks": [
+      1,
+      2,
+      4,
+      8,
+      16,
+      32,
+      64,
+      128,
+      256,
+      512,
+      1024,
+      2048,
+      4096,
+      8192,
+      16384
+    ]
+  },
+  "quotation_sha256": "c839ac191759477047cf0bbfb149450a51b90eda9af22d8c25a03ef0d52ee28b",
+  "kernel_ast_sha256": "5f37bb0fb3b81b4af25055aa95a9b506e9d90ebf67848c2f42cc2fbe8ec794a3",
+  "kernel_revision_scope": "Successful kernel and grid Real/native graph results with Tensor-pointer/load binding and complete byte frames; wrapper admission only.",
+  "model_boundaries": [
+    "ordinary Tensor/view/allocation/storage semantics",
+    "signed64 stride and FP32 scalar ABI",
+    "native grid rows <= 2^31",
+    "selected compiler reduction/FMA interpretation",
+    "six primitive instruction functions"
+  ],
+  "deferred_experiments": [],
+  "implementation_pair": {
+    "original": "bench/repairs/tritonbench_g/l2_norm_bwd/l2_norm_bwd_repaired.py",
+    "original_kernel": "_l2_norm_bwd_kernel_repaired",
+    "candidate": "bench/repairs/tritonbench_g/l2_norm_bwd/l2_norm_bwd_index_commuted.py",
+    "candidate_kernel": "_l2_norm_bwd_kernel_index_commuted",
+    "candidate_sha256": "ee7aeb42ffc08dbd504f6d54570a65d38140e53c4fcbc5f1c88aed9c79b1ccf9",
+    "candidate_kernel_ast_sha256": "1283cc52c52b7416e2d429a355161fee8c976e0fb1c72a70743666c7b2502f05",
+    "change": "Commute only the three signed64 row/stride products for X, DX and DY; preserve all independent column strides, FP32 arithmetic and runtime epsilon.",
+    "main_declaration": "VeriTile.Bench.Repairs.L2NormBwd.FPEquiv.grid_equiv",
+    "experimental_rules": [],
+    "source_original_branch": "Direct readable original and candidate, each with an external FP32 epsilon declaration. Full ComputeKernel equality with the prior accepted programs is checked in .veritile-cache/l2-readable-kernels-20261021/source-equivalence.lean."
+  }
+}

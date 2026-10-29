@@ -1,0 +1,50 @@
+{
+  "recorded_at_utc": "2026-10-13T18:16:27.402128+00:00",
+  "scope": "Local frontend integration checkpoint: direct Philox captures all five original inputs, unsigned mixed arithmetic wraps, signed bitwise operations preserve negative offsets, helper provenance is explicit and literal store cache hints are preserved. Not whole-kernel correctness or independent comparator replay.",
+  "dsl_build": {
+    "exit_code": 0,
+    "jobs": 800
+  },
+  "frontend_tests": {
+    "exit_code": 0,
+    "axiom_checks": 12,
+    "guard_messages": 12,
+    "parser_rejections": 1
+  },
+  "affected_lean_regressions": {
+    "passed": 12,
+    "changed_captured_inputs": [],
+    "receipt": "regressions/receipt.json"
+  },
+  "existing_source_materializations": {
+    "passed": 36,
+    "exit_code": 0
+  },
+  "hash_capture": "Listed source hashes captured after successful runs. No frozen full dependency/artifact closure. Regression receipt separately checks captured inputs did not change.",
+  "post_run_source_sha256": {
+    "VeriTile/Triton/DSL/Expansion/DirectRandom.lean": "7bd69539f4301bf3de9a42074fd1d90318b682552c0c28e4e39eab20ba7cf6dc",
+    "VeriTile/Triton/DSL/Expansion/Main.lean": "02128c21d27344ede40483405e7cf242a473d526e6b3209dce4a3116893749ec",
+    "VeriTile/Triton/DSL/Expansion/Memory.lean": "84ec5f2967d9bd1f7e0ecf82629f293121ca3dff5bf0a076e2edffc3b556bc80",
+    "VeriTile/Triton/DSL/RandomProfile.lean": "37e7fadbcdfe41dc76c68638ab3ed4215c187752b097f38958d03f1255054467",
+    "VeriTile/Triton/DSL/Syntax.lean": "09a2f64a6c4f04d08ce70d958e8cb8e8427cb6cf87a8b86396e27e19fed90c09",
+    "VeriTile/Triton/DSL/Metadata.lean": "9efda7afd41b4cebc12dec94a96ee42d88db0029859d7205fd930b9583f9555b",
+    "bench/tests/DirectRandomFrontend.lean": "dbc0599c80e4d699bbef036dd3fa9fea09370b3bc298c68193129d203eb02a57"
+  },
+  "logs": {
+    "dsl.log.gz": {
+      "sha256": "89f3bc2009889d1c364c0b0dd0c58589e419034d9c33f08c46fba9a9064e3478",
+      "uncompressed_sha256": "a160fd5cae17616e46a436f563c5fb0263785dc7e3ebdabbb05b737401d66859",
+      "exit_code": 0
+    },
+    "frontend.log.gz": {
+      "sha256": "ea906470e81a1e7998f68177704820f6fa8946104dbd800e00bc55857bb0985f",
+      "uncompressed_sha256": "10940afd4ca1c0a2b1724eadc9194296c043fa59baaa2781707c1b0c48f0162e",
+      "exit_code": 0
+    },
+    "existing-materializations.log.gz": {
+      "sha256": "584c5ea825ae1021a8b52e263d41565ed58c806b891892646f79c0914448fa26",
+      "uncompressed_sha256": "6a7a0aeda0d79d63bd4a179de4939be39c25cf14d5a101eb50d07c2a8c9677f5",
+      "exit_code": 0
+    }
+  }
+}

@@ -1,0 +1,454 @@
+{
+  "schema": 1,
+  "task": "quantize_kv_transform",
+  "status": "consolidated",
+  "owner": {
+    "path": ".veritile-cache/io-unification-20261023/queue11/result.json",
+    "sha256": "5261ce4ba28ea51ca7584f6e2fef179f58f11cc38213a43561e4653bfcd432f4",
+    "task_index": 9
+  },
+  "reason": "The existing memory IO and complete named logical view now live in task IO.lean under their original namespaces. Logical maps and definitions were moved byte for byte; complete judgment and execution proofs remain in Proofs/.",
+  "selected_public_entries": [
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Contract.lean",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Correct.lean",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/FPEquiv.lean"
+  ],
+  "previous_semantic_review": {
+    "manifest": {
+      "path": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json",
+      "sha256": "5df771b8603eaf5d9f08b4fde0c5b938c18087c00092f5348b47eb54d33a8225"
+    },
+    "task": "quantize_kv_transform"
+  },
+  "changed_files": [
+    "bench/repairs/tritonbench_g/quantize_kv_transform/IO.lean",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/LogicalReader.lean"
+  ],
+  "removed_files": [
+    "bench/repairs/tritonbench_g/quantize_kv_transform/LogicalViewIO.lean"
+  ],
+  "moved_declarations": [
+    {
+      "from": "bench/repairs/tritonbench_g/quantize_kv_transform/LogicalViewIO.lean",
+      "to": "bench/repairs/tritonbench_g/quantize_kv_transform/IO.lean",
+      "names": [
+        "VeriTile.Bench.Repairs.QuantizeKvTransform.LogicalView.Inputs",
+        "VeriTile.Bench.Repairs.QuantizeKvTransform.LogicalView.Outputs",
+        "VeriTile.Bench.Repairs.QuantizeKvTransform.LogicalView.inputEquiv",
+        "VeriTile.Bench.Repairs.QuantizeKvTransform.LogicalView.outputEquiv",
+        "VeriTile.Bench.Repairs.QuantizeKvTransform.LogicalView.row",
+        "VeriTile.Bench.Repairs.QuantizeKvTransform.LogicalView.quantizeIO",
+        "VeriTile.Bench.Repairs.QuantizeKvTransform.LogicalView.Destinations"
+      ],
+      "kind": "complete-nonimport-body",
+      "nonimport_chunk_sha256": "1d7c34729b70e8047f35c99cfc5181e425c1c665c05e7236fa0901c3fa4cd21b"
+    }
+  ],
+  "preservation": {
+    "evidence": ".veritile-cache/io-unification-20261023/queue11/preservation.json",
+    "evidence_sha256": "1f89e5373962fef293e9000411eba3ff34b31c06030c022a8c35f39ae0f52110",
+    "task_evidence": {
+      "task": "quantize_kv_transform",
+      "io_original_nonimport_body_sha256": "da7a440c20206686c774811e527fc98fa64ea7d67a9fe56b31e64c51d6ebcd23",
+      "io_original_body_contiguous_and_exact": true,
+      "moved_chunks": [
+        {
+          "task": "quantize_kv_transform",
+          "from": "bench/repairs/tritonbench_g/quantize_kv_transform/LogicalViewIO.lean",
+          "to": "bench/repairs/tritonbench_g/quantize_kv_transform/IO.lean",
+          "kind": "complete-nonimport-body",
+          "declaration_lines": [
+            "structure Inputs (p : Parameters) (count : Nat) where",
+            "structure Outputs (p : Parameters) (count : Nat) where",
+            "def inputEquiv (p : Parameters) (count : Nat) : IO.Inputs ℝ p count ≃ Inputs p count where",
+            "def outputEquiv (p : Parameters) (count : Nat) : ChannelValues ℝ ([⟨.int, [count, p.heads, p.columns], \"output\"⟩,⟨.real, [count, p.heads], \"scale\"⟩]) ≃ Outputs p count where",
+            "def row {p : Parameters} {count : Nat} (xs : Inputs p count)",
+            "def quantizeIO (rest : Algebra ℝ) (p : Parameters) (count : Nat) (order : List Nat) :",
+            "def Destinations {p : Parameters} {count : Nat} (xs : Inputs p count) : Prop :="
+          ],
+          "chunk_sha256": "1d7c34729b70e8047f35c99cfc5181e425c1c665c05e7236fa0901c3fa4cd21b",
+          "names": [
+            "VeriTile.Bench.Repairs.QuantizeKvTransform.LogicalView.Inputs",
+            "VeriTile.Bench.Repairs.QuantizeKvTransform.LogicalView.Outputs",
+            "VeriTile.Bench.Repairs.QuantizeKvTransform.LogicalView.inputEquiv",
+            "VeriTile.Bench.Repairs.QuantizeKvTransform.LogicalView.outputEquiv",
+            "VeriTile.Bench.Repairs.QuantizeKvTransform.LogicalView.row",
+            "VeriTile.Bench.Repairs.QuantizeKvTransform.LogicalView.quantizeIO",
+            "VeriTile.Bench.Repairs.QuantizeKvTransform.LogicalView.Destinations"
+          ]
+        }
+      ],
+      "proofs_and_other_changes": [
+        {
+          "path": "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/LogicalReader.lean",
+          "kind": "import_only_change",
+          "nonimport_body_sha256": "9462571b8667a01958933879cd020b84b46938ffdaa2e5229d720ae569f03f19"
+        }
+      ],
+      "public_judgment_preservation": [
+        {
+          "path": "bench/repairs/tritonbench_g/quantize_kv_transform/Contract.lean",
+          "kind": "complete_public_source_byte_identical",
+          "before_sha256": "13e8349047098828800f450e2f0a78d7ac75c25509ddbb10c0d0f279472b0974",
+          "after_sha256": "13e8349047098828800f450e2f0a78d7ac75c25509ddbb10c0d0f279472b0974"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/quantize_kv_transform/Correct.lean",
+          "kind": "complete_public_source_byte_identical",
+          "before_sha256": "b3e82db81ea97b7ce8abcac54fba545f53bcd48885c45417b0f10d35c8e04ac6",
+          "after_sha256": "b3e82db81ea97b7ce8abcac54fba545f53bcd48885c45417b0f10d35c8e04ac6"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/quantize_kv_transform/FPEquiv.lean",
+          "kind": "complete_public_source_byte_identical",
+          "before_sha256": "e2ed1a673814e9768c671af2ef35519d7cbe2541f3f4a65339350e6e35421e48",
+          "after_sha256": "e2ed1a673814e9768c671af2ef35519d7cbe2541f3f4a65339350e6e35421e48"
+        }
+      ],
+      "scope_guard_unchanged_sources": [
+        "bench/repairs/tritonbench_g/quantize_kv_transform/FPEquiv.lean",
+        "bench/repairs/tritonbench_g/quantize_kv_transform/Contract.lean",
+        "bench/repairs/tritonbench_g/quantize_kv_transform/Kernels.lean",
+        "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/Contract.lean"
+      ],
+      "remaining_issues": []
+    },
+    "full_public_judgments": "All selected Contract/Correct/FPEquiv files are byte identical to before, including mathematical formulas, assumptions, scope, FP pair and rule sets; complete connection proof bodies retain exact nonimport source. Fresh targeted builds and per-task joint imports elaborate these unchanged statements against the moved definitions."
+  },
+  "verification": [
+    {
+      "id": "attempt-018",
+      "task": "quantize_kv_transform",
+      "kind": "build",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue11/build.py",
+        "bench.repairs.tritonbench_g.quantize_kv_transform.Contract",
+        "bench.repairs.tritonbench_g.quantize_kv_transform.IO",
+        "bench.repairs.tritonbench_g.quantize_kv_transform.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.quantize_kv_transform.Correct",
+        "bench.repairs.tritonbench_g.quantize_kv_transform.FPEquiv"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue11/attempt-018-quantize_kv_transform-build.log",
+      "log_sha256": "01d7c3814e08e38950671887135ea1c46f0191f0cd396f254a405e542a8dc415",
+      "sandbox_permissions": "require_escalated"
+    },
+    {
+      "id": "attempt-019",
+      "task": "quantize_kv_transform",
+      "kind": "joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue11/build.py",
+        "--check",
+        ".veritile-cache/io-unification-20261023/queue11/quantize_kv_transformJoint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue11/attempt-019-quantize_kv_transform-joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sandbox_permissions": "require_escalated"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Correct.lean": "b3e82db81ea97b7ce8abcac54fba545f53bcd48885c45417b0f10d35c8e04ac6",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/FPEquiv.lean": "e2ed1a673814e9768c671af2ef35519d7cbe2541f3f4a65339350e6e35421e48",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Contract.lean": "13e8349047098828800f450e2f0a78d7ac75c25509ddbb10c0d0f279472b0974",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/ReaderBefore.lean": "49b6592f6c9f81082ade9d6074a944dfb8690b95c5c64dc71fd8809b73dac314",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/LogicalReader.lean": "e8eec2be26fc61f6659ff31def4474a041e1af1a905f1acd0da01d6173b20446",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Kernels.lean": "71bf22b5647e095861c5c95f1075b6deed9347dfe6a824949a5351d6c57770be",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/IO.lean": "1aa8344a77d3121bac21e1d1525d81a90d7a3718c2ba0add2afeed7ce4b9df83",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Misc/NativeCorrect.lean": "c9d24a42e7a10080b6465d791d36d6f1ba1e0d967312e0ba40db7c58ca62966d",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Misc/TensorBridge.lean": "b532a127e0f58dcd1da83311499cd3afa5fdf29780619f4b2da2ba8505764d98",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/Source.lean": "4d19aeb7da84013a83213d6f130b607e9b999f9d87b73df65e6129adb20287b2",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/KernelGridResult.lean": "073914ef59d2210f41f8365ff27eb6e38db8f0afcf950ee442102dc5f385437c",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/Real.lean": "0526129bc72a066cf228be537179069f82099d74975953bee2fb0d0c027e1363",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/KernelStores.lean": "f9db56a2ded1261c826ef5e6c951faf00c8ce46d644256da667c259edbf63369",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/KernelInputs.lean": "b63a016567f36a6a721f89d796220d56655458ffcf68cbfa460e2801368a555f",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/KernelInterface.lean": "e6774722d8bc83a869cd17595b1d283e37283d53f7930ece4a269315387f8bdf",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/Direct.lean": "f5b3924a42ef63b420b4bf19488be8dde1e14f8f021331d0426fb7d87d285d2d",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/KernelAddresses.lean": "3502fe3f72768e42b9cbb05d0a477b034c83305195ebb03f1001d23e40480dab",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/Native.lean": "458d8023b82795cf75df8cf48ce65505dee89e5baaef594575a78705d66b428b",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/KernelResult.lean": "ee1e857ee7e97fd01963fbebbd15e0d98b9b73fe4b361d2c19212ba31ab34845",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/KernelRealResult.lean": "d16c3b9f76dba68d957c6e7de73485f2249196c1ff400ac5555e2891f1c712f5",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/KernelExecution.lean": "dd5da89748dfb5b7dfec2d2a1d182a34f1b1cf41776d97bdea45932c2aaeb166",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/AccessSafety.lean": "ac3f25bbdff33e3bd5c79ac463a88f9c5dba7ccfafd883509d5ef82af491e10c",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/RealGrid.lean": "995440b3fa311bb946418d6f5fd2d1d5eb2bf6246ca6b530e37ab24c3f8496fc",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/KernelCompiler.lean": "ec70f88c8fc7386031aa7875629ad2e5d2c68f8f81c366b2686a38069000ec4a",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/Memory.lean": "d8608903d20635255efdd20720997c09baaf6bce92ca7eeaff2f780533ea3373",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/Host.lean": "17878bda217f708551ed6af152cd2b0b2487f317691c459b345df6b90314cd52",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/Contract.lean": "8ae3a32cb2dc68a81d8bf17b33c9f4f9668833f33ef70ffb3ec1fc46e32da780",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/HostCorrect.lean": "97e820c457602cc363f84796b56771269a5200c8b499bd0bb9df43f4eb2683a8",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/NativeIO.lean": "f7794087fd753db46a5936a316781a6607df70b41f73a6126c002aeeb47c602f",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/FP.lean": "a4710d6ed7cc1c486d6c41a4af15952fbf49a9abad0239f166708015feade56f",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/HostFPEquiv.lean": "38e7577736d1d7f227b3d21735f264775e283199ea315f1052984267292c1c94",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/PublicNativeResult.lean": "3cbd6590e4805679f18343e1f3ae602165d47211ee2a8599ee200edab66c8332",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/KernelWhole.lean": "df948076e4e4d44938b6d5a0810578e736f3cef8f00394eea1d85344600fd7a9",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/RealIO.lean": "b55c636b7bf3d68d7a9f2b56780e51439663f32850b8f1565b93049eb5211f6c",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/Execution.lean": "c90de992213ecdf99371927c4f2f442d3d3d7a0097578a53fcbc9fada832cb23",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/KernelNativeProfile.lean": "13f618509551827861b581ad020b2ca96a7f3fd1783b60267abd0ce2453ff867",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/KernelGrid.lean": "7b59d29a62593306db71f0f0c0b8e24d52ebc8e9acc8992b1f49188889453605",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/PublicRealResult.lean": "b67d76b1a9e8e31b9ef6cac9b8fa51b49e903fef0da94154fd3dfc692db863ea",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/KernelRealModel.lean": "1ff4e48558f664c38c4abbbdb20f4e8a04738e96ea55acb0ffc0ebc61ac4e8d3",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/KernelTensor.lean": "b3adb1b4a2f6d2a6bd0ae571de38eef8a428ed58cb41d450a75dbd41beb9c44c",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/PublicIO.lean": "763f7f78d02e426c8c13379aa8bb866026b8352c8bbede36d711dab2effa1717",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/Pair.lean": "2a15c4fc0f7092a4137e3399859c53ad45b1dfeaec33404f5f350fff3518cac0",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/KernelNativeResult.lean": "4cf06951edcb635bbbf0e3648e1ba176f3f37f0587d410e43f058ffffc76b445"
+  },
+  "source_pin_provenance": {
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Correct.lean": {
+      "owner_tasks": [
+        "quantize_kv_transform"
+      ]
+    },
+    "bench/repairs/tritonbench_g/quantize_kv_transform/FPEquiv.lean": {
+      "owner_tasks": [
+        "quantize_kv_transform"
+      ]
+    },
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Contract.lean": {
+      "owner_tasks": [
+        "quantize_kv_transform"
+      ]
+    },
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/ReaderBefore.lean": {
+      "owner_tasks": [
+        "quantize_kv_transform"
+      ]
+    },
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/LogicalReader.lean": {
+      "owner_tasks": [
+        "quantize_kv_transform"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalIO.lean": {
+      "owner_tasks": [
+        "mixed_sparse_attention",
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Kernels.lean": {
+      "owner_tasks": [
+        "quantize_kv_transform"
+      ]
+    },
+    "bench/repairs/tritonbench_g/quantize_kv_transform/IO.lean": {
+      "owner_tasks": [
+        "quantize_kv_transform"
+      ]
+    },
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Misc/NativeCorrect.lean": {
+      "owner_tasks": [
+        "quantize_kv_transform"
+      ]
+    },
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Misc/TensorBridge.lean": {
+      "owner_tasks": [
+        "quantize_kv_transform"
+      ]
+    },
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/Source.lean": {
+      "owner_tasks": [
+        "quantize_kv_transform"
+      ]
+    },
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/KernelGridResult.lean": {
+      "owner_tasks": [
+        "quantize_kv_transform"
+      ]
+    },
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/Real.lean": {
+      "owner_tasks": [
+        "quantize_kv_transform"
+      ]
+    },
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/KernelStores.lean": {
+      "owner_tasks": [
+        "quantize_kv_transform"
+      ]
+    },
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/KernelInputs.lean": {
+      "owner_tasks": [
+        "quantize_kv_transform"
+      ]
+    },
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/KernelInterface.lean": {
+      "owner_tasks": [
+        "quantize_kv_transform"
+      ]
+    },
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/Direct.lean": {
+      "owner_tasks": [
+        "quantize_kv_transform"
+      ]
+    },
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/KernelAddresses.lean": {
+      "owner_tasks": [
+        "quantize_kv_transform"
+      ]
+    },
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/Native.lean": {
+      "owner_tasks": [
+        "quantize_kv_transform"
+      ]
+    },
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/KernelResult.lean": {
+      "owner_tasks": [
+        "quantize_kv_transform"
+      ]
+    },
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/KernelRealResult.lean": {
+      "owner_tasks": [
+        "quantize_kv_transform"
+      ]
+    },
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/KernelExecution.lean": {
+      "owner_tasks": [
+        "quantize_kv_transform"
+      ]
+    },
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/AccessSafety.lean": {
+      "owner_tasks": [
+        "quantize_kv_transform"
+      ]
+    },
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/RealGrid.lean": {
+      "owner_tasks": [
+        "quantize_kv_transform"
+      ]
+    },
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/KernelCompiler.lean": {
+      "owner_tasks": [
+        "quantize_kv_transform"
+      ]
+    },
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/Memory.lean": {
+      "owner_tasks": [
+        "quantize_kv_transform"
+      ]
+    },
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/Host.lean": {
+      "owner_tasks": [
+        "quantize_kv_transform"
+      ]
+    },
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/Contract.lean": {
+      "owner_tasks": [
+        "quantize_kv_transform"
+      ]
+    },
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/HostCorrect.lean": {
+      "owner_tasks": [
+        "quantize_kv_transform"
+      ]
+    },
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/NativeIO.lean": {
+      "owner_tasks": [
+        "quantize_kv_transform"
+      ]
+    },
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/FP.lean": {
+      "owner_tasks": [
+        "quantize_kv_transform"
+      ]
+    },
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/HostFPEquiv.lean": {
+      "owner_tasks": [
+        "quantize_kv_transform"
+      ]
+    },
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/PublicNativeResult.lean": {
+      "owner_tasks": [
+        "quantize_kv_transform"
+      ]
+    },
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/KernelWhole.lean": {
+      "owner_tasks": [
+        "quantize_kv_transform"
+      ]
+    },
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/RealIO.lean": {
+      "owner_tasks": [
+        "quantize_kv_transform"
+      ]
+    },
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/Execution.lean": {
+      "owner_tasks": [
+        "quantize_kv_transform"
+      ]
+    },
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/KernelNativeProfile.lean": {
+      "owner_tasks": [
+        "quantize_kv_transform"
+      ]
+    },
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/KernelGrid.lean": {
+      "owner_tasks": [
+        "quantize_kv_transform"
+      ]
+    },
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/PublicRealResult.lean": {
+      "owner_tasks": [
+        "quantize_kv_transform"
+      ]
+    },
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/KernelRealModel.lean": {
+      "owner_tasks": [
+        "quantize_kv_transform"
+      ]
+    },
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/KernelTensor.lean": {
+      "owner_tasks": [
+        "quantize_kv_transform"
+      ]
+    },
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/PublicIO.lean": {
+      "owner_tasks": [
+        "quantize_kv_transform"
+      ]
+    },
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/Pair.lean": {
+      "owner_tasks": [
+        "quantize_kv_transform"
+      ]
+    },
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/KernelNativeResult.lean": {
+      "owner_tasks": [
+        "quantize_kv_transform"
+      ]
+    }
+  },
+  "retired_current_source_pins": {
+    "bench/repairs/tritonbench_g/quantize_kv_transform/LogicalViewIO.lean": "40fa40c6729de64b0efef97b20f7e50fb6660a20fab0b5a47b14a4e110c73b07"
+  },
+  "limits": [
+    "Source organization change only; no numerical rewrite, numerical experiment, GPU run, native correctness or host correctness requirement was added.",
+    "Only changed IO/import helpers, current public entries, needed compatibility modules and each task public joint were checked in the new overlay. Cached unmodified proof objects are distinguished from fresh source checks."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/io-unification-20261023/queue16/result.json",
+    "sha256": "12f6dd5ed523e9f723fee3847af964fd8987958c2cb997aa572210c04de5bc84"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

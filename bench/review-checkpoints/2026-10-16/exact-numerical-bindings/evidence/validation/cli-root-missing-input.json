@@ -1,0 +1,15 @@
+{
+  "command": [
+    "/usr/local/bin/python3",
+    "-I",
+    "-B",
+    "-c",
+    "\nimport importlib.util,json,runpy,sys\nfrom pathlib import Path\nfirst,second,policy=map(Path,sys.argv[1:4]);cfg=json.loads(policy.read_text())\nsys.path[:0]=[str(first/'bench'),str(first/'scripts')]\nallowed=set(cfg['code_allow'])\nallowed.update(importlib.util.cache_from_source(p) for p in cfg['code_allow'])\nforbidden=[Path(p) for p in cfg['forbidden']]\nattempts=[]\ndef audit(event,args):\n if event!='open' or not isinstance(args[0],(str,bytes)):return\n p=Path(args[0].decode() if isinstance(args[0],bytes) else args[0]).absolute()\n if str(p) not in allowed and any(p.is_relative_to(r) for r in forbidden):\n  attempts.append(str(p));raise RuntimeError('forbidden old data-root read: '+str(p))\nsys.addaudithook(audit)\nsys.argv=[str(first/'bench/deferred_numerical_experiments.py'),'--root',str(second),'--check']\nrunpy.run_path(sys.argv[0],run_name='__main__')\nassert not attempts,attempts\n",
+    "/tmp/veritile-numeric-adapter-4gs1s34u/first",
+    "/tmp/veritile-numeric-adapter-4gs1s34u/second",
+    "/tmp/veritile-numeric-adapter-4gs1s34u/policy.json"
+  ],
+  "exit_code": 1,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "bd6ac878e554722b17f065dbefaf2fc4f4f39b8b9ca9a246ea05c36e6340c9af"
+}

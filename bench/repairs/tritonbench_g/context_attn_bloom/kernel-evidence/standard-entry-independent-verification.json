@@ -1,0 +1,38 @@
+{
+  "all_checks_passed": true,
+  "standard_entry_delivery_sha256": "0f1e157352512057afc0e8a3e52494a3f42e9cdeb38ac2b6c660247221cb586f",
+  "direct_aliases_verified": {
+    "correct_real": "mathematical_real",
+    "shared_source": "shared_source",
+    "correct_fp32": "native_tensor",
+    "input_tensor": "input_tensor"
+  },
+  "unchanged_base_file_pins_verified": 530,
+  "explicit_source_and_receipt_pin_replacements": 4,
+  "explicit_olean_and_ilean_replacements": 4,
+  "delta_pinned_files": 13,
+  "delta_archive_members_byte_verified": 14,
+  "current_build_receipts": 2,
+  "current_ilean_direct_import_lists_checked": 2,
+  "unchanged_effective_direct_dependencies_verified": {
+    "bench/repairs/tritonbench_g/context_attn_bloom/Proofs/CheckedReal.lean": {
+      "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/context_attn_bloom/Proofs/CheckedReal.olean",
+      "sha256": "75cbf82d3d6f35fb3a6f97385df4e91504d0adf2d0b05a5850db73aabafc984e"
+    },
+    "bench/repairs/tritonbench_g/context_attn_bloom/KernelOnly.lean": {
+      "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/context_attn_bloom/KernelOnly.olean",
+      "sha256": "27c11c061a2887fe4df03e8f2494c97145540c41d7388dc7b2d338f22e3ee37c"
+    },
+    "bench/repairs/tritonbench_g/context_attn_bloom/Proofs/Task.lean": {
+      "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/context_attn_bloom/Proofs/Task.olean",
+      "sha256": "e4983e8e8a6ff5e4febf6c1ff5ef395e0945975784765cffeaa5142260aed827"
+    }
+  },
+  "standard_base_axiom_audits": 4,
+  "accepted_delivery_archive_review_and_verification_unchanged": true,
+  "kernel_only_and_selected_source_unchanged": true,
+  "semantic_or_domain_change": false,
+  "recompiled_by_reviewer": false,
+  "CPU_compiler_numerics_or_GPU_experiments_run": false,
+  "dependency_and_resource_boundaries": "Inherits the accepted base review, including reused dependency caches and the B128/D256 SM80 shared-memory exclusion."
+}

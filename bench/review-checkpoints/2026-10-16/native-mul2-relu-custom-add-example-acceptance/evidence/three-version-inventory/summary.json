@@ -1,0 +1,199 @@
+{
+  "tasks": 183,
+  "baseline_public_declarations": 955,
+  "excluded_task": "fp4_to_bf16_conversion",
+  "old_scope_counts": {
+    "pending": 179,
+    "verified": 1,
+    "verified_with_deferred_numerics": 3
+  },
+  "new_policy_acceptance_assignments": 0,
+  "new_policy_status": "inventory_only_not_an_acceptance_run",
+  "per_version": {
+    "Real": {
+      "tasks_with_mathematical_model_declarations": 177,
+      "tasks_with_structured_primary_profile_evidence": 0,
+      "tasks_with_reviewed_profile_text_mentions": 0,
+      "tasks_with_output_or_mixed_profile_mentions": 0,
+      "tasks_with_version_mapped_variant_declarations": 0,
+      "tasks_with_recorded_native_variant_evidence": 0,
+      "new_policy_status_counts": {
+        "not_evaluated_under_new_policy": 183
+      },
+      "tasks_with_recorded_original_compile_rejection": 0,
+      "inventory_state_counts": {
+        "explicit_model_or_case_evidence_present_scope_projection_unreviewed": 177,
+        "no_explicit_mapping_found_in_pinned_catalog": 6
+      }
+    },
+    "FP32": {
+      "tasks_with_mathematical_model_declarations": 0,
+      "tasks_with_structured_primary_profile_evidence": 4,
+      "tasks_with_reviewed_profile_text_mentions": 99,
+      "tasks_with_output_or_mixed_profile_mentions": 4,
+      "tasks_with_version_mapped_variant_declarations": 0,
+      "tasks_with_recorded_native_variant_evidence": 0,
+      "new_policy_status_counts": {
+        "not_evaluated_under_new_policy": 183
+      },
+      "tasks_with_recorded_original_compile_rejection": 0,
+      "inventory_state_counts": {
+        "reviewed_profile_annotations_present_scope_unreviewed": 95,
+        "no_explicit_mapping_found_in_pinned_catalog": 84,
+        "explicit_model_or_case_evidence_present_scope_projection_unreviewed": 4
+      },
+      "structured_original_unsupported_partitions": [],
+      "tasks_with_structured_original_unsupported_partitions": 0,
+      "tasks_with_structured_return_outcome_labels": 4,
+      "tasks_with_explicit_original_rejection_evidence": 0
+    },
+    "BF16": {
+      "tasks_with_mathematical_model_declarations": 0,
+      "tasks_with_structured_primary_profile_evidence": 4,
+      "tasks_with_reviewed_profile_text_mentions": 55,
+      "tasks_with_output_or_mixed_profile_mentions": 1,
+      "tasks_with_version_mapped_variant_declarations": 0,
+      "tasks_with_recorded_native_variant_evidence": 1,
+      "new_policy_status_counts": {
+        "not_evaluated_under_new_policy": 183
+      },
+      "tasks_with_recorded_original_compile_rejection": 2,
+      "inventory_state_counts": {
+        "no_explicit_mapping_found_in_pinned_catalog": 124,
+        "reviewed_profile_annotations_present_scope_unreviewed": 53,
+        "original_profile_has_recorded_compile_rejection": 2,
+        "explicit_model_or_case_evidence_present_scope_projection_unreviewed": 4
+      },
+      "structured_original_unsupported_partitions": [
+        {
+          "task": "quant_transpose_kernel",
+          "declaration": "bench/tritonbench_g/quant_transpose_kernel/FiniteAcceptance.lean::quant_transpose_finite_acceptance",
+          "outcome_partition_counts": {
+            "unsupported_llrint_overload": 4
+          },
+          "interpretation": "An explicit original unsupported partition in existing case metadata; not a successful implementation or a newly run native test."
+        },
+        {
+          "task": "quantize_global",
+          "declaration": "bench/tritonbench_g/quantize_global/FullSourceCorrect.lean::quantize_global_full_source_outcomes",
+          "outcome_partition_counts": {
+            "unsupported_llrint": 8
+          },
+          "interpretation": "An explicit original unsupported partition in existing case metadata; not a successful implementation or a newly run native test."
+        }
+      ],
+      "tasks_with_structured_original_unsupported_partitions": 2,
+      "tasks_with_structured_return_outcome_labels": 2,
+      "tasks_with_explicit_original_rejection_evidence": 4
+    }
+  },
+  "known_original_rejections": [
+    {
+      "task": "attention_kernel_aligned",
+      "version": "BF16",
+      "state": "unsupported_original_at_recorded_native_configuration",
+      "evidence": {
+        "path": "bench/review-checkpoints/2026-10-14/next-value-repair/attention-aligned-value/receipt.json",
+        "sha256": "9ccce5c4be20b2d1870c51d5f4c7ce538117325183b3225c24035ae51517c128"
+      },
+      "json_pointer": "/native/offline_bf16_compile_failures",
+      "recorded_result": 1,
+      "native_audit_sha256": "cf2a596d2f76e4681aefc00548ab726eda2e895ea7f374177429fe0c07a7d258",
+      "interpretation": "A recorded original BF16 compile failure; not a successful functional BF16 version. This fact is scoped to the captured configuration."
+    },
+    {
+      "task": "sgmv_expand_slice",
+      "version": "BF16",
+      "state": "unsupported_original_at_recorded_native_configuration",
+      "evidence": {
+        "path": "bench/review-checkpoints/2026-10-14/next-value-repair/sgmv-expand-slice/receipt.json",
+        "sha256": "e8d8d3c39f2495e13e62c9930521fe13f620cfd403b6af1565aa3afa80ffc9f6"
+      },
+      "json_pointer": "/native_compile/original_profiles/bf16",
+      "recorded_result": "FAIL singleton tuple at tl.load",
+      "target": "CUDA SM90 warp32",
+      "configuration": {
+        "blocks": [
+          32,
+          32,
+          16
+        ],
+        "enable_fp_fusion": false,
+        "triton": "3.8.0"
+      },
+      "variant_result": "PASS offline",
+      "interpretation": "A repaired variant result does not implement the rejected original profile."
+    }
+  ],
+  "tasks_with_unassigned_variant_declarations": 9,
+  "pending_integration_candidates": [
+    {
+      "task": "triton_mul2",
+      "status": "independently_reviewed_candidate_integration_in_progress_not_counted_in_baseline",
+      "root_review_sha256": "90a92dc701865fe6f888119e0d9d433a4b3f7768ff46bab2fcca256e8867917f",
+      "producer_receipt_sha256": "7644e8a8dadc81452975c71b662ff1ae587bb6ceab8fd07c94e996ce0be75a4f",
+      "public": {
+        "file": "bench/tritonbench_g/triton_mul2/FiniteCorrect.lean",
+        "declaration": "triton_mul2_finite_source_outcomes",
+        "statement_sha256": "bf5fc417c4b43f31cff3b85fedcf54d876bbe225598f03388b0a4676e85919a3",
+        "line": null
+      },
+      "new_policy_acceptance": "not_reviewed",
+      "pure_primary_case_counts": {
+        "FP32": 282,
+        "BF16": 282
+      }
+    },
+    {
+      "task": "relu_triton_kernel",
+      "status": "independently_reviewed_candidate_integration_in_progress_not_counted_in_baseline",
+      "root_review_sha256": "a42c80179e198570684d477cf04d908ea006206f51f2066dcdca3be82be52453",
+      "producer_receipt_sha256": "e219fb011932538d411b02b85a5e624e7d617198faca6730a953ddac2db5e46e",
+      "public": {
+        "file": "bench/tritonbench_g/relu_triton_kernel/ActualCorrect.lean",
+        "declaration": "relu_actual_source_outcomes",
+        "statement_sha256": "44f2ef429cb69fa382dc74c122ea8ae5d3dabae0acec5203703528a084bb6bbd",
+        "line": null
+      },
+      "new_policy_acceptance": "not_reviewed",
+      "pure_primary_case_counts": {
+        "FP32": 20,
+        "BF16": 20
+      }
+    },
+    {
+      "task": "vector_addition_custom",
+      "status": "independently_reviewed_candidate_integration_in_progress_not_counted_in_baseline",
+      "root_review_sha256": "3f07f50af5b4c0c590e2e42eb0247c094284ce2a793ff7dfd564f46df2104e28",
+      "producer_receipt_sha256": "261d2be00ae6152fbbad9fc6c540ae96d0ff653198e9ae3ea7533878be7de8e1",
+      "public": {
+        "file": "bench/tritonbench_g/vector_addition_custom/NativeCorrect.lean",
+        "declaration": "vector_addition_custom_native_source_outcomes",
+        "statement_sha256": "cf664860c1a6ec09372f7f7a4624dc93c1acac42875db6170666b825e7d07a84",
+        "line": null
+      },
+      "new_policy_acceptance": "not_reviewed",
+      "pure_primary_case_counts": {
+        "FP32": 18,
+        "BF16": 18
+      }
+    },
+    {
+      "task": "add_example",
+      "status": "independently_reviewed_candidate_integration_in_progress_not_counted_in_baseline",
+      "root_review_sha256": "1f86c11730ea8241c6c74c9a087ae819d0903e8be395b58a5e043cfea2fd2119",
+      "producer_receipt_sha256": "83920c47c558019d291230261b96f0827376831ae091430ce6971e37a640d8f5",
+      "public": {
+        "file": "bench/tritonbench_g/add_example/FiniteCorrect.lean",
+        "declaration": "add_example_actual_source_outcomes",
+        "statement_sha256": "508207088924a33110b60f931868c3dcae65e0fde34f21a48f5dfd9a99c83493",
+        "line": null
+      },
+      "new_policy_acceptance": "not_reviewed",
+      "pure_primary_case_counts": {
+        "FP32": 6,
+        "BF16": 6
+      }
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "kind": "scope_schema2_compatibility_gate_fix",
+  "reviewer": "/root/scope_integration_review",
+  "status": "implemented_and_tests_passed_not_whole_task_acceptance",
+  "reviewed_input_sha256": {
+    "bench/check_original_program_scope.py": "1943461cf9fad149ef285144de9dda5128724dec9b62428b4be6a649e4d8836d",
+    "bench/current_value_metadata.py": "cc523706dde7864b706de0cec9e1f51116852997b4bffdc8c5fde7151e896a6d",
+    "bench/tests/test_original_program_scope.py": "e7534aa7d47554bd4ca6262c1c49707b039a66e2162f6e5f0f68b3eb04997749",
+    "bench/tests/test_current_value_metadata.py": "6166cd470eb1838745cee7f9ad70f6ba7e20fb0c2047bfe65b58b979ee387fa8"
+  },
+  "reproduced_before_fix": [
+    "A kernel-only fp32 selected profile was accepted as all host/stage/dtype scope after merely rebinding a root review",
+    "A registered fp32 numerical rule was accepted with fp64 configuration",
+    "An exp2 callback was accepted against an unrelated registered rounding rule",
+    "Full-stage evidence with no covered stages was accepted"
+  ],
+  "changes": [
+    "Accepted rows require scope_schema=2; partial/pending rows and partial supplements remain usable",
+    "Execution evidence declares exact original Python AST scope IDs bound to the source inventory, with structured canonical dtype maps and configuration cases; covered obligations match exact evidence cases",
+    "Only complete_original_declared_domain or complete_enumerated_wrapper_dtype_domain execution declarations can discharge an entire dtype-domain obligation",
+    "Every numerical deferral selects an exact queue scope_binding that binds task, theorem file/name/statement hash, callbacks, dtype profile and configuration; each actually used theorem/callback/case must match a registration",
+    "Multiple configurations for the same numerical rule use separate registered binding IDs; omitted or unrelated registrations fail",
+    "New declarations.original_scope metadata is included in current_value_metadata.value_scope root-review digest"
+  ],
+  "validation": [
+    {
+      "command": "python3 -B -m unittest discover -s bench/tests -p test_*.py",
+      "exit_code": 0,
+      "tests": 196,
+      "log": "/tmp/veritile-standardization-20261015/scope-schema2-bench-tests.log",
+      "log_sha256": "53777c2dd1e52a619626c9dd72215bea3dc02bfb2cbeab29730f1ee95d0136d6",
+      "seconds": 109.439
+    }
+  ],
+  "remaining_semantic_boundaries": [
+    "The gate checks exact metadata compatibility, not the truth of theorem-to-Python source correspondence",
+    "Semantic review remains responsible for exhaustive dtype/configuration domains and whether every required program behavior has been proved",
+    "Numerical queue scope_bindings are the explicit semantic registration authority; compatibility is not guessed from operation names, formulas or prose",
+    "Existing numerical queue rules have not been extended or promoted by this change; accepted rows using them must first register exact scope bindings through the reviewed queue workflow",
+    "No corpus proof replay, new Lean build, official comparator replay or whole-task acceptance is claimed by these Python tests"
+  ],
+  "other_files_changed": false
+}

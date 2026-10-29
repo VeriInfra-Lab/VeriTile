@@ -1,0 +1,319 @@
+--- a/bench/deferred_numerical_experiments.py
++++ b/bench/deferred_numerical_experiments.py
+@@ -3,6 +3,7 @@
+ from __future__ import annotations
+ 
+ import argparse
++import gzip
+ from collections import Counter
+ import hashlib
+ import json
+@@ -221,7 +222,7 @@
+     lines += ["", "## Reproduction and batch handoff", "",
+               "Run from the repository root:", "", "```sh",
+               "python3 -B bench/deferred_numerical_experiments.py --check", "```", "",
+-              "The [JSON queue](deferred_numerical_experiments.json) contains all task scopes, "
++              "The [compressed JSON queue](deferred_numerical_experiments.json.gz) contains all task scopes, "
+               "declaration references, binding relations, existing job recipes, corner cases, "
+               "report records and source hashes. The [Retention supplement]"
+               "(parallel_retention_attention/NUMERICAL_ASSUMPTIONS.json) gives per-obligation captures.", "",
+@@ -243,21 +244,37 @@
+     return "\n".join(lines)
+ 
+ 
++def write_outputs(root: Path, data, *, check: bool):
++    """Keep a single active queue; verify its exact decompressed JSON text."""
++    from adapter_common import write_json
++    legacy = root / (OUTPUT + ".json")
++    if legacy.exists() or legacy.is_symlink():
++        raise ValueError("Competing plain numerical queue; archive it before migration: " + str(legacy))
++    queue = root / (OUTPUT + ".json.gz")
++    expected = json.dumps(data, indent=2, ensure_ascii=False) + "\n"
++    document = root / (OUTPUT + ".md")
++    rendered = markdown(data)
++    if check:
++        if not queue.is_file():
++            raise ValueError("Missing compressed numerical queue: " + str(queue))
++        # Read to EOF so gzip CRC/length failures cannot pass --check.
++        with gzip.open(queue, "rt", encoding="utf-8") as stream:
++            if stream.read() != expected:
++                raise ValueError("Stale deferred experiment queue: " + str(queue))
++        if not document.is_file() or document.read_text() != rendered:
++            raise ValueError("Stale deferred experiment handoff: " + str(document))
++    else:
++        write_json(queue, data)
++        document.write_text(rendered)
++
++
+ def main():
+     parser = argparse.ArgumentParser(description=__doc__)
+     parser.add_argument("--root", type=Path, default=ROOT)
+     parser.add_argument("--check", action="store_true")
+     args = parser.parse_args()
+     data = collect(args.root)
+-    outputs = {OUTPUT + ".json": json.dumps(data, indent=2, ensure_ascii=False) + "\n",
+-               OUTPUT + ".md": markdown(data)}
+-    for name, content in outputs.items():
+-        path = args.root / name
+-        if args.check:
+-            if not path.is_file() or path.read_text() != content:
+-                raise SystemExit("Stale deferred experiment queue: " + name)
+-        else:
+-            path.write_text(content)
++    write_outputs(args.root, data, check=args.check)
+     print(json.dumps(data["summary"], sort_keys=True))
+ 
+ 
+--- a/bench/check_original_program_scope.py
++++ b/bench/check_original_program_scope.py
+@@ -19,7 +19,7 @@
+ from exact_scope_gate import validated_exact_requirements, validate_exact_case_links
+ 
+ EXCLUDED_TASK = 'fp4_to_bf16_conversion'
+-QUEUE = BASE + 'deferred_numerical_experiments.json'
++QUEUE = BASE + 'deferred_numerical_experiments.json.gz'
+ DIMENSIONS = ('stages', 'dtypes', 'branches')
+ ACCEPTED = {'verified', 'verified_with_deferred_numerics'}
+ RULE_STATES = {'pending_exact_binding', 'existing_report_optional_replay', 'shared_model_check', 'pending_numeric_validation'}
+@@ -434,10 +434,7 @@
+     errors = []
+     if ledger.get('catalog_sha256') != sha(canonical(catalog)):
+         errors.append('scope ledger is unbound or belongs to another catalog')
+-    queue_ref = ledger.get('deferred_queue') or {}
+-    if queue_ref.get('path') != QUEUE:
+-        raise ValueError('scope ledger must bind the unified numerical queue')
+-    queue = load(checked(root, QUEUE, queue_ref.get('sha256')))
++    queue = load_active_queue(root, ledger.get('deferred_queue') or {})
+     counts = Counter()
+     results = []
+     for name in expected:
+@@ -455,6 +452,17 @@
+         'boundary': 'Source-scope review only; full build, axiom and official comparator replay are independent gates. Deferred numerical rules remain assumptions, not validated hardware facts.'}
+ 
+ 
++def load_active_queue(root, queue_ref):
++    """The standalone scope gate must also reject a competing plain queue."""
++    root = Path(root)
++    plain = root / (BASE + 'deferred_numerical_experiments.json')
++    if plain.exists() or plain.is_symlink():
++        raise ValueError('Competing plain numerical queue; only .json.gz may be active')
++    if queue_ref.get('path') != QUEUE:
++        raise ValueError('scope ledger must bind the unified numerical queue')
++    return load(checked(root, QUEUE, queue_ref.get('sha256')))
++
++
+ def main():
+     parser = argparse.ArgumentParser(description=__doc__)
+     parser.add_argument('--root', type=Path, required=True)
+--- a/bench/tests/test_numerical_queue_storage.py
++++ b/bench/tests/test_numerical_queue_storage.py
+@@ -0,0 +1,92 @@
++"""The active numerical queue must be unambiguous and fully readable."""
++from copy import deepcopy
++import gzip
++from pathlib import Path
++import tempfile
++import unittest
++from unittest.mock import patch
++
++import sys
++sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
++import deferred_numerical_experiments as queue
++from adapter_common import load
++
++
++class NumericalQueueStorageTests(unittest.TestCase):
++    def setUp(self):
++        self.temp = tempfile.TemporaryDirectory()
++        self.addCleanup(self.temp.cleanup)
++        self.root = Path(self.temp.name)
++        self.data = {
++            'summary': {'inventory_tasks': 184, 'tasks_with_native_recipes': 4},
++            'rules': [], 'supplements': [{'obligations': []}],
++            'input_sha256': {'source.py': 'a' * 64},
++            'boundary': 'Numerical conformance remains deferred; 数值验证待办',
++        }
++        self.path = self.root / (queue.OUTPUT + '.json.gz')
++        self.plain = self.root / (queue.OUTPUT + '.json')
++
++    def generate(self):
++        queue.write_outputs(self.root, self.data, check=False)
++
++    def test_roundtrip_deterministic_and_one_active_path(self):
++        self.generate()
++        first = self.path.read_bytes()
++        self.assertEqual(load(self.path), self.data)
++        self.assertFalse(self.plain.exists())
++        self.generate()
++        self.assertEqual(first, self.path.read_bytes())
++        queue.write_outputs(self.root, self.data, check=True)
++
++    def test_changed_declaration_evidence_is_stale(self):
++        self.generate()
++        changed = deepcopy(self.data)
++        changed['input_sha256']['source.py'] = 'b' * 64
++        with self.assertRaisesRegex(ValueError, 'Stale deferred experiment queue'):
++            queue.write_outputs(self.root, changed, check=True)
++
++    def test_truncated_and_crc_corrupted_gzip_rejected(self):
++        self.generate()
++        original = self.path.read_bytes()
++        bad_crc = bytearray(original)
++        bad_crc[-8] ^= 1
++        for invalid in (original[:-4], bytes(bad_crc)):
++            with self.subTest(size=len(invalid)):
++                self.path.write_bytes(invalid)
++                with self.assertRaises((OSError, EOFError, ValueError)):
++                    queue.write_outputs(self.root, self.data, check=True)
++
++    def test_plain_queue_never_silently_shadows_compressed(self):
++        self.generate()
++        self.plain.write_bytes(gzip.decompress(self.path.read_bytes()))
++        for check in (True, False):
++            with self.subTest(check=check), self.assertRaisesRegex(ValueError, 'Competing plain'):
++                queue.write_outputs(self.root, self.data, check=check)
++
++    def test_old_path_only_is_not_a_successful_check(self):
++        self.generate()
++        self.plain.write_bytes(gzip.decompress(self.path.read_bytes()))
++        self.path.unlink()
++        with self.assertRaises(ValueError):
++            queue.write_outputs(self.root, self.data, check=True)
++
++    def test_missing_queue_or_stale_document_rejected(self):
++        with self.assertRaisesRegex(ValueError, 'Missing compressed'):
++            queue.write_outputs(self.root, self.data, check=True)
++        self.generate()
++        (self.root / (queue.OUTPUT + '.md')).write_text('stale\n')
++        with self.assertRaisesRegex(ValueError, 'Stale deferred experiment handoff'):
++            queue.write_outputs(self.root, self.data, check=True)
++
++    def test_cli_default_uses_compressed_queue_for_write_and_check(self):
++        with patch.object(queue, 'collect', return_value=self.data):
++            for arguments in ([], ['--check']):
++                with patch('sys.argv', ['deferred_numerical_experiments.py',
++                                       '--root', str(self.root), *arguments]):
++                    queue.main()
++        self.assertTrue(self.path.is_file())
++        self.assertFalse(self.plain.exists())
++
++
++if __name__ == '__main__':
++    unittest.main()
+--- a/bench/tests/test_numerical_queue_migration.py
++++ b/bench/tests/test_numerical_queue_migration.py
+@@ -0,0 +1,35 @@
++"""The standalone original-scope gate must enforce the single active queue."""
++from pathlib import Path
++import gzip,json,sys,tempfile,unittest
++sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
++from adapter_common import hash_file,write_json
++import check_original_program_scope as scope
++import deferred_numerical_experiments as producer
++
++class NumericalQueueMigrationTests(unittest.TestCase):
++ def setUp(self):
++  self.temp=tempfile.TemporaryDirectory();self.addCleanup(self.temp.cleanup);self.root=Path(self.temp.name);self.gz=self.root/scope.QUEUE;self.plain=self.root/(producer.OUTPUT+'.json');self.data={'rules':[],'tasks':[]};write_json(self.gz,self.data);self.ref={'path':scope.QUEUE,'sha256':hash_file(self.gz)}
++ def test_scope_reads_exact_gzip(self):self.assertEqual(scope.load_active_queue(self.root,self.ref),self.data)
++ def test_scope_rejects_both_even_when_bytes_identical(self):
++  self.plain.write_bytes(gzip.decompress(self.gz.read_bytes()))
++  with self.assertRaisesRegex(ValueError,'Competing plain'):scope.load_active_queue(self.root,self.ref)
++ def test_scope_rejects_plain_only(self):
++  self.plain.write_bytes(gzip.decompress(self.gz.read_bytes()));self.gz.unlink()
++  with self.assertRaisesRegex(ValueError,'Competing plain'):scope.load_active_queue(self.root,self.ref)
++ def test_dangling_plain_name_is_not_silently_reused(self):
++  self.plain.symlink_to(self.root/'missing')
++  with self.assertRaisesRegex(ValueError,'Competing plain'):scope.load_active_queue(self.root,self.ref)
++  for check in [False,True]:
++   with self.assertRaisesRegex(ValueError,'Competing plain'):producer.write_outputs(self.root,self.data,check=check)
++ def test_old_ledger_path_or_stale_hash_rejected(self):
++  for bad in [{'path':producer.OUTPUT+'.json','sha256':self.ref['sha256']},{'path':scope.QUEUE,'sha256':'0'*64}]:
++   with self.assertRaises(ValueError):scope.load_active_queue(self.root,bad)
++ def test_invalid_gzip_rejected_even_after_repin(self):
++  original=self.gz.read_bytes();crc=bytearray(original);crc[-8]^=1
++  for raw in [original[:-4],bytes(crc),original+b'not-gzip']:
++   self.gz.write_bytes(raw)
++   with self.assertRaises((ValueError,OSError,EOFError)):scope.load_active_queue(self.root,{'path':scope.QUEUE,'sha256':hash_file(self.gz)})
++ def test_duplicate_json_key_rejected_after_repin(self):
++  self.gz.write_bytes(gzip.compress(b'{"rules":[],"rules":[1]}',mtime=0))
++  with self.assertRaisesRegex(ValueError,'duplicate JSON'):scope.load_active_queue(self.root,{'path':scope.QUEUE,'sha256':hash_file(self.gz)})
++if __name__=='__main__':unittest.main()
+--- a/bench/current_source_acceptance.md
++++ b/bench/current_source_acceptance.md
+@@ -1,7 +1,16 @@
+ # Current development and acceptance
+ 
+-The requested scope is **183 original programs, covering all declared stages,
+-dtypes and branches**. **8 source scopes are accepted and 175 remain pending.**
++The current goal is **183 original programs with Real, FP32 and BF16 as the
++three primary versions, plus source-required types**, under the approved
++[primary-version policy](review-checkpoints/2026-10-16/native-mul2-relu-custom-add-example-acceptance/primary-version-policy.md). Each selected version retains its actual
++stages, branches, layouts, memory behavior and failure paths. The
++[eight-task evidence map](review-checkpoints/2026-10-16/native-mul2-relu-custom-add-example-acceptance/evidence/three-version-inventory/eight-task-mapping.md) records reusable proofs and remaining
++version-specific gaps.
++
++The **legacy full-source scope ledger records 8 accepted and 175 pending**.
++These counts retain the earlier wider-domain work; they do not mean that eight
++tasks have completed all three versions. This storage migration assigns no new
++version-completion counts.
+ `matrix_transpose` is verified under explicit primitive contracts. Seven tasks
+ are verified with exactly registered numerical deferrals: `quantize_global`,
+ `vector_addition`, `quant_transpose_kernel`, `triton_mul2`, `relu_triton_kernel`,
+@@ -22,7 +31,7 @@
+ has 62 execution and six protocol declarations. These are proof-inventory
+ counts, separate from original-program acceptance.
+ 
+-The [plain numerical queue](tritonbench_g/deferred_numerical_experiments.json)
++The [compressed numerical queue](tritonbench_g/deferred_numerical_experiments.json.gz)
+ contains 239 rules and 2,366 exact bindings across 22,317 cases in 12 declarations.
+ The queue remains fail-closed against the reviewed source-derived authority;
+ these registrations do not establish native scalar conformance. Existing
+@@ -45,3 +54,5 @@
+ previous build/test counts, partial-scope tables and historical comparator
+ results describe earlier states. Their proof evidence and checkpoint links
+ remain available; the current summary above supersedes their progress claims.
++
++The [pre-migration summary](@MIGRATION_CHECKPOINT@/before/bench/current_source_acceptance.md) is preserved byte-for-byte with the gzip migration evidence.
+--- a/bench/original_program_scope.md
++++ b/bench/original_program_scope.md
+@@ -1,12 +1,20 @@
+ # Original-program scope review
+ 
+-The requested standard covers **all declared stages, dtypes and branches of
+-183 original programs**. `fp4_to_bf16_conversion` is excluded because its existing
+-contract covers a repaired candidate; the separate `fp4_to_bf16` original task
+-remains in the requested set.
++The current development target is **Real, FP32 and BF16 for 183 original
++programs, plus source-required types**, as specified by the approved
++[primary-version policy](review-checkpoints/2026-10-16/native-mul2-relu-custom-add-example-acceptance/primary-version-policy.md). The
++[eight-task evidence map](review-checkpoints/2026-10-16/native-mul2-relu-custom-add-example-acceptance/evidence/three-version-inventory/eight-task-mapping.md) preserves existing proofs and records the
++work still needed for each selected version. No new three-version completion
++count is assigned by the queue storage migration.
++
++This page describes the retained **legacy full-source scope checker**, whose
++contract covers all declared stages, dtypes and branches. Its earlier wider
++proofs remain reusable evidence; its counts do not establish completion of the
++three selected versions. `fp4_to_bf16_conversion` remains the separate repaired
++candidate, and the `fp4_to_bf16` original task remains in the requested set.
+ 
+ The active [`original_program_scope.json.gz`](original_program_scope.json.gz)
+-records **8 source scopes accepted and 175 pending**. `matrix_transpose` is
++records **8 legacy full-source scopes accepted and 175 pending**. `matrix_transpose` is
+ verified under explicit primitive contracts. `quantize_global`, `vector_addition`,
+ `quant_transpose_kernel`, `triton_mul2`, `relu_triton_kernel`,
+ `vector_addition_custom` and `add_example` are verified with exactly registered
+@@ -49,7 +57,7 @@
+ Numerical conformance may remain conditional through
+ `verified_with_deferred_numerics`. Every used law/model ID and every unclosed
+ numerical callback must map to an explicit rule in the unified
+-[`deferred_numerical_experiments.json`](tritonbench_g/deferred_numerical_experiments.json)
++[`deferred_numerical_experiments.json.gz`](tritonbench_g/deferred_numerical_experiments.json.gz)
+ queue, with its exact rule hash, dtype profile, configuration and required future
+ validation. A callback without a registered rule stays blocked. Refuted rules,
+ missing translations, omitted stages/branches/dtypes, host composition, value
+@@ -106,3 +114,5 @@
+ extensions and numerical registrations remain in their frozen checkpoints.
+ The new reviewed contracts supersede the older pending conclusions for the
+ four tasks accepted in this batch; historical evidence itself is unchanged.
++
++The [pre-migration summary](@MIGRATION_CHECKPOINT@/before/bench/original_program_scope.md) is preserved byte-for-byte with the gzip migration evidence.

@@ -1,0 +1,6 @@
+QuantizeGlobalFinite.lanes_outcome: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantizeGlobalFinite.grid_outcome: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantizeGlobalFinite.trials_outcome: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantizeGlobalFinite.quantize_global_all_finite_value_outcomes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

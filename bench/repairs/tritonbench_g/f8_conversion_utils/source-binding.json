@@ -1,0 +1,16 @@
+{
+  "original_sha256": "9bedcae7e2ffbf6b4e11d10bc52964c85c5e03e8ea837489e691e515fd2348a9",
+  "candidate_sha256": "b31af35fe05efb458c3f1b3a88bf91fc6658323c70a241fd24bb3c6f0ec065a2",
+  "both_kernel_ASTs_unchanged": true,
+  "chunk_size": 1073741824,
+  "checked_formats": [
+    "float8e5",
+    "float8e4nv"
+  ],
+  "decode_input": "int8",
+  "encode_inputs": [
+    "float16",
+    "float32"
+  ],
+  "gpu_execution": false
+}

@@ -1,0 +1,198 @@
+{
+  "status": "passed",
+  "checks": [
+    {
+      "check": "entry-role-guard",
+      "exit_code": 0,
+      "log": "bench/review-checkpoints/2026-10-22/headline-separation/entry-role-guard.log",
+      "log_sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "check": "ledger-check",
+      "exit_code": 0,
+      "log": "bench/review-checkpoints/2026-10-22/headline-separation/ledger-check.log",
+      "log_sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    }
+  ],
+  "modified_task_targeted_and_joint_checks": [
+    {
+      "task": "context_attn_fwd",
+      "targeted_build_exit_code": 0,
+      "fresh_main_optional_joint_exit_code": 0,
+      "detail": {
+        "path": ".veritile-cache/headline-separation-20261022/queue04-result.json",
+        "sha256": "46166655a491962010ae8bcdccca17506b91ac18504e1bef195aad30fae18cd2",
+        "task_index": 4
+      }
+    },
+    {
+      "task": "fused_recurrent_delta",
+      "targeted_build_exit_code": 0,
+      "fresh_main_optional_joint_exit_code": 0,
+      "detail": {
+        "path": ".veritile-cache/headline-separation-20261022/queue01-result.json",
+        "sha256": "3224bf90cd9e1c2ccf948bbdfed7dc3178a5e1fe0a0e4cb1ee04a4a09194a067",
+        "task_index": 8
+      }
+    },
+    {
+      "task": "fused_recurrent_hgrn",
+      "targeted_build_exit_code": 0,
+      "fresh_main_optional_joint_exit_code": 0,
+      "detail": {
+        "path": ".veritile-cache/headline-separation-20261022/queue02-result.json",
+        "sha256": "f791f074d2a31a5648842eda3827be96a2c1e680b778bd19c8ac8a710e2dc053",
+        "task_index": 8
+      }
+    },
+    {
+      "task": "geglu_tanh_triton",
+      "targeted_build_exit_code": 0,
+      "fresh_main_optional_joint_exit_code": 0,
+      "detail": {
+        "path": ".veritile-cache/headline-separation-20261022/queue06-result.json",
+        "sha256": "a6be97f53108567db500a46eb4459f1866c88ca793f4680f1f57cef53597fd6b",
+        "task_index": 8
+      }
+    },
+    {
+      "task": "index_select_bwd",
+      "targeted_build_exit_code": 0,
+      "fresh_main_optional_joint_exit_code": 0,
+      "detail": {
+        "path": ".veritile-cache/headline-separation-20261022/root/result.json",
+        "sha256": "ac5c72db1574898c2a7f6963828e81bd60cf820e7d81982ecd2b1667db09f9c7",
+        "task_index": 0
+      }
+    },
+    {
+      "task": "llama_ff_triton",
+      "targeted_build_exit_code": 0,
+      "fresh_main_optional_joint_exit_code": 0,
+      "detail": {
+        "path": ".veritile-cache/headline-separation-20261022/queue01-result.json",
+        "sha256": "3224bf90cd9e1c2ccf948bbdfed7dc3178a5e1fe0a0e4cb1ee04a4a09194a067",
+        "task_index": 12
+      }
+    },
+    {
+      "task": "matrix_vector_multip",
+      "targeted_build_exit_code": 0,
+      "fresh_main_optional_joint_exit_code": 0,
+      "detail": {
+        "path": ".veritile-cache/headline-separation-20261022/root/result.json",
+        "sha256": "ac5c72db1574898c2a7f6963828e81bd60cf820e7d81982ecd2b1667db09f9c7",
+        "task_index": 1
+      }
+    },
+    {
+      "task": "quant_transpose_kernel",
+      "targeted_build_exit_code": 0,
+      "fresh_main_optional_joint_exit_code": 0,
+      "detail": {
+        "path": ".veritile-cache/headline-separation-20261022/queue05-result.json",
+        "sha256": "7cdc7fd53d38ededea3f8ddf61228f55cb35530ad5ea487e56f678bdf66d5743",
+        "task_index": 15
+      }
+    },
+    {
+      "task": "softmax_triton2",
+      "targeted_build_exit_code": 0,
+      "fresh_main_optional_joint_exit_code": 0,
+      "detail": {
+        "path": ".veritile-cache/headline-separation-20261022/queue06-result.json",
+        "sha256": "a6be97f53108567db500a46eb4459f1866c88ca793f4680f1f57cef53597fd6b",
+        "task_index": 19
+      }
+    },
+    {
+      "task": "triton_attention",
+      "targeted_build_exit_code": 0,
+      "fresh_main_optional_joint_exit_code": 0,
+      "detail": {
+        "path": ".veritile-cache/headline-separation-20261022/queue04-result.json",
+        "sha256": "46166655a491962010ae8bcdccca17506b91ac18504e1bef195aad30fae18cd2",
+        "task_index": 21
+      }
+    },
+    {
+      "task": "uniform_sampling",
+      "targeted_build_exit_code": 0,
+      "fresh_main_optional_joint_exit_code": 0,
+      "detail": {
+        "path": ".veritile-cache/headline-separation-20261022/queue02-result.json",
+        "sha256": "f791f074d2a31a5648842eda3827be96a2c1e680b778bd19c8ac8a710e2dc053",
+        "task_index": 22
+      }
+    }
+  ],
+  "changed_task_files": [
+    "bench/repairs/tritonbench_g/context_attn_fwd/Correct.lean",
+    "bench/repairs/tritonbench_g/context_attn_fwd/Misc/SourceCompatibility.lean",
+    "bench/repairs/tritonbench_g/context_attn_fwd/README.md",
+    "bench/repairs/tritonbench_g/fused_recurrent_delta/Correct.lean",
+    "bench/repairs/tritonbench_g/fused_recurrent_delta/Misc/HostCorrect.lean",
+    "bench/repairs/tritonbench_g/fused_recurrent_delta/Misc/HostFPEquiv.lean",
+    "bench/repairs/tritonbench_g/fused_recurrent_delta/Misc/KernelCompatibility.lean",
+    "bench/repairs/tritonbench_g/fused_recurrent_delta/Misc/NativeCorrect.lean",
+    "bench/repairs/tritonbench_g/fused_recurrent_delta/Proofs/KernelCompatibility.lean",
+    "bench/repairs/tritonbench_g/fused_recurrent_delta/README.md",
+    "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Correct.lean",
+    "bench/repairs/tritonbench_g/geglu_tanh_triton/Misc/NativeObservation.lean",
+    "bench/repairs/tritonbench_g/geglu_tanh_triton/Misc/RawNativeApplication.lean",
+    "bench/repairs/tritonbench_g/geglu_tanh_triton/Misc/TensorBridge.lean",
+    "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/RawNative.lean",
+    "bench/repairs/tritonbench_g/geglu_tanh_triton/README.md",
+    "bench/repairs/tritonbench_g/index_select_bwd/Correct.lean",
+    "bench/repairs/tritonbench_g/index_select_bwd/Misc/CompositionCorrect.lean",
+    "bench/repairs/tritonbench_g/index_select_bwd/README.md",
+    "bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Correct.lean",
+    "bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Misc/RawCorrect.lean",
+    "bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Misc/TensorBridge.lean",
+    "bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/RawCorrect.lean",
+    "bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/README.md",
+    "bench/repairs/tritonbench_g/matrix_vector_multip/FPEquiv.lean",
+    "bench/repairs/tritonbench_g/matrix_vector_multip/Misc/TileEquiv.lean",
+    "bench/repairs/tritonbench_g/matrix_vector_multip/README.md",
+    "bench/repairs/tritonbench_g/quant_transpose_kernel/Correct.lean",
+    "bench/repairs/tritonbench_g/quant_transpose_kernel/Misc/RealCorollaries.lean",
+    "bench/repairs/tritonbench_g/quant_transpose_kernel/README.md",
+    "bench/repairs/tritonbench_g/softmax_triton2/Misc/RealApplication.lean",
+    "bench/repairs/tritonbench_g/softmax_triton2/Misc/TensorBridge.lean",
+    "bench/repairs/tritonbench_g/softmax_triton2/Proofs/Real.lean",
+    "bench/repairs/tritonbench_g/softmax_triton2/README.md",
+    "bench/repairs/tritonbench_g/triton_attention_scalar_abi_checked/Correct.lean",
+    "bench/repairs/tritonbench_g/triton_attention_scalar_abi_checked/Misc/RealFacts.lean",
+    "bench/repairs/tritonbench_g/triton_attention_scalar_abi_checked/Misc/ReviewEntry.lean",
+    "bench/repairs/tritonbench_g/triton_attention_scalar_abi_checked/README.md",
+    "bench/repairs/tritonbench_g/uniform_sampling/Correct.lean",
+    "bench/repairs/tritonbench_g/uniform_sampling/Misc/Coverage.lean",
+    "bench/repairs/tritonbench_g/uniform_sampling/README.md"
+  ],
+  "negative_guard_probes": [
+    {
+      "probe": "stale_source_pin",
+      "rejected": true,
+      "diagnostic": "adam_update_triton: bench/repairs/tritonbench_g/adam_update_triton/Correct.lean: source changed; role review required"
+    },
+    {
+      "probe": "auxiliary_as_headline",
+      "rejected": true,
+      "diagnostic": "adam_update_triton: bench/repairs/tritonbench_g/adam_update_triton/Correct.lean: auxiliary marked as main specification"
+    },
+    {
+      "probe": "ordinary_helper_in_reader",
+      "rejected": true,
+      "diagnostic": "adam_update_triton: bench/repairs/tritonbench_g/adam_update_triton/Correct.lean: declaration inventory changed"
+    }
+  ],
+  "diff_and_whitespace_check": "passed for this pass files",
+  "review_evidence_pins": "all matched",
+  "proof_completion_and_current_numerical_scope": "unchanged",
+  "cross_task_combined_import_status": "not_passed, unchanged",
+  "independent_full_source_replay": "not_run",
+  "gpu_execution": "not_run",
+  "guard_sha256": "89f6d3469afaa82dcab2c247c8b37fb278f8c03a2a21d51fd21e4d2c891124b5",
+  "audit_sha256": "97fb717f03d049d9dc9a90abde1ff512dba4e0f22e896a7ce3662542bb95bc10",
+  "elapsed_seconds": 51.16
+}

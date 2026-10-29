@@ -1,0 +1,7 @@
+import VeriTile.Meta.StatementAudit
+import bench.repairs.tritonbench_g.kcache_copy_triton.Contract
+import bench.repairs.tritonbench_g.kcache_copy_triton.Correct
+import bench.repairs.tritonbench_g.kcache_copy_triton.FPEquiv
+
+#axiomsClean VeriTile.Bench.Repairs.KcacheCopyTriton.Correct.kcache_copy_triton_real
+#axiomsClean VeriTile.Bench.Repairs.KcacheCopyTriton.FPEquiv.source_equivalence

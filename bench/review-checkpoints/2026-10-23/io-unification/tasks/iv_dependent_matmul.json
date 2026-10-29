@@ -1,0 +1,288 @@
+{
+  "schema": 1,
+  "task": "iv_dependent_matmul",
+  "status": "unchanged",
+  "owner": {
+    "path": ".veritile-cache/io-unification-20261023/queue07/result.json",
+    "sha256": "7964422efcf832f57a9615026903fd10ee02cb3188002bf24c266dd4cf0792ea",
+    "task_index": 6
+  },
+  "reason": "The corresponding core memory interface and main-theorem logical view already reside in the same IO module; no separate logical adapter remains.",
+  "selected_public_entries": [
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Contract.lean",
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Correct.lean",
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/FPEquiv.lean"
+  ],
+  "previous_semantic_review": {
+    "manifest": {
+      "path": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json",
+      "sha256": "5df771b8603eaf5d9f08b4fde0c5b938c18087c00092f5348b47eb54d33a8225"
+    },
+    "task": "iv_dependent_matmul"
+  },
+  "changed_files": [],
+  "removed_files": [],
+  "moved_declarations": [],
+  "preservation": {
+    "before_snapshot_root": ".veritile-cache/io-unification-20261023/queue07/before",
+    "byte_check": {
+      "path": ".veritile-cache/io-unification-20261023/queue07/preservation-check.json",
+      "sha256": "ff9a03759bf3db7fa79553e98b102ed7cd8b3a71a548249d0bd2aa8efdcc87ff"
+    },
+    "all_unlisted_sources_unchanged": true,
+    "Kernels_Contract_Correct_FPEquiv_byte_unchanged": true,
+    "all_Proofs_nonimport_bodies_byte_unchanged": true,
+    "original_public_names_and_full_judgment_types_preserved": "Public theorem source is byte-identical; moved IO definition blocks remain contiguous and byte-identical with original namespaces. Existing complete iff/execution/safety/frame proofs retain their original bodies. Changed-task public Lean checks display those full judgments."
+  },
+  "verification": [
+    {
+      "kind": "fresh_byte_preservation_and_cached_baseline_revalidation",
+      "command": [
+        "python",
+        ".veritile-cache/io-unification-20261023/queue07/check_preservation.py"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue07/preservation-check.log",
+      "log_sha256": "f06de954e93b646a070b504edeaab5faf886654019bf4e78431fa2f8ad4df319",
+      "artifact": {
+        "path": ".veritile-cache/io-unification-20261023/queue07/preservation-check.json",
+        "sha256": "ff9a03759bf3db7fa79553e98b102ed7cd8b3a71a548249d0bd2aa8efdcc87ff"
+      },
+      "fresh_lean_source_compile": false
+    },
+    {
+      "kind": "reused_previous_successful_current_source_build_and_joint",
+      "fresh_source_compile": false,
+      "owner_report": ".veritile-cache/logical-reader-review-20261022/queue07/result.json",
+      "owner_report_sha256": "583e8d793cba1d71d000c2bdd3e45247f36f7ed54dadb5684382c4c861f64a4b",
+      "previous_verification": [
+        {
+          "kind": "final_current_source_build",
+          "command": [
+            "python",
+            "-u",
+            ".veritile-cache/logical-reader-review-20261022/queue07/build.py",
+            "bench.repairs.tritonbench_g.iv_dependent_matmul_dot_shape.IO",
+            "bench.repairs.tritonbench_g.iv_dependent_matmul_dot_shape.Proofs.LogicalReader",
+            "bench.repairs.tritonbench_g.iv_dependent_matmul_dot_shape.Correct",
+            "bench.repairs.tritonbench_g.iv_dependent_matmul_dot_shape.FPEquiv"
+          ],
+          "exit_code": 0,
+          "log": ".veritile-cache/logical-reader-review-20261022/queue07/iv_dependent_matmul_dot_shape-verified-build.log",
+          "log_sha256": "5ab318ebd43c548d9c1d8e343046c92195da991de3c8816210dcd68a3b23ab77"
+        },
+        {
+          "kind": "joint_import_current_entries",
+          "command": [
+            "python",
+            "-u",
+            ".veritile-cache/logical-reader-review-20261022/queue07/build.py",
+            "--check",
+            ".veritile-cache/logical-reader-review-20261022/queue07/iv_dependent_matmul_dot_shape-joint.lean"
+          ],
+          "exit_code": 0,
+          "log": ".veritile-cache/logical-reader-review-20261022/queue07/iv_dependent_matmul_dot_shape-verified-joint.log",
+          "log_sha256": "aa4c3d267a83cae3eaed252ecda80c245e8fea349f2dc2040b7b81192be66112"
+        }
+      ],
+      "freshly_revalidated_pins": {
+        "path": ".veritile-cache/io-unification-20261023/queue07/preservation-check.json",
+        "sha256": "ff9a03759bf3db7fa79553e98b102ed7cd8b3a71a548249d0bd2aa8efdcc87ff"
+      }
+    }
+  ],
+  "verification_status": "unchanged_reused",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Contract.lean": "df405588064fedbbb64047f35faab00ebd3680eda02606134ef12db74ed211f1",
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Correct.lean": "ea8cbb049dc3c3c0ccdc89fcfe5b9573f6e62f44471209dbc5d1ee4aa3ae0419",
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/FPEquiv.lean": "cb256832ed7b7c1cfd7e5b972eee1ec60459c885f2f48b6d60cc3313d642e210",
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/IO.lean": "32950138ea620a4ec53b999436aea14afce36a384b0eb4de36ebbd245ad48f9d",
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Kernels.lean": "d17927753478d09b245ff9180d0329974eca4dc5c21dc25f63755bce303179d9",
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Proofs/LogicalReader.lean": "068f2e71989771128eae60138c9e8b82285240f1774f88e108e2c1900bd5a6e8",
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Proofs/Targets.lean": "1917655beec705a688d2e981e6f7424cacee836ccccd7aa60e1a6e2bd150b514",
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Proofs/IOResults.lean": "94e0212bab4d5cc2f1c2e44e894df80950cd3961b9ac2eedfc3994fb00f6f1f3",
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Proofs/ScheduleEquivalence.lean": "394232f800519e68e1eccdd44cb6576c38692ee74d9590ecc96ed92cb03a1bc7",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8",
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Misc/HostExecution.lean": "c3613ebcb3c1bdbeec9401eb894b8abf2ea85f67b035aa64daee656297c11cdd",
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Misc/NativeCorrect.lean": "a3f489b4e3217f2b82d0ec1e3839cdd4b72426f927bae474049be392f78def61",
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Misc/TensorBridge.lean": "a1fd41e2ccff0425cf9b9f976e6bbe4a7f1764a7dad3f6f89531527f1e993009",
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Programs.lean": "ec8969b37722e88053556a98983142a2e108e3585f95c571d03856d0945344cc",
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Proofs/FormulaCongruence.lean": "464902f2734753acac82ce2d1a90042235b880a80dd83d0c6896713a0a724479",
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Proofs/GridExecution.lean": "93aa57f28d9c069fcd8bbd4e6af2c68c22da511c9e0ca3563c76bc223a03f4ea",
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Proofs/GridSafety.lean": "c4c726f0122d96e9297e1b08d541a22610eb1e701c9b122d61e8f9ddaf32c7f0",
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Proofs/IOBinding.lean": "2d1b20295bc7d3a96e9e3f330269877d9d2d582f299f9af97a8494cfc5ffc2e2",
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Proofs/Interface.lean": "42fc87591f5964cd1082ba2dff9b4a2093cdc5eeb236018e4fb37edc1347b13c",
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Proofs/KernelNativeResult.lean": "db19a524af238ca6de119bcefe6a2ab434a7dfb62825cf5b84574692aed410a7",
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Proofs/KernelRealResult.lean": "faef699ff597b16e74babd5dd7868438e81cc4d6c2dcef24abfd700a9faeb33d",
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Proofs/RealExpressions.lean": "8ecfd61e12c396a5f9657697ea489f1bd143254606be3d70ae633dcf87c4b32d",
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Proofs/RealModel.lean": "8035989652e27f88a42b3e97899c1ab611610fa0a9ab204b25408b907c1e0b18",
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Proofs/RealProjection.lean": "ad63189ac9b9d51970cb65b0910a0c19340b2a4144a0bf03ecfdc9c4c96cc1f4",
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Proofs/RealSchedules.lean": "b7a1d8c2abf4c21b62dce279db016030e1c827e47f1ba182a0d529a638200827",
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Proofs/SourceBridge.lean": "53c6e7a77dc88e146f3172cae0ea2255a88329ee9fce82f564d2ff8d4bc0c121",
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Proofs/SourceSafety.lean": "6b66bb0deb3734be90302074a009ff6334b88b6d4fb26c1d7ad71ba35da600ff"
+  },
+  "source_pin_provenance": {
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Contract.lean": {
+      "owner_tasks": [
+        "iv_dependent_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Correct.lean": {
+      "owner_tasks": [
+        "iv_dependent_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/FPEquiv.lean": {
+      "owner_tasks": [
+        "iv_dependent_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/IO.lean": {
+      "owner_tasks": [
+        "iv_dependent_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Kernels.lean": {
+      "owner_tasks": [
+        "iv_dependent_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Proofs/LogicalReader.lean": {
+      "owner_tasks": [
+        "iv_dependent_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Proofs/Targets.lean": {
+      "owner_tasks": [
+        "iv_dependent_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Proofs/IOResults.lean": {
+      "owner_tasks": [
+        "iv_dependent_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Proofs/ScheduleEquivalence.lean": {
+      "owner_tasks": [
+        "iv_dependent_matmul"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalIO.lean": {
+      "owner_tasks": [
+        "mixed_sparse_attention",
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Misc/HostExecution.lean": {
+      "owner_tasks": [
+        "iv_dependent_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Misc/NativeCorrect.lean": {
+      "owner_tasks": [
+        "iv_dependent_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Misc/TensorBridge.lean": {
+      "owner_tasks": [
+        "iv_dependent_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Programs.lean": {
+      "owner_tasks": [
+        "iv_dependent_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Proofs/FormulaCongruence.lean": {
+      "owner_tasks": [
+        "iv_dependent_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Proofs/GridExecution.lean": {
+      "owner_tasks": [
+        "iv_dependent_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Proofs/GridSafety.lean": {
+      "owner_tasks": [
+        "iv_dependent_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Proofs/IOBinding.lean": {
+      "owner_tasks": [
+        "iv_dependent_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Proofs/Interface.lean": {
+      "owner_tasks": [
+        "iv_dependent_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Proofs/KernelNativeResult.lean": {
+      "owner_tasks": [
+        "iv_dependent_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Proofs/KernelRealResult.lean": {
+      "owner_tasks": [
+        "iv_dependent_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Proofs/RealExpressions.lean": {
+      "owner_tasks": [
+        "iv_dependent_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Proofs/RealModel.lean": {
+      "owner_tasks": [
+        "iv_dependent_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Proofs/RealProjection.lean": {
+      "owner_tasks": [
+        "iv_dependent_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Proofs/RealSchedules.lean": {
+      "owner_tasks": [
+        "iv_dependent_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Proofs/SourceBridge.lean": {
+      "owner_tasks": [
+        "iv_dependent_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Proofs/SourceSafety.lean": {
+      "owner_tasks": [
+        "iv_dependent_matmul"
+      ]
+    }
+  },
+  "retired_current_source_pins": {},
+  "limits": [
+    "No source changed for this task. Previous successful source builds and public joint evidence were hash-revalidated; no new Lean source replay is claimed."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/io-unification-20261023/queue16/result.json",
+    "sha256": "12f6dd5ed523e9f723fee3847af964fd8987958c2cb997aa572210c04de5bc84"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

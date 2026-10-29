@@ -1,0 +1,89 @@
+import bench.tritonbench_g.sin_kernel.NativeCorrect
+namespace SinKernelIndependentReview
+open SinKernelNative
+open VeriTile.Triton VeriTile.Bench.TritonBenchG.VectorAddition
+open DTypeScope TypedHost Finite
+noncomputable section
+open Classical
+set_option maxHeartbeats 8000000
+set_option maxRecDepth 24000
+
+theorem exact_grid_boundary (n : Nat) : gridSupported n ↔ n≤(2^31-1)*1024 := by
+  unfold gridSupported Native.gridSupported Native.grid
+  omega
+
+theorem actual_source_negative_pointer :
+    sourcePointer (2^33+32) 4 (2^31+1) (2^21) 0=32 ∧
+    (sourceOffset (2^31+1) (2^21) 0).toInt=-(2^31 : Int) := by
+  rw [source_pointer,source_offset]
+  decide +kernel
+
+theorem raw_little_endian_and_missing :
+    decodeWord .fp32 (fun k => match k with
+      | 0 => some ⟨0x78,by decide⟩ | 1 => some ⟨0x56,by decide⟩
+      | 2 => some ⟨0x34,by decide⟩ | 3 => some ⟨0x12,by decide⟩ | _ => none)=some 0x12345678#32 ∧
+    decodeWord .fp32 (fun k => if k=2 then none else some 0)=none ∧
+    wordByte .fp64 0x0123456789abcdef#64 0=0xef ∧
+    wordByte .fp64 0x0123456789abcdef#64 7=1 := by decide +kernel
+
+theorem scalar_sine_total (b : SinKernelNative.Numerics) (d : Storage) (n : Nat) (x : Word d) :
+    (compiledScalar d n).eval b x=some (evalSin b d x) := by
+  rw [compiled_scalar]
+  cases d <;> rfl
+
+def emptyTensor : HostWrapper.Tensor := ⟨"empty",0,Bool.false,"float32",[0],[1],1000000,none⟩
+def emptyBuffer : Buffer := ⟨100,16,0,none,fun _ => Bool.false,fun _ => Bool.false⟩
+def reverseSchedule (n : Nat) : Schedule n := ⟨(List.range (grid n)).reverse,List.reverse_perm _⟩
+def emptyMetadata : Metadata := ⟨fun _ => 100,fun _ => 0,fun _ => 0,fun _ => emptyBuffer,fun _ => [1],0,reverseSchedule⟩
+theorem null_empty_huge_offset : TensorBinding emptyMetadata emptyTensor .fp32 := by
+  constructor
+  all_goals simp [emptyMetadata,emptyBuffer,emptyTensor,hostExtent,Native.hostExtent,dtypeName]
+
+def mappedTensor : HostWrapper.Tensor := ⟨"mapped",1,Bool.true,"float32",[1],[1],2,some 1⟩
+def mappedBuffer : Buffer := ⟨8,32,16,some 1,fun d => decide (d=0),fun _ => Bool.false⟩
+def mappedMetadata : Metadata := ⟨fun _ => 108,fun _ => 116,fun _ => 16,fun _ => mappedBuffer,fun _ => [1],0,reverseSchedule⟩
+theorem nonidentity_mapped_pointer :
+    TensorBinding mappedMetadata mappedTensor .fp32 ∧
+    mappedMetadata.torchDataPointer mappedTensor≠mappedMetadata.kernelArgumentPointer mappedTensor ∧
+    mappedBuffer.Readable 0 16 4 := by
+  constructor
+  · constructor
+    all_goals simp [mappedMetadata,mappedBuffer,mappedTensor,hostExtent,Native.hostExtent,dtypeName,bytes]
+  · constructor
+    · decide
+    · norm_num [mappedBuffer,Native.Buffer.Readable,Native.Buffer.Inside]
+
+theorem query_before_allocation_failure {M : Type}
+    (ops : (d : Storage) → Memory M (Word d)) (b : SinKernelNative.Numerics)
+    (alloc : Allocator M) (env : Environment) (metadata : Metadata) (kind : InputType)
+    (x : HostWrapper.Tensor) (m : M) (detail : String)
+    (failure : alloc x m=.error detail) :
+    executeHost ops b alloc env metadata kind x m=
+      .failed [.numel x.region x.numel,.emptyLike x.region] (.allocation detail) := by
+  simp [executeHost,failure]
+
+theorem complete_schedule_is_nodup (n : Nat) (schedule : Schedule n) : schedule.pids.Nodup :=
+  schedule.complete.nodup_iff.mpr List.nodup_range
+
+theorem raw_byte_result_at_overlap {M : Type} (ops : Memory M (Word .fp32)) (m : M) :
+    rawFinalByte .fp32 ops [⟨0,0,0,100,0xffffffff#32⟩,⟨1,0,0,102,0x12345678#32⟩] m 103=some 0x56 ∧
+    rawFinalByte .fp32 ops [⟨0,0,0,100,0xffffffff#32⟩,⟨1,0,0,102,0x12345678#32⟩] m 99=ops.byte m 99 := by
+  simp [rawFinalByte,Write.Touches,dtype,bytes,wordByte]
+
+theorem arbitrary_complete_no_access {M : Type} (d : Storage) (ops : Memory M (Word d))
+    (b : SinKernelNative.Numerics) (p : Layout) (schedule : Schedule (2^31)) (m : M) :
+    executeLaunch d ops b p (2^31) schedule m=.ok m :=
+  no_access_returned_memory d ops b p schedule m
+
+#axiomsClean exact_grid_boundary
+#axiomsClean actual_source_negative_pointer
+#axiomsClean raw_little_endian_and_missing
+#axiomsClean scalar_sine_total
+#axiomsClean null_empty_huge_offset
+#axiomsClean nonidentity_mapped_pointer
+#axiomsClean query_before_allocation_failure
+#axiomsClean complete_schedule_is_nodup
+#axiomsClean raw_byte_result_at_overlap
+#axiomsClean arbitrary_complete_no_access
+end
+end SinKernelIndependentReview

@@ -1,0 +1,18 @@
+{
+  "module": "bench/tritonbench_g/quant_transpose_kernel/FiniteAcceptance.lean",
+  "source_sha256": "53a232038880faece23c9a8a920da4f17646c6cf4348fb43972d4034beaa77d6",
+  "source_unchanged": true,
+  "command": [
+    "/tmp/veritile-lean-toolchain/bin/lean",
+    "--root=/tmp/veritile-standardization-20261015/quant-transpose-revision1-root-validation/build-attempt002",
+    "/tmp/veritile-standardization-20261015/quant-transpose-revision1-root-validation/build-attempt002/bench/tritonbench_g/quant_transpose_kernel/FiniteAcceptance.lean",
+    "-o",
+    "/tmp/veritile-standardization-20261015/quant-transpose-revision1-root-validation/build-attempt002/bench/tritonbench_g/quant_transpose_kernel/FiniteAcceptance.olean"
+  ],
+  "LEAN_PATH": "/tmp/veritile-standardization-20261015/quant-transpose-revision1-root-validation/build-attempt002:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean",
+  "exit_code": 0,
+  "seconds": 4.029,
+  "log": "build-attempt002-18-FiniteAcceptance.log",
+  "log_sha256": "c3210dcc5358d677e6c08dc482de36173ac684265b16953b54e8ecd47d187bab",
+  "object_sha256": "dc374e21ea8bf47cae0aec6904512f31ebcd5f08ce67f90d078b5cc4023e823c"
+}

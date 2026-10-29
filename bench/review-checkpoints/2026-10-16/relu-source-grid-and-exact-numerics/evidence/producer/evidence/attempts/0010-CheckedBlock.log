@@ -1,0 +1,246 @@
+/tmp/veritile-standardization-20261015/relu-source-coupled-block-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/CheckedBlock.lean:235:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  step (backend M cmp16 cmp32) (statement e x y N blockSize 2) (startState blockSize initial)
+in the target expression
+  (match
+      match some (startState blockSize initial) with
+      | some state => Except.ok state
+      | none => Except.error (Failure.structural 1, mem) with
+    | Except.error err => Except.error err
+    | Except.ok v =>
+      match
+        match step (backend M cmp16 cmp32) (statement e x y N blockSize 2) v with
+        | some state => Except.ok state
+        | none => Except.error (Failure.structural 2, mem) with
+      | Except.error err => Except.error err
+      | Except.ok v_1 =>
+        match
+          match step (backend M cmp16 cmp32) (statement e x y N blockSize 3) v_1 with
+          | some state => Except.ok state
+          | none => Except.error (Failure.structural 3, mem) with
+        | Except.error err => Except.error err
+        | Except.ok v_2 =>
+          match checkedLoad e x inputBase v_2 mem with
+          | Except.error err => Except.error err
+          | Except.ok v_3 =>
+            match
+              match step (backend M cmp16 cmp32) (statement e x y N blockSize 5) v_3 with
+              | some state => Except.ok state
+              | none => Except.error (Failure.structural 5, mem) with
+            | Except.error err => Except.error err
+            | Except.ok v_4 =>
+              match checkedGate (backend M cmp16 cmp32) e x y outputBase N v_4 mem with
+              | Except.error err => Except.error err
+              | Except.ok v_5 =>
+                match
+                  match step (backend M cmp16 cmp32) (statement e x y N blockSize 6) v_4 with
+                  | some state => Except.ok state
+                  | none => Except.error (Failure.structural 6, v_5) with
+                | Except.error err => Except.error err
+                | Except.ok v_6 =>
+                  pure
+                    ({ pid := pidState initial, start := v, offsets := v_1, mask := v_2, loaded := v_3, result := v_4,
+                        final := v_6 },
+                      v_5)) =
+    Except.ok
+      (expected M e x y N blockSize initial,
+        withBytes mem (ByteMemory.byteProgram M e inputBase outputBase N (initial.pids 0) mem.bytes))
+
+M : FP.Structural.Algebra (BitVec 32)
+cmp16 cmp32 : BitVec 32 → BitVec 32 → Bool
+e : Encoding
+x y : RegionName
+inputBase outputBase N : ℕ
+initial : State (BitVec 32)
+mem : Memory
+view : InputWords e (ByteMemory.loadInput e mem.bytes inputBase) x N initial.mem
+inputReadable : Readable mem inputBase (N * elementBytes e)
+outputWritable : Writable mem outputBase (min N blockSize * 4)
+p : step (backend M cmp16 cmp32) (statement e x y N blockSize 0) initial = some (pidState initial)
+s :
+  step (backend M cmp16 cmp32) (statement e x y N blockSize 1) (pidState initial) = some (startState blockSize initial)
+o :
+  step (backend M cmp16 cmp32) (statement e x y N blockSize 2) (startState blockSize initial) =
+    some (offsetsState blockSize initial)
+m :
+  step (backend M cmp16 cmp32) (statement e x y N blockSize 3) (offsetsState blockSize initial) =
+    some (maskState N blockSize initial)
+l :
+  step (backend M cmp16 cmp32) (statement e x y N blockSize 4) (maskState N blockSize initial) =
+    some (loadedState e x N blockSize initial)
+r :
+  step (backend M cmp16 cmp32) (statement e x y N blockSize 5) (loadedState e x N blockSize initial) =
+    some (resultState M e x N blockSize initial)
+f :
+  step (backend M cmp16 cmp32) (statement e x y N blockSize 6) (resultState M e x N blockSize initial) =
+    some (finalState M e x y N blockSize initial)
+⊢ (match
+      match some (startState blockSize initial) with
+      | some state => Except.ok state
+      | none => Except.error (Failure.structural 1, mem) with
+    | Except.error err => Except.error err
+    | Except.ok v =>
+      match
+        match step (backend M cmp16 cmp32) (statement e x y N blockSize 2) v with
+        | some state => Except.ok state
+        | none => Except.error (Failure.structural 2, mem) with
+      | Except.error err => Except.error err
+      | Except.ok v_1 =>
+        match
+          match step (backend M cmp16 cmp32) (statement e x y N blockSize 3) v_1 with
+          | some state => Except.ok state
+          | none => Except.error (Failure.structural 3, mem) with
+        | Except.error err => Except.error err
+        | Except.ok v_2 =>
+          match checkedLoad e x inputBase v_2 mem with
+          | Except.error err => Except.error err
+          | Except.ok v_3 =>
+            match
+              match step (backend M cmp16 cmp32) (statement e x y N blockSize 5) v_3 with
+              | some state => Except.ok state
+              | none => Except.error (Failure.structural 5, mem) with
+            | Except.error err => Except.error err
+            | Except.ok v_4 =>
+              match checkedGate (backend M cmp16 cmp32) e x y outputBase N v_4 mem with
+              | Except.error err => Except.error err
+              | Except.ok v_5 =>
+                match
+                  match step (backend M cmp16 cmp32) (statement e x y N blockSize 6) v_4 with
+                  | some state => Except.ok state
+                  | none => Except.error (Failure.structural 6, v_5) with
+                | Except.error err => Except.error err
+                | Except.ok v_6 =>
+                  pure
+                    ({ pid := pidState initial, start := v, offsets := v_1, mask := v_2, loaded := v_3, result := v_4,
+                        final := v_6 },
+                      v_5)) =
+    Except.ok
+      (expected M e x y N blockSize initial,
+        withBytes mem (ByteMemory.byteProgram M e inputBase outputBase N (initial.pids 0) mem.bytes))
+/tmp/veritile-standardization-20261015/relu-source-coupled-block-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/CheckedBlock.lean:284:9: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  step (backend M cmp16 cmp32) (statement e x y N blockSize 2) (startState blockSize initial)
+in the target expression
+  (match
+      match some (startState blockSize initial) with
+      | some state => Except.ok state
+      | none => Except.error (Failure.structural 1, mem) with
+    | Except.error err => Except.error err
+    | Except.ok v =>
+      match
+        match step (backend M cmp16 cmp32) (statement e x y N blockSize 2) v with
+        | some state => Except.ok state
+        | none => Except.error (Failure.structural 2, mem) with
+      | Except.error err => Except.error err
+      | Except.ok v_1 =>
+        match
+          match step (backend M cmp16 cmp32) (statement e x y N blockSize 3) v_1 with
+          | some state => Except.ok state
+          | none => Except.error (Failure.structural 3, mem) with
+        | Except.error err => Except.error err
+        | Except.ok v_2 =>
+          match checkedLoad e x inputBase v_2 mem with
+          | Except.error err => Except.error err
+          | Except.ok v_3 =>
+            match
+              match step (backend M cmp16 cmp32) (statement e x y N blockSize 5) v_3 with
+              | some state => Except.ok state
+              | none => Except.error (Failure.structural 5, mem) with
+            | Except.error err => Except.error err
+            | Except.ok v_4 =>
+              match checkedGate (backend M cmp16 cmp32) e x y outputBase N v_4 mem with
+              | Except.error err => Except.error err
+              | Except.ok v_5 =>
+                match
+                  match step (backend M cmp16 cmp32) (statement e x y N blockSize 6) v_4 with
+                  | some state => Except.ok state
+                  | none => Except.error (Failure.structural 6, v_5) with
+                | Except.error err => Except.error err
+                | Except.ok v_6 =>
+                  pure
+                    ({ pid := pidState initial, start := v, offsets := v_1, mask := v_2, loaded := v_3, result := v_4,
+                        final := v_6 },
+                      v_5)) =
+    Except.error (Failure.access (Fault.loadUnavailable (inputBase + initial.pids 0 * blockSize * elementBytes e)), mem)
+
+M : FP.Structural.Algebra (BitVec 32)
+cmp16 cmp32 : BitVec 32 → BitVec 32 → Bool
+e : Encoding
+x y : RegionName
+inputBase outputBase N : ℕ
+initial : State (BitVec 32)
+mem : Memory
+active : initial.pids 0 * blockSize < N
+unavailable :
+  ¬(mem.allocated (inputBase + initial.pids 0 * blockSize * elementBytes e) = «true» ∧
+      mem.readable (inputBase + initial.pids 0 * blockSize * elementBytes e) = «true»)
+p : step (backend M cmp16 cmp32) (statement e x y N blockSize 0) initial = some (pidState initial)
+s :
+  step (backend M cmp16 cmp32) (statement e x y N blockSize 1) (pidState initial) = some (startState blockSize initial)
+o :
+  step (backend M cmp16 cmp32) (statement e x y N blockSize 2) (startState blockSize initial) =
+    some (offsetsState blockSize initial)
+m :
+  step (backend M cmp16 cmp32) (statement e x y N blockSize 3) (offsetsState blockSize initial) =
+    some (maskState N blockSize initial)
+⊢ (match
+      match some (startState blockSize initial) with
+      | some state => Except.ok state
+      | none => Except.error (Failure.structural 1, mem) with
+    | Except.error err => Except.error err
+    | Except.ok v =>
+      match
+        match step (backend M cmp16 cmp32) (statement e x y N blockSize 2) v with
+        | some state => Except.ok state
+        | none => Except.error (Failure.structural 2, mem) with
+      | Except.error err => Except.error err
+      | Except.ok v_1 =>
+        match
+          match step (backend M cmp16 cmp32) (statement e x y N blockSize 3) v_1 with
+          | some state => Except.ok state
+          | none => Except.error (Failure.structural 3, mem) with
+        | Except.error err => Except.error err
+        | Except.ok v_2 =>
+          match checkedLoad e x inputBase v_2 mem with
+          | Except.error err => Except.error err
+          | Except.ok v_3 =>
+            match
+              match step (backend M cmp16 cmp32) (statement e x y N blockSize 5) v_3 with
+              | some state => Except.ok state
+              | none => Except.error (Failure.structural 5, mem) with
+            | Except.error err => Except.error err
+            | Except.ok v_4 =>
+              match checkedGate (backend M cmp16 cmp32) e x y outputBase N v_4 mem with
+              | Except.error err => Except.error err
+              | Except.ok v_5 =>
+                match
+                  match step (backend M cmp16 cmp32) (statement e x y N blockSize 6) v_4 with
+                  | some state => Except.ok state
+                  | none => Except.error (Failure.structural 6, v_5) with
+                | Except.error err => Except.error err
+                | Except.ok v_6 =>
+                  pure
+                    ({ pid := pidState initial, start := v, offsets := v_1, mask := v_2, loaded := v_3, result := v_4,
+                        final := v_6 },
+                      v_5)) =
+    Except.error (Failure.access (Fault.loadUnavailable (inputBase + initial.pids 0 * blockSize * elementBytes e)), mem)
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedBlock.extend_at: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedBlock.checked_load_success: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedBlock.scalar_decoded: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedBlock.active_result: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedBlock.store_effect_congr: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedBlock.gate_eval: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedBlock.checked_gate_success: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/veritile-standardization-20261015/relu-source-coupled-block-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/CheckedBlock.lean:294:0: error: VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedBlock.program_success: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedBlock.checked_load_unavailable: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+/tmp/veritile-standardization-20261015/relu-source-coupled-block-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/CheckedBlock.lean:296:0: error: VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedBlock.program_load_unavailable: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

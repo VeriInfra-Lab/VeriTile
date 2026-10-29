@@ -1,0 +1,26 @@
+/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/bench/tritonbench_g/add_example/Proofs/FinitePhysical.lean:106:19: warning: This simp argument is unused:
+  decide_true
+
+Hint: Omit it from the simp argument list.
+  simp only [̵h̵,̵d̵e̵c̵i̵d̵e̵_̵t̵r̵u̵e̵,̵i̵f̵_̵t̵r̵u̵e̵]̵[̲h̲,̲ ̲i̲f̲_̲t̲r̲u̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/bench/tritonbench_g/add_example/Proofs/FinitePhysical.lean:106:31: warning: This simp argument is unused:
+  if_true
+
+Hint: Omit it from the simp argument list.
+  simp only [̵h̵,̵d̵e̵c̵i̵d̵e̵_̵t̵r̵u̵e̵,̵i̵f̵_̵t̵r̵u̵e̵]̵[̲h̲,̲ ̲d̲e̲c̲i̲d̲e̲_̲t̲r̲u̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.TritonBenchG.AddExample.Finite.byteFormula: definition does not reference [VeriTile.Bench.TritonBenchG.AddExample.Finite.applyWrites,
+ VeriTile.Bench.TritonBenchG.AddExample.Finite.runProgram,
+ VeriTile.Bench.TritonBenchG.AddExample.Finite.executeBody,
+ VeriTile.Bench.TritonBenchG.AddExample.Finite.executeInstruction] — non-circular ✓
+VeriTile.Bench.TritonBenchG.AddExample.Finite.writes_preserved: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.AddExample.Finite.input_preserved: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.AddExample.Finite.writes_pointwise: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.AddExample.Finite.writes_byte_frame: axiom footprint ⊆ standard base ✓  ([propext])

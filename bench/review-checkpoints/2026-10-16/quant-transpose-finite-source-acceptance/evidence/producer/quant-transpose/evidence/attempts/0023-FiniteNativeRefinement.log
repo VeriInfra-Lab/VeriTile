@@ -1,0 +1,19 @@
+QuantTransposeFinite.native_grid_logical: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+QuantTransposeFinite.native_trials_logical: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+QuantTransposeFinite.native_logical_transpose_refinement: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+QuantTransposeFinite.loaded_at_refines: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantTransposeFinite.native_program_logical: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+QuantTransposeFinite.native_read_of_bytes: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+QuantTransposeFinite.native_host_input_word: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+QuantTransposeFinite.native_load_tile_members: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+QuantTransposeFinite.native_tile_write_members: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

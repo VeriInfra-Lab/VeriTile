@@ -1,0 +1,14 @@
+VeriTile.Bench.TritonBenchG.TokenSoftmaxBloom.MixedTyped.reference: definition does not reference [VeriTile.Bench.TritonBenchG.TokenSoftmaxBloom.MixedTyped.kernel,
+ VeriTile.Bench.TritonBenchG.TokenSoftmaxBloom.MixedTyped.source,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Triton.FP.Structural.run,
+ VeriTile.Triton.FP.Structural.step] — non-circular ✓
+VeriTile.Bench.TritonBenchG.TokenSoftmaxBloom.MixedTyped.homogeneous_kernel: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TokenSoftmaxBloom.MixedTyped.execution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TokenSoftmaxBloom.MixedTyped.execution_memory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

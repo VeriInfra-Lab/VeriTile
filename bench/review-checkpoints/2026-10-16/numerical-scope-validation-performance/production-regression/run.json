@@ -1,0 +1,36 @@
+{
+  "kind": "out_of_tree_numerical_validator_production_candidate_regression",
+  "state": "completed",
+  "started_at_utc": "2026-10-16T04:51:08.895851+00:00",
+  "candidate_sha256": "91c18e19f04f50a0d36ac698b4512bca23559cdfecbb11efad8d5d24c03e3f33",
+  "input_sha256_before": {
+    "bench/check_original_program_scope.py": "8a5fccb70fa937d5f6696905a530d6cafd2a0bb2256a55d4f3baaf3e5b74fd72",
+    "bench/original_program_scope.json.gz": "a5b480d14e7593577f78e2302b900bd9cd318c93e0de77b1a61fa0ce972b0148",
+    "bench/tritonbench_g/deferred_numerical_experiments.json.gz": "450a1464548b39059b1b46168f3c73a382c3ec9f1f4fd5acabdaa7999f5a63eb",
+    "bench/reviewed_numerical_extensions.py": "1b3134161fb2662c863a4dfc3b7de0ac661d460348fc48b7d1fa0f866207f562",
+    "bench/tests/test_exact_numerical_bindings.py": "c8b2e4138f1ac4718dc67175cd74b0d9453aece78045fe83061a1eb5a4c155ab",
+    "bench/tests/test_original_program_scope.py": "e7534aa7d47554bd4ca6262c1c49707b039a66e2162f6e5f0f68b3eb04997749"
+  },
+  "repository_modified": false,
+  "authority_mocked_for_existing_tests": false,
+  "modules": [
+    "test_exact_numerical_bindings",
+    "test_original_program_scope",
+    "test_numerical_scope_precheck"
+  ],
+  "test_count": 93,
+  "tests_run": 93,
+  "failures": 0,
+  "errors": 0,
+  "successful": true,
+  "input_sha256_after": {
+    "bench/check_original_program_scope.py": "8a5fccb70fa937d5f6696905a530d6cafd2a0bb2256a55d4f3baaf3e5b74fd72",
+    "bench/original_program_scope.json.gz": "a5b480d14e7593577f78e2302b900bd9cd318c93e0de77b1a61fa0ce972b0148",
+    "bench/tritonbench_g/deferred_numerical_experiments.json.gz": "450a1464548b39059b1b46168f3c73a382c3ec9f1f4fd5acabdaa7999f5a63eb",
+    "bench/reviewed_numerical_extensions.py": "1b3134161fb2662c863a4dfc3b7de0ac661d460348fc48b7d1fa0f866207f562",
+    "bench/tests/test_exact_numerical_bindings.py": "c8b2e4138f1ac4718dc67175cd74b0d9453aece78045fe83061a1eb5a4c155ab",
+    "bench/tests/test_original_program_scope.py": "e7534aa7d47554bd4ca6262c1c49707b039a66e2162f6e5f0f68b3eb04997749"
+  },
+  "source_inputs_unchanged": true,
+  "finished_at_utc": "2026-10-16T05:26:27.280934+00:00"
+}

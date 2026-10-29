@@ -1,0 +1,10 @@
+{
+  "reviewer": "root",
+  "source_drift": [],
+  "scope_review": "original head-only masks, all width columns, strides and destination indexing retained; two address injectivity and output separation unchanged",
+  "value_review": "independent initial-memory reference, true half storage, rounded fp32 division, explicit maxnum fold, arbitrary undefined byte policy",
+  "known_profile_fix": "rank-based mixed-NaN behavior replaced by maxnum; compiled counterexample retained",
+  "source_bridge_limit": "prefix and tail projection only; arithmetic profile requires explicit promotion/cast/reduction/native correspondence",
+  "native_status": "pending",
+  "task_status_promotion": "not_applied; phase metadata integration pending"
+}

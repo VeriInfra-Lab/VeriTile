@@ -1,0 +1,94 @@
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform_ops/Proofs/TypedControl.lean:17:50: error: unsolved goals
+case false
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+yes no : List ComputeStmt
+u : State α
+⊢ (match FP.Structural.step M (ComputeStmt.ifThenElse (Op.constBool «false»).boolNot yes no) u, fun __do_lift =>
+      some __do_lift with
+    | none, x => none
+    | some a, f => f a) =
+    run M yes u
+
+case true
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+yes no : List ComputeStmt
+u : State α
+⊢ (match FP.Structural.step M (ComputeStmt.ifThenElse (Op.constBool «true»).boolNot yes no) u, fun __do_lift =>
+      some __do_lift with
+    | none, x => none
+    | some a, f => f a) =
+    run M no u
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform_ops/Proofs/TypedControl.lean:23:94: error: unsolved goals
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+cond : Op TileDType.bool []
+body : List ComputeStmt
+u : State α
+⊢ FP.Structural.step M (ComputeStmt.ifThen cond body) u =
+    (FP.Structural.evalOp M none cond u).bind fun c => if c PUnit.unit = «true» then run M body u else some u
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform_ops/Proofs/TypedControl.lean:38:12: error: Tactic `rfl` failed: The left-hand side
+  run M (splitBody s) u
+is not definitionally equal to the right-hand side
+  run M (payload s) u
+
+case false
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+s : Shape
+u : State α
+hi : s.interleaved = «false»
+⊢ run M (splitBody s) u = run M (payload s) u
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform_ops/Proofs/TypedControl.lean:38:12: error: Tactic `rfl` failed: The left-hand side
+  run M (interleavedBody s) u
+is not definitionally equal to the right-hand side
+  run M (payload s) u
+
+case true
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+s : Shape
+u : State α
+hi : s.interleaved = «true»
+⊢ run M (interleavedBody s) u = run M (payload s) u
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform_ops/Proofs/TypedControl.lean:54:51: error: unsolved goals
+case pos
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+s : Shape
+initial : State α
+hv : s.varlen = «true»
+⊢ (fun i =>
+      !decide
+          (Cell.read TileDType.int (initial.mem { name := "cu" } (initial.pids 1 + 1)) ≤
+            ↑(initial.pids 0) * ↑s.blockM + Cell.read TileDType.int (initial.mem { name := "cu" } (initial.pids 1)))) =
+    fun x =>
+    decide
+      (↑(initial.pids 0) * ↑s.blockM <
+        Cell.read TileDType.int (initial.mem { name := "cu" } (initial.pids 1 + 1)) -
+          Cell.read TileDType.int (initial.mem { name := "cu" } (initial.pids 1)))
+
+case neg
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+s : Shape
+initial : State α
+hv : ¬s.varlen = «true»
+⊢ (fun i => !decide (↑s.maximum ≤ ↑(initial.pids 0) * ↑s.blockM)) = fun x =>
+    decide (↑(initial.pids 0) * ↑s.blockM < ↑s.maximum)
+VeriTile.Bench.Repairs.RotaryTransformOps.TypedExecution.kernel_carrier: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform_ops/Proofs/TypedControl.lean:66:0: error: VeriTile.Bench.Repairs.RotaryTransformOps.TypedExecution.continuation_tail: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform_ops/Proofs/TypedControl.lean:67:0: error: VeriTile.Bench.Repairs.RotaryTransformOps.TypedExecution.guard_eval: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.Repairs.RotaryTransformOps.TypedExecution.setup_mem: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

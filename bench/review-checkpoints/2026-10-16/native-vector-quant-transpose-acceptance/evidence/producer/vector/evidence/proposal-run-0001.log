@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision1-wip/propose.py", line 49, in <module>
+    validate_case(c);configs.append((pair,c))
+    ^^^^^^^^^^^^^^^^
+  File "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/check_original_program_scope.py", line 50, in validate_case
+    raise ValueError('dtype profile contains missing/unknown dtype ports')
+ValueError: dtype profile contains missing/unknown dtype ports

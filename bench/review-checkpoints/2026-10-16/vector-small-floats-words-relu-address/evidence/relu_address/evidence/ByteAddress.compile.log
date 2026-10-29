@@ -1,0 +1,20 @@
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.FiniteAddress.pointer64: definition does not reference [VeriTile.Bench.TritonBenchG.ReluTritonKernel.TypedValue.source,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.GatedGrid.runGrid,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.FiniteAddress.element_bytes_positive: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.FiniteAddress.element_bytes_width: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.FiniteAddress.relative_byte_bound: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.FiniteAddress.byte_span: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.FiniteAddress.pointer_exact: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.FiniteAddress.byte_pointer_exact: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.FiniteAddress.byte_coordinates_injective: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.FiniteAddress.separate_byte_ranges: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

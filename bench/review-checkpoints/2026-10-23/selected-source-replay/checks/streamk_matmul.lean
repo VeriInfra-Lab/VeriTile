@@ -1,0 +1,7 @@
+import VeriTile.Meta.StatementAudit
+import bench.repairs.tritonbench_g.streamk_matmul_tile_checked.Contract
+import bench.repairs.tritonbench_g.streamk_matmul_tile_checked.Correct
+import bench.repairs.tritonbench_g.streamk_matmul_tile_checked.FPEquiv
+
+#axiomsClean VeriTile.Bench.Repairs.StreamK.TileChecked.Correct.streamk_kernel_real
+#axiomsClean VeriTile.Bench.Repairs.StreamK.TileChecked.FPEquiv.tile_area_equiv

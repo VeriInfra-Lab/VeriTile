@@ -1,0 +1,195 @@
+{
+  "schema": 1,
+  "task": "rowwise_quantization_triton",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue13/release-result.json",
+    "sha256": "629bffaa864c24e7cc37f10e32b29c72132c01318546dff04e43bb7c16ac013a",
+    "task_index": 4
+  },
+  "finding": "The reader used the integer observer directly with ChannelValues and IO.result, hiding ordinary row/column inputs behind raw channel plumbing. The logical reader still assembled the local maximum induction and target connection.",
+  "resolution": "The input is a finite row×column matrix; LogicalOutputs explicitly retains the typed Int quantized matrix and Real maximum vector. LogicalIO instantiates exactly the prior ObservesInteger byteView judgment, including unsigned low-byte observation and FP16 maximum storage. Keep the adjacent independent maximumAbs and typed formula definitions; move recurrence induction and exact target connection into Proofs.ReaderResult. The reader now only applies reader_correct.",
+  "mathematical_target": "m=max_{0≤c<columns}|x[row,c]| (empty maximum zero); byte=low8(roundEven(127*x/m)), or zero when m=0; second output is m under Real erasure of FP16 float cast.",
+  "conditions_and_scope": {
+    "scope": "Full row permutation from Schedule p, all logical columns and both output channels. Original reduction tree has exactly width leaves with columns≤width; padding contributes zero. INT8 representation and FP16 maximum conversion remain explicit in native IO.",
+    "conditions": [
+      "Launch: positive columns, columns≤width, tree.leaves.Perm (range width). Schedule covers a permutation of every row.",
+      "IO.byteView selects the explicit integer byte interpretation; this specialized observation is retained.",
+      "The public IO judgment quantifies over logical inputs, physical memory binding and capacity bounds; source safety, successful execution, output values and exact exterior frame are conclusions, not caller premises."
+    ],
+    "preservation": "Logical input/output maps are full equivalences, retaining unused/inactive/padded and entry-output values. Exact previous judgment is fixed as the logical view type parameter/core; no callback oracle or new caller premise."
+  },
+  "proof_connection": {
+    "theorem": "IOResults.logical_row; IOResults.logical_real_iff; IOResults.reader_judgment_iff; IOResults.reader_correct",
+    "detail": "logical_row proves the exact row total-extension equality; logical_real_iff proves the full old integer-observer judgment iff the logical typed result. The reader proves maximumAbs=logicalMaximum by induction and connects its nearest-even/zero-row formula to the exact canonical target, preserving arbitrary complete row order and frame. Current reader assembly: For any mathematical maximum recurrence satisfying zero and successor equations, prove equality to logicalMaximum by induction, exact typed-target equality, then iff with the complete original ObservesInteger byteView realTarget judgment via unchanged logical_real_iff. The reader instantiates its unchanged pure recurrence definition by rfl."
+  },
+  "fp_review": {
+    "source_unchanged": true,
+    "actual_pair": {
+      "original": "FPEquiv.original ops half round rest p schedule",
+      "candidate": "FPEquiv.earlyMaximum ops half round rest p schedule",
+      "transformation": "Move FP16 maximum store before quantization; FP arithmetic untouched.",
+      "scope": "Both complete actual row schedules, all input words, both typed output channels and exterior frame.",
+      "connection": "StoreSchedule.equivalent"
+    },
+    "review": "Read the selected FPEquiv source and actual original/candidate scopes. Existing precision, conversions, FMA versus separate operations, reduction order, domains and observers retained; no self-comparison or new candidate. Contract, IO and FPEquiv source hashes are identical to the frozen baseline; original conditions, precision, casts, operations, pair and program scope remain unchanged. Joint import succeeds with the new Real reader."
+  },
+  "numerical_dependencies": {
+    "experimental_rules": [],
+    "binding": "Original Operations, binary16 conversion, llrint64, low-byte integer encoding and reduction tree remain bound; store reorder alone used."
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "m=max_{0≤c<columns}|x[row,c]| (empty maximum zero); byte=low8(roundEven(127*x/m)), or zero when m=0; second output is m under Real erasure of FP16 float cast.",
+    "required_conditions": [
+      "Launch: positive columns, columns≤width, tree.leaves.Perm (range width). Schedule covers a permutation of every row.",
+      "IO.byteView selects the explicit integer byte interpretation; this specialized observation is retained.",
+      "The public IO judgment quantifies over logical inputs, physical memory binding and capacity bounds; source safety, successful execution, output values and exact exterior frame are conclusions, not caller premises."
+    ],
+    "scope": "Full row permutation from Schedule p, all logical columns and both output channels. Original reduction tree has exactly width leaves with columns≤width; padding contributes zero. INT8 representation and FP16 maximum conversion remain explicit in native IO.",
+    "canonical_connection": [
+      "The main proof locally proves by induction that finite maximumAbs equals the canonical logicalMaximum.",
+      "A local equality reconnects the expanded nearest-even/zero-row formula to IOResults.realTarget; no standalone proof helper remains in the reader.",
+      "IOResults.real uses source_maximum_is_logical/source_quantization_is_logical and IOImplements.observed."
+    ],
+    "fp_program_pair": {
+      "original": "FPEquiv.original ops half round rest p schedule",
+      "candidate": "FPEquiv.earlyMaximum ops half round rest p schedule",
+      "transformation": "Move FP16 maximum store before quantization; FP arithmetic untouched.",
+      "scope": "Both complete actual row schedules, all input words, both typed output channels and exterior frame.",
+      "connection": "StoreSchedule.equivalent"
+    },
+    "numerical_dependencies": {
+      "experimental_rules": [],
+      "binding": "Original Operations, binary16 conversion, llrint64, low-byte integer encoding and reduction tree remain bound; store reorder alone used."
+    }
+  },
+  "verification": [
+    {
+      "kind": "targeted_readers",
+      "command": [
+        "python3",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue13/build.py",
+        "bench/repairs/tritonbench_g/rowwise_quantization_triton/IO.lean",
+        "bench/repairs/tritonbench_g/rowwise_quantization_triton/Proofs/LogicalResult.lean",
+        "bench/repairs/tritonbench_g/rowwise_quantization_triton/Correct.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue13/rowwise_quantization_triton-targeted_readers-final.log",
+      "log_sha256": "ed9e514f3cce7387e7670ee770b0e6057db4d679ddaf3b243004fae6049c3916",
+      "source_report": ".veritile-cache/logical-reader-review-20261022/queue13/result.json",
+      "source_report_sha256": "354f79af2a6d84fca6ecbe886fb61a9754848b6ae49c88a93657f7822671cfb4",
+      "evidence_scope": "historical_pre_supplement_reader_snapshot"
+    },
+    {
+      "kind": "fp_source",
+      "command": [
+        "python3",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue13/build.py",
+        "bench/repairs/tritonbench_g/rowwise_quantization_triton/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue13/rowwise_quantization_triton-fp_source-final.log",
+      "log_sha256": "4f3cbea3115218167cc32bc2856cb05eb1e0075a204f7b422ebaf4e44bba20d9",
+      "source_report": ".veritile-cache/logical-reader-review-20261022/queue13/result.json",
+      "source_report_sha256": "354f79af2a6d84fca6ecbe886fb61a9754848b6ae49c88a93657f7822671cfb4",
+      "evidence_scope": "current_unchanged_fp_source"
+    },
+    {
+      "kind": "joint",
+      "command": [
+        "python3",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue13/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue13/rowwise_quantization_triton-joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue13/rowwise_quantization_triton-joint-final.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_report": ".veritile-cache/logical-reader-review-20261022/queue13/result.json",
+      "source_report_sha256": "354f79af2a6d84fca6ecbe886fb61a9754848b6ae49c88a93657f7822671cfb4",
+      "evidence_scope": "historical_pre_supplement_reader_snapshot"
+    },
+    {
+      "kind": "six_changed_or_new_modules",
+      "command": [
+        "python3",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue13/supplement/build.py",
+        "bench/repairs/tritonbench_g/rowwise_quantization_triton/Proofs/ReaderResult.lean",
+        "bench/repairs/tritonbench_g/rowwise_quantization_triton/Correct.lean",
+        "bench/repairs/tritonbench_g/sin_computation/Proofs/RealReader.lean",
+        "bench/repairs/tritonbench_g/sin_computation/Correct.lean",
+        "bench/repairs/tritonbench_g/sin_kernel/Proofs/RealReader.lean",
+        "bench/repairs/tritonbench_g/sin_kernel/Correct.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue13/supplement/build-v2.log",
+      "log_sha256": "46a0908105db4128a818bc44bc79dde25473ab5a47eef6ae7794296319ddd462",
+      "source_report": ".veritile-cache/logical-reader-review-20261022/queue13/supplement/result.json",
+      "source_report_sha256": "ef457e9b2eaba0a74f7d89c2d1f56927a7bc9843db0c97541c618ecfc1bf4428",
+      "evidence_scope": "current_supplement_reader_and_unchanged_task_interfaces"
+    },
+    {
+      "kind": "three_task_nine_entry_joint_import",
+      "command": [
+        "python3",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue13/supplement/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue13/supplement/joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue13/supplement/joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_report": ".veritile-cache/logical-reader-review-20261022/queue13/supplement/result.json",
+      "source_report_sha256": "ef457e9b2eaba0a74f7d89c2d1f56927a7bc9843db0c97541c618ecfc1bf4428",
+      "evidence_scope": "current_supplement_reader_and_unchanged_task_interfaces"
+    },
+    {
+      "kind": "full_statement_pure_math_scope_source_and_receipt_preservation",
+      "command": [
+        "python3",
+        ".veritile-cache/logical-reader-review-20261022/queue13/supplement/verify-supplement.py"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue13/supplement/verify.log",
+      "log_sha256": "2b1338d307b2b61af523226c73b5b640f90f80ca7779b42287c70629e9681198",
+      "source_report": ".veritile-cache/logical-reader-review-20261022/queue13/supplement/result.json",
+      "source_report_sha256": "ef457e9b2eaba0a74f7d89c2d1f56927a7bc9843db0c97541c618ecfc1bf4428",
+      "evidence_scope": "current_supplement_reader_and_unchanged_task_interfaces"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/rowwise_quantization_triton/Candidate.lean": "be3f08a4cec425911449c436f91fab5870fec312c12e112acff4c50ec33ab093",
+    "bench/repairs/tritonbench_g/rowwise_quantization_triton/Contract.lean": "422af696d02265a5183846b1367d8ec19481bd3cd346c03277665643d977defc",
+    "bench/repairs/tritonbench_g/rowwise_quantization_triton/Correct.lean": "e508cf1f2ed4767254e650470aebb0afe6f0675d384944e62ed2664fe992689d",
+    "bench/repairs/tritonbench_g/rowwise_quantization_triton/FPEquiv.lean": "47816dc22228287b8890d1d5a939e4c3ecd081cb4c5e015de3cde54f1da2b879",
+    "bench/repairs/tritonbench_g/rowwise_quantization_triton/IO.lean": "060ff76e23f6d313079b0729a1376151c52b619260796b7b008a345637ba1000",
+    "bench/repairs/tritonbench_g/rowwise_quantization_triton/Kernels.lean": "cfc8912e713b3b2121816d9e2760c197813d1f2a94e12a1398fdf91da40a5d06",
+    "bench/repairs/tritonbench_g/rowwise_quantization_triton/Proofs/IOResults.lean": "22fe7ab5810147b862b6c9d1fd76113de38a99858c056711ce94bacb89b3eec6",
+    "bench/repairs/tritonbench_g/rowwise_quantization_triton/Proofs/LogicalResult.lean": "910600c082cd0fc3bf1f553a4cb3a367d5fdab29791126eaabc1258bbdbffc22",
+    "bench/repairs/tritonbench_g/rowwise_quantization_triton/Proofs/Mathematics.lean": "5b1d06191996d16b3048e2dfcd94b0efe741f95be9ed45e46523bc9998f6f437",
+    "bench/repairs/tritonbench_g/rowwise_quantization_triton/Proofs/ReaderResult.lean": "1d1c969cfc793b706cbbe2f016a29f985ffad8d81d7e9899c6565dde8c5d7cbe",
+    "bench/repairs/tritonbench_g/rowwise_quantization_triton/Proofs/StoreIO.lean": "33af767d940d18a0bd8e4aa09d15940344bb6383f86498351a3ce132687e2d02",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [
+    "Targeted changed IO/helper/Correct sources compiled in this queue; final builds may reuse successful receipts only when source and direct import-object hashes match. Unchanged internal proof objects are reused, except exact stale/missing owners rebuilt in this queue; this is not an all-helper or full-library replay.",
+    "Real specifies the independent mathematical interpretation. Existing empty-R FP conclusions use their explicitly fixed software theories/models; no new hardware consistency or numerical experiment claim.",
+    "Only the six changed/new modules are replayed. Unchanged FP/internal proof objects are reused under their frozen evidence and the successful joint import; no full-library replay or new numerical experiment is claimed.",
+    "Pre-supplement reader checks are retained as explicitly historical evidence. The supplement six-module compilation and three-task joint import establish the current reader/helper sources; the unchanged FP source check remains current."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

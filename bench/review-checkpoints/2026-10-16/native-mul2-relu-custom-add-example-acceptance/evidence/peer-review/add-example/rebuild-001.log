@@ -1,0 +1,10 @@
+bench/tritonbench_g/add_example/Proofs/FiniteIndices.lean 0
+bench/tritonbench_g/add_example/Proofs/FiniteScalar.lean 0
+bench/tritonbench_g/add_example/Proofs/FiniteSource.lean 0
+bench/tritonbench_g/add_example/Proofs/FinitePhysical.lean 0
+bench/tritonbench_g/add_example/Proofs/FiniteProgram.lean 0
+bench/tritonbench_g/add_example/Proofs/FiniteGrid.lean 0
+bench/tritonbench_g/add_example/Proofs/FiniteAdmission.lean 0
+bench/tritonbench_g/add_example/Proofs/FiniteHost.lean 0
+bench/tritonbench_g/add_example/FiniteCorrect.lean 0
+BUILD PASSED 198 37

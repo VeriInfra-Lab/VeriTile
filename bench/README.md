@@ -20,14 +20,19 @@ variant, and proof-status tracked.
 
 ## Current state
 
-**173 TritonBench-G kernels are ported** — each `bench/tritonbench_g/<kernel>/`
-holds a faithful `.py` + `.lean` pair, all 173 compile (`bench/check_ports.sh`
-reports `173 ok, 0 fail`), and every completed port carries a standard
-`ComputeCorrect.Realizes` correctness surface. The 11 remaining work
-directories are README-only scaffolds, not yet counted as ports. The source of
-truth for these counts and the per-port evidence is
-[`tritonbench_g/completion_audit.md`](./tritonbench_g/completion_audit.md); the
-manifest schema is enforced by `bench/audit_tritonbench_g.sh`.
+**184 tasks are inventoried; 183 have original-source proof contracts within
+their recorded scopes, and one has only a repaired candidate.** The current
+classification is 58 software bit-value profiles, 109 relative-equivalence
+profiles and 16 backend-value profiles, plus that candidate. These categories
+describe existing proofs; they are not interchangeable with final native or
+independent-replay acceptance.
+
+The [development progress audit](review-checkpoints/2026-10-15/development-progress-audit/README.md)
+provides all 184 rows and actual check results. The
+[current source inventory](current_source_acceptance.md) records 893 public
+declarations and 3,840 registered modules, including the latest Retention
+source extension. Earlier 173/178-port and 59/125 acceptance counts describe
+historical snapshots.
 
 `VeriTile/Examples/` and `bench/examples/` additionally hold hand-written
 showcase proofs — VectorAdd, Softmax, OnlineSoftmax, LayerNorm, Welford,
@@ -39,10 +44,31 @@ The earlier `bench/llm_eval/` LLM-proof-drafting eval was retired on
 2026-05-05; LLM-assist evaluation is no longer a benchmark axis of the
 project.
 
-## TritonBench-G v1 anchor
+## Bug-detection implementation pairs
 
-We are aligning the verification benchmark with [TritonBench-G v1][tb] (184
-GitHub-scraped real Triton kernels, ACL 2025 Findings). **173 of the 184 are ported.** The original (2026-05-05) static primitive scan
+[`bug_detection/`](./bug_detection/README.md) contains 65 Lean equivalence problems:
+30 negative controls, 20 algebraic rewrites and 15 parameter variants. Each has
+readable Triton lowerings, named tensor IO, an independent Real formula, and
+Real/FP equivalence or counterexample goals. Every problem contains its own
+algorithms, configuration and IO, with no cross-problem imports. The source
+retains precision, conversions, masks and routing. The goals are unsolved;
+translation and native backend connections remain pending. Compilation and
+interface checks are recorded separately from those proof obligations;
+this collection does not change the completed TritonBench-G counts.
+
+## Pretraining equivalence problems
+
+[`pretrain_kernels/`](./pretrain_kernels/README.md) contains 269 independent Lean
+problem drafts (261 LOCAL and 8 TE). Each has its own literal Triton programs,
+typed IO, mathematical contract, and Real/FP goals. The equivalence proofs and
+native backend connections remain unsolved; these drafts do not change the
+completed TritonBench-G counts.
+
+## Historical TritonBench-G v1 porting baseline
+
+The following inventory records the earlier 173-port snapshot, not current
+development progress. The benchmark uses [TritonBench-G v1][tb] (184
+GitHub-scraped real Triton kernels, ACL 2025 Findings). The original (2026-05-05) static primitive scan
 estimated only 141 as within the DSL contract; the levers it named
 (`tl.math.*` / `tl.extra` adapters, the concurrency boundary,
 `tl.num_programs`, the `atomic_add` proof shape) have since landed, so that
@@ -143,23 +169,3 @@ In order:
   the first real external port rather than guessed up-front.
 - **No LLM-eval axis.** The project no longer benchmarks LLM proof-drafting.
   If that returns, it is a separate sub-benchmark, not the benchmark.
-
-## Bug-detection implementation pairs
-
-[`bug_detection/`](./bug_detection/README.md) contains 65 Lean equivalence problems:
-30 negative controls, 20 algebraic rewrites and 15 parameter variants. Each has
-readable Triton lowerings, named tensor IO, an independent Real formula, and
-Real/FP equivalence or counterexample goals. Every problem contains its own
-algorithms, configuration and IO, with no cross-problem imports. The source
-retains precision, conversions, masks and routing. The goals are unsolved;
-translation and native backend connections remain pending. Compilation and
-interface checks are recorded separately from those proof obligations;
-this collection does not change the completed TritonBench-G counts.
-
-## Pretraining equivalence problems
-
-[`pretrain_kernels/`](./pretrain_kernels/README.md) contains 269 independent Lean
-problem drafts (261 LOCAL and 8 TE). Each has its own literal Triton programs,
-typed IO, mathematical contract, and Real/FP goals. The equivalence proofs and
-native backend connections remain unsolved; these drafts do not change the
-completed TritonBench-G counts.

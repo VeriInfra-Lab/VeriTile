@@ -1,0 +1,26 @@
+VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.read_footprint_region: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.actual_body_input_loads: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.input_reads_outside_output: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.expected_memory_preserves_inputs: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.expected_memory_preserves_read_footprint: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.complete_preserves_inputs: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.block_sum_read_footprint_congr: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.accumulated_read_footprint_congr: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.accumulated_input_regions_congr: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.distinct_program_write_sets: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.program_writes_outside_input_reads: axiom footprint ⊆ standard base ✓  ([])

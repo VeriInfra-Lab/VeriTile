@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "kind": "actual_integration_run",
+  "phase": "rebind",
+  "base_commit": "97e11a9a6cea8d5dfe35db643a1492d79e423cdf",
+  "started_at_utc": "2026-10-15T23:58:59.189757+00:00",
+  "state": "completed",
+  "commands": [
+    {
+      "name": "rebind",
+      "command": [
+        "/usr/local/bin/python",
+        "-B",
+        "/tmp/veritile-standardization-20261015/next-source-integration-scripts-wip/rebind.py",
+        "--root",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile",
+        "--packages",
+        "/tmp/veritile-standardization-20261015",
+        "--ledger",
+        "bench/original_program_scope.json.gz",
+        "--baseline-ledger",
+        "bench/original_program_scope.json",
+        "--predecessor-catalog",
+        "current-source-catalog.json",
+        "--predecessor-supplement",
+        "catalog-supplement.json",
+        "--predecessor-review",
+        "root-review.json"
+      ],
+      "cwd": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile",
+      "state": "completed",
+      "log": "rebind.log",
+      "exit_code": 0,
+      "log_sha256": "9d4f6afd34f6632ff3ac98d557015dc781ce5256202c883860d10f1235a7929f"
+    }
+  ],
+  "finished_at_utc": "2026-10-16T00:18:15.123018+00:00"
+}

@@ -1,0 +1,8 @@
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeArithmetic.lean:29:4: error: maximum recursion depth has been reached
+use `set_option maxRecDepth <num>` to increase limit
+use `set_option diagnostics true` to get diagnostic information
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeArithmetic.lean:46:0: error: CosineNative.all_masks_false_at_two31: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeArithmetic.lean:47:0: error: CosineNative.active_tile_empty_at_two31: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+CosineNative.counterexample_grid: axiom footprint ⊆ standard base ✓  ([propext])
+CosineNative.wrapped_negative_lane: axiom footprint ⊆ standard base ✓  ([propext])
+CosineNative.wrapped_zero_lane: axiom footprint ⊆ standard base ✓  ([propext])

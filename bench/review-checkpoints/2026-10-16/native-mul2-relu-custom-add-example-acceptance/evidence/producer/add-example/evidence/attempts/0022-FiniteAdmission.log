@@ -1,0 +1,5 @@
+VeriTile.Bench.TritonBenchG.AddExample.Finite.dense_inventory: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.TritonBenchG.AddExample.Finite.native_admission_counts: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.AddExample.Finite.admitted_typed_route: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.AddExample.Finite.fp32_admitted: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.AddExample.Finite.binder_precedes_fnuz_signature: axiom footprint ⊆ standard base ✓  ([propext])

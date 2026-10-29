@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/tmp/veritile-standardization-20261015/vector-custom-revision1-independent-review/compare-001.py", line 30, in <module>
+    assert aa==bb,(kind,name,ext)
+           ^^^^^^
+AssertionError: ('abi', '0', 'raw.ttir')

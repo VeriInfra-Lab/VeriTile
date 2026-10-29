@@ -1,0 +1,11 @@
+{
+  "actual_exit_code": 1,
+  "phase": "pre-write validation",
+  "source_sha256": "2f44633d07d3e5e1158b58bee809b646928e9b1f7952a7783be853be89b99f64",
+  "error": "ValueError: hash changed: /mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/review-checkpoints/2026-10-16/relu-source-grid-and-exact-numerics/evidence/ledger-before.json",
+  "cause": "Preparation retained a semantically identical JSON ledger with escaped non-ASCII text, not exact original bytes. State hash binds the original file.",
+  "original_git_blob_sha256": "583268f13f291b54d1313744175de53490d99c1625820df0b2df0380b5985ff1",
+  "retained_json_sha256": "3902afe409984fd01aa73bfab6c6c2c474506d4c565f251e6393720ef9889b9f",
+  "semantic_equality_checked": true,
+  "final_evidence_written": false
+}

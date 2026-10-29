@@ -1,0 +1,42 @@
+{
+  "status": "passed",
+  "final_modules": 7,
+  "clean_axiom_checks": 30,
+  "noncircular_checks": 6,
+  "successful_attempts": 15,
+  "failed_attempts_preserved": 1,
+  "existing_project_sources_unchanged": 201,
+  "existing_project_objects_unchanged": 201,
+  "external_import_modules_recorded": 37,
+  "scope_cases": 238,
+  "scalar_bindings": 41,
+  "scalar_families": 15,
+  "original_dtype_profiles": 22,
+  "full_backend_compiles": 15,
+  "binder_rejects": 5,
+  "architecture_rejects": 2,
+  "recorded_admission_profiles": 22,
+  "abi_profiles": 14,
+  "actual_FP32_argument_bits": 1092616192,
+  "compiled_C_pointer_checks": 1425408,
+  "wrapper_AST_traces": 18,
+  "small_CPU_metadata_cases": 6,
+  "signed_grid_parser_cases": 7,
+  "GPU_launches": 0,
+  "large_allocations": 0,
+  "historical_bounded_registration": false,
+  "independent_review": "pending",
+  "acceptance_increment": 0,
+  "trust_boundary": [
+    "ordinary empty_like allocation/metadata with freshness and exterior frame",
+    "actual installed pointer extraction and mapped metadata when consumed; unused fields may be totalized on failure branches",
+    "ordinary finite typed loads and pure width-specific packing/stores",
+    "exact unary scalar expression with runtime fp32 word10;41 explicit numerical conformance ports"
+  ],
+  "limits": [
+    "mathematical observations imply no native trap,race winner,rollback or postfailure memory",
+    "no arbitrary-carrier readback axiom",
+    "historical bounded candidate not registered; new master covers full signed64 host numel with actual i32/u64 arithmetic",
+    "synthetic adapter fixture does not confer independent approval"
+  ]
+}

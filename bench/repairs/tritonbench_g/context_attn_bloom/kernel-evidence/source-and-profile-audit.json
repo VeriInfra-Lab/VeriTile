@@ -1,0 +1,227 @@
+{
+  "task": "context_attn_bloom",
+  "selected_source": {
+    "path": "bench/repairs/tritonbench_g/context_attn_bloom/context_attn_bloom_repaired.py",
+    "sha256": "9b80a67487612a00769133e0794cea1f39b61ee23cbf02fedbaf61d661d7faee"
+  },
+  "original_source": {
+    "path": "bench/tritonbench_g/context_attn_bloom/context_attn_bloom.py",
+    "sha256": "d74efc6e5d299280642b3587ec9b6c2f13af14474ddf0b00588d6d95d4a94985"
+  },
+  "original_floating_AST_exact_after_index_widening_erasure": true,
+  "selected_source_unchanged": true,
+  "retained_files": [
+    {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/Contract.lean",
+      "sha256": "9442e170c890fd0ec7b2655d0b50e47462b9e42fd5a89f468d5bc53025b541a7"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/Correct.lean",
+      "sha256": "49626b504305dad8b740299a501563d5a0b3729ca8a4c6f23b8e16ca93253530"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/FPEquiv.lean",
+      "sha256": "9460d6e75770bbc4d43d86bd2bfa2428c5b8c9f525ee701d5b331882fb8f7471"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/Kernels.lean",
+      "sha256": "671454736ea72a9b3f6a6928aaf6016d271c9712075ad8ee29774224c9955040"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/Proofs/Bytes.lean",
+      "sha256": "7646589563b38604d173a7874af0567ff51bb0febc9d073b0f492ef47d867bd4"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/Proofs/CheckedBridge.lean",
+      "sha256": "c3cec5faef9a0e6ab9429b617d903ba390a838dd02ecf2e3f77d14023b618dc7"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/Proofs/CheckedReal.lean",
+      "sha256": "83e96fdddeb2553ff82c4dd1adc52f4814025090814a67314f7785064d2b37a7"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/Proofs/FPReference.lean",
+      "sha256": "ef435de25c6a54c923d146e997e85401eb2346afd6faf78f0d7786857af0b9a6"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/Proofs/FPReferenceGrid.lean",
+      "sha256": "3fd481cab4cae2f443a034615aea306f24be69f27c68b0cdabfc2e04373fc040"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/Proofs/FPReferenceProgram.lean",
+      "sha256": "9ca2d695468d8053d7457a8643b278a389f7219465565604115ef63e88b3b56a"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/Proofs/LaunchScale.lean",
+      "sha256": "a673ae500119bd3a89401b38db5063deb6fc718df0688fe4806a62d84510d628"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/Proofs/NativeBounds.lean",
+      "sha256": "b10f12c248a9fff8e5bd8a2e2f7c6fefcba1d7f9e85b7c32247b3657494a8589"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/Proofs/Returned.lean",
+      "sha256": "ec5c93c2cca5fc25e78142a36175f5201c5f7c353aeb056057e0691a17be510a"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/Proofs/StorageBridge.lean",
+      "sha256": "f3648689003d46f469e271c5dc8a82669e453a4b8d397ac8d7fd7f484fab095c"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/Proofs/Task.lean",
+      "sha256": "f82d8ba287e514fa069008ec60a50a5903a8ccd812b24abf7fb528083483f5ee"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/README.md",
+      "sha256": "cac1a301f4ca05f63fe90b8850dfc223d90d54e30f42e16d627f7d46f54f5f9d"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/Whole001/ABI.lean",
+      "sha256": "d32367c5818a0f2d7dc90f6c87c8a356c30372f21a7d0f2ec3660b2d7d49f96f"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/Whole001/Correct.lean",
+      "sha256": "ebfd5f1d1680756e09aa240adc19a6a172675e6875f9b47d0d4ccf52c7763856"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/Whole001/FPEpilogue.lean",
+      "sha256": "e2d7e557453bd3afb6a4045966019064f1d6d0a6f622aa99f3701044d806ec1e"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/Whole001/FPEquiv.lean",
+      "sha256": "a275022877dc6d94497d0c03b3f0913ec1f8e3909b8432a3f0b88f0b2785ce20"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/Whole001/FPGrid.lean",
+      "sha256": "03d52a1d0d74ed118b0e7af7a0728ad52f00908b255291a4bec29155f6051819"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/Whole001/FPProgram.lean",
+      "sha256": "d2bfc64f71b8ab2ca0aae3afd5f0c1535a0bc5a5125a29f881e31328b63ce935"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/Whole001/FPScatter.lean",
+      "sha256": "4daa3188dbdfb0c4b3128b5e8577535c6a625409ae0c1e8081ded23e28b7c9a7"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/Whole001/Host.lean",
+      "sha256": "627f4ebe774f771deb0a41f3985c00ac6f17004a2bfe2db919083c49b58c41f5"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/Whole001/HostCoverage.lean",
+      "sha256": "7397f6ced13b3af3fe5ccf3caa2b39206372e40cc88e627bbb0ff43b2f5c0b2e"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/Whole001/HostInterface.lean",
+      "sha256": "7a967606b518767e46a4c71e5acea1e2c2ccf181316705ffce55752f68e7d6f4"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/Whole001/HostLaunch.lean",
+      "sha256": "9b2129848dddab67e633fdff97405e9b5feabc973cbbcc403d9c0e05a6232968"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/Whole001/HostParameters.lean",
+      "sha256": "9176628dbfccd965e07822c722f718b5635981daf96455cfc7b5cd4a743a44fc"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/Whole001/Kernels.lean",
+      "sha256": "dff9a661809cb3b3fae2bb58e27406a9553ff1d4920bea2b8fbe4718ab69e556"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/Whole001/NativeInstructions.lean",
+      "sha256": "4404070f686e56bffcbbccc11d76f6ade82cbfa68e0adce2683f81a6d2a33544"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/Whole001/NativeStaging.lean",
+      "sha256": "3d61d80a5248d431646d224947a508888deca810bf1f18ac70e0b34a1957039f"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/Whole001/Preparation.lean",
+      "sha256": "a8baba0a56192437968d2bfdf355b2069cfb79668bba5a37d8a656f5b35c6df1"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/Whole001/Reader.lean",
+      "sha256": "0e8a25c5817718dd0cda4529ec858f1a29ced4be387043d53eee50b4320947ba"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/Whole001/RealStream.lean",
+      "sha256": "e2a3fd52783f19c80420637744694a970e3798beff852712018e9dc5fec7ddcc"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/check_contract.py",
+      "sha256": "039e133dd2441c615b3347b4428dd7caea6c69d16fa5c62582ee2ee79a705cd5"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/context_attn_bloom_repaired.py",
+      "sha256": "9b80a67487612a00769133e0794cea1f39b61ee23cbf02fedbaf61d661d7faee"
+    }
+  ],
+  "compatibility_import": [
+    {
+      "before": {
+        "path": "bench/repairs/tritonbench_g/context_attn_bloom/Whole001/FPCore.lean",
+        "sha256": "11920ee16f8bb6d25414f2a868a1f66b87fa09205d5dafa123a02d2ac3c3f6aa"
+      },
+      "after": {
+        "path": "bench/repairs/tritonbench_g/context_attn_bloom/Whole001/FPCore.lean",
+        "sha256": "736f1e64a3ff283c3f62a2e8e52e39e7d70f12f4ffe024b991c9cf99bea8456a"
+      },
+      "only_change": "import bench.repairs.tritonbench_g.context_attn_fwd.Proofs.FPSuccess",
+      "existing_definitions_and_theorems_unchanged": true
+    }
+  ],
+  "new_formal_sources": [
+    {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/KernelOnly.lean",
+      "sha256": "3b820abd2aae9b176892e6509d069e3d444e2bbf11267201b8f5eb6e91e39e0e"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/Proofs/KernelProfile.lean",
+      "sha256": "2315f13807c44b90de30ddcab61abcf70d03c34381a518f591c96e342f9ac535"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/Proofs/KernelNativeTrees.lean",
+      "sha256": "2fb1dbfaee53d3ccee6a34772fa03e5075d77ef81e59ec459955dd28d8e27ad6"
+    }
+  ],
+  "source_correctness_preflight": "pass_for_guarded_normalized_block_target",
+  "strict_causal_softmax_is_not_selected_target": true,
+  "focused_semantics": {
+    "finite_sentinel_row0": "5/63",
+    "future_tile_row0": "1+7/128",
+    "future_tile_row57": "71/128"
+  },
+  "CPU_evidence": {
+    "path": ".veritile-cache/task-deliveries/context_attn_bloom/cpu-check.log",
+    "sha256": "6e6423464cf41b4559fc00ff7ff701d1d588c0e1454408cfce3dde3106643550"
+  },
+  "native_compilation": {
+    "path": ".veritile-cache/task-deliveries/context_attn_bloom/native-probe.json",
+    "sha256": "fc417ec50eaaebc6c9bfa8bf1fae6cf3c2d7a574992cd74effdb128ccf58f64d"
+  },
+  "native_topology_audit": {
+    "path": ".veritile-cache/task-deliveries/context_attn_bloom/native-topology-audit.json",
+    "sha256": "3e39895f6ec1d8d56ef9cd675c4cc942b1110929271fb53a5b81e0543e243068"
+  },
+  "input_scope": {
+    "path": "bench/repairs/tritonbench_g/context_attn_bloom/KernelScope.md",
+    "sha256": "a8508fb1eb874210e980d184adef007febad502638052714b9256baf3e75d10e"
+  },
+  "native_resource_issue": {
+    "path": "bench/repairs/tritonbench_g/context_attn_bloom/kernel-evidence/resource-audit.json",
+    "sha256": "e1e98956d814ebfba73c298b2194877d3b2d68f934361f74779a6f747b73b746"
+  },
+  "review_fix": {
+    "finding": "The QK orientation selector also matched a previous PV update multiplied by the future-tile literal factor.",
+    "fix": "Require the QK dot add seed to have Form.literal; PV updates have Form.binary.mul seeds, so the cases are disjoint without payload inspection.",
+    "proof": "KernelNative.pv_literal_factor_order",
+    "original_delivery": {
+      "path": ".veritile-cache/task-deliveries/context_attn_bloom/revision-001/delivery.json",
+      "sha256": "487cad88414e986f8296a165885c2a6f2216561242d2abfa16621da7b052b50d"
+    },
+    "original_archive": {
+      "path": ".veritile-cache/task-deliveries/context_attn_bloom/revision-001/context-attn-bloom-kernel-package.tar.gz",
+      "sha256": "3ae8c68d18e638384a14b3288693e931a92f25e82edc1985195fc65cabfd6bb1"
+    }
+  }
+}

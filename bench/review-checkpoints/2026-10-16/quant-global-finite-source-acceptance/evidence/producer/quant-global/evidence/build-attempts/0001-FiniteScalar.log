@@ -1,0 +1,16 @@
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/frozen-v2/overlay/bench/tritonbench_g/quantize_global/Proofs/FiniteScalar.lean:81:36: warning: This simp argument is unused:
+  h
+
+Hint: Omit it from the simp argument list.
+  simp [llrint, ̲LlrintDefined, ̲hp,̵h̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+QuantizeGlobalFinite.result: definition does not reference [QuantizeGlobalFinite.source,
+ QuantizeGlobalFinite.Expr.eval] — non-circular ✓
+QuantizeGlobalFinite.LlrintDefined: definition does not reference [QuantizeGlobalFinite.source,
+ QuantizeGlobalFinite.Expr.eval,
+ QuantizeGlobalFinite.llrint] — non-circular ✓
+QuantizeGlobalFinite.source_scalar: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantizeGlobalFinite.defined_result: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantizeGlobalFinite.special_conversions: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantizeGlobalFinite.conversion_boundaries: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])

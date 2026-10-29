@@ -1,0 +1,34 @@
+[
+  {
+    "module": "bench/tritonbench_g/relu_triton_kernel/Proofs/ActualIndices.lean",
+    "record": "evidence/attempts/0035-ActualIndices.json"
+  },
+  {
+    "module": "bench/tritonbench_g/relu_triton_kernel/Proofs/ActualScalar.lean",
+    "record": "evidence/attempts/0036-ActualScalar.json"
+  },
+  {
+    "module": "bench/tritonbench_g/relu_triton_kernel/Proofs/ActualSource.lean",
+    "record": "evidence/attempts/0037-ActualSource.json"
+  },
+  {
+    "module": "bench/tritonbench_g/relu_triton_kernel/Proofs/ActualPhysical.lean",
+    "record": "evidence/attempts/0043-ActualPhysical.json"
+  },
+  {
+    "module": "bench/tritonbench_g/relu_triton_kernel/Proofs/ActualGrid.lean",
+    "record": "evidence/attempts/0044-ActualGrid.json"
+  },
+  {
+    "module": "bench/tritonbench_g/relu_triton_kernel/Proofs/ActualAdmission.lean",
+    "record": "evidence/attempts/0040-ActualAdmission.json"
+  },
+  {
+    "module": "bench/tritonbench_g/relu_triton_kernel/Proofs/ActualHost.lean",
+    "record": "evidence/attempts/0045-ActualHost.json"
+  },
+  {
+    "module": "bench/tritonbench_g/relu_triton_kernel/ActualCorrect.lean",
+    "record": "evidence/attempts/0046-ActualCorrect.json"
+  }
+]

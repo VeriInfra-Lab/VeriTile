@@ -1,0 +1,92 @@
+{
+  "schema": 1,
+  "task": "kldiv_triton",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue07/result.json",
+    "sha256": "583e8d793cba1d71d000c2bdd3e45247f36f7ed54dadb5684382c4c861f64a4b",
+    "task_index": 10
+  },
+  "finding": "Forward/backward formulas exposed raw input channels, tile tuple coordinates and result wrappers.",
+  "resolution": "Named prediction/target matrices and logical row/column outputs show independent point/chunk mathematics and the inline prediction derivative. Total out-of-range row extension is in IO.",
+  "mathematical_target": "forward: probability-zero-extended KL point losses or per-chunk Fin B sums with the original N tail mask. backward: -exp(target) or -target.",
+  "conditions_and_scope": "Original positive B, output row-address injectivity, all stride/address casts, outputCount and every work permutation of the full row list remain. No host post-reduction is introduced. Full source masked access safety, successful executions, all rows/chunks/outputs and exterior frame remain.",
+  "proof_connection": "forward_full_iff and backward_full_iff prove iff of the full prior judgments. IO.extendRow uses the exact old rowsOf default outside valid coordinates, so even irrelevant total fillers agree.",
+  "fp_review": "forward_pair/backward_pair retain the existing signed output-address commutation candidate for the complete current FP32 source, including zero-target repair, tails and Int64 casts.",
+  "numerical_dependencies": "No experimental rewrite rules or numerical experiments added or used by these main pairs; existing operations/order/source precision are retained.",
+  "previous_formula_scope": {
+    "mathematical_target": "Forward raw target uses target=0→0 else target*(log(target)-prediction); log target uses exp(target)*(target-prediction). Output is pointwise or each chunk sum over its B lanes with explicit index<N tail. Backward is -exp(target) or -target.",
+    "required_conditions": [
+      "0<B, explicit output row-address injectivity and work.Perm (List.range rows).",
+      "Original all-payload mathematical domain, repaired zero-target/tail branches, signed64 casts and output masking are retained.",
+      "Input binding and physical bounds remain in the shared IO judgment; no desired-output or run premise."
+    ],
+    "scope": "Both full forward/backward row grids under arbitrary complete row permutations, independent runtime sy/st/so strides, every reduction code and both empty axes. Reduction outputs are per-chunk, not a host post-reduction.",
+    "canonical_connection": "Adjacent loss/target expose actual point/chunk formulas. Forward proof locally identifies masked chunk sum with FullMath.chunkLoss using paddedLoss_eq and Math.loss_original, then applies PublicIO.forward/RealModel.chunk_real; backward uses inline exp/negative formula with RealModel.gradient_real.",
+    "fp_program_pair": {
+      "actual_pair": [
+        "forwardOriginal ≡[[]] forwardCandidate",
+        "backwardOriginal ≡[[]] backwardCandidate"
+      ],
+      "actual_scope": "Complete repaired FP32 bodies and full row permutations; only signed output-row product commutes. Precision, zeros/tails, reduction order and runtime strides remain unchanged.",
+      "numerical_dependency": "R=[]; exact pointer-state and safety transport, no floating rewrite.",
+      "current_experimental_rules_used": 0,
+      "new_or_deferred_experiments": 0,
+      "source_unchanged": true
+    },
+    "numerical_dependencies": "R=[]; exact pointer-state and safety transport, no floating rewrite."
+  },
+  "verification": [
+    {
+      "kind": "final_current_source_build",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue07/build.py",
+        "bench.repairs.tritonbench_g.kldiv_triton.IO",
+        "bench.repairs.tritonbench_g.kldiv_triton.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.kldiv_triton.Correct",
+        "bench.repairs.tritonbench_g.kldiv_triton.FPEquiv"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue07/kldiv_triton-verified-build.log",
+      "log_sha256": "301e9511831927f3d232690baad0e431eac762828f1c9bf0c36b42971c5323a7"
+    },
+    {
+      "kind": "joint_import_current_entries",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue07/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue07/kldiv_triton-joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue07/kldiv_triton-verified-joint.log",
+      "log_sha256": "8e393fe93fbcdfb8bbac78275ef93c64e542a2c310338a718555340320fe236d"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/kldiv_triton/Contract.lean": "6b07f73040f723c34198b8fa9946796ffa56f5a08a1de8d266ebc7de99450d6a",
+    "bench/repairs/tritonbench_g/kldiv_triton/Correct.lean": "94d88fa00eada98c11055291bef4f3ea3045b15a1754c75fd98925757efe73a1",
+    "bench/repairs/tritonbench_g/kldiv_triton/FPEquiv.lean": "13345df0156e9e2b5c4e9b2a2bf8a87ba9a9d158a99bd14bb551976482cbb25b",
+    "bench/repairs/tritonbench_g/kldiv_triton/IO.lean": "1082343466624bb7496c07c4efd8bbc87b439d1a3ec3c6a7f6a743e590f504d5",
+    "bench/repairs/tritonbench_g/kldiv_triton/Kernels.lean": "0057da01d50e5756fc4142e4d4596159e918ad9d9d2717cdb662efb1805ef875",
+    "bench/repairs/tritonbench_g/kldiv_triton/Proofs/LogicalReader.lean": "e9fa66ff7232b13b7509f20ca7e8b7a37ee751e6d6bb11bbab7d3de0694e2e98",
+    "bench/repairs/tritonbench_g/kldiv_triton/Proofs/PublicIO.lean": "82ff096db867b590437bbbebac5c127ecceb0bd31a15a576396401bcba694883",
+    "bench/repairs/tritonbench_g/kldiv_triton/Proofs/Real.lean": "57589ea84092788f4afe73e1ad2b999cef0d58de45ad3084fc72e20b12a55951",
+    "bench/repairs/tritonbench_g/kldiv_triton/Proofs/Math.lean": "f32ab6e133c8aa9dd87f5fc323456df57b9a54222dbb16cea128cd44a2492fc1",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/tmp/veritile-standardization-20261015/queue-gzip-integration-scripts-revision1-wip/audit_revision.py", line 41, in <module>
+    assert test_class(P / 'test_integration.py', 'IntegrationStorageTests') == test_class(W / 'test_integration.py', 'IntegrationStorageTests')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

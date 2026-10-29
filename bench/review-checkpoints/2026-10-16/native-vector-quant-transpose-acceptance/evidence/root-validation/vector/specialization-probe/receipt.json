@@ -1,0 +1,1972 @@
+{
+  "kind": "root_offline_backend_specialization_review",
+  "source_sha256": "cfcb749bd562924106c1e0e95e18a9bd987238be3a3b522abac89e099de3d098",
+  "production_AST_unchanged": true,
+  "producer_receipt_sha256": "8679242cdbdbe9d8972fe59c011fc89f51ba723de0b233bbe8af07ec32312cc4",
+  "target": {
+    "backend": "cuda",
+    "arch": 90,
+    "warp_size": 32
+  },
+  "torch_version": "2.13.0+cu130",
+  "triton_version": "3.7.1",
+  "cases": 18,
+  "all_expected_backend_rejections": true,
+  "records": [
+    {
+      "x": "float8_e4m3fn",
+      "y": "float8_e4m3fn",
+      "n": 0,
+      "BLOCK_SIZE": 1024,
+      "signature": {
+        "x_ptr": "*fp8e4nv",
+        "y_ptr": "*fp8e4nv",
+        "output_ptr": "*fp8e4nv",
+        "n_elements": "i32",
+        "BLOCK_SIZE": "constexpr"
+      },
+      "specialization": [
+        [
+          "*fp8e4nv",
+          "D"
+        ],
+        [
+          "*fp8e4nv",
+          "D"
+        ],
+        [
+          "*fp8e4nv",
+          "D"
+        ],
+        [
+          "i32",
+          "D"
+        ],
+        [
+          "constexpr",
+          1024
+        ]
+      ],
+      "constexprs": {
+        "(4,)": 1024
+      },
+      "attrs": {
+        "(0,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(1,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(2,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(3,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(4,)": []
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3,
+        "warp_size": 32,
+        "maxnreg": null,
+        "ptx_version": null,
+        "ptx_options": null,
+        "ir_override": null,
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e4nv",
+          "fp8e5"
+        ],
+        "deprecated_fp8_dot_operand_dtypes": [
+          "fp8e4b15"
+        ],
+        "default_dot_input_precision": "tf32",
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "max_num_imprecise_acc_default": 1073741824,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "debug": false,
+        "backend_name": "cuda",
+        "sanitize_overflow": true,
+        "arch": "sm90",
+        "instrumentation_mode": ""
+      },
+      "status": "rejected",
+      "failure_stage": "backend",
+      "exception": "Traceback (most recent call last):\n  File \"/tmp/veritile-standardization-20261015/probe_vector_native_specializations_root.py\", line 43, in <module>\n    compiled=triton.compile(src,target=target,options=vars(options))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py\", line 327, in compile\n    next_module = compile_ir(module, metadata)\n                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/compiler.py\", line 552, in <lambda>\n    stages[\"llir\"] = lambda src, metadata: self.make_llir(src, metadata, options, capability)\n                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/compiler.py\", line 383, in make_llir\n    pm.run(mod, 'make_llir')\nRuntimeError: PassManager::run failed\n"
+    },
+    {
+      "x": "float8_e4m3fn",
+      "y": "float8_e4m3fn",
+      "n": 1,
+      "BLOCK_SIZE": 1024,
+      "signature": {
+        "x_ptr": "*fp8e4nv",
+        "y_ptr": "*fp8e4nv",
+        "output_ptr": "*fp8e4nv",
+        "n_elements": "i32",
+        "BLOCK_SIZE": "constexpr"
+      },
+      "specialization": [
+        [
+          "*fp8e4nv",
+          "D"
+        ],
+        [
+          "*fp8e4nv",
+          "D"
+        ],
+        [
+          "*fp8e4nv",
+          "D"
+        ],
+        [
+          "i32",
+          1
+        ],
+        [
+          "constexpr",
+          1024
+        ]
+      ],
+      "constexprs": {
+        "(4,)": 1024
+      },
+      "attrs": {
+        "(0,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(1,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(2,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(4,)": []
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3,
+        "warp_size": 32,
+        "maxnreg": null,
+        "ptx_version": null,
+        "ptx_options": null,
+        "ir_override": null,
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e4nv",
+          "fp8e5"
+        ],
+        "deprecated_fp8_dot_operand_dtypes": [
+          "fp8e4b15"
+        ],
+        "default_dot_input_precision": "tf32",
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "max_num_imprecise_acc_default": 1073741824,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "debug": false,
+        "backend_name": "cuda",
+        "sanitize_overflow": true,
+        "arch": "sm90",
+        "instrumentation_mode": ""
+      },
+      "status": "rejected",
+      "failure_stage": "backend",
+      "exception": "Traceback (most recent call last):\n  File \"/tmp/veritile-standardization-20261015/probe_vector_native_specializations_root.py\", line 43, in <module>\n    compiled=triton.compile(src,target=target,options=vars(options))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py\", line 327, in compile\n    next_module = compile_ir(module, metadata)\n                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/compiler.py\", line 552, in <lambda>\n    stages[\"llir\"] = lambda src, metadata: self.make_llir(src, metadata, options, capability)\n                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/compiler.py\", line 383, in make_llir\n    pm.run(mod, 'make_llir')\nRuntimeError: PassManager::run failed\n"
+    },
+    {
+      "x": "float8_e4m3fn",
+      "y": "float8_e4m3fn",
+      "n": 2049,
+      "BLOCK_SIZE": 1024,
+      "signature": {
+        "x_ptr": "*fp8e4nv",
+        "y_ptr": "*fp8e4nv",
+        "output_ptr": "*fp8e4nv",
+        "n_elements": "i32",
+        "BLOCK_SIZE": "constexpr"
+      },
+      "specialization": [
+        [
+          "*fp8e4nv",
+          "D"
+        ],
+        [
+          "*fp8e4nv",
+          "D"
+        ],
+        [
+          "*fp8e4nv",
+          "D"
+        ],
+        [
+          "i32",
+          ""
+        ],
+        [
+          "constexpr",
+          1024
+        ]
+      ],
+      "constexprs": {
+        "(4,)": 1024
+      },
+      "attrs": {
+        "(0,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(1,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(2,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(3,)": [],
+        "(4,)": []
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3,
+        "warp_size": 32,
+        "maxnreg": null,
+        "ptx_version": null,
+        "ptx_options": null,
+        "ir_override": null,
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e4nv",
+          "fp8e5"
+        ],
+        "deprecated_fp8_dot_operand_dtypes": [
+          "fp8e4b15"
+        ],
+        "default_dot_input_precision": "tf32",
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "max_num_imprecise_acc_default": 1073741824,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "debug": false,
+        "backend_name": "cuda",
+        "sanitize_overflow": true,
+        "arch": "sm90",
+        "instrumentation_mode": ""
+      },
+      "status": "rejected",
+      "failure_stage": "backend",
+      "exception": "Traceback (most recent call last):\n  File \"/tmp/veritile-standardization-20261015/probe_vector_native_specializations_root.py\", line 43, in <module>\n    compiled=triton.compile(src,target=target,options=vars(options))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py\", line 327, in compile\n    next_module = compile_ir(module, metadata)\n                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/compiler.py\", line 552, in <lambda>\n    stages[\"llir\"] = lambda src, metadata: self.make_llir(src, metadata, options, capability)\n                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/compiler.py\", line 383, in make_llir\n    pm.run(mod, 'make_llir')\nRuntimeError: PassManager::run failed\n"
+    },
+    {
+      "x": "float8_e5m2",
+      "y": "float8_e5m2",
+      "n": 0,
+      "BLOCK_SIZE": 1024,
+      "signature": {
+        "x_ptr": "*fp8e5",
+        "y_ptr": "*fp8e5",
+        "output_ptr": "*fp8e5",
+        "n_elements": "i32",
+        "BLOCK_SIZE": "constexpr"
+      },
+      "specialization": [
+        [
+          "*fp8e5",
+          "D"
+        ],
+        [
+          "*fp8e5",
+          "D"
+        ],
+        [
+          "*fp8e5",
+          "D"
+        ],
+        [
+          "i32",
+          "D"
+        ],
+        [
+          "constexpr",
+          1024
+        ]
+      ],
+      "constexprs": {
+        "(4,)": 1024
+      },
+      "attrs": {
+        "(0,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(1,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(2,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(3,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(4,)": []
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3,
+        "warp_size": 32,
+        "maxnreg": null,
+        "ptx_version": null,
+        "ptx_options": null,
+        "ir_override": null,
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e4nv",
+          "fp8e5"
+        ],
+        "deprecated_fp8_dot_operand_dtypes": [
+          "fp8e4b15"
+        ],
+        "default_dot_input_precision": "tf32",
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "max_num_imprecise_acc_default": 1073741824,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "debug": false,
+        "backend_name": "cuda",
+        "sanitize_overflow": true,
+        "arch": "sm90",
+        "instrumentation_mode": ""
+      },
+      "status": "rejected",
+      "failure_stage": "backend",
+      "exception": "Traceback (most recent call last):\n  File \"/tmp/veritile-standardization-20261015/probe_vector_native_specializations_root.py\", line 43, in <module>\n    compiled=triton.compile(src,target=target,options=vars(options))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py\", line 327, in compile\n    next_module = compile_ir(module, metadata)\n                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/compiler.py\", line 552, in <lambda>\n    stages[\"llir\"] = lambda src, metadata: self.make_llir(src, metadata, options, capability)\n                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/compiler.py\", line 383, in make_llir\n    pm.run(mod, 'make_llir')\nRuntimeError: PassManager::run failed\n"
+    },
+    {
+      "x": "float8_e5m2",
+      "y": "float8_e5m2",
+      "n": 1,
+      "BLOCK_SIZE": 1024,
+      "signature": {
+        "x_ptr": "*fp8e5",
+        "y_ptr": "*fp8e5",
+        "output_ptr": "*fp8e5",
+        "n_elements": "i32",
+        "BLOCK_SIZE": "constexpr"
+      },
+      "specialization": [
+        [
+          "*fp8e5",
+          "D"
+        ],
+        [
+          "*fp8e5",
+          "D"
+        ],
+        [
+          "*fp8e5",
+          "D"
+        ],
+        [
+          "i32",
+          1
+        ],
+        [
+          "constexpr",
+          1024
+        ]
+      ],
+      "constexprs": {
+        "(4,)": 1024
+      },
+      "attrs": {
+        "(0,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(1,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(2,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(4,)": []
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3,
+        "warp_size": 32,
+        "maxnreg": null,
+        "ptx_version": null,
+        "ptx_options": null,
+        "ir_override": null,
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e4nv",
+          "fp8e5"
+        ],
+        "deprecated_fp8_dot_operand_dtypes": [
+          "fp8e4b15"
+        ],
+        "default_dot_input_precision": "tf32",
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "max_num_imprecise_acc_default": 1073741824,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "debug": false,
+        "backend_name": "cuda",
+        "sanitize_overflow": true,
+        "arch": "sm90",
+        "instrumentation_mode": ""
+      },
+      "status": "rejected",
+      "failure_stage": "backend",
+      "exception": "Traceback (most recent call last):\n  File \"/tmp/veritile-standardization-20261015/probe_vector_native_specializations_root.py\", line 43, in <module>\n    compiled=triton.compile(src,target=target,options=vars(options))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py\", line 327, in compile\n    next_module = compile_ir(module, metadata)\n                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/compiler.py\", line 552, in <lambda>\n    stages[\"llir\"] = lambda src, metadata: self.make_llir(src, metadata, options, capability)\n                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/compiler.py\", line 383, in make_llir\n    pm.run(mod, 'make_llir')\nRuntimeError: PassManager::run failed\n"
+    },
+    {
+      "x": "float8_e5m2",
+      "y": "float8_e5m2",
+      "n": 2049,
+      "BLOCK_SIZE": 1024,
+      "signature": {
+        "x_ptr": "*fp8e5",
+        "y_ptr": "*fp8e5",
+        "output_ptr": "*fp8e5",
+        "n_elements": "i32",
+        "BLOCK_SIZE": "constexpr"
+      },
+      "specialization": [
+        [
+          "*fp8e5",
+          "D"
+        ],
+        [
+          "*fp8e5",
+          "D"
+        ],
+        [
+          "*fp8e5",
+          "D"
+        ],
+        [
+          "i32",
+          ""
+        ],
+        [
+          "constexpr",
+          1024
+        ]
+      ],
+      "constexprs": {
+        "(4,)": 1024
+      },
+      "attrs": {
+        "(0,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(1,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(2,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(3,)": [],
+        "(4,)": []
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3,
+        "warp_size": 32,
+        "maxnreg": null,
+        "ptx_version": null,
+        "ptx_options": null,
+        "ir_override": null,
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e4nv",
+          "fp8e5"
+        ],
+        "deprecated_fp8_dot_operand_dtypes": [
+          "fp8e4b15"
+        ],
+        "default_dot_input_precision": "tf32",
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "max_num_imprecise_acc_default": 1073741824,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "debug": false,
+        "backend_name": "cuda",
+        "sanitize_overflow": true,
+        "arch": "sm90",
+        "instrumentation_mode": ""
+      },
+      "status": "rejected",
+      "failure_stage": "backend",
+      "exception": "Traceback (most recent call last):\n  File \"/tmp/veritile-standardization-20261015/probe_vector_native_specializations_root.py\", line 43, in <module>\n    compiled=triton.compile(src,target=target,options=vars(options))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py\", line 327, in compile\n    next_module = compile_ir(module, metadata)\n                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/compiler.py\", line 552, in <lambda>\n    stages[\"llir\"] = lambda src, metadata: self.make_llir(src, metadata, options, capability)\n                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/compiler.py\", line 383, in make_llir\n    pm.run(mod, 'make_llir')\nRuntimeError: PassManager::run failed\n"
+    },
+    {
+      "x": "float64",
+      "y": "float8_e4m3fn",
+      "n": 0,
+      "BLOCK_SIZE": 1024,
+      "signature": {
+        "x_ptr": "*fp64",
+        "y_ptr": "*fp8e4nv",
+        "output_ptr": "*fp64",
+        "n_elements": "i32",
+        "BLOCK_SIZE": "constexpr"
+      },
+      "specialization": [
+        [
+          "*fp64",
+          "D"
+        ],
+        [
+          "*fp8e4nv",
+          "D"
+        ],
+        [
+          "*fp64",
+          "D"
+        ],
+        [
+          "i32",
+          "D"
+        ],
+        [
+          "constexpr",
+          1024
+        ]
+      ],
+      "constexprs": {
+        "(4,)": 1024
+      },
+      "attrs": {
+        "(0,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(1,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(2,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(3,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(4,)": []
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3,
+        "warp_size": 32,
+        "maxnreg": null,
+        "ptx_version": null,
+        "ptx_options": null,
+        "ir_override": null,
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e4nv",
+          "fp8e5"
+        ],
+        "deprecated_fp8_dot_operand_dtypes": [
+          "fp8e4b15"
+        ],
+        "default_dot_input_precision": "tf32",
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "max_num_imprecise_acc_default": 1073741824,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "debug": false,
+        "backend_name": "cuda",
+        "sanitize_overflow": true,
+        "arch": "sm90",
+        "instrumentation_mode": ""
+      },
+      "status": "rejected",
+      "failure_stage": "backend",
+      "exception": "Traceback (most recent call last):\n  File \"/tmp/veritile-standardization-20261015/probe_vector_native_specializations_root.py\", line 43, in <module>\n    compiled=triton.compile(src,target=target,options=vars(options))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py\", line 327, in compile\n    next_module = compile_ir(module, metadata)\n                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/compiler.py\", line 552, in <lambda>\n    stages[\"llir\"] = lambda src, metadata: self.make_llir(src, metadata, options, capability)\n                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/compiler.py\", line 383, in make_llir\n    pm.run(mod, 'make_llir')\nRuntimeError: PassManager::run failed\n"
+    },
+    {
+      "x": "float64",
+      "y": "float8_e4m3fn",
+      "n": 1,
+      "BLOCK_SIZE": 1024,
+      "signature": {
+        "x_ptr": "*fp64",
+        "y_ptr": "*fp8e4nv",
+        "output_ptr": "*fp64",
+        "n_elements": "i32",
+        "BLOCK_SIZE": "constexpr"
+      },
+      "specialization": [
+        [
+          "*fp64",
+          "D"
+        ],
+        [
+          "*fp8e4nv",
+          "D"
+        ],
+        [
+          "*fp64",
+          "D"
+        ],
+        [
+          "i32",
+          1
+        ],
+        [
+          "constexpr",
+          1024
+        ]
+      ],
+      "constexprs": {
+        "(4,)": 1024
+      },
+      "attrs": {
+        "(0,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(1,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(2,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(4,)": []
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3,
+        "warp_size": 32,
+        "maxnreg": null,
+        "ptx_version": null,
+        "ptx_options": null,
+        "ir_override": null,
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e4nv",
+          "fp8e5"
+        ],
+        "deprecated_fp8_dot_operand_dtypes": [
+          "fp8e4b15"
+        ],
+        "default_dot_input_precision": "tf32",
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "max_num_imprecise_acc_default": 1073741824,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "debug": false,
+        "backend_name": "cuda",
+        "sanitize_overflow": true,
+        "arch": "sm90",
+        "instrumentation_mode": ""
+      },
+      "status": "rejected",
+      "failure_stage": "backend",
+      "exception": "Traceback (most recent call last):\n  File \"/tmp/veritile-standardization-20261015/probe_vector_native_specializations_root.py\", line 43, in <module>\n    compiled=triton.compile(src,target=target,options=vars(options))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py\", line 327, in compile\n    next_module = compile_ir(module, metadata)\n                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/compiler.py\", line 552, in <lambda>\n    stages[\"llir\"] = lambda src, metadata: self.make_llir(src, metadata, options, capability)\n                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/compiler.py\", line 383, in make_llir\n    pm.run(mod, 'make_llir')\nRuntimeError: PassManager::run failed\n"
+    },
+    {
+      "x": "float64",
+      "y": "float8_e4m3fn",
+      "n": 2049,
+      "BLOCK_SIZE": 1024,
+      "signature": {
+        "x_ptr": "*fp64",
+        "y_ptr": "*fp8e4nv",
+        "output_ptr": "*fp64",
+        "n_elements": "i32",
+        "BLOCK_SIZE": "constexpr"
+      },
+      "specialization": [
+        [
+          "*fp64",
+          "D"
+        ],
+        [
+          "*fp8e4nv",
+          "D"
+        ],
+        [
+          "*fp64",
+          "D"
+        ],
+        [
+          "i32",
+          ""
+        ],
+        [
+          "constexpr",
+          1024
+        ]
+      ],
+      "constexprs": {
+        "(4,)": 1024
+      },
+      "attrs": {
+        "(0,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(1,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(2,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(3,)": [],
+        "(4,)": []
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3,
+        "warp_size": 32,
+        "maxnreg": null,
+        "ptx_version": null,
+        "ptx_options": null,
+        "ir_override": null,
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e4nv",
+          "fp8e5"
+        ],
+        "deprecated_fp8_dot_operand_dtypes": [
+          "fp8e4b15"
+        ],
+        "default_dot_input_precision": "tf32",
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "max_num_imprecise_acc_default": 1073741824,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "debug": false,
+        "backend_name": "cuda",
+        "sanitize_overflow": true,
+        "arch": "sm90",
+        "instrumentation_mode": ""
+      },
+      "status": "rejected",
+      "failure_stage": "backend",
+      "exception": "Traceback (most recent call last):\n  File \"/tmp/veritile-standardization-20261015/probe_vector_native_specializations_root.py\", line 43, in <module>\n    compiled=triton.compile(src,target=target,options=vars(options))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py\", line 327, in compile\n    next_module = compile_ir(module, metadata)\n                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/compiler.py\", line 552, in <lambda>\n    stages[\"llir\"] = lambda src, metadata: self.make_llir(src, metadata, options, capability)\n                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/compiler.py\", line 383, in make_llir\n    pm.run(mod, 'make_llir')\nRuntimeError: PassManager::run failed\n"
+    },
+    {
+      "x": "float64",
+      "y": "float8_e5m2",
+      "n": 0,
+      "BLOCK_SIZE": 1024,
+      "signature": {
+        "x_ptr": "*fp64",
+        "y_ptr": "*fp8e5",
+        "output_ptr": "*fp64",
+        "n_elements": "i32",
+        "BLOCK_SIZE": "constexpr"
+      },
+      "specialization": [
+        [
+          "*fp64",
+          "D"
+        ],
+        [
+          "*fp8e5",
+          "D"
+        ],
+        [
+          "*fp64",
+          "D"
+        ],
+        [
+          "i32",
+          "D"
+        ],
+        [
+          "constexpr",
+          1024
+        ]
+      ],
+      "constexprs": {
+        "(4,)": 1024
+      },
+      "attrs": {
+        "(0,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(1,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(2,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(3,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(4,)": []
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3,
+        "warp_size": 32,
+        "maxnreg": null,
+        "ptx_version": null,
+        "ptx_options": null,
+        "ir_override": null,
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e4nv",
+          "fp8e5"
+        ],
+        "deprecated_fp8_dot_operand_dtypes": [
+          "fp8e4b15"
+        ],
+        "default_dot_input_precision": "tf32",
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "max_num_imprecise_acc_default": 1073741824,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "debug": false,
+        "backend_name": "cuda",
+        "sanitize_overflow": true,
+        "arch": "sm90",
+        "instrumentation_mode": ""
+      },
+      "status": "rejected",
+      "failure_stage": "backend",
+      "exception": "Traceback (most recent call last):\n  File \"/tmp/veritile-standardization-20261015/probe_vector_native_specializations_root.py\", line 43, in <module>\n    compiled=triton.compile(src,target=target,options=vars(options))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py\", line 327, in compile\n    next_module = compile_ir(module, metadata)\n                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/compiler.py\", line 552, in <lambda>\n    stages[\"llir\"] = lambda src, metadata: self.make_llir(src, metadata, options, capability)\n                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/compiler.py\", line 383, in make_llir\n    pm.run(mod, 'make_llir')\nRuntimeError: PassManager::run failed\n"
+    },
+    {
+      "x": "float64",
+      "y": "float8_e5m2",
+      "n": 1,
+      "BLOCK_SIZE": 1024,
+      "signature": {
+        "x_ptr": "*fp64",
+        "y_ptr": "*fp8e5",
+        "output_ptr": "*fp64",
+        "n_elements": "i32",
+        "BLOCK_SIZE": "constexpr"
+      },
+      "specialization": [
+        [
+          "*fp64",
+          "D"
+        ],
+        [
+          "*fp8e5",
+          "D"
+        ],
+        [
+          "*fp64",
+          "D"
+        ],
+        [
+          "i32",
+          1
+        ],
+        [
+          "constexpr",
+          1024
+        ]
+      ],
+      "constexprs": {
+        "(4,)": 1024
+      },
+      "attrs": {
+        "(0,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(1,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(2,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(4,)": []
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3,
+        "warp_size": 32,
+        "maxnreg": null,
+        "ptx_version": null,
+        "ptx_options": null,
+        "ir_override": null,
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e4nv",
+          "fp8e5"
+        ],
+        "deprecated_fp8_dot_operand_dtypes": [
+          "fp8e4b15"
+        ],
+        "default_dot_input_precision": "tf32",
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "max_num_imprecise_acc_default": 1073741824,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "debug": false,
+        "backend_name": "cuda",
+        "sanitize_overflow": true,
+        "arch": "sm90",
+        "instrumentation_mode": ""
+      },
+      "status": "rejected",
+      "failure_stage": "backend",
+      "exception": "Traceback (most recent call last):\n  File \"/tmp/veritile-standardization-20261015/probe_vector_native_specializations_root.py\", line 43, in <module>\n    compiled=triton.compile(src,target=target,options=vars(options))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py\", line 327, in compile\n    next_module = compile_ir(module, metadata)\n                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/compiler.py\", line 552, in <lambda>\n    stages[\"llir\"] = lambda src, metadata: self.make_llir(src, metadata, options, capability)\n                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/compiler.py\", line 383, in make_llir\n    pm.run(mod, 'make_llir')\nRuntimeError: PassManager::run failed\n"
+    },
+    {
+      "x": "float64",
+      "y": "float8_e5m2",
+      "n": 2049,
+      "BLOCK_SIZE": 1024,
+      "signature": {
+        "x_ptr": "*fp64",
+        "y_ptr": "*fp8e5",
+        "output_ptr": "*fp64",
+        "n_elements": "i32",
+        "BLOCK_SIZE": "constexpr"
+      },
+      "specialization": [
+        [
+          "*fp64",
+          "D"
+        ],
+        [
+          "*fp8e5",
+          "D"
+        ],
+        [
+          "*fp64",
+          "D"
+        ],
+        [
+          "i32",
+          ""
+        ],
+        [
+          "constexpr",
+          1024
+        ]
+      ],
+      "constexprs": {
+        "(4,)": 1024
+      },
+      "attrs": {
+        "(0,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(1,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(2,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(3,)": [],
+        "(4,)": []
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3,
+        "warp_size": 32,
+        "maxnreg": null,
+        "ptx_version": null,
+        "ptx_options": null,
+        "ir_override": null,
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e4nv",
+          "fp8e5"
+        ],
+        "deprecated_fp8_dot_operand_dtypes": [
+          "fp8e4b15"
+        ],
+        "default_dot_input_precision": "tf32",
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "max_num_imprecise_acc_default": 1073741824,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "debug": false,
+        "backend_name": "cuda",
+        "sanitize_overflow": true,
+        "arch": "sm90",
+        "instrumentation_mode": ""
+      },
+      "status": "rejected",
+      "failure_stage": "backend",
+      "exception": "Traceback (most recent call last):\n  File \"/tmp/veritile-standardization-20261015/probe_vector_native_specializations_root.py\", line 43, in <module>\n    compiled=triton.compile(src,target=target,options=vars(options))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py\", line 327, in compile\n    next_module = compile_ir(module, metadata)\n                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/compiler.py\", line 552, in <lambda>\n    stages[\"llir\"] = lambda src, metadata: self.make_llir(src, metadata, options, capability)\n                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/compiler.py\", line 383, in make_llir\n    pm.run(mod, 'make_llir')\nRuntimeError: PassManager::run failed\n"
+    },
+    {
+      "x": "float8_e4m3fn",
+      "y": "float64",
+      "n": 0,
+      "BLOCK_SIZE": 1024,
+      "signature": {
+        "x_ptr": "*fp8e4nv",
+        "y_ptr": "*fp64",
+        "output_ptr": "*fp8e4nv",
+        "n_elements": "i32",
+        "BLOCK_SIZE": "constexpr"
+      },
+      "specialization": [
+        [
+          "*fp8e4nv",
+          "D"
+        ],
+        [
+          "*fp64",
+          "D"
+        ],
+        [
+          "*fp8e4nv",
+          "D"
+        ],
+        [
+          "i32",
+          "D"
+        ],
+        [
+          "constexpr",
+          1024
+        ]
+      ],
+      "constexprs": {
+        "(4,)": 1024
+      },
+      "attrs": {
+        "(0,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(1,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(2,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(3,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(4,)": []
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3,
+        "warp_size": 32,
+        "maxnreg": null,
+        "ptx_version": null,
+        "ptx_options": null,
+        "ir_override": null,
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e4nv",
+          "fp8e5"
+        ],
+        "deprecated_fp8_dot_operand_dtypes": [
+          "fp8e4b15"
+        ],
+        "default_dot_input_precision": "tf32",
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "max_num_imprecise_acc_default": 1073741824,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "debug": false,
+        "backend_name": "cuda",
+        "sanitize_overflow": true,
+        "arch": "sm90",
+        "instrumentation_mode": ""
+      },
+      "status": "rejected",
+      "failure_stage": "backend",
+      "exception": "Traceback (most recent call last):\n  File \"/tmp/veritile-standardization-20261015/probe_vector_native_specializations_root.py\", line 43, in <module>\n    compiled=triton.compile(src,target=target,options=vars(options))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py\", line 327, in compile\n    next_module = compile_ir(module, metadata)\n                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/compiler.py\", line 552, in <lambda>\n    stages[\"llir\"] = lambda src, metadata: self.make_llir(src, metadata, options, capability)\n                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/compiler.py\", line 383, in make_llir\n    pm.run(mod, 'make_llir')\nRuntimeError: PassManager::run failed\n"
+    },
+    {
+      "x": "float8_e4m3fn",
+      "y": "float64",
+      "n": 1,
+      "BLOCK_SIZE": 1024,
+      "signature": {
+        "x_ptr": "*fp8e4nv",
+        "y_ptr": "*fp64",
+        "output_ptr": "*fp8e4nv",
+        "n_elements": "i32",
+        "BLOCK_SIZE": "constexpr"
+      },
+      "specialization": [
+        [
+          "*fp8e4nv",
+          "D"
+        ],
+        [
+          "*fp64",
+          "D"
+        ],
+        [
+          "*fp8e4nv",
+          "D"
+        ],
+        [
+          "i32",
+          1
+        ],
+        [
+          "constexpr",
+          1024
+        ]
+      ],
+      "constexprs": {
+        "(4,)": 1024
+      },
+      "attrs": {
+        "(0,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(1,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(2,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(4,)": []
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3,
+        "warp_size": 32,
+        "maxnreg": null,
+        "ptx_version": null,
+        "ptx_options": null,
+        "ir_override": null,
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e4nv",
+          "fp8e5"
+        ],
+        "deprecated_fp8_dot_operand_dtypes": [
+          "fp8e4b15"
+        ],
+        "default_dot_input_precision": "tf32",
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "max_num_imprecise_acc_default": 1073741824,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "debug": false,
+        "backend_name": "cuda",
+        "sanitize_overflow": true,
+        "arch": "sm90",
+        "instrumentation_mode": ""
+      },
+      "status": "rejected",
+      "failure_stage": "backend",
+      "exception": "Traceback (most recent call last):\n  File \"/tmp/veritile-standardization-20261015/probe_vector_native_specializations_root.py\", line 43, in <module>\n    compiled=triton.compile(src,target=target,options=vars(options))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py\", line 327, in compile\n    next_module = compile_ir(module, metadata)\n                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/compiler.py\", line 552, in <lambda>\n    stages[\"llir\"] = lambda src, metadata: self.make_llir(src, metadata, options, capability)\n                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/compiler.py\", line 383, in make_llir\n    pm.run(mod, 'make_llir')\nRuntimeError: PassManager::run failed\n"
+    },
+    {
+      "x": "float8_e4m3fn",
+      "y": "float64",
+      "n": 2049,
+      "BLOCK_SIZE": 1024,
+      "signature": {
+        "x_ptr": "*fp8e4nv",
+        "y_ptr": "*fp64",
+        "output_ptr": "*fp8e4nv",
+        "n_elements": "i32",
+        "BLOCK_SIZE": "constexpr"
+      },
+      "specialization": [
+        [
+          "*fp8e4nv",
+          "D"
+        ],
+        [
+          "*fp64",
+          "D"
+        ],
+        [
+          "*fp8e4nv",
+          "D"
+        ],
+        [
+          "i32",
+          ""
+        ],
+        [
+          "constexpr",
+          1024
+        ]
+      ],
+      "constexprs": {
+        "(4,)": 1024
+      },
+      "attrs": {
+        "(0,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(1,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(2,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(3,)": [],
+        "(4,)": []
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3,
+        "warp_size": 32,
+        "maxnreg": null,
+        "ptx_version": null,
+        "ptx_options": null,
+        "ir_override": null,
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e4nv",
+          "fp8e5"
+        ],
+        "deprecated_fp8_dot_operand_dtypes": [
+          "fp8e4b15"
+        ],
+        "default_dot_input_precision": "tf32",
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "max_num_imprecise_acc_default": 1073741824,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "debug": false,
+        "backend_name": "cuda",
+        "sanitize_overflow": true,
+        "arch": "sm90",
+        "instrumentation_mode": ""
+      },
+      "status": "rejected",
+      "failure_stage": "backend",
+      "exception": "Traceback (most recent call last):\n  File \"/tmp/veritile-standardization-20261015/probe_vector_native_specializations_root.py\", line 43, in <module>\n    compiled=triton.compile(src,target=target,options=vars(options))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py\", line 327, in compile\n    next_module = compile_ir(module, metadata)\n                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/compiler.py\", line 552, in <lambda>\n    stages[\"llir\"] = lambda src, metadata: self.make_llir(src, metadata, options, capability)\n                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/compiler.py\", line 383, in make_llir\n    pm.run(mod, 'make_llir')\nRuntimeError: PassManager::run failed\n"
+    },
+    {
+      "x": "float8_e5m2",
+      "y": "float64",
+      "n": 0,
+      "BLOCK_SIZE": 1024,
+      "signature": {
+        "x_ptr": "*fp8e5",
+        "y_ptr": "*fp64",
+        "output_ptr": "*fp8e5",
+        "n_elements": "i32",
+        "BLOCK_SIZE": "constexpr"
+      },
+      "specialization": [
+        [
+          "*fp8e5",
+          "D"
+        ],
+        [
+          "*fp64",
+          "D"
+        ],
+        [
+          "*fp8e5",
+          "D"
+        ],
+        [
+          "i32",
+          "D"
+        ],
+        [
+          "constexpr",
+          1024
+        ]
+      ],
+      "constexprs": {
+        "(4,)": 1024
+      },
+      "attrs": {
+        "(0,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(1,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(2,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(3,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(4,)": []
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3,
+        "warp_size": 32,
+        "maxnreg": null,
+        "ptx_version": null,
+        "ptx_options": null,
+        "ir_override": null,
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e4nv",
+          "fp8e5"
+        ],
+        "deprecated_fp8_dot_operand_dtypes": [
+          "fp8e4b15"
+        ],
+        "default_dot_input_precision": "tf32",
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "max_num_imprecise_acc_default": 1073741824,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "debug": false,
+        "backend_name": "cuda",
+        "sanitize_overflow": true,
+        "arch": "sm90",
+        "instrumentation_mode": ""
+      },
+      "status": "rejected",
+      "failure_stage": "backend",
+      "exception": "Traceback (most recent call last):\n  File \"/tmp/veritile-standardization-20261015/probe_vector_native_specializations_root.py\", line 43, in <module>\n    compiled=triton.compile(src,target=target,options=vars(options))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py\", line 327, in compile\n    next_module = compile_ir(module, metadata)\n                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/compiler.py\", line 552, in <lambda>\n    stages[\"llir\"] = lambda src, metadata: self.make_llir(src, metadata, options, capability)\n                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/compiler.py\", line 383, in make_llir\n    pm.run(mod, 'make_llir')\nRuntimeError: PassManager::run failed\n"
+    },
+    {
+      "x": "float8_e5m2",
+      "y": "float64",
+      "n": 1,
+      "BLOCK_SIZE": 1024,
+      "signature": {
+        "x_ptr": "*fp8e5",
+        "y_ptr": "*fp64",
+        "output_ptr": "*fp8e5",
+        "n_elements": "i32",
+        "BLOCK_SIZE": "constexpr"
+      },
+      "specialization": [
+        [
+          "*fp8e5",
+          "D"
+        ],
+        [
+          "*fp64",
+          "D"
+        ],
+        [
+          "*fp8e5",
+          "D"
+        ],
+        [
+          "i32",
+          1
+        ],
+        [
+          "constexpr",
+          1024
+        ]
+      ],
+      "constexprs": {
+        "(4,)": 1024
+      },
+      "attrs": {
+        "(0,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(1,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(2,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(4,)": []
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3,
+        "warp_size": 32,
+        "maxnreg": null,
+        "ptx_version": null,
+        "ptx_options": null,
+        "ir_override": null,
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e4nv",
+          "fp8e5"
+        ],
+        "deprecated_fp8_dot_operand_dtypes": [
+          "fp8e4b15"
+        ],
+        "default_dot_input_precision": "tf32",
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "max_num_imprecise_acc_default": 1073741824,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "debug": false,
+        "backend_name": "cuda",
+        "sanitize_overflow": true,
+        "arch": "sm90",
+        "instrumentation_mode": ""
+      },
+      "status": "rejected",
+      "failure_stage": "backend",
+      "exception": "Traceback (most recent call last):\n  File \"/tmp/veritile-standardization-20261015/probe_vector_native_specializations_root.py\", line 43, in <module>\n    compiled=triton.compile(src,target=target,options=vars(options))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py\", line 327, in compile\n    next_module = compile_ir(module, metadata)\n                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/compiler.py\", line 552, in <lambda>\n    stages[\"llir\"] = lambda src, metadata: self.make_llir(src, metadata, options, capability)\n                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/compiler.py\", line 383, in make_llir\n    pm.run(mod, 'make_llir')\nRuntimeError: PassManager::run failed\n"
+    },
+    {
+      "x": "float8_e5m2",
+      "y": "float64",
+      "n": 2049,
+      "BLOCK_SIZE": 1024,
+      "signature": {
+        "x_ptr": "*fp8e5",
+        "y_ptr": "*fp64",
+        "output_ptr": "*fp8e5",
+        "n_elements": "i32",
+        "BLOCK_SIZE": "constexpr"
+      },
+      "specialization": [
+        [
+          "*fp8e5",
+          "D"
+        ],
+        [
+          "*fp64",
+          "D"
+        ],
+        [
+          "*fp8e5",
+          "D"
+        ],
+        [
+          "i32",
+          ""
+        ],
+        [
+          "constexpr",
+          1024
+        ]
+      ],
+      "constexprs": {
+        "(4,)": 1024
+      },
+      "attrs": {
+        "(0,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(1,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(2,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(3,)": [],
+        "(4,)": []
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3,
+        "warp_size": 32,
+        "maxnreg": null,
+        "ptx_version": null,
+        "ptx_options": null,
+        "ir_override": null,
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e4nv",
+          "fp8e5"
+        ],
+        "deprecated_fp8_dot_operand_dtypes": [
+          "fp8e4b15"
+        ],
+        "default_dot_input_precision": "tf32",
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "max_num_imprecise_acc_default": 1073741824,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "debug": false,
+        "backend_name": "cuda",
+        "sanitize_overflow": true,
+        "arch": "sm90",
+        "instrumentation_mode": ""
+      },
+      "status": "rejected",
+      "failure_stage": "backend",
+      "exception": "Traceback (most recent call last):\n  File \"/tmp/veritile-standardization-20261015/probe_vector_native_specializations_root.py\", line 43, in <module>\n    compiled=triton.compile(src,target=target,options=vars(options))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py\", line 327, in compile\n    next_module = compile_ir(module, metadata)\n                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/compiler.py\", line 552, in <lambda>\n    stages[\"llir\"] = lambda src, metadata: self.make_llir(src, metadata, options, capability)\n                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/compiler.py\", line 383, in make_llir\n    pm.run(mod, 'make_llir')\nRuntimeError: PassManager::run failed\n"
+    }
+  ],
+  "gpu_launches": 0,
+  "large_allocations": 0,
+  "artifacts": {
+    "float64__float8_e4m3fn__n0.json": "ba3c6d83709b011f9dbb0d3e1f830d7f4e13dd6f6b5ad8a5dde75a725ce4889c",
+    "float64__float8_e4m3fn__n0.raw.ttir": "614734f59aa63e71b01ef2077e894cd77c33998e57d6bd13fbd5a5fa8c44c544",
+    "float64__float8_e4m3fn__n1.json": "4858064c5debf59f820e32e271b6ac1499bfe017e36278bdfa33fa2074179e64",
+    "float64__float8_e4m3fn__n1.raw.ttir": "727e4ba550bbd869c38da1c9b3cd253741501169245dc7b207821352ff4eb8bd",
+    "float64__float8_e4m3fn__n2049.json": "8946b6c7c242230e823eb88cf6940d45531af202af5e72404960ec0b2f641465",
+    "float64__float8_e4m3fn__n2049.raw.ttir": "727e4ba550bbd869c38da1c9b3cd253741501169245dc7b207821352ff4eb8bd",
+    "float64__float8_e5m2__n0.json": "fb079d507c177c7f3acb72ac026c164df65c2e49cab8c1d3cf443f159c3fc86b",
+    "float64__float8_e5m2__n0.raw.ttir": "20f037f7ef92709e4392bf2b2293cddc8a8a6375524d69f154575b76dd2c007d",
+    "float64__float8_e5m2__n1.json": "afc45105305cf21515a4a1731328137648c43d8da9d060dde2d3a400715384fc",
+    "float64__float8_e5m2__n1.raw.ttir": "a75a00e66fc08ee92c6a6c5956fcce39640268b7d8868d9152d3d4d0c1137b89",
+    "float64__float8_e5m2__n2049.json": "b60c9372265bcf900f90c28654bc0aea5dfa9e8a1cda343d9a574a7053500f17",
+    "float64__float8_e5m2__n2049.raw.ttir": "a75a00e66fc08ee92c6a6c5956fcce39640268b7d8868d9152d3d4d0c1137b89",
+    "float8_e4m3fn__float64__n0.json": "d4de068fea89db48cc22f7191e2db11f4661b0862d6ad84dd62f4ea5cc20dbda",
+    "float8_e4m3fn__float64__n0.raw.ttir": "ea7b2941fa4a8df7d487f41956833c3952cca9197dc4329161834f11b5176ee5",
+    "float8_e4m3fn__float64__n1.json": "0a94643858f880de90f5b259d422b60997788756f83c8319b7ca033cf4f325aa",
+    "float8_e4m3fn__float64__n1.raw.ttir": "513910a87b9fc826bb2d967cdb04db59e7683d884abdd1346195e8eaf84e6694",
+    "float8_e4m3fn__float64__n2049.json": "0a8ba0332cfbdddc464c495ca395369464e5afabff44f8b0f01d5991e60762e4",
+    "float8_e4m3fn__float64__n2049.raw.ttir": "513910a87b9fc826bb2d967cdb04db59e7683d884abdd1346195e8eaf84e6694",
+    "float8_e4m3fn__float8_e4m3fn__n0.json": "c12464e1fde1ebd71f657ef374a49e1d98eb6297837753e5cd79c039191de1da",
+    "float8_e4m3fn__float8_e4m3fn__n0.raw.ttir": "5c5b0719488d6ab26896ae9b1478f05caab2a3c19fc6b0bba5ec8c1ab5a562ac",
+    "float8_e4m3fn__float8_e4m3fn__n1.json": "5151f61852f140e055e686ecd776db301c59de332d948ed482f69e56094e85e0",
+    "float8_e4m3fn__float8_e4m3fn__n1.raw.ttir": "f186c266540b0b1391b9e16cbdeb2e2a7a35d80d1f58a508172215605e944a53",
+    "float8_e4m3fn__float8_e4m3fn__n2049.json": "75836c0a783f9e9574401dff96e7fd285adeee8e1d2f769e10944c569295b59c",
+    "float8_e4m3fn__float8_e4m3fn__n2049.raw.ttir": "f186c266540b0b1391b9e16cbdeb2e2a7a35d80d1f58a508172215605e944a53",
+    "float8_e5m2__float64__n0.json": "b0afc5dddc735e7b04cffd2bed45f76e52c66f53d867ebc77f6a2bed51aeac97",
+    "float8_e5m2__float64__n0.raw.ttir": "56b684973731eaca7bd917aa396f8696391dee03b81dfe1254e688613631d894",
+    "float8_e5m2__float64__n1.json": "bdc2cf98df512df1fcaf88200c04e8177c54fe87e6e8198932bd2333e19ce920",
+    "float8_e5m2__float64__n1.raw.ttir": "f3703c00c9ec2da122f05eb8931217c88f37e6f4ec7827dec8204ad1e1f58bdf",
+    "float8_e5m2__float64__n2049.json": "839e9ee09b20ae6fc85c9850613b1af465d4add4ddbabcc2b4967a87d5221c41",
+    "float8_e5m2__float64__n2049.raw.ttir": "f3703c00c9ec2da122f05eb8931217c88f37e6f4ec7827dec8204ad1e1f58bdf",
+    "float8_e5m2__float8_e5m2__n0.json": "226b904c0f6de45fa2e03d8148273c9fc51f51b05553706d725fec8d8fa37f09",
+    "float8_e5m2__float8_e5m2__n0.raw.ttir": "f9adb83bb031090ec07bfdb63905f723986856b7eaa39d4f36afd4362c735e4b",
+    "float8_e5m2__float8_e5m2__n1.json": "99443a7f1981e4f2b1200da2677636c539ff16eb19e951089e139a50a37d2480",
+    "float8_e5m2__float8_e5m2__n1.raw.ttir": "9041ce9751aced8a60cff7173f3fc931625d86a9cbebca249e65ca3ab4f0fd22",
+    "float8_e5m2__float8_e5m2__n2049.json": "ff53092fcff51137a7dd7a8bc8e8973dae174788141df1e2ddd13bf7b681b184",
+    "float8_e5m2__float8_e5m2__n2049.raw.ttir": "9041ce9751aced8a60cff7173f3fc931625d86a9cbebca249e65ca3ab4f0fd22",
+    "source.py": "d2f6e3807672418eb9e9105b7bf1ce375a1ef558b890f67144897278aad1d9f8"
+  }
+}

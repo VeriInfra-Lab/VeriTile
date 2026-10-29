@@ -1,0 +1,20 @@
+/tmp/veritile-standardization-20261015/triton-mul2-finite-acceptance-revision2-wip/bench/tritonbench_g/triton_mul2/Proofs/FiniteSource.lean:112:4: warning: This simp argument is unused:
+  if_pos rfl
+
+Hint: Omit it from the simp argument list.
+  simp only [̵s̵o̵u̵r̵c̵e̵C̵o̵d̵e̵,̵e̵x̵e̵c̵u̵t̵e̵B̵o̵d̵y̵,̵e̵v̵a̵l̵I̵n̵d̵e̵x̵,̵e̵v̵a̵l̵M̵a̵s̵k̵,̵e̵x̵e̵c̵u̵t̵e̵P̵r̵o̵g̵r̵a̵m̵,̵
+  ̵ ̵ ̵ ̵ ̵i̵f̵_̵p̵o̵s̵ ̵r̵f̵l̵,̵i̵f̵_̵t̵r̵u̵e̵,̵S̵t̵r̵i̵n̵g̵.̵r̵e̵d̵u̵c̵e̵E̵q̵,̵i̵f̵_̵f̵a̵l̵s̵e̵,̵a̵n̵d̵_̵s̵e̵l̵f̵]̵[̲s̲o̲u̲r̲c̲e̲C̲o̲d̲e̲,̲ ̲e̲x̲e̲c̲u̲t̲e̲B̲o̲d̲y̲,̲ ̲e̲v̲a̲l̲I̲n̲d̲e̲x̲,̲ ̲e̲v̲a̲l̲M̲a̲s̲k̲,̲ ̲e̲x̲e̲c̲u̲t̲e̲P̲r̲o̲g̲r̲a̲m̲,̲ ̲i̲f̲_̲t̲r̲u̲e̲,̲ ̲S̲t̲r̲i̲n̲g̲.̲r̲e̲d̲u̲c̲e̲E̲q̲,̲
+  ̲ ̲ ̲ ̲ ̲i̲f̲_̲f̲a̲l̲s̲e̲,̲ ̲a̲n̲d̲_̲s̲e̲l̲f̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+TritonMul2Finite.original_ast_lowering: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+TritonMul2Finite.inplace_ast_lowering: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+TritonMul2Finite.source_body_correspondence: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+TritonMul2Finite.original_program_correspondence: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+TritonMul2Finite.inplace_program_correspondence: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

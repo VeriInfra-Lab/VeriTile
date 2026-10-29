@@ -1,0 +1,172 @@
+{
+  "schema": 1,
+  "task": "mul_exponent_compensator",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue10/max-reduction-supplement/result.json",
+    "sha256": "8ffac003658bf3b8618f2ca937ddbd10c9bfe4ce7fc10a113549bfb37b70b112",
+    "task_index": 11
+  },
+  "finding": "Main formula used Interface.formula and channel selectors for an ordinary vector map.",
+  "resolution": "Complete vector input/output equivalences expose the direct pointwise multiplication formula.",
+  "mathematical_target": "fun xs i => xs i * 2^112",
+  "conditions_and_scope": {
+    "scope": "Complete arbitrary grid permutation including n=0, tails and in-place src=dst; B>0.",
+    "conditions": [
+      "0<B",
+      "order.Perm (List.range (grid n B))",
+      "ProgramIO finite logical binding/bounds and complete exterior frame"
+    ],
+    "complete_source_domain_precision_masks_safety_success_and_frames_preserved": true
+  },
+  "proof_connection": {
+    "helpers": [
+      "bench/repairs/tritonbench_g/mul_exponent_compensator/Proofs/LogicalIO.lean"
+    ],
+    "full_declaration_type_iff": {
+      "fixture": ".veritile-cache/logical-reader-review-20261022/queue10/mul_exponent_compensator/Preservation.lean",
+      "fixture_sha256": "0156933c5b26f4d70821580105e83596d70bc2f90af9bb741c3294c25551d8ba",
+      "actual_current_and_before_declarations": [
+        "VeriTile.Bench.Repairs.MulExponentCompensator.Contiguous.Correct.kernel_real ↔ VeriTile.Bench.Repairs.MulExponentCompensator.Contiguous.Correct.kernel_real_before"
+      ],
+      "method": "declarationType% reads actual full declaration types, then forall_congr retains every parameter and premise; task headline_iff proves equality/iff of the complete underlying judgment."
+    }
+  },
+  "fp_review": {
+    "actual_pair": "original versus existing scalarLeft, complete actual masked FP32 schedules.",
+    "model_and_domain": "Explicit FP.Config, every FP32 word including special values and signed zeros, arbitrary src/dst including aliasing.",
+    "selected_fp_source_unchanged": true,
+    "main_experimental_rules": []
+  },
+  "numerical_dependencies": {
+    "experimental_rules": [],
+    "strict_rewrite_certificates": [
+      "FP.ScalarOpsLaws.mul_comm profile, used by Commuted.scalar_native"
+    ],
+    "reason": "Reuse the shared concrete configured model commutativity theorem; no new experiment or arbitrary opaque-operation claim."
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "Each logical element x[i] is multiplied by exactly (2:Real)^112; Interface.formula supplies only the existing one-channel index packaging.",
+    "required_conditions": {
+      "public_conditions": [
+        "0<B",
+        "order.Perm (List.range (grid n B))",
+        "ProgramIO finite logical binding/bounds and complete exterior frame"
+      ],
+      "contract_relation": "Original contiguous FP32 metadata, supported block list, finite grid/device/alignment checks retained in Contract; formal positive-B source theorem is more general without new host/native/Tensor obligations."
+    },
+    "scope": "Complete arbitrary grid permutation including n=0, tails and in-place src=dst; B>0.",
+    "canonical_connection": "IOComplete.real_implements reused; inline scalar lambda x*2^112 is exactly KernelArithmetic.mathematical and reference via Interface.formula.",
+    "fp_program_pair": {
+      "fp_pair": "original versus existing scalarLeft, complete actual masked FP32 schedules.",
+      "fp_model_domain": "Explicit FP.Config, every FP32 word including special values and signed zeros, arbitrary src/dst including aliasing."
+    },
+    "numerical_dependencies": {
+      "experimental_rules": [],
+      "strict_rewrite_certificates": [
+        "FP.ScalarOpsLaws.mul_comm profile, used by Commuted.scalar_native"
+      ],
+      "reason": "Reuse the shared concrete configured model commutativity theorem; no new experiment or arbitrary opaque-operation claim."
+    }
+  },
+  "verification": [
+    {
+      "kind": "logical-data",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue10/build.py",
+        "bench/repairs/tritonbench_g/mul_exponent_compensator/IO.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue10/mul_exponent_compensator/logical-data.log",
+      "log_sha256": "bcea0ca7d5faf1c5591dd426679f2f81b963faed59c918f7ac91f07f7c47dd44"
+    },
+    {
+      "kind": "complete-connection",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue10/build.py",
+        "bench/repairs/tritonbench_g/mul_exponent_compensator/Proofs/LogicalIO.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue10/mul_exponent_compensator/complete-connection.log",
+      "log_sha256": "27865b92728b02953025cc6ac845dbb5d00859cac3a419c03491b067f65a3123"
+    },
+    {
+      "kind": "reader",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue10/build.py",
+        "bench/repairs/tritonbench_g/mul_exponent_compensator/Correct.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue10/mul_exponent_compensator/reader.log",
+      "log_sha256": "0b9369760f518dd2e9734b69b38ec3b36da3ffef267e29eada7dd233ca85d369"
+    },
+    {
+      "kind": "complete-old-new-iff",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue10/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue10/mul_exponent_compensator/Preservation.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue10/mul_exponent_compensator/complete-old-new-iff.log",
+      "log_sha256": "6e667d7fbb59803118ef24fcb35d50973a7b38a35c461010ee100ec3261d4417"
+    },
+    {
+      "kind": "fp-reader",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue10/build.py",
+        "--check",
+        "bench/repairs/tritonbench_g/mul_exponent_compensator/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue10/mul_exponent_compensator/fp-reader.log",
+      "log_sha256": "9b8b34cfb514005f2ad14a38af5615399d3f3f6832c10d4840fb7eec211a1bed"
+    },
+    {
+      "kind": "joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue10/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue10/mul_exponent_compensator/Joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue10/mul_exponent_compensator/joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/mul_exponent_compensator/Contract.lean": "f343cccad4165cf52d83bba3bf93b51a3b4a28e8c1ee91ab0cccf8096839c655",
+    "bench/repairs/tritonbench_g/mul_exponent_compensator/Correct.lean": "32c60dc1f37d30762c14e28b65b3113d76eaadd42a1e4b18c46165351d8c744e",
+    "bench/repairs/tritonbench_g/mul_exponent_compensator/FPEquiv.lean": "72536335c415fcf74d7a400e2d2f313bd40385b41f2c7cb38c56d6e42343975b",
+    "bench/repairs/tritonbench_g/mul_exponent_compensator/IO.lean": "57b7cc23a01a39cfc474d70360c44851d19df5908debd65cdde61d1ea48832dd",
+    "bench/repairs/tritonbench_g/mul_exponent_compensator/Proofs/IOComplete.lean": "852953527fe50a346ac8ade67d142f87e1cb8b659b5ecf277f566253bd6c9204",
+    "bench/repairs/tritonbench_g/mul_exponent_compensator/Proofs/LogicalIO.lean": "6f1d0c84aee6a9ef8297084e6161084519ad62f142cf8e54bfd54d873af6f340",
+    "bench/repairs/tritonbench_g/mul_exponent_compensator/Kernels.lean": "b4836205b4a7f6eeb936796718e1d59158c3bbf1672c298e58cf0a033079bac6",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [
+    "Existing internal execution/safety/numerical objects are reused; no full proof-closure replay claimed."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

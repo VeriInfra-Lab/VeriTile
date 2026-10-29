@@ -1,0 +1,12 @@
+{
+  "reviewer": "root",
+  "status": "reviewed_private_explicit_int16_cast_fix",
+  "receipt_sha256": "c4022917d5c40ec0971ffa3dcd5c6b6777ff01ccaba5deb9a219f65c540e960e",
+  "manifest_files_verified": 39,
+  "compiled_records_verified": 20,
+  "project_inputs_verified": 165,
+  "axiom_checks": 89,
+  "source_drift_count": 0,
+  "workspace_integration": false,
+  "native_execution": false
+}

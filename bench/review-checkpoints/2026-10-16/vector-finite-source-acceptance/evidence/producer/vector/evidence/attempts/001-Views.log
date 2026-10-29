@@ -1,0 +1,36 @@
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-wip/VectorFinite/Views.lean:68:4: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  g ≥ 0
+  f ≥ 0
+  e ≥ 0
+  e - g ≤ -1
+  d ≥ 0
+  c ≥ 0
+  c - d ≥ 0
+  c - e ≤ 0
+  b ≥ 0
+  a ≥ 0
+  a - b ≥ 1
+where
+ a := ↑n
+ b := ↑i
+ c := ↑(v.storageOffset + n) * ↑(bytes v.dtype)
+ d := ↑(v.storageOffset + i + 1) * ↑(bytes v.dtype)
+ e := ↑v.storageBytes
+ f := ↑v.storageBase
+ g := ↑(v.storageOffset + (i + 1)) * ↑(bytes v.dtype)
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-wip/VectorFinite/Views.lean:105:62: error: Expected type must not contain free variables
+  0 < { x := { name := "x" }, y := { name := "y" }, output := { name := "o" }, n := n, block := 1024 }.block
+
+Hint: Use the `+revert` option to automatically clean up and revert free variables
+VeriTile.Bench.TritonBenchG.VectorAddition.Finite.bytes_positive: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.TritonBenchG.VectorAddition.Finite.bytes_at_most_eight: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.TritonBenchG.VectorAddition.Finite.address_linear: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.VectorAddition.Finite.address_step: axiom footprint ⊆ standard base ✓  ([propext])
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-wip/VectorFinite/Views.lean:130:0: error: VeriTile.Bench.TritonBenchG.VectorAddition.Finite.valid_access: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.TritonBenchG.VectorAddition.Finite.distinct_cells: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-wip/VectorFinite/Views.lean:132:0: error: VeriTile.Bench.TritonBenchG.VectorAddition.Finite.separated_accesses: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.TritonBenchG.VectorAddition.Finite.launched_index_i32: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-wip/VectorFinite/Views.lean:134:0: error: VeriTile.Bench.TritonBenchG.VectorAddition.Finite.active_owner: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

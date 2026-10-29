@@ -1,0 +1,33 @@
+/tmp/veritile-int4-dotacc-closure-20261015/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccSoftware.lean:26:46: warning: unused variable `batch`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/veritile-int4-dotacc-closure-20261015/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccSoftware.lean:26:54: warning: unused variable `m`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/veritile-int4-dotacc-closure-20261015/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccSoftware.lean:26:58: warning: unused variable `k`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/veritile-int4-dotacc-closure-20261015/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccSoftware.lean:26:62: warning: unused variable `n`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/veritile-int4-dotacc-closure-20261015/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccSoftware.lean:78:5: warning: unused variable `hTrip`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/veritile-int4-dotacc-closure-20261015/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccSoftware.lean:78:48: warning: unused variable `hSplit`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.TritonBenchG.Int4Matmul.FPDotAcc.accumulation_software: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.Int4Matmul.FPDotAcc.output_software: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.Int4Matmul.FPDotAcc.correctness_memory_software: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.Int4Matmul.FPDotAcc.all_memory_independent_of_unused: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.Int4Matmul.FPDotAcc.correctness_software: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

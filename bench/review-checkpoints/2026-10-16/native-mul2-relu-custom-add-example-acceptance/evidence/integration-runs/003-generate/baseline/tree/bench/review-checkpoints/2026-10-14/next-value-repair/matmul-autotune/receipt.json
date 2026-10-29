@@ -1,0 +1,384 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-10-14T20:54:38.953931+00:00",
+  "status": "PASS_COMPLETE_ACCEPTED_SCOPE_FP_CONTRACTS",
+  "task": "matmul_triton_autotune",
+  "new_lean_modules": 9,
+  "public_specifications": [
+    {
+      "task": "matmul_triton_autotune",
+      "file": "bench/tritonbench_g/matmul_triton_autotune/FPCorrect.lean",
+      "declaration": "full_backend_correctness",
+      "qualified": "VeriTile.Bench.TritonBenchG.MatmulTritonAutotune.FPCorrect.full_backend_correctness",
+      "model_kind": "backend_value_contract",
+      "statement": "specification full_backend_correctness {α : Type} [Inhabited α] (M : Algebra α) (D : DotAcc α)\n    (p : Parameters) (st : Storage) (initial : State α) (hcn : p.stride_cn=1) (hbn : BN p≤p.stride_cm) :\n    ∃ final, FP.Structural.exec (backend M D) (source p st) initial=some final ∧\n      final.mem=(written M D p st initial).mem ∧\n      (∀ i, FPValue.active p initial i →\n        final.mem p.C (FPValue.cOffset p initial i)=stored st (outputValue M D p st initial i)) ∧\n      (∀ r o, (r≠p.C ∨ ∀ i, FPValue.active p initial i → o≠FPValue.cOffset p initial i) →\n        final.mem r o=initial.mem r o)",
+      "statement_sha256": "654d9cdfe903aec26449a212d371a91fbcecd096fa5322995f71018a550aa364",
+      "native_functional_correctness": "not_established"
+    },
+    {
+      "task": "matmul_triton_autotune",
+      "file": "bench/tritonbench_g/matmul_triton_autotune/FPCorrect.lean",
+      "declaration": "half_software_correctness",
+      "qualified": "VeriTile.Bench.TritonBenchG.MatmulTritonAutotune.FPCorrect.half_software_correctness",
+      "model_kind": "bit_interpreter_contract",
+      "statement": "specification half_software_correctness (rest : Algebra Word) (p : Parameters)\n    (initial : State Word) (hcn : p.stride_cn=1) (hbn : BN p≤p.stride_cm) :\n    ∃ final, FP.Structural.exec (backend (software rest) sequentialDotAcc) (source p .half) initial=some final ∧\n      (∀ i, FPValue.active p initial i →\n        final.mem p.C (FPValue.cOffset p initial i)=stored .half (bitOutput p initial i)) ∧\n      (∀ r o, (r≠p.C ∨ ∀ i, FPValue.active p initial i → o≠FPValue.cOffset p initial i) →\n        final.mem r o=initial.mem r o)",
+      "statement_sha256": "1a2d7e89f647d27b877173dacf316c9ed9b8a34bd9eb53eb32284b7660e12233",
+      "native_functional_correctness": "not_established"
+    }
+  ],
+  "full_original_accepted_scope_covered": true,
+  "native_functional_correctness": "not_established",
+  "original_source_sha256_unchanged": {
+    "bench/tritonbench_g/matmul_triton_autotune/MatmulTritonAutotune.lean": "f688daf7409409884730a0e6499b54f053588a0b12b5868b7c022802ccfdd218",
+    "bench/tritonbench_g/matmul_triton_autotune/matmul_triton_autotune.py": "cec82107728549d9b604734597d8c4d355717dfb5e060b9cd4645e5990ab26ab"
+  },
+  "original_public_statements_unchanged": [
+    {
+      "file": "bench/tritonbench_g/matmul_triton_autotune/MatmulTritonAutotune.lean",
+      "name": "matmul_autotune_closed_form_correct",
+      "line": 1150,
+      "statement": "specification matmul_autotune_closed_form_correct\n    (A B C : RegionName) (s : BlockState)\n    (M N BM BN GM sam sak sbk sbn scm scn BLOCK_K numKBlocks : Nat) (K : Nat)\n    (hK : K = BLOCK_K * numKBlocks) (ACTIVATION : Bool)\n    (hcn : scn = 1) (hbnle : BN ≤ scm)\n    (hundef : ∀ rg o, s.undef rg o = 0) :\n    ComputeCorrect.Realizes_without_Rounding\n      (kernel := matmul_autotune_surface A B C M N K sam sak sbk sbn scm scn\n        BM BN BLOCK_K GM numKBlocks ACTIVATION)\n      (initialState := s)\n      (write := ComputeCorrect.WriteMap.writeIf\n        (active s M N BM BN GM)\n        (fun idx => (C, cOffset s M N BM BN GM scm scn idx)))\n      (expected := fun idx : TileIndex [BM, BN] =>\n        MemCell.of .fp16\n          (FloatDType.real.cast FloatDType.fp16\n            (some (matmulSpec s A B M N BM BN GM sam sak sbk sbn BLOCK_K numKBlocks ACTIVATION idx.1 idx.2.1))))",
+      "statement_sha256": "e3004eb5f949a6e94f0aefdd2da60bfabf3f75b91715184d08966357c3a49845"
+    },
+    {
+      "file": "bench/tritonbench_g/matmul_triton_autotune/MatmulTritonAutotune.lean",
+      "name": "matmul_autotune_io_correctness",
+      "line": 2175,
+      "statement": "specification matmul_autotune_io_correctness (R : RoundingModel)\n    (A B C : RegionName)\n    (M N K sam sak sbk sbn scm scn BM BN BK GM numKBlocks : Nat) (ACTIVATION : Bool)\n    (hK : K = BK * numKBlocks) (hcn : scn = 1) (hBN : BN ≤ scm) :\n    matmulAutotuneIO A B C M N K sam sak sbk sbn scm scn BM BN BK GM numKBlocks ACTIVATION\n      ⊨[R] fun _ _ xs ys l =>\n        act ACTIVATION (∑ t : Fin numKBlocks, ∑ e : Fin BK,\n          xs t (aLane BM BN BK l e) * ys t (bLane BM BN BK l e))",
+      "statement_sha256": "c2d0b409157e778243b17c6ee7edf330e97c57a5a0ff446273368fbb28324216"
+    }
+  ],
+  "old_to_new_scope_map": {
+    "matmul_autotune_closed_form_correct": [
+      "full_backend_correctness",
+      "half_software_correctness"
+    ],
+    "matmul_autotune_io_correctness": [
+      "full_backend_correctness",
+      "half_software_correctness"
+    ]
+  },
+  "scope": {
+    "included": "Configured full grouped matmul, both optional activation branches, arbitrary M/N/K and original strides/blocks/group size/pid, entire numKBlocks loop, modulo row/column input indices, masked K loads with typed other=0.0, live dotAcc, pointer advances, binary32 activation compare/constant/mul/where, final half narrowing and masked half store.",
+    "original_domain": "SCN=1 and BN≤SCM retained verbatim as public layout premises, proved sufficient for output injection. Includes original K=BK*numKBlocks and zero-trip cases; no one-block, finite-input, exact-dot, constant-rounding-identity or representability restriction. Clean undef unnecessary because both masked loads specify other=0.0.",
+    "dtype": "Parameterized backend covers named same-type floating storage fp16/bf16/fp32/e4m3/e5m2; final output always fp16. Closed bits cover the actual fp16 runtime-test configuration. Other dtype hardware support and mixed/integer-input extensions are not claimed.",
+    "memory": "Successful execution, independent initial-memory recurrence, exact final memory, active outputs and complete frame. No new separation premise: all input loads precede output stores. Old IO safety theorem unchanged; no new native safety or launcher theorem.",
+    "excluded": "Autotuner implementation/config selection, launch/grid composition, native compiler/dot hardware/cast binding, integer/mixed-input extensions and equality with ideal Real activated GEMM."
+  },
+  "numerical_model": {
+    "backend": "Uninterpreted per-operation callbacks retain typed dot inputs, explicit some fp32 compute context, default DotOptions, live carry, ordered compareLe callback and original fp32 literal/multiply/cast. No numerical law or regrouping premise.",
+    "software": "Closed binary16 inputs/output and ascending-lane fp32 fused FMA with the live accumulator. Optional activation uses FP.round of exact Rat 1/100, ordered (lt||eq) comparison, FP.mul and true binary16 narrowing. IEEE-value configuration is explicit.",
+    "closure": "software_reference proves arbitrary fallback rest cannot affect the complete independent bitOutput, for all parameters, states, K blocks and activation flags. Actual source execution is linked by half_software_correctness.",
+    "extra_numeric_laws": []
+  },
+  "witnesses": [
+    {
+      "theorem": "witness_rounding",
+      "result": "Both activation flags: two K blocks accumulate -1 and -2^-24; second FMA rounds their midpoint to -1. Disabled output is half -1; enabled output is half rounded -0.01 (0xa11f)."
+    },
+    {
+      "theorem": "activation_bit_witness",
+      "result": "0.01 literal becomes 0x3c23d70a, demonstrably differs from exact 1/100; negative zero survives ordered comparison; NaN follows scaled branch and canonicalizes."
+    },
+    {
+      "theorem": "nonempty_execution",
+      "result": "Both flags execute actual complete source, write active C[0] expected bits and preserve inactive C[1], with modulo-loaded invalid row/col lanes retained."
+    },
+    {
+      "theorem": "original_domain_witness",
+      "result": "Both witnesses satisfy original K=BK*numKBlocks, SCN=1 and BN≤SCM."
+    }
+  ],
+  "compile": {
+    "mode": "direct lake env lean -o, isolated stable imports; no lake build",
+    "cwd": "/tmp/veritile-fp-full-precheck",
+    "passed": 9,
+    "failed": 0,
+    "modules": [
+      {
+        "source": "bench/tritonbench_g/matmul_triton_autotune/Proofs/FPTypedSource.lean",
+        "sha256": "b2be30d7b9b8b70418282694665a54ef8e411125077daf163e1b61afe3000d74",
+        "exit_code": 0,
+        "seconds": 4.037804841995239,
+        "log": "/tmp/next23-autotune-contracts-20261014/matmul_triton_autotune-FPTypedSource.log",
+        "log_sha256": "a46994d0a4083730a248503d91db464ccc73f2144282cc82f32ec5eb0ec77d19",
+        "olean": "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/matmul_triton_autotune/Proofs/FPTypedSource.olean",
+        "olean_sha256": "19f78075c080ce1c5b22a9f30ec0aca1ec712100bf6a77d9f834f8b0cae4de48"
+      },
+      {
+        "source": "bench/tritonbench_g/matmul_triton_autotune/Proofs/FPReference.lean",
+        "sha256": "c41105e842e800432df18c742f6fa290930f1207d05ade88b0cdf96010971d46",
+        "exit_code": 0,
+        "seconds": 3.2360095977783203,
+        "log": "/tmp/next23-autotune-contracts-20261014/matmul_triton_autotune-FPReference.log",
+        "log_sha256": "927537e2518b8b8dc3182cb55bcf65bc1c79c70fbc4e9d1e6ab11c8fd9b7b49a",
+        "olean": "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/matmul_triton_autotune/Proofs/FPReference.olean",
+        "olean_sha256": "db08870ff85429a34bae930fa4b0d3b624862c6fbd85465675a47278a54341ce"
+      },
+      {
+        "source": "bench/tritonbench_g/matmul_triton_autotune/Proofs/FPExecution.lean",
+        "sha256": "d19e35a752208cff7441144641b74ab844bb59176b23305e39025c1143cbd528",
+        "exit_code": 0,
+        "seconds": 31.44336175918579,
+        "log": "/tmp/next23-autotune-contracts-20261014/matmul_triton_autotune-FPExecution.log",
+        "log_sha256": "2dc786af0066f864b8c30105865b6f1659d0558e20d791df4a86c9f0d9281a35",
+        "olean": "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/matmul_triton_autotune/Proofs/FPExecution.olean",
+        "olean_sha256": "4bdaa373103aaa627da0d1f87508bc7aa0145eaf3468e74f4af4e50c48cd2a3a"
+      },
+      {
+        "source": "bench/tritonbench_g/matmul_triton_autotune/Proofs/FPComplete.lean",
+        "sha256": "550d1c56f2a80c4ebacf7cd4241609695fb4ec19bd205d06e7ba6414413f7ba5",
+        "exit_code": 0,
+        "seconds": 22.648221015930176,
+        "log": "/tmp/next23-autotune-contracts-20261014/matmul_triton_autotune-FPComplete.log",
+        "log_sha256": "532cabf8dbd9a5c084dec80a507345d227c5920f78e24d4dd4d9e3f8702eebb8",
+        "olean": "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/matmul_triton_autotune/Proofs/FPComplete.olean",
+        "olean_sha256": "d409a311d2fa9bd9416dbac46ebdad99bafd0471dbff67e7ac2e9c1d8abe1180"
+      },
+      {
+        "source": "bench/tritonbench_g/matmul_triton_autotune/Proofs/FPLayout.lean",
+        "sha256": "dd3758bbb59ce761e94f711d2f4aa03726b8ad3fce65dd5627f71123dc06d27e",
+        "exit_code": 0,
+        "seconds": 3.077070713043213,
+        "log": "/tmp/next23-autotune-contracts-20261014/matmul_triton_autotune-FPLayout.log",
+        "log_sha256": "7497a4fb88e0b356d8f0c3f32a5605c5728f4cf4bc28b37a0638cbb636f449e7",
+        "olean": "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/matmul_triton_autotune/Proofs/FPLayout.olean",
+        "olean_sha256": "0638c7ff97d3e5b5183ccd6aa8cbb3636b8493937c6ab77f1a98eafbf25c01c8"
+      },
+      {
+        "source": "bench/tritonbench_g/matmul_triton_autotune/Proofs/FPShape.lean",
+        "sha256": "90125923b6179bc0862cae000589bf1484ddb65aa0cc51b896ac632640d41c1b",
+        "exit_code": 0,
+        "seconds": 12.964264631271362,
+        "log": "/tmp/next23-autotune-contracts-20261014/matmul_triton_autotune-FPShape.log",
+        "log_sha256": "7a5482bb6564c42cb2ff60c93f854126575b47d8231885765c5807fa3e06415f",
+        "olean": "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/matmul_triton_autotune/Proofs/FPShape.olean",
+        "olean_sha256": "ae2322e531a0f9c36201444951131e53ddd37be66857368135f37befdfda97f6"
+      },
+      {
+        "source": "bench/tritonbench_g/matmul_triton_autotune/Proofs/FPSoftware.lean",
+        "sha256": "948284701d14ab4bf6500d38fc2ddc309e2cfe823095b856f301a5c557e2c0d9",
+        "exit_code": 0,
+        "seconds": 4.073624849319458,
+        "log": "/tmp/next23-autotune-contracts-20261014/matmul_triton_autotune-FPSoftware.log",
+        "log_sha256": "5574817844d63afdc8c1b919fd559f4856fd1551880788c2dd59ccab42c2dcd9",
+        "olean": "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/matmul_triton_autotune/Proofs/FPSoftware.olean",
+        "olean_sha256": "71cd500136598defb94028c7ce8f5f961af35a2ccc62c9845c811278a8675dcc"
+      },
+      {
+        "source": "bench/tritonbench_g/matmul_triton_autotune/FPCorrect.lean",
+        "sha256": "d1ee2e2ed23d13fd44f3e5c3c90e1b4da82f7ec51030a2d0442bd533baf4f5dd",
+        "exit_code": 0,
+        "seconds": 5.96115779876709,
+        "log": "/tmp/next23-autotune-contracts-20261014/matmul_triton_autotune-FPCorrect.log",
+        "log_sha256": "c6e57f7f6c8404f657297362edcef3737cd818c6c3ec6436ccc90bc6d466edc7",
+        "olean": "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/matmul_triton_autotune/FPCorrect.olean",
+        "olean_sha256": "ad3135226eeaa5f9be19884c545a8c0835649d19a41540b94f962908262f242e"
+      },
+      {
+        "source": "bench/tritonbench_g/matmul_triton_autotune/Proofs/FPWitness.lean",
+        "sha256": "9e503c9e2841ab4b4e274ddf77c6daa1981581be8f3ffd2ee3c1a2466b68fa08",
+        "exit_code": 0,
+        "seconds": 4.137335300445557,
+        "log": "/tmp/next23-autotune-contracts-20261014/matmul_triton_autotune-FPWitness.log",
+        "log_sha256": "0617b64f5ec227fad99ceb95df619a2b01fd17220e0d025c5edb2f49818a2ae4",
+        "olean": "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/matmul_triton_autotune/Proofs/FPWitness.olean",
+        "olean_sha256": "99558868e01ddb383f4eddc5962c4be121b8c8910ea704dce29751a58a067da2"
+      }
+    ]
+  },
+  "axioms": {
+    "checked_declarations": [
+      "VeriTile.Bench.TritonBenchG.MatmulTritonAutotune.FPValue.source_decomposition",
+      "VeriTile.Bench.TritonBenchG.MatmulTritonAutotune.FPValue.preludeExecution",
+      "VeriTile.Bench.TritonBenchG.MatmulTritonAutotune.FPValue.preludeContext",
+      "VeriTile.Bench.TritonBenchG.MatmulTritonAutotune.FPValue.bodyExecution",
+      "VeriTile.Bench.TritonBenchG.MatmulTritonAutotune.FPValue.bodyContext",
+      "VeriTile.Bench.TritonBenchG.MatmulTritonAutotune.FPValue.loopExecution",
+      "VeriTile.Bench.TritonBenchG.MatmulTritonAutotune.FPValue.epilogueExecution",
+      "VeriTile.Bench.TritonBenchG.MatmulTritonAutotune.FPValue.epilogueMemory",
+      "VeriTile.Bench.TritonBenchG.MatmulTritonAutotune.FPValue.correctness",
+      "VeriTile.Bench.TritonBenchG.MatmulTritonAutotune.FPValue.original_layout_injective",
+      "VeriTile.Bench.TritonBenchG.MatmulTritonAutotune.FPValue.source_projection",
+      "VeriTile.Bench.TritonBenchG.MatmulTritonAutotune.FPValue.software_reference",
+      "VeriTile.Bench.TritonBenchG.MatmulTritonAutotune.FPCorrect.full_backend_correctness",
+      "VeriTile.Bench.TritonBenchG.MatmulTritonAutotune.FPCorrect.half_software_correctness",
+      "VeriTile.Bench.TritonBenchG.MatmulTritonAutotune.FPValue.witness_rounding",
+      "VeriTile.Bench.TritonBenchG.MatmulTritonAutotune.FPValue.activation_bit_witness",
+      "VeriTile.Bench.TritonBenchG.MatmulTritonAutotune.FPValue.nonempty_execution",
+      "VeriTile.Bench.TritonBenchG.MatmulTritonAutotune.FPValue.original_domain_witness"
+    ],
+    "count": 18,
+    "allowed_only": [
+      "propext",
+      "Quot.sound",
+      "Classical.choice"
+    ],
+    "sorry_or_admit_added": false,
+    "native_decide_used": false
+  },
+  "direct_import_bindings": {
+    "VeriTile.Triton": {
+      "source": "VeriTile/Triton.lean",
+      "workspace_source_sha256": "0937879a78c271cce7beda0e77d0b0bcf90a23a2ce90485ab011a5472d75f9a0",
+      "isolated_source_sha256": "0937879a78c271cce7beda0e77d0b0bcf90a23a2ce90485ab011a5472d75f9a0",
+      "olean_sha256": "c76243f1226a0984808c5b43a9d338cefd35b1d2410b30393612efd4c17516c7"
+    },
+    "VeriTile.Triton.Float.Structural": {
+      "source": "VeriTile/Triton/Float/Structural.lean",
+      "workspace_source_sha256": "b0675fc69d11f52ad4d6c5689501f8cc32f33815cd37cff454f6c1c23b4b5bd2",
+      "isolated_source_sha256": "b0675fc69d11f52ad4d6c5689501f8cc32f33815cd37cff454f6c1c23b4b5bd2",
+      "olean_sha256": "4891e38c9c6823f0941bc39061f1f10a99449f30526af63918cab8c9a3d751b0"
+    },
+    "VeriTile.Meta.StatementAudit": {
+      "source": "VeriTile/Meta/StatementAudit.lean",
+      "workspace_source_sha256": "9c82458cd9f705e8bd4511b8c8fa9580d314c1ec274cba9ab93f665a0d7b1ea5",
+      "isolated_source_sha256": "9c82458cd9f705e8bd4511b8c8fa9580d314c1ec274cba9ab93f665a0d7b1ea5",
+      "olean_sha256": "2618f9e9e600abad63b8247bfea7d68e35ade157932f73ddadc2aa2da29e9ba7"
+    },
+    "bench.tritonbench_g.parallel_attention.Proofs.FPRange": {
+      "source": "bench/tritonbench_g/parallel_attention/Proofs/FPRange.lean",
+      "workspace_source_sha256": "f4d812c3efdbba2af1bd81053771565e05021f69bc2c02301b167a405b685351",
+      "isolated_source_sha256": "f4d812c3efdbba2af1bd81053771565e05021f69bc2c02301b167a405b685351",
+      "olean_sha256": "ff866b1cb350a156c8a7d8c0ede34a921c2a66b6f47e5a36980cd310bb962b2b"
+    },
+    "bench.tritonbench_g.kcache_copy_triton.Proofs.TypedCopy": {
+      "source": "bench/tritonbench_g/kcache_copy_triton/Proofs/TypedCopy.lean",
+      "workspace_source_sha256": "727b75143b5d44732b8240aadd0a5e62ab1bd4ba81cd37420d89e02b1a73ca34",
+      "isolated_source_sha256": "727b75143b5d44732b8240aadd0a5e62ab1bd4ba81cd37420d89e02b1a73ca34",
+      "olean_sha256": "6fc8409d8c4f5ee825516742f219c73d5e34bddb249f6454252ab7524314a0bc"
+    },
+    "bench.tritonbench_g.matmul_triton_autotune.Proofs.FPTypedSource": {
+      "source": "bench/tritonbench_g/matmul_triton_autotune/Proofs/FPTypedSource.lean",
+      "workspace_source_sha256": "b2be30d7b9b8b70418282694665a54ef8e411125077daf163e1b61afe3000d74",
+      "isolated_source_sha256": "b2be30d7b9b8b70418282694665a54ef8e411125077daf163e1b61afe3000d74",
+      "olean_sha256": "19f78075c080ce1c5b22a9f30ec0aca1ec712100bf6a77d9f834f8b0cae4de48"
+    },
+    "bench.tritonbench_g.matmul_triton_autotune.Proofs.FPReference": {
+      "source": "bench/tritonbench_g/matmul_triton_autotune/Proofs/FPReference.lean",
+      "workspace_source_sha256": "c41105e842e800432df18c742f6fa290930f1207d05ade88b0cdf96010971d46",
+      "isolated_source_sha256": "c41105e842e800432df18c742f6fa290930f1207d05ade88b0cdf96010971d46",
+      "olean_sha256": "db08870ff85429a34bae930fa4b0d3b624862c6fbd85465675a47278a54341ce"
+    },
+    "bench.tritonbench_g.matmul_triton_autotune.Proofs.FPExecution": {
+      "source": "bench/tritonbench_g/matmul_triton_autotune/Proofs/FPExecution.lean",
+      "workspace_source_sha256": "d19e35a752208cff7441144641b74ab844bb59176b23305e39025c1143cbd528",
+      "isolated_source_sha256": "d19e35a752208cff7441144641b74ab844bb59176b23305e39025c1143cbd528",
+      "olean_sha256": "4bdaa373103aaa627da0d1f87508bc7aa0145eaf3468e74f4af4e50c48cd2a3a"
+    },
+    "bench.tritonbench_g.matmul_triton_autotune.Proofs.FPComplete": {
+      "source": "bench/tritonbench_g/matmul_triton_autotune/Proofs/FPComplete.lean",
+      "workspace_source_sha256": "550d1c56f2a80c4ebacf7cd4241609695fb4ec19bd205d06e7ba6414413f7ba5",
+      "isolated_source_sha256": "550d1c56f2a80c4ebacf7cd4241609695fb4ec19bd205d06e7ba6414413f7ba5",
+      "olean_sha256": "d409a311d2fa9bd9416dbac46ebdad99bafd0471dbff67e7ac2e9c1d8abe1180"
+    },
+    "VeriTile.Triton.KernelLemmas.OffsetInjective": {
+      "source": "VeriTile/Triton/KernelLemmas/OffsetInjective.lean",
+      "workspace_source_sha256": "f91a71264bd1a72de9cb368592047dcce3377ebd8dbf1dc59734481a8ead8efc",
+      "isolated_source_sha256": "f91a71264bd1a72de9cb368592047dcce3377ebd8dbf1dc59734481a8ead8efc",
+      "olean_sha256": "9fcb7e54d21c53bd43595f95c9fa0765f1874396e9d60ea8498c14915495726c"
+    },
+    "bench.tritonbench_g.matmul_triton_autotune.MatmulTritonAutotune": {
+      "source": "bench/tritonbench_g/matmul_triton_autotune/MatmulTritonAutotune.lean",
+      "workspace_source_sha256": "f688daf7409409884730a0e6499b54f053588a0b12b5868b7c022802ccfdd218",
+      "isolated_source_sha256": "f688daf7409409884730a0e6499b54f053588a0b12b5868b7c022802ccfdd218",
+      "olean_sha256": "fc0cc81568ec36f2e913e34d577758db590ee49d1569c1d76cdaa9bc7b9cd3dd"
+    },
+    "bench.tritonbench_g.triton_matmul.Proofs.FPSoftware": {
+      "source": "bench/tritonbench_g/triton_matmul/Proofs/FPSoftware.lean",
+      "workspace_source_sha256": "6e8b9be8adff4e33d259cb2dd5d9b5f7e63360b493c9674b158b2d6c2dde7eae",
+      "isolated_source_sha256": "6e8b9be8adff4e33d259cb2dd5d9b5f7e63360b493c9674b158b2d6c2dde7eae",
+      "olean_sha256": "208bc7cde461a5f341818685e44ade9ab01aec15fda9d68c3a37f5ec5a0da26b"
+    },
+    "bench.tritonbench_g.matmul_triton_autotune.Proofs.FPLayout": {
+      "source": "bench/tritonbench_g/matmul_triton_autotune/Proofs/FPLayout.lean",
+      "workspace_source_sha256": "dd3758bbb59ce761e94f711d2f4aa03726b8ad3fce65dd5627f71123dc06d27e",
+      "isolated_source_sha256": "dd3758bbb59ce761e94f711d2f4aa03726b8ad3fce65dd5627f71123dc06d27e",
+      "olean_sha256": "0638c7ff97d3e5b5183ccd6aa8cbb3636b8493937c6ab77f1a98eafbf25c01c8"
+    },
+    "bench.tritonbench_g.matmul_triton_autotune.Proofs.FPSoftware": {
+      "source": "bench/tritonbench_g/matmul_triton_autotune/Proofs/FPSoftware.lean",
+      "workspace_source_sha256": "948284701d14ab4bf6500d38fc2ddc309e2cfe823095b856f301a5c557e2c0d9",
+      "isolated_source_sha256": "948284701d14ab4bf6500d38fc2ddc309e2cfe823095b856f301a5c557e2c0d9",
+      "olean_sha256": "71cd500136598defb94028c7ce8f5f961af35a2ccc62c9845c811278a8675dcc"
+    },
+    "bench.tritonbench_g.matmul_triton_autotune.Proofs.FPShape": {
+      "source": "bench/tritonbench_g/matmul_triton_autotune/Proofs/FPShape.lean",
+      "workspace_source_sha256": "90125923b6179bc0862cae000589bf1484ddb65aa0cc51b896ac632640d41c1b",
+      "isolated_source_sha256": "90125923b6179bc0862cae000589bf1484ddb65aa0cc51b896ac632640d41c1b",
+      "olean_sha256": "ae2322e531a0f9c36201444951131e53ddd37be66857368135f37befdfda97f6"
+    },
+    "bench.tritonbench_g.matmul_triton_autotune.FPCorrect": {
+      "source": "bench/tritonbench_g/matmul_triton_autotune/FPCorrect.lean",
+      "workspace_source_sha256": "d1ee2e2ed23d13fd44f3e5c3c90e1b4da82f7ec51030a2d0442bd533baf4f5dd",
+      "isolated_source_sha256": "d1ee2e2ed23d13fd44f3e5c3c90e1b4da82f7ec51030a2d0442bd533baf4f5dd",
+      "olean_sha256": "ad3135226eeaa5f9be19884c545a8c0835649d19a41540b94f962908262f242e"
+    }
+  },
+  "numeric_core_bindings": {
+    "VeriTile/Triton/Float/Structural.lean": {
+      "workspace_source_sha256": "b0675fc69d11f52ad4d6c5689501f8cc32f33815cd37cff454f6c1c23b4b5bd2",
+      "isolated_source_sha256": "b0675fc69d11f52ad4d6c5689501f8cc32f33815cd37cff454f6c1c23b4b5bd2"
+    },
+    "VeriTile/Triton/Float/ScalarBackend.lean": {
+      "workspace_source_sha256": "b53529209e20d55de6dbde031c19d5baf76032c1377ef84df6583d93295d2b0a",
+      "isolated_source_sha256": "b53529209e20d55de6dbde031c19d5baf76032c1377ef84df6583d93295d2b0a"
+    },
+    "VeriTile/Triton/Float/ScalarOps.lean": {
+      "workspace_source_sha256": "26bd46b941918c3a617cb6e15b2ddb2003a85c40cd69fca3a3905ba181bc6072",
+      "isolated_source_sha256": "26bd46b941918c3a617cb6e15b2ddb2003a85c40cd69fca3a3905ba181bc6072"
+    },
+    "VeriTile/Triton/Float/BitValue.lean": {
+      "workspace_source_sha256": "92f8bf41aac7a1268815a58fea6e68475c134903893b8e075599c5427be6a1eb",
+      "isolated_source_sha256": "92f8bf41aac7a1268815a58fea6e68475c134903893b8e075599c5427be6a1eb"
+    },
+    "bench/tritonbench_g/quantize_kv_transform/Proofs/MixedBits.lean": {
+      "workspace_source_sha256": "5d774c65adefd8e9c46073c4d94a257ad8b57fbb8a7bcc6ebfe1df88e30513c3",
+      "isolated_source_sha256": "5d774c65adefd8e9c46073c4d94a257ad8b57fbb8a7bcc6ebfe1df88e30513c3"
+    },
+    "bench/tritonbench_g/triton_matmul/Proofs/FPSoftware.lean": {
+      "workspace_source_sha256": "6e8b9be8adff4e33d259cb2dd5d9b5f7e63360b493c9674b158b2d6c2dde7eae",
+      "isolated_source_sha256": "6e8b9be8adff4e33d259cb2dd5d9b5f7e63360b493c9674b158b2d6c2dde7eae"
+    }
+  },
+  "native_obligations": [
+    {
+      "id": "ABI_DTYPE_AND_AUTOTUNE",
+      "binding": "Bind A/B floating storage and fixed fp16 C, exact dimensions/strides/extents, chosen CUDA/HIP tile config, compiler version, numWarps/numStages/wavesPerEu and actual launch/grid. Autotuner correctness not established."
+    },
+    {
+      "id": "DOTACC_PROFILE",
+      "binding": "Bind default DotOptions and dtype-dependent compiler default input precision (including possible TF32 on fp32 inputs), tensor-core reduction schedule/fusion and live fp32 carry. The software ascending full-FMA schedule is explicit, not a hardware equality claim."
+    },
+    {
+      "id": "ACTIVATION_PROFILE",
+      "binding": "Match source >= ordered comparison, fp32 decimal literal lowering, multiplication rounding, signed zero and NaN behavior; explicit task-local expansion keeps actual fp32 context."
+    },
+    {
+      "id": "CONVERSIONS_AND_SPECIALS",
+      "binding": "Match half output and masked other=0.0 conversions, FTZ/DAZ, rounding, overflow/subnormals/NaN canonicalization. No full-domain cast identity."
+    },
+    {
+      "id": "SOURCE_LAYOUT_AND_TRIPS",
+      "binding": "Bind supplied numKBlocks to actual cdiv(K,BK), legal tile sizes, grouped scheduler and modulo row/column indices; preserve every padding operation and output mask."
+    }
+  ],
+  "gpu_experiments_run": false,
+  "hardware_correctness_claimed": false,
+  "source_binding": {
+    "file": "source-binding.json",
+    "sha256": "8a9839f80d3c6c3ff56d543b53f9afb0306d9962bf89b3c16e2ea07442c4bf26"
+  },
+  "source_sha256": {
+    "bench/tritonbench_g/matmul_triton_autotune/Proofs/FPTypedSource.lean": "b2be30d7b9b8b70418282694665a54ef8e411125077daf163e1b61afe3000d74",
+    "bench/tritonbench_g/matmul_triton_autotune/Proofs/FPReference.lean": "c41105e842e800432df18c742f6fa290930f1207d05ade88b0cdf96010971d46",
+    "bench/tritonbench_g/matmul_triton_autotune/Proofs/FPExecution.lean": "d19e35a752208cff7441144641b74ab844bb59176b23305e39025c1143cbd528",
+    "bench/tritonbench_g/matmul_triton_autotune/Proofs/FPComplete.lean": "550d1c56f2a80c4ebacf7cd4241609695fb4ec19bd205d06e7ba6414413f7ba5",
+    "bench/tritonbench_g/matmul_triton_autotune/Proofs/FPLayout.lean": "dd3758bbb59ce761e94f711d2f4aa03726b8ad3fce65dd5627f71123dc06d27e",
+    "bench/tritonbench_g/matmul_triton_autotune/Proofs/FPShape.lean": "90125923b6179bc0862cae000589bf1484ddb65aa0cc51b896ac632640d41c1b",
+    "bench/tritonbench_g/matmul_triton_autotune/Proofs/FPSoftware.lean": "948284701d14ab4bf6500d38fc2ddc309e2cfe823095b856f301a5c557e2c0d9",
+    "bench/tritonbench_g/matmul_triton_autotune/FPCorrect.lean": "d1ee2e2ed23d13fd44f3e5c3c90e1b4da82f7ec51030a2d0442bd533baf4f5dd",
+    "bench/tritonbench_g/matmul_triton_autotune/Proofs/FPWitness.lean": "9e503c9e2841ab4b4e274ddf77c6daa1981581be8f3ffd2ee3c1a2466b68fa08"
+  },
+  "patch_sha256": "d6e8961c982238369db4549da26acb5dd42da4886ecf917500fb53a108dfffbb"
+}

@@ -1,0 +1,47 @@
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedSchedule.scheduleSpec: definition does not reference [VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedBlock.program,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedBlock.checkedLoad,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedBlock.checkedGate,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.TypedValue.source,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.TypedValue.materialized,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Triton.FP.Structural.step,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedSchedule.runSchedule] — non-circular ✓
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedSchedule.schedule_spec_trace: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedSchedule.schedule_spec_length: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedSchedule.block_memory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedSchedule.block_input: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedSchedule.byte_program_input: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedSchedule.next_input_view: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedSchedule.schedule_success: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedSchedule.schedule_memory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedSchedule.logical_effect_perm: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedSchedule.logical_effect_append: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedSchedule.logical_effect_range: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedSchedule.complete_schedule_memory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedSchedule.complete_schedule_success: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

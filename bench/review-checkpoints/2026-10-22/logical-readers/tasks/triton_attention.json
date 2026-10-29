@@ -1,0 +1,112 @@
+{
+  "schema": 1,
+  "task": "triton_attention",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue15/release-result.json",
+    "sha256": "8a77b0f84470ab4da972410dbbbda5acec548d388b18f6f9a69f4a2366f55ee6",
+    "task_index": 2
+  },
+  "finding": "The materialized cell headline and formula exposed raw tensor channels, flat memory reconstruction and output-port matching.",
+  "resolution": "Added named Q/K/V/DO/initialDQ logical tensors and Out/DQ/DK/DV result fields, with a bijective LogicalDomainIO fixed to the original materialized cell judgment. The final reader also moves IO assembly into Proofs/ReaderCorrect.lean while retaining all mathematical definitions and complete specification signatures.",
+  "mathematical_target": "Complete causal attention and Q/K/V VJP using independent full-sequence probability and score-cotangent sums.",
+  "conditions_and_scope": "All three explicit complete forward/preprocess/backward schedules, original scalar scale, initialized in-place ZeroDQ domain, source cell binding, safety, materialization and exact exterior frame remain.",
+  "proof_connection": "PublicIO.logical_iff proves iff of full ImplementsOnCells judgments. head_input and index_position identify raw-memory head tensors with logical inputs; lift_eq identifies every output and the zero-DQ domain is proved equivalent. Role cleanup keeps all complete specification signatures unchanged; seven aggregate current/before declaration-type iff results across the five supplemented tasks are proved by Iff.rfl.",
+  "fp_review": "Selected FPEquivBound still reexports the actual complete three-stage pair; FP32 storage, FP16 internal casts, owners and scalar ABI preserved. Only fixed-128 preprocess integer row arithmetic changes; R=[].",
+  "numerical_dependencies": "No new numerical rule, experiment or hardware claim. Main FP experimental rule set remains empty; existing strict source models/certificates and explicit primitive/domain premises are reused.",
+  "previous_formula_scope": {
+    "mathematical_target": "Causal P_ij = 1[j≤i] exp(scale*sum_e Q_ie K_je)/sum_{k≤i} exp(scale*sum_e Q_ie K_ke); Out=P V, dS=P*(DO Vᵀ-row_sum(P*(DO Vᵀ))); DQ=scale*dS*K, DK=scale*dSᵀ*Q, DV=Pᵀ*DO.",
+    "required_conditions": [
+      "Shape carries positive geometry and original tile geometry; all three Grid.FullSchedule premises remain public",
+      "MaterializedProgramIO.ImplementsOnCells (PublicIO.ZeroDQ 0 c): actual input cells and zero-initialized DQ, bounds, materialized source execution/safety/frame",
+      "Contract preserves raw scalar positivity/finiteness and unsigned64 integer ABI bound; FP pair keeps ScalarABI class, owners, instruction interpretation and literal binding"
+    ],
+    "scope": "Complete selected forward/preprocess/backward materialized schedules and all Out/DQ/DK/DV cells, saved scratch and exact exterior frame; initialized in-place DQ retained.",
+    "canonical_connection": "Correct.probability, scoreCotangent and attentionAndVJP display complete independent mathematics; local attentionAndVJP_eq is rfl against PublicIO.realFormula, which PublicIO.real_implements proves from finite actual pipeline execution and IO safety.",
+    "fp_program_pair": "Selected FPEquivBound.lean reexports FPEquiv.grid_equiv: Pair.original vs Pair.shifted, actual complete materialized three-stage schedules. Only fixed-128 preprocess row-base arithmetic changes.",
+    "numerical_dependencies": "Empty experimental set; identical FP32 words, internal FP16 casts, source order, scalar ABI, codecs, owners/replicas, primitive instructions and initialized DQ domain."
+  },
+  "verification": [
+    {
+      "task": "triton_attention",
+      "kind": "main",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue15/role-supplement/build.py",
+        "bench/repairs/tritonbench_g/triton_attention_scalar_abi_checked/Proofs/ReaderCorrect.lean",
+        "bench/repairs/tritonbench_g/triton_attention_scalar_abi_checked/Correct.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue15/role-supplement/logs/triton_attention-main.log",
+      "log_sha256": "7b15e77166f2ab1cfb7cc1246f3e41927b0c41f8135f8927f007b4c83fb3cf6f",
+      "evidence_source": "frozen_role_supplement"
+    },
+    {
+      "task": "triton_attention",
+      "kind": "complete-old-new-iff",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue15/role-supplement/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue15/role-supplement/checks/triton_attention-preservation.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue15/role-supplement/logs/triton_attention-complete-old-new-iff.log",
+      "log_sha256": "db271da9830291ef90d46d6f6ccfd220a8489703dbe5c3db91cf2f385d38ca36",
+      "evidence_source": "frozen_role_supplement"
+    },
+    {
+      "task": "triton_attention",
+      "kind": "fp-source",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue15/role-supplement/build.py",
+        "--check",
+        "bench/repairs/tritonbench_g/triton_attention_scalar_abi_checked/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue15/role-supplement/logs/triton_attention-fp-source.log",
+      "log_sha256": "10c61c753401006480ee255f4eaf55bbc6405224268dfeecd3880092e0db6cd3",
+      "evidence_source": "frozen_role_supplement"
+    },
+    {
+      "task": "triton_attention",
+      "kind": "joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue15/role-supplement/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue15/role-supplement/checks/triton_attention-joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue15/role-supplement/logs/triton_attention-joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "evidence_source": "frozen_role_supplement"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/triton_attention_scalar_abi_checked/Contract.lean": "cb2c349976f02b5f9f3c9eabaf20b53df678599a59648421f764b8ef00ed7b13",
+    "bench/repairs/tritonbench_g/triton_attention_scalar_abi_checked/Correct.lean": "2d59e3aa5d6acddfbd73cb25e5d6f019b3836c4b11c08b4060ae23a0953d47fe",
+    "bench/repairs/tritonbench_g/triton_attention_scalar_abi_checked/FPEquiv.lean": "69d173fd63235f52b086918d368cb63e4a72c87623b23c3c2eae24dfbefee619",
+    "bench/repairs/tritonbench_g/triton_attention_scalar_abi_checked/FPEquivBound.lean": "82acb655671cd64cd69bf0bfc96a2cee2ee00f144aa789768415c4f86d77519f",
+    "bench/repairs/tritonbench_g/triton_attention_scalar_abi_checked/IO.lean": "51e06818f6feec0fcf51a540f09c13ea3a156d9f40f6c007084b42876a87acc8",
+    "bench/repairs/tritonbench_g/triton_attention_scalar_abi_checked/Proofs/LogicalIO.lean": "c2d3f9501ea6939aa5ffc0a8454b753948395d83fa69853d93609a86bae62f63",
+    "bench/repairs/tritonbench_g/triton_attention_scalar_abi_checked/Proofs/ReaderCorrect.lean": "ecdac3c4fa93e3993d3f6f005b35903360c6c5fbf7b82c8a7f4c40da5c45e652",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

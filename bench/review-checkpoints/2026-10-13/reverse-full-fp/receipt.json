@@ -1,0 +1,29 @@
+{
+  "scope": "Whole original/candidate typed execution, including state and failure, for both complete reverse-cumsum kernels. Arbitrary algebra, independent input/output FloatDType, all shapes and initial states, no floating laws or success assumption. Scalar changes only integer row product; vector reverses a discrete comparison. Signed source loop and pointer destination cast retained. Complete real/IO/success proofs and native refinement are pending. Source header comments updated after SourceAudit compilation without changing code.",
+  "module_fp_passed": true,
+  "fp_axiom_gates": 4,
+  "root_batch_exit_codes": {
+    "scalar": 1,
+    "vector": 1
+  },
+  "failed_siblings": {
+    "scalar": [
+      "RealValues"
+    ],
+    "vector": [
+      "RealStep"
+    ]
+  },
+  "accepted_failed_siblings": false,
+  "source_sha256": {
+    "bench/tritonbench_g/reversed_cumsum/Proofs/Source.lean": "607fe2aa20d2ad719978a1f502f9af30d444d9431cafc027847c5821e51eaffd",
+    "bench/tritonbench_g/reversed_cumsum/Proofs/SourceAudit.lean": "c51bae33de3f0094fbb6194f88736b47d8c9a5849c40f98d98c1e92f50639db3",
+    "bench/tritonbench_g/reversed_cumsum/Proofs/FP.lean": "d97c980f852e6069ad4e2d10724e2b17cc8a29c227e1621b4f83c30f8b44422b",
+    "bench/tritonbench_g/reversed_cumsum_scalar/Proofs/Source.lean": "ba4834a908fa0627cc61d22caa8b9200786d881b2a31cadf012901043a3276d7",
+    "bench/tritonbench_g/reversed_cumsum_scalar/Proofs/TypedContext.lean": "e62a6b2d061ce2fd67f9e9f0b23a041954f1f69575a005ccfd16ea946b9683d6",
+    "bench/tritonbench_g/reversed_cumsum_scalar/Proofs/TypedProgram.lean": "828c0b71a5f11b720da327b58459f34f42cf5652fd7331bde24ea3b4ed1be136",
+    "bench/tritonbench_g/reversed_cumsum_scalar/Proofs/FP.lean": "e22c7e09f9e2b9b265708e34c626e8a667bc8fedb089c5309e2c06b2a028c409"
+  },
+  "recorded_at_utc": "2026-10-13T20:20:41.791239+00:00",
+  "complete_task": false
+}

@@ -1,0 +1,5 @@
+AddValueFinite.host_success: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+AddValueFinite.add_value_finite_success: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+AddValueFinite.add_value_finite_source_outcomes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,102 @@
+{
+  "schema": 1,
+  "task": "index_select_bwd",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue06/result.json",
+    "sha256": "7ae7b1cff07a7eae50c418a92a90a26cc367270bb529c13f49c0bf8e5d0f06ea",
+    "task_index": 9
+  },
+  "finding": "The Real headline exposed two raw channels and singleton output plumbing for a simple destination-plus-incoming slice.",
+  "resolution": "Use SliceValues(current,incoming) and a finite output vector, with two-sided coordinate equivalences. Display current[i]+incoming[i] directly in the headline.",
+  "mathematical_target": "index_select_bwd_kernel_correctness: indexIO implements i ↦ current[i]+incoming[i].",
+  "conditions_and_scope": "One actual slice, stride=1, count≤block and mask i<count. The current destination may already include duplicate-row contributions; no host/global accumulation theorem is substituted. The complete original source safety, successful run and exterior frame remain.",
+  "proof_connection": "Interface.logical_iff is the complete old/new implementation judgment equivalence for arbitrary carrier/add. logical_implements applies the existing Interface.implements theorem.",
+  "fp_review": "Unchanged Interface.original ≡[[]] Interface.adaptive with the original additional count≤512 restriction. The fixed and tail-aware blocks use the same FP32 load/add/store graph for every active lane, with no floating-value exclusion or numerical rule.",
+  "numerical_dependencies": {
+    "experimental_rule_instances": [],
+    "strict_rewrite_certificates": [],
+    "classification": "Empty experimental rule set. Exact model/source structure and any listed strict software theorem are retained; no new hardware-conformance claim."
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "At each active slice column, new destination=current destination+incoming contribution. The current value may already include earlier duplicate-row updates; Contract.sliceTarget is precisely this formula.",
+    "required_conditions": {
+      "public_conditions": [
+        "p.stride=1",
+        "p.count<=p.block",
+        "Public ProgramIO input/output windows and active count mask",
+        "FP adaptive comparison also requires p.count<=512"
+      ],
+      "contract_and_domain_correspondence": "Contract fixes contiguous same-stride tensors, valid signed indices and original duplicate-preserving input order. The main independent target is Contract.sliceTarget; whole host loop/Tensor applications stay optional and were not added as new obligations."
+    },
+    "scope": "One complete source slice of one selected row, with unit destination stride and count<=block; all active columns, source safety and exterior frame. Contract also states the complete duplicate-index gradient sum/ordered fold; this retained kernel main theorem does not pretend one slice is the whole Python loop.",
+    "canonical_connection": "Interface.implements -> KernelProof.successful + source_traceSafe -> independent sliceTarget. Inline current+incoming equals the old mathematical assembly definitionally; full headline Iff.rfl passes.",
+    "fp_program_pair": {
+      "fp_actual_pair": "Interface.original fixed block versus Interface.adaptive tailBlock(count), using the same selected FP32 source at two actual launch specializations.",
+      "fp_conditions_and_model_binding": [
+        "Arbitrary addition primitive and carrier are retained",
+        "Unit stride, count<=block and <=512 are explicit",
+        "Same FP32 load/add/store graph for active lanes, all values allowed",
+        "Both complete slice programs safe/successful with outputs/dual frames; no floating rewrite"
+      ]
+    },
+    "numerical_dependencies": {
+      "experimental_rule_instances": [],
+      "strict_rewrite_certificates": [],
+      "classification": "Empty experimental rule set. Exact model/source structure and any listed strict software theorem are retained; no new hardware-conformance claim."
+    }
+  },
+  "verification": [
+    {
+      "kind": "targeted_current_sources",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue06/build.py",
+        "bench/repairs/tritonbench_g/index_select_bwd/LogicalIO.lean",
+        "bench/repairs/tritonbench_g/index_select_bwd/Proofs/LogicalCoordinates.lean",
+        "bench/repairs/tritonbench_g/index_select_bwd/Correct.lean",
+        "bench/repairs/tritonbench_g/index_select_bwd/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue06/index_select_bwd.targeted.log",
+      "log_sha256": "79a4f2710820f9b76a560c836ee8494a529f9216633c8d698b334bb1a147c614"
+    },
+    {
+      "kind": "task_joint_import",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue06/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue06/index_select_bwd.joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue06/index_select_bwd.joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/index_select_bwd/Contract.lean": "0509d22fe38af484d08dd2dcc7d2627eaa3be9c73d243cdf090e3f2009088d19",
+    "bench/repairs/tritonbench_g/index_select_bwd/Correct.lean": "859fdf6dfd30f9a49165f88986398bf92183168fad796aa2d637a8b0210bd3cd",
+    "bench/repairs/tritonbench_g/index_select_bwd/FPEquiv.lean": "e06b9944c1a5f214e890d358ad1aa181b1c141c8dbc1641b40b9781af54df261",
+    "bench/repairs/tritonbench_g/index_select_bwd/IO.lean": "3477e0967b24a662664fa7abd36982556bb641bd5147d0bfbf8cbff8ebef23cc",
+    "bench/repairs/tritonbench_g/index_select_bwd/Kernels.lean": "5cbadaa85645ab34dfa1735f93504019ebf3644b8897ccb6aef47c4737da1e9b",
+    "bench/repairs/tritonbench_g/index_select_bwd/LogicalIO.lean": "0bf4735f9198f07fcd97165740dea824c83a3102989bfc5a459ae29943cf5519",
+    "bench/repairs/tritonbench_g/index_select_bwd/Proofs/Adaptive.lean": "169d9c7d72c35884035e6500d95467a829f2cbba9182385b0b3473c9f95b35b8",
+    "bench/repairs/tritonbench_g/index_select_bwd/Proofs/Interface.lean": "fc34e2f243aebcf9f5ee7d17935016ac4045f17d885f4b2d932d2db9d50df4bc",
+    "bench/repairs/tritonbench_g/index_select_bwd/Proofs/LogicalCoordinates.lean": "6a99bf6a5f33ad7c14ee11ff4da6ae984be0d6be84953b4d6f20d587f083961c",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

@@ -1,0 +1,236 @@
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-wip/VectorFinite/Routes.lean:19:9: error: Type mismatch
+  s.kernel.mem region i
+has type
+  Cell Word
+but is expected to have type
+  Carrier x✝
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-wip/VectorFinite/Routes.lean:56:93: error: unsolved goals
+case integer
+σ : Type
+b : Numerics
+p : Parameters
+s : World σ
+i : ℕ
+x✝ y✝ : IntegerSource.Canonical
+⊢ IntegerSource.stored x✝.storage
+      (IntegerSource.castValue (IntegerSource.promote x✝.storage y✝.storage)
+        (IntegerSource.castValue (IntegerSource.promote x✝.storage y✝.storage)
+            (IntegerSource.loaded x✝.storage (s.kernel.mem p.x i)) +
+          IntegerSource.castValue (IntegerSource.promote x✝.storage y✝.storage)
+            (IntegerSource.loaded y✝.storage (s.kernel.mem p.y i)))) =
+    IntegerSource.stored x✝.storage
+      (IntegerSource.castValue (IntegerSource.promote x✝.storage y✝.storage)
+        (IntegerSource.castValue (IntegerSource.promote x✝.storage y✝.storage)
+            (IntegerSource.loaded x✝.storage (sorry ())) +
+          IntegerSource.castValue (IntegerSource.promote x✝.storage y✝.storage)
+            (IntegerSource.loaded y✝.storage (sorry ()))))
+
+case floating
+σ : Type
+b : Numerics
+p : Parameters
+s : World σ
+i : ℕ
+x✝ y✝ : TypedFloat.Storage
+⊢ Cell.mk x✝.dtype.toTileDType
+      (ofFloat x✝.dtype
+        (TypedFloat.castValue b.rest (TypedFloat.promote x✝ y✝).dtype x✝.dtype
+          (b.rest.binary none (TypedFloat.promote x✝ y✝).dtype Binary.add
+            (TypedFloat.castValue b.rest x✝.dtype (TypedFloat.promote x✝ y✝).dtype
+              (toFloat x✝.dtype (Cell.read x✝.dtype.toTileDType (s.kernel.mem p.x i))))
+            (TypedFloat.castValue b.rest y✝.dtype (TypedFloat.promote x✝ y✝).dtype
+              (toFloat y✝.dtype (Cell.read y✝.dtype.toTileDType (s.kernel.mem p.y i))))))) =
+    Cell.mk x✝.dtype.toTileDType
+      (ofFloat x✝.dtype
+        (TypedFloat.castValue b.rest (TypedFloat.promote x✝ y✝).dtype x✝.dtype
+          (b.rest.binary none (TypedFloat.promote x✝ y✝).dtype Binary.add
+            (TypedFloat.castValue b.rest x✝.dtype (TypedFloat.promote x✝ y✝).dtype
+              (toFloat x✝.dtype (Cell.read x✝.dtype.toTileDType (sorry ()))))
+            (TypedFloat.castValue b.rest y✝.dtype (TypedFloat.promote x✝ y✝).dtype
+              (toFloat y✝.dtype (Cell.read y✝.dtype.toTileDType (sorry ())))))))
+
+case mixed32
+σ : Type
+b : Numerics
+p : Parameters
+s : World σ
+i : ℕ
+integerFirst✝ : Bool
+d✝ : IntegerSource.Canonical
+⊢ (if integerFirst✝ = «true» then
+      MixedFP32.convertedCell b.undefinedSigned b.undefinedUnsigned d✝.storage
+        (if integerFirst✝ = «true» then
+          FP.add b.cfg
+            (MixedFP32.integerRounded b.cfg d✝.storage (IntegerSource.loaded d✝.storage (s.kernel.mem p.x i)))
+            (Cell.read TileDType.fp32 (s.kernel.mem p.y i))
+        else
+          FP.add b.cfg (Cell.read TileDType.fp32 (s.kernel.mem p.x i))
+            (MixedFP32.integerRounded b.cfg d✝.storage (IntegerSource.loaded d✝.storage (s.kernel.mem p.y i))))
+    else
+      Cell.mk TileDType.fp32
+        (if integerFirst✝ = «true» then
+          FP.add b.cfg
+            (MixedFP32.integerRounded b.cfg d✝.storage (IntegerSource.loaded d✝.storage (s.kernel.mem p.x i)))
+            (Cell.read TileDType.fp32 (s.kernel.mem p.y i))
+        else
+          FP.add b.cfg (Cell.read TileDType.fp32 (s.kernel.mem p.x i))
+            (MixedFP32.integerRounded b.cfg d✝.storage (IntegerSource.loaded d✝.storage (s.kernel.mem p.y i))))) =
+    if integerFirst✝ = «true» then
+      MixedFP32.convertedCell b.undefinedSigned b.undefinedUnsigned d✝.storage
+        (if integerFirst✝ = «true» then
+          FP.add b.cfg (MixedFP32.integerRounded b.cfg d✝.storage (IntegerSource.loaded d✝.storage (sorry ())))
+            (Cell.read TileDType.fp32 (sorry ()))
+        else
+          FP.add b.cfg (Cell.read TileDType.fp32 (sorry ()))
+            (MixedFP32.integerRounded b.cfg d✝.storage (IntegerSource.loaded d✝.storage (sorry ()))))
+    else
+      Cell.mk TileDType.fp32
+        (if integerFirst✝ = «true» then
+          FP.add b.cfg (MixedFP32.integerRounded b.cfg d✝.storage (IntegerSource.loaded d✝.storage (sorry ())))
+            (Cell.read TileDType.fp32 (sorry ()))
+        else
+          FP.add b.cfg (Cell.read TileDType.fp32 (sorry ()))
+            (MixedFP32.integerRounded b.cfg d✝.storage (IntegerSource.loaded d✝.storage (sorry ()))))
+
+case mixedSmall
+σ : Type
+b : Numerics
+p : Parameters
+s : World σ
+i : ℕ
+f✝ : MixedSmall.FloatStorage
+integerFirst✝ : Bool
+d✝ : IntegerSource.Canonical
+⊢ (if integerFirst✝ = «true» then
+      MixedSmall.convertedCell b.undefinedSigned b.undefinedUnsigned d✝.storage
+        (MixedSmall.conversionInput f✝
+          (if integerFirst✝ = «true» then
+            MixedSmall.addTarget b.cfg f✝
+              (MixedSmall.integerRounded b.cfg f✝ d✝.storage (IntegerSource.loaded d✝.storage (s.kernel.mem p.x i)))
+              (MixedSmall.extendInput f✝ (MixedSmall.readFloat f✝ (s.kernel.mem p.y i)))
+          else
+            MixedSmall.addTarget b.cfg f✝ (MixedSmall.extendInput f✝ (MixedSmall.readFloat f✝ (s.kernel.mem p.x i)))
+              (MixedSmall.integerRounded b.cfg f✝ d✝.storage (IntegerSource.loaded d✝.storage (s.kernel.mem p.y i)))))
+    else
+      MixedSmall.storedFloat b.cfg f✝
+        (if integerFirst✝ = «true» then
+          MixedSmall.addTarget b.cfg f✝
+            (MixedSmall.integerRounded b.cfg f✝ d✝.storage (IntegerSource.loaded d✝.storage (s.kernel.mem p.x i)))
+            (MixedSmall.extendInput f✝ (MixedSmall.readFloat f✝ (s.kernel.mem p.y i)))
+        else
+          MixedSmall.addTarget b.cfg f✝ (MixedSmall.extendInput f✝ (MixedSmall.readFloat f✝ (s.kernel.mem p.x i)))
+            (MixedSmall.integerRounded b.cfg f✝ d✝.storage (IntegerSource.loaded d✝.storage (s.kernel.mem p.y i))))) =
+    if integerFirst✝ = «true» then
+      MixedSmall.convertedCell b.undefinedSigned b.undefinedUnsigned d✝.storage
+        (MixedSmall.conversionInput f✝
+          (if integerFirst✝ = «true» then
+            MixedSmall.addTarget b.cfg f✝
+              (MixedSmall.integerRounded b.cfg f✝ d✝.storage (IntegerSource.loaded d✝.storage (sorry ())))
+              (MixedSmall.extendInput f✝ (MixedSmall.readFloat f✝ (sorry ())))
+          else
+            MixedSmall.addTarget b.cfg f✝ (MixedSmall.extendInput f✝ (MixedSmall.readFloat f✝ (sorry ())))
+              (MixedSmall.integerRounded b.cfg f✝ d✝.storage (IntegerSource.loaded d✝.storage (sorry ())))))
+    else
+      MixedSmall.storedFloat b.cfg f✝
+        (if integerFirst✝ = «true» then
+          MixedSmall.addTarget b.cfg f✝
+            (MixedSmall.integerRounded b.cfg f✝ d✝.storage (IntegerSource.loaded d✝.storage (sorry ())))
+            (MixedSmall.extendInput f✝ (MixedSmall.readFloat f✝ (sorry ())))
+        else
+          MixedSmall.addTarget b.cfg f✝ (MixedSmall.extendInput f✝ (MixedSmall.readFloat f✝ (sorry ())))
+            (MixedSmall.integerRounded b.cfg f✝ d✝.storage (IntegerSource.loaded d✝.storage (sorry ()))))
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-wip/VectorFinite/Routes.lean:57:44: warning: declaration uses `sorry`
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-wip/VectorFinite/Routes.lean:62:55: error: unsolved goals
+case integer
+σ : Type
+b : Numerics
+p : Parameters
+s t : World σ
+i : ℕ
+hi : i < p.n
+x✝ y✝ : IntegerSource.Canonical
+formula : t.kernel.mem = IntegerSource.gridExpectedMemory x✝.storage y✝.storage p s.kernel
+⊢ sorry () = IntegerSource.resultCell x✝.storage y✝.storage p s.kernel.mem i
+
+case floating
+σ : Type
+b : Numerics
+p : Parameters
+s t : World σ
+i : ℕ
+hi : i < p.n
+x✝ y✝ : TypedFloat.Storage
+formula : t.kernel.mem = TypedValueCorrect.spec b.rest x✝ y✝ p s.kernel
+⊢ sorry () = TypedFloat.resultCell b.rest x✝.dtype y✝.dtype (TypedFloat.promote x✝ y✝).dtype p s.kernel.mem i
+
+case mixed32
+σ : Type
+b : Numerics
+p : Parameters
+s t : World σ
+i : ℕ
+hi : i < p.n
+integerFirst✝ : Bool
+d✝ : IntegerSource.Canonical
+formula :
+  t.kernel.mem =
+    MixedFP32.gridExpectedMemory b.cfg b.undefinedSigned b.undefinedUnsigned integerFirst✝ d✝.storage p s.kernel
+⊢ sorry () = MixedFP32.resultCell b.cfg b.undefinedSigned b.undefinedUnsigned integerFirst✝ d✝.storage p s.kernel.mem i
+
+case mixedSmall
+σ : Type
+b : Numerics
+p : Parameters
+s t : World σ
+i : ℕ
+hi : i < p.n
+f✝ : MixedSmall.FloatStorage
+integerFirst✝ : Bool
+d✝ : IntegerSource.Canonical
+formula :
+  t.kernel.mem =
+    MixedSmall.gridExpectedMemory b.cfg f✝ b.undefinedSigned b.undefinedUnsigned integerFirst✝ d✝.storage p s.kernel
+⊢ sorry () =
+    MixedSmall.resultCell b.cfg f✝ b.undefinedSigned b.undefinedUnsigned integerFirst✝ d✝.storage p s.kernel.mem i
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-wip/VectorFinite/Routes.lean:64:18: warning: declaration uses `sorry`
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-wip/VectorFinite/Routes.lean:64:38: warning: This simp argument is unused:
+  IntegerSource.gridExpectedMemory
+
+Hint: Omit it from the simp argument list.
+  simp [̵l̵o̵g̵i̵c̵a̵l̵R̵e̵a̵d̵,̵f̵o̵r̵m̵u̵l̵a̵,̵I̵n̵t̵e̵g̵e̵r̵S̵o̵u̵r̵c̵e̵.̵g̵r̵i̵d̵E̵x̵p̵e̵c̵t̵e̵d̵M̵e̵m̵o̵r̵y̵,̵T̵y̵p̵e̵d̵V̵a̵l̵u̵e̵C̵o̵r̵r̵e̵c̵t̵.̵s̵p̵e̵c̵,̵
+  ̵ ̵ ̵ ̵ ̵M̵i̵x̵e̵d̵F̵P̵3̵2̵.̵g̵r̵i̵d̵E̵x̵p̵e̵c̵t̵e̵d̵M̵e̵m̵o̵r̵y̵,̵M̵i̵x̵e̵d̵S̵m̵a̵l̵l̵.̵g̵r̵i̵d̵E̵x̵p̵e̵c̵t̵e̵d̵M̵e̵m̵o̵r̵y̵,̵w̵i̵d̵e̵E̵x̵p̵e̵c̵t̵e̵d̵,̵s̵o̵u̵r̵c̵e̵C̵e̵l̵l̵,̵h̵i̵]̵[̲l̲o̲g̲i̲c̲a̲l̲R̲e̲a̲d̲,̲ ̲f̲o̲r̲m̲u̲l̲a̲,̲ ̲T̲y̲p̲e̲d̲V̲a̲l̲u̲e̲C̲o̲r̲r̲e̲c̲t̲.̲s̲p̲e̲c̲,̲ ̲M̲i̲x̲e̲d̲F̲P̲3̲2̲.̲g̲r̲i̲d̲E̲x̲p̲e̲c̲t̲e̲d̲M̲e̲m̲o̲r̲y̲,̲
+  ̲ ̲ ̲ ̲ ̲M̲i̲x̲e̲d̲S̲m̲a̲l̲l̲.̲g̲r̲i̲d̲E̲x̲p̲e̲c̲t̲e̲d̲M̲e̲m̲o̲r̲y̲,̲ ̲w̲i̲d̲e̲E̲x̲p̲e̲c̲t̲e̲d̲,̲ ̲s̲o̲u̲r̲c̲e̲C̲e̲l̲l̲,̲ ̲h̲i̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-wip/VectorFinite/Routes.lean:64:71: warning: This simp argument is unused:
+  TypedValueCorrect.spec
+
+Hint: Omit it from the simp argument list.
+  simp [logicalRead, ̲formula, ̲IntegerSource.gridExpectedMemory,T̵y̵p̵e̵d̵V̵a̵l̵u̵e̵C̵o̵r̵r̵e̵c̵t̵.̵s̵p̵e̵c̵,̵
+      MixedFP32.gridExpectedMemory, ̲MixedSmall.gridExpectedMemory, ̲wideExpected, ̲sourceCell, ̲hi]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-wip/VectorFinite/Routes.lean:65:4: warning: This simp argument is unused:
+  MixedFP32.gridExpectedMemory
+
+Hint: Omit it from the simp argument list.
+  simp [̵l̵o̵g̵i̵c̵a̵l̵R̵e̵a̵d̵,̵f̵o̵r̵m̵u̵l̵a̵,̵I̵n̵t̵e̵g̵e̵r̵S̵o̵u̵r̵c̵e̵.̵g̵r̵i̵d̵E̵x̵p̵e̵c̵t̵e̵d̵M̵e̵m̵o̵r̵y̵,̵T̵y̵p̵e̵d̵V̵a̵l̵u̵e̵C̵o̵r̵r̵e̵c̵t̵.̵s̵p̵e̵c̵,̵
+  ̵ ̵ ̵ ̵ ̵M̵i̵x̵e̵d̵F̵P̵3̵2̵.̵g̵r̵i̵d̵E̵x̵p̵e̵c̵t̵e̵d̵M̵e̵m̵o̵r̵y̵,̵M̵i̵x̵e̵d̵S̵m̵a̵l̵l̵.̵g̵r̵i̵d̵E̵x̵p̵e̵c̵t̵e̵d̵M̵e̵m̵o̵r̵y̵,̵w̵i̵d̵e̵E̵x̵p̵e̵c̵t̵e̵d̵,̵s̵o̵u̵r̵c̵e̵C̵e̵l̵l̵,̵h̵i̵]̵[̲l̲o̲g̲i̲c̲a̲l̲R̲e̲a̲d̲,̲ ̲f̲o̲r̲m̲u̲l̲a̲,̲ ̲I̲n̲t̲e̲g̲e̲r̲S̲o̲u̲r̲c̲e̲.̲g̲r̲i̲d̲E̲x̲p̲e̲c̲t̲e̲d̲M̲e̲m̲o̲r̲y̲,̲ ̲T̲y̲p̲e̲d̲V̲a̲l̲u̲e̲C̲o̲r̲r̲e̲c̲t̲.̲s̲p̲e̲c̲,̲
+  ̲ ̲ ̲ ̲ ̲M̲i̲x̲e̲d̲S̲m̲a̲l̲l̲.̲g̲r̲i̲d̲E̲x̲p̲e̲c̲t̲e̲d̲M̲e̲m̲o̲r̲y̲,̲ ̲w̲i̲d̲e̲E̲x̲p̲e̲c̲t̲e̲d̲,̲ ̲s̲o̲u̲r̲c̲e̲C̲e̲l̲l̲,̲ ̲h̲i̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-wip/VectorFinite/Routes.lean:65:33: warning: This simp argument is unused:
+  MixedSmall.gridExpectedMemory
+
+Hint: Omit it from the simp argument list.
+  simp [̵l̵o̵g̵i̵c̵a̵l̵R̵e̵a̵d̵,̵f̵o̵r̵m̵u̵l̵a̵,̵I̵n̵t̵e̵g̵e̵r̵S̵o̵u̵r̵c̵e̵.̵g̵r̵i̵d̵E̵x̵p̵e̵c̵t̵e̵d̵M̵e̵m̵o̵r̵y̵,̵T̵y̵p̵e̵d̵V̵a̵l̵u̵e̵C̵o̵r̵r̵e̵c̵t̵.̵s̵p̵e̵c̵,̵
+  ̵ ̵ ̵ ̵ ̵M̵i̵x̵e̵d̵F̵P̵3̵2̵.̵g̵r̵i̵d̵E̵x̵p̵e̵c̵t̵e̵d̵M̵e̵m̵o̵r̵y̵,̵M̵i̵x̵e̵d̵S̵m̵a̵l̵l̵.̵g̵r̵i̵d̵E̵x̵p̵e̵c̵t̵e̵d̵M̵e̵m̵o̵r̵y̵,̵w̵i̵d̵e̵E̵x̵p̵e̵c̵t̵e̵d̵,̵s̵o̵u̵r̵c̵e̵C̵e̵l̵l̵,̵h̵i̵]̵[̲l̲o̲g̲i̲c̲a̲l̲R̲e̲a̲d̲,̲ ̲f̲o̲r̲m̲u̲l̲a̲,̲ ̲I̲n̲t̲e̲g̲e̲r̲S̲o̲u̲r̲c̲e̲.̲g̲r̲i̲d̲E̲x̲p̲e̲c̲t̲e̲d̲M̲e̲m̲o̲r̲y̲,̲ ̲T̲y̲p̲e̲d̲V̲a̲l̲u̲e̲C̲o̲r̲r̲e̲c̲t̲.̲s̲p̲e̲c̲,̲
+  ̲ ̲ ̲ ̲ ̲M̲i̲x̲e̲d̲F̲P̲3̲2̲.̲g̲r̲i̲d̲E̲x̲p̲e̲c̲t̲e̲d̲M̲e̲m̲o̲r̲y̲,̲ ̲w̲i̲d̲e̲E̲x̲p̲e̲c̲t̲e̲d̲,̲ ̲s̲o̲u̲r̲c̲e̲C̲e̲l̲l̲,̲ ̲h̲i̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.TritonBenchG.VectorAddition.Finite.sourceCell: definition does not reference [VeriTile.Bench.TritonBenchG.VectorAddition.TypedHost.execute,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Finite.runLive,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Finite.runLoaded] — non-circular ✓
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-wip/VectorFinite/Routes.lean:92:0: error: VeriTile.Bench.TritonBenchG.VectorAddition.Finite.sourceCell_scalar: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-wip/VectorFinite/Routes.lean:93:0: error: VeriTile.Bench.TritonBenchG.VectorAddition.Finite.output_cell_of_project: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-wip/VectorFinite/Routes.lean:94:0: error: VeriTile.Bench.TritonBenchG.VectorAddition.Finite.physical_output_matches: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

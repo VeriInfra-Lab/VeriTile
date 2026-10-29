@@ -1,0 +1,43 @@
+from pathlib import Path
+import ast,difflib,hashlib,json
+W=Path(__file__).resolve().parent
+R=Path('/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile')
+P=R/'bench/check_original_program_scope.py'
+original=P.read_text()
+start=original.index('    callback_links = {}\n', original.index('def validate_used_numerics('))
+end=original.index('    used_bindings, used_links = set(), set()\n', start)
+loop=original[start:end]
+helper='''def validate_callback_scope_references(callback_bindings, bindings):
+    """Reject malformed or undeferred references before deriving authority.
+
+    This establishes only local reference consistency. Required callback names,
+    source-derived authority, exact case ports and complete usage remain checked
+    by validate_used_numerics before any successful return.
+    """
+    if not isinstance(callback_bindings, dict):
+        raise ValueError('unclosed numerical callbacks lack exact registered assumptions')
+'''+loop.rstrip()+'''\n    return callback_links\n\n\n'''
+candidate=original[:start]+original[end:]
+needle="    callback_bindings = row.get('callback_assumptions', {})\n    if not isinstance(callback_bindings, dict) or set(callback_bindings) != callbacks:\n"
+assert candidate.count(needle)==1
+candidate=candidate.replace(needle,"    if set(callback_bindings) != callbacks:\n")
+needle="    bindings = validate_deferrals(task, deferrals, queue)\n    exact = validated_exact_requirements(root, task, public, proof_cases, queue)\n"
+assert candidate.count(needle)==1
+candidate=candidate.replace(needle,"    bindings = validate_deferrals(task, deferrals, queue)\n    callback_bindings = row.get('callback_assumptions', {})\n    callback_links = validate_callback_scope_references(callback_bindings, bindings)\n    exact = validated_exact_requirements(root, task, public, proof_cases, queue)\n")
+needle='def validate_used_numerics('
+assert candidate.count(needle)==1
+candidate=candidate.replace(needle,helper+needle)
+ast.parse(candidate)
+(W/'candidate/check_original_program_scope.py').write_text(candidate)
+(W/'candidate/callback-reference-failfast.patch').write_text(''.join(difflib.unified_diff(original.splitlines(True),candidate.splitlines(True),fromfile='a/bench/check_original_program_scope.py',tofile='b/bench/check_original_program_scope.py')))
+(W/'evidence/baseline-check_original_program_scope.py.txt').write_text(original)
+sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+paths=[P,R/'bench/adapter_common.py',R/'bench/exact_scope_gate.py',R/'bench/exact_numerical_bindings.py',R/'bench/deferred_numerical_experiments.py',R/'bench/tests/test_exact_numerical_bindings.py',R/'bench/tritonbench_g/deferred_numerical_experiments.json.gz',Path('/tmp/veritile-standardization-20261015/numerical-validator-performance-proposal-f2759fe/receipt.json')]
+(W/'evidence/input-pins-before.json').write_text(json.dumps({str(p):sha(p) for p in paths},indent=2)+'\n')
+old=ast.parse(original);new=ast.parse(candidate)
+old_functions={n.name:ast.dump(n,include_attributes=False) for n in old.body if isinstance(n,ast.FunctionDef)}
+new_functions={n.name:ast.dump(n,include_attributes=False) for n in new.body if isinstance(n,ast.FunctionDef)}
+changed=[name for name in old_functions if old_functions[name]!=new_functions.get(name)]
+added=sorted(set(new_functions)-set(old_functions))
+assert changed==['validate_used_numerics'] and added==['validate_callback_scope_references']
+print(json.dumps({'changed_functions':changed,'added_functions':added,'patch_applied':False,'baseline_source_sha256':sha(P),'candidate_sha256':sha(W/'candidate/check_original_program_scope.py')}))

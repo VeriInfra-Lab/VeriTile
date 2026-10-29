@@ -1,0 +1,32 @@
+/tmp/veritile-dequant-int4-characterization-20261015/proof/bench/tritonbench_g/matmul_dequantize_int4/Proofs/FPCharacterizationExecution.lean:54:4: error: Type mismatch: After simplification, term
+  hm
+ has type
+  t.mem { name := "C" }
+      (outputOffset
+        { input := { name := "A" }, output := { name := "C" }, scale := { name := "S" }, weight := { name := "B" },
+          zero := { name := "Z" }, rows := 64, columns := 128, inner := 64, inputRowStride := 64, inputInnerStride := 1,
+          weightInnerStride := 128, weightColumnStride := 1, outputRowStride := 128, outputColumnStride := 1,
+          scaleGroupStride := 128, scaleColumnStride := 1, zeroGroupStride := 16, zeroColumnStride := 1,
+          groupSize := if mode = «true» then 64 else 32, blockRows := 64, blockColumns := 128, blockInner := 32,
+          groupRows := 8, noGroups := mode }
+        initial i) =
+    Cell.mk TileDType.fp16 value
+but is expected to have type
+  t.mem { name := "C" } o = Cell.mk TileDType.fp16 value
+VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Characterization.all_active: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Characterization.output_offset: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Characterization.output_bounded: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Characterization.output_injective: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/veritile-dequant-int4-characterization-20261015/proof/bench/tritonbench_g/matmul_dequantize_int4/Proofs/FPCharacterizationExecution.lean:116:0: error: VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Characterization.whole_memory_of_post: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Characterization.physical_reference_bridge: axiom footprint ⊆ standard base ✓  ([Quot.sound,
+ propext,
+ Classical.choice])
+/tmp/veritile-dequant-int4-characterization-20261015/proof/bench/tritonbench_g/matmul_dequantize_int4/Proofs/FPCharacterizationExecution.lean:118:0: error: VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Characterization.complete_legal_tile_execution: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

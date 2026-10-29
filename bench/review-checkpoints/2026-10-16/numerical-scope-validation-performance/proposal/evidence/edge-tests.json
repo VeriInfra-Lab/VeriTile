@@ -1,0 +1,174 @@
+{
+  "status": "passed",
+  "scenarios": 4,
+  "function_executions": 16,
+  "checks": [
+    {
+      "test": "legacy_nonexact_success_preserves_no_derive_behavior",
+      "passed": true,
+      "results": {
+        "baseline": {
+          "ok": true,
+          "return_matches_input": true
+        },
+        "A": {
+          "ok": true,
+          "return_matches_input": true
+        },
+        "B": {
+          "ok": true,
+          "return_matches_input": true
+        },
+        "AB": {
+          "ok": true,
+          "return_matches_input": true
+        }
+      },
+      "calls": {
+        "baseline": {
+          "validated_exact_requirements": 1,
+          "validate_exact_case_links": 6
+        },
+        "A": {
+          "validated_exact_requirements": 1,
+          "validate_exact_case_links": 6
+        },
+        "B": {
+          "validated_exact_requirements": 1,
+          "validate_exact_case_links": 6
+        },
+        "AB": {
+          "validated_exact_requirements": 1,
+          "validate_exact_case_links": 6
+        }
+      }
+    },
+    {
+      "test": "invalid_deferral_still_precedes_invalid_callback_mapping",
+      "passed": true,
+      "results": {
+        "baseline": {
+          "ok": false,
+          "type": "ValueError",
+          "error": "numerical rule/profile changed: MULTIPLY"
+        },
+        "A": {
+          "ok": false,
+          "type": "ValueError",
+          "error": "numerical rule/profile changed: MULTIPLY"
+        },
+        "B": {
+          "ok": false,
+          "type": "ValueError",
+          "error": "numerical rule/profile changed: MULTIPLY"
+        },
+        "AB": {
+          "ok": false,
+          "type": "ValueError",
+          "error": "numerical rule/profile changed: MULTIPLY"
+        }
+      },
+      "calls": {
+        "baseline": {},
+        "A": {},
+        "B": {},
+        "AB": {}
+      }
+    },
+    {
+      "test": "unhashable_reference_preserves_TypeError_but_fails_earlier",
+      "passed": true,
+      "results": {
+        "baseline": {
+          "ok": false,
+          "type": "TypeError",
+          "error": "unhashable type: 'list'"
+        },
+        "A": {
+          "ok": false,
+          "type": "TypeError",
+          "error": "unhashable type: 'list'"
+        },
+        "B": {
+          "ok": false,
+          "type": "TypeError",
+          "error": "unhashable type: 'list'"
+        },
+        "AB": {
+          "ok": false,
+          "type": "TypeError",
+          "error": "unhashable type: 'list'"
+        }
+      },
+      "calls": {
+        "baseline": {
+          "validated_exact_requirements": 1,
+          "derive_authority": 1,
+          "collect_legacy": 1,
+          "validate_exact_queue": 1
+        },
+        "A": {
+          "validated_exact_requirements": 1,
+          "derive_authority": 1,
+          "collect_legacy": 1,
+          "validate_exact_queue": 1
+        },
+        "B": {},
+        "AB": {}
+      }
+    },
+    {
+      "test": "compatible_extra_callback_name_waits_for_required_name_equality",
+      "passed": true,
+      "results": {
+        "baseline": {
+          "ok": false,
+          "type": "ValueError",
+          "error": "unclosed numerical callbacks lack exact registered assumptions"
+        },
+        "A": {
+          "ok": false,
+          "type": "ValueError",
+          "error": "unclosed numerical callbacks lack exact registered assumptions"
+        },
+        "B": {
+          "ok": false,
+          "type": "ValueError",
+          "error": "unclosed numerical callbacks lack exact registered assumptions"
+        },
+        "AB": {
+          "ok": false,
+          "type": "ValueError",
+          "error": "unclosed numerical callbacks lack exact registered assumptions"
+        }
+      },
+      "calls": {
+        "baseline": {
+          "validated_exact_requirements": 1,
+          "derive_authority": 1,
+          "collect_legacy": 1,
+          "validate_exact_queue": 1
+        },
+        "A": {
+          "validated_exact_requirements": 1,
+          "derive_authority": 1,
+          "collect_legacy": 1,
+          "validate_exact_queue": 1
+        },
+        "B": {
+          "validated_exact_requirements": 1,
+          "derive_authority": 1,
+          "collect_legacy": 1,
+          "validate_exact_queue": 1
+        },
+        "AB": {
+          "validated_exact_requirements": 1,
+          "derive_authority": 1,
+          "collect_legacy": 1,
+          "validate_exact_queue": 1
+        }
+      }
+    }
+  ],
+  "full_authority_run": false
+}

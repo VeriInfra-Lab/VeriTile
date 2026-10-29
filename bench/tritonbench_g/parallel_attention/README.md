@@ -1,43 +1,48 @@
 # parallel_attention
 
-- Source file: `parallel_attention.py` (upstream `data/TritonBench_G_v1/parallel_attention.py`)
-- Corpus: TritonBench-G v1
-- Size: 481 lines, 4 `@triton.jit` kernels
-- Status: **PORTED** (forward + the backward dk/dv helper) —
-  `ParallelAttention.lean`, main theorems `pa_fwd_o_exec_genuine` and
-  `pa_bwd_dkv_exec_genuine` (`exec`-level, dimension-general, 0 `sorry`).
+This port proves complete forward execution (`pa_fwd_o_exec_genuine`) and the
+standalone backward dk/dv helper (`pa_bwd_dkv_exec_genuine`) against independent
+input formulas. The Python source is unchanged. Arithmetic is real-valued;
+this is not a bit-accurate native floating-point refinement claim.
 
-The upstream file implements *rebased* (quadratic-kernel) attention: scores
-are `(q·k)²` instead of `exp(q·k)`, so causal attention factors into an
-unnormalized value sum `o` plus a separately stored normalizer `z` (the host
-divides `o / (z + eps)` outside the kernel).
+The source's block-pointer loads omit `padding_option`. Their out-of-window
+lanes therefore use the initial state's address-indexed `undef` inputs. The
+masked `dz` load similarly retains its unspecified inputs. All eight guarded
+mathematical references now express these values directly, and the loops
+preserve both memory and `undef`. The previous zero-padding reference formulas
+were incorrect for arbitrary source states.
 
-- `parallel_rebased_fwd_kernel` (the launched forward JIT) streams K/V in
-  two phases — the strictly-below-diagonal blocks unmasked with
-  `tl.advance`d block pointers, then the diagonal block causally masked —
-  and stores both `o` (block pointer, boundary-checked) and `z` (plain
-  pointer, masked).
-- `_parallel_rebased_bwd_dkv` (the backward dk/dv helper JIT) streams Q/dO
-  in the *opposite* order: the strictly-above-diagonal blocks via a
-  **descending `-BTS` loop** (the last member of the descending-range lever
-  family), then the diagonal block masked, with an `i_v == 0` runtime gate
-  folding the `dz` normalizer gradient in. It is verified as a standalone
-  kernel over universally-quantified scalar arguments `i_bh, i_c, i_k, i_v,
-  i_h` — the values the shell `parallel_rebased_bwd_kernel` would pass.
+The forward theorem's hypotheses remain output-buffer separation, contiguous
+last-dimension stride/store injectivity, `BTL % BTS = 0`, and `0 < BTS`. The
+backward theorem retains the analogous original layout and trip-count
+hypotheses, and removes the old global `∀ rg off, s.undef rg off = 0` premise.
+Its reference formulas now include the actual masked `dz` padding input. This
+is an explicit change to the backward public contract and both input reference
+families, not a claim that the prior theorem statements remain unchanged.
 
-Headlines: `o[a, p]` = `Σ_{t ≤ i_c·BTL + a} score(a,t)² · v[t,p]` with
-`z[a]` its normalizer (per-program causal rebased attention, exact on
-ragged tails — the boundary-checked windows are baked into the guarded
-value functions, so **no** divisibility hypothesis on `T` is needed);
-`dk`/`dv` = the full key sweep `Σ_t keep·(2·ds·s·q)` / `Σ_t keep·s²·do`
-with the gate term `[i_v = 0]·dz[t]` inside `ds`. The only trip-count
-hypothesis is the host's own `assert BTL % BTS == 0`.
+The actual source casts are retained in q scaling, dO loads and dot operands;
+every explicit `allow_tf32=false` option remains in the lowered AST. A local
+proved real-to-real cast identity connects these operations to the real
+execution proof. No new numerical assumption, oracle or desired-output premise
+is introduced.
 
-The helper-JIT structure (no cross-`@triton.jit` call surface), the dropped
-trailing bare `return`, and the descending-loop respelling
-(`for j in range(0, cdiv(cdiv(T,BTS)·BTS − (i_c+1)·BTL, BTS))` with
-body-first `i = cdiv(T,BTS)·BTS − BTS − j·BTS`; the `±BTS` cancels exactly
-in ℤ and ℕ-truncation reproduces Python's empty range) are a
-`Translation-surface blocker:` registered in `proof_blockers.md`. The
-backward shell `parallel_rebased_bwd_kernel` and `_parallel_rebased_bwd_dq`
-are the trusted boundary.
+`pa_unspecified_padding_correct` is an audited complete-source execution
+regression. With a one-element real head and `BK=2`, in-window Q/K values zero,
+V one and arbitrary unspecified input `u`, actual forward execution stores
+`o[0] = z[0] = (u*u)*(u*u)`. Thus nonzero unspecified input affects retained
+output lanes; replacing it with zero is observably wrong.
+
+The forward computation is causal quadratic attention: `score²` contributes
+to both the unnormalized value sum `o` and normalizer `z`. Host normalization,
+cross-program composition and the backward shell/dq helper remain outside
+this port. The existing named-correctness-surface/frame and helper/descending
+source-translation review boundaries remain recorded in `proof_blockers.md`.
+The retained ragged source inputs do not require divisibility of `T`.
+
+The 2026-10-14 acceptance checkpoint records the complete Lean target and
+module axiom gate, exact frozen inputs, the prior/final public statements and
+reference definitions, and staged failure/interruption logs. It does not
+claim GPU execution or an independent numerical comparison replay.
+
+Acceptance evidence: [complete build and axiom audit](../../review-checkpoints/2026-10-14/parallel-attention-final/README.md),
+[exact contract/reference changes](../../review-checkpoints/2026-10-14/parallel-attention-contracts/README.md).

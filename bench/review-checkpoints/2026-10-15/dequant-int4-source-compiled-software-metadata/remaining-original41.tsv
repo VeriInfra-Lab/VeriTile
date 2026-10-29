@@ -1,0 +1,7 @@
+task	current_scope_gap	needed_work	native_execution
+logsumexp_fwd	完整 scale/max/sub/exp/sum/log/add	缺 exp/log 具体位算法及归约树、特殊值/FTZ 对应	not_established
+mixed_sparse_attention	完整 8+1 循环的 dot/max/exp2/sum/div	缺 exp2、两类 dot、maximum 和归约树对应；epilogue 不替代完整阶段	not_established
+parallel_retention_attention	完整前向/后向的 log2/exp2/decay/dot	缺衰减位算法、有符号转换和各 dot 图对应	not_established
+rbe_triton_transform	原 rotary pair 的 pow/sin/cos 及两个 store masks	缺完整 pow/sin/cos 位算法；不能以预先供给 cos/sin 替换	not_established
+token_softmax_bloom	参数化存储的完整 row（含原 fp16）：max/sub/exp/sum/div/cast	缺 exp 位算法、max 特殊值策略、sum 归约树与实际 lowering 对应	not_established
+token_softmax_llama	完整 fp32 row 的 max/sub/exp/sum/div/cast	复用 Bloom 位证明路径；同样缺 exp 和归约/特殊值对应	not_established

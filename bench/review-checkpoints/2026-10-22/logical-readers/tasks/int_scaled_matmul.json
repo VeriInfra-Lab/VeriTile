@@ -1,0 +1,105 @@
+{
+  "schema": 1,
+  "task": "int_scaled_matmul",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue07/result.json",
+    "sha256": "583e8d793cba1d71d000c2bdd3e45247f36f7ed54dadb5684382c4c861f64a4b",
+    "task_index": 4
+  },
+  "finding": "Both headlines exposed raw input/output channels and tuple indices; the dense signed-dot target used an administrative Nat recursion.",
+  "resolution": "Named IntegerInputs/ScaledInputs records and curried integer outputs expose signed8 operands, signed32 dot wrap, Real row scaling and floor/ceiling conversion. The dot now uses Fin inner.",
+  "mathematical_target": "int_matmul_correct: signed32(sum_k signed8(A[row,k])*signed8(B[k,col])). int_scaled_matmul_real: signed32(towardZero(Real(signedDot)*rowScale[row])).",
+  "conditions_and_scope": "Original geometry, positive unscaled blockInner, all output-region separation, scaled EVEN_K equality and coverage remain. Complete grouped grids, empty outputs, K=0, typed integer outputs, both source branches and exact safety/success/frame scopes are retained. Ideal Real scaling does not assert native FP32 equality or restrict either all-word FP pair.",
+  "proof_connection": "integer_full_iff and scaled_full_iff establish iff of the full previous ProgramIO judgments. sum_eq_fin and dot_curried prove the only mathematical reindexing; original RealIO and IntIO complete proofs are reused.",
+  "fp_review": "Both existing actual int_matmul_pair and int_scaled_matmul_pair remain unchanged. Exact strict-overlay certificates plus IO consolidation and four whole-function source preservation proofs are reused and freshly hash-checked; fresh current-baseline FP replay is not claimed.",
+  "numerical_dependencies": "No experimental rewrite rules or numerical experiments added or used by these main pairs; existing operations/order/source precision are retained.",
+  "previous_formula_scope": {
+    "mathematical_target": "Unscaled: signed32(low32(full-K sum of signed8 operand products)). Scaled Real: toward-zero floor/ceiling of (wrapped integer dot as Real)*rowScale, then signed32 projection.",
+    "required_conditions": [
+      "Geometry.Valid and positive unscaled blockInner; output separation from A and B.",
+      "Scaled EVEN_K exact-step premise, full inner coverage and separation from A/B/scale; all original strides/configurations remain.",
+      "Real scaling/truncation is an ideal mathematical interpretation, independent of the FP all-word graph and undefined-conversion policy."
+    ],
+    "scope": "Both unscaled and scaled complete grouped grids; both EVEN_K branches, K=0/empty/tail cases and exact exterior frames. One scale per row; ignored scaleColumnStride remains ignored as in source.",
+    "canonical_connection": "Adjacent signedDot/integerFormula visibly retain signed8/signed32 widths and are definitionally IntIO.formula. The scaled main proof locally proves its explicit ceil/floor target equals RealIO.formula; RealIO.complete supplies full source/safety/output/frame. RealScaled.truncate_spec supplies Mathlib toward-zero characterization.",
+    "fp_program_pair": {
+      "actual_pair": [
+        "unscaledOriginal ≡[[]] unscaledCopyFree",
+        "scaledOriginal ≡[[]] scaledSharedIndices"
+      ],
+      "actual_scope": "Existing full grouped copy-elimination and redundant-index candidates preserve modular signed32 arithmetic, all FP32 scale words, conversion policy, precision and source order.",
+      "numerical_dependency": "R=[]; fixed signed32/FP32 interpretation. Exact prior accepted certificates for both current-source main pairs are available in the strict-fp-laws overlay, with matching source/receipt/object hashes, explicit successful named-pair checks, and IO/whole-function preservation evidence. Fresh FPEquiv replay in this campaign remains limited by the missing CandidateIO/old Algebra.mk ABI closure; the uniform baseline object imported here lacks the two current pair names and is not used as evidence for them.",
+      "current_experimental_rules_used": 0,
+      "new_or_deferred_experiments": 0,
+      "source_unchanged": true
+    },
+    "numerical_dependencies": "R=[]; fixed signed32/FP32 interpretation. Exact prior accepted certificates for both current-source main pairs are available in the strict-fp-laws overlay, with matching source/receipt/object hashes, explicit successful named-pair checks, and IO/whole-function preservation evidence. Fresh FPEquiv replay in this campaign remains limited by the missing CandidateIO/old Algebra.mk ABI closure; the uniform baseline object imported here lacks the two current pair names and is not used as evidence for them."
+  },
+  "verification": [
+    {
+      "kind": "final_current_source_build",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue07/build.py",
+        "bench.repairs.tritonbench_g.int_scaled_matmul.IO",
+        "bench.repairs.tritonbench_g.int_scaled_matmul.RealIO",
+        "bench.repairs.tritonbench_g.int_scaled_matmul.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.int_scaled_matmul.Correct"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue07/int_scaled_matmul-verified-build.log",
+      "log_sha256": "e80d384a970a9d7ed879b07475b6b22f77c0f701cab57759f0dc132d9034313a"
+    },
+    {
+      "kind": "joint_import_current_entries",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue07/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue07/int_scaled_matmul-joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue07/int_scaled_matmul-verified-joint.log",
+      "log_sha256": "90d47c1052319d00a4cc705ca75a687c195ac9d3a531d4bc9c632665e3b5e272"
+    },
+    {
+      "kind": "exact_existing_two_pair_certificate_hash_revalidation",
+      "command": [
+        "python",
+        ".veritile-cache/logical-reader-review-20261022/queue07/check_int_scaled_reuse.py"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue07/int-scaled-reuse-checked.log",
+      "log_sha256": "d60c1d1ecc12f8120f3adf51b9e5ece06c6308d55a95b8cd4fca7f7e58813447"
+    }
+  ],
+  "verification_status": "passed_with_recorded_limit",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/int_scaled_matmul/Contract.lean": "955ef8fe2abcc77ed087c30dea0071508ef6411d45f66e5a14dbf9c0a576ee9e",
+    "bench/repairs/tritonbench_g/int_scaled_matmul/Correct.lean": "a57357d61d75ce0c5b33667ecbedd4aeccb26d81e597b62a38f57cc9b5de1aef",
+    "bench/repairs/tritonbench_g/int_scaled_matmul/FPEquiv.lean": "b867ab93f3838b717fe241fb5bd156676518541c6cee4ffd9d1885ca6ea41c1d",
+    "bench/repairs/tritonbench_g/int_scaled_matmul/IO.lean": "26312568ce839a1f05b1215c68e98a7f99d0ff89f7e978bf80f1ec0d9dccf19f",
+    "bench/repairs/tritonbench_g/int_scaled_matmul/Kernels.lean": "3dcbec32263598fed15c9cd509c3bc4304d50a4e64f09b695ff39e3eb359abc3",
+    "bench/repairs/tritonbench_g/int_scaled_matmul/RealIO.lean": "f6f8b74e44dbfa4f771c7c37e25b1ec083e33a875bd618ed9f7438a34784dbee",
+    "bench/repairs/tritonbench_g/int_scaled_matmul/Proofs/LogicalReader.lean": "9241709f4c2bf02b6758fd302a05df33a5d45b39ac366136a2a12464e75f47e9",
+    "bench/repairs/tritonbench_g/int_scaled_matmul/Proofs/RealIO.lean": "3f351a97ec74f3bfec997e28215c9d8077a5d3986ca87a3bbd9da7b36c961f81",
+    "bench/repairs/tritonbench_g/int_scaled_matmul/Proofs/IOComplete.lean": "a941ec2a1bea6182803042a387caf7b0f7ac4f728babcca08c8c11879fb67468",
+    "bench/repairs/tritonbench_g/int_scaled_matmul/Proofs/RealMath.lean": "3e82c43fb0780508de8b79c7945ca7b70b03ec58deade4ce0f2eeafd9419b92d",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [
+    "Fresh current-baseline FPEquiv/combined FP import replay remains unavailable because CandidateIO is absent and the inherited Algebra.mk ABI differs. This campaign does not expand that known closure. Both exact current main pair certificates are reused from the strict overlay, with audit SHA256 1853b370b923b6e6c5079e31a8747a0c20df5e79bc9d40f2c74bc38bafba61c0 and 39 freshly checked pins in queue07/int-scaled-reuse-checked.json. The fresh joint checks Contract and both current Real declarations only."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

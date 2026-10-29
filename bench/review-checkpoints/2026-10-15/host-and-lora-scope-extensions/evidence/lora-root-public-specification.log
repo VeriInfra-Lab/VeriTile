@@ -1,0 +1,3 @@
+VeriTile.Bench.TritonBenchG.LoraExpandGemv.BranchCorrect.lora_expand_all_branches_machine_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

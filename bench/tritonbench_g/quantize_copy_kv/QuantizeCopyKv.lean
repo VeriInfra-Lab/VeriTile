@@ -1,4 +1,5 @@
 import VeriTile.Triton
+import VeriTile.Triton.Float.LegacyRealInt8
 import VeriTile.Examples.AttentionForwardClosedForm
 
 /-!
@@ -325,13 +326,16 @@ This preserves destination-indexed addressing, `tl.abs`, the per-head
 The Python kernel casts the scale to fp16 before broadcasting it and casts the
 quotient to int8; both casts are preserved as surface dtype annotations and
 lower through the DSL's fixed-width cast surfaces. -/
+-- Historical mathematical projection: the final int8 conversion uses the
+-- legacy unbounded Real truncation primitive. The typed FP source and its
+-- width/domain-checked conversion are separate, and never use this wrapper.
 def destindex_copy_quantize_kv_real_surface
     (K : RegionName) (DestLoc : Region .nat) (Out OutScale : RegionName)
     (stride_k_bs stride_k_h stride_k_d
       stride_o_bs stride_o_h stride_o_d
       stride_os_bs stride_os_h _stride_os_d
       head_num BLOCK_DMODEL BLOCK_HEAD : Nat) :
-    ComputeKernel := triton {
+    ComputeKernel := legacy_real_int8% triton {
   cur_index = tl.program_id(0)
   offs_h = tl.arange(0, $(BLOCK_HEAD))
   offs_d = tl.arange(0, $(BLOCK_DMODEL))

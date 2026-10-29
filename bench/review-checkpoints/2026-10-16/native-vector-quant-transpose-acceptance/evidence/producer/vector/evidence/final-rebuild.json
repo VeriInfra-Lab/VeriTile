@@ -1,0 +1,30 @@
+[
+  {
+    "module": "bench/tritonbench_g/vector_addition/Proofs/NativeArithmetic.lean",
+    "exit_code": 0
+  },
+  {
+    "module": "bench/tritonbench_g/vector_addition/Proofs/NativeScalar.lean",
+    "exit_code": 0
+  },
+  {
+    "module": "bench/tritonbench_g/vector_addition/Proofs/NativeMemory.lean",
+    "exit_code": 0
+  },
+  {
+    "module": "bench/tritonbench_g/vector_addition/Proofs/NativeProgram.lean",
+    "exit_code": 0
+  },
+  {
+    "module": "bench/tritonbench_g/vector_addition/Proofs/NativeGrid.lean",
+    "exit_code": 0
+  },
+  {
+    "module": "bench/tritonbench_g/vector_addition/Proofs/NativeAdmission.lean",
+    "exit_code": 0
+  },
+  {
+    "module": "bench/tritonbench_g/vector_addition/NativeCorrect.lean",
+    "exit_code": 0
+  }
+]

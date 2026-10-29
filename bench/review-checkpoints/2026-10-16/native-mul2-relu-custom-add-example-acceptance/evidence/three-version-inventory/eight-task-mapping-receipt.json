@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "frozen": true,
+  "kind": "bounded_read_only_existing_evidence_mapping",
+  "tasks": [
+    "matrix_transpose",
+    "quantize_global",
+    "vector_addition",
+    "quant_transpose_kernel",
+    "triton_mul2",
+    "relu_triton_kernel",
+    "vector_addition_custom",
+    "add_example"
+  ],
+  "scope": "Only original source, current public declarations and frozen root review; no new task or implementation",
+  "inputs": {
+    "scope_ledger": {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/original_program_scope.json.gz",
+      "sha256": "f7c095722c71544a0e6497aa43b06a47f8693c5cc95579c98335bf94f2773a7f"
+    },
+    "tasks": {
+      "matrix_transpose": {
+        "original_source": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/matrix_transpose/matrix_transpose.py",
+          "sha256": "0ceaf829e152415896fea92229c45c00f34ade1ff5f0da7aaefa8769a84c5957"
+        },
+        "frozen_root_review": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/review-checkpoints/2026-10-16/native-mul2-relu-custom-add-example-acceptance/matrix_transpose-original-scope-review-rebound.json.gz",
+          "sha256": "589cb1c2ee82273f52a4969bdac26e0fb91cd9ea6a70a30f457309877b631e18"
+        },
+        "scope_status_at_snapshot": "verified",
+        "new_acceptance_assessment": false
+      },
+      "quantize_global": {
+        "original_source": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/quantize_global/quantize_global.py",
+          "sha256": "163f6e73234587c1d05763ed60ccc1ac4ca7d7d384f18b7af17399509205032f"
+        },
+        "frozen_root_review": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/review-checkpoints/2026-10-16/native-mul2-relu-custom-add-example-acceptance/quantize_global-original-scope-review-rebound.json.gz",
+          "sha256": "f348b311db8d64ea6730a84ed4110b48da0a4ecd861833366ba1d905aeb0c269"
+        },
+        "scope_status_at_snapshot": "verified_with_deferred_numerics",
+        "new_acceptance_assessment": false
+      },
+      "vector_addition": {
+        "original_source": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/vector_addition/vector_addition.py",
+          "sha256": "cfcb749bd562924106c1e0e95e18a9bd987238be3a3b522abac89e099de3d098"
+        },
+        "frozen_root_review": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/review-checkpoints/2026-10-16/native-mul2-relu-custom-add-example-acceptance/vector_addition-original-scope-review-rebound.json.gz",
+          "sha256": "cc1706b59a7b9ca7582937de06bf1e25935e1a93c9581d1161e0f871cbb19dcd"
+        },
+        "scope_status_at_snapshot": "verified_with_deferred_numerics",
+        "new_acceptance_assessment": false
+      },
+      "quant_transpose_kernel": {
+        "original_source": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/quant_transpose_kernel/quant_transpose_kernel.py",
+          "sha256": "ccf3ff3369cddbb96364cbff33ae9efa6e722450eae0e5b59b195a8eaa39534a"
+        },
+        "frozen_root_review": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/review-checkpoints/2026-10-16/native-mul2-relu-custom-add-example-acceptance/quant_transpose_kernel-original-scope-review-rebound.json.gz",
+          "sha256": "6be588f1344a860deb6243d752a25c97349d2fbb2e1ba4ade9d7c374c842357a"
+        },
+        "scope_status_at_snapshot": "verified_with_deferred_numerics",
+        "new_acceptance_assessment": false
+      },
+      "triton_mul2": {
+        "original_source": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/triton_mul2/triton_mul2.py",
+          "sha256": "6a7ae6ed4f9c83c4206b78778630c25b72fd10cb785d01a85e1b9c0d19f46238"
+        },
+        "frozen_root_review": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/review-checkpoints/2026-10-16/native-mul2-relu-custom-add-example-acceptance/mul2-original-scope-review.json.gz",
+          "sha256": "208e71d00b1d4730a1c1e61b2285230722a2f33ddb1b0d9dd22565eda0c4481b"
+        },
+        "scope_status_at_snapshot": "verified_with_deferred_numerics",
+        "new_acceptance_assessment": false
+      },
+      "relu_triton_kernel": {
+        "original_source": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/relu_triton_kernel/relu_triton_kernel.py",
+          "sha256": "2dffef82d69f280104c25b798e23f59a1ba9d00325552b91149a1d3b50fcffb0"
+        },
+        "frozen_root_review": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/review-checkpoints/2026-10-16/native-mul2-relu-custom-add-example-acceptance/relu-original-scope-review.json.gz",
+          "sha256": "095db0478ed90d2ccf0f55808c3a3cc9a24d70ea8ea1ceeb21917620f697e929"
+        },
+        "scope_status_at_snapshot": "verified_with_deferred_numerics",
+        "new_acceptance_assessment": false
+      },
+      "vector_addition_custom": {
+        "original_source": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/vector_addition_custom/vector_addition_custom.py",
+          "sha256": "a1e1a05555a7d42a6cee871847907ef6e6fbe6834ac0088d186921d994a10957"
+        },
+        "frozen_root_review": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/review-checkpoints/2026-10-16/native-mul2-relu-custom-add-example-acceptance/custom-original-scope-review.json.gz",
+          "sha256": "024e1c4fc273ba32ea25db40d5ecf6d9c19fbb55d30d3de38b31939f26a97eb5"
+        },
+        "scope_status_at_snapshot": "verified_with_deferred_numerics",
+        "new_acceptance_assessment": false
+      },
+      "add_example": {
+        "original_source": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/add_example/add_example.py",
+          "sha256": "4f2314d163aed2aab3a0dce796534c0c24145d506750da93349044640e62f913"
+        },
+        "frozen_root_review": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/review-checkpoints/2026-10-16/native-mul2-relu-custom-add-example-acceptance/add-example-original-scope-review.json.gz",
+          "sha256": "5f94ef06f194c46a9b6faeab720690fbdd71dcffdc480ce5949032bc33413920"
+        },
+        "scope_status_at_snapshot": "verified_with_deferred_numerics",
+        "new_acceptance_assessment": false
+      }
+    }
+  },
+  "artifacts": {
+    "MAPPING.md": "c944d1962f2ee7a6c7bc828d73af96e3be2732f66dc75a8c71d8843f777b423d"
+  },
+  "Lean_rerun": false,
+  "native_rerun": false,
+  "implementation_changes": false,
+  "new_acceptance_count": 0,
+  "not_claimed": [
+    "all_three_mainlines_complete",
+    "native_numerics_validated",
+    "whole_tensor_ReLU_correctness",
+    "functional_BF16_quantization_variant"
+  ]
+}

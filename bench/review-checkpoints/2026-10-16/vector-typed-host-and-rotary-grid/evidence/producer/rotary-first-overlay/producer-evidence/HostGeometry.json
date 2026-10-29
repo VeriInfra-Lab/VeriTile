@@ -1,0 +1,19 @@
+{
+  "module": "HostGeometry.lean",
+  "source_sha256": "4c3140fdefcf6baf17b2009f4c346911af382cb6d54a457a0082e4e83552772a",
+  "source_sha256_before": "4c3140fdefcf6baf17b2009f4c346911af382cb6d54a457a0082e4e83552772a",
+  "source_sha256_after": "4c3140fdefcf6baf17b2009f4c346911af382cb6d54a457a0082e4e83552772a",
+  "source_unchanged_during_compile": true,
+  "command": [
+    "/tmp/veritile-lean-toolchain/bin/lean",
+    "--root=/tmp/veritile-standardization-20261015/rotary-emb-host-grid-wip",
+    "/tmp/veritile-standardization-20261015/rotary-emb-host-grid-wip/HostGeometry.lean",
+    "-o",
+    "/tmp/veritile-standardization-20261015/rotary-emb-host-grid-wip/HostGeometry.olean"
+  ],
+  "LEAN_PATH": "/tmp/veritile-standardization-20261015/rotary-emb-host-grid-wip:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean",
+  "exit_code": 0,
+  "seconds": 4.012,
+  "log": "evidence/HostGeometry.log",
+  "log_sha256": "98a0cd5de657ffda0c7663e8ec1b16e620788f51f03ffe5647f461e14c18244c"
+}

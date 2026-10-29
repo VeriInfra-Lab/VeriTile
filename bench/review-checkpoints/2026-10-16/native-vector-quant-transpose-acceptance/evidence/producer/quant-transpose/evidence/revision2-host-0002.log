@@ -1,0 +1,139 @@
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeHost.lean:70:144: warning: 'rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeHost.lean:70:144: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeHost.lean:194:20: error: unsolved goals
+case pos.error.h.h
+b : Numerics
+d : Storage
+a : Input
+alloc : Allocations
+m : Memory
+x : String
+xs : ℕ → Word d
+p : PhysicalLayout
+P : PhysicalBinding d a alloc m x p
+nonempty : 0 < a.numel
+rank : a.shape.length = 2
+stride : a.sam = 1 ∨ a.san = 1
+cuda : a.isCuda = «true»
+trials : List Config
+last : Config
+head : Word d
+tail : List (Word d)
+D : Domain d a alloc m x (head :: tail) xs
+hlen : a.logicalOffsets.length = (head :: tail).length
+hne : head :: tail ≠ []
+maximum : Word d := b.maximum d (b.abs d head) (List.map (b.abs d) tail)
+hm : produced b d (head :: tail) = some maximum
+hp :
+  prepare b (fun x => none) d a alloc m x =
+    Except.ok
+      { maximum := maximum, inverse := b.reciprocal d maximum,
+        initial := allocated d a alloc m maximum (b.reciprocal d maximum) }
+hg : gridSupported a
+hr : nativeAdmission (fun x => none) Device.cuda (dtype d) a.numel 2 «true» a.M a.N = Except.ok d
+issue : NativeIssue
+ht :
+  nativeTrialsPlan b d a alloc p (hostPhysical d p maximum (b.reciprocal d maximum)) (trials ++ [last]) =
+    Except.error issue
+hc :
+  executeNativeTrials b d a alloc p (trials ++ [last]) (hostPhysical d p maximum (b.reciprocal d maximum)) =
+    Except.error issue
+⊢ (match
+      if 2147483648 ≤ gridM a.M * gridN a.N then do
+        throw { stage := Stage.gridParse, reason := Rejection.gridLimit (gridM a.M * gridN a.N) }
+        Except.ok ()
+      else Except.ok () with
+    | Except.error issue => Except.error (NativeDiagnostic.setup issue)
+    | Except.ok PUnit.unit => Except.error (NativeDiagnostic.observation issue)) =
+    Except.error (NativeDiagnostic.observation issue)
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeHost.lean:204:8: error: unsolved goals
+case pos.ok.h.h.refine_1
+b : Numerics
+d : Storage
+a : Input
+alloc : Allocations
+m : Memory
+x : String
+xs : ℕ → Word d
+p : PhysicalLayout
+P : PhysicalBinding d a alloc m x p
+nonempty : 0 < a.numel
+rank : a.shape.length = 2
+stride : a.sam = 1 ∨ a.san = 1
+cuda : a.isCuda = «true»
+trials : List Config
+last : Config
+head : Word d
+tail : List (Word d)
+D : Domain d a alloc m x (head :: tail) xs
+hlen : a.logicalOffsets.length = (head :: tail).length
+hne : head :: tail ≠ []
+maximum : Word d := b.maximum d (b.abs d head) (List.map (b.abs d) tail)
+hm : produced b d (head :: tail) = some maximum
+hp :
+  prepare b (fun x => none) d a alloc m x =
+    Except.ok
+      { maximum := maximum, inverse := b.reciprocal d maximum,
+        initial := allocated d a alloc m maximum (b.reciprocal d maximum) }
+hg : gridSupported a
+hr : nativeAdmission (fun x => none) Device.cuda (dtype d) a.numel 2 «true» a.M a.N = Except.ok d
+writes : List NativeWrite
+ht :
+  nativeTrialsPlan b d a alloc p (hostPhysical d p maximum (b.reciprocal d maximum)) (trials ++ [last]) =
+    Except.ok writes
+hc :
+  executeNativeTrials b d a alloc p (trials ++ [last]) (hostPhysical d p maximum (b.reciprocal d maximum)) =
+    Except.ok (applyNativeWrites writes (hostPhysical d p maximum (b.reciprocal d maximum)))
+⊢ (match
+      if 2147483648 ≤ gridM a.M * gridN a.N then do
+        throw { stage := Stage.gridParse, reason := Rejection.gridLimit (gridM a.M * gridN a.N) }
+        Except.ok ()
+      else Except.ok () with
+    | Except.error issue => Except.error (NativeDiagnostic.setup issue)
+    | Except.ok PUnit.unit =>
+      Except.ok
+        { memory := applyNativeWrites writes (hostPhysical d p maximum (b.reciprocal d maximum)),
+          tensors := (outputTensor a alloc, maximumTensor d a alloc) }) =
+    Except.ok
+      { memory := applyNativeWrites writes (hostPhysical d p maximum (b.reciprocal d maximum)),
+        tensors := (outputTensor a alloc, maximumTensor d a alloc) }
+QuantTransposeFinite.NativeResult: definition does not reference [QuantTransposeFinite.executeNativeAPI,
+ QuantTransposeFinite.executeNativeHost,
+ QuantTransposeFinite.executeNativeTrials,
+ QuantTransposeFinite.executeNativeGrid,
+ QuantTransposeFinite.executeNativeProgram,
+ QuantTransposeFinite.source,
+ QuantTransposeFinite.Expr.eval] — non-circular ✓
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeHost.lean:215:0: error: QuantTransposeFinite.native_host_all_outcomes: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+QuantTransposeFinite.native_admitted_route: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+QuantTransposeFinite.native_grid_rejection: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+QuantTransposeFinite.native_small_dtype_inventory: axiom footprint ⊆ standard base ✓  ([propext])
+QuantTransposeFinite.native_grid_before_pointer: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+QuantTransposeFinite.cpu_oversized_grid_first_error: axiom footprint ⊆ standard base ✓  ([propext])
+QuantTransposeFinite.cpu_small_grid_pointer_error: axiom footprint ⊆ standard base ✓  ([propext])
+QuantTransposeFinite.cpu_half_compilation_before_oversized_grid: axiom footprint ⊆ standard base ✓  ([propext])
+QuantTransposeFinite.native_rejected_source_outcome: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+
+{
+  "source": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeHost.lean",
+  "source_sha256": "84d3b34447473d4e1eea97c67a6c102d7692ed0a0246a6a09665aba23a10ca28",
+  "source_unchanged": true,
+  "command": [
+    "/tmp/veritile-lean-toolchain/bin/lean",
+    "--root=/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip",
+    "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeHost.lean",
+    "-o",
+    "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeHost.olean"
+  ],
+  "LEAN_PATH": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean",
+  "exit_code": 1,
+  "seconds": 5.203,
+  "log": "evidence/attempts/0080-FiniteNativeHost.log",
+  "log_sha256": "07bec330b59c356ce4aabe5dbf3651ebf6b5089f0afa5ce91ca6618a454e98c6"
+}

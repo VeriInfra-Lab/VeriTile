@@ -1,0 +1,15 @@
+{
+  "module": "VectorFinite/Routes.lean",
+  "command": [
+    "/tmp/veritile-lean-toolchain/bin/lean",
+    "--root=/tmp/veritile-standardization-20261015/vector-finite-acceptance-wip",
+    "/tmp/veritile-standardization-20261015/vector-finite-acceptance-wip/VectorFinite/Routes.lean",
+    "-o",
+    "/tmp/veritile-standardization-20261015/vector-finite-acceptance-wip/VectorFinite/Routes.olean"
+  ],
+  "exit_code": 1,
+  "seconds": 4.852242054184899,
+  "source_sha256": "26ee82d1d77c92a17e92877cdac530bf662d2aa36ba7bda3cd0b541221b002fa",
+  "log_sha256": "f7f7635c644d094128887b1f1cc43879c1b16ea7414fac7759048243f063e6ce",
+  "LEAN_PATH": "/tmp/veritile-standardization-20261015/vector-finite-acceptance-wip:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean"
+}

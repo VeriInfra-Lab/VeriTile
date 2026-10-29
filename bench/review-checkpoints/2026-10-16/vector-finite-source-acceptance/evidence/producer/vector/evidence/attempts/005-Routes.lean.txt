@@ -1,0 +1,101 @@
+import VectorFinite.Memory
+
+namespace VeriTile.Bench.TritonBenchG.VectorAddition.Finite
+open VeriTile.Triton FP.Structural TypedHost
+open ValueProofs (Parameters)
+noncomputable section
+set_option maxHeartbeats 6000000
+set_option maxRecDepth 24000
+local instance : Inhabited Word := ⟨FP.Value.zero .fp32⟩
+
+/-- The same external carriers as the selected existing source interpreter. -/
+def Carrier : Route → Type
+  | .wide _ _ => Option FP64Memory.Cell
+  | _ => Cell Word
+
+def logicalRead {σ : Type} (r : Route) (s : World σ) (region : RegionName) (i : Nat) : Carrier r :=
+  match r with
+  | .wide _ _ => s.native.wide region.name i
+  | .integer _ _ => s.kernel.mem region i
+  | .floating _ _ => s.kernel.mem region i
+  | .mixed32 _ _ => s.kernel.mem region i
+  | .mixedSmall _ _ _ => s.kernel.mem region i
+
+private def localParameters : Parameters := ⟨⟨"x"⟩,⟨"y"⟩,⟨"output"⟩,1,1024⟩
+private def operands (a c : Cell Word) : RegionName → Nat → Cell Word :=
+  fun region _ ↦ if region=localParameters.x then a else c
+
+/-- Concrete source scalar computation for every admitted route. This does not
+accept a result oracle: all promotions, additions and storage conversions are
+the functions already proved against each route's actual source statements. -/
+def scalarSource (b : Numerics) : (r : Route) → Carrier r → Carrier r → Carrier r
+  | .integer x y,a,c => IntegerSource.resultCell x.storage y.storage localParameters (operands a c) 0
+  | .floating x y,a,c => TypedFloat.resultCell b.rest x.dtype y.dtype (TypedFloat.promote x y).dtype
+      localParameters (operands a c) 0
+  | .mixed32 first d,a,c => MixedFP32.resultCell b.cfg b.undefinedSigned b.undefinedUnsigned first d.storage
+      localParameters (operands a c) 0
+  | .mixedSmall f first d,a,c => MixedSmall.resultCell b.cfg f b.undefinedSigned b.undefinedUnsigned first d.storage
+      localParameters (operands a c) 0
+  | .wide x y,a,c => do
+      let av ← FP64Memory.readCell x a
+      let cv ← FP64Memory.readCell y c
+      let v ← FP64TypedCore.result b.wide x y av cv
+      pure (FP64Memory.Cell.mk x v)
+
+/-- Independent initial-memory formula, using the exact route result cells. -/
+def sourceCell {σ : Type} (b : Numerics) (r : Route) (p : Parameters) (s : World σ) (i : Nat) : Carrier r :=
+  match r with
+  | .integer x y => IntegerSource.resultCell x.storage y.storage p s.kernel.mem i
+  | .floating x y => TypedFloat.resultCell b.rest x.dtype y.dtype (TypedFloat.promote x y).dtype p s.kernel.mem i
+  | .mixed32 first d => MixedFP32.resultCell b.cfg b.undefinedSigned b.undefinedUnsigned first d.storage p s.kernel.mem i
+  | .mixedSmall f first d => MixedSmall.resultCell b.cfg f b.undefinedSigned b.undefinedUnsigned first d.storage p s.kernel.mem i
+  | .wide x y => do
+      let a ← FP64Memory.readCell x (s.native.wide p.x.name i)
+      let c ← FP64Memory.readCell y (s.native.wide p.y.name i)
+      let v ← FP64TypedCore.result b.wide x y a c
+      pure (FP64Memory.Cell.mk x v)
+
+theorem sourceCell_scalar {σ : Type} (b : Numerics) (r : Route) (p : Parameters) (s : World σ) (i : Nat) :
+    sourceCell b r p s i=scalarSource b r (logicalRead r s p.x i) (logicalRead r s p.y i) := by
+  cases r <;> simp [sourceCell,scalarSource,logicalRead,IntegerSource.resultCell,TypedFloat.resultCell,
+    MixedFP32.resultCell,MixedFP32.sumValue,MixedSmall.resultCell,MixedSmall.sumValue,operands,localParameters]
+
+theorem output_cell_of_project {σ : Type} (b : Numerics) (r : Route) (p : Parameters) (s t : World σ)
+    (formula : project r t=expected b r p s) (i : Nat) (hi : i<p.n) :
+    logicalRead r t p.output i=sourceCell b r p s i := by
+  cases r <;> simp only [project,expected,ExternalMemory.shared.injEq,ExternalMemory.wide.injEq] at formula
+  all_goals simp [logicalRead,formula,IntegerSource.gridExpectedMemory,TypedValueCorrect.spec,
+    MixedFP32.gridExpectedMemory,MixedSmall.gridExpectedMemory,wideExpected,sourceCell,hi]
+
+/-- Input views are interpreted at actual storage-offset addresses. Input
+views may overlap each other, including views of the same backing allocation. -/
+def InputsRelation {M σ : Type} (r : Route) (ops : MemoryPrimitives M (Carrier r))
+    (p : Parameters) (s : World σ) (physical : M) (x y : View) : Prop :=
+  ∀ i, i<p.n → readView ops physical x i=logicalRead r s p.x i ∧
+    readView ops physical y i=logicalRead r s p.y i
+
+theorem physical_output_matches {M σ : Type} (b : Numerics) (r : Route)
+    (ops : MemoryPrimitives M (Carrier r)) (p : Parameters) (s t : World σ)
+    (physical : M) (x y output : View)
+    (hx : x.Valid p.n (rounded p.n)) (hy : y.Valid p.n (rounded p.n))
+    (ho : output.Valid p.n (rounded p.n))
+    (dx : StorageDisjoint output x) (dy : StorageDisjoint output y)
+    (inputs : InputsRelation r ops p s physical x y)
+    (formula : project r t=expected b r p s) :
+    ∀ i, i<p.n → readView ops
+      (runLive ops (scalarSource b r) x y output (activeLanes p.n) physical) output i=
+      logicalRead r t p.output i := by
+  rw [source_load_all_store_correspondence ops (scalarSource b r) x y output p.n physical
+    (activeLanes p.n) (fun i h ↦ (mem_activeLanes p.n i).1 h) hx hy ho dx dy]
+  intro i hi
+  rw [loaded_output,if_pos ((mem_activeLanes p.n i).2 hi),(inputs i hi).1,(inputs i hi).2]
+  exact (sourceCell_scalar b r p s i).symm.trans (output_cell_of_project b r p s t formula i hi).symm
+
+#specNonCircular sourceCell avoiding [execute,runLive,runLoaded]
+#axiomsClean sourceCell_scalar
+#axiomsClean output_cell_of_project
+#axiomsClean physical_output_matches
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end
+end VeriTile.Bench.TritonBenchG.VectorAddition.Finite

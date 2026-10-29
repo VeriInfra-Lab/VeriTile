@@ -1,0 +1,18 @@
+{
+  "kind": "actual_isolated_staged_whitespace_check",
+  "exit_code": 0,
+  "command": [
+    "git",
+    "diff",
+    "--cached",
+    "--check"
+  ],
+  "source_sha256": {
+    "bench/tritonbench_g/vector_addition/Proofs/PointwiseSchedule.lean": "b2b8db86a0bbe3c22f5dd54b934566b4048b9380e522851371c463d9bceb164b",
+    "bench/tritonbench_g/vector_addition/Proofs/ValueSchedules.lean": "ccad8e919c55ac563210904ce0f5c5107ac574c365e6d4222aaf4d6c432205c7",
+    "bench/tritonbench_g/vector_addition/ValueScheduleCorrect.lean": "9e76424a0d61cc42bc093f1cdfb5a865e0f6c0aff522e3a0227641974701b116"
+  },
+  "temporary_index_root": "/tmp/veritile-pointwise-whitespace-k7cclxis",
+  "stdout": "",
+  "stderr": ""
+}

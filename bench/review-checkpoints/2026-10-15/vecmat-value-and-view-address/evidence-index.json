@@ -1,0 +1,192 @@
+{
+  "schema": 1,
+  "kind": "compact_vecmat_value_and_view_address_evidence",
+  "retained_exact_artifacts": {
+    "batched_value_host/independent-review.json": {
+      "path": "evidence/batched_value_host/independent-review.json",
+      "sha256": "f10d5ede95bc3381a95bf249714858db72160e90c191abee16d917d97ce2e8b0",
+      "producer_path": "/tmp/veritile-standardization-20261015/batched-vecmat-independent-review.json"
+    },
+    "batched_output_bounds/independent-review.json": {
+      "path": "evidence/batched_output_bounds/independent-review.json",
+      "sha256": "574d8d608c52db5a3d375716192601551330e5e9b0e6dee1827edf9837571074",
+      "producer_path": "/tmp/veritile-standardization-20261015/batched-vecmat-output-independent-review.json"
+    },
+    "kcache_view/independent-review.json": {
+      "path": "evidence/kcache_view/independent-review.json",
+      "sha256": "3a5d8f14c2ec3666eec3a1ac70e00ab52f3ec59033c31d3b43b38eb2c395b605",
+      "producer_path": "/tmp/veritile-standardization-20261015/kcache-view-independent-review.json"
+    },
+    "batched_value_host/HostAccess.log": {
+      "path": "evidence/batched_value_host/HostAccess.log",
+      "sha256": "b5c62494e127946023f6263c0857f4d27ca3d3f6cfd114641e154770347c112b",
+      "producer_path": "/tmp/veritile-standardization-20261015/batched-vecmat-wip/evidence/HostAccess.log"
+    },
+    "batched_value_host/HostCorrect.log": {
+      "path": "evidence/batched_value_host/HostCorrect.log",
+      "sha256": "8a0fe1ce477581afdc83ad11af6c805b37c7641cd078beaeb0037cce53617b98",
+      "producer_path": "/tmp/veritile-standardization-20261015/batched-vecmat-wip/evidence/HostCorrect.log"
+    },
+    "batched_value_host/HostGrid.log": {
+      "path": "evidence/batched_value_host/HostGrid.log",
+      "sha256": "0530f06f48994b74e1b54c5823188edba80fc64751338145778c39128d94e35e",
+      "producer_path": "/tmp/veritile-standardization-20261015/batched-vecmat-wip/evidence/HostGrid.log"
+    },
+    "batched_value_host/HostPrepare.log": {
+      "path": "evidence/batched_value_host/HostPrepare.log",
+      "sha256": "752f6fed9d2b6b5521d7a4cec17db94d4fd99f49ee03f64f68cf09c470b08966",
+      "producer_path": "/tmp/veritile-standardization-20261015/batched-vecmat-wip/evidence/HostPrepare.log"
+    },
+    "batched_value_host/ValueComplete.log": {
+      "path": "evidence/batched_value_host/ValueComplete.log",
+      "sha256": "c27c63446ff9ecb8e1f1961de638c1024e1621735440a81a88bc525b9ca6ecbb",
+      "producer_path": "/tmp/veritile-standardization-20261015/batched-vecmat-wip/evidence/ValueComplete.log"
+    },
+    "batched_value_host/ValueCorrect.log": {
+      "path": "evidence/batched_value_host/ValueCorrect.log",
+      "sha256": "4c5b2c9b3e6f4332e31d19ce625ee00e1db371814827b6d467ba6e6c49a2c60a",
+      "producer_path": "/tmp/veritile-standardization-20261015/batched-vecmat-wip/evidence/ValueCorrect.log"
+    },
+    "batched_value_host/ValueExecution.log": {
+      "path": "evidence/batched_value_host/ValueExecution.log",
+      "sha256": "3acc47d7f1c5db0b8bbc7018405f35487323852ae329ea51970d0f7828f963a7",
+      "producer_path": "/tmp/veritile-standardization-20261015/batched-vecmat-wip/evidence/ValueExecution.log"
+    },
+    "batched_value_host/ValueModel.log": {
+      "path": "evidence/batched_value_host/ValueModel.log",
+      "sha256": "cf5b3c58629af9b7d4d7b60d2bedcdf8e8dff91a98ba6a4defa531a1680bd090",
+      "producer_path": "/tmp/veritile-standardization-20261015/batched-vecmat-wip/evidence/ValueModel.log"
+    },
+    "batched_value_host/full-value-host-receipt.json": {
+      "path": "evidence/batched_value_host/full-value-host-receipt.json",
+      "sha256": "11e20cdd8e7447d893d8b2219d138b360af3c9484d642a131a1cb85d05ff1c53",
+      "producer_path": "/tmp/veritile-standardization-20261015/batched-vecmat-wip/evidence/full-value-host-receipt.json"
+    },
+    "batched_value_host/lean-checks.json": {
+      "path": "evidence/batched_value_host/lean-checks.json",
+      "sha256": "a9e3229c8ebcd3354a00a01ef8d21cc0dd9bf1cf478f6a954438f593a1614140",
+      "producer_path": "/tmp/veritile-standardization-20261015/batched-vecmat-wip/evidence/lean-checks.json"
+    },
+    "batched_value_host/source-freeze.json": {
+      "path": "evidence/batched_value_host/source-freeze.json",
+      "sha256": "2bd9fe0959f403899de11e892807f69e73e0704b4497a2e3f43fc68f1d78d424",
+      "producer_path": "/tmp/veritile-standardization-20261015/batched-vecmat-wip/evidence/source-freeze.json"
+    },
+    "batched_value_host/source-wrapper-probe.json": {
+      "path": "evidence/batched_value_host/source-wrapper-probe.json",
+      "sha256": "07b1206b3f68c6297708007e387a0be1f038f1fc912dbde84767dae885cef0fb",
+      "producer_path": "/tmp/veritile-standardization-20261015/batched-vecmat-wip/evidence/source-wrapper-probe.json"
+    },
+    "batched_value_host/source-wrapper-probe.log": {
+      "path": "evidence/batched_value_host/source-wrapper-probe.log",
+      "sha256": "6b457bc33620bdcf468653df7d40c5579f93a6cf8a08ff3891365f8abf694807",
+      "producer_path": "/tmp/veritile-standardization-20261015/batched-vecmat-wip/evidence/source-wrapper-probe.log"
+    },
+    "batched_value_host/source_wrapper_probe.py": {
+      "path": "evidence/batched_value_host/source_wrapper_probe.py",
+      "sha256": "d7bf36cf8c1eeae48629b4e923e30704a6755997ce021a7564922990e9e2918a",
+      "producer_path": "/tmp/veritile-standardization-20261015/batched-vecmat-wip/evidence/source_wrapper_probe.py"
+    },
+    "batched_value_host/producer-catalog-proposal.json": {
+      "path": "evidence/batched_value_host/producer-catalog-proposal.json",
+      "sha256": "66ec8636c1348f606abc37bf44f023de168526682a35b2d4339b0a5a67f1396a",
+      "producer_path": "/tmp/veritile-standardization-20261015/batched-vecmat-wip/catalog-supplement-task.json"
+    },
+    "batched_value_host/producer-README.md": {
+      "path": "evidence/batched_value_host/producer-README.md",
+      "sha256": "9a71988a72638b80749e329a687f714732f2a9498ba0556b26a7cca3c8f28755",
+      "producer_path": "/tmp/veritile-standardization-20261015/batched-vecmat-wip/README.md"
+    },
+    "batched_output_bounds/receipt.json": {
+      "path": "evidence/batched_output_bounds/receipt.json",
+      "sha256": "0e53af78ef99fa40ddbfae52c032deca2c32798e5bc46c42f2e190a7516de77a",
+      "producer_path": "/tmp/veritile-standardization-20261015/batched-vecmat-output-wip/receipt.json"
+    },
+    "batched_output_bounds/compile-final.log": {
+      "path": "evidence/batched_output_bounds/compile-final.log",
+      "sha256": "e7662c9e4c8364f68af80c87967479cd84b87f3e3be5e6a32186db515948e6a8",
+      "producer_path": "/tmp/veritile-standardization-20261015/batched-vecmat-output-wip/compile-final.log"
+    },
+    "kcache_view/HostView.compile.log": {
+      "path": "evidence/kcache_view/HostView.compile.log",
+      "sha256": "8003230f87b0c9831dd6300db3122860378637d73aa4fab7a401d5ca88c3110c",
+      "producer_path": "/tmp/veritile-standardization-20261015/kcache-view-wip/evidence/HostView.compile.log"
+    },
+    "kcache_view/HostViewCases.compile.log": {
+      "path": "evidence/kcache_view/HostViewCases.compile.log",
+      "sha256": "2531c75c822e0a6bb332515a23cbbdb9e273f1160a8fca5f10c4f0e0f05601d8",
+      "producer_path": "/tmp/veritile-standardization-20261015/kcache-view-wip/evidence/HostViewCases.compile.log"
+    },
+    "kcache_view/HostViewShape.compile.log": {
+      "path": "evidence/kcache_view/HostViewShape.compile.log",
+      "sha256": "d89c271d2d7ffe0c18e82ac1950407c0644f5a0ce8e5808bd635205e886f9d84",
+      "producer_path": "/tmp/veritile-standardization-20261015/kcache-view-wip/evidence/HostViewShape.compile.log"
+    },
+    "kcache_view/freeze_receipt.py": {
+      "path": "evidence/kcache_view/freeze_receipt.py",
+      "sha256": "b309cd5f560aaeb1392fb34153295583d2947bd50887061c2ee61a354318fac9",
+      "producer_path": "/tmp/veritile-standardization-20261015/kcache-view-wip/evidence/freeze_receipt.py"
+    },
+    "kcache_view/verification-results.json": {
+      "path": "evidence/kcache_view/verification-results.json",
+      "sha256": "93466681b4dc0bece01ac9a9869dc8b0cd84810fbc844cc2c914d6f513f5e304",
+      "producer_path": "/tmp/veritile-standardization-20261015/kcache-view-wip/evidence/verification-results.json"
+    },
+    "kcache_view/verify_view.py": {
+      "path": "evidence/kcache_view/verify_view.py",
+      "sha256": "451da5554123ff97c27bd2a8dedaa04854410b5b678b35ce47a5850acc4d658b",
+      "producer_path": "/tmp/veritile-standardization-20261015/kcache-view-wip/evidence/verify_view.py"
+    },
+    "kcache_view/view-address-receipt.json": {
+      "path": "evidence/kcache_view/view-address-receipt.json",
+      "sha256": "5aa239b77ca9478d86768722133a3bbc8a14c4c7eacf818312488e040a4e0b8f",
+      "producer_path": "/tmp/veritile-standardization-20261015/kcache-view-wip/evidence/view-address-receipt.json"
+    },
+    "kcache_view/generate_view_cases.py": {
+      "path": "evidence/kcache_view/generate_view_cases.py",
+      "sha256": "e34a7c7ab60b379e589c501825d1f5c1580e964035eff14e16f789f5ad082fee",
+      "producer_path": "/tmp/veritile-standardization-20261015/kcache-view-wip/generate_view_cases.py"
+    },
+    "kcache_view/independent/verification-results.json": {
+      "path": "evidence/kcache_view/independent/verification-results.json",
+      "sha256": "759ae022cf138f730152c9d274ca9e72fb2d302d88a38121f940f257ecebb303",
+      "producer_path": "/tmp/veritile-standardization-20261015/kcache-view-independent-check/verification-results.json"
+    },
+    "kcache_view/independent/HostViewShape.log": {
+      "path": "evidence/kcache_view/independent/HostViewShape.log",
+      "sha256": "d89c271d2d7ffe0c18e82ac1950407c0644f5a0ce8e5808bd635205e886f9d84",
+      "producer_path": "/tmp/veritile-standardization-20261015/kcache-view-independent-check/HostViewShape.log"
+    },
+    "kcache_view/independent/HostViewCases.log": {
+      "path": "evidence/kcache_view/independent/HostViewCases.log",
+      "sha256": "2531c75c822e0a6bb332515a23cbbdb9e273f1160a8fca5f10c4f0e0f05601d8",
+      "producer_path": "/tmp/veritile-standardization-20261015/kcache-view-independent-check/HostViewCases.log"
+    },
+    "kcache_view/independent/HostView.log": {
+      "path": "evidence/kcache_view/independent/HostView.log",
+      "sha256": "8003230f87b0c9831dd6300db3122860378637d73aa4fab7a401d5ca88c3110c",
+      "producer_path": "/tmp/veritile-standardization-20261015/kcache-view-independent-check/HostView.log"
+    }
+  },
+  "new_source_sha256": {
+    "bench/tritonbench_g/batched_vecmat_mult/HostCorrect.lean": "ddc4e7c5a86ecf10e0a3c1412969dc19c2d827a3007f1c8a2e570f7da05518e2",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/HostAccess.lean": "1a7325672edbfdb8a3cd0fcb0c229593c9d39b75af971d3a2d9f907029ba98ca",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/HostGrid.lean": "f4217abfa7b184c0f18c9430eff3494532a005dccf48af09d602df8b42037cd9",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/HostPrepare.lean": "6e7e084367dc595791ed8c95aa0d36afd6f357fe3f19444fcb214a1bb8f120ca",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/ValueComplete.lean": "543849bdc43c78f436039ccfa2adcb935cbb1a4679be20b04ec223eec14b8016",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/ValueExecution.lean": "9a16709f65318c1d6a76b01a47d799bb34bbf933598e2df16bf4e27b9bc96fd6",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/ValueModel.lean": "ce5596fd79d858ec50d90d392e9495bbf3e08abbd18f21090e06bce6eb633095",
+    "bench/tritonbench_g/batched_vecmat_mult/ValueCorrect.lean": "6a57a65ed9b89aeb6bb0b18221e428c1659698195f3b48b32ff9597185a045e9",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/HostOutputBounds.lean": "54e1e443bf535e907ee8886c47db491c3434b232e48cb2c593783db07a4ed081",
+    "bench/tritonbench_g/kcache_copy_triton/Proofs/HostViewShape.lean": "5b0871a71daf98befc9b4272875a97663d12caaef9a19afd7816df64f67f4e15",
+    "bench/tritonbench_g/kcache_copy_triton/Proofs/HostViewCases.lean": "eeef2db2e15b4f24250d0a446606da8edac0737c06fcae3eddba0695526a6d3a",
+    "bench/tritonbench_g/kcache_copy_triton/Proofs/HostView.lean": "e589a93008303c43d767ba16b7ca15a83975ecbf35dafc5f2ea464dce8cf5ed5"
+  },
+  "raw_receipt_path_policy": "Immutable producer receipts retain temporary paths and pre-review status. This index maps their exact bytes to retained artifacts. No .olean, dependency symlink or draft is retained.",
+  "metadata_baseline_reused": "bench/review-checkpoints/2026-10-15/original-scope-extensions/metadata-baseline",
+  "whole_task_acceptance": {
+    "accepted": 0,
+    "requested": 183
+  },
+  "integration_build_or_global_audit_claimed": false
+}

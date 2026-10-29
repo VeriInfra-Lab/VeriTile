@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.RotaryTransformOps.Stage2Probe.execution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.RotaryTransformOps.Stage2Probe.indices: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

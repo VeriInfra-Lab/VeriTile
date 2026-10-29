@@ -1,0 +1,38 @@
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform_ops/Proofs/TypedControl.lean:63:32: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  a - b + c ≥ 0
+where
+ a := ↑(initial.pids 0) * ↑s.blockM
+ b := Cell.read TileDType.int (initial.mem { name := "cu" } (initial.pids 1 + 1))
+ c := Cell.read TileDType.int (initial.mem { name := "cu" } (initial.pids 1))
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform_ops/Proofs/TypedControl.lean:63:32: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  a - b - c ≥ 1
+where
+ a := Cell.read TileDType.int (initial.mem { name := "cu" } (initial.pids 1 + 1))
+ b := Cell.read TileDType.int (initial.mem { name := "cu" } (initial.pids 1))
+ c := ↑(initial.pids 0) * ↑s.blockM
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform_ops/Proofs/TypedControl.lean:63:32: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  b ≥ 0
+  a - b ≥ 0
+where
+ a := ↑(initial.pids 0) * ↑s.blockM
+ b := ↑s.maximum
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform_ops/Proofs/TypedControl.lean:63:32: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  a ≥ 0
+  a - b ≥ 1
+where
+ a := ↑s.maximum
+ b := ↑(initial.pids 0) * ↑s.blockM
+VeriTile.Bench.Repairs.RotaryTransformOps.TypedExecution.kernel_carrier: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.RotaryTransformOps.TypedExecution.continuation_tail: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform_ops/Proofs/TypedControl.lean:71:0: error: VeriTile.Bench.Repairs.RotaryTransformOps.TypedExecution.guard_eval: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.Repairs.RotaryTransformOps.TypedExecution.setup_mem: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

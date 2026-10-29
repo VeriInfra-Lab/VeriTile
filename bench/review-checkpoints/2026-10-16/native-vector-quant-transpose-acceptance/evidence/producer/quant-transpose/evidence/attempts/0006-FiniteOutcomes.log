@@ -1,0 +1,6 @@
+QuantTransposeFinite.lanes_outcome: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantTransposeFinite.grid_outcome: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantTransposeFinite.trials_outcome: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantTransposeFinite.quant_transpose_all_finite_value_outcomes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

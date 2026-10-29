@@ -1,0 +1,578 @@
+{
+  "schema": 1,
+  "kind": "versioned_evidence_package_index",
+  "evidence_root": "bench/review-checkpoints",
+  "source_index": {
+    "path": "bench/review-checkpoints/2026-10-15/raw-copy-software-metadata/evidence-package-index.json",
+    "sha256": "cc72c4c4ed7c044b2c918206ca19a2e6977e2d64699ff69d7b98daed6ce449dd"
+  },
+  "packages": [
+    {
+      "package": "attention-aligned-value",
+      "receipt": "2026-10-14/next-value-repair/attention-aligned-value/receipt.json",
+      "receipt_sha256": "9ccce5c4be20b2d1870c51d5f4c7ce538117325183b3225c24035ae51517c128",
+      "root_review": "2026-10-14/next-value-repair/attention-aligned-value/root-review.json",
+      "root_review_sha256": "89d00bcadf66eacfdc995d062d6d84b6ed49d99b714178d1e0223e2be360ec5b",
+      "review_status": "complete_original_accepted_fp16_source_backend_value_review_pass_pending_integration",
+      "review_binding_matches": true
+    },
+    {
+      "package": "ci-expected-compat",
+      "receipt": "2026-10-14/next-value-repair/ci-expected-compat/receipt.json",
+      "receipt_sha256": "055f9d8118a5f391ce7ab74238f49d431edc59109a3103d0bf7801d1a65745da",
+      "root_review": "2026-10-14/next-value-repair/ci-expected-compat/root-review.json",
+      "root_review_sha256": "09eb22afb02bad22e8d390f2af219e7623dc79c9998ccf9f4755d80052108a4b",
+      "review_status": "root_review_pass_four_auxiliary_CI_assertion_updates",
+      "review_binding_matches": true
+    },
+    {
+      "package": "combined-frontend-consumers",
+      "receipt": "2026-10-14/next-value-repair/combined-frontend-consumers/receipt.json",
+      "receipt_sha256": "6caed076bdc08a121d119acc967cf8c79e9ef0a1a0c572726b8d145a9b8b464e",
+      "root_review": "2026-10-14/next-value-repair/combined-frontend-consumers/root-review.json",
+      "root_review_sha256": "9444402cf65afd4675ced979e44bc11fca3e994b9ee067dd0c830960ff80d141",
+      "review_status": "targeted_combined_frontend_and_consumer_review_pass",
+      "review_binding_matches": true
+    },
+    {
+      "package": "conv2d-contracts",
+      "receipt": "2026-10-14/next-value-repair/conv2d-contracts/receipt.json",
+      "receipt_sha256": "3535efe5d1674a075525a987da3857bd757cbb46f489cfc6107b5755cded8558",
+      "root_review": "2026-10-14/next-value-repair/conv2d-contracts/root-review.json",
+      "root_review_sha256": "c8bef12ea7bafe924adbb248723385aa39826877aeec34b603da38b5e1e2ba77",
+      "review_status": "pass_scope_and_value_review",
+      "review_binding_matches": true
+    },
+    {
+      "package": "current-source-adapters",
+      "receipt": "2026-10-14/next-value-repair/current-source-adapters/receipt.json",
+      "receipt_sha256": "2de284da4fe35e3579cc6e8ff77a9e5fb24312d49857cd12ae4cd4df188b2a7a",
+      "root_review": "2026-10-14/next-value-repair/current-source-adapters/root-review.json",
+      "root_review_sha256": "f25e9b25fb2d3ec22083fe17ed49e43185ffecb2b531f09ce3e4e8cb2fe456f3",
+      "review_status": "canonical_source_build_and_gate_adapter_installation_review_pass_final_snapshot_pending",
+      "review_binding_matches": true
+    },
+    {
+      "package": "current-source-adapters-v2",
+      "receipt": "2026-10-14/next-value-repair/current-source-adapters-v2/receipt.json",
+      "receipt_sha256": "4890c438bf466bf9084d72929e3fbc518ec2899ca832eda7fdd50d23e686a53a",
+      "root_review": "2026-10-14/next-value-repair/current-source-adapters-v2/root-review.json",
+      "root_review_sha256": "10e472cd73b3f5f1075c82047a3183c1724597f1653b21f85acbe1ee97da23e7",
+      "review_status": "canonical_source_build_and_gate_adapter_installation_review_pass_final_snapshot_pending",
+      "review_binding_matches": true
+    },
+    {
+      "package": "flash-stages",
+      "receipt": "2026-10-14/next-value-repair/flash-stages/receipt.json",
+      "receipt_sha256": "142c3e4dfcc99a0a33d8f05c1bbd7924f8a4ae6114b3a275ab519b3d94a8b708",
+      "root_review": "2026-10-14/next-value-repair/flash-stages/root-review.json",
+      "root_review_sha256": "27cc18176eb1431c3a8f65002666f1f585f063ec998de11d07dabaea06b94a67",
+      "review_status": "frozen_value_scope_and_evidence_review_pass_pending_unified_integration",
+      "review_binding_matches": true
+    },
+    {
+      "package": "fp4-scaled",
+      "receipt": "2026-10-14/next-value-repair/fp4-scaled/receipt.json",
+      "receipt_sha256": "f5e700c1ced40b0e00bdb64144bf442d5bd8d0e8b5043dca1f76a48e8e4e0aa2",
+      "root_review": "2026-10-14/next-value-repair/fp4-scaled/root-review.json",
+      "root_review_sha256": "a59ed565bae8d7fd2806a98f64914c22e3474cc1c9f7f72bb8a0d017969b6afa",
+      "review_status": "artifact_and_scope_review_pass_pending_integration",
+      "review_binding_matches": true
+    },
+    {
+      "package": "fp4-scaled-int16-bridge",
+      "receipt": "2026-10-14/next-value-repair/fp4-scaled-int16-bridge/receipt.json",
+      "receipt_sha256": "56f578a45396e5d3c47e93a46f3a756b2add3bfc5ba0c3a71017f3f56c614c7b",
+      "root_review": "2026-10-14/next-value-repair/fp4-scaled-int16-bridge/root-review.json",
+      "root_review_sha256": "337b0314ac391112cd67e9f5c0fd3952a2e6872f836acc9cbdad376cd5676fc8",
+      "review_status": "exact_parsed_candidate_int16_bridge_review_pass_pending_integration",
+      "review_binding_matches": true
+    },
+    {
+      "package": "fp4-unscaled",
+      "receipt": "2026-10-14/next-value-repair/fp4-unscaled/receipt.json",
+      "receipt_sha256": "06a4f21da717b4cfa0bb69f66c8e525177d28e974c6e5ebe0f7ca3037615b4a8",
+      "root_review": "2026-10-14/next-value-repair/fp4-unscaled/root-review.json",
+      "root_review_sha256": "a9cf598065f0489e3def4ef95b9b031d61e2a749655e990f61c55eb31d46e700",
+      "review_status": "artifact_and_scope_review_pass_pending_integration",
+      "review_binding_matches": true
+    },
+    {
+      "package": "int16-frontend",
+      "receipt": "2026-10-14/next-value-repair/int16-frontend/receipt.json",
+      "receipt_sha256": "c4022917d5c40ec0971ffa3dcd5c6b6777ff01ccaba5deb9a219f65c540e960e",
+      "root_review": "2026-10-14/next-value-repair/int16-frontend/root-review.json",
+      "root_review_sha256": "151b92de40b1c5f6aefcfe7212e84b8b04c553cbc4429cdf9f201ffb1874e4e0",
+      "review_status": "reviewed_private_explicit_int16_cast_fix",
+      "review_binding_matches": true
+    },
+    {
+      "package": "int32-consumer-audit",
+      "receipt": "2026-10-14/next-value-repair/int32-consumer-audit/receipt.json",
+      "receipt_sha256": "aa2d393e2fa7afd42e99b84fa3abe4cfc9bf7bea70ff59bb261bbedbf02bf4ea",
+      "root_review": "2026-10-14/next-value-repair/int32-consumer-audit/root-review.json",
+      "root_review_sha256": "7c7ea7bd2f43dc047cefce88ae11391be679e7d8a9547fe38acbe1b3e8278adb",
+      "review_status": "reviewed_with_explicit_unclosed_boundaries",
+      "review_binding_matches": true
+    },
+    {
+      "package": "integration-build-audit",
+      "receipt": "2026-10-14/next-value-repair/integration-build-audit/receipt.json",
+      "receipt_sha256": "2dac581b5e894df19ec2cb3a5e04cb9890617feb37d2999d97fe20281f5d3eb8",
+      "root_review": "2026-10-14/next-value-repair/integration-build-audit/root-review.json",
+      "root_review_sha256": "9501926b8ae1a9cd13ff02e3ad7ce1808ca75a3c93983ea5e0a53ca8e576941f",
+      "review_status": "registered_eight_library_scope_and_minimal_runner_guard_review_pass_pending_phase3_application",
+      "review_binding_matches": true
+    },
+    {
+      "package": "isfinite-bitcast-compat",
+      "receipt": "2026-10-14/next-value-repair/isfinite-bitcast-compat/receipt.json",
+      "receipt_sha256": "369a3d93d0dc27b20f3ec28480eae035ea491d2d059017bd965f8978b14ffd59",
+      "root_review": "2026-10-14/next-value-repair/isfinite-bitcast-compat/root-review.json",
+      "root_review_sha256": "be1dc3b981601e4ec6389e5cf4eb2118a8020fa2107c1f99583d97c924a440f2",
+      "review_status": "internal_bitcast_relocation_compatibility_review_pass_public_scope_unchanged_pending_integration",
+      "review_binding_matches": true
+    },
+    {
+      "package": "iv-dependent-matmul",
+      "receipt": "2026-10-14/next-value-repair/iv-dependent-matmul/receipt.json",
+      "receipt_sha256": "68840f07882bd0093e6cf0243091df96e15488a1cd5382ffaceba6357baf66ef",
+      "root_review": "2026-10-14/next-value-repair/iv-dependent-matmul/root-review.json",
+      "root_review_sha256": "38ae1d7f7fb9b82b1e16030b168922ea160d23679b4789a4b765958de83e27f0",
+      "review_status": "complete_accepted_pre_load_source_and_compiled_graph_review_pass_pending_integration",
+      "review_binding_matches": true
+    },
+    {
+      "package": "layer-norm-ops",
+      "receipt": "2026-10-14/next-value-repair/layer-norm-ops/receipt.json",
+      "receipt_sha256": "f88277d441625a19f3219287f19d5cc1131246155d9169997bf88294fd8fae29",
+      "root_review": "2026-10-14/next-value-repair/layer-norm-ops/root-review.json",
+      "root_review_sha256": "2a22c5182e3bbed6df5418dbc378cf40b47819f5a41854b671ddafa7c3c08dd3",
+      "review_status": "pass_scope_and_value_review",
+      "review_binding_matches": true
+    },
+    {
+      "package": "layernorm-contracts",
+      "receipt": "2026-10-14/next-value-repair/layernorm-contracts/receipt.json",
+      "receipt_sha256": "7ee688c4a8ccd3ef7ad9ced8256321a577b0815486cf48fc89941d0255431b90",
+      "root_review": "2026-10-14/next-value-repair/layernorm-contracts/root-review.json",
+      "root_review_sha256": "bb2c5394e9bd8b45f99ace5093ab1e65daeee041e9c5220100ff1f5196450842",
+      "review_status": "pass_scope_and_value_review",
+      "review_binding_matches": true
+    },
+    {
+      "package": "layernorm-lock-source",
+      "receipt": "2026-10-14/next-value-repair/layernorm-lock-source/receipt.json",
+      "receipt_sha256": "f15807d146f0e03bf3f813181d034960905f0606a5415c24d4573fd48f484667",
+      "root_review": "2026-10-14/next-value-repair/layernorm-lock-source/root-review.json",
+      "root_review_sha256": "950104bc37745b90f08926d254877b934e8d9d3344a3d222d16c0c61c63eab94",
+      "review_status": "complete_three_kernel_typed_source_to_SC_value_and_mutex_review_pass_pending_integration",
+      "review_binding_matches": true
+    },
+    {
+      "package": "lightning-attention",
+      "receipt": "2026-10-14/next-value-repair/lightning-attention/receipt.json",
+      "receipt_sha256": "e0709e3da1d403d70f942d4d59fc491d17ad103c7bf74bfe4a45e417e83e1616",
+      "root_review": "2026-10-14/next-value-repair/lightning-attention/root-review.json",
+      "root_review_sha256": "e96857ba165f7958ea4819afa748399efb549615b398f6ee02d3485b261ecd24",
+      "review_status": "artifact_and_scope_review_pass_pending_integration",
+      "review_binding_matches": true
+    },
+    {
+      "package": "lora-expand-gemv",
+      "receipt": "2026-10-14/next-value-repair/lora-expand-gemv/receipt.json",
+      "receipt_sha256": "be3056189a3aad1aa49f9fbac06258b3fb75910c6fb232fd924efb28978731c8",
+      "root_review": "2026-10-14/next-value-repair/lora-expand-gemv/root-review.json",
+      "root_review_sha256": "95a80b4072711805ce76070c22b9ab5bbac778c324ade5b81759634e21d04078",
+      "review_status": "pass_scope_and_value_review",
+      "review_binding_matches": true
+    },
+    {
+      "package": "matmul-autotune",
+      "receipt": "2026-10-14/next-value-repair/matmul-autotune/receipt.json",
+      "receipt_sha256": "5b084cb31edf28008c61168dce04b14bb8f356a168dd4a365572ea528b51244d",
+      "root_review": "2026-10-14/next-value-repair/matmul-autotune/root-review.json",
+      "root_review_sha256": "1a6866c7bfa6ec9c0140b7e8599fbe5f3f22bc409f0dfa45db1e8deea3aff597",
+      "review_status": "pass_scope_and_value_review",
+      "review_binding_matches": true
+    },
+    {
+      "package": "matmul-kernel",
+      "receipt": "2026-10-14/next-value-repair/matmul-kernel/receipt.json",
+      "receipt_sha256": "5ee0d32a7f93219a2bd27a4504d1ff4c54292a2b7a842cdbb71d55c426e6763f",
+      "root_review": "2026-10-14/next-value-repair/matmul-kernel/root-review.json",
+      "root_review_sha256": "6f00c7cdd79a078d6b14b71ef9b5aa6dc99ca5786d43eff08da1ee900c37f7a0",
+      "review_status": "full_original_scope_selected_half_storage_review_pass",
+      "review_binding_matches": true
+    },
+    {
+      "package": "matmul-leakyrelu",
+      "receipt": "2026-10-14/next-value-repair/matmul-leakyrelu/receipt.json",
+      "receipt_sha256": "5703cf89f353647d3987f6a850e797d3de10878066d1f4f73c7dfaa792756e0b",
+      "root_review": "2026-10-14/next-value-repair/matmul-leakyrelu/root-review.json",
+      "root_review_sha256": "c228cf042c595b4798ad6fe395df5a749228b963b29142a2c643923cad13ce4d",
+      "review_status": "full_original_scope_two_graphs_selected_half_storage_review_pass",
+      "review_binding_matches": true
+    },
+    {
+      "package": "matmul-leakyrelu-fp8",
+      "receipt": "2026-10-14/next-value-repair/matmul-leakyrelu-fp8/receipt.json",
+      "receipt_sha256": "54f8d7112f85c56f878492a7f166d4c74c20bbc433b34d16f1729e0de2a17e7d",
+      "root_review": "2026-10-14/next-value-repair/matmul-leakyrelu-fp8/root-review.json",
+      "root_review_sha256": "5aa23e4c5598344c21d6bb03d6dbaf81d63d9ca64ef4457f393d7148ca7b98e2",
+      "review_status": "full_original_scope_two_graphs_half_and_e4m3_software_review_pass",
+      "review_binding_matches": true
+    },
+    {
+      "package": "matmul-tma",
+      "receipt": "2026-10-14/next-value-repair/matmul-tma/receipt.json",
+      "receipt_sha256": "121849440522eff03e18bfea610682d270fa6990918027bd55ca7f160e5e9e24",
+      "root_review": "2026-10-14/next-value-repair/matmul-tma/root-review.json",
+      "root_review_sha256": "135cac441bfeaa05fc366a56f961738e714e635bfa5b9d3a86f5761b8abeb85e",
+      "review_status": "frozen_value_scope_and_evidence_review_pass_pending_unified_integration",
+      "review_binding_matches": true
+    },
+    {
+      "package": "matmul-triton1",
+      "receipt": "2026-10-14/next-value-repair/matmul-triton1/receipt.json",
+      "receipt_sha256": "e600f1e69d8371e27d30812a95fd0efb770bc39e77dc4ec9dd6f4a4f08b5b5df",
+      "root_review": "2026-10-14/next-value-repair/matmul-triton1/root-review.json",
+      "root_review_sha256": "263f3f28640548c13e368056dd3979ea576a737d83f0cd5604cb4ed04465a425",
+      "review_status": "pass_scope_and_value_review",
+      "review_binding_matches": true
+    },
+    {
+      "package": "matmul-triton2",
+      "receipt": "2026-10-14/next-value-repair/matmul-triton2/receipt.json",
+      "receipt_sha256": "a3a3c2bbc410307d1b00b2c0106ae6ea18d728ca72e3955e1e8b7a9b430f2ab0",
+      "root_review": "2026-10-14/next-value-repair/matmul-triton2/root-review.json",
+      "root_review_sha256": "968fde5ee220634bcc35028bebfded06f22afc37f009d5aa73a545bbb159028d",
+      "review_status": "pass_scope_and_value_review",
+      "review_binding_matches": true
+    },
+    {
+      "package": "maximum-all-consumers",
+      "receipt": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+      "receipt_sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf",
+      "root_review": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+      "root_review_sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f",
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "review_binding_matches": true
+    },
+    {
+      "package": "maximum-attention-kernel-compat",
+      "receipt": "2026-10-14/next-value-repair/maximum-attention-kernel-compat/receipt.json",
+      "receipt_sha256": "05dc70ee06e06abebc9fdb7d0eb5c0050e7f906d9ecb3cb65cbcfb28915ec9bb",
+      "root_review": "2026-10-14/next-value-repair/maximum-attention-kernel-compat/root-review.json",
+      "root_review_sha256": "7db548d39e17de210025f25d98256d168f66bcb7a6cf992cda695425b92fbd8e",
+      "review_status": "mathematical_projection_compatibility_review_pass",
+      "review_binding_matches": true
+    },
+    {
+      "package": "maximum-core",
+      "receipt": "2026-10-14/next-value-repair/maximum-core/receipt.json",
+      "receipt_sha256": "a1f2ce4adbf80b5ea3aac8b769c849eaa7eec7128648a59db2caada1f32b8395",
+      "root_review": "2026-10-14/next-value-repair/maximum-core/root-review.json",
+      "root_review_sha256": "e918adde5556d4c8b7f273fa240a7f21062224290ab0fbbcb909d3868549193a",
+      "review_status": "artifact_and_scope_review_pass_pending_integration",
+      "review_binding_matches": true
+    },
+    {
+      "package": "maximum-flash-decode2-llama",
+      "receipt": "2026-10-14/next-value-repair/maximum-flash-decode2-llama/receipt.json",
+      "receipt_sha256": "9fc4cc5a21d31f765a1428c6750f1bfa7b8330e83bdb41921ddc6e3b61046b22",
+      "root_review": "2026-10-14/next-value-repair/maximum-flash-decode2-llama/root-review.json",
+      "root_review_sha256": "9f816cbf1dc673285a1058d8829354231132cc49f44c80a71664815aeb948456",
+      "review_status": "artifact_and_scope_review_pass_pending_integration",
+      "review_binding_matches": true
+    },
+    {
+      "package": "maximum-int8-matmul-quantization",
+      "receipt": "2026-10-14/next-value-repair/maximum-int8-matmul-quantization/receipt.json",
+      "receipt_sha256": "d43fcafcd3cac1be455c35e6366780f52310200a866b7e2d87a706cae3d34be2",
+      "root_review": "2026-10-14/next-value-repair/maximum-int8-matmul-quantization/root-review.json",
+      "root_review_sha256": "64e5432108718f92649e8e0066847de4fa52bfb9f03a4aa92cdf34bdf44677da",
+      "review_status": "artifact_and_scope_review_pass_pending_domain_bridge",
+      "review_binding_matches": true
+    },
+    {
+      "package": "maximum-int8-matmul-quantization-v2",
+      "receipt": "2026-10-14/next-value-repair/maximum-int8-matmul-quantization-v2/receipt.json",
+      "receipt_sha256": "4e3a7288899e34c4c9ae901015f6973574acf000c8207df5f031b6c38a81d99a",
+      "root_review": "2026-10-14/next-value-repair/maximum-int8-matmul-quantization-v2/root-review.json",
+      "root_review_sha256": "5cad2e4e4448ba83cbf58e2e6518b6dfc1045653dea488f9842d860eb619b9b1",
+      "review_status": "artifact_and_scope_review_pass_pending_integration",
+      "review_binding_matches": true
+    },
+    {
+      "package": "maximum-mixed-sparse-attention",
+      "receipt": "2026-10-14/next-value-repair/maximum-mixed-sparse-attention/receipt.json",
+      "receipt_sha256": "197cc4d38a42bdde5f00c885c6e50de327e2da7e93e86a3495aa5b3bd1daa26c",
+      "root_review": "2026-10-14/next-value-repair/maximum-mixed-sparse-attention/root-review.json",
+      "root_review_sha256": "c3b93447e49d9945823ea1782d84eb27c31c66e3dad22b0b824832eecafced3e",
+      "review_status": "artifact_and_scope_review_pass_pending_integration",
+      "review_binding_matches": true
+    },
+    {
+      "package": "multinomial-sampling",
+      "receipt": "2026-10-14/next-value-repair/multinomial-sampling/receipt.json",
+      "receipt_sha256": "1636ab5ae0051cc507948123d36dd5103bf2cce3d3fb4c6123d306572ea6071d",
+      "root_review": "2026-10-14/next-value-repair/multinomial-sampling/root-review.json",
+      "root_review_sha256": "16cde948040167087196d03775651597d4ac41b41018f5b569a89fe17d3018c1",
+      "review_status": "complete_kernel_four_storage_software_review_pass_pending_integration",
+      "review_binding_matches": true
+    },
+    {
+      "package": "native-experiment-handoff",
+      "receipt": "2026-10-14/next-value-repair/native-experiment-handoff/receipt.json",
+      "receipt_sha256": "de5c4afc00f083870c66a820dd1cbf9064b80bee31d00c38ecd4f330de7da130",
+      "root_review": "2026-10-14/next-value-repair/native-experiment-handoff/root-review.json",
+      "root_review_sha256": "754afad52be1b82db0597548df54e81d2d841611ef42fbcfb3aa30b187bc2149",
+      "review_status": "root_review_pass_native_obligation_mapping_and_current_LLaMA_binding",
+      "review_binding_matches": true
+    },
+    {
+      "package": "pv-contracts",
+      "receipt": "2026-10-14/next-value-repair/pv-contracts/receipt.json",
+      "receipt_sha256": "651ef98770ddb86d5350c59762b01808ce872c7ddff4e2f346539bd0b499da46",
+      "root_review": "2026-10-14/next-value-repair/pv-contracts/root-review.json",
+      "root_review_sha256": "16e8e448d877c7ff3104813d25b40a4b85c70cc754a670a81d6c21f35c06dc5f",
+      "review_status": "pass_scope_and_value_review",
+      "review_binding_matches": true
+    },
+    {
+      "package": "quantize-copy-kv",
+      "receipt": "2026-10-14/next-value-repair/quantize-copy-kv/receipt.json",
+      "receipt_sha256": "532ed7856acc29627df531e74a43a25b1435c9a14c2f119b1251eb1e9de0643e",
+      "root_review": "2026-10-14/next-value-repair/quantize-copy-kv/root-review.json",
+      "root_review_sha256": "fbd81663e0de4f139a3bf7352d0ec5b7a35f3e816b35bb611f2e574a6e6d0aa4",
+      "review_status": null,
+      "review_binding_matches": null,
+      "review_binding_note": "Receipt and review hashes are independently pinned by this index; review has no internal receipt hash field."
+    },
+    {
+      "package": "retention-wrapped-indices",
+      "receipt": "2026-10-14/next-value-repair/retention-wrapped-indices/receipt.json",
+      "receipt_sha256": "f64901e85502d53707eaf14eb8f80a922b8e41db55eabb8644ed7c6f5f74fb03",
+      "root_review": "2026-10-14/next-value-repair/retention-wrapped-indices/root-review.json",
+      "root_review_sha256": "d4a539d218559c1fa55efbf834a010a488fade6b2327792ba3b04242d49a2c0b",
+      "review_status": "signed32_reference_semantics_revalidated_full_original_scope_pending_integration",
+      "review_binding_matches": true
+    },
+    {
+      "package": "rowwise-maxnum",
+      "receipt": "2026-10-14/next-value-repair/rowwise-maxnum/receipt.json",
+      "receipt_sha256": "7fc52c581aa91ab66c633835023db307b830654699d5094ff010258724dd4eba",
+      "root_review": "2026-10-14/next-value-repair/rowwise-maxnum/root-review.json",
+      "root_review_sha256": "9ecc692d6f07beb49081e2f23c93fcd0d0ab2e377b85be520fbb4c26954a3465",
+      "review_status": "pass_scope_and_value_review",
+      "review_binding_matches": true
+    },
+    {
+      "package": "sgmv-expand-slice",
+      "receipt": "2026-10-14/next-value-repair/sgmv-expand-slice/receipt.json",
+      "receipt_sha256": "e8d8d3c39f2495e13e62c9930521fe13f620cfd403b6af1565aa3afa80ffc9f6",
+      "root_review": "2026-10-14/next-value-repair/sgmv-expand-slice/root-review.json",
+      "root_review_sha256": "a560dc387182d0f502c4e5f09d105357b87d18f96195ca4c9356305f83d61945",
+      "review_status": "artifact_and_scope_review_pass_pending_integration",
+      "review_binding_matches": true
+    },
+    {
+      "package": "softmax-reducev",
+      "receipt": "2026-10-14/next-value-repair/softmax-reducev/receipt.json",
+      "receipt_sha256": "18647b50f743e76fe342644a08a455e28a5535a0b17ccbb35367744514cda4ba",
+      "root_review": "2026-10-14/next-value-repair/softmax-reducev/root-review.json",
+      "root_review_sha256": "b4f11d54037cb7e1038c252bd9ba8c05a95820279c75af1aadbe510568bae5ca",
+      "review_status": "artifact_and_scope_review_pass_pending_integration",
+      "review_binding_matches": true
+    },
+    {
+      "package": "spinning-install-bindings",
+      "receipt": "2026-10-14/next-value-repair/spinning-install-bindings/receipt.json",
+      "receipt_sha256": "95fbfde300dd4d1d4092a42159c52cada3966964c32926d77ba9daa302f5366f",
+      "root_review": "2026-10-14/next-value-repair/spinning-install-bindings/root-review.json",
+      "root_review_sha256": "1ca6c4211ce4a3b15bfae2049d310496f4ddff6f507d81bbdfb045835ac5d1f1",
+      "review_status": "root_review_pass_exact_original_source_supplement",
+      "review_binding_matches": true
+    },
+    {
+      "package": "spinning-lock-source",
+      "receipt": "2026-10-14/next-value-repair/spinning-lock-source/receipt.json",
+      "receipt_sha256": "158b536e98a9b777e74482a5b6d9d707619edbc14cb3760e539ea72d370fdb14",
+      "root_review": "2026-10-14/next-value-repair/spinning-lock-source/root-review.json",
+      "root_review_sha256": "7860d03f913c1c012170f82a93404748a6cc2868329fd0bd349b69feab3fd372",
+      "review_status": "full_task_local_typed_source_to_SC_software_reference_review_pass_pending_integration",
+      "review_binding_matches": true
+    },
+    {
+      "package": "streamk-install-bindings",
+      "receipt": "2026-10-14/next-value-repair/streamk-install-bindings/receipt.json",
+      "receipt_sha256": "077ce36d4ca088764fb80bd5be9090aba492b27fc694041e13fd6453ee6544d9",
+      "root_review": "2026-10-14/next-value-repair/streamk-install-bindings/root-review.json",
+      "root_review_sha256": "1d5b08e15206eca9d0a2851a044469357ab0aeb44f33d0d6cec6035e86d80d6b",
+      "review_status": "root_review_pass_exact_two_streamk_archive_member_bindings",
+      "review_binding_matches": true
+    },
+    {
+      "package": "streamk-source",
+      "receipt": "2026-10-14/next-value-repair/streamk-source/receipt.json",
+      "receipt_sha256": "da51875127232cfa38168b12959ea1ca81101a1a20f74041fa1ab6b9b1a529b0",
+      "root_review": "2026-10-14/next-value-repair/streamk-source/root-review.json",
+      "root_review_sha256": "d9e6eff6a4316e38f7333c3499846f204968bdbfda47af5d48c68836a1df9e8b",
+      "review_status": "complete_two_wave_original_source_SC_value_review_pass_pending_integration",
+      "review_binding_matches": true
+    },
+    {
+      "package": "token-attn-llama2",
+      "receipt": "2026-10-14/next-value-repair/token-attn-llama2/receipt.json",
+      "receipt_sha256": "9cd39a4899766eeb2701331ae03bcf855930d015d825cd2ff059c8c84aa205c4",
+      "root_review": "2026-10-14/next-value-repair/token-attn-llama2/root-review.json",
+      "root_review_sha256": "68d60dd905466c3262bfa7d9c1246ce15d5172c21b531683f5f4582f6631b51f",
+      "review_status": "pass_scope_and_value_review",
+      "review_binding_matches": true
+    },
+    {
+      "package": "triton-attention-value",
+      "receipt": "2026-10-14/next-value-repair/triton-attention-value/receipt.json",
+      "receipt_sha256": "7861f7a62e87351c621d9b848a558d1ffbff994af122c6e766c8dff3d1cb20c4",
+      "root_review": "2026-10-14/next-value-repair/triton-attention-value/root-review.json",
+      "root_review_sha256": "5ac1628b8769bd6b26af271720d04b85997fd6cb1d87a3817cc9e3c455550503",
+      "review_status": "complete_three_accepted_source_stages_value_and_frame_review_pass_pending_unified_integration",
+      "review_binding_matches": true
+    },
+    {
+      "package": "triton-linear-activation",
+      "receipt": "2026-10-14/next-value-repair/triton-linear-activation/receipt.json",
+      "receipt_sha256": "8036457d8d9638095447b7802e65bc64fd6263b505b77ba42c04e648238a35bd",
+      "root_review": "2026-10-14/next-value-repair/triton-linear-activation/root-review.json",
+      "root_review_sha256": "539480ab79561b8cff6aff81126d5398710ea1d41cedf0471678c6217114c0f9",
+      "review_status": "full_scope_backend_and_scalar_specialization_review_pass_pending_integration",
+      "review_binding_matches": true
+    },
+    {
+      "package": "triton-matmul",
+      "receipt": "2026-10-14/next-value-repair/triton-matmul/receipt.json",
+      "receipt_sha256": "0531661542457bd646d855da1a0a569bcf1bf44226bccb9d8d5aacb1cca28bb4",
+      "root_review": "2026-10-14/next-value-repair/triton-matmul/root-review.json",
+      "root_review_sha256": "ef46afdf987254775a18752e93904729ae87a52fcf865138d820faadcbbc3475",
+      "review_status": "pass_scope_and_value_review",
+      "review_binding_matches": true
+    },
+    {
+      "package": "unified-value-build",
+      "receipt": "2026-10-14/next-value-repair/unified-value-build/receipt.json",
+      "receipt_sha256": "4de8a50448b1d508a107f0ea2a1ce9de65706ddc59ec50525794fb43061b5119",
+      "root_review": "2026-10-14/next-value-repair/unified-value-build/root-review.json",
+      "root_review_sha256": "387ccf7ab93f69fcaae17b5f0a3f18217e71f0625ff3d74bbd308d0337134a09",
+      "review_status": "root_review_pass_actual_source_registration_build_and_dependency_binding",
+      "review_binding_matches": true
+    },
+    {
+      "package": "value-metadata-candidate",
+      "receipt": "2026-10-14/next-value-repair/value-metadata-candidate/receipt.json",
+      "receipt_sha256": "2bb3638806c9d359bc8d10b53af449b647ddb6439078b7419c0cc0b595a98892",
+      "root_review": "2026-10-14/next-value-repair/value-metadata-candidate/root-review.json",
+      "root_review_sha256": "bfb9e51df8d99c8d67deed765b4952fe00abe13c0d29c87214da56b4783c2cac",
+      "review_status": "candidate_metadata_replay_pass_not_canonical_acceptance",
+      "review_binding_matches": true
+    },
+    {
+      "package": "value-metadata-candidate-v2",
+      "receipt": "2026-10-14/next-value-repair/value-metadata-candidate-v2/receipt.json",
+      "receipt_sha256": "47f4da539d971b6002a99a575ded813eb8aa68c1325f7f37d5207f57b3caff4c",
+      "root_review": "2026-10-14/next-value-repair/value-metadata-candidate-v2/root-review.json",
+      "root_review_sha256": "6035d58e68fe4b914ba475729873b825b944d86b125055d3d0ec339ca23790c0",
+      "review_status": "explicit_graph_frontend_and_reference_revision_recount_replay_pass_pending_unified_acceptance",
+      "review_binding_matches": true
+    },
+    {
+      "package": "value-metadata-candidate-v3",
+      "receipt": "2026-10-14/next-value-repair/value-metadata-candidate-v3/receipt.json",
+      "receipt_sha256": "12c3b80a35e83a528fab32a9251e40eec70103a3cef716274effbf738dff101c",
+      "root_review": "2026-10-14/next-value-repair/value-metadata-candidate-v3/root-review.json",
+      "root_review_sha256": "a77fb8099e910825510319107e476e58e4056c649f85bced979990ced6020a8c",
+      "review_status": "all32_extension_graph_stage_and_frontend_recount_replay_pass_pending_unified_acceptance",
+      "review_binding_matches": true
+    },
+    {
+      "package": "software-closure-source-binding",
+      "receipt": "2026-10-14/next-value-repair/software-closure-source-binding/receipt.json",
+      "receipt_sha256": "4eac7903e87b76a903209f87e780433acebd4326f1ae5076eef4b6fe69232b80",
+      "root_review": "2026-10-14/next-value-repair/software-closure-source-binding/root-review.json",
+      "root_review_sha256": "ebbda9c3550eb73b4f5f16a54bdcc67e21afba060c3c3f63936c1d7726bdae57",
+      "review_status": "passed_source_bindings_and_independent_revision_compile",
+      "review_binding_matches": true
+    },
+    {
+      "package": "kcache-raw-bit-closure",
+      "receipt": "2026-10-15/kcache-raw-bit-closure/receipt.json",
+      "receipt_sha256": "176e476120bcf38282bdca54f3cf4699d0be83f740f9423e221fa5cd3b8f0b91",
+      "root_review": "2026-10-15/kcache-raw-bit-closure/root-review.json",
+      "root_review_sha256": "7af65502baa93e6b69052586892bc4b02ff6a0d705288d081be120905f8b7a62",
+      "review_status": "passed_kcache_five_format_software_word_storage_scope",
+      "review_binding_matches": true
+    },
+    {
+      "package": "kv-cache-raw-bit-closure",
+      "receipt": "2026-10-15/kv-cache-raw-bit-closure/receipt.json",
+      "receipt_sha256": "7ed26e20d7aed23bfb4f1a86dcadb51fb086560b7f950c8cec4c49a24282134f",
+      "root_review": "2026-10-15/kv-cache-raw-bit-closure/root-review.json",
+      "root_review_sha256": "5f2c4206197b50852e5bb3470e921e878cf5a72eac9bf1e01693338980324632",
+      "review_status": "passed_kv_cache_mixed_five_format_software_word_storage_scope",
+      "review_binding_matches": true
+    },
+    {
+      "package": "masked-select-raw-bit-closure",
+      "receipt": "2026-10-15/masked-select-raw-bit-closure/receipt.json",
+      "receipt_sha256": "d2760a04f4edbf826e1f69870e8e5d509896d7aeb94cd158e3e1ebd4ae4aed6e",
+      "root_review": "2026-10-15/masked-select-raw-bit-closure/root-review.json",
+      "root_review_sha256": "08c65278fa9b3b0054469343a29eeeed294b5e1f2df53d993ccd4960535d185d",
+      "review_status": "passed_masked_select_six_storage_profiles_software_word_storage_scope",
+      "review_binding_matches": true
+    },
+    {
+      "package": "int4-source-dotacc-software-closure",
+      "receipt": "2026-10-15/int4-source-dotacc-software-closure/receipt.json",
+      "receipt_sha256": "58e779a4db5d8aec3f3c5208a74dcba9fa42338ad80e1bd1b23fb823271d3519",
+      "root_review": "2026-10-15/int4-source-dotacc-software-closure/root-review.json",
+      "root_review_sha256": "29d045ad5479759d2627140ed809dce37bcc2d4f9ec735fd95f4c9fa7c5d1570",
+      "review_status": "passed_full_original_source_and_distinct_carry_dot_software_profiles",
+      "review_binding_matches": true
+    },
+    {
+      "package": "dequant-int4-source-compiled-software-closure",
+      "receipt": "2026-10-15/dequant-int4-source-compiled-software-closure/receipt.json",
+      "receipt_sha256": "a15e7076a54d12c4912a2dc446feeb9fecbd54ed4bf41cba8e825e15e5353124",
+      "root_review": "2026-10-15/dequant-int4-source-compiled-software-closure/root-review.json",
+      "root_review_sha256": "292df420f7fb1f38cc68ec2c65d30be67665b82041f9ba35f2a5a389a58c1b60",
+      "review_status": "passed_full_original_source_and_two_distinct_compiled_software_profiles",
+      "review_binding_matches": true
+    },
+    {
+      "package": "destindex-copy-raw-bit-closure",
+      "receipt": "2026-10-15/destindex-copy-raw-bit-closure/receipt.json",
+      "receipt_sha256": "a0446e6db808793260df677b14c0a89e0c1836c948efb48344a4530b9c366e85",
+      "root_review": "2026-10-15/destindex-copy-raw-bit-closure/root-review.json",
+      "root_review_sha256": "2e5baba1e12d09a821902d8b714db1de13710743440a04af9e14e2aa89537391",
+      "review_status": "passed_destindex_copy_complete_software_word_scope",
+      "review_binding_matches": true
+    },
+    {
+      "package": "matrix-transpose-raw-bit-closure",
+      "receipt": "2026-10-15/matrix-transpose-raw-bit-closure/receipt.json",
+      "receipt_sha256": "d1e08725ffa022beb68080fbc0a81d15f58953a954a78bfca394f53a05ff52bd",
+      "root_review": "2026-10-15/matrix-transpose-raw-bit-closure/root-review.json",
+      "root_review_sha256": "7d95f96609b3c98f229efc13733caf71ac8a17db72259da9226a409c4495c31b",
+      "review_status": "passed_matrix_transpose_complete_software_word_scope",
+      "review_binding_matches": true
+    },
+    {
+      "package": "retention-query-source-proof",
+      "receipt": "2026-10-15/retention-query-source-proof/receipt.json",
+      "receipt_sha256": "6e85c22b0172540c0866b069b1d9a15104d9c5ed17fb2f29cc4d2e15688a4e99",
+      "root_review": "2026-10-15/retention-query-source-proof/root-review.json",
+      "root_review_sha256": "6beedfb3ddf90f43e2b276fff471328129fcf5f4b1041ac5574a99fce2754316",
+      "review_status": "passed_retention_source_scope_and_numerical_debt_review"
+    }
+  ]
+}

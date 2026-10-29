@@ -1,0 +1,1008 @@
+{
+  "schema": 1,
+  "task": "matmul_dequantize_int4",
+  "mode": "compile",
+  "status": "COMPILED_ONLY",
+  "records": [
+    {
+      "label": "sm80-nogroups_false-fusion-false",
+      "case_id": "nogroups_false",
+      "target": {
+        "backend": "cuda",
+        "arch": 80,
+        "warp_size": 32
+      },
+      "signature": {
+        "a_ptr": "*fp16",
+        "b_ptr": "*i32",
+        "c_ptr": "*fp16",
+        "scales_ptr": "*fp16",
+        "zeros_ptr": "*i32",
+        "M": "i32",
+        "N": "i32",
+        "K": "i32",
+        "stride_am": "i32",
+        "stride_ak": "i32",
+        "stride_bk": "i32",
+        "stride_bn": "i32",
+        "stride_cm": "i32",
+        "stride_cn": "i32",
+        "stride_scales_g": "i32",
+        "stride_scales_n": "i32",
+        "stride_zeros_g": "i32",
+        "stride_zeros_n": "i32",
+        "groupsize": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE_M": 64,
+        "BLOCK_SIZE_N": 128,
+        "BLOCK_SIZE_K": 32,
+        "GROUP_SIZE_M": 8,
+        "NO_GROUPS": false
+      },
+      "options": {
+        "num_warps": 4,
+        "num_stages": 4,
+        "enable_fp_fusion": false
+      },
+      "selected_profile": "compiled_separate_ascending_fma",
+      "status": "COMPILED_ONLY",
+      "native_execution": false,
+      "artifact_sha256": {
+        "sm80-nogroups_false-fusion-false.source": "ff9f40212f95979eb0b73e74e2069981bac15901a00e47702d650c1f7a37670e",
+        "sm80-nogroups_false-fusion-false.ttir": "44e0a5e7ef701272be479c6e2674fdc6376b449566f934579f2f5e74001ac4cb",
+        "sm80-nogroups_false-fusion-false.ttgir": "8a82abb54fc04d879ee719cf3d8b789022672791cb7815e04dc93673adb42bed",
+        "sm80-nogroups_false-fusion-false.llir": "367663ab015b0a8282be74cb8b1327b393996b039c70a4130333e160bd7ca6b4",
+        "sm80-nogroups_false-fusion-false.ptx": "814c283332b4eefc564588b82040c08ad774b3941e83f34e6a2f35165c8f9e8c",
+        "sm80-nogroups_false-fusion-false.cubin": "ab0365707d221e6df92c82ffe4b58089fbd758ad4d104c361e7db6859b918d62"
+      },
+      "resolved_metadata": {
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "arch": "sm80",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "deprecated_fp8_dot_operand_dtypes": [],
+        "enable_fp_fusion": false,
+        "enable_reflect_ftz": true,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/opt/conda/lib/python3.11/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "3d1cce7495beb2d9600236bb993957d588976e9af366e422880ed96b8caf6e1b",
+        "instrumentation_mode": "",
+        "ir_override": null,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 0,
+        "maxnreg": null,
+        "name": "matmul4_kernel",
+        "num_ctas": 1,
+        "num_stages": 4,
+        "num_warps": 4,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "ptx_options": null,
+        "ptx_version": null,
+        "sanitize_overflow": true,
+        "shared": 62976,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e5"
+        ],
+        "target": "GPUTarget(backend='cuda', arch=80, warp_size=32)",
+        "tensordesc_meta": [],
+        "tmem_size": 0,
+        "triton_version": "3.8.0",
+        "warp_size": 32
+      }
+    },
+    {
+      "label": "sm80-nogroups_false-fusion-true",
+      "case_id": "nogroups_false",
+      "target": {
+        "backend": "cuda",
+        "arch": 80,
+        "warp_size": 32
+      },
+      "signature": {
+        "a_ptr": "*fp16",
+        "b_ptr": "*i32",
+        "c_ptr": "*fp16",
+        "scales_ptr": "*fp16",
+        "zeros_ptr": "*i32",
+        "M": "i32",
+        "N": "i32",
+        "K": "i32",
+        "stride_am": "i32",
+        "stride_ak": "i32",
+        "stride_bk": "i32",
+        "stride_bn": "i32",
+        "stride_cm": "i32",
+        "stride_cn": "i32",
+        "stride_scales_g": "i32",
+        "stride_scales_n": "i32",
+        "stride_zeros_g": "i32",
+        "stride_zeros_n": "i32",
+        "groupsize": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE_M": 64,
+        "BLOCK_SIZE_N": 128,
+        "BLOCK_SIZE_K": 32,
+        "GROUP_SIZE_M": 8,
+        "NO_GROUPS": false
+      },
+      "options": {
+        "num_warps": 4,
+        "num_stages": 4,
+        "enable_fp_fusion": true
+      },
+      "selected_profile": "compiled_fused_ascending_fma",
+      "status": "COMPILED_ONLY",
+      "native_execution": false,
+      "artifact_sha256": {
+        "sm80-nogroups_false-fusion-true.source": "ff9f40212f95979eb0b73e74e2069981bac15901a00e47702d650c1f7a37670e",
+        "sm80-nogroups_false-fusion-true.ttir": "44e0a5e7ef701272be479c6e2674fdc6376b449566f934579f2f5e74001ac4cb",
+        "sm80-nogroups_false-fusion-true.ttgir": "8a82abb54fc04d879ee719cf3d8b789022672791cb7815e04dc93673adb42bed",
+        "sm80-nogroups_false-fusion-true.llir": "367663ab015b0a8282be74cb8b1327b393996b039c70a4130333e160bd7ca6b4",
+        "sm80-nogroups_false-fusion-true.ptx": "089fec40b1a76a550947171a33cbb871f82a6175667bc6cebe1af3d657e156df",
+        "sm80-nogroups_false-fusion-true.cubin": "e5f250c689c570b36cbdc5d9d3340720e3530fedfb39be32740d7312679734e9"
+      },
+      "resolved_metadata": {
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "arch": "sm80",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "deprecated_fp8_dot_operand_dtypes": [],
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/opt/conda/lib/python3.11/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "bd7c6f38093c127e5be36b0c8ce8a787d2715ff6fd6f652ee04695b63aaff291",
+        "instrumentation_mode": "",
+        "ir_override": null,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 0,
+        "maxnreg": null,
+        "name": "matmul4_kernel",
+        "num_ctas": 1,
+        "num_stages": 4,
+        "num_warps": 4,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "ptx_options": null,
+        "ptx_version": null,
+        "sanitize_overflow": true,
+        "shared": 62976,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e5"
+        ],
+        "target": "GPUTarget(backend='cuda', arch=80, warp_size=32)",
+        "tensordesc_meta": [],
+        "tmem_size": 0,
+        "triton_version": "3.8.0",
+        "warp_size": 32
+      }
+    },
+    {
+      "label": "sm80-nogroups_true-fusion-false",
+      "case_id": "nogroups_true",
+      "target": {
+        "backend": "cuda",
+        "arch": 80,
+        "warp_size": 32
+      },
+      "signature": {
+        "a_ptr": "*fp16",
+        "b_ptr": "*i32",
+        "c_ptr": "*fp16",
+        "scales_ptr": "*fp16",
+        "zeros_ptr": "*i32",
+        "M": "i32",
+        "N": "i32",
+        "K": "i32",
+        "stride_am": "i32",
+        "stride_ak": "i32",
+        "stride_bk": "i32",
+        "stride_bn": "i32",
+        "stride_cm": "i32",
+        "stride_cn": "i32",
+        "stride_scales_g": "i32",
+        "stride_scales_n": "i32",
+        "stride_zeros_g": "i32",
+        "stride_zeros_n": "i32",
+        "groupsize": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE_M": 64,
+        "BLOCK_SIZE_N": 128,
+        "BLOCK_SIZE_K": 32,
+        "GROUP_SIZE_M": 8,
+        "NO_GROUPS": true
+      },
+      "options": {
+        "num_warps": 4,
+        "num_stages": 4,
+        "enable_fp_fusion": false
+      },
+      "selected_profile": "compiled_separate_ascending_fma",
+      "status": "COMPILED_ONLY",
+      "native_execution": false,
+      "artifact_sha256": {
+        "sm80-nogroups_true-fusion-false.source": "8914db9294b72b3e29787993a457d94114cfa938bbacbada37c8ce3c40678400",
+        "sm80-nogroups_true-fusion-false.ttir": "d62924eb9a1d49770abeba8b5a3894094f48b5018aad04a5b2ca34266cddf8ea",
+        "sm80-nogroups_true-fusion-false.ttgir": "b07d5a8771cbbff883d3e5d152bcb0dad1effb269a736be2f8cca799b7ddebb4",
+        "sm80-nogroups_true-fusion-false.llir": "efabf823a5a451bc8b84c9ca732bfea09d5ed34bff9b8c3e1c485bed4fbb5825",
+        "sm80-nogroups_true-fusion-false.ptx": "1fdff6b4cfcecfdfd98d8f760334fb97c1ae590afa28736989c7cda6fcfe24d3",
+        "sm80-nogroups_true-fusion-false.cubin": "12db48e19c6fe391084dcf6adc25e562097d22931afdb271924e1a8d2dc77ae3"
+      },
+      "resolved_metadata": {
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "arch": "sm80",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "deprecated_fp8_dot_operand_dtypes": [],
+        "enable_fp_fusion": false,
+        "enable_reflect_ftz": true,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/opt/conda/lib/python3.11/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "fc3cd7731fcb8dada830047a81e6894b78c07719e62dc44ca935a5cad3df162c",
+        "instrumentation_mode": "",
+        "ir_override": null,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 0,
+        "maxnreg": null,
+        "name": "matmul4_kernel",
+        "num_ctas": 1,
+        "num_stages": 4,
+        "num_warps": 4,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "ptx_options": null,
+        "ptx_version": null,
+        "sanitize_overflow": true,
+        "shared": 61440,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e5"
+        ],
+        "target": "GPUTarget(backend='cuda', arch=80, warp_size=32)",
+        "tensordesc_meta": [],
+        "tmem_size": 0,
+        "triton_version": "3.8.0",
+        "warp_size": 32
+      }
+    },
+    {
+      "label": "sm80-nogroups_true-fusion-true",
+      "case_id": "nogroups_true",
+      "target": {
+        "backend": "cuda",
+        "arch": 80,
+        "warp_size": 32
+      },
+      "signature": {
+        "a_ptr": "*fp16",
+        "b_ptr": "*i32",
+        "c_ptr": "*fp16",
+        "scales_ptr": "*fp16",
+        "zeros_ptr": "*i32",
+        "M": "i32",
+        "N": "i32",
+        "K": "i32",
+        "stride_am": "i32",
+        "stride_ak": "i32",
+        "stride_bk": "i32",
+        "stride_bn": "i32",
+        "stride_cm": "i32",
+        "stride_cn": "i32",
+        "stride_scales_g": "i32",
+        "stride_scales_n": "i32",
+        "stride_zeros_g": "i32",
+        "stride_zeros_n": "i32",
+        "groupsize": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE_M": 64,
+        "BLOCK_SIZE_N": 128,
+        "BLOCK_SIZE_K": 32,
+        "GROUP_SIZE_M": 8,
+        "NO_GROUPS": true
+      },
+      "options": {
+        "num_warps": 4,
+        "num_stages": 4,
+        "enable_fp_fusion": true
+      },
+      "selected_profile": "compiled_fused_ascending_fma",
+      "status": "COMPILED_ONLY",
+      "native_execution": false,
+      "artifact_sha256": {
+        "sm80-nogroups_true-fusion-true.source": "8914db9294b72b3e29787993a457d94114cfa938bbacbada37c8ce3c40678400",
+        "sm80-nogroups_true-fusion-true.ttir": "d62924eb9a1d49770abeba8b5a3894094f48b5018aad04a5b2ca34266cddf8ea",
+        "sm80-nogroups_true-fusion-true.ttgir": "b07d5a8771cbbff883d3e5d152bcb0dad1effb269a736be2f8cca799b7ddebb4",
+        "sm80-nogroups_true-fusion-true.llir": "efabf823a5a451bc8b84c9ca732bfea09d5ed34bff9b8c3e1c485bed4fbb5825",
+        "sm80-nogroups_true-fusion-true.ptx": "02bc93c2c4915dec67d5c81926374ef9f11048aff120eb750aebffbe583ae243",
+        "sm80-nogroups_true-fusion-true.cubin": "ff35a6e1f06f37edd3fffaee9b6d9c8e937953ea2570f66d81616e79a75f8868"
+      },
+      "resolved_metadata": {
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "arch": "sm80",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "deprecated_fp8_dot_operand_dtypes": [],
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/opt/conda/lib/python3.11/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "f79b258ab982479bc3b81a6bb9a0d634d55921d06ce15ad47b4996ab4f18b2ab",
+        "instrumentation_mode": "",
+        "ir_override": null,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 0,
+        "maxnreg": null,
+        "name": "matmul4_kernel",
+        "num_ctas": 1,
+        "num_stages": 4,
+        "num_warps": 4,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "ptx_options": null,
+        "ptx_version": null,
+        "sanitize_overflow": true,
+        "shared": 61440,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e5"
+        ],
+        "target": "GPUTarget(backend='cuda', arch=80, warp_size=32)",
+        "tensordesc_meta": [],
+        "tmem_size": 0,
+        "triton_version": "3.8.0",
+        "warp_size": 32
+      }
+    },
+    {
+      "label": "sm90-nogroups_false-fusion-false",
+      "case_id": "nogroups_false",
+      "target": {
+        "backend": "cuda",
+        "arch": 90,
+        "warp_size": 32
+      },
+      "signature": {
+        "a_ptr": "*fp16",
+        "b_ptr": "*i32",
+        "c_ptr": "*fp16",
+        "scales_ptr": "*fp16",
+        "zeros_ptr": "*i32",
+        "M": "i32",
+        "N": "i32",
+        "K": "i32",
+        "stride_am": "i32",
+        "stride_ak": "i32",
+        "stride_bk": "i32",
+        "stride_bn": "i32",
+        "stride_cm": "i32",
+        "stride_cn": "i32",
+        "stride_scales_g": "i32",
+        "stride_scales_n": "i32",
+        "stride_zeros_g": "i32",
+        "stride_zeros_n": "i32",
+        "groupsize": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE_M": 64,
+        "BLOCK_SIZE_N": 128,
+        "BLOCK_SIZE_K": 32,
+        "GROUP_SIZE_M": 8,
+        "NO_GROUPS": false
+      },
+      "options": {
+        "num_warps": 4,
+        "num_stages": 4,
+        "enable_fp_fusion": false
+      },
+      "selected_profile": "compiled_separate_ascending_fma",
+      "status": "COMPILED_ONLY",
+      "native_execution": false,
+      "artifact_sha256": {
+        "sm90-nogroups_false-fusion-false.source": "ff9f40212f95979eb0b73e74e2069981bac15901a00e47702d650c1f7a37670e",
+        "sm90-nogroups_false-fusion-false.ttir": "44e0a5e7ef701272be479c6e2674fdc6376b449566f934579f2f5e74001ac4cb",
+        "sm90-nogroups_false-fusion-false.ttgir": "d8cfac4f2ca43f7f16d53e542ed508e6abff9054cf9800ee20a02250ecf25097",
+        "sm90-nogroups_false-fusion-false.llir": "11061509b69b07d21e691a650f2c70ec98c9df0ac72d7356ab21f4392157661e",
+        "sm90-nogroups_false-fusion-false.ptx": "d26f976ce5d58089e1facb767da1005746223f8dbcd56c30aefd7e1d0caed0c4",
+        "sm90-nogroups_false-fusion-false.cubin": "8d5d88442978b600edb40d32190363962b01d900c8cc07bd96888696335fe345"
+      },
+      "resolved_metadata": {
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "arch": "sm90",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "deprecated_fp8_dot_operand_dtypes": [
+          "fp8e4b15"
+        ],
+        "enable_fp_fusion": false,
+        "enable_reflect_ftz": true,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/opt/conda/lib/python3.11/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "d9dc3b5f7c069fdb2715acaf0a989d681d2c1f86c7f2bc716f2c533ff444396f",
+        "instrumentation_mode": "",
+        "ir_override": null,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 1073741824,
+        "maxnreg": null,
+        "name": "matmul4_kernel",
+        "num_ctas": 1,
+        "num_stages": 4,
+        "num_warps": 4,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "ptx_options": null,
+        "ptx_version": null,
+        "sanitize_overflow": true,
+        "shared": 62976,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e4nv",
+          "fp8e5"
+        ],
+        "target": "GPUTarget(backend='cuda', arch=90, warp_size=32)",
+        "tensordesc_meta": [],
+        "tmem_size": 0,
+        "triton_version": "3.8.0",
+        "warp_size": 32
+      }
+    },
+    {
+      "label": "sm90-nogroups_false-fusion-true",
+      "case_id": "nogroups_false",
+      "target": {
+        "backend": "cuda",
+        "arch": 90,
+        "warp_size": 32
+      },
+      "signature": {
+        "a_ptr": "*fp16",
+        "b_ptr": "*i32",
+        "c_ptr": "*fp16",
+        "scales_ptr": "*fp16",
+        "zeros_ptr": "*i32",
+        "M": "i32",
+        "N": "i32",
+        "K": "i32",
+        "stride_am": "i32",
+        "stride_ak": "i32",
+        "stride_bk": "i32",
+        "stride_bn": "i32",
+        "stride_cm": "i32",
+        "stride_cn": "i32",
+        "stride_scales_g": "i32",
+        "stride_scales_n": "i32",
+        "stride_zeros_g": "i32",
+        "stride_zeros_n": "i32",
+        "groupsize": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE_M": 64,
+        "BLOCK_SIZE_N": 128,
+        "BLOCK_SIZE_K": 32,
+        "GROUP_SIZE_M": 8,
+        "NO_GROUPS": false
+      },
+      "options": {
+        "num_warps": 4,
+        "num_stages": 4,
+        "enable_fp_fusion": true
+      },
+      "selected_profile": "compiled_fused_ascending_fma",
+      "status": "COMPILED_ONLY",
+      "native_execution": false,
+      "artifact_sha256": {
+        "sm90-nogroups_false-fusion-true.source": "ff9f40212f95979eb0b73e74e2069981bac15901a00e47702d650c1f7a37670e",
+        "sm90-nogroups_false-fusion-true.ttir": "44e0a5e7ef701272be479c6e2674fdc6376b449566f934579f2f5e74001ac4cb",
+        "sm90-nogroups_false-fusion-true.ttgir": "d8cfac4f2ca43f7f16d53e542ed508e6abff9054cf9800ee20a02250ecf25097",
+        "sm90-nogroups_false-fusion-true.llir": "11061509b69b07d21e691a650f2c70ec98c9df0ac72d7356ab21f4392157661e",
+        "sm90-nogroups_false-fusion-true.ptx": "e5ca9782134b3899e6fe7f52c97a3a65728f8a913c63cc62fd3c41786a6e213d",
+        "sm90-nogroups_false-fusion-true.cubin": "463fd5aa966fe053b24907b9e9df870d870182e0aa60bfc63b9b79d042cfc4aa"
+      },
+      "resolved_metadata": {
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "arch": "sm90",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "deprecated_fp8_dot_operand_dtypes": [
+          "fp8e4b15"
+        ],
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/opt/conda/lib/python3.11/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "82c34c4f3fd408a25b368339876ceae98d2fd0c10d21fa7b3bdfa3db5e4d604e",
+        "instrumentation_mode": "",
+        "ir_override": null,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 1073741824,
+        "maxnreg": null,
+        "name": "matmul4_kernel",
+        "num_ctas": 1,
+        "num_stages": 4,
+        "num_warps": 4,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "ptx_options": null,
+        "ptx_version": null,
+        "sanitize_overflow": true,
+        "shared": 62976,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e4nv",
+          "fp8e5"
+        ],
+        "target": "GPUTarget(backend='cuda', arch=90, warp_size=32)",
+        "tensordesc_meta": [],
+        "tmem_size": 0,
+        "triton_version": "3.8.0",
+        "warp_size": 32
+      }
+    },
+    {
+      "label": "sm90-nogroups_true-fusion-false",
+      "case_id": "nogroups_true",
+      "target": {
+        "backend": "cuda",
+        "arch": 90,
+        "warp_size": 32
+      },
+      "signature": {
+        "a_ptr": "*fp16",
+        "b_ptr": "*i32",
+        "c_ptr": "*fp16",
+        "scales_ptr": "*fp16",
+        "zeros_ptr": "*i32",
+        "M": "i32",
+        "N": "i32",
+        "K": "i32",
+        "stride_am": "i32",
+        "stride_ak": "i32",
+        "stride_bk": "i32",
+        "stride_bn": "i32",
+        "stride_cm": "i32",
+        "stride_cn": "i32",
+        "stride_scales_g": "i32",
+        "stride_scales_n": "i32",
+        "stride_zeros_g": "i32",
+        "stride_zeros_n": "i32",
+        "groupsize": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE_M": 64,
+        "BLOCK_SIZE_N": 128,
+        "BLOCK_SIZE_K": 32,
+        "GROUP_SIZE_M": 8,
+        "NO_GROUPS": true
+      },
+      "options": {
+        "num_warps": 4,
+        "num_stages": 4,
+        "enable_fp_fusion": false
+      },
+      "selected_profile": "compiled_separate_ascending_fma",
+      "status": "COMPILED_ONLY",
+      "native_execution": false,
+      "artifact_sha256": {
+        "sm90-nogroups_true-fusion-false.source": "8914db9294b72b3e29787993a457d94114cfa938bbacbada37c8ce3c40678400",
+        "sm90-nogroups_true-fusion-false.ttir": "d62924eb9a1d49770abeba8b5a3894094f48b5018aad04a5b2ca34266cddf8ea",
+        "sm90-nogroups_true-fusion-false.ttgir": "895237c3f559ae79e80e9ecedf5d875720b8fc51ec5f66cf13aaf29af0f58aa9",
+        "sm90-nogroups_true-fusion-false.llir": "8edf55072df31bc5517e73447d1d7346846ef420aad551ea404ff6f4b43a6f36",
+        "sm90-nogroups_true-fusion-false.ptx": "687b86667c02da8cc0ac72737ebff52706615df9d927535e7d16f130180de945",
+        "sm90-nogroups_true-fusion-false.cubin": "f4a3bbe9214f49f0e591c6a4eec65c87959b83108010c143eab355005b77b26e"
+      },
+      "resolved_metadata": {
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "arch": "sm90",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "deprecated_fp8_dot_operand_dtypes": [
+          "fp8e4b15"
+        ],
+        "enable_fp_fusion": false,
+        "enable_reflect_ftz": true,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/opt/conda/lib/python3.11/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "efc5d7c0513ebf646e74c0c1810a2e5bac172c71be701fc6b4176b951c349e11",
+        "instrumentation_mode": "",
+        "ir_override": null,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 1073741824,
+        "maxnreg": null,
+        "name": "matmul4_kernel",
+        "num_ctas": 1,
+        "num_stages": 4,
+        "num_warps": 4,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "ptx_options": null,
+        "ptx_version": null,
+        "sanitize_overflow": true,
+        "shared": 61440,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e4nv",
+          "fp8e5"
+        ],
+        "target": "GPUTarget(backend='cuda', arch=90, warp_size=32)",
+        "tensordesc_meta": [],
+        "tmem_size": 0,
+        "triton_version": "3.8.0",
+        "warp_size": 32
+      }
+    },
+    {
+      "label": "sm90-nogroups_true-fusion-true",
+      "case_id": "nogroups_true",
+      "target": {
+        "backend": "cuda",
+        "arch": 90,
+        "warp_size": 32
+      },
+      "signature": {
+        "a_ptr": "*fp16",
+        "b_ptr": "*i32",
+        "c_ptr": "*fp16",
+        "scales_ptr": "*fp16",
+        "zeros_ptr": "*i32",
+        "M": "i32",
+        "N": "i32",
+        "K": "i32",
+        "stride_am": "i32",
+        "stride_ak": "i32",
+        "stride_bk": "i32",
+        "stride_bn": "i32",
+        "stride_cm": "i32",
+        "stride_cn": "i32",
+        "stride_scales_g": "i32",
+        "stride_scales_n": "i32",
+        "stride_zeros_g": "i32",
+        "stride_zeros_n": "i32",
+        "groupsize": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE_M": 64,
+        "BLOCK_SIZE_N": 128,
+        "BLOCK_SIZE_K": 32,
+        "GROUP_SIZE_M": 8,
+        "NO_GROUPS": true
+      },
+      "options": {
+        "num_warps": 4,
+        "num_stages": 4,
+        "enable_fp_fusion": true
+      },
+      "selected_profile": "compiled_fused_ascending_fma",
+      "status": "COMPILED_ONLY",
+      "native_execution": false,
+      "artifact_sha256": {
+        "sm90-nogroups_true-fusion-true.source": "8914db9294b72b3e29787993a457d94114cfa938bbacbada37c8ce3c40678400",
+        "sm90-nogroups_true-fusion-true.ttir": "d62924eb9a1d49770abeba8b5a3894094f48b5018aad04a5b2ca34266cddf8ea",
+        "sm90-nogroups_true-fusion-true.ttgir": "895237c3f559ae79e80e9ecedf5d875720b8fc51ec5f66cf13aaf29af0f58aa9",
+        "sm90-nogroups_true-fusion-true.llir": "8edf55072df31bc5517e73447d1d7346846ef420aad551ea404ff6f4b43a6f36",
+        "sm90-nogroups_true-fusion-true.ptx": "597677e282e8815a6f61e7f8a5838550aa04672c15b607b057b372a67554d556",
+        "sm90-nogroups_true-fusion-true.cubin": "e2baa3b6a72189dba2f3018f6f9d5a0cdc80388311d06d3dbe787eb9c7ce487d"
+      },
+      "resolved_metadata": {
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "arch": "sm90",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "deprecated_fp8_dot_operand_dtypes": [
+          "fp8e4b15"
+        ],
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/opt/conda/lib/python3.11/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "e9561ca492889a834a77062a788c967c44dc055ff0653625ec0bfa4bf6f3c6da",
+        "instrumentation_mode": "",
+        "ir_override": null,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 1073741824,
+        "maxnreg": null,
+        "name": "matmul4_kernel",
+        "num_ctas": 1,
+        "num_stages": 4,
+        "num_warps": 4,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "ptx_options": null,
+        "ptx_version": null,
+        "sanitize_overflow": true,
+        "shared": 61440,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e4nv",
+          "fp8e5"
+        ],
+        "target": "GPUTarget(backend='cuda', arch=90, warp_size=32)",
+        "tensordesc_meta": [],
+        "tmem_size": 0,
+        "triton_version": "3.8.0",
+        "warp_size": 32
+      }
+    }
+  ],
+  "reference_sha256": "37f516a97655f24b44debd27b5bf05e583ace3a9ff5d2d21e48ba05ff37871e7",
+  "tools_sha256": {
+    "run.py": "8bbfe9397b7e91ecf48265f4f3780d134649f36a4cdcae8e32f31acec0e78b4f",
+    "oracle.py": "88e09542623444041baa90419be6a65abce610c6b1f287fedb8c3e6d98979d74"
+  },
+  "native_launch_attempted": false,
+  "native_execution": false,
+  "universal_native_equality_proved": false,
+  "numeric_acceptance": false,
+  "selected_profile_by_fusion": {
+    "fusion_off": "compiled_separate_ascending_fma",
+    "fusion_on": "compiled_fused_ascending_fma"
+  },
+  "environment_binding_complete": false,
+  "python": "3.11.17 (main, Oct  7 2026, 00:02:24) [GCC 15.3.0]",
+  "platform": "Linux-5.10.134-013.8.2.kangaroo.al8.x86_64-x86_64-with-glibc2.35",
+  "scope": "One original 64x128x32 tile, dense M64 N128 K64, two K blocks, both NO_GROUPS, nonzero physical origins, full C8208 words plus all inputs before/after. This case discriminates half fusion but not source-dot versus unfused live-carry order.",
+  "exit_code_meaning": "0 means compilation/capture completed, never universal numeric PASS; 1 selected-profile mismatch or capture/compiler/binding error; 2 unavailable native execution",
+  "preselected_plan_sha256": "5d214e34099008224c1e900cafa1c635c76dcde3f8d23a1bb12899d2342f1e49",
+  "jit_function_source_sha256": "22bd395bc8f20e801337f77dd9688e880318c569a118a4ea00e3204b6883a992",
+  "jit_cache_key": "689acf3833d9d38e71a8097bb992767a6265272d25d012e9ccca9d3b9edb6b0c",
+  "resolved_plan": {
+    "archs": [
+      80,
+      90
+    ],
+    "case_ids": [
+      "nogroups_false",
+      "nogroups_true"
+    ],
+    "fusion_values": [
+      false,
+      true
+    ],
+    "expected_records": 8
+  },
+  "exit_code": 0,
+  "artifact_sha256": {
+    "sm90-nogroups_false-fusion-true.ttir": "44e0a5e7ef701272be479c6e2674fdc6376b449566f934579f2f5e74001ac4cb",
+    "sm90-nogroups_true-fusion-false.source": "8914db9294b72b3e29787993a457d94114cfa938bbacbada37c8ce3c40678400",
+    "sm90-nogroups_true-fusion-true.ttir": "d62924eb9a1d49770abeba8b5a3894094f48b5018aad04a5b2ca34266cddf8ea",
+    "sm90-nogroups_false-fusion-false.ttir": "44e0a5e7ef701272be479c6e2674fdc6376b449566f934579f2f5e74001ac4cb",
+    "sm80-nogroups_false-fusion-false.cubin": "ab0365707d221e6df92c82ffe4b58089fbd758ad4d104c361e7db6859b918d62",
+    "sm90-nogroups_true-fusion-false.llir": "8edf55072df31bc5517e73447d1d7346846ef420aad551ea404ff6f4b43a6f36",
+    "sm80-nogroups_false-fusion-true.cubin": "e5f250c689c570b36cbdc5d9d3340720e3530fedfb39be32740d7312679734e9",
+    "sm90-nogroups_false-fusion-false.ttgir": "d8cfac4f2ca43f7f16d53e542ed508e6abff9054cf9800ee20a02250ecf25097",
+    "sm90-nogroups_true-fusion-true.source": "8914db9294b72b3e29787993a457d94114cfa938bbacbada37c8ce3c40678400",
+    "sm80-nogroups_true-fusion-false.cubin": "12db48e19c6fe391084dcf6adc25e562097d22931afdb271924e1a8d2dc77ae3",
+    "sm80-nogroups_false-fusion-false.ttir": "44e0a5e7ef701272be479c6e2674fdc6376b449566f934579f2f5e74001ac4cb",
+    "sm80-nogroups_true-fusion-false.ttgir": "b07d5a8771cbbff883d3e5d152bcb0dad1effb269a736be2f8cca799b7ddebb4",
+    "sm80-nogroups_false-fusion-false.source": "ff9f40212f95979eb0b73e74e2069981bac15901a00e47702d650c1f7a37670e",
+    "sm90-nogroups_false-fusion-true.cubin": "463fd5aa966fe053b24907b9e9df870d870182e0aa60bfc63b9b79d042cfc4aa",
+    "sm80-nogroups_true-fusion-true.cubin": "ff35a6e1f06f37edd3fffaee9b6d9c8e937953ea2570f66d81616e79a75f8868",
+    "sm90-nogroups_false-fusion-false.cubin": "8d5d88442978b600edb40d32190363962b01d900c8cc07bd96888696335fe345",
+    "sm80-nogroups_true-fusion-true.ptx": "02bc93c2c4915dec67d5c81926374ef9f11048aff120eb750aebffbe583ae243",
+    "sm90-nogroups_false-fusion-true.source": "ff9f40212f95979eb0b73e74e2069981bac15901a00e47702d650c1f7a37670e",
+    "sm90-nogroups_true-fusion-true.ttgir": "895237c3f559ae79e80e9ecedf5d875720b8fc51ec5f66cf13aaf29af0f58aa9",
+    "sm80-nogroups_false-fusion-false.llir": "367663ab015b0a8282be74cb8b1327b393996b039c70a4130333e160bd7ca6b4",
+    "sm80-nogroups_false-fusion-false.ttgir": "8a82abb54fc04d879ee719cf3d8b789022672791cb7815e04dc93673adb42bed",
+    "sm90-nogroups_true-fusion-true.llir": "8edf55072df31bc5517e73447d1d7346846ef420aad551ea404ff6f4b43a6f36",
+    "sm80-nogroups_false-fusion-true.source": "ff9f40212f95979eb0b73e74e2069981bac15901a00e47702d650c1f7a37670e",
+    "sm80-nogroups_true-fusion-false.ttir": "d62924eb9a1d49770abeba8b5a3894094f48b5018aad04a5b2ca34266cddf8ea",
+    "sm80-nogroups_true-fusion-true.ttir": "d62924eb9a1d49770abeba8b5a3894094f48b5018aad04a5b2ca34266cddf8ea",
+    "sm80-nogroups_false-fusion-true.ttgir": "8a82abb54fc04d879ee719cf3d8b789022672791cb7815e04dc93673adb42bed",
+    "sm80-nogroups_true-fusion-false.llir": "efabf823a5a451bc8b84c9ca732bfea09d5ed34bff9b8c3e1c485bed4fbb5825",
+    "sm80-nogroups_false-fusion-true.llir": "367663ab015b0a8282be74cb8b1327b393996b039c70a4130333e160bd7ca6b4",
+    "sm90-nogroups_true-fusion-false.ttgir": "895237c3f559ae79e80e9ecedf5d875720b8fc51ec5f66cf13aaf29af0f58aa9",
+    "sm80-nogroups_true-fusion-true.llir": "efabf823a5a451bc8b84c9ca732bfea09d5ed34bff9b8c3e1c485bed4fbb5825",
+    "preselected-plan.json": "5d214e34099008224c1e900cafa1c635c76dcde3f8d23a1bb12899d2342f1e49",
+    "sm90-nogroups_false-fusion-false.llir": "11061509b69b07d21e691a650f2c70ec98c9df0ac72d7356ab21f4392157661e",
+    "sm80-nogroups_true-fusion-false.source": "8914db9294b72b3e29787993a457d94114cfa938bbacbada37c8ce3c40678400",
+    "compiler-environment-after.json": "88947b7c8bf22214f51957e1cd6a81cf24e7d8e8dde07401f60a3edffc553068",
+    "sm90-nogroups_false-fusion-false.ptx": "d26f976ce5d58089e1facb767da1005746223f8dbcd56c30aefd7e1d0caed0c4",
+    "sm90-nogroups_true-fusion-false.ttir": "d62924eb9a1d49770abeba8b5a3894094f48b5018aad04a5b2ca34266cddf8ea",
+    "sm90-nogroups_false-fusion-true.llir": "11061509b69b07d21e691a650f2c70ec98c9df0ac72d7356ab21f4392157661e",
+    "sm90-nogroups_true-fusion-false.ptx": "687b86667c02da8cc0ac72737ebff52706615df9d927535e7d16f130180de945",
+    "sm90-nogroups_true-fusion-true.cubin": "e2baa3b6a72189dba2f3018f6f9d5a0cdc80388311d06d3dbe787eb9c7ce487d",
+    "sm80-nogroups_true-fusion-true.ttgir": "b07d5a8771cbbff883d3e5d152bcb0dad1effb269a736be2f8cca799b7ddebb4",
+    "sm80-nogroups_false-fusion-true.ptx": "089fec40b1a76a550947171a33cbb871f82a6175667bc6cebe1af3d657e156df",
+    "sm80-nogroups_true-fusion-true.source": "8914db9294b72b3e29787993a457d94114cfa938bbacbada37c8ce3c40678400",
+    "running-report.json": "fb3536f0c93f571d3758cb64a0524d86f784bd80d0200301e76ed9875b5b8b4c",
+    "sm90-nogroups_false-fusion-true.ptx": "e5ca9782134b3899e6fe7f52c97a3a65728f8a913c63cc62fd3c41786a6e213d",
+    "sm90-nogroups_true-fusion-false.cubin": "f4a3bbe9214f49f0e591c6a4eec65c87959b83108010c143eab355005b77b26e",
+    "compiler-environment-before.json": "f10c5c994a3e899a29f05dc94e3314a86bab854b27096b22b15b617b35c876e4",
+    "sm80-nogroups_true-fusion-false.ptx": "1fdff6b4cfcecfdfd98d8f760334fb97c1ae590afa28736989c7cda6fcfe24d3",
+    "sm80-nogroups_false-fusion-false.ptx": "814c283332b4eefc564588b82040c08ad774b3941e83f34e6a2f35165c8f9e8c",
+    "sm90-nogroups_true-fusion-true.ptx": "597677e282e8815a6f61e7f8a5838550aa04672c15b607b057b372a67554d556",
+    "sm90-nogroups_false-fusion-false.source": "ff9f40212f95979eb0b73e74e2069981bac15901a00e47702d650c1f7a37670e",
+    "sm90-nogroups_false-fusion-true.ttgir": "d8cfac4f2ca43f7f16d53e542ed508e6abff9054cf9800ee20a02250ecf25097",
+    "sm80-nogroups_false-fusion-true.ttir": "44e0a5e7ef701272be479c6e2674fdc6376b449566f934579f2f5e74001ac4cb",
+    "reference/reference.json": "37f516a97655f24b44debd27b5bf05e583ace3a9ff5d2d21e48ba05ff37871e7",
+    "reference/root-replay-receipt.json": "627fe4749d214a7e9632f07ab05466d8b3eee971a92eb2d5a24dda6a208de723",
+    "reference/case.json": "c412de0b93664902de50d71831edd83a5c33c69595a54000349c11ffe1ead0df",
+    "reference/original.py": "163c65f3c3c3c82cd0df16dd558662a8c9161d7b2af5ce9dca672384ffd140ed",
+    "reference/original_jit.py": "b254dc643df272b7ee5917b8916870d5875a006f82d36a63e8a1c77db20d4ae4",
+    "reference/oracle-reference.json": "aa97f86498c9737ad1d4d35f05d1bf0be6efc8a0082e2e9496b2116d2a8d026f",
+    "reference/evidence/freeze.py": "cb79cf74a62624d2244a69bc99580cf8287676eb8636603d7f6b951e5b309530",
+    "reference/evidence/original-task-inputs.json": "439f650f3faf8c67dd1ca6b99abbeed0dc1d7bbf81a3410f6a0dce1e8e5a111f",
+    "reference/evidence/audit_util.py": "fc984ebc775797213a5ff880cbd6810a466cfc61b249978d807af4f94d684413",
+    "reference/evidence/build-bounds-attempt1.log": "35965da21ed3c92732f4166263a45a6383bab728d2e6ef0b6461cbf1ed8cb129",
+    "reference/evidence/build-case-attempt1.log": "205592ac4a83164c0ab03fe2e7155ff9cd39216cb4a40ee77a245079cfda1def",
+    "reference/evidence/build-values-attempt1.log": "92019e2f30b518e9faa511757357681f5415c5300db420d73eedceb914527c0c",
+    "reference/evidence/replay.py": "5b9910a049aed1717686dfae340f4f3f68e0bd4ba8d90f09eba77f274e7cc14d",
+    "reference/evidence/build-execution-attempt1.log": "a02c72f11416674c73de51b0203d48043dd82f9e293c808d15251a2b33484add",
+    "reference/evidence/build-case-attempt2.log": "89ba1733917f3c435205735c354a8923b2ddef169e0bdaa7a695db1ab44209be",
+    "reference/evidence/build-execution-attempt3.log": "77d8ba93f0fe766d2a815ceb1187b0244d3fa8fd4d0907f04e4aa4624d623557",
+    "reference/evidence/receipt.json": "af19336662623cf097dd5e4f5482cc280d3cc2fd15ebc691b0704f92dd3b4f2e",
+    "reference/evidence/scope.json": "6c3d2ddd9de5e5156720c30b79de5e241b074388dce421f747387418ed14d6c2",
+    "reference/evidence/parent-bindings.json": "56ebfc74bce8b75154425daf7280cbb5517ba2dfadcdc742c0101f5f3385f01e",
+    "reference/evidence/reused-object-links.json": "c76712fe8c9679dd0592eb2d3538c5074e6c3396cc5ccf1926bea6c17318aa91",
+    "reference/evidence/build-execution-attempt2.log": "baf66b05614d0958408b44d6c8344d33e15d68b870766c68b4745425386af30d",
+    "reference/evidence/build-values-attempt2.log": "e07d2fc0da287dff2ee53f08cc8f7e9081f46366999f5540889fd3203f41e808",
+    "reference/evidence/verify.py": "e3801406fa2b0549d83639877410c87e3257a7d0bb180e09f3fc84667c36a370",
+    "reference/evidence/make_case.py": "9f6ba58377ca9af5e3ce7a0655f2287bb6dd02273b1bae59c55c1ae9ae9b6153",
+    "reference/evidence/experiment-case.json": "c412de0b93664902de50d71831edd83a5c33c69595a54000349c11ffe1ead0df",
+    "reference/evidence/build.py": "ad083d99328724c9b9a5ecef3e87d910d813dcb0d85d63556391203374d7d7fd",
+    "reference/evidence/lean_import_scan.py": "5aa5a5454187f0adf8281d38df96848494b0404273936336e1fb0668e5e560f7",
+    "reference/evidence/installation.json": "5af3c4b5e79b5545fa20fedd2dfe7db4853ff68f2ccbfddc7a3e4ece8e484376",
+    "reference/evidence/native-evidence-inputs.json": "2b2f0d760a038b7606dc9d19af324bab53c910ad055914c5fe3e12057cfccf25",
+    "reference/evidence/build-final.log": "b2a94c7b1596d1e32dfaf092157de38e98864ebdcf82bac2f156d537269d256f",
+    "reference/evidence/last-build.json": "21b686080e5c2752ac86573d8ffe36d3974a14035fb604c4b4ff9af56771163b",
+    "reference/evidence/project-closure.json": "ca9f2c33177f9b76541ae886fd6cacde55e40b384de2e0408523a139b1215462",
+    "reference/evidence/logs/20261015T034651-bench.tritonbench_g.matmul_dequantize_int4.Proofs.FPCharacterizationCase.json": "e2f3d43f20784830de8adef0916e2cf0d180d6742ce2ec4a5f56d258db85731f",
+    "reference/evidence/logs/20261015T034811-bench.tritonbench_g.matmul_dequantize_int4.Proofs.FPCharacterizationValues.json": "76e0edc90607e77eb45b85a54f49d8b6a794cc14c59002f1a865e3033f2be078",
+    "reference/evidence/logs/20261015T034729-bench.tritonbench_g.matmul_dequantize_int4.Proofs.FPCharacterizationCase.log": "fe13e816cf0a447563252fbddac5c68e2d834b933ebf17fe25a59824e0c0602e",
+    "reference/evidence/logs/20261015T035416-bench.tritonbench_g.matmul_dequantize_int4.Proofs.FPCharacterizationExecution.json": "c7a70ec440506ef5ae21b45b3bd269353e3f7f6b18a88b5e82c686c97372a777",
+    "reference/evidence/logs/20261015T035410-bench.tritonbench_g.matmul_dequantize_int4.Proofs.FPCharacterizationValues.json": "4ecb2721154b3a4547206f07458da3452ae6610d3db091db01c428caa2d9c7b3",
+    "reference/evidence/logs/20261015T034811-bench.tritonbench_g.matmul_dequantize_int4.Proofs.FPCharacterizationValues.log": "4b6592791d0b698b3271c4f7e411e5a9a1b694c91312c801e8557833addae79d",
+    "reference/evidence/logs/20261015T035243-bench.tritonbench_g.matmul_dequantize_int4.Proofs.FPCharacterizationExecution.log": "d7cd0787521ea31738c48201f1fdb5e7a06b536c52053dfef59906a46c3006de",
+    "reference/evidence/logs/20261015T035247-bench.tritonbench_g.matmul_dequantize_int4.Proofs.FPCharacterizationBounds.log": "778cc45209da3719b0f0ab80bf2a0f16875bfed63c5817dc8289b4cb81bde7a4",
+    "reference/evidence/logs/20261015T034850-bench.tritonbench_g.matmul_dequantize_int4.Proofs.FPCharacterizationValues.log": "71c4b213805254ca94f0b821d4e83480a8265c303b405ef848817ff0c87a6eb9",
+    "reference/evidence/logs/20261015T034729-bench.tritonbench_g.matmul_dequantize_int4.Proofs.FPCharacterizationCase.json": "b5b7b66f3171582b1201d58cb3f3e49594dcbdd51235c09511d9c001015ed1f6",
+    "reference/evidence/logs/20261015T035410-bench.tritonbench_g.matmul_dequantize_int4.Proofs.FPCharacterizationValues.log": "71c4b213805254ca94f0b821d4e83480a8265c303b405ef848817ff0c87a6eb9",
+    "reference/evidence/logs/20261015T035420-bench.tritonbench_g.matmul_dequantize_int4.Proofs.FPCharacterizationBounds.log": "778cc45209da3719b0f0ab80bf2a0f16875bfed63c5817dc8289b4cb81bde7a4",
+    "reference/evidence/logs/20261015T035115-bench.tritonbench_g.matmul_dequantize_int4.Proofs.FPCharacterizationExecution.json": "ab3a12739c36509449b5708d216bc1721f2e30972bd8cf2b134e2b0cfc8fe7fe",
+    "reference/evidence/logs/20261015T034651-bench.tritonbench_g.matmul_dequantize_int4.Proofs.FPCharacterizationCase.log": "8b9d216a71400b50268356237fb2541f79540a4e3b50e60c85907d4dc2c396c9",
+    "reference/evidence/logs/20261015T035243-bench.tritonbench_g.matmul_dequantize_int4.Proofs.FPCharacterizationExecution.json": "6fdd561127723da485d33b0169a98fcdfc8f4398d1f38207d6f95483b1b3cc68",
+    "reference/evidence/logs/20261015T035420-bench.tritonbench_g.matmul_dequantize_int4.Proofs.FPCharacterizationBounds.json": "bb0944d94e792cb12a90bc6286bb8f4c7ec482760ab45f4952cd4dda0d6a8e53",
+    "reference/evidence/logs/20261015T034850-bench.tritonbench_g.matmul_dequantize_int4.Proofs.FPCharacterizationValues.json": "c59a5434ef2e224b734578d4dca3bcd59e75385f4f0fd7bad9c51e707c62a048",
+    "reference/evidence/logs/20261015T035416-bench.tritonbench_g.matmul_dequantize_int4.Proofs.FPCharacterizationExecution.log": "d7cd0787521ea31738c48201f1fdb5e7a06b536c52053dfef59906a46c3006de",
+    "reference/evidence/logs/20261015T035407-bench.tritonbench_g.matmul_dequantize_int4.Proofs.FPCharacterizationCase.log": "fe13e816cf0a447563252fbddac5c68e2d834b933ebf17fe25a59824e0c0602e",
+    "reference/evidence/logs/20261015T035247-bench.tritonbench_g.matmul_dequantize_int4.Proofs.FPCharacterizationBounds.json": "9522d2e5ca74a76d50e6e2fc4c5b707c5d43b0206c863dc2859b1744e9e58c69",
+    "reference/evidence/logs/20261015T035045-bench.tritonbench_g.matmul_dequantize_int4.Proofs.FPCharacterizationExecution.log": "c995e1d50a3a127d2a0558d9b3163b51b05b215475db486dadeb2b89dae1dcb1",
+    "reference/evidence/logs/20261015T035045-bench.tritonbench_g.matmul_dequantize_int4.Proofs.FPCharacterizationExecution.json": "c481e52b1b5157b373f95e111216dffaae68a131b1903952b6b3d7eb003d7a58",
+    "reference/evidence/logs/20261015T035115-bench.tritonbench_g.matmul_dequantize_int4.Proofs.FPCharacterizationExecution.log": "b1482865284c4a2718f51c0e20a655063f6e0ce0cc6cb7cb8f1b0b972737e2fc",
+    "reference/evidence/logs/20261015T035407-bench.tritonbench_g.matmul_dequantize_int4.Proofs.FPCharacterizationCase.json": "a6a4589c2e988bfaadd9bca43584b0cf58589167e2759602db006a44a3bd7e0f",
+    "reference/evidence/parents/original_source/receipt.json": "1bbeb820ae43ec841b8be2a9937762f558680b2bcc1b5e40f371d81655feb621",
+    "reference/evidence/parents/compiled_graphs/receipt.json": "f940faa3769207890ab65506c7f27231db20c1fe897ca0c78cc264c05f661a0c",
+    "reference/evidence/parents/native_capture/original.py": "163c65f3c3c3c82cd0df16dd558662a8c9161d7b2af5ce9dca672384ffd140ed",
+    "reference/evidence/parents/native_capture/receipt.json": "2b694749fcfea47f0947a738cd7e62b22f88051f1e53c078281dccc3fff05886",
+    "reference/evidence/parents/native_capture/original_jit.py": "b254dc643df272b7ee5917b8916870d5875a006f82d36a63e8a1c77db20d4ae4",
+    "reference/evidence/parents/native_capture/running-results.json": "561c3493c30d25c97c3163580a950f2f429d15f06a53cd8000c88fdba3792d8a",
+    "reference/evidence/parents/native_capture/input-binding.json": "254f789ce43cbe9a94e5e39cb19d35d0a436d83a94d2fe1f0e84ef284cf923ba",
+    "reference/evidence/.lake/build/lib/lean/bench/tritonbench_g/matmul_dequantize_int4/Proofs/FPCharacterizationExecution.olean": "281b6d7e4d961ae3419402f4c527222102e05c87484643d65f43bf3ca626e192",
+    "reference/evidence/.lake/build/lib/lean/bench/tritonbench_g/matmul_dequantize_int4/Proofs/FPCharacterizationBounds.olean": "0e90a359513e4d07b682279d577c623e3ea6a1085f1bf377bc87c201171f23c6",
+    "reference/evidence/.lake/build/lib/lean/bench/tritonbench_g/matmul_dequantize_int4/Proofs/FPCharacterizationCase.olean": "35de229b239e571edf9e67b0e33100a9a470e42debbb3d2e4b56c68669aa4048",
+    "reference/evidence/.lake/build/lib/lean/bench/tritonbench_g/matmul_dequantize_int4/Proofs/FPCharacterizationValues.olean": "a9e5fb5a6f7cc7dd2aaf5ac1bfd29c19b791b905a7e3c47b8611f5a4c5014898",
+    "reference/evidence/bench/tritonbench_g/matmul_dequantize_int4/Proofs/FPCharacterizationValues.lean": "50f448bc32ef042e3f3c01f2d4011a6b24027900f422c0fc9a3d75d06522aa3f",
+    "reference/evidence/bench/tritonbench_g/matmul_dequantize_int4/Proofs/FPCharacterizationCase.lean": "e25a95515b68b0b40447a475d1028519a41a2b92cf892d2ea58405ec1ebf3212",
+    "reference/evidence/bench/tritonbench_g/matmul_dequantize_int4/Proofs/FPCharacterizationExecution.lean": "6e588fa49adbcec0d138971ae908e893aef6190e0993f85a365d9bc434a603da",
+    "reference/evidence/bench/tritonbench_g/matmul_dequantize_int4/Proofs/FPCharacterizationBounds.lean": "ad3e6f3564fae57950190050578557c18e1c6dc2942ed6dd15ebe9144a3caa7c",
+    "tools/run.py": "8bbfe9397b7e91ecf48265f4f3780d134649f36a4cdcae8e32f31acec0e78b4f",
+    "tools/oracle.py": "88e09542623444041baa90419be6a65abce610c6b1f287fedb8c3e6d98979d74"
+  }
+}

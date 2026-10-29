@@ -1,0 +1,12 @@
+{
+  "task_selection_matches_current_inventory": true,
+  "all_current_source_hashes_match": true,
+  "tasks": 41,
+  "public_declarations": 67,
+  "lake_gpu_runs": 0,
+  "repository_edits": 0,
+  "outputs": {
+    "math-only-audit.json": "6b3d7afcc55d6c046755802d29ab1b5ef60480f01280ca507d48101978a34b20",
+    "math-only-audit.md": "c355b35977849077492dd9296130eaa9110ad84b6d9ce74aa2c48d3a29434426"
+  }
+}

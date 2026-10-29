@@ -1,0 +1,401 @@
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:6:15: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.bool`
+
+Note: Inferred this name from the expected resulting type of `.bool`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:6:34: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.bool`
+
+Note: Inferred this name from the expected resulting type of `.bool`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:7:15: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.bool`
+
+Note: Inferred this name from the expected resulting type of `.bool`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:7:34: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.int8`
+
+Note: Inferred this name from the expected resulting type of `.int8`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:8:15: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.bool`
+
+Note: Inferred this name from the expected resulting type of `.bool`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:8:34: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.uint8`
+
+Note: Inferred this name from the expected resulting type of `.uint8`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:9:15: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.bool`
+
+Note: Inferred this name from the expected resulting type of `.bool`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:9:34: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.int16`
+
+Note: Inferred this name from the expected resulting type of `.int16`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:10:15: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.bool`
+
+Note: Inferred this name from the expected resulting type of `.bool`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:10:34: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.uint16`
+
+Note: Inferred this name from the expected resulting type of `.uint16`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:11:15: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.bool`
+
+Note: Inferred this name from the expected resulting type of `.bool`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:11:34: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.int32`
+
+Note: Inferred this name from the expected resulting type of `.int32`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:12:15: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.bool`
+
+Note: Inferred this name from the expected resulting type of `.bool`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:12:34: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.uint32`
+
+Note: Inferred this name from the expected resulting type of `.uint32`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:474:26: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.uint32`
+
+Note: Inferred this name from the expected resulting type of `.uint32`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:475:26: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.int64`
+
+Note: Inferred this name from the expected resulting type of `.int64`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:476:26: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.uint64`
+
+Note: Inferred this name from the expected resulting type of `.uint64`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:470:26: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.uint8`
+
+Note: Inferred this name from the expected resulting type of `.uint8`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:471:26: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.int16`
+
+Note: Inferred this name from the expected resulting type of `.int16`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:472:26: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.uint16`
+
+Note: Inferred this name from the expected resulting type of `.uint16`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:473:26: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.int32`
+
+Note: Inferred this name from the expected resulting type of `.int32`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:468:26: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.bool`
+
+Note: Inferred this name from the expected resulting type of `.bool`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:469:26: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.int8`
+
+Note: Inferred this name from the expected resulting type of `.int8`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:451:21: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.int32`
+
+Note: Inferred this name from the expected resulting type of `.int32`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:452:21: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.uint32`
+
+Note: Inferred this name from the expected resulting type of `.uint32`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:453:21: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.int64`
+
+Note: Inferred this name from the expected resulting type of `.int64`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:454:21: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.uint64`
+
+Note: Inferred this name from the expected resulting type of `.uint64`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:446:21: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.bool`
+
+Note: Inferred this name from the expected resulting type of `.bool`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:447:21: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.int8`
+
+Note: Inferred this name from the expected resulting type of `.int8`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:448:21: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.uint8`
+
+Note: Inferred this name from the expected resulting type of `.uint8`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:449:21: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.int16`
+
+Note: Inferred this name from the expected resulting type of `.int16`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:450:21: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.uint16`
+
+Note: Inferred this name from the expected resulting type of `.uint16`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:429:27: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.int32`
+
+Note: Inferred this name from the expected resulting type of `.int32`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:430:27: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.uint32`
+
+Note: Inferred this name from the expected resulting type of `.uint32`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:431:27: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.int64`
+
+Note: Inferred this name from the expected resulting type of `.int64`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:432:27: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.uint64`
+
+Note: Inferred this name from the expected resulting type of `.uint64`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:425:27: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.int8`
+
+Note: Inferred this name from the expected resulting type of `.int8`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:426:27: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.uint8`
+
+Note: Inferred this name from the expected resulting type of `.uint8`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:427:27: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.int16`
+
+Note: Inferred this name from the expected resulting type of `.int16`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:428:27: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.uint16`
+
+Note: Inferred this name from the expected resulting type of `.uint16`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:424:27: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.bool`
+
+Note: Inferred this name from the expected resulting type of `.bool`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:410:26: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.uint64`
+
+Note: Inferred this name from the expected resulting type of `.uint64`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:406:26: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.uint16`
+
+Note: Inferred this name from the expected resulting type of `.uint16`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:407:26: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.int32`
+
+Note: Inferred this name from the expected resulting type of `.int32`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:408:26: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.uint32`
+
+Note: Inferred this name from the expected resulting type of `.uint32`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:409:26: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.int64`
+
+Note: Inferred this name from the expected resulting type of `.int64`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:402:26: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.bool`
+
+Note: Inferred this name from the expected resulting type of `.bool`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:403:26: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.int8`
+
+Note: Inferred this name from the expected resulting type of `.int8`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:404:26: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.uint8`
+
+Note: Inferred this name from the expected resulting type of `.uint8`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:405:26: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.int16`
+
+Note: Inferred this name from the expected resulting type of `.int16`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:384:26: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.uint16`
+
+Note: Inferred this name from the expected resulting type of `.uint16`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:385:26: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.int32`
+
+Note: Inferred this name from the expected resulting type of `.int32`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:386:26: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.uint32`
+
+Note: Inferred this name from the expected resulting type of `.uint32`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:387:26: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.int64`
+
+Note: Inferred this name from the expected resulting type of `.int64`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:388:26: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.uint64`
+
+Note: Inferred this name from the expected resulting type of `.uint64`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:380:26: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.bool`
+
+Note: Inferred this name from the expected resulting type of `.bool`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:381:26: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.int8`
+
+Note: Inferred this name from the expected resulting type of `.int8`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:382:26: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.uint8`
+
+Note: Inferred this name from the expected resulting type of `.uint8`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:383:26: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.int16`
+
+Note: Inferred this name from the expected resulting type of `.int16`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:365:38: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.int64`
+
+Note: Inferred this name from the expected resulting type of `.int64`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:366:38: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.uint64`
+
+Note: Inferred this name from the expected resulting type of `.uint64`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:361:38: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.int16`
+
+Note: Inferred this name from the expected resulting type of `.int16`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:362:38: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.uint16`
+
+Note: Inferred this name from the expected resulting type of `.uint16`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:363:38: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.int32`
+
+Note: Inferred this name from the expected resulting type of `.int32`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:364:38: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.uint32`
+
+Note: Inferred this name from the expected resulting type of `.uint32`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:358:38: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.bool`
+
+Note: Inferred this name from the expected resulting type of `.bool`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:359:38: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.int8`
+
+Note: Inferred this name from the expected resulting type of `.int8`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:360:38: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.uint8`
+
+Note: Inferred this name from the expected resulting type of `.uint8`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:338:37: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.uint8`
+
+Note: Inferred this name from the expected resulting type of `.uint8`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:339:37: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.int16`
+
+Note: Inferred this name from the expected resulting type of `.int16`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:340:37: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.uint16`
+
+Note: Inferred this name from the expected resulting type of `.uint16`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:341:37: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.int32`
+
+Note: Inferred this name from the expected resulting type of `.int32`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:342:37: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.uint32`
+
+Note: Inferred this name from the expected resulting type of `.uint32`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:343:37: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.int64`
+
+Note: Inferred this name from the expected resulting type of `.int64`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:344:37: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.uint64`
+
+Note: Inferred this name from the expected resulting type of `.uint64`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:336:37: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.bool`
+
+Note: Inferred this name from the expected resulting type of `.bool`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:337:37: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.int8`
+
+Note: Inferred this name from the expected resulting type of `.int8`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:319:35: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.int32`
+
+Note: Inferred this name from the expected resulting type of `.int32`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:320:35: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.uint32`
+
+Note: Inferred this name from the expected resulting type of `.uint32`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:321:35: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.int64`
+
+Note: Inferred this name from the expected resulting type of `.int64`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:322:35: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.uint64`
+
+Note: Inferred this name from the expected resulting type of `.uint64`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:315:35: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.int8`
+
+Note: Inferred this name from the expected resulting type of `.int8`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:316:35: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.uint8`
+
+Note: Inferred this name from the expected resulting type of `.uint8`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:317:35: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.int16`
+
+Note: Inferred this name from the expected resulting type of `.int16`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:318:35: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.uint16`
+
+Note: Inferred this name from the expected resulting type of `.uint16`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:314:35: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.bool`
+
+Note: Inferred this name from the expected resulting type of `.bool`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:300:37: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.uint64`
+
+Note: Inferred this name from the expected resulting type of `.uint64`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:293:37: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.int8`
+
+Note: Inferred this name from the expected resulting type of `.int8`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:294:37: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.uint8`
+
+Note: Inferred this name from the expected resulting type of `.uint8`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:295:37: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.int16`
+
+Note: Inferred this name from the expected resulting type of `.int16`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:296:37: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.uint16`
+
+Note: Inferred this name from the expected resulting type of `.uint16`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:297:37: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.int32`
+
+Note: Inferred this name from the expected resulting type of `.int32`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:298:37: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.uint32`
+
+Note: Inferred this name from the expected resulting type of `.uint32`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:299:37: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.int64`
+
+Note: Inferred this name from the expected resulting type of `.int64`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:292:37: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.bool`
+
+Note: Inferred this name from the expected resulting type of `.bool`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:278:34: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.uint64`
+
+Note: Inferred this name from the expected resulting type of `.uint64`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:274:34: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.uint16`
+
+Note: Inferred this name from the expected resulting type of `.uint16`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:275:34: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.int32`
+
+Note: Inferred this name from the expected resulting type of `.int32`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:276:34: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.uint32`
+
+Note: Inferred this name from the expected resulting type of `.uint32`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:277:34: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.DType.int64`
+
+Note: Inferred this name from the expected resulting type of `.int64`:
+  VectorAddition.DTypeScope.DType
+/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean:270:34: error: maximum number of errors (100; from option `maxErrors`) reached, exiting

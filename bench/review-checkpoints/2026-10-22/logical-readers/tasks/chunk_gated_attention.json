@@ -1,0 +1,108 @@
+{
+  "schema": 1,
+  "task": "chunk_gated_attention",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue03/result.json",
+    "sha256": "84baaed0bf9ee3c3b7df395dc0c6e51319c126392fee2a5b98fcea2c5b82f581",
+    "task_index": 2
+  },
+  "finding": "Recurrent and prefix readers exposed typed channel and tuple-index transport rather than logical tensor axes.",
+  "resolution": "Added genuine inner key/value/gate/seed tensors and history/final outputs; gateK selects the original gate feature axis. Prefix inputs/outputs use head/time/feature coordinates. Readers retain adjacent independent mathematics and thin theorem applications.",
+  "mathematical_target": "Mathematics.innerWeight/innerContribution/innerState expose independent chunk gate products and logical history/final contraction, including gateK choice. prefixResult exposes the finite within-chunk cumulative sum.",
+  "conditions_and_scope": "Both genuine recurrent and prefix Real entries retained, complete ordinary-grid plan lists and logical histories/final outputs, zero-padding/repeated-tail staging and exhausted autotune programs. StagedLayout.Canonical; logical K<=p.K and V<=p.V; DirectRealSequence.InputSeparate and conditional history/final separation; innerDomain retained via ImplementsOn. Prefix keeps Canonical, BS in {16,32,64}, T<=p.T, S<=p.S, input/output separation and prefixDomain. KernelOnly Contract retains active checked staging and BS selection.",
+  "proof_connection": "inner_full_judgment_iff and prefix_full_judgment_iff retain the exact complete ImplementsOn judgments and domains. inner_correct owns output routing and the original implementation theorem application in Proofs.",
+  "fp_review": "Read the entire selected FPEquiv.lean; unchanged and hash-equal to both prior selected evidence and this campaign snapshot. innerOriginal versus existing innerSumLeft, complete per-base recurrent source, and prefixOriginal versus prefixIndexFirst, complete per-base prefix source including exhaustion branches. The recurrent Program.domain retains the actual reached finite carry/dot operand requirement; this is not an unrestricted full-grid FP theorem.",
+  "numerical_dependencies": "ScalarArithmetic.Rules R remains explicit for recurrent equivalence, but #print_fp_assumptions reports no experimental entries consumed and the shared strict addCommute model certificate. Prefix indexAssumptions = []; only natural address multiplication changes.",
+  "previous_formula_scope": {
+    "mathematical_target": "Mathematics.innerWeight/innerContribution/innerState expose independent chunk gate products and logical history/final contraction, including gateK choice. prefixResult exposes the finite within-chunk cumulative sum.",
+    "required_conditions": "StagedLayout.Canonical; logical K<=p.K and V<=p.V; DirectRealSequence.InputSeparate and conditional history/final separation; innerDomain retained via ImplementsOn. Prefix keeps Canonical, BS in {16,32,64}, T<=p.T, S<=p.S, input/output separation and prefixDomain. KernelOnly Contract retains active checked staging and BS selection.",
+    "scope": "Both genuine recurrent and prefix Real entries retained, complete ordinary-grid plan lists and logical histories/final outputs, zero-padding/repeated-tail staging and exhausted autotune programs.",
+    "canonical_connection": "Displayed Mathematics.innerResult/prefixResult are definitionally the existing independent targets; inner_implements/prefix_implements typecheck unchanged with all original hypotheses.",
+    "fp_program_pair": "innerOriginal versus existing innerSumLeft, complete per-base recurrent source, and prefixOriginal versus prefixIndexFirst, complete per-base prefix source including exhaustion branches. The recurrent Program.domain retains the actual reached finite carry/dot operand requirement; this is not an unrestricted full-grid FP theorem.",
+    "numerical_dependencies": "ScalarArithmetic.Rules R remains explicit for recurrent equivalence, but #print_fp_assumptions reports no experimental entries consumed and the shared strict addCommute model certificate. Prefix indexAssumptions = []; only natural address multiplication changes."
+  },
+  "verification": [
+    {
+      "kind": "targeted_logical_io_helpers_correct_source_and_direct_dependency_check",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue03/final_build.py"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue03/final-build.log",
+      "log_sha256": "6d41b5e23851110623d620f5c7d5427049dedd1dfa98ca919f03812c7769c050",
+      "verification_record": ".veritile-cache/logical-reader-review-20261022/queue03/final-build-verification.json",
+      "verification_record_sha256": "49e363435ca0d92c42a5697283884d2d74443d5552a00dcee5e0b8d5d103088b",
+      "modules": [
+        "bench/repairs/tritonbench_g/chunk_gated_attention/KernelOnly/LogicalIO.lean",
+        "bench/repairs/tritonbench_g/chunk_gated_attention/KernelOnly/Proofs/LogicalIO.lean",
+        "bench/repairs/tritonbench_g/chunk_gated_attention/KernelOnly/Correct.lean"
+      ]
+    },
+    {
+      "kind": "fresh_task_local_imports",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue03/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue03/chunk_gated_attention-joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue03/chunk_gated_attention-joint.log",
+      "verification_record": ".veritile-cache/logical-reader-review-20261022/queue03/chunk_gated_attention-joint-verification.json",
+      "verification_record_sha256": "4814fc6c25159f5e03355187d98e3950edc1005cfd697e5fd5f0f72d63fb1ef6",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fixture": ".veritile-cache/logical-reader-review-20261022/queue03/chunk_gated_attention-joint.lean",
+      "fixture_sha256": "59ad0c970963055c8828035ef3e5a7f6d03fde3296fc5999d9400986010f934e"
+    },
+    {
+      "kind": "reused_prior_full_selected_fp_build_with_identical_current_source",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/headline-formulas-20261022/build.py",
+        "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/FPEquiv.lean",
+        "bench/repairs/tritonbench_g/chunk_gate_recurrence/FPEquiv.lean",
+        "bench/repairs/tritonbench_g/chunk_gated_attention/KernelOnly/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/headline-formulas-20261022/queue03/fp-batch1.log",
+      "log_sha256": "6409935327132d80729f51427b133d45af245f80c3d36965f241c600114c3d8f",
+      "source": "bench/repairs/tritonbench_g/chunk_gated_attention/KernelOnly/FPEquiv.lean",
+      "source_sha256": "aa68539cdd4769cebb53c67b113ed2f589c36045b1bb00ff58a4f12201901588",
+      "prior_report": ".veritile-cache/headline-formulas-20261022/queue03/result.json",
+      "prior_report_sha256": "d4a5ed0494398cfd46628242d6bf8cf2c6af548496b72291ca5451fb3f1f9708",
+      "note": "This is explicitly prior successful build evidence. Current selected source equals both the prior pin and this campaign before snapshot; the fresh joint reuses its unchanged object.",
+      "receipt": ".veritile-cache/headline-formulas-20261022/build/lib/lean/bench/repairs/tritonbench_g/chunk_gated_attention/KernelOnly/FPEquiv.workspace-build.json",
+      "receipt_sha256": "1868f5eeaf619f894b06ba3c68482f099651acb525cfb5198d91badc45455f21"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/chunk_gated_attention/KernelOnly/Contract.lean": "8c92e1fc83bfae841ab2cacd766dcb4a3348944fc9afb4b23a3d405c94bc2c1f",
+    "bench/repairs/tritonbench_g/chunk_gated_attention/KernelOnly/Correct.lean": "b390c42972f40dbdb72254b6ae493a8fad5bdab88a69d18594b6d884c81e902c",
+    "bench/repairs/tritonbench_g/chunk_gated_attention/KernelOnly/FPEquiv.lean": "aa68539cdd4769cebb53c67b113ed2f589c36045b1bb00ff58a4f12201901588",
+    "bench/repairs/tritonbench_g/chunk_gated_attention/KernelOnly/LogicalIO.lean": "03a09ce9fe6ee45639bb07fe1879fc04701075a1d78fbaa92d122eb35c89675d",
+    "bench/repairs/tritonbench_g/chunk_gated_attention/KernelOnly/Proofs/LogicalIO.lean": "e8ebad343c0fcc3bc7693f22cf979a7ead9ddf3da33f6cc97afd693acb286abd",
+    "bench/repairs/tritonbench_g/chunk_gated_attention/KernelOnly/RealIO.lean": "52e721a8d45e2efc93f8d2eff5202c61929c39cd71708a732b700a9cb1a77e49",
+    "bench/repairs/tritonbench_g/chunk_gated_attention/KernelOnly/Kernels.lean": "9dc56cee762d7712f5c7548838593745fd21e1c2a24ec4c68c61e40dc20db874",
+    "bench/repairs/tritonbench_g/chunk_gated_attention/KernelOnly/PairIO.lean": "d8d995a5b9447f408a9a15f1888d3a8d63a2588775310a48883d5a5f7cb35272",
+    "bench/repairs/tritonbench_g/chunk_gated_attention/Proofs/NativeFP.lean": "40cc28ff0e1fe5f9ab7ad3c220df5e40673751b95ddd4b4274bf70add34419d7",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [
+    "Only targeted modules and task-local imports were checked; unchanged dependency objects are reused rather than replaying the complete proof closure."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

@@ -1,0 +1,188 @@
+{
+  "status": "PASS",
+  "source": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/attention_kernel_repaired.py",
+  "source_sha256": "e7aaea2b35aff93f2f92b1a6d4e50a824259cbf38205346b731dfc8d0ae9e77a",
+  "typed_source": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/Kernels.lean",
+  "typed_source_sha256": "0cd77a66a23ff9bf5fc5c4fb49b5b97fab78cc9821bc06da234d65914346843c",
+  "script_sha256": "232259129ec08ca70e7242a9183f547ea1ff7dd85c39f1f7dcb07838a37ce252",
+  "profiles": [
+    {
+      "profile": "float16_N1_D16_M16_K16_W8_S4",
+      "ttir": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/kernel-evidence/binder-artifacts/float16_N1_D16_M16_K16_W8_S4.ttir",
+      "sha256": "9520ddb6d238342cd35d680be722f1cf43046b329462f335b5142be4e10cbb54",
+      "checks": {
+        "query_widen": true,
+        "query_narrow": true,
+        "bias_storage_add": true,
+        "bias_storage_multiply": true,
+        "bias_widen": true,
+        "QK_default_FP32": true,
+        "P_storage_cast": true,
+        "PV_default_FP32": true,
+        "output_storage_cast": true,
+        "output_storage_store": true
+      }
+    },
+    {
+      "profile": "float16_N129_D128_M128_K128_W4_S4",
+      "ttir": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/kernel-evidence/binder-artifacts/float16_N129_D128_M128_K128_W4_S4.ttir",
+      "sha256": "3eff68a87ab9a929f973ad8f8a7f9c4e56c32587143b0517cf1b7b82d7e0de8e",
+      "checks": {
+        "query_widen": true,
+        "query_narrow": true,
+        "bias_storage_add": true,
+        "bias_storage_multiply": true,
+        "bias_widen": true,
+        "QK_default_FP32": true,
+        "P_storage_cast": true,
+        "PV_default_FP32": true,
+        "output_storage_cast": true,
+        "output_storage_store": true
+      }
+    },
+    {
+      "profile": "float16_N129_D128_M128_K128_W8_S4",
+      "ttir": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/kernel-evidence/binder-artifacts/float16_N129_D128_M128_K128_W8_S4.ttir",
+      "sha256": "3eff68a87ab9a929f973ad8f8a7f9c4e56c32587143b0517cf1b7b82d7e0de8e",
+      "checks": {
+        "query_widen": true,
+        "query_narrow": true,
+        "bias_storage_add": true,
+        "bias_storage_multiply": true,
+        "bias_widen": true,
+        "QK_default_FP32": true,
+        "P_storage_cast": true,
+        "PV_default_FP32": true,
+        "output_storage_cast": true,
+        "output_storage_store": true
+      }
+    },
+    {
+      "profile": "float16_N97_D64_M128_K16_W4_S1",
+      "ttir": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/kernel-evidence/binder-artifacts/float16_N97_D64_M128_K16_W4_S1.ttir",
+      "sha256": "7b1eedf31621bdf1cf97eca25140a1950f34be9ae0c5937c540aac9f7b37a503",
+      "checks": {
+        "query_widen": true,
+        "query_narrow": true,
+        "bias_storage_add": true,
+        "bias_storage_multiply": true,
+        "bias_widen": true,
+        "QK_default_FP32": true,
+        "P_storage_cast": true,
+        "PV_default_FP32": true,
+        "output_storage_cast": true,
+        "output_storage_store": true
+      }
+    },
+    {
+      "profile": "float16_N65_D32_M16_K128_W8_S4",
+      "ttir": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/kernel-evidence/binder-artifacts/float16_N65_D32_M16_K128_W8_S4.ttir",
+      "sha256": "a04f1fca269de8ded805e50a912594ebcaa72f75e55ad25a41dc5b758cc9ac2a",
+      "checks": {
+        "query_widen": true,
+        "query_narrow": true,
+        "bias_storage_add": true,
+        "bias_storage_multiply": true,
+        "bias_widen": true,
+        "QK_default_FP32": true,
+        "P_storage_cast": true,
+        "PV_default_FP32": true,
+        "output_storage_cast": true,
+        "output_storage_store": true
+      }
+    },
+    {
+      "profile": "bfloat16_N1_D16_M16_K16_W8_S4",
+      "ttir": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/kernel-evidence/binder-artifacts/bfloat16_N1_D16_M16_K16_W8_S4.ttir",
+      "sha256": "53d67933015999bf273aa954703583ed91035538f7c9499503e29b32fe95507e",
+      "checks": {
+        "query_widen": true,
+        "query_narrow": true,
+        "bias_storage_add": true,
+        "bias_storage_multiply": true,
+        "bias_widen": true,
+        "QK_default_FP32": true,
+        "P_storage_cast": true,
+        "PV_default_FP32": true,
+        "output_storage_cast": true,
+        "output_storage_store": true
+      }
+    },
+    {
+      "profile": "bfloat16_N129_D128_M128_K128_W4_S4",
+      "ttir": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/kernel-evidence/binder-artifacts/bfloat16_N129_D128_M128_K128_W4_S4.ttir",
+      "sha256": "635fcc3cafe6da3bea1a2178ffd3fee0328e1f8e43a5173fa4005dbbf0b814fa",
+      "checks": {
+        "query_widen": true,
+        "query_narrow": true,
+        "bias_storage_add": true,
+        "bias_storage_multiply": true,
+        "bias_widen": true,
+        "QK_default_FP32": true,
+        "P_storage_cast": true,
+        "PV_default_FP32": true,
+        "output_storage_cast": true,
+        "output_storage_store": true
+      }
+    },
+    {
+      "profile": "bfloat16_N129_D128_M128_K128_W8_S4",
+      "ttir": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/kernel-evidence/binder-artifacts/bfloat16_N129_D128_M128_K128_W8_S4.ttir",
+      "sha256": "635fcc3cafe6da3bea1a2178ffd3fee0328e1f8e43a5173fa4005dbbf0b814fa",
+      "checks": {
+        "query_widen": true,
+        "query_narrow": true,
+        "bias_storage_add": true,
+        "bias_storage_multiply": true,
+        "bias_widen": true,
+        "QK_default_FP32": true,
+        "P_storage_cast": true,
+        "PV_default_FP32": true,
+        "output_storage_cast": true,
+        "output_storage_store": true
+      }
+    },
+    {
+      "profile": "bfloat16_N97_D64_M128_K16_W4_S1",
+      "ttir": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/kernel-evidence/binder-artifacts/bfloat16_N97_D64_M128_K16_W4_S1.ttir",
+      "sha256": "aa92a67c0229b07042fd06f49ff8b763d348a52bdae8c67319ca162a472a93bd",
+      "checks": {
+        "query_widen": true,
+        "query_narrow": true,
+        "bias_storage_add": true,
+        "bias_storage_multiply": true,
+        "bias_widen": true,
+        "QK_default_FP32": true,
+        "P_storage_cast": true,
+        "PV_default_FP32": true,
+        "output_storage_cast": true,
+        "output_storage_store": true
+      }
+    },
+    {
+      "profile": "bfloat16_N65_D32_M16_K128_W8_S4",
+      "ttir": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/kernel-evidence/binder-artifacts/bfloat16_N65_D32_M16_K128_W8_S4.ttir",
+      "sha256": "4138579beb383b1f02b6b10afdc722832611a0554bfa408b43cbb39868e891dd",
+      "checks": {
+        "query_widen": true,
+        "query_narrow": true,
+        "bias_storage_add": true,
+        "bias_storage_multiply": true,
+        "bias_widen": true,
+        "QK_default_FP32": true,
+        "P_storage_cast": true,
+        "PV_default_FP32": true,
+        "output_storage_cast": true,
+        "output_storage_store": true
+      }
+    }
+  ],
+  "typed_source_annotations": [
+    "Explicit .to(tl.float32) on already-FP32 default QK/PV dot results only bridges the DSL explicit fp32 carrier to its FP32 compute real carrier. It is the identity in Real and Native staging, and creates no native rounding instruction.",
+    "Explicit bias scalar .to(storage) states Triton implicit floating-scalar conversion; storage bias add/multiply and actual constants 0x3DC5/0x3FB9 are retained.",
+    "Lean natural-number indexing is connected to i32/i64/u64 by Machine.closed; Python start_m remains i32 to satisfy the block-pointer offset ABI."
+  ],
+  "boundary": "Ordinary Python-to-typed-source, compiler/layout and runtime contracts. This check pins the complete candidate and both typed bodies and validates precision in all eight offline profiles; it is not a compiler implementation proof.",
+  "GPU_execution": false,
+  "FP_to_Real_accuracy_claimed": false
+}

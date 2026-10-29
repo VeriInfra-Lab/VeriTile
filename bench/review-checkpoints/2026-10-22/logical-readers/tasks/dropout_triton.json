@@ -1,0 +1,116 @@
+{
+  "schema": 1,
+  "task": "dropout_triton",
+  "status": "unchanged",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue05/result.json",
+    "sha256": "b7855ba15faaf5e2f177961e4a8a89181354e8928bbce04e8519a187efbab386",
+    "task_index": 1
+  },
+  "finding": "Already a direct mixed logical-array formula, with genuine signed keep-mask input and no storage coordinates in its result.",
+  "resolution": "Unchanged after reading both readers, IO and the independent contract. The existing small safe/run proof application is retained.",
+  "mathematical_target": "If keep[j]≠0, xs[j]/(1-p); otherwise zero, under total Real division.",
+  "conditions_and_scope": "Existing masked tile, all data and signed-int32 mask values, including p=1; partial conventional-dropout domain remains separately documented. Source safety/execution and exterior typed frame remain in the judgment.",
+  "proof_connection": "Existing MixedMaskedKernelIO₂.Implements introduction from RealEndpoints.masked_safe/masked_run; no judgment change.",
+  "fp_review": "Actual FP32 source versus integer-index multiplication commutation, unrestricted FP words and p; no floating operation rewritten.",
+  "numerical_dependencies": {
+    "experimental_rules_used": [],
+    "missing_experimental_evidence": [],
+    "note": "Existing actual source pair retained; no numerical operation/order rewrite or new admission obligation. Empty experimental rules do not assert arbitrary opaque-model/hardware identity."
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "Already inline: if keep[j]≠0 then xs[j]/(1-p) else 0, in total Real arithmetic.",
+    "required_conditions": [
+      "Mixed regional IO carries masked FP32 input/output, signed-int32 keep metadata, initial binding/bounds and exterior frame.",
+      "Contract accepts builtin finite Python float p in [0,1], so p=1 is intentionally allowed. The main total-Real theorem is broader.",
+      "Contract.expected explicitly uses total division. Contract.Correct.mathematicalValue is an independent Option-valued conventional formula; MathematicalDomain requires kept active coordinates to have p≠1. At kept p=1 the main Real result is zero by total division, not a conventional defined dropout value."
+    ],
+    "scope": "One masked block at every actual pid in MixedMaskedKernelIO₂; blockSize is source tile width, active index pid*blockSize+j<n. This remains the established per-program theorem, not a newly claimed host/grid theorem.",
+    "canonical_connection": "Unchanged RealEndpoints.masked_safe and masked_run establish the public judgment. Existing partial-value/domain definitions document the conventional mathematical interpretation separately.",
+    "fp_program_pair": {
+      "actual_pairs": [
+        "DropoutTriton.kernel vs indexCommutedKernel"
+      ],
+      "source_precision": "FP32 payload/arithmetic/output and signed-int32 keep mask preserved.",
+      "transformation": "Only integer index multiplication operands commute.",
+      "model_domain_and_guarantees": "ProfiledMemory original/indexCommuted use domain=[] and assumptions=[] with fixed fp32Theory; Rewrite.originalExecution gives success and execution_equal gives complete final memory equality. No p=1, finite-data or active-lane numerical restriction is added.",
+      "experimental_rule_instances_used": [],
+      "missing_experimental_evidence": [],
+      "existing_strict_theory_preserved": true
+    },
+    "numerical_dependencies": {
+      "source_precision": "FP32 payload/arithmetic/output and signed-int32 keep mask preserved.",
+      "transformation": "Only integer index multiplication operands commute.",
+      "model_domain_and_guarantees": "ProfiledMemory original/indexCommuted use domain=[] and assumptions=[] with fixed fp32Theory; Rewrite.originalExecution gives success and execution_equal gives complete final memory equality. No p=1, finite-data or active-lane numerical restriction is added.",
+      "experimental_rule_instances_used": [],
+      "missing_experimental_evidence": [],
+      "existing_strict_theory_preserved": true
+    }
+  },
+  "verification": [
+    {
+      "task": "dropout_triton",
+      "kind": "fp_source",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue05/build.py",
+        "bench/repairs/tritonbench_g/dropout_triton/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue05/fp-dropout_triton.log",
+      "log_sha256": "442559d361728e49a2f9f8b96967909dd96f30dab1ed50a89f6cd8536b30b139",
+      "reuse": "Prior task-local successful check; reviewed source and receipt pins remain current."
+    },
+    {
+      "task": "dropout_triton",
+      "kind": "task_joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue05/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue05/joint_dropout_triton.lean"
+      ],
+      "exit_code": 0,
+      "source": ".veritile-cache/logical-reader-review-20261022/queue05/joint_dropout_triton.lean",
+      "source_sha256": "563729a547b5f1e4082a90acfb36a4a10bbab4d5258dfb8c2993c0990002eabc",
+      "log": ".veritile-cache/logical-reader-review-20261022/queue05/joint-dropout_triton.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reuse": "Prior task-local successful check; reviewed source and receipt pins remain current."
+    },
+    {
+      "kind": "receipt_source_object_direct_dependency_audit",
+      "command": [
+        "python",
+        ".veritile-cache/logical-reader-review-20261022/queue05/audit-receipts.py"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue05/receipts-final.json",
+      "log_sha256": "a3a64928712915a8204fd3fec33335656e18e0542b5c5ab22d8bdec24b8df76e"
+    }
+  ],
+  "verification_status": "unchanged_reused",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/dropout_triton/Contract.lean": "4d927136b7af13ddca386a41646c8e2ed41042b25f2fc50ac0096110ee459318",
+    "bench/repairs/tritonbench_g/dropout_triton/Correct.lean": "e27ec06aad7b2d4ccf0282d95f23b7b34c8bf285c6481326faa7a9553a400781",
+    "bench/repairs/tritonbench_g/dropout_triton/FPEquiv.lean": "7f5477c4f2d35296d2de5e98275604a4a606a26f0e776c27e6edf7e48518978f",
+    "bench/repairs/tritonbench_g/dropout_triton/IO.lean": "e83edf1e5235c6a7cf83ddb7dcb439ca2ba0a72e5f9980d6f59e34976738b0b2",
+    "bench/repairs/tritonbench_g/dropout_triton/Kernels.lean": "3d73b533c3be446e95a90bddadc64af9e550d8054b03d71a23bc49798b8be4fd",
+    "bench/repairs/tritonbench_g/dropout_triton/Proofs/Rewrite.lean": "90687642987f73f82acda97f4c5e1ec4a2807ab73ed63c6d587bfc0761c56416",
+    "bench/repairs/tritonbench_g/dropout_triton/Proofs/RealEndpoints.lean": "dbc9bf035da9c8566ea116e1f7ff0cd78af511f432ef90a089470ab789346fdf",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [
+    "Only the established total Real projection is this main target; optional partial dropout/native/Tensor applications remain outside this reader review."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

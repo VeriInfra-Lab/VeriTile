@@ -1,33 +1,85 @@
 # fused_recurrent_retention
 
-- Source file: `fused_recurrent_retention.py`
-- Corpus: TritonBench-G v1
-- Status: DONE — DSL port (`FusedRecurrentRetention.lean`), genuine decayed
-  outer-product closed-form specs, and `ComputeCorrect.Realizes` summary
-  (`fused_recurrent_retention_output_summary_general`) proven sorry-free,
-  covering **both** launched kernels (forward and autograd backward).
+The public [Correct](Correct.lean) and [FPEquiv](FPEquiv.lean) entries now expose
+the complete forward/backward source contracts. Their
+[isolated public rebuild](../../review-checkpoints/2026-10-13/retention-public-isfinite-candidate-stage/receipt.json)
+passes, followed by the [4,899-job root aggregate](../../review-checkpoints/2026-10-14/public-barrier-aggregate-root/receipt.json)
+with the integrated barrier semantics.
+Historical single-step slices and prepared-carry results are preserved in
+[Proofs/LegacyReal.lean](Proofs/LegacyReal.lean), separate from these public claims.
 
-`fused_recurrent_retention_fwd_kernel` is the flash-linear-attention fused
-recurrent retention scan: each program `(i_v, i_k, i_bh)` carries a `[BV, BK]`
-state `h` across the `0..T` loop with the scalar per-head decay
-`b_b = 1 − 2^(−5 − i_h)` (`tl.math.exp2`), updating `h = b_b·h + k_t ⊗ v_t`
-and emitting `o_t = Σ_k h·(scale·q_t)` from the **post-update** state, with
-optional `initial_state` seed and `final_state` store. The backward kernel
-(exercised via `loss.backward()`) runs a forward-time `dq` scan and — after a
-verbatim-transcribed `tl.debug_barrier()` — a reverse-time `dk`/`dv` scan
-carrying the gradient state `d_h += scale·q_t ⊗ do_t; d_h *= b_b` with
-pointer `-=` decrements.
+The new [`Kernels.lean`](Kernels.lean) keeps both complete original
+kernel bodies, all flags, masked loads, storage casts, pointer updates, the
+backward barrier and optional final-state store. Each candidate reverses only
+the operands of the discrete key-mask comparison. The source macros expose
+independent storage parameters; the current named constructors use a common
+input type and an independent output type.
 
-Both full surfaces lower to the algorithm layer. The genuine closed forms are
-`stateClosed(m) = seed·b_b^m + Σ_{t<m} k_t⊗v_t·b_b^(m−1−t)` (its `outClosed`
-reduction is the classic `o_t = Σ_{s≤t} b_b^(t−s)·(scale·q_t·k_s)·v_s`, see
-`outClosed_as_decayed_dots`) and
-`dStateClosed(t) = Σ_{t≤u<T} scale·q_u⊗do_u·b_b^(u−t)` with `dq`/`dk`/`dv` as
-its reductions — all over input regions only. The cross-step `range(0, T)`
-folds are the trusted boundary: each loop-body face is realized against the
-closed forms under self-propagating carry invariants
-(`HPrev = stateClosed(m)` / `DHPrev = b_b·dStateClosed(m+1)`), following the
-`fused_rwkv6_kernel` / `fused_recurrent_hgrn` packaging. Step slices read the
-per-time rows unmasked (in-bounds regime; the partial tail-block `other=0`
-lanes and the host `o.sum(0)`/`dq.sum(0)`/`dk.sum(0)`/`dv.sum(0)` cross-block
-reductions are the documented trusted boundary).
+Source, parameter model, exact phase decomposition, independent masked
+initial-memory formulas and active-lane address uniqueness have passed local
+Lean checks. The formulas include both DK/DV tails and seeded state.
+
+The [complete forward real checkpoint](../../review-checkpoints/2026-10-13/fused-retention-forward-real/receipt.json)
+proves actual source initialization, all 11 loop statements and optional final
+state writeback for the erased fp32 profile. Its independent initial-memory
+formulas cover seeded/unseeded state, feature tails, all T including zero,
+and a complete tagged-cell frame.
+
+The [finite-memory checkpoint](../../review-checkpoints/2026-10-13/fused-retention-forward-io/receipt.json)
+connects that execution to a flat allocation with actual masked-access safety,
+active-address bounds and allocation disjointness. The source's explicit
+other=0 loads allow internal oracle normalization without a public assumption
+on initial undef values. Input/output and output/final separation hypotheses
+remain explicit.
+
+The [backward finite-memory checkpoint](../../review-checkpoints/2026-10-13/retention-backward-finite-io/receipt.json)
+proves both complete loops, the barrier and pointer rebases, successful flat
+execution, independent initial-memory formulas for `dq/dk/dv` and the full
+tagged-cell frame. All six final pointer retreats execute unchanged. The bridge
+preserves strict state correspondence while another iteration remains and
+uses memory/launch observation equality after the final dead-pointer updates.
+The five new leaves first passed private local compilation with 193 unchanged
+inputs. The [integrated isolated rebuild](../../review-checkpoints/2026-10-13/retention-typed-isfinite-parametric-stage/receipt.json)
+then passed ordinary Lake checking with the exact debug-barrier semantics.
+The public migration and root aggregate replay both pass.
+
+The [independent typed equivalence checkpoint](../../review-checkpoints/2026-10-13/fused-retention-state-equivalence/receipt.json)
+passes five axiom gates for complete forward/backward original-candidate
+state equality under arbitrary structural algebra and initial state. It
+does not assume real arithmetic identities.
+
+The [typed forward checkpoint](../../review-checkpoints/2026-10-13/fused-retention-typed-forward/receipt.json)
+also proves successful complete original/candidate execution for arbitrary
+structural algebra, initial state, tile sizes, T and both flags in the selected
+fp32 storage profile. It constructs the actual source-produced carry. A
+mathematical backend witness starts with empty registers, nonzero program IDs
+and both feature tails. Its casts are identities; IEEE/native refinement,
+other-storage successful witnesses and whole-task acceptance remain open.
+The same isolated rebuild proves complete typed fp32 backward success for
+arbitrary initial states, including both loops and the original barrier.
+The precise `tl.debug_barrier` marker preserves sequential per-program state;
+unknown and asynchronous effect markers still fail. This does not prove native
+thread convergence or inter-program synchronization. The barrier change is
+validated in isolation and in the completed root aggregate replay.
+
+The original [`fused_recurrent_retention.py`](fused_recurrent_retention.py)
+matches `thunlp/TritonBench@603e28a` byte for byte, with SHA-256
+`369709736fce34c980e29fbf8db9b2117eaa5b22d65acad20ea3a898956426f5`.
+The full source AST check passes both kernels at all 36 common-input/independent-output
+storage combinations each, and rejects 792 mutated negative controls. This
+establishes source agreement for those profiles, not native compiler refinement.
+
+The [offline native matrix](../../review-checkpoints/2026-10-13/fused-retention-native/receipt.json)
+records 432 compiled and 432 rejected unchanged-source configurations.
+The tested fp16/bf16/fp32/fp64 inputs compile at valid wrapper block shapes;
+fp8 inputs fail the original masked zero conversion, and the original
+non-power-of-two 3/5 block dimensions are rejected. Mixed output dtypes are
+direct-JIT profiles, since the wrapper allocates outputs with q's dtype.
+This is compilation evidence; no kernels were launched.
+
+The source addresses rows by literal DK/DV increments; its four time/channel
+stride arguments are unused. Host layout, cross-program reductions, runtime
+scalar ABI, fixed-width overflow and IEEE/native numerical behavior remain
+separate obligations. The Python backward wrapper ignores `d_final_state` and
+returns no initial-state gradient, so a proof of its actual kernel outputs
+must not be described as an autograd proof for arbitrary final-state losses.

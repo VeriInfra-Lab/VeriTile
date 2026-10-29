@@ -1,0 +1,18 @@
+{
+  "old_guard_admitted": true,
+  "distinct_storage_base_delta_bytes": 4,
+  "shape": [
+    2,
+    128
+  ],
+  "source_program": [
+    0,
+    0
+  ],
+  "block": 32,
+  "recompute": false,
+  "kernel_wrote_live_input": true,
+  "repaired_guard_rejects_before_launch": true,
+  "readonly_alias_and_disjoint_same_storage_outputs_pass": true,
+  "execution": "CPU source-AST replay with CUDA metadata facade; no GPU execution"
+}

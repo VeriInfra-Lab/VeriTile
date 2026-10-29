@@ -1,0 +1,9 @@
+import VeriTile.Meta.StatementAudit
+import bench.repairs.tritonbench_g.ksoftmax_triton_grid_y_checked.Contract
+import bench.repairs.tritonbench_g.ksoftmax_triton_grid_y_checked.Correct
+import bench.repairs.tritonbench_g.ksoftmax_triton_grid_y_checked.FPEquiv
+
+#axiomsClean VeriTile.Bench.Repairs.KsoftmaxGridYChecked.Correct.forward_kernel_real_raw
+#axiomsClean VeriTile.Bench.Repairs.KsoftmaxGridYChecked.Correct.backward_kernel_real_raw
+#axiomsClean VeriTile.Bench.Repairs.KsoftmaxGridYChecked.Correct.log_backward_kernel_real_raw
+#axiomsClean VeriTile.Bench.Repairs.KsoftmaxGridYChecked.FPEquiv.reversed_schedule_equivalent

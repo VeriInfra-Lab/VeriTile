@@ -1,0 +1,564 @@
+{
+  "schema_version": 1,
+  "task": "token_attn_llama2",
+  "status": "PASS",
+  "frozen_at_utc": "2026-10-14T18:35:13.556354+00:00",
+  "workspace": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile",
+  "compile_root": "/tmp/veritile-fp-full-precheck",
+  "compile_mode": "Direct lake env lean only; new task source files copied into reliable isolated dependency checkout; no lake build",
+  "old_sources_unchanged": {
+    "bench/tritonbench_g/token_attn_llama2/TokenAttnLlama2.lean": "091fcba867e6c2f7877938abbc25031f0608dcf988e3d28a948229d309533e3f",
+    "bench/tritonbench_g/token_attn_llama2/token_attn_llama2.py": "3dccffd5a31077851127ee70f8ec64136fdc0872ef29399b3bf74a8223023d5f"
+  },
+  "old_public_declarations": [
+    {
+      "file": "bench/tritonbench_g/token_attn_llama2/TokenAttnLlama2.lean",
+      "name": "token_attn_llama2_output_summary_general",
+      "statement_sha256": "e13ffe200a321c7783743ed7f8e93006965461c592d09fc02ba6bc77c36d8565",
+      "unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/token_attn_llama2/TokenAttnLlama2.lean",
+      "name": "token_attn_llama2_io_correctness",
+      "statement_sha256": "3e062ff5776d34557fd3e1f11d80b07a8054eee237e0b572d7cada9237c5da20",
+      "unchanged": true
+    }
+  ],
+  "compiled_modules": [
+    {
+      "source": "bench/tritonbench_g/token_attn_llama2/Proofs/FPTypedSource.lean",
+      "source_sha256": "595342d21bf06c639646ebd261d8af688a5489e3b6b6a0b07653eceab11d7303",
+      "compiled_source_sha256": "595342d21bf06c639646ebd261d8af688a5489e3b6b6a0b07653eceab11d7303",
+      "exit_code": 0,
+      "log": "logs/FPTypedSource.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "53735355408870a85dfb590cd2df42b2714cb901034ac2926a80e2b5a0aac43f",
+      "axiom_checks": 0,
+      "command": [
+        "lake",
+        "env",
+        "lean",
+        "-o",
+        "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/token_attn_llama2/Proofs/FPTypedSource.olean",
+        "-i",
+        "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/token_attn_llama2/Proofs/FPTypedSource.ilean",
+        "bench/tritonbench_g/token_attn_llama2/Proofs/FPTypedSource.lean"
+      ]
+    },
+    {
+      "source": "bench/tritonbench_g/token_attn_llama2/Proofs/FPProgram.lean",
+      "source_sha256": "8cf5d390b3d66896ec4847454ace81eae2e1b94811d160ee08f9fa4248837cbd",
+      "compiled_source_sha256": "8cf5d390b3d66896ec4847454ace81eae2e1b94811d160ee08f9fa4248837cbd",
+      "exit_code": 0,
+      "log": "logs/FPProgram.log",
+      "log_sha256": "8f6cfc837553b01f9bd9e1fb1efa1281afade85365debdb403850e4348d363d4",
+      "olean_sha256": "63b96df393b2e891e1d48df66e0b6e0955aea30a57d41aec866be3e25414e0a5",
+      "axiom_checks": 3,
+      "command": [
+        "lake",
+        "env",
+        "lean",
+        "-o",
+        "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/token_attn_llama2/Proofs/FPProgram.olean",
+        "-i",
+        "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/token_attn_llama2/Proofs/FPProgram.ilean",
+        "bench/tritonbench_g/token_attn_llama2/Proofs/FPProgram.lean"
+      ]
+    },
+    {
+      "source": "bench/tritonbench_g/token_attn_llama2/Proofs/FPExecution.lean",
+      "source_sha256": "068fc0d5eac5061ec01d66df80b77ece2eb8dbafc08234280399b54f0cc5b940",
+      "compiled_source_sha256": "068fc0d5eac5061ec01d66df80b77ece2eb8dbafc08234280399b54f0cc5b940",
+      "exit_code": 0,
+      "log": "logs/FPExecution.log",
+      "log_sha256": "2ccb76cb98bbe5e5100dff7147f30ee4494d4c3028784e29cba5700cc3351359",
+      "olean_sha256": "f255a949e535dac127b4d0ca9d869e1ba0ebccdcb51f7a361048808dcbd07e0b",
+      "axiom_checks": 2,
+      "command": [
+        "lake",
+        "env",
+        "lean",
+        "-o",
+        "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/token_attn_llama2/Proofs/FPExecution.olean",
+        "-i",
+        "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/token_attn_llama2/Proofs/FPExecution.ilean",
+        "bench/tritonbench_g/token_attn_llama2/Proofs/FPExecution.lean"
+      ]
+    },
+    {
+      "source": "bench/tritonbench_g/token_attn_llama2/Proofs/FPReference.lean",
+      "source_sha256": "e677b8c0882c69d9f40ba1748b3ce60bcdc0efe63b3fbb48f7f739e8755449f8",
+      "compiled_source_sha256": "e677b8c0882c69d9f40ba1748b3ce60bcdc0efe63b3fbb48f7f739e8755449f8",
+      "exit_code": 0,
+      "log": "logs/FPReference.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "8cf731b8d77d23a5e89a6d66a26ab2c389d8e9953a2aaa75d9c542d828cf16eb",
+      "axiom_checks": 0,
+      "command": [
+        "lake",
+        "env",
+        "lean",
+        "-o",
+        "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/token_attn_llama2/Proofs/FPReference.olean",
+        "-i",
+        "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/token_attn_llama2/Proofs/FPReference.ilean",
+        "bench/tritonbench_g/token_attn_llama2/Proofs/FPReference.lean"
+      ]
+    },
+    {
+      "source": "bench/tritonbench_g/token_attn_llama2/Proofs/FPContract.lean",
+      "source_sha256": "398de238edf159bbcf6394c9071b9ffadf4f5f2eafbe018a5f8a9c047353f010",
+      "compiled_source_sha256": "398de238edf159bbcf6394c9071b9ffadf4f5f2eafbe018a5f8a9c047353f010",
+      "exit_code": 0,
+      "log": "logs/FPContract.log",
+      "log_sha256": "bbee2e9ca211ade8ac61ff82568f0aa543e0431177ff32634247b69f4e22c4ae",
+      "olean_sha256": "384ffa0ce6f54c8c1c79451b30aa94dd38cc2dacfbcf75bd4f89605cf4ecf9ed",
+      "axiom_checks": 4,
+      "command": [
+        "lake",
+        "env",
+        "lean",
+        "-o",
+        "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/token_attn_llama2/Proofs/FPContract.olean",
+        "-i",
+        "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/token_attn_llama2/Proofs/FPContract.ilean",
+        "bench/tritonbench_g/token_attn_llama2/Proofs/FPContract.lean"
+      ]
+    },
+    {
+      "source": "bench/tritonbench_g/token_attn_llama2/Proofs/FPSumProfile.lean",
+      "source_sha256": "f7e3a0c321ad6ce07d0f91f4bdae01cd77c3fb15ab2cc5229b6cba7e044d2f30",
+      "compiled_source_sha256": "f7e3a0c321ad6ce07d0f91f4bdae01cd77c3fb15ab2cc5229b6cba7e044d2f30",
+      "exit_code": 0,
+      "log": "logs/FPSumProfile.log",
+      "log_sha256": "d1cfb50a632f7a74a94faab1ece601f690975b6f5d7c8cb760996252fe43eac2",
+      "olean_sha256": "21cc1303a154c4a986ddd1a3eef8d9f4d594ead3737705c2f1f68eed6891b0c7",
+      "axiom_checks": 3,
+      "command": [
+        "lake",
+        "env",
+        "lean",
+        "-o",
+        "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/token_attn_llama2/Proofs/FPSumProfile.olean",
+        "-i",
+        "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/token_attn_llama2/Proofs/FPSumProfile.ilean",
+        "bench/tritonbench_g/token_attn_llama2/Proofs/FPSumProfile.lean"
+      ]
+    },
+    {
+      "source": "bench/tritonbench_g/token_attn_llama2/Proofs/FPSoftware.lean",
+      "source_sha256": "6a6da59942ac1218349d0ddbe036dd773c696c0c25afc5d04c9fc750cb58e5df",
+      "compiled_source_sha256": "6a6da59942ac1218349d0ddbe036dd773c696c0c25afc5d04c9fc750cb58e5df",
+      "exit_code": 0,
+      "log": "logs/FPSoftware.log",
+      "log_sha256": "5003bf8e375765818525f7ad2d5da1669002e789d13a974c3eef590407b4352f",
+      "olean_sha256": "7705d545fd30006776fb2bc96d84a830af50cee88cb64412d9d4584d73cee39a",
+      "axiom_checks": 3,
+      "command": [
+        "lake",
+        "env",
+        "lean",
+        "-o",
+        "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/token_attn_llama2/Proofs/FPSoftware.olean",
+        "-i",
+        "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/token_attn_llama2/Proofs/FPSoftware.ilean",
+        "bench/tritonbench_g/token_attn_llama2/Proofs/FPSoftware.lean"
+      ]
+    },
+    {
+      "source": "bench/tritonbench_g/token_attn_llama2/Proofs/FPShape.lean",
+      "source_sha256": "06a97baa54c7f6e58cd9ecf0155b0935abc4dbe206abe6506f8eaa2209012498",
+      "compiled_source_sha256": "06a97baa54c7f6e58cd9ecf0155b0935abc4dbe206abe6506f8eaa2209012498",
+      "exit_code": 0,
+      "log": "logs/FPShape.log",
+      "log_sha256": "f8e2508c1ece1e303b5a289f0e9f0fc9e99b687f53d72876eb5ee03d8d763b48",
+      "olean_sha256": "fd73bb0bcdcd08ca4146e8a08f67af5c9f65b2a1ac107c46b195491331fbab94",
+      "axiom_checks": 1,
+      "command": [
+        "lake",
+        "env",
+        "lean",
+        "-o",
+        "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/token_attn_llama2/Proofs/FPShape.olean",
+        "-i",
+        "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/token_attn_llama2/Proofs/FPShape.ilean",
+        "bench/tritonbench_g/token_attn_llama2/Proofs/FPShape.lean"
+      ]
+    },
+    {
+      "source": "bench/tritonbench_g/token_attn_llama2/Proofs/FPWitness.lean",
+      "source_sha256": "ec9463d18655f9f9c837d5b5805fc132381d17e810fb94ae1ac7574e29f2e37a",
+      "compiled_source_sha256": "ec9463d18655f9f9c837d5b5805fc132381d17e810fb94ae1ac7574e29f2e37a",
+      "exit_code": 0,
+      "log": "logs/FPWitness.log",
+      "log_sha256": "a66e0e036688c13572a610bda5107863260efbb7ce06a74a311b6e59b9a9a9d3",
+      "olean_sha256": "3ac3c7ab197dd427c9f046649d7510f2a985e805c9c0e4bcb11f32f51c59f0ec",
+      "axiom_checks": 4,
+      "command": [
+        "lake",
+        "env",
+        "lean",
+        "-o",
+        "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/token_attn_llama2/Proofs/FPWitness.olean",
+        "-i",
+        "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/token_attn_llama2/Proofs/FPWitness.ilean",
+        "bench/tritonbench_g/token_attn_llama2/Proofs/FPWitness.lean"
+      ]
+    },
+    {
+      "source": "bench/tritonbench_g/token_attn_llama2/FPCorrect.lean",
+      "source_sha256": "a942c28cf48a4e7363e3f9ce893a8650c53d3e58e671c169200da0649d365713",
+      "compiled_source_sha256": "a942c28cf48a4e7363e3f9ce893a8650c53d3e58e671c169200da0649d365713",
+      "exit_code": 0,
+      "log": "logs/FPCorrect.log",
+      "log_sha256": "b54f12c23560d996abaa43eeaa588907b7b882bbe1a76a9e26a5408b1e306654",
+      "olean_sha256": "23ae35d7df06055046b4c29871448bce1616a3bd1e652334404af9a3a25487b9",
+      "axiom_checks": 6,
+      "command": [
+        "lake",
+        "env",
+        "lean",
+        "-o",
+        "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/token_attn_llama2/FPCorrect.olean",
+        "-i",
+        "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/token_attn_llama2/FPCorrect.ilean",
+        "bench/tritonbench_g/token_attn_llama2/FPCorrect.lean"
+      ]
+    }
+  ],
+  "new_public_specifications": [
+    {
+      "model": "backend_value_contract",
+      "scope": "Full original accepted score stage; arbitrary Real scale and Algebra; all addresses/dimensions/branches",
+      "remaining_numeric_parameter": "All arithmetic/cast/reduction/literal callbacks explicit in initial-memory reference",
+      "file": "bench/tritonbench_g/token_attn_llama2/FPCorrect.lean",
+      "name": "token_attn_llama2_fp_backend_correctness",
+      "kind": "specification",
+      "line": 18,
+      "statement": "specification token_attn_llama2_fp_backend_correctness\n    {α : Type} [Inhabited α] (M : Algebra α) (p : FPValue.Parameters)\n    (s : State α) (hw : FPValue.WritesApart p s) :\n    ∃ final, FP.Structural.exec M (FPValue.source p) s = some final ∧\n      FPValue.Post p s final (FPValue.score M p s)",
+      "statement_sha256": "d14a412dbeefeee80cb712671cc1f7f1bfbc675a36c1bc074ef48a48164ac36c"
+    },
+    {
+      "model": "backend_value_contract",
+      "scope": "Full original accepted stage; concrete bit mul/add and named tree; arbitrary Real scale",
+      "remaining_numeric_parameter": "Explicit encode : Real -> Word; scaleWord sends mathematical zero to +0; no hidden rest.literal",
+      "file": "bench/tritonbench_g/token_attn_llama2/FPCorrect.lean",
+      "name": "token_attn_llama2_fp_software_correctness",
+      "kind": "specification",
+      "line": 25,
+      "statement": "specification token_attn_llama2_fp_software_correctness\n    [Inhabited FPValue.Word] (rest : Algebra FPValue.Word) (cfg : FP.Config)\n    (plans : ∀ n, ReductionPlan n) (encode : ℝ → FPValue.Word)\n    (p : FPValue.Parameters) (s : State FPValue.Word) (hw : FPValue.WritesApart p s) :\n    ∃ final, FP.Structural.exec (FPValue.softwareBackend rest cfg plans encode)\n        (FPValue.source p) s = some final ∧\n      FPValue.Post p s final\n        (FPValue.wordScore cfg plans (FPValue.scaleWord encode p.scale) p s)",
+      "statement_sha256": "cd1846c0c23637ec375b118184e222aeb270b174f45c25ae7a199ac5b3b42275"
+    },
+    {
+      "model": "parametric_bit_interpreter",
+      "scope": "All rational scalar values q, all accepted layouts/dimensions/branches, all Q/K fp32 payload bits, arbitrary valid width-indexed trees and FP.Config",
+      "remaining_numeric_parameter": "No fallback callback in reference; runtime ABI and GPU/tree/FP profile binding remain external",
+      "scope_specialization": "q replaces p.scale; does not classify full arbitrary-Real theorem as closed bits",
+      "file": "bench/tritonbench_g/token_attn_llama2/FPCorrect.lean",
+      "name": "token_attn_llama2_fp_rational_correctness",
+      "kind": "specification",
+      "line": 35,
+      "statement": "specification token_attn_llama2_fp_rational_correctness\n    [Inhabited FPValue.Word] (rest : Algebra FPValue.Word) (cfg : FP.Config)\n    (plans : ∀ n, ReductionPlan n) (q : Rat) (p : FPValue.Parameters)\n    (s : State FPValue.Word) (hw : FPValue.WritesApart p s) :\n    ∃ final, FP.Structural.exec\n        (FPValue.softwareBackend rest cfg plans (FPValue.rationalEncoder cfg q))\n        (FPValue.source {p with scale := (q : ℝ)}) s = some final ∧\n      FPValue.Post {p with scale := (q : ℝ)} s final\n        (FPValue.wordScore cfg plans (FP.round .fp32 cfg q) {p with scale := (q : ℝ)} s)",
+      "statement_sha256": "20ffc487198dd62cc03d735580c586e8f226237086ac5af7def069f4acd37c55"
+    }
+  ],
+  "all_named_proof_declarations": [
+    {
+      "file": "bench/tritonbench_g/token_attn_llama2/Proofs/FPProgram.lean",
+      "name": "source_body",
+      "kind": "theorem",
+      "line": 17,
+      "statement": "theorem source_body (p : Parameters) : (source p).surfaceBody =\n    prelude p ++ [.forRangeDyn \"start_mark\" (.constNat 0) (.ref .nat [] \"block_mask\")\n      (.constNat 1) (body p)]",
+      "statement_sha256": "7551efabf6e7f9b33f22dd1fc07ff536c72b6e2f6466fb8029b3bd3501a6d677"
+    },
+    {
+      "file": "bench/tritonbench_g/token_attn_llama2/Proofs/FPProgram.lean",
+      "name": "preExecution_mem",
+      "kind": "theorem",
+      "line": 31,
+      "statement": "@[simp] theorem preExecution_mem {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : State α) :\n    (preExecution M p s).val.mem = s.mem",
+      "statement_sha256": "ad5f4354105886225b870d366a1043f78774d0e0b3e289d2109075112ab57b8e"
+    },
+    {
+      "file": "bench/tritonbench_g/token_attn_llama2/Proofs/FPProgram.lean",
+      "name": "preExecution_mask",
+      "kind": "theorem",
+      "line": 34,
+      "statement": "@[simp] theorem preExecution_mask {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : State α) :\n    (preExecution M p s).val.regs .nat [] \"block_mask\" =\n      some (fun _ => if blockActive p s then 1 else 0)",
+      "statement_sha256": "2ada110cabbe0fd474c879f140113d387e841426af11fb72b53a151097384c5e"
+    },
+    {
+      "file": "bench/tritonbench_g/token_attn_llama2/Proofs/FPContract.lean",
+      "name": "execution_memory",
+      "kind": "theorem",
+      "line": 13,
+      "statement": "theorem execution_memory {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : State α) :\n    (execution M p s).val.mem = (written M p s).mem",
+      "statement_sha256": "770bd04f1bb99440c075bc166bc74857ea0f5a31a3453922c34265ccf6e10763"
+    },
+    {
+      "file": "bench/tritonbench_g/token_attn_llama2/Proofs/FPContract.lean",
+      "name": "written_readback",
+      "kind": "theorem",
+      "line": 24,
+      "statement": "theorem written_readback {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : State α)\n    (hw : WritesApart p s) (i : Index p) (hb : blockActive p s) (hi : active p s i) :\n    (written M p s).mem p.output (outputOffset p s i) = .mk .fp32 (score M p s i)",
+      "statement_sha256": "44ebb2f43a3bbc45fafa6eb5b9c0e4931718282bd80976f3139880dc9f6dca21"
+    },
+    {
+      "file": "bench/tritonbench_g/token_attn_llama2/Proofs/FPContract.lean",
+      "name": "written_frame",
+      "kind": "theorem",
+      "line": 30,
+      "statement": "theorem written_frame {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : State α)\n    (r : RegionName) (o : Nat)\n    (h : ¬ blockActive p s ∨ r ≠ p.output ∨ ∀ i, active p s i → o ≠ outputOffset p s i) :\n    (written M p s).mem r o = s.mem r o",
+      "statement_sha256": "7b00dc33b46623a7930545d1b1bd3651510e07f72c05633924f8aafff6faf8ee"
+    },
+    {
+      "file": "bench/tritonbench_g/token_attn_llama2/Proofs/FPContract.lean",
+      "name": "correctness",
+      "kind": "theorem",
+      "line": 43,
+      "statement": "theorem correctness {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : State α)\n    (hw : WritesApart p s) :\n    ∃ final, FP.Structural.exec M (source p) s = some final ∧ Post p s final (score M p s)",
+      "statement_sha256": "6158e204209bbbf519224f5878dc1ec747ad43ab2a1bf1118caa880e241f4b34"
+    },
+    {
+      "file": "bench/tritonbench_g/token_attn_llama2/Proofs/FPSumProfile.lean",
+      "name": "products_software",
+      "kind": "theorem",
+      "line": 62,
+      "statement": "theorem products_software [Inhabited Word] (rest : Algebra Word) (cfg : FP.Config)\n    (plans : ∀ n, ReductionPlan n) (encode : ℝ → Word) (p : Parameters) (s : State Word) :\n    products (softwareBackend rest cfg plans encode) p s = wordProducts cfg p s",
+      "statement_sha256": "730864bd0e49f5a18d4462f827335aa61c5caacb8bbf49b67d8923796f5be7c5"
+    },
+    {
+      "file": "bench/tritonbench_g/token_attn_llama2/Proofs/FPSumProfile.lean",
+      "name": "score_software",
+      "kind": "theorem",
+      "line": 70,
+      "statement": "theorem score_software [Inhabited Word] (rest : Algebra Word) (cfg : FP.Config)\n    (plans : ∀ n, ReductionPlan n) (encode : ℝ → Word) (p : Parameters)\n    (s : State Word) (i : Index p) :\n    score (softwareBackend rest cfg plans encode) p s i =\n      wordScore cfg plans (scaleWord encode p.scale) p s i",
+      "statement_sha256": "9f3c443bbec606209461bcf3dca7404ce52157556304fd38619b8a5474b71505"
+    },
+    {
+      "file": "bench/tritonbench_g/token_attn_llama2/Proofs/FPSumProfile.lean",
+      "name": "rational_scale",
+      "kind": "theorem",
+      "line": 85,
+      "statement": "theorem rational_scale (cfg : FP.Config) (q : Rat) :\n    scaleWord (rationalEncoder cfg q) (q : ℝ) = FP.round .fp32 cfg q",
+      "statement_sha256": "44cecb89bb59de6db12a549b8b0116c3390054f7a20adb34bfdbbcd47c5402d7"
+    },
+    {
+      "file": "bench/tritonbench_g/token_attn_llama2/Proofs/FPSoftware.lean",
+      "name": "software_correctness",
+      "kind": "theorem",
+      "line": 12,
+      "statement": "theorem software_correctness [Inhabited Word] (rest : Algebra Word) (cfg : FP.Config)\n    (plans : ∀ n, ReductionPlan n) (encode : ℝ → Word) (p : Parameters)\n    (s : State Word) (hw : WritesApart p s) :\n    ∃ final, FP.Structural.exec (softwareBackend rest cfg plans encode) (source p) s = some final ∧\n      Post p s final (wordScore cfg plans (scaleWord encode p.scale) p s)",
+      "statement_sha256": "810baf9932c7217745cf7c4f19891ece4e8b697965885ca5d2accbd13a2eb545"
+    },
+    {
+      "file": "bench/tritonbench_g/token_attn_llama2/Proofs/FPSoftware.lean",
+      "name": "rational_correctness",
+      "kind": "theorem",
+      "line": 24,
+      "statement": "theorem rational_correctness [Inhabited Word] (rest : Algebra Word) (cfg : FP.Config)\n    (plans : ∀ n, ReductionPlan n) (q : Rat) (p : Parameters)\n    (s : State Word) (hw : WritesApart p s) :\n    ∃ final, FP.Structural.exec (softwareBackend rest cfg plans (rationalEncoder cfg q))\n      (source {p with scale := (q : ℝ)}) s = some final ∧\n      Post {p with scale := (q : ℝ)} s final\n        (wordScore cfg plans (FP.round .fp32 cfg q) {p with scale := (q : ℝ)} s)",
+      "statement_sha256": "11caa8717ede4e276f63c1c38cf422847a8bf9e42a240cf05b3ff146eccc4bd4"
+    },
+    {
+      "file": "bench/tritonbench_g/token_attn_llama2/Proofs/FPSoftware.lean",
+      "name": "inactive_memory",
+      "kind": "theorem",
+      "line": 39,
+      "statement": "theorem inactive_memory {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)\n    (s : State α) (hb : ¬ blockActive p s) :\n    ∃ final, FP.Structural.exec M (source p) s = some final ∧ final.mem = s.mem",
+      "statement_sha256": "3b4032a7471bb99dd00974ddc34bc26fc76104daecd7e36a129bf048052aca91"
+    },
+    {
+      "file": "bench/tritonbench_g/token_attn_llama2/Proofs/FPShape.lean",
+      "name": "source_projection",
+      "kind": "theorem",
+      "line": 19,
+      "statement": "theorem source_projection (p : Parameters) :\n    (source p).eraseDType.surfaceBody = (legacySource p).eraseDType.surfaceBody",
+      "statement_sha256": "9ddcb7ee835f9838fec68957cf42752a0da78881a28b3b55803a88ff4c2f8afd"
+    },
+    {
+      "file": "bench/tritonbench_g/token_attn_llama2/Proofs/FPWitness.lean",
+      "name": "witness_scalar_rounding",
+      "kind": "theorem",
+      "line": 50,
+      "statement": "theorem witness_scalar_rounding :\n    FP.round .fp32 .ieeeValue witnessScale = one ∧\n    FP.mul .ieeeValue (FP.add .ieeeValue\n      (FP.mul .ieeeValue one one)\n      (FP.add .ieeeValue (FP.mul .ieeeValue tiny one) (FP.Value.zero .fp32))) one = one ∧\n    witnessScale * witnessScale ≠ 1",
+      "statement_sha256": "809133240082da445880ce260264300404477f4ebde4af09448eecd99924c842"
+    },
+    {
+      "file": "bench/tritonbench_g/token_attn_llama2/Proofs/FPWitness.lean",
+      "name": "witness_score",
+      "kind": "theorem",
+      "line": 57,
+      "statement": "theorem witness_score [Inhabited Word] :\n    wordScore .ieeeValue ReductionPlan.withSeed (FP.round .fp32 .ieeeValue witnessScale)\n      witnessParameters witnessInitial witnessLane = one",
+      "statement_sha256": "27f556f2446c4393b39e72d92ac025a673539514dad1f3c8fa6d4cfba086c15c"
+    },
+    {
+      "file": "bench/tritonbench_g/token_attn_llama2/Proofs/FPWitness.lean",
+      "name": "witness_layout",
+      "kind": "theorem",
+      "line": 66,
+      "statement": "theorem witness_layout [Inhabited Word] : WritesApart witnessParameters witnessInitial",
+      "statement_sha256": "7faf510488b1698174bb97a694f2e37c48e20e74feb2e069a35ef2459669dfd8"
+    },
+    {
+      "file": "bench/tritonbench_g/token_attn_llama2/Proofs/FPWitness.lean",
+      "name": "nonempty_bit_success",
+      "kind": "theorem",
+      "line": 76,
+      "statement": "theorem nonempty_bit_success [Inhabited Word] (rest : Algebra Word) :\n    ∃ final, FP.Structural.exec\n      (softwareBackend rest .ieeeValue ReductionPlan.withSeed (rationalEncoder .ieeeValue witnessScale))\n      (source witnessParameters) witnessInitial = some final ∧\n      final.mem \"Out\" 5 = .mk .fp32 one ∧\n      final.mem \"Out\" 6 = witnessInitial.mem \"Out\" 6 ∧\n      final.mem \"Q\" 0 = witnessInitial.mem \"Q\" 0 ∧ witnessScale * witnessScale ≠ 1",
+      "statement_sha256": "5103c29a4ac04b64039223d54dbc323aff3009c8d896bb3e86afa40c66e2f21e"
+    },
+    {
+      "file": "bench/tritonbench_g/token_attn_llama2/FPCorrect.lean",
+      "name": "token_attn_llama2_fp_backend_correctness",
+      "kind": "specification",
+      "line": 18,
+      "statement": "specification token_attn_llama2_fp_backend_correctness\n    {α : Type} [Inhabited α] (M : Algebra α) (p : FPValue.Parameters)\n    (s : State α) (hw : FPValue.WritesApart p s) :\n    ∃ final, FP.Structural.exec M (FPValue.source p) s = some final ∧\n      FPValue.Post p s final (FPValue.score M p s)",
+      "statement_sha256": "d14a412dbeefeee80cb712671cc1f7f1bfbc675a36c1bc074ef48a48164ac36c"
+    },
+    {
+      "file": "bench/tritonbench_g/token_attn_llama2/FPCorrect.lean",
+      "name": "token_attn_llama2_fp_software_correctness",
+      "kind": "specification",
+      "line": 25,
+      "statement": "specification token_attn_llama2_fp_software_correctness\n    [Inhabited FPValue.Word] (rest : Algebra FPValue.Word) (cfg : FP.Config)\n    (plans : ∀ n, ReductionPlan n) (encode : ℝ → FPValue.Word)\n    (p : FPValue.Parameters) (s : State FPValue.Word) (hw : FPValue.WritesApart p s) :\n    ∃ final, FP.Structural.exec (FPValue.softwareBackend rest cfg plans encode)\n        (FPValue.source p) s = some final ∧\n      FPValue.Post p s final\n        (FPValue.wordScore cfg plans (FPValue.scaleWord encode p.scale) p s)",
+      "statement_sha256": "cd1846c0c23637ec375b118184e222aeb270b174f45c25ae7a199ac5b3b42275"
+    },
+    {
+      "file": "bench/tritonbench_g/token_attn_llama2/FPCorrect.lean",
+      "name": "token_attn_llama2_fp_rational_correctness",
+      "kind": "specification",
+      "line": 35,
+      "statement": "specification token_attn_llama2_fp_rational_correctness\n    [Inhabited FPValue.Word] (rest : Algebra FPValue.Word) (cfg : FP.Config)\n    (plans : ∀ n, ReductionPlan n) (q : Rat) (p : FPValue.Parameters)\n    (s : State FPValue.Word) (hw : FPValue.WritesApart p s) :\n    ∃ final, FP.Structural.exec\n        (FPValue.softwareBackend rest cfg plans (FPValue.rationalEncoder cfg q))\n        (FPValue.source {p with scale := (q : ℝ)}) s = some final ∧\n      FPValue.Post {p with scale := (q : ℝ)} s final\n        (FPValue.wordScore cfg plans (FP.round .fp32 cfg q) {p with scale := (q : ℝ)} s)",
+      "statement_sha256": "20ffc487198dd62cc03d735580c586e8f226237086ac5af7def069f4acd37c55"
+    },
+    {
+      "file": "bench/tritonbench_g/token_attn_llama2/FPCorrect.lean",
+      "name": "token_attn_llama2_fp_source_projection",
+      "kind": "theorem",
+      "line": 46,
+      "statement": "theorem token_attn_llama2_fp_source_projection (p : FPValue.Parameters) :\n    (FPValue.source p).eraseDType.surfaceBody = (FPValue.legacySource p).eraseDType.surfaceBody",
+      "statement_sha256": "26e373885d21084fd9246491fafe047d5227ec453f8c3060df298a3aba31d43c"
+    },
+    {
+      "file": "bench/tritonbench_g/token_attn_llama2/FPCorrect.lean",
+      "name": "token_attn_llama2_fp_inactive_memory",
+      "kind": "theorem",
+      "line": 50,
+      "statement": "theorem token_attn_llama2_fp_inactive_memory\n    {α : Type} [Inhabited α] (M : Algebra α) (p : FPValue.Parameters)\n    (s : State α) (hb : ¬ FPValue.blockActive p s) :\n    ∃ final, FP.Structural.exec M (FPValue.source p) s = some final ∧ final.mem = s.mem",
+      "statement_sha256": "fc6e59bff17203969a661e01ed89f348dcbbd24538f99ee22626c4eadac5650f"
+    },
+    {
+      "file": "bench/tritonbench_g/token_attn_llama2/FPCorrect.lean",
+      "name": "token_attn_llama2_fp_bit_success",
+      "kind": "theorem",
+      "line": 56,
+      "statement": "theorem token_attn_llama2_fp_bit_success\n    [Inhabited FPValue.Word] (rest : Algebra FPValue.Word) :\n    ∃ final, FP.Structural.exec\n        (FPValue.softwareBackend rest .ieeeValue ReductionPlan.withSeed\n          (FPValue.rationalEncoder .ieeeValue FPValue.witnessScale))\n        (FPValue.source FPValue.witnessParameters) FPValue.witnessInitial = some final ∧\n      final.mem \"Out\" 5 = .mk .fp32 FPValue.one ∧\n      final.mem \"Out\" 6 = FPValue.witnessInitial.mem \"Out\" 6 ∧\n      final.mem \"Q\" 0 = FPValue.witnessInitial.mem \"Q\" 0 ∧\n      FPValue.witnessScale * FPValue.witnessScale ≠ 1",
+      "statement_sha256": "5ecfdfda0595b38cc9d9465a809c8a3160d43494f42067d6df12f74c3689bcfc"
+    }
+  ],
+  "source_and_profile_input_sha256": {
+    "bench/tritonbench_g/token_attn_llama2/TokenAttnLlama2.lean": "091fcba867e6c2f7877938abbc25031f0608dcf988e3d28a948229d309533e3f",
+    "bench/tritonbench_g/token_attn_llama2/token_attn_llama2.py": "3dccffd5a31077851127ee70f8ec64136fdc0872ef29399b3bf74a8223023d5f",
+    "VeriTile/Triton/Core/Ast.lean": "df3e412817263aebf8c56992b6d6d3015bc95a9143b26abf3143832187ccfb14",
+    "VeriTile/Triton/Float/Structural.lean": "b0675fc69d11f52ad4d6c5689501f8cc32f33815cd37cff454f6c1c23b4b5bd2",
+    "VeriTile/Triton/Float/ScalarBackend.lean": "b53529209e20d55de6dbde031c19d5baf76032c1377ef84df6583d93295d2b0a",
+    "VeriTile/Triton/Float/ScalarOps.lean": "26bd46b941918c3a617cb6e15b2ddb2003a85c40cd69fca3a3905ba181bc6072",
+    "VeriTile/Triton/Float/BitValue.lean": "92f8bf41aac7a1268815a58fea6e68475c134903893b8e075599c5427be6a1eb",
+    "VeriTile/Triton/Float/TermModel.lean": "e8c98fd3d0bb93493e4570e5c4dab2369f1b5dcb3795f1696ec7bbe85e073e6d",
+    "VeriTile/Triton/Float/Erasure.lean": "bf9d2d905fa8b54360ea6955433fa2f6e8cc68e4ca51d96228ac20aedce94f61",
+    "VeriTile/Triton/DSL/Expansion/Main.lean": "6261db586c86f0a4397d8839d1560f7d0a41f299559d8594d21b81ad3da327c9",
+    "VeriTile/Triton/DSL/Expansion/Compute.lean": "06cb62623ac789881b7087a7256865b8a318c77f0de2867a841978a7af981ca0",
+    "VeriTile/Triton/DSL/Expansion/Common.lean": "4b6380326b745c239a07e67224591b75b8532a897a3e7947a29e6b23cc4cc0d7",
+    "bench/tritonbench_g/kcache_copy_triton/Proofs/TypedCopy.lean": "727b75143b5d44732b8240aadd0a5e62ab1bd4ba81cd37420d89e02b1a73ca34",
+    "scripts/spec_sheet.py": "70e65de2801f1f1cb76f5cfebf3e97020d7b0f63cc0510229ebaf56282e1dcf3",
+    "bench/review-checkpoints/2026-10-14/next-cast-only-review/review.json": "9468855ba31ce0e3158c17a994a6d4a127c1affa92b75c10a68b2dedf080e9b6",
+    "bench/review-checkpoints/2026-10-14/next-cast-only-review/source-evidence.json": "0cdef63dc1457f909d2b67e7d4c1874cae9d95f5691c9f39efcf7dcb9312cf85",
+    "bench/tritonbench_g/token_attn_llama2/Proofs/FPValueScope.md": "eaab3d7ad031cf79a8b9b2c55e96bb3ef1c4b9bdc36b13331e7ae24e17729b5d"
+  },
+  "compiled_core_source_matches_workspace": {
+    "VeriTile/Triton/Core/Ast.lean": true,
+    "VeriTile/Triton/Float/Structural.lean": true,
+    "VeriTile/Triton/Float/ScalarBackend.lean": true,
+    "VeriTile/Triton/Float/ScalarOps.lean": true,
+    "VeriTile/Triton/Float/BitValue.lean": true,
+    "VeriTile/Triton/Float/TermModel.lean": true,
+    "VeriTile/Triton/Float/Erasure.lean": true,
+    "VeriTile/Triton/DSL/Expansion/Main.lean": true,
+    "VeriTile/Triton/DSL/Expansion/Compute.lean": true,
+    "VeriTile/Triton/DSL/Expansion/Common.lean": true,
+    "bench/tritonbench_g/kcache_copy_triton/Proofs/TypedCopy.lean": true
+  },
+  "accepted_scope": [
+    "full 13-statement prelude",
+    "original dynamic block_mask 0/1 range",
+    "arbitrary dimensions,strides,program IDs,groups,max length and metadata",
+    "B_Loc gather and K mask",
+    "axis1 multiply/reduce followed by arbitrary scalar multiply",
+    "initial-memory independent reference",
+    "active output readback and whole-memory frame",
+    "inactive block whole-memory preservation"
+  ],
+  "assumptions": {
+    "added_numeric_laws": [],
+    "layout": "Injective output addresses for active lanes; same accepted original layout premise",
+    "domain": "Existing Nat address/metadata model; no new finite/nonzero/positive/shape restriction; original Real host scalar cannot represent NaN/Inf or zero sign"
+  },
+  "witness": {
+    "role": "ordinary theorem; not a specification or full-task model upgrade",
+    "declaration": "token_attn_llama2_fp_bit_success",
+    "BD": 2,
+    "BN": 2,
+    "gather_location": 3,
+    "key_offsets": [
+      6,
+      7
+    ],
+    "output_offset": 5,
+    "masked_output_offset": 6,
+    "q_bits": [
+      "0x3f800000",
+      "0x33000000"
+    ],
+    "scale_exact_rational": "1 + 1/33554432",
+    "scale_fp32_bits": "0x3f800000",
+    "result_fp32_bits": "0x3f800000",
+    "inexactness": "(1+2^-25)^2 != 1; kernel checked via decide +kernel",
+    "frame": [
+      "masked output",
+      "Q payload"
+    ]
+  },
+  "native_obligations": [
+    {
+      "id": "host_scale_encoding",
+      "formula": "scaleBits = runtime fp32 encoding of sm_scale; rational path round_fp32(cfg,q) for q equal to exact finite host value",
+      "limits": "Real cannot distinguish host signed zero or represent NaN/Inf; q-specialized encoder is only valid for source scale q and explicit zero literal"
+    },
+    {
+      "id": "sum_tree",
+      "formula": "native axis1 reduction = treeValue_cfg(plan[BD], products), preserving all leaves/padding",
+      "limits": "Compiler/layout/warp/fusion binding required; no associativity or all-tree equality assumed"
+    },
+    {
+      "id": "scalar_ops",
+      "formula": "native products and scale multiply = FP.mul cfg; tree adds = FP.add cfg",
+      "limits": "Instruction dtype, rounding, DAZ/FTZ, NaN policy and contraction must match; no GPU execution claimed"
+    },
+    {
+      "id": "source_memory",
+      "formula": "physical fp32 Q/K/output payloads and Nat metadata/address reference match runtime pointers/metadata",
+      "limits": "Added same-format register/store cast numeric identities proved in software profile; fixed-width metadata overflow not newly proved"
+    }
+  ],
+  "axioms": {
+    "all_marked_checks_passed": true,
+    "checked_declarations": 26,
+    "allowed_standard_base": [
+      "propext",
+      "Quot.sound",
+      "Classical.choice"
+    ],
+    "sorry_or_native_decide_used": false
+  },
+  "scope_document": "bench/tritonbench_g/token_attn_llama2/Proofs/FPValueScope.md"
+}

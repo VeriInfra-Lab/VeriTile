@@ -1,0 +1,22 @@
+{
+  "scope": "unchanged selected launched kernels; ordinary source-to-native auxiliaries, no completed implementation pair",
+  "source": "bench/repairs/tritonbench_g/kldiv_ops/kldiv_ops_repaired.py",
+  "source_sha256": "5a610a722d441f13cccdf9ef8443f994046b26bd1fbec5f858c12d1f8809a20d",
+  "precision": "FP32 loads, active arithmetic, chunk reduction, sequential carry and stores; binary64 Python epsilon bound by the ordinary FP32 scalar ABI",
+  "numerical_transformations": [],
+  "deferred_experiments": [],
+  "ordinary_boundaries": [
+    "The actual backend supplies scalar add/sub/multiply/maximum/logarithm/exponential/negation/multiplyMinusOne and epsilon conversion meanings; no correctly-rounded transcendental or cross-primitive equality is assumed.",
+    "The actual compiler supplies the ordered binary addition tree for each tl.sum width, with structural ReductionPlan coverage; chunk carry remains sequential.",
+    "Successful dispatch has representable signed program IDs; active pointer, signed loop and byte bounds follow from bound tensor backing.",
+    "Physical Ops read/write/frame laws and little-endian FP32 Codec describe ordinary memory representation."
+  ],
+  "historical_whole_wrapper_numerics": "numerical-obligations.host.json",
+  "validation": "CPU source/contract/frame controls passed; no GPU or numerical-conformance experiment was run for this kernel revision.",
+  "auxiliary_native_entries": [
+    "VeriTile.Bench.Repairs.KldivOps.Kernel.FPEquiv.forward",
+    "VeriTile.Bench.Repairs.KldivOps.Kernel.FPEquiv.backward"
+  ],
+  "implementation_equivalence_status": "proof_connection_pending: existing backward source pair retained; repaired runtime-epsilon forward candidate bridge is missing",
+  "auxiliary_relation": "complete typed execution equals an independent source-ordered native word graph on the same primitive interpretation and reduction plan"
+}

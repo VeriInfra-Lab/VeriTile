@@ -1,0 +1,272 @@
+{
+  "schema": 1,
+  "task": "dropout_triton",
+  "status": "unchanged",
+  "owner": {
+    "path": ".veritile-cache/io-unification-20261023/queue05/result.json",
+    "sha256": "347a32cf78210b10569dd4b576fe337b999e2aa51c817529e322e71392f3356b",
+    "task_index": 1
+  },
+  "reason": "The one mixed masked memory interface already resides in IO.lean; the public result already uses its direct logical array inputs, with no separate logical adapter module.",
+  "selected_public_entries": [
+    "bench/repairs/tritonbench_g/dropout_triton/Contract.lean",
+    "bench/repairs/tritonbench_g/dropout_triton/Correct.lean",
+    "bench/repairs/tritonbench_g/dropout_triton/FPEquiv.lean"
+  ],
+  "previous_semantic_review": {
+    "manifest": {
+      "path": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json",
+      "sha256": "5df771b8603eaf5d9f08b4fde0c5b938c18087c00092f5348b47eb54d33a8225"
+    },
+    "task": "dropout_triton"
+  },
+  "changed_files": [],
+  "removed_files": [],
+  "moved_declarations": [],
+  "preservation": {
+    "all_task_sources_byte_identical": true,
+    "current_io": "bench/repairs/tritonbench_g/dropout_triton/IO.lean",
+    "prior_source_pins_match": true
+  },
+  "verification": [
+    {
+      "kind": "cached_prior_success_reuse",
+      "report": ".veritile-cache/logical-reader-review-20261022/queue05/result.json",
+      "report_sha256": "b7855ba15faaf5e2f177961e4a8a89181354e8928bbce04e8519a187efbab386",
+      "prior_successful_verification": [
+        {
+          "task": "dropout_triton",
+          "kind": "fp_source",
+          "command": [
+            "python",
+            "-u",
+            ".veritile-cache/logical-reader-review-20261022/queue05/build.py",
+            "bench/repairs/tritonbench_g/dropout_triton/FPEquiv.lean"
+          ],
+          "exit_code": 0,
+          "log": ".veritile-cache/logical-reader-review-20261022/queue05/fp-dropout_triton.log",
+          "log_sha256": "442559d361728e49a2f9f8b96967909dd96f30dab1ed50a89f6cd8536b30b139",
+          "reuse": "Prior task-local successful check; reviewed source and receipt pins remain current."
+        },
+        {
+          "task": "dropout_triton",
+          "kind": "task_joint",
+          "command": [
+            "python",
+            "-u",
+            ".veritile-cache/logical-reader-review-20261022/queue05/build.py",
+            "--check",
+            ".veritile-cache/logical-reader-review-20261022/queue05/joint_dropout_triton.lean"
+          ],
+          "exit_code": 0,
+          "source": ".veritile-cache/logical-reader-review-20261022/queue05/joint_dropout_triton.lean",
+          "source_sha256": "563729a547b5f1e4082a90acfb36a4a10bbab4d5258dfb8c2993c0990002eabc",
+          "log": ".veritile-cache/logical-reader-review-20261022/queue05/joint-dropout_triton.log",
+          "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "reuse": "Prior task-local successful check; reviewed source and receipt pins remain current."
+        },
+        {
+          "kind": "receipt_source_object_direct_dependency_audit",
+          "command": [
+            "python",
+            ".veritile-cache/logical-reader-review-20261022/queue05/audit-receipts.py"
+          ],
+          "exit_code": 0,
+          "log": ".veritile-cache/logical-reader-review-20261022/queue05/receipts-final.json",
+          "log_sha256": "a3a64928712915a8204fd3fec33335656e18e0542b5c5ab22d8bdec24b8df76e"
+        }
+      ],
+      "pin_audit": ".veritile-cache/io-unification-20261023/queue05/baseline-source-pin-audit.json",
+      "pin_audit_sha256": "3535eb0ebc67ecff6130c8fdf140403077be3390e085e927116ef26d9c46b6b5",
+      "prior_log_audit": ".veritile-cache/io-unification-20261023/queue05/prior-verification-audit.json",
+      "prior_log_audit_sha256": "cada918c9d52d249c52abe0debf55355e8bac5f5290f276a97543be2d2eac907",
+      "fresh_lean_build_in_this_campaign": false
+    },
+    {
+      "kind": "fresh_source_organization_and_body_preservation_audit",
+      "command": [
+        "python",
+        ".veritile-cache/io-unification-20261023/queue05/audit-sources.py"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue05/source-audit.json",
+      "log_sha256": "e7702b0b935237adebd55b2442d77ba9f3c9f854d7bcbef4e04dd12519294e97"
+    }
+  ],
+  "verification_status": "unchanged_reused",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/dropout_triton/Contract.lean": "4d927136b7af13ddca386a41646c8e2ed41042b25f2fc50ac0096110ee459318",
+    "bench/repairs/tritonbench_g/dropout_triton/Correct.lean": "e27ec06aad7b2d4ccf0282d95f23b7b34c8bf285c6481326faa7a9553a400781",
+    "bench/repairs/tritonbench_g/dropout_triton/FPEquiv.lean": "7f5477c4f2d35296d2de5e98275604a4a606a26f0e776c27e6edf7e48518978f",
+    "bench/repairs/tritonbench_g/dropout_triton/IO.lean": "e83edf1e5235c6a7cf83ddb7dcb439ca2ba0a72e5f9980d6f59e34976738b0b2",
+    "bench/repairs/tritonbench_g/dropout_triton/Kernels.lean": "3d73b533c3be446e95a90bddadc64af9e550d8054b03d71a23bc49798b8be4fd",
+    "bench/repairs/tritonbench_g/dropout_triton/Proofs/Rewrite.lean": "90687642987f73f82acda97f4c5e1ec4a2807ab73ed63c6d587bfc0761c56416",
+    "bench/repairs/tritonbench_g/dropout_triton/Proofs/RealEndpoints.lean": "dbc9bf035da9c8566ea116e1f7ff0cd78af511f432ef90a089470ab789346fdf",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8",
+    "bench/repairs/tritonbench_g/dropout_triton/Misc/AuxiliaryCorrect.lean": "0acc544d9dba7a7c6b2c2e8ff11d274f0dca1da79ae7914e620a1a20dda09c3d",
+    "bench/repairs/tritonbench_g/dropout_triton/Misc/FPFacts.lean": "5c44705a7096b70f7243a5504d277d1870c3f97dbb4ac16ddc5232055c107937",
+    "bench/repairs/tritonbench_g/dropout_triton/Misc/TensorBridge.lean": "45b804b1796a5a88fd4aaccc23529f7640f3bf73aaaa18bdfc37f8b985f2919c",
+    "bench/repairs/tritonbench_g/dropout_triton/Proofs/Contract.lean": "ba0e26c963da1fec0b11da17ff29f2cb28b964577a6301ff38256a9681ae4720",
+    "bench/repairs/tritonbench_g/dropout_triton/Proofs/Memory.lean": "c130bb8bf73122393808fe491d46aeb8d7252b14179a00ea2f9191d6299e6c86",
+    "bench/repairs/tritonbench_g/dropout_triton/Proofs/MemoryContract.lean": "ec25d519ece8c7a6f73afb3e566c54f2b01a3b6ed4d0d28cc321f8687f24fdb9",
+    "bench/repairs/tritonbench_g/dropout_triton/Proofs/PhysicalWrapper.lean": "64fe9df3a40995d5507181901162eddc17bf46a6fc712b80563538095fff85d7",
+    "bench/repairs/tritonbench_g/dropout_triton/Proofs/Pointers.lean": "64d9584236738fe75e2ee561b7bb0def25b3792d0ee4a615bea13f67fe2dd5e6",
+    "bench/repairs/tritonbench_g/dropout_triton/Proofs/RealGrid.lean": "f79eb9a51fc033a69c5920eac611eef11c2af3621fc45bb4969a2cd9dc2e853e",
+    "bench/repairs/tritonbench_g/dropout_triton/Proofs/RealInterpretation.lean": "d9a7bd3e7470e4b982f6044f2806815cb0b16acd6e6ef0ec1b10d1c950acced7",
+    "bench/repairs/tritonbench_g/dropout_triton/Proofs/Region.lean": "4860443c2e811c7219ec4cf4c469ea9728b377d4aca7fc0c19b18fe049324d70",
+    "bench/repairs/tritonbench_g/dropout_triton/Proofs/ScalarABI.lean": "7c49bb261d99e202e8f4f58740f2d72425cee240b2fc3c8704715cb33a5ed76c",
+    "bench/repairs/tritonbench_g/dropout_triton/Proofs/Source.lean": "7b7c2607a6c9c9764ac0e8ed5c412e1a41bd0eb3c7e018d3d6d46793e2935e0a",
+    "bench/repairs/tritonbench_g/dropout_triton/Proofs/Typed.lean": "bd2903640e9fb5cb0ad9dc0cd754c3f5836accbeec6be6e1d2104eca07a04e2a",
+    "bench/repairs/tritonbench_g/dropout_triton/Proofs/TypedGrid.lean": "769fc3df88ff3fe22d537b425db281288aff5dc6eaa1dcbc71ea3510eb422ad8",
+    "bench/repairs/tritonbench_g/dropout_triton/Proofs/Wrapper.lean": "a7d83d5764ef34e50d1cf6a5a7e1d56afcdcc7406ae535b8bd57f861b548dec0"
+  },
+  "source_pin_provenance": {
+    "bench/repairs/tritonbench_g/dropout_triton/Contract.lean": {
+      "owner_tasks": [
+        "dropout_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dropout_triton/Correct.lean": {
+      "owner_tasks": [
+        "dropout_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dropout_triton/FPEquiv.lean": {
+      "owner_tasks": [
+        "dropout_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dropout_triton/IO.lean": {
+      "owner_tasks": [
+        "dropout_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dropout_triton/Kernels.lean": {
+      "owner_tasks": [
+        "dropout_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dropout_triton/Proofs/Rewrite.lean": {
+      "owner_tasks": [
+        "dropout_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dropout_triton/Proofs/RealEndpoints.lean": {
+      "owner_tasks": [
+        "dropout_triton"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalIO.lean": {
+      "owner_tasks": [
+        "mixed_sparse_attention",
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dropout_triton/Misc/AuxiliaryCorrect.lean": {
+      "owner_tasks": [
+        "dropout_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dropout_triton/Misc/FPFacts.lean": {
+      "owner_tasks": [
+        "dropout_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dropout_triton/Misc/TensorBridge.lean": {
+      "owner_tasks": [
+        "dropout_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dropout_triton/Proofs/Contract.lean": {
+      "owner_tasks": [
+        "dropout_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dropout_triton/Proofs/Memory.lean": {
+      "owner_tasks": [
+        "dropout_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dropout_triton/Proofs/MemoryContract.lean": {
+      "owner_tasks": [
+        "dropout_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dropout_triton/Proofs/PhysicalWrapper.lean": {
+      "owner_tasks": [
+        "dropout_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dropout_triton/Proofs/Pointers.lean": {
+      "owner_tasks": [
+        "dropout_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dropout_triton/Proofs/RealGrid.lean": {
+      "owner_tasks": [
+        "dropout_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dropout_triton/Proofs/RealInterpretation.lean": {
+      "owner_tasks": [
+        "dropout_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dropout_triton/Proofs/Region.lean": {
+      "owner_tasks": [
+        "dropout_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dropout_triton/Proofs/ScalarABI.lean": {
+      "owner_tasks": [
+        "dropout_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dropout_triton/Proofs/Source.lean": {
+      "owner_tasks": [
+        "dropout_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dropout_triton/Proofs/Typed.lean": {
+      "owner_tasks": [
+        "dropout_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dropout_triton/Proofs/TypedGrid.lean": {
+      "owner_tasks": [
+        "dropout_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dropout_triton/Proofs/Wrapper.lean": {
+      "owner_tasks": [
+        "dropout_triton"
+      ]
+    }
+  },
+  "retired_current_source_pins": {},
+  "limits": [
+    "No fresh Lean build was needed because every task source is unchanged; previous successful checks and pinned logs are reused explicitly."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/io-unification-20261023/queue16/result.json",
+    "sha256": "12f6dd5ed523e9f723fee3847af964fd8987958c2cb997aa572210c04de5bc84"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

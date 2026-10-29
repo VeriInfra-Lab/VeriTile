@@ -1,0 +1,100 @@
+import bench.tritonbench_g.add_value.NativeCorrect
+namespace AddValueIndependentReview
+open AddValueNative
+open VeriTile.Triton VeriTile.Bench.TritonBenchG.VectorAddition
+open DTypeScope TypedHost Finite
+noncomputable section
+open Classical
+set_option maxHeartbeats 8000000
+set_option maxRecDepth 24000
+
+theorem exact_grid_boundary (n : Nat) : gridSupported n ↔ n≤(2^31-1)*1024 := by
+  unfold gridSupported Native.gridSupported Native.grid
+  omega
+
+theorem bool_load_and_raw_store (b : AddValueNative.Numerics) :
+    (input32 b .boolean ⟨255#8⟩).bits=0x3f800000#32 ∧
+    (output32 b .boolean argument).map (fun v => v.bits)=some 10#8 ∧
+    (output32 b .boolean ⟨0x41300000#32⟩).map (fun v => v.bits)=some 11#8 := by
+  simp only [input32,output32]
+  decide +kernel
+
+theorem undefined_integer_conversion :
+    signedStore .w8 ⟨0x7fc00000#32⟩=none ∧
+    unsignedStore .w8 ⟨0x43848000#32⟩=none ∧
+    signedStore .w8 ⟨0x43000000#32⟩=none := by
+  decide +kernel
+
+theorem fp64_preserves_loaded_input (b : AddValueNative.Numerics) (x : Word F64) :
+    (source .fp64).eval b x argument=some (b.wide.add64 x (b.wide.singleTo64 argument)) := by
+  rw [source_scalar]
+  rfl
+
+theorem cuda_failure_without_pointer_evidence {M : Type}
+    (ops : (d : Storage) → Memory M (Word (.storage d))) (b : AddValueNative.Numerics)
+    (env : Environment) (metadata : Metadata) (kind : InputType)
+    (x output : HostWrapper.Tensor) (allocated : M) (cpu : x.isCUDA=Bool.false) :
+    executeAllocated ops b env metadata kind x output allocated=
+      .failed (checkedTrace x output) .cudaAssertion := by
+  simp [executeAllocated,cudaGuard,cpu]
+
+theorem pointer_failure_without_consuming_metadata {M : Type}
+    (ops : (d : Storage) → Memory M (Word (.storage d))) (b : AddValueNative.Numerics)
+    (env : Environment) (metadata : Metadata) (kind : InputType) (d : Storage)
+    (x output : HostWrapper.Tensor) (allocated : M) (detail : String)
+    (cuda : cudaGuard x output=Bool.true) (context : env .context=none)
+    (admit : admission kind=.ok d) (comp : env .compilation=none)
+    (grid : gridSupported output.numel) (failure : env .pointerPacking=some detail) :
+    executeAllocated ops b env metadata kind x output allocated=
+      .failed (attemptedTrace x output) (.primitive .pointerPacking detail) := by
+  simp [executeAllocated,cuda,context,admit,comp,grid,failure]
+
+def emptyOffsetTensor : HostWrapper.Tensor := ⟨"empty",0,Bool.false,"float32",[0],[1],7,none⟩
+def emptyBuffer : Buffer := ⟨100,64,0,none,fun _ => Bool.false,fun _ => Bool.false⟩
+def emptyMetadata : Metadata := ⟨fun _ => 100,fun _ => 0,fun _ => 0,fun _ => emptyBuffer,fun _ => [1],0⟩
+theorem empty_offset_totalization : TensorBinding emptyMetadata emptyOffsetTensor .fp32 := by
+  constructor
+  all_goals simp [emptyMetadata,emptyBuffer,emptyOffsetTensor,hostExtent,Native.hostExtent,dtypeName]
+
+theorem byte_formula_frame {M A : Type} (ops : Memory M A) (m : M) (v w : A) :
+    finalByte ops .fp32 [⟨0,0,0,100,v⟩,⟨1,0,0,102,w⟩] m 103=some (ops.encode .fp32 w 1) ∧
+    finalByte ops .fp32 [⟨0,0,0,100,v⟩,⟨1,0,0,102,w⟩] m 99=ops.byte m 99 := by
+  simp [finalByte,Write.Touches,bytes]
+
+/-- Arbitrary program orders already have the source/frame correspondence.
+The public host currently chooses the complete increasing order. -/
+theorem arbitrary_order_frame {M : Type} (d : Storage) (ops : Memory M (Word (.storage d)))
+    (b : AddValueNative.Numerics) (p : Layout) (n : Nat) (m : M) (fresh : p.Fresh) (pids : List Nat) :
+    executeGrid d ops b p n pids ⟨m,[]⟩=
+      (gridPlan d ops b p n m pids []).map (fun plan => ⟨applyWrites ops (dtype d) plan.1 m,plan.2⟩) :=
+  grid_correspondence d ops b p n m fresh pids ⟨m,[]⟩ (outside_refl ops p m)
+
+/-- Disjoint successful writes have identical byte results in either order;
+no result from an actual scheduler or device is assumed here. -/
+theorem disjoint_stores_commute_bytes {M A : Type} (ops : Memory M A) (d : DType)
+    (m : M) (w z : Write A) (address : Nat)
+    (sep : SpanDisjoint w.address (w.address+bytes d) z.address (z.address+bytes d)) :
+    finalByte ops d [w,z] m address=finalByte ops d [z,w] m address := by
+  by_cases hw : w.Touches d address
+  · by_cases hz : z.Touches d address
+    · exfalso
+      unfold Write.Touches at hw hz
+      unfold SpanDisjoint at sep
+      omega
+    · simp [finalByte,hw,hz]
+  · by_cases hz : z.Touches d address
+    · simp [finalByte,hw,hz]
+    · simp [finalByte,hw,hz]
+
+#axiomsClean exact_grid_boundary
+#axiomsClean bool_load_and_raw_store
+#axiomsClean undefined_integer_conversion
+#axiomsClean fp64_preserves_loaded_input
+#axiomsClean cuda_failure_without_pointer_evidence
+#axiomsClean pointer_failure_without_consuming_metadata
+#axiomsClean empty_offset_totalization
+#axiomsClean byte_formula_frame
+#axiomsClean arbitrary_order_frame
+#axiomsClean disjoint_stores_commute_bytes
+end
+end AddValueIndependentReview

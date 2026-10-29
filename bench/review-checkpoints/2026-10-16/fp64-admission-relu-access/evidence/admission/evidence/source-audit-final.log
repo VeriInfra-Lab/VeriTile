@@ -1,0 +1,1 @@
+{"source_units": 28, "branch_checks": 24, "rows": 289, "stage_counts": {"admitted": 189, "addition": 36, "signature": 64}, "cross_counts": {"admitted:promoted": 189, "addition:promotion_error": 36, "signature:promotion_error": 36, "signature:promoted": 28}, "audit_sha256": "c6ce9a938df490f6a6264cee87107cb1f771c646f2456b9bf01f10602a645a83"}

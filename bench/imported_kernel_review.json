@@ -50533,9 +50533,10 @@
     }
   },
   "source_sha256": {
+    "AGENTS.md": "53cd6a3ccdf49d0da41d48cc289c264b29a869253c1915d253e92ad882d5cc5e",
     "VeriTile/Triton/Float/GuardedProgramIO.lean": "d49d97865627028acef594b848a4627e83e139849ce8f882c8901d75e11d6046",
     "VeriTile/Triton/Memory/LogicalScheduledKernelIO.lean": "63fc2fd56a16d72f476294a9bd175483cc1d188e5760f18d0c40ba59d9764e2b",
-    "bench/MAIN_THEOREM_CONVENTIONS.md": "a85e911c665cf08081fddc5c2f93dbf2aeaa96ce8179fe51f4fe2edb1c504c5b",
+    "bench/MAIN_THEOREM_CONVENTIONS.md": "5453128c051fe35bfbae6742cbfbb3cff89b30ddff52ff15544f24bb22979ad8",
     "bench/bug_detection/All.lean": "36bf0486086ef1a027d8e97527b9dc223b53a536a8b2c97f3d684a4ffd1b6b5e",
     "bench/bug_detection/README.md": "287398342108bd6596566fbb3f96bc42c10b7595b08340cd15d3fb66eea15ce3",
     "bench/bug_detection/Validation.lean": "9da69a360b9c1f9df2ecab7c469231af4463f6422edf8b19747b8d5a00a2cf3e",
@@ -51061,7 +51062,7 @@
     "bench/bug_detection/tasks/swiglu__scale3/Misc/Validation.lean": "29f5d7fd25ee24ef3011399a795d27bac2f42d5ede7a2788668f76d76fcfea17",
     "bench/bug_detection/tasks/swiglu__scale3/Proofs/Backend.lean": "81f3854c3aebdc7fc063ba0cb484ddd72a0ad8780f8f28662a5dcdd92229d6f1",
     "bench/bug_detection/tasks/swiglu__scale3/task.json": "31567131be39e2b4c800e290cef10d85f908cc53a9add90e8e196d6e3ef224db",
-    "bench/check_imported_kernel_review.py": "8ebc004b1087eaad3ae40c4d459cfa70b85e3c1673bcea073c0627472c0ab1fb",
+    "bench/check_imported_kernel_review.py": "b449ea68986cba63ca1fd266f259a75bb1e6ca35810220bfcf0e3b61904f5400",
     "bench/pretrain_kernels/All.lean": "4a8cc395a432d03ce154bfad4128057a0c14783f174b2a9d90e345039d2f486b",
     "bench/pretrain_kernels/README.md": "8c352569735f56287788ae2d70ae7a2d1b0ff24f64cf9863e5aa2da8020e6762",
     "bench/pretrain_kernels/Validation.lean": "5ee4038d2189480c830e90d49615feb631d53dcf2f0b12ba51abd51374d250d3",
@@ -53220,6 +53221,11 @@
     "bench/pretrain_kernels/tasks/te_fused_attn_mla_thd_dv/Proofs/Backend.lean": "09415464d3e03083d4b58d7be07beb565f8a088764424799ce9be6790c9b899d",
     "bench/pretrain_kernels/tasks/te_fused_attn_mla_thd_dv/task.json": "ce9735151cf467d28fae4020d4a1399cf1e02ec6b5525665019c9f6d4a3fbbd8",
     "bench/tests/FPGuardedProgramIO.lean": "0fdd3d571fbb4343cf7340232e862484535e900d62005684d1db51d641553fc3",
-    "lakefile.toml": "047e684f5aff543f8143d0e488b4975df013ab6fc42dee9d843cfeeca1740cf0"
+    "lakefile.toml": "ba8b4eb48b6837fc1f3778aebf887e696b7fdd511a0d9c4dbbcb5f9069ccce18"
+  },
+  "main_integration": {
+    "base": "16abbb7e77bf111bf7ede620ec6bf91744e7325b",
+    "fp_source": "25ad2949386cd0b992e2d3cb7cf26fac86f6a25c",
+    "validation": "PENDING: rebuilding both collections against the complete merged semantic dependencies."
   }
 }

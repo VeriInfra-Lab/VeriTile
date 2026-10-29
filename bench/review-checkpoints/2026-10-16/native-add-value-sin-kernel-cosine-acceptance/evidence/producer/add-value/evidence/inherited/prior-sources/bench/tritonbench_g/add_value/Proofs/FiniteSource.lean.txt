@@ -1,0 +1,209 @@
+import bench.tritonbench_g.add_value.Proofs.FiniteExecution
+import bench.tritonbench_g.add_value.Kernels
+
+namespace AddValueFinite
+open VeriTile.Triton
+open VeriTile.Bench.TritonBenchG.VectorAddition.Finite
+open VeriTile.Bench.TritonBenchG.AddValue
+noncomputable section
+set_option maxHeartbeats 6000000
+set_option maxRecDepth 24000
+set_option linter.unusedSimpArgs false
+local instance : DecidableEq ℝ := Classical.decEq _
+
+inductive IndexExpr where
+  | literal (n : Nat) | program (ax : Nat) | register (name : RegName) | lane (width : Nat)
+  | add (a b : IndexExpr) | mul (a b : IndexExpr)
+
+def lowerIndex {shape : TileShape} : Op .nat shape → Option IndexExpr
+  | .constNat n => some (.literal n)
+  | .programId ax => some (.program ax)
+  | .ref _ _ name => some (.register name)
+  | .arange width => some (.lane width)
+  | .add _ _ a b => return .add (← lowerIndex a) (← lowerIndex b)
+  | .mul _ _ a b => return .mul (← lowerIndex a) (← lowerIndex b)
+  | _ => none
+
+inductive MaskExpr where
+  | register (name : RegName)
+  | less (a b : IndexExpr)
+
+def lowerBool {shape : TileShape} : Op .bool shape → Option MaskExpr
+  | .ref _ _ name => some (.register name)
+  | .lt .nat _ a b => return .less (← lowerIndex a) (← lowerIndex b)
+  | _ => none
+
+def lowerMask {shape : TileShape} : MaskOpt .real shape → Option MaskExpr
+  | .mask e => lowerBool e
+  | _ => none
+
+/-- Finite elaboration of the original seven source statements. The adjacent
+scalar-add/store pair uses the typed `source` expression including its required
+store conversion. It consumes a real loaded operand and the runtime fp32 ABI
+argument, never a second pointer or final-value oracle. -/
+inductive Instruction where
+  | indexAssign (name : RegName) (value : IndexExpr)
+  | maskAssign (name : RegName) (value : MaskExpr)
+  | load (name : RegName) (region : RegionName) (offset : IndexExpr) (mask : MaskExpr)
+  | addArgument (name input : RegName)
+  | store (region : RegionName) (offset : IndexExpr) (name : RegName) (mask : MaskExpr)
+
+def lowerStatement : Stmt → Option Instruction
+  | .assign .nat _ name e => return .indexAssign name (← lowerIndex e)
+  | .assign .bool _ name e => return .maskAssign name (← lowerBool e)
+  | .assign .real _ name (.load .real (.region region offset) mask _) =>
+      return .load name region (← lowerIndex offset) (← lowerMask mask)
+  | .assign .real _ name (.add .real _ (.ref _ _ input) (.const v)) =>
+      if v=10 then some (.addArgument name input) else none
+  | .store .real _ (.region region offset) (.ref _ _ name) mask =>
+      return .store region (← lowerIndex offset) name (← lowerMask mask)
+  | _ => none
+
+def lowerBody : List Stmt → Option (List Instruction)
+  | [] => some []
+  | stmt::rest => return (←lowerStatement stmt)::(←lowerBody rest)
+
+def sourceCode (x output : RegionName) (n : Nat) : List Instruction :=
+  [.indexAssign "pid" (.program 0),
+   .indexAssign "block_start" (.mul (.register "pid") (.literal 1024)),
+   .indexAssign "offsets" (.add (.register "block_start") (.lane 1024)),
+   .maskAssign "mask" (.less (.register "offsets") (.literal n)),
+   .load "x" x (.register "offsets") (.register "mask"),
+   .addArgument "output" "x",
+   .store output (.register "offsets") "output" (.register "mask")]
+
+theorem original_ast_lowering (x output : RegionName) (n : Nat) :
+    lowerBody (puzzle1_kernel x output n 1024 10).body=some (sourceCode x output n) := by
+  simp [lowerBody,lowerStatement,lowerIndex,lowerMask,lowerBool,puzzle1_kernel,
+    ComputeKernel.body,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,sourceCode,
+    bind,pure,Except.bind,Option.bind]
+
+structure Registers (M α : Type) where
+  indices : RegName → Nat → Nat
+  masks : RegName → Nat → Bool
+  values : RegName → Nat → Option α
+  memory : M
+
+def evalIndex (pid lane : Nat) (registers : RegName → Nat → Nat) : IndexExpr → Nat
+  | .literal n => n
+  | .program ax => if ax=0 then pid else 0
+  | .register name => registers name lane
+  | .lane _ => lane
+  | .add a b => evalIndex pid lane registers a + evalIndex pid lane registers b
+  | .mul a b => evalIndex pid lane registers a * evalIndex pid lane registers b
+
+def evalMask (pid lane : Nat) (indices : RegName → Nat → Nat) (masks : RegName → Nat → Bool) : MaskExpr → Bool
+  | .register name => masks name lane
+  | .less a b => decide (evalIndex pid lane indices a < evalIndex pid lane indices b)
+
+def storeLanes {M α : Type} (ops : MemoryPrimitives M α) (output : View)
+    (offset : Nat → Nat) (mask : Nat → Bool) (values : Nat → Option α) : List Nat → M → Except Nat M
+  | [],s => .ok s
+  | lane::rest,s => if mask lane then match values lane with
+      | none => .error (offset lane)
+      | some value => storeLanes ops output offset mask values rest (writeView ops s output (offset lane) value)
+    else storeLanes ops output offset mask values rest s
+
+def executeInstruction {M α : Type} (ops : MemoryPrimitives M α) (compute : α → Option α)
+    (views : RegionName → View) (undef : α) (pid : Nat) (s : Registers M α) : Instruction → Except Nat (Registers M α)
+  | .indexAssign name e => .ok {s with indices := fun key lane ↦ if key=name then evalIndex pid lane s.indices e else s.indices key lane}
+  | .maskAssign name e => .ok {s with masks := fun key lane ↦ if key=name then evalMask pid lane s.indices s.masks e else s.masks key lane}
+  | .load name region offset mask =>
+      .ok {s with values := fun key lane ↦ if key = name then Option.some (if evalMask pid lane s.indices s.masks mask then readView ops s.memory (views region) (evalIndex pid lane s.indices offset) else undef) else s.values key lane}
+  | .addArgument name input =>
+      .ok {s with values := fun key lane ↦ if key = name then (s.values input lane).bind compute else s.values key lane}
+  | .store region offset name mask => do
+      let final ← storeLanes ops (views region) (fun lane ↦ evalIndex pid lane s.indices offset)
+        (fun lane ↦ evalMask pid lane s.indices s.masks mask) (s.values name) (List.range 1024) s.memory
+      pure {s with memory := final}
+
+def executeBody {M α : Type} (ops : MemoryPrimitives M α) (compute : α → Option α)
+    (views : RegionName → View) (undef : α) (pid : Nat) (s : Registers M α) : List Instruction → Except Nat (Registers M α)
+  | [] => .ok s
+  | stmt::rest => (executeInstruction ops compute views undef pid s stmt).bind fun next ↦
+      executeBody ops compute views undef pid next rest
+
+def runProgram {M α : Type} (ops : MemoryPrimitives M α) (compute : α → Option α)
+    (views : RegionName → View) (undef : α) (x output : RegionName) (n pid : Nat) (memory : M) : Except Nat M :=
+  match lowerBody (puzzle1_kernel x output n 1024 10).body with
+  | none => .error n
+  | some code => do
+      let final ← executeBody ops compute views undef pid ⟨fun _ _ ↦ 0,fun _ _ ↦ Bool.false,fun _ _ ↦ none,memory⟩ code
+      pure final.memory
+
+theorem storeLanes_eq_stores {M α : Type} (ops : MemoryPrimitives M α) (output : View)
+    (values : Nat → Option α) (n pid : Nat) (lanes : List Nat) (s : M) :
+    storeLanes ops output (fun lane ↦ pid*1024+lane) (fun lane ↦ decide (pid*1024+lane<n))
+      (fun lane ↦ values (pid*1024+lane)) lanes s=
+    executeStores ops values output ((lanes.map (fun lane ↦ pid*1024+lane)).filter (fun i ↦ decide (i<n))) s := by
+  induction lanes generalizing s with
+  | nil => rfl
+  | cons lane rest ih =>
+    by_cases h : pid*1024+lane<n
+    · cases hv : values (pid*1024+lane) <;> simp [storeLanes,h,hv,executeStores,ih]
+    · simp [storeLanes,h,executeStores,ih]
+
+theorem storeLanes_active_congr {M α : Type} (ops : MemoryPrimitives M α) (output : View)
+    (offset : Nat → Nat) (mask : Nat → Bool) (a b : Nat → Option α)
+    (same : ∀ lane, mask lane=Bool.true → a lane=b lane) (lanes : List Nat) (s : M) :
+    storeLanes ops output offset mask a lanes s=storeLanes ops output offset mask b lanes s := by
+  induction lanes generalizing s with
+  | nil => rfl
+  | cons lane rest ih =>
+    cases hm : mask lane with
+    | «false» => simp [storeLanes,hm,ih]
+    | «true» => simp only [storeLanes,hm,↓reduceIte,same lane hm]; cases b lane <;> simp [ih]
+
+theorem runProgram_eq_stores {M α : Type} (ops : MemoryPrimitives M α) (compute : α → Option α)
+    (views : RegionName → View) (undef : α) (x output : RegionName) (n pid : Nat) (s : M) :
+    runProgram ops compute views undef x output n pid s=
+      executeStores ops (fun i ↦ compute (readView ops s (views x) i)) (views output) (programLanes n pid) s := by
+  simp only [runProgram,original_ast_lowering,sourceCode,executeBody,executeInstruction,evalIndex,evalMask,
+    bind,pure,Except.bind,Option.bind]
+  simp only [if_pos rfl,if_true,String.reduceEq,if_false,decide_eq_true_eq]
+  have hc := storeLanes_active_congr ops (views output) (fun lane ↦ pid*1024+lane)
+    (fun lane ↦ decide (pid*1024+lane<n))
+    (fun lane ↦ compute (if pid*1024+lane<n then readView ops s (views x) (pid*1024+lane) else undef))
+    (fun lane ↦ compute (readView ops s (views x) (pid*1024+lane)))
+    (by intro lane h; simp only [decide_eq_true_eq] at h; simp [h]) (List.range 1024) s
+  rw [hc,storeLanes_eq_stores ops (views output) (fun i ↦ compute (readView ops s (views x) i)) n pid (List.range 1024) s]
+  simp only [programLanes]
+  cases executeStores ops (fun i ↦ compute (readView ops s (views x) i)) (views output)
+    (((List.range 1024).map (fun lane ↦ pid*1024+lane)).filter (fun i ↦ decide (i<n))) s <;> rfl
+
+def runPrograms {M α : Type} (ops : MemoryPrimitives M α) (compute : α → Option α)
+    (views : RegionName → View) (undef : α) (x output : RegionName) (n : Nat) : List Nat → M → Except Nat M
+  | [],s => .ok s
+  | pid::rest,s => (runProgram ops compute views undef x output n pid s).bind fun next ↦
+      runPrograms ops compute views undef x output n rest next
+
+def sourceGrid {M : Type} (b : Numerics) (d : Storage)
+    (ops : MemoryPrimitives M (Word (.storage d))) (views : RegionName → View)
+    (undef : Word (.storage d)) (x output : RegionName) (n : Nat) (initial : M) : Except Nat M :=
+  runPrograms ops (fun a ↦ (source d).eval b a argument) views undef x output n (List.range ((n+1023)/1024)) initial
+
+theorem runPrograms_eq_batches {M α : Type} (ops : MemoryPrimitives M α) (compute : α → Option α)
+    (views : RegionName → View) (undef : α) (x output : RegionName) (n : Nat) (pids : List Nat) (s : M) :
+    runPrograms ops compute views undef x output n pids s=
+      executeBatches ops compute (views x) (views output) (pids.map (programLanes n)) s := by
+  induction pids generalizing s with
+  | nil => rfl
+  | cons pid rest ih =>
+    simp only [runPrograms,runProgram_eq_stores,List.map_cons,executeBatches,bind,Except.bind]
+    cases executeStores ops (fun i ↦ compute (readView ops s (views x) i)) (views output) (programLanes n pid) s <;> simp [ih]
+
+theorem sourceGrid_eq_executeGrid {M : Type} (b : Numerics) (d : Storage)
+    (ops : MemoryPrimitives M (Word (.storage d))) (views : RegionName → View)
+    (undef : Word (.storage d)) (x output : RegionName) (n : Nat) (initial : M) :
+    sourceGrid b d ops views undef x output n initial=executeGrid b d ops (views x) (views output) n initial := by
+  exact runPrograms_eq_batches ops _ views undef x output n _ initial
+
+#axiomsClean original_ast_lowering
+#axiomsClean storeLanes_eq_stores
+#axiomsClean runProgram_eq_stores
+#axiomsClean runPrograms_eq_batches
+#axiomsClean sourceGrid_eq_executeGrid
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end
+end AddValueFinite

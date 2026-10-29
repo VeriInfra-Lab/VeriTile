@@ -1,0 +1,23 @@
+{
+  "source_sha256": "e7d5d9fd268e2d8933eaf733d8116baf7a9c2111bc2215e0ece4c811e361e8ab",
+  "dsl_sha256": "c362464383f3a0f71cebb2a8b8b267d3ec46e3222f36da13ae1269906f14ca11",
+  "full_kernel_AST_equal": true,
+  "top_level_statements": 37,
+  "normalized_ast_sha256": "2322884711610d147ff580d6744d85656b36415051782268a8ae3b5b850b606c",
+  "normalizations": [
+    "SSA register names",
+    "list/tuple tile syntax",
+    "explicit range step 1",
+    "steps = cdiv(K,BK*S)",
+    "C pointer dtype is the original fixed FP16",
+    "natural descriptor index specialization after exact signed64 casts"
+  ],
+  "retained_branches": [
+    "EVEN_K",
+    "has_bias",
+    "pid_z == 0",
+    "SPLIT_K == 1"
+  ],
+  "runtime_divisor": "explicit FP32 ABI parameter with FP32-to-Real algorithm view, bound by invocation; full AST preserved",
+  "no_host_or_primitive_numerical_experiment": true
+}

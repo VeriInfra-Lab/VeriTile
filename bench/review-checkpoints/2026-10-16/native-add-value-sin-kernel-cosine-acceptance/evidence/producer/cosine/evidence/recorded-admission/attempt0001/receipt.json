@@ -1,0 +1,25 @@
+{
+  "status": "passed",
+  "exact_dtype_profiles_checked": 220,
+  "native_receipts": {
+    "native-attempts/20261015T231621281851Z/receipt.json": "43600a484be4e885d68f8e683436704e44420fbd67059f2ed2161c7e0131ec3f",
+    "extent-frontend-attempts/20261015T234016609687Z/receipt.json": "7cb2b4e6c070ea047813b10cf3c0d31feced3bc5a2634a8ec8656b933fb417e1",
+    "extent-frontend-attempts/20261015T234137965557Z/receipt.json": "f0dead55e629b809d7c93738211ca476288d00cec2c9c8578554323467fa0b85"
+  },
+  "source_sha256": "e4b1adf8e146639993188610e5a167b8f9c4b7bac5a6a6dee36b5e16e06277f4",
+  "command": [
+    "/tmp/veritile-lean-toolchain/bin/lean",
+    "--root=/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/evidence/recorded-admission/attempt0001",
+    "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/evidence/recorded-admission/attempt0001/Matrix.lean",
+    "-o",
+    "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/evidence/recorded-admission/attempt0001/Matrix.olean"
+  ],
+  "exit_code": 0,
+  "seconds": 3.121,
+  "log_sha256": "6dbcf48691f668293832912fb23c2edc128c555069bd1b3b8b60f7b7df0efe27",
+  "artifacts": {
+    "Matrix.olean": "1b9f53bc2342e9ad6237c7c89c72f3184f8a75a75a358d8bbaa90910e34c222e",
+    "Matrix.lean": "e4b1adf8e146639993188610e5a167b8f9c4b7bac5a6a6dee36b5e16e06277f4",
+    "compile.log": "6dbcf48691f668293832912fb23c2edc128c555069bd1b3b8b60f7b7df0efe27"
+  }
+}

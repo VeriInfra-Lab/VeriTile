@@ -1,0 +1,4 @@
+QuantizeGlobalFinite.retained_fp32_result: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantizeGlobalFinite.zero_times_infinity_undefined: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

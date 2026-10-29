@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "reviewer": "/root",
+  "recorded_at_utc": "2026-10-16T01:34:36.868480+00:00",
+  "status": "reviewed_for_concrete_plan_after_current_batch_commit",
+  "producer_receipt_sha256": "f41f3babd87a924a3ec1d311d55349b98071acc7a2e3c6341853ca470e46201e",
+  "checked_artifacts": 85,
+  "preserved_previous_artifacts": 31,
+  "actual_integration_tests": 16,
+  "actual_test_exit": 0,
+  "test_log_sha256": "bf07cdacf90df4a56a1c5b566794017a77880e67314a8100f0ee4b56d9899396",
+  "reviewed_changes": [
+    "Complete current receipt and every receipt-bound artifact are copied and hash-reverified before removing the active plain queue. Historical package and receipt closure remain reachable.",
+    "Resolved plan output must be outside repository/checkpoint before Git checks, commands or writes; later stages recheck the saved run path.",
+    "All six installed consumer/test/document candidates are byte-identical to reviewed previous package. Scope acceptance predicates and exact numerical authority are unchanged.",
+    "Storage validation requires focused consumer tests, current queue reproduction, exact decompressed byte preservation, exact legacy row/reference-only delta, same scope report and coherent base-plus-overlay snapshot.",
+    "No unnecessary full Lean/test-suite rerun is mandated for storage-only changes. Actual current batch checks remain separately retained."
+  ],
+  "runtime_requirements": [
+    "Fresh explicit clean committed base equal to HEAD.",
+    "Root must inspect concrete plan before installation.",
+    "Plan/install/generate/rebind/snapshot/check must each actually complete before commit."
+  ],
+  "primary_gate_installed": false,
+  "acceptance_increment": 0,
+  "repository_modified_by_review": false
+}

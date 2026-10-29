@@ -1,0 +1,9 @@
+{
+  "add": [
+    "complex128",
+    "complex32",
+    "complex64",
+    "fp8e8m0fnu"
+  ],
+  "rationale": "Exact canonical source dtypes with first-error proof; no validator logic changed; existing packed_fp4e2m1 reused."
+}

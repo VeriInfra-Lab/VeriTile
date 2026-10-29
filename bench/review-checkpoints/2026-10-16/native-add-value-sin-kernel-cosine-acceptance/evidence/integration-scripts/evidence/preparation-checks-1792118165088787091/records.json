@@ -1,0 +1,49 @@
+[
+  {
+    "name": "preflight",
+    "command": [
+      "/usr/local/bin/python",
+      "-B",
+      "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/preflight.py",
+      "--report",
+      "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/preparation-checks-1792118165088787091/preflight.json"
+    ],
+    "exit_code": 0,
+    "seconds": 0.565,
+    "log": "evidence/preparation-checks-1792118165088787091/preflight.log",
+    "log_sha256": "e5517191e6fbad2cb14024e9f78bea5b60d9a057b90dbe81cf926cfbbc7b268d"
+  },
+  {
+    "name": "lint",
+    "command": [
+      "/usr/local/bin/python",
+      "-B",
+      "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/lint_candidates.py",
+      "--output",
+      "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/preparation-checks-1792118165088787091/lint"
+    ],
+    "exit_code": 0,
+    "seconds": 0.538,
+    "log": "evidence/preparation-checks-1792118165088787091/lint.log",
+    "log_sha256": "62bda1af8653bc1338c5a400c747beeead51330b18097f3b2457549e7feaf1b6"
+  },
+  {
+    "name": "unit-tests",
+    "command": [
+      "/usr/local/bin/python",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2",
+      "-p",
+      "test_candidate.py",
+      "-v"
+    ],
+    "exit_code": 0,
+    "seconds": 0.112,
+    "log": "evidence/preparation-checks-1792118165088787091/unit-tests.log",
+    "log_sha256": "73ab28197314eddbff3d490d50afd46696cd857274ca612917f526ba1682ad61"
+  }
+]

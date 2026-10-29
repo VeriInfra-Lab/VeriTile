@@ -1,0 +1,8 @@
+TritonMul2Finite.byteResult: definition does not reference [TritonMul2Finite.applyWrites,
+ TritonMul2Finite.byteWrite,
+ TritonMul2Finite.source,
+ TritonMul2Finite.Expr.eval] — non-circular ✓
+TritonMul2Finite.writes_memory: axiom footprint ⊆ standard base ✓  ([Quot.sound, propext])
+TritonMul2Finite.writes_frame: axiom footprint ⊆ standard base ✓  ([propext])
+TritonMul2Finite.word_write_bounds: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+TritonMul2Finite.large_size_cast_examples: axiom footprint ⊆ standard base ✓  ([propext])

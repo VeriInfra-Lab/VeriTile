@@ -1,0 +1,17 @@
+{
+  "bench/adapter_common.py": "f553afe1345a77c499a77278c5b8a91942917d1c08745fc1e1679e6c67e9c4b7",
+  "bench/check_original_program_scope.py": "8a5fccb70fa937d5f6696905a530d6cafd2a0bb2256a55d4f3baaf3e5b74fd72",
+  "bench/current_source_audit.py": "c26ccf28fec250fce3940fe554738bd2267d1b8389d8d23b979736d47b6a3710",
+  "bench/current_source_catalog.py": "87d4642855036cc1397640d47b4a51c8032a1ab115c24be86b0c74082210b4e5",
+  "bench/current_value_metadata.py": "cc523706dde7864b706de0cec9e1f51116852997b4bffdc8c5fde7151e896a6d",
+  "bench/deferred_numerical_experiments.py": "ae132895bd8756ddd34835249118270b3b47b68413770d43d2106f67e183793f",
+  "bench/exact_numerical_bindings.py": "1fc0afdf0464d680d997ad6bffd39197fc5ee1dc527c08db77a1d677e3948144",
+  "bench/exact_scope_gate.py": "ea2bb821d97e28e48b5272a8282e186b7de7580888efe37ca645be60080f27e1",
+  "bench/original_program_acceptance.md": "24d3d26972a22729d4f6f1d90aacdd2508f057468f54f8b0d9bf0508b873ae28",
+  "bench/review-checkpoints/2026-10-16/native-mul2-relu-custom-add-example-acceptance/primary-version-policy.md": "10a59ed41d81aee0e5bb82b81a998116564a8dd7c378516a0a4edf894b07be85",
+  "bench/tests/test_numerical_queue_migration.py": "bbe0e4e826e343e3989c87a65ecd4b48da2f9e5a7813623c9506786939596096",
+  "bench/tests/test_numerical_queue_storage.py": "9a5c85c8a8e161f46f7f28b8ce9f081e0778194f75e211051e57f8debed73c8c",
+  "lake-manifest.json": "de981cfa9d3ed8d548669570dde19d20b103c081d0772c0184d6e401f9fe96f7",
+  "lakefile.toml": "62ac5bf7b5d33bfd9b363dda03bba49fc627aa9af1a0c6dd4cadb734fa5a4928",
+  "lean-toolchain": "651c8accb402b0c071cd336e9d3dc0a55516b1bfb434ddc4801f14936785b1d2"
+}

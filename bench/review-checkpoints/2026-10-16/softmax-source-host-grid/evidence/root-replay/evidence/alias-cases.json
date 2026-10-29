@@ -1,0 +1,3170 @@
+[
+  {
+    "shape": [
+      3,
+      5
+    ],
+    "dim": 1,
+    "input_dtype": "torch.float16",
+    "requested_dtype": null,
+    "autotune_choice": 32,
+    "NUM_SMS": 80,
+    "status": "host_replayed",
+    "saved_output_identity": true,
+    "saved_dim": 1,
+    "return_gradient_slots": [
+      "torch.float16",
+      null,
+      null
+    ],
+    "launches": [
+      {
+        "kernel": "softmax_kernel_inner",
+        "meta": {
+          "M": 3,
+          "N": 5,
+          "K": 1,
+          "TILE_N": 8,
+          "ONE_TILE_PER_CTA": true,
+          "num_warps": 4
+        },
+        "grid": [
+          3,
+          1,
+          1
+        ],
+        "output_extent": 15,
+        "active_address_count": 15,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.float16"
+      },
+      {
+        "kernel": "softmax_backward_kernel_inner",
+        "meta": {
+          "M": 3,
+          "N": 5,
+          "K": 1,
+          "TILE_N": 32,
+          "TILE_M": 32,
+          "ONE_TILE_PER_CTA": true,
+          "num_warps": 4
+        },
+        "grid": [
+          1,
+          1,
+          1
+        ],
+        "output_extent": 15,
+        "active_address_count": 15,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.float16"
+      }
+    ],
+    "trace": [
+      {
+        "op": "contiguous",
+        "tag": "input",
+        "old_strides": [
+          1,
+          3
+        ],
+        "new_strides": [
+          5,
+          1
+        ],
+        "same_tensor": false
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          3,
+          5
+        ],
+        "dtype": "torch.float16"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_kernel_inner"
+      },
+      {
+        "op": "device_exit"
+      },
+      {
+        "op": "contiguous",
+        "tag": "allocation_2",
+        "old_strides": [
+          5,
+          1
+        ],
+        "new_strides": [
+          5,
+          1
+        ],
+        "same_tensor": true
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          3,
+          5
+        ],
+        "dtype": "torch.float16"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_backward_kernel_inner"
+      },
+      {
+        "op": "device_exit"
+      }
+    ]
+  },
+  {
+    "shape": [
+      3,
+      5
+    ],
+    "dim": 1,
+    "input_dtype": "torch.float16",
+    "requested_dtype": null,
+    "autotune_choice": 128,
+    "NUM_SMS": 80,
+    "status": "host_replayed",
+    "saved_output_identity": true,
+    "saved_dim": 1,
+    "return_gradient_slots": [
+      "torch.float16",
+      null,
+      null
+    ],
+    "launches": [
+      {
+        "kernel": "softmax_kernel_inner",
+        "meta": {
+          "M": 3,
+          "N": 5,
+          "K": 1,
+          "TILE_N": 8,
+          "ONE_TILE_PER_CTA": true,
+          "num_warps": 4
+        },
+        "grid": [
+          3,
+          1,
+          1
+        ],
+        "output_extent": 15,
+        "active_address_count": 15,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.float16"
+      },
+      {
+        "kernel": "softmax_backward_kernel_inner",
+        "meta": {
+          "M": 3,
+          "N": 5,
+          "K": 1,
+          "TILE_N": 128,
+          "TILE_M": 8,
+          "ONE_TILE_PER_CTA": true,
+          "num_warps": 4
+        },
+        "grid": [
+          1,
+          1,
+          1
+        ],
+        "output_extent": 15,
+        "active_address_count": 15,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.float16"
+      }
+    ],
+    "trace": [
+      {
+        "op": "contiguous",
+        "tag": "input",
+        "old_strides": [
+          1,
+          3
+        ],
+        "new_strides": [
+          5,
+          1
+        ],
+        "same_tensor": false
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          3,
+          5
+        ],
+        "dtype": "torch.float16"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_kernel_inner"
+      },
+      {
+        "op": "device_exit"
+      },
+      {
+        "op": "contiguous",
+        "tag": "allocation_2",
+        "old_strides": [
+          5,
+          1
+        ],
+        "new_strides": [
+          5,
+          1
+        ],
+        "same_tensor": true
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          3,
+          5
+        ],
+        "dtype": "torch.float16"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_backward_kernel_inner"
+      },
+      {
+        "op": "device_exit"
+      }
+    ]
+  },
+  {
+    "shape": [
+      3,
+      5
+    ],
+    "dim": 1,
+    "input_dtype": "torch.float16",
+    "requested_dtype": null,
+    "autotune_choice": 1024,
+    "NUM_SMS": 80,
+    "status": "host_replayed",
+    "saved_output_identity": true,
+    "saved_dim": 1,
+    "return_gradient_slots": [
+      "torch.float16",
+      null,
+      null
+    ],
+    "launches": [
+      {
+        "kernel": "softmax_kernel_inner",
+        "meta": {
+          "M": 3,
+          "N": 5,
+          "K": 1,
+          "TILE_N": 8,
+          "ONE_TILE_PER_CTA": true,
+          "num_warps": 4
+        },
+        "grid": [
+          3,
+          1,
+          1
+        ],
+        "output_extent": 15,
+        "active_address_count": 15,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.float16"
+      },
+      {
+        "kernel": "softmax_backward_kernel_inner",
+        "meta": {
+          "M": 3,
+          "N": 5,
+          "K": 1,
+          "TILE_N": 1024,
+          "TILE_M": 1,
+          "ONE_TILE_PER_CTA": true,
+          "num_warps": 4
+        },
+        "grid": [
+          3,
+          1,
+          1
+        ],
+        "output_extent": 15,
+        "active_address_count": 15,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.float16"
+      }
+    ],
+    "trace": [
+      {
+        "op": "contiguous",
+        "tag": "input",
+        "old_strides": [
+          1,
+          3
+        ],
+        "new_strides": [
+          5,
+          1
+        ],
+        "same_tensor": false
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          3,
+          5
+        ],
+        "dtype": "torch.float16"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_kernel_inner"
+      },
+      {
+        "op": "device_exit"
+      },
+      {
+        "op": "contiguous",
+        "tag": "allocation_2",
+        "old_strides": [
+          5,
+          1
+        ],
+        "new_strides": [
+          5,
+          1
+        ],
+        "same_tensor": true
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          3,
+          5
+        ],
+        "dtype": "torch.float16"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_backward_kernel_inner"
+      },
+      {
+        "op": "device_exit"
+      }
+    ]
+  },
+  {
+    "shape": [
+      3,
+      5
+    ],
+    "dim": 1,
+    "input_dtype": "torch.bfloat16",
+    "requested_dtype": null,
+    "autotune_choice": 32,
+    "NUM_SMS": 80,
+    "status": "host_replayed",
+    "saved_output_identity": true,
+    "saved_dim": 1,
+    "return_gradient_slots": [
+      "torch.bfloat16",
+      null,
+      null
+    ],
+    "launches": [
+      {
+        "kernel": "softmax_kernel_inner",
+        "meta": {
+          "M": 3,
+          "N": 5,
+          "K": 1,
+          "TILE_N": 8,
+          "ONE_TILE_PER_CTA": true,
+          "num_warps": 4
+        },
+        "grid": [
+          3,
+          1,
+          1
+        ],
+        "output_extent": 15,
+        "active_address_count": 15,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.bfloat16"
+      },
+      {
+        "kernel": "softmax_backward_kernel_inner",
+        "meta": {
+          "M": 3,
+          "N": 5,
+          "K": 1,
+          "TILE_N": 32,
+          "TILE_M": 32,
+          "ONE_TILE_PER_CTA": true,
+          "num_warps": 4
+        },
+        "grid": [
+          1,
+          1,
+          1
+        ],
+        "output_extent": 15,
+        "active_address_count": 15,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.bfloat16"
+      }
+    ],
+    "trace": [
+      {
+        "op": "contiguous",
+        "tag": "input",
+        "old_strides": [
+          1,
+          3
+        ],
+        "new_strides": [
+          5,
+          1
+        ],
+        "same_tensor": false
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          3,
+          5
+        ],
+        "dtype": "torch.bfloat16"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_kernel_inner"
+      },
+      {
+        "op": "device_exit"
+      },
+      {
+        "op": "contiguous",
+        "tag": "allocation_2",
+        "old_strides": [
+          5,
+          1
+        ],
+        "new_strides": [
+          5,
+          1
+        ],
+        "same_tensor": true
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          3,
+          5
+        ],
+        "dtype": "torch.bfloat16"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_backward_kernel_inner"
+      },
+      {
+        "op": "device_exit"
+      }
+    ]
+  },
+  {
+    "shape": [
+      3,
+      5
+    ],
+    "dim": 1,
+    "input_dtype": "torch.bfloat16",
+    "requested_dtype": null,
+    "autotune_choice": 128,
+    "NUM_SMS": 80,
+    "status": "host_replayed",
+    "saved_output_identity": true,
+    "saved_dim": 1,
+    "return_gradient_slots": [
+      "torch.bfloat16",
+      null,
+      null
+    ],
+    "launches": [
+      {
+        "kernel": "softmax_kernel_inner",
+        "meta": {
+          "M": 3,
+          "N": 5,
+          "K": 1,
+          "TILE_N": 8,
+          "ONE_TILE_PER_CTA": true,
+          "num_warps": 4
+        },
+        "grid": [
+          3,
+          1,
+          1
+        ],
+        "output_extent": 15,
+        "active_address_count": 15,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.bfloat16"
+      },
+      {
+        "kernel": "softmax_backward_kernel_inner",
+        "meta": {
+          "M": 3,
+          "N": 5,
+          "K": 1,
+          "TILE_N": 128,
+          "TILE_M": 8,
+          "ONE_TILE_PER_CTA": true,
+          "num_warps": 4
+        },
+        "grid": [
+          1,
+          1,
+          1
+        ],
+        "output_extent": 15,
+        "active_address_count": 15,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.bfloat16"
+      }
+    ],
+    "trace": [
+      {
+        "op": "contiguous",
+        "tag": "input",
+        "old_strides": [
+          1,
+          3
+        ],
+        "new_strides": [
+          5,
+          1
+        ],
+        "same_tensor": false
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          3,
+          5
+        ],
+        "dtype": "torch.bfloat16"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_kernel_inner"
+      },
+      {
+        "op": "device_exit"
+      },
+      {
+        "op": "contiguous",
+        "tag": "allocation_2",
+        "old_strides": [
+          5,
+          1
+        ],
+        "new_strides": [
+          5,
+          1
+        ],
+        "same_tensor": true
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          3,
+          5
+        ],
+        "dtype": "torch.bfloat16"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_backward_kernel_inner"
+      },
+      {
+        "op": "device_exit"
+      }
+    ]
+  },
+  {
+    "shape": [
+      3,
+      5
+    ],
+    "dim": 1,
+    "input_dtype": "torch.bfloat16",
+    "requested_dtype": null,
+    "autotune_choice": 1024,
+    "NUM_SMS": 80,
+    "status": "host_replayed",
+    "saved_output_identity": true,
+    "saved_dim": 1,
+    "return_gradient_slots": [
+      "torch.bfloat16",
+      null,
+      null
+    ],
+    "launches": [
+      {
+        "kernel": "softmax_kernel_inner",
+        "meta": {
+          "M": 3,
+          "N": 5,
+          "K": 1,
+          "TILE_N": 8,
+          "ONE_TILE_PER_CTA": true,
+          "num_warps": 4
+        },
+        "grid": [
+          3,
+          1,
+          1
+        ],
+        "output_extent": 15,
+        "active_address_count": 15,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.bfloat16"
+      },
+      {
+        "kernel": "softmax_backward_kernel_inner",
+        "meta": {
+          "M": 3,
+          "N": 5,
+          "K": 1,
+          "TILE_N": 1024,
+          "TILE_M": 1,
+          "ONE_TILE_PER_CTA": true,
+          "num_warps": 4
+        },
+        "grid": [
+          3,
+          1,
+          1
+        ],
+        "output_extent": 15,
+        "active_address_count": 15,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.bfloat16"
+      }
+    ],
+    "trace": [
+      {
+        "op": "contiguous",
+        "tag": "input",
+        "old_strides": [
+          1,
+          3
+        ],
+        "new_strides": [
+          5,
+          1
+        ],
+        "same_tensor": false
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          3,
+          5
+        ],
+        "dtype": "torch.bfloat16"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_kernel_inner"
+      },
+      {
+        "op": "device_exit"
+      },
+      {
+        "op": "contiguous",
+        "tag": "allocation_2",
+        "old_strides": [
+          5,
+          1
+        ],
+        "new_strides": [
+          5,
+          1
+        ],
+        "same_tensor": true
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          3,
+          5
+        ],
+        "dtype": "torch.bfloat16"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_backward_kernel_inner"
+      },
+      {
+        "op": "device_exit"
+      }
+    ]
+  },
+  {
+    "shape": [
+      3,
+      5
+    ],
+    "dim": 1,
+    "input_dtype": "torch.float32",
+    "requested_dtype": null,
+    "autotune_choice": 32,
+    "NUM_SMS": 80,
+    "status": "host_replayed",
+    "saved_output_identity": true,
+    "saved_dim": 1,
+    "return_gradient_slots": [
+      "torch.float32",
+      null,
+      null
+    ],
+    "launches": [
+      {
+        "kernel": "softmax_kernel_inner",
+        "meta": {
+          "M": 3,
+          "N": 5,
+          "K": 1,
+          "TILE_N": 8,
+          "ONE_TILE_PER_CTA": true,
+          "num_warps": 4
+        },
+        "grid": [
+          3,
+          1,
+          1
+        ],
+        "output_extent": 15,
+        "active_address_count": 15,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.float32"
+      },
+      {
+        "kernel": "softmax_backward_kernel_inner",
+        "meta": {
+          "M": 3,
+          "N": 5,
+          "K": 1,
+          "TILE_N": 32,
+          "TILE_M": 32,
+          "ONE_TILE_PER_CTA": true,
+          "num_warps": 4
+        },
+        "grid": [
+          1,
+          1,
+          1
+        ],
+        "output_extent": 15,
+        "active_address_count": 15,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.float32"
+      }
+    ],
+    "trace": [
+      {
+        "op": "contiguous",
+        "tag": "input",
+        "old_strides": [
+          1,
+          3
+        ],
+        "new_strides": [
+          5,
+          1
+        ],
+        "same_tensor": false
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          3,
+          5
+        ],
+        "dtype": "torch.float32"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_kernel_inner"
+      },
+      {
+        "op": "device_exit"
+      },
+      {
+        "op": "contiguous",
+        "tag": "allocation_2",
+        "old_strides": [
+          5,
+          1
+        ],
+        "new_strides": [
+          5,
+          1
+        ],
+        "same_tensor": true
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          3,
+          5
+        ],
+        "dtype": "torch.float32"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_backward_kernel_inner"
+      },
+      {
+        "op": "device_exit"
+      }
+    ]
+  },
+  {
+    "shape": [
+      3,
+      5
+    ],
+    "dim": 1,
+    "input_dtype": "torch.float32",
+    "requested_dtype": null,
+    "autotune_choice": 128,
+    "NUM_SMS": 80,
+    "status": "host_replayed",
+    "saved_output_identity": true,
+    "saved_dim": 1,
+    "return_gradient_slots": [
+      "torch.float32",
+      null,
+      null
+    ],
+    "launches": [
+      {
+        "kernel": "softmax_kernel_inner",
+        "meta": {
+          "M": 3,
+          "N": 5,
+          "K": 1,
+          "TILE_N": 8,
+          "ONE_TILE_PER_CTA": true,
+          "num_warps": 4
+        },
+        "grid": [
+          3,
+          1,
+          1
+        ],
+        "output_extent": 15,
+        "active_address_count": 15,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.float32"
+      },
+      {
+        "kernel": "softmax_backward_kernel_inner",
+        "meta": {
+          "M": 3,
+          "N": 5,
+          "K": 1,
+          "TILE_N": 128,
+          "TILE_M": 8,
+          "ONE_TILE_PER_CTA": true,
+          "num_warps": 4
+        },
+        "grid": [
+          1,
+          1,
+          1
+        ],
+        "output_extent": 15,
+        "active_address_count": 15,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.float32"
+      }
+    ],
+    "trace": [
+      {
+        "op": "contiguous",
+        "tag": "input",
+        "old_strides": [
+          1,
+          3
+        ],
+        "new_strides": [
+          5,
+          1
+        ],
+        "same_tensor": false
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          3,
+          5
+        ],
+        "dtype": "torch.float32"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_kernel_inner"
+      },
+      {
+        "op": "device_exit"
+      },
+      {
+        "op": "contiguous",
+        "tag": "allocation_2",
+        "old_strides": [
+          5,
+          1
+        ],
+        "new_strides": [
+          5,
+          1
+        ],
+        "same_tensor": true
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          3,
+          5
+        ],
+        "dtype": "torch.float32"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_backward_kernel_inner"
+      },
+      {
+        "op": "device_exit"
+      }
+    ]
+  },
+  {
+    "shape": [
+      3,
+      5
+    ],
+    "dim": 1,
+    "input_dtype": "torch.float32",
+    "requested_dtype": null,
+    "autotune_choice": 1024,
+    "NUM_SMS": 80,
+    "status": "host_replayed",
+    "saved_output_identity": true,
+    "saved_dim": 1,
+    "return_gradient_slots": [
+      "torch.float32",
+      null,
+      null
+    ],
+    "launches": [
+      {
+        "kernel": "softmax_kernel_inner",
+        "meta": {
+          "M": 3,
+          "N": 5,
+          "K": 1,
+          "TILE_N": 8,
+          "ONE_TILE_PER_CTA": true,
+          "num_warps": 4
+        },
+        "grid": [
+          3,
+          1,
+          1
+        ],
+        "output_extent": 15,
+        "active_address_count": 15,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.float32"
+      },
+      {
+        "kernel": "softmax_backward_kernel_inner",
+        "meta": {
+          "M": 3,
+          "N": 5,
+          "K": 1,
+          "TILE_N": 1024,
+          "TILE_M": 1,
+          "ONE_TILE_PER_CTA": true,
+          "num_warps": 4
+        },
+        "grid": [
+          3,
+          1,
+          1
+        ],
+        "output_extent": 15,
+        "active_address_count": 15,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.float32"
+      }
+    ],
+    "trace": [
+      {
+        "op": "contiguous",
+        "tag": "input",
+        "old_strides": [
+          1,
+          3
+        ],
+        "new_strides": [
+          5,
+          1
+        ],
+        "same_tensor": false
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          3,
+          5
+        ],
+        "dtype": "torch.float32"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_kernel_inner"
+      },
+      {
+        "op": "device_exit"
+      },
+      {
+        "op": "contiguous",
+        "tag": "allocation_2",
+        "old_strides": [
+          5,
+          1
+        ],
+        "new_strides": [
+          5,
+          1
+        ],
+        "same_tensor": true
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          3,
+          5
+        ],
+        "dtype": "torch.float32"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_backward_kernel_inner"
+      },
+      {
+        "op": "device_exit"
+      }
+    ]
+  },
+  {
+    "shape": [
+      3,
+      5
+    ],
+    "dim": 1,
+    "input_dtype": "torch.float64",
+    "requested_dtype": null,
+    "autotune_choice": 32,
+    "NUM_SMS": 80,
+    "status": "host_replayed",
+    "saved_output_identity": true,
+    "saved_dim": 1,
+    "return_gradient_slots": [
+      "torch.float64",
+      null,
+      null
+    ],
+    "launches": [
+      {
+        "kernel": "softmax_kernel_inner",
+        "meta": {
+          "M": 3,
+          "N": 5,
+          "K": 1,
+          "TILE_N": 8,
+          "ONE_TILE_PER_CTA": true,
+          "num_warps": 4
+        },
+        "grid": [
+          3,
+          1,
+          1
+        ],
+        "output_extent": 15,
+        "active_address_count": 15,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.float64"
+      },
+      {
+        "kernel": "softmax_backward_kernel_inner",
+        "meta": {
+          "M": 3,
+          "N": 5,
+          "K": 1,
+          "TILE_N": 32,
+          "TILE_M": 32,
+          "ONE_TILE_PER_CTA": true,
+          "num_warps": 4
+        },
+        "grid": [
+          1,
+          1,
+          1
+        ],
+        "output_extent": 15,
+        "active_address_count": 15,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.float64"
+      }
+    ],
+    "trace": [
+      {
+        "op": "contiguous",
+        "tag": "input",
+        "old_strides": [
+          1,
+          3
+        ],
+        "new_strides": [
+          5,
+          1
+        ],
+        "same_tensor": false
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          3,
+          5
+        ],
+        "dtype": "torch.float64"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_kernel_inner"
+      },
+      {
+        "op": "device_exit"
+      },
+      {
+        "op": "contiguous",
+        "tag": "allocation_2",
+        "old_strides": [
+          5,
+          1
+        ],
+        "new_strides": [
+          5,
+          1
+        ],
+        "same_tensor": true
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          3,
+          5
+        ],
+        "dtype": "torch.float64"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_backward_kernel_inner"
+      },
+      {
+        "op": "device_exit"
+      }
+    ]
+  },
+  {
+    "shape": [
+      3,
+      5
+    ],
+    "dim": 1,
+    "input_dtype": "torch.float64",
+    "requested_dtype": null,
+    "autotune_choice": 128,
+    "NUM_SMS": 80,
+    "status": "host_replayed",
+    "saved_output_identity": true,
+    "saved_dim": 1,
+    "return_gradient_slots": [
+      "torch.float64",
+      null,
+      null
+    ],
+    "launches": [
+      {
+        "kernel": "softmax_kernel_inner",
+        "meta": {
+          "M": 3,
+          "N": 5,
+          "K": 1,
+          "TILE_N": 8,
+          "ONE_TILE_PER_CTA": true,
+          "num_warps": 4
+        },
+        "grid": [
+          3,
+          1,
+          1
+        ],
+        "output_extent": 15,
+        "active_address_count": 15,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.float64"
+      },
+      {
+        "kernel": "softmax_backward_kernel_inner",
+        "meta": {
+          "M": 3,
+          "N": 5,
+          "K": 1,
+          "TILE_N": 128,
+          "TILE_M": 8,
+          "ONE_TILE_PER_CTA": true,
+          "num_warps": 4
+        },
+        "grid": [
+          1,
+          1,
+          1
+        ],
+        "output_extent": 15,
+        "active_address_count": 15,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.float64"
+      }
+    ],
+    "trace": [
+      {
+        "op": "contiguous",
+        "tag": "input",
+        "old_strides": [
+          1,
+          3
+        ],
+        "new_strides": [
+          5,
+          1
+        ],
+        "same_tensor": false
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          3,
+          5
+        ],
+        "dtype": "torch.float64"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_kernel_inner"
+      },
+      {
+        "op": "device_exit"
+      },
+      {
+        "op": "contiguous",
+        "tag": "allocation_2",
+        "old_strides": [
+          5,
+          1
+        ],
+        "new_strides": [
+          5,
+          1
+        ],
+        "same_tensor": true
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          3,
+          5
+        ],
+        "dtype": "torch.float64"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_backward_kernel_inner"
+      },
+      {
+        "op": "device_exit"
+      }
+    ]
+  },
+  {
+    "shape": [
+      3,
+      5
+    ],
+    "dim": 1,
+    "input_dtype": "torch.float64",
+    "requested_dtype": null,
+    "autotune_choice": 1024,
+    "NUM_SMS": 80,
+    "status": "host_replayed",
+    "saved_output_identity": true,
+    "saved_dim": 1,
+    "return_gradient_slots": [
+      "torch.float64",
+      null,
+      null
+    ],
+    "launches": [
+      {
+        "kernel": "softmax_kernel_inner",
+        "meta": {
+          "M": 3,
+          "N": 5,
+          "K": 1,
+          "TILE_N": 8,
+          "ONE_TILE_PER_CTA": true,
+          "num_warps": 4
+        },
+        "grid": [
+          3,
+          1,
+          1
+        ],
+        "output_extent": 15,
+        "active_address_count": 15,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.float64"
+      },
+      {
+        "kernel": "softmax_backward_kernel_inner",
+        "meta": {
+          "M": 3,
+          "N": 5,
+          "K": 1,
+          "TILE_N": 1024,
+          "TILE_M": 1,
+          "ONE_TILE_PER_CTA": true,
+          "num_warps": 4
+        },
+        "grid": [
+          3,
+          1,
+          1
+        ],
+        "output_extent": 15,
+        "active_address_count": 15,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.float64"
+      }
+    ],
+    "trace": [
+      {
+        "op": "contiguous",
+        "tag": "input",
+        "old_strides": [
+          1,
+          3
+        ],
+        "new_strides": [
+          5,
+          1
+        ],
+        "same_tensor": false
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          3,
+          5
+        ],
+        "dtype": "torch.float64"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_kernel_inner"
+      },
+      {
+        "op": "device_exit"
+      },
+      {
+        "op": "contiguous",
+        "tag": "allocation_2",
+        "old_strides": [
+          5,
+          1
+        ],
+        "new_strides": [
+          5,
+          1
+        ],
+        "same_tensor": true
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          3,
+          5
+        ],
+        "dtype": "torch.float64"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_backward_kernel_inner"
+      },
+      {
+        "op": "device_exit"
+      }
+    ]
+  },
+  {
+    "shape": [
+      2,
+      3,
+      5
+    ],
+    "dim": 1,
+    "input_dtype": "torch.float16",
+    "requested_dtype": null,
+    "autotune_choice": 32,
+    "NUM_SMS": 80,
+    "status": "host_replayed",
+    "saved_output_identity": true,
+    "saved_dim": 1,
+    "return_gradient_slots": [
+      "torch.float16",
+      null,
+      null
+    ],
+    "launches": [
+      {
+        "kernel": "softmax_kernel_non_inner",
+        "meta": {
+          "M": 2,
+          "N": 3,
+          "K": 5,
+          "TILE_K": 1,
+          "TILE_N": 8192,
+          "ONE_TILE_PER_CTA": true,
+          "num_warps": 16
+        },
+        "grid": [
+          2,
+          5,
+          1
+        ],
+        "output_extent": 30,
+        "active_address_count": 30,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.float16"
+      },
+      {
+        "kernel": "softmax_backward_kernel_non_inner",
+        "meta": {
+          "M": 2,
+          "N": 3,
+          "K": 5,
+          "TILE_K": 32,
+          "TILE_N": 32,
+          "ONE_TILE_PER_CTA": true,
+          "num_warps": 4
+        },
+        "grid": [
+          2,
+          1,
+          1
+        ],
+        "output_extent": 30,
+        "active_address_count": 30,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.float16"
+      }
+    ],
+    "trace": [
+      {
+        "op": "contiguous",
+        "tag": "input",
+        "old_strides": [
+          1,
+          2,
+          6
+        ],
+        "new_strides": [
+          15,
+          5,
+          1
+        ],
+        "same_tensor": false
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          2,
+          3,
+          5
+        ],
+        "dtype": "torch.float16"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_kernel_non_inner"
+      },
+      {
+        "op": "device_exit"
+      },
+      {
+        "op": "contiguous",
+        "tag": "allocation_2",
+        "old_strides": [
+          15,
+          5,
+          1
+        ],
+        "new_strides": [
+          15,
+          5,
+          1
+        ],
+        "same_tensor": true
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          2,
+          3,
+          5
+        ],
+        "dtype": "torch.float16"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_backward_kernel_non_inner"
+      },
+      {
+        "op": "device_exit"
+      }
+    ]
+  },
+  {
+    "shape": [
+      2,
+      3,
+      5
+    ],
+    "dim": 1,
+    "input_dtype": "torch.float16",
+    "requested_dtype": null,
+    "autotune_choice": 128,
+    "NUM_SMS": 80,
+    "status": "host_replayed",
+    "saved_output_identity": true,
+    "saved_dim": 1,
+    "return_gradient_slots": [
+      "torch.float16",
+      null,
+      null
+    ],
+    "launches": [
+      {
+        "kernel": "softmax_kernel_non_inner",
+        "meta": {
+          "M": 2,
+          "N": 3,
+          "K": 5,
+          "TILE_K": 1,
+          "TILE_N": 8192,
+          "ONE_TILE_PER_CTA": true,
+          "num_warps": 16
+        },
+        "grid": [
+          2,
+          5,
+          1
+        ],
+        "output_extent": 30,
+        "active_address_count": 30,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.float16"
+      },
+      {
+        "kernel": "softmax_backward_kernel_non_inner",
+        "meta": {
+          "M": 2,
+          "N": 3,
+          "K": 5,
+          "TILE_K": 128,
+          "TILE_N": 8,
+          "ONE_TILE_PER_CTA": true,
+          "num_warps": 4
+        },
+        "grid": [
+          2,
+          1,
+          1
+        ],
+        "output_extent": 30,
+        "active_address_count": 30,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.float16"
+      }
+    ],
+    "trace": [
+      {
+        "op": "contiguous",
+        "tag": "input",
+        "old_strides": [
+          1,
+          2,
+          6
+        ],
+        "new_strides": [
+          15,
+          5,
+          1
+        ],
+        "same_tensor": false
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          2,
+          3,
+          5
+        ],
+        "dtype": "torch.float16"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_kernel_non_inner"
+      },
+      {
+        "op": "device_exit"
+      },
+      {
+        "op": "contiguous",
+        "tag": "allocation_2",
+        "old_strides": [
+          15,
+          5,
+          1
+        ],
+        "new_strides": [
+          15,
+          5,
+          1
+        ],
+        "same_tensor": true
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          2,
+          3,
+          5
+        ],
+        "dtype": "torch.float16"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_backward_kernel_non_inner"
+      },
+      {
+        "op": "device_exit"
+      }
+    ]
+  },
+  {
+    "shape": [
+      2,
+      3,
+      5
+    ],
+    "dim": 1,
+    "input_dtype": "torch.float16",
+    "requested_dtype": null,
+    "autotune_choice": 1024,
+    "NUM_SMS": 80,
+    "status": "host_replayed",
+    "saved_output_identity": true,
+    "saved_dim": 1,
+    "return_gradient_slots": [
+      "torch.float16",
+      null,
+      null
+    ],
+    "launches": [
+      {
+        "kernel": "softmax_kernel_non_inner",
+        "meta": {
+          "M": 2,
+          "N": 3,
+          "K": 5,
+          "TILE_K": 1,
+          "TILE_N": 8192,
+          "ONE_TILE_PER_CTA": true,
+          "num_warps": 16
+        },
+        "grid": [
+          2,
+          5,
+          1
+        ],
+        "output_extent": 30,
+        "active_address_count": 30,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.float16"
+      },
+      {
+        "kernel": "softmax_backward_kernel_non_inner",
+        "meta": {
+          "M": 2,
+          "N": 3,
+          "K": 5,
+          "TILE_K": 1024,
+          "TILE_N": 1,
+          "ONE_TILE_PER_CTA": false,
+          "num_warps": 4
+        },
+        "grid": [
+          2,
+          1,
+          1
+        ],
+        "output_extent": 30,
+        "active_address_count": 30,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.float16"
+      }
+    ],
+    "trace": [
+      {
+        "op": "contiguous",
+        "tag": "input",
+        "old_strides": [
+          1,
+          2,
+          6
+        ],
+        "new_strides": [
+          15,
+          5,
+          1
+        ],
+        "same_tensor": false
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          2,
+          3,
+          5
+        ],
+        "dtype": "torch.float16"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_kernel_non_inner"
+      },
+      {
+        "op": "device_exit"
+      },
+      {
+        "op": "contiguous",
+        "tag": "allocation_2",
+        "old_strides": [
+          15,
+          5,
+          1
+        ],
+        "new_strides": [
+          15,
+          5,
+          1
+        ],
+        "same_tensor": true
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          2,
+          3,
+          5
+        ],
+        "dtype": "torch.float16"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_backward_kernel_non_inner"
+      },
+      {
+        "op": "device_exit"
+      }
+    ]
+  },
+  {
+    "shape": [
+      2,
+      3,
+      5
+    ],
+    "dim": 1,
+    "input_dtype": "torch.bfloat16",
+    "requested_dtype": null,
+    "autotune_choice": 32,
+    "NUM_SMS": 80,
+    "status": "host_replayed",
+    "saved_output_identity": true,
+    "saved_dim": 1,
+    "return_gradient_slots": [
+      "torch.bfloat16",
+      null,
+      null
+    ],
+    "launches": [
+      {
+        "kernel": "softmax_kernel_non_inner",
+        "meta": {
+          "M": 2,
+          "N": 3,
+          "K": 5,
+          "TILE_K": 1,
+          "TILE_N": 8192,
+          "ONE_TILE_PER_CTA": true,
+          "num_warps": 16
+        },
+        "grid": [
+          2,
+          5,
+          1
+        ],
+        "output_extent": 30,
+        "active_address_count": 30,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.bfloat16"
+      },
+      {
+        "kernel": "softmax_backward_kernel_non_inner",
+        "meta": {
+          "M": 2,
+          "N": 3,
+          "K": 5,
+          "TILE_K": 32,
+          "TILE_N": 32,
+          "ONE_TILE_PER_CTA": true,
+          "num_warps": 4
+        },
+        "grid": [
+          2,
+          1,
+          1
+        ],
+        "output_extent": 30,
+        "active_address_count": 30,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.bfloat16"
+      }
+    ],
+    "trace": [
+      {
+        "op": "contiguous",
+        "tag": "input",
+        "old_strides": [
+          1,
+          2,
+          6
+        ],
+        "new_strides": [
+          15,
+          5,
+          1
+        ],
+        "same_tensor": false
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          2,
+          3,
+          5
+        ],
+        "dtype": "torch.bfloat16"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_kernel_non_inner"
+      },
+      {
+        "op": "device_exit"
+      },
+      {
+        "op": "contiguous",
+        "tag": "allocation_2",
+        "old_strides": [
+          15,
+          5,
+          1
+        ],
+        "new_strides": [
+          15,
+          5,
+          1
+        ],
+        "same_tensor": true
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          2,
+          3,
+          5
+        ],
+        "dtype": "torch.bfloat16"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_backward_kernel_non_inner"
+      },
+      {
+        "op": "device_exit"
+      }
+    ]
+  },
+  {
+    "shape": [
+      2,
+      3,
+      5
+    ],
+    "dim": 1,
+    "input_dtype": "torch.bfloat16",
+    "requested_dtype": null,
+    "autotune_choice": 128,
+    "NUM_SMS": 80,
+    "status": "host_replayed",
+    "saved_output_identity": true,
+    "saved_dim": 1,
+    "return_gradient_slots": [
+      "torch.bfloat16",
+      null,
+      null
+    ],
+    "launches": [
+      {
+        "kernel": "softmax_kernel_non_inner",
+        "meta": {
+          "M": 2,
+          "N": 3,
+          "K": 5,
+          "TILE_K": 1,
+          "TILE_N": 8192,
+          "ONE_TILE_PER_CTA": true,
+          "num_warps": 16
+        },
+        "grid": [
+          2,
+          5,
+          1
+        ],
+        "output_extent": 30,
+        "active_address_count": 30,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.bfloat16"
+      },
+      {
+        "kernel": "softmax_backward_kernel_non_inner",
+        "meta": {
+          "M": 2,
+          "N": 3,
+          "K": 5,
+          "TILE_K": 128,
+          "TILE_N": 8,
+          "ONE_TILE_PER_CTA": true,
+          "num_warps": 4
+        },
+        "grid": [
+          2,
+          1,
+          1
+        ],
+        "output_extent": 30,
+        "active_address_count": 30,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.bfloat16"
+      }
+    ],
+    "trace": [
+      {
+        "op": "contiguous",
+        "tag": "input",
+        "old_strides": [
+          1,
+          2,
+          6
+        ],
+        "new_strides": [
+          15,
+          5,
+          1
+        ],
+        "same_tensor": false
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          2,
+          3,
+          5
+        ],
+        "dtype": "torch.bfloat16"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_kernel_non_inner"
+      },
+      {
+        "op": "device_exit"
+      },
+      {
+        "op": "contiguous",
+        "tag": "allocation_2",
+        "old_strides": [
+          15,
+          5,
+          1
+        ],
+        "new_strides": [
+          15,
+          5,
+          1
+        ],
+        "same_tensor": true
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          2,
+          3,
+          5
+        ],
+        "dtype": "torch.bfloat16"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_backward_kernel_non_inner"
+      },
+      {
+        "op": "device_exit"
+      }
+    ]
+  },
+  {
+    "shape": [
+      2,
+      3,
+      5
+    ],
+    "dim": 1,
+    "input_dtype": "torch.bfloat16",
+    "requested_dtype": null,
+    "autotune_choice": 1024,
+    "NUM_SMS": 80,
+    "status": "host_replayed",
+    "saved_output_identity": true,
+    "saved_dim": 1,
+    "return_gradient_slots": [
+      "torch.bfloat16",
+      null,
+      null
+    ],
+    "launches": [
+      {
+        "kernel": "softmax_kernel_non_inner",
+        "meta": {
+          "M": 2,
+          "N": 3,
+          "K": 5,
+          "TILE_K": 1,
+          "TILE_N": 8192,
+          "ONE_TILE_PER_CTA": true,
+          "num_warps": 16
+        },
+        "grid": [
+          2,
+          5,
+          1
+        ],
+        "output_extent": 30,
+        "active_address_count": 30,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.bfloat16"
+      },
+      {
+        "kernel": "softmax_backward_kernel_non_inner",
+        "meta": {
+          "M": 2,
+          "N": 3,
+          "K": 5,
+          "TILE_K": 1024,
+          "TILE_N": 1,
+          "ONE_TILE_PER_CTA": false,
+          "num_warps": 4
+        },
+        "grid": [
+          2,
+          1,
+          1
+        ],
+        "output_extent": 30,
+        "active_address_count": 30,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.bfloat16"
+      }
+    ],
+    "trace": [
+      {
+        "op": "contiguous",
+        "tag": "input",
+        "old_strides": [
+          1,
+          2,
+          6
+        ],
+        "new_strides": [
+          15,
+          5,
+          1
+        ],
+        "same_tensor": false
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          2,
+          3,
+          5
+        ],
+        "dtype": "torch.bfloat16"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_kernel_non_inner"
+      },
+      {
+        "op": "device_exit"
+      },
+      {
+        "op": "contiguous",
+        "tag": "allocation_2",
+        "old_strides": [
+          15,
+          5,
+          1
+        ],
+        "new_strides": [
+          15,
+          5,
+          1
+        ],
+        "same_tensor": true
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          2,
+          3,
+          5
+        ],
+        "dtype": "torch.bfloat16"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_backward_kernel_non_inner"
+      },
+      {
+        "op": "device_exit"
+      }
+    ]
+  },
+  {
+    "shape": [
+      2,
+      3,
+      5
+    ],
+    "dim": 1,
+    "input_dtype": "torch.float32",
+    "requested_dtype": null,
+    "autotune_choice": 32,
+    "NUM_SMS": 80,
+    "status": "host_replayed",
+    "saved_output_identity": true,
+    "saved_dim": 1,
+    "return_gradient_slots": [
+      "torch.float32",
+      null,
+      null
+    ],
+    "launches": [
+      {
+        "kernel": "softmax_kernel_non_inner",
+        "meta": {
+          "M": 2,
+          "N": 3,
+          "K": 5,
+          "TILE_K": 1,
+          "TILE_N": 8192,
+          "ONE_TILE_PER_CTA": true,
+          "num_warps": 16
+        },
+        "grid": [
+          2,
+          5,
+          1
+        ],
+        "output_extent": 30,
+        "active_address_count": 30,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.float32"
+      },
+      {
+        "kernel": "softmax_backward_kernel_non_inner",
+        "meta": {
+          "M": 2,
+          "N": 3,
+          "K": 5,
+          "TILE_K": 32,
+          "TILE_N": 32,
+          "ONE_TILE_PER_CTA": true,
+          "num_warps": 4
+        },
+        "grid": [
+          2,
+          1,
+          1
+        ],
+        "output_extent": 30,
+        "active_address_count": 30,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.float32"
+      }
+    ],
+    "trace": [
+      {
+        "op": "contiguous",
+        "tag": "input",
+        "old_strides": [
+          1,
+          2,
+          6
+        ],
+        "new_strides": [
+          15,
+          5,
+          1
+        ],
+        "same_tensor": false
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          2,
+          3,
+          5
+        ],
+        "dtype": "torch.float32"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_kernel_non_inner"
+      },
+      {
+        "op": "device_exit"
+      },
+      {
+        "op": "contiguous",
+        "tag": "allocation_2",
+        "old_strides": [
+          15,
+          5,
+          1
+        ],
+        "new_strides": [
+          15,
+          5,
+          1
+        ],
+        "same_tensor": true
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          2,
+          3,
+          5
+        ],
+        "dtype": "torch.float32"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_backward_kernel_non_inner"
+      },
+      {
+        "op": "device_exit"
+      }
+    ]
+  },
+  {
+    "shape": [
+      2,
+      3,
+      5
+    ],
+    "dim": 1,
+    "input_dtype": "torch.float32",
+    "requested_dtype": null,
+    "autotune_choice": 128,
+    "NUM_SMS": 80,
+    "status": "host_replayed",
+    "saved_output_identity": true,
+    "saved_dim": 1,
+    "return_gradient_slots": [
+      "torch.float32",
+      null,
+      null
+    ],
+    "launches": [
+      {
+        "kernel": "softmax_kernel_non_inner",
+        "meta": {
+          "M": 2,
+          "N": 3,
+          "K": 5,
+          "TILE_K": 1,
+          "TILE_N": 8192,
+          "ONE_TILE_PER_CTA": true,
+          "num_warps": 16
+        },
+        "grid": [
+          2,
+          5,
+          1
+        ],
+        "output_extent": 30,
+        "active_address_count": 30,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.float32"
+      },
+      {
+        "kernel": "softmax_backward_kernel_non_inner",
+        "meta": {
+          "M": 2,
+          "N": 3,
+          "K": 5,
+          "TILE_K": 128,
+          "TILE_N": 8,
+          "ONE_TILE_PER_CTA": true,
+          "num_warps": 4
+        },
+        "grid": [
+          2,
+          1,
+          1
+        ],
+        "output_extent": 30,
+        "active_address_count": 30,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.float32"
+      }
+    ],
+    "trace": [
+      {
+        "op": "contiguous",
+        "tag": "input",
+        "old_strides": [
+          1,
+          2,
+          6
+        ],
+        "new_strides": [
+          15,
+          5,
+          1
+        ],
+        "same_tensor": false
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          2,
+          3,
+          5
+        ],
+        "dtype": "torch.float32"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_kernel_non_inner"
+      },
+      {
+        "op": "device_exit"
+      },
+      {
+        "op": "contiguous",
+        "tag": "allocation_2",
+        "old_strides": [
+          15,
+          5,
+          1
+        ],
+        "new_strides": [
+          15,
+          5,
+          1
+        ],
+        "same_tensor": true
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          2,
+          3,
+          5
+        ],
+        "dtype": "torch.float32"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_backward_kernel_non_inner"
+      },
+      {
+        "op": "device_exit"
+      }
+    ]
+  },
+  {
+    "shape": [
+      2,
+      3,
+      5
+    ],
+    "dim": 1,
+    "input_dtype": "torch.float32",
+    "requested_dtype": null,
+    "autotune_choice": 1024,
+    "NUM_SMS": 80,
+    "status": "host_replayed",
+    "saved_output_identity": true,
+    "saved_dim": 1,
+    "return_gradient_slots": [
+      "torch.float32",
+      null,
+      null
+    ],
+    "launches": [
+      {
+        "kernel": "softmax_kernel_non_inner",
+        "meta": {
+          "M": 2,
+          "N": 3,
+          "K": 5,
+          "TILE_K": 1,
+          "TILE_N": 8192,
+          "ONE_TILE_PER_CTA": true,
+          "num_warps": 16
+        },
+        "grid": [
+          2,
+          5,
+          1
+        ],
+        "output_extent": 30,
+        "active_address_count": 30,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.float32"
+      },
+      {
+        "kernel": "softmax_backward_kernel_non_inner",
+        "meta": {
+          "M": 2,
+          "N": 3,
+          "K": 5,
+          "TILE_K": 1024,
+          "TILE_N": 1,
+          "ONE_TILE_PER_CTA": false,
+          "num_warps": 4
+        },
+        "grid": [
+          2,
+          1,
+          1
+        ],
+        "output_extent": 30,
+        "active_address_count": 30,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.float32"
+      }
+    ],
+    "trace": [
+      {
+        "op": "contiguous",
+        "tag": "input",
+        "old_strides": [
+          1,
+          2,
+          6
+        ],
+        "new_strides": [
+          15,
+          5,
+          1
+        ],
+        "same_tensor": false
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          2,
+          3,
+          5
+        ],
+        "dtype": "torch.float32"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_kernel_non_inner"
+      },
+      {
+        "op": "device_exit"
+      },
+      {
+        "op": "contiguous",
+        "tag": "allocation_2",
+        "old_strides": [
+          15,
+          5,
+          1
+        ],
+        "new_strides": [
+          15,
+          5,
+          1
+        ],
+        "same_tensor": true
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          2,
+          3,
+          5
+        ],
+        "dtype": "torch.float32"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_backward_kernel_non_inner"
+      },
+      {
+        "op": "device_exit"
+      }
+    ]
+  },
+  {
+    "shape": [
+      2,
+      3,
+      5
+    ],
+    "dim": 1,
+    "input_dtype": "torch.float64",
+    "requested_dtype": null,
+    "autotune_choice": 32,
+    "NUM_SMS": 80,
+    "status": "host_replayed",
+    "saved_output_identity": true,
+    "saved_dim": 1,
+    "return_gradient_slots": [
+      "torch.float64",
+      null,
+      null
+    ],
+    "launches": [
+      {
+        "kernel": "softmax_kernel_non_inner",
+        "meta": {
+          "M": 2,
+          "N": 3,
+          "K": 5,
+          "TILE_K": 1,
+          "TILE_N": 8192,
+          "ONE_TILE_PER_CTA": true,
+          "num_warps": 16
+        },
+        "grid": [
+          2,
+          5,
+          1
+        ],
+        "output_extent": 30,
+        "active_address_count": 30,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.float64"
+      },
+      {
+        "kernel": "softmax_backward_kernel_non_inner",
+        "meta": {
+          "M": 2,
+          "N": 3,
+          "K": 5,
+          "TILE_K": 32,
+          "TILE_N": 32,
+          "ONE_TILE_PER_CTA": true,
+          "num_warps": 4
+        },
+        "grid": [
+          2,
+          1,
+          1
+        ],
+        "output_extent": 30,
+        "active_address_count": 30,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.float64"
+      }
+    ],
+    "trace": [
+      {
+        "op": "contiguous",
+        "tag": "input",
+        "old_strides": [
+          1,
+          2,
+          6
+        ],
+        "new_strides": [
+          15,
+          5,
+          1
+        ],
+        "same_tensor": false
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          2,
+          3,
+          5
+        ],
+        "dtype": "torch.float64"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_kernel_non_inner"
+      },
+      {
+        "op": "device_exit"
+      },
+      {
+        "op": "contiguous",
+        "tag": "allocation_2",
+        "old_strides": [
+          15,
+          5,
+          1
+        ],
+        "new_strides": [
+          15,
+          5,
+          1
+        ],
+        "same_tensor": true
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          2,
+          3,
+          5
+        ],
+        "dtype": "torch.float64"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_backward_kernel_non_inner"
+      },
+      {
+        "op": "device_exit"
+      }
+    ]
+  },
+  {
+    "shape": [
+      2,
+      3,
+      5
+    ],
+    "dim": 1,
+    "input_dtype": "torch.float64",
+    "requested_dtype": null,
+    "autotune_choice": 128,
+    "NUM_SMS": 80,
+    "status": "host_replayed",
+    "saved_output_identity": true,
+    "saved_dim": 1,
+    "return_gradient_slots": [
+      "torch.float64",
+      null,
+      null
+    ],
+    "launches": [
+      {
+        "kernel": "softmax_kernel_non_inner",
+        "meta": {
+          "M": 2,
+          "N": 3,
+          "K": 5,
+          "TILE_K": 1,
+          "TILE_N": 8192,
+          "ONE_TILE_PER_CTA": true,
+          "num_warps": 16
+        },
+        "grid": [
+          2,
+          5,
+          1
+        ],
+        "output_extent": 30,
+        "active_address_count": 30,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.float64"
+      },
+      {
+        "kernel": "softmax_backward_kernel_non_inner",
+        "meta": {
+          "M": 2,
+          "N": 3,
+          "K": 5,
+          "TILE_K": 128,
+          "TILE_N": 8,
+          "ONE_TILE_PER_CTA": true,
+          "num_warps": 4
+        },
+        "grid": [
+          2,
+          1,
+          1
+        ],
+        "output_extent": 30,
+        "active_address_count": 30,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.float64"
+      }
+    ],
+    "trace": [
+      {
+        "op": "contiguous",
+        "tag": "input",
+        "old_strides": [
+          1,
+          2,
+          6
+        ],
+        "new_strides": [
+          15,
+          5,
+          1
+        ],
+        "same_tensor": false
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          2,
+          3,
+          5
+        ],
+        "dtype": "torch.float64"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_kernel_non_inner"
+      },
+      {
+        "op": "device_exit"
+      },
+      {
+        "op": "contiguous",
+        "tag": "allocation_2",
+        "old_strides": [
+          15,
+          5,
+          1
+        ],
+        "new_strides": [
+          15,
+          5,
+          1
+        ],
+        "same_tensor": true
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          2,
+          3,
+          5
+        ],
+        "dtype": "torch.float64"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_backward_kernel_non_inner"
+      },
+      {
+        "op": "device_exit"
+      }
+    ]
+  },
+  {
+    "shape": [
+      2,
+      3,
+      5
+    ],
+    "dim": 1,
+    "input_dtype": "torch.float64",
+    "requested_dtype": null,
+    "autotune_choice": 1024,
+    "NUM_SMS": 80,
+    "status": "host_replayed",
+    "saved_output_identity": true,
+    "saved_dim": 1,
+    "return_gradient_slots": [
+      "torch.float64",
+      null,
+      null
+    ],
+    "launches": [
+      {
+        "kernel": "softmax_kernel_non_inner",
+        "meta": {
+          "M": 2,
+          "N": 3,
+          "K": 5,
+          "TILE_K": 1,
+          "TILE_N": 8192,
+          "ONE_TILE_PER_CTA": true,
+          "num_warps": 16
+        },
+        "grid": [
+          2,
+          5,
+          1
+        ],
+        "output_extent": 30,
+        "active_address_count": 30,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.float64"
+      },
+      {
+        "kernel": "softmax_backward_kernel_non_inner",
+        "meta": {
+          "M": 2,
+          "N": 3,
+          "K": 5,
+          "TILE_K": 1024,
+          "TILE_N": 1,
+          "ONE_TILE_PER_CTA": false,
+          "num_warps": 4
+        },
+        "grid": [
+          2,
+          1,
+          1
+        ],
+        "output_extent": 30,
+        "active_address_count": 30,
+        "safe_extent": true,
+        "source_storage_dtype": "torch.float64"
+      }
+    ],
+    "trace": [
+      {
+        "op": "contiguous",
+        "tag": "input",
+        "old_strides": [
+          1,
+          2,
+          6
+        ],
+        "new_strides": [
+          15,
+          5,
+          1
+        ],
+        "same_tensor": false
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          2,
+          3,
+          5
+        ],
+        "dtype": "torch.float64"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_kernel_non_inner"
+      },
+      {
+        "op": "device_exit"
+      },
+      {
+        "op": "contiguous",
+        "tag": "allocation_2",
+        "old_strides": [
+          15,
+          5,
+          1
+        ],
+        "new_strides": [
+          15,
+          5,
+          1
+        ],
+        "same_tensor": true
+      },
+      {
+        "op": "empty_like",
+        "shape": [
+          2,
+          3,
+          5
+        ],
+        "dtype": "torch.float64"
+      },
+      {
+        "op": "device_enter",
+        "device": "cuda:0"
+      },
+      {
+        "op": "launch",
+        "kernel": "softmax_backward_kernel_non_inner"
+      },
+      {
+        "op": "device_exit"
+      }
+    ]
+  }
+]

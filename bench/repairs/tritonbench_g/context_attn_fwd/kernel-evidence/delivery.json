@@ -1,0 +1,1728 @@
+{
+  "task": "context_attn_fwd",
+  "status": "implemented_pending_independent_review",
+  "task_directory": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd",
+  "public_entries": [
+    "Kernels.lean",
+    "Contract.lean",
+    "Correct.lean",
+    "FPEquiv.lean"
+  ],
+  "proved_endpoints": [
+    "PublicKernel.shared_source",
+    "PublicKernel.correct_real",
+    "PublicKernel.correct_fp32",
+    "PublicKernel.input_tensor"
+  ],
+  "scope": {
+    "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/KernelScope.md",
+    "sha256": "11d384bf8dcd6516c1f24946dffaee4454eeea42643adccee7b35ffe6cb6b097"
+  },
+  "selected_source": {
+    "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/context_attn_fwd_repaired.py",
+    "sha256": "0636069fa75d06b85ca949d2c6701cca1f96ddb9ca0a110e56948c34706a717a"
+  },
+  "original_source": {
+    "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/context_attn_fwd.py",
+    "sha256": "4540e1ffb44e922bb2aa48236b0a43af75a5f185906ffcd52d25a508fb9c1370"
+  },
+  "source_and_guards_unchanged": true,
+  "historical_theorem_bodies_preserved": true,
+  "source_defect_found": false,
+  "task_Lean_count": 48,
+  "new_Lean_modules": [
+    "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/KernelOnly.lean",
+    "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/KernelScale.lean",
+    "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/KernelProfile.lean"
+  ],
+  "changed_historical_sources": [
+    "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Correct.lean",
+    "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/FPEquiv.lean"
+  ],
+  "task_sources": [
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Contract.lean",
+      "sha256": "af84e65ef49c128e4ac85ee4b8840c321557772b55ec79e3ffae24a1c07adee3"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Correct.lean",
+      "sha256": "6fffdaf0ce56d49063ee9ab766c0fe3c9bb9c439b108054493480972fc3133e1"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Empty.lean",
+      "sha256": "b9d5dc8d3e49cea3618c1a72d14bd351cabf4429705219c8ce5a200eb005dcbd"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/FPEquiv.lean",
+      "sha256": "f8a03cb5de93ced2ca45b7649173f327b259fe0dbbf16c04ec2fc4f988a0ad39"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/KernelOnly.lean",
+      "sha256": "db873f0b0c1874995a65c82d264d70781842e81848b3264a1214766dc181c955"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Kernels.lean",
+      "sha256": "43dce508cf8692bb91d6a9a493fd7abffc45ad369f6530c571032f74c67f067b"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/Admission.lean",
+      "sha256": "1e9e834606f9481c7749168a9afdbacf5c161f28de46564822fe3e66765f704b"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/CheckedBridge.lean",
+      "sha256": "c092560128834ab78f423cb86fe01f8ca6bcccaff461bd8847a2a4f2a7597fae"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/Entry.lean",
+      "sha256": "de63e99dcf6bbcbf41f614d834b4067267ca321ec30ff37eea45e9903ec1fec8"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/FPEpilogue.lean",
+      "sha256": "fe9a50247e68e97e0b571a16ff17f096c779a26a1358ebbeea48f8c0bc77baa6"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/FPGrid.lean",
+      "sha256": "4c57bae417cfbd51827b45c8cfd2bbe86f30e15209c6298e69ae9bd80cb2c603"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/FPProgram.lean",
+      "sha256": "c90fddfb3f5c989a0cdec496e85e5d42b6f51c331cda8a0f07bf4df2fb619cd6"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/FPReference.lean",
+      "sha256": "65245d605c6d7607dacd8fc60c647f9fd835e0e0c30e961224720d6286e19a4c"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/FPReferenceGrid.lean",
+      "sha256": "f0343744f7fb98cd2dc866b4f35d896a4cf0fb2c160473784731d777afd16f54"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/FPReferenceProgram.lean",
+      "sha256": "92459b8c2fbf797fe6684a49d448897bcaac8d1365fdaed0f8544e68234566e3"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/FPScatter.lean",
+      "sha256": "e04cfc91e38458bd2044ca0f3be846a388bd25a249853d6b332c141fd7830c6a"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/FPSuccess.lean",
+      "sha256": "c4f2e67f5affe00f2e0a16945b6fc9dd87d24a402a11c4b930378e64db27f712"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/FPTotalBackend.lean",
+      "sha256": "543d1b51391e585ffcc16bf0c7101bb53d9c8016357dfade4d077f8c338b8c90"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/FormedBounds.lean",
+      "sha256": "39f38a3f03689eeb8d8b509134ea4eacb93a5ad69862809e410e2a0fb3f59dff"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/Geometry.lean",
+      "sha256": "026404cdded9fd50dc7e376790f6ae27aa1fc8d147b9789c589bd9ff4b304eb8"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/Host.lean",
+      "sha256": "b0e9a8341274de9ec18ec183ba6ae2aea67b9fff52694e830e529d0fcef78a26"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/HostReturned.lean",
+      "sha256": "72826e7f71daf44beb32dff6e55d4a8fd796bc5f3ba98c88dc8d6579aae3e438"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/KernelProfile.lean",
+      "sha256": "f7db2158a25da43a5f563761fece4ca5078425e066a18426c8f8b882c39cb343"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/KernelScale.lean",
+      "sha256": "6c03a68bf17c6c623462a6e1f4e4841abc302f12981f3c053749c7b0b854361e"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/MachineCertificate.lean",
+      "sha256": "8d1ecd5aa15c22770b80357c0da48f1f435927b067eaab74d2bb6a4ba475a202"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/NativeAddresses.lean",
+      "sha256": "93fe8f9906137e63531d0b297976b2e0cb0e78de7d32fe821a9d8b33d2d6e008"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/NativeControl.lean",
+      "sha256": "294ead2bb872124e260174aa9cb18d5ca6bd6d192bfbef404fc62ed3639737c3"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/NativeFinalAdvance.lean",
+      "sha256": "da9ebdc96e0b74c020d454eca858e4e2dfe6c4436ae70dbda5b9ffc09d818dd0"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/NativeGraph.lean",
+      "sha256": "06d96b858e76aef168c0428cd8f5e619280f8f04d4b93278318c97e98b2e8bb9"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/NativeHost.lean",
+      "sha256": "41d391ba99864983ec5c81d6805bb14f150a08f3b2fbd93fe03af87c2c9c93c8"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/NativeMetadata.lean",
+      "sha256": "c7c24442c30174c2d80bdf39be0809b4294d1609416f4893a48c6377983ff4e8"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/NativeProgramBridge.lean",
+      "sha256": "cfec20c36047a1b23ee004f607f5f6e0953d9e31d3e6554cc5a0a9f2f974d3ac"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/NativeRange.lean",
+      "sha256": "bbdc937172b00fd0377a900b404c9e3f1f135bcc5ab87ac11dd71669ebb34e1d"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/NativeReachability.lean",
+      "sha256": "391c65b197ef9b20ab0e948901644c3213cca4e1b008d194eb2442db2f7b7730"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/NativeSM90.lean",
+      "sha256": "753ca4169fe153c35e21dce27afa22bfb13e0cd73f015daf730a766f69c370d7"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/NativeSites.lean",
+      "sha256": "fe97dfdbcde3cda3e5d34d5e2cfde34461f2d6b5e5e4b9e9fb00bf63ef6e8de2"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/NativeStructure.lean",
+      "sha256": "c25da580cfc61a335e99edaa0cf4d6371b5c9a741178dc49cce4d55b5f1f5d41"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/NativeVocabulary.lean",
+      "sha256": "dd40cb6458cedbb47a58915bb2d5735d91cba02c193ab6898fae9a761ec89733"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/NativeVocabularyRun.lean",
+      "sha256": "af110678e351972520f90ea94188784ac1e89252e7bfff8b8d9f43743b4fb935"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/NativeWords.lean",
+      "sha256": "2724c70834608e706c1695de90d62f9d2ace3772baaeacec1c404914a237cbca"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/Numerical.lean",
+      "sha256": "51b9a827a518f32ea857388a84fff970520477201eec5809987cdeea7ce5765e"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/Physical.lean",
+      "sha256": "5c147b733faeb5a3fdc5f4b1179d08da8fbef124c053f67512bb04ff587e4e44"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/Real.lean",
+      "sha256": "ae8c4f90abe14783f294e4aa7c4072e62c5d401a98951a1454ff500428bd23eb"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/Snapshot.lean",
+      "sha256": "594bb08da9e1ce0ffc0cdfd4781222a66aa6a5c996dba85ab61bd84d04fdc880"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/SnapshotReal.lean",
+      "sha256": "0ff92401c009920caab58c63bda7a09bdb114b3b1a16ab63d0c080c94d04b060"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/Task.lean",
+      "sha256": "ecd61493916cf3fe71f0f235814417134b2168de9a99ac936f08612b8dab2d72"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/Tensor.lean",
+      "sha256": "9b4d2483e530782eb46e492f37f38dadd8382d8c9b1f5f23ee729e196f4979d8"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Public.lean",
+      "sha256": "7f93b61b2f6a27294ac5fb9b26f6f19bcbafc4eb73a9ff0433b9d4bd7719f91b"
+    }
+  ],
+  "build_driver": {
+    "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/build-tools/workspace_lean_local_first_v2.py",
+    "sha256": "23464979d2a667dcebe68ab9ce1c958238ff1bd322c5a010b8989897a406da22"
+  },
+  "task_build_receipts": {
+    "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/task-builds.json",
+    "sha256": "2949e67f99737925752baac7805cbe7890389676269bb157b62b2f5521dad526"
+  },
+  "repository_import_closure": {
+    "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/import-closure.json",
+    "sha256": "10d69ef1a12062ddc5c5d41542ec281739f8efae1c3d607a85f82c85a8a1e25f"
+  },
+  "independent_targets": [
+    "KernelOnly.mathematical: initial-array finite-sentinel base-2 normalized weighted sum",
+    "KernelOnly.nativeTarget: fixed-profile evaluation of independent masked online recurrence"
+  ],
+  "model_boundaries": [
+    "original Tensor/storage/metadata observations",
+    "exact incoming FP32 scalar ABI binding, separate from abstract HostArithmetic",
+    "fixed local scalar and K8 WGMMA instruction ports; no whole-result oracle",
+    "compiler realization and successful race-free launch delivery",
+    "SM90 BM128/D256 resource failure and existing launcher grid-product overflow restrict runtime applicability"
+  ],
+  "validation": {
+    "all_task_modules_rebuilt": 48,
+    "standard_base_axioms_only": true,
+    "noncircular_targets": true,
+    "actual_source_CPU_invocations": 7,
+    "actual_wrapper_native_binder_offline_profiles": 10,
+    "compiler_text_artifacts": 40,
+    "static_exact_reduction_trees_and_replicas": true,
+    "static_PV_coordinate_producer_routing": true,
+    "static_scale_FMA_rescale_division_operand_order": true,
+    "static_clear_live_and_K8_coverage": true,
+    "payload_and_literal_independent_selection_proved": true,
+    "GPU_execution": false,
+    "primitive_numerical_experiments": false,
+    "native_Real_equality": false,
+    "error_bound": false,
+    "transitive_cold_rebuild": false
+  },
+  "integration": "Parent owns ledger/Lake integration and independent review; no self-acceptance.",
+  "frozen_files": [
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Meta/Specification.lean",
+      "sha256": "7580bdc657b49d3cb8c518cbc08bcd7f405f0ede509e3a7deb6dd8ab9dbdb8fe"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Meta/StatementAudit.lean",
+      "sha256": "9c82458cd9f705e8bd4511b8c8fa9580d314c1ec274cba9ab93f665a0d7b1ea5"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Spec.lean",
+      "sha256": "f94f43290c0ea840da152773cb7f73b6c7a9494e8e48185a27ac754cd4e7c84c"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Torch/FP32.lean",
+      "sha256": "013a646a19c94863c9348e5797b89a4ae95e10bb79b4109f6df36433bd168082"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Torch/Tensor.lean",
+      "sha256": "5ffea95271519b19b6ac5bd006cb95f778ebc99c21648700ca74d054557db052"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Concurrency/Atomic.lean",
+      "sha256": "03dc2a7547ff4c90ca22d3af13867ca243306fbb06e73ddc424d41545129da52"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Concurrency/Discipline.lean",
+      "sha256": "3901bcbadeaf513cb0723a0db9c77f23e8f4700bf6b076cb9da0869abf17395a"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Concurrency/ProducerConsumer.lean",
+      "sha256": "0ba0c4c59a75b83b52782a2bc7f58880af134e9c2718e03fd8e5ca831d8de06a"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Concurrency/Refinement.lean",
+      "sha256": "0baf4b34389f4d1b1ea978e8fd4525e306e8110733a33c9793f3cad851b93196"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Concurrency/Trace.lean",
+      "sha256": "85b2f0867c77795663ca6de96344f8896014bb919e9632ea400479138cc52c8c"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Concurrency.lean",
+      "sha256": "b6312bcc71e3596bb9fbfd039b11b412a22df3a4cbcd6e740c703c9271739f6e"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Core/Ast.lean",
+      "sha256": "6487a828d0ee6b7c66be5e211086d4b87c3b8a277dfd297c1976b56e69b8c565"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Core/DiscreteReduction.lean",
+      "sha256": "afa9c2d98feab63377d0f8a1c558411b5f49468f6bc3f3fd5b859efe4cbf4e9c"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Core/FixedInteger.lean",
+      "sha256": "c2cf48fbd4b6c2e257b77d33cc947e879097428d85ef6d07f4e679f4abf686b8"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Core/Float8.lean",
+      "sha256": "2425adfde67fe0c645437bd1945429dbd5b991c2b70519de6861262c8d914c59"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Core/Integer.lean",
+      "sha256": "ef1c0c34a0038ce6538f2d02f3a3941bb1a4a631fdb5e089f0dae063f26efe57"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Core/Reshape.lean",
+      "sha256": "4e3e858f5b928bcdd25b207ec6a43a78fbe46011ed42fc6e55041690d5bb20e9"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Core/Shape.lean",
+      "sha256": "97a634b9623f864dd27c755699d400572df83011ec33b2cc6e79ff028df9ee1f"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Core/SignedCast.lean",
+      "sha256": "41081ffabb1ee3f6c6f016cc0c1a59eb91afad9c09ae8d4a4d2698b776d4603c"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Core/Types.lean",
+      "sha256": "6081c35bbf70ce3df78e95f45965e8d0130e71423bdbddf04de05c3795e64a58"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Core.lean",
+      "sha256": "f2c559b54eff3fbf43926fa5930428ec02a55fba27686bbd58a5b5f3b6c28a2d"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Correctness.lean",
+      "sha256": "0e5c59fe03bdf99aa94059eb533b44bd5764fa48e844751e9603891b730a03ce"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/DSL/Expansion/Common.lean",
+      "sha256": "4b6380326b745c239a07e67224591b75b8532a897a3e7947a29e6b23cc4cc0d7"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/DSL/Expansion/Compute.lean",
+      "sha256": "93b296835d7f6bdec3a5e5a5d4c3cc3f8518be143c488a1b38bc839bf0abec0a"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/DSL/Expansion/Control.lean",
+      "sha256": "5a64987af770f0c2ffbf01c23c3069ad9971e03a55e3b117a76c1578f42b8b1d"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/DSL/Expansion/DType.lean",
+      "sha256": "2d61abff958ff6abdd0768a6bcd72c9d1192679b4c30c2d67c83efa774c23b7b"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/DSL/Expansion/DirectRandom.lean",
+      "sha256": "7bd69539f4301bf3de9a42074fd1d90318b682552c0c28e4e39eab20ba7cf6dc"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/DSL/Expansion/Main.lean",
+      "sha256": "72854c692284e4e54206f4fe11b33f96d97db45b7bdb785613dab3b78fd24dbc"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/DSL/Expansion/Memory.lean",
+      "sha256": "e44b7908c6d74c70a58b84a675b3f303d1f09d950ea5c4870a52b746f5ea36e1"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/DSL/Expansion.lean",
+      "sha256": "abf572865569f8411e47bca680bf6f7a2ff1cfd2f0d4cac2a581d8212ba19802"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/DSL/FiniteHelperSource.lean",
+      "sha256": "b16e6ac66af74f85feefa9219e4aa880b46d54277d1d309ca495dbb62cccf0d0"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/DSL/Inference.lean",
+      "sha256": "26d322c80b08a3432a44eaddf14c07deac1895f254b37dd699ede7af7af74593"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/DSL/Metadata.lean",
+      "sha256": "f15dacfc449594204f6eb64b5b0cc8dad3e591f303c767268867a6a935bd0fa8"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/DSL/RandomProfile.lean",
+      "sha256": "61f31027a53ea7305b18341f0c7dced51c9407589bf4fe16b1c7bfded7859d04"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/DSL/Syntax.lean",
+      "sha256": "b796fa1137a5cd2aa06c62b20ea21d7248959fcba41c6e1598d2c2678a32b99e"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/DSL/Typing.lean",
+      "sha256": "2e42a8276db7a03700a36e310f742f7f06b9e2f54cd75778501fbbe2def86d79"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/DSL.lean",
+      "sha256": "2423c62c7d2ce4f66fb836f36c35d2b904fc759e8f782684a28af52d0ab7faf4"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/ExternalCheck.lean",
+      "sha256": "df0c83664a16531f22d5c4c7898d358dffbae95a64173cddc2ace6257feabb95"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Float/BitValue.lean",
+      "sha256": "92f8bf41aac7a1268815a58fea6e68475c134903893b8e075599c5427be6a1eb"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Float/Control.lean",
+      "sha256": "d892831117300292003ebe68dc9aa9f8dfc2629a9f1a6fdd25123e678209c413"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Float/Equivalence.lean",
+      "sha256": "965c88093e53e551c6b947880faeb750cdbe66db04a8cdf2e98a49cc82bb6bf7"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Float/Erasure.lean",
+      "sha256": "91f6aa138fc0527b7a11a91b0054a2ac3f864557bdd3ffc3ad556ff910398cd3"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Float/EvalOpR.lean",
+      "sha256": "18a04fa08f022f68150ab1dcc6ff81436d72dcdf1d9e502eb7b138424c610099"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Float/ExecutionProfile.lean",
+      "sha256": "b6545f4c030b082baf5af3a01ca6906783bdbf95a8345101db30a6199b110b8b"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Float/MaximumPrimitive.lean",
+      "sha256": "de78d5f0a304e986560fe44a09a7eb3db8de058902f1fd8f97d0ddccee885f0c"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Float/Pipeline.lean",
+      "sha256": "5a892afbc554b181bcff18de0901bef31fa70f659fe420274e6c8cfcd5975646"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Float/Refine.lean",
+      "sha256": "fa767a47f0f9e79c951c2b5d074455612c3464438220ee829de29f17e5eabc83"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Float/RoundingModel.lean",
+      "sha256": "daf9e33b135dada924c82ff35858160eccee563486eaa3c0806698647821a673"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Float/ScalarOps.lean",
+      "sha256": "26bd46b941918c3a617cb6e15b2ddb2003a85c40cd69fca3a3905ba181bc6072"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Float/StateErasure.lean",
+      "sha256": "d87d2d39b9cff48d8f7011f451329afefc3bc76ae600776bd599ec5b62b3b93e"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Float/StepR.lean",
+      "sha256": "72982c87c66f95566d3cf03be69cfedb2088fc0fdd643bba5801981d1a72df32"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Float/Structural.lean",
+      "sha256": "628ce9ece2eed2ac3bcc6addf119ab112fe8d67e0679e24c21404d7b5938df83"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Float.lean",
+      "sha256": "92d888b138f8b593d5337806b3128af63832e8c2a1ab482efceedbd432821b7d"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/KernelLemmas/CarryFold.lean",
+      "sha256": "652e516656ffb90b3e85d37f47942c4bfe1a26f1fbc98218879f5a47da03bd49"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/KernelLemmas/EvalHelpers.lean",
+      "sha256": "4a19550e09aabcadc3434134e8f6fdccf0dbcc3d634820c7b491d3bc3cecb9d9"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/KernelLemmas/LoopInvariant.lean",
+      "sha256": "ed17ccd8157fd3fd026d950a6b73eccd04fa13626048792e2d93ae7fcdf564f0"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/KernelLemmas/Matmul.lean",
+      "sha256": "93eee78a5a29fe9526eada5beb986df35c6f9a24768a20ff9c9a64f8b156ce80"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/KernelLemmas/OffsetInjective.lean",
+      "sha256": "f91a71264bd1a72de9cb368592047dcce3377ebd8dbf1dc59734481a8ead8efc"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/KernelLemmas/ScatterStore.lean",
+      "sha256": "b48c2d047c8ffc611d7791c14d4f98128bf17208f5a134edffe9c8678da7ff17"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/KernelLemmas.lean",
+      "sha256": "22dba3bab9b64beb95ccae479e1e4fd0df8982a30751b814bbd38cd8bac87d9d"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Launch/Composition.lean",
+      "sha256": "1a4db9f31530ff88a9727478b8cfa1df9de9934168c759a2934c4367877090a3"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Launch/Grid.lean",
+      "sha256": "74c1c565e02dc30e35751531333bd59ba16f4f9305f40a7ca591e4b24e251925"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Launch.lean",
+      "sha256": "2dd3ea1acf4cecd1ba4f24dee9868bf5089fa898ca9bf73a6074b4717241b4e6"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Math/Activation.lean",
+      "sha256": "7fe53782eb9cab940d8fe722311c429d5a3dccf6cef6f1ca880109bfc752027f"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Math/Attention.lean",
+      "sha256": "bd83e1c4debe6448af1c99b37608f1429c0e9fde03caf9ab394cab873a338e78"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Math/Erf.lean",
+      "sha256": "ec935c59c2569790cf8dcfac003947565c5c8a22889f99445b89a39c996d8e32"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Math/L2Norm.lean",
+      "sha256": "ea38e69c53fdb4ffa7336c8d0c3998010cfa28de80c2006fd7bf0c8edcb5ab94"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Math/LogSumExp.lean",
+      "sha256": "b7bc8b44d7144a88450a9720de9216e24817510bb8a76c87305831cdffe41697"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Math/Loss.lean",
+      "sha256": "a449d710a036ccb84cca2bbad6c12175add8154c1baf63a8b1e67c7a1d4fa775"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Math/MaximumProjection.lean",
+      "sha256": "52a275a9213b595738b03250dcce1f414f25d39c58febd02fa38e9bf1aef5187"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Math/Optimizer.lean",
+      "sha256": "5935dd7e4bf5bcfb75c9ff5cdb51cb7bae43fcda91daa0fc83d6d4c1edb3f896"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Math/RMSNorm.lean",
+      "sha256": "75461e0a3513065eadeac912211b6578bf63cc7527be13fb1197ac440bde6934"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Math/Reduction.lean",
+      "sha256": "ef4e0f3e0f78128941ead72b49e44322c1fd6960d0cf703c1af3c7793f42a516"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Math/Softmax.lean",
+      "sha256": "1ab0be1a888802002a7cfd0ce9cc156216353ed0f6764242cd46eb7996c691e3"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Math.lean",
+      "sha256": "9000ce833e405e6652bcd66c930a51d8374c909ca6fe464e0fe77d0cd3648d09"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Memory/Bounds.lean",
+      "sha256": "300ce8bb3c7cd5c7991a25f0ae2bf5680f933fa0048f519ce29f73bd5654d0a4"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Memory/Denotation.lean",
+      "sha256": "d0708c4acf9061d947132f579f2d70077ac72e7e9d71174170f95589e9f2df75"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Memory/Flatten.lean",
+      "sha256": "f840337af2d699df8cc0f43cc10dfababc7bee57cb8126486f88a09a66e841c1"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Memory/FlattenR.lean",
+      "sha256": "3b0c9b1969fb82f751a31ffe74500c082252cfcf0af91a3464c4ded9cebc5401"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Memory/FlattenTolerant.lean",
+      "sha256": "3465fcb1233e1ad47c3f7c89c3377fae203cd168f9cf47c34485ea480f71a66a"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Memory/Footprint.lean",
+      "sha256": "ef80d79ae760c927093577188f384f31aae7f54527dc67358308389ee0af7eb2"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Memory/Frame/Basic.lean",
+      "sha256": "14e010c95c718cb6b994031fab88ee85da4fe0ad623c8adeadf3bb755bc1c593"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Memory/Frame/Kernel.lean",
+      "sha256": "d15f68b693226f9d4d6ac64428fca447e973a0141b5310e98026c755a293c0ee"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Memory/Frame/Stmt.lean",
+      "sha256": "98a4a4032c574773dc719d85d79452c1d1c745f11db296da9ce78019cddbf116"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Memory/Frame.lean",
+      "sha256": "69ceb0d4ffea1563dcd1dd3a1ea1ca12f7d4f7a1bca192edd7c6a300091ad49e"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Memory/KernelCore.lean",
+      "sha256": "617a8949869c9a9bf366bfe74a02f7a98c1b001f496d7af3f40662445702f311"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Memory/KernelSpec/Base.lean",
+      "sha256": "4497d69d92d2bc9baa0861fc0cec9bcf8eab5309c2c582f2d9aa0e5da27c54a8"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Memory/KernelSpec/Basic.lean",
+      "sha256": "2a5b4b4946ade9c9bc25414589a5b1a4f815b001847c88b455718f7131981e81"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Memory/KernelSpec/BooleanMasked.lean",
+      "sha256": "7dc158c61ed167c2d6dcd50ebfb2285094ee5862195d2f50fe6446ed6fe628fb"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Memory/KernelSpec/Gather.lean",
+      "sha256": "aa6b2a6a0b9cfc873d3194a9ce4c8cad9c1f881e6c0e7454000065d0101ae457"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Memory/KernelSpec/Grouped.lean",
+      "sha256": "809d66cfa5021f0ffc7f569ef5aa1b91edea5afafb56d123f8093ab24c18850f"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Memory/KernelSpec/Masked.lean",
+      "sha256": "cf1ea6e930e5832c72d9c95e1bb4345e2e21cd4fe9028e019d09efe92f62ff8c"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Memory/KernelSpec/MaskedND.lean",
+      "sha256": "e4056b3085024808ab8fc1e04d3af2381a879fea9374ab0f4751ba9fbdf15532"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Memory/KernelSpec/Metadata.lean",
+      "sha256": "27672a7a080cce048c2556e3f9705abba985fc4c20b3e378e0ea31e929c01009"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Memory/KernelSpec/Scatter.lean",
+      "sha256": "e32c3d321b97105b4ce5d192d87c94bed970c38b750f5b26ff10d71a237a4b24"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Memory/KernelSpec/Stream.lean",
+      "sha256": "308da848372ad8982ece008ea561836d1b2f96bac711cef3436cc859c2aa254e"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Memory/KernelSpec/StreamAttention.lean",
+      "sha256": "a3d9812b4dea7ab67edffe5d338f108f91464f79910fb88abed54b9dff2f7a30"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Memory/KernelSpec/StreamAttentionMetadata.lean",
+      "sha256": "c4d582356c4ced27762da21e73b7d22ffea362c2014dd336d1522de988998a99"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Memory/KernelSpec/StreamEmit.lean",
+      "sha256": "e723e4737a7384bd4ed69011b5d7135d8630f7c540c1848be3d18a8f1c94c02a"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Memory/KernelSpec/Tile.lean",
+      "sha256": "6056b7cf40200213a953c9249bfc1ecdb81534363fc5686a7538220fbea66872"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Memory/KernelSpec/TileGather.lean",
+      "sha256": "964d1e68747a97b25d3f65d1728efc51d913d937ef5cb08e40ba991e99dbf0a9"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Memory/KernelSpec/TileIndex.lean",
+      "sha256": "07294995905ab00ee3c4981cbae5e18bf50796815cd9bd49e93b8d427e72c8b1"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Memory/KernelSpec/TileMetadata.lean",
+      "sha256": "c457a30724b6288584a6e2e5e8533bcdbf59300eb4b20f8d82ca9be36efbe77c"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Memory/KernelSpec/TileND.lean",
+      "sha256": "d1b1fd6fd0be7fb1741e34d6bffec81b1f46db04eb7866db363e2d8cb7b4645a"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Memory/KernelSpec.lean",
+      "sha256": "f6e211da67da821f3853b0dbf6ce13b648bdb5df98816193024b94170758dbe3"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Memory/Layout.lean",
+      "sha256": "e0532314b8f5de6b4abc349368cdf2fd369280ee2ce97eedf364cd12f847996a"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Memory/Locality.lean",
+      "sha256": "f7ccd964b50caafd95aa8a8319856f0f893d7acd6264c315f47060563d709cbc"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Memory/TraceProofs.lean",
+      "sha256": "751d23465c2e356f803beb8cfb2b9c419cdde8dd6418fd035a0d20959c027843"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Memory/Typing/Checker.lean",
+      "sha256": "b8bc166f97ad6997f250a1c9d6c78cad8cc9d903b7bcfb643889882bd3d0b73a"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Memory/Typing/Contracts.lean",
+      "sha256": "e2944a01c12d91c5d77108f370f41df87e0c080bc20ff93947fdf1a047d5f3fd"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Memory/Typing/Region.lean",
+      "sha256": "1dc180cb6dce4ca8380bd736a9aaaf18b9832ea89b1bd00d60f36aafb1e5497a"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Memory/Typing.lean",
+      "sha256": "20ed89f4c6e4040275af913ce63ecc706bcbdb9a5b20ce4cbaed493cdc6542b6"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Memory/View.lean",
+      "sha256": "81902179bc5303b70f7e76fa8896df3d3ac0c130e7b25950ab21c546f286f077"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Memory.lean",
+      "sha256": "95ded98671abf69963028f62c116ea94ad838d2e784fe59f350f688f1c0618f0"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Random/Direct.lean",
+      "sha256": "83dd0dea48ecccbd10605ecf916651842dedc5797ee6479aab4144b4f2eca568"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Random/DirectProfile.lean",
+      "sha256": "a75b2388a81156451e046b72540887f38e7241f2226ad640ff09ae3f42899d98"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Random/Philox.lean",
+      "sha256": "af9c757d813b48f48ab75e43c1edbb6cc4a3a79aeccf58c57a7defa8fb1e0be8"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Random/Proofs/CanonicalUniformBridge.lean",
+      "sha256": "e744120a52249bf3753ac4dc81967dd37930c8c3cc71b4cc234da110c9994938"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Random/Proofs/Dyadic.lean",
+      "sha256": "3b5d946b8df775934f9113a1de483f1949c4a24bdc7ad3e37964c8e7ccdef4b4"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Random/Proofs/DyadicExponent.lean",
+      "sha256": "4c899ee927a6519e12c867cc452087ed827f3af5262b9dd1886acb5485ee7ddd"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Random/Proofs/DyadicStep.lean",
+      "sha256": "fd79754a45a24b8de2cc85cc1a2cb0a4aa5360f8d19dae6ceadae9ccf3f389b5"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Random/Proofs/PackDecode.lean",
+      "sha256": "1ae0557bb8844952317dedf27641eb69ea6bebad185362b78524e62cf2b3e5e2"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Random/Proofs/PackRoundedProof.lean",
+      "sha256": "e0b324729400380ff8d3f9e9ddd1a31e6084456ff0f31d84d2c0ac36c9ed4346"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Random/Proofs/RoundDyadic.lean",
+      "sha256": "351506829a6a90e45afb1ef6f7b31d3f58ee5d653092bc9850011adbd495d91e"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Random/Proofs/RoundExpansion.lean",
+      "sha256": "e866ae4a5a6a918ba92be25082d59931bce3d17fcfc4a56367cd3bb8db83cde9"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Random/Proofs/RoundQuotientBridge.lean",
+      "sha256": "81481928ad4594579c8e85fc9bbbd87fd16a6f611a77208c2c4be5bb2d715237"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Random/Proofs/SignificandBounds.lean",
+      "sha256": "9fd6c6ebf6cc0f2e252a7dd0010e1fabed9042e044a08afb29b8d234fe7ff181"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Random/SourceProfile.lean",
+      "sha256": "fb47ebbcf78dd10ce64048904b24d1cfab8f9c48d18ee92349b7bf7e9a9868f0"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Random/UniformValues.lean",
+      "sha256": "d2cb297b2aa730102adf8edab25581357071495da672876c22497e3669be90bb"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Random/Values.lean",
+      "sha256": "74055de9bdcb4b5b338c5f1294f4781bcf715f207a78c1ddddf900c22c9e3c85"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Semantics/AtomicReduction.lean",
+      "sha256": "47bc59ef56e2a0bf9eac3d65fe2e3f5a6c033525dbd001406c6ddd15d2219efc"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Semantics/BlockPadding.lean",
+      "sha256": "157d22d7b2bc8c299457836eb29e45efd8ecfef0b4d75610cec905d978cad00c"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Semantics/BlockPtrEval.lean",
+      "sha256": "50145ec9e7feca0282f1dc351017f7e7bbb83776b905eb96f5894c658e6e742f"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Semantics/BroadcastReshape/Attr.lean",
+      "sha256": "10d5e6207c051ca7ebcac33dea3cde3a38dfe662091422182cc8ea1ac9521ef0"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Semantics/BroadcastReshape.lean",
+      "sha256": "693f8fa230e9ee1f1bc7341df73be2d2765e1d4df23d46de759565214d19d8ee"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Semantics/Eval.lean",
+      "sha256": "c981d48a41d1a1cccd61376afc8d273754b397b160f257e80edf597453e61148"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Semantics/EvalOp.lean",
+      "sha256": "2d81a6187bc0a503194101871e70ff61791b8ddf4f21d6ee00399b77e050cd20"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Semantics/Float8.lean",
+      "sha256": "dff538de87e46bdd7cf041faba3188696dd9532d9650653d5cb37af7769e90b1"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Semantics/LaneBridge.lean",
+      "sha256": "cba3a5c109464d5018e1b9aa47a6688040e42e07de81fc9178a7ec74a780a85d"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Semantics/MaskedReduction.lean",
+      "sha256": "679ec47fa431c57fda950756e5ae1a22dfc145224d6eb21c68ff43f950a942a8"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Semantics/Offset.lean",
+      "sha256": "4554d0b999c47059742ec69104ab9eae2a9d6e6cd9a970c8653ff567f308fffa"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Semantics/Scalar.lean",
+      "sha256": "f64e84224c4998ef36b99d0f4fe1b7b26bb28faf739b5f9c5e6b317e801377ce"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Semantics/State.lean",
+      "sha256": "e505bc73033417f411aca7fe9deed4510a2e87f183fe3597b13dd0ec9d0c9cdb"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Semantics/Step.lean",
+      "sha256": "709189a5c592f0dde041cfeb17e6b2d6bdde8b48e4c618104aa7baf8bde452d5"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Semantics/StreamBridge.lean",
+      "sha256": "85f1e61730d3d76071d6bbd82093f20263329a6922942ea2bb96c329fe9009c6"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Semantics/StreamingAccumulator.lean",
+      "sha256": "19fdebafec049bd11c48abba4ec0daf711436d9a0fa242b0d063a9e609e5bd40"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Semantics/TileOps.lean",
+      "sha256": "01fa462cef459fe683fcc8f55d94eff99ca88bce747b16405350746894cb1e3e"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Semantics/TiledIndexing.lean",
+      "sha256": "8425f2f91c45531afcc7bdf63bd7f3b0fe5b7993f7ee5602f872c98ff002c022"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Semantics.lean",
+      "sha256": "c766bb73f0eada86490c02bc145e7b011de1d184609b8021325648d949678346"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Source.lean",
+      "sha256": "41482321a17d14a5a2fe783f489d2aa95fc483e21760eb828c292d9785705f88"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton.lean",
+      "sha256": "0937879a78c271cce7beda0e77d0b0bcf90a23a2ce90485ab011a5472d75f9a0"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Contract.lean",
+      "sha256": "af84e65ef49c128e4ac85ee4b8840c321557772b55ec79e3ffae24a1c07adee3"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Correct.lean",
+      "sha256": "6fffdaf0ce56d49063ee9ab766c0fe3c9bb9c439b108054493480972fc3133e1"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Empty.lean",
+      "sha256": "b9d5dc8d3e49cea3618c1a72d14bd351cabf4429705219c8ce5a200eb005dcbd"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/FPEquiv.lean",
+      "sha256": "f8a03cb5de93ced2ca45b7649173f327b259fe0dbbf16c04ec2fc4f988a0ad39"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/KernelOnly.lean",
+      "sha256": "db873f0b0c1874995a65c82d264d70781842e81848b3264a1214766dc181c955"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/KernelScope.md",
+      "sha256": "11d384bf8dcd6516c1f24946dffaee4454eeea42643adccee7b35ffe6cb6b097"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Kernels.lean",
+      "sha256": "43dce508cf8692bb91d6a9a493fd7abffc45ad369f6530c571032f74c67f067b"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/Admission.lean",
+      "sha256": "1e9e834606f9481c7749168a9afdbacf5c161f28de46564822fe3e66765f704b"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/CheckedBridge.lean",
+      "sha256": "c092560128834ab78f423cb86fe01f8ca6bcccaff461bd8847a2a4f2a7597fae"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/Entry.lean",
+      "sha256": "de63e99dcf6bbcbf41f614d834b4067267ca321ec30ff37eea45e9903ec1fec8"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/FPEpilogue.lean",
+      "sha256": "fe9a50247e68e97e0b571a16ff17f096c779a26a1358ebbeea48f8c0bc77baa6"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/FPGrid.lean",
+      "sha256": "4c57bae417cfbd51827b45c8cfd2bbe86f30e15209c6298e69ae9bd80cb2c603"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/FPProgram.lean",
+      "sha256": "c90fddfb3f5c989a0cdec496e85e5d42b6f51c331cda8a0f07bf4df2fb619cd6"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/FPReference.lean",
+      "sha256": "65245d605c6d7607dacd8fc60c647f9fd835e0e0c30e961224720d6286e19a4c"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/FPReferenceGrid.lean",
+      "sha256": "f0343744f7fb98cd2dc866b4f35d896a4cf0fb2c160473784731d777afd16f54"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/FPReferenceProgram.lean",
+      "sha256": "92459b8c2fbf797fe6684a49d448897bcaac8d1365fdaed0f8544e68234566e3"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/FPScatter.lean",
+      "sha256": "e04cfc91e38458bd2044ca0f3be846a388bd25a249853d6b332c141fd7830c6a"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/FPSuccess.lean",
+      "sha256": "c4f2e67f5affe00f2e0a16945b6fc9dd87d24a402a11c4b930378e64db27f712"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/FPTotalBackend.lean",
+      "sha256": "543d1b51391e585ffcc16bf0c7101bb53d9c8016357dfade4d077f8c338b8c90"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/FormedBounds.lean",
+      "sha256": "39f38a3f03689eeb8d8b509134ea4eacb93a5ad69862809e410e2a0fb3f59dff"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/Geometry.lean",
+      "sha256": "026404cdded9fd50dc7e376790f6ae27aa1fc8d147b9789c589bd9ff4b304eb8"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/Host.lean",
+      "sha256": "b0e9a8341274de9ec18ec183ba6ae2aea67b9fff52694e830e529d0fcef78a26"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/HostReturned.lean",
+      "sha256": "72826e7f71daf44beb32dff6e55d4a8fd796bc5f3ba98c88dc8d6579aae3e438"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/KernelProfile.lean",
+      "sha256": "f7db2158a25da43a5f563761fece4ca5078425e066a18426c8f8b882c39cb343"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/KernelScale.lean",
+      "sha256": "6c03a68bf17c6c623462a6e1f4e4841abc302f12981f3c053749c7b0b854361e"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/MachineCertificate.lean",
+      "sha256": "8d1ecd5aa15c22770b80357c0da48f1f435927b067eaab74d2bb6a4ba475a202"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/NativeAddresses.lean",
+      "sha256": "93fe8f9906137e63531d0b297976b2e0cb0e78de7d32fe821a9d8b33d2d6e008"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/NativeControl.lean",
+      "sha256": "294ead2bb872124e260174aa9cb18d5ca6bd6d192bfbef404fc62ed3639737c3"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/NativeFinalAdvance.lean",
+      "sha256": "da9ebdc96e0b74c020d454eca858e4e2dfe6c4436ae70dbda5b9ffc09d818dd0"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/NativeGraph.lean",
+      "sha256": "06d96b858e76aef168c0428cd8f5e619280f8f04d4b93278318c97e98b2e8bb9"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/NativeHost.lean",
+      "sha256": "41d391ba99864983ec5c81d6805bb14f150a08f3b2fbd93fe03af87c2c9c93c8"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/NativeMetadata.lean",
+      "sha256": "c7c24442c30174c2d80bdf39be0809b4294d1609416f4893a48c6377983ff4e8"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/NativeProgramBridge.lean",
+      "sha256": "cfec20c36047a1b23ee004f607f5f6e0953d9e31d3e6554cc5a0a9f2f974d3ac"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/NativeRange.lean",
+      "sha256": "bbdc937172b00fd0377a900b404c9e3f1f135bcc5ab87ac11dd71669ebb34e1d"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/NativeReachability.lean",
+      "sha256": "391c65b197ef9b20ab0e948901644c3213cca4e1b008d194eb2442db2f7b7730"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/NativeSM90.lean",
+      "sha256": "753ca4169fe153c35e21dce27afa22bfb13e0cd73f015daf730a766f69c370d7"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/NativeSites.lean",
+      "sha256": "fe97dfdbcde3cda3e5d34d5e2cfde34461f2d6b5e5e4b9e9fb00bf63ef6e8de2"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/NativeStructure.lean",
+      "sha256": "c25da580cfc61a335e99edaa0cf4d6371b5c9a741178dc49cce4d55b5f1f5d41"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/NativeVocabulary.lean",
+      "sha256": "dd40cb6458cedbb47a58915bb2d5735d91cba02c193ab6898fae9a761ec89733"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/NativeVocabularyRun.lean",
+      "sha256": "af110678e351972520f90ea94188784ac1e89252e7bfff8b8d9f43743b4fb935"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/NativeWords.lean",
+      "sha256": "2724c70834608e706c1695de90d62f9d2ace3772baaeacec1c404914a237cbca"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/Numerical.lean",
+      "sha256": "51b9a827a518f32ea857388a84fff970520477201eec5809987cdeea7ce5765e"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/Physical.lean",
+      "sha256": "5c147b733faeb5a3fdc5f4b1179d08da8fbef124c053f67512bb04ff587e4e44"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/Real.lean",
+      "sha256": "ae8c4f90abe14783f294e4aa7c4072e62c5d401a98951a1454ff500428bd23eb"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/Snapshot.lean",
+      "sha256": "594bb08da9e1ce0ffc0cdfd4781222a66aa6a5c996dba85ab61bd84d04fdc880"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/SnapshotReal.lean",
+      "sha256": "0ff92401c009920caab58c63bda7a09bdb114b3b1a16ab63d0c080c94d04b060"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/Task.lean",
+      "sha256": "ecd61493916cf3fe71f0f235814417134b2168de9a99ac936f08612b8dab2d72"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/Tensor.lean",
+      "sha256": "9b4d2483e530782eb46e492f37f38dadd8382d8c9b1f5f23ee729e196f4979d8"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/Public.lean",
+      "sha256": "7f93b61b2f6a27294ac5fb9b26f6f19bcbafc4eb73a9ff0433b9d4bd7719f91b"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/README.md",
+      "sha256": "099019830318d8afea980485b68313decfe5217fb629174ad3bfa60e53a962dc"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/check_contract.py",
+      "sha256": "c631ae85b465fc490e7e9b8dc0368971fa9add04a8a67a22205fa6e483af54aa"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/context_attn_fwd_repaired.py",
+      "sha256": "0636069fa75d06b85ca949d2c6701cca1f96ddb9ca0a110e56948c34706a717a"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/StatementAudit.lean",
+      "sha256": "ae468b5cf4f141a5c365c8aa8d42a1548e57ae80bca1a9cbb4ced9336151cbe8"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/baseline-build-order.json",
+      "sha256": "1b91a22c8acdc6b5af4d10ae727a7b912b70e87b4d18673240e1c0c9f2f6dbb2"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/baseline-build.log",
+      "sha256": "7ddb5f989cd5020cebc9b55e5e54981b8de5a2da5c7e9db4bdcaabc82dee207b"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Contract.json",
+      "sha256": "36df189dfcd831084ea58a727a4068e5dd3d68bc431cfa6fae0d449bc75f5b84"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Correct.json",
+      "sha256": "70cf02023d5501db13a379bc0c315f390df6aa853f497a0e84bc9a95f6377836"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Empty.json",
+      "sha256": "95031ad799eb83b06f1aa31c32215427ab66c5a6ebbb6b63c035fc8611217369"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/FPEquiv.json",
+      "sha256": "16d8cc33944d10187a5d3975f54e63cb2e5e2791cddf02f8899887b73550d65a"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/KernelOnly.json",
+      "sha256": "1ad441ce0e8bcd8f299cc7e74b237e0eac8c990cb3d6e6b4f5819a4cdd708193"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Kernels.json",
+      "sha256": "23413363bdc13da84f00b9e3041c491d685ceb91ac46659ff41d545ff7da705b"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Proofs/Admission.json",
+      "sha256": "cc8effe99ea0a5c38fa304249af387286a32b66445293b578bcf9b68038df1c4"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Proofs/CheckedBridge.json",
+      "sha256": "a0cbee92572f7babce410d10e9887e72796a9bc87c54bf5acc02f0e1bd18f9b8"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Proofs/Entry.json",
+      "sha256": "e613e9ef22c120a884166c87da9f0c0f032401cb455eb015fcb5889e4e610a83"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Proofs/FPEpilogue.json",
+      "sha256": "49bc5291c81cef5723857ae96879de5122a0d7ea4f2fbd25c76a4d6112e63749"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Proofs/FPGrid.json",
+      "sha256": "cd7fd2bdc8fec363df7d9ee772c0944440fa96b6daf8f803b86598405aa78de8"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Proofs/FPProgram.json",
+      "sha256": "e8c2743209ce686cbd67fd1dadf9b635b425d48a990033e456cbb83b7b30eaae"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Proofs/FPReference.json",
+      "sha256": "46c438712ffc18d275a85796294d609a297258e338c6ecbb9ea1e03240f15a0d"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Proofs/FPReferenceGrid.json",
+      "sha256": "ff9c46dad1b9cc5992678e47f3a1f73d1019e52a9bd06818057c3f1f5f58d6af"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Proofs/FPReferenceProgram.json",
+      "sha256": "4119cc597fa6069eec8b178bfcd989acc2cd5a6d7dd45aa00c03da66ff930f2b"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Proofs/FPScatter.json",
+      "sha256": "75c9a79038883072f5ca2c94057a46ee9423570d5910ae22c849239f9ba0efe5"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Proofs/FPSuccess.json",
+      "sha256": "03b1f22faf3f0966aa58dba327d32856d198d8fb5d03b85309fcf9d7071fd255"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Proofs/FPTotalBackend.json",
+      "sha256": "cffcc8daf8997500e3265466d7f50a85b824e28e326361aabccb436763a5dd1c"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Proofs/FormedBounds.json",
+      "sha256": "8732eb154a31cd970d86c07b953e7a4051a5f77b8815a7ac47f9cf7c3c519165"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Proofs/Geometry.json",
+      "sha256": "9715666ba614dafbede87babfa8e3b3e847b8f88089949d365048b19238eaccb"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Proofs/Host.json",
+      "sha256": "af4f2a30845943818ce28cbb7c4996e6aea76f3b59bb863e557e709bbd19733a"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Proofs/HostReturned.json",
+      "sha256": "89bfca853825da54805b28967ac33fe799cb8519c57f79de835359f7207d3e9d"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Proofs/KernelProfile.json",
+      "sha256": "3c7b4c589327ef12e421b09a8ff2475ae2f1ee797a89046291476288224d2ba7"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Proofs/KernelScale.json",
+      "sha256": "3298f8c2fb099c45e00ad13ddeea9ac3815070353440bbc25e8f6eb8c785b372"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Proofs/MachineCertificate.json",
+      "sha256": "bfc07faa9f8c32c7c3b2ef95d68cafae9a1c1005660eaab6defcb89d56f2a43d"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Proofs/NativeAddresses.json",
+      "sha256": "73922814344d2772ea554fc0dc314f0f70f3ceef16ea8298aa71d584ad13e458"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Proofs/NativeControl.json",
+      "sha256": "f8d92c31d432833ce20d4161b7db4afed47b9786f195e80d786294069f34757b"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Proofs/NativeFinalAdvance.json",
+      "sha256": "625ae773dcd2f1290c2e9868154ac93dade8ac5e77527d020b74e9e25fa35772"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Proofs/NativeGraph.json",
+      "sha256": "c6eb2a05d9030e50fbdc85d1e075082af351d870ce0802db3da9070706721978"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Proofs/NativeHost.json",
+      "sha256": "85d596b72c223f56df694807721b138676242dc7fdeef108c2dd68da6aa7f34e"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Proofs/NativeMetadata.json",
+      "sha256": "3584cf07b3cd3de2813aa836c7b984fcd391afc0dd640c7e08cc6bfbe7b815be"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Proofs/NativeProgramBridge.json",
+      "sha256": "f746ce68ce47326aefc4abef6ec9e6bc9e9163cb4fd2258ad81d026b79a02347"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Proofs/NativeRange.json",
+      "sha256": "0419d071be29f60aa8e37934af52283127e455b94a705d87e3b04e18867902c7"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Proofs/NativeReachability.json",
+      "sha256": "951f901e86fcc9ead6143ba96c0015c708ff595726d73596a4b713e7c1e828f5"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Proofs/NativeSM90.json",
+      "sha256": "bc0651d1360cd88c89e97fed83a200399fe5584bfd904d5535035a1ece54c380"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Proofs/NativeSites.json",
+      "sha256": "b24c9f864ec1b2d62316c408b45c9e877cb15c8b0232a07274348a61fa9dcbb4"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Proofs/NativeStructure.json",
+      "sha256": "ae13e79dfd727c8a156af676786aab150be8ccf91f074cfc007d589f9838ba24"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Proofs/NativeVocabulary.json",
+      "sha256": "a62dd1ec79826b8c11e7a9c153cf3258f846da41ee1020bf908d1f8deb4e48b9"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Proofs/NativeVocabularyRun.json",
+      "sha256": "55c607767a3a7958da780a2c383acbc6c4a97e18a5544a3e835af904e2bfe7a1"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Proofs/NativeWords.json",
+      "sha256": "7b96981adda39fb2290203be7d25f93ad918765a8b2b5172fd83f36e1219e942"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Proofs/Numerical.json",
+      "sha256": "afddecd58a136de66a928c56302e91df0df948c864dc14773631687bf1092224"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Proofs/Physical.json",
+      "sha256": "ab3ae138b704d65e83e54998116a5a78b325eabb662bb0c485f81d5fcd8be9e6"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Proofs/Real.json",
+      "sha256": "e033e3ee64d82d7398d4f92634569d48f7d3567fbbe0b4e05032e04df3cccfe3"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Proofs/Snapshot.json",
+      "sha256": "230fab4474b47fb78be6dff5b3b34620af5648b4797aae7950029f40af9646a7"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Proofs/SnapshotReal.json",
+      "sha256": "8b6ad34fffcf88cd8287d44dc67ec1e26d0cc265c5e60580bb534a22a4d127a1"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Proofs/Task.json",
+      "sha256": "36c063aedb50e1d333009932b14b1bd5bf988c701e902edc360ced839f5d38b1"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Proofs/Tensor.json",
+      "sha256": "3f73ea0b434abfa9eab31970fc2fce505bafb51a1b7009dd6e118a89f388f45c"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/build-receipts/Public.json",
+      "sha256": "20bc4248abf5d40fc72f3111ab15fb775281605f20e6b1c254b2a8472c4da8eb"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/cpu-check.json",
+      "sha256": "bae80902376c4f0606c0ed00793191bf9a635a3cc6a0b343505f358bd3a34acc"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/cpu-check.log",
+      "sha256": "423df652f7484e62fcae3d0dc7a197da0b3f698b2095026653645ce3149c3607"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/entry.json",
+      "sha256": "e8ce5e0405c492beaf1f7e41f6076a6b0de37e5c1b49bbf6e0338ceef5b9ed85"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/import-closure.json",
+      "sha256": "10d69ef1a12062ddc5c5d41542ec281739f8efae1c3d607a85f82c85a8a1e25f"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/initial-build.log",
+      "sha256": "c72d004a0061e5fd84e8070249674717dcfe8ef53df1205b563dc81456a541cf"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/kernel-build.log",
+      "sha256": "92980f1af36af5c77523a7ddc7357a7242051a0a698c899eef8615f930e385df"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/kernel-prelude-build.log",
+      "sha256": "9f7537437ccef278c66a5142819cd15755c516929fbae770021f7cf228c79d4d"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native/b128-d128.llir",
+      "sha256": "a9886daf7309faba668689a5a87f9dddb900a116da9fea295a309c03c8df433b"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native/b128-d128.ptx",
+      "sha256": "102ede1771001e99c666fac278f3c87a2b81cdd92ebd76707ddd4a1d93d0ba48"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native/b128-d128.ttgir",
+      "sha256": "e1b89497457aeb1dfc3e6ea69dc45f126a8fdf5c4868874f03c24b0baec4ec69"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native/b128-d128.ttir",
+      "sha256": "71f04ae63fc8645a510194a44317f8bb5b6e49625f306dc733eb6d7f9140c0b5"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native/b128-d16.llir",
+      "sha256": "d95febd7ad41e5cd63f66704a1fbc26306d04e9d06927797c2c65c975e8d7fec"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native/b128-d16.ptx",
+      "sha256": "4ad51f4d0d42e23afaa1a05eca79c1d51b8cf3ee5c06075726a0fcf2338c2957"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native/b128-d16.ttgir",
+      "sha256": "f3f34e983e8f645b9ae13266602e6cf9513f975976b4edd4469d959f1acf806a"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native/b128-d16.ttir",
+      "sha256": "9d37d17ea75ba9858f5ddb544fb941fc958ac9d59280f5b1613c374c28e4e864"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native/b128-d256.llir",
+      "sha256": "c6949f616d7f90bd8755ef4136cb27341517812bf0b7b711a8d61545a08672f0"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native/b128-d256.ptx",
+      "sha256": "98eb89044fc89d6c9c714aadb98007e233b69e6f259b1d5e4ab5c3003bd274d1"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native/b128-d256.ttgir",
+      "sha256": "6446a9310f12de973e3e26adc2a7f0b1e561afef045874cbd4003076dbb21b0e"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native/b128-d256.ttir",
+      "sha256": "566316c7ecfa895363d8016ea3401762010e3476e88e415d8236683bf809fc44"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native/b128-d32.llir",
+      "sha256": "93bf992d8b8e2a13beeb297ce617c6b12b3da2a0de02e65ca62238bb6a82f55b"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native/b128-d32.ptx",
+      "sha256": "efa449643b8a86b4fb8fbb5d871699a5f62b9a167ca02b6b6201489a4ade4c98"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native/b128-d32.ttgir",
+      "sha256": "e1a5a9fc983d5e66dfbb9a9b35fd198a2d8969b07829c8909e468ea38a5cfb0b"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native/b128-d32.ttir",
+      "sha256": "50661c9cc14f08f81fc8fe91c28a132f49efd0ffe5b5ae06548b5804a6ec1040"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native/b128-d64.llir",
+      "sha256": "25a7c1728eaffb6ed1cd6957e7064d9e75739a193a188089d95a4edfe0556193"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native/b128-d64.ptx",
+      "sha256": "519180a6311bad4754f2447089fad6223286b5d4812b4ce47c215f0b275ba8f1"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native/b128-d64.ttgir",
+      "sha256": "8ebf65407b78d6381a87ef57a705041c496d402c6d595eebe11b3a5e37d23366"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native/b128-d64.ttir",
+      "sha256": "42a39efb974f8d58f2aa2063753729970a156ed11d20eb02bd78dea72eab5769"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native/b64-d128.llir",
+      "sha256": "e52cd6cc4aea9aa062fed514bc140b3bff32dbec2c0a00dda13d85c58cf9b40a"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native/b64-d128.ptx",
+      "sha256": "651090544183e96031bbd05abc16496cf3e5a9222bc6ff6f5c3c8b2a547d2ce2"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native/b64-d128.ttgir",
+      "sha256": "541de9d22dddf8e8bb24393506242d5f2643772d0cf755d2b59c25da4d4526e7"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native/b64-d128.ttir",
+      "sha256": "7ca42cc74969cf46f6e3bb6caa2b33bb698c27bac2004c97a1e1560301afcc7f"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native/b64-d16.llir",
+      "sha256": "19d5f9da749191a79e5f17357974417de16a24cea63c2ee0b4e926b3b7fd3dc5"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native/b64-d16.ptx",
+      "sha256": "6f03b2892a3bbaedb5df449fdeeb54ccf232843281570541262374e43ac54fb6"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native/b64-d16.ttgir",
+      "sha256": "c5e1664cd944735473b5db1c3e889f793339f3dba29ce8ba54637f2c44f4448a"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native/b64-d16.ttir",
+      "sha256": "0da611e35d088239b79f26cc64b3ef7dd54f69dfc1f66ff07574085c323e4f77"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native/b64-d256.llir",
+      "sha256": "c09c5bf78ae46eacb24395ff593f68c31d31c3134778f2e02bdbe1a0acb209c1"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native/b64-d256.ptx",
+      "sha256": "8446447e2f23fdb6c1cd9c6aaff0daa12a617aa76dc3207eeb1bf804a4829955"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native/b64-d256.ttgir",
+      "sha256": "a92b04b07e303d54e3867332945c5ac9bc720c0074eb83f85dc593c245325c61"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native/b64-d256.ttir",
+      "sha256": "caebee9f3cd5b51a0d9d5eaea1880f76785b82daa4e952b68ce83a63517117ef"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native/b64-d32.llir",
+      "sha256": "f45c8efdeff468c9f8ec7feb195538972e95a090864e77947c03d41fc5e68e8c"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native/b64-d32.ptx",
+      "sha256": "c7013a52ea80ffe89b8063e0f9e35d9e652676ec066cf65636cd8ec0a30bbc5e"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native/b64-d32.ttgir",
+      "sha256": "36deb9b277a049165045fdfb5fd28f148d6ca60d63e1fe474de3e929be2ee152"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native/b64-d32.ttir",
+      "sha256": "aabc85c25bb2ea97d0b0c9f951bb91d884ccaa9761a9fa4dc539beffc53e5c97"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native/b64-d64.llir",
+      "sha256": "e93c8de9d805647733c6408f9653e0c15d543459b3adfa1deadd7ff0aa27f1ae"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native/b64-d64.ptx",
+      "sha256": "0cb3e65f826ab6abe714d7d516856ef3c0dc5c54ee08606243bac12ce10c47bc"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native/b64-d64.ttgir",
+      "sha256": "a6a8f6a190704dc73cfaeec38af27c4459bfc193910bf1dd74fdb8d625db3914"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native/b64-d64.ttir",
+      "sha256": "4ad9b79be86311edd137ddd9051cf1d32ad2ed35dd7184e8aee57d078ea34ff1"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native-probe.json",
+      "sha256": "5e5f9ead3e3f3e689df622b385f0b6317aeaf167f2f619d39f60f07a9503e2e3"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native-probe.log",
+      "sha256": "c4af6f9cd2d2c19136bff51c29056309d7f66cc27f4a5ddc768f05ddc841ab6b"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native-static.json",
+      "sha256": "7859b9f7bdc81e471e74ff48e99d212059e0df7567adf66c46df4acf3b540c11"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native-static.log",
+      "sha256": "c4af6f9cd2d2c19136bff51c29056309d7f66cc27f4a5ddc768f05ddc841ab6b"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native_probe.py",
+      "sha256": "372b7290ee649b4d933c8bd669bff63e8b5b1b3b2720189fb4a19201bf338f1b"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/native_static.py",
+      "sha256": "fa9b860a8794811f46ca61282489a2560bf876800176eabbf45784cec870843f"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/pre-revision-sources.tar.gz",
+      "sha256": "0a742c11191655da662a25813ef93d9f488134a242228e7399b46cb94e328a6f"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/prepare.py",
+      "sha256": "40b50da9feaa45016888e71867ab5e96aab7a658d7c1df24c474c63ddffa6444"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/preservation.json",
+      "sha256": "f05533700a895b921482b12c2381d71d4e80eb056561886cc3c538ddeb443a75"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/resource-audit.json",
+      "sha256": "44c2a6e110d2e3da9f66b238cf0fd4730cb0163fd30eef52b65b8846cf07a465"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/run-receipts.json",
+      "sha256": "0478c9b9c45e0453363b8cfd2bae734b18a52f93433874f8c4cfad985337e979"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/statement-audit.log",
+      "sha256": "f9a8ce83a9b86f453216473add793e811d883c5282d7761edc0f07def6907d14"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/task-builds.json",
+      "sha256": "2949e67f99737925752baac7805cbe7890389676269bb157b62b2f5521dad526"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/verify.py",
+      "sha256": "0e229bb1486ac2ba49725edc9896f01b4f50543c4d056c62f0900186195abda8"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_bloom/Proofs/Math.lean",
+      "sha256": "a73207d89312fb95ce776b0313791a3b776c2b1a81ab04dc53de72201b8da092"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Correct.lean",
+      "sha256": "04bdb3c0c98e2525fdc1396e86a5e2f5cf1606086219275c9222f34187e6a6d4"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Kernels.lean",
+      "sha256": "e22b1451a40574b699ac7fbce0b2ccb17a3f16ca6f0fbbf92919dc61aa81a3e8"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Proofs/AddressBounds.lean",
+      "sha256": "2e2139fe32f6b7d6f39c62b4fc6753950473f61eee124cb7d5a7ee0c0f3516eb"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Proofs/Bounds.lean",
+      "sha256": "a078bd66d5590a1111d6cac74d349ffd73f7b7707b303a01a9df814db21d0595"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Proofs/CellMath.lean",
+      "sha256": "63ab17329e16d84c06db565ddb1673f583d9b80a176908abab4e79aaefe063c6"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Proofs/EpilogueExecution.lean",
+      "sha256": "2b57e91d9c2dee7bad26d8af2c1aa4f190191206fc939622d9a26c9aaf8d63ee"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Proofs/EpilogueProgram.lean",
+      "sha256": "ec160c927fe9b60e0576d1052b9c59df9b60ec325ed11e25f579104a04f01f15"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Proofs/EpilogueResult.lean",
+      "sha256": "849ba22b2aedc930eaad38aa8ee0f2b4281bc29c0e1e4f9545a4a0981cc01d95"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Proofs/EpilogueSafety.lean",
+      "sha256": "005cb6a371c46fee47ab878725ac1779751560577a57bfe271eb5acc761f1de3"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Proofs/Flat.lean",
+      "sha256": "bbb9522ae72f452facea408fa65ab1c5d46b2f432cf6b48a2317627f02c6339d"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Proofs/FlattenShape.lean",
+      "sha256": "b6b33d969f49ccaec22f48bcb9c01e230586d55e3e50895babe7f4f219b69d2a"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Proofs/Formula.lean",
+      "sha256": "19c86cfaacb5de9aa64e23fd6d20d343f191b9b19a11af83a9e5457c93a6b4e1"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Proofs/Frames.lean",
+      "sha256": "d1a04ca4c85c5612dd9c9e9a1e3f81a9ccbb160c943272e9a62266573b645a0b"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Proofs/HostComposition.lean",
+      "sha256": "4b78c5801e07bec650260e2525e0d477c408ac576eab393a94951b1341737224"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Proofs/HostCoverage.lean",
+      "sha256": "fb4579f05a1961f7c243630d280c1f27553722eec03e09bd2dd66be2afd75bd5"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Proofs/HostInterface.lean",
+      "sha256": "451103360ae806def940bb7fa7cb79e25009bfb9a7e3124c4b87865257c09a55"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Proofs/HostLaunch.lean",
+      "sha256": "c03c867495367454018ce61bcefac58b7922fd3af60ff659bf63fdbaa5b74f84"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Proofs/HostParameters.lean",
+      "sha256": "96d235a4d65c5657492c23682c92a110a05e6383088d2a175d1d0e357a35f106"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Proofs/Invariant.lean",
+      "sha256": "a5686a351c5f067d9795d9c43445517d32e22eb3977bd2487ce580a9ed23063b"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Proofs/InvariantStep.lean",
+      "sha256": "86ee2abac053c986c0a222a11b210e6ef9b7591934d2b865fc4ea8c05738864b"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Proofs/IterationExecution.lean",
+      "sha256": "10ede6fe8145b0ca920301e1e960311e92d337304654ef04259f399f8c69f950"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Proofs/KeysExecution.lean",
+      "sha256": "60de52db0d1ec484a372aca810a083fd3d4a6d3937a09143f1eb349eb7e5ad34"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Proofs/LoadSafety.lean",
+      "sha256": "9e397b4b21ad98f27b89d2a4d234f18d1106a422b72efc6a87cc93fce1b57cfe"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Proofs/LoopExecution.lean",
+      "sha256": "44150a6b8c88b8ea42e10df6b3fc576a8a42ef5a5b99d334384caceecbeba0cf"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Proofs/LoopProgram.lean",
+      "sha256": "8b80d7d15f0fb256db9d75f46472d7c227c147fb52ae584a2c50e70f7492110b"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Proofs/LoopSafety.lean",
+      "sha256": "c3ce43fa2166b2c02f8b8d57a85c1115d071283eb3deff63693eba0d62a0521c"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Proofs/LoopState.lean",
+      "sha256": "1b52834722f483dc5b9494026097252fcb51dbe941f69105dfb65c5a3307d9c6"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Proofs/Meaning.lean",
+      "sha256": "80d04d31ab3b1bf756c6cc3e0f3fd88799c55e58ec73b3dc4b2cf743ca9f705b"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Proofs/NumericOps.lean",
+      "sha256": "c573214ae83cb3bc43a213afa838762e0d108f55d57d8e92d20bc736bd362873"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Proofs/NumericUpdate.lean",
+      "sha256": "48482d4ed1f3acfaf3d77eb43152c1b78b0ffad8048f5e73f5d2d4b1d986533d"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Proofs/Prelude.lean",
+      "sha256": "1b4a45ca0213f3936a3ed6556a8854abb005cc90343ae3b955307a67300cd4c6"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Proofs/PreludeComplete.lean",
+      "sha256": "f0a19714933553baf4b0d43edae7236e8d88a258fa52a35614a60aa514764442"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Proofs/PreludeExecution.lean",
+      "sha256": "abf6dd097018b516965786375638a9251890fc52ace404310fe3a69c881a62aa"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Proofs/PreludeProgram.lean",
+      "sha256": "09ac8f0d7e8deb8e67efda92d379f79bb2180cee42d2e3e5759e58d136bc4697"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Proofs/PreludeSafety.lean",
+      "sha256": "faaf2a306957b18c60f284e8f7872b2c4b60e518b50a9e69ff10a2004c7049a2"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Proofs/Program.lean",
+      "sha256": "377c57764c7bb39e4aee5aaacfc17bc4fd771c1ebb1fab16faeea3c205b35d99"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Proofs/PureSegments.lean",
+      "sha256": "c73b58816f880333380261e1cb6c40ad39bd8b5e8461882076a342bf7a086521"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Proofs/RealIO.lean",
+      "sha256": "6dfa24ee53024da219ede9cc3e45cb0fb4c94fbf129ad238511f63e072932d39"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Proofs/SafeOps.lean",
+      "sha256": "01507572972ba1a4e167dd6340f5edffe1cb0fe54d96b99e4b441a3c4c24b79c"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Proofs/ScoresExecution.lean",
+      "sha256": "ab403152c6a79a2c63f02d12a1255098097d676ca0ee53cb14f8df8b5f731784"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Proofs/StatsExecution.lean",
+      "sha256": "b2ddc51b29229d6de960fc23bb049078601ef5fad073bd0c2a7c3b75db60a48e"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Proofs/ValuesExecution.lean",
+      "sha256": "9af1976ee33aee4c0b5ae5742a91e7d58c5cddb8ae9ffaba356c072e3ea38591"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Proofs/WholeExecution.lean",
+      "sha256": "ade90c74ab4bea76d188e87809b8e411097bd112ab8ad257f03994add4bb9fbd"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Proofs/WholeProgram.lean",
+      "sha256": "c033f19f4adc914076d6e4fc0c294c6cfeafea1b070733acdedce8059c2f8ab3"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/Proofs/WholeSafety.lean",
+      "sha256": "952d3452226ab5ee87ffbd5c0b4540ce02784f87636ff2f725c146ba61e6ffa7"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/context_attn_fwd/context_attn_fwd.py",
+      "sha256": "4540e1ffb44e922bb2aa48236b0a43af75a5f185906ffcd52d25a508fb9c1370"
+    }
+  ]
+}

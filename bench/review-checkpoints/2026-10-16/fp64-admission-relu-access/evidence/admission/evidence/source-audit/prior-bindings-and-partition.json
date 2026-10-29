@@ -1,0 +1,4577 @@
+{
+  "kind": "read_only_design_assessment_evidence_not_formal_source_proof",
+  "created_utc": "2026-10-15T17:30:42.981038+00:00",
+  "files": {
+    "original_python": {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/vector_addition/vector_addition.py",
+      "sha256": "cfcb749bd562924106c1e0e95e18a9bd987238be3a3b522abac89e099de3d098"
+    },
+    "lean_dispatch": {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/vector_addition/Proofs/DTypeScope.lean",
+      "sha256": "47f247289be76548b31f0fe787a3ba7b9058f7457409bdb6226437ca99558312"
+    },
+    "triton_core": {
+      "path": "/usr/local/lib/python3.12/site-packages/triton/language/core.py",
+      "sha256": "373eebe68a4c1f6959c81ae6c382b65c5c2893d53274a205f5ff9bbb100fb31b"
+    },
+    "triton_semantic": {
+      "path": "/usr/local/lib/python3.12/site-packages/triton/language/semantic.py",
+      "sha256": "22b7669ff8ba591fc1540ce01a4030cf54aa2dccfdb21c2d31fa55d5cab77c7c"
+    },
+    "triton_codegen": {
+      "path": "/usr/local/lib/python3.12/site-packages/triton/compiler/code_generator.py",
+      "sha256": "80eb0041c6a610905fd22271e7c9d4082afd622241eef7c7ef06a853deef7df6"
+    },
+    "triton_compiler": {
+      "path": "/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py",
+      "sha256": "021a45ca590052ab6ca6d850eb0a102abf542165836ad92bfb3bb573218fc5d3"
+    },
+    "triton_backend": {
+      "path": "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/compiler.py",
+      "sha256": "d012f2a7e705592e590630a0df58099ceeb9ef71517c561fc81644c0c9399658"
+    },
+    "triton_canonicalization": {
+      "path": "/usr/local/lib/python3.12/site-packages/triton/_utils.py",
+      "sha256": "a471ac2230f829d11e9ce32481053d444ec7ced596ca97bb537c509f6b86479d"
+    },
+    "triton_signature_parser": {
+      "path": "/usr/local/lib/python3.12/site-packages/triton/language/__init__.py",
+      "sha256": "6404a9f68159005aa87585cc566637d200237a4c180158bf47d72e1c0018f778"
+    },
+    "triton_jit": {
+      "path": "/usr/local/lib/python3.12/site-packages/triton/runtime/jit.py",
+      "sha256": "5fe46fbfac257a2b8645b7a2cc709232273d42dd5e1d55de9770b412a9476d77"
+    },
+    "probe_receipt": {
+      "path": "/tmp/veritile-standardization-20261015/vector-addition-dtype-extension-wip/evidence/extension-audit/receipt.json",
+      "sha256": "2ae119ae07d7e8d8921a108b4d84d33edc2b4aebcfd98d552acb2414c56ae356"
+    },
+    "promotion_matrix": {
+      "path": "/tmp/veritile-standardization-20261015/vector-addition-dtype-extension-wip/evidence/extension-audit/promotion-matrix.json",
+      "sha256": "6049ee18bc252e0b8aab035fde83c219be9da7735b58a2779a0cccf4e98bc854"
+    },
+    "frontend_matrix": {
+      "path": "/tmp/veritile-standardization-20261015/vector-addition-dtype-extension-wip/evidence/extension-audit/frontend-probes.json",
+      "sha256": "c2144ce59211936c617ff01f62780cc06c5130a25bcd5f563b2df197fc7244e1"
+    },
+    "probe": {
+      "path": "/tmp/veritile-standardization-20261015/vector-addition-dtype-extension-wip/evidence/extension-audit/probe.py",
+      "sha256": "f364b51d05402340a46343c1e101b56640bdd90f036081b15da6d9da06255f46"
+    },
+    "kernel_extract": {
+      "path": "/tmp/veritile-standardization-20261015/vector-addition-dtype-extension-wip/evidence/extension-audit/extracted_add_kernel.py",
+      "sha256": "13c30d95982be23ca6de39011654bcd0ca1fdc6e3c37d11d17dae0f33f195e36"
+    }
+  },
+  "source_units": [
+    {
+      "source": "original_python",
+      "qualified_name": "add_kernel",
+      "line_start": 6,
+      "line_end": 19,
+      "text_file": "original_python__add_kernel.txt",
+      "text_sha256": "4f5e938b87c95f41296e00fb903538048ee5e4c5f9b6a0ddf443e80f6e1a31c3",
+      "ast_sha256": "1b3ed620ff560c1c3abc20219224576b9aff962f5dd651611fe8d4af778a06dc"
+    },
+    {
+      "source": "original_python",
+      "qualified_name": "add",
+      "line_start": 21,
+      "line_end": 27,
+      "text_file": "original_python__add.txt",
+      "text_sha256": "39191350762eee7013aba464b39d0485f93a986c1071a33abc5ce77f1f1c6cf0",
+      "ast_sha256": "bfb7ef1917fb22396b0961ac33318418a6706f34d5b21b210d7649c43bb19dcd"
+    },
+    {
+      "source": "original_python",
+      "qualified_name": "test_add",
+      "line_start": 34,
+      "line_end": 68,
+      "text_file": "original_python__test_add.txt",
+      "text_sha256": "9c4d6ceebe682675a8fc0827f6509a1081620932d7267821a4c8d08cee11c0ef",
+      "ast_sha256": "8343b84fcadbffb1f8d8635e34310cc5a5582b602a080b2326bc8de62771274c"
+    },
+    {
+      "source": "triton_core",
+      "qualified_name": "dtype.to_ir",
+      "line_start": 577,
+      "line_end": 613,
+      "text_file": "triton_core__dtype_to_ir.txt",
+      "text_sha256": "bd4e5bd683c0f095c44d471546ed6d70a9c9d9968154d5eef00d0158f5218f7e",
+      "ast_sha256": "0e28d11f765e60f5a304c1290662f89a236712e70856805158d09680147a2b19"
+    },
+    {
+      "source": "triton_core",
+      "qualified_name": "pointer_type.to_ir",
+      "line_start": 671,
+      "line_end": 672,
+      "text_file": "triton_core__pointer_type_to_ir.txt",
+      "text_sha256": "cac4bbbadc6eec6de47ad633ab78862b0b0c510a95f8615b4aee4dca790a9984",
+      "ast_sha256": "d38a6d489fdec39900ec09fceecfb8976c9b5f3c39afa53d0596c07d0ab8ad1c"
+    },
+    {
+      "source": "triton_core",
+      "qualified_name": "dtype._flatten_ir_types",
+      "line_start": 574,
+      "line_end": 575,
+      "text_file": "triton_core__dtype__flatten_ir_types.txt",
+      "text_sha256": "d57dbe0f64d4d83899f1805892e964a64d91c6266f3d3bb149d81cf49a7eeb64",
+      "ast_sha256": "7efcbc64ebf452dcc38443cb92d8aa88383ac6a4cb590397c382014ef85151d8"
+    },
+    {
+      "source": "triton_semantic",
+      "qualified_name": "TritonSemantic.integer_promote_impl",
+      "line_start": 53,
+      "line_end": 66,
+      "text_file": "triton_semantic__TritonSemantic_integer_promote_impl.txt",
+      "text_sha256": "7321a1ab440a9bee6928b2f3f955f667a7c23e5991f069d33b54defcf2ef375f",
+      "ast_sha256": "8e8d821cf000009cb7bed8d01b58858985dbfa82c538e208807adb100ea600c2"
+    },
+    {
+      "source": "triton_semantic",
+      "qualified_name": "TritonSemantic.computation_type_impl",
+      "line_start": 68,
+      "line_end": 116,
+      "text_file": "triton_semantic__TritonSemantic_computation_type_impl.txt",
+      "text_sha256": "fda5159dddb0544fd53b53a72f7ef909f450f05a03b19f1dbfe5767e07913504",
+      "ast_sha256": "3cfc87cd7419c479fb68771491f461b28f71ec48647ed5f10ecec980fa095603"
+    },
+    {
+      "source": "triton_semantic",
+      "qualified_name": "TritonSemantic.binary_op_type_checking_impl",
+      "line_start": 175,
+      "line_end": 210,
+      "text_file": "triton_semantic__TritonSemantic_binary_op_type_checking_impl.txt",
+      "text_sha256": "503ea09edfd58574c98215c2d768a88c1b219e7fe58042fefaba44710c6f25ec",
+      "ast_sha256": "7383bbc4f9e30b4253bf7a5773e03efe595848793599b790c05f07cc27ff4da3"
+    },
+    {
+      "source": "triton_semantic",
+      "qualified_name": "TritonSemantic.add",
+      "line_start": 230,
+      "line_end": 259,
+      "text_file": "triton_semantic__TritonSemantic_add.txt",
+      "text_sha256": "53d586057f0ce57fa4d154a8b40a1d4b4c5c439becd949a7859445f2ee6518a2",
+      "ast_sha256": "f367753aed68ad3abacb641e1a754f40ac26d53a38117be9271b14c435d29962"
+    },
+    {
+      "source": "triton_codegen",
+      "qualified_name": "ASTFunction.flatten_ir_types",
+      "line_start": 226,
+      "line_end": 232,
+      "text_file": "triton_codegen__ASTFunction_flatten_ir_types.txt",
+      "text_sha256": "f52f01ee015dbe4484dc129f0c3814c77e093596ca6841609af5f31e5a7d7233",
+      "ast_sha256": "ead97102bb96b6722085deb2f9b28a95208084c60316cd0212fc6015d4ecf4b1"
+    },
+    {
+      "source": "triton_codegen",
+      "qualified_name": "ASTFunction.serialize",
+      "line_start": 237,
+      "line_end": 241,
+      "text_file": "triton_codegen__ASTFunction_serialize.txt",
+      "text_sha256": "3e9157ef6d1e75420474d608cff57d1f074c9db6e469cd20f256ce07d333caae",
+      "ast_sha256": "3ec998123c4963ced249917986e055765d5597d22d6d037e2e1038190c176ddb"
+    },
+    {
+      "source": "triton_codegen",
+      "qualified_name": "CodeGenerator.visit_FunctionDef",
+      "line_start": 616,
+      "line_end": 659,
+      "text_file": "triton_codegen__CodeGenerator_visit_FunctionDef.txt",
+      "text_sha256": "6ef2376a86cb43fc8535d6d77b3daefcd83752e225d806a91125d4bf15e44284",
+      "ast_sha256": "8528d28552b57d2f96582b2f44c28586dc3a964c6d3bfa48b35f40dcd94cc7c2"
+    },
+    {
+      "source": "triton_codegen",
+      "qualified_name": "ast_to_ttir",
+      "line_start": 1620,
+      "line_end": 1659,
+      "text_file": "triton_codegen__ast_to_ttir.txt",
+      "text_sha256": "d7095a4fdc5e01581404bac6681bd996ffed82fbbc44991040044bc321a1e5fb",
+      "ast_sha256": "974e12da7a362e82888b8b4bd057f7c00d549cb417cfabdb86fe5416831ea33c"
+    },
+    {
+      "source": "triton_compiler",
+      "qualified_name": "ASTSource.make_ir",
+      "line_start": 78,
+      "line_end": 81,
+      "text_file": "triton_compiler__ASTSource_make_ir.txt",
+      "text_sha256": "cfe1b06b2104fcb5deee8cbb681cafcd2afd6465afa90149d2360bce2aa572ad",
+      "ast_sha256": "5a59cc2d80b8fc8c5eb0b4b0704d59ac3f089f8ca85a65a0dde395dd004fdeae"
+    },
+    {
+      "source": "triton_backend",
+      "qualified_name": "CUDABackend.parse_options",
+      "line_start": 176,
+      "line_end": 206,
+      "text_file": "triton_backend__CUDABackend_parse_options.txt",
+      "text_sha256": "de3ca06a804e6bce290c7ba25f73f02f828e8613da1104a7429c4ed4b51b6956",
+      "ast_sha256": "3dde8e282c91f557b6577f0b3d03cbe9bab3b9db29cba34c6d92aa4edd7c264a"
+    },
+    {
+      "source": "triton_signature_parser",
+      "qualified_name": "str_to_ty",
+      "line_start": 288,
+      "line_end": 356,
+      "text_file": "triton_signature_parser__str_to_ty.txt",
+      "text_sha256": "54c9e8cce28c371ec5fec831d8b1319fea995dec72e62c9d1fccfe712b293c39",
+      "ast_sha256": "763c6874978dc95d8dc9e3e821e576251eaf729cfbfe0476ff4d987d9f466b71"
+    }
+  ],
+  "kernel_extraction_ast_identical": true,
+  "target": {
+    "backend": "cuda",
+    "arch": 90,
+    "block_size": 1024,
+    "supported_fp8_dtypes": [
+      "fp8e4b15",
+      "fp8e4nv",
+      "fp8e5"
+    ]
+  },
+  "cross_counts": {
+    "passes_selected_dtype_gates:promoted": 189,
+    "addition_promotion_rejection:promotion_error": 36,
+    "signature_fp8_rejection:promotion_error": 36,
+    "signature_fp8_rejection:promoted": 28
+  },
+  "rows": [
+    {
+      "x": "bool",
+      "y": "bool",
+      "promotion_status": "promoted",
+      "promotion_result": "int1",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u1",
+        "y_ptr": "*u1",
+        "output_ptr": "*u1",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "bool",
+      "y": "int8",
+      "promotion_status": "promoted",
+      "promotion_result": "int8",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u1",
+        "y_ptr": "*i8",
+        "output_ptr": "*u1",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "bool",
+      "y": "uint8",
+      "promotion_status": "promoted",
+      "promotion_result": "uint8",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u1",
+        "y_ptr": "*u8",
+        "output_ptr": "*u1",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "bool",
+      "y": "int16",
+      "promotion_status": "promoted",
+      "promotion_result": "int16",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u1",
+        "y_ptr": "*i16",
+        "output_ptr": "*u1",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "bool",
+      "y": "uint16",
+      "promotion_status": "promoted",
+      "promotion_result": "uint16",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u1",
+        "y_ptr": "*u16",
+        "output_ptr": "*u1",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "bool",
+      "y": "int32",
+      "promotion_status": "promoted",
+      "promotion_result": "int32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u1",
+        "y_ptr": "*i32",
+        "output_ptr": "*u1",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "bool",
+      "y": "uint32",
+      "promotion_status": "promoted",
+      "promotion_result": "uint32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u1",
+        "y_ptr": "*u32",
+        "output_ptr": "*u1",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "bool",
+      "y": "int64",
+      "promotion_status": "promoted",
+      "promotion_result": "int64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u1",
+        "y_ptr": "*i64",
+        "output_ptr": "*u1",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "bool",
+      "y": "uint64",
+      "promotion_status": "promoted",
+      "promotion_result": "uint64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u1",
+        "y_ptr": "*u64",
+        "output_ptr": "*u1",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "bool",
+      "y": "float16",
+      "promotion_status": "promoted",
+      "promotion_result": "fp16",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u1",
+        "y_ptr": "*fp16",
+        "output_ptr": "*u1",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "bool",
+      "y": "bfloat16",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u1",
+        "y_ptr": "*bf16",
+        "output_ptr": "*u1",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "bool",
+      "y": "float32",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u1",
+        "y_ptr": "*fp32",
+        "output_ptr": "*u1",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "bool",
+      "y": "float64",
+      "promotion_status": "promoted",
+      "promotion_result": "fp64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u1",
+        "y_ptr": "*fp64",
+        "output_ptr": "*u1",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "bool",
+      "y": "float8_e4m3fn",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "addition_promotion_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 13:13:\n               y_ptr: tl.tensor,  # *Pointer* to second input vector.\n               output_ptr: tl.tensor,  # *Pointer* to output vector.\n               n_elements: tl.int32,  # Size of the vector.\n               BLOCK_SIZE: tl.constexpr,  # Number of elements each program should process.\n               ):\n    pid = tl.program_id(axis=0)  # We use a 1D launch grid so axis is 0.\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    y = tl.load(y_ptr + offsets, mask=mask)\n    output = x + y\n             ^\nTypeError('unexpected type int1 and fp8e4nv')",
+      "signature": {
+        "x_ptr": "*u1",
+        "y_ptr": "*fp8e4nv",
+        "output_ptr": "*u1",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "bool",
+      "y": "float8_e5m2",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "addition_promotion_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 13:13:\n               y_ptr: tl.tensor,  # *Pointer* to second input vector.\n               output_ptr: tl.tensor,  # *Pointer* to output vector.\n               n_elements: tl.int32,  # Size of the vector.\n               BLOCK_SIZE: tl.constexpr,  # Number of elements each program should process.\n               ):\n    pid = tl.program_id(axis=0)  # We use a 1D launch grid so axis is 0.\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    y = tl.load(y_ptr + offsets, mask=mask)\n    output = x + y\n             ^\nTypeError('unexpected type int1 and fp8e5')",
+      "signature": {
+        "x_ptr": "*u1",
+        "y_ptr": "*fp8e5",
+        "output_ptr": "*u1",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "bool",
+      "y": "float8_e4m3fnuz",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*u1",
+        "y_ptr": "*fp8e4b8",
+        "output_ptr": "*u1",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "bool",
+      "y": "float8_e5m2fnuz",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*u1",
+        "y_ptr": "*fp8e5b16",
+        "output_ptr": "*u1",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int8",
+      "y": "bool",
+      "promotion_status": "promoted",
+      "promotion_result": "int8",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i8",
+        "y_ptr": "*u1",
+        "output_ptr": "*i8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int8",
+      "y": "int8",
+      "promotion_status": "promoted",
+      "promotion_result": "int8",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i8",
+        "y_ptr": "*i8",
+        "output_ptr": "*i8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int8",
+      "y": "uint8",
+      "promotion_status": "promoted",
+      "promotion_result": "uint8",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i8",
+        "y_ptr": "*u8",
+        "output_ptr": "*i8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int8",
+      "y": "int16",
+      "promotion_status": "promoted",
+      "promotion_result": "int16",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i8",
+        "y_ptr": "*i16",
+        "output_ptr": "*i8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int8",
+      "y": "uint16",
+      "promotion_status": "promoted",
+      "promotion_result": "uint16",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i8",
+        "y_ptr": "*u16",
+        "output_ptr": "*i8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int8",
+      "y": "int32",
+      "promotion_status": "promoted",
+      "promotion_result": "int32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i8",
+        "y_ptr": "*i32",
+        "output_ptr": "*i8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int8",
+      "y": "uint32",
+      "promotion_status": "promoted",
+      "promotion_result": "uint32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i8",
+        "y_ptr": "*u32",
+        "output_ptr": "*i8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int8",
+      "y": "int64",
+      "promotion_status": "promoted",
+      "promotion_result": "int64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i8",
+        "y_ptr": "*i64",
+        "output_ptr": "*i8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int8",
+      "y": "uint64",
+      "promotion_status": "promoted",
+      "promotion_result": "uint64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i8",
+        "y_ptr": "*u64",
+        "output_ptr": "*i8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int8",
+      "y": "float16",
+      "promotion_status": "promoted",
+      "promotion_result": "fp16",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i8",
+        "y_ptr": "*fp16",
+        "output_ptr": "*i8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int8",
+      "y": "bfloat16",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i8",
+        "y_ptr": "*bf16",
+        "output_ptr": "*i8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int8",
+      "y": "float32",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i8",
+        "y_ptr": "*fp32",
+        "output_ptr": "*i8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int8",
+      "y": "float64",
+      "promotion_status": "promoted",
+      "promotion_result": "fp64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i8",
+        "y_ptr": "*fp64",
+        "output_ptr": "*i8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int8",
+      "y": "float8_e4m3fn",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "addition_promotion_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 13:13:\n               y_ptr: tl.tensor,  # *Pointer* to second input vector.\n               output_ptr: tl.tensor,  # *Pointer* to output vector.\n               n_elements: tl.int32,  # Size of the vector.\n               BLOCK_SIZE: tl.constexpr,  # Number of elements each program should process.\n               ):\n    pid = tl.program_id(axis=0)  # We use a 1D launch grid so axis is 0.\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    y = tl.load(y_ptr + offsets, mask=mask)\n    output = x + y\n             ^\nTypeError('unexpected type int8 and fp8e4nv')",
+      "signature": {
+        "x_ptr": "*i8",
+        "y_ptr": "*fp8e4nv",
+        "output_ptr": "*i8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int8",
+      "y": "float8_e5m2",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "addition_promotion_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 13:13:\n               y_ptr: tl.tensor,  # *Pointer* to second input vector.\n               output_ptr: tl.tensor,  # *Pointer* to output vector.\n               n_elements: tl.int32,  # Size of the vector.\n               BLOCK_SIZE: tl.constexpr,  # Number of elements each program should process.\n               ):\n    pid = tl.program_id(axis=0)  # We use a 1D launch grid so axis is 0.\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    y = tl.load(y_ptr + offsets, mask=mask)\n    output = x + y\n             ^\nTypeError('unexpected type int8 and fp8e5')",
+      "signature": {
+        "x_ptr": "*i8",
+        "y_ptr": "*fp8e5",
+        "output_ptr": "*i8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int8",
+      "y": "float8_e4m3fnuz",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*i8",
+        "y_ptr": "*fp8e4b8",
+        "output_ptr": "*i8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int8",
+      "y": "float8_e5m2fnuz",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*i8",
+        "y_ptr": "*fp8e5b16",
+        "output_ptr": "*i8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint8",
+      "y": "bool",
+      "promotion_status": "promoted",
+      "promotion_result": "uint8",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u8",
+        "y_ptr": "*u1",
+        "output_ptr": "*u8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint8",
+      "y": "int8",
+      "promotion_status": "promoted",
+      "promotion_result": "uint8",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u8",
+        "y_ptr": "*i8",
+        "output_ptr": "*u8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint8",
+      "y": "uint8",
+      "promotion_status": "promoted",
+      "promotion_result": "uint8",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u8",
+        "y_ptr": "*u8",
+        "output_ptr": "*u8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint8",
+      "y": "int16",
+      "promotion_status": "promoted",
+      "promotion_result": "int16",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u8",
+        "y_ptr": "*i16",
+        "output_ptr": "*u8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint8",
+      "y": "uint16",
+      "promotion_status": "promoted",
+      "promotion_result": "uint16",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u8",
+        "y_ptr": "*u16",
+        "output_ptr": "*u8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint8",
+      "y": "int32",
+      "promotion_status": "promoted",
+      "promotion_result": "int32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u8",
+        "y_ptr": "*i32",
+        "output_ptr": "*u8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint8",
+      "y": "uint32",
+      "promotion_status": "promoted",
+      "promotion_result": "uint32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u8",
+        "y_ptr": "*u32",
+        "output_ptr": "*u8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint8",
+      "y": "int64",
+      "promotion_status": "promoted",
+      "promotion_result": "int64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u8",
+        "y_ptr": "*i64",
+        "output_ptr": "*u8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint8",
+      "y": "uint64",
+      "promotion_status": "promoted",
+      "promotion_result": "uint64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u8",
+        "y_ptr": "*u64",
+        "output_ptr": "*u8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint8",
+      "y": "float16",
+      "promotion_status": "promoted",
+      "promotion_result": "fp16",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u8",
+        "y_ptr": "*fp16",
+        "output_ptr": "*u8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint8",
+      "y": "bfloat16",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u8",
+        "y_ptr": "*bf16",
+        "output_ptr": "*u8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint8",
+      "y": "float32",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u8",
+        "y_ptr": "*fp32",
+        "output_ptr": "*u8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint8",
+      "y": "float64",
+      "promotion_status": "promoted",
+      "promotion_result": "fp64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u8",
+        "y_ptr": "*fp64",
+        "output_ptr": "*u8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint8",
+      "y": "float8_e4m3fn",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "addition_promotion_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 13:13:\n               y_ptr: tl.tensor,  # *Pointer* to second input vector.\n               output_ptr: tl.tensor,  # *Pointer* to output vector.\n               n_elements: tl.int32,  # Size of the vector.\n               BLOCK_SIZE: tl.constexpr,  # Number of elements each program should process.\n               ):\n    pid = tl.program_id(axis=0)  # We use a 1D launch grid so axis is 0.\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    y = tl.load(y_ptr + offsets, mask=mask)\n    output = x + y\n             ^\nTypeError('unexpected type uint8 and fp8e4nv')",
+      "signature": {
+        "x_ptr": "*u8",
+        "y_ptr": "*fp8e4nv",
+        "output_ptr": "*u8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint8",
+      "y": "float8_e5m2",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "addition_promotion_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 13:13:\n               y_ptr: tl.tensor,  # *Pointer* to second input vector.\n               output_ptr: tl.tensor,  # *Pointer* to output vector.\n               n_elements: tl.int32,  # Size of the vector.\n               BLOCK_SIZE: tl.constexpr,  # Number of elements each program should process.\n               ):\n    pid = tl.program_id(axis=0)  # We use a 1D launch grid so axis is 0.\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    y = tl.load(y_ptr + offsets, mask=mask)\n    output = x + y\n             ^\nTypeError('unexpected type uint8 and fp8e5')",
+      "signature": {
+        "x_ptr": "*u8",
+        "y_ptr": "*fp8e5",
+        "output_ptr": "*u8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint8",
+      "y": "float8_e4m3fnuz",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*u8",
+        "y_ptr": "*fp8e4b8",
+        "output_ptr": "*u8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint8",
+      "y": "float8_e5m2fnuz",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*u8",
+        "y_ptr": "*fp8e5b16",
+        "output_ptr": "*u8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int16",
+      "y": "bool",
+      "promotion_status": "promoted",
+      "promotion_result": "int16",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i16",
+        "y_ptr": "*u1",
+        "output_ptr": "*i16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int16",
+      "y": "int8",
+      "promotion_status": "promoted",
+      "promotion_result": "int16",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i16",
+        "y_ptr": "*i8",
+        "output_ptr": "*i16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int16",
+      "y": "uint8",
+      "promotion_status": "promoted",
+      "promotion_result": "int16",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i16",
+        "y_ptr": "*u8",
+        "output_ptr": "*i16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int16",
+      "y": "int16",
+      "promotion_status": "promoted",
+      "promotion_result": "int16",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i16",
+        "y_ptr": "*i16",
+        "output_ptr": "*i16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int16",
+      "y": "uint16",
+      "promotion_status": "promoted",
+      "promotion_result": "uint16",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i16",
+        "y_ptr": "*u16",
+        "output_ptr": "*i16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int16",
+      "y": "int32",
+      "promotion_status": "promoted",
+      "promotion_result": "int32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i16",
+        "y_ptr": "*i32",
+        "output_ptr": "*i16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int16",
+      "y": "uint32",
+      "promotion_status": "promoted",
+      "promotion_result": "uint32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i16",
+        "y_ptr": "*u32",
+        "output_ptr": "*i16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int16",
+      "y": "int64",
+      "promotion_status": "promoted",
+      "promotion_result": "int64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i16",
+        "y_ptr": "*i64",
+        "output_ptr": "*i16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int16",
+      "y": "uint64",
+      "promotion_status": "promoted",
+      "promotion_result": "uint64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i16",
+        "y_ptr": "*u64",
+        "output_ptr": "*i16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int16",
+      "y": "float16",
+      "promotion_status": "promoted",
+      "promotion_result": "fp16",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i16",
+        "y_ptr": "*fp16",
+        "output_ptr": "*i16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int16",
+      "y": "bfloat16",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i16",
+        "y_ptr": "*bf16",
+        "output_ptr": "*i16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int16",
+      "y": "float32",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i16",
+        "y_ptr": "*fp32",
+        "output_ptr": "*i16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int16",
+      "y": "float64",
+      "promotion_status": "promoted",
+      "promotion_result": "fp64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i16",
+        "y_ptr": "*fp64",
+        "output_ptr": "*i16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int16",
+      "y": "float8_e4m3fn",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "addition_promotion_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 13:13:\n               y_ptr: tl.tensor,  # *Pointer* to second input vector.\n               output_ptr: tl.tensor,  # *Pointer* to output vector.\n               n_elements: tl.int32,  # Size of the vector.\n               BLOCK_SIZE: tl.constexpr,  # Number of elements each program should process.\n               ):\n    pid = tl.program_id(axis=0)  # We use a 1D launch grid so axis is 0.\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    y = tl.load(y_ptr + offsets, mask=mask)\n    output = x + y\n             ^\nTypeError('unexpected type int16 and fp8e4nv')",
+      "signature": {
+        "x_ptr": "*i16",
+        "y_ptr": "*fp8e4nv",
+        "output_ptr": "*i16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int16",
+      "y": "float8_e5m2",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "addition_promotion_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 13:13:\n               y_ptr: tl.tensor,  # *Pointer* to second input vector.\n               output_ptr: tl.tensor,  # *Pointer* to output vector.\n               n_elements: tl.int32,  # Size of the vector.\n               BLOCK_SIZE: tl.constexpr,  # Number of elements each program should process.\n               ):\n    pid = tl.program_id(axis=0)  # We use a 1D launch grid so axis is 0.\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    y = tl.load(y_ptr + offsets, mask=mask)\n    output = x + y\n             ^\nTypeError('unexpected type int16 and fp8e5')",
+      "signature": {
+        "x_ptr": "*i16",
+        "y_ptr": "*fp8e5",
+        "output_ptr": "*i16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int16",
+      "y": "float8_e4m3fnuz",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*i16",
+        "y_ptr": "*fp8e4b8",
+        "output_ptr": "*i16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int16",
+      "y": "float8_e5m2fnuz",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*i16",
+        "y_ptr": "*fp8e5b16",
+        "output_ptr": "*i16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint16",
+      "y": "bool",
+      "promotion_status": "promoted",
+      "promotion_result": "uint16",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u16",
+        "y_ptr": "*u1",
+        "output_ptr": "*u16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint16",
+      "y": "int8",
+      "promotion_status": "promoted",
+      "promotion_result": "uint16",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u16",
+        "y_ptr": "*i8",
+        "output_ptr": "*u16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint16",
+      "y": "uint8",
+      "promotion_status": "promoted",
+      "promotion_result": "uint16",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u16",
+        "y_ptr": "*u8",
+        "output_ptr": "*u16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint16",
+      "y": "int16",
+      "promotion_status": "promoted",
+      "promotion_result": "uint16",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u16",
+        "y_ptr": "*i16",
+        "output_ptr": "*u16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint16",
+      "y": "uint16",
+      "promotion_status": "promoted",
+      "promotion_result": "uint16",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u16",
+        "y_ptr": "*u16",
+        "output_ptr": "*u16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint16",
+      "y": "int32",
+      "promotion_status": "promoted",
+      "promotion_result": "int32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u16",
+        "y_ptr": "*i32",
+        "output_ptr": "*u16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint16",
+      "y": "uint32",
+      "promotion_status": "promoted",
+      "promotion_result": "uint32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u16",
+        "y_ptr": "*u32",
+        "output_ptr": "*u16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint16",
+      "y": "int64",
+      "promotion_status": "promoted",
+      "promotion_result": "int64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u16",
+        "y_ptr": "*i64",
+        "output_ptr": "*u16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint16",
+      "y": "uint64",
+      "promotion_status": "promoted",
+      "promotion_result": "uint64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u16",
+        "y_ptr": "*u64",
+        "output_ptr": "*u16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint16",
+      "y": "float16",
+      "promotion_status": "promoted",
+      "promotion_result": "fp16",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u16",
+        "y_ptr": "*fp16",
+        "output_ptr": "*u16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint16",
+      "y": "bfloat16",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u16",
+        "y_ptr": "*bf16",
+        "output_ptr": "*u16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint16",
+      "y": "float32",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u16",
+        "y_ptr": "*fp32",
+        "output_ptr": "*u16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint16",
+      "y": "float64",
+      "promotion_status": "promoted",
+      "promotion_result": "fp64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u16",
+        "y_ptr": "*fp64",
+        "output_ptr": "*u16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint16",
+      "y": "float8_e4m3fn",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "addition_promotion_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 13:13:\n               y_ptr: tl.tensor,  # *Pointer* to second input vector.\n               output_ptr: tl.tensor,  # *Pointer* to output vector.\n               n_elements: tl.int32,  # Size of the vector.\n               BLOCK_SIZE: tl.constexpr,  # Number of elements each program should process.\n               ):\n    pid = tl.program_id(axis=0)  # We use a 1D launch grid so axis is 0.\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    y = tl.load(y_ptr + offsets, mask=mask)\n    output = x + y\n             ^\nTypeError('unexpected type uint16 and fp8e4nv')",
+      "signature": {
+        "x_ptr": "*u16",
+        "y_ptr": "*fp8e4nv",
+        "output_ptr": "*u16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint16",
+      "y": "float8_e5m2",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "addition_promotion_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 13:13:\n               y_ptr: tl.tensor,  # *Pointer* to second input vector.\n               output_ptr: tl.tensor,  # *Pointer* to output vector.\n               n_elements: tl.int32,  # Size of the vector.\n               BLOCK_SIZE: tl.constexpr,  # Number of elements each program should process.\n               ):\n    pid = tl.program_id(axis=0)  # We use a 1D launch grid so axis is 0.\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    y = tl.load(y_ptr + offsets, mask=mask)\n    output = x + y\n             ^\nTypeError('unexpected type uint16 and fp8e5')",
+      "signature": {
+        "x_ptr": "*u16",
+        "y_ptr": "*fp8e5",
+        "output_ptr": "*u16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint16",
+      "y": "float8_e4m3fnuz",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*u16",
+        "y_ptr": "*fp8e4b8",
+        "output_ptr": "*u16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint16",
+      "y": "float8_e5m2fnuz",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*u16",
+        "y_ptr": "*fp8e5b16",
+        "output_ptr": "*u16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int32",
+      "y": "bool",
+      "promotion_status": "promoted",
+      "promotion_result": "int32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i32",
+        "y_ptr": "*u1",
+        "output_ptr": "*i32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int32",
+      "y": "int8",
+      "promotion_status": "promoted",
+      "promotion_result": "int32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i32",
+        "y_ptr": "*i8",
+        "output_ptr": "*i32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int32",
+      "y": "uint8",
+      "promotion_status": "promoted",
+      "promotion_result": "int32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i32",
+        "y_ptr": "*u8",
+        "output_ptr": "*i32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int32",
+      "y": "int16",
+      "promotion_status": "promoted",
+      "promotion_result": "int32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i32",
+        "y_ptr": "*i16",
+        "output_ptr": "*i32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int32",
+      "y": "uint16",
+      "promotion_status": "promoted",
+      "promotion_result": "int32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i32",
+        "y_ptr": "*u16",
+        "output_ptr": "*i32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int32",
+      "y": "int32",
+      "promotion_status": "promoted",
+      "promotion_result": "int32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i32",
+        "y_ptr": "*i32",
+        "output_ptr": "*i32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int32",
+      "y": "uint32",
+      "promotion_status": "promoted",
+      "promotion_result": "uint32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i32",
+        "y_ptr": "*u32",
+        "output_ptr": "*i32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int32",
+      "y": "int64",
+      "promotion_status": "promoted",
+      "promotion_result": "int64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i32",
+        "y_ptr": "*i64",
+        "output_ptr": "*i32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int32",
+      "y": "uint64",
+      "promotion_status": "promoted",
+      "promotion_result": "uint64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i32",
+        "y_ptr": "*u64",
+        "output_ptr": "*i32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int32",
+      "y": "float16",
+      "promotion_status": "promoted",
+      "promotion_result": "fp16",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i32",
+        "y_ptr": "*fp16",
+        "output_ptr": "*i32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int32",
+      "y": "bfloat16",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i32",
+        "y_ptr": "*bf16",
+        "output_ptr": "*i32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int32",
+      "y": "float32",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i32",
+        "y_ptr": "*fp32",
+        "output_ptr": "*i32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int32",
+      "y": "float64",
+      "promotion_status": "promoted",
+      "promotion_result": "fp64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i32",
+        "y_ptr": "*fp64",
+        "output_ptr": "*i32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int32",
+      "y": "float8_e4m3fn",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "addition_promotion_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 13:13:\n               y_ptr: tl.tensor,  # *Pointer* to second input vector.\n               output_ptr: tl.tensor,  # *Pointer* to output vector.\n               n_elements: tl.int32,  # Size of the vector.\n               BLOCK_SIZE: tl.constexpr,  # Number of elements each program should process.\n               ):\n    pid = tl.program_id(axis=0)  # We use a 1D launch grid so axis is 0.\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    y = tl.load(y_ptr + offsets, mask=mask)\n    output = x + y\n             ^\nTypeError('unexpected type int32 and fp8e4nv')",
+      "signature": {
+        "x_ptr": "*i32",
+        "y_ptr": "*fp8e4nv",
+        "output_ptr": "*i32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int32",
+      "y": "float8_e5m2",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "addition_promotion_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 13:13:\n               y_ptr: tl.tensor,  # *Pointer* to second input vector.\n               output_ptr: tl.tensor,  # *Pointer* to output vector.\n               n_elements: tl.int32,  # Size of the vector.\n               BLOCK_SIZE: tl.constexpr,  # Number of elements each program should process.\n               ):\n    pid = tl.program_id(axis=0)  # We use a 1D launch grid so axis is 0.\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    y = tl.load(y_ptr + offsets, mask=mask)\n    output = x + y\n             ^\nTypeError('unexpected type int32 and fp8e5')",
+      "signature": {
+        "x_ptr": "*i32",
+        "y_ptr": "*fp8e5",
+        "output_ptr": "*i32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int32",
+      "y": "float8_e4m3fnuz",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*i32",
+        "y_ptr": "*fp8e4b8",
+        "output_ptr": "*i32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int32",
+      "y": "float8_e5m2fnuz",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*i32",
+        "y_ptr": "*fp8e5b16",
+        "output_ptr": "*i32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint32",
+      "y": "bool",
+      "promotion_status": "promoted",
+      "promotion_result": "uint32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u32",
+        "y_ptr": "*u1",
+        "output_ptr": "*u32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint32",
+      "y": "int8",
+      "promotion_status": "promoted",
+      "promotion_result": "uint32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u32",
+        "y_ptr": "*i8",
+        "output_ptr": "*u32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint32",
+      "y": "uint8",
+      "promotion_status": "promoted",
+      "promotion_result": "uint32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u32",
+        "y_ptr": "*u8",
+        "output_ptr": "*u32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint32",
+      "y": "int16",
+      "promotion_status": "promoted",
+      "promotion_result": "uint32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u32",
+        "y_ptr": "*i16",
+        "output_ptr": "*u32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint32",
+      "y": "uint16",
+      "promotion_status": "promoted",
+      "promotion_result": "uint32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u32",
+        "y_ptr": "*u16",
+        "output_ptr": "*u32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint32",
+      "y": "int32",
+      "promotion_status": "promoted",
+      "promotion_result": "uint32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u32",
+        "y_ptr": "*i32",
+        "output_ptr": "*u32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint32",
+      "y": "uint32",
+      "promotion_status": "promoted",
+      "promotion_result": "uint32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u32",
+        "y_ptr": "*u32",
+        "output_ptr": "*u32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint32",
+      "y": "int64",
+      "promotion_status": "promoted",
+      "promotion_result": "int64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u32",
+        "y_ptr": "*i64",
+        "output_ptr": "*u32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint32",
+      "y": "uint64",
+      "promotion_status": "promoted",
+      "promotion_result": "uint64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u32",
+        "y_ptr": "*u64",
+        "output_ptr": "*u32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint32",
+      "y": "float16",
+      "promotion_status": "promoted",
+      "promotion_result": "fp16",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u32",
+        "y_ptr": "*fp16",
+        "output_ptr": "*u32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint32",
+      "y": "bfloat16",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u32",
+        "y_ptr": "*bf16",
+        "output_ptr": "*u32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint32",
+      "y": "float32",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u32",
+        "y_ptr": "*fp32",
+        "output_ptr": "*u32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint32",
+      "y": "float64",
+      "promotion_status": "promoted",
+      "promotion_result": "fp64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u32",
+        "y_ptr": "*fp64",
+        "output_ptr": "*u32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint32",
+      "y": "float8_e4m3fn",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "addition_promotion_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 13:13:\n               y_ptr: tl.tensor,  # *Pointer* to second input vector.\n               output_ptr: tl.tensor,  # *Pointer* to output vector.\n               n_elements: tl.int32,  # Size of the vector.\n               BLOCK_SIZE: tl.constexpr,  # Number of elements each program should process.\n               ):\n    pid = tl.program_id(axis=0)  # We use a 1D launch grid so axis is 0.\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    y = tl.load(y_ptr + offsets, mask=mask)\n    output = x + y\n             ^\nTypeError('unexpected type uint32 and fp8e4nv')",
+      "signature": {
+        "x_ptr": "*u32",
+        "y_ptr": "*fp8e4nv",
+        "output_ptr": "*u32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint32",
+      "y": "float8_e5m2",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "addition_promotion_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 13:13:\n               y_ptr: tl.tensor,  # *Pointer* to second input vector.\n               output_ptr: tl.tensor,  # *Pointer* to output vector.\n               n_elements: tl.int32,  # Size of the vector.\n               BLOCK_SIZE: tl.constexpr,  # Number of elements each program should process.\n               ):\n    pid = tl.program_id(axis=0)  # We use a 1D launch grid so axis is 0.\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    y = tl.load(y_ptr + offsets, mask=mask)\n    output = x + y\n             ^\nTypeError('unexpected type uint32 and fp8e5')",
+      "signature": {
+        "x_ptr": "*u32",
+        "y_ptr": "*fp8e5",
+        "output_ptr": "*u32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint32",
+      "y": "float8_e4m3fnuz",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*u32",
+        "y_ptr": "*fp8e4b8",
+        "output_ptr": "*u32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint32",
+      "y": "float8_e5m2fnuz",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*u32",
+        "y_ptr": "*fp8e5b16",
+        "output_ptr": "*u32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int64",
+      "y": "bool",
+      "promotion_status": "promoted",
+      "promotion_result": "int64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i64",
+        "y_ptr": "*u1",
+        "output_ptr": "*i64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int64",
+      "y": "int8",
+      "promotion_status": "promoted",
+      "promotion_result": "int64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i64",
+        "y_ptr": "*i8",
+        "output_ptr": "*i64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int64",
+      "y": "uint8",
+      "promotion_status": "promoted",
+      "promotion_result": "int64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i64",
+        "y_ptr": "*u8",
+        "output_ptr": "*i64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int64",
+      "y": "int16",
+      "promotion_status": "promoted",
+      "promotion_result": "int64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i64",
+        "y_ptr": "*i16",
+        "output_ptr": "*i64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int64",
+      "y": "uint16",
+      "promotion_status": "promoted",
+      "promotion_result": "int64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i64",
+        "y_ptr": "*u16",
+        "output_ptr": "*i64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int64",
+      "y": "int32",
+      "promotion_status": "promoted",
+      "promotion_result": "int64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i64",
+        "y_ptr": "*i32",
+        "output_ptr": "*i64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int64",
+      "y": "uint32",
+      "promotion_status": "promoted",
+      "promotion_result": "int64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i64",
+        "y_ptr": "*u32",
+        "output_ptr": "*i64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int64",
+      "y": "int64",
+      "promotion_status": "promoted",
+      "promotion_result": "int64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i64",
+        "y_ptr": "*i64",
+        "output_ptr": "*i64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int64",
+      "y": "uint64",
+      "promotion_status": "promoted",
+      "promotion_result": "uint64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i64",
+        "y_ptr": "*u64",
+        "output_ptr": "*i64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int64",
+      "y": "float16",
+      "promotion_status": "promoted",
+      "promotion_result": "fp16",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i64",
+        "y_ptr": "*fp16",
+        "output_ptr": "*i64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int64",
+      "y": "bfloat16",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i64",
+        "y_ptr": "*bf16",
+        "output_ptr": "*i64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int64",
+      "y": "float32",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i64",
+        "y_ptr": "*fp32",
+        "output_ptr": "*i64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int64",
+      "y": "float64",
+      "promotion_status": "promoted",
+      "promotion_result": "fp64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*i64",
+        "y_ptr": "*fp64",
+        "output_ptr": "*i64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int64",
+      "y": "float8_e4m3fn",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "addition_promotion_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 13:13:\n               y_ptr: tl.tensor,  # *Pointer* to second input vector.\n               output_ptr: tl.tensor,  # *Pointer* to output vector.\n               n_elements: tl.int32,  # Size of the vector.\n               BLOCK_SIZE: tl.constexpr,  # Number of elements each program should process.\n               ):\n    pid = tl.program_id(axis=0)  # We use a 1D launch grid so axis is 0.\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    y = tl.load(y_ptr + offsets, mask=mask)\n    output = x + y\n             ^\nTypeError('unexpected type int64 and fp8e4nv')",
+      "signature": {
+        "x_ptr": "*i64",
+        "y_ptr": "*fp8e4nv",
+        "output_ptr": "*i64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int64",
+      "y": "float8_e5m2",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "addition_promotion_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 13:13:\n               y_ptr: tl.tensor,  # *Pointer* to second input vector.\n               output_ptr: tl.tensor,  # *Pointer* to output vector.\n               n_elements: tl.int32,  # Size of the vector.\n               BLOCK_SIZE: tl.constexpr,  # Number of elements each program should process.\n               ):\n    pid = tl.program_id(axis=0)  # We use a 1D launch grid so axis is 0.\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    y = tl.load(y_ptr + offsets, mask=mask)\n    output = x + y\n             ^\nTypeError('unexpected type int64 and fp8e5')",
+      "signature": {
+        "x_ptr": "*i64",
+        "y_ptr": "*fp8e5",
+        "output_ptr": "*i64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int64",
+      "y": "float8_e4m3fnuz",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*i64",
+        "y_ptr": "*fp8e4b8",
+        "output_ptr": "*i64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "int64",
+      "y": "float8_e5m2fnuz",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*i64",
+        "y_ptr": "*fp8e5b16",
+        "output_ptr": "*i64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint64",
+      "y": "bool",
+      "promotion_status": "promoted",
+      "promotion_result": "uint64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u64",
+        "y_ptr": "*u1",
+        "output_ptr": "*u64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint64",
+      "y": "int8",
+      "promotion_status": "promoted",
+      "promotion_result": "uint64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u64",
+        "y_ptr": "*i8",
+        "output_ptr": "*u64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint64",
+      "y": "uint8",
+      "promotion_status": "promoted",
+      "promotion_result": "uint64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u64",
+        "y_ptr": "*u8",
+        "output_ptr": "*u64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint64",
+      "y": "int16",
+      "promotion_status": "promoted",
+      "promotion_result": "uint64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u64",
+        "y_ptr": "*i16",
+        "output_ptr": "*u64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint64",
+      "y": "uint16",
+      "promotion_status": "promoted",
+      "promotion_result": "uint64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u64",
+        "y_ptr": "*u16",
+        "output_ptr": "*u64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint64",
+      "y": "int32",
+      "promotion_status": "promoted",
+      "promotion_result": "uint64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u64",
+        "y_ptr": "*i32",
+        "output_ptr": "*u64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint64",
+      "y": "uint32",
+      "promotion_status": "promoted",
+      "promotion_result": "uint64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u64",
+        "y_ptr": "*u32",
+        "output_ptr": "*u64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint64",
+      "y": "int64",
+      "promotion_status": "promoted",
+      "promotion_result": "uint64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u64",
+        "y_ptr": "*i64",
+        "output_ptr": "*u64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint64",
+      "y": "uint64",
+      "promotion_status": "promoted",
+      "promotion_result": "uint64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u64",
+        "y_ptr": "*u64",
+        "output_ptr": "*u64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint64",
+      "y": "float16",
+      "promotion_status": "promoted",
+      "promotion_result": "fp16",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u64",
+        "y_ptr": "*fp16",
+        "output_ptr": "*u64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint64",
+      "y": "bfloat16",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u64",
+        "y_ptr": "*bf16",
+        "output_ptr": "*u64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint64",
+      "y": "float32",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u64",
+        "y_ptr": "*fp32",
+        "output_ptr": "*u64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint64",
+      "y": "float64",
+      "promotion_status": "promoted",
+      "promotion_result": "fp64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*u64",
+        "y_ptr": "*fp64",
+        "output_ptr": "*u64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint64",
+      "y": "float8_e4m3fn",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "addition_promotion_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 13:13:\n               y_ptr: tl.tensor,  # *Pointer* to second input vector.\n               output_ptr: tl.tensor,  # *Pointer* to output vector.\n               n_elements: tl.int32,  # Size of the vector.\n               BLOCK_SIZE: tl.constexpr,  # Number of elements each program should process.\n               ):\n    pid = tl.program_id(axis=0)  # We use a 1D launch grid so axis is 0.\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    y = tl.load(y_ptr + offsets, mask=mask)\n    output = x + y\n             ^\nTypeError('unexpected type uint64 and fp8e4nv')",
+      "signature": {
+        "x_ptr": "*u64",
+        "y_ptr": "*fp8e4nv",
+        "output_ptr": "*u64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint64",
+      "y": "float8_e5m2",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "addition_promotion_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 13:13:\n               y_ptr: tl.tensor,  # *Pointer* to second input vector.\n               output_ptr: tl.tensor,  # *Pointer* to output vector.\n               n_elements: tl.int32,  # Size of the vector.\n               BLOCK_SIZE: tl.constexpr,  # Number of elements each program should process.\n               ):\n    pid = tl.program_id(axis=0)  # We use a 1D launch grid so axis is 0.\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    y = tl.load(y_ptr + offsets, mask=mask)\n    output = x + y\n             ^\nTypeError('unexpected type uint64 and fp8e5')",
+      "signature": {
+        "x_ptr": "*u64",
+        "y_ptr": "*fp8e5",
+        "output_ptr": "*u64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint64",
+      "y": "float8_e4m3fnuz",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*u64",
+        "y_ptr": "*fp8e4b8",
+        "output_ptr": "*u64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "uint64",
+      "y": "float8_e5m2fnuz",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*u64",
+        "y_ptr": "*fp8e5b16",
+        "output_ptr": "*u64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float16",
+      "y": "bool",
+      "promotion_status": "promoted",
+      "promotion_result": "fp16",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp16",
+        "y_ptr": "*u1",
+        "output_ptr": "*fp16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float16",
+      "y": "int8",
+      "promotion_status": "promoted",
+      "promotion_result": "fp16",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp16",
+        "y_ptr": "*i8",
+        "output_ptr": "*fp16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float16",
+      "y": "uint8",
+      "promotion_status": "promoted",
+      "promotion_result": "fp16",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp16",
+        "y_ptr": "*u8",
+        "output_ptr": "*fp16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float16",
+      "y": "int16",
+      "promotion_status": "promoted",
+      "promotion_result": "fp16",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp16",
+        "y_ptr": "*i16",
+        "output_ptr": "*fp16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float16",
+      "y": "uint16",
+      "promotion_status": "promoted",
+      "promotion_result": "fp16",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp16",
+        "y_ptr": "*u16",
+        "output_ptr": "*fp16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float16",
+      "y": "int32",
+      "promotion_status": "promoted",
+      "promotion_result": "fp16",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp16",
+        "y_ptr": "*i32",
+        "output_ptr": "*fp16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float16",
+      "y": "uint32",
+      "promotion_status": "promoted",
+      "promotion_result": "fp16",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp16",
+        "y_ptr": "*u32",
+        "output_ptr": "*fp16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float16",
+      "y": "int64",
+      "promotion_status": "promoted",
+      "promotion_result": "fp16",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp16",
+        "y_ptr": "*i64",
+        "output_ptr": "*fp16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float16",
+      "y": "uint64",
+      "promotion_status": "promoted",
+      "promotion_result": "fp16",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp16",
+        "y_ptr": "*u64",
+        "output_ptr": "*fp16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float16",
+      "y": "float16",
+      "promotion_status": "promoted",
+      "promotion_result": "fp16",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp16",
+        "y_ptr": "*fp16",
+        "output_ptr": "*fp16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float16",
+      "y": "bfloat16",
+      "promotion_status": "promoted",
+      "promotion_result": "fp16",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp16",
+        "y_ptr": "*bf16",
+        "output_ptr": "*fp16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float16",
+      "y": "float32",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp16",
+        "y_ptr": "*fp32",
+        "output_ptr": "*fp16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float16",
+      "y": "float64",
+      "promotion_status": "promoted",
+      "promotion_result": "fp64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp16",
+        "y_ptr": "*fp64",
+        "output_ptr": "*fp16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float16",
+      "y": "float8_e4m3fn",
+      "promotion_status": "promoted",
+      "promotion_result": "fp16",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp16",
+        "y_ptr": "*fp8e4nv",
+        "output_ptr": "*fp16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float16",
+      "y": "float8_e5m2",
+      "promotion_status": "promoted",
+      "promotion_result": "fp16",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp16",
+        "y_ptr": "*fp8e5",
+        "output_ptr": "*fp16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float16",
+      "y": "float8_e4m3fnuz",
+      "promotion_status": "promoted",
+      "promotion_result": "fp16",
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*fp16",
+        "y_ptr": "*fp8e4b8",
+        "output_ptr": "*fp16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float16",
+      "y": "float8_e5m2fnuz",
+      "promotion_status": "promoted",
+      "promotion_result": "fp16",
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*fp16",
+        "y_ptr": "*fp8e5b16",
+        "output_ptr": "*fp16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "bfloat16",
+      "y": "bool",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*bf16",
+        "y_ptr": "*u1",
+        "output_ptr": "*bf16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "bfloat16",
+      "y": "int8",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*bf16",
+        "y_ptr": "*i8",
+        "output_ptr": "*bf16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "bfloat16",
+      "y": "uint8",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*bf16",
+        "y_ptr": "*u8",
+        "output_ptr": "*bf16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "bfloat16",
+      "y": "int16",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*bf16",
+        "y_ptr": "*i16",
+        "output_ptr": "*bf16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "bfloat16",
+      "y": "uint16",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*bf16",
+        "y_ptr": "*u16",
+        "output_ptr": "*bf16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "bfloat16",
+      "y": "int32",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*bf16",
+        "y_ptr": "*i32",
+        "output_ptr": "*bf16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "bfloat16",
+      "y": "uint32",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*bf16",
+        "y_ptr": "*u32",
+        "output_ptr": "*bf16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "bfloat16",
+      "y": "int64",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*bf16",
+        "y_ptr": "*i64",
+        "output_ptr": "*bf16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "bfloat16",
+      "y": "uint64",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*bf16",
+        "y_ptr": "*u64",
+        "output_ptr": "*bf16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "bfloat16",
+      "y": "float16",
+      "promotion_status": "promoted",
+      "promotion_result": "fp16",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*bf16",
+        "y_ptr": "*fp16",
+        "output_ptr": "*bf16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "bfloat16",
+      "y": "bfloat16",
+      "promotion_status": "promoted",
+      "promotion_result": "bf16",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*bf16",
+        "y_ptr": "*bf16",
+        "output_ptr": "*bf16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "bfloat16",
+      "y": "float32",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*bf16",
+        "y_ptr": "*fp32",
+        "output_ptr": "*bf16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "bfloat16",
+      "y": "float64",
+      "promotion_status": "promoted",
+      "promotion_result": "fp64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*bf16",
+        "y_ptr": "*fp64",
+        "output_ptr": "*bf16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "bfloat16",
+      "y": "float8_e4m3fn",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*bf16",
+        "y_ptr": "*fp8e4nv",
+        "output_ptr": "*bf16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "bfloat16",
+      "y": "float8_e5m2",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*bf16",
+        "y_ptr": "*fp8e5",
+        "output_ptr": "*bf16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "bfloat16",
+      "y": "float8_e4m3fnuz",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*bf16",
+        "y_ptr": "*fp8e4b8",
+        "output_ptr": "*bf16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "bfloat16",
+      "y": "float8_e5m2fnuz",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*bf16",
+        "y_ptr": "*fp8e5b16",
+        "output_ptr": "*bf16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float32",
+      "y": "bool",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp32",
+        "y_ptr": "*u1",
+        "output_ptr": "*fp32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float32",
+      "y": "int8",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp32",
+        "y_ptr": "*i8",
+        "output_ptr": "*fp32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float32",
+      "y": "uint8",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp32",
+        "y_ptr": "*u8",
+        "output_ptr": "*fp32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float32",
+      "y": "int16",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp32",
+        "y_ptr": "*i16",
+        "output_ptr": "*fp32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float32",
+      "y": "uint16",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp32",
+        "y_ptr": "*u16",
+        "output_ptr": "*fp32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float32",
+      "y": "int32",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp32",
+        "y_ptr": "*i32",
+        "output_ptr": "*fp32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float32",
+      "y": "uint32",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp32",
+        "y_ptr": "*u32",
+        "output_ptr": "*fp32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float32",
+      "y": "int64",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp32",
+        "y_ptr": "*i64",
+        "output_ptr": "*fp32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float32",
+      "y": "uint64",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp32",
+        "y_ptr": "*u64",
+        "output_ptr": "*fp32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float32",
+      "y": "float16",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp32",
+        "y_ptr": "*fp16",
+        "output_ptr": "*fp32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float32",
+      "y": "bfloat16",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp32",
+        "y_ptr": "*bf16",
+        "output_ptr": "*fp32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float32",
+      "y": "float32",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp32",
+        "y_ptr": "*fp32",
+        "output_ptr": "*fp32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float32",
+      "y": "float64",
+      "promotion_status": "promoted",
+      "promotion_result": "fp64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp32",
+        "y_ptr": "*fp64",
+        "output_ptr": "*fp32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float32",
+      "y": "float8_e4m3fn",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp32",
+        "y_ptr": "*fp8e4nv",
+        "output_ptr": "*fp32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float32",
+      "y": "float8_e5m2",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp32",
+        "y_ptr": "*fp8e5",
+        "output_ptr": "*fp32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float32",
+      "y": "float8_e4m3fnuz",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*fp32",
+        "y_ptr": "*fp8e4b8",
+        "output_ptr": "*fp32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float32",
+      "y": "float8_e5m2fnuz",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*fp32",
+        "y_ptr": "*fp8e5b16",
+        "output_ptr": "*fp32",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float64",
+      "y": "bool",
+      "promotion_status": "promoted",
+      "promotion_result": "fp64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp64",
+        "y_ptr": "*u1",
+        "output_ptr": "*fp64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float64",
+      "y": "int8",
+      "promotion_status": "promoted",
+      "promotion_result": "fp64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp64",
+        "y_ptr": "*i8",
+        "output_ptr": "*fp64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float64",
+      "y": "uint8",
+      "promotion_status": "promoted",
+      "promotion_result": "fp64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp64",
+        "y_ptr": "*u8",
+        "output_ptr": "*fp64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float64",
+      "y": "int16",
+      "promotion_status": "promoted",
+      "promotion_result": "fp64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp64",
+        "y_ptr": "*i16",
+        "output_ptr": "*fp64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float64",
+      "y": "uint16",
+      "promotion_status": "promoted",
+      "promotion_result": "fp64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp64",
+        "y_ptr": "*u16",
+        "output_ptr": "*fp64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float64",
+      "y": "int32",
+      "promotion_status": "promoted",
+      "promotion_result": "fp64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp64",
+        "y_ptr": "*i32",
+        "output_ptr": "*fp64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float64",
+      "y": "uint32",
+      "promotion_status": "promoted",
+      "promotion_result": "fp64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp64",
+        "y_ptr": "*u32",
+        "output_ptr": "*fp64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float64",
+      "y": "int64",
+      "promotion_status": "promoted",
+      "promotion_result": "fp64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp64",
+        "y_ptr": "*i64",
+        "output_ptr": "*fp64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float64",
+      "y": "uint64",
+      "promotion_status": "promoted",
+      "promotion_result": "fp64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp64",
+        "y_ptr": "*u64",
+        "output_ptr": "*fp64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float64",
+      "y": "float16",
+      "promotion_status": "promoted",
+      "promotion_result": "fp64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp64",
+        "y_ptr": "*fp16",
+        "output_ptr": "*fp64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float64",
+      "y": "bfloat16",
+      "promotion_status": "promoted",
+      "promotion_result": "fp64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp64",
+        "y_ptr": "*bf16",
+        "output_ptr": "*fp64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float64",
+      "y": "float32",
+      "promotion_status": "promoted",
+      "promotion_result": "fp64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp64",
+        "y_ptr": "*fp32",
+        "output_ptr": "*fp64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float64",
+      "y": "float64",
+      "promotion_status": "promoted",
+      "promotion_result": "fp64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp64",
+        "y_ptr": "*fp64",
+        "output_ptr": "*fp64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float64",
+      "y": "float8_e4m3fn",
+      "promotion_status": "promoted",
+      "promotion_result": "fp64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp64",
+        "y_ptr": "*fp8e4nv",
+        "output_ptr": "*fp64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float64",
+      "y": "float8_e5m2",
+      "promotion_status": "promoted",
+      "promotion_result": "fp64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp64",
+        "y_ptr": "*fp8e5",
+        "output_ptr": "*fp64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float64",
+      "y": "float8_e4m3fnuz",
+      "promotion_status": "promoted",
+      "promotion_result": "fp64",
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*fp64",
+        "y_ptr": "*fp8e4b8",
+        "output_ptr": "*fp64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float64",
+      "y": "float8_e5m2fnuz",
+      "promotion_status": "promoted",
+      "promotion_result": "fp64",
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*fp64",
+        "y_ptr": "*fp8e5b16",
+        "output_ptr": "*fp64",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e4m3fn",
+      "y": "bool",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "addition_promotion_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 13:13:\n               y_ptr: tl.tensor,  # *Pointer* to second input vector.\n               output_ptr: tl.tensor,  # *Pointer* to output vector.\n               n_elements: tl.int32,  # Size of the vector.\n               BLOCK_SIZE: tl.constexpr,  # Number of elements each program should process.\n               ):\n    pid = tl.program_id(axis=0)  # We use a 1D launch grid so axis is 0.\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    y = tl.load(y_ptr + offsets, mask=mask)\n    output = x + y\n             ^\nTypeError('unexpected type fp8e4nv and int1')",
+      "signature": {
+        "x_ptr": "*fp8e4nv",
+        "y_ptr": "*u1",
+        "output_ptr": "*fp8e4nv",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e4m3fn",
+      "y": "int8",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "addition_promotion_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 13:13:\n               y_ptr: tl.tensor,  # *Pointer* to second input vector.\n               output_ptr: tl.tensor,  # *Pointer* to output vector.\n               n_elements: tl.int32,  # Size of the vector.\n               BLOCK_SIZE: tl.constexpr,  # Number of elements each program should process.\n               ):\n    pid = tl.program_id(axis=0)  # We use a 1D launch grid so axis is 0.\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    y = tl.load(y_ptr + offsets, mask=mask)\n    output = x + y\n             ^\nTypeError('unexpected type fp8e4nv and int8')",
+      "signature": {
+        "x_ptr": "*fp8e4nv",
+        "y_ptr": "*i8",
+        "output_ptr": "*fp8e4nv",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e4m3fn",
+      "y": "uint8",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "addition_promotion_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 13:13:\n               y_ptr: tl.tensor,  # *Pointer* to second input vector.\n               output_ptr: tl.tensor,  # *Pointer* to output vector.\n               n_elements: tl.int32,  # Size of the vector.\n               BLOCK_SIZE: tl.constexpr,  # Number of elements each program should process.\n               ):\n    pid = tl.program_id(axis=0)  # We use a 1D launch grid so axis is 0.\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    y = tl.load(y_ptr + offsets, mask=mask)\n    output = x + y\n             ^\nTypeError('unexpected type fp8e4nv and uint8')",
+      "signature": {
+        "x_ptr": "*fp8e4nv",
+        "y_ptr": "*u8",
+        "output_ptr": "*fp8e4nv",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e4m3fn",
+      "y": "int16",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "addition_promotion_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 13:13:\n               y_ptr: tl.tensor,  # *Pointer* to second input vector.\n               output_ptr: tl.tensor,  # *Pointer* to output vector.\n               n_elements: tl.int32,  # Size of the vector.\n               BLOCK_SIZE: tl.constexpr,  # Number of elements each program should process.\n               ):\n    pid = tl.program_id(axis=0)  # We use a 1D launch grid so axis is 0.\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    y = tl.load(y_ptr + offsets, mask=mask)\n    output = x + y\n             ^\nTypeError('unexpected type fp8e4nv and int16')",
+      "signature": {
+        "x_ptr": "*fp8e4nv",
+        "y_ptr": "*i16",
+        "output_ptr": "*fp8e4nv",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e4m3fn",
+      "y": "uint16",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "addition_promotion_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 13:13:\n               y_ptr: tl.tensor,  # *Pointer* to second input vector.\n               output_ptr: tl.tensor,  # *Pointer* to output vector.\n               n_elements: tl.int32,  # Size of the vector.\n               BLOCK_SIZE: tl.constexpr,  # Number of elements each program should process.\n               ):\n    pid = tl.program_id(axis=0)  # We use a 1D launch grid so axis is 0.\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    y = tl.load(y_ptr + offsets, mask=mask)\n    output = x + y\n             ^\nTypeError('unexpected type fp8e4nv and uint16')",
+      "signature": {
+        "x_ptr": "*fp8e4nv",
+        "y_ptr": "*u16",
+        "output_ptr": "*fp8e4nv",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e4m3fn",
+      "y": "int32",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "addition_promotion_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 13:13:\n               y_ptr: tl.tensor,  # *Pointer* to second input vector.\n               output_ptr: tl.tensor,  # *Pointer* to output vector.\n               n_elements: tl.int32,  # Size of the vector.\n               BLOCK_SIZE: tl.constexpr,  # Number of elements each program should process.\n               ):\n    pid = tl.program_id(axis=0)  # We use a 1D launch grid so axis is 0.\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    y = tl.load(y_ptr + offsets, mask=mask)\n    output = x + y\n             ^\nTypeError('unexpected type fp8e4nv and int32')",
+      "signature": {
+        "x_ptr": "*fp8e4nv",
+        "y_ptr": "*i32",
+        "output_ptr": "*fp8e4nv",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e4m3fn",
+      "y": "uint32",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "addition_promotion_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 13:13:\n               y_ptr: tl.tensor,  # *Pointer* to second input vector.\n               output_ptr: tl.tensor,  # *Pointer* to output vector.\n               n_elements: tl.int32,  # Size of the vector.\n               BLOCK_SIZE: tl.constexpr,  # Number of elements each program should process.\n               ):\n    pid = tl.program_id(axis=0)  # We use a 1D launch grid so axis is 0.\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    y = tl.load(y_ptr + offsets, mask=mask)\n    output = x + y\n             ^\nTypeError('unexpected type fp8e4nv and uint32')",
+      "signature": {
+        "x_ptr": "*fp8e4nv",
+        "y_ptr": "*u32",
+        "output_ptr": "*fp8e4nv",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e4m3fn",
+      "y": "int64",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "addition_promotion_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 13:13:\n               y_ptr: tl.tensor,  # *Pointer* to second input vector.\n               output_ptr: tl.tensor,  # *Pointer* to output vector.\n               n_elements: tl.int32,  # Size of the vector.\n               BLOCK_SIZE: tl.constexpr,  # Number of elements each program should process.\n               ):\n    pid = tl.program_id(axis=0)  # We use a 1D launch grid so axis is 0.\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    y = tl.load(y_ptr + offsets, mask=mask)\n    output = x + y\n             ^\nTypeError('unexpected type fp8e4nv and int64')",
+      "signature": {
+        "x_ptr": "*fp8e4nv",
+        "y_ptr": "*i64",
+        "output_ptr": "*fp8e4nv",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e4m3fn",
+      "y": "uint64",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "addition_promotion_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 13:13:\n               y_ptr: tl.tensor,  # *Pointer* to second input vector.\n               output_ptr: tl.tensor,  # *Pointer* to output vector.\n               n_elements: tl.int32,  # Size of the vector.\n               BLOCK_SIZE: tl.constexpr,  # Number of elements each program should process.\n               ):\n    pid = tl.program_id(axis=0)  # We use a 1D launch grid so axis is 0.\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    y = tl.load(y_ptr + offsets, mask=mask)\n    output = x + y\n             ^\nTypeError('unexpected type fp8e4nv and uint64')",
+      "signature": {
+        "x_ptr": "*fp8e4nv",
+        "y_ptr": "*u64",
+        "output_ptr": "*fp8e4nv",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e4m3fn",
+      "y": "float16",
+      "promotion_status": "promoted",
+      "promotion_result": "fp16",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp8e4nv",
+        "y_ptr": "*fp16",
+        "output_ptr": "*fp8e4nv",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e4m3fn",
+      "y": "bfloat16",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp8e4nv",
+        "y_ptr": "*bf16",
+        "output_ptr": "*fp8e4nv",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e4m3fn",
+      "y": "float32",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp8e4nv",
+        "y_ptr": "*fp32",
+        "output_ptr": "*fp8e4nv",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e4m3fn",
+      "y": "float64",
+      "promotion_status": "promoted",
+      "promotion_result": "fp64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp8e4nv",
+        "y_ptr": "*fp64",
+        "output_ptr": "*fp8e4nv",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e4m3fn",
+      "y": "float8_e4m3fn",
+      "promotion_status": "promoted",
+      "promotion_result": "fp8e4nv",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp8e4nv",
+        "y_ptr": "*fp8e4nv",
+        "output_ptr": "*fp8e4nv",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e4m3fn",
+      "y": "float8_e5m2",
+      "promotion_status": "promoted",
+      "promotion_result": "fp16",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp8e4nv",
+        "y_ptr": "*fp8e5",
+        "output_ptr": "*fp8e4nv",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e4m3fn",
+      "y": "float8_e4m3fnuz",
+      "promotion_status": "promoted",
+      "promotion_result": "fp16",
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*fp8e4nv",
+        "y_ptr": "*fp8e4b8",
+        "output_ptr": "*fp8e4nv",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e4m3fn",
+      "y": "float8_e5m2fnuz",
+      "promotion_status": "promoted",
+      "promotion_result": "fp16",
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*fp8e4nv",
+        "y_ptr": "*fp8e5b16",
+        "output_ptr": "*fp8e4nv",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e5m2",
+      "y": "bool",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "addition_promotion_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 13:13:\n               y_ptr: tl.tensor,  # *Pointer* to second input vector.\n               output_ptr: tl.tensor,  # *Pointer* to output vector.\n               n_elements: tl.int32,  # Size of the vector.\n               BLOCK_SIZE: tl.constexpr,  # Number of elements each program should process.\n               ):\n    pid = tl.program_id(axis=0)  # We use a 1D launch grid so axis is 0.\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    y = tl.load(y_ptr + offsets, mask=mask)\n    output = x + y\n             ^\nTypeError('unexpected type fp8e5 and int1')",
+      "signature": {
+        "x_ptr": "*fp8e5",
+        "y_ptr": "*u1",
+        "output_ptr": "*fp8e5",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e5m2",
+      "y": "int8",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "addition_promotion_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 13:13:\n               y_ptr: tl.tensor,  # *Pointer* to second input vector.\n               output_ptr: tl.tensor,  # *Pointer* to output vector.\n               n_elements: tl.int32,  # Size of the vector.\n               BLOCK_SIZE: tl.constexpr,  # Number of elements each program should process.\n               ):\n    pid = tl.program_id(axis=0)  # We use a 1D launch grid so axis is 0.\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    y = tl.load(y_ptr + offsets, mask=mask)\n    output = x + y\n             ^\nTypeError('unexpected type fp8e5 and int8')",
+      "signature": {
+        "x_ptr": "*fp8e5",
+        "y_ptr": "*i8",
+        "output_ptr": "*fp8e5",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e5m2",
+      "y": "uint8",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "addition_promotion_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 13:13:\n               y_ptr: tl.tensor,  # *Pointer* to second input vector.\n               output_ptr: tl.tensor,  # *Pointer* to output vector.\n               n_elements: tl.int32,  # Size of the vector.\n               BLOCK_SIZE: tl.constexpr,  # Number of elements each program should process.\n               ):\n    pid = tl.program_id(axis=0)  # We use a 1D launch grid so axis is 0.\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    y = tl.load(y_ptr + offsets, mask=mask)\n    output = x + y\n             ^\nTypeError('unexpected type fp8e5 and uint8')",
+      "signature": {
+        "x_ptr": "*fp8e5",
+        "y_ptr": "*u8",
+        "output_ptr": "*fp8e5",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e5m2",
+      "y": "int16",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "addition_promotion_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 13:13:\n               y_ptr: tl.tensor,  # *Pointer* to second input vector.\n               output_ptr: tl.tensor,  # *Pointer* to output vector.\n               n_elements: tl.int32,  # Size of the vector.\n               BLOCK_SIZE: tl.constexpr,  # Number of elements each program should process.\n               ):\n    pid = tl.program_id(axis=0)  # We use a 1D launch grid so axis is 0.\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    y = tl.load(y_ptr + offsets, mask=mask)\n    output = x + y\n             ^\nTypeError('unexpected type fp8e5 and int16')",
+      "signature": {
+        "x_ptr": "*fp8e5",
+        "y_ptr": "*i16",
+        "output_ptr": "*fp8e5",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e5m2",
+      "y": "uint16",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "addition_promotion_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 13:13:\n               y_ptr: tl.tensor,  # *Pointer* to second input vector.\n               output_ptr: tl.tensor,  # *Pointer* to output vector.\n               n_elements: tl.int32,  # Size of the vector.\n               BLOCK_SIZE: tl.constexpr,  # Number of elements each program should process.\n               ):\n    pid = tl.program_id(axis=0)  # We use a 1D launch grid so axis is 0.\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    y = tl.load(y_ptr + offsets, mask=mask)\n    output = x + y\n             ^\nTypeError('unexpected type fp8e5 and uint16')",
+      "signature": {
+        "x_ptr": "*fp8e5",
+        "y_ptr": "*u16",
+        "output_ptr": "*fp8e5",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e5m2",
+      "y": "int32",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "addition_promotion_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 13:13:\n               y_ptr: tl.tensor,  # *Pointer* to second input vector.\n               output_ptr: tl.tensor,  # *Pointer* to output vector.\n               n_elements: tl.int32,  # Size of the vector.\n               BLOCK_SIZE: tl.constexpr,  # Number of elements each program should process.\n               ):\n    pid = tl.program_id(axis=0)  # We use a 1D launch grid so axis is 0.\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    y = tl.load(y_ptr + offsets, mask=mask)\n    output = x + y\n             ^\nTypeError('unexpected type fp8e5 and int32')",
+      "signature": {
+        "x_ptr": "*fp8e5",
+        "y_ptr": "*i32",
+        "output_ptr": "*fp8e5",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e5m2",
+      "y": "uint32",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "addition_promotion_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 13:13:\n               y_ptr: tl.tensor,  # *Pointer* to second input vector.\n               output_ptr: tl.tensor,  # *Pointer* to output vector.\n               n_elements: tl.int32,  # Size of the vector.\n               BLOCK_SIZE: tl.constexpr,  # Number of elements each program should process.\n               ):\n    pid = tl.program_id(axis=0)  # We use a 1D launch grid so axis is 0.\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    y = tl.load(y_ptr + offsets, mask=mask)\n    output = x + y\n             ^\nTypeError('unexpected type fp8e5 and uint32')",
+      "signature": {
+        "x_ptr": "*fp8e5",
+        "y_ptr": "*u32",
+        "output_ptr": "*fp8e5",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e5m2",
+      "y": "int64",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "addition_promotion_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 13:13:\n               y_ptr: tl.tensor,  # *Pointer* to second input vector.\n               output_ptr: tl.tensor,  # *Pointer* to output vector.\n               n_elements: tl.int32,  # Size of the vector.\n               BLOCK_SIZE: tl.constexpr,  # Number of elements each program should process.\n               ):\n    pid = tl.program_id(axis=0)  # We use a 1D launch grid so axis is 0.\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    y = tl.load(y_ptr + offsets, mask=mask)\n    output = x + y\n             ^\nTypeError('unexpected type fp8e5 and int64')",
+      "signature": {
+        "x_ptr": "*fp8e5",
+        "y_ptr": "*i64",
+        "output_ptr": "*fp8e5",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e5m2",
+      "y": "uint64",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "addition_promotion_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 13:13:\n               y_ptr: tl.tensor,  # *Pointer* to second input vector.\n               output_ptr: tl.tensor,  # *Pointer* to output vector.\n               n_elements: tl.int32,  # Size of the vector.\n               BLOCK_SIZE: tl.constexpr,  # Number of elements each program should process.\n               ):\n    pid = tl.program_id(axis=0)  # We use a 1D launch grid so axis is 0.\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    y = tl.load(y_ptr + offsets, mask=mask)\n    output = x + y\n             ^\nTypeError('unexpected type fp8e5 and uint64')",
+      "signature": {
+        "x_ptr": "*fp8e5",
+        "y_ptr": "*u64",
+        "output_ptr": "*fp8e5",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e5m2",
+      "y": "float16",
+      "promotion_status": "promoted",
+      "promotion_result": "fp16",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp8e5",
+        "y_ptr": "*fp16",
+        "output_ptr": "*fp8e5",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e5m2",
+      "y": "bfloat16",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp8e5",
+        "y_ptr": "*bf16",
+        "output_ptr": "*fp8e5",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e5m2",
+      "y": "float32",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp8e5",
+        "y_ptr": "*fp32",
+        "output_ptr": "*fp8e5",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e5m2",
+      "y": "float64",
+      "promotion_status": "promoted",
+      "promotion_result": "fp64",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp8e5",
+        "y_ptr": "*fp64",
+        "output_ptr": "*fp8e5",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e5m2",
+      "y": "float8_e4m3fn",
+      "promotion_status": "promoted",
+      "promotion_result": "fp16",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp8e5",
+        "y_ptr": "*fp8e4nv",
+        "output_ptr": "*fp8e5",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e5m2",
+      "y": "float8_e5m2",
+      "promotion_status": "promoted",
+      "promotion_result": "fp8e5",
+      "stage_model_prediction": "passes_selected_dtype_gates",
+      "observed_frontend_status": "frontend_generated",
+      "error": null,
+      "signature": {
+        "x_ptr": "*fp8e5",
+        "y_ptr": "*fp8e5",
+        "output_ptr": "*fp8e5",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e5m2",
+      "y": "float8_e4m3fnuz",
+      "promotion_status": "promoted",
+      "promotion_result": "fp16",
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*fp8e5",
+        "y_ptr": "*fp8e4b8",
+        "output_ptr": "*fp8e5",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e5m2",
+      "y": "float8_e5m2fnuz",
+      "promotion_status": "promoted",
+      "promotion_result": "fp16",
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*fp8e5",
+        "y_ptr": "*fp8e5b16",
+        "output_ptr": "*fp8e5",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e4m3fnuz",
+      "y": "bool",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*fp8e4b8",
+        "y_ptr": "*u1",
+        "output_ptr": "*fp8e4b8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e4m3fnuz",
+      "y": "int8",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*fp8e4b8",
+        "y_ptr": "*i8",
+        "output_ptr": "*fp8e4b8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e4m3fnuz",
+      "y": "uint8",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*fp8e4b8",
+        "y_ptr": "*u8",
+        "output_ptr": "*fp8e4b8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e4m3fnuz",
+      "y": "int16",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*fp8e4b8",
+        "y_ptr": "*i16",
+        "output_ptr": "*fp8e4b8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e4m3fnuz",
+      "y": "uint16",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*fp8e4b8",
+        "y_ptr": "*u16",
+        "output_ptr": "*fp8e4b8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e4m3fnuz",
+      "y": "int32",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*fp8e4b8",
+        "y_ptr": "*i32",
+        "output_ptr": "*fp8e4b8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e4m3fnuz",
+      "y": "uint32",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*fp8e4b8",
+        "y_ptr": "*u32",
+        "output_ptr": "*fp8e4b8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e4m3fnuz",
+      "y": "int64",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*fp8e4b8",
+        "y_ptr": "*i64",
+        "output_ptr": "*fp8e4b8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e4m3fnuz",
+      "y": "uint64",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*fp8e4b8",
+        "y_ptr": "*u64",
+        "output_ptr": "*fp8e4b8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e4m3fnuz",
+      "y": "float16",
+      "promotion_status": "promoted",
+      "promotion_result": "fp16",
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*fp8e4b8",
+        "y_ptr": "*fp16",
+        "output_ptr": "*fp8e4b8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e4m3fnuz",
+      "y": "bfloat16",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*fp8e4b8",
+        "y_ptr": "*bf16",
+        "output_ptr": "*fp8e4b8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e4m3fnuz",
+      "y": "float32",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*fp8e4b8",
+        "y_ptr": "*fp32",
+        "output_ptr": "*fp8e4b8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e4m3fnuz",
+      "y": "float64",
+      "promotion_status": "promoted",
+      "promotion_result": "fp64",
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*fp8e4b8",
+        "y_ptr": "*fp64",
+        "output_ptr": "*fp8e4b8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e4m3fnuz",
+      "y": "float8_e4m3fn",
+      "promotion_status": "promoted",
+      "promotion_result": "fp16",
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*fp8e4b8",
+        "y_ptr": "*fp8e4nv",
+        "output_ptr": "*fp8e4b8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e4m3fnuz",
+      "y": "float8_e5m2",
+      "promotion_status": "promoted",
+      "promotion_result": "fp16",
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*fp8e4b8",
+        "y_ptr": "*fp8e5",
+        "output_ptr": "*fp8e4b8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e4m3fnuz",
+      "y": "float8_e4m3fnuz",
+      "promotion_status": "promoted",
+      "promotion_result": "fp8e4b8",
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*fp8e4b8",
+        "y_ptr": "*fp8e4b8",
+        "output_ptr": "*fp8e4b8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e4m3fnuz",
+      "y": "float8_e5m2fnuz",
+      "promotion_status": "promoted",
+      "promotion_result": "fp16",
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*fp8e4b8",
+        "y_ptr": "*fp8e5b16",
+        "output_ptr": "*fp8e4b8",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e5m2fnuz",
+      "y": "bool",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*fp8e5b16",
+        "y_ptr": "*u1",
+        "output_ptr": "*fp8e5b16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e5m2fnuz",
+      "y": "int8",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*fp8e5b16",
+        "y_ptr": "*i8",
+        "output_ptr": "*fp8e5b16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e5m2fnuz",
+      "y": "uint8",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*fp8e5b16",
+        "y_ptr": "*u8",
+        "output_ptr": "*fp8e5b16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e5m2fnuz",
+      "y": "int16",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*fp8e5b16",
+        "y_ptr": "*i16",
+        "output_ptr": "*fp8e5b16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e5m2fnuz",
+      "y": "uint16",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*fp8e5b16",
+        "y_ptr": "*u16",
+        "output_ptr": "*fp8e5b16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e5m2fnuz",
+      "y": "int32",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*fp8e5b16",
+        "y_ptr": "*i32",
+        "output_ptr": "*fp8e5b16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e5m2fnuz",
+      "y": "uint32",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*fp8e5b16",
+        "y_ptr": "*u32",
+        "output_ptr": "*fp8e5b16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e5m2fnuz",
+      "y": "int64",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*fp8e5b16",
+        "y_ptr": "*i64",
+        "output_ptr": "*fp8e5b16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e5m2fnuz",
+      "y": "uint64",
+      "promotion_status": "promotion_error",
+      "promotion_result": null,
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*fp8e5b16",
+        "y_ptr": "*u64",
+        "output_ptr": "*fp8e5b16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e5m2fnuz",
+      "y": "float16",
+      "promotion_status": "promoted",
+      "promotion_result": "fp16",
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*fp8e5b16",
+        "y_ptr": "*fp16",
+        "output_ptr": "*fp8e5b16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e5m2fnuz",
+      "y": "bfloat16",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*fp8e5b16",
+        "y_ptr": "*bf16",
+        "output_ptr": "*fp8e5b16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e5m2fnuz",
+      "y": "float32",
+      "promotion_status": "promoted",
+      "promotion_result": "fp32",
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*fp8e5b16",
+        "y_ptr": "*fp32",
+        "output_ptr": "*fp8e5b16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e5m2fnuz",
+      "y": "float64",
+      "promotion_status": "promoted",
+      "promotion_result": "fp64",
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*fp8e5b16",
+        "y_ptr": "*fp64",
+        "output_ptr": "*fp8e5b16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e5m2fnuz",
+      "y": "float8_e4m3fn",
+      "promotion_status": "promoted",
+      "promotion_result": "fp16",
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*fp8e5b16",
+        "y_ptr": "*fp8e4nv",
+        "output_ptr": "*fp8e5b16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e5m2fnuz",
+      "y": "float8_e5m2",
+      "promotion_status": "promoted",
+      "promotion_result": "fp16",
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*fp8e5b16",
+        "y_ptr": "*fp8e5",
+        "output_ptr": "*fp8e5b16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e5m2fnuz",
+      "y": "float8_e4m3fnuz",
+      "promotion_status": "promoted",
+      "promotion_result": "fp16",
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*fp8e5b16",
+        "y_ptr": "*fp8e4b8",
+        "output_ptr": "*fp8e5b16",
+        "n_elements": "i32"
+      }
+    },
+    {
+      "x": "float8_e5m2fnuz",
+      "y": "float8_e5m2fnuz",
+      "promotion_status": "promoted",
+      "promotion_result": "fp8e5b16",
+      "stage_model_prediction": "signature_fp8_rejection",
+      "observed_frontend_status": "frontend_error",
+      "error": "at 1:0:\ndef add_kernel(x_ptr: tl.tensor,  # *Pointer* to first input vector.\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")",
+      "signature": {
+        "x_ptr": "*fp8e5b16",
+        "y_ptr": "*fp8e5b16",
+        "output_ptr": "*fp8e5b16",
+        "n_elements": "i32"
+      }
+    }
+  ],
+  "no_new_probe_or_gpu_execution": true,
+  "no_repository_modification": true
+}

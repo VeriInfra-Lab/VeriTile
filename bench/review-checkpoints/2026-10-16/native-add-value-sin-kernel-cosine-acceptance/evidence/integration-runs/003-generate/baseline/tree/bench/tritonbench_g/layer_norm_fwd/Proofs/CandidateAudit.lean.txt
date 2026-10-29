@@ -1,0 +1,14 @@
+import VeriTile.Meta.StatementAudit
+import bench.tritonbench_g.layer_norm_fwd.Proofs.Candidate
+
+namespace VeriTile.Bench.TritonBenchG.LayerNormFwd
+
+#axiomsClean CandidateExecution.source_loadPrefix
+#axiomsClean CandidateExecution.loadPrefix_exec
+#axiomsClean CandidateExecution.source_initial_load
+#axiomsClean CandidateExecution.common_suffix
+#axiomsClean CandidateExecution.common_suffix_exec
+#axiomsClean CandidateExecution.source_exec
+#axiomsClean CandidateExecution.source_correct
+
+end VeriTile.Bench.TritonBenchG.LayerNormFwd

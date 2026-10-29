@@ -1,0 +1,2 @@
+AddValueNative.all_masks_false_at_two31: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+AddValueNative.counterexample_grid: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])

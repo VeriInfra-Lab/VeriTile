@@ -177,6 +177,9 @@ noncomputable def evalOp : Op dtype shape → BlockState → Option (Tile dtype 
       let va ← evalOp a s
       let vb ← evalOp b s
       if Int32Bits.valuesValid vb.data then some (Tile.libdevicePowi bc va vb) else none
+  | .reduceMin axis keepDims a, s => do
+      let va ← evalOp a s
+      Tile.reduceMin axis keepDims va
   | .reduceMax axis keepDims a, s => do
       let va ← evalOp a s
       Tile.reduceMax axis keepDims va

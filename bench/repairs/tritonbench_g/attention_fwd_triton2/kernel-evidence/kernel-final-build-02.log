@@ -1,0 +1,141 @@
+VeriTile.Bench.Repairs.AttentionFwdTriton2.KernelOnly.kernel_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionFwdTriton2.KernelOnly.kernel_native: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionFwdTriton2.KernelOnly.empty_kernel: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionFwdTriton2.KernelOnly.mathematicalTarget: definition does not reference [VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.AttentionFwdTriton2.Whole001.Whole.runPrograms,
+ VeriTile.Bench.Repairs.AttentionFwdTriton2.Whole001.Whole.answer,
+ VeriTile.Bench.Repairs.AttentionFwdTriton2.Whole001.Source.accumulated,
+ VeriTile.Bench.Repairs.AttentionFwdTriton2.Whole001.Source.update] — non-circular ✓
+VeriTile.Bench.Repairs.AttentionFwdTriton2.KernelOnly.nativeReference: definition does not reference [VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.AttentionFwdTriton2.Whole001.Whole.runPrograms,
+ VeriTile.Bench.Repairs.AttentionFwdTriton2.Whole001.Whole.answer,
+ VeriTile.Bench.Repairs.AttentionFwdTriton2.Whole001.Source.accumulated,
+ VeriTile.Bench.Repairs.AttentionFwdTriton2.Whole001.Source.update] — non-circular ✓
+{"module": "bench/repairs/tritonbench_g/attention_fwd_triton2/KernelOnly/Endpoints.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_fwd_triton2/KernelOnly/Endpoints.olean"}
+VeriTile.Bench.Repairs.AttentionFwdTriton2.KernelContract.accepted_iff: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.AttentionFwdTriton2.KernelContract.InputContract: definition does not reference [VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.AttentionFwdTriton2.Whole001.Whole.runPrograms] — non-circular ✓
+{"module": "bench/repairs/tritonbench_g/attention_fwd_triton2/Contract.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_fwd_triton2/Contract.olean"}
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_fwd_triton2/Correct.lean:17:51: warning: unused variable `hd`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.Repairs.AttentionFwdTriton2.Checked.checked_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionFwdTriton2.Correct.kernel_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionFwdTriton2.Correct.empty_kernel: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/repairs/tritonbench_g/attention_fwd_triton2/Correct.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_fwd_triton2/Correct.olean"}
+VeriTile.Bench.Repairs.AttentionFwdTriton2.Checked.checked_native: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionFwdTriton2.Checked.checked_numerical_transport: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionFwdTriton2.FPEquiv.kernel_native: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionFwdTriton2.FPEquiv.kernel_reference: definition does not reference [VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.AttentionFwdTriton2.Whole001.Whole.runPrograms,
+ VeriTile.Bench.Repairs.AttentionFwdTriton2.Whole001.Whole.answer,
+ VeriTile.Bench.Repairs.AttentionFwdTriton2.Whole001.Source.accumulated,
+ VeriTile.Bench.Repairs.AttentionFwdTriton2.Whole001.Source.update] — non-circular ✓
+{"module": "bench/repairs/tritonbench_g/attention_fwd_triton2/FPEquiv.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_fwd_triton2/FPEquiv.olean"}
+VeriTile.Bench.Repairs.AttentionFwdTriton2.KernelContract.accepted_iff (c : Call) : check c = «true» ↔ InputContract c
+VeriTile.Bench.Repairs.AttentionFwdTriton2.Correct.kernel_correct (c : Call) (hc : InputContract c)
+  (laws : TensorLaws c) (read : ℕ → ℝ) (work : List Program) (order : (programs (grid (parameters c))).Perm work) :
+  ∃ after,
+    runPrograms (fun x => Real.algebra) (fun x => Real.dotModel) (parameters c) (grid (parameters c)) work
+          (realEntry c read) =
+        some after ∧
+      (∀ b < (parameters c).batches,
+          ∀ h < (parameters c).heads,
+            ∀ n < (parameters c).length,
+              ∀ d < 96,
+                logical (observe realDecode c read after) c Role.output b h n d = mathematicalTarget c read b h n d) ∧
+        RawFrame c (realEntry c read) after ∧
+          (∀ (a : ℕ), ¬Stored c a → observe realDecode c read after a = read a) ∧
+            (∀ r ∈ reads,
+                ∀ (b h n d : ℕ),
+                  Valid (parameters c) r b h n d →
+                    logical (observe realDecode c read after) c r b h n d = logical read c r b h n d) ∧
+              Access.Safe (parameters c) ∧ Machine.Closed (parameters c) (pointers c)
+VeriTile.Bench.Repairs.AttentionFwdTriton2.FPEquiv.kernel_native (I : Instructions) (c : Call) (hc : InputContract c)
+  (laws : TensorLaws c) (words : ℕ → BitVec 32) (work : List Program)
+  (order : (programs (grid (parameters c))).Perm work) :
+  have before := entry (Specification.nativeReader c words);
+  ∃ after,
+    runPrograms (fun x => Native.algebra) (fun x => Native.dotModel) (parameters c) (grid (parameters c)) work before =
+        some after ∧
+      (∀ b < (parameters c).batches,
+          ∀ h < (parameters c).heads,
+            ∀ n < (parameters c).length,
+              ∀ (d : ℕ) (hd : d < 96),
+                BitVec.setWidth 16 (logical (observe (nativeDecode I d) c words after) c Role.output b h n d) =
+                  nativeReference I c words b h n d hd) ∧
+        RawFrame c before after ∧
+          (∀ (d a : ℕ), ¬Stored c a → observe (nativeDecode I d) c words after a = words a) ∧
+            (∀ (owner : ℕ),
+                ∀ r ∈ reads,
+                  ∀ (b h n d : ℕ),
+                    Valid (parameters c) r b h n d →
+                      logical (observe (nativeDecode I owner) c words after) c r b h n d = logical words c r b h n d) ∧
+              Access.Safe (parameters c) ∧ Machine.Closed (parameters c) (pointers c)
+VeriTile.Bench.Repairs.AttentionFwdTriton2.Correct.empty_kernel {α β : Type} [Inhabited α] (M : FP.Structural.Algebra α)
+  (dot : Dot α) (c : Call) (empty : ¬Machine.Live (parameters c)) (before : State α) (work : List Program)
+  (order : (programs (grid (parameters c))).Perm work) (decode : α → β) (words : ℕ → β) :
+  work = [] ∧
+    runPrograms (fun x => M) (fun x => dot) (parameters c) (grid (parameters c)) work before = some before ∧
+      ∀ (a : ℕ), observe decode c words before a = words a
+VeriTile.Bench.Repairs.AttentionFwdTriton2.KernelOnly.complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionFwdTriton2.KernelOnly.actual_address: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.AttentionFwdTriton2.KernelOnly.actual_read: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.AttentionFwdTriton2.KernelOnly.scale_read: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.AttentionFwdTriton2.KernelOnly.backing_exterior: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionFwdTriton2.KernelOnly.source_algorithm: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionFwdTriton2.Correct.kernel_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionFwdTriton2.FPEquiv.kernel_native: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionFwdTriton2.Correct.empty_kernel: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionFwdTriton2.KernelOnly.mathematicalTarget: definition does not reference [VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.AttentionFwdTriton2.Whole001.Whole.runPrograms,
+ VeriTile.Bench.Repairs.AttentionFwdTriton2.Whole001.Whole.answer,
+ VeriTile.Bench.Repairs.AttentionFwdTriton2.Whole001.Source.accumulated,
+ VeriTile.Bench.Repairs.AttentionFwdTriton2.Whole001.Source.update] — non-circular ✓
+VeriTile.Bench.Repairs.AttentionFwdTriton2.KernelOnly.nativeReference: definition does not reference [VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.AttentionFwdTriton2.Whole001.Whole.runPrograms,
+ VeriTile.Bench.Repairs.AttentionFwdTriton2.Whole001.Whole.answer,
+ VeriTile.Bench.Repairs.AttentionFwdTriton2.Whole001.Source.accumulated,
+ VeriTile.Bench.Repairs.AttentionFwdTriton2.Whole001.Source.update] — non-circular ✓
+VeriTile.Bench.Repairs.AttentionFwdTriton2.KernelOnly.InputContract: definition does not reference [VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.AttentionFwdTriton2.Whole001.Whole.runPrograms,
+ VeriTile.Bench.Repairs.AttentionFwdTriton2.Whole001.Whole.answer] — non-circular ✓
+{"module": "bench/repairs/tritonbench_g/attention_fwd_triton2/KernelOnly/Audit.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_fwd_triton2/KernelOnly/Audit.olean"}

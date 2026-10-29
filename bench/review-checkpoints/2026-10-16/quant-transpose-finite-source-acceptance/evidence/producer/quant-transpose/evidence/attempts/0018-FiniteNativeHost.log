@@ -1,0 +1,47 @@
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeHost.lean:73:73: error: unsolved goals
+b : Numerics
+env : Environment
+dt : DType
+a : Input
+alloc : Allocations
+m : Memory
+x : String
+p : PhysicalLayout
+trials : List Config
+last : Config
+why : Rejected
+h :
+  admission env (if a.isCuda = «true» then Device.cuda else Device.cpu) dt a.numel a.shape.length
+      (decide (a.sam = 1 ∨ a.san = 1)) =
+    Except.error why
+⊢ (match
+      admission env (if a.isCuda = «true» then Device.cuda else Device.cpu) dt a.numel a.shape.length
+        (decide (a.sam = 1) || decide (a.san = 1)) with
+    | Except.error issue => NativeAPIResult.rejected issue
+    | Except.ok d => NativeAPIResult.attempted d (executeNativeHost b env d a alloc m x p trials last)) =
+    NativeAPIResult.rejected why
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeHost.lean:74:25: warning: This simp argument is unused:
+  h
+
+Hint: Omit it from the simp argument list.
+  simp [executeNativeAPI,̵h̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeHost.lean:115:25: error: Application type mismatch: The argument
+  ht
+has type
+  nativeTrialsPlan b d a alloc p (hostPhysical d p maximum (b.reciprocal d maximum)) (trials ++ [last]) =
+    Except.error issue
+but is expected to have type
+  Except.error issue = Except.error issue
+in the application
+  And.intro ht
+QuantTransposeFinite.NativeResult: definition does not reference [QuantTransposeFinite.executeNativeAPI,
+ QuantTransposeFinite.executeNativeHost,
+ QuantTransposeFinite.executeNativeTrials,
+ QuantTransposeFinite.executeNativeGrid,
+ QuantTransposeFinite.executeNativeProgram,
+ QuantTransposeFinite.source,
+ QuantTransposeFinite.Expr.eval] — non-circular ✓
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeHost.lean:133:0: error: QuantTransposeFinite.native_host_all_outcomes: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeHost.lean:134:0: error: QuantTransposeFinite.native_rejected_source_outcome: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

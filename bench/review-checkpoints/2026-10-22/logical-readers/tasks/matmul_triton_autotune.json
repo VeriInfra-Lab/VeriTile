@@ -1,0 +1,169 @@
+{
+  "schema": 1,
+  "task": "matmul_triton_autotune",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue10/max-reduction-supplement/result.json",
+    "sha256": "8ffac003658bf3b8618f2ca937ddbd10c9bfe4ce7fc10a113549bfb37b70b112",
+    "task_index": 4
+  },
+  "finding": "Main formula exposed channel selectors and nested TileIndex coordinates.",
+  "resolution": "Complete matrix pair/output equivalences expose ordinary row/column multiplication and the exact optional leaky-ReLU 1/100 branch.",
+  "mathematical_target": "finite matrix product, then if activation == leaky_relu, max-sign branch with slope 1/100",
+  "conditions_and_scope": {
+    "scope": "Complete ids permutation of the selected source grid with every original configuration and activation branch. Mathematical Real output is independent of FP16 rounding, which is retained in FPEquiv.",
+    "conditions": [
+      "ids.Perm (List.range (programs g.request))",
+      "g.C != g.A and g.C != g.B",
+      "Shared ProgramIO logical input/spatial bounds"
+    ],
+    "complete_source_domain_precision_masks_safety_success_and_frames_preserved": true
+  },
+  "proof_connection": {
+    "helpers": [
+      "bench/repairs/tritonbench_g/matmul_triton_autotune/Proofs/LogicalIO.lean"
+    ],
+    "full_declaration_type_iff": {
+      "fixture": ".veritile-cache/logical-reader-review-20261022/queue10/matmul_triton_autotune/Preservation.lean",
+      "fixture_sha256": "a4c7cdd5764373359481b6b3acc06647deae6e9a49a55eacde22ec753b69c0c4",
+      "actual_current_and_before_declarations": [
+        "VeriTile.Bench.TritonBenchG.MatmulTritonAutotune.Repair.Kernel.mathematical_kernel ↔ VeriTile.Bench.TritonBenchG.MatmulTritonAutotune.Repair.Kernel.mathematical_kernel_before"
+      ],
+      "method": "declarationType% reads actual full declaration types, then forall_congr retains every parameter and premise; task headline_iff proves equality/iff of the complete underlying judgment."
+    }
+  },
+  "fp_review": {
+    "actual_pair": "FloatingIO.original versus FloatingIO.safe (existing safe-address candidate), complete actual selected sources/schedules.",
+    "model_and_domain": "Explicit Floating.Instructions and geometry/config; FP32 dot carry and FP16 stores remain identical.",
+    "selected_fp_source_unchanged": true,
+    "main_experimental_rules": []
+  },
+  "numerical_dependencies": {
+    "experimental_rules": [],
+    "strict_rewrite_certificates": [],
+    "reason": "Only integer address/control expressions change; programs_refinement proves complete state equality."
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "sum over k : Fin g.inner of A[i,k]*B[k,j], optionally transformed by leaky_relu: value if >=0, otherwise value/100.",
+    "required_conditions": {
+      "public_conditions": [
+        "ids.Perm (List.range (programs g.request))",
+        "g.C != g.A and g.C != g.B",
+        "Shared ProgramIO logical input/spatial bounds"
+      ],
+      "contract_relation": "MetadataChecks, Selection and Schedule retain original frontend/configuration and program-ID-width observations. The already recorded runtime grid-product compatibility/host application scope is unchanged and is not a new obligation of this review."
+    },
+    "scope": "Complete ids permutation of the selected source grid with every original configuration and activation branch. Mathematical Real output is independent of FP16 rounding, which is retained in FPEquiv.",
+    "canonical_connection": "Interface.real_implements proves the independent mathematical target over complete source schedules; the inline lambda is definitionally mathematical g.",
+    "fp_program_pair": {
+      "fp_pair": "FloatingIO.original versus FloatingIO.safe (existing safe-address candidate), complete actual selected sources/schedules.",
+      "fp_model_domain": "Explicit Floating.Instructions and geometry/config; FP32 dot carry and FP16 stores remain identical."
+    },
+    "numerical_dependencies": {
+      "experimental_rules": [],
+      "strict_rewrite_certificates": [],
+      "reason": "Only integer address/control expressions change; programs_refinement proves complete state equality."
+    }
+  },
+  "verification": [
+    {
+      "kind": "logical-data",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue10/build.py",
+        "bench/repairs/tritonbench_g/matmul_triton_autotune/IO.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue10/matmul_triton_autotune/logical-data.log",
+      "log_sha256": "8be33d3d206b7995bab55d6a0eb4e59b5b0502512990ccbccccf20ff39e14a30"
+    },
+    {
+      "kind": "complete-connection",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue10/build.py",
+        "bench/repairs/tritonbench_g/matmul_triton_autotune/Proofs/LogicalIO.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue10/matmul_triton_autotune/complete-connection.log",
+      "log_sha256": "bac1ade7446d5d09803ac2372524f8b9cc9e08ca42a91c219080005b046021fc"
+    },
+    {
+      "kind": "reader",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue10/build.py",
+        "bench/repairs/tritonbench_g/matmul_triton_autotune/Correct.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue10/matmul_triton_autotune/reader.log",
+      "log_sha256": "f32fc706e1c16b6f05662033c610a13267832a8209a986f9a60697f2d2042d93"
+    },
+    {
+      "kind": "complete-old-new-iff",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue10/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue10/matmul_triton_autotune/Preservation.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue10/matmul_triton_autotune/complete-old-new-iff.log",
+      "log_sha256": "6cc674ba7fe327cb6044c10ef1c2fe2f234740490bea1accb39b89753a3787af"
+    },
+    {
+      "kind": "fp-reader",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue10/build.py",
+        "--check",
+        "bench/repairs/tritonbench_g/matmul_triton_autotune/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue10/matmul_triton_autotune/fp-reader.log",
+      "log_sha256": "8e582370358a9b1adeafb59fea45b571f8a1c1f18a3605c0c6e49ccd91009f4a"
+    },
+    {
+      "kind": "joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue10/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue10/matmul_triton_autotune/Joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue10/matmul_triton_autotune/joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/matmul_triton_autotune/Contract.lean": "9334687b1fd148ec8a432881b8a142f48f1e2aa4dd662092d522a98e739f6254",
+    "bench/repairs/tritonbench_g/matmul_triton_autotune/Correct.lean": "9df77b0e361b623d1391e0b5c7ca52f23395f91780be09387c3879af5b93cfec",
+    "bench/repairs/tritonbench_g/matmul_triton_autotune/FPEquiv.lean": "ea106916b1a2373b1fc9ef1e7d6daac56057d807fa7f84b9e13b7598988ceb35",
+    "bench/repairs/tritonbench_g/matmul_triton_autotune/IO.lean": "53af449641f8233511b53e758d464701221e7dd9e5b11c9e7b8c7eea054df0cf",
+    "bench/repairs/tritonbench_g/matmul_triton_autotune/Proofs/Interface.lean": "a42fb862e468605a8f464c5e0007338f47677d2072fb8854e6335033a1ddb246",
+    "bench/repairs/tritonbench_g/matmul_triton_autotune/Proofs/LogicalIO.lean": "0921c2747c5d55fd5b8516c28d229c65d05fc876abc5fbf7a38719a61676a6b4",
+    "bench/repairs/tritonbench_g/matmul_triton_autotune/Proofs/RealIO.lean": "d756253c7a88aed46f9d03ffaa916c2547885a3d5bb5cfdf74ef8617907cca93",
+    "bench/repairs/tritonbench_g/matmul_triton_autotune/Kernels.lean": "842cf617ee34678756558e312c8e9e922176f5d2578bcfd21d30605c3bc6f72a",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [
+    "Existing internal execution/safety/numerical objects are reused; no full proof-closure replay claimed."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

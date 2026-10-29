@@ -1,0 +1,119 @@
+{
+  "schema": 1,
+  "task": "flash_decode2_phi",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue05/result.json",
+    "sha256": "b7855ba15faaf5e2f177961e4a8a89181354e8928bbce04e8519a187efbab386",
+    "task_index": 11
+  },
+  "finding": "Masked summary table, capacity and result channels used mixed flat logical port encodings.",
+  "resolution": "Bijective named logs/mids/batch-lengths and output row/feature arrays; capacity backing, source stride S, padded masks and selected block-checked contract remain distinct.",
+  "mathematical_target": "Exponentially weighted summary average at every feature over each row's logical steps.",
+  "conditions_and_scope": "Complete masked Phi grid with D≤BD, any complete-grid permutation, original Fits and Positive domains. Empty batch/head grids remain valid and all unused backing entries retained; no host or unmasked-source claim substituted.",
+  "proof_connection": "LogicalIO.inputEquiv/outputEquiv, weighted accessor connection and judgment_iff to the complete existing RealIO.implements judgment.",
+  "fp_review": "Retained integer split-row base reuse, full masked FP32 grid, runtime lengths, padding masks and both exterior frames unchanged.",
+  "numerical_dependencies": {
+    "experimental_rules_used": [],
+    "missing_experimental_evidence": [],
+    "note": "Existing actual source pair retained; no numerical operation/order rewrite or new admission obligation. Empty experimental rules do not assert arbitrary opaque-model/hardware identity."
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "Inline weighted split summary over range(PhiIO.steps xs row), using exponential log weights and mid values for every logical dimension.",
+    "required_conditions": [
+      "Real headline explicitly retains Fits and Positive: used count≤capacity and nonempty used count per launched row. Empty batch/head grids remain valid.",
+      "PhiIO.iterations preserves exact source integer behavior at zero length and Q=0; FP pair requires only Fits, not Positive, and admits these counts as well as count>S when backing capacity suffices.",
+      "Contract adds only active-launch block≤2^20 and preserves original empty cases. The conditional Real theorem is not advertised as a total Real specification for every native exceptional case.",
+      "IO retains original S strides, metadata-dependent used-summary masks, D/BD tail masks, initial bounds/bindings and all output/frame obligations."
+    ],
+    "scope": "Complete selected flash_decode2_phi_block_checked masked B*H grid, arbitrary complete permutations, all D outputs with D≤BD padded-lane coverage. Logical read capacity is independent of source stride S.",
+    "canonical_connection": "Inline sums are definitionally equal to PhiIO.mathematical/Reference.target. RealIO.implements proves complete actual source safety, execution and observed Real target under the existing Fits∧Positive domain.",
+    "fp_program_pair": {
+      "actual_pairs": [
+        "FlashDecode2.phi vs Candidates.phiSharedBase over complete PhiIO.schedule vs order.map candidate job"
+      ],
+      "source_precision": "FP32 native symbolic terms/words, exact casts/order and padded-lane masks retained.",
+      "transformation": "Share only the integer split-row base; floating graph unchanged.",
+      "model_domain_and_guarantees": "ProgramIO implementations use only PhiIO.Fits g, explicit D≤BD and complete-grid coverage; rules=[]. IOPair schedules/source equality and NativeIO.implements establish safe success, all typed outputs and dual exterior frames. No Positive restriction is added to equivalence.",
+      "experimental_rule_instances_used": [],
+      "missing_experimental_evidence": [],
+      "existing_strict_theory_preserved": true
+    },
+    "numerical_dependencies": {
+      "source_precision": "FP32 native symbolic terms/words, exact casts/order and padded-lane masks retained.",
+      "transformation": "Share only the integer split-row base; floating graph unchanged.",
+      "model_domain_and_guarantees": "ProgramIO implementations use only PhiIO.Fits g, explicit D≤BD and complete-grid coverage; rules=[]. IOPair schedules/source equality and NativeIO.implements establish safe success, all typed outputs and dual exterior frames. No Positive restriction is added to equivalence.",
+      "experimental_rule_instances_used": [],
+      "missing_experimental_evidence": [],
+      "existing_strict_theory_preserved": true
+    }
+  },
+  "verification": [
+    {
+      "task": "flash_decode2_phi",
+      "kind": "fp_source",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue05/build.py",
+        "bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue05/fp-flash_decode2_phi.log",
+      "log_sha256": "c9fdca0166a654257fb0a41b1d36a420831b91004bd4d1b5c39d7dc1cae589a2",
+      "reuse": "Prior task-local successful check; reviewed source and receipt pins remain current."
+    },
+    {
+      "task": "flash_decode2_phi",
+      "kind": "task_joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue05/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue05/joint_flash_decode2_phi.lean"
+      ],
+      "exit_code": 0,
+      "source": ".veritile-cache/logical-reader-review-20261022/queue05/joint_flash_decode2_phi.lean",
+      "source_sha256": "69110aaaeb64546eb0df7c20ae9055221897cad492c84363e870ab64113eb01b",
+      "log": ".veritile-cache/logical-reader-review-20261022/queue05/joint-flash_decode2_phi.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reuse": "Prior task-local successful check; reviewed source and receipt pins remain current."
+    },
+    {
+      "kind": "receipt_source_object_direct_dependency_audit",
+      "command": [
+        "python",
+        ".veritile-cache/logical-reader-review-20261022/queue05/audit-receipts.py"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue05/receipts-final.json",
+      "log_sha256": "a3a64928712915a8204fd3fec33335656e18e0542b5c5ab22d8bdec24b8df76e"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/Contract.lean": "625a74fef8dffa587a55859337a8574bf9039676b14636ca54a758682130bc8e",
+    "bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/Correct.lean": "3e9f7ae2f32ba03c5dcba475641061b15dc42c0a040da71aa012ab798efbf569",
+    "bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/FPEquiv.lean": "a042edbb74997229ea4881ace60af4457763d5aa91a8dad5325b24ac1d7fefa3",
+    "bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/IO.lean": "0ab8545f5710d3864056e6e6e15df189b3f94e68d088e08803194436780915b3",
+    "bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/Kernels.lean": "5dec1a2a0f289a87ed8a42a821e0735cd05ba9a866d7cd833dcb0fa9b2ba6907",
+    "bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/PairIO.lean": "a3ad39a6f92bbacedea75aa9c50a14a0abd4ff7a0cbc34674a8061f900149784",
+    "bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/Proofs/IOPair.lean": "9d9ceb6aefa05e0b4265c28eca687677c03bac7ea852ec8ec423894cd759afa6",
+    "bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/Proofs/LogicalIO.lean": "1ed746339087c4670b346e8918edcfa1171da94a4e61fc7609fc2a0d8f49773b",
+    "bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/Proofs/RealIO.lean": "de074793f314d57f5678ed11db7188c9152262334524c5ff5145efc69eab930e",
+    "bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/Proofs/NativeIO.lean": "f6cab2a77637d95c4850a6ed3cef5768ae037e038805b1b0bbba3b752c76d7bc",
+    "bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/Proofs/SourcePair.lean": "43ddfd4e0442c3598fa89e5d58a688b486a2537b6d3655218ea49829f24ec7fb",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

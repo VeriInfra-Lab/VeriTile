@@ -1,0 +1,92 @@
+{
+  "schema": 1,
+  "task": "iv_dependent_matmul",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue07/result.json",
+    "sha256": "583e8d793cba1d71d000c2bdd3e45247f36f7ed54dadb5684382c4c861f64a4b",
+    "task_index": 6
+  },
+  "finding": "Headline dense multiplication used channel-indexed TileIndex inputs and a raw one-channel output wrapper.",
+  "resolution": "Named A/B logical matrices and a curried output show the dense sum over Fin inner directly.",
+  "mathematical_target": "kernel_real: C[row,col] = sum over Fin g.inner of A[row,k]*B[k,col].",
+  "conditions_and_scope": "Original geometry/layout and Index64.Launchable request remain. Scope stays the complete selected source grid, including empty inner sum, original masked accesses, every output and exact exterior frame; no extra initial-memory dtype premise is introduced.",
+  "proof_connection": "LogicalReader.full_judgment_iff proves iff with the entire previous kernelIO.Implements formula. Finite-coordinate bounds discharge only the old padding accessor branches in Proofs.",
+  "fp_review": "kernel_native compares two distinct existing pointer schedules over complete TF32 K8 grids. Live FP32 carry, tail lanes, FP16 narrowing, FP32 store, typed input cells and layout/launch scope remain.",
+  "numerical_dependencies": "No experimental rewrite rules or numerical experiments added or used by these main pairs; existing operations/order/source precision are retained.",
+  "previous_formula_scope": {
+    "mathematical_target": "C[i,j] = sum k:Fin inner, A[i,k]*B[k,j], including the empty sum.",
+    "required_conditions": [
+      "Original IO.Layout (logical/physical output separation, alignment and addressability) and Index64.Launchable request remain explicit.",
+      "Checked contract retains live FP32 dot minimum shape 16≤blockInner; empty branches remain admitted.",
+      "No new desired output, source run or caller-provided execution premise."
+    ],
+    "scope": "Complete selected source grid for each retained pointer schedule; source graph has Dot+Add and ideal Real interpretation, native graph retains its live FP32 carry, TF32 K8 atoms, FP16 narrowing and FP32 stores.",
+    "canonical_connection": "The adjacent formula explicitly writes the full Fin inner sum and is definitionally Target.mathematical lifted through IO.result. IOResults.real connects source safety, kernel_real, logical input bindings, output mapping and frame.",
+    "fp_program_pair": {
+      "actual_pair": [
+        "original rest profile g",
+        "pointerScheduled rest profile g schedule"
+      ],
+      "actual_scope": "Two distinct existing pointer schedules, with explicit schedule≠g.schedule, same complete native TF32 K8 arithmetic graph, live carry, tail lanes and conversions.",
+      "numerical_dependency": "R=[]; explicitly bound Target.NativeProfile/reference MMA interpretation and typed input cells. No numeric rewrite, no forced opaque-interface refactor.",
+      "current_experimental_rules_used": 0,
+      "new_or_deferred_experiments": 0,
+      "source_unchanged": true
+    },
+    "numerical_dependencies": "R=[]; explicitly bound Target.NativeProfile/reference MMA interpretation and typed input cells. No numeric rewrite, no forced opaque-interface refactor."
+  },
+  "verification": [
+    {
+      "kind": "final_current_source_build",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue07/build.py",
+        "bench.repairs.tritonbench_g.iv_dependent_matmul_dot_shape.IO",
+        "bench.repairs.tritonbench_g.iv_dependent_matmul_dot_shape.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.iv_dependent_matmul_dot_shape.Correct",
+        "bench.repairs.tritonbench_g.iv_dependent_matmul_dot_shape.FPEquiv"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue07/iv_dependent_matmul_dot_shape-verified-build.log",
+      "log_sha256": "5ab318ebd43c548d9c1d8e343046c92195da991de3c8816210dcd68a3b23ab77"
+    },
+    {
+      "kind": "joint_import_current_entries",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue07/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue07/iv_dependent_matmul_dot_shape-joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue07/iv_dependent_matmul_dot_shape-verified-joint.log",
+      "log_sha256": "aa4c3d267a83cae3eaed252ecda80c245e8fea349f2dc2040b7b81192be66112"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Contract.lean": "df405588064fedbbb64047f35faab00ebd3680eda02606134ef12db74ed211f1",
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Correct.lean": "ea8cbb049dc3c3c0ccdc89fcfe5b9573f6e62f44471209dbc5d1ee4aa3ae0419",
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/FPEquiv.lean": "cb256832ed7b7c1cfd7e5b972eee1ec60459c885f2f48b6d60cc3313d642e210",
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/IO.lean": "32950138ea620a4ec53b999436aea14afce36a384b0eb4de36ebbd245ad48f9d",
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Kernels.lean": "d17927753478d09b245ff9180d0329974eca4dc5c21dc25f63755bce303179d9",
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Proofs/LogicalReader.lean": "068f2e71989771128eae60138c9e8b82285240f1774f88e108e2c1900bd5a6e8",
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Proofs/Targets.lean": "1917655beec705a688d2e981e6f7424cacee836ccccd7aa60e1a6e2bd150b514",
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Proofs/IOResults.lean": "94e0212bab4d5cc2f1c2e44e894df80950cd3961b9ac2eedfc3994fb00f6f1f3",
+    "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Proofs/ScheduleEquivalence.lean": "394232f800519e68e1eccdd44cb6576c38692ee74d9590ecc96ed92cb03a1bc7",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

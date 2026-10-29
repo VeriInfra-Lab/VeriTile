@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/tmp/veritile-standardization-20261015/finalize_native_vector_quant_integration.py", line 61, in <module>
+    assert not list(B.rglob('*.lean')) and not list(B.rglob('*.olean')) and not list(B.rglob('*.pyc'))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

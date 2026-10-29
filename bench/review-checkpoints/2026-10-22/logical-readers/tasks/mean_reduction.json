@@ -1,0 +1,144 @@
+{
+  "schema": 1,
+  "task": "mean_reduction",
+  "status": "unchanged",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue10/max-reduction-supplement/result.json",
+    "sha256": "8ffac003658bf3b8618f2ca937ddbd10c9bfe4ce7fc10a113549bfb37b70b112",
+    "task_index": 9
+  },
+  "finding": "Already has the required logical matrix input and one output per row; no repair needed.",
+  "resolution": "Unchanged: matrixInputs and rowOutputs are complete equivalences, meanIO fixes the actual realIO and realSchedule, and logical_mean_iff connects the full old regional scheduled judgment.",
+  "mathematical_target": "fun xs row => (∑ col : Fin N, xs row col) / (N : ℝ)",
+  "conditions_and_scope": {
+    "scope": "Every row of a complete arbitrary permutation of ceil(M/8) source programs; source row/column streaming masks, tails, empty grid and formal N=0 Real division retained.",
+    "conditions": [
+      "tiles.Perm (List.range (gridSize M))",
+      "UKernelIO RegionalScheduledImplements retains explicit schedule and regional binding/bounds/frame"
+    ],
+    "complete_source_domain_precision_masks_safety_success_and_frames_preserved": true
+  },
+  "proof_connection": {
+    "helpers": [
+      "bench/repairs/tritonbench_g/mean_reduction/Proofs/RealIO.lean"
+    ],
+    "full_judgment_iff": "MeanIO.logical_mean_iff (M N jobs) fixes the complete original realIO.RegionalScheduledImplements with realSchedule and mathematical target.",
+    "reused_complete_declaration_type_fixture": ".veritile-cache/mean-logical-io-20261022/Preservation.lean",
+    "fixture_sha256": "02a8c7af60d52fc0162158b757e674b7ca85ca9e9b75fb9581dc918c5a7d1c4d"
+  },
+  "fp_review": {
+    "actual_pair": "MeanIO.original versus indexCommuted, complete actual source-grid permutations.",
+    "model_and_domain": "Explicit per-program Algebra family on all FP32 words; original casts, streaming add order, reduction tree and division unchanged.",
+    "selected_fp_source_unchanged": true,
+    "main_experimental_rules": []
+  },
+  "numerical_dependencies": {
+    "experimental_rules": [],
+    "strict_rewrite_certificates": [],
+    "reason": "Only exact integer PID multiplication commuted."
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "For logical xs : Fin M -> Fin N -> Real, every row has (sum col : Fin N, xs row col) / (N : Real).",
+    "required_conditions": {
+      "public_conditions": [
+        "tiles.Perm (List.range (gridSize M))",
+        "meanIO carries the identical realIO and realSchedule; LogicalScheduledKernelIO.Implements preserves complete regional binding, bounds, execution, outputs and frame."
+      ],
+      "contract_relation": "Original normalized-axis contract rejects empty reduced axes and checks distinct axes/extents; the formal grid theorem validly includes N=0 without silently imposing a new Python admission. Tensor interpretation remains optional application scope."
+    },
+    "scope": "Every row of a complete arbitrary permutation of ceil(M/8) source programs; source row/column streaming masks, tails, empty grid and formal N=0 Real division retained.",
+    "canonical_connection": "matrixInputs and rowOutputs are Equiv values, with both inverse proofs; no input or output cell is discarded.; matrixInputs_apply identifies each logical matrix element with the original row-major cell.; logical_mean_iff is a two-way equivalence with the exact previous RegionalScheduledImplements judgment.; complete_headline_iff_previous verifies both fully quantified statements with every schedule/coverage parameter.; logical_implements applies the existing source execution/safety/grid proof through that equivalence.",
+    "fp_program_pair": {
+      "fp_pair": "MeanIO.original versus indexCommuted, complete actual source-grid permutations.",
+      "fp_model_domain": "Explicit per-program Algebra family on all FP32 words; original casts, streaming add order, reduction tree and division unchanged."
+    },
+    "numerical_dependencies": {
+      "experimental_rules": [],
+      "strict_rewrite_certificates": [],
+      "reason": "Only exact integer PID multiplication commuted."
+    }
+  },
+  "verification": [
+    {
+      "kind": "reader",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue10/build.py",
+        "--check",
+        "bench/repairs/tritonbench_g/mean_reduction/Correct.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue10/mean_reduction/reader.log",
+      "log_sha256": "b9193a51955076dc5449545e3a91eedc4e42545f14da817b86a57b89ce944379"
+    },
+    {
+      "kind": "fp-reader",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue10/build.py",
+        "--check",
+        "bench/repairs/tritonbench_g/mean_reduction/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue10/mean_reduction/fp-reader.log",
+      "log_sha256": "a59847b7dd21455d28c22e064b35407d00e6f5e736d82f0ed9515f5c3db97f52"
+    },
+    {
+      "kind": "joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue10/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue10/mean_reduction/Joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue10/mean_reduction/joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "kind": "unchanged-logical-data-and-connection-build",
+      "command": [
+        "reused-prior-successful-build-evidence"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/mean-logical-io-20261022/build-final.log",
+      "log_sha256": "f13370d3cfadf2ea841b1f4558bff42c9bd7821fa447f38af59bf8a6284c017b"
+    },
+    {
+      "kind": "unchanged-complete-old-new-iff",
+      "command": [
+        "reused-prior-successful-build-evidence"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/mean-logical-io-20261022/preservation-joint.log",
+      "log_sha256": "6a7675dbc69dd2078c827e4ae3bf3b3a873ce62b2e829ba7327b343a25dafaa8"
+    }
+  ],
+  "verification_status": "unchanged_reused",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/mean_reduction/Contract.lean": "3ef5389ca6c516406ddda7ad6ea184b50d21e86f76377fbdd7f1efc285947657",
+    "bench/repairs/tritonbench_g/mean_reduction/Correct.lean": "ffc207edeec1f9449348aec3c07639ccf2b6ef1118269f95ace35ac481ffd7db",
+    "bench/repairs/tritonbench_g/mean_reduction/FPEquiv.lean": "d9453d8a2102d955cbd36328de68a5af96e988f1aa0e1b759667313b41f6f774",
+    "bench/repairs/tritonbench_g/mean_reduction/IO.lean": "943eb4651d3fbdef71de70eada061088321118db0507cf3b96b9aa5a54e87114",
+    "bench/repairs/tritonbench_g/mean_reduction/Proofs/NativeIO.lean": "4b3a16f198572f896d82fc793a3f26e3209656d4e76b72f4cfe3444f4dbabe7e",
+    "bench/repairs/tritonbench_g/mean_reduction/Proofs/RealIO.lean": "dbb6d33e6b87dd1ca43372f022c212ead8a36e4e89b275c6bf2477baf5d539f0",
+    "bench/repairs/tritonbench_g/mean_reduction/Kernels.lean": "18fc9237f4f95bfcba77a1529de7d47867165eed7208928f3b35b668cbf0733d",
+    "VeriTile/Triton/Memory/LogicalScheduledKernelIO.lean": "7d41240936eafa25461641526aa8ca5c91ede874a7bb977d862aab62cfe908fb",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [
+    "Existing internal execution/safety/numerical objects are reused; no full proof-closure replay claimed."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

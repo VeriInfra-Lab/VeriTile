@@ -1,0 +1,141 @@
+import FiniteHost
+
+namespace QuantizeGlobalFinite
+set_option maxHeartbeats 8000000
+
+/-- Dense strided tensors on CPU/CUDA in the inspected Torch runtime; alias
+dtype names are not additional routes. Other layouts/devices are outside this
+explicit API domain. Default floating dtype is fixed to torch.float32. -/
+inductive DType where
+  | boolean | u8 | i8 | i16 | i32 | i64 | u16 | u32 | u64
+  | fp16 | bf16 | fp32 | fp64 | c32 | c64 | c128
+  | e4m3fn | e5m2 | e4m3fnuz | e5m2fnuz | e8m0fnu | e2m1x2
+  deriving DecidableEq, Repr
+
+inductive Device where | cpu | cuda
+  deriving DecidableEq, Repr
+
+def dtype (d : Storage) : DType := match d with
+  | .boolean => .boolean | .u8 => .u8 | .i8 => .i8 | .i16 => .i16
+  | .i32 => .i32 | .i64 => .i64 | .fp32 => .fp32 | .fp64 => .fp64
+
+def route : DType → Option Storage
+  | .boolean => some .boolean | .u8 => some .u8 | .i8 => some .i8 | .i16 => some .i16
+  | .i32 => some .i32 | .i64 => some .i64 | .fp32 => some .fp32 | .fp64 => some .fp64
+  | _ => none
+
+def absSupported (device : Device) : DType → Bool
+  | .boolean => device==.cuda
+  | .u8 | .i8 | .i16 | .i32 | .i64 | .fp16 | .bf16 | .fp32 | .fp64 | .c32 | .c64 | .c128 => true
+  | .e4m3fn | .e5m2 | .e4m3fnuz | .e5m2fnuz => device==.cpu
+  | _ => false
+
+def maxSupported : DType → Bool
+  | .e4m3fn | .e5m2 | .e4m3fnuz | .e5m2fnuz => false
+  | _ => true
+
+def absDType : DType → DType
+  | .c32 => .fp16 | .c64 => .fp32 | .c128 => .fp64 | d => d
+
+def inverseDType (d : DType) : DType := match absDType d with
+  | .boolean | .u8 | .i8 | .i16 | .i32 | .i64 => .fp32
+  | d => d
+
+inductive Rejection where
+  | unsupportedAbs | emptyMaximum | unsupportedMaximum | missingSize | cudaAssertion
+  | unsupportedSignature | unsupportedLlrint | primitive (detail : String)
+  deriving DecidableEq, Repr
+
+structure Rejected where
+  stage : Stage
+  reason : Rejection
+  deriving DecidableEq, Repr
+
+/-- Source call sequence. A value returned by an earlier primitive is passed
+to the next stage by the typed producer for admitted routes. This finite
+admission interpreter records data-independent rejected routes without
+inventing values for primitives that never execute. -/
+def admission (env : Environment) (device : Device) (d : DType) (n : Nat) (rankZero : Bool) :
+    Except Rejected Storage := do
+  let check := fun stage => match env stage with
+    | none => Except.ok ()
+    | some detail => Except.error (Rejected.mk stage (.primitive detail))
+  check .abs
+  if !absSupported device d then throw ⟨.abs,.unsupportedAbs⟩
+  check .maximum
+  if n=0 then throw ⟨.maximum,.emptyMaximum⟩
+  if !maxSupported d then throw ⟨.maximum,.unsupportedMaximum⟩
+  check .unsqueeze
+  check .reciprocal
+  if rankZero then throw ⟨.outputAllocation,.missingSize⟩
+  check .outputAllocation
+  if device==.cpu then throw ⟨.cudaAssertion,.cudaAssertion⟩
+  check .signature
+  if d=.c32 ∨ d=.c64 ∨ d=.c128 then throw ⟨.signature,.unsupportedSignature⟩
+  check .compilation
+  if d=.fp16 ∨ d=.bf16 then throw ⟨.compilation,.unsupportedLlrint⟩
+  check .launch
+  match route d with
+  | some r => pure r
+  | none => throw ⟨.signature,.unsupportedSignature⟩
+
+def profiles : List DType := [.boolean,.u8,.i8,.i16,.i32,.i64,.u16,.u32,.u64,
+  .fp16,.bf16,.fp32,.fp64,.c32,.c64,.c128,.e4m3fn,.e5m2,.e4m3fnuz,.e5m2fnuz,.e8m0fnu,.e2m1x2]
+
+def observedCuda : List (Except Rejected Storage) := [
+  .ok .boolean,.ok .u8,.ok .i8,.ok .i16,.ok .i32,.ok .i64,
+  .error ⟨.abs,.unsupportedAbs⟩,.error ⟨.abs,.unsupportedAbs⟩,.error ⟨.abs,.unsupportedAbs⟩,
+  .error ⟨.compilation,.unsupportedLlrint⟩,.error ⟨.compilation,.unsupportedLlrint⟩,
+  .ok .fp32,.ok .fp64,
+  .error ⟨.signature,.unsupportedSignature⟩,.error ⟨.signature,.unsupportedSignature⟩,.error ⟨.signature,.unsupportedSignature⟩,
+  .error ⟨.abs,.unsupportedAbs⟩,.error ⟨.abs,.unsupportedAbs⟩,.error ⟨.abs,.unsupportedAbs⟩,
+  .error ⟨.abs,.unsupportedAbs⟩,.error ⟨.abs,.unsupportedAbs⟩,.error ⟨.abs,.unsupportedAbs⟩]
+
+/-- Exact finite table matching the stored CUDA source/unchanged-kernel probes;
+this theorem is not a proof of the native dispatcher implementation itself. -/
+specification quantize_global_dtype_admission_inventory :
+    profiles.map (fun d => admission (fun _ => none) .cuda d 3 false)=observedCuda := by
+  decide +kernel
+
+theorem admitted_route (d : Storage) (n : Nat) (hn : 0<n) :
+    admission (fun _ => none) .cuda (dtype d) n false=.ok d := by
+  cases d <;> simp [admission,absSupported,maxSupported,dtype,route,Nat.ne_of_gt hn] <;> rfl
+
+theorem cpu_boolean_first_error :
+    admission (fun _ => none) .cpu .boolean 3 false=.error ⟨.abs,.unsupportedAbs⟩ := by decide
+
+theorem cpu_fp8_first_error :
+    admission (fun _ => none) .cpu .e4m3fn 3 false=.error ⟨.maximum,.unsupportedMaximum⟩ ∧
+    admission (fun _ => none) .cpu .e4m3fn 0 false=.error ⟨.maximum,.emptyMaximum⟩ := by decide
+
+theorem cuda_fp8_first_error :
+    admission (fun _ => none) .cuda .e4m3fn 3 false=.error ⟨.abs,.unsupportedAbs⟩ := by decide
+
+theorem empty_admitted_first_error (d : Storage) :
+    admission (fun _ => none) .cuda (dtype d) 0 false=.error ⟨.maximum,.emptyMaximum⟩ := by
+  cases d <;> decide
+
+theorem rankzero_admitted_first_error (d : Storage) :
+    admission (fun _ => none) .cuda (dtype d) 1 true=.error ⟨.outputAllocation,.missingSize⟩ := by
+  cases d <;> decide
+
+theorem route_dtype (d : Storage) : route (dtype d)=some d := by cases d <;> rfl
+
+theorem route_signature (d : DType) (r : Storage) (h : route d=some r) : dtype r=d := by
+  cases d <;> simp [route] at h <;> subst r <;> rfl
+
+/-- Generic runtime exceptions remain explicit at the primitive boundary;
+the semantic model never proves that every CUDA driver/backend call succeeds. -/
+theorem first_primitive_failure (env : Environment) (device : Device) (d : DType)
+    (n : Nat) (z : Bool) (detail : String) (h : env .abs=some detail) :
+    admission env device d n z=.error ⟨.abs,.primitive detail⟩ := by
+  simp [admission,h]
+  rfl
+
+#axiomsClean quantize_global_dtype_admission_inventory
+#axiomsClean admitted_route
+#axiomsClean route_signature
+#axiomsClean first_primitive_failure
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end QuantizeGlobalFinite

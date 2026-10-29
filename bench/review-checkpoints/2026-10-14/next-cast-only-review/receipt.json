@@ -1,0 +1,24 @@
+{
+  "status": "READ_ONLY_REVIEW_COMPLETE",
+  "task_count": 23,
+  "public_specification_count": 63,
+  "priority_candidate_count": 5,
+  "baseline_counts_preserved": {
+    "cast_store": 23,
+    "refuted": 3,
+    "missing": 6
+  },
+  "all_reviewed_source_hashes_stable_at_completion": true,
+  "sources_or_metadata_modified": false,
+  "lean_compilation_performed": false,
+  "gpu_experiments_performed": false,
+  "proof_status_promotion": false,
+  "report_path": "/tmp/fp-next-cast-only-review-20261014/review.md",
+  "artifacts": {
+    "review.md": "5a529fb004b8c4142173c4d01ae89f6a90b4e1f36b8a3c1363a232ad2f42b2b5",
+    "review.json": "9468855ba31ce0e3158c17a994a6d4a127c1affa92b75c10a68b2dedf080e9b6",
+    "source-evidence.json": "0cdef63dc1457f909d2b67e7d4c1874cae9d95f5691c9f39efcf7dcb9312cf85",
+    "build_review.py": "ee6b222b2708a955a518590c6bda6c8fa0e94346849c17e44fd8a45de05b94d1"
+  },
+  "input_fp_proof_gaps_sha256": "c14e99ae8f029fda8f5670692bea8e73d8ca297dac1b7767146b39e500bb9cbb"
+}

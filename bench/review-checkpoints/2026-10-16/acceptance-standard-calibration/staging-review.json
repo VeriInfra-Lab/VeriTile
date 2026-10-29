@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "kind": "finite_acceptance_calibration_staging_review",
+  "status": "passed",
+  "base_commit": "754eaec43de8a34f9d986d375d2ff3e326a0963e",
+  "staged_paths_before_this_record": 17,
+  "staged_file_sha256": {
+    "bench/original_program_acceptance.md": "24d3d26972a22729d4f6f1d90aacdd2508f057468f54f8b0d9bf0508b873ae28",
+    "bench/original_program_scope.json": "56fbac2655ca87b7822349c171188fd998f3267641323175f1b1c11ed58eeba2",
+    "bench/original_program_scope.md": "e96aa01748c8d8842b24c1bd374c4791aabab494d0f580446e3e02170e7e83e0",
+    "bench/review-checkpoints/2026-10-16/acceptance-standard-calibration/README.md": "cb1852249f703c215ce74d0cb4d190f5953d1c105d337f7eb20b8a491de4acf3",
+    "bench/review-checkpoints/2026-10-16/acceptance-standard-calibration/evidence/README.md": "40e6cdd77a03cafdb295530d75a9e392fe9176384ad1d4f132ba6cf752c5fa5a",
+    "bench/review-checkpoints/2026-10-16/acceptance-standard-calibration/evidence/build_report.py": "1d16c85adc638f50cd5688c05c9c0eae3123420b1074d2731c203cae23d58797",
+    "bench/review-checkpoints/2026-10-16/acceptance-standard-calibration/evidence/calibration.json": "bab6a23125aa2b69a1d768ca1b450e895ab5d3564bc7c89c6d6a988e5447b82c",
+    "bench/review-checkpoints/2026-10-16/acceptance-standard-calibration/evidence/evidence.json": "5cb449c8a0b3587775cf24519758870fab3969ed0b6718cc71f456aba01f6df1",
+    "bench/review-checkpoints/2026-10-16/acceptance-standard-calibration/evidence/input-sha256.json": "5a0b5f9248e54f42757dc717dc0214fa9d19028e63e3fc75460d1dd5033d8e00",
+    "bench/review-checkpoints/2026-10-16/acceptance-standard-calibration/evidence/receipt.json": "ab079ded05ac49972207a8534df403bbb804c54af5536778e68b9c4deaecbec4",
+    "bench/review-checkpoints/2026-10-16/acceptance-standard-calibration/evidence/snapshot-selected-rows.json": "909d1781aa4589c816f38a0f6155290841ea723e9df36caa6307a9b0de6558b8",
+    "bench/review-checkpoints/2026-10-16/acceptance-standard-calibration/integrate.py": "acd3545ddd766a4010f24889ae0bc715b555bd33b80ea28497b59f05bfb88562",
+    "bench/review-checkpoints/2026-10-16/acceptance-standard-calibration/root-input-validation.json": "eb562b17af11c0c8739dfa29aa1fc0c6d5bdaba2f48c3822805ed33c2c94b8d4",
+    "bench/review-checkpoints/2026-10-16/acceptance-standard-calibration/root-review.json": "211a2a409265e7f64353a82b442d439d28edc7f8839b619a2ef89db7c20b0104",
+    "bench/review-checkpoints/2026-10-16/acceptance-standard-calibration/scope-gate.json": "03fb84e49bfaec70af2e3cdd8bd895b3ef48e1433e145ec035a293428e02da09",
+    "bench/review-checkpoints/2026-10-16/acceptance-standard-calibration/scope-gate.log": "03fb84e49bfaec70af2e3cdd8bd895b3ef48e1433e145ec035a293428e02da09",
+    "bench/review-checkpoints/2026-10-16/acceptance-standard-calibration/validation.json": "0f8eff1d875f4d78a3896e8309636c8b72ef20ae251e96895901418c0ed15a5e"
+  },
+  "diff_cached_check_exit_code": 0,
+  "changed_scope_rows": [
+    "quant_transpose_kernel",
+    "quantize_global",
+    "relu_triton_kernel",
+    "vector_addition"
+  ],
+  "unchanged_scope_rows": 179,
+  "whole_original_programs_accepted": 0
+}

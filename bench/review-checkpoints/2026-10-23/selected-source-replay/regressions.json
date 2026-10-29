@@ -1,0 +1,16 @@
+{
+  "command": [
+    "lake",
+    "env",
+    "lean",
+    "bench/tests/FPIntegerStageIO.lean"
+  ],
+  "exit_code": 0,
+  "elapsed_seconds": 5.086570127052255,
+  "source_commit": "ff5ada362579f45f0ff1940766cd2b90a3c80c6f",
+  "source_sha256": "5b1c1b1f5c62a94f0fd547c9433acec2d92b7d87d3ddb01e0496eda524b428ec",
+  "log": {
+    "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/integer-stage-regression.log.gz",
+    "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+  }
+}

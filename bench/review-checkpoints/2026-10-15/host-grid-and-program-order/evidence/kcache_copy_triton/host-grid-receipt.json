@@ -1,0 +1,119 @@
+{
+  "schema": 1,
+  "task": "kcache_copy_triton",
+  "status": "compiled_logical_host_and_sequential_grid_pending_independent_review",
+  "whole_program_acceptance": false,
+  "public_contracts_added": 1,
+  "original_source": {
+    "path": "bench/tritonbench_g/kcache_copy_triton/kcache_copy_triton.py",
+    "sha256": "50b19d6fb36b87913f8e7a0e4d697be619a6acd2893e3520f136616dc082a63d",
+    "unchanged": true
+  },
+  "new_sources": {
+    "bench/tritonbench_g/kcache_copy_triton/Proofs/HostGrid.lean": "e5c04b3e8d96ab55aafd0ccb10845912af19647c767b3392ddae706d0d067055",
+    "bench/tritonbench_g/kcache_copy_triton/Proofs/HostPrepare.lean": "28b40f0830fe058e5c381b4a619b1befe1fac6a355ce1b98b5182e2a084c9c6a",
+    "bench/tritonbench_g/kcache_copy_triton/HostCorrect.lean": "66ed5acbda6c18a12cf33ec34e432873cd7c5dd46f7c30f97f79fa6e301263c2",
+    "bench/tritonbench_g/kcache_copy_triton/Proofs/HostProbe.lean": "cd2699ee833b8c9d0900284a50e08bc58c47945b85015636ddf15096ebef81d0"
+  },
+  "existing_dependencies": {
+    "bench/tritonbench_g/kcache_copy_triton/Proofs/SignedCopy.lean": "f2e50a59e57a38878e446658c408a732ad05ed03dff7e4591049e7c760adb17d",
+    "bench/tritonbench_g/kcache_copy_triton/Proofs/SignedDiscreteCopy.lean": "4e7af428cbc7d1b3194ecf8fd631eed4a15bb6d94b9a1ee663af85a44cd86a34",
+    "bench/tritonbench_g/kcache_copy_triton/SignedCorrect.lean": "2a4e5cb7dd3738125ff56ba0420c205ddfd4e3b4280890e7efa75c2965ba1725",
+    "bench/tritonbench_g/kcache_copy_triton/DiscreteCorrect.lean": "7be61309004911193eb87f566bc2bd1c9f8d6594c501b42aeded92e2848b2237"
+  },
+  "lean_verification": [
+    {
+      "module": "bench/tritonbench_g/kcache_copy_triton/Proofs/HostGrid.lean",
+      "exit_code": 0,
+      "log": "grid-compile.log",
+      "log_sha256": "d3aa52090a327fdf576ed3cfcc9afd69e29cb1edc52cbf4646a69248ceb395c3",
+      "standard_base_axiom_audit": "pass"
+    },
+    {
+      "module": "bench/tritonbench_g/kcache_copy_triton/Proofs/HostPrepare.lean",
+      "exit_code": 0,
+      "log": "prepare-compile.log",
+      "log_sha256": "25a630f145b49ebf669003a1d1bf1ebdf3ba54cb8c5513b8b415d403204be74b",
+      "standard_base_axiom_audit": "pass"
+    },
+    {
+      "module": "bench/tritonbench_g/kcache_copy_triton/HostCorrect.lean",
+      "exit_code": 0,
+      "log": "host-compile.log",
+      "log_sha256": "7ddfc860f6578b8881799d980106cde656967671c3a78a9beb43d483210b63cb",
+      "standard_base_axiom_audit": "pass"
+    },
+    {
+      "module": "bench/tritonbench_g/kcache_copy_triton/Proofs/HostProbe.lean",
+      "exit_code": 0,
+      "log": "probe-compile.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "standard_base_axiom_audit": "pass"
+    }
+  ],
+  "verification_provenance": "Compiler exit0 results observed by agent, not inferred solely from empty/no-error logs. This script only assembles the recorded receipt.",
+  "cpu_probe": {
+    "exit_code": 0,
+    "cases": 36,
+    "launches": 23,
+    "host_errors": 13,
+    "script_sha256": "84bf6b5e400dd91b59fe10ff9f9c87aa2302cb337f9f391f83f77a96e3e13153",
+    "receipt_sha256": "33e35229a2b4e1c8402809451c5705463514d331f6f432cf87f306199f237b0d",
+    "method": "Original wrapper AST, actual CPU Torch reshape, kernel launch spy",
+    "gpu_execution": false,
+    "native_compilation": false
+  },
+  "lean_model_probe": {
+    "cases": 35,
+    "exit_code": 0,
+    "method": "kernel-evaluated equality to original-wrapper captures for all shape/stride/grid/view-copy/warps fields or modeled error stage",
+    "negative_n_excluded": true
+  },
+  "scope": [
+    "3D key passes through;4D flattens both leading dimensions with explicit Torch-style contiguous-chunk view-stride inference or a materialized row-major copy. Empty-tail inference errors and empty-prefix metadata are retained.",
+    "All source guards execute in order; n>1 divisibility and batch division, both cache layouts, actual stride wiring, full3D grid and head_dim num_warps branch are retained. Natural n=0 reaches an empty grid; no n=1 or single-layout restriction.",
+    "Every program executes the existing complete signed source, with fresh registers and actual3D coordinates. Memory is threaded between programs, preserving all aliases and repeated writes.",
+    "Complete final-memory equality and all untouched cells are proved against independent current-memory address/value recurrence. Reshape-copy preservation is proved for every original4D strided element.",
+    "Six inherited logical floating Storage constructors and nine discrete constructors; fp64 remains opaque legacy storage, not a newly closed64bit raw format. Existing machine-raw floating set remains five formats.",
+    "No numerical callback law, successful-execution premise, arbitrary post-reshape stride premise, or no-alias hypothesis is required."
+  ],
+  "original_source_findings": [
+    {
+      "id": "ignored-cache-last-stride",
+      "status": "preserved",
+      "witness": "Both captured stride2 cache layouts pass stride_kcx=2, but source lane1 writes offset1 instead of logical cache offset2."
+    },
+    {
+      "id": "ignored-lengths-stride",
+      "status": "preserved",
+      "witness": "A captured lengths tensor with stride2 passes all guards; sequence1 loads physical offset1, not logical offset2."
+    },
+    {
+      "id": "legacy-cache-shape",
+      "status": "preserved",
+      "witness": "Legacy branch accepts rank5 cache and mismatched head count, and uses actual shape[-2],stride(2),stride(3)."
+    },
+    {
+      "id": "nonpositive-n",
+      "status": "partial",
+      "witness": "n=0 creates zero first grid dimension; negative n reaches a negative Python grid in the spy but is outside the Lean natural-n domain."
+    },
+    {
+      "id": "native-arange",
+      "status": "pending",
+      "witness": "head_dim129 reaches width129 and num_warps8, although native arange width must be a power of two."
+    }
+  ],
+  "remaining_nondeferrable_gaps": [
+    "Independent review and catalog registration; no new whole-task acceptance.",
+    "Universal theorem that view-stride inference preserves flattened indexing, plus Torch reshape/allocation primitive correspondence. Finite CPU/Lean probes are not that proof.",
+    "Full caller/dtype/error domain beyond natural dimensions/strides/n and existing logical storage constructors; arbitrary Python n/types, negative n, storage offsets and tensor/region physical alias mapping remain open.",
+    "Original source bugs for nonunit cache-tail stride, noncontiguous lengths and unchecked legacy shape; cannot be hidden by unstated preconditions.",
+    "Native metadata widths/overflow/division, block_size0, byte addresses/ABI, arange/resource legality and CUDA execution.",
+    "Concurrent scheduling, race freedom and schedule-independent refinement; theorem is one explicit sequential logical grid."
+  ],
+  "numerical_deferrals": [],
+  "repository_mutation": false,
+  "all_new_work_under": "/tmp/veritile-standardization-20261015/kcache-host-wip",
+  "exclude_from_integration": "All .olean files/symlinks are temporary import/build scaffolding."
+}

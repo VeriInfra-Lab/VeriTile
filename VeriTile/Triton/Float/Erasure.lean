@@ -166,6 +166,7 @@ def Op.eraseDType : Op dtype shape → Op (VeriTile.Triton.eraseDType dtype) sha
   | .libdevicePowi bc a b => .libdevicePowi bc a.eraseDType b.eraseDType
   | .where c a b => .where c.eraseDType a.eraseDType b.eraseDType
   | .ite c a b => .ite c.eraseDType a.eraseDType b.eraseDType
+  | .reduceMin axis keepDims a => .reduceMin axis keepDims a.eraseDType
   | .reduceMax axis keepDims a => .reduceMax axis keepDims a.eraseDType
   | .reduceMaxNat axis keepDims a => .reduceMaxNat axis keepDims a.eraseDType
   | .reduceMaxInt axis keepDims a => .reduceMaxInt axis keepDims a.eraseDType

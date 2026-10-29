@@ -1,0 +1,37 @@
+{
+  "status": "kernel_checked_pre_rounding_software_contract",
+  "profiles": [
+    "fp32"
+  ],
+  "scope": "previously accepted scaled-store slice only; two rounded multiplies and masked transposed writeback",
+  "backend": "FP.Software.scalarFP32 with exact bits for literal127; configurable software rounding/denormal behavior",
+  "remaining": [
+    "llrint and int8 quantization",
+    "original grouped scheduling and host pipeline",
+    "compiler/device binding"
+  ],
+  "no_native_execution_performed": true,
+  "formal_source_bridge": "VeriTile.Bench.TritonBenchG.QuantTransposeKernel.TypedScaled.source_shape",
+  "python_source": {
+    "path": "bench/tritonbench_g/quant_transpose_kernel/quant_transpose_kernel.py",
+    "sha256": "ccf3ff3369cddbb96364cbff33ae9efa6e722450eae0e5b59b195a8eaa39534a"
+  },
+  "proof_sources": [
+    {
+      "path": "bench/tritonbench_g/quant_transpose_kernel/FPCorrect.lean",
+      "sha256": "dee7d9ac55cfe289def37676c231ecc77bdb9cd606eb18b0fabbcd29733af18a"
+    },
+    {
+      "path": "bench/tritonbench_g/quant_transpose_kernel/Proofs/TypedScaled.lean",
+      "sha256": "55eb7c0c14fee596ab569268f58f1b50e28254e2aacdfb2189e40eca15c25ba2"
+    },
+    {
+      "path": "bench/tritonbench_g/quant_transpose_kernel/Proofs/TypedShape.lean",
+      "sha256": "3d1c25e2d6f3a9e9ce28304afd071a8e4763f55337cd38a0728b0d772653a776"
+    },
+    {
+      "path": "bench/tritonbench_g/quant_transpose_kernel/QuantTransposeKernel.lean",
+      "sha256": "7c2b124ace154bc1edc7d3a973f5cb5e1436000bd2683423c3d34f8f910b7bf0"
+    }
+  ]
+}

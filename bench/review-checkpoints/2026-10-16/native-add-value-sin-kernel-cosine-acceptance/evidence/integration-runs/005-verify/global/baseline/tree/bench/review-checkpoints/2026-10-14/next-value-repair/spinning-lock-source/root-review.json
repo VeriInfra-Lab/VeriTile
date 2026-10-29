@@ -1,0 +1,33 @@
+{
+  "reviewer": "root",
+  "status": "full_task_local_typed_source_to_SC_software_reference_review_pass_pending_integration",
+  "receipt_sha256": "158b536e98a9b777e74482a5b6d9d707619edbc14cb3760e539ea72d370fdb14",
+  "artifacts_verified": 166,
+  "compiled_modules_verified": 11,
+  "dependency_objects_verified": 286,
+  "public_specifications_verified": 5,
+  "historical_public_file_byte_identical": true,
+  "source_replay": {
+    "results": "root-replay-results.json",
+    "sha256": "efb9ef53853aa5402333dd98be153f59f6f2d6bc4796051562b628a21fdaa40b",
+    "typed_source_regenerated_identical": true,
+    "original_ast_scheduled_tests": 6
+  },
+  "reference_audit": {
+    "source": "SpinningSourceReferenceAudit.lean",
+    "source_sha256": "b203076ca1110e4ad9cf0ce3387db9827d0a5433b65aa02c1f282f13a99a3b5e",
+    "log": "root-reference-audit.log",
+    "log_sha256": "264b1e72260c3d2a325a3fc7e8510162306e668f1fa5fde6389236410f17c6b1",
+    "noncircular_checks": 6
+  },
+  "findings": [
+    "All26 original statements,9 rounds and both while loops are retained in an AST-generated typed tree. Exact-schema compilation preserves and evaluates actual control/address expressions; proof lifts the source/plan bridge over arbitrary finite schedules.",
+    "Two new source public contracts compute the RHS trace from Config, initial integer locks and schedule alone. A proved projection makes it independent of carrier/backend/partial/output values. Independent replay recomputes all float reads, folds and stores from initial memory; six root dependency audits exclude source value execution.",
+    "Closed fp32 software uses nearest-even/subnormal/NaN behavior of the stated scalar interpreter. No finite-input, ready-lock, hstep or termination assumption is introduced. Fault/blocked prefixes remain modeled, and separate total signed-offset regions are explicit.",
+    "Original Python AST lowering and six source instrumentation tests regenerate byte-identically in an independent replay directory. External ast.parse/symbolic substitution and selected fp32/i32 typing remain trusted; this is a task-local source compiler, not admission by the shared Triton DSL.",
+    "SC row-major lane serialization and adjacent load/local-add are not proved native GPU refinements. Reused P writes have a checked missing release/acquire HB path, and arbitrary failed polls refute unconditional progress. GPU memory-order/race-freedom/termination and physical-address/FP bindings remain pending.",
+    "Original two offline profiles and separate publish-once candidate artifacts are preserved. Candidate is not adopted or proved race-free; source contracts apply to the original. The earlier3 SC-model public contracts remain byte-identical and distinct from2 new source contracts."
+  ],
+  "native_execution": false,
+  "canonical_acceptance_updated": false
+}

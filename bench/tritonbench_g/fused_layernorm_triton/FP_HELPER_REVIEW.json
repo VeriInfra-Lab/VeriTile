@@ -1,0 +1,30 @@
+{
+  "torch_version": "2.14.0+cu130",
+  "triton_version": "3.8.0",
+  "helper_path": "/opt/conda/lib/python3.11/site-packages/torch/_inductor/runtime/triton_helpers.py",
+  "helper_sha256": "653ad73ace0588ba8748ac0499353031268f10c739f911cb73be50248d0a8d9f",
+  "observed_lines": {
+    "welford_reduce": [
+      421,
+      432
+    ],
+    "welford_combine": [
+      435,
+      445
+    ],
+    "welford": [
+      449,
+      450
+    ]
+  },
+  "scope": "Installed helper read-only provenance; benchmark runtime version not pinned by this observation",
+  "historical_translation_gaps": [
+    "true first_iteration branch in old translation",
+    "tuple welford reduction and exact reduction tree"
+  ],
+  "current_resolution": {
+    "true_first_iteration": "FPWelfordTree.reduceExpressions/reduceStep and FPWelfordBlock.welfordPrefix",
+    "tuple_reduction": "explicit complete ordered ReductionTree using pinned welford_combine; source expressions proved equal to independent value recurrence",
+    "native_helper_tree_correspondence": "not established; required configuration binding"
+  }
+}

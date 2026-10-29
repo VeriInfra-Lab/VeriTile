@@ -1,0 +1,9 @@
+{
+  "command": [
+    "/usr/local/bin/python3",
+    "/tmp/veritile-standardization-20261015/vector-dtype-admission-wip/audit_source.py"
+  ],
+  "exit_code": 0,
+  "log_sha256": "8d15fb0e4e586de7a0358374b6febbca2f6796617c263abbf4f792f94a71c25e",
+  "audit_sha256": "c6ce9a938df490f6a6264cee87107cb1f771c646f2456b9bf01f10602a645a83"
+}

@@ -1,0 +1,115 @@
+{
+  "schema": 1,
+  "task": "adam_update_triton",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue01/result.json",
+    "sha256": "e83606eb1af11f63258849532abca45e610a46657c5b23bc45277a166000a8ec",
+    "task_index": 0
+  },
+  "finding": "The main reader used raw ChannelValues with parameter/gradient/momentum selector functions and a numbered two-channel result.",
+  "resolution": "Added genuine named three-array Inputs and two-array Outputs records with exact raw channel equivalences; the public formula now reads xs.parameter/gradient/momentum and names both results.",
+  "mathematical_target": "Independent Lion parameter decay/sign update and next momentum.",
+  "conditions_and_scope": "Real main remains the same parameterized single invocation with total/n/B/pid masks, both in-place stores, all entry input cells, execution/access safety and exterior frame. FP theorem remains the full complete grid with positive B and any complete PID order.",
+  "proof_connection": "Proofs/LogicalReader.statement_iff proves equivalence of the entire original judgment after exact input/output transport. The independently displayed formula is connected to the canonical full formula; execution, access safety, output and frame are unchanged.",
+  "fp_review": "Actual full native original/momentum-addition-commuted source pair and contracted FP32 graph unchanged; all-word domain and runtime scalars retained; empty experimental R.",
+  "numerical_dependencies": "No new numerical rule or experiment. Existing strict/model bindings remain; the main FP pair has zero experimental rules.",
+  "previous_formula_scope": {
+    "mathematical_target": "(1-lr*wd)*p-lr*Real.sign(beta1*m+(1-beta1)*g); beta2*m+(1-beta2)*g",
+    "required_conditions": [
+      "Runtime lr/wd/beta1/beta2 register bindings, P/G/M finite input windows and output/access bounds are in Interface.programIO/IO.lean; no literal scalar substitution.",
+      "Contract binds contiguous FP32 P/G/M, normalized runtime scalars, n/total/chunk geometry, disjoint live roles, pointer/empty-launch conditions."
+    ],
+    "scope": "One actual Real invocation at arbitrary pid, active pid*B+j<n, both in-place P/M outputs, safe successful execution and exact exterior frame. The FP result separately covers the complete grid.",
+    "canonical_connection": "Correct.parameterFormula/momentumFormula are already explicit; Correct.lion_kernel_correctness applies Real.io_correct from Proofs/IOReal.lean, with exactly the canonical Lion source and runtime scalar bindings.",
+    "fp_program_pair": {
+      "floating_point.actual_pair": "FPEquiv.original ≡[[]] FPEquiv.candidate; existing momentum spelling diff*beta2+grad becomes grad+diff*beta2",
+      "floating_point.scope": "Complete arbitrary-permuted original/candidate grid; original B configurations, all runtime FP32 scalar words and P/G/M payloads; both safe successful schedules, both typed outputs, both raw frames. Both momentum expressions lower to the identical selected ordered FMA graph."
+    },
+    "numerical_dependencies": {
+      "kind": "strict-program-structure",
+      "rule": "no floating rewrite",
+      "experimental_instance_used": false,
+      "explanation": "The selected source schedule/index/ordered native graph equality is proved with the existing implementation/model binding. Empty experimental rules do not assert equality for arbitrary opaque primitives or GPU conformance."
+    }
+  },
+  "verification": [
+    {
+      "kind": "targeted_build",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue01/build.py",
+        "bench.repairs.tritonbench_g.adam_update_triton.LogicalIO",
+        "bench.repairs.tritonbench_g.adam_update_triton.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.adam_update_triton.Correct",
+        "bench.repairs.tritonbench_g.attention_fwd_triton2.LogicalIO",
+        "bench.repairs.tritonbench_g.attention_fwd_triton2.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.attention_fwd_triton2.Correct",
+        "bench.repairs.tritonbench_g.attn_fwd_causal.LogicalIO",
+        "bench.repairs.tritonbench_g.attn_fwd_causal.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.attn_fwd_causal.Correct",
+        "bench.repairs.tritonbench_g.attention_kernel.LogicalIO",
+        "bench.repairs.tritonbench_g.attention_kernel.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.attention_kernel.Correct"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue01/accepted-readers-build.log",
+      "log_sha256": "44292bd0070f613350bd8f96fe0d166d3062d2ec5524b56454dfa3d722c446af",
+      "module_receipts": [
+        {
+          "path": ".veritile-cache/logical-reader-review-20261022/queue01/build/lib/lean/bench/repairs/tritonbench_g/adam_update_triton/Correct.workspace-build.json",
+          "sha256": "da9b1c787169f85c2f19419f03de21bb620f0cde5c14f881cd9f048dab9ad497"
+        },
+        {
+          "path": ".veritile-cache/logical-reader-review-20261022/queue01/build/lib/lean/bench/repairs/tritonbench_g/adam_update_triton/Proofs/LogicalReader.workspace-build.json",
+          "sha256": "10d80f6ca7a35f5a0389b9116a76fe820a6c82cc511c832d79fd4eaa826b53e0"
+        },
+        {
+          "path": ".veritile-cache/logical-reader-review-20261022/queue01/build/lib/lean/bench/repairs/tritonbench_g/adam_update_triton/LogicalIO.workspace-build.json",
+          "sha256": "bd0de0797c5a6a0d145bc91c51048d9f898912628be2168b96402497ff0cb371"
+        }
+      ],
+      "note": "Final successful grouped command reused accepted receipts for these exact source and dependency hashes."
+    },
+    {
+      "task": "adam_update_triton",
+      "kind": "task_joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue01/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue01/Joint_adam_update_triton.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue01/Joint_adam_update_triton.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/adam_update_triton/Contract.lean": "8d50d023936f593e64e6df77f8cb18c9c387ecb3aa7f31687a038994c227eb06",
+    "bench/repairs/tritonbench_g/adam_update_triton/Correct.lean": "bedf4ce98ee22439245fcef637dc130d103865c3305b236d12c47dcbec5b30dc",
+    "bench/repairs/tritonbench_g/adam_update_triton/FPEquiv.lean": "d5cb648e7a1572759456f6d00446242d2c760377fc0e30948df2d6d712f6d6eb",
+    "bench/repairs/tritonbench_g/adam_update_triton/IO.lean": "49dd829d9e193a47ffe5d335ed1441d291a0cc2c126470861618e1b54b77b288",
+    "bench/repairs/tritonbench_g/adam_update_triton/Proofs/LogicalReader.lean": "961b50eb732695cc7f3209885da129cec7b39bf1eb1146c17d6ad377d4c656ef",
+    "bench/repairs/tritonbench_g/adam_update_triton/LogicalIO.lean": "84799751e625abf2e4a7551c5ad235ca574671f85ffa9c862d015e6baeb693d0",
+    "bench/repairs/tritonbench_g/adam_update_triton/Kernels.lean": "75bb80be57b29a609330378d3df8cb162efe55992005bcd48f58900d122b0251",
+    "bench/repairs/tritonbench_g/adam_update_triton/Proofs/IOReal.lean": "23659924769bb9e586c6818cbea292eb8a0bc3990f27fde0e17fa6d89ec41c0d",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [
+    "Unchanged transitive proof closure and FPEquiv objects reused from the accepted read-only baseline; current selected entries passed task-level joint import.",
+    "No optional host/native/Tensor/GPU or numerical task introduced."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

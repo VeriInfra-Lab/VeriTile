@@ -31,4 +31,12 @@ abbrev Op.intShiftRight (bc : Broadcast a b out)
   .floorDiv .int bc lhs
     (.castNatToInt (.shiftLeft (sameShape b) (.full b (.constNat 1)) rhs))
 
+/-- Left shift in the mathematical signed-index projection. Like signed
+index multiplication, this does not silently wrap. A native-width refinement
+must establish its range, or use an explicit narrowing operation. -/
+abbrev Op.intShiftLeft (bc : Broadcast a b out)
+    (lhs : Op .int a) (rhs : Op .nat b) : Op .int out :=
+  .mul .int bc lhs
+    (.castNatToInt (.shiftLeft (sameShape b) (.full b (.constNat 1)) rhs))
+
 end VeriTile.Triton

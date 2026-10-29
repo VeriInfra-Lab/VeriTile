@@ -1,0 +1,24 @@
+{
+  "reviewer": "root",
+  "status": "full_original_scope_selected_half_storage_review_pass",
+  "receipt_sha256": "5ee0d32a7f93219a2bd27a4504d1ff4c54292a2b7a842cdbb71d55c426e6763f",
+  "artifact_files_verified": 43,
+  "sources_verified": 11,
+  "objects_verified": 11,
+  "compiled_modules_verified": 11,
+  "old_public_source_bytes_unchanged": true,
+  "reference_audit": {
+    "source": "MatmulKernelReferenceAudit.lean",
+    "source_sha256": "eba0804ad673f235c0595a9af4bb245560e27d188c213bcb748af9b61e752260",
+    "log": "matmul-kernel-reference-audit.log",
+    "log_sha256": "970ce6a1cb2599fa7aa0c8f5112524d76e59db5add24cdf545ae0dea1c69012d",
+    "noncircular_checks": 4
+  },
+  "findings": [
+    "Original complete arbitrary BM/BN/BK/T and 2D pid scope, fixed strides, modulo4096 input addressing, unmasked loads/stores and zero trips retained. Only original BN<=4096 output injection premise.",
+    "Source three-argument dot retains live carry. Concrete half storage/software uses ascending fp32 FMA then half output conversion and is independent of fallback arithmetic callbacks.",
+    "The two-block actual source execution checks a real FMA tie and output-frame preservation. It is not the original hard-coded K4096 host launch; cdiv trip/ABI, tensor core order, specials and actual addresses remain explicit native bindings."
+  ],
+  "native_execution": false,
+  "canonical_counts_updated": false
+}

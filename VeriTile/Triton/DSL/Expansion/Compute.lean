@@ -679,6 +679,14 @@ partial def expandArgReduce (expandExpr : ExprExpander) (env : Env) (ctx : Strin
   let outDims ← eraseNth dims axisIdx
   let axisLit : TSyntax `num := ⟨Syntax.mkNumLit (toString axisIdx)⟩
   let term ← match e'.dtype with
+    | .nat => do
+        if axisKwargs.isEmpty && dims.length != 1 then
+          Macro.throwError "tl.argmax: unsigned integer tiles of rank > 1 require an explicit axis"
+        `(Op.argMaxInt (⟨$axisLit, by simp⟩) (Op.castNatToInt $e'.term))
+    | .bool => do
+        if axisKwargs.isEmpty && dims.length != 1 then
+          Macro.throwError "tl.argmax: boolean tiles of rank > 1 require an explicit axis"
+        `(Op.argMaxInt (⟨$axisLit, by simp⟩) (Op.boolToInt $e'.term))
     | .int | .int8 | .int32 => do
         if axisKwargs.isEmpty && dims.length != 1 then
           Macro.throwError "tl.argmax: signed integer tiles of rank > 1 require an explicit axis"
@@ -712,6 +720,11 @@ partial def expandReduce (expandExpr : ExprExpander) (env : Env) (ctx : String) 
     (e : TSyntax `tritonExpr)
     (kwargs : TSyntaxArray `tritonReduceKwarg) : MacroM EOut := do
   let original ← expandExpr env e
+  -- Minimum currently has a real-channel node (including fp32/fp64 compute
+  -- annotations). Reject other channels until their typed reduction is
+  -- represented, rather than silently inserting a floating conversion.
+  if ctx == "tl.min" && original.dtype != .real then
+    Macro.throwError "tl.min: only real-channel reductions are supported; typed and integer reductions require dedicated lowering"
   let dims := match original.shape with | .dims ds => ds
   if dims.isEmpty then
     Macro.throwError (ctx ++ ": reduction expects a tile, got scalar")

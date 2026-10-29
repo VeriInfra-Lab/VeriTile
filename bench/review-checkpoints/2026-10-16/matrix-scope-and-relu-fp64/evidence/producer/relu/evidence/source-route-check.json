@@ -1,0 +1,126 @@
+{
+  "source": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/relu_triton_kernel/relu_triton_kernel.py",
+  "source_sha256": "2dffef82d69f280104c25b798e23f59a1ba9d00325552b91149a1d3b50fcffb0",
+  "kernel_ast_identical": true,
+  "source_statements": [
+    "pid = tl.program_id(0)",
+    "block_start = pid * block_size",
+    "offsets = block_start + tl.arange(0, block_size)",
+    "mask = offsets < N",
+    "x = tl.load(x_ptr + offsets, mask=mask)",
+    "result = tl.where(x >= 0, x, 0.0)",
+    "if pid == 0:\n    tl.store(out_ptr + offsets, result, mask=mask)"
+  ],
+  "ttir_sha256": "9ac2bdc9efd1df54bcbed45bcf9157ce70f907723c6d855f9d5648a849b07d56",
+  "ttir_order_tokens": [
+    "tt.get_program_id",
+    "tt.make_range",
+    "arith.cmpi slt",
+    "tt.load",
+    "arith.cmpf oge",
+    "arith.select",
+    "scf.if",
+    "arith.truncf",
+    "tt.store"
+  ],
+  "ttir_order_positions": [
+    347,
+    1187,
+    2390,
+    2648,
+    2916,
+    3207,
+    3407,
+    3610,
+    3691
+  ],
+  "source_route_kind": "explicit hand-materialized statement interpreter, reviewed against AST and frozen TTIR",
+  "frontend_source": "inherited frozen audit; no rerun",
+  "admitted_profiles": [
+    "bool",
+    "int8",
+    "uint8",
+    "int16",
+    "uint16",
+    "int32",
+    "uint32",
+    "int64",
+    "uint64",
+    "float16",
+    "bfloat16",
+    "float32",
+    "float64"
+  ],
+  "comparison_rejections": [
+    "float8_e4m3fn",
+    "float8_e5m2"
+  ],
+  "signature_rejections": [
+    "float8_e4m3fnuz",
+    "float8_e5m2fnuz"
+  ],
+  "observed_frontend_config": {
+    "target": {
+      "backend": "cuda",
+      "arch": 90,
+      "warp_size": 32
+    },
+    "constexprs": {
+      "N": 1025,
+      "block_size": 1024
+    },
+    "options": {
+      "num_warps": 4,
+      "num_ctas": 1,
+      "num_stages": 3,
+      "warp_size": 32,
+      "maxnreg": null,
+      "ptx_version": null,
+      "ptx_options": null,
+      "ir_override": null,
+      "enable_fp_fusion": true,
+      "enable_reflect_ftz": true,
+      "launch_cooperative_grid": false,
+      "launch_pdl": false,
+      "supported_fp8_dtypes": [
+        "fp8e4b15",
+        "fp8e4nv",
+        "fp8e5"
+      ],
+      "deprecated_fp8_dot_operand_dtypes": [
+        "fp8e4b15"
+      ],
+      "default_dot_input_precision": "tf32",
+      "allowed_dot_input_precisions": [
+        "tf32",
+        "tf32x3",
+        "ieee",
+        "bf16x3",
+        "bf16x6"
+      ],
+      "max_num_imprecise_acc_default": 1073741824,
+      "extern_libs": [
+        [
+          "libdevice",
+          "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+        ]
+      ],
+      "debug": false,
+      "backend_name": "cuda",
+      "sanitize_overflow": true,
+      "arch": "sm90",
+      "instrumentation_mode": ""
+    },
+    "environment": {
+      "python": "3.12.13 (main, Aug 20 2026, 17:28:00) [GCC 11.4.0]",
+      "torch": "2.13.0+cu130",
+      "triton": "3.7.1",
+      "semantic_path": "/usr/local/lib/python3.12/site-packages/triton/language/semantic.py",
+      "semantic_sha256": "22b7669ff8ba591fc1540ce01a4030cf54aa2dccfdb21c2d31fa55d5cab77c7c",
+      "jit_path": "/usr/local/lib/python3.12/site-packages/triton/runtime/jit.py",
+      "jit_sha256": "5fe46fbfac257a2b8645b7a2cc709232273d42dd5e1d55de9770b412a9476d77"
+    }
+  },
+  "new_native_compilation": false,
+  "new_gpu_execution": false
+}

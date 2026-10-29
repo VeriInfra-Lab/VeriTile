@@ -1,0 +1,63 @@
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeProgram.lean:153:44: warning: This simp argument is unused:
+  native_bind_error
+
+Hint: Omit it from the simp argument list.
+  simp only [̵r̵e̵q̵u̵i̵r̵e̵S̵o̵m̵e̵,̵n̵a̵t̵i̵v̵e̵_̵b̵i̵n̵d̵_̵o̵k̵,̵n̵a̵t̵i̵v̵e̵_̵b̵i̵n̵d̵_̵e̵r̵r̵o̵r̵]̵[̲r̲e̲q̲u̲i̲r̲e̲S̲o̲m̲e̲,̲ ̲n̲a̲t̲i̲v̲e̲_̲b̲i̲n̲d̲_̲o̲k̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeProgram.lean:189:35: warning: This simp argument is unused:
+  native_bind_ok
+
+Hint: Omit it from the simp argument list.
+  simp [̵h̵z̵,̵r̵e̵q̵u̵i̵r̵e̵S̵o̵m̵e̵,̵n̵a̵t̵i̵v̵e̵_̵b̵i̵n̵d̵_̵o̵k̵,̵n̵a̵t̵i̵v̵e̵_̵b̵i̵n̵d̵_̵e̵r̵r̵o̵r̵]̵[̲h̲z̲,̲ ̲r̲e̲q̲u̲i̲r̲e̲S̲o̲m̲e̲,̲ ̲n̲a̲t̲i̲v̲e̲_̲b̲i̲n̲d̲_̲e̲r̲r̲o̲r̲]̲ at h
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeProgram.lean:191:47: warning: This simp argument is unused:
+  native_bind_error
+
+Hint: Omit it from the simp argument list.
+  simp only [̵h̵z̵,̵r̵e̵q̵u̵i̵r̵e̵S̵o̵m̵e̵,̵n̵a̵t̵i̵v̵e̵_̵b̵i̵n̵d̵_̵o̵k̵,̵n̵a̵t̵i̵v̵e̵_̵b̵i̵n̵d̵_̵e̵r̵r̵o̵r̵]̵[̲h̲z̲,̲ ̲r̲e̲q̲u̲i̲r̲e̲S̲o̲m̲e̲,̲ ̲n̲a̲t̲i̲v̲e̲_̲b̲i̲n̲d̲_̲o̲k̲]̲ at h
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeProgram.lean:198:36: warning: This simp argument is unused:
+  native_bind_ok
+
+Hint: Omit it from the simp argument list.
+  simp [̵h̵t̵,̵n̵a̵t̵i̵v̵e̵_̵b̵i̵n̵d̵_̵o̵k̵,̵n̵a̵t̵i̵v̵e̵_̵b̵i̵n̵d̵_̵e̵r̵r̵o̵r̵]̵[̲h̲t̲,̲ ̲n̲a̲t̲i̲v̲e̲_̲b̲i̲n̲d̲_̲e̲r̲r̲o̲r̲]̲ at h
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeProgram.lean:201:36: warning: This simp argument is unused:
+  native_bind_error
+
+Hint: Omit it from the simp argument list.
+  simp [̵h̵t̵,̵n̵a̵t̵i̵v̵e̵_̵b̵i̵n̵d̵_̵o̵k̵,̵n̵a̵t̵i̵v̵e̵_̵b̵i̵n̵d̵_̵e̵r̵r̵o̵r̵,̵n̵a̵t̵i̵v̵e̵_̵p̵u̵r̵e̵]̵[̲h̲t̲,̲ ̲n̲a̲t̲i̲v̲e̲_̲b̲i̲n̲d̲_̲o̲k̲,̲ ̲n̲a̲t̲i̲v̲e̲_̲p̲u̲r̲e̲]̲ at h
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeProgram.lean:217:28: warning: This simp argument is unused:
+  native_bind_ok
+
+Hint: Omit it from the simp argument list.
+  simp [̵h̵l̵,̵n̵a̵t̵i̵v̵e̵_̵b̵i̵n̵d̵_̵o̵k̵,̵n̵a̵t̵i̵v̵e̵_̵b̵i̵n̵d̵_̵e̵r̵r̵o̵r̵]̵[̲h̲l̲,̲ ̲n̲a̲t̲i̲v̲e̲_̲b̲i̲n̲d̲_̲e̲r̲r̲o̲r̲]̲ at h
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeProgram.lean:222:38: warning: This simp argument is unused:
+  native_bind_error
+
+Hint: Omit it from the simp argument list.
+  simp only [̵h̵l̵,̵h̵v̵,̵n̵a̵t̵i̵v̵e̵_̵b̵i̵n̵d̵_̵o̵k̵,̵n̵a̵t̵i̵v̵e̵_̵b̵i̵n̵d̵_̵e̵r̵r̵o̵r̵]̵[̲h̲l̲,̲ ̲h̲v̲,̲ ̲n̲a̲t̲i̲v̲e̲_̲b̲i̲n̲d̲_̲o̲k̲]̲ at h
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+QuantTransposeFinite.nativeProgramPlan: definition does not reference [QuantTransposeFinite.executeNativeProgram,
+ QuantTransposeFinite.executeNativeTileWrites,
+ QuantTransposeFinite.applyNativeWrites,
+ QuantTransposeFinite.source,
+ QuantTransposeFinite.Expr.eval] — non-circular ✓
+QuantTransposeFinite.native_program_correspondence: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+QuantTransposeFinite.native_program_plan_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+QuantTransposeFinite.native_program_write_bounds: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

@@ -1,0 +1,28 @@
+{
+  "status": "passed",
+  "checks": [
+    {
+      "candidate": "C",
+      "only_expected_functions_changed": true,
+      "new_helper_reuses_exact_original_loop_AST": true,
+      "imports_and_top_level_unchanged": true,
+      "public_signature_unchanged": true,
+      "authority_call_occurrences": 1,
+      "exact_case_link_call_occurrences": 1,
+      "complete_used_checks_and_return_unchanged": true,
+      "no_successful_early_return": true
+    },
+    {
+      "candidate": "A+C",
+      "only_expected_functions_changed": true,
+      "new_helper_reuses_exact_original_loop_AST": true,
+      "imports_and_top_level_unchanged": true,
+      "public_signature_unchanged": true,
+      "authority_call_occurrences": 1,
+      "exact_case_link_call_occurrences": 1,
+      "complete_used_checks_and_return_unchanged": true,
+      "no_successful_early_return": true
+    }
+  ],
+  "diff_aliases_identical": true
+}

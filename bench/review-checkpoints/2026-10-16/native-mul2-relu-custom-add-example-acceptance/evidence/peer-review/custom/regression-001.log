@@ -1,0 +1,28 @@
+/tmp/veritile-standardization-20261015/vector-custom-revision1-independent-review/isolated/IndependentRegression.lean:6:42: error: unknown namespace `VectorAddition.Finite`
+/tmp/veritile-standardization-20261015/vector-custom-revision1-independent-review/isolated/IndependentRegression.lean:50:16: error: Application type mismatch: The argument
+  ops
+has type
+  (r : Route) → Memory M ?m.4
+but is expected to have type
+  (r : TypedHost.Route) → Memory ?m.33 (Finite.Carrier r)
+in the application
+  executeHost ops
+/tmp/veritile-standardization-20261015/vector-custom-revision1-independent-review/isolated/IndependentRegression.lean:44:35: error: Function expected at
+  Carrier
+but this term has type
+  ?m.2
+
+Note: Expected a function because this term is being applied to the argument
+  r
+
+Hint: The identifier `Carrier` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.
+CustomIndependentReview.exact_grid_threshold: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+CustomIndependentReview.integer_minimum_discontinuity: axiom footprint ⊆ standard base ✓  ([propext])
+CustomIndependentReview.repeated_native_request: axiom footprint ⊆ standard base ✓  ([propext])
+CustomIndependentReview.repeated_output_is_observed: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+CustomIndependentReview.owner_does_not_grant_access: axiom footprint ⊆ standard base ✓  ([propext])
+/tmp/veritile-standardization-20261015/vector-custom-revision1-independent-review/isolated/IndependentRegression.lean:63:0: error: CustomIndependentReview.zero_numel_huge_first_dimension_return: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

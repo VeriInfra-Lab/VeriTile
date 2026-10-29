@@ -1,0 +1,208 @@
+{
+  "task": "softmax_flaggems",
+  "baseline_gap": "SOFTMAX_FLAGGEMS-S1",
+  "proposal": "Replace the generic host/grid/autograd gap with the exact remaining finite obligations in remaining-scope.json after independent root review. Do not mark native value acceptance from erased execution.",
+  "stages": [
+    {
+      "id": "stage:bench/tritonbench_g/softmax_flaggems/softmax_flaggems.py:15:heur_tile_k",
+      "proposed_disposition": "host/heuristic source wiring composed and exact AST metadata checked",
+      "evidence": [
+        "evidence/source-bindings.json",
+        "evidence/host-probe-scope-addendum.json",
+        "evidence/autotune-probe-receipt.json",
+        "evidence/helper-probe-receipt.json"
+      ],
+      "status": "pending_independent_root_review"
+    },
+    {
+      "id": "stage:bench/tritonbench_g/softmax_flaggems/softmax_flaggems.py:28:heur_tile_n_non_inner",
+      "proposed_disposition": "host/heuristic source wiring composed and exact AST metadata checked",
+      "evidence": [
+        "evidence/source-bindings.json",
+        "evidence/host-probe-scope-addendum.json",
+        "evidence/autotune-probe-receipt.json",
+        "evidence/helper-probe-receipt.json"
+      ],
+      "status": "pending_independent_root_review"
+    },
+    {
+      "id": "stage:bench/tritonbench_g/softmax_flaggems/softmax_flaggems.py:32:heur_one_tile_per_cta",
+      "proposed_disposition": "host/heuristic source wiring composed and exact AST metadata checked",
+      "evidence": [
+        "evidence/source-bindings.json",
+        "evidence/host-probe-scope-addendum.json",
+        "evidence/autotune-probe-receipt.json",
+        "evidence/helper-probe-receipt.json"
+      ],
+      "status": "pending_independent_root_review"
+    },
+    {
+      "id": "stage:bench/tritonbench_g/softmax_flaggems/softmax_flaggems.py:36:heur_num_warps_non_inner",
+      "proposed_disposition": "host/heuristic source wiring composed and exact AST metadata checked",
+      "evidence": [
+        "evidence/source-bindings.json",
+        "evidence/host-probe-scope-addendum.json",
+        "evidence/autotune-probe-receipt.json",
+        "evidence/helper-probe-receipt.json"
+      ],
+      "status": "pending_independent_root_review"
+    },
+    {
+      "id": "stage:bench/tritonbench_g/softmax_flaggems/softmax_flaggems.py:55:softmax_kernel_non_inner",
+      "proposed_disposition": "mathematical_source_stage_composed; typed/native follow-up retained",
+      "evidence": [
+        "evidence/source-bindings.json",
+        "evidence/host-probe-scope-addendum.json",
+        "evidence/autotune-probe-receipt.json",
+        "evidence/helper-probe-receipt.json"
+      ],
+      "status": "pending_independent_root_review"
+    },
+    {
+      "id": "stage:bench/tritonbench_g/softmax_flaggems/softmax_flaggems.py:113:next_multiple_of",
+      "proposed_disposition": "unused declared JIT helper; direct-call compiler rejection retained",
+      "evidence": [
+        "evidence/source-bindings.json",
+        "evidence/host-probe-scope-addendum.json",
+        "evidence/autotune-probe-receipt.json",
+        "evidence/helper-probe-receipt.json"
+      ],
+      "status": "pending_independent_root_review"
+    },
+    {
+      "id": "stage:bench/tritonbench_g/softmax_flaggems/softmax_flaggems.py:119:prev_multiple_of",
+      "proposed_disposition": "host/heuristic source wiring composed and exact AST metadata checked",
+      "evidence": [
+        "evidence/source-bindings.json",
+        "evidence/host-probe-scope-addendum.json",
+        "evidence/autotune-probe-receipt.json",
+        "evidence/helper-probe-receipt.json"
+      ],
+      "status": "pending_independent_root_review"
+    },
+    {
+      "id": "stage:bench/tritonbench_g/softmax_flaggems/softmax_flaggems.py:124:heur_tile_n_inner",
+      "proposed_disposition": "host/heuristic source wiring composed and exact AST metadata checked",
+      "evidence": [
+        "evidence/source-bindings.json",
+        "evidence/host-probe-scope-addendum.json",
+        "evidence/autotune-probe-receipt.json",
+        "evidence/helper-probe-receipt.json"
+      ],
+      "status": "pending_independent_root_review"
+    },
+    {
+      "id": "stage:bench/tritonbench_g/softmax_flaggems/softmax_flaggems.py:131:heur_num_warps_inner",
+      "proposed_disposition": "host/heuristic source wiring composed and exact AST metadata checked",
+      "evidence": [
+        "evidence/source-bindings.json",
+        "evidence/host-probe-scope-addendum.json",
+        "evidence/autotune-probe-receipt.json",
+        "evidence/helper-probe-receipt.json"
+      ],
+      "status": "pending_independent_root_review"
+    },
+    {
+      "id": "stage:bench/tritonbench_g/softmax_flaggems/softmax_flaggems.py:149:softmax_kernel_inner",
+      "proposed_disposition": "mathematical_source_stage_composed; typed/native follow-up retained",
+      "evidence": [
+        "evidence/source-bindings.json",
+        "evidence/host-probe-scope-addendum.json",
+        "evidence/autotune-probe-receipt.json",
+        "evidence/helper-probe-receipt.json"
+      ],
+      "status": "pending_independent_root_review"
+    },
+    {
+      "id": "stage:bench/tritonbench_g/softmax_flaggems/softmax_flaggems.py:218:heur_tile_n_bwd_non_inner",
+      "proposed_disposition": "host/heuristic source wiring composed and exact AST metadata checked",
+      "evidence": [
+        "evidence/source-bindings.json",
+        "evidence/host-probe-scope-addendum.json",
+        "evidence/autotune-probe-receipt.json",
+        "evidence/helper-probe-receipt.json"
+      ],
+      "status": "pending_independent_root_review"
+    },
+    {
+      "id": "stage:bench/tritonbench_g/softmax_flaggems/softmax_flaggems.py:246:softmax_backward_kernel_non_inner",
+      "proposed_disposition": "mathematical_source_stage_composed; typed/native follow-up retained",
+      "evidence": [
+        "evidence/source-bindings.json",
+        "evidence/host-probe-scope-addendum.json",
+        "evidence/autotune-probe-receipt.json",
+        "evidence/helper-probe-receipt.json"
+      ],
+      "status": "pending_independent_root_review"
+    },
+    {
+      "id": "stage:bench/tritonbench_g/softmax_flaggems/softmax_flaggems.py:295:heru_tile_m",
+      "proposed_disposition": "host/heuristic source wiring composed and exact AST metadata checked",
+      "evidence": [
+        "evidence/source-bindings.json",
+        "evidence/host-probe-scope-addendum.json",
+        "evidence/autotune-probe-receipt.json",
+        "evidence/helper-probe-receipt.json"
+      ],
+      "status": "pending_independent_root_review"
+    },
+    {
+      "id": "stage:bench/tritonbench_g/softmax_flaggems/softmax_flaggems.py:318:softmax_backward_kernel_inner",
+      "proposed_disposition": "mathematical_source_stage_composed; typed/native follow-up retained",
+      "evidence": [
+        "evidence/source-bindings.json",
+        "evidence/host-probe-scope-addendum.json",
+        "evidence/autotune-probe-receipt.json",
+        "evidence/helper-probe-receipt.json"
+      ],
+      "status": "pending_independent_root_review"
+    },
+    {
+      "id": "stage:bench/tritonbench_g/softmax_flaggems/softmax_flaggems.py:448:softmax",
+      "proposed_disposition": "host/heuristic source wiring composed and exact AST metadata checked",
+      "evidence": [
+        "evidence/source-bindings.json",
+        "evidence/host-probe-scope-addendum.json",
+        "evidence/autotune-probe-receipt.json",
+        "evidence/helper-probe-receipt.json"
+      ],
+      "status": "pending_independent_root_review"
+    },
+    {
+      "id": "stage:bench/tritonbench_g/softmax_flaggems/softmax_flaggems.py:457:test_softmax",
+      "proposed_disposition": "proposed test_harness: non-JIT tests only; no production caller",
+      "evidence": [
+        "evidence/source-bindings.json",
+        "evidence/host-probe-scope-addendum.json",
+        "evidence/autotune-probe-receipt.json",
+        "evidence/helper-probe-receipt.json"
+      ],
+      "status": "pending_independent_root_review"
+    },
+    {
+      "id": "stage:bench/tritonbench_g/softmax_flaggems/softmax_flaggems.py:371:forward",
+      "proposed_disposition": "host/heuristic source wiring composed and exact AST metadata checked",
+      "evidence": [
+        "evidence/source-bindings.json",
+        "evidence/host-probe-scope-addendum.json",
+        "evidence/autotune-probe-receipt.json",
+        "evidence/helper-probe-receipt.json"
+      ],
+      "status": "pending_independent_root_review"
+    },
+    {
+      "id": "stage:bench/tritonbench_g/softmax_flaggems/softmax_flaggems.py:409:backward",
+      "proposed_disposition": "host/heuristic source wiring composed and exact AST metadata checked",
+      "evidence": [
+        "evidence/source-bindings.json",
+        "evidence/host-probe-scope-addendum.json",
+        "evidence/autotune-probe-receipt.json",
+        "evidence/helper-probe-receipt.json"
+      ],
+      "status": "pending_independent_root_review"
+    }
+  ],
+  "dtype_scope": "Existing four Storage constructors retained; all16 input/output pairs plus dtype=None. Source-supported success and compiler rejection partition is explicit; no arbitrary Python-object/dtype-family claim.",
+  "branches": "All one/fallback and inner/noninner kernel branches, source heuristics, actual trial sequence, cache-hit route, dimension assertion, zero divisors and K=0 unsafe path retained.",
+  "acceptance_increment": 0
+}

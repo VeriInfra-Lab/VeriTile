@@ -1,0 +1,91 @@
+{
+  "schema": 1,
+  "task": "isfinite_kernel",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue07/result.json",
+    "sha256": "583e8d793cba1d71d000c2bdd3e45247f36f7ed54dadb5684382c4c861f64a4b",
+    "task_index": 5
+  },
+  "finding": "The simple mathematical truth value was hidden behind Fin.cases, the output channel number and an impossible-port eliminator.",
+  "resolution": "A logical input tile vector and Boolean output vector make the independent Real target directly constant true.",
+  "mathematical_target": "isfinite_real_correctness: every observed Real output of this masked tile is true.",
+  "conditions_and_scope": "Original source precision, input/output views, n/B/pid and the exact output-address injectivity premise remain. Scope stays one masked tile invocation; source masks, safety, successful execution and entire exterior frame are unchanged.",
+  "proof_connection": "LogicalReader.full_judgment_iff proves iff with the full previous ProgramIO.Implements constant-channel formula; the existing Real proof is applied.",
+  "fp_review": "isfinite_index_commuted_equiv compares the two actual index-multiplication schedules with arbitrary classifier/primitive interpretation. It retains all input payloads and does not inherit the Real-only constant-true claim.",
+  "numerical_dependencies": "No experimental rewrite rules or numerical experiments added or used by these main pairs; existing operations/order/source precision are retained.",
+  "previous_formula_scope": {
+    "mathematical_target": "Every mathematical Real is finite, so each active Boolean output is true.",
+    "required_conditions": [
+      "Original output-address injectivity for logical indices below n remains explicit.",
+      "ProgramIO retains active pid*B+lane<n masks, typed bindings/bounds, safety, successful source execution and exterior frame.",
+      "The independent Real predicate does not assert arbitrary IEEE words are finite; all-word exponent classification remains optional."
+    ],
+    "scope": "One complete masked tile invocation (n,B,pid), for both original FP32 and FP64 source dispatches; signed byte-address views and stride/output window are retained. No whole-host-grid claim.",
+    "canonical_connection": "Main proof locally equates the visible constant-true logical output with classification precision RealStorage.reference, then applies IOProof.implements.",
+    "fp_program_pair": {
+      "actual_pair": [
+        "original (source)",
+        "candidate (indexCommuted)"
+      ],
+      "actual_scope": "Same single invocation for each pid and precision; commutes only the natural block-index product, preserving dtype-dispatched classification and all words.",
+      "numerical_dependency": "R=[]; arbitrary shared classifier is kept fixed, no numerical equality or finite-word premise is introduced.",
+      "current_experimental_rules_used": 0,
+      "new_or_deferred_experiments": 0,
+      "source_unchanged": true
+    },
+    "numerical_dependencies": "R=[]; arbitrary shared classifier is kept fixed, no numerical equality or finite-word premise is introduced."
+  },
+  "verification": [
+    {
+      "kind": "final_current_source_build",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue07/build.py",
+        "bench.repairs.tritonbench_g.isfinite_kernel.IO",
+        "bench.repairs.tritonbench_g.isfinite_kernel.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.isfinite_kernel.Correct",
+        "bench.repairs.tritonbench_g.isfinite_kernel.FPEquiv"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue07/isfinite_kernel-verified-build.log",
+      "log_sha256": "41f8e587f4e5d81c8e028310871bd30e246918ed10953b3b6df82d928a004a20"
+    },
+    {
+      "kind": "joint_import_current_entries",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue07/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue07/isfinite_kernel-joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue07/isfinite_kernel-verified-joint.log",
+      "log_sha256": "5f6d20b0235566c219a247c68700a718678399d9dcf02ed9cbde6412afa82bac"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/isfinite_kernel/Contract.lean": "e76e9e3d60cbf4c33f75d8d991ca2c60553cd9f54fd567e88891501b0218ae00",
+    "bench/repairs/tritonbench_g/isfinite_kernel/Correct.lean": "c0541da79f703e4a4f7e024847a576129f56a7276ddc856a916eb889a06bf489",
+    "bench/repairs/tritonbench_g/isfinite_kernel/FPEquiv.lean": "97c2499af0f3300c8edbc54fb92cc1cebd5ae55eb0c44120d538bc82dd50440d",
+    "bench/repairs/tritonbench_g/isfinite_kernel/IO.lean": "632196d2ccd4eebe9de6deaebe135e4c249a011c460152281e245690563335e0",
+    "bench/repairs/tritonbench_g/isfinite_kernel/Kernels.lean": "3031288f683bab0d296b2e2ae6c9d4bef12a19bdbf513cdde0db89ec3168fda9",
+    "bench/repairs/tritonbench_g/isfinite_kernel/Proofs/LogicalReader.lean": "12436b674d4c568e4b79746c77dbb414c1434166cc32bd7cd896e03d6abb99f2",
+    "bench/repairs/tritonbench_g/isfinite_kernel/Proofs/IO.lean": "cb0ad475a720301a48fda3dfa49508e6a3732c8d362a0f8bdb8ea42421691440",
+    "bench/repairs/tritonbench_g/isfinite_kernel/Proofs/Storage.lean": "8531b8968271acc328e6ccfba2e3a5222e74dc35359383f6fd65fcd918df8e15",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

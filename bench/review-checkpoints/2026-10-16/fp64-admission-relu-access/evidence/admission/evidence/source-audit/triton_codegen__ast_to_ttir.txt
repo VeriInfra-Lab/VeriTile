@@ -1,0 +1,40 @@
+def ast_to_ttir(fn, src, context, options, codegen_fns, module_map, module=None):
+    arg_types = [None] * len(fn.arg_names)
+
+    for k, v in src.signature.items():
+        idx = fn.arg_names.index(k)
+        arg_types[idx] = str_to_ty(v, None)
+
+    def apply_constexpr_types(argument, indices, value):
+        index = indices.pop()
+        if len(indices) == 0:
+            if isinstance(argument, list):
+                argument[index] = constexpr(value).type
+            else:
+                argument.types[index] = constexpr(value).type
+        else:
+            apply_constexpr_types(argument[index], indices, value)
+
+    for path, value in src.constants.items():
+        apply_constexpr_types(arg_types, list(path)[::-1], value)
+
+    prototype = ASTFunction([], arg_types, src.attrs)
+    file_name, begin_line = get_jit_fn_file_line(fn)
+    # query function representation
+    from collections import namedtuple
+    leaves = filter(lambda v: len(v) == 1, src.constants)
+    constants = {fn.arg_names[i[0]]: src.constants[i] for i in leaves}
+    signature = src.signature
+    proxy = namedtuple("SpecializationProxy", ["constants", "signature"])(constants, signature)
+    generator = CodeGenerator(context, prototype, gscope=fn.get_capture_scope(), function_name=fn.repr(proxy),
+                              jit_fn=fn, is_kernel=True, file_name=file_name, begin_line=begin_line, options=options,
+                              codegen_fns=codegen_fns, module_map=module_map, module=module, is_gluon=fn.is_gluon())
+    generator.visit(fn.parse())
+    module = generator.module
+    # module takes ownership of the context
+    module.context = context
+    if not module.verify():
+        if not fn.is_gluon():
+            print(module)
+        raise RuntimeError("error encountered during parsing")
+    return module

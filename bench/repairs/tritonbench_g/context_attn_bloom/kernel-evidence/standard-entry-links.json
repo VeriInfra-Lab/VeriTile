@@ -1,0 +1,93 @@
+{
+  "standard_entries": {
+    "Contract": {
+      "file": {
+        "path": "bench/repairs/tritonbench_g/context_attn_bloom/Contract.lean",
+        "sha256": "9442e170c890fd0ec7b2655d0b50e47462b9e42fd5a89f468d5bc53025b541a7"
+      },
+      "role": "Checked input conditions and their Boolean checker equivalence.",
+      "declarations": [
+        "VeriTile.Bench.Repairs.ContextAttnBloomWhole001.Checked.InputContract",
+        "VeriTile.Bench.Repairs.ContextAttnBloomWhole001.Checked.checkInputs",
+        "VeriTile.Bench.Repairs.ContextAttnBloomWhole001.Checked.checkInputs_iff"
+      ]
+    },
+    "Kernels": {
+      "file": {
+        "path": "bench/repairs/tritonbench_g/context_attn_bloom/Kernels.lean",
+        "sha256": "671454736ea72a9b3f6a6928aaf6016d271c9712075ad8ee29774224c9955040"
+      },
+      "role": "Shared typed source specialized to FP32 storage.",
+      "declarations": [
+        "VeriTile.Bench.Repairs.ContextAttnBloomSource.kernel"
+      ]
+    },
+    "Correct": {
+      "file": {
+        "path": "bench/repairs/tritonbench_g/context_attn_bloom/Correct.lean",
+        "sha256": "5b951d9cbf77cf6f4b85e9ffd76cbf727239ba57ba88cd08d65ba77c4a73fd1a"
+      },
+      "role": "Public shared-source and independent mathematical Real conclusions.",
+      "declarations": [
+        "VeriTile.Bench.Repairs.ContextAttnBloomWhole001.PublicKernel.correct_real",
+        "VeriTile.Bench.Repairs.ContextAttnBloomWhole001.PublicKernel.shared_source"
+      ]
+    },
+    "FPEquiv": {
+      "file": {
+        "path": "bench/repairs/tritonbench_g/context_attn_bloom/FPEquiv.lean",
+        "sha256": "1acae8b7b742a09f6c42da760b3d1ad56a754d246013670510cafd421d6791c2"
+      },
+      "role": "Public native original-Tensor/byte result, input read connection, and full frames.",
+      "declarations": [
+        "VeriTile.Bench.Repairs.ContextAttnBloomWhole001.PublicKernel.correct_fp32",
+        "VeriTile.Bench.Repairs.ContextAttnBloomWhole001.PublicKernel.input_tensor"
+      ]
+    }
+  },
+  "alias_links": [
+    {
+      "entry_file": {
+        "path": "bench/repairs/tritonbench_g/context_attn_bloom/Correct.lean",
+        "sha256": "5b951d9cbf77cf6f4b85e9ffd76cbf727239ba57ba88cd08d65ba77c4a73fd1a"
+      },
+      "public": "VeriTile.Bench.Repairs.ContextAttnBloomWhole001.PublicKernel.correct_real",
+      "accepted_endpoint": "VeriTile.Bench.Repairs.ContextAttnBloomWhole001.KernelOnly.mathematical_real",
+      "form": "direct Lean alias"
+    },
+    {
+      "entry_file": {
+        "path": "bench/repairs/tritonbench_g/context_attn_bloom/Correct.lean",
+        "sha256": "5b951d9cbf77cf6f4b85e9ffd76cbf727239ba57ba88cd08d65ba77c4a73fd1a"
+      },
+      "public": "VeriTile.Bench.Repairs.ContextAttnBloomWhole001.PublicKernel.shared_source",
+      "accepted_endpoint": "VeriTile.Bench.Repairs.ContextAttnBloomWhole001.KernelOnly.shared_source",
+      "form": "direct Lean alias"
+    },
+    {
+      "entry_file": {
+        "path": "bench/repairs/tritonbench_g/context_attn_bloom/FPEquiv.lean",
+        "sha256": "1acae8b7b742a09f6c42da760b3d1ad56a754d246013670510cafd421d6791c2"
+      },
+      "public": "VeriTile.Bench.Repairs.ContextAttnBloomWhole001.PublicKernel.correct_fp32",
+      "accepted_endpoint": "VeriTile.Bench.Repairs.ContextAttnBloomWhole001.KernelOnly.native_tensor",
+      "form": "direct Lean alias"
+    },
+    {
+      "entry_file": {
+        "path": "bench/repairs/tritonbench_g/context_attn_bloom/FPEquiv.lean",
+        "sha256": "1acae8b7b742a09f6c42da760b3d1ad56a754d246013670510cafd421d6791c2"
+      },
+      "public": "VeriTile.Bench.Repairs.ContextAttnBloomWhole001.PublicKernel.input_tensor",
+      "accepted_endpoint": "VeriTile.Bench.Repairs.ContextAttnBloomWhole001.KernelOnly.input_tensor",
+      "form": "direct Lean alias"
+    }
+  ],
+  "accepted_proof_file": {
+    "path": "bench/repairs/tritonbench_g/context_attn_bloom/KernelOnly.lean",
+    "sha256": "3b820abd2aae9b176892e6509d069e3d444e2bbf11267201b8f5eb6e91e39e0e"
+  },
+  "semantic_or_domain_change": false,
+  "historical_imports_retained": true,
+  "added_source_content": "Only KernelOnly imports, namespace, four direct aliases, documentation, and four axiom audits."
+}

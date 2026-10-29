@@ -1,0 +1,45 @@
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Tuning.lean:32:6: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  Decidable (SourceProfileSupported storage (backwardConfig d choice).one)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Tuning.lean:45:6: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Tuning.lean:45:13: warning: declaration uses `sorry`
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Tuning.lean:38:8: warning: declaration uses `sorry`
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Tuning.lean:58:72: error: unsolved goals
+storage : Storage
+P G Y : RegionName
+d : Dimensions
+c : Fin 6
+cs : List (Fin 6)
+s : BlockState
+h : ¬SourceProfileSupported storage (backwardConfig d c).one
+⊢ sorry () = Except.error { choice := c, compilerRejected := «true», beforeFailure := s }
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Tuning.lean:59:8: warning: declaration uses `sorry`
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Tuning.lean:59:24: warning: This simp argument is unused:
+  h
+
+Hint: Omit it from the simp argument list.
+  simp [checkedTrialRun,̵h̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Tuning.lean:117:0: error: VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.checkedTrialRun_success: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Tuning.lean:118:0: error: VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.checkedTrialRun_reject_head: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.trialRun_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.backwardValue_stable: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.tuned_backward_dispatch: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.forward_source_domain: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.backwardValue: definition does not reference [VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.trialRun,
+ VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.checkedTrialRun,
+ VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.tunedBackward,
+ VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.backwardRun,
+ VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.run,
+ VeriTile.Triton.exec] — non-circular ✓

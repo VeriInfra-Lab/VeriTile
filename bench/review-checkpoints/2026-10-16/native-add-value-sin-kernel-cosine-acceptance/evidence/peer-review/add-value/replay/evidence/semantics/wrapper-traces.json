@@ -1,0 +1,584 @@
+[
+  {
+    "n": 0,
+    "events": [
+      [
+        "empty_like",
+        "x"
+      ],
+      [
+        "is_cuda",
+        "x",
+        true
+      ],
+      [
+        "is_cuda",
+        "allocated",
+        true
+      ],
+      [
+        "numel",
+        "allocated",
+        0
+      ],
+      [
+        "launch",
+        [
+          0
+        ],
+        0,
+        {
+          "BLOCK_SIZE": 1024,
+          "value": 10
+        }
+      ]
+    ],
+    "outcome": "returned",
+    "scope": "exact unchanged wrapper AST with ordinary instrumented primitives; no native launch"
+  },
+  {
+    "n": 1,
+    "events": [
+      [
+        "empty_like",
+        "x"
+      ],
+      [
+        "is_cuda",
+        "x",
+        true
+      ],
+      [
+        "is_cuda",
+        "allocated",
+        true
+      ],
+      [
+        "numel",
+        "allocated",
+        1
+      ],
+      [
+        "launch",
+        [
+          1
+        ],
+        1,
+        {
+          "BLOCK_SIZE": 1024,
+          "value": 10
+        }
+      ]
+    ],
+    "outcome": "returned",
+    "scope": "exact unchanged wrapper AST with ordinary instrumented primitives; no native launch"
+  },
+  {
+    "n": 1023,
+    "events": [
+      [
+        "empty_like",
+        "x"
+      ],
+      [
+        "is_cuda",
+        "x",
+        true
+      ],
+      [
+        "is_cuda",
+        "allocated",
+        true
+      ],
+      [
+        "numel",
+        "allocated",
+        1023
+      ],
+      [
+        "launch",
+        [
+          1
+        ],
+        1023,
+        {
+          "BLOCK_SIZE": 1024,
+          "value": 10
+        }
+      ]
+    ],
+    "outcome": "returned",
+    "scope": "exact unchanged wrapper AST with ordinary instrumented primitives; no native launch"
+  },
+  {
+    "n": 1024,
+    "events": [
+      [
+        "empty_like",
+        "x"
+      ],
+      [
+        "is_cuda",
+        "x",
+        true
+      ],
+      [
+        "is_cuda",
+        "allocated",
+        true
+      ],
+      [
+        "numel",
+        "allocated",
+        1024
+      ],
+      [
+        "launch",
+        [
+          1
+        ],
+        1024,
+        {
+          "BLOCK_SIZE": 1024,
+          "value": 10
+        }
+      ]
+    ],
+    "outcome": "returned",
+    "scope": "exact unchanged wrapper AST with ordinary instrumented primitives; no native launch"
+  },
+  {
+    "n": 1025,
+    "events": [
+      [
+        "empty_like",
+        "x"
+      ],
+      [
+        "is_cuda",
+        "x",
+        true
+      ],
+      [
+        "is_cuda",
+        "allocated",
+        true
+      ],
+      [
+        "numel",
+        "allocated",
+        1025
+      ],
+      [
+        "launch",
+        [
+          2
+        ],
+        1025,
+        {
+          "BLOCK_SIZE": 1024,
+          "value": 10
+        }
+      ]
+    ],
+    "outcome": "returned",
+    "scope": "exact unchanged wrapper AST with ordinary instrumented primitives; no native launch"
+  },
+  {
+    "n": 2147483647,
+    "events": [
+      [
+        "empty_like",
+        "x"
+      ],
+      [
+        "is_cuda",
+        "x",
+        true
+      ],
+      [
+        "is_cuda",
+        "allocated",
+        true
+      ],
+      [
+        "numel",
+        "allocated",
+        2147483647
+      ],
+      [
+        "launch",
+        [
+          2097152
+        ],
+        2147483647,
+        {
+          "BLOCK_SIZE": 1024,
+          "value": 10
+        }
+      ]
+    ],
+    "outcome": "returned",
+    "scope": "exact unchanged wrapper AST with ordinary instrumented primitives; no native launch"
+  },
+  {
+    "n": 2147483648,
+    "events": [
+      [
+        "empty_like",
+        "x"
+      ],
+      [
+        "is_cuda",
+        "x",
+        true
+      ],
+      [
+        "is_cuda",
+        "allocated",
+        true
+      ],
+      [
+        "numel",
+        "allocated",
+        2147483648
+      ],
+      [
+        "launch",
+        [
+          2097152
+        ],
+        2147483648,
+        {
+          "BLOCK_SIZE": 1024,
+          "value": 10
+        }
+      ]
+    ],
+    "outcome": "returned",
+    "scope": "exact unchanged wrapper AST with ordinary instrumented primitives; no native launch"
+  },
+  {
+    "n": 2147483649,
+    "events": [
+      [
+        "empty_like",
+        "x"
+      ],
+      [
+        "is_cuda",
+        "x",
+        true
+      ],
+      [
+        "is_cuda",
+        "allocated",
+        true
+      ],
+      [
+        "numel",
+        "allocated",
+        2147483649
+      ],
+      [
+        "launch",
+        [
+          2097153
+        ],
+        2147483649,
+        {
+          "BLOCK_SIZE": 1024,
+          "value": 10
+        }
+      ]
+    ],
+    "outcome": "returned",
+    "scope": "exact unchanged wrapper AST with ordinary instrumented primitives; no native launch"
+  },
+  {
+    "n": 4294967295,
+    "events": [
+      [
+        "empty_like",
+        "x"
+      ],
+      [
+        "is_cuda",
+        "x",
+        true
+      ],
+      [
+        "is_cuda",
+        "allocated",
+        true
+      ],
+      [
+        "numel",
+        "allocated",
+        4294967295
+      ],
+      [
+        "launch",
+        [
+          4194304
+        ],
+        4294967295,
+        {
+          "BLOCK_SIZE": 1024,
+          "value": 10
+        }
+      ]
+    ],
+    "outcome": "returned",
+    "scope": "exact unchanged wrapper AST with ordinary instrumented primitives; no native launch"
+  },
+  {
+    "n": 4294967296,
+    "events": [
+      [
+        "empty_like",
+        "x"
+      ],
+      [
+        "is_cuda",
+        "x",
+        true
+      ],
+      [
+        "is_cuda",
+        "allocated",
+        true
+      ],
+      [
+        "numel",
+        "allocated",
+        4294967296
+      ],
+      [
+        "launch",
+        [
+          4194304
+        ],
+        4294967296,
+        {
+          "BLOCK_SIZE": 1024,
+          "value": 10
+        }
+      ]
+    ],
+    "outcome": "returned",
+    "scope": "exact unchanged wrapper AST with ordinary instrumented primitives; no native launch"
+  },
+  {
+    "n": 4294967297,
+    "events": [
+      [
+        "empty_like",
+        "x"
+      ],
+      [
+        "is_cuda",
+        "x",
+        true
+      ],
+      [
+        "is_cuda",
+        "allocated",
+        true
+      ],
+      [
+        "numel",
+        "allocated",
+        4294967297
+      ],
+      [
+        "launch",
+        [
+          4194305
+        ],
+        4294967297,
+        {
+          "BLOCK_SIZE": 1024,
+          "value": 10
+        }
+      ]
+    ],
+    "outcome": "returned",
+    "scope": "exact unchanged wrapper AST with ordinary instrumented primitives; no native launch"
+  },
+  {
+    "n": 2199023254528,
+    "events": [
+      [
+        "empty_like",
+        "x"
+      ],
+      [
+        "is_cuda",
+        "x",
+        true
+      ],
+      [
+        "is_cuda",
+        "allocated",
+        true
+      ],
+      [
+        "numel",
+        "allocated",
+        2199023254528
+      ],
+      [
+        "launch",
+        [
+          2147483647
+        ],
+        2199023254528,
+        {
+          "BLOCK_SIZE": 1024,
+          "value": 10
+        }
+      ]
+    ],
+    "outcome": "returned",
+    "scope": "exact unchanged wrapper AST with ordinary instrumented primitives; no native launch"
+  },
+  {
+    "n": 2199023254529,
+    "events": [
+      [
+        "empty_like",
+        "x"
+      ],
+      [
+        "is_cuda",
+        "x",
+        true
+      ],
+      [
+        "is_cuda",
+        "allocated",
+        true
+      ],
+      [
+        "numel",
+        "allocated",
+        2199023254529
+      ],
+      [
+        "launch",
+        [
+          2147483648
+        ],
+        2199023254529,
+        {
+          "BLOCK_SIZE": 1024,
+          "value": 10
+        }
+      ]
+    ],
+    "outcome": "returned",
+    "scope": "exact unchanged wrapper AST with ordinary instrumented primitives; no native launch"
+  },
+  {
+    "n": 9223372036854775807,
+    "events": [
+      [
+        "empty_like",
+        "x"
+      ],
+      [
+        "is_cuda",
+        "x",
+        true
+      ],
+      [
+        "is_cuda",
+        "allocated",
+        true
+      ],
+      [
+        "numel",
+        "allocated",
+        9223372036854775807
+      ],
+      [
+        "launch",
+        [
+          9007199254740992
+        ],
+        9223372036854775807,
+        {
+          "BLOCK_SIZE": 1024,
+          "value": 10
+        }
+      ]
+    ],
+    "outcome": "returned",
+    "scope": "exact unchanged wrapper AST with ordinary instrumented primitives; no native launch"
+  },
+  {
+    "n": 0,
+    "events": [
+      [
+        "empty_like",
+        "x"
+      ],
+      [
+        "is_cuda",
+        "x",
+        false
+      ]
+    ],
+    "outcome": "AssertionError",
+    "scope": "exact unchanged wrapper AST with ordinary instrumented primitives; no native launch"
+  },
+  {
+    "n": 2147483648,
+    "events": [
+      [
+        "empty_like",
+        "x"
+      ],
+      [
+        "is_cuda",
+        "x",
+        false
+      ]
+    ],
+    "outcome": "AssertionError",
+    "scope": "exact unchanged wrapper AST with ordinary instrumented primitives; no native launch"
+  },
+  {
+    "n": 0,
+    "events": [
+      [
+        "empty_like",
+        "x"
+      ],
+      [
+        "is_cuda",
+        "x",
+        true
+      ],
+      [
+        "is_cuda",
+        "allocated",
+        false
+      ]
+    ],
+    "outcome": "AssertionError",
+    "scope": "exact unchanged wrapper AST with ordinary instrumented primitives; no native launch"
+  },
+  {
+    "n": 9223372036854775807,
+    "events": [
+      [
+        "empty_like",
+        "x"
+      ]
+    ],
+    "outcome": "MemoryError",
+    "scope": "exact unchanged wrapper AST with ordinary instrumented primitives; no native launch"
+  }
+]

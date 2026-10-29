@@ -1,0 +1,462 @@
+{
+  "kind": "finite_host_math_model_native_comparison_not_acceptance",
+  "status": "passed",
+  "inputs_compared": 210943,
+  "boundaries": [
+    {
+      "k": 0,
+      "maximum_n_for_block": 1,
+      "at": {
+        "sqrt_bits": 4607182418800017408,
+        "ceil_sqrt": 1,
+        "block": 1
+      },
+      "after": {
+        "sqrt_bits": 4609047870845172685,
+        "ceil_sqrt": 2,
+        "block": 2
+      }
+    },
+    {
+      "k": 1,
+      "maximum_n_for_block": 4,
+      "at": {
+        "sqrt_bits": 4611686018427387904,
+        "ceil_sqrt": 2,
+        "block": 2
+      },
+      "after": {
+        "sqrt_bits": 4612217596255138984,
+        "ceil_sqrt": 3,
+        "block": 4
+      }
+    },
+    {
+      "k": 2,
+      "maximum_n_for_block": 16,
+      "at": {
+        "sqrt_bits": 4616189618054758400,
+        "ceil_sqrt": 4,
+        "block": 4
+      },
+      "after": {
+        "sqrt_bits": 4616328222667173127,
+        "ceil_sqrt": 5,
+        "block": 8
+      }
+    },
+    {
+      "k": 3,
+      "maximum_n_for_block": 64,
+      "at": {
+        "sqrt_bits": 4620693217682128896,
+        "ceil_sqrt": 8,
+        "block": 8
+      },
+      "after": {
+        "sqrt_bits": 4620728265678633680,
+        "ceil_sqrt": 9,
+        "block": 16
+      }
+    },
+    {
+      "k": 4,
+      "maximum_n_for_block": 256,
+      "at": {
+        "sqrt_bits": 4625196817309499392,
+        "ceil_sqrt": 16,
+        "block": 16
+      },
+      "after": {
+        "sqrt_bits": 4625205604829323376,
+        "ceil_sqrt": 17,
+        "block": 32
+      }
+    },
+    {
+      "k": 5,
+      "maximum_n_for_block": 1024,
+      "at": {
+        "sqrt_bits": 4629700416936869888,
+        "ceil_sqrt": 32,
+        "block": 32
+      },
+      "after": {
+        "sqrt_bits": 4629702615423516512,
+        "ceil_sqrt": 33,
+        "block": 64
+      }
+    },
+    {
+      "k": 6,
+      "maximum_n_for_block": 4096,
+      "at": {
+        "sqrt_bits": 4634204016564240384,
+        "ceil_sqrt": 64,
+        "block": 64
+      },
+      "after": {
+        "sqrt_bits": 4634204566286503935,
+        "ceil_sqrt": 65,
+        "block": 128
+      }
+    },
+    {
+      "k": 7,
+      "maximum_n_for_block": 16384,
+      "at": {
+        "sqrt_bits": 4638707616191610880,
+        "ceil_sqrt": 128,
+        "block": 128
+      },
+      "after": {
+        "sqrt_bits": 4638707753628467264,
+        "ceil_sqrt": 129,
+        "block": 256
+      }
+    },
+    {
+      "k": 8,
+      "maximum_n_for_block": 65536,
+      "at": {
+        "sqrt_bits": 4643211215818981376,
+        "ceil_sqrt": 256,
+        "block": 256
+      },
+      "after": {
+        "sqrt_bits": 4643211250178588673,
+        "ceil_sqrt": 257,
+        "block": 512
+      }
+    },
+    {
+      "k": 9,
+      "maximum_n_for_block": 262144,
+      "at": {
+        "sqrt_bits": 4647714815446351872,
+        "ceil_sqrt": 512,
+        "block": 512
+      },
+      "after": {
+        "sqrt_bits": 4647714824036278272,
+        "ceil_sqrt": 513,
+        "block": 1024
+      }
+    },
+    {
+      "k": 10,
+      "maximum_n_for_block": 1048576,
+      "at": {
+        "sqrt_bits": 4652218415073722368,
+        "ceil_sqrt": 1024,
+        "block": 1024
+      },
+      "after": {
+        "sqrt_bits": 4652218417221205504,
+        "ceil_sqrt": 1025,
+        "block": 2048
+      }
+    },
+    {
+      "k": 11,
+      "maximum_n_for_block": 4194304,
+      "at": {
+        "sqrt_bits": 4656722014701092864,
+        "ceil_sqrt": 2048,
+        "block": 2048
+      },
+      "after": {
+        "sqrt_bits": 4656722015237963744,
+        "ceil_sqrt": 2049,
+        "block": 4096
+      }
+    },
+    {
+      "k": 12,
+      "maximum_n_for_block": 16777216,
+      "at": {
+        "sqrt_bits": 4661225614328463360,
+        "ceil_sqrt": 4096,
+        "block": 4096
+      },
+      "after": {
+        "sqrt_bits": 4661225614462681086,
+        "ceil_sqrt": 4097,
+        "block": 8192
+      }
+    },
+    {
+      "k": 13,
+      "maximum_n_for_block": 67108864,
+      "at": {
+        "sqrt_bits": 4665729213955833856,
+        "ceil_sqrt": 8192,
+        "block": 8192
+      },
+      "after": {
+        "sqrt_bits": 4665729213989388288,
+        "ceil_sqrt": 8193,
+        "block": 16384
+      }
+    },
+    {
+      "k": 14,
+      "maximum_n_for_block": 268435456,
+      "at": {
+        "sqrt_bits": 4670232813583204352,
+        "ceil_sqrt": 16384,
+        "block": 16384
+      },
+      "after": {
+        "sqrt_bits": 4670232813591592960,
+        "ceil_sqrt": 16385,
+        "block": 32768
+      }
+    },
+    {
+      "k": 15,
+      "maximum_n_for_block": 1073741824,
+      "at": {
+        "sqrt_bits": 4674736413210574848,
+        "ceil_sqrt": 32768,
+        "block": 32768
+      },
+      "after": {
+        "sqrt_bits": 4674736413212672000,
+        "ceil_sqrt": 32769,
+        "block": 65536
+      }
+    },
+    {
+      "k": 16,
+      "maximum_n_for_block": 4294967296,
+      "at": {
+        "sqrt_bits": 4679240012837945344,
+        "ceil_sqrt": 65536,
+        "block": 65536
+      },
+      "after": {
+        "sqrt_bits": 4679240012838469632,
+        "ceil_sqrt": 65537,
+        "block": 131072
+      }
+    },
+    {
+      "k": 17,
+      "maximum_n_for_block": 17179869184,
+      "at": {
+        "sqrt_bits": 4683743612465315840,
+        "ceil_sqrt": 131072,
+        "block": 131072
+      },
+      "after": {
+        "sqrt_bits": 4683743612465446912,
+        "ceil_sqrt": 131073,
+        "block": 262144
+      }
+    },
+    {
+      "k": 18,
+      "maximum_n_for_block": 68719476736,
+      "at": {
+        "sqrt_bits": 4688247212092686336,
+        "ceil_sqrt": 262144,
+        "block": 262144
+      },
+      "after": {
+        "sqrt_bits": 4688247212092719104,
+        "ceil_sqrt": 262145,
+        "block": 524288
+      }
+    },
+    {
+      "k": 19,
+      "maximum_n_for_block": 274877906944,
+      "at": {
+        "sqrt_bits": 4692750811720056832,
+        "ceil_sqrt": 524288,
+        "block": 524288
+      },
+      "after": {
+        "sqrt_bits": 4692750811720065024,
+        "ceil_sqrt": 524289,
+        "block": 1048576
+      }
+    },
+    {
+      "k": 20,
+      "maximum_n_for_block": 1099511627776,
+      "at": {
+        "sqrt_bits": 4697254411347427328,
+        "ceil_sqrt": 1048576,
+        "block": 1048576
+      },
+      "after": {
+        "sqrt_bits": 4697254411347429376,
+        "ceil_sqrt": 1048577,
+        "block": 2097152
+      }
+    },
+    {
+      "k": 21,
+      "maximum_n_for_block": 4398046511104,
+      "at": {
+        "sqrt_bits": 4701758010974797824,
+        "ceil_sqrt": 2097152,
+        "block": 2097152
+      },
+      "after": {
+        "sqrt_bits": 4701758010974798336,
+        "ceil_sqrt": 2097153,
+        "block": 4194304
+      }
+    },
+    {
+      "k": 22,
+      "maximum_n_for_block": 17592186044416,
+      "at": {
+        "sqrt_bits": 4706261610602168320,
+        "ceil_sqrt": 4194304,
+        "block": 4194304
+      },
+      "after": {
+        "sqrt_bits": 4706261610602168448,
+        "ceil_sqrt": 4194305,
+        "block": 8388608
+      }
+    },
+    {
+      "k": 23,
+      "maximum_n_for_block": 70368744177664,
+      "at": {
+        "sqrt_bits": 4710765210229538816,
+        "ceil_sqrt": 8388608,
+        "block": 8388608
+      },
+      "after": {
+        "sqrt_bits": 4710765210229538848,
+        "ceil_sqrt": 8388609,
+        "block": 16777216
+      }
+    },
+    {
+      "k": 24,
+      "maximum_n_for_block": 281474976710656,
+      "at": {
+        "sqrt_bits": 4715268809856909312,
+        "ceil_sqrt": 16777216,
+        "block": 16777216
+      },
+      "after": {
+        "sqrt_bits": 4715268809856909320,
+        "ceil_sqrt": 16777217,
+        "block": 33554432
+      }
+    },
+    {
+      "k": 25,
+      "maximum_n_for_block": 1125899906842624,
+      "at": {
+        "sqrt_bits": 4719772409484279808,
+        "ceil_sqrt": 33554432,
+        "block": 33554432
+      },
+      "after": {
+        "sqrt_bits": 4719772409484279810,
+        "ceil_sqrt": 33554433,
+        "block": 67108864
+      }
+    },
+    {
+      "k": 26,
+      "maximum_n_for_block": 4503599627370497,
+      "at": {
+        "sqrt_bits": 4724276009111650304,
+        "ceil_sqrt": 67108864,
+        "block": 67108864
+      },
+      "after": {
+        "sqrt_bits": 4724276009111650305,
+        "ceil_sqrt": 67108865,
+        "block": 134217728
+      }
+    },
+    {
+      "k": 27,
+      "maximum_n_for_block": 18014398509481989,
+      "at": {
+        "sqrt_bits": 4728779608739020800,
+        "ceil_sqrt": 134217728,
+        "block": 134217728
+      },
+      "after": {
+        "sqrt_bits": 4728779608739020801,
+        "ceil_sqrt": 134217729,
+        "block": 268435456
+      }
+    },
+    {
+      "k": 28,
+      "maximum_n_for_block": 72057594037927959,
+      "at": {
+        "sqrt_bits": 4733283208366391296,
+        "ceil_sqrt": 268435456,
+        "block": 268435456
+      },
+      "after": {
+        "sqrt_bits": 4733283208366391297,
+        "ceil_sqrt": 268435457,
+        "block": 536870912
+      }
+    },
+    {
+      "k": 29,
+      "maximum_n_for_block": 288230376151711839,
+      "at": {
+        "sqrt_bits": 4737786807993761792,
+        "ceil_sqrt": 536870912,
+        "block": 536870912
+      },
+      "after": {
+        "sqrt_bits": 4737786807993761793,
+        "ceil_sqrt": 536870913,
+        "block": 1073741824
+      }
+    },
+    {
+      "k": 30,
+      "maximum_n_for_block": 1152921504606847359,
+      "at": {
+        "sqrt_bits": 4742290407621132288,
+        "ceil_sqrt": 1073741824,
+        "block": 1073741824
+      },
+      "after": {
+        "sqrt_bits": 4742290407621132289,
+        "ceil_sqrt": 1073741825,
+        "block": 2147483648
+      }
+    },
+    {
+      "k": 31,
+      "maximum_n_for_block": 4611686018427389439,
+      "at": {
+        "sqrt_bits": 4746794007248502784,
+        "ceil_sqrt": 2147483648,
+        "block": 2147483648
+      },
+      "after": {
+        "sqrt_bits": 4746794007248502785,
+        "ceil_sqrt": 2147483649,
+        "block": 4294967296
+      }
+    }
+  ],
+  "python_version": "3.12.13 (main, Aug 20 2026, 17:28:00) [GCC 11.4.0]",
+  "platform": "Linux-5.10.134-013.8.2.kangaroo.al8.x86_64-x86_64-with-glibc2.35",
+  "math_extension": "/usr/local/lib/python3.12/lib-dynload/math.cpython-312-x86_64-linux-gnu.so",
+  "math_extension_sha256": "741a078136fce2f3f26ca7298a6241c7c8fa4291d40c164cc8f53815cdb36956",
+  "rounding_mode": 0,
+  "script_sha256": "5874981f062b097304eb3cec4bc8e087e8aff6b0f678ddae0040c4957da68956",
+  "limitations": "Finite sample/native check, not a proof of CPython or libc refinement. Pure model uses nearest-even binary64 conversion and sqrt; input domain is nonnegative signed64 numel. Zero has block0 and the original subsequent cdiv(0,0) raises."
+}

@@ -1,0 +1,236 @@
+[
+  {
+    "module": "bench/tritonbench_g/relu_triton_kernel/Proofs/ByteCodec.lean",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/relu-byte-memory-wip",
+      "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ByteCodec.lean",
+      "-o",
+      "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ByteCodec.olean"
+    ],
+    "exit_code": 1,
+    "seconds": 4.131685740081593,
+    "source_sha256_before": "63a690cdf40569e9ce66e3a0b536cada37f65865a1ad4ac8010bee97929ab487",
+    "source_sha256_after": "63a690cdf40569e9ce66e3a0b536cada37f65865a1ad4ac8010bee97929ab487",
+    "log": "evidence/attempts/0001-ByteCodec.log",
+    "log_sha256": "4494bdbb541bada80a73ba014d759bf99b88fc020c2ef5cfb9900e2430b60049",
+    "source_snapshot": "evidence/attempts/0001-ByteCodec.lean.txt",
+    "snapshot_sha256": "63a690cdf40569e9ce66e3a0b536cada37f65865a1ad4ac8010bee97929ab487"
+  },
+  {
+    "module": "bench/tritonbench_g/relu_triton_kernel/Proofs/ByteCodec.lean",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/relu-byte-memory-wip",
+      "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ByteCodec.lean",
+      "-o",
+      "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ByteCodec.olean"
+    ],
+    "exit_code": 0,
+    "seconds": 4.74313923320733,
+    "source_sha256_before": "fdec6601e7be3356b519c7ce3293c2802ddd22e3f762cb70f4b2cb8e6a45e1e5",
+    "source_sha256_after": "fdec6601e7be3356b519c7ce3293c2802ddd22e3f762cb70f4b2cb8e6a45e1e5",
+    "log": "evidence/attempts/0002-ByteCodec.log",
+    "log_sha256": "303bcc6b943f192c1ec649f3ad50cae13a447971ee560ca4d43c214709d00da9",
+    "source_snapshot": "evidence/attempts/0002-ByteCodec.lean.txt",
+    "snapshot_sha256": "fdec6601e7be3356b519c7ce3293c2802ddd22e3f762cb70f4b2cb8e6a45e1e5"
+  },
+  {
+    "module": "bench/tritonbench_g/relu_triton_kernel/Proofs/ByteStores.lean",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/relu-byte-memory-wip",
+      "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ByteStores.lean",
+      "-o",
+      "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ByteStores.olean"
+    ],
+    "exit_code": 1,
+    "seconds": 4.926480968948454,
+    "source_sha256_before": "3541bd20614c2272d3a933831d785e80ccdd2ef319eefb9ae1823fb9a6c14905",
+    "source_sha256_after": "3541bd20614c2272d3a933831d785e80ccdd2ef319eefb9ae1823fb9a6c14905",
+    "log": "evidence/attempts/0003-ByteStores.log",
+    "log_sha256": "e69bcdf1ffbf0d245e6cda55ac0805f40c0287f086e71ea9ce82b3f1e00a8deb",
+    "source_snapshot": "evidence/attempts/0003-ByteStores.lean.txt",
+    "snapshot_sha256": "3541bd20614c2272d3a933831d785e80ccdd2ef319eefb9ae1823fb9a6c14905"
+  },
+  {
+    "module": "bench/tritonbench_g/relu_triton_kernel/Proofs/ByteStores.lean",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/relu-byte-memory-wip",
+      "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ByteStores.lean",
+      "-o",
+      "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ByteStores.olean"
+    ],
+    "exit_code": 0,
+    "seconds": 5.114526422927156,
+    "source_sha256_before": "298823fcc637c4cffacfb626475e5a3fc6cd55aa63b4ffd2b204f6a8af15e1c4",
+    "source_sha256_after": "298823fcc637c4cffacfb626475e5a3fc6cd55aa63b4ffd2b204f6a8af15e1c4",
+    "log": "evidence/attempts/0004-ByteStores.log",
+    "log_sha256": "a712d3ba26cf319ab174d57e7217165533e57025dc41ec08378db56600c61620",
+    "source_snapshot": "evidence/attempts/0004-ByteStores.lean.txt",
+    "snapshot_sha256": "298823fcc637c4cffacfb626475e5a3fc6cd55aa63b4ffd2b204f6a8af15e1c4"
+  },
+  {
+    "module": "bench/tritonbench_g/relu_triton_kernel/Proofs/ByteCodec.lean",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/relu-byte-memory-wip",
+      "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ByteCodec.lean",
+      "-o",
+      "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ByteCodec.olean"
+    ],
+    "exit_code": 0,
+    "seconds": 4.639398273080587,
+    "source_sha256_before": "1524c55f059d152ab4ff36b8f27e5cc86c46360a9b7cfa045b5c8f91cd8ff712",
+    "source_sha256_after": "1524c55f059d152ab4ff36b8f27e5cc86c46360a9b7cfa045b5c8f91cd8ff712",
+    "log": "evidence/attempts/0005-ByteCodec.log",
+    "log_sha256": "dd4f53411205678a910ed5999a7919210118e7db2eed64f38d67f15005bcb228",
+    "source_snapshot": "evidence/attempts/0005-ByteCodec.lean.txt",
+    "snapshot_sha256": "1524c55f059d152ab4ff36b8f27e5cc86c46360a9b7cfa045b5c8f91cd8ff712"
+  },
+  {
+    "module": "bench/tritonbench_g/relu_triton_kernel/Proofs/ByteStores.lean",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/relu-byte-memory-wip",
+      "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ByteStores.lean",
+      "-o",
+      "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ByteStores.olean"
+    ],
+    "exit_code": 0,
+    "seconds": 4.894530849996954,
+    "source_sha256_before": "69450c5c328332cac6757d3445de508c2c84263da094582ec9756492803b326f",
+    "source_sha256_after": "69450c5c328332cac6757d3445de508c2c84263da094582ec9756492803b326f",
+    "log": "evidence/attempts/0006-ByteStores.log",
+    "log_sha256": "ed962fcdec29406fa5d1d97b32efe9e8ef74ae54813224968d6c355e97c14e87",
+    "source_snapshot": "evidence/attempts/0006-ByteStores.lean.txt",
+    "snapshot_sha256": "69450c5c328332cac6757d3445de508c2c84263da094582ec9756492803b326f"
+  },
+  {
+    "module": "bench/tritonbench_g/relu_triton_kernel/Proofs/ByteView.lean",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/relu-byte-memory-wip",
+      "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ByteView.lean",
+      "-o",
+      "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ByteView.olean"
+    ],
+    "exit_code": 0,
+    "seconds": 4.640736339846626,
+    "source_sha256_before": "a35daabd596912dd3f1a6547bbf46b1b1c803c48ddd04c255e9220817c066ce1",
+    "source_sha256_after": "a35daabd596912dd3f1a6547bbf46b1b1c803c48ddd04c255e9220817c066ce1",
+    "log": "evidence/attempts/0007-ByteView.log",
+    "log_sha256": "a306dfcdfcbe08a5f7da228179e16901014325576c08f6cd8ae8681a6a81c044",
+    "source_snapshot": "evidence/attempts/0007-ByteView.lean.txt",
+    "snapshot_sha256": "a35daabd596912dd3f1a6547bbf46b1b1c803c48ddd04c255e9220817c066ce1"
+  },
+  {
+    "module": "bench/tritonbench_g/relu_triton_kernel/Proofs/ByteView.lean",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/relu-byte-memory-wip",
+      "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ByteView.lean",
+      "-o",
+      "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ByteView.olean"
+    ],
+    "exit_code": 0,
+    "seconds": 4.3516187239438295,
+    "source_sha256_before": "090d4cb4a70b3e78cb90ccac714a464b5c447968b569bc666ea61dbefbb18f1b",
+    "source_sha256_after": "090d4cb4a70b3e78cb90ccac714a464b5c447968b569bc666ea61dbefbb18f1b",
+    "log": "evidence/attempts/0008-ByteView.log",
+    "log_sha256": "5c22286933fdb1ee9f3be015b8fa9b266236a6b2af62f4741fd16739cb1132cc",
+    "source_snapshot": "evidence/attempts/0008-ByteView.lean.txt",
+    "snapshot_sha256": "090d4cb4a70b3e78cb90ccac714a464b5c447968b569bc666ea61dbefbb18f1b"
+  },
+  {
+    "module": "bench/tritonbench_g/relu_triton_kernel/ByteGridCorrect.lean",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/relu-byte-memory-wip",
+      "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/bench/tritonbench_g/relu_triton_kernel/ByteGridCorrect.lean",
+      "-o",
+      "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/bench/tritonbench_g/relu_triton_kernel/ByteGridCorrect.olean"
+    ],
+    "exit_code": 0,
+    "seconds": 4.553173243999481,
+    "source_sha256_before": "75559f4cd4f9ef3b4abb0d1b2aae4be07489cf7413b2fdbdd3d4a144047c2c7a",
+    "source_sha256_after": "75559f4cd4f9ef3b4abb0d1b2aae4be07489cf7413b2fdbdd3d4a144047c2c7a",
+    "log": "evidence/attempts/0009-ByteGridCorrect.log",
+    "log_sha256": "b759a52bd086280e925bca38bdba47557cf87701d472aa868ce5b940108901f7",
+    "source_snapshot": "evidence/attempts/0009-ByteGridCorrect.lean.txt",
+    "snapshot_sha256": "75559f4cd4f9ef3b4abb0d1b2aae4be07489cf7413b2fdbdd3d4a144047c2c7a"
+  },
+  {
+    "module": "bench/tritonbench_g/relu_triton_kernel/Proofs/ByteCodec.lean",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/relu-byte-memory-wip",
+      "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ByteCodec.lean",
+      "-o",
+      "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ByteCodec.olean"
+    ],
+    "exit_code": 0,
+    "seconds": 4.702264113118872,
+    "source_sha256_before": "1524c55f059d152ab4ff36b8f27e5cc86c46360a9b7cfa045b5c8f91cd8ff712",
+    "source_sha256_after": "1524c55f059d152ab4ff36b8f27e5cc86c46360a9b7cfa045b5c8f91cd8ff712",
+    "log": "evidence/attempts/0010-ByteCodec.log",
+    "log_sha256": "dd4f53411205678a910ed5999a7919210118e7db2eed64f38d67f15005bcb228",
+    "source_snapshot": "evidence/attempts/0010-ByteCodec.lean.txt",
+    "snapshot_sha256": "1524c55f059d152ab4ff36b8f27e5cc86c46360a9b7cfa045b5c8f91cd8ff712"
+  },
+  {
+    "module": "bench/tritonbench_g/relu_triton_kernel/Proofs/ByteStores.lean",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/relu-byte-memory-wip",
+      "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ByteStores.lean",
+      "-o",
+      "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ByteStores.olean"
+    ],
+    "exit_code": 0,
+    "seconds": 4.88760863407515,
+    "source_sha256_before": "69450c5c328332cac6757d3445de508c2c84263da094582ec9756492803b326f",
+    "source_sha256_after": "69450c5c328332cac6757d3445de508c2c84263da094582ec9756492803b326f",
+    "log": "evidence/attempts/0011-ByteStores.log",
+    "log_sha256": "ed962fcdec29406fa5d1d97b32efe9e8ef74ae54813224968d6c355e97c14e87",
+    "source_snapshot": "evidence/attempts/0011-ByteStores.lean.txt",
+    "snapshot_sha256": "69450c5c328332cac6757d3445de508c2c84263da094582ec9756492803b326f"
+  },
+  {
+    "module": "bench/tritonbench_g/relu_triton_kernel/Proofs/ByteView.lean",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/relu-byte-memory-wip",
+      "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ByteView.lean",
+      "-o",
+      "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ByteView.olean"
+    ],
+    "exit_code": 0,
+    "seconds": 4.523537106113508,
+    "source_sha256_before": "090d4cb4a70b3e78cb90ccac714a464b5c447968b569bc666ea61dbefbb18f1b",
+    "source_sha256_after": "090d4cb4a70b3e78cb90ccac714a464b5c447968b569bc666ea61dbefbb18f1b",
+    "log": "evidence/attempts/0012-ByteView.log",
+    "log_sha256": "5c22286933fdb1ee9f3be015b8fa9b266236a6b2af62f4741fd16739cb1132cc",
+    "source_snapshot": "evidence/attempts/0012-ByteView.lean.txt",
+    "snapshot_sha256": "090d4cb4a70b3e78cb90ccac714a464b5c447968b569bc666ea61dbefbb18f1b"
+  },
+  {
+    "module": "bench/tritonbench_g/relu_triton_kernel/ByteGridCorrect.lean",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/relu-byte-memory-wip",
+      "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/bench/tritonbench_g/relu_triton_kernel/ByteGridCorrect.lean",
+      "-o",
+      "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/bench/tritonbench_g/relu_triton_kernel/ByteGridCorrect.olean"
+    ],
+    "exit_code": 0,
+    "seconds": 4.787195025011897,
+    "source_sha256_before": "75559f4cd4f9ef3b4abb0d1b2aae4be07489cf7413b2fdbdd3d4a144047c2c7a",
+    "source_sha256_after": "75559f4cd4f9ef3b4abb0d1b2aae4be07489cf7413b2fdbdd3d4a144047c2c7a",
+    "log": "evidence/attempts/0013-ByteGridCorrect.log",
+    "log_sha256": "b759a52bd086280e925bca38bdba47557cf87701d472aa868ce5b940108901f7",
+    "source_snapshot": "evidence/attempts/0013-ByteGridCorrect.lean.txt",
+    "snapshot_sha256": "75559f4cd4f9ef3b4abb0d1b2aae4be07489cf7413b2fdbdd3d4a144047c2c7a"
+  }
+]

@@ -1,0 +1,71 @@
+{
+  "schema": 1,
+  "task": "parallel_retention_attention",
+  "formal_scope": "Complete fp32 DQ helper and sequential DQ/barrier/DK/DV helper expansion after caller index specialization; arbitrary source-model dimensions, strides, initial states and aliases. No native, host sum or multi-program theorem.",
+  "formal_surface": "Backend-parametric source execution and independent input-memory recurrence, with complete memory equality. M and D are explicit parameters; no final-output equality or floating algebraic law is a premise.",
+  "native_execution": "NOT_RUN",
+  "declarations": [
+    "VeriTile.Bench.TritonBenchG.ParallelRetentionAttention.SourceCorrect.query_fp32",
+    "VeriTile.Bench.TritonBenchG.ParallelRetentionAttention.SourceCorrect.backward_helpers_fp32"
+  ],
+  "source_files": [
+    "bench/tritonbench_g/parallel_retention_attention/parallel_retention_attention.py",
+    "bench/tritonbench_g/parallel_retention_attention/SourceCorrect.lean",
+    "bench/tritonbench_g/parallel_retention_attention/Proofs/FPQuerySource.lean",
+    "bench/tritonbench_g/parallel_retention_attention/Proofs/FPQueryGraph.lean",
+    "bench/tritonbench_g/parallel_retention_attention/Proofs/FPQueryLoop.lean",
+    "bench/tritonbench_g/parallel_retention_attention/Proofs/FPQueryWhole.lean",
+    "bench/tritonbench_g/parallel_retention_attention/Proofs/FPBackwardComposition.lean"
+  ],
+  "obligations": [
+    {
+      "id": "PRA-DQ-EXP2-LOG2",
+      "status": "experiment_not_run",
+      "relation": "Bind M.unary fp32 exp2/log2 at every decay site to the exact compiler/libdevice graph. Head decay is log2(sub32(1,exp2(sub32(-5,mul32(fromNat(head),1))))).",
+      "cases": ["all launched heads", "signed diagonal differences including eager masked lanes", "subnormals and FTZ", "NaN/Inf/signed zero", "row/block decay and log2 argument near one"],
+      "required_evidence": "Raw argument/result words, exact instruction/IR and library hashes, GPU/compiler/driver, FTZ and fusion options; whole outputs separately. An approximation policy must be specified before evaluating samples."
+    },
+    {
+      "id": "PRA-DQ-DOT-ACCUMULATION",
+      "status": "compiled_graph_proof_and_experiment_pending",
+      "relation": "Source D.apply retains allow_tf32=false and two-argument dot followed by a separate accumulator add. Native live-carry dot/FMA must have its own recurrence; source dot-from-zero plus add is not assumed equal to dotAcc.",
+      "cases": ["nonzero carried accumulator", "cancellation and rounding ties", "multiple off-diagonal and diagonal blocks", "overflow/subnormal and signed zero", "both fusion options"],
+      "required_evidence": "Actual reduction/FMA order, input/accumulator precision, zero seed, scale/cast sites and raw intermediate/output words. Reuse v2 compiled observations only as graph evidence, not execution success."
+    },
+    {
+      "id": "PRA-DQ-SCALAR-SCALE-CAST",
+      "status": "experiment_not_run",
+      "relation": "Bind M.binary, M.literal, M.cast, M.fromNat/M.fromInt and fp32Load. Preserve dq*(rowDecay*scale) between loops and (dot*diagonalDecay)*scale inside the diagonal loop, including the source casts.",
+      "cases": ["nontrivial scale encoding", "rounding ties", "NaN payload/Inf/signed zero", "subnormal/FTZ", "masked zero times NaN", "separate versus fused multiply/add"],
+      "required_evidence": "Per-site source-to-IR map and words; do not use distributivity, reassociation, exact real transcendental functions or cast=id to bridge mismatches."
+    },
+    {
+      "id": "PRA-DQ-PADDING-UNDEF",
+      "status": "semantic_refinement_and_experiment_pending",
+      "relation": "Boundary loads have no padding_option. The source uses address-indexed s.undef, never an assumed zero. Relate native undefined/poison behavior to that model explicitly.",
+      "cases": ["ragged T/K/V", "all boundary lanes", "repeated identical launches", "multiple time chunks"],
+      "required_evidence": "Load descriptors and inactive-lane policy plus output captures. Guard-buffer bytes do not measure an undefined register, and finite repeatability is not a nondeterminism proof."
+    },
+    {
+      "id": "PRA-DQ-INTEGER-ADDRESS-ABI",
+      "status": "semantic_refinement_and_experiment_pending",
+      "relation": "Relate unbounded Nat addresses and widened signed differences to actual source integer widths, physical byte storage, legal allocations and launch indices. Zero-step source semantics is not a legal native launch guarantee.",
+      "cases": ["legal partial blocks", "nontrivial strides and base offsets", "i_k/i_v/i_c/i_bh mapping", "boundary integer values without invalid GPU accesses"],
+      "required_evidence": "Document native width/range preconditions, ABI, grid and allocated spans; do not silently strengthen existing source-model theorems."
+    },
+    {
+      "id": "PRA-BACKWARD-COMPOSITION-NATIVE",
+      "status": "semantic_refinement_and_experiment_pending",
+      "relation": "The source expansion executes DQ then barrier then DK/DV; later references read post-DQ memory. Relate native helper inlining, barrier behavior, aliases and cross-program order to the source before claiming kernel correctness.",
+      "cases": ["all DQ/DK/DV partial outputs and frames", "accepted native alias configurations", "multi-program grid", "both fusion settings"],
+      "required_evidence": "Full input/output memory words, helper call identities and launch metadata. Source-level arbitrary aliases do not assert native race freedom."
+    },
+    {
+      "id": "PRA-HOST-NK-NV-SUM",
+      "status": "outside_proved_scope",
+      "relation": "PyTorch sums of partial outputs across NK/NV, dtype conversion, host allocation and autograd dispatch require separate models and proofs.",
+      "cases": ["NK>1", "NV>1", "cancellation across partial outputs", "all original caller dtypes"],
+      "required_evidence": "First specify the host reduction tree/order and dtype behavior, then collect raw partial and summed words. Capturing host outputs does not extend the helper theorem."
+    }
+  ]
+}

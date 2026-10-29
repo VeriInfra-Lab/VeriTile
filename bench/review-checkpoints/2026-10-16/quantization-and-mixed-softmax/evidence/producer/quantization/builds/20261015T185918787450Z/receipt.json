@@ -1,0 +1,91 @@
+{
+  "kind": "isolated_quantize_integer_stage_build",
+  "started_utc": "20261015T185918787450Z",
+  "launcher": "PATH=/tmp/veritile-lean-toolchain/bin:$PATH LAKE_HOME=/tmp/veritile-lean-toolchain lake env python /tmp/veritile-standardization-20261015/quantize-integer-stage-wip/build.py",
+  "lean_path": "/tmp/veritile-standardization-20261015/quantize-integer-stage-wip/builds/20261015T185918787450Z/src:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean",
+  "requested_modules": [
+    "QuantizeIntegerStage.Semantics",
+    "QuantizeIntegerStage.Global",
+    "QuantizeIntegerStage.Transpose"
+  ],
+  "records": [
+    {
+      "module": "QuantizeIntegerStage.Semantics",
+      "command": [
+        "/tmp/veritile-lean-toolchain/bin/lean",
+        "-R",
+        "/tmp/veritile-standardization-20261015/quantize-integer-stage-wip/builds/20261015T185918787450Z/src",
+        "-o",
+        "/tmp/veritile-standardization-20261015/quantize-integer-stage-wip/builds/20261015T185918787450Z/src/QuantizeIntegerStage/Semantics.olean",
+        "/tmp/veritile-standardization-20261015/quantize-integer-stage-wip/builds/20261015T185918787450Z/src/QuantizeIntegerStage/Semantics.lean"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 3.797,
+      "source_sha256": "bc478057c56d5ebf1607e73f19c6486041331dfccbb9920b83d0d63c8c98590a",
+      "log": "/tmp/veritile-standardization-20261015/quantize-integer-stage-wip/builds/20261015T185918787450Z/QuantizeIntegerStage.Semantics.log",
+      "log_sha256": "b58d30f23d804bde263d1c4da3484c5df951f818ca0a3ad94a6b2cc0a6a57ab0",
+      "olean_sha256": "b9471edc7024c82c14f2db0dd573ae61142b5190a1263ddd51c95aada0ec508e",
+      "dependency_olean_sha256": {
+        "/tmp/veritile-lean-toolchain/lib/lean/Init.olean": "7ccac48ef26289852ecb686826d9e0ce42f3ceb33ba7bdff960c38fb3d9a00c5",
+        "/tmp/veritile-tritonbench-lake/build/lib/lean/VeriTile/Triton.olean": "c76243f1226a0984808c5b43a9d338cefd35b1d2410b30393612efd4c17516c7",
+        "/tmp/veritile-tritonbench-lake/build/lib/lean/VeriTile/Triton/Float/ScalarBackend.olean": "eab205e9931df32f07f2205d44729725356161beb8ecf3e619a6a960a62b723b"
+      },
+      "dependency_hashes_stable": true,
+      "dependencies_exit_code": 0
+    },
+    {
+      "module": "QuantizeIntegerStage.Global",
+      "command": [
+        "/tmp/veritile-lean-toolchain/bin/lean",
+        "-R",
+        "/tmp/veritile-standardization-20261015/quantize-integer-stage-wip/builds/20261015T185918787450Z/src",
+        "-o",
+        "/tmp/veritile-standardization-20261015/quantize-integer-stage-wip/builds/20261015T185918787450Z/src/QuantizeIntegerStage/Global.olean",
+        "/tmp/veritile-standardization-20261015/quantize-integer-stage-wip/builds/20261015T185918787450Z/src/QuantizeIntegerStage/Global.lean"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 11.603,
+      "source_sha256": "499c2e3411382a568fa0667f958a9ee3832f78e7966bf7e69a0ccedfecc4850e",
+      "log": "/tmp/veritile-standardization-20261015/quantize-integer-stage-wip/builds/20261015T185918787450Z/QuantizeIntegerStage.Global.log",
+      "log_sha256": "0db5ccdc96c30fc809007f9dd50c7431ed162e838dc2af6e7f7094fc068d89ff",
+      "olean_sha256": "2f70ec47a0f77901208aed52b2d3abb846e55f2b7ede9cefb8701345eefd29b1",
+      "dependency_olean_sha256": {
+        "/tmp/veritile-lean-toolchain/lib/lean/Init.olean": "7ccac48ef26289852ecb686826d9e0ce42f3ceb33ba7bdff960c38fb3d9a00c5",
+        "/tmp/veritile-standardization-20261015/quantize-integer-stage-wip/builds/20261015T185918787450Z/src/QuantizeIntegerStage/Semantics.olean": "b9471edc7024c82c14f2db0dd573ae61142b5190a1263ddd51c95aada0ec508e"
+      },
+      "dependency_hashes_stable": true,
+      "dependencies_exit_code": 0
+    },
+    {
+      "module": "QuantizeIntegerStage.Transpose",
+      "command": [
+        "/tmp/veritile-lean-toolchain/bin/lean",
+        "-R",
+        "/tmp/veritile-standardization-20261015/quantize-integer-stage-wip/builds/20261015T185918787450Z/src",
+        "-o",
+        "/tmp/veritile-standardization-20261015/quantize-integer-stage-wip/builds/20261015T185918787450Z/src/QuantizeIntegerStage/Transpose.olean",
+        "/tmp/veritile-standardization-20261015/quantize-integer-stage-wip/builds/20261015T185918787450Z/src/QuantizeIntegerStage/Transpose.lean"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 12.733,
+      "source_sha256": "280a0b5b19846dba4fd39515b0774b3a1e75af150980cac9214517d701555cce",
+      "log": "/tmp/veritile-standardization-20261015/quantize-integer-stage-wip/builds/20261015T185918787450Z/QuantizeIntegerStage.Transpose.log",
+      "log_sha256": "23cc890e0055a25e6ff0b97e41063b180f33ca4b7d4511c07e6a0885a3fde597",
+      "olean_sha256": "ff9bd8ddc89700709ac64782a88a8539f2897b8c21973e1a93b82d6f55b60d31",
+      "dependency_olean_sha256": {
+        "/tmp/veritile-lean-toolchain/lib/lean/Init.olean": "7ccac48ef26289852ecb686826d9e0ce42f3ceb33ba7bdff960c38fb3d9a00c5",
+        "/tmp/veritile-standardization-20261015/quantize-integer-stage-wip/builds/20261015T185918787450Z/src/QuantizeIntegerStage/Semantics.olean": "b9471edc7024c82c14f2db0dd573ae61142b5190a1263ddd51c95aada0ec508e"
+      },
+      "dependency_hashes_stable": true,
+      "dependencies_exit_code": 0
+    }
+  ],
+  "source_sha256": {
+    "QuantizeIntegerStage/Semantics.lean": "bc478057c56d5ebf1607e73f19c6486041331dfccbb9920b83d0d63c8c98590a",
+    "QuantizeIntegerStage/Transpose.lean": "280a0b5b19846dba4fd39515b0774b3a1e75af150980cac9214517d701555cce",
+    "QuantizeIntegerStage/Global.lean": "499c2e3411382a568fa0667f958a9ee3832f78e7966bf7e69a0ccedfecc4850e"
+  },
+  "new_original_program_acceptances": 0,
+  "status": "passed",
+  "completed_utc": "2026-10-15T18:59:47.081301+00:00"
+}

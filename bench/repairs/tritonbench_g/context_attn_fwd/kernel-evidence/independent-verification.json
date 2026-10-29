@@ -1,0 +1,110 @@
+{
+  "task": "context_attn_fwd",
+  "status": "PASS",
+  "delivery": {
+    "path": "bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/delivery.json",
+    "sha256": "893537f4216372e620c140c3daf7937b7b008776ef17ce0da5ce814161d6cb03"
+  },
+  "verifier": {
+    "path": "bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/independent_review_verify.py",
+    "sha256": "5d122d9487d10d5c22b6f9d2e2e81a7326c659a4028e5672815d81a5022cc228"
+  },
+  "pin_occurrences_checked": 1485,
+  "unique_pinned_paths_checked": 988,
+  "frozen_files": 362,
+  "packet_archive_members": 363,
+  "historical_archive_members": 48,
+  "historical_files_unchanged": 46,
+  "historical_files_with_only_additive_prefix_preserving_public_entries": [
+    "bench/repairs/tritonbench_g/context_attn_fwd/Correct.lean",
+    "bench/repairs/tritonbench_g/context_attn_fwd/FPEquiv.lean"
+  ],
+  "fresh_current_task_receipts": 48,
+  "effective_repository_closure": 245,
+  "repository_import_edges": 480,
+  "external_frontier_count": 38,
+  "source_ilean_imports_compared": 240,
+  "existing_binary_headers_compared": [
+    "bench.tritonbench_g.context_attn_fwd.Proofs.HostComposition",
+    "bench.tritonbench_g.context_attn_fwd.Proofs.HostCoverage",
+    "bench.tritonbench_g.context_attn_fwd.Proofs.HostInterface",
+    "bench.tritonbench_g.context_attn_fwd.Proofs.HostLaunch",
+    "bench.tritonbench_g.context_attn_fwd.Proofs.HostParameters"
+  ],
+  "binary_reader": {
+    "path": "bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/independent_binary_imports.lean",
+    "sha256": "211dd7b75cc5d8092932b804b282a4a7412c675ebe9ea80891ef07f4ce9109a1"
+  },
+  "binary_read_receipt": {
+    "path": "bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/independent-binary-read-receipt.json",
+    "sha256": "b9413a70fb3db2993fb3457f7c16a101f244be6520347eb9a5e3ee893d06a600"
+  },
+  "binary_header_log": {
+    "path": "bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/independent-binary-imports.jsonl",
+    "sha256": "47b2b4ea2254c9317ef911c818e8b8e9640c139c4c08a40b026615ca7bb6797d"
+  },
+  "source_AST_equal_after_exact_int64_widenings_removed": 8,
+  "incoming_FP32_scale_constants": {
+    "16": {
+      "width": 16,
+      "numerator": 12102203,
+      "denominator": 33554432,
+      "bits": "0x3eb8aa3b"
+    },
+    "32": {
+      "width": 32,
+      "numerator": 4278775,
+      "denominator": 16777216,
+      "bits": "0x3e8293ee"
+    },
+    "64": {
+      "width": 64,
+      "numerator": 12102203,
+      "denominator": 67108864,
+      "bits": "0x3e38aa3b"
+    },
+    "128": {
+      "width": 128,
+      "numerator": 4278775,
+      "denominator": 33554432,
+      "bits": "0x3e0293ee"
+    },
+    "256": {
+      "width": 256,
+      "numerator": 12102203,
+      "denominator": 134217728,
+      "bits": "0x3db8aa3b"
+    }
+  },
+  "native_offline_profiles": 10,
+  "native_artifacts": 40,
+  "independently_parsed_Lean_reduction_trees": [
+    "local128_0",
+    "local128_1",
+    "local128_2",
+    "local128_3",
+    "local64_0",
+    "local64_1",
+    "local64_2",
+    "local64_3",
+    "tree128_0",
+    "tree128_1",
+    "tree128_2",
+    "tree128_3",
+    "tree64_0",
+    "tree64_1",
+    "tree64_2",
+    "tree64_3"
+  ],
+  "saved_static_max_tree_coordinate_checks": 4352,
+  "saved_static_sum_tree_coordinate_checks": 4352,
+  "saved_static_PV_operand_coordinate_checks": 110592,
+  "saved_static_output_division_owner_checks": 95232,
+  "saved_CPU_nonempty_interpreter_launches": 7,
+  "saved_CPU_empty_returns": 2,
+  "standard_public_axiom_checks": 8,
+  "noncircular_target_audits": 2,
+  "reviewer_proof_rebuilds": 0,
+  "reviewer_CPU_compiler_GPU_experiments": 0,
+  "scope": "Hash/archive/source/import and saved structural evidence audit. No cold transitive build or hardware realization claim."
+}

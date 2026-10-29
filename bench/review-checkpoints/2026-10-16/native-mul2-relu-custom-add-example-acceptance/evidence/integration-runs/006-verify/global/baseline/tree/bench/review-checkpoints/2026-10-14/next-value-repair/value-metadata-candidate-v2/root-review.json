@@ -1,0 +1,16 @@
+{
+  "reviewer": "root",
+  "status": "explicit_graph_frontend_and_reference_revision_recount_replay_pass_pending_unified_acceptance",
+  "receipt_sha256": "47f4da539d971b6002a99a575ded813eb8aa68c1325f7f37d5207f57b3caff4c",
+  "input_hashes_verified": 865,
+  "independent_replay_tests_passed": 25,
+  "findings": [
+    "Every original/candidate source graph is selected explicitly; compiled graph and standalone SC models cannot jointly fill source-stage coverage.",
+    "Two public files for spinning are individually bound. Its old2 value models and1 frame contract are separate from2 complete typed-source contracts. Task-local SC is explicitly excluded from ordinary shared DSL admission.",
+    "Aligned partial scalar bit bindings retain3 callback families. The2 retention reference revisions require an exact reviewed repair receipt plus all modified source hashes, not merely preserved public headers.",
+    "The20 full declared software profiles include1 SC schedule profile and selected dtype cases. These are model/profile counts with no native execution; original23 dtype coverage remains2 enumerated complete wrapper domains plus21 selected profiles.",
+    "All25 regression/rejection tests and exact report regeneration passed after extracting only the frozen816-plus-current input closure into an independent directory. Current integration acceptance and canonical adapters remain pending."
+  ],
+  "canonical_acceptance_updated": false,
+  "native_execution": false
+}

@@ -149,13 +149,39 @@ float-only witness operation, not the global dtype-erasure API.
 
 ## Integer Width Spellings
 
-Algorithm correctness treats integer widths as spelling-only:
+Ordinary algorithm arithmetic uses mathematical integer carriers:
 
 - `tl.int8`, `tl.int16`, `tl.int32`, `tl.int64` map to `.int`
 - `tl.uint8`, `tl.uint16`, `tl.uint32`, `tl.uint64` map to `.nat`
 
 No algorithm-layer wraparound, overflow, signed-width, or bit-vector payload
 semantics are implied by those spellings.
+
+Explicit casts have separate expressions: `Op.intToUnsigned` preserves low
+unsigned bits, and `Op.intToSigned` reinterprets those bits as a signed value.
+The DSL's supported signed i64-to-i32 cast uses the latter; negative and
+out-of-range inputs are covered by the `BitVec.ofInt` evaluator theorems in
+`VeriTile/Triton/Float/SignedCast.lean`. Bool-to-i32 lowers to `Op.boolToInt`
+and yields 0/1. These derived expressions survive dtype erasure; they do not
+add wraparound to unrelated integer arithmetic or establish native refinement.
+
+## Random primitive boundary
+
+`Op.rand cfg seed offsets` retains `cfg` and recursively erases its two
+operands. Erasure preserves its deterministic Philox generator and both
+intrinsic binary32 rounding stages. The algorithm result is the exact real
+projection of that finite binary32 result, not an unrounded uniform formula.
+`evalOpR` uses the same canonical random value independently of its ambient
+`R`; surrounding arithmetic and explicit casts retain their usual semantics.
+Structural evaluation constructs the generator's actual result bits through
+the existing `fp32Bits` interpretation, without an additional RNG callback.
+
+The seed and every offset must fit their explicit int32/int64/uint32/uint64
+source profiles. These profiles and range checks survive erasure; the seed
+check also runs for empty offset tiles. A source profile does not discharge
+overflow of preceding index arithmetic, compiler admission, source translation
+or whole-kernel IO/FP proof obligations. This is a deterministic intrinsic,
+with no assertion about probability distributions or mutable RNG state.
 
 ## Bitcast Policy
 
@@ -166,8 +192,9 @@ The DSL accepts 32-bit payload reinterpretation among `tl.uint32`, `tl.int32`,
 and `tl.float32`. Constant uint32 bit patterns are algorithm-projectable when
 the destination can be represented in the mathematical algorithm layer:
 `tl.uint32` projects to `.nat`, `tl.int32` projects to `.int`, and `tl.float32`
-projects to `.real` only when the bits decode to a finite-normal binary32
-value. Runtime bitcasts are represented in `ComputeOp.bitcast`, but
+projects to `.real` when the bits decode to a finite binary32 value, including
+signed zeros and subnormals. Both signed zeros project to real zero; the
+compute payloads retain their distinct bits. Runtime bitcasts are represented in `ComputeOp.bitcast`, but
 `ComputeKernel.toAlgorithm?` returns `Except.error` for them.
 
 ### Two views of the same bitcast
@@ -182,9 +209,12 @@ The macro emits two parallel terms for one accepted constant `tl.bitcast`:
   This is what the surrounding kernel uses when it routes to
   `ComputeKernel.mk inputs outputs body`.
 
-Both views call `Float32Bits.decodeRat` as the single authoritative decoder.
-There is no second IEEE decoder anywhere; in particular the macro does not
-re-implement decoding in `MacroM`. The algorithm view's `Option.get (by decide)`
+The algorithm view and constant-bitcast projection use `Float32Bits.decodeRat`
+as their authoritative decoder; the macro does not re-implement decoding in
+`MacroM`. The separate software-value decoder agrees on every 32-bit payload,
+as proved by `FP.DecoderCompatibility.equals_software_decoder` in
+[`DecoderCompatibility.lean`](https://github.com/Lizn-zn/VeriTile/blob/main/VeriTile/Triton/Float/DecoderCompatibility.lean).
+The algorithm view's `Option.get (by decide)`
 elaborates the decoder on the concrete `BitVec 32` literal at typechecking
 time.
 
@@ -196,19 +226,25 @@ expansion time:
 - `dst ∉ {tl.uint32, tl.int32, tl.float32}` → `Macro.throwError`.
 - numeric literal source must fit `uint32` (`bits < 2^32`).
 - literal `dst = tl.float32` additionally rejects exponent field
-  `(bits / 2^23) % 256 = 0` (zero/subnormal) or `255` (NaN/Inf), because those
-  values are not yet algorithm-projectable.
+  `(bits / 2^23) % 256 = 255` (NaN/Inf). Exponent-zero patterns project to
+  their exact signed fraction divided by `2^149`, including zero.
 - non-literal sources are accepted as runtime `ComputeOp.bitcast`; projection
   to the algorithm layer fails with `Except.error (.requiresComputeSemantics
   "runtime bitcast")`.
 
-Any `tl.float32` literal that survives all of the above is a finite-normal
+Any `tl.float32` literal that survives all of the above is a finite
 binary32 pattern. For such bits, `Float32Bits.decodeRat` is `some _` by
 construction. The `Option.get (by decide)` in the emitted algorithm-side
 `Op.const` is therefore a *defense-in-depth* assertion: if the macro-time
 admissibility check ever regresses, elaboration fails loudly here rather than
 silently substituting a placeholder constant. Runtime bitcasts have no
 algorithm fallback constant.
+
+The finite extension preserves every previous nonzero-exponent result.
+Binary64 constant projection retains its separate finite-normal domain.
+[`Float32FiniteDecode.lean`](https://github.com/Lizn-zn/VeriTile/blob/main/bench/tests/Float32FiniteDecode.lean) checks
+the actual scalar and vector DSL paths, including arbitrary vector lengths
+and retained NaN/Inf rejection.
 
 ### Representative theorem
 

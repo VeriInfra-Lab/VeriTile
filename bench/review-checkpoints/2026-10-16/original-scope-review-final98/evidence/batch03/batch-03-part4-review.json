@@ -1,0 +1,697 @@
+{
+  "schema": 1,
+  "kind": "original_scope_batch_review",
+  "batch": 3,
+  "part": "part4",
+  "reviewer": "/root/scope_remaining_cohort",
+  "reviewed_base_commit": "fc183f5dae5e3f09f549b8151a9a1e4c366beb02",
+  "catalog_sha256": "ef0da28a4c601f9841664431013d72e565ec5497cf21ba3e7be692c440d1a3fe",
+  "source_ledger_snapshot_sha256": "1ab85dd84363a55b2ae495806c0ef894106061a57dbf25921f403bd559adc137",
+  "task_count": 4,
+  "structural_gaps_confirmed": 4,
+  "whole_original_program_accepted": 0,
+  "completion_increment": 0,
+  "public_declarations_checked": 12,
+  "structural_gap_count": 8,
+  "catalog_declaration_metadata_discrepancies": [],
+  "integration_note": "Read-only source scope audit. Existing partial proofs remain credited. No numerical deferrals or original-program acceptance registered. Root substantive review is required before integration.",
+  "tasks": [
+    {
+      "schema": 1,
+      "kind": "original_scope_gap_review",
+      "reviewer": "/root/scope_remaining_cohort",
+      "reviewed_at_utc": "2026-10-15T19:07:57.966584+00:00",
+      "reviewed_base_commit": "fc183f5dae5e3f09f549b8151a9a1e4c366beb02",
+      "catalog": {
+        "path": "bench/review-checkpoints/2026-10-16/relu-source-grid-and-exact-numerics/current-source-catalog.json",
+        "sha256": "ef0da28a4c601f9841664431013d72e565ec5497cf21ba3e7be692c440d1a3fe"
+      },
+      "task": "rope_backward_transform",
+      "status": "structural_gaps_confirmed",
+      "whole_original_program_accepted": false,
+      "completion_increment": 0,
+      "existing_proofs_preserved": "Complete padded-head/two-half rotary source, both BACKWARD_PASS branches, all four source-ordered in-place stores, exact final-memory reference and full frame are proved for fp32. The reference retains alias/write order and loads all original inputs before stores; software fp32 arithmetic and source-shape correspondence remain credited. Legacy Real summary also proves all four backward outputs, not merely one head slice.",
+      "production_stage_mapping": [
+        {
+          "function": "_triton_rope",
+          "coverage": "Complete two-branch fp32 execution/value theorem exists; generic two-format source syntax is broader than the proved execution family.",
+          "path": "bench/tritonbench_g/rope_backward_transform/rope_backward_transform.py",
+          "line": 7,
+          "end_line": 73,
+          "sha256": "c3830fba29c494695f47536c7c5144e75021c79f72e661b46e02a2ffcf03baa1",
+          "stage_id": "stage:bench/tritonbench_g/rope_backward_transform/rope_backward_transform.py:7:_triton_rope"
+        },
+        {
+          "function": "rope_backward",
+          "coverage": "Transpose, contiguous copies, padding/block selection, all-row launch and returned views are not composed.",
+          "path": "bench/tritonbench_g/rope_backward_transform/rope_backward_transform.py",
+          "line": 75,
+          "end_line": 111,
+          "sha256": "c3830fba29c494695f47536c7c5144e75021c79f72e661b46e02a2ffcf03baa1",
+          "stage_id": "stage:bench/tritonbench_g/rope_backward_transform/rope_backward_transform.py:75:rope_backward"
+        }
+      ],
+      "dtype_review": "Typed source allows shared q/k format and shared cos/sin format, but public execution/value proof fixes both fp32. Original accepts four independent tensor types; no admission boundary restricts them to that family.",
+      "branch_review": "Both forward/backward kernel branches are already represented in the shared Parameters.backward result. The wrapper fixes backward=true and leaves cos/sin as supplied, returning two transposed tensors. No missing-head-loop or absent-mask claim is made.",
+      "structural_gaps": [
+        {
+          "id": "ROPE_BACKWARD_TRANSFORM-S1",
+          "kind": "remaining_dtype_profiles_and_role_independence",
+          "finding": "Public typed execution/value contract fixes kernel .fp32 .fp32; generic source shares q/k and cos/sin dtypes despite independent original tensor arguments.",
+          "why_blocks_full_original_scope": "Additional admitted storage/conversion/promotion/store paths need proved structural execution or exact rejection cases; numerical deferral alone cannot instantiate the missing profiles.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 8,
+              "end_line": 20,
+              "path": "bench/tritonbench_g/rope_backward_transform/FPCorrect.lean",
+              "sha256": "29c08a30f675a736f74f3c127faba5d0a2b681f154284178f73b3b60d2a472c8",
+              "excerpt": "specification rope_backward_fp32_correctness {α : Type} [Inhabited α]\n    (M : Algebra α) (p : Parameters) (s : State α) :\n    ∃ t, FP.Structural.exec M (kernel .fp32 .fp32 p) s = some t ∧\n      t.mem = referenceMemory M .fp32 .fp32 p s ∧\n      (∀ r o, Outside p s r o → t.mem r o = s.mem r o) :=\n  RopeTransform.FPCorrect.rope_fp32_correctness M p s\n\nspecification rope_backward_software_fp32 [Inhabited (FP.Value .fp32)]\n    (rest : Algebra (FP.Value .fp32)) (cfg : FP.Config)\n    (p : Parameters) (s : State (FP.Value .fp32)) :\n    ∃ t, FP.Structural.exec (FP.Software.scalarFP32 rest cfg)\n      (kernel .fp32 .fp32 p) s = some t ∧ t.mem = roundedMemory cfg p s ∧\n      (∀ r o, Outside p s r o → t.mem r o = s.mem r o) :="
+            },
+            {
+              "line": 37,
+              "end_line": 52,
+              "path": "bench/tritonbench_g/rope_backward_transform/rope_backward_transform.py",
+              "sha256": "c3830fba29c494695f47536c7c5144e75021c79f72e661b46e02a2ffcf03baa1",
+              "excerpt": "    cos_row = tl.load(cos + cos_offsets, mask=cos_mask, other=0)\n    sin_row = tl.load(sin + cos_offsets, mask=cos_mask, other=0)\n\n    first_half_q_offsets = tl.arange(0, pad_n_qh)[:, None] * hd + tl.arange(0, pad_hd // 2)[None, :]\n    first_half_k_offsets = tl.arange(0, pad_n_kh)[:, None] * hd + tl.arange(0, pad_hd // 2)[None, :]\n    first_q_mask = (tl.arange(0, pad_n_qh)[:, None] < n_qh) & (tl.arange(0, pad_hd // 2)[None, :] < hd // 2)\n    first_k_mask = (tl.arange(0, pad_n_kh)[:, None] < n_kh) & (tl.arange(0, pad_hd // 2)[None, :] < hd // 2)\n    q_tile_1 = tl.load(q_ptr + first_half_q_offsets, mask=first_q_mask, other=0).to(sin_row.dtype)\n    k_tile_1 = tl.load(k_ptr + first_half_k_offsets, mask=first_k_mask, other=0).to(sin_row.dtype)\n\n    second_half_q_offsets = first_half_q_offsets + (hd // 2)\n    second_half_k_offsets = first_half_k_offsets + (hd // 2)\n    second_q_mask = first_q_mask\n    second_k_mask = first_k_mask\n    q_tile_2 = tl.load(q_ptr + second_half_q_offsets, mask=second_q_mask, other=0).to(sin_row.dtype)\n    k_tile_2 = tl.load(k_ptr + second_half_k_offsets, mask=second_k_mask, other=0).to(sin_row.dtype)"
+            }
+          ]
+        },
+        {
+          "id": "ROPE_BACKWARD_TRANSFORM-S2",
+          "kind": "wrapper_copy_view_and_launch_composition",
+          "finding": "The wrapper transposes q/k, materializes contiguous buffers, selects power-of-two padding and launches every batch/sequence row before returning views.",
+          "why_blocks_full_original_scope": "Current per-pid memory theorem does not connect the actual input/output views, copy branches, padding choices and complete grid.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 75,
+              "end_line": 111,
+              "path": "bench/tritonbench_g/rope_backward_transform/rope_backward_transform.py",
+              "sha256": "c3830fba29c494695f47536c7c5144e75021c79f72e661b46e02a2ffcf03baa1",
+              "excerpt": "def rope_backward(dq, dk, cos, sin):\n    dq = dq.transpose(1, 2)\n    dk = dk.transpose(1, 2)\n\n    batch_size, seq_len, n_q_head, head_dim = dq.shape\n    n_kv_head = dk.shape[2]\n    pad_hd = triton.next_power_of_2(head_dim)\n    pad_n_q_head = triton.next_power_of_2(n_q_head)\n    pad_n_kv_head = triton.next_power_of_2(n_kv_head)\n    BLOCK_SIZE = max(pad_n_q_head, pad_n_kv_head)\n\n    n_row = batch_size * seq_len\n\n    dq = dq.contiguous()\n    dk = dk.contiguous()\n\n    _triton_rope[(n_row,)](\n        dq,\n        dq.stride(1),\n        dk,\n        dk.stride(1),\n        cos,\n        cos.stride(-2),\n        sin,\n        sin.stride(-2),\n        seq_len,\n        batch_size,\n        n_q_head,\n        n_kv_head,\n        head_dim,\n        pad_n_q_head,\n        pad_n_kv_head,\n        pad_hd,\n        BLOCK_SIZE=BLOCK_SIZE,\n        BACKWARD_PASS=True,\n    )\n    return dq.transpose(1, 2), dk.transpose(1, 2)"
+            }
+          ]
+        }
+      ],
+      "numerical_items_eligible_for_explicit_deferral": [
+        "Scalar software fp32 arithmetic is already proved. Compiler contraction and other exact storage conversions may be registered once their source paths are represented."
+      ],
+      "precondition_assessment": "The existing bounds, nonoverlap, positive tile size and valid-address premises are legitimate selected-domain assumptions. No unrestricted invalid-input behavior or hypothetical hardware defect is demanded. Missing wrapper composition and dtype admission are separate structural questions.",
+      "source_sha256": {
+        "bench/tritonbench_g/rope_backward_transform/rope_backward_transform.py": "c3830fba29c494695f47536c7c5144e75021c79f72e661b46e02a2ffcf03baa1",
+        "bench/tritonbench_g/rope_backward_transform/FPCorrect.lean": "29c08a30f675a736f74f3c127faba5d0a2b681f154284178f73b3b60d2a472c8",
+        "bench/tritonbench_g/rope_backward_transform/RopeBackwardTransform.lean": "ed020701e1a6ac98b7d4f0f22ee51443a311c1a5622ccfe97bb09f39e2d39cbd",
+        "bench/tritonbench_g/rope_transform/Proofs/TypedSource.lean": "f443bce918fcc7206fd77b42e7f279cd2328c7313322f9033dd8cc6dc61bf610",
+        "bench/tritonbench_g/rope_transform/Proofs/TypedProof.lean": "3923e4e53c154f342ac288fe4c10cc8a15bf8077e91cf5c05beeb319592eb378",
+        "bench/tritonbench_g/rope_transform/Proofs/TypedContract.lean": "16ea21599a826dff71983b1e98258ec7adcf16395b81db7a177182a3df5ea5fe",
+        "bench/tritonbench_g/rope_transform/Proofs/TypedShape.lean": "26eeba267eed5633571e39fa631aa77e911c2f8a14348caf0795f0ff1a74ec8b"
+      },
+      "all_input_sha256": {
+        "lean": {
+          "bench/tritonbench_g/rope_backward_transform/FPCorrect.lean": "29c08a30f675a736f74f3c127faba5d0a2b681f154284178f73b3b60d2a472c8",
+          "bench/tritonbench_g/rope_backward_transform/Proofs/TypedShape.lean": "d93f5901fa9b1bd0d3f391cc442da7d50f0b312ba3a44b9cec8f35d285253241",
+          "bench/tritonbench_g/rope_backward_transform/RopeBackwardTransform.lean": "ed020701e1a6ac98b7d4f0f22ee51443a311c1a5622ccfe97bb09f39e2d39cbd"
+        },
+        "python": {
+          "bench/tritonbench_g/rope_backward_transform/rope_backward_transform.py": "c3830fba29c494695f47536c7c5144e75021c79f72e661b46e02a2ffcf03baa1"
+        }
+      },
+      "public_declarations_checked": [
+        {
+          "file": "bench/tritonbench_g/rope_backward_transform/FPCorrect.lean",
+          "declaration": "rope_backward_fp32_correctness",
+          "parser_name": "rope_backward_fp32_correctness",
+          "line": 8,
+          "sha256": "29c08a30f675a736f74f3c127faba5d0a2b681f154284178f73b3b60d2a472c8",
+          "statement_sha256": "65143004d1c5f20cf4b629b628d63a21c79df58f5d63988b5b9f706ea2820044",
+          "statement": "specification rope_backward_fp32_correctness {α : Type} [Inhabited α]\n    (M : Algebra α) (p : Parameters) (s : State α) :\n    ∃ t, FP.Structural.exec M (kernel .fp32 .fp32 p) s = some t ∧\n      t.mem = referenceMemory M .fp32 .fp32 p s ∧\n      (∀ r o, Outside p s r o → t.mem r o = s.mem r o)"
+        },
+        {
+          "file": "bench/tritonbench_g/rope_backward_transform/FPCorrect.lean",
+          "declaration": "rope_backward_software_fp32",
+          "parser_name": "rope_backward_software_fp32",
+          "line": 15,
+          "sha256": "29c08a30f675a736f74f3c127faba5d0a2b681f154284178f73b3b60d2a472c8",
+          "statement_sha256": "a58eacf9c5af9d0cdc16f3b0765960397478678dee3372eb0997ac38570b747a",
+          "statement": "specification rope_backward_software_fp32 [Inhabited (FP.Value .fp32)]\n    (rest : Algebra (FP.Value .fp32)) (cfg : FP.Config)\n    (p : Parameters) (s : State (FP.Value .fp32)) :\n    ∃ t, FP.Structural.exec (FP.Software.scalarFP32 rest cfg)\n      (kernel .fp32 .fp32 p) s = some t ∧ t.mem = roundedMemory cfg p s ∧\n      (∀ r o, Outside p s r o → t.mem r o = s.mem r o)"
+        },
+        {
+          "file": "bench/tritonbench_g/rope_backward_transform/RopeBackwardTransform.lean",
+          "declaration": "rope_backward_python_backward_output_summary_general",
+          "parser_name": "rope_backward_python_backward_output_summary_general",
+          "line": 2144,
+          "sha256": "ed020701e1a6ac98b7d4f0f22ee51443a311c1a5622ccfe97bb09f39e2d39cbd",
+          "statement_sha256": "7556ded5b5e78866b205d074cbc5784383ae0c2729bc50c733ed685d87d7ae6b",
+          "statement": "specification rope_backward_python_backward_output_summary_general\n    (Q K COS SIN : RegionName)\n    (q_row_stride k_row_stride cos_row_stride sin_row_stride\n      sl bs n_qh n_kh hd pad_n_qh pad_n_kh pad_hd BLOCK_SIZE : Nat)\n    (HEAD_IDX COS_ROW_IDX HEAD_HALF BLOCK_HALF : Nat)\n    (s : BlockState) (hundef : ∀ rg o, s.undef rg o = 0) (hqk : Q ≠ K) :\n    ComputeCorrect.Realizes_without_Rounding\n      (kernel := triton_rope_surface Q K COS SIN q_row_stride k_row_stride\n        cos_row_stride sin_row_stride sl bs n_qh n_kh hd pad_n_qh pad_n_kh\n        pad_hd BLOCK_SIZE Bool.true)\n      (initialState := s)\n      (write := ComputeCorrect.WriteMap.writeIf\n        (fun idx : TileIndex [pad_n_qh, pad_hd/2] =>\n          activeQFull (pad_n_qh := pad_n_qh) (pad_hd_half := pad_hd/2) n_qh hd idx)\n        (fun idx => (Q, qFullFirstOffset (pad_n_qh := pad_n_qh) (pad_hd_half := pad_hd/2) s q_row_stride hd idx)))\n      (expected := fun idx =>\n        ropeBackwardKernelQ0Spec (pad_n_qh := pad_n_qh) (pad_hd_half := pad_hd/2) s Q COS SIN q_row_stride sl cos_row_stride sin_row_stride hd idx) ∧\n    ComputeCorrect.Realizes_without_Rounding\n      (kernel := triton_rope_surface Q K COS SIN q_row_stride k_row_stride\n        cos_row_stride sin_row_stride sl bs n_qh n_kh hd pad_n_qh pad_n_kh\n        pad_hd BLOCK_SIZE Bool.true)\n      (initialState := s)\n      (write := ComputeCorrect.WriteMap.writeIf\n        (fun idx : TileIndex [pad_n_qh, pad_hd/2] =>\n          activeQFull (pad_n_qh := pad_n_qh) (pad_hd_half := pad_hd/2) n_qh hd idx)\n        (fun idx => (Q, qFullSecondOffset (pad_n_qh := pad_n_qh) (pad_hd_half := pad_hd/2) s q_row_stride hd idx)))\n      (expected := fun idx =>\n        ropeBackwardKernelQ1Spec (pad_n_qh := pad_n_qh) (pad_hd_half := pad_hd/2) s Q COS SIN q_row_stride sl cos_row_stride sin_row_stride hd idx) ∧\n    ComputeCorrect.Realizes_without_Rounding\n      (kernel := triton_rope_surface Q K COS SIN q_row_stride k_row_stride\n        cos_row_stride sin_row_stride sl bs n_qh n_kh hd pad_n_qh pad_n_kh\n        pad_hd BLOCK_SIZE Bool.true)\n      (initialState := s)\n      (write := ComputeCorrect.WriteMap.writeIf\n        (fun idx : TileIndex [pad_n_kh, pad_hd/2] =>\n          activeKFull (pad_n_kh := pad_n_kh) (pad_hd_half := pad_hd/2) n_kh hd idx)\n        (fun idx => (K, kFullFirstOffset (pad_n_kh := pad_n_kh) (pad_hd_half := pad_hd/2) s k_row_stride hd idx)))\n      (expected := fun idx =>\n        ropeBackwardKernelK0Spec (pad_n_kh := pad_n_kh) (pad_hd_half := pad_hd/2) s K COS SIN k_row_stride sl cos_row_stride sin_row_stride hd idx) ∧\n    ComputeCorrect.Realizes_without_Rounding\n      (kernel := triton_rope_surface Q K COS SIN q_row_stride k_row_stride\n        cos_row_stride sin_row_stride sl bs n_qh n_kh hd pad_n_qh pad_n_kh\n        pad_hd BLOCK_SIZE Bool.true)\n      (initialState := s)\n      (write := ComputeCorrect.WriteMap.writeIf\n        (fun idx : TileIndex [pad_n_kh, pad_hd/2] =>\n          activeKFull (pad_n_kh := pad_n_kh) (pad_hd_half := pad_hd/2) n_kh hd idx)\n        (fun idx => (K, kFullSecondOffset (pad_n_kh := pad_n_kh) (pad_hd_half := pad_hd/2) s k_row_stride hd idx)))\n      (expected := fun idx =>\n        ropeBackwardKernelK1Spec (pad_n_kh := pad_n_kh) (pad_hd_half := pad_hd/2) s K COS SIN k_row_stride sl cos_row_stride sin_row_stride hd idx) ∧\n    (ropeBackwardQ0HeadIO Q COS SIN HEAD_IDX COS_ROW_IDX q_row_stride\n        cos_row_stride sin_row_stride hd n_qh HEAD_HALF BLOCK_HALF\n      ⊨ fun _ _ xs _ j =>\n          let q0 := xs (⟨0, by decide⟩ : Fin 4) j\n          let q1 := xs (⟨1, by decide⟩ : Fin 4) j\n          let c := xs (⟨2, by decide⟩ : Fin 4) j\n          let sn := xs (⟨3, by decide⟩ : Fin 4) j\n          q0 * c + q1 * sn) ∧\n    (ropeBackwardQ1HeadIO Q COS SIN HEAD_IDX COS_ROW_IDX q_row_stride\n        cos_row_stride sin_row_stride hd n_qh HEAD_HALF BLOCK_HALF\n      ⊨ fun _ _ xs _ j =>\n          let q0 := xs (⟨0, by decide⟩ : Fin 4) j\n          let q1 := xs (⟨1, by decide⟩ : Fin 4) j\n          let c := xs (⟨2, by decide⟩ : Fin 4) j\n          let sn := xs (⟨3, by decide⟩ : Fin 4) j\n          q1 * c - q0 * sn) ∧\n    (ropeBackwardK0HeadIO K COS SIN HEAD_IDX COS_ROW_IDX k_row_stride\n        cos_row_stride sin_row_stride hd n_kh HEAD_HALF BLOCK_HALF\n      ⊨ fun _ _ xs _ j =>\n          let k0 := xs (⟨0, by decide⟩ : Fin 4) j\n          let k1 := xs (⟨1, by decide⟩ : Fin 4) j\n          let c := xs (⟨2, by decide⟩ : Fin 4) j\n          let sn := xs (⟨3, by decide⟩ : Fin 4) j\n          k0 * c + k1 * sn) ∧\n    (ropeBackwardK1HeadIO K COS SIN HEAD_IDX COS_ROW_IDX k_row_stride\n        cos_row_stride sin_row_stride hd n_kh HEAD_HALF BLOCK_HALF\n      ⊨ fun _ _ xs _ j =>\n          let k0 := xs (⟨0, by decide⟩ : Fin 4) j\n          let k1 := xs (⟨1, by decide⟩ : Fin 4) j\n          let c := xs (⟨2, by decide⟩ : Fin 4) j\n          let sn := xs (⟨3, by decide⟩ : Fin 4) j\n          k1 * c - k0 * sn)"
+        }
+      ],
+      "catalog_declaration_metadata_discrepancies": [],
+      "dtype_scope_caveat": "No unsupported dtype is assumed to compile merely because a Python wrapper admits it. Missing-route findings require either the actual supported conversion route or a precise admission/rejection contract; they do not demand arbitrary compiler internals.",
+      "verification": {
+        "manual_original_production_functions_read": 2,
+        "actual_public_statements_reparsed_and_hash_checked": 3,
+        "key_source_and_referenced_definition_review": true,
+        "source_matches_baseline_scope_inputs": true,
+        "generated_selector_check": null,
+        "new_lean_runs": 0,
+        "new_frontend_runs": 0,
+        "gpu_runs": 0,
+        "numerical_deferrals_registered_by_this_read_only_review": 0
+      }
+    },
+    {
+      "schema": 1,
+      "kind": "original_scope_gap_review",
+      "reviewer": "/root/scope_remaining_cohort",
+      "reviewed_at_utc": "2026-10-15T19:07:58.252399+00:00",
+      "reviewed_base_commit": "fc183f5dae5e3f09f549b8151a9a1e4c366beb02",
+      "catalog": {
+        "path": "bench/review-checkpoints/2026-10-16/relu-source-grid-and-exact-numerics/current-source-catalog.json",
+        "sha256": "ef0da28a4c601f9841664431013d72e565ec5497cf21ba3e7be692c440d1a3fe"
+      },
+      "task": "rope_transform",
+      "status": "structural_gaps_confirmed",
+      "whole_original_program_accepted": false,
+      "completion_increment": 0,
+      "existing_proofs_preserved": "Complete padded-head/two-half rotary source, both BACKWARD_PASS branches, all four source-ordered in-place stores, exact final-memory reference and full frame are proved for fp32. The reference retains alias/write order and loads all original inputs before stores; software fp32 arithmetic and source-shape correspondence remain credited. Legacy Real summary also proves all four forward outputs, not merely one head slice.",
+      "production_stage_mapping": [
+        {
+          "function": "_triton_rope",
+          "coverage": "Complete two-branch fp32 execution/value theorem exists; generic two-format source syntax is broader than the proved execution family.",
+          "path": "bench/tritonbench_g/rope_transform/rope_transform.py",
+          "line": 7,
+          "end_line": 73,
+          "sha256": "eac371dc6aad2bdb054743a632689fdaa83729c9d60950ae769862736861bfcc",
+          "stage_id": "stage:bench/tritonbench_g/rope_transform/rope_transform.py:7:_triton_rope"
+        },
+        {
+          "function": "rope_forward",
+          "coverage": "Transpose, contiguous copies, padding/block selection, all-row launch and returned views are not composed.",
+          "path": "bench/tritonbench_g/rope_transform/rope_transform.py",
+          "line": 76,
+          "end_line": 114,
+          "sha256": "eac371dc6aad2bdb054743a632689fdaa83729c9d60950ae769862736861bfcc",
+          "stage_id": "stage:bench/tritonbench_g/rope_transform/rope_transform.py:76:rope_forward"
+        }
+      ],
+      "dtype_review": "Typed source allows shared q/k format and shared cos/sin format, but public execution/value proof fixes both fp32. Original accepts four independent tensor types; no admission boundary restricts them to that family.",
+      "branch_review": "Both forward/backward kernel branches are already represented in the shared Parameters.backward result. The wrapper fixes backward=false, makes cos/sin contiguous, and returns them along with both transposed outputs. No missing-head-loop or absent-mask claim is made.",
+      "structural_gaps": [
+        {
+          "id": "ROPE_TRANSFORM-S1",
+          "kind": "remaining_dtype_profiles_and_role_independence",
+          "finding": "Public typed execution/value contract fixes kernel .fp32 .fp32; generic source shares q/k and cos/sin dtypes despite independent original tensor arguments.",
+          "why_blocks_full_original_scope": "Additional admitted storage/conversion/promotion/store paths need proved structural execution or exact rejection cases; numerical deferral alone cannot instantiate the missing profiles.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 11,
+              "end_line": 31,
+              "path": "bench/tritonbench_g/rope_transform/FPCorrect.lean",
+              "sha256": "15de198d859fb05daab384297392c8cb5a312c0d6c480f6d82a87e87298b66fb",
+              "excerpt": "specification rope_fp32_correctness {α : Type} [Inhabited α]\n    (M : Algebra α) (p : Parameters) (s : State α) :\n    ∃ t, FP.Structural.exec M (kernel .fp32 .fp32 p) s = some t ∧\n      t.mem = referenceMemory M .fp32 .fp32 p s ∧\n      (∀ r o, Outside p s r o → t.mem r o = s.mem r o) := by\n  refine ⟨(execution M p s).val, (execution M p s).property, execution_memory M p s, ?_⟩\n  intro r o h\n  rw [execution_memory]\n  exact reference_frame M .fp32 .fp32 p s r o h\n\n/-- Every output uses separately rounded binary32 products and add/subtract.\nThe independent reference contains no callback from the surrounding backend. -/\nspecification rope_software_fp32 [Inhabited (FP.Value .fp32)]\n    (rest : Algebra (FP.Value .fp32)) (cfg : FP.Config)\n    (p : Parameters) (s : State (FP.Value .fp32)) :\n    ∃ t, FP.Structural.exec (FP.Software.scalarFP32 rest cfg)\n      (kernel .fp32 .fp32 p) s = some t ∧\n      t.mem = roundedMemory cfg p s ∧\n      (∀ r o, Outside p s r o → t.mem r o = s.mem r o) := by\n  obtain ⟨t, he, hm, hf⟩ := rope_fp32_correctness (FP.Software.scalarFP32 rest cfg) p s\n  exact ⟨t, he, hm.trans (reference_software rest cfg p s), hf⟩"
+            },
+            {
+              "line": 37,
+              "end_line": 52,
+              "path": "bench/tritonbench_g/rope_transform/rope_transform.py",
+              "sha256": "eac371dc6aad2bdb054743a632689fdaa83729c9d60950ae769862736861bfcc",
+              "excerpt": "    cos_row = tl.load(cos + cos_offsets, mask=cos_mask, other=0)\n    sin_row = tl.load(sin + cos_offsets, mask=cos_mask, other=0)\n\n    first_half_q_offsets = tl.arange(0, pad_n_qh)[:, None] * hd + tl.arange(0, pad_hd // 2)[None, :]\n    first_half_k_offsets = tl.arange(0, pad_n_kh)[:, None] * hd + tl.arange(0, pad_hd // 2)[None, :]\n    first_q_mask = (tl.arange(0, pad_n_qh)[:, None] < n_qh) & (tl.arange(0, pad_hd // 2)[None, :] < hd // 2)\n    first_k_mask = (tl.arange(0, pad_n_kh)[:, None] < n_kh) & (tl.arange(0, pad_hd // 2)[None, :] < hd // 2)\n    q_tile_1 = tl.load(q_ptr + first_half_q_offsets, mask=first_q_mask, other=0).to(sin_row.dtype)\n    k_tile_1 = tl.load(k_ptr + first_half_k_offsets, mask=first_k_mask, other=0).to(sin_row.dtype)\n\n    second_half_q_offsets = first_half_q_offsets + (hd // 2)\n    second_half_k_offsets = first_half_k_offsets + (hd // 2)\n    second_q_mask = first_q_mask\n    second_k_mask = first_k_mask\n    q_tile_2 = tl.load(q_ptr + second_half_q_offsets, mask=second_q_mask, other=0).to(sin_row.dtype)\n    k_tile_2 = tl.load(k_ptr + second_half_k_offsets, mask=second_k_mask, other=0).to(sin_row.dtype)"
+            }
+          ]
+        },
+        {
+          "id": "ROPE_TRANSFORM-S2",
+          "kind": "wrapper_copy_view_and_launch_composition",
+          "finding": "The wrapper transposes q/k, materializes contiguous buffers, selects power-of-two padding and launches every batch/sequence row before returning views.",
+          "why_blocks_full_original_scope": "Current per-pid memory theorem does not connect the actual input/output views, copy branches, padding choices and complete grid.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 76,
+              "end_line": 114,
+              "path": "bench/tritonbench_g/rope_transform/rope_transform.py",
+              "sha256": "eac371dc6aad2bdb054743a632689fdaa83729c9d60950ae769862736861bfcc",
+              "excerpt": "def rope_forward(q, k, cos, sin):\n    q = q.transpose(1, 2)\n    k = k.transpose(1, 2)\n\n    batch_size, seq_len, n_q_head, head_dim = q.shape\n    n_kv_head = k.shape[2]\n    pad_hd = triton.next_power_of_2(head_dim)\n    pad_n_q_head = triton.next_power_of_2(n_q_head)\n    pad_n_kv_head = triton.next_power_of_2(n_kv_head)\n    BLOCK_SIZE = max(pad_n_q_head, pad_n_kv_head)\n\n    n_row = batch_size * seq_len\n\n    q = q.contiguous()\n    k = k.contiguous()\n    cos = cos.contiguous()\n    sin = sin.contiguous()\n\n    _triton_rope[(n_row,)](\n        q,\n        q.stride(1),\n        k,\n        k.stride(1),\n        cos,\n        cos.stride(-2),\n        sin,\n        sin.stride(-2),\n        seq_len,\n        batch_size,\n        n_q_head,\n        n_kv_head,\n        head_dim,\n        pad_n_q_head,\n        pad_n_kv_head,\n        pad_hd,\n        BLOCK_SIZE=BLOCK_SIZE,\n        BACKWARD_PASS=False,\n    )\n    return q.transpose(1, 2), k.transpose(1, 2), cos, sin"
+            }
+          ]
+        }
+      ],
+      "numerical_items_eligible_for_explicit_deferral": [
+        "Scalar software fp32 arithmetic is already proved. Compiler contraction and other exact storage conversions may be registered once their source paths are represented."
+      ],
+      "precondition_assessment": "The existing bounds, nonoverlap, positive tile size and valid-address premises are legitimate selected-domain assumptions. No unrestricted invalid-input behavior or hypothetical hardware defect is demanded. Missing wrapper composition and dtype admission are separate structural questions.",
+      "source_sha256": {
+        "bench/tritonbench_g/rope_transform/rope_transform.py": "eac371dc6aad2bdb054743a632689fdaa83729c9d60950ae769862736861bfcc",
+        "bench/tritonbench_g/rope_transform/FPCorrect.lean": "15de198d859fb05daab384297392c8cb5a312c0d6c480f6d82a87e87298b66fb",
+        "bench/tritonbench_g/rope_transform/RopeTransform.lean": "ed1ea5389ee03fb5e8ca06c42c597b98c69acf9fd728d8a266dcff3aaecd257e",
+        "bench/tritonbench_g/rope_transform/Proofs/TypedSource.lean": "f443bce918fcc7206fd77b42e7f279cd2328c7313322f9033dd8cc6dc61bf610",
+        "bench/tritonbench_g/rope_transform/Proofs/TypedProof.lean": "3923e4e53c154f342ac288fe4c10cc8a15bf8077e91cf5c05beeb319592eb378",
+        "bench/tritonbench_g/rope_transform/Proofs/TypedContract.lean": "16ea21599a826dff71983b1e98258ec7adcf16395b81db7a177182a3df5ea5fe",
+        "bench/tritonbench_g/rope_transform/Proofs/TypedShape.lean": "26eeba267eed5633571e39fa631aa77e911c2f8a14348caf0795f0ff1a74ec8b"
+      },
+      "all_input_sha256": {
+        "lean": {
+          "bench/tritonbench_g/rope_transform/FPCorrect.lean": "15de198d859fb05daab384297392c8cb5a312c0d6c480f6d82a87e87298b66fb",
+          "bench/tritonbench_g/rope_transform/Proofs/TypedContract.lean": "16ea21599a826dff71983b1e98258ec7adcf16395b81db7a177182a3df5ea5fe",
+          "bench/tritonbench_g/rope_transform/Proofs/TypedFrame.lean": "5fbf58c3dc59c8ff7c11778dd3156512460167506e916e79ec097d40949f127e",
+          "bench/tritonbench_g/rope_transform/Proofs/TypedProof.lean": "3923e4e53c154f342ac288fe4c10cc8a15bf8077e91cf5c05beeb319592eb378",
+          "bench/tritonbench_g/rope_transform/Proofs/TypedShape.lean": "26eeba267eed5633571e39fa631aa77e911c2f8a14348caf0795f0ff1a74ec8b",
+          "bench/tritonbench_g/rope_transform/Proofs/TypedSoftware.lean": "459498013f1b58f19f129c720127d728a33b0fefd110f726e2676b5f1b66ee52",
+          "bench/tritonbench_g/rope_transform/Proofs/TypedSource.lean": "f443bce918fcc7206fd77b42e7f279cd2328c7313322f9033dd8cc6dc61bf610",
+          "bench/tritonbench_g/rope_transform/Proofs/TypedWitness.lean": "ef939f9ea659fca3f8b898651d9c14d29e04572548efe9df4633911174cd4ab1",
+          "bench/tritonbench_g/rope_transform/RopeTransform.lean": "ed1ea5389ee03fb5e8ca06c42c597b98c69acf9fd728d8a266dcff3aaecd257e"
+        },
+        "python": {
+          "bench/tritonbench_g/rope_transform/rope_transform.py": "eac371dc6aad2bdb054743a632689fdaa83729c9d60950ae769862736861bfcc"
+        }
+      },
+      "public_declarations_checked": [
+        {
+          "file": "bench/tritonbench_g/rope_transform/FPCorrect.lean",
+          "declaration": "rope_fp32_correctness",
+          "parser_name": "rope_fp32_correctness",
+          "line": 11,
+          "sha256": "15de198d859fb05daab384297392c8cb5a312c0d6c480f6d82a87e87298b66fb",
+          "statement_sha256": "df143c1e437596add72d5c76117e420d4c73cae7cca7c3a45ed6e51ab341ff40",
+          "statement": "specification rope_fp32_correctness {α : Type} [Inhabited α]\n    (M : Algebra α) (p : Parameters) (s : State α) :\n    ∃ t, FP.Structural.exec M (kernel .fp32 .fp32 p) s = some t ∧\n      t.mem = referenceMemory M .fp32 .fp32 p s ∧\n      (∀ r o, Outside p s r o → t.mem r o = s.mem r o)"
+        },
+        {
+          "file": "bench/tritonbench_g/rope_transform/FPCorrect.lean",
+          "declaration": "rope_software_fp32",
+          "parser_name": "rope_software_fp32",
+          "line": 23,
+          "sha256": "15de198d859fb05daab384297392c8cb5a312c0d6c480f6d82a87e87298b66fb",
+          "statement_sha256": "4c820e6f4cb1f534f255163f975562484f1c689b6ca2f82055a07950cbdfa9cd",
+          "statement": "specification rope_software_fp32 [Inhabited (FP.Value .fp32)]\n    (rest : Algebra (FP.Value .fp32)) (cfg : FP.Config)\n    (p : Parameters) (s : State (FP.Value .fp32)) :\n    ∃ t, FP.Structural.exec (FP.Software.scalarFP32 rest cfg)\n      (kernel .fp32 .fp32 p) s = some t ∧\n      t.mem = roundedMemory cfg p s ∧\n      (∀ r o, Outside p s r o → t.mem r o = s.mem r o)"
+        },
+        {
+          "file": "bench/tritonbench_g/rope_transform/RopeTransform.lean",
+          "declaration": "rope_transform_output_summary_general",
+          "parser_name": "rope_transform_output_summary_general",
+          "line": 2639,
+          "sha256": "ed1ea5389ee03fb5e8ca06c42c597b98c69acf9fd728d8a266dcff3aaecd257e",
+          "statement_sha256": "4714fefe75b42f5233a6db40a902557e1ea4a0a918ef59910599119eb0fae90e",
+          "statement": "specification rope_transform_output_summary_general\n    (Q K COS SIN : RegionName)\n    (q_row_stride k_row_stride cos_row_stride sin_row_stride\n      sl bs n_qh n_kh hd pad_n_qh pad_n_kh pad_hd BLOCK_SIZE : Nat)\n    (HEAD_IDX COS_ROW_IDX HEAD_HALF BLOCK_HALF : Nat)\n    (s : BlockState) (hundef : ∀ rg o, s.undef rg o = 0) (hqk : Q ≠ K) :\n    (ComputeCorrect.Realizes_without_Rounding\n      (kernel := triton_rope_surface Q K COS SIN q_row_stride k_row_stride\n        cos_row_stride sin_row_stride sl bs n_qh n_kh hd pad_n_qh pad_n_kh\n        pad_hd BLOCK_SIZE Bool.false)\n      (initialState := s)\n      (write := ComputeCorrect.WriteMap.writeIf\n        (fun idx : TileIndex [pad_n_qh, pad_hd/2] =>\n          activeQFull (pad_n_qh := pad_n_qh) (pad_hd_half := pad_hd/2) n_qh hd idx)\n        (fun idx => (Q,\n          qFullFirstOffset (pad_n_qh := pad_n_qh) (pad_hd_half := pad_hd/2) s q_row_stride hd idx)))\n      (expected := fun idx =>\n        ropeForwardKernelQ0Spec (pad_n_qh := pad_n_qh) (pad_hd_half := pad_hd/2)\n          s Q COS SIN q_row_stride sl cos_row_stride sin_row_stride hd idx)) ∧\n    (ComputeCorrect.Realizes_without_Rounding\n      (kernel := triton_rope_surface Q K COS SIN q_row_stride k_row_stride\n        cos_row_stride sin_row_stride sl bs n_qh n_kh hd pad_n_qh pad_n_kh\n        pad_hd BLOCK_SIZE Bool.false)\n      (initialState := s)\n      (write := ComputeCorrect.WriteMap.writeIf\n        (fun idx : TileIndex [pad_n_qh, pad_hd/2] =>\n          activeQFull (pad_n_qh := pad_n_qh) (pad_hd_half := pad_hd/2) n_qh hd idx)\n        (fun idx => (Q,\n          qFullSecondOffset (pad_n_qh := pad_n_qh) (pad_hd_half := pad_hd/2) s q_row_stride hd idx)))\n      (expected := fun idx =>\n        ropeForwardKernelQ1Spec (pad_n_qh := pad_n_qh) (pad_hd_half := pad_hd/2)\n          s Q COS SIN q_row_stride sl cos_row_stride sin_row_stride hd idx)) ∧\n    (ComputeCorrect.Realizes_without_Rounding\n      (kernel := triton_rope_surface Q K COS SIN q_row_stride k_row_stride\n        cos_row_stride sin_row_stride sl bs n_qh n_kh hd pad_n_qh pad_n_kh\n        pad_hd BLOCK_SIZE Bool.false)\n      (initialState := s)\n      (write := ComputeCorrect.WriteMap.writeIf\n        (fun idx : TileIndex [pad_n_kh, pad_hd/2] =>\n          activeKFull (pad_n_kh := pad_n_kh) (pad_hd_half := pad_hd/2) n_kh hd idx)\n        (fun idx => (K,\n          kFullFirstOffset (pad_n_kh := pad_n_kh) (pad_hd_half := pad_hd/2) s k_row_stride hd idx)))\n      (expected := fun idx =>\n        ropeForwardKernelK0Spec (pad_n_kh := pad_n_kh) (pad_hd_half := pad_hd/2)\n          s K COS SIN k_row_stride sl cos_row_stride sin_row_stride hd idx)) ∧\n    (ComputeCorrect.Realizes_without_Rounding\n      (kernel := triton_rope_surface Q K COS SIN q_row_stride k_row_stride\n        cos_row_stride sin_row_stride sl bs n_qh n_kh hd pad_n_qh pad_n_kh\n        pad_hd BLOCK_SIZE Bool.false)\n      (initialState := s)\n      (write := ComputeCorrect.WriteMap.writeIf\n        (fun idx : TileIndex [pad_n_kh, pad_hd/2] =>\n          activeKFull (pad_n_kh := pad_n_kh) (pad_hd_half := pad_hd/2) n_kh hd idx)\n        (fun idx => (K,\n          kFullSecondOffset (pad_n_kh := pad_n_kh) (pad_hd_half := pad_hd/2) s k_row_stride hd idx)))\n      (expected := fun idx =>\n        ropeForwardKernelK1Spec (pad_n_kh := pad_n_kh) (pad_hd_half := pad_hd/2)\n          s K COS SIN k_row_stride sl cos_row_stride sin_row_stride hd idx)) ∧\n    (ropeQ0HeadIO Q COS SIN HEAD_IDX COS_ROW_IDX q_row_stride cos_row_stride\n        sin_row_stride hd n_qh HEAD_HALF BLOCK_HALF\n      ⊨ fun _ _ xs _ j =>\n          let q0 := xs (⟨0, by decide⟩ : Fin 4) j\n          let q1 := xs (⟨1, by decide⟩ : Fin 4) j\n          let c := xs (⟨2, by decide⟩ : Fin 4) j\n          let sn := xs (⟨3, by decide⟩ : Fin 4) j\n          q0 * c - q1 * sn) ∧\n    (ropeQ1HeadIO Q COS SIN HEAD_IDX COS_ROW_IDX q_row_stride cos_row_stride\n        sin_row_stride hd n_qh HEAD_HALF BLOCK_HALF\n      ⊨ fun _ _ xs _ j =>\n          let q0 := xs (⟨0, by decide⟩ : Fin 4) j\n          let q1 := xs (⟨1, by decide⟩ : Fin 4) j\n          let c := xs (⟨2, by decide⟩ : Fin 4) j\n          let sn := xs (⟨3, by decide⟩ : Fin 4) j\n          q1 * c + q0 * sn) ∧\n    (ropeK0HeadIO K COS SIN HEAD_IDX COS_ROW_IDX k_row_stride cos_row_stride\n        sin_row_stride hd n_kh HEAD_HALF BLOCK_HALF\n      ⊨ fun _ _ xs _ j =>\n          let k0 := xs (⟨0, by decide⟩ : Fin 4) j\n          let k1 := xs (⟨1, by decide⟩ : Fin 4) j\n          let c := xs (⟨2, by decide⟩ : Fin 4) j\n          let sn := xs (⟨3, by decide⟩ : Fin 4) j\n          k0 * c - k1 * sn) ∧\n    (ropeK1HeadIO K COS SIN HEAD_IDX COS_ROW_IDX k_row_stride cos_row_stride\n        sin_row_stride hd n_kh HEAD_HALF BLOCK_HALF\n      ⊨ fun _ _ xs _ j =>\n          let k0 := xs (⟨0, by decide⟩ : Fin 4) j\n          let k1 := xs (⟨1, by decide⟩ : Fin 4) j\n          let c := xs (⟨2, by decide⟩ : Fin 4) j\n          let sn := xs (⟨3, by decide⟩ : Fin 4) j\n          k1 * c + k0 * sn)"
+        }
+      ],
+      "catalog_declaration_metadata_discrepancies": [],
+      "dtype_scope_caveat": "No unsupported dtype is assumed to compile merely because a Python wrapper admits it. Missing-route findings require either the actual supported conversion route or a precise admission/rejection contract; they do not demand arbitrary compiler internals.",
+      "verification": {
+        "manual_original_production_functions_read": 2,
+        "actual_public_statements_reparsed_and_hash_checked": 3,
+        "key_source_and_referenced_definition_review": true,
+        "source_matches_baseline_scope_inputs": true,
+        "generated_selector_check": null,
+        "new_lean_runs": 0,
+        "new_frontend_runs": 0,
+        "gpu_runs": 0,
+        "numerical_deferrals_registered_by_this_read_only_review": 0
+      }
+    },
+    {
+      "schema": 1,
+      "kind": "original_scope_gap_review",
+      "reviewer": "/root/scope_remaining_cohort",
+      "reviewed_at_utc": "2026-10-15T19:07:58.335100+00:00",
+      "reviewed_base_commit": "fc183f5dae5e3f09f549b8151a9a1e4c366beb02",
+      "catalog": {
+        "path": "bench/review-checkpoints/2026-10-16/relu-source-grid-and-exact-numerics/current-source-catalog.json",
+        "sha256": "ef0da28a4c601f9841664431013d72e565ec5497cf21ba3e7be692c440d1a3fe"
+      },
+      "task": "context_attn_nopad",
+      "status": "structural_gaps_confirmed",
+      "whole_original_program_accepted": false,
+      "completion_increment": 0,
+      "existing_proofs_preserved": "Complete online-softmax key loop, causal masks, zero-trip programs, all query rows in a tile, cast-to-value dtype, accumulator updates and output store have independent closed Real softmax IO with signed metadata addresses, termination and full frame. No zero-undef premise is needed. Three homogeneous storage profiles and scale-first relative equivalence remain credited.",
+      "production_stage_mapping": [
+        {
+          "function": "_fwd_kernel",
+          "coverage": "Entire per batch/head/query-tile online recurrence is represented and proved in Real semantics.",
+          "path": "bench/tritonbench_g/context_attn_nopad/context_attn_nopad.py",
+          "line": 6,
+          "end_line": 86,
+          "sha256": "5135592994e22667902175fca73221ce017294706324ef83d73110290dd1d869",
+          "stage_id": "stage:bench/tritonbench_g/context_attn_nopad/context_attn_nopad.py:6:_fwd_kernel"
+        },
+        {
+          "function": "context_attention_fwd",
+          "coverage": "Head-dimension assertions, scale/warp selection and full in-place grid are not composed.",
+          "path": "bench/tritonbench_g/context_attn_nopad/context_attn_nopad.py",
+          "line": 89,
+          "end_line": 115,
+          "sha256": "5135592994e22667902175fca73221ce017294706324ef83d73110290dd1d869",
+          "stage_id": "stage:bench/tritonbench_g/context_attn_nopad/context_attn_nopad.py:89:context_attention_fwd"
+        }
+      ],
+      "dtype_review": "Formal q/k/v/output share fp16,bf16 or fp32 and both metadata buffers are int32. Python checks only head dimensions, leaving output/value/metadata storage independent. Precise additional admitted/rejected paths remain unbound.",
+      "branch_review": "block_mask zero-length loop and causal/tail masks are already covered; no missing streaming-loop claim. The output is a supplied tensor mutated in place, and the wrapper returns None.",
+      "structural_gaps": [
+        {
+          "id": "CONTEXT_ATTN_NOPAD-S1",
+          "kind": "wrapper_assertion_scale_and_grid",
+          "finding": "The wrapper checks head dimensions, computes 1/sqrt(Lq), chooses warps and launches batch*head*ceil(max_input_len/128) programs into o.",
+          "why_blocks_full_original_scope": "The current per-program contract is not a complete wrapper postcondition relating these choices and all active output rows.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 89,
+              "end_line": 115,
+              "path": "bench/tritonbench_g/context_attn_nopad/context_attn_nopad.py",
+              "sha256": "5135592994e22667902175fca73221ce017294706324ef83d73110290dd1d869",
+              "excerpt": "def context_attention_fwd(q, k, v, o, b_start_loc, b_seq_len, max_input_len):\n    BLOCK = 128\n    # shape constraints\n    Lq, Lk, Lv = q.shape[-1], k.shape[-1], v.shape[-1]\n    assert Lq == Lk and Lk == Lv\n    assert Lk in {16, 32, 64, 128}\n\n    sm_scale = 1.0 / (Lq**0.5)  # Compute the scale factor.\n    batch, head = b_seq_len.shape[0], q.shape[1]\n\n    grid = (batch, head, triton.cdiv(max_input_len, BLOCK))  # batch, head,\n\n    num_warps = 4 if Lk <= 64 else 8\n    _fwd_kernel[grid](\n        q, k, v, sm_scale, b_start_loc, b_seq_len,\n        o,\n        q.stride(0), q.stride(1), q.stride(2),\n        k.stride(0), k.stride(1), k.stride(2),\n        v.stride(0), v.stride(1), v.stride(2),\n        o.stride(0), o.stride(1), o.stride(2),\n        BLOCK_M=BLOCK,\n        BLOCK_DMODEL=Lk,\n        BLOCK_N=BLOCK,\n        num_warps=num_warps,\n        num_stages=1,\n    )\n    return"
+            },
+            {
+              "line": 24,
+              "end_line": 39,
+              "path": "bench/tritonbench_g/context_attn_nopad/Correct.lean",
+              "sha256": "b9005dee220afb173a74a3931808183feea25e251ffa66bfdd5869842fbfb428",
+              "excerpt": "def originalIO (p : Layout) (r : Regions) (storage : Storage) (scale : ℝ) : RealIO.IO p where\n  kernel := (kernel p r storage Bool.false scale).eraseDType\n  projection := RealIO.projection p r storage Bool.false scale\n  read := fun u => {\n    q := u.readMem r.query, k := u.readMem r.key, v := u.readMem r.value,\n    start := u.readMemValue .int r.start, sequence := u.readMemValue .int r.sequence }\n  valid := fun l a => ∀ i j, RealIO.active p l a i → RealIO.active p l a j →\n    RealIO.write p l a i = RealIO.write p l a j → i = j\n  -- Two metadata cells, masked Q, reached K/V loads and active stores.\n  -- The start is nonnegative so converting the K/V pointer advance preserves\n  -- its signed value; every active address is also checked before conversion.\n  bounds := AddressBounds.Valid p r\n  out := r.out\n  write := fun l a i => ((a.start l.batch+queryRow p l i.1.val)*p.outRow+\n    l.head*p.outHead+i.2.1.val*p.outDim).toNat\n  mask := fun l a i => (queryRow p l i.1.val : Int) < Formula.sequence p l a"
+            }
+          ]
+        },
+        {
+          "id": "CONTEXT_ATTN_NOPAD-S2",
+          "kind": "homogeneous_storage_and_int32_admission",
+          "finding": "Only three shared q/k/v/output formats and int32 metadata are materialized; original supplies those tensors independently without corresponding dtype checks.",
+          "why_blocks_full_original_scope": "Additional source conversion/output/metadata routes or precise rejection contracts cannot be supplied by numerical attention assumptions.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 10,
+              "end_line": 12,
+              "path": "bench/tritonbench_g/context_attn_nopad/Kernels.lean",
+              "sha256": "f7751fd4824e73773dc7ecf6f56b282386baa8b3ffb14c8aefcb8b23633e193a",
+              "excerpt": "inductive Storage where\n  | fp16 | bf16 | fp32\n  deriving DecidableEq"
+            },
+            {
+              "line": 23,
+              "end_line": 30,
+              "path": "bench/tritonbench_g/context_attn_nopad/Kernels.lean",
+              "sha256": "f7751fd4824e73773dc7ecf6f56b282386baa8b3ffb14c8aefcb8b23633e193a",
+              "excerpt": "    `(fun (Q K V : RegionName) (sm_scale : ℝ)\n      (B_Start_Loc B_Seqlen Out : RegionName)\n      (stride_qbs stride_qh stride_qd stride_kbs stride_kh stride_kd\n        stride_vbs stride_vh stride_vd stride_obs stride_oh stride_od : Nat)\n      (BLOCK_M BLOCK_DMODEL BLOCK_N : Nat) => ComputeKernel.mk\n      [Q,K,V,B_Start_Loc,B_Seqlen] [Out] (triton {\n  tl.region Q = $storage, K = $storage, V = $storage, Out = $storage,\n    B_Start_Loc = tl.int32, B_Seqlen = tl.int32"
+            },
+            {
+              "line": 89,
+              "end_line": 108,
+              "path": "bench/tritonbench_g/context_attn_nopad/context_attn_nopad.py",
+              "sha256": "5135592994e22667902175fca73221ce017294706324ef83d73110290dd1d869",
+              "excerpt": "def context_attention_fwd(q, k, v, o, b_start_loc, b_seq_len, max_input_len):\n    BLOCK = 128\n    # shape constraints\n    Lq, Lk, Lv = q.shape[-1], k.shape[-1], v.shape[-1]\n    assert Lq == Lk and Lk == Lv\n    assert Lk in {16, 32, 64, 128}\n\n    sm_scale = 1.0 / (Lq**0.5)  # Compute the scale factor.\n    batch, head = b_seq_len.shape[0], q.shape[1]\n\n    grid = (batch, head, triton.cdiv(max_input_len, BLOCK))  # batch, head,\n\n    num_warps = 4 if Lk <= 64 else 8\n    _fwd_kernel[grid](\n        q, k, v, sm_scale, b_start_loc, b_seq_len,\n        o,\n        q.stride(0), q.stride(1), q.stride(2),\n        k.stride(0), k.stride(1), k.stride(2),\n        v.stride(0), v.stride(1), v.stride(2),\n        o.stride(0), o.stride(1), o.stride(2),"
+            }
+          ]
+        }
+      ],
+      "numerical_items_eligible_for_explicit_deferral": [
+        "Dot, exp, reduction schedule, online-softmax rescaling and represented casts may be deferred at exact profiles. Signed address validity is already explicit in the existing contract."
+      ],
+      "precondition_assessment": "The existing bounds, nonoverlap, positive tile size and valid-address premises are legitimate selected-domain assumptions. No unrestricted invalid-input behavior or hypothetical hardware defect is demanded. Missing wrapper composition and dtype admission are separate structural questions.",
+      "source_sha256": {
+        "bench/tritonbench_g/context_attn_nopad/context_attn_nopad.py": "5135592994e22667902175fca73221ce017294706324ef83d73110290dd1d869",
+        "bench/tritonbench_g/context_attn_nopad/Correct.lean": "b9005dee220afb173a74a3931808183feea25e251ffa66bfdd5869842fbfb428",
+        "bench/tritonbench_g/context_attn_nopad/FPEquiv.lean": "8584bf46399d5e5e15338893e41090e788b8045bc0bf9e723f8b75dfc9bcda24",
+        "bench/tritonbench_g/context_attn_nopad/Kernels.lean": "f7751fd4824e73773dc7ecf6f56b282386baa8b3ffb14c8aefcb8b23633e193a",
+        "bench/tritonbench_g/context_attn_nopad/Proofs/RealIO.lean": "9bcda3e3b542f091656ce6d71dcaa8bd1159567e213565a24bece3cb48edffc3"
+      },
+      "all_input_sha256": {
+        "lean": {
+          "bench/tritonbench_g/context_attn_nopad/Correct.lean": "b9005dee220afb173a74a3931808183feea25e251ffa66bfdd5869842fbfb428",
+          "bench/tritonbench_g/context_attn_nopad/FPEquiv.lean": "8584bf46399d5e5e15338893e41090e788b8045bc0bf9e723f8b75dfc9bcda24",
+          "bench/tritonbench_g/context_attn_nopad/Kernels.lean": "f7751fd4824e73773dc7ecf6f56b282386baa8b3ffb14c8aefcb8b23633e193a",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/AddressBounds.lean": "f47192a5f0196ad801ee958127d70432daee375e97a0d35d5732f394e545dff3",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/Bounds.lean": "6642236fa030c894cd82d0d6e14c942ad5053b5f32cbfd0f2709adb8575d86a3",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/CommitExecution.lean": "73acefca7a43df6c9458ba244aaf05f6bea47ad06dec08462bd701f42e553c9a",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/EpilogueExecution.lean": "04de5f17e94cff9f52e3251b642f48134088ed719e25e311c58b6442bbff3433",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/EpilogueProgram.lean": "9cddf22380926030eb265d2a6cd18cf20619da19460d44acdbe8c42cc1fb2d7d",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/EpilogueResult.lean": "6d2a8bc0d525c3221321ad8d51de297b9ae2f391025590b3b4697863526da3d2",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/EpilogueSafety.lean": "183833af986664e1263a9537ca931c9d683696872ba9f9dc35644ed40829e8cd",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/FP.lean": "e4deb3892ccf92d712440a5aa667f148717260944da45c6d1df206fba69b251d",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/Flat.lean": "d619ca85736b8b34c89282d1e1704e2a53ab81d8576710b345951194a306968a",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/FlattenShape.lean": "123581cbb0f8c84b4458f223f6025b958f74c409e4a7ee3347cc3fee7592052a",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/Formula.lean": "8c29b0385be1ae52a009f0558a014e1340173827b78c6d8857e807b4a45613e9",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/FormulaStep.lean": "95934069e9e49f0dd5b792dcccbc01aa5f2752914e56cf7d8486bce54541ed53",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/Frames.lean": "48914e9b0f8de5eea6aacaae8f711bc39c4db70beb94794d6d0d709aba4b31b2",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/Invariant.lean": "696a67800c69755537de4ea411c7b3d825d1113b6c35b0da14ad44d13b5dfde3",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/InvariantStep.lean": "354e37c63774c5d565fd1c9ff256f793e951dccb189a79c5f39bf461b5b893dd",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/IterationExecution.lean": "d55dd8ce191b5caa10cb4d1140c878b1cb6cd572c5aa3a5bc1dda0207f5c5b12",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/KeysExecution.lean": "ebedc16c96c1e51f0b92768630f552479d179c88da8b5fe63989cc9230301668",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/LoadSafety.lean": "fa7c503dc9708299b69a32b304dd579d923798aa17dc8e04e81eb84382aeef52",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/LoopExecution.lean": "de16a9948edc8c0a855c92d654b247bc72b86ea54276bb9f00e212c5a64e3bb4",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/LoopProgram.lean": "4595337ee2c659cee720e06d8e13802a8af8eb099287cf8361546f4a8b6b50b6",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/LoopSafety.lean": "dd5a3e8caf4e34c7965843decdf825d2acf778c3e5814a1bfbb5d63b9a00a57f",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/LoopState.lean": "20ed642dd00e91160a365c0f1431e5c856c325d48c21eda5282a0842911bfa9c",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/Meaning.lean": "92ef8ca9e48e0f851736df65534790e854220ed0a3c2bad42b4a7bfe597df100",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/NormalizedStep.lean": "2179e4cf85523d45aa73bd5e08e9e83c7ec7a6cd1c57543a288a88f79abeef90",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/NormalizerExecution.lean": "253c6eedc0cc294a5fdf0bcb3bf3f1b840a1019915fe30ff94b278c700f94cac",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/NumericCells.lean": "9b5cfb45c0e269fc39886d3162620e81671853e53a781285c0013497a7ee7e03",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/NumericNormalizer.lean": "ae2175d5fe9670750397b9cb5ad14b6f70557750ff6c3684c4d64d4309b52ae1",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/NumericScales.lean": "00a7103792b4304ab0b0f8609776a8303ea4bacd4582e5022496b662008ba6ff",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/NumericUpdate.lean": "5e09ff152579931ba4f66189090b6046213df92c84c000fc6c3a83341015a46d",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/Prelude.lean": "70777f20404fdfe9bf981b7e2ba03f451549b2b83e1865f215092dc5f2a4bb4a",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/PreludeComplete.lean": "8dd6c31e7fa4bc7e940606450c78e13ccaba487f4224fbf330f7cc6a20d4d138",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/PreludeExecution.lean": "df950f218cf1bceee94054b27a54ea71f3ac8ccd602a71e576e620bbc2e6523f",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/PreludeProgram.lean": "97e106de74db3674b43d72d38a969dfa788ef1ee83a0f7cd84e3062a0a8f0bc3",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/PreludeSafety.lean": "100aac7041140c6962104b8ff69cb5f5c7b4a535bdc3a3d29298245633b26acc",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/Program.lean": "94f85a640e62ad149ef738cdf131f44ab887e5f4fec8f1eaa69e05c0b2491b7b",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/PureSegments.lean": "0064a3d62e13fefaa383706d435543abcd9937a5ff908d8cd20008ec3933b978",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/RealIO.lean": "9bcda3e3b542f091656ce6d71dcaa8bd1159567e213565a24bece3cb48edffc3",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/RealWitness.lean": "516b880b90d7cdb09e02af29bc888597b0bd366c9cdef7739ff3484d77a830a7",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/SafeOps.lean": "b0483228b0c31a3d7f589b21f490e7ed2c7d57cb96f50c839ae74964a34daf52",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/ScalesExecution.lean": "817cfd43eb0930069f9929a7c607ec0d56413fbb06bb339ea6a463785696ffc5",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/ScoresExecution.lean": "9c2093ab2bfdfb7a52494b840f10b94af40dc628db25c88ba3fb83458de146ba",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/StatsExecution.lean": "de4d78786a3aae3ed2988ca9e41b7b3e1a52cc58ad15440e06e5683658deef14",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/TypedExecution.lean": "6d34b977f45ced8f69f2c17264687c93bffb557ff804591b819b5c0da049369f",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/ValuesExecution.lean": "45525c9b5abd3ef922655e359fc333471faf9ab157ee780746aa39c7adb7070d",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/WholeExecution.lean": "373fdfdab240997af8d4b2ae7c9c09b571df8e9a7e03cc076848429cc1e54ceb",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/WholeProgram.lean": "0be22d71166644372d68023e8dc1dbf6e72506136c05865f966b5df64951d52b",
+          "bench/tritonbench_g/context_attn_nopad/Proofs/WholeSafety.lean": "871a6bb3303f785f1aab2af4ca021f5fd6c6e33b3737d72306ba23f4d1e20531"
+        },
+        "python": {
+          "bench/tritonbench_g/context_attn_nopad/context_attn_nopad.py": "5135592994e22667902175fca73221ce017294706324ef83d73110290dd1d869"
+        }
+      },
+      "public_declarations_checked": [
+        {
+          "file": "bench/tritonbench_g/context_attn_nopad/Correct.lean",
+          "declaration": "original_correct",
+          "parser_name": "original_correct",
+          "line": 59,
+          "sha256": "b9005dee220afb173a74a3931808183feea25e251ffa66bfdd5869842fbfb428",
+          "statement_sha256": "29fc716bf5e050fe96e29ec0a875af3c3dfe703bc17994b67a8259bf84912c8a",
+          "statement": "specification original_correct (p : Layout) (r : Regions) (storage : Storage) (scale : ℝ) (hBN : 0 < p.BN) :\n    Spec.Real (originalIO p r storage scale ⊨ expected p scale)"
+        },
+        {
+          "file": "bench/tritonbench_g/context_attn_nopad/Correct.lean",
+          "declaration": "scaleFirst_correct",
+          "parser_name": "scaleFirst_correct",
+          "line": 63,
+          "sha256": "b9005dee220afb173a74a3931808183feea25e251ffa66bfdd5869842fbfb428",
+          "statement_sha256": "86262a33c24c74a43455d468034bd31dbe6db41d5015110efa09b064c020a598",
+          "statement": "specification scaleFirst_correct (p : Layout) (r : Regions) (storage : Storage) (scale : ℝ) (hBN : 0 < p.BN) :\n    Spec.Real (scaleFirstIO p r storage scale ⊨ expected p scale)"
+        },
+        {
+          "file": "bench/tritonbench_g/context_attn_nopad/FPEquiv.lean",
+          "declaration": "scaleFirst_equiv",
+          "parser_name": "scaleFirst_equiv",
+          "line": 47,
+          "sha256": "8584bf46399d5e5e15338893e41090e788b8045bc0bf9e723f8b75dfc9bcda24",
+          "statement_sha256": "8de8906f75ced74bbc11edcef4d151ab53126ba3703d094337a354641cc1d2fd",
+          "statement": "specification scaleFirst_equiv (R : FP.ScalarArithmetic.Rules) :\n    original storage Q K V sm_scale B_Start_Loc B_Seqlen Out\n      stride_qbs stride_qh stride_qd stride_kbs stride_kh stride_kd\n      stride_vbs stride_vh stride_vd stride_obs stride_oh stride_od BLOCK_M BLOCK_DMODEL BLOCK_N ≡[R]\n    scaleFirst storage Q K V sm_scale B_Start_Loc B_Seqlen Out\n      stride_qbs stride_qh stride_qd stride_kbs stride_kh stride_kd\n      stride_vbs stride_vh stride_vd stride_obs stride_oh stride_od BLOCK_M BLOCK_DMODEL BLOCK_N"
+        }
+      ],
+      "catalog_declaration_metadata_discrepancies": [],
+      "dtype_scope_caveat": "No unsupported dtype is assumed to compile merely because a Python wrapper admits it. Missing-route findings require either the actual supported conversion route or a precise admission/rejection contract; they do not demand arbitrary compiler internals.",
+      "verification": {
+        "manual_original_production_functions_read": 2,
+        "actual_public_statements_reparsed_and_hash_checked": 3,
+        "key_source_and_referenced_definition_review": true,
+        "source_matches_baseline_scope_inputs": true,
+        "generated_selector_check": null,
+        "new_lean_runs": 0,
+        "new_frontend_runs": 0,
+        "gpu_runs": 0,
+        "numerical_deferrals_registered_by_this_read_only_review": 0
+      }
+    },
+    {
+      "schema": 1,
+      "kind": "original_scope_gap_review",
+      "reviewer": "/root/scope_remaining_cohort",
+      "reviewed_at_utc": "2026-10-15T19:07:58.375451+00:00",
+      "reviewed_base_commit": "fc183f5dae5e3f09f549b8151a9a1e4c366beb02",
+      "catalog": {
+        "path": "bench/review-checkpoints/2026-10-16/relu-source-grid-and-exact-numerics/current-source-catalog.json",
+        "sha256": "ef0da28a4c601f9841664431013d72e565ec5497cf21ba3e7be692c440d1a3fe"
+      },
+      "task": "bgmv_shrink_kernel",
+      "status": "structural_gaps_confirmed",
+      "whole_original_program_accepted": false,
+      "completion_increment": 0,
+      "existing_proofs_preserved": "Complete interleaved split-K loop, signed -1 sentinel early exit, fp16/bf16 matching input/weight types, partial K/output masks, scaling and both store/atomic_add branches are proved for one program with initial-output-sensitive Real IO and frame. Source ignores xk_stride and the model faithfully does too; wrapper contiguous input makes that selected access valid.",
+      "production_stage_mapping": [
+        {
+          "function": "_bgmv_shrink_kernel",
+          "coverage": "All per-split stages and sentinel/store/atomic branches are represented.",
+          "path": "bench/tritonbench_g/bgmv_shrink_kernel/bgmv_shrink_kernel.py",
+          "line": 8,
+          "end_line": 63,
+          "sha256": "3ad8cf4c6a6b18f4fe4bcd8274cab39e0359eda1af258d871d6a9d3f644bb285",
+          "stage_id": "stage:bench/tritonbench_g/bgmv_shrink_kernel/bgmv_shrink_kernel.py:8:_bgmv_shrink_kernel"
+        },
+        {
+          "function": "_bgmv_shrink",
+          "coverage": "Rank squeeze/validation, output and metadata binding, fixed SPLIT_K=64 launch and complete shared-output accumulation are uncomposed.",
+          "path": "bench/tritonbench_g/bgmv_shrink_kernel/bgmv_shrink_kernel.py",
+          "line": 67,
+          "end_line": 121,
+          "sha256": "3ad8cf4c6a6b18f4fe4bcd8274cab39e0359eda1af258d871d6a9d3f644bb285",
+          "stage_id": "stage:bench/tritonbench_g/bgmv_shrink_kernel/bgmv_shrink_kernel.py:67:_bgmv_shrink"
+        }
+      ],
+      "dtype_review": "The original explicitly restricts matching input/weight dtype to fp16/bf16 and both are represented. Output is independently supplied with no dtype guard, while formal output is FloatDType; indices are abstract signed Region.int with no concrete tensor-width binding.",
+      "branch_review": "Both SPLIT_K=1 and atomic paths are present; wrapper fixes 64 splits. Public expected output is the incoming output plus one split contribution, not the result of all 64 updates. Sentinel leaves all data windows untouched. Existing valid slot/bounds premises are not themselves charged as gaps.",
+      "structural_gaps": [
+        {
+          "id": "BGMV_SHRINK_KERNEL-S1",
+          "kind": "whole_split_grid_atomic_composition",
+          "finding": "The wrapper launches 64 split programs per batch sharing output, whereas public expected uses a single split and its initialOutput.",
+          "why_blocks_full_original_scope": "Whole original output requires a composition of all split contributions and retained atomic-update ordering, with exact numerical scheduling assumptions allowed separately.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 96,
+              "end_line": 117,
+              "path": "bench/tritonbench_g/bgmv_shrink_kernel/bgmv_shrink_kernel.py",
+              "sha256": "3ad8cf4c6a6b18f4fe4bcd8274cab39e0359eda1af258d871d6a9d3f644bb285",
+              "excerpt": "    grid = lambda META: (\n        META[\"SPLIT_K\"],\n        batches,\n    )\n    _bgmv_shrink_kernel[grid](\n        inputs,\n        lora_a_weights,\n        output_tensor,\n        N,\n        K,\n        lora_indices_tensor,\n        scaling,\n        inputs.stride(0),\n        inputs.stride(1),\n        lora_a_weights.stride(0),\n        lora_a_weights.stride(1),\n        lora_a_weights.stride(2),\n        output_tensor.stride(0),\n        output_tensor.stride(1),\n        BLOCK_N=BLOCK_N,\n        BLOCK_K=256,\n        SPLIT_K=64,"
+            },
+            {
+              "line": 58,
+              "end_line": 67,
+              "path": "bench/tritonbench_g/bgmv_shrink_kernel/Correct.lean",
+              "sha256": "335ecb54ee273f261b74b5fbd1a65946e6b2e2bdd5d1422ca61d404febd5fb02",
+              "excerpt": "def expected (p : Parameters) (split : Nat) (xs : Inputs p) (n : Fin p.N) : ℝ :=\n  let v := p.scaling * ∑ c ∈ Finset.range ((p.K + p.BK * p.splits - 1) / (p.BK * p.splits)),\n    ∑ e : Fin p.BK,\n      let k := c * (p.BK * p.splits) + (e.val + split * p.BK)\n      if hk : k < p.K then xs.vector ⟨k, hk⟩ * xs.weights n ⟨k, hk⟩ else 0\n  if p.splits = 1 then v else xs.initialOutput n + v\n\nspecification bgmv_shrink_correctness (p : Parameters) (storage : TypedSource.Storage) (out_dtype : FloatDType)\n    (hS : 0 < p.BK * p.splits) (hstride : 0 < p.outputStride) (hN : p.N ≤ p.BN) :\n    Spec.Real (originalIO p storage out_dtype ⊨ expected p) := by"
+            },
+            {
+              "line": 51,
+              "end_line": 65,
+              "path": "bench/tritonbench_g/bgmv_shrink_kernel/Proofs/RealIO.lean",
+              "sha256": "05a2d31e8c84a26c57e527e4f105766d12a61a9b7768dbb19e25e3c23a505037",
+              "excerpt": "\n/-- Successful flat execution, active output values and full-cell frame.\nOutput is a single allocation, even when it supplies the initial atomic value.\nThe independent formula may depend on the program's split ID. -/\ndef IO.Implements {p : Parameters} (io : IO p) (f : Nat → Inputs p → Fin p.N → ℝ) : Prop :=\n  ∀ A : FlatAlloc, A.Disjoint →\n    A.regions = [p.input, p.weights, p.output, Region.cast p.indices] →\n    (∀ r, r ∉ A.regions → A.extent r = 0) →\n  ∀ (s : BlockState) (slot : Int) (xs : Inputs p),\n    (slot = -1 ∨ 0 ≤ slot) → s.undef = (fun _ _ => 0) →\n    io.Bounds A.extent (s.pids 0) (s.pids 1) slot → io.Pins s slot xs →\n    ∃ final, exec (A.flattenKernel io.kernel.toAlgKernel) (A.flattenState s) = some final ∧\n      (∀ n, slot ≠ -1 → final.readMem A.flat\n        (A.addr p.output (io.write (s.pids 1) n)) = f (s.pids 0) xs n) ∧\n      (∀ r o, (r ≠ A.flat ∨ ∀ n, slot ≠ -1 → o ≠ A.addr p.output (io.write (s.pids 1) n)) →"
+            }
+          ]
+        },
+        {
+          "id": "BGMV_SHRINK_KERNEL-S2",
+          "kind": "wrapper_rank_and_output_metadata_admission",
+          "finding": "The wrapper squeezes rank-4 weights or checks rank-3, enforces contiguous buffers, but leaves output/indices dtype independent; formal output is floating-only and indices Region.int.",
+          "why_blocks_full_original_scope": "These host branches and concrete supported/rejected output/metadata cases are not bound by the per-split theorem; matching input/weight storage is already covered.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 74,
+              "end_line": 93,
+              "path": "bench/tritonbench_g/bgmv_shrink_kernel/bgmv_shrink_kernel.py",
+              "sha256": "3ad8cf4c6a6b18f4fe4bcd8274cab39e0359eda1af258d871d6a9d3f644bb285",
+              "excerpt": "    assert inputs.dtype == lora_a_weights.dtype\n    assert inputs.dtype in [torch.float16, torch.bfloat16]\n    assert lora_a_weights.dtype in [\n        torch.float16,\n        torch.bfloat16,\n    ]\n    assert inputs.size(1) == lora_a_weights.size(-1)\n    assert inputs.is_contiguous()\n\n    if lora_a_weights.ndim == 4:\n        assert lora_a_weights.size(1) == 1\n        lora_a_weights = lora_a_weights.squeeze(dim=1)\n    else:\n        assert lora_a_weights.ndim == 3\n    assert lora_a_weights.is_contiguous()\n    assert output_tensor.is_contiguous()\n\n    batches = lora_indices_tensor.size(0)\n    N, K = lora_a_weights.shape[-2:]\n    BLOCK_N = triton.next_power_of_2(N)"
+            },
+            {
+              "line": 37,
+              "end_line": 43,
+              "path": "bench/tritonbench_g/bgmv_shrink_kernel/Kernels.lean",
+              "sha256": "ad23b93a8d393c70c29b7903621b16bc26e433fb48f929794f003509c8f837cf",
+              "excerpt": "    `(fun (out_dtype : FloatDType) (input_ptr lora_ptr out_ptr : RegionName)\n        (N K : Nat) (lora_indices : Region .int) (scaling : ℝ)\n        (xm_stride _xk_stride l0_stride lora_k_stride lora_n_stride cm_stride\n          cn_stride BLOCK_N BLOCK_K SPLIT_K : Nat) =>\n    ComputeKernel.mk [input_ptr, lora_ptr, out_ptr, Region.cast lora_indices] [out_ptr]\n    (triton {\n      tl.region input_ptr = $storage, lora_ptr = $storage, out_ptr = OUT_DTYPE"
+            },
+            {
+              "line": 76,
+              "end_line": 81,
+              "path": "bench/tritonbench_g/bgmv_shrink_kernel/Kernels.lean",
+              "sha256": "ad23b93a8d393c70c29b7903621b16bc26e433fb48f929794f003509c8f837cf",
+              "excerpt": "inductive Storage where\n  | fp16 | bf16\n  deriving DecidableEq\n\nabbrev KernelSource := FloatDType → RegionName → RegionName → RegionName → Nat → Nat →\n  Region .int → ℝ → Nat → Nat → Nat → Nat → Nat → Nat → Nat → Nat → Nat → Nat → ComputeKernel"
+            }
+          ]
+        }
+      ],
+      "numerical_items_eligible_for_explicit_deferral": [
+        "Reduction/multiplication and atomic addition rounding/order may be deferred as exact numerical profiles after whole split composition. Initial output must remain part of the contract; the wrapper does not zero it."
+      ],
+      "precondition_assessment": "The existing bounds, nonoverlap, positive tile size and valid-address premises are legitimate selected-domain assumptions. No unrestricted invalid-input behavior or hypothetical hardware defect is demanded. Missing wrapper composition and dtype admission are separate structural questions.",
+      "source_sha256": {
+        "bench/tritonbench_g/bgmv_shrink_kernel/bgmv_shrink_kernel.py": "3ad8cf4c6a6b18f4fe4bcd8274cab39e0359eda1af258d871d6a9d3f644bb285",
+        "bench/tritonbench_g/bgmv_shrink_kernel/Correct.lean": "335ecb54ee273f261b74b5fbd1a65946e6b2e2bdd5d1422ca61d404febd5fb02",
+        "bench/tritonbench_g/bgmv_shrink_kernel/FPEquiv.lean": "ea021049cd330b5a64056371e20f43593b0b6914a0a2fa48ff08a7c3387b70ea",
+        "bench/tritonbench_g/bgmv_shrink_kernel/Kernels.lean": "ad23b93a8d393c70c29b7903621b16bc26e433fb48f929794f003509c8f837cf",
+        "bench/tritonbench_g/bgmv_shrink_kernel/Proofs/RealIO.lean": "05a2d31e8c84a26c57e527e4f105766d12a61a9b7768dbb19e25e3c23a505037"
+      },
+      "all_input_sha256": {
+        "lean": {
+          "bench/tritonbench_g/bgmv_shrink_kernel/Correct.lean": "335ecb54ee273f261b74b5fbd1a65946e6b2e2bdd5d1422ca61d404febd5fb02",
+          "bench/tritonbench_g/bgmv_shrink_kernel/FPEquiv.lean": "ea021049cd330b5a64056371e20f43593b0b6914a0a2fa48ff08a7c3387b70ea",
+          "bench/tritonbench_g/bgmv_shrink_kernel/Kernels.lean": "ad23b93a8d393c70c29b7903621b16bc26e433fb48f929794f003509c8f837cf",
+          "bench/tritonbench_g/bgmv_shrink_kernel/Proofs/FP.lean": "2633cf2750bd0a818beea9554124259f354b9cd2b790fa4190c0f3064d12785d",
+          "bench/tritonbench_g/bgmv_shrink_kernel/Proofs/RealAccessSafety.lean": "c3e8d85fc5fb444812262b2412c5d56a21a8969bcc3c5cfec72862777654d7f3",
+          "bench/tritonbench_g/bgmv_shrink_kernel/Proofs/RealExecution.lean": "2c8aa0edb436e1e9b0af1e7509d90cc5d4610db01afb6e124d7e42a8ee35f94b",
+          "bench/tritonbench_g/bgmv_shrink_kernel/Proofs/RealFlat.lean": "83d83867b435af69e14f909db2ed68198b35d175fd439a3c06c159166ed1a50e",
+          "bench/tritonbench_g/bgmv_shrink_kernel/Proofs/RealFoundation.lean": "49653194bfe4e2586b9bbb3280e4ef95e60af5cbd52a93528fc712bce86aa61e",
+          "bench/tritonbench_g/bgmv_shrink_kernel/Proofs/RealIO.lean": "05a2d31e8c84a26c57e527e4f105766d12a61a9b7768dbb19e25e3c23a505037",
+          "bench/tritonbench_g/bgmv_shrink_kernel/Proofs/RealIOExecution.lean": "179f2eb3c7f60504f64aa545db26919d808292ffb942e7798e4153b084d817a1",
+          "bench/tritonbench_g/bgmv_shrink_kernel/Proofs/RealLoop.lean": "f4ef6b863a0e1c233451dbe1b2c5f83d6abaaeee5d4c1e3e5f705135cb836574",
+          "bench/tritonbench_g/bgmv_shrink_kernel/Proofs/RealProgram.lean": "50779099834fdfbfd29c205d5d4071bfb4e4990d52907a49dbc247502eba8f16",
+          "bench/tritonbench_g/bgmv_shrink_kernel/Proofs/RealSafety.lean": "d26edc7578dcec22821a8e6dddccaad7dfa7a442910d8adb926bb07a44ee2d84",
+          "bench/tritonbench_g/bgmv_shrink_kernel/Proofs/RealSetup.lean": "0b4ac33e8179dcbf69c94f73ee902f46f003c6e355f38a7adf25a29fb17d7f70",
+          "bench/tritonbench_g/bgmv_shrink_kernel/Proofs/RealSetupSafety.lean": "18f685151bda1a8b2f45a8f776b8fcedb0065a8af658425fa1bda4c62c55c539",
+          "bench/tritonbench_g/bgmv_shrink_kernel/Proofs/RealSetupSource.lean": "4712f2ddbee974768f014d7ccb71cb51236ca0691ee82dacc42258aa5e8cdf09",
+          "bench/tritonbench_g/bgmv_shrink_kernel/Proofs/RealSource.lean": "29a4d856d9056e5ac204f620dc31fdb90b6c0db0967e773f9a5ac7059357045d",
+          "bench/tritonbench_g/bgmv_shrink_kernel/Proofs/RealTail.lean": "e27fe68979efbf5dd3bc9daa93500c6f854cd81d6527fd0daed13fc2bd79a139",
+          "bench/tritonbench_g/bgmv_shrink_kernel/Proofs/RealTailSafety.lean": "24af8a672d7d18cb7c722c413ca381588397516af115eac8328a50c8bbc4863e",
+          "bench/tritonbench_g/bgmv_shrink_kernel/Proofs/TypedExecution.lean": "3949c29e99c61aa49a53faa88e365c2409f8e06c9e7dda47bce7b984e9f2ff30"
+        },
+        "python": {
+          "bench/tritonbench_g/bgmv_shrink_kernel/bgmv_shrink_kernel.py": "3ad8cf4c6a6b18f4fe4bcd8274cab39e0359eda1af258d871d6a9d3f644bb285"
+        }
+      },
+      "public_declarations_checked": [
+        {
+          "file": "bench/tritonbench_g/bgmv_shrink_kernel/Correct.lean",
+          "declaration": "bgmv_shrink_correctness",
+          "parser_name": "bgmv_shrink_correctness",
+          "line": 65,
+          "sha256": "335ecb54ee273f261b74b5fbd1a65946e6b2e2bdd5d1422ca61d404febd5fb02",
+          "statement_sha256": "0488978c23149d6d874277d08951d43d3259c1fa67701676b85fa96207027fff",
+          "statement": "specification bgmv_shrink_correctness (p : Parameters) (storage : TypedSource.Storage) (out_dtype : FloatDType)\n    (hS : 0 < p.BK * p.splits) (hstride : 0 < p.outputStride) (hN : p.N ≤ p.BN) :\n    Spec.Real (originalIO p storage out_dtype ⊨ expected p)"
+        },
+        {
+          "file": "bench/tritonbench_g/bgmv_shrink_kernel/Correct.lean",
+          "declaration": "bgmv_scalar_left_correctness",
+          "parser_name": "bgmv_scalar_left_correctness",
+          "line": 70,
+          "sha256": "335ecb54ee273f261b74b5fbd1a65946e6b2e2bdd5d1422ca61d404febd5fb02",
+          "statement_sha256": "f8d9cfda9d151577e87386fed000d6ecc88005839bde4ee12f4b713150ae7095",
+          "statement": "specification bgmv_scalar_left_correctness (p : Parameters) (storage : TypedSource.Storage) (out_dtype : FloatDType)\n    (hS : 0 < p.BK * p.splits) (hstride : 0 < p.outputStride) (hN : p.N ≤ p.BN) :\n    Spec.Real (scalarLeftIO p storage out_dtype ⊨ expected p)"
+        },
+        {
+          "file": "bench/tritonbench_g/bgmv_shrink_kernel/FPEquiv.lean",
+          "declaration": "bgmv_scaling_equiv",
+          "parser_name": "bgmv_scaling_equiv",
+          "line": 32,
+          "sha256": "ea021049cd330b5a64056371e20f43593b0b6914a0a2fa48ff08a7c3387b70ea",
+          "statement_sha256": "c858b00595926e060f1441977804012e7a7fa1ffbe47f6164c7454cf971321a2",
+          "statement": "specification bgmv_scaling_equiv (R : FP.ScalarArithmetic.Rules) :\n    original storage out_dtype x w out N K indices scaling sx sk sw0 swn swk sy syn BN BK splits ≡[R]\n    scalarLeft storage out_dtype x w out N K indices scaling sx sk sw0 swn swk sy syn BN BK splits"
+        }
+      ],
+      "catalog_declaration_metadata_discrepancies": [],
+      "dtype_scope_caveat": "No unsupported dtype is assumed to compile merely because a Python wrapper admits it. Missing-route findings require either the actual supported conversion route or a precise admission/rejection contract; they do not demand arbitrary compiler internals.",
+      "verification": {
+        "manual_original_production_functions_read": 2,
+        "actual_public_statements_reparsed_and_hash_checked": 3,
+        "key_source_and_referenced_definition_review": true,
+        "source_matches_baseline_scope_inputs": true,
+        "generated_selector_check": null,
+        "new_lean_runs": 0,
+        "new_frontend_runs": 0,
+        "gpu_runs": 0,
+        "numerical_deferrals_registered_by_this_read_only_review": 0
+      }
+    }
+  ]
+}

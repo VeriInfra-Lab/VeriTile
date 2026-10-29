@@ -1,0 +1,692 @@
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/Kernels.lean:72:38: warning: unused variable `B0_NUMEL`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/Kernels.lean:187:38: warning: unused variable `B0_NUMEL`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Kernels.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Kernels.olean"}
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Primitives.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Primitives.olean"}
+VeriTile.Bench.Repairs.AttentionKernelAligned.Full.block_guard: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Parameters.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Parameters.olean"}
+VeriTile.Bench.Repairs.AttentionKernelAligned.Source.source_decomposition: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Source.full_source_lengths: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Source.source_decomposition: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Source.full_source_lengths: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/SourceShape.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/SourceShape.olean"}
+VeriTile.Bench.Repairs.AttentionKernelAligned.Source.written: definition does not reference [VeriTile.Bench.Repairs.AttentionKernelAligned.Source.source,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Reference.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Reference.olean"}
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/RealMath.lean:40:2: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+VeriTile.Bench.Repairs.AttentionKernelAligned.RealMath.score_scaled_dot: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.RealMath.prefix_done: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/RealMath.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/RealMath.olean"}
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/RealBackend.lean:40:20: warning: unused variable `shape`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.Repairs.AttentionKernelAligned.Real.dot_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Real.score_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Real.Reads: definition does not reference [VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/RealBackend.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/RealBackend.olean"}
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/RealStep.lean:46:65: warning: This simp argument is unused:
+  he
+
+Hint: Omit it from the simp argument list.
+  simp [model, ̲algebra, ̲exp2, ̲alpha,̵h̵e̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.AttentionKernelAligned.Real.maximum_finite: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Real.normalizer_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Real.accumulator_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/RealStep.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/RealStep.olean"}
+VeriTile.Bench.Repairs.AttentionKernelAligned.Real.answer_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Real.Consistent: definition does not reference [VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.AttentionKernelAligned.Source.rounds] — non-circular ✓
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/RealInvariant.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/RealInvariant.olean"}
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Invariant.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Invariant.olean"}
+VeriTile.Bench.Repairs.AttentionKernelAligned.Source.prologueExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Source.prologueInvariant: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Prologue.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Prologue.olean"}
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Score.lean:13:15: warning: unused variable `st`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.Repairs.AttentionKernelAligned.Source.scoreExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Source.scoreInvariant: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Score.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Score.olean"}
+VeriTile.Bench.Repairs.AttentionKernelAligned.Source.tailExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Source.bodyExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Source.bodyInvariant: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Body.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Body.olean"}
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Complete.lean:67:2: warning: 'all_goals try rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Complete.lean:67:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Complete.lean:69:8: warning: automatically included section variable(s) unused in theorem `_private.bench.repairs.tritonbench_g.attention_kernel_aligned.Proofs.Complete.0.VeriTile.Bench.Repairs.AttentionKernelAligned.Source.scatter_mem_eq`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+VeriTile.Bench.Repairs.AttentionKernelAligned.Source.loopExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Source.epilogueExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Source.correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Complete.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Complete.olean"}
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Scatter.lean:38:58: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Scatter.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Scatter.olean"}
+VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.source_memory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.readback: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Output.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Output.olean"}
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Grid.lean:75:10: warning: unused variable `M`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.run_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.answer: definition does not reference [VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.runPrograms,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Grid.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Grid.olean"}
+VeriTile.Bench.Repairs.AttentionKernelAligned.Layout.injective: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Layout.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Layout.olean"}
+VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.outputInjective: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.sourceintegerbounds: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.biasintegerbounds: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.Guard: definition does not reference [VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.TensorStorage: definition does not reference [VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Domain.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Domain.olean"}
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Coverage.lean:32:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.grid_unique`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Coverage.lean:65:27: warning: This simp argument is unused:
+  Fin.mk.injEq
+
+Hint: Omit it from the simp argument list.
+  simp only [̵P̵r̵o̵d̵.̵m̵k̵.̵i̵n̵j̵E̵q̵,̵F̵i̵n̵.̵m̵k̵.̵i̵n̵j̵E̵q̵,̵t̵r̵u̵e̵_̵a̵n̵d̵,̵a̵n̵d̵_̵t̵r̵u̵e̵]̵[̲P̲r̲o̲d̲.̲m̲k̲.̲i̲n̲j̲E̲q̲,̲ ̲t̲r̲u̲e̲_̲a̲n̲d̲,̲ ̲a̲n̲d̲_̲t̲r̲u̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Coverage.lean:65:40: warning: This simp argument is unused:
+  true_and
+
+Hint: Omit it from the simp argument list.
+  simp only [̵P̵r̵o̵d̵.̵m̵k̵.̵i̵n̵j̵E̵q̵,̵F̵i̵n̵.̵m̵k̵.̵i̵n̵j̵E̵q̵,̵t̵r̵u̵e̵_̵a̵n̵d̵,̵a̵n̵d̵_̵t̵r̵u̵e̵]̵[̲P̲r̲o̲d̲.̲m̲k̲.̲i̲n̲j̲E̲q̲,̲ ̲F̲i̲n̲.̲m̲k̲.̲i̲n̲j̲E̲q̲,̲ ̲a̲n̲d̲_̲t̲r̲u̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.grid_covers: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.grid_unique: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Coverage.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Coverage.olean"}
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Host.lean:60:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.physical_address`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.host_result: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.InputABI: definition does not reference [VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.invoke,
+ VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.runPrograms,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Host.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Host.olean"}
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/AcceptedReal.lean:41:51: warning: unused variable `hd`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.Repairs.AttentionKernelAligned.Real.expected: definition does not reference [VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.invoke,
+ VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.runPrograms,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.AttentionKernelAligned.Source.rounds] — non-circular ✓
+VeriTile.Bench.Repairs.AttentionKernelAligned.Real.correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/AcceptedReal.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/AcceptedReal.olean"}
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Physical.lean:78:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.flatten_active`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Physical.lean:89:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.flatten_frame`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.access_bounds: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.absolute_formed: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.flatten_active: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.flatten_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.Placement: definition does not reference [VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.invoke,
+ VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.runPrograms,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Physical.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Physical.olean"}
+VeriTile.Bench.Repairs.AttentionKernelAligned.Contract.InputContract: definition does not reference [VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.invoke] — non-circular ✓
+VeriTile.Bench.Repairs.AttentionKernelAligned.Contract.check_iff: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Contract.aligned: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Contract.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Contract.olean"}
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Source.written: definition does not reference [VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Source.source,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16Reference.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16Reference.olean"}
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16RealBackend.lean:41:20: warning: unused variable `shape`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Real.dot_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Real.score_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Real.Reads: definition does not reference [VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16RealBackend.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16RealBackend.olean"}
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16RealStep.lean:47:65: warning: This simp argument is unused:
+  he
+
+Hint: Omit it from the simp argument list.
+  simp [model, ̲algebra, ̲exp2, ̲alpha,̵h̵e̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Real.maximum_finite: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Real.normalizer_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Real.accumulator_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16RealStep.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16RealStep.olean"}
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Real.answer_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Real.Consistent: definition does not reference [VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Source.rounds] — non-circular ✓
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16RealInvariant.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16RealInvariant.olean"}
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16Invariant.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16Invariant.olean"}
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Source.prologueExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Source.prologueInvariant: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16Prologue.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16Prologue.olean"}
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16Score.lean:13:15: warning: unused variable `st`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Source.scoreExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Source.scoreInvariant: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16Score.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16Score.olean"}
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Source.tailExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Source.bodyExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Source.bodyInvariant: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16Body.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16Body.olean"}
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16Complete.lean:67:2: warning: 'all_goals try rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16Complete.lean:67:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16Complete.lean:69:8: warning: automatically included section variable(s) unused in theorem `_private.bench.repairs.tritonbench_g.attention_kernel_aligned.Proofs.BF16Complete.0.VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Source.scatter_mem_eq`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Source.loopExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Source.epilogueExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Source.correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16Complete.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16Complete.olean"}
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Whole.source_memory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Whole.readback: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Whole.frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16Output.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16Output.olean"}
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16Grid.lean:76:10: warning: unused variable `M`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Whole.run_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Whole.answer: definition does not reference [VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Whole.runPrograms,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16Grid.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16Grid.olean"}
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16Domain.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16Domain.olean"}
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16Coverage.lean:33:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Whole.grid_unique`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16Coverage.lean:66:27: warning: This simp argument is unused:
+  Fin.mk.injEq
+
+Hint: Omit it from the simp argument list.
+  simp only [̵P̵r̵o̵d̵.̵m̵k̵.̵i̵n̵j̵E̵q̵,̵F̵i̵n̵.̵m̵k̵.̵i̵n̵j̵E̵q̵,̵t̵r̵u̵e̵_̵a̵n̵d̵,̵a̵n̵d̵_̵t̵r̵u̵e̵]̵[̲P̲r̲o̲d̲.̲m̲k̲.̲i̲n̲j̲E̲q̲,̲ ̲t̲r̲u̲e̲_̲a̲n̲d̲,̲ ̲a̲n̲d̲_̲t̲r̲u̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16Coverage.lean:66:40: warning: This simp argument is unused:
+  true_and
+
+Hint: Omit it from the simp argument list.
+  simp only [̵P̵r̵o̵d̵.̵m̵k̵.̵i̵n̵j̵E̵q̵,̵F̵i̵n̵.̵m̵k̵.̵i̵n̵j̵E̵q̵,̵t̵r̵u̵e̵_̵a̵n̵d̵,̵a̵n̵d̵_̵t̵r̵u̵e̵]̵[̲P̲r̲o̲d̲.̲m̲k̲.̲i̲n̲j̲E̲q̲,̲ ̲F̲i̲n̲.̲m̲k̲.̲i̲n̲j̲E̲q̲,̲ ̲a̲n̲d̲_̲t̲r̲u̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Whole.grid_covers: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Whole.grid_unique: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16Coverage.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16Coverage.olean"}
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16Host.lean:61:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Whole.physical_address`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Whole.host_result: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Whole.InputABI: definition does not reference [VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Whole.invoke,
+ VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Whole.runPrograms,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16Host.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16Host.olean"}
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16AcceptedReal.lean:42:51: warning: unused variable `hd`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Real.expected: definition does not reference [VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Whole.invoke,
+ VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Whole.runPrograms,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Source.rounds] — non-circular ✓
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Real.correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16AcceptedReal.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16AcceptedReal.olean"}
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16Physical.lean:79:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Whole.flatten_active`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16Physical.lean:90:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Whole.flatten_frame`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Whole.access_bounds: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Whole.absolute_formed: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Whole.flatten_active: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Whole.flatten_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Whole.Placement: definition does not reference [VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Whole.invoke,
+ VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Whole.runPrograms,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16Physical.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16Physical.olean"}
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Contract.InputContract: definition does not reference [VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Whole.invoke] — non-circular ✓
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Contract.check_iff: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Contract.aligned: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16Contract.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16Contract.olean"}
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/Correct.lean:15:51: warning: unused variable `hd`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.Repairs.AttentionKernelAligned.Correct.aligned_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/Correct.lean:32:51: warning: unused variable `hd`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Correct.aligned_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Correct.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Correct.olean"}
+VeriTile.Bench.Repairs.AttentionKernelAligned.NativePlan.reduction_coverage: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.NativePlan.selected_coverage: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.NativePlan.serial_coverage: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.AttentionKernelAligned.NativePlan.packed_bounds: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.AttentionKernelAligned.NativePlan.output_coordinate: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.AttentionKernelAligned.NativePlan.canonical_routing: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.NativePlan.chunk_coverage: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.AttentionKernelAligned.NativePlan.LocalRouting: definition does not reference [VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/NativePlan.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/NativePlan.olean"}
+VeriTile.Bench.Repairs.AttentionKernelAligned.Native.reduction_coverage: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Native.reduction32_coverage: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Native.selected_reduction_coverage: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Native.transport: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Native.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Native.olean"}
+VeriTile.Bench.Repairs.AttentionKernelAligned.Native.reference: definition does not reference [VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.runPrograms] — non-circular ✓
+VeriTile.Bench.Repairs.AttentionKernelAligned.Native.source_native: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Native.source_native_selected: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Native.native_local_transport: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/NativeStaging.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/NativeStaging.olean"}
+VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.saved_resource_fit: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.CompilerBinding: definition does not reference [VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.invoke,
+ VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.runPrograms,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Binding.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Binding.olean"}
+VeriTile.Bench.Repairs.AttentionKernelAligned.Native.injectState_project: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Native.featureAt_output: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Native.outputGraph: definition does not reference [VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.invoke,
+ VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.runPrograms,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/NativeProjection.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/NativeProjection.olean"}
+VeriTile.Bench.Repairs.AttentionKernelAligned.Native.input_from_current_bytes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Native.source_current_operands: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Native.grid_current_operands: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Native.CurrentOperands: definition does not reference [VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.invoke,
+ VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.runPrograms,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.AttentionKernelAligned.Native.outputGraph] — non-circular ✓
+VeriTile.Bench.Repairs.AttentionKernelAligned.Native.readHalf: definition does not reference [VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.invoke,
+ VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.runPrograms,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.AttentionKernelAligned.Native.outputGraph] — non-circular ✓
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/NativeOperands.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/NativeOperands.olean"}
+VeriTile.Bench.Repairs.AttentionKernelAligned.Native.scale_word: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Native.query_scale_word: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/NativeScale.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/NativeScale.olean"}
+VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.interval_apart: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.half_storage_apart: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.overlaps: definition does not reference [VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/StorageGuard.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/StorageGuard.olean"}
+VeriTile.Bench.Repairs.AttentionKernelAligned.NativePlan.configuration_exists: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.NativePlan.wrapper_configuration: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.NativePlan.Configuration.Matches: definition does not reference [VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Configuration.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Configuration.olean"}
+VeriTile.Bench.Repairs.AttentionKernelAligned.Native.bias_seed_bytes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Native.qk_seed: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Native.pv_seed: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Native.normalizer_fma: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/NativeSeeds.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/NativeSeeds.olean"}
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/AcceptedFP.lean:70:25: warning: This simp argument is unused:
+  if_pos rfl
+
+Hint: Omit it from the simp argument list.
+  simp only [ownerAt,i̵f̵_̵p̵o̵s̵ r̵fl̵,̵f̵eatureAt_output p guard b h n d hb hh hn hd]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.AttentionKernelAligned.Native.host_native_coverage: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Native.host_native: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Native.fpequiv: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.Native.WordBinding: definition does not reference [VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.invoke,
+ VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.runPrograms,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.AttentionKernelAligned.Native.outputGraph] — non-circular ✓
+VeriTile.Bench.Repairs.AttentionKernelAligned.Native.fpequiv_current: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/AcceptedFP.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/AcceptedFP.olean"}
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Native.transport: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16Native.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16Native.olean"}
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Native.reference: definition does not reference [VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Whole.runPrograms] — non-circular ✓
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Native.selectedTree_coverage: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Native.source_native: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Native.source_native_selected: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Native.native_local_transport: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16NativeStaging.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16NativeStaging.olean"}
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Whole.saved_resource_fit: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Whole.CompilerBinding: definition does not reference [VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Whole.invoke,
+ VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Whole.runPrograms,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16Binding.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16Binding.olean"}
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Native.injectState_project: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Native.featureAt_output: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Native.outputGraph: definition does not reference [VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Whole.invoke,
+ VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Whole.runPrograms,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16NativeProjection.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16NativeProjection.olean"}
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Native.input_from_current_bytes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Native.source_current_operands: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Native.grid_current_operands: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Native.CurrentOperands: definition does not reference [VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Whole.invoke,
+ VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Whole.runPrograms,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Native.outputGraph] — non-circular ✓
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Native.readHalf: definition does not reference [VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Whole.invoke,
+ VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Whole.runPrograms,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Native.outputGraph] — non-circular ✓
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16NativeOperands.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16NativeOperands.olean"}
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Native.scale_word: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Native.query_scale_word: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16NativeScale.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16NativeScale.olean"}
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16AcceptedFP.lean:70:25: warning: This simp argument is unused:
+  if_pos rfl
+
+Hint: Omit it from the simp argument list.
+  simp only [ownerAt,i̵f̵_̵p̵o̵s̵ r̵fl̵,̵f̵eatureAt_output p guard b h n d hb hh hn hd]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Native.host_native_coverage: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Native.host_native: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Native.fpequiv: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Native.WordBinding: definition does not reference [VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Whole.invoke,
+ VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Whole.runPrograms,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Native.outputGraph] — non-circular ✓
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Native.fpequiv_current: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16AcceptedFP.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/BF16AcceptedFP.olean"}
+VeriTile.Bench.Repairs.AttentionKernelAligned.FPEquiv.aligned_native: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.FPEquiv.aligned_native_if_local: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.FPEquiv.aligned_native: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.FPEquiv.aligned_native_if_local: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/FPEquiv.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/FPEquiv.olean"}

@@ -1,0 +1,27 @@
+{
+  "status": "passed",
+  "counts": {
+    "scalar_families": 37,
+    "scope_bindings": 296,
+    "declaration_cases": 4498,
+    "registered_declarations": 1,
+    "original_dtype_pairs": 484,
+    "binder_rejections": 195,
+    "signature_rejections": 64,
+    "addition_rejections": 36,
+    "backend_rejections": 6,
+    "backend_compiles": 183,
+    "frontend_typed_routes_retained": 189,
+    "native_executions": 0,
+    "original_program_completion_increment": 0
+  },
+  "checks": [
+    "unchanged validate_case",
+    "unchanged declaration_scope",
+    "unchanged validate_deferrals",
+    "native22x22 partition",
+    "additive scalar authority retains prior evidence"
+  ],
+  "independent_review": "pending",
+  "acceptance_increment": 0
+}

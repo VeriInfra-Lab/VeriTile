@@ -1,0 +1,22 @@
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeGrid.lean:108:19: error: Dependent elimination failed: Failed to solve equation
+  Except.ok writes =
+    match nativeGridPlan b d a alloc p snapshot (nativePids a cfg) [] with
+    | Except.error err => Except.error err
+    | Except.ok v => Except.ok v.1
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeGrid.lean:110:4: error: Dependent elimination failed: Failed to solve equation
+  Except.ok writes =
+    match nativeGridPlan b d a alloc p snapshot (nativePids a cfg) [] with
+    | Except.error err => Except.error err
+    | Except.ok v => Except.ok v.1
+QuantTransposeFinite.nativeTrialsPlan: definition does not reference [QuantTransposeFinite.executeNativeTrials,
+ QuantTransposeFinite.executeNativeLaunch,
+ QuantTransposeFinite.executeNativeGrid,
+ QuantTransposeFinite.executeNativeProgram,
+ QuantTransposeFinite.applyNativeWrites,
+ QuantTransposeFinite.source,
+ QuantTransposeFinite.Expr.eval] — non-circular ✓
+QuantTransposeFinite.native_grid_correspondence: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeGrid.lean:176:0: error: QuantTransposeFinite.native_trials_correspondence: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeGrid.lean:177:0: error: QuantTransposeFinite.native_trials_write_bounds: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

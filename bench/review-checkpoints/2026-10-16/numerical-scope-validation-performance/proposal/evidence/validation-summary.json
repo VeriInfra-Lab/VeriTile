@@ -1,0 +1,15 @@
+{
+  "status": "bounded_unapplied_C_and_A_plus_C_candidates_passed",
+  "synthetic_scenarios": 34,
+  "synthetic_function_executions": 132,
+  "production_tables": 7,
+  "production_omission_cases": 15,
+  "production_fast_rejections": 30,
+  "production_valid_shaped_authority_entry_checks": 28,
+  "production_baseline_A_omission_entry_checks": 14,
+  "total_bounded_function_executions": 204,
+  "failed_harness_attempts_preserved": 1,
+  "full_authority_run": false,
+  "production_acceptance_claimed": false,
+  "acceptance_increment": 0
+}

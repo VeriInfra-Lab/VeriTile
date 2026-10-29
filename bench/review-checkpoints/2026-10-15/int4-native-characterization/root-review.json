@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "reviewer": "root",
+  "status": "passed_fixed_corpus_characterization_handoff_native_not_run",
+  "candidate_receipt_sha256": "af42e4fd6610919128124fa52b55276a4edf81e6fd37f9f94a84f64159cd4a0d",
+  "proof_receipt_sha256": "58e779a4db5d8aec3f3c5208a74dcba9fa42338ad80e1bd1b23fb823271d3519",
+  "independent_tests": 26,
+  "independent_offline_profiles": 4,
+  "independent_reference_bytes_identical": true,
+  "scope": "One original autotune configuration, full two-block input, explicit five allocations and nonzero pointer origins; three distinct fixed software references.",
+  "native_status": "NOT_RUN",
+  "native_launches": 0,
+  "native_execution": false,
+  "numeric_acceptance": false,
+  "native_MMA_serializability": false,
+  "classification_modified": false,
+  "reviewed_tools_sha256": {
+    "run.py": "1bfafe7958d43bb09770103e4112eaa17ecf6847571a4791a665429461523805",
+    "oracle.py": "c625731f226ab90cf4efa7e894c15142302ea3d87ea57b40bdcc562629b86518"
+  },
+  "root_commands_sha256": "69f4a65be85b5eace3924531fe681519ea306b557eda39a9c62f83a9bf525aaa"
+}

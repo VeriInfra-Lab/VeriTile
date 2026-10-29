@@ -20,8 +20,13 @@ current VeriTile DSL semantic boundary.
 > (fp8 dtypes, the integer `Op.intToReal`/`Op.dotInt` channel, descending
 > `range`, block pointers) and because six kernels were misclassified by the
 > `tl.*` name scan (Python-level operators and `dtype=` keywords slip past it).
-> The 11 that remain unported are README-only scaffolds. The numbers below are
+> The 11 that remain unported are source-import scaffolds; staged helpers do not count as ports. The numbers below are
 > the original scan's, kept as the historical estimate they were.
+
+The 2026-10-13 inventory adds persistent matmul: 174 imported ports and
+10 source-import scaffolds. Its full mathematical IO/frame and typed structural
+FP results do not certify native integer/configuration admission or replay.
+The dated 173-port outcome above remains historical.
 
 ## Headline
 

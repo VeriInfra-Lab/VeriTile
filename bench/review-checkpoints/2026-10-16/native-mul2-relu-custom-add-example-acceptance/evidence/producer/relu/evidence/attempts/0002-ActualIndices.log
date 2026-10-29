@@ -1,0 +1,12 @@
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.old_mask_refinement: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.mask_widened_all_active: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.zero_program_mask: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.boundary_read_examples: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.constexpr_zero_empty: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

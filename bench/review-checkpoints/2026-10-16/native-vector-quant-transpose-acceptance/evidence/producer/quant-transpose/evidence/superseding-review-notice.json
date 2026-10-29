@@ -1,0 +1,22 @@
+{
+  "status": "superseding_producer_correction_requires_independent_root_review",
+  "prior_peer_review_status": "superseded_for_full_source_first_error_acceptance; arithmetic_and_byte_evidence_retained",
+  "prior_receipt_sha256": "63392bac5342812d467c2bc499e7870e2609d49fa74faaf01731c1391b1dcf83",
+  "prior_peer_review_sha256": "adae663044f6566615ed5dd70cc9e23fb476193f6b2d5ba78a23ed8d9c43108e",
+  "missed_blocker": "dimension-free CPU rejection occurred before oversized-grid parsing; generic launch primitive also preceded grid parse",
+  "source_evidence": "driver.c launchKernel PyArg_ParseTuple iii precedes entry hook and extractor loop",
+  "counterexample": {
+    "device": "cpu",
+    "dtype": "fp32",
+    "M": 274877906944,
+    "N": 1,
+    "grid": 2147483648,
+    "host_primitive_condition": "ordinary preceding host allocation/abs/max/reciprocal/setup succeed",
+    "first_failure": "gridParse/gridLimit, not CPU pointer"
+  },
+  "repair": "nativeAdmission uses actual M/N; explicit driverContext/gridParse/entryHook/pointerPacking/launch/exitHook order; current NativeAPI and public acceptance use it",
+  "no_inferred_allocation_limit": true,
+  "frozen_prior_packages_edited": false,
+  "producer_cannot_independently_approve_own_repair": true,
+  "acceptance_increment": 0
+}

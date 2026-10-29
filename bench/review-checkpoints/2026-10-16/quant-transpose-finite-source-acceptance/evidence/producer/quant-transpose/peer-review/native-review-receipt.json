@@ -1,0 +1,1617 @@
+{
+  "reviewer": "peer:/root/rotary_grid_recover",
+  "timestamp": "2026-10-15T21:17:28.668169+00:00",
+  "original_source": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/quant_transpose_kernel/quant_transpose_kernel.py",
+  "original_source_sha256": "ccf3ff3369cddbb96364cbff33ae9efa6e722450eae0e5b59b195a8eaa39534a",
+  "production_AST_unchanged": true,
+  "copied_prefix_sha256": "8273a085b5d85d1b40993510837331e44073a40a63c1915fb14437accdc4836d",
+  "probe_sha256": "a601669be3fcf2ba502c3d65f501caf04522b7a11b4bea59c28ab3cb6fd843a9",
+  "torch_version": "2.13.0+cu130",
+  "torch_commit": "cf30153c4c131c8164ee7798e5022d810682e2cb",
+  "triton_version": "3.7.1",
+  "gpu_executions": 0,
+  "metadata_probe_device": "CPU; metadata construction also applies to ordinary CUDA dense-strided tensors",
+  "target": {
+    "backend": "cuda",
+    "arch": 90,
+    "warp_size": 32
+  },
+  "views": [
+    {
+      "name": "singleton_axis0_stride1073741824_runtime_specialized",
+      "device": "cpu",
+      "shape": [
+        1,
+        1
+      ],
+      "strides": [
+        1073741824,
+        1
+      ],
+      "storage_offset": 0,
+      "storage_length": 1,
+      "unit_stride_assertion": true,
+      "maximum": 1.0,
+      "inverse": 1.0,
+      "active_coordinates": [
+        [
+          0,
+          0
+        ]
+      ],
+      "active_input_offsets": [
+        0
+      ],
+      "active_output_offsets": [
+        0
+      ],
+      "runtime_arguments": {
+        "stride_am": 1073741824,
+        "stride_an": 1,
+        "stride_bn": 1,
+        "stride_bm": 1,
+        "M": 1,
+        "N": 1
+      },
+      "runtime_specialization": {
+        "stride_am": [
+          "i32",
+          "D"
+        ],
+        "stride_an": [
+          "constexpr",
+          1
+        ],
+        "stride_bn": [
+          "constexpr",
+          1
+        ],
+        "stride_bm": [
+          "constexpr",
+          1
+        ],
+        "M": [
+          "constexpr",
+          1
+        ],
+        "N": [
+          "constexpr",
+          1
+        ]
+      },
+      "domain_stride_bounds": true,
+      "domain_input_arithmetic_bound": false,
+      "raw_padded_i64_offset_upper": 136365211775,
+      "raw_padded_i64_offset_fits": true
+    },
+    {
+      "name": "singleton_axis0_stride2147483648_runtime_specialized",
+      "device": "cpu",
+      "shape": [
+        1,
+        1
+      ],
+      "strides": [
+        2147483648,
+        1
+      ],
+      "storage_offset": 0,
+      "storage_length": 1,
+      "unit_stride_assertion": true,
+      "maximum": 1.0,
+      "inverse": 1.0,
+      "active_coordinates": [
+        [
+          0,
+          0
+        ]
+      ],
+      "active_input_offsets": [
+        0
+      ],
+      "active_output_offsets": [
+        0
+      ],
+      "runtime_arguments": {
+        "stride_am": 2147483648,
+        "stride_an": 1,
+        "stride_bn": 1,
+        "stride_bm": 1,
+        "M": 1,
+        "N": 1
+      },
+      "runtime_specialization": {
+        "stride_am": [
+          "i64",
+          "D"
+        ],
+        "stride_an": [
+          "constexpr",
+          1
+        ],
+        "stride_bn": [
+          "constexpr",
+          1
+        ],
+        "stride_bm": [
+          "constexpr",
+          1
+        ],
+        "M": [
+          "constexpr",
+          1
+        ],
+        "N": [
+          "constexpr",
+          1
+        ]
+      },
+      "domain_stride_bounds": false,
+      "domain_input_arithmetic_bound": false,
+      "raw_padded_i64_offset_upper": 272730423423,
+      "raw_padded_i64_offset_fits": true
+    },
+    {
+      "name": "singleton_axis1_stride1073741824_runtime_specialized",
+      "device": "cpu",
+      "shape": [
+        1,
+        1
+      ],
+      "strides": [
+        1,
+        1073741824
+      ],
+      "storage_offset": 0,
+      "storage_length": 1,
+      "unit_stride_assertion": true,
+      "maximum": 1.0,
+      "inverse": 1.0,
+      "active_coordinates": [
+        [
+          0,
+          0
+        ]
+      ],
+      "active_input_offsets": [
+        0
+      ],
+      "active_output_offsets": [
+        0
+      ],
+      "runtime_arguments": {
+        "stride_am": 1,
+        "stride_an": 1073741824,
+        "stride_bn": 1,
+        "stride_bm": 1,
+        "M": 1,
+        "N": 1
+      },
+      "runtime_specialization": {
+        "stride_am": [
+          "constexpr",
+          1
+        ],
+        "stride_an": [
+          "i32",
+          "D"
+        ],
+        "stride_bn": [
+          "constexpr",
+          1
+        ],
+        "stride_bm": [
+          "constexpr",
+          1
+        ],
+        "M": [
+          "constexpr",
+          1
+        ],
+        "N": [
+          "constexpr",
+          1
+        ]
+      },
+      "domain_stride_bounds": true,
+      "domain_input_arithmetic_bound": false,
+      "raw_padded_i64_offset_upper": 136365211775,
+      "raw_padded_i64_offset_fits": true
+    },
+    {
+      "name": "singleton_axis1_stride2147483648_runtime_specialized",
+      "device": "cpu",
+      "shape": [
+        1,
+        1
+      ],
+      "strides": [
+        1,
+        2147483648
+      ],
+      "storage_offset": 0,
+      "storage_length": 1,
+      "unit_stride_assertion": true,
+      "maximum": 1.0,
+      "inverse": 1.0,
+      "active_coordinates": [
+        [
+          0,
+          0
+        ]
+      ],
+      "active_input_offsets": [
+        0
+      ],
+      "active_output_offsets": [
+        0
+      ],
+      "runtime_arguments": {
+        "stride_am": 1,
+        "stride_an": 2147483648,
+        "stride_bn": 1,
+        "stride_bm": 1,
+        "M": 1,
+        "N": 1
+      },
+      "runtime_specialization": {
+        "stride_am": [
+          "constexpr",
+          1
+        ],
+        "stride_an": [
+          "i64",
+          "D"
+        ],
+        "stride_bn": [
+          "constexpr",
+          1
+        ],
+        "stride_bm": [
+          "constexpr",
+          1
+        ],
+        "M": [
+          "constexpr",
+          1
+        ],
+        "N": [
+          "constexpr",
+          1
+        ]
+      },
+      "domain_stride_bounds": false,
+      "domain_input_arithmetic_bound": false,
+      "raw_padded_i64_offset_upper": 272730423423,
+      "raw_padded_i64_offset_fits": true
+    }
+  ],
+  "records": [
+    {
+      "name": "mixed_stride_an_i64",
+      "config_index": 0,
+      "signature": {
+        "A": "*fp32",
+        "absmax_inv_ptr": "*fp32",
+        "B": "*i8",
+        "stride_am": "i32",
+        "stride_an": "i64",
+        "stride_bn": "i32",
+        "stride_bm": "i32",
+        "M": "i32",
+        "N": "i32"
+      },
+      "constexprs": {
+        "BLOCK_M": 128,
+        "BLOCK_N": 128,
+        "GROUP_M": 8
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3
+      },
+      "status": "compiled",
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/mixed_stride_an_i64-config0.ttir",
+          "sha256": "644d9305f4007dd29a449c6e23bbf0f3a6747b4dec734907bf2fba37f890a223"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/mixed_stride_an_i64-config0.ttgir",
+          "sha256": "58d882fa665d1b5c2afa0285c8fd5a2295a2f03d85f5b6b9e16adc6c6cca4fe6"
+        },
+        "llir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/mixed_stride_an_i64-config0.llir",
+          "sha256": "de08db8fe6a2f04ac8eaa450376747e6f53575a44b9def55dc8425def8e74aee"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/mixed_stride_an_i64-config0.ptx",
+          "sha256": "c4c7667dae1111d7e00359c6d24eca7996f2ee652cde42c8002cdf2f8602e22d"
+        }
+      },
+      "typed_integer_operations": [
+        "%grid_m = arith.addi %M, %c127_i32 : i32 loc(#loc54)",
+        "%grid_m_0 = arith.divsi %grid_m, %c128_i32 : i32 loc(#loc55)",
+        "%grid_n = arith.addi %N, %c127_i32 : i32 loc(#loc56)",
+        "%grid_n_1 = arith.divsi %grid_n, %c128_i32 : i32 loc(#loc57)",
+        "%width = arith.muli %grid_n_1, %c8_i32 : i32 loc(#loc58)",
+        "%group_id = arith.divsi %pid, %width : i32 loc(#loc59)",
+        "%group_size = arith.muli %group_id, %c8_i32 : i32 loc(#loc60)",
+        "%pid_m = arith.remsi %pid, %group_size_3 : i32 loc(#loc63)",
+        "%pid_m_4 = arith.addi %group_size, %pid_m : i32 loc(#loc64)",
+        "%pid_n = arith.remsi %pid, %width : i32 loc(#loc65)",
+        "%pid_n_5 = arith.divsi %pid_n, %group_size_3 : i32 loc(#loc66)",
+        "%rm = arith.muli %pid_m_4, %c128_i32 : i32 loc(#loc67)",
+        "%rm_8 = arith.addi %rm_7, %rm_6 : tensor<128xi32> loc(#loc69)",
+        "%rn = arith.muli %pid_n_5, %c128_i32 : i32 loc(#loc70)",
+        "%rn_10 = arith.addi %rn_9, %rm_6 : tensor<128xi32> loc(#loc71)",
+        "%A_13 = arith.muli %A_11, %A_12 : tensor<128x1xi32> loc(#loc73)",
+        "%A_15 = arith.extsi %A_14 : tensor<1x128xi32> to tensor<1x128xi64> loc(#loc75)",
+        "%A_17 = arith.muli %A_15, %A_16 : tensor<1x128xi64> loc(#loc75)",
+        "%A_18 = arith.extsi %A_13 : tensor<128x1xi32> to tensor<128x1xi64> loc(#loc76)",
+        "%A_21 = arith.addi %A_19, %A_20 : tensor<128x128xi64> loc(#loc76)",
+        "%A_23 = tt.addptr %A_22, %A_21 : tensor<128x128x!tt.ptr<f32>>, tensor<128x128xi64> loc(#loc77)",
+        "%mask_24 = arith.cmpi slt, %rm_8, %mask : tensor<128xi32> loc(#loc78)",
+        "%mask_27 = arith.cmpi slt, %rn_10, %mask_26 : tensor<128xi32> loc(#loc80)",
+        "%B_33 = arith.muli %A_11, %B_32 : tensor<128x1xi32> loc(#loc85)",
+        "%B_35 = arith.muli %A_14, %B_34 : tensor<1x128xi32> loc(#loc86)",
+        "%B_38 = arith.addi %B_36, %B_37 : tensor<128x128xi32> loc(#loc87)",
+        "%B_40 = tt.addptr %B_39, %B_38 : tensor<128x128x!tt.ptr<i8>>, tensor<128x128xi32> loc(#loc88)",
+        "%0 = arith.trunci %output_44 : tensor<128x128xi64> to tensor<128x128xi8> loc(#loc41)"
+      ]
+    },
+    {
+      "name": "mixed_stride_an_i64",
+      "config_index": 1,
+      "signature": {
+        "A": "*fp32",
+        "absmax_inv_ptr": "*fp32",
+        "B": "*i8",
+        "stride_am": "i32",
+        "stride_an": "i64",
+        "stride_bn": "i32",
+        "stride_bm": "i32",
+        "M": "i32",
+        "N": "i32"
+      },
+      "constexprs": {
+        "BLOCK_M": 128,
+        "BLOCK_N": 128,
+        "GROUP_M": 8
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3
+      },
+      "status": "compiled",
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/mixed_stride_an_i64-config1.ttir",
+          "sha256": "644d9305f4007dd29a449c6e23bbf0f3a6747b4dec734907bf2fba37f890a223"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/mixed_stride_an_i64-config1.ttgir",
+          "sha256": "58d882fa665d1b5c2afa0285c8fd5a2295a2f03d85f5b6b9e16adc6c6cca4fe6"
+        },
+        "llir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/mixed_stride_an_i64-config1.llir",
+          "sha256": "de08db8fe6a2f04ac8eaa450376747e6f53575a44b9def55dc8425def8e74aee"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/mixed_stride_an_i64-config1.ptx",
+          "sha256": "c4c7667dae1111d7e00359c6d24eca7996f2ee652cde42c8002cdf2f8602e22d"
+        }
+      },
+      "typed_integer_operations": [
+        "%grid_m = arith.addi %M, %c127_i32 : i32 loc(#loc54)",
+        "%grid_m_0 = arith.divsi %grid_m, %c128_i32 : i32 loc(#loc55)",
+        "%grid_n = arith.addi %N, %c127_i32 : i32 loc(#loc56)",
+        "%grid_n_1 = arith.divsi %grid_n, %c128_i32 : i32 loc(#loc57)",
+        "%width = arith.muli %grid_n_1, %c8_i32 : i32 loc(#loc58)",
+        "%group_id = arith.divsi %pid, %width : i32 loc(#loc59)",
+        "%group_size = arith.muli %group_id, %c8_i32 : i32 loc(#loc60)",
+        "%pid_m = arith.remsi %pid, %group_size_3 : i32 loc(#loc63)",
+        "%pid_m_4 = arith.addi %group_size, %pid_m : i32 loc(#loc64)",
+        "%pid_n = arith.remsi %pid, %width : i32 loc(#loc65)",
+        "%pid_n_5 = arith.divsi %pid_n, %group_size_3 : i32 loc(#loc66)",
+        "%rm = arith.muli %pid_m_4, %c128_i32 : i32 loc(#loc67)",
+        "%rm_8 = arith.addi %rm_7, %rm_6 : tensor<128xi32> loc(#loc69)",
+        "%rn = arith.muli %pid_n_5, %c128_i32 : i32 loc(#loc70)",
+        "%rn_10 = arith.addi %rn_9, %rm_6 : tensor<128xi32> loc(#loc71)",
+        "%A_13 = arith.muli %A_11, %A_12 : tensor<128x1xi32> loc(#loc73)",
+        "%A_15 = arith.extsi %A_14 : tensor<1x128xi32> to tensor<1x128xi64> loc(#loc75)",
+        "%A_17 = arith.muli %A_15, %A_16 : tensor<1x128xi64> loc(#loc75)",
+        "%A_18 = arith.extsi %A_13 : tensor<128x1xi32> to tensor<128x1xi64> loc(#loc76)",
+        "%A_21 = arith.addi %A_19, %A_20 : tensor<128x128xi64> loc(#loc76)",
+        "%A_23 = tt.addptr %A_22, %A_21 : tensor<128x128x!tt.ptr<f32>>, tensor<128x128xi64> loc(#loc77)",
+        "%mask_24 = arith.cmpi slt, %rm_8, %mask : tensor<128xi32> loc(#loc78)",
+        "%mask_27 = arith.cmpi slt, %rn_10, %mask_26 : tensor<128xi32> loc(#loc80)",
+        "%B_33 = arith.muli %A_11, %B_32 : tensor<128x1xi32> loc(#loc85)",
+        "%B_35 = arith.muli %A_14, %B_34 : tensor<1x128xi32> loc(#loc86)",
+        "%B_38 = arith.addi %B_36, %B_37 : tensor<128x128xi32> loc(#loc87)",
+        "%B_40 = tt.addptr %B_39, %B_38 : tensor<128x128x!tt.ptr<i8>>, tensor<128x128xi32> loc(#loc88)",
+        "%0 = arith.trunci %output_44 : tensor<128x128xi64> to tensor<128x128xi8> loc(#loc41)"
+      ]
+    },
+    {
+      "name": "mixed_stride_am_i64",
+      "config_index": 0,
+      "signature": {
+        "A": "*fp32",
+        "absmax_inv_ptr": "*fp32",
+        "B": "*i8",
+        "stride_am": "i64",
+        "stride_an": "i32",
+        "stride_bn": "i32",
+        "stride_bm": "i32",
+        "M": "i32",
+        "N": "i32"
+      },
+      "constexprs": {
+        "BLOCK_M": 128,
+        "BLOCK_N": 128,
+        "GROUP_M": 8
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3
+      },
+      "status": "compiled",
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/mixed_stride_am_i64-config0.ttir",
+          "sha256": "6e876420391252b40ff5563383fcce9a9d29912efabb69a67b076fd6398f8ad5"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/mixed_stride_am_i64-config0.ttgir",
+          "sha256": "ca6aa9abf1935041f64e5f775a6f45f81a03d5e1fe530d2884dc6fe8f5cf7a48"
+        },
+        "llir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/mixed_stride_am_i64-config0.llir",
+          "sha256": "ed012148d7e51ad55d362ab320cef93cf5a6a36935bf25ebc1a08aedb3386c1d"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/mixed_stride_am_i64-config0.ptx",
+          "sha256": "647f00b0fe49b1b269e09421c158a5c9958ec4eed972f49fedf5c8c57ab93241"
+        }
+      },
+      "typed_integer_operations": [
+        "%grid_m = arith.addi %M, %c127_i32 : i32 loc(#loc54)",
+        "%grid_m_0 = arith.divsi %grid_m, %c128_i32 : i32 loc(#loc55)",
+        "%grid_n = arith.addi %N, %c127_i32 : i32 loc(#loc56)",
+        "%grid_n_1 = arith.divsi %grid_n, %c128_i32 : i32 loc(#loc57)",
+        "%width = arith.muli %grid_n_1, %c8_i32 : i32 loc(#loc58)",
+        "%group_id = arith.divsi %pid, %width : i32 loc(#loc59)",
+        "%group_size = arith.muli %group_id, %c8_i32 : i32 loc(#loc60)",
+        "%pid_m = arith.remsi %pid, %group_size_3 : i32 loc(#loc63)",
+        "%pid_m_4 = arith.addi %group_size, %pid_m : i32 loc(#loc64)",
+        "%pid_n = arith.remsi %pid, %width : i32 loc(#loc65)",
+        "%pid_n_5 = arith.divsi %pid_n, %group_size_3 : i32 loc(#loc66)",
+        "%rm = arith.muli %pid_m_4, %c128_i32 : i32 loc(#loc67)",
+        "%rm_8 = arith.addi %rm_7, %rm_6 : tensor<128xi32> loc(#loc69)",
+        "%rn = arith.muli %pid_n_5, %c128_i32 : i32 loc(#loc70)",
+        "%rn_10 = arith.addi %rn_9, %rm_6 : tensor<128xi32> loc(#loc71)",
+        "%A_12 = arith.extsi %A_11 : tensor<128x1xi32> to tensor<128x1xi64> loc(#loc73)",
+        "%A_14 = arith.muli %A_12, %A_13 : tensor<128x1xi64> loc(#loc73)",
+        "%A_17 = arith.muli %A_15, %A_16 : tensor<1x128xi32> loc(#loc75)",
+        "%A_18 = arith.extsi %A_17 : tensor<1x128xi32> to tensor<1x128xi64> loc(#loc76)",
+        "%A_21 = arith.addi %A_19, %A_20 : tensor<128x128xi64> loc(#loc76)",
+        "%A_23 = tt.addptr %A_22, %A_21 : tensor<128x128x!tt.ptr<f32>>, tensor<128x128xi64> loc(#loc77)",
+        "%mask_24 = arith.cmpi slt, %rm_8, %mask : tensor<128xi32> loc(#loc78)",
+        "%mask_27 = arith.cmpi slt, %rn_10, %mask_26 : tensor<128xi32> loc(#loc80)",
+        "%B_33 = arith.muli %A_11, %B_32 : tensor<128x1xi32> loc(#loc85)",
+        "%B_35 = arith.muli %A_15, %B_34 : tensor<1x128xi32> loc(#loc86)",
+        "%B_38 = arith.addi %B_36, %B_37 : tensor<128x128xi32> loc(#loc87)",
+        "%B_40 = tt.addptr %B_39, %B_38 : tensor<128x128x!tt.ptr<i8>>, tensor<128x128xi32> loc(#loc88)",
+        "%0 = arith.trunci %output_44 : tensor<128x128xi64> to tensor<128x128xi8> loc(#loc41)"
+      ]
+    },
+    {
+      "name": "mixed_stride_am_i64",
+      "config_index": 1,
+      "signature": {
+        "A": "*fp32",
+        "absmax_inv_ptr": "*fp32",
+        "B": "*i8",
+        "stride_am": "i64",
+        "stride_an": "i32",
+        "stride_bn": "i32",
+        "stride_bm": "i32",
+        "M": "i32",
+        "N": "i32"
+      },
+      "constexprs": {
+        "BLOCK_M": 128,
+        "BLOCK_N": 128,
+        "GROUP_M": 8
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3
+      },
+      "status": "compiled",
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/mixed_stride_am_i64-config1.ttir",
+          "sha256": "6e876420391252b40ff5563383fcce9a9d29912efabb69a67b076fd6398f8ad5"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/mixed_stride_am_i64-config1.ttgir",
+          "sha256": "ca6aa9abf1935041f64e5f775a6f45f81a03d5e1fe530d2884dc6fe8f5cf7a48"
+        },
+        "llir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/mixed_stride_am_i64-config1.llir",
+          "sha256": "ed012148d7e51ad55d362ab320cef93cf5a6a36935bf25ebc1a08aedb3386c1d"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/mixed_stride_am_i64-config1.ptx",
+          "sha256": "647f00b0fe49b1b269e09421c158a5c9958ec4eed972f49fedf5c8c57ab93241"
+        }
+      },
+      "typed_integer_operations": [
+        "%grid_m = arith.addi %M, %c127_i32 : i32 loc(#loc54)",
+        "%grid_m_0 = arith.divsi %grid_m, %c128_i32 : i32 loc(#loc55)",
+        "%grid_n = arith.addi %N, %c127_i32 : i32 loc(#loc56)",
+        "%grid_n_1 = arith.divsi %grid_n, %c128_i32 : i32 loc(#loc57)",
+        "%width = arith.muli %grid_n_1, %c8_i32 : i32 loc(#loc58)",
+        "%group_id = arith.divsi %pid, %width : i32 loc(#loc59)",
+        "%group_size = arith.muli %group_id, %c8_i32 : i32 loc(#loc60)",
+        "%pid_m = arith.remsi %pid, %group_size_3 : i32 loc(#loc63)",
+        "%pid_m_4 = arith.addi %group_size, %pid_m : i32 loc(#loc64)",
+        "%pid_n = arith.remsi %pid, %width : i32 loc(#loc65)",
+        "%pid_n_5 = arith.divsi %pid_n, %group_size_3 : i32 loc(#loc66)",
+        "%rm = arith.muli %pid_m_4, %c128_i32 : i32 loc(#loc67)",
+        "%rm_8 = arith.addi %rm_7, %rm_6 : tensor<128xi32> loc(#loc69)",
+        "%rn = arith.muli %pid_n_5, %c128_i32 : i32 loc(#loc70)",
+        "%rn_10 = arith.addi %rn_9, %rm_6 : tensor<128xi32> loc(#loc71)",
+        "%A_12 = arith.extsi %A_11 : tensor<128x1xi32> to tensor<128x1xi64> loc(#loc73)",
+        "%A_14 = arith.muli %A_12, %A_13 : tensor<128x1xi64> loc(#loc73)",
+        "%A_17 = arith.muli %A_15, %A_16 : tensor<1x128xi32> loc(#loc75)",
+        "%A_18 = arith.extsi %A_17 : tensor<1x128xi32> to tensor<1x128xi64> loc(#loc76)",
+        "%A_21 = arith.addi %A_19, %A_20 : tensor<128x128xi64> loc(#loc76)",
+        "%A_23 = tt.addptr %A_22, %A_21 : tensor<128x128x!tt.ptr<f32>>, tensor<128x128xi64> loc(#loc77)",
+        "%mask_24 = arith.cmpi slt, %rm_8, %mask : tensor<128xi32> loc(#loc78)",
+        "%mask_27 = arith.cmpi slt, %rn_10, %mask_26 : tensor<128xi32> loc(#loc80)",
+        "%B_33 = arith.muli %A_11, %B_32 : tensor<128x1xi32> loc(#loc85)",
+        "%B_35 = arith.muli %A_15, %B_34 : tensor<1x128xi32> loc(#loc86)",
+        "%B_38 = arith.addi %B_36, %B_37 : tensor<128x128xi32> loc(#loc87)",
+        "%B_40 = tt.addptr %B_39, %B_38 : tensor<128x128x!tt.ptr<i8>>, tensor<128x128xi32> loc(#loc88)",
+        "%0 = arith.trunci %output_44 : tensor<128x128xi64> to tensor<128x128xi8> loc(#loc41)"
+      ]
+    },
+    {
+      "name": "mixed_M_i64",
+      "config_index": 0,
+      "signature": {
+        "A": "*fp32",
+        "absmax_inv_ptr": "*fp32",
+        "B": "*i8",
+        "stride_am": "i32",
+        "stride_an": "i32",
+        "stride_bn": "i32",
+        "stride_bm": "i32",
+        "M": "i64",
+        "N": "i32"
+      },
+      "constexprs": {
+        "BLOCK_M": 128,
+        "BLOCK_N": 128,
+        "GROUP_M": 8
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3
+      },
+      "status": "compiled",
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/mixed_M_i64-config0.ttir",
+          "sha256": "112e1e024dc2dd7262828ef22c6bdefec13e23261528934849dd399742e29854"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/mixed_M_i64-config0.ttgir",
+          "sha256": "1b041177084898b05476de9d064ba14177e0000e4d4c6b669b878129daae1fdc"
+        },
+        "llir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/mixed_M_i64-config0.llir",
+          "sha256": "b5867c04e533c27cc9f46b069cf89d12a1f62002a7e860db5a0dfd7dbd1a56b1"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/mixed_M_i64-config0.ptx",
+          "sha256": "307d304f41b602a6c830c2b4d8982366b4da2508688454c9355beaacc924c0a7"
+        }
+      },
+      "typed_integer_operations": [
+        "%grid_m_0 = arith.addi %M, %grid_m : i64 loc(#loc54)",
+        "%grid_m_1 = arith.divsi %grid_m_0, %c128_i64 : i64 loc(#loc57)",
+        "%grid_n_2 = arith.addi %N, %grid_n : i32 loc(#loc53)",
+        "%grid_n_3 = arith.divsi %grid_n_2, %c128_i32 : i32 loc(#loc58)",
+        "%width = arith.muli %grid_n_3, %c8_i32 : i32 loc(#loc59)",
+        "%group_id = arith.divsi %pid, %width : i32 loc(#loc60)",
+        "%group_size_4 = arith.muli %group_id, %c8_i32 : i32 loc(#loc61)",
+        "%group_size_5 = arith.extsi %group_size_4 : i32 to i64 loc(#loc62)",
+        "%pid_m = arith.extsi %pid : i32 to i64 loc(#loc63)",
+        "%pid_m_8 = arith.remsi %pid_m, %group_size_7 : i64 loc(#loc63)",
+        "%pid_m_9 = arith.addi %group_size_5, %pid_m_8 : i64 loc(#loc64)",
+        "%pid_n = arith.remsi %pid, %width : i32 loc(#loc65)",
+        "%pid_n_10 = arith.extsi %pid_n : i32 to i64 loc(#loc66)",
+        "%pid_n_11 = arith.divsi %pid_n_10, %group_size_7 : i64 loc(#loc66)",
+        "%rm = arith.muli %pid_m_9, %c128_i64 : i64 loc(#loc67)",
+        "%rm_13 = arith.extsi %rm_12 : tensor<128xi32> to tensor<128xi64> loc(#loc69)",
+        "%rm_15 = arith.addi %rm_14, %rm_13 : tensor<128xi64> loc(#loc69)",
+        "%rn = arith.muli %pid_n_11, %c128_i64 : i64 loc(#loc70)",
+        "%rn_17 = arith.addi %rn_16, %rm_13 : tensor<128xi64> loc(#loc71)",
+        "%A_19 = arith.extsi %stride_am : i32 to i64 loc(#loc73)",
+        "%A_21 = arith.muli %A_18, %A_20 : tensor<128x1xi64> loc(#loc73)",
+        "%A_23 = arith.extsi %stride_an : i32 to i64 loc(#loc75)",
+        "%A_25 = arith.muli %A_22, %A_24 : tensor<1x128xi64> loc(#loc75)",
+        "%A_28 = arith.addi %A_26, %A_27 : tensor<128x128xi64> loc(#loc76)",
+        "%A_30 = tt.addptr %A_29, %A_28 : tensor<128x128x!tt.ptr<f32>>, tensor<128x128xi64> loc(#loc77)",
+        "%mask_31 = arith.cmpi slt, %rm_15, %mask : tensor<128xi64> loc(#loc78)",
+        "%mask_33 = arith.extsi %N : i32 to i64 loc(#loc80)",
+        "%mask_35 = arith.cmpi slt, %rn_17, %mask_34 : tensor<128xi64> loc(#loc80)",
+        "%B_40 = arith.extsi %stride_bm : i32 to i64 loc(#loc85)",
+        "%B_42 = arith.muli %A_18, %B_41 : tensor<128x1xi64> loc(#loc85)",
+        "%B_43 = arith.extsi %stride_bn : i32 to i64 loc(#loc86)",
+        "%B_45 = arith.muli %A_22, %B_44 : tensor<1x128xi64> loc(#loc86)",
+        "%B_48 = arith.addi %B_46, %B_47 : tensor<128x128xi64> loc(#loc87)",
+        "%B_50 = tt.addptr %B_49, %B_48 : tensor<128x128x!tt.ptr<i8>>, tensor<128x128xi64> loc(#loc88)",
+        "%0 = arith.trunci %output_54 : tensor<128x128xi64> to tensor<128x128xi8> loc(#loc41)"
+      ]
+    },
+    {
+      "name": "mixed_M_i64",
+      "config_index": 1,
+      "signature": {
+        "A": "*fp32",
+        "absmax_inv_ptr": "*fp32",
+        "B": "*i8",
+        "stride_am": "i32",
+        "stride_an": "i32",
+        "stride_bn": "i32",
+        "stride_bm": "i32",
+        "M": "i64",
+        "N": "i32"
+      },
+      "constexprs": {
+        "BLOCK_M": 128,
+        "BLOCK_N": 128,
+        "GROUP_M": 8
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3
+      },
+      "status": "compiled",
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/mixed_M_i64-config1.ttir",
+          "sha256": "112e1e024dc2dd7262828ef22c6bdefec13e23261528934849dd399742e29854"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/mixed_M_i64-config1.ttgir",
+          "sha256": "1b041177084898b05476de9d064ba14177e0000e4d4c6b669b878129daae1fdc"
+        },
+        "llir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/mixed_M_i64-config1.llir",
+          "sha256": "b5867c04e533c27cc9f46b069cf89d12a1f62002a7e860db5a0dfd7dbd1a56b1"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/mixed_M_i64-config1.ptx",
+          "sha256": "307d304f41b602a6c830c2b4d8982366b4da2508688454c9355beaacc924c0a7"
+        }
+      },
+      "typed_integer_operations": [
+        "%grid_m_0 = arith.addi %M, %grid_m : i64 loc(#loc54)",
+        "%grid_m_1 = arith.divsi %grid_m_0, %c128_i64 : i64 loc(#loc57)",
+        "%grid_n_2 = arith.addi %N, %grid_n : i32 loc(#loc53)",
+        "%grid_n_3 = arith.divsi %grid_n_2, %c128_i32 : i32 loc(#loc58)",
+        "%width = arith.muli %grid_n_3, %c8_i32 : i32 loc(#loc59)",
+        "%group_id = arith.divsi %pid, %width : i32 loc(#loc60)",
+        "%group_size_4 = arith.muli %group_id, %c8_i32 : i32 loc(#loc61)",
+        "%group_size_5 = arith.extsi %group_size_4 : i32 to i64 loc(#loc62)",
+        "%pid_m = arith.extsi %pid : i32 to i64 loc(#loc63)",
+        "%pid_m_8 = arith.remsi %pid_m, %group_size_7 : i64 loc(#loc63)",
+        "%pid_m_9 = arith.addi %group_size_5, %pid_m_8 : i64 loc(#loc64)",
+        "%pid_n = arith.remsi %pid, %width : i32 loc(#loc65)",
+        "%pid_n_10 = arith.extsi %pid_n : i32 to i64 loc(#loc66)",
+        "%pid_n_11 = arith.divsi %pid_n_10, %group_size_7 : i64 loc(#loc66)",
+        "%rm = arith.muli %pid_m_9, %c128_i64 : i64 loc(#loc67)",
+        "%rm_13 = arith.extsi %rm_12 : tensor<128xi32> to tensor<128xi64> loc(#loc69)",
+        "%rm_15 = arith.addi %rm_14, %rm_13 : tensor<128xi64> loc(#loc69)",
+        "%rn = arith.muli %pid_n_11, %c128_i64 : i64 loc(#loc70)",
+        "%rn_17 = arith.addi %rn_16, %rm_13 : tensor<128xi64> loc(#loc71)",
+        "%A_19 = arith.extsi %stride_am : i32 to i64 loc(#loc73)",
+        "%A_21 = arith.muli %A_18, %A_20 : tensor<128x1xi64> loc(#loc73)",
+        "%A_23 = arith.extsi %stride_an : i32 to i64 loc(#loc75)",
+        "%A_25 = arith.muli %A_22, %A_24 : tensor<1x128xi64> loc(#loc75)",
+        "%A_28 = arith.addi %A_26, %A_27 : tensor<128x128xi64> loc(#loc76)",
+        "%A_30 = tt.addptr %A_29, %A_28 : tensor<128x128x!tt.ptr<f32>>, tensor<128x128xi64> loc(#loc77)",
+        "%mask_31 = arith.cmpi slt, %rm_15, %mask : tensor<128xi64> loc(#loc78)",
+        "%mask_33 = arith.extsi %N : i32 to i64 loc(#loc80)",
+        "%mask_35 = arith.cmpi slt, %rn_17, %mask_34 : tensor<128xi64> loc(#loc80)",
+        "%B_40 = arith.extsi %stride_bm : i32 to i64 loc(#loc85)",
+        "%B_42 = arith.muli %A_18, %B_41 : tensor<128x1xi64> loc(#loc85)",
+        "%B_43 = arith.extsi %stride_bn : i32 to i64 loc(#loc86)",
+        "%B_45 = arith.muli %A_22, %B_44 : tensor<1x128xi64> loc(#loc86)",
+        "%B_48 = arith.addi %B_46, %B_47 : tensor<128x128xi64> loc(#loc87)",
+        "%B_50 = tt.addptr %B_49, %B_48 : tensor<128x128x!tt.ptr<i8>>, tensor<128x128xi64> loc(#loc88)",
+        "%0 = arith.trunci %output_54 : tensor<128x128xi64> to tensor<128x128xi8> loc(#loc41)"
+      ]
+    },
+    {
+      "name": "mixed_N_i64",
+      "config_index": 0,
+      "signature": {
+        "A": "*fp32",
+        "absmax_inv_ptr": "*fp32",
+        "B": "*i8",
+        "stride_am": "i32",
+        "stride_an": "i32",
+        "stride_bn": "i32",
+        "stride_bm": "i32",
+        "M": "i32",
+        "N": "i64"
+      },
+      "constexprs": {
+        "BLOCK_M": 128,
+        "BLOCK_N": 128,
+        "GROUP_M": 8
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3
+      },
+      "status": "compiled",
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/mixed_N_i64-config0.ttir",
+          "sha256": "1ade70da22456e25c4a4fb594a840bff66e7da17d4cf5a64539a9bbbe9948917"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/mixed_N_i64-config0.ttgir",
+          "sha256": "b0269d328f12fa8b1d985de20ad93bd8549866b1a76e57d64b36747ba6d655c1"
+        },
+        "llir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/mixed_N_i64-config0.llir",
+          "sha256": "bbb4e047321f99d9fc6f296fdbe046c0b86450b5c2ec037a6acd7391e12d0b89"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/mixed_N_i64-config0.ptx",
+          "sha256": "60bd695954bf2e9369a4d3bd7cf51971e160cd7306b1579312fdcb57f54d14b0"
+        }
+      },
+      "typed_integer_operations": [
+        "%grid_m_0 = arith.addi %M, %grid_m : i32 loc(#loc53)",
+        "%grid_m_1 = arith.divsi %grid_m_0, %c128_i32 : i32 loc(#loc56)",
+        "%grid_n_2 = arith.addi %N, %grid_n : i64 loc(#loc52)",
+        "%grid_n_3 = arith.divsi %grid_n_2, %c128_i64 : i64 loc(#loc57)",
+        "%width = arith.muli %grid_n_3, %c8_i64 : i64 loc(#loc58)",
+        "%group_id = arith.extsi %pid : i32 to i64 loc(#loc59)",
+        "%group_id_4 = arith.divsi %group_id, %width : i64 loc(#loc59)",
+        "%group_size = arith.muli %group_id_4, %c8_i64 : i64 loc(#loc60)",
+        "%group_size_5 = arith.extsi %grid_m_1 : i32 to i64 loc(#loc61)",
+        "%pid_m = arith.remsi %group_id, %group_size_7 : i64 loc(#loc63)",
+        "%pid_m_8 = arith.addi %group_size, %pid_m : i64 loc(#loc64)",
+        "%pid_n = arith.remsi %group_id, %width : i64 loc(#loc65)",
+        "%pid_n_9 = arith.divsi %pid_n, %group_size_7 : i64 loc(#loc66)",
+        "%rm = arith.muli %pid_m_8, %c128_i64 : i64 loc(#loc67)",
+        "%rm_11 = arith.extsi %rm_10 : tensor<128xi32> to tensor<128xi64> loc(#loc69)",
+        "%rm_13 = arith.addi %rm_12, %rm_11 : tensor<128xi64> loc(#loc69)",
+        "%rn = arith.muli %pid_n_9, %c128_i64 : i64 loc(#loc70)",
+        "%rn_15 = arith.addi %rn_14, %rm_11 : tensor<128xi64> loc(#loc71)",
+        "%A_17 = arith.extsi %stride_am : i32 to i64 loc(#loc73)",
+        "%A_19 = arith.muli %A_16, %A_18 : tensor<128x1xi64> loc(#loc73)",
+        "%A_21 = arith.extsi %stride_an : i32 to i64 loc(#loc75)",
+        "%A_23 = arith.muli %A_20, %A_22 : tensor<1x128xi64> loc(#loc75)",
+        "%A_26 = arith.addi %A_24, %A_25 : tensor<128x128xi64> loc(#loc76)",
+        "%A_28 = tt.addptr %A_27, %A_26 : tensor<128x128x!tt.ptr<f32>>, tensor<128x128xi64> loc(#loc77)",
+        "%mask = arith.extsi %M : i32 to i64 loc(#loc78)",
+        "%mask_30 = arith.cmpi slt, %rm_13, %mask_29 : tensor<128xi64> loc(#loc78)",
+        "%mask_33 = arith.cmpi slt, %rn_15, %mask_32 : tensor<128xi64> loc(#loc80)",
+        "%B_38 = arith.extsi %stride_bm : i32 to i64 loc(#loc85)",
+        "%B_40 = arith.muli %A_16, %B_39 : tensor<128x1xi64> loc(#loc85)",
+        "%B_41 = arith.extsi %stride_bn : i32 to i64 loc(#loc86)",
+        "%B_43 = arith.muli %A_20, %B_42 : tensor<1x128xi64> loc(#loc86)",
+        "%B_46 = arith.addi %B_44, %B_45 : tensor<128x128xi64> loc(#loc87)",
+        "%B_48 = tt.addptr %B_47, %B_46 : tensor<128x128x!tt.ptr<i8>>, tensor<128x128xi64> loc(#loc88)",
+        "%0 = arith.trunci %output_52 : tensor<128x128xi64> to tensor<128x128xi8> loc(#loc41)"
+      ]
+    },
+    {
+      "name": "mixed_N_i64",
+      "config_index": 1,
+      "signature": {
+        "A": "*fp32",
+        "absmax_inv_ptr": "*fp32",
+        "B": "*i8",
+        "stride_am": "i32",
+        "stride_an": "i32",
+        "stride_bn": "i32",
+        "stride_bm": "i32",
+        "M": "i32",
+        "N": "i64"
+      },
+      "constexprs": {
+        "BLOCK_M": 128,
+        "BLOCK_N": 128,
+        "GROUP_M": 8
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3
+      },
+      "status": "compiled",
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/mixed_N_i64-config1.ttir",
+          "sha256": "1ade70da22456e25c4a4fb594a840bff66e7da17d4cf5a64539a9bbbe9948917"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/mixed_N_i64-config1.ttgir",
+          "sha256": "b0269d328f12fa8b1d985de20ad93bd8549866b1a76e57d64b36747ba6d655c1"
+        },
+        "llir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/mixed_N_i64-config1.llir",
+          "sha256": "bbb4e047321f99d9fc6f296fdbe046c0b86450b5c2ec037a6acd7391e12d0b89"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/mixed_N_i64-config1.ptx",
+          "sha256": "60bd695954bf2e9369a4d3bd7cf51971e160cd7306b1579312fdcb57f54d14b0"
+        }
+      },
+      "typed_integer_operations": [
+        "%grid_m_0 = arith.addi %M, %grid_m : i32 loc(#loc53)",
+        "%grid_m_1 = arith.divsi %grid_m_0, %c128_i32 : i32 loc(#loc56)",
+        "%grid_n_2 = arith.addi %N, %grid_n : i64 loc(#loc52)",
+        "%grid_n_3 = arith.divsi %grid_n_2, %c128_i64 : i64 loc(#loc57)",
+        "%width = arith.muli %grid_n_3, %c8_i64 : i64 loc(#loc58)",
+        "%group_id = arith.extsi %pid : i32 to i64 loc(#loc59)",
+        "%group_id_4 = arith.divsi %group_id, %width : i64 loc(#loc59)",
+        "%group_size = arith.muli %group_id_4, %c8_i64 : i64 loc(#loc60)",
+        "%group_size_5 = arith.extsi %grid_m_1 : i32 to i64 loc(#loc61)",
+        "%pid_m = arith.remsi %group_id, %group_size_7 : i64 loc(#loc63)",
+        "%pid_m_8 = arith.addi %group_size, %pid_m : i64 loc(#loc64)",
+        "%pid_n = arith.remsi %group_id, %width : i64 loc(#loc65)",
+        "%pid_n_9 = arith.divsi %pid_n, %group_size_7 : i64 loc(#loc66)",
+        "%rm = arith.muli %pid_m_8, %c128_i64 : i64 loc(#loc67)",
+        "%rm_11 = arith.extsi %rm_10 : tensor<128xi32> to tensor<128xi64> loc(#loc69)",
+        "%rm_13 = arith.addi %rm_12, %rm_11 : tensor<128xi64> loc(#loc69)",
+        "%rn = arith.muli %pid_n_9, %c128_i64 : i64 loc(#loc70)",
+        "%rn_15 = arith.addi %rn_14, %rm_11 : tensor<128xi64> loc(#loc71)",
+        "%A_17 = arith.extsi %stride_am : i32 to i64 loc(#loc73)",
+        "%A_19 = arith.muli %A_16, %A_18 : tensor<128x1xi64> loc(#loc73)",
+        "%A_21 = arith.extsi %stride_an : i32 to i64 loc(#loc75)",
+        "%A_23 = arith.muli %A_20, %A_22 : tensor<1x128xi64> loc(#loc75)",
+        "%A_26 = arith.addi %A_24, %A_25 : tensor<128x128xi64> loc(#loc76)",
+        "%A_28 = tt.addptr %A_27, %A_26 : tensor<128x128x!tt.ptr<f32>>, tensor<128x128xi64> loc(#loc77)",
+        "%mask = arith.extsi %M : i32 to i64 loc(#loc78)",
+        "%mask_30 = arith.cmpi slt, %rm_13, %mask_29 : tensor<128xi64> loc(#loc78)",
+        "%mask_33 = arith.cmpi slt, %rn_15, %mask_32 : tensor<128xi64> loc(#loc80)",
+        "%B_38 = arith.extsi %stride_bm : i32 to i64 loc(#loc85)",
+        "%B_40 = arith.muli %A_16, %B_39 : tensor<128x1xi64> loc(#loc85)",
+        "%B_41 = arith.extsi %stride_bn : i32 to i64 loc(#loc86)",
+        "%B_43 = arith.muli %A_20, %B_42 : tensor<1x128xi64> loc(#loc86)",
+        "%B_46 = arith.addi %B_44, %B_45 : tensor<128x128xi64> loc(#loc87)",
+        "%B_48 = tt.addptr %B_47, %B_46 : tensor<128x128x!tt.ptr<i8>>, tensor<128x128xi64> loc(#loc88)",
+        "%0 = arith.trunci %output_52 : tensor<128x128xi64> to tensor<128x128xi8> loc(#loc41)"
+      ]
+    },
+    {
+      "name": "all_metadata_i64",
+      "config_index": 0,
+      "signature": {
+        "A": "*fp32",
+        "absmax_inv_ptr": "*fp32",
+        "B": "*i8",
+        "stride_am": "i64",
+        "stride_an": "i64",
+        "stride_bn": "i64",
+        "stride_bm": "i64",
+        "M": "i64",
+        "N": "i64"
+      },
+      "constexprs": {
+        "BLOCK_M": 128,
+        "BLOCK_N": 128,
+        "GROUP_M": 8
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3
+      },
+      "status": "compiled",
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/all_metadata_i64-config0.ttir",
+          "sha256": "667f95381a7333c8c8ab87eace2b644decc1f0e285610d43b69690d9a95193c4"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/all_metadata_i64-config0.ttgir",
+          "sha256": "34b894765cfe3e1c1374af94e0115ab60685d471a13ecb9ee87eb1b7a68b76f0"
+        },
+        "llir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/all_metadata_i64-config0.llir",
+          "sha256": "148815651ad4df7d0cd7df4d24126425c076791e3ec5187cdadd5ab3d57f651b"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/all_metadata_i64-config0.ptx",
+          "sha256": "441ba8efe40968a6165fde62ec398318df8f50dfda1ee95501a3b4838f3154cc"
+        }
+      },
+      "typed_integer_operations": [
+        "%grid_m = arith.addi %M, %c127_i64 : i64 loc(#loc54)",
+        "%grid_m_0 = arith.divsi %grid_m, %c128_i64 : i64 loc(#loc55)",
+        "%grid_n = arith.addi %N, %c127_i64 : i64 loc(#loc56)",
+        "%grid_n_1 = arith.divsi %grid_n, %c128_i64 : i64 loc(#loc57)",
+        "%width = arith.muli %grid_n_1, %c8_i64 : i64 loc(#loc58)",
+        "%group_id = arith.extsi %pid : i32 to i64 loc(#loc59)",
+        "%group_id_2 = arith.divsi %group_id, %width : i64 loc(#loc59)",
+        "%group_size = arith.muli %group_id_2, %c8_i64 : i64 loc(#loc60)",
+        "%pid_m = arith.remsi %group_id, %group_size_4 : i64 loc(#loc63)",
+        "%pid_m_5 = arith.addi %group_size, %pid_m : i64 loc(#loc64)",
+        "%pid_n = arith.remsi %group_id, %width : i64 loc(#loc65)",
+        "%pid_n_6 = arith.divsi %pid_n, %group_size_4 : i64 loc(#loc66)",
+        "%rm = arith.muli %pid_m_5, %c128_i64 : i64 loc(#loc67)",
+        "%rm_8 = arith.extsi %rm_7 : tensor<128xi32> to tensor<128xi64> loc(#loc69)",
+        "%rm_10 = arith.addi %rm_9, %rm_8 : tensor<128xi64> loc(#loc69)",
+        "%rn = arith.muli %pid_n_6, %c128_i64 : i64 loc(#loc70)",
+        "%rn_12 = arith.addi %rn_11, %rm_8 : tensor<128xi64> loc(#loc71)",
+        "%A_15 = arith.muli %A_13, %A_14 : tensor<128x1xi64> loc(#loc73)",
+        "%A_18 = arith.muli %A_16, %A_17 : tensor<1x128xi64> loc(#loc75)",
+        "%A_21 = arith.addi %A_19, %A_20 : tensor<128x128xi64> loc(#loc76)",
+        "%A_23 = tt.addptr %A_22, %A_21 : tensor<128x128x!tt.ptr<f32>>, tensor<128x128xi64> loc(#loc77)",
+        "%mask_24 = arith.cmpi slt, %rm_10, %mask : tensor<128xi64> loc(#loc78)",
+        "%mask_27 = arith.cmpi slt, %rn_12, %mask_26 : tensor<128xi64> loc(#loc80)",
+        "%B_33 = arith.muli %A_13, %B_32 : tensor<128x1xi64> loc(#loc85)",
+        "%B_35 = arith.muli %A_16, %B_34 : tensor<1x128xi64> loc(#loc86)",
+        "%B_38 = arith.addi %B_36, %B_37 : tensor<128x128xi64> loc(#loc87)",
+        "%B_40 = tt.addptr %B_39, %B_38 : tensor<128x128x!tt.ptr<i8>>, tensor<128x128xi64> loc(#loc88)",
+        "%0 = arith.trunci %output_44 : tensor<128x128xi64> to tensor<128x128xi8> loc(#loc41)"
+      ]
+    },
+    {
+      "name": "all_metadata_i64",
+      "config_index": 1,
+      "signature": {
+        "A": "*fp32",
+        "absmax_inv_ptr": "*fp32",
+        "B": "*i8",
+        "stride_am": "i64",
+        "stride_an": "i64",
+        "stride_bn": "i64",
+        "stride_bm": "i64",
+        "M": "i64",
+        "N": "i64"
+      },
+      "constexprs": {
+        "BLOCK_M": 128,
+        "BLOCK_N": 128,
+        "GROUP_M": 8
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3
+      },
+      "status": "compiled",
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/all_metadata_i64-config1.ttir",
+          "sha256": "667f95381a7333c8c8ab87eace2b644decc1f0e285610d43b69690d9a95193c4"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/all_metadata_i64-config1.ttgir",
+          "sha256": "34b894765cfe3e1c1374af94e0115ab60685d471a13ecb9ee87eb1b7a68b76f0"
+        },
+        "llir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/all_metadata_i64-config1.llir",
+          "sha256": "148815651ad4df7d0cd7df4d24126425c076791e3ec5187cdadd5ab3d57f651b"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/all_metadata_i64-config1.ptx",
+          "sha256": "441ba8efe40968a6165fde62ec398318df8f50dfda1ee95501a3b4838f3154cc"
+        }
+      },
+      "typed_integer_operations": [
+        "%grid_m = arith.addi %M, %c127_i64 : i64 loc(#loc54)",
+        "%grid_m_0 = arith.divsi %grid_m, %c128_i64 : i64 loc(#loc55)",
+        "%grid_n = arith.addi %N, %c127_i64 : i64 loc(#loc56)",
+        "%grid_n_1 = arith.divsi %grid_n, %c128_i64 : i64 loc(#loc57)",
+        "%width = arith.muli %grid_n_1, %c8_i64 : i64 loc(#loc58)",
+        "%group_id = arith.extsi %pid : i32 to i64 loc(#loc59)",
+        "%group_id_2 = arith.divsi %group_id, %width : i64 loc(#loc59)",
+        "%group_size = arith.muli %group_id_2, %c8_i64 : i64 loc(#loc60)",
+        "%pid_m = arith.remsi %group_id, %group_size_4 : i64 loc(#loc63)",
+        "%pid_m_5 = arith.addi %group_size, %pid_m : i64 loc(#loc64)",
+        "%pid_n = arith.remsi %group_id, %width : i64 loc(#loc65)",
+        "%pid_n_6 = arith.divsi %pid_n, %group_size_4 : i64 loc(#loc66)",
+        "%rm = arith.muli %pid_m_5, %c128_i64 : i64 loc(#loc67)",
+        "%rm_8 = arith.extsi %rm_7 : tensor<128xi32> to tensor<128xi64> loc(#loc69)",
+        "%rm_10 = arith.addi %rm_9, %rm_8 : tensor<128xi64> loc(#loc69)",
+        "%rn = arith.muli %pid_n_6, %c128_i64 : i64 loc(#loc70)",
+        "%rn_12 = arith.addi %rn_11, %rm_8 : tensor<128xi64> loc(#loc71)",
+        "%A_15 = arith.muli %A_13, %A_14 : tensor<128x1xi64> loc(#loc73)",
+        "%A_18 = arith.muli %A_16, %A_17 : tensor<1x128xi64> loc(#loc75)",
+        "%A_21 = arith.addi %A_19, %A_20 : tensor<128x128xi64> loc(#loc76)",
+        "%A_23 = tt.addptr %A_22, %A_21 : tensor<128x128x!tt.ptr<f32>>, tensor<128x128xi64> loc(#loc77)",
+        "%mask_24 = arith.cmpi slt, %rm_10, %mask : tensor<128xi64> loc(#loc78)",
+        "%mask_27 = arith.cmpi slt, %rn_12, %mask_26 : tensor<128xi64> loc(#loc80)",
+        "%B_33 = arith.muli %A_13, %B_32 : tensor<128x1xi64> loc(#loc85)",
+        "%B_35 = arith.muli %A_16, %B_34 : tensor<1x128xi64> loc(#loc86)",
+        "%B_38 = arith.addi %B_36, %B_37 : tensor<128x128xi64> loc(#loc87)",
+        "%B_40 = tt.addptr %B_39, %B_38 : tensor<128x128x!tt.ptr<i8>>, tensor<128x128xi64> loc(#loc88)",
+        "%0 = arith.trunci %output_44 : tensor<128x128xi64> to tensor<128x128xi8> loc(#loc41)"
+      ]
+    },
+    {
+      "name": "singleton_axis0_stride1073741824_runtime_specialized",
+      "config_index": 0,
+      "signature": {
+        "A": "*fp32",
+        "absmax_inv_ptr": "*fp32",
+        "B": "*i8",
+        "stride_am": "i32",
+        "stride_an": "constexpr",
+        "stride_bn": "constexpr",
+        "stride_bm": "constexpr",
+        "M": "constexpr",
+        "N": "constexpr"
+      },
+      "constexprs": {
+        "BLOCK_M": 128,
+        "BLOCK_N": 128,
+        "GROUP_M": 8,
+        "stride_an": 1,
+        "stride_bn": 1,
+        "stride_bm": 1,
+        "M": 1,
+        "N": 1
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3
+      },
+      "status": "compiled",
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/singleton_axis0_stride1073741824_runtime_specialized-config0.ttir",
+          "sha256": "e1060e4e6c781190fac5757a085bbb661cfbfb4154beeea10de2e8c0b666addb"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/singleton_axis0_stride1073741824_runtime_specialized-config0.ttgir",
+          "sha256": "56a3ecc3d95238d66edd124ea3c7922c8a66980968374de652c5829ea9ee6ac4"
+        },
+        "llir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/singleton_axis0_stride1073741824_runtime_specialized-config0.llir",
+          "sha256": "65b80e4684db4c414704964511fbdf8d2a2f5409993a7989833a705ccc74c208"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/singleton_axis0_stride1073741824_runtime_specialized-config0.ptx",
+          "sha256": "d3ce645dd077f61f06ffd3cadb33035dab70361878b279f9e415014dd2d4f0c0"
+        }
+      },
+      "typed_integer_operations": [
+        "%group_id = arith.divsi %pid, %c8_i32 : i32 loc(#loc41)",
+        "%group_size = arith.muli %group_id, %c8_i32 : i32 loc(#loc42)",
+        "%pid_m = arith.remsi %pid, %group_size_1 : i32 loc(#loc45)",
+        "%pid_m_2 = arith.addi %group_size, %pid_m : i32 loc(#loc46)",
+        "%pid_n = arith.remsi %pid, %c8_i32 : i32 loc(#loc47)",
+        "%pid_n_3 = arith.divsi %pid_n, %group_size_1 : i32 loc(#loc48)",
+        "%rm = arith.muli %pid_m_2, %c128_i32 : i32 loc(#loc49)",
+        "%rm_6 = arith.addi %rm_5, %rm_4 : tensor<128xi32> loc(#loc51)",
+        "%rn = arith.muli %pid_n_3, %c128_i32 : i32 loc(#loc52)",
+        "%rn_8 = arith.addi %rn_7, %rm_4 : tensor<128xi32> loc(#loc53)",
+        "%A_11 = arith.muli %A_9, %A_10 : tensor<128x1xi32> loc(#loc55)",
+        "%A_15 = arith.addi %A_13, %A_14 : tensor<128x128xi32> loc(#loc57)",
+        "%A_17 = tt.addptr %A_16, %A_15 : tensor<128x128x!tt.ptr<f32>>, tensor<128x128xi32> loc(#loc58)",
+        "%mask = arith.cmpi slt, %rm_6, %cst : tensor<128xi32> loc(#loc59)",
+        "%mask_19 = arith.cmpi slt, %rn_8, %cst : tensor<128xi32> loc(#loc61)",
+        "%B_25 = arith.addi %B_24, %A_14 : tensor<128x128xi32> loc(#loc66)",
+        "%B_27 = tt.addptr %B_26, %B_25 : tensor<128x128x!tt.ptr<i8>>, tensor<128x128xi32> loc(#loc67)",
+        "%0 = arith.trunci %output_31 : tensor<128x128xi64> to tensor<128x128xi8> loc(#loc33)"
+      ]
+    },
+    {
+      "name": "singleton_axis0_stride1073741824_runtime_specialized",
+      "config_index": 1,
+      "signature": {
+        "A": "*fp32",
+        "absmax_inv_ptr": "*fp32",
+        "B": "*i8",
+        "stride_am": "i32",
+        "stride_an": "constexpr",
+        "stride_bn": "constexpr",
+        "stride_bm": "constexpr",
+        "M": "constexpr",
+        "N": "constexpr"
+      },
+      "constexprs": {
+        "BLOCK_M": 128,
+        "BLOCK_N": 128,
+        "GROUP_M": 8,
+        "stride_an": 1,
+        "stride_bn": 1,
+        "stride_bm": 1,
+        "M": 1,
+        "N": 1
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3
+      },
+      "status": "compiled",
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/singleton_axis0_stride1073741824_runtime_specialized-config1.ttir",
+          "sha256": "e1060e4e6c781190fac5757a085bbb661cfbfb4154beeea10de2e8c0b666addb"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/singleton_axis0_stride1073741824_runtime_specialized-config1.ttgir",
+          "sha256": "56a3ecc3d95238d66edd124ea3c7922c8a66980968374de652c5829ea9ee6ac4"
+        },
+        "llir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/singleton_axis0_stride1073741824_runtime_specialized-config1.llir",
+          "sha256": "65b80e4684db4c414704964511fbdf8d2a2f5409993a7989833a705ccc74c208"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/singleton_axis0_stride1073741824_runtime_specialized-config1.ptx",
+          "sha256": "d3ce645dd077f61f06ffd3cadb33035dab70361878b279f9e415014dd2d4f0c0"
+        }
+      },
+      "typed_integer_operations": [
+        "%group_id = arith.divsi %pid, %c8_i32 : i32 loc(#loc41)",
+        "%group_size = arith.muli %group_id, %c8_i32 : i32 loc(#loc42)",
+        "%pid_m = arith.remsi %pid, %group_size_1 : i32 loc(#loc45)",
+        "%pid_m_2 = arith.addi %group_size, %pid_m : i32 loc(#loc46)",
+        "%pid_n = arith.remsi %pid, %c8_i32 : i32 loc(#loc47)",
+        "%pid_n_3 = arith.divsi %pid_n, %group_size_1 : i32 loc(#loc48)",
+        "%rm = arith.muli %pid_m_2, %c128_i32 : i32 loc(#loc49)",
+        "%rm_6 = arith.addi %rm_5, %rm_4 : tensor<128xi32> loc(#loc51)",
+        "%rn = arith.muli %pid_n_3, %c128_i32 : i32 loc(#loc52)",
+        "%rn_8 = arith.addi %rn_7, %rm_4 : tensor<128xi32> loc(#loc53)",
+        "%A_11 = arith.muli %A_9, %A_10 : tensor<128x1xi32> loc(#loc55)",
+        "%A_15 = arith.addi %A_13, %A_14 : tensor<128x128xi32> loc(#loc57)",
+        "%A_17 = tt.addptr %A_16, %A_15 : tensor<128x128x!tt.ptr<f32>>, tensor<128x128xi32> loc(#loc58)",
+        "%mask = arith.cmpi slt, %rm_6, %cst : tensor<128xi32> loc(#loc59)",
+        "%mask_19 = arith.cmpi slt, %rn_8, %cst : tensor<128xi32> loc(#loc61)",
+        "%B_25 = arith.addi %B_24, %A_14 : tensor<128x128xi32> loc(#loc66)",
+        "%B_27 = tt.addptr %B_26, %B_25 : tensor<128x128x!tt.ptr<i8>>, tensor<128x128xi32> loc(#loc67)",
+        "%0 = arith.trunci %output_31 : tensor<128x128xi64> to tensor<128x128xi8> loc(#loc33)"
+      ]
+    },
+    {
+      "name": "singleton_axis0_stride2147483648_runtime_specialized",
+      "config_index": 0,
+      "signature": {
+        "A": "*fp32",
+        "absmax_inv_ptr": "*fp32",
+        "B": "*i8",
+        "stride_am": "i64",
+        "stride_an": "constexpr",
+        "stride_bn": "constexpr",
+        "stride_bm": "constexpr",
+        "M": "constexpr",
+        "N": "constexpr"
+      },
+      "constexprs": {
+        "BLOCK_M": 128,
+        "BLOCK_N": 128,
+        "GROUP_M": 8,
+        "stride_an": 1,
+        "stride_bn": 1,
+        "stride_bm": 1,
+        "M": 1,
+        "N": 1
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3
+      },
+      "status": "compiled",
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/singleton_axis0_stride2147483648_runtime_specialized-config0.ttir",
+          "sha256": "484ef0537d6c37d678938a8b7bb7b605b3dcc3828da12f7581fe096170238ded"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/singleton_axis0_stride2147483648_runtime_specialized-config0.ttgir",
+          "sha256": "80f0632645df759b7ee12a9ead264dc94203778ef2bf274521371b4efc04a9b9"
+        },
+        "llir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/singleton_axis0_stride2147483648_runtime_specialized-config0.llir",
+          "sha256": "f06ffad48171774b48d9e7b9f0fa3ed45fe837ce57d2f114e461dff868f3173f"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/singleton_axis0_stride2147483648_runtime_specialized-config0.ptx",
+          "sha256": "db6d81bf04942e1387eadbde2e0c532b96eb0ea5f09c1b342319fd2220d8ff9e"
+        }
+      },
+      "typed_integer_operations": [
+        "%group_id = arith.divsi %pid, %c8_i32 : i32 loc(#loc41)",
+        "%group_size = arith.muli %group_id, %c8_i32 : i32 loc(#loc42)",
+        "%pid_m = arith.remsi %pid, %group_size_1 : i32 loc(#loc45)",
+        "%pid_m_2 = arith.addi %group_size, %pid_m : i32 loc(#loc46)",
+        "%pid_n = arith.remsi %pid, %c8_i32 : i32 loc(#loc47)",
+        "%pid_n_3 = arith.divsi %pid_n, %group_size_1 : i32 loc(#loc48)",
+        "%rm = arith.muli %pid_m_2, %c128_i32 : i32 loc(#loc49)",
+        "%rm_6 = arith.addi %rm_5, %rm_4 : tensor<128xi32> loc(#loc51)",
+        "%rn = arith.muli %pid_n_3, %c128_i32 : i32 loc(#loc52)",
+        "%rn_8 = arith.addi %rn_7, %rm_4 : tensor<128xi32> loc(#loc53)",
+        "%A_10 = arith.extsi %A_9 : tensor<128x1xi32> to tensor<128x1xi64> loc(#loc55)",
+        "%A_12 = arith.muli %A_10, %A_11 : tensor<128x1xi64> loc(#loc55)",
+        "%A_14 = arith.extsi %A_13 : tensor<1x128xi32> to tensor<1x128xi64> loc(#loc57)",
+        "%A_17 = arith.addi %A_15, %A_16 : tensor<128x128xi64> loc(#loc57)",
+        "%A_19 = tt.addptr %A_18, %A_17 : tensor<128x128x!tt.ptr<f32>>, tensor<128x128xi64> loc(#loc58)",
+        "%mask = arith.cmpi slt, %rm_6, %cst : tensor<128xi32> loc(#loc59)",
+        "%mask_21 = arith.cmpi slt, %rn_8, %cst : tensor<128xi32> loc(#loc61)",
+        "%B_28 = arith.addi %B_26, %B_27 : tensor<128x128xi32> loc(#loc66)",
+        "%B_30 = tt.addptr %B_29, %B_28 : tensor<128x128x!tt.ptr<i8>>, tensor<128x128xi32> loc(#loc67)",
+        "%0 = arith.trunci %output_34 : tensor<128x128xi64> to tensor<128x128xi8> loc(#loc33)"
+      ]
+    },
+    {
+      "name": "singleton_axis0_stride2147483648_runtime_specialized",
+      "config_index": 1,
+      "signature": {
+        "A": "*fp32",
+        "absmax_inv_ptr": "*fp32",
+        "B": "*i8",
+        "stride_am": "i64",
+        "stride_an": "constexpr",
+        "stride_bn": "constexpr",
+        "stride_bm": "constexpr",
+        "M": "constexpr",
+        "N": "constexpr"
+      },
+      "constexprs": {
+        "BLOCK_M": 128,
+        "BLOCK_N": 128,
+        "GROUP_M": 8,
+        "stride_an": 1,
+        "stride_bn": 1,
+        "stride_bm": 1,
+        "M": 1,
+        "N": 1
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3
+      },
+      "status": "compiled",
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/singleton_axis0_stride2147483648_runtime_specialized-config1.ttir",
+          "sha256": "484ef0537d6c37d678938a8b7bb7b605b3dcc3828da12f7581fe096170238ded"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/singleton_axis0_stride2147483648_runtime_specialized-config1.ttgir",
+          "sha256": "80f0632645df759b7ee12a9ead264dc94203778ef2bf274521371b4efc04a9b9"
+        },
+        "llir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/singleton_axis0_stride2147483648_runtime_specialized-config1.llir",
+          "sha256": "f06ffad48171774b48d9e7b9f0fa3ed45fe837ce57d2f114e461dff868f3173f"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/singleton_axis0_stride2147483648_runtime_specialized-config1.ptx",
+          "sha256": "db6d81bf04942e1387eadbde2e0c532b96eb0ea5f09c1b342319fd2220d8ff9e"
+        }
+      },
+      "typed_integer_operations": [
+        "%group_id = arith.divsi %pid, %c8_i32 : i32 loc(#loc41)",
+        "%group_size = arith.muli %group_id, %c8_i32 : i32 loc(#loc42)",
+        "%pid_m = arith.remsi %pid, %group_size_1 : i32 loc(#loc45)",
+        "%pid_m_2 = arith.addi %group_size, %pid_m : i32 loc(#loc46)",
+        "%pid_n = arith.remsi %pid, %c8_i32 : i32 loc(#loc47)",
+        "%pid_n_3 = arith.divsi %pid_n, %group_size_1 : i32 loc(#loc48)",
+        "%rm = arith.muli %pid_m_2, %c128_i32 : i32 loc(#loc49)",
+        "%rm_6 = arith.addi %rm_5, %rm_4 : tensor<128xi32> loc(#loc51)",
+        "%rn = arith.muli %pid_n_3, %c128_i32 : i32 loc(#loc52)",
+        "%rn_8 = arith.addi %rn_7, %rm_4 : tensor<128xi32> loc(#loc53)",
+        "%A_10 = arith.extsi %A_9 : tensor<128x1xi32> to tensor<128x1xi64> loc(#loc55)",
+        "%A_12 = arith.muli %A_10, %A_11 : tensor<128x1xi64> loc(#loc55)",
+        "%A_14 = arith.extsi %A_13 : tensor<1x128xi32> to tensor<1x128xi64> loc(#loc57)",
+        "%A_17 = arith.addi %A_15, %A_16 : tensor<128x128xi64> loc(#loc57)",
+        "%A_19 = tt.addptr %A_18, %A_17 : tensor<128x128x!tt.ptr<f32>>, tensor<128x128xi64> loc(#loc58)",
+        "%mask = arith.cmpi slt, %rm_6, %cst : tensor<128xi32> loc(#loc59)",
+        "%mask_21 = arith.cmpi slt, %rn_8, %cst : tensor<128xi32> loc(#loc61)",
+        "%B_28 = arith.addi %B_26, %B_27 : tensor<128x128xi32> loc(#loc66)",
+        "%B_30 = tt.addptr %B_29, %B_28 : tensor<128x128x!tt.ptr<i8>>, tensor<128x128xi32> loc(#loc67)",
+        "%0 = arith.trunci %output_34 : tensor<128x128xi64> to tensor<128x128xi8> loc(#loc33)"
+      ]
+    },
+    {
+      "name": "singleton_axis1_stride1073741824_runtime_specialized",
+      "config_index": 0,
+      "signature": {
+        "A": "*fp32",
+        "absmax_inv_ptr": "*fp32",
+        "B": "*i8",
+        "stride_am": "constexpr",
+        "stride_an": "i32",
+        "stride_bn": "constexpr",
+        "stride_bm": "constexpr",
+        "M": "constexpr",
+        "N": "constexpr"
+      },
+      "constexprs": {
+        "BLOCK_M": 128,
+        "BLOCK_N": 128,
+        "GROUP_M": 8,
+        "stride_am": 1,
+        "stride_bn": 1,
+        "stride_bm": 1,
+        "M": 1,
+        "N": 1
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3
+      },
+      "status": "compiled",
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/singleton_axis1_stride1073741824_runtime_specialized-config0.ttir",
+          "sha256": "583301e6b8682c6eef1cfe7d9575752eb84dfe1097f4dfc356203ab2867dfc19"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/singleton_axis1_stride1073741824_runtime_specialized-config0.ttgir",
+          "sha256": "2a6d6eef90ee85c8d22fd25683d77c12d4c85f2be8cf10974d5f075906836848"
+        },
+        "llir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/singleton_axis1_stride1073741824_runtime_specialized-config0.llir",
+          "sha256": "2671462415c924423e25357761dbefc82d798988c5d5edc6791f1f39104b404a"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/singleton_axis1_stride1073741824_runtime_specialized-config0.ptx",
+          "sha256": "2d1ef64ed7600a1ca08f81c9acfe552765ab4c9a0efadf6438a367e4c49192ca"
+        }
+      },
+      "typed_integer_operations": [
+        "%group_id = arith.divsi %pid, %c8_i32 : i32 loc(#loc41)",
+        "%group_size = arith.muli %group_id, %c8_i32 : i32 loc(#loc42)",
+        "%pid_m = arith.remsi %pid, %group_size_1 : i32 loc(#loc45)",
+        "%pid_m_2 = arith.addi %group_size, %pid_m : i32 loc(#loc46)",
+        "%pid_n = arith.remsi %pid, %c8_i32 : i32 loc(#loc47)",
+        "%pid_n_3 = arith.divsi %pid_n, %group_size_1 : i32 loc(#loc48)",
+        "%rm = arith.muli %pid_m_2, %c128_i32 : i32 loc(#loc49)",
+        "%rm_6 = arith.addi %rm_5, %rm_4 : tensor<128xi32> loc(#loc51)",
+        "%rn = arith.muli %pid_n_3, %c128_i32 : i32 loc(#loc52)",
+        "%rn_8 = arith.addi %rn_7, %rm_4 : tensor<128xi32> loc(#loc53)",
+        "%A_12 = arith.muli %A_10, %A_11 : tensor<1x128xi32> loc(#loc56)",
+        "%A_15 = arith.addi %A_13, %A_14 : tensor<128x128xi32> loc(#loc57)",
+        "%A_17 = tt.addptr %A_16, %A_15 : tensor<128x128x!tt.ptr<f32>>, tensor<128x128xi32> loc(#loc58)",
+        "%mask = arith.cmpi slt, %rm_6, %cst : tensor<128xi32> loc(#loc59)",
+        "%mask_19 = arith.cmpi slt, %rn_8, %cst : tensor<128xi32> loc(#loc61)",
+        "%B_25 = arith.addi %A_13, %B_24 : tensor<128x128xi32> loc(#loc66)",
+        "%B_27 = tt.addptr %B_26, %B_25 : tensor<128x128x!tt.ptr<i8>>, tensor<128x128xi32> loc(#loc67)",
+        "%0 = arith.trunci %output_31 : tensor<128x128xi64> to tensor<128x128xi8> loc(#loc33)"
+      ]
+    },
+    {
+      "name": "singleton_axis1_stride1073741824_runtime_specialized",
+      "config_index": 1,
+      "signature": {
+        "A": "*fp32",
+        "absmax_inv_ptr": "*fp32",
+        "B": "*i8",
+        "stride_am": "constexpr",
+        "stride_an": "i32",
+        "stride_bn": "constexpr",
+        "stride_bm": "constexpr",
+        "M": "constexpr",
+        "N": "constexpr"
+      },
+      "constexprs": {
+        "BLOCK_M": 128,
+        "BLOCK_N": 128,
+        "GROUP_M": 8,
+        "stride_am": 1,
+        "stride_bn": 1,
+        "stride_bm": 1,
+        "M": 1,
+        "N": 1
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3
+      },
+      "status": "compiled",
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/singleton_axis1_stride1073741824_runtime_specialized-config1.ttir",
+          "sha256": "583301e6b8682c6eef1cfe7d9575752eb84dfe1097f4dfc356203ab2867dfc19"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/singleton_axis1_stride1073741824_runtime_specialized-config1.ttgir",
+          "sha256": "2a6d6eef90ee85c8d22fd25683d77c12d4c85f2be8cf10974d5f075906836848"
+        },
+        "llir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/singleton_axis1_stride1073741824_runtime_specialized-config1.llir",
+          "sha256": "2671462415c924423e25357761dbefc82d798988c5d5edc6791f1f39104b404a"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/singleton_axis1_stride1073741824_runtime_specialized-config1.ptx",
+          "sha256": "2d1ef64ed7600a1ca08f81c9acfe552765ab4c9a0efadf6438a367e4c49192ca"
+        }
+      },
+      "typed_integer_operations": [
+        "%group_id = arith.divsi %pid, %c8_i32 : i32 loc(#loc41)",
+        "%group_size = arith.muli %group_id, %c8_i32 : i32 loc(#loc42)",
+        "%pid_m = arith.remsi %pid, %group_size_1 : i32 loc(#loc45)",
+        "%pid_m_2 = arith.addi %group_size, %pid_m : i32 loc(#loc46)",
+        "%pid_n = arith.remsi %pid, %c8_i32 : i32 loc(#loc47)",
+        "%pid_n_3 = arith.divsi %pid_n, %group_size_1 : i32 loc(#loc48)",
+        "%rm = arith.muli %pid_m_2, %c128_i32 : i32 loc(#loc49)",
+        "%rm_6 = arith.addi %rm_5, %rm_4 : tensor<128xi32> loc(#loc51)",
+        "%rn = arith.muli %pid_n_3, %c128_i32 : i32 loc(#loc52)",
+        "%rn_8 = arith.addi %rn_7, %rm_4 : tensor<128xi32> loc(#loc53)",
+        "%A_12 = arith.muli %A_10, %A_11 : tensor<1x128xi32> loc(#loc56)",
+        "%A_15 = arith.addi %A_13, %A_14 : tensor<128x128xi32> loc(#loc57)",
+        "%A_17 = tt.addptr %A_16, %A_15 : tensor<128x128x!tt.ptr<f32>>, tensor<128x128xi32> loc(#loc58)",
+        "%mask = arith.cmpi slt, %rm_6, %cst : tensor<128xi32> loc(#loc59)",
+        "%mask_19 = arith.cmpi slt, %rn_8, %cst : tensor<128xi32> loc(#loc61)",
+        "%B_25 = arith.addi %A_13, %B_24 : tensor<128x128xi32> loc(#loc66)",
+        "%B_27 = tt.addptr %B_26, %B_25 : tensor<128x128x!tt.ptr<i8>>, tensor<128x128xi32> loc(#loc67)",
+        "%0 = arith.trunci %output_31 : tensor<128x128xi64> to tensor<128x128xi8> loc(#loc33)"
+      ]
+    },
+    {
+      "name": "singleton_axis1_stride2147483648_runtime_specialized",
+      "config_index": 0,
+      "signature": {
+        "A": "*fp32",
+        "absmax_inv_ptr": "*fp32",
+        "B": "*i8",
+        "stride_am": "constexpr",
+        "stride_an": "i64",
+        "stride_bn": "constexpr",
+        "stride_bm": "constexpr",
+        "M": "constexpr",
+        "N": "constexpr"
+      },
+      "constexprs": {
+        "BLOCK_M": 128,
+        "BLOCK_N": 128,
+        "GROUP_M": 8,
+        "stride_am": 1,
+        "stride_bn": 1,
+        "stride_bm": 1,
+        "M": 1,
+        "N": 1
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3
+      },
+      "status": "compiled",
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/singleton_axis1_stride2147483648_runtime_specialized-config0.ttir",
+          "sha256": "90bb070fe5792c7d2046e83b43f77005cbe3a597c7604fca274ee2f0f1470b9f"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/singleton_axis1_stride2147483648_runtime_specialized-config0.ttgir",
+          "sha256": "4ef37fb513ed4411cb6c3fe5c5c630ee730c6054469ef7c656f8d1622be65c61"
+        },
+        "llir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/singleton_axis1_stride2147483648_runtime_specialized-config0.llir",
+          "sha256": "1b73aba958457a5712e0c7e7c3c02e5e4df641bc30295236c475d183a29feb3a"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/singleton_axis1_stride2147483648_runtime_specialized-config0.ptx",
+          "sha256": "5ea078ba6de1f48498ee22c410faf7ed266c6ba0f21c56a01bdc602bfa5612af"
+        }
+      },
+      "typed_integer_operations": [
+        "%group_id = arith.divsi %pid, %c8_i32 : i32 loc(#loc41)",
+        "%group_size = arith.muli %group_id, %c8_i32 : i32 loc(#loc42)",
+        "%pid_m = arith.remsi %pid, %group_size_1 : i32 loc(#loc45)",
+        "%pid_m_2 = arith.addi %group_size, %pid_m : i32 loc(#loc46)",
+        "%pid_n = arith.remsi %pid, %c8_i32 : i32 loc(#loc47)",
+        "%pid_n_3 = arith.divsi %pid_n, %group_size_1 : i32 loc(#loc48)",
+        "%rm = arith.muli %pid_m_2, %c128_i32 : i32 loc(#loc49)",
+        "%rm_6 = arith.addi %rm_5, %rm_4 : tensor<128xi32> loc(#loc51)",
+        "%rn = arith.muli %pid_n_3, %c128_i32 : i32 loc(#loc52)",
+        "%rn_8 = arith.addi %rn_7, %rm_4 : tensor<128xi32> loc(#loc53)",
+        "%A_11 = arith.extsi %A_10 : tensor<1x128xi32> to tensor<1x128xi64> loc(#loc56)",
+        "%A_13 = arith.muli %A_11, %A_12 : tensor<1x128xi64> loc(#loc56)",
+        "%A_14 = arith.extsi %A_9 : tensor<128x1xi32> to tensor<128x1xi64> loc(#loc57)",
+        "%A_17 = arith.addi %A_15, %A_16 : tensor<128x128xi64> loc(#loc57)",
+        "%A_19 = tt.addptr %A_18, %A_17 : tensor<128x128x!tt.ptr<f32>>, tensor<128x128xi64> loc(#loc58)",
+        "%mask = arith.cmpi slt, %rm_6, %cst : tensor<128xi32> loc(#loc59)",
+        "%mask_21 = arith.cmpi slt, %rn_8, %cst : tensor<128xi32> loc(#loc61)",
+        "%B_28 = arith.addi %B_26, %B_27 : tensor<128x128xi32> loc(#loc66)",
+        "%B_30 = tt.addptr %B_29, %B_28 : tensor<128x128x!tt.ptr<i8>>, tensor<128x128xi32> loc(#loc67)",
+        "%0 = arith.trunci %output_34 : tensor<128x128xi64> to tensor<128x128xi8> loc(#loc33)"
+      ]
+    },
+    {
+      "name": "singleton_axis1_stride2147483648_runtime_specialized",
+      "config_index": 1,
+      "signature": {
+        "A": "*fp32",
+        "absmax_inv_ptr": "*fp32",
+        "B": "*i8",
+        "stride_am": "constexpr",
+        "stride_an": "i64",
+        "stride_bn": "constexpr",
+        "stride_bm": "constexpr",
+        "M": "constexpr",
+        "N": "constexpr"
+      },
+      "constexprs": {
+        "BLOCK_M": 128,
+        "BLOCK_N": 128,
+        "GROUP_M": 8,
+        "stride_am": 1,
+        "stride_bn": 1,
+        "stride_bm": 1,
+        "M": 1,
+        "N": 1
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3
+      },
+      "status": "compiled",
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/singleton_axis1_stride2147483648_runtime_specialized-config1.ttir",
+          "sha256": "90bb070fe5792c7d2046e83b43f77005cbe3a597c7604fca274ee2f0f1470b9f"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/singleton_axis1_stride2147483648_runtime_specialized-config1.ttgir",
+          "sha256": "4ef37fb513ed4411cb6c3fe5c5c630ee730c6054469ef7c656f8d1622be65c61"
+        },
+        "llir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/singleton_axis1_stride2147483648_runtime_specialized-config1.llir",
+          "sha256": "1b73aba958457a5712e0c7e7c3c02e5e4df641bc30295236c475d183a29feb3a"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/singleton_axis1_stride2147483648_runtime_specialized-config1.ptx",
+          "sha256": "5ea078ba6de1f48498ee22c410faf7ed266c6ba0f21c56a01bdc602bfa5612af"
+        }
+      },
+      "typed_integer_operations": [
+        "%group_id = arith.divsi %pid, %c8_i32 : i32 loc(#loc41)",
+        "%group_size = arith.muli %group_id, %c8_i32 : i32 loc(#loc42)",
+        "%pid_m = arith.remsi %pid, %group_size_1 : i32 loc(#loc45)",
+        "%pid_m_2 = arith.addi %group_size, %pid_m : i32 loc(#loc46)",
+        "%pid_n = arith.remsi %pid, %c8_i32 : i32 loc(#loc47)",
+        "%pid_n_3 = arith.divsi %pid_n, %group_size_1 : i32 loc(#loc48)",
+        "%rm = arith.muli %pid_m_2, %c128_i32 : i32 loc(#loc49)",
+        "%rm_6 = arith.addi %rm_5, %rm_4 : tensor<128xi32> loc(#loc51)",
+        "%rn = arith.muli %pid_n_3, %c128_i32 : i32 loc(#loc52)",
+        "%rn_8 = arith.addi %rn_7, %rm_4 : tensor<128xi32> loc(#loc53)",
+        "%A_11 = arith.extsi %A_10 : tensor<1x128xi32> to tensor<1x128xi64> loc(#loc56)",
+        "%A_13 = arith.muli %A_11, %A_12 : tensor<1x128xi64> loc(#loc56)",
+        "%A_14 = arith.extsi %A_9 : tensor<128x1xi32> to tensor<128x1xi64> loc(#loc57)",
+        "%A_17 = arith.addi %A_15, %A_16 : tensor<128x128xi64> loc(#loc57)",
+        "%A_19 = tt.addptr %A_18, %A_17 : tensor<128x128x!tt.ptr<f32>>, tensor<128x128xi64> loc(#loc58)",
+        "%mask = arith.cmpi slt, %rm_6, %cst : tensor<128xi32> loc(#loc59)",
+        "%mask_21 = arith.cmpi slt, %rn_8, %cst : tensor<128xi32> loc(#loc61)",
+        "%B_28 = arith.addi %B_26, %B_27 : tensor<128x128xi32> loc(#loc66)",
+        "%B_30 = tt.addptr %B_29, %B_28 : tensor<128x128x!tt.ptr<i8>>, tensor<128x128xi32> loc(#loc67)",
+        "%0 = arith.trunci %output_34 : tensor<128x128xi64> to tensor<128x128xi8> loc(#loc33)"
+      ]
+    }
+  ]
+}

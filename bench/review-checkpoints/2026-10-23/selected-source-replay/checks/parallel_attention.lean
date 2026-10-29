@@ -1,0 +1,8 @@
+import VeriTile.Meta.StatementAudit
+import bench.repairs.tritonbench_g.parallel_attention.KernelOnly.Contract
+import bench.repairs.tritonbench_g.parallel_attention.KernelOnly.Correct
+import bench.repairs.tritonbench_g.parallel_attention.KernelOnly.FPEquiv
+
+#axiomsClean VeriTile.Bench.Repairs.ParallelAttentionKernel.Correct.forward_grid_real
+#axiomsClean VeriTile.Bench.Repairs.ParallelAttentionKernel.Correct.backward_grid_real
+#axiomsClean VeriTile.Bench.Repairs.ParallelAttentionKernel.FPEquiv.fused_score_equiv

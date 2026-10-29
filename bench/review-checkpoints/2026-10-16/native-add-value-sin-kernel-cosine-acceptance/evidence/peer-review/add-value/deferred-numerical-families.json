@@ -1,0 +1,83 @@
+{
+  "status": "explicitly_deferred_unvalidated",
+  "families": [
+    {
+      "id": "ADD-VALUE-NATIVE-ADD32",
+      "required_validation": "Exact native scalar correspondence for add32 at each registered operand/output dtype and configuration, including rounding, subnormal, NaN, infinity and signed-zero behavior on the explicitly defined active source domain.",
+      "port_count": 14
+    },
+    {
+      "id": "ADD-VALUE-NATIVE-FP-INTEGERCONVERSION-TOSIGNED",
+      "required_validation": "Exact native scalar correspondence for FP.IntegerConversion.toSigned at each registered operand/output dtype and configuration, including rounding, subnormal, NaN, infinity and signed-zero behavior on the explicitly defined active source domain.",
+      "port_count": 5
+    },
+    {
+      "id": "ADD-VALUE-NATIVE-UNSIGNEDTO32",
+      "required_validation": "Exact native scalar correspondence for unsignedTo32 at each registered operand/output dtype and configuration, including rounding, subnormal, NaN, infinity and signed-zero behavior on the explicitly defined active source domain.",
+      "port_count": 4
+    },
+    {
+      "id": "ADD-VALUE-NATIVE-FP-INTEGERCONVERSION-TOUNSIGNED",
+      "required_validation": "Exact native scalar correspondence for FP.IntegerConversion.toUnsigned at each registered operand/output dtype and configuration, including rounding, subnormal, NaN, infinity and signed-zero behavior on the explicitly defined active source domain.",
+      "port_count": 4
+    },
+    {
+      "id": "ADD-VALUE-NATIVE-SIGNEDTO32",
+      "required_validation": "Exact native scalar correspondence for signedTo32 at each registered operand/output dtype and configuration, including rounding, subnormal, NaN, infinity and signed-zero behavior on the explicitly defined active source domain.",
+      "port_count": 4
+    },
+    {
+      "id": "ADD-VALUE-NATIVE-HALFTO32",
+      "required_validation": "Exact native scalar correspondence for halfTo32 at each registered operand/output dtype and configuration, including rounding, subnormal, NaN, infinity and signed-zero behavior on the explicitly defined active source domain.",
+      "port_count": 1
+    },
+    {
+      "id": "ADD-VALUE-NATIVE-TOHALF",
+      "required_validation": "Exact native scalar correspondence for toHalf at each registered operand/output dtype and configuration, including rounding, subnormal, NaN, infinity and signed-zero behavior on the explicitly defined active source domain.",
+      "port_count": 1
+    },
+    {
+      "id": "ADD-VALUE-NATIVE-BFLOATTO32",
+      "required_validation": "Exact native scalar correspondence for bfloatTo32 at each registered operand/output dtype and configuration, including rounding, subnormal, NaN, infinity and signed-zero behavior on the explicitly defined active source domain.",
+      "port_count": 1
+    },
+    {
+      "id": "ADD-VALUE-NATIVE-TOBFLOAT",
+      "required_validation": "Exact native scalar correspondence for toBFloat at each registered operand/output dtype and configuration, including rounding, subnormal, NaN, infinity and signed-zero behavior on the explicitly defined active source domain.",
+      "port_count": 1
+    },
+    {
+      "id": "ADD-VALUE-NATIVE-WIDE-SINGLETO64",
+      "required_validation": "Exact native scalar correspondence for wide.singleTo64 at each registered operand/output dtype and configuration, including rounding, subnormal, NaN, infinity and signed-zero behavior on the explicitly defined active source domain.",
+      "port_count": 1
+    },
+    {
+      "id": "ADD-VALUE-NATIVE-WIDE-ADD64",
+      "required_validation": "Exact native scalar correspondence for wide.add64 at each registered operand/output dtype and configuration, including rounding, subnormal, NaN, infinity and signed-zero behavior on the explicitly defined active source domain.",
+      "port_count": 1
+    },
+    {
+      "id": "ADD-VALUE-NATIVE-E4TO32",
+      "required_validation": "Exact native scalar correspondence for e4To32 at each registered operand/output dtype and configuration, including rounding, subnormal, NaN, infinity and signed-zero behavior on the explicitly defined active source domain.",
+      "port_count": 1
+    },
+    {
+      "id": "ADD-VALUE-NATIVE-TOE4RTNE",
+      "required_validation": "Exact native scalar correspondence for toE4RTNE at each registered operand/output dtype and configuration, including rounding, subnormal, NaN, infinity and signed-zero behavior on the explicitly defined active source domain.",
+      "port_count": 1
+    },
+    {
+      "id": "ADD-VALUE-NATIVE-E5TO32",
+      "required_validation": "Exact native scalar correspondence for e5To32 at each registered operand/output dtype and configuration, including rounding, subnormal, NaN, infinity and signed-zero behavior on the explicitly defined active source domain.",
+      "port_count": 1
+    },
+    {
+      "id": "ADD-VALUE-NATIVE-TOE5RTNE",
+      "required_validation": "Exact native scalar correspondence for toE5RTNE at each registered operand/output dtype and configuration, including rounding, subnormal, NaN, infinity and signed-zero behavior on the explicitly defined active source domain.",
+      "port_count": 1
+    }
+  ],
+  "exact_numeric_ports": 41,
+  "producer_delta_sha256": "f1af4ed20235f5e553b2099441af71acfa650ebf45c05559ed5c887750e794aa",
+  "native_scalar_validation": false
+}

@@ -1,0 +1,80 @@
+[
+  {
+    "x": "float64",
+    "y": "float8_e4m3fn",
+    "signature": {
+      "in_ptr0": "*fp64",
+      "in_ptr1": "*fp8e4nv",
+      "out_ptr": "*fp64",
+      "n_elements": "i32"
+    },
+    "status": "rejected",
+    "error_type": "RuntimeError",
+    "error": "PassManager::run failed"
+  },
+  {
+    "x": "float64",
+    "y": "float8_e5m2",
+    "signature": {
+      "in_ptr0": "*fp64",
+      "in_ptr1": "*fp8e5",
+      "out_ptr": "*fp64",
+      "n_elements": "i32"
+    },
+    "status": "rejected",
+    "error_type": "RuntimeError",
+    "error": "PassManager::run failed"
+  },
+  {
+    "x": "float8_e4m3fn",
+    "y": "float64",
+    "signature": {
+      "in_ptr0": "*fp8e4nv",
+      "in_ptr1": "*fp64",
+      "out_ptr": "*fp8e4nv",
+      "n_elements": "i32"
+    },
+    "status": "rejected",
+    "error_type": "RuntimeError",
+    "error": "PassManager::run failed"
+  },
+  {
+    "x": "float8_e4m3fn",
+    "y": "float8_e4m3fn",
+    "signature": {
+      "in_ptr0": "*fp8e4nv",
+      "in_ptr1": "*fp8e4nv",
+      "out_ptr": "*fp8e4nv",
+      "n_elements": "i32"
+    },
+    "status": "rejected",
+    "error_type": "RuntimeError",
+    "error": "PassManager::run failed"
+  },
+  {
+    "x": "float8_e5m2",
+    "y": "float64",
+    "signature": {
+      "in_ptr0": "*fp8e5",
+      "in_ptr1": "*fp64",
+      "out_ptr": "*fp8e5",
+      "n_elements": "i32"
+    },
+    "status": "rejected",
+    "error_type": "RuntimeError",
+    "error": "PassManager::run failed"
+  },
+  {
+    "x": "float8_e5m2",
+    "y": "float8_e5m2",
+    "signature": {
+      "in_ptr0": "*fp8e5",
+      "in_ptr1": "*fp8e5",
+      "out_ptr": "*fp8e5",
+      "n_elements": "i32"
+    },
+    "status": "rejected",
+    "error_type": "RuntimeError",
+    "error": "PassManager::run failed"
+  }
+]

@@ -1,0 +1,24 @@
+{
+  "recorded_at_utc": "2026-10-13T18:47:21.152566+00:00",
+  "scope": "Constexpr branch continuations retain path-specific register carriers and arithmetic precision. Single-arm, two-arm, nested and newly bound values, and exact arbitrary-algebra fp64/fp32 arithmetic profiles checked. Dynamic control-flow typing is outside this fix. Later builtin float(0) additions require separate validation.",
+  "dsl_jobs": 800,
+  "new_axiom_checks": 7,
+  "affected_regressions": 21,
+  "changed_regression_inputs": [],
+  "regression_receipt": "regressions/receipt.json",
+  "checked_main_sha256": "879868c213688c7a009774c2bd983cc34c8e28f73c7ce468d5509d850b15da8f",
+  "checked_test_sha256": "7f0c7743efa7a5c9b00e10be5ae2452e955033714bab254bf7174d7ca4a31550",
+  "logs": {
+    "dsl": {
+      "path": "dsl.log.gz",
+      "root_process_exit_code": 0,
+      "sha256": "ad6b59bcf1f728efa695db5f6f01a35984dfac960d2833f00c4b2ad116a9e646"
+    },
+    "new-tests": {
+      "path": "new-tests.log.gz",
+      "root_process_exit_code": 0,
+      "sha256": "d702c6296fb5aed66fe425a38a7dc8853ac9bcb3647a2ec44a25f381f5ae681f"
+    }
+  },
+  "hash_capture": "Regression inputs captured before and after; exact checked Main restored from current text by removing later untested addition and matching captured hash. No frozen complete artifact closure or independent comparator."
+}

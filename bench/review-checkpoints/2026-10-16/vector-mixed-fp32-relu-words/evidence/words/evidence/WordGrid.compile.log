@@ -1,0 +1,27 @@
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.IntegerWords.wordSpec: definition does not reference [VeriTile.Bench.TritonBenchG.ReluTritonKernel.TypedValue.source,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.TypedValue.materialized,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.GatedGrid.runPrefix,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.GatedGrid.runGrid,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.TypedValue.reference,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.TypedValue.resultValue] — non-circular ✓
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.IntegerWords.withInputWords_encoded: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.IntegerWords.separated_output_preserved: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.IntegerWords.reference_refines: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.IntegerWords.grid_correct_words: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.IntegerWords.wordSpec_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.IntegerWords.wordSpec_written_fp32: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.IntegerWords.wordSpec_output_tag: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.IntegerWords.constructed_grid_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

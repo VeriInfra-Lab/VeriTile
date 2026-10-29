@@ -1,0 +1,143 @@
+{
+  "schema": 1,
+  "task": "seeded_dropout",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue13/release-result.json",
+    "sha256": "629bffaa864c24e7cc37f10e32b29c72132c01318546dff04e43bb7c16ac013a",
+    "task_index": 5
+  },
+  "finding": "The simple dropout headline selected the single raw channel and wrote a raw output wrapper.",
+  "resolution": "A complete 1024-lane vector equivalence removes channel plumbing. The headline directly displays the Philox threshold and scaling formula at logical lane i, retaining all inactive tail values.",
+  "mathematical_target": "At logical flat offset i: if canonical Philox-10 randReal(seed,i,bits32)>p then x/(1-p), else zero.",
+  "conditions_and_scope": {
+    "scope": "Complete selected per-program tile of 1024 lanes at pid; original active mask pid*1024+lane<n and exterior frame. It is not advertised as whole n-element host execution.",
+    "conditions": [
+      "n<2^31, pid<gridCount n, SeedABI for original Python i32/i64/u64 JIT branches.",
+      "Real division is total; main theorem is valid for all real p and therefore includes the Contract range 0≤p<1 without adding/removing an input restriction.",
+      "KernelPublic.target uses pid*1024+lane logical offset, preserving RNG position rather than a statistical model.",
+      "The public IO judgment quantifies over logical inputs, physical memory binding and capacity bounds; source safety, successful execution, output values and exact exterior frame are conclusions, not caller premises."
+    ],
+    "preservation": "Logical input/output maps are full equivalences, retaining unused/inactive/padded and entry-output values. Exact previous judgment is fixed as the logical view type parameter/core; no callback oracle or new caller premise."
+  },
+  "proof_connection": {
+    "theorem": "KernelPublic.logical_iff; KernelPublic.logical_real",
+    "detail": "logical_iff is a complete Implements iff for arbitrary scalar f, not merely a proof of a new theorem. logical_real applies it to the exact original randReal/Philox scalar formula with unchanged n/pid/seed ABI conditions."
+  },
+  "fp_review": {
+    "source_unchanged": true,
+    "actual_pair": {
+      "original": "FPEquiv.original M k X O n p seed pid",
+      "candidate": "FPEquiv.indexCommuted M k X O n p seed pid",
+      "transformation": "Only integer block offset multiplication is commuted.",
+      "scope": "Complete actual selected tile for each i32/i64/u64 branch with original n/pid/seed premises.",
+      "connection": "ProgramPair.index_commuted_equiv"
+    },
+    "review": "Read the selected FPEquiv source and actual original/candidate scopes. Existing precision, conversions, FMA versus separate operations, reduction order, domains and observers retained; no self-comparison or new candidate."
+  },
+  "numerical_dependencies": {
+    "experimental_rules": [],
+    "binding": "Structural typed fp32 model with explicit compareLt binding at fp32; RNG and eager floating division retained."
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "At logical flat offset i: if canonical Philox-10 randReal(seed,i,bits32)>p then x/(1-p), else zero.",
+    "required_conditions": [
+      "n<2^31, pid<gridCount n, SeedABI for original Python i32/i64/u64 JIT branches.",
+      "Real division is total; main theorem is valid for all real p and therefore includes the Contract range 0≤p<1 without adding/removing an input restriction.",
+      "KernelPublic.target uses pid*1024+lane logical offset, preserving RNG position rather than a statistical model.",
+      "The public IO judgment quantifies over logical inputs, physical memory binding and capacity bounds; source safety, successful execution, output values and exact exterior frame are conclusions, not caller premises."
+    ],
+    "scope": "Complete selected per-program tile of 1024 lanes at pid; original active mask pid*1024+lane<n and exterior frame. It is not advertised as whole n-element host execution.",
+    "canonical_connection": [
+      "Inline mathematical branch is definitionally Whole.realFormula.",
+      "KernelPublic.implements and Whole.scalar_real connect actual source plus canonical RNG decoder, safety, outputs and frame."
+    ],
+    "fp_program_pair": {
+      "original": "FPEquiv.original M k X O n p seed pid",
+      "candidate": "FPEquiv.indexCommuted M k X O n p seed pid",
+      "transformation": "Only integer block offset multiplication is commuted.",
+      "scope": "Complete actual selected tile for each i32/i64/u64 branch with original n/pid/seed premises.",
+      "connection": "ProgramPair.index_commuted_equiv"
+    },
+    "numerical_dependencies": {
+      "experimental_rules": [],
+      "binding": "Structural typed fp32 model with explicit compareLt binding at fp32; RNG and eager floating division retained."
+    }
+  },
+  "verification": [
+    {
+      "kind": "targeted_readers",
+      "command": [
+        "python3",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue13/build.py",
+        "bench/repairs/tritonbench_g/seeded_dropout/IO.lean",
+        "bench/repairs/tritonbench_g/seeded_dropout/Proofs/LogicalResult.lean",
+        "bench/repairs/tritonbench_g/seeded_dropout/Correct.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue13/seeded_dropout-targeted_readers-final.log",
+      "log_sha256": "2428a99939f97dbc4f513e1363b3c6ccfabfe4ebd688111a300c994d26965df2",
+      "source_report": ".veritile-cache/logical-reader-review-20261022/queue13/result.json",
+      "source_report_sha256": "354f79af2a6d84fca6ecbe886fb61a9754848b6ae49c88a93657f7822671cfb4",
+      "evidence_scope": "current_unsupplemented_task"
+    },
+    {
+      "kind": "fp_source",
+      "command": [
+        "python3",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue13/build.py",
+        "bench/repairs/tritonbench_g/seeded_dropout/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue13/seeded_dropout-fp_source-final.log",
+      "log_sha256": "6381470ee01f3f0cb0df94f394bda7ad8b50d9e7c8b519c1e84099a0e6a0adbd",
+      "source_report": ".veritile-cache/logical-reader-review-20261022/queue13/result.json",
+      "source_report_sha256": "354f79af2a6d84fca6ecbe886fb61a9754848b6ae49c88a93657f7822671cfb4",
+      "evidence_scope": "current_unsupplemented_task"
+    },
+    {
+      "kind": "joint",
+      "command": [
+        "python3",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue13/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue13/seeded_dropout-joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue13/seeded_dropout-joint-final.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_report": ".veritile-cache/logical-reader-review-20261022/queue13/result.json",
+      "source_report_sha256": "354f79af2a6d84fca6ecbe886fb61a9754848b6ae49c88a93657f7822671cfb4",
+      "evidence_scope": "current_unsupplemented_task"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/seeded_dropout/Contract.lean": "cb2f60f832ba2f4b5d7dbf1129d73678570c29ae9771492e163d85860d714a16",
+    "bench/repairs/tritonbench_g/seeded_dropout/Correct.lean": "c2dc41a517f4ce6cc56cac99c7810bf0c3aba255527ae99d64f82efdc0e625f6",
+    "bench/repairs/tritonbench_g/seeded_dropout/FPEquiv.lean": "0a666d84e98be58d044362783bbc4cbd9dc9debf1d1ec8a2e26ed0464fc0f32a",
+    "bench/repairs/tritonbench_g/seeded_dropout/IO.lean": "50349cd9d9f9c01f98ad1a22b147cbdbb82fb8499db364f49d29bf891bace7cf",
+    "bench/repairs/tritonbench_g/seeded_dropout/Proofs/LogicalResult.lean": "42590ec7a75385aee9d7c6a2d0e6a2418bb221adabfd613d3c08b44c412cf1d7",
+    "bench/repairs/tritonbench_g/seeded_dropout/Kernels.lean": "e85d94bd391b25ab5f571adf2206505808a925996aa6e79187170857dae1ce20",
+    "bench/repairs/tritonbench_g/seeded_dropout/Proofs/PublicIO.lean": "8a86918eef48ec9b0488df661e8e0878687f40ce808592cccf7d492b14a0f12c",
+    "bench/repairs/tritonbench_g/seeded_dropout/Proofs/ProgramPair.lean": "a52bb8daf203d58a408156048c6dbbb4406ec3f8c1ccdc4e423c4bf59a277a15",
+    "bench/tritonbench_g/seeded_dropout/Proofs/WholeMath.lean": "c504cf13f7f97f1c8816c58bdc322b9a6fb253e53f2a1c329a6459f2b7d9b041",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [
+    "Targeted changed IO/helper/Correct sources compiled in this queue; final builds may reuse successful receipts only when source and direct import-object hashes match. Unchanged internal proof objects are reused, except exact stale/missing owners rebuilt in this queue; this is not an all-helper or full-library replay.",
+    "Real specifies the independent mathematical interpretation. Existing empty-R FP conclusions use their explicitly fixed software theories/models; no new hardware consistency or numerical experiment claim."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

@@ -252,6 +252,10 @@ inductive Op : TileDType → TileShape → Type where
   | ite       : {dtype : TileDType} → {shape : TileShape} →
                 Op .bool [] → Op dtype shape → Op dtype shape →
                 Op dtype shape
+  /-- Block-level floating minimum, independent of maximum and negation. -/
+  | reduceMin : (axis : Fin shape.length) → (keepDims : Bool) →
+                Op .real shape →
+                Op .real (TileShape.reduceShape shape axis keepDims)
   /-- Block-level reduce-max along an arbitrary axis. -/
   | reduceMax : (axis : Fin shape.length) → (keepDims : Bool) →
                 Op .real shape →

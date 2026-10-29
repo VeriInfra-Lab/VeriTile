@@ -1,0 +1,18 @@
+{
+  "verified": 1,
+  "verified_with_deferred_numerics": 1,
+  "pending": 181,
+  "accepted_total": 2,
+  "catalog_public_declarations": 951,
+  "new_numerical_rules": 12,
+  "total_numerical_rules": 41,
+  "matrix_rebound": true,
+  "unrelated_scope_rows_unchanged": 181,
+  "exact_queue": {
+    "status": "passed",
+    "exact_bindings": 170,
+    "declaration_cases": 398,
+    "native_executions": 0,
+    "structural_acceptance": false
+  }
+}

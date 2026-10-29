@@ -1,0 +1,89 @@
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision2-wip/after/bench/tritonbench_g/vector_addition/NativeCorrect.lean:170:16: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  if ¬gridSupported output.numel then ?m.184 else ?m.185
+in the target expression
+  AllocatedSpec ops b env metadata xd yd x y output allocated
+    (match none with
+    | some detail => Outcome.failed (attemptedTrace x y output) (Failure.primitive SetupStage.context detail)
+    | none =>
+      match Except.ok r with
+      | Except.error reason => Outcome.failed (attemptedTrace x y output) (Failure.setup reason)
+      | Except.ok r =>
+        match none with
+        | some detail => Outcome.failed (attemptedTrace x y output) (Failure.primitive SetupStage.compilation detail)
+        | none =>
+          if ¬gridSupported output.numel then
+            Outcome.failed (attemptedTrace x y output) (Failure.gridLimit (grid output.numel))
+          else
+            match env SetupStage.pointerPacking with
+            | some detail =>
+              Outcome.failed (attemptedTrace x y output) (Failure.primitive SetupStage.pointerPacking detail)
+            | none =>
+              match env SetupStage.launch with
+              | some detail => Outcome.failed (attemptedTrace x y output) (Failure.primitive SetupStage.launch detail)
+              | none =>
+                match executeLaunch r (ops r) b (layout metadata x y output) output.numel allocated with
+                | Except.error issue => Outcome.observed (attemptedTrace x y output) issue
+                | Except.ok memory => Outcome.returned (successTrace x y output) output memory)
+
+case pos
+M : Type
+ops : (r : Route) → Memory M (Carrier r)
+b : Numerics
+env : Environment
+metadata : Metadata
+xd yd : DenseDType
+x y output : Tensor
+allocated : M
+binding : AllocationBinding metadata x y output
+hc : ¬cudaGuard x y output = «false»
+cuda : cudaGuard x y output = «true»
+he : env SetupStage.context = none
+r : Route
+ha : admission xd yd = Except.ok r
+hcomp : env SetupStage.compilation = none
+hg : gridSupported output.numel
+⊢ AllocatedSpec ops b env metadata xd yd x y output allocated
+    (match none with
+    | some detail => Outcome.failed (attemptedTrace x y output) (Failure.primitive SetupStage.context detail)
+    | none =>
+      match Except.ok r with
+      | Except.error reason => Outcome.failed (attemptedTrace x y output) (Failure.setup reason)
+      | Except.ok r =>
+        match none with
+        | some detail => Outcome.failed (attemptedTrace x y output) (Failure.primitive SetupStage.compilation detail)
+        | none =>
+          if ¬gridSupported output.numel then
+            Outcome.failed (attemptedTrace x y output) (Failure.gridLimit (grid output.numel))
+          else
+            match env SetupStage.pointerPacking with
+            | some detail =>
+              Outcome.failed (attemptedTrace x y output) (Failure.primitive SetupStage.pointerPacking detail)
+            | none =>
+              match env SetupStage.launch with
+              | some detail => Outcome.failed (attemptedTrace x y output) (Failure.primitive SetupStage.launch detail)
+              | none =>
+                match executeLaunch r (ops r) b (layout metadata x y output) output.numel allocated with
+                | Except.error issue => Outcome.observed (attemptedTrace x y output) issue
+                | Except.ok memory => Outcome.returned (successTrace x y output) output memory)
+VeriTile.Bench.TritonBenchG.VectorAddition.Native.grid_parse_precedes_pointer_packing: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.Native.HostSpec: definition does not reference [VeriTile.Bench.TritonBenchG.VectorAddition.Native.executeHost,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Native.executeAllocated,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Native.executeLaunch,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Native.executeGrid,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Native.executeProgram,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Native.sourceWrites] — non-circular ✓
+VeriTile.Bench.TritonBenchG.VectorAddition.Native.ReturnedSpec: definition does not reference [VeriTile.Bench.TritonBenchG.VectorAddition.Native.executeHost,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Native.executeAllocated,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Native.executeLaunch,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Native.executeGrid,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Native.executeProgram,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Native.sourceWrites] — non-circular ✓
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision2-wip/after/bench/tritonbench_g/vector_addition/NativeCorrect.lean:252:0: error: VeriTile.Bench.TritonBenchG.VectorAddition.Native.allocated_all_outcomes: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.TritonBenchG.VectorAddition.Native.uses_extracted_pointer: axiom footprint ⊆ standard base ✓  ([propext])
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision2-wip/after/bench/tritonbench_g/vector_addition/NativeCorrect.lean:254:0: error: VeriTile.Bench.TritonBenchG.VectorAddition.Native.vector_addition_native_source_outcomes: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.TritonBenchG.VectorAddition.Native.vector_addition_two31_return: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision2-wip/after/bench/tritonbench_g/vector_addition/NativeCorrect.lean:257:0: error: VeriTile.Bench.TritonBenchG.VectorAddition.Native.vector_addition_native_source_outcomes: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

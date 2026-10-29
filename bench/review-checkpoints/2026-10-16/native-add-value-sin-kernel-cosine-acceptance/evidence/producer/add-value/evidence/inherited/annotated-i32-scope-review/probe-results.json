@@ -1,0 +1,440 @@
+{
+  "status": "passed",
+  "torch_version": "2.13.0+cu130",
+  "triton_version": "3.7.1",
+  "driver_extraction": {
+    "source": "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/driver.c",
+    "source_sha256": "835f068cf517d237dc62be91275261e260c2bae985a9242fd28866303c1e5a60",
+    "exact_function": "bool extractI32(void *ptr, PyObject *obj) {\n  *((int32_t *)ptr) = PyLong_AsLong(obj);\n  return PyErr_Occurred() == NULL;\n}",
+    "compiler_command": [
+      "/usr/bin/cc",
+      "-shared",
+      "-fPIC",
+      "-I/usr/local/include/python3.12",
+      "/tmp/veritile-standardization-20261015/annotated-i32-scope-review/extract_i32.c",
+      "-o",
+      "/tmp/veritile-standardization-20261015/annotated-i32-scope-review/extract_i32.so"
+    ],
+    "compiler_exit_code": 0,
+    "sizeof_long": 8,
+    "python_argument": 2147483648,
+    "success": true,
+    "stored_signed_i32": -2147483648,
+    "stored_bits_hex": "0x80000000"
+  },
+  "records": [
+    {
+      "task": "vector_addition",
+      "N_python": 2147483648,
+      "block": 1024,
+      "grid_x": 2097152,
+      "native_signed_bound": -2147483648,
+      "original_source": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/vector_addition/vector_addition.py",
+      "source_sha256": "cfcb749bd562924106c1e0e95e18a9bd987238be3a3b522abac89e099de3d098",
+      "production_ast_unchanged": true,
+      "signature": {
+        "x_ptr": "*fp32",
+        "y_ptr": "*fp32",
+        "output_ptr": "*fp32",
+        "n_elements": "i32",
+        "BLOCK_SIZE": "constexpr"
+      },
+      "specialization": [
+        [
+          "*fp32",
+          "D"
+        ],
+        [
+          "*fp32",
+          "D"
+        ],
+        [
+          "*fp32",
+          "D"
+        ],
+        [
+          "i32",
+          "D"
+        ],
+        [
+          "constexpr",
+          1024
+        ]
+      ],
+      "constexprs": {
+        "(4,)": 1024
+      },
+      "params_N": 2147483648,
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3,
+        "warp_size": 32,
+        "maxnreg": null,
+        "ptx_version": null,
+        "ptx_options": null,
+        "ir_override": null,
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e4nv",
+          "fp8e5"
+        ],
+        "deprecated_fp8_dot_operand_dtypes": [
+          "fp8e4b15"
+        ],
+        "default_dot_input_precision": "tf32",
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "max_num_imprecise_acc_default": 1073741824,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "debug": false,
+        "backend_name": "cuda",
+        "sanitize_overflow": true,
+        "arch": "sm90",
+        "instrumentation_mode": ""
+      },
+      "compiled": "TTIR_LLVM_PTX",
+      "gpu_launches": 0,
+      "original_wrapper_trace": [
+        [
+          "empty_like",
+          "input"
+        ],
+        [
+          "numel",
+          "allocated_output",
+          2147483648
+        ],
+        [
+          "launch",
+          [
+            2097152
+          ],
+          2147483648,
+          {
+            "BLOCK_SIZE": 1024
+          }
+        ]
+      ],
+      "returns_allocated_output": true,
+      "all_lane_argument": {
+        "programs": 2097152,
+        "pid_interval": [
+          0,
+          2097151
+        ],
+        "lane_interval": [
+          0,
+          1023
+        ],
+        "signed_index_interval": [
+          0,
+          2147483647
+        ],
+        "overflow": false,
+        "mask": "signed_index < -2147483648",
+        "all_masks_false": true,
+        "input_loads": 0,
+        "output_stores": 0,
+        "result": "allocated output unchanged; host returns normally if ordinary allocator/launch primitives succeed"
+      }
+    },
+    {
+      "task": "vector_addition_custom",
+      "N_python": 2147483648,
+      "block": 16,
+      "grid_x": 134217728,
+      "native_signed_bound": -2147483648,
+      "original_source": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/vector_addition_custom/vector_addition_custom.py",
+      "source_sha256": "a1e1a05555a7d42a6cee871847907ef6e6fbe6834ac0088d186921d994a10957",
+      "production_ast_unchanged": true,
+      "signature": {
+        "A": "*fp32",
+        "B": "*fp32",
+        "C": "*fp32",
+        "size": "i32",
+        "BLOCK": "constexpr"
+      },
+      "specialization": [
+        [
+          "*fp32",
+          "D"
+        ],
+        [
+          "*fp32",
+          "D"
+        ],
+        [
+          "*fp32",
+          "D"
+        ],
+        [
+          "i32",
+          "D"
+        ],
+        [
+          "constexpr",
+          16
+        ]
+      ],
+      "constexprs": {
+        "(4,)": 16
+      },
+      "params_N": 2147483648,
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3,
+        "warp_size": 32,
+        "maxnreg": null,
+        "ptx_version": null,
+        "ptx_options": null,
+        "ir_override": null,
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e4nv",
+          "fp8e5"
+        ],
+        "deprecated_fp8_dot_operand_dtypes": [
+          "fp8e4b15"
+        ],
+        "default_dot_input_precision": "tf32",
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "max_num_imprecise_acc_default": 1073741824,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "debug": false,
+        "backend_name": "cuda",
+        "sanitize_overflow": true,
+        "arch": "sm90",
+        "instrumentation_mode": ""
+      },
+      "compiled": "TTIR_LLVM_PTX",
+      "gpu_launches": 0,
+      "original_wrapper_trace": [
+        [
+          "empty_like",
+          "input"
+        ],
+        [
+          "size",
+          "allocated_output",
+          0,
+          2147483648
+        ],
+        [
+          "launch",
+          [
+            134217728
+          ],
+          2147483648,
+          {
+            "BLOCK": 16
+          }
+        ]
+      ],
+      "returns_allocated_output": true,
+      "all_lane_argument": {
+        "programs": 134217728,
+        "pid_interval": [
+          0,
+          134217727
+        ],
+        "lane_interval": [
+          0,
+          15
+        ],
+        "signed_index_interval": [
+          0,
+          2147483647
+        ],
+        "overflow": false,
+        "mask": "signed_index < -2147483648",
+        "all_masks_false": true,
+        "input_loads": 0,
+        "output_stores": 0,
+        "result": "allocated output unchanged; host returns normally if ordinary allocator/launch primitives succeed"
+      }
+    },
+    {
+      "task": "add_value",
+      "N_python": 2147483648,
+      "block": 1024,
+      "grid_x": 2097152,
+      "native_signed_bound": -2147483648,
+      "original_source": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/add_value/add_value.py",
+      "source_sha256": "018443803f71ddd60d1fa6cdf59eb5e791853f3c43be9cc17d5fb31c029aad62",
+      "production_ast_unchanged": true,
+      "signature": {
+        "x_ptr": "*fp32",
+        "output_ptr": "*fp32",
+        "N": "i32",
+        "BLOCK_SIZE": "constexpr",
+        "value": "fp32"
+      },
+      "specialization": [
+        [
+          "*fp32",
+          "D"
+        ],
+        [
+          "*fp32",
+          "D"
+        ],
+        [
+          "i32",
+          "D"
+        ],
+        [
+          "constexpr",
+          1024
+        ],
+        [
+          "fp32",
+          null
+        ]
+      ],
+      "constexprs": {
+        "(3,)": 1024
+      },
+      "params_N": 2147483648,
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3,
+        "warp_size": 32,
+        "maxnreg": null,
+        "ptx_version": null,
+        "ptx_options": null,
+        "ir_override": null,
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e4nv",
+          "fp8e5"
+        ],
+        "deprecated_fp8_dot_operand_dtypes": [
+          "fp8e4b15"
+        ],
+        "default_dot_input_precision": "tf32",
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "max_num_imprecise_acc_default": 1073741824,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "debug": false,
+        "backend_name": "cuda",
+        "sanitize_overflow": true,
+        "arch": "sm90",
+        "instrumentation_mode": ""
+      },
+      "compiled": "TTIR_LLVM_PTX",
+      "gpu_launches": 0,
+      "original_wrapper_trace": [
+        [
+          "empty_like",
+          "input"
+        ],
+        [
+          "numel",
+          "allocated_output",
+          2147483648
+        ],
+        [
+          "launch",
+          [
+            2097152
+          ],
+          2147483648,
+          {
+            "BLOCK_SIZE": 1024,
+            "value": 10
+          }
+        ]
+      ],
+      "returns_allocated_output": true,
+      "all_lane_argument": {
+        "programs": 2097152,
+        "pid_interval": [
+          0,
+          2097151
+        ],
+        "lane_interval": [
+          0,
+          1023
+        ],
+        "signed_index_interval": [
+          0,
+          2147483647
+        ],
+        "overflow": false,
+        "mask": "signed_index < -2147483648",
+        "all_masks_false": true,
+        "input_loads": 0,
+        "output_stores": 0,
+        "result": "allocated output unchanged; host returns normally if ordinary allocator/launch primitives succeed"
+      }
+    }
+  ],
+  "custom_zero_byte_example": {
+    "shape": [
+      2147483648,
+      0
+    ],
+    "strides": [
+      1,
+      1
+    ],
+    "numel": 0,
+    "storage_bytes": 0,
+    "data_ptr": 0,
+    "output_shape": [
+      2147483648,
+      0
+    ],
+    "output_data_ptr": 0,
+    "scope": "actual CPU metadata construction only; no GPU launch"
+  },
+  "gpu_launches": 0,
+  "large_tensor_allocations": 0
+}

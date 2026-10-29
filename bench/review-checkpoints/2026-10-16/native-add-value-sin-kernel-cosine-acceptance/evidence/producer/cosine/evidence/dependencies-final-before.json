@@ -1,0 +1,164 @@
+{
+  "capture_phase": "before clean final rebuild after lint-only edits",
+  "external_objects": {
+    "Batteries/Data/Nat/Bitwise.lean": {
+      "object": "/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean/Batteries/Data/Nat/Bitwise.olean",
+      "object_sha256": "9e6f91abe5d321aa2eb1d63ecf6b3dff0fe3c5b66212d9f85e8d75e06783f808"
+    },
+    "Init/Data/BitVec/Basic.lean": {
+      "object": "/tmp/veritile-lean-toolchain/lib/lean/Init/Data/BitVec/Basic.olean",
+      "object_sha256": "0d9675824b3daed9fde357dc5422830be6d3a12adbec6678a81b0e71a7d43b09"
+    },
+    "Init/Data/BitVec/Lemmas.lean": {
+      "object": "/tmp/veritile-lean-toolchain/lib/lean/Init/Data/BitVec/Lemmas.olean",
+      "object_sha256": "9e2f1a755c19aebb9e4a132109404765843f5dd6d6a1cbb6ab83ef626bfff1fe"
+    },
+    "Init/Data/Nat/Log2.lean": {
+      "object": "/tmp/veritile-lean-toolchain/lib/lean/Init/Data/Nat/Log2.olean",
+      "object_sha256": "0acaf804d18c4ac49361dfb7b0036a9c517f6c335c2fdeb7534906361fc65764"
+    },
+    "Init/Data/Rat/Basic.lean": {
+      "object": "/tmp/veritile-lean-toolchain/lib/lean/Init/Data/Rat/Basic.olean",
+      "object_sha256": "402605291b2cedaf45c306dcf1fa17011bfc51854683a1c4e3d76da3ae74f04c"
+    },
+    "Lean.lean": {
+      "object": "/tmp/veritile-lean-toolchain/lib/lean/Lean.olean",
+      "object_sha256": "d6e35ad9eb0cf5a1b88fb9e26e131ddd84069baf67dc2f6f0d0ba7045e287e93"
+    },
+    "Lean/Data/Json.lean": {
+      "object": "/tmp/veritile-lean-toolchain/lib/lean/Lean/Data/Json.olean",
+      "object_sha256": "3eb41e8710b8ed97c9c6b5ba9b077b9e345984d8f216c6223fe6ce49ca9a90dc"
+    },
+    "Mathlib/Algebra/BigOperators/Field.lean": {
+      "object": "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean/Mathlib/Algebra/BigOperators/Field.olean",
+      "object_sha256": "c767543064e984023ab8f6e54336594c7014c7ee0bbf508164703f2ad6c3e2dc"
+    },
+    "Mathlib/Algebra/BigOperators/Fin.lean": {
+      "object": "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean/Mathlib/Algebra/BigOperators/Fin.olean",
+      "object_sha256": "0e9f4331c1ea2de765f468c19d664e04f13869c5064a2605349a2b3beede5062"
+    },
+    "Mathlib/Algebra/BigOperators/Group/Finset/Basic.lean": {
+      "object": "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean/Mathlib/Algebra/BigOperators/Group/Finset/Basic.olean",
+      "object_sha256": "b2a1eb149be9e760afff4ba25f9b2c9de126bd0cdec42eb332eaed4d47906a6b"
+    },
+    "Mathlib/Algebra/BigOperators/WithTop.lean": {
+      "object": "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean/Mathlib/Algebra/BigOperators/WithTop.olean",
+      "object_sha256": "edfa9a5bf129555a9b68624f033fb3ad673c16a425555720496930e4d62e0b91"
+    },
+    "Mathlib/Algebra/Order/Floor/Ring.lean": {
+      "object": "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean/Mathlib/Algebra/Order/Floor/Ring.olean",
+      "object_sha256": "2416bfeb169388c1d50ec32fc62bc613c4dab92e8acda4d8f9055a7a1aa594f6"
+    },
+    "Mathlib/Algebra/Order/Group/Nat.lean": {
+      "object": "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean/Mathlib/Algebra/Order/Group/Nat.olean",
+      "object_sha256": "a249f47bd7b901a2579b593630396ddd969e05867b7c3901a5e6f6dbc38a459c"
+    },
+    "Mathlib/Analysis/Complex/Trigonometric.lean": {
+      "object": "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean/Mathlib/Analysis/Complex/Trigonometric.olean",
+      "object_sha256": "8949f5577045b42509558d2afd6900b7de31a63814289f8750af0c369d5626a6"
+    },
+    "Mathlib/Analysis/SpecialFunctions/Exp.lean": {
+      "object": "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean/Mathlib/Analysis/SpecialFunctions/Exp.olean",
+      "object_sha256": "cf8fbaad34fba4d0b52630c5565c125409874a06d77e78ebec47dbaeabdca8d4"
+    },
+    "Mathlib/Analysis/SpecialFunctions/Log/Basic.lean": {
+      "object": "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean/Mathlib/Analysis/SpecialFunctions/Log/Basic.olean",
+      "object_sha256": "096b203af6f9590d61effba77df8f8633df17bccedf65e89fb74f7e137cbd15e"
+    },
+    "Mathlib/Analysis/SpecialFunctions/Pow/Real.lean": {
+      "object": "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean/Mathlib/Analysis/SpecialFunctions/Pow/Real.olean",
+      "object_sha256": "d161223f24657bf0321ea05c65e5012d00a9fc634da7113b220c710d62c1d3f4"
+    },
+    "Mathlib/Analysis/SpecialFunctions/Sigmoid.lean": {
+      "object": "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean/Mathlib/Analysis/SpecialFunctions/Sigmoid.olean",
+      "object_sha256": "6b913df6baefbfbe750d93c360b5227d622cc0a313ec5d44638187d717ddf696"
+    },
+    "Mathlib/Analysis/SpecialFunctions/Trigonometric/Arctan.lean": {
+      "object": "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean/Mathlib/Analysis/SpecialFunctions/Trigonometric/Arctan.olean",
+      "object_sha256": "9edb0f987ac49bfbeb1213e481ce0a0e616538fdfa8a9edbaa1627463d21052f"
+    },
+    "Mathlib/Analysis/SpecialFunctions/Trigonometric/Basic.lean": {
+      "object": "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean/Mathlib/Analysis/SpecialFunctions/Trigonometric/Basic.olean",
+      "object_sha256": "8e7e0fc884e464f49ee75104ac657485bdede35d637f95cac75e38b59ceaacfb"
+    },
+    "Mathlib/Data/Finset/Lattice/Fold.lean": {
+      "object": "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean/Mathlib/Data/Finset/Lattice/Fold.olean",
+      "object_sha256": "601adc0db63ce4da4079620f70f63fbe10063a2a3925a9e957cb4213456cb40b"
+    },
+    "Mathlib/Data/Fintype/Fin.lean": {
+      "object": "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean/Mathlib/Data/Fintype/Fin.olean",
+      "object_sha256": "e2030808b436c6903c91f3cd719874b117c53a4573ea553d6917379f3e261056"
+    },
+    "Mathlib/Data/Fintype/Pi.lean": {
+      "object": "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean/Mathlib/Data/Fintype/Pi.olean",
+      "object_sha256": "157c8454dc5d983cb17f5ad64cd224858f3b452933aee96dfd919e211556b245"
+    },
+    "Mathlib/Data/Int/DivMod.lean": {
+      "object": "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean/Mathlib/Data/Int/DivMod.olean",
+      "object_sha256": "e69bcea5b00c0871c4a82de95894f30925155885ea6c178893d806347bd4cbdf"
+    },
+    "Mathlib/Data/List/Nodup.lean": {
+      "object": "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean/Mathlib/Data/List/Nodup.olean",
+      "object_sha256": "e349014040de63a11c30b851660b35366cb579752340f480f743e2de0a8188e5"
+    },
+    "Mathlib/Data/Rat/Defs.lean": {
+      "object": "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean/Mathlib/Data/Rat/Defs.olean",
+      "object_sha256": "33d87d7939d5c3336297562ce9fe8f2550f6f701d7878127608af3d7f11c6f82"
+    },
+    "Mathlib/Data/Rat/Floor.lean": {
+      "object": "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean/Mathlib/Data/Rat/Floor.olean",
+      "object_sha256": "b8a4d51ff560a4ba9f055c9300aac0ca64560d84381a390791c20cf73aa16752"
+    },
+    "Mathlib/Data/Real/Archimedean.lean": {
+      "object": "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean/Mathlib/Data/Real/Archimedean.olean",
+      "object_sha256": "34d053f08dba8a1b95a0708f6b4b32d3bfe6cf98de43c00ed8c40891fe68df9e"
+    },
+    "Mathlib/Data/Real/Basic.lean": {
+      "object": "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean/Mathlib/Data/Real/Basic.olean",
+      "object_sha256": "f8805658052bff6e1ad140c9fdfab740e53110be260a04e27eda2dfc45032c90"
+    },
+    "Mathlib/Data/Real/Sign.lean": {
+      "object": "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean/Mathlib/Data/Real/Sign.olean",
+      "object_sha256": "f2f5f465f9659de8fe961a7900ee40b0268b588412fb0481715ecca860b15df2"
+    },
+    "Mathlib/Data/Real/Sqrt.lean": {
+      "object": "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean/Mathlib/Data/Real/Sqrt.olean",
+      "object_sha256": "3844ab51a9a1f75e4fdc0c1e24b43dd6e451d5ece2b01fdb1e0ae1b87c5f6482"
+    },
+    "Mathlib/MeasureTheory/Integral/IntervalIntegral/Basic.lean": {
+      "object": "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean/Mathlib/MeasureTheory/Integral/IntervalIntegral/Basic.olean",
+      "object_sha256": "f32f302c9e8a9dcbff3785a618de7fb71d30005ff244fd253641a39de98cd08a"
+    },
+    "Mathlib/Order/WithBot.lean": {
+      "object": "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean/Mathlib/Order/WithBot.olean",
+      "object_sha256": "0b2eaed213d173b785f3345013d278ffbf69a105f09f1f754238f7a8e390534a"
+    },
+    "Mathlib/Tactic.lean": {
+      "object": "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean/Mathlib/Tactic.olean",
+      "object_sha256": "9c25edf679cb5f612439e9e790855010ab66fdc54866547ebe1484662400b41a"
+    },
+    "Mathlib/Tactic/Attr/Register.lean": {
+      "object": "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean/Mathlib/Tactic/Attr/Register.olean",
+      "object_sha256": "4ff8b46b2dee58d8418581fbcea286a7d33a8a55cdf9257d1cd8f67e90f216aa"
+    },
+    "Mathlib/Tactic/FieldSimp.lean": {
+      "object": "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean/Mathlib/Tactic/FieldSimp.olean",
+      "object_sha256": "162d0a2c1470166654ea88027076da4e91ef2272dd5db8cdabca579682fca39c"
+    },
+    "Mathlib/Tactic/Ring.lean": {
+      "object": "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean/Mathlib/Tactic/Ring.olean",
+      "object_sha256": "24c7e43cf2c0212dbd745ad7e10c1fb63311fd9d30df30f5b5973b1de3f0545e"
+    }
+  },
+  "new_modules": {
+    "bench/tritonbench_g/cosine_compute/NativeCorrect.lean": "4dc7de1d689e095b46d68ea04904e4cb76f5aa6d7cdfaf2e1cc395fd837ecf7b",
+    "bench/tritonbench_g/cosine_compute/Proofs/NativeAdmission.lean": "d05ec728dbab7dd9842068c7c77484e729b1b13026cde4dc021222f3616ef464",
+    "bench/tritonbench_g/cosine_compute/Proofs/NativeArithmetic.lean": "29d9b640718131b90ec62bf17ba2e7e1e17f56f4b055945a510e4329894f839e",
+    "bench/tritonbench_g/cosine_compute/Proofs/NativeGrid.lean": "768d436e772906c54ecbb702c225c2745231743e5e09b5b964f178be03cfb984",
+    "bench/tritonbench_g/cosine_compute/Proofs/NativeHostMath.lean": "66ef9d74a7bdd0bd1ac380f47c9857b01e171d81d300909e95c64025d2f5a13a",
+    "bench/tritonbench_g/cosine_compute/Proofs/NativeMemory.lean": "5cfcb5504abf104e71bd0d077de80a820bb3db979daac63c7b57b10727412458",
+    "bench/tritonbench_g/cosine_compute/Proofs/NativeProgram.lean": "1371e5a04afbf5134fc8f5b75f65baeca6bbf8753d0dfdc9b8a19578a328d62a",
+    "bench/tritonbench_g/cosine_compute/Proofs/NativeScalar.lean": "fd6c141964d7435f8d4bcc08632818027cae72f32fb4f3224a8ace9ae5922d4e",
+    "bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean": "87445193384e787ad863e71514b4d21b87cfd62baef46954b83fc037d6fab554"
+  }
+}

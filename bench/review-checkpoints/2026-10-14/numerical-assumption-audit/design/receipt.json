@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "created_at_utc": "2026-10-14T09:50:10.184251+00:00",
+  "mode": "read_only_repo_analysis",
+  "root_source_mutations": false,
+  "lean_or_gpu_runs": false,
+  "validation": {
+    "unique_public_statements": 629,
+    "public_files_sha256_unchanged": 289,
+    "scope_exception_rows": 23,
+    "all_json_parse": true
+  },
+  "artifacts_sha256": {
+    "analyze.py": "6f3b4bf6f7cb5f3fad3294179e6f3d1789211456dd077e5c47fa377aa5a07e5c",
+    "distribution.json": "50663885979bbd9d91d8894c1e6afa146b8c238ce2bba2e19e9d986dcfe4ef17",
+    "experiment-handoff.zh-CN.md": "25d051962f542ff2c7a268c6bc87e3fce9c58cbf07520c1ff429aec8cec02d63",
+    "negative-tests.json": "f149163bdea370ab73bd450274a8f3734796834119e0e6fe285264d27491e581",
+    "partial_stage_review.json": "24ba7f792a21dc5b289f2bf292773a84717b1375e831dae1e95dc90399c1d4fc",
+    "public_statement_crosscheck.json": "0272dffa90168f902a77155af1c52d7b00d1ade72c033c376d884b70aa0dd7f2",
+    "recount-design.zh-CN.md": "2b2c72ed78784f9bca7fa4f8aa6787a97909f5475bf416f7bc58f85f0eebf19d"
+  }
+}

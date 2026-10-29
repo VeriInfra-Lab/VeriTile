@@ -1,0 +1,88 @@
+{
+  "task": "attention_kernel",
+  "original_status": "source_defect_pending_repair",
+  "original_review": {
+    "kind": "not_accepted",
+    "review": null
+  },
+  "selected_precision": {
+    "review": "reviewed_selected_precision_source_defect",
+    "rule": "source_specified_else_fp32",
+    "source_files": {
+      "bench/tritonbench_g/attention_kernel/attention_kernel.py": "fbdb987fbd6fd07203c0f539018c01432c5fd617a76a93b0a4f34213f43bf9cb"
+    },
+    "summary": "宿主明确只允许FP16/BF16且Q/K/V/bias/Out同dtype；保留FP32状态、Q/P/输出转换、默认dot及bias乘1.44269504的实际图，不改选FP32输入。"
+  },
+  "retained_acceptance": {
+    "status": "verified_with_deferred_numerics",
+    "variant": "separate_repair",
+    "review": {
+      "path": "bench/review-checkpoints/2026-10-18/attention-kernel-whole002-repair-integration/repair-review.json",
+      "sha256": "26ed13d179d92f91a44437990750b8a2901df0675db949d8868354b4a9b1d834"
+    },
+    "scope": "Exactly the historical review domain; not automatically the changed current contract.",
+    "numerical_validation": "deferred_as_recorded_in_review",
+    "repair_candidate": {
+      "review": {
+        "path": "bench/review-checkpoints/2026-10-18/attention-kernel-whole002-repair-integration/repair-review.json",
+        "sha256": "26ed13d179d92f91a44437990750b8a2901df0675db949d8868354b4a9b1d834"
+      },
+      "source": {
+        "path": "bench/repairs/tritonbench_g/attention_kernel/Whole001/attention_kernel_repaired.py",
+        "sha256": "9166ffd995c2fb6e123f9b81f9f89eea612657243a8445e4ae2ad3993df187c0"
+      },
+      "status": "verified_with_deferred_numerics"
+    }
+  },
+  "contract_revision": {
+    "status": "verified_with_deferred_numerics",
+    "stage": "accepted",
+    "owner": null,
+    "blockers": [],
+    "independent_replay": "root_targeted_CPU_source_AST_and_host_checks_passed",
+    "gpu_execution": "not_run_cuda_unavailable",
+    "variant": "checked_source_revision",
+    "source": "bench/repairs/tritonbench_g/attention_kernel/attention_kernel_repaired.py",
+    "source_sha256": "e7aaea2b35aff93f2f92b1a6d4e50a824259cbf38205346b731dfc8d0ae9e77a",
+    "public_entries": [
+      "bench/repairs/tritonbench_g/attention_kernel/Proofs/Contract.lean",
+      "bench/repairs/tritonbench_g/attention_kernel/Correct.lean",
+      "bench/repairs/tritonbench_g/attention_kernel/FPEquiv.lean"
+    ],
+    "public_entry_sha256": {
+      "bench/repairs/tritonbench_g/attention_kernel/Proofs/Contract.lean": "dfd62c1cc9f467a5c14ecbc788d3893b31a056d994f5f1a3ca2dda4dc9ce85c8",
+      "bench/repairs/tritonbench_g/attention_kernel/Correct.lean": "1e0e6c6c4eea66c80a82de4737e4b5a8fc39c88accb2df43aff54a216d2d2927",
+      "bench/repairs/tritonbench_g/attention_kernel/FPEquiv.lean": "615a06586d5a915c14ac1815b485d494ef6659b66feb1a42ce329fbcc8abe3fd"
+    },
+    "readme": "bench/repairs/tritonbench_g/attention_kernel/README.md",
+    "precision": "FP16 or BF16 storage/bias arithmetic; FP32 online state/dots; explicit storage casts",
+    "independent_native_replay": "not_run",
+    "validation": {
+      "lean": "TritonBenchGContracts batch005 final passed with standard-base axiom audits.",
+      "root_review": "Checked executable contracts, independent whole mathematical target, source/native return and physical frames, all original branches and local numerical scope. Quantization now covers arbitrary-Real invalid blocks; mixed-dtype alias restriction and public reader organization corrected.",
+      "batch_log": "/tmp/veritile-contract-batch005-final.log",
+      "python_log": "/tmp/veritile-root-attention_kernel-checks.log"
+    },
+    "numerical_assumptions": [
+      {
+        "declaration": "Local numerical interfaces documented in public FPEquiv and task README",
+        "statement": "Local scalar/conversion instructions and fixed seeded m16n8k16 coordinate laws on exact raw operands. Actual FP32 scale word preserves signed zero; complete reductions and live dot accumulator structure proved, no arbitrary-dot/reduction/output equality premise.",
+        "precision": "FP16 or BF16 storage/bias arithmetic; FP32 online state/dots; explicit storage casts",
+        "domain": "Exact reached operands, scalar policies and selected profiles named in the public numerical premises; independent mathematical and structural word results remain separate.",
+        "validation": "GPU numerical experiment deferred",
+        "reference": "bench/repairs/tritonbench_g/attention_kernel/README.md"
+      }
+    ]
+  },
+  "kernel_revision": {
+    "status": "pending",
+    "stage": "not_started",
+    "owner": null,
+    "blockers": [
+      "Kernel-only source, contract, mathematical result, implementation equivalence and numerical classification await complete-task review. Prior accepted results remain retained."
+    ],
+    "gpu_execution": "not_run_in_this_revision",
+    "independent_numerical_replay": "not_run_in_this_revision",
+    "deferred_experiments": []
+  }
+}

@@ -1,0 +1,2 @@
+bench/repairs/tritonbench_g/rotary_transform_ops/kernel-evidence/witness_probe.lean:42:26: error(lean.unknownIdentifier): Unknown identifier `early`
+bench/repairs/tritonbench_g/rotary_transform_ops/kernel-evidence/witness_probe.lean:57:0: error: VeriTile.Bench.Repairs.RotaryTransformOps.WitnessProbe.execution: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

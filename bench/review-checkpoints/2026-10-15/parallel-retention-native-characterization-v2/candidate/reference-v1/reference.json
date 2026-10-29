@@ -1,0 +1,239 @@
+{
+  "schema": 1,
+  "task": "parallel_retention_attention",
+  "source_bindings_sha256": "d371d79b8987a6335ff512c21269c098c3b3a5a08a14d9685ddd6282a1a4eb14",
+  "source_sha256": "c53a98d10fb11a5d35b68d7019ac99b7bf4186ecdbc4f25d059ae510fdf78f4a",
+  "jit_sha256": "3a81af7f222281b6df19e4729767a93f2d45003e85b97f9a0e235d84ebaa657d",
+  "source_extraction": {
+    "function_AST_equal": true,
+    "functions": [
+      "parallel_retention_fwd_kernel",
+      "_parallel_retention_bwd_dq",
+      "_parallel_retention_bwd_dkv",
+      "parallel_retention_bwd_kernel"
+    ],
+    "arguments": {
+      "parallel_retention_fwd_kernel": [
+        "q",
+        "k",
+        "v",
+        "o",
+        "s_qk_h",
+        "s_qk_t",
+        "s_qk_d",
+        "s_vo_h",
+        "s_vo_t",
+        "s_vo_d",
+        "B",
+        "H",
+        "T",
+        "scale",
+        "BTL",
+        "BTS",
+        "BK",
+        "BV",
+        "DK",
+        "DV"
+      ],
+      "_parallel_retention_bwd_dq": [
+        "i_bh",
+        "i_c",
+        "i_k",
+        "i_v",
+        "i_h",
+        "k",
+        "v",
+        "do",
+        "dq",
+        "s_qk_h",
+        "s_qk_t",
+        "s_qk_d",
+        "s_vo_h",
+        "s_vo_t",
+        "s_vo_d",
+        "B",
+        "H",
+        "T",
+        "scale",
+        "BTL",
+        "BTS",
+        "BK",
+        "BV",
+        "DK",
+        "DV"
+      ],
+      "_parallel_retention_bwd_dkv": [
+        "i_bh",
+        "i_c",
+        "i_k",
+        "i_v",
+        "i_h",
+        "q",
+        "k",
+        "v",
+        "do",
+        "dk",
+        "dv",
+        "s_qk_h",
+        "s_qk_t",
+        "s_qk_d",
+        "s_vo_h",
+        "s_vo_t",
+        "s_vo_d",
+        "B",
+        "H",
+        "T",
+        "scale",
+        "BTL",
+        "BTS",
+        "BK",
+        "BV",
+        "DK",
+        "DV"
+      ],
+      "parallel_retention_bwd_kernel": [
+        "q",
+        "k",
+        "v",
+        "do",
+        "dq",
+        "dk",
+        "dv",
+        "s_qk_h",
+        "s_qk_t",
+        "s_qk_d",
+        "s_vo_h",
+        "s_vo_t",
+        "s_vo_d",
+        "B",
+        "H",
+        "T",
+        "scale",
+        "BTL",
+        "BTS",
+        "BK",
+        "BV",
+        "DK",
+        "DV"
+      ]
+    }
+  },
+  "tools_sha256": {
+    "run.py": "395b976e8030081bbb6ea4713ff67949374dca2934260b7e326dd27ac2384d71",
+    "support.py": "2370cdfd9f15caad56f34d05ea916ecdfc5cb3e0e2787ad0f6c60ea1e94884eb",
+    "contracts.py": "99f76bda0893ae38805a33df3fabf1a2028f85a10a8c05629856a4977f157e68",
+    "compile_probe.py": "14d75b9fc1ded9c0edc2e707e3707b78927d7905fe95fef3618d7d17fbfa5c03"
+  },
+  "cases_sha256": "a488c86236ac6d7148f2f5b4ce137e09be4bbe2a244254006e72deccd75c3a28",
+  "profiles": {
+    "default_forward": {
+      "entrypoint": "parallel_retention_fwd_kernel",
+      "constexprs": {
+        "BTL": 128,
+        "BTS": 32,
+        "BK": 64,
+        "BV": 64,
+        "DK": 64,
+        "DV": 64
+      },
+      "options": {
+        "num_warps": 4,
+        "num_stages": 3
+      },
+      "accepted_stage": true
+    },
+    "default_backward_helper": {
+      "entrypoint": "_parallel_retention_bwd_dkv",
+      "constexprs": {
+        "BTL": 64,
+        "BTS": 32,
+        "BK": 64,
+        "BV": 64,
+        "DK": 64,
+        "DV": 64
+      },
+      "options": {
+        "num_warps": 4,
+        "num_stages": 3
+      },
+      "accepted_stage": true
+    },
+    "default_backward_shell": {
+      "entrypoint": "parallel_retention_bwd_kernel",
+      "constexprs": {
+        "BTL": 64,
+        "BTS": 32,
+        "BK": 64,
+        "BV": 64,
+        "DK": 64,
+        "DV": 64
+      },
+      "options": {
+        "num_warps": 4,
+        "num_stages": 3
+      },
+      "accepted_stage": false
+    },
+    "ragged_split_forward": {
+      "entrypoint": "parallel_retention_fwd_kernel",
+      "constexprs": {
+        "BTL": 128,
+        "BTS": 32,
+        "BK": 128,
+        "BV": 128,
+        "DK": 160,
+        "DV": 96
+      },
+      "options": {
+        "num_warps": 4,
+        "num_stages": 2
+      },
+      "accepted_stage": true
+    },
+    "ragged_split_backward_helper": {
+      "entrypoint": "_parallel_retention_bwd_dkv",
+      "constexprs": {
+        "BTL": 64,
+        "BTS": 32,
+        "BK": 128,
+        "BV": 128,
+        "DK": 160,
+        "DV": 96
+      },
+      "options": {
+        "num_warps": 4,
+        "num_stages": 2
+      },
+      "accepted_stage": true
+    },
+    "ragged_split_backward_shell": {
+      "entrypoint": "parallel_retention_bwd_kernel",
+      "constexprs": {
+        "BTL": 64,
+        "BTS": 32,
+        "BK": 128,
+        "BV": 128,
+        "DK": 160,
+        "DV": 96
+      },
+      "options": {
+        "num_warps": 4,
+        "num_stages": 2
+      },
+      "accepted_stage": false
+    }
+  },
+  "numeric_acceptance": false,
+  "numeric_comparison": "NOT_ESTABLISHED",
+  "accepted_stages": [
+    "forward",
+    "backward_helper"
+  ],
+  "outside_accepted_scope": [
+    "backward_shell",
+    "DQ",
+    "host partial reductions",
+    "cross-program composition"
+  ],
+  "padding": "unspecified; initial buffer data do not reveal inactive load register bits"
+}

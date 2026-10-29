@@ -1,0 +1,110 @@
+{
+  "name": "mul2_inplace_kernel-float32-b0",
+  "kernel": "mul2_inplace_kernel",
+  "dtype": "float32",
+  "block": 0,
+  "n": 2049,
+  "mode": "frontend",
+  "target": {
+    "backend": "cuda",
+    "arch": 90,
+    "warp_size": 32
+  },
+  "signature": {
+    "ptr": "*fp32",
+    "n_elements": "i32",
+    "BLOCK_SIZE": "constexpr"
+  },
+  "specialization": [
+    [
+      "*fp32",
+      "D"
+    ],
+    [
+      "i32",
+      ""
+    ],
+    [
+      "constexpr",
+      0
+    ]
+  ],
+  "constexprs": {
+    "(2,)": 0
+  },
+  "attrs": {
+    "(0,)": [
+      [
+        "tt.divisibility",
+        16
+      ]
+    ],
+    "(1,)": [],
+    "(2,)": []
+  },
+  "options": {
+    "num_warps": 4,
+    "num_ctas": 1,
+    "num_stages": 3,
+    "warp_size": 32,
+    "maxnreg": null,
+    "ptx_version": null,
+    "ptx_options": null,
+    "ir_override": null,
+    "enable_fp_fusion": true,
+    "enable_reflect_ftz": true,
+    "launch_cooperative_grid": false,
+    "launch_pdl": false,
+    "supported_fp8_dtypes": [
+      "fp8e4b15",
+      "fp8e4nv",
+      "fp8e5"
+    ],
+    "deprecated_fp8_dot_operand_dtypes": [
+      "fp8e4b15"
+    ],
+    "default_dot_input_precision": "tf32",
+    "allowed_dot_input_precisions": [
+      "tf32",
+      "tf32x3",
+      "ieee",
+      "bf16x3",
+      "bf16x6"
+    ],
+    "max_num_imprecise_acc_default": 1073741824,
+    "extern_libs": [
+      [
+        "libdevice",
+        "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+      ]
+    ],
+    "debug": false,
+    "backend_name": "cuda",
+    "sanitize_overflow": true,
+    "arch": "sm90",
+    "instrumentation_mode": ""
+  },
+  "parameters": [
+    {
+      "name": "ptr",
+      "annotation": "tensor",
+      "annotation_type": "",
+      "is_constexpr": false
+    },
+    {
+      "name": "n_elements",
+      "annotation": "i32",
+      "annotation_type": "i32",
+      "is_constexpr": false
+    },
+    {
+      "name": "BLOCK_SIZE",
+      "annotation": "constexpr",
+      "annotation_type": "",
+      "is_constexpr": true
+    }
+  ],
+  "status": "rejected",
+  "failure_stage": "frontend",
+  "exception": "Traceback (most recent call last):\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/code_generator.py\", line 1386, in call_Function\n    ret = fn(*args, **extra_kwargs, **kws)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/language/core.py\", line 43, in wrapper\n    return fn(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/language/core.py\", line 1657, in arange\n    return _semantic.arange(start, end)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/language/semantic.py\", line 586, in arange\n    raise ValueError(\"arange's end argument must be greater than the start argument\")\nValueError: arange's end argument must be greater than the start argument\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/tmp/veritile-standardization-20261015/triton-mul2-finite-acceptance-wip/probe_native.py\", line 30, in <module>\n    raw=src.make_ir(target,options,backend.get_codegen_implementation(options),backend.get_module_map(),context)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py\", line 80, in make_ir\n    return ast_to_ttir(self.fn, self, context=context, options=options, codegen_fns=codegen_fns,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/code_generator.py\", line 1651, in ast_to_ttir\n    generator.visit(fn.parse())\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/code_generator.py\", line 1556, in visit\n    ret = super().visit(node)\n          ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/ast.py\", line 407, in visit\n    return visitor(node)\n           ^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/code_generator.py\", line 508, in visit_Module\n    ast.NodeVisitor.generic_visit(self, node)\n  File \"/usr/local/lib/python3.12/ast.py\", line 415, in generic_visit\n    self.visit(item)\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/code_generator.py\", line 1556, in visit\n    ret = super().visit(node)\n          ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/ast.py\", line 407, in visit\n    return visitor(node)\n           ^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/code_generator.py\", line 653, in visit_FunctionDef\n    self.visit_compound_statement(node.body)\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/code_generator.py\", line 501, in visit_compound_statement\n    self.visit(stmt)\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/code_generator.py\", line 1556, in visit\n    ret = super().visit(node)\n          ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/ast.py\", line 407, in visit\n    return visitor(node)\n           ^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/code_generator.py\", line 725, in visit_Assign\n    values = _sanitize_value(self.visit(node.value))\n                             ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/code_generator.py\", line 1556, in visit\n    ret = super().visit(node)\n          ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/ast.py\", line 407, in visit\n    return visitor(node)\n           ^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/code_generator.py\", line 775, in visit_BinOp\n    rhs = self.visit(node.right)\n          ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/code_generator.py\", line 1556, in visit\n    ret = super().visit(node)\n          ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/ast.py\", line 407, in visit\n    return visitor(node)\n           ^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/code_generator.py\", line 1437, in visit_Call\n    return self.call_Function(node, fn, args, kws)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/code_generator.py\", line 1400, in call_Function\n    raise CompilationError(self.jit_fn.src, node, str(e)) from e\ntriton.compiler.errors.CompilationError: at 8:28:\ndef mul2_inplace_kernel(\n    ptr: tl.tensor,\n    n_elements: tl.int32,\n    BLOCK_SIZE: \"tl.constexpr\",\n):\n    pid = tl.program_id(axis=0)\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n                            ^\narange's end argument must be greater than the start argument\n"
+}

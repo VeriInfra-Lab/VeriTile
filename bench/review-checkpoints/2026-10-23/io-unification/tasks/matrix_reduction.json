@@ -1,0 +1,231 @@
+{
+  "schema": 1,
+  "task": "matrix_reduction",
+  "status": "unchanged",
+  "owner": {
+    "path": ".veritile-cache/io-unification-20261023/queue10/result.json",
+    "sha256": "1aab1b269a34bcd552f3eab8474b67e40b376d28f7842c0d77888a693061f3fd",
+    "task_index": 5
+  },
+  "reason": "The main logical tensor equivalences/views already live in the selected task IO.lean, with complete judgment and execution connections in Proofs/. No separate same-task logical-view definition remains to migrate; distinct candidate/native thin views are retained.",
+  "selected_public_entries": [
+    "bench/tritonbench_g/matrix_reduction/Contract.lean",
+    "bench/tritonbench_g/matrix_reduction/Correct.lean",
+    "bench/tritonbench_g/matrix_reduction/FPEquiv.lean"
+  ],
+  "previous_semantic_review": {
+    "manifest": {
+      "path": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json",
+      "sha256": "5df771b8603eaf5d9f08b4fde0c5b938c18087c00092f5348b47eb54d33a8225"
+    },
+    "task": "matrix_reduction"
+  },
+  "changed_files": [],
+  "removed_files": [],
+  "moved_declarations": [],
+  "preservation": {
+    "all_recorded_source_bytes_unchanged": true,
+    "full_public_judgment_types": "All selected Correct/FPEquiv and IO source bytes match saved before and the pinned prior owner report; their previous successful full-scope/source/joint checks are reused, with no fresh Lean replay claimed.",
+    "audit": {
+      "path": ".veritile-cache/io-unification-20261023/queue10/audit.json",
+      "sha256": "b916c524819e4d2aeb54d8b0da86ac8fa5acadac06522b6a90fc19ada2136a5b"
+    }
+  },
+  "verification": [
+    {
+      "kind": "fresh_source_layout_and_byte_relocation_audit",
+      "execution": "fresh_read_only_source_audit",
+      "command": [
+        "python",
+        ".veritile-cache/io-unification-20261023/queue10/audit.py"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue10/audit.json",
+      "log_sha256": "b916c524819e4d2aeb54d8b0da86ac8fa5acadac06522b6a90fc19ada2136a5b"
+    },
+    {
+      "kind": "logical-data",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue10/build.py",
+        "bench/tritonbench_g/matrix_reduction/IO.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue10/matrix_reduction/logical-data.log",
+      "log_sha256": "b99d29a1402e6d2b8452b7cd41c4136c3b3ba6ef13a2d54e7dcbc415bc8d2b82",
+      "execution": "reused_prior_success_not_rerun",
+      "origin_owner_report": {
+        "path": ".veritile-cache/logical-reader-review-20261022/queue10/max-reduction-supplement/result.json",
+        "sha256": "8ffac003658bf3b8618f2ca937ddbd10c9bfe4ce7fc10a113549bfb37b70b112"
+      }
+    },
+    {
+      "kind": "complete-connection",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue10/build.py",
+        "bench/tritonbench_g/matrix_reduction/Proofs/LogicalIO.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue10/matrix_reduction/complete-connection.log",
+      "log_sha256": "45d56b8c8bb010e503023f3957e57efe64fa1134f34b8d34fa8d174e486ba514",
+      "execution": "reused_prior_success_not_rerun",
+      "origin_owner_report": {
+        "path": ".veritile-cache/logical-reader-review-20261022/queue10/max-reduction-supplement/result.json",
+        "sha256": "8ffac003658bf3b8618f2ca937ddbd10c9bfe4ce7fc10a113549bfb37b70b112"
+      }
+    },
+    {
+      "kind": "reader",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue10/build.py",
+        "bench/tritonbench_g/matrix_reduction/Correct.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue10/matrix_reduction/reader.log",
+      "log_sha256": "e5ebeb1ce034aa76dcbba58b3f896ac2a1de50def095646ec9736e0efb130a4f",
+      "execution": "reused_prior_success_not_rerun",
+      "origin_owner_report": {
+        "path": ".veritile-cache/logical-reader-review-20261022/queue10/max-reduction-supplement/result.json",
+        "sha256": "8ffac003658bf3b8618f2ca937ddbd10c9bfe4ce7fc10a113549bfb37b70b112"
+      }
+    },
+    {
+      "kind": "complete-old-new-iff",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue10/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue10/matrix_reduction/Preservation.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue10/matrix_reduction/complete-old-new-iff.log",
+      "log_sha256": "ee142d4e4c4e0cb2219a7f9dea9611c0ef909cd5554dd1ce6f84de4ece160a0d",
+      "execution": "reused_prior_success_not_rerun",
+      "origin_owner_report": {
+        "path": ".veritile-cache/logical-reader-review-20261022/queue10/max-reduction-supplement/result.json",
+        "sha256": "8ffac003658bf3b8618f2ca937ddbd10c9bfe4ce7fc10a113549bfb37b70b112"
+      }
+    },
+    {
+      "kind": "fp-reader",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue10/build.py",
+        "--check",
+        "bench/tritonbench_g/matrix_reduction/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue10/matrix_reduction/fp-reader.log",
+      "log_sha256": "aeaf5d179463fe5de3ce13f785507cde6b053883a3ea0b17388f427b673f2f58",
+      "execution": "reused_prior_success_not_rerun",
+      "origin_owner_report": {
+        "path": ".veritile-cache/logical-reader-review-20261022/queue10/max-reduction-supplement/result.json",
+        "sha256": "8ffac003658bf3b8618f2ca937ddbd10c9bfe4ce7fc10a113549bfb37b70b112"
+      }
+    },
+    {
+      "kind": "joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue10/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue10/matrix_reduction/Joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue10/matrix_reduction/joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "execution": "reused_prior_success_not_rerun",
+      "origin_owner_report": {
+        "path": ".veritile-cache/logical-reader-review-20261022/queue10/max-reduction-supplement/result.json",
+        "sha256": "8ffac003658bf3b8618f2ca937ddbd10c9bfe4ce7fc10a113549bfb37b70b112"
+      }
+    }
+  ],
+  "verification_status": "unchanged_reused",
+  "source_sha256": {
+    "bench/tritonbench_g/matrix_reduction/Contract.lean": "86c46a1b72905a41c003a14e5ec7bfd9f7a2f167d176ad7af5da540bce8d64aa",
+    "bench/tritonbench_g/matrix_reduction/Correct.lean": "f79f7fd851abfada1b73ebced375f2eae22774d9ecefd604ec0a6aeb7586e777",
+    "bench/tritonbench_g/matrix_reduction/FPEquiv.lean": "cb449b2f09e74e5f41113074ae1e5a64584b68dde657eda2df72c71b2ef55f34",
+    "bench/tritonbench_g/matrix_reduction/IO.lean": "6a0e4c05c7802692bf11402b5ff1811a6738074148004c42e29c71e99df9df6b",
+    "bench/tritonbench_g/matrix_reduction/Proofs/IOReal.lean": "8b8294cca7c4adb3aba4374dc398c518bd5e75eb0946e3911dcd6dab07964add",
+    "bench/tritonbench_g/matrix_reduction/Proofs/LogicalIO.lean": "94647dfdf0f6e27d6f016a65b51a125ec39c4f34727396dd487887c6bd03c3bf",
+    "bench/tritonbench_g/matrix_reduction/Kernels.lean": "8ab14651dee2a8dde16b59446c136f0bd9ff5303874b7eff0f76d0b9e374aad8",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "source_pin_provenance": {
+    "bench/tritonbench_g/matrix_reduction/Contract.lean": {
+      "owner_tasks": [
+        "matrix_reduction"
+      ]
+    },
+    "bench/tritonbench_g/matrix_reduction/Correct.lean": {
+      "owner_tasks": [
+        "matrix_reduction"
+      ]
+    },
+    "bench/tritonbench_g/matrix_reduction/FPEquiv.lean": {
+      "owner_tasks": [
+        "matrix_reduction"
+      ]
+    },
+    "bench/tritonbench_g/matrix_reduction/IO.lean": {
+      "owner_tasks": [
+        "matrix_reduction"
+      ]
+    },
+    "bench/tritonbench_g/matrix_reduction/Proofs/IOReal.lean": {
+      "owner_tasks": [
+        "matrix_reduction"
+      ]
+    },
+    "bench/tritonbench_g/matrix_reduction/Proofs/LogicalIO.lean": {
+      "owner_tasks": [
+        "matrix_reduction"
+      ]
+    },
+    "bench/tritonbench_g/matrix_reduction/Kernels.lean": {
+      "unchanged_prior_pin": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json"
+    },
+    "VeriTile/Triton/Memory/LogicalIO.lean": {
+      "owner_tasks": [
+        "mixed_sparse_attention",
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    }
+  },
+  "retired_current_source_pins": {},
+  "limits": [
+    "Only the mixed_sparse_attention affected IO/helper/readers and public fixtures were freshly checked. Other eleven tasks reuse source-matching prior successful checks.",
+    "Unchanged execution/safety/numerical proof objects are reused; no full proof-closure or optional host/native/Tensor/GPU replay."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/io-unification-20261023/queue16/result.json",
+    "sha256": "12f6dd5ed523e9f723fee3847af964fd8987958c2cb997aa572210c04de5bc84"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

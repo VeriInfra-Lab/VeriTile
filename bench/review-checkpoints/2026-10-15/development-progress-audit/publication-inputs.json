@@ -1,0 +1,10 @@
+{
+  "kind": "staged_export_input_validation",
+  "export_root": "/tmp/veritile-fp-examples-export",
+  "recorded_at_utc": "2026-10-15T07:53:00.079627+00:00",
+  "audited_inputs": 4154,
+  "input_errors": [],
+  "requested_backward_checkpoint_files": 35,
+  "backward_checkpoint_errors": [],
+  "exit_code": 0
+}

@@ -200,6 +200,7 @@ tree annotation records the compiler configuration; it supplies no FP law. -/
 syntax "tl.sum(" tritonExpr ", " "axis" "=" num ", " "tree=" "$(" term ")"
   ", " "keep_dims" "=" "true" ")" : tritonExpr
 syntax "tl.max(" tritonExpr ("," tritonReduceKwarg)* ")" : tritonExpr
+syntax "tl.min(" tritonExpr ("," tritonReduceKwarg)* ")" : tritonExpr
 syntax "tl.max(" tritonExpr ", " tritonExpr ")" : tritonExpr
 syntax ident : tritonScanOp
 syntax "tl.cumsum(" tritonExpr ("," tritonReduceKwarg)* ")" : tritonExpr

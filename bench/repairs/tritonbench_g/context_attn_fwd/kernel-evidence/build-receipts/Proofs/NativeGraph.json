@@ -1,0 +1,24 @@
+{
+  "source": "bench/repairs/tritonbench_g/context_attn_fwd/Proofs/NativeGraph.lean",
+  "source_sha256": "06d96b858e76aef168c0428cd8f5e619280f8f04d4b93278318c97e98b2e8bb9",
+  "exit_code": 0,
+  "objects": {
+    "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/NativeGraph.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/NativeGraph.ilean": "fb9e9c3e3ec13df896d9ba0e6e2abb26710d06348b8745e52f95ec6ce608da5c",
+    "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/context_attn_fwd/Proofs/NativeGraph.olean": "ed0b09f9b9527bf8a4e1d323f7dd568d5d388aa564968a93a418211958f6e2eb"
+  },
+  "lean_path": [
+    "/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean",
+    "/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean",
+    "/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean",
+    "/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean",
+    "/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean",
+    "/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean",
+    "/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean",
+    "/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean",
+    "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean",
+    "/tmp/veritile-lean-toolchain/lib/lean",
+    "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean",
+    "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean"
+  ]
+}

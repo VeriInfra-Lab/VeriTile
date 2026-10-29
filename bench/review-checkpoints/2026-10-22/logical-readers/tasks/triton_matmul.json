@@ -1,0 +1,92 @@
+{
+  "schema": 1,
+  "task": "triton_matmul",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue15/release-result.json",
+    "sha256": "8a77b0f84470ab4da972410dbbbda5acec548d388b18f6f9a69f4a2366f55ee6",
+    "task_index": 5
+  },
+  "finding": "The GEMM headline still routed the mathematical matrices through PublicIO.expected channel packing.",
+  "resolution": "Added bijective pair of curried logical matrices and a curried logical output matrix, reusing the original IO and complete schedule.",
+  "mathematical_target": "For each logical output (i,j), sum over every k of A i k * B k j.",
+  "conditions_and_scope": "Every complete ids permutation, original grouped tiles/masked tails/strides, FP16 or E4M3 source storage, FP32 carry and final storage cast; original C≠A and C≠B premises remain.",
+  "proof_connection": "PublicIO.logical_iff proves full ProgramIO.Implements iff with the previous expected matrix formula; typed matrixInputs/matrixOutputs are inverse equivalences for both source storage modes.",
+  "fp_review": "Actual complete source schedules vs integer group-width strength reduction with generic fallback; all storage/casts/K-order/words preserved, R=[].",
+  "numerical_dependencies": "No new numerical rule, experiment or hardware claim. Main FP experimental rule set remains empty; existing strict source models/certificates and explicit primitive/domain premises are reused.",
+  "previous_formula_scope": {
+    "mathematical_target": "C[i,j]=sum_{k : Fin g.inner} A[i,k]*B[k,j]",
+    "required_conditions": [
+      "ids.Perm (List.range (programs g.request)); g.C≠g.A and g.C≠g.B",
+      "Geometry supplies logical rows/columns/inner, storage and actual strides; ProgramIO public input/output windows provide bounds/bindings",
+      "Contract.InputContract and direct existing-output OutputABI have physical window/separation binding; no allocator, numerical output or run premise"
+    ],
+    "scope": "Complete actual grid in every permutation of range(programs g.request), grouped tiles, tails and all K iterations; FP16/E4M3 storage and FP32 accumulation/source final storage cast retained.",
+    "canonical_connection": "Headline explicitly passes full-K sum to PublicIO.expected, a channel marshaler. PublicIO.implements uses ideal_reference and complete grid_order_correct, finite logical congruence, actual schedule safety and full frame. Existing mathematical definition is definitionally the same target.",
+    "fp_program_pair": "original rest Instructions g ids vs shifted: actual complete schedules, exact group-width shift at GROUP_SIZE_M=8 and fallback otherwise.",
+    "numerical_dependencies": "Empty experimental set, no FP rewrite. Original Native.Instructions, conversion/instruction model, storage casts, FP32 carry and all words unchanged."
+  },
+  "verification": [
+    {
+      "kind": "main",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue15/build.py",
+        "bench/repairs/tritonbench_g/triton_matmul/KernelOnly/IO.lean",
+        "bench/repairs/tritonbench_g/triton_matmul/KernelOnly/Proofs/LogicalIO.lean",
+        "bench/repairs/tritonbench_g/triton_matmul/KernelOnly/Correct.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue15/logs/triton_matmul-main.log",
+      "log_sha256": "5b35b8946e69dbd179273489045e20b48fc069b0362d58660899b116ce93c962",
+      "evidence_source": "frozen_base"
+    },
+    {
+      "kind": "fp",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue15/build.py",
+        "bench/repairs/tritonbench_g/triton_matmul/KernelOnly/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue15/logs/triton_matmul-fp.log",
+      "log_sha256": "338be32a5290c29113eeea185c6ef37b8a04d64eab5ed15409bdebb0c972fbaa",
+      "evidence_source": "frozen_base"
+    },
+    {
+      "kind": "joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue15/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue15/checks/triton_matmul-joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue15/logs/triton_matmul-joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "evidence_source": "frozen_base"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/triton_matmul/KernelOnly/Contract.lean": "1ae7a65020053f8fcf7ba089bfc327b57d27e7965f368a48b93a28b0fd431791",
+    "bench/repairs/tritonbench_g/triton_matmul/KernelOnly/Correct.lean": "d8aafc181b3f7640f7f4e07f6e03fc5308360a44e2aa6401c9c93b04200f3a3f",
+    "bench/repairs/tritonbench_g/triton_matmul/KernelOnly/FPEquiv.lean": "22d484c0edab6cac80709c4ec357ddde4913e011611c2abdd4a8a0d7febd6405",
+    "bench/repairs/tritonbench_g/triton_matmul/KernelOnly/IO.lean": "4c4afb3c723deb338b22564e51dd041d97a9176537d15f79ef3a6dde2e69cef0",
+    "bench/repairs/tritonbench_g/triton_matmul/KernelOnly/Proofs/LogicalIO.lean": "4976065bd633f988af3743500d275b3a8b66bd6aef95f95b22748f047e943daf",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

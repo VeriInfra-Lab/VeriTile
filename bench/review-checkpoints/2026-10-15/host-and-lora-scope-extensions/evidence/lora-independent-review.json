@@ -1,0 +1,122 @@
+{
+  "schema": 1,
+  "kind": "independent_lora_branch_semantic_review",
+  "reviewer": "/root/scope_integration_review",
+  "status": "reviewed_selected_software_profiles_no_proof_defect_found",
+  "standard_accepted": false,
+  "source_root": "/tmp/veritile-standardization-20261015/lora-wip",
+  "repository_sources_modified_by_reviewer": false,
+  "reviewed_input_sha256": {
+    "bench/tritonbench_g/lora_expand_gemv/BranchCorrect.lean": "2b6da140ee3ad171158012bbe1951fba60b173463882c3a9d3e44611758e4b32",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchAssembly.lean": "67c16f9ef82cb1928d81dcbcbadb38ecb8c289b1cc300b77358a7a73e217adb8",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchBody.lean": "9a64b6aaaffd5d0244972aa69d7576a1fc183c6502a6ee3f898dc1e87cb6b640",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchBodyValue.lean": "a9efc21c5b24e13ae29dee126879be76e94d7a16c76f5ce676babdea3b5da615",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchComplete.lean": "6b5dbf61213b0acaf8818b0217cbe0e05bb2cfd6a2bd39ae646f726bd35ed8e6",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchExecution.lean": "1667f26e25b4c4ae69ee6bc940b1a7a61fde5d385dd82ac761826786d2090a6a",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchFrame.lean": "fe60c6204184bc63f9830ef0455d18f1b27fa35e7096c94e9047cc215ebcbe9d",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchLoop.lean": "824238b20a8f27698b79c09ea8e7b480c332ee50504c6fddd4e3554a2b585a33",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchReference.lean": "ec95c5062ce8bd0ed5761ed99fafc797a4431cde18b2dec1884731f03a0f8564",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchShape.lean": "6e9008353729972c7cced8128a2bf267a9ea99f55b173568f66c04bc03b91733",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchSource.lean": "67d35e8009e6c9fa3a7dc60c7de1d7d54dd4ce614ea5c96bdb58f6263a9ce565",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchWitness.lean": "435efc0b0500620b0bb5f6abbe9bae67727493c6fa327983703457e1e279dd55",
+    "bench/tritonbench_g/lora_expand_gemv/lora_expand_gemv.py": "212f030cd93c3381dc1fe6aab372d8568fbed9330954772cd49c69670575a3d3",
+    "bench/tritonbench_g/lora_expand_gemv/LoraExpandGemv.lean": "c6eee47ffe5cab7cc42922ec07271871a2bfda249453d763d02a53064f24f1c5",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/FPModel.lean": "3da96951e0e0f73d8a2eaed4216338b8e9cfb5d7e2e34f6c9cceea5d9e870d66",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/FPTypedSource.lean": "55c3f6731b1debd9655b1338536a29a696553cde00171a8d8c524006b6a1eb6d",
+    "VeriTile/Triton/Float/Structural.lean": "3760dd66ad0e0eab77f42a866eecef47240833e6ca2929a60674b6fd70599928",
+    "VeriTile/Triton/Float/TermModel.lean": "e8c98fd3d0bb93493e4570e5c4dab2369f1b5dcb3795f1696ec7bbe85e073e6d"
+  },
+  "native_frontend_source_sha256": {
+    "/usr/local/lib/python3.12/site-packages/triton/__init__.py": "fc8d0ce7535a4773769dfdcdb3a8b7bcee1bf58d3d03cc318529104c1e1431fd",
+    "/usr/local/lib/python3.12/site-packages/triton/language/standard.py": "7e3ef84c68c2804c3476dd3f1fccce432aaa1ea6ee367ed7d229f1902dd0a2aa",
+    "/usr/local/lib/python3.12/site-packages/triton/language/semantic.py": "22b7669ff8ba591fc1540ce01a4030cf54aa2dccfdb21c2d31fa55d5cab77c7c"
+  },
+  "producer_receipt": {
+    "path": "/tmp/veritile-standardization-20261015/lora-branch-extension-result.json",
+    "sha256": "6bbfd90e1a39c56d58599593a67a4d46ae6c5ead0dd7f1b60b2ecbe0e1783bd7",
+    "original_evidence_preserved": true
+  },
+  "proven_scope": {
+    "input_weight_pairs": [
+      "fp16/fp16",
+      "fp16/bf16",
+      "bf16/fp16",
+      "bf16/bf16",
+      "fp32/fp16",
+      "fp32/bf16"
+    ],
+    "output_formats": [
+      "fp16",
+      "bf16",
+      "fp32"
+    ],
+    "profile_count": 18,
+    "all_constexpr_flags": [
+      "EVEN_K",
+      "ADD_INPUTS",
+      "CAST_TYPE"
+    ],
+    "runtime_control": [
+      "signed index == -1 skips full active body without any memory write",
+      "all positive-BLOCK_N output-loop iterations including masked final tile"
+    ],
+    "execution_premise": "0 < p.blockRows",
+    "memory_semantics": "single-program total typed-element memory; ordered lane stores"
+  },
+  "semantic_findings": [
+    {
+      "topic": "original Python and projection",
+      "result": "BranchSource preserves the original load order, EVEN_K mask, CAST_TYPE conversion, cdiv length, signed index guard, both ADD_INPUTS arms, pointer formulas, loop and masks. Explicit output cast records the native implicit store conversion. BranchShape normalizes only syntactic constant branches; dynamic guards, loop bounds and non-control statements remain. Both algorithm projections have successful witnesses, so equality is not an equality of rejected projections.",
+      "limit": "Relation is to the checked-in DSL transcription after float dtype erasure, with independent manual Python comparison; this is not a formally proved Python/native compiler translation."
+    },
+    {
+      "topic": "fp32 CAST_TYPE=false callback",
+      "result": "BranchReference.engine explicitly sets fp32Load=id and reduceSum=FPValue.sumValues cfg .single plans. Structural.evalOp uses reduceSum for the historical .real channel, and reduceSumTyped for fp16/bf16. Neither the fp32 reduction nor a used cast/add/mul operation remains inherited from rest. backend_independent proves identical final memory for any two fallback algebras."
+    },
+    {
+      "topic": "arithmetic formats",
+      "result": "Six input/weight pairs and three output formats are actually enumerated. Effective CAST_TYPE, multiplication promotion, reduction product dtype, ADD_INPUTS promotion and store cast match the inspected local frontend rules. Triton package is 3.7.1; its floating sum retains input dtype, fp32 wins mixed promotion, fp16 wins fp16/bf16 promotion. FPModel old Triton3.8 comment should not be presented as current package evidence.",
+      "limit": "This is frontend dtype inspection; native numerical values and code generation have not been validated."
+    },
+    {
+      "topic": "ADD_INPUTS and aliases",
+      "result": "Input vector and selected index remain frozen from program entry as in source registers. Each loop block reads weight and existing output from that block-entry memory. Every lane computes from the same snapshot before fold-ordered stores, and later blocks see earlier writes. This preserves model aliases, including weight/output and input/output, without a hidden separation premise or incorrect initial-memory-only weight reference."
+    },
+    {
+      "topic": "reference and complete memory",
+      "result": "expectedMemory is an independent scalar/tree/memory recurrence, not a projection of source or exec. bodyMemory proves exact block memory, loopExecution composes every source iteration, correctness includes whole-memory equality and frame, and sentinel case gives unchanged memory. No desired output, intermediate equation or numerical law is an execution premise. ReductionPlan explicitly includes every input once plus declared zero leaves."
+    }
+  ],
+  "resolved_integration_blocker": {
+    "finding": "Original BranchCorrect used theorem while proposed supplement marked kind specification; current catalog public membership admits specification declarations only.",
+    "original_source_sha256": "ee775c2cbc80a0d171f5dc1fff81ac3e74efa439a6af06b632ef097e19b0bf08",
+    "original_statement_sha256": "cabeca2ffc89ada8508771422b2230572aee135dc8a9592fbd2777ff9e280a82",
+    "resolution": "Root changed exactly the declaration keyword theorem to specification in the temporary source. Inverse keyword substitution reproduces the exact original source SHA. Other 11 source files remain byte-identical.",
+    "current_source_sha256": "2b6da140ee3ad171158012bbe1951fba60b173463882c3a9d3e44611758e4b32",
+    "current_statement_sha256": "0d5ca833e68ee8bb5b5ebe78d83095ec93a75cfeeddd2630a847e9c450890bbb",
+    "root_recompile_log": "/tmp/veritile-standardization-20261015/lora-root-public-specification.log",
+    "root_recompile_log_sha256": "a7f60878542428e8f0b45a3b2859d205e5a44dd50ce1d771a2ed9ca2062a8651",
+    "root_reported_exit_code": 0,
+    "observed_log": "public declaration axiom footprint is within standard base"
+  },
+  "remaining_structural_blockers": [
+    "Full caller dtype domain remains open: Python does not constrain output or index dtype. fp64 output changes ADD_INPUTS promotion; signed/unsigned/discrete index loads and additional outputs are not covered by 18 selected profiles.",
+    "Host assertions, 4D squeeze versus 3D input, strides, next_power_of_2(K), EVEN_K and CAST_TYPE derivation, output arguments, 2D launch and all-program composition remain unproved. Actual host SPLIT_N=N implies length=1 for positive N; the generalized per-program theorem does not establish this binding.",
+    "Mathematical Nat/Int metadata and Int.toNat pointer offset conversion are not native fixed-width signed pointer arithmetic. For selected=-2,loraStride=10,pid0=0 the model clips -20 to 0 whereas native address is base-20. This requires a source-domain/address refinement, not a numerical assumption.",
+    "Native specialization admissibility, positive splits, legal BLOCK_K/arange shape and contiguity hints, allocation bounds, overflow and byte-memory correspondence remain open. The total interpreter succeeding does not prove native compilation or memory safety.",
+    "Ordered model stores with duplicate output offsets and cross-program aliasing do not establish native store ordering or race freedom. The alias witness is a valid interpreter witness, not unrestricted GPU alias support."
+  ],
+  "remaining_numerical_bindings_eligible_for_explicit_registration": [
+    "Native FP.Config rounding/FTZ/special-value behavior",
+    "Actual reduction tree, zero seeds and compiler fusion/reassociation",
+    "Cross-format conversion including native fp16/bf16 route through fp32 and NaN payload/canonicalization"
+  ],
+  "validation_limits": {
+    "independent_Lean_build_run_by_reviewer": false,
+    "native_compile_or_GPU_execution_run_by_reviewer": false,
+    "producer_compile_log_hashes_checked": 12,
+    "source_and_statement_hashes_rechecked": true,
+    "official_comparator_replay": false,
+    "note": "Read-only semantic review plus inspection of producer logs and the root recompile log; no whole-task acceptance inferred from compilation."
+  }
+}

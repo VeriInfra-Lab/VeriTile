@@ -1,0 +1,21 @@
+/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/bench/tritonbench_g/add_example/Proofs/FiniteIndices.lean:36:48: warning: This simp argument is unused:
+  Nat.mul_mod
+
+Hint: Omit it from the simp argument list.
+  simp [̵e̵x̵t̵e̵n̵t̵3̵2̵,̵B̵i̵t̵V̵e̵c̵.̵t̵o̵N̵a̵t̵_̵o̵f̵N̵a̵t̵,̵N̵a̵t̵.̵a̵d̵d̵_̵m̵o̵d̵,̵N̵a̵t̵.̵m̵u̵l̵_̵m̵o̵d̵]̵[̲e̲x̲t̲e̲n̲t̲3̲2̲,̲ ̲B̲i̲t̲V̲e̲c̲.̲t̲o̲N̲a̲t̲_̲o̲f̲N̲a̲t̲,̲ ̲N̲a̲t̲.̲a̲d̲d̲_̲m̲o̲d̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/bench/tritonbench_g/add_example/Proofs/FiniteIndices.lean:39:41: error: unexpected token 'false'; expected term
+/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/bench/tritonbench_g/add_example/Proofs/FiniteIndices.lean:48:67: error: unexpected token 'false'; expected term
+/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/bench/tritonbench_g/add_example/Proofs/FiniteIndices.lean:52:72: error: unsolved goals
+n pid : ℕ
+hn : extent32 n = BitVec.ofNat 32 (2 ^ 31)
+⊢ ∀ a < 4, sorry () = «false»
+/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/bench/tritonbench_g/add_example/Proofs/FiniteIndices.lean:92:27: error(lean.unknownIdentifier): Unknown identifier `p`
+/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/bench/tritonbench_g/add_example/Proofs/FiniteIndices.lean:92:29: error(lean.unknownIdentifier): Unknown identifier `l`
+/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/bench/tritonbench_g/add_example/Proofs/FiniteIndices.lean:104:0: error: VeriTile.Bench.TritonBenchG.AddExample.Finite.minimum_extent_all_masked: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/bench/tritonbench_g/add_example/Proofs/FiniteIndices.lean:105:0: error: VeriTile.Bench.TritonBenchG.AddExample.Finite.minimum_extent_empty_grid: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.TritonBenchG.AddExample.Finite.no_wrap_indices: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/bench/tritonbench_g/add_example/Proofs/FiniteIndices.lean:107:0: error: VeriTile.Bench.TritonBenchG.AddExample.Finite.no_wrap_coverage: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

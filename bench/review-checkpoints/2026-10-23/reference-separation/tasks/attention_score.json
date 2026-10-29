@@ -1,0 +1,351 @@
+{
+  "task": "attention_score",
+  "selected_public_entries": [
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Contract.lean",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Correct.lean",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/FPEquiv.lean"
+  ],
+  "owner_report": {
+    "path": "/tmp/veritile-reference-separation-20261023/ref07/result-v2.json",
+    "sha256": "659c1b70dadde66cc8b12f4d64001b70d80364ee8423ada316ed86aa3e62e177"
+  },
+  "evidence_files": [
+    {
+      "path": "/tmp/veritile-reference-separation-20261023/ref07/result-v2.json",
+      "sha256": "659c1b70dadde66cc8b12f4d64001b70d80364ee8423ada316ed86aa3e62e177"
+    },
+    {
+      "path": ".veritile-cache/reference-separation-20261023/applied/ref07.json",
+      "sha256": "64f79f936ce240d8dbaf343e94b7fe6bc085d2e9f66915f4e498349f507fbeca"
+    }
+  ],
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Contract.lean": "de3a1121736d7a9cb8d86de54967d4955ce9b3491050bf9ea5b8397bf004d745",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Correct.lean": "538289fbc3dae195d24dc988c0f64d68905623e50bba04b7c0407a3139522b1c",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/FPEquiv.lean": "a566f1c608823b91214f5cee8cdb1ec463a0e0756641aaac06f20ff7e9b571f6",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/RealIO.lean": "fc9e0a43a12c39ab880f525a7476ced4b78fd75170c27f89a40750008f5ab0d3",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/LogicalReader.lean": "b919bfcafc19da52916b56c43d9398c179beb7aa6eae57d68d751c4f238898af",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Kernels.lean": "2f786da4d1da40fd5903ff37e7f45e8fe351be6a026dde253578c96221ac17d8",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/PairIO.lean": "0e8a81a1e257b2fa066b36e743e537ad71961bd1970db5cde596f4de60e2e68f",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/SourcePair.lean": "2ed37e242c41870c8788524662d2104a22f466f44b895f2069aa7349a6659e97",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/RealIOProof.lean": "c4fe27bae80a244a1b727db099c483b4c84a058a6a204beb643961ad05b70d02",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/IO.lean": "9507b4df91fa80e839e76dc116bd08131fcc4f0a1634c9eda27873520d563854",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/NativeReference.lean": "3ea53e6bc6c496d94cf5a8aaa9467dcaa1c9fc63db5ead61e46a2ba41c85d972",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/NativeIO.lean": "afc4ee47fd2cb4d23868c37e1f858fc28ca4899ac5f581cf6956994f087af637",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/NativeBinding.lean": "daecfbc8838afc26fc9bc64edc0ebf2caea7ac7d03468c7e83da98f9383a2598",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/NativeCorrect.lean": "71795c272e0198e60f68eaceb27bccb9bbf27b05ad3c40f749a457fb2258c44e",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/PhysicalIOBinding.lean": "850c727d96190afece590dedd089af5e0b9d4ef9d6dfe454dc4c9d67e20dbf55",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/NativeIOProof.lean": "92cfe03c747eb2324a82f05b8c5db9cf9a1d7846b6f9c93f59e7b887cafe5d04",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/NativeIOSafety.lean": "48643326dfd7a619defb70cefb7ec2ef0ccc94f68fb8176c649410fb00fc6227",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/NativeIOValues.lean": "014f42899baa77095651ca9e2ed53a9e1c6ac31a78cc3f44486f57f14bee221f"
+  },
+  "before_sha256": {},
+  "canonical_io_sources": [
+    "VeriTile/Triton/Float/LogicalProgramIO.lean",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean",
+    "VeriTile/Triton/Memory/LogicalIO.lean",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/IO.lean",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/NativeIO.lean",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/PairIO.lean",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/RealIO.lean"
+  ],
+  "reason": "The reference is a dedicated source-ordered native Graph formula used only by the optional native observation chain. The complete exclusive adapter chain (NativeReference, NativeIO, NativeBinding, NativeIOValues, NativeIOSafety, NativeIOProof) moves into Misc with its original namespaces and non-import source bodies. Two existing Misc consumers import the new paths. The main Real and FP pair never depend on this chain.",
+  "reported_change_paths": [
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/NativeBinding.lean",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/NativeCorrect.lean",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/NativeIO.lean",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/NativeIOProof.lean",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/NativeIOSafety.lean",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/NativeIOValues.lean",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/NativeReference.lean",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/PhysicalIOBinding.lean",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/NativeIO.lean",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/NativeReference.lean",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/NativeBinding.lean",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/NativeIOProof.lean",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/NativeIOSafety.lean",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/NativeIOValues.lean",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/README.md"
+  ],
+  "preservation": {
+    "path": "/tmp/veritile-reference-separation-20261023/ref07/preservation.json",
+    "sha256": "40390fe8f5f6828d5b50488b22183a34a38baa9af5c693e215bc1869297f1231"
+  },
+  "verification": [
+    {
+      "kind": "initial_targeted_source_build_before_optional_chain_extension",
+      "command": [
+        "python",
+        "-u",
+        "/tmp/veritile-reference-separation-20261023/ref07/build.py",
+        "attention_score",
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.NativeReference",
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.NativeIO",
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.NativeBinding",
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.NativeIOValues",
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.NativeIOSafety",
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.NativeIOProof",
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.NativeCorrect",
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.PhysicalIOBinding",
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Correct",
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.FPEquiv"
+      ],
+      "exit_code": 0,
+      "log": "/tmp/veritile-reference-separation-20261023/ref07/attention-targeted-attempt1.log",
+      "log_sha256": "b62c210dc4b02bd5b1df58d54e2416d4025d32e76b41366d335827d70e215fe6"
+    },
+    {
+      "kind": "final_targeted_source_build",
+      "command": [
+        "python",
+        "-u",
+        "/tmp/veritile-reference-separation-20261023/ref07/build.py",
+        "attention_score",
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.NativeReference",
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.NativeIO",
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.NativeBinding",
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.NativeIOValues",
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.NativeIOSafety",
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.NativeIOProof",
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.NativeCorrect",
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.PhysicalIOBinding",
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Correct",
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.FPEquiv"
+      ],
+      "exit_code": 0,
+      "log": "/tmp/veritile-reference-separation-20261023/ref07/attention-targeted-attempt2.log",
+      "log_sha256": "e3f6ee474644dd95d0219173952f263c3b8a589edaadcb6187324849af297f77"
+    },
+    {
+      "kind": "fresh_public_joint",
+      "command": [
+        "python",
+        "-u",
+        "/tmp/veritile-reference-separation-20261023/ref07/build.py",
+        "attention_score",
+        "--check",
+        "/tmp/veritile-reference-separation-20261023/ref07/stage/Ref07_attention_score_Public.lean"
+      ],
+      "exit_code": 0,
+      "log": "/tmp/veritile-reference-separation-20261023/ref07/attention-public-attempt1.log",
+      "log_sha256": "adb275da55b11065f4eaaf89d5d8d5ce4253247b9d5e064f023b0e7b9393f371",
+      "task": "attention_score",
+      "source": {
+        "path": "/tmp/veritile-reference-separation-20261023/ref07/stage/Ref07_attention_score_Public.lean",
+        "sha256": "3f3ce19236c366a1c39c5cd41fb53ea923fc7be4bce2b2848d9904fcb088d43a"
+      },
+      "fresh_source_recompile": true
+    },
+    {
+      "kind": "fresh_optional_joint",
+      "command": [
+        "python",
+        "-u",
+        "/tmp/veritile-reference-separation-20261023/ref07/build.py",
+        "attention_score",
+        "--check",
+        "/tmp/veritile-reference-separation-20261023/ref07/stage/Ref07_attention_score_Optional.lean"
+      ],
+      "exit_code": 0,
+      "log": "/tmp/veritile-reference-separation-20261023/ref07/attention-optional-attempt1.log",
+      "log_sha256": "68fc87335fd61fcf9c33268ec6245c08a4b189579ccfc47a3b6f02f6f1432f41",
+      "task": "attention_score",
+      "source": {
+        "path": "/tmp/veritile-reference-separation-20261023/ref07/stage/Ref07_attention_score_Optional.lean",
+        "sha256": "5acbdb36d3355c00218a7086ffa5208c0ebb9b2d8f954012643f3b0ffec04c79"
+      },
+      "fresh_source_recompile": true
+    },
+    {
+      "kind": "update_readme",
+      "command": [
+        "/usr/local/bin/python",
+        "/tmp/veritile-reference-separation-20261023/ref07/update_readme.py"
+      ],
+      "exit_code": 0,
+      "log": "/tmp/veritile-reference-separation-20261023/ref07/readme-review.log",
+      "log_sha256": "6645eade15a9c6718ff35c3bd8e744de5840ea1ae4cb08fa1b145f7b76cb85c3"
+    },
+    {
+      "kind": "v2_patch_applicability_check",
+      "command": [
+        "git",
+        "apply",
+        "--check",
+        "/tmp/veritile-reference-separation-20261023/ref07/changes-v2.patch"
+      ],
+      "exit_code": 0,
+      "log": "/tmp/veritile-reference-separation-20261023/ref07/patch-check-v2.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "kind": "readme_path_and_unchanged_Lean_source_pin_check",
+      "exit_code": 0,
+      "artifact": {
+        "path": "/tmp/veritile-reference-separation-20261023/ref07/v2-supplement-verification.json",
+        "sha256": "4ecfcc5ccb3f77f2c6e4eaa0115c38dd05d733ba2f982005416da684ddbf2841"
+      }
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "limits": [
+    "All production sources remain untouched by ref07. Changes and new verification artifacts are confined to /tmp staging.",
+    "Targeted changed chains and public/impacted optional entries were checked; unaffected successful dependency objects were reused read-only. No clean rebuild of the complete dependency closure is claimed.",
+    "Selected Contract/Correct/FPEquiv/Kernels full source bodies, actual main program pairs, IO/semantic scope, public conditions, numerical models and rules are unchanged. Native source safety/connection helpers used by the main FP pair remain in the main proof closure.",
+    "No new numerical experiment, GPU, native/host correctness acceptance or hardware conformance requirement was introduced. Existing optional source checks cover only entries impacted by the authorized moves."
+  ],
+  "owner_limits": [
+    "All production sources remain untouched by ref07. Changes and new verification artifacts are confined to /tmp staging.",
+    "Targeted changed chains and public/impacted optional entries were checked; unaffected successful dependency objects were reused read-only. No clean rebuild of the complete dependency closure is claimed.",
+    "Selected Contract/Correct/FPEquiv/Kernels full source bodies, actual main program pairs, IO/semantic scope, public conditions, numerical models and rules are unchanged. Native source safety/connection helpers used by the main FP pair remain in the main proof closure.",
+    "No new numerical experiment, GPU, native/host correctness acceptance or hardware conformance requirement was introduced. Existing optional source checks cover only entries impacted by the authorized moves."
+  ],
+  "owner_remaining_issues": [],
+  "retired_current_source_pins": {
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/NativeIO.lean": "f75b494ea15d2e173490abf5776a864af4a39caf9cbd24a17daa74ba1ec02d1d"
+  },
+  "source_pin_provenance": {
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Contract.lean": {
+      "prior_review": {
+        "path": "bench/review-checkpoints/2026-10-23/io-unification/main-formulas.json",
+        "sha256": "b3cadf4cf794279f1efb7b1a29a889a6c789339ca2668c94767129118e946885"
+      }
+    },
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Correct.lean": {
+      "prior_review": {
+        "path": "bench/review-checkpoints/2026-10-23/io-unification/main-formulas.json",
+        "sha256": "b3cadf4cf794279f1efb7b1a29a889a6c789339ca2668c94767129118e946885"
+      }
+    },
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/FPEquiv.lean": {
+      "prior_review": {
+        "path": "bench/review-checkpoints/2026-10-23/io-unification/main-formulas.json",
+        "sha256": "b3cadf4cf794279f1efb7b1a29a889a6c789339ca2668c94767129118e946885"
+      }
+    },
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/RealIO.lean": {
+      "prior_review": {
+        "path": "bench/review-checkpoints/2026-10-23/io-unification/main-formulas.json",
+        "sha256": "b3cadf4cf794279f1efb7b1a29a889a6c789339ca2668c94767129118e946885"
+      }
+    },
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/LogicalReader.lean": {
+      "prior_review": {
+        "path": "bench/review-checkpoints/2026-10-23/io-unification/main-formulas.json",
+        "sha256": "b3cadf4cf794279f1efb7b1a29a889a6c789339ca2668c94767129118e946885"
+      }
+    },
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Kernels.lean": {
+      "prior_review": {
+        "path": "bench/review-checkpoints/2026-10-23/io-unification/main-formulas.json",
+        "sha256": "b3cadf4cf794279f1efb7b1a29a889a6c789339ca2668c94767129118e946885"
+      }
+    },
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/PairIO.lean": {
+      "prior_review": {
+        "path": "bench/review-checkpoints/2026-10-23/io-unification/main-formulas.json",
+        "sha256": "b3cadf4cf794279f1efb7b1a29a889a6c789339ca2668c94767129118e946885"
+      }
+    },
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/SourcePair.lean": {
+      "prior_review": {
+        "path": "bench/review-checkpoints/2026-10-23/io-unification/main-formulas.json",
+        "sha256": "b3cadf4cf794279f1efb7b1a29a889a6c789339ca2668c94767129118e946885"
+      }
+    },
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/RealIOProof.lean": {
+      "prior_review": {
+        "path": "bench/review-checkpoints/2026-10-23/io-unification/main-formulas.json",
+        "sha256": "b3cadf4cf794279f1efb7b1a29a889a6c789339ca2668c94767129118e946885"
+      }
+    },
+    "VeriTile/Triton/Memory/LogicalIO.lean": {
+      "prior_review": {
+        "path": "bench/review-checkpoints/2026-10-23/io-unification/main-formulas.json",
+        "sha256": "b3cadf4cf794279f1efb7b1a29a889a6c789339ca2668c94767129118e946885"
+      }
+    },
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": {
+      "prior_review": {
+        "path": "bench/review-checkpoints/2026-10-23/io-unification/main-formulas.json",
+        "sha256": "b3cadf4cf794279f1efb7b1a29a889a6c789339ca2668c94767129118e946885"
+      }
+    },
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": {
+      "prior_review": {
+        "path": "bench/review-checkpoints/2026-10-23/io-unification/main-formulas.json",
+        "sha256": "b3cadf4cf794279f1efb7b1a29a889a6c789339ca2668c94767129118e946885"
+      }
+    },
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/IO.lean": {
+      "prior_review": {
+        "path": "bench/review-checkpoints/2026-10-23/io-unification/main-formulas.json",
+        "sha256": "b3cadf4cf794279f1efb7b1a29a889a6c789339ca2668c94767129118e946885"
+      }
+    },
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/NativeReference.lean": {
+      "owner_report": {
+        "path": "/tmp/veritile-reference-separation-20261023/ref07/result-v2.json",
+        "sha256": "659c1b70dadde66cc8b12f4d64001b70d80364ee8423ada316ed86aa3e62e177"
+      }
+    },
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/NativeIO.lean": {
+      "owner_report": {
+        "path": "/tmp/veritile-reference-separation-20261023/ref07/result-v2.json",
+        "sha256": "659c1b70dadde66cc8b12f4d64001b70d80364ee8423ada316ed86aa3e62e177"
+      }
+    },
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/NativeBinding.lean": {
+      "owner_report": {
+        "path": "/tmp/veritile-reference-separation-20261023/ref07/result-v2.json",
+        "sha256": "659c1b70dadde66cc8b12f4d64001b70d80364ee8423ada316ed86aa3e62e177"
+      }
+    },
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/NativeCorrect.lean": {
+      "owner_report": {
+        "path": "/tmp/veritile-reference-separation-20261023/ref07/result-v2.json",
+        "sha256": "659c1b70dadde66cc8b12f4d64001b70d80364ee8423ada316ed86aa3e62e177"
+      }
+    },
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/PhysicalIOBinding.lean": {
+      "owner_report": {
+        "path": "/tmp/veritile-reference-separation-20261023/ref07/result-v2.json",
+        "sha256": "659c1b70dadde66cc8b12f4d64001b70d80364ee8423ada316ed86aa3e62e177"
+      }
+    },
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/NativeIOProof.lean": {
+      "owner_report": {
+        "path": "/tmp/veritile-reference-separation-20261023/ref07/result-v2.json",
+        "sha256": "659c1b70dadde66cc8b12f4d64001b70d80364ee8423ada316ed86aa3e62e177"
+      }
+    },
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/NativeIOSafety.lean": {
+      "owner_report": {
+        "path": "/tmp/veritile-reference-separation-20261023/ref07/result-v2.json",
+        "sha256": "659c1b70dadde66cc8b12f4d64001b70d80364ee8423ada316ed86aa3e62e177"
+      }
+    },
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/NativeIOValues.lean": {
+      "owner_report": {
+        "path": "/tmp/veritile-reference-separation-20261023/ref07/result-v2.json",
+        "sha256": "659c1b70dadde66cc8b12f4d64001b70d80364ee8423ada316ed86aa3e62e177"
+      }
+    }
+  },
+  "previous_semantic_review": {
+    "manifest": {
+      "path": "bench/review-checkpoints/2026-10-23/io-unification/main-formulas.json",
+      "sha256": "b3cadf4cf794279f1efb7b1a29a889a6c789339ca2668c94767129118e946885"
+    },
+    "task": "attention_score"
+  },
+  "independent_review": {
+    "path": "/tmp/veritile-reference-separation-20261023/independent/release-review-v2.json",
+    "sha256": "8b1b1bc1387044f083cedd6617ebe7d3493cd49db9eb61ecb9fb2d4376ce8a60"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

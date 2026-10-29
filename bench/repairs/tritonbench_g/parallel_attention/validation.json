@@ -1,0 +1,1209 @@
+{
+  "source_sha256": "3cf92301a18073573c84be1bf775440e9f7b234dba9dd7c37f9d94eb15eb8fe4",
+  "script_sha256": "93139632f612eaedb319daaabb4c152d0f166ae34ba09ebebb7f17723b430695",
+  "mode": "Actual wrapper and Triton CPU interpreter with CUDA residency/context observation shims only",
+  "GPU_execution": false,
+  "universal_numerical_proof": false,
+  "torch_version": "2.13.0+cu130",
+  "triton_version": "3.7.1",
+  "cases": [
+    {
+      "name": "tiny",
+      "shape": [
+        1,
+        1,
+        5,
+        1,
+        1
+      ],
+      "use_scale": true,
+      "use_normalize": false,
+      "return_both": true,
+      "input_strides": [
+        [
+          5,
+          5,
+          1,
+          1
+        ],
+        [
+          5,
+          5,
+          1,
+          1
+        ],
+        [
+          5,
+          5,
+          1,
+          1
+        ]
+      ],
+      "incoming_cotangent_strides": [
+        [
+          5,
+          5,
+          1,
+          5
+        ],
+        [
+          5,
+          1,
+          1
+        ]
+      ],
+      "max_abs_errors": [
+        1.6670119603288958e-11,
+        1.3671466476267158e-10,
+        9.304153975042695e-11,
+        3.343551260512334e-11,
+        4.175899751858447e-12
+      ],
+      "launches": [
+        {
+          "kernel": "forward",
+          "grid": [
+            1,
+            1,
+            1
+          ],
+          "strides": [
+            5,
+            1,
+            1,
+            5,
+            1,
+            1
+          ],
+          "scale": 1.0,
+          "BK": 16,
+          "BV": 16
+        },
+        {
+          "kernel": "backward",
+          "grid": [
+            1,
+            1,
+            1
+          ],
+          "strides": [
+            5,
+            1,
+            1,
+            5,
+            1,
+            1
+          ],
+          "scale": 1.0,
+          "BK": 16,
+          "BV": 16
+        }
+      ],
+      "seconds": 0.6741939559578896,
+      "passed": true
+    },
+    {
+      "name": "ragged",
+      "shape": [
+        1,
+        2,
+        33,
+        17,
+        19
+      ],
+      "use_scale": false,
+      "use_normalize": false,
+      "return_both": true,
+      "input_strides": [
+        [
+          1122,
+          561,
+          17,
+          1
+        ],
+        [
+          1122,
+          561,
+          17,
+          1
+        ],
+        [
+          1254,
+          627,
+          19,
+          1
+        ]
+      ],
+      "incoming_cotangent_strides": [
+        [
+          1254,
+          627,
+          1,
+          33
+        ],
+        [
+          66,
+          1,
+          2
+        ]
+      ],
+      "max_abs_errors": [
+        5.1797634209593824e-08,
+        2.1418000484274557e-07,
+        4.83521573890755e-08,
+        5.362914237694305e-08,
+        3.830476617838752e-08
+      ],
+      "launches": [
+        {
+          "kernel": "forward",
+          "grid": [
+            1,
+            1,
+            2
+          ],
+          "strides": [
+            561,
+            17,
+            1,
+            627,
+            19,
+            1
+          ],
+          "scale": 1,
+          "BK": 32,
+          "BV": 32
+        },
+        {
+          "kernel": "backward",
+          "grid": [
+            1,
+            1,
+            2
+          ],
+          "strides": [
+            561,
+            17,
+            1,
+            627,
+            19,
+            1
+          ],
+          "scale": 1,
+          "BK": 32,
+          "BV": 32
+        }
+      ],
+      "seconds": 0.12681434815749526,
+      "passed": true
+    },
+    {
+      "name": "interchunk",
+      "shape": [
+        1,
+        1,
+        137,
+        17,
+        23
+      ],
+      "use_scale": true,
+      "use_normalize": false,
+      "return_both": true,
+      "input_strides": [
+        [
+          2329,
+          2329,
+          17,
+          1
+        ],
+        [
+          2329,
+          2329,
+          17,
+          1
+        ],
+        [
+          3151,
+          3151,
+          23,
+          1
+        ]
+      ],
+      "incoming_cotangent_strides": [
+        [
+          3151,
+          3151,
+          1,
+          137
+        ],
+        [
+          137,
+          1,
+          1
+        ]
+      ],
+      "max_abs_errors": [
+        6.287757686046502e-09,
+        3.061862063891141e-08,
+        8.26747915613768e-09,
+        4.558510603713817e-09,
+        6.180801034177952e-09
+      ],
+      "launches": [
+        {
+          "kernel": "forward",
+          "grid": [
+            1,
+            2,
+            1
+          ],
+          "strides": [
+            2329,
+            17,
+            1,
+            3151,
+            23,
+            1
+          ],
+          "scale": 0.24253562503633297,
+          "BK": 32,
+          "BV": 32
+        },
+        {
+          "kernel": "backward",
+          "grid": [
+            1,
+            3,
+            1
+          ],
+          "strides": [
+            2329,
+            17,
+            1,
+            3151,
+            23,
+            1
+          ],
+          "scale": 0.24253562503633297,
+          "BK": 32,
+          "BV": 32
+        }
+      ],
+      "seconds": 0.23202861100435257,
+      "passed": true
+    },
+    {
+      "name": "value_shards",
+      "shape": [
+        1,
+        1,
+        65,
+        127,
+        131
+      ],
+      "use_scale": true,
+      "use_normalize": false,
+      "return_both": true,
+      "input_strides": [
+        [
+          8255,
+          8255,
+          127,
+          1
+        ],
+        [
+          8255,
+          8255,
+          127,
+          1
+        ],
+        [
+          8515,
+          8515,
+          131,
+          1
+        ]
+      ],
+      "incoming_cotangent_strides": [
+        [
+          8515,
+          8515,
+          1,
+          65
+        ],
+        [
+          65,
+          1,
+          1
+        ]
+      ],
+      "max_abs_errors": [
+        8.918349651658442e-09,
+        2.67455709107578e-08,
+        4.321301197082739e-09,
+        3.4263306991980103e-09,
+        5.580445605612994e-09
+      ],
+      "launches": [
+        {
+          "kernel": "forward",
+          "grid": [
+            2,
+            1,
+            1
+          ],
+          "strides": [
+            8255,
+            127,
+            1,
+            8515,
+            131,
+            1
+          ],
+          "scale": 0.08873565094161137,
+          "BK": 128,
+          "BV": 128
+        },
+        {
+          "kernel": "backward",
+          "grid": [
+            2,
+            2,
+            1
+          ],
+          "strides": [
+            8255,
+            127,
+            1,
+            8515,
+            131,
+            1
+          ],
+          "scale": 0.08873565094161137,
+          "BK": 128,
+          "BV": 128
+        }
+      ],
+      "seconds": 0.5340943639166653,
+      "passed": true
+    },
+    {
+      "name": "singleton_stride",
+      "shape": [
+        2,
+        1,
+        17,
+        17,
+        19
+      ],
+      "use_scale": false,
+      "use_normalize": false,
+      "return_both": true,
+      "input_strides": [
+        [
+          289,
+          17,
+          17,
+          1
+        ],
+        [
+          289,
+          17,
+          17,
+          1
+        ],
+        [
+          323,
+          19,
+          19,
+          1
+        ]
+      ],
+      "incoming_cotangent_strides": [
+        [
+          323,
+          323,
+          1,
+          17
+        ],
+        [
+          17,
+          1,
+          1
+        ]
+      ],
+      "max_abs_errors": [
+        2.2484993339455528e-08,
+        5.858617130316546e-08,
+        1.9806970966151916e-08,
+        1.5791691065913938e-08,
+        1.4229050750158567e-08
+      ],
+      "launches": [
+        {
+          "kernel": "forward",
+          "grid": [
+            1,
+            1,
+            2
+          ],
+          "strides": [
+            289,
+            17,
+            1,
+            323,
+            19,
+            1
+          ],
+          "scale": 1,
+          "BK": 32,
+          "BV": 32
+        },
+        {
+          "kernel": "backward",
+          "grid": [
+            1,
+            1,
+            2
+          ],
+          "strides": [
+            289,
+            17,
+            1,
+            323,
+            19,
+            1
+          ],
+          "scale": 1,
+          "BK": 32,
+          "BV": 32
+        }
+      ],
+      "seconds": 0.09543987922370434,
+      "passed": true
+    },
+    {
+      "name": "normalized",
+      "shape": [
+        1,
+        2,
+        33,
+        17,
+        19
+      ],
+      "use_scale": true,
+      "use_normalize": true,
+      "return_both": false,
+      "input_strides": [
+        [
+          1122,
+          561,
+          17,
+          1
+        ],
+        [
+          1122,
+          561,
+          17,
+          1
+        ],
+        [
+          1254,
+          627,
+          19,
+          1
+        ]
+      ],
+      "incoming_cotangent_strides": [
+        [
+          1254,
+          627,
+          1,
+          33
+        ]
+      ],
+      "max_abs_errors": [
+        4.9438245053323726e-08,
+        2.860585372743696e-08,
+        4.041121459685826e-08,
+        3.669145350049252e-08
+      ],
+      "launches": [
+        {
+          "kernel": "forward",
+          "grid": [
+            1,
+            1,
+            2
+          ],
+          "strides": [
+            561,
+            17,
+            1,
+            627,
+            19,
+            1
+          ],
+          "scale": 0.24253562503633297,
+          "BK": 32,
+          "BV": 32
+        },
+        {
+          "kernel": "backward",
+          "grid": [
+            1,
+            1,
+            2
+          ],
+          "strides": [
+            561,
+            17,
+            1,
+            627,
+            19,
+            1
+          ],
+          "scale": 0.24253562503633297,
+          "BK": 32,
+          "BV": 32
+        }
+      ],
+      "seconds": 0.1304387729614973,
+      "passed": true
+    },
+    {
+      "name": "raw",
+      "shape": [
+        1,
+        1,
+        65,
+        17,
+        19
+      ],
+      "use_scale": false,
+      "use_normalize": false,
+      "return_both": false,
+      "input_strides": [
+        [
+          1105,
+          1105,
+          17,
+          1
+        ],
+        [
+          1105,
+          1105,
+          17,
+          1
+        ],
+        [
+          1235,
+          1235,
+          19,
+          1
+        ]
+      ],
+      "incoming_cotangent_strides": [
+        [
+          1235,
+          1235,
+          1,
+          65
+        ]
+      ],
+      "max_abs_errors": [
+        6.041247882504486e-08,
+        3.60275496658069e-08,
+        4.157245073188598e-08,
+        3.700741879608671e-08
+      ],
+      "launches": [
+        {
+          "kernel": "forward",
+          "grid": [
+            1,
+            1,
+            1
+          ],
+          "strides": [
+            1105,
+            17,
+            1,
+            1235,
+            19,
+            1
+          ],
+          "scale": 1,
+          "BK": 32,
+          "BV": 32
+        },
+        {
+          "kernel": "backward",
+          "grid": [
+            1,
+            2,
+            1
+          ],
+          "strides": [
+            1105,
+            17,
+            1,
+            1235,
+            19,
+            1
+          ],
+          "scale": 1,
+          "BK": 32,
+          "BV": 32
+        }
+      ],
+      "seconds": 0.1132776397280395,
+      "passed": true
+    },
+    {
+      "name": "both_priority",
+      "shape": [
+        1,
+        1,
+        7,
+        3,
+        5
+      ],
+      "use_scale": true,
+      "use_normalize": true,
+      "return_both": true,
+      "input_strides": [
+        [
+          21,
+          21,
+          3,
+          1
+        ],
+        [
+          21,
+          21,
+          3,
+          1
+        ],
+        [
+          35,
+          35,
+          5,
+          1
+        ]
+      ],
+      "incoming_cotangent_strides": [
+        [
+          35,
+          35,
+          1,
+          7
+        ],
+        [
+          7,
+          1,
+          1
+        ]
+      ],
+      "max_abs_errors": [
+        5.769002940289591e-10,
+        2.5506541410230676e-09,
+        2.4410067890612286e-10,
+        1.8280176547827431e-10,
+        1.4202504992379128e-10
+      ],
+      "launches": [
+        {
+          "kernel": "forward",
+          "grid": [
+            1,
+            1,
+            1
+          ],
+          "strides": [
+            21,
+            3,
+            1,
+            35,
+            5,
+            1
+          ],
+          "scale": 0.5773502691896257,
+          "BK": 16,
+          "BV": 16
+        },
+        {
+          "kernel": "backward",
+          "grid": [
+            1,
+            1,
+            1
+          ],
+          "strides": [
+            21,
+            3,
+            1,
+            35,
+            5,
+            1
+          ],
+          "scale": 0.5773502691896257,
+          "BK": 16,
+          "BV": 16
+        }
+      ],
+      "seconds": 0.03602246707305312,
+      "passed": true
+    },
+    {
+      "name": "expanded_cotangent",
+      "shape": [
+        1,
+        1,
+        33,
+        17,
+        19
+      ],
+      "use_scale": true,
+      "use_normalize": false,
+      "return_both": true,
+      "input_strides": [
+        [
+          561,
+          561,
+          17,
+          1
+        ],
+        [
+          561,
+          561,
+          17,
+          1
+        ],
+        [
+          627,
+          627,
+          19,
+          1
+        ]
+      ],
+      "incoming_cotangent_strides": [
+        [
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "max_abs_errors": [
+        2.543050001482805e-09,
+        6.339221730877753e-09,
+        4.275234941064632e-08,
+        7.314389233181728e-08,
+        2.2635479393628977e-08
+      ],
+      "launches": [
+        {
+          "kernel": "forward",
+          "grid": [
+            1,
+            1,
+            1
+          ],
+          "strides": [
+            561,
+            17,
+            1,
+            627,
+            19,
+            1
+          ],
+          "scale": 0.24253562503633297,
+          "BK": 32,
+          "BV": 32
+        },
+        {
+          "kernel": "backward",
+          "grid": [
+            1,
+            1,
+            1
+          ],
+          "strides": [
+            561,
+            17,
+            1,
+            627,
+            19,
+            1
+          ],
+          "scale": 0.24253562503633297,
+          "BK": 32,
+          "BV": 32
+        }
+      ],
+      "seconds": 0.0621759588830173,
+      "passed": true
+    },
+    {
+      "name": "storage_offset",
+      "shape": [
+        1,
+        1,
+        5,
+        3,
+        5
+      ],
+      "use_scale": true,
+      "use_normalize": false,
+      "return_both": true,
+      "input_strides": [
+        [
+          15,
+          15,
+          3,
+          1
+        ],
+        [
+          15,
+          15,
+          3,
+          1
+        ],
+        [
+          25,
+          25,
+          5,
+          1
+        ]
+      ],
+      "incoming_cotangent_strides": [
+        [
+          25,
+          25,
+          1,
+          5
+        ],
+        [
+          5,
+          1,
+          1
+        ]
+      ],
+      "max_abs_errors": [
+        1.1730793923053762e-09,
+        5.891630808219084e-09,
+        1.3876004468713066e-09,
+        4.184963733194769e-09,
+        1.5399618125827574e-09
+      ],
+      "launches": [
+        {
+          "kernel": "forward",
+          "grid": [
+            1,
+            1,
+            1
+          ],
+          "strides": [
+            15,
+            3,
+            1,
+            25,
+            5,
+            1
+          ],
+          "scale": 0.5773502691896257,
+          "BK": 16,
+          "BV": 16
+        },
+        {
+          "kernel": "backward",
+          "grid": [
+            1,
+            1,
+            1
+          ],
+          "strides": [
+            15,
+            3,
+            1,
+            25,
+            5,
+            1
+          ],
+          "scale": 0.5773502691896257,
+          "BK": 16,
+          "BV": 16
+        }
+      ],
+      "seconds": 0.03913429705426097,
+      "passed": true
+    },
+    {
+      "name": "alias",
+      "shape": [
+        1,
+        1,
+        5,
+        3,
+        3
+      ],
+      "use_scale": false,
+      "use_normalize": false,
+      "return_both": true,
+      "input_strides": [
+        [
+          15,
+          15,
+          3,
+          1
+        ],
+        [
+          15,
+          15,
+          3,
+          1
+        ],
+        [
+          15,
+          15,
+          3,
+          1
+        ]
+      ],
+      "incoming_cotangent_strides": [
+        [
+          15,
+          15,
+          1,
+          5
+        ],
+        [
+          5,
+          1,
+          1
+        ]
+      ],
+      "max_abs_errors": [
+        2.6176779710854192e-11,
+        2.2628387531808958e-10,
+        2.565076068217209e-10,
+        2.0136748345167543e-10,
+        1.3407010961488663e-11
+      ],
+      "launches": [
+        {
+          "kernel": "forward",
+          "grid": [
+            1,
+            1,
+            1
+          ],
+          "strides": [
+            15,
+            3,
+            1,
+            15,
+            3,
+            1
+          ],
+          "scale": 1,
+          "BK": 16,
+          "BV": 16
+        },
+        {
+          "kernel": "backward",
+          "grid": [
+            1,
+            1,
+            1
+          ],
+          "strides": [
+            15,
+            3,
+            1,
+            15,
+            3,
+            1
+          ],
+          "scale": 1,
+          "BK": 16,
+          "BV": 16
+        }
+      ],
+      "seconds": 0.034666839987039566,
+      "passed": true
+    }
+  ],
+  "empty_cases": [
+    {
+      "shape": [
+        0,
+        2,
+        3,
+        4,
+        5
+      ],
+      "both": true,
+      "normalize": true,
+      "no_launch": true
+    },
+    {
+      "shape": [
+        0,
+        2,
+        3,
+        4,
+        5
+      ],
+      "both": false,
+      "normalize": true,
+      "no_launch": true
+    },
+    {
+      "shape": [
+        0,
+        2,
+        3,
+        4,
+        5
+      ],
+      "both": false,
+      "normalize": false,
+      "no_launch": true
+    },
+    {
+      "shape": [
+        2,
+        0,
+        3,
+        4,
+        5
+      ],
+      "both": true,
+      "normalize": true,
+      "no_launch": true
+    },
+    {
+      "shape": [
+        2,
+        0,
+        3,
+        4,
+        5
+      ],
+      "both": false,
+      "normalize": true,
+      "no_launch": true
+    },
+    {
+      "shape": [
+        2,
+        0,
+        3,
+        4,
+        5
+      ],
+      "both": false,
+      "normalize": false,
+      "no_launch": true
+    },
+    {
+      "shape": [
+        2,
+        2,
+        0,
+        4,
+        5
+      ],
+      "both": true,
+      "normalize": true,
+      "no_launch": true
+    },
+    {
+      "shape": [
+        2,
+        2,
+        0,
+        4,
+        5
+      ],
+      "both": false,
+      "normalize": true,
+      "no_launch": true
+    },
+    {
+      "shape": [
+        2,
+        2,
+        0,
+        4,
+        5
+      ],
+      "both": false,
+      "normalize": false,
+      "no_launch": true
+    },
+    {
+      "shape": [
+        0,
+        2,
+        3,
+        4,
+        5
+      ],
+      "noncanonical_empty_strides": [
+        100,
+        50,
+        10,
+        2
+      ],
+      "empty_like_preserves_strides": true,
+      "no_launch": true
+    }
+  ],
+  "owning_device_context_entries": 71,
+  "guard_rejections": [
+    "dtype",
+    "shape",
+    "layout",
+    "K_limit",
+    "lazy_neg",
+    "non_tensor",
+    "['use_scale']",
+    "['use_normalize']",
+    "['return_both']",
+    "['eps']",
+    "['eps']",
+    "['eps']"
+  ],
+  "backward_autograd_rejections": [
+    {
+      "empty": false,
+      "cotangent": "do",
+      "rejected_before_backward_launch": true
+    },
+    {
+      "empty": false,
+      "cotangent": "dz",
+      "rejected_before_backward_launch": true
+    },
+    {
+      "empty": true,
+      "cotangent": "do",
+      "rejected_before_backward_launch": true
+    },
+    {
+      "empty": true,
+      "cotangent": "dz",
+      "rejected_before_backward_launch": true
+    }
+  ],
+  "all_passed": true
+}

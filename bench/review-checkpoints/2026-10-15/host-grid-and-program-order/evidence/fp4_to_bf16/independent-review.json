@@ -1,0 +1,120 @@
+{
+  "schema": 1,
+  "kind": "independent_fp4_arbitrary_program_order_semantic_review",
+  "reviewer": "/root/scope_integration_review",
+  "status": "reviewed_arbitrary_sequential_program_order_no_proof_defect_found",
+  "integration_recommendation": "Integrate the two frozen modules as one program-order extension for the existing packed-uint8 logical host profile after root catalog registration and integration checks. Do not claim native instruction-level concurrency or whole-task acceptance.",
+  "standard_accepted": false,
+  "whole_program_acceptance": false,
+  "repository_sources_modified_by_reviewer": false,
+  "source_root": "/tmp/veritile-standardization-20261015/fp4-schedule-wip",
+  "producer_receipt": {
+    "path": "/tmp/veritile-standardization-20261015/fp4-schedule-wip/receipt.json",
+    "sha256": "52b044aa2c5dd6cf76860e4d3a17ee929caeb46652654906044d1108564280db",
+    "preserved": true
+  },
+  "reviewed_new_source_sha256": {
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/HostSchedule.lean": "a1c7ab7477729d88a55e588bd3fabc95452589d3a905ecd18d6aab5138f3891b",
+    "bench/tritonbench_g/fp4_to_bf16/ScheduleCorrect.lean": "85929f3d191b0d1247b319765b1176fc79f26c442c273621d0b76a46a6c52a26"
+  },
+  "verified_existing_dependency_sha256": {
+    "bench/tritonbench_g/fp4_to_bf16/FPCorrect.lean": "53565ede1ff83ef2c6c6c3c6b01122e9236a1e0d4ff660829612b4e70722883d",
+    "bench/tritonbench_g/fp4_to_bf16/HostCorrect.lean": "e0e43a34bfa434bb0e1c02050abcd73084bc43f351c71c62800196d4a761cb96",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/FP4Bits.lean": "6876d841a7f76a9ca8a636468147a6caaff5a4bb01d7d91e36f56af69b978545",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/FPArithmetic.lean": "9f35b333e4243abc0b2212df119f0cd16fb61724d266d900f540a730c0ddca9d",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/FPContract.lean": "63e584c73100a852cabb09ec4c38832dfbcf8c7cfa6e407eef2f9be2e522ff40",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/FPExecution.lean": "5d5723d6769ac57ea850881d058979fd2477c43ab10281bd2c461679a5c0edd0",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/FPInteger.lean": "f83a00d7e4d1ea32be40c8aa9497138a0eb6a439ec2a4ca636c92fdc4cca14e1",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/FPLayout.lean": "f3503d3df6f83fce62349e4f3205edac97f451239ebf7812fc6bfda706a40ef9",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/FPOperations.lean": "a2ba5f5adec34ff3d026479ccfaed74560b3115bb530deedba91f7479fc9b9ba",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/FPReference.lean": "b9cfd728e7b2629628287805dc4fb22c090cbfdefa5ccac02182f7cb8f3243bb",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/FPSource.lean": "8edd78d04cdb53792f17deaabf176cffb2a809c8c3382d7fdb204293d4eef41e",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/FPWitness.lean": "20c5e8ab195e0788fe9092123ba61ea77fde77377c3d509c831967388cab59f0",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/Host.lean": "ead22db5c4a2e7eecc35b72453361ee1a265e900e089dbb331dac81c2ae426cb"
+  },
+  "public_contracts": [
+    {
+      "file": "bench/tritonbench_g/fp4_to_bf16/ScheduleCorrect.lean",
+      "declaration": "fp4_to_bf16_arbitrary_program_order_correctness",
+      "kind": "specification",
+      "statement_sha256": "5a14b70d64bddb3ad14623248d0df02dc6d5b317d218f37dcc521f0edae1fff8"
+    }
+  ],
+  "public_contracts_added": 1,
+  "original_source": {
+    "path": "bench/review-checkpoints/2026-10-14/next-value-repair/fp4-upstream/fp4_to_bf16.py",
+    "sha256": "8571cb56ce932af6a7dd68e4047ee0863984812ac303d0d2959fc544a65e9958"
+  },
+  "semantic_findings": [
+    {
+      "topic": "Original source and inherited profile",
+      "result": "The inspected original wrapper allocates bf16 output with doubled final dimension and uses ceilDiv(numel,512). The admitted FPSource retains masked byte load, high-then-low nibble interleave, sign/zero/denormal/exponent/mantissa operations, bitcast to fp32, bf16 cast and masked store. Host.parameters fixes block=512, and Host.expectedMemory is an independent initial-byte lookup for every output cell.",
+      "limit": "This extension uses the existing packed-uint8, nonscalar contiguous logical profile. It does not add a complete host exception/allocator/device/dtype refinement."
+    },
+    {
+      "topic": "Single program complete memory",
+      "result": "program_memory derives ActiveBytes from PackedInput for that pid, uses actual execution_memory, constructs the unique lane o%1024 for writes, and proves the complement by the inherited frame. Writes is exactly output region, output bounds and o/1024=pid. program_value maps local nibble parity and byte offset to the global initial-byte reference. The result includes all regions and offsets, with no fixed predecessor order.",
+      "limit": "One-program value reads are from that program-entry memory. Freshness is not needed for this local snapshot theorem, but is explicitly required to lift it across schedules."
+    },
+    {
+      "topic": "Typed input preservation across actual executions",
+      "result": "runSchedule performs actual full source exec then recurses on its final state; programState resets registers and sets pid/grid while retaining preceding memory and undef. Fresh h.input != h.output makes program_memory preserve the entire input region. The induction reestablishes PackedInput and proves cell h next = cell h initial, so later computations retain original bytes. No input preservation or successful-run fact is supplied as a premise.",
+      "limit": "Freshness is an explicit logical region premise motivated by torch.empty. Its correspondence to native physical memory, allocator freshness and storage offsets is unproved."
+    },
+    {
+      "topic": "Partial schedules, repeats and extras",
+      "result": "scheduledMemory is independent of exec/source and uses only initial packed cells plus membership of each output block in jobs. schedule_correct proves this for every finite list of natural pids. Repeated pids rewrite the same values because input is unchanged; pids beyond the original grid have no active writes. Arbitrary order is handled by list induction and membership, not by an assumed commuting-program equation.",
+      "limit": "Out-of-grid pids in the stronger helper are abstract logical executions, not claimed legal native launches."
+    },
+    {
+      "topic": "Full coverage, permutation and frame",
+      "result": "complete_schedule requires every original pid below grid to occur, derives o/1024<grid for every in-bounds output using grid_covers, and upgrades scheduledMemory to exactly Host.expectedMemory. It still permits duplicates/extras. The public specification derives coverage from jobs.Perm(List.range(grid h)), so each actual grid program appears exactly once. The public frame follows for all other regions and all offsets past doubled count; zero-sized and partial-tail cases are included. Distinct pids have disjoint logical write footprints.",
+      "limit": "The theorem establishes equal final memory for arbitrary sequential orders of complete programs. It does not quantify over GPU instruction/warp interleavings or prove a native memory model refinement. Final registers need not agree across orders."
+    }
+  ],
+  "public_premises": [
+    "fresh: h.input != h.output (logical allocation separation)",
+    "typed: every active input cell is a tagged natural equal to an 8-bit payload",
+    "order: jobs is a permutation of every original grid pid exactly once"
+  ],
+  "necessary_changes_before_scoped_integration": [
+    "No Lean source repair is required for the currently stated theorem.",
+    "Register the exact specification/source hashes and classify the added result as arbitrary sequential program-order independence over the inherited packed-input profile.",
+    "Keep native instruction interleavings, physical aliases/allocator, unrestricted input dtype and host caller/error domain open; do not promote whole-task acceptance.",
+    "Root must run integration validation against registered sources; exclude temporary .olean outputs and dependency symlinks."
+  ],
+  "remaining_nondeferrable_gaps": [
+    "Native GPU instruction interleavings/parallel scheduling refinement; theorem compares complete sequential program executions.",
+    "Physical byte memory, allocator freshness and tensor/storage-offset/ABI correspondence.",
+    "Unrestricted Python input dtype and caller/error domain, host tensor allocation and compiler/resource/address admission.",
+    "Fixed-width pid/count/offset arithmetic, overflow, physical allocation bounds, device/contiguity assertion behavior and zero-grid native admission are inherited unresolved boundaries.",
+    "The original wrapper has no input dtype assertion. PackedInput is a selected storage domain and does not certify other original caller dtypes."
+  ],
+  "numerical_deferrals": [],
+  "supporting_evidence": {
+    "compiler_logs": [
+      {
+        "path": "/tmp/veritile-standardization-20261015/fp4-schedule-wip/HostSchedule-final.log",
+        "sha256": "1665fea5c3754f3c82ac58e26673fb030518fcf9287068b1a7332d369aecdfbd",
+        "producer_observed_exit_code": 0,
+        "named_standard_base_audits": 5
+      },
+      {
+        "path": "/tmp/veritile-standardization-20261015/fp4-schedule-wip/ScheduleCorrect-final.log",
+        "sha256": "024da6dbb37a6569802480fd15bda0757f6291cfcdacd52bbbc68a005ca2a78c",
+        "producer_observed_exit_code": 0,
+        "named_standard_base_audits": 1
+      }
+    ],
+    "named_axiom_checks": 6,
+    "all_exact_bound_hashes_match": true,
+    "independent_reference_check": "scheduledMemory avoids runSchedule, execution, FP.Structural.exec and source; inspected successful log.",
+    "readme_sha256": "047cd16e813b91b2725088abb067a3cc6f587aed0247fdb7402abc6368d0c371"
+  },
+  "validation_limits": {
+    "independent_Lean_build_run_by_reviewer": false,
+    "native_compile_or_GPU_execution_run_by_reviewer": false,
+    "proof_hole_scan": "No sorry/admit/custom axiom/unsafe/partial/native_decide found in the two new sources.",
+    "note": "Read-only independent semantic review of the two new modules, original Python, Host/FPCorrect/FPContract/FPReference/FPSource dependencies, and verification of all receipt-bound sources/dependencies/final compiler logs. Producer exit codes were not rerun by this reviewer."
+  }
+}

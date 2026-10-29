@@ -1,0 +1,11 @@
+{
+  "profiles": 48,
+  "exp_prefix_graphs": {
+    "SEPARATE_SUB": 36,
+    "SCALED_FMA": 12
+  },
+  "all_have_source_math_log": true,
+  "actual_log": "libdevice-expanded polynomial with fma.rn.ftz.f32 and guarded special-value paths",
+  "native_semantics_proved": false,
+  "checker_scope": "Exact high-level SSA and limited scalar straight register spans/max register tree; shuffle lane semantics, control flow and log algorithm semantics NOT_PROVED."
+}

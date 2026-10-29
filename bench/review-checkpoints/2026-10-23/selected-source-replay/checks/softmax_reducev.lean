@@ -1,0 +1,7 @@
+import VeriTile.Meta.StatementAudit
+import bench.repairs.tritonbench_g.softmax_reducev_neginf_checked.Contract
+import bench.repairs.tritonbench_g.softmax_reducev_neginf_checked.Correct
+import bench.repairs.tritonbench_g.softmax_reducev_neginf_checked.FPEquiv
+
+#axiomsClean VeriTile.Bench.Repairs.SoftmaxReduceVNegInfChecked.Correct.kernel_real
+#axiomsClean VeriTile.Bench.Repairs.SoftmaxReduceVNegInfChecked.FPEquiv.reducev_grid_equiv

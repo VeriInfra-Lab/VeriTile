@@ -1,0 +1,123 @@
+{
+  "schema": 1,
+  "task": "diag_ssm_triton",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue05/result.json",
+    "sha256": "b7855ba15faaf5e2f177961e4a8a89181354e8928bbce04e8519a187efbab386",
+    "task_index": 0
+  },
+  "finding": "Four regional readers exposed role channels and flat time/lane formulas.",
+  "resolution": "Named initial/transition/input/saved/upstream arrays and three backward outputs; bijections retain all finite payloads, including empty dimensions and both complex components. Recurrence uniqueness and output-equivalence injectivity preserve the complete previous regional judgments. Reader proof assembly is in Proofs/ReaderConnections.",
+  "mathematical_target": "Forward time recurrence and reverse carried/input/initial/transition gradients for FP32-real and complex64 mathematical interpretations.",
+  "conditions_and_scope": "Every iteration of one complete per-program time loop and every active logical lane; existing forward x≠y and real/complex backward separation remain explicit. Saved states remain independent backward inputs; no host batch reduction is claimed.",
+  "proof_connection": "LogicalIO.forwardReal_iff, forwardComplex_iff, backwardReal_iff, backwardComplex_iff; all four input/output Equiv left/right inverses; ReaderConnections forwardReal/forwardComplex/backwardReal/backwardComplex.",
+  "fp_review": "Four retained index-commuted actual typed source pairs; both FP32 complex components, conjugation signs, masks, loops, storage and all arithmetic order unchanged.",
+  "numerical_dependencies": {
+    "experimental_rules_used": [],
+    "missing_experimental_evidence": [],
+    "note": "Existing actual source pair retained; no numerical operation/order rewrite or new admission obligation. Empty experimental rules do not assert arbitrary opaque-model/hardware identity."
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "Visible independent state h[0]=initial, h[t+1]=h[t]*transition+x[t]; reverse carry[0]=0, carry[k+1]=(gy[length-1-k]+carry[k])*transition; gx[t]=gy[t]+carry[length-1-t], gs=carry[length], gl=sum of reverse adjoints times previous saved states. Complex applications explicitly conjugate transitions/previous states and expose every re/im component.",
+    "required_conditions": [
+      "Real forward retains p.x≠p.y; real backward retains RegionCorrectness.BackwardSeparation; complex backward retains ComplexBackwardRun.Separation; complex forward retains its existing alias support.",
+      "Regional IO quantifies the actual pid/context, coherent initial logical bindings, masked storage bounds and permitted read aliases; access safety, execution, outputs and exterior frame are conclusions.",
+      "Contract metadata supports FP32 and complex64, same devices/dtypes and exact [time,batch,dim] shape relationships; the headline is the explicitly described kernel-stage scope."
+    ],
+    "scope": "Four existing per-program regional judgments cover each complete time loop. Logical lanes are pid*B+lane<batch*dim. Forward outputs are length*B; backward gx is length*B, gs/gl are B. gl remains a per-batch/column gradient, with no later host batch reduction.",
+    "canonical_connection": "Proofs/HeadlineRecurrences proves recurrence uniqueness by induction for arbitrary pure functions satisfying the visible equations. Short local function equalities inside each main specification connect state/carry/transitionSum and logical-role formulas to Interface.forwardFormula/backwardFormula. Existing Interface.forward_real_correct/backward_real_correct/forward_complex_correct/backward_complex_correct then supply all regional execution/output/frame proofs.",
+    "fp_program_pair": {
+      "actual_pairs": [
+        "Kernels.forwardTyped vs forwardIndexCommuted",
+        "Kernels.backwardTyped vs backwardIndexCommuted",
+        "Kernels.complexForwardTyped vs complexForwardIndexCommuted",
+        "Kernels.complexBackwardTyped vs complexBackwardIndexCommuted"
+      ],
+      "source_precision": "FP32 real sources; complex64 uses explicit FP32 real/imaginary component operations and signs.",
+      "transformation": "Commute only natural pid*block in the initial column address; all floating operations/order, loops, masks and stores remain identical.",
+      "model_domain_and_guarantees": "ProfiledMemory programs have domain=[] and assumptions=[]; fixed Guarded.fp32Theory remains the program theory. FPInterface transports complete success and full memory equality from FPExecution and FPProof. This FP relation itself does not add a trace-safety conclusion; Real regional judgments do.",
+      "experimental_rule_instances_used": [],
+      "missing_experimental_evidence": [],
+      "existing_strict_theory_preserved": true
+    },
+    "numerical_dependencies": {
+      "source_precision": "FP32 real sources; complex64 uses explicit FP32 real/imaginary component operations and signs.",
+      "transformation": "Commute only natural pid*block in the initial column address; all floating operations/order, loops, masks and stores remain identical.",
+      "model_domain_and_guarantees": "ProfiledMemory programs have domain=[] and assumptions=[]; fixed Guarded.fp32Theory remains the program theory. FPInterface transports complete success and full memory equality from FPExecution and FPProof. This FP relation itself does not add a trace-safety conclusion; Real regional judgments do.",
+      "experimental_rule_instances_used": [],
+      "missing_experimental_evidence": [],
+      "existing_strict_theory_preserved": true
+    }
+  },
+  "verification": [
+    {
+      "task": "diag_ssm_triton",
+      "kind": "targeted_reader_helpers",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue05/build.py",
+        "bench/repairs/tritonbench_g/diag_ssm_triton/IO.lean",
+        "bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/LogicalIO.lean",
+        "bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/ReaderConnections.lean",
+        "bench/repairs/tritonbench_g/diag_ssm_triton/Correct.lean",
+        "bench/repairs/tritonbench_g/diag_ssm_triton/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue05/supplement/diag_ssm_triton-targeted_reader_helpers.log",
+      "log_sha256": "2fb9b8f63a2496dfd355d4a24f71a09b0811bf9120d5db37d2fa53b1798868ad"
+    },
+    {
+      "task": "diag_ssm_triton",
+      "kind": "task_joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue05/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue05/supplement/joint_diag_ssm_triton.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue05/supplement/diag_ssm_triton-task_joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": ".veritile-cache/logical-reader-review-20261022/queue05/supplement/joint_diag_ssm_triton.lean",
+      "source_sha256": "ee39902026b9c233107a77acc2ca60c693730a345831539584135a9415f0b221"
+    },
+    {
+      "kind": "receipt_source_object_direct_dependency_audit",
+      "command": [
+        "python",
+        ".veritile-cache/logical-reader-review-20261022/queue05/audit-receipts.py"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue05/receipts-final.json",
+      "log_sha256": "a3a64928712915a8204fd3fec33335656e18e0542b5c5ab22d8bdec24b8df76e"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/diag_ssm_triton/Contract.lean": "b6d8467af408c109febd780fd6816227af90b2677e1c62811aba1a0beeb0c377",
+    "bench/repairs/tritonbench_g/diag_ssm_triton/Correct.lean": "220d8a01e230772a533c98bb19dcb892478ae45d7e9c409fc9e6ff6d68028b0d",
+    "bench/repairs/tritonbench_g/diag_ssm_triton/FPEquiv.lean": "a2427cc1f57b6b9b5673fdfaa621ab5d531a6b489b3ad35651690dc3e723f48c",
+    "bench/repairs/tritonbench_g/diag_ssm_triton/IO.lean": "a4c68e8ba1072fbb4dd67991e21cce31dd1256d5b51446c49c7363a90163590a",
+    "bench/repairs/tritonbench_g/diag_ssm_triton/Kernels.lean": "7e973ace4bd72529aefa2d99890d67fbd00bc26ee80e30bcaef62b0b82fd0912",
+    "bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/HeadlineRecurrences.lean": "0268aa4fe2c6d6c574afe8324435436e6a32fb3d4497c6eeb3d39991853a3395",
+    "bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/LogicalIO.lean": "316ab3b161c4ed2e0662afa6f011348d3caf2ec8d0cbf1088c51a15a40857b44",
+    "bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/ReaderConnections.lean": "c3626aa44a48367cda17a44b8e9c6eef90bb9a655991255b2b967f77193c7daa",
+    "bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/IOBackwardResults.lean": "c9db32a401d28414808603ac0923e5af80072b5c48c070bbeea7de43ef48f401",
+    "bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/FPInterface.lean": "cc22e697cb9de0103e460393bd9845f626cd849977a03c436dde00999556ad5d",
+    "bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/FPExecution.lean": "b8ff7c78cc1330af6b91201392f979f8d68f770ba39b5862681e5c2f2f930d9f",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

@@ -1,0 +1,23 @@
+{
+  "status": "passed",
+  "producer_receipt_sha256": "9b62ea3b598a6ac164f91333e2fa3e98cb634cf020e83247014687479bc0433a",
+  "frozen_artifacts_verified": 651,
+  "canonical_modules_verified": 9,
+  "independent_objects_equal_producer": 9,
+  "project_source_and_objects_verified": 201,
+  "external_objects_equal_producer": 37,
+  "dependencies_unchanged": true,
+  "dependency_capture_timing": {
+    "producer": "before final rebuild; after iterative development checks",
+    "reviewer": "before first independent build/import"
+  },
+  "final_warnings": 0,
+  "source_audits": {
+    "#axiomsClean": 48,
+    "#specNonCircular": 7,
+    "#auditModuleAxioms": 9
+  },
+  "independent_regression_axiom_checks": 12,
+  "retained_current_source_files": 9,
+  "replacement_overlap": 0
+}

@@ -1,0 +1,38 @@
+[
+  {
+    "module": "bench/tritonbench_g/add_example/Proofs/FiniteIndices.lean",
+    "record": "evidence/attempts/0030-FiniteIndices.json"
+  },
+  {
+    "module": "bench/tritonbench_g/add_example/Proofs/FiniteScalar.lean",
+    "record": "evidence/attempts/0031-FiniteScalar.json"
+  },
+  {
+    "module": "bench/tritonbench_g/add_example/Proofs/FiniteSource.lean",
+    "record": "evidence/attempts/0032-FiniteSource.json"
+  },
+  {
+    "module": "bench/tritonbench_g/add_example/Proofs/FinitePhysical.lean",
+    "record": "evidence/attempts/0033-FinitePhysical.json"
+  },
+  {
+    "module": "bench/tritonbench_g/add_example/Proofs/FiniteProgram.lean",
+    "record": "evidence/attempts/0034-FiniteProgram.json"
+  },
+  {
+    "module": "bench/tritonbench_g/add_example/Proofs/FiniteGrid.lean",
+    "record": "evidence/attempts/0035-FiniteGrid.json"
+  },
+  {
+    "module": "bench/tritonbench_g/add_example/Proofs/FiniteAdmission.lean",
+    "record": "evidence/attempts/0036-FiniteAdmission.json"
+  },
+  {
+    "module": "bench/tritonbench_g/add_example/Proofs/FiniteHost.lean",
+    "record": "evidence/attempts/0040-FiniteHost.json"
+  },
+  {
+    "module": "bench/tritonbench_g/add_example/FiniteCorrect.lean",
+    "record": "evidence/attempts/0041-FiniteCorrect.json"
+  }
+]

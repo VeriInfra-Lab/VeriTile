@@ -1612,6 +1612,8 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
         some (← fp32ComputeExpr term), some .fp32⟩
   | `(tritonExpr| tl.sum($e:tritonExpr $[, $kwargs:tritonReduceKwarg]*)) => do
       expandReduce expandExpr env "tl.sum" (← `(Op.reduceSum)) e kwargs
+  | `(tritonExpr| tl.min($e:tritonExpr $[, $kwargs:tritonReduceKwarg]*)) => do
+      expandReduce expandExpr env "tl.min" (← `(Op.reduceMin)) e kwargs
   | `(tritonExpr| tl.max($e:tritonExpr $[, $kwargs:tritonReduceKwarg]*)) => do
       expandReduceMax expandExpr env e kwargs
   | `(tritonExpr| tl.toReal($e:tritonExpr)) => do
@@ -1875,6 +1877,11 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
   | `(tritonExpr| $a:tritonExpr ^ $b:tritonExpr) => do
       expandNatBitwise expandExpr env "`^`" (← `(Op.bitXor)) a b
   | `(tritonExpr| $a:tritonExpr << $b:tritonExpr) => do
+      let left ← expandExpr env a
+      if left.forgetStorageWidth.dtype == .int then
+        let right ← expandNatExpectedExpr env b
+        let (bc, shape) ← broadcastTerm left.shape right.shape "signed left shift"
+        return ⟨← `(Op.intShiftLeft $bc $left.term $right.term), .int, shape, none, none⟩
       expandNatBitwise expandExpr env "`<<`" (← `(Op.shiftLeft)) a b
   | `(tritonExpr| $a:tritonExpr >> $b:tritonExpr) => do
       expandNatBitwise expandExpr env "`>>`" (← `(Op.shiftRight)) a b

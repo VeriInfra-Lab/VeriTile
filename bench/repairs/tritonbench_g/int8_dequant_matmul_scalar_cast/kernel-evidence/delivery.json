@@ -1,0 +1,976 @@
+{
+  "task": "int8_dequant_matmul_scalar_cast",
+  "status": "separate candidate complete; frozen for independent parent review",
+  "blockers": [],
+  "candidate_source": {
+    "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/int8_dequant_matmul_scalar_cast.py",
+    "sha256": "e7d5d9fd268e2d8933eaf733d8116baf7a9c2111bc2215e0ece4c811e361e8ab"
+  },
+  "predecessor_source": {
+    "path": "bench/repairs/tritonbench_g/int8_dequant_matmul/int8_dequant_matmul_repaired.py",
+    "sha256": "d71b15843752bfa2904d3d341a49ce9017635a7a4273acf1ed4d7edb4620c44f"
+  },
+  "predecessor_all_pins_preserved": {
+    "bench/repairs/tritonbench_g/int8_dequant_matmul/Correct.lean": "fa61230cb6262c3545ff64d2b7035af955220a3463f025abbd3687ea8f94b54a",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul/FPEquiv.lean": "ab92070144ccd8cd235f5e2ac5eb8916f66527e3110c43ab64c6816951e2843d",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul/check_counterexample.py": "65f40d6dfb06f0a7bb420794741bcd3222321eb13bf3225cbedc390a511d91a6",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul/int8_dequant_matmul_repaired.py": "d71b15843752bfa2904d3d341a49ce9017635a7a4273acf1ed4d7edb4620c44f",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul/Contract.lean": "a5dbfb69d4b2e7731b1ac9df594cc222ade890dd1e2bd117db840e4e137c6092",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul/Kernels.lean": "5fda701458b9cd9416de8058634e431474bcbbbe3bbac9312bc8c03ba7a1964e",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul/check_contract.py": "af7f6a7b922a43e43c9dc7a3c04ab35dc1e7babfc662f87ae13ef7adf240cd7e",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul/README.md": "93c39a9831216278735031ed00bb069b254d3c047ba6b166106e87249e4a06a9",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul/SOURCE_DEFECT.md": "1318e99f60eb07327344bc0b38dbdcd7ac703c7f4cbae332617cf170435698a8",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Source.lean": "f05c5873b863a24cb38acf615a9694da78729c49510f5d2b307d5b8ebe44317c",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Math.lean": "aab1702f02cf4b2a15b738a1add022d7530a0e428761d7f2dabbb3c0c1835b0f",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Ingress.lean": "1ebf38ced544969335bda608713844be1116c4c451b3d5a4ef4b8febeb7333c5",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Native.lean": "e933ea49b1404627f2f9ea41759541dce04d043b728269600b8cc16eb50416ca",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Bound.lean": "0e7492f8f3103501fae76a70ab551474d808366c4a58d36d822e4890c2e2a3cc",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Grid.lean": "458a95a3126992ab24fd67dcb682802eab71eb938e0e265dad9fc4aa9649c95b",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Host.lean": "5e2974c4bf267905d09e63e15c8ece3b81239d0f4ad83f998c03b102dcce52e1",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Contract.lean": "e5f1b0a5766e21b9def051d91951273396c23ffb88ad3b32de478ce0aef51296",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Events.lean": "1feb3447cf9b4ba8a82e8cf5b9639f32a79ad890da733939f58ac1ee7605771f",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Plan.lean": "998c13211ea845b58422d6bb5dbb9cd69066749767a4fafb4b3b9f7ca7217c5e",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Coverage.lean": "2f309cb5715c0c59b83798ee030b932a53c6dd7a50c2c8b82d9b523ad33790e6",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/DirectReal.lean": "101f329d0d948b88bcb832c5132f1873e83e8b735300696f0e8ef2e3aeb39e43",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/DirectNative.lean": "9c31824fb5bcc2f802b152d5abe88d512ac7265e9818fe63dc9bc6b7662ed9ca",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/DirectHost.lean": "d1bcc8475b3f16f0b344e29b8c0613c8ff6604df732b27ee559fb62ef6393222",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/DirectPointers.lean": "dcd0b860b1e0c6b72bb82cbb66a53e18dc298d80f13f034311a838b6ee4dd7f6",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Ideal.lean": "5fe8ffa8a96b62bc11be1bd8f6740f312840d0a091581392ecd37adf8147b2ad",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Machine.lean": "9a7625135574d1528fe0bc122e8dffcd4c1e42e59c05c04f06950d0e4c7e251b",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/DirectWords.lean": "834b70a7b187f9782617c4192edfbe44df447a58bed2bef8df71a23a8737ae2b",
+    ".veritile-cache/task-deliveries/int8_dequant_matmul/delivery.json": "c48d815a9713dafda98a9d8b7620a72da88412191a009a14d2401001bf811654",
+    ".veritile-cache/task-deliveries/int8_dequant_matmul/entry-source.json": "98d04770181244f881b3d50ca0b0d411d536b2f2f1d08ad71461c99a7a299f33"
+  },
+  "python_delta": "Exactly nine scalar/stride .to(tl.int64) calls become tl.cast; all other bytes unchanged",
+  "canonical_selected": false,
+  "domain": "Original imported checked domain, all 418 configurations, unit/empty dimensions, K0, offsets and allowed aliases; no numeric restriction added",
+  "prepared_state": "Fresh FP16 output; typed FP16 zeros for split-K>1, supplied by existing zero hook",
+  "public_entries": {
+    "Real": "VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.correct",
+    "native": "VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.fp_equiv"
+  },
+  "scope": "Kernel-only readable-quotation execution, source store descriptor schedule, original-view result, output words/bytes and complete element/byte frame",
+  "source_execution": {
+    "full_quote_success": "VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.Quote.fullResult",
+    "actual_store_replay": "VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.Quote.Result.replay_eq",
+    "source_to_independent_reference": "VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.Quote.sourceGrid_eq",
+    "whole_quote_lowering_assumption": false,
+    "numerical_result_assumptions": [],
+    "concurrency": "Complete physical store lanes in arbitrary order; each descriptor is obtained by actual quotation execution; the full source store fold is proved equal to descriptor replay"
+  },
+  "model_boundaries": [
+    "Fixed K32 MMA/WGMMA one-lane primitive realization, structural lane plan and fusion selection",
+    "Ordinary local scalar/memory event ABI laws and original TensorView/storage laws",
+    "Source-specific exact signed64 normalization uses the unchanged checked bounds",
+    "Existing dependency objects pinned; no cold build or GPU execution claim"
+  ],
+  "native_real_equality": false,
+  "deferred_numerical_experiments": [],
+  "new_source_defects": [],
+  "source_audit": {
+    "source_sha256": "e7d5d9fd268e2d8933eaf733d8116baf7a9c2111bc2215e0ece4c811e361e8ab",
+    "dsl_sha256": "d25fab52422732cee7edd6423c79c3c154bd6c6dc2a854fcb0b244ca9c308b6b",
+    "full_kernel_AST_equal": true,
+    "top_level_statements": 37,
+    "normalized_ast_sha256": "2322884711610d147ff580d6744d85656b36415051782268a8ae3b5b850b606c",
+    "normalizations": [
+      "SSA register names",
+      "list/tuple tile syntax",
+      "explicit range step 1",
+      "steps = cdiv(K,BK*S)",
+      "C pointer dtype is the original fixed FP16",
+      "natural descriptor index specialization after exact signed64 casts"
+    ],
+    "retained_branches": [
+      "EVEN_K",
+      "has_bias",
+      "pid_z == 0",
+      "SPLIT_K == 1"
+    ],
+    "runtime_divisor": "typed runtime FP32 binding, same existing runtimeScaled node",
+    "no_host_or_primitive_numerical_experiment": true,
+    "checker": {
+      "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/check_source.py",
+      "sha256": "006a15b5b9f3eb2e89a7cde890df10152dbe990ae34b434ee4d87f33c43d6745"
+    },
+    "report": {
+      "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/source-validation.json",
+      "sha256": "52c4f3a246547a5dc3b28f24f54d84bafd3e3d09fb352deb9b6c8fdac6b3a3cd"
+    }
+  },
+  "compiler_evidence": {
+    "report": {
+      "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/binder-validation.json",
+      "sha256": "876614fb2cbb0311598e1e4a05567ee142f5a5226793462ca1ab1a3383dd7c6b"
+    },
+    "binding": "actual create_function_from_signature/native_specialize_impl and JITFunction._pack_args",
+    "cases": 10,
+    "all_prior_failures_compile": true,
+    "native_specialization_preserved": true,
+    "GPU_execution": false,
+    "artifacts": [
+      {
+        "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/witness_1_cfg18.ttir",
+        "sha256": "60528b5f1a724f51366221f5900104a8a82ced5678b647ea663d27cf2f083cc5"
+      },
+      {
+        "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/witness_1_cfg18.ttgir",
+        "sha256": "bceb56c0f8e42960c67606e381b5eeca66c360046f75eceba9ed2f5824e2ed0e"
+      },
+      {
+        "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/witness_1_cfg18.llir",
+        "sha256": "65db59534b4f0e2dce80c1e1a5ef24b0748fdaff202cc1a22033e5f587b2cdbf"
+      },
+      {
+        "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/witness_1_cfg18.ptx",
+        "sha256": "227c2229854f7a80813caa340cec32dd160656ac662560f4468e305a814d0ec9"
+      },
+      {
+        "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/witness_1_cfg6.ttir",
+        "sha256": "5b3442ced080bc59a05631a85a45494b8ee17d87b685cf7fff4c0f61f9ec3e03"
+      },
+      {
+        "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/witness_1_cfg6.ttgir",
+        "sha256": "debbe2c408440099789d995cceebef7219e71364dc406a924e8b8b2de8f45014"
+      },
+      {
+        "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/witness_1_cfg6.llir",
+        "sha256": "0bd0300a94cc74b9bc2e6d213fb3a17b280fab6f3727e5f95369777131c9a4e7"
+      },
+      {
+        "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/witness_1_cfg6.ptx",
+        "sha256": "34b61419b5b065703e0323087eee410669fbabfe42159feba59ce0c9755c5b95"
+      },
+      {
+        "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/witness_2_cfg18.ttir",
+        "sha256": "b1f2f89dc7e2531b93b462d889d9f025bb65300030185a50195ff3229d0db979"
+      },
+      {
+        "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/witness_2_cfg18.ttgir",
+        "sha256": "c7cd7a5aa172c255ebd23d2b699463b2584e6a2caa671d10fbae295e01e41f67"
+      },
+      {
+        "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/witness_2_cfg18.llir",
+        "sha256": "b15cb7b9b978be2ae541e3dba97cecba8687ca216858448fd43fdfe0d69a9572"
+      },
+      {
+        "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/witness_2_cfg18.ptx",
+        "sha256": "dbca4e2b263ec8cf25484eb95e94fff7e49c5c6708752ef09de7e11b52f3a606"
+      },
+      {
+        "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/witness_2_cfg6.ttir",
+        "sha256": "7b97848c57c43cf1c02b234c67e6869d98392b95fb74d2d3974a54cb6837e8f8"
+      },
+      {
+        "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/witness_2_cfg6.ttgir",
+        "sha256": "899a82caadd044e2066151e8412a12760f352602d6698593607402a296ccd6f4"
+      },
+      {
+        "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/witness_2_cfg6.llir",
+        "sha256": "21337fe506ae52dcc466d6dea544ebb8874ecda09aaf3f5fec0b81d062adb5a3"
+      },
+      {
+        "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/witness_2_cfg6.ptx",
+        "sha256": "671a3dea12bbdf0c911c1731dfce4e5fdd6ce32486cc978a7704b6962e888ef2"
+      },
+      {
+        "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/unit_all_bias.ttir",
+        "sha256": "6cad7bab5a1828d8e21f2b61f97b9f111152d320e1f559cd30f2b62393ea5882"
+      },
+      {
+        "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/unit_all_bias.ttgir",
+        "sha256": "cac5e98648dd765887eb410c44ba0612736745271a90507cfa2c921eb43e4381"
+      },
+      {
+        "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/unit_all_bias.llir",
+        "sha256": "c97d0e999cb263c82fd7988102c61ac6b536617c31385dd81ad8ea57ee41ff07"
+      },
+      {
+        "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/unit_all_bias.ptx",
+        "sha256": "3ef01b165c0b969649b6a492c7cf4934b2cbb3a93b90f9b712581284307e4734"
+      },
+      {
+        "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/zero_k_split_bias.ttir",
+        "sha256": "47f7fab684ce86c9e21fc68a10dfea00ba7e605460109d32b5de21fd860d5335"
+      },
+      {
+        "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/zero_k_split_bias.ttgir",
+        "sha256": "19fe42fceb45fcb67b7558fdbcd703f6c2b6e22f314dc3048009a3b5a245df81"
+      },
+      {
+        "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/zero_k_split_bias.llir",
+        "sha256": "31c68f3ade70f91c19ccb8e2cbb7cdb754a83b7e825994b48e796c6cf94daf28"
+      },
+      {
+        "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/zero_k_split_bias.ptx",
+        "sha256": "b3a0602b22c112739573f84f42a2f53c2983d3d478705544c30f67c564720fed"
+      },
+      {
+        "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/tail_split_bias.ttir",
+        "sha256": "9015631778beba7488750707b93420cd62b4db4ef7465b591859c18976c42f35"
+      },
+      {
+        "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/tail_split_bias.ttgir",
+        "sha256": "f1da60fa2e2d7f681387878574d01d3f2fdb0c36fda5430b5123746964dc337e"
+      },
+      {
+        "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/tail_split_bias.llir",
+        "sha256": "58dba143d645e1066fed0f8d8c2d3ba4bb1f12fbfa007946e07da08523c4c66e"
+      },
+      {
+        "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/tail_split_bias.ptx",
+        "sha256": "1fc77430ce0bece94239e1cec474429647d9cde88d33266411dd93c72c4b008d"
+      },
+      {
+        "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/even_split.ttir",
+        "sha256": "e4fb47274c07696891784e223aa419ab503f20bcd0359ca7c21d0c3583a56083"
+      },
+      {
+        "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/even_split.ttgir",
+        "sha256": "c2d84896bf98d55a68d47f6860bcfce77643a0b2169df492aed91d195f5bf963"
+      },
+      {
+        "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/even_split.llir",
+        "sha256": "66daa874e97ede0affa0b36178e0fb32d4bcbf91845aebcd160da36acc67bdc6"
+      },
+      {
+        "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/even_split.ptx",
+        "sha256": "a9cd849f904d4781eeaa2cb581fc240d1766a1715cdf7d228b839ece5cce5b53"
+      },
+      {
+        "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/split16_tail.ttir",
+        "sha256": "731f52be319e53a18d59c4d3d950856d64c700cfce7fdee66ccb3baa1f5b61cf"
+      },
+      {
+        "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/split16_tail.ttgir",
+        "sha256": "cf4b1e01f986685663123904fdf4d1ce01682dcbdb9eabef45f6fe55e8013318"
+      },
+      {
+        "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/split16_tail.llir",
+        "sha256": "be30d87182fc519dd48f899dfa1a3ffa225f055851a523e14b9d58c7d15f3a7a"
+      },
+      {
+        "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/split16_tail.ptx",
+        "sha256": "bceb37bdc81bd65e1e56db9c34f886bdd37424e1b984bd7ce1c66ed5b109a155"
+      },
+      {
+        "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/bk128_tail_bias.ttir",
+        "sha256": "2879309d6ab4892cf0234df69e669641c6ab1f6434c0f395061ef4438af7a9f4"
+      },
+      {
+        "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/bk128_tail_bias.ttgir",
+        "sha256": "11d7f0279b63423c1fb4f65b8e9570b0b8ad6a52905beb9a3ab540cf799700f0"
+      },
+      {
+        "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/bk128_tail_bias.llir",
+        "sha256": "d319327ac61e8c085fbcea58473bb530241cc07b1ba26c45195ee1b343557ee5"
+      },
+      {
+        "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/bk128_tail_bias.ptx",
+        "sha256": "4a218dbe1be8b18ede8acefb2e063add209ddd2cfa005beb7a1ba3594e27b32f"
+      }
+    ]
+  },
+  "lean_checks": {
+    "current_module_receipts": 21,
+    "axiom_checks": 51,
+    "non_circular_checks": 9,
+    "audit_source": {
+      "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Audit.lean",
+      "sha256": "fe2dc1ba25c04f5c67b622e7b128eb820f54133904eec3b182f7ffc188b88ffa"
+    },
+    "audit_log": {
+      "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/combined-audit.log",
+      "sha256": "b57aa29cc6e9385c0ebaac6251b6bdcafa03379ec1e339c3feed77932d9f561c"
+    },
+    "build_log": {
+      "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/final-build.log",
+      "sha256": "bf153284a33335ac78df03578f2a37563e9f4317bce196583ccf6cdfda999762"
+    },
+    "observed_session_exits": {
+      "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/validation-runs.json",
+      "sha256": "5e50403e94f48a9e3da57ee909caec768233f31bb766d6fc7b8b483d36fcd910"
+    },
+    "closure": {
+      "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/closure.json",
+      "sha256": "7b3fb69901fe3394d18addcb6d98426c7cbb10c0f86019d4b80ba8cc2b156b6b"
+    },
+    "repository_dependencies": 248,
+    "driver": {
+      "path": ".veritile-cache/build-tools/workspace_lean_local_first_v2.py",
+      "sha256": "23464979d2a667dcebe68ab9ce1c958238ff1bd322c5a010b8989897a406da22"
+    },
+    "driver_adoption": {
+      "path": ".veritile-cache/build-tools/v2-adoption.json",
+      "sha256": "836e323bf5035287ec4b233654045f4aa68559900214400f88c8bcb950f76e92"
+    }
+  },
+  "integration": {
+    "parent_owns_ledger": true,
+    "predecessor_core_and_lake_untouched": true
+  },
+  "source_pins": {
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Audit.lean": "fe2dc1ba25c04f5c67b622e7b128eb820f54133904eec3b182f7ffc188b88ffa",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Contract.lean": "a92bff8eb75409e1669eae38a75189fd3287ee7a1875ff89dd5dcddb050da056",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Correct.lean": "38614efcf5235baa90466418ec1009f4cf6cf99442aaeb8f8ea397f0567b613d",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/FPEquiv.lean": "55cd504bd9b68aec8a4f2decab128843e30c713dc7a69ea28b990e229b7b0e2c",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Kernels.lean": "d25fab52422732cee7edd6423c79c3c154bd6c6dc2a854fcb0b244ca9c308b6b",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/README.md": "f02fd3a8201937083792bcd5af622faacf0d1eef5508851ab9292175a1499b4b",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/check_binder.py": "e62857e953759531c3ecee76688f02a99c68d6dcdbcc355a0fad84b3b58ed130",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/check_source.py": "006a15b5b9f3eb2e89a7cde890df10152dbe990ae34b434ee4d87f33c43d6745",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/freeze.py": "4f8f7e953e7362ac7acf59eb74e61183658bed7c02b0f82fc2144cf14a0026a5",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/int8_dequant_matmul_scalar_cast.py": "e7d5d9fd268e2d8933eaf733d8116baf7a9c2111bc2215e0ece4c811e361e8ab",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/KernelExecution.lean": "a6da4156c49f7704f9c3d89eb75776f9626bd2b9114e6983bf530adbb094dc74",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/PreparedZero.lean": "a7352b87046f8f8b9d7c5c08d0d23af5a8c1c19165cf19e617dd9b60d7b4f958",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteComplete.lean": "2861cfa9f7cdd9b7777dc38f4f1a4a7c4aa7330ad09c78736f3970d193565026",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteDescriptors.lean": "870b4978c0d72331b7af8ef047f40e5e3eb33b3fb233c148ecd03e9acafa1142",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteExecution.lean": "47ee59c8fd55dd5dddf40ffbf0d0f12d3eb90314bc375e34fb0acaa32a4d39d3",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteFactors.lean": "082bfaf20c0825b064c39e2ac3c9fe4332149017522f9435ef91e5785dc705bc",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteGeometry.lean": "e912f9e15055b6cca659fc5043dbd4a3f2263e5c46b770463c592c78e18502ef",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteLoop.lean": "99aef2c967d6da7aab01666e7697f23567b0db7304027606174f8696c517524d",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteModel.lean": "4f60e52bc2ed099174f80b8baff13022b3036e777a84199f01ff9dad4ff8ae6e",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteOperands.lean": "db6981c1c1e6b810074c4a0e34188f544223beab30cf533073e6f9e9bee52f34",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteRecurrence.lean": "7f3c22d9a5495ba22bb706b3c8dab6e47b315dd7f8354e2f1b057fd64ae49cb2",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteSchedule.lean": "4cf96591b0efa6046367b33f5bedb03a9780110ccd25bd421dc05a0cb4690a72",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteSemantics.lean": "a688ce7de46a80a9f90400bfc37b2e16118cb64a1ea77188b78abb162279b7e9",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteStages.lean": "cdc8a73457d0cde05e74e7893f5b7812fe292d91538894ee216887e67b034391",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteValue.lean": "5bb3e4fe740ca97134a7c810af5dd5c5216c48dc3e14d4f91bb7110faa9b4eb8",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/SourceBinding.lean": "116432c92a54dd34eddf44ed1b05f45a6545d05ccf2fe3bce521c275f45516ba"
+  },
+  "module_receipts": {
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Audit.lean": {
+      "receipt": {
+        "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Audit.workspace-build.json",
+        "sha256": "e68222c11a25a8360578786c60d5d7e90eca96cca6857638fc8fe934712aab87"
+      },
+      "build": {
+        "source": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Audit.lean",
+        "source_sha256": "fe2dc1ba25c04f5c67b622e7b128eb820f54133904eec3b182f7ffc188b88ffa",
+        "exit_code": 0,
+        "objects": {
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Audit.ilean": "2ff25b08b8222f8dcf6bc555b6e90eaece9eb21dd5081ad42ab968d8e09eb4b4",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Audit.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Audit.olean": "30cb98a40b7504a3be37f68ba49fbc4330fd3d268e42c1d645087501b0becd28"
+        },
+        "lean_path": [
+          "/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean",
+          "/tmp/veritile-lean-toolchain/lib/lean",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean"
+        ]
+      }
+    },
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Contract.lean": {
+      "receipt": {
+        "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Contract.workspace-build.json",
+        "sha256": "748b4a405a2d06374fc62cb1be2faf1a73edb21f3a9d1b6ae1fb958cb639112b"
+      },
+      "build": {
+        "source": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Contract.lean",
+        "source_sha256": "a92bff8eb75409e1669eae38a75189fd3287ee7a1875ff89dd5dcddb050da056",
+        "exit_code": 0,
+        "objects": {
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Contract.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Contract.olean": "0fd153334783bb8381986d15d443ef18df9b7b78cc377628c041b5f445d881a1",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Contract.ilean": "ba9ed990e1ef023088686ac633e7f1d00a7c9216ef0b9dc61c402abf33368f6e"
+        },
+        "lean_path": [
+          "/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean",
+          "/tmp/veritile-lean-toolchain/lib/lean",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean"
+        ]
+      }
+    },
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Correct.lean": {
+      "receipt": {
+        "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Correct.workspace-build.json",
+        "sha256": "418de85d2a7e8a53c10292bb2ee1386c889b693e967ccafeb07b231b7173f5ee"
+      },
+      "build": {
+        "source": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Correct.lean",
+        "source_sha256": "38614efcf5235baa90466418ec1009f4cf6cf99442aaeb8f8ea397f0567b613d",
+        "exit_code": 0,
+        "objects": {
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Correct.olean": "197a3fa25b8b8b881e01f7522ae4fbf276f6277532b34c7a7257496b71c4bc57",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Correct.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Correct.ilean": "4d5eb4f29aa10a2dedba2045e6a414905d742731e8fec1dd69852fe2839c51c7"
+        },
+        "lean_path": [
+          "/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean",
+          "/tmp/veritile-lean-toolchain/lib/lean",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean"
+        ]
+      }
+    },
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/FPEquiv.lean": {
+      "receipt": {
+        "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/FPEquiv.workspace-build.json",
+        "sha256": "73cce980ffbf3976748f3be9a63c2980be8cdfe8d031cfb2fd79f3e0f8e264fc"
+      },
+      "build": {
+        "source": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/FPEquiv.lean",
+        "source_sha256": "55cd504bd9b68aec8a4f2decab128843e30c713dc7a69ea28b990e229b7b0e2c",
+        "exit_code": 0,
+        "objects": {
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/FPEquiv.ilean": "1a3221eea6f9ba5379c1855ea1780449dea3dece2aebcde7fbf360682ef9bf87",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/FPEquiv.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/FPEquiv.olean": "7e9ff69cdad297d5ff266762d6ab10b2462aa07797ad90dfdec6181954a107bb"
+        },
+        "lean_path": [
+          "/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean",
+          "/tmp/veritile-lean-toolchain/lib/lean",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean"
+        ]
+      }
+    },
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Kernels.lean": {
+      "receipt": {
+        "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Kernels.workspace-build.json",
+        "sha256": "6758aa3f93110458491832a4a928d2b1b13236ef88ed436e1a99ed121d445753"
+      },
+      "build": {
+        "source": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Kernels.lean",
+        "source_sha256": "d25fab52422732cee7edd6423c79c3c154bd6c6dc2a854fcb0b244ca9c308b6b",
+        "exit_code": 0,
+        "objects": {
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Kernels.olean": "706508ffae49d6f45f613628df560d2bc364d0e801e29eb1de631784972f4653",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Kernels.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Kernels.ilean": "b73b5f1ba54ff0622d765b38607dcd7760ca44f5c2a078566ce22f95c82bd3cf"
+        },
+        "lean_path": [
+          "/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean",
+          "/tmp/veritile-lean-toolchain/lib/lean",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean"
+        ]
+      }
+    },
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/KernelExecution.lean": {
+      "receipt": {
+        "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/KernelExecution.workspace-build.json",
+        "sha256": "d36c668d26dc91bad94c0b6ffdf763b27f3f6db2c920792debaf601956d97b07"
+      },
+      "build": {
+        "source": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/KernelExecution.lean",
+        "source_sha256": "a6da4156c49f7704f9c3d89eb75776f9626bd2b9114e6983bf530adbb094dc74",
+        "exit_code": 0,
+        "objects": {
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/KernelExecution.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/KernelExecution.olean": "5bd334b7522957ff1b3a0017f7078443fbea79f3dc5288da28243de472bd530f",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/KernelExecution.ilean": "68fceaf50ba9735eddbe147fb4aa2f5de3e4ebe4aa4bb66bd1019a425d03e5f2"
+        },
+        "lean_path": [
+          "/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean",
+          "/tmp/veritile-lean-toolchain/lib/lean",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean"
+        ]
+      }
+    },
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/PreparedZero.lean": {
+      "receipt": {
+        "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/PreparedZero.workspace-build.json",
+        "sha256": "e1859eb4bace08c716284fc1ce3965d8c6e19e1307638264b406f2c76b6729da"
+      },
+      "build": {
+        "source": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/PreparedZero.lean",
+        "source_sha256": "a7352b87046f8f8b9d7c5c08d0d23af5a8c1c19165cf19e617dd9b60d7b4f958",
+        "exit_code": 0,
+        "objects": {
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/PreparedZero.olean": "d403c758ad606975c35ebabb267cc32f2e5041fdbd1648d2c805bdab40835823",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/PreparedZero.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/PreparedZero.ilean": "1bc119d0828f78a1f13fa363436ac79635dad9040b738522c439cc56eeb6295e"
+        },
+        "lean_path": [
+          "/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean",
+          "/tmp/veritile-lean-toolchain/lib/lean",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean"
+        ]
+      }
+    },
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteComplete.lean": {
+      "receipt": {
+        "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteComplete.workspace-build.json",
+        "sha256": "49a4b384583090407ec29590a21619209ffbca3fe4778488bf6f41349d4954af"
+      },
+      "build": {
+        "source": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteComplete.lean",
+        "source_sha256": "2861cfa9f7cdd9b7777dc38f4f1a4a7c4aa7330ad09c78736f3970d193565026",
+        "exit_code": 0,
+        "objects": {
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteComplete.olean": "4855f4a11e0cacb5777af6ffe3f9568bd4cab48d7abbed4888ae849963ea5e2c",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteComplete.ilean": "cb7a946ae9cdf77ef16975afbfc7d31cd84085581df2f9d7ede0aecb90057ba3",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteComplete.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "lean_path": [
+          "/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean",
+          "/tmp/veritile-lean-toolchain/lib/lean",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean"
+        ]
+      }
+    },
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteDescriptors.lean": {
+      "receipt": {
+        "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteDescriptors.workspace-build.json",
+        "sha256": "1a07a8f23f36171a02379a43ee243c53054f7e7de32a1f67a0a2a97821bfe95f"
+      },
+      "build": {
+        "source": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteDescriptors.lean",
+        "source_sha256": "870b4978c0d72331b7af8ef047f40e5e3eb33b3fb233c148ecd03e9acafa1142",
+        "exit_code": 0,
+        "objects": {
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteDescriptors.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteDescriptors.ilean": "d6a55151dbdec4b89a6bc50161ea248baf29c943571718e1f93b5a7d1b44abd2",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteDescriptors.olean": "4959dfc276e28e56242572006b52d7813a4b8bb6a2a4abb453f4942f59327e8a"
+        },
+        "lean_path": [
+          "/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean",
+          "/tmp/veritile-lean-toolchain/lib/lean",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean"
+        ]
+      }
+    },
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteExecution.lean": {
+      "receipt": {
+        "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteExecution.workspace-build.json",
+        "sha256": "9da553acbddc9ccba3e5bc56c480e28525c046dab44f570830ecda80f7fb4589"
+      },
+      "build": {
+        "source": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteExecution.lean",
+        "source_sha256": "47ee59c8fd55dd5dddf40ffbf0d0f12d3eb90314bc375e34fb0acaa32a4d39d3",
+        "exit_code": 0,
+        "objects": {
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteExecution.ilean": "5a0611dcfec4b0791b4a00963fed461d21836dfc8494a03287c28fc1e3e9f3f1",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteExecution.olean": "dfaa43caba1aece0f0df2e7e380a855c7634f468f333a81562397b25dc78f671",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteExecution.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "lean_path": [
+          "/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean",
+          "/tmp/veritile-lean-toolchain/lib/lean",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean"
+        ]
+      }
+    },
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteFactors.lean": {
+      "receipt": {
+        "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteFactors.workspace-build.json",
+        "sha256": "dd6fcab30bec6b7494ddad85fccfe897236a363fdc86fb47012f152a6f3fd2aa"
+      },
+      "build": {
+        "source": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteFactors.lean",
+        "source_sha256": "082bfaf20c0825b064c39e2ac3c9fe4332149017522f9435ef91e5785dc705bc",
+        "exit_code": 0,
+        "objects": {
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteFactors.olean": "6fb5aeb9ab0c84294e433e9b9311a7efd81fb54c2dd98d5e5d96d1fbfe10e6a0",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteFactors.ilean": "b23c4eadcb966a247dda96521d0ee57a3d5f121bef88f31cd1da5e6e9450cf3a",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteFactors.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "lean_path": [
+          "/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean",
+          "/tmp/veritile-lean-toolchain/lib/lean",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean"
+        ]
+      }
+    },
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteGeometry.lean": {
+      "receipt": {
+        "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteGeometry.workspace-build.json",
+        "sha256": "f7beb46a6e1d3826db406027b1fc2f4869d179a4c3ff571fe1a2327eefdf3630"
+      },
+      "build": {
+        "source": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteGeometry.lean",
+        "source_sha256": "e912f9e15055b6cca659fc5043dbd4a3f2263e5c46b770463c592c78e18502ef",
+        "exit_code": 0,
+        "objects": {
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteGeometry.olean": "c1d60e9ec720e494c2c0de1e6dd6ee3ddd657712ffa692b6be34ea060f90664c",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteGeometry.ilean": "e7b293ffe4278db7920a1abf9137c6868ed10e4b5b7ba8114ecf2d1d854d678f",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteGeometry.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "lean_path": [
+          "/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean",
+          "/tmp/veritile-lean-toolchain/lib/lean",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean"
+        ]
+      }
+    },
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteLoop.lean": {
+      "receipt": {
+        "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteLoop.workspace-build.json",
+        "sha256": "21e1aab0ca4ef00e01c1b282c3ff534670a55a320fab981e19dd9f76cc6d9181"
+      },
+      "build": {
+        "source": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteLoop.lean",
+        "source_sha256": "99aef2c967d6da7aab01666e7697f23567b0db7304027606174f8696c517524d",
+        "exit_code": 0,
+        "objects": {
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteLoop.olean": "9d488c6504fa99bbe899e5cdf49a0ca6ac4433211c0f9d4593c138422ff11762",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteLoop.ilean": "7869af1573a7d585c21cb1a2bed1fe4737dc103aef46d9124b5172e506f5f5bf",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteLoop.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "lean_path": [
+          "/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean",
+          "/tmp/veritile-lean-toolchain/lib/lean",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean"
+        ]
+      }
+    },
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteModel.lean": {
+      "receipt": {
+        "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteModel.workspace-build.json",
+        "sha256": "836285ec46caea19a517a3c6cec559cc5050aee533829cdd6e2d7586a923cfec"
+      },
+      "build": {
+        "source": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteModel.lean",
+        "source_sha256": "4f60e52bc2ed099174f80b8baff13022b3036e777a84199f01ff9dad4ff8ae6e",
+        "exit_code": 0,
+        "objects": {
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteModel.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteModel.olean": "916fb8ae5254c0dfc3a8982b2ad13d98a12e8d387df2a43c4e25859f2cc50c46",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteModel.ilean": "ce4d5da209e4b94636d99bd7fa27d5cdeb9aa2407155ee4a5026f3814564790b"
+        },
+        "lean_path": [
+          "/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean",
+          "/tmp/veritile-lean-toolchain/lib/lean",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean"
+        ]
+      }
+    },
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteOperands.lean": {
+      "receipt": {
+        "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteOperands.workspace-build.json",
+        "sha256": "a710ca2ae7a082687cd1f86af63db59929f187df272fb3ecf62fde3c8c0af709"
+      },
+      "build": {
+        "source": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteOperands.lean",
+        "source_sha256": "db6981c1c1e6b810074c4a0e34188f544223beab30cf533073e6f9e9bee52f34",
+        "exit_code": 0,
+        "objects": {
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteOperands.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteOperands.ilean": "c43d7d72e9304500d40eb02c8227cd115e1a133ea51de28e8698c80531d550c7",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteOperands.olean": "d23d1e204d8283acd9fd1f86580dd5123e2908d836e73ce248f3992e65da9eb3"
+        },
+        "lean_path": [
+          "/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean",
+          "/tmp/veritile-lean-toolchain/lib/lean",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean"
+        ]
+      }
+    },
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteRecurrence.lean": {
+      "receipt": {
+        "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteRecurrence.workspace-build.json",
+        "sha256": "2258120cb72027008db847b0a562a03e52b89f32f2b0f2761fb80dd3e7123973"
+      },
+      "build": {
+        "source": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteRecurrence.lean",
+        "source_sha256": "7f3c22d9a5495ba22bb706b3c8dab6e47b315dd7f8354e2f1b057fd64ae49cb2",
+        "exit_code": 0,
+        "objects": {
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteRecurrence.ilean": "12f2fcbe9a32e4743d1bf2a3bc9183141b6b2f4bc2853c7ec3a09f424cd5c37b",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteRecurrence.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteRecurrence.olean": "b2d019ce90ab5d5a510bf46bb36afc416342f6265cbb2d32cf50085f4ff3b87b"
+        },
+        "lean_path": [
+          "/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean",
+          "/tmp/veritile-lean-toolchain/lib/lean",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean"
+        ]
+      }
+    },
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteSchedule.lean": {
+      "receipt": {
+        "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteSchedule.workspace-build.json",
+        "sha256": "79c29a8a9941b36941a41628e0e5ecd385704a2a274e2fe3e6fde76323987a23"
+      },
+      "build": {
+        "source": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteSchedule.lean",
+        "source_sha256": "4cf96591b0efa6046367b33f5bedb03a9780110ccd25bd421dc05a0cb4690a72",
+        "exit_code": 0,
+        "objects": {
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteSchedule.ilean": "3bef25d6cf22449fad2a3a587c6319c2abd1479a81a15ef50667bb7de9f9fa4c",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteSchedule.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteSchedule.olean": "864259e9345ebaaca169874f04421bc54e2193eb28bf85816e6177aeb547dd6d"
+        },
+        "lean_path": [
+          "/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean",
+          "/tmp/veritile-lean-toolchain/lib/lean",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean"
+        ]
+      }
+    },
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteSemantics.lean": {
+      "receipt": {
+        "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteSemantics.workspace-build.json",
+        "sha256": "257a7d61128bb3b78e7e9c51fea93e9a6ef68457129c827a44107509f2df5d22"
+      },
+      "build": {
+        "source": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteSemantics.lean",
+        "source_sha256": "a688ce7de46a80a9f90400bfc37b2e16118cb64a1ea77188b78abb162279b7e9",
+        "exit_code": 0,
+        "objects": {
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteSemantics.olean": "279f907133ddc3b4c9aaa0c98fd9e02472bc8879810bf6e69661f79f3e8dbc3b",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteSemantics.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteSemantics.ilean": "cceafec8a0d74d0983ce5ee1d2454154e1c9e14a9b9850a34d04a59493dd7869"
+        },
+        "lean_path": [
+          "/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean",
+          "/tmp/veritile-lean-toolchain/lib/lean",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean"
+        ]
+      }
+    },
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteStages.lean": {
+      "receipt": {
+        "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteStages.workspace-build.json",
+        "sha256": "0389f20d00e98e718bcf4e7ddaa6cf8022b15720bff0f19bdb91d4362b91b69a"
+      },
+      "build": {
+        "source": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteStages.lean",
+        "source_sha256": "cdc8a73457d0cde05e74e7893f5b7812fe292d91538894ee216887e67b034391",
+        "exit_code": 0,
+        "objects": {
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteStages.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteStages.olean": "fe3e4bf08d622fc6aa1950f07a43b51241596021cd2ca10eed33a9808be81780",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteStages.ilean": "99a24e553156186b75118761697aa907e69c491aa968f8727c4fd2142a28fe34"
+        },
+        "lean_path": [
+          "/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean",
+          "/tmp/veritile-lean-toolchain/lib/lean",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean"
+        ]
+      }
+    },
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteValue.lean": {
+      "receipt": {
+        "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteValue.workspace-build.json",
+        "sha256": "45bbef1a3d2f80cdcc40ff3c5e1413508d9e3c698f93f6db34d52746fc4f0a2c"
+      },
+      "build": {
+        "source": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteValue.lean",
+        "source_sha256": "5bb3e4fe740ca97134a7c810af5dd5c5216c48dc3e14d4f91bb7110faa9b4eb8",
+        "exit_code": 0,
+        "objects": {
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteValue.ilean": "112fc8be8bacfb78e3b6577174cb65cfa100753c95db232267fda17816f295b1",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteValue.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteValue.olean": "ee8e710adde8d9632c253862119d675224f347795e5b5c1fd786b2f97ddd32e8"
+        },
+        "lean_path": [
+          "/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean",
+          "/tmp/veritile-lean-toolchain/lib/lean",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean"
+        ]
+      }
+    },
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/SourceBinding.lean": {
+      "receipt": {
+        "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/SourceBinding.workspace-build.json",
+        "sha256": "e2bfa64b6ca5cfb871ada9f40141c7f39f72d983851457d968ead437e2c551b1"
+      },
+      "build": {
+        "source": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/SourceBinding.lean",
+        "source_sha256": "116432c92a54dd34eddf44ed1b05f45a6545d05ccf2fe3bce521c275f45516ba",
+        "exit_code": 0,
+        "objects": {
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/SourceBinding.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/SourceBinding.ilean": "440737ebe7156de1841b91addf389e23dbd0fc53674eaac7d5e9c1badf21ca7e",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/SourceBinding.olean": "7ce0411babb7c7d711e641e632f239a55d47a615f4305eadb367f376adf725a5"
+        },
+        "lean_path": [
+          "/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean",
+          "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean",
+          "/tmp/veritile-lean-toolchain/lib/lean",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean"
+        ]
+      }
+    }
+  },
+  "freeze_script": {
+    "path": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/freeze.py",
+    "sha256": "4f8f7e953e7362ac7acf59eb74e61183658bed7c02b0f82fc2144cf14a0026a5"
+  }
+}

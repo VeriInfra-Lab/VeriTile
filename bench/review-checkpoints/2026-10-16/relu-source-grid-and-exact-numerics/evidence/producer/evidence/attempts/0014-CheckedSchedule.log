@@ -1,0 +1,102 @@
+/tmp/veritile-standardization-20261015/relu-source-coupled-block-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/CheckedSchedule.lean:131:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  runSchedule M cmp16 cmp32 e x y inputBase outputBase N rest ?m.135 mem
+in the target expression
+  (do
+      let __discr ←
+        runSchedule M cmp16 cmp32 e x y inputBase outputBase N rest
+            (expected M e x y N blockSize (GatedGrid.atPid initial pid)).final
+            (withBytes mem (ByteMemory.byteProgram M e inputBase outputBase N pid mem.bytes))
+      match __discr with
+        | (traces, finalLogical, finalBytes) =>
+          pure (expected M e x y N blockSize (GatedGrid.atPid initial pid) :: traces, finalLogical, finalBytes)) =
+    Except.ok
+      ((scheduleSpec M e x y N (pid :: rest) initial).1, (scheduleSpec M e x y N (pid :: rest) initial).2,
+        withBytes mem (effectSchedule M e inputBase outputBase N (pid :: rest) mem.bytes))
+
+case cons
+M : FP.Structural.Algebra (BitVec 32)
+cmp16 cmp32 : BitVec 32 → BitVec 32 → Bool
+e : Encoding
+x y : RegionName
+inputBase outputBase N : ℕ
+distinct : x ≠ y
+separate : ByteMemory.Separate e inputBase outputBase N
+pid : ℕ
+rest : List ℕ
+ih :
+  ∀ (initial : State (BitVec 32)) (mem : Memory),
+    InputWords e (ByteMemory.loadInput e mem.bytes inputBase) x N initial.mem →
+      Readable mem inputBase (N * elementBytes e) →
+        Writable mem outputBase (min N blockSize * 4) →
+          runSchedule M cmp16 cmp32 e x y inputBase outputBase N rest initial mem =
+            Except.ok
+              ((scheduleSpec M e x y N rest initial).1, (scheduleSpec M e x y N rest initial).2,
+                withBytes mem (effectSchedule M e inputBase outputBase N rest mem.bytes))
+initial : State (BitVec 32)
+mem : Memory
+view : InputWords e (ByteMemory.loadInput e mem.bytes inputBase) x N initial.mem
+inputReadable : Readable mem inputBase (N * elementBytes e)
+outputWritable : Writable mem outputBase (min N blockSize * 4)
+⊢ (do
+      let __discr ←
+        runSchedule M cmp16 cmp32 e x y inputBase outputBase N rest
+            (expected M e x y N blockSize (GatedGrid.atPid initial pid)).final
+            (withBytes mem (ByteMemory.byteProgram M e inputBase outputBase N pid mem.bytes))
+      match __discr with
+        | (traces, finalLogical, finalBytes) =>
+          pure (expected M e x y N blockSize (GatedGrid.atPid initial pid) :: traces, finalLogical, finalBytes)) =
+    Except.ok
+      ((scheduleSpec M e x y N (pid :: rest) initial).1, (scheduleSpec M e x y N (pid :: rest) initial).2,
+        withBytes mem (effectSchedule M e inputBase outputBase N (pid :: rest) mem.bytes))
+/tmp/veritile-standardization-20261015/relu-source-coupled-block-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/CheckedSchedule.lean:131:15: error: Application type mismatch: The argument
+  next_input_view M cmp16 cmp32 e x y inputBase outputBase N pid initial mem view distinct separate
+has type
+  InputWords e (ByteMemory.loadInput e (ByteMemory.byteProgram M e inputBase outputBase N pid mem.bytes) inputBase) x N
+    (expected M e x y N blockSize (GatedGrid.atPid initial pid)).final.mem
+but is expected to have type
+  InputWords e (ByteMemory.loadInput e mem.bytes inputBase) x N (State.mem ?m.135)
+in the application
+  ih ?m.135 mem (next_input_view M cmp16 cmp32 e x y inputBase outputBase N pid initial mem view distinct separate)
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedSchedule.scheduleSpec: definition does not reference [VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedBlock.program,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedBlock.checkedLoad,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedBlock.checkedGate,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.TypedValue.source,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.TypedValue.materialized,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Triton.FP.Structural.step,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedSchedule.runSchedule] — non-circular ✓
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedSchedule.schedule_spec_trace: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedSchedule.schedule_spec_length: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedSchedule.block_memory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedSchedule.block_input: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedSchedule.byte_program_input: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedSchedule.next_input_view: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/veritile-standardization-20261015/relu-source-coupled-block-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/CheckedSchedule.lean:226:0: error: VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedSchedule.schedule_success: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedSchedule.schedule_memory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedSchedule.logical_effect_perm: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedSchedule.logical_effect_append: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedSchedule.logical_effect_range: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedSchedule.complete_schedule_memory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/veritile-standardization-20261015/relu-source-coupled-block-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/CheckedSchedule.lean:232:0: error: VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedSchedule.complete_schedule_success: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

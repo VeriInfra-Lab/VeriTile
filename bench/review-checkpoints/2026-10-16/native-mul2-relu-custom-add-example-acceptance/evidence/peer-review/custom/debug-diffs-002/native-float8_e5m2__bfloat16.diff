@@ -1,0 +1,112 @@
+--- /tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/native-attempts/20261015T222707447947Z/float8_e5m2__bfloat16.ptx
++++ /tmp/veritile-standardization-20261015/vector-custom-revision1-independent-review/replay/evidence/native-attempts/20261015T230320473747Z/float8_e5m2__bfloat16.ptx
+@@ -108,12 +108,12 @@
+ 	}
+ 	.section	.debug_info
+ 	{
+-.b32 171                                // Length of Unit
++.b32 175                                // Length of Unit
+ .b8 2                                   // DWARF version number
+ .b8 0
+ .b32 .debug_abbrev                      // Offset Into Abbrev. Section
+ .b8 8                                   // Address Size (in bytes)
+-.b8 1                                   // Abbrev [1] 0xb:0xa4 DW_TAG_compile_unit
++.b8 1                                   // Abbrev [1] 0xb:0xa8 DW_TAG_compile_unit
+ .b8 116                                 // DW_AT_producer
+ .b8 114
+ .b8 105
+@@ -194,37 +194,41 @@
+ .b8 111
+ .b8 109
+ .b8 45
+-.b8 102
+-.b8 105
+-.b8 110
+-.b8 105
+-.b8 116
+-.b8 101
+-.b8 45
+-.b8 97
+-.b8 99
+-.b8 99
+-.b8 101
+-.b8 112
+-.b8 116
+-.b8 97
+-.b8 110
+-.b8 99
+-.b8 101
+-.b8 45
+-.b8 114
+-.b8 101
+-.b8 118
+-.b8 105
+-.b8 115
+-.b8 105
+-.b8 111
+-.b8 110
+-.b8 49
+-.b8 45
++.b8 114
++.b8 101
++.b8 118
++.b8 105
++.b8 115
++.b8 105
++.b8 111
++.b8 110
++.b8 49
++.b8 45
++.b8 105
++.b8 110
++.b8 100
++.b8 101
++.b8 112
++.b8 101
++.b8 110
++.b8 100
++.b8 101
++.b8 110
++.b8 116
++.b8 45
++.b8 114
++.b8 101
++.b8 118
++.b8 105
++.b8 101
+ .b8 119
+-.b8 105
+-.b8 112
++.b8 47
++.b8 114
++.b8 101
++.b8 112
++.b8 108
++.b8 97
++.b8 121
+ .b8 47
+ .b8 101
+ .b8 118
+@@ -261,15 +265,15 @@
+ .b8 53
+ .b8 84
+ .b8 50
+-.b8 50
+-.b8 50
+-.b8 55
+-.b8 48
+-.b8 55
+-.b8 52
++.b8 51
++.b8 48
++.b8 51
++.b8 50
++.b8 48
+ .b8 52
+ .b8 55
+-.b8 57
++.b8 51
++.b8 55
+ .b8 52
+ .b8 55
+ .b8 90

@@ -1,0 +1,7 @@
+import VeriTile.Meta.StatementAudit
+import bench.repairs.tritonbench_g.sgmv_expand_slice.ByteSeparated.Contract
+import bench.repairs.tritonbench_g.sgmv_expand_slice.ByteSeparated.Correct
+import bench.repairs.tritonbench_g.sgmv_expand_slice.ByteSeparated.FPEquiv
+
+#axiomsClean VeriTile.Bench.Repairs.SgmvExpandSlice.ByteSeparated.Correct.kernel_real
+#axiomsClean VeriTile.Bench.Repairs.SgmvExpandSlice.ByteSeparated.FPEquiv.sgmv_grid_equiv

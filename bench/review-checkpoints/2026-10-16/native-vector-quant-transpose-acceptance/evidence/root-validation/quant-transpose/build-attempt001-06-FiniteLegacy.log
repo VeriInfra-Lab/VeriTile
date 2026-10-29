@@ -1,0 +1,4 @@
+QuantTransposeFinite.scalar_legacy: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantTransposeFinite.existing_fp32_primitive: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

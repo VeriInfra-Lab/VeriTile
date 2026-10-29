@@ -1,0 +1,7 @@
+import VeriTile.Meta.StatementAudit
+import bench.repairs.tritonbench_g.mul_exponent_compensator.Contract
+import bench.repairs.tritonbench_g.mul_exponent_compensator.Correct
+import bench.repairs.tritonbench_g.mul_exponent_compensator.FPEquiv
+
+#axiomsClean VeriTile.Bench.Repairs.MulExponentCompensator.Contiguous.Correct.kernel_real
+#axiomsClean VeriTile.Bench.Repairs.MulExponentCompensator.Contiguous.FPEquiv.scalar_left_equiv

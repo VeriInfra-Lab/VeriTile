@@ -1,0 +1,154 @@
+import bench.tritonbench_g.quant_transpose_kernel.Proofs.FinitePhysicalExecution
+
+namespace QuantTransposeFinite
+set_option maxHeartbeats 8000000
+set_option maxRecDepth 24000
+
+/-- The actual nonnegative Torch metadata specialization, including integer1
+constant specialization. This is not a chosen uniform-width approximation. -/
+inductive IntegerKind where
+  | constant | i32 | i64
+  deriving DecidableEq, Repr
+
+structure NativeInteger where
+  kind : IntegerKind
+  value : Int
+  deriving DecidableEq, Repr
+
+def integerWrap : IntegerKind → Int → NativeInteger
+  | .constant,z => ⟨.constant,z⟩
+  | .i32,z => ⟨.i32,(BitVec.ofInt 32 z).toInt⟩
+  | .i64,z => ⟨.i64,(BitVec.ofInt 64 z).toInt⟩
+
+def metadataInteger (n : Nat) : NativeInteger :=
+  if n=1 then ⟨.constant,1⟩ else integerWrap (if n<2^31 then .i32 else .i64) n
+
+def promoteInteger : IntegerKind → IntegerKind → IntegerKind
+  | .constant,k | k,.constant => k
+  | .i32,.i32 => .i32
+  | _,_ => .i64
+
+def integerBinary (f : Int → Int → Int) (a b : NativeInteger) : NativeInteger :=
+  integerWrap (promoteInteger a.kind b.kind) (f a.value b.value)
+
+def integerAdd := integerBinary (·+·)
+def integerSub := integerBinary (·-·)
+def integerMul := integerBinary (·*·)
+def integerMin := integerBinary min
+def integerLiteral (n : Int) : NativeInteger := ⟨.constant,n⟩
+
+def truncDiv (a b : Int) : Int :=
+  let magnitude : Int := a.natAbs/b.natAbs
+  if (a<0) ≠ (b<0) then -magnitude else magnitude
+
+def divisionUndefined (a b : NativeInteger) : Prop :=
+  b.value=0 ∨
+    (b.value= -1 ∧
+      ((promoteInteger a.kind b.kind=.i32 ∧ a.value= -(2^31)) ∨
+       (promoteInteger a.kind b.kind=.i64 ∧ a.value= -(2^63))))
+
+instance (a b : NativeInteger) : Decidable (divisionUndefined a b) := inferInstanceAs (Decidable (_ ∨ _))
+
+def integerDiv (a b : NativeInteger) : Option NativeInteger :=
+  if divisionUndefined a b then none else
+  some (integerWrap (promoteInteger a.kind b.kind)
+    (if a.kind=.constant ∧ b.kind=.constant then a.value/b.value else truncDiv a.value b.value))
+
+def integerRem (a b : NativeInteger) : Option NativeInteger :=
+  if divisionUndefined a b then none else
+  some (integerWrap (promoteInteger a.kind b.kind)
+    (if a.kind=.constant ∧ b.kind=.constant then a.value%b.value
+      else a.value-b.value*truncDiv a.value b.value))
+
+def integerLess (a b : NativeInteger) : Bool := decide (a.value<b.value)
+
+structure NativeTile where
+  row : NativeInteger
+  col : NativeInteger
+  deriving DecidableEq, Repr
+
+/-- Exact original grouped scalar expression tree. Every node is separately
+promoted, so e.g. an i32 group_id*8 wraps before extension for an i64 M. -/
+def nativeTile (M N pid : Nat) : Option NativeTile := do
+  let m := metadataInteger M
+  let n := metadataInteger N
+  let p := integerWrap .i32 pid
+  let gm ← integerDiv (integerSub (integerAdd m (integerLiteral 128)) (integerLiteral 1)) (integerLiteral 128)
+  let gn ← integerDiv (integerSub (integerAdd n (integerLiteral 128)) (integerLiteral 1)) (integerLiteral 128)
+  let width := integerMul (integerLiteral 8) gn
+  let group ← integerDiv p width
+  let start := integerMul group (integerLiteral 8)
+  let size := integerMin (integerSub gm start) (integerLiteral 8)
+  let rowWithin ← integerRem p size
+  let colWithin ← integerRem p width
+  let col ← integerDiv colWithin size
+  pure ⟨integerAdd start rowWithin,col⟩
+
+structure NativeLane where
+  row : NativeInteger
+  col : NativeInteger
+  mask : Bool
+  inputOffset : NativeInteger
+  outputOffset : NativeInteger
+  deriving DecidableEq, Repr
+
+/-- The output arguments are coupled to actual contiguous [N,M] metadata:
+stride_bm=1 and stride_bn=M. Input products are promoted independently. -/
+def nativeLane (M N sam san pid lane : Nat) : Option NativeLane := do
+  let tile ← nativeTile M N pid
+  let rm := integerAdd (integerMul tile.row (integerLiteral 128)) (integerWrap .i32 (lane/128))
+  let rn := integerAdd (integerMul tile.col (integerLiteral 128)) (integerWrap .i32 (lane%128))
+  pure ⟨rm,rn,integerLess rm (metadataInteger M) && integerLess rn (metadataInteger N),
+    integerAdd (integerMul rm (metadataInteger sam)) (integerMul rn (metadataInteger san)),
+    integerAdd (integerMul rm (metadataInteger 1)) (integerMul rn (metadataInteger M))⟩
+
+/-- tt.addptr sign-extends the selected element offset before scaling. Exact
+unsigned-pointer wrap is retained; only active resulting accesses are checked. -/
+def nativePointer (base width : Nat) (offset : NativeInteger) : BitVec 64 :=
+  BitVec.ofNat 64 base + BitVec.ofInt 64 offset.value * BitVec.ofNat 64 width
+
+def MetadataDomain (a : Input) : Prop :=
+  a.M<2^63 ∧ a.N<2^63 ∧ a.sam<2^63 ∧ a.san<2^63 ∧ a.numel<2^63
+
+/-- This is the actual target grid-x limit, not an address safety assumption. -/
+def gridSupported (a : Input) : Prop := gridM a.M*gridN a.N<2^31
+
+/-- Conditional refinement to the old mathematical coordinate model. Failing
+this predicate does not imply native rejection or unsafe memory: the actual
+address interpreter still covers safe wrapped-but-different accesses. -/
+def ArithmeticRefines (a : Input) (d : Storage) (p : PhysicalLayout) : Prop :=
+  ∀ pid lane, pid<gridM a.M*gridN a.N → lane<128*128 →
+    ∃ native, nativeLane a.M a.N a.sam a.san pid lane=some native ∧
+      native.mask=decide (row a.M a.N pid lane<a.M ∧ col a.M a.N pid lane<a.N) ∧
+      (native.mask=Bool.true →
+        (nativePointer p.inputPointer.toNat (bytes d) native.inputOffset).toNat=
+          p.inputPointer.toNat+(row a.M a.N pid lane*a.sam+col a.M a.N pid lane*a.san)*bytes d ∧
+        (nativePointer p.output.base 1 native.outputOffset).toNat=
+          p.output.base+(row a.M a.N pid lane+col a.M a.N pid lane*a.M))
+
+theorem metadata_specializations :
+    (metadataInteger 1).kind=.constant ∧ (metadataInteger (2^30)).kind=.i32 ∧
+    (metadataInteger (2^31)).kind=.i64 := by decide +kernel
+
+/-- All four reviewer counterexamples have the correct sole active pointer.
+No padded-offset bound is imposed, including the wrapping i32 examples. -/
+theorem singleton_active_wide_strides :
+    ([2^30,2^31].all fun stride =>
+      ([ (stride,1),(1,stride) ].all fun strides =>
+        match nativeLane 1 1 strides.1 strides.2 0 0 with
+        | none => Bool.false
+        | some lane => lane.mask && decide (lane.inputOffset.value=0 ∧ lane.outputOffset.value=0)))=true := by
+  decide +kernel
+
+theorem narrow_product_before_extension :
+    (integerAdd (integerMul (integerWrap .i32 127) (metadataInteger (2^30)))
+      (integerMul (integerWrap .i32 0) (metadataInteger (2^31)))).value= -(2^30) := by
+  decide +kernel
+
+#specNonCircular ArithmeticRefines avoiding [executeAPI,execute,runGrid,runLanes]
+#axiomsClean metadata_specializations
+#axiomsClean singleton_active_wide_strides
+#axiomsClean narrow_product_before_extension
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end QuantTransposeFinite

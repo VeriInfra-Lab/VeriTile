@@ -1,0 +1,27 @@
+{
+  "status": "passed",
+  "counts": {
+    "scalar_families": 37,
+    "scope_bindings": 296,
+    "declaration_cases": 1700,
+    "registered_declarations": 1,
+    "original_dtype_pairs": 484,
+    "admitted": 183,
+    "addition_rejected": 36,
+    "signature_rejected": 64,
+    "binder_rejected": 195,
+    "backend_rejected": 6,
+    "frontend_typed_routes_retained": 189,
+    "native_executions": 0,
+    "original_program_completion_increment": 0
+  },
+  "checks": [
+    "unchanged validate_case",
+    "unchanged declaration_scope",
+    "unchanged validate_deferrals",
+    "all484 native route partition",
+    "source-derived numerical port/deferral bijection"
+  ],
+  "independent_review": "pending",
+  "acceptance_increment": 0
+}

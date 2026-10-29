@@ -1,0 +1,21 @@
+{
+  "kind": "reviewed_constexpr_false_source_specialization_not_general_translator",
+  "original_python_sha256": "b22af1e5429eef6c1371c6b786821f7082df54da10868001acdbb5007972ac9e",
+  "new_source_sha256": "8d5ab3999177e05dcaab24987a3d80d2136c11afe8f6fa374b280d794d4a69d7",
+  "old_source_sha256": "dee1d07abaa40a500dc8bc2a8f2bd3fca2d6e168be1fe209ba74e7b08ab8b1cd",
+  "only_source_body_delta": "remove exactly the two half-cast assignments guarded by original constexpr fp16 when false; all other body text preserved",
+  "python_default_flags": {
+    "fp16": false,
+    "tf32": false
+  },
+  "actual_profile": "fp32 input and weight storage; fp32 output and accumulator; optional intermediate binary16 operand cast only for fp16=true",
+  "new_dot_signature": "fp32 x fp32 -> fp32",
+  "numerical_graph": "separate dot then carry add; default-native TF32/FMA correspondence remains open",
+  "remaining_scope": [
+    "other storage dtypes",
+    "host 3D grid/allocation composition",
+    "native integer/address specialization",
+    "physical allocation/undefined-load semantics",
+    "native dot/fusion schedule"
+  ]
+}

@@ -1,0 +1,48 @@
+/tmp/veritile-standardization-20261015/quantize-integer-stage-wip/builds/20261015T190100261031Z/src/QuantizeIntegerStage/SourceChecks.lean:12:25: error: Application type mismatch: The argument
+  Op.ref TileDType.real shape input
+has type
+  Op TileDType.real shape
+but is expected to have type
+  Op ComputeDType.fp32.eraseDType (?m.16 :: ?m.17)
+in the application
+  Op.mul NumericDType.real Broadcast.scalarR (Op.ref TileDType.real shape input)
+/tmp/veritile-standardization-20261015/quantize-integer-stage-wip/builds/20261015T190100261031Z/src/QuantizeIntegerStage/SourceChecks.lean:14:0: error: Not a definitional equality: the left-hand side
+  (Global.source X Scale Out N B).surfaceBody[6]?
+is not definitionally equal to the right-hand side
+  some (ComputeStmt.assign TileDType.int [B] "output" (argument [B] "x").llrint)
+/tmp/veritile-standardization-20261015/quantize-integer-stage-wip/builds/20261015T190100261031Z/src/QuantizeIntegerStage/SourceChecks.lean:16:71: error: Type mismatch
+  rfl
+has type
+  ?m.18 = ?m.18
+but is expected to have type
+  (Global.source X Scale Out N B).surfaceBody[6]? =
+    some (ComputeStmt.assign TileDType.int [B] "output" (argument [B] "x").llrint)
+/tmp/veritile-standardization-20261015/quantize-integer-stage-wip/builds/20261015T190100261031Z/src/QuantizeIntegerStage/SourceChecks.lean:23:0: error: Not a definitional equality: the left-hand side
+  (Transpose.source A Scale Out sam san sbn sbm M N BM BN).surfaceBody[7]?
+is not definitionally equal to the right-hand side
+  some (ComputeStmt.assign TileDType.int [BM, BN] "output" (argument [BM, BN] "a").llrint)
+/tmp/veritile-standardization-20261015/quantize-integer-stage-wip/builds/20261015T190100261031Z/src/QuantizeIntegerStage/SourceChecks.lean:26:81: error: Type mismatch
+  rfl
+has type
+  ?m.20 = ?m.20
+but is expected to have type
+  (Transpose.source A Scale Out sam san sbn sbm M N BM BN).surfaceBody[7]? =
+    some (ComputeStmt.assign TileDType.int [BM, BN] "output" (argument [BM, BN] "a").llrint)
+/tmp/veritile-standardization-20261015/quantize-integer-stage-wip/builds/20261015T190100261031Z/src/QuantizeIntegerStage/SourceChecks.lean:65:0: error: QuantizeIntegerStage.SourceChecks.global_round_node: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+QuantizeIntegerStage.SourceChecks.global_store_node: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/veritile-standardization-20261015/quantize-integer-stage-wip/builds/20261015T190100261031Z/src/QuantizeIntegerStage/SourceChecks.lean:67:0: error: QuantizeIntegerStage.SourceChecks.transpose_round_node: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+QuantizeIntegerStage.SourceChecks.transpose_store_node: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+QuantizeIntegerStage.SourceChecks.global_signature: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+QuantizeIntegerStage.SourceChecks.transpose_signature: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+QuantizeIntegerStage.SourceChecks.unknown_integer_marker_fails: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+QuantizeIntegerStage.SourceChecks.byte_narrowing_examples: axiom footprint ⊆ standard base ✓  ([propext])

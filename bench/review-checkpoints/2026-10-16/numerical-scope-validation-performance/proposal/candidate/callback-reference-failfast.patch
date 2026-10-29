@@ -1,0 +1,69 @@
+--- a/bench/check_original_program_scope.py
++++ b/bench/check_original_program_scope.py
+@@ -263,26 +263,14 @@
+     return result
+ 
+ 
+-def validate_used_numerics(task, row, public, proof_cases, queue, *, root=None):
+-    """Match every used theorem/callback/case to an exact queue registration.
+-
+-    The queue registration is the semantic authority for which operation a
+-    numerical rule concerns. No operation compatibility is inferred from prose
+-    or a rule name. Unregistered combinations fail closed.
++def validate_callback_scope_references(callback_bindings, bindings):
++    """Reject malformed or undeferred references before deriving authority.
++
++    This establishes only local reference consistency. Required callback names,
++    source-derived authority, exact case ports and complete usage remain checked
++    by validate_used_numerics before any successful return.
+     """
+-    deferrals = row.get('deferred_numerical_assumptions', [])
+-    bindings = validate_deferrals(task, deferrals, queue)
+-    exact = validated_exact_requirements(root, task, public, proof_cases, queue)
+-
+-    def required_callbacks(proof, case):
+-        if proof in exact:
+-            return exact[proof][case]['required_callbacks']
+-        return public[proof].get('unclosed_numeric_callbacks', [])
+-
+-    callbacks = {callback for key, cases in proof_cases.items() for case in cases
+-                 for callback in required_callbacks(key, case)}
+-    callback_bindings = row.get('callback_assumptions', {})
+-    if not isinstance(callback_bindings, dict) or set(callback_bindings) != callbacks:
++    if not isinstance(callback_bindings, dict):
+         raise ValueError('unclosed numerical callbacks lack exact registered assumptions')
+     callback_links = {}
+     for callback, references in callback_bindings.items():
+@@ -299,7 +287,31 @@
+                 raise ValueError('duplicate callback scope binding')
+             keys.add(key)
+         callback_links[callback] = keys
+-
++    return callback_links
++
++
++def validate_used_numerics(task, row, public, proof_cases, queue, *, root=None):
++    """Match every used theorem/callback/case to an exact queue registration.
++
++    The queue registration is the semantic authority for which operation a
++    numerical rule concerns. No operation compatibility is inferred from prose
++    or a rule name. Unregistered combinations fail closed.
++    """
++    deferrals = row.get('deferred_numerical_assumptions', [])
++    bindings = validate_deferrals(task, deferrals, queue)
++    callback_bindings = row.get('callback_assumptions', {})
++    callback_links = validate_callback_scope_references(callback_bindings, bindings)
++    exact = validated_exact_requirements(root, task, public, proof_cases, queue)
++
++    def required_callbacks(proof, case):
++        if proof in exact:
++            return exact[proof][case]['required_callbacks']
++        return public[proof].get('unclosed_numeric_callbacks', [])
++
++    callbacks = {callback for key, cases in proof_cases.items() for case in cases
++                 for callback in required_callbacks(key, case)}
++    if set(callback_bindings) != callbacks:
++        raise ValueError('unclosed numerical callbacks lack exact registered assumptions')
+     used_bindings, used_links = set(), set()
+     for proof, cases in proof_cases.items():
+         declaration = public[proof]

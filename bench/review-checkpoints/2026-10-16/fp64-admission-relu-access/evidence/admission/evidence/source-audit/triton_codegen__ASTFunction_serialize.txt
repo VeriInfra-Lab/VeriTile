@@ -1,0 +1,5 @@
+    def serialize(self, builder: ir.builder):
+        # > build mlir function type
+        arg_types_ir = self.flatten_ir_types(builder, self.arg_types)
+        ret_types_ir = self.return_types_ir(builder)
+        return builder.get_function_ty(arg_types_ir, ret_types_ir)

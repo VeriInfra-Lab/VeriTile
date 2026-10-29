@@ -1,0 +1,112 @@
+from pathlib import Path
+from unittest.mock import patch
+from types import SimpleNamespace
+from contextlib import redirect_stdout
+from io import StringIO
+import gzip,json,tempfile,unittest,sys
+sys.path.insert(0,str(Path(__file__).resolve().parent))
+import integration as m
+
+class IntegrationStorageTests(unittest.TestCase):
+ def test_rebind_is_exact_byte_splice_and_retains_task_rows(self):
+  ledger={'schema':1,'deferred_queue':{'path':m.PLAIN,'sha256':'a'*64},'tasks':[{'task':'one','review':{'sha256':'b'*64},'status':'pending','note':'已完成的证据保留'}],'other':['keep',{'x':1}]};raw=m.text_bytes(ledger);out=m.rebind_ledger_bytes(raw,'c'*64);actual=json.loads(out)
+  self.assertEqual(actual,m.rebind_ledger(ledger,'c'*64));self.assertEqual(actual['tasks'],ledger['tasks'])
+  self.assertEqual(out.replace(m.COMPRESSED.encode(),m.PLAIN.encode()).replace(('c'*64).encode(),('a'*64).encode()),raw)
+ def test_rebind_unknown_prior_path_and_unexpected_format_fail(self):
+  with self.assertRaises(ValueError):m.rebind_ledger({'deferred_queue':{'path':'elsewhere'},'tasks':[]},'a'*64)
+  ledger={'deferred_queue':{'path':m.PLAIN,'sha256':'a'*64},'tasks':[]}
+  with self.assertRaisesRegex(ValueError,'formatting'):m.rebind_ledger_bytes(json.dumps(ledger,separators=(',',':')).encode(),'c'*64)
+ def test_archive_verifies_bytes_without_deleting_source(self):
+  with tempfile.TemporaryDirectory() as temp:
+   root=Path(temp);src=root/'queue.json';src.write_bytes(b'{"payload":"test"}\n'*40);archive=root/'before/queue.gz';r=m.archive_plain(src,archive)
+   self.assertTrue(src.exists());self.assertEqual(gzip.decompress(archive.read_bytes()),src.read_bytes());self.assertEqual(r['decompressed_sha256'],m.file_hash(src))
+   with self.assertRaises(ValueError):m.archive_plain(src,archive)
+ def test_corrupted_archive_rejected(self):
+  with tempfile.TemporaryDirectory() as temp:
+   root=Path(temp);src=root/'q';src.write_bytes(b'queue');archive=root/'q.gz';m.archive_plain(src,archive);archive.write_bytes(archive.read_bytes()[:-3])
+   with self.assertRaises((ValueError,OSError,EOFError)):m.decompressed_hash(archive)
+ def test_explicit_full_commit_required(self):
+  for bad in ['HEAD','97e11a9','',None,'a'*39]:
+   with self.subTest(bad=bad),self.assertRaises((ValueError,TypeError)):m.commit_check(Path('/tmp'),bad)
+ def test_wrong_or_dirty_base_is_rejected(self):
+  h='a'*40
+  with patch.object(m,'git',return_value='b'*40),self.assertRaisesRegex(ValueError,'HEAD differs'):m.commit_check(Path('/tmp'),h)
+  with patch.object(m,'git',side_effect=[h,'commit',' M bench/a.py']),self.assertRaisesRegex(ValueError,'dirty'):m.commit_check(Path('/tmp'),h,clean=True)
+  with patch.object(m,'git',side_effect=[h,'commit','']):m.commit_check(Path('/tmp'),h,clean=True)
+ def test_relative_path_escape_rejected(self):
+  for name in ['../x','/tmp/x','a/../x','a\\b']:
+   with self.assertRaises(ValueError):m.relative(Path('/tmp/a'),name)
+ def test_doc_checkpoint_render_is_explicit(self):
+ raw=b'policy @MIGRATION_CHECKPOINT@/before/bench/source.md'
+ self.assertEqual(m.render_doc('bench/source.md',raw,'bench/review-checkpoints/new'),b'policy review-checkpoints/new/before/bench/source.md')
+
+class IntegrationRevisionTests(unittest.TestCase):
+ def package(self,root):
+  files={'integration.py':b'# frozen script\n','after/bench/consumer.py':b'QUEUE = "compressed"\n','evidence/nested/result.json':b'{"result":"preserved"}\n'}
+  for name,data in files.items():
+   p=root/name;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(data)
+  receipt={'schema':1,'frozen':True,'artifacts':{name:m.digest(data) for name,data in files.items()}};m.write(root/'receipt.json',receipt)
+  return m.file_hash(root/'receipt.json'),receipt
+ def test_run_directory_rejects_repo_checkpoint_and_accepts_external_without_writes(self):
+  with tempfile.TemporaryDirectory() as temp:
+   root=Path(temp);repo=root/'repo';repo.mkdir()
+   for output in [repo,repo/'run',repo/'bench/review-checkpoints/new/run']:
+    with self.subTest(output=output),self.assertRaisesRegex(ValueError,'outside'):m.external_run(repo,output)
+   out=root/'external'/'fresh';self.assertEqual(m.external_run(repo,out),out);self.assertFalse(out.exists())
+ def test_run_directory_rejects_symlink_into_repo(self):
+  with tempfile.TemporaryDirectory() as temp:
+   root=Path(temp);repo=root/'repo';repo.mkdir();alias=root/'external-alias';alias.symlink_to(repo,target_is_directory=True)
+   with self.assertRaisesRegex(ValueError,'outside'):m.external_run(repo,alias/'new-output')
+ def test_plan_rejects_internal_output_before_git_or_commands(self):
+  with tempfile.TemporaryDirectory() as temp:
+   repo=Path(temp)/'repo';repo.mkdir();out=repo/'bench/review-checkpoints/new/run';args=SimpleNamespace(repo=repo,output=out)
+   with patch.object(m,'commit_check') as commit,patch.object(m,'command') as command,self.assertRaisesRegex(ValueError,'outside'):m.plan_stage(args)
+   commit.assert_not_called();command.assert_not_called();self.assertFalse(out.exists())
+ def test_read_plan_rejects_internal_run_before_candidate_or_git(self):
+  with tempfile.TemporaryDirectory() as temp:
+   root=Path(temp);repo=root/'repo';repo.mkdir();plan=root/'plan.json';m.write(plan,{'repo':str(repo),'run_directory':str(repo/'run')})
+   args=SimpleNamespace(plan=plan,plan_sha256=m.file_hash(plan))
+   with patch.object(m,'verify_candidate') as candidate,patch.object(m,'commit_check') as commit,self.assertRaisesRegex(ValueError,'outside'):m.read_plan(args)
+   candidate.assert_not_called();commit.assert_not_called()
+ def test_script_archive_copies_and_reverifies_complete_relative_closure(self):
+  with tempfile.TemporaryDirectory() as temp:
+   root=Path(temp);source=root/'source';expected,receipt=self.package(source);target=root/'checkpoint/evidence/integration-scripts'
+   with patch.object(m,'HERE',source):result=m.copy_script_package(target,expected)
+   self.assertEqual(result['artifact_count'],len(receipt['artifacts']));self.assertEqual(result['copied_files'],len(receipt['artifacts'])+1)
+   self.assertEqual(m.verify_script_package(target,expected),receipt)
+   actual={p.relative_to(target).as_posix() for p in target.rglob('*') if p.is_file()}
+   self.assertEqual(actual,{'receipt.json',*receipt['artifacts']})
+   for name in actual:self.assertEqual((target/name).read_bytes(),(source/name).read_bytes())
+   with patch.object(m,'HERE',source),self.assertRaisesRegex(ValueError,'already exists'):m.copy_script_package(target,expected)
+ def test_script_archive_rejects_corrupt_source_and_escaping_artifact(self):
+  with tempfile.TemporaryDirectory() as temp:
+   root=Path(temp);source=root/'source';expected,receipt=self.package(source);target=root/'checkpoint/evidence/integration-scripts'
+   (source/'integration.py').write_bytes(b'changed')
+   with patch.object(m,'HERE',source),self.assertRaisesRegex(ValueError,'changed'):m.copy_script_package(target,expected)
+   self.assertFalse(target.exists())
+   (source/'integration.py').write_bytes(b'# frozen script\n');receipt['artifacts']['../outside']=m.digest(b'outside');m.write(source/'receipt.json',receipt)
+   with patch.object(m,'HERE',source),self.assertRaisesRegex(ValueError,'unsafe'):m.copy_script_package(target,m.file_hash(source/'receipt.json'))
+   self.assertFalse(target.exists())
+ def test_script_archive_rejects_missing_or_tampered_artifacts(self):
+  with tempfile.TemporaryDirectory() as temp:
+   root=Path(temp);source=root/'source';expected,receipt=self.package(source);target=root/'archive'
+   with patch.object(m,'HERE',source):m.copy_script_package(target,expected)
+   victim=target/'evidence/nested/result.json';original=victim.read_bytes();victim.write_bytes(b'tampered')
+   with self.assertRaisesRegex(ValueError,'changed'):m.verify_script_package(target,expected)
+   victim.unlink()
+   with self.assertRaises(FileNotFoundError):m.verify_script_package(target,expected)
+   victim.write_bytes(original);self.assertEqual(m.verify_script_package(target,expected),receipt)
+ def test_install_archives_complete_script_closure_before_deactivating_queue(self):
+  with tempfile.TemporaryDirectory() as temp:
+   root=Path(temp);source=root/'source';expected,receipt=self.package(source);repo=root/'repo';run=root/'run';run.mkdir()
+   plain=repo/m.PLAIN;plain.parent.mkdir(parents=True);plain.write_bytes(b'{"old_queue":true}\n')
+   ledger=repo/m.LEDGER;ledger.write_bytes(gzip.compress(b'{"tasks":[]}\n',mtime=0))
+   installed=repo/'bench/consumer.py';installed.write_bytes(b'old source\n');candidate=source/'after/bench/consumer.py'
+   p={'repo':str(repo),'expected_base_commit':'a'*40,'checkpoint':'bench/review-checkpoints/fresh','run_directory':str(run),'old_queue':{'sha256':m.file_hash(plain)},'ledger_before_sha256':m.file_hash(ledger),'scripts_receipt_sha256':expected,'replacements':{'bench/consumer.py':{'before':m.file_hash(installed),'after':m.file_hash(candidate),'candidate_source':'after/bench/consumer.py'}}}
+   with patch.object(m,'HERE',source),patch.object(m,'read_plan',return_value=p),patch.object(m,'commit_check'),redirect_stdout(StringIO()):m.install_stage(SimpleNamespace())
+   archive=m.checkpoint(p)/'evidence/integration-scripts';self.assertEqual(m.verify_script_package(archive,expected),receipt)
+   record=m.load(run/'install.json');self.assertEqual(record['integration_scripts']['artifact_count'],len(receipt['artifacts']));self.assertTrue(record['active_plain_removed_after_archive_verification'])
+   self.assertFalse(plain.exists());self.assertEqual(installed.read_bytes(),candidate.read_bytes());m.verify_installed(p)
+   (archive/'integration.py').write_bytes(b'changed')
+   with self.assertRaisesRegex(ValueError,'changed'):m.verify_installed(p)
+if __name__=='__main__':unittest.main()

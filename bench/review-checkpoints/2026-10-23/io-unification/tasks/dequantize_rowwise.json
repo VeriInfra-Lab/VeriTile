@@ -1,0 +1,462 @@
+{
+  "schema": 1,
+  "task": "dequantize_rowwise",
+  "status": "consolidated",
+  "owner": {
+    "path": ".veritile-cache/io-unification-20261023/queue04/result.json",
+    "sha256": "e8f49ce67be90394dcbcc10279a931d87caf255ee7796ff9a2033a0416f7ec9d",
+    "task_index": 8
+  },
+  "reason": "All selected memory descriptors and logical views now reside in the existing task IO.lean, with original namespaces.",
+  "selected_public_entries": [
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Contract.lean",
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Correct.lean",
+    "bench/repairs/tritonbench_g/dequantize_rowwise/FPEquiv.lean"
+  ],
+  "previous_semantic_review": {
+    "manifest": {
+      "path": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json",
+      "sha256": "5df771b8603eaf5d9f08b4fde0c5b938c18087c00092f5348b47eb54d33a8225"
+    },
+    "task": "dequantize_rowwise"
+  },
+  "changed_files": [
+    "bench/repairs/tritonbench_g/dequantize_rowwise/IO.lean",
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/LogicalReader.lean"
+  ],
+  "removed_files": [
+    "bench/repairs/tritonbench_g/dequantize_rowwise/LogicalIO.lean"
+  ],
+  "moved_declarations": [
+    {
+      "from": "bench/repairs/tritonbench_g/dequantize_rowwise/LogicalIO.lean",
+      "to": "bench/repairs/tritonbench_g/dequantize_rowwise/IO.lean",
+      "names": [
+        "LogicalInputs",
+        "inputEquiv",
+        "logicalIO"
+      ],
+      "body_sha256": "4a5cb69376911ae5f65c1ccd76e1379bf936cfa2eb4e0f725112a1da65f8ceb6",
+      "namespace": "VeriTile.Bench.Repairs.DequantizeRowwise",
+      "full_names": [
+        "VeriTile.Bench.Repairs.DequantizeRowwise.LogicalInputs",
+        "VeriTile.Bench.Repairs.DequantizeRowwise.inputEquiv",
+        "VeriTile.Bench.Repairs.DequantizeRowwise.logicalIO"
+      ]
+    }
+  ],
+  "preservation": {
+    "source_body_check": {
+      "path": ".veritile-cache/io-unification-20261023/queue04/source-audit.json",
+      "sha256": "30d72a10ac5f7b92de8d63251b63b3c76657f1a978b40e1a541633f42a35a0ae"
+    },
+    "moved_definition_bytes": {
+      "path": ".veritile-cache/io-unification-20261023/queue04/preservation-audit.json",
+      "sha256": "0762a2bfcf184b3de30ac68e376a27dd99ce84ad2237103b66ad7d41b3300210"
+    },
+    "original_public_statements": {
+      "path": ".veritile-cache/io-unification-20261023/queue04/preservation/dequantize_rowwise.lean",
+      "sha256": "44fa0e9ee371f2b7f9b34db563523e99bde731c8d2ac389b4070a710fa4bab4f"
+    },
+    "public_entries_body_unchanged_except_imports": true,
+    "math_formulas_conditions_execution_safety_outputs_frames_and_fp_pair_unchanged": true
+  },
+  "verification": [
+    {
+      "kind": "final-source-audit",
+      "command": [
+        "/usr/local/bin/python",
+        ".veritile-cache/io-unification-20261023/queue04/source_audit.py"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue04/final-source-audit.log",
+      "log_sha256": "21907a6fe4f7980431c5006e4d6995b78eb6e9697fde8e3df16ad9bcf0a72ef1"
+    },
+    {
+      "kind": "final-affected",
+      "command": [
+        "/usr/local/bin/python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue04/build.py",
+        "bench.repairs.tritonbench_g.cross_entropy1.Proofs.KernelReal",
+        "bench.repairs.tritonbench_g.cross_entropy2.Proofs.KernelReal",
+        "bench.repairs.tritonbench_g.cross_entropy_ops.Proofs.KernelReal",
+        "bench.repairs.tritonbench_g.context_attn_mistral.KernelOnly.IO",
+        "bench.repairs.tritonbench_g.context_attn_mistral.KernelOnly.RealIO",
+        "bench.repairs.tritonbench_g.context_attn_mistral.KernelOnly.Proofs.LogicalMath",
+        "bench.repairs.tritonbench_g.context_attn_mistral.KernelOnly.Proofs.RealBindings",
+        "bench.repairs.tritonbench_g.context_attn_mistral.KernelOnly.Proofs.FormulaAgreement",
+        "bench.repairs.tritonbench_g.context_attn_mistral.KernelOnly.Proofs.RegionalGrid",
+        "bench.repairs.tritonbench_g.context_attn_mistral.KernelOnly.Proofs.RealImplementation",
+        "bench.repairs.tritonbench_g.context_attn_mistral.KernelOnly.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.context_attn_mistral.KernelOnly.Correct",
+        "bench.repairs.tritonbench_g.context_attn_mistral.KernelOnly.NativeIO",
+        "bench.repairs.tritonbench_g.context_attn_mistral.KernelOnly.PairIO",
+        "bench.repairs.tritonbench_g.context_attn_mistral.KernelOnly.Proofs.SourcePair",
+        "bench.repairs.tritonbench_g.context_attn_mistral.KernelOnly.Proofs.NativeIOBindings",
+        "bench.repairs.tritonbench_g.context_attn_mistral.KernelOnly.Proofs.NativeAccess",
+        "bench.repairs.tritonbench_g.context_attn_mistral.KernelOnly.Proofs.NativeImplementation",
+        "bench.repairs.tritonbench_g.context_attn_mistral.KernelOnly.Proofs.PairEquivalence",
+        "bench.repairs.tritonbench_g.context_attn_mistral.KernelOnly.FPEquiv",
+        "bench.repairs.tritonbench_g.context_attn_nopad.KernelOnly.IO",
+        "bench.repairs.tritonbench_g.context_attn_nopad.Proofs.IOData",
+        "bench.repairs.tritonbench_g.context_attn_nopad.Proofs.RealData",
+        "bench.repairs.tritonbench_g.context_attn_nopad.Proofs.RealFoundation",
+        "bench.repairs.tritonbench_g.context_attn_nopad.Proofs.IOBounds",
+        "bench.repairs.tritonbench_g.context_attn_nopad.Proofs.RealGrid",
+        "bench.repairs.tritonbench_g.context_attn_nopad.Proofs.RealMath",
+        "bench.repairs.tritonbench_g.context_attn_nopad.Proofs.RealSafety",
+        "bench.repairs.tritonbench_g.context_attn_nopad.Proofs.PublicRealResult",
+        "bench.repairs.tritonbench_g.context_attn_nopad.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.context_attn_nopad.KernelOnly.Correct",
+        "bench.repairs.tritonbench_g.context_attn_nopad.KernelOnly.PairIO",
+        "bench.repairs.tritonbench_g.context_attn_nopad.Proofs.IOLogical",
+        "bench.repairs.tritonbench_g.context_attn_nopad.Proofs.IOLogicalReads",
+        "bench.repairs.tritonbench_g.context_attn_nopad.Proofs.IOLogicalOutput",
+        "bench.repairs.tritonbench_g.context_attn_nopad.Proofs.IOScatter",
+        "bench.repairs.tritonbench_g.context_attn_nopad.Proofs.IOLogicalGrid",
+        "bench.repairs.tritonbench_g.context_attn_nopad.Proofs.IOSchedule",
+        "bench.repairs.tritonbench_g.context_attn_nopad.Proofs.IOOutputGeometry",
+        "bench.repairs.tritonbench_g.context_attn_nopad.Proofs.PublicFPResult",
+        "bench.repairs.tritonbench_g.context_attn_nopad.KernelOnly.Proofs.PairEquivalence",
+        "bench.repairs.tritonbench_g.context_attn_nopad.KernelOnly.FPEquiv",
+        "bench.repairs.tritonbench_g.cross_entropy1.IO",
+        "bench.repairs.tritonbench_g.cross_entropy1.Proofs.IOBinding",
+        "bench.repairs.tritonbench_g.cross_entropy1.Proofs.PublicBackward",
+        "bench.repairs.tritonbench_g.cross_entropy1.Proofs.PublicIO",
+        "bench.repairs.tritonbench_g.cross_entropy1.Proofs.RealIO",
+        "bench.repairs.tritonbench_g.cross_entropy1.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.cross_entropy1.Correct",
+        "bench.repairs.tritonbench_g.cross_entropy1.PairIO",
+        "bench.repairs.tritonbench_g.cross_entropy1.Proofs.PairEquivalence",
+        "bench.repairs.tritonbench_g.cross_entropy1.FPEquiv",
+        "bench.repairs.tritonbench_g.cross_entropy2.IO",
+        "bench.repairs.tritonbench_g.cross_entropy2.Proofs.IOBinding",
+        "bench.repairs.tritonbench_g.cross_entropy2.Proofs.PublicBackward",
+        "bench.repairs.tritonbench_g.cross_entropy2.Proofs.PublicIO",
+        "bench.repairs.tritonbench_g.cross_entropy2.Proofs.RealIO",
+        "bench.repairs.tritonbench_g.cross_entropy2.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.cross_entropy2.Correct",
+        "bench.repairs.tritonbench_g.cross_entropy2.PairIO",
+        "bench.repairs.tritonbench_g.cross_entropy2.Proofs.PairEquivalence",
+        "bench.repairs.tritonbench_g.cross_entropy2.FPEquiv",
+        "bench.repairs.tritonbench_g.cross_entropy_ops.IO",
+        "bench.repairs.tritonbench_g.cross_entropy_ops.Proofs.Interface",
+        "bench.repairs.tritonbench_g.cross_entropy_ops.Proofs.RealIO",
+        "bench.repairs.tritonbench_g.cross_entropy_ops.Proofs.ReaderTargets",
+        "bench.repairs.tritonbench_g.cross_entropy_ops.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.cross_entropy_ops.Correct",
+        "bench.repairs.tritonbench_g.cross_entropy_ops.PairIO",
+        "bench.repairs.tritonbench_g.cross_entropy_ops.Proofs.PairEquivalence",
+        "bench.repairs.tritonbench_g.cross_entropy_ops.FPEquiv",
+        "bench.repairs.tritonbench_g.decay_cumsum.IO",
+        "bench.repairs.tritonbench_g.decay_cumsum.Proofs.LogicalMath",
+        "bench.repairs.tritonbench_g.decay_cumsum.Proofs.IOResults",
+        "bench.repairs.tritonbench_g.decay_cumsum.Proofs.IOSafety",
+        "bench.repairs.tritonbench_g.decay_cumsum.Proofs.IOCorrect",
+        "bench.repairs.tritonbench_g.decay_cumsum.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.decay_cumsum.Correct",
+        "bench.repairs.tritonbench_g.dequantize_matmul.IO",
+        "bench.repairs.tritonbench_g.dequantize_matmul.Proofs.IOGrid",
+        "bench.repairs.tritonbench_g.dequantize_matmul.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.dequantize_matmul.Correct",
+        "bench.repairs.tritonbench_g.dequantize_matmul.PairIO",
+        "bench.repairs.tritonbench_g.dequantize_matmul.Proofs.PairEquivalence",
+        "bench.repairs.tritonbench_g.dequantize_matmul.FPEquiv",
+        "bench.repairs.tritonbench_g.dequantize_rowwise.IO",
+        "bench.repairs.tritonbench_g.dequantize_rowwise.Proofs.ReaderReal",
+        "bench.repairs.tritonbench_g.dequantize_rowwise.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.dequantize_rowwise.Correct",
+        "bench.repairs.tritonbench_g.destindex_copy_kv1.IO",
+        "bench.repairs.tritonbench_g.destindex_copy_kv1.Proofs.PublicIO",
+        "bench.repairs.tritonbench_g.destindex_copy_kv1.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.destindex_copy.IO",
+        "bench.repairs.tritonbench_g.destindex_copy.Correct",
+        "bench.repairs.tritonbench_g.destindex_copy.Proofs.ReaderFP",
+        "bench.repairs.tritonbench_g.destindex_copy.FPEquiv",
+        "bench.repairs.tritonbench_g.destindex_copy_kv1.Correct",
+        "bench.repairs.tritonbench_g.destindex_copy_kv2.IO",
+        "bench.repairs.tritonbench_g.destindex_copy_kv2.Proofs.PublicIO",
+        "bench.repairs.tritonbench_g.destindex_copy_kv2.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.destindex_copy_kv2.Correct"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue04/final-affected.log",
+      "log_sha256": "d4abc42d38b6c97328b130e14b4bad9583f80f415b809f12fb06b6fb8464f0a8"
+    },
+    {
+      "kind": "final-joint-dequantize_rowwise",
+      "command": [
+        "/usr/local/bin/python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue04/build.py",
+        "--check",
+        ".veritile-cache/io-unification-20261023/queue04/joint/dequantize_rowwise.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue04/final-joint-dequantize_rowwise.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "kind": "final-preservation-dequantize_rowwise",
+      "command": [
+        "/usr/local/bin/python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue04/build.py",
+        "--check",
+        ".veritile-cache/io-unification-20261023/queue04/preservation/dequantize_rowwise.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue04/final-preservation-dequantize_rowwise.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Contract.lean": "adc62099b4b0484fcac2422dab9a637567658689b95200156e39d94a5d6f7732",
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Correct.lean": "880e5dbc2edbef9774646ad80a837db9e64dd1602cf6ff8311005d12b33a92ca",
+    "bench/repairs/tritonbench_g/dequantize_rowwise/FPEquiv.lean": "32dd84d5e1582c6cd58c43416b9cbeab8156b19eb13c234ee7090d4c34057dcf",
+    "bench/repairs/tritonbench_g/dequantize_rowwise/IO.lean": "f70847549f9c262dfadfa1cf872c4e920fe883239cb5f0c7c2395d344e85f806",
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Kernels.lean": "9320432d845d3e28d3dd5645e27de7549f5654a81d966f65a67acdbdeadd7ee4",
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/FPExecution.lean": "83c7dbc84ce43dc9eaa5a4953d47441e8ff62ba2c08d0274ddf24b44780c7a94",
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/KernelCorrectness.lean": "2dfe19f0deb2f44a48e0eacdbd68531108f183ce58660c198e4bb5ac897c9112",
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/LogicalReader.lean": "feb5daf2c41604d314578d156ed1b20e4c0601fe15b5e285e4b6655d5445e3cb",
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/ReaderReal.lean": "6f228c249127e8cef6ee3af34413d0ee2514e53c033322905a9fddcbd6eb78a7",
+    "bench/tritonbench_g/cache_transform_triton/Proofs/IndexRewrite.lean": "1fcf52d6252a5071c4f1df32e18ff628aa2e772265806944744db0a25b342b91",
+    "bench/tritonbench_g/dequantize_matmul/Proofs/IntegerIO.lean": "a233748ee317f4b4324a76f8aea38284917a8ccc2e56d6c6973ec9fce8657c1b",
+    "bench/tritonbench_g/dequantize_rowwise/Kernels.lean": "43b52e95790f4ad3d3eb9b2fe6081f9784d2bbf97a37aba257a5b4836f5543bc",
+    "bench/tritonbench_g/dequantize_rowwise/Proofs/FP.lean": "98c674ac653b6f3a82dfd0489b49ebe0f9efd7bd3c81f9b87e1af4cfc9b5a6f7",
+    "bench/tritonbench_g/dequantize_rowwise/Proofs/Projection.lean": "cf710e67b2a10f050ca3a925f9f1c74667845058ee8f220719622b04f19140c8",
+    "bench/tritonbench_g/dequantize_rowwise/Proofs/RealReference.lean": "02950559b1b88418b97b6d54d8eaa67580fc7ea22a4a5f83a71fd67215405444",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8",
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Misc/TensorBridge.lean": "ce93ee35c9ad001be6cfea61f1e001ec1e8e75c6d259542983cd0aa80f1cba6a",
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/Contract.lean": "77852e638e79e134509f268a5d2eda8bda32e71de7c1572787dce7e71dd101bd",
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/FP32Prior/Contract.lean": "fa9ab4c4ee3786f4f7a3961abdf61ccabeb4240ceb436e1afa357229f72d547e",
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/FP32Prior/Correct.lean": "f8cd3a3ab3073b3bb895e2aac554135deed143c6e5a3fda98dd40f3edebb342c",
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/FP32Prior/FPEquiv.lean": "11a9480a540a2e59d8035d3da2d4d76ffe809b9e9eed0531150a79530147f391",
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/FP32Prior/Kernels.lean": "7bddf3766507c601c88202a620bd494014919405ea8c91960283c214da910e3d",
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/FP32Prior/Proofs/Bytes.lean": "d5fcf56291e92b894b09f2ba69ad0d85260abf3f5ee646e2b33511bb4ab6fac7",
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/FP32Prior/Proofs/Contract.lean": "fb9d219b7925be12f88c8a4b35dd9fb295f1c1b13a00792793da550c73a85246",
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/FP32Prior/Proofs/Direct.lean": "b1cbddae4e4b0327dceb1d41f761d068a8baf2268240d043d98e4fabe2967a40",
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/FP32Prior/Proofs/Execution.lean": "dbfee8228ce287f25f2b2ad1b1647b478e381f5751040a1fbb0ef49fece8a087",
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/FP32Prior/Proofs/FP.lean": "ce05bb2c82afb0f14c8f80850b39f46c2fed4ca6256fe55cbf4f1ed4f206ab55",
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/FP32Prior/Proofs/Grid.lean": "a7b2b4f7fceb8d7b27a85e9bc8322cb401fd05bd044bab9439d40599beb8f080",
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/FP32Prior/Proofs/Memory.lean": "759f85d13fa8ab6ecc627ef7e0fa7a3e0605b1adb8390ec7bec37105f4582782",
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/FP32Prior/Proofs/Native.lean": "a2d1af96ab48d95ae17195fa51c0a26fe88c99da0c7c67556c6614f9704dc9f1",
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/FP32Prior/Proofs/NativeFull.lean": "2b0d1366cadc64e66534ceb7aab53187103edd80c49f468d5d7ace678fe90e5a",
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/FP32Prior/Proofs/Real.lean": "5be85be0fd1aa354f94e0d8be4d72c3f98260d1fa91bdae7244e911e7fdf65ce",
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/FP32Prior/Proofs/Scatter.lean": "7630b0362abadfa5b2be6002dca2ca5f7c8b297091137d166eeab72460171254",
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/FlatCorrectness.lean": "7c1ad2c38f975dd97ef880deb3a6cdf7a035c821a6b90c83ae3215ac0748586b",
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/InputBinding.lean": "005efca0f3f6418a36dc557e6694ddfd827b3b1352f35f20a091ac6ab3982d26",
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/NativeAddress.lean": "67d408da0d329e4de7ec419be3a7697fc7b7e07afe7d9f21936549b7e81b9f1c",
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/NativeIndex.lean": "a8e7eb223e264b3493eb696f076259bcd39afd1c79aee57c7b44046fdd2ebc99",
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/ReadableSource.lean": "fc4c3a3ad097b7146e0ab13ed89864f021872debca80b1ecaf5a8e4057478a5f"
+  },
+  "source_pin_provenance": {
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Contract.lean": {
+      "owner_tasks": [
+        "dequantize_rowwise"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Correct.lean": {
+      "owner_tasks": [
+        "dequantize_rowwise"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dequantize_rowwise/FPEquiv.lean": {
+      "owner_tasks": [
+        "dequantize_rowwise"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dequantize_rowwise/IO.lean": {
+      "owner_tasks": [
+        "dequantize_rowwise"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Kernels.lean": {
+      "owner_tasks": [
+        "dequantize_rowwise"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/FPExecution.lean": {
+      "owner_tasks": [
+        "dequantize_rowwise"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/KernelCorrectness.lean": {
+      "owner_tasks": [
+        "dequantize_rowwise"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/LogicalReader.lean": {
+      "owner_tasks": [
+        "dequantize_rowwise"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/ReaderReal.lean": {
+      "owner_tasks": [
+        "dequantize_rowwise"
+      ]
+    },
+    "bench/tritonbench_g/cache_transform_triton/Proofs/IndexRewrite.lean": {
+      "unchanged_prior_pin": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json"
+    },
+    "bench/tritonbench_g/dequantize_matmul/Proofs/IntegerIO.lean": {
+      "unchanged_prior_pin": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json"
+    },
+    "bench/tritonbench_g/dequantize_rowwise/Kernels.lean": {
+      "unchanged_prior_pin": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json"
+    },
+    "bench/tritonbench_g/dequantize_rowwise/Proofs/FP.lean": {
+      "unchanged_prior_pin": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json"
+    },
+    "bench/tritonbench_g/dequantize_rowwise/Proofs/Projection.lean": {
+      "unchanged_prior_pin": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json"
+    },
+    "bench/tritonbench_g/dequantize_rowwise/Proofs/RealReference.lean": {
+      "unchanged_prior_pin": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json"
+    },
+    "VeriTile/Triton/Memory/LogicalIO.lean": {
+      "owner_tasks": [
+        "mixed_sparse_attention",
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Misc/TensorBridge.lean": {
+      "owner_tasks": [
+        "dequantize_rowwise"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/Contract.lean": {
+      "owner_tasks": [
+        "dequantize_rowwise"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/FP32Prior/Contract.lean": {
+      "owner_tasks": [
+        "dequantize_rowwise"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/FP32Prior/Correct.lean": {
+      "owner_tasks": [
+        "dequantize_rowwise"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/FP32Prior/FPEquiv.lean": {
+      "owner_tasks": [
+        "dequantize_rowwise"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/FP32Prior/Kernels.lean": {
+      "owner_tasks": [
+        "dequantize_rowwise"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/FP32Prior/Proofs/Bytes.lean": {
+      "owner_tasks": [
+        "dequantize_rowwise"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/FP32Prior/Proofs/Contract.lean": {
+      "owner_tasks": [
+        "dequantize_rowwise"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/FP32Prior/Proofs/Direct.lean": {
+      "owner_tasks": [
+        "dequantize_rowwise"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/FP32Prior/Proofs/Execution.lean": {
+      "owner_tasks": [
+        "dequantize_rowwise"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/FP32Prior/Proofs/FP.lean": {
+      "owner_tasks": [
+        "dequantize_rowwise"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/FP32Prior/Proofs/Grid.lean": {
+      "owner_tasks": [
+        "dequantize_rowwise"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/FP32Prior/Proofs/Memory.lean": {
+      "owner_tasks": [
+        "dequantize_rowwise"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/FP32Prior/Proofs/Native.lean": {
+      "owner_tasks": [
+        "dequantize_rowwise"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/FP32Prior/Proofs/NativeFull.lean": {
+      "owner_tasks": [
+        "dequantize_rowwise"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/FP32Prior/Proofs/Real.lean": {
+      "owner_tasks": [
+        "dequantize_rowwise"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/FP32Prior/Proofs/Scatter.lean": {
+      "owner_tasks": [
+        "dequantize_rowwise"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/FlatCorrectness.lean": {
+      "owner_tasks": [
+        "dequantize_rowwise"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/InputBinding.lean": {
+      "owner_tasks": [
+        "dequantize_rowwise"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/NativeAddress.lean": {
+      "owner_tasks": [
+        "dequantize_rowwise"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/NativeIndex.lean": {
+      "owner_tasks": [
+        "dequantize_rowwise"
+      ]
+    },
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/ReadableSource.lean": {
+      "owner_tasks": [
+        "dequantize_rowwise"
+      ]
+    }
+  },
+  "retired_current_source_pins": {
+    "bench/repairs/tritonbench_g/dequantize_rowwise/LogicalIO.lean": "3c7102252c30ffc2f165e66f9507fa7acf4905a6319563e22be1082f8d637197"
+  },
+  "limits": [],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/io-unification-20261023/queue16/result.json",
+    "sha256": "12f6dd5ed523e9f723fee3847af964fd8987958c2cb997aa572210c04de5bc84"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

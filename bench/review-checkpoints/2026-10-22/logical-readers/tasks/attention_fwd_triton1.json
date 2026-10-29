@@ -1,0 +1,111 @@
+{
+  "schema": 1,
+  "task": "attention_fwd_triton1",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue01/result.json",
+    "sha256": "e83606eb1af11f63258849532abca45e610a46657c5b23bc45277a166000a8ec",
+    "task_index": 5
+  },
+  "finding": "The independent two-output formula decoded numbered flat output channels and flattened head/row/feature/history offsets.",
+  "resolution": "Added genuine logical query/key/value arrays tied to complete original input windows, named output/history records and exact head/row/feature plus head/chunk/row/feature equivalences. Main formulas directly use logical coordinates; all coordinate arithmetic and whole-judgment connection proofs are in Proofs.",
+  "mathematical_target": "Chunk-causal O(h,row,col)=1/sqrt(D)*sum u<min((row/32+1)*32,T) sum e<D Q*K*V; pre-update H(h,chunk,row,col)=sum u<min(chunk*32,T) K*V.",
+  "conditions_and_scope": "Complete shared source across all heads/chunks, full logical T/D, fixed temporal block32, empty grid and both STORE/IFCOND branches retained. STORE masks exactly the H channel. Complete access safety, successful source schedule, both declared output channels and exact frame preserved; Shape and Contract configuration conditions unchanged.",
+  "proof_connection": "LogicalReader proves all seven mathematical-vs-flat coordinate identities; formula_connection covers both complete channels, and statement_iff equates the complete previous RealIO judgment with its logical transport. The displayed sums connect pointwise by definitional equality to MathTarget.output/history.",
+  "fp_review": "Actual complete original/shifted-offset candidate unchanged; four i*32 offsets use i<<5 by integer equalities, with all FP32 sites, casts, loops, masks, native interpretation and O/H frames retained; empty experimental R.",
+  "numerical_dependencies": "No floating rewrite, numerical assumption or experiment added. Existing strict structural pair and native bindings retained.",
+  "previous_formula_scope": {
+    "mathematical_target": "O(h,r,d)=1/sqrt(D)*sum u<min((r/32+1)*32,T) sum e<D Q(h,r,e)K(h,u,e)V(h,u,d); H(h,chunk,r,d)=sum u<min(chunk*32,T) K(h,u,r)V(h,u,d).",
+    "required_conditions": [
+      "Shape and public finite KernelIO ports retain source configuration/launch geometry and all accesses.",
+      "STORE masks H channel; IFCOND branch remains in actual source and theorem quantification. Contract retains positive supported power-of-two D and live tile formation limit."
+    ],
+    "scope": "All heads/chunks of complete shared grid, output O and optional pre-update H history. Fixed temporal block32, full logical T and D; empty grid, STORE and IFCOND both branches preserved.",
+    "canonical_connection": "Displayed two-channel formula definitionally equals RealIO.formula. Canonical source: attention_fwd_triton1/Whole001/Proofs/Math.lean MathTarget.output/history; existing RealIO.implements applies directly.",
+    "fp_program_pair": {
+      "floating_point.actual_pair": "FPEquiv.original ≡[[]] FPEquiv.shifted; existing temporal-offset multiplication-to-shift candidate",
+      "floating_point.scope": "Full head/chunk schedule and entire actual loop, all FP32 load/store/cast/dot flags and arbitrary payloads, O/H typed outputs, dual safety/success and exact frames. Four offsets i*32 replaced by i<<5 by integer equalities."
+    },
+    "numerical_dependencies": {
+      "kind": "strict-program-structure",
+      "rule": "no floating rewrite",
+      "experimental_instance_used": false,
+      "explanation": "The selected source schedule/index/ordered native graph equality is proved with the existing implementation/model binding. Empty experimental rules do not assert equality for arbitrary opaque primitives or GPU conformance."
+    }
+  },
+  "verification": [
+    {
+      "kind": "targeted_build",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue01/build.py",
+        "bench.repairs.tritonbench_g.attention_fwd_triton1_tile_checked.LogicalIO",
+        "bench.repairs.tritonbench_g.attention_fwd_triton1_tile_checked.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.attention_fwd_triton1_tile_checked.Correct",
+        "bench.repairs.tritonbench_g.attention_fwd_triton3_scalar_cast.LogicalIO",
+        "bench.repairs.tritonbench_g.attention_fwd_triton3_scalar_cast.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.attention_fwd_triton3_scalar_cast.Correct"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue01/multioutput-final.log",
+      "log_sha256": "47366c34ddb7bf2f3f6bf430aaf07d76059787dfc34217724d58eaa428e97b3f",
+      "module_receipts": [
+        {
+          "path": ".veritile-cache/logical-reader-review-20261022/queue01/build/lib/lean/bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Correct.workspace-build.json",
+          "sha256": "e09e3b4c6e6e8ad7bfd04b9f3501d6d6af2a9f1a5b9ce56d71304c1f2fbc31a9"
+        },
+        {
+          "path": ".veritile-cache/logical-reader-review-20261022/queue01/build/lib/lean/bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Proofs/LogicalReader.workspace-build.json",
+          "sha256": "c95f8b2219527cf0f346a8ef5a1145112c4e4faeb20404ce84b0a042d97dc8dc"
+        },
+        {
+          "path": ".veritile-cache/logical-reader-review-20261022/queue01/build/lib/lean/bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/LogicalIO.workspace-build.json",
+          "sha256": "a787c345d24f1d24837b30aa4e163f595669bccda9698157b72d5e75e13adcf9"
+        }
+      ],
+      "note": "Final successful grouped command reused accepted receipts for these exact source and dependency hashes."
+    },
+    {
+      "task": "attention_fwd_triton1",
+      "kind": "task_joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue01/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue01/Joint_attention_fwd_triton1.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue01/Joint_attention_fwd_triton1.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Contract.lean": "7c3a60c111566dff5e0af0757e1c6e379455739572f56e5763b85fb2bc171762",
+    "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Correct.lean": "b000841fe4c56b9363535bf18217f1da735ae8da8683dea8d4e52db5933800d3",
+    "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/FPEquiv.lean": "94cfcd8de8fba199035824ed187e466e8bc7f541f538acc0fadb86dfe71f38e5",
+    "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/IO.lean": "462497ee20f72da3388234d46b9552e0515e657471020a9e18bc0249e28d426c",
+    "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/RealIO.lean": "ffbe0f7bdc7f8b77cfdd83edba94e65807dcf9509d4293f9c7b556667a938d15",
+    "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Proofs/LogicalReader.lean": "12fb84a07e44646dae13330b5c10f4c8850a844875ca318832218bbcca344d5f",
+    "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/LogicalIO.lean": "f7425c173eaddcacd8dbf1d471dd1217bd078181cd944fc8340ed6d9df2ce079",
+    "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Kernels.lean": "04560ecf43d18afbdef08993a8c013a8f6b7da0b8dcab4227e6ae514dac64197",
+    "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Proofs/RealInterface.lean": "fd7c8d9a424496931398e52196dbba5e847a044bc08b30082a71dccf31c176b6",
+    "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Proofs/Pair.lean": "f047828104c8af0038e101696f169ae27bc461fd69a57a6e0971327010110d07",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [
+    "Unchanged transitive proof closure and FPEquiv objects reused from the accepted read-only baseline; current selected entries passed task-level joint import.",
+    "No optional host/native/Tensor/GPU or numerical task introduced."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

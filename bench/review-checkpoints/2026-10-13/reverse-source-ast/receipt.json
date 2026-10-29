@@ -1,0 +1,32 @@
+{
+  "rows": [
+    {
+      "kind": "scalar",
+      "full_ast_match": true,
+      "negative_controls_rejected": 7,
+      "source_body_sha256": "5f40ebcc8acf831b2ac0a9310dcf4f64c511960d0b85fb8002607fcd3b8abf8e"
+    },
+    {
+      "kind": "vector",
+      "full_ast_match": true,
+      "negative_controls_rejected": 7,
+      "source_body_sha256": "8677913d55ae1ca2abd879ff5282df1265931cd7f05ee33e283fc331367712b5"
+    }
+  ],
+  "changed_inputs": [],
+  "input_sha256": {
+    "scripts/check_reversed_cumsum_sources.py": "fe839d71beb7871067314f2fe54246f468d6c2505f86558f840e07b8067f4549",
+    "scripts/check_reversed_cumsum_native.py": "eff25fc6517730ecb378958586db88fb22d9ed401b085b4fb5d1c20374d8873a",
+    "bench/audit_source.py": "2ea669eb9b4691a44a7d24c3e9e83aa45c8114be8649fec93b693d9493372e4d",
+    "bench/tritonbench_g/reversed_cumsum_scalar/reversed_cumsum_scalar.py": "e145461bdb74f2d5ae5de59275181e6e22d39f0b0b133cd191d214ec5ab4f40a",
+    "bench/tritonbench_g/reversed_cumsum_scalar/Proofs/Source.lean": "ba4834a908fa0627cc61d22caa8b9200786d881b2a31cadf012901043a3276d7",
+    "bench/tritonbench_g/reversed_cumsum/reversed_cumsum.py": "28e2c4e324b0098cac1aec32d11a0883dbebc491564f20674f6f08f1939fe314",
+    "bench/tritonbench_g/reversed_cumsum/Proofs/Source.lean": "607fe2aa20d2ad719978a1f502f9af30d444d9431cafc027847c5821e51eaffd"
+  },
+  "scope": "Check complete original reverse-cumsum expression/control ASTs.\n\nOnly source notation is normalized: direct parameter/literal antiquotes,\nbraces, pointer-constructor keyword names, tuple/list dimensions, literal\nboolean spelling, and the independent tuple assignment of program IDs.\nNegative controls must reject changed loop bounds, padding, casts and math.\n",
+  "complete_task": false,
+  "success": true,
+  "root_exit_code": 0,
+  "python_sources": 2,
+  "negative_controls": 14
+}

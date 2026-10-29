@@ -1,0 +1,9 @@
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.scalarFormula: definition does not reference [VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.scalarSource,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.selectSource,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.castStore,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.TypedValue.source,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.scalar_correspondence: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.storage_bytes_positive: axiom footprint ⊆ standard base ✓  ([])

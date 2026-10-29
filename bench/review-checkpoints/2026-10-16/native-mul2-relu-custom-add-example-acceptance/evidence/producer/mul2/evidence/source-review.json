@@ -1,0 +1,86 @@
+{
+  "source": "bench/tritonbench_g/triton_mul2/triton_mul2.py",
+  "source_sha256": "6a7ae6ed4f9c83c4206b78778630c25b72fd10cb785d01a85e1b9c0d19f46238",
+  "production_functions": [
+    "mul2_kernel",
+    "mul2_inplace_kernel",
+    "triton_mul2",
+    "triton_mul2_inplace"
+  ],
+  "statements": {
+    "mul2_kernel": [
+      "pid = tl.program_id(axis=0)",
+      "block_start = pid * BLOCK_SIZE",
+      "offsets = block_start + tl.arange(0, BLOCK_SIZE)",
+      "mask = offsets < n_elements",
+      "x = tl.load(in_ptr0 + offsets, mask=mask)",
+      "output = 2 * x",
+      "tl.store(out_ptr + offsets, output, mask=mask)"
+    ],
+    "mul2_inplace_kernel": [
+      "pid = tl.program_id(axis=0)",
+      "block_start = pid * BLOCK_SIZE",
+      "offsets = block_start + tl.arange(0, BLOCK_SIZE)",
+      "mask = offsets < n_elements",
+      "x = tl.load(ptr + offsets, mask=mask)",
+      "output = 2 * x",
+      "tl.store(ptr + offsets, output, mask=mask)"
+    ],
+    "triton_mul2": [
+      "output = torch.zeros_like(x)",
+      "n_elements = x.numel()",
+      "grid = (triton.cdiv(n_elements, BLOCK_SIZE),)",
+      "mul2_kernel[grid](x, output, n_elements, BLOCK_SIZE)",
+      "return output"
+    ],
+    "triton_mul2_inplace": [
+      "n_elements = x.numel()",
+      "grid = (triton.cdiv(n_elements, BLOCK_SIZE),)",
+      "mul2_inplace_kernel[grid](x, n_elements, BLOCK_SIZE)",
+      "return x"
+    ]
+  },
+  "source_harness": "test_mul contains four ordinary wrapper calls, B1024/B512, no production callers; result_gold initializes the test harness at import",
+  "native_receipt": "prior-v1/native-attempts/20261015T214958399467Z/receipt.json",
+  "native_receipt_sha256": "c69fad9462a13be7e06236e6eaa1cd26a7e960d4169a467b3dffc167f7103fe3",
+  "native_counts": {
+    "compiled": 30,
+    "rejected": 30,
+    "frontend_passed": 6
+  },
+  "canonical_dtypes": 22,
+  "admitted_dtypes": 13,
+  "first_signature_rejects": 5,
+  "first_architecture_rejects": 2,
+  "backend_fp8_rejects": 2,
+  "source_native_dependencies": {
+    "native-driver": {
+      "source": "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/driver.c",
+      "sha256": "835f068cf517d237dc62be91275261e260c2bae985a9242fd28866303c1e5a60",
+      "snapshot": "evidence/native-driver.txt"
+    },
+    "frontend-semantic": {
+      "source": "/usr/local/lib/python3.12/site-packages/triton/language/semantic.py",
+      "sha256": "22b7669ff8ba591fc1540ce01a4030cf54aa2dccfdb21c2d31fa55d5cab77c7c",
+      "snapshot": "evidence/frontend-semantic.txt"
+    },
+    "frontend-utils": {
+      "source": "/usr/local/lib/python3.12/site-packages/triton/_utils.py",
+      "sha256": "a471ac2230f829d11e9ce32481053d444ec7ced596ca97bb537c509f6b86479d",
+      "snapshot": "evidence/frontend-utils.txt"
+    },
+    "python-cdiv": {
+      "source": "/usr/local/lib/python3.12/site-packages/triton/__init__.py",
+      "sha256": "fc8d0ce7535a4773769dfdcdb3a8b7bcee1bf58d3d03cc318529104c1e1431fd",
+      "snapshot": "evidence/python-cdiv.txt"
+    },
+    "torch-metadata": {
+      "source": "/usr/local/lib/python3.12/site-packages/torch/include/c10/core/TensorImpl.h",
+      "sha256": "44551659c6cada800f4b3789b6d3b99de9d2864669505b2e667750e244d6753b",
+      "snapshot": "evidence/torch-metadata.txt"
+    }
+  },
+  "debug": false,
+  "instrumentation_mode": "",
+  "gpu_executions": 0
+}

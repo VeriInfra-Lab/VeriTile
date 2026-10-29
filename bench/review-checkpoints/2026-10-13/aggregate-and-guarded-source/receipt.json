@@ -1,0 +1,91 @@
+{
+  "recorded_at_utc": "2026-10-13T17:31:17.531254+00:00",
+  "scope": "Completed local integration checkpoint before the next Direct Philox frontend work. Not whole-corpus task acceptance or independent comparator replay.",
+  "aggregate": {
+    "command": "lake build VeriTile VeriTileFull TritonBenchGVerified TritonBenchSpecExamples",
+    "exit_code": 0,
+    "jobs": 4723,
+    "note": "Named targets as enumerated at invocation. In-progress LayerNorm/Softmax/Uniform work is not admitted to TritonBenchGVerified by this build. Later new helper files require their own checks."
+  },
+  "layer_norm_phase": {
+    "exit_code": 0,
+    "jobs": 3365,
+    "axiom_checks": 27,
+    "scope": "Actual first 12 source statements, first-stream rowscale/dropout, signed seed primitive, independent reduction lemmas and exact first-mask/frame; not the complete kernel."
+  },
+  "guarded_source": {
+    "distinct_new_tests_passed": 17,
+    "runs": "16-test suite followed by the newly added actual-port test, not one combined 17-test run.",
+    "existing_seeded_tests_passed": 19,
+    "audit_shard_tests_passed": 13,
+    "actual_port_mechanical_gates": 24,
+    "scope": "Selected fp32 full branch tree and exact two signed seed casts. No all-profile/native admission or Lean replay."
+  },
+  "softmax_source": {
+    "python_gates_passed": 23,
+    "frozen_inputs_unchanged": true,
+    "record": "softmax-selected-source/result.json",
+    "scope": "Selected fp32 source only."
+  },
+  "hash_capture": "Listed implementation hashes captured after the local runs. No frozen full aggregate dependency/artifact snapshot. The softmax source run separately checks its recorded frozen inputs.",
+  "post_run_source_sha256": {
+    "VeriTile/Triton/Core/Integer.lean": "ef1c0c34a0038ce6538f2d02f3a3941bb1a4a631fdb5e089f0dae063f26efe57",
+    "VeriTile/Triton/DSL/Expansion/Main.lean": "c396d2b2cabddab5198708f5ec6ee40debe41599bf748f6b1a0a149c2fb8812c",
+    "VeriTile/Triton/DSL/RandomProfile.lean": "f7704622063dbaed4d3de60e7a9a49d3aaecffcb1949b70c5fbbc3d8f0c02f37",
+    "bench/audit_tritonbench_g.sh": "b2cefa23b1c2c6e0b20446123c948439c82748806fe88a63d1e6bb98b4ec6012",
+    "bench/source_control_materializations.py": "246fb4829b40148b385580297ee28eba2b39fa542ee93c79e91d5f675ec90975",
+    "bench/source_materializations.py": "3f16e1f24a90b8ea7d1990558daa325c5772c8c574f0ec5ff49233e74c762d89",
+    "bench/tritonbench_g/attention_llama/Proofs/FP8TypedExecution.lean": "437580f15632a5be983f58e39afb9e79099c0316b4f8864498b665f78b48aea2",
+    "bench/tritonbench_g/layer_norm_fwd/Kernels.lean": "199a0ca514767602fed6665205f1a171d52aedc0ca1a913fe6ff8e3af908b1f1",
+    "bench/tritonbench_g/layer_norm_fwd/layer_norm_fwd.py": "27dfccf23671d5b9c6f4b749cef39ddf69079793c486a833cbae9c57fe3a4de4",
+    "lake-manifest.json": "de981cfa9d3ed8d548669570dde19d20b103c081d0772c0184d6e401f9fe96f7",
+    "lakefile.toml": "0d08d92ebf5279813e26ac20b8c80fb151cee8275649af215484a07aebdc4a41",
+    "lean-toolchain": "651c8accb402b0c071cd336e9d3dc0a55516b1bfb434ddc4801f14936785b1d2",
+    "scripts/fixtures/source_control_materializations/Kernels.lean.txt": "edacf9764b98ebb7e84940217aed41cecd2adf1ae91a2d14b4f529f517ff0f8a",
+    "scripts/fixtures/source_control_materializations/README.md": "474e403ac830dd8e7f683d041472a4567daf7760b68c9b5d22ee7b3a4c94a2d5",
+    "scripts/fixtures/source_control_materializations/RandomProfile.lean.txt": "f7704622063dbaed4d3de60e7a9a49d3aaecffcb1949b70c5fbbc3d8f0c02f37",
+    "scripts/fixtures/source_control_materializations/layer_norm_fwd.py.txt": "27dfccf23671d5b9c6f4b749cef39ddf69079793c486a833cbae9c57fe3a4de4",
+    "scripts/test_audit_shards.py": "e6a7ab0e8e9b1541859916b5df03d1b3399a52fc623796cf267c7122360cee08",
+    "scripts/test_source_control_materializations.py": "8e1cd2d0425d532993d4a001de93e9edecb2a9d549bf950b01111d620aa24411",
+    "scripts/test_source_materializations.py": "1d52707e417fd2968630b02552d3c10c0657b3163559e054a03d6232e8028fa2"
+  },
+  "logs": {
+    "aggregate.log.gz": {
+      "exit_code": 0,
+      "encoding": "gzip",
+      "sha256": "0c25d3f6ea3bbfb06c8d45c9029edc20d5fa0d641dd9fdf1599b1d5e76f64e9f",
+      "uncompressed_sha256": "77228ca3a2ac19114a1128b4b7322ea490b9376aaad04cb05ee9fad826e52f6f"
+    },
+    "layer-norm-phase.log.gz": {
+      "exit_code": 0,
+      "encoding": "gzip",
+      "sha256": "6c584336698908a122f829764dcb1f079c3b0d6526c27471af6214ead2bd034b",
+      "uncompressed_sha256": "fd505fb94c1e1bedaf9e766db1a9c664da0ee48b4771e0f0d303ddfcf4dd4097"
+    },
+    "guarded-source-16.log.gz": {
+      "exit_code": 0,
+      "encoding": "gzip",
+      "sha256": "c390c9ed861f838378e694a5155841ed6135704a15939d2e62b30f3fd93ac29b",
+      "uncompressed_sha256": "c101036b4c7115a1bd2fc965af8b6cb0b13d30d0ea8ebde27b7e86bf07dc6177"
+    },
+    "guarded-source-actual.log.gz": {
+      "exit_code": 0,
+      "encoding": "gzip",
+      "sha256": "63295a7554ddc3e587b2f2dcbfdb9f9b16222d4f2be2d1f438b6d20c5b3af921",
+      "uncompressed_sha256": "ab3b53e281e703775706ed879a393ca0cc855ece3b932c13990106fd04370293"
+    },
+    "seeded-source-regression.log.gz": {
+      "exit_code": 0,
+      "encoding": "gzip",
+      "sha256": "260f373635266edf7c08b3dfe7274901decc98cfc306a5da7d271509aa4303a3",
+      "uncompressed_sha256": "eac09a97c2a97092944f9940d18b3f7531d44372497aecd570879f9371af4fc1"
+    },
+    "audit-shards.log.gz": {
+      "exit_code": 0,
+      "encoding": "gzip",
+      "sha256": "24aab8d50c3c95479eb3297ef4e6698b805d56c6699033b8e8cb2e837224580e",
+      "uncompressed_sha256": "56cd8b9d04b76986e7752c43eee35c03026c1a49d120445863ac6a5923cfce9a"
+    }
+  },
+  "independent_comparator": "Still unavailable: no systemd user manager in this container; official sandbox requirements were not bypassed."
+}

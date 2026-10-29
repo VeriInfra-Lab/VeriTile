@@ -1,0 +1,77 @@
+{
+  "schema": 3,
+  "summary": {
+    "tasks": 184,
+    "baseline_public_records_preserved": 747,
+    "original_41_registry_unchanged": true,
+    "new_specification_records": 146,
+    "new_parametric_value_contracts": 142,
+    "recurrence_identities_not_value_contracts": 1,
+    "memory_frames_not_value_contracts": 2,
+    "protocol_contracts_not_value_contracts": 1,
+    "standalone_model_value_contracts": 6,
+    "source_frontend_classes": {
+      "shared_triton_dsl": 37,
+      "task_local_exact_ast": 3
+    },
+    "fixed_witnesses_promoted": 0,
+    "extended_tasks": 40,
+    "extension_dtype_relations": {
+      "selected_explicit_profiles_only": 29,
+      "new_source_declared_profiles": 7,
+      "complete_enumerated_wrapper_dtype_domain": 4
+    },
+    "software_profile_dtype_relations": {
+      "selected_explicit_profiles_only": 21,
+      "new_source_declared_profiles": 3,
+      "complete_enumerated_wrapper_dtype_domain": 4
+    },
+    "original23_dtype_relations": {
+      "selected_explicit_profiles_only": 21,
+      "complete_enumerated_wrapper_dtype_domain": 2
+    },
+    "new_declaration_models": {
+      "backend_value_contract": 79,
+      "bit_interpreter_contract": 63,
+      "recurrence_identity": 1,
+      "memory_frame_contract": 2,
+      "protocol_contract": 1
+    },
+    "current_task_statuses": {
+      "backend_equivalence_existing_reports": 41,
+      "full_declared_profile_backend_value_contract": 11,
+      "backend_equivalence_needs_validation": 3,
+      "backend_equivalence_no_extra_law": 63,
+      "backend_equivalence_reference_revalidated": 2,
+      "full_declared_profile_software_value_contract": 28,
+      "bit_interpreter_contract_only": 30,
+      "candidate_only_software_contract": 1,
+      "backend_value_contract_only": 5
+    },
+    "historical_numeric_statuses": {
+      "existing_numeric_evidence": 43,
+      "requires_numeric_model_revision": 3,
+      "awaiting_numeric_validation": 3,
+      "no_extra_numeric_law": 129,
+      "missing_source": 6
+    },
+    "native_experiment_jobs": 37,
+    "native_execution": false,
+    "original_pending_exact_bindings": 5,
+    "review_pending_items": 0
+  },
+  "kind": "frozen_pre_extension_metadata_baseline",
+  "source_commit": "9327d49ade58b9895672d462e230fe686626ebd2",
+  "inputs_zip_sha256": "a732792b3bb9f709795c5a5767120f672aa0b0b18cf4de2f38a8ba7956740c76",
+  "artifact_sha256": {
+    "input-sha256.json": "a898cb04b06112f4d7bd0983560e172d7daf5657a0c6c3517e800ec624ba17b2"
+  },
+  "policy": "Exact committed pre-extension files, including complete public set and original full checker. No current new public modules or scan filtering. Whole-program acceptance is not inferred.",
+  "validation": {
+    "command": "python3 -B bench/fp_value_extensions.py --check",
+    "cwd": "materialized complete frozen tree",
+    "exit_code": 0,
+    "log_sha256": "8eae6dd1148c022e9b6739024e062e97d9848a2e9f5b383270d9d47444ea9b97",
+    "full_public_scan_performed": true
+  }
+}

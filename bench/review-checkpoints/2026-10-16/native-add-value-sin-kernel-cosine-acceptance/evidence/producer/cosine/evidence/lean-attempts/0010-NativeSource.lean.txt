@@ -1,0 +1,154 @@
+import bench.tritonbench_g.cosine_compute.Proofs.NativeMemory
+
+namespace CosineNative
+open VeriTile.Triton
+set_option maxHeartbeats 6000000
+set_option maxRecDepth 24000
+
+/-- Task-local syntax of the unchanged Python kernel. This is syntax, not an
+output callback. Its correspondence with Python is the separately audited
+translation boundary; every operation is interpreted below. -/
+inductive SourceExpr where
+  | literal (n : Nat)
+  | program (ax : Nat)
+  | laneRange (start stop : Nat)
+  | register (name : RegName)
+  | plus (a b : SourceExpr)
+  | times (a b : SourceExpr)
+  | less (a b : SourceExpr)
+  | load (region : RegionName) (offset mask : SourceExpr) (other : Option SourceExpr)
+  | toFP32 (a : SourceExpr)
+  | cosine (a : SourceExpr)
+  deriving DecidableEq
+inductive SourceStmt where
+  | assign (name : RegName) (value : SourceExpr)
+  | store (region : RegionName) (offset value mask : SourceExpr)
+  deriving DecidableEq
+
+def sourceStatements (n block : Nat) : List SourceStmt :=
+  [.assign "offset" (.plus (.times (.program 0) (.literal block)) (.laneRange 0 block)),
+   .assign "mask" (.less (.register "offset") (.literal n)),
+   .assign "a_value" (.load "a" (.register "offset") (.register "mask") none),
+   .assign "b_value" (.cosine (.toFP32 (.register "a_value"))),
+   .store "b" (.register "offset") (.register "b_value") (.register "mask")]
+
+inductive IndexExpr where
+  | literal (n : Nat)
+  | program (ax : Nat)
+  | lane (width : Nat)
+  | register (name : RegName)
+  | add (a b : IndexExpr)
+  | mul (a b : IndexExpr)
+  deriving DecidableEq
+def lowerIndex : SourceExpr → Option IndexExpr
+  | .literal n => some (.literal n)
+  | .program ax => some (.program ax)
+  | .laneRange 0 width => some (.lane width)
+  | .register name => some (.register name)
+  | .plus a b => return .add (←lowerIndex a) (←lowerIndex b)
+  | .times a b => return .mul (←lowerIndex a) (←lowerIndex b)
+  | _ => none
+inductive MaskExpr where
+  | register (name : RegName)
+  | less (a b : IndexExpr)
+  deriving DecidableEq
+def lowerMask : SourceExpr → Option MaskExpr
+  | .register name => some (.register name)
+  | .less a b => return .less (←lowerIndex a) (←lowerIndex b)
+  | _ => none
+inductive Instruction where
+  | indexAssign (name : RegName) (value : IndexExpr)
+  | maskAssign (name : RegName) (value : MaskExpr)
+  | load (name : RegName) (region : RegionName) (offset : IndexExpr) (mask : MaskExpr)
+  | cosine32Assign (name input : RegName)
+  | store (region : RegionName) (offset : IndexExpr) (value : RegName) (mask : MaskExpr)
+  deriving DecidableEq
+def lowerStatement : SourceStmt → Option Instruction
+  | .assign "offset" value => return .indexAssign "offset" (←lowerIndex value)
+  | .assign "mask" value => return .maskAssign "mask" (←lowerMask value)
+  | .assign name (.load region offset mask none) =>
+      return .load name region (←lowerIndex offset) (←lowerMask mask)
+  | .assign name (.cosine (.toFP32 (.register input))) => some (.cosine32Assign name input)
+  | .store region offset (.register value) mask =>
+      return .store region (←lowerIndex offset) value (←lowerMask mask)
+  | _ => none
+def lowerBody : List SourceStmt → Option (List Instruction)
+  | [] => some []
+  | stmt::rest => return (←lowerStatement stmt)::(←lowerBody rest)
+def sourceCode (n block : Nat) : List Instruction :=
+  [.indexAssign "offset" (.add (.mul (.program 0) (.literal block)) (.lane block)),
+   .maskAssign "mask" (.less (.register "offset") (.literal n)),
+   .load "a_value" "a" (.register "offset") (.register "mask"),
+   .cosine32Assign "b_value" "a_value",
+   .store "b" (.register "offset") "b_value" (.register "mask")]
+theorem original_syntax_lowering (n block : Nat) :
+    lowerBody (sourceStatements n block)=some (sourceCode n block) := by
+  simp [lowerBody,lowerStatement,lowerIndex,lowerMask,sourceStatements,sourceCode]
+
+structure PrefixRegisters where
+  indices : RegName → Nat → BitVec 32
+  masks : RegName → Nat → Bool
+def evalIndex (pid lane : Nat) (registers : RegName → Nat → BitVec 32) : IndexExpr → BitVec 32
+  | .literal n => BitVec.ofNat 32 n
+  | .program ax => if ax=0 then BitVec.ofNat 32 pid else 0
+  | .lane _ => BitVec.ofNat 32 lane
+  | .register name => registers name lane
+  | .add a b => evalIndex pid lane registers a + evalIndex pid lane registers b
+  | .mul a b => evalIndex pid lane registers a * evalIndex pid lane registers b
+def evalMask (pid lane : Nat) (indices : RegName → Nat → BitVec 32)
+    (masks : RegName → Nat → Bool) : MaskExpr → Bool
+  | .register name => masks name lane
+  | .less a b => (evalIndex pid lane indices a).slt (evalIndex pid lane indices b)
+def stepPrefix (pid : Nat) (s : PrefixRegisters) : Instruction → PrefixRegisters
+  | .indexAssign name value => {s with indices := fun key lane => if key=name then evalIndex pid lane s.indices value else s.indices key lane}
+  | .maskAssign name value => {s with masks := fun key lane => if key=name then evalMask pid lane s.indices s.masks value else s.masks key lane}
+  | _ => s
+def runPrefix (pid : Nat) (code : List Instruction) : PrefixRegisters :=
+  code.foldl (stepPrefix pid) ⟨fun _ _ => 0,fun _ _ => Bool.false⟩
+def compiledSource (n : Nat) : List Instruction :=
+  (lowerBody (sourceStatements n (HostMath.block n))).get (by simp [original_syntax_lowering])
+theorem compiled_source (n : Nat) : compiledSource n=sourceCode n (HostMath.block n) := by
+  simp [compiledSource,original_syntax_lowering]
+def sourceActiveTile (n pid : Nat) : List Nat :=
+  (List.range (HostMath.block n)).filter ((runPrefix pid (compiledSource n)).masks "mask")
+theorem source_active_tile (n pid : Nat) : sourceActiveTile n pid=activeTile n pid := by
+  simp only [sourceActiveTile,compiled_source,sourceCode,runPrefix,List.foldl_cons,List.foldl_nil,
+    stepPrefix,evalIndex,evalMask]
+  simp only [if_true,String.reduceEq,if_false]
+  rfl
+def sourceOffset (n pid lane : Nat) : BitVec 32 :=
+  (runPrefix pid (compiledSource n)).indices "offset" lane
+theorem source_offset (n pid lane : Nat) : sourceOffset n pid lane=offset n pid lane := by
+  simp only [sourceOffset,compiled_source,sourceCode,runPrefix,List.foldl_cons,List.foldl_nil,
+    stepPrefix,evalIndex,evalMask]
+  simp only [if_true,String.reduceEq,if_false]
+  rfl
+def sourcePointer (data width n pid lane : Nat) : Nat :=
+  (BitVec.ofNat 64 data + (sourceOffset n pid lane).signExtend 64 * BitVec.ofNat 64 width).toNat
+theorem source_pointer (data width n pid lane : Nat) :
+    sourcePointer data width n pid lane=pointer data width n pid lane := by
+  rw [sourcePointer,source_offset];rfl
+theorem complete_source_suffix (n : Nat) :
+    (compiledSource n).drop 2 =
+      [.load "a_value" "a" (.register "offset") (.register "mask"),
+       .cosine32Assign "b_value" "a_value",.store "b" (.register "offset") "b_value" (.register "mask")] := by
+  rw [compiled_source];rfl
+def lowerScalar (d : Storage) : Instruction → Option (Expr d (.storage d))
+  | .cosine32Assign "b_value" "a_value" => some (stored32 d (.cosine (promote32 d .input)))
+  | _ => none
+def compiledScalar (d : Storage) (n : Nat) : Expr d (.storage d) :=
+  ((compiledSource n)[3]?.bind (lowerScalar d)).get
+    (by simp [compiled_source,sourceCode,lowerScalar])
+theorem compiled_scalar (d : Storage) (n : Nat) : compiledScalar d n=source d := by
+  simp [compiledScalar,compiled_source,sourceCode,lowerScalar,source]
+
+#axiomsClean original_syntax_lowering
+#axiomsClean compiled_source
+#axiomsClean source_active_tile
+#axiomsClean source_offset
+#axiomsClean source_pointer
+#axiomsClean complete_source_suffix
+#axiomsClean compiled_scalar
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end CosineNative

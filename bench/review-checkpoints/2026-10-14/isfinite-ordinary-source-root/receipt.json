@@ -1,0 +1,28 @@
+{
+  "checks": [
+    {
+      "check": "test_source_finite_helpers",
+      "exit_code": 0
+    },
+    {
+      "check": "test_source_helpers",
+      "exit_code": 0
+    },
+    {
+      "check": "test_audit_source",
+      "exit_code": 0
+    },
+    {
+      "check": "test_source_extern_orders",
+      "exit_code": 0
+    },
+    {
+      "check": "corpus_source_only",
+      "exit_code": 0
+    }
+  ],
+  "changed_inputs": [],
+  "captured_inputs": 3590,
+  "recorded_at_utc": "2026-10-14T00:33:40.904771+00:00",
+  "scope": "Local Python regressions and corpus source-only checks, not Lean elaboration/native/independent acceptance."
+}

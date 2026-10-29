@@ -1,4 +1,5 @@
 import VeriTile.Triton
+import VeriTile.Triton.Float.MaximumPrimitive
 
 /-!
 # `softmax_reducev` — strict per-kernel correctness
@@ -1644,6 +1645,33 @@ theorem sr_nemax_evalG (BLOCK_N : Nat) (hN : 0 < BLOCK_N) (s : BlockState)
   · rw [if_pos (by simpa using h), max_eq_right (le_of_lt h)]
   · rw [if_neg (by simpa using h), max_eq_left (not_lt.mp h)]
 
+/-- Mathematical compatibility only; never a floating comparison law. -/
+private theorem sr_math_maximum_select (x y : Op .real []) (s : BlockState) :
+    @evalOp .real [] (.maximumFloat .real .nil x y) s =
+      evalOp (.where (.gt .real .nil x y) x y) s := by
+  have h := evalOp_maximumFloat_real_select Broadcast.nil x y s
+  simp only [FloatDType.toTileDType] at h
+  refine h.trans ?_
+  cases hx : evalOp x s <;> cases hy : evalOp y s <;>
+    simp [evalOp,hx,hy,Tile.remap,Broadcast.leftIndex,Broadcast.rightIndex]
+  ext i
+  cases i
+  rfl
+
+private theorem sr_primitive_nemax_evalG (BLOCK_N : Nat) (hN : 0 < BLOCK_N) (s : BlockState)
+    (qkFn : Fin BLOCK_N → WithBot ℝ) (em : WithBot ℝ)
+    (hqk : s.regs .real [BLOCK_N] "qk" = some (⟨fun idx : TileIndex [BLOCK_N] => qkFn idx.1⟩ : Tile .real [BLOCK_N]))
+    (hem : s.regs .real [] "e_max" = some (Tile.scalar em))
+    (hne : (Finset.univ : Finset (Fin BLOCK_N)).Nonempty) :
+    @evalOp .real [] (Op.maximumFloat .real Broadcast.nil
+        (Op.reduceMax ⟨0, by simp⟩ Bool.false (Op.ref .real [BLOCK_N] "qk"))
+        (Op.ref .real [] "e_max")) s
+      = some (Tile.scalar (em ⊔ Finset.univ.sup' hne (fun k : Fin BLOCK_N => qkFn k))) := by
+  exact (sr_math_maximum_select _ _ s).trans
+    (sr_nemax_evalG BLOCK_N hN s qkFn em hqk hem hne)
+#axiomsClean sr_math_maximum_select
+#axiomsClean sr_primitive_nemax_evalG
+
 /-- General `p` recipe over `Fin BLOCK_N` lanes. -/
 theorem sr_p_evalG (BLOCK_N : Nat) (s : BlockState) (qkFn : Fin BLOCK_N → WithBot ℝ) (nem : WithBot ℝ)
     (hqk : s.regs .real [BLOCK_N] "qk" = some (⟨fun idx : TileIndex [BLOCK_N] => qkFn idx.1⟩ : Tile .real [BLOCK_N]))
@@ -1809,9 +1837,7 @@ def srLoopBodyG (Logics : RegionName) (BLoc : Region .int)
             (Op.ref .nat [] "cur_batch_seq_len"))
           (Op.negInf.broadcast [BLOCK_N]))),
     Stmt.assign .real [] "n_e_max"
-      ((Op.gt .real Broadcast.nil
-            (Op.reduceMax ⟨0, by simp⟩ Bool.false (Op.ref .real [BLOCK_N] "qk"))
-            (Op.ref .real [] "e_max")).where
+      (Op.maximumFloat .real Broadcast.nil
         (Op.reduceMax ⟨0, by simp⟩ Bool.false (Op.ref .real [BLOCK_N] "qk"))
         (Op.ref .real [] "e_max")),
     Stmt.assign .real [] "old_scale"
@@ -2040,7 +2066,7 @@ theorem sr_attn_stepG
     rw [hemax0]; exact e4 (by decide) (e3 (by decide) (e2 (by decide) hs1emax))
   -- stmt 3: n_e_max
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
-    (sr_nemax_evalG BLOCK_N hN s4 qkFn emax0 hs4qk hs4emax hne))]
+    (sr_primitive_nemax_evalG BLOCK_N hN s4 qkFn emax0 hs4qk hs4emax hne))]
   set nemaxVal := emax0 ⊔ Finset.univ.sup' hne (fun k : Fin BLOCK_N => qkFn k) with hnemaxVal
   set s5 := s4.setReg "n_e_max" .real [] (Tile.scalar nemaxVal) with hs5
   have e5 : ∀ {dt : TileDType} {sh : TileShape} {nm : RegName} {t : Tile dt sh},
@@ -3875,7 +3901,7 @@ private theorem srIO_bodyW (R : RoundingModel) (bounds : RegionBounds)
   -- stmt 3: n_e_max
   refine srIO_walkCons (by simp [Stmt.TraceSafeR, Op.SafeAtR.eq_def])
     (srIO_stepR_of_assign (by simp only [evalOpR.eq_def, evalOp.eq_def])
-      (sr_nemax_evalG BLOCK_N hN _ qkFn em0
+      (sr_primitive_nemax_evalG BLOCK_N hN _ qkFn em0
         (by simp only [hqkFn, BlockState.setReg_same])
         (by simp only [BlockState.setReg_ne_name, ne_eq, String.reduceEq,
               not_false_eq_true]

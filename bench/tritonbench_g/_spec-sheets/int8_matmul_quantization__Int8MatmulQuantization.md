@@ -82,7 +82,7 @@ def int8_matmul_quantization_quantize_surface
     (M K : Nat)
     (stride_fpam stride_fpak stride_am stride_ak stride_asm : Nat)
     (BLOCK_SIZE_M BLOCK_SIZE_K numKBlocks : Nat) :
-    ComputeKernel := triton {
+    ComputeKernel := legacy_real_int8% triton {
   pid_m = tl.program_id(0)
   offs_k = tl.arange(0, $(BLOCK_SIZE_K))
   offs_am = (pid_m * $(BLOCK_SIZE_M) + tl.arange(0, $(BLOCK_SIZE_M))) % $(M)

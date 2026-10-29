@@ -1,0 +1,15 @@
+{
+  "producer_receipt_sha256": "f41f3babd87a924a3ec1d311d55349b98071acc7a2e3c6341853ca470e46201e",
+  "current_artifacts_verified": 85,
+  "previous_artifacts_verified": 31,
+  "six_installed_candidates_byte_identical": true,
+  "actual_test_command": [
+    "/usr/local/bin/python",
+    "-B",
+    "/tmp/veritile-standardization-20261015/queue-gzip-integration-scripts-revision1-wip/test_integration.py",
+    "-v"
+  ],
+  "actual_test_exit": 0,
+  "test_log_sha256": "bf07cdacf90df4a56a1c5b566794017a77880e67314a8100f0ee4b56d9899396",
+  "root_substantive_review": "pending"
+}

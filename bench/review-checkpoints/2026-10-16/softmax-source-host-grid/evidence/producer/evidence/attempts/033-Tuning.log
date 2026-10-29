@@ -1,0 +1,33 @@
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Tuning.lean:48:6: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Tuning.lean:65:5: error: unexpected token 'prefix'; expected '_' or identifier
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Tuning.lean:65:13: error: unexpected identifier; expected prec
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Tuning.lean:66:42: error: unexpected token ')'; expected ':'
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Tuning.lean:67:41: error: unexpected identifier; expected ':'
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Tuning.lean:69:43: error: unexpected token '++'; expected ':'
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Tuning.lean:70:18: error: unexpected token 'generalizing'; expected ':'
+VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.checkedTrialRun_success: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.checkedTrialRun_reject_head: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Tuning.lean:142:13: error(lean.unknownIdentifier): Unknown constant `checkedTrialRun_first_rejection`
+VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.trialRun_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.backwardValue_stable: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.tuned_backward_dispatch: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.forward_source_domain: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.backwardValue: definition does not reference [VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.trialRun,
+ VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.checkedTrialRun,
+ VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.tunedBackward,
+ VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.backwardRun,
+ VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.run,
+ VeriTile.Triton.exec] — non-circular ✓

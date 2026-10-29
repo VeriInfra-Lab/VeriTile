@@ -1,0 +1,30 @@
+AddValueIndependentReview.exact_grid_boundary: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+AddValueIndependentReview.bool_load_and_raw_store: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+AddValueIndependentReview.undefined_integer_conversion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+AddValueIndependentReview.fp64_preserves_loaded_input: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+AddValueIndependentReview.cuda_failure_without_pointer_evidence: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+AddValueIndependentReview.pointer_failure_without_consuming_metadata: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+AddValueIndependentReview.empty_offset_totalization: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+AddValueIndependentReview.byte_formula_frame: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+AddValueIndependentReview.arbitrary_order_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+AddValueIndependentReview.disjoint_stores_commute_bytes: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])

@@ -1,0 +1,34 @@
+# Numerical rule results
+
+14 instances; 14 replayed; 4 accepted.
+
+Each nonempty replicate contributes one mean across its in-domain IID scalar instances; R counts these replicates.
+Out-of-domain input tuples are skipped without resampling; valid/skipped counts describe scalar tuples, not R.
+z = |mean| / SE across replicate means (diagnostic only). U uses the configured magnitude gate.
+B = abs(mean) + se_multiplier * SE; bias PASS requires B <= tau, in local ULPs.
+Bias FAIL means an interval lies outside tolerance; INCONCLUSIVE means a boundary is crossed.
+The SE bands are engineering criteria, not calibrated simultaneous or optional-stopping confidence guarantees.
+Bias differences are normalized by each rounded golden value's output-format ULP before averaging.
+The magnitude gate uses K=Ec/Er, the ratio of peak absolute oracle errors, without ULP normalization or an additive allowance.
+Both errors zero gives K=0; a zero reference error with positive candidate error gives infinity.
+K follows the FlashAttention maximum-error metric; tail extrapolation and the bias gate are additional criteria.
+`empirical_max` means an observed maximum, not a fitted tail confidence bound.
+Acceptance is statistical under the configured profile, not proof of strict floating-point equivalence.
+Accept is pending until CPU replay. Missing statistics are shown as —, never zero.
+
+| Rule | Format | R | z | B (ULP) | tau (ULP) | U | U type | Bias | Vars | Accept | State | Valid | Skipped |
+|---|---|---:|---:|---:|---:|---:|---|---|---|---|---|---:|---:|
+| LOG-MUL | fp32 | 4096 | 1.016402 | 0.1629234 | 0.05 | 7.4184 | pot_pwm | INCONCLUSIVE | PASS | no | COMPLETE | 48643797954 | 20075678782 |
+| LOG-MUL-LIBDEVICE | fp32 | 4096 | 1.016402 | 0.1629234 | 0.05 | 7.4184 | pot_pwm | INCONCLUSIVE | PASS | no | COMPLETE | 48643797954 | 20075678782 |
+| LOG-EXP | fp32 | 4096 | 4.597277 | 0.09486808 | 0.05 | 0 | empirical_max | INCONCLUSIVE | PASS | no | COMPLETE | 68719476736 | 0 |
+| LOG-EXP-LOG-LIBDEVICE | fp32 | 4096 | 4.597277 | 0.09486808 | 0.05 | 0 | empirical_max | INCONCLUSIVE | PASS | no | COMPLETE | 68719476736 | 0 |
+| LOG-EXP-LIBDEVICE | fp32 | 4096 | 68.23168 | 0.7236907 | 0.05 | 0 | empirical_max | FAIL | PASS | no | COMPLETE | 68719476736 | 0 |
+| LOG-EXP-FULL-LIBDEVICE | fp32 | 4096 | 68.23168 | 0.7236907 | 0.05 | 0 | empirical_max | FAIL | PASS | no | COMPLETE | 68719476736 | 0 |
+| LOG-MUL-GUARDED-INTRINSIC | fp32 | 4096 | 296.036 | 0.0006251552 | 0.05 | 7.4184 | pot_pwm | PASS | PASS | yes | COMPLETE | 48643797954 | 20075678782 |
+| LOG-MUL-GUARDED | fp32 | 4096 | 296.036 | 0.0006251552 | 0.05 | 7.4184 | pot_pwm | PASS | PASS | yes | COMPLETE | 48643797954 | 20075678782 |
+| LOG-EXP-GUARDED-INTRINSIC | fp32 | 4096 | 28421.28 | 0.0457916 | 0.05 | 0.625 | empirical_max | PASS | PASS | yes | COMPLETE | 68719476736 | 0 |
+| LOG-EXP-GUARDED | fp32 | 4096 | 28421.28 | 0.0457916 | 0.05 | 0.625 | empirical_max | PASS | PASS | yes | COMPLETE | 68719476736 | 0 |
+| LOG-MUL-LOG1P-INTRINSIC | fp32 | 4096 | 1.793469 | 0.1644765 | 0.05 | 7.4184 | pot_pwm | INCONCLUSIVE | PASS | no | COMPLETE | 48643797954 | 20075678782 |
+| LOG-MUL-LOG1P | fp32 | 4096 | 1.793469 | 0.1644765 | 0.05 | 7.4184 | pot_pwm | INCONCLUSIVE | PASS | no | COMPLETE | 48643797954 | 20075678782 |
+| LOG-EXP-GUARDED-FULL-INTRINSIC | fp32 | 4096 | 39224.66 | 0.07841038 | 0.05 | 0.3125 | empirical_max | FAIL | PASS | no | COMPLETE | 68719476736 | 0 |
+| LOG-EXP-GUARDED-EXP-INTRINSIC | fp32 | 4096 | 39224.66 | 0.07841038 | 0.05 | 0.3125 | empirical_max | FAIL | PASS | no | COMPLETE | 68719476736 | 0 |

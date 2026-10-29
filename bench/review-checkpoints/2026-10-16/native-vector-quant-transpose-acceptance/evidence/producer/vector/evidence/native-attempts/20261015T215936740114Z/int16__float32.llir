@@ -1,0 +1,109 @@
+; ModuleID = 'LLVMDialectModule'
+source_filename = "LLVMDialectModule"
+target datalayout = "e-p3:32:32-p4:32:32-p5:32:32-p6:32:32-p7:32:32-i64:64-i128:128-i256:256-v16:16-v32:32-n16:32:64"
+
+; Function Attrs: nounwind
+define ptx_kernel void @add_kernel(ptr addrspace(1) %0, ptr addrspace(1) %1, ptr addrspace(1) %2, i32 %3, ptr addrspace(1) readnone captures(none) %4, ptr addrspace(1) readnone captures(none) %5) local_unnamed_addr #0 !dbg !4 {
+  %7 = tail call i32 @llvm.nvvm.read.ptx.sreg.ctaid.x(), !dbg !14
+  %8 = shl i32 %7, 10, !dbg !15
+  %9 = tail call i32 @llvm.nvvm.read.ptx.sreg.tid.x(), !dbg !16
+  %10 = shl nuw nsw i32 %9, 3, !dbg !16
+  %11 = and i32 %10, 1016, !dbg !16
+  %12 = or disjoint i32 %11, %8, !dbg !17
+  %13 = icmp slt i32 %12, %3, !dbg !18
+  %14 = sext i32 %12 to i64, !dbg !19
+  %15 = getelementptr i16, ptr addrspace(1) %0, i64 %14, !dbg !19
+  %16 = tail call { i32, i32, i32, i32 } asm sideeffect "mov.u32 $0, 0x0;\0A\09mov.u32 $1, 0x0;\0A\09mov.u32 $2, 0x0;\0A\09mov.u32 $3, 0x0;\0A\09@$5 ld.global.v4.b32 { $0, $1, $2, $3 }, [ $4 + 0 ];", "=r,=r,=r,=r,l,b"(ptr addrspace(1) %15, i1 %13) #2, !dbg !20
+  %17 = extractvalue { i32, i32, i32, i32 } %16, 0, !dbg !20
+  %18 = bitcast i32 %17 to <2 x i16>, !dbg !20
+  %19 = extractvalue { i32, i32, i32, i32 } %16, 1, !dbg !20
+  %20 = bitcast i32 %19 to <2 x i16>, !dbg !20
+  %21 = extractvalue { i32, i32, i32, i32 } %16, 2, !dbg !20
+  %22 = bitcast i32 %21 to <2 x i16>, !dbg !20
+  %23 = extractvalue { i32, i32, i32, i32 } %16, 3, !dbg !20
+  %24 = bitcast i32 %23 to <2 x i16>, !dbg !20
+  %25 = getelementptr float, ptr addrspace(1) %1, i64 %14, !dbg !21
+  %26 = getelementptr i8, ptr addrspace(1) %25, i64 16, !dbg !21
+  %27 = tail call { i32, i32, i32, i32 } asm sideeffect "mov.u32 $0, 0x0;\0A\09mov.u32 $1, 0x0;\0A\09mov.u32 $2, 0x0;\0A\09mov.u32 $3, 0x0;\0A\09@$5 ld.global.v4.b32 { $0, $1, $2, $3 }, [ $4 + 0 ];", "=r,=r,=r,=r,l,b"(ptr addrspace(1) %25, i1 %13) #2, !dbg !22
+  %28 = extractvalue { i32, i32, i32, i32 } %27, 0, !dbg !22
+  %29 = extractvalue { i32, i32, i32, i32 } %27, 1, !dbg !22
+  %30 = extractvalue { i32, i32, i32, i32 } %27, 2, !dbg !22
+  %31 = extractvalue { i32, i32, i32, i32 } %27, 3, !dbg !22
+  %32 = tail call { i32, i32, i32, i32 } asm sideeffect "mov.u32 $0, 0x0;\0A\09mov.u32 $1, 0x0;\0A\09mov.u32 $2, 0x0;\0A\09mov.u32 $3, 0x0;\0A\09@$5 ld.global.v4.b32 { $0, $1, $2, $3 }, [ $4 + 0 ];", "=r,=r,=r,=r,l,b"(ptr addrspace(1) %26, i1 %13) #2, !dbg !22
+  %33 = extractvalue { i32, i32, i32, i32 } %32, 0, !dbg !22
+  %34 = extractvalue { i32, i32, i32, i32 } %32, 1, !dbg !22
+  %35 = extractvalue { i32, i32, i32, i32 } %32, 2, !dbg !22
+  %36 = extractvalue { i32, i32, i32, i32 } %32, 3, !dbg !22
+  %37 = getelementptr i16, ptr addrspace(1) %2, i64 %14, !dbg !23
+  %38 = insertelement <2 x i32> poison, i32 %28, i64 0, !dbg !22
+  %39 = insertelement <2 x i32> %38, i32 %29, i64 1, !dbg !22
+  %40 = bitcast <2 x i32> %39 to <2 x float>, !dbg !22
+  %41 = sitofp <2 x i16> %18 to <2 x float>, !dbg !24
+  %42 = fadd <2 x float> %40, %41, !dbg !24
+  %43 = fptosi <2 x float> %42 to <2 x i16>, !dbg !25
+  %44 = insertelement <2 x i32> poison, i32 %30, i64 0, !dbg !22
+  %45 = insertelement <2 x i32> %44, i32 %31, i64 1, !dbg !22
+  %46 = bitcast <2 x i32> %45 to <2 x float>, !dbg !22
+  %47 = sitofp <2 x i16> %20 to <2 x float>, !dbg !24
+  %48 = fadd <2 x float> %46, %47, !dbg !24
+  %49 = fptosi <2 x float> %48 to <2 x i16>, !dbg !25
+  %50 = insertelement <2 x i32> poison, i32 %33, i64 0, !dbg !22
+  %51 = insertelement <2 x i32> %50, i32 %34, i64 1, !dbg !22
+  %52 = bitcast <2 x i32> %51 to <2 x float>, !dbg !22
+  %53 = sitofp <2 x i16> %22 to <2 x float>, !dbg !24
+  %54 = fadd <2 x float> %53, %52, !dbg !24
+  %55 = fptosi <2 x float> %54 to <2 x i16>, !dbg !25
+  %56 = insertelement <2 x i32> poison, i32 %35, i64 0, !dbg !22
+  %57 = insertelement <2 x i32> %56, i32 %36, i64 1, !dbg !22
+  %58 = bitcast <2 x i32> %57 to <2 x float>, !dbg !22
+  %59 = sitofp <2 x i16> %24 to <2 x float>, !dbg !24
+  %60 = fadd <2 x float> %59, %58, !dbg !24
+  %61 = fptosi <2 x float> %60 to <2 x i16>, !dbg !25
+  %62 = bitcast <2 x i16> %43 to i32, !dbg !25
+  %63 = bitcast <2 x i16> %49 to i32, !dbg !25
+  %64 = bitcast <2 x i16> %55 to i32, !dbg !25
+  %65 = bitcast <2 x i16> %61 to i32, !dbg !25
+  tail call void asm sideeffect "@$5 st.global.v4.b32 [ $4 + 0 ], { $0, $1, $2, $3 };", "r,r,r,r,l,b"(i32 %62, i32 %63, i32 %64, i32 %65, ptr addrspace(1) %37, i1 %13) #2, !dbg !25
+  ret void, !dbg !26
+}
+
+; Function Attrs: mustprogress nocallback nofree nosync nounwind speculatable willreturn memory(none)
+declare noundef range(i32 0, 2147483647) i32 @llvm.nvvm.read.ptx.sreg.ctaid.x() #1
+
+; Function Attrs: mustprogress nocallback nofree nosync nounwind speculatable willreturn memory(none)
+declare noundef range(i32 0, 1024) i32 @llvm.nvvm.read.ptx.sreg.tid.x() #1
+
+attributes #0 = { nounwind "nvvm.reqntid"="128" }
+attributes #1 = { mustprogress nocallback nofree nosync nounwind speculatable willreturn memory(none) }
+attributes #2 = { nounwind }
+
+!llvm.dbg.cu = !{!0}
+!llvm.module.flags = !{!2, !3}
+
+!0 = distinct !DICompileUnit(language: DW_LANG_C, file: !1, producer: "triton", isOptimized: true, runtimeVersion: 0, emissionKind: LineTablesOnly)
+!1 = !DIFile(filename: "source-prefix.py", directory: "/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision1-wip/evidence/native-attempts/20261015T215936740114Z")
+!2 = !{i32 2, !"Debug Info Version", i32 3}
+!3 = !{i32 4, !"nvvm-reflect-ftz", i32 1}
+!4 = distinct !DISubprogram(name: "add_kernel", linkageName: "add_kernel", scope: !1, file: !1, line: 6, type: !5, scopeLine: 6, spFlags: DISPFlagDefinition | DISPFlagOptimized, unit: !0)
+!5 = !DISubroutineType(cc: DW_CC_normal, types: !6)
+!6 = !{null, !7, !9, !7, !11, !12, !12}
+!7 = !DIDerivedType(tag: DW_TAG_pointer_type, name: "pointer", baseType: !8, size: 64, dwarfAddressSpace: 1)
+!8 = !DIBasicType(name: "int", size: 16, encoding: DW_ATE_signed)
+!9 = !DIDerivedType(tag: DW_TAG_pointer_type, name: "pointer", baseType: !10, size: 64, dwarfAddressSpace: 1)
+!10 = !DIBasicType(name: "float", size: 32, encoding: DW_ATE_float)
+!11 = !DIBasicType(name: "int", size: 32, encoding: DW_ATE_signed)
+!12 = !DIDerivedType(tag: DW_TAG_pointer_type, name: "pointer", baseType: !13, size: 64, dwarfAddressSpace: 1)
+!13 = !DIBasicType(name: "unknown_type", encoding: DW_ATE_signed)
+!14 = !DILocation(line: 12, column: 24, scope: !4)
+!15 = !DILocation(line: 13, column: 24, scope: !4)
+!16 = !DILocation(line: 14, column: 41, scope: !4)
+!17 = !DILocation(line: 14, column: 28, scope: !4)
+!18 = !DILocation(line: 15, column: 21, scope: !4)
+!19 = !DILocation(line: 16, column: 24, scope: !4)
+!20 = !DILocation(line: 16, column: 16, scope: !4)
+!21 = !DILocation(line: 17, column: 24, scope: !4)
+!22 = !DILocation(line: 17, column: 16, scope: !4)
+!23 = !DILocation(line: 19, column: 26, scope: !4)
+!24 = !DILocation(line: 18, column: 17, scope: !4)
+!25 = !DILocation(line: 19, column: 35, scope: !4)
+!26 = !DILocation(line: 19, column: 4, scope: !4)

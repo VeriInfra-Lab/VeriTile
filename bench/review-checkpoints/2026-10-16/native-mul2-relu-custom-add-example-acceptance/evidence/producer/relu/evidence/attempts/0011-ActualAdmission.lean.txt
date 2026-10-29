@@ -1,0 +1,67 @@
+import bench.tritonbench_g.relu_triton_kernel.Proofs.ActualScalar
+
+namespace VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual
+open IntegerWords
+
+/-- Complete canonical dtype enumeration of the pinned Torch environment. -/
+inductive CanonicalDType where
+  | bool | i8 | u8 | i16 | u16 | i32 | u32 | i64 | u64
+  | fp16 | bf16 | fp32 | fp64 | fp8e4m3fn | fp8e5m2 | fp8e4m3fnuz | fp8e5m2fnuz
+  | complex32 | complex64 | complex128 | fp8e8m0fnu | packedFloat4
+  deriving DecidableEq, Repr
+
+def canonicalDTypes : List CanonicalDType :=
+  [.bool,.i8,.u8,.i16,.u16,.i32,.u32,.i64,.u64,.fp16,.bf16,.fp32,.fp64,
+   .fp8e4m3fn,.fp8e5m2,.fp8e4m3fnuz,.fp8e5m2fnuz,.complex32,.complex64,.complex128,.fp8e8m0fnu,.packedFloat4]
+
+def CanonicalDType.name : CanonicalDType → String
+  | .bool => "bool" | .i8 => "int8" | .u8 => "uint8" | .i16 => "int16" | .u16 => "uint16"
+  | .i32 => "int32" | .u32 => "uint32" | .i64 => "int64" | .u64 => "uint64"
+  | .fp16 => "float16" | .bf16 => "bfloat16" | .fp32 => "float32" | .fp64 => "float64"
+  | .fp8e4m3fn => "float8_e4m3fn" | .fp8e5m2 => "float8_e5m2"
+  | .fp8e4m3fnuz => "float8_e4m3fnuz" | .fp8e5m2fnuz => "float8_e5m2fnuz"
+  | .complex32 => "complex32" | .complex64 => "complex64" | .complex128 => "complex128"
+  | .fp8e8m0fnu => "float8_e8m0fnu" | .packedFloat4 => "float4_e2m1fn_x2"
+
+inductive DTypeRoute where
+  | admitted (storage : Storage)
+  | missingSignatureMap
+  | unsupportedSignature
+  | orderedComparisonRejected
+  deriving DecidableEq, Repr
+
+def dtypeRoute : CanonicalDType → DTypeRoute
+  | .bool => .admitted (.integer .boolean)
+  | .i8 => .admitted (.integer (.signed .w8)) | .u8 => .admitted (.integer (.unsigned .w8))
+  | .i16 => .admitted (.integer (.signed .w16)) | .u16 => .admitted (.integer (.unsigned .w16))
+  | .i32 => .admitted (.integer (.signed .w32)) | .u32 => .admitted (.integer (.unsigned .w32))
+  | .i64 => .admitted (.integer (.signed .w64)) | .u64 => .admitted (.integer (.unsigned .w64))
+  | .fp16 => .admitted .fp16 | .bf16 => .admitted .bf16 | .fp32 => .admitted .fp32 | .fp64 => .admitted .fp64
+  | .fp8e4m3fn | .fp8e5m2 => .orderedComparisonRejected
+  | .fp8e4m3fnuz | .fp8e5m2fnuz => .unsupportedSignature
+  | .complex32 | .complex64 | .complex128 | .fp8e8m0fnu | .packedFloat4 => .missingSignatureMap
+
+theorem all22 : canonicalDTypes.length=22 ∧ ∀ d,d∈canonicalDTypes := by
+  constructor
+  · rfl
+  · intro d; cases d <;> decide
+
+theorem route_counts :
+    (canonicalDTypes.filter (fun d => match dtypeRoute d with | .admitted _ => true | _ => false)).length=13 ∧
+    (canonicalDTypes.filter (fun d => dtypeRoute d == .missingSignatureMap)).length=5 ∧
+    (canonicalDTypes.filter (fun d => dtypeRoute d == .unsupportedSignature)).length=2 ∧
+    (canonicalDTypes.filter (fun d => dtypeRoute d == .orderedComparisonRejected)).length=2 := by decide
+
+def constexprAccepted (n : Nat) : Bool := decide (n<2^64)
+
+theorem all_mask_branches_reachable :
+    constexprAccepted (2^31+1)=true ∧ constexprAccepted (2^32)=true ∧
+    constexprAccepted (2^63)=true ∧ constexprAccepted (2^64-1)=true ∧
+    constexprAccepted (2^64)=false := by decide
+
+#axiomsClean all22
+#axiomsClean route_counts
+#axiomsClean all_mask_branches_reachable
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual

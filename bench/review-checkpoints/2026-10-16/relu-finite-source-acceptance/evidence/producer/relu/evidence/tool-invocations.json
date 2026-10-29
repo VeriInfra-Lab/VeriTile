@@ -1,0 +1,57 @@
+[
+  {
+    "command": [
+      "python3",
+      "-B",
+      "/tmp/veritile-standardization-20261015/relu-finite-acceptance-wip/evidence/frontend/probe.py"
+    ],
+    "stdout_stderr": "evidence/frontend/probe.log",
+    "exit_code": 0,
+    "script_sha256": "5868191f08f16132c6feb0d76f5b893cd3dd7fbfee752c1b7ce18a1fd106ede8",
+    "log_sha256": "cc9c89ca43f2f43bcc090018e1d62f734d6dcd20242769f857ec3c2c445278c0"
+  },
+  {
+    "command": [
+      "python3",
+      "-B",
+      "/tmp/veritile-standardization-20261015/relu-finite-acceptance-wip/evidence/frontend-boundary/probe.py"
+    ],
+    "stdout_stderr": "evidence/frontend-boundary/probe.log",
+    "exit_code": 0,
+    "script_sha256": "0768706e5e2741ba0d091c175a5fec46be25993b850eae3a9bf3d0f56a7cf0d4",
+    "log_sha256": "8451a2b92bd3f37d3df827245f7bbd50984bd941195c72de1f4d80882db6fb5a"
+  },
+  {
+    "command": [
+      "python3",
+      "-B",
+      "/tmp/veritile-standardization-20261015/relu-finite-acceptance-wip/evidence/probe_metadata.py"
+    ],
+    "stdout_stderr": "evidence/metadata-probe.log",
+    "exit_code": 0,
+    "script_sha256": "0f531356835ce9a7fbdbe2a659f5c271a50d57f9abd8d471e10e19d2c04f5ba5",
+    "log_sha256": "e7f048739494f74709717ce118f74e7e096d731b0fc2eef50001063ddc32e539"
+  },
+  {
+    "command": [
+      "python3",
+      "-B",
+      "/tmp/veritile-standardization-20261015/relu-finite-acceptance-wip/propose.py"
+    ],
+    "stdout_stderr": "evidence/proposal-final.log",
+    "exit_code": 0,
+    "script_sha256": "e379b7a2292ed86e63a6148e1208cc4b41cc45488bd543d574e746d231f2a18e",
+    "log_sha256": "6e12f1add8afb8908dae597ac14512749fd9f01ab4a028eb0def7cb6f7e93263"
+  },
+  {
+    "command": [
+      "python3",
+      "-B",
+      "/tmp/veritile-standardization-20261015/relu-finite-acceptance-wip/check_adapter.py"
+    ],
+    "stdout_stderr": "evidence/adapter-final.log",
+    "exit_code": 0,
+    "script_sha256": "ccbffd3c419b3d020b207d65149de9d34bbebbb2fc1fb0605b5837b5d14ee4f9",
+    "log_sha256": "2e15f3e04d4f6a1b29e71c86a53361d40717316662ed489e5dfdc5b3a0dcc55d"
+  }
+]

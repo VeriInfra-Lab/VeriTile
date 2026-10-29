@@ -1,0 +1,14 @@
+{
+  "label": "catalog-integrity",
+  "command": [
+    "python3",
+    "-B",
+    "-c",
+    "import sys,json; from pathlib import Path; sys.path.insert(0,\"bench\"); from current_source_catalog import validate_catalog; root=Path.cwd(); c=json.loads((root/\"bench/review-checkpoints/2026-10-15/retention-query-source-proof/current-source-catalog.json\").read_text()); print(json.dumps(validate_catalog(root,c),indent=2))"
+  ],
+  "started_at_utc": "2026-10-15T06:45:45.976997+00:00",
+  "exit_code": 0,
+  "elapsed_seconds": 16.014,
+  "log": "catalog-integrity.log",
+  "log_sha256": "fb16e693d22b075bfbd53a40b72e52ae116f045dee6dc8de42cbb7986cbf298d"
+}

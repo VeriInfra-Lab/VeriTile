@@ -1,0 +1,583 @@
+{
+  "task": "chunk_delta_fwd",
+  "selected_public_entries": [
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Contract.lean",
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Correct.lean",
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/FPEquiv.lean"
+  ],
+  "owner_report": {
+    "path": "/tmp/veritile-reference-separation-20261023/ref04/result.json",
+    "sha256": "d956962445708245001e557b9330b57ecf4096906722ac870ea761462e0e347a"
+  },
+  "evidence_files": [
+    {
+      "path": "/tmp/veritile-reference-separation-20261023/ref04/result.json",
+      "sha256": "d956962445708245001e557b9330b57ecf4096906722ac870ea761462e0e347a"
+    },
+    {
+      "path": ".veritile-cache/reference-separation-20261023/applied/ref04.json",
+      "sha256": "252b64db6efd78eb2f010fbc4180d015d0a81e1c09453742f762fbe8f82d7812"
+    }
+  ],
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Contract.lean": "c1d9004f51853b7745eae1c76851954d9c718f7747bda877251e8156456e4eed",
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Correct.lean": "60dd242694eef45208e3ada497e92eeb4934f470f4038f5be28716a18b9ce376",
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/FPEquiv.lean": "ac549ffd7cd3defc6201c6aae70c6edf5f31fc6137564844a0833922511b45cd",
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Proofs/LogicalIO.lean": "013d815d47569ea694ee8358e4e37bb13010fc60ea7e30f4d0df8511274a2fba",
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/IO.lean": "33f9eafd3b829a664168231920e456ccbae444e4dde13dd7e04709217201991a",
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Kernels.lean": "51505409c86f41df556eb990ae93dbba5d96aa6c29b24a83b3287e47e1115049",
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Proofs/IOImplements.lean": "6f480394f1fcb464c34538b837cafdf058e3084fdea65a5808a78b28cf9a34d0",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8",
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/PairIO.lean": "c25d137b7f1d29b1ebad8ae553ba2413d247cbbd78e32aa14612352f19033ce5",
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Proofs/NativeIOBinding.lean": "ce912c57b80ab0e88a32a01ce5221e580e495da18e7e53c5abd376e8822e178f",
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Proofs/RealBinding.lean": "e9b8dcfb5fc7f13678357b7d0a35c99f23dad3cc95a970f71e202986c87c95b7",
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Proofs/ReferenceTargets.lean": "57f7df5848495e82fd3da0aed0acbd75c40b8a1d3318dafd03d76e25164eec70"
+  },
+  "before_sha256": {},
+  "canonical_io_sources": [
+    "VeriTile/Triton/Float/LogicalProgramIO.lean",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean",
+    "VeriTile/Triton/Memory/LogicalIO.lean",
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/IO.lean",
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/PairIO.lean"
+  ],
+  "reason": "pure native adapters in IO; Real/native targets both remain main proof dependencies",
+  "reported_change_paths": [
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/IO.lean",
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/PairIO.lean",
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Proofs/NativeIOBinding.lean",
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Proofs/RealBinding.lean",
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Proofs/ReferenceTargets.lean",
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/README.md",
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Reference.lean"
+  ],
+  "preservation": [
+    {
+      "task": "chunk_delta_fwd_static_dot",
+      "original_path": "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Reference.lean",
+      "declaration": "realFormula",
+      "destination": "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Proofs/ReferenceTargets.lean",
+      "body_sha256": "bccd6a08dad59e7e5f236ae046d80f93d51aaa518569e133047b5b6cfc1d9630",
+      "body_bytes": 423,
+      "byte_identical": true
+    },
+    {
+      "task": "chunk_delta_fwd_static_dot",
+      "original_path": "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Reference.lean",
+      "declaration": "nativeFormula",
+      "destination": "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Proofs/ReferenceTargets.lean",
+      "body_sha256": "9e00d79b5773e33bc832c8ab867d2ee16d3acba742ea4c70d1a8f26ca424a752",
+      "body_bytes": 526,
+      "byte_identical": true
+    },
+    {
+      "task": "chunk_delta_fwd_static_dot",
+      "original_path": "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Reference.lean",
+      "declaration": "nativeInputs",
+      "destination": "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/IO.lean",
+      "body_sha256": "b893cbb80db9f2ed4869bb12b9afd55f9703ac345e363bf23a7299987a3da9bc",
+      "body_bytes": 204,
+      "byte_identical": true
+    },
+    {
+      "task": "chunk_delta_fwd_static_dot",
+      "original_path": "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Reference.lean",
+      "declaration": "nativeObserve",
+      "destination": "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/IO.lean",
+      "body_sha256": "4e145c9b012d3f3cbdc1a0b83b6300dff2d9ab57eb6a10b5db6636b73e783dda",
+      "body_bytes": 155,
+      "byte_identical": true
+    }
+  ],
+  "verification": {
+    "per_task_joint_public_type_checks": [
+      {
+        "task": "cross_entropy1",
+        "kind": "joint_Contract_Correct_FPEquiv_and_original_public_types",
+        "command": [
+          "/tmp/veritile-lean-toolchain/bin/lean",
+          "-s",
+          "32768",
+          "--root=/tmp/veritile-reference-separation-20261023/ref04",
+          "/tmp/veritile-reference-separation-20261023/ref04/PublicTypes-cross_entropy1.lean",
+          "-o",
+          "/tmp/veritile-reference-separation-20261023/ref04/build/checks/PublicTypes-cross_entropy1.olean",
+          "-i",
+          "/tmp/veritile-reference-separation-20261023/ref04/build/checks/PublicTypes-cross_entropy1.ilean"
+        ],
+        "cwd": "/tmp/veritile-reference-separation-20261023/ref04",
+        "exit_code": 0,
+        "log": "/tmp/veritile-reference-separation-20261023/ref04/logs/PublicTypes-cross_entropy1.log",
+        "log_sha256": "653d8710a4729d4fc28d68e943469c2b58fe69fbb132ff5f2cab5bbfbce18c3e",
+        "source": "/tmp/veritile-reference-separation-20261023/ref04/PublicTypes-cross_entropy1.lean",
+        "source_sha256": "c684f141b58eb441805c076ed6b2130d847415036c62d639a54fe8859fa26369",
+        "elapsed_seconds": 2.37,
+        "specification_types": 5,
+        "objects": {
+          "/tmp/veritile-reference-separation-20261023/ref04/build/checks/PublicTypes-cross_entropy1.olean": "4bd7844a0dad71518e9b4542539f1dbee5527a127767f1d081286e233ca78263",
+          "/tmp/veritile-reference-separation-20261023/ref04/build/checks/PublicTypes-cross_entropy1.ilean": "06cb28b25985ab96b20f55c4eb740794f51ac3f2bb760678a8c38a56361baf58"
+        }
+      },
+      {
+        "task": "cross_entropy2",
+        "kind": "joint_Contract_Correct_FPEquiv_and_original_public_types",
+        "command": [
+          "/tmp/veritile-lean-toolchain/bin/lean",
+          "-s",
+          "32768",
+          "--root=/tmp/veritile-reference-separation-20261023/ref04",
+          "/tmp/veritile-reference-separation-20261023/ref04/PublicTypes-cross_entropy2.lean",
+          "-o",
+          "/tmp/veritile-reference-separation-20261023/ref04/build/checks/PublicTypes-cross_entropy2.olean",
+          "-i",
+          "/tmp/veritile-reference-separation-20261023/ref04/build/checks/PublicTypes-cross_entropy2.ilean"
+        ],
+        "cwd": "/tmp/veritile-reference-separation-20261023/ref04",
+        "exit_code": 0,
+        "log": "/tmp/veritile-reference-separation-20261023/ref04/logs/PublicTypes-cross_entropy2.log",
+        "log_sha256": "52983de0fb139052eff4f0ec43e71bace6643e6a99c2d48ab040460e82344351",
+        "source": "/tmp/veritile-reference-separation-20261023/ref04/PublicTypes-cross_entropy2.lean",
+        "source_sha256": "d11bb23fe6536d698422f8e1f82d158ed25265ae87894d011e33b8336b544a6e",
+        "elapsed_seconds": 2.465,
+        "specification_types": 4,
+        "objects": {
+          "/tmp/veritile-reference-separation-20261023/ref04/build/checks/PublicTypes-cross_entropy2.olean": "22d1ca22654239b196e7c29626732d1914b046f65014f36884179164fa6523f2",
+          "/tmp/veritile-reference-separation-20261023/ref04/build/checks/PublicTypes-cross_entropy2.ilean": "0162057d30b41ad3468aeb0072f05cc4c289649eb3323a0aaf216c93a9f6df3e"
+        }
+      },
+      {
+        "task": "chunk_gate_recurrence",
+        "kind": "joint_Contract_Correct_FPEquiv_and_original_public_types",
+        "command": [
+          "/tmp/veritile-lean-toolchain/bin/lean",
+          "-s",
+          "32768",
+          "--root=/tmp/veritile-reference-separation-20261023/ref04",
+          "/tmp/veritile-reference-separation-20261023/ref04/PublicTypes-chunk_gate_recurrence.lean",
+          "-o",
+          "/tmp/veritile-reference-separation-20261023/ref04/build/checks/PublicTypes-chunk_gate_recurrence.olean",
+          "-i",
+          "/tmp/veritile-reference-separation-20261023/ref04/build/checks/PublicTypes-chunk_gate_recurrence.ilean"
+        ],
+        "cwd": "/tmp/veritile-reference-separation-20261023/ref04",
+        "exit_code": 0,
+        "log": "/tmp/veritile-reference-separation-20261023/ref04/logs/PublicTypes-chunk_gate_recurrence.log",
+        "log_sha256": "c764bf76c4456b6e62c6c82adb94481ed8a747389444f87b83eb45168bcebf11",
+        "source": "/tmp/veritile-reference-separation-20261023/ref04/PublicTypes-chunk_gate_recurrence.lean",
+        "source_sha256": "4c0d11ab1acda711d91bb23c2ce48468c7a9dfa0246c71d21aec59e7505352f0",
+        "elapsed_seconds": 3.707,
+        "specification_types": 2,
+        "objects": {
+          "/tmp/veritile-reference-separation-20261023/ref04/build/checks/PublicTypes-chunk_gate_recurrence.olean": "a1e2bfaa3d4cc42e41310ef725d46edf0351c73307cda5e4e936540e8fb37bb4",
+          "/tmp/veritile-reference-separation-20261023/ref04/build/checks/PublicTypes-chunk_gate_recurrence.ilean": "d79e97e348dd8931e8b67657d6541075e30ba67b5ed0e124a33786f547e2daac"
+        }
+      },
+      {
+        "task": "chunk_delta_fwd_static_dot",
+        "kind": "joint_Contract_Correct_FPEquiv_and_original_public_types",
+        "command": [
+          "/tmp/veritile-lean-toolchain/bin/lean",
+          "-s",
+          "32768",
+          "--root=/tmp/veritile-reference-separation-20261023/ref04",
+          "/tmp/veritile-reference-separation-20261023/ref04/PublicTypes-chunk_delta_fwd_static_dot.lean",
+          "-o",
+          "/tmp/veritile-reference-separation-20261023/ref04/build/checks/PublicTypes-chunk_delta_fwd_static_dot.olean",
+          "-i",
+          "/tmp/veritile-reference-separation-20261023/ref04/build/checks/PublicTypes-chunk_delta_fwd_static_dot.ilean"
+        ],
+        "cwd": "/tmp/veritile-reference-separation-20261023/ref04",
+        "exit_code": 0,
+        "log": "/tmp/veritile-reference-separation-20261023/ref04/logs/PublicTypes-chunk_delta_fwd_static_dot.log",
+        "log_sha256": "9696f53bed21ecae6e3dcd531e2acf8cdbec522f63e2e283643fd2c021a3a923",
+        "source": "/tmp/veritile-reference-separation-20261023/ref04/PublicTypes-chunk_delta_fwd_static_dot.lean",
+        "source_sha256": "e0cb7bc37b9a8c2cc62544ac169d595fda2cf3424d59ec8958db69dd17409cdb",
+        "elapsed_seconds": 3.86,
+        "specification_types": 2,
+        "objects": {
+          "/tmp/veritile-reference-separation-20261023/ref04/build/checks/PublicTypes-chunk_delta_fwd_static_dot.olean": "288fd8bb4c35fb39a81b02c04f9b4856ddb3b8e8c5b724a811a660860582402a",
+          "/tmp/veritile-reference-separation-20261023/ref04/build/checks/PublicTypes-chunk_delta_fwd_static_dot.ilean": "1705b6c94fee86f0e8c47b941e3dee53042a274ae3172624ca72aa9e0ba24aba"
+        }
+      }
+    ],
+    "cross_task_joint_existing_limit": {
+      "kind": "joint_public_triples_and_13_original_specification_types",
+      "command": [
+        "/tmp/veritile-lean-toolchain/bin/lean",
+        "-s",
+        "32768",
+        "--root=/tmp/veritile-reference-separation-20261023/ref04",
+        "/tmp/veritile-reference-separation-20261023/ref04/PublicTypes.lean",
+        "-o",
+        "/tmp/veritile-reference-separation-20261023/ref04/build/checks/PublicTypes.olean",
+        "-i",
+        "/tmp/veritile-reference-separation-20261023/ref04/build/checks/PublicTypes.ilean"
+      ],
+      "cwd": "/tmp/veritile-reference-separation-20261023/ref04",
+      "exit_code": 1,
+      "log": "/tmp/veritile-reference-separation-20261023/ref04/logs/PublicTypes.log",
+      "log_sha256": "ba6da35b37f8943875a97d2be5a75b035ad23b38fb301f712d81a7cf17680622",
+      "source_sha256": "b1803a511d60dae379f2fc3e5d2b9a581651e2966729ec7a3be1f8d5f74307a5",
+      "elapsed_seconds": 3.438,
+      "objects": {}
+    },
+    "cross_task_joint_before_reproduction": {
+      "kind": "read_only_before_combined_overlay_reproduction",
+      "command": [
+        "/tmp/veritile-lean-toolchain/bin/lean",
+        "-s",
+        "32768",
+        "--root=/tmp/veritile-reference-separation-20261023/ref04",
+        "/tmp/veritile-reference-separation-20261023/ref04/PublicTypes.lean"
+      ],
+      "cwd": "/tmp/veritile-reference-separation-20261023/ref04",
+      "lean_path": [
+        "/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean",
+        "/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean",
+        "/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean",
+        "/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean",
+        "/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean",
+        "/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean",
+        "/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean",
+        "/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean",
+        "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean",
+        "/tmp/veritile-lean-toolchain/lib/lean",
+        "/tmp/veritile-reference-separation-20261023/ref04/baseline-combined/lib/lean",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/logical-reader-review-20261022/build/lib/lean",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean"
+      ],
+      "exit_code": 1,
+      "log": "/tmp/veritile-reference-separation-20261023/ref04/logs/BaselineFourTask.log",
+      "log_sha256": "ba6da35b37f8943875a97d2be5a75b035ad23b38fb301f712d81a7cf17680622",
+      "elapsed_seconds": 3.88,
+      "baseline_only": true,
+      "source_sha256": "b1803a511d60dae379f2fc3e5d2b9a581651e2966729ec7a3be1f8d5f74307a5"
+    },
+    "patch_apply_check": {
+      "command": [
+        "git",
+        "apply",
+        "--check",
+        "/tmp/veritile-reference-separation-20261023/ref04/reference-separation.patch"
+      ],
+      "cwd": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "mutation": false,
+      "patch_sha256": "b02b8d662dd17ab66d6bd519af808db953fd075656d71d646fd4a895a5998bba"
+    },
+    "build_results": {
+      "path": "/tmp/veritile-reference-separation-20261023/ref04/build-results.json",
+      "sha256": "ea04fdb3bd9a56af8516f39d9b1c282a176e114f638942cb201eeb6ab3da4282"
+    },
+    "all_attempt_commands": {
+      "path": "/tmp/veritile-reference-separation-20261023/ref04/commands.jsonl",
+      "sha256": "ad3f26548d42bf9981e54692beb5fffdd5380a94b07bb4e9b0eb66099a17af85"
+    },
+    "failed_attempts_preserved": [
+      {
+        "module": "bench.repairs.tritonbench_g.chunk_delta_fwd_static_dot.Proofs.NativeIOBinding",
+        "command": [
+          "/tmp/veritile-lean-toolchain/bin/lean",
+          "-s",
+          "32768",
+          "--root=/tmp/veritile-reference-separation-20261023/ref04/sources",
+          "/tmp/veritile-reference-separation-20261023/ref04/sources/bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Proofs/NativeIOBinding.lean",
+          "-o",
+          "/tmp/veritile-reference-separation-20261023/ref04/build/.module-x4uhc1lb/NativeIOBinding.olean",
+          "-i",
+          "/tmp/veritile-reference-separation-20261023/ref04/build/.module-x4uhc1lb/NativeIOBinding.ilean"
+        ],
+        "cwd": "/tmp/veritile-reference-separation-20261023/ref04/sources",
+        "exit_code": 1,
+        "log": "/tmp/veritile-reference-separation-20261023/ref04/logs/bench.repairs.tritonbench_g.chunk_delta_fwd_static_dot.Proofs.NativeIOBinding.log",
+        "log_sha256": "78038d3bc47f319522f251da4bba704a3357268b745c0f28968dd18444e6206d",
+        "elapsed_seconds": 5.447
+      },
+      {
+        "module": "bench.repairs.tritonbench_g.chunk_delta_fwd_static_dot.Proofs.NativeIOBinding",
+        "command": [
+          "/tmp/veritile-lean-toolchain/bin/lean",
+          "-s",
+          "32768",
+          "--root=/tmp/veritile-reference-separation-20261023/ref04/sources",
+          "/tmp/veritile-reference-separation-20261023/ref04/sources/bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Proofs/NativeIOBinding.lean",
+          "-o",
+          "/tmp/veritile-reference-separation-20261023/ref04/build/.module-ui8jgo5w/NativeIOBinding.olean",
+          "-i",
+          "/tmp/veritile-reference-separation-20261023/ref04/build/.module-ui8jgo5w/NativeIOBinding.ilean"
+        ],
+        "cwd": "/tmp/veritile-reference-separation-20261023/ref04/sources",
+        "exit_code": 1,
+        "log": "/tmp/veritile-reference-separation-20261023/ref04/logs/bench.repairs.tritonbench_g.chunk_delta_fwd_static_dot.Proofs.NativeIOBinding.attempt2.log",
+        "log_sha256": "78038d3bc47f319522f251da4bba704a3357268b745c0f28968dd18444e6206d",
+        "elapsed_seconds": 5.087
+      },
+      {
+        "module": "bench.repairs.tritonbench_g.chunk_delta_fwd_static_dot.Misc.NativeCorrect",
+        "command": [
+          "/tmp/veritile-lean-toolchain/bin/lean",
+          "-s",
+          "32768",
+          "--root=/tmp/veritile-reference-separation-20261023/ref04/sources",
+          "/tmp/veritile-reference-separation-20261023/ref04/sources/bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Misc/NativeCorrect.lean",
+          "-o",
+          "/tmp/veritile-reference-separation-20261023/ref04/build/.module-v9e8e40f/NativeCorrect.olean",
+          "-i",
+          "/tmp/veritile-reference-separation-20261023/ref04/build/.module-v9e8e40f/NativeCorrect.ilean"
+        ],
+        "cwd": "/tmp/veritile-reference-separation-20261023/ref04/sources",
+        "exit_code": 1,
+        "log": "/tmp/veritile-reference-separation-20261023/ref04/logs/bench.repairs.tritonbench_g.chunk_delta_fwd_static_dot.Misc.NativeCorrect.log",
+        "log_sha256": "a64fa2ad0a9defd6aea1b34be98979f1e4259bfaf9bc29596b48504bb460aa48",
+        "elapsed_seconds": 2.471
+      },
+      {
+        "module": "bench.repairs.tritonbench_g.chunk_gate_recurrence.Proofs.ProgramPair",
+        "command": [
+          "/tmp/veritile-lean-toolchain/bin/lean",
+          "-s",
+          "32768",
+          "--root=/tmp/veritile-reference-separation-20261023/ref04/sources",
+          "/tmp/veritile-reference-separation-20261023/ref04/sources/bench/repairs/tritonbench_g/chunk_gate_recurrence/Proofs/ProgramPair.lean",
+          "-o",
+          "/tmp/veritile-reference-separation-20261023/ref04/build/.module-oixhqqgq/ProgramPair.olean",
+          "-i",
+          "/tmp/veritile-reference-separation-20261023/ref04/build/.module-oixhqqgq/ProgramPair.ilean"
+        ],
+        "cwd": "/tmp/veritile-reference-separation-20261023/ref04/sources",
+        "exit_code": 1,
+        "log": "/tmp/veritile-reference-separation-20261023/ref04/logs/bench.repairs.tritonbench_g.chunk_gate_recurrence.Proofs.ProgramPair.log",
+        "log_sha256": "e292a1e62c6a7474ccff2535d5ea3950e45ebceaf496370ef5ad1c14db89a5e6",
+        "elapsed_seconds": 6.841
+      }
+    ],
+    "cache_refreshes": [
+      {
+        "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.NativeStaging",
+        "command": [
+          "/tmp/veritile-lean-toolchain/bin/lean",
+          "-s",
+          "32768",
+          "--root=/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile",
+          "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/chunk_gla_fwd/Proofs/NativeStaging.lean",
+          "-o",
+          "/tmp/veritile-reference-separation-20261023/ref04/build/.module-szflfbbs/NativeStaging.olean",
+          "-i",
+          "/tmp/veritile-reference-separation-20261023/ref04/build/.module-szflfbbs/NativeStaging.ilean"
+        ],
+        "cwd": "/tmp/veritile-reference-separation-20261023/ref04/sources",
+        "exit_code": 0,
+        "log": "/tmp/veritile-reference-separation-20261023/ref04/logs/bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.NativeStaging.log",
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "elapsed_seconds": 4.683,
+        "source": "bench/repairs/tritonbench_g/chunk_gla_fwd/Proofs/NativeStaging.lean",
+        "source_sha256": "d939e4d0dc80088804c88975921038a8d21f14e3bf780e2fc20bd4e34e634869",
+        "dependencies": {
+          "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.NativeInstructions": {
+            "path": "/tmp/veritile-reference-separation-20261023/ref04/build/lib/lean/bench/repairs/tritonbench_g/chunk_gla_fwd/Proofs/NativeInstructions.olean",
+            "sha256": "113e2dacd5ac734d1be1a7011a09b682c2654c2cdc3711e4f6c6d7e0c56bdf14"
+          }
+        },
+        "objects": {
+          "/tmp/veritile-reference-separation-20261023/ref04/build/lib/lean/bench/repairs/tritonbench_g/chunk_gla_fwd/Proofs/NativeStaging.ilean": "9c6ff33c7d0dce15d667e0dedaef6c05b2083d5b3ceb0d5f3a65d5669deaa9fe",
+          "/tmp/veritile-reference-separation-20261023/ref04/build/lib/lean/bench/repairs/tritonbench_g/chunk_gla_fwd/Proofs/NativeStaging.olean": "ebcda34fc6d0592dfd655d2f8fb0fae95720e6cf0f19e5fae551a3f077db740c"
+        }
+      },
+      {
+        "module": "bench.repairs.tritonbench_g.chunk_delta_fwd_static_dot.Proofs.NativeBinding",
+        "command": [
+          "/tmp/veritile-lean-toolchain/bin/lean",
+          "-s",
+          "32768",
+          "--root=/tmp/veritile-reference-separation-20261023/ref04/sources",
+          "/tmp/veritile-reference-separation-20261023/ref04/sources/bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Proofs/NativeBinding.lean",
+          "-o",
+          "/tmp/veritile-reference-separation-20261023/ref04/build/.module-tbulw2lm/NativeBinding.olean",
+          "-i",
+          "/tmp/veritile-reference-separation-20261023/ref04/build/.module-tbulw2lm/NativeBinding.ilean"
+        ],
+        "cwd": "/tmp/veritile-reference-separation-20261023/ref04/sources",
+        "exit_code": 0,
+        "log": "/tmp/veritile-reference-separation-20261023/ref04/logs/bench.repairs.tritonbench_g.chunk_delta_fwd_static_dot.Proofs.NativeBinding.log",
+        "log_sha256": "41432d9881626593f77848ed0a810f27d40649faca83ed9e2347abf7f47a452a",
+        "elapsed_seconds": 5.019,
+        "source": "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Proofs/NativeBinding.lean",
+        "source_sha256": "f66763b550a03cdf41116a12c1b05d2c3d7ff2229bfb091399e932f46fe3a371",
+        "dependencies": {
+          "bench.repairs.tritonbench_g.chunk_delta_fwd_static_dot.Proofs.NativeReference": {
+            "path": "/tmp/veritile-reference-separation-20261023/ref04/build/lib/lean/bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Proofs/NativeReference.olean",
+            "sha256": "b12fed1e8309dcba7cc027208ae79553d7e5258246f939b752caa4da57522632"
+          },
+          "bench.repairs.tritonbench_g.chunk_delta_fwd.Range": {
+            "path": "/tmp/veritile-reference-separation-20261023/ref04/build/lib/lean/bench/repairs/tritonbench_g/chunk_delta_fwd/Range.olean",
+            "sha256": "6b1a0cff086a1241c1eb3011f3c9fad07ec3eca2774931f7a76e29016b77fd21"
+          }
+        },
+        "objects": {
+          "/tmp/veritile-reference-separation-20261023/ref04/build/lib/lean/bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Proofs/NativeBinding.olean": "3bf29a050fca583382d1e5c67c353fd164068cd7a8c5c68a575e2838c8652394",
+          "/tmp/veritile-reference-separation-20261023/ref04/build/lib/lean/bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Proofs/NativeBinding.ilean": "20d0fb6b7a5ab45fcc208d2ed96166a5c7448cecd3472fb3862971a127a81b6a"
+        }
+      },
+      {
+        "module": "bench.repairs.tritonbench_g.chunk_gate_recurrence.Proofs.KernelCarrier",
+        "command": [
+          "/tmp/veritile-lean-toolchain/bin/lean",
+          "-s",
+          "32768",
+          "--root=/tmp/veritile-reference-separation-20261023/ref04/sources",
+          "/tmp/veritile-reference-separation-20261023/ref04/sources/bench/repairs/tritonbench_g/chunk_gate_recurrence/Proofs/KernelCarrier.lean",
+          "-o",
+          "/tmp/veritile-reference-separation-20261023/ref04/build/.module-xaw1n88n/KernelCarrier.olean",
+          "-i",
+          "/tmp/veritile-reference-separation-20261023/ref04/build/.module-xaw1n88n/KernelCarrier.ilean"
+        ],
+        "cwd": "/tmp/veritile-reference-separation-20261023/ref04/sources",
+        "exit_code": 0,
+        "log": "/tmp/veritile-reference-separation-20261023/ref04/logs/bench.repairs.tritonbench_g.chunk_gate_recurrence.Proofs.KernelCarrier.log",
+        "log_sha256": "8bb3252fa0742edae564455bcddb50bedf8f44c1f9e8b37fe534401e3421b3ea",
+        "elapsed_seconds": 3.695,
+        "source": "bench/repairs/tritonbench_g/chunk_gate_recurrence/Proofs/KernelCarrier.lean",
+        "source_sha256": "bfca6793e6be3e9375940cbf64d5a557b0d3ebc4e5aaa3cc253270bf43bd57b0",
+        "dependencies": {
+          "bench.repairs.tritonbench_g.chunk_gate_recurrence.Proofs.KernelReference": {
+            "path": "/tmp/veritile-reference-separation-20261023/ref04/build/lib/lean/bench/repairs/tritonbench_g/chunk_gate_recurrence/Proofs/KernelReference.olean",
+            "sha256": "718462a1bb2f900d4b0538d01e92e7d03df2de999f936380e6bb03bb0f642575"
+          }
+        },
+        "objects": {
+          "/tmp/veritile-reference-separation-20261023/ref04/build/lib/lean/bench/repairs/tritonbench_g/chunk_gate_recurrence/Proofs/KernelCarrier.ilean": "f939b1e9099b124af1aec537d94788a754bb87c18be02644c3c302251a120b40",
+          "/tmp/veritile-reference-separation-20261023/ref04/build/lib/lean/bench/repairs/tritonbench_g/chunk_gate_recurrence/Proofs/KernelCarrier.olean": "f598a0ab7f47e1874944645cd5fa6f87d8450bf93f9590dbe7855726c40e8f71"
+        }
+      }
+    ]
+  },
+  "verification_status": "passed_with_recorded_limit",
+  "limits": [
+    "Staged-only source organization. No production source, old cache, ledger, global guard or report was modified by this task.",
+    "Targeted recompilation of affected import chains, moved optional applications, and three unchanged stale cache prerequisites; remaining dependency objects are reused from the pinned read-only queue03/queue04 overlays. This is not a complete proof-closure rebuild.",
+    "The 13 original Correct/FPEquiv specification types and each task public Contract/Correct/FPEquiv triple were jointly elaborated. Static closure checks supplement Lean validation and are not independent mathematical correctness proofs.",
+    "An additional four-task combined import fails on the identical evalExpr.eq_6 lazy-equation ownership collision in both before and staged overlays (identical failure log SHA). Per-task public triples/types pass; no shared-library rewrite was introduced to expand this organization task.",
+    "Namespaces, declaration bodies, formulas, public premises, kernels, schedules, precision/conversions/arithmetic order, actual FP pairs and numerical rule sets are preserved. No additional GPU/native/host/numerical experiment or hardware-conformance acceptance was introduced."
+  ],
+  "owner_limits": [
+    "Staged-only source organization. No production source, old cache, ledger, global guard or report was modified by this task.",
+    "Targeted recompilation of affected import chains, moved optional applications, and three unchanged stale cache prerequisites; remaining dependency objects are reused from the pinned read-only queue03/queue04 overlays. This is not a complete proof-closure rebuild.",
+    "The 13 original Correct/FPEquiv specification types and each task public Contract/Correct/FPEquiv triple were jointly elaborated. Static closure checks supplement Lean validation and are not independent mathematical correctness proofs.",
+    "An additional four-task combined import fails on the identical evalExpr.eq_6 lazy-equation ownership collision in both before and staged overlays (identical failure log SHA). Per-task public triples/types pass; no shared-library rewrite was introduced to expand this organization task.",
+    "Namespaces, declaration bodies, formulas, public premises, kernels, schedules, precision/conversions/arithmetic order, actual FP pairs and numerical rule sets are preserved. No additional GPU/native/host/numerical experiment or hardware-conformance acceptance was introduced."
+  ],
+  "owner_remaining_issues": [
+    {
+      "kind": "existing_cross_overlay_lazy_equation_cache_collision",
+      "before_and_after_identical": true,
+      "per_task_checks_pass": true,
+      "log_sha256": "ba6da35b37f8943875a97d2be5a75b035ad23b38fb301f712d81a7cf17680622"
+    }
+  ],
+  "retired_current_source_pins": {
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Reference.lean": "0ff5d45156bc32c29ec0432a36b215f99f147360d7f271927a68d8379c1d07f2"
+  },
+  "source_pin_provenance": {
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Contract.lean": {
+      "prior_review": {
+        "path": "bench/review-checkpoints/2026-10-23/io-unification/main-formulas.json",
+        "sha256": "b3cadf4cf794279f1efb7b1a29a889a6c789339ca2668c94767129118e946885"
+      }
+    },
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Correct.lean": {
+      "prior_review": {
+        "path": "bench/review-checkpoints/2026-10-23/io-unification/main-formulas.json",
+        "sha256": "b3cadf4cf794279f1efb7b1a29a889a6c789339ca2668c94767129118e946885"
+      }
+    },
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/FPEquiv.lean": {
+      "prior_review": {
+        "path": "bench/review-checkpoints/2026-10-23/io-unification/main-formulas.json",
+        "sha256": "b3cadf4cf794279f1efb7b1a29a889a6c789339ca2668c94767129118e946885"
+      }
+    },
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Proofs/LogicalIO.lean": {
+      "prior_review": {
+        "path": "bench/review-checkpoints/2026-10-23/io-unification/main-formulas.json",
+        "sha256": "b3cadf4cf794279f1efb7b1a29a889a6c789339ca2668c94767129118e946885"
+      }
+    },
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/IO.lean": {
+      "owner_report": {
+        "path": "/tmp/veritile-reference-separation-20261023/ref04/result.json",
+        "sha256": "d956962445708245001e557b9330b57ecf4096906722ac870ea761462e0e347a"
+      }
+    },
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Kernels.lean": {
+      "prior_review": {
+        "path": "bench/review-checkpoints/2026-10-23/io-unification/main-formulas.json",
+        "sha256": "b3cadf4cf794279f1efb7b1a29a889a6c789339ca2668c94767129118e946885"
+      }
+    },
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Proofs/IOImplements.lean": {
+      "prior_review": {
+        "path": "bench/review-checkpoints/2026-10-23/io-unification/main-formulas.json",
+        "sha256": "b3cadf4cf794279f1efb7b1a29a889a6c789339ca2668c94767129118e946885"
+      }
+    },
+    "VeriTile/Triton/Memory/LogicalIO.lean": {
+      "prior_review": {
+        "path": "bench/review-checkpoints/2026-10-23/io-unification/main-formulas.json",
+        "sha256": "b3cadf4cf794279f1efb7b1a29a889a6c789339ca2668c94767129118e946885"
+      }
+    },
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": {
+      "prior_review": {
+        "path": "bench/review-checkpoints/2026-10-23/io-unification/main-formulas.json",
+        "sha256": "b3cadf4cf794279f1efb7b1a29a889a6c789339ca2668c94767129118e946885"
+      }
+    },
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": {
+      "prior_review": {
+        "path": "bench/review-checkpoints/2026-10-23/io-unification/main-formulas.json",
+        "sha256": "b3cadf4cf794279f1efb7b1a29a889a6c789339ca2668c94767129118e946885"
+      }
+    },
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/PairIO.lean": {
+      "owner_report": {
+        "path": "/tmp/veritile-reference-separation-20261023/ref04/result.json",
+        "sha256": "d956962445708245001e557b9330b57ecf4096906722ac870ea761462e0e347a"
+      }
+    },
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Proofs/NativeIOBinding.lean": {
+      "owner_report": {
+        "path": "/tmp/veritile-reference-separation-20261023/ref04/result.json",
+        "sha256": "d956962445708245001e557b9330b57ecf4096906722ac870ea761462e0e347a"
+      }
+    },
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Proofs/RealBinding.lean": {
+      "owner_report": {
+        "path": "/tmp/veritile-reference-separation-20261023/ref04/result.json",
+        "sha256": "d956962445708245001e557b9330b57ecf4096906722ac870ea761462e0e347a"
+      }
+    },
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Proofs/ReferenceTargets.lean": {
+      "owner_report": {
+        "path": "/tmp/veritile-reference-separation-20261023/ref04/result.json",
+        "sha256": "d956962445708245001e557b9330b57ecf4096906722ac870ea761462e0e347a"
+      }
+    }
+  },
+  "previous_semantic_review": {
+    "manifest": {
+      "path": "bench/review-checkpoints/2026-10-23/io-unification/main-formulas.json",
+      "sha256": "b3cadf4cf794279f1efb7b1a29a889a6c789339ca2668c94767129118e946885"
+    },
+    "task": "chunk_delta_fwd"
+  },
+  "independent_review": {
+    "path": "/tmp/veritile-reference-separation-20261023/independent/release-review-v2.json",
+    "sha256": "8b1b1bc1387044f083cedd6617ebe7d3493cd49db9eb61ecb9fb2d4376ce8a60"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

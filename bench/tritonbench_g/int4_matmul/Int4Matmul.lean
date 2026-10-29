@@ -1,4 +1,5 @@
 import VeriTile.Triton
+import VeriTile.Triton.Float.SignedCast
 
 /-!
 # `int4_matmul` — strict per-kernel correctness
@@ -117,6 +118,22 @@ the frame proof, not a rename. Registered in `proof_blockers.md`.
 namespace VeriTile.Bench.TritonBenchG.Int4Matmul
 
 open VeriTile.Triton
+
+/-- The source nibble mask itself supplies the machine-cast range; no
+new premise is imposed on input words, dimensions or the public contract. -/
+@[local simp] private theorem nibble_int_mod32 (n : Nat) :
+    ((n &&& 15 : Nat) : Int) % 4294967296 = ((n &&& 15 : Nat) : Int) := by
+  have h : n &&& 15 ≤ 15 := Nat.and_le_right
+  apply Int.emod_eq_of_lt <;> omega
+@[local simp] private theorem nibble_nat_mod32 (n : Nat) :
+    (n &&& 15) % 4294967296 = n &&& 15 := by
+  have h : n &&& 15 ≤ 15 := Nat.and_le_right
+  apply Nat.mod_eq_of_lt
+  omega
+@[local simp] private theorem nibble_sign32 (n : Nat) :
+    2 * (n &&& 15) < 4294967296 := by
+  have h : n &&& 15 ≤ 15 := Nat.and_le_right
+  omega
 
 /-! # ══════════ CORRECT — genuine / dimension-general (review this) ══════════ -/
 
@@ -500,14 +517,14 @@ def i4LoopCompute (stride_ak stride_bk BM BN BK : Nat) : List Stmt :=
           (Op.mul .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
             (Op.intToReal
               (Op.sub .int (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
-                (Op.castNatToInt (Op.ref .nat [BK, BN] "int_b"))
-                (Op.castNatToInt (Op.ref .nat [BK, BN] "int_bzp"))))
+                (Op.intToSigned 32 (Op.castNatToInt (Op.ref .nat [BK, BN] "int_b")))
+                (Op.intToSigned 32 (Op.castNatToInt (Op.ref .nat [BK, BN] "int_bzp")))))
             (Op.ref .real [BK, BN] "bs")),
         Stmt.assign .real [BM, BN] "accumulator"
           (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
             (Op.ref .real [BM, BN] "accumulator")
             (Op.dot (batch := []) (Op.ref .real [BM, BK] "a")
-              (Op.ref .real [BK, BN] "b"))),
+              (Op.castFloat .real .real (Op.ref .real [BK, BN] "b")))),
         Stmt.assign .ptr [BM, BK] "a_ptrs"
           (Op.ptrAdd Broadcast.scalarR (Op.ref .ptr [BM, BK] "a_ptrs")
             (Op.mul .nat Broadcast.nil (Op.constNat BK) (Op.constNat stride_ak))),
@@ -937,6 +954,21 @@ private theorem i4_castNatToInt_eval {sh : TileShape} (x : Op .nat sh)
     evalOp (Op.castNatToInt x) t = some (i4NatToInt vx) := by
   simp only [evalOp, hx]
   rfl
+
+
+/-- Exact signed int32 conversion for the source's already extracted nibble. -/
+private theorem i4_castInt32_eval {sh : TileShape} (x : Op .nat sh)
+    (t : BlockState) (vx : Tile .nat sh) (hx : evalOp x t = some vx)
+    (hn : ∀ i, vx.data i ≤ 15) :
+    evalOp (Op.intToSigned 32 (Op.castNatToInt x)) t = some (i4NatToInt vx) := by
+  rw [eval_intToSigned, i4_castNatToInt_eval x t vx hx]
+  simp only [bind, pure, Option.bind_some]
+  congr 1
+  ext i
+  change (BitVec.ofInt 32 (vx.data i : Int)).toInt = (vx.data i : Int)
+  apply BitVec.toInt_ofInt_eq_self (by decide)
+  · exact le_trans (by norm_num) (Int.natCast_nonneg _)
+  · exact_mod_cast (lt_of_le_of_lt (hn i) (by decide : (15 : Nat) < 2 ^ (32 - 1)))
 
 /-- `Op.intToReal` — the signed ℝ embedding. -/
 private theorem i4_intToReal_eval {sh : TileShape} (x : Op .int sh)
@@ -1933,8 +1965,8 @@ theorem i4LoopBody_run (s0 : BlockState) (a bs : RegionName)
         (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.intToReal
           (Op.sub .int (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
-            (Op.castNatToInt (Op.ref .nat [BK, BN] "int_b"))
-            (Op.castNatToInt (Op.ref .nat [BK, BN] "int_bzp"))))
+            (Op.intToSigned 32 (Op.castNatToInt (Op.ref .nat [BK, BN] "int_b")))
+            (Op.intToSigned 32 (Op.castNatToInt (Op.ref .nat [BK, BN] "int_bzp")))))
         (Op.ref .real [BK, BN] "bs"))
         ((t2.setReg "int_b" .nat [BK, BN]
             (i4IntB s0 b N stride_bk stride_bn BN BK pn i)).setReg
@@ -1946,8 +1978,8 @@ theorem i4LoopBody_run (s0 : BlockState) (a bs : RegionName)
     exact i4_mulTile_eval NumericDType.real _ _ _ _ _ _
       (i4_intToReal_eval _ _ _
         (i4_subTile_eval NumericDType.int _ _ _ _ _ _
-          (i4_castNatToInt_eval _ _ _ (by rw [evalOp_ref]; simp))
-          (i4_castNatToInt_eval _ _ _ (by rw [evalOp_ref]; simp))))
+          (i4_castInt32_eval _ _ _ (by rw [evalOp_ref]; simp) (by intro j; exact Nat.and_le_right))
+          (i4_castInt32_eval _ _ _ (by rw [evalOp_ref]; simp) (by intro j; exact Nat.and_le_right))))
       (by rw [evalOp_ref]; simpa using h2bs)
   rw [stepStmts.cons_some (stepStmt_assign_eq_some h11)]
   -- 12. `accumulator += tl.dot(a, b)`
@@ -1955,7 +1987,7 @@ theorem i4LoopBody_run (s0 : BlockState) (a bs : RegionName)
         (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.ref .real [BM, BN] "accumulator")
         (Op.dot (batch := []) (Op.ref .real [BM, BK] "a")
-          (Op.ref .real [BK, BN] "b")))
+          (Op.castFloat .real .real (Op.ref .real [BK, BN] "b"))))
         (((t2.setReg "int_b" .nat [BK, BN]
               (i4IntB s0 b N stride_bk stride_bn BN BK pn i)).setReg
             "int_bzp" .nat [BK, BN]
@@ -1971,7 +2003,7 @@ theorem i4LoopBody_run (s0 : BlockState) (a bs : RegionName)
     exact i4_addTile_eval NumericDType.real _ _ _ _ _ _
       (by rw [evalOp_ref]; simpa using h2acc)
       (i4_dot_eval _ _ _ _ _ (by rw [evalOp_ref]; simpa using h2a)
-        (by rw [evalOp_ref]; simp))
+        (by erw [evalOp_castFloat, evalOp_ref]; simp; rfl))
   rw [stepStmts.cons_some (stepStmt_assign_eq_some h12)]
   -- 13. `a_ptrs += BLOCK_SIZE_K * stride_ak`
   rw [stepStmts.cons_some (stepStmt_assign_eq_some

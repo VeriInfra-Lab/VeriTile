@@ -1,0 +1,126 @@
+import bench.tritonbench_g.quant_transpose_kernel.Proofs.FiniteNativeArithmetic
+import bench.tritonbench_g.relu_triton_kernel.Proofs.ByteCodec
+
+namespace QuantTransposeFinite
+open VeriTile.Bench.TritonBenchG
+set_option maxHeartbeats 8000000
+set_option maxRecDepth 24000
+noncomputable section
+open Classical
+
+theorem byte_width (d : Storage) : bytes d*8=d.width := by cases d <;> decide
+
+/-- Exact little-endian typed read from the actual byte snapshot. Missing
+bytes are an incomplete-memory observation, never a chosen scalar value. -/
+def nativeReadWord (d : Storage) (m : ByteMemory) (address : Nat) : Option (Word d) :=
+  if ∀ k, k<bytes d → (m (address+k)).isSome then
+    some ((ReluTritonKernel.ByteMemory.loadLE (bytes d) (fun a => (m a).getD 0) address).cast (byte_width d))
+  else none
+
+theorem native_read_congr (d : Storage) (left right : ByteMemory) (address : Nat)
+    (same : ∀ k, k<bytes d → left (address+k)=right (address+k)) :
+    nativeReadWord d left address=nativeReadWord d right address := by
+  have hcond : (∀ k, k<bytes d → (left (address+k)).isSome) ↔
+      (∀ k, k<bytes d → (right (address+k)).isSome) := by
+    constructor <;> intro h k hk
+    · rw [←same k hk]; exact h k hk
+    · rw [same k hk]; exact h k hk
+  unfold nativeReadWord
+  rw [hcond]
+  split_ifs
+  · congr 2
+    apply ReluTritonKernel.ByteMemory.load_congr
+    intro k hk
+    rw [same k hk]
+  · rfl
+
+def InRegion (region : ByteRegion) (address width : Nat) : Prop :=
+  region.base≤address ∧ address+width≤region.base+region.capacity ∧ address+width≤2^64
+
+def OutsideOutput (p : PhysicalLayout) (left right : ByteMemory) : Prop :=
+  ∀ address, ¬p.output.Contains address → left address=right address
+
+theorem outside_output_refl (p : PhysicalLayout) (m : ByteMemory) : OutsideOutput p m m := fun _ _ => rfl
+
+theorem outside_output_trans (p : PhysicalLayout) (a b c : ByteMemory)
+    (h : OutsideOutput p a b) (k : OutsideOutput p b c) : OutsideOutput p a c :=
+  fun address outside => (h address outside).trans (k address outside)
+
+theorem outside_output_write (p : PhysicalLayout) (m : ByteMemory) (address : Nat)
+    (z : BitVec 8) (valid : p.output.Contains address) : OutsideOutput p (byteWrite m address z) m := by
+  intro a ha
+  have hne : a≠address := by intro he; subst a; exact ha valid
+  simp [byteWrite,hne]
+
+theorem region_disjoint_address (a output : ByteRegion) (sep : a.Disjoint output)
+    (address width k : Nat) (inside : InRegion a address width) (hk : k<width) :
+    ¬output.Contains (address+k) := by
+  unfold ByteRegion.Disjoint at sep
+  unfold InRegion at inside
+  unfold ByteRegion.Contains
+  rcases sep with h|h <;> omega
+
+theorem native_read_outside_output (d : Storage) (p : PhysicalLayout) (left right : ByteMemory)
+    (region : ByteRegion) (address : Nat) (same : OutsideOutput p left right)
+    (sep : region.Disjoint p.output) (inside : InRegion region address (bytes d)) :
+    nativeReadWord d left address=nativeReadWord d right address := by
+  apply native_read_congr
+  intro k hk
+  exact same _ (region_disjoint_address region p.output sep address (bytes d) k inside hk)
+
+structure NativeWrite where
+  pid : Nat
+  lane : Nat
+  inputAddress : Nat
+  outputAddress : Nat
+  value : BitVec 8
+  deriving DecidableEq, Repr
+
+def applyNativeWrites : List NativeWrite → ByteMemory → ByteMemory
+  | [],m => m
+  | w::rest,m => applyNativeWrites rest (byteWrite m w.outputAddress w.value)
+
+/-- Independent pointwise last-write formula. The trace is separately bound
+to all actual source lanes and numerical ports; it is not a result oracle. -/
+def nativeByteResult (writes : List NativeWrite) (initial : ByteMemory) (address : Nat) : Option (BitVec 8) :=
+  match writes.reverse.find? (fun w => w.outputAddress==address) with
+  | none => initial address
+  | some w => some w.value
+
+theorem writes_append (left right : List NativeWrite) (m : ByteMemory) :
+    applyNativeWrites (left++right) m=applyNativeWrites right (applyNativeWrites left m) := by
+  induction left generalizing m with
+  | nil => rfl
+  | cons w rest ih => exact ih _
+
+theorem writes_outside_output (p : PhysicalLayout) (writes : List NativeWrite) (m : ByteMemory)
+    (valid : ∀ w∈writes, p.output.Contains w.outputAddress) :
+    OutsideOutput p (applyNativeWrites writes m) m := by
+  induction writes generalizing m with
+  | nil => exact outside_output_refl p m
+  | cons w rest ih =>
+    exact outside_output_trans p _ _ _ (ih _ (fun v hv => valid v (by simp [hv])))
+      (outside_output_write p m w.outputAddress w.value (valid w (by simp)))
+
+theorem writes_pointwise (writes : List NativeWrite) (initial : ByteMemory) (address : Nat) :
+    applyNativeWrites writes initial address=nativeByteResult writes initial address := by
+  induction writes using List.reverseRecOn with
+  | nil => rfl
+  | append_singleton rest w ih =>
+    rw [writes_append]
+    simp only [applyNativeWrites,byteWrite]
+    unfold nativeByteResult
+    simp only [List.reverse_append,List.reverse_cons,List.reverse_nil,List.nil_append,List.cons_append,List.find?_cons]
+    by_cases h : w.outputAddress=address
+    · simp [h]
+    · simp [h,Ne.symm h,ih,nativeByteResult]
+
+#specNonCircular nativeByteResult avoiding [applyNativeWrites]
+#axiomsClean native_read_congr
+#axiomsClean native_read_outside_output
+#axiomsClean writes_pointwise
+#axiomsClean writes_outside_output
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end
+end QuantTransposeFinite

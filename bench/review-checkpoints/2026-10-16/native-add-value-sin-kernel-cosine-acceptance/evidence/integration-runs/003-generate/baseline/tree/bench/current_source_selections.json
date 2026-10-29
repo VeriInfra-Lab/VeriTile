@@ -1,0 +1,631 @@
+{
+  "attention_kernel_aligned": [
+    {
+      "id": "primary_value_source",
+      "variant": "original_source_translation",
+      "selected_definitions": {
+        "bench/tritonbench_g/attention_kernel_aligned/Proofs/FPSource.lean": [
+          "typedSurface"
+        ]
+      }
+    }
+  ],
+  "flash_decode2_llama": [
+    {
+      "id": "primary_value_source",
+      "variant": "original_source_translation",
+      "selected_definitions": {
+        "bench/tritonbench_g/flash_decode2_llama/Proofs/FPSource.lean": [
+          "normalization",
+          "copy",
+          "maximum"
+        ]
+      }
+    }
+  ],
+  "flash_decode2_phi": [
+    {
+      "id": "primary_value_source",
+      "variant": "original_source_translation",
+      "selected_definitions": {
+        "bench/tritonbench_g/flash_decode2_phi/Proofs/FPSource.lean": [
+          "source_normalization_store_kernel",
+          "source_accumulator_step_kernel",
+          "source_sum_exp_step_kernel",
+          "source_final_store_slice"
+        ]
+      }
+    }
+  ],
+  "iv_dependent_matmul": [
+    {
+      "id": "primary_value_source",
+      "variant": "original_source_translation",
+      "selected_definitions": {
+        "bench/tritonbench_g/iv_dependent_matmul/Proofs/FPSource.lean": [
+          "typed"
+        ]
+      }
+    },
+    {
+      "id": "observed_compiled_graph",
+      "variant": "observed_compiled_graph",
+      "selected_definitions": {
+        "bench/tritonbench_g/iv_dependent_matmul/Proofs/FPSource.lean": [
+          "fusedTyped"
+        ]
+      }
+    }
+  ],
+  "layer_norm_liger": [
+    {
+      "id": "primary_value_source",
+      "variant": "original_source_translation",
+      "selected_definitions": {
+        "bench/tritonbench_g/layer_norm_liger/Proofs/FPTypedSource.lean": [
+          "source"
+        ],
+        "bench/tritonbench_g/layer_norm_liger/Proofs/FPSupplied.lean": [
+          "meanStore",
+          "rstdStore"
+        ]
+      }
+    }
+  ],
+  "layer_norm_ops": [
+    {
+      "id": "primary_value_source",
+      "variant": "original_source_translation",
+      "selected_definitions": {
+        "bench/tritonbench_g/layer_norm_ops/Proofs/FPTypedSource.lean": [
+          "meanStore",
+          "rstdStore",
+          "vectorStore",
+          "rmsRow",
+          "plainRow",
+          "residualAdd",
+          "c1Stage",
+          "c2Stage",
+          "rmsDX",
+          "plainDX"
+        ]
+      }
+    }
+  ],
+  "layernorm_fwd_triton": [
+    {
+      "id": "primary_value_source",
+      "variant": "original_source_translation",
+      "selected_definitions": {
+        "bench/tritonbench_g/layernorm_fwd_triton/Proofs/FPTypedSource.lean": [
+          "source"
+        ]
+      }
+    }
+  ],
+  "lightning_attention": [
+    {
+      "id": "primary_value_source",
+      "variant": "original_source_translation",
+      "selected_definitions": {
+        "bench/tritonbench_g/lightning_attention/Proofs/FPSource.lean": [
+          "kvTyped",
+          "interTyped",
+          "bodyTyped",
+          "gradTyped"
+        ]
+      }
+    }
+  ],
+  "lora_expand_gemv": [
+    {
+      "id": "primary_value_source",
+      "variant": "original_source_translation",
+      "selected_definitions": {
+        "bench/tritonbench_g/lora_expand_gemv/Proofs/FPTypedSource.lean": [
+          "source_halfHalf",
+          "source_halfBfloat",
+          "source_bfloatHalf",
+          "source_bfloatBfloat"
+        ]
+      }
+    }
+  ],
+  "matmul_kernel": [
+    {
+      "id": "primary_value_source",
+      "variant": "original_source_translation",
+      "selected_definitions": {
+        "bench/tritonbench_g/matmul_kernel/Proofs/FPTypedSource.lean": [
+          "typed"
+        ]
+      }
+    }
+  ],
+  "matmul_leakyrelu": [
+    {
+      "id": "primary_value_source",
+      "variant": "original_source_translation",
+      "selected_definitions": {
+        "bench/tritonbench_g/matmul_leakyrelu/Proofs/FPTypedSource.lean": [
+          "typed"
+        ]
+      }
+    },
+    {
+      "id": "observed_compiled_graph",
+      "variant": "observed_compiled_graph",
+      "selected_definitions": {
+        "bench/tritonbench_g/matmul_leakyrelu/Proofs/FPFusedSource.lean": [
+          "typed"
+        ]
+      }
+    }
+  ],
+  "matmul_leakyrelu_fp8": [
+    {
+      "id": "primary_value_source",
+      "variant": "original_source_translation",
+      "selected_definitions": {
+        "bench/tritonbench_g/matmul_leakyrelu_fp8/Proofs/FPTypedSource.lean": [
+          "typed"
+        ]
+      }
+    },
+    {
+      "id": "observed_compiled_graph",
+      "variant": "observed_compiled_graph",
+      "selected_definitions": {
+        "bench/tritonbench_g/matmul_leakyrelu_fp8/Proofs/FPFusedSource.lean": [
+          "typed"
+        ]
+      }
+    }
+  ],
+  "matmul_tma": [
+    {
+      "id": "primary_value_source",
+      "variant": "original_source_translation",
+      "selected_definitions": {
+        "bench/tritonbench_g/matmul_tma/Proofs/FPSource.lean": [
+          "typed"
+        ]
+      }
+    }
+  ],
+  "matmul_triton1": [
+    {
+      "id": "primary_value_source",
+      "variant": "original_source_translation",
+      "selected_definitions": {
+        "bench/tritonbench_g/matmul_triton1/Proofs/FPSource.lean": [
+          "inner"
+        ]
+      }
+    }
+  ],
+  "matmul_triton2": [
+    {
+      "id": "primary_value_source",
+      "variant": "original_source_translation",
+      "selected_definitions": {
+        "bench/tritonbench_g/matmul_triton2/Proofs/FPSource.lean": [
+          "inner"
+        ]
+      }
+    }
+  ],
+  "matmul_triton_autotune": [
+    {
+      "id": "primary_value_source",
+      "variant": "original_source_translation",
+      "selected_definitions": {
+        "bench/tritonbench_g/matmul_triton_autotune/Proofs/FPTypedSource.lean": [
+          "typed"
+        ]
+      }
+    }
+  ],
+  "quantize_copy_kv": [
+    {
+      "id": "primary_value_source",
+      "variant": "original_source_translation",
+      "selected_definitions": {
+        "bench/tritonbench_g/quantize_copy_kv/Proofs/FPTypedSource.lean": [
+          "source"
+        ]
+      }
+    }
+  ],
+  "sgmv_expand_slice": [
+    {
+      "id": "primary_value_source",
+      "variant": "original_source_translation",
+      "selected_definitions": {
+        "bench/tritonbench_g/sgmv_expand_slice/Proofs/FPSource.lean": [
+          "halfTyped",
+          "bfloatTyped"
+        ]
+      }
+    },
+    {
+      "id": "reviewed_comma_only_candidate_dotacc_graph",
+      "variant": "compile_repaired_candidate_graph",
+      "selected_definitions": {
+        "bench/tritonbench_g/sgmv_expand_slice/Proofs/FPFusedSource.lean": [
+          "fusedHalfTyped",
+          "fusedBfloatTyped"
+        ]
+      },
+      "original_python": "bench/tritonbench_g/sgmv_expand_slice/sgmv_expand_slice.py",
+      "candidate_python": "bench/review-checkpoints/2026-10-14/next-value-repair/sgmv-expand-slice/native-probe/remove-singleton-comma.py",
+      "candidate_python_binding": {
+        "kind": "reviewed_native_compile_variant",
+        "package": "sgmv-expand-slice",
+        "artifact": "remove-singleton-comma.py"
+      }
+    }
+  ],
+  "softmax_reducev": [
+    {
+      "id": "primary_value_source",
+      "variant": "original_source_translation",
+      "selected_definitions": {
+        "bench/tritonbench_g/softmax_reducev/Proofs/FPSource.lean": [
+          "typed"
+        ]
+      }
+    }
+  ],
+  "token_attn_llama2": [
+    {
+      "id": "primary_value_source",
+      "variant": "original_source_translation",
+      "selected_definitions": {
+        "bench/tritonbench_g/token_attn_llama2/Proofs/FPTypedSource.lean": [
+          "typed"
+        ]
+      }
+    }
+  ],
+  "token_attn_mistral": [
+    {
+      "id": "primary_value_source",
+      "variant": "original_source_translation",
+      "selected_definitions": {
+        "bench/tritonbench_g/token_attn_mistral/Proofs/FPTypedSource.lean": [
+          "source"
+        ]
+      }
+    }
+  ],
+  "token_attn_reduceV": [
+    {
+      "id": "primary_value_source",
+      "variant": "original_source_translation",
+      "selected_definitions": {
+        "bench/tritonbench_g/token_attn_reduceV/Proofs/FPTypedSource.lean": [
+          "source"
+        ]
+      }
+    }
+  ],
+  "triton_conv2d_fwd": [
+    {
+      "id": "primary_value_source",
+      "variant": "original_source_translation",
+      "selected_definitions": {
+        "bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPTypedSource.lean": [
+          "typed"
+        ]
+      }
+    }
+  ],
+  "triton_linear_activation": [
+    {
+      "id": "primary_value_source",
+      "variant": "original_source_translation",
+      "selected_definitions": {
+        "bench/tritonbench_g/triton_linear_activation/Proofs/FPSource.lean": [
+          "typed"
+        ]
+      }
+    },
+    {
+      "id": "observed_compiled_graph",
+      "variant": "observed_compiled_graph",
+      "selected_definitions": {
+        "bench/tritonbench_g/triton_linear_activation/Proofs/FPSource.lean": [
+          "fusedTyped"
+        ]
+      }
+    }
+  ],
+  "triton_matmul": [
+    {
+      "id": "primary_value_source",
+      "variant": "original_source_translation",
+      "selected_definitions": {
+        "bench/tritonbench_g/triton_matmul/Proofs/FPTypedSource.lean": [
+          "typed"
+        ]
+      }
+    }
+  ],
+  "fp4_to_bf16": [
+    {
+      "id": "explicit_source_admission",
+      "variant": "original_source_translation",
+      "selected_definitions": {
+        "bench/tritonbench_g/fp4_to_bf16/Proofs/FPSource.lean": [
+          "unscaled"
+        ]
+      }
+    }
+  ],
+  "fp4_to_bf16_conversion": [
+    {
+      "id": "explicit_source_admission",
+      "variant": "compile_repaired_candidate",
+      "selected_definitions": {
+        "bench/tritonbench_g/fp4_to_bf16_conversion/Proofs/FPSource.lean": [
+          "scaledCandidate"
+        ]
+      }
+    }
+  ],
+  "multinomial_sampling": [
+    {
+      "id": "explicit_source_admission",
+      "variant": "original_source_translation",
+      "selected_definitions": {
+        "bench/tritonbench_g/multinomial_sampling/Proofs/FPSource.lean": [
+          "multinomialSource%"
+        ]
+      }
+    }
+  ],
+  "spinning_lock_reduction": [
+    {
+      "id": "explicit_source_admission",
+      "variant": "original_source_translation",
+      "selected_definitions": {
+        "bench/tritonbench_g/spinning_lock_reduction/Proofs/GeneratedSource.lean": [
+          "originalTypedSource"
+        ]
+      }
+    }
+  ],
+  "triton_attention": [
+    {
+      "id": "primary_value_source",
+      "variant": "original_source_translation",
+      "selected_definitions": {
+        "bench/tritonbench_g/triton_attention/Proofs/FPSource.lean": [
+          "forwardTyped",
+          "preprocessTyped",
+          "backwardTyped"
+        ]
+      }
+    }
+  ],
+  "layer_norm_triton": [
+    {
+      "id": "explicit_source_admission",
+      "variant": "original_source_translation",
+      "selected_definitions": {
+        "bench/tritonbench_g/layer_norm_triton/Proofs/GeneratedSource.lean": [
+          "originalTypedSource"
+        ]
+      }
+    }
+  ],
+  "streamk_matmul": [
+    {
+      "id": "explicit_source_admission",
+      "variant": "original_source_translation",
+      "selected_definitions": {
+        "bench/tritonbench_g/streamk_matmul/Proofs/GeneratedSource.lean": [
+          "originalSource"
+        ]
+      }
+    }
+  ],
+  "kcache_copy_triton": [
+    {
+      "id": "complete_original_n1_splitx_typed_source",
+      "variant": "original_source_translation",
+      "selected_definitions": {
+        "bench/tritonbench_g/kcache_copy_triton/Proofs/TypedCopy.lean": [
+          "source",
+          "kcacheTypedSource%"
+        ]
+      }
+    }
+  ],
+  "kv_cache_copy": [
+    {
+      "id": "complete_original_masked_kv_xblock_source",
+      "variant": "original_source_translation",
+      "selected_definitions": {
+        "bench/tritonbench_g/kv_cache_copy/Proofs/Execution.lean": [
+          "source",
+          "kvCacheTypedSource%"
+        ]
+      }
+    }
+  ],
+  "masked_select": [
+    {
+      "id": "complete_original_mask_prefix_consumer_source",
+      "variant": "original_source_translation",
+      "selected_definitions": {
+        "bench/tritonbench_g/masked_select/Proofs/TypedCopy.lean": [
+          "source",
+          "maskedSelectTypedSource%"
+        ]
+      }
+    }
+  ],
+  "int4_matmul": [
+    {
+      "id": "complete_original_int4_source_graph",
+      "variant": "original_source_translation",
+      "selected_definitions": {
+        "bench/tritonbench_g/int4_matmul/Proofs/FPTypedSource.lean": [
+          "typed"
+        ]
+      },
+      "entry_aliases": {
+        "bench/tritonbench_g/int4_matmul/Proofs/FPReference.lean": [
+          "source"
+        ]
+      },
+      "entry_alias_validation": "Locally checked source definition and receipt-bound body call typed .fp16; generic catalog checks the actual DSL body separately."
+    },
+    {
+      "id": "complete_observed_int4_live_carry_graph",
+      "variant": "observed_compiled_graph",
+      "selected_definitions": {
+        "bench/tritonbench_g/int4_matmul/Proofs/FPDotAccSource.lean": [
+          "typed"
+        ]
+      },
+      "entry_aliases": {
+        "bench/tritonbench_g/int4_matmul/Proofs/FPDotAccReference.lean": [
+          "source"
+        ]
+      },
+      "entry_alias_validation": "Locally checked source definition and receipt-bound body call typed .fp16; graph_boundary/carry_dot_node identify the unique assignment change. No general compiler refinement."
+    }
+  ],
+  "matmul_dequantize_int4": [
+    {
+      "id": "complete_original_dequant_source_graph",
+      "variant": "original_source_translation",
+      "selected_definitions": {
+        "bench/tritonbench_g/matmul_dequantize_int4/Proofs/FPTypedSource.lean": [
+          "typed"
+        ]
+      },
+      "entry_aliases": {
+        "bench/tritonbench_g/matmul_dequantize_int4/Proofs/FPReference.lean": [
+          "source"
+        ]
+      },
+      "entry_alias_validation": "Locally checked receipt-bound source alias calls typed .fp16; unchanged catalog checks actual DSL body."
+    },
+    {
+      "id": "complete_observed_dequant_nonfused_carry_graph",
+      "variant": "observed_compiled_graph",
+      "selected_definitions": {
+        "bench/tritonbench_g/matmul_dequantize_int4/Proofs/FPCompiledSource.lean": [
+          "typed"
+        ]
+      },
+      "entry_aliases": {
+        "bench/tritonbench_g/matmul_dequantize_int4/Proofs/FPCompiledReference.lean": [
+          "source"
+        ]
+      },
+      "entry_alias_validation": "Locally checked source alias calls typed .fp16; graph_boundary/carry_dot_node bind the unique accumulator change.",
+      "instruction_extensions": [
+        {
+          "id": "compiled_half_fma_instruction_extension",
+          "kind": "task_local_instruction_extension",
+          "source_variant": "observed_compiled_graph",
+          "public_declaration": "matmul_dequantize_int4_compiled_fused_bits_correctness",
+          "ordinary_shared_dsl_admission": false,
+          "formal_compiler_refinement": false,
+          "memory_semantics": "single_program_total_typed_memory",
+          "definitions": {
+            "bench/tritonbench_g/matmul_dequantize_int4/Proofs/FPFusedPrefix.lean": [
+              "loopPrefix",
+              "suffix"
+            ],
+            "bench/tritonbench_g/matmul_dequantize_int4/Proofs/FPFusedExecution.lean": [
+              "fmaAssign",
+              "runBody"
+            ],
+            "bench/tritonbench_g/matmul_dequantize_int4/Proofs/FPFusedComplete.lean": [
+              "loop",
+              "exec"
+            ],
+            "bench/tritonbench_g/matmul_dequantize_int4/Proofs/FPHalfFMA.lean": [
+              "fma",
+              "zeroProduct",
+              "fused"
+            ]
+          },
+          "boundary_theorems": {
+            "bench/tritonbench_g/matmul_dequantize_int4/Proofs/FPFusedPrefix.lean": [
+              "original_prefix_boundary",
+              "compiled_body_partition"
+            ],
+            "bench/tritonbench_g/matmul_dequantize_int4/Proofs/FPFusedExecution.lean": [
+              "fmaAssign_correct",
+              "suffixInvariant"
+            ],
+            "bench/tritonbench_g/matmul_dequantize_int4/Proofs/FPFusedComplete.lean": [
+              "correctness_memory"
+            ]
+          },
+          "boundary": "Actual shared prelude/prefix/suffix/epilogue around a task-local current-register half-FMA instruction and complete loop. Not a shared DSL FMA parser projection, SC protocol model, or formal native compiler refinement."
+        }
+      ]
+    }
+  ],
+  "destindex_copy": [
+    {
+      "id": "complete_original_nine_pair_copy_source",
+      "variant": "original_source_translation",
+      "selected_definitions": {
+        "bench/tritonbench_g/destindex_copy/Kernels.lean": [
+          "kernel",
+          "destindexCopySource%"
+        ]
+      },
+      "entry_aliases": {
+        "bench/tritonbench_g/destindex_copy/Proofs/Layout.lean": [
+          "Layout.source"
+        ]
+      },
+      "entry_alias_validation": "Exact reviewed Layout.source forwards all parameters to TypedSource.kernel; the public selects Bool.false. Signed destination metadata and unmasked two stores retained."
+    }
+  ],
+  "matrix_transpose": [
+    {
+      "id": "complete_original_fp16_transpose_source",
+      "variant": "original_source_translation",
+      "selected_definitions": {
+        "bench/tritonbench_g/matrix_transpose/Kernels.lean": [
+          "typedKernel",
+          "transposeSource%"
+        ]
+      },
+      "entry_aliases": {
+        "bench/tritonbench_g/matrix_transpose/Proofs/FPBits.lean": [
+          "source"
+        ]
+      },
+      "entry_alias_validation": "Exact reviewed source calls original typedKernel with every original parameter; public v=false includes original and v=true preserves existing index-commuted candidate. No replacement source."
+    }
+  ],
+  "parallel_retention_attention": [
+    {
+      "id": "retention_query_and_backward_helpers",
+      "variant": "original_source_translation",
+      "selected_definitions": {
+        "bench/tritonbench_g/parallel_retention_attention/Proofs/FPQuerySource.lean": [
+          "source"
+        ]
+      },
+      "frontend": "shared_triton_dsl",
+      "ordinary_shared_dsl_admission": true,
+      "memory_semantics": "single_program_total_typed_memory",
+      "translation_trust_boundary": "Backend-parametric source model; no native instruction/byte ABI/integer-width, cross-program scheduling, host NK/NV reduction, or complete autograd claim. No general Python/compiler refinement is inferred from transcription review.",
+      "original_python": "bench/tritonbench_g/parallel_retention_attention/parallel_retention_attention.py",
+      "candidate_python": null
+    }
+  ]
+}

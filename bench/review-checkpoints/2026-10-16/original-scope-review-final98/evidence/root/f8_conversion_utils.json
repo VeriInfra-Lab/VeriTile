@@ -1,0 +1,220 @@
+{
+  "schema": 1,
+  "kind": "original_scope_gap_review",
+  "reviewer": "root",
+  "task": "f8_conversion_utils",
+  "reviewed_at_utc": "2026-10-15T19:04:20.963832+00:00",
+  "reviewed_base_commit": "25070582c24c7e0f2e597e5fc263c3c5e31794eb",
+  "catalog": {
+    "path": "bench/review-checkpoints/2026-10-16/relu-source-grid-and-exact-numerics/current-source-catalog.json",
+    "sha256": "ef0da28a4c601f9841664431013d72e565ec5497cf21ba3e7be692c440d1a3fe"
+  },
+  "status": "structural_gaps_confirmed",
+  "whole_original_program_accepted": false,
+  "completion_increment": 0,
+  "source_sha256": {
+    "bench/tritonbench_g/f8_conversion_utils/Correct.lean": "747a81a9238d6425d7248f4dc4574b51f73190494e6f340ac4ac908da82d0b0c",
+    "bench/tritonbench_g/f8_conversion_utils/FPEquiv.lean": "d6a5fc35ba13dd9255e05b1ae018db2dd6acd67777e2b2cdbb6c6276a13114f5",
+    "bench/tritonbench_g/f8_conversion_utils/Kernels.lean": "f1b6f4f29857f8bd712972b2385869c0b0f2c1c644d71696614f2ec8c7af83d9",
+    "bench/tritonbench_g/f8_conversion_utils/Proofs/Candidate.lean": "d11ada2653af67f16543c66487c766e141f4ed6af5667310cbae195662b38a9e",
+    "bench/tritonbench_g/f8_conversion_utils/Proofs/Erasure.lean": "e118b261e883d49e9ba1b9cec968ad401aa24f92a1e44e6cb558ac1e7343eb75",
+    "bench/tritonbench_g/f8_conversion_utils/Proofs/FP.lean": "92a27fb1332093025dedfaf500c0a2c7910471985c811ca8d56d75c8597e9316",
+    "bench/tritonbench_g/f8_conversion_utils/Proofs/Real.lean": "ff91a28d29b7764c31afbf1e3092b6f355360412f11c0bec5811ae3ace10da10",
+    "bench/tritonbench_g/f8_conversion_utils/Proofs/RealIO.lean": "93dd805fcc3496e21d72579c35df265ea100cecef1db5fae800c3b8842d02f43",
+    "bench/tritonbench_g/f8_conversion_utils/Proofs/TypedExecution.lean": "31aafcfe718be4a494eaa726cfdb3e869446cb2a4f980483966da3d9fed95cc0",
+    "bench/tritonbench_g/f8_conversion_utils/f8_conversion_utils.py": "9bedcae7e2ffbf6b4e11d10bc52964c85c5e03e8ea837489e691e515fd2348a9"
+  },
+  "all_input_sha256": {
+    "lean": {
+      "bench/tritonbench_g/f8_conversion_utils/Correct.lean": "747a81a9238d6425d7248f4dc4574b51f73190494e6f340ac4ac908da82d0b0c",
+      "bench/tritonbench_g/f8_conversion_utils/FPEquiv.lean": "d6a5fc35ba13dd9255e05b1ae018db2dd6acd67777e2b2cdbb6c6276a13114f5",
+      "bench/tritonbench_g/f8_conversion_utils/Kernels.lean": "f1b6f4f29857f8bd712972b2385869c0b0f2c1c644d71696614f2ec8c7af83d9",
+      "bench/tritonbench_g/f8_conversion_utils/Proofs/Candidate.lean": "d11ada2653af67f16543c66487c766e141f4ed6af5667310cbae195662b38a9e",
+      "bench/tritonbench_g/f8_conversion_utils/Proofs/Erasure.lean": "e118b261e883d49e9ba1b9cec968ad401aa24f92a1e44e6cb558ac1e7343eb75",
+      "bench/tritonbench_g/f8_conversion_utils/Proofs/FP.lean": "92a27fb1332093025dedfaf500c0a2c7910471985c811ca8d56d75c8597e9316",
+      "bench/tritonbench_g/f8_conversion_utils/Proofs/Real.lean": "ff91a28d29b7764c31afbf1e3092b6f355360412f11c0bec5811ae3ace10da10",
+      "bench/tritonbench_g/f8_conversion_utils/Proofs/RealIO.lean": "93dd805fcc3496e21d72579c35df265ea100cecef1db5fae800c3b8842d02f43",
+      "bench/tritonbench_g/f8_conversion_utils/Proofs/TypedExecution.lean": "31aafcfe718be4a494eaa726cfdb3e869446cb2a4f980483966da3d9fed95cc0"
+    },
+    "python": {
+      "bench/tritonbench_g/f8_conversion_utils/f8_conversion_utils.py": "9bedcae7e2ffbf6b4e11d10bc52964c85c5e03e8ea837489e691e515fd2348a9"
+    }
+  },
+  "public_declarations_checked": [
+    {
+      "file": "bench/tritonbench_g/f8_conversion_utils/Correct.lean",
+      "declaration": "f8_to_f16_correctness",
+      "statement_sha256": "da90c5893579c336809ac3735eb0db8f6f6f1453f12359fe5bb3afcc1d551550",
+      "line": 42,
+      "sha256": "747a81a9238d6425d7248f4dc4574b51f73190494e6f340ac4ac908da82d0b0c",
+      "statement": "specification f8_to_f16_correctness (format : Format) (Y X : RegionName) (N B : Nat) :\n    Spec.Real (correct_target (originalToHalf format Y X N B) Y X N B)"
+    },
+    {
+      "file": "bench/tritonbench_g/f8_conversion_utils/Correct.lean",
+      "declaration": "f8_to_f16_index_commuted_correctness",
+      "statement_sha256": "d087213574db7c6a12d221bb84211d722c9bd7d444484589f36eafb3881087bc",
+      "line": 47,
+      "sha256": "747a81a9238d6425d7248f4dc4574b51f73190494e6f340ac4ac908da82d0b0c",
+      "statement": "specification f8_to_f16_index_commuted_correctness (format : Format) (Y X : RegionName) (N B : Nat) :\n    Spec.Real (correct_target (indexCommutedToHalf format Y X N B) Y X N B)"
+    },
+    {
+      "file": "bench/tritonbench_g/f8_conversion_utils/Correct.lean",
+      "declaration": "to_fp8_correctness",
+      "statement_sha256": "00cf340cb6003c97e3f541378d928715fec6118dea7279ce6d984ff5a8f79034",
+      "line": 52,
+      "sha256": "747a81a9238d6425d7248f4dc4574b51f73190494e6f340ac4ac908da82d0b0c",
+      "statement": "specification to_fp8_correctness (input : Input) (format : Format) (Y X : RegionName) (N B : Nat) :\n    Spec.Real (correct_target (originalToFP8 input format Y X N B) Y X N B)"
+    },
+    {
+      "file": "bench/tritonbench_g/f8_conversion_utils/Correct.lean",
+      "declaration": "to_fp8_index_commuted_correctness",
+      "statement_sha256": "46c5718abd6a7bfec8d1cc1b2d71db7fe0af3baa9abfa0c9b188b3629681576d",
+      "line": 57,
+      "sha256": "747a81a9238d6425d7248f4dc4574b51f73190494e6f340ac4ac908da82d0b0c",
+      "statement": "specification to_fp8_index_commuted_correctness (input : Input) (format : Format) (Y X : RegionName) (N B : Nat) :\n    Spec.Real (correct_target (indexCommutedToFP8 input format Y X N B) Y X N B)"
+    },
+    {
+      "file": "bench/tritonbench_g/f8_conversion_utils/FPEquiv.lean",
+      "declaration": "f8_to_f16_equiv",
+      "statement_sha256": "58560094ad7e5062ab44ee4fda5e094e66059a1bd2d9b11cb094f61b472a370f",
+      "line": 27,
+      "sha256": "d6a5fc35ba13dd9255e05b1ae018db2dd6acd67777e2b2cdbb6c6276a13114f5",
+      "statement": "specification f8_to_f16_equiv (format : Format) (Y X : RegionName) (N B : Nat) :\n    originalToHalf format Y X N B ≡[assumptions] indexCommutedToHalf format Y X N B"
+    },
+    {
+      "file": "bench/tritonbench_g/f8_conversion_utils/FPEquiv.lean",
+      "declaration": "to_fp8_equiv",
+      "statement_sha256": "d6cd958cde631c9d13704661ee22f971995fe9e4c7e7295c611533f1f66afb97",
+      "line": 31,
+      "sha256": "d6a5fc35ba13dd9255e05b1ae018db2dd6acd67777e2b2cdbb6c6276a13114f5",
+      "statement": "specification to_fp8_equiv (input : Input) (format : Format) (Y X : RegionName) (N B : Nat) :\n    originalToFP8 input format Y X N B ≡[assumptions] indexCommutedToFP8 input format Y X N B"
+    }
+  ],
+  "existing_proofs_preserved": "Both source directions, two fp8 formats and fp16/fp32 reverse inputs are materialized with destination casts. The duplicate forward store is preserved. Four public Real contracts prove complete masked copy execution, finite bounds and tagged-cell frame; two full typed address-commutation equivalences preserve every state/failure with no numerical rewrite rule. TypedExecution supplies nonempty abstract exact-Real witnesses, not native conversion or round-trip identities.",
+  "production_stage_mapping": [
+    {
+      "function": "kernel_f8_to_f16",
+      "path": "bench/tritonbench_g/f8_conversion_utils/f8_conversion_utils.py",
+      "sha256": "9bedcae7e2ffbf6b4e11d10bc52964c85c5e03e8ea837489e691e515fd2348a9",
+      "line": 7,
+      "end_line": 13,
+      "coverage": "Full typed load and both destination-converting stores; general public value result is precision-erased."
+    },
+    {
+      "function": "f8_to_f16",
+      "path": "bench/tritonbench_g/f8_conversion_utils/f8_conversion_utils.py",
+      "sha256": "9bedcae7e2ffbf6b4e11d10bc52964c85c5e03e8ea837489e691e515fd2348a9",
+      "line": 15,
+      "end_line": 22,
+      "coverage": "int8 assertion, CUDA check, byte reinterpretation, allocation, storage-size count and complete launch not composed."
+    },
+    {
+      "function": "kernel_f16_to_f8",
+      "path": "bench/tritonbench_g/f8_conversion_utils/f8_conversion_utils.py",
+      "sha256": "9bedcae7e2ffbf6b4e11d10bc52964c85c5e03e8ea837489e691e515fd2348a9",
+      "line": 25,
+      "end_line": 30,
+      "coverage": "Full typed load and destination conversion for fp16/fp32 input and e4/e5 output."
+    },
+    {
+      "function": "f16_to_f8",
+      "path": "bench/tritonbench_g/f8_conversion_utils/f8_conversion_utils.py",
+      "sha256": "9bedcae7e2ffbf6b4e11d10bc52964c85c5e03e8ea837489e691e515fd2348a9",
+      "line": 32,
+      "end_line": 39,
+      "coverage": "Input dtype check is represented by two input selectors; host reinterpretation/allocation/storage count/grid/return uncomposed."
+    }
+  ],
+  "test_harness_classification": "The top-level test_* helper only constructs examples and calls production; production does not call it. It remains in the hashed source inventory and is explicitly classified as a harness for this review.",
+  "dtype_review": "The wrapper explicitly accepts fp16/fp32 reverse input and requires int8 forward storage; these are retained. Its dtypes argument is unguarded, whereas Format has only e4nv and e5. Other supplied reinterpretation formats or precise rejections are not covered.",
+  "branch_review": "Forward duplicate stores, reverse single store and tail masks are retained. No invented round-trip identity is assumed. Assertions and host choices remain outside public per-program proofs.",
+  "structural_gaps": [
+    {
+      "id": "f8_conversion_utils:typed_conversion_result",
+      "kind": "typed_value_execution",
+      "finding": "All four public value contracts erase dtype and conclude the original Real value. TypedExecution proves only a fixed one-active-lane abstract Real witness with identity casts; the two typed public theorems are equivalences. General source conversion values and frame under explicit rounding callbacks are absent.",
+      "why_blocks_full_original_scope": "The omitted source behavior needs an executing correspondence and coverage statement; a scalar numerical binding alone cannot supply it.",
+      "can_defer_as_numeric_assumption": false,
+      "evidence": [
+        {
+          "path": "bench/tritonbench_g/f8_conversion_utils/Correct.lean",
+          "line": 35,
+          "end_line": 42,
+          "sha256": "747a81a9238d6425d7248f4dc4574b51f73190494e6f340ac4ac908da82d0b0c",
+          "excerpt": "def correct_target (kernel : ComputeKernel) (Y X : RegionName) (N B : Nat) : Prop :=\n  ∀ A : FlatAlloc, A.Disjoint → (∀ r, r ∉ A.regions → A.extent r=0) →\n  ∀ u : BlockState, u.undef=(fun _ _ => 0) → Bounds Y X N B u A.extent →\n    ∃ v, exec (A.flattenKernel kernel.toAlgKernel) (A.flattenState u)=some v ∧\n      (∀ j : Fin B, offset u B j<N → v.readMem A.flat (A.addr Y (offset u B j))=u.readMem X (offset u B j)) ∧\n      (∀ r o, Outside A u Y N B r o → v.mem r o=(A.flattenState u).mem r o)\n\nspecification f8_to_f16_correctness (format : Format) (Y X : RegionName) (N B : Nat) :"
+        },
+        {
+          "path": "bench/tritonbench_g/f8_conversion_utils/Proofs/TypedExecution.lean",
+          "line": 28,
+          "end_line": 31,
+          "sha256": "31aafcfe718be4a494eaa726cfdb3e869446cb2a4f980483966da3d9fed95cc0",
+          "excerpt": "def toHalfExecution (format : Format) :\n    {v : State ℝ // FP.Structural.exec (engine model)\n      (toHalf format Bool.false \"y\" \"x\" 1 2)\n      (initial (formatType format).toTileDType (ofFloat (α:=ℝ) (formatType format) (-3)))=some v} := by"
+        }
+      ]
+    },
+    {
+      "id": "f8_conversion_utils:format_domain",
+      "kind": "dtype_domain",
+      "finding": "The source dtypes parameter is passed directly to triton.reinterpret without restricting it to two formats. Format materializes only float8e4nv and float8e5, without exhaustive admission/rejection for the original parameter domain.",
+      "why_blocks_full_original_scope": "The omitted source behavior needs an executing correspondence and coverage statement; a scalar numerical binding alone cannot supply it.",
+      "can_defer_as_numeric_assumption": false,
+      "evidence": [
+        {
+          "path": "bench/tritonbench_g/f8_conversion_utils/f8_conversion_utils.py",
+          "line": 15,
+          "end_line": 22,
+          "sha256": "9bedcae7e2ffbf6b4e11d10bc52964c85c5e03e8ea837489e691e515fd2348a9",
+          "excerpt": "def f8_to_f16(x, dtypes=tl.float8e5) -> torch.Tensor:\n    assert x.dtype == torch.int8, f\"torch.int8 expected but got {x.dtype}\"\n    assert \"cuda\" in str(x.device), f\"CUDA tensors only but got {x.device}\"\n    ret = torch.empty_like(x, dtype=torch.float16)\n    grid = lambda META: (triton.cdiv(x.numel(), META['BLOCK_SIZE']),)\n    numel = ret.untyped_storage().size() // ret.element_size()\n    kernel_f8_to_f16[grid](ret, triton.reinterpret(x, dtypes), numel, BLOCK_SIZE=1024)\n    return ret"
+        },
+        {
+          "path": "bench/tritonbench_g/f8_conversion_utils/Kernels.lean",
+          "line": 9,
+          "end_line": 11,
+          "sha256": "f1b6f4f29857f8bd712972b2385869c0b0f2c1c644d71696614f2ec8c7af83d9",
+          "excerpt": "inductive Format where\n  | e4 | e5\n  deriving DecidableEq"
+        },
+        {
+          "path": "bench/tritonbench_g/f8_conversion_utils/Kernels.lean",
+          "line": 59,
+          "end_line": 66,
+          "sha256": "f1b6f4f29857f8bd712972b2385869c0b0f2c1c644d71696614f2ec8c7af83d9",
+          "excerpt": "def toHalf (format : Format) (swapped : Bool) : sourceType :=\n  match format,swapped with\n  | .e4,Bool.false => f8Forward%[tl.float8e4nv,tl.float16,original]\n  | .e4,Bool.true => f8Forward%[tl.float8e4nv,tl.float16,indexCommuted]\n  | .e5,Bool.false => f8Forward%[tl.float8e5,tl.float16,original]\n  | .e5,Bool.true => f8Forward%[tl.float8e5,tl.float16,indexCommuted]\n\ndef toFP8 (input : Input) (format : Format) (swapped : Bool) : sourceType :="
+        }
+      ]
+    },
+    {
+      "id": "f8_conversion_utils:byte_reinterpret_host",
+      "kind": "host_stage_composition",
+      "finding": "The wrappers reinterpret int8 storage as the supplied fp8 format, allocate output, derive N from underlying storage size while the grid uses tensor numel, launch B1024 and return a tensor. No public proof composes these byte/storage/view relations and the complete grid.",
+      "why_blocks_full_original_scope": "The omitted source behavior needs an executing correspondence and coverage statement; a scalar numerical binding alone cannot supply it.",
+      "can_defer_as_numeric_assumption": false,
+      "evidence": [
+        {
+          "path": "bench/tritonbench_g/f8_conversion_utils/f8_conversion_utils.py",
+          "line": 15,
+          "end_line": 22,
+          "sha256": "9bedcae7e2ffbf6b4e11d10bc52964c85c5e03e8ea837489e691e515fd2348a9",
+          "excerpt": "def f8_to_f16(x, dtypes=tl.float8e5) -> torch.Tensor:\n    assert x.dtype == torch.int8, f\"torch.int8 expected but got {x.dtype}\"\n    assert \"cuda\" in str(x.device), f\"CUDA tensors only but got {x.device}\"\n    ret = torch.empty_like(x, dtype=torch.float16)\n    grid = lambda META: (triton.cdiv(x.numel(), META['BLOCK_SIZE']),)\n    numel = ret.untyped_storage().size() // ret.element_size()\n    kernel_f8_to_f16[grid](ret, triton.reinterpret(x, dtypes), numel, BLOCK_SIZE=1024)\n    return ret"
+        },
+        {
+          "path": "bench/tritonbench_g/f8_conversion_utils/f8_conversion_utils.py",
+          "line": 32,
+          "end_line": 39,
+          "sha256": "9bedcae7e2ffbf6b4e11d10bc52964c85c5e03e8ea837489e691e515fd2348a9",
+          "excerpt": "def f16_to_f8(x: torch.Tensor, dtypes=tl.float8e5) -> torch.Tensor:\n    assert x.dtype in [torch.float16, torch.float32]\n    assert \"cuda\" in str(x.device), f\"CUDA tensors only but got {x.device}\"\n    ret = torch.empty_like(x, dtype=torch.int8)\n    grid = lambda META: (triton.cdiv(x.numel(), META['BLOCK_SIZE']),)\n    numel = x.untyped_storage().size() // x.element_size()\n    kernel_f16_to_f8[grid](triton.reinterpret(ret, dtypes), x, numel, BLOCK_SIZE=1024)\n    return ret"
+        }
+      ]
+    }
+  ],
+  "numerical_boundary": "Exact destination conversion callbacks can be registered and deferred once used by a general executing value result. Current abstract witnesses and relative equivalence do not provide that result or the byte reinterpretation relation.",
+  "precondition_assessment": "Per-program bounds, positive reduction width and injective/nonoverlapping output maps are legitimate selected-domain premises, not defects by themselves. Source-domain exclusions and absent host composition are recorded separately.",
+  "verification": {
+    "manual_production_functions_read": 4,
+    "actual_public_statements_reparsed": 6,
+    "key_source_helpers_read": true,
+    "new_lean_runs": 0,
+    "new_frontend_runs": 0,
+    "gpu_runs": 0,
+    "numerical_deferrals_registered": 0
+  }
+}

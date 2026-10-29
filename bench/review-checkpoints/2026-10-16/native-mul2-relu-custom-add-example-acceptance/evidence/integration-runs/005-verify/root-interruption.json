@@ -1,0 +1,14 @@
+{
+  "recorded_at_utc": "2026-10-16T00:38:37.997543+00:00",
+  "reason": "Build failed because sandbox Lean installation discovery is unavailable; stop this unsuccessful verification attempt before rerunning the full fixed suite in the already validated escalated environment.",
+  "runner_pid": 592698,
+  "child_pids": [
+    595850
+  ],
+  "signal": "SIGINT",
+  "observed": [],
+  "runner_exited": true,
+  "children_exited": {
+    "595850": true
+  }
+}

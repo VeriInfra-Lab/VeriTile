@@ -1,0 +1,613 @@
+{
+  "source": "bench/tritonbench_g/bgmv_expand_slice/Proofs/NativeFP.lean",
+  "source_sha256": "721179eb708ae7ad5884ad8449a98a5449129ea7666c565635c500440c361f4b",
+  "extraction": "/tmp/bgmv-scope-compat-20261014/ProfileRegression.lean",
+  "log": "/tmp/bgmv-scope-compat-20261014/ProfileRegression.log",
+  "profiles": [
+    {
+      "precision": "fp64",
+      "dtype": "real",
+      "configurations": 12
+    },
+    {
+      "precision": "fp32",
+      "dtype": "real",
+      "configurations": 20
+    },
+    {
+      "precision": "fp32",
+      "dtype": "fp16",
+      "configurations": 28
+    },
+    {
+      "precision": "fp32",
+      "dtype": "bf16",
+      "configurations": 4
+    },
+    {
+      "precision": "fp32",
+      "dtype": "fp32",
+      "configurations": 8
+    }
+  ],
+  "configurations": [
+    {
+      "input": "fp16",
+      "weight": "fp16",
+      "cast": "false",
+      "output": "real",
+      "precision": "fp64",
+      "dtype": "real"
+    },
+    {
+      "input": "fp16",
+      "weight": "fp16",
+      "cast": "false",
+      "output": "fp32",
+      "precision": "fp32",
+      "dtype": "real"
+    },
+    {
+      "input": "fp16",
+      "weight": "fp16",
+      "cast": "false",
+      "output": "fp16",
+      "precision": "fp32",
+      "dtype": "fp16"
+    },
+    {
+      "input": "fp16",
+      "weight": "fp16",
+      "cast": "false",
+      "output": "bf16",
+      "precision": "fp32",
+      "dtype": "fp16"
+    },
+    {
+      "input": "fp16",
+      "weight": "fp16",
+      "cast": "false",
+      "output": "f8e4",
+      "precision": "fp32",
+      "dtype": "fp16"
+    },
+    {
+      "input": "fp16",
+      "weight": "fp16",
+      "cast": "false",
+      "output": "f8e5",
+      "precision": "fp32",
+      "dtype": "fp16"
+    },
+    {
+      "input": "fp16",
+      "weight": "fp16",
+      "cast": "true",
+      "output": "real",
+      "precision": "fp64",
+      "dtype": "real"
+    },
+    {
+      "input": "fp16",
+      "weight": "fp16",
+      "cast": "true",
+      "output": "fp32",
+      "precision": "fp32",
+      "dtype": "real"
+    },
+    {
+      "input": "fp16",
+      "weight": "fp16",
+      "cast": "true",
+      "output": "fp16",
+      "precision": "fp32",
+      "dtype": "fp16"
+    },
+    {
+      "input": "fp16",
+      "weight": "fp16",
+      "cast": "true",
+      "output": "bf16",
+      "precision": "fp32",
+      "dtype": "fp16"
+    },
+    {
+      "input": "fp16",
+      "weight": "fp16",
+      "cast": "true",
+      "output": "f8e4",
+      "precision": "fp32",
+      "dtype": "fp16"
+    },
+    {
+      "input": "fp16",
+      "weight": "fp16",
+      "cast": "true",
+      "output": "f8e5",
+      "precision": "fp32",
+      "dtype": "fp16"
+    },
+    {
+      "input": "fp16",
+      "weight": "bf16",
+      "cast": "false",
+      "output": "real",
+      "precision": "fp64",
+      "dtype": "real"
+    },
+    {
+      "input": "fp16",
+      "weight": "bf16",
+      "cast": "false",
+      "output": "fp32",
+      "precision": "fp32",
+      "dtype": "real"
+    },
+    {
+      "input": "fp16",
+      "weight": "bf16",
+      "cast": "false",
+      "output": "fp16",
+      "precision": "fp32",
+      "dtype": "fp16"
+    },
+    {
+      "input": "fp16",
+      "weight": "bf16",
+      "cast": "false",
+      "output": "bf16",
+      "precision": "fp32",
+      "dtype": "fp16"
+    },
+    {
+      "input": "fp16",
+      "weight": "bf16",
+      "cast": "false",
+      "output": "f8e4",
+      "precision": "fp32",
+      "dtype": "fp16"
+    },
+    {
+      "input": "fp16",
+      "weight": "bf16",
+      "cast": "false",
+      "output": "f8e5",
+      "precision": "fp32",
+      "dtype": "fp16"
+    },
+    {
+      "input": "fp16",
+      "weight": "bf16",
+      "cast": "true",
+      "output": "real",
+      "precision": "fp64",
+      "dtype": "real"
+    },
+    {
+      "input": "fp16",
+      "weight": "bf16",
+      "cast": "true",
+      "output": "fp32",
+      "precision": "fp32",
+      "dtype": "real"
+    },
+    {
+      "input": "fp16",
+      "weight": "bf16",
+      "cast": "true",
+      "output": "fp16",
+      "precision": "fp32",
+      "dtype": "fp16"
+    },
+    {
+      "input": "fp16",
+      "weight": "bf16",
+      "cast": "true",
+      "output": "bf16",
+      "precision": "fp32",
+      "dtype": "bf16"
+    },
+    {
+      "input": "fp16",
+      "weight": "bf16",
+      "cast": "true",
+      "output": "f8e4",
+      "precision": "fp32",
+      "dtype": "fp32"
+    },
+    {
+      "input": "fp16",
+      "weight": "bf16",
+      "cast": "true",
+      "output": "f8e5",
+      "precision": "fp32",
+      "dtype": "fp32"
+    },
+    {
+      "input": "bf16",
+      "weight": "fp16",
+      "cast": "false",
+      "output": "real",
+      "precision": "fp64",
+      "dtype": "real"
+    },
+    {
+      "input": "bf16",
+      "weight": "fp16",
+      "cast": "false",
+      "output": "fp32",
+      "precision": "fp32",
+      "dtype": "real"
+    },
+    {
+      "input": "bf16",
+      "weight": "fp16",
+      "cast": "false",
+      "output": "fp16",
+      "precision": "fp32",
+      "dtype": "fp16"
+    },
+    {
+      "input": "bf16",
+      "weight": "fp16",
+      "cast": "false",
+      "output": "bf16",
+      "precision": "fp32",
+      "dtype": "fp16"
+    },
+    {
+      "input": "bf16",
+      "weight": "fp16",
+      "cast": "false",
+      "output": "f8e4",
+      "precision": "fp32",
+      "dtype": "fp16"
+    },
+    {
+      "input": "bf16",
+      "weight": "fp16",
+      "cast": "false",
+      "output": "f8e5",
+      "precision": "fp32",
+      "dtype": "fp16"
+    },
+    {
+      "input": "bf16",
+      "weight": "fp16",
+      "cast": "true",
+      "output": "real",
+      "precision": "fp64",
+      "dtype": "real"
+    },
+    {
+      "input": "bf16",
+      "weight": "fp16",
+      "cast": "true",
+      "output": "fp32",
+      "precision": "fp32",
+      "dtype": "real"
+    },
+    {
+      "input": "bf16",
+      "weight": "fp16",
+      "cast": "true",
+      "output": "fp16",
+      "precision": "fp32",
+      "dtype": "fp16"
+    },
+    {
+      "input": "bf16",
+      "weight": "fp16",
+      "cast": "true",
+      "output": "bf16",
+      "precision": "fp32",
+      "dtype": "fp16"
+    },
+    {
+      "input": "bf16",
+      "weight": "fp16",
+      "cast": "true",
+      "output": "f8e4",
+      "precision": "fp32",
+      "dtype": "fp16"
+    },
+    {
+      "input": "bf16",
+      "weight": "fp16",
+      "cast": "true",
+      "output": "f8e5",
+      "precision": "fp32",
+      "dtype": "fp16"
+    },
+    {
+      "input": "bf16",
+      "weight": "bf16",
+      "cast": "false",
+      "output": "real",
+      "precision": "fp64",
+      "dtype": "real"
+    },
+    {
+      "input": "bf16",
+      "weight": "bf16",
+      "cast": "false",
+      "output": "fp32",
+      "precision": "fp32",
+      "dtype": "real"
+    },
+    {
+      "input": "bf16",
+      "weight": "bf16",
+      "cast": "false",
+      "output": "fp16",
+      "precision": "fp32",
+      "dtype": "fp16"
+    },
+    {
+      "input": "bf16",
+      "weight": "bf16",
+      "cast": "false",
+      "output": "bf16",
+      "precision": "fp32",
+      "dtype": "bf16"
+    },
+    {
+      "input": "bf16",
+      "weight": "bf16",
+      "cast": "false",
+      "output": "f8e4",
+      "precision": "fp32",
+      "dtype": "fp32"
+    },
+    {
+      "input": "bf16",
+      "weight": "bf16",
+      "cast": "false",
+      "output": "f8e5",
+      "precision": "fp32",
+      "dtype": "fp32"
+    },
+    {
+      "input": "bf16",
+      "weight": "bf16",
+      "cast": "true",
+      "output": "real",
+      "precision": "fp64",
+      "dtype": "real"
+    },
+    {
+      "input": "bf16",
+      "weight": "bf16",
+      "cast": "true",
+      "output": "fp32",
+      "precision": "fp32",
+      "dtype": "real"
+    },
+    {
+      "input": "bf16",
+      "weight": "bf16",
+      "cast": "true",
+      "output": "fp16",
+      "precision": "fp32",
+      "dtype": "fp16"
+    },
+    {
+      "input": "bf16",
+      "weight": "bf16",
+      "cast": "true",
+      "output": "bf16",
+      "precision": "fp32",
+      "dtype": "bf16"
+    },
+    {
+      "input": "bf16",
+      "weight": "bf16",
+      "cast": "true",
+      "output": "f8e4",
+      "precision": "fp32",
+      "dtype": "fp32"
+    },
+    {
+      "input": "bf16",
+      "weight": "bf16",
+      "cast": "true",
+      "output": "f8e5",
+      "precision": "fp32",
+      "dtype": "fp32"
+    },
+    {
+      "input": "fp32",
+      "weight": "fp16",
+      "cast": "false",
+      "output": "real",
+      "precision": "fp64",
+      "dtype": "real"
+    },
+    {
+      "input": "fp32",
+      "weight": "fp16",
+      "cast": "false",
+      "output": "fp32",
+      "precision": "fp32",
+      "dtype": "real"
+    },
+    {
+      "input": "fp32",
+      "weight": "fp16",
+      "cast": "false",
+      "output": "fp16",
+      "precision": "fp32",
+      "dtype": "real"
+    },
+    {
+      "input": "fp32",
+      "weight": "fp16",
+      "cast": "false",
+      "output": "bf16",
+      "precision": "fp32",
+      "dtype": "real"
+    },
+    {
+      "input": "fp32",
+      "weight": "fp16",
+      "cast": "false",
+      "output": "f8e4",
+      "precision": "fp32",
+      "dtype": "real"
+    },
+    {
+      "input": "fp32",
+      "weight": "fp16",
+      "cast": "false",
+      "output": "f8e5",
+      "precision": "fp32",
+      "dtype": "real"
+    },
+    {
+      "input": "fp32",
+      "weight": "fp16",
+      "cast": "true",
+      "output": "real",
+      "precision": "fp64",
+      "dtype": "real"
+    },
+    {
+      "input": "fp32",
+      "weight": "fp16",
+      "cast": "true",
+      "output": "fp32",
+      "precision": "fp32",
+      "dtype": "real"
+    },
+    {
+      "input": "fp32",
+      "weight": "fp16",
+      "cast": "true",
+      "output": "fp16",
+      "precision": "fp32",
+      "dtype": "fp16"
+    },
+    {
+      "input": "fp32",
+      "weight": "fp16",
+      "cast": "true",
+      "output": "bf16",
+      "precision": "fp32",
+      "dtype": "fp16"
+    },
+    {
+      "input": "fp32",
+      "weight": "fp16",
+      "cast": "true",
+      "output": "f8e4",
+      "precision": "fp32",
+      "dtype": "fp16"
+    },
+    {
+      "input": "fp32",
+      "weight": "fp16",
+      "cast": "true",
+      "output": "f8e5",
+      "precision": "fp32",
+      "dtype": "fp16"
+    },
+    {
+      "input": "fp32",
+      "weight": "bf16",
+      "cast": "false",
+      "output": "real",
+      "precision": "fp64",
+      "dtype": "real"
+    },
+    {
+      "input": "fp32",
+      "weight": "bf16",
+      "cast": "false",
+      "output": "fp32",
+      "precision": "fp32",
+      "dtype": "real"
+    },
+    {
+      "input": "fp32",
+      "weight": "bf16",
+      "cast": "false",
+      "output": "fp16",
+      "precision": "fp32",
+      "dtype": "real"
+    },
+    {
+      "input": "fp32",
+      "weight": "bf16",
+      "cast": "false",
+      "output": "bf16",
+      "precision": "fp32",
+      "dtype": "real"
+    },
+    {
+      "input": "fp32",
+      "weight": "bf16",
+      "cast": "false",
+      "output": "f8e4",
+      "precision": "fp32",
+      "dtype": "real"
+    },
+    {
+      "input": "fp32",
+      "weight": "bf16",
+      "cast": "false",
+      "output": "f8e5",
+      "precision": "fp32",
+      "dtype": "real"
+    },
+    {
+      "input": "fp32",
+      "weight": "bf16",
+      "cast": "true",
+      "output": "real",
+      "precision": "fp64",
+      "dtype": "real"
+    },
+    {
+      "input": "fp32",
+      "weight": "bf16",
+      "cast": "true",
+      "output": "fp32",
+      "precision": "fp32",
+      "dtype": "real"
+    },
+    {
+      "input": "fp32",
+      "weight": "bf16",
+      "cast": "true",
+      "output": "fp16",
+      "precision": "fp32",
+      "dtype": "fp16"
+    },
+    {
+      "input": "fp32",
+      "weight": "bf16",
+      "cast": "true",
+      "output": "bf16",
+      "precision": "fp32",
+      "dtype": "bf16"
+    },
+    {
+      "input": "fp32",
+      "weight": "bf16",
+      "cast": "true",
+      "output": "f8e4",
+      "precision": "fp32",
+      "dtype": "fp32"
+    },
+    {
+      "input": "fp32",
+      "weight": "bf16",
+      "cast": "true",
+      "output": "f8e5",
+      "precision": "fp32",
+      "dtype": "fp32"
+    }
+  ],
+  "law_bridge": "ScalarAdditionCommutes M D none dtype \u2194 ScalarAdditionCommutes M D (some.fp32) dtype proved by Iff.rfl (engine default resolution)",
+  "scope_regression": "nested outer fp64 / inner fp32 addition detector retains inner fp32 and exact original operands for all FloatDType"
+}

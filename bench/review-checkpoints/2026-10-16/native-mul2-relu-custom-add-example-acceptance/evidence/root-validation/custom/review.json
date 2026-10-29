@@ -1,0 +1,123 @@
+{
+  "schema": 1,
+  "reviewer": "root",
+  "status": "substantively_reviewed_for_finite_scope_integration",
+  "task": "vector_addition_custom",
+  "revision": 1,
+  "recorded_at_utc": "2026-10-15T23:14:28.357682+00:00",
+  "producer_receipt_sha256": "261d2be00ae6152fbbad9fc6c540ae96d0ff653198e9ae3ea7533878be7de8e1",
+  "peer_review_sha256": "ca8752a1d50fb48e02499b6aa8f63a53690c513818720e7a8c92db2f93ef595e",
+  "peer_receipt_sha256": "a974abed17dba92df7d3cd0b06aab552457a36b0c2548118bb0808a6db907935",
+  "focused_pointer_review_receipt_sha256": "aa62e23414c2cafe4bc69906f304256e3bdeadc36b9bebe1cb3ebaf97b864d60",
+  "reviewed_candidate_source_sha256": {
+    "bench/tritonbench_g/vector_addition_custom/NativeCorrect.lean": "1f56f911ae9f15426aaf94cfe32f2ad4f3b6298b08d00ec3113b7cbe190b1a32",
+    "bench/tritonbench_g/vector_addition_custom/Proofs/NativeAdmission.lean": "68ebe7b783765dfcd9be974b9eed39f8701c59da9cde534b328af7ccbbf24ae5",
+    "bench/tritonbench_g/vector_addition_custom/Proofs/NativeArithmetic.lean": "582d69b0e84a12751d5c6177598ef25254072a90c454b92029f225eb82de14e1",
+    "bench/tritonbench_g/vector_addition_custom/Proofs/NativeGrid.lean": "b43e301e105cc5f238aa17386695c42810d82f4dde6ffb5efbf6cffb5413adcc",
+    "bench/tritonbench_g/vector_addition_custom/Proofs/NativeMemory.lean": "1aaf3ea31ebc7ff8b1a92738153f0464d78690ba77d207de3851fea09ed26c7a",
+    "bench/tritonbench_g/vector_addition_custom/Proofs/NativeProgram.lean": "fde7b8669077c832fdba5163da9ec356e918b13633ddc7a5aca8f3847ae13bea",
+    "bench/tritonbench_g/vector_addition_custom/Proofs/NativeScalar.lean": "8705979544f504e4142136e59f671e5f4e047250293450ab52e2354acc092b13"
+  },
+  "public_statement": {
+    "file": "bench/tritonbench_g/vector_addition_custom/NativeCorrect.lean",
+    "declaration": "vector_addition_custom_native_source_outcomes",
+    "statement_sha256": "cf664860c1a6ec09372f7f7a4624dc93c1acac42875db6170666b825e7d07a84"
+  },
+  "semantic_review": {
+    "substantive_review": "Root read original custom_add Python and all seven complete normalized module diffs against the already independently rebuilt and substantively reviewed vector revision2. Root additionally read the complete custom host/execution definitions, public statement, independent peer source review and focused pointer-totalization argument. The five scalar/execution/metadata modules preserve the shared execution semantics with namespace qualification and explanatory comments; NativeArithmetic replaces1024 with16 and proves corresponding bounds; NativeCorrect changes the source host path. No producer-only approval is substituted for this review.",
+    "source_host": "The actual wrapper first calls empty_like(a), then c.size(0), sets BLOCK16, constructs ceil-div grid from that first dimension, launches and returns exactly c. Rank-zero failure follows allocation. There is no added CUDA assertion, same-device condition, y-size/shape check or contiguous-input premise. Actual preserve-format output strides, input aliases, offsets and freshness remain explicit. First dimension and numel remain separate, including huge [2^31,0] null-pointer tensors.",
+    "integer_domain": "The full nonnegative signed64 first-dimension domain is retained. The annotated runtime argument narrows modulo2^32 after actual signed64 host extraction; pid*16+lane wraps at i32, masks use signed32 and byte addresses use sign extension/scaling/u64 wrap. The original dimension determines grid, with exact signed-grid threshold16*(2^31-1). Compilation and grid parsing precede pointer packing. At first dimension2^31 every mask is false and the actual allocated tensor/memory returns without input-access or numerical assumptions when ordinary setup succeeds. Repeated/negative requests are represented explicitly rather than removed by a no-wrap restriction.",
+    "execution_values_and_frames": "All x loads in a tile precede all y loads, followed by source scalar arithmetic and stores. The independent plan uses the initial allocated snapshot; proven freshness/frame preservation relates later loads to that snapshot. The scalar implementation reuses installed finite vector formulas whose exact typed dataflow was independently matched across189 custom frontend routes. Undefined conversions become observations before storing any fallback value. An independent last-store byte formula and pure width-specific packing describe successful writes and all unchanged bytes; exterior allocation frames compose with the host return.",
+    "metadata_boundary": "Raw Torch data/storage pointers and actual successful extracted launch pointers are distinct. Mapped allocation offsets and launch-device permissions are ordinary trusted memory metadata; owner equality grants no access. Native-coordinate typed memory is an explicit local byte/load/store boundary, with no arbitrary tagged-carrier roundtrip or final-result oracle. On absent/failed extraction the total pointer metadata is unused and does not assert Result.ok; the focused independent note demonstrates satisfiable ordinary raw-pointer completions. Actual successful extraction must still use the actual mapped pointer. Root agrees this interpretation loses no identified pre-extraction source branch and does not infer native CUDA success.",
+    "outcome_limits": "Missing bytes, inaccessible spans, invalid encodings, undefined conversions and conflicting output ownership are mathematical observations only. They claim no native trap, race result, rollback, postfailure memory or launch reachability. Complete grid execution and successful final-byte/frame results remain separate from those observations. The environment controls only fallible ordinary setup, not values or kernel results.",
+    "coverage_and_numerics": "The exact22x22 original dtype matrix retains195 binder,64 target-signature,36 addition and6 backend failures plus183 backend routes. All4498 cases include stage/dtype/branch bindings;183 exact2^31 return cases require zero numerical ports.37 scalar families/296 exact port instances remain deferred. Historical five-module/616-port custom work remains uninstalled and unregistered. Existing authority is additive and current integration queue equality remains mandatory.",
+    "verification_attribution": "Peer independently rebuilt all7 exact modules, reproducing objects, with44 clean/6 noncircular checks; six extra Lean regressions and484-pair recorded admission equality passed. It replayed498 dtype/ABI profiles and991 IR artifacts,189 scalar fingerprints,22272 C pointer cases,15 AST traces,6 CPU metadata and7 grid-parser probes. All296 omissions and20 adapter mutations failed closed. Root reverified every frozen producer/peer/focused artifact,200 unchanged project source/object pairs, public statement and numerical counts. This is not represented as a second root rebuild or replay. Failed peer comparison/namespace attempts remain frozen.",
+    "limits": "No GPU launch, live launch-device accessibility measurement, native scalar validation or official comparator pass is established. The pinned finite source/primitive boundary applies. Repository integration and literal authority pins remain pending; this review increments accepted task count by zero."
+  },
+  "verification": {
+    "modules_rebuilt": 7,
+    "producer_object_hashes_reproduced": 7,
+    "candidate_named_clean_axiom_checks": 44,
+    "candidate_noncircular_checks": 6,
+    "independent_regression_axiom_checks": 6,
+    "recorded_admission_axiom_checks": 1,
+    "recorded_admission_pairs": 484,
+    "project_dependencies": 200,
+    "direct_external_objects": 37,
+    "producer_source_object_log_record_sets_verified": 7,
+    "frozen_candidate_artifacts_unchanged": 1778,
+    "offline_profiles_replayed": 498,
+    "original_dtype_pairs": 484,
+    "ABI_profiles": 14,
+    "backend_compiled_dtype_routes": 183,
+    "frontend_typed_routes": 189,
+    "equal_IR_artifacts": 991,
+    "scalar_dataflow_fingerprints_equal": 189,
+    "compiled_C_pointer_checks": 22272,
+    "original_wrapper_AST_traces": 15,
+    "real_CPU_metadata_cases": 6,
+    "real_signed_grid_parser_checks": 7,
+    "independently_rebuilt_I32_extractor_boundary_checks": 15,
+    "scope_cases": 4498,
+    "exact_numeric_ports": 296,
+    "numeric_families": 37,
+    "zero_numeric_two31_return_cases": 183,
+    "omission_mutations_rejected": 296,
+    "adapter_mutations_rejected": 20,
+    "historical_uninstalled_custom_modules_not_active": 5,
+    "GPU_launches": 0,
+    "native_scalar_validation": false
+  },
+  "verified_artifact_counts": {
+    "producer": 1778,
+    "independent_peer": 1869
+  },
+  "normalized_source_diffs": {
+    "bench/tritonbench_g/vector_addition_custom/NativeCorrect.lean": {
+      "path": "NativeCorrect.normalized.diff",
+      "sha256": "307b1e42954614e94b9d94e3e9aa0f7468b1cc99b239e86e1937c3a21d409898",
+      "vector_revision2_source_sha256": "d169fdd53eea4e3c3d82ac7c8b047751db2e6d9315e36d13bb01ef012365e874",
+      "custom_source_sha256": "1f56f911ae9f15426aaf94cfe32f2ad4f3b6298b08d00ec3113b7cbe190b1a32"
+    },
+    "bench/tritonbench_g/vector_addition_custom/Proofs/NativeAdmission.lean": {
+      "path": "NativeAdmission.normalized.diff",
+      "sha256": "8f6e304018aff116387f736113b6a115f97f1a310c43ccd7c03e2ea8a8cde377",
+      "vector_revision2_source_sha256": "45193bc4c151213a3525294a4e98c937df610a7fa1278c54dcfe1cfa6b9fe0d3",
+      "custom_source_sha256": "68ebe7b783765dfcd9be974b9eed39f8701c59da9cde534b328af7ccbbf24ae5"
+    },
+    "bench/tritonbench_g/vector_addition_custom/Proofs/NativeArithmetic.lean": {
+      "path": "NativeArithmetic.normalized.diff",
+      "sha256": "c8b7fa82569cdbdf0917411e8b8e09b3be1bc43a00292ef464cce0b59815bc54",
+      "vector_revision2_source_sha256": "0dc7d47b1a57c277d9b32ae385ff0844fca87841145a46ef8912bb973afc213c",
+      "custom_source_sha256": "582d69b0e84a12751d5c6177598ef25254072a90c454b92029f225eb82de14e1"
+    },
+    "bench/tritonbench_g/vector_addition_custom/Proofs/NativeGrid.lean": {
+      "path": "NativeGrid.normalized.diff",
+      "sha256": "7c5da9546231a5221eb0df39ae26fc04da9eb9653766d1eab4612b8d1dbc17d8",
+      "vector_revision2_source_sha256": "ee37a9a7853229e86d9028b2e6fdd19944f5801a4a5b98439b64339bf22efb8f",
+      "custom_source_sha256": "b43e301e105cc5f238aa17386695c42810d82f4dde6ffb5efbf6cffb5413adcc"
+    },
+    "bench/tritonbench_g/vector_addition_custom/Proofs/NativeMemory.lean": {
+      "path": "NativeMemory.normalized.diff",
+      "sha256": "e9082c6fa8f5ffa78935169eaab1575b71d7db0671ebdc735c330100dd3a8cc0",
+      "vector_revision2_source_sha256": "a8909d83dfb13a67addf5b8d5335330d5e14599879a3b61054e983cc1f089349",
+      "custom_source_sha256": "1aaf3ea31ebc7ff8b1a92738153f0464d78690ba77d207de3851fea09ed26c7a"
+    },
+    "bench/tritonbench_g/vector_addition_custom/Proofs/NativeProgram.lean": {
+      "path": "NativeProgram.normalized.diff",
+      "sha256": "7a65331394fc3dcb6a64c94d70d7a3f709d09ca51a833b8e89d2e46f9b6be231",
+      "vector_revision2_source_sha256": "5001d228a2989c026d2c2de9971dee48df05d0786761fa78d96119f5ef2d265d",
+      "custom_source_sha256": "fde7b8669077c832fdba5163da9ec356e918b13633ddc7a5aca8f3847ae13bea"
+    },
+    "bench/tritonbench_g/vector_addition_custom/Proofs/NativeScalar.lean": {
+      "path": "NativeScalar.normalized.diff",
+      "sha256": "145b4eceefda457d2cf0df4b4588c3b8bd25dfee9e26ca0e0df385ecf678a486",
+      "vector_revision2_source_sha256": "857d32830f58e64abeee802b303ee058e39df908f0cafd03c66123d3d4822c19",
+      "custom_source_sha256": "8705979544f504e4142136e59f671e5f4e047250293450ab52e2354acc092b13"
+    }
+  },
+  "current_repository_integration": "pending",
+  "native_execution": false,
+  "numerical_conformance_validated": false,
+  "acceptance_increment_before_integration": 0
+}

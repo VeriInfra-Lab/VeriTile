@@ -1,0 +1,6 @@
+FiniteScalar 0 3.48
+FiniteExecution 0 4.25
+FiniteSource 0 11.41
+FiniteHost 0 5.23
+FiniteCorrect 0 4.38
+{"receipt": "/tmp/veritile-standardization-20261015/add-value-finite-root-validation/independent-build-receipt.json", "sha256": "fa03335ef2545c84beb222e29a89adea79412c3e3d64d5bf6eb54108c9a00df0", "all_passed": true}

@@ -1,0 +1,11 @@
+{
+  "reviewer": "root",
+  "old_input_path": "repo:bench/review-checkpoints/2026-10-16/native-vector-quant-transpose-acceptance/evidence/producer/quant-transpose/evidence/pre-quant-baseline/__pycache__/reviewed_numerical_extensions.cpython-312.pyc",
+  "new_input_path": "repo:bench/review-checkpoints/2026-10-16/native-vector-quant-transpose-acceptance/evidence/producer/quant-transpose/evidence/pre-quant-baseline/__pycache__/reviewed_numerical_extensions.cpython-312.pyc.bin",
+  "exact_input_bytes_sha256": "07dea0ca08b8fbc8f3895e33fb9695a004e6ecb99451177c981fb77d6cbca35b",
+  "queue_only_change": "One exact_numerical_inputs path renamed; all values and every other JSON field unchanged",
+  "ledger_only_change": "deferred_queue.sha256",
+  "before_ledger_sha256": "d62b5a1c263a623415d7cab018dc15aaa894ac977a93449603b83d733f1b5221",
+  "after_ledger_sha256": "c524d92ac63f543344e048a4a2126d707b9b7a68bf5e71080d19fb80ad59da49",
+  "new_queue_sha256": "6e2755e9dbeeb436fc18fdc9f7ee13e367bf2ab5588514fa8dff16c0b4fd5667"
+}

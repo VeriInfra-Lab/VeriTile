@@ -1,0 +1,70 @@
+VeriTile.Bench.Repairs.AttentionKernel.KernelOnly.check_iff: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernel.KernelOnly.admitted_shapes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernel.KernelOnly.actual_address: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernel.KernelOnly.actual_read: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernel.KernelOnly.InputContract: definition does not reference [VeriTile.Bench.Repairs.AttentionKernel.Whole001.Whole.invoke,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.AttentionKernel.Whole001.Whole.runPrograms] — non-circular ✓
+{"module": "bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.olean"}
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Model.lean:100:99: error: unsolved goals
+α β : Type
+inst✝ : Inhabited α
+decode : α → β
+c : Call
+before : ℕ → β
+after : State α
+b h n d : ℕ
+valid : Valid (parameters c) Role.output b h n d
+stored : Stored c (sourceAddress c Role.output b h n d)
+⊢ ¬Stored c (base c Role.output + 2 * offset (c.tensors Role.output).strides b h n d) →
+    before (base c Role.output + 2 * offset (c.tensors Role.output).strides b h n d) =
+      decode
+        (toFloat (storage c).float
+          (Cell.read (storage c).tile (after.mem (tag Role.output) (offset (c.tensors Role.output).strides b h n d))))
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Model.lean:102:16: warning: This simp argument is unused:
+  stored
+
+Hint: Omit it from the simp argument list.
+  simp [̵o̵b̵s̵e̵r̵v̵e̵,̵s̵t̵o̵r̵e̵d̵,̵s̵o̵u̵r̵c̵e̵A̵d̵d̵r̵e̵s̵s̵]̵[̲o̲b̲s̲e̲r̲v̲e̲,̲ ̲s̲o̲u̲r̲c̲e̲A̲d̲d̲r̲e̲s̲s̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Model.lean:115:52: error: unsolved goals
+c : Call
+hc : InputContract c
+laws : TensorLaws c
+r : Role
+hr : r ∈ reads
+b h n d : ℕ
+valid : Valid (parameters c) r b h n d
+z k m e : ℕ
+hout : Valid (parameters c) Role.output z k m e
+same : logicalAddress c r b h n d = sourceAddress c Role.output z k m e
+live : Live (parameters c)
+separated : Contract.Separate (arguments c)
+⊢ ∃ a ∈ reads, span c a = span c r
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Model.lean:115:71: warning: This simp argument is unused:
+  hr
+
+Hint: Omit it from the simp argument list.
+  simp [arguments,̵h̵r̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.AttentionKernel.KernelOnly.complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Model.lean:132:0: error: VeriTile.Bench.Repairs.AttentionKernel.KernelOnly.observe_store: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.Repairs.AttentionKernel.KernelOnly.observe_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Model.lean:134:0: error: VeriTile.Bench.Repairs.AttentionKernel.KernelOnly.read_exterior: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.Repairs.AttentionKernel.KernelOnly.empty_observe: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

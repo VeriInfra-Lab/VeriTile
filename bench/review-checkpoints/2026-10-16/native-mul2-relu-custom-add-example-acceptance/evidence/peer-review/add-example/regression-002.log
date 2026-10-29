@@ -1,0 +1,23 @@
+/tmp/veritile-standardization-20261015/add-example-independent-review/isolated/IndependentRegression.lean:34:52: warning: unused variable `n`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/veritile-standardization-20261015/add-example-independent-review/isolated/IndependentRegression.lean:53:52: warning: unused variable `n`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+AddExampleIndependentReview.exact_grid_limit: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+AddExampleIndependentReview.both_reachable_masked_residues: axiom footprint ⊆ standard base ✓  ([propext])
+AddExampleIndependentReview.negative_and_repeated_requests: axiom footprint ⊆ standard base ✓  ([propext])
+AddExampleIndependentReview.null_binding_needs_no_translation: axiom footprint ⊆ standard base ✓  ([propext])
+AddExampleIndependentReview.actual_pointer_is_distinct_from_raw: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+AddExampleIndependentReview.failed_pointer_binding_obligation: axiom footprint ⊆ standard base ✓  ([propext])
+AddExampleIndependentReview.every_program_occurs_at_most_once: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+AddExampleIndependentReview.second_masked_residue_any_schedule: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+AddExampleIndependentReview.reverse_last_write_bytes: axiom footprint ⊆ standard base ✓  ([Quot.sound, propext])

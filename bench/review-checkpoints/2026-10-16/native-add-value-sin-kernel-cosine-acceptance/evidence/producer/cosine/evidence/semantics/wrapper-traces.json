@@ -1,0 +1,917 @@
+[
+  {
+    "N": 0,
+    "allocation_error": false,
+    "events": [
+      [
+        "empty_like",
+        "A"
+      ],
+      [
+        "numel",
+        "A",
+        0
+      ],
+      [
+        "sqrt",
+        0
+      ],
+      [
+        "ceil",
+        "0x0.0p+0"
+      ],
+      [
+        "next_power_of_2",
+        0
+      ],
+      [
+        "cdiv",
+        0,
+        0
+      ]
+    ],
+    "outcome": "ZeroDivisionError"
+  },
+  {
+    "N": 1,
+    "allocation_error": false,
+    "events": [
+      [
+        "empty_like",
+        "A"
+      ],
+      [
+        "numel",
+        "A",
+        1
+      ],
+      [
+        "sqrt",
+        1
+      ],
+      [
+        "ceil",
+        "0x1.0000000000000p+0"
+      ],
+      [
+        "next_power_of_2",
+        1
+      ],
+      [
+        "cdiv",
+        1,
+        1
+      ],
+      [
+        "launch",
+        [
+          1,
+          1,
+          1
+        ],
+        1,
+        1
+      ]
+    ],
+    "outcome": "returned_same_allocation"
+  },
+  {
+    "N": 2,
+    "allocation_error": false,
+    "events": [
+      [
+        "empty_like",
+        "A"
+      ],
+      [
+        "numel",
+        "A",
+        2
+      ],
+      [
+        "sqrt",
+        2
+      ],
+      [
+        "ceil",
+        "0x1.6a09e667f3bcdp+0"
+      ],
+      [
+        "next_power_of_2",
+        2
+      ],
+      [
+        "cdiv",
+        2,
+        2
+      ],
+      [
+        "launch",
+        [
+          1,
+          1,
+          1
+        ],
+        2,
+        2
+      ]
+    ],
+    "outcome": "returned_same_allocation"
+  },
+  {
+    "N": 3,
+    "allocation_error": false,
+    "events": [
+      [
+        "empty_like",
+        "A"
+      ],
+      [
+        "numel",
+        "A",
+        3
+      ],
+      [
+        "sqrt",
+        3
+      ],
+      [
+        "ceil",
+        "0x1.bb67ae8584caap+0"
+      ],
+      [
+        "next_power_of_2",
+        2
+      ],
+      [
+        "cdiv",
+        3,
+        2
+      ],
+      [
+        "launch",
+        [
+          2,
+          1,
+          1
+        ],
+        3,
+        2
+      ]
+    ],
+    "outcome": "returned_same_allocation"
+  },
+  {
+    "N": 4,
+    "allocation_error": false,
+    "events": [
+      [
+        "empty_like",
+        "A"
+      ],
+      [
+        "numel",
+        "A",
+        4
+      ],
+      [
+        "sqrt",
+        4
+      ],
+      [
+        "ceil",
+        "0x1.0000000000000p+1"
+      ],
+      [
+        "next_power_of_2",
+        2
+      ],
+      [
+        "cdiv",
+        4,
+        2
+      ],
+      [
+        "launch",
+        [
+          2,
+          1,
+          1
+        ],
+        4,
+        2
+      ]
+    ],
+    "outcome": "returned_same_allocation"
+  },
+  {
+    "N": 5,
+    "allocation_error": false,
+    "events": [
+      [
+        "empty_like",
+        "A"
+      ],
+      [
+        "numel",
+        "A",
+        5
+      ],
+      [
+        "sqrt",
+        5
+      ],
+      [
+        "ceil",
+        "0x1.1e3779b97f4a8p+1"
+      ],
+      [
+        "next_power_of_2",
+        3
+      ],
+      [
+        "cdiv",
+        5,
+        4
+      ],
+      [
+        "launch",
+        [
+          2,
+          1,
+          1
+        ],
+        5,
+        4
+      ]
+    ],
+    "outcome": "returned_same_allocation"
+  },
+  {
+    "N": 4095,
+    "allocation_error": false,
+    "events": [
+      [
+        "empty_like",
+        "A"
+      ],
+      [
+        "numel",
+        "A",
+        4095
+      ],
+      [
+        "sqrt",
+        4095
+      ],
+      [
+        "ceil",
+        "0x1.ffefffbffdfffp+5"
+      ],
+      [
+        "next_power_of_2",
+        64
+      ],
+      [
+        "cdiv",
+        4095,
+        64
+      ],
+      [
+        "launch",
+        [
+          64,
+          1,
+          1
+        ],
+        4095,
+        64
+      ]
+    ],
+    "outcome": "returned_same_allocation"
+  },
+  {
+    "N": 4096,
+    "allocation_error": false,
+    "events": [
+      [
+        "empty_like",
+        "A"
+      ],
+      [
+        "numel",
+        "A",
+        4096
+      ],
+      [
+        "sqrt",
+        4096
+      ],
+      [
+        "ceil",
+        "0x1.0000000000000p+6"
+      ],
+      [
+        "next_power_of_2",
+        64
+      ],
+      [
+        "cdiv",
+        4096,
+        64
+      ],
+      [
+        "launch",
+        [
+          64,
+          1,
+          1
+        ],
+        4096,
+        64
+      ]
+    ],
+    "outcome": "returned_same_allocation"
+  },
+  {
+    "N": 4097,
+    "allocation_error": false,
+    "events": [
+      [
+        "empty_like",
+        "A"
+      ],
+      [
+        "numel",
+        "A",
+        4097
+      ],
+      [
+        "sqrt",
+        4097
+      ],
+      [
+        "ceil",
+        "0x1.0007ffe000fffp+6"
+      ],
+      [
+        "next_power_of_2",
+        65
+      ],
+      [
+        "cdiv",
+        4097,
+        128
+      ],
+      [
+        "launch",
+        [
+          33,
+          1,
+          1
+        ],
+        4097,
+        128
+      ]
+    ],
+    "outcome": "returned_same_allocation"
+  },
+  {
+    "N": 2147483647,
+    "allocation_error": false,
+    "events": [
+      [
+        "empty_like",
+        "A"
+      ],
+      [
+        "numel",
+        "A",
+        2147483647
+      ],
+      [
+        "sqrt",
+        2147483647
+      ],
+      [
+        "ceil",
+        "0x1.6a09e66689b2ep+15"
+      ],
+      [
+        "next_power_of_2",
+        46341
+      ],
+      [
+        "cdiv",
+        2147483647,
+        65536
+      ],
+      [
+        "launch",
+        [
+          32768,
+          1,
+          1
+        ],
+        2147483647,
+        65536
+      ]
+    ],
+    "outcome": "returned_same_allocation"
+  },
+  {
+    "N": 2147483648,
+    "allocation_error": false,
+    "events": [
+      [
+        "empty_like",
+        "A"
+      ],
+      [
+        "numel",
+        "A",
+        2147483648
+      ],
+      [
+        "sqrt",
+        2147483648
+      ],
+      [
+        "ceil",
+        "0x1.6a09e667f3bcdp+15"
+      ],
+      [
+        "next_power_of_2",
+        46341
+      ],
+      [
+        "cdiv",
+        2147483648,
+        65536
+      ],
+      [
+        "launch",
+        [
+          32768,
+          1,
+          1
+        ],
+        2147483648,
+        65536
+      ]
+    ],
+    "outcome": "returned_same_allocation"
+  },
+  {
+    "N": 2147483649,
+    "allocation_error": false,
+    "events": [
+      [
+        "empty_like",
+        "A"
+      ],
+      [
+        "numel",
+        "A",
+        2147483649
+      ],
+      [
+        "sqrt",
+        2147483649
+      ],
+      [
+        "ceil",
+        "0x1.6a09e6695dc6bp+15"
+      ],
+      [
+        "next_power_of_2",
+        46341
+      ],
+      [
+        "cdiv",
+        2147483649,
+        65536
+      ],
+      [
+        "launch",
+        [
+          32769,
+          1,
+          1
+        ],
+        2147483649,
+        65536
+      ]
+    ],
+    "outcome": "returned_same_allocation"
+  },
+  {
+    "N": 4294967295,
+    "allocation_error": false,
+    "events": [
+      [
+        "empty_like",
+        "A"
+      ],
+      [
+        "numel",
+        "A",
+        4294967295
+      ],
+      [
+        "sqrt",
+        4294967295
+      ],
+      [
+        "ceil",
+        "0x1.ffffffff00000p+15"
+      ],
+      [
+        "next_power_of_2",
+        65536
+      ],
+      [
+        "cdiv",
+        4294967295,
+        65536
+      ],
+      [
+        "launch",
+        [
+          65536,
+          1,
+          1
+        ],
+        4294967295,
+        65536
+      ]
+    ],
+    "outcome": "returned_same_allocation"
+  },
+  {
+    "N": 4294967296,
+    "allocation_error": false,
+    "events": [
+      [
+        "empty_like",
+        "A"
+      ],
+      [
+        "numel",
+        "A",
+        4294967296
+      ],
+      [
+        "sqrt",
+        4294967296
+      ],
+      [
+        "ceil",
+        "0x1.0000000000000p+16"
+      ],
+      [
+        "next_power_of_2",
+        65536
+      ],
+      [
+        "cdiv",
+        4294967296,
+        65536
+      ],
+      [
+        "launch",
+        [
+          65536,
+          1,
+          1
+        ],
+        4294967296,
+        65536
+      ]
+    ],
+    "outcome": "returned_same_allocation"
+  },
+  {
+    "N": 4294967297,
+    "allocation_error": false,
+    "events": [
+      [
+        "empty_like",
+        "A"
+      ],
+      [
+        "numel",
+        "A",
+        4294967297
+      ],
+      [
+        "sqrt",
+        4294967297
+      ],
+      [
+        "ceil",
+        "0x1.0000000080000p+16"
+      ],
+      [
+        "next_power_of_2",
+        65537
+      ],
+      [
+        "cdiv",
+        4294967297,
+        131072
+      ],
+      [
+        "launch",
+        [
+          32769,
+          1,
+          1
+        ],
+        4294967297,
+        131072
+      ]
+    ],
+    "outcome": "returned_same_allocation"
+  },
+  {
+    "N": 1099511627776,
+    "allocation_error": false,
+    "events": [
+      [
+        "empty_like",
+        "A"
+      ],
+      [
+        "numel",
+        "A",
+        1099511627776
+      ],
+      [
+        "sqrt",
+        1099511627776
+      ],
+      [
+        "ceil",
+        "0x1.0000000000000p+20"
+      ],
+      [
+        "next_power_of_2",
+        1048576
+      ],
+      [
+        "cdiv",
+        1099511627776,
+        1048576
+      ],
+      [
+        "launch",
+        [
+          1048576,
+          1,
+          1
+        ],
+        1099511627776,
+        1048576
+      ]
+    ],
+    "outcome": "returned_same_allocation"
+  },
+  {
+    "N": 1099511627777,
+    "allocation_error": false,
+    "events": [
+      [
+        "empty_like",
+        "A"
+      ],
+      [
+        "numel",
+        "A",
+        1099511627777
+      ],
+      [
+        "sqrt",
+        1099511627777
+      ],
+      [
+        "ceil",
+        "0x1.0000000000800p+20"
+      ],
+      [
+        "next_power_of_2",
+        1048577
+      ],
+      [
+        "cdiv",
+        1099511627777,
+        2097152
+      ],
+      [
+        "launch",
+        [
+          524289,
+          1,
+          1
+        ],
+        1099511627777,
+        2097152
+      ]
+    ],
+    "outcome": "returned_same_allocation"
+  },
+  {
+    "N": 4503599627370497,
+    "allocation_error": false,
+    "events": [
+      [
+        "empty_like",
+        "A"
+      ],
+      [
+        "numel",
+        "A",
+        4503599627370497
+      ],
+      [
+        "sqrt",
+        4503599627370497
+      ],
+      [
+        "ceil",
+        "0x1.0000000000000p+26"
+      ],
+      [
+        "next_power_of_2",
+        67108864
+      ],
+      [
+        "cdiv",
+        4503599627370497,
+        67108864
+      ],
+      [
+        "launch",
+        [
+          67108865,
+          1,
+          1
+        ],
+        4503599627370497,
+        67108864
+      ]
+    ],
+    "outcome": "returned_same_allocation"
+  },
+  {
+    "N": 4503599627370498,
+    "allocation_error": false,
+    "events": [
+      [
+        "empty_like",
+        "A"
+      ],
+      [
+        "numel",
+        "A",
+        4503599627370498
+      ],
+      [
+        "sqrt",
+        4503599627370498
+      ],
+      [
+        "ceil",
+        "0x1.0000000000001p+26"
+      ],
+      [
+        "next_power_of_2",
+        67108865
+      ],
+      [
+        "cdiv",
+        4503599627370498,
+        134217728
+      ],
+      [
+        "launch",
+        [
+          33554433,
+          1,
+          1
+        ],
+        4503599627370498,
+        134217728
+      ]
+    ],
+    "outcome": "returned_same_allocation"
+  },
+  {
+    "N": 2305843009213693952,
+    "allocation_error": false,
+    "events": [
+      [
+        "empty_like",
+        "A"
+      ],
+      [
+        "numel",
+        "A",
+        2305843009213693952
+      ],
+      [
+        "sqrt",
+        2305843009213693952
+      ],
+      [
+        "ceil",
+        "0x1.6a09e667f3bcdp+30"
+      ],
+      [
+        "next_power_of_2",
+        1518500250
+      ],
+      [
+        "cdiv",
+        2305843009213693952,
+        2147483648
+      ],
+      [
+        "launch",
+        [
+          1073741824,
+          1,
+          1
+        ],
+        2305843009213693952,
+        2147483648
+      ]
+    ],
+    "outcome": "returned_same_allocation"
+  },
+  {
+    "N": 9223372036854775807,
+    "allocation_error": false,
+    "events": [
+      [
+        "empty_like",
+        "A"
+      ],
+      [
+        "numel",
+        "A",
+        9223372036854775807
+      ],
+      [
+        "sqrt",
+        9223372036854775807
+      ],
+      [
+        "ceil",
+        "0x1.6a09e667f3bcdp+31"
+      ],
+      [
+        "next_power_of_2",
+        3037000500
+      ],
+      [
+        "cdiv",
+        9223372036854775807,
+        4294967296
+      ],
+      [
+        "launch",
+        [
+          2147483648,
+          1,
+          1
+        ],
+        9223372036854775807,
+        4294967296
+      ]
+    ],
+    "outcome": "returned_same_allocation"
+  },
+  {
+    "N": 0,
+    "allocation_error": true,
+    "events": [
+      [
+        "empty_like",
+        "A"
+      ]
+    ],
+    "outcome": "MemoryError"
+  },
+  {
+    "N": 9223372036854775807,
+    "allocation_error": true,
+    "events": [
+      [
+        "empty_like",
+        "A"
+      ]
+    ],
+    "outcome": "MemoryError"
+  }
+]

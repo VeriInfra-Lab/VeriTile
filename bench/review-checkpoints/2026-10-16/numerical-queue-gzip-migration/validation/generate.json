@@ -1,0 +1,9 @@
+{
+  "status": "passed",
+  "queue_sha256": "0e9e04b0ec38f5c531b6174a929f1f9a272744845bb2796d57698c3b1ed42db9",
+  "queue_bytes": 1680459,
+  "decompressed_queue_sha256": "de2f082f580b4157c93891255b8eb8b0cdf2d2b5a614533c5513b51081737ca9",
+  "all_queue_bytes_rules_tasks_bindings_callbacks_unchanged": true,
+  "markdown_sha256": "277526fbb4b036694791c2b17afa85c4a4b84d63ab8988b1cd464a2f192c6373",
+  "acceptance_increment": 0
+}

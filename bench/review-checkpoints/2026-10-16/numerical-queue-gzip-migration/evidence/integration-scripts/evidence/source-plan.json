@@ -1,0 +1,45 @@
+{
+  "changes": {
+    "bench/deferred_numerical_experiments.py": {
+      "before": "b47ef727ff1a842bc414210111cca7103f7c0e80fac1aecf774a476b8743d997",
+      "after": "ae132895bd8756ddd34835249118270b3b47b68413770d43d2106f67e183793f"
+    },
+    "bench/check_original_program_scope.py": {
+      "before": "7c4e8fb2174026ca444131186126828aadc97952aeb35fa5f7fb0e4dff12fbc1",
+      "after": "8a5fccb70fa937d5f6696905a530d6cafd2a0bb2256a55d4f3baaf3e5b74fd72"
+    },
+    "bench/tests/test_numerical_queue_storage.py": {
+      "before": null,
+      "after": "9a5c85c8a8e161f46f7f28b8ce9f081e0778194f75e211051e57f8debed73c8c"
+    },
+    "bench/tests/test_numerical_queue_migration.py": {
+      "before": null,
+      "after": "bbe0e4e826e343e3989c87a65ecd4b48da2f9e5a7813623c9506786939596096"
+    },
+    "bench/current_source_acceptance.md": {
+      "before": "8b9688c4a9147de6922af563179d0227858c48904adcdb05329863875fedfb49",
+      "after": "12a7956ae8f77b784c0293e3cc42083d5e4cdd47937cf3e95150d0383a203c6a"
+    },
+    "bench/original_program_scope.md": {
+      "before": "bc27b707ea091b83df1a86e912e363612a7778b64298b26ef78eb432f5ca6897",
+      "after": "f710ffae10e7bc2c46aacd3d2576d15479a65e151560a91d5bc49a7e020a8074"
+    }
+  },
+  "unchanged_consumers": {
+    ".github/workflows/bench-audit.yml": "981234df5ab450bdfdf2f12a05c2e821d5ed59bebfba4b05e3b384903c30efc4",
+    "bench/current_source_audit.py": "c26ccf28fec250fce3940fe554738bd2267d1b8389d8d23b979736d47b6a3710",
+    "bench/adapter_common.py": "f553afe1345a77c499a77278c5b8a91942917d1c08745fc1e1679e6c67e9c4b7",
+    "bench/exact_numerical_bindings.py": "1fc0afdf0464d680d997ad6bffd39197fc5ee1dc527c08db77a1d677e3948144",
+    "bench/exact_scope_gate.py": "ea2bb821d97e28e48b5272a8282e186b7de7580888efe37ca645be60080f27e1",
+    "bench/current_source_catalog.py": "87d4642855036cc1397640d47b4a51c8032a1ab115c24be86b0c74082210b4e5",
+    "bench/current_value_metadata.py": "cc523706dde7864b706de0cec9e1f51116852997b4bffdc8c5fde7151e896a6d"
+  },
+  "policy_inputs": {
+    "bench/review-checkpoints/2026-10-16/native-mul2-relu-custom-add-example-acceptance/primary-version-policy.md": "10a59ed41d81aee0e5bb82b81a998116564a8dd7c378516a0a4edf894b07be85",
+    "bench/review-checkpoints/2026-10-16/native-mul2-relu-custom-add-example-acceptance/evidence/three-version-inventory/eight-task-mapping.md": "c944d1962f2ee7a6c7bc828d73af96e3be2732f66dc75a8c71d8843f777b423d"
+  },
+  "original_candidate_receipt_sha256": "2b5c5d20c5113565e82f28422c6300a4debd5705b798f196cac70fd7b2e578ba",
+  "independent_receipt_sha256": "f7c52e0e79159a613dbb7ef6249ca118ccee454de99b14438e0a96a43593f855",
+  "live_repository_modified": false,
+  "expected_base_commit": null
+}

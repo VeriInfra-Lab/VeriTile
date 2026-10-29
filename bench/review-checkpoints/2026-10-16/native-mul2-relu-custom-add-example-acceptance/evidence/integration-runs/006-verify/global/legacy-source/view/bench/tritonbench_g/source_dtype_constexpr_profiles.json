@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "profiles": {
+    "attention-aligned-fp16": {
+      "jit": "_fwd_kernel_aligned",
+      "python": {
+        "OUT_DTYPE": "tl.float16"
+      },
+      "lean": {
+        "source": "attention_kernel_aligned_fp16_surface",
+        "args": {}
+      },
+      "evidence": "bench/review-checkpoints/2026-10-14/aligned-native",
+      "receipt_sha256": "299a77660f020de02ec15b1cd8b59e4f7c5f71144c88f61652ed8eee66cc96fd",
+      "selected": "fp16",
+      "unsupported": [
+        "bf16"
+      ]
+    }
+  }
+}

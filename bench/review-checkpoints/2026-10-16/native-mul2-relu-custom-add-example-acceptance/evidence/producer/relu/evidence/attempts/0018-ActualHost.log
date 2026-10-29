@@ -1,0 +1,16 @@
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ActualHost.lean:76:58: warning: unused variable `u`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.hostFormula: definition does not reference [VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.sourceHost,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.runGrid,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.runProgram,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.executeBody,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.step,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.applyWrites] — non-circular ✓
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.Ready.separated: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.original_source_all_outcomes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.returned_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

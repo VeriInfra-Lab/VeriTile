@@ -1,0 +1,24 @@
+{
+  "source_sha256": "678648ade1cedb09c1b0ae40c03155c9ebc09bb812b3cb945a15c98e18ce2ab5",
+  "original_sha256": "c53a98d10fb11a5d35b68d7019ac99b7bf4186ecdbc4f25d059ae510fdf78f4a",
+  "kernel_ast_sha256": {
+    "parallel_retention_fwd_kernel": "b7e24f1b6b681b0775d6b8fcb0e962c090bf4add0e11ac97dd84b74d1c423e0c",
+    "_parallel_retention_bwd_dq": "8871f44c018296833627add6b37ab074698cf5a4a6bd499d6a96afae91df4901",
+    "_parallel_retention_bwd_dkv": "0b05f6f683f1361806341fa33f9a588bf2cf3e82d6c29bd38e4400ccddde37c1",
+    "parallel_retention_bwd_kernel": "f16c5d514aceda361fb744533dfca6271cee8e4460d7fe09c533870e92482e52"
+  },
+  "lowering_report": "/tmp/veritile-parallel-retention-lowering/report.json",
+  "native_dtype": "fp32",
+  "dot_precision": "ieee",
+  "num_warps": 4,
+  "num_stages": "3 if DK <= 64 else 2",
+  "gpu_validation": "No GPU execution claimed; not a theorem premise. Elementary scalar and compiler instruction-tree models are explicit boundaries.",
+  "public_endpoints": [
+    "Correct.forward",
+    "Correct.backward",
+    "FPEquiv.forward",
+    "FPEquiv.backward"
+  ],
+  "source_binding_check": "check_quotation.py",
+  "scope": "Complete forward and shared backward kernel bodies; all valid program tiles, active scratch Tensor bytes, and exterior frames. Historical host APIs are preserved separately."
+}

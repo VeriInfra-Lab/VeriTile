@@ -1,0 +1,143 @@
+{
+  "schema": 1,
+  "task": "rotary_transform_ops",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue13/release-result.json",
+    "sha256": "629bffaa864c24e7cc37f10e32b29c72132c01318546dff04e43bb7c16ac013a",
+    "task_index": 3
+  },
+  "finding": "The reader computed rotation over raw input channels and flat memory rather than logical tensors.",
+  "resolution": "RotationInputs and full finite coordinate equivalences expose token/head/column input tensors, coefficient tables and signed metadata. The result uses batch/row/head/column coordinates, retaining entry output and the exact total-extension convention.",
+  "mathematical_target": "Explicit conjugated/ordinary rotary prefix a*co-b*signed or a*signed+b*co, with identity coefficient fallback; suffix equals initial input.",
+  "conditions_and_scope": {
+    "scope": "Original complete whole-grid read/write IO, all four signed metadata ABIs, both alias modes and all flags. Full output tensor readbacks include unchanged suffix and empty branches.",
+    "conditions": [
+      "Config.Valid unchanged.",
+      "Interface.Ready binds metadata to logical configuration and retains out-of-place suffix-copy agreement.",
+      "result masks describe valid per-batch lengths, writable masks only rotary prefix.",
+      "The public IO judgment quantifies over logical inputs, physical memory binding and capacity bounds; source safety, successful execution, output values and exact exterior frame are conclusions, not caller premises."
+    ],
+    "preservation": "Logical input/output maps are full equivalences, retaining unused/inactive/padded and entry-output values. Exact previous judgment is fixed as the logical view type parameter/core; no callback oracle or new caller premise."
+  },
+  "proof_connection": {
+    "theorem": "Interface.logical_real_iff",
+    "detail": "The entire logical ImplementsOn LogicalReady judgment is iff original ReadProgramIO.ImplementsOn Ready realReference. The helper proves equality of all result channels and transports the exact original domain, schedule, safety, execution and frame."
+  },
+  "fp_review": {
+    "source_unchanged": true,
+    "actual_pair": {
+      "original": "FPEquiv.original c p cu64 off64",
+      "candidate": "FPEquiv.xorIndexed c p cu64 off64",
+      "transformation": "Exact adjacent-partner XOR index optimization.",
+      "scope": "Complete original grid including suffix/readbacks, all words and metadata widths.",
+      "connection": "XorPair.equivalent"
+    },
+    "review": "Read the selected FPEquiv source and actual original/candidate scopes. Existing precision, conversions, FMA versus separate operations, reduction order, domains and observers retained; no self-comparison or new candidate."
+  },
+  "numerical_dependencies": {
+    "experimental_rules": [],
+    "binding": "Native.Instructions FP32 graph; original separate/fused sites unchanged."
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "Explicit conjugated/ordinary rotary prefix a*co-b*signed or a*signed+b*co, with identity coefficient fallback; suffix equals initial input.",
+    "required_conditions": [
+      "Config.Valid unchanged.",
+      "Interface.Ready binds metadata to logical configuration and retains out-of-place suffix-copy agreement.",
+      "result masks describe valid per-batch lengths, writable masks only rotary prefix.",
+      "The public IO judgment quantifies over logical inputs, physical memory binding and capacity bounds; source safety, successful execution, output values and exact exterior frame are conclusions, not caller premises."
+    ],
+    "scope": "Original complete whole-grid read/write IO, all four signed metadata ABIs, both alias modes and all flags. Full output tensor readbacks include unchanged suffix and empty branches.",
+    "canonical_connection": [
+      "rotationAt and rotation display independent arithmetic and tensor coordinates beside headline.",
+      "The displayed target is definitionally Interface.realReference; the main proof directly applies IOComplete.real_implements for whole-grid safety, output readback and exact frame."
+    ],
+    "fp_program_pair": {
+      "original": "FPEquiv.original c p cu64 off64",
+      "candidate": "FPEquiv.xorIndexed c p cu64 off64",
+      "transformation": "Exact adjacent-partner XOR index optimization.",
+      "scope": "Complete original grid including suffix/readbacks, all words and metadata widths.",
+      "connection": "XorPair.equivalent"
+    },
+    "numerical_dependencies": {
+      "experimental_rules": [],
+      "binding": "Native.Instructions FP32 graph; original separate/fused sites unchanged."
+    }
+  },
+  "verification": [
+    {
+      "kind": "targeted_readers",
+      "command": [
+        "python3",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue13/build.py",
+        "bench/repairs/tritonbench_g/rotary_transform_ops/IO.lean",
+        "bench/repairs/tritonbench_g/rotary_transform_ops/Proofs/LogicalResult.lean",
+        "bench/repairs/tritonbench_g/rotary_transform_ops/Correct.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue13/rotary_transform_ops-targeted_readers-final.log",
+      "log_sha256": "b743f096125874b1862719c1dc9f81bc0c84eb95b37b2c32d561b94f308fb77d",
+      "source_report": ".veritile-cache/logical-reader-review-20261022/queue13/result.json",
+      "source_report_sha256": "354f79af2a6d84fca6ecbe886fb61a9754848b6ae49c88a93657f7822671cfb4",
+      "evidence_scope": "current_unsupplemented_task"
+    },
+    {
+      "kind": "fp_source",
+      "command": [
+        "python3",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue13/build.py",
+        "bench/repairs/tritonbench_g/rotary_transform_ops/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue13/rotary_transform_ops-fp_source-final.log",
+      "log_sha256": "f636aae569aa941fe67fb66c2424e18b1ffe78ab7b0da967a45717017d074c6b",
+      "source_report": ".veritile-cache/logical-reader-review-20261022/queue13/result.json",
+      "source_report_sha256": "354f79af2a6d84fca6ecbe886fb61a9754848b6ae49c88a93657f7822671cfb4",
+      "evidence_scope": "current_unsupplemented_task"
+    },
+    {
+      "kind": "joint",
+      "command": [
+        "python3",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue13/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue13/rotary_transform_ops-joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue13/rotary_transform_ops-joint-final.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_report": ".veritile-cache/logical-reader-review-20261022/queue13/result.json",
+      "source_report_sha256": "354f79af2a6d84fca6ecbe886fb61a9754848b6ae49c88a93657f7822671cfb4",
+      "evidence_scope": "current_unsupplemented_task"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/rotary_transform_ops/Contract.lean": "da0addef1d8da3929e786d787da1ebf714f1c953e5ee604d0438ef5f6e972353",
+    "bench/repairs/tritonbench_g/rotary_transform_ops/Correct.lean": "008e4ef44904b4b640a72bca7a680a365f2fb56f545c03918cf970baf3fd48b1",
+    "bench/repairs/tritonbench_g/rotary_transform_ops/FPEquiv.lean": "371406c70500b51edfd45820b138a87c82347a065e7364da156c2726e572b576",
+    "bench/repairs/tritonbench_g/rotary_transform_ops/IO.lean": "90c7629d839b3feb85d72e672647ad3e58b0d476dcec1bfe8025873af7babc65",
+    "bench/repairs/tritonbench_g/rotary_transform_ops/Proofs/LogicalResult.lean": "5e713ae6c2cf51530c6387498b80d828720155f1f302ad61264b4fdb9a258cdc",
+    "bench/repairs/tritonbench_g/rotary_transform_ops/Spec.lean": "37b562a5a86fa67942fc0c00537e1653fe8d298f55fed19b5c8e9d5166e1b4f2",
+    "bench/repairs/tritonbench_g/rotary_transform_ops/XorSource.lean": "9da523b1507e797dc11c7d46ae8722286c62735690e1900107a6059d7b9cb30d",
+    "bench/repairs/tritonbench_g/rotary_transform_ops/Proofs/IOComplete.lean": "3d72ff568cc37f055501827ba229d1f0ea6ccc4627c944fadccecfbf4df1f0c4",
+    "bench/repairs/tritonbench_g/rotary_transform_ops/Proofs/XorIO.lean": "b0ba27caf9a74c21f7246d0eb8a58f7c5875071dd750ffb505da0348caa47c17",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [
+    "Targeted changed IO/helper/Correct sources compiled in this queue; final builds may reuse successful receipts only when source and direct import-object hashes match. Unchanged internal proof objects are reused, except exact stale/missing owners rebuilt in this queue; this is not an all-helper or full-library replay.",
+    "Real specifies the independent mathematical interpretation. Existing empty-R FP conclusions use their explicitly fixed software theories/models; no new hardware consistency or numerical experiment claim."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

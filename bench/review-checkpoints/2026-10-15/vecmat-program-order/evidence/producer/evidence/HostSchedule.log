@@ -1,0 +1,37 @@
+VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.completeInitialMemory: definition does not reference [VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.runSchedule,
+ VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.runScheduleAux,
+ VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.source,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Triton.FP.Structural.run] — non-circular ✓
+VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.program_expected_memory_from_initial: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.initial_program_preserves_inputs: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.initial_programs_commute: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.schedule_aux_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.schedule_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.scheduled_memory_perm: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.scheduled_memory_frame: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.grid_outside_not_written: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.complete_schedule_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.reference_grid_prefix_from_initial: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.complete_initial_memory_eq_grid: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])

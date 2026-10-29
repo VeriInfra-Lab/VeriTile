@@ -1,0 +1,22 @@
+Traceback (most recent call last):
+  File "<string>", line 17, in <module>
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/tmp/veritile-standardization-20261015/exact-numerical-adapter-independent-review/first-root/bench/deferred_numerical_experiments.py", line 263, in <module>
+    main()
+  File "/tmp/veritile-standardization-20261015/exact-numerical-adapter-independent-review/first-root/bench/deferred_numerical_experiments.py", line 249, in main
+    data = collect(args.root)
+           ^^^^^^^^^^^^^^^^^^
+  File "/tmp/veritile-standardization-20261015/exact-numerical-adapter-independent-review/first-root/bench/deferred_numerical_experiments.py", line 195, in collect
+    return extend_queue(collect_legacy(root), derive_authority(root))
+                                              ^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/veritile-standardization-20261015/exact-numerical-adapter-independent-review/first-root/bench/exact_numerical_bindings.py", line 125, in derive_authority
+    original64='bench/tritonbench_g/vector_addition/vector_addition.py';_,original64_ref=b.bind('repo',original64,cfg64['source_sha256'])
+                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/veritile-standardization-20261015/exact-numerical-adapter-independent-review/first-root/bench/exact_numerical_bindings.py", line 60, in bind
+    fail(p.is_relative_to(root) and p.is_file(),'missing or escaping input: '+package+':'+path)
+  File "/tmp/veritile-standardization-20261015/exact-numerical-adapter-independent-review/first-root/bench/exact_numerical_bindings.py", line 46, in fail
+    if not condition:raise ValueError(message)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: missing or escaping input: repo:bench/tritonbench_g/vector_addition/vector_addition.py

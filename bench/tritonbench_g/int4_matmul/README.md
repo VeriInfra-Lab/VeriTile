@@ -1,5 +1,15 @@
 # int4_matmul
 
+Two public software bit-value contracts now cover the complete accepted SPLIT_K=1 loop. [SourceSoftwareCorrect.lean](SourceSoftwareCorrect.lean) exposes the unchanged original-source helper as `source_profile_software_value_correctness`; [DotAccCorrect.lean](DotAccCorrect.lean) separately proves `int4_matmul_dotacc_plan_correctness` for the observed live-carry graph.
+
+The original graph uses a +0-seeded ascending fp32 multiply/add block dot followed by a separate outer addition. The carry graph uses concrete fp32 FMA in an explicitly selected, each-lane-once permutation. Both retain signed packed32 inputs, direct half dequantization, final half cast, arbitrary original K-block count, initial-memory references, aliases and complete memory/frame with the old active-output injectivity. No finite-input or single-block premise is added.
+
+On the same full two-block packed input the original graph stores half 1, ascending carry stores 0, and descending carry stores 2. These graphs are distinct. Their software contracts do not establish that MMA/WGMMA can be serialized into any such plan, or that native hardware follows one of these results.
+
+The task is now in the software-profile category; native remains unbound. Nine new modules and 32 named checks passed independent compilation. See the [proof package](../../review-checkpoints/2026-10-15/int4-source-dotacc-software-closure/README.md), [integration](../../review-checkpoints/2026-10-15/int4-source-dotacc-software-metadata/README.md) and [GPU capture command](../../review-checkpoints/2026-10-15/int4-native-characterization/README.md). The capture tool passed CPU/offline checks; actual GPU status is NOT_RUN.
+
+The following records the historical mathematical port and its launch boundary.
+
 - Source file: `int4_matmul.py` (upstream `data/TritonBench_G_v1/int4_matmul.py`)
 - Corpus: TritonBench-G v1
 - Size: 251 lines, 1 `@triton.jit` kernel

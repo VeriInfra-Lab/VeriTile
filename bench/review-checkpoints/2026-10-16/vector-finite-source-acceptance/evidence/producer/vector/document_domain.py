@@ -1,0 +1,46 @@
+from pathlib import Path
+import json
+W=Path(__file__).resolve().parent
+D={
+ 'status':'producer_finite_domain_review_pending_independent_root_review',
+ 'source':'bench/tritonbench_g/vector_addition/vector_addition.py',
+ 'canonical_dtype_pairs':289,'successful_dtype_routes':189,
+ 'first_signature_rejections':64,'first_addition_rejections':36,
+ 'successful_route_counts':{'integer_bool':81,'floating':25,'mixed_fp32':18,'mixed_fp16_bf16':36,'fp64':29},
+ 'source_host_order':['empty_like(x)','CUDA assertion on x,y,output','output.numel()','ceil grid with BLOCK_SIZE1024','original add_kernel','return allocated output'],
+ 'successful_api_domain':{
+  'objects':'actual Torch strided tensor metadata; canonical17 scalar dtypes; unknown complex/quantized/shell objects outside this characterized API',
+  'target':'CUDA sm90, warp32, Triton3.7.1, Torch2.13.0+cu130, frozen options debug=false and empty instrumentation mode',
+  'length':'0<=x.numel<2^31 because source annotates runtime n_elements:tl.int32; numel equals shape product; y.numel may be smaller than x.numel when its backing allocation has the required flat span',
+  'layout':'arbitrary actual strides and nonnegative storage offsets; the kernel uses flat pointer increments, not logical tensor strides',
+  'allocation':'ordinary fallible torch.empty_like(x); metadata shape/dtype/numel/device, offset0, fresh logical regions and disjoint physical backing allocation; actual output strides equal the trusted preserve-format query',
+  'actual_pointer_binding':'TensorMetadata storageBase/storageBytes/dataPointer queries bind each View; pointer0 equals actual data_ptr, storage offset retained and dtype-scaled',
+  'access':'all active input element bytes readable; fresh output bytes readable/writable; allocation permissions and lifetime stable during launch; inactive lanes have no external access',
+  'alignment':'all three data pointers naturally aligned to their element widths; address_aligned derives every source offset alignment',
+  'device':'MemoryPrimitives.launchDevice equals each view device, each Tensor.deviceIndex equals its view device, all devices equal',
+  'extent':'all active bytes within backing allocation; 64-bit storage ends and rounded-tail pointer arithmetic bounded, even for inactive lanes',
+  'inputs':'both input views may overlap, coincide, or use different widths; fresh output is separate and input state has no concurrent external mutation',
+  'values':'TypedHost.ValueDomain gives valid finite input storage representations plus active defined conversions; shared floating callbacks remain exactly registered numerical correspondences',
+  'scheduling':'all complete active-lane lists have identical source output; physical source batches load both tiles before storing; no scheduler implementation theorem required'},
+ 'undefined_conversion_boundary':{
+  'fp64_floating_output_routes':20,'fp64_integer_bool_output_routes':9,
+  'automatic_domain':'fp64 floating output has OutputDefined automatically',
+  'restricted_domain':'fp64 integer/bool OutputDefined and shared mixed DefinedConversions require all active fptosi/fptoui operations to return a defined conversion',
+  'excluded_values':'NaN, infinity and out-of-range float-to-integer results, or any other active value for which the exact conversion function is undefined',
+  'not_waived_as_numeric':'No native result, rollback, poison or deterministic device exception is inferred outside the defined domain; arbitrary shared undefined policies are proved irrelevant within it'},
+ 'outside_domain_cases':[
+  {'case':'y backing allocation has insufficient flat storage from its data_ptr','classification':'unsupported_or_unsafe_source_access','fabricated_rejection':False},
+  {'case':'expanded/overlapping views with a too-short flat backing span','classification':'unsafe_flat_load_even_though_Torch_logical_view_is_valid','fabricated_rejection':False},
+  {'case':'n>=2^31 runtime i32 signature / signed-offset boundary','classification':'outside_explicit_signed_i32_API; no blanket native error assertion','fabricated_rejection':False},
+  {'case':'different CUDA devices','classification':'outside_single_launch_device_API; source CUDA assertion alone does not check equality','fabricated_rejection':False},
+  {'case':'misaligned data pointer, missing permission, released allocation, uint64 wrap','classification':'outside_ordinary_valid_memory_primitive_applicability','fabricated_rejection':False},
+  {'case':'debug/sanitizer/instrumented target variants','classification':'outside_exact_frozen_ordinary_target_configuration','fabricated_rejection':False},
+  {'case':'unknown Python objects, complex, quantized and uncharacterized shell dtypes','classification':'outside_characterized_Torch_API','fabricated_rejection':False},
+  {'case':'active undefined float-to-int conversion','classification':'undefined_numerical_operation_excluded_by_structural_value_domain','fabricated_rejection':False}],
+ 'first_failures':'Allocation failures precede CUDA checks; CUDA assertion failures precede numel/launch; signature rejection precedes addition rejection. The successful branch is built from actual typed execution, without a launch-success premise.',
+ 'trusted_primitives':['Torch metadata queries and preserve-format empty_like stride rule','fresh allocation and stable allocation permissions','canonical frontend scalar dtype classification on exact frozen target','ordinary typed storage observations/writes and local disjoint/frame laws','Triton program IDs, masks and launch/load/store source semantics'],
+ 'storage_observation':'MemoryPrimitives.read returns typed raw storage cells; source scalar functions subsequently normalize bool input and apply promotions. Bool output preserves the exact raw i8 byte. A scalar numerical correspondence includes its output carrier encoding at the recorded storage width.',
+ 'not_claimed':['native compiler/runtime/GPU implementation correctness','native numerical operation validation','Torch elementwise x+y for arbitrary noncontiguous layouts','defined native results outside conversion domain','whole-program acceptance before independent review and exact authority integration'],
+ 'numerical_registration':'43 scalar families,616 exact positive-size statement/case/port bindings derived from308 inherited source operation bindings. Integer modular casts/addition and finite index/view obligations are not numerical deferrals.',
+ 'acceptance_increment':0}
+(W/'evidence/domain-review.json').write_text(json.dumps(D,indent=2)+'\n')

@@ -1,0 +1,27 @@
+{
+  "source": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/add_example/add_example.py",
+  "sha256": "4f2314d163aed2aab3a0dce796534c0c24145d506750da93349044640e62f913",
+  "production_ast_identical": true,
+  "prefix_sha256": "50ecdbf09549fb00540139c72b11596cd0473c4700694e673d525b6cc2d23d6d",
+  "original_statements": {
+    "add_kernel": [
+      "pid = tl.program_id(axis=0)",
+      "block_start = pid * BLOCK_SIZE",
+      "offsets = block_start + tl.arange(0, BLOCK_SIZE)",
+      "mask = offsets < n_elements",
+      "x = tl.load(in_ptr0 + offsets, mask=mask)",
+      "y = tl.load(in_ptr1 + offsets, mask=mask)",
+      "output = x + y",
+      "tl.store(out_ptr + offsets, output, mask=mask)"
+    ],
+    "add_wrapper": [
+      "out = torch.zeros_like(x)",
+      "BLOCK_SIZE = 4",
+      "n_elements = x.numel()",
+      "num_blocks = (n_elements + BLOCK_SIZE - 1) // BLOCK_SIZE",
+      "add_kernel[num_blocks,](x, y, out, n_elements, BLOCK_SIZE)",
+      "return out"
+    ]
+  },
+  "gpu_executed": false
+}

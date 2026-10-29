@@ -1,0 +1,153 @@
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-wip/FiniteMapping.lean:35:63: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  e ≥ 0
+  d ≥ 0
+  c ≥ 0
+  c - d ≥ 0
+  b ≥ 1
+  b - c ≥ 1
+  b - d ≥ 1
+  b - e ≤ 0
+where
+ b := ↑s
+ c := ↑t
+ d := ↑a % ↑s
+ e := ↑a
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-wip/FiniteMapping.lean:35:72: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  f ≥ 0
+  e ≥ 0
+  d ≥ 0
+  c ≥ 0
+  c - d ≥ 0
+  c - e - f ≥ 1
+  b ≥ 1
+  b - c ≥ 1
+  b - d ≥ 1
+where
+ b := ↑s
+ c := ↑t
+ d := ↑a % ↑s
+ e := ↑a
+ f := ↑(t - a) % ↑s
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-wip/FiniteMapping.lean:66:5: error: unknown tactic
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-wip/FiniteMapping.lean:63:28: error: unsolved goals
+gm gn r c : ℕ
+hr : r < gm
+hc : c < gn
+g : ℕ := r / 8
+t : ℕ := r % 8
+s : ℕ := min (gm - g * 8) 8
+a : ℕ := g * (8 * gn)
+u : ℕ := if a % s ≤ t then t - a % s else s + t - a % s
+hg : g * 8 + t = r
+ht8 : t < 8
+hgm : g * 8 < gm
+hs : 0 < s
+hs8 : s ≤ 8
+hsr : s ≤ gm - g * 8
+ht : t < s
+hu : u < s ∧ (a + u) % s = t
+hn : 0 < gn
+hw : 0 < 8 * gn
+hcs : (c + 1) * s ≤ gn * s
+hsg : gn * s ≤ gn * 8
+⊢ c * s + u < 8 * gn
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-wip/FiniteMapping.lean:47:46: error: unsolved goals
+gm gn r c : ℕ
+hr : r < gm
+hc : c < gn
+g : ℕ := r / 8
+t : ℕ := r % 8
+s : ℕ := min (gm - g * 8) 8
+a : ℕ := g * (8 * gn)
+u : ℕ := if a % s ≤ t then t - a % s else s + t - a % s
+hg : g * 8 + t = r
+ht8 : t < 8
+hgm : g * 8 < gm
+hs : 0 < s
+hs8 : s ≤ 8
+hsr : s ≤ gm - g * 8
+ht : t < s
+hu : u < s ∧ (a + u) % s = t
+hn : 0 < gn
+hw : 0 < 8 * gn
+hres : c * s + u < 8 * gn
+⊢ inversePid gm gn r c < gm * gn ∧ tileRow gm gn (inversePid gm gn r c) = r ∧ tileCol gm gn (inversePid gm gn r c) = c
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-wip/FiniteMapping.lean:109:26: error: unknown tactic
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-wip/FiniteMapping.lean:107:51: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  e ≥ 0
+  d ≥ 0
+  c ≥ 0
+  c - d - e ≥ 1
+  b ≥ 0
+  b - c ≥ 1
+  a ≥ 1
+where
+ a := ↑gn
+ b := ↑gm * ↑gn
+ c := ↑pid
+ d := ↑(pid / (8 * gn)) * ↑(8 * gn)
+ e := ↑pid % ↑(8 * gn)
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-wip/FiniteMapping.lean:109:22: error: unsolved goals
+gm gn pid : ℕ
+hn : 0 < gn
+hp : pid < gm * gn
+g : ℕ := pid / (8 * gn)
+q : ℕ := pid % (8 * gn)
+hw : 0 < 8 * gn
+hdecomp : g * (8 * gn) + q = pid
+hq : q < 8 * gn
+⊢ g * 8 < gm
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-wip/FiniteMapping.lean:103:75: error: unsolved goals
+gm gn pid : ℕ
+hn : 0 < gn
+hp : pid < gm * gn
+g : ℕ := pid / (8 * gn)
+q : ℕ := pid % (8 * gn)
+hw : 0 < 8 * gn
+hdecomp : g * (8 * gn) + q = pid
+hq : q < 8 * gn
+hg : g * 8 < gm
+⊢ 0 < groupSize gm gn pid ∧ tileRow gm gn pid < gm ∧ tileCol gm gn pid < gn
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-wip/FiniteMapping.lean:144:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (?m * ?x + ?y) % ?m
+in the target expression
+  (c * m + r) % m = r
+
+case left
+m r c : ℕ
+hr : r < m
+hm : 0 < m
+⊢ (c * m + r) % m = r
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-wip/FiniteMapping.lean:145:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (m * ?x + ?y) / m
+in the target expression
+  (c * m + r) / m = c
+
+case right
+m r c : ℕ
+hr : r < m
+hm : 0 < m
+⊢ (c * m + r) / m = c
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-wip/FiniteMapping.lean:149:23: error: unknown tactic
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-wip/FiniteMapping.lean:149:19: error: unsolved goals
+m n i : ℕ
+hi : i < m * n
+⊢ 0 < m
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-wip/FiniteMapping.lean:148:35: error: unsolved goals
+m n i : ℕ
+hi : i < m * n
+hm : 0 < m
+⊢ i % m < m ∧ i / m < n ∧ i / m * m + i % m = i
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-wip/FiniteMapping.lean:154:3: error: unknown tactic
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-wip/FiniteMapping.lean:152:81: error: unsolved goals
+m n r c : ℕ
+hr : r < m
+hc : c < n
+hcm : (c + 1) * m ≤ n * m
+⊢ c * m + r < m * n
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-wip/FiniteMapping.lean:156:0: error: QuantTransposeFinite.inverse_tile: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-wip/FiniteMapping.lean:157:0: error: QuantTransposeFinite.tile_bounds: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-wip/FiniteMapping.lean:158:0: error: QuantTransposeFinite.coordinate_preimage: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

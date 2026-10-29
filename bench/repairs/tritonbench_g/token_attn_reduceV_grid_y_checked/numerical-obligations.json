@@ -1,0 +1,26 @@
+{
+  "task": "token_attn_reduceV",
+  "candidate": "token_attn_reduceV_grid_y_checked.py",
+  "precision": "FP32 numerical inputs/output; signed int32 metadata",
+  "new_numerical_transformations": [],
+  "new_numerical_experiments_required_by_this_guard_change": [],
+  "native_model": {
+    "public_theorem": "VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.kernel_native",
+    "independent_target": "VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.NativeTarget.reference",
+    "primitive_parameters": ["addRN: Word -> Word -> Word", "mulRN: Word -> Word -> Word", "fmaRN: Word -> Word -> Word -> Word"],
+    "compiler_parameters": "Complete ordered 128-lane reduction plans, with recorded neutral leaves; payload-independent legal adjacent contraction choices.",
+    "proved": "Successful complete quoted-grid execution, all logical output words under the supplied primitive/structural profile, source and physical exterior frames, preserved input views.",
+    "hardware_boundary": "Primitive functions must match reached native FP32 instructions, and reduction/contraction choices must match the selected compiler/source profile. These are explicit model/conformance boundaries, not supplied numerical row or final-output callbacks.",
+    "inherited_scalar_instruction_experiment": "deferred",
+    "gpu_execution": false,
+    "universal_gpu_conformance_claim": false,
+    "native_equals_real_claim": false
+  },
+  "validation": {
+    "CPU_interpreter_cases": 48,
+    "guard_boundary_cases": 5,
+    "kernel_AST_identical": true,
+    "historical_SM80_specializations_reused": 8,
+    "historical_specializations_scope": "Compiler evidence only for those saved cases; not universal lowering or numerical validation."
+  }
+}

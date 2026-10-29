@@ -1,0 +1,14 @@
+[
+  {
+    "name": "candidate-audit",
+    "command": [
+      "/usr/local/bin/python",
+      "-B",
+      "/tmp/veritile-standardization-20261015/queue-gzip-integration-scripts-wip/audit_candidate.py"
+    ],
+    "exit_code": 1,
+    "seconds": 0.112,
+    "log": "evidence/attempts/1792113571453031305/candidate-audit.log",
+    "log_sha256": "985a7febfdcc3108d92cdb682c2799a14222ec4b996e0857afbbae9518151c38"
+  }
+]

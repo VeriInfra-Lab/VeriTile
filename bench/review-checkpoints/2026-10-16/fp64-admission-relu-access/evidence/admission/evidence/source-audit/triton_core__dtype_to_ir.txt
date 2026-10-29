@@ -1,0 +1,37 @@
+    def to_ir(self, builder: ir.builder) -> ir.type:
+        if self.name.startswith("fp8"):
+            if hasattr(builder, "options") and self.name not in builder.options.supported_fp8_dtypes:
+                raise ValueError(f'type {self} not supported in this architecture. '
+                                 f'The supported fp8 dtypes are {builder.options.supported_fp8_dtypes}')
+
+        if self.name == 'void':
+            return builder.get_void_ty()
+        elif self.name == 'int1':
+            return builder.get_int1_ty()
+        elif self.name in ('int8', 'uint8'):
+            return builder.get_int8_ty()
+        elif self.name in ('int16', 'uint16'):
+            return builder.get_int16_ty()
+        elif self.name in ('int32', 'uint32'):
+            return builder.get_int32_ty()
+        elif self.name in ('int64', 'uint64'):
+            return builder.get_int64_ty()
+        elif self.name == 'fp8e5':
+            return builder.get_fp8e5_ty()
+        elif self.name == 'fp8e5b16':
+            return builder.get_fp8e5b16_ty()
+        elif self.name == 'fp8e4nv':
+            return builder.get_fp8e4nv_ty()
+        elif self.name == 'fp8e4b8':
+            return builder.get_fp8e4b8_ty()
+        elif self.name == 'fp8e4b15':
+            return builder.get_fp8e4b15_ty()
+        elif self.name == 'fp16':
+            return builder.get_half_ty()
+        elif self.name == 'bf16':
+            return builder.get_bf16_ty()
+        elif self.name == 'fp32':
+            return builder.get_float_ty()
+        elif self.name == 'fp64':
+            return builder.get_double_ty()
+        raise ValueError(f'fail to convert {self} to ir type')

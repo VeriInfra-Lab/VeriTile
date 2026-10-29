@@ -1,0 +1,21 @@
+CosineNative.grid_parse_precedes_pointer_packing: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+CosineNative.HostSpec: definition does not reference [CosineNative.executeHost,
+ CosineNative.executeAllocated,
+ CosineNative.executeLaunch,
+ CosineNative.executeGrid,
+ CosineNative.executeProgram,
+ CosineNative.sourceWrites] — non-circular ✓
+CosineNative.ReturnedSpec: definition does not reference [CosineNative.executeHost,
+ CosineNative.executeAllocated,
+ CosineNative.executeLaunch,
+ CosineNative.executeGrid,
+ CosineNative.executeProgram,
+ CosineNative.sourceWrites] — non-circular ✓
+CosineNative.allocated_return_of_launch: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+CosineNative.allocated_all_outcomes: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+CosineNative.uses_extracted_pointer: axiom footprint ⊆ standard base ✓  ([propext])
+CosineNative.cosine_native_source_outcomes: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+CosineNative.cosine_compute_two31_return: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+CosineNative.cosine_empty_host_failure: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])

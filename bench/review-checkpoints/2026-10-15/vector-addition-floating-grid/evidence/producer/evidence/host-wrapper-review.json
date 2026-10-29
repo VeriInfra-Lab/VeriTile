@@ -1,0 +1,169 @@
+{
+  "schema": "veritile.vector_addition.host-wrapper-review.v1",
+  "status": "verified logical host control-flow helper; original program still incomplete",
+  "whole_program_count_delta": 0,
+  "source": {
+    "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/vector_addition/vector_addition.py",
+    "sha256": "cfcb749bd562924106c1e0e95e18a9bd987238be3a3b522abac89e099de3d098",
+    "add_statements": [
+      "output = torch.empty_like(x)",
+      "assert x.is_cuda and y.is_cuda and output.is_cuda",
+      "n_elements = output.numel()",
+      "grid = lambda meta: (triton.cdiv(n_elements, meta['BLOCK_SIZE']),)",
+      "add_kernel[grid](x, y, output, n_elements, BLOCK_SIZE=1024)",
+      "return output"
+    ],
+    "harness_calls_in_order": [
+      {
+        "call": "manual_seed",
+        "seed": 0
+      },
+      {
+        "call": "rand",
+        "size": 98432,
+        "device": "cuda",
+        "dtype": "omitted: native default"
+      },
+      {
+        "call": "rand",
+        "size": 98432,
+        "device": "cuda",
+        "dtype": "omitted: native default"
+      },
+      {
+        "call": "add",
+        "arguments": [
+          "x",
+          "y"
+        ]
+      },
+      {
+        "call": "rand",
+        "size": 1024,
+        "device": "cuda",
+        "dtype": "omitted: native default"
+      },
+      {
+        "call": "rand",
+        "size": 1024,
+        "device": "cuda",
+        "dtype": "omitted: native default"
+      },
+      {
+        "call": "add",
+        "arguments": [
+          "x_2",
+          "y_2"
+        ]
+      },
+      {
+        "call": "rand",
+        "size": 2048,
+        "device": "cuda",
+        "dtype": "omitted: native default"
+      },
+      {
+        "call": "rand",
+        "size": 2048,
+        "device": "cuda",
+        "dtype": "omitted: native default"
+      },
+      {
+        "call": "add",
+        "arguments": [
+          "x_3",
+          "y_3"
+        ]
+      },
+      {
+        "call": "rand",
+        "size": 4096,
+        "device": "cuda",
+        "dtype": "omitted: native default"
+      },
+      {
+        "call": "rand",
+        "size": 4096,
+        "device": "cuda",
+        "dtype": "omitted: native default"
+      },
+      {
+        "call": "add",
+        "arguments": [
+          "x_4",
+          "y_4"
+        ]
+      }
+    ],
+    "module_initialization": "result_gold = test_add()"
+  },
+  "module": {
+    "path": "/tmp/veritile-standardization-20261015/vector-addition-wip/bench/tritonbench_g/vector_addition/Proofs/HostWrapper.lean",
+    "sha256": "8b247a594346d9f7e6b9f302b38c75b252eee5c0556ad18844657b6612b5cf22"
+  },
+  "compile": {
+    "module": "bench/tritonbench_g/vector_addition/Proofs/HostWrapper.lean",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/vector-addition-wip",
+      "/tmp/veritile-standardization-20261015/vector-addition-wip/bench/tritonbench_g/vector_addition/Proofs/HostWrapper.lean",
+      "-o",
+      "/tmp/veritile-standardization-20261015/vector-addition-wip/bench/tritonbench_g/vector_addition/Proofs/HostWrapper.olean"
+    ],
+    "exit_code": 0,
+    "seconds": 3.1844396381638944,
+    "source_sha256_before": "8b247a594346d9f7e6b9f302b38c75b252eee5c0556ad18844657b6612b5cf22",
+    "source_sha256_after": "8b247a594346d9f7e6b9f302b38c75b252eee5c0556ad18844657b6612b5cf22",
+    "log": "evidence/HostWrapper.compile.log",
+    "log_sha256": "0d7b9f4da757157d9dbc69f6f13306dc16eda2f0ebc7dc0fa06358acf8d28aad"
+  },
+  "compile_record_provenance": "Copied from successful verify.py verification-results.json immediately after compilation in exec session 58018; source and log hashes rechecked.",
+  "axiom_checks": 9,
+  "noncircularity_checks": 1,
+  "compiled_dependency_sources": [
+    {
+      "path": "/tmp/veritile-standardization-20261015/vector-addition-wip/bench/tritonbench_g/vector_addition/Proofs/Value.lean",
+      "sha256": "79adba6c3fad2c9aad389e5ce7be89252be0822de60469d8f17f3842e4a0fd5b",
+      "olean_sha256": "531995ece5cdae4f187da8221540335c769703bfdbad027265ae0a14c4cc7eee"
+    },
+    {
+      "path": "/tmp/veritile-standardization-20261015/vector-addition-wip/bench/tritonbench_g/vector_addition/Proofs/HostGrid.lean",
+      "sha256": "873eaff589ad70bb166c40936369367b0c3d5f65779d0be8c6e73b05a51ff1ce",
+      "olean_sha256": "a6c36d245dea297ebaf8c4c61526c0e9b8becea5a7d1d3cea7da842cc234d129"
+    }
+  ],
+  "proved": [
+    "Allocation is attempted before the CUDA guard; allocation errors stop before the guard and preserve primitive-returned state.",
+    "A false CUDA guard stops after allocation; no metadata, launch or return event follows.",
+    "Launch errors stop after output.numel and the launch request; primitive errors and state are preserved.",
+    "Under the explicit allocation-success and CUDA-guard branch conditions, logicalLaunch constructs an actual runGrid execution and returns the allocated output tensor with final memory equal to gridExpectedMemory over post-allocation initial memory; no successful-kernel-execution or output-equality premise.",
+    "Harness seed and either random-draw failure stop subsequent work.",
+    "Every harness result is either an explicit failure or a four-entry result with exact source dictionary keys in source order, for arbitrary native primitive implementations."
+  ],
+  "modeled_control_flow": [
+    "Tensor dtype/shape/strides/storageOffset/deviceIndex remain unconstrained; no original-missing dtype, shape, length, stride, contiguity or same-device checks were added.",
+    "Host n is output.numel, block is 1024, and grid is ceil(n/1024).",
+    "Harness requests manual_seed(0), then rand(size,device=cuda), rand(size,device=cuda), add, for sizes 98432,1024,2048,4096 in that order.",
+    "Random calls omit dtype exactly as source; the abstract native environment controls the default.",
+    "Module initialization invokes the harness and assigns result_gold only after success.",
+    "Native launch is a fallible primitive and can reject unsupported dtypes or device/metadata conditions; the successful theorem is explicitly about its logicalLaunch instantiation.",
+    "Runtime.launch receives x, y and output Tensor descriptors explicitly, together with Parameters; native metadata dispatch does not require an unstated tensor registry. logicalLaunch deliberately ignores dtype/device/layout metadata, as documented."
+  ],
+  "unresolved_structural_boundaries": [
+    "This is manually reviewed source correspondence, not a verified Python-to-Lean translator.",
+    "Torch Tensor objects, property/method accessors, Python imports and non-Tensor attribute/type failures are not given native semantics.",
+    "Physical empty_like allocation, dtype/layout/storage-offset metadata guarantees, fresh allocation, aliasing and bounds are opaque native behavior.",
+    "Native seed/RNG state evolution, CUDA random allocation/storage, runtime defaults and error conditions are not implemented by callbacks.",
+    "Native Triton compilation/launch success and failure correspondence, unsupported signatures, CUDA devices, synchronization and instruction interleavings remain unproved.",
+    "Nat numel, pids and address arithmetic are not a refinement of tl.int32 metadata or signed/fixed-width native offsets.",
+    "The imported logical kernel uses legacy real cells; all source dtype promotions, casts and fixed-width/storage semantics require separate typed proofs.",
+    "The theorem is relative to post-allocation logical memory; no claim is made that physical allocation preserves the original input buffers.",
+    "Harness result keys and sequencing are proved/modelled, but no native harness execution or resulting numerical tensors are certified."
+  ],
+  "numerical_boundaries": [
+    "No numerical law or RNG distribution/correctness assumption is introduced by this module.",
+    "Numerical backend/native arithmetic and random-value relations may be registered separately; they do not discharge the structural boundaries listed above."
+  ],
+  "repository_mutations": false,
+  "verification_scope": "Real Lean compilation of HostWrapper against existing scratch Value/HostGrid oleans; parent must include all modules in final batch."
+}

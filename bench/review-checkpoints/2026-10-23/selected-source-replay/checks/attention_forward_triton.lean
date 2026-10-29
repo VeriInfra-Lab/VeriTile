@@ -1,0 +1,7 @@
+import VeriTile.Meta.StatementAudit
+import bench.repairs.tritonbench_g.attention_forward_triton.Contract
+import bench.repairs.tritonbench_g.attention_forward_triton.Correct
+import bench.repairs.tritonbench_g.attention_forward_triton.FPEquiv
+
+#axiomsClean VeriTile.Bench.Repairs.AttentionForwardTriton.Correct.attention_kernel_real
+#axiomsClean VeriTile.Bench.Repairs.AttentionForwardTriton.FPEquiv.attention_head_mask_equiv

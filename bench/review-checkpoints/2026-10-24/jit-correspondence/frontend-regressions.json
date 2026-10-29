@@ -1,0 +1,110 @@
+[
+  {
+    "test": "SourceDType",
+    "exit_code": 0,
+    "source": {
+      "path": "bench/tests/SourceDType.lean",
+      "sha256": "4c346508c424c4b341ce36d940fa80adeeaa2066be80e32a5a88456738cd80de"
+    },
+    "evidence": {
+      "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/regression-SourceDType.log.gz",
+      "sha256": "4ec6514b9a7cd25a75809695b2d27404e377186b1fdaf0b09c0bc456df20aca6"
+    }
+  },
+  {
+    "test": "SignedBitwiseSource",
+    "exit_code": 0,
+    "source": {
+      "path": "bench/tests/SignedBitwiseSource.lean",
+      "sha256": "7a488248027b10fde70039a155dd78d117b0e35b63dbce1d9546cf0412bd0340"
+    },
+    "evidence": {
+      "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/regression-SignedBitwiseSource.log.gz",
+      "sha256": "6159865204780a37ee37a2dce56c778a73c8f6670856e0eab5d4ea3f8fb0bf1a"
+    }
+  },
+  {
+    "test": "SignedRangeAddressInference",
+    "exit_code": 0,
+    "source": {
+      "path": "bench/tests/SignedRangeAddressInference.lean",
+      "sha256": "289282bff3e95822f9ce40e9abe1cd868abbaba81a71253f17fbb0eb17e8dd2d"
+    },
+    "evidence": {
+      "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/regression-SignedRangeAddressInference.log.gz",
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    }
+  },
+  {
+    "test": "RuntimeIntegerDivision",
+    "exit_code": 0,
+    "source": {
+      "path": "bench/tests/RuntimeIntegerDivision.lean",
+      "sha256": "a4cefd9d00a2a29ccf52b9af5be62076225190de524ab4d00aa3559a5a0ae2ef"
+    },
+    "evidence": {
+      "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/regression-RuntimeIntegerDivision.log.gz",
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    }
+  },
+  {
+    "test": "PointerSignedCast",
+    "exit_code": 0,
+    "source": {
+      "path": "bench/tests/PointerSignedCast.lean",
+      "sha256": "e7fe365b154f2cbaee40d416c279ce96c53468187029028300e2abc32087ac71"
+    },
+    "evidence": {
+      "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/regression-PointerSignedCast.log.gz",
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    }
+  },
+  {
+    "test": "SignedInteger16Cast",
+    "exit_code": 0,
+    "source": {
+      "path": "bench/tests/SignedInteger16Cast.lean",
+      "sha256": "cea4abb4d87fde43077d3e07246c219602920e7e6efc702c198e93ed2a547a28"
+    },
+    "evidence": {
+      "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/regression-SignedInteger16Cast.log.gz",
+      "sha256": "000fc2153295d33c6e3b31b15009b00333c001eb779f712d052e2fa02eef5916"
+    }
+  },
+  {
+    "test": "UnsignedIntegerCast",
+    "exit_code": 0,
+    "source": {
+      "path": "bench/tests/UnsignedIntegerCast.lean",
+      "sha256": "d315d7505465d25869603203c983fb4ff0e576bcb68bd4f8a9c87645f36c323c"
+    },
+    "evidence": {
+      "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/regression-UnsignedIntegerCast.log.gz",
+      "sha256": "c4705d1cf5dddecef0055226eb224d113316c426d8055660c254c81ee6e11068"
+    }
+  },
+  {
+    "test": "RuntimeScalarArgumentDSL",
+    "exit_code": 0,
+    "source": {
+      "path": "bench/tests/RuntimeScalarArgumentDSL.lean",
+      "sha256": "c2c2125556511319ebb5eb1d41948e8a2a54867452c1a976f7de094f8bcf0fc0"
+    },
+    "evidence": {
+      "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/regression-RuntimeScalarArgumentDSL.log.gz",
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    }
+  },
+  {
+    "test": "IntegerBoolLoadCast",
+    "exit_code": 0,
+    "source": {
+      "path": "bench/tests/IntegerBoolLoadCast.lean",
+      "sha256": "51f85b90b1ee88082337a7781c41cec0ff0762d96bbd92f7273b25eda569d556"
+    },
+    "evidence": {
+      "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/regression-IntegerBoolLoadCast.log.gz",
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    }
+  }
+]

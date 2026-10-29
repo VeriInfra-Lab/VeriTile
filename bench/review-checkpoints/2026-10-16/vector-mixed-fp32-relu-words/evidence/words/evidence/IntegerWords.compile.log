@@ -1,0 +1,34 @@
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.IntegerWords.wordValue: definition does not reference [VeriTile.Bench.TritonBenchG.ReluTritonKernel.TypedValue.source,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.TypedValue.materialized,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.GatedGrid.runPrefix,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.GatedGrid.runGrid,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.IntegerWords.signed_extension_value: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.IntegerWords.decoded_signed_bounds: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.IntegerWords.decoded_unsigned_bound: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.IntegerWords.signed_decode_roundtrip: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.IntegerWords.unsigned_decode_roundtrip: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.IntegerWords.signed_comparison: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.IntegerWords.zero_extended_nonnegative: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.IntegerWords.unsigned_comparison: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.IntegerWords.boolean_comparison: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.IntegerWords.bool_bits_value: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.IntegerWords.bool_normalization_zero: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.IntegerWords.bool_normalization_nonzero: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.IntegerWords.scalar_refines: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

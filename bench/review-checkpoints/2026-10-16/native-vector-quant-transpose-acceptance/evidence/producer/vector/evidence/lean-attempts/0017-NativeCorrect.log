@@ -1,0 +1,35 @@
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision1-wip/after/bench/tritonbench_g/vector_addition/NativeCorrect.lean:198:41: error: Application type mismatch: The argument
+  ha
+has type
+  alloc x initial = Except.error detail
+but is expected to have type
+  Except.error detail = Except.error detail
+in the application
+  And.intro ha
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision1-wip/after/bench/tritonbench_g/vector_addition/NativeCorrect.lean:201:38: error: Application type mismatch: The argument
+  ha
+has type
+  alloc x initial = Except.ok (output, allocated)
+but is expected to have type
+  Except.ok (output, allocated) = Except.ok (output, allocated)
+in the application
+  And.intro ha
+VeriTile.Bench.TritonBenchG.VectorAddition.Native.HostSpec: definition does not reference [VeriTile.Bench.TritonBenchG.VectorAddition.Native.executeHost,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Native.executeAllocated,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Native.executeLaunch,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Native.executeGrid,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Native.executeProgram,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Native.sourceWrites] — non-circular ✓
+VeriTile.Bench.TritonBenchG.VectorAddition.Native.ReturnedSpec: definition does not reference [VeriTile.Bench.TritonBenchG.VectorAddition.Native.executeHost,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Native.executeAllocated,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Native.executeLaunch,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Native.executeGrid,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Native.executeProgram,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Native.sourceWrites] — non-circular ✓
+VeriTile.Bench.TritonBenchG.VectorAddition.Native.allocated_all_outcomes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision1-wip/after/bench/tritonbench_g/vector_addition/NativeCorrect.lean:220:0: error: VeriTile.Bench.TritonBenchG.VectorAddition.Native.vector_addition_native_source_outcomes: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.TritonBenchG.VectorAddition.Native.vector_addition_two31_return: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

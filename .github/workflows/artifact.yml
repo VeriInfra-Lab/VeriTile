@@ -49,6 +49,17 @@ jobs:
       - name: Check audit runner regressions
         run: |
           python3 -m unittest discover -s scripts -p 'test_audit_source.py'
+          python3 -m unittest discover -s scripts -p 'test_correctness_surface_audit.py'
+          python3 -m unittest discover -s scripts -p 'test_source_shape_audit.py'
+          python3 -m unittest discover -s scripts -p 'test_source_dtype_audit.py'
+          python3 -m unittest discover -s scripts -p 'test_source_constexpr_profile.py'
+          python3 -m unittest discover -s scripts -p 'test_source_runtime_scalar_profile.py'
+          python3 -m unittest discover -s scripts -p 'test_source_helpers.py'
+          python3 -m unittest discover -s scripts -p 'test_source_extern_orders.py'
+          python3 -m unittest discover -s scripts -p 'test_source_pointer_dtype_profile.py'
+          python3 -m unittest discover -s scripts -p 'test_source_materializations.py'
+          python3 -m unittest discover -s scripts -p 'test_source_control_materializations.py'
+          python3 -m unittest discover -s scripts -p 'test_source_uniform_materializations.py'
           python3 -m unittest discover -s scripts -p 'test_audit_shards.py'
 
       - name: Build Lean project
@@ -71,11 +82,33 @@ jobs:
           lake env lean bench/tests/StatementAudit.lean
           lake env lean bench/tests/KernelIOProjection.lean
           lake env lean bench/tests/DTypeResolution.lean
+          lake env lean bench/tests/FloatNegativeScalar.lean
+          lake env lean bench/tests/Float32FiniteDecode.lean
+          lake env lean bench/tests/PhiloxRandom.lean
+          lake env lean bench/tests/PhiloxRandOp.lean
+          lake env lean bench/tests/RandomFrontend.lean
+          lake env lean bench/tests/DirectRandomFrontend.lean
+          lake env lean bench/tests/ConditionalCast.lean
+          lake env lean bench/tests/BuiltinFloatZero.lean
+          lake env lean bench/tests/RegisterDTypeWhere.lean
+          lake env lean bench/tests/PointerElementCast.lean
+          lake env lean bench/tests/ReverseRange.lean
+          lake env lean bench/tests/UnsignedIntegerCast.lean
+          lake env lean bench/tests/SignedBitwise.lean
+          lake env lean bench/tests/FloatRuntimeScalar.lean
+          lake env lean bench/tests/FloatDivisionPromotion.lean
+          lake env lean bench/tests/SignedRangeAddressInference.lean
+          lake env lean bench/tests/SignedLoadCast.lean
+          lake env lean bench/tests/LibdevicePowi.lean
+          lake env lean bench/tests/LibdevicePowiDynamic.lean
+          lake env lean bench/tests/KldivRuntimeEpsilon.lean
           lake env lean bench/tests/ModuleSpecAudit.lean
           lake env lean bench/tests/ModuleHeadlineAudit.lean
           python3 -m unittest discover -s scripts -p 'test_audit_gates.py'
+          python3 scripts/check_reversed_cumsum_sources.py --output "$RUNNER_TEMP/reversed-cumsum-source-audit"
           python3 -m unittest discover -s scripts -p 'test_doc_api.py'
           python3 -m unittest discover -s scripts -p 'test_coverage_review.py'
+          python3 scripts/check_triton_softmax_source_profiles.py --output "$RUNNER_TEMP/softmax-source-profiles"
           python3 bench/coverage_review.py
           python3 scripts/test_check_comparator.py
 

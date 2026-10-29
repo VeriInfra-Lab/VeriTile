@@ -1,0 +1,111 @@
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Host.lean:139:4: error: Tactic `rfl` failed: The left-hand side
+  do
+    let mid ← some mid
+    let final ←
+      backwardRun (outputStorage input requested) P G Y (dimensions shape ax)
+          (backwardConfig (dimensions shape ax) choice) (prepareBackward mid G Y shape.prod gradValues emptyGradient)
+    pure
+        { forwardState := mid, finalState := final,
+          output := outputMetadata P shape (outputStorage input requested) device,
+          saved := { output := outputMetadata P shape (outputStorage input requested) device, dim := ↑ax },
+          gradient := outputMetadata Y shape (outputStorage input requested) device, dimGradient := none,
+          dtypeGradient := none }
+is not definitionally equal to the right-hand side
+  some result
+
+case refine_1
+shape : List ℕ
+ax : Fin shape.length
+input : Storage
+requested : Option Storage
+device sms : ℕ
+waves : WavesAboveOne
+choice : Fin 6
+X P G Y : RegionName
+initial : BlockState
+inputValues emptyOutput gradValues emptyGradient : ℕ → ℝ
+hM : 0 < (List.take (↑ax) shape).prod
+hN : 0 < shape[↑ax]
+hK : 0 < (dimensions shape ax).K
+hXP : X ≠ P
+hPG : P ≠ G
+hPY : P ≠ Y
+hGY : G ≠ Y
+d : Dimensions := dimensions shape ax
+count : ℕ := shape.prod
+pre : BlockState := prepareForward initial X P count inputValues emptyOutput
+hcount : count = d.M * d.N * d.K
+hNd : 0 < d.N
+hKd : 0 < d.K
+mid : BlockState
+hforward : forwardRun input (outputStorage input requested) P X d (forwardConfig waves d sms) pre = some mid
+hf : FlatResult P (d.M * d.N * d.K) (forwardValue pre X d) pre mid
+preb : BlockState := prepareBackward mid G Y count gradValues emptyGradient
+final : BlockState
+hbackward : backwardRun (outputStorage input requested) P G Y d (backwardConfig d choice) preb = some final
+hb : FlatResult Y (d.M * d.N * d.K) (backwardValue preb P G d (backwardConfig d choice)) preb final
+hf' : FlatResult P count (forwardValue pre X d) pre mid
+hb' : FlatResult Y count (backwardValue preb P G d (backwardConfig d choice)) preb final
+saved : ∀ (o : ℕ), preb.readMem P o = mid.readMem P o
+savedFinal : ∀ (o : ℕ), final.readMem P o = mid.readMem P o
+out : TensorMetadata := outputMetadata P shape (outputStorage input requested) device
+result : AutogradResult :=
+  { forwardState := mid, finalState := final, output := out, saved := { output := out, dim := ↑ax },
+    gradient := outputMetadata Y shape (outputStorage input requested) device, dimGradient := none,
+    dtypeGradient := none }
+hfwd :
+  forwardRun input (outputStorage input requested) P X (dimensions shape ax)
+      (forwardConfig waves (dimensions shape ax) sms) (prepareForward initial X P shape.prod inputValues emptyOutput) =
+    some mid
+hbwd :
+  backwardRun (outputStorage input requested) P G Y (dimensions shape ax) (backwardConfig (dimensions shape ax) choice)
+      (prepareBackward mid G Y shape.prod gradValues emptyGradient) =
+    some final
+⊢ (do
+      let mid ← some mid
+      let final ←
+        backwardRun (outputStorage input requested) P G Y (dimensions shape ax)
+            (backwardConfig (dimensions shape ax) choice) (prepareBackward mid G Y shape.prod gradValues emptyGradient)
+      pure
+          { forwardState := mid, finalState := final,
+            output := outputMetadata P shape (outputStorage input requested) device,
+            saved := { output := outputMetadata P shape (outputStorage input requested) device, dim := ↑ax },
+            gradient := outputMetadata Y shape (outputStorage input requested) device, dimGradient := none,
+            dtypeGradient := none }) =
+    some result
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Host.lean:138:29: warning: This simp argument is unused:
+  Option.bind_some
+
+Hint: Omit it from the simp argument list.
+  simp only [̵a̵u̵t̵o̵g̵r̵a̵d̵,̵h̵f̵w̵d̵,̵O̵p̵t̵i̵o̵n̵.̵b̵i̵n̵d̵_̵s̵o̵m̵e̵,̵h̵b̵w̵d̵]̵[̲a̲u̲t̲o̲g̲r̲a̲d̲,̲ ̲h̲f̲w̲d̲,̲ ̲h̲b̲w̲d̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Host.lean:138:46: warning: This simp argument is unused:
+  hbwd
+
+Hint: Omit it from the simp argument list.
+  simp only [autograd, ̲hfwd, ̲Option.bind_some,̵h̵b̵w̵d̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.writeSlice_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Host.lean:179:0: error: VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.softmax_autograd_host_grid_real: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.zero_tail_dimensions: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.zero_tail_same_inner_launch: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.forwardValue: definition does not reference [VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.autograd,
+ VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.invoke,
+ VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.forwardRun,
+ VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.backwardRun,
+ VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.run,
+ VeriTile.Triton.exec] — non-circular ✓
+VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.backwardValue: definition does not reference [VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.autograd,
+ VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.invoke,
+ VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.forwardRun,
+ VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.backwardRun,
+ VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.run,
+ VeriTile.Triton.exec] — non-circular ✓
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Host.lean:185:0: error: VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.softmax_autograd_host_grid_real: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

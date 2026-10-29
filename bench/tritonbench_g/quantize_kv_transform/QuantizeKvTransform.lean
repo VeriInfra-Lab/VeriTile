@@ -1,4 +1,5 @@
 import VeriTile.Triton
+import VeriTile.Triton.Float.LegacyRealInt8
 
 /-!
 # `quantize_kv_transform` — strict per-kernel correctness
@@ -252,13 +253,16 @@ Python kernel casts the scale to `OutScale.dtype.element_ty`; that cast is
 represented explicitly. The final quotient cast to int8 is preserved as a
 surface dtype annotation and lowers through the DSL's fixed-width cast
 surface. -/
+-- Historical mathematical projection: the final int8 conversion uses the
+-- legacy unbounded Real truncation primitive. The typed FP source and its
+-- width/domain-checked conversion are separate, and never use this wrapper.
 def destindex_copy_quantize_kv_transform_real_surface
     (K : RegionName) (DestLoc : Region .nat) (Out OutScale : RegionName)
     (stride_k_bs stride_k_h stride_k_d
       stride_o_bs stride_o_h stride_o_d
       stride_os_bs stride_os_h _stride_os_d
       head_num head_dim BLOCK_DMODEL BLOCK_HEAD : Nat) :
-    ComputeKernel := triton {
+    ComputeKernel := legacy_real_int8% triton {
   cur_index = tl.program_id(0)
   offs_h = tl.arange(0, $(BLOCK_HEAD))
   offs_d = tl.arange(0, $(BLOCK_DMODEL))

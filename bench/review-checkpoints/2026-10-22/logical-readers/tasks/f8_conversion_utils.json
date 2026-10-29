@@ -1,0 +1,113 @@
+{
+  "schema": 1,
+  "task": "f8_conversion_utils",
+  "status": "unchanged",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue05/result.json",
+    "sha256": "b7855ba15faaf5e2f177961e4a8a89181354e8928bbce04e8519a187efbab386",
+    "task_index": 3
+  },
+  "finding": "Already a single logical-array identity formula, with source profile explicit.",
+  "resolution": "Unchanged after reading selected readers, IO and contract; profile-specific native bit conversion remains distinct from the Real cast-erasure result.",
+  "mathematical_target": "Every active mathematical Real output equals its input.",
+  "conditions_and_scope": "All six existing encode/decode profiles, N/B mask, source casts and both decoder stores; no FP8 round-trip or unconditional hardware bit identity is claimed by the Real theorem.",
+  "proof_connection": "Existing PublicReal.implements on ConversionIO.real and its complete masked-kernel judgment; no judgment change.",
+  "fp_review": "Complete actual typed conversion sources versus retained integer-index commutation; all six storage profiles and both stores unchanged.",
+  "numerical_dependencies": {
+    "experimental_rules_used": [],
+    "missing_experimental_evidence": [],
+    "note": "Existing actual source pair retained; no numerical operation/order rewrite or new admission obligation. Empty experimental rules do not assert arbitrary opaque-model/hardware identity."
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "Inline identity xs[j] under Real cast erasure.",
+    "required_conditions": [
+      "MaskedKernelIO₁ declares actual typed source projection, active window bounds, initial binding and output/frame relation.",
+      "Contract input kind/format, device, contiguity, lazy-negation and alignment checks are unchanged. No round-trip or Real-to-FP8 numerical approximation theorem is advertised."
+    ],
+    "scope": "Every active coordinate of the selected conversion profile at actual pid; six profiles: e4/e5 decode to half and half/single encode to e4/e5. Source decode retains both stores, masks and profile-selected storage widths.",
+    "canonical_connection": "PublicReal.implements already proves Checked.conversionReal identity under the ideal Real interpretation; the now-inline target is definitionally equal.",
+    "fp_program_pair": {
+      "actual_pairs": [
+        "Source.kernel p vs Source.indexCommuted p, for all six Source.Profile values"
+      ],
+      "source_precision": "Decode FP8 e4/e5 to FP16; encode FP16/FP32 to FP8 e4/e5, preserving source casts and all stores.",
+      "transformation": "Only integer index multiplication operands commute.",
+      "model_domain_and_guarantees": "SourceEquivalence dispatches to existing FPProof.to_half_equivalent/to_fp8_equivalent; assumptions=[] and source-program domain=[] in ProfiledRewrite. Exact same conversion operations remain at each site, so no conversion accuracy or rounding-law premise is used for this index rewrite.",
+      "experimental_rule_instances_used": [],
+      "missing_experimental_evidence": [],
+      "existing_strict_theory_preserved": true
+    },
+    "numerical_dependencies": {
+      "source_precision": "Decode FP8 e4/e5 to FP16; encode FP16/FP32 to FP8 e4/e5, preserving source casts and all stores.",
+      "transformation": "Only integer index multiplication operands commute.",
+      "model_domain_and_guarantees": "SourceEquivalence dispatches to existing FPProof.to_half_equivalent/to_fp8_equivalent; assumptions=[] and source-program domain=[] in ProfiledRewrite. Exact same conversion operations remain at each site, so no conversion accuracy or rounding-law premise is used for this index rewrite.",
+      "experimental_rule_instances_used": [],
+      "missing_experimental_evidence": [],
+      "existing_strict_theory_preserved": true
+    }
+  },
+  "verification": [
+    {
+      "task": "f8_conversion_utils",
+      "kind": "fp_source",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue05/build.py",
+        "bench/repairs/tritonbench_g/f8_conversion_utils/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue05/fp-f8_conversion_utils.log",
+      "log_sha256": "f21e2004b297ac70a25e2d61796e21d0b215110e6e66e7247c85664547f1da82",
+      "reuse": "Prior task-local successful check; reviewed source and receipt pins remain current."
+    },
+    {
+      "task": "f8_conversion_utils",
+      "kind": "task_joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue05/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue05/joint_f8_conversion_utils.lean"
+      ],
+      "exit_code": 0,
+      "source": ".veritile-cache/logical-reader-review-20261022/queue05/joint_f8_conversion_utils.lean",
+      "source_sha256": "5435de213a6ab13a41480724c115d4b1349f3bdace3102ca3adb6dae9ae269c4",
+      "log": ".veritile-cache/logical-reader-review-20261022/queue05/joint-f8_conversion_utils.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reuse": "Prior task-local successful check; reviewed source and receipt pins remain current."
+    },
+    {
+      "kind": "receipt_source_object_direct_dependency_audit",
+      "command": [
+        "python",
+        ".veritile-cache/logical-reader-review-20261022/queue05/audit-receipts.py"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue05/receipts-final.json",
+      "log_sha256": "a3a64928712915a8204fd3fec33335656e18e0542b5c5ab22d8bdec24b8df76e"
+    }
+  ],
+  "verification_status": "unchanged_reused",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/f8_conversion_utils/Contract.lean": "1a4f4e2bd66ec20df32590e54e684ebedfc599e710c103d70bee8bbf41dbd721",
+    "bench/repairs/tritonbench_g/f8_conversion_utils/Correct.lean": "dbc713f9e4b50945a99831d0ac8ac1c7e661d13926a30e2a7214c0a641d2bb45",
+    "bench/repairs/tritonbench_g/f8_conversion_utils/FPEquiv.lean": "48c0ebbb0fb2c8c198dcba63949580555670fb88225e23d349bce955fe196f7a",
+    "bench/repairs/tritonbench_g/f8_conversion_utils/IO.lean": "099fb35f0e7fd28378559a4ac90041e80f4a7a1cbc054fffd86216186628e1eb",
+    "bench/repairs/tritonbench_g/f8_conversion_utils/Kernels.lean": "5c407eb67bbaf1c0cda917aeabafc6175397287e7baad676c38f17a4cf27415f",
+    "bench/repairs/tritonbench_g/f8_conversion_utils/Proofs/SourceEquivalence.lean": "81ccba65c4a96eb68a8fdc915c82652cd269b9c4cf125653ccd59cbed3752460",
+    "bench/repairs/tritonbench_g/f8_conversion_utils/Proofs/PublicReal.lean": "ef6ae82dc6c815fb88e7f5299f84f68ed42fa9107c35907e654a45f5f7b49697",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

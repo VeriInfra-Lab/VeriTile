@@ -1,0 +1,47 @@
+test_01_four_jits_exact_AST (__main__.Tests.test_01_four_jits_exact_AST) ... ok
+test_02_original_scope_not_shell_or_reduction (__main__.Tests.test_02_original_scope_not_shell_or_reduction) ... ok
+test_03_full_forward_two_loops (__main__.Tests.test_03_full_forward_two_loops) ... ok
+test_04_backward_descending_and_diagonal_order (__main__.Tests.test_04_backward_descending_and_diagonal_order) ... ok
+test_05_complete_helper_arguments (__main__.Tests.test_05_complete_helper_arguments) ... ok
+test_06_preserve_all_NK_partials (__main__.Tests.test_06_preserve_all_NK_partials) ... ok
+test_07_undef_explicit_not_zero (__main__.Tests.test_07_undef_explicit_not_zero) ... ok
+test_08_dense_no_tail_undef (__main__.Tests.test_08_dense_no_tail_undef) ... ok
+test_09_bwd_tail_undef_not_pruned_by_causal_mask (__main__.Tests.test_09_bwd_tail_undef_not_pruned_by_causal_mask) ... ok
+test_10_shell_explicitly_outside_proof (__main__.Tests.test_10_shell_explicitly_outside_proof) ... ok
+test_11_raw_special_bits_not_decoded (__main__.Tests.test_11_raw_special_bits_not_decoded) ... ok
+test_12_nonwrite_frame_and_inputs (__main__.Tests.test_12_nonwrite_frame_and_inputs) ... ok
+test_13_any_active_value_not_numeric_pass (__main__.Tests.test_13_any_active_value_not_numeric_pass) ... ok
+test_14_missing_output_rejected (__main__.Tests.test_14_missing_output_rejected) ... ok
+test_15_initial_drift_or_short_buffer_rejected (__main__.Tests.test_15_initial_drift_or_short_buffer_rejected) ... ok
+test_16_partial_selection_explicit (__main__.Tests.test_16_partial_selection_explicit) ... ok
+test_17_signature_preserves_runtime_scale_and_indices (__main__.Tests.test_17_signature_preserves_runtime_scale_and_indices) ... ok
+test_18_exact_old_declarations_pinned (__main__.Tests.test_18_exact_old_declarations_pinned) ... ok
+test_19_rebound_case_forgery_rejected (__main__.Tests.test_19_rebound_case_forgery_rejected) ... ok
+test_20_24_actual_offline_profiles (__main__.Tests.test_20_24_actual_offline_profiles) ... ok
+test_21_missing_profile_rejected (__main__.Tests.test_21_missing_profile_rejected) ... ok
+test_22_duplicate_profile_rejected (__main__.Tests.test_22_duplicate_profile_rejected) ... ok
+test_23_offline_not_numeric (__main__.Tests.test_23_offline_not_numeric) ... ok
+test_24_offline_not_native (__main__.Tests.test_24_offline_not_native) ... ok
+test_25_compiler_artifact_drift (__main__.Tests.test_25_compiler_artifact_drift) ... ok
+test_26_actual_gpu_unavailable (__main__.Tests.test_26_actual_gpu_unavailable) ... ok
+test_27_notrun_not_success (__main__.Tests.test_27_notrun_not_success) ... ok
+test_28_synthetic_all_stages_complete_capture (__main__.Tests.test_28_synthetic_all_stages_complete_capture) ... ok
+test_29_synthetic_frame_failure (__main__.Tests.test_29_synthetic_frame_failure) ... ok
+test_30_synthetic_wrong_origin (__main__.Tests.test_30_synthetic_wrong_origin) ... ok
+test_31_synthetic_launch_failure (__main__.Tests.test_31_synthetic_launch_failure) ... ok
+test_32_requested_architecture_cannot_disappear (__main__.Tests.test_32_requested_architecture_cannot_disappear) ... ok
+test_33_requested_architecture_order_preserved (__main__.Tests.test_33_requested_architecture_order_preserved) ... ok
+test_34_offline_environment_binding_cannot_be_true (__main__.Tests.test_34_offline_environment_binding_cannot_be_true) ... ok
+test_35_notrun_environment_binding_cannot_be_true (__main__.Tests.test_35_notrun_environment_binding_cannot_be_true) ... ok
+test_36_native_environment_exact_uuid_valid (__main__.Tests.test_36_native_environment_exact_uuid_valid) ... ok
+test_37_native_environment_wrong_uuid (__main__.Tests.test_37_native_environment_wrong_uuid) ... ok
+test_38_native_environment_failed_query (__main__.Tests.test_38_native_environment_failed_query) ... ok
+test_39_native_environment_wrong_query (__main__.Tests.test_39_native_environment_wrong_query) ... ok
+test_40_native_environment_empty_driver (__main__.Tests.test_40_native_environment_empty_driver) ... ok
+test_41_native_environment_requires_execution (__main__.Tests.test_41_native_environment_requires_execution) ... ok
+test_42_synthetic_runtime_environment_verified (__main__.Tests.test_42_synthetic_runtime_environment_verified) ... ok
+
+----------------------------------------------------------------------
+Ran 42 tests in 21.359s
+
+OK

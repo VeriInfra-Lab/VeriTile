@@ -326,23 +326,16 @@ theorem bptr_adv_eval (s : BlockState) (K N BK sbk : Nat) (bp : Tile .ptr [K, N]
   simp [evalOp_ref, hb, evalOp_mul, evalOp_constNat, NumericDType.mul, Tile.bop]
 
 /-- **`accumulator = tl.dot(a, b, accumulator)` statement eval** (fused form
-`dot a b + accumulator`). -/
+retained as a single operation, interpreted here in real arithmetic). -/
 theorem accdot_op_eval (M K N : Nat) (st : BlockState)
     (zt : Tile .real [M, N]) (xt : Tile .real [M, K]) (yt : Tile .real [K, N])
     (hz : st.regs .real [M, N] "accumulator" = some zt)
     (hx : st.regs .real [M, K] "a" = some xt)
     (hy : st.regs .real [K, N] "b" = some yt) :
-    evalOp (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
-        (Op.dot (batch := []) (Op.ref .real [M, K] "a") (Op.ref .real [K, N] "b"))
-        (Op.ref .real [M, N] "accumulator")) st
+    @evalOp .real [M,N] (Op.dotAcc .real .real .real (batch := []) (Op.ref .real [M, K] "a") (Op.ref .real [K, N] "b") (Op.ref .real [M, N] "accumulator")) st
       = some (Tile.bop NumericDType.real.add (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
           (Tile.dot [] xt yt) zt) := by
-  have hd : evalOp (Op.dot (batch := []) (Op.ref .real [M, K] "a")
-        (Op.ref .real [K, N] "b")) st = some (Tile.dot [] xt yt) := by
-    rw [evalOp_dot]; simp [hx, hy]
-  rw [evalOp_add]
-  simp only [evalOp_ref, hz, bind, Option.bind_some]
-  erw [hd]
+  simp only [evalOp.eq_def, FloatDType.toTileDType, List.nil_append, hx, hy, hz, Option.bind_eq_bind, Option.bind_some]
   rfl
 
 /-- `dot + accumulator` lane `(i,j)`: `some (dv + zv)`. -/
@@ -465,9 +458,7 @@ def matmulLoopBody (K BM BN BK sak sbk : Nat) : List Stmt :=
       (Op.load .real (.ptr (Op.ref .ptr [BK, BN] "b_ptrs"))
         (.maskOther (bMaskOp K BK BN) ((Op.const 0.0).broadcast [BK, BN]))),
     Stmt.assign .real [BM, BN] "accumulator"
-      (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
-        (Op.dot (batch := []) (Op.ref .real [BM, BK] "a") (Op.ref .real [BK, BN] "b"))
-        (Op.ref .real [BM, BN] "accumulator")),
+      (Op.dotAcc .real .real .real (batch := []) (Op.ref .real [BM, BK] "a") (Op.ref .real [BK, BN] "b") (Op.ref .real [BM, BN] "accumulator")),
     Stmt.assign .ptr [BM, BK] "a_ptrs"
       (Op.ptrAdd Broadcast.scalarR (Op.ref .ptr [BM, BK] "a_ptrs")
         (Op.mul .nat Broadcast.nil (Op.constNat BK) (Op.constNat sak))),
@@ -480,7 +471,7 @@ dtype `od` (`.fp16` / `.f8e4` — the two constexpr arms): `od` cast, the two
 `offs_c*` vectors, the `c_ptrs` chunk, the `c_mask`, and the masked store. -/
 def matmulStoreTail (od : FloatDType) (C : RegionName) (M N scm scn BM BN : Nat) : List Stmt :=
   [ Stmt.assign od.toTileDType [BM, BN] "c"
-      (Op.castFloat FloatDType.real od (Op.ref .real [BM, BN] "accumulator")),
+      (Op.castFloat FloatDType.real od (Op.withPrecision .real .fp32 (Op.ref .real [BM, BN] "accumulator"))),
     Stmt.assign .nat [BM] "offs_cm"
       (Op.add .nat Broadcast.scalarL
         (Op.mul .nat Broadcast.nil (Op.ref .nat [] "pid_m") (Op.constNat BM))
@@ -1129,8 +1120,8 @@ theorem matmul_postLoop (od : FloatDType)
   unfold matmulStoreTail
   -- c = cast(accumulator, od)
   erw [stepStmts.cons_some (stepStmt_assign_eq_some
-        (show evalOp (Op.castFloat FloatDType.real od (Op.ref .real [BM, BN] "accumulator")) st
-          = some cT from by rw [evalOp_castFloat]; simp [evalOp_ref, hz, hcT, haccT]))]
+        (show evalOp (Op.castFloat FloatDType.real od (Op.withPrecision .real .fp32 (Op.ref .real [BM, BN] "accumulator"))) st
+          = some cT from by rw [evalOp_castFloat, evalOp.eq_def]; simp [evalOp_ref, hz, hcT, haccT]))]
   -- offs_cm
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
         (offscm_eval _ BM BM (pidM (s0.pids 0) M N BM BN GM) "pid_m" (by simp [hpm])))]
@@ -1473,7 +1464,7 @@ unfolding (a `rw` through `evalOpR_castFloat` trips over the
 private theorem castAcc_evalR (R : RoundingModel) (od : FloatDType) (Mv Nv : Nat)
     (s : BlockState) (zT : Tile .real [Mv, Nv])
     (hz : s.regs .real [Mv, Nv] "accumulator" = some zT) :
-    evalOpR R (Op.castFloat FloatDType.real od (Op.ref .real [Mv, Nv] "accumulator")) s
+    evalOpR R (Op.castFloat FloatDType.real od (Op.withPrecision .real .fp32 (Op.ref .real [Mv, Nv] "accumulator"))) s
       = some ⟨fun idx => RoundingModel.cast R FloatDType.real od (zT.data idx)⟩ := by
   have hz' : s.regs FloatDType.real.toTileDType [Mv, Nv] "accumulator" = some zT := hz
   simp only [evalOpR.eq_def, hz']
@@ -1526,7 +1517,7 @@ private theorem matmul_postLoopR (R : RoundingModel) (od : FloatDType)
   -- c = cast(accumulator, od): rounding-event site 1 (`R.cast`)
   erw [stepStmtsR_cons_some (stepStmtR_assign_eq_some
         (show evalOpR R (Op.castFloat FloatDType.real od
-              (Op.ref .real [BM, BN] "accumulator")) st = some cT
+              (Op.withPrecision .real .fp32 (Op.ref .real [BM, BN] "accumulator"))) st = some cT
           from castAcc_evalR R od BM BN st zT hz))]
   -- offs_cm / offs_cn (cast-free)
   rw [stepStmtsR_cons_some (stepStmtR_assign_eq_some

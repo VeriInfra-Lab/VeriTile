@@ -1,0 +1,19 @@
+{
+  "command": [
+    "/usr/local/bin/python",
+    "-B",
+    "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/check_original_program_scope.py",
+    "--root",
+    "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile",
+    "--catalog",
+    "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/review-checkpoints/2026-10-16/native-mul2-relu-custom-add-example-acceptance/current-source-catalog.json.gz",
+    "--ledger",
+    "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/original_program_scope.json.gz",
+    "--output",
+    "/tmp/veritile-standardization-20261015/queue-gzip-migration-run-001/post-scope.json"
+  ],
+  "exit_code": 1,
+  "seconds": 473.601,
+  "log": "post-scope-check.log",
+  "log_sha256": "5744063e98feb97a11eb74591dc4efa904582f42f370e42e819fed55218c720e"
+}

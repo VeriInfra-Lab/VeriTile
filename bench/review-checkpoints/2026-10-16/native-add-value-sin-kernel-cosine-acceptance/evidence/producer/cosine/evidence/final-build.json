@@ -1,0 +1,38 @@
+[
+  {
+    "module": "bench/tritonbench_g/cosine_compute/Proofs/NativeScalar.lean",
+    "record": "evidence/lean-attempts/0037-NativeScalar.json"
+  },
+  {
+    "module": "bench/tritonbench_g/cosine_compute/Proofs/NativeHostMath.lean",
+    "record": "evidence/lean-attempts/0038-NativeHostMath.json"
+  },
+  {
+    "module": "bench/tritonbench_g/cosine_compute/Proofs/NativeArithmetic.lean",
+    "record": "evidence/lean-attempts/0039-NativeArithmetic.json"
+  },
+  {
+    "module": "bench/tritonbench_g/cosine_compute/Proofs/NativeMemory.lean",
+    "record": "evidence/lean-attempts/0040-NativeMemory.json"
+  },
+  {
+    "module": "bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean",
+    "record": "evidence/lean-attempts/0041-NativeSource.json"
+  },
+  {
+    "module": "bench/tritonbench_g/cosine_compute/Proofs/NativeProgram.lean",
+    "record": "evidence/lean-attempts/0042-NativeProgram.json"
+  },
+  {
+    "module": "bench/tritonbench_g/cosine_compute/Proofs/NativeGrid.lean",
+    "record": "evidence/lean-attempts/0043-NativeGrid.json"
+  },
+  {
+    "module": "bench/tritonbench_g/cosine_compute/Proofs/NativeAdmission.lean",
+    "record": "evidence/lean-attempts/0044-NativeAdmission.json"
+  },
+  {
+    "module": "bench/tritonbench_g/cosine_compute/NativeCorrect.lean",
+    "record": "evidence/lean-attempts/0045-NativeCorrect.json"
+  }
+]

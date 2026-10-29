@@ -1,0 +1,34 @@
+{
+  "status": "passed",
+  "checks": {
+    "main_formulas": {
+      "tasks": 183,
+      "readers": 367,
+      "counts": {
+        "fixed": 179,
+        "unchanged": 4
+      },
+      "errors": [],
+      "status": "passed",
+      "scope": "Pinned per-task formula/domain/scope review and targeted proof evidence; no automatic semantic inference, full-source replay or GPU run"
+    },
+    "reader_roles": {
+      "tasks": 183,
+      "readers": 367,
+      "headlines": 449,
+      "errors": [],
+      "status": "passed",
+      "scope": "Pinned semantic role review plus current repository import guard; no Lean replay or GPU run"
+    },
+    "io_organization": {
+      "tasks": 183,
+      "readers": 367,
+      "io_source_files": 315,
+      "errors": [],
+      "status": "passed",
+      "scope": "Reviewed canonical IO sharing and reader placement; no full-source replay or GPU experiment"
+    }
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

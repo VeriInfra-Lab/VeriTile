@@ -1,0 +1,43 @@
+/tmp/veritile-standardization-20261015/rotary-emb-host-grid-wip/frozen-v2/failed-replay/HostExecution.lean:111:58: error(lean.unknownIdentifier): Unknown identifier `b`
+/tmp/veritile-standardization-20261015/rotary-emb-host-grid-wip/frozen-v2/failed-replay/HostExecution.lean:113:35: error(lean.unknownIdentifier): Unknown identifier `b`
+/tmp/veritile-standardization-20261015/rotary-emb-host-grid-wip/frozen-v2/failed-replay/HostExecution.lean:114:44: error(lean.unknownIdentifier): Unknown identifier `b`
+/tmp/veritile-standardization-20261015/rotary-emb-host-grid-wip/frozen-v2/failed-replay/HostExecution.lean:114:47: error: unsolved goals
+c : Plan
+q k cos sin : FullSource.Storage
+Q K Cos Sin : RegionName
+A : FlatAlloc
+hd : A.Disjoint
+hcov : ∀ r ∉ A.regions, A.extent r = 0
+D : Domain c A.extent Q K Cos Sin
+hQr : Q ∈ A.regions
+hKr : K ∈ A.regions
+bs : List c.PID
+ih :
+  bs.Nodup →
+    ∀ (s : BlockState),
+      c.SafeRun (c.kernel q k cos sin Q K Cos Sin) A.extent bs s ∧
+        ∃ t,
+          c.run (c.kernel q k cos sin Q K Cos Sin) bs s = some t ∧
+            c.Results Q K Cos Sin bs s t ∧ BlockState.WriteWithin (c.foot Q K bs) s t
+s : BlockState
+hbs : bs.Nodup
+u : BlockState
+htsafe : c.SafeRun (c.kernel q k cos sin Q K Cos Sin) A.extent bs u
+t : BlockState
+ht : c.run (c.kernel q k cos sin Q K Cos Sin) bs u = some t
+htr : c.Results Q K Cos Sin bs u t
+htf : BlockState.WriteWithin (c.foot Q K bs) u t
+b' : c.PID
+x odd : Bool
+i : c.Lane
+hi : c.active x b' i
+hnd : (b' :: bs).Nodup
+hb : b' ∉ bs
+hsafe : Kernel.TraceSafe A.extent (c.kernel q k cos sin Q K Cos Sin) (c.at s b')
+hu : exec (c.kernel q k cos sin Q K Cos Sin) (c.at s b') = some u
+hr : c.Results Q K Cos Sin [b'] s u
+hf : BlockState.WriteWithin (c.blockFoot Q K b') s u
+hf' : BlockState.WriteWithin (c.foot Q K [b']) s u
+hb' : b' ∈ b' :: bs
+hn : ¬c.foot Q K bs (region Q K x, c.offset x sorry odd i)
+⊢ sorry () = b'

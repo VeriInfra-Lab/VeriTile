@@ -1,0 +1,49 @@
+{
+  "task": "triton_softmax",
+  "status": "structural_gaps_confirmed",
+  "whole_original_program_accepted": false,
+  "completion_increment": 0,
+  "existing_proofs_preserved": "All six-by-six floating storage combinations and the exact source row operations are materialized; source equivalence changes only integer address multiplication. Typed Real IO proves successful prefix-softmax computation and frame for arbitrary positive B. Retained source_dtype_receipt records actual compilation/rejection at one sm90 profile, including rejection of all nine tested same-storage integer/bool types.",
+  "production_stage_mapping": [
+    {
+      "function": "softmax_kernel",
+      "coverage": "Full computation of the B-lane active prefix is represented."
+    },
+    {
+      "function": "triton_softmax",
+      "coverage": "Allocation, B=min(next_power_of_2(n_cols),1024), row grid and complete returned output are uncomposed."
+    }
+  ],
+  "dtype_review": "Formal floating input/output cases include all six homogeneous cases used by the wrapper. The recorded integer/bool rejections are not mislabeled as missing executable routes, and no unsupported fp64-to-fp8 conversion is demanded. Broader dtype admission needs its exact configuration boundary; this review makes no additional dtype execution finding.",
+  "branch_review": "The host cap is semantic: for n_cols>1024 it normalizes only the first 1024 elements and leaves the remaining fresh output cells unwritten. Existing per-program prefix formula correctly permits n>B, so no false full-row formula is attributed to that theorem.",
+  "structural_gaps": [
+    {
+      "id": "TRITON_SOFTMAX-S1",
+      "kind": "host_capped_grid_and_unwritten_tail",
+      "finding": "The source caps B at1024, allocates the full input shape and launches one program per row.",
+      "why_blocks_full_original_scope": "A wrapper theorem must preserve prefix normalization and untouched allocation tail for wide rows, together with full grid composition; current IO covers only one B-lane window.",
+      "can_defer_as_numeric_assumption": false,
+      "evidence": [
+        {
+          "file": "bench/tritonbench_g/triton_softmax/triton_softmax.py",
+          "line": 36,
+          "end_line": 51
+        },
+        {
+          "file": "bench/tritonbench_g/triton_softmax/Correct.lean",
+          "line": 12,
+          "end_line": 30
+        },
+        {
+          "file": "bench/tritonbench_g/triton_softmax/Proofs/RealIO.lean",
+          "line": 25,
+          "end_line": 36
+        }
+      ]
+    }
+  ],
+  "numerical_items_eligible_for_explicit_deferral": [
+    "Native reduction/exp/division and represented store casts may be deferred. Unwritten columns after the1024 cap are a source behavior, not a numerical error and not an all-row softmax claim."
+  ],
+  "precondition_assessment": "The existing bounds, nonoverlap, positive tile size and valid-address premises are legitimate selected-domain assumptions. No unrestricted invalid-input behavior or hypothetical hardware defect is demanded. Missing wrapper composition and dtype admission are separate structural questions."
+}

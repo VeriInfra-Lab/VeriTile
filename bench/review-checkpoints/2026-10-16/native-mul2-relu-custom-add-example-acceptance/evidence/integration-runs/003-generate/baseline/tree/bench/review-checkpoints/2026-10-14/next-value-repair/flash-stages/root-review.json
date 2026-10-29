@@ -1,0 +1,28 @@
+{
+  "reviewer": "root",
+  "status": "frozen_value_scope_and_evidence_review_pass_pending_unified_integration",
+  "receipt_sha256": "142c3e4dfcc99a0a33d8f05c1bbd7924f8a4ae6114b3a275ab519b3d94a8b708",
+  "input_sources_verified": 14,
+  "compiled_modules_verified": 10,
+  "native_receipt_sha256": "3d8694511889e6b46658090bd52f3e91380e3e01529de81fcaadda066e65ea18",
+  "native_artifacts_verified": 27,
+  "input_archive": {
+    "path": "root-reviewed-inputs.zip",
+    "sha256": "8647ed1dae78a291e7980797fdef6f719622e49b18abf3e1bec19e6fdac44527"
+  },
+  "reference_audit": {
+    "source": "FlashReferenceAudit.lean",
+    "source_sha256": "af8aa578365f605e7b090b4a9015d8645da5bbe598bdb56c7e0105e61fc28771",
+    "log": "root-reference-audit.log",
+    "log_sha256": "bf179a9036d5fc8f635aa26f7fd6baf4f5f0a042e7e1af952b4236c18a13fe9c",
+    "checks": 12
+  },
+  "findings": [
+    "Fourteen stage value contracts and one supporting Phi recurrence identity are distinct. Contracts preserve the originally accepted supplied-state cuts; they do not establish the complete online loop.",
+    "Five software stage contracts close used arithmetic; two Phi update contracts retain exp32; seven are backend-parametric. The twelve independent reference checks exclude each source stage, Structural.exec and its execution theorem.",
+    "This receipt freezes the earlier frontend state. Its legacy maximum/select discrepancy remains historical; the subsequent maximum-core and maximum-all-consumers packages separately repair the parser and reprove consumers. No retrospective rewrite of this receipt is made.",
+    "Original native update contains FMA and ex2.approx; source separately rounded update, exp32 and div.full bindings remain pending. Offline artifacts are compiler observations, not numerical GPU results."
+  ],
+  "native_execution": false,
+  "canonical_acceptance_updated": false
+}

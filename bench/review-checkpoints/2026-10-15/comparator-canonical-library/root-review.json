@@ -1,0 +1,9 @@
+{
+  "schema": 1,
+  "reviewer": "root",
+  "status": "passed_official_canonical_library_only",
+  "receipt_sha256": "fd7bd7cd7d2875b08a694e1db02ae21a393de48c998d15c8baa356961d36da57",
+  "target_count": 118,
+  "full_corpus_passed": false,
+  "native_execution": false
+}

@@ -1,0 +1,34 @@
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/KernelTensor.lean:59:93: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  f ≥ 0
+  e ≥ 0
+  e - f ≥ 0
+  d ≥ 0
+  c ≥ 18446744073709551616
+  c + 4*d ≤ 18446744073709551616
+  b ≥ 0
+  a ≥ 0
+  a - b ≥ 1
+where
+ a := ↑x.observation.metadata.numel
+ b := ↑i
+ c := ↑x.tensor.storage.base
+ d := ↑x.tensor.storage.elements
+ e := ↑x.observation.storage.elements
+ f := ↑x.tensor.metadata.numel
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/KernelTensor.lean:62:4: error: Type mismatch: After simplification, term
+  congrArg BitVec.toNat pointer
+ has type
+  x.observation.metadata.dataPtr.toNat = x.observation.storage.base % 2 ^ 64
+but is expected to have type
+  x.tensor.metadata.dataPtr.toNat = x.tensor.storage.base
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/KernelTensor.lean:99:0: error: VeriTile.Bench.Repairs.FlashDecode2Llama.KernelTensor.mid_read: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/KernelTensor.lean:100:0: error: VeriTile.Bench.Repairs.FlashDecode2Llama.KernelTensor.log_read: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelTensor.output_index: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelTensor.signed_length: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelTensor.Arguments: definition does not reference [VeriTile.Bench.Repairs.FlashDecode2Llama.KernelModel.run,
+ VeriTile.Bench.Repairs.FlashDecode2.Grid.source,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓

@@ -1,0 +1,246 @@
+{
+  "all_available_checks_passed": true,
+  "reviewed_delivery_sha256": "11f4ef71a014f6e916ccf9fa1e1c264536655767bbebfea0ef896789f9c4913d",
+  "current_candidate_module_receipts": 21,
+  "repository_sources": 248,
+  "effective_objects_checked": 248,
+  "source_ilean_direct_imports_checked": 211,
+  "public_source_closure": 245,
+  "audit_source_closure": 248,
+  "predecessor_pins_preserved": 29,
+  "record_pins_verified": 1035,
+  "unique_record_files": 724,
+  "exact_nine_cast_only_byte_delta": true,
+  "axiom_checks": 51,
+  "non_circular_checks": 9,
+  "binder_profiles": 10,
+  "compiler_artifacts": 40,
+  "recompiled": false,
+  "compiler_or_numeric_experiments_rerun": false,
+  "GPU_execution": false,
+  "reused_dependency_cache_without_ilean": [
+    {
+      "source": "bench/repairs/tritonbench_g/cross_entropy1/Proofs/Grid.lean",
+      "effective_object": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/cross_entropy1/Proofs/Grid.olean",
+      "sha256": "c562efd58d7ca22e7a38fcf77754b2eb03ad7ef3f6a4b74da1526520f7c4884e",
+      "boundary": "existing dependency cache pinned; not rebuilt here"
+    },
+    {
+      "source": "bench/repairs/tritonbench_g/dequantize_matmul/Proofs/EventGrid.lean",
+      "effective_object": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/dequantize_matmul/Proofs/EventGrid.olean",
+      "sha256": "982efe042b7c910c1b5e8b03fef5dfc778665a5ff9f119af83fe3e57931a666b",
+      "boundary": "existing dependency cache pinned; not rebuilt here"
+    },
+    {
+      "source": "bench/repairs/tritonbench_g/dequantize_matmul/Proofs/Events.lean",
+      "effective_object": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/dequantize_matmul/Proofs/Events.olean",
+      "sha256": "368524c7c0b7df6837e7b4600ba99bc3d4a7acd3adfd9c9f8c833300b83c1def",
+      "boundary": "existing dependency cache pinned; not rebuilt here"
+    },
+    {
+      "source": "bench/repairs/tritonbench_g/dequantize_matmul/Proofs/FPReference.lean",
+      "effective_object": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/dequantize_matmul/Proofs/FPReference.olean",
+      "sha256": "44b24fb25b264757577d5079d1313452fe9fc0db3c40bcd1b8ffdce02081c570",
+      "boundary": "existing dependency cache pinned; not rebuilt here"
+    },
+    {
+      "source": "bench/repairs/tritonbench_g/dequantize_matmul/Proofs/Host.lean",
+      "effective_object": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/dequantize_matmul/Proofs/Host.olean",
+      "sha256": "34479fadb78567fcbfdb1a3b22de70dbd5ef1246ef820a169f069b4cf426688d",
+      "boundary": "existing dependency cache pinned; not rebuilt here"
+    },
+    {
+      "source": "bench/repairs/tritonbench_g/dequantize_matmul/Proofs/JIT.lean",
+      "effective_object": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/dequantize_matmul/Proofs/JIT.olean",
+      "sha256": "2bc6e4f7aac930617b276275d40940a4962771bd13bbde1bba6599c94e084f02",
+      "boundary": "existing dependency cache pinned; not rebuilt here"
+    },
+    {
+      "source": "bench/repairs/tritonbench_g/dequantize_matmul/Proofs/Logical.lean",
+      "effective_object": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/dequantize_matmul/Proofs/Logical.olean",
+      "sha256": "4ededca5f88f436dc78a75da096c9c612740fb56836e40921e1b8244141355c5",
+      "boundary": "existing dependency cache pinned; not rebuilt here"
+    },
+    {
+      "source": "bench/repairs/tritonbench_g/dequantize_matmul/Proofs/Machine.lean",
+      "effective_object": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/dequantize_matmul/Proofs/Machine.olean",
+      "sha256": "68e706704ea1551356a64ca2f81b1cf30a70cad056a3670bd472b20b8cb8e1db",
+      "boundary": "existing dependency cache pinned; not rebuilt here"
+    },
+    {
+      "source": "bench/repairs/tritonbench_g/dequantize_matmul/Proofs/Plan.lean",
+      "effective_object": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/dequantize_matmul/Proofs/Plan.olean",
+      "sha256": "670e3484a1bf257e0b3cc9255c0354690daabcf5759869d011daa664e0c01c93",
+      "boundary": "existing dependency cache pinned; not rebuilt here"
+    },
+    {
+      "source": "bench/repairs/tritonbench_g/dequantize_matmul/Proofs/Rect.lean",
+      "effective_object": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/dequantize_matmul/Proofs/Rect.olean",
+      "sha256": "4777e1f0ec1199ab9c768a10b2894354812ffd06d66a0b9750d5759fa66d05d2",
+      "boundary": "existing dependency cache pinned; not rebuilt here"
+    },
+    {
+      "source": "bench/repairs/tritonbench_g/dequantize_matmul/Proofs/Selection.lean",
+      "effective_object": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/dequantize_matmul/Proofs/Selection.olean",
+      "sha256": "df4d833ba11faca90fab61aed2b9bec26dbdca689a9641cb576ba73b4a85ddc8",
+      "boundary": "existing dependency cache pinned; not rebuilt here"
+    },
+    {
+      "source": "bench/repairs/tritonbench_g/dequantize_matmul/Proofs/Source.lean",
+      "effective_object": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/dequantize_matmul/Proofs/Source.olean",
+      "sha256": "3c1f5167e8defab2ea525a614c9a74cddba3b4d18200a4d82c74ed7fc19a3aa3",
+      "boundary": "existing dependency cache pinned; not rebuilt here"
+    },
+    {
+      "source": "bench/repairs/tritonbench_g/int8_dequant_matmul/Contract.lean",
+      "effective_object": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul/Contract.olean",
+      "sha256": "625ae99afdb9a4409eeec288fd567453192c7f526bf5c10d4dd273fa299d65d2",
+      "boundary": "existing dependency cache pinned; not rebuilt here"
+    },
+    {
+      "source": "bench/repairs/tritonbench_g/int8_dequant_matmul/Kernels.lean",
+      "effective_object": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul/Kernels.olean",
+      "sha256": "80a66316e194cb92abe71f96ef3649bae828e71d0865bba9762ce9dfe1d7a40f",
+      "boundary": "existing dependency cache pinned; not rebuilt here"
+    },
+    {
+      "source": "bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Bound.lean",
+      "effective_object": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Bound.olean",
+      "sha256": "b8fdaafb4487188d0c043b66bf63dd8126cd7e1ba9d69b8e1ee7af28d93d4924",
+      "boundary": "existing dependency cache pinned; not rebuilt here"
+    },
+    {
+      "source": "bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Contract.lean",
+      "effective_object": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Contract.olean",
+      "sha256": "a537149570dff6435df0a5703d8eafa88ae301cad098ab3cc3169f679a6ff250",
+      "boundary": "existing dependency cache pinned; not rebuilt here"
+    },
+    {
+      "source": "bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Coverage.lean",
+      "effective_object": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Coverage.olean",
+      "sha256": "a756b093e3f11486f3014eca1887e592e1cc8d4995971e97f14e5e4f178b23ee",
+      "boundary": "existing dependency cache pinned; not rebuilt here"
+    },
+    {
+      "source": "bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/DirectHost.lean",
+      "effective_object": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/DirectHost.olean",
+      "sha256": "274f1c46bc021fd4f8089765d433c30e791d2617618359e780b1f4af8ca6c847",
+      "boundary": "existing dependency cache pinned; not rebuilt here"
+    },
+    {
+      "source": "bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/DirectPointers.lean",
+      "effective_object": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/DirectPointers.olean",
+      "sha256": "081b766c80861e84f7322a9437b3fc0f988ca28db798821a84ec88015abdcaf1",
+      "boundary": "existing dependency cache pinned; not rebuilt here"
+    },
+    {
+      "source": "bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/DirectReal.lean",
+      "effective_object": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/DirectReal.olean",
+      "sha256": "96f14560d1ab2aabeec8372ab0358e52d05429a08bf107632e4e26aa9a4e1f06",
+      "boundary": "existing dependency cache pinned; not rebuilt here"
+    },
+    {
+      "source": "bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/DirectWords.lean",
+      "effective_object": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/DirectWords.olean",
+      "sha256": "cbe0b4d1d1d92940a0027f48c0d129126e567c8880fbe9745f844cc704950b35",
+      "boundary": "existing dependency cache pinned; not rebuilt here"
+    },
+    {
+      "source": "bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Events.lean",
+      "effective_object": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Events.olean",
+      "sha256": "3014bbeb3acf5a45abd15dd9c444a6d87aba3aa32eb836bbcd61e2334b5ecc6e",
+      "boundary": "existing dependency cache pinned; not rebuilt here"
+    },
+    {
+      "source": "bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Grid.lean",
+      "effective_object": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Grid.olean",
+      "sha256": "3aa76da4f9d89ea841ec1129e56489bd06f31bc0bf32c1f5a35c0558959236b0",
+      "boundary": "existing dependency cache pinned; not rebuilt here"
+    },
+    {
+      "source": "bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Host.lean",
+      "effective_object": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Host.olean",
+      "sha256": "c5bcc79fad1bd1270670378d19cc6a9244429ba54fba3e2ec406d7ac3b7996f3",
+      "boundary": "existing dependency cache pinned; not rebuilt here"
+    },
+    {
+      "source": "bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Ideal.lean",
+      "effective_object": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Ideal.olean",
+      "sha256": "c0121e4c39d53400ea0e4aaaf9d54e89986188a17d17fe62870dc4aa6194e060",
+      "boundary": "existing dependency cache pinned; not rebuilt here"
+    },
+    {
+      "source": "bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Ingress.lean",
+      "effective_object": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Ingress.olean",
+      "sha256": "03c7a94b684beb820ef2fad9898157f7dffeb65b2e10db6344eb9ec504c19df5",
+      "boundary": "existing dependency cache pinned; not rebuilt here"
+    },
+    {
+      "source": "bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Machine.lean",
+      "effective_object": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Machine.olean",
+      "sha256": "2d3d30109e2f5126965c9f1da9cfa3ab6254e9f01b72f2a1955537fea0294140",
+      "boundary": "existing dependency cache pinned; not rebuilt here"
+    },
+    {
+      "source": "bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Math.lean",
+      "effective_object": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Math.olean",
+      "sha256": "a9cdc5953427cc6031e654c050faa0294d2d5921a99ade2f457c9bbe2799da57",
+      "boundary": "existing dependency cache pinned; not rebuilt here"
+    },
+    {
+      "source": "bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Native.lean",
+      "effective_object": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Native.olean",
+      "sha256": "b9cf6f39960f9d1ba72539788dc756a7290908f26fbe93e541c3202a9b1b1f6c",
+      "boundary": "existing dependency cache pinned; not rebuilt here"
+    },
+    {
+      "source": "bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Plan.lean",
+      "effective_object": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Plan.olean",
+      "sha256": "730d6bfed693b13e3c7a2be73382c7074c3179f6c7544882732c79080ece1694",
+      "boundary": "existing dependency cache pinned; not rebuilt here"
+    },
+    {
+      "source": "bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Source.lean",
+      "effective_object": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Source.olean",
+      "sha256": "b5d8ae04dfd22ffe6de5846ed009915ca590b5151b33c888c6aab1cefc6a02d3",
+      "boundary": "existing dependency cache pinned; not rebuilt here"
+    },
+    {
+      "source": "bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Kernels.lean",
+      "effective_object": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Kernels.olean",
+      "sha256": "b33a827e57b5b90a7e4239837235cd06e5c39b4afebce58a479f9f8939ce4036",
+      "boundary": "existing dependency cache pinned; not rebuilt here"
+    },
+    {
+      "source": "bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Proofs/BlockWordReference.lean",
+      "effective_object": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Proofs/BlockWordReference.olean",
+      "sha256": "774b9e12d53660d30ad5c36824fb59acb1147fb85467ab5db9f78b076b610a1b",
+      "boundary": "existing dependency cache pinned; not rebuilt here"
+    },
+    {
+      "source": "bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Proofs/BlockWordSource.lean",
+      "effective_object": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Proofs/BlockWordSource.olean",
+      "sha256": "7127e0bb0e88bec115dd7a5ac7ce76a101b3eef30f3e8766dadf568a525d66b4",
+      "boundary": "existing dependency cache pinned; not rebuilt here"
+    },
+    {
+      "source": "bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Proofs/Geometry.lean",
+      "effective_object": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Proofs/Geometry.olean",
+      "sha256": "85c711150ae99c81f686c0f96bd24b6edd012ce1ef53bbaa463627d667bbe932",
+      "boundary": "existing dependency cache pinned; not rebuilt here"
+    },
+    {
+      "source": "bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Proofs/GroupedGrid.lean",
+      "effective_object": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Proofs/GroupedGrid.olean",
+      "sha256": "3f1b683454c0cb75468dcea7834b85045ead246cfc5026922b9c2efd8c547053",
+      "boundary": "existing dependency cache pinned; not rebuilt here"
+    },
+    {
+      "source": "bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Proofs/LogicalSum.lean",
+      "effective_object": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Proofs/LogicalSum.olean",
+      "sha256": "c7e46aad238e15b84139d6b7d8362f6ae682b2c681cb60ac378cb7b22499b460",
+      "boundary": "existing dependency cache pinned; not rebuilt here"
+    }
+  ],
+  "first_review_attempt": "Session4729 exit1 because it required an ilean sidecar for every reused dependency. Inventory showed37 absent sidecars, all already marked reused cache; no candidate receipt/object/source mismatch was found. No build was run."
+}

@@ -1,0 +1,73 @@
+{
+  "integration-build": {
+    "exit_code": 0,
+    "jobs": 7389,
+    "log": {
+      "path": "evidence/integration/vector-finite-integration-build.log",
+      "sha256": "5fd40e25e930a6ba3773ec5588e8b00b9756cfb8b73c7645451ce7b4916b8e91"
+    }
+  },
+  "catalog": {
+    "exit_code": 0,
+    "public_declarations": 954,
+    "log": {
+      "path": "evidence/integration/vector-finite-catalog.log",
+      "sha256": "a770ba7c83a06413f0b69469e9f2a698d795cce907b3a23c9dc394d6c49b3a3b"
+    }
+  },
+  "queue": {
+    "exit_code": 0,
+    "rules": 84,
+    "log": {
+      "path": "evidence/integration/vector-finite-queue.log",
+      "sha256": "7ed427281fe8dad6ed53c71d3b123b6226d4c0f063ff4455884d2f6cd2b68573"
+    }
+  },
+  "rebind-ledger": {
+    "exit_code": 0,
+    "verified": 1,
+    "verified_with_deferred_numerics": 2,
+    "pending": 180,
+    "log": {
+      "path": "evidence/integration/vector-finite-rebind-ledger.log",
+      "sha256": "a606d608005921fe793ebb7d4d20bd77ef8a68f4920e829188d2aa5755e3c1db"
+    }
+  },
+  "global": {
+    "exit_code": 1,
+    "failed_gates": [
+      "comparator_preflight",
+      "library_replay",
+      "scope_review"
+    ],
+    "log": {
+      "path": "evidence/integration/vector-finite-global.log",
+      "sha256": "589039dfd365171fe78ce44a01875cac4a2bd32415c5fee174bfec3395653f11"
+    }
+  },
+  "other-bench-tests": {
+    "exit_code": 0,
+    "tests": 210,
+    "selection": "all benchmark tests except the separately run exact_numerical_bindings module",
+    "log": {
+      "path": "evidence/integration/vector-finite-other-bench-tests.log",
+      "sha256": "903bafec925848c99d0ea2573a441c8773bb9c10a1404c860a409c51ac9b984a"
+    }
+  },
+  "exact-tests": {
+    "exit_code": 0,
+    "tests": 34,
+    "log": {
+      "path": "evidence/integration/vector-finite-exact-tests.log",
+      "sha256": "271353ea7b611e228dca6ef13faad0d6383010f671c1a500963ba326f7f932b3"
+    }
+  },
+  "shard-tests": {
+    "exit_code": 0,
+    "tests": 25,
+    "log": {
+      "path": "evidence/integration/vector-finite-shard-tests.log",
+      "sha256": "6e13b582c27623ec38660e9a6660b400388c7e9160049a98994e5277aea43537"
+    }
+  }
+}

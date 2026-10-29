@@ -1,0 +1,51 @@
+{
+  "method": "actual git diff --cached --check on exact source bytes",
+  "staging_directory": "/tmp/veritile-mixed-small-whitespace-jf0_0wih",
+  "files": {
+    "bench/tritonbench_g/vector_addition/Proofs/MixedSmallSource.lean": "d553a604453bc8e880f96d7b6fac2be0ff065b5524b071214e600a02b7a5d103",
+    "bench/tritonbench_g/vector_addition/Proofs/MixedSmallValue.lean": "805403f1a25c0951f460f69cdd6510b5dc26db3cae32ce494d37956b54bb0338",
+    "bench/tritonbench_g/vector_addition/Proofs/MixedSmallGrid.lean": "376428b2f7f3b62dbf59af29420deb6aa2e630d2ccb5ce10f2160e5362948c0e",
+    "bench/tritonbench_g/vector_addition/Proofs/MixedSmallDefined.lean": "88349cd4a5d8c7d033a140700fc7baa6b05f362fc212aec04126d4c3230ace45",
+    "bench/tritonbench_g/vector_addition/Proofs/MixedSmallProfiles.lean": "17fa1a5b8de717727243ca1e25a4ebcf7d129f52268d5575e3dd5f3163d07cab",
+    "bench/tritonbench_g/vector_addition/MixedSmallValueCorrect.lean": "691edf2928eba3b03f8d11563dd62b6e108a672b0fed3647311649b020f9ad4b"
+  },
+  "commands": [
+    {
+      "command": [
+        "git",
+        "init",
+        "--quiet"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "add",
+        "--",
+        "bench/tritonbench_g/vector_addition/Proofs/MixedSmallSource.lean",
+        "bench/tritonbench_g/vector_addition/Proofs/MixedSmallValue.lean",
+        "bench/tritonbench_g/vector_addition/Proofs/MixedSmallGrid.lean",
+        "bench/tritonbench_g/vector_addition/Proofs/MixedSmallDefined.lean",
+        "bench/tritonbench_g/vector_addition/Proofs/MixedSmallProfiles.lean",
+        "bench/tritonbench_g/vector_addition/MixedSmallValueCorrect.lean"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--cached",
+        "--check"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ]
+}

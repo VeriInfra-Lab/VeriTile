@@ -1,0 +1,8 @@
+import VeriTile.Meta.StatementAudit
+import bench.repairs.tritonbench_g.fifth_order_sph_harmonics.Contract
+import bench.repairs.tritonbench_g.fifth_order_sph_harmonics.Correct
+import bench.repairs.tritonbench_g.fifth_order_sph_harmonics.FPEquiv
+
+#axiomsClean VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Correct.forward
+#axiomsClean VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Correct.backward
+#axiomsClean VeriTile.Bench.Repairs.FifthOrderSphHarmonics.FPEquiv.kernel_equivalent

@@ -1,0 +1,7 @@
+SinKernelNative.original_ast_lowering: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+SinKernelNative.compiled_source: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+SinKernelNative.source_active_tile: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+SinKernelNative.source_offset: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+SinKernelNative.source_pointer: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+SinKernelNative.complete_source_suffix: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+SinKernelNative.compiled_scalar: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])

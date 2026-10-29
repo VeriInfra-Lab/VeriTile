@@ -1,0 +1,11 @@
+# Three original official comparator invocations: actual PASS
+
+All three invocations, the guest driver and host SSH launcher terminated with exit 0. Canonical library: original 118 manifest targets, 1730.835 seconds. Actual VectorAdd example: 1799.509 seconds. Actual FP4 unscaled FPCorrect: 495.677 seconds. Total two-worker sample driver: 2241.452 seconds. The durations include the original independent judge/cache preparation and are measurements, not predicted full-corpus throughput.
+
+Exactly one of the 872 F3 task headlines is covered by the FP4 sample. VectorAdd belongs to registered examples outside those task headlines; the 118 library targets are a distinct canonical set. All 365 public task files / 872 headlines remain pending full source replay. No later W/881 source or GPU claim is included. The old host isolation failure remains archived.
+
+Each `guest/replay/*.json` pins its actual unchanged command, exit, elapsed time, official result and discovered target inventory. Original configs, generated Lean source, build and comparator kernel logs are under `guest/judges/{library,corpus}/official-logs`. Each comparator log contains actual Lean kernel acceptance. `library-target-mapping.json` binds aliases to exact original kernel-manifest rows; the FP4 row binds its exact headline from F3 axiom-v5 reports through the corpus plan.
+
+Original F3 source archive and maps are bundled. Original official inputs manifests cover all 3786 build inputs before snapshot; each judge's `source-after.json` checks them after completion, permitting only the original exact VeriTileComparator lakefile append. All 3794 frozen root inputs remain unchanged. Preflight has unchanged require_tools PASS, Landlock ABI 6 and systemd AF_UNIX enforcement controls. Separate exact-statement / illegal-axiom / source-write negative controls are preserved.
+
+Verify all outer and nested receipt hashes, launcher exit and captured stdout, exact target inventories and official result/kernel logs, then verify source archive and pre/post guards. Reexecution requires pinned private VM/tool media, immutable F3 source/cache, unprivileged judge, the original preflight/negative controls, and the commands recorded in the three actual invocation JSONs. `--library` and `--file ... --trust` are the two original official replay modes. No private key is bundled.

@@ -1,0 +1,29 @@
+{
+  "status": "passed_candidate_validation_with_explicit_additive_dtype_enum",
+  "checks": [
+    "current public statement parser",
+    "all validate_case checks with only proposed dtype additions",
+    "unchanged schema2 declaration_scope",
+    "unchanged exact validate_deferrals",
+    "case/port/callback/deferral bijection",
+    "all native artifact hashes and unchanged production AST"
+  ],
+  "counts": {
+    "scalar_families": 16,
+    "scope_bindings": 420,
+    "declaration_cases": 2400,
+    "numeric_execution_cases": 48,
+    "registered_declarations": 1,
+    "native_executions": 0,
+    "original_program_completion_increment": 0
+  },
+  "added_dtype_labels": [
+    "complex128",
+    "complex32",
+    "complex64",
+    "fp8e8m0fnu"
+  ],
+  "independent_root_review": "pending",
+  "canonical_schema_queue_check": "pending enum/authority/catalog integration; not claimed passed",
+  "original_program_completion_increment": 0
+}

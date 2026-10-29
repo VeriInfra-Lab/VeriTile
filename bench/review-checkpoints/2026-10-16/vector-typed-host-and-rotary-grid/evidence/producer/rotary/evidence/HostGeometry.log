@@ -1,0 +1,6 @@
+/tmp/veritile-standardization-20261015/rotary-emb-host-grid-wip/frozen-v2/overlay/bench/tritonbench_g/rotary_emb/Proofs/HostGeometry.lean:99:63: warning: 'omega' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/veritile-standardization-20261015/rotary-emb-host-grid-wip/frozen-v2/overlay/bench/tritonbench_g/rotary_emb/Proofs/HostGeometry.lean:99:63: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`

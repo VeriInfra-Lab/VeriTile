@@ -1,0 +1,3 @@
+/tmp/veritile-standardization-20261015/add-value-revision1-independent-review/cpu-wrapper-001.py:17: UserWarning: ComplexHalf support is experimental and many operators don't support it yet. (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/EmptyTensor.cpp:54.)
+  inputs=[(name+'-'+str(n),torch.empty(n,dtype=getattr(torch,name))) for name in names for n in [0,1]]
+{"status": "passed", "cases": 49, "dtype_profiles": 22, "source_prefix_sha256": "532ddad1049b565706b01b9e7fcdbc0552c34bd5e8f742f26e1fdd276a461cac", "original_AST_unchanged": true, "CPU_only": true, "GPU_launches": 0, "scope": "Actual torch.empty_like and actual source CUDA assertion. Allocation recorder exposes output metadata; no kernel replacement needed because assertion fires before launch."}

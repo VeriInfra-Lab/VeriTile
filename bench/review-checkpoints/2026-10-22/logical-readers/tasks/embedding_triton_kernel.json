@@ -1,0 +1,117 @@
+{
+  "schema": 1,
+  "task": "embedding_triton_kernel",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue05/result.json",
+    "sha256": "b7855ba15faaf5e2f177961e4a8a89181354e8928bbce04e8519a187efbab386",
+    "task_index": 2
+  },
+  "finding": "Gather formula selected low-level channel encodings.",
+  "resolution": "Bijective named signed ids and vocabulary/feature weights; output is a 64-row by feature array. Signed domain and complete existing IO judgment transported exactly.",
+  "mathematical_target": "For each row/feature, gather weights[id-first, feature] when first≤id<last, otherwise zero.",
+  "conditions_and_scope": "The full 64-iteration source invocation at pid; active signed-int32 ids and existing Execution.Layout (covered columns, distinct output and output-row separation). No enlargement to a full launch-grid claim.",
+  "proof_connection": "LogicalIO.inputEquiv/outputEquiv and judgment_iff to the complete IOImplements.implements_signed judgment.",
+  "fp_review": "Actual FP32/int32 source and retained index-commuted candidate; all 64 iterations, signed metadata, masks and casts unchanged.",
+  "numerical_dependencies": {
+    "experimental_rules_used": [],
+    "missing_experimental_evidence": [],
+    "note": "Existing actual source pair retained; no numerical operation/order rewrite or new admission obligation. Empty experimental rules do not assert arbitrary opaque-model/hardware identity."
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "Now inline: if first≤ids[a] and ids[a]<last, weight[(ids[a]-first).toNat,d], else 0.",
+    "required_conditions": [
+      "Execution.Layout explicitly requires ids/output and weight/output separation, hidden≤width and hidden≤outputStride.",
+      "IO.signed restricts only active read metadata to signed int32; payload Real values are unrestricted.",
+      "Public IO exposes all active initial bounds/bindings and all output/frame conclusions. Contract maps checked first/last and vocabulary capacity into these parameters without adding a desired-output premise."
+    ],
+    "scope": "One complete invocation visiting 64 rows pid*64+a; active rows require <n and columns d<hidden. Width is the masked tile extent; the vocabulary window is (last-first).toNat. Only selected active weight rows are bound/read.",
+    "canonical_connection": "New Proofs/HeadlineLookup.vocabulary_index proves the finite lookup index bound from the visible signed interval test. IOImplements.implements_signed reuses the canonical independent lookup and full 64-iteration execution theorem; the inline formula is definitionally equal.",
+    "fp_program_pair": {
+      "actual_pairs": [
+        "source .int32 p vs indexCommutedSource .int32 p"
+      ],
+      "source_precision": "Signed-int32 ID loads and FP32 table/output source tags retained.",
+      "transformation": "Commute only integer pid*64 in the initial row index; all 64 iterations, masks and gather/zero branches remain.",
+      "model_domain_and_guarantees": "ProfiledRewrite assumptions=[] and domain=[] retain the fixed fp32Theory. Rewrite.equivalent proves complete execution equality; Rewrite.execution_eq separately exhibits equality for every Structural algebra. The rewrite changes no numeric operation.",
+      "experimental_rule_instances_used": [],
+      "missing_experimental_evidence": [],
+      "existing_strict_theory_preserved": true
+    },
+    "numerical_dependencies": {
+      "source_precision": "Signed-int32 ID loads and FP32 table/output source tags retained.",
+      "transformation": "Commute only integer pid*64 in the initial row index; all 64 iterations, masks and gather/zero branches remain.",
+      "model_domain_and_guarantees": "ProfiledRewrite assumptions=[] and domain=[] retain the fixed fp32Theory. Rewrite.equivalent proves complete execution equality; Rewrite.execution_eq separately exhibits equality for every Structural algebra. The rewrite changes no numeric operation.",
+      "experimental_rule_instances_used": [],
+      "missing_experimental_evidence": [],
+      "existing_strict_theory_preserved": true
+    }
+  },
+  "verification": [
+    {
+      "task": "embedding_triton_kernel",
+      "kind": "fp_source",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue05/build.py",
+        "bench/repairs/tritonbench_g/embedding_triton_kernel/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue05/fp-embedding_triton_kernel.log",
+      "log_sha256": "caaccb03790f5751775d375016f45651e69c83e881620c81292a063b3ee8079f",
+      "reuse": "Prior task-local successful check; reviewed source and receipt pins remain current."
+    },
+    {
+      "task": "embedding_triton_kernel",
+      "kind": "task_joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue05/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue05/joint_embedding_triton_kernel.lean"
+      ],
+      "exit_code": 0,
+      "source": ".veritile-cache/logical-reader-review-20261022/queue05/joint_embedding_triton_kernel.lean",
+      "source_sha256": "a121ac924928e265ec46fc4c3f7d65fea12009be2e95fae1ab2c6c50aa4571ea",
+      "log": ".veritile-cache/logical-reader-review-20261022/queue05/joint-embedding_triton_kernel.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reuse": "Prior task-local successful check; reviewed source and receipt pins remain current."
+    },
+    {
+      "kind": "receipt_source_object_direct_dependency_audit",
+      "command": [
+        "python",
+        ".veritile-cache/logical-reader-review-20261022/queue05/audit-receipts.py"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue05/receipts-final.json",
+      "log_sha256": "a3a64928712915a8204fd3fec33335656e18e0542b5c5ab22d8bdec24b8df76e"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/embedding_triton_kernel/Contract.lean": "76c2e9a9aed8b6a10f2b885d0aa3bc1902548977e7d6f2894e6ed065a7df4956",
+    "bench/repairs/tritonbench_g/embedding_triton_kernel/Correct.lean": "04eae4c39b31fd2043e08d8c93d7acdd605ade40af7b9226ba13fab5f3233db5",
+    "bench/repairs/tritonbench_g/embedding_triton_kernel/FPEquiv.lean": "95af6c807facaab9a3b2d7709a9746e10d44b8412f7d245af1bf20a66a0af2c7",
+    "bench/repairs/tritonbench_g/embedding_triton_kernel/IO.lean": "5cae7756689a83d221ab7368746292b02730fe16d95f12930bd2a13931efb298",
+    "bench/repairs/tritonbench_g/embedding_triton_kernel/Kernels.lean": "2e9e9011e3fee1e0bbfa62bf42b8b9597c4c0beded51190b15263fd48c59a19f",
+    "bench/repairs/tritonbench_g/embedding_triton_kernel/Proofs/HeadlineLookup.lean": "ec2d699cb6a3f2b020cbc043fac7888edeb1b11474d8a61c3c783a396035a5b2",
+    "bench/repairs/tritonbench_g/embedding_triton_kernel/Proofs/LogicalIO.lean": "a2ae71acde12af8467f8abadec97aab186210969b8e34040a75ff727f80d5033",
+    "bench/repairs/tritonbench_g/embedding_triton_kernel/Proofs/Rewrite.lean": "c96f9b2f192f325da1e3b13114f1d14cb0d1d75956db464ca57a916e7d6f333c",
+    "bench/repairs/tritonbench_g/embedding_triton_kernel/Proofs/IOImplements.lean": "f8298791b902383936706a6deac2604057172720ccbb0dd41b9ed56f9a2a22e9",
+    "bench/repairs/tritonbench_g/embedding_triton_kernel/Proofs/Execution.lean": "0dee7f836388c9e53640065bf78aac6190d4e4e98ace3bc6b3296cbc003c8b41",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

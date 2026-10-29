@@ -1,0 +1,17 @@
+VeriTile.Bench.TritonBenchG.AddExample.Finite.programPlan: definition does not reference [VeriTile.Bench.TritonBenchG.AddExample.Finite.observedProgram,
+ VeriTile.Bench.TritonBenchG.AddExample.Finite.runProgram,
+ VeriTile.Bench.TritonBenchG.AddExample.Finite.executeBody,
+ VeriTile.Bench.TritonBenchG.AddExample.Finite.executeInstruction,
+ VeriTile.Bench.TritonBenchG.AddExample.Finite.applyWrites] — non-circular ✓
+VeriTile.Bench.TritonBenchG.AddExample.Finite.inspected_iff: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.AddExample.Finite.program_correspondence: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.AddExample.Finite.program_plan_bounds: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.AddExample.Finite.all_masked_program_plan: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

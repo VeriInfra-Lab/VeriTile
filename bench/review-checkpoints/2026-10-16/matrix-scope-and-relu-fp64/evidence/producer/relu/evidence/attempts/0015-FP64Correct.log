@@ -1,0 +1,6 @@
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.FP64Correct.relu_fp64_source_grid_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.FP64Correct.relu_fp64_host_source_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

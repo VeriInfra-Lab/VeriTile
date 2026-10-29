@@ -1,0 +1,169 @@
+{
+  "schema": 1,
+  "task": "token_softmax_bloom",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue14/review-supplement/result.json",
+    "sha256": "200c835b2865a3754511626b67c3dd83da5915c23edcd916bf72095c1e08fe74",
+    "task_index": 11
+  },
+  "finding": "Reader used target channel packing and a guarded Fin-bound proof in segmentFormula.",
+  "resolution": "Added full start/length/value input snapshots and job/column output bijection; logical segment sum uses a total lookup in IO. Proved both canonical and exact previous guarded-target iff.",
+  "mathematical_target": "fun xs job i => exp(xs.values job i) / sum (j : Fin(xs.length job)), exp(xs.at job j.val)",
+  "conditions_and_scope": "positive width and Separate; exact original Cover/Unique domain, original work-list, repeated identical launches, masks and exterior frame; coverage makes the total lookup extension unused.",
+  "proof_connection": {
+    "full_old_new_iff": "VeriTile.Bench.Repairs.TokenSoftmaxBloom.Logical.previous_judgment_iff; judgment_iff; lift_eq; previous_eq",
+    "canonical_source_connection": [
+      "local segmentFormula_eq_realRow reindexes original masked Fin B denominator by Fin n under Cover using softmax1 masked_sum_eq_logical",
+      "Per-input target equality uses admitted.Cover and original thin SoftmaxIO.target adapter",
+      "IOCorrect.real is then reused with exactly original realDomain"
+    ],
+    "coordinate_and_connection_build_receipts": [
+      {
+        "source": "bench/repairs/tritonbench_g/token_softmax_bloom/LogicalIO.lean",
+        "source_sha256": "b4b5aae476388e3855a138896e47d6f6518a5a34f2a4472c7336c577a1a03b53",
+        "receipt": ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/token_softmax_bloom/LogicalIO.workspace-build.json",
+        "receipt_sha256": "bd0bee9bc2ea6d7e27cd4a51ed7c74fa90031994abb4f16b13a7816d3362ac92",
+        "exit_code": 0,
+        "object_sha256": {
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/token_softmax_bloom/LogicalIO.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/token_softmax_bloom/LogicalIO.ilean": "d5e7e502fc22b0ee8affc51f4502691288056271ac04a40b4ecf23ef34964d28",
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/token_softmax_bloom/LogicalIO.olean": "f662efb55b58cbcc5a4c7cb6cd70d7b606c2268b8c634d823e334543013d04bd"
+        }
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/token_softmax_bloom/Proofs/LogicalIO.lean",
+        "source_sha256": "ab61a509a642a2cddc5bf5c7e16eba4a96142ec69d53cea25d465286c3fbde6f",
+        "receipt": ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/token_softmax_bloom/Proofs/LogicalIO.workspace-build.json",
+        "receipt_sha256": "b4d2d1a83f8bcd81dc1311e889c76b019a6ab923a88129aa80c08a466e09c510",
+        "exit_code": 0,
+        "object_sha256": {
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/token_softmax_bloom/Proofs/LogicalIO.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/token_softmax_bloom/Proofs/LogicalIO.ilean": "5b9a3a393a6080c8b4765c35301a74c883b53bb682a67d730f4f19cfdbe57546",
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/token_softmax_bloom/Proofs/LogicalIO.olean": "bd002767714785ce6ccfa70a6b0f9bf1c048341c861bbcf502d94bd5857b3e3a"
+        }
+      }
+    ],
+    "main_build_receipts": [
+      {
+        "source": "bench/repairs/tritonbench_g/token_softmax_bloom/Correct.lean",
+        "source_sha256": "16f0b745feaf9b7f99276853cd1267e08f27307c6983ed88917d9aadd536aa73",
+        "receipt": ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/token_softmax_bloom/Correct.workspace-build.json",
+        "receipt_sha256": "a7eec1ef7b9b3f865b64136532d50f7ff344fd89b6f62095e437cc7c150f88ca",
+        "exit_code": 0,
+        "object_sha256": {
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/token_softmax_bloom/Correct.olean": "fd4246a9228d54a399e911fb6de07001ae9789aa52bae379ab882bc340e60ad4",
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/token_softmax_bloom/Correct.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/token_softmax_bloom/Correct.ilean": "0b1bcf5886d09f33129cd50149ae91324e8b4f989560b84eee93c7350375666e"
+        }
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/token_softmax_bloom/FPEquiv.lean",
+        "source_sha256": "cb9534da4b8fe7004dd3e96be5b8a248b4efca11e8e50829aa16b126dfab7fa3",
+        "receipt": ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/token_softmax_bloom/FPEquiv.workspace-build.json",
+        "receipt_sha256": "d678064538bd47051ff5ea72ea6e276ab20e2a4f057228fb2534136c5de3b747",
+        "exit_code": 0,
+        "object_sha256": {
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/token_softmax_bloom/FPEquiv.ilean": "01281b65e3f219ff24e0c28682208e41b7f1f9b9a90e8a023ce2963dec956a6c",
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/token_softmax_bloom/FPEquiv.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/token_softmax_bloom/FPEquiv.olean": "82823a905815a3126bb988da0738b022a31a826173b51067093cbbf617e3dff9"
+        }
+      }
+    ]
+  },
+  "fp_review": {
+    "headline": "original ≡[assumptions=[]] indexCommuted",
+    "source": "kernel .fp32 p versus KernelRewrite.candidateKernel p / indexCommutedSource",
+    "connection": "KernelRewrite.equivalent on complete source, only one integer metadata-address product commutes",
+    "source_unchanged": true
+  },
+  "numerical_dependencies": {
+    "experimental_rules": [],
+    "qualification": "Empty experimental rule set in the stated program view. Fixed strict/software/native primitives, precision, conversions, reduction trees and observers remain part of that view; no arbitrary opaque-model or hardware-wide bit-equality claim.",
+    "strict_model": "FP.ProfiledRewrite typed/profiled FP32 program; all softmax floating operations, reduction order, casts and stores fixed.",
+    "main_experimental_rules_used_count": 0,
+    "new_experiments": 0,
+    "new_deferred_experiments": [],
+    "counting_scope": "Actual main-pair dependencies only; imported/available rule tables and optional native results are not counted as used."
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "Adjacent segmentFormula: exp(xs i)/sum(j:Fin n, if j.val<B then exp(xs[j]) else 0). Cover ensures this total-lookup zero extension is unused.",
+    "required_conditions": [
+      "0<p.width",
+      "Grid.Separate p",
+      "realDomain=Unique ∧ Cover; each runtime logical segment length≤width",
+      "Original shared token_softmax_llama Contract aliases retained",
+      "ProgramIO preserves finite metadata/input/output channel bindings, safe successful schedule and frame"
+    ],
+    "scope": "Every submitted segment/head in original work schedule, with full logical segment coverage under realDomain.Cover. Repeated identical PID launches remain admitted by original Unique; no new full external host-grid application.",
+    "canonical_connection": [
+      "local segmentFormula_eq_realRow reindexes original masked Fin B denominator by Fin n under Cover using softmax1 masked_sum_eq_logical",
+      "Per-input target equality uses admitted.Cover and original thin SoftmaxIO.target adapter",
+      "IOCorrect.real is then reused with exactly original realDomain"
+    ],
+    "fp_program_pair": {
+      "headline": "original ≡[assumptions=[]] indexCommuted",
+      "source": "kernel .fp32 p versus KernelRewrite.candidateKernel p / indexCommutedSource",
+      "connection": "KernelRewrite.equivalent on complete source, only one integer metadata-address product commutes"
+    },
+    "numerical_dependencies": {
+      "experimental_rules": [],
+      "qualification": "Empty experimental rule set in the stated program view. Fixed strict/software/native primitives, precision, conversions, reduction trees and observers remain part of that view; no arbitrary opaque-model or hardware-wide bit-equality claim.",
+      "strict_model": "FP.ProfiledRewrite typed/profiled FP32 program; all softmax floating operations, reduction order, casts and stores fixed."
+    }
+  },
+  "verification": [
+    {
+      "kind": "Correct-FPEquiv",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue14/build.py",
+        "bench/repairs/tritonbench_g/token_softmax_bloom/Correct.lean",
+        "bench/repairs/tritonbench_g/token_softmax_bloom/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue14/verify-pass1/token_softmax_bloom/Correct-FPEquiv.log",
+      "log_sha256": "3a0b0ae3d45c3790450332216ec0ae8efb0b2c27fd3952787b71df9894c1eec0",
+      "elapsed_seconds": 5.952
+    },
+    {
+      "kind": "joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue14/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue14/verify-pass1/token_softmax_bloom/joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue14/verify-pass1/token_softmax_bloom/joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "elapsed_seconds": 3.752
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/token_softmax_bloom/Contract.lean": "757eff7db95f53ccdd652218b534b6f2a73334c5ed2ae7f51f6f8a709e8b2336",
+    "bench/repairs/tritonbench_g/token_softmax_bloom/Correct.lean": "16f0b745feaf9b7f99276853cd1267e08f27307c6983ed88917d9aadd536aa73",
+    "bench/repairs/tritonbench_g/token_softmax_bloom/FPEquiv.lean": "cb9534da4b8fe7004dd3e96be5b8a248b4efca11e8e50829aa16b126dfab7fa3",
+    "bench/repairs/tritonbench_g/token_softmax_bloom/IO.lean": "6d2ab2ea660e6f955a9be9ef8b387c3d9998a7cc0d73ae580ca73dd7d5b2eb84",
+    "bench/repairs/tritonbench_g/token_softmax_bloom/Kernels.lean": "7fbacbdc42314da8969bc2f272007e9e9e05623488524b4c57a3680ac442b7eb",
+    "bench/repairs/tritonbench_g/token_softmax_bloom/LogicalIO.lean": "b4b5aae476388e3855a138896e47d6f6518a5a34f2a4472c7336c577a1a03b53",
+    "bench/repairs/tritonbench_g/token_softmax_bloom/Proofs/IOCorrect.lean": "2ec43a0311f44a32526927d36db261ab2be508433dfbdee71e3c360ac52ca727",
+    "bench/repairs/tritonbench_g/token_softmax_bloom/Proofs/LogicalIO.lean": "ab61a509a642a2cddc5bf5c7e16eba4a96142ec69d53cea25d465286c3fbde6f",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [
+    "Targeted modified IO/connection/reader replay and per-task Contract+Correct+FPEquiv imports; cached established internal proof dependencies reused. No new GPU/native/host or numerical obligation, and no full dependency-closure replay."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

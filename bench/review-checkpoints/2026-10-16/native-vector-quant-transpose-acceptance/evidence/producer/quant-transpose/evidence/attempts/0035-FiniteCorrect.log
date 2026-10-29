@@ -1,0 +1,24 @@
+QuantTransposeFinite.Safe: definition does not reference [QuantTransposeFinite.executeAPI,
+ QuantTransposeFinite.execute,
+ QuantTransposeFinite.prepare,
+ QuantTransposeFinite.runTrials,
+ QuantTransposeFinite.runGrid,
+ QuantTransposeFinite.runProgram,
+ QuantTransposeFinite.runLanes,
+ QuantTransposeFinite.source,
+ QuantTransposeFinite.Expr.eval] — non-circular ✓
+QuantTransposeFinite.quant_transpose_complete_finite_execution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+QuantTransposeFinite.quant_transpose_rejected_source_outcome: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+QuantTransposeFinite.quant_transpose_undefined_conversion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+QuantTransposeFinite.quant_transpose_source_address_domain: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+QuantTransposeFinite.quant_transpose_finite_source_outcomes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,225 @@
+{
+  "schema": 1,
+  "task": "dequantize_matmul",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue04/result.json",
+    "sha256": "047600e037a560bd57de142017401cc7a18c33186639e2d3a72715aff6ce70fd",
+    "task_index": 7
+  },
+  "finding": "The mathematical product used packed matrix addresses and raw channel projections.",
+  "resolution": "Expose logical INT8 weights[row,col], scales[col] and a row/column output matrix; show the signed integer times column scale directly.",
+  "mathematical_target": "kernel_correct: the complete K-by-N dequantization grid implements weights[row,col] * scales[col].",
+  "conditions_and_scope": "The entire signed-byte domain, all positive BK/BN and Separate premises, exact source INT8/FP32 precision, complete 2D grid, aliases permitted by the old IO, safety, successful execution and full exterior frame remain. Subsequent host torch.mm is outside this source.",
+  "proof_connection": "Finite matrix Equivs retain all cells. signed_pullback proves exact domain equality, product_transport exact target equality, and logical_iff the full old/new ImplementsOn equivalence; exact pre-edit headline fixture passes.",
+  "fp_review": "Existing complete INT8/FP32 original versus N-mask integer-product-commuted candidate unchanged. No multiplication or rounding rule is introduced.",
+  "numerical_dependencies": {
+    "experimental_rule_instances": 0,
+    "new_numeric_rewrites": 0,
+    "evidence": "Actual FP transformation changes only exact integer indexing/block-origin reuse. Empty experimental R is used under the preserved concrete source/program-view theory; it does not assert arbitrary hardware or opaque IEEE equivalence."
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "Inline signed integer promotion and column scaling: (q : Real) * scale, mapped by PublicIO.result to every K*N logical cell.",
+    "required_conditions": {
+      "conditions": [
+        "hK : 0<p.BK",
+        "hN : 0<p.BN",
+        "KernelGrid.Separate p",
+        "PublicIO.SignedBytes explicit input domain",
+        "Canonical IO retains full scale/input/output windows, launch masks and exterior frame"
+      ],
+      "domain_source": "IO PublicIO.sourceIO/result/SignedBytes and Proofs/IOGrid. Contract preserves the larger checked wrapper API without adding its host service to this headline."
+    },
+    "scope": "Complete selected two-dimensional INT8-to-FP32 dequantization grid. The separate host torch.mm service is outside this JIT kernel theorem and is not asserted here.",
+    "canonical_connection": "PublicIO.implements using realAlgebra and formula, with the exact multiplication binding proved by rfl; inline target is definitionally the prior formula.",
+    "fp_program_pair": {
+      "fp_pairs": [
+        "original multiply rest p ≡[[]] indexCommuted multiply rest p"
+      ],
+      "fp_scope": "Both complete INT8/FP32 source grids on the same signed-byte domain, every output cell, actual safe successful runs and both exterior frames.",
+      "fp_transform": "Commute only the exact integer N-mask product.",
+      "precision_model_domain": "Original signed-byte load/cast, FP32 scale/output and multiplication order. Word nativeAlgebra with parameter multiply; SignedBytes domain, positive BK/BN and separation unchanged."
+    },
+    "numerical_dependencies": {
+      "experimental_rule_set": [],
+      "used_experimental_rule_instances": 0,
+      "missing_experimental_evidence": [],
+      "strict_floating_rewrites": [],
+      "explanation": "Only exact integer index commutation or existing scalar block-origin reuse is used. Source precision, conversions, masks, FMA structure and floating order are preserved. Empty R is interpreted at the program view and backend stated above, with no hardware or arbitrary-model nonemptiness claim."
+    }
+  },
+  "verification": [
+    {
+      "kind": "final-readers",
+      "command": [
+        "/usr/local/bin/python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue04/build.py",
+        "bench.repairs.tritonbench_g.context_attn_mistral.KernelOnly.Correct",
+        "bench.repairs.tritonbench_g.context_attn_mistral.KernelOnly.FPEquiv",
+        "bench.repairs.tritonbench_g.context_attn_nopad.KernelOnly.Correct",
+        "bench.repairs.tritonbench_g.context_attn_nopad.KernelOnly.FPEquiv",
+        "bench.repairs.tritonbench_g.cosine_compute.Correct",
+        "bench.repairs.tritonbench_g.cosine_compute.FPEquiv",
+        "bench.repairs.tritonbench_g.cross_entropy1.Correct",
+        "bench.repairs.tritonbench_g.cross_entropy1.FPEquiv",
+        "bench.repairs.tritonbench_g.cross_entropy2.Correct",
+        "bench.repairs.tritonbench_g.cross_entropy2.FPEquiv",
+        "bench.repairs.tritonbench_g.cross_entropy_ops.Correct",
+        "bench.repairs.tritonbench_g.cross_entropy_ops.FPEquiv",
+        "bench.repairs.tritonbench_g.decay_cumsum.Correct",
+        "bench.repairs.tritonbench_g.decay_cumsum.FPEquiv",
+        "bench.repairs.tritonbench_g.dequantize_matmul.Correct",
+        "bench.repairs.tritonbench_g.dequantize_matmul.FPEquiv",
+        "bench.repairs.tritonbench_g.dequantize_rowwise.Correct",
+        "bench.repairs.tritonbench_g.dequantize_rowwise.FPEquiv",
+        "bench.repairs.tritonbench_g.destindex_copy.Correct",
+        "bench.repairs.tritonbench_g.destindex_copy.FPEquiv",
+        "bench.repairs.tritonbench_g.destindex_copy_kv1.Correct",
+        "bench.repairs.tritonbench_g.destindex_copy_kv1.FPEquiv",
+        "bench.repairs.tritonbench_g.destindex_copy_kv2.Correct",
+        "bench.repairs.tritonbench_g.destindex_copy_kv2.FPEquiv"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue04/final-readers.log",
+      "log_sha256": "4f0adfce6f1f35a74dd6a94c46a9428c7804d50630acebb77e212ccde75098eb"
+    },
+    {
+      "kind": "final-readers-complete",
+      "command": [
+        "/usr/local/bin/python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue04/build.py",
+        "bench.repairs.tritonbench_g.context_attn_mistral.KernelOnly.Correct",
+        "bench.repairs.tritonbench_g.context_attn_mistral.KernelOnly.FPEquiv",
+        "bench.repairs.tritonbench_g.context_attn_nopad.KernelOnly.Correct",
+        "bench.repairs.tritonbench_g.context_attn_nopad.KernelOnly.FPEquiv",
+        "bench.repairs.tritonbench_g.cosine_compute.Correct",
+        "bench.repairs.tritonbench_g.cosine_compute.FPEquiv",
+        "bench.repairs.tritonbench_g.cross_entropy1.Correct",
+        "bench.repairs.tritonbench_g.cross_entropy1.FPEquiv",
+        "bench.repairs.tritonbench_g.cross_entropy2.Correct",
+        "bench.repairs.tritonbench_g.cross_entropy2.FPEquiv",
+        "bench.repairs.tritonbench_g.cross_entropy_ops.Correct",
+        "bench.repairs.tritonbench_g.cross_entropy_ops.FPEquiv",
+        "bench.repairs.tritonbench_g.decay_cumsum.Correct",
+        "bench.repairs.tritonbench_g.decay_cumsum.FPEquiv",
+        "bench.repairs.tritonbench_g.dequantize_matmul.Correct",
+        "bench.repairs.tritonbench_g.dequantize_matmul.FPEquiv",
+        "bench.repairs.tritonbench_g.dequantize_rowwise.Correct",
+        "bench.repairs.tritonbench_g.dequantize_rowwise.FPEquiv",
+        "bench.repairs.tritonbench_g.destindex_copy.Correct",
+        "bench.repairs.tritonbench_g.destindex_copy.FPEquiv",
+        "bench.repairs.tritonbench_g.destindex_copy_kv1.Correct",
+        "bench.repairs.tritonbench_g.destindex_copy_kv1.FPEquiv",
+        "bench.repairs.tritonbench_g.destindex_copy_kv2.Correct",
+        "bench.repairs.tritonbench_g.destindex_copy_kv2.FPEquiv"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue04/final-readers-complete.log",
+      "log_sha256": "9ebd884d2b8c68c741c42a63dff3cfb5f928f03086e51bff42d9a710b9a22749"
+    },
+    {
+      "kind": "final-required-helpers",
+      "command": [
+        "/usr/local/bin/python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue04/build.py",
+        "bench.repairs.tritonbench_g.context_attn_mistral.KernelOnly.LogicalIO",
+        "bench.repairs.tritonbench_g.context_attn_mistral.KernelOnly.Proofs.LogicalMath",
+        "bench.repairs.tritonbench_g.context_attn_mistral.KernelOnly.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.context_attn_nopad.KernelOnly.LogicalIO",
+        "bench.repairs.tritonbench_g.context_attn_nopad.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.cosine_compute.Proofs.ReaderReal",
+        "bench.repairs.tritonbench_g.cosine_compute.Proofs.ReaderFP",
+        "bench.repairs.tritonbench_g.cross_entropy1.LogicalData",
+        "bench.repairs.tritonbench_g.cross_entropy1.LogicalIO",
+        "bench.repairs.tritonbench_g.cross_entropy1.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.cross_entropy1.Proofs.LogicalTransport",
+        "bench.repairs.tritonbench_g.cross_entropy2.LogicalIO",
+        "bench.repairs.tritonbench_g.cross_entropy2.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.cross_entropy_ops.LogicalIO",
+        "bench.repairs.tritonbench_g.cross_entropy_ops.Proofs.ReaderTargets",
+        "bench.repairs.tritonbench_g.cross_entropy_ops.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.decay_cumsum.LogicalIO",
+        "bench.repairs.tritonbench_g.decay_cumsum.Proofs.LogicalMath",
+        "bench.repairs.tritonbench_g.decay_cumsum.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.dequantize_matmul.LogicalIO",
+        "bench.repairs.tritonbench_g.dequantize_matmul.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.dequantize_rowwise.LogicalIO",
+        "bench.repairs.tritonbench_g.dequantize_rowwise.Proofs.ReaderReal",
+        "bench.repairs.tritonbench_g.dequantize_rowwise.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.destindex_copy.LogicalIO",
+        "bench.repairs.tritonbench_g.destindex_copy.Proofs.ReaderFP",
+        "bench.repairs.tritonbench_g.destindex_copy_kv1.LogicalIO",
+        "bench.repairs.tritonbench_g.destindex_copy_kv1.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.destindex_copy_kv1.Proofs.ReaderFP",
+        "bench.repairs.tritonbench_g.destindex_copy_kv2.LogicalIO",
+        "bench.repairs.tritonbench_g.destindex_copy_kv2.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.destindex_copy_kv2.Proofs.ReaderFP"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue04/final-required-helpers.log",
+      "log_sha256": "18d108c47db7ee0210d420abae3d1f1eefa6b92292f92fd2dc4ef4792a973942"
+    },
+    {
+      "kind": "joint-dequantize_matmul",
+      "command": [
+        "/usr/local/bin/python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue04/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue04/joint/dequantize_matmul.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue04/joint-dequantize_matmul.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "kind": "preservation-dequantize_matmul",
+      "command": [
+        "/usr/local/bin/python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue04/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue04/preservation/dequantize_matmul.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue04/preservation-dequantize_matmul.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/dequantize_matmul/Contract.lean": "81f3fbbe4bb76dd989ba20984a780dd7282ec52cc9654662aa1b7b11c3545d32",
+    "bench/repairs/tritonbench_g/dequantize_matmul/Correct.lean": "ba388b3532f9542674d81c5d94d1e176e68e45810eb25c903e3d36684d29742e",
+    "bench/repairs/tritonbench_g/dequantize_matmul/FPEquiv.lean": "a979bed962ac39a3ac043e5d2fd2846b231a3927e48986fd36c6999a4c8e42fe",
+    "bench/repairs/tritonbench_g/dequantize_matmul/IO.lean": "1877fb5c5c0db00cf1e00e843882db5bc593899a549b6570057ca5a33826c0a0",
+    "bench/repairs/tritonbench_g/dequantize_matmul/Kernels.lean": "664fb65d328e2e44e7369ba155c6583902cbad9c76636fc92285159123d0ebbc",
+    "bench/repairs/tritonbench_g/dequantize_matmul/LogicalIO.lean": "84fa8c43127ee725582d5f54da854546102f4fd5882f22f0f8f4fc5261ad87b0",
+    "bench/repairs/tritonbench_g/dequantize_matmul/PairIO.lean": "633fd47412b18161bb673af2b6e9cc9e05204cbda44606cf593546327e622e41",
+    "bench/repairs/tritonbench_g/dequantize_matmul/Proofs/AccessSafety.lean": "5cc1f6e891cb828d81fe504efad9834ae646aaeb64361903dc3caf9e03e55d06",
+    "bench/repairs/tritonbench_g/dequantize_matmul/Proofs/IOGrid.lean": "027c81c5fc52a1bfb5e97b776031b96bd3a5d3606a7a1537568fca2bc50a547a",
+    "bench/repairs/tritonbench_g/dequantize_matmul/Proofs/KernelEquivalence.lean": "0a29c8a1f8d46a42248ffbe6b2583ce9df9a66b0175a7b8a67215c5684941b04",
+    "bench/repairs/tritonbench_g/dequantize_matmul/Proofs/KernelExecution.lean": "f4962a0b289e84efbae1b9d7c7d5af6b8ee90c435637de2dfe3d6ac30ac41733",
+    "bench/repairs/tritonbench_g/dequantize_matmul/Proofs/KernelGrid.lean": "72dda14448467396e01c3b6688c024b43ecd5a3da186ac00caed4301b3ba681a",
+    "bench/repairs/tritonbench_g/dequantize_matmul/Proofs/KernelModels.lean": "37deaa5f076ea0e6c2014668cc49d56922c5b1788b6d912102d5599b30d60eac",
+    "bench/repairs/tritonbench_g/dequantize_matmul/Proofs/KernelResult.lean": "192d4e58af6d929805ad7f4898d6ce31cf903bae037d513c6526a7ec0eec36ab",
+    "bench/repairs/tritonbench_g/dequantize_matmul/Proofs/KernelWhole.lean": "5cd2e882e18e953769e5624242200dca489432090669b903474ab99aa657da52",
+    "bench/repairs/tritonbench_g/dequantize_matmul/Proofs/LogicalReader.lean": "ec0ce5a6567736d1081cd64ce77655ca84e46084eddf13c91c1b7779ab9d4b8b",
+    "bench/repairs/tritonbench_g/dequantize_matmul/Proofs/PairEquivalence.lean": "33e869d21a80156a5454a0ae099a8e9d86ee1d52ae51ebc586e477ffc8182ded",
+    "bench/tritonbench_g/kcache_copy_triton/KcacheCopyTriton.lean": "fb16f21d28e45b01dff210b98a37029c4d623b8710d6a91b43edea53f967bb74",
+    "bench/tritonbench_g/kcache_copy_triton/Proofs/TypedCopy.lean": "727b75143b5d44732b8240aadd0a5e62ab1bd4ba81cd37420d89e02b1a73ca34",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

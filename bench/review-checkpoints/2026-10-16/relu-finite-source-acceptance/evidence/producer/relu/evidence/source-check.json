@@ -1,0 +1,45 @@
+{
+  "source": "bench/tritonbench_g/relu_triton_kernel/relu_triton_kernel.py",
+  "source_sha256": "2dffef82d69f280104c25b798e23f59a1ba9d00325552b91149a1d3b50fcffb0",
+  "host_statements": [
+    "out = torch.empty_like(x, dtype=torch.float32, device=x.device)",
+    "N = out.numel()",
+    "BLOCK_SIZE = 1024",
+    "num_blocks = (N + BLOCK_SIZE - 1) // BLOCK_SIZE",
+    "grid = lambda meta: (triton.cdiv(N, BLOCK_SIZE),)",
+    "relu_kernel[grid](x, out, N, BLOCK_SIZE)",
+    "return out"
+  ],
+  "kernel_statements": [
+    "pid = tl.program_id(0)",
+    "block_start = pid * block_size",
+    "offsets = block_start + tl.arange(0, block_size)",
+    "mask = offsets < N",
+    "x = tl.load(x_ptr + offsets, mask=mask)",
+    "result = tl.where(x >= 0, x, 0.0)",
+    "if pid == 0:\n    tl.store(out_ptr + offsets, result, mask=mask)"
+  ],
+  "kernel_ast_identical": true,
+  "frontend_pairs": 85,
+  "frontend_successes": 65,
+  "comparison_rejections": 10,
+  "signature_rejections": 10,
+  "tested_N": [
+    0,
+    1,
+    1024,
+    1025,
+    2147483647
+  ],
+  "full_N_domain_is_not_exhaustively_probed": true,
+  "boundary_frontend_pairs": 68,
+  "boundary_frontend_successes": 52,
+  "boundary_frontend_rejections": 16,
+  "included_N_endpoint": 2147483648,
+  "excluded_unsafe_N_begin": 2147483649,
+  "boundary_diagnosis": "N is constexpr: at2^31 mask uses unsigned i32 and all offsets remain signed-positive. The next block has signed multiply overflow before the gate; larger configurations still frontend-generate, so are not frontend rejections.",
+  "generalization_basis": "N supplies a signed-i32 mask bound below2^31 and an unsigned-i32 bound at2^31; tile shape1024 and value dtype route are independent of N. Trusted frontend type primitive rule plus source review, not an inference from samples.",
+  "native_backend_compiled": false,
+  "gpu_executed": false,
+  "test_harness_review": "test_relu is non-JIT, has no production caller, and calls the proved relu entrypoint four times. The import-time result_gold call is test initialization, retained in HostWrapper.initializeModule."
+}

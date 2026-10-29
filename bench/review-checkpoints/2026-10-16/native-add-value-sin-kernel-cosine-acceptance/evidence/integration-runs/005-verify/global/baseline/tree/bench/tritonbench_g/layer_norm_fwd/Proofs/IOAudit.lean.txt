@@ -1,0 +1,47 @@
+import VeriTile.Meta.StatementAudit
+import bench.tritonbench_g.layer_norm_fwd.Proofs.RealIO
+
+namespace VeriTile.Bench.TritonBenchG.LayerNormFwd
+
+#axiomsClean FlatDomain.Extents.rowBounds
+#axiomsClean Safety.rowLoadOp_safe
+#axiomsClean Safety.coefficientOp_safe
+#axiomsClean Safety.rowStore_safe
+#axiomsClean Safety.affineStore_safe
+#axiomsClean Safety.scalarStore_safe
+#axiomsClean Safety.firstRandomOp_safe
+#axiomsClean Safety.secondRandomOp_safe
+#axiomsClean Safety.firstMask_safe
+#axiomsClean Safety.secondMask_safe
+#axiomsClean Safety.scale_safe
+#axiomsClean Safety.secondScale_safe
+#axiomsClean Safety.dropout_safe
+#axiomsClean Safety.secondDropout_safe
+#axiomsClean Safety.loadPrefix_safe
+#axiomsClean Safety.candidate_loadPrefix_safe
+#axiomsClean Safety.firstStream_safe
+#axiomsClean Safety.secondBody_safe
+#axiomsClean Safety.residual_safe
+#axiomsClean Safety.residualOut_safe
+#axiomsClean Safety.inputPhase_safe
+#axiomsClean Safety.statistics_safe
+#axiomsClean Safety.normalization_safe
+#axiomsClean Safety.coefficientPhase_safe
+#axiomsClean Safety.affineOutput_safe
+#axiomsClean Safety.affineFirst_safe
+#axiomsClean Safety.affineSecond_safe
+#axiomsClean Safety.affine_safe
+#axiomsClean Safety.inputPrefix_safe
+#axiomsClean Safety.normPrefix_safe
+#axiomsClean Safety.source_safe
+#axiomsClean Safety.candidate_safe
+#axiomsClean Safety.source_body
+#axiomsClean Safety.source_flatten_ok
+#axiomsClean Safety.candidate_flatten_ok
+#axiomsClean FlatContract.flatten_post
+#axiomsClean FlatContract.active_cell
+#axiomsClean FlatContract.frame
+#axiomsClean RealIO.original_correct
+#axiomsClean RealIO.candidate_correct
+
+end VeriTile.Bench.TritonBenchG.LayerNormFwd

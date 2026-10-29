@@ -1,0 +1,102 @@
+{
+  "schema": 1,
+  "task": "fused_recurrent_hgrn",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue06/result.json",
+    "sha256": "7ae7b1cff07a7eae50c418a92a90a26cc367270bb529c13f49c0bf8e5d0f06ea",
+    "task_index": 4
+  },
+  "finding": "The reader used raw channel arrays, and an output-only transport would fail to preserve the additional universal directional-derivative conclusion.",
+  "resolution": "Introduce named x/gate/incoming and initialState/terminalGradient tensor inputs and savedState/dx/dg/finalState outputs, with genuine curried equivalences. Display recurrence and objective on tensorData. Transport the complete conjunction, including HasDerivAt and every quantified tensor input.",
+  "mathematical_target": "kernel_correct: full forward/backward logicalIO implementation conjoined with the exact directional derivative of the adjacent scalar loss objective, using the same dx/dg.",
+  "conditions_and_scope": "Retains both complete grids, independent positive forward/backward block sizes, all U/S/V flags and T=0. Optional initial/final/terminal fields remain in the bijective input/output types even when masked. Complete safety, run and frame and the full derivative conclusion are preserved.",
+  "proof_connection": "IO.formula_lift proves the exact formula connection. IO.full_iff transports the entire implementation-and-universal-property conjunction for arbitrary property P. IO.logical_correct instantiates P with the exact HasDerivAt assertion and applies existing IOImplements/Gradient.loss_derivative.",
+  "fp_review": "Unchanged Pair.original ≡[[]] Pair.strideFolded, comparing constexpr T*D pointer folding over full forward/backward grids. Source precision, recurrent operations, reverse pass and all optional branches retain their order. Empty experimental rule set.",
+  "numerical_dependencies": {
+    "experimental_rule_instances": [],
+    "strict_rewrite_certificates": [],
+    "classification": "Empty experimental rule set. Exact model/source structure and any listed strict software theorem are retained; no new hardware-conformance claim."
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "h_0=h0 or zero; h_(t+1)=g_t*h_t+x_t. Reverse: a_T=dht or zero, dx_t=a_(t+1)+do_t, dg_t=dx_t*h_t, a_t=dx_t*g_t. Reader-local formula returns saved states, dx/dg and optional final state; the accompanying HasDerivAt theorem gives the directional derivative of its explicit loss.",
+    "required_conditions": {
+      "public_conditions": [
+        "0<BDF and 0<BDB",
+        "U initial-state flag, S final-output flag and V terminal-gradient flag stay independent kernel parameters",
+        "ProgramIO masks bind h0 iff U, dht iff V and ht output iff S",
+        "Physical memory bindings/bounds and frame remain in the judgment"
+      ],
+      "contract_and_domain_correspondence": "Checked host contracts supply admissible shapes, FP32 allocation metadata, legal tile sizes and their allocation separation. The main kernel theorem already supports the broader independent flag/width parameters; it does not claim a host call with absent dht has satisfied V=true input binding."
+    },
+    "scope": "Complete forward grid followed by complete backward grid, every BH/T/D lane, independent BDF/BDB, T=0, all U/S/V flags and optional final-state output. Logical D tail coverage follows the existing positive-width grid theorem.",
+    "canonical_connection": "IOImplements.implements -> actual phase schedules, trace safety and RawKernel.complete -> pure state/dx/dg; Gradient.loss_derivative connects the same functions to objective. The recurrence equations and logical channel formula were already adjacent to the headline; complete headline Iff.rfl passes.",
+    "fp_program_pair": {
+      "fp_actual_pair": "Pair.original versus Pair.strideFolded over both full phases. Only forward constexpr T*D address grouping changes; backward is the same genuine second stage.",
+      "fp_conditions_and_model_binding": [
+        "Arbitrary Ops carrier and observer are retained",
+        "Both positive widths, all optional flags, complete schedules and dual exterior frames",
+        "Floating instruction order, source precision and casts unchanged; no numerical rewrite"
+      ]
+    },
+    "numerical_dependencies": {
+      "experimental_rule_instances": [],
+      "strict_rewrite_certificates": [],
+      "classification": "Empty experimental rule set. Exact model/source structure and any listed strict software theorem are retained; no new hardware-conformance claim."
+    }
+  },
+  "verification": [
+    {
+      "kind": "targeted_current_sources",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue06/build.py",
+        "bench/repairs/tritonbench_g/fused_recurrent_hgrn/LogicalCoordinates.lean",
+        "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/LogicalCoordinates.lean",
+        "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Correct.lean",
+        "bench/repairs/tritonbench_g/fused_recurrent_hgrn/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue06/fused_recurrent_hgrn.targeted.log",
+      "log_sha256": "c23fcf1f80cf51de151f6a5c47272eeddb351dbc10989876612a6466d06737a0"
+    },
+    {
+      "kind": "task_joint_import",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue06/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue06/fused_recurrent_hgrn.joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue06/fused_recurrent_hgrn.joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Contract.lean": "1bbba6bc64c8e1b7fed60af7e769047aa21555dc5b7df337027c13a78486778e",
+    "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Correct.lean": "0ebc062f66c67a59fdae2cede6b6324bf9dfe6056d2c7991447195d6166ca77a",
+    "bench/repairs/tritonbench_g/fused_recurrent_hgrn/FPEquiv.lean": "363125297b15840313fd155f161447b5ce9f3abc77a92a2bf822dce7083f3d4e",
+    "bench/repairs/tritonbench_g/fused_recurrent_hgrn/IO.lean": "eadaee5432823b164457dc75e90026880a68da669dccae8c4b14402ef37cb604",
+    "bench/repairs/tritonbench_g/fused_recurrent_hgrn/LogicalCoordinates.lean": "822dedad1faa7221d2223253a3a5851b61586496840de2237aa36ec264c12c61",
+    "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/Gradient.lean": "4345ce1a2e2c1204ace9495bcb58c6e4076ff3d0e826f7883f403b1f8cb52b3e",
+    "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/IOImplements.lean": "e95af4e10e90ac4f2efb9a85f806a3701890ef4fdf5e37097c9b950b65f9c336",
+    "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/LogicalCoordinates.lean": "6d028c8d80fdc2759457a6b681e50651e49c182179c710b2fd8c70d195b6f7d7",
+    "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/Pair.lean": "29ff1d43ab63047d25da674f0e56aabb1b47bbcee3056359afb395fc79febb61",
+    "bench/repairs/tritonbench_g/rotary_emb/Contract.lean": "8275918fff6dc070c99ff66a1eb649eb5e1f3c9f88a6537ea00938569ca1898a",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

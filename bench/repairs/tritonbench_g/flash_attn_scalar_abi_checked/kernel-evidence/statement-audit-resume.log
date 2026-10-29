@@ -1,0 +1,145 @@
+@[defeq] theorem VeriTile.Bench.Repairs.FlashAttnScalarABIChecked.shared_source : ∀
+  (p : FlashAttn.ActualSource.Parameters), FlashAttnScalarABIChecked.kernel p = FlashAttn.ActualSource.kernel p :=
+fun p => rfl
+theorem VeriTile.Bench.Repairs.FlashAttnScalarABIChecked.check_iff : ∀ (q k v : FlashAttn.Checked.Tensor)
+  (qo ko vo : FlashAttn.Checked.SortedAxes) (scale : FlashAttn.Checked.ScalarABI),
+  FlashAttnScalarABIChecked.inputChecks q k v qo ko vo scale = «true» ↔
+    FlashAttn.Checked.inputChecks q k v qo ko vo scale = «true» ∧
+      FlashAttnScalarABIChecked.scalarBindChecks scale.raw = «true» :=
+fun q k v qo ko vo scale =>
+  of_eq_true
+    (Eq.trans
+      (congrFun'
+        (congrArg Iff
+          (Bool.and_eq_true (FlashAttn.Checked.inputChecks q k v qo ko vo scale)
+            (FlashAttnScalarABIChecked.scalarBindChecks scale.raw)))
+        (FlashAttn.Checked.inputChecks q k v qo ko vo scale = «true» ∧
+          FlashAttnScalarABIChecked.scalarBindChecks scale.raw = «true»))
+      (iff_self
+        (FlashAttn.Checked.inputChecks q k v qo ko vo scale = «true» ∧
+          FlashAttnScalarABIChecked.scalarBindChecks scale.raw = «true»)))
+theorem VeriTile.Bench.Repairs.FlashAttnScalarABIChecked.whole_real : ∀ (q k v o : FlashAttn.Checked.Tensor)
+  (qo ko vo oo : FlashAttn.Checked.SortedAxes) (scale : FlashAttn.Checked.ScalarABI) (causal : Bool)
+  (owner : ℕ → ℕ → ℕ → Fin 4) (scratch : ℕ),
+  FlashAttnScalarABIChecked.inputChecks q k v qo ko vo scale = «true» →
+    FlashAttn.Checked.tensorChecks o oo = «true» →
+      FlashAttn.Checked.Allocations (FlashAttn.Checked.arguments q k v causal scale owner) o scratch →
+        ∀ (m : FlashAttn.Memory ℝ),
+          have x := FlashAttn.Host.layout (FlashAttn.Checked.arguments q k v causal scale owner) o.tensor;
+          ∃ final,
+            FlashAttn.ActualSource.runGrid FlashAttn.KernelReal.algebra FlashAttn.KernelReal.dot
+                  (FlashAttn.ActualSource.parameters x) (some (scale.project scale.raw))
+                  (FlashAttn.ActualSource.programs (FlashAttn.ActualSource.parameters x))
+                  (FlashAttn.ActualSource.liftMemory (FlashAttn.Real.lift m)) =
+                some final ∧
+              (∀ (b h row col : ℕ),
+                  FlashAttn.Work.active x.shape (FlashAttn.Work.output b h row col) →
+                    final { name := "O" } (FlashAttn.address x.o b h row col) =
+                      VeriTile.Triton.FP.Structural.Cell.mk VeriTile.Triton.TileDType.real
+                        (some (FlashAttn.Spec.output x m (scale.project scale.raw) b h row col))) ∧
+                (∀ (b h row : ℕ),
+                    FlashAttn.Work.active x.shape (FlashAttn.Work.logsum b h row) →
+                      final { name := "L" } (FlashAttn.lAddress x.shape b h row) =
+                        VeriTile.Triton.FP.Structural.Cell.mk VeriTile.Triton.TileDType.real
+                          (some (FlashAttn.Spec.lse x m (scale.project scale.raw) b h row))) ∧
+                  (∀ (r : VeriTile.Triton.RegionName) (off : ℕ),
+                      ¬FlashAttn.ActualSource.Writes (FlashAttn.ActualSource.parameters x)
+                            (FlashAttn.ActualSource.programs (FlashAttn.ActualSource.parameters x)) r off →
+                        final r off = FlashAttn.ActualSource.liftMemory (FlashAttn.Real.lift m) r off) ∧
+                    ∀ r ∈ [{ name := "Q" }, { name := "K" }, { name := "V" }],
+                      ∀ (off : ℕ), final r off = FlashAttn.ActualSource.liftMemory (FlashAttn.Real.lift m) r off :=
+fun q k v o qo ko vo oo scale causal owner scratch checked outputChecked allocation m =>
+  let a := FlashAttn.Checked.arguments q k v causal scale owner;
+  have valid :=
+    FlashAttn.Checked.admitted_inputs q k v qo ko vo scale
+      (FlashAttnScalarABIChecked.original_checks q k v qo ko vo scale checked) causal owner;
+  FlashAttn.KernelReal.whole (FlashAttn.Host.layout a o.tensor) (FlashAttn.Host.contract_shape a valid)
+    (FlashAttn.Host.output_layout a o.tensor scratch
+      (FlashAttn.Checked.admitted_allocations a o scratch allocation oo outputChecked))
+    m (scale.project scale.raw)
+theorem VeriTile.Bench.Repairs.FlashAttnScalarABIChecked.whole_native : ∀ (q k v o : FlashAttn.Checked.Tensor)
+  (qo ko vo oo : FlashAttn.Checked.SortedAxes) (scale : FlashAttn.Checked.ScalarABI) (causal : Bool)
+  (owner : ℕ → ℕ → ℕ → Fin 4) (scratch : FlashAttn.Checked.Scratch),
+  FlashAttnScalarABIChecked.inputChecks q k v qo ko vo scale = «true» →
+    FlashAttn.Checked.tensorChecks o oo = «true» →
+      FlashAttn.Checked.Allocations (FlashAttn.Checked.arguments q k v causal scale owner) o scratch.allocation →
+        FlashAttn.Checked.ScratchBinding (FlashAttn.Checked.arguments q k v causal scale owner) scratch →
+          FlashAttn.Checked.Fresh q k v o scratch →
+            FlashAttn.Checked.scratchPointerChecks
+                  (FlashAttn.Host.shape (FlashAttn.Checked.arguments q k v causal scale owner)) scratch.dataPointer =
+                «true» →
+              ∀ (actualOutput : VeriTile.Torch.FP32.Tensor)
+                (outputBinding : FlashAttn.KernelTensor.TensorBinding o actualOutput)
+                (I : FlashAttn.KernelNative.Instructions) (before : FlashAttn.Checked.ByteMemory),
+                have a := FlashAttn.Checked.arguments q k v causal scale owner;
+                have x := FlashAttn.Host.layout a o.tensor;
+                have base := FlashAttn.Checked.pointers q k v o scratch;
+                FlashAttn.Host.Contract a ∧
+                  ∃ result,
+                    FlashAttn.KernelTensor.run x base I scale before = some result ∧
+                      FlashAttn.KernelNative.run x scale
+                            (FlashAttn.Physical.load (FlashAttn.Checked.callerBytes base before)) =
+                          some result.graph ∧
+                        (∀ (b h row col : ℕ),
+                            FlashAttn.Work.active (FlashAttn.Host.shape a) (FlashAttn.Work.output b h row col) →
+                              (VeriTile.Torch.FP32.logicalValue (FlashAttn.KernelTensor.read result.bytes) actualOutput
+                                    ⋯ (FlashAttn.KernelTensor.flat o.tensor.shape b h row col)).bits =
+                                FlashAttn.KernelTensor.nativeTarget x base I scale before { name := "O" }
+                                  (FlashAttn.address o.tensor.strides b h row col)) ∧
+                          (∀ (b h row : ℕ),
+                              FlashAttn.Work.active (FlashAttn.Host.shape a) (FlashAttn.Work.logsum b h row) →
+                                FlashAttn.Checked.readWord result.bytes
+                                    (scratch.dataPointer + 4 * FlashAttn.lAddress (FlashAttn.Host.shape a) b h row) =
+                                  FlashAttn.KernelTensor.nativeTarget x base I scale before { name := "L" }
+                                    (FlashAttn.lAddress (FlashAttn.Host.shape a) b h row)) ∧
+                            (∀ (location : Fin (2 ^ 64)),
+                                ¬FlashAttn.Checked.StoredByte x base FlashAttn.Region.o ↑location →
+                                  ¬FlashAttn.Checked.StoredByte x base FlashAttn.Region.l ↑location →
+                                    result.bytes location = before location) ∧
+                              ∀ t ∈ [q, k, v],
+                                ∀ (location : Fin (2 ^ 64)),
+                                  t.storageBase ≤ ↑location →
+                                    ↑location < t.storageBase + t.tensor.storageBytes →
+                                      result.bytes location = before location :=
+fun q k v o qo ko vo oo scale causal owner scratch checked outputChecked allocation scratchBinding fresh scratchChecked
+    actualOutput outputBinding I before =>
+  FlashAttn.KernelTensor.whole_native q k v o qo ko vo oo scale causal owner scratch
+    (FlashAttnScalarABIChecked.original_checks q k v qo ko vo scale checked) outputChecked allocation scratchBinding
+    fresh scratchChecked actualOutput outputBinding I before
+VeriTile.Bench.Repairs.FlashAttnScalarABIChecked.shared_source: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashAttnScalarABIChecked.check_iff: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashAttnScalarABIChecked.whole_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashAttnScalarABIChecked.whole_native: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashAttn.ActualSource.source_memory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashAttnScalarABIChecked.input_tensor: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashAttn.KernelTensor.logical_read: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.FlashAttn.KernelNative.output_owner: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FlashAttn.KernelNative.constexpr_one_fold: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashAttn.KernelTensor.nativeTarget: definition does not reference [VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Triton.FP.Structural.run,
+ VeriTile.Bench.Repairs.FlashAttn.ActualSource.runGrid,
+ VeriTile.Bench.Repairs.FlashAttn.KernelTensor.run] — non-circular ✓
+VeriTile.Bench.Repairs.FlashAttn.Spec.output: definition does not reference [VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Triton.FP.Structural.run,
+ VeriTile.Bench.Repairs.FlashAttn.ActualSource.runGrid,
+ VeriTile.Bench.Repairs.FlashAttn.ActualSource.referenceGrid] — non-circular ✓
+VeriTile.Bench.Repairs.FlashAttn.Spec.lse: definition does not reference [VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Triton.FP.Structural.run,
+ VeriTile.Bench.Repairs.FlashAttn.ActualSource.runGrid,
+ VeriTile.Bench.Repairs.FlashAttn.ActualSource.referenceGrid] — non-circular ✓

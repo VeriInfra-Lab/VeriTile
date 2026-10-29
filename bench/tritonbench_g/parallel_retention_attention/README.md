@@ -33,14 +33,51 @@ decay `γ^(pos_q − pos_k)` with `γ = 2^b_b`,
 
 Headlines: `o[a, p]` =
 `Σ_{t ≤ i_c·BTL + a} 2^((i_c·BTL + a − t)·b_b) · score(a,t) · v[t,p]` with
-`score(a,t) = (scale·q[a]) · k[t]` over the `BK` head window (per-program
-causal retention attention, exact on ragged tails — the boundary-checked
-windows are baked into the guarded value functions, so **no** divisibility
-hypothesis on `T` is needed); `dk`/`dv` = the full query sweep
+`score(a,t) = (scale·q[a]) · k[t]` over the `BK` head window; `dk`/`dv` =
 `Σ_{t ≥ i_c·BTL + r} 2^((t − i_c·BTL − r)·b_b) · scale · (v[r]·do[t]) · q[t]`
-/ `… · (k[r]·q[t]) · do[t]` over the kernel's exact iteration range
-`max(cdiv(T,BTS)·BTS, (i_c+1)·BTL)`. The only trip-count hypothesis is the
-host's own `assert BTL % BTS == 0`.
+/ `… · (k[r]·q[t]) · do[t]` over the kernel's exact query sweep ending at
+`max(cdiv(T,BTS)·BTS, (i_c+1)·BTL)`. All lanes in these formulas are the
+independent guarded input values described below. The formulas cover ragged
+tails without a divisibility hypothesis on `T`, including the source's
+unspecified values outside the parent window.
+
+The Python block-pointer loads omit `padding_option`. Their lowered padding
+is `unspecified`: an out-of-window load reads the initial state's existing
+`undef` function at the actual region and address. For a pointer into region
+`rg`, with base `b`, offsets `(r₀, c₀)`, strides `(σr, σc)`, and parent shape
+`(R, C)`, lane `(r, c)` has address
+`A = b + (r₀ + r)·σr + (c₀ + c)·σc`. Its modeled input value is
+`if r₀+r < R ∧ c₀+c < C then s.readMem rg A else s.undef rg A`, where `s`
+is the initial state. For example, the forward Q address is
+`s.pids 2·s_qk_h + (s.pids 1·BTL+a)·s_qk_t + (praIk s V BV·BK+e)·s_qk_d`;
+`praQGuarded` selects the memory or `undef` value at that address and then
+multiplies it by `scale`. The other six guarded lane functions use their
+respective source addresses in the same way. Loop invariants preserve the
+initial memory and `undef` function through the load/compute phases.
+
+The repair corrects the numerical reference functions: their former
+out-of-window zeros are now the actual initial input choices. Consequently,
+ragged head dimensions and backward tail summands can depend on nonzero
+`undef`. Neither original headline has a zero-`undef` premise, and no public
+premise was added. The existing premises remain:
+
+- Forward: `s_vo_d = 1`, `BV ≤ s_vo_t`, `BTL % BTS = 0`, and `0 < BTS`.
+- Backward dk/dv: `dk ≠ dv`, `s_qk_d = 1`, `s_vo_d = 1`,
+  `BK ≤ s_qk_t`, `BV ≤ s_vo_t`, `BTL % BTS = 0`, and `0 < BTS`.
+
+The complete-execution regression `pra_unspecified_padding_correct` checks
+`T=K=V=BTL=BTS=BV=1`, `BK=2`, zero program IDs, and unit scale/strides.
+In-bounds Q and K are zero, in-bounds V is one, and the padding input is
+`u`; the actual forward body stores `u*u`. In particular, padding one gives
+output one, while padding zero gives output zero. This regression is part
+of the module axiom gate and demonstrates why replacing unspecified padding
+with zero changes the result.
+
+These are per-program `exec` results for active output lanes in the real
+arithmetic model. They provide no frame theorem for other memory, no host
+launch/composition or host-side NK/NV reduction proof, and no bit-accurate
+IEEE or FP32 refinement. The backward helper is verified independently;
+composition with the shell and the dq helper remains outside this proof.
 
 The helper-JIT structure (no cross-`@triton.jit` call surface), the dropped
 trailing bare `return`, the descending-loop respelling

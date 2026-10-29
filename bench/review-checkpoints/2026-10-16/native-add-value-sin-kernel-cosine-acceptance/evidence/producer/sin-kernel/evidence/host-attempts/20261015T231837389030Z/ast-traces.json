@@ -1,0 +1,416 @@
+[
+  {
+    "n": 0,
+    "allocation_failure": false,
+    "trace": [
+      [
+        "numel",
+        0
+      ],
+      [
+        "empty_like"
+      ],
+      [
+        "grid_getitem"
+      ],
+      [
+        "launch",
+        [
+          0
+        ],
+        0,
+        {
+          "BLOCK_SIZE": 1024
+        }
+      ],
+      [
+        "return_same_output"
+      ]
+    ]
+  },
+  {
+    "n": 0,
+    "allocation_failure": true,
+    "trace": [
+      [
+        "numel",
+        0
+      ],
+      [
+        "empty_like"
+      ],
+      [
+        "allocation_error",
+        "instrumented allocation failure"
+      ]
+    ]
+  },
+  {
+    "n": 1,
+    "allocation_failure": false,
+    "trace": [
+      [
+        "numel",
+        1
+      ],
+      [
+        "empty_like"
+      ],
+      [
+        "grid_getitem"
+      ],
+      [
+        "launch",
+        [
+          1
+        ],
+        1,
+        {
+          "BLOCK_SIZE": 1024
+        }
+      ],
+      [
+        "return_same_output"
+      ]
+    ]
+  },
+  {
+    "n": 1,
+    "allocation_failure": true,
+    "trace": [
+      [
+        "numel",
+        1
+      ],
+      [
+        "empty_like"
+      ],
+      [
+        "allocation_error",
+        "instrumented allocation failure"
+      ]
+    ]
+  },
+  {
+    "n": 1023,
+    "allocation_failure": false,
+    "trace": [
+      [
+        "numel",
+        1023
+      ],
+      [
+        "empty_like"
+      ],
+      [
+        "grid_getitem"
+      ],
+      [
+        "launch",
+        [
+          1
+        ],
+        1023,
+        {
+          "BLOCK_SIZE": 1024
+        }
+      ],
+      [
+        "return_same_output"
+      ]
+    ]
+  },
+  {
+    "n": 1023,
+    "allocation_failure": true,
+    "trace": [
+      [
+        "numel",
+        1023
+      ],
+      [
+        "empty_like"
+      ],
+      [
+        "allocation_error",
+        "instrumented allocation failure"
+      ]
+    ]
+  },
+  {
+    "n": 1024,
+    "allocation_failure": false,
+    "trace": [
+      [
+        "numel",
+        1024
+      ],
+      [
+        "empty_like"
+      ],
+      [
+        "grid_getitem"
+      ],
+      [
+        "launch",
+        [
+          1
+        ],
+        1024,
+        {
+          "BLOCK_SIZE": 1024
+        }
+      ],
+      [
+        "return_same_output"
+      ]
+    ]
+  },
+  {
+    "n": 1024,
+    "allocation_failure": true,
+    "trace": [
+      [
+        "numel",
+        1024
+      ],
+      [
+        "empty_like"
+      ],
+      [
+        "allocation_error",
+        "instrumented allocation failure"
+      ]
+    ]
+  },
+  {
+    "n": 1025,
+    "allocation_failure": false,
+    "trace": [
+      [
+        "numel",
+        1025
+      ],
+      [
+        "empty_like"
+      ],
+      [
+        "grid_getitem"
+      ],
+      [
+        "launch",
+        [
+          2
+        ],
+        1025,
+        {
+          "BLOCK_SIZE": 1024
+        }
+      ],
+      [
+        "return_same_output"
+      ]
+    ]
+  },
+  {
+    "n": 1025,
+    "allocation_failure": true,
+    "trace": [
+      [
+        "numel",
+        1025
+      ],
+      [
+        "empty_like"
+      ],
+      [
+        "allocation_error",
+        "instrumented allocation failure"
+      ]
+    ]
+  },
+  {
+    "n": 2147483648,
+    "allocation_failure": false,
+    "trace": [
+      [
+        "numel",
+        2147483648
+      ],
+      [
+        "empty_like"
+      ],
+      [
+        "grid_getitem"
+      ],
+      [
+        "launch",
+        [
+          2097152
+        ],
+        2147483648,
+        {
+          "BLOCK_SIZE": 1024
+        }
+      ],
+      [
+        "return_same_output"
+      ]
+    ]
+  },
+  {
+    "n": 2147483648,
+    "allocation_failure": true,
+    "trace": [
+      [
+        "numel",
+        2147483648
+      ],
+      [
+        "empty_like"
+      ],
+      [
+        "allocation_error",
+        "instrumented allocation failure"
+      ]
+    ]
+  },
+  {
+    "n": 4294967297,
+    "allocation_failure": false,
+    "trace": [
+      [
+        "numel",
+        4294967297
+      ],
+      [
+        "empty_like"
+      ],
+      [
+        "grid_getitem"
+      ],
+      [
+        "launch",
+        [
+          4194305
+        ],
+        4294967297,
+        {
+          "BLOCK_SIZE": 1024
+        }
+      ],
+      [
+        "return_same_output"
+      ]
+    ]
+  },
+  {
+    "n": 4294967297,
+    "allocation_failure": true,
+    "trace": [
+      [
+        "numel",
+        4294967297
+      ],
+      [
+        "empty_like"
+      ],
+      [
+        "allocation_error",
+        "instrumented allocation failure"
+      ]
+    ]
+  },
+  {
+    "n": 2199023255552,
+    "allocation_failure": false,
+    "trace": [
+      [
+        "numel",
+        2199023255552
+      ],
+      [
+        "empty_like"
+      ],
+      [
+        "grid_getitem"
+      ],
+      [
+        "launch",
+        [
+          2147483648
+        ],
+        2199023255552,
+        {
+          "BLOCK_SIZE": 1024
+        }
+      ],
+      [
+        "return_same_output"
+      ]
+    ]
+  },
+  {
+    "n": 2199023255552,
+    "allocation_failure": true,
+    "trace": [
+      [
+        "numel",
+        2199023255552
+      ],
+      [
+        "empty_like"
+      ],
+      [
+        "allocation_error",
+        "instrumented allocation failure"
+      ]
+    ]
+  },
+  {
+    "n": 9223372036854775807,
+    "allocation_failure": false,
+    "trace": [
+      [
+        "numel",
+        9223372036854775807
+      ],
+      [
+        "empty_like"
+      ],
+      [
+        "grid_getitem"
+      ],
+      [
+        "launch",
+        [
+          9007199254740992
+        ],
+        9223372036854775807,
+        {
+          "BLOCK_SIZE": 1024
+        }
+      ],
+      [
+        "return_same_output"
+      ]
+    ]
+  },
+  {
+    "n": 9223372036854775807,
+    "allocation_failure": true,
+    "trace": [
+      [
+        "numel",
+        9223372036854775807
+      ],
+      [
+        "empty_like"
+      ],
+      [
+        "allocation_error",
+        "instrumented allocation failure"
+      ]
+    ]
+  }
+]

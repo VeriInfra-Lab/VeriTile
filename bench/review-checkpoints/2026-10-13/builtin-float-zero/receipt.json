@@ -1,0 +1,18 @@
+{
+  "recorded_at_utc": "2026-10-13T18:59:01.235910+00:00",
+  "scope": "Exact builtin float(0) uses the established floating zero literal semantics; distinct parser prevents accidental random-helper alias treatment. Arbitrary integer-to-host-float conversion remains unsupported.",
+  "dsl_root_exit_code": 0,
+  "dsl_jobs": 800,
+  "new_axiom_checks": 2,
+  "rejected_unsupported_inputs": 2,
+  "regressions": 6,
+  "regression_receipt": "regressions/receipt.json",
+  "source_sha256": {
+    "VeriTile/Triton/DSL/Expansion/Main.lean": "a339de5ad8f5aefae86b0cb0e81e49945170e5c9a06a5019b6df2167750e1109",
+    "VeriTile/Triton/DSL/Syntax.lean": "9a179dc7be97d18408cf62fb114395e1d3728cccdce50abaaa89218e5aeb57fd",
+    "VeriTile/Triton/DSL/RandomProfile.lean": "37e7fadbcdfe41dc76c68638ab3ed4215c187752b097f38958d03f1255054467",
+    "bench/tests/BuiltinFloatZero.lean": "1a768c6c65f565efad55838a50bb10e9bcb31210443e306660b56263037914e3"
+  },
+  "dsl_log_sha256": "bfa5e91da56141a1b4564c8f80fc9f1c9986dfa23a818636dd169342506a603c",
+  "hash_capture": "Regression inputs unchanged across runs; listed current frontend and new test copies retained. No independent comparator or full artifact closure."
+}

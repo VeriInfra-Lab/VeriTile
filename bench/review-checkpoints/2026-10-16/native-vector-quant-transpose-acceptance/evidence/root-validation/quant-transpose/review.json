@@ -1,0 +1,60 @@
+{
+  "schema": 1,
+  "kind": "quant_transpose_revision2_finite_source_root_review",
+  "reviewer": "root",
+  "status": "substantively_reviewed_for_finite_scope_integration",
+  "recorded_at_utc": "2026-10-15T22:50:08.634076+00:00",
+  "producer_receipt_sha256": "883f7e8e086acb7b20ac7a3f20ba16dfdf697b425ef123d0af7509c877bf188a",
+  "reviewed_candidate_source_sha256": {
+    "bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteScalar.lean": "583a1eb51eca8d8092d096116dc36012573b2af5ef2121ea2b7cc259e3f45f25",
+    "bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteMapping.lean": "eeebd0128f1d75420e6f2923448cc4ad68b113307882ac83404618f5b1e45b42",
+    "bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteGrid.lean": "f5a16646c17c5a67f66d280d2895966de3ad4ed2e373506b81dffe3fce5a591a",
+    "bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteHost.lean": "fae8b57f0abd7b98d306c7c2116f47c77dcbe8f1afa30516ec899bc1f6b36d93",
+    "bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteAdmission.lean": "9ee6151152645bdb61a3c9fe2b0a74e9e43ed43df10a377262f6fd8a663f9fc8",
+    "bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteLegacy.lean": "b7ddaf5a22bd073f27407581f540ab7291f5626e2e339711deaa20bdadf93cc5",
+    "bench/tritonbench_g/quant_transpose_kernel/FiniteCorrect.lean": "e040d2e034e8c3ce67b7e0acb709d6ffa790ccaa72265eefa014b2dfbab5c564",
+    "bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteOutcomes.lean": "ced791b9455ee5e00392fa3b5cdbc8356ac27b6315fd20d3458d507658793a92",
+    "bench/tritonbench_g/quant_transpose_kernel/Proofs/FinitePhysical.lean": "d21e2606b072dfec0c998381059e128efde20c18e597eac41fa6dab5eca7562e",
+    "bench/tritonbench_g/quant_transpose_kernel/Proofs/FinitePhysicalExecution.lean": "a137af94fa279f9cd66c4847ab205d5e59042ca3d7a6de90340a47a8a1cf3a82",
+    "bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeArithmetic.lean": "7f14fc25a54b5b9d025d7f958480081c13f19079ad0d25dd0c79bccfb502afac",
+    "bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeBytes.lean": "94bd17da5149d9be639fb88f956fa28365e1cb6a0b0e8e1f4c6b8a016057768e",
+    "bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeProgram.lean": "29362e83d9f417eb31ffc60a0c2e4ec12ac8e734b62383c1d0e255e6f30dbff5",
+    "bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeGrid.lean": "2155fbcf75a2d95010bc4a59944c49658f6bee12f7b4a6519b21a2830a1969bc",
+    "bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeHost.lean": "51f5bbd5e5d8eadb7807a52a398e52af4e966b5e3927562fdf760c6c55c2e165",
+    "bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeRefinement.lean": "46c651eebf07a7f2cbaed59a47009ab0d0ef9490cb69ed220bf4d49327f96072",
+    "bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeExamples.lean": "698419ada4afc340b740c0afa4efd9b73bf789de1f5a210772435e7fbdc099c9",
+    "bench/tritonbench_g/quant_transpose_kernel/FiniteAcceptance.lean": "53bd9a744b517298613f4434af14f791f2539303bc092e9cb3d6490b4ef54665"
+  },
+  "changed_source_files": [
+    "bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteHost.lean",
+    "bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteAdmission.lean",
+    "bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeHost.lean",
+    "bench/tritonbench_g/quant_transpose_kernel/FiniteAcceptance.lean"
+  ],
+  "semantic_review": {
+    "unchanged_execution_review": "The previous substantive read of all18 modules, original source, actual constexpr/i32/i64 expression widths, signed masks and uint64 addresses, logical abs/max/reciprocal producer, concrete full-tile loads/stores, every program and finite autotune trial, independent last-write byte results and exterior/returned-scalar frames remains applicable to the14 byte-identical modules. Earlier proofs and failed attempts are preserved. The mathematical transpose refinement is conditional and does not exclude safe wrapped actual-address outcomes.",
+    "corrected_first_error": "Root found and withdrew revision1 because CPU fp32 M=2^38,N=1 reaches signed-grid parsing before CPU-pointer rejection. Root read all four changed modules and the original installed launch source. Revision2 explicitly orders context, signed grid parse, entry hook, pointer extraction, launch and exit hook; nativeAdmission receives actual M/N. Compilation still precedes the launcher, so fp16/bf16 reject before grid parsing. Primitive failure branches claim no postfailure memory, including exit-hook failure after possible side effects.",
+    "public_scope": "The public specification uses dimension-bearing nativeAdmission for universal rejected outcomes and executeNativeAPI for complete admitted executions. Host extent metadata remains signed64; no inferred allocation capacity or new no-wrap premise excludes the repaired CPU route. The dimension-free admission remains historical small-profile evidence and supplies no full-domain authority.",
+    "independent_verification": "Root rebuilt18 modules with77 clean-axiom and14 noncircular checks, then checked all1144 table cases/1024 distinct representative admission profiles using those independent objects. Root rebuilt the exact pinned CPython signed-grid parser and replayed seven original-wrapper AST cases, confirming actual OverflowError precedes downstream pointer instrumentation. No large allocation, CUDA launch, or native numerical result is claimed.",
+    "numerical_scope": "The exact authority retains16 numerical families and140 required ports across1144 cases. Root replayed all140 omitted-port mutations and23 adapter mutations with the exact committed pre-quant authority; prior100 rules remain unchanged. Full integrated queue equality is still required. Numerical conformance remains explicitly deferred and cannot excuse structural gaps.",
+    "dependency_boundary": "The177 project source/object dependencies and33 producer-recorded external objects remain unchanged. Root separately captured Mathlib.Data.List.Range before its independent build and verified it afterward; the missing historical producer capture is not retroactively asserted.",
+    "acceptance_boundary": "Approved for integration under bench/original_program_acceptance.md after current-source catalog, queue, ledger and build checks. This is not native GPU or official comparator validation."
+  },
+  "superseded_review_sha256": "9e0c4b360363f94670bc2477b8783477d4a93aa89ac93a2e48b050b066e87f77",
+  "superseded_review_status": "withdrawn before commit due to grid/pointer precedence error",
+  "verification": {
+    "modules": 18,
+    "clean_axioms": 77,
+    "noncircular": 14,
+    "cases": 1144,
+    "representative_profiles": 1024,
+    "parser_AST_cases": 7,
+    "omitted_ports_rejected": 140,
+    "adapter_mutations_rejected": 23,
+    "producer_artifacts": 919,
+    "old_producer_artifacts": 776
+  },
+  "numerical_conformance_validated": false,
+  "native_execution": false,
+  "acceptance_increment_before_integration": 0
+}

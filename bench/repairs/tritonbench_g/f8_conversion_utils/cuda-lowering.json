@@ -1,0 +1,85 @@
+{
+  "triton": "3.7.1",
+  "gpu_execution": false,
+  "numerical_conformance": false,
+  "cases": [
+    {
+      "source": "fp8e5",
+      "destination": "fp16",
+      "sm": 90,
+      "conversions": [
+        "cvt.s64.s32 \t%rd19, %r10;",
+        "cvt.s64.s32 \t%rd20, %r18;",
+        "cvt.rn.f16x2.e5m2x2 %r1, %rs9;",
+        "cvt.rn.f16x2.e5m2x2 %r2, %rs10;",
+        "cvt.rn.f16x2.e5m2x2 %r3, %rs11;",
+        "cvt.rn.f16x2.e5m2x2 %r4, %rs12;"
+      ]
+    },
+    {
+      "source": "fp16",
+      "destination": "fp8e5",
+      "sm": 90,
+      "conversions": [
+        "cvt.s64.s32 \t%rd19, %r10;",
+        "cvt.s64.s32 \t%rd20, %r18;",
+        "cvt.rn.satfinite.e5m2x2.f16x2 %rs9, %r1;",
+        "cvt.rn.satfinite.e5m2x2.f16x2 %rs11, %r2;",
+        "cvt.rn.satfinite.e5m2x2.f16x2 %rs13, %r3;",
+        "cvt.rn.satfinite.e5m2x2.f16x2 %rs15, %r4;"
+      ]
+    },
+    {
+      "source": "fp32",
+      "destination": "fp8e5",
+      "sm": 90,
+      "conversions": [
+        "cvt.s64.s32 \t%rd19, %r14;",
+        "cvt.s64.s32 \t%rd20, %r22;",
+        "cvt.rn.satfinite.e5m2x2.f32 %rs1, %r2, %r1;",
+        "cvt.rn.satfinite.e5m2x2.f32 %rs3, %r4, %r3;",
+        "cvt.rn.satfinite.e5m2x2.f32 %rs5, %r6, %r5;",
+        "cvt.rn.satfinite.e5m2x2.f32 %rs7, %r8, %r7;"
+      ]
+    },
+    {
+      "source": "fp8e4nv",
+      "destination": "fp16",
+      "sm": 90,
+      "conversions": [
+        "cvt.s64.s32 \t%rd19, %r10;",
+        "cvt.s64.s32 \t%rd20, %r18;",
+        "cvt.rn.f16x2.e4m3x2 %r1, %rs9;",
+        "cvt.rn.f16x2.e4m3x2 %r2, %rs10;",
+        "cvt.rn.f16x2.e4m3x2 %r3, %rs11;",
+        "cvt.rn.f16x2.e4m3x2 %r4, %rs12;"
+      ]
+    },
+    {
+      "source": "fp16",
+      "destination": "fp8e4nv",
+      "sm": 90,
+      "conversions": [
+        "cvt.s64.s32 \t%rd19, %r10;",
+        "cvt.s64.s32 \t%rd20, %r18;",
+        "cvt.rn.satfinite.e4m3x2.f16x2 %rs9, %r1;",
+        "cvt.rn.satfinite.e4m3x2.f16x2 %rs11, %r2;",
+        "cvt.rn.satfinite.e4m3x2.f16x2 %rs13, %r3;",
+        "cvt.rn.satfinite.e4m3x2.f16x2 %rs15, %r4;"
+      ]
+    },
+    {
+      "source": "fp32",
+      "destination": "fp8e4nv",
+      "sm": 90,
+      "conversions": [
+        "cvt.s64.s32 \t%rd19, %r14;",
+        "cvt.s64.s32 \t%rd20, %r22;",
+        "cvt.rn.satfinite.e4m3x2.f32  %rs1, %r2, %r1;",
+        "cvt.rn.satfinite.e4m3x2.f32  %rs3, %r4, %r3;",
+        "cvt.rn.satfinite.e4m3x2.f32  %rs5, %r6, %r5;",
+        "cvt.rn.satfinite.e4m3x2.f32  %rs7, %r8, %r7;"
+      ]
+    }
+  ]
+}

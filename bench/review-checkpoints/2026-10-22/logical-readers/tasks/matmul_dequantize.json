@@ -1,0 +1,138 @@
+{
+  "schema": 1,
+  "task": "matmul_dequantize",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue09/result.json",
+    "sha256": "d3044f04d5d54ca9192fc48af4b7e45f6ff6fef98b03ff13785e6812e7152b4f",
+    "task_index": 7
+  },
+  "finding": "All four stage readers exposed pid/tile-lane output selectors; GPTQ/S2 read rawInputs projections and standalone dequant read numbered repeated windows.",
+  "resolution": "True grouped-grid Equiv to padded logical row/column coordinates. GPTQ/S2 expose actual RawInputs arrays plus complete backing graph. D32/D16 retain every repeated/padded window as three actual logical matrices. All four formulas inline.",
+  "mathematical_target": [
+    {
+      "name": "gptq_kernel_correct",
+      "statement": "Spec.Real (ReaderIO.gptq p valid jobs ⊨ fun xs row column =>\n      ∑ k ∈ Finset.range p.inner, xs.arrays.a row.val k *\n        (((Real.signedNibble (xs.arrays.weight (k/8) column.val) k -\n          Real.signedNibble (xs.arrays.zero (k/p.groupSize) (column.val/8)) column.val : Int) : ℝ) *\n            xs.arrays.scale (k/p.groupSize) column.val))"
+    },
+    {
+      "name": "s2_kernel_correct",
+      "statement": "Spec.Real (ReaderIO.s2 p valid jobs ⊨ fun xs row column =>\n      ∑ k ∈ Finset.range p.inner, xs.arrays.a row.val k *\n        (((Real.signedNibble (xs.arrays.weight (k/8) column.val) k -\n          Real.signedNibble (xs.arrays.zero (k/p.groupSize) (column.val/8)) column.val : Int) : ℝ) *\n            xs.arrays.scale (k/p.groupSize) column.val))"
+    },
+    {
+      "name": "dequant32_kernel_correct",
+      "statement": "Spec.Real (ReaderIO.d32 p valid jobs ⊨ fun xs row column =>\n      (((Real.signedNibble (xs.weight row column) row.val -\n        Real.signedNibble (xs.zero row column) column.val : Int) : ℝ) * xs.scale row column))"
+    },
+    {
+      "name": "dequant16_kernel_correct",
+      "statement": "Spec.Real (ReaderIO.d16 p valid jobs ⊨ fun xs row column =>\n      (((Real.signedNibble (xs.weight row column) row.val -\n        Real.signedNibble (xs.zero row column) column.val : Int) : ℝ) * xs.scale row column))"
+    }
+  ],
+  "conditions_and_scope": {
+    "actual_scope": "All four original stages remain separately specified: complete GPTQ, repaired S2, FP32 standalone dequant and FP16 standalone dequant grids, arbitrary complete job permutation, active masked outputs and exact exterior frame. External torch.mm consumer of the FP16 dequant route is not claimed.",
+    "retained_conditions": [
+      "All four retain Geometry.Valid and output/input region separation; source tiled IO/output masks and ordinary binding/bounds are unchanged.",
+      "GPTQ additionally retains blockInner=32, groupSize=32*G, noGroups=>groupSize=inner and inner=steps*32.",
+      "S2 retains blockInner=32 and steps=(inner+31)/32, so the finite sum covers logical inner including masked partial K tile.",
+      "The original checked metadata/index/allocation contract and route-specific dtypes/group/divisibility conditions remain untouched."
+    ],
+    "parameter_audit": "All original specification parameter prefixes equal modulo whitespace; see parameter-audit.json."
+  },
+  "proof_connection": "ReaderProof.coordinate_row/coordinate_column/matrix_coordinates and all4 target_eq/judgment_iff prove equality to the original complete finite typed stage judgments; grouped pid inversion is bijective even for zero-sized grids. All previous parameter blocks are preserved.",
+  "fp_review": {
+    "source": "unchanged byte-for-byte from before snapshot",
+    "pair": "Four actual pairs: gptqOriginal/gptqScalarAddress; s2Original/s2ScalarAddress; dequant32Original/dequant32ScalarAddress; dequant16Original/dequant16ScalarAddress.",
+    "scope": "Complete original grids and all source branches, native typed algebra/dot and word payloads, original strided/region domains, both safe successful schedules and all observed outputs/dual frames.",
+    "interpretation": "Original typed operations, precision, conversions, order, domains, schedule and frame remain. Empty experimental R may rely on the fixed strict software theory; no universal opaque-model or hardware equality is inferred."
+  },
+  "numerical_dependencies": {
+    "new_rule_or_experiment_count": 0,
+    "actual_FP_dependencies": "R=[] for all four; exact source-prefix address transport with unchanged typed numerical suffix. Original casts, FP16/FP32 storage, dot and separate accumulator-add order are retained.",
+    "current_main_experimental_rule_instances": [],
+    "retained_pending_experiments": []
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "GPTQ/S2: sum_{k<inner} A[row,k]*(signedNibble(Q[k/8,column],k)-signedNibble(Z[k/group,column/8],column))*S[k/group,column]. dequant32/dequant16: corresponding logical nibble difference times scale at each active grid lane.",
+    "required_conditions": [
+      "All four retain Geometry.Valid and output/input region separation; source tiled IO/output masks and ordinary binding/bounds are unchanged.",
+      "GPTQ additionally retains blockInner=32, groupSize=32*G, noGroups=>groupSize=inner and inner=steps*32.",
+      "S2 retains blockInner=32 and steps=(inner+31)/32, so the finite sum covers logical inner including masked partial K tile.",
+      "The original checked metadata/index/allocation contract and route-specific dtypes/group/divisibility conditions remain untouched."
+    ],
+    "scope": "All four original stages remain separately specified: complete GPTQ, repaired S2, FP32 standalone dequant and FP16 standalone dequant grids, arbitrary complete job permutation, active masked outputs and exact exterior frame. External torch.mm consumer of the FP16 dequant route is not claimed.",
+    "canonical_connection": [
+      "quantizedProduct displays the actual independent sum and unpacking. The GPTQ and S2 main specifications each contain a local finite-sum induction and local target equality connecting Finset sums to canonical Real.rawMatmul.",
+      "The D32 and D16 displayed targets are definitionally D32IO/D16IO.mathematical, so their main specifications apply the existing real_implements results directly. Each original real_implements proof connects input windows, actual full-grid execution, source access safety and frame."
+    ],
+    "fp_program_pair": {
+      "fp_pair": "Four actual pairs: gptqOriginal/gptqScalarAddress; s2Original/s2ScalarAddress; dequant32Original/dequant32ScalarAddress; dequant16Original/dequant16ScalarAddress.",
+      "fp_scope": "Complete original grids and all source branches, native typed algebra/dot and word payloads, original strided/region domains, both safe successful schedules and all observed outputs/dual frames."
+    },
+    "numerical_dependencies": "R=[] for all four; exact source-prefix address transport with unchanged typed numerical suffix. Original casts, FP16/FP32 storage, dot and separate accumulator-add order are retained."
+  },
+  "verification": [
+    {
+      "kind": "validate_current_targeted_compiler_receipts_and_unchanged_FP_Contract_objects",
+      "command": [
+        "python",
+        ".veritile-cache/logical-reader-review-20261022/queue09/verify-receipts.py"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue09/verified-receipts.log",
+      "log_sha256": "8450288bd288828f3a671e55276af8205457512dc32a7d50e76db613efa1dc0f"
+    },
+    {
+      "kind": "joint_import_36_selected_public_entries",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue09/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue09/Joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue09/joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "kind": "preserved_all_16_original_parameter_prefixes_modulo_whitespace",
+      "command": [
+        "python",
+        ".veritile-cache/logical-reader-review-20261022/queue09/audit-parameters.py"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue09/parameter-audit.log",
+      "log_sha256": "029e5c767dd5644931d7ec3c332990352c88ddd3c640a65fd4561d74ce27305b"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/matmul_dequantize/Contract.lean": "419b6b3f86efe2de03833cd469c07fe5f875a4219139e7de71babc1f1805a92e",
+    "bench/repairs/tritonbench_g/matmul_dequantize/Correct.lean": "2f4aac96c0a1c4763fd045ad7bef27564aaae4f3fe90b7ecda8de66ba90c5963",
+    "bench/repairs/tritonbench_g/matmul_dequantize/FPEquiv.lean": "8ce67cf1c5e2fd4d1e6d02b473ea9833c399c613eaeaade90ab9267ae250e5a6",
+    "bench/repairs/tritonbench_g/matmul_dequantize/FirstIO.lean": "72ccbfcbcf87624514fc98f96247f9a92c59ebca08f48b390ac5e4dde4aae148",
+    "bench/repairs/tritonbench_g/matmul_dequantize/IO.lean": "bb42ea5089d08d909e1f3ff9904b6c6f792f80a2c762f8198334359dac073a28",
+    "bench/repairs/tritonbench_g/matmul_dequantize/LogicalIO.lean": "ddaba0f4856c490e0c8e6de84b4ba1834a5e36107c20dad58a531049294a6fee",
+    "bench/repairs/tritonbench_g/matmul_dequantize/Proofs/Dequant16IOResult.lean": "7e6c8e8ef401f6fcfc190f77b2d9ea5408b49f2b201cf2b3bb3e17a06bacbd62",
+    "bench/repairs/tritonbench_g/matmul_dequantize/Proofs/Dequant32IOResult.lean": "4c4e258c8a18e62a50280df8354e75bacc558e35f0e64393016765311b72e27b",
+    "bench/repairs/tritonbench_g/matmul_dequantize/Proofs/FirstRealResult.lean": "1bae30e14d40f0dc52060c1a2ad521d1d9e4c86010fb12649a81e2634b2476af",
+    "bench/repairs/tritonbench_g/matmul_dequantize/Proofs/LogicalReader.lean": "353668716ff1f9d27a464f7cd006080f91b92340db1a9f2736ec46d5b31a05f6",
+    "bench/repairs/tritonbench_g/matmul_dequantize/Proofs/SecondRealResult.lean": "8666aee14dfa5a9506463f002e7b522986d4825903a938f232a8efa281513cf3",
+    "bench/repairs/tritonbench_g/matmul_dequantize/SecondIO.lean": "571033622cd3046cf0a96c557d04ad1203de3ee1e33699340d62b040c0d554f7",
+    "bench/repairs/tritonbench_g/matmul_dequantize/Kernels.lean": "912699d4b1edb976125c395ccfe8a3b6e3e098439603d7526123e62c9f1fcd8f",
+    "bench/repairs/tritonbench_g/matmul_dequantize/Proofs/ScalarAddress.lean": "987fe0288dbdcf0c024293bf0d0ad3b71174212a795fc4dba05abcaac4dfaa26",
+    "bench/repairs/tritonbench_g/matmul_dequantize/Whole001/Proofs/RealBase.lean": "66104b92eec9ac82d74d4b3d38c7da131d85a49ab92d765fc5c66b59f19b5265",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [
+    "Unchanged FP and Contract objects were reused only after exact source/receipt/object matching; joint imports passed. Internal/optional native, host and Tensor closures were not replayed; no hardware conformance or new numerical experiment is claimed."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

@@ -1,0 +1,23 @@
+{
+  "bench/tritonbench_g/matrix_transpose/Correct.lean": "c6e29ddb868b2bc60a2d7b361f4f6d03523359436cd051ce12a8f454d6dc373e",
+  "bench/tritonbench_g/matrix_transpose/FPEquiv.lean": "ba3dda73e482b88f8a849f5f1bd4f051b4ebd0db12ed1cc336570a557c762ce0",
+  "bench/tritonbench_g/matrix_transpose/HostCorrect.lean": "a074ba086ee81a2e1d23d9d1f670e0353492289ddffa95a4aaa4e14cf895a6af",
+  "bench/tritonbench_g/matrix_transpose/Kernels.lean": "c8ae2d96fdb3ef90045dc97cac990cb91eae8872b17a8a1db435457b7dc97434",
+  "bench/tritonbench_g/matrix_transpose/FPCorrect.lean": "5a1370d9756d3df225c0e6e281c5e471d5db9b5ffd3bae3164c31ca34590677c",
+  "bench/tritonbench_g/matrix_transpose/Proofs/Source.lean": "446bad26b2faa12c91fcb3cdd9da23dc5e569e9c6647526f0d8c6341c1cdf8f4",
+  "bench/tritonbench_g/matrix_transpose/Proofs/Real.lean": "3bd19ff56779dd6f83b5ea23546fc69d20167bd1668e4bb98d674ebf5ae0ceee",
+  "bench/tritonbench_g/matrix_transpose/Proofs/FPBits.lean": "d87a1550451e28a33b41de8fad5cb64d1c575db095d7284af2fb03701c4f4a6e",
+  "bench/tritonbench_g/matrix_transpose/Proofs/IndexRewrite.lean": "cd728df77a397c98285d8b77f62a9087b37dc7824d7589b4f19449b0dd680cff",
+  "bench/tritonbench_g/matrix_transpose/Proofs/FPWitness.lean": "4664f1b358ee63de8838c979f5da6edfc669d88cf235e71065b2936f957c07fc",
+  "bench/tritonbench_g/matrix_transpose/Proofs/Candidate.lean": "1fcb226cc98b96bbc297502830c5673dffdb0ee0ec0642cb136f89925c7d2f62",
+  "bench/tritonbench_g/matrix_transpose/Proofs/FPShape.lean": "957118277efecfb4890d52ff299fd5bd38a5cfdc7931f4636ee36e2cddba3ed5",
+  "bench/tritonbench_g/matrix_transpose/Proofs/FPSoftware.lean": "0c29df5818b59108446204621a9736df78a8f77ddf7a277070a6d53f270c74e2",
+  "bench/tritonbench_g/matrix_transpose/matrix_transpose.py": "0ceaf829e152415896fea92229c45c00f34ade1ff5f0da7aaefa8769a84c5957",
+  "bench/original_program_scope.json": "56fbac2655ca87b7822349c171188fd998f3267641323175f1b1c11ed58eeba2",
+  "bench/check_original_program_scope.py": "fdaea9635c386e2b9083e82f6a40958142733d49dfd242154a8d02d5365347e6",
+  "bench/current_source_catalog.py": "87d4642855036cc1397640d47b4a51c8032a1ab115c24be86b0c74082210b4e5",
+  "bench/tritonbench_g/deferred_numerical_experiments.json": "f38329a8340d6b8f4929514694714f2ca233c25bcabbd292889c123f8fff95dd",
+  "bench/original_program_acceptance.md": "24d3d26972a22729d4f6f1d90aacdd2508f057468f54f8b0d9bf0508b873ae28",
+  "bench/review-checkpoints/2026-10-16/quantization-and-mixed-softmax/current-source-catalog.json": "74e163ed5e74265d05b061bedc67c81879ec306ab13a7b908959ff78269ec7e1",
+  "bench/review-checkpoints/2026-10-16/quantization-and-mixed-softmax/catalog-supplement.json": "20d72b66362a3905d24e851b0f1cc4ec920b3ff1f81e946bb3f8ae11090907b7"
+}

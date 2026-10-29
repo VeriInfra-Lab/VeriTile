@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "reviewer": "root",
+  "status": "passed_dequant_characterization_handoff_cpu_offline_only",
+  "candidate_receipt_sha256": "13cfa09ef7bb5db61469233a00069469c67ed6d5fc045c52fa47fd8ab5fd5ba6",
+  "proof_receipt_sha256": "a15e7076a54d12c4912a2dc446feeb9fecbd54ed4bf41cba8e825e15e5353124",
+  "case_root_replay_receipt_sha256": "627fe4749d214a7e9632f07ab05466d8b3eee971a92eb2d5a24dda6a208de723",
+  "independent_tool_tests": 45,
+  "independent_offline_profiles": 8,
+  "new_ordinary_case_modules": 4,
+  "named_standard_axiom_checks": 25,
+  "new_public_specifications": 0,
+  "independent_reference_files_identical": 71,
+  "read_tools_sha256": {
+    "test_runner.py": "952dff2317add1b18942ac5c406d170d3c07a86cd48523646ce342786383f923",
+    "validate_package.py": "0f4cc0ca3409f9456f532019feda44e40dfb637cb2cf6a8dae8c3de5777b4b4d",
+    "verify_capture.py": "65938d00fa044a30e63dc3ea18c2349e2aec1d9255016847e378b3a552155a11",
+    "compiler_observations.py": "04ff1e58453331bfd09ecc584c48637c32c835394feddb7a1a36a096d5321f69",
+    "run.py": "8bbfe9397b7e91ecf48265f4f3780d134649f36a4cdcae8e32f31acec0e78b4f",
+    "oracle.py": "88e09542623444041baa90419be6a65abce610c6b1f287fedb8c3e6d98979d74"
+  },
+  "native_status": "NOT_RUN",
+  "native_launches": 0,
+  "native_execution": false,
+  "numeric_acceptance": false,
+  "classification_modified": false,
+  "limits": [
+    "The finite oracle distinguishes half fusion but not the two unfused dot graphs.",
+    "Four diagnostic modules are archived only, not registered as full task value contracts.",
+    "Runtime mock tests are CPU tool tests, not observed device executions.",
+    "The software physicalView prefix definition does not prove native physical byte ABI.",
+    "MMA precision/order and NaN/FTZ behavior remain unbound."
+  ]
+}

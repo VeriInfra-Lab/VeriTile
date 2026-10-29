@@ -1,0 +1,639 @@
+{
+  "task": "add_value",
+  "source": "bench/tritonbench_g/add_value/add_value.py",
+  "source_sha256": "018443803f71ddd60d1fa6cdf59eb5e791853f3c43be9cc17d5fb31c029aad62",
+  "scalar_module": "bench/tritonbench_g/add_value/Proofs/NativeScalar.lean",
+  "scalar_sha256": "1c298973356d2a73dd5042583107f6cb70bb213e288fa985dff8eb17727343bc",
+  "profiles": [
+    {
+      "dtype": "bool",
+      "compute": "fp32",
+      "operations": [
+        {
+          "port": "add32",
+          "input_types": [
+            "fp32",
+            "fp32"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "runtime_right_argument_bits": 1092616192,
+            "rounding": "rtne"
+          },
+          "operation": "add32"
+        },
+        {
+          "port": "FP.IntegerConversion.toSigned",
+          "input_types": [
+            "fp32"
+          ],
+          "output_type": "int8",
+          "configuration": {
+            "width": 8,
+            "rounding": "rtz",
+            "domain": "finite_truncation_in_range",
+            "raw_bool_store": true
+          },
+          "operation": "toSigned"
+        }
+      ],
+      "raw_ttir": "native-attempts/20261015T230033348220Z/bool.raw.ttir",
+      "raw_ttir_sha256": "c8b1958d557dbb0abcd26f283bff4779296eebda0fb8c9737bbe78c25b9b5dc8"
+    },
+    {
+      "dtype": "uint8",
+      "compute": "fp32",
+      "operations": [
+        {
+          "port": "unsignedTo32",
+          "input_types": [
+            "uint8"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "width": 8,
+            "rounding": "rtne"
+          },
+          "operation": "unsignedTo32"
+        },
+        {
+          "port": "add32",
+          "input_types": [
+            "fp32",
+            "fp32"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "runtime_right_argument_bits": 1092616192,
+            "rounding": "rtne"
+          },
+          "operation": "add32"
+        },
+        {
+          "port": "FP.IntegerConversion.toUnsigned",
+          "input_types": [
+            "fp32"
+          ],
+          "output_type": "uint8",
+          "configuration": {
+            "width": 8,
+            "rounding": "rtz",
+            "domain": "finite_truncation_in_range",
+            "raw_bool_store": false
+          },
+          "operation": "toUnsigned"
+        }
+      ],
+      "raw_ttir": "native-attempts/20261015T230033348220Z/uint8.raw.ttir",
+      "raw_ttir_sha256": "da81dfcedfe22714e25623dd580ee1bf2e555d24f11ac734cb7a3795eda2df03"
+    },
+    {
+      "dtype": "int8",
+      "compute": "fp32",
+      "operations": [
+        {
+          "port": "signedTo32",
+          "input_types": [
+            "int8"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "width": 8,
+            "rounding": "rtne"
+          },
+          "operation": "signedTo32"
+        },
+        {
+          "port": "add32",
+          "input_types": [
+            "fp32",
+            "fp32"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "runtime_right_argument_bits": 1092616192,
+            "rounding": "rtne"
+          },
+          "operation": "add32"
+        },
+        {
+          "port": "FP.IntegerConversion.toSigned",
+          "input_types": [
+            "fp32"
+          ],
+          "output_type": "int8",
+          "configuration": {
+            "width": 8,
+            "rounding": "rtz",
+            "domain": "finite_truncation_in_range",
+            "raw_bool_store": false
+          },
+          "operation": "toSigned"
+        }
+      ],
+      "raw_ttir": "native-attempts/20261015T230033348220Z/int8.raw.ttir",
+      "raw_ttir_sha256": "f37988a7b99459bede81780c03f72bcca4f974acc2f7e8973347bdc10452ebbb"
+    },
+    {
+      "dtype": "int16",
+      "compute": "fp32",
+      "operations": [
+        {
+          "port": "signedTo32",
+          "input_types": [
+            "int16"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "width": 16,
+            "rounding": "rtne"
+          },
+          "operation": "signedTo32"
+        },
+        {
+          "port": "add32",
+          "input_types": [
+            "fp32",
+            "fp32"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "runtime_right_argument_bits": 1092616192,
+            "rounding": "rtne"
+          },
+          "operation": "add32"
+        },
+        {
+          "port": "FP.IntegerConversion.toSigned",
+          "input_types": [
+            "fp32"
+          ],
+          "output_type": "int16",
+          "configuration": {
+            "width": 16,
+            "rounding": "rtz",
+            "domain": "finite_truncation_in_range",
+            "raw_bool_store": false
+          },
+          "operation": "toSigned"
+        }
+      ],
+      "raw_ttir": "native-attempts/20261015T230033348220Z/int16.raw.ttir",
+      "raw_ttir_sha256": "ddde8c349cca4ee250e77956c33fe0b194037eb9c72a6a67939e0baec33e6b20"
+    },
+    {
+      "dtype": "uint16",
+      "compute": "fp32",
+      "operations": [
+        {
+          "port": "unsignedTo32",
+          "input_types": [
+            "uint16"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "width": 16,
+            "rounding": "rtne"
+          },
+          "operation": "unsignedTo32"
+        },
+        {
+          "port": "add32",
+          "input_types": [
+            "fp32",
+            "fp32"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "runtime_right_argument_bits": 1092616192,
+            "rounding": "rtne"
+          },
+          "operation": "add32"
+        },
+        {
+          "port": "FP.IntegerConversion.toUnsigned",
+          "input_types": [
+            "fp32"
+          ],
+          "output_type": "uint16",
+          "configuration": {
+            "width": 16,
+            "rounding": "rtz",
+            "domain": "finite_truncation_in_range",
+            "raw_bool_store": false
+          },
+          "operation": "toUnsigned"
+        }
+      ],
+      "raw_ttir": "native-attempts/20261015T230033348220Z/uint16.raw.ttir",
+      "raw_ttir_sha256": "b6f22367a736dbf4f0ad62dab47b8697a12e89d0e37b7c2b8192d6956a7da5f3"
+    },
+    {
+      "dtype": "int32",
+      "compute": "fp32",
+      "operations": [
+        {
+          "port": "signedTo32",
+          "input_types": [
+            "int32"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "width": 32,
+            "rounding": "rtne"
+          },
+          "operation": "signedTo32"
+        },
+        {
+          "port": "add32",
+          "input_types": [
+            "fp32",
+            "fp32"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "runtime_right_argument_bits": 1092616192,
+            "rounding": "rtne"
+          },
+          "operation": "add32"
+        },
+        {
+          "port": "FP.IntegerConversion.toSigned",
+          "input_types": [
+            "fp32"
+          ],
+          "output_type": "int32",
+          "configuration": {
+            "width": 32,
+            "rounding": "rtz",
+            "domain": "finite_truncation_in_range",
+            "raw_bool_store": false
+          },
+          "operation": "toSigned"
+        }
+      ],
+      "raw_ttir": "native-attempts/20261015T230033348220Z/int32.raw.ttir",
+      "raw_ttir_sha256": "91526c8a58f38ed33673edcd02e5a345af47bf4bc966028baea63a8e484a85c1"
+    },
+    {
+      "dtype": "uint32",
+      "compute": "fp32",
+      "operations": [
+        {
+          "port": "unsignedTo32",
+          "input_types": [
+            "uint32"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "width": 32,
+            "rounding": "rtne"
+          },
+          "operation": "unsignedTo32"
+        },
+        {
+          "port": "add32",
+          "input_types": [
+            "fp32",
+            "fp32"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "runtime_right_argument_bits": 1092616192,
+            "rounding": "rtne"
+          },
+          "operation": "add32"
+        },
+        {
+          "port": "FP.IntegerConversion.toUnsigned",
+          "input_types": [
+            "fp32"
+          ],
+          "output_type": "uint32",
+          "configuration": {
+            "width": 32,
+            "rounding": "rtz",
+            "domain": "finite_truncation_in_range",
+            "raw_bool_store": false
+          },
+          "operation": "toUnsigned"
+        }
+      ],
+      "raw_ttir": "native-attempts/20261015T230033348220Z/uint32.raw.ttir",
+      "raw_ttir_sha256": "c643566d266853b8b4fbef7137597be6e9b600f78b822523865b5f68d1500f00"
+    },
+    {
+      "dtype": "int64",
+      "compute": "fp32",
+      "operations": [
+        {
+          "port": "signedTo32",
+          "input_types": [
+            "int64"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "width": 64,
+            "rounding": "rtne"
+          },
+          "operation": "signedTo32"
+        },
+        {
+          "port": "add32",
+          "input_types": [
+            "fp32",
+            "fp32"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "runtime_right_argument_bits": 1092616192,
+            "rounding": "rtne"
+          },
+          "operation": "add32"
+        },
+        {
+          "port": "FP.IntegerConversion.toSigned",
+          "input_types": [
+            "fp32"
+          ],
+          "output_type": "int64",
+          "configuration": {
+            "width": 64,
+            "rounding": "rtz",
+            "domain": "finite_truncation_in_range",
+            "raw_bool_store": false
+          },
+          "operation": "toSigned"
+        }
+      ],
+      "raw_ttir": "native-attempts/20261015T230033348220Z/int64.raw.ttir",
+      "raw_ttir_sha256": "5b0266a8db3506d141812d1d4ae967fcfbf0990a4d2b6f058e9bf11f185e7a29"
+    },
+    {
+      "dtype": "uint64",
+      "compute": "fp32",
+      "operations": [
+        {
+          "port": "unsignedTo32",
+          "input_types": [
+            "uint64"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "width": 64,
+            "rounding": "rtne"
+          },
+          "operation": "unsignedTo32"
+        },
+        {
+          "port": "add32",
+          "input_types": [
+            "fp32",
+            "fp32"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "runtime_right_argument_bits": 1092616192,
+            "rounding": "rtne"
+          },
+          "operation": "add32"
+        },
+        {
+          "port": "FP.IntegerConversion.toUnsigned",
+          "input_types": [
+            "fp32"
+          ],
+          "output_type": "uint64",
+          "configuration": {
+            "width": 64,
+            "rounding": "rtz",
+            "domain": "finite_truncation_in_range",
+            "raw_bool_store": false
+          },
+          "operation": "toUnsigned"
+        }
+      ],
+      "raw_ttir": "native-attempts/20261015T230033348220Z/uint64.raw.ttir",
+      "raw_ttir_sha256": "281196fba2907e2f42db1c828174f62a579a842cc4516581a9adbde72fc652d8"
+    },
+    {
+      "dtype": "float16",
+      "compute": "fp32",
+      "operations": [
+        {
+          "port": "halfTo32",
+          "input_types": [
+            "fp16"
+          ],
+          "output_type": "fp32",
+          "configuration": {},
+          "operation": "halfTo32"
+        },
+        {
+          "port": "add32",
+          "input_types": [
+            "fp32",
+            "fp32"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "runtime_right_argument_bits": 1092616192,
+            "rounding": "rtne"
+          },
+          "operation": "add32"
+        },
+        {
+          "port": "toHalf",
+          "input_types": [
+            "fp32"
+          ],
+          "output_type": "fp16",
+          "configuration": {
+            "rounding": "rtne"
+          },
+          "operation": "toHalf"
+        }
+      ],
+      "raw_ttir": "native-attempts/20261015T230033348220Z/float16.raw.ttir",
+      "raw_ttir_sha256": "4f8a8cae3541644ecedfb9cc634659f4dd9db680edf9397b27b1cfb8e268459b"
+    },
+    {
+      "dtype": "bfloat16",
+      "compute": "fp32",
+      "operations": [
+        {
+          "port": "bfloatTo32",
+          "input_types": [
+            "bf16"
+          ],
+          "output_type": "fp32",
+          "configuration": {},
+          "operation": "bfloatTo32"
+        },
+        {
+          "port": "add32",
+          "input_types": [
+            "fp32",
+            "fp32"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "runtime_right_argument_bits": 1092616192,
+            "rounding": "rtne"
+          },
+          "operation": "add32"
+        },
+        {
+          "port": "toBFloat",
+          "input_types": [
+            "fp32"
+          ],
+          "output_type": "bf16",
+          "configuration": {
+            "rounding": "rtne"
+          },
+          "operation": "toBFloat"
+        }
+      ],
+      "raw_ttir": "native-attempts/20261015T230033348220Z/bfloat16.raw.ttir",
+      "raw_ttir_sha256": "08fb6a2994ea295d70971a1b5dddc2ee679c4fcbd38db28c82b7fbe99c9d3491"
+    },
+    {
+      "dtype": "float32",
+      "compute": "fp32",
+      "operations": [
+        {
+          "port": "add32",
+          "input_types": [
+            "fp32",
+            "fp32"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "runtime_right_argument_bits": 1092616192,
+            "rounding": "rtne"
+          },
+          "operation": "add32"
+        }
+      ],
+      "raw_ttir": "native-attempts/20261015T230033348220Z/float32.raw.ttir",
+      "raw_ttir_sha256": "a27c7cc905208445279154876b22b89880da3d1a31b44d0e5508de6cd44dc9c2"
+    },
+    {
+      "dtype": "float64",
+      "compute": "fp64",
+      "operations": [
+        {
+          "port": "wide.singleTo64",
+          "input_types": [
+            "fp32"
+          ],
+          "output_type": "fp64",
+          "configuration": {},
+          "operation": "singleTo64"
+        },
+        {
+          "port": "wide.add64",
+          "input_types": [
+            "fp64",
+            "fp64"
+          ],
+          "output_type": "fp64",
+          "configuration": {},
+          "operation": "add64"
+        }
+      ],
+      "raw_ttir": "native-attempts/20261015T230033348220Z/float64.raw.ttir",
+      "raw_ttir_sha256": "f6ce17c07f9700fba5710382570ddec6dea781efb62fff3d3981505843b74d46"
+    },
+    {
+      "dtype": "float8_e4m3fn",
+      "compute": "fp32",
+      "operations": [
+        {
+          "port": "e4To32",
+          "input_types": [
+            "fp8e4m3fn"
+          ],
+          "output_type": "fp32",
+          "configuration": {},
+          "operation": "e4To32"
+        },
+        {
+          "port": "add32",
+          "input_types": [
+            "fp32",
+            "fp32"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "runtime_right_argument_bits": 1092616192,
+            "rounding": "rtne"
+          },
+          "operation": "add32"
+        },
+        {
+          "port": "toE4RTNE",
+          "input_types": [
+            "fp32"
+          ],
+          "output_type": "fp8e4m3fn",
+          "configuration": {
+            "rounding": "rtne"
+          },
+          "operation": "toE4RTNE"
+        }
+      ],
+      "raw_ttir": "native-attempts/20261015T230033348220Z/float8_e4m3fn.raw.ttir",
+      "raw_ttir_sha256": "a9ea57583229b771ed8f5ddb7cbf3bd23427216e82235cf5edb94a6559b2c19a"
+    },
+    {
+      "dtype": "float8_e5m2",
+      "compute": "fp32",
+      "operations": [
+        {
+          "port": "e5To32",
+          "input_types": [
+            "fp8e5m2"
+          ],
+          "output_type": "fp32",
+          "configuration": {},
+          "operation": "e5To32"
+        },
+        {
+          "port": "add32",
+          "input_types": [
+            "fp32",
+            "fp32"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "runtime_right_argument_bits": 1092616192,
+            "rounding": "rtne"
+          },
+          "operation": "add32"
+        },
+        {
+          "port": "toE5RTNE",
+          "input_types": [
+            "fp32"
+          ],
+          "output_type": "fp8e5m2",
+          "configuration": {
+            "rounding": "rtne"
+          },
+          "operation": "toE5RTNE"
+        }
+      ],
+      "raw_ttir": "native-attempts/20261015T230033348220Z/float8_e5m2.raw.ttir",
+      "raw_ttir_sha256": "e039168dc04a6fc7e036a1cfe650ecb77692cde89f43d9decfbf858f56330bff"
+    }
+  ],
+  "runtime_value": {
+    "type": "fp32",
+    "bits": 1092616192,
+    "constexpr": false
+  },
+  "bool_structural_casts": "raw8!=0, exact predicate to fp32 0/1, signedStore8 raw byte without bool normalization",
+  "native_scalar_validation": false
+}

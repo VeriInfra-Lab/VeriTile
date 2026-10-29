@@ -1,0 +1,39 @@
+/tmp/veritile-standardization-20261015/sin-kernel-finite-acceptance-wip/after/bench/tritonbench_g/sin_kernel/NativeCorrect.lean:206:10: error: unsolved goals
+case neg
+M : Type
+ops : (d : Storage) → Memory M (Word d)
+b : Numerics
+env : Environment
+metadata : Metadata
+kind : InputType
+x output : Tensor
+allocated : M
+binding : AllocationBinding metadata x output
+he : env SetupStage.jitContext = none
+d : Storage
+ha : admission kind = Except.ok d
+hcomp : env SetupStage.compilation = none
+hctx : env SetupStage.nativeContext = none
+hg : ¬gridSupported x.numel
+⊢ env SetupStage.nativeContext = none
+SinKernelNative.grid_parse_precedes_pointer_packing: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+SinKernelNative.HostSpec: definition does not reference [SinKernelNative.executeHost,
+ SinKernelNative.executeAllocated,
+ SinKernelNative.executeLaunch,
+ SinKernelNative.executeGrid,
+ SinKernelNative.executeProgram,
+ SinKernelNative.sourceWrites] — non-circular ✓
+SinKernelNative.ReturnedSpec: definition does not reference [SinKernelNative.executeHost,
+ SinKernelNative.executeAllocated,
+ SinKernelNative.executeLaunch,
+ SinKernelNative.executeGrid,
+ SinKernelNative.executeProgram,
+ SinKernelNative.sourceWrites] — non-circular ✓
+SinKernelNative.allocated_return_of_launch: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+/tmp/veritile-standardization-20261015/sin-kernel-finite-acceptance-wip/after/bench/tritonbench_g/sin_kernel/NativeCorrect.lean:284:0: error: SinKernelNative.allocated_all_outcomes: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+SinKernelNative.uses_extracted_pointer: axiom footprint ⊆ standard base ✓  ([propext])
+/tmp/veritile-standardization-20261015/sin-kernel-finite-acceptance-wip/after/bench/tritonbench_g/sin_kernel/NativeCorrect.lean:286:0: error: SinKernelNative.sin_kernel_native_source_outcomes: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+SinKernelNative.sin_kernel_two31_return: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+/tmp/veritile-standardization-20261015/sin-kernel-finite-acceptance-wip/after/bench/tritonbench_g/sin_kernel/NativeCorrect.lean:289:0: error: SinKernelNative.sin_kernel_native_source_outcomes: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

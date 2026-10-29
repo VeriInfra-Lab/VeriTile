@@ -1,0 +1,19 @@
+{
+  "shape": [
+    2147483648,
+    0
+  ],
+  "strides": [
+    1,
+    1
+  ],
+  "numel": 0,
+  "storage_bytes": 0,
+  "data_ptr": 0,
+  "output_shape": [
+    2147483648,
+    0
+  ],
+  "output_data_ptr": 0,
+  "scope": "actual CPU metadata construction only; no GPU launch"
+}

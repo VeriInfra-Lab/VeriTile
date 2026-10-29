@@ -1,0 +1,381 @@
+[
+  {
+    "n": 0,
+    "allocation_failure": false,
+    "events": [
+      [
+        "empty_like"
+      ],
+      [
+        "numel",
+        0
+      ],
+      [
+        "sqrt",
+        0
+      ],
+      [
+        "ceil",
+        "0x0.0p+0"
+      ],
+      [
+        "next_power",
+        0
+      ],
+      [
+        "cdiv",
+        0,
+        0
+      ]
+    ],
+    "outcome": "ZeroDivisionError"
+  },
+  {
+    "n": 1,
+    "allocation_failure": false,
+    "events": [
+      [
+        "empty_like"
+      ],
+      [
+        "numel",
+        1
+      ],
+      [
+        "sqrt",
+        1
+      ],
+      [
+        "ceil",
+        "0x1.0000000000000p+0"
+      ],
+      [
+        "next_power",
+        1
+      ],
+      [
+        "cdiv",
+        1,
+        1
+      ],
+      [
+        "launch",
+        [
+          1,
+          1,
+          1
+        ],
+        1,
+        1
+      ]
+    ],
+    "outcome": "returned_same_output"
+  },
+  {
+    "n": 5,
+    "allocation_failure": false,
+    "events": [
+      [
+        "empty_like"
+      ],
+      [
+        "numel",
+        5
+      ],
+      [
+        "sqrt",
+        5
+      ],
+      [
+        "ceil",
+        "0x1.1e3779b97f4a8p+1"
+      ],
+      [
+        "next_power",
+        3
+      ],
+      [
+        "cdiv",
+        5,
+        4
+      ],
+      [
+        "launch",
+        [
+          2,
+          1,
+          1
+        ],
+        5,
+        4
+      ]
+    ],
+    "outcome": "returned_same_output"
+  },
+  {
+    "n": 4096,
+    "allocation_failure": false,
+    "events": [
+      [
+        "empty_like"
+      ],
+      [
+        "numel",
+        4096
+      ],
+      [
+        "sqrt",
+        4096
+      ],
+      [
+        "ceil",
+        "0x1.0000000000000p+6"
+      ],
+      [
+        "next_power",
+        64
+      ],
+      [
+        "cdiv",
+        4096,
+        64
+      ],
+      [
+        "launch",
+        [
+          64,
+          1,
+          1
+        ],
+        4096,
+        64
+      ]
+    ],
+    "outcome": "returned_same_output"
+  },
+  {
+    "n": 2147483648,
+    "allocation_failure": false,
+    "events": [
+      [
+        "empty_like"
+      ],
+      [
+        "numel",
+        2147483648
+      ],
+      [
+        "sqrt",
+        2147483648
+      ],
+      [
+        "ceil",
+        "0x1.6a09e667f3bcdp+15"
+      ],
+      [
+        "next_power",
+        46341
+      ],
+      [
+        "cdiv",
+        2147483648,
+        65536
+      ],
+      [
+        "launch",
+        [
+          32768,
+          1,
+          1
+        ],
+        2147483648,
+        65536
+      ]
+    ],
+    "outcome": "returned_same_output"
+  },
+  {
+    "n": 2147483649,
+    "allocation_failure": false,
+    "events": [
+      [
+        "empty_like"
+      ],
+      [
+        "numel",
+        2147483649
+      ],
+      [
+        "sqrt",
+        2147483649
+      ],
+      [
+        "ceil",
+        "0x1.6a09e6695dc6bp+15"
+      ],
+      [
+        "next_power",
+        46341
+      ],
+      [
+        "cdiv",
+        2147483649,
+        65536
+      ],
+      [
+        "launch",
+        [
+          32769,
+          1,
+          1
+        ],
+        2147483649,
+        65536
+      ]
+    ],
+    "outcome": "returned_same_output"
+  },
+  {
+    "n": 1099511627777,
+    "allocation_failure": false,
+    "events": [
+      [
+        "empty_like"
+      ],
+      [
+        "numel",
+        1099511627777
+      ],
+      [
+        "sqrt",
+        1099511627777
+      ],
+      [
+        "ceil",
+        "0x1.0000000000800p+20"
+      ],
+      [
+        "next_power",
+        1048577
+      ],
+      [
+        "cdiv",
+        1099511627777,
+        2097152
+      ],
+      [
+        "launch",
+        [
+          524289,
+          1,
+          1
+        ],
+        1099511627777,
+        2097152
+      ]
+    ],
+    "outcome": "returned_same_output"
+  },
+  {
+    "n": 4503599627370497,
+    "allocation_failure": false,
+    "events": [
+      [
+        "empty_like"
+      ],
+      [
+        "numel",
+        4503599627370497
+      ],
+      [
+        "sqrt",
+        4503599627370497
+      ],
+      [
+        "ceil",
+        "0x1.0000000000000p+26"
+      ],
+      [
+        "next_power",
+        67108864
+      ],
+      [
+        "cdiv",
+        4503599627370497,
+        67108864
+      ],
+      [
+        "launch",
+        [
+          67108865,
+          1,
+          1
+        ],
+        4503599627370497,
+        67108864
+      ]
+    ],
+    "outcome": "returned_same_output"
+  },
+  {
+    "n": 9223372036854775807,
+    "allocation_failure": false,
+    "events": [
+      [
+        "empty_like"
+      ],
+      [
+        "numel",
+        9223372036854775807
+      ],
+      [
+        "sqrt",
+        9223372036854775807
+      ],
+      [
+        "ceil",
+        "0x1.6a09e667f3bcdp+31"
+      ],
+      [
+        "next_power",
+        3037000500
+      ],
+      [
+        "cdiv",
+        9223372036854775807,
+        4294967296
+      ],
+      [
+        "launch",
+        [
+          2147483648,
+          1,
+          1
+        ],
+        9223372036854775807,
+        4294967296
+      ]
+    ],
+    "outcome": "returned_same_output"
+  },
+  {
+    "n": 0,
+    "allocation_failure": true,
+    "events": [
+      [
+        "empty_like"
+      ]
+    ],
+    "outcome": "MemoryError"
+  },
+  {
+    "n": 9223372036854775807,
+    "allocation_failure": true,
+    "events": [
+      [
+        "empty_like"
+      ]
+    ],
+    "outcome": "MemoryError"
+  }
+]

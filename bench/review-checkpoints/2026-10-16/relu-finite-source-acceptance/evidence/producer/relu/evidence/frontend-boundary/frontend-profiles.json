@@ -1,0 +1,1462 @@
+[
+  {
+    "N": 2147483648,
+    "input": "bool",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*u1",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "2147483648-bool.raw.ttir",
+    "ttir_sha256": "fa271c307cff03ce2961bf32a73a477eb7c381a3a9d249d578dfbf88b5f36dc4",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi ult, %mask_22, %mask_23 : tensor<1024xi32> loc(#loc21)",
+      "%x_30 = arith.cmpi ne, %x_27, %x_29 : tensor<1024xi8> loc(#loc23)",
+      "%result_33 = arith.cmpi sge, %result_31, %result_32 : tensor<1024xi32> loc(#loc24)",
+      "%result_35 = arith.uitofp %x_30 : tensor<1024xi1> to tensor<1024xf32> loc(#loc25)",
+      "%result_38 = arith.select %result_33, %result_35, %result_37 : tensor<1024xi1>, tensor<1024xf32> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "tt.store %2, %result_38, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 2147483648,
+    "input": "int8",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*i8",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "2147483648-int8.raw.ttir",
+    "ttir_sha256": "46d8da4c84400ced4b3900c448d025e9273ad7db7dcba19b8b3149b9ab58df40",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi ult, %mask_22, %mask_23 : tensor<1024xi32> loc(#loc21)",
+      "%result_29 = arith.cmpi sge, %result_27, %result_28 : tensor<1024xi32> loc(#loc24)",
+      "%result_31 = arith.sitofp %x_26 : tensor<1024xi8> to tensor<1024xf32> loc(#loc25)",
+      "%result_34 = arith.select %result_29, %result_31, %result_33 : tensor<1024xi1>, tensor<1024xf32> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "tt.store %2, %result_34, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 2147483648,
+    "input": "uint8",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*u8",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "2147483648-uint8.raw.ttir",
+    "ttir_sha256": "7a69632101d5fc3dd0f4a9f55d14e2339c662e56f996f88877ff5f41c096a4ba",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi ult, %mask_22, %mask_23 : tensor<1024xi32> loc(#loc21)",
+      "%result_29 = arith.cmpi sge, %result_27, %result_28 : tensor<1024xi32> loc(#loc24)",
+      "%result_31 = arith.uitofp %x_26 : tensor<1024xi8> to tensor<1024xf32> loc(#loc25)",
+      "%result_34 = arith.select %result_29, %result_31, %result_33 : tensor<1024xi1>, tensor<1024xf32> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "tt.store %2, %result_34, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 2147483648,
+    "input": "int16",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*i16",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "2147483648-int16.raw.ttir",
+    "ttir_sha256": "276ce6067066181addcada99d166e6881a3671c8a1e644960ff07aba00902c20",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi ult, %mask_22, %mask_23 : tensor<1024xi32> loc(#loc21)",
+      "%result_29 = arith.cmpi sge, %result_27, %result_28 : tensor<1024xi32> loc(#loc24)",
+      "%result_31 = arith.sitofp %x_26 : tensor<1024xi16> to tensor<1024xf32> loc(#loc25)",
+      "%result_34 = arith.select %result_29, %result_31, %result_33 : tensor<1024xi1>, tensor<1024xf32> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "tt.store %2, %result_34, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 2147483648,
+    "input": "uint16",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*u16",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "2147483648-uint16.raw.ttir",
+    "ttir_sha256": "5c84bc17b80763197e6b467d0aa4e2e77b23ee2c7e7cd9c40e5ac6a4a115d090",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi ult, %mask_22, %mask_23 : tensor<1024xi32> loc(#loc21)",
+      "%result_29 = arith.cmpi sge, %result_27, %result_28 : tensor<1024xi32> loc(#loc24)",
+      "%result_31 = arith.uitofp %x_26 : tensor<1024xi16> to tensor<1024xf32> loc(#loc25)",
+      "%result_34 = arith.select %result_29, %result_31, %result_33 : tensor<1024xi1>, tensor<1024xf32> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "tt.store %2, %result_34, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 2147483648,
+    "input": "int32",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*i32",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "2147483648-int32.raw.ttir",
+    "ttir_sha256": "b6e9dd29af98fbeb9d315cb7e0a7d85c956897e537d89189fe6bee01ffbe53ff",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi ult, %mask_22, %mask_23 : tensor<1024xi32> loc(#loc21)",
+      "%result_28 = arith.cmpi sge, %x_26, %result_27 : tensor<1024xi32> loc(#loc24)",
+      "%result_30 = arith.sitofp %x_26 : tensor<1024xi32> to tensor<1024xf32> loc(#loc25)",
+      "%result_33 = arith.select %result_28, %result_30, %result_32 : tensor<1024xi1>, tensor<1024xf32> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "tt.store %2, %result_33, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 2147483648,
+    "input": "uint32",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*u32",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "2147483648-uint32.raw.ttir",
+    "ttir_sha256": "0953aff6e6558cb2cf886cc7e8a5109554d03844111e8337355695941dc1caf1",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi ult, %mask_22, %mask_23 : tensor<1024xi32> loc(#loc21)",
+      "%result_29 = arith.cmpi uge, %x_26, %result_28 : tensor<1024xi32> loc(#loc24)",
+      "%result_31 = arith.uitofp %x_26 : tensor<1024xi32> to tensor<1024xf32> loc(#loc25)",
+      "%result_34 = arith.select %result_29, %result_31, %result_33 : tensor<1024xi1>, tensor<1024xf32> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "tt.store %2, %result_34, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 2147483648,
+    "input": "int64",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*i64",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "2147483648-int64.raw.ttir",
+    "ttir_sha256": "c84b8e7773b99b9ca5732d765481e94229e2ec37fc677904b798cdac275bafa5",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi ult, %mask_22, %mask_23 : tensor<1024xi32> loc(#loc21)",
+      "%result_29 = arith.cmpi sge, %x_26, %result_28 : tensor<1024xi64> loc(#loc24)",
+      "%result_31 = arith.sitofp %x_26 : tensor<1024xi64> to tensor<1024xf32> loc(#loc25)",
+      "%result_34 = arith.select %result_29, %result_31, %result_33 : tensor<1024xi1>, tensor<1024xf32> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "tt.store %2, %result_34, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 2147483648,
+    "input": "uint64",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*u64",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "2147483648-uint64.raw.ttir",
+    "ttir_sha256": "5539ee46c658be40430ead4b7031f5bc854b8021a816e51c956ff0b4b4ab338e",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi ult, %mask_22, %mask_23 : tensor<1024xi32> loc(#loc21)",
+      "%result_29 = arith.cmpi uge, %x_26, %result_28 : tensor<1024xi64> loc(#loc24)",
+      "%result_31 = arith.uitofp %x_26 : tensor<1024xi64> to tensor<1024xf32> loc(#loc25)",
+      "%result_34 = arith.select %result_29, %result_31, %result_33 : tensor<1024xi1>, tensor<1024xf32> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "tt.store %2, %result_34, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 2147483648,
+    "input": "float16",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*fp16",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "2147483648-float16.raw.ttir",
+    "ttir_sha256": "082e251c32796ea942f757755b918c360040cf0e2c97d46c3d9461ab183d392e",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi ult, %mask_22, %mask_23 : tensor<1024xi32> loc(#loc21)",
+      "%result_27 = arith.sitofp %result : i32 to f16 loc(#loc24)",
+      "%result_29 = arith.cmpf oge, %x_26, %result_28 : tensor<1024xf16> loc(#loc24)",
+      "%result_33 = arith.select %result_29, %x_26, %result_32 : tensor<1024xi1>, tensor<1024xf16> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "%3 = arith.extf %result_33 : tensor<1024xf16> to tensor<1024xf32> loc(#loc13)",
+      "tt.store %2, %3, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 2147483648,
+    "input": "bfloat16",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*bf16",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "2147483648-bfloat16.raw.ttir",
+    "ttir_sha256": "b50acf25a9d00858119c46854263241e180561c9c5a2b6f66aff6407e627c909",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi ult, %mask_22, %mask_23 : tensor<1024xi32> loc(#loc21)",
+      "%result_27 = arith.extf %x_26 : tensor<1024xbf16> to tensor<1024xf32> loc(#loc24)",
+      "%result_28 = arith.sitofp %result : i32 to f32 loc(#loc24)",
+      "%result_30 = arith.cmpf oge, %result_27, %result_29 : tensor<1024xf32> loc(#loc24)",
+      "%result_34 = arith.select %result_30, %x_26, %result_33 : tensor<1024xi1>, tensor<1024xbf16> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "%3 = arith.extf %result_34 : tensor<1024xbf16> to tensor<1024xf32> loc(#loc13)",
+      "tt.store %2, %3, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 2147483648,
+    "input": "float32",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*fp32",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "2147483648-float32.raw.ttir",
+    "ttir_sha256": "694bc58fe14e7c9ffeb9f3e1c626ba904fd5e963d51de78099e56a475ee3d4e0",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi ult, %mask_22, %mask_23 : tensor<1024xi32> loc(#loc21)",
+      "%result_27 = arith.sitofp %result : i32 to f32 loc(#loc24)",
+      "%result_29 = arith.cmpf oge, %x_26, %result_28 : tensor<1024xf32> loc(#loc24)",
+      "%result_33 = arith.select %result_29, %x_26, %result_32 : tensor<1024xi1>, tensor<1024xf32> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "tt.store %2, %result_33, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 2147483648,
+    "input": "float64",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*fp64",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "2147483648-float64.raw.ttir",
+    "ttir_sha256": "3cdd58c7baa2fed775422643552c147b93b392985c65a6c3bcfebfdd8821d69a",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi ult, %mask_22, %mask_23 : tensor<1024xi32> loc(#loc21)",
+      "%result_27 = arith.sitofp %result : i32 to f64 loc(#loc24)",
+      "%result_29 = arith.cmpf oge, %x_26, %result_28 : tensor<1024xf64> loc(#loc24)",
+      "%result_33 = arith.select %result_29, %x_26, %result_32 : tensor<1024xi1>, tensor<1024xf64> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "%3 = arith.truncf %result_33 : tensor<1024xf64> to tensor<1024xf32> loc(#loc13)",
+      "tt.store %2, %3, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 2147483648,
+    "input": "float8_e4m3fn",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*fp8e4nv",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_error",
+    "error_type": "CompilationError",
+    "error": "at 12:22:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    # Get the index of the current thread\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n\n    # Load elements from global memory\n    x = tl.load(x_ptr + offsets, mask=mask)\n\n    # Compute linear layer\n    result = tl.where(x >= 0, x, 0.0)\n                      ^\nTypeError('unexpected type fp8e4nv and int32')"
+  },
+  {
+    "N": 2147483648,
+    "input": "float8_e5m2",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*fp8e5",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_error",
+    "error_type": "CompilationError",
+    "error": "at 12:22:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    # Get the index of the current thread\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n\n    # Load elements from global memory\n    x = tl.load(x_ptr + offsets, mask=mask)\n\n    # Compute linear layer\n    result = tl.where(x >= 0, x, 0.0)\n                      ^\nTypeError('unexpected type fp8e5 and int32')"
+  },
+  {
+    "N": 2147483648,
+    "input": "float8_e4m3fnuz",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*fp8e4b8",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_error",
+    "error_type": "CompilationError",
+    "error": "at 1:0:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")"
+  },
+  {
+    "N": 2147483648,
+    "input": "float8_e5m2fnuz",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*fp8e5b16",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_error",
+    "error_type": "CompilationError",
+    "error": "at 1:0:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")"
+  },
+  {
+    "N": 2147483649,
+    "input": "bool",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*u1",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "2147483649-bool.raw.ttir",
+    "ttir_sha256": "9d54f4746136e45d28552e9623680e53b0c5fe0e1c4311ef7b3d9b313c2d69ab",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi ult, %mask_22, %mask_23 : tensor<1024xi32> loc(#loc21)",
+      "%x_30 = arith.cmpi ne, %x_27, %x_29 : tensor<1024xi8> loc(#loc23)",
+      "%result_33 = arith.cmpi sge, %result_31, %result_32 : tensor<1024xi32> loc(#loc24)",
+      "%result_35 = arith.uitofp %x_30 : tensor<1024xi1> to tensor<1024xf32> loc(#loc25)",
+      "%result_38 = arith.select %result_33, %result_35, %result_37 : tensor<1024xi1>, tensor<1024xf32> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "tt.store %2, %result_38, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 2147483649,
+    "input": "int8",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*i8",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "2147483649-int8.raw.ttir",
+    "ttir_sha256": "581e911a29e88270ecfad5b9f4f86f19f130b8f1ab0ff97a653aa4d3cb8cd0d9",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi ult, %mask_22, %mask_23 : tensor<1024xi32> loc(#loc21)",
+      "%result_29 = arith.cmpi sge, %result_27, %result_28 : tensor<1024xi32> loc(#loc24)",
+      "%result_31 = arith.sitofp %x_26 : tensor<1024xi8> to tensor<1024xf32> loc(#loc25)",
+      "%result_34 = arith.select %result_29, %result_31, %result_33 : tensor<1024xi1>, tensor<1024xf32> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "tt.store %2, %result_34, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 2147483649,
+    "input": "uint8",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*u8",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "2147483649-uint8.raw.ttir",
+    "ttir_sha256": "829f934f9575a9d574fe1bb75c853c098435fcf17a200dc1e7323522fe1d759c",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi ult, %mask_22, %mask_23 : tensor<1024xi32> loc(#loc21)",
+      "%result_29 = arith.cmpi sge, %result_27, %result_28 : tensor<1024xi32> loc(#loc24)",
+      "%result_31 = arith.uitofp %x_26 : tensor<1024xi8> to tensor<1024xf32> loc(#loc25)",
+      "%result_34 = arith.select %result_29, %result_31, %result_33 : tensor<1024xi1>, tensor<1024xf32> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "tt.store %2, %result_34, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 2147483649,
+    "input": "int16",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*i16",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "2147483649-int16.raw.ttir",
+    "ttir_sha256": "993a09f8f9caaa9d596c4b73c048ae13d4d16539d5d49e041df08a9f7bd4adcf",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi ult, %mask_22, %mask_23 : tensor<1024xi32> loc(#loc21)",
+      "%result_29 = arith.cmpi sge, %result_27, %result_28 : tensor<1024xi32> loc(#loc24)",
+      "%result_31 = arith.sitofp %x_26 : tensor<1024xi16> to tensor<1024xf32> loc(#loc25)",
+      "%result_34 = arith.select %result_29, %result_31, %result_33 : tensor<1024xi1>, tensor<1024xf32> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "tt.store %2, %result_34, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 2147483649,
+    "input": "uint16",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*u16",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "2147483649-uint16.raw.ttir",
+    "ttir_sha256": "abf006a9cb8276c5fd16304f97099c35c5958af91b9cc11211654c112cebabd8",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi ult, %mask_22, %mask_23 : tensor<1024xi32> loc(#loc21)",
+      "%result_29 = arith.cmpi sge, %result_27, %result_28 : tensor<1024xi32> loc(#loc24)",
+      "%result_31 = arith.uitofp %x_26 : tensor<1024xi16> to tensor<1024xf32> loc(#loc25)",
+      "%result_34 = arith.select %result_29, %result_31, %result_33 : tensor<1024xi1>, tensor<1024xf32> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "tt.store %2, %result_34, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 2147483649,
+    "input": "int32",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*i32",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "2147483649-int32.raw.ttir",
+    "ttir_sha256": "10e5d4d51347fbfb9a50a656fd740fb6696718d1f560cff689c56a449f4030e3",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi ult, %mask_22, %mask_23 : tensor<1024xi32> loc(#loc21)",
+      "%result_28 = arith.cmpi sge, %x_26, %result_27 : tensor<1024xi32> loc(#loc24)",
+      "%result_30 = arith.sitofp %x_26 : tensor<1024xi32> to tensor<1024xf32> loc(#loc25)",
+      "%result_33 = arith.select %result_28, %result_30, %result_32 : tensor<1024xi1>, tensor<1024xf32> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "tt.store %2, %result_33, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 2147483649,
+    "input": "uint32",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*u32",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "2147483649-uint32.raw.ttir",
+    "ttir_sha256": "9e06ad898f44c2c1d3cfbb487c5150583df5e842b296cac0caf6ddbc83becab0",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi ult, %mask_22, %mask_23 : tensor<1024xi32> loc(#loc21)",
+      "%result_29 = arith.cmpi uge, %x_26, %result_28 : tensor<1024xi32> loc(#loc24)",
+      "%result_31 = arith.uitofp %x_26 : tensor<1024xi32> to tensor<1024xf32> loc(#loc25)",
+      "%result_34 = arith.select %result_29, %result_31, %result_33 : tensor<1024xi1>, tensor<1024xf32> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "tt.store %2, %result_34, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 2147483649,
+    "input": "int64",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*i64",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "2147483649-int64.raw.ttir",
+    "ttir_sha256": "2f121d88e8f3f866890eedc0df8a1c386c0eb796c8c8adadd1f4f80ccb47ec1d",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi ult, %mask_22, %mask_23 : tensor<1024xi32> loc(#loc21)",
+      "%result_29 = arith.cmpi sge, %x_26, %result_28 : tensor<1024xi64> loc(#loc24)",
+      "%result_31 = arith.sitofp %x_26 : tensor<1024xi64> to tensor<1024xf32> loc(#loc25)",
+      "%result_34 = arith.select %result_29, %result_31, %result_33 : tensor<1024xi1>, tensor<1024xf32> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "tt.store %2, %result_34, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 2147483649,
+    "input": "uint64",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*u64",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "2147483649-uint64.raw.ttir",
+    "ttir_sha256": "056105f5b35c3fe7f37b700d31863f5f0b4f4b6938a00c9c99d8a0a1c7a0ff19",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi ult, %mask_22, %mask_23 : tensor<1024xi32> loc(#loc21)",
+      "%result_29 = arith.cmpi uge, %x_26, %result_28 : tensor<1024xi64> loc(#loc24)",
+      "%result_31 = arith.uitofp %x_26 : tensor<1024xi64> to tensor<1024xf32> loc(#loc25)",
+      "%result_34 = arith.select %result_29, %result_31, %result_33 : tensor<1024xi1>, tensor<1024xf32> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "tt.store %2, %result_34, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 2147483649,
+    "input": "float16",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*fp16",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "2147483649-float16.raw.ttir",
+    "ttir_sha256": "885d7ccf1bae0e5cc770054b173cf6a7bee1ef71d9b88377b9f22f9d2ea5d63e",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi ult, %mask_22, %mask_23 : tensor<1024xi32> loc(#loc21)",
+      "%result_27 = arith.sitofp %result : i32 to f16 loc(#loc24)",
+      "%result_29 = arith.cmpf oge, %x_26, %result_28 : tensor<1024xf16> loc(#loc24)",
+      "%result_33 = arith.select %result_29, %x_26, %result_32 : tensor<1024xi1>, tensor<1024xf16> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "%3 = arith.extf %result_33 : tensor<1024xf16> to tensor<1024xf32> loc(#loc13)",
+      "tt.store %2, %3, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 2147483649,
+    "input": "bfloat16",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*bf16",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "2147483649-bfloat16.raw.ttir",
+    "ttir_sha256": "38a9fd2ed7fc84397761f6a282a029046ee367c39836a0afde8b2339519935cb",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi ult, %mask_22, %mask_23 : tensor<1024xi32> loc(#loc21)",
+      "%result_27 = arith.extf %x_26 : tensor<1024xbf16> to tensor<1024xf32> loc(#loc24)",
+      "%result_28 = arith.sitofp %result : i32 to f32 loc(#loc24)",
+      "%result_30 = arith.cmpf oge, %result_27, %result_29 : tensor<1024xf32> loc(#loc24)",
+      "%result_34 = arith.select %result_30, %x_26, %result_33 : tensor<1024xi1>, tensor<1024xbf16> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "%3 = arith.extf %result_34 : tensor<1024xbf16> to tensor<1024xf32> loc(#loc13)",
+      "tt.store %2, %3, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 2147483649,
+    "input": "float32",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*fp32",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "2147483649-float32.raw.ttir",
+    "ttir_sha256": "119a36cb55f9ce82ba86651a22f07f01ca845007e8d778eaafb308ecedc44545",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi ult, %mask_22, %mask_23 : tensor<1024xi32> loc(#loc21)",
+      "%result_27 = arith.sitofp %result : i32 to f32 loc(#loc24)",
+      "%result_29 = arith.cmpf oge, %x_26, %result_28 : tensor<1024xf32> loc(#loc24)",
+      "%result_33 = arith.select %result_29, %x_26, %result_32 : tensor<1024xi1>, tensor<1024xf32> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "tt.store %2, %result_33, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 2147483649,
+    "input": "float64",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*fp64",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "2147483649-float64.raw.ttir",
+    "ttir_sha256": "14fc1aa4a4345952f11591b488fa8a6ef441f58cb4cb8dab5ebf9447de039747",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi ult, %mask_22, %mask_23 : tensor<1024xi32> loc(#loc21)",
+      "%result_27 = arith.sitofp %result : i32 to f64 loc(#loc24)",
+      "%result_29 = arith.cmpf oge, %x_26, %result_28 : tensor<1024xf64> loc(#loc24)",
+      "%result_33 = arith.select %result_29, %x_26, %result_32 : tensor<1024xi1>, tensor<1024xf64> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "%3 = arith.truncf %result_33 : tensor<1024xf64> to tensor<1024xf32> loc(#loc13)",
+      "tt.store %2, %3, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 2147483649,
+    "input": "float8_e4m3fn",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*fp8e4nv",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_error",
+    "error_type": "CompilationError",
+    "error": "at 12:22:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    # Get the index of the current thread\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n\n    # Load elements from global memory\n    x = tl.load(x_ptr + offsets, mask=mask)\n\n    # Compute linear layer\n    result = tl.where(x >= 0, x, 0.0)\n                      ^\nTypeError('unexpected type fp8e4nv and int32')"
+  },
+  {
+    "N": 2147483649,
+    "input": "float8_e5m2",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*fp8e5",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_error",
+    "error_type": "CompilationError",
+    "error": "at 12:22:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    # Get the index of the current thread\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n\n    # Load elements from global memory\n    x = tl.load(x_ptr + offsets, mask=mask)\n\n    # Compute linear layer\n    result = tl.where(x >= 0, x, 0.0)\n                      ^\nTypeError('unexpected type fp8e5 and int32')"
+  },
+  {
+    "N": 2147483649,
+    "input": "float8_e4m3fnuz",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*fp8e4b8",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_error",
+    "error_type": "CompilationError",
+    "error": "at 1:0:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")"
+  },
+  {
+    "N": 2147483649,
+    "input": "float8_e5m2fnuz",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*fp8e5b16",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_error",
+    "error_type": "CompilationError",
+    "error": "at 1:0:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")"
+  },
+  {
+    "N": 4294967295,
+    "input": "bool",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*u1",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "4294967295-bool.raw.ttir",
+    "ttir_sha256": "5389d94d2d406047de7541f0ede9eb51a0cce27c46869920d526b08c62e4112d",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi ult, %mask_22, %mask_23 : tensor<1024xi32> loc(#loc21)",
+      "%x_30 = arith.cmpi ne, %x_27, %x_29 : tensor<1024xi8> loc(#loc23)",
+      "%result_33 = arith.cmpi sge, %result_31, %result_32 : tensor<1024xi32> loc(#loc24)",
+      "%result_35 = arith.uitofp %x_30 : tensor<1024xi1> to tensor<1024xf32> loc(#loc25)",
+      "%result_38 = arith.select %result_33, %result_35, %result_37 : tensor<1024xi1>, tensor<1024xf32> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "tt.store %2, %result_38, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 4294967295,
+    "input": "int8",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*i8",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "4294967295-int8.raw.ttir",
+    "ttir_sha256": "709a749f99a81c798ba0d79722c26fc3d3a33dbf4f8762125c9c67ce9b586737",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi ult, %mask_22, %mask_23 : tensor<1024xi32> loc(#loc21)",
+      "%result_29 = arith.cmpi sge, %result_27, %result_28 : tensor<1024xi32> loc(#loc24)",
+      "%result_31 = arith.sitofp %x_26 : tensor<1024xi8> to tensor<1024xf32> loc(#loc25)",
+      "%result_34 = arith.select %result_29, %result_31, %result_33 : tensor<1024xi1>, tensor<1024xf32> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "tt.store %2, %result_34, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 4294967295,
+    "input": "uint8",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*u8",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "4294967295-uint8.raw.ttir",
+    "ttir_sha256": "a8fc61033ecf529691ca17a225a406d48f1b3ad2024e20b80889c2c3f925dde2",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi ult, %mask_22, %mask_23 : tensor<1024xi32> loc(#loc21)",
+      "%result_29 = arith.cmpi sge, %result_27, %result_28 : tensor<1024xi32> loc(#loc24)",
+      "%result_31 = arith.uitofp %x_26 : tensor<1024xi8> to tensor<1024xf32> loc(#loc25)",
+      "%result_34 = arith.select %result_29, %result_31, %result_33 : tensor<1024xi1>, tensor<1024xf32> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "tt.store %2, %result_34, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 4294967295,
+    "input": "int16",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*i16",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "4294967295-int16.raw.ttir",
+    "ttir_sha256": "bb0c035ca217c3e2731e90a4a0093a1697aabcafd83032022a9c618c971885e8",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi ult, %mask_22, %mask_23 : tensor<1024xi32> loc(#loc21)",
+      "%result_29 = arith.cmpi sge, %result_27, %result_28 : tensor<1024xi32> loc(#loc24)",
+      "%result_31 = arith.sitofp %x_26 : tensor<1024xi16> to tensor<1024xf32> loc(#loc25)",
+      "%result_34 = arith.select %result_29, %result_31, %result_33 : tensor<1024xi1>, tensor<1024xf32> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "tt.store %2, %result_34, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 4294967295,
+    "input": "uint16",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*u16",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "4294967295-uint16.raw.ttir",
+    "ttir_sha256": "1c6e16f9c2b9bfa5e7e4f624639d79966ab7700a432ab1d3582e23b8fcf469ee",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi ult, %mask_22, %mask_23 : tensor<1024xi32> loc(#loc21)",
+      "%result_29 = arith.cmpi sge, %result_27, %result_28 : tensor<1024xi32> loc(#loc24)",
+      "%result_31 = arith.uitofp %x_26 : tensor<1024xi16> to tensor<1024xf32> loc(#loc25)",
+      "%result_34 = arith.select %result_29, %result_31, %result_33 : tensor<1024xi1>, tensor<1024xf32> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "tt.store %2, %result_34, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 4294967295,
+    "input": "int32",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*i32",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "4294967295-int32.raw.ttir",
+    "ttir_sha256": "b784ae728f6323929cdac1bce1d3a9b5fd130916c588b194cc63526c8de27194",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi ult, %mask_22, %mask_23 : tensor<1024xi32> loc(#loc21)",
+      "%result_28 = arith.cmpi sge, %x_26, %result_27 : tensor<1024xi32> loc(#loc24)",
+      "%result_30 = arith.sitofp %x_26 : tensor<1024xi32> to tensor<1024xf32> loc(#loc25)",
+      "%result_33 = arith.select %result_28, %result_30, %result_32 : tensor<1024xi1>, tensor<1024xf32> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "tt.store %2, %result_33, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 4294967295,
+    "input": "uint32",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*u32",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "4294967295-uint32.raw.ttir",
+    "ttir_sha256": "4c0807329becc383b772c67a9cca2fd27da90e500a7706c6c5c28d7a37fe5c4e",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi ult, %mask_22, %mask_23 : tensor<1024xi32> loc(#loc21)",
+      "%result_29 = arith.cmpi uge, %x_26, %result_28 : tensor<1024xi32> loc(#loc24)",
+      "%result_31 = arith.uitofp %x_26 : tensor<1024xi32> to tensor<1024xf32> loc(#loc25)",
+      "%result_34 = arith.select %result_29, %result_31, %result_33 : tensor<1024xi1>, tensor<1024xf32> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "tt.store %2, %result_34, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 4294967295,
+    "input": "int64",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*i64",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "4294967295-int64.raw.ttir",
+    "ttir_sha256": "16fc058d7084e4e4b0b3cddf787335ebabc010e69128081422f102368f3e7e55",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi ult, %mask_22, %mask_23 : tensor<1024xi32> loc(#loc21)",
+      "%result_29 = arith.cmpi sge, %x_26, %result_28 : tensor<1024xi64> loc(#loc24)",
+      "%result_31 = arith.sitofp %x_26 : tensor<1024xi64> to tensor<1024xf32> loc(#loc25)",
+      "%result_34 = arith.select %result_29, %result_31, %result_33 : tensor<1024xi1>, tensor<1024xf32> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "tt.store %2, %result_34, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 4294967295,
+    "input": "uint64",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*u64",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "4294967295-uint64.raw.ttir",
+    "ttir_sha256": "30de193969ad693d59436f16828b824d3e111a3d6af76988532117cce9124001",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi ult, %mask_22, %mask_23 : tensor<1024xi32> loc(#loc21)",
+      "%result_29 = arith.cmpi uge, %x_26, %result_28 : tensor<1024xi64> loc(#loc24)",
+      "%result_31 = arith.uitofp %x_26 : tensor<1024xi64> to tensor<1024xf32> loc(#loc25)",
+      "%result_34 = arith.select %result_29, %result_31, %result_33 : tensor<1024xi1>, tensor<1024xf32> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "tt.store %2, %result_34, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 4294967295,
+    "input": "float16",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*fp16",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "4294967295-float16.raw.ttir",
+    "ttir_sha256": "9624103718ef3febc4b9f0ae48ef4581a3cc7288fdbee51e1378579e6ddadb84",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi ult, %mask_22, %mask_23 : tensor<1024xi32> loc(#loc21)",
+      "%result_27 = arith.sitofp %result : i32 to f16 loc(#loc24)",
+      "%result_29 = arith.cmpf oge, %x_26, %result_28 : tensor<1024xf16> loc(#loc24)",
+      "%result_33 = arith.select %result_29, %x_26, %result_32 : tensor<1024xi1>, tensor<1024xf16> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "%3 = arith.extf %result_33 : tensor<1024xf16> to tensor<1024xf32> loc(#loc13)",
+      "tt.store %2, %3, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 4294967295,
+    "input": "bfloat16",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*bf16",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "4294967295-bfloat16.raw.ttir",
+    "ttir_sha256": "f1c6eeb8ec3d376ea14f676c0e06029aee828a95b554c29a940d1be83d524ddf",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi ult, %mask_22, %mask_23 : tensor<1024xi32> loc(#loc21)",
+      "%result_27 = arith.extf %x_26 : tensor<1024xbf16> to tensor<1024xf32> loc(#loc24)",
+      "%result_28 = arith.sitofp %result : i32 to f32 loc(#loc24)",
+      "%result_30 = arith.cmpf oge, %result_27, %result_29 : tensor<1024xf32> loc(#loc24)",
+      "%result_34 = arith.select %result_30, %x_26, %result_33 : tensor<1024xi1>, tensor<1024xbf16> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "%3 = arith.extf %result_34 : tensor<1024xbf16> to tensor<1024xf32> loc(#loc13)",
+      "tt.store %2, %3, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 4294967295,
+    "input": "float32",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*fp32",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "4294967295-float32.raw.ttir",
+    "ttir_sha256": "aea99871028c4754ca01fd253cf21ee8976faa3db03bda989cbfd684a248fea5",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi ult, %mask_22, %mask_23 : tensor<1024xi32> loc(#loc21)",
+      "%result_27 = arith.sitofp %result : i32 to f32 loc(#loc24)",
+      "%result_29 = arith.cmpf oge, %x_26, %result_28 : tensor<1024xf32> loc(#loc24)",
+      "%result_33 = arith.select %result_29, %x_26, %result_32 : tensor<1024xi1>, tensor<1024xf32> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "tt.store %2, %result_33, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 4294967295,
+    "input": "float64",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*fp64",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "4294967295-float64.raw.ttir",
+    "ttir_sha256": "cdc6cca7d076551e7fb8d3a97936844f16cf0fc8e546035165b6503c82fddd09",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi ult, %mask_22, %mask_23 : tensor<1024xi32> loc(#loc21)",
+      "%result_27 = arith.sitofp %result : i32 to f64 loc(#loc24)",
+      "%result_29 = arith.cmpf oge, %x_26, %result_28 : tensor<1024xf64> loc(#loc24)",
+      "%result_33 = arith.select %result_29, %x_26, %result_32 : tensor<1024xi1>, tensor<1024xf64> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "%3 = arith.truncf %result_33 : tensor<1024xf64> to tensor<1024xf32> loc(#loc13)",
+      "tt.store %2, %3, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 4294967295,
+    "input": "float8_e4m3fn",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*fp8e4nv",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_error",
+    "error_type": "CompilationError",
+    "error": "at 12:22:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    # Get the index of the current thread\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n\n    # Load elements from global memory\n    x = tl.load(x_ptr + offsets, mask=mask)\n\n    # Compute linear layer\n    result = tl.where(x >= 0, x, 0.0)\n                      ^\nTypeError('unexpected type fp8e4nv and int32')"
+  },
+  {
+    "N": 4294967295,
+    "input": "float8_e5m2",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*fp8e5",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_error",
+    "error_type": "CompilationError",
+    "error": "at 12:22:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    # Get the index of the current thread\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n\n    # Load elements from global memory\n    x = tl.load(x_ptr + offsets, mask=mask)\n\n    # Compute linear layer\n    result = tl.where(x >= 0, x, 0.0)\n                      ^\nTypeError('unexpected type fp8e5 and int32')"
+  },
+  {
+    "N": 4294967295,
+    "input": "float8_e4m3fnuz",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*fp8e4b8",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_error",
+    "error_type": "CompilationError",
+    "error": "at 1:0:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")"
+  },
+  {
+    "N": 4294967295,
+    "input": "float8_e5m2fnuz",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*fp8e5b16",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_error",
+    "error_type": "CompilationError",
+    "error": "at 1:0:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")"
+  },
+  {
+    "N": 4294967296,
+    "input": "bool",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*u1",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "4294967296-bool.raw.ttir",
+    "ttir_sha256": "602cc5dd789475c16c63639df026ad2559312aea71c23547df1521d1ed779aa3",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi slt, %mask_22, %mask_23 : tensor<1024xi64> loc(#loc21)",
+      "%x_30 = arith.cmpi ne, %x_27, %x_29 : tensor<1024xi8> loc(#loc23)",
+      "%result_33 = arith.cmpi sge, %result_31, %result_32 : tensor<1024xi32> loc(#loc24)",
+      "%result_35 = arith.uitofp %x_30 : tensor<1024xi1> to tensor<1024xf32> loc(#loc25)",
+      "%result_38 = arith.select %result_33, %result_35, %result_37 : tensor<1024xi1>, tensor<1024xf32> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "tt.store %2, %result_38, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 4294967296,
+    "input": "int8",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*i8",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "4294967296-int8.raw.ttir",
+    "ttir_sha256": "cbc386249f553e59ad3d7a11c06e4c046e98369f2f0e029925228a52146a896b",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi slt, %mask_22, %mask_23 : tensor<1024xi64> loc(#loc21)",
+      "%result_29 = arith.cmpi sge, %result_27, %result_28 : tensor<1024xi32> loc(#loc24)",
+      "%result_31 = arith.sitofp %x_26 : tensor<1024xi8> to tensor<1024xf32> loc(#loc25)",
+      "%result_34 = arith.select %result_29, %result_31, %result_33 : tensor<1024xi1>, tensor<1024xf32> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "tt.store %2, %result_34, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 4294967296,
+    "input": "uint8",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*u8",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "4294967296-uint8.raw.ttir",
+    "ttir_sha256": "6f3163f977b81a5a97f8df703f9707242d782772ba0f5de0829790f01957ac63",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi slt, %mask_22, %mask_23 : tensor<1024xi64> loc(#loc21)",
+      "%result_29 = arith.cmpi sge, %result_27, %result_28 : tensor<1024xi32> loc(#loc24)",
+      "%result_31 = arith.uitofp %x_26 : tensor<1024xi8> to tensor<1024xf32> loc(#loc25)",
+      "%result_34 = arith.select %result_29, %result_31, %result_33 : tensor<1024xi1>, tensor<1024xf32> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "tt.store %2, %result_34, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 4294967296,
+    "input": "int16",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*i16",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "4294967296-int16.raw.ttir",
+    "ttir_sha256": "32e39863d9e312c877544a5b2d7f945d4143b441da118b0c5865bf8b418372a7",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi slt, %mask_22, %mask_23 : tensor<1024xi64> loc(#loc21)",
+      "%result_29 = arith.cmpi sge, %result_27, %result_28 : tensor<1024xi32> loc(#loc24)",
+      "%result_31 = arith.sitofp %x_26 : tensor<1024xi16> to tensor<1024xf32> loc(#loc25)",
+      "%result_34 = arith.select %result_29, %result_31, %result_33 : tensor<1024xi1>, tensor<1024xf32> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "tt.store %2, %result_34, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 4294967296,
+    "input": "uint16",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*u16",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "4294967296-uint16.raw.ttir",
+    "ttir_sha256": "3792c1599c68d9365ffa93105880f66fdf91ff3a49b7de482a6a037ce2cb59c5",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi slt, %mask_22, %mask_23 : tensor<1024xi64> loc(#loc21)",
+      "%result_29 = arith.cmpi sge, %result_27, %result_28 : tensor<1024xi32> loc(#loc24)",
+      "%result_31 = arith.uitofp %x_26 : tensor<1024xi16> to tensor<1024xf32> loc(#loc25)",
+      "%result_34 = arith.select %result_29, %result_31, %result_33 : tensor<1024xi1>, tensor<1024xf32> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "tt.store %2, %result_34, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 4294967296,
+    "input": "int32",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*i32",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "4294967296-int32.raw.ttir",
+    "ttir_sha256": "8447a45760dad9d9184a0902d20f5c449d68dbb55b7d9e8d4c5a15edc97c69b6",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi slt, %mask_22, %mask_23 : tensor<1024xi64> loc(#loc21)",
+      "%result_28 = arith.cmpi sge, %x_26, %result_27 : tensor<1024xi32> loc(#loc24)",
+      "%result_30 = arith.sitofp %x_26 : tensor<1024xi32> to tensor<1024xf32> loc(#loc25)",
+      "%result_33 = arith.select %result_28, %result_30, %result_32 : tensor<1024xi1>, tensor<1024xf32> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "tt.store %2, %result_33, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 4294967296,
+    "input": "uint32",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*u32",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "4294967296-uint32.raw.ttir",
+    "ttir_sha256": "536b89c7c1eb576a3d804c757bc20106050a1ba69b24fe2f91b2152cd75b6a6f",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi slt, %mask_22, %mask_23 : tensor<1024xi64> loc(#loc21)",
+      "%result_29 = arith.cmpi uge, %x_26, %result_28 : tensor<1024xi32> loc(#loc24)",
+      "%result_31 = arith.uitofp %x_26 : tensor<1024xi32> to tensor<1024xf32> loc(#loc25)",
+      "%result_34 = arith.select %result_29, %result_31, %result_33 : tensor<1024xi1>, tensor<1024xf32> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "tt.store %2, %result_34, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 4294967296,
+    "input": "int64",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*i64",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "4294967296-int64.raw.ttir",
+    "ttir_sha256": "cee7675a1fb9e75b23ea3b3333121c29d47778b7488e09f93e78f946a6032b7a",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi slt, %mask_22, %mask_23 : tensor<1024xi64> loc(#loc21)",
+      "%result_29 = arith.cmpi sge, %x_26, %result_28 : tensor<1024xi64> loc(#loc24)",
+      "%result_31 = arith.sitofp %x_26 : tensor<1024xi64> to tensor<1024xf32> loc(#loc25)",
+      "%result_34 = arith.select %result_29, %result_31, %result_33 : tensor<1024xi1>, tensor<1024xf32> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "tt.store %2, %result_34, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 4294967296,
+    "input": "uint64",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*u64",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "4294967296-uint64.raw.ttir",
+    "ttir_sha256": "6035e763282f5e331348d779c1f15fb8f7e8202376bf5bd6af4a27b9b65bf17f",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi slt, %mask_22, %mask_23 : tensor<1024xi64> loc(#loc21)",
+      "%result_29 = arith.cmpi uge, %x_26, %result_28 : tensor<1024xi64> loc(#loc24)",
+      "%result_31 = arith.uitofp %x_26 : tensor<1024xi64> to tensor<1024xf32> loc(#loc25)",
+      "%result_34 = arith.select %result_29, %result_31, %result_33 : tensor<1024xi1>, tensor<1024xf32> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "tt.store %2, %result_34, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 4294967296,
+    "input": "float16",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*fp16",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "4294967296-float16.raw.ttir",
+    "ttir_sha256": "0abbbdfc08aaa1f5e6e83cf8c193e9df6025a19adba08a811bae40dac64684c9",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi slt, %mask_22, %mask_23 : tensor<1024xi64> loc(#loc21)",
+      "%result_27 = arith.sitofp %result : i32 to f16 loc(#loc24)",
+      "%result_29 = arith.cmpf oge, %x_26, %result_28 : tensor<1024xf16> loc(#loc24)",
+      "%result_33 = arith.select %result_29, %x_26, %result_32 : tensor<1024xi1>, tensor<1024xf16> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "%3 = arith.extf %result_33 : tensor<1024xf16> to tensor<1024xf32> loc(#loc13)",
+      "tt.store %2, %3, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 4294967296,
+    "input": "bfloat16",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*bf16",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "4294967296-bfloat16.raw.ttir",
+    "ttir_sha256": "8c9524066dbb16136f41450bc9f5a1860d394400f2bb918bba28d9d9a184a338",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi slt, %mask_22, %mask_23 : tensor<1024xi64> loc(#loc21)",
+      "%result_27 = arith.extf %x_26 : tensor<1024xbf16> to tensor<1024xf32> loc(#loc24)",
+      "%result_28 = arith.sitofp %result : i32 to f32 loc(#loc24)",
+      "%result_30 = arith.cmpf oge, %result_27, %result_29 : tensor<1024xf32> loc(#loc24)",
+      "%result_34 = arith.select %result_30, %x_26, %result_33 : tensor<1024xi1>, tensor<1024xbf16> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "%3 = arith.extf %result_34 : tensor<1024xbf16> to tensor<1024xf32> loc(#loc13)",
+      "tt.store %2, %3, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 4294967296,
+    "input": "float32",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*fp32",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "4294967296-float32.raw.ttir",
+    "ttir_sha256": "bab9ac317902f47544db7fb4c63d2ee443d2084df60a23d86ec177763e0616b5",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi slt, %mask_22, %mask_23 : tensor<1024xi64> loc(#loc21)",
+      "%result_27 = arith.sitofp %result : i32 to f32 loc(#loc24)",
+      "%result_29 = arith.cmpf oge, %x_26, %result_28 : tensor<1024xf32> loc(#loc24)",
+      "%result_33 = arith.select %result_29, %x_26, %result_32 : tensor<1024xi1>, tensor<1024xf32> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "tt.store %2, %result_33, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 4294967296,
+    "input": "float64",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*fp64",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_generated",
+    "ttir": "4294967296-float64.raw.ttir",
+    "ttir_sha256": "ac25188b451b5979c02bb446a8d54d1da317d6a24694386150b0f46371774479",
+    "semantic_lines": [
+      "%block_start_6 = arith.cmpi sle, %block_start_3, %block_start_4 : i64 loc(#loc18)",
+      "%block_start_7 = arith.cmpi sge, %block_start_3, %block_start_5 : i64 loc(#loc18)",
+      "%offsets_17 = arith.cmpi sle, %offsets_13, %offsets_16 : tensor<1024xi64> loc(#loc20)",
+      "%offsets_19 = arith.cmpi sge, %offsets_13, %offsets_18 : tensor<1024xi64> loc(#loc20)",
+      "%mask_24 = arith.cmpi slt, %mask_22, %mask_23 : tensor<1024xi64> loc(#loc21)",
+      "%result_27 = arith.sitofp %result : i32 to f64 loc(#loc24)",
+      "%result_29 = arith.cmpf oge, %x_26, %result_28 : tensor<1024xf64> loc(#loc24)",
+      "%result_33 = arith.select %result_29, %x_26, %result_32 : tensor<1024xi1>, tensor<1024xf64> loc(#loc25)",
+      "%0 = arith.cmpi eq, %pid, %c0_i32 : i32 loc(#loc10)",
+      "%3 = arith.truncf %result_33 : tensor<1024xf64> to tensor<1024xf32> loc(#loc13)",
+      "tt.store %2, %3, %mask_24 : tensor<1024x!tt.ptr<f32>> loc(#loc13)"
+    ]
+  },
+  {
+    "N": 4294967296,
+    "input": "float8_e4m3fn",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*fp8e4nv",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_error",
+    "error_type": "CompilationError",
+    "error": "at 12:22:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    # Get the index of the current thread\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n\n    # Load elements from global memory\n    x = tl.load(x_ptr + offsets, mask=mask)\n\n    # Compute linear layer\n    result = tl.where(x >= 0, x, 0.0)\n                      ^\nTypeError('unexpected type fp8e4nv and int32')"
+  },
+  {
+    "N": 4294967296,
+    "input": "float8_e5m2",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*fp8e5",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_error",
+    "error_type": "CompilationError",
+    "error": "at 12:22:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    # Get the index of the current thread\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n\n    # Load elements from global memory\n    x = tl.load(x_ptr + offsets, mask=mask)\n\n    # Compute linear layer\n    result = tl.where(x >= 0, x, 0.0)\n                      ^\nTypeError('unexpected type fp8e5 and int32')"
+  },
+  {
+    "N": 4294967296,
+    "input": "float8_e4m3fnuz",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*fp8e4b8",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_error",
+    "error_type": "CompilationError",
+    "error": "at 1:0:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")"
+  },
+  {
+    "N": 4294967296,
+    "input": "float8_e5m2fnuz",
+    "output": "float32",
+    "signature": {
+      "x_ptr": "*fp8e5b16",
+      "out_ptr": "*fp32"
+    },
+    "status": "frontend_error",
+    "error_type": "CompilationError",
+    "error": "at 1:0:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")"
+  }
+]

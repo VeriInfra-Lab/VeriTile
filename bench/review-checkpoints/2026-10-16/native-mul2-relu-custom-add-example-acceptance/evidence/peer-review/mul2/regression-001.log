@@ -1,0 +1,39 @@
+/tmp/veritile-standardization-20261015/triton-mul2-revision2-independent-review/isolated/IndependentRegression.lean:10:35: error: unexpected token 'true'; expected '⟩'
+/tmp/veritile-standardization-20261015/triton-mul2-revision2-independent-review/isolated/IndependentRegression.lean:20:47: error: unsolved goals
+b : Numerics
+⊢ (do
+      let x ←
+        match
+            readWord (Storage.unsigned Width.w8)
+              (deviceMemory
+                { currentDevice := 0, readableByte := fun x a => a = 8192, writableByte := fun x a => a = 8192,
+                  backingByte := fun x a => if a = 8192 then some 4096 else none }
+                memory)
+              8192 with
+          | none => Except.error (Issue.missingInputBytes 0 0 8192)
+          | some value => Except.ok value
+      Except.ok
+          ([{ pid := 0, lane := 0, inputAddress := 8192, outputAddress := 4096, deviceAddress := 8192,
+                value := 2#8 * x }],
+            [4096])) =
+    Except.ok
+      ([{ pid := 0, lane := 0, inputAddress := 8192, outputAddress := 4096, deviceAddress := 8192, value := 6#8 }],
+        [4096])
+/tmp/veritile-standardization-20261015/triton-mul2-revision2-independent-review/isolated/IndependentRegression.lean:21:49: warning: declaration uses `sorry`
+/tmp/veritile-standardization-20261015/triton-mul2-revision2-independent-review/isolated/IndependentRegression.lean:23:8: warning: This simp argument is unused:
+  translated_load
+
+Hint: Omit it from the simp argument list.
+  simp [̵p̵r̵o̵g̵r̵a̵m̵P̵l̵a̵n̵,̵l̵o̵a̵d̵T̵i̵l̵e̵,̵o̵f̵f̵s̵e̵t̵3̵2̵,̵a̵c̵t̵i̵v̵e̵3̵2̵,̵p̵,̵r̵e̵g̵i̵o̵n̵,̵I̵n̵R̵e̵g̵i̵o̵n̵,̵L̵a̵y̵o̵u̵t̵.̵d̵e̵v̵i̵c̵e̵I̵n̵p̵u̵t̵,̵
+  ̵ ̵ ̵ ̵ ̵A̵c̵c̵e̵s̵s̵C̵o̵n̵t̵e̵x̵t̵.̵R̵e̵a̵d̵a̵b̵l̵e̵,̵A̵c̵c̵e̵s̵s̵C̵o̵n̵t̵e̵x̵t̵.̵W̵r̵i̵t̵a̵b̵l̵e̵,̵A̵c̵c̵e̵s̵s̵C̵o̵n̵t̵e̵x̵t̵.̵R̵e̵s̵o̵l̵v̵e̵s̵,̵
+  ̵ ̵ ̵ ̵ ̵c̵t̵x̵,̵t̵r̵a̵n̵s̵l̵a̵t̵e̵d̵_̵l̵o̵a̵d̵,̵r̵e̵q̵u̵i̵r̵e̵S̵o̵m̵e̵,̵t̵i̵l̵e̵W̵r̵i̵t̵e̵s̵,̵L̵a̵y̵o̵u̵t̵.̵o̵u̵t̵p̵u̵t̵B̵a̵c̵k̵i̵n̵g̵,̵L̵a̵y̵o̵u̵t̵.̵d̵e̵v̵i̵c̵e̵O̵u̵t̵p̵u̵t̵,̵
+  ̵ ̵ ̵ ̵ ̵r̵e̵s̵u̵l̵t̵,̵w̵o̵r̵d̵W̵r̵i̵t̵e̵s̵,̵S̵t̵o̵r̵a̵g̵e̵.̵b̵y̵t̵e̵s̵,̵W̵i̵d̵t̵h̵.̵b̵y̵t̵e̵s̵,̵[̲p̲r̲o̲g̲r̲a̲m̲P̲l̲a̲n̲,̲ ̲l̲o̲a̲d̲T̲i̲l̲e̲,̲ ̲o̲f̲f̲s̲e̲t̲3̲2̲,̲ ̲a̲c̲t̲i̲v̲e̲3̲2̲,̲ ̲p̲,̲ ̲r̲e̲g̲i̲o̲n̲,̲ ̲I̲n̲R̲e̲g̲i̲o̲n̲,̲ ̲L̲a̲y̲o̲u̲t̲.̲d̲e̲v̲i̲c̲e̲I̲n̲p̲u̲t̲,̲
+  ̲ ̲ ̲ ̲ ̲A̲c̲c̲e̲s̲s̲C̲o̲n̲t̲e̲x̲t̲.̲R̲e̲a̲d̲a̲b̲l̲e̲,̲ ̲A̲c̲c̲e̲s̲s̲C̲o̲n̲t̲e̲x̲t̲.̲W̲r̲i̲t̲a̲b̲l̲e̲,̲ ̲A̲c̲c̲e̲s̲s̲C̲o̲n̲t̲e̲x̲t̲.̲R̲e̲s̲o̲l̲v̲e̲s̲,̲ ̲c̲t̲x̲,̲ ̲r̲e̲q̲u̲i̲r̲e̲S̲o̲m̲e̲,̲
+  ̲ ̲ ̲ ̲ ̲t̲i̲l̲e̲W̲r̲i̲t̲e̲s̲,̲ ̲L̲a̲y̲o̲u̲t̲.̲o̲u̲t̲p̲u̲t̲B̲a̲c̲k̲i̲n̲g̲,̲ ̲L̲a̲y̲o̲u̲t̲.̲d̲e̲v̲i̲c̲e̲O̲u̲t̲p̲u̲t̲,̲ ̲r̲e̲s̲u̲l̲t̲,̲ ̲w̲o̲r̲d̲W̲r̲i̲t̲e̲s̲,̲ ̲S̲t̲o̲r̲a̲g̲e̲.̲b̲y̲t̲e̲s̲,̲
+  ̲ ̲ ̲ ̲ ̲W̲i̲d̲t̲h̲.̲b̲y̲t̲e̲s̲,̲ VeriTile.Bench.TritonBenchG.ReluTritonKernel.ByteMemory.splitByte]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+Mul2IndependentReview.translated_load: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+/tmp/veritile-standardization-20261015/triton-mul2-revision2-independent-review/isolated/IndependentRegression.lean:37:0: error: Mul2IndependentReview.translated_program: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+Mul2IndependentReview.shared_alias_observes_store: axiom footprint ⊆ standard base ✓  ([Quot.sound, propext])
+Mul2IndependentReview.signed_minimum_grid_rejection: axiom footprint ⊆ standard base ✓  ([propext])

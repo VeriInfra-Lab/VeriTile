@@ -1,0 +1,10 @@
+{
+  "bench/tritonbench_g/triton_mul2/Proofs/FiniteScalar.lean": "bench/tritonbench_g/triton_mul2/Proofs/FiniteScalar.lean",
+  "bench/tritonbench_g/triton_mul2/Proofs/FiniteMemory.lean": "bench/tritonbench_g/triton_mul2/Proofs/FiniteMemory.lean",
+  "bench/tritonbench_g/triton_mul2/Proofs/FiniteProgram.lean": "bench/tritonbench_g/triton_mul2/Proofs/FiniteProgram.lean",
+  "bench/tritonbench_g/triton_mul2/Proofs/FiniteSource.lean": "bench/tritonbench_g/triton_mul2/Proofs/FiniteSource.lean",
+  "bench/tritonbench_g/triton_mul2/Proofs/FiniteGrid.lean": "bench/tritonbench_g/triton_mul2/Proofs/FiniteGrid.lean",
+  "bench/tritonbench_g/triton_mul2/Proofs/FiniteHost.lean": "bench/tritonbench_g/triton_mul2/Proofs/FiniteHost.lean",
+  "bench/tritonbench_g/triton_mul2/Proofs/FiniteRefinement.lean": "bench/tritonbench_g/triton_mul2/Proofs/FiniteRefinement.lean",
+  "bench/tritonbench_g/triton_mul2/FiniteCorrect.lean": "bench/tritonbench_g/triton_mul2/FiniteCorrect.lean"
+}

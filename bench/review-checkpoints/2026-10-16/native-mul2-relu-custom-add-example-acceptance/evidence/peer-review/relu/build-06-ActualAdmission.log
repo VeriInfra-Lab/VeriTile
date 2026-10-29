@@ -1,0 +1,3 @@
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.all22: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.route_counts: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.all_mask_branches_reachable: axiom footprint ⊆ standard base ✓  ([propext])

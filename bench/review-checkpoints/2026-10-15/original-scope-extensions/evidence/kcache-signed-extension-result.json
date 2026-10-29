@@ -1,0 +1,29 @@
+{
+  "task": "kcache_copy_triton",
+  "result": "new_arbitrary_token_signed_source_contract_build_passed",
+  "standard_accepted": false,
+  "public_declaration": "VeriTile.Bench.TritonBenchG.KcacheCopyTriton.SignedRawBits.all_tokens_five_format_raw_bit_correctness",
+  "public_file": "bench/tritonbench_g/kcache_copy_triton/SignedCorrect.lean",
+  "new_scope": "All n_tokens and all three original program coordinates, signed sequence/block metadata, original legacy/split-x layouts, complete single-program execution and raw-memory effect for five explicit floating formats.",
+  "source_bridge": "SignedCopy.source_projection proves exact whole body equality after dtype erasure with registered copy_to_kcache_seqlen_n_signed_kernel.",
+  "required_remaining": [
+    "Original Python fixed-width integer source refinement, separate from numerical assumptions.",
+    "Whole host launch/grid composition and inter-program collision/scheduling.",
+    "Caller dtype domain beyond five named raw formats."
+  ],
+  "numeric_assumptions_added": [],
+  "build": {
+    "command": "/tmp/veritile-lean-toolchain/bin/lake build bench.tritonbench_g.kcache_copy_triton.Proofs.SignedWitness",
+    "exit_code": 0,
+    "jobs": 3460,
+    "log": "/tmp/veritile-standardization-20261015/kcache-signed-witness-build.log"
+  },
+  "axiom_checks": 22,
+  "files": {
+    "bench/tritonbench_g/kcache_copy_triton/Proofs/SignedCopy.lean": "f2e50a59e57a38878e446658c408a732ad05ed03dff7e4591049e7c760adb17d",
+    "bench/tritonbench_g/kcache_copy_triton/Proofs/SignedRawBitCopy.lean": "160641f00c3acd8cb2f05e917c05ab96df1d8973de561925248c34e3d19bb800",
+    "bench/tritonbench_g/kcache_copy_triton/Proofs/SignedWitness.lean": "ecd220175d9a554a0dd6ec2e16e3d43108cd0c5896a936c7c8861a7266f17648",
+    "bench/tritonbench_g/kcache_copy_triton/SignedCorrect.lean": "2a4e5cb7dd3738125ff56ba0420c205ddfd4e3b4280890e7efa75c2965ba1725",
+    "bench/tritonbench_g/kcache_copy_triton/README.md": "f3ada43301c16aa8dd6efe3413e3bf813b59af6ea36b06f5f99a30baceb029c6"
+  }
+}

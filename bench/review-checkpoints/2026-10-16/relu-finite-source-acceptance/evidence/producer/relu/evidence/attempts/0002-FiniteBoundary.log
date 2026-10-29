@@ -1,0 +1,15 @@
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.FiniteBoundary.SourceDomain: definition does not reference [VeriTile.Bench.TritonBenchG.ReluTritonKernel.HostWrapper.relu,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.FP64Host.logicalLaunch] — non-circular ✓
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.FiniteBoundary.PrimitivesContract: definition does not reference [VeriTile.Bench.TritonBenchG.ReluTritonKernel.HostWrapper.relu,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.FP64Host.logicalLaunch] — non-circular ✓
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.FiniteBoundary.view_byte_domain: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.FiniteBoundary.actual_pointer: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.FiniteBoundary.returned_numel: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.FiniteBoundary.metadata_chain: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.FiniteBoundary.typed_input_preserved: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.FiniteBoundary.wide_input_preserved: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.FiniteBoundary.finite_classification: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

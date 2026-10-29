@@ -1,0 +1,13 @@
+{
+  "input_exact": "2049/2048",
+  "input_decimal": 1.00048828125,
+  "operation": "Python struct binary16 round trip; host reference, not GPU execution",
+  "output": 1.0,
+  "equal": false,
+  "neighbors_exact": [
+    "1",
+    "1025/1024"
+  ],
+  "rounding": "round-to-nearest ties-to-even",
+  "conclusion": "Global round_fp16(x) = x is false on real inputs. This does not refute the conditional Lean theorem."
+}

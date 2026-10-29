@@ -1,0 +1,15 @@
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/RetainedBridge.lean:19:104: error: unsolved goals
+b : Numerics
+cfg : FP.Config
+round : QuantizeIntegerStage.Llrint64 (FP.Value FP.Format.fp32)
+x inverse : FP.Value FP.Format.fp32
+mulBinding : ∀ (a c : Word Storage.fp32), b.mul32 a c = (FP.mul cfg { bits := a } { bits := c }).bits
+roundBinding :
+  llrint Storage.fp32 (QuantizeIntegerStage.FP32.scaled cfg x inverse).bits =
+    some (round (QuantizeIntegerStage.FP32.scaled cfg x inverse))
+⊢ (FP.mul cfg { bits := 1123942400 } { bits := (FP.mul cfg { bits := x.bits } { bits := inverse.bits }).bits }).bits =
+    (FP.mul cfg { bits := 1123942400#FP.Format.fp32.width } (FP.mul cfg x inverse)).bits
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/RetainedBridge.lean:34:0: error: QuantizeGlobalFinite.retained_fp32_result: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+QuantizeGlobalFinite.zero_times_infinity_undefined: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

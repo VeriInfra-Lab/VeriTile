@@ -1,0 +1,625 @@
+{
+  "status": "passed",
+  "profiles": [
+    {
+      "dtype": "bool",
+      "observed_scalar_operations": [
+        "arith.cmpi",
+        "arith.uitofp",
+        "arith.addf",
+        "arith.fptosi"
+      ],
+      "numeric_ports": [
+        "add32",
+        "FP.IntegerConversion.toSigned"
+      ],
+      "dataflow": [
+        "arith.fptosi %arg : tensor<1024xf32> to tensor<1024xi8>",
+        [
+          [
+            "arith.addf %arg, %arg : tensor<1024xf32>",
+            [
+              [
+                "arith.uitofp %arg : tensor<1024xi1> to tensor<1024xf32>",
+                [
+                  [
+                    "arith.cmpi ne, %arg, %arg : tensor<1024xi8>",
+                    [
+                      [
+                        "loaded_word",
+                        "tensor<1024x!tt.ptr<i8>>"
+                      ],
+                      [
+                        "arith.constant dense<0> : tensor<1024xi8>",
+                        []
+                      ]
+                    ]
+                  ]
+                ]
+              ],
+              [
+                "tt.splat %arg : f32 -> tensor<1024xf32>",
+                [
+                  [
+                    "runtime_fp32"
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ],
+      "stored_pointer_type": "tensor<1024x!tt.ptr<i8>>",
+      "raw_sha256": "c08b88751b9a9b2b8f3678c186c49de11eaa4a4b49d91e16198b8b8efbc39f00"
+    },
+    {
+      "dtype": "uint8",
+      "observed_scalar_operations": [
+        "arith.uitofp",
+        "arith.addf",
+        "arith.fptoui"
+      ],
+      "numeric_ports": [
+        "unsignedTo32",
+        "add32",
+        "FP.IntegerConversion.toUnsigned"
+      ],
+      "dataflow": [
+        "arith.fptoui %arg : tensor<1024xf32> to tensor<1024xi8>",
+        [
+          [
+            "arith.addf %arg, %arg : tensor<1024xf32>",
+            [
+              [
+                "arith.uitofp %arg : tensor<1024xi8> to tensor<1024xf32>",
+                [
+                  [
+                    "loaded_word",
+                    "tensor<1024x!tt.ptr<i8>>"
+                  ]
+                ]
+              ],
+              [
+                "tt.splat %arg : f32 -> tensor<1024xf32>",
+                [
+                  [
+                    "runtime_fp32"
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ],
+      "stored_pointer_type": "tensor<1024x!tt.ptr<i8>>",
+      "raw_sha256": "1e278d75c13576f2a480a7fb685c6498c05fa0b81bc09435021837614df7b9f4"
+    },
+    {
+      "dtype": "int8",
+      "observed_scalar_operations": [
+        "arith.sitofp",
+        "arith.addf",
+        "arith.fptosi"
+      ],
+      "numeric_ports": [
+        "signedTo32",
+        "add32",
+        "FP.IntegerConversion.toSigned"
+      ],
+      "dataflow": [
+        "arith.fptosi %arg : tensor<1024xf32> to tensor<1024xi8>",
+        [
+          [
+            "arith.addf %arg, %arg : tensor<1024xf32>",
+            [
+              [
+                "arith.sitofp %arg : tensor<1024xi8> to tensor<1024xf32>",
+                [
+                  [
+                    "loaded_word",
+                    "tensor<1024x!tt.ptr<i8>>"
+                  ]
+                ]
+              ],
+              [
+                "tt.splat %arg : f32 -> tensor<1024xf32>",
+                [
+                  [
+                    "runtime_fp32"
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ],
+      "stored_pointer_type": "tensor<1024x!tt.ptr<i8>>",
+      "raw_sha256": "4eb5f9deba0a593710ad99de1d6640bb71d4a0a2b05a21f27b0177d6af204660"
+    },
+    {
+      "dtype": "int16",
+      "observed_scalar_operations": [
+        "arith.sitofp",
+        "arith.addf",
+        "arith.fptosi"
+      ],
+      "numeric_ports": [
+        "signedTo32",
+        "add32",
+        "FP.IntegerConversion.toSigned"
+      ],
+      "dataflow": [
+        "arith.fptosi %arg : tensor<1024xf32> to tensor<1024xi16>",
+        [
+          [
+            "arith.addf %arg, %arg : tensor<1024xf32>",
+            [
+              [
+                "arith.sitofp %arg : tensor<1024xi16> to tensor<1024xf32>",
+                [
+                  [
+                    "loaded_word",
+                    "tensor<1024x!tt.ptr<i16>>"
+                  ]
+                ]
+              ],
+              [
+                "tt.splat %arg : f32 -> tensor<1024xf32>",
+                [
+                  [
+                    "runtime_fp32"
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ],
+      "stored_pointer_type": "tensor<1024x!tt.ptr<i16>>",
+      "raw_sha256": "91cece61e8c5a03ddfd23cc845bfac6f37b97405bc64f848415933e98ae48cda"
+    },
+    {
+      "dtype": "uint16",
+      "observed_scalar_operations": [
+        "arith.uitofp",
+        "arith.addf",
+        "arith.fptoui"
+      ],
+      "numeric_ports": [
+        "unsignedTo32",
+        "add32",
+        "FP.IntegerConversion.toUnsigned"
+      ],
+      "dataflow": [
+        "arith.fptoui %arg : tensor<1024xf32> to tensor<1024xi16>",
+        [
+          [
+            "arith.addf %arg, %arg : tensor<1024xf32>",
+            [
+              [
+                "arith.uitofp %arg : tensor<1024xi16> to tensor<1024xf32>",
+                [
+                  [
+                    "loaded_word",
+                    "tensor<1024x!tt.ptr<i16>>"
+                  ]
+                ]
+              ],
+              [
+                "tt.splat %arg : f32 -> tensor<1024xf32>",
+                [
+                  [
+                    "runtime_fp32"
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ],
+      "stored_pointer_type": "tensor<1024x!tt.ptr<i16>>",
+      "raw_sha256": "34f546a46502b236349f084f6133aece4c94c223a8afe2e594db761a3e24873b"
+    },
+    {
+      "dtype": "int32",
+      "observed_scalar_operations": [
+        "arith.sitofp",
+        "arith.addf",
+        "arith.fptosi"
+      ],
+      "numeric_ports": [
+        "signedTo32",
+        "add32",
+        "FP.IntegerConversion.toSigned"
+      ],
+      "dataflow": [
+        "arith.fptosi %arg : tensor<1024xf32> to tensor<1024xi32>",
+        [
+          [
+            "arith.addf %arg, %arg : tensor<1024xf32>",
+            [
+              [
+                "arith.sitofp %arg : tensor<1024xi32> to tensor<1024xf32>",
+                [
+                  [
+                    "loaded_word",
+                    "tensor<1024x!tt.ptr<i32>>"
+                  ]
+                ]
+              ],
+              [
+                "tt.splat %arg : f32 -> tensor<1024xf32>",
+                [
+                  [
+                    "runtime_fp32"
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ],
+      "stored_pointer_type": "tensor<1024x!tt.ptr<i32>>",
+      "raw_sha256": "953fd67380ecd0c25d2cc76a353a1946c139891c74a14ffb92932abaa9df236a"
+    },
+    {
+      "dtype": "uint32",
+      "observed_scalar_operations": [
+        "arith.uitofp",
+        "arith.addf",
+        "arith.fptoui"
+      ],
+      "numeric_ports": [
+        "unsignedTo32",
+        "add32",
+        "FP.IntegerConversion.toUnsigned"
+      ],
+      "dataflow": [
+        "arith.fptoui %arg : tensor<1024xf32> to tensor<1024xi32>",
+        [
+          [
+            "arith.addf %arg, %arg : tensor<1024xf32>",
+            [
+              [
+                "arith.uitofp %arg : tensor<1024xi32> to tensor<1024xf32>",
+                [
+                  [
+                    "loaded_word",
+                    "tensor<1024x!tt.ptr<i32>>"
+                  ]
+                ]
+              ],
+              [
+                "tt.splat %arg : f32 -> tensor<1024xf32>",
+                [
+                  [
+                    "runtime_fp32"
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ],
+      "stored_pointer_type": "tensor<1024x!tt.ptr<i32>>",
+      "raw_sha256": "48ce1e9c857e8594b1f9a0672207a1500db2dc4fd11e31bfb9c8fcca7aa4b933"
+    },
+    {
+      "dtype": "int64",
+      "observed_scalar_operations": [
+        "arith.sitofp",
+        "arith.addf",
+        "arith.fptosi"
+      ],
+      "numeric_ports": [
+        "signedTo32",
+        "add32",
+        "FP.IntegerConversion.toSigned"
+      ],
+      "dataflow": [
+        "arith.fptosi %arg : tensor<1024xf32> to tensor<1024xi64>",
+        [
+          [
+            "arith.addf %arg, %arg : tensor<1024xf32>",
+            [
+              [
+                "arith.sitofp %arg : tensor<1024xi64> to tensor<1024xf32>",
+                [
+                  [
+                    "loaded_word",
+                    "tensor<1024x!tt.ptr<i64>>"
+                  ]
+                ]
+              ],
+              [
+                "tt.splat %arg : f32 -> tensor<1024xf32>",
+                [
+                  [
+                    "runtime_fp32"
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ],
+      "stored_pointer_type": "tensor<1024x!tt.ptr<i64>>",
+      "raw_sha256": "6e95fa743ed165e27fb351d96381170eb845141e55ba495cbbb98c562ee4d14e"
+    },
+    {
+      "dtype": "uint64",
+      "observed_scalar_operations": [
+        "arith.uitofp",
+        "arith.addf",
+        "arith.fptoui"
+      ],
+      "numeric_ports": [
+        "unsignedTo32",
+        "add32",
+        "FP.IntegerConversion.toUnsigned"
+      ],
+      "dataflow": [
+        "arith.fptoui %arg : tensor<1024xf32> to tensor<1024xi64>",
+        [
+          [
+            "arith.addf %arg, %arg : tensor<1024xf32>",
+            [
+              [
+                "arith.uitofp %arg : tensor<1024xi64> to tensor<1024xf32>",
+                [
+                  [
+                    "loaded_word",
+                    "tensor<1024x!tt.ptr<i64>>"
+                  ]
+                ]
+              ],
+              [
+                "tt.splat %arg : f32 -> tensor<1024xf32>",
+                [
+                  [
+                    "runtime_fp32"
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ],
+      "stored_pointer_type": "tensor<1024x!tt.ptr<i64>>",
+      "raw_sha256": "aab16fee9547e4b11d915522bc9803390dc0cd18db552564f54a4f0be5a33447"
+    },
+    {
+      "dtype": "float16",
+      "observed_scalar_operations": [
+        "arith.extf",
+        "arith.addf",
+        "arith.truncf"
+      ],
+      "numeric_ports": [
+        "halfTo32",
+        "add32",
+        "toHalf"
+      ],
+      "dataflow": [
+        "arith.truncf %arg : tensor<1024xf32> to tensor<1024xf16>",
+        [
+          [
+            "arith.addf %arg, %arg : tensor<1024xf32>",
+            [
+              [
+                "arith.extf %arg : tensor<1024xf16> to tensor<1024xf32>",
+                [
+                  [
+                    "loaded_word",
+                    "tensor<1024x!tt.ptr<f16>>"
+                  ]
+                ]
+              ],
+              [
+                "tt.splat %arg : f32 -> tensor<1024xf32>",
+                [
+                  [
+                    "runtime_fp32"
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ],
+      "stored_pointer_type": "tensor<1024x!tt.ptr<f16>>",
+      "raw_sha256": "21132847d49f4bc14f0cfd313e3222ed4aa8bc92625d1d2307d6bc74fc55d495"
+    },
+    {
+      "dtype": "bfloat16",
+      "observed_scalar_operations": [
+        "arith.extf",
+        "arith.addf",
+        "arith.truncf"
+      ],
+      "numeric_ports": [
+        "bfloatTo32",
+        "add32",
+        "toBFloat"
+      ],
+      "dataflow": [
+        "arith.truncf %arg : tensor<1024xf32> to tensor<1024xbf16>",
+        [
+          [
+            "arith.addf %arg, %arg : tensor<1024xf32>",
+            [
+              [
+                "arith.extf %arg : tensor<1024xbf16> to tensor<1024xf32>",
+                [
+                  [
+                    "loaded_word",
+                    "tensor<1024x!tt.ptr<bf16>>"
+                  ]
+                ]
+              ],
+              [
+                "tt.splat %arg : f32 -> tensor<1024xf32>",
+                [
+                  [
+                    "runtime_fp32"
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ],
+      "stored_pointer_type": "tensor<1024x!tt.ptr<bf16>>",
+      "raw_sha256": "ddc1f883dab283b127c84bd1bff1b8098171470f558851f15f9a83a593d3749a"
+    },
+    {
+      "dtype": "float32",
+      "observed_scalar_operations": [
+        "arith.addf"
+      ],
+      "numeric_ports": [
+        "add32"
+      ],
+      "dataflow": [
+        "arith.addf %arg, %arg : tensor<1024xf32>",
+        [
+          [
+            "loaded_word",
+            "tensor<1024x!tt.ptr<f32>>"
+          ],
+          [
+            "tt.splat %arg : f32 -> tensor<1024xf32>",
+            [
+              [
+                "runtime_fp32"
+              ]
+            ]
+          ]
+        ]
+      ],
+      "stored_pointer_type": "tensor<1024x!tt.ptr<f32>>",
+      "raw_sha256": "add307a169293517747fe83d908550040120c4f533865150bd2922408c374cbc"
+    },
+    {
+      "dtype": "float64",
+      "observed_scalar_operations": [
+        "arith.extf",
+        "arith.addf"
+      ],
+      "numeric_ports": [
+        "wide.singleTo64",
+        "wide.add64"
+      ],
+      "dataflow": [
+        "arith.addf %arg, %arg : tensor<1024xf64>",
+        [
+          [
+            "loaded_word",
+            "tensor<1024x!tt.ptr<f64>>"
+          ],
+          [
+            "tt.splat %arg : f64 -> tensor<1024xf64>",
+            [
+              [
+                "arith.extf %arg : f32 to f64",
+                [
+                  [
+                    "runtime_fp32"
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ],
+      "stored_pointer_type": "tensor<1024x!tt.ptr<f64>>",
+      "raw_sha256": "57304ba87c4f5fc15089c162881f8a17099c043510f6b89f4b28246d28ce54dc"
+    },
+    {
+      "dtype": "float8_e4m3fn",
+      "observed_scalar_operations": [
+        "tt.fp_to_fp",
+        "arith.addf",
+        "tt.fp_to_fp"
+      ],
+      "numeric_ports": [
+        "e4To32",
+        "add32",
+        "toE4RTNE"
+      ],
+      "dataflow": [
+        "tt.fp_to_fp %arg, rounding = rtne : tensor<1024xf32> -> tensor<1024xf8E4M3FN>",
+        [
+          [
+            "arith.addf %arg, %arg : tensor<1024xf32>",
+            [
+              [
+                "tt.fp_to_fp %arg : tensor<1024xf8E4M3FN> -> tensor<1024xf32>",
+                [
+                  [
+                    "loaded_word",
+                    "tensor<1024x!tt.ptr<f8E4M3FN>>"
+                  ]
+                ]
+              ],
+              [
+                "tt.splat %arg : f32 -> tensor<1024xf32>",
+                [
+                  [
+                    "runtime_fp32"
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ],
+      "stored_pointer_type": "tensor<1024x!tt.ptr<f8E4M3FN>>",
+      "raw_sha256": "e592b159b5a65434eef9590f4bbf2816f361289f8d1b3342a00395c2f9c67f97"
+    },
+    {
+      "dtype": "float8_e5m2",
+      "observed_scalar_operations": [
+        "tt.fp_to_fp",
+        "arith.addf",
+        "tt.fp_to_fp"
+      ],
+      "numeric_ports": [
+        "e5To32",
+        "add32",
+        "toE5RTNE"
+      ],
+      "dataflow": [
+        "tt.fp_to_fp %arg, rounding = rtne : tensor<1024xf32> -> tensor<1024xf8E5M2>",
+        [
+          [
+            "arith.addf %arg, %arg : tensor<1024xf32>",
+            [
+              [
+                "tt.fp_to_fp %arg : tensor<1024xf8E5M2> -> tensor<1024xf32>",
+                [
+                  [
+                    "loaded_word",
+                    "tensor<1024x!tt.ptr<f8E5M2>>"
+                  ]
+                ]
+              ],
+              [
+                "tt.splat %arg : f32 -> tensor<1024xf32>",
+                [
+                  [
+                    "runtime_fp32"
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ],
+      "stored_pointer_type": "tensor<1024x!tt.ptr<f8E5M2>>",
+      "raw_sha256": "9910c4ebb1f1fccc830192482ed4dfce0dfa61fa3ad72352092926a401338118"
+    }
+  ],
+  "runtime_argument_bits": 1092616192,
+  "native_numerical_validation": false
+}

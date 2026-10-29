@@ -1,0 +1,5 @@
+kernel_revision {'verified': 182, 'verified_with_deferred_numerics': 1}
+retained_acceptance {'verified_with_deferred_numerics': 165, 'verified': 17, 'source_defect_pending_repair': 1}
+contract_revision {'verified_with_deferred_numerics': 165, 'verified': 18}
+public_io_format {'complete': 183}
+public_io_semantic_reviews 183

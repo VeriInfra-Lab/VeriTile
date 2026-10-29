@@ -1,0 +1,38 @@
+import FiniteCorrect
+import bench.tritonbench_g.quantize_global.Proofs.IntegerSemantics
+
+namespace QuantizeGlobalFinite
+open VeriTile.Triton
+set_option maxHeartbeats 4000000
+
+/-- The finite source retains the old fp32 scalar result wherever its total
+callback agrees with the now explicit defined llrint domain. This is not a
+claim that an arbitrary old exceptional-value callback has native meaning. -/
+theorem retained_fp32_result (b : Numerics) (cfg : FP.Config)
+    (round : QuantizeIntegerStage.Llrint64 (FP.Value .fp32))
+    (x inverse : FP.Value .fp32)
+    (mulBinding : ∀ a c, b.mul32 a c=(FP.mul cfg ⟨a⟩ ⟨c⟩).bits)
+    (roundBinding : llrint .fp32 (QuantizeIntegerStage.FP32.scaled cfg x inverse).bits=
+      some (round (QuantizeIntegerStage.FP32.scaled cfg x inverse))) :
+    result b .fp32 x.bits inverse.bits=
+      some (QuantizeIntegerStage.FP32.outputWord round cfg x inverse) := by
+  have hs : scaled b .fp32 x.bits inverse.bits=(QuantizeIntegerStage.FP32.scaled cfg x inverse).bits := by
+    simp only [scaled,mul,promoted,scale127,mulBinding,QuantizeIntegerStage.FP32.scaled,
+      QuantizeIntegerStage.FP32.scale127,FP.Value.ofBits]
+  rw [result,hs,roundBinding]
+  rfl
+
+/-- A source zero times its infinite reciprocal is not assigned an arbitrary
+integer by the finite model. This checked fp32 software primitive example is
+outside the successful execution domain, before the int8 store. -/
+theorem zero_times_infinity_undefined :
+    llrint .fp32 (FP.mul FP.Config.ieeeValue
+      (FP.Value.ofBits .fp32 0x42fe0000)
+      (FP.mul FP.Config.ieeeValue (FP.Value.zero .fp32) (FP.Value.infinity .fp32))).bits=none := by
+  decide +kernel
+
+#axiomsClean retained_fp32_result
+#axiomsClean zero_times_infinity_undefined
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end QuantizeGlobalFinite

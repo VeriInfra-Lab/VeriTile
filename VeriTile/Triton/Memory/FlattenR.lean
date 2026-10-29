@@ -203,6 +203,7 @@ def Op.SafeAtR (R : RoundingModel) (bounds : RegionBounds) (s : BlockState) : Op
   | .libdevicePowi _ a b => a.SafeAtR R bounds s ∧ b.SafeAtR R bounds s
   | .where c a b => c.SafeAtR R bounds s ∧ a.SafeAtR R bounds s ∧ b.SafeAtR R bounds s
   | .ite c a b => c.SafeAtR R bounds s ∧ a.SafeAtR R bounds s ∧ b.SafeAtR R bounds s
+  | .reduceMin _ _ a => a.SafeAtR R bounds s
   | .reduceMax _ _ a => a.SafeAtR R bounds s
   | .reduceMaxNat _ _ a => a.SafeAtR R bounds s
   | .reduceMaxInt _ _ a => a.SafeAtR R bounds s
@@ -880,6 +881,12 @@ theorem FlatAlloc.evalOpR_flatten (A : FlatAlloc) (hd : A.Disjoint)
       simp only [flattenOp, evalOpR, evalOpR_flatten A hd hcov R a s hms hok hu,
         A.trTileFun_data (d := .real) (by decide) (by decide),
         A.trTileFun_data (d := .nat) (by decide) (by decide),
+        Option.map_id, id_eq]
+  | _, _, .reduceMin ax kd a, s, hms, hok, hu => by
+      simp only [Op.SafeAtR] at hms
+      simp only [Op.FlattenOkR] at hok
+      simp only [flattenOp, evalOpR, evalOpR_flatten A hd hcov R a s hms hok hu,
+        A.trTileFun_data (d := .real) (by decide) (by decide),
         Option.map_id, id_eq]
   | _, _, .reduceMax ax kd a, s, hms, hok, hu => by
       simp only [Op.SafeAtR] at hms

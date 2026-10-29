@@ -1,0 +1,15 @@
+VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.source_split: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.prologueExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.prologueInvariant: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.bodyExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.bodyInvariant: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,7 @@
+import VeriTile.Meta.StatementAudit
+import bench.repairs.tritonbench_g.bgmv_expand_slice_physical_tile_checked.Contract
+import bench.repairs.tritonbench_g.bgmv_expand_slice_physical_tile_checked.Correct
+import bench.repairs.tritonbench_g.bgmv_expand_slice_physical_tile_checked.FPEquiv
+
+#axiomsClean VeriTile.Bench.Repairs.BgmvExpandSlicePhysicalTileChecked.correct
+#axiomsClean VeriTile.Bench.Repairs.BgmvExpandSlicePhysicalTileChecked.Equivalence.output_first_strict

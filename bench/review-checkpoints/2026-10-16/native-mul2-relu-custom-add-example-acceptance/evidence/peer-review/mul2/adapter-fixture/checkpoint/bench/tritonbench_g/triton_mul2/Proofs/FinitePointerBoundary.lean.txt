@@ -1,0 +1,179 @@
+import bench.tritonbench_g.triton_mul2.Proofs.FiniteHost
+
+namespace TritonMul2Finite
+set_option maxHeartbeats 10000000
+set_option maxRecDepth 24000
+noncomputable section
+open Classical
+
+theorem read_word_congr (d : Storage) (left right : ByteMemory) (address : Nat)
+    (same : ∀ k, k<d.bytes → left (address+k)=right (address+k)) :
+    readWord d left address=readWord d right address := by
+  have hcond : (∀ k, k<d.bytes → (left (address+k)).isSome) ↔
+      (∀ k, k<d.bytes → (right (address+k)).isSome) := by
+    constructor <;> intro h k hk
+    · rw [←same k hk]; exact h k hk
+    · rw [same k hk]; exact h k hk
+  unfold readWord
+  by_cases hl : ∀ k, k<d.bytes → (left (address+k)).isSome
+  · have hr := hcond.mp hl
+    simp only [if_pos hl,if_pos hr]
+    congr 1
+    apply VeriTile.Bench.TritonBenchG.ReluTritonKernel.ByteMemory.load_congr
+    intro k hk
+    rw [same k hk]
+  · have hr := mt hcond.mpr hl
+    simp only [if_neg hl,if_neg hr]
+
+/-- Every byte of a valid translated span resolves to the corresponding
+original backing byte. Neither this theorem nor its premise compares owner
+device metadata with the current launch device. -/
+theorem pointer_binding_resolves (ctx : AccessContext) (x : Tensor) (view : DeviceView)
+    (binding : PointerBinding ctx x view) (nonnull : x.dataPointer≠0) (address width : Nat)
+    (inside : InRegion {x.byteRegion with base:=view.base} address width) :
+    ctx.Resolves address (x.storageBase+(address-view.base)) width := by
+  intro k hk
+  have hi : view.base≤address ∧ address+width≤view.base+x.storageBytes := by
+    exact ⟨inside.1,inside.2.1⟩
+  have h := binding.mapping nonnull ((address-view.base)+k) (by omega)
+  have he : view.base+((address-view.base)+k)=address+k := by omega
+  rw [he] at h
+  simpa only [Nat.add_assoc] using h
+
+theorem resolved_device_byte (ctx : AccessContext) (memory : ByteMemory)
+    (actual backing : Nat) (resolved : ctx.backingByte ctx.currentDevice actual=some backing) :
+    deviceMemory ctx memory actual=memory backing := by simp [deviceMemory,resolved]
+
+/-- Store traces retain both actual ABI addresses and canonical backing
+addresses; each recorded store is checked against the shared address map. -/
+theorem word_write_resolution (ctx : AccessContext) (d : Storage)
+    (pid lane input output actualOutput : Nat) (word : Word d)
+    (resolved : ctx.Resolves actualOutput output d.bytes) :
+    ∀ w∈wordWrites d pid lane input output actualOutput word,
+      ctx.backingByte ctx.currentDevice w.deviceAddress=some w.outputAddress := by
+  intro w hw
+  obtain ⟨k,hk,rfl⟩ := List.mem_map.mp hw
+  exact resolved k (List.mem_range.mp hk)
+
+theorem tile_write_resolution (d : Storage) (compute : Word d → Word d) (p : Layout) (pid : Nat)
+    (loaded : List (Loaded d)) (seen : List Nat) (writes : List ByteWrite) (owners : List Nat)
+    (h : tileWrites d compute p pid loaded seen=.ok (writes,owners)) :
+    ∀ w∈writes, p.access.backingByte p.access.currentDevice w.deviceAddress=some w.outputAddress := by
+  induction loaded generalizing seen writes owners with
+  | nil => cases h; simp
+  | cons item rest ih =>
+    simp only [tileWrites] at h
+    split at h
+    · cases h
+    · rename_i valid
+      split at h
+      · cases h
+      · cases ht : tileWrites d compute p pid rest
+          ((wordWrites d pid item.lane item.inputAddress item.outputAddress item.deviceAddress (compute item.value)).map ByteWrite.outputAddress++seen) with
+        | error issue => simp [ht] at h
+        | ok tail =>
+          rcases tail with ⟨tail,finalOwners⟩
+          simp [ht] at h
+          rcases h with ⟨rfl,rfl⟩
+          intro w hw
+          rcases List.mem_append.mp hw with hw|hw
+          · exact word_write_resolution p.access d pid item.lane item.inputAddress item.outputAddress
+              item.deviceAddress (compute item.value) (not_not.mp valid).2.2.1 w hw
+          · exact ih _ _ _ ht w hw
+
+theorem program_write_resolution (b : Numerics) (d : Storage) (p : Layout) (n block pid : Nat)
+    (snapshot : ByteMemory) (seen : List Nat) (writes : List ByteWrite) (owners : List Nat)
+    (h : programPlan b d p n block pid snapshot seen=.ok (writes,owners)) :
+    ∀ w∈writes, p.access.backingByte p.access.currentDevice w.deviceAddress=some w.outputAddress := by
+  unfold programPlan at h
+  cases hl : loadTile d p snapshot pid (offset32 block pid) (offset32 block pid)
+      (active32 n block pid) (List.range block) with
+  | error issue => simp [hl] at h
+  | ok loaded =>
+    simp only [hl,bind_ok] at h
+    exact tile_write_resolution d _ p pid loaded seen writes owners h
+
+theorem grid_write_resolution (b : Numerics) (d : Storage) (p : Layout) (n block : Nat)
+    (pids : List Nat) (snapshot : ByteMemory) (seen : List Nat) (writes : List ByteWrite) (owners : List Nat)
+    (h : gridPlan b d p n block pids snapshot seen=.ok (writes,owners)) :
+    ∀ w∈writes, p.access.backingByte p.access.currentDevice w.deviceAddress=some w.outputAddress := by
+  induction pids generalizing snapshot seen writes owners with
+  | nil => cases h; simp
+  | cons pid rest ih =>
+    simp only [gridPlan] at h
+    cases hh : programPlan b d p n block pid snapshot seen with
+    | error issue => simp [hh] at h
+    | ok head =>
+      rcases head with ⟨head,nextOwners⟩
+      cases ht : gridPlan b d p n block rest (byteResult head snapshot) nextOwners with
+      | error issue => simp [hh,ht] at h
+      | ok tail =>
+        rcases tail with ⟨tail,finalOwners⟩
+        simp [hh,ht] at h
+        rcases h with ⟨rfl,rfl⟩
+        intro w hw
+        rcases List.mem_append.mp hw with hw|hw
+        · exact program_write_resolution b d p n block pid snapshot seen head nextOwners hh w hw
+        · exact ih _ _ _ _ ht w hw
+
+theorem launch_write_resolution (b : Numerics) (d : Storage) (p : Layout) (n block : Nat)
+    (pids : List Nat) (initial : ByteMemory) (writes : List ByteWrite)
+    (h : launchPlan b d p n block pids initial=.ok writes) :
+    ∀ w∈writes, p.access.backingByte p.access.currentDevice w.deviceAddress=some w.outputAddress := by
+  unfold launchPlan at h
+  cases hg : gridPlan b d p n block pids initial [] with
+  | error issue => simp [hg,Except.map] at h
+  | ok plan =>
+    simp [hg,Except.map] at h
+    subst writes
+    exact grid_write_resolution b d p n block pids initial [] plan.1 plan.2 hg
+
+theorem extracted_input_resolution (current : Nat) (x output : Tensor) (setup : PointerSetup)
+    (binding : PointerSetupBinding current x output setup) (nonnull : x.dataPointer≠0) (address width : Nat)
+    (inside : InRegion (layout x output setup).deviceInput address width) :
+    setup.access.Resolves address ((layout x output setup).inputBacking address) width :=
+  pointer_binding_resolves setup.access x setup.input binding.inputBinding nonnull address width inside
+theorem extracted_output_resolution (current : Nat) (x output : Tensor) (setup : PointerSetup)
+    (binding : PointerSetupBinding current x output setup) (nonnull : output.dataPointer≠0) (address width : Nat)
+    (inside : InRegion (layout x output setup).deviceOutput address width) :
+    setup.access.Resolves address ((layout x output setup).outputBacking address) width :=
+  pointer_binding_resolves setup.access output setup.output binding.outputBinding nonnull address width inside
+
+theorem i32_minimum_grid_boundary :
+    hostGrid (2^31) 1=2^31 ∧ ¬gridFits (hostGrid (2^31) 1) ∧
+    hostGrid (2^31) 2=2^30 ∧ gridFits (hostGrid (2^31) 2) := by
+  unfold hostGrid gridFits
+  decide +kernel
+
+/-- Exact grid parser threshold for every positive integer block, not just
+sampled boundary values. The case audit instantiates all21 valid powers. -/
+theorem host_grid_threshold (n block : Nat) (positive : 0<block) :
+    gridFits (hostGrid n block) ↔ (n : Int)≤(2^31-1)*(block : Int) := by
+  have hp : (0 : Int)<block := by exact_mod_cast positive
+  have hn : (0 : Int)≤((n : Int)+(block : Int)-1)/(block : Int) :=
+    Int.ediv_nonneg (by omega) (by omega)
+  unfold gridFits hostGrid
+  rw [Int.fdiv_eq_ediv_of_nonneg _ (by omega)]
+  change (-2147483648≤((n : Int)+(block : Int)-1)/(block : Int) ∧
+    ((n : Int)+(block : Int)-1)/(block : Int)<2147483648) ↔
+    (n : Int)≤2147483647*(block : Int)
+  constructor
+  · intro h
+    have hx := (Int.ediv_lt_iff_lt_mul hp).mp h.2
+    omega
+  · intro h
+    refine ⟨by omega,?_⟩
+    apply (Int.ediv_lt_iff_lt_mul hp).mpr
+    omega
+
+#axiomsClean pointer_binding_resolves
+#axiomsClean resolved_device_byte
+#axiomsClean launch_write_resolution
+#axiomsClean extracted_input_resolution
+#axiomsClean extracted_output_resolution
+#axiomsClean i32_minimum_grid_boundary
+#axiomsClean host_grid_threshold
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end
+end TritonMul2Finite

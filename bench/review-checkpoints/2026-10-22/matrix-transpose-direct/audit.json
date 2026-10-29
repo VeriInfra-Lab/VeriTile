@@ -1,0 +1,105 @@
+{
+  "task": "matrix_transpose",
+  "scope": "Direct triton source organization and pointer-region metadata only; no new mathematical or numerical proof obligations.",
+  "source_files": [
+    {
+      "path": "VeriTile/Triton/DSL/Metadata.lean",
+      "sha256": "65770f5599a76f9f2c2dc548cd914f788d5309ed7449257835505ea9e424df01"
+    },
+    {
+      "path": "bench/tests/PointerRegionMetadata.lean",
+      "sha256": "8a0752502f83687e6b11e679dccd5e0ececd66a6f68086793e460146bbaac2f7"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/matrix_transpose/Kernels.lean",
+      "sha256": "4506b23c5eae6dc45ef2537616b1b9886361395f902e42ed244cf7bea4e6d3f9"
+    }
+  ],
+  "source_preservation": {
+    "exit_code": 0,
+    "claim": "Both complete kernel functions equal their pre-edit definitions by rfl, including input/output ports.",
+    "before_source": {
+      "path": ".veritile-cache/matrix-transpose-direct-20261022/before/bench/repairs/tritonbench_g/matrix_transpose/Kernels.lean",
+      "sha256": "71e9dc9d0128bd64cbf6691cabff678e87c79ce1730d837e13e0ce0e34ca0c7f"
+    }
+  },
+  "source_checks": [
+    {
+      "source": "bench/tests/PointerRegionMetadata.lean",
+      "exit_code": 0
+    },
+    {
+      "source": "bench/tests/RuntimeScalarArgumentDSL.lean",
+      "exit_code": 0
+    },
+    {
+      "source": "bench/tests/FullPrecisionDSL.lean",
+      "exit_code": 0
+    },
+    {
+      "source": "bench/repairs/tritonbench_g/matrix_transpose/Correct.lean",
+      "exit_code": 0
+    },
+    {
+      "source": "bench/repairs/tritonbench_g/matrix_transpose/FPEquiv.lean",
+      "exit_code": 0
+    }
+  ],
+  "targeted_task_build_exit_code": 0,
+  "broad_smoke": {
+    "baseline_metadata_build_exit_code": 0,
+    "smoke_exit_code": 1,
+    "same_minimumFloat_failure": true,
+    "scope": "Original pre-edit Metadata with the same current dependency objects; not a full-source baseline build."
+  },
+  "evidence": [
+    {
+      "path": ".veritile-cache/matrix-transpose-direct-20261022/SourcePreservation.lean",
+      "sha256": "42de574794ac547c370f439207050b0ac5771e893afb07faf2c525856d1303d4"
+    },
+    {
+      "path": ".veritile-cache/matrix-transpose-direct-20261022/preservation.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".veritile-cache/matrix-transpose-direct-20261022/final-source-checks.json",
+      "sha256": "223a6dbd42e0a1d7ad20fc5e23f6eb8d68e9730966c667b4ad68777f828fd246"
+    },
+    {
+      "path": ".veritile-cache/matrix-transpose-direct-20261022/final-source-checks.log",
+      "sha256": "0005999b58886075527f79c80829eab72ca0b9756631efa091ded17ce7934061"
+    },
+    {
+      "path": ".veritile-cache/matrix-transpose-direct-20261022/task-build.log",
+      "sha256": "d254a77c88208328e48d0cbf32460da81fd92aac7782ce77623245811cef1a79"
+    },
+    {
+      "path": ".veritile-cache/matrix-transpose-direct-20261022/baseline-smoke.json",
+      "sha256": "798f1e800d2ce3f46c083ac960d7d9648d63fe4560fbed68bc2db5cfcac05fee"
+    },
+    {
+      "path": ".veritile-cache/matrix-transpose-direct-20261022/baseline-smoke.log",
+      "sha256": "6dd28b41dcb5116ae3cb2f85cb72bddbac9484dddb36da0c1a2430b128fedab6"
+    }
+  ],
+  "numerical_rules_changed": false,
+  "completion_counts_changed": false,
+  "independent_full_source_replay": false,
+  "gpu_execution": false,
+  "preexisting_reader_pin_refresh": [
+    {
+      "field": "accepted_sha256",
+      "path": "bench/repairs/tritonbench_g/matrix_transpose/Correct.lean",
+      "previous_pin": "020df6eaf97480e126927ed4a9ead3c5462aa18ee7823390bd372dafa29197c8",
+      "current_sha256": "7de15b875b1b5c9b71332132d7ac6e7b47957c8e292b8052cfbaefc68a05c2cc",
+      "reason": "Existing reader source was unchanged by this cleanup; fresh source compilation refreshes its older recorded pin."
+    },
+    {
+      "field": "current_review_source_sha256",
+      "path": "bench/repairs/tritonbench_g/matrix_transpose/Correct.lean",
+      "previous_pin": "020df6eaf97480e126927ed4a9ead3c5462aa18ee7823390bd372dafa29197c8",
+      "current_sha256": "7de15b875b1b5c9b71332132d7ac6e7b47957c8e292b8052cfbaefc68a05c2cc",
+      "reason": "Existing reader source was unchanged by this cleanup; fresh source compilation refreshes its older recorded pin."
+    }
+  ]
+}

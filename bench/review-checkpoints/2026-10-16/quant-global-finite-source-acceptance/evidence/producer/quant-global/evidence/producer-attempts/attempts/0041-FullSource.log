@@ -1,0 +1,13 @@
+QuantizeGlobalFinite.Ready: definition does not reference [QuantizeGlobalFinite.executeAPI,
+ QuantizeGlobalFinite.execute,
+ QuantizeGlobalFinite.prepare,
+ QuantizeGlobalFinite.runTrials,
+ QuantizeGlobalFinite.runGrid,
+ QuantizeGlobalFinite.runProgram,
+ QuantizeGlobalFinite.runLanes,
+ QuantizeGlobalFinite.source,
+ QuantizeGlobalFinite.Expr.eval] — non-circular ✓
+QuantizeGlobalFinite.admission_binding: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+QuantizeGlobalFinite.quantize_global_full_source_outcomes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

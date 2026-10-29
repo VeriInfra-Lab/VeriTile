@@ -1,0 +1,106 @@
+{
+  "task": "vector_addition finite integer/bool input and output words",
+  "package_root": "/tmp/veritile-standardization-20261015/vector-addition-integer-words-wip",
+  "frozen_at_utc": "2026-10-15T16:51:11.273730+00:00",
+  "whole_original_program_accepted": false,
+  "original_program_completion_increment": 0,
+  "modules": {
+    "bench/tritonbench_g/vector_addition/IntegerWordGridCorrect.lean": "675b6b75dde312c8428d62afce0252bb2cd5223efec8ab36501a8d20dc3eddb5",
+    "bench/tritonbench_g/vector_addition/Proofs/IntegerWordGrid.lean": "4b5a5884573942a2326f43c63f1ef53606848270c059f890c9b3ed88a54bda52",
+    "bench/tritonbench_g/vector_addition/Proofs/IntegerWords.lean": "8cf2f0c28e6823ea02bab1a941936963729a06f3a7ede7a83ac0e30fb3ff122d"
+  },
+  "public_contract": {
+    "file": "bench/tritonbench_g/vector_addition/IntegerWordGridCorrect.lean",
+    "parser_name": "vector_addition_integer_word_grid_correctness",
+    "declaration": "VeriTile.Bench.TritonBenchG.VectorAddition.IntegerWordGridCorrect.vector_addition_integer_word_grid_correctness",
+    "kind": "specification",
+    "statement_sha256": "df2e0503369e0da2ea86313c4b5e3fd371f7125ab5d862097e30cbb21d9d0ea0",
+    "model_kind": "bit_interpreter_contract",
+    "role": "parametric_value_contract",
+    "dtype_scope_relation": "selected_explicit_profiles_only",
+    "unclosed_numeric_callbacks": [],
+    "bit_interpreter_closed_command": false,
+    "native_binding_status": "not_established",
+    "premises": "Positive natural block and InputWords for both complete tagged logical input cells at every active offset.",
+    "alias_boundary": "No distinct-region premise. If x=y the two input word decodings must agree; withInputs_y makes this compatibility explicit.",
+    "unused_algebra": "M occurs in execution but no floating operation is used; resultWord and wordSpec have no Algebra parameter."
+  },
+  "coverage_summary": {
+    "refined_existing_integer_bool_pairs": 81,
+    "new_dtype_pairs": 0,
+    "new_logical_profile_names": 0,
+    "raw_bool_input_bytes": 256,
+    "original_ttir_store_graphs_reused": 81,
+    "new_frontend_runs": 0,
+    "native_backend_runs": 0,
+    "gpu_runs": 0
+  },
+  "verification": {
+    "module_count": 3,
+    "actual_exit_codes": [
+      0,
+      0,
+      0
+    ],
+    "named_axiom_checks": 17,
+    "spec_noncircularity_checks": 2,
+    "module_axiom_audits": 3,
+    "warnings": 0,
+    "dependency_file_count": 162,
+    "source_and_dependency_hashes_unchanged": true,
+    "actual_lakefile_toml_bound": true,
+    "external_library_build_rechecked": false,
+    "actual_staged_whitespace_check_exit_code": 0
+  },
+  "prior_modules_unchanged": {
+    "bench/tritonbench_g/vector_addition/Proofs/IntegerSource.lean": "2c81f40c77047b656f8a7b2b4d68d63b97b43cbffc99d2fe6a56e70cb004f84a",
+    "bench/tritonbench_g/vector_addition/Proofs/IntegerValue.lean": "9dc9f69d9485ead9cec4aa8e007005592e52179436e98addb9fa843dc24ce139",
+    "bench/tritonbench_g/vector_addition/Proofs/IntegerProfiles.lean": "49ae01135821124140fd5e89c1f329bf9857bd77dd3d3a0858f03dc09dd824c6",
+    "bench/tritonbench_g/vector_addition/Proofs/IntegerGrid.lean": "197d52ec02fbfc1874767b1184969dc00934ad5a2812d0f169b81c33237f802d",
+    "bench/tritonbench_g/vector_addition/IntegerValueCorrect.lean": "25a41ad6ba7207415d3dac267dee69b34a795735a078336868d0ed33e61b8537"
+  },
+  "inherited_route_evidence": {
+    "path": "bench/review-checkpoints/2026-10-16/vector-integers-relu-program-order/evidence/integer/vector-addition-integer-independent-audit.json",
+    "sha256": "300959165f3a2de7b171d1d176f7e0ec45edad1075ec244db9be01eb5330ba2d",
+    "original_integer_receipt_sha256": "85dc08106852c4a3f69516046182954693eb5afd0158064db358c708a70b9100"
+  },
+  "acceptance_limits": [
+    {
+      "id": "VA-W-S1",
+      "gap": "Native memory to finite word input relation",
+      "detail": "BitVec source widths and complete logical input tags are formal. Actual byte assembly/endianness, native load validity and source dtype dispatch satisfying InputWords remain unproved."
+    },
+    {
+      "id": "VA-W-S2",
+      "gap": "Native physical storage and aliasing",
+      "detail": "Input compatibility handles identical logical names. Shifted/misaligned/mixed-width physical byte views, allocation bounds/layout/freshness and race behavior remain outside the logical-cell model."
+    },
+    {
+      "id": "VA-W-S3",
+      "gap": "Finite addresses, native errors and scheduling",
+      "detail": "Positive natural block and ascending grid do not prove native block domain, zero-grid behavior, signed offset/pointer overflow, sanitizer/compiler admission/errors or native interleavings."
+    },
+    {
+      "id": "VA-W-S4",
+      "gap": "Remaining original stages and dtypes",
+      "detail": "This refines the same81 integer/bool profiles and adds no dtype pairs. All other dtype/error families, original host/harness/module behavior and their native correspondence remain required."
+    }
+  ],
+  "artifacts": {
+    "README.md": "ca5b129f2fde36475904cf676626b7640cc46463da46b0078ceb199590492886",
+    "bench/tritonbench_g/vector_addition/IntegerWordGridCorrect.lean": "675b6b75dde312c8428d62afce0252bb2cd5223efec8ab36501a8d20dc3eddb5",
+    "bench/tritonbench_g/vector_addition/Proofs/IntegerWordGrid.lean": "4b5a5884573942a2326f43c63f1ef53606848270c059f890c9b3ed88a54bda52",
+    "bench/tritonbench_g/vector_addition/Proofs/IntegerWords.lean": "8cf2f0c28e6823ea02bab1a941936963729a06f3a7ede7a83ac0e30fb3ff122d",
+    "evidence/IntegerWordGrid.compile.log": "23958903d7f23786cb16cdfb090bee172ff61270d0f3fe0f35ceaad1eea97fd3",
+    "evidence/IntegerWordGridCorrect.compile.log": "40133272f32737ba664e3fdd6aa40059b348bc31740a50cf99e1466f453ac952",
+    "evidence/IntegerWords.compile.log": "6223f3819c26f2f040d5aa71f6ee571e8df8b768155768b169ba19a7c78f0da5",
+    "evidence/final-dependencies-after.json": "8aa63df4b927bc3273d5d7a980cadbe06223acc7648ab50f505e071061442513",
+    "evidence/final-dependencies-before.json": "8aa63df4b927bc3273d5d7a980cadbe06223acc7648ab50f505e071061442513",
+    "evidence/scope-review.json": "baa747c66e112dea9aa49d413262a2de7aa4bcb90328b51d4093bded3a996bc3",
+    "evidence/verification-results.json": "3f1b5b7273ff7e243682b14fc6f0046ff101198f2d5d60558051423b58617032",
+    "evidence/whitespace-check.json": "62edb34c9cb1abeb3b34c9e9fb2b02996f44ef6c294a1ffee45f8c1ef37aecf2",
+    "finalize.py": "33ff935dc9315c6e0e1cde85d9b55ade5d71dda77aa14a2c5fdb93f91557eae7",
+    "freeze.py": "7f427688c4eacb34fa34be5689edbab0fde7c67b3a5edc214f2331641578fd81",
+    "verify.py": "16820e4bcfdb61cd4eb8fa9c10c090e1c5eaf64ff54db3de03182480a927ef27"
+  }
+}

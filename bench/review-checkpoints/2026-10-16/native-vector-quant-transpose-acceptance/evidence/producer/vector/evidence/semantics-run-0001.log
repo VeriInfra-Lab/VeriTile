@@ -1,0 +1,47 @@
+{
+  "status": "passed",
+  "source_sha256": "cfcb749bd562924106c1e0e95e18a9bd987238be3a3b522abac89e099de3d098",
+  "native_receipt": {
+    "receipt": "evidence/native-attempts/20261015T215936740114Z/receipt.json",
+    "sha256": "21bb3e2c0322b67f576681d9b35725fa6bd10f7e4c35f9a4ff6f3b038b9f3c8d"
+  },
+  "all22_stage_counts": {
+    "compiled": 183,
+    "addition": 36,
+    "signature": 64,
+    "binder": 195,
+    "backend": 6
+  },
+  "raw_source_ir_checks": 189,
+  "compiled_C_vs_integer_reference_pointer_checks": 1425408,
+  "host_extents": [
+    0,
+    1,
+    1023,
+    1024,
+    1025,
+    2147483647,
+    2147483648,
+    2147483649,
+    4294967295,
+    4294967296,
+    4294967297,
+    2199023254528,
+    2199023254529,
+    9223372036854775807
+  ],
+  "original_wrapper_AST_cases": 14,
+  "CPU_metadata_examples": 4,
+  "compiled_C_command": [
+    "cc",
+    "-shared",
+    "-fPIC",
+    "-O2",
+    "/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision1-wip/evidence/semantics/arithmetic.c",
+    "-o",
+    "/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision1-wip/evidence/semantics/arithmetic.so"
+  ],
+  "native_PTX_arithmetic": "i32 shl, signed32 mask, signed32 wide multiply,64bit add",
+  "gpu_launches": 0,
+  "large_allocations": 0
+}

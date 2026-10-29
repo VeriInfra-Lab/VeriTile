@@ -1,0 +1,247 @@
+{
+  "schema": 1,
+  "reviewer": "scope_integration_review",
+  "reviewed_at_utc": "2026-10-15T15:48:22.188984+00:00",
+  "status": "accepted_for_partial_logical_value_and_host_scope_integration",
+  "task": "vector_addition",
+  "whole_original_program_accepted": false,
+  "original_program_completion_increment": 0,
+  "standard": "All original declared stages, dtypes and branches; only explicitly scoped numerical correspondence may be deferred. Structural gaps remain blocking.",
+  "receipt": "/tmp/veritile-standardization-20261015/vector-addition-wip/evidence/receipt.json",
+  "receipt_sha256": "e93c0e62996286f4b03419dfebb76fe0b2b959b6b6eb2cd1153d7387f73e3d1f",
+  "scope_review": "/tmp/veritile-standardization-20261015/vector-addition-wip/evidence/scope-review.json",
+  "scope_review_sha256": "8e2d77dabddb72fdbea97aac47ac20267246beda6607692b0cad86f8a95e51df",
+  "reviewed_input_sha256": {
+    "bench/tritonbench_g/vector_addition/Proofs/Value.lean": "79adba6c3fad2c9aad389e5ce7be89252be0822de60469d8f17f3842e4a0fd5b",
+    "bench/tritonbench_g/vector_addition/Proofs/HostGrid.lean": "873eaff589ad70bb166c40936369367b0c3d5f65779d0be8c6e73b05a51ff1ce",
+    "bench/tritonbench_g/vector_addition/Proofs/TypedFloat.lean": "9c194d420a7535b0f970625ae21e77bb544961f90b793b1a6fe7db629b381b6f",
+    "bench/tritonbench_g/vector_addition/Proofs/TypedGrid.lean": "11ef3ba002aa2aa6cfea03246e94f780c97e95dca176953dbec5cb20a84f9ff8",
+    "bench/tritonbench_g/vector_addition/Proofs/DTypeScope.lean": "47f247289be76548b31f0fe787a3ba7b9058f7457409bdb6226437ca99558312",
+    "bench/tritonbench_g/vector_addition/Proofs/SoftwareFP32.lean": "c4022e0918aef23e318ef8b6ac6a92ffe379c41b90c74b653a0cc62fc6995575",
+    "bench/tritonbench_g/vector_addition/Proofs/HostWrapper.lean": "8b247a594346d9f7e6b9f302b38c75b252eee5c0556ad18844657b6612b5cf22",
+    "bench/tritonbench_g/vector_addition/TypedValueCorrect.lean": "aa9b65e9d8dea0fa61fa29263fd863e900bab43e639f5c07a395a171bf5afc71",
+    "bench/tritonbench_g/vector_addition/TypedGridCorrect.lean": "4403d57af644c43ac2f13d4e47cc221ac33e43086f36132c4c6870ddb5a5f9b3"
+  },
+  "additional_reviewed_repository_inputs": {
+    "bench/tritonbench_g/vector_addition/vector_addition.py": "cfcb749bd562924106c1e0e95e18a9bd987238be3a3b522abac89e099de3d098",
+    "bench/tritonbench_g/vector_addition/Kernels.lean": "f9033fb31ae6585f0148768f54d20774235d7b10c2c5db7882eac4a05c5b47b0",
+    "lakefile.toml": "62ac5bf7b5d33bfd9b363dda03bba49fc627aa9af1a0c6dd4cadb734fa5a4928",
+    "bench/current_source_catalog.py": "87d4642855036cc1397640d47b4a51c8032a1ab115c24be86b0c74082210b4e5",
+    "bench/adapter_common.py": "0f6817ac657b1c1d53d8cb9073a32bfd850526e1cc42dce3168aa6108889dcef"
+  },
+  "evidence_validation": {
+    "producer_modules_read_in_full": 8,
+    "integration_wrapper_read_in_full": 1,
+    "producer_sources_non_symlink_and_hashes_verified": 8,
+    "top_level_retained_artifact_hashes_verified": 16,
+    "dependency_freezes_equal": true,
+    "frozen_dependency_fingerprints_verified": 156,
+    "dependency_breakdown": {
+      "package_sources": 8,
+      "current_repository_files": 148
+    },
+    "head_equality_used": false,
+    "actual_producer_compiler_exit_codes": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "producer_compiler_logs_hash_verified": 8,
+    "producer_named_axiom_checks": 42,
+    "producer_spec_noncircularity_checks": 8,
+    "wrapper_compiler_exit_code": 0,
+    "wrapper_receipt": "/tmp/veritile-standardization-20261015/vector-addition-public-wip/compile-receipt.json",
+    "wrapper_receipt_sha256": "6bdeab84240807fb6cb66c809cad2ac660ad261896c1cca297083db1cc3e3ddc",
+    "wrapper_compile_log_sha256": "119c5f5d81557c6b080dce8bfb5aecf145e84337da40491f7f441837d5c389bf",
+    "wrapper_named_axiom_checks": 1,
+    "wrapper_module_axiom_audits": 1,
+    "wrapper_spec_noncircularity_checks": 0,
+    "wrapper_noncircularity_boundary": "Wrapper reuses TypedValueCorrect.spec already covered by the producer noncircularity check; no new spec definition or separate noncircularity command is introduced.",
+    "total_compiled_modules": 9,
+    "total_named_axiom_checks": 43,
+    "total_spec_noncircularity_checks": 8,
+    "total_module_axiom_audits": 1,
+    "producer_warning_lines": [
+      "/tmp/veritile-standardization-20261015/vector-addition-wip/bench/tritonbench_g/vector_addition/Proofs/Value.lean:64:58: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice"
+    ],
+    "warning_assessment": "One harmless tactic-style warning in Value.lean; no compiler errors, sorryAx, disallowed axiom log entries, or wrapper warnings.",
+    "compiler_rerun_by_independent_reviewer": false,
+    "compiler_rerun_reason": "All frozen source, dependency and retained successful compiler evidence hashes were checked; no source changes or unresolved proof concerns required another compile.",
+    "external_library_build_rechecked": false,
+    "build_config_freeze_limit": "Producer freeze.py names lakefile.lean although this project uses lakefile.toml. The actual lakefile.toml is independently bound above; it is not falsely counted among the 156 producer fingerprints.",
+    "dtype_audit_receipt_sha256": "83f53d122a2412d346c118a2278893d23035eb22728b98e0446b83e3d8a9784e",
+    "dtype_audit_artifact_hashes_verified": 4,
+    "native_semantic_and_jit_sources_hash_verified": true,
+    "exact_source_kernel_ast_equal_ignoring_location_attributes": true,
+    "retained_ttir_hashes_verified": 11,
+    "promotion_crosscheck": "/tmp/veritile-standardization-20261015/vector-addition-matrix-crosscheck.json",
+    "promotion_crosscheck_sha256": "308d9627c500bdd177649897ae7a4083439d91880bdadc77a30e406440d8eefa",
+    "promotion_crosscheck_result": {
+      "status": "passed",
+      "method": "parse Lean literal rows and reorder by explicit native/Lean dtype name mapping; compare all frozen observations without rerunning compiler probes",
+      "profiles": [
+        "b1",
+        "i8",
+        "u8",
+        "i16",
+        "u16",
+        "i32",
+        "u32",
+        "i64",
+        "u64",
+        "fp16",
+        "bf16",
+        "fp32",
+        "fp64",
+        "fp8e5",
+        "fp8e4nv",
+        "fp8e5b16",
+        "fp8e4b8"
+      ],
+      "matrix_entries": 289,
+      "promotion_successes": 217,
+      "promotion_rejections": 72,
+      "typed_float_pairs": 25,
+      "promoted_pairs_without_typed_execution": 192,
+      "output_dtype_rows_checked": 289,
+      "native_store_element_type_rows_checked": 289,
+      "matrix_sha256": "6049ee18bc252e0b8aab035fde83c219be9da7735b58a2779a0cccf4e98bc854"
+    },
+    "native_backend_compilation_performed": false,
+    "gpu_execution_performed": false
+  },
+  "public_registration": {
+    "producer_theorem": {
+      "declaration": "VeriTile.Bench.TritonBenchG.VectorAddition.TypedValueCorrect.correct",
+      "parser_name": "correct",
+      "kind": "theorem",
+      "statement_sha256": "ad360b940821bb33d73330e1e14d48aa886656c47eaa9a201e1ea4933bf82d26",
+      "spec_definition_statement_sha256": "49f2b98101e1f44ad72832374bd45dd71991fa459e7b7ffc30dde92188d459f0",
+      "new_specification_command": false
+    },
+    "integration_wrapper": {
+      "file": "bench/tritonbench_g/vector_addition/TypedGridCorrect.lean",
+      "declaration": "VeriTile.Bench.TritonBenchG.VectorAddition.TypedGridCorrect.vector_addition_typed_grid_correctness",
+      "parser_name": "vector_addition_typed_grid_correctness",
+      "kind": "specification",
+      "statement_sha256": "efb3ca4c0aea47008468832aa273ee8570c727530ff1d71f64a76a4213f8eae1",
+      "proof": "Direct exact application of TypedValueCorrect.correct with the same backend, formats, parameters, initial state and positive block-size premise.",
+      "adds_premises": false,
+      "changes_result_scope": false
+    },
+    "required_model_kind": "backend_value_contract",
+    "required_dtype_scope": "selected_explicit_profiles_only",
+    "formats": [
+      "fp16",
+      "bf16",
+      "fp32",
+      "f8e4",
+      "f8e5"
+    ],
+    "ordered_pairs": 25,
+    "unclosed_numeric_callbacks": [
+      "M.binary none promoted_dtype add for every one of the five promoted floating dtypes, including fp32",
+      "M.cast none src dst for every distinct-format operand/output cast used by the 25 profiles"
+    ],
+    "same_format_cast": "Defined as identity by castBackend, not assumed as a backend law.",
+    "not_bit_interpreter_closed": true,
+    "fp32_helper_boundary": "SoftwareFP32.exact_grid and exact_typed_grid instantiate exact FP.add cfg, but the public theorem and wrapper retain arbitrary fp32 M.binary. VA-N1 helper/native binding does not instantiate that callback.",
+    "source_view_requirement": "Retain the actual original Kernels.lean add_kernel shared_triton_dsl view. TypedFloat manually constructs ComputeKernel; source_projection is reviewed dtype/cast erasure, not native typed lowering or task_local_exact_ast SC admission.",
+    "catalog_validator_assessment": "Current catalog accepts public specifications and requires actual triton syntax in every shared DSL selected file. The thin wrapper and inherited original source view satisfy those distinctions without validator weakening.",
+    "required_uncovered_stages": [
+      "original_host_wrapper",
+      "original_test_harness_and_module_initialization",
+      "remaining_original_dtype_and_error_branches"
+    ]
+  },
+  "accepted_partial_results": [
+    "Legacy per-program value semantics preserve the full original eight-statement source and prove successful execution plus a reference scatter from the pre-store input snapshot.",
+    "Legacy and typed grids execute programs in ascending order on the actual preceding logical memory. next_tile_inputs establishes that earlier lower-offset stores do not change later tile inputs, even for equal logical region names.",
+    "Typed materializations cover 25 pairs of five floating storage formats with explicit operand promotion and output conversion to x storage format, full-memory result equality and frame behavior.",
+    "TypedFloat.source_projection establishes dtype/cast-erased body equality to the original DSL. It is a source-shape bridge with a stated native translation trust boundary.",
+    "SoftwareFP32 helpers provide exact software word results including exceptional values and require no finite-input or algebraic-law premise; native conformance remains unproved.",
+    "All 289 Lean promotion observations match the frozen native promotion table after explicit dtype-name reordering; 217 are promoted and 72 are recorded promotion errors. Only 25 promoted pairs have typed value execution proofs.",
+    "HostWrapper models fallible stateful empty_like before assertions, all-CUDA guards, output-derived numel, block1024 and ceil grid, launch/return and post-error state without later calls.",
+    "HostWrapper models seed0, sequential x/y rand then add at sizes 98432,1024,2048,4096, ordered dictionary keys and result_gold assignment. Launch callbacks receive all tensor descriptors."
+  ],
+  "reviewed_semantic_boundaries": [
+    "No original wrapper shape, equal length, stride/contiguity, dtype or same-device guard is invented; none exists in the source.",
+    "Original masked loads have no other argument. Structural memory loads use undef for inactive lanes unless maskOther, despite the source padding parameter. Active-output proofs do not assume inactive lanes are finite or zero.",
+    "Cell.read on a wrong logical dtype tag returns defaultValue, not native byte reinterpretation. Equal logical-region aliases at identical natural element offsets do not cover mixed-width, shifted or strided physical byte views.",
+    "The generic materialized constructor accepting .real does not establish fp64 provenance; the five typed profiles do not use .real.",
+    "The bf16-to-fp16 native cast shown by frozen semantic code and float16__bfloat16 TTIR proceeds through fp32. Distinct-format callbacks must represent the full composite route, including output casts.",
+    "HostWrapper.logicalLaunch uses the legacy scalar source and ignores physical metadata. add_logical_correct constructs grid success under the allocation-success/CUDA branch; typed native dispatch is not composed.",
+    "Host Tensor descriptor fields are unconstrained records; they do not prove native shape/numel/layout/device consistency or physical allocation validity.",
+    "Harness Result.Post key/order theorems permit failure and describe successful returns; they do not prove full native numerical harness execution.",
+    "The dtype audit uses Torch2.13.0+cu130, Triton3.7.1 and sm90 offline frontend generation with sanitize_overflow=true and debug=false. Thirteen probes and eleven TTIRs do not establish complete native lowering or GPU outcomes.",
+    "Bool/bool uses i1 addition followed by an int8 store conversion; integer channels require finite-width modular semantics. Unbounded Int/Nat cannot stand in for those native semantics.",
+    "The fnuz unsupported-dtype frontend result is scoped to the tested sm90 target; it is not an all-architecture error theorem."
+  ],
+  "structural_remaining": [
+    {
+      "id": "VA-S1",
+      "gap": "192 promoted canonical dtype pairs outside the five-format 25-pair materialization",
+      "detail": "Full per-pair omissions are enumerated in dtype_pairs; includes 8 signed/unsigned widths, bool, fp64 and two fnuz formats. No unbounded Int/Nat addition is claimed as modular native addition."
+    },
+    {
+      "id": "VA-S2",
+      "gap": "72 observed frontend promotion errors lack a complete source-bound host/compiler error proof",
+      "detail": "289-entry Lean rule matches frozen observed table, not a proved Python/Triton semantic implementation. The 13 exact-source frontend probes do not establish 289 native backend outcomes or GPU execution."
+    },
+    {
+      "id": "VA-S3",
+      "gap": "Original dtype domain beyond the 17 canonical signatures",
+      "detail": "Torch int1/uint1 shell aliases, complex, quantized, packed and other unrecognized/shell dtypes are inventoried in frozen audit; allocation, canonicalization and exact error behavior remain uncharacterized."
+    },
+    {
+      "id": "VA-S4",
+      "gap": "Native memory, allocation and tensor metadata refinement",
+      "detail": "empty_like semantics including output dtype/shape/device/layout, allocation failures/freshness, input bounds despite absent shape checks, noncontiguous strides/storage offsets, same-device behavior, signed pointer arithmetic and physical allocation are not proved. No missing runtime guards are invented."
+    },
+    {
+      "id": "VA-S5",
+      "gap": "Finite-width launch and address arithmetic",
+      "detail": "Nat element counts, offsets, pid arithmetic, ceil division and grid dimensions require a source-bound refinement to n_elements:tl.int32 and finite native pids/address math, including overflow/error domains."
+    },
+    {
+      "id": "VA-S6",
+      "gap": "Logical tags and aliasing versus native byte-addressed views",
+      "detail": "Cell.read returns default on tag mismatch; typed-cell correspondence is unproved. Equal logical region names at identical natural offsets are supported. Distinct or overlapping physical views with different bases/strides/element widths are not established by that theorem."
+    },
+    {
+      "id": "VA-S7",
+      "gap": "Native launch scheduling and runtime/compiler/debug outcomes",
+      "detail": "runGrid is an ascending sequential program schedule. Previous programs read/write current logical memory and disjoint tile windows justify initial-memory formula. No concurrent instruction interleaving, arbitrary physical overlap, overflow sanitizer or full architecture-sensitive success/error theorem is supplied."
+    },
+    {
+      "id": "VA-S8",
+      "gap": "Host and harness native primitive implementation",
+      "detail": "HostWrapper preserves fallible stateful empty_like, CUDA guard, output-derived numel, explicit x/y/output metadata passed to launch, returns, seed/rand order, dictionary and result_gold module assignment. Those are logical control-flow definitions with native callbacks; original host/harness native execution and Python import/metadata behavior remain unbound. Its logicalLaunch theorem uses the legacy source; typed native dispatch is not composed."
+    }
+  ],
+  "numerical_deferral_assessment": {
+    "scope_review_entries_are_acceptance_queue_scope_bindings": false,
+    "reason": "The four VA-N entries are descriptive primitive followups. They do not independently supply the unified queue declaration/stage/source scope binding required for acceptance.",
+    "native_fp32_add": "FP.add cfg/native correspondence may be numerically deferred with target and exceptional-bit scope, but public arbitrary fp32 callback binding remains explicit.",
+    "other_float_add_and_casts": "Arithmetic and conversion value correspondence may be deferred for represented profiles after callback/format/native-route structural binding.",
+    "rng": "VA-N4 does not defer native generator algorithm, default dtype or state mapping. Those remain structural host debt; only subsequent numerical stream/distribution correspondence is eligible.",
+    "prohibited_reclassification": "Dtype coverage, source admission, allocation/layout/bounds, integer/address widths, compiler/runtime errors, concurrency and host composition remain structural gaps."
+  },
+  "independence": {
+    "repository_modified_by_reviewer": false,
+    "producer_package_modified_by_reviewer": false,
+    "wrapper_modified_by_reviewer": false,
+    "review_artifacts_written_under": "/tmp/veritile-standardization-20261015",
+    "proof_defects_found": [],
+    "integration_caveats": [
+      "Keep all eight producer sources and producer receipt factual and unchanged; the ninth public specification is a separately checked integration wrapper.",
+      "Retain existing predecessor claims and distinguish partial extension counts from whole-original-program acceptance.",
+      "Root still owns checked-in registration, build, final catalog validation, commit and push."
+    ]
+  }
+}

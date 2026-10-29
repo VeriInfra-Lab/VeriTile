@@ -1,0 +1,27 @@
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision1-wip/after/bench/tritonbench_g/vector_addition/NativeCorrect.lean:189:34: warning: unused variable `hx`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision1-wip/after/bench/tritonbench_g/vector_addition/NativeCorrect.lean:189:62: warning: unused variable `hy`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.TritonBenchG.VectorAddition.Native.HostSpec: definition does not reference [VeriTile.Bench.TritonBenchG.VectorAddition.Native.executeHost,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Native.executeAllocated,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Native.executeLaunch,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Native.executeGrid,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Native.executeProgram,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Native.sourceWrites] — non-circular ✓
+VeriTile.Bench.TritonBenchG.VectorAddition.Native.ReturnedSpec: definition does not reference [VeriTile.Bench.TritonBenchG.VectorAddition.Native.executeHost,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Native.executeAllocated,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Native.executeLaunch,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Native.executeGrid,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Native.executeProgram,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Native.sourceWrites] — non-circular ✓
+VeriTile.Bench.TritonBenchG.VectorAddition.Native.allocated_all_outcomes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.Native.vector_addition_native_source_outcomes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.Native.vector_addition_two31_return: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

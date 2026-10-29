@@ -1,0 +1,36 @@
+"""Read-only checkout replay with the reviewed candidate imported out of tree."""
+from pathlib import Path
+import argparse,datetime,hashlib,importlib.util,json,sys,unittest
+R=Path('/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile')
+B=Path('/tmp/veritile-standardization-20261015')
+C=B/'numerical-callback-failfast-proposal-f2759fe/candidate/combined-check_original_program_scope.py'
+parser=argparse.ArgumentParser();parser.add_argument('--output',type=Path,required=True);args=parser.parse_args()
+assert args.output.resolve().is_relative_to(Path('/tmp')) and not args.output.exists()
+h=lambda f:hashlib.sha256(f.read_bytes()).hexdigest()
+assert h(C)=='91c18e19f04f50a0d36ac698b4512bca23559cdfecbb11efad8d5d24c03e3f33'
+assert h(R/'bench/check_original_program_scope.py')=='8a5fccb70fa937d5f6696905a530d6cafd2a0bb2256a55d4f3baaf3e5b74fd72'
+args.output.mkdir()
+tracked=['bench/check_original_program_scope.py','bench/original_program_scope.json.gz','bench/tritonbench_g/deferred_numerical_experiments.json.gz','bench/reviewed_numerical_extensions.py','bench/tests/test_exact_numerical_bindings.py','bench/tests/test_original_program_scope.py']
+record={'kind':'out_of_tree_numerical_validator_production_candidate_regression','state':'running','started_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'candidate_sha256':h(C),'input_sha256_before':{p:h(R/p) for p in tracked},'repository_modified':False,'authority_mocked_for_existing_tests':False}
+def save(): (args.output/'run.json').write_text(json.dumps(record,indent=2)+'\n')
+save()
+sys.path[:0]=[str(R/'bench'),str(R/'bench/tests'),str(R/'scripts'),str(B/'numerical-validator-integration-prep-001')]
+spec=importlib.util.spec_from_file_location('check_original_program_scope',C);gate=importlib.util.module_from_spec(spec);sys.modules[spec.name]=gate;spec.loader.exec_module(gate)
+modules=['test_exact_numerical_bindings','test_original_program_scope','test_numerical_scope_precheck']
+try:
+ suite=unittest.defaultTestLoader.loadTestsFromNames(modules)
+ import test_exact_numerical_bindings as exact_tests
+ assert exact_tests.gate is gate
+ assert Path(gate.__file__).resolve()==C
+ record['modules']=modules;record['test_count']=suite.countTestCases();save()
+ with (args.output/'tests.log').open('w') as log:
+  result=unittest.TextTestRunner(stream=log,verbosity=2).run(suite)
+ record['tests_run']=result.testsRun;record['failures']=len(result.failures);record['errors']=len(result.errors);record['successful']=result.wasSuccessful()
+ record['input_sha256_after']={p:h(R/p) for p in tracked};assert record['input_sha256_after']==record['input_sha256_before']
+ record['source_inputs_unchanged']=True;record['state']='completed'
+except BaseException as error:
+ record['state']='failed';record['exception']=repr(error);raise
+finally:
+ record['finished_at_utc']=datetime.datetime.now(datetime.timezone.utc).isoformat();save()
+print(json.dumps({k:v for k,v in record.items() if k not in ['input_sha256_before','input_sha256_after']},indent=2))
+raise SystemExit(not record['successful'])

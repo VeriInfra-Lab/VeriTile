@@ -1,0 +1,47 @@
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeHost.lean:70:144: warning: 'rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeHost.lean:70:144: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeHost.lean:115:2: error: No goals to be solved
+QuantTransposeFinite.NativeResult: definition does not reference [QuantTransposeFinite.executeNativeAPI,
+ QuantTransposeFinite.executeNativeHost,
+ QuantTransposeFinite.executeNativeTrials,
+ QuantTransposeFinite.executeNativeGrid,
+ QuantTransposeFinite.executeNativeProgram,
+ QuantTransposeFinite.source,
+ QuantTransposeFinite.Expr.eval] — non-circular ✓
+QuantTransposeFinite.native_host_all_outcomes: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+QuantTransposeFinite.native_cpu_pointer_before_launch: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+QuantTransposeFinite.native_context_before_grid: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+QuantTransposeFinite.native_admitted_route: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+QuantTransposeFinite.native_grid_rejection: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+QuantTransposeFinite.native_small_dtype_inventory: axiom footprint ⊆ standard base ✓  ([propext])
+QuantTransposeFinite.native_grid_before_pointer: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+QuantTransposeFinite.cpu_oversized_grid_first_error: axiom footprint ⊆ standard base ✓  ([propext])
+QuantTransposeFinite.cpu_small_grid_pointer_error: axiom footprint ⊆ standard base ✓  ([propext])
+QuantTransposeFinite.cpu_half_compilation_before_oversized_grid: axiom footprint ⊆ standard base ✓  ([propext])
+QuantTransposeFinite.native_rejected_source_outcome: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+
+{
+  "source": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeHost.lean",
+  "source_sha256": "362b0b6b150b44ebc50b6e2edb01c55ec4291c1f0067de37df972949d9758f03",
+  "source_unchanged": true,
+  "command": [
+    "/tmp/veritile-lean-toolchain/bin/lean",
+    "--root=/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip",
+    "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeHost.lean",
+    "-o",
+    "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeHost.olean"
+  ],
+  "LEAN_PATH": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean",
+  "exit_code": 1,
+  "seconds": 4.838,
+  "log": "evidence/attempts/0081-FiniteNativeHost.log",
+  "log_sha256": "4f8f3fc34b03559862129af455534e85ee40ebd6dd07340229a030830d9087bd"
+}

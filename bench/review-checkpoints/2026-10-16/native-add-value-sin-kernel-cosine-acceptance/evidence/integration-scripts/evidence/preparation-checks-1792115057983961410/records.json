@@ -1,0 +1,49 @@
+[
+  {
+    "name": "preflight",
+    "command": [
+      "/usr/local/bin/python",
+      "-B",
+      "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-wip/preflight.py",
+      "--report",
+      "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-wip/evidence/preparation-checks-1792115057983961410/preflight.json"
+    ],
+    "exit_code": 0,
+    "seconds": 0.561,
+    "log": "evidence/preparation-checks-1792115057983961410/preflight.log",
+    "log_sha256": "e5517191e6fbad2cb14024e9f78bea5b60d9a057b90dbe81cf926cfbbc7b268d"
+  },
+  {
+    "name": "lint",
+    "command": [
+      "/usr/local/bin/python",
+      "-B",
+      "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-wip/lint_candidates.py",
+      "--output",
+      "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-wip/evidence/preparation-checks-1792115057983961410/lint"
+    ],
+    "exit_code": 0,
+    "seconds": 0.489,
+    "log": "evidence/preparation-checks-1792115057983961410/lint.log",
+    "log_sha256": "f915c5c10e243a692563be0a5fa1df73a44b4a3973aae81ca4eafcd24ce22461"
+  },
+  {
+    "name": "unit-tests",
+    "command": [
+      "/usr/local/bin/python",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-wip",
+      "-p",
+      "test_candidate.py",
+      "-v"
+    ],
+    "exit_code": 0,
+    "seconds": 0.118,
+    "log": "evidence/preparation-checks-1792115057983961410/unit-tests.log",
+    "log_sha256": "73ab28197314eddbff3d490d50afd46696cd857274ca612917f526ba1682ad61"
+  }
+]

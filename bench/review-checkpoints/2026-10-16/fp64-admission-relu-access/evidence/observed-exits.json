@@ -1,0 +1,93 @@
+{
+  "integration_build": 0,
+  "integration_build_command": [
+    "/tmp/veritile-lean-toolchain/bin/lake",
+    "build",
+    "VeriTile",
+    "VeriTileMath",
+    "VeriTileFull",
+    "TritonBenchGVerified",
+    "TritonBenchGInProgress",
+    "TritonBenchGLegacy",
+    "TritonBenchSpecExamples",
+    "FPFrontendRegressions"
+  ],
+  "integration_build_log_sha256": "295c48ab2b04e77a9225977ac969b39577246eb643d1bb635a1d35e0f79c0ef1",
+  "catalog_generation": 0,
+  "catalog_generation_command": [
+    "/usr/local/bin/python3",
+    "-B",
+    "bench/current_source_catalog.py",
+    "--baseline",
+    "/tmp/veritile-standardization-20261015/current-global-final-v2/baseline",
+    "--root",
+    "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile",
+    "--source-map",
+    "bench/current_source_selections.json",
+    "--legacy-inventory",
+    "bench/tritonbench_g/current_completion_inventory.json",
+    "--evidence-root",
+    "bench/review-checkpoints",
+    "--review-manifest",
+    "bench/review-checkpoints/2026-10-15/raw-copy-software-metadata/catalog-review-rebased.json",
+    "--supplement",
+    "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/review-checkpoints/2026-10-16/fp64-admission-relu-access/catalog-supplement.json",
+    "--output",
+    "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/review-checkpoints/2026-10-16/fp64-admission-relu-access/current-source-catalog.json"
+  ],
+  "catalog_generation_log_sha256": "46a3c376bccb973a30a9516bb9d3111a43562ac095680c32e14350e873f897d8",
+  "catalog_attempts": [
+    {
+      "exit_code": 0,
+      "log": "/tmp/veritile-standardization-20261015/fp64-admission-relu-access-catalog-generation.log",
+      "log_sha256": "46a3c376bccb973a30a9516bb9d3111a43562ac095680c32e14350e873f897d8"
+    }
+  ],
+  "shard_tests": 0,
+  "shard_tests_command": [
+    "/usr/local/bin/python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "scripts",
+    "-p",
+    "test_audit_shards.py"
+  ],
+  "shard_tests_log_sha256": "e8e59eec2f50b9b744cddba203ef9d22f79b2deb15c5a1a94e83e67373be650a",
+  "scope_ledger_rebind": 0,
+  "scope_ledger_rebind_command": [
+    "/usr/local/bin/python3",
+    "-B",
+    "/tmp/veritile-standardization-20261015/fp64-admission-relu-access-integration-draft/rebind_ledger.py"
+  ],
+  "scope_ledger_rebind_log_sha256": "8d2c9b5a4ce64a01322f7787f832cb1ef65835ee23f2702061b155b14e68969f",
+  "global_gates": 1,
+  "global_gates_command": [
+    "/usr/local/bin/python3",
+    "-B",
+    "bench/current_source_audit.py",
+    "--root",
+    "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile",
+    "--source-map",
+    "bench/current_source_selections.json",
+    "--legacy-inventory",
+    "bench/tritonbench_g/current_completion_inventory.json",
+    "--evidence-root",
+    "bench/review-checkpoints",
+    "--review-manifest",
+    "bench/review-checkpoints/2026-10-15/raw-copy-software-metadata/catalog-review-rebased.json",
+    "--supplement",
+    "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/review-checkpoints/2026-10-16/fp64-admission-relu-access/catalog-supplement.json",
+    "--catalog",
+    "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/review-checkpoints/2026-10-16/fp64-admission-relu-access/current-source-catalog.json",
+    "--baseline-package",
+    "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/review-checkpoints/2026-10-15/original-scope-extensions/metadata-baseline",
+    "--scope-ledger",
+    "bench/original_program_scope.json",
+    "--output",
+    "/tmp/veritile-standardization-20261015/fp64-admission-relu-access-current-global"
+  ],
+  "global_gates_log_sha256": "589039dfd365171fe78ce44a01875cac4a2bd32415c5fee174bfec3395653f11"
+}

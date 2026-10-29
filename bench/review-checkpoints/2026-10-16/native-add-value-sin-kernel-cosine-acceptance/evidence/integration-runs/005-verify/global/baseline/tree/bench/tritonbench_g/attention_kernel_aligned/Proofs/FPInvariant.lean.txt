@@ -1,0 +1,32 @@
+import bench.tritonbench_g.attention_kernel_aligned.Proofs.FPReference
+namespace VeriTile.Bench.TritonBenchG.AttentionKernelAligned.FPValue
+open VeriTile.Triton FP.Structural
+noncomputable section
+variable {α : Type} [Inhabited α]
+def qPointer (p : Parameters) (s : State α) : BlockPtr :=
+  ⟨p.q,headBase p s,[p.blockN*p.blocks,p.head],[p.blockM,p.head],[p.head,1],[s.pids 0*p.blockM,0]⟩
+def kPointer (p : Parameters) (s : State α) (c : Nat) : BlockPtr :=
+  ⟨p.k,headBase p s,[p.head,p.blockN*p.blocks],[p.head,p.blockN],[1,p.head],[0,c*p.blockN]⟩
+def vPointer (p : Parameters) (s : State α) (c : Nat) : BlockPtr :=
+  ⟨p.v,headBase p s,[p.blockN*p.blocks,p.head],[p.blockN,p.head],[p.head,1],[c*p.blockN,0]⟩
+def outputPointer (p : Parameters) (s : State α) : BlockPtr :=
+  { qPointer p s with region:=p.output }
+
+structure Invariant (P : Primitives α) (p : Parameters) (initial : State α)
+    (c : Nat) (st : Accumulator α p) (current : State α) : Prop where
+  memory : current.mem=initial.mem
+  start : current.regs .nat [] "start_m"=some (fun _ => initial.pids 0)
+  qoffset : current.regs .nat [] "q_offset"=some (fun _ => headBase p initial)
+  boffset : current.regs .nat [] "b_offset"=some (fun _ => biasBase p initial)
+  brows : current.regs .nat [p.blockM] "b_ptr_offsets_m"=some (fun i => i.1.val)
+  bias : current.regs .fp16 [p.blockM,p.blockN] "b1"=some (b1Value p initial)
+  query : current.regs .fp16 [p.blockM,p.head] "q"=some (qScaled P p initial)
+  keyPtr : current.regs .blockPtr [p.head,p.blockN] "K_block_ptr"=some (fun _ => kPointer p initial c)
+  valuePtr : current.regs .blockPtr [p.blockN,p.head] "V_block_ptr"=some (fun _ => vPointer p initial c)
+  maximum : current.regs .real [p.blockM] "m_i"=some st.maximum
+  denominator : current.regs .real [p.blockM] "l_i"=some st.denominator
+  numerator : current.regs .real [p.blockM,p.head] "acc"=some st.numerator
+  lo : current.regs .nat [] "lo"=some (fun _ => 0)
+  hi : current.regs .nat [] "hi"=some (fun _ => p.blockN*p.blocks)
+end
+end VeriTile.Bench.TritonBenchG.AttentionKernelAligned.FPValue

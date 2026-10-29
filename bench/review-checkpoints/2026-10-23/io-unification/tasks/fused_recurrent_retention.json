@@ -1,0 +1,830 @@
+{
+  "schema": 1,
+  "task": "fused_recurrent_retention",
+  "status": "consolidated",
+  "owner": {
+    "path": ".veritile-cache/io-unification-20261023/queue06/result.json",
+    "sha256": "64a4ec4f1ad677bd8180544e612e7e6d5473e8e7d531f4586f5842128f96a317",
+    "task_index": 5
+  },
+  "reason": "The physical IO description and existing logical view now share task-level IO.lean with all original namespaces and declaration bodies; complete connection proofs stay in Proofs.",
+  "selected_public_entries": [
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Contract.lean",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Correct.lean",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/FPEquiv.lean"
+  ],
+  "previous_semantic_review": {
+    "manifest": {
+      "path": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json",
+      "sha256": "5df771b8603eaf5d9f08b4fde0c5b938c18087c00092f5348b47eb54d33a8225"
+    },
+    "task": "fused_recurrent_retention"
+  },
+  "changed_files": [
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/IO.lean",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/LogicalCoordinates.lean"
+  ],
+  "removed_files": [
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/LogicalCoordinates.lean"
+  ],
+  "moved_declarations": [
+    {
+      "from": "bench/repairs/tritonbench_g/fused_recurrent_retention/LogicalCoordinates.lean",
+      "to": "bench/repairs/tritonbench_g/fused_recurrent_retention/IO.lean",
+      "declarations": [
+        "TensorInputs",
+        "inputCoordinates",
+        "partialIndex",
+        "stateIndex",
+        "partialValues",
+        "stateValues",
+        "TensorOutputs",
+        "outputCoordinates",
+        "tensorData",
+        "logicalIO"
+      ],
+      "moved_bytes_sha256": "9da6879289788ed07fc26a3f5276d7e99e67c2c900eaef15edac9d0433f09458",
+      "byte_preserved": true,
+      "qualified_declarations": [
+        "VeriTile.Bench.Repairs.FusedRecurrentRetention.PublicData.TensorInputs",
+        "VeriTile.Bench.Repairs.FusedRecurrentRetention.PublicData.inputCoordinates",
+        "VeriTile.Bench.Repairs.FusedRecurrentRetention.PublicData.partialIndex",
+        "VeriTile.Bench.Repairs.FusedRecurrentRetention.PublicData.stateIndex",
+        "VeriTile.Bench.Repairs.FusedRecurrentRetention.PublicData.partialValues",
+        "VeriTile.Bench.Repairs.FusedRecurrentRetention.PublicData.stateValues",
+        "VeriTile.Bench.Repairs.FusedRecurrentRetention.PublicData.TensorOutputs",
+        "VeriTile.Bench.Repairs.FusedRecurrentRetention.PublicData.outputCoordinates",
+        "VeriTile.Bench.Repairs.FusedRecurrentRetention.PublicData.tensorData",
+        "VeriTile.Bench.Repairs.FusedRecurrentRetention.PublicData.logicalIO"
+      ],
+      "before_and_after_exact_substring": true
+    }
+  ],
+  "preservation": {
+    "moved_declarations": [
+      {
+        "from": "bench/repairs/tritonbench_g/fused_recurrent_retention/LogicalCoordinates.lean",
+        "to": "bench/repairs/tritonbench_g/fused_recurrent_retention/IO.lean",
+        "declarations": [
+          "TensorInputs",
+          "inputCoordinates",
+          "partialIndex",
+          "stateIndex",
+          "partialValues",
+          "stateValues",
+          "TensorOutputs",
+          "outputCoordinates",
+          "tensorData",
+          "logicalIO"
+        ],
+        "moved_bytes_sha256": "9da6879289788ed07fc26a3f5276d7e99e67c2c900eaef15edac9d0433f09458",
+        "byte_preserved": true,
+        "qualified_declarations": [
+          "VeriTile.Bench.Repairs.FusedRecurrentRetention.PublicData.TensorInputs",
+          "VeriTile.Bench.Repairs.FusedRecurrentRetention.PublicData.inputCoordinates",
+          "VeriTile.Bench.Repairs.FusedRecurrentRetention.PublicData.partialIndex",
+          "VeriTile.Bench.Repairs.FusedRecurrentRetention.PublicData.stateIndex",
+          "VeriTile.Bench.Repairs.FusedRecurrentRetention.PublicData.partialValues",
+          "VeriTile.Bench.Repairs.FusedRecurrentRetention.PublicData.stateValues",
+          "VeriTile.Bench.Repairs.FusedRecurrentRetention.PublicData.TensorOutputs",
+          "VeriTile.Bench.Repairs.FusedRecurrentRetention.PublicData.outputCoordinates",
+          "VeriTile.Bench.Repairs.FusedRecurrentRetention.PublicData.tensorData",
+          "VeriTile.Bench.Repairs.FusedRecurrentRetention.PublicData.logicalIO"
+        ],
+        "before_and_after_exact_substring": true
+      }
+    ],
+    "unchanged_public_kernel_and_proof_bodies": {
+      "bench/repairs/tritonbench_g/fused_recurrent_retention/Correct.lean": {
+        "body_unchanged_after_removing_import_lines": true,
+        "before_sha256": "9589ab02afcf7f8119255f8baf2868f8f79ccd17f8a5ccedb0101e154eedc7e9",
+        "source_sha256": "9589ab02afcf7f8119255f8baf2868f8f79ccd17f8a5ccedb0101e154eedc7e9"
+      },
+      "bench/repairs/tritonbench_g/fused_recurrent_retention/FPEquiv.lean": {
+        "body_unchanged_after_removing_import_lines": true,
+        "before_sha256": "bcdd508a75577433a16e1a430337186b8024a3efc7c88bd0fdd5e815e8885346",
+        "source_sha256": "bcdd508a75577433a16e1a430337186b8024a3efc7c88bd0fdd5e815e8885346"
+      },
+      "bench/repairs/tritonbench_g/fused_recurrent_retention/Contract.lean": {
+        "body_unchanged_after_removing_import_lines": true,
+        "before_sha256": "090cb23b0e74dc10302a89d37a5a14772374afb17eb195e0634a3e5b7610be4a",
+        "source_sha256": "090cb23b0e74dc10302a89d37a5a14772374afb17eb195e0634a3e5b7610be4a"
+      },
+      "bench/repairs/tritonbench_g/fused_recurrent_retention/Kernels.lean": {
+        "body_unchanged_after_removing_import_lines": true,
+        "before_sha256": "73102440c970b151c958ab9467752cd7657c50309bd294f97b8d556c6c38ba7e",
+        "source_sha256": "73102440c970b151c958ab9467752cd7657c50309bd294f97b8d556c6c38ba7e"
+      },
+      "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Contract.lean": {
+        "body_unchanged_after_removing_import_lines": true,
+        "before_sha256": "1138bf1123cde3e813d1c26dda85d0fa3c71bbdc967754d73965d776222da32c",
+        "source_sha256": "1138bf1123cde3e813d1c26dda85d0fa3c71bbdc967754d73965d776222da32c"
+      },
+      "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/LogicalCoordinates.lean": {
+        "body_unchanged_after_removing_import_lines": true,
+        "before_sha256": "49e1213f20abba765086c996c9cdd87fbf02e91dd966f99f38a8d5f4c623cdfd",
+        "source_sha256": "22effb1e395faf255b92de447f8b0cec958a64b864e62d99b559cd1f6efeeb5e"
+      }
+    },
+    "original_physical_io_body": {
+      "from": "bench/repairs/tritonbench_g/fused_recurrent_retention/IO.lean",
+      "to": "bench/repairs/tritonbench_g/fused_recurrent_retention/IO.lean",
+      "body_sha256": "42190c2f7d60b190673088a00bda1e9dfee0784c9c339f52a7b8f83a86b91c1f",
+      "before_and_after_exact_substring": true
+    },
+    "full_judgment_preserved": "Existing core IO and moved LogicalIO/LogicalProgramIO/LogicalDomainIO bodies are byte-identical; complete Implements/Observes equivalence and execution/safety/frame proofs remain in Proofs. Existing public theorem/formula/premise/FP-pair/numerical-domain source bodies are unchanged."
+  },
+  "verification": [
+    {
+      "kind": "targeted_current_sources",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue06/build.py",
+        "bench/repairs/tritonbench_g/fused_recurrent_retention/Contract.lean",
+        "bench/repairs/tritonbench_g/fused_recurrent_retention/IO.lean",
+        "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/LogicalCoordinates.lean",
+        "bench/repairs/tritonbench_g/fused_recurrent_retention/Correct.lean",
+        "bench/repairs/tritonbench_g/fused_recurrent_retention/FPEquiv.lean",
+        "bench/repairs/tritonbench_g/fused_recurrent_retention/Misc/TensorBridge.lean",
+        "bench/repairs/tritonbench_g/fused_recurrent_retention/Misc/Reader.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue06/fused_recurrent_retention.targeted.attempt01.log",
+      "log_sha256": "d28f5fdcf7f2d597e93ef0117a550b44982d81bdc660f35c12b4ba2a323c32bb"
+    },
+    {
+      "kind": "task_public_joint_import",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue06/build.py",
+        "--check",
+        ".veritile-cache/io-unification-20261023/queue06/fused_recurrent_retention.joint.lean"
+      ],
+      "exit_code": 0,
+      "fixture": ".veritile-cache/io-unification-20261023/queue06/fused_recurrent_retention.joint.lean",
+      "fixture_sha256": "bf4206bd9b430ac5f2e80bc01d938608da0a9b34048015cf28f6dd78fffb9245",
+      "log": ".veritile-cache/io-unification-20261023/queue06/fused_recurrent_retention.joint.attempt01.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/APISource.lean": "e590124b5b6f106b9503ba36f0775d9028faebc471a0a69ef179e9b3d264c0da",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/AddressCheck.lean": "16f1b99b1073d58e38fcc598391872fb33c2ca9b40a1c1f06f500990f8b91671",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Contract.lean": "090cb23b0e74dc10302a89d37a5a14772374afb17eb195e0634a3e5b7610be4a",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Correct.lean": "9589ab02afcf7f8119255f8baf2868f8f79ccd17f8a5ccedb0101e154eedc7e9",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/FPEquiv.lean": "bcdd508a75577433a16e1a430337186b8024a3efc7c88bd0fdd5e815e8885346",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/IO.lean": "e36feff9624475c421e8a0237d419229fe466e359041f0859156a3f87557f9ea",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/LogicalCoordinates.lean": "22effb1e395faf255b92de447f8b0cec958a64b864e62d99b559cd1f6efeeb5e",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/MathResult.lean": "ed1df2d6969d58943f1d0a45f285f7b1ffb711e89c70da40032004bc8fa1683b",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Pair.lean": "4446a2812f24fb316a7d43576a583069ef288216683a174693d917e0ee21feaa",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedCoverage.lean": "ce8f2be9a973dff7348033b2dce68f4f5cea71fd3365ff7d36a7f6eb5b55848b",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/AddressSource.lean": "86d4c71191ca57c5ed5fd8029eefa7a41a0baa0367b8e75706f98b99d9921d57",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Kernels.lean": "73102440c970b151c958ab9467752cd7657c50309bd294f97b8d556c6c38ba7e",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Misc/NativeCorrect.lean": "8ed941ead1a103eb4847e2a84a7bb10ff6bc88dbe38ea4f96e4370c84e09f3cf",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Misc/Reader.lean": "81a587766b3ffded2aa487d2a15a8c49aa36fb71b2c3aa35977ad8dcc13e6ea3",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Misc/SourcePreservation.lean": "ade586537a5e893bd192c54150f1a9905e969e09d66886eaae145e7ef89ada0f",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Misc/TensorBridge.lean": "645b868b6a88ea82983abcd0f716cf41dc0e5b9507d8859e90c62f97d163cd53",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/API.lean": "1b9a7676871632150fcd2449fe5bc977f5e854a1a7a5a347a39bd85a8134aaea",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/AddressAdmission.lean": "a9b2df2cc081e69bb19adba08155289ad98e8148151448249b2d96cd0254120d",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Allocations.lean": "d587ab31565547d4d808cb3114f25a9485ac57ebf5e62ad96a229c1b81d2e9d7",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Arithmetic.lean": "596ee6198841a75d099098f43c326007bf4f0e3156b1b627634b5d2960f6c0d2",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Backward.lean": "eb4ffa5417b3127b33702c7073d2d23a436ecf3600813f6b7f2f4c454a4c30bf",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Calls.lean": "b71b70889235799aeecc6d61bf04f4c3ac3ebd15af4ad8439357cfb8c1848415",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/CompilerPlans.lean": "f09e55183963eb21c762aef1e2eec154ecd7083b457d29383db4968433fdb366",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/CompleteFrame.lean": "efd586bfad23c4c4f886bbade4ef7fe99aeec4f1e65b77007e8acc1bde28eea6",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Contract.lean": "1138bf1123cde3e813d1c26dda85d0fa3c71bbdc967754d73965d776222da32c",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/CorrectPublic.lean": "eed5ec1ea216c2babc30bed7f7be9ac1d01f5b40eb228781df9ad30931d81861",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Division.lean": "eca05fecdc3b6ea373148e8dc8fb0825ad0c90b112def3a4facdeded8d1ff418",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Domain.lean": "36ddfbbaf6f1761675916070eaaff20bb9626beea52c775edac133f06d52a7ad",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Events.lean": "28f95625ed7c283b22077ec3a51c192104910225d5d7893a97af483a2079839b",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/FPEquivPublic.lean": "822ad65d39db0f93974c6feb153fd7418ca62be634e3daee446a3852c304a7bf",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/FillCode.lean": "a28e0b5990cc862241a1b477474ad6140aaf991f0f18665ea0c8731a2dde792c",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/FinalMath.lean": "c3c3e612ce79c7401055d2ac7bbd9f8615da9694c8abe8711c9cd35aa96b5fbc",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/FlatLayout.lean": "82e441cb403a701b00bc4d0ab1a7d9b363d9f3dbea13664d253a73586755a5e3",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Forward.lean": "5bf0d7bf41c7eb87361b3af83d086e86d0a70cd386b6eea9ad049e1ffd110c3c",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Geometry.lean": "072972a35472cd571c36d3e608482dd0535839ac1570a7fa44644695a2f0aa8b",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Grid.lean": "68e3f53629e2fd035e9603125a8d540b1f364d815029262e29c2204c5cb772f0",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Host.lean": "0f270d0606c01697f6d98981c53e0b0eac48a4f9e4fffced22e5323fad1a2530",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/HostPlans.lean": "8310c4879342a5ce681bad96e163f42e3a9bf57de41361630a990904a3b0334b",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/IOBackwardBounds.lean": "0e20b12d6d36be4f9fd5315ea32b31f35f8d35335597413477ef1f18a313e43d",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/IOGeometry.lean": "a66a5f76206fb96e5be9f864ac916bbe36a28b3f97f9f00d49c2205e720df71b",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/IOInputs.lean": "125feeb9fa4a653e065b1af0f76c39620bd602eed4828c80885ef49f377c6305",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/IOOutputGeometry.lean": "3ecb149273cfd3cbb5800119cb81acb6adf82cb40876d6f693b7b9a86b96cc77",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/IOSchedule.lean": "c05fc744ebb7248e34c7c24128489caf4876d81f594d2d83f8cbe90607f18028",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Integer.lean": "5582900dd2c591b0e8cfccabb64564022912b048f2ea86cbe1ffcdc24ec9e501",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/KernelInterface.lean": "8981823df3be89f74f60f36bd95cb87ee9cbea527fd7d394c21e86f17217ecf7",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/KernelNativeResult.lean": "4acc94d9e0ae201fbf2493d72fd0d0836a5cfa657008c5c9a8ac74a0451cff71",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/KernelRealResult.lean": "4007e9a6613e2ea47d476720e8b0d863502d64f900dd18e381b7bff984af033e",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/LogicalCongruence.lean": "850009fcc94e238bdb0e3749e39f4b5953e7a22f54b84dd8f1a4c35d42919d2d",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Memory.lean": "9bc9ce183eff255d3492ba52edc7565f12fc815c8608b814954d3af7a0dbc8c3",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Model.lean": "bd5dc1c35560236a3d4138c36fe2edaace3d3a59dae902a34778a58c5d5c65ad",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/NativeResult.lean": "a538f1359f9b173f01ddc882a90a52f48aabc2577ca679f8f462b24900bae3df",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Normalization.lean": "232c3dc44d0bc5a0a692fb123753eae5134050edc91345a4e29b793122ba8b0e",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Numeric.lean": "3554440cbba1b3a8fabe1bd3b9016a456661cc6376f87e3e507939bc68e66573",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/PartialCode.lean": "bd809a47130c73b3b86844d9850a2a1c54b065c9808c7f68fbadc3cbc3dc4429",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/PublicData.lean": "2052a26416e4d4889bc06324d8468f875e7b0846566e7543e0908365ac13d83a",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/PublicResult.lean": "6abee474b9f3b7051ef2489f3bdd7c8f5f74a8bb9f36bc7a045ed5d17980ec69",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedBackward.lean": "f8c1b1d319f3f03a1486d73813d05f6f0fd16d788515d4f7e2da436ba3718f6f",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedBackwardFirstLoop.lean": "d09214e03c11645a12c1404496c6f9151b492f8d8a08949d46fe3c1659f949f6",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedBackwardFirstStep.lean": "0609adcfe5f4869c7ca040e98319254599f91738f86b8fd83bf04887a1d83a75",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedBackwardMiddle.lean": "470afa6576f853b1f7b0ad169ead41037b51ad768d9f0dfe4908469f5be82b30",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedBackwardNumbers.lean": "2614be72ede6f38715eff51b23b3e4dedf8536acbc0e24388bb4816a2e28897a",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedBackwardPrefix.lean": "397806e5d8cd575b7bb208ef3d185b42d221a74fafbc00a3b69f8facdeae8715",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedBackwardState.lean": "77b100217dd0d370d1dbb18cb3551399f3d57c0c4f2a4d5558bff7cf46a30956",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedCalls.lean": "5370ee1a58f5bea616139576220baa8eff4620883733b5ee541d31af3358c470",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedExecution.lean": "e634df9de81235383bd135136cef1a15e72fbe3a7b72e5bf2673b7417d724a4c",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedForward.lean": "0abd4533b38220d810deabd5b550532cddd4969b6d7a930ce2cacccf52525b9d",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedForwardFinal.lean": "56018bae87a46fbe821462176f7520891e8dfdc22c24a7f23ef4ce4d16e47337",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedForwardLoop.lean": "41c2d1bcd54a9478a8b608e2595f497edb6fe19474158d9e09f6d1c46e08e3f8",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedForwardNumbers.lean": "cbd70bd12f555ffc680aac030e0f326d2259d2c30a0e7049d5f6fdb91527cdd7",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedForwardPrefix.lean": "d876c3236605d17d6689c715d2699b8f2ae58d80331848f8b1d22e5671a257db",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedForwardState.lean": "0a84371fd38afc9f47e5b2605dd57f1e2dbb4e052b27933905c4d22afebdcf2d",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedForwardStep.lean": "db6727e3a3ffb4bfa7721cedf23d26d09d6b359ec846b085cb7ed0616b9b5ed5",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedGridCoverage.lean": "171a62a201b564b841816bf1b2db781a798a1fd6ef9fba291ee09ef7ee9938d0",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedGridExecution.lean": "7e07660eac1cc245154d50eb21141708cc9bcfc6458771273858573ac56996ea",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedGridResult.lean": "781e93c6ef86b2da4ad408aa6d1e3de9ba6ebdd7e2ff2aaf6ce27c03710f11fb",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedLoopStores.lean": "9a2d390d196c43228b8a80a40a740462d43f9a1a8f0167334769eb8094abf074",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedOwnership.lean": "798c6506c1fce961c269a5d20e2980cff97c1643599d64d684701ced617433e7",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedPayloads.lean": "78f5344e2decd9d9ca6efac58eda0aa14d5a27b8ec91dc3b3282ecd80a1d4ba3",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedProgram.lean": "f45a824cb5dff30fad356819817f20544519dd7790511ae069fe7e2a82664131",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedReady.lean": "a40481651b2df4819edf041d4489147474670c2f84ee0d293c378b9062ff3535",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedReverseAddresses.lean": "572a150e3960036f3fcc01f21bbb6f0e61dd3cbfdebff154f17aafa94fbab908",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedReverseLoop.lean": "6220341530f1abc285087a686df151a167c92bdfc7d5dd7d6d7709882967e410",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedReverseState.lean": "1225d4aa24eb0eced7f2b82d22875b4f62ea6f11d19a06984ee60bf26d10149a",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedReverseStep.lean": "c2c907c25afe6ab5b0e87ad393ec834f6d2315978db5f7e95e0c47c0d87c121c",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedSteps.lean": "c5fa3c7975b2caa62beee0d9171b62c1931d22b9d29fdcc231050d168b1a2caa",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedStorage.lean": "0fec0b590821d9239b5cd0a539d5fb18f47739fe87040b8ff9e3623b1b5bf409",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedStoreGeometry.lean": "6326779f536a665a912619e7494ae816751b89c323cdb1e64d84aeec5c61a90c",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedStoreLists.lean": "fd9528a6e98728b5b92fd89344a2eeeaa472be808d05c2624a8404283d943544",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedValues.lean": "8cb1b785a715d171643fff675cd58c528d687dea04c4a3b0f13cfa28815bf1a1",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedWrites.lean": "396fd9d352a0dbd4399e09f187a1a282aa6b537ac789ca1b6867c693fcf70d55",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/RawFrame.lean": "5e53e90d8d2c29481e9e77b6c39aea58411e67346be5d801d31b621ba783fc89",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Reference.lean": "b549b934772a46c3daf8fca663295830c116cc0c0d91062f4e22045e0ac2785c",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Retained.lean": "2830671c3317006a0f68bb55061c6af90c783d6cb8ebc321d8e6bc4ae468ea15",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Scope.lean": "b4d844e0eecba468404e3216923c9e43a93331f4040763cf21c64fa9e6d23839",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/SourceBounds.lean": "ffefca5d035a0bb32293b7adcceb1c835f95ea66c36b195f4e541e7a728e1082",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/SourceSafetyBackward.lean": "2ee608a00a0f407f02c67b546e87b61b3a0fc031bd77f9c6a880db8899ac6f1b",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/SourceSafetyForward.lean": "689d9a2cf14fa7f1c6aea76d87623d5dcc2e38ef5e3080c3a4318a4694f3a5f8",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/SourceSafetyLoops.lean": "113f995bc8d3e5e1c9753c01905dc27147fc1f6b88d6e8746b9953b4e36b042c",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/StagedArithmetic.lean": "28d098edf891eaba5e4e6efda2b2e64dde2beb271a0b85fbaee694648d2567f2",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/StagedNative.lean": "c68fe1665bdb903b277135acf02567eab6077c8cc4c2169aea1068e3fff6079b",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/StagedReductions.lean": "7fd846bc244f0694bd4da484a8a5e065244bd145636c35dbec38814dbbc99432",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Values.lean": "7bbac3b307f6e1bd068de4de053c466086b576f3bad3c1441c394f6fa9593fd6",
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/SurfaceSource.lean": "c22b2f850a1b2fcabecb5008b295b873419ebfd155ff6310ebb72fa0ffc6f5a7"
+  },
+  "source_pin_provenance": {
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/APISource.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/AddressCheck.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Contract.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Correct.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/FPEquiv.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/IO.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/LogicalCoordinates.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/MathResult.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Pair.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedCoverage.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalIO.lean": {
+      "owner_tasks": [
+        "mixed_sparse_attention",
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/AddressSource.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Kernels.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Misc/NativeCorrect.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Misc/Reader.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Misc/SourcePreservation.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Misc/TensorBridge.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/API.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/AddressAdmission.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Allocations.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Arithmetic.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Backward.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Calls.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/CompilerPlans.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/CompleteFrame.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Contract.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/CorrectPublic.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Division.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Domain.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Events.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/FPEquivPublic.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/FillCode.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/FinalMath.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/FlatLayout.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Forward.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Geometry.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Grid.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Host.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/HostPlans.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/IOBackwardBounds.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/IOGeometry.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/IOInputs.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/IOOutputGeometry.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/IOSchedule.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Integer.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/KernelInterface.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/KernelNativeResult.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/KernelRealResult.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/LogicalCongruence.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Memory.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Model.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/NativeResult.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Normalization.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Numeric.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/PartialCode.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/PublicData.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/PublicResult.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedBackward.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedBackwardFirstLoop.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedBackwardFirstStep.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedBackwardMiddle.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedBackwardNumbers.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedBackwardPrefix.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedBackwardState.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedCalls.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedExecution.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedForward.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedForwardFinal.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedForwardLoop.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedForwardNumbers.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedForwardPrefix.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedForwardState.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedForwardStep.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedGridCoverage.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedGridExecution.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedGridResult.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedLoopStores.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedOwnership.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedPayloads.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedProgram.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedReady.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedReverseAddresses.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedReverseLoop.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedReverseState.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedReverseStep.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedSteps.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedStorage.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedStoreGeometry.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedStoreLists.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedValues.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/QuotedWrites.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/RawFrame.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Reference.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Retained.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Scope.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/SourceBounds.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/SourceSafetyBackward.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/SourceSafetyForward.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/SourceSafetyLoops.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/StagedArithmetic.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/StagedNative.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/StagedReductions.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/Proofs/Values.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/SurfaceSource.lean": {
+      "owner_tasks": [
+        "fused_recurrent_retention"
+      ]
+    }
+  },
+  "retired_current_source_pins": {
+    "bench/repairs/tritonbench_g/fused_recurrent_retention/LogicalCoordinates.lean": "b4c18c9344c6c2873ddaf1a2e6a8a2918565d360b1df0973b6e652e7af45a2e2"
+  },
+  "limits": [
+    "No numerical experiments, GPU runs, or added native/host correctness acceptance; unchanged proof dependencies reuse the named read-only successful baseline."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/io-unification-20261023/queue16/result.json",
+    "sha256": "12f6dd5ed523e9f723fee3847af964fd8987958c2cb997aa572210c04de5bc84"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

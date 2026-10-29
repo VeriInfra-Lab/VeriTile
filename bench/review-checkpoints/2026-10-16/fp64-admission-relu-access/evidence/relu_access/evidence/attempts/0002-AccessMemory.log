@@ -1,0 +1,117 @@
+/tmp/veritile-standardization-20261015/relu-partial-byte-execution-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/AccessMemory.lean:55:18: error: unsolved goals
+case succ
+mem : Memory
+count : ℕ
+ih : ∀ (base : ℕ), Readable mem base count → loadLE count mem base = Except.ok (ByteMemory.loadLE count mem.bytes base)
+base : ℕ
+available : Readable mem base (count + 1)
+first : mem.allocated base = «true» ∧ mem.readable base = «true»
+rest : Readable mem (base + 1) count
+⊢ (do
+      let low ← Except.ok (mem.bytes base)
+      let high ← Except.ok (ByteMemory.loadLE count mem.bytes (base + 1))
+      pure (BitVec.cast ⋯ (high ++ low))) =
+    Except.ok (BitVec.cast ⋯ (ByteMemory.loadLE count mem.bytes (base + 1) ++ mem.bytes base))
+/tmp/veritile-standardization-20261015/relu-partial-byte-execution-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/AccessMemory.lean:62:15: warning: This simp argument is unused:
+  Except.bind
+
+Hint: Omit it from the simp argument list.
+  simp only [̵E̵x̵c̵e̵p̵t̵.̵b̵i̵n̵d̵,̵ ̵i̵h̵[̲i̲h̲ (base + 1) rest, ByteMemory.loadLE]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/relu-partial-byte-execution-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/AccessMemory.lean:66:68: error: unsolved goals
+count : ℕ
+mem : Memory
+base : ℕ
+unavailable : ¬(mem.allocated base = «true» ∧ mem.readable base = «true»)
+⊢ (do
+      let low ← Except.error (Fault.loadUnavailable base)
+      (fun a => BitVec.cast ⋯ (a ++ low)) <$> loadLE count mem (base + 1)) =
+    Except.error (Fault.loadUnavailable base)
+/tmp/veritile-standardization-20261015/relu-partial-byte-execution-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/AccessMemory.lean:67:39: warning: This simp argument is unused:
+  Except.bind
+
+Hint: Omit it from the simp argument list.
+  simp [loadLE, readByte, unavailable,̵ ̵E̵x̵c̵e̵p̵t̵.̵b̵i̵n̵d̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/relu-partial-byte-execution-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/AccessMemory.lean:111:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  fun a => if a = ?base + ?count then ?values ?count else prefixBytes ?values ?base ?initial ?count a
+in the target expression
+  (do
+      let current ←
+        Except.ok
+            { bytes := prefixBytes values base mem.bytes count, allocated := mem.allocated, readable := mem.readable,
+              writable := mem.writable }
+      if current.allocated (base + count) = «true» ∧ current.writable (base + count) = «true» then
+          Except.ok
+            { bytes := fun a => if a = base + count then values count else current.bytes a,
+              allocated := current.allocated, readable := current.readable, writable := current.writable }
+        else Except.error (Fault.storeUnavailable (base + count), current)) =
+    Except.ok
+      { bytes := prefixBytes values base mem.bytes (count + 1), allocated := mem.allocated, readable := mem.readable,
+        writable := mem.writable }
+
+case succ
+values : ℕ → Byte
+base : ℕ
+mem : Memory
+count : ℕ
+ih :
+  Writable mem base count →
+    writePrefix values base mem count = Except.ok (withBytes mem (prefixBytes values base mem.bytes count))
+available : Writable mem base (count + 1)
+earlier : Writable mem base count
+last : mem.allocated (base + count) = «true» ∧ mem.writable (base + count) = «true»
+⊢ (do
+      let current ←
+        Except.ok
+            { bytes := prefixBytes values base mem.bytes count, allocated := mem.allocated, readable := mem.readable,
+              writable := mem.writable }
+      if current.allocated (base + count) = «true» ∧ current.writable (base + count) = «true» then
+          Except.ok
+            { bytes := fun a => if a = base + count then values count else current.bytes a,
+              allocated := current.allocated, readable := current.readable, writable := current.writable }
+        else Except.error (Fault.storeUnavailable (base + count), current)) =
+    Except.ok
+      { bytes := prefixBytes values base mem.bytes (count + 1), allocated := mem.allocated, readable := mem.readable,
+        writable := mem.writable }
+/tmp/veritile-standardization-20261015/relu-partial-byte-execution-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/AccessMemory.lean:110:15: warning: This simp argument is unused:
+  Except.bind
+
+Hint: Omit it from the simp argument list.
+  simp only [E̵x̵c̵e̵p̵t̵.̵b̵i̵n̵d̵,̵ ̵writeByte, withBytes, last, if_true]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/relu-partial-byte-execution-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/AccessMemory.lean:110:50: warning: This simp argument is unused:
+  last
+
+Hint: Omit it from the simp argument list.
+  simp only [Except.bind, writeByte, withBytes, l̵a̵s̵t̵,̵ ̵if_true]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/relu-partial-byte-execution-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/AccessMemory.lean:110:56: warning: This simp argument is unused:
+  if_true
+
+Hint: Omit it from the simp argument list.
+  simp only [Except.bind, writeByte, withBytes, last,̵ ̵i̵f̵_̵t̵r̵u̵e̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.Readable: definition does not reference [VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.readByte,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.loadLE,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.writeByte,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.writePrefix,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.storeWords] — non-circular ✓
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.Writable: definition does not reference [VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.readByte,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.loadLE,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.writeByte,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.writePrefix,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.storeWords] — non-circular ✓
+/tmp/veritile-standardization-20261015/relu-partial-byte-execution-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/AccessMemory.lean:128:0: error: VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.load_success: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/relu-partial-byte-execution-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/AccessMemory.lean:129:0: error: VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.load_first_unavailable: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.prefix_bytes_step: axiom footprint ⊆ standard base ✓  ([Quot.sound,
+ propext,
+ Classical.choice])
+/tmp/veritile-standardization-20261015/relu-partial-byte-execution-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/AccessMemory.lean:131:0: error: VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.write_prefix_success: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/relu-partial-byte-execution-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/AccessMemory.lean:132:0: error: VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.store_words_success: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.with_bytes_access: axiom footprint ⊆ standard base ✓  ([])

@@ -1,0 +1,531 @@
+{
+  "task": "rotary_transform",
+  "status": "source_defect_pending_repair",
+  "delivery": "concrete_admitted_source_counterexample_ready_for_independent_review",
+  "canonical_source": {
+    "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/rotary_transform_repaired.py",
+    "sha256": "d59d9684bd9131a12e800b0a54859f06001de3f5b60f78b1e9f9eb625259eda8"
+  },
+  "precision": "FP32 payload/coefficient; original int32/int64 metadata retained; counterexamples use fixed/scalar branches",
+  "defect": "The admitted rotary width creates a 2097152-element matrix pointer tensor, beyond Triton 3.7.1 frontend limit 1048576.",
+  "counterexamples": [
+    {
+      "interleaved": true,
+      "input_shape": [
+        1,
+        1,
+        1,
+        262146
+      ],
+      "coefficient_shape": [
+        1,
+        131073
+      ],
+      "BLOCK_K": 524288,
+      "BLOCK_M": 4,
+      "failure_source_line": 56
+    },
+    {
+      "interleaved": false,
+      "input_shape": [
+        1,
+        1,
+        1,
+        524290
+      ],
+      "coefficient_shape": [
+        1,
+        262145
+      ],
+      "BLOCK_K": 1048576,
+      "BLOCK_M": 4,
+      "failure_source_line": 39
+    }
+  ],
+  "shared_values": {
+    "input": 1,
+    "cosine": 1,
+    "sine": 0,
+    "scalar_offset": 0,
+    "conjugate": false,
+    "inplace": false,
+    "expected_each_output": 1
+  },
+  "claim_rejected": "Complete successful canonical kernel execution for every currently admitted call.",
+  "formal_scope": "Unchanged full Checked.check admission for both concrete descriptors and arbitrary payload bytes; independent realFormula=1; Config.Valid/IndexABI; nonempty launch; exact block sizes; admission does not imply necessary block-size bound.",
+  "external_scope": "Actual unchanged JIT compiled using captured unchanged-wrapper launch arguments, actual Triton binder, default options, offline CUDA SM80/SM90; external compiler behavior is evidence, not a Lean compiler theorem.",
+  "validation": {
+    "lean_module": "bench/repairs/tritonbench_g/rotary_transform/Proofs/BlockSizeDefect.lean",
+    "lean_exit_code": 0,
+    "axiom_audit": "all ten exported theorems and module audit standard base only",
+    "compiler_expected_rejections": 4,
+    "compiler_positive_controls": 4,
+    "regression_source_host_paths": 78,
+    "regression_rejections": 16,
+    "gpu_execution": false,
+    "numerical_deferrals": []
+  },
+  "unchanged": [
+    "canonical Python",
+    "original Python",
+    "guards",
+    "Contract.lean",
+    "Correct.lean",
+    "FPEquiv.lean",
+    "shared core",
+    "Lake",
+    "ledger"
+  ],
+  "new_or_updated_task_files": [
+    "Proofs/BlockSizeDefect.lean",
+    "README.md",
+    "SOURCE_DEFECT.md",
+    "source-defect-replay.md",
+    "source-defect-evidence"
+  ],
+  "pins": [
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/Proofs/BlockSizeDefect.lean",
+      "sha256": "c92fe72195018e57385c223f4e21667ec8dcb5f3485a22e47b22e8f04f22724c"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/README.md",
+      "sha256": "4c83d79f1f73a7c7b14e07e8099011c38478676f10e614d772da8bd30b1d4d6d"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/SOURCE_DEFECT.md",
+      "sha256": "5301ec0279a70aa13dd5e4fb94d8441be869ed89cbc1db08e50767af1290efb5"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/source-defect-replay.md",
+      "sha256": "e843ac50d5a031e70969409b3c7c23b7f5682c52cc9a6b7822c5c4c0e92ff852"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/rotary_transform_repaired.py",
+      "sha256": "d59d9684bd9131a12e800b0a54859f06001de3f5b60f78b1e9f9eb625259eda8"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/rotary_transform/rotary_transform.py",
+      "sha256": "920032ade0eb2da9a2cb26bbda36318ab1f74260be6b5b58f22427726a6399de"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/Contract.lean",
+      "sha256": "9c0dde101c4db9659de3030d0778272d8209dbfe644e1df62518c05ed7645983"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/Correct.lean",
+      "sha256": "37135d11f969e0eba128970feed7599b8ddfa6d198efeee750d613307ec389fc"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/FPEquiv.lean",
+      "sha256": "cb8c5814697c1644665579ddbe39c9c71d061dbca4395e6058864146f89be0fd"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/Kernels.lean",
+      "sha256": "eefe9e4562b5bf88c914c725d457437c11d77d424e70d7a1b92825ebd7f19ce1"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/Proofs/Guards.lean",
+      "sha256": "aa9da1d2e1b422869cf1ba738a907e9b83269db13d1c09122b8ac9ff6caf67a9"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/Spec.lean",
+      "sha256": "bb573f230b1430479288ca449bc1d3bc8365e86f1cfa6bff6dce28107074b9db"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/check_contract.py",
+      "sha256": "b26dd5a4a2ee81fe8917b88646844da291ae7e4e9e0ff41f2aa7939589047efd"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/swiglu_fwd/check_contract.py",
+      "sha256": "13d51aed6ec484b4b605e62d8b4e03a6be9a958b359fbfbbd2e84fd30c31a21e"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/source-defect-evidence/regression-check.json",
+      "sha256": "1c2ff92bd93999ea91799a7f01e423858cb1b4df3002ae842bc33df4e7a159de"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/source-defect-evidence/report.json",
+      "sha256": "a7a9a91eb84527f1404f486d1aa432d6742f8587895ebf81e99f016b1ed35124"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/source-defect-evidence/lean-build.log",
+      "sha256": "05ef4af3788deb091d38318b50da8fb30f59c969049ffca14b75924bf6dfc353"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/source-defect-evidence/compiler-replay.log",
+      "sha256": "01bbbaeff9ed69af9fe4de3b148212fda3c61a5f56879bff0acc76376610c7a9"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/rotary_transform/Proofs/BlockSizeDefect.workspace-build.json",
+      "sha256": "26b1c217eb6532d18756540441e989fda6d63e83eaf47401054bd4017d972296"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/source-defect-evidence/sm80_interleaved_width262146.error.txt",
+      "sha256": "4c84c9d8c7d7bdcc2302672866b4bfcb088a764ffa1a86d6d514550b6f46eee4"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/source-defect-evidence/sm90_interleaved_width262146.error.txt",
+      "sha256": "4c84c9d8c7d7bdcc2302672866b4bfcb088a764ffa1a86d6d514550b6f46eee4"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/source-defect-evidence/sm80_split_width524290.error.txt",
+      "sha256": "482db2a4e8e0f3757a21cc5a16c4d6514719c72109ca48c2fedc8489a0b6e47e"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/source-defect-evidence/sm90_split_width524290.error.txt",
+      "sha256": "482db2a4e8e0f3757a21cc5a16c4d6514719c72109ca48c2fedc8489a0b6e47e"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/source-defect-evidence/sm80_interleaved_width514.ptx",
+      "sha256": "8b9a10aae78d88d43bf305373d5856b230c28e42ed884fa555db229cb9dd2aab"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/source-defect-evidence/sm90_interleaved_width514.ptx",
+      "sha256": "2a4b7611c8e5582704fbb43c47e5e9a34ef1a9461967678808028af3b376018e"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/source-defect-evidence/sm80_split_width514.ptx",
+      "sha256": "d774a79613cde3c4d5dc08f1b675e0d8bb2622ecaadd6dd4e784e14bec5e33c2"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/source-defect-evidence/sm90_split_width514.ptx",
+      "sha256": "bec1b7ff4fe567a17c1feece46c99e63eca41645d94eb80ec030d59fe21b2a2d"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/rotary_transform/Proofs/BlockSizeDefect.olean",
+      "sha256": "b69691cfd950ea189b5aefd4b0b71e484c88ffa9ba1372c1ade9bea759473da5"
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/rotary_transform/Proofs/BlockSizeDefect.ilean",
+      "sha256": "4f64a06bbffcd4f2cbc042ac77b425579c8475b4324e3288dd39cce56b6d505e"
+    },
+    {
+      "path": "/usr/local/lib/python3.12/site-packages/triton/_utils.py",
+      "sha256": "a471ac2230f829d11e9ce32481053d444ec7ced596ca97bb537c509f6b86479d"
+    },
+    {
+      "path": "/usr/local/lib/python3.12/site-packages/triton/language/core.py",
+      "sha256": "373eebe68a4c1f6959c81ae6c382b65c5c2893d53274a205f5ff9bbb100fb31b"
+    },
+    {
+      "path": "/usr/local/lib/python3.12/site-packages/triton/language/semantic.py",
+      "sha256": "22b7669ff8ba591fc1540ce01a4030cf54aa2dccfdb21c2d31fa55d5cab77c7c"
+    },
+    {
+      "path": "/usr/local/lib/python3.12/site-packages/triton/runtime/jit.py",
+      "sha256": "5fe46fbfac257a2b8645b7a2cc709232273d42dd5e1d55de9770b412a9476d77"
+    },
+    {
+      "path": "/usr/local/lib/python3.12/site-packages/triton/compiler/code_generator.py",
+      "sha256": "80eb0041c6a610905fd22271e7c9d4082afd622241eef7c7ef06a853deef7df6"
+    },
+    {
+      "path": "/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py",
+      "sha256": "021a45ca590052ab6ca6d850eb0a102abf542165836ad92bfb3bb573218fc5d3"
+    },
+    {
+      "path": "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/compiler.py",
+      "sha256": "d012f2a7e705592e590630a0df58099ceeb9ef71517c561fc81644c0c9399658"
+    }
+  ],
+  "lean_receipt": {
+    "source": "bench/repairs/tritonbench_g/rotary_transform/Proofs/BlockSizeDefect.lean",
+    "source_sha256": "c92fe72195018e57385c223f4e21667ec8dcb5f3485a22e47b22e8f04f22724c",
+    "exit_code": 0,
+    "objects": {
+      "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/rotary_transform/Proofs/BlockSizeDefect.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/rotary_transform/Proofs/BlockSizeDefect.olean": "b69691cfd950ea189b5aefd4b0b71e484c88ffa9ba1372c1ade9bea759473da5",
+      "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/rotary_transform/Proofs/BlockSizeDefect.ilean": "4f64a06bbffcd4f2cbc042ac77b425579c8475b4324e3288dd39cce56b6d505e"
+    },
+    "lean_path": [
+      "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean",
+      "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean",
+      "/tmp/veritile-lean-toolchain/lib/lean"
+    ]
+  },
+  "frozen_repo_imports": [
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Meta/Specification.lean",
+      "sha256": "7580bdc657b49d3cb8c518cbc08bcd7f405f0ede509e3a7deb6dd8ab9dbdb8fe",
+      "resolved_olean": {
+        "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/VeriTile/Meta/Specification.olean",
+        "sha256": "65c2e2cae1e79da58c78ffc9d45e1ff32b606f5f2388b5b4bee654cbe2c6c11c"
+      }
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Meta/StatementAudit.lean",
+      "sha256": "9c82458cd9f705e8bd4511b8c8fa9580d314c1ec274cba9ab93f665a0d7b1ea5",
+      "resolved_olean": {
+        "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/VeriTile/Meta/StatementAudit.olean",
+        "sha256": "2618f9e9e600abad63b8247bfea7d68e35ade157932f73ddadc2aa2da29e9ba7"
+      }
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Spec.lean",
+      "sha256": "f94f43290c0ea840da152773cb7f73b6c7a9494e8e48185a27ac754cd4e7c84c",
+      "resolved_olean": {
+        "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/VeriTile/Spec.olean",
+        "sha256": "727a47cb13ae3cbb5730de93b6754b4c58bda36659c0295346281ad4f0559133"
+      }
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_emb/Contract.lean",
+      "sha256": "8275918fff6dc070c99ff66a1eb649eb5e1f3c9f88a6537ea00938569ca1898a",
+      "resolved_olean": {
+        "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/rotary_emb/Contract.olean",
+        "sha256": "15c668d4b1c42e52ca82cc15d1895655c5f8aad7bfa111bc17eb6cfb3cda4481"
+      }
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_emb/Proofs/Geometry.lean",
+      "sha256": "b128cf89b96bf516b20c4dd2d6613836eb2cdaea1d940744f326b3afe2cfae5c",
+      "resolved_olean": {
+        "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/rotary_emb/Proofs/Geometry.olean",
+        "sha256": "9fdaf7855c31d723941d5394955611652c21294e56b85c091674c050af1f07d4"
+      }
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_emb/Proofs/Grid.lean",
+      "sha256": "a2d4e39b22becf5a22553b8c626aff71276dbc400afe8556942da0dd8fecd8f1",
+      "resolved_olean": {
+        "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/rotary_emb/Proofs/Grid.olean",
+        "sha256": "5ce8a2aa48cfc0e65468e0a8475e4b39594f29cdf85ae71e73f74f4160137e3b"
+      }
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_emb/Proofs/Host.lean",
+      "sha256": "e49f0377e24e49a88ddd9e4f0b6773af35d1b449917427783ea5bfb91ece9af2",
+      "resolved_olean": {
+        "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/rotary_emb/Proofs/Host.olean",
+        "sha256": "bcbbf752303ae1c2d936de4be16770fc4b73f4590b9d1b456a212f424e790c78"
+      }
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_emb/Proofs/Memory.lean",
+      "sha256": "f16b7bbe6d162ae22636cdb53f53fe8f06a208d67d3d9d29f54e0a3ed724427e",
+      "resolved_olean": {
+        "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/rotary_emb/Proofs/Memory.olean",
+        "sha256": "c4ff6850df29493497d5697ce5d2e1b1d8aa291f411bb69f9373d1b98027dafd"
+      }
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_emb/Proofs/Model.lean",
+      "sha256": "8bbca3c2f906c7c9f0b107cc91f89402628b544e6ad6f9372c1533c217e340bd",
+      "resolved_olean": {
+        "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/rotary_emb/Proofs/Model.olean",
+        "sha256": "450213ce9426e87db2cdd481c27e6107875866cc0f213f45c9a4475454bd236b"
+      }
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_emb/Proofs/Native.lean",
+      "sha256": "127028d663ac8674b89360082af4e9f83a77c12e7f082ecbb56049740f812666",
+      "resolved_olean": {
+        "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/rotary_emb/Proofs/Native.olean",
+        "sha256": "b26e02fa894ffe533f31212549a1879418be121e7b82cf7ae1ed3887596a3a77"
+      }
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_emb/Proofs/Physical.lean",
+      "sha256": "ff92c6e92cac51b8b0ca957fb9c8e21143d74c09d5dfca1856ac35a9c1fc2c13",
+      "resolved_olean": {
+        "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/rotary_emb/Proofs/Physical.olean",
+        "sha256": "bec24f20c637260de3bf3b6aa01a8460a844597f5ae9569eb7b48e753fa2d5e2"
+      }
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_emb/Proofs/Vector.lean",
+      "sha256": "c2cbdef8c79c0d95da0371087bb5b1dd42c9d05d0b0ee67454e3df2b22f82dd2",
+      "resolved_olean": {
+        "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/rotary_emb/Proofs/Vector.olean",
+        "sha256": "b0879546117b16de795f82f3435b53e87997b08b9556241a35dff091899a4fd6"
+      }
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_emb/Spec.lean",
+      "sha256": "a7da9410ab78ba33972699f9a721b90bad4c936ecc5cd0afdff1bf0efd92b15c",
+      "resolved_olean": {
+        "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/rotary_emb/Spec.olean",
+        "sha256": "e16b3f1df33777001824606c706d9192cf9aed71a662239247c682974d5b1bb8"
+      }
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/Contract.lean",
+      "sha256": "9c0dde101c4db9659de3030d0778272d8209dbfe644e1df62518c05ed7645983",
+      "resolved_olean": {
+        "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/rotary_transform/Contract.olean",
+        "sha256": "ca5fb49f309600233297a493cdfbdb70315347d274ba1d0d6ba0ab0eb645289f"
+      }
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/Kernels.lean",
+      "sha256": "eefe9e4562b5bf88c914c725d457437c11d77d424e70d7a1b92825ebd7f19ce1",
+      "resolved_olean": {
+        "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/rotary_transform/Kernels.olean",
+        "sha256": "ee26e1aeaf1c1d96f91cfcc79cff05c925938bed7f7b11673bfa7f2296359c68"
+      }
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/Proofs/BlockSizeDefect.lean",
+      "sha256": "c92fe72195018e57385c223f4e21667ec8dcb5f3485a22e47b22e8f04f22724c",
+      "resolved_olean": {
+        "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/rotary_transform/Proofs/BlockSizeDefect.olean",
+        "sha256": "b69691cfd950ea189b5aefd4b0b71e484c88ffa9ba1372c1ade9bea759473da5"
+      }
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/Proofs/Bounds.lean",
+      "sha256": "da264d38ad38d8fe4d22c8c65956c55650ba380493789a61d6986afc7aa1adc7",
+      "resolved_olean": {
+        "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/rotary_transform/Proofs/Bounds.olean",
+        "sha256": "c73011733a9962f0365e725760b52953bd7afa3e2b17549cf7fff1e15ec4b2f3"
+      }
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/Proofs/Caller.lean",
+      "sha256": "b253f34be8d03229973b47684c6871db5d55085e2db1dd75480a41e842626804",
+      "resolved_olean": {
+        "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/rotary_transform/Proofs/Caller.olean",
+        "sha256": "a206149a0053fe3ba65fe901562ed1e74e535518cef544bfca6936340542da33"
+      }
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/Proofs/Geometry.lean",
+      "sha256": "75a1c1dabc29d9aa9c94d4dd32299a959385e31cd02c1faf0f2ffbc7276ebba8",
+      "resolved_olean": {
+        "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/rotary_transform/Proofs/Geometry.olean",
+        "sha256": "059b7856684a7669efb7c7ef058264ee5a683b11b87107d5b653394f856412e2"
+      }
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/Proofs/Grid.lean",
+      "sha256": "68c6a4206ee41932aadfaad30611d1f3d90d6b4d4e375e27b98a22ebacda9c32",
+      "resolved_olean": {
+        "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/rotary_transform/Proofs/Grid.olean",
+        "sha256": "f256d66053ce66be21dae566bc587995f9675d19219080807e3fb5a18a8cbc61"
+      }
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/Proofs/Guards.lean",
+      "sha256": "aa9da1d2e1b422869cf1ba738a907e9b83269db13d1c09122b8ac9ff6caf67a9",
+      "resolved_olean": {
+        "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/rotary_transform/Proofs/Guards.olean",
+        "sha256": "fecac1327091b557387b1401da36f5f2dca0ee69d30fc8a5e35ed3d73f222b79"
+      }
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/Proofs/HistoricalCorrect.lean",
+      "sha256": "4933e6dd29ec3302bfdbcc29758ee21104b416af061c6f9ac652d1b124c51161",
+      "resolved_olean": {
+        "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/rotary_transform/Proofs/HistoricalCorrect.olean",
+        "sha256": "dd7824b1ce44ae09fb090834cc9b1bcd78bb050a7384efec1927c47ac1527a41"
+      }
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/Proofs/HistoricalFPEquiv.lean",
+      "sha256": "81d51a5032d818854559e1a2d38254cf3d0c5c440083d0e437e87790f3289e1a",
+      "resolved_olean": {
+        "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/rotary_transform/Proofs/HistoricalFPEquiv.olean",
+        "sha256": "e7e5a4c2e22b235dac29a4e1265ec894741ae9c2c831b75f8349f95b5a8fc3e4"
+      }
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/Proofs/HistoricalPublic.lean",
+      "sha256": "866db2744601a2c51cf59c4268bf7212978e7e13727e756dd43aff331556ffe1",
+      "resolved_olean": {
+        "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/rotary_transform/Proofs/HistoricalPublic.olean",
+        "sha256": "30ce0f4a9532d7d34cf4121416a60852497efe80210a809229ca2e51ad287dce"
+      }
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/Proofs/HistoricalWhole.lean",
+      "sha256": "124825fd728e318d8a1e14916ae7a83a0a35585acc1b6fdbcf6298330df55bea",
+      "resolved_olean": {
+        "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/rotary_transform/Proofs/HistoricalWhole.olean",
+        "sha256": "f69f9692de6967b8b1bb641b9e2c43e14953b3a5ae984e881a3ca39d14e83d9b"
+      }
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/Proofs/Host.lean",
+      "sha256": "99bc9b1600b367d9c25bbdd41dd482d6f9655f1671daec439c6694be7f838213",
+      "resolved_olean": {
+        "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/rotary_transform/Proofs/Host.olean",
+        "sha256": "9162b15db1cd6c1af2ed2ae5a1ada5960db92550576306602f7efd2c6a4cb4c5"
+      }
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/Proofs/Memory.lean",
+      "sha256": "627b4f2ddc1c9fafa9928037ed36f542c48e2dc5b4b1da3a927a3d2128c194fa",
+      "resolved_olean": {
+        "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/rotary_transform/Proofs/Memory.olean",
+        "sha256": "36945f932d315470b1bfcdb33cfc6753d766ce84ad1a37be7c7b46645816251a"
+      }
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/Proofs/Metadata.lean",
+      "sha256": "f2d2ab232f0cd9181d824b1b00f320f125da9149a14bc3b6a6e52b08bf116968",
+      "resolved_olean": {
+        "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/rotary_transform/Proofs/Metadata.olean",
+        "sha256": "5a06da29c54d76b409d6b9ea62525bb55dfa57fea6c473b9dc1e29f3f73d4456"
+      }
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/Proofs/Native.lean",
+      "sha256": "c7862f112c68ef9091a253795381556ce4a37da18ad166fc04213737f7480a7f",
+      "resolved_olean": {
+        "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/rotary_transform/Proofs/Native.olean",
+        "sha256": "fa9e175fb867ef8f4d70a11c783c4c398993988b3011cc4a8dc94189e651264f"
+      }
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/Proofs/Physical.lean",
+      "sha256": "30478bb169e295cc3dd992e2d981c1ad59103381e6fb03d75a8768f5eb2484c2",
+      "resolved_olean": {
+        "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/rotary_transform/Proofs/Physical.olean",
+        "sha256": "99a32e330dc18c65a87b8ff765f730e646f146385a713d575bf72dc6daa7b50b"
+      }
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/Proofs/Source.lean",
+      "sha256": "cb7fb8c0af00616c419c86480482581a5cf51347a506ab59a2a9223cd73ebe67",
+      "resolved_olean": {
+        "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/rotary_transform/Proofs/Source.olean",
+        "sha256": "805c05807674168278a400419438ae455d1e3614f3f00bfd5552088c43bd767f"
+      }
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/Proofs/Vector.lean",
+      "sha256": "bee495db3f8b938e7e12caecb26d19e7344e45592198809499f5067b545202de",
+      "resolved_olean": {
+        "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/rotary_transform/Proofs/Vector.olean",
+        "sha256": "a5357693db0e01079bdb5472703a0fda801dde2172d7707e367a94b9fe50f72a"
+      }
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/Proofs/Views.lean",
+      "sha256": "cada9bcb7ecbb90270bf629c892d734bbd4499e315f550f1c986c04c764eb146",
+      "resolved_olean": {
+        "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/rotary_transform/Proofs/Views.olean",
+        "sha256": "e6119e835bc9f96fa19e888ecca45f8b411b826d187bd8d0c1e87828d342164c"
+      }
+    },
+    {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/Spec.lean",
+      "sha256": "bb573f230b1430479288ca449bc1d3bc8365e86f1cfa6bff6dce28107074b9db",
+      "resolved_olean": {
+        "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/rotary_transform/Spec.olean",
+        "sha256": "d482defe709288151efa05eca6d17830e081c4a01980dcab1929e5797ae44383"
+      }
+    }
+  ],
+  "dependency_note": "Read-only inventory of recursive repository source imports and resolved artifacts; only the new counterexample module was compiled by this delivery. Existing historical modules remain unchanged."
+}

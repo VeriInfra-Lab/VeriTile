@@ -1,0 +1,17 @@
+{
+  "reviewer": "root",
+  "status": "all32_extension_graph_stage_and_frontend_recount_replay_pass_pending_unified_acceptance",
+  "receipt_sha256": "12c3b80a35e83a528fab32a9251e40eec70103a3cef716274effbf738dff101c",
+  "input_hashes_verified": 932,
+  "independent_replay_tests_passed": 33,
+  "findings": [
+    "All125 public entries retain exact source/statement/root-review bindings;121 value,2 frame,1 recurrence and1 protocol roles remain distinct. Historical747 declarations and41-task registry are unchanged.",
+    "LayerNorm forward sqrt remains open; source backward/final software closure does not promote forward. Mutex is not numeric;4 independent-model value entries cannot fill source stages.",
+    "StreamK closed host-final contracts cover only ordered_host_launches; first/full waves retain dot callbacks and are not software-closed from final host memory.",
+    "triton_attention has complete3-stage source contracts,5 backend entries and1 callback-independent3-storage preprocess software entry. Partial scalar-bit names do not override callbacks; observed compiled graphs cannot fill source stages.",
+    "Shared DSL29 and task-localSC3 frontends remain separate. FiniteSC schedules do not prove native memory order, unconditional progress or physical allocation safety.",
+    "All33 meaningful regression/rejection tests and exact report regeneration passed in a fresh extracted input closure. The full combined build and canonical audit outputs must be checked separately."
+  ],
+  "canonical_acceptance_updated": false,
+  "native_execution": false
+}

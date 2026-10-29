@@ -1,5 +1,34 @@
 # matmul_dequantize
 
+`FPCorrect.lean` now gives independent floating/machine-number execution
+contracts for **all three originally accepted stages**, with their actual fp16
+storage profile and signed int32 packed words. Both matmul contracts cover
+arbitrary K-loop length, and `matmul4_kernel` retains both `NO_GROUPS` branches.
+All contracts prove success, active output readback and preservation outside
+the actual write set from a specification that reads only the initial state.
+
+- The standalone stage uses the checked source bridge to `matmul_dequant_int4`:
+  fixed-width nibble extraction, exact integer promotion and directly rounded
+  half multiplication.
+- The second matmul stage preserves explicit `a.to(fp16)` and `b.to(fp16)`
+  dot operands, `(weight-zero)*scale`, fp32 block accumulation and half store.
+  Its legal 16×16, two-K-block software witness produces half `0xd4aa`.
+- The first matmul stage preserves its original `dot(a,b)` without adding the
+  twin's redundant operand cast, both group-loading branches, separately
+  rounded half products and subtraction, the dead local `c`, and the actual
+  accumulator-to-destination conversion. Its two-block witnesses produce
+  `0xd4ab` for `NO_GROUPS=true` and `0xd8ab` for `false`, which loads a different
+  scale in block two. They also exercise a masked row and destination gap.
+
+The matmul dot primitive is explicit. Binding the chosen software reduction
+schedule and scalar multiplication/subtraction contraction to compiled GPU
+code remains a native implementation obligation. There is no real-number
+factorization, associativity, global identity rounding, or assumed output in
+these proofs. The 32-bit software carrier uses low 16 bits for half storage.
+
+The following sections document the earlier mathematical model and its
+accepted launch/configuration boundary, not the floating-point proof.
+
 - Source file: `matmul_dequantize.py` (upstream `data/TritonBench_G_v1/matmul_dequantize.py`)
 - Corpus: TritonBench-G v1
 - Size: 358 lines, 3 `@triton.jit` kernels — **all three launched, all three modeled**
@@ -17,7 +46,7 @@ namespace (the `decay_cumsum` multi-kernel-file precedent), in source order:
 | JIT (audit anchor = first) | launcher | template port | delta vs template |
 |---|---|---|---|
 | `matmul4_kernel` | `matmul_dequantize_int4_gptq` | `matmul_dequantize_int4` | drops the twin's `.to(a.dtype)` on the `tl.dot` operand; dead `c`-cast spelled directly as `tl.float16` |
-| `matmul_kernel` | `matmul_dequantize_int4_s2` | `int4_matmul` | the three working casts spelled directly as `tl.float16` (the twin's `element_ty` spellings erase; these do not) |
+| `matmul_kernel` | `matmul_dequantize_int4_s2` | `int4_matmul` | the three working casts spelled directly as `tl.float16` (the twin uses inferred dtypes) |
 | `dequantize_kernel` | `matmul_dequantize_int4_s1` → `dequantize_int4` | `matmul_dequant_int4` | **byte-identical** kernel body — pure rename mirror |
 
 ## `matmul4_kernel` — GPTQ dequantizing GEMM, both `NO_GROUPS` arms
@@ -48,8 +77,10 @@ nibble difference runs on the `.int` channel via
 packed-word address. Unlike the twin, the three casts survive **faithfully**:
 `b = ((int_b - int_bzp) * bs).to(tl.float16)` puts `b` on the `.fp16`
 register channel, the dot's `a.to(tl.float16)` / `b.to(tl.float16)` are
-re-widened `fp16 → real` by the DSL's real-valued `tl.dot` (round-trips
-collapse by cast identity), and the stored
+preserved as the inputs to `Op.dotTyped fp16 fp16 fp32`, followed by a
+`fp32 → real` cast for the accumulator. The legacy evaluator erases widths
+and reduces this to the real dot; no IEEE rounding equivalence is claimed.
+The stored
 `c = accumulator.to(tl.float16)` makes the terminal store `.fp16`-typed —
 so the headline reads the output at the `MemCell` level,
 `C[row, col] = MemCell.of .fp16 (fp16(accSpec))` (the `matmul_tma`
@@ -71,3 +102,9 @@ headline; no output region is ever read back into a spec. The two matmul
 kernels share the pid-swizzle definitions (`numPidM` … `pidN`) and the `C`
 address map (`cAddr`, `cAddr_injective`) — they are textually identical in
 the source.
+
+The complete four source/projection paths (one in the sibling int4 module,
+three here) are replayed with exact AST decomposition and full-module axiom
+audits. Public theorem premises and conclusions are unchanged. These remain
+legacy exec/output-readback statements: they do not prove a frame, finite
+allocation safety, GPU scheduling, or the Python host launch.

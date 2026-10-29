@@ -1,0 +1,92 @@
+{
+  "task": "triton_linear_activation",
+  "entries": [
+    "VeriTile.Bench.Repairs.TritonLinearActivation.Checked.fp_equiv",
+    "VeriTile.Bench.Repairs.TritonLinearActivation.Checked.output_bytes",
+    "VeriTile.Bench.Repairs.TritonLinearActivation.Checked.saved_bytes"
+  ],
+  "status": "local numerical conformance deferred",
+  "profile": "Pinned canonical FP32 CUDA production source; explicit source custom_fwd FP16 AMP branch; all 98 original configurations and default arithmetic choices",
+  "admission": "All FP32 caller words including signed zeros, subnormals, infinities and NaNs; source AMP conversions retained. No numerical-value guard.",
+  "local_predicates": [
+    "VeriTile.Bench.Repairs.TritonLinearActivation.NumericLeaves"
+  ],
+  "operations": [
+    {
+      "name": "packHalf",
+      "arity": 1,
+      "domain": "FP32 word",
+      "required_evidence": "Actual nearest-even FP32-to-FP16 scalar cast/store, including exceptional words."
+    },
+    {
+      "name": "unpackHalf",
+      "arity": 1,
+      "domain": "FP16 low16 storage word",
+      "required_evidence": "Actual FP16-to-FP32 scalar load/copy conversion."
+    },
+    {
+      "name": "add",
+      "arity": 2,
+      "domain": "FP32 words",
+      "required_evidence": "Actual add including bias seed operand order, NaNs, signed zeros and FTZ."
+    },
+    {
+      "name": "mul",
+      "arity": 2,
+      "domain": "FP32 words",
+      "required_evidence": "Actual selected scalar multiplication lowering."
+    },
+    {
+      "name": "fma",
+      "arity": 3,
+      "domain": "FP32 words",
+      "required_evidence": "Actual fused instruction with selected source operand roles."
+    },
+    {
+      "name": "divFull",
+      "arity": 2,
+      "domain": "FP32 words",
+      "required_evidence": "Actual scalar div.full implementation used by GELU."
+    },
+    {
+      "name": "maximum",
+      "arity": 2,
+      "domain": "FP32 words",
+      "required_evidence": "Actual maxnum/maximum exceptional and signed-zero behavior."
+    },
+    {
+      "name": "tanh",
+      "arity": 1,
+      "domain": "FP32 word",
+      "required_evidence": "Actual scalar libdevice tanh."
+    },
+    {
+      "name": "erf",
+      "arity": 1,
+      "domain": "FP32 word",
+      "required_evidence": "Actual scalar libdevice erf."
+    },
+    {
+      "name": "instruction",
+      "arity": "2 fixed operand vectors + scalar seed",
+      "domain": "Fin8 or Fin16 FP32-container operands",
+      "required_evidence": "One result lane of each named fixed-width sync/WGMMA instruction; no arbitrary-K dot."
+    }
+  ],
+  "structural_not_deferred": [
+    "accepted-domain checker equivalence and source validity",
+    "pre-call memory binding and ordinary actual allocation/return operations",
+    "full source all-K/grid execution and arbitrary finite autotune trial absorption",
+    "explicit AMP casts, original saved-buffer identity and half-scratch copyback",
+    "consumed launch owner state, successful context restoration and actual save argument order",
+    "active physical byte pointers, all original signed32 formed offsets and final K-pointer increments",
+    "independent raw output/saved byte results and full caller-backing exterior frame on every ordinary outcome"
+  ],
+  "interpretation_boundaries": [
+    "manual pinned Python/Triton-to-event correspondence",
+    "raw rank/dimension extraction; exact Python exception-label ordering is not modeled",
+    "ordinary per-event word/byte memory and scalar codec laws; allocator freshness/capacity/caller-byte frame",
+    "ordinary Tensor metadata, object identity, reshape and save API laws"
+  ],
+  "validation": "73 decorator/AMP/host cases; 10 host rejections; 588 grouped geometry and 588 dense cases; 319 actual CPU repaired-source cases; 7 additional rejections; 8 ordinary failure prefixes; 1060 preserved executable codec checks. Scalar CPU libdevice adapters are not GPU conformance evidence. No GPU numerical run."
+}

@@ -1,0 +1,104 @@
+{
+  "schema": 1,
+  "task": "fused_activation",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue06/result.json",
+    "sha256": "7ae7b1cff07a7eae50c418a92a90a26cc367270bb529c13f49c0bf8e5d0f06ea",
+    "task_index": 1
+  },
+  "finding": "The Real headline exposed pid/channel arguments of a regional grouped IO judgment instead of named mathematical inputs.",
+  "resolution": "ActivationValues retains pid0, pid1 and all three independent input arrays x, bias and input through a genuine bijection. A singleton output equivalence exposes a vector, and LogicalIO fixes the complete existing RegionalImplements proposition as its type index.",
+  "mathematical_target": "fused_activation_kernel_correctness: activationIO implements j ↦ sigmoid(z) or max 0 z, where z = input[j]/2 + x[j] + bias[j].",
+  "conditions_and_scope": "The original regional scope is unchanged: independent entry-state arrays and both PIDs, cyclic bias reads, in-place x output, actual masks, regional access safety, run result and exact exterior frame. No new separation or finiteness premise is added to the Real theorem.",
+  "proof_connection": "RealInterface.logical_iff is the complete old/new regional judgment equivalence, including run/safety/frame, rather than only a scalar equality. logical_correct reuses RealInterface.regional_correct after the exact coordinate transport.",
+  "fp_review": "Unchanged original ≡[[]] commuted actual FP32 kernels. The finite active outer-add rewrite domain is preserved. FP.ScalarArithmetic.add_comm_strict supplies the strict model certificate; no experiment or native FMA-contraction claim is added.",
+  "numerical_dependencies": {
+    "experimental_rule_instances": [],
+    "strict_rewrite_certificates": [
+      "FP.ScalarArithmetic.add_comm_strict (finite FP32 outer-add operands; current strict classification)"
+    ],
+    "classification": "Empty experimental rule set. Exact model/source structure and any listed strict software theorem are retained; no new hardware-conformance claim."
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "z=(1/2)*input+x+bias; return sigmoid(z) for a=true, max(0,z) otherwise. The bias input channel reads (pid*B+j)%W.",
+    "required_conditions": {
+      "public_conditions": [
+        "W,N,B and activation Bool are public",
+        "RegionalImplements retains coherent input memory bindings, active read/write bounds and output uniqueness",
+        "Active lane is pid*B+j<N"
+      ],
+      "contract_and_domain_correspondence": "The checked Python contract gives FP32 contiguous inputs, adequate input extent, nonempty bias on nonempty work and allocation separation. The kernel regional theorem is more general and keeps memory conditions in its judgment; no new Python guard is introduced."
+    },
+    "scope": "One complete masked source program at the public regional PID/window; all three entry-state reads, cyclic bias, both activation branches, in-place x output, access safety and exterior frame. No wrapper-wide launch claim.",
+    "canonical_connection": "RealInterface.regional_correct assembles traceSafe + source regional run + Mathematics.formula_eq. Inline z/activation is definitionally RealIO.formula; full headline Iff.rfl passes.",
+    "fp_program_pair": {
+      "fp_actual_pair": "FPEquiv.original (candidateKernel -> selected kernel) versus commutedKernel; commute only the final outer FP32 bias addition. The inner multiply/add and both branches remain in the same source order.",
+      "fp_conditions_and_model_binding": [
+        "Rewrite.additionSite domain explicitly requires finite outer-add operands after the common loads, only on stored lanes",
+        "FP.Guarded.Models [] supplies the fixed strict software theory",
+        "Same FP32 precision/casts; no replacement by FMA",
+        "Per-program successful full-memory equality, not a newly claimed whole host launch"
+      ]
+    },
+    "numerical_dependencies": {
+      "experimental_rule_instances": [],
+      "strict_rewrite_certificates": [
+        "FP.ScalarArithmetic.add_comm_strict (finite FP32 outer-add operands; current strict classification)"
+      ],
+      "classification": "Empty experimental rule set. Exact model/source structure and any listed strict software theorem are retained; no new hardware-conformance claim."
+    }
+  },
+  "verification": [
+    {
+      "kind": "targeted_current_sources",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue06/build.py",
+        "bench/repairs/tritonbench_g/fused_activation/LogicalIO.lean",
+        "bench/repairs/tritonbench_g/fused_activation/Proofs/LogicalCoordinates.lean",
+        "bench/repairs/tritonbench_g/fused_activation/Correct.lean",
+        "bench/repairs/tritonbench_g/fused_activation/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue06/fused_activation.targeted.log",
+      "log_sha256": "f618964c7db3fe31feef27a066eb9a2a436160e28cbaa3c2c5fbf8e68f7f1813"
+    },
+    {
+      "kind": "task_joint_import",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue06/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue06/fused_activation.joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue06/fused_activation.joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/fused_activation/Contract.lean": "d01e48ebadb97eca24f868ec04a1e5d05fe6239f1dc703f6e1c6e4ccddf4aa89",
+    "bench/repairs/tritonbench_g/fused_activation/Correct.lean": "527515c1e45c0aad04c9524fa347f5f57f411fac52939985c0561c5cafc8c164",
+    "bench/repairs/tritonbench_g/fused_activation/FPEquiv.lean": "241f2871de6bffb0e6ba822bef7087fbdbd44ef50ba79f29783de51443be98f8",
+    "bench/repairs/tritonbench_g/fused_activation/LogicalIO.lean": "b38805f6eb2d044dab4a52c5843d09d10dc1e898b824b6b03f61be37340ab5ce",
+    "bench/repairs/tritonbench_g/fused_activation/Proofs/LogicalCoordinates.lean": "8a3b21236e6527d290ff7ec39fe29b88ea4553d48e8651430275015d0fd4db02",
+    "bench/repairs/tritonbench_g/fused_activation/Proofs/RealInterface.lean": "4af185e6651034978abdcf24805b8fa016942c84add125cd65297366541bda23",
+    "bench/repairs/tritonbench_g/fused_activation/Proofs/Rewrite.lean": "c9f2cd5afe1cc9593bfb9bd38eb2500b9f7c306f80d70463d217b3745a6a866d",
+    "bench/repairs/tritonbench_g/fused_activation/RealIO.lean": "bfaa50d97838f1c568889e56690eb9e1833ced8b178e9dcd395ba0af5510d81e",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

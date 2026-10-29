@@ -1,0 +1,40 @@
+{
+  "status": "root_review_pass_native_obligation_mapping_and_current_LLaMA_binding",
+  "receipt_sha256": "de5c4afc00f083870c66a820dd1cbf9064b80bee31d00c38ecd4f330de7da130",
+  "checks": {
+    "all_21_frozen_artifacts": true,
+    "all_321_audit_input_hashes": true,
+    "111_exact_compilation_record_pointers": true,
+    "independent_generator_replay": true,
+    "only_LLaMA_job_changed": true,
+    "all_other36_jobs_unchanged": true,
+    "missing_harnesses_and_expected_adapters_explicit": true
+  },
+  "native_jobs": 37,
+  "separate_numeric_bindings": 5,
+  "gpu_execution": false,
+  "whole_job_gpu_harnesses_delivered": 0,
+  "applied_changes": [
+    {
+      "path": "bench/review-checkpoints/2026-10-14/next-value-repair/generate-native-experiment-tasks.py",
+      "before_sha256": "6049bb0cde61cb430f6600cd498df23c0a722272d5091994516d5a1497b2f4a9",
+      "after_sha256": "f3f142077d59676c05f0561146d19f9a85f5a508d8dc8bc4acdcd36d2886aaba"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-14/next-value-repair/native-experiment-tasks.json",
+      "before_sha256": "a94c63c6efdde25e6eeb36ca42c6b121a69511e6d820ff46b7a44258c77f23b8",
+      "after_sha256": "8f5fcaa1a736e0759327cd65726b2913ffb7246c3961f40b219c6ebfb43342c0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-14/next-value-repair/native-experiment-tasks.md",
+      "before_sha256": "80aaa556cc69ec4fbd35c2a08ecd8f23607a6f6ce7b769d0c264d327c719730f",
+      "after_sha256": "0b1109449a2114a6b78f490ac6af4348211e6638a6f265e46ef45a1689ba5986"
+    }
+  ],
+  "frozen_v3_snapshots_modified": false,
+  "root_artifact_sha256": {
+    "root-review-driver.py": "9eec63259df766915bc274b54c02117cc354c0eb4fb78286bb95c6a33351feff",
+    "reviewed-delivery-index-snapshot.json": "fd6f2cbac799ab7b42224509a132ea95812e5551ed67fe755c3e0b4b6098f909"
+  },
+  "scope": "Experimental protocol and source/configuration matrix, not GPU results or universal hardware equivalence. Archived success/failure profiles remain separate from runtime execution."
+}

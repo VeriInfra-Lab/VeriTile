@@ -1,0 +1,96 @@
+SinKernelNative.result: definition does not reference [SinKernelNative.source,
+ SinKernelNative.Expr.eval] — non-circular ✓
+SinKernelNative.source_scalar: axiom footprint ⊆ standard base ✓  ([])
+SinKernelNative.source_total: axiom footprint ⊆ standard base ✓  ([])
+SinKernelNative.retained_source_precision: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+
+{"source": "after/bench/tritonbench_g/sin_kernel/Proofs/NativeScalar.lean", "source_sha256": "00d3b82361984910791ad399ab6298730d35564ad8075843d76f569f12eec1ca", "source_unchanged": true, "command": ["/tmp/veritile-lean-toolchain/bin/lean", "--root=/tmp/veritile-standardization-20261015/sin-kernel-finite-acceptance-wip/after", "/tmp/veritile-standardization-20261015/sin-kernel-finite-acceptance-wip/after/bench/tritonbench_g/sin_kernel/Proofs/NativeScalar.lean", "-o", "/tmp/veritile-standardization-20261015/sin-kernel-finite-acceptance-wip/build-overlay/bench/tritonbench_g/sin_kernel/Proofs/NativeScalar.olean"], "LEAN_PATH": "/tmp/veritile-standardization-20261015/sin-kernel-finite-acceptance-wip/build-overlay:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean", "exit_code": 0, "seconds": 3.577, "log": "evidence/lean-attempts/0022-NativeScalar.log", "log_sha256": "f4db0b523a6f27aa85e4b0fb288bd0a54e8fa03dd2b74887fd03a2ecc7d659a1"}
+
+SinKernelNative.all_masks_false_at_two31: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+SinKernelNative.counterexample_grid: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+
+{"source": "after/bench/tritonbench_g/sin_kernel/Proofs/NativeArithmetic.lean", "source_sha256": "616cfdd0324f97a5deb8b931a0f3fa8cbbfeb76e264740683b40fd5de3f31b02", "source_unchanged": true, "command": ["/tmp/veritile-lean-toolchain/bin/lean", "--root=/tmp/veritile-standardization-20261015/sin-kernel-finite-acceptance-wip/after", "/tmp/veritile-standardization-20261015/sin-kernel-finite-acceptance-wip/after/bench/tritonbench_g/sin_kernel/Proofs/NativeArithmetic.lean", "-o", "/tmp/veritile-standardization-20261015/sin-kernel-finite-acceptance-wip/build-overlay/bench/tritonbench_g/sin_kernel/Proofs/NativeArithmetic.olean"], "LEAN_PATH": "/tmp/veritile-standardization-20261015/sin-kernel-finite-acceptance-wip/build-overlay:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean", "exit_code": 0, "seconds": 2.765, "log": "evidence/lean-attempts/0023-NativeArithmetic.log", "log_sha256": "f64c7eed8308eccc8f3d0a84f19233fb46a97cea70f0df84343e9dc7728ce722"}
+
+SinKernelNative.finalByte: definition does not reference [SinKernelNative.applyWrites] — non-circular ✓
+SinKernelNative.rawFinalByte: definition does not reference [SinKernelNative.applyWrites] — non-circular ✓
+SinKernelNative.load_outside: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+SinKernelNative.writes_append: axiom footprint ⊆ standard base ✓  ([])
+SinKernelNative.writes_outside: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+SinKernelNative.writes_byte_frame: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+SinKernelNative.writes_byte_result: axiom footprint ⊆ standard base ✓  ([Classical.choice, propext, Quot.sound])
+SinKernelNative.writes_raw_result: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+
+{"source": "after/bench/tritonbench_g/sin_kernel/Proofs/NativeMemory.lean", "source_sha256": "82a06efa9c65869ef96783220e33fc2ad2ed7fc99b497b3b676c57d378300722", "source_unchanged": true, "command": ["/tmp/veritile-lean-toolchain/bin/lean", "--root=/tmp/veritile-standardization-20261015/sin-kernel-finite-acceptance-wip/after", "/tmp/veritile-standardization-20261015/sin-kernel-finite-acceptance-wip/after/bench/tritonbench_g/sin_kernel/Proofs/NativeMemory.lean", "-o", "/tmp/veritile-standardization-20261015/sin-kernel-finite-acceptance-wip/build-overlay/bench/tritonbench_g/sin_kernel/Proofs/NativeMemory.olean"], "LEAN_PATH": "/tmp/veritile-standardization-20261015/sin-kernel-finite-acceptance-wip/build-overlay:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean", "exit_code": 0, "seconds": 3.773, "log": "evidence/lean-attempts/0024-NativeMemory.log", "log_sha256": "050c032777c3645dbaa947459f590e7fbabe3210153def24112babd1e3bfaebf"}
+
+SinKernelNative.original_ast_lowering: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+SinKernelNative.compiled_source: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+SinKernelNative.source_active_tile: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+SinKernelNative.source_offset: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+SinKernelNative.source_pointer: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+SinKernelNative.complete_source_suffix: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+SinKernelNative.compiled_scalar: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+
+{"source": "after/bench/tritonbench_g/sin_kernel/Proofs/NativeSource.lean", "source_sha256": "64b791abc5f13ce9322d93186b8aa8a9e5ab8ec414383e972d532b8152957a5c", "source_unchanged": true, "command": ["/tmp/veritile-lean-toolchain/bin/lean", "--root=/tmp/veritile-standardization-20261015/sin-kernel-finite-acceptance-wip/after", "/tmp/veritile-standardization-20261015/sin-kernel-finite-acceptance-wip/after/bench/tritonbench_g/sin_kernel/Proofs/NativeSource.lean", "-o", "/tmp/veritile-standardization-20261015/sin-kernel-finite-acceptance-wip/build-overlay/bench/tritonbench_g/sin_kernel/Proofs/NativeSource.olean"], "LEAN_PATH": "/tmp/veritile-standardization-20261015/sin-kernel-finite-acceptance-wip/build-overlay:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean", "exit_code": 0, "seconds": 9.606, "log": "evidence/lean-attempts/0025-NativeSource.log", "log_sha256": "02daad65a0ab4c015f5f118620e628bd54ff680e6fa7c7bf834576e4051a742d"}
+
+SinKernelNative.programPlan: definition does not reference [SinKernelNative.executeProgram,
+ SinKernelNative.sourceWrites,
+ SinKernelNative.applyWrites,
+ SinKernelNative.source,
+ SinKernelNative.Expr.eval] — non-circular ✓
+SinKernelNative.source_writes_correspondence: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+SinKernelNative.source_load_correspondence: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+SinKernelNative.program_correspondence: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+SinKernelNative.program_plan_frame: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+SinKernelNative.program_write_bounds: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+SinKernelNative.no_access_program: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+
+{"source": "after/bench/tritonbench_g/sin_kernel/Proofs/NativeProgram.lean", "source_sha256": "c3c94f5c55d2ed3aef9f1e58274a2e72dec84b80feefa4854c6172d338387eb7", "source_unchanged": true, "command": ["/tmp/veritile-lean-toolchain/bin/lean", "--root=/tmp/veritile-standardization-20261015/sin-kernel-finite-acceptance-wip/after", "/tmp/veritile-standardization-20261015/sin-kernel-finite-acceptance-wip/after/bench/tritonbench_g/sin_kernel/Proofs/NativeProgram.lean", "-o", "/tmp/veritile-standardization-20261015/sin-kernel-finite-acceptance-wip/build-overlay/bench/tritonbench_g/sin_kernel/Proofs/NativeProgram.olean"], "LEAN_PATH": "/tmp/veritile-standardization-20261015/sin-kernel-finite-acceptance-wip/build-overlay:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean", "exit_code": 0, "seconds": 4.321, "log": "evidence/lean-attempts/0026-NativeProgram.log", "log_sha256": "8592be50595a8450286071819c9c0003ada731b9a59897f68e54df7d87ea4294"}
+
+SinKernelNative.launchPlan: definition does not reference [SinKernelNative.executeLaunch,
+ SinKernelNative.executeGrid,
+ SinKernelNative.executeProgram,
+ SinKernelNative.sourceWrites,
+ SinKernelNative.applyWrites] — non-circular ✓
+SinKernelNative.grid_correspondence: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+SinKernelNative.launch_correspondence: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+SinKernelNative.launch_write_bounds: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+SinKernelNative.launch_all_outcomes: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+SinKernelNative.no_access_grid: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+SinKernelNative.no_access_returned_memory: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+SinKernelNative.empty_returned_memory: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+
+{"source": "after/bench/tritonbench_g/sin_kernel/Proofs/NativeGrid.lean", "source_sha256": "b99d269a976744926f5a22abc70c55b1b47f673062fdb10aa47c86eaaf179f6c", "source_unchanged": true, "command": ["/tmp/veritile-lean-toolchain/bin/lean", "--root=/tmp/veritile-standardization-20261015/sin-kernel-finite-acceptance-wip/after", "/tmp/veritile-standardization-20261015/sin-kernel-finite-acceptance-wip/after/bench/tritonbench_g/sin_kernel/Proofs/NativeGrid.lean", "-o", "/tmp/veritile-standardization-20261015/sin-kernel-finite-acceptance-wip/build-overlay/bench/tritonbench_g/sin_kernel/Proofs/NativeGrid.olean"], "LEAN_PATH": "/tmp/veritile-standardization-20261015/sin-kernel-finite-acceptance-wip/build-overlay:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean", "exit_code": 0, "seconds": 4.176, "log": "evidence/lean-attempts/0027-NativeGrid.log", "log_sha256": "8c7f9a38e3eb5b9cec8b4f6578cc3e500bd70ca76acb17355a761c77a7c14ae3"}
+
+SinKernelNative.parse_name: axiom footprint ⊆ standard base ✓  ([])
+SinKernelNative.admission_counts: axiom footprint ⊆ standard base ✓  ([propext])
+
+{"source": "after/bench/tritonbench_g/sin_kernel/Proofs/NativeAdmission.lean", "source_sha256": "688cc555c340a3a61eebafce3137674928eca6e1b49a982ef71695f8ebd0ad14", "source_unchanged": true, "command": ["/tmp/veritile-lean-toolchain/bin/lean", "--root=/tmp/veritile-standardization-20261015/sin-kernel-finite-acceptance-wip/after", "/tmp/veritile-standardization-20261015/sin-kernel-finite-acceptance-wip/after/bench/tritonbench_g/sin_kernel/Proofs/NativeAdmission.lean", "-o", "/tmp/veritile-standardization-20261015/sin-kernel-finite-acceptance-wip/build-overlay/bench/tritonbench_g/sin_kernel/Proofs/NativeAdmission.olean"], "LEAN_PATH": "/tmp/veritile-standardization-20261015/sin-kernel-finite-acceptance-wip/build-overlay:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean", "exit_code": 0, "seconds": 4.081, "log": "evidence/lean-attempts/0028-NativeAdmission.log", "log_sha256": "720b7ab62a94290678422365302c2ba793ebbd92702c74cc08e5023ed8240949"}
+
+SinKernelNative.grid_parse_precedes_pointer_packing: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+SinKernelNative.HostSpec: definition does not reference [SinKernelNative.executeHost,
+ SinKernelNative.executeAllocated,
+ SinKernelNative.executeLaunch,
+ SinKernelNative.executeGrid,
+ SinKernelNative.executeProgram,
+ SinKernelNative.sourceWrites] — non-circular ✓
+SinKernelNative.ReturnedSpec: definition does not reference [SinKernelNative.executeHost,
+ SinKernelNative.executeAllocated,
+ SinKernelNative.executeLaunch,
+ SinKernelNative.executeGrid,
+ SinKernelNative.executeProgram,
+ SinKernelNative.sourceWrites] — non-circular ✓
+SinKernelNative.allocated_return_of_launch: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+SinKernelNative.allocated_all_outcomes: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+SinKernelNative.uses_extracted_pointer: axiom footprint ⊆ standard base ✓  ([propext])
+SinKernelNative.sin_kernel_native_source_outcomes: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+SinKernelNative.sin_kernel_two31_return: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+SinKernelNative.sin_kernel_empty_return: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+
+{"source": "after/bench/tritonbench_g/sin_kernel/NativeCorrect.lean", "source_sha256": "1e0e68439f2e8e1d8329f6d0534179a6ba1b32b8928546a35497e8e2c7c3f279", "source_unchanged": true, "command": ["/tmp/veritile-lean-toolchain/bin/lean", "--root=/tmp/veritile-standardization-20261015/sin-kernel-finite-acceptance-wip/after", "/tmp/veritile-standardization-20261015/sin-kernel-finite-acceptance-wip/after/bench/tritonbench_g/sin_kernel/NativeCorrect.lean", "-o", "/tmp/veritile-standardization-20261015/sin-kernel-finite-acceptance-wip/build-overlay/bench/tritonbench_g/sin_kernel/NativeCorrect.olean"], "LEAN_PATH": "/tmp/veritile-standardization-20261015/sin-kernel-finite-acceptance-wip/build-overlay:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean", "exit_code": 0, "seconds": 5.591, "log": "evidence/lean-attempts/0029-NativeCorrect.log", "log_sha256": "c58e8fea25d0fc1190c100501fa8bfc94ac85ee793b37205e3cbca8d01857dc6"}
+

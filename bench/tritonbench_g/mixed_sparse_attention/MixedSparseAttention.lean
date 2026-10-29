@@ -1,4 +1,6 @@
 import VeriTile.Triton
+import VeriTile.Meta.StatementAudit
+import VeriTile.Triton.Float.MaximumPrimitive
 
 /-!
 # `mixed_sparse_attention` — strict per-kernel correctness
@@ -61,6 +63,13 @@ open scoped VeriTile.Triton.Meta1MaskedTileShapedKernelIO₂
 
 set_option linter.unusedSimpArgs false
 set_option linter.unusedVariables false
+
+/-- Precision tags are retained in the source graph and ignored only by the
+historical mathematical evaluator used in this file. -/
+private theorem msa_evalOp_precision {d : FloatDType} {sh : TileShape}
+    (p : IndexComputePrecision) (x : Op d.toTileDType sh) (s : BlockState) :
+    evalOp (.withPrecision d p x) s = evalOp x s := by
+  rw [evalOp.eq_def]
 
 /-- Faithful DSL port of `mixed_sparse_attention.py`'s
 `_triton_mixed_sparse_attn_fwd_kernel`. -/
@@ -516,6 +525,14 @@ theorem msa_where_col_eval (s : BlockState) (BM BN : Nat)
   rw [evalOp_where, hand]
   simp only [evalOp_ref, hqk, hbcast, Option.bind_eq_bind, Option.bind_some]
 
+private theorem typed_dot_real {m k n : Nat} (x : Op .fp16 [m,k]) (y : Op .real [k,n]) (s : BlockState) :
+ evalOp (Op.castFloat .fp32 .real (Op.dotTyped .fp16 .real .fp32 (batch := []) x y)) s =
+ evalOp (Op.dot (batch := []) (Op.castFloat .fp16 .real x) y) s := by
+  rw [evalOp_castFloat, evalOp_dotTyped, evalOp_dot]
+  erw [evalOp_castFloat]
+  cases hx : evalOp x s <;> cases hy : evalOp y s <;>
+    simp [hx, hy, FloatDType.cast, FloatDType.toWithBot, FloatDType.ofWithBot] <;> rfl
+
 set_option maxHeartbeats 1600000 in
 set_option maxRecDepth 8000 in
 /-- **`qk += tl.dot(q, k)` (A10/B8)**: adds `dot(q, k)` into the masked `qk`. The
@@ -530,10 +547,10 @@ theorem msa_qk_dot_eval (s : BlockState) (BM BN BD : Nat)
     (hk : s.regs .real [BD, BN] "k" = some ktile) :
     evalOp (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.ref .real [BM, BN] "qk")
-        (Op.dot (batch := [])
-          ((Op.castFloat FloatDType.fp16 FloatDType.real
-            (Op.ref FloatDType.fp16.toTileDType [BM, BD] "q")) : Op .real [BM, BD])
-          (Op.ref .real [BD, BN] "k"))) s
+        (Op.castFloat FloatDType.fp32 FloatDType.real
+          (Op.dotTyped FloatDType.fp16 FloatDType.real FloatDType.fp32 (batch := [])
+            (Op.ref FloatDType.fp16.toTileDType [BM, BD] "q")
+            (Op.ref .real [BD, BN] "k")))) s
       = some (Tile.bop NumericDType.real.add
           (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
           qktile
@@ -559,6 +576,7 @@ theorem msa_qk_dot_eval (s : BlockState) (BM BN BD : Nat)
         (Op.ref FloatDType.fp16.toTileDType [BM, BD] "q")) : Op .real [BM, BD])
       (Op.ref .real [BD, BN] "k"), hcast, hkr]; rfl
   rw [evalOp_add]
+  erw [typed_dot_real, hdot]
   simp only [evalOp_ref, hqk, hdot, Option.bind_eq_bind, Option.bind_some]; rfl
 
 set_option maxHeartbeats 1600000 in
@@ -589,6 +607,33 @@ theorem msa_minew_eval (s : BlockState) (BM BN : Nat)
   rw [evalOp_where, evalOp_gt]
   erw [hrmax]
   simp only [evalOp_ref, hmi, Option.bind_eq_bind, Option.bind_some]
+
+/-- Only a mathematical WithBot Real bridge. Floating execution uses its
+independent maximum callback and never applies this comparison/select law. -/
+private theorem msa_math_maximum_select (BM : Nat) (x y : Op .real [BM]) (s : BlockState) :
+    evalOp (.maximumFloat .real (.consSame .nil) x y) s =
+      evalOp (.where (.gt .real (.consSame .nil) x y) x y) s := by
+  have h := evalOp_maximumFloat_real_select (Broadcast.consSame Broadcast.nil) x y s
+  simp only [FloatDType.toTileDType] at h
+  refine h.trans ?_
+  cases hx : evalOp x s <;> cases hy : evalOp y s <;>
+    simp [evalOp, hx, hy, Tile.remap, Broadcast.leftIndex, Broadcast.rightIndex]
+
+private theorem msa_primitive_minew_eval (s : BlockState) (BM BN : Nat)
+    (mp : Tile .real [BM]) (qktile : Tile .real [BM, BN]) (rmaxT : Tile .real [BM])
+    (hmi : s.regs .real [BM] "m_i" = some mp)
+    (hqk : s.regs .real [BM, BN] "qk" = some qktile)
+    (hrm : Tile.reduceMaxDrop (⟨1, by simp⟩ : Fin [BM, BN].length) qktile = some rmaxT) :
+    @evalOp .real [BM] (Op.maximumFloat .real Broadcast.nil.consSame
+        (Op.ref .real [BM] "m_i")
+        (Op.reduceMax (⟨1, by simp⟩ : Fin [BM, BN].length) Bool.false
+          (Op.ref .real [BM, BN] "qk"))) s =
+      some (Tile.select (Tile.cop ComparableDType.real.gt Broadcast.nil.consSame mp rmaxT) mp rmaxT) := by
+  exact (msa_math_maximum_select BM _ _ s).trans
+    (msa_minew_eval s BM BN mp qktile rmaxT hmi hqk hrm)
+
+#axiomsClean msa_math_maximum_select
+#axiomsClean msa_primitive_minew_eval
 
 set_option maxHeartbeats 1600000 in
 set_option maxRecDepth 8000 in
@@ -672,10 +717,10 @@ theorem msa_acc_eval (s : BlockState) (BM BN BD : Nat)
     (hv : s.regs .real [BN, BD] "v" = some vt) :
     evalOp (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.ref .real [BM, BD] "acc")
-        (Op.dot (batch := [])
-          ((Op.castFloat FloatDType.fp16 FloatDType.real
-            (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref .real [BM, BN] "p"))) : Op .real [BM, BN])
-          (Op.ref .real [BN, BD] "v"))) s
+        (Op.castFloat FloatDType.fp32 FloatDType.real
+          (Op.dotTyped FloatDType.fp16 FloatDType.real FloatDType.fp32 (batch := [])
+            (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref .real [BM, BN] "p"))
+            (Op.ref .real [BN, BD] "v")))) s
       = some (Tile.bop NumericDType.real.add
           (Broadcast.consSame (Broadcast.consSame Broadcast.nil)) acctile
           (Tile.dot []
@@ -709,6 +754,7 @@ theorem msa_acc_eval (s : BlockState) (BM BN BD : Nat)
         (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref .real [BM, BN] "p"))) : Op .real [BM, BN])
       (Op.ref .real [BN, BD] "v"), hcast, hvr]; rfl
   rw [evalOp_add]
+  erw [typed_dot_real, hdot]
   simp only [evalOp_ref, hacc, hdot, Option.bind_eq_bind, Option.bind_some]; rfl
 
 set_option maxHeartbeats 1600000 in
@@ -1488,9 +1534,9 @@ def msaSetupGS (Q K V : RegionName) (seqlens : Region .nat)
       (Op.load .real (MemAccess.ptr (Op.ref .ptr [BM, BD] "q_ptrs")) MaskOpt.none),
     Stmt.assign FloatDType.fp16.toTileDType [BM, BD] "q"
       (Op.castFloat FloatDType.real FloatDType.fp16
-        (Op.mul .real Broadcast.scalarR
+        (.withPrecision .real .fp32 (Op.mul .real Broadcast.scalarR
           (Op.ref .real [BM, BD] "q")
-          (Op.ref .real [] "qk_scale"))),
+          (Op.ref .real [] "qk_scale")))),
     Stmt.assign .bool [BM, 1] "m_mask"
       (Op.lt ComparableDType.nat Broadcast.scalarR
         (Op.expandDim ⟨1, by simp⟩ (Op.ref .nat [BM] "offs_m")) (Op.ref .nat [] "seqlen")),
@@ -1545,15 +1591,12 @@ def msaLoopBodyAGS (BM BN BD skn svn : Nat) : List Stmt :=
     Stmt.assign .real [BM, BN] "qk"
       (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.ref .real [BM, BN] "qk")
-        (Op.dot (batch := [])
-          ((Op.castFloat FloatDType.fp16 FloatDType.real
-            (Op.ref FloatDType.fp16.toTileDType [BM, BD] "q")) : Op .real [BM, BD])
-          (Op.ref .real [BD, BN] "k"))),
+        (Op.castFloat FloatDType.fp32 FloatDType.real
+          (Op.dotTyped FloatDType.fp16 FloatDType.real FloatDType.fp32 (batch := [])
+            (Op.ref FloatDType.fp16.toTileDType [BM, BD] "q")
+            (Op.ref .real [BD, BN] "k")))),
     Stmt.assign .real [BM] "m_i_new"
-      ((Op.gt ComparableDType.real Broadcast.nil.consSame
-          (Op.ref .real [BM] "m_i")
-          (Op.reduceMax (⟨1, by simp⟩ : Fin [BM, BN].length) Bool.false
-            (Op.ref .real [BM, BN] "qk"))).where
+      (Op.maximumFloat .real Broadcast.nil.consSame
         (Op.ref .real [BM] "m_i")
         (Op.reduceMax (⟨1, by simp⟩ : Fin [BM, BN].length) Bool.false
           (Op.ref .real [BM, BN] "qk"))),
@@ -1574,10 +1617,10 @@ def msaLoopBodyAGS (BM BN BD skn svn : Nat) : List Stmt :=
     Stmt.assign .real [BM, BD] "acc"
       (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.ref .real [BM, BD] "acc")
-        (Op.dot (batch := [])
-          ((Op.castFloat FloatDType.fp16 FloatDType.real
-            (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref .real [BM, BN] "p"))) : Op .real [BM, BN])
-          (Op.ref .real [BN, BD] "v"))),
+        (Op.castFloat FloatDType.fp32 FloatDType.real
+          (Op.dotTyped FloatDType.fp16 FloatDType.real FloatDType.fp32 (batch := [])
+            (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref .real [BM, BN] "p"))
+            (Op.ref .real [BN, BD] "v")))),
     Stmt.assign .real [BM] "l_i"
       (Op.add .real (Broadcast.consSame Broadcast.nil)
         (Op.mul .real (Broadcast.consSame Broadcast.nil)
@@ -1635,15 +1678,12 @@ def msaLoopBodyBGS (BM BN BD skn svn : Nat) : List Stmt :=
     Stmt.assign .real [BM, BN] "qk"
       (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.ref .real [BM, BN] "qk")
-        (Op.dot (batch := [])
-          ((Op.castFloat FloatDType.fp16 FloatDType.real
-            (Op.ref FloatDType.fp16.toTileDType [BM, BD] "q")) : Op .real [BM, BD])
-          (Op.ref .real [BD, BN] "k"))),
+        (Op.castFloat FloatDType.fp32 FloatDType.real
+          (Op.dotTyped FloatDType.fp16 FloatDType.real FloatDType.fp32 (batch := [])
+            (Op.ref FloatDType.fp16.toTileDType [BM, BD] "q")
+            (Op.ref .real [BD, BN] "k")))),
     Stmt.assign .real [BM] "m_i_new"
-      ((Op.gt ComparableDType.real Broadcast.nil.consSame
-          (Op.ref .real [BM] "m_i")
-          (Op.reduceMax (⟨1, by simp⟩ : Fin [BM, BN].length) Bool.false
-            (Op.ref .real [BM, BN] "qk"))).where
+      (Op.maximumFloat .real Broadcast.nil.consSame
         (Op.ref .real [BM] "m_i")
         (Op.reduceMax (⟨1, by simp⟩ : Fin [BM, BN].length) Bool.false
           (Op.ref .real [BM, BN] "qk"))),
@@ -1664,10 +1704,10 @@ def msaLoopBodyBGS (BM BN BD skn svn : Nat) : List Stmt :=
     Stmt.assign .real [BM, BD] "acc"
       (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.ref .real [BM, BD] "acc")
-        (Op.dot (batch := [])
-          ((Op.castFloat FloatDType.fp16 FloatDType.real
-            (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref .real [BM, BN] "p"))) : Op .real [BM, BN])
-          (Op.ref .real [BN, BD] "v"))),
+        (Op.castFloat FloatDType.fp32 FloatDType.real
+          (Op.dotTyped FloatDType.fp16 FloatDType.real FloatDType.fp32 (batch := [])
+            (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref .real [BM, BN] "p"))
+            (Op.ref .real [BN, BD] "v")))),
     Stmt.assign .real [BM] "l_i"
       (Op.add .real (Broadcast.consSame Broadcast.nil)
         (Op.mul .real (Broadcast.consSame Broadcast.nil)
@@ -1684,7 +1724,8 @@ def msaPostLoopGS (BM BD : Nat) : List Stmt :=
         (Op.expandDim ⟨1, by simp⟩ (Op.ref .real [BM] "l_i"))),
     Stmt.store FloatDType.fp16.toTileDType [BM, BD]
       (MemAccess.ptr (Op.ref .ptr [BM, BD] "o_ptrs"))
-      (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref .real [BM, BD] "acc"))
+      (Op.castFloat FloatDType.real FloatDType.fp16
+        (.withPrecision .real .fp32 (Op.ref .real [BM, BD] "acc")))
       (MaskOpt.mask
         (Op.remap [BM, BD] Broadcast.nil.consL.consSame.leftIndex
           (Op.ref .bool [BM, 1] "m_mask"))) ]
@@ -2162,11 +2203,12 @@ theorem msaPreLoop_evalGS
   -- stmt 21: q = castFloat real→fp16 (q * qk_scale)
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (show evalOp (Op.castFloat FloatDType.real FloatDType.fp16
-          (Op.mul .real Broadcast.scalarR (Op.ref .real [BM, BD] "q") (Op.ref .real [] "qk_scale"))) _
+          (.withPrecision .real .fp32
+            (Op.mul .real Broadcast.scalarR (Op.ref .real [BM, BD] "q") (Op.ref .real [] "qk_scale")))) _
         = some (⟨fun idx : TileIndex [BM, BD] =>
             FloatDType.real.cast FloatDType.fp16 (msaQValGS Q BM BD H sqz sqh sqm sqk s sm_scale idx)⟩
             : Tile FloatDType.fp16.toTileDType [BM, BD]) from by
-      rw [evalOp_castFloat, evalOp_mul]
+      rw [evalOp_castFloat, msa_evalOp_precision, evalOp_mul]
       simp only [evalOp_ref, BlockState.setReg_same, BlockState.setReg_ne_name,
         BlockState.setReg_pids, ne_eq, String.reduceEq, not_false_eq_true,
         Option.bind_eq_bind, Option.bind_some, FloatDType.toTileDType_real]
@@ -2608,7 +2650,7 @@ theorem msa_attn_stepAGS
     rw [Finset.sup'_eq_sup]
     rfl
   -- A11: m_i_new = maximum(m_i, max(qk,1)) = select(gt mp rmaxT) mp rmaxT
-  erw [stepStmts.cons_some (stepStmt_assign_eq_some (msa_minew_eval s11 BM BN mp qkS rmaxT hs11mi hs11qk hrm))]
+  erw [stepStmts.cons_some (stepStmt_assign_eq_some (msa_primitive_minew_eval s11 BM BN mp qkS rmaxT hs11mi hs11qk hrm))]
   -- bridge select(gt) → ⊔ → msaMPartial (c+1)
   set mnew : Tile .real [BM] := ⟨fun idx : TileIndex [BM] => msaMPartial BM BN scoreA (c + 1) idx.1⟩ with hmnewd
   rw [show (Tile.select (Tile.cop ComparableDType.real.gt Broadcast.nil.consSame mp rmaxT) mp rmaxT)
@@ -3106,7 +3148,7 @@ theorem msa_attn_stepBGS
     simp only [hrmaxTd, hqkSd, TileShape.insertAxisIndex, TileShape.axisDim, TileShape.eraseAxis]
     rw [Finset.sup'_eq_sup]; rfl
   -- B9: m_i_new
-  erw [stepStmts.cons_some (stepStmt_assign_eq_some (msa_minew_eval s9 BM BN mp qkS rmaxT hs9mi hs9qk hrm))]
+  erw [stepStmts.cons_some (stepStmt_assign_eq_some (msa_primitive_minew_eval s9 BM BN mp qkS rmaxT hs9mi hs9qk hrm))]
   set mnew : Tile .real [BM] := ⟨fun idx : TileIndex [BM] => msaSeedMax BM BN mA scoreB (c + 1) idx.1⟩ with hmnewd
   rw [show (Tile.select (Tile.cop ComparableDType.real.gt Broadcast.nil.consSame mp rmaxT) mp rmaxT) = mnew from by
     refine Tile.ext (fun idx => ?_); obtain ⟨i, u⟩ := idx
@@ -4182,7 +4224,8 @@ theorem msaPostLoop_evalGS
   -- stmt 1: masked fp16 store of acc at o_ptrs
   have hstore : stepStmt (Stmt.store FloatDType.fp16.toTileDType [BM, BD]
       (MemAccess.ptr (Op.ref .ptr [BM, BD] "o_ptrs"))
-      (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref .real [BM, BD] "acc"))
+      (Op.castFloat FloatDType.real FloatDType.fp16
+        (.withPrecision .real .fp32 (Op.ref .real [BM, BD] "acc")))
       (MaskOpt.mask (Op.remap [BM, BD] Broadcast.nil.consL.consSame.leftIndex
         (Op.ref .bool [BM, 1] "m_mask")))) s1
       = some ((TileShape.allIndices [BM, BD]).foldl
@@ -4191,10 +4234,11 @@ theorem msaPostLoop_evalGS
               acc.writeMemTyped FloatDType.fp16.toTileDType Out (outOffset s0 H sqz sqh som sok BM idx)
                 (FloatDType.real.cast FloatDType.fp16 (some (ratio idx)))
             else acc) s1) := by
-    have hval : evalOp (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref .real [BM, BD] "acc")) s1
+    have hval : evalOp (Op.castFloat FloatDType.real FloatDType.fp16
+        (.withPrecision .real .fp32 (Op.ref .real [BM, BD] "acc"))) s1
         = some (⟨fun idx : TileIndex [BM, BD] =>
             FloatDType.real.cast FloatDType.fp16 (some (ratio idx))⟩ : Tile FloatDType.fp16.toTileDType [BM, BD]) := by
-      rw [evalOp_castFloat]
+      rw [evalOp_castFloat, msa_evalOp_precision]
       erw [evalOp_ref, hs1acc]
       rfl
     have hmask : @evalOp .bool [BM, BD] (Op.remap [BM, BD] Broadcast.nil.consL.consSame.leftIndex
@@ -4888,3 +4932,5 @@ specification mixed_sparse_attention_epilogue_io_correctness
 end IOFaceEpilogue
 
 end VeriTile.Bench.TritonBenchG.MixedSparseAttention
+
+#auditModuleAxioms

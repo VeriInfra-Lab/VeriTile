@@ -1,0 +1,9 @@
+VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.run_io: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.decode_inner: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.decode_noninner: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.owner_lt: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

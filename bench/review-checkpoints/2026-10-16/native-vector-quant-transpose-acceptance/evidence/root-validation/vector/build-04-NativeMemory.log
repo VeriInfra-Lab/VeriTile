@@ -1,0 +1,13 @@
+VeriTile.Bench.TritonBenchG.VectorAddition.Native.finalByte: definition does not reference [VeriTile.Bench.TritonBenchG.VectorAddition.Native.applyWrites] — non-circular ✓
+VeriTile.Bench.TritonBenchG.VectorAddition.Native.load_outside: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.VectorAddition.Native.writes_append: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.TritonBenchG.VectorAddition.Native.writes_outside: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.VectorAddition.Native.writes_byte_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.VectorAddition.Native.writes_byte_result: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])

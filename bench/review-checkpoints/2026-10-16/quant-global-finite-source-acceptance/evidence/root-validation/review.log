@@ -1,0 +1,24 @@
+{
+  "status": "substantively_reviewed_for_finite_scope_integration",
+  "review_sha256": "676cd2d3cb245d600dacb2c2734ef38cd0fbe0f78fd9817feb490c85437af1ef",
+  "checked_counts": {
+    "files": 22363,
+    "dependency_records": 5480,
+    "project_source_dependencies": 146,
+    "final_modules": 11,
+    "producer_attempts": 44,
+    "failed_attempts_retained": 22,
+    "named_axiom_checks": 32,
+    "independent_reference_checks": 11,
+    "native_compile_profiles": 52,
+    "native_compile_successes": 32,
+    "native_compile_rejections": 20,
+    "host_outcome_probes": 360,
+    "autotuner_schedules": 6,
+    "cpu_dtype_probes": 66,
+    "scope_cases": 2400,
+    "numerical_families": 16,
+    "exact_ports": 420,
+    "omitted_port_mutations": 420
+  }
+}

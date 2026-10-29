@@ -1,0 +1,45 @@
+{
+  "status": "passed",
+  "task_count": 2,
+  "shared_module_builds": 1,
+  "required_helper_builds": 1,
+  "correct_builds": 2,
+  "fpequiv_builds": 2,
+  "joint_import": "passed",
+  "new_real_helper_axiom_audits": 3,
+  "new_numerical_assumptions": 0,
+  "organization_checks": {
+    "reader_roles": {
+      "status": "passed",
+      "log": ".veritile-cache/correct-surface-fix-20261022/reader-roles.log",
+      "log_sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689",
+      "result": {
+        "tasks": 183,
+        "readers": 367,
+        "headlines": 449,
+        "errors": [],
+        "status": "passed",
+        "scope": "Pinned semantic role review plus current repository import guard; no Lean replay or GPU run"
+      }
+    },
+    "io_organization": {
+      "status": "passed",
+      "log": ".veritile-cache/correct-surface-fix-20261022/io-organization.log",
+      "log_sha256": "cf3a935d14ba76e8b34ad7bcf6da1acfc9e3fa1b0a4416d74c1f4cc6faf890d0",
+      "result": {
+        "tasks": 183,
+        "readers": 367,
+        "io_source_files": 333,
+        "errors": [],
+        "status": "passed",
+        "scope": "Reviewed canonical IO sharing and reader placement; no full-source replay or GPU experiment"
+      }
+    },
+    "progress": {
+      "status": "passed",
+      "log": ".veritile-cache/correct-surface-fix-20261022/progress-check.log",
+      "log_sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    }
+  },
+  "audit_sha256": "7f1291ebf73019b4847acf94511dac40adc48af1911a4cee28e52e1acccdfc60"
+}

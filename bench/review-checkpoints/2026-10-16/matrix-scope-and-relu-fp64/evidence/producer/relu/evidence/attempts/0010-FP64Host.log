@@ -1,0 +1,14 @@
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.FP64Host.finite_inventory: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.FP64Host.admission_typed: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.FP64Host.relu_typed_success: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.FP64Host.relu_fp64_success: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.FP64Host.relu_comparison_rejection: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.FP64Host.relu_signature_rejection: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

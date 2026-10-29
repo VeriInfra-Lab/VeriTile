@@ -1,0 +1,6 @@
+{
+  "source": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FiniteScalar.lean",
+  "source_sha256": "8cede1f30172a66138cf45f0b4947906b6e590d079c9742cde0aa00d74c24c52",
+  "transformation": "namespace QuantizeGlobalFinite renamed QuantTransposeFinite",
+  "copy_sha256": "d668ce55e0cc71a02e87f4e81fa47505a8d979f81eab3de08e44b6b93ef88739"
+}

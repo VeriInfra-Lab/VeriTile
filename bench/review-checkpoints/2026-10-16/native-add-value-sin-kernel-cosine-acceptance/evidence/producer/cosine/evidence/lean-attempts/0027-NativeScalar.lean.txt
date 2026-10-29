@@ -1,0 +1,167 @@
+import bench.tritonbench_g.vector_addition.Proofs.FP64TypedCore
+import VeriTile.Triton.Float.IntegerConversion
+
+namespace CosineNative
+open VeriTile.Triton
+open VeriTile.Bench.TritonBenchG.VectorAddition
+abbrev Storage := FP64TypedCore.Storage
+abbrev Width := FP64TypedCore.Width
+abbrev RegType := FP64TypedCore.RegType
+abbrev Word := FP64TypedCore.Word
+abbrev F32 := FP64TypedCore.F32
+abbrev F64 := FP64TypedCore.F64
+set_option maxHeartbeats 3000000
+set_option maxRecDepth 24000
+
+structure Numerics where
+  signedTo32 : (w : Width) → Word (.storage (.signed w)) → Word F32
+  unsignedTo32 : (w : Width) → Word (.storage (.unsigned w)) → Word F32
+  halfTo32 : Word (.storage .fp16) → Word F32
+  bfloatTo32 : Word (.storage .bf16) → Word F32
+  e4To32 : Word (.storage .f8e4fn) → Word F32
+  e5To32 : Word (.storage .f8e5) → Word F32
+  toHalf : Word F32 → Word (.storage .fp16)
+  toBFloat : Word F32 → Word (.storage .bf16)
+  toE4RTNE : Word F32 → Word (.storage .f8e4fn)
+  toE5RTNE : Word F32 → Word (.storage .f8e5)
+  doubleTo32 : Word F64 → Word F32
+  toDouble : Word F32 → Word F64
+  cos32 : Word F32 → Word F32
+
+def asFP32 (v : Word F32) : FP.Value .fp32 := ⟨v.bits⟩
+
+def signedStore (w : Width) (v : Word F32) : Option (Word (.storage (.signed w))) :=
+  (FP.IntegerConversion.toSigned w.bits (asFP32 v)).map (fun z => ⟨BitVec.ofInt w.bits z⟩)
+
+def unsignedStore (w : Width) (v : Word F32) : Option (Word (.storage (.unsigned w))) :=
+  (FP.IntegerConversion.toUnsigned w.bits (asFP32 v)).map (fun z => ⟨BitVec.ofNat w.bits z⟩)
+
+inductive Cast : RegType → RegType → Type where
+  | boolLoad : Cast (.storage .boolean) .predicate
+  | boolTo32 : Cast .predicate F32
+  | boolStore : Cast (.storage (.signed .w8)) (.storage .boolean)
+  | signedTo32 (w : Width) : Cast (.storage (.signed w)) F32
+  | unsignedTo32 (w : Width) : Cast (.storage (.unsigned w)) F32
+  | halfTo32 : Cast (.storage .fp16) F32
+  | bfloatTo32 : Cast (.storage .bf16) F32
+  | e4To32 : Cast (.storage .f8e4fn) F32
+  | e5To32 : Cast (.storage .f8e5) F32
+  | signedStore (w : Width) : Cast F32 (.storage (.signed w))
+  | unsignedStore (w : Width) : Cast F32 (.storage (.unsigned w))
+  | toHalf : Cast F32 (.storage .fp16)
+  | toBFloat : Cast F32 (.storage .bf16)
+  | toE4RTNE : Cast F32 (.storage .f8e4fn)
+  | toE5RTNE : Cast F32 (.storage .f8e5)
+  | doubleTo32 : Cast F64 F32
+  | toDouble : Cast F32 F64
+
+def evalCast (b : Numerics) : Cast s t → Word s → Option (Word t)
+  | .boolLoad,v => some ⟨BitVec.ofBool (v.bits != 0)⟩
+  | .boolTo32,v => some ⟨if v.bits.msb then 0x3f800000#32 else 0#32⟩
+  | .boolStore,v => some ⟨v.bits⟩
+  | .signedTo32 w,v => some (b.signedTo32 w v)
+  | .unsignedTo32 w,v => some (b.unsignedTo32 w v)
+  | .halfTo32,v => some (b.halfTo32 v)
+  | .bfloatTo32,v => some (b.bfloatTo32 v)
+  | .e4To32,v => some (b.e4To32 v)
+  | .e5To32,v => some (b.e5To32 v)
+  | .signedStore w,v => signedStore w v
+  | .unsignedStore w,v => unsignedStore w v
+  | .toHalf,v => some (b.toHalf v)
+  | .toBFloat,v => some (b.toBFloat v)
+  | .toE4RTNE,v => some (b.toE4RTNE v)
+  | .toE5RTNE,v => some (b.toE5RTNE v)
+  | .doubleTo32,v => some (b.doubleTo32 v)
+  | .toDouble,v => some (b.toDouble v)
+
+/-- The only input is the actual loaded storage word. -/
+inductive Expr (d : Storage) : RegType → Type where
+  | input : Expr d (.storage d)
+  | cast : Cast s t → Expr d s → Expr d t
+  | cosine : Expr d F32 → Expr d F32
+
+def Expr.eval (b : Numerics) (x : Word (.storage d)) : Expr d t → Option (Word t)
+  | .input => some x
+  | .cast c e => (e.eval b x).bind (evalCast b c)
+  | .cosine e => (e.eval b x).map b.cos32
+
+def promote32 : (s : Storage) → Expr d (.storage s) → Expr d F32
+  | .boolean,e => .cast .boolTo32 (.cast .boolLoad e)
+  | .signed w,e => .cast (.signedTo32 w) e
+  | .unsigned w,e => .cast (.unsignedTo32 w) e
+  | .fp16,e => .cast .halfTo32 e
+  | .bf16,e => .cast .bfloatTo32 e
+  | .fp32,e => e
+  | .fp64,e => .cast .doubleTo32 e
+  | .f8e4fn,e => .cast .e4To32 e
+  | .f8e5,e => .cast .e5To32 e
+
+def stored32 : (s : Storage) → Expr d F32 → Expr d (.storage s)
+  | .boolean,e => .cast .boolStore (.cast (.signedStore .w8) e)
+  | .signed w,e => .cast (.signedStore w) e
+  | .unsigned w,e => .cast (.unsignedStore w) e
+  | .fp16,e => .cast .toHalf e
+  | .bf16,e => .cast .toBFloat e
+  | .fp32,e => e
+  | .fp64,e => .cast .toDouble e
+  | .f8e4fn,e => .cast .toE4RTNE e
+  | .f8e5,e => .cast .toE5RTNE e
+
+/-- The original explicitly narrows every input, including fp64, to fp32.
+The compiler's math.cos/libdevice cosf result is then converted to the pointer
+storage type; no fp64 cosine or pre-conversion result is substituted. -/
+def source (d : Storage) : Expr d (.storage d) :=
+  stored32 d (.cosine (promote32 d .input))
+
+def input32 (b : Numerics) : (d : Storage) → Word (.storage d) → Word F32
+  | .boolean,v => ⟨if v.bits != 0 then 0x3f800000#32 else 0#32⟩
+  | .signed w,v => b.signedTo32 w v
+  | .unsigned w,v => b.unsignedTo32 w v
+  | .fp16,v => b.halfTo32 v
+  | .bf16,v => b.bfloatTo32 v
+  | .fp32,v => v
+  | .fp64,v => b.doubleTo32 v
+  | .f8e4fn,v => b.e4To32 v
+  | .f8e5,v => b.e5To32 v
+
+def output32 (b : Numerics) : (d : Storage) → Word F32 → Option (Word (.storage d))
+  | .boolean,v => (signedStore .w8 v).map (fun z => ⟨z.bits⟩)
+  | .signed w,v => signedStore w v
+  | .unsigned w,v => unsignedStore w v
+  | .fp16,v => some (b.toHalf v)
+  | .bf16,v => some (b.toBFloat v)
+  | .fp32,v => some v
+  | .fp64,v => some (b.toDouble v)
+  | .f8e4fn,v => some (b.toE4RTNE v)
+  | .f8e5,v => some (b.toE5RTNE v)
+
+/-- Independent finite scalar formula with partial integer conversions. -/
+def result (b : Numerics) (d : Storage) (x : Word (.storage d)) : Option (Word (.storage d)) :=
+  output32 b d (b.cos32 (input32 b d x))
+
+theorem eval_promote32 (b : Numerics) (x : Word (.storage d))
+    (s : Storage) (e : Expr d (.storage s)) :
+    (promote32 s e).eval b x=(e.eval b x).map (input32 b s) := by
+  cases s <;> cases h : e.eval b x <;> simp [promote32,Expr.eval,evalCast,input32,h]
+  case boolean.some w =>
+    change (if (BitVec.ofBool (w.bits != 0)).msb then 0x3f800000#32 else 0#32)=_
+    rw [BitVec.msb_ofBool]
+    by_cases hz : w.bits=0
+    · simp [hz]
+    · simp [hz]
+      rfl
+
+theorem eval_stored32 (b : Numerics) (x : Word (.storage d))
+    (s : Storage) (e : Expr d F32) :
+    (stored32 s e).eval b x=(e.eval b x).bind (output32 b s) := by
+  cases s <;> cases h : e.eval b x <;> simp [stored32,Expr.eval,evalCast,output32,h,Option.map_eq_bind]
+
+theorem source_scalar (b : Numerics) (d : Storage) (x : Word (.storage d)) :
+    (source d).eval b x=result b d x := by
+  simp [source,eval_stored32,eval_promote32,Expr.eval,result]
+
+#specNonCircular result avoiding [source,Expr.eval]
+#axiomsClean source_scalar
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end CosineNative

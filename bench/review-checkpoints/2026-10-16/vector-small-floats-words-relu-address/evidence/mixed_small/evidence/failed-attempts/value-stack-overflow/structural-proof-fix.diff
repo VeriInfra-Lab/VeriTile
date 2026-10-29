@@ -1,0 +1,29 @@
+--- actual-failed-MixedSmallValue
++++ final-MixedSmallValue
+@@ -9,6 +9,9 @@
+ set_option maxRecDepth 24000
+ set_option linter.unusedSimpArgs false
+ local instance : Inhabited Word := ⟨FP.Value.zero .fp32⟩
++-- Execution is structural in the concrete scalar operations. Prevent
++-- unification from expanding their rational rounding algorithms here.
++attribute [local irreducible] integerRounded addTarget widenHalf widenBFloat narrowBFloat
+ 
+ def expectedMemory (cfg : FP.Config) (f : FloatStorage) (us : Nat → Word → Int) (uu : Nat → Word → Nat)
+     (integerFirst : Bool) (d : Storage) (p : Parameters) (s : State Word) :
+@@ -47,7 +50,7 @@
+   cases f <;> cases integerFirst <;> cases d
+   all_goals simp [execution, expectedMemory, offset, resultCell, sumValue,
+     convertedCell, MixedFP32.convertedCell, conversionInput, storedFloat,
+-    readFloat, extendInput, addTarget, FloatStorage.compute, FloatStorage.dtype, IntegerSource.loaded, IntegerSource.loadValue,
++    readFloat, extendInput, FloatStorage.compute, FloatStorage.dtype, IntegerSource.loaded, IntegerSource.loadValue,
+     bop, Broadcast.leftIndex, Broadcast.rightIndex,
+     ValueProofs.masked_scatter_memory, State.setReg]
+   all_goals congr 1
+@@ -115,5 +118,7 @@
+ #axiomsClean execution_memory
+ #axiomsClean expected_cell
+ #axiomsClean complete_correct
++#guard_msgs (drop info) in
++#auditModuleAxioms
+ end
+ end VeriTile.Bench.TritonBenchG.VectorAddition.MixedSmall

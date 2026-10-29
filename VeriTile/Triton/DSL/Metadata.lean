@@ -212,6 +212,7 @@ private partial def exprRegions (assigned : RegionBindings) :
             | `(tritonReduceKwarg| $_:ident = $val:tritonExpr) => acc ++ exprRegions assigned val
             | _ => acc) []
       exprRegions assigned e ++ kwargRegions
+  | `(tritonExpr| tl.min($e:tritonExpr $[, $kwargs:tritonReduceKwarg]*))
   | `(tritonExpr| tl.max($e:tritonExpr $[, $kwargs:tritonReduceKwarg]*)) =>
       let kwargRegions : List (TSyntax `term) :=
         kwargs.foldl

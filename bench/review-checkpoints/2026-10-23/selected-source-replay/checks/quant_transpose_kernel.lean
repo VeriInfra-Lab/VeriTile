@@ -1,0 +1,7 @@
+import VeriTile.Meta.StatementAudit
+import bench.repairs.tritonbench_g.quant_transpose_kernel.Contract
+import bench.repairs.tritonbench_g.quant_transpose_kernel.Correct
+import bench.repairs.tritonbench_g.quant_transpose_kernel.FPEquiv
+
+#axiomsClean VeriTile.Bench.Repairs.QuantTransposeKernel.Correct.kernel_real
+#axiomsClean VeriTile.Bench.Repairs.QuantTransposeKernel.FPEquiv.kernel_native_equiv

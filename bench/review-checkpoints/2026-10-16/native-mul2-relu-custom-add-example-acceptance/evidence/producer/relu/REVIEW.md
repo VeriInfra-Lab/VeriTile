@@ -1,0 +1,17 @@
+# ReLU full-source revision proposal
+
+This additive package replaces the old restricted-source acceptance claim. It preserves every existing bounded theorem and changes no repository source or acceptance record. Root substantive review and exact authority integration remain required; producer acceptance increment is zero.
+
+The eight Actual*.lean modules retain the seven original kernel statements, including all loads and comparison/select operations before the pid-zero gate. Indices use finite i32 multiply/add; masks use all four actual constexpr promotion branches; pointer offsets sign-extend i32 into64. Every launched program's active input accesses remain checked. Native launch pids are bounded only by the real signed-int grid parser, independently of source N.
+
+The memory semantics uses actual extracted ABI pointers, current-launch-device byte permissions, and explicit bytewise translation to canonical backing. Raw data_ptr, storage identity, owner device, shape, strides and offsets remain metadata. No owner/current-device equality is required. Null extracted pointers retain empty metadata and require no translated allocation span. Ordinary primitive contracts contain metadata and allocation/access facts, not kernel values or final memory.
+
+The independent result is a reverse-last-write formula over every backing byte, with values sampled from the allocated initial snapshot. Freshness proves all input and external bytes are preserved. Only pid0 stores in an actual successful native grid; other output bytes retain arbitrary empty_like contents. Checked complete-schedule lemmas remove any dependence on program scheduling. The old full-tensor-ReLU interpretation is not claimed.
+
+The host retains x.device evaluation, empty_like(float32,x.device), output.numel, the unused num_blocks expression, separate grid evaluation, launch, and return. JIT current-device acquisition precedes dtype binding; compilation precedes native launcher context/grid parsing, pointer extraction, and enqueue. Allocation/setup failures carry their actual state without rollback claims. Invalid source accesses are explicitly outside-memory-model observations, with no claimed native exception, race winner, return, or final memory.
+
+All22 canonical dtypes are included:13 admitted scalar routes,5 signature-map failures,2 unsupported fnuz signatures,2 ordered-comparison fp8 failures. Nonrepresentable constexpr integers fail frontend processing. Larger representable N values can compile but fail the signed-int native grid parser. The scope table partitions these paths without granting numerical authority to unreachable successful launches.
+
+Evidence includes33 offline frontend/backend configurations (23 compiled), all22 dtypes and constexpr boundaries through2^64;73 exact-wrapper CPU metadata/allocation records; pinned JIT and CUDA launcher sources; full before/after hashes for182 project source/object dependencies and36 external objects; and every attempted Lean build, including failures. No GPU execution occurred.
+
+The public specification is relu_actual_source_outcomes in ActualCorrect.lean. Numerical conformance is explicitly pending for exact integer-to-fp32, float comparison, widening and narrowing ports. Positive-zero bits and bool normalization are concrete finite-word operations. The proposed adapter requires an independently pinned producer receipt and root review receipt. Its tests use a clearly marked temporary synthetic fixture and do not constitute approval.

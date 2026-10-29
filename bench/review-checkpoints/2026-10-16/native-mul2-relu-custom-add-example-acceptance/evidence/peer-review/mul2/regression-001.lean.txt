@@ -1,0 +1,41 @@
+import bench.tritonbench_g.triton_mul2.FiniteCorrect
+namespace Mul2IndependentReview
+open TritonMul2Finite
+noncomputable section
+open Classical
+set_option maxHeartbeats 2000000
+
+def ctx : AccessContext := ⟨0,fun _ a => a=8192,fun _ a => a=8192,
+  fun _ a => if a=8192 then some 4096 else none⟩
+def region : ByteRegion := ⟨4096,1,true,true,none⟩
+def p : Layout := ⟨region,region,8192,8192,8192,8192,ctx⟩
+def memory : ByteMemory := fun a => if a=4096 then some 3 else none
+
+theorem translated_load : readWord (.unsigned .w8) (deviceMemory ctx memory) 8192=some 3 := by
+  simp [readWord,Storage.bytes,Width.bytes,deviceMemory,ctx,memory,
+    VeriTile.Bench.TritonBenchG.ReluTritonKernel.ByteMemory.loadLE]
+
+theorem translated_program (b : Numerics) :
+    programPlan b (.unsigned .w8) p 1 1 0 memory [] =
+      .ok ([⟨0,0,8192,4096,8192,6⟩],[4096]) := by
+  simp [programPlan,loadTile,offset32,active32,p,region,InRegion,Layout.deviceInput,
+    AccessContext.Readable,AccessContext.Writable,AccessContext.Resolves,
+    ctx,translated_load,requireSome,tileWrites,Layout.outputBacking,Layout.deviceOutput,
+    result,wordWrites,Storage.bytes,Width.bytes,
+    VeriTile.Bench.TritonBenchG.ReluTritonKernel.ByteMemory.splitByte]
+
+theorem shared_alias_observes_store :
+    deviceMemory ctx (applyWrites [⟨0,0,8192,4096,8192,6⟩] memory) 8192=some 6 ∧
+    applyWrites [⟨0,0,8192,4096,8192,6⟩] memory 8192=none := by
+  simp [deviceMemory,ctx,applyWrites,byteWrite,memory]
+
+theorem signed_minimum_grid_rejection :
+    ¬gridFits (hostGrid (2^31) 1) ∧ gridFits (hostGrid (2^31) 2) := by
+  exact ⟨i32_minimum_grid_boundary.2.1,i32_minimum_grid_boundary.2.2.2⟩
+
+#axiomsClean translated_load
+#axiomsClean translated_program
+#axiomsClean shared_alias_observes_store
+#axiomsClean signed_minimum_grid_rejection
+end
+end Mul2IndependentReview

@@ -1,0 +1,7 @@
+import VeriTile.Meta.StatementAudit
+import bench.repairs.tritonbench_g.masked_select.Contract
+import bench.repairs.tritonbench_g.masked_select.Correct
+import bench.repairs.tritonbench_g.masked_select.FPEquiv
+
+#axiomsClean VeriTile.Bench.Repairs.MaskedSelect.Correct.masked_select_stable_correctness
+#axiomsClean VeriTile.Bench.Repairs.MaskedSelect.FPEquiv.masked_select_configuration_equiv

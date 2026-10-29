@@ -1,0 +1,107 @@
+{
+  "integration-build": {
+    "exit_code": 0,
+    "jobs": 7425,
+    "log": {
+      "path": "evidence/integration/native-vector-quant-integration-build.log",
+      "sha256": "a14e6bf8ee3fbbed215aabc3f009b0faba0a1c7fe192f76dff63535514d63c59"
+    }
+  },
+  "catalog": {
+    "exit_code": 0,
+    "public_declarations": 957,
+    "log": {
+      "path": "evidence/integration/native-vector-quant-catalog.log",
+      "sha256": "cb7f90bedc61bd8be1d44523f512fa219facd3a736f8466dae3060c1805265ca"
+    }
+  },
+  "queue-archivefix": {
+    "exit_code": 0,
+    "rules": 153,
+    "log": {
+      "path": "evidence/integration/native-vector-quant-queue-archivefix.log",
+      "sha256": "a8a5ebdbda6271e3b1f2ae08bc55bd0d5b20f0c93528abe5bac59c4d75c1cc8e"
+    }
+  },
+  "rebind-ledger": {
+    "exit_code": 0,
+    "verified": 1,
+    "verified_with_deferred_numerics": 3,
+    "pending": 179,
+    "log": {
+      "path": "evidence/integration/native-vector-quant-rebind-ledger.log",
+      "sha256": "b6683e01966fc8a24a291b25239a4d83a4ca7b134dec0678a526ce2dc089f83b"
+    }
+  },
+  "global-archivefix": {
+    "exit_code": 1,
+    "failed_gates": [
+      "comparator_preflight",
+      "library_replay",
+      "scope_review"
+    ],
+    "log": {
+      "path": "evidence/integration/native-vector-quant-global-archivefix.log",
+      "sha256": "589039dfd365171fe78ce44a01875cac4a2bd32415c5fee174bfec3395653f11"
+    }
+  },
+  "other-bench-tests": {
+    "exit_code": 1,
+    "passed_tests": 142,
+    "loader_errors": 2,
+    "reason": "Invocation omitted bench/tests from import search; two test modules never loaded.",
+    "log": {
+      "path": "evidence/integration/native-vector-quant-other-bench-tests.log",
+      "sha256": "416494d45bce4f6a11b116f257e470f7d0ee97d99ec9c31fff2fa12aba0da65c"
+    }
+  },
+  "other-bench-tests-recovered": {
+    "exit_code": 0,
+    "tests": 68,
+    "reason": "Only the two previously unloaded modules rerun with fixture import path; total210 other tests passed.",
+    "log": {
+      "path": "evidence/integration/native-vector-quant-other-bench-tests-recovered.log",
+      "sha256": "67d108c1b185c8aad907b65c0a00c8e80dc165809cd47902b8bb52a0bc9e48b2"
+    }
+  },
+  "exact-tests": {
+    "exit_code": 0,
+    "tests": 43,
+    "timing": "Before exact-byte historical pyc relocation; semantic authorities unchanged",
+    "log": {
+      "path": "evidence/integration/native-vector-quant-exact-tests.log",
+      "sha256": "db1141aa4263f9aa0915e085e77d770965f2c591bc3b83c3c37b469269c8e2d2"
+    }
+  },
+  "archivefix-tests": {
+    "exit_code": 0,
+    "tests": 1,
+    "timing": "After relocation; validates mutation of the retained pyc.bin artifact is rejected",
+    "log": {
+      "path": "evidence/integration/native-vector-quant-archivefix-tests.log",
+      "sha256": "f3d9f8a27d1929747f9098550df037f94473a94e90b93b3af96bb2838ef30bb8"
+    }
+  },
+  "shard-tests": {
+    "exit_code": 0,
+    "tests": 25,
+    "log": {
+      "path": "evidence/integration/native-vector-quant-shard-tests.log",
+      "sha256": "81d5daaa7c788e39ff8e4091e5133c069319c04159505c43ee6d1b53089054fa"
+    }
+  },
+  "prepare-attempt002": {
+    "exit_code": 0,
+    "log": {
+      "path": "evidence/integration/native-vector-quant-prepare-attempt002.log",
+      "sha256": "226ea8a306d8e203d9a04fe404513c9852c9294b2ae2587c3c49f80fb49f5405"
+    }
+  },
+  "authority": {
+    "exit_code": 0,
+    "log": {
+      "path": "evidence/integration/native-vector-quant-authority.log",
+      "sha256": "366c208b85d35cfd9f5f76fb4b32b2e2c92541452f6257ae12914352c7629378"
+    }
+  }
+}

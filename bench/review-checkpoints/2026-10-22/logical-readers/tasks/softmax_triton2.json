@@ -1,0 +1,132 @@
+{
+  "schema": 1,
+  "task": "softmax_triton2",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/root-tasks/two-task-stable-v2.json",
+    "sha256": "9c34b85e45c34056d0cad70c59e0200e4e66587fc16c6e398e02bed6144a7e45",
+    "task_index": 1
+  },
+  "finding": "Cast from n active columns to B padded lanes in the mathematical sum",
+  "resolution": "Keep existing logical Fin B input/output; active finite subrow accessor in task LogicalIO",
+  "mathematical_target": "fun xs i => exp(xs i) / sum j : Fin n, exp(active cover xs j)",
+  "conditions_and_scope": "Same 0<B and n<=B, masked contiguous single row, all B lanes retained and sum over n logical columns, full execution/safety/frame",
+  "proof_connection": "ReaderFormat.statement_iff is exact same MaskedKernelIO full judgment; no input/output projection",
+  "fp_review": "Actual original/candidate pair and existing rule dependency unchanged; FPEquiv rebuilt and single-task joint import checked",
+  "numerical_dependencies": {
+    "new_rules": [],
+    "existing_dependencies_unchanged": true
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "exp(x_i) / sum(j : Fin n, exp(x_j)); full logical n columns within one row invocation",
+    "required_conditions": [
+      "0 < B",
+      "n <= B in Correct headline",
+      "physical backing, active input binding and exterior frame in MaskedKernelIO judgment"
+    ],
+    "scope": "One B-lane masked row, not an entire row-grid pipeline. The logical denominator contains exactly n terms.",
+    "canonical_connection": [
+      "RealProof.io_correct",
+      "RealProof.masked_sum_eq_logical",
+      "RealProof.logical_formula_eq_reference",
+      "RealProof.logical_io_correct"
+    ],
+    "fp_program_pair": "sourceProgram versus guarded reciprocalProgram; actual complete row kernels, same source FP32 precision, masks, strides and outputs",
+    "numerical_dependencies": {
+      "experimental_rules_actually_used": [
+        "fp32 DIV-MUL-RCP: finite a, finite b, b != 0"
+      ],
+      "evidence": "Existing accepted supplemental admission; no new experiment claimed or required.",
+      "guard_connection": "Ports bind finite/order classifiers to the selected model; enabled_values proves the finite/nonzero operands. B < 2^32 prevents count wrap. Disabled branch retains division.",
+      "unused_library_parameters_not_counted": true
+    }
+  },
+  "verification": [
+    {
+      "kind": "successful_targeted_build_receipts",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/build.py",
+        "bench.repairs.tritonbench_g.softmax_triton2.LogicalIO",
+        "bench.repairs.tritonbench_g.softmax_triton2.Proofs.ReaderFormat",
+        "bench.repairs.tritonbench_g.softmax_triton2.Correct",
+        "bench.repairs.tritonbench_g.softmax_triton2.FPEquiv"
+      ],
+      "exit_code": 0,
+      "logs": [
+        {
+          "path": ".veritile-cache/logical-reader-review-20261022/root-tasks/build-attempt5.log",
+          "sha256": "7a93bb70f5cb76d391603451713fe35eb4a6e13dcbbc2a0c4f1dd025ff641936"
+        },
+        {
+          "path": ".veritile-cache/logical-reader-review-20261022/root-tasks/fp-build.log",
+          "sha256": "1e006846e413c147c56578bd9aa19ddca11b6d65c3f4c172f26ee4b95afba829"
+        },
+        {
+          "path": ".veritile-cache/logical-reader-review-20261022/root-tasks/joint-softmax.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "receipts": [
+        {
+          "path": ".veritile-cache/logical-reader-review-20261022/build/lib/lean/bench/repairs/tritonbench_g/softmax_triton2/LogicalIO.workspace-build.json",
+          "sha256": "e579811e7ba9a63560f8f5f672d9dbe9b02f5e173e2fd48664aa62fced30d461"
+        },
+        {
+          "path": ".veritile-cache/logical-reader-review-20261022/build/lib/lean/bench/repairs/tritonbench_g/softmax_triton2/Proofs/ReaderFormat.workspace-build.json",
+          "sha256": "0f635d173a2770f7c75b2ef74f9813193e6949cea89df3cbeaeb94cf02454042"
+        },
+        {
+          "path": ".veritile-cache/logical-reader-review-20261022/build/lib/lean/bench/repairs/tritonbench_g/softmax_triton2/Correct.workspace-build.json",
+          "sha256": "1fe5058aeb7edbfcc4b7097e0644253229a15a4329d677da14073e0e68a09e90"
+        },
+        {
+          "path": ".veritile-cache/logical-reader-review-20261022/build/lib/lean/bench/repairs/tritonbench_g/softmax_triton2/FPEquiv.workspace-build.json",
+          "sha256": "8a72e350ba16359057cef2d9d9b1a350b78c1596b48fab07cdede6c91862733b"
+        }
+      ]
+    },
+    {
+      "kind": "single_task_joint_import",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/root-tasks/softmax_triton2_Joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/root-tasks/joint-softmax.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/softmax_triton2/Correct.lean": "4abde14fd550fca645175854343fc1532b5cd0a9570e0a2a117fd13057d6b171",
+    "bench/repairs/tritonbench_g/softmax_triton2/FPEquiv.lean": "97837e86cfc04d0492f4a6e1067cce4b8965d06e25991b19819ad92acf5a47a2",
+    "bench/repairs/tritonbench_g/softmax_triton2/Kernels.lean": "dcdbfd78a85a5e5b64292db9dc09d50d38a0f473048b686f0462d463bdf7de5a",
+    "bench/repairs/tritonbench_g/softmax_triton2/IO.lean": "db9822957bf8be21f8b2e68adb0d68b87ccaad153bff931a2d55fd37bff187f3",
+    "bench/repairs/tritonbench_g/softmax_triton2/Contract.lean": "4b63f06182fbfd358e3c72468c89533e14857f4b50ce3ef93b3759a23a70a6c9",
+    "bench/repairs/tritonbench_g/softmax_triton2/LogicalIO.lean": "c7dfbb71c041df03c7398854ac9a38c92e89d586d92de60c176aa447f4967273",
+    "bench/repairs/tritonbench_g/softmax_triton2/Proofs/ReaderFormat.lean": "de818b1994acdd276bf9f43a91ddbe097fcffcd673c5c8ca99fdeb70cb98424b",
+    "bench/repairs/tritonbench_g/softmax_triton2/Proofs/Real.lean": "fde5210ed58aa297d7c7e493a1d24648855f919d712d73db7a863e33b9157ce8",
+    "bench/repairs/tritonbench_g/softmax_triton2/Proofs/GuardedReciprocal.lean": "c05f129cf9cff639c7f38c638c3a5a00a51c9352c19f37b4e258a88bb93c8313",
+    "bench/repairs/tritonbench_g/softmax_triton2/Proofs/Pair.lean": "76ef2f36dd89cfb97d41048930d268b7512d2e8611dd2c00a953776e4ace773f",
+    "bench/repairs/tritonbench_g/softmax_triton2/Proofs/SourceIO.lean": "41f145de6a053da8d726d75bb0c81c66612674a58561ef405be989094c64b3be",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [
+    "Existing accepted internal proof objects reused; no full transitive source replay",
+    "No numerical/GPU/native experiments"
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

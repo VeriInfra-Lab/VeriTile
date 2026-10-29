@@ -1,0 +1,17 @@
+{
+  "source": "bench/tritonbench_g/triton_mul2/Proofs/FinitePointerBoundary.lean",
+  "source_sha256": "b664eb4cfef819fa34c1d3d509f678e80dd74b7257ea13f8f958c64ab6f5cd5b",
+  "source_unchanged": true,
+  "command": [
+    "/tmp/veritile-lean-toolchain/bin/lean",
+    "--root=/tmp/veritile-standardization-20261015/triton-mul2-finite-acceptance-revision2-wip",
+    "/tmp/veritile-standardization-20261015/triton-mul2-finite-acceptance-revision2-wip/bench/tritonbench_g/triton_mul2/Proofs/FinitePointerBoundary.lean",
+    "-o",
+    "/tmp/veritile-standardization-20261015/triton-mul2-finite-acceptance-revision2-wip/bench/tritonbench_g/triton_mul2/Proofs/FinitePointerBoundary.olean"
+  ],
+  "LEAN_PATH": "/tmp/veritile-standardization-20261015/triton-mul2-finite-acceptance-revision2-wip:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean",
+  "exit_code": 1,
+  "seconds": 4.016710577066988,
+  "log": "evidence/attempts/0011-FinitePointerBoundary.log",
+  "log_sha256": "6ade75f69cb32ea43839f84b6a0dd02a2ebd15c4ef67d042078ace554220c887"
+}

@@ -1,0 +1,76 @@
+VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.correct_model: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.integer_grid_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Int8DequantMatmul.Direct.logicalInput: definition does not reference [VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.execute,
+ VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.program] — non-circular ✓
+VeriTile.Bench.Repairs.Int8DequantMatmul.target: definition does not reference [VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.execute,
+ VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.program] — non-circular ✓
+{"module": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Correct.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Correct.olean"}
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/FPEquiv.lean:22:50: warning: This simp argument is unused:
+  Prod.fst
+
+Hint: Omit it from the simp argument list.
+  simp only [outputAddress, ̲requestBuffers, ̲buffers, ̲Prod.f̵st̵,̵P̵r̵o̵d̵.̵s̵nd, ̲Nat.zero_add] at storage index
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/FPEquiv.lean:22:59: warning: This simp argument is unused:
+  Prod.snd
+
+Hint: Omit it from the simp argument list.
+  simp only [outputAddress, ̲requestBuffers, ̲buffers, ̲Prod.fst,P̵r̵o̵d̵.̵s̵n̵d̵,̵ ̲Nat.zero_add] at storage index
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/FPEquiv.lean:28:13: warning: This simp argument is unused:
+  Prod.snd
+
+Hint: Omit it from the simp argument list.
+  simp only ̵[̵P̵r̵o̵d̵.̵s̵n̵d̵]̵
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/FPEquiv.lean:60:13: warning: This simp argument is unused:
+  Prod.snd
+
+Hint: Omit it from the simp argument list.
+  simp only [̵P̵r̵o̵d̵.̵s̵n̵d̵]̵ ̵at memory
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/FPEquiv.lean:77:35: warning: This simp argument is unused:
+  Nat.mul_mod_right
+
+Hint: Omit it from the simp argument list.
+  simp only [̵D̵T̵y̵p̵e̵.̵b̵y̵t̵e̵s̵,̵N̵a̵t̵.̵m̵u̵l̵_̵a̵d̵d̵_̵d̵i̵v̵[̲D̲T̲y̲p̲e̲.̲b̲y̲t̲e̲s̲,̲ ̲N̲a̲t̲.̲m̲u̲l̲_̲a̲d̲d̲_̲d̲i̲v̲ (by decide : 0̵<̵2̵)̵,̵N̵a̵t̵.̵d̵i̵v̵_̵e̵q̵_̵o̵f̵_̵l̵t̵0̲ ̲<̲ ̲2̲)̲,̲ ̲N̲a̲t̲.̲d̲i̲v̲_̲e̲q̲_̲o̲f̲_̲l̲t̲ i.isLt,
+        N̵a̵t̵.̵a̵d̵d̵_̵z̵e̵r̵o̵,̵N̵a̵t̵.̵m̵u̵l̵_̵a̵d̵d̵_̵m̵o̵d̵,̵N̵a̵t̵.̵m̵u̵l̵_̵m̵o̵d̵_̵r̵i̵g̵h̵t̵,̵N̵a̵t̵.̵z̵e̵r̵o̵_̵a̵d̵d̵,̵N̵a̵t̵.̵m̵o̵d̵_̵e̵q̵_̵o̵f̵_̵l̵t̵N̲a̲t̲.̲a̲d̲d̲_̲z̲e̲r̲o̲,̲ ̲N̲a̲t̲.̲m̲u̲l̲_̲a̲d̲d̲_̲m̲o̲d̲,̲ ̲N̲a̲t̲.̲z̲e̲r̲o̲_̲a̲d̲d̲,̲ ̲N̲a̲t̲.̲m̲o̲d̲_̲e̲q̲_̲o̲f̲_̲l̲t̲ i.isLt]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/FPEquiv.lean:77:53: warning: This simp argument is unused:
+  Nat.zero_add
+
+Hint: Omit it from the simp argument list.
+  simp only [DType.bytes, ̲Nat.mul_add_div (by decide : 0 ̲< ̲2), ̲Nat.div_eq_of_lt i.isLt,
+        Nat.add_zero, ̲Nat.mul_add_mod, ̲Nat.mul_mod_right, ̲Nat.z̵e̵r̵o̵_̵a̵d̵d̵,̵N̵a̵t̵.̵mod_eq_of_lt i.isLt]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.byte_index_outside: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.fp_equiv_model: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.fp_equiv: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Int8DequantMatmul.Direct.logicalWordReference: definition does not reference [VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.execute,
+ VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.program] — non-circular ✓
+VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.Prepared: definition does not reference [VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.execute,
+ VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.program,
+ VeriTile.Bench.Repairs.Int8DequantMatmul.Direct.logicalWordReference] — non-circular ✓
+VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.Zeroed: definition does not reference [VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.execute,
+ VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.program,
+ VeriTile.Bench.Repairs.Int8DequantMatmul.Direct.logicalWordReference] — non-circular ✓
+{"module": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/FPEquiv.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/FPEquiv.olean"}
+{"module": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/SourceBinding.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/SourceBinding.olean"}

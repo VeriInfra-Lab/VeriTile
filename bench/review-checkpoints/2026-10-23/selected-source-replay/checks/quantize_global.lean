@@ -1,0 +1,7 @@
+import VeriTile.Meta.StatementAudit
+import bench.repairs.tritonbench_g.quantize_global.Contract
+import bench.repairs.tritonbench_g.quantize_global.Correct
+import bench.repairs.tritonbench_g.quantize_global.FPEquiv
+
+#axiomsClean QuantizeGlobalRepair.Correctness.kernel_grid_correct
+#axiomsClean QuantizeGlobalRepair.FPEquivalence.configurations_equivalent

@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "reviewer": "root",
+  "status": "passed_installed_int4_source_dotacc_metadata_and_composed_build",
+  "receipt_sha256": "114b2603ee48bba1601ce56376aa7c1b29aafd5815ec9311ef670253998b119d",
+  "catalog_sha256": "4b74dbb480fea7a207161f6a26a3ac4dd7ec9427009bd469e6591a85e65f973f",
+  "root_installed_delta_review_sha256": "d5c68bccec88860b4d039f6498dfa27cc2cdf6a42435724994894e3a9c50d8db",
+  "checked_current_inputs": 4147,
+  "changed_inputs": [],
+  "native_execution": false,
+  "full_corpus_comparator_passed": false
+}

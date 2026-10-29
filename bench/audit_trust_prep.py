@@ -2,7 +2,7 @@
 """Emit an audited temp copy of a standalone bench Lean file.
 
 Given a path to a bench Lean file (a `bench/tritonbench_g/*/*.lean` port, a
-`bench/examples/*.lean` showcase, or a `bench/tests/*.lean` smoke), print to
+`bench/examples/**/*.lean` showcase, or a `bench/tests/*.lean` smoke), print to
 stdout a copy that:
 
   1. adds `import VeriTile.Meta.StatementAudit` to the import block, and
@@ -73,7 +73,14 @@ def prepare_source(text, rel, manifest=MANIFEST):
     if rel in NEGATIVE_SPEC_FIXTURES:
         footer.append('#eval IO.println "Spec audit: negative-test fixture; guarded checks executed in source"')
     else:
-        footer.append("#auditModuleSpecs")
+        path = Path(rel)
+        source_module = '.'.join((*path.parts[:3], 'Kernels'))
+        if (path.parts[:2] in {('bench', 'examples'), ('bench', 'tritonbench_g')}
+                and len(path.parts) >= 4
+                and f'import {source_module}' in lines):
+            footer.append(f"#auditModuleSpecs from [{source_module}]")
+        else:
+            footer.append("#auditModuleSpecs")
 
     return "\n".join(new_lines + footer) + "\n"
 

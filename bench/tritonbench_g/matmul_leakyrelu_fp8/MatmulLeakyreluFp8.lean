@@ -244,23 +244,16 @@ theorem bptr_adv_eval (s : BlockState) (K N BK SBK : Nat) (bp : Tile .ptr [K, N]
   simp [evalOp_ref, hy, evalOp_mul, evalOp_constNat, NumericDType.mul, Tile.bop]
 
 /-- **`accumulator = tl.dot(a, b, accumulator)` statement eval** (fused form,
-lowering to `tl.dot(a, b) + accumulator`, so the dot is the left summand). -/
+whose real interpretation adds the dot to the accumulator). -/
 theorem accdot_op_eval (M K N : Nat) (st : BlockState)
     (zt : Tile .real [M, N]) (xt : Tile .real [M, K]) (yt : Tile .real [K, N])
     (hz : st.regs .real [M, N] "accumulator" = some zt)
     (hx : st.regs .real [M, K] "a" = some xt)
     (hy : st.regs .real [K, N] "b" = some yt) :
-    evalOp (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
-        (Op.dot (batch := []) (Op.ref .real [M, K] "a") (Op.ref .real [K, N] "b"))
-        (Op.ref .real [M, N] "accumulator")) st
+    @evalOp .real [M,N] (Op.dotAcc .real .real .real (batch := []) (Op.ref .real [M, K] "a") (Op.ref .real [K, N] "b") (Op.ref .real [M, N] "accumulator")) st
       = some (Tile.bop NumericDType.real.add (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
           (Tile.dot [] xt yt) zt) := by
-  have hd : evalOp (Op.dot (batch := []) (Op.ref .real [M, K] "a")
-        (Op.ref .real [K, N] "b")) st = some (Tile.dot [] xt yt) := by
-    rw [evalOp_dot]; simp [hx, hy]
-  rw [evalOp_add]
-  simp only [evalOp_ref, hz, bind, Option.bind_some]
-  erw [hd]
+  simp only [evalOp.eq_def, FloatDType.toTileDType, List.nil_append, hx, hy, hz, Option.bind_eq_bind, Option.bind_some]
   rfl
 
 /-- `dot + accumulator` lane `(i,j)`: `some (dv + zv)`. -/
@@ -363,9 +356,7 @@ def mlrLoopBody (BM BN BLOCK_K K SAK SBK : Nat) : List Stmt :=
                 (Op.mul .nat Broadcast.nil (Op.ref .nat [] "k") (Op.constNat BLOCK_K)))))
           ((Op.const 0.0).broadcast [BLOCK_K, BN]))),
     Stmt.assign .real [BM, BN] "accumulator"
-      (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
-        (Op.dot (batch := []) (Op.ref .real [BM, BLOCK_K] "a") (Op.ref .real [BLOCK_K, BN] "b"))
-        (Op.ref .real [BM, BN] "accumulator")),
+      (Op.dotAcc .real .real .real (batch := []) (Op.ref .real [BM, BLOCK_K] "a") (Op.ref .real [BLOCK_K, BN] "b") (Op.ref .real [BM, BN] "accumulator")),
     Stmt.assign .ptr [BM, BLOCK_K] "a_ptrs"
       (Op.ptrAdd Broadcast.scalarR (Op.ref .ptr [BM, BLOCK_K] "a_ptrs")
         (Op.mul .nat Broadcast.nil (Op.constNat BLOCK_K) (Op.constNat SAK))),
@@ -757,7 +748,7 @@ def mlrPostBody (C : RegionName) (M N SCM SCN BM BN : Nat) : List Stmt :=
         (Op.ref .real [BM, BN] "accumulator")
         (Op.mul .real Broadcast.scalarL (Op.const 1e-2) (Op.ref .real [BM, BN] "accumulator"))),
     Stmt.assign FloatDType.fp16.toTileDType [BM, BN] "c"
-      (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref .real [BM, BN] "accumulator")),
+      (Op.castFloat FloatDType.real FloatDType.fp16 (Op.withPrecision .real .fp32 (Op.ref .real [BM, BN] "accumulator"))),
     Stmt.assign .nat [BM] "offs_cm"
       (Op.add .nat Broadcast.scalarL
         (Op.mul .nat Broadcast.nil (Op.ref .nat [] "pid_m") (Op.constNat BM)) (Op.arange BM)),
@@ -935,9 +926,9 @@ theorem mlr_postLoop (A B C : RegionName) (s0 : BlockState)
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (activation_eval BM BN st g hzspec))]
   set s1 := st.setReg "accumulator" .real [BM, BN] ⟨fun idx => some (leakyrelu (g idx))⟩ with hs1
   -- step 2: fp16 cast
-  have hcast : evalOp (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref .real [BM, BN] "accumulator")) s1
+  have hcast : evalOp (Op.castFloat FloatDType.real FloatDType.fp16 (Op.withPrecision .real .fp32 (Op.ref .real [BM, BN] "accumulator"))) s1
       = some (⟨fun idx => FloatDType.real.cast FloatDType.fp16 (some (leakyrelu (g idx)))⟩ : Tile .fp16 [BM, BN]) := by
-    rw [hs1, evalOp_castFloat]
+    rw [hs1, evalOp_castFloat, evalOp.eq_def]
     simp [BlockState.setReg_same]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some hcast)]
   set s2 := s1.setReg "c" FloatDType.fp16.toTileDType [BM, BN] (⟨fun idx => FloatDType.real.cast FloatDType.fp16 (some (leakyrelu (g idx)))⟩ : Tile .fp16 [BM, BN]) with hs2
@@ -1367,7 +1358,7 @@ private theorem cmask_eval (s : BlockState) (M N BM BN : Nat)
 site 1, `R.cast` applied lane-wise to the activated accumulator tile. -/
 private theorem castAcc_evalR (R : RoundingModel) (BM BN : Nat) (s : BlockState)
     (zT : Tile .real [BM, BN]) (hz : s.regs .real [BM, BN] "accumulator" = some zT) :
-    evalOpR R (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref .real [BM, BN] "accumulator")) s
+    evalOpR R (Op.castFloat FloatDType.real FloatDType.fp16 (Op.withPrecision .real .fp32 (Op.ref .real [BM, BN] "accumulator"))) s
       = some ⟨fun idx => RoundingModel.cast R FloatDType.real FloatDType.fp16 (zT.data idx)⟩ := by
   have hz' : s.regs FloatDType.real.toTileDType [BM, BN] "accumulator" = some zT := hz
   simp only [evalOpR.eq_def, hz']
@@ -1425,7 +1416,7 @@ private theorem mlr_postLoopR (R : RoundingModel) (A B C : RegionName) (s0 : Blo
     ⟨fun idx => RoundingModel.cast R FloatDType.real FloatDType.fp16 (actT.data idx)⟩ with hcT
   erw [stepStmtsR_cons_some (stepStmtR_assign_eq_some
         (show evalOpR R (Op.castFloat FloatDType.real FloatDType.fp16
-              (Op.ref .real [BM, BN] "accumulator")) s1 = some cT
+              (Op.withPrecision .real .fp32 (Op.ref .real [BM, BN] "accumulator"))) s1 = some cT
           from castAcc_evalR R BM BN s1 actT (by simp [hs1])))]
   set s2 := s1.setReg "c" FloatDType.fp16.toTileDType [BM, BN] cT with hs2
   -- 3/4. offs_cm / offs_cn (cast-free)

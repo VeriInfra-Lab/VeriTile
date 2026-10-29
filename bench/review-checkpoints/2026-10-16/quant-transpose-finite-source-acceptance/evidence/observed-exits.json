@@ -1,0 +1,86 @@
+{
+  "integration-build": {
+    "exit_code": 0,
+    "jobs": 7418,
+    "log": {
+      "path": "evidence/integration/quant-transpose-finite-integration-build.log",
+      "sha256": "4b69541d101e1a0cef6d18db58e8339eeee4af21f2d62186606dd6874a63ce29"
+    }
+  },
+  "catalog": {
+    "exit_code": 0,
+    "public_declarations": 956,
+    "log": {
+      "path": "evidence/integration/quant-transpose-finite-catalog.log",
+      "sha256": "538f021ffba82d8b79e207bb3b131b9030b8af4833606b357c25e3a065052116"
+    }
+  },
+  "queue": {
+    "exit_code": 0,
+    "rules": 116,
+    "log": {
+      "path": "evidence/integration/quant-transpose-finite-queue.log",
+      "sha256": "f08b5d2ae05c1151f195af203b8463d9e7c578ab36d808b330e0cac3b159e8e0"
+    }
+  },
+  "rebind-ledger": {
+    "exit_code": 0,
+    "verified": 1,
+    "verified_with_deferred_numerics": 2,
+    "pending": 180,
+    "log": {
+      "path": "evidence/integration/quant-transpose-finite-rebind-ledger.log",
+      "sha256": "53f104cce8f271e0ae406e41291ed93f6197f2902bc8a9fcac8ec8e10e5bb67e"
+    }
+  },
+  "global": {
+    "exit_code": 1,
+    "failed_gates": [
+      "comparator_preflight",
+      "library_replay",
+      "scope_review"
+    ],
+    "log": {
+      "path": "evidence/integration/quant-transpose-finite-global.log",
+      "sha256": "589039dfd365171fe78ce44a01875cac4a2bd32415c5fee174bfec3395653f11"
+    }
+  },
+  "other-bench-tests": {
+    "exit_code": 0,
+    "tests": 210,
+    "log": {
+      "path": "evidence/integration/quant-transpose-finite-other-bench-tests.log",
+      "sha256": "ba4dc3a13963df30f1cec6e4d3f06f9ea5ae5f12d6505e19351ed5022c31a138"
+    }
+  },
+  "exact-tests": {
+    "exit_code": 0,
+    "tests": 40,
+    "log": {
+      "path": "evidence/integration/quant-transpose-finite-exact-tests.log",
+      "sha256": "081f382b0a72546cb23a77f37fd58888742c67b2085bc52f981a9847136f3a3d"
+    }
+  },
+  "shard-tests": {
+    "exit_code": 0,
+    "tests": 25,
+    "log": {
+      "path": "evidence/integration/quant-transpose-finite-shard-tests.log",
+      "sha256": "019bb123ebb01e0b4c28c9665a57fad9ee9b62bfde5730f98f7ab0fd130b2018"
+    }
+  },
+  "prepare": {
+    "exit_code": 0,
+    "log": {
+      "path": "evidence/integration/quant-transpose-finite-prepare.log",
+      "sha256": "1b619e233f4a970d73519b69d65bfd634d960c89a2b1eb947e44a8c63d371f99"
+    }
+  },
+  "authority": {
+    "exit_code": 0,
+    "log": {
+      "path": "evidence/integration/quant-transpose-finite-authority.log",
+      "sha256": "7c89a8c7e429ad4cb07acb1927ca6e373e569592500f21d49f7bfdf35729b6fd"
+    }
+  }
+}
