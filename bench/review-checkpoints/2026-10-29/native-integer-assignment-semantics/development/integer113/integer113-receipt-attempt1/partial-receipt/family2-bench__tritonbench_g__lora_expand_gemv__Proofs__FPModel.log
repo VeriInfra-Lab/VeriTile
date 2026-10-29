@@ -1,0 +1,9 @@
+VeriTile.Bench.TritonBenchG.LoraExpandGemv.FPValue.castWord_same: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.LoraExpandGemv.FPValue.castWord_zero: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.LoraExpandGemv.FPValue.format_boundary_vectors: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

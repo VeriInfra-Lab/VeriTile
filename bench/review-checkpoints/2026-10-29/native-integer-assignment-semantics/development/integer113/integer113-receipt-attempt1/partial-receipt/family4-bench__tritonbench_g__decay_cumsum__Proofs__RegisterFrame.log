@@ -1,0 +1,21 @@
+/tmp/integer113-frontend/bench/tritonbench_g/decay_cumsum/Proofs/RegisterFrame.lean:66:27: warning: This simp argument is unused:
+  hw
+
+Hint: Omit it from the simp argument list.
+  simp_all only ̵[̵h̵w̵]̵
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-frontend/bench/tritonbench_g/decay_cumsum/Proofs/RegisterFrame.lean:72:17: warning: This simp argument is unused:
+  stepStmts
+
+Hint: Omit it from the simp argument list.
+  simp ̵[̵s̵t̵e̵p̵S̵t̵m̵t̵s̵]̵
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-frontend/bench/tritonbench_g/decay_cumsum/Proofs/RegisterFrame.lean:89:47: warning: This simp argument is unused:
+  he
+
+Hint: Omit it from the simp argument list.
+  simp [he̵,̵h̵b]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

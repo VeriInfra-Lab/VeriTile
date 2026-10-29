@@ -1,0 +1,7 @@
+VeriTile.Bench.Repairs.FastRopeEmbedding.KernelContract.actual_offset: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FastRopeEmbedding.KernelContract.actual_bits: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FastRopeEmbedding.KernelContract.access: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

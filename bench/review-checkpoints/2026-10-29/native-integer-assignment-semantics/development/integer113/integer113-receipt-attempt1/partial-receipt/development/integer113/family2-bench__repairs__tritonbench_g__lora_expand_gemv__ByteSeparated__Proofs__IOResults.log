@@ -1,0 +1,9 @@
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Proofs/IOResults.lean:47:35: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.IOResults.complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.IOResults.real_target: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

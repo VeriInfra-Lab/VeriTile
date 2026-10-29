@@ -1,0 +1,42 @@
+VeriTile.Tests.BlockPointerDType.complete_source16: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.BlockPointerDType.complete_source32: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.BlockPointerDType.complete_source64: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/integer113-frontend/bench/tests/BlockPointerDType.lean:146:36: warning: This simp argument is unused:
+  ComputeKernel.surfaceBody
+
+Hint: Omit it from the simp argument list.
+  simp [pasted, FP.Structural.exec, C̵o̵m̵p̵u̵t̵e̵K̵e̵r̵n̵e̵l̵.̵s̵u̵r̵f̵a̵c̵e̵B̵o̵d̵y̵,̵ ̵FP.Structural.run,
+  ̵  ̵ ̵ ̵FP.Structural.step, FP.Structural.evalExpr,
+  ̲  ̲ ̲ ̲FP.Structural.evalComputeOp,
+  ̵  ̵ ̵ ̵FP.Structural.evalOp_unfold, FP.Structural.store,
+      FP.Structural.State.setReg, TileShape.allIndices, BlockPtr.inBounds,
+  ̵  ̵ ̵ ̵BlockPtr.address,
+  ̲  ̲ ̲ ̲FP.Structural.ofFloat, FP.Structural.toFloat,
+  ̵  ̵ ̵ ̵Region.cast]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-frontend/bench/tests/BlockPointerDType.lean:151:4: warning: This simp argument is unused:
+  Region.cast
+
+Hint: Omit it from the simp argument list.
+  simp [pasted, FP.Structural.exec, ComputeKernel.surfaceBody, FP.Structural.run,
+      FP.Structural.step, FP.Structural.evalExpr, FP.Structural.evalComputeOp,
+      FP.Structural.evalOp_unfold, FP.Structural.store,
+  ̵  ̵ ̵ ̵FP.Structural.State.setReg,
+  ̲  ̲ ̲ ̲TileShape.allIndices, BlockPtr.inBounds,
+  ̵  ̵ ̵ ̵BlockPtr.address, FP.Structural.ofFloat, ̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵t̵o̵F̵l̵o̵a̵t̵,̵
+      R̵e̵g̵i̵o̵n̵F̲P̲.S̲t̲r̲u̲ct̲u̲r̲as̵l̲.̲to̲F̲l̲o̲a̲t̲]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Tests.PositionalBlockPtr.complete_program: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.PositionalBlockPtr.empty_rows_use_padding: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

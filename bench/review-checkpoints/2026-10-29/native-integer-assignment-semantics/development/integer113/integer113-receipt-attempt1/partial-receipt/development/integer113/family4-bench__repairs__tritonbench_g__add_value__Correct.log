@@ -1,0 +1,7 @@
+VeriTile.Bench.Repairs.AddValue.Contiguous.Correct.puzzle1_kernel_correctness: statement's project surface ⊆ allowlist ✓
+VeriTile.Bench.Repairs.AddValue.Contiguous.mathematical: definition does not reference [VeriTile.Bench.Repairs.AddValue.Contiguous.kernel,
+ VeriTile.Bench.Repairs.AddValue.Contiguous.originalKernel,
+ VeriTile.Bench.Repairs.AddValue.Contiguous.commutedKernel] — non-circular ✓
+VeriTile.Bench.Repairs.AddValue.Contiguous.Correct.puzzle1_kernel_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,16 @@
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Frames.gradient_span: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Frames.zero_input: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Frames.forward_inputs: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Frames.empty_launch: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Frames.backward_outside: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Frames.backward_input: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

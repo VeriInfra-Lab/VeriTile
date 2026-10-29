@@ -1,0 +1,24 @@
+VeriTile.Bench.TritonBenchG.AddValue.RealGrid.program_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.AddValue.RealGrid.runPrograms_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.AddValue.RealGrid.complete_schedule_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.AddValue.RealGrid.full_grid_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.AddValue.RealGrid.empty_grid: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.AddValue.RealGrid.source_no_wrap_bound: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.AddValue.RealGrid.programState_eq_grid: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.AddValue.RealGrid.Values: definition does not reference [VeriTile.Bench.TritonBenchG.AddValue.RealGrid.kernel,
+ VeriTile.Bench.TritonBenchG.AddValue.RealGrid.runPrograms] — non-circular ✓
+VeriTile.Bench.TritonBenchG.AddValue.RealGrid.Frame: definition does not reference [VeriTile.Bench.TritonBenchG.AddValue.RealGrid.kernel,
+ VeriTile.Bench.TritonBenchG.AddValue.RealGrid.runPrograms] — non-circular ✓

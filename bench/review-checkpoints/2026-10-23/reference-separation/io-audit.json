@@ -475,53 +475,12 @@
         "bench/repairs/tritonbench_g/add_value/FPEquiv.lean"
       ],
       "assessment": {
-        "organization": "The existing finite logical array interface and complete memory description already share IO.lean; no separate same-kernel logical view module exists.",
-        "preservation": {
-          "byte_move_evidence": {
-            "path": ".veritile-cache/io-unification-20261023/queue01/byte-preservation.json",
-            "sha256": "eb181e7e53783503e3b909a6fa0a5c5a9b8822ed718f8d7ff9819de7ed8cf851"
-          },
-          "public_judgment_evidence": {
-            "path": ".veritile-cache/io-unification-20261023/queue01/public-entry-preservation.json",
-            "sha256": "1c94235d9b21c8a05159930320ebc2c42ba4c061c2b2f9c7e8f47032d58d96ff"
-          },
-          "public_entries": {
-            "bench/repairs/tritonbench_g/add_value/Contract.lean": {
-              "before_sha256": "36b1fa88811be14136a351e003ca10634dd4be8192c12a6cfe3423f781ad92cd",
-              "source_sha256": "36b1fa88811be14136a351e003ca10634dd4be8192c12a6cfe3423f781ad92cd",
-              "byte_identical": true,
-              "complete_non_import_body_identical": true
-            },
-            "bench/repairs/tritonbench_g/add_value/Correct.lean": {
-              "before_sha256": "17fefdc7f5491bf0845f4f4abf66a9d7dba9c03ffe3d6b8cfbb75af848b8c2e5",
-              "source_sha256": "17fefdc7f5491bf0845f4f4abf66a9d7dba9c03ffe3d6b8cfbb75af848b8c2e5",
-              "byte_identical": true,
-              "complete_non_import_body_identical": true
-            },
-            "bench/repairs/tritonbench_g/add_value/FPEquiv.lean": {
-              "before_sha256": "2499aa49ee538e90cce970ae7aa9484943e1deb24d6d50b9e0d78c503b9d82c8",
-              "source_sha256": "2499aa49ee538e90cce970ae7aa9484943e1deb24d6d50b9e0d78c503b9d82c8",
-              "byte_identical": true,
-              "complete_non_import_body_identical": true
-            },
-            "bench/repairs/tritonbench_g/add_value/Kernels.lean": {
-              "before_sha256": "9914c49b3b6da81b5ebf3a58a39fb5f25d5e3df4158676ddb5fd1d11a4cf3e92",
-              "source_sha256": "9914c49b3b6da81b5ebf3a58a39fb5f25d5e3df4158676ddb5fd1d11a4cf3e92",
-              "byte_identical": true,
-              "complete_non_import_body_identical": true
-            }
-          },
-          "connection_proof_bodies": "Proofs/LogicalReader.lean is identical after removing import lines; all entire-judgment equivalence/execution/safety proofs remain in Proofs.",
-          "baseline_binding": {
-            "path": ".veritile-cache/io-unification-20261023/queue01/baseline-binding.json",
-            "sha256": "050c94762f8e4d617cdfc3c7882f248df151e061427610eb493fcbcddd9c5b91"
-          },
-          "description": "Existing definitions are relocated with unchanged names and bodies. No source program, formula, premise, mathematical range, schedule, frame, observer, cast, rule set, or numeric classification changed."
-        },
-        "different_stage_or_encoding_exceptions": [],
+        "organization": "Task-level IO retains the existing channels, layouts, strides, launch schedule and input domain. Actual source execution, safety and complete pair connections remain in Proofs.",
+        "source_update": "The original body retains y = 10 and the original cast/order. Its actual integer-to-FP32 conversion is connected to the existing commuted candidate using the strict software certificate and strict addition commutation. The public statement, input domain, complete memory output and frame remain unchanged; only its explanatory comment is updated.",
+        "verification": "Ordinary integer literal assignments now create signed or unsigned 32/64-bit tensors at the same boundaries as the pinned Triton frontend; inline weak scalars remain distinct and out-of-range literals are rejected. The strict FP32 software adapter uses its actual integer rounding operation for integer-valued literals and has an explicitly revised integer-literals model identifier. Five selected task families and all cumulative task/example/frontend roots are rechecked. The AddValue proof uses a kernel-checked strict conversion certificate; LoRA and Fast RoPE follow their actual signed local and loop states. This is a model/source correction, not a new hardware guarantee or numerical experiment.",
         "previous_assessment": {
-          "manifest": "bench/review-checkpoints/2026-10-22/logical-readers/io-audit.json",
-          "task": "add_value"
+          "path": "bench/review-checkpoints/2026-10-29/native-integer-assignment-semantics/previous-reviews.json.gz",
+          "sha256": "d9db273bb56e826033f98cd25348fba83782e3e08edbb1c426891be33f3826d0"
         }
       },
       "distinct_views": [],
@@ -532,7 +491,7 @@
         },
         {
           "path": "bench/repairs/tritonbench_g/add_value/FPEquiv.lean",
-          "sha256": "2499aa49ee538e90cce970ae7aa9484943e1deb24d6d50b9e0d78c503b9d82c8"
+          "sha256": "43b39a74419747651c0406a7784d67468745470b0854e6e8eb6cc944422ac5ba"
         }
       ],
       "io_sources": [
@@ -553,14 +512,20 @@
           "sha256": "b20aa0bda99fa48edf8b67ca2fa4d348b833427b1b32af0a544fb37c305f4ac2"
         }
       ],
-      "changed_paths": [],
+      "changed_paths": [
+        "bench/repairs/tritonbench_g/add_value/FPEquiv.lean"
+      ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/add_value.json",
-        "sha256": "785376d3d30f2b2ef18f60d01d020b34d6572a6e32787ca07a7352508cc90c84",
-        "task": "add_value"
+        "path": "bench/review-checkpoints/2026-10-29/native-integer-assignment-semantics/review.json",
+        "sha256": "9de5fe87bd91f9b7aa216f343adedcb53a9ad9e38a1e31e32e43af33dca51fb4"
       },
       "preservation_and_build_passed": true,
-      "validation_limits": {},
+      "validation_limits": {
+        "official_comparator": "Unavailable; actual final-source attempts retained.",
+        "torch": "Unavailable.",
+        "numerical_receipt": "Pre-existing historical Structural receipt import error; the current integer-assignment/model correction is separately recorded.",
+        "scope": "Original mathematical input domain and public premises preserved; no new numerical experiment. Original per-task storage profiles and explicit optional native modeling boundaries remain."
+      },
       "remaining_issues": [],
       "previous_io_sources": [
         {
@@ -615,6 +580,13 @@
         "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/add_value.json",
         "sha256": "785376d3d30f2b2ef18f60d01d020b34d6572a6e32787ca07a7352508cc90c84",
         "task": "add_value"
+      },
+      "main_formula_review": {
+        "io_data_unchanged": false
+      },
+      "current_body_source_review": {
+        "path": "bench/review-checkpoints/2026-10-29/native-integer-assignment-semantics/review.json",
+        "sha256": "9de5fe87bd91f9b7aa216f343adedcb53a9ad9e38a1e31e32e43af33dca51fb4"
       }
     },
     {

@@ -1,0 +1,15 @@
+VeriTile.Tests.RegisterDTypeLoad.fp32_retains_load_and_cast: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.RegisterDTypeLoad.parametric_preserves_both_formats: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.RegisterDTypeLoad.masked_preserves_storage_and_target: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.RegisterDTypeLoad.direct_preserves_cast: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.RegisterDTypeLoad.direct_exec: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

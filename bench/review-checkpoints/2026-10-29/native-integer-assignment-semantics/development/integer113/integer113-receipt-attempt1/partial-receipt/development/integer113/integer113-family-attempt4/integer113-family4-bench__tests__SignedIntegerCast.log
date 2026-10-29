@@ -1,0 +1,11 @@
+VeriTile.Triton.signedBits_int_mod: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+VeriTile.Triton.eval_intToSigned: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+VeriTile.Triton.evalOpR_intToSigned: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+VeriTile.Triton.FP.Structural.eval_intToSigned: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.eval_boolToInt: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+VeriTile.Triton.evalOpR_boolToInt: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+VeriTile.Triton.FP.Structural.eval_boolToInt: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

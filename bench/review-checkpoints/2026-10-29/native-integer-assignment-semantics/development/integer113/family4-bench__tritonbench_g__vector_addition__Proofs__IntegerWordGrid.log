@@ -1,0 +1,22 @@
+VeriTile.Bench.TritonBenchG.VectorAddition.IntegerWords.wordSpec: definition does not reference [VeriTile.Bench.TritonBenchG.VectorAddition.IntegerSource.source,
+ VeriTile.Bench.TritonBenchG.VectorAddition.IntegerSource.runGrid,
+ VeriTile.Bench.TritonBenchG.VectorAddition.IntegerSource.runGridPrefix,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.TritonBenchG.VectorAddition.IntegerSource.resultCell] — non-circular ✓
+VeriTile.Bench.TritonBenchG.VectorAddition.IntegerWords.reference_refines: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.IntegerWords.grid_correct_words: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.IntegerWords.wordSpec_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.VectorAddition.IntegerWords.wordSpec_readback: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.IntegerWords.withInputs_x: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.VectorAddition.IntegerWords.withInputs_y: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.VectorAddition.IntegerWords.constructed_grid_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

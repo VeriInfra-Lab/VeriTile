@@ -1,0 +1,10 @@
+VeriTile.Tests.FPFmaSource.source_fused_node: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.FPFmaSource.missing_empty_fma: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.FPFmaSource.scalar_tile_fma: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+VeriTile.Tests.FPFmaSource.fused_not_unfused: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

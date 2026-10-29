@@ -1,0 +1,116 @@
+{
+  "scope": "All 413 checked body pairs in frozen checkpoint111; distinct Python functions, ordinary integer literals including tuple elements. Other expressions and helper expansion need compiler replay.",
+  "scanned_distinct_functions": 336,
+  "hits": [
+    {
+      "name": "add_value",
+      "file": "bench/repairs/tritonbench_g/add_value/add_value_repaired.py",
+      "function": "puzzle1_commuted_kernel",
+      "hits": [
+        {
+          "line": 26,
+          "statement": "y = 10"
+        }
+      ]
+    },
+    {
+      "name": "fast_rope_embedding",
+      "file": "bench/repairs/tritonbench_g/fast_rope_embedding/fast_rope_embedding_repaired.py",
+      "function": "_rope_embedding",
+      "hits": [
+        {
+          "line": 36,
+          "statement": "ROPE_GROUP_SIZE = 4"
+        }
+      ]
+    },
+    {
+      "name": "fast_rope_embedding",
+      "file": "bench/repairs/tritonbench_g/fast_rope_embedding/index_commuted.py",
+      "function": "_rope_embedding_index_commuted",
+      "hits": [
+        {
+          "line": 25,
+          "statement": "ROPE_GROUP_SIZE = 4"
+        }
+      ]
+    },
+    {
+      "name": "fifth_order_sph_harmonics",
+      "file": "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/fifth_order_sph_harmonics_repaired.py",
+      "function": "fifth_order_fwd_repaired",
+      "hits": [
+        {
+          "line": 23,
+          "statement": "coord_stride = 3"
+        }
+      ]
+    },
+    {
+      "name": "fifth_order_sph_harmonics",
+      "file": "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/candidate_kernels.py",
+      "function": "forward_powers_kernel",
+      "hits": [
+        {
+          "line": 17,
+          "statement": "coord_stride = 3"
+        }
+      ]
+    },
+    {
+      "name": "fifth_order_sph_harmonics",
+      "file": "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/fifth_order_sph_harmonics_repaired.py",
+      "function": "fifth_order_bwd_repaired",
+      "hits": [
+        {
+          "line": 182,
+          "statement": "coord_stride = 3"
+        }
+      ]
+    },
+    {
+      "name": "fifth_order_sph_harmonics",
+      "file": "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/candidate_kernels.py",
+      "function": "backward_powers_kernel",
+      "hits": [
+        {
+          "line": 174,
+          "statement": "coord_stride = 3"
+        }
+      ]
+    },
+    {
+      "name": "lora_expand_gemv",
+      "file": "bench/repairs/tritonbench_g/lora_expand_gemv/lora_expand_gemv_unit_split.py",
+      "function": "_bgmv_expand_unit_split_kernel",
+      "hits": [
+        {
+          "line": 49,
+          "statement": "split_n_length = 1"
+        }
+      ]
+    },
+    {
+      "name": "token_attn_reduceV",
+      "file": "bench/repairs/tritonbench_g/token_attn_reduceV_grid_y_checked/token_attn_reduceV_grid_y_checked.py",
+      "function": "_fwd_kernel_token_att2",
+      "hits": [
+        {
+          "line": 40,
+          "statement": "cur_batch_start_index = 0"
+        }
+      ]
+    },
+    {
+      "name": "token_attn_reduceV",
+      "file": "bench/repairs/tritonbench_g/token_attn_reduceV_grid_y_checked/token_attn_reduceV_affine.py",
+      "function": "_fwd_kernel_token_att2_affine",
+      "hits": [
+        {
+          "line": 40,
+          "statement": "cur_batch_start_index = 0"
+        }
+      ]
+    }
+  ]
+}

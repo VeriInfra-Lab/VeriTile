@@ -1,0 +1,7 @@
+VeriTile.Torch.FP32.no_binding_of_dtype_ne: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Torch.FP32.no_binding_of_layout_ne: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Torch.FP32.contiguous_capacity: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Torch.FP32.dataView_same_storage: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Torch.FP32.direct_read_eq_logical: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Torch.FP32.actual_pointer: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Torch.FP32.dataView_aligned: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])

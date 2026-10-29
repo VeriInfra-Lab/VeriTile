@@ -1,0 +1,6 @@
+VeriTile.Tests.AttributeCastChain.pointer_roundtrip_retained: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.AttributeCastChain.value_roundtrip_retained: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

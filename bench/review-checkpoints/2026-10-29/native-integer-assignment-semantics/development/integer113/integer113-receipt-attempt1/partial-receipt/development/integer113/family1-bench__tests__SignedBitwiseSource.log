@@ -1,0 +1,16 @@
+VeriTile.Tests.SignedBitwiseSource.source_keeps_signed_ops: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.SignedBitwiseSource.source_value: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.SignedBitwiseSource.negative_word_nibble: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Tests.SignedBitwiseSource.nested_keeps_signed_ops: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.SignedBitwiseSource.named_conversion_keeps_signed_ops: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.SignedBitwiseSource.left_shift_retains_native_width: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

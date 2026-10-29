@@ -1,0 +1,12 @@
+VeriTile.Bench.Repairs.LoraExpandGemv.normalization: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.Repairs.LoraExpandGemv.length_one: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.LoraExpandGemv.coordinates: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.LoraExpandGemv.coverage: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.y_injective: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.logical_y_address: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])

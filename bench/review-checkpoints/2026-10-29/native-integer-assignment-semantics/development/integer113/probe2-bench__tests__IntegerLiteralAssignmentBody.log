@@ -1,0 +1,74 @@
+/tmp/integer113-frontend/bench/tests/IntegerLiteralAssignmentBody.lean:68:2: error: tl.cast: signed integer casts are not modeled yet
+/tmp/integer113-frontend/bench/tests/IntegerLiteralAssignmentBody.lean:77:65: error: unsolved goals
+⊢ (match
+      run
+        { literal := fun x x_1 x_2 => 9000, negInf := 0,
+          binary := fun p x x_1 a b => if p = some ComputeDType.fp32 then a + b else 5000,
+          unary := fun x x_1 x_2 => x_2, cast := fun x x_1 x_2 x_3 => x_3, fromNat := fun x n => 6000 + ↑n,
+          fromInt := fun p n => if p = some ComputeDType.fp32 then n else 7000 + n, fp32Bits := fun x => 0,
+          fp32Load := id, reduceMax := fun x {x_1} x_2 x_3 x_4 x_5 => 0, reduceSum := fun x {x_1} x_2 x_3 x_4 x_5 => 0 }
+        (sorry ()).3
+        { mem := fun x x_1 => Cell.mk TileDType.real 1, regs := fun x x_1 x_2 => none, pids := fun x => 0,
+          numPids := fun x => 1, undef := fun d x x_1 => defaultValue d } with
+    | some x => some (x.mem { name := "y" } 0)
+    | none => none) =
+    some (Cell.mk TileDType.real (-2147483647))
+/tmp/integer113-frontend/bench/tests/IntegerLiteralAssignmentBody.lean:78:27: warning: declaration uses `sorry`
+/tmp/integer113-frontend/bench/tests/IntegerLiteralAssignmentBody.lean:83:0: error: VeriTile.Tests.IntegerLiteralAssignmentBody.i32_min_conversion: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Tests.IntegerLiteralAssignmentBody.i32_max_conversion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/integer113-frontend/bench/tests/IntegerLiteralAssignmentBody.lean:111:8: error: (kernel) deep recursion detected
+/tmp/integer113-frontend/bench/tests/IntegerLiteralAssignmentBody.lean:119:0: error: VeriTile.Tests.IntegerLiteralAssignmentBody.u32_min_conversion: DISALLOWED axioms [VeriTile.Tests.IntegerLiteralAssignmentBody.u32_min_conversion] (sorryAx ⇒ fake proof)
+/tmp/integer113-frontend/bench/tests/IntegerLiteralAssignmentBody.lean:129:8: error: (kernel) deep recursion detected
+/tmp/integer113-frontend/bench/tests/IntegerLiteralAssignmentBody.lean:137:0: error: VeriTile.Tests.IntegerLiteralAssignmentBody.u32_max_conversion: DISALLOWED axioms [VeriTile.Tests.IntegerLiteralAssignmentBody.u32_max_conversion] (sorryAx ⇒ fake proof)
+VeriTile.Tests.IntegerLiteralAssignmentBody.i64_above_u32_conversion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/integer113-frontend/bench/tests/IntegerLiteralAssignmentBody.lean:158:2: error: tl.cast: signed integer casts are not modeled yet
+/tmp/integer113-frontend/bench/tests/IntegerLiteralAssignmentBody.lean:167:74: error: unsolved goals
+⊢ (match
+      run
+        { literal := fun x x_1 x_2 => 9000, negInf := 0,
+          binary := fun p x x_1 a b => if p = some ComputeDType.fp32 then a + b else 5000,
+          unary := fun x x_1 x_2 => x_2, cast := fun x x_1 x_2 x_3 => x_3, fromNat := fun x n => 6000 + ↑n,
+          fromInt := fun p n => if p = some ComputeDType.fp32 then n else 7000 + n, fp32Bits := fun x => 0,
+          fp32Load := id, reduceMax := fun x {x_1} x_2 x_3 x_4 x_5 => 0, reduceSum := fun x {x_1} x_2 x_3 x_4 x_5 => 0 }
+        (sorry ()).3
+        { mem := fun x x_1 => Cell.mk TileDType.real 1, regs := fun x x_1 x_2 => none, pids := fun x => 0,
+          numPids := fun x => 1, undef := fun d x x_1 => defaultValue d } with
+    | some x => some (x.mem { name := "y" } 0)
+    | none => none) =
+    some (Cell.mk TileDType.real (-9223372036854775807))
+/tmp/integer113-frontend/bench/tests/IntegerLiteralAssignmentBody.lean:168:27: warning: declaration uses `sorry`
+/tmp/integer113-frontend/bench/tests/IntegerLiteralAssignmentBody.lean:173:0: error: VeriTile.Tests.IntegerLiteralAssignmentBody.i64_min_conversion: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Tests.IntegerLiteralAssignmentBody.i64_max_conversion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/integer113-frontend/bench/tests/IntegerLiteralAssignmentBody.lean:201:8: error: (kernel) deep recursion detected
+/tmp/integer113-frontend/bench/tests/IntegerLiteralAssignmentBody.lean:209:0: error: VeriTile.Tests.IntegerLiteralAssignmentBody.u64_min_conversion: DISALLOWED axioms [VeriTile.Tests.IntegerLiteralAssignmentBody.u64_min_conversion] (sorryAx ⇒ fake proof)
+/tmp/integer113-frontend/bench/tests/IntegerLiteralAssignmentBody.lean:219:8: error: (kernel) deep recursion detected
+/tmp/integer113-frontend/bench/tests/IntegerLiteralAssignmentBody.lean:227:0: error: VeriTile.Tests.IntegerLiteralAssignmentBody.u64_max_conversion: DISALLOWED axioms [VeriTile.Tests.IntegerLiteralAssignmentBody.u64_max_conversion] (sorryAx ⇒ fake proof)
+/tmp/integer113-frontend/bench/tests/IntegerLiteralAssignmentBody.lean:230:2: error: tl.cast: signed integer casts are not modeled yet
+/tmp/integer113-frontend/bench/tests/IntegerLiteralAssignmentBody.lean:239:53: error: unsolved goals
+⊢ (match
+      run
+        { literal := fun x x_1 x_2 => 9000, negInf := 0,
+          binary := fun p x x_1 a b => if p = some ComputeDType.fp32 then a + b else 5000,
+          unary := fun x x_1 x_2 => x_2, cast := fun x x_1 x_2 x_3 => x_3, fromNat := fun x n => 6000 + ↑n,
+          fromInt := fun p n => if p = some ComputeDType.fp32 then n else 7000 + n, fp32Bits := fun x => 0,
+          fp32Load := id, reduceMax := fun x {x_1} x_2 x_3 x_4 x_5 => 0, reduceSum := fun x {x_1} x_2 x_3 x_4 x_5 => 0 }
+        (sorry ()).3
+        { mem := fun x x_1 => Cell.mk TileDType.real 1, regs := fun x x_1 x_2 => none, pids := fun x => 0,
+          numPids := fun x => 1, undef := fun d x x_1 => defaultValue d } with
+    | some x => some (x.mem { name := "y" } 0)
+    | none => none) =
+    some (Cell.mk TileDType.real 2)
+/tmp/integer113-frontend/bench/tests/IntegerLiteralAssignmentBody.lean:240:27: warning: declaration uses `sorry`
+/tmp/integer113-frontend/bench/tests/IntegerLiteralAssignmentBody.lean:245:0: error: VeriTile.Tests.IntegerLiteralAssignmentBody.tuple_integers_materialize: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Tests.IntegerLiteralAssignmentBody.ordinary_integer_tensor: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.IntegerLiteralAssignmentBody.inline_integer_remains_weak: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

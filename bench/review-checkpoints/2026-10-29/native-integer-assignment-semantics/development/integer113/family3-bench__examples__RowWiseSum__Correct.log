@@ -1,0 +1,11 @@
+VeriTile.Bench.Examples.RowWiseSum.rowWiseSum_reversed_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Examples.RowWiseSum.rowWiseSum_reversed_correctness: statement's project surface ⊆ allowlist ✓
+VeriTile.Bench.Examples.RowWiseSum.rowWiseSum_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Examples.RowWiseSum.rowWiseSum_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Examples.RowWiseSum.rowWiseSum_correctness: statement's project surface ⊆ allowlist ✓

@@ -1,0 +1,3 @@
+VeriTile.Tests.BarrierLoopBody.barrier_preserves_carried_dtype: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

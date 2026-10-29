@@ -1,0 +1,31 @@
+VeriTile.Triton.FP.MaximumExact.Generic.finite_iff_toRat: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.MaximumExact.Generic.maximum_finite: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.MaximumExact.Generic.max_commute: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.MaximumExact.Generic.max_assoc: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.MaximumExact.Generic.max_idem: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.MaximumExact.Generic.max_neg_inf: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.MaximumExact.Generic.zero_boundaries: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Triton.FP.MaximumExact.Generic.maximumValue_commute: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.MaximumExact.Generic.maximumValue_assoc: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.MaximumExact.Generic.maximumValue_idem: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.MaximumExact.Generic.maximumValue_neg_inf: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

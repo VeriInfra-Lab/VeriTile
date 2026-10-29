@@ -1,0 +1,12 @@
+VeriTile.Bench.Examples.TritonSmoke.argmax2_index_store_correct_view: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Examples.TritonSmoke.indirect_load_correct_view: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Examples.TritonSmoke.launch_noop_for_all_programs_some: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Examples.TritonSmoke.nat_load_store_correct_view: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,9 @@
+VeriTile.Tests.ConstexprPower.grouped_source: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.ConstexprPower.complete_source: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.ConstexprPower.reciprocal_source: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,12 @@
+VeriTile.Triton.FP.Software.scalarFP32_zero: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.Software.scalarFP32_one: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+VeriTile.Triton.FP.Software.scalarFP32_add: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+VeriTile.Triton.FP.Software.scalarFP32_mul: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+VeriTile.Triton.FP.Software.scalarFP32_fma: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+VeriTile.Triton.FP.Software.scalarFP32_neg: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+VeriTile.Triton.FP.Software.scalarFP32_abs: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+VeriTile.Triton.FP.Software.scalarFP32_cast_same: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

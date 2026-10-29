@@ -1,0 +1,36 @@
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/fast_rms_layernorm/LegacyKernels.lean:44:31: warning: unused variable `W_row_stride`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/fast_rms_layernorm/LegacyKernels.lean:89:31: warning: unused variable `W_row_stride`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/fast_rms_layernorm/LegacyKernels.lean:134:31: warning: unused variable `W_row_stride`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/fast_rms_layernorm/LegacyKernels.lean:179:31: warning: unused variable `W_row_stride`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/fast_rms_layernorm/LegacyKernels.lean:204:34: warning: unused variable `dW`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/fast_rms_layernorm/LegacyKernels.lean:204:79: warning: unused variable `W_row_stride`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/fast_rms_layernorm/LegacyKernels.lean:204:105: warning: unused variable `dW_row_stride`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/fast_rms_layernorm/LegacyKernels.lean:204:145: warning: unused variable `eps`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/fast_rms_layernorm/LegacyKernels.lean:261:47: warning: unused variable `dW`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/fast_rms_layernorm/LegacyKernels.lean:261:92: warning: unused variable `W_row_stride`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/fast_rms_layernorm/LegacyKernels.lean:261:118: warning: unused variable `dW_row_stride`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/fast_rms_layernorm/LegacyKernels.lean:261:158: warning: unused variable `eps`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`

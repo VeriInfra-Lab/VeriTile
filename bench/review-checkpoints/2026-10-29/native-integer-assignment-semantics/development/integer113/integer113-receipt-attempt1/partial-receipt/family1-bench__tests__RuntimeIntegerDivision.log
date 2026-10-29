@@ -1,0 +1,41 @@
+/tmp/integer113-frontend/bench/tests/RuntimeIntegerDivision.lean:180:4: warning: This simp argument is unused:
+  FP.Structural.bop
+
+Hint: Omit it from the simp argument list.
+  simp [FP.Structural.evalOp, ̲FP.Structural.State.setReg, ̲FP.Structural.numeric,
+      F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵b̵o̵p̵,̵Broadcast.leftIndex, ̲Broadcast.rightIndex]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-frontend/bench/tests/RuntimeIntegerDivision.lean:180:22: warning: This simp argument is unused:
+  Broadcast.leftIndex
+
+Hint: Omit it from the simp argument list.
+  simp [̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵e̵v̵a̵l̵O̵p̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵S̵t̵a̵t̵e̵.̵s̵e̵t̵R̵e̵g̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵n̵u̵m̵e̵r̵i̵c̵,̵
+  ̵ ̵ ̵ ̵ ̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵b̵o̵p̵,̵B̵r̵o̵a̵d̵c̵a̵s̵t̵.̵l̵e̵f̵t̵I̵n̵d̵e̵x̵,̵B̵r̵o̵a̵d̵c̵a̵s̵t̵.̵r̵i̵g̵h̵t̵I̵n̵d̵e̵x̵]̵[̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲e̲v̲a̲l̲O̲p̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲S̲t̲a̲t̲e̲.̲s̲e̲t̲R̲e̲g̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲n̲u̲m̲e̲r̲i̲c̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲b̲o̲p̲,̲
+  ̲ ̲ ̲ ̲ ̲B̲r̲o̲a̲d̲c̲a̲s̲t̲.̲r̲i̲g̲h̲t̲I̲n̲d̲e̲x̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-frontend/bench/tests/RuntimeIntegerDivision.lean:180:42: warning: This simp argument is unused:
+  Broadcast.rightIndex
+
+Hint: Omit it from the simp argument list.
+  simp [̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵e̵v̵a̵l̵O̵p̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵S̵t̵a̵t̵e̵.̵s̵e̵t̵R̵e̵g̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵n̵u̵m̵e̵r̵i̵c̵,̵
+  ̵ ̵ ̵ ̵ ̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵b̵o̵p̵,̵B̵r̵o̵a̵d̵c̵a̵s̵t̵.̵l̵e̵f̵t̵I̵n̵d̵e̵x̵,̵B̵r̵o̵a̵d̵c̵a̵s̵t̵.̵r̵i̵g̵h̵t̵I̵n̵d̵e̵x̵]̵[̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲e̲v̲a̲l̲O̲p̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲S̲t̲a̲t̲e̲.̲s̲e̲t̲R̲e̲g̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲n̲u̲m̲e̲r̲i̲c̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲b̲o̲p̲,̲
+  ̲ ̲ ̲ ̲ ̲B̲r̲o̲a̲d̲c̲a̲s̲t̲.̲l̲e̲f̲t̲I̲n̲d̲e̲x̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+RuntimeIntegerDivisionTests.signed_arange_cast_survives_address_inference: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+RuntimeIntegerDivisionTests.signed_cdiv_range_bound: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+RuntimeIntegerDivisionTests.signed_cdiv_source: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+RuntimeIntegerDivisionTests.signed_cdiv_execution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+RuntimeIntegerDivisionTests.negative_cdiv_is_source_truncation: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

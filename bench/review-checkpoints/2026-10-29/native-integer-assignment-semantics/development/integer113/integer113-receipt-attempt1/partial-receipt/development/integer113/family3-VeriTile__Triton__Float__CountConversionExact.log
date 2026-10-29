@@ -1,0 +1,39 @@
+VeriTile.Triton.FP.CountConversion.Exact.round24_exact: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Triton.FP.CountConversion.Exact.fromNat_decode: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.CountConversion.Exact.add_of_nonnegative_decodes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.CountConversion.Exact.count_zero: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.CountConversion.Exact.fromNat_one: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.CountConversion.Exact.count_successor: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.CountConversion.Exact.count_steps: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.CountConversion.Exact.int32_ofNat_toInt: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.CountConversion.Exact.fromInt32_ofNat: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.CountConversion.Exact.fromInt32_eq_fromNat: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.CountConversion.Exact.int32_successor_toInt: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.CountConversion.Exact.count_int32_zero: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.CountConversion.Exact.count_int32_successor: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

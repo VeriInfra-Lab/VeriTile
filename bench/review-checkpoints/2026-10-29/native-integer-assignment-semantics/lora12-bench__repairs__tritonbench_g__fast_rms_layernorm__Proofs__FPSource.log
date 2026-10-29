@@ -1,0 +1,30 @@
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPSource.lean:35:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.FastRmsLayernorm.FPSource.fold_mem`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPSource.lean:46:62: warning: 'rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPSource.lean:46:62: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPSource.lean:44:58: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPSource.lean:70:4: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPSource.lean:71:4: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPSource.lean:72:4: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+VeriTile.Bench.Repairs.FastRmsLayernorm.FPSource.forward_memory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.FPSource.forward_executes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

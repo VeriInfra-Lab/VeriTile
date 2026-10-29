@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.RopeEmbedding.KernelBinding.actual_read: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.RopeEmbedding.KernelBinding.input_binding: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.RopeEmbedding.KernelBinding.coefficient_binding: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

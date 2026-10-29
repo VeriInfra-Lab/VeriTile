@@ -1,0 +1,34 @@
+{
+  "status": "FAIL",
+  "start": 1793250529.7168517,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.lora_expand_gemv.ByteSeparated.Proofs.IntegerCandidate",
+      "source_sha256": "84462d31094833695c6dc78d7f9f5dfa6a1e1e2b08d32c40b5031f3976442a58",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793250529.7170746,
+      "end": 1793250646.6196096,
+      "log": "/tmp/integer113-lora8-bench__repairs__tritonbench_g__lora_expand_gemv__ByteSeparated__Proofs__IntegerCandidate.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.lora_expand_gemv.ByteSeparated.Proofs.LocalObservation",
+      "source_sha256": "9eae32ebc57f512fcfc7cbc80fa27d6c249e7b588e77185a56ebea4cc28bd604",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793250646.6198823,
+      "end": 1793250649.4161503,
+      "log": "/tmp/integer113-lora8-bench__repairs__tritonbench_g__lora_expand_gemv__ByteSeparated__Proofs__LocalObservation.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.lora_expand_gemv.ByteSeparated.Proofs.IntegerCandidateSafety",
+      "source_sha256": "70d35a22bdc00affe6338ccc18c5e6671c50dcefb899970ff6f28112bc719468",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793250649.4164126,
+      "end": 1793251024.530458,
+      "log": "/tmp/integer113-lora8-bench__repairs__tritonbench_g__lora_expand_gemv__ByteSeparated__Proofs__IntegerCandidateSafety.log"
+    }
+  ],
+  "end": 1793251024.5306475
+}

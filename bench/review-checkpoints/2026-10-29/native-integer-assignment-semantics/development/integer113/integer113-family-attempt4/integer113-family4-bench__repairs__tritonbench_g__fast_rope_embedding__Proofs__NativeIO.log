@@ -1,0 +1,4 @@
+VeriTile.Bench.Repairs.FastRopeEmbedding.Interface.source_pair_tagged: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.Repairs.FastRopeEmbedding.Interface.native_implements: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

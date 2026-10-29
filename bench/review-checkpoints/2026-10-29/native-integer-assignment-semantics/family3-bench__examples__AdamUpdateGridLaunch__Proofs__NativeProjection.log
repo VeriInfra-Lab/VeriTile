@@ -1,0 +1,6 @@
+VeriTile.Bench.Examples.AdamUpdateGridLaunch.NativeProjection.update_fn_kernel_projection: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Examples.AdamUpdateGridLaunch.NativeProjection.optimizedKernel_projection: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

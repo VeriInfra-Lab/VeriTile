@@ -1,0 +1,21 @@
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/token_attn_reduceV/Execution.lean:34:2: error: Tactic `apply` failed: could not unify the conclusion of `@funext`
+  ?f = ?g
+with the goal
+  False
+
+Note: The full type of `@funext` is
+  ∀ {α : Sort ?u.2276.1457836} {β : α → Sort ?u.2276.1457835} {f g : (x : α) → β x}, (∀ (x : α), f x = g x) → f = g
+
+case gather
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+R : SumPrimitive α
+p : Parameters
+s : State α
+⊢ False
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/token_attn_reduceV/Execution.lean:52:18: error: `simp` made no progress
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/token_attn_reduceV/Execution.lean:41:8: error: (kernel) declaration has metavariables 'VeriTile.Bench.Repairs.TokenAttnReduceV.body_run'
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/token_attn_reduceV/Execution.lean:84:0: error: VeriTile.Bench.Repairs.TokenAttnReduceV.prelude_run: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/token_attn_reduceV/Execution.lean:85:0: error: VeriTile.Bench.Repairs.TokenAttnReduceV.body_run: DISALLOWED axioms [VeriTile.Bench.Repairs.TokenAttnReduceV.body_run] (sorryAx ⇒ fake proof)
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/token_attn_reduceV/Execution.lean:86:0: error: VeriTile.Bench.Repairs.TokenAttnReduceV.range_run: DISALLOWED axioms [VeriTile.Bench.Repairs.TokenAttnReduceV.body_run] (sorryAx ⇒ fake proof)

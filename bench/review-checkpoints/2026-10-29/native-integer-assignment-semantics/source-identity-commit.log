@@ -1,0 +1,4 @@
+Auto packing the repository in background for optimum performance.
+See "git help gc" for manual housekeeping.
+[codex/body-copy-cache-and-constexpr 9e9344d6b] Align Token ReduceV replay witness with typed integer source
+ 1 file changed, 11 insertions(+), 6 deletions(-)

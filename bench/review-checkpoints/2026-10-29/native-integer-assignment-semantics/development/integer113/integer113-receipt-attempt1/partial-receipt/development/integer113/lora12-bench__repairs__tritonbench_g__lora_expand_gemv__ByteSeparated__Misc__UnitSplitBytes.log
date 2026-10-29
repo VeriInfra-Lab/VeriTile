@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.UnitSplitBytes.execution_eq: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.UnitSplitBytes.sourceStores_eq: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

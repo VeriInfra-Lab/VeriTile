@@ -1,0 +1,20 @@
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.source_read: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.source_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.whole: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.reference: definition does not reference [VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.execution,
+ VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.finalMemory,
+ VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.sourceStores,
+ VeriTile.Bench.Repairs.LoraExpandGemv.execute,
+ VeriTile.Bench.Repairs.LoraExpandGemv.Branches.source,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+Axiom audit: headlines=0
+headlines: []

@@ -1,0 +1,34 @@
+/tmp/integer113-diagnostics/TokenExecution.lean:35:2: error: `simp` made no progress
+/tmp/integer113-diagnostics/TokenExecution.lean:43:42: error: unsolved goals
+case pos
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+R : SumPrimitive α
+p : Parameters
+s t : State α
+n : ℕ
+a : TileIndex [p.width] → α
+h : Ready p s t a
+i : Fin p.width
+j : Fin p.block
+k : Fin p.width
+live : n + ↑j < count p s
+⊢ M.binary (some ComputeDType.fp32) FloatDType.fp32 Binary.mul
+      (Cell.read TileDType.fp32 (s.mem { name := p.prob.name } (probOffset p s ↑j + n * p.probTokenStride)))
+      (Cell.read TileDType.fp32
+        (s.mem { name := p.value.name }
+          (valueOffset p s ↑k +
+            Cell.read TileDType.nat
+                (s.mem { name := p.tokens.name } (Int.toNat (↑(gatherOffset p s ↑j) + ↑n * ↑p.requestTokenStride))) *
+              p.valueBatchStride))) =
+    M.binary (some ComputeDType.fp32) FloatDType.fp32 Binary.mul
+      (Cell.read TileDType.fp32 (s.mem p.prob (probOffset p s ↑j + n * p.probTokenStride)))
+      (Cell.read TileDType.fp32
+        (s.mem p.value
+          (valueOffset p s ↑k +
+            Cell.read TileDType.nat (s.mem { name := p.tokens.name } (gatherOffset p s ↑j + n * p.requestTokenStride)) *
+              p.valueBatchStride)))
+/tmp/integer113-diagnostics/TokenExecution.lean:82:0: error: VeriTile.Bench.Repairs.TokenAttnReduceV.prelude_run: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/integer113-diagnostics/TokenExecution.lean:83:0: error: VeriTile.Bench.Repairs.TokenAttnReduceV.body_run: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/integer113-diagnostics/TokenExecution.lean:84:0: error: VeriTile.Bench.Repairs.TokenAttnReduceV.range_run: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

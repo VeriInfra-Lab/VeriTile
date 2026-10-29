@@ -1,0 +1,23 @@
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.TypedBits.cast32_preserves_bits: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.TypedBits.cast64_preserves_bits: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.TypedBits.load32_preserves_bits: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.TypedBits.classification32: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.TypedBits.classification64: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.TypedBits.classifier32_rejects_fp64: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.TypedBits.classifier64_rejects_fp32: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.TypedBits.samples32_classify: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.TypedBits.samples64_classify: axiom footprint ⊆ standard base ✓  ([propext])

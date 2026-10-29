@@ -1,0 +1,3 @@
+VeriTile.Bench.TritonBenchG.FifthOrderSphHarmonics.TypedFP.execution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

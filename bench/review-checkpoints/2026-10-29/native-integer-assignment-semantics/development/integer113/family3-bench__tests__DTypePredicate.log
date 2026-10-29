@@ -1,0 +1,9 @@
+VeriTile.Tests.DTypePredicate.half_executes_selected_cast: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.DTypePredicate.byte_executes_selected_cast: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.DTypePredicate.alias_uses_known_element_type: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

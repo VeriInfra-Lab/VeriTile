@@ -1,0 +1,15 @@
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Lowering.forward_masks: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Lowering.forward_pointer: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Lowering.coordinate_pointer: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Lowering.upstream_pointer: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Lowering.gradient_pointer: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

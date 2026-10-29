@@ -1,0 +1,27 @@
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/bgmv_expand_slice/Proofs/NativeIndex.lean:22:2: warning: 'norm_num' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/bgmv_expand_slice/Proofs/NativeIndex.lean:34:4: warning: 'norm_num' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/bgmv_expand_slice/Proofs/NativeIndex.lean:48:2: warning: 'norm_num' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/bgmv_expand_slice/Proofs/NativeIndex.lean:71:50: warning: This simp argument is unused:
+  Nat.mul_one
+
+Hint: Omit it from the simp argument list.
+  simp only [̵G̵e̵o̵m̵e̵t̵r̵y̵.̵i̵n̵p̵u̵t̵O̵f̵f̵s̵e̵t̵,̵G̵e̵o̵m̵e̵t̵r̵y̵.̵w̵e̵i̵g̵h̵t̵O̵f̵f̵s̵e̵t̵,̵G̵e̵o̵m̵e̵t̵r̵y̵.̵o̵u̵t̵p̵u̵t̵O̵f̵f̵s̵e̵t̵,̵
+  ̵ ̵ ̵ ̵ ̵B̵i̵t̵V̵e̵c̵.̵o̵f̵N̵a̵t̵_̵a̵d̵d̵,̵B̵i̵t̵V̵e̵c̵.̵o̵f̵N̵a̵t̵_̵m̵u̵l̵,̵N̵a̵t̵.̵a̵d̵d̵_̵m̵u̵l̵,̵N̵a̵t̵.̵m̵u̵l̵_̵o̵n̵e̵,̵B̵i̵t̵V̵e̵c̵.̵m̵u̵l̵_̵o̵n̵e̵]̵[̲G̲e̲o̲m̲e̲t̲r̲y̲.̲i̲n̲p̲u̲t̲O̲f̲f̲s̲e̲t̲,̲ ̲G̲e̲o̲m̲e̲t̲r̲y̲.̲w̲e̲i̲g̲h̲t̲O̲f̲f̲s̲e̲t̲,̲ ̲G̲e̲o̲m̲e̲t̲r̲y̲.̲o̲u̲t̲p̲u̲t̲O̲f̲f̲s̲e̲t̲,̲ ̲B̲i̲t̲V̲e̲c̲.̲o̲f̲N̲a̲t̲_̲a̲d̲d̲,̲
+  ̲ ̲ ̲ ̲ ̲B̲i̲t̲V̲e̲c̲.̲o̲f̲N̲a̲t̲_̲m̲u̲l̲,̲ ̲N̲a̲t̲.̲a̲d̲d̲_̲m̲u̲l̲,̲ ̲B̲i̲t̲V̲e̲c̲.̲m̲u̲l̲_̲o̲n̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/bgmv_expand_slice/Proofs/NativeIndex.lean:72:46: warning: This simp argument is unused:
+  true_and
+
+Hint: Omit it from the simp argument list.
+  simp only [BitVec.add_assoc, ̲BitVec.mul_comm,t̵r̵u̵e̵_̵ ̲and,̵a̵n̵d̵_true]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.BgmvExpandSlice.NativeIndex.source_addresses: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

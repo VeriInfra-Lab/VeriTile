@@ -1,0 +1,12 @@
+VeriTile.Bench.Repairs.TokenAttnReduceV.Real.product_term: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.TokenAttnReduceV.Real.output_weighted: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.TokenAttnReduceV.Real.complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.TokenAttnReduceV.Real.weighted: definition does not reference [VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.TokenAttnReduceV.reference,
+ VeriTile.Bench.Repairs.TokenAttnReduceV.outputValues] — non-circular ✓

@@ -1,0 +1,3 @@
+VeriTile.Tests.FPNarrowScope.narrow_keeps_fp32_child: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

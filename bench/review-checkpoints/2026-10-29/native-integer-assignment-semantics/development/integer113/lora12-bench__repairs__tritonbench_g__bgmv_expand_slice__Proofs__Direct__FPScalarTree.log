@@ -1,0 +1,9 @@
+VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.FPScalarTree.eval_eq: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.FPScalarTree.primary_row: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.FPScalarTree.primary_leaves: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.FPScalarTree.Local: definition does not reference [VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.FPScalarTree.reduction,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓

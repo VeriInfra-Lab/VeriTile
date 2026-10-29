@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.FPReadback.iteration_memory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

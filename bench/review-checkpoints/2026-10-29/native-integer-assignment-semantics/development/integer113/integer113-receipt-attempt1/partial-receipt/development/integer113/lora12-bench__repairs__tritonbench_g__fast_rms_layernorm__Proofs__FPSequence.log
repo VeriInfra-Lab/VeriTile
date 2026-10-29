@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.FastRmsLayernorm.FPSequence.complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.FPSequence.read_roles_preserved: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

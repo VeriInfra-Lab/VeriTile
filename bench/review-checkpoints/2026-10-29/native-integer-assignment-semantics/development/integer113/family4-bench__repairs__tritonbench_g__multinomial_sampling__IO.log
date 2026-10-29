@@ -1,0 +1,10 @@
+VeriTile.Bench.Repairs.MultinomialSampling.Interface.categorical: definition does not reference [VeriTile.Bench.Repairs.MultinomialSampling.kernel,
+ VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.source,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Triton.FP.Structural.run] — non-circular ✓
+VeriTile.Bench.Repairs.MultinomialSampling.Interface.nativeReference: definition does not reference [VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Triton.FP.Structural.run,
+ VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.rounds,
+ VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.written,
+ VeriTile.Bench.Repairs.MultinomialSampling.kernel,
+ VeriTile.Bench.Repairs.MultinomialSampling.SourceValue.source] — non-circular ✓

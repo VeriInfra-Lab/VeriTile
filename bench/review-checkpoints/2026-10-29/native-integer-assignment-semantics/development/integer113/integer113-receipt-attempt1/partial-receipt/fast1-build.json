@@ -1,0 +1,1078 @@
+{
+  "status": "FAIL",
+  "start": 1793250967.0602078,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.fast_rope_embedding.Kernels",
+      "source_sha256": "bb4105f4c70a20ebb2e2cfa58a6d06920c279767121b61855cabc58fedc95ada",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793250967.0603473,
+      "end": 1793250968.6250887,
+      "log": "/tmp/integer113-fast1-bench__repairs__tritonbench_g__fast_rope_embedding__Kernels.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.rope_embedding.Kernels",
+      "source_sha256": "c1ac1934479272ad2f314740b929454b3d0ee7710439f20076b542441a0ab510",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793250968.6253822,
+      "end": 1793250970.172423,
+      "log": "/tmp/integer113-fast1-bench__repairs__tritonbench_g__rope_embedding__Kernels.log"
+    },
+    {
+      "module": "VeriTile.Triton.Core.DiscreteReduction",
+      "source_sha256": "afa9c2d98feab63377d0f8a1c558411b5f49468f6bc3f3fd5b859efe4cbf4e9c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793250970.1726654,
+      "end": 1793250971.4739625,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Core__DiscreteReduction.log"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.TileOps",
+      "source_sha256": "2a2484f0168183838fbaae835c92d16013fdc77f1cad8f60fd02ca1408ebde45",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793250971.474302,
+      "end": 1793250974.3088036,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Semantics__TileOps.log"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.Float8",
+      "source_sha256": "dff538de87e46bdd7cf041faba3188696dd9532d9650653d5cb37af7769e90b1",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793250974.309056,
+      "end": 1793250976.3455126,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Semantics__Float8.log"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Proofs.RoundQuotientBridge",
+      "source_sha256": "81481928ad4594579c8e85fc9bbbd87fd16a6f611a77208c2c4be5bb2d715237",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793250976.345757,
+      "end": 1793250979.9738753,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Random__Proofs__RoundQuotientBridge.log"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Proofs.RoundExpansion",
+      "source_sha256": "e866ae4a5a6a918ba92be25082d59931bce3d17fcfc4a56367cd3bb8db83cde9",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793250979.974146,
+      "end": 1793250982.427344,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Random__Proofs__RoundExpansion.log"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Proofs.DyadicExponent",
+      "source_sha256": "4c899ee927a6519e12c867cc452087ed827f3af5262b9dd1886acb5485ee7ddd",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793250982.4276466,
+      "end": 1793250985.871363,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Random__Proofs__DyadicExponent.log"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Proofs.DyadicStep",
+      "source_sha256": "fd79754a45a24b8de2cc85cc1a2cb0a4aa5360f8d19dae6ceadae9ccf3f389b5",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793250985.871628,
+      "end": 1793250988.2775486,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Random__Proofs__DyadicStep.log"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Proofs.PackDecode",
+      "source_sha256": "1ae0557bb8844952317dedf27641eb69ea6bebad185362b78524e62cf2b3e5e2",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793250988.2778106,
+      "end": 1793250990.8363097,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Random__Proofs__PackDecode.log"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Proofs.PackRoundedProof",
+      "source_sha256": "e0b324729400380ff8d3f9e9ddd1a31e6084456ff0f31d84d2c0ac36c9ed4346",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793250990.8365703,
+      "end": 1793250993.3600283,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Random__Proofs__PackRoundedProof.log"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Proofs.SignificandBounds",
+      "source_sha256": "9fd6c6ebf6cc0f2e252a7dd0010e1fabed9042e044a08afb29b8d234fe7ff181",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793250993.3603182,
+      "end": 1793250996.0747254,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Random__Proofs__SignificandBounds.log"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Proofs.RoundDyadic",
+      "source_sha256": "351506829a6a90e45afb1ef6f7b31d3f58ee5d653092bc9850011adbd495d91e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793250996.0750213,
+      "end": 1793250998.528492,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Random__Proofs__RoundDyadic.log"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Proofs.CanonicalUniformBridge",
+      "source_sha256": "e744120a52249bf3753ac4dc81967dd37930c8c3cc71b4cc234da110c9994938",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793250998.5287895,
+      "end": 1793251000.9501877,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Random__Proofs__CanonicalUniformBridge.log"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Values",
+      "source_sha256": "74055de9bdcb4b5b338c5f1294f4781bcf715f207a78c1ddddf900c22c9e3c85",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251000.950483,
+      "end": 1793251003.3870778,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Random__Values.log"
+    },
+    {
+      "module": "VeriTile.Triton.Random.UniformValues",
+      "source_sha256": "d2cb297b2aa730102adf8edab25581357071495da672876c22497e3669be90bb",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251003.387387,
+      "end": 1793251005.7377923,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Random__UniformValues.log"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.EvalOp",
+      "source_sha256": "749551a2088c6e0a3f59503dcdffbb229d3f7a96b2eae3799e5951248e38f9b6",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251005.7381113,
+      "end": 1793251039.884021,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Semantics__EvalOp.log"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.Step",
+      "source_sha256": "709189a5c592f0dde041cfeb17e6b2d6bdde8b48e4c618104aa7baf8bde452d5",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251039.8844268,
+      "end": 1793251047.424706,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Semantics__Step.log"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.Eval",
+      "source_sha256": "c981d48a41d1a1cccd61376afc8d273754b397b160f257e80edf597453e61148",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251047.4250095,
+      "end": 1793251049.7429018,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Semantics__Eval.log"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.LaneBridge",
+      "source_sha256": "cba3a5c109464d5018e1b9aa47a6688040e42e07de81fc9178a7ec74a780a85d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251049.7432318,
+      "end": 1793251051.0803275,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Semantics__LaneBridge.log"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.MaskedReduction",
+      "source_sha256": "679ec47fa431c57fda950756e5ae1a22dfc145224d6eb21c68ff43f950a942a8",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251051.0806384,
+      "end": 1793251053.3575048,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Semantics__MaskedReduction.log"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.BroadcastReshape",
+      "source_sha256": "693f8fa230e9ee1f1bc7341df73be2d2765e1d4df23d46de759565214d19d8ee",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251053.3578053,
+      "end": 1793251055.9767494,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Semantics__BroadcastReshape.log"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.BlockPtrEval",
+      "source_sha256": "50145ec9e7feca0282f1dc351017f7e7bbb83776b905eb96f5894c658e6e742f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251055.9770625,
+      "end": 1793251058.4292035,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Semantics__BlockPtrEval.log"
+    },
+    {
+      "module": "VeriTile.Triton.Math.Attention",
+      "source_sha256": "bd83e1c4debe6448af1c99b37608f1429c0e9fde03caf9ab394cab873a338e78",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251058.4296067,
+      "end": 1793251061.8187888,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Math__Attention.log"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.StreamingAccumulator",
+      "source_sha256": "19fdebafec049bd11c48abba4ec0daf711436d9a0fa242b0d063a9e609e5bd40",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251061.8193521,
+      "end": 1793251065.3758507,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Semantics__StreamingAccumulator.log"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics",
+      "source_sha256": "c766bb73f0eada86490c02bc145e7b011de1d184609b8021325648d949678346",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251065.3761969,
+      "end": 1793251067.7591922,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Semantics.log"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.View",
+      "source_sha256": "81902179bc5303b70f7e76fa8896df3d3ac0c130e7b25950ab21c546f286f077",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251067.7595344,
+      "end": 1793251070.634931,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Memory__View.log"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Bounds",
+      "source_sha256": "9bc0ee2841381e12425e111fb9f5617cb132457db094934b6ad4e756549b11a3",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251070.6352801,
+      "end": 1793251098.7435002,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Memory__Bounds.log"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Frame.Basic",
+      "source_sha256": "14e010c95c718cb6b994031fab88ee85da4fe0ad623c8adeadf3bb755bc1c593",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251098.7438376,
+      "end": 1793251101.228501,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Memory__Frame__Basic.log"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Frame.Stmt",
+      "source_sha256": "98a4a4032c574773dc719d85d79452c1d1c745f11db296da9ce78019cddbf116",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251101.228856,
+      "end": 1793251104.7544582,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Memory__Frame__Stmt.log"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Frame.Kernel",
+      "source_sha256": "d15f68b693226f9d4d6ac64428fca447e973a0141b5310e98026c755a293c0ee",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251104.754783,
+      "end": 1793251107.1176164,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Memory__Frame__Kernel.log"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Frame",
+      "source_sha256": "69ceb0d4ffea1563dcd1dd3a1ea1ca12f7d4f7a1bca192edd7c6a300091ad49e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251107.1179395,
+      "end": 1793251109.368242,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Memory__Frame.log"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Footprint",
+      "source_sha256": "ef80d79ae760c927093577188f384f31aae7f54527dc67358308389ee0af7eb2",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251109.3685827,
+      "end": 1793251111.798365,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Memory__Footprint.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.EvalOpR",
+      "source_sha256": "bd84bfe187b0da3cfbedde19cb125a0984090289482504b99308c2c81573d91e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251111.798728,
+      "end": 1793251156.1605358,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Float__EvalOpR.log"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.BlockPadding",
+      "source_sha256": "157d22d7b2bc8c299457836eb29e45efd8ecfef0b4d75610cec905d978cad00c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251156.1608748,
+      "end": 1793251159.2579803,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Semantics__BlockPadding.log"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Flatten",
+      "source_sha256": "ba883b355d6d14a158f1d19d5954eacab5f1e9ef065e7589570929ad0e81632f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251159.2586489,
+      "end": 1793251325.7334018,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Memory__Flatten.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.StepR",
+      "source_sha256": "72982c87c66f95566d3cf03be69cfedb2088fc0fdd643bba5801981d1a72df32",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251325.733779,
+      "end": 1793251331.9303122,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Float__StepR.log"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.FlattenR",
+      "source_sha256": "7e55d54f4b1cdc1f9d016bbd4e81c8a39408ed79c53d5f78ec8cac4011017761",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251331.9308214,
+      "end": 1793251432.4511435,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Memory__FlattenR.log"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.FlattenTolerant",
+      "source_sha256": "3465fcb1233e1ad47c3f7c89c3377fae203cd168f9cf47c34485ea480f71a66a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251432.4515402,
+      "end": 1793251435.1081936,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Memory__FlattenTolerant.log"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Locality",
+      "source_sha256": "9bf1c6c326d4933db005fcac4d501b30cb17b5d76db4bc66e0fbe13d59a5c2e3",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251435.1086147,
+      "end": 1793251487.5846043,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Memory__Locality.log"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Denotation",
+      "source_sha256": "d0708c4acf9061d947132f579f2d70077ac72e7e9d71174170f95589e9f2df75",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251487.5849507,
+      "end": 1793251490.1058505,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Memory__Denotation.log"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Layout",
+      "source_sha256": "e0532314b8f5de6b4abc349368cdf2fd369280ee2ce97eedf364cd12f847996a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251490.1062236,
+      "end": 1793251492.4849875,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Memory__Layout.log"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelCore",
+      "source_sha256": "617a8949869c9a9bf366bfe74a02f7a98c1b001f496d7af3f40662445702f311",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251492.4853678,
+      "end": 1793251495.200775,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Memory__KernelCore.log"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Base",
+      "source_sha256": "4497d69d92d2bc9baa0861fc0cec9bcf8eab5309c2c582f2d9aa0e5da27c54a8",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251495.2011282,
+      "end": 1793251497.6713545,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Memory__KernelSpec__Base.log"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Basic",
+      "source_sha256": "2a5b4b4946ade9c9bc25414589a5b1a4f815b001847c88b455718f7131981e81",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251497.6717918,
+      "end": 1793251504.0154936,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Memory__KernelSpec__Basic.log"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Masked",
+      "source_sha256": "cf1ea6e930e5832c72d9c95e1bb4345e2e21cd4fe9028e019d09efe92f62ff8c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251504.0159264,
+      "end": 1793251508.6406324,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Memory__KernelSpec__Masked.log"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.MaskedND",
+      "source_sha256": "e4056b3085024808ab8fc1e04d3af2381a879fea9374ab0f4751ba9fbdf15532",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251508.6411178,
+      "end": 1793251514.6024563,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Memory__KernelSpec__MaskedND.log"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.BooleanMasked",
+      "source_sha256": "7dc158c61ed167c2d6dcd50ebfb2285094ee5862195d2f50fe6446ed6fe628fb",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251514.6028414,
+      "end": 1793251517.6202197,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Memory__KernelSpec__BooleanMasked.log"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Metadata",
+      "source_sha256": "27672a7a080cce048c2556e3f9705abba985fc4c20b3e378e0ea31e929c01009",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251517.6207027,
+      "end": 1793251523.8483121,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Memory__KernelSpec__Metadata.log"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Scatter",
+      "source_sha256": "e32c3d321b97105b4ce5d192d87c94bed970c38b750f5b26ff10d71a237a4b24",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251523.8487406,
+      "end": 1793251527.6333728,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Memory__KernelSpec__Scatter.log"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Gather",
+      "source_sha256": "aa6b2a6a0b9cfc873d3194a9ce4c8cad9c1f881e6c0e7454000065d0101ae457",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251527.6338084,
+      "end": 1793251531.4650424,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Memory__KernelSpec__Gather.log"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Grouped",
+      "source_sha256": "809d66cfa5021f0ffc7f569ef5aa1b91edea5afafb56d123f8093ab24c18850f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251531.4654744,
+      "end": 1793251535.570342,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Memory__KernelSpec__Grouped.log"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Stream",
+      "source_sha256": "308da848372ad8982ece008ea561836d1b2f96bac711cef3436cc859c2aa254e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251535.5707479,
+      "end": 1793251538.512252,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Memory__KernelSpec__Stream.log"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.StreamEmit",
+      "source_sha256": "e723e4737a7384bd4ed69011b5d7135d8630f7c540c1848be3d18a8f1c94c02a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251538.5127177,
+      "end": 1793251542.2498727,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Memory__KernelSpec__StreamEmit.log"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.StreamAttention",
+      "source_sha256": "a3d9812b4dea7ab67edffe5d338f108f91464f79910fb88abed54b9dff2f7a30",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251542.250397,
+      "end": 1793251546.3559737,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Memory__KernelSpec__StreamAttention.log"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.StreamAttentionMetadata",
+      "source_sha256": "c4d582356c4ced27762da21e73b7d22ffea362c2014dd336d1522de988998a99",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251546.356427,
+      "end": 1793251549.704035,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Memory__KernelSpec__StreamAttentionMetadata.log"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.TileIndex",
+      "source_sha256": "07294995905ab00ee3c4981cbae5e18bf50796815cd9bd49e93b8d427e72c8b1",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251549.7044268,
+      "end": 1793251552.1015792,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Memory__KernelSpec__TileIndex.log"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Tile",
+      "source_sha256": "6056b7cf40200213a953c9249bfc1ecdb81534363fc5686a7538220fbea66872",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251552.1020353,
+      "end": 1793251556.8787024,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Memory__KernelSpec__Tile.log"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.TileND",
+      "source_sha256": "d1b1fd6fd0be7fb1741e34d6bffec81b1f46db04eb7866db363e2d8cb7b4645a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251556.8792136,
+      "end": 1793251561.6620739,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Memory__KernelSpec__TileND.log"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.TileMetadata",
+      "source_sha256": "c457a30724b6288584a6e2e5e8533bcdbf59300eb4b20f8d82ca9be36efbe77c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251561.6929746,
+      "end": 1793251566.051859,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Memory__KernelSpec__TileMetadata.log"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.TileGather",
+      "source_sha256": "964d1e68747a97b25d3f65d1728efc51d913d937ef5cb08e40ba991e99dbf0a9",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251566.0522916,
+      "end": 1793251569.8970966,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Memory__KernelSpec__TileGather.log"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec",
+      "source_sha256": "f6e211da67da821f3853b0dbf6ce13b648bdb5df98816193024b94170758dbe3",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251569.897542,
+      "end": 1793251572.1641254,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Memory__KernelSpec.log"
+    },
+    {
+      "module": "VeriTile.Triton.Memory",
+      "source_sha256": "95ded98671abf69963028f62c116ea94ad838d2e784fe59f350f688f1c0618f0",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251572.1645823,
+      "end": 1793251574.441887,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Memory.log"
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas.EvalHelpers",
+      "source_sha256": "4a19550e09aabcadc3434134e8f6fdccf0dbcc3d634820c7b491d3bc3cecb9d9",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251574.4423406,
+      "end": 1793251576.8290663,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__KernelLemmas__EvalHelpers.log"
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas.OffsetInjective",
+      "source_sha256": "f91a71264bd1a72de9cb368592047dcce3377ebd8dbf1dc59734481a8ead8efc",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251576.829502,
+      "end": 1793251579.2070134,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__KernelLemmas__OffsetInjective.log"
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas.Matmul",
+      "source_sha256": "93eee78a5a29fe9526eada5beb986df35c6f9a24768a20ff9c9a64f8b156ce80",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251579.2074711,
+      "end": 1793251581.6009347,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__KernelLemmas__Matmul.log"
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas.ScatterStore",
+      "source_sha256": "b48c2d047c8ffc611d7791c14d4f98128bf17208f5a134edffe9c8678da7ff17",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251581.6013868,
+      "end": 1793251584.0678253,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__KernelLemmas__ScatterStore.log"
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas.LoopInvariant",
+      "source_sha256": "ed17ccd8157fd3fd026d950a6b73eccd04fa13626048792e2d93ae7fcdf564f0",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251584.0682743,
+      "end": 1793251586.532663,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__KernelLemmas__LoopInvariant.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.StateErasure",
+      "source_sha256": "d87d2d39b9cff48d8f7011f451329afefc3bc76ae600776bd599ec5b62b3b93e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251586.5330813,
+      "end": 1793251588.8893278,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Float__StateErasure.log"
+    },
+    {
+      "module": "VeriTile.Triton.Correctness",
+      "source_sha256": "0e5c59fe03bdf99aa94059eb533b44bd5764fa48e844751e9603891b730a03ce",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251588.8897715,
+      "end": 1793251591.5452056,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Correctness.log"
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas.CarryFold",
+      "source_sha256": "652e516656ffb90b3e85d37f47942c4bfe1a26f1fbc98218879f5a47da03bd49",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251591.5456367,
+      "end": 1793251594.0047147,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__KernelLemmas__CarryFold.log"
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas",
+      "source_sha256": "22dba3bab9b64beb95ccae479e1e4fd0df8982a30751b814bbd38cd8bac87d9d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251594.0051448,
+      "end": 1793251596.271455,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__KernelLemmas.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.Refine",
+      "source_sha256": "fa767a47f0f9e79c951c2b5d074455612c3464438220ee829de29f17e5eabc83",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251596.271894,
+      "end": 1793251598.753511,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Float__Refine.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.Pipeline",
+      "source_sha256": "5a892afbc554b181bcff18de0901bef31fa70f659fe420274e6c8cfcd5975646",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251598.7539418,
+      "end": 1793251601.2303555,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Float__Pipeline.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float",
+      "source_sha256": "92d888b138f8b593d5337806b3128af63832e8c2a1ab482efceedbd432821b7d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251601.2307851,
+      "end": 1793251603.5514164,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Float.log"
+    },
+    {
+      "module": "VeriTile.Triton.Math",
+      "source_sha256": "9000ce833e405e6652bcd66c930a51d8374c909ca6fe464e0fe77d0cd3648d09",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251603.5518668,
+      "end": 1793251605.775569,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Math.log"
+    },
+    {
+      "module": "VeriTile.Triton.Launch.Grid",
+      "source_sha256": "74c1c565e02dc30e35751531333bd59ba16f4f9305f40a7ca591e4b24e251925",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251605.776028,
+      "end": 1793251608.2618778,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Launch__Grid.log"
+    },
+    {
+      "module": "VeriTile.Triton.Launch.Composition",
+      "source_sha256": "1a4db9f31530ff88a9727478b8cfa1df9de9934168c759a2934c4367877090a3",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251608.2623577,
+      "end": 1793251610.6999304,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Launch__Composition.log"
+    },
+    {
+      "module": "VeriTile.Triton.Launch",
+      "source_sha256": "2dd3ea1acf4cecd1ba4f24dee9868bf5089fa898ca9bf73a6074b4717241b4e6",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251610.7003977,
+      "end": 1793251612.9616592,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Launch.log"
+    },
+    {
+      "module": "VeriTile.Triton.Concurrency.Trace",
+      "source_sha256": "85b2f0867c77795663ca6de96344f8896014bb919e9632ea400479138cc52c8c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251612.9621208,
+      "end": 1793251615.509704,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Concurrency__Trace.log"
+    },
+    {
+      "module": "VeriTile.Triton.Concurrency.Discipline",
+      "source_sha256": "3901bcbadeaf513cb0723a0db9c77f23e8f4700bf6b076cb9da0869abf17395a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251615.5102482,
+      "end": 1793251617.8572664,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Concurrency__Discipline.log"
+    },
+    {
+      "module": "VeriTile.Triton.Concurrency.Refinement",
+      "source_sha256": "0baf4b34389f4d1b1ea978e8fd4525e306e8110733a33c9793f3cad851b93196",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251617.8577318,
+      "end": 1793251620.2130256,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Concurrency__Refinement.log"
+    },
+    {
+      "module": "VeriTile.Triton.Concurrency.ProducerConsumer",
+      "source_sha256": "0ba0c4c59a75b83b52782a2bc7f58880af134e9c2718e03fd8e5ca831d8de06a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251620.2135186,
+      "end": 1793251622.5394483,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Concurrency__ProducerConsumer.log"
+    },
+    {
+      "module": "VeriTile.Triton.Concurrency.Atomic",
+      "source_sha256": "03dc2a7547ff4c90ca22d3af13867ca243306fbb06e73ddc424d41545129da52",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251622.5399218,
+      "end": 1793251625.6690936,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Concurrency__Atomic.log"
+    },
+    {
+      "module": "VeriTile.Triton.Concurrency",
+      "source_sha256": "b6312bcc71e3596bb9fbfd039b11b412a22df3a4cbcd6e740c703c9271739f6e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251625.6696165,
+      "end": 1793251627.936977,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Concurrency.log"
+    },
+    {
+      "module": "VeriTile.Triton",
+      "source_sha256": "0937879a78c271cce7beda0e77d0b0bcf90a23a2ce90485ab011a5472d75f9a0",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251627.9374597,
+      "end": 1793251630.2559962,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton.log"
+    },
+    {
+      "module": "bench.tritonbench_g.kcache_copy_triton.KcacheCopyTriton",
+      "source_sha256": "fb16f21d28e45b01dff210b98a37029c4d623b8710d6a91b43edea53f967bb74",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251630.256544,
+      "end": 1793251635.6188514,
+      "log": "/tmp/integer113-fast1-bench__tritonbench_g__kcache_copy_triton__KcacheCopyTriton.log"
+    },
+    {
+      "module": "VeriTile.Triton.Core.Reshape",
+      "source_sha256": "4e3e858f5b928bcdd25b207ec6a43a78fbe46011ed42fc6e55041690d5bb20e9",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251635.6193488,
+      "end": 1793251636.8677597,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Core__Reshape.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.Structural",
+      "source_sha256": "521b439af402a242c0fb62073b6acdba219bcdadbff73c0f80d89545389c283f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251636.8682983,
+      "end": 1793251734.3390443,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Float__Structural.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.Equational",
+      "source_sha256": "8e2b9fa6d36ed83a7a5e10449f34db08079c6695a84c529d005bd80196a4e14a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251734.3395407,
+      "end": 1793251736.0221922,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Float__Equational.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.TermModel",
+      "source_sha256": "e8c98fd3d0bb93493e4570e5c4dab2369f1b5dcb3795f1696ec7bbe85e073e6d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251736.0226805,
+      "end": 1793251737.5535774,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Float__TermModel.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.StructuralIO",
+      "source_sha256": "5e6e54ae8278efcc205fa34c281c2995d1b373070a02c3ba86d8983cd9352b07",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251737.5540838,
+      "end": 1793251740.1101384,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Float__StructuralIO.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ExecutionProfile",
+      "source_sha256": "2adc75f97617c8158ea68bf70c85e6326345e338aad5da8019ceeddb4de27ba2",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251740.110639,
+      "end": 1793251741.5400956,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Float__ExecutionProfile.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.GuardedSemantics",
+      "source_sha256": "d2f22934cfba1785788b1736972688f1a6fdb116625ed4f65c581b23807c01b2",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251741.5406034,
+      "end": 1793251743.9512908,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Float__GuardedSemantics.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ScalarBackend",
+      "source_sha256": "9c65d7e398cd81da6ec925b48e77092719a4f9aa745b9dbb39f75eda909e2f3b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251743.9517708,
+      "end": 1793251746.1593857,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Float__ScalarBackend.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.IntegerLiteralBackend",
+      "source_sha256": "b3d31af3624e45d4fcc0e0c3bff271aa646af7c1ce5e607c4c55f215f6aacabd",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251746.1598659,
+      "end": 1793251747.845524,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Float__IntegerLiteralBackend.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.StrictBackend",
+      "source_sha256": "5be3adb2b87f903b1722699c2112cee64f23e18504516d39485298f4090391a4",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251747.8460128,
+      "end": 1793251750.530511,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Float__StrictBackend.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.GuardedStrict",
+      "source_sha256": "68d75db42f1f0e94fa6f045ee36d003b9186f9931e2f9a828fc2a7e355121dd6",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251750.5309956,
+      "end": 1793251752.9338582,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Float__GuardedStrict.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.GuardedIO",
+      "source_sha256": "80db0df27dcd7844984d20b2004fab5b59daf6bcfecf16b24df5acaf1b7d93c7",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251752.9343774,
+      "end": 1793251755.4176009,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Float__GuardedIO.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.Reciprocal",
+      "source_sha256": "6fc50b9bbf8b23cf4c4fdac670126082bc71a0cc238819e96ed8ac8e71911c86",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251755.418091,
+      "end": 1793251762.8798006,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Float__Reciprocal.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.BitValueLaws",
+      "source_sha256": "3557fb56e80e2b6c5c71d107816116cda72c8c8de64f0733cfb495786363c37e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251762.8803074,
+      "end": 1793251766.4889548,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Float__BitValueLaws.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.CastExact.SameFormat",
+      "source_sha256": "0cebe579634305ffe45ee277d62b0fb547181636e384b6c8b150899650d68e2f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251766.4894798,
+      "end": 1793251769.8596406,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Float__CastExact__SameFormat.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ScalarArithmetic",
+      "source_sha256": "dad64aca5363620aedb71b24878e7cb159542d3d70577d66014befe54d768478",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251769.8601596,
+      "end": 1793251783.253995,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Float__ScalarArithmetic.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ScalarArithmeticLaws",
+      "source_sha256": "83497519da0c786b873f557d8cefb9e74ea7c2909c842353dd079a917d67412f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251783.2545314,
+      "end": 1793251785.9864428,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Float__ScalarArithmeticLaws.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.GuardedRewrite",
+      "source_sha256": "f242e954ff7c8f3901140c2e90f323b9b84d73c6fa09a445e440fcac06cc9652",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251785.9869459,
+      "end": 1793251788.702093,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Float__GuardedRewrite.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.Loop",
+      "source_sha256": "3b67954d45467ed5755158c9ef280e078c9fe911b5c906c34020249edc412336",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251788.7026246,
+      "end": 1793251790.203028,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Float__Loop.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ProfiledRewrite",
+      "source_sha256": "4d1a5b21949314b91fe4fdef667f9cf04ebec002bf643cfaedc426a8ef3e3085",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251790.203578,
+      "end": 1793251793.9108784,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Float__ProfiledRewrite.log"
+    },
+    {
+      "module": "bench.tritonbench_g.kcache_copy_triton.Proofs.TypedCopy",
+      "source_sha256": "727b75143b5d44732b8240aadd0a5e62ab1bd4ba81cd37420d89e02b1a73ca34",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251793.9114304,
+      "end": 1793251808.3347836,
+      "log": "/tmp/integer113-fast1-bench__tritonbench_g__kcache_copy_triton__Proofs__TypedCopy.log"
+    },
+    {
+      "module": "bench.tritonbench_g.rotary_emb_nopad.Proofs.Pair",
+      "source_sha256": "d3fe0e23319363f8b5684bc0794e76e059aac147dc077cf77d1934b31c028894",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251808.3353102,
+      "end": 1793251810.77531,
+      "log": "/tmp/integer113-fast1-bench__tritonbench_g__rotary_emb_nopad__Proofs__Pair.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.Control",
+      "source_sha256": "d892831117300292003ebe68dc9aa9f8dfc2629a9f1a6fdd25123e678209c413",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251810.7758193,
+      "end": 1793251813.3410947,
+      "log": "/tmp/integer113-fast1-VeriTile__Triton__Float__Control.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.rope_embedding.Proofs.Source",
+      "source_sha256": "586a93cee52a54000ff5f8659506b3d8149c7d5e0cb3b073877a2a6cd32ff961",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251813.3416393,
+      "end": 1793251836.749421,
+      "log": "/tmp/integer113-fast1-bench__repairs__tritonbench_g__rope_embedding__Proofs__Source.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.rope_embedding.Proofs.Group",
+      "source_sha256": "201f84576b7350dc7d18a205ef0d156c25f614c4a2cd3d19ff7f487861670ec4",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251836.7499397,
+      "end": 1793251839.5235364,
+      "log": "/tmp/integer113-fast1-bench__repairs__tritonbench_g__rope_embedding__Proofs__Group.log"
+    },
+    {
+      "module": "VeriTile.Torch.Tensor",
+      "source_sha256": "5ffea95271519b19b6ac5bd006cb95f778ebc99c21648700ca74d054557db052",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251839.5240607,
+      "end": 1793251840.630848,
+      "log": "/tmp/integer113-fast1-VeriTile__Torch__Tensor.log"
+    },
+    {
+      "module": "VeriTile.Torch.FP32",
+      "source_sha256": "013a646a19c94863c9348e5797b89a4ae95e10bb79b4109f6df36433bd168082",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251840.6313806,
+      "end": 1793251842.013957,
+      "log": "/tmp/integer113-fast1-VeriTile__Torch__FP32.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.rope_embedding.Contract",
+      "source_sha256": "ae6d326ca282dd683731ac6345bf8dd4cebd45c7499b1298d8170514d13b15b2",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251842.0145278,
+      "end": 1793251843.6909552,
+      "log": "/tmp/integer113-fast1-bench__repairs__tritonbench_g__rope_embedding__Contract.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.rope_embedding.Proofs.Spec",
+      "source_sha256": "8220e49fc4fdfaa38b96cf2cdcd6fa2fbe81264a6088e2a3175bc8b483e93e8d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251843.69152,
+      "end": 1793251845.3420875,
+      "log": "/tmp/integer113-fast1-bench__repairs__tritonbench_g__rope_embedding__Proofs__Spec.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.rope_embedding.Proofs.Schedule",
+      "source_sha256": "68f1cf88a146f3b35da863e85357a4df2553e04dc191a88090dafbbb3e0d54bc",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251845.3426442,
+      "end": 1793251847.038101,
+      "log": "/tmp/integer113-fast1-bench__repairs__tritonbench_g__rope_embedding__Proofs__Schedule.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.rope_embedding.Proofs.Contract",
+      "source_sha256": "3d0866b2568925660fc845dec0235f802699a2637fc6072ad7b8fcca9e338450",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793251847.0386586,
+      "end": 1793251850.1307964,
+      "log": "/tmp/integer113-fast1-bench__repairs__tritonbench_g__rope_embedding__Proofs__Contract.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.fast_rope_embedding.Proofs.Source",
+      "source_sha256": "c68683202a283d60a3d4dfe76e5f529debbfdd50a13555710e5b1139dc605c7f",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793251850.1313746,
+      "end": 1793251878.5112805,
+      "log": "/tmp/integer113-fast1-bench__repairs__tritonbench_g__fast_rope_embedding__Proofs__Source.log"
+    }
+  ],
+  "end": 1793251878.5117557
+}

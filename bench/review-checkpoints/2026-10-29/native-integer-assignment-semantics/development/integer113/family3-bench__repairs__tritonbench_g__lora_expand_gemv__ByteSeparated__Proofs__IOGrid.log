@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.IOGrid.one_program: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.IOGrid.execute_prefix: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

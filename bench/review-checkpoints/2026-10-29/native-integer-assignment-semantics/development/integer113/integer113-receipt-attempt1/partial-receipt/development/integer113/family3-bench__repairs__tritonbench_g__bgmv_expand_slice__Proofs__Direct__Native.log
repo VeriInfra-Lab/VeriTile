@@ -1,0 +1,16 @@
+VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.Native.source_read: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.Native.source_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.Native.whole: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.Native.reference: definition does not reference [VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.FPGrid.run,
+ VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.FPGrid.fold,
+ VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.Kernels.source,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.Native.sourceStores] — non-circular ✓
+Axiom audit: headlines=0
+headlines: []

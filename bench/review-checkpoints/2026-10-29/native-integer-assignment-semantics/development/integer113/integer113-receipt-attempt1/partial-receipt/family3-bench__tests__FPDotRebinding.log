@@ -1,0 +1,6 @@
+VeriTile.Tests.FPDotRebinding.dot_and_result_keep_precision: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.FPDotRebinding.rebound_registers_keep_float16: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

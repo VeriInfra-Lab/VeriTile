@@ -1,0 +1,18 @@
+VeriTile.Tests.MultinomialRoundedBoundary.actual_rng_sample: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.MultinomialRoundedBoundary.rounded_sum_bits: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.MultinomialRoundedBoundary.rounded_preceding_bits: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.MultinomialRoundedBoundary.overlapping_boundary: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.MultinomialRoundedBoundary.sample_positive: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.MultinomialRoundedBoundary.preceding_not_previous_accumulator: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

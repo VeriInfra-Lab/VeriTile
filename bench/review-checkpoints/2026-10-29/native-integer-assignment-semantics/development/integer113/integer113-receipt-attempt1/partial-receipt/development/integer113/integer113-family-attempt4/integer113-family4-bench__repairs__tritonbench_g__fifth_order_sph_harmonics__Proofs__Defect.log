@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Defect.exact_counterexample: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Defect.original_backward_not_derivative: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,4 @@
+VeriTile.Bench.Repairs.RopeEmbedding.Spec.result: definition does not reference [VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.Repairs.RopeEmbedding.Spec.adjoint: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,16 @@
+{
+  "status": "FAIL",
+  "start": 1793247927.3919935,
+  "results": [
+    {
+      "module": "bench.tests.IntegerLiteralAssignmentBody",
+      "source_sha256": "96c796609e9b00f813a4e4592447bc493f9da73bf6247c145732c146e03718d1",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793247927.3921518,
+      "end": 1793247942.3281467,
+      "log": "/tmp/integer113-probe2-bench__tests__IntegerLiteralAssignmentBody.log"
+    }
+  ],
+  "end": 1793247942.3283556
+}

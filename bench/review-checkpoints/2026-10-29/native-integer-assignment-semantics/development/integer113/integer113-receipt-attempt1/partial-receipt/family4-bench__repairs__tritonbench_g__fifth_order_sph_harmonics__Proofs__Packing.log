@@ -1,0 +1,10 @@
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Packing.unpack_pack: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Packing.pack_unpack: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Packing.value_word: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Packing.word_value: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

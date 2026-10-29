@@ -1,0 +1,15 @@
+VeriTile.Tests.FPArrayProgramIO.all_memories_bind: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.FPArrayProgramIO.finite_bounds: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.FPArrayProgramIO.alias_gather_runs: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.FPArrayProgramIO.alias_gather_safe: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.FPArrayProgramIO.unconditional_result: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

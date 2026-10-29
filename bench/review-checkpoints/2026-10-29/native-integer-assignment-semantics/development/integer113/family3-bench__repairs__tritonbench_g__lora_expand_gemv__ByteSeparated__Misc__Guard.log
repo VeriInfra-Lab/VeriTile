@@ -1,0 +1,8 @@
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.Contract.python_overlap_false_iff: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.Contract.python_separate_iff: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+Axiom audit: headlines=0
+headlines: []

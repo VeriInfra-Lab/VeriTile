@@ -1,0 +1,11 @@
+/tmp/integer113-frontend/bench/tests/FPIntegerOutputIO.lean:95:31: warning: This simp argument is unused:
+  runIntegerSchedule
+
+Hint: Omit it from the simp argument list.
+  simp [failingIO, failingJob, r̵u̵n̵IntegerS̵c̵h̵e̵d̵u̵l̵e̵,̵ ̵Int̵e̵g̵e̵r̵I̵n̵vocation.run,
+  ̵  ̵ ̵ ̵IntegerInvocation.typedKernel,
+  ̲  ̲ ̲ ̲QuantizeIntegerStage.exec, QuantizeIntegerStage.run,
+  ̵  ̵ ̵ ̵QuantizeIntegerStage.step,
+  ̲  ̲ ̲ ̲QuantizeIntegerStage.evalExpr, ComputeKernel.surfaceBody] at executed
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

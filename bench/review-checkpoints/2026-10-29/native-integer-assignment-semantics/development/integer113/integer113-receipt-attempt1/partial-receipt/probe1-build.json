@@ -1,0 +1,43 @@
+{
+  "status": "PASS",
+  "start": 1793247851.3370125,
+  "results": [
+    {
+      "module": "VeriTile.Triton.DSL.TypedStores",
+      "source_sha256": "ab37b0e244d364e0512927a93c28e7ff2d9206b48ee527ddacf89006460314a1",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247851.3372898,
+      "end": 1793247859.711067,
+      "log": "/tmp/integer113-probe1-VeriTile__Triton__DSL__TypedStores.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.TypedStorageReduction",
+      "source_sha256": "26c50b50885cb0cc8a81863783fc01c8917be74a01efb6f47eff1d560fa9707d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247859.7113488,
+      "end": 1793247861.6512854,
+      "log": "/tmp/integer113-probe1-VeriTile__Triton__DSL__TypedStorageReduction.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.CallSignature",
+      "source_sha256": "fda4e3d84bc60fcdd02e4e5ea83ec017549395f6ab311c130abb1947bb681746",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247861.6516256,
+      "end": 1793247902.3582196,
+      "log": "/tmp/integer113-probe1-VeriTile__Triton__DSL__CallSignature.log"
+    },
+    {
+      "module": "bench.tests.IntegerLiteralAssignmentBody",
+      "source_sha256": "59748d1db1c00cadf5ba693263478275d38cbc35aa790f76e07842af1e69cf73",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793247902.3584788,
+      "end": 1793247907.5714285,
+      "log": "/tmp/integer113-probe1-bench__tests__IntegerLiteralAssignmentBody.log"
+    }
+  ],
+  "end": 1793247907.5716228
+}

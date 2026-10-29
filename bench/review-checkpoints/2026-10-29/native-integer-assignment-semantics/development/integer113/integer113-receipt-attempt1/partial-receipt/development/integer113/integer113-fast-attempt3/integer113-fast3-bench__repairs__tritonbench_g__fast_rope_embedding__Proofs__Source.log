@@ -1,0 +1,28 @@
+/tmp/integer113-fast-frontend/bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Source.lean:56:120: error: unsolved goals
+case false.refine_3.h
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+p : Parameters
+s : State α
+i : TileIndex []
+⊢ (if ↑(s.pids 1) * 4 + 4 < ↑p.heads then ↑(s.pids 1) * 4 + 4 else ↑p.heads) =
+    ↑(if s.pids 1 * 4 + 4 < p.heads then s.pids 1 * 4 + 4 else p.heads)
+
+case true.refine_3.h
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+p : Parameters
+s : State α
+i : TileIndex []
+⊢ (if ↑(s.pids 1) * 4 + 4 < ↑p.heads then ↑(s.pids 1) * 4 + 4 else ↑p.heads) =
+    ↑(if s.pids 1 * 4 + 4 < p.heads then s.pids 1 * 4 + 4 else p.heads)
+VeriTile.Bench.Repairs.FastRopeEmbedding.Source.oneHead_facts: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRopeEmbedding.Source.loop_executes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/integer113-fast-frontend/bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Source.lean:154:0: error: VeriTile.Bench.Repairs.FastRopeEmbedding.Source.complete_execution: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/integer113-fast-frontend/bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Source.lean:155:0: error: VeriTile.Bench.Repairs.FastRopeEmbedding.Source.complete_correctness: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

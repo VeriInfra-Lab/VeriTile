@@ -1,0 +1,3 @@
+/tmp/integer113-frontend/bench/tests/EquivTactics.lean:179:6: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`

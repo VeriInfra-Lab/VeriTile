@@ -1,0 +1,49 @@
+/tmp/integer113-baseline/bench/tests/IntegerLiteralAssignmentBody.lean:52:53: error: unsolved goals
+⊢ (match
+      match
+        match
+          match if "value" = "denominator" then some fun x => 9000 else some fun i => 1, fun __do_lift =>
+            some (bop (fun a b => a + b) Broadcast.nil __do_lift fun x => 9000) with
+          | none, x => none
+          | some a, f => f a,
+          fun v =>
+          some
+            { mem := fun x x_1 => Cell.mk TileDType.real 1,
+              regs := fun d sh n =>
+                if n = "result" then
+                  if h : TileDType.real = d then if h_1 : sh = [] then some (⋯ ▸ ⋯ ▸ v) else none else none
+                else
+                  if n = "denominator" then
+                    if h : TileDType.real = d then if h_1 : sh = [] then some (⋯ ▸ ⋯ ▸ fun x => 9000) else none
+                    else none
+                  else
+                    if n = "value" then
+                      if h : TileDType.real = d then if h_1 : sh = [] then some (⋯ ▸ ⋯ ▸ fun i => 1) else none else none
+                    else none,
+              pids := fun x => 0, numPids := fun x => 1, undef := fun d x x_1 => defaultValue d } with
+        | none, x => none
+        | some a, f => f a,
+        fun __do_lift =>
+        match
+          match __do_lift.regs ComputeDType.fp32.eraseDType [] "result", fun __do_lift_1 =>
+            some
+              {
+                mem := fun r' o' =>
+                  if r' = { name := "y" } ∧ o' = 0 then Cell.mk TileDType.real (__do_lift_1 PUnit.unit)
+                  else __do_lift.mem r' o',
+                regs := __do_lift.regs, pids := __do_lift.pids, numPids := __do_lift.numPids,
+                undef := __do_lift.undef } with
+          | none, x => none
+          | some a, f => f a,
+          fun __do_lift => some __do_lift with
+        | none, x => none
+        | some a, f => f a with
+      | none, x => none
+      | some a, f => f a with
+    | some x => some (x.mem { name := "y" } 0)
+    | none => none) =
+    some (Cell.mk TileDType.real 5)
+/tmp/integer113-baseline/bench/tests/IntegerLiteralAssignmentBody.lean:60:56: error: unsolved goals
+⊢ 1 + 9000 = 9001
+/tmp/integer113-baseline/bench/tests/IntegerLiteralAssignmentBody.lean:66:0: error: VeriTile.Tests.IntegerLiteralAssignmentBody.ordinary_integer_tensor: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/integer113-baseline/bench/tests/IntegerLiteralAssignmentBody.lean:67:0: error: VeriTile.Tests.IntegerLiteralAssignmentBody.inline_integer_remains_weak: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

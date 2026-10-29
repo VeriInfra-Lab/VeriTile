@@ -1,0 +1,87 @@
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.grid_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.grid_native: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.TensorBridge.kernel_correct (c : TensorCall) (laws : TensorLaws c)
+  (metadata : Reader) (read : ℕ → ℝ) (contract : InputContract c.metadata metadata)
+  (work : List TokenAttnReduceV.Grid.PID)
+  (order : (TokenAttnReduceV.Grid.fullGrid (batches c.metadata) (heads c.metadata)).Perm work) :
+  ∃ after,
+    TokenAttnReduceV.Grid.run TokenAttnReduceV.Real.algebra TokenAttnReduceV.Real.sum (parameters c.metadata) work
+          (view c.metadata read metadata fun a => Triton.FP.Structural.Cell.mk Triton.TileDType.fp32 (read a)) =
+        some after ∧
+      (∀ b < batches c.metadata,
+          ∀ h < heads c.metadata,
+            ∀ (d : Fin (width c.metadata)),
+              logical (observe id c.metadata read after) c Role.output (outputIndex c.metadata b h ↑d) =
+                logicalRealTarget c metadata read b h ↑d) ∧
+        RawFrame c.metadata
+            (view c.metadata read metadata fun a => Triton.FP.Structural.Cell.mk Triton.TileDType.fp32 (read a)) after ∧
+          (∀ (a : ℕ), Exterior c.metadata a → observe id c.metadata read after a = read a) ∧
+            (0 < batches c.metadata →
+              ∀ r ∈ reads,
+                ∀ i < (c r).metadata.numel, logical (observe id c.metadata read after) c r i = logical read c r i)
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.TensorBridge.kernel_native
+  (I : TokenAttnReduceV.Native.Instructions) (R : TokenAttnReduceV.Native.Reductions)
+  (S : TokenAttnReduceV.Native.Schedule) (c : TensorCall) (laws : TensorLaws c) (words : Reader)
+  (contract : InputContract c.metadata words) (work : List TokenAttnReduceV.Grid.PID)
+  (order : (TokenAttnReduceV.Grid.fullGrid (batches c.metadata) (heads c.metadata)).Perm work) :
+  ∃ after,
+    TokenAttnReduceV.Grid.run TokenAttnReduceV.Native.algebra (TokenAttnReduceV.Native.reduction R)
+          (parameters c.metadata) work
+          (TokenAttnReduceV.Native.entry
+            (view c.metadata words words fun a => Triton.FP.Structural.Cell.mk Triton.TileDType.fp32 (words a))) =
+        some after ∧
+      (∀ b < batches c.metadata,
+          ∀ h < heads c.metadata,
+            ∀ (d : Fin (width c.metadata)),
+              logical (observe (TokenAttnReduceV.Native.eval I S) c.metadata words after) c Role.output
+                  (outputIndex c.metadata b h ↑d) =
+                NativeTarget.reference I R S c.metadata words words b h d) ∧
+        RawFrame c.metadata
+            (TokenAttnReduceV.Native.entry
+              (view c.metadata words words fun a => Triton.FP.Structural.Cell.mk Triton.TileDType.fp32 (words a)))
+            after ∧
+          (∀ (a : ℕ),
+              Exterior c.metadata a → observe (TokenAttnReduceV.Native.eval I S) c.metadata words after a = words a) ∧
+            (0 < batches c.metadata →
+              ∀ r ∈ reads,
+                ∀ i < (c r).metadata.numel,
+                  logical (observe (TokenAttnReduceV.Native.eval I S) c.metadata words after) c r i =
+                    logical words c r i)
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.TensorBridge.empty_call {α β : Type} [Inhabited α]
+  (M : Triton.FP.Structural.Algebra α) (R : TokenAttnReduceV.SumPrimitive α) (m : Inputs) (metadata : Reader)
+  (contract : InputContract m metadata) (empty : batches m = 0) (memory : TokenAttnReduceV.Grid.Memory α)
+  (work : List TokenAttnReduceV.Grid.PID) (order : (TokenAttnReduceV.Grid.fullGrid (batches m) (heads m)).Perm work)
+  (decode : α → β) (before : ℕ → β) :
+  work = [] ∧
+    TokenAttnReduceV.Grid.run M R (parameters m) work memory = some memory ∧
+      ∀ (a : ℕ), observe decode m before memory a = before a
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.python_checks_iff: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.launch_bounds: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.TensorBridge.kernel_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.TensorBridge.kernel_native: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.TensorBridge.empty_call: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.realTarget: definition does not reference [VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.kernel,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.TokenAttnReduceV.Grid.run,
+ VeriTile.Bench.Repairs.TokenAttnReduceV.outputValues] — non-circular ✓
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.logicalRealTarget: definition does not reference [VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.kernel,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.TokenAttnReduceV.Grid.run,
+ VeriTile.Bench.Repairs.TokenAttnReduceV.outputValues] — non-circular ✓
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.NativeTarget.reference: definition does not reference [VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.kernel,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.TokenAttnReduceV.Grid.run,
+ VeriTile.Bench.Repairs.TokenAttnReduceV.outputValues] — non-circular ✓

@@ -1,0 +1,48 @@
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/add_value/Proofs/Source.lean:76:41: warning: This simp argument is unused:
+  Region.cast
+
+Hint: Omit it from the simp argument list.
+  simp [̵l̵o̵w̵e̵r̵C̵o̵m̵p̵u̵t̵e̵B̵o̵d̵y̵,̵l̵o̵w̵e̵r̵C̵o̵m̵p̵u̵t̵e̵S̵t̵a̵t̵e̵m̵e̵n̵t̵,̵l̵o̵w̵e̵r̵C̵o̵m̵p̵u̵t̵e̵A̵s̵s̵i̵g̵n̵,̵l̵o̵w̵e̵r̵C̵o̵m̵p̵u̵t̵e̵S̵t̵o̵r̵e̵,̵
+  ̵ ̵ ̵ ̵ ̵l̵o̵w̵e̵r̵D̵i̵s̵c̵r̵e̵t̵e̵A̵s̵s̵i̵g̵n̵,̵l̵o̵w̵e̵r̵I̵n̵d̵e̵x̵,̵l̵o̵w̵e̵r̵B̵o̵o̵l̵,̵l̵o̵w̵e̵r̵M̵a̵s̵k̵,̵k̵e̵r̵n̵e̵l̵,̵
+  ̵ ̵ ̵ ̵ ̵C̵o̵m̵p̵u̵t̵e̵K̵e̵r̵n̵e̵l̵.̵s̵u̵r̵f̵a̵c̵e̵B̵o̵d̵y̵,̵s̵o̵u̵r̵c̵e̵C̵o̵d̵e̵,̵R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵,̵b̵i̵n̵d̵,̵p̵u̵r̵e̵,̵O̵p̵t̵i̵o̵n̵.̵b̵i̵n̵d̵]̵[̲l̲o̲w̲e̲r̲C̲o̲m̲p̲u̲t̲e̲B̲o̲d̲y̲,̲ ̲l̲o̲w̲e̲r̲C̲o̲m̲p̲u̲t̲e̲S̲t̲a̲t̲e̲m̲e̲n̲t̲,̲ ̲l̲o̲w̲e̲r̲C̲o̲m̲p̲u̲t̲e̲A̲s̲s̲i̲g̲n̲,̲ ̲l̲o̲w̲e̲r̲C̲o̲m̲p̲u̲t̲e̲S̲t̲o̲r̲e̲,̲
+  ̲ ̲ ̲ ̲ ̲l̲o̲w̲e̲r̲D̲i̲s̲c̲r̲e̲t̲e̲A̲s̲s̲i̲g̲n̲,̲ ̲l̲o̲w̲e̲r̲I̲n̲d̲e̲x̲,̲ ̲l̲o̲w̲e̲r̲B̲o̲o̲l̲,̲ ̲l̲o̲w̲e̲r̲M̲a̲s̲k̲,̲ ̲k̲e̲r̲n̲e̲l̲,̲ ̲C̲o̲m̲p̲u̲t̲e̲K̲e̲r̲n̲e̲l̲.̲s̲u̲r̲f̲a̲c̲e̲B̲o̲d̲y̲,̲
+  ̲ ̲ ̲ ̲ ̲s̲o̲u̲r̲c̲e̲C̲o̲d̲e̲,̲ ̲b̲i̲n̲d̲,̲ ̲p̲u̲r̲e̲,̲ ̲O̲p̲t̲i̲o̲n̲.̲b̲i̲n̲d̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/add_value/Proofs/Source.lean:76:80: warning: 'rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/add_value/Proofs/Source.lean:76:80: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/add_value/Proofs/Source.lean:134:46: warning: This simp argument is unused:
+  Option.bind_some
+
+Hint: Omit it from the simp argument list.
+  simp only [̵r̵u̵n̵P̵r̵o̵g̵r̵a̵m̵,̵o̵r̵i̵g̵i̵n̵a̵l̵_̵a̵s̵t̵_̵l̵o̵w̵e̵r̵i̵n̵g̵,̵O̵p̵t̵i̵o̵n̵.̵b̵i̵n̵d̵_̵s̵o̵m̵e̵,̵b̵i̵n̵d̵,̵p̵u̵r̵e̵,̵O̵p̵t̵i̵o̵n̵.̵b̵i̵n̵d̵,̵s̵o̵u̵r̵c̵e̵C̵o̵d̵e̵,̵
+  ̵ ̵ ̵ ̵ ̵e̵x̵e̵c̵u̵t̵e̵B̵o̵d̵y̵,̵e̵x̵e̵c̵u̵t̵e̵I̵n̵s̵t̵r̵u̵c̵t̵i̵o̵n̵,̵e̵v̵a̵l̵I̵n̵d̵e̵x̵,̵e̵v̵a̵l̵M̵a̵s̵k̵]̵[̲r̲u̲n̲P̲r̲o̲g̲r̲a̲m̲,̲ ̲o̲r̲i̲g̲i̲n̲a̲l̲_̲a̲s̲t̲_̲l̲o̲w̲e̲r̲i̲n̲g̲,̲ ̲b̲i̲n̲d̲,̲ ̲p̲u̲r̲e̲,̲ ̲O̲p̲t̲i̲o̲n̲.̲b̲i̲n̲d̲,̲ ̲s̲o̲u̲r̲c̲e̲C̲o̲d̲e̲,̲ ̲e̲x̲e̲c̲u̲t̲e̲B̲o̲d̲y̲,̲
+  ̲ ̲ ̲ ̲ ̲e̲x̲e̲c̲u̲t̲e̲I̲n̲s̲t̲r̲u̲c̲t̲i̲o̲n̲,̲ ̲e̲v̲a̲l̲I̲n̲d̲e̲x̲,̲ ̲e̲v̲a̲l̲M̲a̲s̲k̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/add_value/Proofs/Source.lean:136:17: warning: This simp argument is unused:
+  if_pos rfl
+
+Hint: Omit it from the simp argument list.
+  s̵i̵m̵p̵ ̵o̵n̵l̵y̵ ̵[̵i̵f̵_̵p̵o̵s̵ ̵r̵f̵l̵,̵i̵f̵_̵t̵r̵u̵e̵,̵S̵t̵r̵i̵n̵g̵.̵r̵e̵d̵u̵c̵e̵E̵q̵,̵i̵f̵_̵f̵a̵l̵s̵e̵]̵s̲i̲m̲p̲ ̲o̲n̲l̲y̲ ̲[̲i̲f̲_̲t̲r̲u̲e̲,̲ ̲S̲t̲r̲i̲n̲g̲.̲r̲e̲d̲u̲c̲e̲E̲q̲,̲ ̲i̲f̲_̲f̲a̲l̲s̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/add_value/Proofs/Source.lean:144:10: warning: This simp argument is unused:
+  h
+
+Hint: Omit it from the simp argument list.
+  simp [h̵,̵laneAddress, ̲VeriTile.Bench.TritonBenchG.VectorAddition.Finite.offset32,
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲VeriTile.Bench.TritonBenchG.VectorAddition.Finite.start32,
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲VeriTile.Bench.TritonBenchG.VectorAddition.Finite.mask32] at *
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.AddValue.Contiguous.Source.original_ast_lowering: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AddValue.Contiguous.Source.source_program_reduction: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

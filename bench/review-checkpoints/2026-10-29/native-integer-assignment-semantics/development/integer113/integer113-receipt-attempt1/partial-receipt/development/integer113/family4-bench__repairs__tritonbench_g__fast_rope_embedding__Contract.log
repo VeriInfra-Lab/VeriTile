@@ -1,0 +1,11 @@
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/fast_rope_embedding/Contract.lean:78:37: warning: unused variable `h`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.Repairs.FastRopeEmbedding.KernelContract.source_binding: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRopeEmbedding.KernelContract.active_stride: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FastRopeEmbedding.KernelContract.pair_adjoint: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

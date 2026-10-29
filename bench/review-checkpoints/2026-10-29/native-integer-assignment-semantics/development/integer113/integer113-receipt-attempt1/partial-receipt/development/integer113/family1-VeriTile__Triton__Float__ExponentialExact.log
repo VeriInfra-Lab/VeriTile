@@ -1,0 +1,24 @@
+VeriTile.Triton.FP.ExponentialExact.finite_iff_toRat: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.ExponentialExact.neg_inf_sub: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.ExponentialExact.special_zero: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Triton.FP.ExponentialExact.special_neg_inf: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Triton.FP.ExponentialExact.special_pos_inf: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Triton.FP.ExponentialExact.special_nan: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Triton.FP.ExponentialExact.tl_exp_zero: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.ExponentialExact.tl_exp_neg_inf: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.ExponentialExact.libdevice_exp_zero: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Triton.FP.ExponentialExact.libdevice_exp_neg_inf: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Triton.FP.ExponentialExact.tl_exp_neg_inf_sub: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.ExponentialExact.libdevice_exp_neg_inf_sub: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

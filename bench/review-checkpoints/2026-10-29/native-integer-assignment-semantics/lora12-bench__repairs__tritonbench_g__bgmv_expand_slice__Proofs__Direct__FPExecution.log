@@ -1,0 +1,12 @@
+VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.FPExecution.loop_executes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.FPExecution.active_executes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.FPExecution.condition_eval: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.FPExecution.source_executes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

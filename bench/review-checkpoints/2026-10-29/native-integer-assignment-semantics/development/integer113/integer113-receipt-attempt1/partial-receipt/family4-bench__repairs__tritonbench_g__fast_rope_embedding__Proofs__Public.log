@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.FastRopeEmbedding.whole_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRopeEmbedding.whole_fp32: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

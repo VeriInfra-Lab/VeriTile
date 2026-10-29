@@ -1,0 +1,7 @@
+VeriTile.Bench.TritonBenchG.AddExample.Finite.original_ast_lowering: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.AddExample.Finite.fold_source_stores: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.AddExample.Finite.source_program_reduction: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

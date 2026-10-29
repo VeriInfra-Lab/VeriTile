@@ -1,0 +1,6 @@
+VeriTile.Tests.BackendMemory.identical_failures_rejected: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.BackendMemory.different_registers_same_memory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

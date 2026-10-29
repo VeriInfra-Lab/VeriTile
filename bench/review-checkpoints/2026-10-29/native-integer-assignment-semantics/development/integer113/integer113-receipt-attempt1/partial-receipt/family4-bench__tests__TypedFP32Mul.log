@@ -1,0 +1,15 @@
+VeriTile.Tests.TypedFP32Mul.empirical_atoms_sound: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.TypedFP32Mul.typed_derivation_without_experiments: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.TypedFP32Mul.strict_model_exists: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.TypedFP32Mul.strict_domain_inhabited: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.TypedFP32Mul.noncommutative_model_rejected: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

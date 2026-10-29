@@ -1,0 +1,15 @@
+VeriTile.Bench.Repairs.RopeEmbedding.Checked.scalar_binding: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.RopeEmbedding.Checked.ideal_logical: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.RopeEmbedding.Checked.native_logical: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.RopeEmbedding.Checked.mathematicalTarget: definition does not reference [VeriTile.Bench.Repairs.RopeEmbedding.Native.entry,
+ VeriTile.Bench.Repairs.RopeEmbedding.Memory.run,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.RopeEmbedding.scalarResult,
+ VeriTile.Bench.Repairs.RopeEmbedding.scalarPair] — non-circular ✓
+VeriTile.Bench.Repairs.RopeEmbedding.Checked.machineTarget: definition does not reference [VeriTile.Bench.Repairs.RopeEmbedding.Native.entry,
+ VeriTile.Bench.Repairs.RopeEmbedding.Memory.run,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.RopeEmbedding.scalarResult,
+ VeriTile.Bench.Repairs.RopeEmbedding.scalarPair] — non-circular ✓

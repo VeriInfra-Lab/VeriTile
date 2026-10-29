@@ -1,0 +1,19 @@
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Misc/HostCorrect.lean:36:5: warning: unused variable `upValid`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Misc/HostCorrect.lean:37:5: warning: unused variable `fresh`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.correct_forward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.correct_backward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.checked_forward_domain: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.checked_backward_domain: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.exact_partial_derivatives: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

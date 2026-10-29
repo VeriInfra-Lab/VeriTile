@@ -1,0 +1,9 @@
+VeriTile.Bench.Repairs.RopeEmbedding.Native.Preparation: definition does not reference [VeriTile.Bench.Repairs.RopeEmbedding.Native.entry,
+ VeriTile.Bench.Repairs.RopeEmbedding.Memory.run,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.Repairs.RopeEmbedding.Native.whole: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.RopeEmbedding.Native.no_launch_return: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

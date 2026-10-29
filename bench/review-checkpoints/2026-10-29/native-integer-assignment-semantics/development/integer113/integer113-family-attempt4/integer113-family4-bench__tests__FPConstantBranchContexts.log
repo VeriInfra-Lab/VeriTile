@@ -1,0 +1,19 @@
+/tmp/integer113-frontend/bench/tests/FPConstantBranchContexts.lean:32:22: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/integer113-frontend/bench/tests/FPConstantBranchContexts.lean:38:22: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/integer113-frontend/bench/tests/FPConstantBranchContexts.lean:44:22: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/integer113-frontend/bench/tests/FPConstantBranchContexts.lean:50:18: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+VeriTile.Triton.FP.ProfiledRewrite.contextual_constant_then: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.ProfiledRewrite.contextual_constant_else: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+FPConstantBranchContextsTests.selected_arm: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])

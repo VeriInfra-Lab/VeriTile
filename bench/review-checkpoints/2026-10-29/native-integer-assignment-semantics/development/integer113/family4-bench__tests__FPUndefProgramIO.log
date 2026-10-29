@@ -1,0 +1,30 @@
+/tmp/integer113-frontend/bench/tests/FPUndefProgramIO.lean:172:23: warning: This simp argument is unused:
+  runSchedule
+
+Hint: Omit it from the simp argument list.
+  simp [failingIO, io, r̵u̵n̵S̵c̵h̵e̵d̵u̵l̵e̵,̵ ̵failingJob, Invocation.run, Invocation.initial,
+  ̵  ̵ ̵ ̵bindRegisters, exec, run,
+  ̲  ̲ ̲ ̲step, evalExpr, evalOp_unfold] at ran
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Triton.FP.Structural.UndefProgramRegression.implemented: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.Structural.UndefProgramRegression.nonzero_unbacked_fallback: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.Structural.UndefProgramRegression.masked_source_safe_without_input_backing: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.Structural.UndefProgramRegression.active_uses_memory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.Structural.UndefProgramRegression.integer_fallback_not_encoded: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.Structural.UndefProgramRegression.failed_source_rejected: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.Structural.UndefProgramRegression.relational_witness_bound_to_source: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

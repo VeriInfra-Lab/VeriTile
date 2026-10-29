@@ -1,0 +1,18 @@
+VeriTile.Bench.TritonBenchG.VectorAddition.MixedFP32.backend_add: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.MixedFP32.backend_signed: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.MixedFP32.backend_unsigned: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.MixedFP32.eval_castOp_at: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.MixedFP32.eval_natToReal_at: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.MixedFP32.eval_integerToFloat: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

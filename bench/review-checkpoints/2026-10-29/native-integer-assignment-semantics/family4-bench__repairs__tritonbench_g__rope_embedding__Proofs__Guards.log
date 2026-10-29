@@ -1,0 +1,10 @@
+VeriTile.Bench.Repairs.RopeEmbedding.Checked.scheduled_bounds: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.RopeEmbedding.Checked.indexABI: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.RopeEmbedding.Checked.cache_admitted: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.RopeEmbedding.Checked.check: definition does not reference [VeriTile.Bench.Repairs.RopeEmbedding.Native.entry,
+ VeriTile.Bench.Repairs.RopeEmbedding.Memory.run,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓

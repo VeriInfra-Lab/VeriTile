@@ -1,0 +1,62 @@
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Proofs/Pair.lean:149:58: error: Application type mismatch: The argument
+  same
+has type
+  forgetLocals final = forgetLocals other
+but is expected to have type
+  final = other
+in the application
+  congrArg State.mem same
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Proofs/Pair.lean:152:2: error: unsolved goals
+case refine_1
+rest : FP.Structural.Algebra Word
+plans : (n : ℕ) → ReductionPlan n
+g : Geometry
+raw : ℕ → ℤ
+valid : Valid g raw
+order : List ℕ
+coverage : order.Perm (List.range g.count)
+vals : (io rest plans g order).Inputs
+hd : domain g raw vals
+bounds : RegionName → ℕ
+hb : (io rest plans g order).InBounds bounds vals
+initial : State Word
+hin : (io rest plans g order).InputCells vals initial
+safe : ScheduleSafe bounds ((io rest plans g order).schedule vals) initial
+final : State Word
+ran : runSchedule ((io rest plans g order).schedule vals) initial = some final
+outputs : (io rest plans g order).OutputBinding vals (graphTarget plans g raw vals) final
+frame : (io rest plans g order).Frame vals initial final
+bounded : ∀ q ∈ order, q < g.count
+other : State Word
+otherRun : runSchedule (List.map (invocation rest plans g) order) initial = some other
+same : forgetLocals final = forgetLocals other
+memory : final.mem = other.mem
+o : Fin (io rest plans g order).outputs.length
+j : TileIndex (io rest plans g order).outputs[o].shape
+a✝ : (io rest plans g order).outputMask o vals j
+⊢ mapCell ((io rest plans g order).observe o j)
+      (other.mem (io rest plans g order).outputs[o].buf ((io rest plans g order).write o vals j)) =
+    mapCell ((variant rest plans g order).observe o j)
+      (other.mem (io rest plans g order).outputs[o].buf ((io rest plans g order).write o vals j))
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Proofs/Pair.lean:194:54: error: Application type mismatch: The argument
+  observed
+has type
+  forgetLocals a = forgetLocals b
+but is expected to have type
+  a = b
+in the application
+  congrArg State.mem observed
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.Pair.candidate_index_profiles: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.Pair.original_source: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.Pair.kernel_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.Pair.kernel_safe: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Proofs/Pair.lean:202:0: error: VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.Pair.equivalent: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Proofs/Pair.lean:203:0: error: VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.Pair.execute_same: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

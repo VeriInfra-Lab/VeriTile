@@ -1,0 +1,3 @@
+VeriTile.Tests.IntegerDotSource.source_signed_product: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,36 @@
+VeriTile.Tests.FPIntegerConversionNeg.allWidths_preserved: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.FPIntegerConversionNeg.signed_source_execution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.FPIntegerConversionNeg.unsigned_source_execution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.FPIntegerConversionNeg.untagged_real_cast_fails: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.FPIntegerConversionNeg.missing_cast_fails_on_empty: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.FPIntegerConversionNeg.division_source_execution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.FPIntegerConversionNeg.typed_abs_execution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.FPIntegerConversionNeg.abs_source_shape: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.FPIntegerConversionNeg.generic_abs_source_shape: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.FPIntegerConversionNeg.typed_neg_execution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.FPIntegerConversionNeg.neg_source_shape: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.FPIntegerConversionNeg.unary_context_preserved: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

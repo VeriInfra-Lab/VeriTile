@@ -1,0 +1,21 @@
+/tmp/integer113-fast-frontend/VeriTile/Triton/Concurrency/Atomic.lean:211:10: warning: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp [e̵v̵a̵l̵O̵p̵,̵ ̵hOffsets]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-fast-frontend/VeriTile/Triton/Concurrency/Atomic.lean:212:10: warning: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp [e̵v̵a̵l̵O̵p̵,̵ ̵hValues]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-fast-frontend/VeriTile/Triton/Concurrency/Atomic.lean:235:37: warning: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp [atomicTraceEvents, evalMask, e̵v̵a̵l̵O̵p̵,̵ ̵hOffsets, hValues, hMasks]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

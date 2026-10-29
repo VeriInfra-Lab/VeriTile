@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.LoraExpandGemv.Contract.python_checks_iff: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.LoraExpandGemv.Contract.power_profile: axiom footprint ⊆ standard base ✓  ([propext])
+Axiom audit: headlines=0
+headlines: []

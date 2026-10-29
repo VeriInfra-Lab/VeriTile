@@ -1,0 +1,6 @@
+FP assumptions used by rowwise_sum_equiv:
+  add_assoc
+  add_zero
+Strict model certificates used by rowwise_sum_equiv:
+  model: VeriTile.Software.strictFP32/ieeeValue/integer-literals/maxnum/documented-exp-special-values
+    certificate: List.Forall₂.cons (FP.ScalarArithmetic.strict_certificate FP.ScalarArithmetic.Atom.addCommute rfl) List.Forall₂.nil

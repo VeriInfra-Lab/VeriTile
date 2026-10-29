@@ -1,0 +1,38 @@
+/tmp/integer113-diagnostics/FastPrepared.lean:56:120: error: unsolved goals
+case false.refine_3.h
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+p : Parameters
+s : State α
+i : TileIndex []
+⊢ (if ↑(s.pids 1) * 4 + 4 < ↑p.heads then ↑(s.pids 1) * 4 + 4 else ↑p.heads) =
+    ↑(if s.pids 1 * 4 + 4 < p.heads then s.pids 1 * 4 + 4 else p.heads)
+
+case true.refine_3.h
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+p : Parameters
+s : State α
+i : TileIndex []
+⊢ (if ↑(s.pids 1) * 4 + 4 < ↑p.heads then ↑(s.pids 1) * 4 + 4 else ↑p.heads) =
+    ↑(if s.pids 1 * 4 + 4 < p.heads then s.pids 1 * 4 + 4 else p.heads)
+case false.refine_3.h
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+p : Parameters
+s : State α
+i : TileIndex []
+⊢ (if ↑(s.pids 1) * 4 + 4 < ↑p.heads then ↑(s.pids 1) * 4 + 4 else ↑p.heads) =
+    ↑(if s.pids 1 * 4 + 4 < p.heads then s.pids 1 * 4 + 4 else p.heads)
+case true.refine_3.h
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+p : Parameters
+s : State α
+i : TileIndex []
+⊢ (if ↑(s.pids 1) * 4 + 4 < ↑p.heads then ↑(s.pids 1) * 4 + 4 else ↑p.heads) =
+    ↑(if s.pids 1 * 4 + 4 < p.heads then s.pids 1 * 4 + 4 else p.heads)

@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.FastRmsLayernorm.FPWeightProgram.source_body: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

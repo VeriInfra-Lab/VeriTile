@@ -1,0 +1,109 @@
+/tmp/integer113-frontend/bench/tests/LoopBody.lean:44:39: warning: unused variable `N`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/integer113-frontend/bench/tests/LoopBody.lean:52:0: error: Not a definitional equality: the left-hand side
+  overwrittenBound X N
+is not definitionally equal to the right-hand side
+  ComputeKernel.mk [] [X]
+    [ComputeStmt.assign TileDType.nat [] "N" (ComputeExpr.alg (Op.constNat 1)),
+      ComputeStmt.forRangeDyn "i" (Op.constNat 0) (Op.ref TileDType.nat [] "N") (Op.constNat 1)
+        [ComputeStmt.store TileDType.real [] (MemAccess.region X (Op.ref TileDType.nat [] "i"))
+            (ComputeExpr.compute
+              (ComputeOp.alg ComputeDType.fp32 (Op.castFloat FloatDType.real FloatDType.real (Op.const 0.0))))
+            MaskOpt.none]]
+/tmp/integer113-frontend/bench/tests/LoopBody.lean:61:26: error: Type mismatch
+  rfl
+has type
+  ?m.33 = ?m.33
+but is expected to have type
+  overwrittenBound X N =
+    ComputeKernel.mk [] [X]
+      [ComputeStmt.assign TileDType.nat [] "N" (ComputeExpr.alg (Op.constNat 1)),
+        ComputeStmt.forRangeDyn "i" (Op.constNat 0) (Op.ref TileDType.nat [] "N") (Op.constNat 1)
+          [ComputeStmt.store TileDType.real [] (MemAccess.region X (Op.ref TileDType.nat [] "i"))
+              (ComputeExpr.compute
+                (ComputeOp.alg ComputeDType.fp32 (Op.castFloat FloatDType.real FloatDType.real (Op.const 0.0))))
+              MaskOpt.none]]
+VeriTile.Tests.LoopBody.complete_loop: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+/tmp/integer113-frontend/bench/tests/LoopBody.lean:84:0: error: VeriTile.Tests.LoopBody.overwritten_bound: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/integer113-frontend/bench/tests/LoopBody.lean:94:0: error: Not a definitional equality: the left-hand side
+  source N
+is not definitionally equal to the right-hand side
+  ComputeKernel.mk [] []
+    [ComputeStmt.assign TileDType.real [] "total" (ComputeExpr.alg (Op.const 0)),
+      ComputeStmt.forRange "_" 0 N 1
+        [ComputeStmt.assign TileDType.real [] "total"
+            (ComputeExpr.alg
+              (Op.add NumericDType.real Broadcast.nil (Op.ref TileDType.real [] "total")
+                (Op.ref TileDType.nat [] "_").natToReal))]]
+/tmp/integer113-frontend/bench/tests/LoopBody.lean:101:7: error: Type mismatch
+  rfl
+has type
+  ?m.29 = ?m.29
+but is expected to have type
+  source N =
+    ComputeKernel.mk [] []
+      [ComputeStmt.assign TileDType.real [] "total" (ComputeExpr.alg (Op.const 0)),
+        ComputeStmt.forRange "_" 0 N 1
+          [ComputeStmt.assign TileDType.real [] "total"
+              (ComputeExpr.alg
+                (Op.add NumericDType.real Broadcast.nil (Op.ref TileDType.real [] "total")
+                  (Op.ref TileDType.nat [] "_").natToReal))]]
+/tmp/integer113-frontend/bench/tests/LoopBody.lean:103:17: warning: unused variable `N`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/integer113-frontend/bench/tests/LoopBody.lean:109:0: error: Not a definitional equality: the left-hand side
+  overwritten N
+is not definitionally equal to the right-hand side
+  ComputeKernel.mk [] []
+    [ComputeStmt.assign TileDType.nat [] "N" (ComputeExpr.alg (Op.constNat 1)),
+      ComputeStmt.forRangeDyn "_" (Op.constNat 0) (Op.ref TileDType.nat [] "N") (Op.constNat 1)
+        [ComputeStmt.assign TileDType.nat [] "total" (ComputeExpr.alg (Op.ref TileDType.nat [] "_"))]]
+/tmp/integer113-frontend/bench/tests/LoopBody.lean:115:7: error: Type mismatch
+  rfl
+has type
+  ?m.24 = ?m.24
+but is expected to have type
+  overwritten N =
+    ComputeKernel.mk [] []
+      [ComputeStmt.assign TileDType.nat [] "N" (ComputeExpr.alg (Op.constNat 1)),
+        ComputeStmt.forRangeDyn "_" (Op.constNat 0) (Op.ref TileDType.nat [] "N") (Op.constNat 1)
+          [ComputeStmt.assign TileDType.nat [] "total" (ComputeExpr.alg (Op.ref TileDType.nat [] "_"))]]
+VeriTile.Tests.LoopBody.ImmutableTwoArgumentRange.literal_constructor: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/integer113-frontend/bench/tests/LoopBody.lean:131:0: error: VeriTile.Tests.LoopBody.ImmutableTwoArgumentRange.complete_program: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/integer113-frontend/bench/tests/LoopBody.lean:132:0: error: VeriTile.Tests.LoopBody.ImmutableTwoArgumentRange.local_endpoint: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/integer113-frontend/bench/tests/LoopBody.lean:148:0: error: Not a definitional equality: the left-hand side
+  source K B
+is not definitionally equal to the right-hand side
+  ComputeKernel.mk [] []
+    [ComputeStmt.assign TileDType.real [] "total" (ComputeExpr.alg (Op.const 0)),
+      ComputeStmt.forRange "i" 0 ((K + B - 1) / B) 1
+        [ComputeStmt.assign TileDType.real [] "total"
+            (ComputeExpr.alg
+              (Op.add NumericDType.real Broadcast.nil (Op.ref TileDType.real [] "total")
+                (Op.ref TileDType.nat [] "i").natToReal))]]
+/tmp/integer113-frontend/bench/tests/LoopBody.lean:155:7: error: Type mismatch
+  rfl
+has type
+  ?m.43 = ?m.43
+but is expected to have type
+  source K B =
+    ComputeKernel.mk [] []
+      [ComputeStmt.assign TileDType.real [] "total" (ComputeExpr.alg (Op.const 0)),
+        ComputeStmt.forRange "i" 0 ((K + B - 1) / B) 1
+          [ComputeStmt.assign TileDType.real [] "total"
+              (ComputeExpr.alg
+                (Op.add NumericDType.real Broadcast.nil (Op.ref TileDType.real [] "total")
+                  (Op.ref TileDType.nat [] "i").natToReal))]]
+/tmp/integer113-frontend/bench/tests/LoopBody.lean:159:13: warning: unused variable `N`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/integer113-frontend/bench/tests/LoopBody.lean:158:0: error: ❌️ Docstring on `#guard_msgs` does not match generated message:
+
+- error: tl.cdiv lhs: dtype mismatch
++ warning: unused variable `N`
++
++ Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/integer113-frontend/bench/tests/LoopBody.lean:175:0: error: VeriTile.Tests.LoopBody.CompositeCallerEndpoint.complete_program: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

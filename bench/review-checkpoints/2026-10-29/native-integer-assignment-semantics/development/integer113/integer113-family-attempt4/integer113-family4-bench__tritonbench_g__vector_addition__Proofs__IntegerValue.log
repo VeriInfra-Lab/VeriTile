@@ -1,0 +1,14 @@
+VeriTile.Bench.TritonBenchG.VectorAddition.IntegerSource.expectedMemory: definition does not reference [VeriTile.Bench.TritonBenchG.VectorAddition.IntegerSource.source,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.TritonBenchG.VectorAddition.IntegerSource.execution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.IntegerSource.execution_memory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.IntegerSource.expected_cell: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.IntegerSource.complete_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

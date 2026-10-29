@@ -1,0 +1,19 @@
+VeriTile.Bench.TritonBenchG.VectorAddition.FP64TypedCore.result: definition does not reference [VeriTile.Bench.TritonBenchG.VectorAddition.FP64TypedCore.source,
+ VeriTile.Bench.TritonBenchG.VectorAddition.FP64TypedCore.Expr.eval,
+ VeriTile.Bench.TritonBenchG.VectorAddition.FP64TypedCore.runLane] — non-circular ✓
+VeriTile.Bench.TritonBenchG.VectorAddition.FP64TypedCore.word64_roundtrip: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.VectorAddition.FP64TypedCore.eval_promote: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.VectorAddition.FP64TypedCore.eval_stored: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.VectorAddition.FP64TypedCore.eval_source: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.VectorAddition.FP64TypedCore.masked_lane: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.VectorAddition.FP64TypedCore.active_lane: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.VectorAddition.FP64TypedCore.missing_x: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.VectorAddition.FP64TypedCore.missing_y: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.VectorAddition.FP64TypedCore.floating_output_total: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.VectorAddition.FP64TypedCore.boolean_store_preserves_byte: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.VectorAddition.FP64TypedCore.boolean_load_nonzero: axiom footprint ⊆ standard base ✓  ([propext])

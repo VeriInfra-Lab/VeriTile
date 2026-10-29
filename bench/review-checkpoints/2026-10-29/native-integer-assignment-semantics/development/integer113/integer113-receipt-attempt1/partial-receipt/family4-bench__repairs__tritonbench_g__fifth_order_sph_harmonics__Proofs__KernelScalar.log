@@ -1,0 +1,21 @@
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.KernelScalar.native_forward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.KernelScalar.native_backward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.KernelScalar.real_forward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.KernelScalar.real_backward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.KernelScalar.empty: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.KernelScalar.forwardReference: definition does not reference [VeriTile.Bench.Repairs.FifthOrderSphHarmonics.forwardKernel,
+ VeriTile.Bench.Repairs.FifthOrderSphHarmonics.backwardKernel,
+ VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Grid.launch] — non-circular ✓
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.KernelScalar.backwardReference: definition does not reference [VeriTile.Bench.Repairs.FifthOrderSphHarmonics.forwardKernel,
+ VeriTile.Bench.Repairs.FifthOrderSphHarmonics.backwardKernel,
+ VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Grid.launch] — non-circular ✓

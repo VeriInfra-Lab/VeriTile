@@ -1,0 +1,12 @@
+VeriTile.Triton.evalOp_maximumFloat_real: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+VeriTile.Triton.eraseDType_maximumFloat: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+VeriTile.Triton.evalOp_maximumFloat_real_select: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.evalOpR_maximumFloat_real: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+VeriTile.Triton.evalOpR_maximumFloat_real_select: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.Structural.evalOp_maximumFloat: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,9 @@
+VeriTile.Bench.Repairs.TokenAttnReduceV.Grid.complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.TokenAttnReduceV.Grid.values_congr: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.TokenAttnReduceV.Grid.graph_snapshot: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

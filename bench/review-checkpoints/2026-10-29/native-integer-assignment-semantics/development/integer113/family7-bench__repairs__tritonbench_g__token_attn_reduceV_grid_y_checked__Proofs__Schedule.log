@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.Interface.schedule_complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.Interface.schedule_safe: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

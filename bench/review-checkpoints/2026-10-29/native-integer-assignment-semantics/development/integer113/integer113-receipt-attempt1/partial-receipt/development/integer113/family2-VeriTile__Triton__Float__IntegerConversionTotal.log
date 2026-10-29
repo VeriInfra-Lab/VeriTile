@@ -1,0 +1,12 @@
+VeriTile.Triton.FP.IntegerConversion.totalSigned_defined: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.IntegerConversion.totalUnsigned_defined: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.IntegerConversion.totalSigned_undefined: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.IntegerConversion.totalUnsigned_undefined: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

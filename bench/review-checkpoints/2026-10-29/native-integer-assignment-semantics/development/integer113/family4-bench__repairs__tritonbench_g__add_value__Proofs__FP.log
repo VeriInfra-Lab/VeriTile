@@ -1,0 +1,19 @@
+VeriTile.Bench.Repairs.AddValue.Contiguous.FPProof.tensor_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AddValue.Contiguous.FPProof.ieee_if_local: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AddValue.Contiguous.FPProof.scalar_exact: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AddValue.Contiguous.FPProof.same_source: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AddValue.Contiguous.FPProof.typed_ast_lowering: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AddValue.Contiguous.FPProof.reference: definition does not reference [VeriTile.Bench.Repairs.AddValue.Contiguous.Source.runProgram,
+ VeriTile.Bench.Repairs.AddValue.Contiguous.Binding.runWrapper] — non-circular ✓
+VeriTile.Bench.Repairs.AddValue.Contiguous.FPProof.LocalAdd10: definition does not reference [VeriTile.Bench.Repairs.AddValue.Contiguous.Source.runProgram,
+ VeriTile.Bench.Repairs.AddValue.Contiguous.Binding.runWrapper] — non-circular ✓

@@ -1,0 +1,10 @@
+FP assumptions used by add_value_commuted_equiv:
+  none
+Strict model certificates used by add_value_commuted_equiv:
+  model: VeriTile.Software.strictFP32/ieeeValue/integer-literals/maxnum/documented-exp-special-values
+    certificate: List.Forall₂.cons (FP.IntegerLiteral.strict_certificate 10) List.Forall₂.nil
+  model: VeriTile.Software.strictFP32/ieeeValue/integer-literals/maxnum/documented-exp-special-values
+    certificate: List.Forall₂.cons (FP.ScalarArithmetic.strict_certificate FP.ScalarArithmetic.Atom.addCommute rfl) List.Forall₂.nil
+VeriTile.Bench.Repairs.AddValue.Contiguous.FPEquiv.add_value_commuted_equiv: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

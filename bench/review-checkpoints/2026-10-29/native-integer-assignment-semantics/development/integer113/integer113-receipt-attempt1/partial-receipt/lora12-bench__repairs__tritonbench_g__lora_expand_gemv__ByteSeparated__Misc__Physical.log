@@ -1,0 +1,32 @@
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Misc/Physical.lean:73:12: warning: This simp argument is unused:
+  Contract.geometry
+
+Hint: Omit it from the simp argument list.
+  simp [̵C̵o̵n̵t̵r̵a̵c̵t̵.̵g̵e̵o̵m̵e̵t̵r̵y̵,̵C̵o̵n̵t̵r̵a̵c̵t̵.̵w̵i̵d̵t̵h̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵V̵e̵r̵i̵T̵i̵l̵e̵.̵B̵e̵n̵c̵h̵.̵R̵e̵p̵a̵i̵r̵s̵.̵L̵o̵r̵a̵E̵x̵p̵a̵n̵d̵G̵e̵m̵v̵.̵C̵o̵n̵t̵r̵a̵c̵t̵.̵g̵e̵o̵m̵e̵t̵r̵y̵,̵G̵e̵o̵m̵e̵t̵r̵y̵.̵c̵o̵u̵n̵t̵,̵z̵e̵r̵o̵]̵[̲C̲o̲n̲t̲r̲a̲c̲t̲.̲w̲i̲d̲t̲h̲,̲ ̲V̲e̲r̲i̲T̲i̲l̲e̲.̲B̲e̲n̲c̲h̲.̲R̲e̲p̲a̲i̲r̲s̲.̲L̲o̲r̲a̲E̲x̲p̲a̲n̲d̲G̲e̲m̲v̲.̲C̲o̲n̲t̲r̲a̲c̲t̲.̲g̲e̲o̲m̲e̲t̲r̲y̲,̲ ̲G̲e̲o̲m̲e̲t̲r̲y̲.̲c̲o̲u̲n̲t̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲z̲e̲r̲o̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Misc/Physical.lean:73:30: warning: This simp argument is unused:
+  Contract.width
+
+Hint: Omit it from the simp argument list.
+  simp [̵C̵o̵n̵t̵r̵a̵c̵t̵.̵g̵e̵o̵m̵e̵t̵r̵y̵,̵C̵o̵n̵t̵r̵a̵c̵t̵.̵w̵i̵d̵t̵h̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵V̵e̵r̵i̵T̵i̵l̵e̵.̵B̵e̵n̵c̵h̵.̵R̵e̵p̵a̵i̵r̵s̵.̵L̵o̵r̵a̵E̵x̵p̵a̵n̵d̵G̵e̵m̵v̵.̵C̵o̵n̵t̵r̵a̵c̵t̵.̵g̵e̵o̵m̵e̵t̵r̵y̵,̵G̵e̵o̵m̵e̵t̵r̵y̵.̵c̵o̵u̵n̵t̵,̵z̵e̵r̵o̵]̵[̲C̲o̲n̲t̲r̲a̲c̲t̲.̲g̲e̲o̲m̲e̲t̲r̲y̲,̲ ̲V̲e̲r̲i̲T̲i̲l̲e̲.̲B̲e̲n̲c̲h̲.̲R̲e̲p̲a̲i̲r̲s̲.̲L̲o̲r̲a̲E̲x̲p̲a̲n̲d̲G̲e̲m̲v̲.̲C̲o̲n̲t̲r̲a̲c̲t̲.̲g̲e̲o̲m̲e̲t̲r̲y̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲G̲e̲o̲m̲e̲t̲r̲y̲.̲c̲o̲u̲n̲t̲,̲ ̲z̲e̲r̲o̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.output_inside: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.caller_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.failure_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.empty: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+Axiom audit: headlines=0
+headlines: []

@@ -1,0 +1,9 @@
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.IntegerCandidate.initial_forget: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.IntegerCandidate.schedule_run_congr: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.IntegerCandidate.schedule_safe_congr: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

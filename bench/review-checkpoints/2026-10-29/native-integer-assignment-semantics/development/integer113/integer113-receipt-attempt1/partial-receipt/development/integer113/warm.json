@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "code_commit": "9e9344d6b5b822b97ddfa13602fbf9ab9b4c6e2a",
+  "checkout": "/tmp/veritile-hgrn54-clean",
+  "explicit_modules": 5666,
+  "start": 1793260593.1804867,
+  "scope": "All cumulative task/example/frontend roots, now including all 346 integer-semantics task/frontend roots, plus their full local import closure and joint import.",
+  "build_status": "COMPLETED",
+  "build_exit_code": 0,
+  "build_end": 1793260601.4040515,
+  "joint_status": "COMPLETED",
+  "joint_exit_code": 0,
+  "joint_end": 1793260609.178406,
+  "end": 1793260609.3451319
+}

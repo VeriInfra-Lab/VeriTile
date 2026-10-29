@@ -1,0 +1,9 @@
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.TensorBridge.kernel_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.TensorBridge.empty_call: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.TensorBridge.kernel_native: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,18 @@
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/bgmv_expand_slice/Proofs/Direct/FPProgram.lean:26:111: warning: This simp argument is unused:
+  Kernels.hostCast
+
+Hint: Omit it from the simp argument list.
+  simp only [Kernels.source, ̲VeriTile.Bench.Repairs.BgmvExpandSlice.Kernels.directSource,
+  ̲ ̲ ̲ ̲ ̲primarySource, ̲hi, ̲hw, ̲ho,K̵e̵r̵n̵e̵l̵s̵.̵h̵o̵s̵t̵C̵a̵s̵t̵,̵
+  ̵  ̵ ̵ ̵VeriTile.Bench.TritonBenchG.BgmvExpandSlice.TypedSource.hostCast]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.FPProgram.common_source: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.FPProgram.complete_code: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.FPProgram.complete_active: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,63 @@
+VeriTile.Tests.TypedStores.integer_loop_conversion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.TypedStores.byte_identity: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+VeriTile.Tests.TypedStores.arithmetic_conversion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.TypedStores.cross_dtype_conversion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.TypedStores.reassign_conversion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.TypedStores.integer_literal: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+VeriTile.Tests.TypedStores.cast_load_port: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+VeriTile.Tests.TypedStores.nested_integer_read_preserves_program: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/integer113-frontend/bench/tests/TypedStores.lean:260:20: warning: unused variable `X`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/integer113-frontend/bench/tests/TypedStores.lean:266:29: warning: unused variable `X`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Tests.TypedStores.attribute_broadcast_loop_preserves_casts: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.TypedStores.broadcast_retains_each_precision: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.TypedStores.attributed_constructor_keeps_output_conversion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.TypedStores.scalar_loop_dtype_and_store: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.TypedStores.assigned_and_inline_literal_precision: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.TypedStores.literal_tuple_no_invented_store_cast: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.TypedStores.HalfReduction.mixed_no_invented_output_cast: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.TypedStores.HalfReduction.sum_preserves_half: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.TypedStores.HalfReduction.division_promotes_to_fp32: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.TypedStores.HalfReduction.explicit_sum_dtype_preserves_narrowing: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.TypedStores.HalfBranch.branch_specific_output_conversion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.TypedStores.HalfCastBranch.optional_narrowing_tracks_source_path: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.TypedStores.MixedHalf.store_keeps_promoted_half: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,24 @@
+{
+  "status": "PASS",
+  "code_commit": "9e9344d6b5b822b97ddfa13602fbf9ab9b4c6e2a",
+  "checkout": "/tmp/veritile-body77",
+  "explicit_modules": 5666,
+  "start": 1793260594.3604293,
+  "scope": "All cumulative task/example/frontend roots, now including all 346 integer-semantics task/frontend roots, plus their full local import closure and joint import.",
+  "cache_cleanup": {
+    "removed": "/tmp/veritile-body77/.lake/build",
+    "previous_verified_code": "c072de255673a3dedbfaf56ec6a079992928f83e",
+    "reason": "Remove only the completed owned 112 project cache before independent integer-assignment replay. Historical evidence and pinned external dependencies are retained."
+  },
+  "project_build_initially_present": false,
+  "veritile_cache_initially_present": false,
+  "project_objects_imported_from_other_checkouts": false,
+  "fixed_external_packages_reused": "/home/argustest/lizn/VeriTile/.lake/packages",
+  "build_status": "COMPLETED",
+  "build_exit_code": 0,
+  "build_end": 1793263408.5975904,
+  "joint_status": "COMPLETED",
+  "joint_exit_code": 0,
+  "joint_end": 1793263416.18567,
+  "end": 1793263416.352471
+}

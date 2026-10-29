@@ -1,0 +1,3 @@
+VeriTile.Tests.IntegerCallFloatBranchBody.complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

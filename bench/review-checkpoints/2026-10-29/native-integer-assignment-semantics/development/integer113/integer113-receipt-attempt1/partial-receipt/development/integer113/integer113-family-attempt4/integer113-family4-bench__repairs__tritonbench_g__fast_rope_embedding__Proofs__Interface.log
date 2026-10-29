@@ -1,0 +1,6 @@
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Interface.lean:73:8: warning: 'change scalarPair op backward _ _ _ _ _ = _' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+VeriTile.Bench.Repairs.FastRopeEmbedding.Interface.implements: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

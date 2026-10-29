@@ -1,0 +1,9 @@
+VeriTile.Tests.SignedIntegerCastRNG.narrowed_in_range: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.SignedIntegerCastRNG.narrowed_tensor_valid: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.SignedIntegerCastRNG.typed_narrowed_random: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

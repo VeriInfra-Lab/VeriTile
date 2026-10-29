@@ -1,0 +1,15 @@
+VeriTile.Bench.Repairs.MultinomialSampling.IOUndefRegression.partial_block_extreme_seeds: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MultinomialSampling.IOUndefRegression.padded_seed_above_i64_rejected: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MultinomialSampling.IOUndefRegression.padded_seed_below_i64_rejected: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MultinomialSampling.IOUndefRegression.active_fallback_unrestricted: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MultinomialSampling.IOUndefRegression.original_domain_iff: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

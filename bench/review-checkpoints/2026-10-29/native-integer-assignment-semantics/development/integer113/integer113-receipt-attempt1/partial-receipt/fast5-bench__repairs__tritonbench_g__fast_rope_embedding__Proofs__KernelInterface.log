@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.FastRopeEmbedding.KernelInterface.executes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

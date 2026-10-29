@@ -1,0 +1,9 @@
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.output_bound: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.observe_store: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.observe_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

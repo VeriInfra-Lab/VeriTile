@@ -1,0 +1,10 @@
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.Contract.disjoint_byte: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.Contract.disjoint_iff_no_common_byte: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.Contract.python_checks_iff: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+Axiom audit: headlines=0
+headlines: []

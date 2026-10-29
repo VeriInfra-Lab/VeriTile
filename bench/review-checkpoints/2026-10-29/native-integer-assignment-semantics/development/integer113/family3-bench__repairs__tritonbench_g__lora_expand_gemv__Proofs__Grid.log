@@ -1,0 +1,15 @@
+VeriTile.Bench.Repairs.LoraExpandGemv.offset_injective: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.LoraExpandGemv.one_program: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.execute_prefix: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.whole_source: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.resultCell: definition does not reference [VeriTile.Bench.Repairs.LoraExpandGemv.execute,
+ VeriTile.Bench.Repairs.LoraExpandGemv.Branches.source,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓

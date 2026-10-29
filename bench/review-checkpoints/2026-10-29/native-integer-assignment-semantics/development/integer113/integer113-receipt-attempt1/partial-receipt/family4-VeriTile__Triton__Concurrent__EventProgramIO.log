@@ -1,0 +1,3 @@
+VeriTile.Triton.Concurrent.negative_readOnly_unsafe: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Triton.Concurrent.empty_word_window_cas_unsafe: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Triton.Concurrent.tape_runs: axiom footprint ⊆ standard base ✓  ([propext])

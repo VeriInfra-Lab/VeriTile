@@ -1,0 +1,31 @@
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/Real.lean:44:69: warning: This simp argument is unused:
+  upstreamValue
+
+Hint: Omit it from the simp argument list.
+  simp only [̵G̵r̵i̵d̵.̵v̵a̵l̵u̵e̵,̵R̵e̵a̵d̵b̵a̵c̵k̵.̵b̵a̵c̵k̵w̵a̵r̵d̵E̵x̵p̵e̵c̵t̵e̵d̵,̵i̵n̵i̵t̵i̵a̵l̵,̵c̵o̵o̵r̵d̵i̵n̵a̵t̵e̵,̵u̵p̵s̵t̵r̵e̵a̵m̵V̵a̵l̵u̵e̵,̵
+  ̵ ̵ ̵ ̵ ̵c̵o̵o̵r̵d̵i̵n̵a̵t̵e̵R̵e̵g̵i̵o̵n̵,̵u̵p̵s̵t̵r̵e̵a̵m̵R̵e̵g̵i̵o̵n̵,̵g̵r̵a̵d̵i̵e̵n̵t̵R̵e̵g̵i̵o̵n̵,̵C̵e̵l̵l̵.̵r̵e̵a̵d̵_̵s̵a̵m̵e̵,̵
+  ̵ ̵ ̵ ̵ ̵F̵i̵n̵.̵v̵a̵l̵_̵z̵e̵r̵o̵,̵F̵i̵n̵.̵v̵a̵l̵_̵o̵n̵e̵,̵F̵i̵n̵.̵v̵a̵l̵_̵t̵w̵o̵,̵N̵a̵t̵.̵a̵d̵d̵_̵z̵e̵r̵o̵,̵S̵c̵a̵l̵a̵r̵R̵e̵a̵l̵.̵b̵a̵c̵k̵e̵n̵d̵]̵[̲G̲r̲i̲d̲.̲v̲a̲l̲u̲e̲,̲ ̲R̲e̲a̲d̲b̲a̲c̲k̲.̲b̲a̲c̲k̲w̲a̲r̲d̲E̲x̲p̲e̲c̲t̲e̲d̲,̲ ̲i̲n̲i̲t̲i̲a̲l̲,̲ ̲c̲o̲o̲r̲d̲i̲n̲a̲t̲e̲,̲ ̲c̲o̲o̲r̲d̲i̲n̲a̲t̲e̲R̲e̲g̲i̲o̲n̲,̲
+  ̲ ̲ ̲ ̲ ̲u̲p̲s̲t̲r̲e̲a̲m̲R̲e̲g̲i̲o̲n̲,̲ ̲g̲r̲a̲d̲i̲e̲n̲t̲R̲e̲g̲i̲o̲n̲,̲ ̲C̲e̲l̲l̲.̲r̲e̲a̲d̲_̲s̲a̲m̲e̲,̲ ̲F̲i̲n̲.̲v̲a̲l̲_̲z̲e̲r̲o̲,̲ ̲F̲i̲n̲.̲v̲a̲l̲_̲o̲n̲e̲,̲ ̲F̲i̲n̲.̲v̲a̲l̲_̲t̲w̲o̲,̲
+  ̲ ̲ ̲ ̲ ̲N̲a̲t̲.̲a̲d̲d̲_̲z̲e̲r̲o̲,̲ ̲S̲c̲a̲l̲a̲r̲R̲e̲a̲l̲.̲b̲a̲c̲k̲e̲n̲d̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/Real.lean:47:13: warning: This simp argument is unused:
+  reduceCtorEq
+
+Hint: Omit it from the simp argument list.
+  simp only [̵r̵e̵d̵u̵c̵e̵C̵t̵o̵r̵E̵q̵,̵i̵t̵e̵_̵t̵r̵u̵e̵,̵i̵t̵e̵_̵f̵a̵l̵s̵e̵,̵a̵n̵d̵_̵s̵e̵l̵f̵]̵[̲i̲t̲e̲_̲t̲r̲u̲e̲,̲ ̲i̲t̲e̲_̲f̲a̲l̲s̲e̲,̲ ̲a̲n̲d̲_̲s̲e̲l̲f̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/Real.lean:47:35: warning: This simp argument is unused:
+  ite_false
+
+Hint: Omit it from the simp argument list.
+  simp only [̵r̵e̵d̵u̵c̵e̵C̵t̵o̵r̵E̵q̵,̵i̵t̵e̵_̵t̵r̵u̵e̵,̵i̵t̵e̵_̵f̵a̵l̵s̵e̵,̵a̵n̵d̵_̵s̵e̵l̵f̵]̵[̲r̲e̲d̲u̲c̲e̲C̲t̲o̲r̲E̲q̲,̲ ̲i̲t̲e̲_̲t̲r̲u̲e̲,̲ ̲a̲n̲d̲_̲s̲e̲l̲f̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.RealProof.forward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.RealProof.backward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

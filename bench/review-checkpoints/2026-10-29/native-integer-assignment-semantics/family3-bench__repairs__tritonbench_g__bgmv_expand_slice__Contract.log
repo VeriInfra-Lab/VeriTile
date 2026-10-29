@@ -1,0 +1,14 @@
+VeriTile.Bench.Repairs.BgmvExpandSlice.Contract.python_checks_iff: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.BgmvExpandSlice.Contract.call: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.BgmvExpandSlice.Contract.primary: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.BgmvExpandSlice.Contract.selected_valid: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+Axiom audit: headlines=0
+headlines: []

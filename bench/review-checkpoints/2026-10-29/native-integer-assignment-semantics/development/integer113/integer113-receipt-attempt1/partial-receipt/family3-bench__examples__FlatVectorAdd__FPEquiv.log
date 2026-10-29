@@ -1,0 +1,5 @@
+FP assumptions used by add_kernel_masked_equiv:
+  none
+Strict model certificates used by add_kernel_masked_equiv:
+  model: VeriTile.Software.strictFP32/ieeeValue/integer-literals/maxnum/documented-exp-special-values
+    certificate: List.Forall₂.cons (FP.ScalarArithmetic.strict_certificate FP.ScalarArithmetic.Atom.addCommute rfl) List.Forall₂.nil

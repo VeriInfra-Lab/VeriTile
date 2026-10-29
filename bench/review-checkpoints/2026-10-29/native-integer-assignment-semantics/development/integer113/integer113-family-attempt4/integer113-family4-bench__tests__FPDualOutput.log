@@ -1,0 +1,29 @@
+FPDualOutputTests.reordered_outputs: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+FPDualOutputTests.guarded_reordered_outputs: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.Scheduled.Equivalent₁ₓ₂.ofStructural: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+FPDualOutputTests.scheduled_reordered_outputs: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+FPDualOutputTests.scheduled_precision_is_observable: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+FPDualOutputTests.scheduled_reduction_model_is_observable: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+FPDualOutputTests.scheduled_domain_is_observable: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+FP assumptions used by reordered_outputs:
+  none
+FP assumptions used by guarded_reordered_outputs:
+  none
+FP assumptions used by opaque_guarded_outputs:
+  unresolved FP proof: h (atomic assumptions unavailable)
+FP assumptions used by scheduled_reordered_outputs:
+  none
+FP assumptions used by opaque_scheduled_outputs:
+  unresolved FP proof: h (atomic assumptions unavailable)

@@ -1,0 +1,5 @@
+VeriTile.Triton.Concurrent.Frame.run_input: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Triton.Concurrent.Frame.run_mem: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Triton.Concurrent.Frame.run_words: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Triton.Concurrent.Controller.run_values: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Triton.Concurrent.EventProgramIO.frame_of_writes: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])

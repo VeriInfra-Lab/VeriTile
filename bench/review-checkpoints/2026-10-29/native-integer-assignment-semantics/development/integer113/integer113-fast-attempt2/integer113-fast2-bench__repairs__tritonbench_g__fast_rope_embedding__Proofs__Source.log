@@ -1,0 +1,208 @@
+/tmp/integer113-fast-frontend/bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Source.lean:61:12: error: Tactic `rfl` failed: The left-hand side
+  fun i => if ↑(s.pids 1) * 4 + 4 < ↑p.heads then ↑(s.pids 1) * 4 + 4 else ↑p.heads
+is not definitionally equal to the right-hand side
+  fun x => if s.pids 1 * 4 + 4 < p.heads then ↑(s.pids 1 * 4 + 4) else ↑p.heads
+
+case false.refine_3
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+p : Parameters
+s : State α
+⊢ (fun i => if ↑(s.pids 1) * 4 + 4 < ↑p.heads then ↑(s.pids 1) * 4 + 4 else ↑p.heads) = fun x =>
+    if s.pids 1 * 4 + 4 < p.heads then ↑(s.pids 1 * 4 + 4) else ↑p.heads
+/tmp/integer113-fast-frontend/bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Source.lean:61:12: error: Tactic `rfl` failed: The left-hand side
+  fun i => if ↑(s.pids 1) * 4 + 4 < ↑p.heads then ↑(s.pids 1) * 4 + 4 else ↑p.heads
+is not definitionally equal to the right-hand side
+  fun x => if s.pids 1 * 4 + 4 < p.heads then ↑(s.pids 1 * 4 + 4) else ↑p.heads
+
+case true.refine_3
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+p : Parameters
+s : State α
+⊢ (fun i => if ↑(s.pids 1) * 4 + 4 < ↑p.heads then ↑(s.pids 1) * 4 + 4 else ↑p.heads) = fun x =>
+    if s.pids 1 * 4 + 4 < p.heads then ↑(s.pids 1 * 4 + 4) else ↑p.heads
+/tmp/integer113-fast-frontend/bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Source.lean:83:2: error: unsolved goals
+case right.false
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+p : Parameters
+row head : ℕ
+cs ss : Lane p → α
+s : State α
+h : Context p row cs ss s
+⊢ List.foldl
+      (fun mem i =>
+        if ↑i.1 < p.dimension / 2 then fun r o =>
+          if
+              r = { name := p.input.name } ∧
+                o = Int.toNat (↑(row * p.rowStride + head * p.dimension + ↑i.1) + ↑p.dimension / 2) then
+            Cell.mk TileDType.real
+              (M.binary (some ComputeDType.fp32) FloatDType.real Binary.add
+                (M.binary (some ComputeDType.fp32) FloatDType.real Binary.mul
+                  (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real
+                    (Cell.read TileDType.real
+                      (s.mem { name := p.input.name }
+                        (Int.toNat (↑(row * p.rowStride + head * p.dimension + ↑i.1) + ↑p.dimension / 2)))))
+                  (cs (i.1, PUnit.unit)))
+                (M.binary (some ComputeDType.fp32) FloatDType.real Binary.mul
+                  (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real
+                    (Cell.read TileDType.real
+                      (s.mem { name := p.input.name } (row * p.rowStride + head * p.dimension + ↑i.1))))
+                  (ss (i.1, PUnit.unit))))
+          else mem r o
+        else mem)
+      (List.foldl
+        (fun mem i =>
+          if ↑i.1 < p.dimension / 2 then fun r o =>
+            if r = { name := p.input.name } ∧ o = row * p.rowStride + head * p.dimension + ↑i.1 then
+              Cell.mk TileDType.real
+                (M.binary (some ComputeDType.fp32) FloatDType.real Binary.sub
+                  (M.binary (some ComputeDType.fp32) FloatDType.real Binary.mul
+                    (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real
+                      (Cell.read TileDType.real
+                        (s.mem { name := p.input.name } (row * p.rowStride + head * p.dimension + ↑i.1))))
+                    (cs (i.1, PUnit.unit)))
+                  (M.binary (some ComputeDType.fp32) FloatDType.real Binary.mul
+                    (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real
+                      (Cell.read TileDType.real
+                        (s.mem { name := p.input.name }
+                          (Int.toNat (↑(row * p.rowStride + head * p.dimension + ↑i.1) + ↑p.dimension / 2)))))
+                    (ss (i.1, PUnit.unit))))
+            else mem r o
+          else mem)
+        s.mem (TileShape.allIndices [p.width]))
+      (TileShape.allIndices [p.width]) =
+    List.foldl
+      (fun mem i =>
+        if ↑i.1 < p.dimension / 2 then fun r o =>
+          if r = p.input ∧ o = row * p.rowStride + head * p.dimension + ↑i.1 + p.dimension / 2 then
+            Cell.mk TileDType.real
+              (M.binary (some ComputeDType.fp32) FloatDType.real Binary.add
+                (M.binary (some ComputeDType.fp32) FloatDType.real Binary.mul
+                  (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real
+                    (Cell.read TileDType.real
+                      (s.mem p.input (row * p.rowStride + head * p.dimension + ↑i.1 + p.dimension / 2))))
+                  (cs i))
+                (M.binary (some ComputeDType.fp32) FloatDType.real Binary.mul
+                  (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real
+                    (Cell.read TileDType.real (s.mem p.input (row * p.rowStride + head * p.dimension + ↑i.1))))
+                  (ss i)))
+          else mem r o
+        else mem)
+      (List.foldl
+        (fun mem i =>
+          if ↑i.1 < p.dimension / 2 then fun r o =>
+            if r = p.input ∧ o = row * p.rowStride + head * p.dimension + ↑i.1 then
+              Cell.mk TileDType.real
+                (M.binary (some ComputeDType.fp32) FloatDType.real Binary.sub
+                  (M.binary (some ComputeDType.fp32) FloatDType.real Binary.mul
+                    (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real
+                      (Cell.read TileDType.real (s.mem p.input (row * p.rowStride + head * p.dimension + ↑i.1))))
+                    (cs i))
+                  (M.binary (some ComputeDType.fp32) FloatDType.real Binary.mul
+                    (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real
+                      (Cell.read TileDType.real
+                        (s.mem p.input (row * p.rowStride + head * p.dimension + ↑i.1 + p.dimension / 2))))
+                    (ss i)))
+            else mem r o
+          else mem)
+        s.mem (TileShape.allIndices [p.width]))
+      (TileShape.allIndices [p.width])
+
+case right.true
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+p : Parameters
+row head : ℕ
+cs ss : Lane p → α
+s : State α
+h : Context p row cs ss s
+⊢ List.foldl
+      (fun mem i =>
+        if ↑i.1 < p.dimension / 2 then fun r o =>
+          if
+              r = { name := p.input.name } ∧
+                o = Int.toNat (↑(row * p.rowStride + head * p.dimension + ↑i.1) + ↑p.dimension / 2) then
+            Cell.mk TileDType.real
+              (M.binary (some ComputeDType.fp32) FloatDType.real Binary.add
+                (M.binary (some ComputeDType.fp32) FloatDType.real Binary.mul
+                  (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real
+                    (Cell.read TileDType.real
+                      (s.mem { name := p.input.name }
+                        (Int.toNat (↑(row * p.rowStride + head * p.dimension + ↑i.1) + ↑p.dimension / 2)))))
+                  (cs (i.1, PUnit.unit)))
+                (M.binary (some ComputeDType.fp32) FloatDType.real Binary.mul
+                  (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real
+                    (Cell.read TileDType.real
+                      (s.mem { name := p.input.name } (row * p.rowStride + head * p.dimension + ↑i.1))))
+                  (ss (i.1, PUnit.unit))))
+          else mem r o
+        else mem)
+      (List.foldl
+        (fun mem i =>
+          if ↑i.1 < p.dimension / 2 then fun r o =>
+            if r = { name := p.input.name } ∧ o = row * p.rowStride + head * p.dimension + ↑i.1 then
+              Cell.mk TileDType.real
+                (M.binary (some ComputeDType.fp32) FloatDType.real Binary.sub
+                  (M.binary (some ComputeDType.fp32) FloatDType.real Binary.mul
+                    (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real
+                      (Cell.read TileDType.real
+                        (s.mem { name := p.input.name } (row * p.rowStride + head * p.dimension + ↑i.1))))
+                    (cs (i.1, PUnit.unit)))
+                  (M.binary (some ComputeDType.fp32) FloatDType.real Binary.mul
+                    (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real
+                      (Cell.read TileDType.real
+                        (s.mem { name := p.input.name }
+                          (Int.toNat (↑(row * p.rowStride + head * p.dimension + ↑i.1) + ↑p.dimension / 2)))))
+                    (ss (i.1, PUnit.unit))))
+            else mem r o
+          else mem)
+        s.mem (TileShape.allIndices [p.width]))
+      (TileShape.allIndices [p.width]) =
+    List.foldl
+      (fun mem i =>
+        if ↑i.1 < p.dimension / 2 then fun r o =>
+          if r = p.input ∧ o = row * p.rowStride + head * p.dimension + ↑i.1 + p.dimension / 2 then
+            Cell.mk TileDType.real
+              (M.binary (some ComputeDType.fp32) FloatDType.real Binary.add
+                (M.binary (some ComputeDType.fp32) FloatDType.real Binary.mul
+                  (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real
+                    (Cell.read TileDType.real
+                      (s.mem p.input (row * p.rowStride + head * p.dimension + ↑i.1 + p.dimension / 2))))
+                  (cs i))
+                (M.binary (some ComputeDType.fp32) FloatDType.real Binary.mul
+                  (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real
+                    (Cell.read TileDType.real (s.mem p.input (row * p.rowStride + head * p.dimension + ↑i.1))))
+                  (ss i)))
+          else mem r o
+        else mem)
+      (List.foldl
+        (fun mem i =>
+          if ↑i.1 < p.dimension / 2 then fun r o =>
+            if r = p.input ∧ o = row * p.rowStride + head * p.dimension + ↑i.1 then
+              Cell.mk TileDType.real
+                (M.binary (some ComputeDType.fp32) FloatDType.real Binary.sub
+                  (M.binary (some ComputeDType.fp32) FloatDType.real Binary.mul
+                    (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real
+                      (Cell.read TileDType.real (s.mem p.input (row * p.rowStride + head * p.dimension + ↑i.1))))
+                    (cs i))
+                  (M.binary (some ComputeDType.fp32) FloatDType.real Binary.mul
+                    (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real
+                      (Cell.read TileDType.real
+                        (s.mem p.input (row * p.rowStride + head * p.dimension + ↑i.1 + p.dimension / 2))))
+                    (ss i)))
+            else mem r o
+          else mem)
+        s.mem (TileShape.allIndices [p.width]))
+      (TileShape.allIndices [p.width])
+/tmp/integer113-fast-frontend/bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Source.lean:107:43: error: omega could not prove the goal:
+No usable constraints found. You may need to unfold definitions so `omega` can see linear arithmetic facts about `Nat` and `Int`, which may also involve multiplication, division, and modular remainder by constants.
+/tmp/integer113-fast-frontend/bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Source.lean:152:0: error: VeriTile.Bench.Repairs.FastRopeEmbedding.Source.oneHead_facts: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/integer113-fast-frontend/bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Source.lean:153:0: error: VeriTile.Bench.Repairs.FastRopeEmbedding.Source.loop_executes: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/integer113-fast-frontend/bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Source.lean:154:0: error: VeriTile.Bench.Repairs.FastRopeEmbedding.Source.complete_execution: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/integer113-fast-frontend/bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Source.lean:155:0: error: VeriTile.Bench.Repairs.FastRopeEmbedding.Source.complete_correctness: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

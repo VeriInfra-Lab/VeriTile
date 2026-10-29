@@ -1,0 +1,6 @@
+VeriTile.Tests.NestedSignedLoadBody.signed_channels: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.NestedSignedLoadBody.signed_offset: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

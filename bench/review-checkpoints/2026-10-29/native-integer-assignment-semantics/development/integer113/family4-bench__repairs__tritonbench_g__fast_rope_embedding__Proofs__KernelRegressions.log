@@ -1,0 +1,13 @@
+VeriTile.Bench.Repairs.FastRopeEmbedding.KernelContract.original_typed_source: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRopeEmbedding.KernelContract.nonunit_not_inverse: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRopeEmbedding.KernelContract.odd_tail: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FastRopeEmbedding.KernelContract.other_program_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FastRopeEmbedding.KernelContract.source_store_written: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FastRopeEmbedding.KernelContract.source_index_counterexample: axiom footprint ⊆ standard base ✓  ([propext])

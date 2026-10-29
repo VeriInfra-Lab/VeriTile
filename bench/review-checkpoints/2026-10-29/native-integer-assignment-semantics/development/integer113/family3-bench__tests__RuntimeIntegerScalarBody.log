@@ -1,0 +1,15 @@
+VeriTile.Tests.RuntimeIntegerScalarBody.executionU32: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.RuntimeIntegerScalarBody.executionU64: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.RuntimeIntegerScalarBody.executionI32: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.RuntimeIntegerScalarBody.executionI64: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.RuntimeIntegerScalarBody.constexpr_execution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

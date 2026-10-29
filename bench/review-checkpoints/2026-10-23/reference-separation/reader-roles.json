@@ -474,7 +474,7 @@
         },
         {
           "path": "bench/repairs/tritonbench_g/add_value/FPEquiv.lean",
-          "sha256": "2499aa49ee538e90cce970ae7aa9484943e1deb24d6d50b9e0d78c503b9d82c8",
+          "sha256": "43b39a74419747651c0406a7784d67468745470b0854e6e8eb6cc944422ac5ba",
           "surface": "FPEquiv",
           "declarations": [
             {
@@ -520,7 +520,7 @@
             {
               "kind": "specification",
               "name": "add_value_commuted_equiv",
-              "line": 34,
+              "line": 35,
               "full_name": "VeriTile.Bench.Repairs.AddValue.Contiguous.FPEquiv.add_value_commuted_equiv",
               "role": "actual_program_pair",
               "reason": "Actual complete FP32 original/commuted literal-add program pair; source/site definitions are required program data."
@@ -530,9 +530,8 @@
         }
       ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/add_value.json",
-        "sha256": "785376d3d30f2b2ef18f60d01d020b34d6572a6e32787ca07a7352508cc90c84",
-        "task": "add_value"
+        "path": "bench/review-checkpoints/2026-10-29/native-integer-assignment-semantics/review.json",
+        "sha256": "9de5fe87bd91f9b7aa216f343adedcb53a9ad9e38a1e31e32e43af33dca51fb4"
       },
       "change": null,
       "new_misc_entries": [],
@@ -558,7 +557,8 @@
         "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/add_value.json",
         "sha256": "785376d3d30f2b2ef18f60d01d020b34d6572a6e32787ca07a7352508cc90c84",
         "task": "add_value"
-      }
+      },
+      "current_body_source_review": "The original body retains y = 10 and the original cast/order. Its actual integer-to-FP32 conversion is connected to the existing commuted candidate using the strict software certificate and strict addition commutation. The public statement, input domain, complete memory output and frame remain unchanged; only its explanatory comment is updated."
     },
     {
       "task": "apply_penalty",
@@ -7663,8 +7663,8 @@
         }
       ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/review.json",
-        "sha256": "7ad406f260fa76e41402ee51a97881bad0a4045d8742d60dffaf5f929af01ba0"
+        "path": "bench/review-checkpoints/2026-10-29/native-integer-assignment-semantics/review.json",
+        "sha256": "9de5fe87bd91f9b7aa216f343adedcb53a9ad9e38a1e31e32e43af33dca51fb4"
       },
       "change": "Actual pasted source binding and complete source-specific proof replay. Ordinary RoPE logical/native IO instances live in IO.lean and reuse one shared memory descriptor; reader formulas and all public scopes remain.",
       "new_misc_entries": [],
@@ -7697,7 +7697,8 @@
         "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/fast_rope_embedding.json",
         "sha256": "3afc44f9e0e116dcd04aa6cfab0cbe702478032709ea0073df1e3fe67a4835d2",
         "task": "fast_rope_embedding"
-      }
+      },
+      "current_body_source_review": "The original and commuted bodies keep ROPE_GROUP_SIZE = 4. Their signed head indices, bounded rangeInt loop, original casts and masked loads/stores are proved directly. Shared independent head-value mathematics is reused with a new actual-source execution and safety connection. The actual program pair and full IO are retained; no false equality to the historical natural-register body remains."
     },
     {
       "task": "fifth_order_sph_harmonics",
@@ -7782,9 +7783,8 @@
         }
       ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/fifth_order_sph_harmonics.json",
-        "sha256": "f1aad9f9b9ed0f90f52a60e718a1ceb9b964720a0abdece06a196146a87a7fce",
-        "task": "fifth_order_sph_harmonics"
+        "path": "bench/review-checkpoints/2026-10-29/native-integer-assignment-semantics/review.json",
+        "sha256": "9de5fe87bd91f9b7aa216f343adedcb53a9ad9e38a1e31e32e43af33dca51fb4"
       },
       "change": null,
       "new_misc_entries": [],
@@ -7819,7 +7819,8 @@
         "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/fifth_order_sph_harmonics.json",
         "sha256": "f1aad9f9b9ed0f90f52a60e718a1ceb9b964720a0abdece06a196146a87a7fce",
         "task": "fifth_order_sph_harmonics"
-      }
+      },
+      "current_body_source_review": "The ordinary coord_stride = 3 assignments are re-elaborated as integer tensors in all four selected forward/backward bodies. Their complete source execution, safety, independent polynomial specification and existing FP transformation are replayed with the corrected shared frontend. Original Python, public readers and input domain are unchanged."
     },
     {
       "task": "flash_attn",
@@ -12775,9 +12776,8 @@
         }
       ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/lora_expand_gemv.json",
-        "sha256": "8a4cfb39452b46fb97ab20d6eb79f1e7e10928e5e074a6aa452d92ddd0c25949",
-        "task": "lora_expand_gemv"
+        "path": "bench/review-checkpoints/2026-10-29/native-integer-assignment-semantics/review.json",
+        "sha256": "9de5fe87bd91f9b7aa216f343adedcb53a9ad9e38a1e31e32e43af33dca51fb4"
       },
       "change": null,
       "new_misc_entries": [],
@@ -12812,7 +12812,8 @@
         "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/lora_expand_gemv.json",
         "sha256": "8a4cfb39452b46fb97ab20d6eb79f1e7e10928e5e074a6aa452d92ddd0c25949",
         "task": "lora_expand_gemv"
-      }
+      },
+      "current_body_source_review": "The unit-split candidate retains split_n_length = 1 as an integer tensor. Actual execution and TraceSafe are proved for the existing public branch engine and ordered reduction plans, including option failures. Different private integer registers are forgotten only through the existing clear-register launch boundary; complete schedules, outputs and exterior memory frames are retained. No equality to the old natural-register AST or arbitrary floating-point interpretation is asserted."
     },
     {
       "task": "masked_add_cuda",
@@ -20268,9 +20269,8 @@
         }
       ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/token_attn_reduceV.json",
-        "sha256": "4c2e8b336f2e9e10720ef4ef3e21b47e0062a8ccc3d18f365a01499a81907394",
-        "task": "token_attn_reduceV"
+        "path": "bench/review-checkpoints/2026-10-29/native-integer-assignment-semantics/review.json",
+        "sha256": "9de5fe87bd91f9b7aa216f343adedcb53a9ad9e38a1e31e32e43af33dca51fb4"
       },
       "change": null,
       "new_misc_entries": [],
@@ -20305,7 +20305,8 @@
         "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/token_attn_reduceV.json",
         "sha256": "4c2e8b336f2e9e10720ef4ef3e21b47e0062a8ccc3d18f365a01499a81907394",
         "task": "token_attn_reduceV"
-      }
+      },
+      "current_body_source_review": "The original and affine candidate retain cur_batch_start_index = 0 as an integer tensor. Actual metadata gathers, loop accumulation, output stores, access safety and full selected grid interface are replayed with the corrected frontend. Original Python, public readers, independent mathematics and input domain are unchanged."
     },
     {
       "task": "token_softmax_bloom",

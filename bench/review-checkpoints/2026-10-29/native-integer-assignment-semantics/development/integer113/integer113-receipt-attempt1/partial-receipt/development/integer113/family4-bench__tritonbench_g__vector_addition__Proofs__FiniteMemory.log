@@ -1,0 +1,10 @@
+VeriTile.Bench.TritonBenchG.VectorAddition.Finite.write_preserves_inputs: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.TritonBenchG.VectorAddition.Finite.live_eq_loaded_aux: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.VectorAddition.Finite.source_load_all_store_correspondence: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.Finite.loaded_output: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.VectorAddition.Finite.loaded_byte_frame: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.VectorAddition.Finite.mem_activeLanes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

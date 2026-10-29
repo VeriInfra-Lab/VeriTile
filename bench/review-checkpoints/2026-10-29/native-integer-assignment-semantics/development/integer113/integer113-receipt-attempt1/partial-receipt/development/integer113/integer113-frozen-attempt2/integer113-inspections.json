@@ -1,0 +1,169 @@
+{
+  "status": "PASS_WITH_RECORDED_LIMITS",
+  "code_commit": "de7680b75b00d057bebd7f21f290a7d599e343f0",
+  "start": 1793258894.3559127,
+  "end": 1793259033.0068986,
+  "python": {
+    "targeted": {
+      "status": "PASS",
+      "tests": 362
+    },
+    "full": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 607,
+      "errors": 1
+    }
+  },
+  "raw_bodies": [
+    {
+      "name": "add_value-raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/add_value/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "de7680b75b00d057bebd7f21f290a7d599e343f0",
+      "log": "/tmp/integer113-add_value-raw-body-check.log",
+      "status": "PASS"
+    },
+    {
+      "name": "fast_rope_embedding-raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/fast_rope_embedding/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "de7680b75b00d057bebd7f21f290a7d599e343f0",
+      "log": "/tmp/integer113-fast_rope_embedding-raw-body-check.log",
+      "status": "PASS"
+    },
+    {
+      "name": "fifth_order_sph_harmonics-raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "de7680b75b00d057bebd7f21f290a7d599e343f0",
+      "log": "/tmp/integer113-fifth_order_sph_harmonics-raw-body-check.log",
+      "status": "PASS"
+    },
+    {
+      "name": "lora_expand_gemv-raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "de7680b75b00d057bebd7f21f290a7d599e343f0",
+      "log": "/tmp/integer113-lora_expand_gemv-raw-body-check.log",
+      "status": "PASS"
+    },
+    {
+      "name": "token_attn_reduceV-raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/token_attn_reduceV_grid_y_checked/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "de7680b75b00d057bebd7f21f290a7d599e343f0",
+      "log": "/tmp/integer113-token_attn_reduceV-raw-body-check.log",
+      "status": "PASS"
+    }
+  ],
+  "cpu": {
+    "status": "PASS",
+    "scope": "Five selected original/candidate function-body manifests checked. All existing Python and public contracts are byte-identical; the sole AddValue public reader change is an exact explanatory comment replacement. This is a source check, not GPU or numerical execution.",
+    "public_statements": "Statements, parameters and premises unchanged.",
+    "comment_only_changes": {
+      "bench/repairs/tritonbench_g/add_value/FPEquiv.lean": {
+        "before_sha256": "2499aa49ee538e90cce970ae7aa9484943e1deb24d6d50b9e0d78c503b9d82c8",
+        "after_sha256": "43b39a74419747651c0406a7784d67468745470b0854e6e8eb6cc944422ac5ba",
+        "scope": "Explanatory comment only; the public statement, parameters and premises are unchanged."
+      }
+    }
+  },
+  "torch": {
+    "name": "torch-dependencies",
+    "command": [
+      "python3",
+      "-c",
+      "import torch; import triton"
+    ],
+    "exit_code": 1,
+    "code_commit": "de7680b75b00d057bebd7f21f290a7d599e343f0",
+    "log": "/tmp/integer113-torch-dependencies.log",
+    "status": "UNAVAILABLE",
+    "reason": "The retained Torch source checker requires absent Torch/Triton. No GPU or numerical experiment was run."
+  },
+  "original_python_and_contracts": {
+    "status": "PASS",
+    "sha256": {
+      "bench/repairs/tritonbench_g/add_value/Contract.lean": "36b1fa88811be14136a351e003ca10634dd4be8192c12a6cfe3423f781ad92cd",
+      "bench/repairs/tritonbench_g/add_value/Correct.lean": "17fefdc7f5491bf0845f4f4abf66a9d7dba9c03ffe3d6b8cfbb75af848b8c2e5",
+      "bench/repairs/tritonbench_g/add_value/FPEquiv.lean": "43b39a74419747651c0406a7784d67468745470b0854e6e8eb6cc944422ac5ba",
+      "bench/repairs/tritonbench_g/add_value/Proofs/Contract.lean": "930ac2e0950ce67d34a50a59cbaaf950a327dc1cb611f77aebec92607cc2de7e",
+      "bench/repairs/tritonbench_g/add_value/add_value_repaired.py": "439dbbf37b927a5d48615b8e5f29941aa48a8ac668f97768f504dc36f0b12ea8",
+      "bench/repairs/tritonbench_g/add_value/check_contract.py": "71bf9f1994e02061a66cf2c326d0107aee600c95a1b1d152e07c193e1c9d69b1",
+      "bench/repairs/tritonbench_g/add_value/check_cuda_lowering.py": "4a8fd7ebdeafd27d598ad445d42b7dde6c72c0ce98e9e9ae027a49153b2fbc3e",
+      "bench/repairs/tritonbench_g/fast_rope_embedding/Contract.lean": "9fea02fb00d69152099e5ba0b87c78a786d511670864ff20c6da287aafa848c4",
+      "bench/repairs/tritonbench_g/fast_rope_embedding/Correct.lean": "5cd6502389fddc87c6e06e37942494b53f955bc65c09f5e5b185a339c12ef46f",
+      "bench/repairs/tritonbench_g/fast_rope_embedding/FPEquiv.lean": "a5723970b08fd06fda3e486db0c52e27cf39ac39dfabe1aebc7f504c9f80bbf1",
+      "bench/repairs/tritonbench_g/fast_rope_embedding/check_contract.py": "755659e48212935f11d01b1301e8fbb1ac05774556456d915265194314080a4e",
+      "bench/repairs/tritonbench_g/fast_rope_embedding/check_cuda_lowering.py": "eac472801cd9996b4182446dd9425b5dca6099e1dac5a77d8dc195df86e7088e",
+      "bench/repairs/tritonbench_g/fast_rope_embedding/check_kernel_edges.py": "1a198bf18a1579aa2e9b01f783e6df0e8dd0ae36d4e339065847aa88e8f9f3a0",
+      "bench/repairs/tritonbench_g/fast_rope_embedding/fast_rope_embedding_repaired.py": "8557528fbe4b4c70874ae81b1df06a8e23d57dba23818f716323c30d5e406454",
+      "bench/repairs/tritonbench_g/fast_rope_embedding/index_commuted.py": "1d2d9e3449ab240778fea645c407f316e5d584f59dc79ac3cf8e467378c159d9",
+      "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Contract.lean": "f74de5d7245447c90af0b8891e12301c54e943d38c3246fc02f27e5327e4e44a",
+      "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Correct.lean": "5d85cdb0c20f5c8eb9a0bc6ca9fa7c1e8cd890bcea918a92dc6dc03421bb6403",
+      "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/FPEquiv.lean": "6016f9f05b0f6bfbf3964c4c84a33d221c431eca607dc8650073a494d0f2a862",
+      "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/Contract.lean": "3d18af16de3f4b4424b76c79f9bca7f552f613eb709df92a327b104baefcb49c",
+      "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/candidate_kernels.py": "26a96e7589c31f286501ad7442c0c3b88f1a0f723bfebe30fcd3f0b7b4727124",
+      "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/check_cuda_lowering.py": "9822c815e245ee07d388962387f3e1652f2e9d2c671a81fda30e2eb691b23fc1",
+      "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/fifth_order_sph_harmonics_repaired.py": "f1060f3487cf89047e0e3d4ffcee9fa16671bc287233baefe75a847c53334377",
+      "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/test_coefficients.py": "9f44c26222c33dd9fa64a14f62c3fe136fe9c8699e75b5fb25ab7efb426a93b9",
+      "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/test_revision.py": "c506c45fad0c9197f7d2e5dec6a7e8b5f50f20d2edc4b7f3d86bcf5fba6fa7dd",
+      "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Contract.lean": "1004510e475f747bb9fa90b78ff9320615261a1f923774324ee38d20586e91f1",
+      "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Correct.lean": "c0e51ff6920f34d6f9a89d35f48389293fa78b299192d2a85b183e2cd9a4ed4f",
+      "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/FPEquiv.lean": "a2b583bce227c6dd7a7d1e2545f60631cf2f626735bd3614e11ca3750ddd45e5",
+      "bench/repairs/tritonbench_g/lora_expand_gemv/Contract.lean": "2f2eaf07c63d45c8bb1542a7560371a33b7ec4310fc583af1bc3fc1a47673199",
+      "bench/repairs/tritonbench_g/lora_expand_gemv/Correct.lean": "fc18c00cb309ac54b7559194086e6a8fbbc9a44b58d4dcb0cee5dadd6e72d351",
+      "bench/repairs/tritonbench_g/lora_expand_gemv/FPEquiv.lean": "403cf173311cac342a702651a130c7bc9cea638b18ee2f118d285305842440a0",
+      "bench/repairs/tritonbench_g/lora_expand_gemv/check_byte_separated.py": "703f51b432eb8f6f9a7a1a41b2be86672aa4069db8c0947c24e081951154c8e2",
+      "bench/repairs/tritonbench_g/lora_expand_gemv/check_contract.py": "9bfbe85cbe2e5c8256f8c4c84929fdcd7f6e28f66ff8bafa0ed87b3806379cd5",
+      "bench/repairs/tritonbench_g/lora_expand_gemv/check_unit_split_source.py": "15b334046ce7590e2931d069607be7dafd15a7221cb2dc8b25589abf4cc1e151",
+      "bench/repairs/tritonbench_g/lora_expand_gemv/lora_expand_gemv_byte_separated.py": "85f452b177066c749577b51a730ac49b81acd153ed4f5fc6d141762b4075ae03",
+      "bench/repairs/tritonbench_g/lora_expand_gemv/lora_expand_gemv_repaired.py": "8f36abb103e6dbe0b646c65a8d763a7d57afdd901a9888ea398987f219e70d81",
+      "bench/repairs/tritonbench_g/lora_expand_gemv/lora_expand_gemv_unit_split.py": "c2303e4867a0321a9cf3169d0792802221295691953901a30f1ac3ef6e874cf2",
+      "bench/repairs/tritonbench_g/token_attn_reduceV/Contract.lean": "fdcd38f6cd8f8e71dba35c15034dcb3eaeefefb97690d6421785c736830e14af",
+      "bench/repairs/tritonbench_g/token_attn_reduceV/Correct.lean": "483ec5e026d1251bf5ed71b8704581ba3a3db498e5ac30f1f34d4bbd4735e5a5",
+      "bench/repairs/tritonbench_g/token_attn_reduceV/FPEquiv.lean": "53ba20cc6f40e445e0ed6d04c31199b7e463a605276a4d2a7fc565b2c41c4520",
+      "bench/repairs/tritonbench_g/token_attn_reduceV/check_contract.py": "12aef49b77c58a099331b850b1a3024a9b4238463366c0abf5d08c1ee5c43888",
+      "bench/repairs/tritonbench_g/token_attn_reduceV/check_lowering.py": "f6b88c824fa1ae8ef8a419489c3aff8db5c1b4234aa48e8b0cceac7449fe9f43",
+      "bench/repairs/tritonbench_g/token_attn_reduceV/token_attn_reduceV_repaired.py": "1182d7c84e373ae328250b0d8c63886d12f8bde5c36279bbcdc131db1de0e020",
+      "bench/repairs/tritonbench_g/token_attn_reduceV_grid_y_checked/Contract.lean": "67e5f41ccd8c9c0df6fced86e3444dd3f0503154f4d962b2b3e50a3f1fd92c3f",
+      "bench/repairs/tritonbench_g/token_attn_reduceV_grid_y_checked/Correct.lean": "43c3cb6c0b62289109cbaa48f4d655972732ec0c824b397593e33162d368f8dc",
+      "bench/repairs/tritonbench_g/token_attn_reduceV_grid_y_checked/FPEquiv.lean": "3e2887fc06f167add6ed0c0828c058e76a00ab17da1626f92e828025d24391c0",
+      "bench/repairs/tritonbench_g/token_attn_reduceV_grid_y_checked/check_candidate.py": "1836f9635ee8af1e4dd28993b6c400f1c6e2df4ed10aeec69768cd46b8f998da",
+      "bench/repairs/tritonbench_g/token_attn_reduceV_grid_y_checked/token_attn_reduceV_affine.py": "f9d739a435d4c5ed5c0ed69a5aea7bc8e9be0e299c9ef1aa7805c7aaff8be3e3",
+      "bench/repairs/tritonbench_g/token_attn_reduceV_grid_y_checked/token_attn_reduceV_grid_y_checked.py": "35b3502fa9e93d09b5ac05dc8ad59cacd516542a69968f894e4da293869dcd82"
+    }
+  },
+  "comparator": {
+    "attempts": 347,
+    "statuses": [
+      "UNAVAILABLE"
+    ]
+  },
+  "scope": "Exact frozen source. Ordinary integer tensor assignments, strict literal conversion and all five affected task families are verified separately by Lean; source checks are not hardware or numerical evidence."
+}

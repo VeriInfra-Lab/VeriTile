@@ -1,0 +1,205 @@
+{
+  "status": "PASS",
+  "start": 1793258453.0651116,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.token_attn_reduceV_grid_y_checked.Proofs.AccessSafety",
+      "source_sha256": "73ea2edc8ad2277399b6e4b92f833cc9b195ada64ec24a4e808106e228ffa832",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793258453.0652988,
+      "end": 1793258462.8692076,
+      "log": "/tmp/integer113-family7-bench__repairs__tritonbench_g__token_attn_reduceV_grid_y_checked__Proofs__AccessSafety.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.token_attn_reduceV_grid_y_checked.Proofs.Bindings",
+      "source_sha256": "5ba7c9f64f7d5ef71bea97c51540343ee97fd7ee1234e1e5c0ce3c908290a439",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793258462.8694718,
+      "end": 1793258466.25337,
+      "log": "/tmp/integer113-family7-bench__repairs__tritonbench_g__token_attn_reduceV_grid_y_checked__Proofs__Bindings.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.token_attn_reduceV_grid_y_checked.Proofs.Schedule",
+      "source_sha256": "ed534e15610841b4b1639cac978899513a08cc6cff38ebce699fd90ca0696fa8",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793258466.2536614,
+      "end": 1793258469.5268393,
+      "log": "/tmp/integer113-family7-bench__repairs__tritonbench_g__token_attn_reduceV_grid_y_checked__Proofs__Schedule.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.token_attn_reduceV_grid_y_checked.Proofs.LogicalValues",
+      "source_sha256": "3b3f909c2801e7e7b22bbe14de359a20e283717e54e364200db5429bc8d6334a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793258469.5271134,
+      "end": 1793258472.162864,
+      "log": "/tmp/integer113-family7-bench__repairs__tritonbench_g__token_attn_reduceV_grid_y_checked__Proofs__LogicalValues.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.token_attn_reduceV_grid_y_checked.Proofs.Interface",
+      "source_sha256": "8d781304220ad520bc799808c81d06450d7b17b139fb16abc9472458699b0f9f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793258472.1631153,
+      "end": 1793258475.2079482,
+      "log": "/tmp/integer113-family7-bench__repairs__tritonbench_g__token_attn_reduceV_grid_y_checked__Proofs__Interface.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.token_attn_reduceV_grid_y_checked.Proofs.RealIO",
+      "source_sha256": "b19bb206fdea07ce4fa8e1883d7ab3a9cd052b23c2b3bbba155b9d2a5d552cbe",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793258475.2082596,
+      "end": 1793258478.2282534,
+      "log": "/tmp/integer113-family7-bench__repairs__tritonbench_g__token_attn_reduceV_grid_y_checked__Proofs__RealIO.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.token_attn_reduceV_grid_y_checked.Proofs.LogicalIO",
+      "source_sha256": "3e679d9e085cd9acaeb3391979d8d62814b939b0e8ed2df89a4aecd8c03d3c7a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793258478.2285235,
+      "end": 1793258480.7279112,
+      "log": "/tmp/integer113-family7-bench__repairs__tritonbench_g__token_attn_reduceV_grid_y_checked__Proofs__LogicalIO.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.token_attn_reduceV_grid_y_checked.Correct",
+      "source_sha256": "43c3cb6c0b62289109cbaa48f4d655972732ec0c824b397593e33162d368f8dc",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793258480.728198,
+      "end": 1793258483.6104288,
+      "log": "/tmp/integer113-family7-bench__repairs__tritonbench_g__token_attn_reduceV_grid_y_checked__Correct.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.token_attn_reduceV_grid_y_checked.Proofs.AffineEquivalence",
+      "source_sha256": "bc0648ded6db7dce6f8fadce58961eec68dae04eee6145c48e0e6a6ef6a36ebd",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793258483.6107008,
+      "end": 1793258486.9208524,
+      "log": "/tmp/integer113-family7-bench__repairs__tritonbench_g__token_attn_reduceV_grid_y_checked__Proofs__AffineEquivalence.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.token_attn_reduceV.Native",
+      "source_sha256": "6189868c0ae992dbc0aaefd39ff3f93d22ad227da5915f48e09a4f09164ce04d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793258486.92113,
+      "end": 1793258491.02958,
+      "log": "/tmp/integer113-family7-bench__repairs__tritonbench_g__token_attn_reduceV__Native.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.token_attn_reduceV_grid_y_checked.FPEquiv",
+      "source_sha256": "3e2887fc06f167add6ed0c0828c058e76a00ab17da1626f92e828025d24391c0",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793258491.0298605,
+      "end": 1793258493.9383485,
+      "log": "/tmp/integer113-family7-bench__repairs__tritonbench_g__token_attn_reduceV_grid_y_checked__FPEquiv.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.token_attn_reduceV_grid_y_checked.Proofs.Compatibility",
+      "source_sha256": "a72079d8c6523c1515a3b453bd1748cf5dc8ace3e9aa06e63f5a72e896d3b932",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793258493.938633,
+      "end": 1793258496.9480038,
+      "log": "/tmp/integer113-family7-bench__repairs__tritonbench_g__token_attn_reduceV_grid_y_checked__Proofs__Compatibility.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.token_attn_reduceV_grid_y_checked.Proofs.NativeIO",
+      "source_sha256": "68a927074cf4dddf98a7e634624c3b56b55ab8d6b7e759369b6160bd9ae0e3e9",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793258496.948321,
+      "end": 1793258500.1080346,
+      "log": "/tmp/integer113-family7-bench__repairs__tritonbench_g__token_attn_reduceV_grid_y_checked__Proofs__NativeIO.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.token_attn_reduceV_grid_y_checked.Misc.NativeCorrect",
+      "source_sha256": "0ffb4db494113c95802a3bc720c23a40079ba83446823b9d7a77856736814788",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793258500.108371,
+      "end": 1793258502.9522243,
+      "log": "/tmp/integer113-family7-bench__repairs__tritonbench_g__token_attn_reduceV_grid_y_checked__Misc__NativeCorrect.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.token_attn_reduceV_grid_y_checked.Proofs.Model",
+      "source_sha256": "9ec6018007fb31cfdb7672dda77936520add9dbc35c691872912af4666d9a8b7",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793258502.952531,
+      "end": 1793258505.9176235,
+      "log": "/tmp/integer113-family7-bench__repairs__tritonbench_g__token_attn_reduceV_grid_y_checked__Proofs__Model.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.token_attn_reduceV_grid_y_checked.Proofs.Targets",
+      "source_sha256": "3fa234db0abe6e87a6ea26767fb64a5b58e161886d8e85ed5b5e77c40fd0b6de",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793258505.918358,
+      "end": 1793258509.0327053,
+      "log": "/tmp/integer113-family7-bench__repairs__tritonbench_g__token_attn_reduceV_grid_y_checked__Proofs__Targets.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.token_attn_reduceV_grid_y_checked.Proofs.Tensor",
+      "source_sha256": "d1bcdfb69e95a051bda6685ccd0a41e366f92cc1a0f1d468ca79a9f585a7237e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793258509.0330186,
+      "end": 1793258512.4226897,
+      "log": "/tmp/integer113-family7-bench__repairs__tritonbench_g__token_attn_reduceV_grid_y_checked__Proofs__Tensor.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.token_attn_reduceV_grid_y_checked.Proofs.Indices",
+      "source_sha256": "e3a0befd0028079b6d7e7b71d13d168ca85e6aa90ad1ffa07be5fe5ccb2d1d89",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793258512.422994,
+      "end": 1793258515.5686026,
+      "log": "/tmp/integer113-family7-bench__repairs__tritonbench_g__token_attn_reduceV_grid_y_checked__Proofs__Indices.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.token_attn_reduceV_grid_y_checked.Misc.TensorBridge",
+      "source_sha256": "42a84d797931fa59a9150992282806f7a4eee7232ae2031b4f0fbebbfe674054",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793258515.5689147,
+      "end": 1793258519.805619,
+      "log": "/tmp/integer113-family7-bench__repairs__tritonbench_g__token_attn_reduceV_grid_y_checked__Misc__TensorBridge.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.token_attn_reduceV_grid_y_checked.Misc.InterfaceChecks",
+      "source_sha256": "9663f91e99d9f8341dcc71e130da0ba119547abbb09a6feb39e5d210795f6560",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793258519.8059359,
+      "end": 1793258523.7662437,
+      "log": "/tmp/integer113-family7-bench__repairs__tritonbench_g__token_attn_reduceV_grid_y_checked__Misc__InterfaceChecks.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.token_attn_reduceV_grid_y_checked.Proofs.RawNative",
+      "source_sha256": "2b1254b2871a6321a38fa032bf412931e7ba6fe8b8d2f862bfb8c47f6ec1c632",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793258523.7665515,
+      "end": 1793258527.1230683,
+      "log": "/tmp/integer113-family7-bench__repairs__tritonbench_g__token_attn_reduceV_grid_y_checked__Proofs__RawNative.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.token_attn_reduceV_grid_y_checked.Proofs.RawReal",
+      "source_sha256": "2ba8451bc1467b43f4ed2a177a9ff83ecb1bb477061933907043f151b995e80d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793258527.1234078,
+      "end": 1793258530.4527352,
+      "log": "/tmp/integer113-family7-bench__repairs__tritonbench_g__token_attn_reduceV_grid_y_checked__Proofs__RawReal.log"
+    }
+  ],
+  "end": 1793258530.452992
+}

@@ -1,0 +1,6 @@
+VeriTile.Triton.FP.ScalarArithmetic.strict_certificate: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.ScalarArithmetic.strict_admitted: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,56 @@
+/tmp/integer113-frontend/bench/tests/FPMaterializedProgramIO.lean:17:34: warning: 'rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/integer113-frontend/bench/tests/FPMaterializedProgramIO.lean:17:34: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/integer113-frontend/bench/tests/FPMaterializedProgramIO.lean:157:16: warning: This simp argument is unused:
+  mapValue
+
+Hint: Omit it from the simp argument list.
+  simp [toFloat,̵m̵a̵p̵V̵a̵l̵u̵e̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-frontend/bench/tests/FPMaterializedProgramIO.lean:188:16: warning: This simp argument is unused:
+  runMaterializedSchedule
+
+Hint: Omit it from the simp argument list.
+  s̵i̵m̵p̵ ̵[̵e̵m̵p̵t̵y̵I̵O̵,̵r̵u̵n̵M̵a̵t̵e̵r̵i̵a̵l̵i̵z̵e̵d̵S̵c̵h̵e̵d̵u̵l̵e̵,̵M̵a̵t̵e̵r̵i̵a̵l̵i̵z̵e̵d̵I̵n̵v̵o̵c̵a̵t̵i̵o̵n̵.̵r̵u̵n̵,̵M̵a̵t̵e̵r̵i̵a̵l̵i̵z̵e̵d̵I̵n̵v̵o̵c̵a̵t̵i̵o̵n̵.̵e̵m̵b̵e̵d̵d̵e̵d̵,̵
+  ̵ ̵ ̵ ̵ ̵f̵a̵i̵l̵i̵n̵g̵,̵I̵n̵v̵o̵c̵a̵t̵i̵o̵n̵.̵r̵u̵n̵,̵I̵n̵v̵o̵c̵a̵t̵i̵o̵n̵.̵i̵n̵i̵t̵i̵a̵l̵,̵b̵i̵n̵d̵R̵e̵g̵i̵s̵t̵e̵r̵s̵,̵e̵x̵e̵c̵,̵r̵u̵n̵,̵s̵t̵e̵p̵,̵e̵v̵a̵l̵_̵a̵l̵g̵,̵e̵v̵a̵l̵O̵p̵_̵u̵n̵f̵o̵l̵d̵]̵ ̵a̵t̵ ̵r̵a̵n̵s̲i̲m̲p̲ ̲[̲e̲m̲p̲t̲y̲I̲O̲,̲ ̲M̲a̲t̲e̲r̲i̲a̲l̲i̲z̲e̲d̲I̲n̲v̲o̲c̲a̲t̲i̲o̲n̲.̲r̲u̲n̲,̲ ̲M̲a̲t̲e̲r̲i̲a̲l̲i̲z̲e̲d̲I̲n̲v̲o̲c̲a̲t̲i̲o̲n̲.̲e̲m̲b̲e̲d̲d̲e̲d̲,̲ ̲f̲a̲i̲l̲i̲n̲g̲,̲
+  ̲ ̲ ̲ ̲ ̲I̲n̲v̲o̲c̲a̲t̲i̲o̲n̲.̲r̲u̲n̲,̲ ̲I̲n̲v̲o̲c̲a̲t̲i̲o̲n̲.̲i̲n̲i̲t̲i̲a̲l̲,̲ ̲b̲i̲n̲d̲R̲e̲g̲i̲s̲t̲e̲r̲s̲,̲ ̲e̲x̲e̲c̲,̲ ̲r̲u̲n̲,̲ ̲s̲t̲e̲p̲,̲ ̲e̲v̲a̲l̲_̲a̲l̲g̲,̲
+  ̲ ̲ ̲ ̲ ̲e̲v̲a̲l̲O̲p̲_̲u̲n̲f̲o̲l̲d̲]̲ ̲a̲t̲ ̲r̲a̲n̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Triton.FP.Structural.MaterializedRegression.address_selects_owner: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.Structural.MaterializedRegression.successor_consumes_materialized_value: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.Structural.MaterializedRegression.delayed_materialization_changes_result: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.Structural.MaterializedRegression.discrete_cells_unchanged: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.Structural.MaterializedRegression.exact_exterior_cell: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.Structural.MaterializedRegression.fresh_entry_and_abi: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.Structural.MaterializedRegression.successor_safety_uses_actual_value: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.Structural.MaterializedRegression.failed_source_rejected: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.Structural.MaterializedInvocation.finish_embed: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.Structural.materializedScheduleSafe_append: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.Structural.MaterializedProgramIO.ImplementsOnCells.intro: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

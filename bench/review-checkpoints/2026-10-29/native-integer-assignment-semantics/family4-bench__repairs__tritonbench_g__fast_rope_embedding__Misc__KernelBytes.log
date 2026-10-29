@@ -1,0 +1,23 @@
+VeriTile.Bench.Repairs.FastRopeEmbedding.KernelContract.decode_encode: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FastRopeEmbedding.KernelContract.read32_byte: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRopeEmbedding.KernelContract.byte_initial: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FastRopeEmbedding.KernelContract.coordinate_bytes: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FastRopeEmbedding.KernelContract.bytes_frame: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FastRopeEmbedding.KernelContract.byte_store: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FastRopeEmbedding.KernelContract.tensor_bytes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRopeEmbedding.KernelContract.tensor_byte_word: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

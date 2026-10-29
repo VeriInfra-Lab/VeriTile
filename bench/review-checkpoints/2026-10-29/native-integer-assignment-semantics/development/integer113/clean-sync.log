@@ -1,0 +1,6 @@
+Updating de7680b75..9e9344d6b
+Fast-forward
+Auto packing the repository in background for optimum performance.
+See "git help gc" for manual housekeeping.
+ .../token_attn_reduceV/Proofs/SourceIdentity.lean       | 17 +++++++++++------
+ 1 file changed, 11 insertions(+), 6 deletions(-)

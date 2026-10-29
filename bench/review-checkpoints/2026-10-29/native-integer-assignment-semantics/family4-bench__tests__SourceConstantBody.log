@@ -1,0 +1,6 @@
+VeriTile.Tests.SourceConstantBody.same_complete_source: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.SourceConstantBody.statement_count: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

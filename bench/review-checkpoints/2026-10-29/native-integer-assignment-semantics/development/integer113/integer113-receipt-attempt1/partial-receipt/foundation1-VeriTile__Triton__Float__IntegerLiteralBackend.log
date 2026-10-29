@@ -1,0 +1,55 @@
+/tmp/integer113-frontend/VeriTile/Triton/Float/IntegerLiteralBackend.lean:13:4: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  Decidable (∃ n, ↑n = x)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+/tmp/integer113-frontend/VeriTile/Triton/Float/IntegerLiteralBackend.lean:21:85: error: unsolved goals
+rest : Algebra (Value Format.fp32)
+p : Option ComputeDType
+d : FloatDType
+h : fp32Context p d = true
+n : ℤ
+existsInt : ∃ m, ↑m = ↑n
+chosen : Classical.choose existsInt = n
+⊢ sorry () = round Format.fp32 Config.ieeeValue ↑n
+/tmp/integer113-frontend/VeriTile/Triton/Float/IntegerLiteralBackend.lean:26:8: warning: declaration uses `sorry`
+/tmp/integer113-frontend/VeriTile/Triton/Float/IntegerLiteralBackend.lean:26:29: warning: This simp argument is unused:
+  existsInt
+
+Hint: Omit it from the simp argument list.
+  simp [̵i̵n̵t̵e̵g̵e̵r̵L̵i̵t̵e̵r̵a̵l̵F̵P̵3̵2̵,̵h̵,̵e̵x̵i̵s̵t̵s̵I̵n̵t̵,̵c̵h̵o̵s̵e̵n̵]̵[̲i̲n̲t̲e̲g̲e̲r̲L̲i̲t̲e̲r̲a̲l̲F̲P̲3̲2̲,̲ ̲h̲,̲ ̲c̲h̲o̲s̲e̲n̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-frontend/VeriTile/Triton/Float/IntegerLiteralBackend.lean:26:39: warning: This simp argument is unused:
+  chosen
+
+Hint: Omit it from the simp argument list.
+  simp [̵i̵n̵t̵e̵g̵e̵r̵L̵i̵t̵e̵r̵a̵l̵F̵P̵3̵2̵,̵h̵,̵e̵x̵i̵s̵t̵s̵I̵n̵t̵,̵c̵h̵o̵s̵e̵n̵]̵[̲i̲n̲t̲e̲g̲e̲r̲L̲i̲t̲e̲r̲a̲l̲F̲P̲3̲2̲,̲ ̲h̲,̲ ̲e̲x̲i̲s̲t̲s̲I̲n̲t̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-frontend/VeriTile/Triton/Float/IntegerLiteralBackend.lean:31:2: error: 'change' tactic failed, pattern
+  integerLiteralFP32 rest p d ↑0 = ?m.9
+is not definitionally equal to target
+  integerLiteralFP32 rest p d 0 = Value.zero Format.fp32
+/tmp/integer113-frontend/VeriTile/Triton/Float/IntegerLiteralBackend.lean:38:2: error: 'change' tactic failed, pattern
+  integerLiteralFP32 rest p d ↑1 = ?m.11
+is not definitionally equal to target
+  integerLiteralFP32 rest p d 1 = Value.ofBits Format.fp32 1065353216
+/tmp/integer113-frontend/VeriTile/Triton/Float/IntegerLiteralBackend.lean:45:58: error: unsolved goals
+rest : Algebra (Value Format.fp32)
+p : Option ComputeDType
+d : FloatDType
+x : ℝ
+h : ¬∃ n, ↑n = x
+⊢ fp32Context p d = true → sorry () = rest.literal p d x
+/tmp/integer113-frontend/VeriTile/Triton/Float/IntegerLiteralBackend.lean:46:8: warning: declaration uses `sorry`
+/tmp/integer113-frontend/VeriTile/Triton/Float/IntegerLiteralBackend.lean:46:27: warning: This simp argument is unused:
+  h
+
+Hint: Omit it from the simp argument list.
+  simp [integerLiteralFP32,̵h̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-frontend/VeriTile/Triton/Float/IntegerLiteralBackend.lean:48:0: error: VeriTile.Triton.FP.Software.integerLiteralFP32_int: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/integer113-frontend/VeriTile/Triton/Float/IntegerLiteralBackend.lean:49:0: error: VeriTile.Triton.FP.Software.integerLiteralFP32_zero: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/integer113-frontend/VeriTile/Triton/Float/IntegerLiteralBackend.lean:50:0: error: VeriTile.Triton.FP.Software.integerLiteralFP32_one: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/integer113-frontend/VeriTile/Triton/Float/IntegerLiteralBackend.lean:51:0: error: VeriTile.Triton.FP.Software.integerLiteralFP32_unsupported: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

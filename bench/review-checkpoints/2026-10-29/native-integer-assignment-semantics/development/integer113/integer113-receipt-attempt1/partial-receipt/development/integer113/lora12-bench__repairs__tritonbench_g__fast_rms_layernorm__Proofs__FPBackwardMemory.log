@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.FastRmsLayernorm.FPBackwardMemory.complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

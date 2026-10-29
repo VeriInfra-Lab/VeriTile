@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.IOResults.forward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.IOResults.backward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,10 @@
+VeriTile.Triton.FP.CastExact.cast_same_of_decode_finite: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.CastExact.cast_same_of_finite: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.CastExact.cast_same: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+VeriTile.Triton.FP.CastExact.cast_same_idempotent: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

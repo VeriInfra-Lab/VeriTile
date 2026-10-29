@@ -1,0 +1,64 @@
+/tmp/integer113-frontend/bench/tritonbench_g/swiglu_backward/Proofs/WholeTile.lean:67:40: warning: unused variable `M`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/integer113-frontend/bench/tritonbench_g/swiglu_backward/Proofs/WholeTile.lean:67:56: warning: unused variable `c`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/integer113-frontend/bench/tritonbench_g/swiglu_backward/Proofs/WholeTile.lean:68:5: warning: unused variable `B`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/integer113-frontend/bench/tritonbench_g/swiglu_backward/Proofs/WholeTile.lean:94:71: warning: This simp argument is unused:
+  evalOffsets
+
+Hint: Omit it from the simp argument list.
+  simp (maxSteps := 900000) [Layout.source, typedKernel, template, typedLoad, typedStore,
+        loadAddress, storeAddress, recomputedValue, ComputeKernel.surfaceBody,
+  ̵  ̵ ̵ ̵ ̵ ̵run, step,
+  ̲  ̲ ̲ ̲ ̲ ̲FP.Structural.evalExpr, evalComputeOp, evalOp_unfold, evalO̵f̵f̵s̵e̵t̵s̵,̵ ̵e̵v̵a̵l̵Deltas, store,
+  ̵  ̵ ̵ ̵ ̵ ̵Option.bind,
+  ̲  ̲ ̲ ̲ ̲ ̲ComputeDType.eraseDType, numeric, bop, natLt,
+  ̵  ̵ ̵ ̵ ̵ ̵tileState, ofFloat, toFloat, TileShape.axisDim,
+  ̲  ̲ ̲ ̲ ̲ ̲Region.cast, State.setReg]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-frontend/bench/tritonbench_g/swiglu_backward/Proofs/WholeTile.lean:94:84: warning: This simp argument is unused:
+  evalDeltas
+
+Hint: Omit it from the simp argument list.
+  simp (maxSteps := 900000) [Layout.source, typedKernel, template, typedLoad, typedStore,
+        loadAddress, storeAddress, recomputedValue, ComputeKernel.surfaceBody,
+  ̵  ̵ ̵ ̵ ̵ ̵run, step,
+  ̲  ̲ ̲ ̲ ̲ ̲FP.Structural.evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, e̵v̵a̵l̵D̵e̵l̵t̵a̵s,̵ ̵s̵tore,
+  ̵  ̵ ̵ ̵ ̵ ̵Option.bind,
+  ̲  ̲ ̲ ̲ ̲ ̲ComputeDType.eraseDType, numeric, bop, natLt,
+  ̵  ̵ ̵ ̵ ̵ ̵tileState, ofFloat, toFloat, TileShape.axisDim,
+  ̲  ̲ ̲ ̲ ̲ ̲Region.cast, State.setReg]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-frontend/bench/tritonbench_g/swiglu_backward/Proofs/WholeTile.lean:96:35: warning: This simp argument is unused:
+  TileShape.axisDim
+
+Hint: Omit it from the simp argument list.
+  simp (maxSteps := 900000) [Layout.source, typedKernel, template, typedLoad, typedStore,
+        loadAddress, storeAddress, recomputedValue, ComputeKernel.surfaceBody,
+  ̵  ̵ ̵ ̵ ̵ ̵run, step,
+  ̲  ̲ ̲ ̲ ̲ ̲FP.Structural.evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, evalDeltas, store,
+        Option.bind, ComputeDType.eraseDType, numeric, bop, natLt,
+  ̵  ̵ ̵ ̵ ̵ ̵tileState, ofFloat, toFloat,
+  ̲ T̵i̵l̵e̵S̵h̵a̵p̵e̵.̵a̵x̵i̵s̵D̵i̵m̵,̵  ̲ ̲ ̲ ̲Region.cast, State.setReg]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-frontend/bench/tritonbench_g/swiglu_backward/Proofs/WholeTile.lean:174:36: warning: This simp argument is unused:
+  store
+
+Hint: Omit it from the simp argument list.
+  simp only [sourceRun, st̵o̵r̵e̵,̵ ̵s̵catter_mem]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-frontend/bench/tritonbench_g/swiglu_backward/Proofs/WholeTile.lean:199:19: warning: This simp argument is unused:
+  raw
+
+Hint: Omit it from the simp argument list.
+  simp [writeCell, r̵a̵w̵,̵ ̵active]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

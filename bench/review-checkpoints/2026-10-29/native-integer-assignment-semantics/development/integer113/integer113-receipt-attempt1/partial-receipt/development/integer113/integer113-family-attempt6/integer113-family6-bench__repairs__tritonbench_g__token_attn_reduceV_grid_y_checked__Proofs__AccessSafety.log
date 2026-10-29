@@ -1,0 +1,12 @@
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/token_attn_reduceV_grid_y_checked/Proofs/AccessSafety.lean:63:4: error: Type mismatch: After simplification, term
+  hb.values nonzero (n + ↑i) hi d
+ has type
+  valueOffset p s ↑d + Cell.read TileDType.nat (s.mem p.tokens.cast (gatherOffset p s (n + ↑i))) * p.valueBatchStride <
+    bounds p.value
+but is expected to have type
+  valueOffset p s ↑d +
+      Cell.read TileDType.nat
+          (s.mem { name := p.tokens.name } (Int.toNat (↑(gatherOffset p s ↑i) + ↑n * ↑p.requestTokenStride))) *
+        p.valueBatchStride <
+    bounds { name := p.value.name }
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/token_attn_reduceV_grid_y_checked/Proofs/AccessSafety.lean:114:0: error: VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.SourceSafety.source_safe: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

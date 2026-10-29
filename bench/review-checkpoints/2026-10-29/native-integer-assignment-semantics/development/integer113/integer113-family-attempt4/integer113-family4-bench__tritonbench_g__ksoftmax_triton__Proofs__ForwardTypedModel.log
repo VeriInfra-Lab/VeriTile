@@ -1,0 +1,3 @@
+VeriTile.Bench.TritonBenchG.KsoftmaxTriton.Forward.TypedExecution.initial_mask_layout: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

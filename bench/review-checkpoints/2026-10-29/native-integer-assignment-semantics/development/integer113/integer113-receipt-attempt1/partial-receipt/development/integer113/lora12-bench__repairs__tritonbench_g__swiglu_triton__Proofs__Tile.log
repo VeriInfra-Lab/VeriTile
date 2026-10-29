@@ -1,0 +1,119 @@
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/swiglu_triton/Proofs/Tile.lean:42:6: warning: This simp argument is unused:
+  typedFwd
+
+Hint: Omit it from the simp argument list.
+  simp (maxSteps := 900000) [source, forwardKernel, backwardKernel, t̵y̵p̵e̵d̵F̵w̵d̵,̵ ̵typedBwd, typedBwd_fp32_fp32,
+  ̲  ̲ ̲ ̲ ̲ ̲ComputeKernel.surfaceBody, run, step, FP.Structural.evalExpr, evalComputeOp, evalOp_unfold,
+        evalOffsets, evalDeltas, store, Option.bind, ComputeDType.eraseDType, numeric, bop, natLt,
+  ̲  ̲ ̲ ̲ ̲ ̲rowState, ofFloat, toFloat, TileShape.axisDim, Region.cast, State.setReg]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/swiglu_triton/Proofs/Tile.lean:42:16: warning: This simp argument is unused:
+  typedBwd
+
+Hint: Omit it from the simp argument list.
+  simp (maxSteps := 900000) [source, forwardKernel, backwardKernel,
+  ̵  ̵ ̵ ̵ ̵ ̵typedFwd, typedBwd_̲f̲p̲3̲2̲_̲f̲p̲3̲2̲,
+  ̲ t̵y̵p̵e̵d̵B̵w̵d̵_̵f̵p̵3̵2̵_̵f̵p̵3̵2̵,̵  ̲ ̲ ̲ ̲ComputeKernel.surfaceBody,
+  ̵  ̵ ̵ ̵ ̵ ̵run, step, FP.Structural.evalExpr, evalComputeOp, evalOp_unfold,
+        evalOffsets, evalDeltas, store, Option.bind, ComputeDType.eraseDType,
+  ̵  ̵ ̵ ̵ ̵ ̵numeric, bop, natLt,
+  ̲  ̲ ̲ ̲ ̲ ̲rowState, ofFloat, toFloat, TileShape.axisDim,
+  ̵  ̵ ̵ ̵ ̵ ̵Region.cast, State.setReg]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/swiglu_triton/Proofs/Tile.lean:42:26: warning: This simp argument is unused:
+  typedBwd_fp32_fp32
+
+Hint: Omit it from the simp argument list.
+  simp (maxSteps := 900000) [source, forwardKernel, backwardKernel,
+  ̵  ̵ ̵ ̵ ̵ ̵typedFwd, typedBwd,
+  ̲ t̵y̵p̵e̵d̵B̵w̵d̵_̵f̵p̵3̵2̵_̵f̵p̵3̵2̵,̵  ̲ ̲ ̲ ̲ComputeKernel.surfaceBody,
+  ̵  ̵ ̵ ̵ ̵ ̵run, step, FP.Structural.evalExpr, evalComputeOp, evalOp_unfold,
+        evalOffsets, evalDeltas, store, Option.bind, ComputeDType.eraseDType,
+  ̵  ̵ ̵ ̵ ̵ ̵numeric, bop, natLt,
+  ̲  ̲ ̲ ̲ ̲ ̲rowState, ofFloat, toFloat, TileShape.axisDim,
+  ̵  ̵ ̵ ̵ ̵ ̵Region.cast, State.setReg]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/swiglu_triton/Proofs/Tile.lean:44:6: warning: This simp argument is unused:
+  evalOffsets
+
+Hint: Omit it from the simp argument list.
+  simp (maxSteps := 900000) [source, forwardKernel, backwardKernel,
+  ̵  ̵ ̵ ̵ ̵ ̵typedFwd, typedBwd,
+  ̲  ̲ ̲ ̲ ̲ ̲typedBwd_fp32_fp32, ComputeKernel.surfaceBody,
+  ̵  ̵ ̵ ̵ ̵ ̵run, step, FP.Structural.evalExpr,
+  ̲  ̲ ̲ ̲ ̲ ̲evalComputeOp, evalOp_unfold,
+  ̵  ̵ ̵ ̵ ̵ ̵evalO̵f̵f̵s̵e̵t̵s̵,̵ ̵e̵v̵a̵l̵Deltas, store, Option.bind, ComputeDType.eraseDType,
+        numeric, bop, natLt, rowState, ofFloat, toFloat, TileShape.axisDim,
+  ̵  ̵ ̵ ̵ ̵ ̵Region.cast, State.setReg]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/swiglu_triton/Proofs/Tile.lean:44:19: warning: This simp argument is unused:
+  evalDeltas
+
+Hint: Omit it from the simp argument list.
+  simp (maxSteps := 900000) [source, forwardKernel, backwardKernel,
+  ̵  ̵ ̵ ̵ ̵ ̵typedFwd, typedBwd,
+  ̲  ̲ ̲ ̲ ̲ ̲typedBwd_fp32_fp32, ComputeKernel.surfaceBody,
+  ̵  ̵ ̵ ̵ ̵ ̵run, step, FP.Structural.evalExpr,
+  ̲  ̲ ̲ ̲ ̲ ̲evalComputeOp, evalOp_unfold,
+  ̵  ̵ ̵ ̵ ̵ ̵evalOffsets, e̵v̵a̵l̵D̵e̵l̵t̵a̵s,̵ ̵s̵tore, Option.bind, ComputeDType.eraseDType,
+        numeric, bop, natLt, rowState, ofFloat, toFloat, TileShape.axisDim,
+  ̵  ̵ ̵ ̵ ̵ ̵Region.cast, State.setReg]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/swiglu_triton/Proofs/Tile.lean:45:55: warning: This simp argument is unused:
+  TileShape.axisDim
+
+Hint: Omit it from the simp argument list.
+  simp (maxSteps := 900000) [source, forwardKernel, backwardKernel,
+  ̵  ̵ ̵ ̵ ̵ ̵typedFwd, typedBwd,
+  ̲  ̲ ̲ ̲ ̲ ̲typedBwd_fp32_fp32, ComputeKernel.surfaceBody,
+  ̵  ̵ ̵ ̵ ̵ ̵run, step, FP.Structural.evalExpr,
+  ̲  ̲ ̲ ̲ ̲ ̲evalComputeOp, evalOp_unfold,
+  ̵  ̵ ̵ ̵ ̵ ̵evalOffsets, evalDeltas, store, Option.bind,
+  ̲  ̲ ̲ ̲ ̲ ̲ComputeDType.eraseDType,
+  ̵  ̵ ̵ ̵ ̵ ̵numeric, bop, natLt, rowState, ofFloat, toFloat, T̵i̵l̵e̵S̵h̵a̵p̵e̵.̵a̵x̵i̵s̵D̵i̵m̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵Region.cast,
+  ̲  ̲ ̲ ̲ ̲ ̲State.setReg]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/swiglu_triton/Proofs/Tile.lean:71:43: warning: This simp argument is unused:
+  store
+
+Hint: Omit it from the simp argument list.
+  simp only [sourceRun, st̵o̵r̵e̵,̵ ̵s̵catter_mem]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/swiglu_triton/Proofs/Tile.lean:95:19: warning: This simp argument is unused:
+  raw
+
+Hint: Omit it from the simp argument list.
+  simp [writeCell, r̵a̵w̵,̵ ̵active]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/swiglu_triton/Proofs/Tile.lean:114:40: warning: This simp argument is unused:
+  if_false
+
+Hint: Omit it from the simp argument list.
+  simp only [memory, if_f̵a̵l̵s̵e̵,̵ ̵i̵f̵_̵true]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/swiglu_triton/Proofs/Tile.lean:128:53: warning: This simp argument is unused:
+  if_false
+
+Hint: Omit it from the simp argument list.
+  simp only [memory, if_f̵a̵l̵s̵e̵,̵ ̵i̵f̵_̵true]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.SwigluTriton.Tile.sourceRun: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.SwigluTriton.Tile.readback: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.SwigluTriton.Tile.frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,158 @@
+[
+  {
+    "python_function": "_bgmv_expand_kernel",
+    "lean_definition": "fullSource",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "N": "N",
+      "K": "K",
+      "xm_stride": "xm_stride",
+      "xk_stride": "xk_stride",
+      "l0_stride": "l0_stride",
+      "lora_k_stride": "lora_k_stride",
+      "lora_n_stride": "lora_n_stride",
+      "cm_stride": "cm_stride",
+      "cn_stride": "cn_stride"
+    },
+    "statements": 13,
+    "runtime_parameters": {
+      "N": "i32",
+      "K": "i32",
+      "xm_stride": "i32",
+      "xk_stride": "i32",
+      "l0_stride": "i32",
+      "lora_k_stride": "i32",
+      "lora_n_stride": "i32",
+      "cm_stride": "i32",
+      "cn_stride": "i32"
+    },
+    "constexpr_parameters": [
+      "ADD_INPUTS",
+      "BLOCK_K",
+      "BLOCK_N",
+      "CAST_TYPE",
+      "EVEN_K",
+      "SPLIT_N"
+    ],
+    "profile_variant": "signed_int64_indices"
+  },
+  {
+    "python_function": "_bgmv_expand_unit_split_kernel",
+    "lean_definition": "unitSplitSource",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "N": "N",
+      "K": "K",
+      "xm_stride": "xm_stride",
+      "xk_stride": "xk_stride",
+      "l0_stride": "l0_stride",
+      "lora_k_stride": "lora_k_stride",
+      "lora_n_stride": "lora_n_stride",
+      "cm_stride": "cm_stride",
+      "cn_stride": "cn_stride"
+    },
+    "statements": 13,
+    "runtime_parameters": {
+      "N": "i32",
+      "K": "i32",
+      "xm_stride": "i32",
+      "xk_stride": "i32",
+      "l0_stride": "i32",
+      "lora_k_stride": "i32",
+      "lora_n_stride": "i32",
+      "cm_stride": "i32",
+      "cn_stride": "i32"
+    },
+    "constexpr_parameters": [
+      "ADD_INPUTS",
+      "BLOCK_K",
+      "BLOCK_N",
+      "CAST_TYPE",
+      "EVEN_K",
+      "SPLIT_N"
+    ],
+    "profile_variant": "signed_int64_indices"
+  },
+  {
+    "python_function": "_bgmv_expand_kernel",
+    "lean_definition": "fullSourceInt32",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "N": "N",
+      "K": "K",
+      "xm_stride": "xm_stride",
+      "xk_stride": "xk_stride",
+      "l0_stride": "l0_stride",
+      "lora_k_stride": "lora_k_stride",
+      "lora_n_stride": "lora_n_stride",
+      "cm_stride": "cm_stride",
+      "cn_stride": "cn_stride"
+    },
+    "statements": 13,
+    "runtime_parameters": {
+      "N": "i32",
+      "K": "i32",
+      "xm_stride": "i32",
+      "xk_stride": "i32",
+      "l0_stride": "i32",
+      "lora_k_stride": "i32",
+      "lora_n_stride": "i32",
+      "cm_stride": "i32",
+      "cn_stride": "i32"
+    },
+    "constexpr_parameters": [
+      "ADD_INPUTS",
+      "BLOCK_K",
+      "BLOCK_N",
+      "CAST_TYPE",
+      "EVEN_K",
+      "SPLIT_N"
+    ],
+    "profile_variant": "signed_int32_indices"
+  },
+  {
+    "python_function": "_bgmv_expand_unit_split_kernel",
+    "lean_definition": "unitSplitSourceInt32",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "N": "N",
+      "K": "K",
+      "xm_stride": "xm_stride",
+      "xk_stride": "xk_stride",
+      "l0_stride": "l0_stride",
+      "lora_k_stride": "lora_k_stride",
+      "lora_n_stride": "lora_n_stride",
+      "cm_stride": "cm_stride",
+      "cn_stride": "cn_stride"
+    },
+    "statements": 13,
+    "runtime_parameters": {
+      "N": "i32",
+      "K": "i32",
+      "xm_stride": "i32",
+      "xk_stride": "i32",
+      "l0_stride": "i32",
+      "lora_k_stride": "i32",
+      "lora_n_stride": "i32",
+      "cm_stride": "i32",
+      "cn_stride": "i32"
+    },
+    "constexpr_parameters": [
+      "ADD_INPUTS",
+      "BLOCK_K",
+      "BLOCK_N",
+      "CAST_TYPE",
+      "EVEN_K",
+      "SPLIT_N"
+    ],
+    "profile_variant": "signed_int32_indices"
+  }
+]

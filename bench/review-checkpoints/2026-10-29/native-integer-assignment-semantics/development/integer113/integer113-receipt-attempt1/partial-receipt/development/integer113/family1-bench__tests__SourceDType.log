@@ -1,0 +1,12 @@
+VeriTile.Tests.SourceDType.fp8_formats_are_distinct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.SourceDType.integer_keeps_clamps_and_cast: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.SourceDType.half_keeps_store_rounding: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.SourceDType.both_arms_and_mask_keep_cast: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

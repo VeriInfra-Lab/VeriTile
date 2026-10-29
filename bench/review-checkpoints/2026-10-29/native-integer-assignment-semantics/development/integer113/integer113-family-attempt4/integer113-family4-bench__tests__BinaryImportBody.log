@@ -1,0 +1,3 @@
+VeriTile.Tests.BinaryImportBody.complete_expansion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

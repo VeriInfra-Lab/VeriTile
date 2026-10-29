@@ -1,0 +1,36 @@
+[
+  {
+    "python_function": "puzzle1_kernel",
+    "lean_definition": "kernel",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "N": "n"
+    },
+    "statements": 7,
+    "runtime_parameters": {
+      "N": "i32"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE"
+    ]
+  },
+  {
+    "python_function": "puzzle1_commuted_kernel",
+    "lean_definition": "commutedKernel",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "N": "n"
+    },
+    "statements": 8,
+    "runtime_parameters": {
+      "N": "i32"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE"
+    ]
+  }
+]

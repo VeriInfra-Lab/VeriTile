@@ -1,0 +1,9 @@
+VeriTile.Bench.Repairs.RopeEmbedding.RealBinding.input: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.RopeEmbedding.RealBinding.coefficients: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.RopeEmbedding.RealBinding.result: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

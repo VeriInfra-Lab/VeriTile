@@ -1,0 +1,4 @@
+QuantizeIntegerStage.missing_llrint_fails: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantizeIntegerStage.llrint_executes_word: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantizeIntegerStage.byte_word: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantizeIntegerStage.fold_memory: axiom footprint ⊆ standard base ✓  ([Quot.sound, propext])

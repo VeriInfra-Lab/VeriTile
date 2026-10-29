@@ -1,0 +1,31 @@
+VeriTile.Bench.Repairs.FastRmsLayernorm.NativeGraph.mapWords_shape: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.NativeGraph.bits_shape: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.NativeGraph.epsilon_shape: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.NativeGraph.bits_eval: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.NativeGraph.epsilon_eval: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.NativeGraph.compiled_encode: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.NativeGraph.reduction_lane_coverage: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FastRmsLayernorm.NativeGraph.reduction_complete: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.Repairs.FastRmsLayernorm.NativeGraph.weight_fusion_disabled: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.FastRmsLayernorm.NativeGraph.compiled_expression: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.NativeGraph.eval: definition does not reference [VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.forward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.backward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.weightBackward] — non-circular ✓
+Axiom audit: headlines=0
+headlines: []

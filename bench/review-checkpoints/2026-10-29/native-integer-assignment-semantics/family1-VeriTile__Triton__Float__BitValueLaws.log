@@ -1,0 +1,11 @@
+VeriTile.Triton.FP.BitValueLaws.pow2_pos: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+VeriTile.Triton.FP.BitValueLaws.scaled_exponent_estimate: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.BitValueLaws.exact_scale_step: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Triton.FP.BitValueLaws.round_scaled: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.BitValueLaws.round_of_decode_finite: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

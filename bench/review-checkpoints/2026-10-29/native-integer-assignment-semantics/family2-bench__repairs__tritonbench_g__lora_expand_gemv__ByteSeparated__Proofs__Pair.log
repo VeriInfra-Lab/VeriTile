@@ -1,0 +1,27 @@
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Proofs/Pair.lean:41:0: error: Not a definitional equality: the left-hand side
+  active (unitSplitSource g.parameters)
+is not definitionally equal to the right-hand side
+  before g ++ candidateSite g :: after g
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Proofs/Pair.lean:42:80: error: Type mismatch
+  rfl
+has type
+  ?m.8 = ?m.8
+but is expected to have type
+  active (unitSplitSource g.parameters) = before g ++ candidateSite g :: after g
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Proofs/Pair.lean:45:60: error: unsolved goals
+A : FP.Structural.Algebra Word
+g : Geometry
+positive : 0 < g.N
+s : State Word
+one : (g.N + g.N - 1) / g.N = 1
+⊢ (s.setReg "split_n_length" TileDType.nat [] fun i => 1) = s.setReg "split_n_length" TileDType.int [] fun x => 1
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.Pair.candidate_index_profiles: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.Pair.original_source: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Proofs/Pair.lean:216:0: error: VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.Pair.kernel_run: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Proofs/Pair.lean:217:0: error: VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.Pair.kernel_safe: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Proofs/Pair.lean:218:0: error: VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.Pair.equivalent: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Proofs/Pair.lean:219:0: error: VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.Pair.execute_same: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

@@ -1,0 +1,32 @@
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/bgmv_expand_slice/Proofs/Direct/Physical.lean:47:27: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.Native.TensorWindow.active_byte: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.Native.TensorWindow.pointer_word: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.Native.output_inside: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.Native.metadata_span: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.Native.active_addresses: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.Native.caller_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.Native.interrupted_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.Native.failure_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.Native.empty: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+Axiom audit: headlines=0
+headlines: []

@@ -1,0 +1,8 @@
+VeriTile.Bench.Repairs.FastRopeEmbedding.KernelContract.store_physical: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FastRopeEmbedding.KernelContract.physical_tensor: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.FastRopeEmbedding.KernelContract.physical_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

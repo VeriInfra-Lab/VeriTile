@@ -1,0 +1,6 @@
+VeriTile.Tests.IntegerLiteralAssignmentBody.historical_integer_is_floating_literal: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.IntegerLiteralAssignmentBody.inline_integer_remains_weak: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

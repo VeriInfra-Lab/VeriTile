@@ -1,0 +1,6 @@
+VeriTile.Bench.TritonBenchG.KsoftmaxTriton.Forward.Typed.fp32_projects: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.KsoftmaxTriton.Forward.Typed.io_signature: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,6 @@
+VeriTile.Tests.BoolMaskMultiply.multiplication_retained: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.BoolMaskMultiply.vector_multiplication_retained: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

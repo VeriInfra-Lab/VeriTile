@@ -1,0 +1,7 @@
+{
+  "status": "INTERRUPTED",
+  "start": 1793257987.3527365,
+  "results": [],
+  "end": 1793258309.4581075,
+  "reason": "Owned proof attempt interrupted after a bounded diagnostic isolated reverse-cast simp normalization; replace with a local arithmetic lemma. No source acceptance claimed."
+}

@@ -1,0 +1,6 @@
+VeriTile.Tests.ConstexprBody.tuple_and_constexpr: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.ConstexprBody.fp64_constexpr: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

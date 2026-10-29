@@ -1,0 +1,6 @@
+VeriTile.Tests.SignedInteger16Contexts.pointer_cast_before_nat: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.SignedInteger16Contexts.cond_signed: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

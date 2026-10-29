@@ -1,0 +1,9 @@
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.Window.active_byte: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.FP32Binding.pointer_nat: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.FP32Binding.logical_read: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+Axiom audit: headlines=0
+headlines: []

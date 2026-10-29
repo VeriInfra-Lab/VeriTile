@@ -1,0 +1,9 @@
+VeriTile.Bench.Repairs.AddValue.Contiguous.Native.pointer_exact: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AddValue.Contiguous.Native.read_ok: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AddValue.Contiguous.Native.write_ok: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

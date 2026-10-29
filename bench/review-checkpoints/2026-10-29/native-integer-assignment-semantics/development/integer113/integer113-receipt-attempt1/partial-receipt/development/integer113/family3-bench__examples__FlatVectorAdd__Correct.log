@@ -1,0 +1,11 @@
+VeriTile.Bench.Examples.FlatVectorAdd.add_kernel_masked_optimized_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Examples.FlatVectorAdd.add_kernel_masked_optimized_correctness: statement's project surface ⊆ allowlist ✓
+VeriTile.Bench.Examples.FlatVectorAdd.add_kernel_masked_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Examples.FlatVectorAdd.add_kernel_masked_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Examples.FlatVectorAdd.add_kernel_masked_correctness: statement's project surface ⊆ allowlist ✓

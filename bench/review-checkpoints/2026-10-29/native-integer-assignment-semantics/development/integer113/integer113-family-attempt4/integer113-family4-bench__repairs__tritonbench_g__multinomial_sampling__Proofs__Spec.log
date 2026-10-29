@@ -1,0 +1,7 @@
+VeriTile.Bench.Repairs.MultinomialSampling.Spec.result_exists_unique: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MultinomialSampling.Spec.singleton: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MultinomialSampling.Spec.Result: definition does not reference [VeriTile.Triton.FP.Structural.exec] — non-circular ✓

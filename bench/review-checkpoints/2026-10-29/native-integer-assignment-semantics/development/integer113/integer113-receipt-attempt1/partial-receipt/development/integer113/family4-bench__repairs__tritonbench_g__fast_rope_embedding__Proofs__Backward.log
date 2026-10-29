@@ -1,0 +1,11 @@
+VeriTile.Bench.Repairs.FastRopeEmbedding.cache_objects: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.FastRopeEmbedding.whole_backward_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRopeEmbedding.whole_backward_fp32: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRopeEmbedding.BackwardPreparation: definition does not reference [VeriTile.Bench.Repairs.FastRopeEmbedding.backwardInvoke,
+ VeriTile.Bench.Repairs.FastRopeEmbedding.backwardResult,
+ VeriTile.Bench.Repairs.RopeEmbedding.Native.entry,
+ VeriTile.Bench.Repairs.RopeEmbedding.Memory.run] — non-circular ✓

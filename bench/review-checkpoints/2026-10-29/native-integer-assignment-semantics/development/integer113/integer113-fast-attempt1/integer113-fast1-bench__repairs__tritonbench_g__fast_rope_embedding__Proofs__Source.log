@@ -1,0 +1,330 @@
+/tmp/integer113-fast-frontend/bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Source.lean:29:5: error(lean.unknownIdentifier): Unknown constant `VeriTile.Triton.ComputeStmt.forRangeIntDyn`
+
+Note: Inferred this name from the expected resulting type of `.forRangeIntDyn`:
+  ComputeStmt
+/tmp/integer113-fast-frontend/bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Source.lean:34:7: error(lean.unknownIdentifier): Unknown constant `VeriTile.Triton.ComputeStmt.forRangeIntDyn`
+
+Note: Inferred this name from the expected resulting type of `.forRangeIntDyn`:
+  ComputeStmt
+/tmp/integer113-fast-frontend/bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Source.lean:61:12: error: Tactic `rfl` failed: The left-hand side
+  fun i => if ↑(s.pids 1) * 4 + 4 < ↑p.heads then ↑(s.pids 1) * 4 + 4 else ↑p.heads
+is not definitionally equal to the right-hand side
+  fun x => if s.pids 1 * 4 + 4 < p.heads then ↑(s.pids 1 * 4 + 4) else ↑p.heads
+
+case false.refine_3
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+p : Parameters
+s : State α
+⊢ (fun i => if ↑(s.pids 1) * 4 + 4 < ↑p.heads then ↑(s.pids 1) * 4 + 4 else ↑p.heads) = fun x =>
+    if s.pids 1 * 4 + 4 < p.heads then ↑(s.pids 1 * 4 + 4) else ↑p.heads
+/tmp/integer113-fast-frontend/bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Source.lean:61:12: error: Tactic `rfl` failed: The left-hand side
+  fun i => if ↑(s.pids 1) * 4 + 4 < ↑p.heads then ↑(s.pids 1) * 4 + 4 else ↑p.heads
+is not definitionally equal to the right-hand side
+  fun x => if s.pids 1 * 4 + 4 < p.heads then ↑(s.pids 1 * 4 + 4) else ↑p.heads
+
+case true.refine_3
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+p : Parameters
+s : State α
+⊢ (fun i => if ↑(s.pids 1) * 4 + 4 < ↑p.heads then ↑(s.pids 1) * 4 + 4 else ↑p.heads) = fun x =>
+    if s.pids 1 * 4 + 4 < p.heads then ↑(s.pids 1 * 4 + 4) else ↑p.heads
+/tmp/integer113-fast-frontend/bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Source.lean:65:102: error: unsolved goals
+case false.refine_2
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+p : Parameters
+row head : ℕ
+cs ss : Lane p → α
+s : State α
+h : Context p row cs ss s
+⊢ run M (sorry ())
+      { mem := s.mem,
+        regs := fun d sh n =>
+          if n = "k" then
+            if h : TileDType.int = d then if h_1 : sh = [] then some (⋯ ▸ ⋯ ▸ fun x => ↑head) else none else none
+          else s.regs d sh n,
+        pids := s.pids, numPids := s.numPids, undef := s.undef } =
+    some ?«false».refine_1
+
+case false.refine_1
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+p : Parameters
+row head : ℕ
+cs ss : Lane p → α
+s : State α
+h : Context p row cs ss s
+⊢ State α
+
+case true.refine_2
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+p : Parameters
+row head : ℕ
+cs ss : Lane p → α
+s : State α
+h : Context p row cs ss s
+⊢ run M (sorry ())
+      { mem := s.mem,
+        regs := fun d sh n =>
+          if n = "k" then
+            if h : TileDType.int = d then if h_1 : sh = [] then some (⋯ ▸ ⋯ ▸ fun x => ↑head) else none else none
+          else s.regs d sh n,
+        pids := s.pids, numPids := s.numPids, undef := s.undef } =
+    some ?«true».refine_1
+
+case true.refine_1
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+p : Parameters
+row head : ℕ
+cs ss : Lane p → α
+s : State α
+h : Context p row cs ss s
+⊢ State α
+/tmp/integer113-fast-frontend/bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Source.lean:69:11: warning: declaration uses `sorry`
+/tmp/integer113-fast-frontend/bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Source.lean:81:2: error: unsolved goals
+case left.false.row
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+p : Parameters
+row head : ℕ
+cs ss : Lane p → α
+s : State α
+h : Context p row cs ss s
+⊢ sorry.regs TileDType.nat [] "row_position" = some fun x => row
+
+case left.false.columns
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+p : Parameters
+row head : ℕ
+cs ss : Lane p → α
+s : State α
+h : Context p row cs ss s
+⊢ sorry.regs TileDType.nat [p.width] "col_offsets" = some fun i => ↑i.1
+
+case left.false.half
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+p : Parameters
+row head : ℕ
+cs ss : Lane p → α
+s : State α
+h : Context p row cs ss s
+⊢ sorry.regs TileDType.nat [] "half_head_dim" = some fun x => p.dimension / 2
+
+case left.false.mask
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+p : Parameters
+row head : ℕ
+cs ss : Lane p → α
+s : State α
+h : Context p row cs ss s
+⊢ sorry.regs TileDType.bool [p.width] "mask" = some fun i => decide (active p i)
+
+case left.false.cosine
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+p : Parameters
+row head : ℕ
+cs ss : Lane p → α
+s : State α
+h : Context p row cs ss s
+⊢ sorry.regs TileDType.real [p.width] "cos1" = some cs
+
+case left.false.sine
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+p : Parameters
+row head : ℕ
+cs ss : Lane p → α
+s : State α
+h : Context p row cs ss s
+⊢ sorry.regs TileDType.real [p.width] "sin1" = some ss
+
+case left.true.row
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+p : Parameters
+row head : ℕ
+cs ss : Lane p → α
+s : State α
+h : Context p row cs ss s
+⊢ sorry.regs TileDType.nat [] "row_position" = some fun x => row
+
+case left.true.columns
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+p : Parameters
+row head : ℕ
+cs ss : Lane p → α
+s : State α
+h : Context p row cs ss s
+⊢ sorry.regs TileDType.nat [p.width] "col_offsets" = some fun i => ↑i.1
+
+case left.true.half
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+p : Parameters
+row head : ℕ
+cs ss : Lane p → α
+s : State α
+h : Context p row cs ss s
+⊢ sorry.regs TileDType.nat [] "half_head_dim" = some fun x => p.dimension / 2
+
+case left.true.mask
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+p : Parameters
+row head : ℕ
+cs ss : Lane p → α
+s : State α
+h : Context p row cs ss s
+⊢ sorry.regs TileDType.bool [p.width] "mask" = some fun i => decide (active p i)
+
+case left.true.cosine
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+p : Parameters
+row head : ℕ
+cs ss : Lane p → α
+s : State α
+h : Context p row cs ss s
+⊢ sorry.regs TileDType.real [p.width] "cos1" = some cs
+
+case left.true.sine
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+p : Parameters
+row head : ℕ
+cs ss : Lane p → α
+s : State α
+h : Context p row cs ss s
+⊢ sorry.regs TileDType.real [p.width] "sin1" = some ss
+/tmp/integer113-fast-frontend/bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Source.lean:83:2: error: unsolved goals
+case right.false
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+p : Parameters
+row head : ℕ
+cs ss : Lane p → α
+s : State α
+h : Context p row cs ss s
+⊢ sorry.mem =
+    List.foldl
+      (fun mem i =>
+        if ↑i.1 < p.dimension / 2 then fun r o =>
+          if r = p.input ∧ o = row * p.rowStride + head * p.dimension + ↑i.1 + p.dimension / 2 then
+            Cell.mk TileDType.real
+              (M.binary (some ComputeDType.fp32) FloatDType.real Binary.add
+                (M.binary (some ComputeDType.fp32) FloatDType.real Binary.mul
+                  (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real
+                    (Cell.read TileDType.real
+                      (s.mem p.input (row * p.rowStride + head * p.dimension + ↑i.1 + p.dimension / 2))))
+                  (cs i))
+                (M.binary (some ComputeDType.fp32) FloatDType.real Binary.mul
+                  (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real
+                    (Cell.read TileDType.real (s.mem p.input (row * p.rowStride + head * p.dimension + ↑i.1))))
+                  (ss i)))
+          else mem r o
+        else mem)
+      (List.foldl
+        (fun mem i =>
+          if ↑i.1 < p.dimension / 2 then fun r o =>
+            if r = p.input ∧ o = row * p.rowStride + head * p.dimension + ↑i.1 then
+              Cell.mk TileDType.real
+                (M.binary (some ComputeDType.fp32) FloatDType.real Binary.sub
+                  (M.binary (some ComputeDType.fp32) FloatDType.real Binary.mul
+                    (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real
+                      (Cell.read TileDType.real (s.mem p.input (row * p.rowStride + head * p.dimension + ↑i.1))))
+                    (cs i))
+                  (M.binary (some ComputeDType.fp32) FloatDType.real Binary.mul
+                    (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real
+                      (Cell.read TileDType.real
+                        (s.mem p.input (row * p.rowStride + head * p.dimension + ↑i.1 + p.dimension / 2))))
+                    (ss i)))
+            else mem r o
+          else mem)
+        s.mem (TileShape.allIndices [p.width]))
+      (TileShape.allIndices [p.width])
+
+case right.true
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+p : Parameters
+row head : ℕ
+cs ss : Lane p → α
+s : State α
+h : Context p row cs ss s
+⊢ sorry.mem =
+    List.foldl
+      (fun mem i =>
+        if ↑i.1 < p.dimension / 2 then fun r o =>
+          if r = p.input ∧ o = row * p.rowStride + head * p.dimension + ↑i.1 + p.dimension / 2 then
+            Cell.mk TileDType.real
+              (M.binary (some ComputeDType.fp32) FloatDType.real Binary.add
+                (M.binary (some ComputeDType.fp32) FloatDType.real Binary.mul
+                  (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real
+                    (Cell.read TileDType.real
+                      (s.mem p.input (row * p.rowStride + head * p.dimension + ↑i.1 + p.dimension / 2))))
+                  (cs i))
+                (M.binary (some ComputeDType.fp32) FloatDType.real Binary.mul
+                  (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real
+                    (Cell.read TileDType.real (s.mem p.input (row * p.rowStride + head * p.dimension + ↑i.1))))
+                  (ss i)))
+          else mem r o
+        else mem)
+      (List.foldl
+        (fun mem i =>
+          if ↑i.1 < p.dimension / 2 then fun r o =>
+            if r = p.input ∧ o = row * p.rowStride + head * p.dimension + ↑i.1 then
+              Cell.mk TileDType.real
+                (M.binary (some ComputeDType.fp32) FloatDType.real Binary.sub
+                  (M.binary (some ComputeDType.fp32) FloatDType.real Binary.mul
+                    (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real
+                      (Cell.read TileDType.real (s.mem p.input (row * p.rowStride + head * p.dimension + ↑i.1))))
+                    (cs i))
+                  (M.binary (some ComputeDType.fp32) FloatDType.real Binary.mul
+                    (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real
+                      (Cell.read TileDType.real
+                        (s.mem p.input (row * p.rowStride + head * p.dimension + ↑i.1 + p.dimension / 2))))
+                    (ss i)))
+            else mem r o
+          else mem)
+        s.mem (TileShape.allIndices [p.width]))
+      (TileShape.allIndices [p.width])
+/tmp/integer113-fast-frontend/bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Source.lean:81:45: warning: declaration uses `sorry`
+/tmp/integer113-fast-frontend/bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Source.lean:107:43: error: omega could not prove the goal:
+No usable constraints found. You may need to unfold definitions so `omega` can see linear arithmetic facts about `Nat` and `Int`, which may also involve multiplication, division, and modular remainder by constants.
+/tmp/integer113-fast-frontend/bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Source.lean:111:8: warning: declaration uses `sorry`
+/tmp/integer113-fast-frontend/bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Source.lean:126:4: warning: 'rw [← stop, hloop]' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/integer113-fast-frontend/bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Source.lean:152:0: error: VeriTile.Bench.Repairs.FastRopeEmbedding.Source.oneHead_facts: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/integer113-fast-frontend/bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Source.lean:153:0: error: VeriTile.Bench.Repairs.FastRopeEmbedding.Source.loop_executes: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/integer113-fast-frontend/bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Source.lean:154:0: error: VeriTile.Bench.Repairs.FastRopeEmbedding.Source.complete_execution: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/integer113-fast-frontend/bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Source.lean:155:0: error: VeriTile.Bench.Repairs.FastRopeEmbedding.Source.complete_correctness: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

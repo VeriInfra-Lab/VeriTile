@@ -1,0 +1,15 @@
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/Physical.lean:14:12: warning: unused variable `d`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Physical.complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Physical.input_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Physical.prefix_input: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Physical.prefix_output: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

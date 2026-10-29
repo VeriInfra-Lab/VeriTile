@@ -1,0 +1,16 @@
+{
+  "status": "FAIL",
+  "start": 1793249366.7944548,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.lora_expand_gemv.ByteSeparated.Proofs.IntegerCandidate",
+      "source_sha256": "a710b0cca4d8f87b1eaf102b7f987d7f9aaff3ad8878b5780aff65485dbd5a50",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793249366.794692,
+      "end": 1793249459.9867585,
+      "log": "/tmp/integer113-lora3-bench__repairs__tritonbench_g__lora_expand_gemv__ByteSeparated__Proofs__IntegerCandidate.log"
+    }
+  ],
+  "end": 1793249459.9869545
+}

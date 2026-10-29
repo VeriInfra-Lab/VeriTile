@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/tmp/record_integer113_review.py", line 137, in <module>
+    row['changed_paths']=dif;row['review_evidence']=rp;row['preservation_and_build_passed']=True;row['main_formula_review']['io_data_unchanged']=False;row['current_body_source_review']=rp
+                                                                                                 ~~~^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'main_formula_review'

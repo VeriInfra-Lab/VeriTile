@@ -1,0 +1,7 @@
+VeriTile.Triton.Concurrent.Program.controller_runs_transfer: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Triton.Concurrent.Program.runs_transfer: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Triton.Concurrent.EventProgramIO.InBounds.mono: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Triton.Concurrent.EventProgramIO.InputBinding.transfer: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Triton.Concurrent.EventProgramIO.OutputBinding.transfer: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

@@ -1,0 +1,36 @@
+VeriTile.Tests.IntegerLiteralAssignmentBody.i32_min_conversion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.IntegerLiteralAssignmentBody.i32_max_conversion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.IntegerLiteralAssignmentBody.u32_min_conversion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.IntegerLiteralAssignmentBody.u32_max_conversion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.IntegerLiteralAssignmentBody.i64_above_u32_conversion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.IntegerLiteralAssignmentBody.i64_min_conversion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.IntegerLiteralAssignmentBody.i64_max_conversion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.IntegerLiteralAssignmentBody.u64_min_conversion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.IntegerLiteralAssignmentBody.u64_max_conversion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.IntegerLiteralAssignmentBody.tuple_integers_materialize: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.IntegerLiteralAssignmentBody.ordinary_integer_tensor: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.IntegerLiteralAssignmentBody.inline_integer_remains_weak: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

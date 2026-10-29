@@ -1,0 +1,37 @@
+VeriTile.Bench.TritonBenchG.VectorAddition.FP64Memory.reference: definition does not reference [VeriTile.Bench.TritonBenchG.VectorAddition.FP64Memory.runGrid,
+ VeriTile.Bench.TritonBenchG.VectorAddition.FP64Memory.runProgram,
+ VeriTile.Bench.TritonBenchG.VectorAddition.FP64Memory.runLanes,
+ VeriTile.Bench.TritonBenchG.VectorAddition.FP64Memory.laneOutcome,
+ VeriTile.Bench.TritonBenchG.VectorAddition.FP64TypedCore.source,
+ VeriTile.Bench.TritonBenchG.VectorAddition.FP64TypedCore.Expr.eval,
+ VeriTile.Bench.TritonBenchG.VectorAddition.FP64TypedCore.runLane] — non-circular ✓
+VeriTile.Bench.TritonBenchG.VectorAddition.FP64Memory.OutputDefined: definition does not reference [VeriTile.Bench.TritonBenchG.VectorAddition.FP64Memory.runGrid,
+ VeriTile.Bench.TritonBenchG.VectorAddition.FP64Memory.runProgram,
+ VeriTile.Bench.TritonBenchG.VectorAddition.FP64Memory.runLanes,
+ VeriTile.Bench.TritonBenchG.VectorAddition.FP64Memory.laneOutcome,
+ VeriTile.Bench.TritonBenchG.VectorAddition.FP64TypedCore.source,
+ VeriTile.Bench.TritonBenchG.VectorAddition.FP64TypedCore.Expr.eval,
+ VeriTile.Bench.TritonBenchG.VectorAddition.FP64TypedCore.runLane] — non-circular ✓
+VeriTile.Bench.TritonBenchG.VectorAddition.FP64Memory.InputWords: definition does not reference [VeriTile.Bench.TritonBenchG.VectorAddition.FP64Memory.runGrid,
+ VeriTile.Bench.TritonBenchG.VectorAddition.FP64Memory.runProgram,
+ VeriTile.Bench.TritonBenchG.VectorAddition.FP64Memory.runLanes,
+ VeriTile.Bench.TritonBenchG.VectorAddition.FP64Memory.laneOutcome,
+ VeriTile.Bench.TritonBenchG.VectorAddition.FP64TypedCore.source,
+ VeriTile.Bench.TritonBenchG.VectorAddition.FP64TypedCore.Expr.eval,
+ VeriTile.Bench.TritonBenchG.VectorAddition.FP64TypedCore.runLane] — non-circular ✓
+VeriTile.Bench.TritonBenchG.VectorAddition.FP64Memory.grid_success: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.VectorAddition.FP64Memory.footprint_membership: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.VectorAddition.FP64Memory.active_program_in_grid: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.VectorAddition.FP64Memory.complete_reference: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.VectorAddition.FP64Memory.complete_grid_success: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.VectorAddition.FP64Memory.program_permutation_independent: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.VectorAddition.FP64Memory.grid_error: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.VectorAddition.FP64Memory.program_outside_grid: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.VectorAddition.FP64Memory.zero_grid: axiom footprint ⊆ standard base ✓  ([propext])

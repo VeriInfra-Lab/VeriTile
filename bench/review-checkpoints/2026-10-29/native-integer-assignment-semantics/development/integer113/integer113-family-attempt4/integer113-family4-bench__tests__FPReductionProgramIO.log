@@ -1,0 +1,40 @@
+/tmp/integer113-frontend/bench/tests/FPReductionProgramIO.lean:60:38: warning: This simp argument is unused:
+  State.write_other
+
+Hint: Omit it from the simp argument list.
+  simp [FP32SumStage.run, FP32SumStage.value, aliasStage, one, FP32AddTree.eval, algebra, initial,
+  ̲  ̲ ̲ ̲L̵i̵s̵t̵.̵o̵f̵F̵n̵_̵s̵u̵c̵c̵,̵ ̵S̵t̵a̵t̵e̵.̵w̵r̵i̵t̵e̵_̵o̵t̵h̵e̵r̵]̵L̲i̲s̲t̲.̲o̲f̲F̲n̲_̲s̲u̲c̲c̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-frontend/bench/tests/FPReductionProgramIO.lean:91:44: warning: This simp argument is unused:
+  State.write_other
+
+Hint: Omit it from the simp argument list.
+  simp [FP32SumStage.run, FP32SumStage.value, aliasStage, one, FP32AddTree.eval, algebra,
+  ̲  ̲ ̲ ̲sourceFinal, L̵i̵s̵t̵.̵o̵f̵F̵n̵_̵s̵u̵c̵c̵,̵ ̵S̵t̵a̵t̵e̵.̵w̵r̵i̵t̵e̵_̵o̵t̵h̵e̵r̵]̵L̲i̲s̲t̲.̲o̲f̲F̲n̲_̲s̲u̲c̲c̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Triton.FP.Structural.ReductionProgramRegression.exact_fp32_boundaries: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.Structural.ReductionProgramRegression.reads_snapshot: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.Structural.ReductionProgramRegression.ordered_alias_writes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.Structural.ReductionProgramRegression.consumes_source_predecessor: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.Structural.ReductionProgramRegression.exact_exterior_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.Structural.ReductionProgramRegression.empty_stage: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.Structural.ReductionProgramRegression.reduction_oob_rejected: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.Structural.ReductionProgramRegression.failed_source_cannot_be_hidden: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

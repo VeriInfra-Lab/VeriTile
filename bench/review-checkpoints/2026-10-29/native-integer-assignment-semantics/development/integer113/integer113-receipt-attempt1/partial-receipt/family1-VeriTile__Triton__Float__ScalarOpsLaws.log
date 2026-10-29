@@ -1,0 +1,49 @@
+/tmp/integer113-frontend/VeriTile/Triton/Float/ScalarOpsLaws.lean:51:48: warning: This simp argument is unused:
+  ha
+
+Hint: Omit it from the simp argument list.
+  simp [ha̵,̵ ̵h̵b, hz, sign, _root_.mul_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-frontend/VeriTile/Triton/Float/ScalarOpsLaws.lean:51:52: warning: This simp argument is unused:
+  hb
+
+Hint: Omit it from the simp argument list.
+  simp [ha, hb̵,̵ ̵h̵z, sign, _root_.mul_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-frontend/VeriTile/Triton/Float/ScalarOpsLaws.lean:51:56: warning: This simp argument is unused:
+  hz
+
+Hint: Omit it from the simp argument list.
+  simp [ha, hb, h̵z̵,̵ ̵sign, _root_.mul_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Triton.FP.ScalarOpsLaws.add_comm: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+VeriTile.Triton.FP.ScalarOpsLaws.mul_comm: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+VeriTile.Triton.FP.ScalarOpsLaws.fma_mul_comm: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.ScalarOpsLaws.one_decode: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.ScalarOpsLaws.prepare_one: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Triton.FP.ScalarOpsLaws.mul_one_cast: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.ScalarOpsLaws.one_mul_cast: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.ScalarOpsLaws.div_one_cast: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.ScalarOpsLaws.add_positive_zero_fp32: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.ScalarOpsLaws.positive_zero_value_fp32: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.ScalarOpsLaws.abs_positive_zero_fp32: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Triton.FP.ScalarOpsLaws.add_one_comm_fp32: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

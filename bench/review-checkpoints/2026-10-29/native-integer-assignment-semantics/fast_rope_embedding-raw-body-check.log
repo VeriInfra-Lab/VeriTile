@@ -1,0 +1,54 @@
+[
+  {
+    "python_function": "_rope_embedding",
+    "lean_definition": "rope",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "Q_row_stride": "Q_row_stride",
+      "cos_row_stride": "cos_row_stride",
+      "sin_row_stride": "sin_row_stride",
+      "seqlen": "seqlen"
+    },
+    "statements": 13,
+    "runtime_parameters": {
+      "Q_row_stride": "integer",
+      "cos_row_stride": "integer",
+      "sin_row_stride": "integer",
+      "seqlen": "integer"
+    },
+    "constexpr_parameters": [
+      "BACKWARD_PASS",
+      "BLOCK_SIZE",
+      "head_dim",
+      "n_heads"
+    ]
+  },
+  {
+    "python_function": "_rope_embedding_index_commuted",
+    "lean_definition": "ropeIndexCommuted",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "Q_row_stride": "Q_row_stride",
+      "cos_row_stride": "cos_row_stride",
+      "sin_row_stride": "sin_row_stride",
+      "seqlen": "seqlen"
+    },
+    "statements": 13,
+    "runtime_parameters": {
+      "Q_row_stride": "integer",
+      "cos_row_stride": "integer",
+      "sin_row_stride": "integer",
+      "seqlen": "integer"
+    },
+    "constexpr_parameters": [
+      "BACKWARD_PASS",
+      "BLOCK_SIZE",
+      "head_dim",
+      "n_heads"
+    ]
+  }
+]

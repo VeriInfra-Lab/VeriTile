@@ -1,0 +1,3 @@
+VeriTile.Triton.Concurrent.Expr.Safe.mono: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Triton.Concurrent.Event.Safe.mono: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Triton.Concurrent.TapeSafe.mono: axiom footprint ⊆ standard base ✓  ([propext])

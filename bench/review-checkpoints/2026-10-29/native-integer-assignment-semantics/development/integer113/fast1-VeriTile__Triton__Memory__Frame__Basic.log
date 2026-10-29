@@ -1,0 +1,7 @@
+/tmp/integer113-fast-frontend/VeriTile/Triton/Memory/Frame/Basic.lean:371:21: warning: This simp argument is unused:
+  hmem
+
+Hint: Omit it from the simp argument list.
+  simp [h,̵ ̵h̵m̵e̵m̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

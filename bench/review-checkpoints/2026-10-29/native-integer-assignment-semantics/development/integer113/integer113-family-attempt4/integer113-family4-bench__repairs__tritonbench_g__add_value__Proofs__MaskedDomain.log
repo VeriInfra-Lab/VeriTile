@@ -1,0 +1,15 @@
+VeriTile.Bench.Repairs.AddValue.Contiguous.Rewrite.domain_independent_of_undef: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AddValue.Contiguous.Rewrite.empty_domain: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AddValue.Contiguous.Rewrite.singleton_tail_domain: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AddValue.Contiguous.Rewrite.singleton_tail_equiv: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AddValue.Contiguous.Rewrite.nonfinite_active_lane_rejected: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

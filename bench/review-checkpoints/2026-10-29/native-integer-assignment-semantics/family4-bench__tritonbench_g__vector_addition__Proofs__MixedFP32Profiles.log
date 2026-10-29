@@ -1,0 +1,7 @@
+VeriTile.Bench.TritonBenchG.VectorAddition.MixedFP32.canonical_promotion: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.VectorAddition.MixedFP32.bool_store_three: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.MixedFP32.bool_store_128_undefined: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

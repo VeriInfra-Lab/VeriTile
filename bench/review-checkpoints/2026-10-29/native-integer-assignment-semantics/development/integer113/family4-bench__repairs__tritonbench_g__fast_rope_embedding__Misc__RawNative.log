@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.FastRopeEmbedding.RawNative.fast_rope_raw_fp32: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

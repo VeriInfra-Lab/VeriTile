@@ -1,0 +1,10 @@
+{
+  "status": "NOT_RUN_WARM_FAILED",
+  "code_commit": "de7680b75b00d057bebd7f21f290a7d599e343f0",
+  "checkout": "/tmp/veritile-body77",
+  "explicit_modules": 5666,
+  "start": 1793258891.8520298,
+  "scope": "All cumulative task/example/frontend roots, now including all 345 integer-semantics task/frontend roots, plus their full local import closure and joint import.",
+  "warm_status": "FAIL",
+  "end": 1793260368.1819148
+}

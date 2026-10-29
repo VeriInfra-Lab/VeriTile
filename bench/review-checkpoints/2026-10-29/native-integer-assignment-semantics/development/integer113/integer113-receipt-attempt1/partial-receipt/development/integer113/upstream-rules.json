@@ -1,0 +1,7 @@
+{
+  "status": "UPSTREAM_RULE_CHECKED",
+  "url": "https://github.com/triton-lang/triton/blob/v3.7.1/python/triton/language/semantic.py",
+  "blob_sha": "691c471296e90d9f78ee35915e50f4e388360032",
+  "excerpt": "def to_tensor_type(self, x):\n        if isinstance(x, tl.dtype):\n            return x\n        elif isinstance(x, tl.constexpr_type):\n            x = x.value\n\n        if isinstance(x, bool):\n            return tl.int1\n        elif isinstance(x, int):\n            if -2**31 <= x < 2**31:\n                return tl.int32\n            elif 2**31 <= x < 2**32:\n                return tl.uint32\n            elif -2**63 <= x < 2**63:\n                return tl.int64\n            elif 2**63 <= x < 2**64:\n                return tl.uint64\n            raise ValueError(f'Nonrepresentable integer {x}.')\n        ",
+  "scope": "Triton v3.7.1 source profile, not installed compiler or hardware evidence."
+}

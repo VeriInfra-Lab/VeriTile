@@ -1,0 +1,9 @@
+VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.CheckedFP.complete: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.FPGrid.value: definition does not reference [VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.FPGrid.run,
+ VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.FPGrid.fold,
+ VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.Kernels.source,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+Axiom audit: headlines=0
+headlines: []

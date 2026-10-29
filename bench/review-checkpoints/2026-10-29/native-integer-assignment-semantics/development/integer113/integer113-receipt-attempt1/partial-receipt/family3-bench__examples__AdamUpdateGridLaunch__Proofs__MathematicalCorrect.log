@@ -1,0 +1,22 @@
+/tmp/integer113-frontend/bench/examples/AdamUpdateGridLaunch/Proofs/MathematicalCorrect.lean:67:27: warning: This simp argument is unused:
+  adamIO
+
+Hint: Omit it from the simp argument list.
+  simp [optimizedIO, a̵d̵a̵m̵I̵O̵,̵ ̵IO.layout]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-frontend/bench/examples/AdamUpdateGridLaunch/Proofs/MathematicalCorrect.lean:67:70: warning: This simp argument is unused:
+  adamIO
+
+Hint: Omit it from the simp argument list.
+  simp [optimizedIO, a̵d̵a̵m̵I̵O̵,̵ ̵IO.layout]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Examples.AdamUpdateGridLaunch.Mathematical.adam_update_optimized_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Examples.AdamUpdateGridLaunch.Mathematical.adam_update_optimized_correctness: statement's project surface ⊆ allowlist ✓
+VeriTile.Bench.Examples.AdamUpdateGridLaunch.Mathematical.adam_update_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Examples.AdamUpdateGridLaunch.Mathematical.adam_update_correctness: statement's project surface ⊆ allowlist ✓

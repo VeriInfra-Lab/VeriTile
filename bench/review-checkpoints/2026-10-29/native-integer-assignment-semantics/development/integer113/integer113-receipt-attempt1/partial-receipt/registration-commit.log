@@ -1,0 +1,4 @@
+Auto packing the repository in background for optimum performance.
+See "git help gc" for manual housekeeping.
+[codex/body-copy-cache-and-constexpr de7680b75] Register guarded rewrite regression for cumulative source replay
+ 1 file changed, 1 insertion(+)

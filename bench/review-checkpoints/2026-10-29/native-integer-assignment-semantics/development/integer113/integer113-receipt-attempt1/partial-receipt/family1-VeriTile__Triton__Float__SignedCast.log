@@ -1,0 +1,28 @@
+/tmp/integer113-frontend/VeriTile/Triton/Float/SignedCast.lean:23:15: warning: This simp argument is unused:
+  h
+
+Hint: Omit it from the simp argument list.
+  simp only [h̵,̵ ̵bind, pure, Option.bind_none, Option.bind_some]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-frontend/VeriTile/Triton/Float/SignedCast.lean:35:15: warning: This simp argument is unused:
+  h
+
+Hint: Omit it from the simp argument list.
+  simp only [h̵,̵ ̵bind, pure, Option.bind_none, Option.bind_some]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-frontend/VeriTile/Triton/Float/SignedCast.lean:48:15: warning: This simp argument is unused:
+  h
+
+Hint: Omit it from the simp argument list.
+  simp only [h̵,̵ ̵bind, pure, Option.bind_none, Option.bind_some]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-frontend/VeriTile/Triton/Float/SignedCast.lean:76:15: warning: This simp argument is unused:
+  Op.boolToInt
+
+Hint: Omit it from the simp argument list.
+  simp only [̵O̵p̵.̵b̵o̵o̵l̵T̵o̵I̵n̵t̵,̵ ̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵e̵v̵a̵l̵O̵p̵,̵[̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲e̲v̲a̲l̲O̲p̲,̲ h, bind, pure, Option.bind_none, Option.bind_some]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

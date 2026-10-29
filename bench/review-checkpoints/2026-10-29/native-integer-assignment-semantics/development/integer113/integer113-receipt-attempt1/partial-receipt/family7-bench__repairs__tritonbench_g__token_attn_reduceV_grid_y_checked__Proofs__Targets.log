@@ -1,0 +1,17 @@
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.NativeTarget.products_eq: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.NativeTarget.term_eq: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.NativeTarget.reference: definition does not reference [VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.kernel,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.TokenAttnReduceV.Grid.run,
+ VeriTile.Bench.Repairs.TokenAttnReduceV.outputValues] — non-circular ✓
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.real_value: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.realTarget: definition does not reference [VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.kernel,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.TokenAttnReduceV.Grid.run,
+ VeriTile.Bench.Repairs.TokenAttnReduceV.outputValues] — non-circular ✓

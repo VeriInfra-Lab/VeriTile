@@ -1,0 +1,5 @@
+VeriTile.Triton.Concurrent.Locality.expr_eval: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Triton.Concurrent.Locality.execute_agree: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Triton.Concurrent.Locality.run_agree: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Triton.Concurrent.Locality.step_transfer: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Triton.Concurrent.Locality.run_transfer: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])

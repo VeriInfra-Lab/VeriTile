@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.RopeEmbedding.Native.source_programs: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.RopeEmbedding.Native.output_contract: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

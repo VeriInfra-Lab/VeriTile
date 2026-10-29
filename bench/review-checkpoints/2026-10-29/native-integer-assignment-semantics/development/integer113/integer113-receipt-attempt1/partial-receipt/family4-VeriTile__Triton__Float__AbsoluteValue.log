@@ -1,0 +1,44 @@
+/tmp/integer113-frontend/VeriTile/Triton/Float/AbsoluteValue.lean:16:94: warning: This simp argument is unused:
+  Bool.true_eq
+
+Hint: Omit it from the simp argument list.
+  simp only [ComparableDType.lt, WithBot.some_eq_coe, WithBot.coe_lt_coe, h, decide_true,
+  ̲ B̵o̵o̵l̵.̵t̵r̵u̵e̵_̵e̵q̵,̵  ̲ ̲ ̲ ̲↓reduceIte, WithBot.map_coe, abs_of_neg h]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-frontend/VeriTile/Triton/Float/AbsoluteValue.lean:19:88: warning: This simp argument is unused:
+  WithBot.realSub
+
+Hint: Omit it from the simp argument list.
+  simp [ComparableDType.lt, WithBot.some_eq_coe, h, abs_of_nonneg (le_of_not_gt h),̵ ̵W̵i̵t̵h̵B̵o̵t̵.̵r̵e̵a̵l̵S̵u̵b̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-frontend/VeriTile/Triton/Float/AbsoluteValue.lean:29:18: warning: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp [e̵v̵a̵l̵O̵p̵,̵ ̵FloatDType.toTileDType, h, Option.bind]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-frontend/VeriTile/Triton/Float/AbsoluteValue.lean:29:26: warning: This simp argument is unused:
+  FloatDType.toTileDType
+
+Hint: Omit it from the simp argument list.
+  simp [evalOp, F̵l̵o̵a̵t̵D̵T̵y̵p̵e̵.̵t̵o̵T̵i̵l̵e̵D̵T̵y̵p̵e̵,̵ ̵h, Option.bind]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-frontend/VeriTile/Triton/Float/AbsoluteValue.lean:31:50: warning: This simp argument is unused:
+  Option.bind_none
+
+Hint: Omit it from the simp argument list.
+  simp only [evalOp, FloatDType.toTileDType, h, Option.bind_n̵o̵n̵e̵,̵ ̵O̵p̵t̵i̵o̵n̵.̵b̵i̵n̵d̵_̵some, bind, Option.bind]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-frontend/VeriTile/Triton/Float/AbsoluteValue.lean:31:68: warning: This simp argument is unused:
+  Option.bind_some
+
+Hint: Omit it from the simp argument list.
+  simp only [evalOp, FloatDType.toTileDType, h, Option.bind_none, O̵p̵t̵i̵o̵n̵.̵b̵i̵n̵d̵_̵s̵o̵m̵e̵,̵ ̵bind, Option.bind]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Triton.evalOp_abs_real_projection: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])

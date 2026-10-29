@@ -1,0 +1,9 @@
+VeriTile.Triton.FP.IntegerDot.backend_supported: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.IntegerDot.backend_rejects_invalid: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.IntegerDot.fold_is_low32: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Triton.FP.IntegerDot.accumulation_wraps: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Triton.FP.IntegerDot.signed_product_nonzero: axiom footprint ⊆ standard base ✓  ([propext])

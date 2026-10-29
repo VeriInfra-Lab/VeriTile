@@ -1,0 +1,6 @@
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Proofs/IntegerCandidate.lean:40:55: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.IntegerCandidate.observed_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

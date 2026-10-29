@@ -1,0 +1,7 @@
+VeriTile.Bench.TritonBenchG.MatrixReduction.MachineMax.best_maximal: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.MatrixReduction.MachineMax.best_spec: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.MatrixReduction.MachineMax.best_leftmost: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

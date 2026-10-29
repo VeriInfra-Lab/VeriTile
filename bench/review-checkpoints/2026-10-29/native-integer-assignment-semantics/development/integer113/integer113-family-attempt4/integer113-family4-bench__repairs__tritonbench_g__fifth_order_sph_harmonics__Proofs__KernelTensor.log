@@ -1,0 +1,16 @@
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/KernelTensor.lean:37:26: warning: This simp argument is unused:
+  Nat.zero_add
+
+Hint: Omit it from the simp argument list.
+  simp only [̵N̵a̵t̵.̵z̵e̵r̵o̵_̵m̵u̵l̵,̵N̵a̵t̵.̵z̵e̵r̵o̵_̵a̵d̵d̵,̵N̵a̵t̵.̵a̵d̵d̵_̵z̵e̵r̵o̵]̵[̲N̲a̲t̲.̲z̲e̲r̲o̲_̲m̲u̲l̲,̲ ̲N̲a̲t̲.̲a̲d̲d̲_̲z̲e̲r̲o̲]̲ at offset
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.KernelTensor.pointer_nat: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.KernelTensor.address: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.KernelTensor.actual_pointer: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.KernelTensor.native_read: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.KernelTensor.active_bytes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

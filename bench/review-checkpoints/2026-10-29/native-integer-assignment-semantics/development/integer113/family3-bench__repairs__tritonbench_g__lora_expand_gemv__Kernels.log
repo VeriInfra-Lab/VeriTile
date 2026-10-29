@@ -1,0 +1,5 @@
+VeriTile.Bench.Repairs.LoraExpandGemv.FPValue.castWord_same: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LoraExpandGemv.FPValue.castWord_zero: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LoraExpandGemv.Branches.complete_source_identical: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

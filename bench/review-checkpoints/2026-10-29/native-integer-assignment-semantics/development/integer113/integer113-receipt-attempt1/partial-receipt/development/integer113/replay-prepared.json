@@ -1,0 +1,10 @@
+{
+  "status": "PREPARED_ONLY_NOT_RUN",
+  "focused": 345,
+  "cumulative": 5666,
+  "audit_modules": 2146,
+  "tasks": 118,
+  "pairs": 415,
+  "pending": 65,
+  "parent_required": "welfold112 receipt must PASS and be published before source copy; full focus must PASS"
+}

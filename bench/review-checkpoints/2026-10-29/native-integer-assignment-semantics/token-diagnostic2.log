@@ -1,0 +1,39 @@
+/tmp/integer113-diagnostics/TokenExecution.lean:41:2: error: Tactic `rfl` failed: The left-hand side
+  bop (fun x1 x2 => x1 + x2) Broadcast.scalarL
+    (fun i =>
+      ↑(Cell.read TileDType.nat (s.mem { name := p.request.name } (s.pids 0 * p.requestStride))) *
+        ↑p.requestBatchStride)
+    (bop (fun x1 x2 => x1 * x2) Broadcast.scalarR
+      (bop (fun x1 x2 => x1 + x2) Broadcast.scalarL (fun x => 0) fun i => ↑↑i.1) fun i => ↑p.requestTokenStride)
+    i
+is not definitionally equal to the right-hand side
+  ↑(Cell.read TileDType.nat (s.mem p.request.cast (s.pids 0 * p.requestStride))) * ↑p.requestBatchStride +
+    ↑↑i.1 * ↑p.requestTokenStride
+
+case gather.h
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+R : SumPrimitive α
+p : Parameters
+s : State α
+i : TileIndex [p.block]
+⊢ bop (fun x1 x2 => x1 + x2) Broadcast.scalarL
+      (fun i =>
+        ↑(Cell.read TileDType.nat (s.mem { name := p.request.name } (s.pids 0 * p.requestStride))) *
+          ↑p.requestBatchStride)
+      (bop (fun x1 x2 => x1 * x2) Broadcast.scalarR
+        (bop (fun x1 x2 => x1 + x2) Broadcast.scalarL (fun x => 0) fun i => ↑↑i.1) fun i => ↑p.requestTokenStride)
+      i =
+    ↑(Cell.read TileDType.nat (s.mem p.request.cast (s.pids 0 * p.requestStride))) * ↑p.requestBatchStride +
+      ↑↑i.1 * ↑p.requestTokenStride
+/tmp/integer113-diagnostics/TokenExecution.lean:59:2: warning: 'all_goals try rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/integer113-diagnostics/TokenExecution.lean:88:0: error: VeriTile.Bench.Repairs.TokenAttnReduceV.prelude_run: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.Repairs.TokenAttnReduceV.body_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.TokenAttnReduceV.range_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

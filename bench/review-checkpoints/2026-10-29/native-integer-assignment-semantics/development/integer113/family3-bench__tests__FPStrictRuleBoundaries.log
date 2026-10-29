@@ -1,0 +1,45 @@
+FPStrictRuleBoundaries.all_words_add_comm: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+FPStrictRuleBoundaries.all_words_mul_comm: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+FPStrictRuleBoundaries.add_zero_changes_negative_zero: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+FPStrictRuleBoundaries.directed_rounding_keeps_negative_zero: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+FPStrictRuleBoundaries.exceptional_inputs_commute: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+FPStrictRuleBoundaries.multiply_one_flush_boundary: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+FPStrictRuleBoundaries.one_operations_keep_cast: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+FPStrictRuleBoundaries.count_last_exact_value: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+FPStrictRuleBoundaries.count_first_inexact_value: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+FPStrictRuleBoundaries.count_successor_cannot_be_unbounded: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+FPStrictRuleBoundaries.no_unconditional_add_association: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+FPStrictRuleBoundaries.no_unconditional_fma_contraction: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+FPStrictRuleBoundaries.strict_commutation: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+FPStrictRuleBoundaries.strict_multiplication_commutation: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+FPStrictRuleBoundaries.strict_count_successor: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+FPStrictRuleBoundaries.rule_evidence_boundary: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+FPStrictRuleBoundaries.admitted_association: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

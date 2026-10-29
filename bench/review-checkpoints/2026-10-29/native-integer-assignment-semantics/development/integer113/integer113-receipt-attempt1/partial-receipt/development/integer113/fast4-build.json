@@ -1,0 +1,16 @@
+{
+  "status": "FAIL",
+  "start": 1793252168.0371332,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.fast_rope_embedding.Proofs.Source",
+      "source_sha256": "3d2b48222426280a6c718eff3b656859313c96f4932f809482e55562e587f169",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793252168.0373461,
+      "end": 1793252201.9027476,
+      "log": "/tmp/integer113-fast4-bench__repairs__tritonbench_g__fast_rope_embedding__Proofs__Source.log"
+    }
+  ],
+  "end": 1793252201.9030497
+}

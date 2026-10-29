@@ -1,0 +1,3 @@
+VeriTile.Tests.NativeMatrixLoop.complete_source: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

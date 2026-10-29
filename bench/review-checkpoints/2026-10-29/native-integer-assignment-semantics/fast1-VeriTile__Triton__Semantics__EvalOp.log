@@ -1,0 +1,83 @@
+/tmp/integer113-fast-frontend/VeriTile/Triton/Semantics/EvalOp.lean:395:8: warning: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp ̵[̵e̵v̵a̵l̵O̵p̵]̵
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-fast-frontend/VeriTile/Triton/Semantics/EvalOp.lean:403:8: warning: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp [e̵v̵a̵l̵O̵p̵,̵ ̵h]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-fast-frontend/VeriTile/Triton/Semantics/EvalOp.lean:599:8: warning: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp ̵[̵e̵v̵a̵l̵O̵p̵]̵
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-fast-frontend/VeriTile/Triton/Semantics/EvalOp.lean:604:9: warning: unused variable `hName`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/integer113-fast-frontend/VeriTile/Triton/Semantics/EvalOp.lean:614:8: warning: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp [e̵v̵a̵l̵O̵p̵,̵ ̵BlockState.setReg]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-fast-frontend/VeriTile/Triton/Semantics/EvalOp.lean:621:8: warning: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp [e̵v̵a̵l̵O̵p̵,̵ ̵h]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-fast-frontend/VeriTile/Triton/Semantics/EvalOp.lean:627:8: warning: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp [e̵v̵a̵l̵O̵p̵,̵ ̵hName, h]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-fast-frontend/VeriTile/Triton/Semantics/EvalOp.lean:633:8: warning: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp [e̵v̵a̵l̵O̵p̵,̵ ̵hName, hDType, h]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-fast-frontend/VeriTile/Triton/Semantics/EvalOp.lean:648:9: warning: unused variable `hName`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/integer113-fast-frontend/VeriTile/Triton/Semantics/EvalOp.lean:664:14: warning: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp [e̵v̵a̵l̵O̵p̵,̵ ̵BlockState.setReg]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-fast-frontend/VeriTile/Triton/Semantics/EvalOp.lean:665:14: warning: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp [e̵v̵a̵l̵O̵p̵,̵ ̵BlockState.setReg, hShape]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-fast-frontend/VeriTile/Triton/Semantics/EvalOp.lean:666:12: warning: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp [e̵v̵a̵l̵O̵p̵,̵ ̵BlockState.setReg, hDType]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/integer113-fast-frontend/VeriTile/Triton/Semantics/EvalOp.lean:667:10: warning: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp [e̵v̵a̵l̵O̵p̵,̵ ̵BlockState.setReg, hName]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

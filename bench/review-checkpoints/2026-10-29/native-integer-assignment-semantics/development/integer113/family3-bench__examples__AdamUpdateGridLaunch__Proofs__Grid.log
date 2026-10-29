@@ -1,0 +1,3 @@
+VeriTile.Bench.Examples.AdamUpdateGridLaunch.update_fn_kernel_launchCorrect: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

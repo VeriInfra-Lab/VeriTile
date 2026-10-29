@@ -1,0 +1,10 @@
+Auto packing the repository in background for optimum performance.
+See "git help gc" for manual housekeeping.
+[codex/body-copy-cache-and-constexpr 573769e77] Preserve tensor integer assignments and reprove affected programs
+ 34 files changed, 886 insertions(+), 215 deletions(-)
+ create mode 100644 VeriTile/Triton/Float/IntegerLiteral.lean
+ create mode 100644 VeriTile/Triton/Float/IntegerLiteralBackend.lean
+ create mode 100644 bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Proofs/IntegerCandidate.lean
+ create mode 100644 bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Proofs/IntegerCandidateSafety.lean
+ create mode 100644 bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Proofs/LocalObservation.lean
+ create mode 100644 bench/tests/IntegerLiteralAssignmentBody.lean

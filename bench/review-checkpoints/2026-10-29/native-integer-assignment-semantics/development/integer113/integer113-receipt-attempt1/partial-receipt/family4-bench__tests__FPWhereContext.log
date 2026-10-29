@@ -1,0 +1,1 @@
+VeriTile.Tests.FPWhereContext.same_guard: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])

@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.FastRopeEmbedding.fast_rope_forward_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRopeEmbedding.fast_rope_backward_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

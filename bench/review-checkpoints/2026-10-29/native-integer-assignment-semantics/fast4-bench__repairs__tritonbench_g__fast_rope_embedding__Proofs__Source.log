@@ -1,0 +1,72 @@
+/tmp/integer113-fast-frontend/bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Source.lean:61:51: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  b ≥ 0
+  a ≥ 0
+  a - 4*b ≥ 5
+where
+ a := ↑p.heads
+ b := ↑(s.pids 1)
+/tmp/integer113-fast-frontend/bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Source.lean:61:51: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  b ≥ 0
+  a ≥ 0
+  4*a - b ≥ -4
+where
+ a := ↑(s.pids 1)
+ b := ↑p.heads
+/tmp/integer113-fast-frontend/bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Source.lean:61:51: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  b ≥ 0
+  a ≥ 0
+  a - 4*b ≥ 5
+where
+ a := ↑p.heads
+ b := ↑(s.pids 1)
+/tmp/integer113-fast-frontend/bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Source.lean:61:51: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  b ≥ 0
+  a ≥ 0
+  4*a - b ≥ -4
+where
+ a := ↑(s.pids 1)
+ b := ↑p.heads
+/tmp/integer113-fast-frontend/bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Source.lean:61:51: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  b ≥ 0
+  a ≥ 0
+  a - 4*b ≥ 5
+where
+ a := ↑p.heads
+ b := ↑(s.pids 1)
+/tmp/integer113-fast-frontend/bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Source.lean:61:51: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  b ≥ 0
+  a ≥ 0
+  4*a - b ≥ -4
+where
+ a := ↑(s.pids 1)
+ b := ↑p.heads
+/tmp/integer113-fast-frontend/bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Source.lean:61:51: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  b ≥ 0
+  a ≥ 0
+  a - 4*b ≥ 5
+where
+ a := ↑p.heads
+ b := ↑(s.pids 1)
+/tmp/integer113-fast-frontend/bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Source.lean:61:51: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  b ≥ 0
+  a ≥ 0
+  4*a - b ≥ -4
+where
+ a := ↑(s.pids 1)
+ b := ↑p.heads
+VeriTile.Bench.Repairs.FastRopeEmbedding.Source.oneHead_facts: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRopeEmbedding.Source.loop_executes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/integer113-fast-frontend/bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Source.lean:154:0: error: VeriTile.Bench.Repairs.FastRopeEmbedding.Source.complete_execution: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/integer113-fast-frontend/bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Source.lean:155:0: error: VeriTile.Bench.Repairs.FastRopeEmbedding.Source.complete_correctness: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

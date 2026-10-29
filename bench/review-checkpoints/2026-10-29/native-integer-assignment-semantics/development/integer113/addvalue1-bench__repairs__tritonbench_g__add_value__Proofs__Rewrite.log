@@ -1,0 +1,19 @@
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/add_value/Proofs/Rewrite.lean:83:22: warning: This simp argument is unused:
+  Option.getD_none
+
+Hint: Omit it from the simp argument list.
+  simp only [engine, Algebra.withDefaultPrecision, resolvePrecision, O̵p̵t̵i̵o̵n̵.̵g̵e̵t̵D̵_̵s̵o̵m̵e̵,̵ ̵O̵p̵t̵i̵o̵n̵.̵g̵e̵t̵D̵_̵n̵o̵n̵e̵]̵O̲p̲t̲i̲o̲n̲.̲g̲e̲t̲D̲_̲s̲o̲m̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.AddValue.Contiguous.Rewrite.originalExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AddValue.Contiguous.Rewrite.commutedExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AddValue.Contiguous.Rewrite.site_values_iff: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AddValue.Contiguous.Rewrite.commuted_memory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

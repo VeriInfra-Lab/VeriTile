@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.AddValue.Contiguous.FPEquiv.original_source: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AddValue.Contiguous.FPEquiv.source_lowering: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

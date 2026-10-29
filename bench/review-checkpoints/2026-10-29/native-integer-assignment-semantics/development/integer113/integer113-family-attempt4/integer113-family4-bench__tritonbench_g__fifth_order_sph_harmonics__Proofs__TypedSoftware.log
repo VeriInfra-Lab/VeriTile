@@ -1,0 +1,6 @@
+VeriTile.Bench.TritonBenchG.FifthOrderSphHarmonics.TypedFP.channels_software: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.FifthOrderSphHarmonics.TypedFP.coefficient_words: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.FPEquiv.grid_equiv: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

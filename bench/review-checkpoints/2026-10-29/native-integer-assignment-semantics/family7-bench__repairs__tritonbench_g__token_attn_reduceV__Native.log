@@ -1,0 +1,18 @@
+VeriTile.Bench.Repairs.TokenAttnReduceV.Native.instruction_equality: axiom footprint ⊆ standard base ✓  ([Quot.sound,
+ propext])
+VeriTile.Bench.Repairs.TokenAttnReduceV.Native.eval_agreement: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.TokenAttnReduceV.Native.Plan.lane_coverage: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.TokenAttnReduceV.Native.left_fused: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.TokenAttnReduceV.Native.right_fused: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.TokenAttnReduceV.Native.complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.TokenAttnReduceV.Native.eval: definition does not reference [VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.TokenAttnReduceV.Grid.run] — non-circular ✓

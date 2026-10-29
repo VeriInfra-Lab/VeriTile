@@ -1,0 +1,9 @@
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Initialized.coordinates: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Initialized.upstream: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Initialized.zero_word: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Initialized.reference_before_allocation: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

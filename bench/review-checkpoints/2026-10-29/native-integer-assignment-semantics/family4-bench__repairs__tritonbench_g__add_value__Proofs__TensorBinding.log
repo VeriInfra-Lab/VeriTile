@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.AddValue.Contiguous.Binding.direct_read_eq_logical: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.AddValue.Contiguous.Binding.checked_read_x: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.AddValue.Contiguous.Binding.actual_pointer: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

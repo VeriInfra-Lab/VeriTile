@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.IOSafety.source_safe: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.IOSafety.schedule_safe: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

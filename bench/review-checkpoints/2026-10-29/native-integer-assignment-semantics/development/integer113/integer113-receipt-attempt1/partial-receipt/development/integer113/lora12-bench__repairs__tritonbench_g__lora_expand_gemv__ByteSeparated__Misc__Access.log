@@ -1,0 +1,26 @@
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Misc/Access.lean:73:26: warning: This simp argument is unused:
+  Contract.geometry
+
+Hint: Omit it from the simp argument list.
+  simp only [̵l̵o̵g̵i̵c̵a̵l̵I̵n̵d̵e̵x̵,̵C̵o̵n̵t̵r̵a̵c̵t̵.̵g̵e̵o̵m̵e̵t̵r̵y̵,̵V̵e̵r̵i̵T̵i̵l̵e̵.̵B̵e̵n̵c̵h̵.̵R̵e̵p̵a̵i̵r̵s̵.̵L̵o̵r̵a̵E̵x̵p̵a̵n̵d̵G̵e̵m̵v̵.̵C̵o̵n̵t̵r̵a̵c̵t̵.̵g̵e̵o̵m̵e̵t̵r̵y̵,̵
+  ̵ ̵ ̵ ̵ ̵N̵a̵t̵.̵m̵u̵l̵_̵o̵n̵e̵,̵N̵a̵t̵.̵z̵e̵r̵o̵_̵a̵d̵d̵]̵[̲l̲o̲g̲i̲c̲a̲l̲I̲n̲d̲e̲x̲,̲ ̲V̲e̲r̲i̲T̲i̲l̲e̲.̲B̲e̲n̲c̲h̲.̲R̲e̲p̲a̲i̲r̲s̲.̲L̲o̲r̲a̲E̲x̲p̲a̲n̲d̲G̲e̲m̲v̲.̲C̲o̲n̲t̲r̲a̲c̲t̲.̲g̲e̲o̲m̲e̲t̲r̲y̲,̲ ̲N̲a̲t̲.̲m̲u̲l̲_̲o̲n̲e̲,̲
+  ̲ ̲ ̲ ̲ ̲N̲a̲t̲.̲z̲e̲r̲o̲_̲a̲d̲d̲]̲ at h
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.formed: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.signed_formed: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.Window.pointer_word: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.addresses: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.metadata_span: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+Axiom audit: headlines=0
+headlines: []

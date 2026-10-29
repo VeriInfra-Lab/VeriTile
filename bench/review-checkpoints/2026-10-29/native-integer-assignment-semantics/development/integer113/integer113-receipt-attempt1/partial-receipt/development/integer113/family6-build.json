@@ -1,0 +1,70 @@
+{
+  "status": "FAIL",
+  "start": 1793258373.8945017,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.token_attn_reduceV.Execution",
+      "source_sha256": "9f0ff4ef424ee60dc88baddfebbeefab69f786e4452c0e8dd07ab0c38b89f6cf",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793258373.8946493,
+      "end": 1793258400.5425804,
+      "log": "/tmp/integer113-family6-bench__repairs__tritonbench_g__token_attn_reduceV__Execution.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.token_attn_reduceV.Contract",
+      "source_sha256": "fdcd38f6cd8f8e71dba35c15034dcb3eaeefefb97690d6421785c736830e14af",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793258400.542839,
+      "end": 1793258404.8403387,
+      "log": "/tmp/integer113-family6-bench__repairs__tritonbench_g__token_attn_reduceV__Contract.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.token_attn_reduceV.Real",
+      "source_sha256": "8009fecb4f9dde20ef5aa513981ad42f1a82039e874fa4fbe1f7e3dba14c21c7",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793258404.840587,
+      "end": 1793258408.25068,
+      "log": "/tmp/integer113-family6-bench__repairs__tritonbench_g__token_attn_reduceV__Real.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.token_attn_reduceV.Grid",
+      "source_sha256": "bff331aa1386fb27bede0c8445949445fa9f3422b047bfb6001ebe290cd923ac",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793258408.250933,
+      "end": 1793258411.3300557,
+      "log": "/tmp/integer113-family6-bench__repairs__tritonbench_g__token_attn_reduceV__Grid.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.token_attn_reduceV.Stores",
+      "source_sha256": "eb2e30cb33e0b9ffb4028f501eb4314c8a36305250a2d01251429293de98824d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793258411.3303387,
+      "end": 1793258414.2746623,
+      "log": "/tmp/integer113-family6-bench__repairs__tritonbench_g__token_attn_reduceV__Stores.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.token_attn_reduceV_grid_y_checked.IO",
+      "source_sha256": "6471c7221df23c76c550a3d61d68c8a0b5b65d589042d2d1ef4aa898b5c57fb4",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793258414.2749271,
+      "end": 1793258418.0479531,
+      "log": "/tmp/integer113-family6-bench__repairs__tritonbench_g__token_attn_reduceV_grid_y_checked__IO.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.token_attn_reduceV_grid_y_checked.Proofs.AccessSafety",
+      "source_sha256": "e21aa6b1690398da738bc2b94903388bb045cc3dfff2c195428bd9c7bc7637c4",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793258418.0482512,
+      "end": 1793258427.7914102,
+      "log": "/tmp/integer113-family6-bench__repairs__tritonbench_g__token_attn_reduceV_grid_y_checked__Proofs__AccessSafety.log"
+    }
+  ],
+  "end": 1793258427.7916095
+}

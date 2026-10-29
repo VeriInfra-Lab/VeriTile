@@ -1,0 +1,6 @@
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/add_value/Kernels.lean:28:6: warning: unused variable `BLOCK_SIZE`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/add_value/Kernels.lean:48:6: warning: unused variable `BLOCK_SIZE`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`

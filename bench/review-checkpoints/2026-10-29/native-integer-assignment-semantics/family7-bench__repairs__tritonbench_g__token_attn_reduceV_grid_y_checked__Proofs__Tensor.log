@@ -1,0 +1,17 @@
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.tensor_address: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.active_bounds: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.active_logical: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.real_logical: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.read_exterior: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.logicalRealTarget: definition does not reference [VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.kernel,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.TokenAttnReduceV.Grid.run,
+ VeriTile.Bench.Repairs.TokenAttnReduceV.outputValues] — non-circular ✓

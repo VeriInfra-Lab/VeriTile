@@ -1,0 +1,11 @@
+VeriTile.Bench.TritonBenchG.FifthOrderSphHarmonics.TypedFP.written_scatter: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.FifthOrderSphHarmonics.TypedFP.output_injective: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.FifthOrderSphHarmonics.TypedFP.expected_of_cover: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.FifthOrderSphHarmonics.TypedFP.source_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

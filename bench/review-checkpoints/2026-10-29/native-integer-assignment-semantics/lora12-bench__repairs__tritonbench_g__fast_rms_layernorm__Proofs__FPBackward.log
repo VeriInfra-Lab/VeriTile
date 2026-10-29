@@ -1,0 +1,17 @@
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPBackward.lean:35:8: warning: '(try
+    dsimp only [FP.Structural.bop, Broadcast.leftIndex, Broadcast.rightIndex, State.write,
+      FPSource.update])' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPBackward.lean:35:4: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPBackward.lean:36:4: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPBackward.lean:37:4: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+VeriTile.Bench.Repairs.FastRmsLayernorm.FPBackward.source_memory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

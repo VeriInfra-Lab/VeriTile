@@ -1,0 +1,51 @@
+[
+  {
+    "name": "add_value",
+    "file": "bench/repairs/tritonbench_g/add_value/add_value_repaired.py",
+    "hits": [
+      {
+        "function": "puzzle1_commuted_kernel",
+        "line": 26,
+        "statement": "y = 10"
+      }
+    ]
+  },
+  {
+    "name": "fast_rope_embedding",
+    "file": "bench/repairs/tritonbench_g/fast_rope_embedding/fast_rope_embedding_repaired.py",
+    "hits": [
+      {
+        "function": "_rope_embedding",
+        "line": 36,
+        "statement": "ROPE_GROUP_SIZE = 4"
+      }
+    ]
+  },
+  {
+    "name": "fifth_order_sph_harmonics",
+    "file": "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/fifth_order_sph_harmonics_repaired.py",
+    "hits": [
+      {
+        "function": "fifth_order_fwd_repaired",
+        "line": 23,
+        "statement": "coord_stride = 3"
+      },
+      {
+        "function": "fifth_order_bwd_repaired",
+        "line": 182,
+        "statement": "coord_stride = 3"
+      }
+    ]
+  },
+  {
+    "name": "token_attn_reduceV",
+    "file": "bench/repairs/tritonbench_g/token_attn_reduceV_grid_y_checked/token_attn_reduceV_grid_y_checked.py",
+    "hits": [
+      {
+        "function": "_fwd_kernel_token_att2",
+        "line": 40,
+        "statement": "cur_batch_start_index = 0"
+      }
+    ]
+  }
+]

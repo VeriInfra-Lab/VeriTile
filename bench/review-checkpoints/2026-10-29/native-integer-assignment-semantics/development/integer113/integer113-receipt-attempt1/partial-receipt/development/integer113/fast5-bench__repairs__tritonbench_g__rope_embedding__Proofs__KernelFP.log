@@ -1,0 +1,10 @@
+VeriTile.Bench.Repairs.RopeEmbedding.KernelFP.nativeMemory: definition does not reference [VeriTile.Bench.Repairs.RopeEmbedding.Source.source,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.RopeEmbedding.Source.groupResult,
+ VeriTile.Bench.Repairs.RopeEmbedding.Source.value] — non-circular ✓
+VeriTile.Bench.Repairs.RopeEmbedding.KernelFP.successful_equivalence: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.RopeEmbedding.KernelFP.fp32_successful_equivalence: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

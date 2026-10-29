@@ -1,0 +1,14 @@
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/lora_expand_gemv/Proofs/LegacyFPEquiv.lean:15:5: warning: unused variable `rawBinding`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.Repairs.LoraExpandGemv.Numerical.relative_equiv: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.Numerical.whole_equiv: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LoraExpandGemv.Native.ScalarLaws: definition does not reference [VeriTile.Bench.Repairs.LoraExpandGemv.Host.invoke,
+ VeriTile.Bench.Repairs.LoraExpandGemv.execute,
+ VeriTile.Bench.Repairs.LoraExpandGemv.Branches.source,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.LoraExpandGemv.value] — non-circular ✓

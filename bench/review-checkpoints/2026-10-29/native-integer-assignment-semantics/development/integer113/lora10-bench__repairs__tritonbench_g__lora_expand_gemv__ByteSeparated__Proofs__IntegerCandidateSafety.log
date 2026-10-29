@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.IntegerCandidate.safe_iff: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

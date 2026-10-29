@@ -1,0 +1,18 @@
+VeriTile.Triton.ParameterizedAlgorithmRegression.runtime_real_read: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.ParameterizedAlgorithmRegression.typed_name_replaced: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.ParameterizedAlgorithmRegression.ordinary_grid_keeps_common_initial: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.ParameterizedAlgorithmRegression.source_safety_uses_argument: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.ParameterizedAlgorithmRegression.empty_preserves_original_memory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.ParameterizedAlgorithmRegression.undef_modes_and_memory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

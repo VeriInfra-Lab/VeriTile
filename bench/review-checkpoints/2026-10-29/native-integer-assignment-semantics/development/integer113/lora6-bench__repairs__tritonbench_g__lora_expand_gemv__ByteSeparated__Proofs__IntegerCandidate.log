@@ -1,0 +1,9 @@
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Proofs/IntegerCandidate.lean:48:4: error: `simp` failed: maximum number of steps exceeded
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Proofs/IntegerCandidate.lean:48:4: error: `simp` failed: maximum number of steps exceeded
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Proofs/IntegerCandidate.lean:48:4: error: `simp` failed: maximum number of steps exceeded
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Proofs/IntegerCandidate.lean:48:4: error: `simp` failed: maximum number of steps exceeded
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Proofs/IntegerCandidate.lean:48:4: error: `simp` failed: maximum number of steps exceeded
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Proofs/IntegerCandidate.lean:48:4: error: `simp` failed: maximum number of steps exceeded
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Proofs/IntegerCandidate.lean:48:4: error: `simp` failed: maximum number of steps exceeded
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Proofs/IntegerCandidate.lean:48:4: error: `simp` failed: maximum number of steps exceeded
+/tmp/integer113-frontend/bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Proofs/IntegerCandidate.lean:55:0: error: VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.IntegerCandidate.observed_run: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

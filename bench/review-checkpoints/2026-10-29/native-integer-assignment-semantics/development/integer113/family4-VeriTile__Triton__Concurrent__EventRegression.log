@@ -1,0 +1,13 @@
+VeriTile.Triton.Concurrent.Regression.store_then_atomicAdd: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Triton.Concurrent.Regression.missing_instruction_fails: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Triton.Concurrent.Regression.empty_schedule_not_done: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Triton.Concurrent.Regression.cas_completed_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.Concurrent.Regression.cas_completed_values: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.Concurrent.Regression.cas_program_runs: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
