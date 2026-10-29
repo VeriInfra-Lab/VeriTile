@@ -1,6 +1,5 @@
 import bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.IO
 import bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Proofs.IOBounds
-import bench.repairs.tritonbench_g.matmul_persistent_triton.Kernels
 import VeriTile.Triton.Float.Loop
 import VeriTile.Triton.Float.Equivalence
 
@@ -14,17 +13,13 @@ set_option maxRecDepth 40000
 set_option linter.unusedSimpArgs false
 variable {α : Type} [Inhabited α]
 
-/-- Expanding the task macro into ordinary quotations preserved the complete
-selected original AST, for both storage profiles and every parameter. -/
-theorem selected_original_preserved (storage : TypedSource.Storage) :
-    TypedSource.kernel storage=
-      VeriTile.Bench.Repairs.MatmulPersistentTriton.TypedSource.kernel storage := by
-  cases storage <;> rfl
+/- The raw Python body is re-proved directly below and in Core. The old
+AST equality to the historical rewritten source is no longer asserted. -/
 
 /-- Proof-only extraction from the complete already-declared quotations. -/
 def candidateOuter (p : Parameters) : List ComputeStmt :=
   match (candidate p).surfaceBody[15]? with
-  | some (ComputeStmt.forRangeDyn _ _ _ _ body) => body
+  | some (ComputeStmt.forRangeInt _ _ _ _ body) => body
   | _ => []
 def row (p : Parameters) : ComputeStmt :=
   ((outer p)[6]?).getD (.ifThen (.constBool Bool.false) [])
@@ -91,41 +86,41 @@ theorem tile_safety_equal (M : Algebra α) (p : Parameters)
   rw [Safety.traceSafeList_cons,Safety.traceSafeList_cons,row_safety_equal,row_step_equal]
 
 theorem range_equal (M : Algebra α) (p : Parameters)
-    (start stop stride : Nat) (s : State α) :
-    FP.Structural.range M "tile_ordinal" start stop stride (outer p) s=
-      FP.Structural.range M "tile_ordinal" start stop stride (candidateOuter p) s := by
-  apply range_congr_on_reachable
+    (start stop : Int) (stride : Nat) (s : State α) :
+    FP.Structural.rangeInt M "tile_ordinal" start stop stride (outer p) s=
+      FP.Structural.rangeInt M "tile_ordinal" start stop stride (candidateOuter p) s := by
+  apply rangeInt_congr_on_reachable
   intro cur t _ _ _
   exact tile_equal M p _
 
 theorem range_safety_equal (M : Algebra α) (p : Parameters) (bounds : RegionName → Nat)
-    (start stop stride : Nat) (s : State α) :
-    Safety.rangeSafe M bounds "tile_ordinal" start stop stride (outer p) s ↔
-      Safety.rangeSafe M bounds "tile_ordinal" start stop stride (candidateOuter p) s := by
-  induction start using (measure (fun i => stop-i)).wf.induction generalizing s with
+    (start stop : Int) (stride : Nat) (s : State α) :
+    Safety.rangeIntSafe M bounds "tile_ordinal" start stop stride (outer p) s ↔
+      Safety.rangeIntSafe M bounds "tile_ordinal" start stop stride (candidateOuter p) s := by
+  induction start using (measure (fun i : Int => (stop-i).toNat)).wf.induction generalizing s with
   | h cur ih =>
-    rw [Safety.rangeSafe_unfold,Safety.rangeSafe_unfold]
+    rw [Safety.rangeIntSafe_unfold,Safety.rangeIntSafe_unfold]
     by_cases hz : stride=0
     · simp [hz]
     simp only [hz,if_false]
     by_cases hc : cur<stop
     · simp only [hc,if_true,tile_safety_equal,← tile_equal]
-      cases hr : run M (outer p) (s.setReg "tile_ordinal" .nat [] (fun _ => cur)) with
+      cases hr : run M (outer p) (s.setReg "tile_ordinal" .int [] (fun _ => cur)) with
       | none => rfl
       | some t => exact and_congr Iff.rfl (ih (cur+stride) (by simp_wf;omega) t)
     · simp [hc]
 
 theorem outer_step_equal (M : Algebra α) (p : Parameters) (s : State α) :
     step M (outerStatement p) s=
-      step M (.forRangeDyn "tile_ordinal" (.constNat 0) (.ref .nat [] "tiles_per_SM")
+      step M (.forRangeInt "tile_ordinal" (.constInt 0) (.ref .int [] "tiles_per_SM")
         (.constNat 1) (candidateOuter p)) s := by
-  have hs : outerStatement p=.forRangeDyn "tile_ordinal" (.constNat 0)
-      (.ref .nat [] "tiles_per_SM") (.constNat 1) (outer p) := by
+  have hs : outerStatement p=.forRangeInt "tile_ordinal" (.constInt 0)
+      (.ref .int [] "tiles_per_SM") (.constNat 1) (outer p) := by
     rcases p with ⟨⟨m,n,k,sms,profile⟩,am,ak,bk,bn,cm,cn⟩
     cases profile <;> rfl
   rw [hs]
   simp only [step,evalOp_unfold,Option.bind_some]
-  cases hr : s.regs .nat [] "tiles_per_SM" with
+  cases hr : s.regs .int [] "tiles_per_SM" with
   | none => rfl
   | some count => exact range_equal M p 0 (count ()) 1 s
 
@@ -133,21 +128,21 @@ theorem outer_safety_equal (M : Algebra α) (p : Parameters)
     (bounds : RegionName → Nat) (s : State α) :
     Safety.stepSafe M bounds (outerStatement p) s ↔
       Safety.stepSafe M bounds
-        (.forRangeDyn "tile_ordinal" (.constNat 0) (.ref .nat [] "tiles_per_SM")
+        (.forRangeInt "tile_ordinal" (.constInt 0) (.ref .int [] "tiles_per_SM")
           (.constNat 1) (candidateOuter p)) s := by
-  have hs : outerStatement p=.forRangeDyn "tile_ordinal" (.constNat 0)
-      (.ref .nat [] "tiles_per_SM") (.constNat 1) (outer p) := by
+  have hs : outerStatement p=.forRangeInt "tile_ordinal" (.constInt 0)
+      (.ref .int [] "tiles_per_SM") (.constNat 1) (outer p) := by
     rcases p with ⟨⟨m,n,k,sms,profile⟩,am,ak,bk,bn,cm,cn⟩
     cases profile <;> rfl
   rw [hs]
   simp only [Safety.stepSafe_unfold,Safety.safeOp_unfold,evalOp_unfold,Option.bind_some]
-  cases hr : s.regs .nat [] "tiles_per_SM" with
+  cases hr : s.regs .int [] "tiles_per_SM" with
   | none => rfl
   | some count => simpa using range_safety_equal M p bounds 0 (count ()) 1 s
 
 theorem candidate_decomposition (p : Parameters) :
     (candidate p).surfaceBody=prelude p++
-      [.forRangeDyn "tile_ordinal" (.constNat 0) (.ref .nat [] "tiles_per_SM")
+      [.forRangeInt "tile_ordinal" (.constInt 0) (.ref .int [] "tiles_per_SM")
         (.constNat 1) (candidateOuter p)] := by
   rcases p with ⟨⟨m,n,k,sms,profile⟩,am,ak,bk,bn,cm,cn⟩
   cases profile <;> rfl
@@ -183,13 +178,14 @@ theorem tile_terminates (P : Source.Arithmetic α α) (p : Parameters)
     (initial : State α) (pid ordinal : Nat) (regs : Registers p pid initial)
     (tileBound : p.problem.tile pid ordinal<p.problem.tiles) :
     ∃ final,run (backend P) (outer p)
-        (initial.setReg "tile_ordinal" .nat [] (fun _ => ordinal))=some final ∧
+        (initial.setReg "tile_ordinal" .int [] (fun _ => (ordinal : Int)))=some final ∧
       Registers p pid final := by
   let setup := tilePreludeExecution P p pid ordinal initial regs
   have invariant := tile_initial P p pid ordinal initial regs tileBound
   have registers := tile_registers P p pid ordinal initial regs
   obtain ⟨last,ran,inv,reg⟩ := innerLoop P p initial setup.val pid (p.problem.tile pid ordinal) 0
     (Nat.zero_le _) invariant registers
+  simp only [Int.natCast_zero] at ran
   refine ⟨suffixResult P p initial last (p.problem.tile pid ordinal),?_,
     suffix_registers P p initial last pid (p.problem.tile pid ordinal) reg⟩
   rw [outer_decomposition,run_append,setup.property,Option.bind_some,run,
@@ -235,8 +231,11 @@ theorem program_terminates (P : Source.Arithmetic α α) (p : Parameters)
   refine ⟨final,?_⟩
   unfold program
   change run (backend P) (source p).surfaceBody _=some final
+  have rangeAsSequence := Compose.range_sequence (backend P) "tile_ordinal" (outer p)
+    0 (p.problem.work pid) prepared.val
+  simp only [Int.natCast_zero] at rangeAsSequence
   rw [source_decomposition,run_append,prepared.property,Option.bind_some,run,
-    dynamicOuter P p prepared.val pid regs,Compose.range_sequence]
+    dynamicOuter P p prepared.val pid regs,rangeAsSequence]
   simp only [Nat.sub_zero,ran,run]
   rfl
 

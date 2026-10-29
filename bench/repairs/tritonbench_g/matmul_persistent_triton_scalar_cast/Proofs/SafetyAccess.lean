@@ -27,13 +27,13 @@ theorem inner_safe (P : Source.Arithmetic α α) (p : Core.Parameters)
     (bounds : RegionName → Nat)
     (ha : ∀ i : AIndex p,p.problem.k block i.2.1.val<p.problem.K → aOffset p tile block i<bounds "A")
     (hb : ∀ i : BIndex p,p.problem.k block i.1.val<p.problem.K → bOffset p tile block i<bounds "B") :
-    Safety.traceSafeList (backend P) bounds (Core.inner p) (current.setReg "ki" .nat [] (fun _ => block)) := by
+    Safety.traceSafeList (backend P) bounds (Core.inner p) (current.setReg "ki" .int [] (fun _ => (block : Int))) := by
   rcases p with ⟨⟨M,N,K,SMS,profile⟩,am,ak,bk,bn,cm,cn⟩
   cases profile
   case fp16 =>
     let p : Core.Parameters := ⟨⟨M,N,K,SMS,.fp16⟩,am,ak,bk,bn,cm,cn⟩
     change Safety.traceSafeList (backend P) bounds (Core.inner p)
-      (current.setReg "ki" .nat [] (fun _ => block))
+      (current.setReg "ki" .int [] (fun _ => (block : Int)))
     have h : InnerInvariant P p initial tile block current := h
     have ha : ∀ i : AIndex p,p.problem.k block i.2.1.val<p.problem.K → aOffset p tile block i<bounds "A" := ha
     have hb : ∀ i : BIndex p,p.problem.k block i.1.val<p.problem.K → bOffset p tile block i<bounds "B" := hb
@@ -43,7 +43,7 @@ theorem inner_safe (P : Source.Arithmetic α α) (p : Core.Parameters)
       Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
       step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,bop,natLt,numericEq,numericLt,
       ComputeDType.eraseDType,ofFloat,toFloat,FloatDType.numericDType,FloatDType.toTileDType,
-      Region.cast,Option.bind,integralFloorDiv,integralMod,backend,matrix,h.offAM,h.offBN,h.offK,h.acc,
+      Region.cast,Option.bind,integralFloorDiv,integralMod,backend,matrix,h.offAM,h.offBN,h.offK,h.acc,h.dimM,h.dimN,h.dimK,h.strideAM,h.strideAK,h.strideBK,h.strideBN,h.strideCM,h.strideCN,
       h.memory,aValues,bValues,aOffset,bOffset,readCell,floatValues,dtype,
       Problem.k,clamp,Broadcast.leftIndex,Broadcast.rightIndex,RealMath.signed_tail_mask]
     simp only [← Int.natCast_mul,← Int.natCast_add,int_ite_nat,Int.ofNat_lt,Int.toNat_natCast]
@@ -55,7 +55,7 @@ theorem inner_safe (P : Source.Arithmetic α α) (p : Core.Parameters)
   case f8e4 =>
     let p : Core.Parameters := ⟨⟨M,N,K,SMS,.f8e4⟩,am,ak,bk,bn,cm,cn⟩
     change Safety.traceSafeList (backend P) bounds (Core.inner p)
-      (current.setReg "ki" .nat [] (fun _ => block))
+      (current.setReg "ki" .int [] (fun _ => (block : Int)))
     have h : InnerInvariant P p initial tile block current := h
     have ha : ∀ i : AIndex p,p.problem.k block i.2.1.val<p.problem.K → aOffset p tile block i<bounds "A" := ha
     have hb : ∀ i : BIndex p,p.problem.k block i.1.val<p.problem.K → bOffset p tile block i<bounds "B" := hb
@@ -65,7 +65,7 @@ theorem inner_safe (P : Source.Arithmetic α α) (p : Core.Parameters)
       Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
       step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,bop,natLt,numericEq,numericLt,
       ComputeDType.eraseDType,ofFloat,toFloat,FloatDType.numericDType,FloatDType.toTileDType,
-      Region.cast,Option.bind,integralFloorDiv,integralMod,backend,matrix,h.offAM,h.offBN,h.offK,h.acc,
+      Region.cast,Option.bind,integralFloorDiv,integralMod,backend,matrix,h.offAM,h.offBN,h.offK,h.acc,h.dimM,h.dimN,h.dimK,h.strideAM,h.strideAK,h.strideBK,h.strideBN,h.strideCM,h.strideCN,
       h.memory,aValues,bValues,aOffset,bOffset,readCell,floatValues,dtype,
       Problem.k,clamp,Broadcast.leftIndex,Broadcast.rightIndex,RealMath.signed_tail_mask]
     simp only [← Int.natCast_mul,← Int.natCast_add,int_ite_nat,Int.ofNat_lt,Int.toNat_natCast]
@@ -93,10 +93,12 @@ theorem suffix_safe (P : Source.Arithmetic α α) (p : Core.Parameters)
       Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
       step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,bop,natLt,numericEq,numericLt,
       ComputeDType.eraseDType,ofFloat,toFloat,FloatDType.numericDType,FloatDType.toTileDType,
-      Region.cast,Option.bind,backend,h.offAM,h.offBN,h.offCM,h.offCN,h.acc,
+      Region.cast,Option.bind,backend,h.offAM,h.offBN,h.offCM,h.offCN,h.acc,h.dimM,h.dimN,h.dimK,h.strideAM,h.strideAK,h.strideBK,h.strideBN,h.strideCM,h.strideCN,
       cOffset,active,floatValues,dtype,pack,Broadcast.leftIndex,Broadcast.rightIndex]
-    intro r c hr hc
-    simpa [p,cOffset, -Nat.cast_mul, -Nat.cast_add, ← Int.natCast_mul, ← Int.natCast_add] using ho (r,c,PUnit.unit) ⟨hr,hc⟩
+    constructor
+    · intro r c hr hc
+      simpa [p,cOffset, -Nat.cast_mul, -Nat.cast_add, ← Int.natCast_mul, ← Int.natCast_add] using ho (r,c,PUnit.unit) ⟨hr,hc⟩
+    · split <;> trivial
   case f8e4 =>
     let p : Core.Parameters := ⟨⟨M,N,K,SMS,.f8e4⟩,am,ak,bk,bn,cm,cn⟩
     change Safety.traceSafeList (backend P) bounds (tileSuffix p) current
@@ -108,10 +110,12 @@ theorem suffix_safe (P : Source.Arithmetic α α) (p : Core.Parameters)
       Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
       step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,bop,natLt,numericEq,numericLt,
       ComputeDType.eraseDType,ofFloat,toFloat,FloatDType.numericDType,FloatDType.toTileDType,
-      Region.cast,Option.bind,backend,h.offAM,h.offBN,h.offCM,h.offCN,h.acc,
+      Region.cast,Option.bind,backend,h.offAM,h.offBN,h.offCM,h.offCN,h.acc,h.dimM,h.dimN,h.dimK,h.strideAM,h.strideAK,h.strideBK,h.strideBN,h.strideCM,h.strideCN,
       cOffset,active,floatValues,dtype,pack,Broadcast.leftIndex,Broadcast.rightIndex]
-    intro r c hr hc
-    simpa [p,cOffset, -Nat.cast_mul, -Nat.cast_add, ← Int.natCast_mul, ← Int.natCast_add] using ho (r,c,PUnit.unit) ⟨hr,hc⟩
+    constructor
+    · intro r c hr hc
+      simpa [p,cOffset, -Nat.cast_mul, -Nat.cast_add, ← Int.natCast_mul, ← Int.natCast_add] using ho (r,c,PUnit.unit) ⟨hr,hc⟩
+    · split <;> trivial
 
 end
 end VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.SourceSafety

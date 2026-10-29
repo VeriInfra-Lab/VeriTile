@@ -489,6 +489,7 @@ partial def expandIntExpectedExpr (env : Env) (stx : TSyntax `tritonExpr) :
   let natToInt (e' : EOut) : MacroM EOut := do
     match e'.dtype with
     | .int | .int8 | .int32 => pure e'.forgetStorageWidth
+    | .bool => pure ⟨← `(Op.boolToInt $e'.term), .int, e'.shape, none, none⟩
     | .nat =>
         pure ⟨← `(Op.castNatToInt $e'.term), .int, e'.shape,
           e'.computeTerm, e'.computeDType?⟩

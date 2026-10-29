@@ -1,3 +1,4 @@
+import bench.tritonbench_g.matmul_persistent_triton.Types
 import VeriTile.Triton.DSL
 import VeriTile.Triton.Source
 import VeriTile.Meta.StatementAudit
@@ -85,13 +86,6 @@ macro_rules
         }
       }).surfaceBody)
 
-inductive Storage where
-  | fp16 | f8e4
-  deriving DecidableEq, Repr
-
-abbrev Source := RegionName → RegionName → RegionName →
-  Nat → Nat → Nat → Nat → Nat → Nat → Nat → Nat → Nat →
-  Nat → Nat → Nat → Nat → Nat → ComputeKernel
 
 def kernel (storage : Storage) (candidate : Bool) : Source :=
   match storage, candidate with

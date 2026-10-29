@@ -27,11 +27,11 @@ def source (p : Parameters) : ComputeKernel :=
 def prelude (p : Parameters) := (source p).surfaceBody.take 15
 
 def outer (p : Parameters) : List ComputeStmt := match (source p).surfaceBody[15]? with
-  | some (ComputeStmt.forRangeDyn _ _ _ _ code) => code
+  | some (ComputeStmt.forRangeInt _ _ _ _ code) => code
   | _ => []
 def tilePrelude (p : Parameters) := (outer p).take 13
 def inner (p : Parameters) : List ComputeStmt := match (outer p)[13]? with
-  | some (ComputeStmt.forRangeDyn _ _ _ _ code) => code
+  | some (ComputeStmt.forRangeInt _ _ _ _ code) => code
   | _ => []
 def tileSuffix (p : Parameters) := (outer p).drop 14
 
@@ -85,7 +85,7 @@ def rawTilePrelude (p : Parameters) : List ComputeStmt :=
   let kernel := TypedSource.kernel .fp16 "A" "B" "C" p.problem.M p.problem.N p.problem.K
     p.am p.ak p.bk p.bn p.cm p.cn 128 256 p.problem.profile.blockK 8 p.problem.SMS
   (match kernel.surfaceBody[15]? with
-   | some (ComputeStmt.forRangeDyn _ _ _ _ body) => body
+   | some (ComputeStmt.forRangeInt _ _ _ _ body) => body
    | _ => []).take 13
 
 theorem tilePrelude_raw (p : Parameters) : tilePrelude p=rawTilePrelude p := by

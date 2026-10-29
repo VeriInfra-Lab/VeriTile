@@ -66,6 +66,7 @@ globs = [
   "bench.tests.AtomicStoreDTypeBody",
   "bench.tests.TupleCallBody",
   "bench.tests.BoolInt64Body",
+  "bench.tests.BoolArithmeticBody",
   "bench.tests.ValueDTypeBody",
   "bench.tests.NarrowUnsignedBody",
   "bench.tests.NarrowUnsignedMemoryBody",

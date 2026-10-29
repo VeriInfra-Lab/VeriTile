@@ -81,17 +81,26 @@ theorem tile_registers (P : Source.Arithmetic α α) (p : Parameters)
     (pid ordinal : Nat) (s : State α) (h : Registers p pid s) :
     Registers p pid (tilePreludeExecution P p pid ordinal s h).val := by
   constructor <;> simp [tilePreludeExecution,h.start,h.rows,h.columns,h.count,h.work,
-    h.group,h.span,h.lanesM,h.lanesN,h.lanesK]
+    h.group,h.span,h.lanesM,h.lanesN,h.lanesK,h.dimM,h.dimN,h.dimK,h.strideAM,h.strideAK,h.strideBK,h.strideBN,h.strideCM,h.strideCN]
 
 theorem tile_initial (P : Source.Arithmetic α α) (p : Parameters)
     (pid ordinal : Nat) (s : State α) (h : Registers p pid s)
     (ht : p.problem.tile pid ordinal<p.problem.tiles) :
     InnerInvariant P p s (p.problem.tile pid ordinal) 0 (tilePreludeExecution P p pid ordinal s h).val := by
   refine ⟨?_,tile_rows P p pid ordinal s h ht,tile_columns P p pid ordinal s h ht,
-    tile_clamped_rows P p pid ordinal s h ht,tile_clamped_columns P p pid ordinal s h ht,?_,?_⟩
+    tile_clamped_rows P p pid ordinal s h ht,tile_clamped_columns P p pid ordinal s h ht,?_,?_, ?_ , ?_ , ?_ , ?_ , ?_ , ?_ , ?_ , ?_ , ?_⟩
   · simp [tilePreludeExecution]
   · exact (tile_registers P p pid ordinal s h).lanesK
   · simp [tilePreludeExecution,accumulation]
+  · simpa [tilePreludeExecution] using h.dimM
+  · simpa [tilePreludeExecution] using h.dimN
+  · simpa [tilePreludeExecution] using h.dimK
+  · simpa [tilePreludeExecution] using h.strideAM
+  · simpa [tilePreludeExecution] using h.strideAK
+  · simpa [tilePreludeExecution] using h.strideBK
+  · simpa [tilePreludeExecution] using h.strideBN
+  · simpa [tilePreludeExecution] using h.strideCM
+  · simpa [tilePreludeExecution] using h.strideCN
 
 #axiomsClean tile_initial
 end

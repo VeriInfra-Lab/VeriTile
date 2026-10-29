@@ -32,7 +32,7 @@ def floatValues (profile : Storage) {sh : TileShape} (value : TileIndex sh → �
 
 def bodyResult (P : Source.Arithmetic α α) (p : Parameters) (initial current : State α)
     (tile block : Nat) : State α :=
-  let s := current.setReg "ki" .nat [] (fun _ => block)
+  let s := current.setReg "ki" .int [] (fun _ => (block : Int))
   let s := s.setReg "raw_k" .int [p.problem.profile.blockK] (fun i => (p.problem.k block i.1.val : Int))
   let s := s.setReg "offs_k" .int [p.problem.profile.blockK] (fun i => (clamp p.problem.K (p.problem.k block i.1.val) : Int))
   let s := s.setReg "a_ptrs" .ptr [128,p.problem.profile.blockK] (fun i => ("A",aOffset p tile block i))
@@ -45,19 +45,19 @@ def bodyResult (P : Source.Arithmetic α α) (p : Parameters) (initial current :
 
 theorem bodyExecution (P : Source.Arithmetic α α) (p : Parameters)
     (initial current : State α) (tile block : Nat) (h : InnerInvariant P p initial tile block current) :
-    run (backend P) (inner p) (current.setReg "ki" .nat [] (fun _ => block))=
+    run (backend P) (inner p) (current.setReg "ki" .int [] (fun _ => (block : Int)))=
       some (bodyResult P p initial current tile block) := by
   rcases p with ⟨⟨M,N,K,SMS,profile⟩,am,ak,bk,bn,cm,cn⟩
   cases profile
   case fp16 =>
     let p : Parameters := ⟨⟨M,N,K,SMS,.fp16⟩,am,ak,bk,bn,cm,cn⟩
-    change run (backend P) (inner p) (current.setReg "ki" .nat [] (fun _ => block))=
+    change run (backend P) (inner p) (current.setReg "ki" .int [] (fun _ => (block : Int)))=
       some (bodyResult P p initial current tile block)
     have h : InnerInvariant P p initial tile block current := h
     simp [p,inner,outer,source,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,ComputeKernel.surfaceBody,run,step,
       evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,bop,natLt,numericEq,numericLt,
       ComputeDType.eraseDType,ofFloat,toFloat,FloatDType.numericDType,FloatDType.toTileDType,
-      Region.cast,Option.bind,integralFloorDiv,integralMod,backend,matrix,h.offAM,h.offBN,h.offK,h.acc,
+      Region.cast,Option.bind,integralFloorDiv,integralMod,backend,matrix,h.offAM,h.offBN,h.offK,h.acc,h.dimM,h.dimN,h.dimK,h.strideAM,h.strideAK,h.strideBK,h.strideBN,h.strideCM,h.strideCN,
       h.memory,bodyResult,accumulation,aValues,bValues,aOffset,bOffset,readCell,floatValues,dtype,
       Problem.k,clamp,Broadcast.leftIndex,Broadcast.rightIndex,RealMath.signed_tail_mask]
     try dsimp only [FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex]
@@ -72,13 +72,13 @@ theorem bodyExecution (P : Source.Arithmetic α α) (p : Parameters)
         ← Int.natCast_mul,← Int.natCast_add,int_ite_nat,masked_sum_nat]
   case f8e4 =>
     let p : Parameters := ⟨⟨M,N,K,SMS,.f8e4⟩,am,ak,bk,bn,cm,cn⟩
-    change run (backend P) (inner p) (current.setReg "ki" .nat [] (fun _ => block))=
+    change run (backend P) (inner p) (current.setReg "ki" .int [] (fun _ => (block : Int)))=
       some (bodyResult P p initial current tile block)
     have h : InnerInvariant P p initial tile block current := h
     simp [p,inner,outer,source,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,ComputeKernel.surfaceBody,run,step,
       evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,bop,natLt,numericEq,numericLt,
       ComputeDType.eraseDType,ofFloat,toFloat,FloatDType.numericDType,FloatDType.toTileDType,
-      Region.cast,Option.bind,integralFloorDiv,integralMod,backend,matrix,h.offAM,h.offBN,h.offK,h.acc,
+      Region.cast,Option.bind,integralFloorDiv,integralMod,backend,matrix,h.offAM,h.offBN,h.offK,h.acc,h.dimM,h.dimN,h.dimK,h.strideAM,h.strideAK,h.strideBK,h.strideBN,h.strideCM,h.strideCN,
       h.memory,bodyResult,accumulation,aValues,bValues,aOffset,bOffset,readCell,floatValues,dtype,
       Problem.k,clamp,Broadcast.leftIndex,Broadcast.rightIndex,RealMath.signed_tail_mask]
     try dsimp only [FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex]

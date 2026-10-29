@@ -54,7 +54,7 @@ theorem suffixExecution (P : Source.Arithmetic α α) (p : Parameters)
     simp [p,tileSuffix,outer,source,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,ComputeKernel.surfaceBody,run,step,
       evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,bop,natLt,numericEq,numericLt,
       ComputeDType.eraseDType,ofFloat,toFloat,FloatDType.numericDType,FloatDType.toTileDType,
-      Region.cast,Option.bind,backend,h.offAM,h.offBN,h.offCM,h.offCN,h.acc,
+      Region.cast,Option.bind,backend,h.offAM,h.offBN,h.offCM,h.offCN,h.acc,h.dimM,h.dimN,h.dimK,h.strideAM,h.strideAK,h.strideBK,h.strideBN,h.strideCM,h.strideCN,
       suffixResult,storeRegisters,outputValue,cOffset,active,floatValues,dtype,pack,
       Broadcast.leftIndex,Broadcast.rightIndex,-List.foldl_cons,-List.foldl_nil]
     try simp only [← Int.natCast_mul,← Int.natCast_add,Int.toNat_natCast]
@@ -70,7 +70,7 @@ theorem suffixExecution (P : Source.Arithmetic α α) (p : Parameters)
     simp [p,tileSuffix,outer,source,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,ComputeKernel.surfaceBody,run,step,
       evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,bop,natLt,numericEq,numericLt,
       ComputeDType.eraseDType,ofFloat,toFloat,FloatDType.numericDType,FloatDType.toTileDType,
-      Region.cast,Option.bind,backend,h.offAM,h.offBN,h.offCM,h.offCN,h.acc,
+      Region.cast,Option.bind,backend,h.offAM,h.offBN,h.offCM,h.offCN,h.acc,h.dimM,h.dimN,h.dimK,h.strideAM,h.strideAK,h.strideBK,h.strideBN,h.strideCM,h.strideCN,
       suffixResult,storeRegisters,outputValue,cOffset,active,floatValues,dtype,pack,
       Broadcast.leftIndex,Broadcast.rightIndex,-List.foldl_cons,-List.foldl_nil]
     try simp only [← Int.natCast_mul,← Int.natCast_add,Int.toNat_natCast]

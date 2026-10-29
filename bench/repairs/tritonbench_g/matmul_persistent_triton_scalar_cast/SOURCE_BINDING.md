@@ -12,9 +12,12 @@ configuration, or smaller metadata domain is introduced.
 
 The readable quote preserves the source's two distinct dynamic loops,
 grouped tile coordinates, clamping before pointer formation, signed K-tail
-mask, supplied accumulator dot, output conversion and masked write. Exact
-boolean increments are rendered as conditionals. Host scalar widening is
-represented by Nat parameters and explicit Int conversion at address sites.
+mask, supplied accumulator dot, output conversion and masked write. Boolean
+increments retain the original `quotient + (remainder != 0)` expressions;
+the frontend promotes the Boolean operand to signed zero or one. Each runtime
+scalar is bound outside the quotation and its original `tl.cast` remains
+inside. The proofs connect these signed registers to natural mathematical
+dimensions and schedules.
 `Pointer.scalar_bounds` derives representability of all nine scalar casts
 from ordinary valid Tensor ABI bounds; `Pointer.*_offset_pointer` proves that
 every formed clamped DSL offset uses the actual Tensor data pointer without
@@ -48,9 +51,10 @@ context and call strategy are pinned by unchanged Python and CPU AST checks.
 The 2026-10-21 source pair adds `matmul_persistent_triton_reordered.py` with
 only the common signed row-index multiplication commuted. Both alternatives
 have complete ordinary quotations for FP16 and E4M3FN in `Kernels.lean`.
-`Pair.selected_original_preserved` checks the original macro expansion by
-definitional equality, while `Pair.kernel_equal` and `Pair.equivalent` prove
-actual full-source and complete persistent-grid equality, respectively.
+`jit-correspondence.json` checks each literal Python body and external call
+signature. No equality to the historical rewritten AST is assumed.
+`Pair.kernel_equal` and `Pair.equivalent` prove actual full-source and complete
+persistent-grid equality, respectively, for the copied bodies.
 The public main theorem uses `PairIO.equivalent` and the shared complete
 `ProgramIO` judgment: original input binding/bounds, both actual safe and
 successful schedules, equal output cells and both exact exterior frames.

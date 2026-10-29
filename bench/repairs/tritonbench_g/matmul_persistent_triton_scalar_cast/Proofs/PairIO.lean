@@ -37,13 +37,14 @@ theorem tile_frame (P : Source.Arithmetic α α) (p : Parameters)
     (initial : State α) (pid ordinal : Nat) (regs : Registers p pid initial)
     (tileBound : p.problem.tile pid ordinal<p.problem.tiles) :
     ∃ final,run (backend P) (outer p)
-        (initial.setReg "tile_ordinal" .nat [] (fun _ => ordinal))=some final ∧
+        (initial.setReg "tile_ordinal" .int [] (fun _ => (ordinal : Int)))=some final ∧
       Registers p pid final ∧ Frame p initial final := by
   let setup := tilePreludeExecution P p pid ordinal initial regs
   have invariant := tile_initial P p pid ordinal initial regs tileBound
   have registers := tile_registers P p pid ordinal initial regs
   obtain ⟨last,ran,inv,reg⟩ := innerLoop P p initial setup.val pid (p.problem.tile pid ordinal) 0
     (Nat.zero_le _) invariant registers
+  simp only [Int.natCast_zero] at ran
   refine ⟨suffixResult P p initial last (p.problem.tile pid ordinal),?_,
     suffix_registers P p initial last pid (p.problem.tile pid ordinal) reg,
     suffix_frame P p initial last _ inv⟩
@@ -95,8 +96,11 @@ theorem program_frame (P : Source.Arithmetic α α) (p : Parameters)
   refine ⟨final,?_,?_⟩
   · unfold program
     change run (backend P) (source p).surfaceBody _=some final
+    have rangeAsSequence := Compose.range_sequence (backend P) "tile_ordinal" (outer p)
+      0 (p.problem.work pid) prepared.val
+    simp only [Int.natCast_zero] at rangeAsSequence
     rw [source_decomposition,run_append,prepared.property,Option.bind_some,run,
-      dynamicOuter P p prepared.val pid regs,Compose.range_sequence]
+      dynamicOuter P p prepared.val pid regs,rangeAsSequence]
     simp only [Nat.sub_zero,ran,run]
     rfl
   · intro r o ho
