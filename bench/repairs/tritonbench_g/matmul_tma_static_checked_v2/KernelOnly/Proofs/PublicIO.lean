@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.matmul_tma_static_checked_v2.KernelOnly.Proofs.SourceExecution
 import bench.repairs.tritonbench_g.matmul_tma_static_checked_v2.KernelOnly.Proofs.SourceSafety
 import bench.repairs.tritonbench_g.matmul_tma_static_checked_v2.KernelOnly.IO
 
@@ -11,8 +12,9 @@ set_option linter.unusedSimpArgs false
 theorem implements {α : Type} [Inhabited α] (M : Algebra α) (D : Dot α)
     (p : Parameters) (half : Bool) (injective : Function.Injective (cOffset p))
     (f : (AIndex p → α) → (BIndex p → α) → CIndex p → α)
-    (lower : ∀ a b i, M.cast none .fp32 (outputDType half)
-      (D.apply (some .fp32) {} (batch := []) a b i) = f a b i) :
+    (lower : ∀ a b i,
+      (if half then M.cast none .fp16 .fp16 (M.cast none .fp32 .fp16 (D.apply none {} (batch := []) a b i))
+       else M.cast none .fp32 .fp32 (D.apply none {} (batch := []) a b i)) = f a b i) :
     (io M D p half).Implements (formula p half f) := by
   apply ProgramIO.Implements.intro
   · intro vals bounds bounded s _
@@ -23,7 +25,7 @@ theorem implements {α : Type} [Inhabited α] (M : Algebra α) (D : Dot α)
       (fun i => bounded.2.2.1 ⟨0, by simp⟩ i trivial)
   · intro vals s binding
     let initial := (invocation M D p half).initial s
-    obtain ⟨final, executed, post⟩ := FPValue.correctness M D p half initial injective
+    obtain ⟨final, executed, post⟩ := SourceExecution.correctness M D p half initial injective
     have a : aValues p initial = vals ⟨0, by simp⟩ := by
       funext i
       exact binding ⟨0, by simp⟩ i trivial
@@ -38,7 +40,7 @@ theorem implements {α : Type} [Inhabited α] (M : Algebra α) (D : Dot α)
         Cell.mk (outputDType half).toTileDType
           (ofFloat (outputDType half) (f (vals 0) (vals 1) j))
       rw [post.1 j]
-      simp only [outputValues, a, b, lower]
+      simp only [SourceExecution.values, a, b, lower]
       cases half <;> rfl
     · intro r offset outside
       apply post.2

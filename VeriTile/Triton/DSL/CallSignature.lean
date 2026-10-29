@@ -1,3 +1,5 @@
+import VeriTile.Triton.DSL.SourceConstant
+import VeriTile.Triton.DSL.NestedLoadAssignments
 import VeriTile.Triton.DSL.ConstexprMask
 import VeriTile.Triton.DSL.PythonConstants
 import VeriTile.Triton.DSL.SourceIntrinsic
@@ -60,6 +62,12 @@ structure CallSignature where
   finiteImports : List (String × String) := []
   /-- Checked source import bindings for modeled unary intrinsics. -/
   unaryImports : List (String × String) := []
+  /-- Exact binary intrinsic selected by the caller's source import binding. -/
+  binaryImports : List (String × String) := []
+  /-- Original immutable module-level `tl.constexpr` numeric literals.
+  Names and literal text are checked against Python by source correspondence.
+  They are source metadata, not function parameters or body instructions. -/
+  sourceConstants : List (String × String) := []
 
 namespace DSL.CallSignature
 open Lean Elab Term Meta
@@ -236,12 +244,12 @@ private partial def rejectArgumentMutation (names : List Name) (raw : Syntax)
     reject ⟨raw[1]⟩
   for arg in raw.getArgs do rejectArgumentMutation names arg message
 
-/-- Specialize call inputs in statement order. A direct integer-parameter
+/-- Specialize call inputs in statement order. A direct integer or offset-pointer
 assignment reads its entry value on the RHS and binds the original source LHS.
 All later uses read that local register, including after a zero-trip loop.
 Conditional/loop overwrites before definite assignment, tuple/augmented writes
 and FP parameter rebinding remain rejected by the existing mutation checker. -/
-private def bindCallStatements (integers : List Name)
+private def bindCallStatements (rebindable : List Name)
     (values : List (Name × TSyntax `tritonExpr))
     (stmts : Array (TSyntax `tritonStmt)) : TermElabM (Array (TSyntax `tritonStmt)) := do
   let mut current := values
@@ -249,7 +257,7 @@ private def bindCallStatements (integers : List Name)
   for st in stmts do
     if let `(tritonStmt| $id:ident = $rhs:tritonExpr) := st then
       let name := id.getId.eraseMacroScopes
-      if integers.contains name && current.any (fun value => value.1 == name) then
+      if rebindable.contains name && current.any (fun value => value.1 == name) then
         let rhs : TSyntax `tritonExpr := ⟨← liftMacroM <| bindSourceValues current rhs.raw⟩
         result := result.push (← liftMacroM `(tritonStmt| $id:ident = $rhs:tritonExpr))
         current := current.filter (fun value => value.1 != name)
@@ -371,6 +379,46 @@ private partial def specializeStringBlock (choices : StringChoices)
     | _ => result := result ++ [st]
   return result
 
+/-- Python integer constexpr arithmetic is signed before an explicit int64
+cast. In particular, `BT - 1` at BT=0 is -1, not truncated Nat subtraction.
+This bounded evaluator accepts only immutable constexpr integers and +,-,*;
+runtime values keep their original source-width arithmetic. -/
+private partial def staticPythonInteger (constants assigned : List Name)
+    (expression : TSyntax `tritonExpr) : TermElabM (Option (TSyntax `term)) := do
+  match expression with
+  | `(tritonExpr| $n:num) => return some (← `(($n : Int)))
+  | `(tritonExpr| ($inner:tritonExpr)) => staticPythonInteger constants assigned inner
+  | `(tritonExpr| -$inner:tritonExpr) =>
+      let some value ← staticPythonInteger constants assigned inner | return none
+      return some (← `(-($value : Int)))
+  | `(tritonExpr| $id:ident) =>
+      let name := id.getId.eraseMacroScopes
+      unless constants.contains name && !assigned.contains name do return none
+      let term : TSyntax `term := ⟨id.raw⟩
+      let value ← elabTerm term none
+      let carrier ← inferType value
+      if ← isDefEq carrier (mkConst ``Nat) then return some (← `(Int.ofNat ($term : Nat)))
+      if ← isDefEq carrier (mkConst ``Int) then return some term
+      return none
+  | `(tritonExpr| $a:tritonExpr + $b:tritonExpr)
+  | `(tritonExpr| $a:tritonExpr - $b:tritonExpr)
+  | `(tritonExpr| $a:tritonExpr * $b:tritonExpr) =>
+      let some left ← staticPythonInteger constants assigned a | return none
+      let some right ← staticPythonInteger constants assigned b | return none
+      match expression with
+      | `(tritonExpr| $_:tritonExpr + $_:tritonExpr) => return some (← `(($left : Int) + ($right : Int)))
+      | `(tritonExpr| $_:tritonExpr - $_:tritonExpr) => return some (← `(($left : Int) - ($right : Int)))
+      | _ => return some (← `(($left : Int) * ($right : Int)))
+  | _ => return none
+
+private partial def hasIntegerArithmetic (expression : TSyntax `tritonExpr) : Bool :=
+  match expression with
+  | `(tritonExpr| ($inner:tritonExpr)) => hasIntegerArithmetic inner
+  | `(tritonExpr| $_:tritonExpr + $_:tritonExpr)
+  | `(tritonExpr| $_:tritonExpr - $_:tritonExpr)
+  | `(tritonExpr| $_:tritonExpr * $_:tritonExpr) => Bool.true
+  | _ => Bool.false
+
 /-- Evaluate immutable Nat constexpr quotients at specialization time, as the
 source JIT does for valid compile-time dimensions. Literal zero divisors keep
 an explicit divide node; runtime and mutable names keep the runtime path.
@@ -380,6 +428,10 @@ private partial def foldStaticNatQuotients (constants assigned : List Name)
   let args ← raw.getArgs.mapM (foldStaticNatQuotients constants assigned)
   let next := match raw with | .node info kind _ => Syntax.node info kind args | _ => raw
   let expression : TSyntax `tritonExpr := ⟨next⟩
+  if let `(tritonExpr| tl.cast($value:tritonExpr, tl.int64)) := expression then
+    if hasIntegerArithmetic value then
+      if let some integer ← staticPythonInteger constants assigned value then
+        return (← liftMacroM `(tritonExpr| tl.cast($(($integer : Int)), tl.int64))).raw
   if let `(tritonExpr| $dividend:tritonExpr // $divisor:tritonExpr) := expression then
     if let `(tritonExpr| $zero:num) := divisor then
       if zero.getNat == 0 then return next
@@ -578,12 +630,23 @@ private def elaborateCallCore (profile : TSyntax `term) (stmts : Array (TSyntax 
         throwError "source helper names must be distinct from call parameters"
       let finiteImports ← bindings stringValue (← mkAppM ``Triton.CallSignature.finiteImports #[profile])
       let unaryImports ← bindings stringValue (← mkAppM ``Triton.CallSignature.unaryImports #[profile])
+      let binaryImports ← bindings stringValue (← mkAppM ``Triton.CallSignature.binaryImports #[profile])
+      liftMacroM <| SourceIntrinsic.validateBinary binaryImports
       liftMacroM <| SourceIntrinsic.validate unaryImports
-      let importedNames := finiteImports.map Prod.fst ++ unaryImports.map Prod.fst
+      let importedNames := finiteImports.map Prod.fst ++ unaryImports.map Prod.fst ++ binaryImports.map Prod.fst
       unless importedNames.eraseDups.length == importedNames.length &&
           importedNames.all (fun name => !names.contains name && !helperNames.contains name) do
         throwError "source import aliases must be distinct from parameters and helpers"
       let environment ← getEnv
+      let sourceConstants ← bindings stringValue (← mkAppM ``Triton.CallSignature.sourceConstants #[profile])
+      let globalNames := sourceConstants.map Prod.fst
+      unless globalNames.eraseDups.length == globalNames.length &&
+          globalNames.all (fun name => !names.contains name && !helperNames.contains name && !importedNames.contains name) do
+        throwError "source constants must be distinct from parameters, helpers and imports"
+      let checkedConstants ← sourceConstants.mapM fun (name, source) =>
+        liftMacroM <| SourceConstant.check environment name source
+      for stmt in stmts do
+        rejectArgumentMutation (globalNames.map Name.mkSimple) stmt.raw "source constants cannot be rebound"
       let checkedFunctions ← sourceFunctions.mapM fun function => do
         let functionName ← stringValue (← mkAppM ``Triton.SourceFunction.name #[function])
         let parameters ← (← listValues
@@ -619,6 +682,10 @@ private def elaborateCallCore (profile : TSyntax `term) (stmts : Array (TSyntax 
         return (⟨← SourceFunction.expand ordinaryFunctions stmt.raw⟩ : TSyntax `tritonStmt)
       let stmts ← liftMacroM <| stmts.mapM fun stmt => do
         return (⟨← SourceIntrinsic.lower unaryImports stmt.raw⟩ : TSyntax `tritonStmt)
+      let stmts ← liftMacroM <| stmts.mapM fun stmt => do
+        return (⟨← SourceIntrinsic.lowerBinary binaryImports stmt.raw⟩ : TSyntax `tritonStmt)
+      let stmts ← liftMacroM <| stmts.mapM fun stmt => do
+        return (⟨← bindSourceValues checkedConstants stmt.raw⟩ : TSyntax `tritonStmt)
       let stmts ← liftMacroM <| stmts.mapM fun stmt => do
         return (⟨← PythonConstants.lower stmt.raw⟩ : TSyntax `tritonStmt)
       let stmts ← liftMacroM <| OptionalPointer.specialize presence stmts
@@ -689,9 +756,6 @@ private def elaborateCallCore (profile : TSyntax `term) (stmts : Array (TSyntax 
               liftMacroM `(tritonExpr| ($id:ident + $(($value:term : Int))))
             else throwErrorAt value "pointer offset must have a Nat or Int element-offset carrier"
           pointerValues := pointerValues ++ [(name,expression)]
-        for stmt in stmts do
-          rejectArgumentMutation (pointerValues.map Prod.fst) stmt.raw
-            "pointer-offset specialization does not yet support reassigned pointer arguments"
         values := values ++ pointerValues
       -- Static numeric constants remain weak Python values. Reject later
       -- mutation before lowering the supported exact powers to fixed literals.
@@ -750,7 +814,11 @@ private def elaborateCallCore (profile : TSyntax `term) (stmts : Array (TSyntax 
         match kind with
         | .integer | .i32 | .i64 | .u32 | .u64 => some (Name.mkSimple name)
         | _ => none
-      let stmts ← bindCallStatements integerArguments values stmts
+      -- A straight-line pointer assignment consumes its caller offset on the
+      -- RHS exactly once. Later reads use the resulting local pointer register.
+      -- Conditional, tuple and augmented first assignments still fail closed.
+      let rebindable := integerArguments ++ pointers.map (fun p => Name.mkSimple p.1)
+      let stmts ← bindCallStatements rebindable values stmts
       let stmts ← RankOneBlockPtr.lower stmts
       let stmts ← liftMacroM <| stmts.mapM fun st => do
         return (⟨← normalizeBoundaryTuples st.raw⟩ : TSyntax `tritonStmt)
@@ -821,6 +889,10 @@ private def elaborateCallCore (profile : TSyntax `term) (stmts : Array (TSyntax 
             | .fp32 => some (Name.mkSimple name, TypedStores.ValueInfo.typed .fp32)
             | .fp64 => some (Name.mkSimple name, TypedStores.ValueInfo.typed .fp64)
             | _ => none
+        let floatingPointers := pointers.filterMap fun (name,kind) =>
+          if [.fp16,.bf16,.fp32,.fp64,.f8e4,.f8e5,.inputFloat,.outputFloat].contains kind
+            then some (Name.mkSimple name) else none
+        let stmts ← NestedLoadAssignments.lower floatingPointers stmts
         let body ← TypedStores.lower (pointers.map (fun (name, kind) => (Name.mkSimple name, kind))) scalarTypes stmts.toList
         let emitted := finiteDeclarations ++ declarations ++ body.toArray
         let compiled ← `(triton { $emitted* })

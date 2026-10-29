@@ -1,11 +1,32 @@
 # cross_entropy_ops: selected kernel proof
 
-Current FP result (2026-10-21): complete forward and backward original
-programs satisfy `≡[[]]` with the existing integer column-index commutation
-candidates, adapted to the selected runtime ABI and all source repairs.
-`Kernels.lean` directly quotes all four complete programs; shared `tl.param`
-declarations add no instruction. `Proofs/SourcePreservation.lean` proves
-complete equality with each historical source expansion.
+Current source migration (2026-10-27): `Kernels.lean` contains the complete
+original forward/backward Python function bodies and the two existing
+column-index commutation candidates inside `triton { ... }`. All 14 forward
+and 16 backward top-level statements, explicit casts, conditionals, masks,
+unused assignments, signatures and decorators are retained. Caller types,
+values, constexpr configuration and pointer offsets stay outside the quotation.
+`jit-correspondence.json` pins all four source pairs. The corpus checker follows
+the selected wrapper's literal local importlib loading without executing Python.
+
+The frontend preserves first pointer reassignment with an allocation-relative
+caller offset. Nested eager floating loads become fresh internal registers at
+their original evaluation sites, preserving compute-load precision and explicit
+casts; no temporary is added to the pasted source. The lowered forward/backward
+programs have 15/17 top-level statements. An explicit floating literal such as
+`0.0` stays floating even if later uses of its name involve a signed integer.
+The signed `total_classes` caller value retains integer-to-float conversion.
+
+The old expansion omitted compute-load markers inside arithmetic and did not
+model the current loss-store conversion. The internal ordered floating graph
+and execution proofs now describe those operations. This changes the modeled
+floating instruction graph: no equality with the old graph, arbitrary cast
+identity, or equality of compiler schedules across different graphs is assumed.
+`SourcePreservation.lean` keeps the historical expansion only as a diagnostic
+snapshot and proves that it differs from the actual source. Full source/candidate
+execution and safety equivalence are proved directly in `SourcePair.lean`.
+Independent Real formulas, public input domains and source/candidate FP scope
+are retained; all consumers are revalidated against the current source.
 
 `PairIO.lean` fixes the original logical IO, runtime scalars, row/block IDs,
 source FP32 casts and instruction order. `SourcePair.same_run/same_safe` use
@@ -33,8 +54,10 @@ access safety, successful execution, typed logical results and the exact
 exterior cell frame. These statements cover every launch coordinate, empty grids vacuously,
 all tails, smoothing branches, ignored rows and split/unsplit forward.
 `Correct.forward_unsplit`, `Correct.forward_split` and `Correct.backward` expose
-the independent Real results. `FPEquiv.native_forward` and
-`FPEquiv.native_backward` expose the ordered native observations.
+the independent Real results. `FPEquiv.forward_index_commuted_equiv` and
+`FPEquiv.backward_index_commuted_equiv` expose the full original/candidate
+program equivalences. Ordered native observations remain in the optional
+`Misc/NativeCorrect.lean` entry.
 The native addressed-input encoder preserves the original source region/offset
 labels used by compiler metadata, including the original signed-label region
 read convention. It admits every raw FP32 word and imposes no finite-input guard.
@@ -102,8 +125,9 @@ unconstrained target function. Memory frames quantify over all modeled tagged
 allocation cells, including padding and unrelated storage.
 
 `Kernels.lean` has all 14 forward and 16 backward top-level source statements.
-The three scalar parameters are raw FP32 ABI registers; total_classes is an
-int64 register converted at its actual floating use. Casts, multiplication
+The three floating scalar parameters are raw FP32 ABI registers. The signed
+int64 total_classes call value is bound outside the body and converted at its
+actual floating use; the retained public ABI relation ties it to the same input. Casts, multiplication
 operand order, both post-scale masks, the unused smooth_positive assignment,
 separate z-loss expression, and conditional stores are retained.
 
@@ -116,7 +140,7 @@ obligation. Primitive/compiler/ABI semantics are model boundaries. The current
 kernel endpoints introduce zero deferred numerical experiments and make no GPU
 or compiler-implementation conformance claim.
 
-## Checks and original defects
+## Historical checks and original defects
 
 `check_contract.py` passes 34 rejection/failure cases and 20 CPU interpreter,
 autograd and backing-frame cases, including 4097/65537 tails, local splitting,
@@ -125,9 +149,10 @@ negative/zero scaling, saved-version failure and aliased/in-place inputs.
 statement inventory, reproduces original zero/negative-scale padding NaNs and
 ignored-row NaN gradients, and checks the selected repair's three outputs and
 exact ignored zero words. These are CPU source controls, not native numerical
-conformance experiments. Python, guards, shared core, and ledger are unchanged.
+conformance experiments. These historical results precede the current frontend migration; they are not
+new execution evidence. Original JIT implementations and wrapper guards remain unchanged.
 
-This format pass uses the isolated overlay driver in
+The historical 2026-10-20 format pass used the isolated overlay driver in
 `.veritile-cache/public-io-format-20261020/workspace_lean.py`. Its task logs are
 `batch13-crossentropy-*.log`, with exact module receipts and source/dependency
 hashes in that new overlay. Both main entries have independent-formula checks,
@@ -139,3 +164,12 @@ Optional proof layout (2026-10-21): `Misc/NativeCorrect.lean`, `Misc/KernelAudit
 Historical wrapper readers are physically retained in `Misc/Legacy/HostCorrect.lean`, `Misc/Legacy/HostFPEquiv.lean`. They remain optional historical interfaces and are checked separately from the current primary/auxiliary import union.
 
 Additional optional reader paths: `Misc/RawNative.lean`. Their declaration bodies are retained. Historical readers remain separate from current primary/auxiliary checks.
+
+## Current validation
+
+Current build, source-pair, assumption-audit, independent empty-project replay
+and environment-limit evidence is recorded in
+`bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/`.
+The original and candidate function ASTs differ only at the integer column-index
+product. No new numerical law, input restriction or GPU experiment is introduced.
+The repository-wide migration remains incomplete and the PR remains a draft.

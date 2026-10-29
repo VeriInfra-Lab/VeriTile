@@ -87,13 +87,13 @@ are supplied only when the decoded source template is instantiated. -/
 def template (recipe : Layout) (args : List Nat) : ComputeKernel :=
   let arg := fun i => (args[i]?).getD 0
   match recipe.kind with
-  | .forward => Original.forward .fp32 Bool.false "g" "go"
+  | .forward => Kernels.quotedForward "g" "go"
       (arg recipe.headStrideSlot) (arg 1) (arg 2) (arg 3) (arg 4) (arg 5)
       recipe.timeSpan recipe.lanes recipe.width recipe.scaleMarker
-  | .prepare => Original.prepare .fp32 .fp32 Bool.false "q" "k" "g" "qg" "kg"
+  | .prepare => Kernels.quotedPrepare "q" "k" "g" "qg" "kg"
       (arg recipe.headStrideSlot) (arg 1) (arg 2) (arg 3) (arg 4) (arg 5)
       recipe.timeSpan recipe.lanes recipe.width recipe.scaleMarker
-  | .backward => Original.backward .fp32 .fp32 Bool.false "dqi" "dqo" "dki" "dko" "q" "k" "g" "dg"
+  | .backward => Kernels.quotedBackward "dqi" "dqo" "dki" "dko" "q" "k" "g" "dg"
       (arg recipe.headStrideSlot) (arg 1) (arg 2) (arg 3) (arg 4) (arg 5)
       recipe.timeSpan recipe.lanes recipe.width recipe.scaleMarker
 

@@ -88,7 +88,7 @@ theorem backward_executes (M : Algebra α) (p : Parameters) (initial : State α)
           numeric,numericEq,numericLe,numericLt,natLt,bop,ofFloat,toFloat,
           State.setReg,FP.Structural.store,Region.cast,ignored,owner,abi.smoothing,abi.squareScale,abi.totalClasses,abi.logitScale]
         rfl
-      · simp only [gradientMemory,gradientValue,inputLSE,inputUpstream,logits,
+      · simp only [gradientMemory,gradientValue,inputLSE,inputUpstream,logits,loadedLogits,
           hs,target,ownsTarget,Region.cast,owner,ignored,if_true,if_false,Bool.false_eq_true,gradientOffset,activeLane,
           RuntimeArgs.fp,CrossEntropy1.RuntimeArgs.fp,RuntimeArgs.classes,CrossEntropy1.RuntimeArgs.classes,abi.smoothing,abi.squareScale,abi.totalClasses,abi.logitScale,Option.getD_some,true_and,false_and]
         apply masked_memory_congr

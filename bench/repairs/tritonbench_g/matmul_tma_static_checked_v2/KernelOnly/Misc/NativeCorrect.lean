@@ -19,7 +19,7 @@ def nativeProduct (I : Instructions) (profile : Profile) (h : Shape) (f : Flags)
 conversion. Primitive instructions are model parameters, not experiments. -/
 def matmulNativeIO (rest : Algebra Word) (I : Instructions) (profile : Profile)
     (h : Shape) (f : Flags) : ProgramIO Word Word :=
-  PublicIO.io (StaticChecked.Native.algebra rest I) (sourceDot I profile) (params h f) f.half
+  PublicIO.io (SourceNative.algebra rest I) (sourceDot I profile) (params h f) f.half
 
 /-- Successful whole-source native observation and exact frame under the
 unchanged local first/carry/conversion correspondence. -/
@@ -29,12 +29,12 @@ theorem kernel_native (rest : Algebra Word) (I : Instructions) (R : Reference)
       (PublicIO.formula (params h f) f.half
         (nativeProduct (referenceInstructions R) profile h f)) := by
   rw [instructions_eq I R law]
-  refine PublicIO.implements (StaticChecked.Native.algebra rest (referenceInstructions R))
+  refine PublicIO.implements (SourceNative.algebra rest (referenceInstructions R))
     (sourceDot (referenceInstructions R) profile) (params h f) f.half
     (c_injective h f StaticChecked.regions) _ ?_
   intro a b i
   cases hf : f.half <;>
-    simp only [StaticChecked.Native.algebra, sourceDot, contraction, nativeProduct,
+    simp only [SourceNative.algebra,StaticChecked.Native.algebra, sourceDot, contraction, nativeProduct,
       outputDType, hf, Bool.false_eq_true, ↓reduceIte, StaticChecked.Native.cast] <;> rfl
 
 #specNonCircular nativeProduct avoiding [kernel, source, FP.Structural.exec, scatter]

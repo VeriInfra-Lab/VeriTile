@@ -32,7 +32,7 @@ theorem implements (rest : Algebra ℝ) (h : Shape) (f : Flags) :
     (params h f) f.half (c_injective h f StaticChecked.regions) _ ?_
   intro a b i
   simp only [StaticChecked.RealModel.algebra,StaticChecked.RealModel.dot,
-    StaticChecked.RealModel.contraction]
+    StaticChecked.RealModel.contraction, ite_self]
   apply Finset.sum_congr rfl
   intro k _
   rfl

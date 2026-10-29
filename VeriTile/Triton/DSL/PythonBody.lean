@@ -92,16 +92,36 @@ private structure Line where
   text : String
   deriving Inhabited
 
+/-- Detect only an unparenthesized conditional expression, outside strings
+and delimiter groups. This is a source-spelling boundary, not an evaluation. -/
+private partial def topLevelConditional (input : List Char) (depth : Nat := 0) : Bool :=
+  match input with
+  | [] => Bool.false
+  | c :: tail =>
+    if c == '\"' || c == '\'' then
+      match stringToken c tail with
+      | .ok (_, rest, _) => topLevelConditional rest depth
+      | .error _ => Bool.false
+    else if ['(', '[', '{'].contains c then topLevelConditional tail (depth + 1)
+    else if [')', ']', '}'].contains c then topLevelConditional tail (depth - 1)
+    else if c.isAlpha || c == '_' then
+      let restOfWord := tail.takeWhile (fun ch => ch.isAlphanum || ch == '_')
+      let word := String.ofList (c :: restOfWord)
+      (depth == 0 && word == "if") || topLevelConditional (tail.drop restOfWord.length) depth
+    else topLevelConditional tail depth
+
 private def emit (lines : Array Line) (indent : Nat) (text : String) : Array Line :=
   let text := text.trimAscii.toString
-  -- Keep a typed constexpr RHS within its original logical Python line.
-  -- In particular, `x: tl.constexpr = a if c else b` needs no extra
-  -- parentheses in the copied body, and a following `if` starts a statement.
+  -- The parsed view puts a conditional assignment RHS inside parentheses.
+  -- Python's logical line already supplies that expression boundary. Quoted
+  -- strings, nested calls, comparisons and augmented assignments are untouched.
   let pieces := text.splitOn "="
   let lhs := pieces.head!.trimAscii.toString
-  let text := if !pieces.tail.isEmpty && lhs.endsWith "tl.constexpr" then
-      lhs ++ " = (" ++ (String.intercalate "=" pieces.tail).trimAscii.toString ++ ")"
-    else text
+  let rhs := (String.intercalate "=" pieces.tail).trimAscii.toString
+  let ordinary := lhs.toList.head?.any (fun c => c.isAlpha || c == '_') &&
+    lhs.toList.all (fun c => c.isAlphanum || c == '_')
+  let wrap := lhs.endsWith "tl.constexpr" || (ordinary && topLevelConditional rhs.toList)
+  let text := if !pieces.tail.isEmpty && wrap then lhs ++ " = (" ++ rhs ++ ")" else text
   if text.isEmpty then lines else lines.push ⟨indent,text⟩
 
 private partial def logicalLines (input : List Char) (lines : Array Line := #[])
@@ -178,8 +198,31 @@ private partial def logicalLines (input : List Char) (lines : Array Line := #[])
           else text
         logicalLines tail lines indent (text.push (if frame.2.2.1 then ']' else c)) delimiters.tail! Bool.false
       else if c == ';' && delimiters.isEmpty then
+        if ["if ", "elif ", "else:", "for ", "while "].any
+            (fun word : String => text.trimAscii.toString.startsWith word) then
+          throw "multiple statements in an inline Python suite are unsupported"
         logicalLines tail (emit lines indent text) indent "" [] Bool.false
       else logicalLines tail lines indent (text.push c) delimiters Bool.false
+
+/-- A one-line Python suite keeps its statement inside the header's block.
+Ignore colons inside strings, slices and other delimited expressions. -/
+private partial def inlineHeader (input : List Char) (depth : Nat := 0)
+    (header : String := "") : Except String (Option (String × String)) := do
+  match input with
+  | [] => return none
+  | c :: tail =>
+    if c == '\"' || c == '\'' then
+      let (token, rest, _) ← stringToken c tail
+      inlineHeader rest depth (header ++ String.ofList token)
+    else if ['(', '[', '{'].contains c then
+      inlineHeader tail (depth + 1) (header.push c)
+    else if [')', ']', '}'].contains c then
+      inlineHeader tail (depth - 1) (header.push c)
+    else if c == ':' && depth == 0 then
+      let body := (String.ofList tail).trimAscii.toString
+      if body.isEmpty then return none
+      return some (header, body)
+    else inlineHeader tail depth (header.push c)
 
 private def docstring (text : String) : Bool :=
   match Json.parse text with
@@ -213,6 +256,11 @@ def render (raw : String) : Except String String := do
         throw "unsupported Python block header"
       output := output.push (String.ofList line.text.toList.dropLast ++ " {")
       pending := Bool.true
+    else if ["if ", "elif ", "else:", "for ", "while "].any
+        (fun word : String => line.text.startsWith word) then
+      if let some (header, body) ← inlineHeader line.text.toList then
+        output := output.push (header ++ " {\n" ++ body ++ "\n}")
+      else output := output.push line.text
     else output := output.push line.text
   if pending then throw "expected Python block body"
   for _ in levels.tail! do output := output.push "}"

@@ -25,7 +25,11 @@ assert list(pins.values()) == [
 nodes = [n for n in ast.parse(resident.read_text()).body if isinstance(n, ast.FunctionDef) and n.name.endswith('_kernel')]
 assert [len(n.body) for n in nodes] == [14, 16]
 lean = (D / 'Kernels.lean').read_text()
-assert lean.count('logits = tl.where(col_offsets < $(p.cols), logits, -float("inf"))') == 2
+sys.path.insert(0, str(ROOT))
+from bench.jit_correspondence import check_manifest
+pairs = check_manifest(ROOT, D / 'jit-correspondence.json')
+assert [pair['statements'] for pair in pairs] == [14, 14, 16, 16]
+assert all(pair['mode'] == 'pasted_body' for pair in pairs)
 for expression in ('smoothing * sum_logits / total_classes',
                    'probs += 2.0 * lse_square_scale * lse * probs',
                    'z_loss = lse_square_scale * lse * lse',

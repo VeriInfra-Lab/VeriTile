@@ -23,9 +23,8 @@ theorem forward_kernel (p : Parameters) (initial : State (WithBot ℝ))
         (region≠p.lse ∨ offset≠initial.pids 0) → final.mem region offset=initial.mem region offset) := by
   obtain ⟨final,run,lse,loss,frame⟩ := KernelExecution.forward_outputs
     KernelReal.algebra p initial (lt_of_lt_of_le positive covered) (valid.imp_right And.left) distinct
-  have cast_id (a : WithBot ℝ) : KernelModel.cast KernelReal.algebra a=a := rfl
-  rw [cast_id,KernelMath.lse_full p initial flags x positive covered inputs] at lse
-  rw [cast_id,KernelMath.loss_full p initial flags x positive covered inputs valid] at loss
+  rw [KernelMath.lse_full p initial flags x positive covered inputs] at lse
+  rw [KernelMath.loss_full p initial flags x positive covered inputs valid] at loss
   exact ⟨final,run,lse,loss,frame⟩
 
 theorem chunked_kernel (p : Parameters) (initial : State (WithBot ℝ))
@@ -45,9 +44,8 @@ theorem chunked_kernel (p : Parameters) (initial : State (WithBot ℝ))
         final.mem region offset=initial.mem region offset) := by
   obtain ⟨final,run,lse,loss,frame⟩ := KernelExecution.chunked_outputs
     KernelReal.algebra p initial positive (valid.imp_right And.left) distinct
-  have cast_id (a : WithBot ℝ) : KernelModel.cast KernelReal.algebra a=a := rfl
-  rw [cast_id,KernelMath.lse_block p initial flags x (initial.pids 1) positive nonempty inputs] at lse
-  simp only [cast_id,KernelMath.loss_partial p initial flags x inputs valid] at loss
+  rw [KernelMath.lse_block p initial flags x (initial.pids 1) positive nonempty inputs] at lse
+  simp only [KernelMath.loss_partial p initial flags x inputs valid] at loss
   exact ⟨final,run,lse,loss,frame⟩
 
 theorem backward_kernel (p : Parameters) (initial : State (WithBot ℝ))
@@ -79,6 +77,10 @@ end Real
 namespace Native
 open VeriTile.Bench.Repairs.SoftmaxFlaggems.Native
 
+private theorem observed_store_cast (R : Reductions) (I : Instructions) (S : Schedule) (x : Term) :
+    KernelCompiler.observe I S (KernelModel.cast (algebra R) x) =
+      KernelCompiler.observe I S x := rfl
+
 theorem forward_kernel (R : Reductions) (I : Instructions) (S : Schedule)
     (p : Parameters) (initial : State Term) (positive : 0<p.block)
     (valid : label p initial = -100 ∨ 0≤label p initial) (distinct : p.loss≠p.lse) :
@@ -90,7 +92,11 @@ theorem forward_kernel (R : Reductions) (I : Instructions) (S : Schedule)
       (∀ region offset, (region≠p.loss ∨ offset≠initial.pids 0) →
         (region≠p.lse ∨ offset≠initial.pids 0) → final.mem region offset=initial.mem region offset) := by
   obtain ⟨final,run,lse,loss,frame⟩ := KernelExecution.forward_outputs (algebra R) p initial positive valid distinct
-  exact ⟨final,run,congrArg (KernelCompiler.observe I S) lse,congrArg (KernelCompiler.observe I S) loss,frame⟩
+  refine ⟨final,run,?_,?_,frame⟩
+  · rw [observed_store_cast]
+    exact congrArg (KernelCompiler.observe I S) lse
+  · rw [observed_store_cast]
+    exact congrArg (KernelCompiler.observe I S) loss
 
 theorem chunked_kernel (R : Reductions) (I : Instructions) (S : Schedule)
     (p : Parameters) (initial : State Term) (positive : 0<p.block)
@@ -105,8 +111,12 @@ theorem chunked_kernel (R : Reductions) (I : Instructions) (S : Schedule)
         (region≠p.lse ∨ offset≠initial.pids 0*p.chunks+initial.pids 1) →
         final.mem region offset=initial.mem region offset) := by
   obtain ⟨final,run,lse,loss,frame⟩ := KernelExecution.chunked_outputs (algebra R) p initial positive valid distinct
-  exact ⟨final,run,congrArg (KernelCompiler.observe I S) lse,
-    fun first => congrArg (KernelCompiler.observe I S) (loss first),frame⟩
+  refine ⟨final,run,?_,?_,frame⟩
+  · rw [observed_store_cast]
+    exact congrArg (KernelCompiler.observe I S) lse
+  · intro first
+    rw [observed_store_cast]
+    exact congrArg (KernelCompiler.observe I S) (loss first)
 
 theorem backward_kernel (R : Reductions) (I : Instructions) (S : Schedule)
     (p : Parameters) (initial : State Term) :

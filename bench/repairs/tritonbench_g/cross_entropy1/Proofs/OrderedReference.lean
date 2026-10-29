@@ -64,10 +64,10 @@ def zLoss (M : Algebra α) (p : Parameters) (args : RuntimeArgs.Values α)
 
 def loss (M : Algebra α) (p : Parameters) (args : RuntimeArgs.Values α)
     (x : Nat → α) (block : Nat) (label : Int) : α :=
-  if label=p.ignored then M.literal (some .fp32) .real 0.0 else
+  M.cast (some .fp32) .real .real (if label=p.ignored then M.literal (some .fp32) .real 0.0 else
     if p.split then coreLoss M p args x block label else
       M.binary (some .fp32) .real .add (coreLoss M p args x block label)
-        (zLoss M p args x block label)
+        (zLoss M p args x block label))
 
 def forward (M : Algebra α) (p : Parameters) (args : RuntimeArgs.Values α)
     (block : Nat) (x : Nat → α) (label : Int) : α × α :=

@@ -3,8 +3,34 @@ Optional Tensor/native applications, host results and audit readers are in `Misc
 Current FPEquiv result (2026-10-21): the complete forward and backward
 original programs satisfy `≡[[]]` with their existing integer column-index
 commutation candidates. `Kernels.lean` directly quotes all four full programs
-and uses shared `tl.param` runtime scalar declarations. Full equality with the
-historical expansion is proved in `Proofs/SourcePreservation.lean`.
+and binds caller types, scalar values and pointer offsets outside the quotation.
+`jit-correspondence.json` pins all four complete raw Python function bodies,
+including all 15 forward and 17 backward statements, original casts, masks,
+conditions, signatures and decorators. The only candidate change is the existing
+integer column/block multiplication commutation.
+
+The source's int32 label pointer and explicit int64 widening are preserved.
+The non-owning-label branch, ignored-label branch, zero-padded logit load,
+post-scale negative-infinity mask and unconditional z-loss write are retained.
+In split mode z-loss is still written as zero. Signed class-count binding keeps
+its integer-to-floating conversion. No new source statement is added.
+
+Nested arithmetic loads lower to branch-local compiler temporaries, retaining
+compute-load precision and explicit casts. The complete lowered bodies have
+16/18 top-level statements. The old expansion omitted these load markers and
+the forward loss-store conversion; the actual generic execution and independent
+ordered floating reference now retain them. No equality with the old floating
+graph, arbitrary cast identity, or compiler-schedule invariance across different
+graphs is assumed. `Proofs/SourcePreservation.lean` retains the historical
+expansion as a diagnostic snapshot and checks its difference from current source.
+Independent Real formulas and complete original/candidate FP equivalence are
+revalidated against current execution with the original input scope.
+
+The shared parser accepts repeated Boolean conjunctions with the original
+comparison precedence and left grouping. A plain conditional assignment such as
+`loss = lse if not SPLIT else 0.0` keeps its Python logical-line boundary. The
+source quotation itself is unchanged; AST regression checks compare it with
+explicitly parenthesized source and verify the following statement's scope.
 
 `PairIO.lean` preserves the selected signed64 labels/ownership protection,
 explicit pointer bases, runtime scalar ABI, masks and all output windows.
@@ -245,3 +271,11 @@ forward/backward Tensor applications as ordinary Real/native theorems,
 including label bytes, all three forward outputs and every active gradient.
 The supporting Tensor correspondences derive the raw helper premises; source
 execution is supplied by the kernel results.
+
+## Current source migration evidence
+
+Current source correspondence, proof replay, trust audit and environment limits
+are recorded in `bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/`.
+Original Python, public specifications, input domains and independent Real
+formulas are unchanged. No numerical law, domain restriction or GPU experiment
+is introduced. Repository-wide migration and human review remain pending.

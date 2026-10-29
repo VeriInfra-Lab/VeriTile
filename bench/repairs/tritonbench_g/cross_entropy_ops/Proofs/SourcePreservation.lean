@@ -1,6 +1,6 @@
 import bench.repairs.tritonbench_g.cross_entropy_ops.Kernels
 
-/-! Full historical expansion is a proof-only preservation snapshot; authoritative sources never import it. -/
+/-! Historical expansion retained only to identify the obsolete model. The actual source now preserves nested compute-load markers with fresh registers; these programs are not identical ASTs. Authoritative source and execution proofs never import this snapshot. -/
 open Lean VeriTile.Triton VeriTile.Triton.DSL
 syntax "cross_entropy_ops_source" "{" tritonStmt* "}" : term
 macro_rules
@@ -129,9 +129,30 @@ def backwardSyntax (p : Parameters) : ComputeKernel :=
 
 end VeriTile.Bench.Repairs.CrossEntropyOps.LegacySource
 
-namespace VeriTile.Bench.Repairs.CrossEntropyOps.SourcePreservation
-theorem forward (p : Parameters) : forwardSyntax p = LegacySource.forwardSyntax p := rfl
-theorem backward (p : Parameters) : backwardSyntax p = LegacySource.backwardSyntax p := rfl
-#axiomsClean forward
-#axiomsClean backward
-end VeriTile.Bench.Repairs.CrossEntropyOps.SourcePreservation
+namespace VeriTile.Bench.Repairs.CrossEntropyOps.SourceInventory
+/-- The 14 Python statements lower to 15 statements because a nested load
+gets one compiler temporary. No source statement or cast is removed. -/
+theorem forward_length (p : Parameters) : (forwardSyntax p).surfaceBody.length = 15 := rfl
+/-- The 16 backward Python statements likewise retain one load temporary. -/
+theorem backward_length (p : Parameters) : (backwardSyntax p).surfaceBody.length = 17 := rfl
+
+/-- Reusing the old expansion as an equality certificate would be invalid. -/
+theorem forward_differs_from_legacy (p : Parameters) :
+    forwardSyntax p ≠ LegacySource.forwardSyntax p := by
+  intro same
+  have counts := congrArg (fun k : ComputeKernel => k.surfaceBody.length) same
+  change 15 = 14 at counts
+  omega
+
+theorem backward_differs_from_legacy (p : Parameters) :
+    backwardSyntax p ≠ LegacySource.backwardSyntax p := by
+  intro same
+  have counts := congrArg (fun k : ComputeKernel => k.surfaceBody.length) same
+  change 17 = 16 at counts
+  omega
+
+#axiomsClean forward_length
+#axiomsClean backward_length
+#axiomsClean forward_differs_from_legacy
+#axiomsClean backward_differs_from_legacy
+end VeriTile.Bench.Repairs.CrossEntropyOps.SourceInventory

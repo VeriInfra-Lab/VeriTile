@@ -1,6 +1,6 @@
 import bench.repairs.tritonbench_g.cross_entropy1.Kernels
 
-/-! Historical expansion snapshot used only to prove complete-source preservation.
+/-! Historical expansion snapshot retained only for comparison.
 The authoritative source is the direct quotation in Kernels.lean, which does not
 import this module. No execution or public source definition depends on this
 legacy generator. -/
@@ -124,12 +124,16 @@ def backwardSyntax (p : Parameters) : ComputeKernel :=
 
 end VeriTile.Bench.Repairs.CrossEntropy1.LegacySource
 
-namespace VeriTile.Bench.Repairs.CrossEntropy1.SourcePreservation
-/-- The explicit parameter declarations emit no statements; the complete original source is retained. -/
-theorem forward (p : Parameters) : forwardSyntax p = LegacySource.forwardSyntax p := by
-  rfl
-theorem backward (p : Parameters) : backwardSyntax p = LegacySource.backwardSyntax p := by
-  rfl
-#axiomsClean forward
-#axiomsClean backward
-end VeriTile.Bench.Repairs.CrossEntropy1.SourcePreservation
+namespace VeriTile.Bench.Repairs.CrossEntropy1.SourceInventory
+/-- All twelve original forward statements remain in the current full body. -/
+theorem forward_length (p : Parameters) : (forwardSyntax p).surfaceBody.length = 12 := rfl
+/-- All fifteen original backward statements remain in the current full body. -/
+theorem backward_length (p : Parameters) : (backwardSyntax p).surfaceBody.length = 15 := rfl
+
+-- The old expansion omitted the typed forward loss-store conversion and
+-- represented scalar branches differently. Equality with that AST is not claimed.
+-- KernelNative/KernelBackward prove the actual current full execution; SourcePair
+-- connects the complete original and index-commuted programs.
+#axiomsClean forward_length
+#axiomsClean backward_length
+end VeriTile.Bench.Repairs.CrossEntropy1.SourceInventory

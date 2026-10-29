@@ -8,7 +8,7 @@ set_option maxRecDepth 24000
 set_option maxHeartbeats 4000000
 
 def prefixCount : Kind → Nat
-  | .forward => 5 | .prepare => 8 | .backward => 12
+  | .forward => 7 | .prepare => 10 | .backward => 14
 
 def initCode (kind : Kind) (h : Call) (p : Phase) (scale : ℝ) : List ComputeStmt :=
   (Kernels.source kind h p scale).surfaceBody.take (prefixCount kind)
@@ -21,11 +21,12 @@ def loopBody (kind : Kind) (h : Call) (p : Phase) (scale : ℝ) : List ComputeSt
 
 def loopCode (kind : Kind) (h : Call) (p : Phase) (scale : ℝ) : ComputeStmt :=
   match kind with
-  | .forward | .prepare => .forRangeDyn "i" (.constNat 0) (.constNat p.span) (.constNat 1)
+  | .forward | .prepare => .forRangeInt "i" (.constInt 0) ((Op.constNat p.span).castNatToInt) (.constNat 1)
       (loopBody kind h p scale)
   | .backward => .forRangeInt "__rev_j"
-      (.sub .int .nil (.constInt 0) (.sub .int .nil (.constInt (Int.ofNat p.span)) (.constInt 1)))
-      (.constInt 1) (.constNat 1) (loopBody kind h p scale)
+      (.sub .int .nil (.constInt 0) (.constInt (Int.ofNat p.span - 1)))
+      (.sub .int .nil (.constInt 0) (.sub .int .nil (.constInt 0) (.constInt 1)))
+      (.constNat 1) (loopBody kind h p scale)
 
 theorem source_body (kind : Kind) (h : Call) (p : Phase) (scale : ℝ) :
     (Kernels.source kind h p scale).surfaceBody=initCode kind h p scale++[loopCode kind h p scale] := by

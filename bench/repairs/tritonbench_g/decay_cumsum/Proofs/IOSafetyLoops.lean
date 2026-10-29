@@ -10,6 +10,27 @@ set_option maxRecDepth 24000
 set_option linter.unusedSimpArgs false
 variable {α : Type} [Inhabited α]
 
+/-- Natural proof positions are embedded in the actual signed loop; the
+runtime index register and every body execution remain signed. -/
+theorem signed_nonnegative_range (M : Algebra α) (bounds : RegionName → Nat)
+    (idx : RegName) (stop stride : Nat) (body : List ComputeStmt)
+    (P : Nat → State α → Prop)
+    (bodySafe : ∀ n, n<stop → ∀ s, P n s →
+      Safety.traceSafeList M bounds body (s.setReg idx .int [] (fun _ => (n : Int))))
+    (preserved : ∀ n, n<stop → ∀ s, P n s → ∀ v,
+      run M body (s.setReg idx .int [] (fun _ => (n : Int)))=some v → P (n+stride) v)
+    (start : Nat) (s : State α) (initial : P start s) :
+    Safety.rangeIntSafe M bounds idx (start : Int) (stop : Int) stride body s := by
+  apply Safety.rangeIntSafe_of_invariant M bounds idx (stop : Int) stride body
+    (fun q s => ∃ n : Nat, q=(n : Int) ∧ P n s)
+  · intro q active t inv
+    obtain ⟨n,rfl,hn⟩ := inv
+    exact bodySafe n (by exact_mod_cast active) t hn
+  · intro q active t inv v ran
+    obtain ⟨n,rfl,hn⟩ := inv
+    exact ⟨n+stride,by simp,preserved n (by exact_mod_cast active) t hn v ran⟩
+  · exact ⟨start,rfl,initial⟩
+
 theorem backward_body_safe (M : Algebra α) (h : Call) (p : Phase) (prog : Program h p)
     (initial : State α) (n : Nat) (u : State α) (hn : n<p.span)
     (hi : u.regs .int [] "__rev_j"=some (fun _ => Int.ofNat n-Int.ofNat (p.span-1)))
@@ -93,7 +114,7 @@ termination_by p.span-n
     case forward =>
       simp only [FPProgram.loopCode,forward_body,Safety.stepSafe_unfold,
         Safety.safeOp_unfold,evalOp_unfold,Option.bind_some,true_and]
-      apply Safety.rangeSafe_of_invariant (engine M) bounds "i" p.span 1 (forwardBody h)
+      apply signed_nonnegative_range (engine M) bounds "i" p.span 1 (forwardBody h)
         (FPForward.Holds M h p prog u)
       · intro n active current inv
         apply forward_safe M h p prog u n _ (FPForward.bind_holds M h p prog u n current inv) bounds
@@ -101,7 +122,7 @@ termination_by p.span-n
         · exact bounded "go" (by simp [FPTile.inputs,FPTile.outputs]) ⟨n,active⟩
       · intro n active current inv next executed
         obtain ⟨v,he,hv⟩ := FPForward.iteration M h p prog u n
-          (current.setReg "i" .nat [] (fun _ => n)) active (FPForward.bind_holds M h p prog u n current inv)
+          (current.setReg "i" .int [] (fun _ => (n : Int))) active (FPForward.bind_holds M h p prog u n current inv)
         have eq := Option.some.inj (he.symm.trans executed)
         subst next
         exact hv
@@ -109,14 +130,14 @@ termination_by p.span-n
     case prepare =>
       simp only [FPProgram.loopCode,prepare_body,Safety.stepSafe_unfold,
         Safety.safeOp_unfold,evalOp_unfold,Option.bind_some,true_and]
-      apply Safety.rangeSafe_of_invariant (engine M) bounds "i" p.span 1 (prepareBody h scale)
+      apply signed_nonnegative_range (engine M) bounds "i" p.span 1 (prepareBody h scale)
         (FPPrepare.Holds M h p prog scale u)
       · intro n active current inv
         apply prepare_safe M h p prog scale u n _ (FPPrepare.bind_holds M h p prog scale u n current inv) bounds
         all_goals exact bounded _ (by simp [FPTile.inputs,FPTile.outputs]) ⟨n,active⟩
       · intro n active current inv next executed
         obtain ⟨v,he,hv⟩ := FPPrepare.iteration M h p prog scale u n
-          (current.setReg "i" .nat [] (fun _ => n)) active (FPPrepare.bind_holds M h p prog scale u n current inv)
+          (current.setReg "i" .int [] (fun _ => (n : Int))) active (FPPrepare.bind_holds M h p prog scale u n current inv)
         have eq := Option.some.inj (he.symm.trans executed)
         subst next
         exact hv

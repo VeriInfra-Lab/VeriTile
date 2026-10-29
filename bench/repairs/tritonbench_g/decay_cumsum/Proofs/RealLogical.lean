@@ -30,7 +30,7 @@ def reference (h : Call) (kind : Kind) (scale : ℝ) (data : Data ℝ) (r : Regi
 
 theorem read_role (kind : Kind) (h : Call) (p : Phase) (scale : ℝ) (i : Fin (RealIO.io kind h p scale).nIn) :
     (RealIO.io kind h p scale).inp i ∈ Roles.inputs kind := by
-  cases kind <;> fin_cases i <;> simp [RealIO.io,RealTiles.prepareIO,RealTiles.backwardIO,
+  cases kind <;> fin_cases i <;> simp [RealIO.io,RealTiles.prepareIO,RealTiles.backwardIO,RealTiles.legacyPrepareIO,RealTiles.legacyBackwardIO,
     PrepareCorrect.originalIO,BackwardCorrect.originalIO,Roles.inputs]
 
 theorem values_evaluate (kind : Kind) (h : Call) (p : Phase) (positive : 0<p.span) (scale : ℝ)
@@ -42,7 +42,7 @@ theorem values_evaluate (kind : Kind) (h : Call) (p : Phase) (positive : 0<p.spa
   cases kind <;> fin_cases o
   all_goals simp [RealIO.values,ForwardCorrect.scan,PrepareCorrect.values,BackwardCorrect.values,
     BackwardCorrect.dq,BackwardCorrect.dk,BackwardCorrect.dg,evaluate,dq,dk,positive,reads,
-    RealIO.io,RealTiles.prepareIO,RealTiles.backwardIO,PrepareCorrect.originalIO,BackwardCorrect.originalIO]
+    RealIO.io,RealTiles.prepareIO,RealTiles.backwardIO,RealTiles.legacyPrepareIO,RealTiles.legacyBackwardIO,PrepareCorrect.originalIO,BackwardCorrect.originalIO]
 
 theorem expected_reference (h : Call) (kind : Kind) (storage : Placement h kind) (scale : ℝ)
     (heap : Heap ℝ) (data : Data ℝ) (snapshot : Snapshot h kind storage heap data)

@@ -64,27 +64,51 @@ theorem backward_lowering (p : Instructions) (scale : Word) (span : Nat)
 theorem stored_lowering (p : Instructions) (kind : Kind) (scale : Word) (node : Node) :
     FPReference.stored (algebra p selected kind scale) node=storedWord node.value := rfl
 
+/-- Keep source-store provenance in the symbolic carrier. Uncast dq/dk
+stores retain their arithmetic tags; encoding observes the same raw word. -/
+def outputCell (kind : Kind) (span : Nat) (r : RegionName) (t : Nat) (x : Word) : Cell Node :=
+  match kind with
+  | .forward | .prepare => storedWord x
+  | .backward => if r="dg" then storedWord x
+      else .mk .real ⟨x,if r="dqo" then .dq else if r="dko" then .dk
+        else if span-t=0 then .initialZero else .reverseCarry,none⟩
+
+theorem outputCell_value (kind : Kind) (span : Nat) (r : RegionName) (t : Nat) (x : Word) :
+    ((outputCell kind span r t x).read .real).value=x := by
+  cases kind
+  · rfl
+  · rfl
+  · dsimp only [outputCell]
+    split <;> rfl
+
 /-- Complete per-lane graph bridge, including every iteration and store.
 There is no split=fused numerical premise, including at the first step. -/
 theorem evaluate_lowering (p : Instructions) (kind : Kind) (span : Nat) (scale : Word)
     (read : RegionName → Nat → Node) (r : RegionName) (t : Nat) :
     FPLogical.evaluate (algebra p selected kind scale) kind span scaleSlot read r t=
-      storedWord (evaluateWords p kind span scale (fun s n => (read s n).value) r t) := by
+      outputCell kind span r t (evaluateWords p kind span scale (fun s n => (read s n).value) r t) := by
   cases kind
-  · simp [FPLogical.evaluate,FPReference.forward,forward_lowering,stored_lowering,evaluateWords]
-  · simp only [FPLogical.evaluate,evaluateWords]
+  · simp [FPLogical.evaluate,FPReference.forward,forward_lowering,stored_lowering,evaluateWords,outputCell]
+  · simp only [FPLogical.evaluate,evaluateWords,outputCell]
     split <;> simp [prepare_q_lowering,prepare_k_lowering,stored_lowering,atom]
   · simp only [FPLogical.evaluate,evaluateWords]
     split
-    · simp [backward_q_lowering,stored_lowering]
-    · split
-      · simp [backward_k_lowering,stored_lowering]
-      · simp [backward_lowering,stored_lowering]
+    · rename_i hr
+      subst r
+      simp [backward_q_lowering,FPReference.backwardStored,outputCell]
+    · rename_i hq
+      split
+      · rename_i hr
+        subst r
+        simp [backward_k_lowering,FPReference.backwardStored,outputCell]
+      · rename_i hk
+        simp only [backward_lowering,FPReference.backwardStored,outputCell,if_neg hq,if_neg hk]
+        split <;> simp_all [stored_lowering]
 
 theorem reference_lowering (p : Instructions) (h : Call) (kind : Kind) (scale : Word)
     (data : LogicalStorage.Data (Cell Node)) (r : RegionName) (c : Logical.Coordinate h) :
     FPLogical.reference (algebra p selected kind scale) h kind scaleSlot data r c=
-      storedWord (referenceWords p h kind scale (fun s b t k => ((data s b t k).read .real).value) r c) := by
+      outputCell kind (Logical.chunkSpan h c.2.1.val) r (c.2.1.val-Logical.chunkStart h c.2.1.val) (referenceWords p h kind scale (fun s b t k => ((data s b t k).read .real).value) r c) := by
   exact evaluate_lowering p kind _ scale _ r _
 
 #axiomsClean evaluate_lowering

@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.matmul_tma_static_checked_v2.KernelOnly.Proofs.SourceExecution
 import bench.repairs.tritonbench_g.matmul_tma_static_checked_v2.KernelOnly.Kernels
 import bench.repairs.tritonbench_g.matmul_tma_static_checked.Proofs.Real
 
@@ -15,16 +16,16 @@ theorem kernel_math (rest : Algebra ℝ) (h : Shape) (f : Flags) (s : State ℝ)
     VeriTile.Spec.Real (∃ t,
       exec (backend (StaticChecked.RealModel.algebra rest) StaticChecked.RealModel.dot) (kernel h f) s=some t ∧
       Post (params h f) f.half s t (matrixProduct h f s)) := by
-  obtain ⟨t,execution,_,post⟩ := StaticChecked.executes (StaticChecked.RealModel.algebra rest)
-    StaticChecked.RealModel.dot h f s
-  have target : outputValues (StaticChecked.RealModel.algebra rest) StaticChecked.RealModel.dot
+  obtain ⟨t,execution,post⟩ := SourceExecution.correctness (StaticChecked.RealModel.algebra rest)
+    StaticChecked.RealModel.dot (params h f) f.half s (c_injective h f StaticChecked.regions)
+  have target : SourceExecution.values (StaticChecked.RealModel.algebra rest) StaticChecked.RealModel.dot
       (params h f) f.half s=matrixProduct h f s := by
     funext i
-    simp only [outputValues,StaticChecked.RealModel.algebra,StaticChecked.RealModel.dot,
+    cases hf : f.half <;> simp only [SourceExecution.values,hf,Bool.false_eq_true,if_false,if_true,StaticChecked.RealModel.algebra,StaticChecked.RealModel.dot,
       StaticChecked.RealModel.contraction,matrixProduct]
-    apply Finset.sum_congr rfl
-    intro k _
-    rfl
+    all_goals apply Finset.sum_congr rfl
+    all_goals intro k _
+    all_goals rfl
   rw [target] at post
   exact ⟨t,execution,post⟩
 

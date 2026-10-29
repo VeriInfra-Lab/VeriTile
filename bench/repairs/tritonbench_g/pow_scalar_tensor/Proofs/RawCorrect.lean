@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.pow_scalar_tensor.Proofs.SourceResults
 import bench.repairs.tritonbench_g.pow_scalar_tensor.Proofs.KernelInterface
 import bench.repairs.tritonbench_g.pow_scalar_tensor.Kernels
 import bench.repairs.tritonbench_g.pow_scalar_tensor.Proofs.Kernel
@@ -31,7 +32,7 @@ theorem kernel_raw_correctness (rest : Algebra ℝ) (base : ℝ) (candidate : Bo
     hin hout hstride hsep initial
   refine ⟨final,ran,?_,inputs,frame,bounds⟩
   intro i hi
-  simpa only [KernelInterface.view, KernelInterface.buffer, real_scalar] using values i hi
+  simpa only [KernelInterface.view, KernelInterface.buffer, source_real_scalar] using values i hi
 
 #axiomsClean kernel_raw_correctness
 #guard_msgs (drop info) in

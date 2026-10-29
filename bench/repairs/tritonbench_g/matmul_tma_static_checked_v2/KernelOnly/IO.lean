@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.matmul_tma_static_checked_v2.KernelOnly.Proofs.SourceNative
 import VeriTile.Triton.Float.LogicalProgramIO
 import bench.repairs.tritonbench_g.matmul_tma_static_checked_v2.KernelOnly.Kernels
 import bench.repairs.tritonbench_g.matmul_tma_static_checked.Proofs.Native
@@ -61,12 +62,12 @@ noncomputable section
 local instance : Inhabited Word := ⟨FP.Value.zero .fp32⟩
 
 def io (rest : Algebra Word) (I : Instructions) (profile : Profile) (h : Shape) (f : Flags) :=
-  PublicIO.io (StaticChecked.Native.algebra rest I) (sourceDot I profile) (params h f) f.half
+  PublicIO.io (SourceNative.algebra rest I) (sourceDot I profile) (params h f) f.half
 
 def variant (rest : Algebra Word) (I : Instructions) (profile : Profile) (h : Shape) (f : Flags) :
     ProgramIO.Variant (io rest I profile h f) where
-  schedule := fun _ => [{ PublicIO.invocation (StaticChecked.Native.algebra rest I)
-    (sourceDot I profile) (params h f) f.half with kernel := kernelDirectOutput h f }]
+  schedule := fun _ => [{ PublicIO.invocation (SourceNative.algebra rest I)
+    (sourceDot I profile) (params h f) f.half with kernel := kernelExplicitOutput h f }]
   observe := (io rest I profile h f).observe
 
 end

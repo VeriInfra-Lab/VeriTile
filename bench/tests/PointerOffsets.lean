@@ -79,8 +79,6 @@ def floatingOffset (X Y : RegionName) (xb : ℝ) (n B : Nat) : ComputeKernel :=
     tl.store(Y + offsets, x)
   }
 
-/-- error: pointer-offset specialization does not yet support reassigned pointer arguments -/
-#guard_msgs in
 def mutated (X Y : RegionName) (xb n B : Nat) : ComputeKernel :=
   with_triton_call profile call_args [n := n] pointer_offsets [X := xb] in
   triton {
@@ -90,6 +88,18 @@ def mutated (X Y : RegionName) (xb n B : Nat) : ComputeKernel :=
     tl.store(Y + offsets, x)
   }
 
+def expandedMutation (X Y : RegionName) (xb n B : Nat) : ComputeKernel := triton {
+  tl.region X = tl.float32, Y = tl.float32
+  X = X + $(xb) + 1
+  offsets = tl.arange(0, $(B))
+  x = tl.load(X + offsets)
+  tl.store(Y + offsets, x)
+}
+
+theorem complete_mutated_source (X Y : RegionName) (xb n B : Nat) :
+    mutated X Y xb n B = expandedMutation X Y xb n B := rfl
+
+#axiomsClean complete_mutated_source
 #axiomsClean complete_source
 #axiomsClean complete_signed_source
 end VeriTile.Tests.PointerOffsets

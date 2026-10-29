@@ -164,12 +164,12 @@ def coreLoss (M : Algebra α) (p : Parameters) (initial : State α) : α := by
   else M.literal (some .fp32) .real 0.0
 
 def lossValue (M : Algebra α) (p : Parameters) (initial : State α) : α :=
-  if target p initial=p.ignored then M.literal (some .fp32) .real 0.0 else
+  M.cast (some .fp32) .real .real (if target p initial=p.ignored then M.literal (some .fp32) .real 0.0 else
     if p.split then coreLoss M p initial else
       M.binary (some .fp32) .real .add (coreLoss M p initial)
         (M.binary (some .fp32) .real .mul
           (M.binary (some .fp32) .real .mul (RuntimeArgs.fp initial "lse_square_scale")
-            (lseValue M p initial)) (lseValue M p initial))
+            (lseValue M p initial)) (lseValue M p initial)))
 
 @[simp] theorem ready_row (M : Algebra α) (p : Parameters) (initial : State α) :
     (ready M p initial).regs .int [] "row_idx"=some (fun _ => (initial.pids 0 : Int)) := by

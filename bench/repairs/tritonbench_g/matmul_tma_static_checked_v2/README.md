@@ -1,96 +1,57 @@
-This separate v2 candidate preserves the frozen first candidate and its
-independent NEEDS_REVISION review. It closes the two reported domain gaps.
+# Static TMA matrix product
 
-The Python wrapper retains the five positive-power-of-two/K-minimum checks and
-adds three preallocation checks: M*K, K*N and M*N must each be at most 1048576.
-This is Triton's complete block-tensor frontend limit, not a device resource
-guard. The JIT body and the wrapper after the eight checks are unchanged.
-The original Python and historical conditional proofs remain preserved.
+`KernelOnly/Kernels.lean` contains the complete original `matmul_tma_load_store`
+function body from `matmul_tma_static_checked_v2.py`, inside `triton { ... }`.
+Pointer types, scalar bindings and constexpr values come from the caller.
+The three block pointers, layouts, two unmasked loads, default `tl.dot`, optional
+FP16 conversion and final store follow the Python body statement for statement.
+Both transpose flags and both output precisions remain supported.
 
-`KernelOnly/Contract.lean` proves that the executable checks match the public
-static domain. Positive dimensions plus the tile limits imply that every
-dimension is at most 1048576, so all previously separate signed32 dimension
-conditions follow from the contract.
+The original Python has no explicit FP32 output cast. `candidate_kernels.py`
+materializes the historical formal output-conversion variant as a separate
+candidate: only the false arm adds `c = c.to(c_ptr.type.element_ty)`. That pointer
+is FP32 on this path. This expresses the previous redundant-conversion comparison
+in the corrected direction. It is not a new numerical optimization or speed claim.
+The manifest checks both complete bodies and external call bindings; mutation
+checks reject omitted casts, invented dot options and changed block-pointer order.
 
-`KernelOnly/Kernels.lean` reuses the complete readable shared source from v1.
-`KernelOnly/Correct.lean` exposes `kernel_math`, the independent Real matrix
-product over raw initial typed memory. `KernelOnly/Misc/NativeCorrect.lean` retains the ordinary theorem
-`kernel_native`, the independent fixed-instruction result and full cell frame
-over raw shape, flags and initial memory. The full checked Tensor applications
-remain as `TensorBridge.kernel_real` and `TensorBridge.kernel_fp_equiv` in
-optional `KernelOnly/Misc/TensorBridge.lean`. It does not require ObservedSchedule or
-an extra Dimensions premise. The exact source operands, finite pointer loads,
-fixed K16 first/carried instructions, FP32 carry, output encoding, byte stores,
-actual Tensor results and input/exterior frames reuse the proved v1 refinement.
+## Mathematics and complete execution
 
-The selected fixed-instruction profile and instruction-local correspondence
-remain explicit native realization boundaries. The twelve recorded offline
-compiler profiles are retained as `TensorBridge.observed_profile`, a separate
-corollary in optional `KernelOnly/Misc/TensorBridge.lean`.
-Neither static checks nor that corollary assert universal successful compilation,
-device capacity, or GPU instruction conformance. There is no whole-dot,
-whole-lowering, successful-output, allocator or returned-object premise.
+`KernelOnly/Correct.lean` exposes the independent Real matrix product through
+logical matrix IO. Its summation covers the complete inner dimension. The public
+judgment includes access safety, successful execution, every output and all
+unrelated typed memory cells. `Proofs/SourceExecution.lean` evaluates the complete
+actual source, including both constexpr branches and destination storage
+conversions. `Proofs/RealExecution.lean`, `PublicIO.lean` and `LogicalIO.lean`
+connect it to the independent formula without adding input restrictions.
 
-Validation: four new Lean modules; nine preallocation rejections; all eight flag
-branches; and three exact-limit wrapper captures. The unchanged kernel reuses
-16 actual nonempty interpreter calls and 12 real-binder offline compilations.
-No GPU run, numerical transformation or new primitive experiment was performed.
+`KernelOnly/FPEquiv.lean` compares the two complete programs with `≡[[]]`.
+Its native interpretation retains the fixed K16 first/carried instructions and
+FP32 accumulator, with the existing instruction-local realization boundary.
+The new `Proofs/SourceNative.lean` explicitly defines FP16-to-FP16 storage as the
+identity on the encoded word; the existing native model supplies FP32 identity
+and the actual FP32-to-FP16 encoding. No identity is assumed of an arbitrary
+backend cast. The default dot context is retained in the source; the selected
+native dot interpretation ignores that inherited context by definition.
+`Proofs/SourcePair.lean` connects the complete sources, including access safety.
 
-## Public matrix IO (2026-10-20)
+The main Real and FP input domains remain unchanged. The optional native result
+and physical Tensor applications remain in `KernelOnly/Misc/`. The concrete
+Real/native execution connections in `Proofs/SourceModels.lean` justify reuse of
+the historical physical refinement; no equality of the old and new ASTs is
+claimed. The twelve recorded compiler profiles remain a separate corollary and
+do not become a restriction on the general theorem.
 
-`KernelOnly/Correct.lean` and `KernelOnly/Misc/NativeCorrect.lean` declare typed
-matrix IO for the complete shared source. The channels retain two FP16 input
-matrices, the actual transpose/stride selection, and the selected FP16 or FP32
-output. The independent matrix sum and native fixed-K16 recurrence take logical
-input matrices rather than reading an operational state in the public formula.
+## Wrapper and evidence scope
 
-The shared `FP.Structural.ProgramIO.Implements` judgment proves all actual
-block-pointer accesses are within the declared channel capacities, the whole
-source executes, every output satisfies the independent formula, and every
-other typed cell is unchanged. `KernelOnly/Proofs/SourceSafety.lean` checks the
-actual three block-pointer constructions, two unmasked loads, dot/conversion and
-store using the source evaluator. `KernelOnly/Proofs/PublicIO.lean` connects that
-safety certificate and the existing source execution proof to matrix IO.
+The Python wrapper is unchanged. Its five positive-power-of-two/K-minimum checks
+and three block-tensor limits (`M*K`, `K*N`, `M*N` at most 1048576) retain the
+existing static domain. `KernelOnly/Contract.lean` connects those executable
+checks with the mathematical contract and derives the dimension bounds.
+The earlier candidate and its independent NEEDS_REVISION review are preserved.
 
-The former operational statements are ordinary theorems in
-`KernelOnly/Proofs/RealExecution.lean` and `NativeExecution.lean`. Tensor bridge
-statements, shape/configuration domain, source precision, all instruction
-profiles and the local first/carry/conversion correspondence remain unchanged.
-This adds no dtype variant, numerical experiment or compiler claim. The regional
-IO theorem does not itself assert a new flat-pointer relocation theorem; the
-existing physical Tensor applications remain separate.
-
-## Actual two-program equivalence (2026-10-21)
-
-`KernelOnly/FPEquiv.lean` now compares the complete original with
-`kernelDirectOutput`. No distinct historical kernel existed: v1 and v2 use the
-same JIT body. The new directly related candidate removes the redundant
-`.to(tl.float32)` after `tl.dot(a,b)` in the FP32 output branch. The dot already
-has FP16 operands and an FP32 result. The FP16 output branch transparently
-reuses the original complete source and retains its encoding conversion.
-This removes one source conversion in the FP32 branch; no measured speedup is
-claimed. All three block pointers, both complete input loads, dot options,
-transpose strides, stores and the one-program schedule remain unchanged.
-
-`FPEquiv.kernel_equivalent rest I profile h f` is an actual
-`original ≡[[]] candidate` through the shared `ProgramIO.Equivalent` judgment.
-It proves both source safety conclusions, both successful complete executions,
-equality of every active typed output and both exterior frames. It has the same
-unrestricted raw `Shape`/`Flags` scope as `Correct.kernel_math` and the retained
-native IO theorem, including all eight transpose/output branches and every input
-word. The existing static wrapper contract and optional Tensor results retain
-their original scope.
-
-The exact transformation uses the retained native model: FP32-to-FP32 conversion
-is identity, and `sourceDot I profile` applies the same fixed K16 first/carry
-instructions regardless of the inherited outer computation context. Operand
-and result types, profile, instruction order and FP32 carry are unchanged.
-`Proofs/SourcePair.lean` proves complete execution equality under that model and
-trace-safety equivalence for the actual sources. It does not assert the
-transformation for arbitrary dot interpretations. No relaxed numerical rule or
-experimental assumption is used in this pair.
-
-`kernel_native` retains its original name as an ordinary single-source theorem
-in `KernelOnly/Misc/NativeCorrect.lean`. Its instruction-reference correspondence
-and all previous optional compiler/hardware boundaries remain separate. Main
-`Correct.lean`, `FPEquiv.lean` and their proof helpers do not import `Misc/`.
+Historical interpreter and offline compilation records remain historical
+observations. They do not assert universal compilation, device capacity or GPU
+instruction conformance. Source migration replays Lean proofs and source checks;
+it does not run a new GPU or numerical experiment. Current build receipts are
+recorded separately under `bench/review-checkpoints/`.

@@ -77,24 +77,27 @@ theorem initial_holds (M : Algebra α) (h : Call) (p : Phase) (prog : Program h 
 
 theorem bind_holds (M : Algebra α) (h : Call) (p : Phase) (prog : Program h p)
     (initial : State α) (n : Nat) (u : State α) (inv : Holds M h p prog initial n u) :
-    Holds M h p prog initial n (u.setReg "i" .nat [] (fun _ => n)) := by
+    Holds M h p prog initial n (u.setReg "i" .int [] (fun _ => (n : Int))) := by
   refine ⟨inv.bound,?_,?_,?_,?_,inv.reads,inv.output,inv.frame⟩
   all_goals simp [inv.sourcePtr,inv.targetPtr,inv.mask,inv.acc]
 
 theorem loop_executes (M : Algebra α) (h : Call) (p : Phase) (prog : Program h p)
     (initial : State α) (n : Nat) (u : State α) (inv : Holds M h p prog initial n u) :
-    ∃ v, FP.Structural.range (engine M) "i" n p.span 1 (forwardBody h) u=some v ∧
+    ∃ v, FP.Structural.rangeInt (engine M) "i" (n : Int) (p.span : Int) 1 (forwardBody h) u=some v ∧
       Holds M h p prog initial p.span v := by
   by_cases hn : n<p.span
   · obtain ⟨v,he,hv⟩ := iteration M h p prog initial n
-      (u.setReg "i" .nat [] (fun _ => n)) hn (bind_holds M h p prog initial n u inv)
+      (u.setReg "i" .int [] (fun _ => (n : Int))) hn (bind_holds M h p prog initial n u inv)
     obtain ⟨w,hw,hf⟩ := loop_executes M h p prog initial (n+1) v hv
     refine ⟨w,?_,hf⟩
-    rw [FP.Structural.range]
-    simpa [hn,he] using hw
+    have hi : (n : Int)<(p.span : Int) := by exact_mod_cast hn
+    rw [FP.Structural.rangeInt]
+    simpa [hi,he] using hw
   · have bound := inv.bound
     have eq : n=p.span := by omega
-    refine ⟨u,FP.Structural.range_done _ _ _ _ _ _ _ (by omega),by simpa [eq] using inv⟩
+    refine ⟨u,?_,by simpa [eq] using inv⟩
+    rw [FP.Structural.rangeInt]
+    simp [eq]
 termination_by p.span-n
 
 theorem source_correct (M : Algebra α) (h : Call) (p : Phase) (prog : Program h p)

@@ -51,10 +51,10 @@ theorem forward_implements (M : Algebra α) (p : Parameters) (row : Nat)
     fin_cases o <;> cases j
     · change mapCell id (final.mem p.lse row)=_
       simpa only [start,forward_row] using congrArg (mapCell id)
-        (lse.trans (congrArg (Cell.mk .real ∘ KernelModel.cast M) lseFormula))
+        (lse.trans (congrArg (Cell.mk .real) lseFormula))
     · change mapCell id (final.mem p.loss row)=_
       simpa only [start,forward_row,ht] using congrArg (mapCell id)
-        (loss.trans (congrArg (Cell.mk .real ∘ KernelModel.cast M) lossFormula))
+        (loss.trans (congrArg (Cell.mk .real) lossFormula))
   · intro r o outside
     exact frame r o (outside.1 (1 : Fin 2) PUnit.unit (Or.inl rfl))
       (outside.1 (0 : Fin 2) PUnit.unit trivial)
