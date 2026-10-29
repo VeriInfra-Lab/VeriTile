@@ -147,3 +147,18 @@ names and full domains. This source readability change does not alter proof
 completion or add validation obligations.
 
 `IO.lean` holds the canonical `PublicIO.io` layout, metadata domain and logical-output packaging. The reader reuses the IO and metadata definitions and retains its source-independent mathematical formula. The source projection stays in `Proofs/SourceProjection.lean`; `Proofs/IOLayout.lean` retains its compatibility import.
+
+### 原生函数体与 signed 循环
+
+`Kernels.lean` 直接粘贴所选修复 Python 的原始与既有交换候选，保留六处
+`tl.cast(..., tl.int64)`、三次 signed-int32 metadata 读取、完整运行时循环、
+FP32 payload load/store 与两个尾部 mask。只有 BLOCK_SIZE 是 constexpr。
+旧的 typed-region 调用接口在函数体外做薄适配，所有 region/块宽参数保留。
+调用签名明确保留旧 read/write ports，未省略 metadata 输入。
+
+实际函数式 cast 使两个 offset 寄存器按 signed integer 表示；当前循环
+不变量与执行证明直接描述这两个真实寄存器，不再改成 Nat 源语句来沿用证明。
+不存在新旧完整 AST 相等的声明。完整 Real/FP 执行、输出、frame、安全、
+interleaving 与既有 native/host/Tensor 范围由实际程序重新核对。
+直读整数 metadata 的函数式 cast 复用已有 signed-load/word 索引规则；
+任意嵌套浮点 load 仍拒绝，以免丢失浮点 load 精度事件。

@@ -17,6 +17,35 @@ def OpEquivalent {α : Type} [Inhabited α] (M : Algebra α) (s : State α)
     (s : State α) (before : List ComputeStmt) (a : Op dtype shape) :
     OpEquivalent M s before a a := fun _ _ => rfl
 
+/-- Exact signed-index multiplication in the existing mathematical integer
+interpreter. It is independent of every floating primitive and preserves both
+operand failure cases; it adds no numerical FP rule. -/
+@[spec_rule] theorem op_int_product_commutes {α : Type} [Inhabited α]
+    (M : Algebra α) (s : State α) (before : List ComputeStmt) (a b : Op .int []) :
+    OpEquivalent M s before (.mul .int .nil a b) (.mul .int .nil b a) := by
+  intro t _
+  change (Structural.evalOp (engine M) none a t >>= fun x =>
+    Structural.evalOp (engine M) none b t >>= fun y => some (bop Int.mul .nil x y)) =
+    (Structural.evalOp (engine M) none b t >>= fun y =>
+    Structural.evalOp (engine M) none a t >>= fun x => some (bop Int.mul .nil y x))
+  cases ha : Structural.evalOp (engine M) none a t <;>
+    cases hb : Structural.evalOp (engine M) none b t
+  all_goals first
+    | rfl
+    | apply congrArg some
+      funext i
+      exact Int.mul_comm _ _
+
+/-- Equal signed indices have equal natural address projections, including
+failure. No identity or range assertion about the conversion is assumed. -/
+@[spec_rule] theorem op_int_to_nat {α : Type} [Inhabited α]
+    (M : Algebra α) (s : State α) (before : List ComputeStmt)
+    (a b : Op .int shape) (h : OpEquivalent M s before a b) :
+    OpEquivalent M s before (.castIntToNat a) (.castIntToNat b) := by
+  intro t ht
+  simp only [Structural.evalOp]
+  rw [h t ht]
+
 /-- Changing a block pointer's base by an equal integer expression preserves
 its offsets, layout and evaluation failure. This supplies no floating law. -/
 @[spec_rule] theorem op_block_ptr_base {α : Type} [Inhabited α]

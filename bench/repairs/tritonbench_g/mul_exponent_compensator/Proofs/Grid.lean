@@ -77,7 +77,7 @@ theorem grid_correct {α : Type} [Inhabited α] (M : Algebra α)
   obtain ⟨final, he, hm⟩ := grid_prefix_correct M p initial (gridCount p)
   exact ⟨final, he, hm.trans (grid_reference_complete M p initial positive)⟩
 
-#specNonCircular gridExpectedMemory avoiding [candidateKernel, runGrid, runGridPrefix, FP.Structural.exec]
+#specNonCircular gridExpectedMemory avoiding [candidateKernel,sourceBody, runGrid, runGridPrefix, FP.Structural.exec]
 #axiomsClean next_tile_inputs
 #axiomsClean reference_step
 #axiomsClean grid_prefix_correct

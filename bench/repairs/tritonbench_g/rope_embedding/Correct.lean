@@ -1,15 +1,10 @@
-import bench.repairs.tritonbench_g.fast_rope_embedding.Proofs.LogicalIO
+import bench.repairs.tritonbench_g.rope_embedding.Proofs.Interface
 import bench.repairs.tritonbench_g.rope_embedding.Proofs.SourceBinding
 
 namespace VeriTile.Bench.Repairs.RopeEmbedding
 open VeriTile.Triton FP.Structural
 open scoped VeriTile.Triton.FP.Structural.LogicalProgramIO
 noncomputable section
-
-/-- The actual FP32 rotary source and its shared in-place Q / cosine / sine
-IO. Only the active four-head group is written; odd tails remain framed. -/
-def ropeIO (r : Request) (back : Bool) (row group : Nat) :=
-  FastRopeEmbedding.LogicalIO.view r (r.heads*r.dimension) r.half r.half back row group
 
 /-- Independent two-coordinate rotation. Coefficients need not lie on the
 unit circle; the backward branch negates the sine coefficient. -/
@@ -29,10 +24,8 @@ and the exact exterior cell frame, on the original launch domain. -/
 specification rope_embedding_kernel_correct (r : Request) (back : Bool)
     (row group : Nat) (launch : r.Launched row group) :
     VeriTile.Spec.Real (ropeIO r back row group ⊨ mathematical r back) :=
-  (FastRopeEmbedding.LogicalIO.judgment_iff r (r.heads*r.dimension) r.half r.half
-    back row group _).mpr
-      (FastRopeEmbedding.Interface.real_implements r (r.heads*r.dimension) r.half r.half
-        back row group launch rfl rfl rfl)
+  (Interface.judgment_iff r back row group _).mpr
+    (Interface.real_implements r back row group launch)
 
 #specNonCircular mathematical avoiding [Kernels.rope, Source.source, FP.Structural.exec]
 #stmtSurfaceSubset rope_embedding_kernel_correct ⊆

@@ -1,0 +1,234 @@
+[
+  {
+    "lean": "bench/repairs/tritonbench_g/rotary_emb/Kernels.lean",
+    "lean_definition": "kernel",
+    "python": "bench/repairs/tritonbench_g/rotary_emb/rotary_emb_repaired.py",
+    "python_function": "_rotary_kernel",
+    "signature_definition": "sourceSignature",
+    "expected_call_bindings": {
+      "stride_qbs": "stride_qbs",
+      "stride_qh": "stride_qh",
+      "stride_qd": "stride_qd",
+      "stride_kbs": "stride_kbs",
+      "stride_kh": "stride_kh",
+      "stride_kd": "stride_kd",
+      "stride_cosbs": "stride_cosbs",
+      "stride_cosd": "stride_cosd",
+      "stride_sinbs": "stride_sinbs",
+      "stride_sind": "stride_sind",
+      "max_total_len": "max_total_len",
+      "ROTARY_DIM": "ROTARY_DIM",
+      "HEAD_Q": "HEAD_Q",
+      "HEAD_K": "HEAD_K"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "Q",
+          "fp32"
+        ],
+        [
+          "K",
+          "fp32"
+        ],
+        [
+          "Cos",
+          "fp32"
+        ],
+        [
+          "Sin",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_qbs",
+          "integer"
+        ],
+        [
+          "stride_qh",
+          "integer"
+        ],
+        [
+          "stride_qd",
+          "integer"
+        ],
+        [
+          "stride_kbs",
+          "integer"
+        ],
+        [
+          "stride_kh",
+          "integer"
+        ],
+        [
+          "stride_kd",
+          "integer"
+        ],
+        [
+          "stride_cosbs",
+          "integer"
+        ],
+        [
+          "stride_cosd",
+          "integer"
+        ],
+        [
+          "stride_sinbs",
+          "integer"
+        ],
+        [
+          "stride_sind",
+          "integer"
+        ],
+        [
+          "max_total_len",
+          "integer"
+        ],
+        [
+          "ROTARY_DIM",
+          "integer"
+        ],
+        [
+          "HEAD_Q",
+          "integer"
+        ],
+        [
+          "HEAD_K",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_HEAD",
+        "BLOCK_SEQ",
+        "BLOCK_PAIRS"
+      ],
+      "readPorts": [
+        "Q",
+        "K",
+        "Cos",
+        "Sin"
+      ],
+      "writePorts": [
+        "Q",
+        "K"
+      ]
+    }
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/rotary_emb/Kernels.lean",
+    "lean_definition": "indexCommuted",
+    "python": "bench/repairs/tritonbench_g/rotary_emb/index_commuted.py",
+    "python_function": "_rotary_kernel_index_commuted",
+    "signature_definition": "sourceSignature",
+    "expected_call_bindings": {
+      "stride_qbs": "stride_qbs",
+      "stride_qh": "stride_qh",
+      "stride_qd": "stride_qd",
+      "stride_kbs": "stride_kbs",
+      "stride_kh": "stride_kh",
+      "stride_kd": "stride_kd",
+      "stride_cosbs": "stride_cosbs",
+      "stride_cosd": "stride_cosd",
+      "stride_sinbs": "stride_sinbs",
+      "stride_sind": "stride_sind",
+      "max_total_len": "max_total_len",
+      "ROTARY_DIM": "ROTARY_DIM",
+      "HEAD_Q": "HEAD_Q",
+      "HEAD_K": "HEAD_K"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "Q",
+          "fp32"
+        ],
+        [
+          "K",
+          "fp32"
+        ],
+        [
+          "Cos",
+          "fp32"
+        ],
+        [
+          "Sin",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_qbs",
+          "integer"
+        ],
+        [
+          "stride_qh",
+          "integer"
+        ],
+        [
+          "stride_qd",
+          "integer"
+        ],
+        [
+          "stride_kbs",
+          "integer"
+        ],
+        [
+          "stride_kh",
+          "integer"
+        ],
+        [
+          "stride_kd",
+          "integer"
+        ],
+        [
+          "stride_cosbs",
+          "integer"
+        ],
+        [
+          "stride_cosd",
+          "integer"
+        ],
+        [
+          "stride_sinbs",
+          "integer"
+        ],
+        [
+          "stride_sind",
+          "integer"
+        ],
+        [
+          "max_total_len",
+          "integer"
+        ],
+        [
+          "ROTARY_DIM",
+          "integer"
+        ],
+        [
+          "HEAD_Q",
+          "integer"
+        ],
+        [
+          "HEAD_K",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_HEAD",
+        "BLOCK_SEQ",
+        "BLOCK_PAIRS"
+      ],
+      "readPorts": [
+        "Q",
+        "K",
+        "Cos",
+        "Sin"
+      ],
+      "writePorts": [
+        "Q",
+        "K"
+      ]
+    }
+  }
+]

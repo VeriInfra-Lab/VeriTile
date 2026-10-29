@@ -90,8 +90,7 @@ mask values enable a store. Read-only data/mask regions need no separation. -/
 def io (storage : MaskStorage) (n : Nat) (alpha : ℝ) : UKernelIO where
   kernel := (kernel storage "grad" "data" "mask" n alpha).eraseDType
   projection := by
-    rw [kernel_eq_original]
-    exact integer_supported storage Bool.false "grad" "data" "mask" n alpha blockSize
+    exact source_supported storage "grad" "data" "mask" n alpha blockSize
   nIn := 3
   nOut := 1
   nScr := 0

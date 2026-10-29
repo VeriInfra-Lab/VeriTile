@@ -34,7 +34,7 @@ theorem source_safe (layout : Layout) (x y : Tensor) (B p : Nat)
     Tile.reduceMax,Tile.reduceMaxDrop,Tile.reduceSum,Tile.reduceSumDrop,
     TileShape.axisDim,TileShape.eraseAxis,TileShape.insertAxisIndex,
     NumericDType.add,NumericDType.mul,NumericDType.sub,NumericDType.div,ComparableDType.lt,
-    launchState,launchState]
+    launchState,launchState,← Int.natCast_mul,← Int.natCast_add,-Nat.cast_mul,-Nat.cast_add]
   exact ⟨fun a ha => hin a ha,fun a ha => hout a ha⟩
 
 #specNonCircular formula avoiding [evaluate,softmax_kernel]

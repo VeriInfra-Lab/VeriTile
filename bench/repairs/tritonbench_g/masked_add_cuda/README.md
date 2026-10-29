@@ -129,4 +129,22 @@ status and exact public-file hashes are recorded in the task delivery packet.
 
 Optional proof entries are in `Misc/`: [TensorBridge.lean](Misc/TensorBridge.lean), [NativeCorrect.lean](Misc/NativeCorrect.lean). Their declaration namespaces, theorem statements, proof bodies and existing acceptance/program-pair statuses are preserved. The primary `Correct.lean` and `FPEquiv.lean` entries do not import these optional readers.
 
-Source readability cleanup (2026-10-21): `Kernels.lean` now displays all four complete ordinary `triton` quotations for the original/candidate and int32/int64 mask branches. `Proofs/LegacySurface.lean` archives the previous macro source; `Proofs/SourcePreservation.lean` proves equality of both complete source functions by mask-storage cases and `rfl`, for every region, extent, alpha and block size. Public declarations, the fused model, input domain and existing proof completion status are unchanged.
+Native body migration (2026-10-24): `Kernels.lean` pastes the full selected
+`masked_add_cuda_repaired.py` function body in both signed-mask ABI profiles.
+Only `BLOCK_SIZE` is constexpr; `n_elements` and FP32 `alpha` are runtime call
+arguments bound outside the quotations. The extra alpha cast in the earlier
+presentation is removed. `candidate_kernels.py` records the actual candidate,
+which changes only the final addition order. `jit-correspondence.json` checks
+all four complete bodies, including each independently declared mask ABI.
+
+The external signature now lists all three actual input ports, including the
+integer mask that the old inference omitted. `Proofs/Source.lean` connects the
+complete mathematical algorithm, with that corrected port list, to the old
+independent formula helpers. `Proofs/Typed.lean`, `Variant.lean` and
+`AccessSafety.lean` re-prove the actual source execution, both full memory
+results, both bounds traces and exact frames. `Proofs/SourcePreservation.lean`
+records complete Real execution and selected-graph semantic preservation to
+the frozen earlier presentation. No AST-identity claim is made after removing
+its cast. The observed fused FMA model, all word patterns, both mask widths,
+all sizes/blocks and the public input/leaf domains remain unchanged. No new
+numerical rule or GPU experiment is introduced.

@@ -23,15 +23,15 @@ theorem source_memory {α} [Inhabited α] (M : Algebra α) (x y : Tensor)
     (B p : Nat) (hB : 0<B) (s t : State α) (runEq : evaluate M x y B p s=some t) :
     ∃ u,SoftmaxTriton1.Floating.evaluate M x y B p s=some u ∧ u.mem=t.mem := by
   simp [evaluate,exec,softmax_kernel,run,step,evalExpr,evalOp,store,
-    State.setReg,numeric,natLt,bop,TileShape.axisDim,hB,Option.bind,Function.comp_def,ComputeKernel.surfaceBody,evalComputeOp,
-    SoftmaxTriton1.Floating.backend,ComputeDType.eraseDType] at runEq
+    State.setReg,numeric,numericLt,natLt,bop,TileShape.axisDim,hB,Option.bind,Function.comp_def,ComputeKernel.surfaceBody,evalComputeOp,
+    SoftmaxTriton1.Floating.backend,ComputeDType.eraseDType,← Int.natCast_mul,← Int.natCast_add,-Nat.cast_mul,-Nat.cast_add] at runEq
   subst t
   obtain ⟨u,hu⟩ := SoftmaxTriton1.Floating.source_terminates M x y B p hB s
   refine ⟨u,hu,?_⟩
   simp [SoftmaxTriton1.Floating.evaluate,exec,SoftmaxTriton1.softmax_kernel,run,step,
-    evalExpr,evalOp,store,State.setReg,numeric,natLt,bop,TileShape.axisDim,hB,
+    evalExpr,evalOp,store,State.setReg,numeric,numericLt,natLt,bop,TileShape.axisDim,hB,
     Option.bind,Function.comp_def,ComputeKernel.surfaceBody,evalComputeOp,
-    SoftmaxTriton1.Floating.backend,ComputeDType.eraseDType] at hu
+    SoftmaxTriton1.Floating.backend,ComputeDType.eraseDType,← Int.natCast_mul,← Int.natCast_add,-Nat.cast_mul,-Nat.cast_add] at hu
   subst u
   refine fold_observe State.mem _ _ _ _ ?_ ?_
   · rfl
@@ -54,8 +54,8 @@ theorem source {α} [Inhabited α] (M : Algebra α) :
 theorem terminates {α} [Inhabited α] (M : Algebra α) (x y : Tensor)
     (B p : Nat) (hB : 0<B) (s : State α) : ∃ t,evaluate M x y B p s=some t := by
   simp [evaluate,exec,softmax_kernel,run,step,evalExpr,evalOp,store,
-    State.setReg,numeric,natLt,bop,TileShape.axisDim,hB,Option.bind,Function.comp_def,ComputeKernel.surfaceBody,evalComputeOp,
-    SoftmaxTriton1.Floating.backend,ComputeDType.eraseDType]
+    State.setReg,numeric,numericLt,natLt,bop,TileShape.axisDim,hB,Option.bind,Function.comp_def,ComputeKernel.surfaceBody,evalComputeOp,
+    SoftmaxTriton1.Floating.backend,ComputeDType.eraseDType,← Int.natCast_mul,← Int.natCast_add,-Nat.cast_mul,-Nat.cast_add]
 
 #axiomsClean source_memory
 #axiomsClean source

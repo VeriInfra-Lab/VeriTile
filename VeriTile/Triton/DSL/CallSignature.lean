@@ -1,5 +1,6 @@
 import VeriTile.Triton.DSL.TypedStores
 import VeriTile.Triton.DSL.PythonBody
+import VeriTile.Triton.DSL.Constexpr
 import Lean
 
 /-! Call-site typing for a pasted Triton body. The signature describes pointer
@@ -33,6 +34,8 @@ declare_syntax_cat tritonCallBinding
 syntax ident " := " term : tritonCallBinding
 syntax "with_triton_call " term " call_args " "[" tritonCallBinding,* "]" " in "
   "triton" tritonPythonBody : term
+syntax "with_triton_call " term " call_args " "[" tritonCallBinding,* "]"
+  " pointer_offsets " "[" tritonCallBinding,* "]" " in " "triton" tritonPythonBody : term
 
 private partial def listValues (value : Expr) : TermElabM (List Expr) := do
   let value ← whnf value
@@ -52,6 +55,7 @@ private def dtypeValue (value : Expr) : TermElabM Triton.SourceDType := do
   let kinds : List (Name × Triton.SourceDType) :=
     [(``Triton.SourceDType.fp16,.fp16),(``Triton.SourceDType.bf16,.bf16),
      (``Triton.SourceDType.fp32,.fp32),(``Triton.SourceDType.fp64,.fp64),
+     (``Triton.SourceDType.f8e4,.f8e4),(``Triton.SourceDType.f8e5,.f8e5),
      (``Triton.SourceDType.i8,.i8),(``Triton.SourceDType.i16,.i16),
      (``Triton.SourceDType.i32,.i32),(``Triton.SourceDType.i64,.i64),
      (``Triton.SourceDType.u8,.u8),(``Triton.SourceDType.u16,.u16),
@@ -123,6 +127,15 @@ private partial def sourcePortView (raw : Syntax) : MacroM Syntax := do
 
 private partial def bindSourceValues (values : List (Name × TSyntax `tritonExpr)) (raw : Syntax) :
     MacroM Syntax := do
+  -- These terms already belong to the caller's Lean context. Replacing a
+  -- name inside one would inject a Triton expression into a Lean term.
+  if let `(tritonExpr| $($_:term)) := raw then return raw
+  -- A static-loop bound is already a caller-owned Lean term. Its children
+  -- must not be rebound as source identifiers after constexpr normalization.
+  if let `(tritonStmt| for $i:ident in tl.static_range($($n:term)) { $body:tritonStmt* }) := raw then
+    let body ← body.mapM fun st => do
+      return (⟨← bindSourceValues values st.raw⟩ : TSyntax `tritonStmt)
+    return (← `(tritonStmt| for $i in tl.static_range($($n)) { $body* })).raw
   if raw.isIdent then
     if let some (_, value) := values.find? (fun p => p.1 == raw.getId.eraseMacroScopes) then
       return value.raw
@@ -156,10 +169,11 @@ private def assignmentTargets (raw : Syntax) : List Name := Id.run do
   unless (raw.getKind.toString.splitOn "tritonStmt").length > 1 || left.any hasComma do return []
   return left.toList.flatMap identifierNames
 
-private partial def rejectArgumentMutation (names : List Name) (raw : Syntax) : TermElabM Unit := do
+private partial def rejectArgumentMutation (names : List Name) (raw : Syntax)
+    (message : String := "per-call specialization does not yet support reassigned scalar arguments") : TermElabM Unit := do
   let reject (id : Ident) : TermElabM Unit := do
     if names.contains id.getId.eraseMacroScopes then
-      throwErrorAt raw "per-call specialization does not yet support reassigned scalar arguments"
+      throwErrorAt raw "{message}"
   for target in assignmentTargets raw do reject (mkIdent target)
   if let `(tritonStmt| $id:ident = $_:tritonExpr) := raw then reject id
   if let `(tritonStmt| $id:ident += $_:tritonExpr) := raw then reject id
@@ -174,7 +188,7 @@ private partial def rejectArgumentMutation (names : List Name) (raw : Syntax) : 
   if raw.getNumArgs > 1 && raw[0].isAtom && raw[1].isIdent &&
       ["for", "tl.for"].contains raw[0].getAtomVal.trimAscii.toString then
     reject ⟨raw[1]⟩
-  for arg in raw.getArgs do rejectArgumentMutation names arg
+  for arg in raw.getArgs do rejectArgumentMutation names arg message
 
 private partial def assignedNames (raw : Syntax) : List Name := Id.run do
   let mut names := assignmentTargets raw
@@ -206,6 +220,27 @@ private partial def staticNatBound (constants assigned : List Name)
       let value ← elabTerm term none
       if ← isDefEq (← inferType value) (mkConst ``Nat) then return some term else return none
   | _ => return none
+
+/-- Evaluate immutable Nat constexpr quotients at specialization time, as the
+source JIT does for valid compile-time dimensions. Literal zero divisors keep
+an explicit divide node; runtime and mutable names keep the runtime path.
+The caller's native shape contract still requires valid nonzero dimensions. -/
+private partial def foldStaticNatQuotients (constants assigned : List Name)
+    (raw : Syntax) : TermElabM Syntax := do
+  let args ← raw.getArgs.mapM (foldStaticNatQuotients constants assigned)
+  let next := match raw with | .node info kind _ => Syntax.node info kind args | _ => raw
+  let expression : TSyntax `tritonExpr := ⟨next⟩
+  if let `(tritonExpr| $dividend:tritonExpr // $divisor:tritonExpr) := expression then
+    if let `(tritonExpr| $zero:num) := divisor then
+      if zero.getNat == 0 then return next
+    if let some lhs ← staticNatBound constants assigned dividend then
+      if let some rhs ← staticNatBound constants assigned divisor then
+        return (← liftMacroM `(tritonExpr| $((($lhs:term : Nat) / ($rhs:term : Nat) : Nat)))).raw
+  if let `(tritonStmt| for $i:ident in tl.static_range($bound:tritonExpr) { $body:tritonStmt* }) := next then
+    if let some n ← staticNatBound constants assigned bound then
+      return (← liftMacroM `(tritonStmt| for $i in tl.static_range($($n)) { $body* })).raw
+    throwErrorAt bound "tl.static_range requires an immutable Nat constexpr bound"
+  return next
 
 /-- A per-call size has already been supplied before executing the body.
 Select the existing constant-bound range constructor only for known immutable
@@ -257,7 +292,8 @@ the caller. Their source ABI remains in `scalars`, never in `constexpr`.
 Nat/Int carriers use the existing mathematical index projection;
 native signed-width bounds must still be established by the task's IO/contract. -/
 private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tritonStmt))
-    (callValues : Option (Array (TSyntax `tritonCallBinding))) : TermElabM Expr := do
+    (callValues : Option (Array (TSyntax `tritonCallBinding)))
+    (pointerOffsets : Option (Array (TSyntax `tritonCallBinding)) := none) : TermElabM Expr := do
       let profile ← elabTermEnsuringType profile (mkConst ``Triton.CallSignature)
       let pointers ← bindings dtypeValue (← mkAppM ``Triton.CallSignature.pointers #[profile])
       let scalars ← bindings scalarTypeValue (← mkAppM ``Triton.CallSignature.scalars #[profile])
@@ -300,8 +336,42 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
             (kind matches .fp32 | .fp64) || values.any (fun p => p.1.toString == name)) do
           throwError "every integer runtime scalar needs an explicit call binding"
         for stmt in stmts do rejectArgumentMutation (values.map Prod.fst) stmt.raw
+      -- A pointer argument may already point into an allocation. This
+      -- binds that call value without changing the pasted callee body. Offset
+      -- units are elements in the existing region model; native byte/width
+      -- and allocation validity remain the caller's existing obligations.
+      if let some offsets := pointerOffsets then
+        let mut pointerValues : List (Name × TSyntax `tritonExpr) := []
+        for arg in offsets do
+          let `(tritonCallBinding| $id:ident := $value:term) := arg
+            | throwErrorAt arg "invalid pointer offset binding"
+          let name := id.getId.eraseMacroScopes
+          unless pointers.any (fun p => p.1 == name.toString) do
+            throwErrorAt id "offset binding is not a pointer parameter"
+          if pointerValues.any (fun p => p.1 == name) then
+            throwErrorAt id "duplicate pointer offset binding"
+          let argument ← elabTerm value none
+          unless ← isDefEq (← inferType argument) (mkConst ``Nat) do
+            throwErrorAt value "pointer offset must have a Nat element-offset carrier"
+          let expression ← liftMacroM `(tritonExpr| ($id:ident + $(($value:term : Nat))))
+          pointerValues := pointerValues ++ [(name,expression)]
+        for stmt in stmts do
+          rejectArgumentMutation (pointerValues.map Prod.fst) stmt.raw
+            "pointer-offset specialization does not yet support reassigned pointer arguments"
+        values := values ++ pointerValues
+      -- Static numeric constants remain weak Python values. Reject later
+      -- mutation before lowering the supported exact powers to fixed literals.
+      let mut localConstants : List Name := []
+      for stmt in stmts do
+        rejectArgumentMutation localConstants stmt.raw
+        if let `(tritonStmt| $id:ident : tl.constexpr = $_:tritonExpr) := stmt then
+          localConstants := id.getId.eraseMacroScopes :: localConstants
+      let stmts ← liftMacroM <| Constexpr.lower stmts.toList
+      let stmts := stmts.toArray
       let assigned := stmts.toList.flatMap (fun st => assignedNames st.raw)
       for stmt in stmts do rejectConstexprIteratorShadow constants stmt.raw
+      let stmts ← stmts.mapM fun st => do
+        return (⟨← foldStaticNatQuotients (constants.map Name.mkSimple) assigned st.raw⟩ : TSyntax `tritonStmt)
       -- A constexpr float is a weak Python scalar, not a runtime FP32
       -- argument. Its surrounding tensor operation selects its precision.
       -- Mutable constexpr names remain local statements, never substituted.
@@ -400,6 +470,11 @@ elab_rules : term
       let environment ← getEnv
       let stmts ← liftMacroM <| PythonBody.statements environment body
       elaborateCall profile stmts (some args.getElems)
+  | `(with_triton_call $profile:term call_args [$args:tritonCallBinding,*]
+      pointer_offsets [$offsets:tritonCallBinding,*] in triton $body:tritonPythonBody) => do
+      let environment ← getEnv
+      let stmts ← liftMacroM <| PythonBody.statements environment body
+      elaborateCall profile stmts (some args.getElems) (some offsets.getElems)
 
 end DSL.CallSignature
 

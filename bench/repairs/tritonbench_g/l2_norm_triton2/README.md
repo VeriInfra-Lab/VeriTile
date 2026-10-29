@@ -116,3 +116,17 @@ composes all row invocations using the existing successful source execution,
 readback and frame proofs; it connects declared windows to actual accesses.
 The two main entries contain only public IO correctness/equivalence and their
 short composition proofs.
+
+### 原生函数体入口与 epsilon
+
+前向函数体和 `l2_norm_triton1` 原始源码完全相同，因此明确共享同一入口；
+逐句检查也分别对照本题 Python，未拿导入别名替代源码核对。反向原始与
+既有行索引交换候选直接粘贴。N 为运行整数，eps 为真实运行 FP32 输入，
+BLOCK_N 是唯一 constexpr。源程序中两个 int64 cast、指针更新、mask、
+显式 load 转换、两次归约和全部运算顺序均保留。
+
+旧 Lean 在 eps 上多写了 Python 没有的 `.to(tl.float32)`；当前完整任意
+primitive 图的辅助公式直接使用 eps，移除多出的 cast 回调，再从实际
+函数体重证成功执行、每个输出和完整 frame、安全及全部旧参数范围。
+没有增加 cast 恒等前提，也没有修改原 Python、独立数学规格、IO 或输入域。
+主 Real/FP 和可选 native/host/Tensor 证明一并重放；旧数值证据保留历史边界。

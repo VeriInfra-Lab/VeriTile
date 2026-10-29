@@ -19,7 +19,7 @@ def execution {α : Type} [Inhabited α] (M : Algebra α) (storage : MaskStorage
   all_goals
     refine ⟨?_, ?_⟩
     swap
-    simp [commutedKernel, FP.Structural.exec, ComputeKernel.surfaceBody,
+    simp [commutedKernel, commuted32, commuted64, FP.Structural.exec, ComputeKernel.surfaceBody,
       run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
       numericLt, numericEq, natLt, bop, store, Region.cast, ComputeDType.eraseDType]
     rfl

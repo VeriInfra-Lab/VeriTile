@@ -50,6 +50,8 @@ globs = [
   "bench.tests.FPDebugBarrier",
   "bench.tests.ConditionalCast",
   "bench.tests.RegisterDTypeLoad",
+  "bench.tests.LoadCastStorage",
+  "bench.tests.RuntimeIntegerDivision",
   "bench.tests.FPExpandDimsPrecision",
   "bench.tests.FPDotRebinding",
   "bench.tests.FPNarrowScope",
@@ -59,6 +61,11 @@ globs = [
   "bench.tests.CallSignature",
   "bench.tests.PythonBody",
   "bench.tests.ConstexprBody",
+  "bench.tests.ConstexprPower",
+  "bench.tests.BlockPointerDType",
+  "bench.tests.PointerOffsets",
+  "bench.tests.BranchStoreDType",
+  "bench.tests.BranchDtypeRegression",
   "bench.tests.NativeCountLoop",
   "bench.tests.OptimizedRealExamples",
   "bench.tests.FPGuardedExamples",
@@ -185,6 +192,8 @@ globs = ["bench.repairs.tritonbench_g.add_example.+"]
 # records whole-task acceptance and separate numerical/replay status.
 [[lean_lib]]
 name = "TritonBenchGContracts"
+# Full typed source safety replay needs room for the nested state expressions.
+moreLeanArgs = ["-s65536"]
 # Imported proof helpers belong to this library even when only public entries
 # are selected below. Without a namespace root, Lake expects prebuilt objects
 # for helpers that are not themselves listed in globs.

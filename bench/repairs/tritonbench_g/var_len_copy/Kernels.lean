@@ -1,49 +1,57 @@
 import VeriTile.Triton.DSL
+import VeriTile.Triton.DSL.CallSignature
 
-/-! Canonical repaired source. FP32 payloads are copied without arithmetic;
-metadata storage is signed int32, explicitly widened to signed int64 before
-loop, mask and address arithmetic. The candidate commutes the two scalar
-source address offsets, retaining the repaired tail masks. -/
+/-! Both actual repaired Python function bodies. Metadata is signed int32 and
+all six original int64 casts, the complete runtime loop, tail masks and FP32
+payload accesses remain. The old typed-region call interface is a thin wrapper. -/
 namespace VeriTile.Bench.Repairs.VarLenCopy.Source
 open Lean VeriTile.Triton
 
 def blockSize : Nat := 256
 
-/-- Complete ordinary quotations for the retained original and commuted
-signed address forms; all metadata and original tail masks are explicit. -/
+def sourceSignature : CallSignature where
+  pointers := [("old_a_start",.i32),("old_a_len",.i32),("old_a_location",.fp32),
+    ("new_a_start",.i32),("new_a_location",.fp32)]
+  scalars := []
+  constexpr := ["BLOCK_SIZE"]
+  readPorts := ["old_a_len","old_a_start","new_a_start","old_a_location"]
+  writePorts := ["new_a_location"]
+
+def source (old_a_start old_a_len old_a_location new_a_start new_a_location : RegionName)
+    (BLOCK_SIZE : Nat) : ComputeKernel :=
+  with_triton_signature sourceSignature in
+  triton {
+    a_id = tl.cast(tl.program_id(0), tl.int64)
+    length = tl.cast(tl.load(old_a_len + a_id), tl.int64)
+    old_start = tl.cast(tl.load(old_a_start + a_id), tl.int64)
+    new_start = tl.cast(tl.load(new_a_start + a_id), tl.int64)
+    old_offset = tl.cast(tl.arange(0, BLOCK_SIZE), tl.int64)
+    new_offset = tl.cast(tl.arange(0, BLOCK_SIZE), tl.int64)
+    for i in range(0, length, BLOCK_SIZE):
+        v = tl.load(old_a_location + old_start + i + old_offset, mask=i + old_offset < length)
+        tl.store(new_a_location + new_start + i + new_offset, v, mask=i + new_offset < length)
+  }
+
+def commutedSource (old_a_start old_a_len old_a_location new_a_start new_a_location : RegionName)
+    (BLOCK_SIZE : Nat) : ComputeKernel :=
+  with_triton_signature sourceSignature in
+  triton {
+    a_id = tl.cast(tl.program_id(0), tl.int64)
+    length = tl.cast(tl.load(old_a_len + a_id), tl.int64)
+    old_start = tl.cast(tl.load(old_a_start + a_id), tl.int64)
+    new_start = tl.cast(tl.load(new_a_start + a_id), tl.int64)
+    old_offset = tl.cast(tl.arange(0, BLOCK_SIZE), tl.int64)
+    new_offset = tl.cast(tl.arange(0, BLOCK_SIZE), tl.int64)
+    for i in range(0, length, BLOCK_SIZE):
+        v = tl.load(old_a_location + i + old_start + old_offset, mask=i + old_offset < length)
+        tl.store(new_a_location + new_start + i + new_offset, v, mask=i + new_offset < length)
+  }
+
 def kernel (commuted : Bool) : Region .int → Region .int → Region .int →
     RegionName → RegionName → Nat → ComputeKernel :=
   match commuted with
-  | Bool.false => fun os ol ns src dst B =>
-    triton {
-      tl.ports inputs=[ol.cast, os.cast, ns.cast, src], outputs=[dst]
-      tl.region os = tl.int32, ol = tl.int32, ns = tl.int32, src = tl.float32, dst = tl.float32
-      a_id = tl.program_id(0).to(tl.int64)
-      length = tl.load(ol + a_id).to(tl.int64)
-      old_start = tl.load(os + a_id).to(tl.int64)
-      new_start = tl.load(ns + a_id).to(tl.int64)
-      old_offset = tl.arange(0, $(B)).to(tl.int64)
-      new_offset = tl.arange(0, $(B)).to(tl.int64)
-      for i in range($(0), length, $(B)) {
-        v = tl.load(src + old_start + i + old_offset, mask=i + old_offset < length)
-        tl.store(dst + new_start + i + new_offset, v, mask=i + new_offset < length)
-      }
-    }
-  | Bool.true => fun os ol ns src dst B =>
-    triton {
-      tl.ports inputs=[ol.cast, os.cast, ns.cast, src], outputs=[dst]
-      tl.region os = tl.int32, ol = tl.int32, ns = tl.int32, src = tl.float32, dst = tl.float32
-      a_id = tl.program_id(0).to(tl.int64)
-      length = tl.load(ol + a_id).to(tl.int64)
-      old_start = tl.load(os + a_id).to(tl.int64)
-      new_start = tl.load(ns + a_id).to(tl.int64)
-      old_offset = tl.arange(0, $(B)).to(tl.int64)
-      new_offset = tl.arange(0, $(B)).to(tl.int64)
-      for i in range($(0), length, $(B)) {
-        v = tl.load(src + i + old_start + old_offset, mask=i + old_offset < length)
-        tl.store(dst + new_start + i + new_offset, v, mask=i + new_offset < length)
-      }
-    }
+  | Bool.false => fun os ol ns src dst B => source os.cast ol.cast src ns.cast dst B
+  | Bool.true => fun os ol ns src dst B => commutedSource os.cast ol.cast src ns.cast dst B
 
 def originalKernel : ComputeKernel :=
   kernel Bool.false ⟨"old"⟩ ⟨"length"⟩ ⟨"new"⟩ "source" "output" blockSize

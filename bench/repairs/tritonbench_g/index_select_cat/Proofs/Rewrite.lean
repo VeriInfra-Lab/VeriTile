@@ -30,7 +30,7 @@ theorem execution_eq {α : Type} [Inhabited α] (M : FP.Structural.Algebra α)
       FP.Structural.numeric,ComputeDType.eraseDType,Option.bind]
     congr 1
     funext i
-    simp [FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,Nat.mul_comm]
+    simp [FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,Int.mul_comm]
   change FP.Structural.run M (kernel p).surfaceBody s =
     FP.Structural.run M (indexCommutedKernel p).surfaceBody s
   rw [←List.take_append_drop 3 (kernel p).surfaceBody,

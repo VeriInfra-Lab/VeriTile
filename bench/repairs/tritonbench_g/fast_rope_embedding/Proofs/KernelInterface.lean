@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.fast_rope_embedding.Proofs.Source
 import bench.repairs.tritonbench_g.fast_rope_embedding.Kernels
 import bench.repairs.tritonbench_g.rope_embedding.Proofs.KernelFP
 
@@ -38,7 +39,7 @@ theorem executes {α : Type} [Inhabited α] (op : Operations α)
             else Source.coefficient op.backend (parameters r) (programState s row group) "S" r.half j)
           (programState s row group) side i) := by
     intro h hlo hhi side i hi
-    simpa only [rawParameters,parameters,Source.offset,Source.value,Source.coefficient,Source.active,
+    simpa only [rawParameters,parameters,RopeEmbedding.Source.offset,RopeEmbedding.Source.value,RopeEmbedding.Source.coefficient,RopeEmbedding.Source.active,
       programState,↓reduceIte,cosineEq,sineEq,strideEq] using hv h hlo hhi side i hi
   refine ⟨final,by simpa only [rawSource,rawParameters] using he,⟨?_,?_⟩⟩
   · intro h col hlo hhi hc
@@ -71,7 +72,7 @@ theorem executes {α : Type} [Inhabited α] (op : Operations α)
       · simpa [programState,rawParameters] using hhi
       · change i.1.val<r.half at hi
         cases side <;> simp only [Bool.false_eq_true,↓reduceIte] <;> omega
-      · simp only [Source.offset,rawParameters,programState,↓reduceIte,strideEq] at equal
+      · simp only [RopeEmbedding.Source.offset,rawParameters,programState,↓reduceIte,strideEq] at equal
         simpa [Request.offset,Request.half,Nat.add_mul,Nat.mul_assoc,Nat.add_assoc] using equal
     · exact Or.inl hregion
 

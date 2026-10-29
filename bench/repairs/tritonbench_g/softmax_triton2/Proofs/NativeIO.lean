@@ -17,18 +17,18 @@ theorem source_safe {α : Type} [Inhabited α] (M : Algebra α)
     (output : ∀ j : Fin B,j.val<n → ob+s.pids 0*orow+j.val*oc<bounds out) :
     TraceSafe (Floating.backend M) bounds
       (SoftmaxTriton2.softmax_kernel out inp ib ob ir ic orow oc n B) s := by
-  simp (maxSteps := 800000) [TraceSafe,SoftmaxTriton2.softmax_kernel,ComputeKernel.surfaceBody,
+  simp (maxSteps := 800000) [TraceSafe,SoftmaxTriton2.softmax_kernel,SoftmaxTriton1.softmax_kernel,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeAlg_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,
     Safety.maskActive_unfold,Safety.precisionContext,
-    FP.Structural.run,FP.Structural.step,FP.Structural.evalExpr,
+    FP.Structural.run,FP.Structural.step,FP.Structural.State.setReg,FP.Structural.evalExpr,
     FP.Structural.evalComputeOp,FP.Structural.evalOp_unfold,
     FP.Structural.evalOffsets,FP.Structural.store,FP.Structural.numeric,
-    FP.Structural.bop,FP.Structural.natLt,FP.Structural.numericEq,ComputeDType.eraseDType,
+    FP.Structural.bop,FP.Structural.natLt,FP.Structural.numericLt,FP.Structural.numericEq,ComputeDType.eraseDType,
     FP.Structural.ofFloat,FP.Structural.toFloat,TileShape.axisDim,hB,
-    Region.cast,Option.bind,Floating.backend] at input output ⊢
-  tauto
+    Region.cast,Option.bind,Floating.backend,← Int.natCast_mul,← Int.natCast_add,-Nat.cast_mul,-Nat.cast_add] at input output ⊢
+  exact ⟨input,output⟩
 
 /-- Complete native source execution and typed owner-observed outputs, with
 actual source access safety and exact raw exterior cells. -/

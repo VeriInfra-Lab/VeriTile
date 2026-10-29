@@ -32,7 +32,7 @@ theorem safe (out inp : RegionName) (ib ob ir ic orow oc n B : Nat)
     stepStmt,evalOp.eq_def,Tile.bop,Tile.cop,Tile.ptrAdd,Tile.uop,
     Tile.reduceMax,Tile.reduceMaxDrop,Tile.reduceSum,Tile.reduceSumDrop,
     TileShape.axisDim,TileShape.eraseAxis,TileShape.insertAxisIndex,
-    NumericDType.add,NumericDType.mul,NumericDType.sub,NumericDType.div,ComparableDType.lt]
+    NumericDType.add,NumericDType.mul,NumericDType.sub,NumericDType.div,ComparableDType.lt,← Int.natCast_mul,← Int.natCast_add,-Nat.cast_mul,-Nat.cast_add]
   exact ⟨fun a ha => hin a ha,fun a ha => hout a ha⟩
 
 /-- Direct source execution reuses the established softmax arithmetic proof;
@@ -48,7 +48,7 @@ theorem memory (out inp : RegionName) (ib ob ir ic orow oc n B : Nat)
       Tile.bop,Tile.cop,Tile.ptrAdd,Tile.uop,Tile.reduceMax,Tile.reduceMaxDrop,
       Tile.reduceSum,Tile.reduceSumDrop,TileShape.axisDim,TileShape.eraseAxis,
       TileShape.insertAxisIndex,NumericDType.add,NumericDType.mul,NumericDType.sub,NumericDType.div,
-      ComparableDType.lt,hB]
+      ComparableDType.lt,hB,← Int.natCast_mul,← Int.natCast_add,-Nat.cast_mul,-Nat.cast_add]
   obtain ⟨t,ht⟩ := terminates
   obtain ⟨u,hu⟩ := SoftmaxTriton1.row_exec out inp ib ob ir ic orow oc n B hB s
   refine ⟨t,u,ht,hu,?_⟩
@@ -56,7 +56,7 @@ theorem memory (out inp : RegionName) (ib ob ir ic orow oc n B : Nat)
     Tile.bop,Tile.cop,Tile.ptrAdd,Tile.uop,Tile.reduceMax,Tile.reduceMaxDrop,
     Tile.reduceSum,Tile.reduceSumDrop,TileShape.axisDim,TileShape.eraseAxis,
     TileShape.insertAxisIndex,NumericDType.add,NumericDType.mul,NumericDType.sub,NumericDType.div,
-    ComparableDType.lt,hB] at ht hu
+    ComparableDType.lt,hB,← Int.natCast_mul,← Int.natCast_add,-Nat.cast_mul,-Nat.cast_add] at ht hu
   subst t
   subst u
   refine fold_observe BlockState.mem _ _ _ _ ?_ ?_

@@ -93,8 +93,8 @@ theorem native_grid (profile : FP.Config) (p : Parameters) (s : State FPWord)
   rw [hm]
   simp only [gridExpectedMemory,resultCell,scalar_native]
 
-#specNonCircular mathematical avoiding [candidateKernel,runGrid,FP.Structural.exec]
-#specNonCircular native avoiding [candidateKernel,runGrid,FP.Structural.exec]
+#specNonCircular mathematical avoiding [candidateKernel,sourceBody,runGrid,FP.Structural.exec]
+#specNonCircular native avoiding [candidateKernel,sourceBody,runGrid,FP.Structural.exec]
 #axiomsClean constant_exact
 #axiomsClean program
 #axiomsClean real_grid

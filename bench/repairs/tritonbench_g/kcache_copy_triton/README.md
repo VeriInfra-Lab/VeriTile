@@ -136,3 +136,12 @@ functions and exact input/output buffer lists. The campaign preservation check
 proves equality of the complete old and new `kernel` functions for both
 variants by `rfl`. This changes no source program, candidate, contract, precision,
 proof statement or acceptance requirement.
+
+### 逐句函数体来源（2026-10-25）
+
+原始/既有候选两份 Python 函数体直接粘贴，保留所有 signed64 cast、
+负数 token shift、INT32 元数据读取、除法/取余、完整地址和最终 return。
+调用 dtype、12 个运行整数以及两个 constexpr 在外部；未使用的
+`stride_kcx`、`HEAD_DIM` 也保留。旧布局接口使用兼容默认值，并核对
+完整程序对这两个未使用实参独立，不添加实际调用的相等限制。
+原始与候选 Python 均未修改；新旧完整源码程序由保存的历史版本核对。

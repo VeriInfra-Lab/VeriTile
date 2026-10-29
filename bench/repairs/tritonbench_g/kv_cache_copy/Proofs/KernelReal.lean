@@ -78,7 +78,7 @@ def finalStep (p : Parameters) (s : BlockState) (q : Nat) (t : BlockState) : Blo
 def source (p : Parameters) := (originalKernel p).toAlgKernel
 
 theorem projection (p : Parameters) : (originalKernel p).toAlgorithm? = .ok (source p) := by
-  simp [source,originalKernel,kernel,ComputeKernel.surfaceBody,ComputeKernel.toAlgorithm?,
+  simp [source,originalKernel,kernel,quotedOriginal,quotedCommuted,ComputeKernel.surfaceBody,ComputeKernel.toAlgorithm?,
     ComputeKernel.toAlgKernel,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,ComputeDType.eraseDType,Except.bind,bind]
   all_goals rfl
@@ -93,7 +93,7 @@ theorem decomposition (p : Parameters) :
 
 theorem prelude_run (p : Parameters) (s : BlockState) :
     stepStmts (prelude p) s=some (preludeState p s) := by
-  simp [prelude,preludeState,selectedBlock,position,source,originalKernel,kernel,ComputeKernel.surfaceBody,
+  simp [prelude,preludeState,selectedBlock,position,source,originalKernel,kernel,quotedOriginal,quotedCommuted,ComputeKernel.surfaceBody,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?,ComputeDType.eraseDType,Region.cast,Except.bind,bind,
@@ -111,7 +111,7 @@ theorem body_run (p : Parameters) (s t : BlockState) (q : Nat)
   rcases hc with ⟨hs,hh,hb,hslot,hl⟩
   rcases hf with ⟨hk,hv⟩
   simp [body,finalStep,preparedState,scatterOne,sourceOffset,targetInt,outputRegion,inputRegion,
-    source,originalKernel,kernel,ComputeKernel.surfaceBody,
+    source,originalKernel,kernel,quotedOriginal,quotedCommuted,ComputeKernel.surfaceBody,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?,ComputeDType.eraseDType,Region.cast,Except.bind,bind,

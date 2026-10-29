@@ -202,7 +202,7 @@ theorem empty_axis (storage : Storage) (rest : Algebra Word) (s : State Word)
     (X Y : RegionName) (sm sn sy M : Nat) :
     FP.Structural.exec (backend rest) (kernel storage X Y sm sn sy M 0) s = none := by
   cases storage <;>
-    simp [kernel, ComputeKernel.surfaceBody, FP.Structural.exec, FP.Structural.run,
+    simp [kernel, source16, source32, ComputeKernel.surfaceBody, FP.Structural.exec, FP.Structural.run,
       step, evalExpr, evalComputeOp, evalOp_unfold, State.setReg, TileShape.axisDim, Option.bind]
 
 /-- Random generation's non-NaN property is an explicit numerical input-domain

@@ -23,9 +23,10 @@ theorem trace {α : Type} [Inhabited α] (rest : Algebra α) (p : Layout)
     Safety.safeExpr_unfold, Safety.safeCompute_unfold, Safety.safeOp_unfold,
     Safety.safeAddress_unfold, Safety.safeMask_unfold, Safety.addressSafe_unfold,
     Safety.maskActive_unfold, step, evalExpr, evalComputeOp, evalOp_unfold,
-    evalOffsets, evalDeltas, Option.bind, copyBackend, natLt, ComputeDType.eraseDType,
+    evalOffsets, evalDeltas, Option.bind, copyBackend, numericLt, natLt, ComputeDType.eraseDType,
     numeric, bop, ofFloat, toFloat, Region.cast, FP.Structural.store,
     State.setReg, TileShape.dropInsertedIndex, Broadcast.leftIndex, Broadcast.rightIndex]
+  all_goals simp only [←Int.natCast_add,←Int.natCast_mul,Int.toNat_natCast,Int.ofNat_lt]
   refine ⟨indices, ?_, ?_⟩
   · intro i j hi hj
     simpa [TypedGather.inputOffset, TypedGather.row, TypedGather.indexOffset,

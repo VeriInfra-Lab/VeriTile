@@ -1,0 +1,88 @@
+[
+  {
+    "lean": "bench/repairs/tritonbench_g/mean_reduction/Kernels.lean",
+    "lean_definition": "sourceKernel",
+    "python": "bench/repairs/tritonbench_g/mean_reduction/mean_reduction_repaired.py",
+    "python_function": "mean_dim_kernel",
+    "signature_definition": "sourceSignature",
+    "expected_call_bindings": {
+      "M": "M",
+      "N": "N"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "Mean",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_M",
+        "BLOCK_N"
+      ],
+      "readPorts": [
+        "X"
+      ],
+      "writePorts": [
+        "Mean"
+      ]
+    }
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/mean_reduction/Kernels.lean",
+    "lean_definition": "indexCommutedSource",
+    "python": "bench/repairs/tritonbench_g/mean_reduction/mean_reduction_repaired.py",
+    "python_function": "mean_dim_kernel_index_commuted",
+    "signature_definition": "sourceSignature",
+    "expected_call_bindings": {
+      "M": "M",
+      "N": "N"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "Mean",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_M",
+        "BLOCK_N"
+      ],
+      "readPorts": [
+        "X"
+      ],
+      "writePorts": [
+        "Mean"
+      ]
+    }
+  }
+]

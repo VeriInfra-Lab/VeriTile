@@ -177,7 +177,7 @@ theorem empty_error (storage : Storage) (M N : Nat)
 
 theorem empty_axis (s : BlockState) (X Y : RegionName) (sm sn sy M : Nat) :
     exec (load_reduce_kernel X Y sm sn sy M 0) s = none := by
-  simp [exec,load_reduce_kernel,stepStmts,stepStmt,evalOp.eq_def,
+  simp [exec, mathematical_projection, LegacyBody.load_reduce_kernel,stepStmts,stepStmt,evalOp.eq_def,
     Tile.reduceMax,Tile.reduceMaxDrop,TileShape.axisDim,TileShape.eraseAxis]
 
 def AllocationContracts (storage : Storage) (M N : Nat)

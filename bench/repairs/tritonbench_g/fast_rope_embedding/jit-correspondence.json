@@ -1,0 +1,124 @@
+[
+  {
+    "lean": "bench/repairs/tritonbench_g/fast_rope_embedding/Kernels.lean",
+    "lean_definition": "rope",
+    "python": "bench/repairs/tritonbench_g/fast_rope_embedding/fast_rope_embedding_repaired.py",
+    "python_function": "_rope_embedding",
+    "signature_definition": "sourceSignature",
+    "expected_call_bindings": {
+      "Q_row_stride": "Q_row_stride",
+      "cos_row_stride": "cos_row_stride",
+      "sin_row_stride": "sin_row_stride",
+      "seqlen": "seqlen"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "Q",
+          "fp32"
+        ],
+        [
+          "cos",
+          "fp32"
+        ],
+        [
+          "sin",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "Q_row_stride",
+          "integer"
+        ],
+        [
+          "cos_row_stride",
+          "integer"
+        ],
+        [
+          "sin_row_stride",
+          "integer"
+        ],
+        [
+          "seqlen",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "head_dim",
+        "n_heads",
+        "BACKWARD_PASS",
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "Q",
+        "cos",
+        "sin"
+      ],
+      "writePorts": [
+        "Q"
+      ]
+    }
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/fast_rope_embedding/Kernels.lean",
+    "lean_definition": "ropeIndexCommuted",
+    "python": "bench/repairs/tritonbench_g/fast_rope_embedding/index_commuted.py",
+    "python_function": "_rope_embedding_index_commuted",
+    "signature_definition": "sourceSignature",
+    "expected_call_bindings": {
+      "Q_row_stride": "Q_row_stride",
+      "cos_row_stride": "cos_row_stride",
+      "sin_row_stride": "sin_row_stride",
+      "seqlen": "seqlen"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "Q",
+          "fp32"
+        ],
+        [
+          "cos",
+          "fp32"
+        ],
+        [
+          "sin",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "Q_row_stride",
+          "integer"
+        ],
+        [
+          "cos_row_stride",
+          "integer"
+        ],
+        [
+          "sin_row_stride",
+          "integer"
+        ],
+        [
+          "seqlen",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "head_dim",
+        "n_heads",
+        "BACKWARD_PASS",
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "Q",
+        "cos",
+        "sin"
+      ],
+      "writePorts": [
+        "Q"
+      ]
+    }
+  }
+]

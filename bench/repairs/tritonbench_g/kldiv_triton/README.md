@@ -141,3 +141,23 @@ target and the actual source, precision, domains, grids and observations are
 unchanged. This entry correction introduces no numerical experiment.
 
 Optional reader and application modules are in `Misc/`: [Misc/TensorBridge.lean](Misc/TensorBridge.lean), [Misc/NativeCorrect.lean](Misc/NativeCorrect.lean). Their declaration namespaces and proof statements are preserved. The main `Contract.lean`, `Correct.lean` and `FPEquiv.lean` entries remain at the task root.
+
+
+Function-body copy migration (2026-10-24): both complete selected forward
+and backward Python bodies are pasted unchanged into `Kernels.lean`, preserving
+all signed64 casts, pre-loop assignments, pointer updates, dynamic loops,
+zero-target handling, log-target branches and reduction branches. Call-side
+metadata retains signed64 runtime scalar roles and the existing nonnegative
+stride geometry; only the block size, log mode and reduction are constexpr.
+The source module constant `_REDUCTION_MODE_NONE` is bound to its actual zero
+value outside the body. `index_commuted.py` is explicitly newly authored Python
+for the already existing output-address candidates, with the original defaults
+retained; it is not a historical original reference. No host reduction or
+backward scaling is added to these kernels. Existing dimensions, strides,
+failures, native/Tensor/host scopes and independent mathematical specifications
+are retained while the actual pasted programs are reverified.
+
+The four `SourcePreservation` theorems check each complete function for every
+old public argument, using the retained source body and corrected explicit
+read/write ports. The former collector lost those ports after pointer
+rebinding; actual statements and the independent IO descriptor are retained.

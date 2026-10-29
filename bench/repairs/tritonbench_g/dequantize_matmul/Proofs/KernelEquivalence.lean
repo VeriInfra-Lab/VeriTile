@@ -29,7 +29,7 @@ private theorem address_run {α : Type} [Inhabited α] (M : Algebra α)
   cases hn : s.regs .int [] "n_block_idx" <;>
     cases ho : s.regs .nat [p.BN] "offs_n" <;>
     simp (config := { maxSteps := 1000000 }) [bodyRun, addressBody, kernel, original,
-      candidate, TypedSource.kernel, ComputeKernel.surfaceBody, List.drop, List.take,
+      candidate, TypedSource.kernel, TypedSource.indexCommutedKernel, ComputeKernel.surfaceBody, List.drop, List.take,
       FP.Structural.run, FP.Structural.step, FP.Structural.evalExpr,
       FP.Structural.evalOp_unfold, FP.Structural.numeric, FP.Structural.numericLt,
       FP.Structural.bop, Broadcast.leftIndex, Broadcast.rightIndex,

@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.fast_rope_embedding.Proofs.Source
 import bench.repairs.tritonbench_g.fast_rope_embedding.Kernels
 import bench.repairs.tritonbench_g.rope_embedding.Proofs.KernelBinding
 import bench.repairs.tritonbench_g.rope_embedding.Proofs.KernelAccess
@@ -54,7 +55,7 @@ theorem pair_adjoint (a b u v cosine sine : ℝ) :
       a*(pair Bool.true u v cosine sine).1+b*(pair Bool.true u v cosine sine).2 :=
   Spec.adjoint a b u v cosine sine
 
-/-- Exact same typed AST as the retained four-head source theorem. -/
+/-- The contract binds the actual Fast RoPE body, including its group-size assignment. -/
 theorem source_binding (c : Call) : c.source=Source.source c.parameters c.backward := rfl
 
 theorem q_size (c : Call) (h : Admitted c) : c.inputs.q.metadata.numel=c.geometry.size := by

@@ -83,7 +83,7 @@ theorem source_run (storage : Storage) (rest : Algebra Word)
     ∃ t, FP.Structural.exec (backend rest) (kernel storage X Y sm sn sy M N) s = some t ∧
       t.mem = writtenMemory storage s X Y sm sn M N := by
   cases storage <;>
-    simp [kernel, ComputeKernel.surfaceBody, FP.Structural.exec, run, step,
+    simp [kernel, source16, source32, ComputeKernel.surfaceBody, FP.Structural.exec, run, step,
       evalExpr, evalComputeOp, evalOp_unfold, store, backend,
       State.setReg, TileShape.axisDim, hN, BlockPtr.inBounds,
       TileShape.insertAxisIndex, TileShape.eraseAxis,

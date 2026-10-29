@@ -1,0 +1,198 @@
+[
+  {
+    "lean": "bench/tritonbench_g/matrix_reduction/Kernels.lean",
+    "lean_definition": "source16",
+    "python": "bench/tritonbench_g/matrix_reduction/matrix_reduction.py",
+    "python_function": "load_reduce_kernel",
+    "profile_variant": "fp16",
+    "signature_definition": "signature16",
+    "expected_call_bindings": {
+      "stride_xm": "stride_xm",
+      "stride_xn": "stride_xn",
+      "stride_y": "stride_y"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "x_ptr",
+          "fp16"
+        ],
+        [
+          "y_ptr",
+          "fp16"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_xm",
+          "integer"
+        ],
+        [
+          "stride_xn",
+          "integer"
+        ],
+        [
+          "stride_y",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_M",
+        "BLOCK_N"
+      ],
+      "readPorts": [
+        "x_ptr"
+      ],
+      "writePorts": [
+        "y_ptr"
+      ]
+    }
+  },
+  {
+    "lean": "bench/tritonbench_g/matrix_reduction/Kernels.lean",
+    "lean_definition": "candidate16",
+    "python": "bench/tritonbench_g/matrix_reduction/matrix_reduction_optimized.py",
+    "python_function": "load_reduce_kernel",
+    "profile_variant": "fp16",
+    "signature_definition": "signature16",
+    "expected_call_bindings": {
+      "stride_xm": "stride_xm",
+      "stride_xn": "stride_xn",
+      "stride_y": "stride_y"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "x_ptr",
+          "fp16"
+        ],
+        [
+          "y_ptr",
+          "fp16"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_xm",
+          "integer"
+        ],
+        [
+          "stride_xn",
+          "integer"
+        ],
+        [
+          "stride_y",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_M",
+        "BLOCK_N"
+      ],
+      "readPorts": [
+        "x_ptr"
+      ],
+      "writePorts": [
+        "y_ptr"
+      ]
+    }
+  },
+  {
+    "lean": "bench/tritonbench_g/matrix_reduction/Kernels.lean",
+    "lean_definition": "source32",
+    "python": "bench/tritonbench_g/matrix_reduction/matrix_reduction.py",
+    "python_function": "load_reduce_kernel",
+    "profile_variant": "fp32",
+    "signature_definition": "signature32",
+    "expected_call_bindings": {
+      "stride_xm": "stride_xm",
+      "stride_xn": "stride_xn",
+      "stride_y": "stride_y"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "x_ptr",
+          "fp32"
+        ],
+        [
+          "y_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_xm",
+          "integer"
+        ],
+        [
+          "stride_xn",
+          "integer"
+        ],
+        [
+          "stride_y",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_M",
+        "BLOCK_N"
+      ],
+      "readPorts": [
+        "x_ptr"
+      ],
+      "writePorts": [
+        "y_ptr"
+      ]
+    }
+  },
+  {
+    "lean": "bench/tritonbench_g/matrix_reduction/Kernels.lean",
+    "lean_definition": "candidate32",
+    "python": "bench/tritonbench_g/matrix_reduction/matrix_reduction_optimized.py",
+    "python_function": "load_reduce_kernel",
+    "profile_variant": "fp32",
+    "signature_definition": "signature32",
+    "expected_call_bindings": {
+      "stride_xm": "stride_xm",
+      "stride_xn": "stride_xn",
+      "stride_y": "stride_y"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "x_ptr",
+          "fp32"
+        ],
+        [
+          "y_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_xm",
+          "integer"
+        ],
+        [
+          "stride_xn",
+          "integer"
+        ],
+        [
+          "stride_y",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_M",
+        "BLOCK_N"
+      ],
+      "readPorts": [
+        "x_ptr"
+      ],
+      "writePorts": [
+        "y_ptr"
+      ]
+    }
+  }
+]

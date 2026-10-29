@@ -18,30 +18,31 @@ theorem candidate_safe {α : Type} [Inhabited α] (M : Algebra α) (D : Domain �
     (output : ∀ j : Fin B, j.val < n → ob+s.pids 0*orow+j.val*oc < bounds out) :
     TraceSafe (FP.ProfiledRewrite.engine M) bounds
       (guarded_reciprocal_kernel out inp ib ob ir ic orow oc n B) s := by
-  simp (maxSteps := 800000) [TraceSafe,guarded_reciprocal_kernel,ComputeKernel.surfaceBody,
-    Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeAlg_unfold,
-    Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
-    Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,
-    Safety.maskActive_unfold,Safety.precisionContext,
-    FP.Structural.run,FP.Structural.step,FP.Structural.evalExpr,
-    FP.Structural.evalComputeOp,FP.Structural.evalOp_unfold,
-    FP.Structural.evalOffsets,FP.Structural.store,FP.Structural.numeric,
-    FP.Structural.bop,FP.Structural.natLt,FP.Structural.numericEq,FP.Structural.numericLe,
-    ComputeDType.eraseDType,FP.Structural.ofFloat,FP.Structural.toFloat,TileShape.axisDim,hB,
-    Region.cast,Option.bind,FP.ProfiledRewrite.engine,Algebra.withDefaultPrecision,
-    resolvePrecision,ports.finite_bind,ports.order_bind] at input output ⊢
-  split_ifs <;>
-    simp (maxSteps := 800000) [Option.bind,FP.Structural.run,FP.Structural.step,
-      FP.Structural.evalExpr,FP.Structural.evalComputeOp,FP.Structural.evalOp_unfold,
-      FP.Structural.store,FP.Structural.State.setReg,FP.Structural.numeric,FP.Structural.natLt,
-      FP.Structural.numericEq,FP.Structural.numericLe,FP.Structural.bop,
-      Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
-      Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
-      Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
-      Safety.precisionContext,ComputeDType.eraseDType,Region.cast,
-      FP.Structural.evalOffsets,FP.ProfiledRewrite.engine,Algebra.withDefaultPrecision,
-      resolvePrecision,TileShape.axisDim,hB,ports.finite_bind,ports.order_bind]
-  all_goals tauto
+  classical
+  let num := SoftmaxTriton1.Rewrite.numeratorValue M inp ib ir ic n B s
+  let den := SoftmaxTriton1.Rewrite.denominatorValue M inp ib ir ic n B s
+  by_cases hc : TileShape.discreteBoolSum ⟨0,by simp⟩ Bool.false
+      (fun i => ports.finite (num i)) PUnit.unit = B
+  all_goals by_cases hf : ports.finite den = Bool.true
+  all_goals by_cases hz : ports.atLeast (M.literal (some .fp32) .real 1) den = Bool.true
+  all_goals
+    dsimp [num,den,SoftmaxTriton1.Rewrite.numeratorValue,
+      SoftmaxTriton1.Rewrite.denominatorValue] at hc hf hz
+    simp (maxSteps := 1600000) [TraceSafe,guarded_reciprocal_kernel,ComputeKernel.surfaceBody,
+      Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeAlg_unfold,
+      Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
+      Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,
+      Safety.maskActive_unfold,Safety.precisionContext,
+      FP.Structural.run,FP.Structural.step,FP.Structural.State.setReg,FP.Structural.evalExpr,
+      FP.Structural.evalComputeOp,FP.Structural.evalOp_unfold,
+      FP.Structural.evalOffsets,FP.Structural.store,FP.Structural.numeric,
+      FP.Structural.bop,FP.Structural.natLt,FP.Structural.numericLt,
+      FP.Structural.numericEq,FP.Structural.numericLe,
+      ComputeDType.eraseDType,FP.Structural.ofFloat,FP.Structural.toFloat,TileShape.axisDim,hB,
+      Region.cast,Option.bind,FP.ProfiledRewrite.engine,Algebra.withDefaultPrecision,
+      resolvePrecision,Function.comp_def,(show (1.0 : ℝ) = 1 by norm_num),ports.finite_bind,ports.order_bind,
+      ← Int.natCast_mul,← Int.natCast_add,-Nat.cast_mul,-Nat.cast_add,hc,hf,hz] at input output ⊢
+    exact ⟨input,output⟩
 
 /-- Original source accesses the same active input and output windows. -/
 theorem original_safe {α : Type} [Inhabited α] (M : Algebra α)
@@ -51,19 +52,19 @@ theorem original_safe {α : Type} [Inhabited α] (M : Algebra α)
     (output : ∀ j : Fin B, j.val < n → ob+s.pids 0*orow+j.val*oc < bounds out) :
     TraceSafe (FP.ProfiledRewrite.engine M) bounds
       (softmax_kernel out inp ib ob ir ic orow oc n B) s := by
-  simp (maxSteps := 800000) [TraceSafe,softmax_kernel,ComputeKernel.surfaceBody,
+  simp (maxSteps := 800000) [TraceSafe,softmax_kernel,SoftmaxTriton1.softmax_kernel,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeAlg_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,
     Safety.maskActive_unfold,Safety.precisionContext,
-    FP.Structural.run,FP.Structural.step,FP.Structural.evalExpr,
+    FP.Structural.run,FP.Structural.step,FP.Structural.State.setReg,FP.Structural.evalExpr,
     FP.Structural.evalComputeOp,FP.Structural.evalOp_unfold,
     FP.Structural.evalOffsets,FP.Structural.store,FP.Structural.numeric,
-    FP.Structural.bop,FP.Structural.natLt,FP.Structural.numericEq,ComputeDType.eraseDType,
+    FP.Structural.bop,FP.Structural.natLt,FP.Structural.numericLt,FP.Structural.numericEq,ComputeDType.eraseDType,
     FP.Structural.ofFloat,FP.Structural.toFloat,TileShape.axisDim,hB,
     Region.cast,Option.bind,FP.ProfiledRewrite.engine,Algebra.withDefaultPrecision,
-    resolvePrecision] at input output ⊢
-  tauto
+    resolvePrecision,← Int.natCast_mul,← Int.natCast_add,-Nat.cast_mul,-Nat.cast_add] at input output ⊢
+  exact ⟨input,output⟩
 
 /-- Every exterior typed cell is preserved by the complete original source. -/
 theorem original_frame {α : Type} [Inhabited α] (M : Algebra α)

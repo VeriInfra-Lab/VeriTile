@@ -1,0 +1,1585 @@
+{
+  "schema": 1,
+  "part": 2,
+  "title": "Typed task bodies, block pointers and cache copies",
+  "branch": "codex/pr22-02-typed-memory",
+  "archived_snapshot": "394b9a67b75de43ccc3e03ce4b0d87d5c34d6ed9",
+  "archive_head": "5ea0e46126cc1c6eb05e4219ddc5dc13246ec3ce",
+  "base_commit": "25ad2949386cd0b992e2d3cb7cf26fac86f6a25c",
+  "source_identity": "All changed Lean and Python files are byte-identical to the archived snapshot. New base additions are retained verbatim. lakefile.toml combines both target lists.",
+  "source_files": [
+    {
+      "path": "VeriTile/Triton/DSL/CallSignature.lean",
+      "git_blob": "6a5b0569d79a2cd7e61caff3d0562664c063b59e"
+    },
+    {
+      "path": "VeriTile/Triton/DSL/CallValue.lean",
+      "git_blob": "95c5716ba0888e018801512dfa6384da27838b20"
+    },
+    {
+      "path": "VeriTile/Triton/DSL/Constexpr.lean",
+      "git_blob": "e7e297b2da4c4c967955c62b94742db47422d1ed"
+    },
+    {
+      "path": "VeriTile/Triton/DSL/Expansion/Common.lean",
+      "git_blob": "109bd16edf0699f018c0326eadae12c070e08e93"
+    },
+    {
+      "path": "VeriTile/Triton/DSL/Expansion/Compute.lean",
+      "git_blob": "91e251b5bb68408af79bb792c7283356b64e87a2"
+    },
+    {
+      "path": "VeriTile/Triton/DSL/Expansion/Main.lean",
+      "git_blob": "a55271376cb899ef8a09af9a1080889f4e0ab69e"
+    },
+    {
+      "path": "VeriTile/Triton/DSL/PythonBody.lean",
+      "git_blob": "7111a21363fff4f342f8d270d674ddbbde0807ae"
+    },
+    {
+      "path": "VeriTile/Triton/DSL/SourceDType.lean",
+      "git_blob": "f66716cc4f266d97f7cf465eeae3d7131754ffe0"
+    },
+    {
+      "path": "VeriTile/Triton/DSL/Syntax.lean",
+      "git_blob": "c52fae5bb67b4d27be86c558842fa8b9fe8b8da2"
+    },
+    {
+      "path": "VeriTile/Triton/DSL/TypedStores.lean",
+      "git_blob": "837a6376cb71ef253b1fff6d0cad22a54931bfc2"
+    },
+    {
+      "path": "VeriTile/Triton/Float/ExpressionRewrite.lean",
+      "git_blob": "2aac05ed661e0d681b7f132ec69c9ac825d9fe06"
+    },
+    {
+      "path": "VeriTile/Triton/Float/ProfiledRewrite.lean",
+      "git_blob": "007df3ee9bfcb2fc5798e014f1523389565a25c7"
+    },
+    {
+      "path": "VeriTile/Triton/Float/SoftwarePipelineIO.lean",
+      "git_blob": "0fdc309726f3561c3a0d2b46e99e8434f0fe36f8"
+    },
+    {
+      "path": "bench/check_body_corpus.py",
+      "git_blob": "0f1d6340c55c308170de9195feea95e49733f4d4"
+    },
+    {
+      "path": "bench/examples/AdamUpdateGridLaunch/Correct.lean",
+      "git_blob": "a5d72e2c747f3348024f0ef3fd36fd82d8946a03"
+    },
+    {
+      "path": "bench/examples/AdamUpdateGridLaunch/IO.lean",
+      "git_blob": "cc80d06e75c7f19a3e9277ef1360508c1c0e2047"
+    },
+    {
+      "path": "bench/examples/AdamUpdateGridLaunch/Kernels.lean",
+      "git_blob": "96613b8530a467d8c4459e0803e14a3fb878ed5e"
+    },
+    {
+      "path": "bench/examples/AdamUpdateGridLaunch/Proofs/Grid.lean",
+      "git_blob": "8b6e74aa9fb4847d139de22ad2b650ac68293727"
+    },
+    {
+      "path": "bench/examples/AdamUpdateGridLaunch/Proofs/MathKernels.lean",
+      "git_blob": "a1e4bdbe9f4ad8a518780e9afecc6a6111b04bab"
+    },
+    {
+      "path": "bench/examples/AdamUpdateGridLaunch/Proofs/MathematicalCorrect.lean",
+      "git_blob": "469a9b2e5014916d0a54f47dea808f68da810d10"
+    },
+    {
+      "path": "bench/examples/AdamUpdateGridLaunch/Proofs/NativeProjection.lean",
+      "git_blob": "6df2b540aa79b7efd73d19da9868ee5c3b9e3b7f"
+    },
+    {
+      "path": "bench/examples/AdamUpdateGridLaunch/Proofs/Real.lean",
+      "git_blob": "c703f05176b19225fe247fc9e89300b93a7fccd0"
+    },
+    {
+      "path": "bench/examples/AdamUpdateGridLaunch/candidate_kernels.py",
+      "git_blob": "7057c3e6eaeae2bb2f8ed5857411f596d2703e0f"
+    },
+    {
+      "path": "bench/examples/FlatVectorAdd/Kernels.lean",
+      "git_blob": "01ab24f7cc6fc08b2c2e922ef2492e78093a47d2"
+    },
+    {
+      "path": "bench/examples/FlatVectorAdd/Proofs/SourcePreservation.lean",
+      "git_blob": "c6687026d6bd9717244c34c5bcf0e38a4bab9f56"
+    },
+    {
+      "path": "bench/examples/FlatVectorAdd/native_kernels.py",
+      "git_blob": "e1b83a86d67d686ac01c498fe6f19f30779c0a70"
+    },
+    {
+      "path": "bench/examples/FloatDTypeAdd/Kernels.lean",
+      "git_blob": "40baed1a126ed7ef979c4ba2fef19bb058799380"
+    },
+    {
+      "path": "bench/examples/FloatDTypeAdd/Proofs/Real.lean",
+      "git_blob": "57d274d5cc7c07cf589ec63dc6e1cee19838166f"
+    },
+    {
+      "path": "bench/examples/FloatDTypeAdd/native_kernels.py",
+      "git_blob": "3fd1e672b8cbf2add375742c63937fe651d27814"
+    },
+    {
+      "path": "bench/examples/FloatDTypeSoftmax/Kernels.lean",
+      "git_blob": "efc53c9785e39b206a876b2d1d19f8116114dd1e"
+    },
+    {
+      "path": "bench/examples/FloatDTypeSoftmax/Proofs/FP.lean",
+      "git_blob": "1d9ea7f6b5321b7bdab67791e1d4edbc841fba22"
+    },
+    {
+      "path": "bench/examples/FloatDTypeSoftmax/Proofs/LegacySurface.lean",
+      "git_blob": "0e388e3f13c329e348b25100319417db93a06316"
+    },
+    {
+      "path": "bench/examples/FloatDTypeSoftmax/Proofs/SourcePreservation.lean",
+      "git_blob": "0d7862649cfd264080857cd12c7244bb02f11924"
+    },
+    {
+      "path": "bench/examples/FloatDTypeSoftmax/native_kernels.py",
+      "git_blob": "0d349a65c87263e7bb823fa1a1daa0bb0263d919"
+    },
+    {
+      "path": "bench/examples/FusedLayerNorm/Kernels.lean",
+      "git_blob": "f3c60fe2e262f8e788e712a98917e01c719116fd"
+    },
+    {
+      "path": "bench/examples/FusedLayerNorm/Proofs/FP.lean",
+      "git_blob": "7be381fc03050f43d9db23babd754efa634e3cae"
+    },
+    {
+      "path": "bench/examples/FusedLayerNorm/Proofs/LegacyBody.lean",
+      "git_blob": "4f6747206e8f411dbbedbb2419dd9457842b41ec"
+    },
+    {
+      "path": "bench/examples/FusedLayerNorm/Proofs/LegacyRealEquiv.lean",
+      "git_blob": "b88e5623ee22ab2c327e48971fad628cb6746055"
+    },
+    {
+      "path": "bench/examples/FusedLayerNorm/Proofs/Real.lean",
+      "git_blob": "281525ac86607100e2531579335964168c49d8e3"
+    },
+    {
+      "path": "bench/examples/FusedLayerNorm/native_kernels.py",
+      "git_blob": "1a4a99933686fa334587b3d8f721847ced6518f3"
+    },
+    {
+      "path": "bench/examples/FusedSiLU/Correct.lean",
+      "git_blob": "3061f047839ddf5b5f7e139226b0615ef0c50daa"
+    },
+    {
+      "path": "bench/examples/FusedSiLU/FPEquiv.lean",
+      "git_blob": "55a0cb6947e07487bf30766e792632792856e875"
+    },
+    {
+      "path": "bench/examples/FusedSiLU/IO.lean",
+      "git_blob": "85ad4045d19c56f0da18976eaf83ebf62e974c7f"
+    },
+    {
+      "path": "bench/examples/FusedSiLU/Kernels.lean",
+      "git_blob": "e85d30548637792779fe7dfdeb3e913afc75afcd"
+    },
+    {
+      "path": "bench/examples/FusedSiLU/Proofs/FP.lean",
+      "git_blob": "888e684c9cc497c087920be41bd81cc14bc9e61e"
+    },
+    {
+      "path": "bench/examples/FusedSiLU/Proofs/LegacyBody.lean",
+      "git_blob": "b116d210e23cadff0923c94d87fcd4a414f86113"
+    },
+    {
+      "path": "bench/examples/FusedSiLU/Proofs/LegacyRealEquiv.lean",
+      "git_blob": "a52cc9ad36621b242ff0fc63219d665ea3384f4e"
+    },
+    {
+      "path": "bench/examples/FusedSiLU/Proofs/Real.lean",
+      "git_blob": "11ab8ef82ef18fae9c43e3eaa654a1ce71850727"
+    },
+    {
+      "path": "bench/examples/FusedSiLU/native_kernels.py",
+      "git_blob": "c4b4c55272a0c97ccba35f8d275f9723d0ef0869"
+    },
+    {
+      "path": "bench/examples/FusedSwiglu/FPEquiv.lean",
+      "git_blob": "bff1b4109b44575d29621c5fad29220bb4b98b13"
+    },
+    {
+      "path": "bench/examples/FusedSwiglu/IO.lean",
+      "git_blob": "b4fc8a92abe3ab272962ad1d93ff1ebaa90e4842"
+    },
+    {
+      "path": "bench/examples/FusedSwiglu/Kernels.lean",
+      "git_blob": "7ded0f70088945eba26b6dfe627594bcb8bef48c"
+    },
+    {
+      "path": "bench/examples/FusedSwiglu/Proofs/FP.lean",
+      "git_blob": "ef2787ebb57917651463598bbba4f405ae8012c9"
+    },
+    {
+      "path": "bench/examples/FusedSwiglu/Proofs/LegacyBody.lean",
+      "git_blob": "f40c8e36b5cac97f45d85fce704e7384c46639d4"
+    },
+    {
+      "path": "bench/examples/FusedSwiglu/Proofs/LegacyRealEquiv.lean",
+      "git_blob": "64c3e1aa1d49f9513a0015341bb8d3ac898761d1"
+    },
+    {
+      "path": "bench/examples/FusedSwiglu/Proofs/Real.lean",
+      "git_blob": "414dcd81c12e2b5195f6a7c28c9ea9c48accd0d2"
+    },
+    {
+      "path": "bench/examples/FusedSwiglu/native_kernels.py",
+      "git_blob": "82354ac815d8b106a14b9ee7bb623ec4db2c3c4a"
+    },
+    {
+      "path": "bench/examples/HyperConnectionsDepth/Correct.lean",
+      "git_blob": "3ca96d92d44b1c179ca458b0fc1cb167236583e7"
+    },
+    {
+      "path": "bench/examples/HyperConnectionsDepth/IO.lean",
+      "git_blob": "a479e7b9120c6b66809ff3a6054d8f18cf2c3c85"
+    },
+    {
+      "path": "bench/examples/HyperConnectionsDepth/Kernels.lean",
+      "git_blob": "ec80f6c0d66f8c9a99b2ec44761ec4527f0fa8ab"
+    },
+    {
+      "path": "bench/examples/HyperConnectionsDepth/Proofs/MathKernels.lean",
+      "git_blob": "ed37bfcdb20363dc576735e5b326f7f661181534"
+    },
+    {
+      "path": "bench/examples/HyperConnectionsDepth/Proofs/MathematicalCorrect.lean",
+      "git_blob": "711a731e7261cecf63fae84d6248f32601ccc02f"
+    },
+    {
+      "path": "bench/examples/HyperConnectionsDepth/Proofs/NativeProjection.lean",
+      "git_blob": "ae0e2930a296a84948371b14c57bd7e80e347f61"
+    },
+    {
+      "path": "bench/examples/HyperConnectionsDepth/Proofs/Real.lean",
+      "git_blob": "27bffa82d6f64295ae1ced5da21dab05b77261ff"
+    },
+    {
+      "path": "bench/examples/HyperConnectionsDepth/native_kernels.py",
+      "git_blob": "d6cd5440cc923467016210c1ad699c436f66a9f6"
+    },
+    {
+      "path": "bench/examples/HyperConnectionsWidth/Correct.lean",
+      "git_blob": "4bd8681656b907d1808325172564602913a31f58"
+    },
+    {
+      "path": "bench/examples/HyperConnectionsWidth/FPEquiv.lean",
+      "git_blob": "5d53dc298f33a94fd7a04792030cc84ea41eaede"
+    },
+    {
+      "path": "bench/examples/HyperConnectionsWidth/IO.lean",
+      "git_blob": "535bc14ab94c7afcd9d3fced46976a7cba69fe32"
+    },
+    {
+      "path": "bench/examples/HyperConnectionsWidth/Kernels.lean",
+      "git_blob": "292fbd8f1e823e3c320d8189bdfad32a476eb504"
+    },
+    {
+      "path": "bench/examples/HyperConnectionsWidth/Proofs/MathKernels.lean",
+      "git_blob": "f63f01d099ab86fe916adee20ccb1f5da46ea324"
+    },
+    {
+      "path": "bench/examples/HyperConnectionsWidth/Proofs/MathematicalCorrect.lean",
+      "git_blob": "f9e551874de54775b54091990e52b86e2cb7f0ff"
+    },
+    {
+      "path": "bench/examples/HyperConnectionsWidth/Proofs/NativeProjection.lean",
+      "git_blob": "72608d7452917fcb89c3334bfbd57670a24bdc5c"
+    },
+    {
+      "path": "bench/examples/HyperConnectionsWidth/Proofs/Real.lean",
+      "git_blob": "f2e2680b6b648b49e632ff9ce6f8d60d64f0254d"
+    },
+    {
+      "path": "bench/examples/HyperConnectionsWidth/native_kernels.py",
+      "git_blob": "d939c11945245e2bbda4e01f19b3b0b9d6d12943"
+    },
+    {
+      "path": "bench/examples/LogExp/Kernels.lean",
+      "git_blob": "43ef4a3f6275063674548abd45a6d6afd7f590fc"
+    },
+    {
+      "path": "bench/examples/LogExp/Proofs/LegacySurface.lean",
+      "git_blob": "6c5ac13ffd8f3458fd297d6f5f7e4e9f565af13a"
+    },
+    {
+      "path": "bench/examples/LogExp/Proofs/SourcePreservation.lean",
+      "git_blob": "fb2b89cbbb61eb7e0d3205f0dab7cb55de483086"
+    },
+    {
+      "path": "bench/examples/LogExp/native_kernels.py",
+      "git_blob": "8e06c3e6659544224ceb3b3f6ea0aae5108384b8"
+    },
+    {
+      "path": "bench/examples/OnlineSoftmax/Correct.lean",
+      "git_blob": "aa8af2ad93e2e9de2e0ca48751632a3a6f9c69b8"
+    },
+    {
+      "path": "bench/examples/OnlineSoftmax/Kernels.lean",
+      "git_blob": "21a558de3f39a1c6eed3538de4bcdcd96e29cbc5"
+    },
+    {
+      "path": "bench/examples/OnlineSoftmax/Proofs/FP.lean",
+      "git_blob": "43af982546b8d3888db75d11572e88e49640bfeb"
+    },
+    {
+      "path": "bench/examples/OnlineSoftmax/Proofs/Real.lean",
+      "git_blob": "7c6ea6c4036d6352a0218ee67dc72ada078f4583"
+    },
+    {
+      "path": "bench/examples/OnlineSoftmax/Proofs/RealSource.lean",
+      "git_blob": "ef605eb3daa50278c365c94f3c2b78b6461211f5"
+    },
+    {
+      "path": "bench/examples/OnlineSoftmax/Proofs/SourceDecomposition.lean",
+      "git_blob": "ebc45d3345ad73c216014b3bb5dbe78d0aeb482e"
+    },
+    {
+      "path": "bench/examples/OnlineSoftmax/native_kernels.py",
+      "git_blob": "eb2978398fd93f4475c30b5badca098a1eb0b428"
+    },
+    {
+      "path": "bench/examples/RowWiseMax/Correct.lean",
+      "git_blob": "74361a06316b908ea5841f8fc2f05dcdf83e315d"
+    },
+    {
+      "path": "bench/examples/RowWiseMax/Kernels.lean",
+      "git_blob": "628c2281804880bb00afb269a1ed0dc3a703710b"
+    },
+    {
+      "path": "bench/examples/RowWiseMax/Proofs/FP.lean",
+      "git_blob": "4eb8b9d058ff91f591101109086f07d7ac1f8b0c"
+    },
+    {
+      "path": "bench/examples/RowWiseMax/Proofs/Real.lean",
+      "git_blob": "8a847bc579c81b44e8991afeed3759d1bbd1ba45"
+    },
+    {
+      "path": "bench/examples/RowWiseMax/native_kernels.py",
+      "git_blob": "9a72ce5afb08cac823b14467fc2bdcfe8d5d323c"
+    },
+    {
+      "path": "bench/examples/RowWiseSum/Kernels.lean",
+      "git_blob": "461db095c81ceb4f8bfba00e93c8a85b66373378"
+    },
+    {
+      "path": "bench/examples/RowWiseSum/native_kernels.py",
+      "git_blob": "737fc5250d84f5c93ebf842bfcc7b4cffb26bffe"
+    },
+    {
+      "path": "bench/examples/SoftmaxReciprocal/Kernels.lean",
+      "git_blob": "0b9681249302ad74f971074e1e04ccb4e136eaca"
+    },
+    {
+      "path": "bench/examples/SoftmaxReciprocal/Proofs/FP.lean",
+      "git_blob": "13a94229309f24a3660412c50046f859f9f92e47"
+    },
+    {
+      "path": "bench/examples/SoftmaxReciprocal/Proofs/LegacySurface.lean",
+      "git_blob": "df5f847c430a18e9a679c5d87c4daf4021e7e71c"
+    },
+    {
+      "path": "bench/examples/SoftmaxReciprocal/Proofs/SourcePreservation.lean",
+      "git_blob": "0be0e7d77939d13b293ddb7aadd3de3cb7860b80"
+    },
+    {
+      "path": "bench/examples/SoftmaxReciprocal/native_kernels.py",
+      "git_blob": "f4de62261dc8b7e21b4e0efdff5b95800e603673"
+    },
+    {
+      "path": "bench/examples/SoftmaxStable/Kernels.lean",
+      "git_blob": "39c59be391f6a802abcbf0924c4a05ef6a89d4c7"
+    },
+    {
+      "path": "bench/examples/SoftmaxStable/Proofs/FP.lean",
+      "git_blob": "10b72a2f59d891a53837030ee50dea16e416fde2"
+    },
+    {
+      "path": "bench/examples/SoftmaxStable/Proofs/LegacyRealEquiv.lean",
+      "git_blob": "0780a2f5b067461c15b9621b64f5a877f26702ca"
+    },
+    {
+      "path": "bench/examples/SoftmaxStable/Proofs/Real.lean",
+      "git_blob": "210a05167cbeabda0651783890c40819f1da1588"
+    },
+    {
+      "path": "bench/examples/SoftmaxStable/native_kernels.py",
+      "git_blob": "16dc433195af208cb97541eeb105f7834bd13f1a"
+    },
+    {
+      "path": "bench/examples/StableLogSumExp/Kernels.lean",
+      "git_blob": "0c142448904ea6fbd24f3d42f4076d4bba70aa3f"
+    },
+    {
+      "path": "bench/examples/StableLogSumExp/Proofs/FP.lean",
+      "git_blob": "745d2bfb2fd17d4a3ae89e076d3b500b5fef4b0f"
+    },
+    {
+      "path": "bench/examples/StableLogSumExp/Proofs/LegacyCorrect.lean",
+      "git_blob": "895d5362e030ace189b83e9dcd800b3cbc0182c8"
+    },
+    {
+      "path": "bench/examples/StableLogSumExp/Proofs/LegacyRealEquiv.lean",
+      "git_blob": "eedd719df4c1483020cc245c476be651f339b6aa"
+    },
+    {
+      "path": "bench/examples/StableLogSumExp/Proofs/Real.lean",
+      "git_blob": "a4754d1ddced9185936a6c9d6e9131befcca1368"
+    },
+    {
+      "path": "bench/examples/StableLogSumExp/Proofs/UnconditionalModel.lean",
+      "git_blob": "e0a09ba7beafbf7742885551d3fb428132244832"
+    },
+    {
+      "path": "bench/examples/StableLogSumExp/native_kernels.py",
+      "git_blob": "d07ab53716a63a44f48a0aea72974e3ef737c2af"
+    },
+    {
+      "path": "bench/examples/TritonBenchVectorAddition/Kernels.lean",
+      "git_blob": "6fb93ddfde50e750b081bc17d22f914c767845bc"
+    },
+    {
+      "path": "bench/examples/TritonBenchVectorAddition/Proofs/SourcePreservation.lean",
+      "git_blob": "0bc2977977f28901d9124554a559f55997c61d03"
+    },
+    {
+      "path": "bench/examples/VectorAdd/Kernels.lean",
+      "git_blob": "5143e11cc82c23fb6ca1d228d7542b02bec272c7"
+    },
+    {
+      "path": "bench/examples/VectorAdd/Proofs/SourcePreservation.lean",
+      "git_blob": "16664135da74db5033e9defc50d975febd15434e"
+    },
+    {
+      "path": "bench/examples/VectorAdd/native_kernels.py",
+      "git_blob": "f4110e1bb39c19bc303d2f55fb01a03287f36e34"
+    },
+    {
+      "path": "bench/examples/Welford/Kernels.lean",
+      "git_blob": "5233169547971e338d0b14c0cfc6b4d72b606750"
+    },
+    {
+      "path": "bench/examples/Welford/Proofs/FP.lean",
+      "git_blob": "c8ceb888cd585ad48dd27c89223afcd91c7ea57a"
+    },
+    {
+      "path": "bench/examples/Welford/Proofs/LegacyBody.lean",
+      "git_blob": "7b7c53142fbcac4694ecd8faba4e492443d5e336"
+    },
+    {
+      "path": "bench/examples/Welford/Proofs/LegacyRealEquiv.lean",
+      "git_blob": "4edfa5ac87d12ce2de928fb865bfdb1358ef53e4"
+    },
+    {
+      "path": "bench/examples/Welford/Proofs/Real.lean",
+      "git_blob": "da66c79fd93ad3f01cde883f31c4e70c5f132d93"
+    },
+    {
+      "path": "bench/examples/Welford/native_kernels.py",
+      "git_blob": "05998b9bee184623a158c5a58efb979f7d5421dd"
+    },
+    {
+      "path": "bench/jit_correspondence.py",
+      "git_blob": "ced421df261ab26d61d6db37aeea14c6805e79c9"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/adam_update_triton/Kernels.lean",
+      "git_blob": "343a5d33b2dd7ebfdb9c7c6d690ab7e8c46802f8"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/adam_update_triton/Proofs/AccessSafety.lean",
+      "git_blob": "76509395160cc9379011c81f5d69f314f6526c3d"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/adam_update_triton/Proofs/CommutedSafety.lean",
+      "git_blob": "4a62bbf0b62f03b9efa8a5c98502ac957a1b3679"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/adam_update_triton/Proofs/CommutedTile.lean",
+      "git_blob": "74a8d6e11a207e29a55a4834684f5e62cdebc689"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/adam_update_triton/Proofs/Tile.lean",
+      "git_blob": "7bf62460d1538bc93b9ffd571aa1c4363c66b56d"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/adam_update_triton/candidate_kernels.py",
+      "git_blob": "4ecc01641bd4cc0b33a4bcb37558563f68a2a3c1"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/add_example/Kernels.lean",
+      "git_blob": "59b7c17958867bf25921ae74837e008e76fc8829"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/add_example/Proofs/SourcePreservation.lean",
+      "git_blob": "5b3e9d7fdb2065dcf7524c5f8a3af646001819a0"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/add_value/Kernels.lean",
+      "git_blob": "04109acf942980be9f435b5fd52b781e546bb87b"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/add_value/Proofs/SourcePreservation.lean",
+      "git_blob": "82eb2bc4742bf0cb8af96c41fb252f4c630f666d"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/cache_transform_triton/Kernels.lean",
+      "git_blob": "17f3afd8af57438264a26bee0e1d2c3cf9877dca"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/AccessSafety.lean",
+      "git_blob": "6af8cdaf344ea0890ef2fc9b5024b02ef904c77e"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/Execution.lean",
+      "git_blob": "56270cfca91a18473c4e2c24c4d45129e82826f6"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/PairConnection.lean",
+      "git_blob": "e5056dc0e6347be2e098d2f3f7bb7430c32c609b"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/SourcePreservation.lean",
+      "git_blob": "996c3b1a1e052412d9c666e6faef78dbb3e75636"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/cache_transform_triton/cache_transform_triton_candidate.py",
+      "git_blob": "0806befe5ba9ef19bbfb0e650442276d8cacd071"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/cosine_compute/Kernels.lean",
+      "git_blob": "3fff72563f824d386df23364c9c40f51c5b4b241"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/cosine_compute/Proofs/SourcePreservation.lean",
+      "git_blob": "dc53d7ca1d776ac7cd2378cbba9d1066624a92de"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/dequantize_matmul/Kernels.lean",
+      "git_blob": "38464fb6970c38c17719157863eb3ac8d4b05617"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/dequantize_matmul/Proofs/AccessSafety.lean",
+      "git_blob": "268d9fe4b39816c4e48bb471e7c24a66a97f66f7"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/dequantize_matmul/Proofs/Algorithm.lean",
+      "git_blob": "85c6725676d459273d4f22e3d4261e4ba326984d"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/dequantize_matmul/Proofs/KernelEquivalence.lean",
+      "git_blob": "7a6cd13216ed241b1cd03f98a18fa89bd78cd9c4"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/dequantize_matmul/Proofs/KernelExecution.lean",
+      "git_blob": "bfab32f8bb082c960f9ae7e7c91c6ae73f9ebec1"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/dequantize_matmul/Proofs/LegacyPastedSurface.lean",
+      "git_blob": "1a25cfb5152c649cf8b49944c10f5587686879b4"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/dequantize_matmul/Proofs/SourcePreservation.lean",
+      "git_blob": "962a840308ecbfdcd95c7e51d483bf8295d86b93"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/dequantize_matmul/index_commuted.py",
+      "git_blob": "75051f89e414c837ff7f930a05e5a9812c8a39da"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/dequantize_rowwise/Kernels.lean",
+      "git_blob": "899523ba7ee9332e5c33b14398ce11bf85049853"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/destindex_copy/Kernels.lean",
+      "git_blob": "412a64c0fb9ff490853942243d9054c5be099355"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/destindex_copy_kv1/Kernels.lean",
+      "git_blob": "48c3069d7d589ddef5d73eb428c84df8f1c9d1e4"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/destindex_copy_kv1/Proofs/SourcePreservation.lean",
+      "git_blob": "215f46601c6af8bb41ccf73424d7105b76a98ed9"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/destindex_copy_kv1/index_commuted.py",
+      "git_blob": "0e43c4fd683e1967c703410b724b351b6e923984"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/destindex_copy_kv2/Kernels.lean",
+      "git_blob": "e511ce2b4af38a472fc41c2939c80a8be5db99de"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/destindex_copy_kv2/Proofs/SourcePreservation.lean",
+      "git_blob": "b919ae6682741a373d57376b9bf150e4879a4448"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/destindex_copy_kv2/index_commuted.py",
+      "git_blob": "22ded58f2a8aead4e0e76571db2fcc66d18ffe2e"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/f8_conversion_utils/Kernels.lean",
+      "git_blob": "085ce199ea55081b6dce624c1dfcbf624702c2d1"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/f8_conversion_utils/Proofs/RealProjection.lean",
+      "git_blob": "77c74b5152cebe544ab86e2d7e7af424d12bb4c1"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/f8_conversion_utils/Proofs/Source.lean",
+      "git_blob": "bf6af8a1435acc5d49b5507d58edaa402929a798"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/f8_conversion_utils/Proofs/SourcePreservation.lean",
+      "git_blob": "91a95de9561779da267083a412a62147aa315da6"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/f8_conversion_utils/Proofs/SourceSafety.lean",
+      "git_blob": "00624beb73a39b3533da5fc57026db8b3ef643c8"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/f8_conversion_utils/index_commuted.py",
+      "git_blob": "a4b0bb3b9b57649bdd0c429fb97093f496d79df0"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/fast_rope_embedding/Contract.lean",
+      "git_blob": "f007b6a53afdd0ca301d948129dd37b3a957ad21"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/fast_rope_embedding/Kernels.lean",
+      "git_blob": "7ad98ae672439f003275a6aa8b7858eb646d1f4f"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/AccessSafety.lean",
+      "git_blob": "35f1d714009d7e8fafe293fc1911cc42d66ac15a"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/KernelInterface.lean",
+      "git_blob": "d7d62e98415356f8c0e235aacfef6a5a2148a1ac"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/KernelRegressions.lean",
+      "git_blob": "9cb3ecf2f64bb5dc5afddcbe30010c3fe9e89960"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Source.lean",
+      "git_blob": "acb86f6113f4e1974dc115ed406149e3bbece132"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/fast_rope_embedding/index_commuted.py",
+      "git_blob": "7efc82694a9fa822ca52878cbe1357a442ffc29e"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/index_select_bwd/Kernels.lean",
+      "git_blob": "9c3af8f9bae87982be269c91d41448c717c5b101"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/index_select_bwd/Proofs/SourcePreservation.lean",
+      "git_blob": "d281f5ada96eea5156e2053d95662108a3417950"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/index_select_cat/Kernels.lean",
+      "git_blob": "a4f220d6f3b44e8193063d37c60d6764725a3b9d"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/index_select_cat/Proofs/KernelSafety.lean",
+      "git_blob": "05f05e7bc22e58641c85e4160348b79c2ca1247a"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/index_select_cat/Proofs/LegacyPastedSurface.lean",
+      "git_blob": "ebb7b61982617caed9f0036365a106d3684a3397"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/index_select_cat/Proofs/Rewrite.lean",
+      "git_blob": "3d97ddd8c468307f23a1c0222f39b027968e2783"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/index_select_cat/Proofs/SourcePreservation.lean",
+      "git_blob": "e815b93d10ad2fd722274ef62a388019d0881b57"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/index_select_cat/Proofs/TypedGather.lean",
+      "git_blob": "5d8dbaaf5a62aad516939793005743a0a6d17cf5"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/kcache_copy_triton/Kernels.lean",
+      "git_blob": "f782f33278e3a64fbb5d903db8b3eb2ff1bf55d9"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/kcache_copy_triton/Proofs/KernelFP.lean",
+      "git_blob": "d0528848cfe4295c2111f61e51a6ec154c11fd5b"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/kcache_copy_triton/Proofs/KernelReal.lean",
+      "git_blob": "68fe6ea0c168c07cff252c7093c0d869603e9973"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/kcache_copy_triton/Proofs/LegacyPastedSurface.lean",
+      "git_blob": "4405e29edfb5b84e4be1268245b872366800f36d"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/kcache_copy_triton/Proofs/SourcePreservation.lean",
+      "git_blob": "09e7385d8e790c45d28e8bfaa03ad96d20911cd6"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/kcache_copy_triton/Proofs/SourceSafety.lean",
+      "git_blob": "24a6c1aa7e28825811038da66d5206a5bff0bd55"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/kldiv_compute/Kernels.lean",
+      "git_blob": "2ae7e5f8042e262256d032ee092aa829485d2be3"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/kldiv_compute/Proofs/HistoricalKernels.lean",
+      "git_blob": "0d846e9d92a90336edd31957cc66688cbdea0d20"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/kldiv_compute/Proofs/SourcePreservation.lean",
+      "git_blob": "2713cacfcf18ab93203b88f2edca67e619c39bce"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/kldiv_compute/candidate_kernels.py",
+      "git_blob": "6734faa2ac334c2086557bf9a32cf1f1ddd0de57"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/kldiv_triton/Kernels.lean",
+      "git_blob": "7607c3e12e41523a94c00ff6c901fad43bd31f52"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/kldiv_triton/Proofs/LegacyPastedBody.lean",
+      "git_blob": "a1bdb56958c79a9110a5d186de164da95c6e1ddf"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/kldiv_triton/Proofs/SourcePreservation.lean",
+      "git_blob": "dbf195b9c4202742ad3bbde6f9ce107cf82f3245"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/kldiv_triton/index_commuted.py",
+      "git_blob": "c43984c5275b2c2d19fa6e88adf54779eb253bed"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/kv_cache_copy/Kernels.lean",
+      "git_blob": "a95fd94732f2ef183239394bb8018b49a465441c"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/kv_cache_copy/Proofs/KernelFP.lean",
+      "git_blob": "ca7a70959c13a737eb38cb87cb0d0928a5281a80"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/kv_cache_copy/Proofs/KernelReal.lean",
+      "git_blob": "6f95db695fb4363ced00bb3a1e21603d5ed4218b"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/kv_cache_copy/Proofs/KernelSafety.lean",
+      "git_blob": "f60ae7cd1483e5f9bd53edf82e8eaa81134bb8cf"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/kv_cache_copy/Proofs/LegacyPastedSurface.lean",
+      "git_blob": "09b97c84b859d7d5025d029cc59d993f65c7dab6"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/kv_cache_copy/Proofs/SourcePreservation.lean",
+      "git_blob": "da7c115966100d3e19ca23cf496b0b554bd34720"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/l2_norm_bwd/Kernels.lean",
+      "git_blob": "124a566aaabe7580abdbb9869d0f41d0f81ea54b"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/l2_norm_bwd/Proofs/AccessSafety.lean",
+      "git_blob": "8d4159c4f0c622f3e6ac4ed18103e0cb5ccaa728"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/l2_norm_bwd/Proofs/Statement.lean",
+      "git_blob": "858bc754ea8cd1d14e3b2e16dd83bd8deef5f065"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/l2_norm_triton1/Kernels.lean",
+      "git_blob": "77855fbdf0fe3d1900ddebb17ae9c092b0c06e2b"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/l2_norm_triton1/Proofs/Scalar.lean",
+      "git_blob": "f71b256b4acfcd8203e08784305f67ff5d0530b7"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/l2_norm_triton1/candidate_kernels.py",
+      "git_blob": "42c6522ba38c829e2de52eae99c8f1de270e61a3"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/l2_norm_triton2/Kernels.lean",
+      "git_blob": "feda4efd422714b922cfe4f51699d7ca76276801"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/l2_norm_triton2/Proofs/Scalar.lean",
+      "git_blob": "41ac51829bbf2e5861676391aebb44c3e8410141"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/masked_add_cuda/IO.lean",
+      "git_blob": "9c931b0b1dbc2f1149e27b1bc3c2e3d094cc4f51"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/masked_add_cuda/Kernels.lean",
+      "git_blob": "1cd7f1e3c10765012b174a326dc01428ad00e664"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/AccessSafety.lean",
+      "git_blob": "c45d1b7d6fe158eac937e81c3b6c5a45ea762041"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/IOReal.lean",
+      "git_blob": "76d883373d3d445f3ebc0063b280ba60f2d24b05"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/KernelRealResults.lean",
+      "git_blob": "fcb5b3a8b84f3103cfc890b4ea2081a7a194bed9"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/Source.lean",
+      "git_blob": "6cdf1a404cdd4475eac3183f35f8aa431f5511b6"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/SourcePreservation.lean",
+      "git_blob": "6b6ed01a5bd3b9f89bd9eef2326e8de603740038"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/Typed.lean",
+      "git_blob": "bfdf8a743969226816c1af65ce2dac2ccb267812"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/Variant.lean",
+      "git_blob": "08fd988bae4863a0b38f2a28f59df63706c4259d"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/masked_add_cuda/candidate_kernels.py",
+      "git_blob": "fa6e86297088e0b9283388918f145f74eb955072"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/matrix_transpose/Kernels.lean",
+      "git_blob": "46023e1ffd35f3a70df545191e31ece9bf095077"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/matrix_transpose/Proofs/Real.lean",
+      "git_blob": "0d8292a73e9372727268b41b7659533d84d35a9d"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/matrix_transpose/Proofs/SourcePreservation.lean",
+      "git_blob": "3933d31423bdb6542521ab7c775572092ae72b63"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/mean_reduction/Kernels.lean",
+      "git_blob": "9f4c079254b34bd0dc167e9ccfd98230be172c39"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/mul_exponent_compensator/Kernels.lean",
+      "git_blob": "d842379ccac791278836d9751ce5eeecce31167b"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/mul_exponent_compensator/Proofs/Commuted.lean",
+      "git_blob": "1cb3d21799da347d384d021ffe1654f71aa1fd36"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/mul_exponent_compensator/Proofs/Grid.lean",
+      "git_blob": "37d3e2c1416ff02983095b9cfca5714ad8952e8e"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/mul_exponent_compensator/Proofs/KernelArithmetic.lean",
+      "git_blob": "cd95653eeab106fc536b354cd343b3fd668012a6"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/mul_exponent_compensator/Proofs/LegacyBody.lean",
+      "git_blob": "8257433e99109363061b348055c7801e897e4046"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/mul_exponent_compensator/Proofs/LegacySource.lean",
+      "git_blob": "07e35da322ab780f0889861ee6a10c29c3913ca5"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/mul_exponent_compensator/Proofs/Native.lean",
+      "git_blob": "81cf46588986aa3dcc798d42d77d1124611f8be5"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/mul_exponent_compensator/Proofs/Source.lean",
+      "git_blob": "33e77e3857851dc6598cc9015a4b999c7c0b53c2"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/mul_exponent_compensator/Proofs/SourcePreservation.lean",
+      "git_blob": "c7c5a2eb32c22b905212789a2e5b5443bc6479a2"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/mul_exponent_compensator/Proofs/SourceSafety.lean",
+      "git_blob": "e2e4902e987661bdf24dd55acf94794a972676ef"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/quant_transpose_kernel/Kernels.lean",
+      "git_blob": "716d320a79ade9aa4e06e86f617561b2b68de89f"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/quant_transpose_kernel/Proofs/KernelExecution.lean",
+      "git_blob": "7b58cf2b23024935603f393c77dd15407cb84c7f"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/quant_transpose_kernel/Proofs/KernelResult.lean",
+      "git_blob": "c090c164c3f638b3591e4e06d75fc003d6fc1ebb"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/quant_transpose_kernel/Proofs/KernelSafety.lean",
+      "git_blob": "2c8cb5e40083db812ec4490244dfa04314cb61cb"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/quant_transpose_kernel/Proofs/KernelWhole.lean",
+      "git_blob": "4d3184bf575410ffc59551936c99aab7e25d3196"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/quant_transpose_kernel/Proofs/SourcePreservation.lean",
+      "git_blob": "990c6e3faf7781c0d086ab34954c7debc807200a"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/quant_transpose_kernel/index_commuted.py",
+      "git_blob": "b264ad054b64e8b57c679751bba471cfae001dff"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/rmsnorm_fused/Kernels.lean",
+      "git_blob": "f057408ac338c2f466dbe4694394ecbe4e494794"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/rmsnorm_fused/Proofs/SourcePreservation.lean",
+      "git_blob": "2975bb63c2ff8ee5cfb6a76266c1e78a2f4d4964"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/rmsnorm_fused/candidate_kernels.py",
+      "git_blob": "8387fb82af2484327da73050a2e3761f20360353"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Kernels.lean",
+      "git_blob": "858a3c5e489e8f9195ea822af2ebcaff73d8f5a6"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/rmsnorm_fused_llama/NativeIO.lean",
+      "git_blob": "8cdd9be56a573d900e756f0b4d511de74d2d0d54"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Proofs/KernelPrecision.lean",
+      "git_blob": "fed471d28fa3d47b32d0f7860e493e952dea454a"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Proofs/LegacySurface.lean",
+      "git_blob": "59a845343ac16983a709016d9f80760aaaefbfe0"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Proofs/NativeSafety.lean",
+      "git_blob": "d65def9f8bc3d927a562ff88558b111d14a42bda"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Proofs/RuntimeCandidate.lean",
+      "git_blob": "3f22726164dd9d0abfb91a11cdd4cc2167942a5f"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Proofs/RuntimeGrid.lean",
+      "git_blob": "0a40a5d1a96666607b1ef51c3cf1920de06f4fff"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Proofs/RuntimeRow.lean",
+      "git_blob": "d8f50c9b48a5fe67d5037e1ffde6b9583e888125"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/rmsnorm_fused_llama/candidate_kernels.py",
+      "git_blob": "4ef0435068b0d9d76e1c161184a97d28004dba05"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/rmsnorm_implementation/Kernels.lean",
+      "git_blob": "a4d8b696cfe415237823a5dc68ab0642822160bc"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/rmsnorm_implementation/Proofs/BodyPreservation.lean",
+      "git_blob": "dee8bb9a6a888532ff153da6e6bd6065e64c81d4"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/rmsnorm_implementation/Proofs/LegacyBody.lean",
+      "git_blob": "c7294982802480d92f07908e631497fa4c312409"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/rmsnorm_implementation/candidate_kernels.py",
+      "git_blob": "98ba8140c0ddfa3e5c63a98dc4e458fcc30e9adf"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/rmsnorm_triton/Kernels.lean",
+      "git_blob": "9c868c0a0bd62aa52f43329942966c2ab739a768"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/rmsnorm_triton/Proofs/BodyPreservation.lean",
+      "git_blob": "5bc027f9db2d81d8554ba8b0d243a9b645352953"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/rmsnorm_triton/Proofs/LegacyBody.lean",
+      "git_blob": "850d65683b6dbb91f1376cf73cb44ca9e37b17bd"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/rmsnorm_triton/candidate_kernels.py",
+      "git_blob": "3b6af0ef2894a29073c741e4600d12b7aadbe6ce"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/rope_embedding/Correct.lean",
+      "git_blob": "06e52f9048bfcc18c5bdde1f9349588a3c66d221"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/rope_embedding/IO.lean",
+      "git_blob": "e246d13519ccf7c54327692b76b64272c8c9c72c"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/rope_embedding/Kernels.lean",
+      "git_blob": "e27e7e4b72c1c31dcb46cd0d1e95b6bbcfe2f143"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/rope_embedding/Misc/NativeCorrect.lean",
+      "git_blob": "a2e1a73ea6b211910f4909d729e1ec1ad82dee8a"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/rope_embedding/Proofs/Interface.lean",
+      "git_blob": "80b687432017b153c8e1bfc11493b348302e4291"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/rope_embedding/Proofs/Pair.lean",
+      "git_blob": "140987c3213148cca24201a5cbbaf5effc499e3c"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/rope_embedding/Proofs/Source.lean",
+      "git_blob": "9776f57f304b1c3853b24eb1906f7f5bd05ae0dd"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/rope_embedding/Proofs/SourceBinding.lean",
+      "git_blob": "241a5a4eae85de37e8b6b15f538224f2f3a60f5a"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/rope_embedding/Proofs/SourceSafety.lean",
+      "git_blob": "f511e614c9b69ca8f4180cdd348c64e6e891fa56"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/rope_embedding/index_commuted.py",
+      "git_blob": "9fd4c0becb4025e876f7d606277223fbd28392fa"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/rotary_emb/Kernels.lean",
+      "git_blob": "4c4bda1f6f0fc8362ada9210930c2f4df0053c37"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/rotary_emb/Proofs/LegacyPastedSurface.lean",
+      "git_blob": "a8b9fdcb6ad2d3ffb43ae3e9a506b713fecc85b2"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/rotary_emb/Proofs/SourcePreservation.lean",
+      "git_blob": "fc13927390f9e77d7c95b773917d296e4b913b21"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/rotary_emb/index_commuted.py",
+      "git_blob": "7e7b59d7094ecd5f37e5132b02532bb36c754b76"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/rotary_emb_nopad/Kernels.lean",
+      "git_blob": "49fd11118e482ca0b8914fd7ca899dd643f860a5"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/rotary_emb_nopad/Proofs/LegacyPastedSurface.lean",
+      "git_blob": "1aadfaff464ed8586206bdea38971ee554658f7b"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/rotary_emb_nopad/Proofs/SourcePreservation.lean",
+      "git_blob": "8fbc25da57e175cc6dbb6853d679404f190f3edf"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/rotary_emb_nopad/Proofs/SourceSafety.lean",
+      "git_blob": "1e7d1e7cbb8ac5161484a3cba845a20f8833f869"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/rotary_emb_nopad/Proofs/Typed.lean",
+      "git_blob": "afdb924ae167ce26759d4a536267e64d45a467bf"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/rotary_emb_nopad/address_shared.py",
+      "git_blob": "dedf6faf37cfec6471b42e854492af6de4d1d5cf"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/sin_computation/Kernels.lean",
+      "git_blob": "02006e7c4c722e30eb82a0657c448809a51c6ce4"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/sin_computation/Proofs/SourcePreservation.lean",
+      "git_blob": "1527201706d221e8726ba270bf89f415c0e61b51"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/sin_kernel/Kernels.lean",
+      "git_blob": "3fba6c32c8fa0beb2737ea6c14d2db7bd0eeca02"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/sin_kernel/Proofs/SourcePreservation.lean",
+      "git_blob": "3246b4b23afcc94d94875e96896752cec86e688b"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/softmax_triton1/Kernels.lean",
+      "git_blob": "27f66a8f01639f1fe90bd0308b993b17922a700e"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/softmax_triton1/Proofs/FP.lean",
+      "git_blob": "963a7e8081812dece1ea3855475a93bf887b0ad2"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/softmax_triton1/Proofs/Real.lean",
+      "git_blob": "c0b37544202075fbfae6c463ed3d968a0fe18cca"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/softmax_triton1/Proofs/Rewrite.lean",
+      "git_blob": "659b028e30d1d1e08384ca4d8feb3b2739c248b0"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/softmax_triton1/reciprocal_candidate.py",
+      "git_blob": "3ca57e13a5dac2887220545dc0b691f676eb66d9"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/softmax_triton2/Kernels.lean",
+      "git_blob": "dc9ea8a1f84a6c5e88b2f067a633e75cccc26750"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/softmax_triton2/Proofs/GuardedReciprocal.lean",
+      "git_blob": "a100bb8e2820ef0550e9d05ed066b36bf198e4ef"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/softmax_triton2/Proofs/NativeIO.lean",
+      "git_blob": "5747c6039ded92f78b131f0b4384f0351e48fc3b"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/softmax_triton2/Proofs/PairSafety.lean",
+      "git_blob": "a96498437075d72ec9fd147e02acdde3b111cf42"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/square_matrix/Kernels.lean",
+      "git_blob": "6d20650194d1a3837583811a551b13732c6054cf"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/square_matrix/Proofs/Real.lean",
+      "git_blob": "be10ce01c7735fc818b1e56a013e4c5f7e364e70"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/square_matrix/Proofs/SourcePreservation.lean",
+      "git_blob": "60ec843bbff7e1049a48d82fdba3dd0c12642ece"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/swiglu_fwd/Kernels.lean",
+      "git_blob": "3fde1e05c0d10a5b8ea58f2729fa89c7f2a63356"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/swiglu_fwd/Proofs/Kernel.lean",
+      "git_blob": "f8769f37ab5be40217227ca5e6dcd8f36e22c63c"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/swiglu_fwd/Proofs/SourceEquivalence.lean",
+      "git_blob": "344bfeeb53f5cfcb9a5ddf736b7c8d99f7731b64"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/swiglu_fwd/Proofs/SourcePreservation.lean",
+      "git_blob": "4c6971471ee0df7873b2f5bbb7577759a073ed6b"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/swiglu_fwd/candidate_kernels.py",
+      "git_blob": "3b5d07d54eb4e10434240912397f343dbb850002"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/triton_mul2/Kernels.lean",
+      "git_blob": "051bd76521385b0067960bab0e6220fae711d6ed"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/triton_mul2/Proofs/LegacyBody.lean",
+      "git_blob": "69f6110cab6018c7cb1108899491ab50046535fa"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/triton_mul2/Proofs/SourcePreservation.lean",
+      "git_blob": "d3d6daffe0391336b4f432ed504f9d92a836c1b1"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/triton_softmax/Kernels.lean",
+      "git_blob": "f2b7a5f44b442fd5312af9feb540407dc5b8f296"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/triton_softmax/Proofs/FP.lean",
+      "git_blob": "90b3abf382006e8d2307ea8e2620fc320bf7da33"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/triton_softmax/Proofs/KernelNative.lean",
+      "git_blob": "7f55ef34a9db693b6abf3a3e179669db24ee6460"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/triton_softmax/Proofs/KernelReal.lean",
+      "git_blob": "d8e892b6d5c4823c91a4d4f48fa8fe8485585083"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/triton_softmax/Proofs/Real.lean",
+      "git_blob": "b7a77e43359f5dc41a2053737ea6b49dacc7f2b2"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/triton_softmax/Proofs/RowIO.lean",
+      "git_blob": "ae0d0df7203a9ae9a01df4ed7c3b63392c3c630e"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/triton_softmax/Proofs/StructuralAccess.lean",
+      "git_blob": "b2c829aa38d22c7cb3d7557a4d95dd236a28f796"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/var_len_copy/Kernels.lean",
+      "git_blob": "89009920775f9ab48223cfc0a99e5092e3ec1fc5"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/var_len_copy/Proofs/KernelFPBody.lean",
+      "git_blob": "472e781fd8b27e52c33cae4c79f77840e8a0b80d"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/var_len_copy/Proofs/KernelFPSuccess.lean",
+      "git_blob": "0a4bbbc4852f19fc922c34f16e22082e59c26f68"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/var_len_copy/Proofs/KernelRealExecution.lean",
+      "git_blob": "c5d5e7bcad5cf48188ad080d9779ac34266d04e6"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/var_len_copy/Proofs/KernelRealIO.lean",
+      "git_blob": "3ee812012b217303d8eec667eaba37e3350c1b3b"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/var_len_copy/Proofs/KernelRealInitialize.lean",
+      "git_blob": "2df7c606a61f6062374208a5eebfcd6181f8e513"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/var_len_copy/Proofs/KernelRealInvariant.lean",
+      "git_blob": "68b8aa0e79738c756b0fd204f07309daaef23cef"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/var_len_copy/Proofs/KernelRealSafetySource.lean",
+      "git_blob": "306e3de9b51202121f3922e8088cf59a4c3e145b"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/var_len_copy/Proofs/KernelRealSafetyStep.lean",
+      "git_blob": "7333360362dd702297257cf13eae34a83c5a2e12"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/var_len_copy/Proofs/KernelRealStep.lean",
+      "git_blob": "7a4f7fd2fe14269abc6f9f3e9d58378c3e801562"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/var_len_copy/Proofs/SourceProjection.lean",
+      "git_blob": "e30e7a2d31832049d2b8303539e88d182731eef2"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/vector_addition/Kernels.lean",
+      "git_blob": "ee011fd6603e7bcd4c23d4ce6f242ddcb5d7dbde"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/vector_addition/Proofs/FiniteSource.lean",
+      "git_blob": "61e1e33798609c79fd860cb8a823091c076c5da5"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/vector_addition/Proofs/SourcePreservation.lean",
+      "git_blob": "1a05f31018dcf8ae0235acd72196049e9e40ee6d"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/vector_addition_custom/Kernels.lean",
+      "git_blob": "0c9dc45cf621ad0c781fb35b6a82c0ca7ae30f30"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/vector_addition_custom/Proofs/Source.lean",
+      "git_blob": "8445c989e80024574d5de8cd8f1a7639a07f57d9"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/vector_addition_custom/Proofs/SourcePreservation.lean",
+      "git_blob": "58e3a3fd18697b68a01d18b68523723346178212"
+    },
+    {
+      "path": "bench/tests/BlockPointerDType.lean",
+      "git_blob": "3622bec683045d13b56e4fc548027b770f8134d4"
+    },
+    {
+      "path": "bench/tests/BoolMaskMultiply.lean",
+      "git_blob": "5b68c467c75aeddb792e044eaf36cb5857ac6470"
+    },
+    {
+      "path": "bench/tests/BranchStoreDType.lean",
+      "git_blob": "f81515064ba0e52d8d723f3150c8fdab6f912376"
+    },
+    {
+      "path": "bench/tests/CallSignature.lean",
+      "git_blob": "0c15a075f0da54bde1dfca75931f4caf143bdeed"
+    },
+    {
+      "path": "bench/tests/ConstexprBody.lean",
+      "git_blob": "3acae5f25b383044270c59076c5273fdba92736f"
+    },
+    {
+      "path": "bench/tests/ConstexprPower.lean",
+      "git_blob": "d4bfc1360fbecb5e3e619906d2153113e29b3839"
+    },
+    {
+      "path": "bench/tests/EquivTactics.lean",
+      "git_blob": "ebacc0cbcae82d8589b3764b5b6b904d4a080ee0"
+    },
+    {
+      "path": "bench/tests/FP32CallValue.lean",
+      "git_blob": "2923a684d5b764a8fb8f07e0a1d72e4f01ad4b9e"
+    },
+    {
+      "path": "bench/tests/FPComputeAddition.lean",
+      "git_blob": "dc113674f672747a8bb689631a12b46f17413905"
+    },
+    {
+      "path": "bench/tests/FPConstantBranchContexts.lean",
+      "git_blob": "22ddd626ae6a3d4d2015774b84d4b45415647ce9"
+    },
+    {
+      "path": "bench/tests/FPGuardedExamples.lean",
+      "git_blob": "db475cac231436e00d2a82b5302f6255e16313bc"
+    },
+    {
+      "path": "bench/tests/FPSoftmaxForwardPointer.lean",
+      "git_blob": "fd0080110da4bfaa5fa4f78521a7cc95fbd0d315"
+    },
+    {
+      "path": "bench/tests/FloatMinMaxPromotion.lean",
+      "git_blob": "1bc0a00819ff8d1642b0c211aabcda0325153fca"
+    },
+    {
+      "path": "bench/tests/LoadCastStorage.lean",
+      "git_blob": "a87de6c55f9ed38e05ae555aa7284de98002ec00"
+    },
+    {
+      "path": "bench/tests/LoopBody.lean",
+      "git_blob": "1be734c0f82a8ad322fa8f1c3d4d2d7986857adc"
+    },
+    {
+      "path": "bench/tests/NativeCountLoop.lean",
+      "git_blob": "b380e70bf94455d3a2475193719a1dbb344aa7ca"
+    },
+    {
+      "path": "bench/tests/NativeMatrixLoop.lean",
+      "git_blob": "245be2b9eb7de71c06b783e7d8c656bd443d76d6"
+    },
+    {
+      "path": "bench/tests/NativeMaxLoop.lean",
+      "git_blob": "43d2088a7b689241839bc227da4177792bd8ce29"
+    },
+    {
+      "path": "bench/tests/PointerOffsets.lean",
+      "git_blob": "32533c5946c06a44cf921bafa62f47ec6303dda8"
+    },
+    {
+      "path": "bench/tests/PythonBody.lean",
+      "git_blob": "a5dc5f3a679255005f716429e6744edc6b291952"
+    },
+    {
+      "path": "bench/tests/RegisterDTypeLoad.lean",
+      "git_blob": "2aa18cbe969c580b451fdb79751fe673fe543411"
+    },
+    {
+      "path": "bench/tests/SignedBitwiseSource.lean",
+      "git_blob": "d3aa550513ad6e6001db2354922adb3cc013123d"
+    },
+    {
+      "path": "bench/tests/SourceDType.lean",
+      "git_blob": "c9f16668d5bc539a6cac0511aac0a70717da4a2c"
+    },
+    {
+      "path": "bench/tests/TypedStores.lean",
+      "git_blob": "9900b7b4f6b0ce357f1dc3bbb796cfc03f26f2bf"
+    },
+    {
+      "path": "bench/tests/test_body_corpus.py",
+      "git_blob": "df9107bf6cda4e195b9031157325701adecf2956"
+    },
+    {
+      "path": "bench/tests/test_jit_correspondence.py",
+      "git_blob": "d8c175c089ca380d5d986e7e30b7d06a50221c14"
+    },
+    {
+      "path": "bench/tritonbench_g/adam_update_triton/Proofs/GridFrameReuse.lean",
+      "git_blob": "3dc633ba5e220ef8587998bbe1ab580f7bc24d0b"
+    },
+    {
+      "path": "bench/tritonbench_g/adam_update_triton/Proofs/Real.lean",
+      "git_blob": "1c48e227943ea3d8c08f1e9467261e6ce4937401"
+    },
+    {
+      "path": "bench/tritonbench_g/decay_cumsum/Proofs/TypedExecution.lean",
+      "git_blob": "8f89f3798a118dcfb8d68e81fdafca20bd273da4"
+    },
+    {
+      "path": "bench/tritonbench_g/matrix_reduction/IO.lean",
+      "git_blob": "0d8914b2f02908e0ac37d1f62654091470dfafc5"
+    },
+    {
+      "path": "bench/tritonbench_g/matrix_reduction/Kernels.lean",
+      "git_blob": "e00f7954ede5fb250126991c44830b98eaa41231"
+    },
+    {
+      "path": "bench/tritonbench_g/matrix_reduction/Proofs/Candidate.lean",
+      "git_blob": "44fe5557dac6c1dc22603547e17ec4eb0c558321"
+    },
+    {
+      "path": "bench/tritonbench_g/matrix_reduction/Proofs/ConcreteCorrect.lean",
+      "git_blob": "d9f2d3587c0e96555a161dbcf81b380f1e043847"
+    },
+    {
+      "path": "bench/tritonbench_g/matrix_reduction/Proofs/Host.lean",
+      "git_blob": "bebd98aecfdb3fce70889df0fab09bcec0930245"
+    },
+    {
+      "path": "bench/tritonbench_g/matrix_reduction/Proofs/KernelFP.lean",
+      "git_blob": "6a758c5a932a526b4539b6362aec114db748c629"
+    },
+    {
+      "path": "bench/tritonbench_g/matrix_reduction/Proofs/KernelReal.lean",
+      "git_blob": "7fdc05116a7c9b764ad342ab85e85101914de3a4"
+    },
+    {
+      "path": "bench/tritonbench_g/matrix_reduction/Proofs/KernelSafety.lean",
+      "git_blob": "cd8c29cf16ad30ee9a691cc3f8759b562e7c63d0"
+    },
+    {
+      "path": "bench/tritonbench_g/matrix_reduction/Proofs/LegacyBody.lean",
+      "git_blob": "ed45f54cee9e4c489451c3f6cd85f33c67d62775"
+    },
+    {
+      "path": "bench/tritonbench_g/matrix_reduction/Proofs/LegacyReal.lean",
+      "git_blob": "0e0146f05ec40fda32aba2242311bbe47173e5e6"
+    },
+    {
+      "path": "bench/tritonbench_g/matrix_reduction/Proofs/NativeHost.lean",
+      "git_blob": "d9c8d6ed5f1442553d67edbf451bac0a3aea1814"
+    },
+    {
+      "path": "bench/tritonbench_g/matrix_reduction/Proofs/NativeMemory.lean",
+      "git_blob": "66d50cd084fc153be9c20f0bc8786f03e42c168f"
+    },
+    {
+      "path": "bench/tritonbench_g/matrix_reduction/Proofs/Real.lean",
+      "git_blob": "eeadb04e9a2859cd76fee6e07513c4d9c3d0c51a"
+    },
+    {
+      "path": "bench/tritonbench_g/matrix_reduction/Proofs/RealHost.lean",
+      "git_blob": "69c59f846b29644f7e8247ecc12ac6d85e78cf9c"
+    },
+    {
+      "path": "bench/tritonbench_g/matrix_reduction/Proofs/SourceProjection.lean",
+      "git_blob": "0c4415826f470452e20df438f05a6840d81152ac"
+    },
+    {
+      "path": "bench/tritonbench_g/matrix_reduction/Proofs/TypedShape.lean",
+      "git_blob": "1ec458710b61865dd2c1e9ea2fecee62d475eefc"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_mul2/Proofs/SignedSource.lean",
+      "git_blob": "8111619ba60d3e7be49a37737a82d906f9b4da90"
+    }
+  ],
+  "receipt_excerpts": [
+    "bench/pr22-split/receipts/loops-and-spec-derived-sources.json",
+    "bench/pr22-split/receipts/native-adam-and-masked-add.json",
+    "bench/pr22-split/receipts/native-block-pointer-reduction.json",
+    "bench/pr22-split/receipts/native-cache-and-rotary-bodies.json",
+    "bench/pr22-split/receipts/native-index-select-body.json",
+    "bench/pr22-split/receipts/native-rope-bodies.json"
+  ],
+  "integration_validation": {
+    "status": "passed",
+    "checks": {
+      "formulas": {
+        "command": [
+          "python3",
+          "-B",
+          "bench/check_main_formula_review.py"
+        ],
+        "exit_code": 0,
+        "seconds": 0.53,
+        "log_sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+      },
+      "io": {
+        "command": [
+          "python3",
+          "-B",
+          "bench/check_io_organization.py"
+        ],
+        "exit_code": 0,
+        "seconds": 0.42,
+        "log_sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+      },
+      "roles": {
+        "command": [
+          "python3",
+          "-B",
+          "bench/check_main_entry_roles.py"
+        ],
+        "exit_code": 0,
+        "seconds": 7.44,
+        "log_sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+      },
+      "corpus": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "bench.check_body_corpus",
+          "--check"
+        ],
+        "exit_code": 0,
+        "seconds": 1.53,
+        "log_sha256": "3dba4d8ae8e2ac4caa5df8348708c89dd890a5d38c6b258cba2180fe1104133c"
+      },
+      "python": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "bench.tests.test_jit_correspondence",
+          "bench.tests.test_body_corpus"
+        ],
+        "exit_code": 0,
+        "seconds": 0.39,
+        "log_sha256": "e344732a1479a3c252b18805e15330688e8876cae2a2980daf1906360a010386"
+      },
+      "ledger": {
+        "command": [
+          "python3",
+          "-B",
+          "-c",
+          "import sys,json; sys.path.insert(0,'bench'); import task_progress; task_progress.validate(json.load(open('bench/tritonbench_g/task_progress.json')))"
+        ],
+        "exit_code": 0,
+        "seconds": 0.17,
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "base-integration": {
+        "command": [
+          "lake",
+          "build",
+          "VeriTile.Triton.Memory.LogicalScheduledKernelIO",
+          "VeriTile.Triton.Float.GuardedProgramIO",
+          "bench.tests.FPGuardedProgramIO"
+        ],
+        "exit_code": 0,
+        "seconds": 1.6,
+        "log_sha256": "edaf734e582c8fa1ad120958465448a28cb0be2aa0c66cd4708bc0533a410c8b"
+      }
+    },
+    "scope": "Fresh metadata/body-copy checks and compilation of the new base interfaces and guarded-program regression on this exact prefix. Task proofs retain the archived exact-source replay; this is not a fresh full-corpus replay for every prefix.",
+    "source_identity_check": {
+      "status": "passed",
+      "files": 19423,
+      "method": "Complete staged application Lean/Python path and Git blob map (historical checkpoint snapshots excluded) equals archived snapshot plus preserved newer base additions, including deletions."
+    }
+  }
+}

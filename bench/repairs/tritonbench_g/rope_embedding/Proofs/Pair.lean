@@ -5,13 +5,11 @@ namespace VeriTile.Bench.Repairs.RopeEmbedding.PairProof
 open VeriTile.Triton PairIO
 open scoped VeriTile.Spec
 
-/-- Reuse the complete typed source proof through the existing exact source
-binding. The sole change is Nat multiplication; no FP rewrite is introduced. -/
+/-- Compare both actual complete bodies directly. Only the natural head-group
+product is commuted; both stores, all iterations and directions remain. -/
 theorem equivalent (p : Source.Parameters) (back : Bool) :
     original p back ≡[assumptions] indexCommuted p back := by
-  exact VeriTile.Bench.TritonBenchG.FastRopeEmbedding.FPProof.equivalent
-    .fp32 .fp32 .fp32 p.input p.cosine p.sine p.rowStride p.cosineStride p.sineStride
-    p.length p.dimension p.heads p.width back
+  cases back <;> equiv_decompose <;> fp_prove
 
 #axiomsClean equivalent
 end VeriTile.Bench.Repairs.RopeEmbedding.PairProof

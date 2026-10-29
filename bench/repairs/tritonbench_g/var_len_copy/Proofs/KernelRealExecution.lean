@@ -46,7 +46,7 @@ theorem var_len_copy_kernel_real (a : Segment) (s : BlockState)
     · intro r i _
       exact congrFun (congrFun hf r) i
 
-#specNonCircular KernelCopy avoiding [Source.originalKernel,Source.kernel,exec]
+#specNonCircular KernelCopy avoiding [Source.originalKernel,Source.kernel,Source.source,Source.commutedSource,exec]
 #axiomsClean var_len_copy_kernel_real
 #guard_msgs (drop info) in
 #auditModuleAxioms

@@ -69,11 +69,16 @@ def forwardExecution : {t : State ℝ // FP.Structural.exec (engine model) forwa
 theorem forward_candidate_executes :
     FP.Structural.exec (engine model) (forward .bf16 Bool.true "g" "go" 16 3 1 2 2 4 2 2 3 1)
       initial = some forwardExecution.val := by
-  have hs := FP.ProfiledRewrite.sound
-    (MaskEquivalence.forward_equiv .bf16 "g" "go" 16 3 1 2 2 4 2 2 3 1)
-    ℝ model (fun _ _ => True) (by apply FP.models_of_atoms; intro e h; cases h) initial
-    (by simp [MaskEquivalence.forwardProgram])
-  exact hs.symm.trans forwardExecution.property
+  -- These fixed executions differ only in exact integer mask products.
+  -- Execute both actual bodies directly; the abstract Real backend need not
+  -- model unrelated strict software floating certificates.
+  simp [forwardExecution, forwardKernel, forward, ComputeKernel.surfaceBody,
+    FP.Structural.exec, run, step, range_int_done, range_int_step,
+    range_zero, range_done, range_step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
+    engine, Algebra.withDefaultPrecision, resolvePrecision, model, ComputeDType.eraseDType,
+    numeric, natLt, numericLt, numericLe, numericEq, bop, initial, ofFloat, toFloat, Region.cast,
+    FP.Structural.store, TileShape.allIndices, List.finRange_succ, State.write, Bool.and_comm]
+  try rfl
 
 def prepareKernel := prepare .fp16 .bf16 Bool.false "q" "k" "g" "qg" "kg" 16 3 1 2 2 4 2 2 3 1
 
@@ -92,11 +97,16 @@ def prepareExecution : {t : State ℝ // FP.Structural.exec (engine model) prepa
 theorem prepare_candidate_executes :
     FP.Structural.exec (engine model) (prepare .fp16 .bf16 Bool.true "q" "k" "g" "qg" "kg" 16 3 1 2 2 4 2 2 3 1)
       initial = some prepareExecution.val := by
-  have hs := FP.ProfiledRewrite.sound
-    (MaskEquivalence.prepare_equiv .fp16 .bf16 "q" "k" "g" "qg" "kg" 16 3 1 2 2 4 2 2 3 1)
-    ℝ model (fun _ _ => True) (by apply FP.models_of_atoms; intro e h; cases h) initial
-    (by simp [MaskEquivalence.prepareProgram])
-  exact hs.symm.trans prepareExecution.property
+  -- These fixed executions differ only in exact integer mask products.
+  -- Execute both actual bodies directly; the abstract Real backend need not
+  -- model unrelated strict software floating certificates.
+  simp [prepareExecution, prepareKernel, prepare, ComputeKernel.surfaceBody,
+    FP.Structural.exec, run, step, range_int_done, range_int_step,
+    range_zero, range_done, range_step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
+    engine, Algebra.withDefaultPrecision, resolvePrecision, model, ComputeDType.eraseDType,
+    numeric, natLt, numericLt, numericLe, numericEq, bop, initial, ofFloat, toFloat, Region.cast,
+    FP.Structural.store, TileShape.allIndices, List.finRange_succ, State.write, Bool.and_comm]
+  try rfl
 
 def backwardKernel := backward .fp16 .bf16 Bool.false "dq_inner" "dq_inter" "dk_inner" "dk_inter" "q" "k" "g" "dg" 16 3 1 2 2 4 2 2 3 1
 
@@ -115,11 +125,16 @@ def backwardExecution : {t : State ℝ // FP.Structural.exec (engine model) back
 theorem backward_candidate_executes :
     FP.Structural.exec (engine model) (backward .fp16 .bf16 Bool.true "dq_inner" "dq_inter" "dk_inner" "dk_inter" "q" "k" "g" "dg" 16 3 1 2 2 4 2 2 3 1)
       initial = some backwardExecution.val := by
-  have hs := FP.ProfiledRewrite.sound
-    (MaskEquivalence.backward_equiv .fp16 .bf16 "dq_inner" "dq_inter" "dk_inner" "dk_inter" "q" "k" "g" "dg" 16 3 1 2 2 4 2 2 3 1)
-    ℝ model (fun _ _ => True) (by apply FP.models_of_atoms; intro e h; cases h) initial
-    (by simp [MaskEquivalence.backwardProgram])
-  exact hs.symm.trans backwardExecution.property
+  -- These fixed executions differ only in exact integer mask products.
+  -- Execute both actual bodies directly; the abstract Real backend need not
+  -- model unrelated strict software floating certificates.
+  simp [backwardExecution, backwardKernel, backward, ComputeKernel.surfaceBody,
+    FP.Structural.exec, run, step, range_int_done, range_int_step,
+    range_zero, range_done, range_step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
+    engine, Algebra.withDefaultPrecision, resolvePrecision, model, ComputeDType.eraseDType,
+    numeric, natLt, numericLt, numericLe, numericEq, bop, initial, ofFloat, toFloat, Region.cast,
+    FP.Structural.store, TileShape.allIndices, List.finRange_succ, State.write, Bool.and_comm]
+  try rfl
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

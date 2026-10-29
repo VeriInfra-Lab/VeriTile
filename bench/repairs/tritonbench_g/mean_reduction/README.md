@@ -114,3 +114,13 @@ family by `rfl`, for every region, extent and block-size argument. Shared
 modules import those selectors and retain all execution/proof decomposition.
 All existing input domains, precisions, grid schedules and main/optional
 statements are unchanged.
+
+### 原生函数体入口
+
+`Kernels.lean` 的原始与既有索引交换候选逐句保留所选
+`mean_reduction_repaired.py`，包括完整流式累加循环、显式 FP32 转换、
+归约、除法与 mask。运行参数 M/N 在函数体外绑定，只有 BLOCK_M/BLOCK_N
+为 constexpr。`Proofs/SourcePreservation.lean` 继续证明两个完整 kernel 与
+既有通用存储族的 FP32 分支相等；全部旧维度、N=0、空 grid、任意完整
+调度、IO/输出/frame 与主 Real/FP 及可选 native/host/Tensor 结论均保留。
+源码对应与证明重放分开记录；未新增数值假设或硬件实验。
