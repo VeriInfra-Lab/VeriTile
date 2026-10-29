@@ -39,6 +39,24 @@ partial def needed (raw : Syntax) : Bool :=
   | `(tritonStmt| $_:ident := $value:tritonExpr) => noneValue [] value || raw.getArgs.any needed
   | _ => raw.getArgs.any needed
 
+/-- Direct None masks need the same checked lowering even without a local
+None assignment. Other uses of None do not trigger mask specialization. -/
+partial def directMaskNeeded (raw : Syntax) : Bool :=
+  let absentKeyword (kwargs : Array (TSyntax `tritonMemKwarg)) := kwargs.any fun kw =>
+    match kw with
+    | `(tritonMemKwarg| $id:ident = $value:tritonExpr) =>
+        id.getId.eraseMacroScopes == `mask && noneValue [] value
+    | _ => Bool.false
+  let atRoot := match raw with
+    | `(tritonExpr| tl.load($_:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*))
+    | `(tritonStmt| tl.store($_:tritonExpr, $_:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*)) =>
+        noneValue [] mask || absentKeyword kwargs
+    | `(tritonExpr| tl.load($_:tritonExpr $[, $kwargs:tritonMemKwarg]*)) => absentKeyword kwargs
+    | `(tritonStmt| tl.store($_:tritonExpr, $_:tritonExpr, $first:tritonMemKwarg $[, $rest:tritonMemKwarg]*)) =>
+        absentKeyword (#[first] ++ rest)
+    | _ => Bool.false
+  atRoot || raw.getArgs.any directMaskNeeded
+
 private partial def replaceChoices (choices : Choices) (raw : Syntax) : MacroM Syntax := do
   if let `(tritonExpr| $id:ident) := raw then
     if let some value := choices.lookup id.getId.eraseMacroScopes then

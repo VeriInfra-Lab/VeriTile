@@ -84,6 +84,8 @@ syntax "leaky_relu" "(" tritonExpr ")" : tritonExpr
 syntax "tl.sqrt(" tritonExpr ")" : tritonExpr
 syntax "tl.math.rsqrt(" tritonExpr ")" : tritonExpr
 syntax "tl.rsqrt(" tritonExpr ")" : tritonExpr
+syntax "libdevice.rsqrt(" tritonExpr ")" : tritonExpr
+syntax "tl.extra.cuda.libdevice.rsqrt(" tritonExpr ")" : tritonExpr
 syntax "tl.tanh(" tritonExpr ")" : tritonExpr
 syntax "triton_tanh(" tritonExpr ")" : tritonExpr
 syntax "libdevice.tanh(" tritonExpr ")" : tritonExpr

@@ -13,6 +13,7 @@ import VeriTile.Triton.DSL.SourceFunctionStatements
 import VeriTile.Triton.DSL.NarrowUnsigned
 import VeriTile.Triton.DSL.SourceDType
 import VeriTile.Triton.DSL.Constexpr
+import VeriTile.Triton.DSL.OrderedRowSum
 import Lean
 
 /-! Call-site typing for a pasted Triton body. The signature describes pointer
@@ -75,6 +76,10 @@ structure CallSignature where
   Names and literal text are checked against Python by source correspondence.
   They are source metadata, not function parameters or body instructions. -/
   sourceConstants : List (String × String) := []
+  /-- Selected reduction topology for named FP32 operands of `tl.sum(x, 1)`
+  on [1, N] tiles. This is invocation configuration, not a source keyword or
+  an associativity assumption; the tree width is checked against the tile. -/
+  orderedRowSums : List (String × (Σ n, DSL.WelfordSource.Tree n)) := []
 
 namespace DSL.CallSignature
 open Lean Elab Term Meta
@@ -722,6 +727,12 @@ private def elaborateCallCore (profile : TSyntax `term) (stmts : Array (TSyntax 
       if usesTypedFP32 && names.contains "dtype" then
         throwError "typed FP32 storage reserves the metadata dtype alias"
       for stmt in stmts do rejectBodyMetadata stmt.raw
+      let orderedRowSums ← bindings (fun value => do
+        let value ← whnf value
+        unless value.isAppOfArity ``Sigma.mk 4 do
+          throwError "ordered row sum configuration must supply its width and tree"
+        exprToSyntax value.getAppArgs[3]!)
+        (← mkAppM ``Triton.CallSignature.orderedRowSums #[profile])
       let sourceFunctions ← listValues (← mkAppM ``Triton.CallSignature.functions #[profile])
       let helperNames ← sourceFunctions.mapM fun function => do
         stringValue (← mkAppM ``Triton.SourceFunction.name #[function])
@@ -1014,6 +1025,7 @@ private def elaborateCallCore (profile : TSyntax `term) (stmts : Array (TSyntax 
           if kind == .fp32 && (typedFP32 || typedFP32Names.contains name)
           then some (Name.mkSimple name) else none
         let body ← TypedStorageReduction.lower storagePointers body
+        let body ← OrderedRowSum.lower orderedRowSums body
         let emitted := finiteDeclarations ++ declarations ++ body.toArray
         let compiled ← `(triton { $emitted* })
         if usesTypedFP32 then
@@ -1064,7 +1076,7 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
       return (⟨← Inference.normalizeControlFlow st.raw⟩ : TSyntax `tritonStmt)
     let body ← liftMacroM <| ConstexprMask.lower choices body
     return ← elaborateCallCore profile body callValues pointerOffsets pointerPresence
-  unless stmts.any (fun st => ConstexprMask.needed st.raw) do
+  unless stmts.any (fun st => ConstexprMask.needed st.raw || ConstexprMask.directMaskNeeded st.raw) do
     return ← elaborateCallCore profile stmts callValues pointerOffsets pointerPresence
   for stmt in stmts do rejectBodyMetadata stmt.raw
   let signature ← elabTermEnsuringType profile (mkConst ``Triton.CallSignature)

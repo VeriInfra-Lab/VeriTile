@@ -22,7 +22,7 @@ order. Variance is nonnegative and epsilon makes the Real inverse positive.
 Input storage, accumulators, means, rstd, centered squares and affine
 operations are FP32. **Y storage is BF16.** The source retains both FP32 casts
 at each input load, increasing chunk order, the chosen binary reduction tree,
-FP32 denominator conversion, epsilon, division, rsqrt, and BF16 conversion at
+FP32 denominator conversion and epsilon, division, `libdevice.rsqrt`, and BF16 conversion at
 the final store. No arithmetic is moved between passes. Both configurations
 remain `XBLOCK=1`, `RBLOCK=1024` or `2048`, eight warps, one stage.
 
@@ -73,25 +73,35 @@ wrapper return execution are outside this kernel-only theorem.
 ## Source and implementation proofs
 
 `Kernels.lean` contains two complete readable ordinary `triton` programs and
-has no proof imports. `SourceCode.rowKernel` materializes the selected repaired
-two-pass computation. `SourceCode.rowOffsetReusedKernel` computes `D*xrow` once
+has no proof imports. Each quotation is the complete original Python function
+body, including the source names, `range(0, rnumel, RBLOCK)`, casts, two-dimensional
+tiles and `None` masks. Caller pointer/scalar types, XBLOCK=1, the RBLOCK alias
+and the selected binary sum tree are configured outside the body.
+`SourceCode.rowKernel` uses `layer_norm_welfold_repaired.py` unchanged. The explicit
+`layer_norm_welfold_row_offset_reused.py` candidate expresses the existing Lean
+row-offset reuse: `SourceCode.rowOffsetReusedKernel` computes `rnumel*x0` once
 per normalization chunk and reuses it for the X load and BF16 Y store. This
 removes one repeated integer multiplication; no measured speedup is claimed.
 Both sources retain all three loops, casts, masks, barriers, arithmetic order,
 ordered reduction trees, and stores. `SourceCode.launch` runs exactly S row
 programs; S=0 runs the empty grid.
 
-The prior source materialization is retained as a historical proof snapshot in
-`Proofs/LegacySource.lean`. `Proofs/ReadableAccumulate.lean` and
-`Proofs/ReadableStatistics.lean` connect the actual loop iterations to the
-original ordered recurrences. `Proofs/ReadableNormalize.lean`, `ReadableRow.lean`
-and `ReadableGrid.lean` prove every output and the full exterior frame.
+The unrolled proof reference is retained in `Proofs/LegacySource.lean`. Its
+primitive ports follow the actual device-library rsqrt and assigned FP32
+epsilon. It is not a claim that the former `tl.rsqrt` model or an untyped
+epsilon literal is FP-equivalent. `check_pair_source.py` verifies the whole
+Python module and requires the row product definition before both uses;
+`jit-correspondence.json` checks both raw bodies and their invocation metadata. `Proofs/RawAccumulate.lean` and
+`Proofs/RawStatistics.lean` connect the actual loop iterations to the
+original ordered recurrences. `Proofs/RawNormalize.lean`, `RawRow.lean`
+and `RawGrid.lean` prove every output and the full exterior frame.
 `ReadableBoundary.preserve` proves equality of complete final memory from the
-historical source to each actual readable source, rather than assuming source
-identity. `ReadableSafety.lean` separately follows the actual counted loops and
+corrected unrolled reference to each actual source. It does not assume source
+identity or a numerical equality to the former primitive ports. `RawSafety.lean`
+separately follows the actual range loops and
 proves all active accesses stay inside the original IO windows.
 
-`PairIO.lean` exposes the complete actual source schedules with the original
+The `PairIO` namespace in `IO.lean` exposes the complete actual source schedules with the original
 FP32 input/statistic channels and BF16 Y channel. `Correct.kernel_real` now
 uses that readable original source and still states the independent mean,
 population variance, inverse and affine formula. The public
@@ -101,8 +111,8 @@ each retained Configuration and original Separation. The judgment includes
 both successful full-grid runs, all three outputs, access safety and both
 complete exterior frames. No finiteness guard or floating numerical law is added.
 
-The optional Tensor/native/physical results below retain their original
-historical snapshot scope and modeling boundaries. They remain auxiliary;
+The optional Tensor/native/physical results below use the corrected unrolled
+reference and retain their explicit modeling boundaries. They remain auxiliary;
 the new main source pair and Real specification do not depend on `Misc/`.
 
 `TensorBridge.layer_norm_welfold_native` runs the typed source over explicit
@@ -134,7 +144,7 @@ tree remain unchanged. A profile cannot substitute a new expression, a
 reduction answer or an input-dependent output oracle.
 
 The instruction ports specify literal materialization, FP32 scalar arithmetic,
-rsqrt/division behavior, denominator conversion, casts and BF16 conversion.
+device-library rsqrt/division behavior, denominator conversion, casts and BF16 conversion.
 These and the compiler profile are **modeling boundaries**, not deferred
 numerical experiments. The theorem proves complete graph correspondence;
 it does not prove the compiler or hardware implementation of those ports.
@@ -162,19 +172,20 @@ It verifies the exact source delta and guards, then tests 21 rejections,
 17 admitted CPU source executions, both RBLOCKs, tails, aliases, S=0, D=1,
 BF16 output and the two failing controls. CUDA/host operations in that checker
 are mocked; they are regression evidence, not a formal host-scope extension
-or a GPU numerical experiment. Lean checks use only the workspace output
-overlay; public specification and standard-base axiom audits accompany builds.
+or a GPU numerical experiment. Lean checks include the public specifications, their full local import closure
+and standard-base axiom audits.
 
 The earlier wrapper-level result, historical review hash, and old numerical
 classification are recorded separately in `HISTORY.md`. No historical
 acceptance ledger or original source is changed by this kernel revision.
 
 `Misc/NativeCorrect.lean`, `Misc/TensorBridge.lean` and other optional entries
-retain the previous source/native/Tensor/physical results at their stated scope.
-The selected Python repair and Contract are unchanged. The current readable
-source and main pair are validated by targeted Lean builds and a fresh joint
-import of Correct, FPEquiv and the retained native/Tensor entries. Campaign
-receipts are recorded in
-`.veritile-cache/finish-pending-105-20261021/layer_norm_welfold/delivery.json`.
-No GPU, native replay, new host proof, or numerical experiment is needed for
-the exact integer address reuse.
+are rechecked with the corrected device-library port and FP32 epsilon. The
+selected Python repair and Contract are unchanged. Targeted Lean builds and
+a joint import cover Correct, FPEquiv and the retained native/Tensor entries;
+the final batch is also replayed from an empty project build directory.
+Current validation evidence belongs in the tracked `bench/review-checkpoints/`
+directory. Historical cache receipts are not inputs to the proof build.
+No GPU, native replay or new numerical experiment is claimed for the integer
+address reuse. The independent comparator and Python dependencies are reported
+separately when the current host cannot run them.

@@ -1568,6 +1568,13 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
       let term ← `(Op.rsqrt $eTerm)
       let (ct, cp) ← floatingComputeArith? "tl.rsqrt" term e' e'
       pure ⟨term, .real, e'.shape, ct, cp⟩
+  | `(tritonExpr| libdevice.rsqrt($e:tritonExpr))
+  | `(tritonExpr| tl.extra.cuda.libdevice.rsqrt($e:tritonExpr)) => do
+      let e' ← expandExpr env e
+      let eTerm ← realMathTerm "libdevice.rsqrt" e'
+      let term ← `(Op.libdeviceRsqrt $eTerm)
+      let (ct, cp) ← floatingComputeArith? "libdevice.rsqrt" term e' e'
+      pure ⟨term, .real, e'.shape, ct, cp⟩
   | `(tritonExpr| tl.tanh($e:tritonExpr)) => do
       let e' ← expandExpr env e
       let eTerm ← realMathTerm "tl.tanh" e'
@@ -2221,7 +2228,8 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
       let e' ← expandExpr env e
       let (_, targetShape) ← expandShapeDims "tl.broadcast_to" dims.getElems
       let out ← coerceShape e'.term e'.shape targetShape "tl.broadcast_to"
-      pure ⟨out, e'.dtype, targetShape, none, none⟩
+      let (computeTerm?, computeDType?) ← floatingComputeArith? "tl.broadcast_to" out e' e'
+      pure ⟨out, e'.dtype, targetShape, computeTerm?, computeDType?⟩
   | `(tritonExpr| tl.view($e:tritonExpr, [$dims:tritonExpr,*])) => do
       expandReshapeLike expandExpr env "tl.view" e dims.getElems
   | `(tritonExpr| tl.ravel($e:tritonExpr)) => do

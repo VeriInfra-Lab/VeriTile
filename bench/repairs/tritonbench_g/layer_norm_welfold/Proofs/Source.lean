@@ -98,8 +98,8 @@ def inverseCode (Rstd : RegionName) (D : Nat) : List ComputeStmt :=
     x0 = tl.program_id(0) + tl.arange(0, $(1))[:, None]
     denominator = $(D)
     variance = total / denominator
-    epsilon = 1e-05
-    inverse = tl.rsqrt(variance + epsilon)
+    epsilon = tl.full([], 1e-05, dtype=tl.float32)
+    inverse = libdevice.rsqrt(variance + epsilon)
     tl.debug_barrier()
     tl.store(Rstd + x0, inverse)
   } : ComputeKernel).surfaceBody).drop 2 ++

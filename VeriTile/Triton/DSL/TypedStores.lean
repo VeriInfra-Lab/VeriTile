@@ -164,6 +164,9 @@ private partial def valueType (pointers : Types) (values : Values)
   | `(tritonExpr| tl.__python_literal($inner:tritonExpr)) => valueType pointers values inner
   | `(tritonExpr| $id:ident) => (values.find? (fun entry => entry.1 == name id)).map Prod.snd
   | `(tritonExpr| ($inner:tritonExpr)) => valueType pointers values inner
+  | `(tritonExpr| tl.broadcast_to($inner:tritonExpr, [$_:tritonExpr,*]))
+  | `(tritonExpr| tl.reshape($inner:tritonExpr, [$_:tritonExpr,*])) =>
+      valueType pointers values inner
   | `(tritonExpr| $((VeriTile.Triton.DSL.TypedStores.fp32CallValue $_:term : ℝ))) => some (.typed .fp32)
   | `(tritonExpr| $(($_:term : Nat))) | `(tritonExpr| $(($_:term : Int))) => some .integerScalar
   | `(tritonExpr| $(($_:term : ℝ))) => some .floatingLiteral
@@ -198,6 +201,8 @@ private partial def valueType (pointers : Types) (values : Values)
   | `(tritonExpr| tl.exp2($a:tritonExpr)) | `(tritonExpr| tl.math.exp2($a:tritonExpr))
   | `(tritonExpr| tl.sigmoid($a:tritonExpr)) | `(tritonExpr| tl.rsqrt($a:tritonExpr))
   | `(tritonExpr| tl.math.rsqrt($a:tritonExpr))
+  | `(tritonExpr| libdevice.rsqrt($a:tritonExpr))
+  | `(tritonExpr| tl.extra.cuda.libdevice.rsqrt($a:tritonExpr))
   | `(tritonExpr| libdevice.exp($a:tritonExpr))
   | `(tritonExpr| libdevice.tanh($a:tritonExpr))
   | `(tritonExpr| tl.extra.cuda.libdevice.tanh($a:tritonExpr))
@@ -352,7 +357,7 @@ private partial def materializeLiteral (e : TSyntax `tritonExpr) :
   `(tritonExpr| tl.full([], $e:tritonExpr, $dtypeName:ident=tl.float32))
 
 private partial def containsStore (raw : Syntax) : Bool :=
-  (raw.isAtom && raw.getAtomVal == "tl.store") || raw.getArgs.any containsStore
+  (raw.isAtom && ["tl.store","tl.store("].contains raw.getAtomVal) || raw.getArgs.any containsStore
 
 /-- Integer memory reads have no floating load event. Identify the actual
 source pointer type, rather than trusting a cast's destination type. -/
@@ -493,7 +498,8 @@ private partial def mayWrite (target : Name) (raw : Syntax) : Bool := Id.run do
         return body.any (fun s => mayWrite target s.raw)
     | `(tritonStmt| tl.atomic_add($_:tritonExpr, $_:tritonExpr $[, $_:tritonMemKwarg]*))
     | `(tritonStmt| tl.store($_:tritonExpr, $_:tritonExpr))
-    | `(tritonStmt| tl.store($_:tritonExpr, $_:tritonExpr, $_:tritonMemKwarg $[, $_:tritonMemKwarg]*)) =>
+    | `(tritonStmt| tl.store($_:tritonExpr, $_:tritonExpr, $_:tritonMemKwarg $[, $_:tritonMemKwarg]*))
+    | `(tritonStmt| tl.store($_:tritonExpr, $_:tritonExpr, $_:tritonExpr $[, $_:tritonMemKwarg]*)) =>
         return Bool.false
     | _ => return mentions [target] raw
   return args.any (mayWrite target)
@@ -749,6 +755,10 @@ private partial def lowerWithState (pointers : Types) (values : Values)
           if let some kind := dtype then nextValues := (name id,kind) :: nextValues
           if (lookup pointers id).isNone then
             nextPointers := pointers.filter (fun entry => entry.1 != name id)
+      | `(tritonStmt| tl.debug_barrier()) =>
+          -- A barrier does not assign source registers or change their dtypes.
+          -- Preserve the checked values across the scheduling operation.
+          pure ()
       | `(tritonStmt| tl.store($destination:tritonExpr, $value:tritonExpr)) =>
           checkDivRN pointers values stmt.raw
           rejectNestedLoads pointers value.raw
@@ -759,6 +769,14 @@ private partial def lowerWithState (pointers : Types) (values : Values)
           rejectNestedLoads pointers value.raw
           let value ← convertedValue pointers values destination value
           stmt ← `(tritonStmt| tl.store($destination:tritonExpr, $value:tritonExpr, $kwarg:tritonMemKwarg $[, $kwargs:tritonMemKwarg]*))
+      | `(tritonStmt| tl.store($destination:tritonExpr, $value:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*)) =>
+          -- A positional mask (including None) has its own parser production.
+          -- Apply the same destination conversion and preserve register types.
+          checkDivRN pointers values stmt.raw
+          rejectNestedLoads pointers value.raw
+          rejectNestedLoads pointers mask.raw
+          let value ← convertedValue pointers values destination value
+          stmt ← `(tritonStmt| tl.store($destination:tritonExpr, $value:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*))
       | `(tritonStmt| tl.atomic_add($destination:tritonExpr, $value:tritonExpr $[, $kwargs:tritonMemKwarg]*)) =>
           checkDivRN pointers values stmt.raw
           rejectNestedLoads pointers value.raw

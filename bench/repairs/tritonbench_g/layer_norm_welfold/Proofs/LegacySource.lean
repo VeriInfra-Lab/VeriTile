@@ -1,8 +1,8 @@
-/- Historical complete source snapshot retained for existing proof interfaces.
-The actual readable source entry is ../Kernels.lean. ReadableBoundary.preserve
-proves full-grid memory preservation from this snapshot to both actual programs. -/
-/- Historical complete source materialization, retained only as a proof snapshot.
-The actual readable source lives in Kernels.lean, namespace SourceCode. -/
+/- Unrolled proof reference. Its scalar ports follow the actual source:
+libdevice.rsqrt and an assigned FP32 epsilon tensor. This is not the historical
+Python body or a claim of FP equality with the former intrinsic port. The
+canonical original/candidate quotations are in ../Kernels.lean; their complete
+execution must be connected to this reference by ReadableBoundary. -/
 import VeriTile.Triton
 import VeriTile.Triton.Float.Structural
 
@@ -130,8 +130,8 @@ def inverseCode (Rstd : RegionName) (D : Nat) : List ComputeStmt :=
     x0 = tl.program_id(0) + tl.arange(0, $(1))[:, None]
     denominator = $(D)
     variance = total / denominator
-    epsilon = 1e-05
-    inverse = tl.rsqrt(variance + epsilon)
+    epsilon = tl.full([], 1e-05, dtype=tl.float32)
+    inverse = libdevice.rsqrt(variance + epsilon)
     tl.debug_barrier()
     tl.store(Rstd + x0, inverse)
   } : ComputeKernel).surfaceBody).drop 2 ++

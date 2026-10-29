@@ -202,18 +202,36 @@ class ShapeSpelling(ast.NodeTransformer):
 
 def call_signature(text: str, name: str) -> dict:
     code = strip_lean_comments(text)
-    match = re.search(r"\bdef\s+" + re.escape(name) + r"\s*:\s*CallSignature\s+where\s*(.*?)(?=\ndef |\nnoncomputable |\nend\b|\Z)", code, re.S)
+    match = re.search(r"\bdef\s+" + re.escape(name) + r"(?P<parameters>(?:\s*\([^()\n]*\))*)\s*:\s*CallSignature\s+where\s*(?P<body>.*?)(?=\ndef |\nnoncomputable |\nend\b|\Z)", code, re.S)
     if not match:
         raise ValueError("missing declarative call signature")
     fields = {}
+    parameter_text = match["parameters"].strip()
+    if parameter_text:
+        parameters = re.findall(r"\(\s*(\w+)\s*:\s*([^()]+?)\s*\)", parameter_text)
+        if (len(parameters) != parameter_text.count("(") or
+                len({n for n, _ in parameters}) != len(parameters)):
+            raise ValueError("signature parameters must be distinct typed names")
+        fields["parameters"] = [[name, " ".join(dtype.split())] for name, dtype in parameters]
+    ordered = re.search(r"\borderedRowSums\s*:=\s*(\[[^\]]*\])", match["body"])
+    if re.search(r"\borderedRowSums\s*:=", match["body"]) and not ordered:
+        raise ValueError("ordered row sums must be a literal metadata list")
+    if ordered:
+        pattern = r'\(\s*"([A-Za-z_]\w*)"\s*,\s*⟨\s*([A-Za-z_]\w*|[0-9]+)\s*,\s*([A-Za-z_]\w*)\s*⟩\s*\)'
+        entries = re.findall(pattern, ordered[1])
+        remainder = re.sub(pattern, "", ordered[1])
+        if (re.sub(r"[\s,\[\]]", "", remainder) or not entries or
+                len({n for n, _, _ in entries}) != len(entries)):
+            raise ValueError("ordered row sums require distinct operands and named width/tree metadata")
+        fields["orderedRowSums"] = [list(entry) for entry in entries]
     for field in ("pointers", "scalars", "constexpr"):
-        value = re.search(r"\b" + field + r"\s*:=\s*(\[[^\]]*\])", match[1])
+        value = re.search(r"\b" + field + r"\s*:=\s*(\[[^\]]*\])", match["body"])
         if not value:
             raise ValueError(f"missing call signature field: {field}")
         source = re.sub(r"\.(fp16|bf16|fp32|fp64|f8e4|f8e5|i8|i16|i32|i64|u8|u16|u32|u64|boolean|integer|inputFloat|outputFloat)\b", r'"\1"', value[1])
         fields[field] = json.loads(json.dumps(ast.literal_eval(source)))
-    dtype_pointers = re.search(r"\bsourceDTypePointers\s*:=\s*(\[[^\]]*\])", match[1])
-    if re.search(r"\bsourceDTypePointers\s*:=", match[1]) and not dtype_pointers:
+    dtype_pointers = re.search(r"\bsourceDTypePointers\s*:=\s*(\[[^\]]*\])", match["body"])
+    if re.search(r"\bsourceDTypePointers\s*:=", match["body"]) and not dtype_pointers:
         raise ValueError("source dtype pointers must be a literal list")
     if dtype_pointers:
         values = ast.literal_eval(dtype_pointers[1])
@@ -221,8 +239,8 @@ def call_signature(text: str, name: str) -> dict:
                 or len(values) != len(set(values))):
             raise ValueError("source dtype pointers must be distinct parameter names")
         fields["sourceDTypePointers"] = values
-    specialized = re.search(r"\bspecializeBooleans\s*:=\s*(\[[^\]]*\])", match[1])
-    if re.search(r"\bspecializeBooleans\s*:=", match[1]) and not specialized:
+    specialized = re.search(r"\bspecializeBooleans\s*:=\s*(\[[^\]]*\])", match["body"])
+    if re.search(r"\bspecializeBooleans\s*:=", match["body"]) and not specialized:
         raise ValueError("Boolean specializations must be a literal list")
     if specialized:
         values = ast.literal_eval(specialized[1])
@@ -231,8 +249,8 @@ def call_signature(text: str, name: str) -> dict:
             raise ValueError("Boolean specialization names must be distinct constexpr parameters")
         fields["specializeBooleans"] = values
     pointer_names = {n for n, _ in fields["pointers"]} | set(fields.get("sourceDTypePointers", []))
-    optional = re.search(r"\boptionalPointers\s*:=\s*(\[[^\]]*\])", match[1])
-    if re.search(r"\boptionalPointers\s*:=", match[1]) and not optional:
+    optional = re.search(r"\boptionalPointers\s*:=\s*(\[[^\]]*\])", match["body"])
+    if re.search(r"\boptionalPointers\s*:=", match["body"]) and not optional:
         raise ValueError("optional pointers must be a literal list")
     if optional:
         values = ast.literal_eval(optional[1])
@@ -241,19 +259,19 @@ def call_signature(text: str, name: str) -> dict:
             raise ValueError("optional pointers must be distinct declared pointer names")
         fields["optionalPointers"] = values
     for field in ("readPorts", "writePorts"):
-        value = re.search(r"\b" + field + r"\s*:=\s*(\[[^\]]*\])", match[1])
+        value = re.search(r"\b" + field + r"\s*:=\s*(\[[^\]]*\])", match["body"])
         if value:
             fields[field] = ast.literal_eval(value[1])
             if (not isinstance(fields[field], list) or len(set(fields[field])) != len(fields[field])
                 or not set(fields[field]) <= pointer_names):
                 raise ValueError("invalid call memory ports")
-    storage = re.search(r"\btypedFP32Storage\s*:=\s*(?:Bool\.)?(true|false)\b", match[1])
-    if re.search(r"\btypedFP32Storage\s*:=", match[1]) and not storage:
+    storage = re.search(r"\btypedFP32Storage\s*:=\s*(?:Bool\.)?(true|false)\b", match["body"])
+    if re.search(r"\btypedFP32Storage\s*:=", match["body"]) and not storage:
         raise ValueError("typed FP32 storage selection must be a literal Boolean")
     if storage:
         fields["typedFP32Storage"] = storage[1] == "true"
-    selected_storage = re.search(r"\btypedFP32Pointers\s*:=\s*(\[[^\]]*\])(?=\s*(?:[A-Za-z_]\w*\s*:=|$))", match[1], re.S)
-    if re.search(r"\btypedFP32Pointers\s*:=", match[1]) and not selected_storage:
+    selected_storage = re.search(r"\btypedFP32Pointers\s*:=\s*(\[[^\]]*\])(?=\s*(?:[A-Za-z_]\w*\s*:=|$))", match["body"], re.S)
+    if re.search(r"\btypedFP32Pointers\s*:=", match["body"]) and not selected_storage:
         raise ValueError("typed FP32 pointers must be a literal list")
     if selected_storage:
         try:
@@ -265,8 +283,8 @@ def call_signature(text: str, name: str) -> dict:
                 or not set(selected) <= {n for n, dtype in fields["pointers"] if dtype == "fp32"}):
             raise ValueError("typed FP32 pointers must be distinct FP32 pointer parameter names")
         fields["typedFP32Pointers"] = selected
-    natural = re.search(r"\bnaturalIntegerPointers\s*:=\s*(\[[^\]]*\])(?=\s*(?:[A-Za-z_]\w*\s*:=|$))", match[1], re.S)
-    if re.search(r"\bnaturalIntegerPointers\s*:=", match[1]) and not natural:
+    natural = re.search(r"\bnaturalIntegerPointers\s*:=\s*(\[[^\]]*\])(?=\s*(?:[A-Za-z_]\w*\s*:=|$))", match["body"], re.S)
+    if re.search(r"\bnaturalIntegerPointers\s*:=", match["body"]) and not natural:
         raise ValueError("natural integer pointers must be a literal list")
     if natural:
         try:
@@ -279,16 +297,16 @@ def call_signature(text: str, name: str) -> dict:
                 or not set(selected) <= {n for n, dtype in fields["pointers"] if dtype in integers}):
             raise ValueError("natural integer pointers must be distinct integer pointer parameter names")
         fields["naturalIntegerPointers"] = selected
-    functions = re.search(r"\bfunctions\s*:=\s*\[([^\]]*)\]", match[1])
-    if re.search(r"\bfunctions\s*:=", match[1]) and not functions:
+    functions = re.search(r"\bfunctions\s*:=\s*\[([^\]]*)\]", match["body"])
+    if re.search(r"\bfunctions\s*:=", match["body"]) and not functions:
         raise ValueError("source functions must be a literal list of declarations")
     if functions:
         names = [name.strip() for name in functions[1].split(",") if name.strip()]
         if any(not re.fullmatch(r"\w+(?:\.\w+)*", name) for name in names) or len(names) != len(set(names)):
             raise ValueError("source functions must be distinct named declarations")
         fields["functions"] = names
-    imports = re.search(r"\bfiniteImports\s*:=\s*(\[[^\]]*\])", match[1])
-    if re.search(r"\bfiniteImports\s*:=", match[1]) and not imports:
+    imports = re.search(r"\bfiniteImports\s*:=\s*(\[[^\]]*\])", match["body"])
+    if re.search(r"\bfiniteImports\s*:=", match["body"]) and not imports:
         raise ValueError("finite imports must be a literal list of source bindings")
     if imports:
         bindings = ast.literal_eval(imports[1])
@@ -299,8 +317,8 @@ def call_signature(text: str, name: str) -> dict:
                 or len({p[0] for p in bindings}) != len(bindings)):
             raise ValueError("invalid finite source import binding")
         fields["finiteImports"] = [list(p) for p in bindings]
-    imports = re.search(r"\bunaryImports\s*:=\s*(\[[^\]]*\])", match[1])
-    if re.search(r"\bunaryImports\s*:=", match[1]) and not imports:
+    imports = re.search(r"\bunaryImports\s*:=\s*(\[[^\]]*\])", match["body"])
+    if re.search(r"\bunaryImports\s*:=", match["body"]) and not imports:
         raise ValueError("unary imports must be a literal list of source bindings")
     if imports:
         bindings = ast.literal_eval(imports[1])
@@ -311,8 +329,8 @@ def call_signature(text: str, name: str) -> dict:
                 or len({p[0] for p in bindings}) != len(bindings)):
             raise ValueError("invalid unary source import binding")
         fields["unaryImports"] = [list(p) for p in bindings]
-    imports = re.search(r"\bbinaryImports\s*:=\s*(\[[^\]]*\])", match[1])
-    if re.search(r"\bbinaryImports\s*:=", match[1]) and not imports:
+    imports = re.search(r"\bbinaryImports\s*:=\s*(\[[^\]]*\])", match["body"])
+    if re.search(r"\bbinaryImports\s*:=", match["body"]) and not imports:
         raise ValueError("binary imports must be a literal list of source bindings")
     if imports:
         bindings = ast.literal_eval(imports[1])
@@ -323,8 +341,8 @@ def call_signature(text: str, name: str) -> dict:
                 or len({p[0] for p in bindings}) != len(bindings)):
             raise ValueError("invalid binary source import binding")
         fields["binaryImports"] = [list(p) for p in bindings]
-    globals_match = re.search(r"\bsourceConstants\s*:=\s*(\[[^\]]*\])", match[1])
-    if re.search(r"\bsourceConstants\s*:=", match[1]) and not globals_match:
+    globals_match = re.search(r"\bsourceConstants\s*:=\s*(\[[^\]]*\])", match["body"])
+    if re.search(r"\bsourceConstants\s*:=", match["body"]) and not globals_match:
         raise ValueError("source constants must be a literal list of bindings")
     if globals_match:
         entries = ast.literal_eval(globals_match[1])
@@ -530,7 +548,8 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
           expected_source_dtype: dict | None = None,
           expected_pointer_presence: dict | None = None,
           expected_specialized_booleans: dict | None = None,
-          expected_constexpr_bindings: dict | None = None) -> dict:
+          expected_constexpr_bindings: dict | None = None,
+          expected_signature_arguments: list[str] | None = None) -> dict:
     native_ones: set[str] = set()
     functions = [n for n in ast.parse(python_text).body
                  if isinstance(n, ast.FunctionDef) and n.name == python_function]
@@ -642,14 +661,21 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
             pass  # The strict AST parser below rejects malformed Python.
         if re.search(r"\btl\.(region|param)\b|\$", "".join(masked)):
             raise ValueError("pasted body must not contain metadata directives or Lean antiquotes")
-        dtype_call = re.search(r"\bwith_triton_signature\s+" + re.escape(signature_definition)
+        signature_pattern = re.escape(signature_definition)
+        if expected_signature_arguments is not None:
+            if (not expected_signature_arguments or not all(isinstance(a, str) and
+                    re.fullmatch(r"[A-Za-z_]\w*", a) for a in expected_signature_arguments)):
+                raise ValueError("signature arguments must be reviewed caller names")
+            signature_pattern = (r"\(\s*" + signature_pattern + r"\s+" +
+                                 r"\s+".join(map(re.escape, expected_signature_arguments)) + r"\s*\)")
+        dtype_call = re.search(r"\bwith_triton_signature\s+" + signature_pattern
                                + r"\s+source_dtype\s+(\w+)\s*:=\s*([\w.]+)\s+in\b", signature)
         if dtype_call:
             source_dtype = {"pointer": dtype_call[1], "value": dtype_call[2]}
             if source_dtype != expected_source_dtype:
                 raise ValueError("source dtype binding differs from the reviewed invocation")
-        elif not re.search(r"\bwith_triton_signature\s+" + re.escape(signature_definition) + r"\s+in\b", signature):
-            call = re.search(r"\bwith_triton_call\s+" + re.escape(signature_definition)
+        elif not re.search(r"\bwith_triton_signature\s+" + signature_pattern + r"\s+in\b", signature):
+            call = re.search(r"\bwith_triton_call\s+" + signature_pattern
                              + r"\s+call_args\s*\[([^\]]*)\](?:\s+pointer_offsets\s*\[([^\]]*)\])?\s+in\b", signature)
             if not call:
                 raise ValueError("quotation does not use the declared call signature")
@@ -675,6 +701,8 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
         if source_dtype != expected_source_dtype:
             raise ValueError("source dtype binding differs from the reviewed invocation")
         profile = call_signature(lean_text, signature_definition)
+        if len(profile.get("parameters", [])) != len(expected_signature_arguments or []):
+            raise ValueError("signature constructor argument count differs from its declaration")
         if set(profile.get("optionalPointers", [])) != set(pointer_presence or {}):
             raise ValueError("optional pointer declarations and caller presence bindings differ")
         if profile.get("sourceDTypePointers", []) != ([source_dtype["pointer"]] if source_dtype else []):
@@ -682,12 +710,20 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
         if expected_signature is not None and profile != expected_signature:
             raise ValueError("call signature differs from the reviewed launch types")
         for name, value in (expected_constexpr_bindings or {}).items():
-            if name not in profile["constexpr"] or type(value) is not int or value < 0:
+            if name not in profile["constexpr"]:
                 raise ValueError("constexpr binding requires a declared natural-valued parameter")
-            values = re.findall(r"\blet\s+" + re.escape(name)
-                                + r"\s*:\s*Nat\s*:=\s*(\d+)\s*(?=\n)", signature)
-            if len(values) != 1 or int(values[0]) != value:
-                raise ValueError("constexpr caller value differs from the reviewed invocation")
+            if isinstance(value, dict) and set(value) == {"parameter"} and isinstance(value["parameter"], str) and re.fullmatch(r"[A-Za-z_][A-Za-z_0-9]*", value["parameter"]):
+                values = re.findall(r"\blet\s+" + re.escape(name)
+                                    + r"\s*:\s*Nat\s*:=\s*([A-Za-z_][A-Za-z_0-9]*)\s*(?=\n)", signature)
+                if values != [value["parameter"]]:
+                    raise ValueError("constexpr caller alias differs from the reviewed invocation")
+            else:
+                if type(value) is not int or value < 0:
+                    raise ValueError("constexpr binding requires a declared natural-valued parameter")
+                values = re.findall(r"\blet\s+" + re.escape(name)
+                                    + r"\s*:\s*Nat\s*:=\s*(\d+)\s*(?=\n)", signature)
+                if len(values) != 1 or int(values[0]) != value:
+                    raise ValueError("constexpr caller value differs from the reviewed invocation")
         specialized = profile.get("specializeBooleans", [])
         if set(specialized) != set(expected_specialized_booleans or {}):
             raise ValueError("Boolean specializations differ from the reviewed invocation")
@@ -861,7 +897,8 @@ def check_manifest(root: Path, manifest: Path) -> list[dict]:
                        record.get("signature_definition"), record.get("expected_signature"),
                        record.get("expected_call_bindings"), record.get("expected_pointer_offsets"),
                        record.get("expected_source_dtype"), record.get("expected_pointer_presence"),
-                       record.get("expected_specialized_booleans"), record.get("expected_constexpr_bindings"))
+                       record.get("expected_specialized_booleans"), record.get("expected_constexpr_bindings"),
+                       record.get("expected_signature_arguments"))
         if "profile_variant" in record:
             result["profile_variant"] = record["profile_variant"]
         results.append(result)

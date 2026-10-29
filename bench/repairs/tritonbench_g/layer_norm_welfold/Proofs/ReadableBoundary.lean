@@ -3,7 +3,7 @@ import bench.repairs.tritonbench_g.layer_norm_welfold.IO
 import bench.repairs.tritonbench_g.layer_norm_welfold.Proofs.KernelBoundary
 import bench.repairs.tritonbench_g.layer_norm_welfold.Proofs.IOImplements
 namespace VeriTile.Bench.Repairs.LayerNormWelfold.Readable
-open VeriTile.Triton FP.Structural Reuse
+open VeriTile.Triton FP.Structural Reuse Raw
 noncomputable section
 set_option maxHeartbeats 3000000
 set_option maxRecDepth 30000
@@ -86,12 +86,13 @@ theorem complete (M : Algebra α) (reuse : Bool) (s : State α)
     ∃ final, runSchedule ((PairIO.layerNormIO M id reuse Y Mean Rstd S D c.block c.tree).schedule
       vals) s=some final ∧
       GridEffect M s final "X" "W" "Bias" Y Mean Rstd D c.block c.tree (List.range S) := by
-  obtain ⟨t,ht,he⟩ := whole_grid M (fun _ _ => Bool.false) s "X" "W" "Bias" Y Mean Rstd S D
+  obtain ⟨t,ht,he⟩ := Raw.whole_grid M (fun _ _ => Bool.false) s "X" "W" "Bias" Y Mean Rstd S D
     c.block c.tree reuse c.positive sep (List.range S)
   exact ⟨t,(schedule_eq M reuse Y Mean Rstd S D c.block c.tree (List.range S) s).trans ht,he⟩
 
-/-- Explicit whole-grid semantic preservation from the historical complete
-source to either readable program. Equality covers all cells, including the frame. -/
+/-- Whole-grid memory equality with the corrected unrolled proof reference.
+Both sides use the source libdevice port and FP32 epsilon. This is not a numeric
+equality claim about the historical rsqrt model. The exterior frame is included. -/
 theorem preserve (M : Algebra α) (reuse : Bool) (s : State α)
     (Y Mean Rstd : RegionName) (S D : Nat) (c : Configuration)
     (sep : Separation "X" "W" "Bias" Y Mean Rstd) :
@@ -100,7 +101,7 @@ theorem preserve (M : Algebra α) (reuse : Bool) (s : State α)
       SourceCode.launch (withEquality M (fun _ _ => Bool.false)) reuse s Y Mean Rstd S D c.block (tree c.tree)=some final ∧
       old.mem=final.mem := by
   obtain ⟨old,ho,he⟩ := KernelBoundary.complete M (fun _ _ => Bool.false) s Y Mean Rstd S D c sep
-  obtain ⟨final,hf,hg⟩ := whole_grid M (fun _ _ => Bool.false) s "X" "W" "Bias" Y Mean Rstd S D
+  obtain ⟨final,hf,hg⟩ := Raw.whole_grid M (fun _ _ => Bool.false) s "X" "W" "Bias" Y Mean Rstd S D
     c.block c.tree reuse c.positive sep (List.range S)
   exact ⟨old,final,ho,hf,memory_unique M s old final _ _ _ _ _ _ D c.block c.tree _ he hg⟩
 #axiomsClean preserve

@@ -6,8 +6,8 @@
     "tasks": 183,
     "examples": 19,
     "task_status": {
-      "selected_body_copy_checked": 117,
-      "uncovered_jit_functions": 66
+      "selected_body_copy_checked": 118,
+      "uncovered_jit_functions": 65
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
@@ -15,12 +15,12 @@
       "spec_derived_body_copy_checked": 15
     },
     "selected_jit_functions": 333,
-    "uncovered_selected_jit_functions": 146,
+    "uncovered_selected_jit_functions": 145,
     "primary_files_with_int64_screen_warning": 19,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 46,
-        "antiquotes": 52,
+        "in_body_type_directives": 45,
+        "antiquotes": 51,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 8
       },
@@ -11856,12 +11856,12 @@
       "source_provenance": "selected_revision",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 65,
-        "dsl_assignment": 7,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 33,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 6
+        "load_dtype_extension": 0
       },
       "python_jits": [
         {
@@ -11871,19 +11871,61 @@
           "explicit_int64_casts": []
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "triton_red_fused_native_layer_norm_no_welford",
+          "lean_definition": "rowKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "xnumel": "S",
+            "rnumel": "D"
+          },
+          "statements": 23,
+          "runtime_parameters": {
+            "xnumel": "i32",
+            "rnumel": "i32"
+          },
+          "constexpr_parameters": [
+            "RBLOCK",
+            "XBLOCK"
+          ],
           "python": "bench/repairs/tritonbench_g/layer_norm_welfold/layer_norm_welfold_repaired.py",
-          "function": "triton_red_fused_native_layer_norm_no_welford"
+          "lean": "bench/repairs/tritonbench_g/layer_norm_welfold/Kernels.lean"
+        },
+        {
+          "python_function": "triton_red_fused_native_layer_norm_no_welford_row_offset_reused",
+          "lean_definition": "rowOffsetReusedKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "xnumel": "S",
+            "rnumel": "D"
+          },
+          "statements": 23,
+          "runtime_parameters": {
+            "xnumel": "i32",
+            "rnumel": "i32"
+          },
+          "constexpr_parameters": [
+            "RBLOCK",
+            "XBLOCK"
+          ],
+          "python": "bench/repairs/tritonbench_g/layer_norm_welfold/layer_norm_welfold_row_offset_reused.py",
+          "lean": "bench/repairs/tritonbench_g/layer_norm_welfold/Kernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/layer_norm_welfold/Kernels.lean": "8caa811644ab46b76e6f4b9e2f004c7eeb74e6409128c188cba7dd049d0b3619",
-        "bench/repairs/tritonbench_g/layer_norm_welfold/layer_norm_welfold_repaired.py": "73275d9885b7f63480d94dfeb2f9312f92266d030d2482061a3c41d9c9171742"
+        "bench/repairs/tritonbench_g/layer_norm_welfold/Kernels.lean": "f64b702c8101dfba26456f1c711ab4569b9568866d342b5e8a178f593180532d",
+        "bench/repairs/tritonbench_g/layer_norm_welfold/jit-correspondence.json": "ab580c6f24cc34af25de2cb8382e9abd590e1821887a6305b9ffe8dfcd8e57da",
+        "bench/repairs/tritonbench_g/layer_norm_welfold/layer_norm_welfold_repaired.py": "73275d9885b7f63480d94dfeb2f9312f92266d030d2482061a3c41d9c9171742",
+        "bench/repairs/tritonbench_g/layer_norm_welfold/layer_norm_welfold_row_offset_reused.py": "64ef92a61ca196059c6f22c4bfef221b0720b0488d795742db1610bb39d5b4b5"
       }
     },
     {

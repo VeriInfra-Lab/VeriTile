@@ -145,7 +145,7 @@ def constructors : Native.Primitives Term where
   unary := fun op a => match op with
     | 0 => .cast (some .fp32) .real .real a
     | 1 => .cast none .real .bf16 a
-    | 2 => .unary (some .fp32) .rsqrt a
+    | 2 => .unary (some .fp32) .libdeviceRsqrt a
     | _ => a
 
 theorem bindings : Native.SourceBindings algebra constructors := by
