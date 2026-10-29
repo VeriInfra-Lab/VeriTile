@@ -15,6 +15,7 @@ import Mathlib.Analysis.SpecialFunctions.Pow.Real
 import Mathlib.Algebra.BigOperators.Group.Finset.Basic
 import VeriTile.Triton.Math.Erf
 import VeriTile.Triton.Semantics.State
+import VeriTile.Triton.Core.DiscreteReduction
 
 namespace VeriTile.Triton
 
@@ -158,6 +159,14 @@ noncomputable def WithBot.realLog : WithBot ℝ → WithBot ℝ
   | none   => none
   | some r => some (Real.log r)
 
+noncomputable def WithBot.realExpm1 : WithBot ℝ → WithBot ℝ
+  | none   => some (-1)
+  | some r => some (Real.exp r - 1)
+
+noncomputable def WithBot.realLog1p : WithBot ℝ → WithBot ℝ
+  | none   => none
+  | some r => some (Real.log (1 + r))
+
 noncomputable def WithBot.realLog2 : WithBot ℝ → WithBot ℝ
   | none   => none
   | some r => some (Real.log r / Real.log 2)
@@ -216,6 +225,33 @@ matching the uniform `Option.map₂` propagation of `WithBot.realSub` /
 `WithBot.realMul` / `WithBot.realDiv`. -/
 noncomputable def WithBot.realPow : WithBot ℝ → WithBot ℝ → WithBot ℝ :=
   Option.map₂ Real.rpow
+
+/-- The mathematical interpretation of native integer power. Integer exponents
+stay exact; bottom bases propagate. This definition imposes no FP backend law. -/
+noncomputable def WithBot.realPowi (x : WithBot ℝ) (n : Int) : WithBot ℝ :=
+  x.map (fun a => a ^ n)
+
+@[simp] theorem WithBot.realPowi_some (x : ℝ) (n : Int) :
+    WithBot.realPowi (some x) n = some (x ^ n) := rfl
+
+/-- Exponent two is a square only on the mathematical channel. -/
+theorem WithBot.realPowi_two (x : WithBot ℝ) :
+    WithBot.realPowi x 2 = WithBot.realMul x x := by
+  cases x using Option.rec with
+  | none => rfl
+  | some x =>
+      change some (x ^ (2 : Int)) = some (x * x)
+      simp [zpow_ofNat, pow_two]
+
+/-- Broadcasting for mixed real-base/integer-exponent tiles. -/
+noncomputable def Tile.libdevicePowi (bc : Broadcast a b out)
+    (x : Tile .real a) (n : Tile .int b) : Tile .real out :=
+  ⟨fun i => WithBot.realPowi (x.data (bc.leftIndex i)) (n.data (bc.rightIndex i))⟩
+
+@[simp] theorem Tile.libdevicePowi_data (bc : Broadcast a b out)
+    (x : Tile .real a) (n : Tile .int b) (i : TileIndex out) :
+    (Tile.libdevicePowi bc x n).data i =
+      WithBot.realPowi (x.data (bc.leftIndex i)) (n.data (bc.rightIndex i)) := rfl
 
 noncomputable def ScanOp.eval : ScanOp → List (WithBot ℝ) → WithBot ℝ
   | .sum, xs => xs.foldl WithBot.realAdd ((0 : ℝ) : WithBot ℝ)
@@ -433,6 +469,17 @@ noncomputable def Tile.reduceSum {shape : TileShape}
   · exact Tile.reduceSumDrop axis x
   · exact Tile.reduceSumKeep axis x
 
+/-- The real interpreter of a typed floating sum. Dtype tags are retained in
+the AST and FP interpreter; here every floating carrier is projected to real
+arithmetic, exactly as for typed dot. This is not a rounding model. -/
+noncomputable def Tile.reduceSumTyped {shape : TileShape}
+    (dtype : FloatDType) (axis : Fin shape.length) (keepDims : Bool)
+    (x : Tile dtype.toTileDType shape) :
+    Tile dtype.toTileDType (TileShape.reduceShape shape axis keepDims) :=
+  let sum := Tile.reduceSum axis keepDims
+    (⟨fun i => FloatDType.cast dtype .real (x.data i)⟩ : Tile .real shape)
+  ⟨fun i => FloatDType.cast .real dtype (sum.data i)⟩
+
 /-! ### `simp` lemmas for the structural cases of reduceSum -/
 
 @[simp] theorem Tile.reduceSum_false {shape : TileShape}
@@ -602,6 +649,23 @@ noncomputable def Tile.reduceMax {shape : TileShape}
   · exact Tile.reduceMaxDrop axis x
   · exact Tile.reduceMaxKeep axis x
 
+/-- Real interpretation of dtype-preserving floating maximum. The existing
+maximum supplies the empty-axis failure behavior; these casts do not round. -/
+noncomputable def Tile.reduceMaxTyped {shape : TileShape}
+    (dtype : FloatDType) (axis : Fin shape.length) (keepDims : Bool)
+    (x : Tile dtype.toTileDType shape) :
+    Option (Tile dtype.toTileDType (TileShape.reduceShape shape axis keepDims)) := do
+  let result ← Tile.reduceMax axis keepDims
+    (⟨fun i => FloatDType.cast dtype .real (x.data i)⟩ : Tile .real shape)
+  pure ⟨fun i => FloatDType.cast .real dtype (result.data i)⟩
+
+@[simp] theorem Tile.reduceMaxTyped_eq_none {shape : TileShape}
+    (dtype : FloatDType) (axis : Fin shape.length) (keepDims : Bool)
+    (x : Tile dtype.toTileDType shape) (h : TileShape.axisDim shape axis = 0) :
+    Tile.reduceMaxTyped dtype axis keepDims x = none := by
+  cases keepDims <;>
+    simp [Tile.reduceMaxTyped, Tile.reduceMax, Tile.reduceMaxDrop, Tile.reduceMaxKeep, h]
+
 /-- Nat-valued reduce-max along an arbitrary axis. -/
 noncomputable def Tile.reduceMaxNatDrop {shape : TileShape}
     (axis : Fin shape.length) (x : Tile .nat shape) :
@@ -631,6 +695,12 @@ noncomputable def Tile.reduceMaxNat {shape : TileShape}
   cases keepDims
   · exact Tile.reduceMaxNatDrop axis x
   · exact Tile.reduceMaxNatKeep axis x
+
+/-- Signed integer maximum, preserving an all-negative input maximum. -/
+noncomputable def Tile.reduceMaxInt {shape : TileShape}
+    (axis : Fin shape.length) (keepDims : Bool) (x : Tile .int shape) :
+    Option (Tile .int (TileShape.reduceShape shape axis keepDims)) :=
+  (TileShape.discreteMaximum axis keepDims x.data).map Tile.mk
 
 /-- Directed scan along an axis. At each output index, folds all input lanes
 whose coordinate on `axis` is `≤` the output coordinate (`.forward`, a prefix
@@ -708,6 +778,13 @@ noncomputable def Tile.argMaxDrop {shape : TileShape}
     (axis : Fin shape.length) (x : Tile .real shape) :
     Tile .nat (TileShape.eraseAxis shape axis) :=
   Tile.argBestDrop (fun candidate current => decide (current < candidate)) axis x
+
+/-- Real projection of typed argmax; casts change only the carrier.
+Like the legacy real argmax, an empty axis has index zero. -/
+noncomputable def Tile.argMaxTyped {shape : TileShape}
+    (dtype : FloatDType) (axis : Fin shape.length)
+    (x : Tile dtype.toTileDType shape) : Tile .nat (TileShape.eraseAxis shape axis) :=
+  Tile.argMaxDrop axis ⟨fun i => FloatDType.cast dtype .real (x.data i)⟩
 
 /-- Axis index of the minimum value. Ties keep the earlier/smaller axis
 coordinate because replacement only occurs on strict improvement. -/

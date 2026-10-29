@@ -1,0 +1,79 @@
+{
+  "schema_version": 3,
+  "id": "local_deepgemm_linear_dx",
+  "suite": "pretrain",
+  "self_contained": true,
+  "proof_status": "UNSOLVED",
+  "backend_binding_status": "PENDING",
+  "numerical_admission": "NONE",
+  "conversion_status": "LEAN_DRAFT",
+  "comparison": {
+    "function": "build_local_deepgemm_linear_dx"
+  },
+  "source_organization_status": "PROVISIONAL_LOWERING",
+  "inputs": [
+    [
+      "parameter0",
+      [
+        2048,
+        2048
+      ],
+      "bf16"
+    ],
+    [
+      "input0",
+      [
+        2,
+        128,
+        2048
+      ],
+      "bf16"
+    ]
+  ],
+  "output": [
+    2,
+    128,
+    2048
+  ],
+  "output_precision": "bf16",
+  "scratch": [
+    [
+      "vmul",
+      [
+        2048,
+        2048
+      ],
+      "bf16"
+    ],
+    [
+      "vmm_1",
+      [
+        256,
+        2048
+      ],
+      "bf16"
+    ],
+    [
+      "candidate_vmul",
+      [
+        2048,
+        2048
+      ],
+      "bf16"
+    ],
+    [
+      "candidate_vmm_1",
+      [
+        256,
+        2048
+      ],
+      "bf16"
+    ]
+  ],
+  "scope": "Initialized weights and tensor tables are explicit task parameters. Native layout and configuration connections remain obligations.",
+  "native_comparison": "local_deepgemm_linear_dx",
+  "reference_graph_nodes": 15,
+  "candidate_graph_nodes": 16,
+  "real_projection_status": "DIRECT",
+  "metadata_decoder_binding_status": "NOT_REQUIRED"
+}

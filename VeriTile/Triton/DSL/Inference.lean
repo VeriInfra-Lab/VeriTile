@@ -24,6 +24,33 @@ namespace VeriTile.Triton.DSL.Inference
 
 open VeriTile.Triton.DSL (DInfo)
 
+/-- Use the same nested-if syntax for all inference passes and expansion.
+Every condition and arm remains present, including a missing final else.
+No constexpr or runtime condition is evaluated by this normalization. -/
+partial def normalizeControlFlow (raw : Syntax) : MacroM Syntax := do
+  let raw ← match raw with
+    | .node info kind args =>
+        pure (.node info kind (← args.mapM normalizeControlFlow))
+    | other => pure other
+  let st : TSyntax `tritonStmt := ⟨raw⟩
+  let next? ← match st with
+    | `(tritonStmt| if $c0:tritonExpr { $s0:tritonStmt* } elif $c1:tritonExpr { $s1:tritonStmt* }) =>
+        pure (some (← `(tritonStmt| if $c0 { $s0* } else { if $c1 { $s1* } })))
+    | `(tritonStmt| if $c0:tritonExpr { $s0:tritonStmt* } elif $c1:tritonExpr { $s1:tritonStmt* } else { $se:tritonStmt* }) =>
+        pure (some (← `(tritonStmt| if $c0 { $s0* } else { if $c1 { $s1* } else { $se* } })))
+    | `(tritonStmt| if $c0:tritonExpr { $s0:tritonStmt* } elif $c1:tritonExpr { $s1:tritonStmt* } elif $c2:tritonExpr { $s2:tritonStmt* }) =>
+        pure (some (← `(tritonStmt| if $c0 { $s0* } else { if $c1 { $s1* } elif $c2 { $s2* } })))
+    | `(tritonStmt| if $c0:tritonExpr { $s0:tritonStmt* } elif $c1:tritonExpr { $s1:tritonStmt* } elif $c2:tritonExpr { $s2:tritonStmt* } else { $se:tritonStmt* }) =>
+        pure (some (← `(tritonStmt| if $c0 { $s0* } else { if $c1 { $s1* } elif $c2 { $s2* } else { $se* } })))
+    | `(tritonStmt| if $c0:tritonExpr { $s0:tritonStmt* } elif $c1:tritonExpr { $s1:tritonStmt* } elif $c2:tritonExpr { $s2:tritonStmt* } elif $c3:tritonExpr { $s3:tritonStmt* }) =>
+        pure (some (← `(tritonStmt| if $c0 { $s0* } else { if $c1 { $s1* } elif $c2 { $s2* } elif $c3 { $s3* } })))
+    | `(tritonStmt| if $c0:tritonExpr { $s0:tritonStmt* } elif $c1:tritonExpr { $s1:tritonStmt* } elif $c2:tritonExpr { $s2:tritonStmt* } elif $c3:tritonExpr { $s3:tritonStmt* } else { $se:tritonStmt* }) =>
+        pure (some (← `(tritonStmt| if $c0 { $s0* } else { if $c1 { $s1* } elif $c2 { $s2* } elif $c3 { $s3* } else { $se* } })))
+    | _ => pure none
+  match next? with
+  | some next => normalizeControlFlow next.raw
+  | none => pure raw
+
 private def dottedToBaseName? (i : TSyntax `ident) : Option String :=
   let name := i.getId.eraseMacroScopes.toString
   if name.endsWith ".to" then
@@ -108,6 +135,7 @@ private partial def staticPtrRootIsIntRegion? (stx : TSyntax `tritonExpr) : Bool
 
 private partial def intSourceExpr? : TSyntax `tritonExpr → Bool := fun stx =>
   match stx with
+  | `(tritonExpr| tl.cast($_:tritonExpr, tl.int64)) => Bool.true
   | `(tritonExpr| $(($_:term : Int))) => Bool.true
   | `(tritonExpr| tl.program_id($_:tritonExpr).to(tl.int32)) => Bool.true
   | `(tritonExpr| tl.program_id($_:tritonExpr).to(tl.int64)) => Bool.true
@@ -272,6 +300,26 @@ private partial def ptrUsesFromPtrExpr (assigned : Assigned) :
       ptrUsesFromPtrExpr assigned a
   | _ => []
 
+/-- Loads inside assignments consume local pointer bindings just as stores
+do. Traverse casts and nested expressions too, so address dependencies reach
+the offsets used to build a pointer even if it is only ever read. -/
+private partial def readPtrUses (assigned : Assigned) (raw : Syntax) : List String :=
+  let e : TSyntax `tritonExpr := ⟨raw⟩
+  let here := match e with
+    | `(tritonExpr| tl.load($p:tritonExpr, $_mask:tritonExpr $[, $_kwargs:tritonMemKwarg]*).to($_dt:tritonDType))
+    | `(tritonExpr| tl.load($p:tritonExpr $[, $_kwargs:tritonMemKwarg]*).to($_dt:tritonDType))
+    | `(tritonExpr| tl.load($p:tritonExpr, $_mask:tritonExpr $[, $_kwargs:tritonMemKwarg]*).to($_dt:ident))
+    | `(tritonExpr| tl.load($p:tritonExpr $[, $_kwargs:tritonMemKwarg]*).to($_dt:ident))
+    | `(tritonExpr| tl.load($p:tritonExpr, $_mask:tritonExpr $[, $_kwargs:tritonMemKwarg]*).to($_base:ident.$_field:ident))
+    | `(tritonExpr| tl.load($p:tritonExpr $[, $_kwargs:tritonMemKwarg]*).to($_base:ident.$_field:ident)) =>
+        ptrUsesFromPtrExpr assigned p
+    | `(tritonExpr| tl.load($p:tritonExpr, $_mask:tritonExpr $[, $_kwargs:tritonMemKwarg]*)) =>
+        ptrUsesFromPtrExpr assigned p
+    | `(tritonExpr| tl.load($p:tritonExpr $[, $_kwargs:tritonMemKwarg]*)) =>
+        ptrUsesFromPtrExpr assigned p
+    | _ => []
+  here ++ raw.getArgs.toList.flatMap (readPtrUses assigned)
+
 /-- Conditional comparison dependencies. Comparisons are not always Nat
 comparisons (`cur_logits > 0` is real), so we only use these after the
 fixed point already knows at least one side is Nat. -/
@@ -303,14 +351,10 @@ private partial def cmpDepsFromExpr :
 private partial def directPinsFromExpr (assigned : Assigned) :
     TSyntax `tritonExpr → List String := fun stx =>
   if stx.raw.getKind == ``VeriTile.Triton.DSL.tritonDottedIdentMethodCast then
-    let args := stx.raw.getArgs
-    if h : args.size = 4 then
-      let i : TSyntax `ident := ⟨args[0]⟩
-      match dottedToBaseName? i with
-      | some name =>
-          if assigned.contains name then [name] else []
-      | none => []
-    else []
+    -- A cast of a local identifier has no address computation to pin.
+    -- In particular, `bits.to(tl.float16)` does not make `bits` a Nat.
+    -- Address uses of the result still propagate through `natDeps`.
+    []
   else
   if stx.raw.getKind == ``VeriTile.Triton.DSL.tritonMethodCast ||
       stx.raw.getKind == ``VeriTile.Triton.DSL.tritonMethodCastDTypeIdent ||
@@ -450,6 +494,7 @@ private def assignmentInfo (assigned : Assigned) (lhs : List String)
   let signedSubPins := (lhs.zip rhs).foldl
     (fun acc (l, e) => if signedSubExpr? e then addUnique acc l else acc) []
   { directPins := directPins, natDeps := natDeps, ptrDeps := ptrDeps,
+    ptrUses := rhs.flatMap (fun e => readPtrUses assigned e.raw),
     cmpDeps := cmpDeps, intPins := intPins, intDeps := intDeps,
     signedSubPins := signedSubPins }
 
@@ -664,6 +709,29 @@ private partial def intExprWithPins? (pins : List String) :
   | `(tritonExpr| $a:tritonExpr /  $b:tritonExpr) => intExprWithPins? pins a || intExprWithPins? pins b
   | `(tritonExpr| $a:tritonExpr // $b:tritonExpr) => intExprWithPins? pins a || intExprWithPins? pins b
   | `(tritonExpr| $a:tritonExpr %  $b:tritonExpr) => intExprWithPins? pins a || intExprWithPins? pins b
+  -- The shifted value determines signedness; the nonnegative shift count
+  -- must retain its Nat channel. Bit masks preserve signed word metadata.
+  | `(tritonExpr| $a:tritonExpr >> $_b:tritonExpr)
+  | `(tritonExpr| $a:tritonExpr << $_b:tritonExpr) => intExprWithPins? pins a
+  | `(tritonExpr| $a:tritonExpr & $b:tritonExpr)
+  | `(tritonExpr| $a:tritonExpr | $b:tritonExpr)
+  | `(tritonExpr| $a:tritonExpr ^ $b:tritonExpr) => intExprWithPins? pins a || intExprWithPins? pins b
+  | `(tritonExpr| tl.minimum($a:tritonExpr, $b:tritonExpr))
+  | `(tritonExpr| tl.maximum($a:tritonExpr, $b:tritonExpr))
+  | `(tritonExpr| min($a:tritonExpr, $b:tritonExpr)) =>
+      intExprWithPins? pins a || intExprWithPins? pins b
+  | `(tritonExpr| tl.multiple_of($e:tritonExpr, $_align:tritonExpr))
+  | `(tritonExpr| tl.max_contiguous($e:tritonExpr, $_align:tritonExpr)) =>
+      intExprWithPins? pins e
+  | `(tritonExpr| $e:tritonExpr[None, :])
+  | `(tritonExpr| $e:tritonExpr[:, None]) =>
+      intExprWithPins? pins e
+  -- A reduction or selection of signed metadata stays signed when its result
+  -- is later used as an address. The condition alone does not type the values.
+  | `(tritonExpr| tl.max($e:tritonExpr $[, $_kwargs:tritonReduceKwarg]*)) =>
+      intExprWithPins? pins e
+  | `(tritonExpr| tl.where($_c:tritonExpr, $a:tritonExpr, $b:tritonExpr)) =>
+      intExprWithPins? pins a || intExprWithPins? pins b
   | `(tritonExpr| ($e:tritonExpr)) => intExprWithPins? pins e
   | `(tritonExpr| ($e:tritonExpr).to(tl.int32)) => intExprWithPins? pins e
   | `(tritonExpr| ($e:tritonExpr).to(tl.int64)) => intExprWithPins? pins e
@@ -671,11 +739,21 @@ private partial def intExprWithPins? (pins : List String) :
   | `(tritonExpr| ($e:tritonExpr).to(tl.int8)) => intExprWithPins? pins e
   | _ => Bool.false
 
+/-- Whether an integer-valued source expression needs the signed channel.
+The expander includes both inferred pins and registers already known to be signed. -/
+def isSignedExpr (pins : List String) (e : TSyntax `tritonExpr) : Bool :=
+  intExprWithPins? pins e
+
 private def addAssignedInts (pins lhs : List String)
     (rhs : List (TSyntax `tritonExpr)) : List String :=
   (lhs.zip rhs).foldl
     (fun acc (l, e) => if intExprWithPins? pins e then addUnique acc l else acc)
     pins
+
+private def signedRangeTerm (term : TSyntax `term) : Bool :=
+  match term with
+  | `(($_:term : Int)) => Bool.true
+  | _ => Bool.false
 
 mutual
 
@@ -706,14 +784,21 @@ private partial def scanIntStmt (pins : List String)
       scanIntStmts pins stmts.toList |>.filter (fun name => name != i.getId.toString)
   | `(tritonStmt| tl.for $i:ident in $_:num { $stmts:tritonStmt* }) =>
       scanIntStmts pins stmts.toList |>.filter (fun name => name != i.getId.toString)
-  | `(tritonStmt| for $i:ident in range(0, $($_:term), $($_:term)) { $stmts:tritonStmt* }) =>
-      scanIntStmts pins stmts.toList |>.filter (fun name => name != i.getId.toString)
-  | `(tritonStmt| for $i:ident in range($($_:term), $($_:term), $($_:term)) { $stmts:tritonStmt* }) =>
-      scanIntStmts pins stmts.toList |>.filter (fun name => name != i.getId.toString)
+  -- These parser forms contain terms directly, rather than tritonExpr nodes.
+  -- Propagate their signed index just as for the general range syntax below.
+  | `(tritonStmt| for $i:ident in range(0, $($stop:term), $($_:term)) { $stmts:tritonStmt* }) =>
+      let pins' := if signedRangeTerm stop then addUnique pins i.getId.toString else pins
+      scanIntStmts pins' stmts.toList |>.filter (fun name => name != i.getId.toString)
+  | `(tritonStmt| for $i:ident in range($($start:term), $($stop:term), $($_:term)) { $stmts:tritonStmt* }) =>
+      let pins' :=
+        if signedRangeTerm start || signedRangeTerm stop then addUnique pins i.getId.toString else pins
+      scanIntStmts pins' stmts.toList |>.filter (fun name => name != i.getId.toString)
   | `(tritonStmt| for $i:ident in range($start:tritonExpr, $stop:tritonExpr) { $stmts:tritonStmt* }) =>
       let pins' :=
         if intExprWithPins? pins start || intExprWithPins? pins stop then addUnique pins i.getId.toString else pins
       scanIntStmts pins' stmts.toList |>.filter (fun name => name != i.getId.toString)
+  | `(tritonStmt| for $i:ident in range($_start:tritonExpr, -$_stop:tritonExpr, -$_step:tritonExpr) { $stmts:tritonStmt* }) =>
+      scanIntStmts (addUnique pins i.getId.toString) stmts.toList |>.filter (fun name => name != i.getId.toString)
   | `(tritonStmt| for $i:ident in range($start:tritonExpr, $stop:tritonExpr, $step:tritonExpr) { $stmts:tritonStmt* }) =>
       let pins' :=
         if intExprWithPins? pins start || intExprWithPins? pins stop || intExprWithPins? pins step then
@@ -770,20 +855,23 @@ partial def closeInfo (info : ScanInfo) (fuel : Nat := 128) :
     (info.directPins.foldl addUnique [])
   (ptrUses, natPins.filter (fun name => !(info.intPins.contains name)))
 
-/-- Set of identifier names that the body uses in a `.nat`-required
-position. The DSL macro consults this when expanding a `name = tl.load(p)`
-binding without an explicit `dtype=` kwarg: if `name` is in this set,
-the load defaults to `.nat` instead of `.real`. -/
-def collectNatPinned (stmts : List (TSyntax `tritonStmt)) : List String :=
-  let (info, _) := scanStmts [] stmts
-  let (_, pins) := closeInfo info
-  pins
-
 /-- Set of identifier names that should be expanded as signed integers. -/
 def collectIntPinned (stmts : List (TSyntax `tritonStmt)) : List String :=
   let (info, _) := scanStmts [] stmts
   let signedDeps := info.intDeps.filter (fun name => info.signedSubPins.contains name)
   addManyUnique (scanIntStmts [] stmts) signedDeps
+
+/-- Set of identifier names that the body uses in a `.nat`-required
+position. The DSL macro consults this when expanding a `name = tl.load(p)`
+binding without an explicit `dtype=` kwarg: if `name` is in this set,
+the load defaults to `.nat` instead of `.real`. Signed source values and
+their propagated intermediates retain the signed channel even when used
+in a pointer expression. -/
+def collectNatPinned (stmts : List (TSyntax `tritonStmt)) : List String :=
+  let (info, _) := scanStmts [] stmts
+  let (_, pins) := closeInfo info
+  let signed := collectIntPinned stmts
+  pins.filter (fun name => !(signed.contains name))
 
 /-- Per-region element-dtype declarations gathered from in-body
 `region <name> : <dtype>` directives. Used by `expandLoad` /
@@ -804,14 +892,16 @@ private def dtypeOfTritonDType (stx : TSyntax `tritonDType) : Option DInfo :=
   | `(tritonDType| tl.float8e4nv) => some .f8e4
   | `(tritonDType| tl.float8e5) => some .f8e5
   | `(tritonDType| tl.int1) => some .bool
-  | `(tritonDType| tl.int8) => some .int
+  | `(tritonDType| tl.int8) => some .int8
   | `(tritonDType| tl.int16) => some .int
-  | `(tritonDType| tl.int32) => some .int
+  | `(tritonDType| tl.int32) => some .int32
   | `(tritonDType| tl.int64) => some .int
   | `(tritonDType| tl.uint8) => some .nat
   | `(tritonDType| tl.uint16) => some .nat
   | `(tritonDType| tl.uint32) => some .nat
   | `(tritonDType| tl.uint64) => some .nat
+  | `(tritonDType| DTYPE) => some (.floatVar "dtype")
+  | `(tritonDType| OUT_DTYPE) => some (.floatVar "out_dtype")
   | _ => none
 
 mutual
@@ -910,6 +1000,13 @@ private def typedRegionTermDType? (r : TSyntax `term) : Option DInfo :=
   | `(($_:term : Region TileDType.bool)) => some DInfo.bool
   | _ => none
 
+/-- Recognize concrete inline storage anywhere in the original source.
+This survives rebinding and control-flow joins that discard local evidence. -/
+partial def hasConcreteRegionStorage (raw : Syntax) : Bool :=
+  match typedRegionTermDType? ⟨raw⟩ with
+  | some .real | none => raw.getArgs.any hasConcreteRegionStorage
+  | some _ => Bool.true
+
 /-- Walk an expression and try to determine its root static-pointer
 region's declared dtype. Returns `some d` only when the expression is
 a static-ptr-add chain rooted in a region whose dtype is known via
@@ -920,6 +1017,15 @@ private partial def rootedPtrDType (regionDTypes : RegionDTypes)
   match stx with
   | `(tritonExpr| $($r:term)) => typedRegionTermDType? r
   | `(tritonExpr| ($e:tritonExpr)) => rootedPtrDType regionDTypes ptrElems e
+  -- Layout hints preserve pointer element storage, including through aliases.
+  | `(tritonExpr| tl.multiple_of($e:tritonExpr, $_align:tritonExpr))
+  | `(tritonExpr| tl.max_contiguous($e:tritonExpr, $_align:tritonExpr)) =>
+      rootedPtrDType regionDTypes ptrElems e
+  -- Advancing a block pointer changes its offsets, not its element storage.
+  | `(tritonExpr| tl.advance($p:tritonExpr, [$_:tritonExpr,*]))
+  | `(tritonExpr| tl.advance($p:tritonExpr, ($_:tritonExpr,*)))
+  | `(tritonExpr| tl.advance($p:tritonExpr, $_:ident=($_:tritonExpr,*))) =>
+      rootedPtrDType regionDTypes ptrElems p
   | `(tritonExpr| $r:ident) =>
       let name := r.getId.toString
       match lookupRegionDType regionDTypes name with
@@ -1022,5 +1128,12 @@ def lookupPtrElem (ptrElems : PtrElems) (name : String) : Option DInfo :=
   match List.find? (fun entry : String × DInfo => entry.1 == name) ptrElems with
   | some entry => some entry.2
   | none => none
+
+/-- Recover the element dtype through a pointer expression, including offsets
+from a bound pointer. The caller supplies bindings at the current program point;
+an offset must not cause a typed load to fall back to the real carrier. -/
+def pointerElementDType? (regionDTypes : RegionDTypes) (ptrElems : PtrElems)
+    (pointer : TSyntax `tritonExpr) : Option DInfo :=
+  rootedPtrDType regionDTypes ptrElems pointer
 
 end VeriTile.Triton.DSL.Inference

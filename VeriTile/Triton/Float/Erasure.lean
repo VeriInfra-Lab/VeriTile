@@ -83,13 +83,33 @@ def Op.eraseDType : Op dtype shape → Op (VeriTile.Triton.eraseDType dtype) sha
   | .numPrograms axis => .numPrograms axis
   | .ref dtype shape name => .ref (VeriTile.Triton.eraseDType dtype) shape name
   | .arange n => .arange n
+  | .philox4x32 cfg plan field seed c0 c1 c2 c3 =>
+      .philox4x32 cfg plan field seed.eraseDType
+        c0.eraseDType c1.eraseDType c2.eraseDType c3.eraseDType
+  | .uniform32 word => .uniform32 word.eraseDType
+  | .rand cfg seed offsets => .rand cfg seed.eraseDType offsets.eraseDType
+  | .randTensor cfg seed offsets => .randTensor cfg seed.eraseDType offsets.eraseDType
   | .broadcast e shape => .broadcast e.eraseDType shape
   | .full shape e => .full shape e.eraseDType
+  | .withPrecision _ _ e => e.eraseDType
   | .castFloat src dst e => by
       simpa [eraseDType_float src, eraseDType_float dst] using e.eraseDType
+  | .negFloat dtype e => by
+      rw [eraseDType_float dtype]
+      exact .negFloat .real (by simpa [eraseDType_float dtype] using e.eraseDType)
+  | .absFloat dtype e => by
+      rw [eraseDType_float dtype]
+      exact .absFloat .real (by simpa [eraseDType_float dtype] using e.eraseDType)
+  | .floatToInt precision src width e =>
+      .floatToInt precision .real width (by simpa [eraseDType_float src] using e.eraseDType)
+  | .floatToNat precision src width e =>
+      .floatToNat precision .real width (by simpa [eraseDType_float src] using e.eraseDType)
   | .castNatToInt e => .castNatToInt e.eraseDType
   | .castIntToNat e => .castIntToNat e.eraseDType
   | .castRealToInt8 e => .castRealToInt8 e.eraseDType
+  | .decodeFloat8E5 dst e => by
+      rw [eraseDType_float dst]
+      exact .decodeFloat8E5 .real e.eraseDType
   | .add h bc a b => .add h.eraseDType bc a.eraseDType b.eraseDType
   | .sub h bc a b => .sub h.eraseDType bc a.eraseDType b.eraseDType
   | .mul h bc a b => .mul h.eraseDType bc a.eraseDType b.eraseDType
@@ -102,6 +122,11 @@ def Op.eraseDType : Op dtype shape → Op (VeriTile.Triton.eraseDType dtype) sha
   | .shiftLeft bc a b => .shiftLeft bc a.eraseDType b.eraseDType
   | .shiftRight bc a b => .shiftRight bc a.eraseDType b.eraseDType
   | .exp a => .exp a.eraseDType
+  | .libdeviceExp a => .libdeviceExp a.eraseDType
+  | .libdeviceLog a => .libdeviceLog a.eraseDType
+  | .libdeviceExpm1 a => .libdeviceExpm1 a.eraseDType
+  | .libdeviceTanh a => .libdeviceTanh a.eraseDType
+  | .libdeviceLog1p a => .libdeviceLog1p a.eraseDType
   | .exp2 a => .exp2 a.eraseDType
   | .log a => .log a.eraseDType
   | .log2 a => .log2 a.eraseDType
@@ -116,6 +141,7 @@ def Op.eraseDType : Op dtype shape → Op (VeriTile.Triton.eraseDType dtype) sha
   | .cosh a => .cosh a.eraseDType
   | .sinh a => .sinh a.eraseDType
   | .erf a => .erf a.eraseDType
+  | .minPosInf a => .minPosInf a.eraseDType
   | .lt h bc a b => .lt h.eraseDType bc a.eraseDType b.eraseDType
   | .le h bc a b => .le h.eraseDType bc a.eraseDType b.eraseDType
   | .eq h bc a b => .eq h.eraseDType bc a.eraseDType b.eraseDType
@@ -126,36 +152,86 @@ def Op.eraseDType : Op dtype shape → Op (VeriTile.Triton.eraseDType dtype) sha
   | .boolOr bc a b => .boolOr bc a.eraseDType b.eraseDType
   | .boolNot a => .boolNot a.eraseDType
   | .max2 bc a b => .max2 bc a.eraseDType b.eraseDType
+  | .maximumFloat dtype (a := leftShape) (b := rightShape) bc a b => by
+      have ea : Op .real leftShape := by simpa only [eraseDType_float] using a.eraseDType
+      have eb : Op .real rightShape := by simpa only [eraseDType_float] using b.eraseDType
+      rw [eraseDType_float dtype]
+      exact .max2 bc ea eb
+  | .minimumFloat dtype (a := leftShape) (b := rightShape) bc a b => by
+      have ea : Op .real leftShape := by simpa only [eraseDType_float] using a.eraseDType
+      have eb : Op .real rightShape := by simpa only [eraseDType_float] using b.eraseDType
+      rw [eraseDType_float dtype]
+      exact .minimumFloat .real bc ea eb
   | .pow bc a b => .pow bc a.eraseDType b.eraseDType
+  | .libdevicePowi bc a b => .libdevicePowi bc a.eraseDType b.eraseDType
   | .where c a b => .where c.eraseDType a.eraseDType b.eraseDType
   | .ite c a b => .ite c.eraseDType a.eraseDType b.eraseDType
   | .reduceMax axis keepDims a => .reduceMax axis keepDims a.eraseDType
   | .reduceMaxNat axis keepDims a => .reduceMaxNat axis keepDims a.eraseDType
+  | .reduceMaxInt axis keepDims a => .reduceMaxInt axis keepDims a.eraseDType
   | .reduceSum axis keepDims a => .reduceSum axis keepDims a.eraseDType
+  | .reduceSumBool axis keepDims a => .reduceSumBool axis keepDims a.eraseDType
+  | .reduceSumTyped dtype (shape := shape) axis keepDims a => by
+      have ea : Op .real shape := by simpa only [eraseDType_float] using a.eraseDType
+      rw [eraseDType_float dtype]
+      exact .reduceSum axis keepDims ea
+  | .reduceMaxTyped dtype (shape := shape) axis keepDims a => by
+      have ea : Op .real shape := by simpa only [eraseDType_float] using a.eraseDType
+      rw [eraseDType_float dtype]
+      exact .reduceMax axis keepDims ea
   | .scan op axis dir a => .scan op axis dir a.eraseDType
   | .argMax axis a => .argMax axis a.eraseDType
+  | .argMaxInt axis a => .argMaxInt axis a.eraseDType
+  | .indexedMaxValue dtype (shape := shape) axis a => by
+      have ea : Op .real shape := by simpa only [eraseDType_float] using a.eraseDType
+      rw [eraseDType_float dtype]
+      exact .reduceMax axis Bool.false ea
+  | .argMaxTyped dtype (shape := shape) axis a _ => by
+      have ea : Op .real shape := by simpa only [eraseDType_float] using a.eraseDType
+      exact .argMax axis ea
   | .argMin axis a => .argMin axis a.eraseDType
   | .sort axis a => .sort axis a.eraseDType
-  | .dot a b => .dot a.eraseDType b.eraseDType
-  | .dotInt a b => .dotInt a.eraseDType b.eraseDType
+  | .dot (options := options) a b => .dot (options := options) a.eraseDType b.eraseDType
+  | .dotTyped left right out (batch := batch) (M := m) (K := k) (N := n) a b options => by
+      have ea : Op .real (batch ++ [m, k]) := by
+        simpa only [eraseDType_float] using a.eraseDType
+      have eb : Op .real (batch ++ [k, n]) := by
+        simpa only [eraseDType_float] using b.eraseDType
+      rw [eraseDType_float out]
+      exact .dot (batch := batch) ea eb options
+  | .dotAcc left right out (batch := batch) (M := m) (K := k) (N := n) a b acc options => by
+      have ea : Op .real (batch ++ [m, k]) := by
+        simpa only [eraseDType_float] using a.eraseDType
+      have eb : Op .real (batch ++ [k, n]) := by
+        simpa only [eraseDType_float] using b.eraseDType
+      have ec : Op .real (batch ++ [m, n]) := by
+        simpa only [eraseDType_float] using acc.eraseDType
+      rw [eraseDType_float out]
+      exact .dotAcc .real .real .real (batch := batch) ea eb ec options
+  | .dotInt (options := options) a b => .dotInt (options := options) a.eraseDType b.eraseDType
   | .transpose a => .transpose a.eraseDType
   | .reshape outShape a => .reshape outShape a.eraseDType
   | .remap outShape map a => .remap outShape map a.eraseDType
   | .join a b => .join a.eraseDType b.eraseDType
   | .split side a => .split side a.eraseDType
   | .expandDim axis a => .expandDim axis a.eraseDType
-  | .ptrBase region => .ptrBase region
+  -- The region's storage tag is phantom; erasing it preserves its address.
+  | .ptrBase (d := d) region =>
+      .ptrBase (region.cast : Region (VeriTile.Triton.eraseDType d))
   | .ptrAdd bc ptr off => .ptrAdd bc ptr.eraseDType off.eraseDType
   | .ptrSub bc ptr off => .ptrSub bc ptr.eraseDType off.eraseDType
-  | .makeBlockPtr region baseOffset parentShape blockShape strides offsets =>
-      .makeBlockPtr region baseOffset parentShape blockShape strides offsets
+  | .makeBlockPtr (d := d) region baseOffset parentShape blockShape strides offsets =>
+      .makeBlockPtr (region.cast : Region (VeriTile.Triton.eraseDType d))
+        baseOffset parentShape blockShape strides offsets
   | .makeBlockPtrDyn region baseOffset parentShape blockShape strides offsets =>
       .makeBlockPtrDyn region baseOffset.eraseDType parentShape blockShape strides offsets
   | .makeBlockPtrDynOffsets region baseOffset parentShape blockShape strides offsets =>
       .makeBlockPtrDynOffsets region baseOffset.eraseDType parentShape blockShape
         strides (offsets.map (·.eraseDType))
   | .advanceBlockPtr ptr deltas => .advanceBlockPtr ptr.eraseDType deltas
-  | .load dtype mem mask => .load (VeriTile.Triton.eraseDType dtype) mem.eraseDType mask.eraseDType
+  | .advanceBlockPtrDyn ptr deltas =>
+      .advanceBlockPtrDyn ptr.eraseDType (deltas.map (·.eraseDType))
+  | .load dtype mem mask padding => .load (VeriTile.Triton.eraseDType dtype) mem.eraseDType mask.eraseDType padding
   | .natToReal a => .natToReal a.eraseDType
   | .intToReal a => .intToReal a.eraseDType
 termination_by e => sizeOf e
@@ -205,6 +281,9 @@ def Stmt.eraseDType : Stmt → Stmt
       .forRange idx start stop step (Stmt.eraseDTypeList body)
   | .forRangeDyn idx start stop step body =>
       .forRangeDyn idx start.eraseDType stop.eraseDType step.eraseDType
+        (Stmt.eraseDTypeList body)
+  | .forRangeInt idx start stop step body =>
+      .forRangeInt idx start.eraseDType stop.eraseDType step.eraseDType
         (Stmt.eraseDTypeList body)
   | .ifThen cond body =>
       .ifThen cond.eraseDType (Stmt.eraseDTypeList body)
@@ -275,9 +354,9 @@ end
 
 @[simp] theorem Op.eraseDType_load
     (dtype : TileDType) (mem : MemAccess dtype shape)
-    (mask : MaskOpt dtype shape) :
-    (Op.load dtype mem mask).eraseDType =
-      Op.load (VeriTile.Triton.eraseDType dtype) mem.eraseDType mask.eraseDType := by
+    (mask : MaskOpt dtype shape) (padding : PaddingOption := .zero) :
+    (Op.load dtype mem mask padding).eraseDType =
+      Op.load (VeriTile.Triton.eraseDType dtype) mem.eraseDType mask.eraseDType padding := by
   rw [Op.eraseDType.eq_def]
 
 @[simp] theorem Op.eraseDType_reduceMax
