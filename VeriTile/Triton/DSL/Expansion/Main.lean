@@ -742,6 +742,30 @@ partial def expandWhereFromCond (env : Env) (c' : EOut)
     | _ => return none
   let a' := (← integerLiteral b'.dtype a).getD a'
   let b' := (← integerLiteral a'.dtype b).getD b'
+  -- Two Python integer scalar branches first become integer tensors in
+  -- TritonSemantic.to_tensor/where (v3.5.1). Preserve signed32 for the checked
+  -- literal subset, including negative values. Legacy unmarked DSL literals
+  -- retain their existing Real convention; floating and mixed branches keep
+  -- the ordinary promotion path. Wider/unsigned literal pairs fail closed.
+  let rec literalInt (e : TSyntax `tritonExpr) : Option Int :=
+    match e with
+    | `(tritonExpr| $n:num) => some n.getNat
+    | `(tritonExpr| -$inner:tritonExpr) => (·.neg) <$> literalInt inner
+    | `(tritonExpr| ($inner:tritonExpr)) => literalInt inner
+    | _ => none
+  let rec pythonInt (e : TSyntax `tritonExpr) : Option Int :=
+    match e with
+    | `(tritonExpr| tl.__python_literal($inner:tritonExpr)) => literalInt inner
+    | `(tritonExpr| ($inner:tritonExpr)) => pythonInt inner
+    | _ => none
+  let (a',b') ← match pythonInt a, pythonInt b with
+    | some av, some bv => do
+        unless -(2^31 : Int) ≤ av && av < 2^31 && -(2^31 : Int) ≤ bv && bv < 2^31 do
+          Macro.throwError "tl.where Python integer literal pairs currently require signed32 values"
+        let some left ← integerLiteral .int a | Macro.throwError "invalid integer select literal"
+        let some right ← integerLiteral .int b | Macro.throwError "invalid integer select literal"
+        pure ({left with dtype := .int32},{right with dtype := .int32})
+    | _,_ => pure (a',b')
   let a' ← floatingSourceLiteral b' a a'
   let b' ← floatingSourceLiteral a' b b'
   let (a', b') := if a'.dtype == b'.dtype then (a', b')
@@ -2325,8 +2349,7 @@ partial def annotateFloatingLoadStorage (regions : Inference.RegionDTypes)
       | some .f8e4 => `(tritonDType| tl.float8e4nv)
       | some .f8e5 => `(tritonDType| tl.float8e5)
       | some .int32 => `(tritonDType| tl.int32)
-      | some .int =>
-          if unsignedCast then `(tritonDType| tl.int64) else return none
+      | some .int => `(tritonDType| tl.int64)
       | some .int8 =>
           if unsignedCast then `(tritonDType| tl.int8) else return none
       | some .nat =>
@@ -3065,7 +3088,15 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
     if Inference.isSignedExpr signedNames e then
       let inferred ← expandExpr env e
       if inferred.forgetStorageWidth.dtype == DInfo.int then return inferred
-    if pinned.contains dest.getId.toString then return ← expandNatExpectedExpr env e
+    if pinned.contains dest.getId.toString then
+      -- Address/range-use inference is only a fallback. A source expression
+      -- with a known signed machine dtype keeps that dtype, including a
+      -- Python integer-literal select used as a dynamic loop bound.
+      try
+        let inferred ← expandExpr env e
+        if inferred.dtype == .int || inferred.dtype == .int8 || inferred.dtype == .int32 then return inferred
+      catch _ => pure ()
+      return ← expandNatExpectedExpr env e
     expandExpr env e
   let preserveWideLoad (p : TSyntax `tritonExpr) (e : EOut) : MacroM EOut := do
     if e.dtype == .real && (← fpPointerDType? fpSource.regions fpPtrElems p) == some .real then
@@ -3123,7 +3154,14 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
             entry.1 == rawName || entry.1 == userName || entry.1 == erasedName)
         | do
             let nameLit ← identAsStr dest
-            let rhs' ← expandNatExpectedExpr env rhs
+            -- The first rebinding of an external pointer uses the same signed
+            -- element-offset projection as a later local pointer rebinding.
+            -- A typed signed input must not be retagged as Nat by address use.
+            let rhs0 := (← expandExpr env rhs).forgetStorageWidth
+            let rhs' ← match rhs0.dtype with
+              | .nat => pure rhs0
+              | .int => pointerOffsetIntAsNat rhs0
+              | _ => expandNatExpectedExpr env rhs
             ensureAlgorithmOnly "pointer rebind assignment" rhs'
             let region : TSyntax `term := ⟨old.raw⟩
             let lhsTerm ← `(Op.ptrBase $region)
@@ -3980,10 +4018,13 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
         e'.computeTerm.isSome)
   | `(tritonStmt| tl.store($p:tritonExpr, $v:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*)) => do
       expandStore expandExpr expandStaticPtrExpr env p v kwargs (positionalMask := some mask)
+        (destinationDType := ← pointerDTypeHint p)
   | `(tritonStmt| tl.store($p:tritonExpr, $v:tritonExpr, $kw0:tritonMemKwarg $[, $kwargs:tritonMemKwarg]*)) => do
       expandStore expandExpr expandStaticPtrExpr env p v (#[kw0] ++ kwargs)
+        (destinationDType := ← pointerDTypeHint p)
   | `(tritonStmt| tl.store($p:tritonExpr, $v:tritonExpr)) => do
       expandStore expandExpr expandStaticPtrExpr env p v #[]
+        (destinationDType := ← pointerDTypeHint p)
   | `(tritonStmt| tl.atomic_add($p:tritonExpr, $v:tritonExpr $[, $kwargs:tritonMemKwarg]*)) => do
       expandAtomicAdd expandExpr expandStaticPtrExpr env p v kwargs
   | `(tritonStmt| tl.atomic_max($p:tritonExpr, $v:tritonExpr $[, $_kwargs:tritonMemKwarg]*)) =>

@@ -221,6 +221,15 @@ def call_signature(text: str, name: str) -> dict:
                 or len(values) != len(set(values))):
             raise ValueError("source dtype pointers must be distinct parameter names")
         fields["sourceDTypePointers"] = values
+    specialized = re.search(r"\bspecializeBooleans\s*:=\s*(\[[^\]]*\])", match[1])
+    if re.search(r"\bspecializeBooleans\s*:=", match[1]) and not specialized:
+        raise ValueError("Boolean specializations must be a literal list")
+    if specialized:
+        values = ast.literal_eval(specialized[1])
+        if (not isinstance(values, list) or not all(isinstance(n, str) for n in values)
+                or len(values) != len(set(values)) or not set(values) <= set(fields["constexpr"])):
+            raise ValueError("Boolean specialization names must be distinct constexpr parameters")
+        fields["specializeBooleans"] = values
     pointer_names = {n for n, _ in fields["pointers"]} | set(fields.get("sourceDTypePointers", []))
     optional = re.search(r"\boptionalPointers\s*:=\s*(\[[^\]]*\])", match[1])
     if re.search(r"\boptionalPointers\s*:=", match[1]) and not optional:
@@ -519,7 +528,8 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
           expected_call_bindings: dict | None = None,
           expected_pointer_offsets: dict | None = None,
           expected_source_dtype: dict | None = None,
-          expected_pointer_presence: dict | None = None) -> dict:
+          expected_pointer_presence: dict | None = None,
+          expected_specialized_booleans: dict | None = None) -> dict:
     functions = [n for n in ast.parse(python_text).body
                  if isinstance(n, ast.FunctionDef) and n.name == python_function]
     if len(functions) != 1:
@@ -651,6 +661,14 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
             raise ValueError("source dtype pointer declaration and invocation differ")
         if expected_signature is not None and profile != expected_signature:
             raise ValueError("call signature differs from the reviewed launch types")
+        specialized = profile.get("specializeBooleans", [])
+        if set(specialized) != set(expected_specialized_booleans or {}):
+            raise ValueError("Boolean specializations differ from the reviewed invocation")
+        for name in specialized:
+            values = re.findall(r"\blet\s+" + re.escape(name) + r"\s*:\s*Bool\s*:=\s*Bool\.(true|false)\b", signature)
+            expected = expected_specialized_booleans[name]
+            if type(expected) is not bool or len(values) != 1 or (values[0] == "true") != expected:
+                raise ValueError("specialized Boolean caller value differs from the reviewed invocation")
         imported = {(a.asname or a.name, node.module + "." + a.name)
                     for node in ast.walk(ast.parse(python_text))
                     if isinstance(node, ast.ImportFrom) and node.module is not None
@@ -795,7 +813,8 @@ def check_manifest(root: Path, manifest: Path) -> list[dict]:
                        record["python_function"], record["lean_definition"],
                        record.get("signature_definition"), record.get("expected_signature"),
                        record.get("expected_call_bindings"), record.get("expected_pointer_offsets"),
-                       record.get("expected_source_dtype"), record.get("expected_pointer_presence"))
+                       record.get("expected_source_dtype"), record.get("expected_pointer_presence"),
+                       record.get("expected_specialized_booleans"))
         if "profile_variant" in record:
             result["profile_variant"] = record["profile_variant"]
         results.append(result)

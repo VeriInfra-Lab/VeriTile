@@ -23,27 +23,27 @@ structure Bounds (p : Parameters) (s : State α) (bounds : RegionName → Nat) :
 
 theorem prelude_safe (M : Algebra α) (p : Parameters) (s : State α)
     (bounds : RegionName → Nat) (hb : Bounds p s bounds) :
-    traceSafeList M bounds (prelude p) s := by
-  simp [prelude,source,typed,ComputeKernel.surfaceBody]
+    traceSafeList (sourceBackend M) bounds (SourceExecution.prelude p) s := by
+  simp [SourceExecution.prelude,source,ComputeKernel.surfaceBody]
   simp [traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
     safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,Option.bind,numeric,bop,
     natLt,numericEq,ComputeDType.eraseDType,ofFloat,toFloat,
     FloatDType.numericDType,FloatDType.toTileDType,Region.cast,
-    integralFloorDiv,integralMod]
+    integralFloorDiv,integralMod,sourceBackend]
   exact ⟨hb.lengths,hb.starts⟩
 
 theorem body_safe (M : Algebra α) (p : Parameters) (s : State α)
     (bounds : RegionName → Nat) (hb : Bounds p s bounds) (activeBlock : blockActive p s) :
-    traceSafeList M bounds (body p)
-      ((preExecution M p s).val.setReg "start_mark" .nat [] (fun _ => 0)) := by
-  simp only [body,source,typed,ComputeKernel.surfaceBody]
+    traceSafeList (sourceBackend M) bounds (SourceExecution.body p)
+      ((SourceExecution.preExecution M p s).val.setReg "start_mark" .int [] (fun _ => 0)) := by
+  simp only [SourceExecution.body,source,ComputeKernel.surfaceBody]
   simp [traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
     safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,Option.bind,numeric,bop,
     natLt,numericEq,ComputeDType.eraseDType,ofFloat,toFloat,
     FloatDType.numericDType,FloatDType.toTileDType,Region.cast,
-    integralFloorDiv,integralMod,preExecution,store]
+    integralFloorDiv,integralMod,sourceBackend,SourceExecution.preExecution,store]
   refine ⟨hb.query activeBlock,?_,?_,?_⟩
   · intro i hi
     exact hb.locations (i,PUnit.unit) hi
@@ -55,25 +55,25 @@ theorem body_safe (M : Algebra α) (p : Parameters) (s : State α)
 
 theorem source_safe (M : Algebra α) (p : Parameters) (s : State α)
     (bounds : RegionName → Nat) (hb : Bounds p s bounds) :
-    TraceSafe M bounds (source p) s := by
+    TraceSafe (sourceBackend M) bounds (source p) s := by
   unfold TraceSafe
-  rw [source_body,traceSafeList_append]
+  rw [SourceExecution.source_body,traceSafeList_append]
   refine ⟨prelude_safe M p s bounds hb,?_⟩
   intro next ran
-  have eqNext := Option.some.inj (ran.symm.trans (preExecution M p s).property)
+  have eqNext := Option.some.inj (ran.symm.trans (SourceExecution.preExecution M p s).property)
   subst next
   apply traceSafeList_cons_intro
-  · simp only [stepSafe_unfold,safeOp_unfold,evalOp_unfold,preExecution_mask]
+  · simp only [stepSafe_unfold,safeOp_unfold,evalOp_unfold,SourceExecution.preExecution_mask]
     by_cases ha : blockActive p s
     · simp only [ha,ite_true,true_and]
-      rw [rangeSafe_unfold]
+      rw [rangeIntSafe_unfold]
       simp only [Nat.one_ne_zero,ite_false,Nat.zero_lt_one,ite_true,Nat.zero_add]
-      rw [(bodyExecution M p s).property]
+      rw [(SourceExecution.bodyExecution M p s).property]
       dsimp only
-      rw [rangeSafe_unfold]
+      rw [rangeIntSafe_unfold]
       simpa using body_safe M p s bounds hb ha
     · simp only [ha,ite_false,true_and]
-      rw [rangeSafe_unfold]
+      rw [rangeIntSafe_unfold]
       simp
   · intro final _
     exact traceSafeList_nil _ _ _

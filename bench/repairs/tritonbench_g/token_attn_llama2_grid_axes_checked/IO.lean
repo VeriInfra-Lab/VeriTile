@@ -61,7 +61,7 @@ def outputMask (c : Call) (m : Metadata c) :
 def invocation {β : Type} (M : Program → Algebra β) (c : Call) (scale : ℝ)
     (pid : Program) : Invocation β where
   kernel := source (c.parameters scale)
-  backend := M pid
+  backend := sourceBackend (M pid)
   clearRegisters := Bool.true
   pids := ids pid
   numPids := some (dimensions c.grid)

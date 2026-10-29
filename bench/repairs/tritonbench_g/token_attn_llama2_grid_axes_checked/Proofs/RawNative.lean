@@ -8,7 +8,7 @@ noncomputable section
 /-- Raw load/dot/scale recurrence. It never executes the source program. -/
 def referenceTerm (trees : Program → Native.Reductions) (c : Call) (m : Metadata c)
     (x : Buffers Native.Word c) (rest : State Native.Word) (b h n : Nat) : Native.Term :=
-  VeriTile.Bench.Repairs.TokenAttnLlama2.FPValue.score (algebras trees (b,h,n/32))
+  VeriTile.Bench.Repairs.TokenAttnLlama2GridAxesChecked.score (algebras trees (b,h,n/32))
     (c.parameters (hostScale c.dim))
     (start c.grid (b,h,n/32) (initial c m (Native.injectBuffers c x) (Native.injectState rest)))
     (lane c (hostScale c.dim) n)

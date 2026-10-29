@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.rotary_transform_tile_checked.Proofs.SourceBlockSafety
 import bench.repairs.tritonbench_g.rotary_transform_tile_checked.Proofs.TypedGrid
 import VeriTile.Triton.Float.StructuralSafety
 
@@ -14,14 +15,33 @@ set_option maxRecDepth 32000
 set_option linter.unusedSimpArgs false
 variable {α : Type} [Inhabited α]
 
+/-- The proof-only branch selection preserves safety along the actual
+execution, including failed executions; it adds no source-success premise. -/
+theorem source_body_safe_iff (M : Algebra α) (s : Shape)
+    (bounds : RegionName → Nat) (initial : State α) :
+    TraceSafe M bounds (kernel s Bool.true Bool.true) initial ↔
+      Safety.traceSafeList M bounds (sourceBody s) initial := by
+  have h := SourceBlocks.safe_constant_branch M bounds s.varlen
+    ((kernel s Bool.true Bool.true).surfaceBody.take 4)
+    (((kernel s Bool.true Bool.true).surfaceBody.drop 4).flatMap (SourceBlocks.select Bool.false))
+    (((kernel s Bool.true Bool.true).surfaceBody.drop 4).flatMap (SourceBlocks.select Bool.true)) initial
+  cases ht : s.offsetTensor <;>
+    simpa only [TraceSafe,sourceBody,SourceBlocks.body,kernel,KernelSource.source,KernelSource.source64_64,
+      KernelSource.source64_64_tensor,KernelSource.source64_32_scalar,ComputeKernel.surfaceBody,
+      List.take,List.drop,List.flatMap_cons,List.flatMap_nil,SourceBlocks.select,List.append_nil,
+      ht,Bool.false_eq_true,if_false,if_true] using h
+
+#axiomsClean source_body_safe_iff
+
 theorem setup_safe (M : Algebra α) (s : Shape) (bounds : RegionName → Nat)
     (initial : State α)
     (cu : s.varlen = Bool.true → initial.pids 1+1 < bounds "cu") :
     Safety.traceSafeList M bounds
-      ((kernel s Bool.true Bool.true).surfaceBody.take 6) initial := by
-  by_cases hv : s.varlen = Bool.true
+      ((sourceBody s).take (SourceBlocks.setupCount s.varlen)) initial := by
+  by_cases hv : s.varlen = Bool.true <;> by_cases ht : s.offsetTensor = Bool.true
   all_goals
-    simp [kernel,KernelSource.source,KernelSource.source64_64,hv,
+    simp [kernel,KernelSource.source,KernelSource.source64_64,sourceBody,SourceBlocks.body,SourceBlocks.select,SourceBlocks.setupCount,
+      KernelSource.source64_64_tensor,KernelSource.source64_32_scalar,hv,ht,
       ComputeKernel.surfaceBody,Safety.traceSafeList,Safety.stepSafe,
       Safety.safeExpr,Safety.safeCompute,Safety.safeOp,Safety.safeOp_unfold,
       Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
@@ -29,7 +49,7 @@ theorem setup_safe (M : Algebra α) (s : Shape) (bounds : RegionName → Nat)
       numeric,natLt,numericLt,numericLe,numericEq,bop,Region.cast,
       integralFloorDiv,integralMod,ofFloat,toFloat,FloatDType.numericDType,
       FloatDType.toTileDType,ComputeDType.eraseDType,Option.bind]
-  exact ⟨Nat.lt_trans (Nat.lt_succ_self _) (cu hv),cu hv⟩
+  all_goals exact ⟨Nat.lt_trans (Nat.lt_succ_self _) (cu hv),cu hv⟩
 
 theorem indices_safe (M : Algebra α) (s : Shape) (bounds : RegionName → Nat)
     (initial : State α)
@@ -38,7 +58,8 @@ theorem indices_safe (M : Algebra α) (s : Shape) (bounds : RegionName → Nat)
       (setup M s Bool.true Bool.true initial).val := by
   by_cases hv : s.varlen = Bool.true <;> by_cases ht : s.offsetTensor = Bool.true
   all_goals
-    simp [continuation,ifBody,setup,kernel,KernelSource.source,KernelSource.source64_64,hv,ht,
+    simp [continuation,ifBody,setup,kernel,KernelSource.source,KernelSource.source64_64,sourceBody,SourceBlocks.body,SourceBlocks.select,SourceBlocks.setupCount,
+      KernelSource.source64_64_tensor,KernelSource.source64_32_scalar,hv,ht,
       ComputeKernel.surfaceBody,Safety.traceSafeList,Safety.stepSafe,
       Safety.safeExpr,Safety.safeCompute,Safety.safeOp,Safety.safeOp_unfold,
       Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
@@ -75,7 +96,8 @@ theorem loads_safe (M : Algebra α) (s : Shape) (bounds : RegionName → Nat)
     by_cases hi : s.interleaved = Bool.true
   all_goals
     simp (config := { maxSteps := 80000 }) [payload,loadsCount,branchBody,continuation,ifBody,
-      indices,setup,kernel,KernelSource.source,KernelSource.source64_64,hv,ht,hi,
+      indices,setup,kernel,KernelSource.source,KernelSource.source64_64,sourceBody,SourceBlocks.body,SourceBlocks.select,SourceBlocks.setupCount,
+      KernelSource.source64_64_tensor,KernelSource.source64_32_scalar,hv,ht,hi,
       ComputeKernel.surfaceBody,Safety.traceSafeList,Safety.stepSafe,
       Safety.safeExpr,Safety.safeCompute,Safety.safeOp,Safety.safeOp_unfold,
       Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,

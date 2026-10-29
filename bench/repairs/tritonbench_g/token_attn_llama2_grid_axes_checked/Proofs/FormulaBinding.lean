@@ -18,17 +18,15 @@ theorem products_eq (M : Algebra β) (c : Call) (m : Metadata c) (scale : ℝ)
       Reference.products M encode c m xs b h block := by
   have hq (d : Fin c.dim) :
       queryValue M (c.parameters scale) (start c.grid (b.val,h.val,block) s) d =
-      M.cast (some .fp32) .fp32 .real
-        (encode "Q" (Reference.queryAddress c b.val h.val d.val) (Interface.query xs b h d)) := by
-    exact congrArg (M.cast (some .fp32) .fp32 .real) (bound.query b h d)
+      encode "Q" (Reference.queryAddress c b.val h.val d.val) (Interface.query xs b h d) := by
+    exact bound.query b h d
   have hk (i : Fin 32) (d : Fin c.dim) :
       keyValue M (c.parameters scale) (start c.grid (b.val,h.val,block) s) (i,PUnit.unit) d =
-      M.cast (some .fp32) .fp32 .real
-        (if block*32+i.val < m.len b.val then
+      (if block*32+i.val < m.len b.val then
           encode "K" (Reference.keyAddress c (m.page b.val (block*32+i.val))
             (h.val/(c.heads/c.kvHeads)) d.val)
             (Reference.keyAt c xs (m.page b.val (block*32+i.val)) (h.val/(c.heads/c.kvHeads)) d)
-        else M.cast (some .fp32) .real .fp32 (M.literal (some .fp32) .real 0)) := by
+        else M.cast none .real .fp32 (M.literal none .real 0)) := by
     unfold keyValue
     have hi := active_eq bound v scale (b.val,h.val,block) b.isLt (i,PUnit.unit)
     by_cases hn : block*32+i.val<m.len b.val
@@ -38,7 +36,7 @@ theorem products_eq (M : Algebra β) (c : Call) (m : Metadata c) (scale : ℝ)
       rw [keyOffset,page_eq bound v scale (b.val,h.val,block) b.isLt (i,PUnit.unit) hn]
       have read := bound.key ⟨_,hpage⟩ ⟨_,hgroup⟩ d
       simpa [Reference.keyAt,hpage,hgroup,Reference.keyAddress,Call.parameters,start,ids] using
-        congrArg (M.cast (some .fp32) .fp32 .real) read
+        read
     · rw [if_neg (fun ha => hn (hi.mp ha)),if_neg hn]
       norm_num
   funext j

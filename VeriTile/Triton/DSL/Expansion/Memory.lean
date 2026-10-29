@@ -298,7 +298,8 @@ partial def expandLoad (expandExpr : ExprExpander)
 partial def expandStore (expandExpr : ExprExpander)
     (expandStaticPtrExpr : StaticPtrExpander) (env : Env)
     (p v : TSyntax `tritonExpr) (kwargs : TSyntaxArray `tritonMemKwarg)
-    (positionalMask : Option (TSyntax `tritonExpr) := none) :
+    (positionalMask : Option (TSyntax `tritonExpr) := none)
+    (destinationDType : Option DInfo := none) :
     MacroM StmtExpansion := do
   let mut maskTerm : Option (TSyntax `term × SInfo) := none
   match positionalMask with
@@ -376,6 +377,18 @@ partial def expandStore (expandExpr : ExprExpander)
     | some out => pure out
     | none => expandExpr env v
   let v' := v'.forgetStorageWidth
+  -- A typed storage region keeps its declared memory channel even when the
+  -- value uses a profiled Real carrier. Preserve the value's compute scope
+  -- inside the destination conversion. Legacy FP32 regions deliberately use
+  -- the profiled Real memory carrier; their convention is unchanged.
+  let v' ← if dtype?.isSome then pure v' else
+    match destinationDType with
+    | some (.floatVar name) => coerceFloatOperand (.floatVar name) v'
+    | some .fp16 => coerceFloatOperand .fp16 v'
+    | some .bf16 => coerceFloatOperand .bf16 v'
+    | some .f8e4 => coerceFloatOperand .f8e4 v'
+    | some .f8e5 => coerceFloatOperand .f8e5 v'
+    | _ => pure v'
   let valueExpr ←
     match v'.computeTerm with
     | some ce => pure ce
