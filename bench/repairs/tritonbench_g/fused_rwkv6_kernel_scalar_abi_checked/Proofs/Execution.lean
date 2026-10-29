@@ -11,12 +11,12 @@ set_option maxHeartbeats 16000000
 set_option linter.unusedSimpArgs false
 variable {α : Type} [Inhabited α]
 
-def parts (c : Shape) : Triton.Source.DynamicRange :=
-  (Triton.Source.dynamicRange? (kernel c).surfaceBody "_i").getD
-    ⟨[],.constNat 0,.constNat 0,.constNat 0,[],[]⟩
+def parts (c : Shape) : Triton.Source.IntRange :=
+  (Triton.Source.intRange? (kernel c).surfaceBody "_").getD
+    ⟨[],.constInt 0,.constInt 0,.constNat 0,[],[]⟩
 
 theorem source_body (c : Shape) : (kernel c).surfaceBody=
-    (parts c).before++[.forRange "_i" 0 c.T 1 (parts c).body]++(parts c).after := by
+    (parts c).before++[.forRangeInt "_" (.constInt 0) (.constInt (c.T : Int)) (.constNat 1) (parts c).body]++(parts c).after := by
   rfl
 
 /-- Exact scalar operations after reading the FP32 storage channel, including
@@ -28,6 +28,7 @@ def ops (M : Algebra α) : Ops α where
   add := M.binary (some .fp32) .real .add
   mul := M.binary (some .fp32) .real .mul
   exp := M.unary (some .fp32) .exp
+  queryStorageLoad := M.fp32Load
 
 def program (s : State α) : FusedRwkv6Kernel.Program := ⟨s.pids 2,s.pids 1,s.pids 0⟩
 def regionName : FusedRwkv6Kernel.Region → RegionName
@@ -39,22 +40,22 @@ def memory (s : State α) : FusedRwkv6Kernel.Memory α :=
 /-- Actual pointer register after n advances. Its clipped dead values are
 irrelevant only after the separately proved range guard rejects another step. -/
 def pointer (c : Shape) (base pitch n : Nat) : Nat :=
-  if c.reverse then base+(c.T-1)*pitch-n*pitch else base+n*pitch
+  if c.reverse then base+c.T*pitch-(n+1)*pitch else base+n*pitch
 
 theorem pointer_next (c : Shape) (base pitch n : Nat) :
     pointer c base pitch (n+1)=
       if c.reverse then pointer c base pitch n-pitch else pointer c base pitch n+pitch := by
-  cases h : c.reverse <;> simp [pointer,h,Nat.add_mul,Nat.sub_sub,Nat.add_assoc]
+  cases h : c.reverse <;> simp [pointer,h,Nat.add_mul,Nat.sub_sub,Nat.add_assoc,two_mul]
 
 theorem pointer_live (c : Shape) (base pitch n : Nat) (live : n<c.T) :
     pointer c base pitch n=base+visit c n*pitch := by
   cases h : c.reverse
   · simp [pointer,visit,h]
   · simp only [pointer,visit,h,if_true]
-    have hn : n≤c.T-1 := by omega
-    have hm : (c.T-1-n)*pitch=(c.T-1)*pitch-n*pitch := Nat.mul_sub_right_distrib _ _ _
-    rw [hm]
-    have hmul := Nat.mul_le_mul_right pitch hn
+    have hn : n+1≤c.T := by omega
+    have hm := Nat.mul_le_mul_right pitch hn
+    rw [Nat.add_sub_assoc hm,← Nat.mul_sub_right_distrib]
+    congr 2
     omega
 
 /-- The signed source value and natural projection agree at every actual
@@ -90,19 +91,20 @@ def bias (M : Algebra α) (c : Shape) (s : State α) : Values α .real [c.BK] :=
 def entry (M : Algebra α) (c : Shape) (s : State α) :
     {t : State α // run (engine M) (parts c).before s=some t} := by
   by_cases hi : c.initial=Bool.true
+  all_goals by_cases hr : c.reverse=Bool.true
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp [parts,kernel,ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,
+    simp [parts,kernel,ComputeKernel.surfaceBody,Triton.Source.intRange?,
     Option.map,Option.getD,run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,
     evalOffsets,boundaryZero,Option.bind,engine,Algebra.withDefaultPrecision,
     resolvePrecision,ComputeDType.eraseDType,numeric,integralMod,numericLt,natLt,
-    bop,ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg,hi]
+    bop,ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg,hi,hr]
     rfl
 
 @[simp] theorem entry_mem (M : Algebra α) (c : Shape) (s : State α) :
     (entry M c s).val.mem=s.mem := by
-  by_cases hi : c.initial=Bool.true <;> simp [entry,hi]
+  by_cases hi : c.initial=Bool.true <;> by_cases hr : c.reverse=Bool.true <;> simp [entry,hi,hr]
 
 end
 end VeriTile.Bench.Repairs.FusedRwkv6KernelScalarABIChecked.Source

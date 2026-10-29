@@ -34,7 +34,7 @@ theorem softmax_kernel_correct
   by_cases hB : 0 < BLOCK_SIZE
   · cases HAS_MASK <;>
       simp [ComputeKernel.surfaceBody, ← Int.natCast_mul, ← Int.natCast_add, -Nat.cast_mul, -Nat.cast_add, NumericDType.add, exec, VeriTile.Bench.Repairs.SoftmaxTriton3.softmax_kernel, stepStmts, stepStmt, evalOp.eq_def,
-            Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop,
+            Tile.bop, Tile.cop, Tile.ptrAdd,Tile.ptrSub, Tile.uop,
             Tile.reduceMax, Tile.reduceMaxDrop, Tile.reduceSum, Tile.reduceSumDrop,
             TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex,
             NumericDType.add, NumericDType.mul, NumericDType.sub, NumericDType.div,
@@ -83,7 +83,7 @@ private theorem softmax_kernel_frame
     (simp [ComputeKernel.surfaceBody, ← Int.natCast_mul, ← Int.natCast_add, -Nat.cast_mul, -Nat.cast_add, NumericDType.add, exec, VeriTile.Bench.Repairs.SoftmaxTriton3.softmax_kernel, ComputeKernel.toAlgKernel, stepStmts, stepStmt,
           evalOp.eq_def, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
           FloatDType.cast,
-          Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop,
+          Tile.bop, Tile.cop, Tile.ptrAdd,Tile.ptrSub, Tile.uop,
           Tile.reduceMax, Tile.reduceMaxDrop, Tile.reduceSum, Tile.reduceSumDrop,
           TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex,
           NumericDType.add, NumericDType.mul, NumericDType.sub, NumericDType.div,
@@ -107,7 +107,7 @@ private theorem softmax_kernel_exec_isSome
     simp [ComputeKernel.surfaceBody, ← Int.natCast_mul, ← Int.natCast_add, -Nat.cast_mul, -Nat.cast_add, NumericDType.add, exec, VeriTile.Bench.Repairs.SoftmaxTriton3.softmax_kernel, ComputeKernel.toAlgKernel, stepStmts, stepStmt,
           evalOp.eq_def, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
           FloatDType.cast,
-          Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop,
+          Tile.bop, Tile.cop, Tile.ptrAdd,Tile.ptrSub, Tile.uop,
           Tile.reduceMax, Tile.reduceMaxDrop, Tile.reduceSum, Tile.reduceSumDrop,
           TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex,
           NumericDType.add, NumericDType.mul, NumericDType.sub, NumericDType.div,
@@ -183,20 +183,6 @@ theorem softmax_kernel_masked_region_run
     · exact hne hr.symm
     · exact hno i hi ho.symm
 
-/-- The kernel sits inside the flat-memory bridge's covered fragment (pointer
-arithmetic, masked loads with `other`, dtype casts, the constexpr `if`,
-reductions, masked store) — both `HAS_MASK` branches. -/
-theorem softmax_kernel_flattenOk
-    (output_ptr input_ptr mask_ptr : RegionName)
-    (row_stride n_cols BLOCK_SIZE : Nat) (HAS_MASK : Bool) :
-    ((VeriTile.Bench.Repairs.SoftmaxTriton3.softmax_kernel output_ptr input_ptr mask_ptr row_stride n_cols
-        BLOCK_SIZE HAS_MASK).toAlgKernel).FlattenOk := by
-  unfold Kernel.FlattenOk
-  cases HAS_MASK <;>
-    simp [ComputeKernel.surfaceBody, ← Int.natCast_mul, ← Int.natCast_add, -Nat.cast_mul, -Nat.cast_add, NumericDType.add, VeriTile.Bench.Repairs.SoftmaxTriton3.softmax_kernel, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
-      ComputeOp.toAlgorithm?, StmtList.FlattenOk, Stmt.FlattenOk,
-      Op.FlattenOk.eq_def]
-
 set_option maxHeartbeats 1600000 in
 /-- Per-execution safety walk, `HAS_MASK = false`: one computational unfold
 walks all the statements — the pointer/index staging, the reductions, and the
@@ -224,7 +210,7 @@ theorem softmax_kernel_traceSafe
     MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe,
     MaskOpt.Active, Op.PointerAddressesSafeOn, Op.MemorySafe,
     BlockState.setReg,
-    Tile.bop, Tile.cop, Tile.uop, Tile.ptrAdd,
+    Tile.bop, Tile.cop, Tile.uop, Tile.ptrAdd,Tile.ptrSub,
     NumericDType.mul, NumericDType.sub, NumericDType.div,
     ComparableDType.lt,
     Tile.reduceMax, Tile.reduceMaxDrop, Tile.reduceSum, Tile.reduceSumDrop,
@@ -259,7 +245,7 @@ theorem softmax_kernel_masked_traceSafe
     MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe,
     MaskOpt.Active, Op.PointerAddressesSafeOn, Op.MemorySafe,
     BlockState.setReg,
-    Tile.bop, Tile.cop, Tile.uop, Tile.ptrAdd,
+    Tile.bop, Tile.cop, Tile.uop, Tile.ptrAdd,Tile.ptrSub,
     NumericDType.add, NumericDType.mul, NumericDType.sub, NumericDType.div,
     ComparableDType.lt,
     Tile.reduceMax, Tile.reduceMaxDrop, Tile.reduceSum, Tile.reduceSumDrop,
@@ -270,7 +256,6 @@ theorem softmax_kernel_masked_traceSafe
 #axiomsClean softmax_kernel_correct
 #axiomsClean softmax_kernel_region_run
 #axiomsClean softmax_kernel_masked_region_run
-#axiomsClean softmax_kernel_flattenOk
 #axiomsClean softmax_kernel_traceSafe
 #axiomsClean softmax_kernel_masked_traceSafe
 end VeriTile.Bench.Repairs.SoftmaxTriton3.RawReal

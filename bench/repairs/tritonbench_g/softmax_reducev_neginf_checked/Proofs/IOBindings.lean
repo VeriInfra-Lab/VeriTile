@@ -45,7 +45,7 @@ theorem value_binding (xs : Inputs A c counts) (s : State B)
     (bound : (sourceIO M encode c observe counts work).InputBinding xs s)
     (b : Fin c.batch) (h : Fin c.heads) (k : Fin (capacity counts)) (d : Fin c.dimensions)
     (hk : k.val < counts b) :
-    (s.mem "V" (h.val*c.dimensions+d.val+(page xs b k*(c.heads*c.dimensions : Nat)).toNat)).read .fp32=
+    (s.mem "V" (h.val*c.dimensions+d.val+(page xs b k*(c.heads*c.dimensions : Nat)).toNat-(-(page xs b k*(c.heads*c.dimensions : Nat))).toNat)).read .fp32=
       encode (value xs b h k d) := by
   simpa [sourceIO,memory,inputs,read,inputMask,mapValue,value] using
     bound (4 : Fin 5) (b,h,k,d,()) hk

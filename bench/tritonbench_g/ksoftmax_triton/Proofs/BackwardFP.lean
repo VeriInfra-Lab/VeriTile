@@ -53,6 +53,31 @@ specification backward_index_equiv (storage : Typed.Storage) (GradIn GradOut Out
     program storage Bool.true GradIn GradOut Out bm bn gm gn om on K D log causal fp16 := by
   cases storage <;> equiv_decompose <;> fp_prove
 
+/-- Direct whole-state execution equality for every algebra. The only
+change is natural index multiplication, so no numerical model certificate
+or successful-run premise is needed. -/
+theorem backward_run_eq (storage : Typed.Storage)
+    (D G O : RegionName) (bm bn gm gn om on K W : Nat)
+    (log causal fp16 : Bool) {α : Type} [Inhabited α]
+    (algebra : Algebra α) (initial : State α) :
+    run (engine algebra)
+      (Typed.homogeneousKernel storage Bool.false D G O bm bn gm gn om on K W
+        log causal fp16).surfaceBody initial =
+    run (engine algebra)
+      (Typed.homogeneousKernel storage Bool.true D G O bm bn gm gn om on K W
+        log causal fp16).surfaceBody initial := by
+  let original := (Typed.homogeneousKernel storage Bool.false D G O bm bn gm gn om on K W
+    log causal fp16).surfaceBody
+  let candidate := (Typed.homogeneousKernel storage Bool.true D G O bm bn gm gn om on K W
+    log causal fp16).surfaceBody
+  have h : Contextual algebra initial (original.take 3) (original.drop 4)
+      (original.getD 3 (.ifThen (.constBool Bool.false) []))
+      (candidate.getD 3 (.ifThen (.constBool Bool.false) [])) := by
+    cases storage <;> fp_prove
+  cases storage <;> exact h
+
+#axiomsClean backward_run_eq
+
 #print_fp_assumptions backward_index_equiv
 #axiomsClean index_product_commutes
 #axiomsClean pointer_add_congr

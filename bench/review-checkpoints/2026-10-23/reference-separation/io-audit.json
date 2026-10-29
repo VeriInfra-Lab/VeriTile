@@ -11106,16 +11106,12 @@
         "bench/repairs/tritonbench_g/fast_ce_loss/FPEquiv.lean"
       ],
       "assessment": {
-        "organization": "Forward/chunked/backward memory interfaces, named inputs/outputs and their logical views already reside in IO.lean; judgment bridges remain in Proofs/LogicalIO.lean.",
-        "preservation": {
-          "all_task_sources_byte_identical": true,
-          "current_io": "bench/repairs/tritonbench_g/fast_ce_loss/IO.lean",
-          "prior_source_pins_match": true
-        },
-        "different_stage_or_encoding_exceptions": [],
+        "organization": "The task-level IO remains the complete shared memory/channel/schedule description; public reader conditions remain explicit.",
+        "source_update": "Reference gather and IO routing now retain the signed target displacement before whole-pointer projection. Existing valid-label hypotheses recover the independent mathematical target; chunked/forward/backward source access proofs are reverified without new input conditions.",
+        "verification": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
         "previous_assessment": {
-          "manifest": "bench/review-checkpoints/2026-10-22/logical-readers/io-audit.json",
-          "task": "fast_ce_loss"
+          "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/previous-reviews.json.gz",
+          "sha256": "d425d895837b7e83a74bf04fe18236917b95dac50bc2aa0c28fba3f4d7640fcb"
         }
       },
       "distinct_views": "Generic IO retains signed-int64 labels, source row/chunk geometry, whole-row versus tile windows, conditional target/upstream reads and distinct forward/chunked/backward schedules. Real/native interpretation parameters do not duplicate records.",
@@ -11144,20 +11140,22 @@
         },
         {
           "path": "bench/repairs/tritonbench_g/fast_ce_loss/IO.lean",
-          "sha256": "1df1b057b4cef589c72463ac94d09b6ba11663041d0f4ed72a5cbf3c07b402aa"
+          "sha256": "ce815676596cfc5278db42e08bbe3c8d1bbec4b75c21cd2f1e7971de511bf80a"
         }
       ],
-      "changed_paths": [],
+      "changed_paths": [
+        "bench/repairs/tritonbench_g/fast_ce_loss/IO.lean"
+      ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/fast_ce_loss.json",
-        "sha256": "8e348899414a5a56849cda0e29717a7e9381e3f381529a22b84e7d6922e5ccd3",
-        "task": "fast_ce_loss"
+        "path": "bench/pr22-split/receipts/native-rwkv6-function-bodies.json",
+        "sha256": "0bcf8520e50a8f5dcf3f86d1e39f1c4b09c23c17097941c58d312aa2b5d2a973"
       },
       "preservation_and_build_passed": true,
       "validation_limits": {
-        "resolved_cache_generation_issues": [
-          "Proofs/KernelReal.lean was rebuilt without source changes after an existing stale Algebra constructor generation caused PublicRealBackward kernel checking to fail. Necessary task-local dependents were then refreshed successfully."
-        ]
+        "official_comparator": "Unavailable; actual final-source attempts retained.",
+        "torch": "Unavailable.",
+        "numerical_receipt": "Known unchanged Structural receipt hash error.",
+        "scope": "Existing mathematical input domains; no GPU or numerical experiment."
       },
       "remaining_issues": [],
       "main_formula_review": {
@@ -11168,7 +11166,7 @@
           "task_index": 4,
           "task": "fast_ce_loss"
         },
-        "io_data_unchanged": true
+        "io_data_unchanged": false
       },
       "previous_io_sources": [
         {
@@ -11230,6 +11228,10 @@
         "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/fast_ce_loss.json",
         "sha256": "8e348899414a5a56849cda0e29717a7e9381e3f381529a22b84e7d6922e5ccd3",
         "task": "fast_ce_loss"
+      },
+      "current_body_source_review": {
+        "path": "bench/pr22-split/receipts/native-rwkv6-function-bodies.json",
+        "sha256": "0bcf8520e50a8f5dcf3f86d1e39f1c4b09c23c17097941c58d312aa2b5d2a973"
       }
     },
     {
@@ -14130,145 +14132,23 @@
         "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/FPEquiv.lean"
       ],
       "assessment": {
+        "organization": "The task-level IO remains the complete shared memory/channel/schedule description; public reader conditions remain explicit.",
+        "source_update": "Ten complete raw original/candidate mappings preserve all 16 source statements across FP32/i32/i64/u64 scale and native integer-one constexpr specialization, optional initial/final state, T=0, reverse iteration, masks, casts and the nested FP32 query load. The candidate only hoists p_u/mask_bk/b_u after i_h in the complete Python module. Original Python, input contracts and existing RWKV IO declarations remain byte-identical; caller dispatch and complete Runtime IO views are appended. Real mathematics, full source execution/safety, outputs/frame and actual FP pair are reverified; no numerical rule, arbitrary cast identity or whole-kernel premise is added.",
+        "verification": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
         "previous_assessment": {
-          "organization": "The physical IO description and existing logical view now share task-level IO.lean with all original namespaces and declaration bodies; complete connection proofs stay in Proofs.",
-          "preservation": {
-            "moved_declarations": [
-              {
-                "from": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/SourceIO.lean",
-                "to": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/IO.lean",
-                "declarations": [
-                  "inputPorts",
-                  "outputPorts",
-                  "Inputs",
-                  "inputRead",
-                  "outputWrite",
-                  "invocation",
-                  "programIO",
-                  "logicalInputs",
-                  "formula",
-                  "invocation",
-                  "variant",
-                  "original",
-                  "earlyU"
-                ],
-                "moved_bytes_sha256": "37e91dfe87c8e904193514f5e2fbfce3f9c03a04682887e928e5433acd7bfbc9",
-                "byte_preserved": true,
-                "qualified_declarations": [
-                  "VeriTile.Bench.Repairs.FusedRwkv6KernelScalarABIChecked.Interface.inputPorts",
-                  "VeriTile.Bench.Repairs.FusedRwkv6KernelScalarABIChecked.Interface.outputPorts",
-                  "VeriTile.Bench.Repairs.FusedRwkv6KernelScalarABIChecked.Interface.Inputs",
-                  "VeriTile.Bench.Repairs.FusedRwkv6KernelScalarABIChecked.Interface.inputRead",
-                  "VeriTile.Bench.Repairs.FusedRwkv6KernelScalarABIChecked.Interface.outputWrite",
-                  "VeriTile.Bench.Repairs.FusedRwkv6KernelScalarABIChecked.Interface.invocation",
-                  "VeriTile.Bench.Repairs.FusedRwkv6KernelScalarABIChecked.Interface.programIO",
-                  "VeriTile.Bench.Repairs.FusedRwkv6KernelScalarABIChecked.Interface.logicalInputs",
-                  "VeriTile.Bench.Repairs.FusedRwkv6KernelScalarABIChecked.Interface.formula",
-                  "VeriTile.Bench.Repairs.FusedRwkv6KernelScalarABIChecked.Interface.invocation",
-                  "VeriTile.Bench.Repairs.FusedRwkv6KernelScalarABIChecked.Interface.variant",
-                  "VeriTile.Bench.Repairs.FusedRwkv6KernelScalarABIChecked.Interface.original",
-                  "VeriTile.Bench.Repairs.FusedRwkv6KernelScalarABIChecked.Interface.earlyU"
-                ],
-                "before_and_after_exact_substring": true
-              },
-              {
-                "from": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/LogicalCoordinates.lean",
-                "to": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/IO.lean",
-                "declarations": [
-                  "TensorInputs",
-                  "inputCoordinates",
-                  "TensorOutputs",
-                  "outputCoordinates",
-                  "tensorData",
-                  "logicalIO"
-                ],
-                "moved_bytes_sha256": "f05b98590b383a5721ec7bde366cff6f9d037a5951465aa3a23db7644c2e4a16",
-                "byte_preserved": true,
-                "qualified_declarations": [
-                  "VeriTile.Bench.Repairs.FusedRwkv6KernelScalarABIChecked.Interface.TensorInputs",
-                  "VeriTile.Bench.Repairs.FusedRwkv6KernelScalarABIChecked.Interface.inputCoordinates",
-                  "VeriTile.Bench.Repairs.FusedRwkv6KernelScalarABIChecked.Interface.TensorOutputs",
-                  "VeriTile.Bench.Repairs.FusedRwkv6KernelScalarABIChecked.Interface.outputCoordinates",
-                  "VeriTile.Bench.Repairs.FusedRwkv6KernelScalarABIChecked.Interface.tensorData",
-                  "VeriTile.Bench.Repairs.FusedRwkv6KernelScalarABIChecked.Interface.logicalIO"
-                ],
-                "before_and_after_exact_substring": true
-              }
-            ],
-            "unchanged_public_kernel_and_proof_bodies": {
-              "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/Correct.lean": {
-                "body_unchanged_after_removing_import_lines": true,
-                "before_sha256": "218b5146b75ae3f9d84ee83a0bf65c4923c7dbcbf7d6ea2aa38f69520fe1eb3c",
-                "source_sha256": "218b5146b75ae3f9d84ee83a0bf65c4923c7dbcbf7d6ea2aa38f69520fe1eb3c"
-              },
-              "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/FPEquiv.lean": {
-                "body_unchanged_after_removing_import_lines": true,
-                "before_sha256": "dd41e3c775d025982704483dcfc49154304bf4af78e65e045861509f9fbb177f",
-                "source_sha256": "dd41e3c775d025982704483dcfc49154304bf4af78e65e045861509f9fbb177f"
-              },
-              "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/Contract.lean": {
-                "body_unchanged_after_removing_import_lines": true,
-                "before_sha256": "8605bbbfaa05f9d169f45a47bbfe8d6a600424136d611fd0b370e74ac3d319f7",
-                "source_sha256": "8605bbbfaa05f9d169f45a47bbfe8d6a600424136d611fd0b370e74ac3d319f7"
-              },
-              "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/Kernels.lean": {
-                "body_unchanged_after_removing_import_lines": true,
-                "before_sha256": "1c009e34c35e5abd3e77472c59175435f296a5bb7360d8535b86f20c4703952c",
-                "source_sha256": "1c009e34c35e5abd3e77472c59175435f296a5bb7360d8535b86f20c4703952c"
-              },
-              "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/Proofs/LogicalInputBinding.lean": {
-                "body_unchanged_after_removing_import_lines": true,
-                "before_sha256": "c74d50eaa4782b4b3a341da246ccbbde6aca7ec724f4f782c9c049291e408f12",
-                "source_sha256": "abdd8612efd5800fa2e115e4b658fc26500eebc94ec9f20d7337ce79dbb86900"
-              },
-              "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/Proofs/LogicalCoordinates.lean": {
-                "body_unchanged_after_removing_import_lines": true,
-                "before_sha256": "3907d2826bd5cc9653f1aae2437fe10a7ce00bab3f304f8c58bb1f69827420c7",
-                "source_sha256": "280a939d08a8b938dddea2258cae906dc84d298aaed4bce446fa56ba7d0123b5"
-              },
-              "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/Proofs/SourceSafety.lean": {
-                "body_unchanged_after_removing_import_lines": true,
-                "before_sha256": "aab43e8eeb7712cf73b242b430cd2ad2025b050ea56e1a6d697a06c069c8c53a",
-                "source_sha256": "d6dbf934ad08336af82e410b26a13aaebaa0ede7823d2ab79958c936c82291bb"
-              },
-              "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/Proofs/SourceCells.lean": {
-                "body_unchanged_after_removing_import_lines": true,
-                "before_sha256": "ffc3d8aa2a804dd56bae5c1dddfccaf2853b0f594f32221cb2c11ccbe9b50452",
-                "source_sha256": "85cb95f04a57e1a81aece9dadf6bcdd5d9026e59004bdb8f2974a4b0f7849e91"
-              }
-            },
-            "original_physical_io_body": {
-              "from": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/SourceIO.lean",
-              "to": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/IO.lean",
-              "body_sha256": "dcbf4ce4f9c0579e2785da0648eb32f0c6d33517f339637b94b30bb465e383a8",
-              "before_and_after_exact_substring": true
-            },
-            "full_judgment_preserved": "Existing core IO and moved LogicalIO/LogicalProgramIO/LogicalDomainIO bodies are byte-identical; complete Implements/Observes equivalence and execution/safety/frame proofs remain in Proofs. Existing public theorem/formula/premise/FP-pair/numerical-domain source bodies are unchanged."
-          },
-          "different_stage_or_encoding_exceptions": [],
-          "previous_assessment": {
-            "manifest": "bench/review-checkpoints/2026-10-22/logical-readers/io-audit.json",
-            "task": "fused_rwkv6_kernel"
-          }
-        },
-        "reference_separation": {
-          "organization": "ref09: declarations retain their original bodies and public scope; interface adapters, required formulas, and optional native content follow their actual consumers.",
-          "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/reference-separation/tasks/fused_rwkv6_kernel.json",
-            "sha256": "5d706dfd037d72b1ce13c74856892d122e03364db5e79941bb1c23bb627c1eb8",
-            "task": "fused_rwkv6_kernel"
-          }
+          "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/previous-reviews.json.gz",
+          "sha256": "d425d895837b7e83a74bf04fe18236917b95dac50bc2aa0c28fba3f4d7640fcb"
         }
       },
       "distinct_views": "Real/native select their algebra and scale representation over the same logical layout. Early-U candidate reuses original memory/encoding/observation and changes the actual candidate invocation.",
       "readers": [
         {
           "path": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/Correct.lean",
-          "sha256": "218b5146b75ae3f9d84ee83a0bf65c4923c7dbcbf7d6ea2aa38f69520fe1eb3c"
+          "sha256": "d0f0666ebc19151f3e469e2157af559de54923c6338964a5ea9edc8be2f6c521"
         },
         {
           "path": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/FPEquiv.lean",
-          "sha256": "dd41e3c775d025982704483dcfc49154304bf4af78e65e045861509f9fbb177f"
+          "sha256": "0d2a35bf928190774d63518030faf58d93f7b73b7cdf8594af9c67339bf89af3"
         }
       ],
       "io_sources": [
@@ -14286,19 +14166,25 @@
         },
         {
           "path": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/IO.lean",
-          "sha256": "b385505da51d706065d7c1a28b1d0a51609903d98fd9ba4ec7e0feba006f8b13"
+          "sha256": "fa3be2448ae398ee45d62db4185c4f44cc82bd822f30727e9630873316cd0e61"
         }
       ],
       "changed_paths": [
+        "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/Correct.lean",
+        "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/FPEquiv.lean",
         "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/IO.lean"
       ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/reference-separation/tasks/fused_rwkv6_kernel.json",
-        "sha256": "5d706dfd037d72b1ce13c74856892d122e03364db5e79941bb1c23bb627c1eb8",
-        "task": "fused_rwkv6_kernel"
+        "path": "bench/pr22-split/receipts/native-rwkv6-function-bodies.json",
+        "sha256": "0bcf8520e50a8f5dcf3f86d1e39f1c4b09c23c17097941c58d312aa2b5d2a973"
       },
       "preservation_and_build_passed": true,
-      "validation_limits": {},
+      "validation_limits": {
+        "official_comparator": "Unavailable; actual final-source attempts retained.",
+        "torch": "Unavailable.",
+        "numerical_receipt": "Known unchanged Structural receipt hash error.",
+        "scope": "Existing mathematical input domains; no GPU or numerical experiment."
+      },
       "remaining_issues": [],
       "main_formula_review": {
         "audit": "bench/review-checkpoints/2026-10-22/main-formulas/audit.json",
@@ -14308,7 +14194,7 @@
           "task_index": 7,
           "task": "fused_rwkv6_kernel"
         },
-        "io_data_unchanged": true
+        "io_data_unchanged": false
       },
       "previous_io_sources": [
         {
@@ -14375,6 +14261,10 @@
         "path": "bench/review-checkpoints/2026-10-23/reference-separation/tasks/fused_rwkv6_kernel.json",
         "sha256": "5d706dfd037d72b1ce13c74856892d122e03364db5e79941bb1c23bb627c1eb8",
         "task": "fused_rwkv6_kernel"
+      },
+      "current_body_source_review": {
+        "path": "bench/pr22-split/receipts/native-rwkv6-function-bodies.json",
+        "sha256": "0bcf8520e50a8f5dcf3f86d1e39f1c4b09c23c17097941c58d312aa2b5d2a973"
       }
     },
     {
@@ -16372,22 +16262,12 @@
         "bench/repairs/tritonbench_g/kcache_copy_triton/FPEquiv.lean"
       ],
       "assessment": {
-        "organization": "The corresponding core memory interface and main-theorem logical view already reside in the same IO module; no separate logical adapter remains.",
-        "preservation": {
-          "before_snapshot_root": ".veritile-cache/io-unification-20261023/queue07/before",
-          "byte_check": {
-            "path": ".veritile-cache/io-unification-20261023/queue07/preservation-check.json",
-            "sha256": "ff9a03759bf3db7fa79553e98b102ed7cd8b3a71a548249d0bd2aa8efdcc87ff"
-          },
-          "all_unlisted_sources_unchanged": true,
-          "Kernels_Contract_Correct_FPEquiv_byte_unchanged": true,
-          "all_Proofs_nonimport_bodies_byte_unchanged": true,
-          "original_public_names_and_full_judgment_types_preserved": "Public theorem source is byte-identical; moved IO definition blocks remain contiguous and byte-identical with original namespaces. Existing complete iff/execution/safety/frame proofs retain their original bodies. Changed-task public Lean checks display those full judgments."
-        },
-        "different_stage_or_encoding_exceptions": [],
+        "organization": "The task-level IO remains the complete shared memory/channel/schedule description; public reader conditions remain explicit.",
+        "source_update": "Selected block routing and the public IO address now use the actual whole-pointer projection for signed block-table entries. Access safety uses those same addresses; existing valid-host hypotheses recover the independent tensor formula. No metadata-domain narrowing is added.",
+        "verification": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
         "previous_assessment": {
-          "manifest": "bench/review-checkpoints/2026-10-22/logical-readers/io-audit.json",
-          "task": "kcache_copy_triton"
+          "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/previous-reviews.json.gz",
+          "sha256": "d425d895837b7e83a74bf04fe18236917b95dac50bc2aa0c28fba3f4d7640fcb"
         }
       },
       "distinct_views": "Mathematical Real uses realBackend; FP uses ProfiledRewrite.engine M. Both use the same logical metadata-dependent complete memory interface. OutputInjective, identity formula and target remain the independent specification/connection layer.",
@@ -16416,17 +16296,23 @@
         },
         {
           "path": "bench/repairs/tritonbench_g/kcache_copy_triton/IO.lean",
-          "sha256": "99bf52310691e49cb16bcd377b7c9b433f460f43da183b59f832ae79b94d7fa5"
+          "sha256": "f36c19e29486546c7279874a250c3596d03dc4ca8474feef7b1a78a700db8014"
         }
       ],
-      "changed_paths": [],
+      "changed_paths": [
+        "bench/repairs/tritonbench_g/kcache_copy_triton/IO.lean"
+      ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/kcache_copy_triton.json",
-        "sha256": "c1899826da31728298bce04a5e23113b5b12102201fcb3fc984b258bfa568ef5",
-        "task": "kcache_copy_triton"
+        "path": "bench/pr22-split/receipts/native-rwkv6-function-bodies.json",
+        "sha256": "0bcf8520e50a8f5dcf3f86d1e39f1c4b09c23c17097941c58d312aa2b5d2a973"
       },
       "preservation_and_build_passed": true,
-      "validation_limits": {},
+      "validation_limits": {
+        "official_comparator": "Unavailable; actual final-source attempts retained.",
+        "torch": "Unavailable.",
+        "numerical_receipt": "Known unchanged Structural receipt hash error.",
+        "scope": "Existing mathematical input domains; no GPU or numerical experiment."
+      },
       "remaining_issues": [],
       "main_formula_review": {
         "audit": "bench/review-checkpoints/2026-10-22/main-formulas/audit.json",
@@ -16436,7 +16322,7 @@
           "task_index": 7,
           "task": "kcache_copy_triton"
         },
-        "io_data_unchanged": true
+        "io_data_unchanged": false
       },
       "previous_io_sources": [
         {
@@ -16509,6 +16395,10 @@
         "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/kcache_copy_triton.json",
         "sha256": "c1899826da31728298bce04a5e23113b5b12102201fcb3fc984b258bfa568ef5",
         "task": "kcache_copy_triton"
+      },
+      "current_body_source_review": {
+        "path": "bench/pr22-split/receipts/native-rwkv6-function-bodies.json",
+        "sha256": "0bcf8520e50a8f5dcf3f86d1e39f1c4b09c23c17097941c58d312aa2b5d2a973"
       }
     },
     {
@@ -16912,22 +16802,12 @@
         "bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/FPEquiv.lean"
       ],
       "assessment": {
-        "organization": "The corresponding core memory interface and main-theorem logical view already reside in the same IO module; no separate logical adapter remains.",
-        "preservation": {
-          "before_snapshot_root": ".veritile-cache/io-unification-20261023/queue07/before",
-          "byte_check": {
-            "path": ".veritile-cache/io-unification-20261023/queue07/preservation-check.json",
-            "sha256": "ff9a03759bf3db7fa79553e98b102ed7cd8b3a71a548249d0bd2aa8efdcc87ff"
-          },
-          "all_unlisted_sources_unchanged": true,
-          "Kernels_Contract_Correct_FPEquiv_byte_unchanged": true,
-          "all_Proofs_nonimport_bodies_byte_unchanged": true,
-          "original_public_names_and_full_judgment_types_preserved": "Public theorem source is byte-identical; moved IO definition blocks remain contiguous and byte-identical with original namespaces. Existing complete iff/execution/safety/frame proofs retain their original bodies. Changed-task public Lean checks display those full judgments."
-        },
-        "different_stage_or_encoding_exceptions": [],
+        "organization": "Logical tensors, backing, masks, row schedule and complete public input domains remain in the existing IO.lean. Public reader bytes and all IO data, domains and schedule declarations remain unchanged. Only orderedRow loses its two historical extra final-store casts; five selected-model preservation proofs freeze the previous formulas and prove the complete Real/native targets unchanged.",
+        "source_update": "The shared forward/backward kernels now contain complete raw bodies. Full execution, safety, output and frame proofs reconnect the existing IO; nine preservation proofs retain prior NativeGraph and Real target values. The existing FP pair still reverses row scheduling.",
+        "verification": "All 116 related modules, full cumulative warm and independent empty-project replay plus joint imports pass. No additional input condition or whole-kernel premise.",
         "previous_assessment": {
-          "manifest": "bench/review-checkpoints/2026-10-22/logical-readers/io-audit.json",
-          "task": "ksoftmax_triton"
+          "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/previous-io-review.json",
+          "sha256": "a4af81db3d273b4c668d3745a029bc6f3dca0e7dbc4d12c6d5b35b3eb9e0f341"
         }
       },
       "distinct_views": "Ordinary and addressed interfaces share memory and invocation data. Native encoding depends on region and address and is tied to the selected compiler object; its selectedRows schedule also preserves the empty-launch branch. The reverse candidate has the original complete program scope and an explicit reversed schedule.",
@@ -16956,17 +16836,22 @@
         },
         {
           "path": "bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/IO.lean",
-          "sha256": "e4dff84be059cf5406a6562750d40fdcdf275237c7d12ec9ea72f145124250af"
+          "sha256": "89d6ca88e436303e1813d388182dde5ee5e5752968f72775d5ec650137bf7242"
         }
       ],
-      "changed_paths": [],
+      "changed_paths": [
+        "bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/IO.lean"
+      ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/ksoftmax_triton.json",
-        "sha256": "37d4ba23378fa8a3d92f102e759e280fc5ccb9ac809311a6ffc11cc8900a04ff",
-        "task": "ksoftmax_triton"
+        "path": "bench/pr22-split/receipts/native-ksoftmax-function-bodies.json",
+        "sha256": "b30c60da635d5ac64c7cdf8da0ae4b4c9a30c1d550e343a6bfaf42827e793069"
       },
       "preservation_and_build_passed": true,
-      "validation_limits": {},
+      "validation_limits": {
+        "official_comparator": "Unavailable due host isolation; actual attempts recorded.",
+        "numerical_receipt": "Known unchanged Structural receipt hash error; no false repin.",
+        "scope": "Full source replay on current public domains; no GPU or new numerical experiment."
+      },
       "remaining_issues": [],
       "main_formula_review": {
         "audit": "bench/review-checkpoints/2026-10-22/main-formulas/audit.json",
@@ -17037,6 +16922,10 @@
         "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/ksoftmax_triton.json",
         "sha256": "37d4ba23378fa8a3d92f102e759e280fc5ccb9ac809311a6ffc11cc8900a04ff",
         "task": "ksoftmax_triton"
+      },
+      "current_body_source_review": {
+        "path": "bench/pr22-split/receipts/native-ksoftmax-function-bodies.json",
+        "sha256": "b30c60da635d5ac64c7cdf8da0ae4b4c9a30c1d550e343a6bfaf42827e793069"
       }
     },
     {
@@ -17048,153 +16937,12 @@
         "bench/repairs/tritonbench_g/kv_cache_copy/FPEquiv.lean"
       ],
       "assessment": {
-        "organization": "Memory IO and the existing named mathematical input/output adapters now live in the single task IO.lean; all public Lean names and complete bridge judgments are preserved.",
-        "preservation": {
-          "evidence": ".veritile-cache/io-unification-20261023/queue08/preservation.json",
-          "complete_bridge_and_public_types_unchanged": true,
-          "checks": [
-            {
-              "source": "bench/repairs/tritonbench_g/kv_cache_copy/Contract.lean",
-              "non_import_content_identical": true,
-              "source_sha256": "eedd36818476fa7deedf1aa06f02460ef03013f24376efec931f2a89e6460e76"
-            },
-            {
-              "source": "bench/repairs/tritonbench_g/kv_cache_copy/Correct.lean",
-              "non_import_content_identical": true,
-              "source_sha256": "91abf594f0b1cbc60aaf4eaaf79bb8615bb6c904558bdabd76c1dc1983a80639"
-            },
-            {
-              "source": "bench/repairs/tritonbench_g/kv_cache_copy/FPEquiv.lean",
-              "non_import_content_identical": true,
-              "source_sha256": "cd899e4667a3b6a45b16ed1522b8dc4d3b500524c928f36d43740700703ff583"
-            },
-            {
-              "source": "bench/repairs/tritonbench_g/kv_cache_copy/Kernels.lean",
-              "non_import_content_identical": true,
-              "source_sha256": "66f084eccc6fb645da53e3abb2706f68b3a6d4b5e3bdb43369a5ba0a8e454caa"
-            },
-            {
-              "source": "bench/repairs/tritonbench_g/kv_cache_copy/Proofs/Contract.lean",
-              "non_import_content_identical": true,
-              "source_sha256": "a15c7aad8fc48959e638c8e48ec03f662ebf09b18674cf4ef17eb320c54c24b4"
-            },
-            {
-              "source": "bench/repairs/tritonbench_g/kv_cache_copy/Proofs/Direct.lean",
-              "non_import_content_identical": true,
-              "source_sha256": "2598a437c25414bd82ba52807e5be435e814cf75df5b9bcc730d2f36e84c1324"
-            },
-            {
-              "source": "bench/repairs/tritonbench_g/kv_cache_copy/Proofs/EventCorrect.lean",
-              "non_import_content_identical": true,
-              "source_sha256": "11fa71d5ed176bd905ab6ffde337760bbf89a7004b1bfd2056110d9e182916b9"
-            },
-            {
-              "source": "bench/repairs/tritonbench_g/kv_cache_copy/Proofs/Execution.lean",
-              "non_import_content_identical": true,
-              "source_sha256": "fdf1028e62777a9206905002ab58b7a16afbfad880e4bcad248cb30164cfc1cd"
-            },
-            {
-              "source": "bench/repairs/tritonbench_g/kv_cache_copy/Proofs/HostCorrect.lean",
-              "non_import_content_identical": true,
-              "source_sha256": "3174f3a957a410afdfa3fb6e8b23d044210b671c158a6fcaa6d2b9ca40d2b837"
-            },
-            {
-              "source": "bench/repairs/tritonbench_g/kv_cache_copy/Proofs/IOCorrect.lean",
-              "non_import_content_identical": true,
-              "source_sha256": "3dcd466d7c38e69b68ef23885d7195ae1ae421b880007df16c2df56c15c9e775"
-            },
-            {
-              "source": "bench/repairs/tritonbench_g/kv_cache_copy/Proofs/InputBinding.lean",
-              "non_import_content_identical": true,
-              "source_sha256": "41e7f68a715938b249bff25c00cf976c34d1ec104df4180dcfc4601edb6b3bc1"
-            },
-            {
-              "source": "bench/repairs/tritonbench_g/kv_cache_copy/Proofs/KernelContract.lean",
-              "non_import_content_identical": true,
-              "source_sha256": "5fc28bbe971ef544ee79762346e6191e4496282421b9459c12092d499ba0721a"
-            },
-            {
-              "source": "bench/repairs/tritonbench_g/kv_cache_copy/Proofs/KernelFP.lean",
-              "non_import_content_identical": true,
-              "source_sha256": "8361a0c476731dd59f7df6d1a57b353cb20346a860ae2b9ab526a8bd08423180"
-            },
-            {
-              "source": "bench/repairs/tritonbench_g/kv_cache_copy/Proofs/KernelNativeResults.lean",
-              "non_import_content_identical": true,
-              "source_sha256": "f5e40da4157c3820294b6354fb2481c9e20c057d16bdc79b0a14c94bf2af8a3f"
-            },
-            {
-              "source": "bench/repairs/tritonbench_g/kv_cache_copy/Proofs/KernelReal.lean",
-              "non_import_content_identical": true,
-              "source_sha256": "fb552491ec3bfa9a8dba6f47ae0000d67256127d9558fd3b4aa3ca1770d49d7a"
-            },
-            {
-              "source": "bench/repairs/tritonbench_g/kv_cache_copy/Proofs/KernelRealIO.lean",
-              "non_import_content_identical": true,
-              "source_sha256": "b03a0b054e140cf471ad43a0c1948390d6b7d87d352f463bc2bc91e46d8d2bbc"
-            },
-            {
-              "source": "bench/repairs/tritonbench_g/kv_cache_copy/Proofs/KernelRealLoop.lean",
-              "non_import_content_identical": true,
-              "source_sha256": "a10f152d10ea2318e2f9fa53961c39b8141faebcbd6adab7feae77e2ed0a3d66"
-            },
-            {
-              "source": "bench/repairs/tritonbench_g/kv_cache_copy/Proofs/KernelRealResults.lean",
-              "non_import_content_identical": true,
-              "source_sha256": "9b3ba43d8a6bf32f3d66b68d5030214e507a61b1cc857793148019eaa440eeb6"
-            },
-            {
-              "source": "bench/repairs/tritonbench_g/kv_cache_copy/Proofs/KernelSafety.lean",
-              "non_import_content_identical": true,
-              "source_sha256": "33488511d3bfae2ed45044f05bb492adfc81efc09430e7327107b5cb029852d5"
-            },
-            {
-              "source": "bench/repairs/tritonbench_g/kv_cache_copy/Proofs/KernelValues.lean",
-              "non_import_content_identical": true,
-              "source_sha256": "fd08d25b969b468086842655f2693e345d11ff788f9ce35dc19688709e84fa92"
-            },
-            {
-              "source": "bench/repairs/tritonbench_g/kv_cache_copy/Proofs/LegacySurface.lean",
-              "non_import_content_identical": true,
-              "source_sha256": "130f378abb530650900ba317eb4497a2150373ae04d12c3aa851a55a4d7e6f4c"
-            },
-            {
-              "source": "bench/repairs/tritonbench_g/kv_cache_copy/Proofs/LogicalIO.lean",
-              "non_import_content_identical": true,
-              "source_sha256": "1fdaaf8c94e7f98243f03bfae0a3b0ae9ce87f2b5759fd8cf69d31c9a09f39dc"
-            },
-            {
-              "source": "bench/repairs/tritonbench_g/kv_cache_copy/Proofs/Memory.lean",
-              "non_import_content_identical": true,
-              "source_sha256": "e8ee9ee2f49d360a43d5eeff7e2967b7e21bbd2f1c99274267c6a1224b607534"
-            },
-            {
-              "source": "bench/repairs/tritonbench_g/kv_cache_copy/Proofs/Model.lean",
-              "non_import_content_identical": true,
-              "source_sha256": "4b2d3e73f7968bca19945d759d510ce2375d7259a0df6391b98b1d89ff63414e"
-            },
-            {
-              "source": "bench/repairs/tritonbench_g/kv_cache_copy/Proofs/Native.lean",
-              "non_import_content_identical": true,
-              "source_sha256": "1bca1a83e9aae7f068947dad8a2f3cf73d1ee5d80bfbcc25d97f05fb07f269d4"
-            },
-            {
-              "source": "bench/repairs/tritonbench_g/kv_cache_copy/Proofs/Source.lean",
-              "non_import_content_identical": true,
-              "source_sha256": "413415060a80c814e1bbcd88f9496f71fcb7f4cf39e50f4456b36b214a9cd64a"
-            },
-            {
-              "source": "bench/repairs/tritonbench_g/kv_cache_copy/Proofs/SourcePreservation.lean",
-              "non_import_content_identical": true,
-              "source_sha256": "29c17bc37c8efbc34f92362ce12d12b39fff053521f6424c67978672e14ddc8f"
-            }
-          ],
-          "sha256": "cabaee83f1057a8aee2a51b18657262941fe440ada2e725906a5a5309e032144"
-        },
-        "different_stage_or_encoding_exceptions": [],
+        "organization": "The task-level IO remains the complete shared memory/channel/schedule description; public reader conditions remain explicit.",
+        "source_update": "Selected block routing and the public IO address now use the actual whole-pointer projection for signed block-table entries. Access safety uses those same addresses; existing valid-host hypotheses recover the independent tensor formula. No metadata-domain narrowing is added.",
+        "verification": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
         "previous_assessment": {
-          "manifest": "bench/review-checkpoints/2026-10-22/logical-readers/io-audit.json",
-          "task": "kv_cache_copy"
+          "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/previous-reviews.json.gz",
+          "sha256": "d425d895837b7e83a74bf04fe18236917b95dac50bc2aa0c28fba3f4d7640fcb"
         }
       },
       "distinct_views": "The Real logical ProgramIO includes metadata-dependent cache addresses, domains and copy targets. FP equivalence uses actual ProfiledMemory source-program views with a different judgment and raw memory representation, not another copy of this logical IO record.",
@@ -17223,19 +16971,23 @@
         },
         {
           "path": "bench/repairs/tritonbench_g/kv_cache_copy/IO.lean",
-          "sha256": "7f1c26b9e092f5a2d40f920ed7f2c3a3e1324cbb5acd40d371c5d7209280a1bc"
+          "sha256": "9547175dc72c38624806ac8b1be38b350a87a90e224efd2a80e9427b17ab92d4"
         }
       ],
       "changed_paths": [
         "bench/repairs/tritonbench_g/kv_cache_copy/IO.lean"
       ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/kv_cache_copy.json",
-        "sha256": "5a0c282b18330b1c0b29163473b5527a11fe1ec0a0d4c9229abedc9bcae98816",
-        "task": "kv_cache_copy"
+        "path": "bench/pr22-split/receipts/native-rwkv6-function-bodies.json",
+        "sha256": "0bcf8520e50a8f5dcf3f86d1e39f1c4b09c23c17097941c58d312aa2b5d2a973"
       },
       "preservation_and_build_passed": true,
-      "validation_limits": {},
+      "validation_limits": {
+        "official_comparator": "Unavailable; actual final-source attempts retained.",
+        "torch": "Unavailable.",
+        "numerical_receipt": "Known unchanged Structural receipt hash error.",
+        "scope": "Existing mathematical input domains; no GPU or numerical experiment."
+      },
       "remaining_issues": [],
       "main_formula_review": {
         "audit": "bench/review-checkpoints/2026-10-22/main-formulas/audit.json",
@@ -17245,7 +16997,7 @@
           "task_index": 0,
           "task": "kv_cache_copy"
         },
-        "io_data_unchanged": true
+        "io_data_unchanged": false
       },
       "previous_io_sources": [
         {
@@ -17293,14 +17045,18 @@
         "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/kv_cache_copy.json",
         "sha256": "5a0c282b18330b1c0b29163473b5527a11fe1ec0a0d4c9229abedc9bcae98816",
         "task": "kv_cache_copy"
+      },
+      "current_body_source_review": {
+        "path": "bench/pr22-split/receipts/native-rwkv6-function-bodies.json",
+        "sha256": "0bcf8520e50a8f5dcf3f86d1e39f1c4b09c23c17097941c58d312aa2b5d2a973"
       }
     },
     {
       "task": "kv_cache_filling",
       "status": "fixed",
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/kv-reconstruction/review.json",
-        "sha256": "5357964c1d07b5ee7e193cffb02a645cc26421e9319bd6b47029691d36c90bf3"
+        "path": "bench/pr22-split/receipts/native-kv-cache-filling-function-bodies.json",
+        "sha256": "a82c40ac8ae754710176aa57ac179abb21e06ebcc83aa0fe3034c1bfed75a847"
       },
       "remaining_issues": [],
       "superseded_review": {
@@ -17312,9 +17068,18 @@
         "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Correct.lean",
         "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/FPEquiv.lean"
       ],
-      "assessment": "The task IO.lean owns the sole memory/schedule/channel interface and both bijective named mathematical views. Correct displays mathematical results; FPEquiv selects actual source variants. Proofs/LogicalIO proves the complete contract connection.",
+      "assessment": {
+        "organization": "KernelOnly/IO.lean retains the canonical complete typed/logical interface and adds pure actual-state output projections. Root IO.lean owns the distinct physical-byte ABI and heap materialization; Proofs/WholeBacking supplies the complete semantic connections. Public readers stay thin.",
+        "source_update": "Complete source helper and policy bodies retain every original statement. Helper scope/evaluation/tuple semantics and implicit unsigned arithmetic belong to frontend lowering. The previously missing optional physical source/imports are restored. No output or successful-execution premise is inserted.",
+        "verification": "All55 canonical task roots, all117 frontend roots and all4420 cumulative roots pass with joint imports and an independent empty-project replay. Original Python, Correct/FPEquiv/Contract and primary input domains are unchanged.",
+        "previous_assessment": {
+          "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/previous-io-review.json",
+          "sha256": "7b675cc226c14f9507d3755e407669ffeb9e67c299608413a5da78f16dc58af4"
+        }
+      },
       "distinct_views": [
-        "Typed regional ProgramIO and bijective named mathematical view of exactly the same data."
+        "The existing typed regional ProgramIO and its bijective named mathematical view retain their complete definitions and public domains.",
+        "The optional physical-byte IO binds caller descriptors, observed metadata strides, signed bytes and scheduler buffers to that regional input, and materializes actual output stores. It is a distinct encoding/ABI view with proved input and byte readback/frame connections."
       ],
       "readers": [
         {
@@ -17329,24 +17094,35 @@
       "io_sources": [
         {
           "path": "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/IO.lean",
-          "sha256": "ba9ff521ee6eda71c7fa23966704538e711758c986b658a953bf3479fe0e8904"
+          "sha256": "13cd6cf4b9d2364e03988b740c421a9c185785a158876ff8d09b4e01cf3b8a52"
         },
         {
           "path": "VeriTile/Triton/Float/LogicalProgramIO.lean",
           "sha256": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/kv_cache_filling/IO.lean",
+          "sha256": "46514798329b69fe9196b8d5b1293ecc0d67072776a8bb7392e08f2ff73d132d"
         }
       ],
       "changed_paths": [
         "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/IO.lean",
-        "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Proofs/LogicalIO.lean"
+        "bench/repairs/tritonbench_g/kv_cache_filling/IO.lean"
       ],
       "preservation_and_build_passed": true,
-      "validation_limits": [
-        "Official comparator unavailable; Lean kernel and statement/axiom audits were run.",
-        "Pinned external Lean/Mathlib dependencies reuse installed artifacts. No GPU or new numerical experiment.",
-        "Historical optional raw/Tensor/host delivery remains unrecovered and is not certified by this main-kernel reconstruction.",
-        "The 183-task scan checks source availability, not fresh proof validity of every task."
-      ]
+      "validation_limits": {
+        "official_comparator": "Unavailable due host isolation; actual final-source attempts are retained.",
+        "numerical_receipt": "Known unchanged Structural receipt hash error; no false repin.",
+        "physical_scope": "Actual caller metadata/stride and allocated INT64 scheduler buffers are explicit input ABI bindings. Host allocation and launch realization are outside the kernel theorem.",
+        "scope": "No GPU or new numerical experiment; corpus migration remains incomplete."
+      },
+      "main_formula_review": {
+        "io_data_unchanged": false
+      },
+      "current_body_source_review": {
+        "path": "bench/pr22-split/receipts/native-kv-cache-filling-function-bodies.json",
+        "sha256": "a82c40ac8ae754710176aa57ac179abb21e06ebcc83aa0fe3034c1bfed75a847"
+      }
     },
     {
       "task": "l2_norm_bwd",
@@ -22580,37 +22356,12 @@
         "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/FPEquiv.lean"
       ],
       "assessment": {
-        "organization": "The original memory IO and complete logical input/output view now share the task IO.lean; original namespaces, encodings/stages and definitions are retained; proof connections remain in Proofs.",
-        "preservation": {
-          "evidence": {
-            "path": ".veritile-cache/io-unification-20261023/queue09/source-preservation.json",
-            "sha256": "17c7342caa6fb24ea081d4ef30b05bff7774be00d799760f073c758490b30c47"
-          },
-          "moved_definition_bodies": "byte-identical chunks with the same namespace and public declaration names",
-          "complete_judgments": "all selected Contract/Correct/FPEquiv files are byte-identical; all LogicalReader non-import bodies, including full judgment equivalences, are byte-identical",
-          "selected_public_files": {
-            "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Contract.lean": {
-              "before": "1004510e475f747bb9fa90b78ff9320615261a1f923774324ee38d20586e91f1",
-              "current": "1004510e475f747bb9fa90b78ff9320615261a1f923774324ee38d20586e91f1"
-            },
-            "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Correct.lean": {
-              "before": "c0e51ff6920f34d6f9a89d35f48389293fa78b299192d2a85b183e2cd9a4ed4f",
-              "current": "c0e51ff6920f34d6f9a89d35f48389293fa78b299192d2a85b183e2cd9a4ed4f"
-            },
-            "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/FPEquiv.lean": {
-              "before": "a2b583bce227c6dd7a7d1e2545f60631cf2f626735bd3614e11ca3750ddd45e5",
-              "current": "a2b583bce227c6dd7a7d1e2545f60631cf2f626735bd3614e11ca3750ddd45e5"
-            }
-          },
-          "connection_proof_nonimport_body_equal": true,
-          "kernels_unchanged": {
-            "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Kernels.lean": "5a870605b5c6cbfc3eb12d39c6337c0e1545fcfcc700f75299a9a847a958abf0"
-          }
-        },
-        "different_stage_or_encoding_exceptions": [],
+        "organization": "All memory views, exact labeled inputs/domain, schedules, graph/native observations and independent Real targets stay in IO.lean byte-identically; only the compatibility import changes. Public reader bytes are unchanged.",
+        "source_update": "Four complete raw original/existing candidate mappings cover both signed index-storage ABIs. Full-state execution and access-safety equalities reconnect the proof presentation; whole-grid successful execution, outputs, frames and actual original/candidate FP pair are reverified without new premises.",
+        "verification": "190 task/affected production roots and joint import pass focused and independently from empty project objects. All 4732 cumulative roots/joint import pass warm; the remaining 4542 roots have a hash-identical dependency closure and retain published 102 clean evidence.",
         "previous_assessment": {
-          "manifest": "bench/review-checkpoints/2026-10-22/logical-readers/io-audit.json",
-          "task": "lora_expand_gemv"
+          "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/previous-io-review.json",
+          "sha256": "c43c72730afe152ca1ef50f597448b7c83b549f5a037d638afaf23bbb8f6a311"
         }
       },
       "distinct_views": "Real/native observations interpret the same byte-separated token graph using different scalar observations. Candidate preserves all source pids, bindings, memory channels and complete-grid order, changing only the actual candidate source.",
@@ -22639,7 +22390,7 @@
         },
         {
           "path": "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/IO.lean",
-          "sha256": "f11418d76b32ede30ea87f8be3c8403ad549d1ed913920ff9741b8cdd2adebf1"
+          "sha256": "6cb88d82b58b2b745395dbc54bb3fc9e36fabbd05bdde9a8539f73ee9dba4756"
         },
         {
           "path": "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/PairIO.lean",
@@ -22650,13 +22401,15 @@
         "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/IO.lean"
       ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/lora_expand_gemv.json",
-        "sha256": "8a4cfb39452b46fb97ab20d6eb79f1e7e10928e5e074a6aa452d92ddd0c25949",
-        "task": "lora_expand_gemv"
+        "path": "bench/pr22-split/receipts/native-lora-expand-function-bodies.json",
+        "sha256": "84b4b10c71e5ac36a7bcb1eb30c14a88da217633a64d88241eb5d5f064eb0cd6"
       },
       "preservation_and_build_passed": true,
       "validation_limits": {
-        "compilation_scope_note": "An initial broader attempt added candidate data to IO.lean and recompiled an unchanged safety helper; its existing simplification proof failed with an Algebra.mk application type mismatch. No shared module, numerical code or safety proof was altered. The final extraction uses a separate candidate IO module; changed modules, FPEquiv, affected audit and fresh full selected joint imports all pass. The initial failure is preserved and not represented as a failed established theorem."
+        "official_comparator": "Unavailable due host isolation; 190 actual attempts recorded.",
+        "torch": "Unavailable; strict raw body/ABI and complete retained candidate AST checks pass.",
+        "numerical_receipt": "Known unchanged Structural receipt hash error; no false numerical repin.",
+        "scope": "Full source replay on current public domains; no GPU or new numerical experiment."
       },
       "remaining_issues": [],
       "main_formula_review": {
@@ -22740,6 +22493,10 @@
         "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/lora_expand_gemv.json",
         "sha256": "8a4cfb39452b46fb97ab20d6eb79f1e7e10928e5e074a6aa452d92ddd0c25949",
         "task": "lora_expand_gemv"
+      },
+      "current_body_source_review": {
+        "path": "bench/pr22-split/receipts/native-lora-expand-function-bodies.json",
+        "sha256": "84b4b10c71e5ac36a7bcb1eb30c14a88da217633a64d88241eb5d5f064eb0cd6"
       }
     },
     {
@@ -29187,36 +28944,19 @@
         "bench/repairs/tritonbench_g/rms_norm_triton/FPEquiv.lean"
       ],
       "assessment": {
-        "organization": "GridPublic core launch/channels/read/write/masks from IOData moved intact into IO.lean alongside existing LogicalIO adapters. SourceSafety and PublicIO proofs remain Proofs.",
-        "preservation": {
-          "kind": "byte_preserved_moved_definitions_and_preserved_public_judgments",
-          "checks": {
-            "path": ".veritile-cache/io-unification-20261023/queue12/preservation.json",
-            "sha256": "f63dfcdb1886154dca627b4e347fe24ad3b24bfb04b7604e8140d99862bbf1f0"
-          },
-          "full_public_judgment_types": {
-            "path": ".veritile-cache/io-unification-20261023/queue12/rms_norm_triton-public-types-result.json",
-            "sha256": "39b277c3e9e227caf634d62edbce29b3875d09af11277c2f88f0e0e4bc44b856"
-          },
-          "execution_safety_and_complete_judgment_proofs_remain_in_Proofs": true,
-          "fresh_source_review": {
-            "path": ".veritile-cache/io-unification-20261023/queue12/fresh-source-review.json",
-            "sha256": "b986318afb1581600f2095cbb5349961971de792e1ec308bbb0877173b84169b"
-          },
-          "minimal_proof_reference_disambiguation": "The IO consolidation exposes the repaired parent-namespace kernel; qualify the existing simp reference as the original kernel used by Layout.source. The previous theorem type, full safety goal and proof strategy are preserved."
-        },
-        "different_stage_or_encoding_exceptions": [],
+        "organization": "The task-level IO remains the complete shared memory/channel/schedule description; public reader conditions remain explicit.",
+        "source_update": "The source runtime N now reaches opaque fromNat rather than an FP literal. The selected ordered reference and native observation retain that conversion and the actual integer-one specialization. Legacy source equality is replaced by a Real-only semantic bridge; the public independent Real formula and input domain are unchanged. A separate checked singleton reference covers N=B=1. No arbitrary conversion identity is assumed. The legacy per-lane readback helper was renamed to avoid a collision with the current public theorem; both statements and proof meanings are preserved.",
+        "verification": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
         "previous_assessment": {
-          "manifest": "bench/review-checkpoints/2026-10-22/logical-readers/io-audit.json",
-          "task": "rms_norm_triton"
-        },
-        "current_source_body_followup": "One complete GridPublic.io retains all input/output channels, masks, windows, row permutations and observers. Its added epsilon argument chooses the actual FP32 call value; the default explicitly preserves the old M.cast(M.literal eps) interpretation. KernelSafety.invocation binds that value outside the eleven-statement runtime source. NativeIO and candidate select the same parameter node, lowered by RuntimeObserved to NativeModel.epsilon. ActualRow/ActualGrid/PublicIO prove actual safe successful execution, every output and full frame; SourcePreservation proves complete historical optional memory observations at the compatibility argument; literal_memory_connection proves the specialized-call mode. All prior Real/native/domain/host/Tensor scopes replay in 1704-root local/joint/independent-cold checks at the code commit in this receipt. No extra complete IO record is introduced."
+          "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/previous-reviews.json.gz",
+          "sha256": "d425d895837b7e83a74bf04fe18236917b95dac50bc2aa0c28fba3f4d7640fcb"
+        }
       },
       "distinct_views": "One complete generic GridPublic.io with an explicit scalar invocation argument. Real/literal-compatible and actual native parameter-word views select an interpretation of that same descriptor; candidate replaces only the actual source kernel.",
       "readers": [
         {
           "path": "bench/repairs/tritonbench_g/rms_norm_triton/Correct.lean",
-          "sha256": "8065e623589c627683b923296cbeff947a159700c29e4a6de6bfefcb0dd89f27"
+          "sha256": "de8cd5540d6d15e8014cdfe2ee68a8cd063a3fd78b560d9194d360ce0edae04e"
         },
         {
           "path": "bench/repairs/tritonbench_g/rms_norm_triton/FPEquiv.lean",
@@ -29242,14 +28982,19 @@
         }
       ],
       "changed_paths": [
-        "bench/repairs/tritonbench_g/rms_norm_triton/IO.lean"
+        "bench/repairs/tritonbench_g/rms_norm_triton/Correct.lean"
       ],
       "review_evidence": {
-        "path": "bench/pr22-split/receipts/native-rmsnorm-body.json",
-        "sha256": "8b567f456c9b69cd9fe0da2828fe63ccb835b56327beee3e63ae83fe421c69f8"
+        "path": "bench/pr22-split/receipts/native-rwkv6-function-bodies.json",
+        "sha256": "0bcf8520e50a8f5dcf3f86d1e39f1c4b09c23c17097941c58d312aa2b5d2a973"
       },
       "preservation_and_build_passed": true,
-      "validation_limits": {},
+      "validation_limits": {
+        "official_comparator": "Unavailable; actual final-source attempts retained.",
+        "torch": "Unavailable.",
+        "numerical_receipt": "Known unchanged Structural receipt hash error.",
+        "scope": "Existing mathematical input domains; no GPU or numerical experiment."
+      },
       "remaining_issues": [],
       "main_formula_review": {
         "audit": "bench/review-checkpoints/2026-10-22/main-formulas/audit.json",
@@ -29259,7 +29004,7 @@
           "task_index": 3,
           "task": "rms_norm_triton"
         },
-        "io_data_unchanged": true
+        "io_data_unchanged": false
       },
       "previous_io_sources": [
         {
@@ -29339,11 +29084,15 @@
       "current_source_body_review": {
         "code_commit": "8a3d868f25a399413776c7d7a62e69238cefa236",
         "review_evidence": {
-          "path": "bench/pr22-split/receipts/native-rmsnorm-body.json",
-          "sha256": "8b567f456c9b69cd9fe0da2828fe63ccb835b56327beee3e63ae83fe421c69f8"
+          "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+          "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
         },
         "preservation_kind": "complete_execution_memory_and_actual_runtime_argument_bridges",
         "single_complete_io_retained": true
+      },
+      "current_body_source_review": {
+        "path": "bench/pr22-split/receipts/native-rwkv6-function-bodies.json",
+        "sha256": "0bcf8520e50a8f5dcf3f86d1e39f1c4b09c23c17097941c58d312aa2b5d2a973"
       }
     },
     {
@@ -30731,29 +30480,12 @@
         "bench/repairs/tritonbench_g/rotary_emb_nopad/FPEquiv.lean"
       ],
       "assessment": {
-        "organization": "Both genuine cached/uncached memory interfaces and their logical adapters already reside in IO.lean. PairIO only selects candidate invocations/variants and does not duplicate logical layouts.",
-        "preservation": {
-          "evidence": {
-            "path": ".veritile-cache/io-unification-20261023/queue13/preservation.json",
-            "sha256": "e78a27baa5ecccc32ec3a0c06ff3db83ec0f87688608194ffe877fab568c44b6"
-          },
-          "all_selected_public_entry_bytes_unchanged": true,
-          "complete_judgment_connection_retained": {
-            "theorem": "RotationIO.logical_uncached_iff; RotationIO.logical_cached_iff",
-            "detail": "Both complete original judgments are iff their logical views: uncached Implements uTarget and cached ImplementsOn MetadataDomain cTarget. Exact lifted target equalities, domain identity, all masks and all frame components are preserved in the helper."
-          },
-          "source_preservation_check": {
-            "source_files": 46,
-            "byte_changed_files": [],
-            "added_files": [],
-            "all_public_contract_correct_fpequiv_bytes_unchanged": true
-          },
-          "definition_preservation": "Every task source byte equals its saved before snapshot; applicable release pins also match."
-        },
-        "different_stage_or_encoding_exceptions": [],
+        "organization": "The task-level IO remains the complete shared memory/channel/schedule description; public reader conditions remain explicit.",
+        "source_update": "The typed block-table lookup, public IO offset and source safety bounds now follow actual signed pointer evaluation. Existing nonnegative metadata recovers the original geometry and logical value. Full arbitrary-primitive source memory equivalences are retained and rebuilt.",
+        "verification": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
         "previous_assessment": {
-          "manifest": "bench/review-checkpoints/2026-10-22/logical-readers/io-audit.json",
-          "task": "rotary_emb_nopad"
+          "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/previous-reviews.json.gz",
+          "sha256": "d425d895837b7e83a74bf04fe18236917b95dac50bc2aa0c28fba3f4d7640fcb"
         }
       },
       "distinct_views": "Uncached GQA leader masks and in-place Q/K differ from cached signed metadata/table reads, indirect cache output and early head return. They are genuine source branches/stages with different channels and masks; retain both independent interfaces and four main results.",
@@ -30782,22 +30514,26 @@
         },
         {
           "path": "bench/repairs/tritonbench_g/rotary_emb_nopad/IO.lean",
-          "sha256": "d5874d838df7a82d4cf4e8dd59f3308c2e2dbdefe236f5b68f9d5257ebde9242"
+          "sha256": "2cf34dd3ce8faf761cfca746b4aa23a5cfee5f49ed305574f6cdbbe7afd8b78d"
         },
         {
           "path": "bench/repairs/tritonbench_g/rotary_emb_nopad/PairIO.lean",
           "sha256": "d037848656f4357b2526521f197ad94cc46e20085c760977275c7c2d5982ff78"
         }
       ],
-      "changed_paths": [],
+      "changed_paths": [
+        "bench/repairs/tritonbench_g/rotary_emb_nopad/IO.lean"
+      ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/rotary_emb_nopad.json",
-        "sha256": "46955223d02dec1db52127c116933adc8eac1389da76494ad04ad76c416ba0dc",
-        "task": "rotary_emb_nopad"
+        "path": "bench/pr22-split/receipts/native-rwkv6-function-bodies.json",
+        "sha256": "0bcf8520e50a8f5dcf3f86d1e39f1c4b09c23c17097941c58d312aa2b5d2a973"
       },
       "preservation_and_build_passed": true,
       "validation_limits": {
-        "source_rebuild_limitations": []
+        "official_comparator": "Unavailable; actual final-source attempts retained.",
+        "torch": "Unavailable.",
+        "numerical_receipt": "Known unchanged Structural receipt hash error.",
+        "scope": "Existing mathematical input domains; no GPU or numerical experiment."
       },
       "remaining_issues": [],
       "main_formula_review": {
@@ -30808,7 +30544,7 @@
           "task_index": 1,
           "task": "rotary_emb_nopad"
         },
-        "io_data_unchanged": true
+        "io_data_unchanged": false
       },
       "previous_io_sources": [
         {
@@ -30876,6 +30612,10 @@
         "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/rotary_emb_nopad.json",
         "sha256": "46955223d02dec1db52127c116933adc8eac1389da76494ad04ad76c416ba0dc",
         "task": "rotary_emb_nopad"
+      },
+      "current_body_source_review": {
+        "path": "bench/pr22-split/receipts/native-rwkv6-function-bodies.json",
+        "sha256": "0bcf8520e50a8f5dcf3f86d1e39f1c4b09c23c17097941c58d312aa2b5d2a973"
       }
     },
     {
@@ -32263,40 +32003,12 @@
         "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/FPEquiv.lean"
       ],
       "assessment": {
-        "organization": "Moved the remaining PublicIO.realIO interpretation adapter from RealIO.lean into IO.lean verbatim and redirected the only source import. LogicalInputs/logicalIO and the complete memory interface were already in IO.lean; execution and full judgment proofs remain in Proofs.",
-        "preservation": {
-          "evidence": {
-            "path": ".veritile-cache/io-unification-20261023/queue13/preservation.json",
-            "sha256": "e78a27baa5ecccc32ec3a0c06ff3db83ec0f87688608194ffe877fab568c44b6"
-          },
-          "all_selected_public_entry_bytes_unchanged": true,
-          "complete_judgment_connection_retained": {
-            "theorem": "PublicIO.logical_real_iff",
-            "detail": "The whole logical ProgramIO.ImplementsOn LogicalRealDomain judgment is iff original realIO.ImplementsOn RealDomain mathematical. Full input/output equivalences and exact domain/target equality retain all inactive/padded values, typed metadata, complete workset permutation, source safety, execution and frame."
-          },
-          "source_preservation_check": {
-            "source_files": 46,
-            "byte_changed_files": [
-              "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/IO.lean",
-              "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Proofs/IOReal.lean",
-              "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/RealIO.lean"
-            ],
-            "added_files": [],
-            "all_public_contract_correct_fpequiv_bytes_unchanged": true
-          },
-          "definition_preservation": {
-            "name": "VeriTile.Bench.Repairs.SoftmaxReduceVNegInfChecked.PublicIO.realIO",
-            "source_body_verbatim": true,
-            "declaration_bytes_sha256": "bd19597a8f1593bf8c144e6109d499a85c4a39ff06283377368501afd3a6fa39",
-            "original_io_recovered_exactly_after_removing_new_import_and_verbatim_declaration": true,
-            "only_reference_changed_in_IOReal_is_import": true,
-            "full_public_judgment_preservation": "All selected Contract/Correct/FPEquiv source bytes are unchanged. IOReal proof/judgment bytes unchanged except module import. Every pre-existing IO declaration is unchanged; relocated realIO body is byte-identical. Fresh per-task joint includes an rfl equality check of the moved complete ProgramIO instance."
-          }
-        },
-        "different_stage_or_encoding_exceptions": [],
+        "organization": "The task-level IO remains the complete shared memory/channel/schedule description; public reader conditions remain explicit.",
+        "source_update": "FP and Real key/value offsets, IO reads and the input binding retain the actual signed page-table address. Existing valid host Nat-page metadata recovers the independent logical formula. Complete IO, safety, source FP pair and native results are rebuilt.",
+        "verification": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
         "previous_assessment": {
-          "manifest": "bench/review-checkpoints/2026-10-22/logical-readers/io-audit.json",
-          "task": "softmax_reducev"
+          "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/previous-reviews.json.gz",
+          "sha256": "d425d895837b7e83a74bf04fe18236917b95dac50bc2aa0c28fba3f4d7640fcb"
         }
       },
       "distinct_views": "Real WithBot interpretation and native Word-to-Node graph with per-job profile/store-replica observation need different codecs/observers. Both share sourceIO, memory and the counts-derived covering extent; no maximum-length restriction is added.",
@@ -32329,19 +32041,23 @@
         },
         {
           "path": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/IO.lean",
-          "sha256": "227b287bc65bb8d8289de58097af1c67be1e14a613f1a747f940f100b84b3377"
+          "sha256": "29bb9dafe894e12da2d1d1b951f4febbc5949a5009cb4d3cf406acf78d6eb0e8"
         }
       ],
       "changed_paths": [
         "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/IO.lean"
       ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/softmax_reducev.json",
-        "sha256": "b955975a90f42be51389d0937c83d807501107c51e3eaaa7870a3049b55e4f7d",
-        "task": "softmax_reducev"
+        "path": "bench/pr22-split/receipts/native-rwkv6-function-bodies.json",
+        "sha256": "0bcf8520e50a8f5dcf3f86d1e39f1c4b09c23c17097941c58d312aa2b5d2a973"
       },
       "preservation_and_build_passed": true,
-      "validation_limits": {},
+      "validation_limits": {
+        "official_comparator": "Unavailable; actual final-source attempts retained.",
+        "torch": "Unavailable.",
+        "numerical_receipt": "Known unchanged Structural receipt hash error.",
+        "scope": "Existing mathematical input domains; no GPU or numerical experiment."
+      },
       "remaining_issues": [],
       "main_formula_review": {
         "audit": "bench/review-checkpoints/2026-10-22/main-formulas/audit.json",
@@ -32351,7 +32067,7 @@
           "task_index": 11,
           "task": "softmax_reducev"
         },
-        "io_data_unchanged": true
+        "io_data_unchanged": false
       },
       "previous_io_sources": [
         {
@@ -32438,6 +32154,10 @@
         "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/softmax_reducev.json",
         "sha256": "b955975a90f42be51389d0937c83d807501107c51e3eaaa7870a3049b55e4f7d",
         "task": "softmax_reducev"
+      },
+      "current_body_source_review": {
+        "path": "bench/pr22-split/receipts/native-rwkv6-function-bodies.json",
+        "sha256": "0bcf8520e50a8f5dcf3f86d1e39f1c4b09c23c17097941c58d312aa2b5d2a973"
       }
     },
     {

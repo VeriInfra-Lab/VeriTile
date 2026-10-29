@@ -11,26 +11,27 @@ variable {α : Type} [Inhabited α]
 iteration. The mathematical recurrence is already fixed by Context. -/
 theorem loopExec (M : Algebra α) (c : Shape) (initial current : State α) (scale : α)
     (n : Nat) (hn : n≤c.T) (ctx : Context M c initial scale n current) :
-    ∃ t, range (engine M) "_i" n c.T 1 (parts c).body current=some t ∧
+    ∃ t, rangeInt (engine M) "_" n c.T 1 (parts c).body current=some t ∧
       Context M c initial scale c.T t := by
+  have cast_live : ((n : Int)<(c.T : Int)) ↔ n<c.T := Int.ofNat_lt
   by_cases live : n<c.T
   · let next := bodyExec M c initial current scale n ctx
     obtain ⟨t,ht,hctx⟩ := loopExec M c initial next.val scale (n+1) (by omega)
       (body_context M c initial current scale n ctx live)
     refine ⟨t,?_,hctx⟩
-    rw [range]
-    simpa only [show (1:Nat)≠0 by decide,live,if_false,if_true,next.property,Option.bind_some] using ht
+    rw [rangeInt]
+    simpa only [show (1:Nat)≠0 by decide,cast_live,live,if_false,if_true,next.property,Option.bind_some,Nat.cast_add,Nat.cast_one] using ht
   · have done : n=c.T := by omega
     subst n
-    exact ⟨current,by simp [range],ctx⟩
+    exact ⟨current,by simp [rangeInt],ctx⟩
 termination_by c.T-n
 decreasing_by omega
 
 /-- Both the empty loop and the final backedge stop before reading any body
 pointer register. No hypothesis about those dead pointer values is needed. -/
 theorem stopped_range (M : Algebra α) (c : Shape) (current : State α) :
-    range (engine M) "_i" c.T c.T 1 (parts c).body current=some current := by
-  simp [range]
+    rangeInt (engine M) "_" c.T c.T 1 (parts c).body current=some current := by
+  simp [rangeInt]
 
 #axiomsClean loopExec
 #axiomsClean stopped_range

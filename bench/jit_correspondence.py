@@ -529,7 +529,9 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
           expected_pointer_offsets: dict | None = None,
           expected_source_dtype: dict | None = None,
           expected_pointer_presence: dict | None = None,
-          expected_specialized_booleans: dict | None = None) -> dict:
+          expected_specialized_booleans: dict | None = None,
+          expected_constexpr_bindings: dict | None = None) -> dict:
+    native_ones: set[str] = set()
     functions = [n for n in ast.parse(python_text).body
                  if isinstance(n, ast.FunctionDef) and n.name == python_function]
     if len(functions) != 1:
@@ -596,16 +598,21 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
         raise ValueError("source dtype binding requires a checked call signature")
     if expected_pointer_offsets is not None and signature_definition is None:
         raise ValueError("pointer offsets require a checked call signature")
-    helper = re.search(r"\btriton_function\s+(\w+)\s*\(([^)]*)\)\s+in\s+triton\s*$", signature)
+    helper = re.search(r"\btriton_function\s+(\w+)\s*\(([^)]*)\)(?:\s+constexpr\s*\[([^\]]*)\])?\s+in\s+triton\s*$", signature)
     if helper:
-        if signature_definition is not None or expected_signature is not None or expected_call_bindings is not None:
+        if (signature_definition is not None or expected_signature is not None
+                or expected_call_bindings is not None or expected_constexpr_bindings is not None):
             raise ValueError("source helpers use inferred argument values, not a kernel ABI")
         arguments = [name.strip() for name in helper[2].split(",") if name.strip()]
         if helper[1] != python_function or arguments != [a.arg for a in function.args.args]:
             raise ValueError("source helper name or parameters differ from Python")
-        if constants or runtime or len(arguments) != len(set(arguments)):
+        declared_constants = [name.strip() for name in (helper[3] or "").split(",") if name.strip()]
+        if (len(declared_constants) != len(set(declared_constants))
+                or set(declared_constants) != constants):
+            raise ValueError("source helper constexpr parameters differ from Python")
+        if runtime or len(arguments) != len(set(arguments)):
             raise ValueError("unsupported source helper parameter annotations")
-        profile = {"pointers": [], "scalars": [], "constexpr": []}
+        profile = {"pointers": [], "scalars": [], "constexpr": declared_constants}
     elif signature_definition is not None:
         if expected_signature is None:
             raise ValueError("pasted body requires an independently reviewed call signature")
@@ -661,6 +668,13 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
             raise ValueError("source dtype pointer declaration and invocation differ")
         if expected_signature is not None and profile != expected_signature:
             raise ValueError("call signature differs from the reviewed launch types")
+        for name, value in (expected_constexpr_bindings or {}).items():
+            if name not in profile["constexpr"] or type(value) is not int or value < 0:
+                raise ValueError("constexpr binding requires a declared natural-valued parameter")
+            values = re.findall(r"\blet\s+" + re.escape(name)
+                                + r"\s*:\s*Nat\s*:=\s*(\d+)\s*(?=\n)", signature)
+            if len(values) != 1 or int(values[0]) != value:
+                raise ValueError("constexpr caller value differs from the reviewed invocation")
         specialized = profile.get("specializeBooleans", [])
         if set(specialized) != set(expected_specialized_booleans or {}):
             raise ValueError("Boolean specializations differ from the reviewed invocation")
@@ -688,7 +702,24 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
             raise ValueError("bare tanh requires its original source import binding")
         names = ({n for n, _ in profile["pointers"] + profile["scalars"]} | set(profile["constexpr"])
                  | set(profile.get("sourceDTypePointers", [])))
-        if names != {a.arg for a in function.args.args} or set(profile["constexpr"]) != constants:
+        # The native scalar specializer treats an unannotated raw integer 1
+        # as constexpr unless do_not_specialize excludes that parameter. The
+        # reviewed Nat-valued caller binding above must pin exactly that case;
+        # arbitrary runtime scalars cannot be relabeled as constexpr.
+        native_ones = set(profile["constexpr"]) - constants
+        disabled = []
+        if isinstance(decorators[0], ast.Call):
+            for kw in decorators[0].keywords:
+                if kw.arg == "do_not_specialize":
+                    disabled = ast.literal_eval(kw.value) or []
+        arguments_by_name = {a.arg: (i, a) for i, a in enumerate(function.args.args)}
+        for name in native_ones:
+            entry = arguments_by_name.get(name)
+            if (entry is None or annotation(entry[1]) is not None
+                    or (expected_constexpr_bindings or {}).get(name) != 1
+                    or name in disabled or entry[0] in disabled):
+                raise ValueError("Python parameters and call signature differ: runtime constexpr specialization requires enabled unannotated raw integer one")
+        if names != set(arguments_by_name) or set(profile["constexpr"]) != constants | native_ones:
             raise ValueError("Python parameters and call signature differ")
         # `integer` is intentionally unbounded; it cannot certify an explicit
         # int32/int64 ABI annotation. Pointer annotations are not scalar args.
@@ -748,6 +779,8 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
             "call_bindings": call_bindings,
             "statements": len(function.body),
             "runtime_parameters": dict(profile["scalars"]) if profile is not None else runtime, "constexpr_parameters": sorted(constants)}
+    if profile is not None and native_ones:
+        result["native_integer_one_specializations"] = sorted(native_ones)
     if helper:
         result["body_kind"] = "helper"
         result["helper_parameters"] = arguments
@@ -771,7 +804,7 @@ def validate_manifest_records(records: list[dict]) -> None:
     """Allow explicit distinct ABI profiles of one Python function.
 
     A profile tag cannot excuse a duplicate mapping. Besides distinct Lean
-    definitions, require distinct checked ABIs or distinct sets of scalar
+    definitions, require distinct checked ABIs, checked constexpr values or sets of scalar
     arguments specialized at the call. The latter checks both literal and
     runtime-register interfaces of the same source, without treating argument
     alias renaming or an empty binding list as a different interface.
@@ -799,6 +832,7 @@ def validate_manifest_records(records: list[dict]) -> None:
             abis.append(json.dumps({
                 "abi": {key: signature.get(key) for key in ("pointers", "scalars", "constexpr", "optionalPointers")},
                 "specialized_scalars": sorted(bindings),
+                "constexpr_bindings": record.get("expected_constexpr_bindings") or {},
             }, sort_keys=True))
         if len(abis) != len(set(abis)):
             raise ValueError("reused Python correspondence has duplicate ABI profiles and scalar call modes")
@@ -814,7 +848,7 @@ def check_manifest(root: Path, manifest: Path) -> list[dict]:
                        record.get("signature_definition"), record.get("expected_signature"),
                        record.get("expected_call_bindings"), record.get("expected_pointer_offsets"),
                        record.get("expected_source_dtype"), record.get("expected_pointer_presence"),
-                       record.get("expected_specialized_booleans"))
+                       record.get("expected_specialized_booleans"), record.get("expected_constexpr_bindings"))
         if "profile_variant" in record:
             result["profile_variant"] = record["profile_variant"]
         results.append(result)

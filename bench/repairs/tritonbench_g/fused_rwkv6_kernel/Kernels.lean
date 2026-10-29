@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.fused_rwkv6_kernel.SourceParameters
 import Mathlib.Data.Real.Basic
 import Mathlib.Analysis.SpecialFunctions.Exp
 import Mathlib.Tactic
@@ -6,22 +7,6 @@ import VeriTile.Spec
 namespace VeriTile.Bench.Repairs.FusedRwkv6Kernel
 noncomputable section
 set_option maxHeartbeats 4000000
-
-/-- Source sizes and its two independently passed input head pitches. -/
-structure Shape where
-  B : Nat
-  H : Nat
-  T : Nat
-  K : Nat
-  V : Nat
-  BK : Nat
-  BV : Nat
-  keyPitch : Nat
-  valuePitch : Nat
-  initial : Bool
-  final : Bool
-  reverse : Bool
-  deriving DecidableEq
 
 def Shape.NK (c : Shape) := (c.K + c.BK - 1) / c.BK
 def Shape.NV (c : Shape) := (c.V + c.BV - 1) / c.BV
@@ -66,6 +51,10 @@ structure Ops (α : Type) where
   add : α → α → α
   mul : α → α → α
   exp : α → α
+  /-- Storage-read primitive on the nested query operand, before its explicit
+  cast. Historical scalar presentations combine that edge with loadCast; the
+  complete typed source supplies it separately, including masked other=0. -/
+  queryStorageLoad : α → α := id
 
 /-- Runtime-selected legal trees may differ by source time, block and output lane.
 Selection is structural and is fixed before values are supplied. -/
@@ -114,8 +103,9 @@ def initialCarry {α : Type} (a : Ops α) (c : Shape) (p : Program) (m : Memory 
     (decide (keyIndex c p j < c.K ∧ valueIndex c p l < c.V))) else a.zero
 
 def query {α : Type} (a : Ops α) (c : Shape) (p : Program) (m : Memory α) (scale : α) (n j : Nat) :=
-  a.mul (load a m .q (inputKey c p.z (visit c n) (keyIndex c p j))
-    (decide (keyIndex c p j < c.K))) scale
+  a.mul (a.loadCast (a.queryStorageLoad
+    (if keyIndex c p j < c.K then m .q (inputKey c p.z (visit c n) (keyIndex c p j))
+      else a.zero))) scale
 
 def outer {α : Type} (a : Ops α) (c : Shape) (p : Program) (m : Memory α) (n l j : Nat) :=
   a.mul (load a m .k (inputKey c p.z (visit c n) (keyIndex c p j))

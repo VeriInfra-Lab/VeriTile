@@ -18,7 +18,7 @@ theorem row_exec (out inp : RegionName) (ib ob ir ic orow oc n B : Nat)
     (hB : 0<B) (s : BlockState) :
     ∃ t, exec (softmax_kernel out inp ib ob ir ic orow oc n B).toAlgKernel s=some t := by
   simp [exec,softmax_kernel,ComputeKernel.toAlgKernel,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,ComputeKernel.surfaceBody,stepStmts,stepStmt,evalOp.eq_def,
-    Tile.bop,Tile.cop,Tile.ptrAdd,Tile.uop,Tile.reduceMax,Tile.reduceMaxDrop,
+    Tile.bop,Tile.cop,Tile.ptrAdd,Tile.ptrSub,Tile.uop,Tile.reduceMax,Tile.reduceMaxDrop,
     Tile.reduceSum,Tile.reduceSumDrop,TileShape.axisDim,TileShape.eraseAxis,
     TileShape.insertAxisIndex,NumericDType.add,NumericDType.mul,NumericDType.sub,NumericDType.div,
     ComparableDType.lt,hB,← Int.natCast_mul,← Int.natCast_add,-Nat.cast_mul,-Nat.cast_add]
@@ -30,7 +30,7 @@ theorem row_value (out inp : RegionName) (ib ob ir ic orow oc n B : Nat)
     t.readMem out (ob+s.pid*orow+i.val*oc)=
       softmaxSpec n B (fun j => s.readMem inp (ib+s.pid*ir+j.val*ic)) i := by
   simp [exec,softmax_kernel,ComputeKernel.toAlgKernel,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,ComputeKernel.surfaceBody,stepStmts,stepStmt,evalOp.eq_def,
-    Tile.bop,Tile.cop,Tile.ptrAdd,Tile.uop,Tile.reduceMax,Tile.reduceMaxDrop,
+    Tile.bop,Tile.cop,Tile.ptrAdd,Tile.ptrSub,Tile.uop,Tile.reduceMax,Tile.reduceMaxDrop,
     Tile.reduceSum,Tile.reduceSumDrop,TileShape.axisDim,TileShape.eraseAxis,
     TileShape.insertAxisIndex,NumericDType.add,NumericDType.mul,NumericDType.sub,NumericDType.div,
     ComparableDType.lt,hB,← Int.natCast_mul,← Int.natCast_add,-Nat.cast_mul,-Nat.cast_add] at run
@@ -54,7 +54,7 @@ theorem row_frame (out inp : RegionName) (ib ob ir ic orow oc n B : Nat)
     (miss : ∀ i : Fin B, i.val<n → ¬(out=r ∧ ob+s.pid*orow+i.val*oc=a)) :
     t.mem r a=s.mem r a := by
   simp [exec,softmax_kernel,ComputeKernel.toAlgKernel,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,ComputeKernel.surfaceBody,stepStmts,stepStmt,evalOp.eq_def,
-    Tile.bop,Tile.cop,Tile.ptrAdd,Tile.uop,Tile.reduceMax,Tile.reduceMaxDrop,
+    Tile.bop,Tile.cop,Tile.ptrAdd,Tile.ptrSub,Tile.uop,Tile.reduceMax,Tile.reduceMaxDrop,
     Tile.reduceSum,Tile.reduceSumDrop,TileShape.axisDim,TileShape.eraseAxis,
     TileShape.insertAxisIndex,NumericDType.add,NumericDType.mul,NumericDType.sub,NumericDType.div,
     ComparableDType.lt,hB,← Int.natCast_mul,← Int.natCast_add,-Nat.cast_mul,-Nat.cast_add] at run
@@ -75,7 +75,7 @@ theorem row_safe (out inp : RegionName) (ib ob ir ic orow oc n B : Nat)
     Stmt.TraceSafeList,Stmt.TraceSafe,Op.SafeAt.eq_def,MaskOpt.SafeAt,MemAccess.SafeAt,
     MemAccess.ActiveAddressSafe,memAccessActiveAddressSafe,MaskOpt.Active,
     Op.PointerAddressesSafeOn,Op.MemorySafe,BlockState.setReg,
-    stepStmt,evalOp.eq_def,Tile.bop,Tile.cop,Tile.ptrAdd,Tile.uop,
+    stepStmt,evalOp.eq_def,Tile.bop,Tile.cop,Tile.ptrAdd,Tile.ptrSub,Tile.uop,
     Tile.reduceMax,Tile.reduceMaxDrop,Tile.reduceSum,Tile.reduceSumDrop,
     TileShape.axisDim,TileShape.eraseAxis,TileShape.insertAxisIndex,
     NumericDType.add,NumericDType.mul,NumericDType.sub,NumericDType.div,ComparableDType.lt,← Int.natCast_mul,← Int.natCast_add,-Nat.cast_mul,-Nat.cast_add]
@@ -93,25 +93,11 @@ theorem reciprocal_safe (out inp : RegionName) (ib ob ir ic orow oc n B : Nat)
     Stmt.TraceSafeList,Stmt.TraceSafe,Op.SafeAt.eq_def,MaskOpt.SafeAt,MemAccess.SafeAt,
     MemAccess.ActiveAddressSafe,memAccessActiveAddressSafe,MaskOpt.Active,
     Op.PointerAddressesSafeOn,Op.MemorySafe,BlockState.setReg,
-    stepStmt,evalOp.eq_def,Tile.bop,Tile.cop,Tile.ptrAdd,Tile.uop,
+    stepStmt,evalOp.eq_def,Tile.bop,Tile.cop,Tile.ptrAdd,Tile.ptrSub,Tile.uop,
     Tile.reduceMax,Tile.reduceMaxDrop,Tile.reduceSum,Tile.reduceSumDrop,
     TileShape.axisDim,TileShape.eraseAxis,TileShape.insertAxisIndex,
     NumericDType.add,NumericDType.mul,NumericDType.sub,NumericDType.div,ComparableDType.lt,← Int.natCast_mul,← Int.natCast_add,-Nat.cast_mul,-Nat.cast_add]
   exact ⟨fun a ha => hin a ha,fun a ha => hout a ha⟩
-
-theorem reciprocal_flattenOk (out inp : RegionName) (ib ob ir ic orow oc n B : Nat) :
-    ((reciprocal_kernel out inp ib ob ir ic orow oc n B).toAlgKernel).FlattenOk := by
-  unfold Kernel.FlattenOk
-  simp [reciprocal_kernel,ComputeKernel.surfaceBody,ComputeKernel.toAlgKernel,
-    ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
-    StmtList.FlattenOk,Stmt.FlattenOk,Op.FlattenOk.eq_def]
-
-theorem row_flattenOk (out inp : RegionName) (ib ob ir ic orow oc n B : Nat) :
-    ((softmax_kernel out inp ib ob ir ic orow oc n B).toAlgKernel).FlattenOk := by
-  unfold Kernel.FlattenOk
-  simp [softmax_kernel,ComputeKernel.surfaceBody,ComputeKernel.toAlgKernel,
-    ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
-    StmtList.FlattenOk,Stmt.FlattenOk,Op.FlattenOk.eq_def]
 
 private theorem mul_recip (a b : Option ℝ) :
     Option.map₂ (· * ·) a (b.map (fun x => x⁻¹)) = Option.map₂ (· / ·) a b := by
@@ -125,7 +111,7 @@ theorem reciprocal_exec (out inp : RegionName) (ib ob ir ic orow oc n B : Nat)
   obtain ⟨k,rfl⟩ := Nat.exists_eq_succ_of_ne_zero hB.ne'
   simp [softmax_kernel,reciprocal_kernel,ComputeKernel.surfaceBody,ComputeKernel.toAlgKernel,
     ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,exec,stepStmts,stepStmt,
-    evalOp.eq_def,BlockState.setReg,Tile.bop,Tile.cop,Tile.ptrAdd,Tile.uop,
+    evalOp.eq_def,BlockState.setReg,Tile.bop,Tile.cop,Tile.ptrAdd,Tile.ptrSub,Tile.uop,
     Tile.reduceMax,Tile.reduceMaxDrop,Tile.reduceSum,Tile.reduceSumDrop,
     TileShape.axisDim,TileShape.eraseAxis,TileShape.insertAxisIndex,
     NumericDType.mul,NumericDType.div,mul_recip,← Int.natCast_mul,← Int.natCast_add,-Nat.cast_mul,-Nat.cast_add]

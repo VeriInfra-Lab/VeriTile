@@ -36,7 +36,7 @@ def forwardRead {α : Type} (p : Parameters) (row chunk : Nat) (wholeRow : Bool)
   refine Fin.cases ?_ (Fin.cases ?_ (Fin.cases ?_ (fun k => k.elim0)))
   · intro _ _; exact row
   · intro _ j; exact row*p.logitsStride+column p wholeRow chunk j.1.val
-  · intro xs _; exact row*p.logitsStride+(forwardLabel p wholeRow xs).toNat
+  · intro xs _; exact row*p.logitsStride+(forwardLabel p wholeRow xs).toNat-(-(forwardLabel p wholeRow xs)).toNat
 
 def forwardInputMask {α : Type} (p : Parameters) (chunk : Nat) (chunked wholeRow : Bool) :
     (i : Fin (forwardInputs p wholeRow).length) →

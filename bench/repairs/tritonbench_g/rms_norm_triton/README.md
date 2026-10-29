@@ -62,15 +62,20 @@ value to the independent Real epsilon. The native interface supplies the named
 `RuntimeObserved.epsilon_word` checks this scalar connection independently of the
 output. `ActualRow` proves actual execution, every readback and the exterior
 frame for arbitrary argument values; `ActualGrid` proves every complete row
-order. `SourcePreservation.row_execution` connects complete memory observations
-to the historical source after moving its ABI conversion to the call. This
-connection assumes no identity law for arbitrary casts. The earlier literal
+order. Runtime `N` is converted through the integer-to-FP primitive, not
+replaced by an FP literal. `RuntimeObserved.reference` retains that conversion
+in its independent ordered formula; the native model exposes `fromNat`
+explicitly and keeps the integer-one specialization.
+`SourcePreservation.real_row_execution` connects complete memory observations
+to the historical formula specifically under the Real interpretation. The
+native observation instead uses the runtime-conversion formula; no identity
+law equates arbitrary integer conversion with FP literal construction. The earlier literal
 source identities are explicitly archived in `LegacyPastedSurface`.
 
 Native scalar IEEE operations, literal/integer conversion, runtime epsilon
 conversion and the compiler's actual lane-specific reduction trees are
 explicit model boundaries. Reduction trees preserve every padded lane and
-allow native FMA contractions. `Observed.reference_singleton` proves that
+allow native FMA contractions. `RuntimeObserved.reference_singleton` proves that
 `N = BLOCK_SIZE = 1` retains the fused `x*x + runtime_epsilon` case. The actual
 FP32 epsilon word is bound separately from its Real annotation, including
 underflow/overflow of Python-to-FP32 conversion. No exact-real identity is

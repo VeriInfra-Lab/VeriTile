@@ -28,7 +28,7 @@ structure Ready {α : Type} [Inhabited α] (p : Parameters) (s t : State α)
 
 theorem prefix_run {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : State α) :
     ∃ final, run M (prelude p) s = some final ∧ Ready p s final (initialAccumulator M p) := by
-  simp [prelude,source,typed,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+  simp [prelude,source,sourceBody,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
     evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,bop,natLt,numericLt,
     integralFloorDiv,integralMod,Region.cast,ofFloat,toFloat]
   constructor <;> simp [State.setReg,sequenceLength,sequenceStart,locationBase,valuePointer,

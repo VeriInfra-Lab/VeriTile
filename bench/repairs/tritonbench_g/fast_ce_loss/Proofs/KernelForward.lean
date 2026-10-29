@@ -10,6 +10,11 @@ set_option maxErrors 8
 set_option linter.unusedSimpArgs false
 variable {α : Type} [Inhabited α]
 
+@[simp] theorem negative_block_offset (a b c : Nat) :
+    (-(a : Int) + -((b : Int) * c)).toNat = 0 := by
+  have positive : (0 : Int) ≤ (b : Int) * c := Int.mul_nonneg (by omega) (by omega)
+  omega
+
 @[simp] theorem natural_row_address (row stride : Nat) :
     ((row : Int)*(stride : Int)).toNat=row*stride := by norm_cast
 

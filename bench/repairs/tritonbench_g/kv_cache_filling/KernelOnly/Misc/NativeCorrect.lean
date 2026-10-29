@@ -1,4 +1,5 @@
 import bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.Proofs.IONative
+import bench.repairs.tritonbench_g.kv_cache_filling.Proofs.QuantNative
 
 namespace VeriTile.Bench.Repairs.KvCacheFilling.FPEquiv
 open VeriTile.Triton FP.Structural

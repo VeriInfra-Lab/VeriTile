@@ -8,6 +8,13 @@ noncomputable section
 set_option maxHeartbeats 2000000
 set_option linter.unusedSimpArgs false
 
+
+private theorem negative_page_offset (a b c : Nat) :
+    (-(a : Int) * ((b : Int) * c)).toNat = 0 := by
+  apply Int.toNat_of_nonpos
+  exact mul_nonpos_of_nonpos_of_nonneg (neg_nonpos.mpr (Int.natCast_nonneg _))
+    (mul_nonneg (Int.natCast_nonneg _) (Int.natCast_nonneg _))
+
 /-- Independent logical attention: each batch's right-aligned page indices
 select V[page,head,channel], and each logit comes from its own token window. -/
 def mathematical (c : Call) (x : Input α) (logics : Nat → WithBot ℝ) (values : Nat → ℝ) (j : Job) (d : Nat) : ℝ :=
@@ -33,7 +40,7 @@ theorem real_inputs (c : Call) (x : Input (WithBot ℝ)) (logics : Nat → WithB
   · intro k hk d
     have hk' : k < x.counts j.batch := by simpa [FPValue.sequenceLength,parameters,launch,Region.cast] using hk
     simpa [RealModel.keyValueOffset,FPValue.locationBase,FPValue.sequenceLength,parameters,launch,Region.cast,
-      valueAddress,pageOffset,Nat.add_mul,Nat.mul_assoc,Nat.add_assoc,Nat.add_comm,Nat.add_left_comm] using
+      valueAddress,pageOffset,negative_page_offset,←Int.natCast_mul,-Nat.cast_mul,Int.toNat_natCast,Int.toNat_neg_natCast,Nat.sub_zero,Nat.add_mul,Nat.mul_assoc,Nat.add_assoc,Nat.add_comm,Nat.add_left_comm] using
       finite.values j hj k hk' d.val d.isLt
 
 theorem real_row (c : Call) (x : Input (WithBot ℝ)) (valid : Admissible c x) (logics : Nat → WithBot ℝ) (values : Nat → ℝ)

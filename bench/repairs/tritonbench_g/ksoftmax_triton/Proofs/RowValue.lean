@@ -32,9 +32,9 @@ def forwardTail {α : Type} (M : Algebra α) (log : Bool) {D : Nat}
   let z := fun j => M.binary (some .fp32) .real .sub (score j) (rowMax M score)
   let num := fun j => M.unary (some .fp32) .exp (z j)
   let den := rowSum M num
-  Cell.mk .real (M.cast (some .fp32) .real .real
+  Cell.mk .real
     (if log then M.binary (some .fp32) .real .sub (z i) (M.unary (some .fp32) .log den)
-     else M.binary (some .fp32) .real .div (num i) den))
+     else M.binary (some .fp32) .real .div (num i) den)
 
 def forwardValue {α : Type} (M : Algebra α) (K row : Nat) (log causal : Bool)
     (mode : Forward.MaskMode) {D : Nat} (xs masks : Fin D → α) (i : Fin D) : Cell α :=
@@ -53,8 +53,7 @@ def backwardValue {α : Type} (M : Algebra α) (K row : Nat) (log causal : Bool)
     else M.binary (some .fp32) .real .mul (o i)
       (M.binary (some .fp32) .real .sub (g i)
         (rowSum M (fun j => M.binary (some .fp32) .real .mul (g j) (o j))))
-  Cell.mk .real (M.cast (some .fp32) .real .real
-    (if causal then if i.val≤row then v else zero else v))
+  Cell.mk .real (if causal then if i.val≤row then v else zero else v)
 
 theorem backward_value {α : Type} [Inhabited α] (M : Algebra α)
     (Dst G O : RegionName) (bm bn gm gn om on K D : Nat)
@@ -67,6 +66,7 @@ theorem backward_value {α : Type} [Inhabited α] (M : Algebra α)
   cases log <;> cases causal
   all_goals
     dsimp only [Floating.backward_run]
+    simp only [←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast]
     rw [State.masked_scatter_readback (shape := [D]) Dst
       (fun j => s.pids 0*bm+s.pids 1*bn+j.1.val) _ (fun j => j.1.val<K) _ (i,PUnit.unit) hi
       (by intro a b h; rcases a with ⟨a,⟨⟩⟩; rcases b with ⟨b,⟨⟩⟩; congr 1; apply Fin.ext; simpa using h)]
@@ -89,7 +89,8 @@ theorem forward_value {α : Type} [Inhabited α] (M : Algebra α)
         (fun j => (s.mem Mask (Forward.maskAddress mode (s.pids 0) (s.pids 1) sm j.val)).read .real) i := by
   cases mode <;> cases log <;> cases causal
   all_goals
-    dsimp only [Floating.forward_run,Forward.TypedTotal.fp32_source_run]
+    dsimp only [Floating.forward_run]
+    simp only [←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast]
     rw [State.masked_scatter_readback (shape := [D]) Y
       (fun j => s.pids 0*ym+s.pids 1*yn+j.1.val) _ (fun j => j.1.val<K) _ (i,PUnit.unit) hi
       (by intro a b h; rcases a with ⟨a,⟨⟩⟩; rcases b with ⟨b,⟨⟩⟩; congr 1; apply Fin.ext; simpa using h)]

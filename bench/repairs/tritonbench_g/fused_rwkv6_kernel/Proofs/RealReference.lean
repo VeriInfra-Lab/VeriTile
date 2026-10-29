@@ -13,7 +13,7 @@ def realOutput (c : Shape) (x : Input ℝ) (scale : ℝ) (z n f : Nat) : ℝ :=
     (realState c x z e f n + x.k z (visit c n) e * x.v z (visit c n) f * x.u z e) *
       (x.q z (visit c n) e * scale)
 
-def realOps : Ops ℝ := ⟨0,id,id,(·+·),(·*·),Real.exp⟩
+def realOps : Ops ℝ := ⟨0,id,id,(·+·),(·*·),Real.exp,id⟩
 
 theorem scalar_real_state (c : Shape) (x : Input ℝ) (z e f n : Nat)
     (he : e<c.K) (hf : f<c.V) :

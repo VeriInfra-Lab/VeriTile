@@ -137,7 +137,7 @@ numerical experiments required by this revision. The eight ports described below
 belong only to the historical optional software-reference bridge.
 
 Run `python bench/repairs/tritonbench_g/ksoftmax_triton/check_contract.py`.
-The current checker passes 74 admission/branch cases, 38 rejections and six
+The historical checker run recorded 74 admission/branch cases, 38 rejections and six
 original counterexamples. It compares exact kernel ASTs after removing only the
 explicit integer widening and repaired final causal selection, interprets the
 actual Python source over CPU storage, checks all masks/flags and tail sizes,
@@ -151,20 +151,19 @@ and backward saved/gradient exceptional words across every branch. Torch
 comparisons use equal-NaN classification. The previous 74/38/6 checks and offline
 144-profile compilation were retained, rather than repeated for this revision.
 
-All task Lean modules pass targeted compilation and standard-base-only axiom
-checks; public independent references pass noncircularity checks. The existing
-build toolchain and driver are reused. Original source and historical acceptance
-records are unchanged.
+Earlier snapshots recorded targeted compilation, standard-base axiom checks and
+independent-reference checks. Current complete-source replay is recorded in the
+review checkpoint; historical acceptance records are retained.
 
-This revision refreshes only the task's dependency modules into the workspace
-overlay because a historical cached Algebra layout was stale. The refreshed Real
-and graph fp32Load fields are checked directly in the final combined import audit;
-no shared/base cache or historical source is changed.
+All necessary sources are tracked in Git. The current source proof checks the
+actual Real and native graph load/store behavior; a workspace overlay or a
+historical project object is not an input to an independent clean build.
 
-Current offline Triton 3.7.1 SM80 compilation passes 144 profiles: K=1,3,33;
+The historical offline Triton 3.7.1 SM80 compilation recorded 144 passing profiles: K=1,3,33;
 all forward mask/log/causal and backward log/causal combinations; warp choices
 1,4,32. Other original warp choices remain represented by the generic source and
-compiler profile. Artifacts are in `/tmp/veritile-ksoftmax-lowering/`.
+compiler profile. The original run used `/tmp/veritile-ksoftmax-lowering/`; its recorded compiler
+evidence describes that historical run.
 Observed code retains the signed-i64 address products, rounded FP32 pointwise
 operations, encoded-log2e multiplication followed by `ex2.approx.f32`, full
 FP32 division and the complete libdevice log implementation. The log primitive
@@ -191,3 +190,61 @@ The original delivery preserves their former shared-batch deferment as historica
 evidence; these ports are not pending numerical experiments for the current
 kernel revision. The classification supplement records this distinction without
 changing the frozen original packet or any historical proof.
+
+## Complete Python function bodies
+
+The source authority is `bench/repairs/tritonbench_g/ksoftmax_triton/Kernels.lean`.
+Its `forward` and `backward` quotations preserve the selected Python functions
+statement for statement, including docstrings, all six `.to(tl.int64)` calls,
+optional mask tests, the backward `IS_FP16` branch, causal zero selection and
+unmodified loads/stores. The selected grid-y repair's `jit-correspondence.json` maps both complete functions;
+no hand-built AST or source macro stands in for either function body.
+
+FP32 pointer types, signed INT64 scalar ABI, actual stride/K values and constexpr
+flags/widths are caller metadata outside the quotations. `SourceParameters.lean`
+contains the same absent/QK/BK `MaskMode` declarations previously shared by the
+mathematics. `caller_mask_value` proves that the finite optional string supplied
+to the raw body is exactly each admitted mode's original Python value. The
+public `KnownMode` and Tensor contracts are unchanged. The selected FP32 host
+passes `IS_FP16=False`; the pasted backward body retains the source branch.
+
+The frontend specializes None/string tests from actual finite caller choices.
+The complete source execution witnesses are in shared `Proofs/FP.lean`; natural
+address identities are proved after executing the visible INT64 casts. Shared
+`Proofs/RowValue.lean` connects actual stores to the independent ordered formulas.
+A same-dtype FP32 store adds no extra numerical cast. The shared
+`ksoftmax_triton/Proofs/PrecisionProfile.lean` proves preservation of the four
+previous Native graph and Real row targets. The selected
+`ksoftmax_triton_grid_y_checked/Proofs/PrecisionProfile.lean` separately freezes
+the previous ordered IO formulas and proves five row/target/native-formula
+equalities for all inputs, flags and reduction plans. Only the generic
+`orderedRow` formula loses the historical extra store casts; memory views,
+input domains and schedules are unchanged. None of these proofs assumes an
+identity law for an arbitrary algebra.
+
+The primary FP comparison still reverses the complete row schedule. Forward and
+backward are two source functions, not the two sides of that comparison.
+`Correct.lean`, `FPEquiv.lean`, `Contract.lean` and the original Python files retain
+their public specifications and input domains. Execution, access safety, output,
+source/byte frames and the actual native ABI connections remain proof obligations
+of the complete programs.
+
+The original benchmark's optional typed candidate witness uses the direct whole
+interpreter-run equality for integer address multiplication. This avoids asking
+a countermodel to satisfy unrelated certified numerical rules. Both original
+and candidate failures, successful states and untouched storage are covered by
+that structural equality.
+
+For source correspondence and the selected entries, run:
+
+```sh
+python3 -m bench.jit_correspondence bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/jit-correspondence.json
+python3 -m unittest bench.tests.test_ksoftmax_body
+lake build bench.repairs.tritonbench_g.ksoftmax_triton_grid_y_checked.Correct bench.repairs.tritonbench_g.ksoftmax_triton_grid_y_checked.FPEquiv bench.repairs.tritonbench_g.ksoftmax_triton_grid_y_checked.Misc.TensorBridge bench.repairs.tritonbench_g.ksoftmax_triton.Proofs.PrecisionProfile
+```
+
+Full canonical-module replay, current source hashes, trust checks and cumulative
+build results belong to the corresponding review checkpoint. Earlier CPU and
+compiler results above describe their recorded snapshots; no new GPU or
+numerical experiment accompanies this source migration. All necessary Lean and
+Python source files are tracked in Git; project build caches are derived artifacts.

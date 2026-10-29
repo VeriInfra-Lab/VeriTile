@@ -15,7 +15,9 @@ def keyLogicOffset {α} [Inhabited α] (p : Parameters) (s : State α) (k : Nat)
 def keyValueOffset {α} [Inhabited α] (p : Parameters) (s : State α) (k : Nat) (d : Fin p.dimensions) : Nat :=
   s.pids 1*p.valueHeadStride+d.val*p.valueDimStride+
     ((s.mem (Region.cast p.locations) (locationBase p s+k*p.locationSequenceStride)).read .int *
-      (p.valueBatchStride : Int)).toNat
+      (p.valueBatchStride : Int)).toNat -
+    (-((s.mem (Region.cast p.locations) (locationBase p s+k*p.locationSequenceStride)).read .int *
+      (p.valueBatchStride : Int))).toNat
 
 /-- Only actual input reads are related to logical real inputs. No recurrence,
 reduction, output, or program-success premise appears here. Unused V memory

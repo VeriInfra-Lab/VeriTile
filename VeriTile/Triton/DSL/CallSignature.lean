@@ -3,11 +3,14 @@ import VeriTile.Triton.DSL.NestedLoadAssignments
 import VeriTile.Triton.DSL.ConstexprMask
 import VeriTile.Triton.DSL.PythonConstants
 import VeriTile.Triton.DSL.SourceIntrinsic
+import VeriTile.Triton.DSL.OptionalString
 import VeriTile.Triton.DSL.OptionalPointer
 import VeriTile.Triton.DSL.TypedStores
+import VeriTile.Triton.DSL.TypedStorageReduction
 import VeriTile.Triton.DSL.PythonBody
 import VeriTile.Triton.DSL.RankOneBlockPtr
-import VeriTile.Triton.DSL.SourceFunction
+import VeriTile.Triton.DSL.SourceFunctionStatements
+import VeriTile.Triton.DSL.NarrowUnsigned
 import VeriTile.Triton.DSL.SourceDType
 import VeriTile.Triton.DSL.Constexpr
 import Lean
@@ -564,6 +567,7 @@ private partial def referencesSourceImports (names : List String) (raw : Syntax)
   (raw.isIdent && names.contains raw.getId.eraseMacroScopes.toString) ||
     raw.getArgs.any (referencesSourceImports names)
 
+set_option maxRecDepth 4000 in
 /-- A verification call specializes immutable runtime size values supplied by
 the caller. Their source ABI remains in `scalars`, never in `constexpr`.
 Nat/Int carriers use the existing mathematical index projection;
@@ -674,7 +678,8 @@ private def elaborateCallCore (profile : TSyntax `term) (stmts : Array (TSyntax 
         let parameters ← (← listValues
           (← mkAppM ``Triton.SourceFunction.parameters #[function])).mapM stringValue
         let source ← stringValue (← mkAppM ``Triton.SourceFunction.body #[function])
-        liftMacroM <| SourceFunction.check environment functionName parameters source (helperNames ++ importedNames)
+        let constants ← (← listValues (← mkAppM ``Triton.SourceFunction.constexpr #[function])).mapM stringValue
+        liftMacroM <| SourceFunction.check environment functionName parameters source (helperNames ++ importedNames) constants
       for stmt in stmts do
         rejectArgumentMutation ((helperNames ++ importedNames).map Name.mkSimple) stmt.raw
           (if importedNames.isEmpty then "source helper names cannot be rebound"
@@ -682,8 +687,14 @@ private def elaborateCallCore (profile : TSyntax `term) (stmts : Array (TSyntax 
       -- Helpers which reference these explicit extern imports are validated
       -- by the existing exact dtype-dispatch checker. Ordinary pure helpers
       -- keep their existing capture-free expression expansion.
-      let finiteFunctions := checkedFunctions.filter (fun fn => referencesSourceImports (finiteImports.map Prod.fst) fn.result.raw)
-      let ordinaryFunctions := checkedFunctions.filter (fun fn => !referencesSourceImports (finiteImports.map Prod.fst) fn.result.raw)
+      let usesFiniteImport := fun (fn : SourceFunction.Checked) =>
+        fn.results.any (fun value => referencesSourceImports (finiteImports.map Prod.fst) value.raw) ||
+        fn.assignments.any (fun statement => referencesSourceImports (finiteImports.map Prod.fst) statement.raw)
+      for fn in checkedFunctions do
+        if usesFiniteImport fn && (!fn.assignments.isEmpty || fn.results.size != 1 || !fn.constexpr.isEmpty) then
+          throwError "finite extern helper requires a single non-constexpr return expression"
+      let finiteFunctions := checkedFunctions.filter usesFiniteImport
+      let ordinaryFunctions := checkedFunctions.filter (fun fn => !usesFiniteImport fn)
       let finiteDeclarations ← liftMacroM do
         let mut declarations : Array (TSyntax `tritonStmt) := #[]
         for (name,target) in finiteImports do
@@ -700,8 +711,8 @@ private def elaborateCallCore (profile : TSyntax `term) (stmts : Array (TSyntax 
         -- Validate imports and helper expressions even if a helper is unused.
         let _ ← FiniteHelperSource.prepare declarations.toList names
         pure declarations
-      let stmts ← liftMacroM <| stmts.mapM fun stmt => do
-        return (⟨← SourceFunction.expand ordinaryFunctions stmt.raw⟩ : TSyntax `tritonStmt)
+      let stmts ← liftMacroM <| SourceFunction.expandStatements ordinaryFunctions stmts names
+      let stmts ← liftMacroM <| NarrowUnsigned.lower stmts
       let stmts ← liftMacroM <| stmts.mapM fun stmt => do
         return (⟨← SourceIntrinsic.lower unaryImports stmt.raw⟩ : TSyntax `tritonStmt)
       let stmts ← liftMacroM <| stmts.mapM fun stmt => do
@@ -710,9 +721,6 @@ private def elaborateCallCore (profile : TSyntax `term) (stmts : Array (TSyntax 
         return (⟨← bindSourceValues checkedConstants stmt.raw⟩ : TSyntax `tritonStmt)
       let stmts ← liftMacroM <| stmts.mapM fun stmt => do
         return (⟨← PythonConstants.lower stmt.raw⟩ : TSyntax `tritonStmt)
-      let stmts ← liftMacroM <| OptionalPointer.specialize presence stmts
-      let stmts ← liftMacroM <| stmts.mapM fun stmt => do
-        return (⟨← PythonBody.markWeakLiterals stmt.raw⟩ : TSyntax `tritonStmt)
       let mut values : List (Name × TSyntax `tritonExpr) := []
       let mut fp32Values := Bool.false
       if let some args := callValues then
@@ -779,6 +787,15 @@ private def elaborateCallCore (profile : TSyntax `term) (stmts : Array (TSyntax 
             else throwErrorAt value "pointer offset must have a Nat or Int element-offset carrier"
           pointerValues := pointerValues ++ [(name,expression)]
         values := values ++ pointerValues
+      -- Validate call bindings before elaborating constexpr values, so an
+      -- incomplete call reports its missing argument rather than a later
+      -- undefined constexpr. Resolve string None tests before pointer tests.
+      let (stmts, optionalStrings) ← OptionalString.specialize constants stmts
+      for stmt in stmts do
+        rejectArgumentMutation optionalStrings stmt.raw "optional string constexpr mutation is unsupported"
+      let stmts ← liftMacroM <| OptionalPointer.specialize presence stmts
+      let stmts ← liftMacroM <| stmts.mapM fun stmt => do
+        return (⟨← PythonBody.markWeakLiterals stmt.raw⟩ : TSyntax `tritonStmt)
       -- Static numeric constants remain weak Python values. Reject later
       -- mutation before lowering the supported exact powers to fixed literals.
       let mut localConstants : List Name := []
@@ -808,7 +825,7 @@ private def elaborateCallCore (profile : TSyntax `term) (stmts : Array (TSyntax 
       -- Mutable constexpr names remain local statements, never substituted.
       for constant in constants do
         let name := Name.mkSimple constant
-        if assigned.contains name then continue
+        if assigned.contains name || optionalStrings.contains name then continue
         let id : TSyntax `term := ⟨mkIdent name⟩
         let value ← elabTerm id none
         let dtype ← inferType value
@@ -916,6 +933,10 @@ private def elaborateCallCore (profile : TSyntax `term) (stmts : Array (TSyntax 
             then some (Name.mkSimple name) else none
         let stmts ← NestedLoadAssignments.lower floatingPointers stmts
         let body ← TypedStores.lower (pointers.map (fun (name, kind) => (Name.mkSimple name, kind))) scalarTypes stmts.toList
+        let storagePointers := pointers.filterMap fun (name,kind) =>
+          if kind == .fp32 && (typedFP32 || typedFP32Names.contains name)
+          then some (Name.mkSimple name) else none
+        let body ← TypedStorageReduction.lower storagePointers body
         let emitted := finiteDeclarations ++ declarations ++ body.toArray
         let compiled ← `(triton { $emitted* })
         if usesTypedFP32 then

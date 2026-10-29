@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.softmax_triton1.Proofs.FlatNaturalAddressView
 import bench.repairs.tritonbench_g.softmax_triton1.IO
 import bench.repairs.tritonbench_g.softmax_triton1.Proofs.KernelMath
 
@@ -12,11 +13,17 @@ theorem original_correct (out inp : RegionName) (ib ob n B : Nat)
     (hB : 0 < B) :
     Spec.Real (softmaxIO out inp ib ob n B ⊨ fun xs i =>
       Real.exp (xs i) / ∑ j : Fin B, if j.val < n then Real.exp (xs j) else 0) := by
-  refine MaskedKernelIO₁.Implements.intro _ (row_flattenOk ..) ?_ ?_
+  apply (MaskedKernelIO₁.Implements.congr_memory _
+    (NaturalAddressView.view Bool.false out inp ib ob n 1 n 1 n B) (by rfl)
+    (fun A s => NaturalAddressView.flat_memory Bool.false out inp ib ob n 1 n 1 n B hB A (A.flattenState s)) _).mpr
+  refine MaskedKernelIO₁.Implements.intro _ (NaturalAddressView.flattenOk Bool.false out inp ib ob n 1 n 1 n B) ?_ ?_
   · intro bounds s hin hout _
-    exact row_safe out inp ib ob n 1 n 1 n B hB bounds s
+    exact NaturalAddressView.traceSafe Bool.false out inp ib ob n 1 n 1 n B hB bounds s
       (by simpa [softmaxIO] using hin) (by simpa [softmaxIO] using hout)
   · intro s xs input
+    apply (exists_memory_congr
+      (NaturalAddressView.regional_memory Bool.false out inp ib ob n 1 n 1 n B hB s)
+      _ (by intro u v hm; simp only [BlockState.readMem, hm])).mp
     obtain ⟨t,he⟩ := row_exec out inp ib ob n 1 n 1 n B hB s
     refine ⟨t,he,?_,?_⟩
     · intro i hi
@@ -40,12 +47,18 @@ theorem reciprocal_correct (out inp : RegionName) (ib ob n B : Nat)
     (hB : 0 < B) :
     Spec.Real (reciprocalIO out inp ib ob n B ⊨ fun xs i =>
       Real.exp (xs i) / ∑ j : Fin B, if j.val < n then Real.exp (xs j) else 0) := by
-  refine MaskedKernelIO₁.Implements.intro _ (reciprocal_flattenOk ..) ?_ ?_
+  apply (MaskedKernelIO₁.Implements.congr_memory _
+    (NaturalAddressView.view Bool.true out inp ib ob n 1 n 1 n B) (by rfl)
+    (fun A s => NaturalAddressView.flat_memory Bool.true out inp ib ob n 1 n 1 n B hB A (A.flattenState s)) _).mpr
+  refine MaskedKernelIO₁.Implements.intro _ (NaturalAddressView.flattenOk Bool.true out inp ib ob n 1 n 1 n B) ?_ ?_
   · intro bounds s hin hout _
-    exact reciprocal_safe out inp ib ob n 1 n 1 n B hB bounds s
+    exact NaturalAddressView.traceSafe Bool.true out inp ib ob n 1 n 1 n B hB bounds s
       (by simpa [reciprocalIO,softmaxIO] using hin)
       (by simpa [reciprocalIO,softmaxIO] using hout)
   · intro s xs input
+    apply (exists_memory_congr
+      (NaturalAddressView.regional_memory Bool.true out inp ib ob n 1 n 1 n B hB s)
+      _ (by intro u v hm; simp only [BlockState.readMem, hm])).mp
     obtain ⟨t,he⟩ := row_exec out inp ib ob n 1 n 1 n B hB s
     refine ⟨t,(reciprocal_exec out inp ib ob n 1 n 1 n B hB s).trans he,?_,?_⟩
     · intro i hi

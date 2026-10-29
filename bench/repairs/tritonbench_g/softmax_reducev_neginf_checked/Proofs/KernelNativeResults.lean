@@ -51,6 +51,6 @@ theorem local_refinement (profiles : Host.Job → NativeGraph.Profile)
 #axiomsClean native_total
 #axiomsClean kernel_native
 #axiomsClean local_refinement
-#specNonCircular nativeTarget avoiding [nativeEvaluate,RawKernel.runGrid,FPValue.source,FPValue.typed,FP.Structural.exec]
+#specNonCircular nativeTarget avoiding [nativeEvaluate,RawKernel.runGrid,FPValue.source,FPValue.sourceBody,FP.Structural.exec]
 end
 end VeriTile.Bench.Repairs.SoftmaxReduceVNegInfChecked.KernelNativeResults

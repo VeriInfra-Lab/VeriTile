@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.rms_norm_triton.Proofs.RuntimeReal
 import bench.repairs.tritonbench_g.rms_norm_triton.Proofs.ActualGrid
 import bench.tritonbench_g.rms_norm_triton.Proofs.WholeMath
 import VeriTile.Meta.Specification
@@ -19,7 +20,7 @@ theorem kernel_correct (c : Layout) (eps : ℝ)
           (fun j => (s.mem c.X (row.val*c.N+j)).read .real)
           (fun j => (s.mem c.W j).read .real) i.val)) ∧
       (∀ region a, (region ≠ c.Y ∨ c.M*c.N ≤ a) → final.mem region a = s.mem region a)) := by
-  simpa only [ActualRow.rowValue_argument,rowValue_real] using
+  simpa only [RuntimeReal.rowValue_argument,rowValue_real] using
     ActualGrid.grid_result realAlgebra c (ActualRow.argument realAlgebra eps) xSeparate wSeparate rows schedule s
 
 #guard_msgs (drop info) in

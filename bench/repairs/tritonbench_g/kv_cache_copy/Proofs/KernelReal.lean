@@ -11,9 +11,13 @@ set_option maxHeartbeats 5000000
 set_option maxRecDepth 4000
 set_option linter.unusedSimpArgs false
 
+private theorem positive_sub_negative (z : Int) :
+    z.toNat - (-z).toNat = z.toNat := by omega
+attribute [local simp] positive_sub_negative
+
 def position (s : BlockState) : Int := s.readMemValue .int "lengths" (s.pids 0)-1
 def selectedBlock (p : Parameters) (s : BlockState) : Int :=
-  s.readMemValue .int "table" (s.pids 0*p.strideBts+((position s).tdiv p.blockSize*p.strideBtb).toNat)
+  s.readMemValue .int "table" (s.pids 0*p.strideBts+((position s).tdiv p.blockSize*p.strideBtb).toNat - (-((position s).tdiv p.blockSize*p.strideBtb)).toNat)
 def sourceOffset (p : Parameters) (ids : Nat → Nat) (key : Bool) (q : Nat)
     (i : TileIndex [p.width]) : Nat :=
   if key then ids 0*p.strideKt+ids 1*p.strideKh+(q*p.width+i.1.val)*p.strideKd
@@ -98,7 +102,7 @@ theorem prelude_run (p : Parameters) (s : BlockState) :
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?,ComputeDType.eraseDType,Region.cast,Except.bind,bind,
     stepStmts,stepStmt,evalOp.eq_def,Option.bind,Option.map,
-    Tile.bop,Tile.ptrAdd,Tile.uop,Tile.cop,Tile.select,IntegerExpr.same_left,IntegerExpr.same_right,
+    Tile.bop,Tile.ptrAdd,Tile.ptrSub,Tile.uop,Tile.cop,Tile.select,IntegerExpr.same_left,IntegerExpr.same_right,
     NumericDType.add,NumericDType.mul,NumericDType.sub,IntegralDType.floorDiv,IntegralDType.mod,ComparableDType.lt,
     VeriTile.Triton.eval_truncDiv,VeriTile.Triton.eval_truncMod,Broadcast.leftIndex,Broadcast.rightIndex]
   all_goals simp [Tile.bop,Tile.uop,Tile.cop,Tile.select,NumericDType.add,NumericDType.mul,NumericDType.sub,
@@ -116,9 +120,9 @@ theorem body_run (p : Parameters) (s t : BlockState) (q : Nat)
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?,ComputeDType.eraseDType,Region.cast,Except.bind,bind,
     stepStmts,stepStmt,evalOp.eq_def,Option.bind,Option.map,
-    Tile.bop,Tile.ptrAdd,Tile.uop,NumericDType.add,NumericDType.mul,NumericDType.sub,
+    Tile.bop,Tile.ptrAdd,Tile.ptrSub,Tile.uop,NumericDType.add,NumericDType.mul,NumericDType.sub,
     Broadcast.leftIndex,Broadcast.rightIndex,hs,hh,hb,hslot,hl,hk,hv,BlockState.readMemValue,BlockState.readMem]
-  all_goals simp only [←Int.natCast_add,←Int.natCast_mul,Int.toNat_natCast]
+  all_goals simp only [←Int.natCast_add,←Int.natCast_mul,Int.toNat_natCast,Int.toNat_neg_natCast,Nat.sub_zero]
   all_goals congr 20
   all_goals funext
   all_goals try simp [Tile.bop,Tile.uop,NumericDType.add,NumericDType.mul,sourceOffset,targetInt,

@@ -1,4 +1,4 @@
-import bench.repairs.tritonbench_g.kv_cache_filling.Proofs.SharedReadback
+import bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.Proofs.Readback
 import bench.repairs.tritonbench_g.kv_cache_filling.Proofs.QuantNative
 
 namespace VeriTile.Bench.Repairs.KvCacheFilling.RawNative
@@ -69,7 +69,7 @@ theorem kernel_native (a : NativeProfile.Arithmetic) (reductions : QuantNative.R
 
 #axiomsClean kernel_native
 #specNonCircular kernelNativeTarget avoiding [FP.Structural.exec, Shared.original,
-  Shared.candidate, SourceBacking.stores, SharedExecution.programs]
+  Shared.candidate, SourceBacking.stores, Shared.kernel,SharedExecution.executed]
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end

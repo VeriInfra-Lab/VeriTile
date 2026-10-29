@@ -80,6 +80,7 @@ theorem chunk_memory {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters
       State.setReg,FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,
       TileShape.dropInsertedIndex,Int.toNat_add,Tile.active_int,ofFloat,toFloat,engine,
       Algebra.withDefaultPrecision,resolvePrecision]
+  all_goals try simp only [←neg_add,←Int.natCast_add,Int.toNat_natCast,Int.toNat_neg_natCast,Nat.sub_zero]
   all_goals norm_num
   all_goals
     congr 1

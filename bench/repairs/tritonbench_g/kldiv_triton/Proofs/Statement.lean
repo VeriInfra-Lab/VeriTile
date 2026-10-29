@@ -64,20 +64,20 @@ theorem initialize0 {α : Type} [Inhabited α] (c : Invocation α) :
       Option.bind,Option.bind_eq_bind,Option.pure_def,ComputeDType.eraseDType,
       FP.Structural.numeric,FP.Structural.numericLt,FP.Structural.numericEq,FP.Structural.bop,FP.Structural.natLt,
       FP.Structural.ofFloat,FP.Structural.toFloat,TileShape.axisDim,Region.cast,index_lt,
-      ←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt,
+      ←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.zero_sub,Int.toNat_neg_natCast,Nat.sub_zero,Int.ofNat_lt,
       ne_eq,not_false_eq_true,not_true_eq_false,String.reduceEq,reduceCtorEq,
       decide_eq_true_eq,ite_true,ite_false,Nat.zero_add,Broadcast.leftIndex,Broadcast.rightIndex,
       TileShape.allIndices,List.finRange_succ,List.foldl_cons,List.foldl_nil,List.flatMap_cons,List.flatMap_nil,
       State.write_regs,State.setReg_same,State.setReg_ne_name,State.setReg_mem,State.setReg_pids,State.setReg_undef,a0,a1]
   try simp only [Option.bind_eq_bind,Option.pure_def,Option.bind,FP.Structural.bop,
-    Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_mul,Int.toNat_natCast,Nat.zero_add]
+    Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_mul,Int.toNat_natCast,Int.zero_sub,Int.toNat_neg_natCast,Nat.sub_zero,Nat.zero_add]
   try rfl
   try
     congr 2
     funext i
     simp only [FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex]
     change ((_:RegionName),0+((c.initial.pids 0:Int)*(c.sy:Int)).toNat)=_
-    simp only [←Int.natCast_mul,Int.toNat_natCast,Nat.zero_add]
+    simp only [←Int.natCast_mul,Int.toNat_natCast,Int.zero_sub,Int.toNat_neg_natCast,Nat.sub_zero,Nat.zero_add]
 
 #axiomsClean initialize0
 
@@ -89,20 +89,20 @@ theorem initialize1 {α : Type} [Inhabited α] (c : Invocation α) :
       Option.bind,Option.bind_eq_bind,Option.pure_def,ComputeDType.eraseDType,
       FP.Structural.numeric,FP.Structural.numericLt,FP.Structural.numericEq,FP.Structural.bop,FP.Structural.natLt,
       FP.Structural.ofFloat,FP.Structural.toFloat,TileShape.axisDim,Region.cast,index_lt,
-      ←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt,
+      ←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.zero_sub,Int.toNat_neg_natCast,Nat.sub_zero,Int.ofNat_lt,
       ne_eq,not_false_eq_true,not_true_eq_false,String.reduceEq,reduceCtorEq,
       decide_eq_true_eq,ite_true,ite_false,Nat.zero_add,Broadcast.leftIndex,Broadcast.rightIndex,
       TileShape.allIndices,List.finRange_succ,List.foldl_cons,List.foldl_nil,List.flatMap_cons,List.flatMap_nil,
       State.write_regs,State.setReg_same,State.setReg_ne_name,State.setReg_mem,State.setReg_pids,State.setReg_undef,a0,a1,a2]
   try simp only [Option.bind_eq_bind,Option.pure_def,Option.bind,FP.Structural.bop,
-    Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_mul,Int.toNat_natCast,Nat.zero_add]
+    Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_mul,Int.toNat_natCast,Int.zero_sub,Int.toNat_neg_natCast,Nat.sub_zero,Nat.zero_add]
   try rfl
   try
     congr 2
     funext i
     simp only [FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex]
     change ((_:RegionName),0+((c.initial.pids 0:Int)*(c.sy:Int)).toNat)=_
-    simp only [←Int.natCast_mul,Int.toNat_natCast,Nat.zero_add]
+    simp only [←Int.natCast_mul,Int.toNat_natCast,Int.zero_sub,Int.toNat_neg_natCast,Nat.sub_zero,Nat.zero_add]
 
 #axiomsClean initialize1
 
@@ -114,20 +114,20 @@ theorem initialize2 {α : Type} [Inhabited α] (c : Invocation α) :
       Option.bind,Option.bind_eq_bind,Option.pure_def,ComputeDType.eraseDType,
       FP.Structural.numeric,FP.Structural.numericLt,FP.Structural.numericEq,FP.Structural.bop,FP.Structural.natLt,
       FP.Structural.ofFloat,FP.Structural.toFloat,TileShape.axisDim,Region.cast,index_lt,
-      ←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt,
+      ←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.zero_sub,Int.toNat_neg_natCast,Nat.sub_zero,Int.ofNat_lt,
       ne_eq,not_false_eq_true,not_true_eq_false,String.reduceEq,reduceCtorEq,
       decide_eq_true_eq,ite_true,ite_false,Nat.zero_add,Broadcast.leftIndex,Broadcast.rightIndex,
       TileShape.allIndices,List.finRange_succ,List.foldl_cons,List.foldl_nil,List.flatMap_cons,List.flatMap_nil,
       State.write_regs,State.setReg_same,State.setReg_ne_name,State.setReg_mem,State.setReg_pids,State.setReg_undef,a0,a1,a2,a3]
   try simp only [Option.bind_eq_bind,Option.pure_def,Option.bind,FP.Structural.bop,
-    Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_mul,Int.toNat_natCast,Nat.zero_add]
+    Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_mul,Int.toNat_natCast,Int.zero_sub,Int.toNat_neg_natCast,Nat.sub_zero,Nat.zero_add]
   try rfl
   try
     congr 2
     funext i
     simp only [FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex]
     change ((_:RegionName),0+((c.initial.pids 0:Int)*(c.st:Int)).toNat)=_
-    simp only [←Int.natCast_mul,Int.toNat_natCast,Nat.zero_add]
+    simp only [←Int.natCast_mul,Int.toNat_natCast,Int.zero_sub,Int.toNat_neg_natCast,Nat.sub_zero,Nat.zero_add]
 
 #axiomsClean initialize2
 
@@ -139,20 +139,20 @@ theorem initialize3 {α : Type} [Inhabited α] (c : Invocation α) :
       Option.bind,Option.bind_eq_bind,Option.pure_def,ComputeDType.eraseDType,
       FP.Structural.numeric,FP.Structural.numericLt,FP.Structural.numericEq,FP.Structural.bop,FP.Structural.natLt,
       FP.Structural.ofFloat,FP.Structural.toFloat,TileShape.axisDim,Region.cast,index_lt,
-      ←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt,
+      ←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.zero_sub,Int.toNat_neg_natCast,Nat.sub_zero,Int.ofNat_lt,
       ne_eq,not_false_eq_true,not_true_eq_false,String.reduceEq,reduceCtorEq,
       decide_eq_true_eq,ite_true,ite_false,Nat.zero_add,Broadcast.leftIndex,Broadcast.rightIndex,
       TileShape.allIndices,List.finRange_succ,List.foldl_cons,List.foldl_nil,List.flatMap_cons,List.flatMap_nil,
       State.write_regs,State.setReg_same,State.setReg_ne_name,State.setReg_mem,State.setReg_pids,State.setReg_undef,a0,a1,a2,a3,a4]
   try simp only [Option.bind_eq_bind,Option.pure_def,Option.bind,FP.Structural.bop,
-    Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_mul,Int.toNat_natCast,Nat.zero_add]
+    Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_mul,Int.toNat_natCast,Int.zero_sub,Int.toNat_neg_natCast,Nat.sub_zero,Nat.zero_add]
   try rfl
   try
     congr 2
     funext i
     simp only [FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex]
     change ((_:RegionName),0+((c.initial.pids 0:Int)*(c.so:Int)).toNat)=_
-    simp only [←Int.natCast_mul,Int.toNat_natCast,Nat.zero_add]
+    simp only [←Int.natCast_mul,Int.toNat_natCast,Int.zero_sub,Int.toNat_neg_natCast,Nat.sub_zero,Nat.zero_add]
 
 #axiomsClean initialize3
 
@@ -164,20 +164,20 @@ theorem initialize4 {α : Type} [Inhabited α] (c : Invocation α) :
       Option.bind,Option.bind_eq_bind,Option.pure_def,ComputeDType.eraseDType,
       FP.Structural.numeric,FP.Structural.numericLt,FP.Structural.numericEq,FP.Structural.bop,FP.Structural.natLt,
       FP.Structural.ofFloat,FP.Structural.toFloat,TileShape.axisDim,Region.cast,index_lt,
-      ←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt,
+      ←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.zero_sub,Int.toNat_neg_natCast,Nat.sub_zero,Int.ofNat_lt,
       ne_eq,not_false_eq_true,not_true_eq_false,String.reduceEq,reduceCtorEq,
       decide_eq_true_eq,ite_true,ite_false,Nat.zero_add,Broadcast.leftIndex,Broadcast.rightIndex,
       TileShape.allIndices,List.finRange_succ,List.foldl_cons,List.foldl_nil,List.flatMap_cons,List.flatMap_nil,
       State.write_regs,State.setReg_same,State.setReg_ne_name,State.setReg_mem,State.setReg_pids,State.setReg_undef,a0,a1,a2,a3,a4,a5]
   try simp only [Option.bind_eq_bind,Option.pure_def,Option.bind,FP.Structural.bop,
-    Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_mul,Int.toNat_natCast,Nat.zero_add]
+    Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_mul,Int.toNat_natCast,Int.zero_sub,Int.toNat_neg_natCast,Nat.sub_zero,Nat.zero_add]
   try rfl
   try
     congr 2
     funext i
     simp only [FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex]
     change ((_:RegionName),0+((c.initial.pids 0:Int)*(c.so:Int)).toNat)=_
-    simp only [←Int.natCast_mul,Int.toNat_natCast,Nat.zero_add]
+    simp only [←Int.natCast_mul,Int.toNat_natCast,Int.zero_sub,Int.toNat_neg_natCast,Nat.sub_zero,Nat.zero_add]
 
 #axiomsClean initialize4
 
@@ -189,13 +189,13 @@ theorem block0 {α : Type} [Inhabited α] (c : Invocation α) (h : Ready c) :
       Option.bind,Option.bind_eq_bind,Option.pure_def,ComputeDType.eraseDType,
       FP.Structural.numeric,FP.Structural.numericLt,FP.Structural.numericEq,FP.Structural.bop,FP.Structural.natLt,
       FP.Structural.ofFloat,FP.Structural.toFloat,TileShape.axisDim,Region.cast,index_lt,
-      ←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt,
+      ←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.zero_sub,Int.toNat_neg_natCast,Nat.sub_zero,Int.ofNat_lt,
       ne_eq,not_false_eq_true,not_true_eq_false,String.reduceEq,reduceCtorEq,
       decide_eq_true_eq,ite_true,ite_false,Nat.zero_add,Broadcast.leftIndex,Broadcast.rightIndex,
       TileShape.allIndices,List.finRange_succ,List.foldl_cons,List.foldl_nil,List.flatMap_cons,List.flatMap_nil,
       State.write_regs,State.setReg_same,State.setReg_ne_name,State.setReg_mem,State.setReg_pids,State.setReg_undef,b0,b1,f1,zero,loaded,input,laneLoss,loss,rawLoss,forwardResult,scatter,h.i,h.y,h.t,h.o,h.base,c.m.eq_ok]
   all_goals try simp only [Option.bind_eq_bind,Option.pure_def,Option.bind,FP.Structural.bop,
-    Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Nat.zero_add]
+    Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.zero_sub,Int.toNat_neg_natCast,Nat.sub_zero,Nat.zero_add]
   all_goals try simp only [show (0.0 : ℝ) = 0 from by norm_num,id_eq]
   all_goals try rfl
   all_goals try
@@ -214,13 +214,13 @@ theorem block1 {α : Type} [Inhabited α] (c : Invocation α) (h : Ready c) :
       Option.bind,Option.bind_eq_bind,Option.pure_def,ComputeDType.eraseDType,
       FP.Structural.numeric,FP.Structural.numericLt,FP.Structural.numericEq,FP.Structural.bop,FP.Structural.natLt,
       FP.Structural.ofFloat,FP.Structural.toFloat,TileShape.axisDim,Region.cast,index_lt,
-      ←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt,
+      ←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.zero_sub,Int.toNat_neg_natCast,Nat.sub_zero,Int.ofNat_lt,
       ne_eq,not_false_eq_true,not_true_eq_false,String.reduceEq,reduceCtorEq,
       decide_eq_true_eq,ite_true,ite_false,Nat.zero_add,Broadcast.leftIndex,Broadcast.rightIndex,
       TileShape.allIndices,List.finRange_succ,List.foldl_cons,List.foldl_nil,List.flatMap_cons,List.flatMap_nil,
       State.write_regs,State.setReg_same,State.setReg_ne_name,State.setReg_mem,State.setReg_pids,State.setReg_undef,b0,b1,b2,f1,f2,zero,loaded,input,laneLoss,loss,rawLoss,forwardResult,scatter,h.i,h.y,h.t,h.o,h.base,c.m.eq_ok]
   all_goals try simp only [Option.bind_eq_bind,Option.pure_def,Option.bind,FP.Structural.bop,
-    Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Nat.zero_add]
+    Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.zero_sub,Int.toNat_neg_natCast,Nat.sub_zero,Nat.zero_add]
   all_goals try simp only [show (0.0 : ℝ) = 0 from by norm_num,id_eq]
   all_goals try rfl
   all_goals try
@@ -239,13 +239,13 @@ theorem block2 {α : Type} [Inhabited α] (c : Invocation α) (h : Ready c) :
       Option.bind,Option.bind_eq_bind,Option.pure_def,ComputeDType.eraseDType,
       FP.Structural.numeric,FP.Structural.numericLt,FP.Structural.numericEq,FP.Structural.bop,FP.Structural.natLt,
       FP.Structural.ofFloat,FP.Structural.toFloat,TileShape.axisDim,Region.cast,index_lt,
-      ←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt,
+      ←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.zero_sub,Int.toNat_neg_natCast,Nat.sub_zero,Int.ofNat_lt,
       ne_eq,not_false_eq_true,not_true_eq_false,String.reduceEq,reduceCtorEq,
       decide_eq_true_eq,ite_true,ite_false,Nat.zero_add,Broadcast.leftIndex,Broadcast.rightIndex,
       TileShape.allIndices,List.finRange_succ,List.foldl_cons,List.foldl_nil,List.flatMap_cons,List.flatMap_nil,
       State.write_regs,State.setReg_same,State.setReg_ne_name,State.setReg_mem,State.setReg_pids,State.setReg_undef,b0,b1,b2,b3,f1,f2,f3,zero,loaded,input,laneLoss,loss,rawLoss,forwardResult,scatter,h.i,h.y,h.t,h.o,h.base,c.m.eq_ok]
   all_goals try simp only [Option.bind_eq_bind,Option.pure_def,Option.bind,FP.Structural.bop,
-    Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Nat.zero_add]
+    Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.zero_sub,Int.toNat_neg_natCast,Nat.sub_zero,Nat.zero_add]
   all_goals try simp only [show (0.0 : ℝ) = 0 from by norm_num,id_eq]
   all_goals try rfl
   all_goals try
@@ -264,13 +264,13 @@ theorem block3 {α : Type} [Inhabited α] (c : Invocation α) (h : Ready c) :
       Option.bind,Option.bind_eq_bind,Option.pure_def,ComputeDType.eraseDType,
       FP.Structural.numeric,FP.Structural.numericLt,FP.Structural.numericEq,FP.Structural.bop,FP.Structural.natLt,
       FP.Structural.ofFloat,FP.Structural.toFloat,TileShape.axisDim,Region.cast,index_lt,
-      ←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt,
+      ←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.zero_sub,Int.toNat_neg_natCast,Nat.sub_zero,Int.ofNat_lt,
       ne_eq,not_false_eq_true,not_true_eq_false,String.reduceEq,reduceCtorEq,
       decide_eq_true_eq,ite_true,ite_false,Nat.zero_add,Broadcast.leftIndex,Broadcast.rightIndex,
       TileShape.allIndices,List.finRange_succ,List.foldl_cons,List.foldl_nil,List.flatMap_cons,List.flatMap_nil,
       State.write_regs,State.setReg_same,State.setReg_ne_name,State.setReg_mem,State.setReg_pids,State.setReg_undef,b0,b1,b2,b3,b4,f1,f2,f3,f4,zero,loaded,input,laneLoss,loss,rawLoss,forwardResult,scatter,h.i,h.y,h.t,h.o,h.base,c.m.eq_ok]
   all_goals try simp only [Option.bind_eq_bind,Option.pure_def,Option.bind,FP.Structural.bop,
-    Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Nat.zero_add]
+    Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.zero_sub,Int.toNat_neg_natCast,Nat.sub_zero,Nat.zero_add]
   all_goals try simp only [show (0.0 : ℝ) = 0 from by norm_num,id_eq]
   all_goals try rfl
   all_goals try
@@ -290,13 +290,13 @@ theorem block4 {α : Type} [Inhabited α] (c : Invocation α) (h : Ready c) :
       Option.bind,Option.bind_eq_bind,Option.pure_def,ComputeDType.eraseDType,
       FP.Structural.numeric,FP.Structural.numericLt,FP.Structural.numericEq,FP.Structural.bop,FP.Structural.natLt,
       FP.Structural.ofFloat,FP.Structural.toFloat,TileShape.axisDim,Region.cast,index_lt,
-      ←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt,
+      ←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.zero_sub,Int.toNat_neg_natCast,Nat.sub_zero,Int.ofNat_lt,
       ne_eq,not_false_eq_true,not_true_eq_false,String.reduceEq,reduceCtorEq,
       decide_eq_true_eq,ite_true,ite_false,Nat.zero_add,Broadcast.leftIndex,Broadcast.rightIndex,
       TileShape.allIndices,List.finRange_succ,List.foldl_cons,List.foldl_nil,List.flatMap_cons,List.flatMap_nil,
       State.write_regs,State.setReg_same,State.setReg_ne_name,State.setReg_mem,State.setReg_pids,State.setReg_undef,b0,b1,b2,b3,b4,b5,f1,f2,f3,f4,f5,zero,loaded,input,laneLoss,loss,rawLoss,forwardResult,scatter,h.i,h.y,h.t,h.o,h.base,c.m.eq_ok,hf,run,List.nil_append,List.cons_append]
   all_goals try simp only [Option.bind_eq_bind,Option.pure_def,Option.bind,FP.Structural.bop,
-    Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Nat.zero_add]
+    Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.zero_sub,Int.toNat_neg_natCast,Nat.sub_zero,Nat.zero_add]
   all_goals try simp only [show (0.0 : ℝ) = 0 from by norm_num,id_eq]
   all_goals try rfl
   all_goals try
@@ -316,13 +316,13 @@ theorem block5 {α : Type} [Inhabited α] (c : Invocation α) (h : Ready c) :
       Option.bind,Option.bind_eq_bind,Option.pure_def,ComputeDType.eraseDType,
       FP.Structural.numeric,FP.Structural.numericLt,FP.Structural.numericEq,FP.Structural.bop,FP.Structural.natLt,
       FP.Structural.ofFloat,FP.Structural.toFloat,TileShape.axisDim,Region.cast,index_lt,
-      ←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt,
+      ←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.zero_sub,Int.toNat_neg_natCast,Nat.sub_zero,Int.ofNat_lt,
       ne_eq,not_false_eq_true,not_true_eq_false,String.reduceEq,reduceCtorEq,
       decide_eq_true_eq,ite_true,ite_false,Nat.zero_add,Broadcast.leftIndex,Broadcast.rightIndex,
       TileShape.allIndices,List.finRange_succ,List.foldl_cons,List.foldl_nil,List.flatMap_cons,List.flatMap_nil,
       State.write_regs,State.setReg_same,State.setReg_ne_name,State.setReg_mem,State.setReg_pids,State.setReg_undef,b0,b1,b2,b3,b4,b5,b6,f1,f2,f3,f4,f5,f6,zero,loaded,input,laneLoss,loss,rawLoss,forwardResult,scatter,h.i,h.y,h.t,h.o,h.base,c.m.eq_ok,hf]
   all_goals try simp only [Option.bind_eq_bind,Option.pure_def,Option.bind,FP.Structural.bop,
-    Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Nat.zero_add]
+    Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.zero_sub,Int.toNat_neg_natCast,Nat.sub_zero,Nat.zero_add]
   all_goals try simp only [show (0.0 : ℝ) = 0 from by norm_num,id_eq]
   all_goals try rfl
   all_goals try
@@ -342,13 +342,13 @@ theorem block6 {α : Type} [Inhabited α] (c : Invocation α) (h : Ready c) :
       Option.bind,Option.bind_eq_bind,Option.pure_def,ComputeDType.eraseDType,
       FP.Structural.numeric,FP.Structural.numericLt,FP.Structural.numericEq,FP.Structural.bop,FP.Structural.natLt,
       FP.Structural.ofFloat,FP.Structural.toFloat,TileShape.axisDim,Region.cast,index_lt,
-      ←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt,
+      ←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.zero_sub,Int.toNat_neg_natCast,Nat.sub_zero,Int.ofNat_lt,
       ne_eq,not_false_eq_true,not_true_eq_false,String.reduceEq,reduceCtorEq,
       decide_eq_true_eq,ite_true,ite_false,Nat.zero_add,Broadcast.leftIndex,Broadcast.rightIndex,
       TileShape.allIndices,List.finRange_succ,List.foldl_cons,List.foldl_nil,List.flatMap_cons,List.flatMap_nil,
       State.write_regs,State.setReg_same,State.setReg_ne_name,State.setReg_mem,State.setReg_pids,State.setReg_undef,b0,b1,b2,b3,b4,b5,b6,b7,f1,f2,f3,f4,f5,f6,zero,loaded,input,laneLoss,loss,rawLoss,forwardResult,scatter,h.i,h.y,h.t,h.o,h.base,c.m.eq_ok,hr,hf]
   all_goals try simp only [Option.bind_eq_bind,Option.pure_def,Option.bind,FP.Structural.bop,
-    Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Nat.zero_add]
+    Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.zero_sub,Int.toNat_neg_natCast,Nat.sub_zero,Nat.zero_add]
   all_goals try simp only [show (0.0 : ℝ) = 0 from by norm_num,id_eq]
   all_goals try rfl
   all_goals try

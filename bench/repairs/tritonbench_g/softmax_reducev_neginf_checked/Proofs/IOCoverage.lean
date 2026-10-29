@@ -41,6 +41,7 @@ theorem hostInputs_binding [Inhabited B] (M : Host.Job → Algebra B) (encode : 
   fin_cases port <;>
     simp [sourceIO,memory,inputs,hostInputs,read,Host.launch,mapInput,mapValue,
       start,page,hostCounts]
+  all_goals try simp only [←neg_mul,←Int.natCast_mul,Int.toNat_natCast,Int.toNat_neg_natCast,Nat.sub_zero]
   all_goals rfl
 
 theorem host_logit [Inhabited A] (c : Host.Call) (x : Host.Input A)

@@ -69,7 +69,7 @@ theorem forward_loss_binding (M : Algebra α) (p : Parameters) (s : State α)
     (binding : ∀ lane : Fin p.block, lane.val<p.vocab →
       (s.mem p.logits (s.pids 0*p.logitsStride+lane.val)).read .real=x lane)
     (gatherBinding : label p s ≠ -100 →
-      (s.mem p.logits (s.pids 0*p.logitsStride+(label p s).toNat)).read .real=target) :
+      (s.mem p.logits (s.pids 0*p.logitsStride+(label p s).toNat-(-(label p s)).toNat)).read .real=target) :
     KernelModel.forwardLoss M p s=forwardLoss M p x (label p s) target := by
   have values := lse_binding M p s 0 x (by simpa using binding)
   by_cases ignored : label p s = -100
@@ -78,7 +78,7 @@ theorem forward_loss_binding (M : Algebra α) (p : Parameters) (s : State α)
 
 theorem chunk_loss_binding (M : Algebra α) (p : Parameters) (s : State α) (target : α)
     (gatherBinding : label p s ≠ -100 →
-      (s.mem p.logits (s.pids 0*p.logitsStride+(label p s).toNat)).read .real=target) :
+      (s.mem p.logits (s.pids 0*p.logitsStride+(label p s).toNat-(-(label p s)).toNat)).read .real=target) :
     KernelModel.chunkLoss M p s=chunkLoss M p (label p s) target := by
   by_cases ignored : label p s = -100
   · simp [KernelModel.chunkLoss,chunkLoss,ignored]

@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.lora_expand_gemv.SourceParameters
 import bench.tritonbench_g.lora_expand_gemv.Proofs.BranchShape
 import bench.tritonbench_g.lora_expand_gemv.Proofs.HostMetadata
 
@@ -71,8 +72,6 @@ def backend (rest : Algebra Word) (cfg : FP.Config) (plans : ∀ n, ReductionPla
 
 end FPValue
 namespace Branches
-abbrev InputProfile := TritonBenchG.LoraExpandGemv.Branches.InputProfile
-abbrev Parameters := TritonBenchG.LoraExpandGemv.Branches.Parameters
 abbrev length := TritonBenchG.LoraExpandGemv.Branches.length
 abbrev inputFormat := TritonBenchG.LoraExpandGemv.Branches.inputFormat
 abbrev weightFormat := TritonBenchG.LoraExpandGemv.Branches.weightFormat

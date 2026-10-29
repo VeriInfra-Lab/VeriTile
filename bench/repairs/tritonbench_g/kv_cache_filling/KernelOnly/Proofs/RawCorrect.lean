@@ -1,4 +1,5 @@
-import bench.repairs.tritonbench_g.kv_cache_filling.Proofs.SharedReadback
+import bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.Proofs.Readback
+import bench.repairs.tritonbench_g.kv_cache_filling.Proofs.QuantReal
 
 namespace VeriTile.Bench.Repairs.KvCacheFilling.RawReal
 open VeriTile.Triton FP.Structural

@@ -15,12 +15,12 @@ before its pointer advances. Successful execution is constructed, not assumed. -
 def bodyExec (M : Algebra α) (c : Shape) (initial current : State α) (scale : α)
     (n : Nat) (ctx : Context M c initial scale n current) :
     {t : State α // run (engine M) (parts c).body
-      (current.setReg "_i" .nat [] (fun _ => n))=some t} := by
+      (current.setReg "_" .int [] (fun _ => (n : Int)))=some t} := by
   by_cases hr : c.reverse=Bool.true
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp [parts,kernel,ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,
+    simp [parts,kernel,ComputeKernel.surfaceBody,Triton.Source.intRange?,
       Option.map,Option.getD,run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,
       evalOffsets,boundaryZero,Option.bind,engine,Algebra.withDefaultPrecision,
       resolvePrecision,ComputeDType.eraseDType,numeric,integralMod,numericLt,natLt,

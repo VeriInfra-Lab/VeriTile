@@ -28,6 +28,7 @@ theorem chunk_registers {α : Type} [Inhabited α] (M : Algebra α) (p : Paramet
       State.setReg,FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,
       TileShape.dropInsertedIndex,Int.toNat_add,active_int,ofFloat,toFloat,engine,
       Algebra.withDefaultPrecision,resolvePrecision,h.y,h.t,h.o,h.base,h.epsilon,h.sum,h.cols,h.cols]
+  all_goals try simp only [←neg_add,←Int.natCast_mul,←Int.natCast_add,Int.zero_sub,Int.toNat_natCast,Int.toNat_neg_natCast,Nat.sub_zero]
   all_goals norm_num
   all_goals funext i; cases i; rfl
 

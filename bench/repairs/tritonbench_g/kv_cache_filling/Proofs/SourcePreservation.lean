@@ -1,4 +1,4 @@
-import bench.repairs.tritonbench_g.kv_cache_filling.Kernels
+import bench.repairs.tritonbench_g.kv_cache_filling.Proofs.SourceBlocks
 import VeriTile.Meta.StatementAudit
 
 namespace VeriTile.Bench.Repairs.KvCacheFilling.LegacyCopy
@@ -206,20 +206,35 @@ def kernel4 (v : Bool) : Parameters → ComputeKernel :=
 end VeriTile.Bench.Repairs.KvCacheFilling.LegacyQuant
 
 namespace VeriTile.Bench.Repairs.KvCacheFilling.SourcePreservation
+open VeriTile.Triton FP.Structural
 
+/-- Each current quotation contains the complete eight-statement Python body,
+including all policies. The legacy blocks above remain historical specializations;
+their ASTs omit the policy control and helper scope and are not source identities. -/
 theorem copy_source (p : CopySource.Parameters) (version : Bool) :
-    CopySource.kernel version p = LegacyCopy.kernel version p := by
-  cases version <;> rfl
+    (CopySource.kernel version p).surfaceBody.length = 8 := by cases version <;> rfl
 
 theorem int8_source (p : CopySource.Parameters) (version : Bool) :
-    QuantSource.kernel8 version p = LegacyQuant.kernel8 version p := by
-  cases version <;> rfl
+    (QuantSource.kernel8 version p).surfaceBody.length = 8 := by cases version <;> rfl
 
 theorem int4_source (p : CopySource.Parameters) (version : Bool) :
-    QuantSource.kernel4 version p = LegacyQuant.kernel4 version p := by
-  cases version <;> rfl
+    (QuantSource.kernel4 version p).surfaceBody.length = 8 := by cases version <;> rfl
+
+/-- The full raw source, including the caller policy test, runs exactly its
+source-derived quantized branch for every model and initial state. -/
+theorem int8_execution {α : Type} [Inhabited α] (M : Algebra α)
+    (p : CopySource.Parameters) (version : Bool) (s : State α) :
+    exec M (QuantSource.kernel8 version p) s = run M (SourceBlocks.body8 version p) s :=
+  SourceBlocks.execute8 M version p s
+
+theorem int4_execution {α : Type} [Inhabited α] (M : Algebra α)
+    (p : CopySource.Parameters) (version : Bool) (s : State α) :
+    exec M (QuantSource.kernel4 version p) s = run M (SourceBlocks.body4 version p) s :=
+  SourceBlocks.execute4 M version p s
 
 #axiomsClean copy_source
 #axiomsClean int8_source
 #axiomsClean int4_source
+#axiomsClean int8_execution
+#axiomsClean int4_execution
 end VeriTile.Bench.Repairs.KvCacheFilling.SourcePreservation

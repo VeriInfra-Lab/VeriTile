@@ -50,7 +50,7 @@ in `Proofs/KernelRealResults.lean` and `Proofs/KernelNativeResults.lean`.
 `IOCoverage.lean` embeds every old finite-batch input into the logical channels,
 including unrestricted signed native decoding. `IOCompatibility.lean` proves
 that both public targets agree with the old mathematical and ordered native
-targets. No source, Python guard, dtype or numerical law changed in this pass.
+targets. That earlier IO organization pass did not change the source, Python guard, dtype or numerical laws.
 
 `TensorBridge.tensor_correct` and `TensorBridge.tensor_fp32` retain the complete
 checked Tensor applications. Every input read comes from the original supplied
@@ -90,7 +90,8 @@ CPU replay verifies strict active pointer bounds and complete backing-storage
 frames. It is not a claim about GPU numerical instruction conformance.
 
 `FPEquiv.reducev_grid_equiv` now compares the complete original source with
-`Candidate.lean` under the original complete grid IO. The candidate moves
+the second complete body in `Kernels.lean` under the original complete grid IO
+(`Candidate.lean` remains a compatibility import). The candidate moves
 `off_o` and `out_ptrs` before the final `acc = acc / e_sum`. This prepares the
 store address before division and shortens the normalized accumulator's live
 range before its store. No performance measurement is claimed. The Python
@@ -111,3 +112,33 @@ The independent normalized WithBot Real target and existing optional native/host
 results retain their original scopes. Main entries and their helpers have no
 `Misc` dependency. The source is complete ordinary Triton, with no generated AST
 or custom runner. The candidate's only change is the two exact instruction moves.
+
+## 原始函数体与 Lean 入口
+
+`Kernels.lean` 的 `FPValue.sourceBody` 和 `FPValue.earlyAddressBody` 分别直接粘贴
+`_fwd_kernel`、`_fwd_kernel_early_address` 的完整函数体，包含在线循环、最小有限值
+钳位、全部 mask/padding、最终写回及 `return`。`Candidate.lean` 是兼容导入入口。
+候选只把 `off_o` 和 `out_ptrs` 提到最终除法之前；两个原始 Python 函数均未修改。
+
+类型和调用参数在函数体外提供：FP32 logits/value/output、INT32 page/start/length，
+以及原有非负 start/length 的数学内存视图。类型声明不会成为 Python 语句。
+源码没有显式 FP32 load/store cast，因此 Lean 引用也不添加这些 cast。存储通道到
+算术通道的转换由前端处理；直接复制保留原存储通道，变量执行算术后不会再被误当作
+未经转换的存储值。`e_sum = 0.0` 按 Python 标量赋值生成 FP32 值；load 的 padding
+转换保留独立的存储边界。执行证明重新连接这些实际节点，没有假设任意 cast 是恒等。
+
+`jit-correspondence.json` 检查两份完整函数体和调用绑定。`Proofs/FPSource`、
+`FPPrefix`、`FPLoop`、`FPContract` 对实际程序分解并证明整个在线循环；
+`IOSourceSafety` 覆盖实际访存，`AddressSchedule` 连接完整候选执行和安全性。
+公开 Real 公式、FP 程序对、输入域、完整 grid 与外部内存保持条件不变。
+前述历史 CPU/backend 证据针对原有 Python 与数值配置；本次未重新运行 GPU 实验。
+
+`Proofs/PrecisionProfile.lean` 将迁移前后的有序递推在实际 NativeGraph 和 RealModel
+解释下逐值连接，尺寸、计数和输入均保持任意；独立数学公式与定义域保持不变。
+
+复核入口：
+
+```sh
+python3 -m bench.jit_correspondence bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/jit-correspondence.json
+lake build bench.repairs.tritonbench_g.softmax_reducev_neginf_checked.Correct bench.repairs.tritonbench_g.softmax_reducev_neginf_checked.FPEquiv bench.repairs.tritonbench_g.softmax_reducev_neginf_checked.Proofs.PrecisionProfile
+```

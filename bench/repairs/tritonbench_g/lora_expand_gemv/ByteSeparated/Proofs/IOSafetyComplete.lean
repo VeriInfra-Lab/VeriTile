@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.lora_expand_gemv.ByteSeparated.Proofs.SourceConnection
 import bench.repairs.tritonbench_g.lora_expand_gemv.ByteSeparated.Proofs.IOSafetySetup
 import bench.repairs.tritonbench_g.lora_expand_gemv.ByteSeparated.Proofs.IOSafetyLoop
 import bench.repairs.tritonbench_g.lora_expand_gemv.ByteSeparated.Proofs.IOSafetyControl
@@ -17,7 +18,8 @@ attribute [local irreducible] Branches.headerExecution Branches.setupExecution
     (bounded : IOBinding.Bounds g limits) (s : State Word) (reads : IOGrid.Reads g raw s.mem)
     (hb : s.pids 1<g.B) (hn : s.pids 0<g.N) :
     TraceSafe (Branches.engine rest .ieeeValue plans) limits
-      (Branches.source .singleHalf .single g.parameters) s := by
+      (fullSource g.parameters) s := by
+  apply (SourceConnection.safe_iff rest .ieeeValue plans g.parameters limits s).mpr
   have hl := length_one g (by omega : 0<g.N)
   have hi : Branches.selected g.parameters s=logicalIndex g raw (s.pids 1) := reads.index _ hb
   change Safety.traceSafeList (Branches.engine rest .ieeeValue plans) limits _ s

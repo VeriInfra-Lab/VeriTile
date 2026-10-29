@@ -1,5 +1,5 @@
 import bench.repairs.tritonbench_g.triton_softmax.Proofs.KernelReal
-import VeriTile.Triton.Memory.KernelSpec.Tile
+import bench.repairs.tritonbench_g.softmax_triton1.Proofs.FlatNaturalAddressView
 
 namespace VeriTile.Bench.Repairs.TritonSoftmax.RowIO
 open VeriTile.Triton
@@ -7,14 +7,6 @@ open VeriTile.Bench.Repairs.SoftmaxTriton1 hiding softmax_kernel numWarps
 noncomputable section
 set_option maxHeartbeats 6000000
 set_option linter.unusedSimpArgs false
-
-/-- The actual selected quote supports regional-to-flat transport. -/
-theorem flattenOk (out inp : RegionName) (ib ob ir ic orow oc n B : Nat) :
-    ((softmax_kernel out inp ib ob ir ic orow oc n B).toAlgKernel).FlattenOk := by
-  unfold Kernel.FlattenOk
-  simp [softmax_kernel,ComputeKernel.surfaceBody,ComputeKernel.toAlgKernel,
-    ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
-    StmtList.FlattenOk,Stmt.FlattenOk,Op.FlattenOk.eq_def]
 
 /-- Source trace safety follows the actual load/store expressions. -/
 theorem safe (out inp : RegionName) (ib ob ir ic orow oc n B : Nat)
@@ -83,7 +75,6 @@ theorem result (out inp : RegionName) (ib ob ir ic orow oc n B : Nat)
     rw [hm]
     exact SoftmaxTriton1.row_frame out inp ib ob ir ic orow oc n B hB s u hu r a miss
 
-#axiomsClean flattenOk
 #axiomsClean safe
 #axiomsClean result
 end

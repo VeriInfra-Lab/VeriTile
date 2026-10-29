@@ -38,13 +38,25 @@ def direct (X Y : RegionName) : ComputeKernel :=
 the original FP comparison/select and destination conversion. No helper port. -/
 theorem complete_expansion (X Y : RegionName) : pasted X Y = direct X Y := rfl
 
-/-- error: source helper arguments must be named source values -/
-#guard_msgs in
-def duplicateLoad (X Y : RegionName) : ComputeKernel :=
+/-- A nontrivial argument is captured once before the helper uses it. -/
+def capturedLoad (X Y : RegionName) : ComputeKernel :=
   with_triton_signature signature in triton {
     y = relu_forward(tl.load(X))
     tl.store(Y, y)
   }
+
+def explicitCapture (X Y : RegionName) : ComputeKernel :=
+  with_triton_signature ({signature with functions := []} : CallSignature) in triton {
+    __veritile_helper_0_arg_x = tl.load(X)
+    __veritile_helper_1_result = tl.where(__veritile_helper_0_arg_x > 0, __veritile_helper_0_arg_x, 0)
+    y = __veritile_helper_1_result
+    tl.store(Y, y)
+  }
+
+/-- The entire executable has one FP16 load, preserves the helper's comparison,
+select and destination conversion, and only then assigns the caller result. -/
+theorem capture_evaluates_once (X Y : RegionName) :
+    capturedLoad X Y = explicitCapture X Y := rfl
 
 /-- error: source helper argument count differs from its declaration -/
 #guard_msgs in
@@ -177,5 +189,6 @@ def helperCannotSupplyCompilerMetadata (X Y : RegionName) : ComputeKernel :=
 
 #axiomsClean registered_definition_owns_callee
 #axiomsClean complete_expansion
+#axiomsClean capture_evaluates_once
 end
 end VeriTile.Tests.SourceFunction

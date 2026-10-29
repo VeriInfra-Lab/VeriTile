@@ -31,7 +31,7 @@ theorem backward_block {α : Type} [Inhabited α] (c : Tile.Invocation α)
     decide_eq_true_eq,ite_true,ite_false,dite_true,dite_false,
     Option.some.injEq,forall_eq,forall_eq',exists_eq_left,exists_eq_left',true_and,and_true,
     Broadcast.leftIndex,Broadcast.rightIndex,Region.cast,ready.t,ready.o,
-    ←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt]
+    ←Int.natCast_add,Int.toNat_natCast,Int.zero_sub,Int.toNat_neg_natCast,Nat.sub_zero,Int.ofNat_lt]
   case refine_3 => exact fun i hi => target i.1 hi
   case refine_4 => split <;> split <;> trivial
   case refine_5 => exact fun i hi => output i.1 hi
@@ -144,7 +144,7 @@ theorem forward_block {α : Type} [Inhabited α] (c : Invocation α)
     decide_eq_true_eq,ite_true,ite_false,dite_true,dite_false,
     Option.some.injEq,forall_eq,forall_eq',exists_eq_left,exists_eq_left',true_and,and_true,
     Broadcast.leftIndex,Broadcast.rightIndex,Region.cast,ready.y,ready.t,ready.o,
-    ←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt]
+    ←Int.natCast_add,Int.toNat_natCast,Int.zero_sub,Int.toNat_neg_natCast,Nat.sub_zero,Int.ofNat_lt]
   case refine_3 => exact fun i hi => prediction i.1 hi
   case refine_4 => exact fun i hi => target i.1 hi
   case refine_5 =>
@@ -157,7 +157,7 @@ theorem forward_block {α : Type} [Inhabited α] (c : Invocation α)
         ne_eq,not_false_eq_true,not_true_eq_false,String.reduceEq,reduceCtorEq,
         decide_eq_true_eq,ite_true,ite_false,dite_true,dite_false,
         FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,
-        ←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt]
+        ←Int.natCast_add,Int.toNat_natCast,Int.zero_sub,Int.toNat_neg_natCast,Nat.sub_zero,Int.ofNat_lt]
     all_goals by_cases hr : c.reduction=0
     all_goals simp only [hr,ite_true,ite_false,exists_eq_left',decide_eq_true_eq]
     all_goals first

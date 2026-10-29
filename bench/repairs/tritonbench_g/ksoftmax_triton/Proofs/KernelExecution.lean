@@ -10,7 +10,7 @@ noncomputable section
 def source (op : Operation) (Q K D : Nat) : ComputeKernel :=
   match op with
   | .forward log causal mode => forward "dst" "left" "right" (Q*K) K (Q*K) K
-      (if mode.present then K else 0) K D log mode.python causal Bool.false
+      (if mode.present then K else 0) K D log mode causal Bool.false
   | .backward log causal => backward "dst" "left" "right" (Q*K) K (Q*K) K (Q*K) K K D log causal
 
 def row {α : Type} [Inhabited α] (model : Algebra α) (op : Operation)

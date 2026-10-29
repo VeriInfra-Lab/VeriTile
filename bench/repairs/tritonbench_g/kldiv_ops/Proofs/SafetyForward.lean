@@ -42,7 +42,7 @@ theorem chunk_safe (M : Algebra α) (p : Parameters) (flag : Bool) (red row star
     ne_eq,not_false_eq_true,not_true_eq_false,String.reduceEq,reduceCtorEq,
     decide_eq_true_eq,ite_true,ite_false,dite_true,dite_false,Bool.false_eq_true,Bool.true_eq,
     Option.some.injEq,forall_eq,forall_eq',exists_eq_left,exists_eq_left',true_and,and_true,
-    Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt]
+    Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_add,Int.toNat_natCast,Int.zero_sub,Int.toNat_neg_natCast,Nat.sub_zero,Int.ofNat_lt]
   all_goals try (solve | simp only [Bool.not_false,Bool.not_true,Bool.false_eq_true,Bool.true_eq,
     ite_true,ite_false,traceSafeList_cons,traceSafeList_nil,stepSafe_unfold,safeExpr_unfold,
     safeCompute_unfold,safeOp_unfold,precisionContext,true_and,and_true,implies_true,forall_const])
@@ -64,8 +64,8 @@ theorem chunk_safe (M : Algebra α) (p : Parameters) (flag : Bool) (red row star
            ne_eq,not_false_eq_true,not_true_eq_false,String.reduceEq,reduceCtorEq,
            decide_eq_true_eq,dite_true,dite_false,
            Option.some.injEq,forall_eq,forall_eq',exists_eq_left,exists_eq_left',true_and,and_true,
-           FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,
-           ←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt]
+           FP.Structural.numeric,FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,
+           ←Int.natCast_add,Int.toNat_natCast,Int.zero_sub,Int.toNat_neg_natCast,Nat.sub_zero,Int.ofNat_lt]
          exact fun j hj => ho hr j.1 hj
        · intro t _;exact traceSafeList_nil _ _ _)
 

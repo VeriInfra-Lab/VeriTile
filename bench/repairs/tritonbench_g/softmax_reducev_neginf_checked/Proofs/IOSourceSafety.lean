@@ -25,7 +25,7 @@ structure Bounds (p : Parameters) (s : State α) (bounds : RegionName → Nat) :
 theorem prelude_safe (M : Algebra α) (p : Parameters) (s : State α)
     (bounds : RegionName → Nat) (hb : Bounds p s bounds) :
     Safety.traceSafeList M bounds (prelude p) s := by
-  simp [prelude,source,typed,ComputeKernel.surfaceBody,
+  simp [prelude,source,sourceBody,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -38,7 +38,7 @@ theorem body_safe (M : Algebra α) (p : Parameters) (s t : State α)
     (hN : 0 < p.tokens) (bounds : RegionName → Nat) (hb : Bounds p s bounds) :
     Safety.traceSafeList M bounds (loopBody p)
       (t.setReg "start_n" .nat [] (fun _ => start)) := by
-  simp (maxSteps := 500000) [loopBody,source,typed,ComputeKernel.surfaceBody,
+  simp (maxSteps := 500000) [loopBody,source,sourceBody,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -59,7 +59,7 @@ theorem suffix_safe (M : Algebra α) (p : Parameters) (s t : State α)
     (a : Accumulator α p.dimensions) (h : Ready p s t a)
     (bounds : RegionName → Nat) (hb : Bounds p s bounds) :
     Safety.traceSafeList M bounds (suffix p) t := by
-  simp [suffix,source,typed,ComputeKernel.surfaceBody,
+  simp [suffix,source,sourceBody,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
