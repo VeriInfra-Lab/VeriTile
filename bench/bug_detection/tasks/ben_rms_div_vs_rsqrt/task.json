@@ -1,0 +1,83 @@
+{
+  "schema_version": 3,
+  "id": "ben_rms_div_vs_rsqrt",
+  "suite": "benign",
+  "family": "normalization",
+  "description": "multiply by rsqrt versus divide by sqrt",
+  "lean": {
+    "namespace": "VeriTile.Bench.BugDetection.ben_rms_div_vs_rsqrt",
+    "inputs": "tasks/ben_rms_div_vs_rsqrt/IO.lean",
+    "programs": "tasks/ben_rms_div_vs_rsqrt/Kernels.lean",
+    "contract": "tasks/ben_rms_div_vs_rsqrt/Contract.lean",
+    "real_problem": "tasks/ben_rms_div_vs_rsqrt/Correct.lean",
+    "problem": "tasks/ben_rms_div_vs_rsqrt/FPEquiv.lean",
+    "backend_connection": "tasks/ben_rms_div_vs_rsqrt/Proofs/Backend.lean",
+    "validation": "tasks/ben_rms_div_vs_rsqrt/Misc/Validation.lean",
+    "correctness_goal": "correctnessProblem",
+    "equivalence_goal": "equivalenceProblem",
+    "inequivalence_goal": "inequivalenceProblem",
+    "counterexample_goal": "counterexampleProblem"
+  },
+  "configuration": {
+    "values": {
+      "inputScaleNum": 1,
+      "inputScaleDen": 1,
+      "generatorScale": 1,
+      "shiftNum": 1,
+      "shiftDen": 10,
+      "dtype": "bf16",
+      "n": 16,
+      "hidden": 2048,
+      "intermediate": 6144,
+      "expertIntermediate": 640,
+      "sharedIntermediate": 512,
+      "experts": 128,
+      "topK": 6,
+      "heads": 16,
+      "kvHeads": 16,
+      "seq": 16,
+      "headDim": 128,
+      "vocab": 1024,
+      "chunks": 8,
+      "block": 16
+    },
+    "scope": "fixed_complete_problem"
+  },
+  "problem_kind": "algebraic_rewrite",
+  "real_expectation": "equivalent_expected_under_domain",
+  "status": "LEAN_CHALLENGE",
+  "proof_status": "UNSOLVED",
+  "backend_binding_status": "PENDING",
+  "numerical_admission": "NONE",
+  "self_contained": true,
+  "interface": {
+    "inputs": [
+      {
+        "name": "x",
+        "shape": [
+          16,
+          2048
+        ],
+        "dtype": "bf16"
+      },
+      {
+        "name": "weight",
+        "shape": [
+          2048
+        ],
+        "dtype": "fp32"
+      }
+    ],
+    "output_shape": [
+      16,
+      2048
+    ],
+    "output_precision": [
+      "bf16",
+      "bf16"
+    ],
+    "scratch": []
+  },
+  "source_translation_status": "PENDING",
+  "source_layer": "standard_triton_lowering"
+}

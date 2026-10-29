@@ -1,5 +1,6 @@
 # Lake build artifacts and downloaded packages
 /.lake
+/.veritile-cache/bug-detection-build/
 
 # macOS
 .DS_Store

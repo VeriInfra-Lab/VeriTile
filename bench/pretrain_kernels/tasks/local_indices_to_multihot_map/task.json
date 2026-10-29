@@ -1,0 +1,118 @@
+{
+  "schema_version": 3,
+  "id": "local_indices_to_multihot_map",
+  "suite": "pretrain",
+  "self_contained": true,
+  "proof_status": "UNSOLVED",
+  "backend_binding_status": "PENDING",
+  "numerical_admission": "NONE",
+  "conversion_status": "LEAN_DRAFT",
+  "comparison": {
+    "function": "build_local_indices_to_multihot_map"
+  },
+  "source_organization_status": "PROVISIONAL_LOWERING",
+  "inputs": [
+    [
+      "input0",
+      [
+        128,
+        4
+      ],
+      "integer"
+    ]
+  ],
+  "output": [
+    128,
+    16
+  ],
+  "output_precision": "bf16",
+  "scratch": [
+    [
+      "vne",
+      [
+        128,
+        4
+      ],
+      "boolean"
+    ],
+    [
+      "vlt",
+      [
+        128,
+        4
+      ],
+      "boolean"
+    ],
+    [
+      "vbitwise_and",
+      [
+        128,
+        4
+      ],
+      "boolean"
+    ],
+    [
+      "vwhere",
+      [
+        128,
+        4
+      ],
+      "integer"
+    ],
+    [
+      "vscatter",
+      [
+        128,
+        17
+      ],
+      "integer"
+    ],
+    [
+      "vto_copy_1",
+      [
+        128,
+        16
+      ],
+      "boolean"
+    ],
+    [
+      "vto_copy_2",
+      [
+        128,
+        16
+      ],
+      "bf16"
+    ],
+    [
+      "candidate_veq",
+      [
+        128,
+        4,
+        16
+      ],
+      "boolean"
+    ],
+    [
+      "candidate_vany_1",
+      [
+        128,
+        16
+      ],
+      "boolean"
+    ],
+    [
+      "candidate_vto_copy",
+      [
+        128,
+        16
+      ],
+      "bf16"
+    ]
+  ],
+  "scope": "Initialized weights and tensor tables are explicit task parameters. Native layout and configuration connections remain obligations.",
+  "native_comparison": "local_indices_to_multihot_map",
+  "reference_graph_nodes": 18,
+  "candidate_graph_nodes": 14,
+  "real_projection_status": "DIRECT",
+  "metadata_decoder_binding_status": "NOT_REQUIRED"
+}

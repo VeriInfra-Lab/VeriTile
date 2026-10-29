@@ -1,0 +1,252 @@
+import VeriTile.Triton.DSL
+
+/-! Explicit arithmetic lowerings of the two selected paths. Connection to each
+selected native backend remains a separate unsolved goal. -/
+
+namespace VeriTile.Bench.PretrainKernels.local_attention_baddbmm_dq
+open VeriTile Triton
+noncomputable section
+set_option maxRecDepth 50000
+set_option maxHeartbeats 4000000
+set_option linter.unusedTactic false
+namespace Kernels
+
+def original : ComputeKernel :=
+  let input0_ptr : RegionName := "input0"
+  let input1_ptr : RegionName := "input1"
+  let input2_ptr : RegionName := "input2"
+  let input3_ptr : RegionName := "input3"
+  let out_ptr : RegionName := "out"
+  let vtriu_ptr : RegionName := "vtriu"
+  let vmasked_fill_ptr : RegionName := "vmasked_fill"
+  let vbmm_ptr : RegionName := "vbmm"
+  let vmul_ptr : RegionName := "vmul"
+  let vadd_ptr : RegionName := "vadd"
+  let vto_copy_ptr : RegionName := "vto_copy"
+  let vsoftmax_ptr : RegionName := "vsoftmax"
+  let vbmm_2_ptr : RegionName := "vbmm_2"
+  let vto_copy_2_ptr : RegionName := "vto_copy_2"
+  let vsoftmax_backward_data_ptr : RegionName := "vsoftmax_backward_data"
+  let vto_copy_3_ptr : RegionName := "vto_copy_3"
+  let vmul_1_ptr : RegionName := "vmul_1"
+  let vbmm_3_ptr : RegionName := "vbmm_3"
+  triton {
+    r0_z = tl.arange($(16384))
+    r0_value = tl.where((r0_z % $(128)) >= ((r0_z / $(128)) % $(128)) + $(1), true, false)
+    r0_value = tl.broadcast_to(r0_value, [$(16384)])
+    tl.store($(vtriu_ptr) + r0_z, r0_value)
+    r1_z = tl.arange($(32768))
+    r1_value = tl.where(tl.load($(vtriu_ptr) + ((((r1_z / $(128)) % $(128)) * $(128)) + (r1_z % $(128))), dtype=tl.int1), tl.cast(-338953138925153547590470800371487866880.0, tl.bfloat16), tl.cast(0.0, tl.bfloat16))
+    r1_value = r1_value.to(tl.bfloat16)
+    r1_value = tl.broadcast_to(r1_value, [$(32768)])
+    tl.store($(vmasked_fill_ptr) + r1_z, r1_value)
+    r2_row = tl.arange($(128))
+    r2_col = tl.arange($(128))
+    r2_lane = tl.arange($(128))
+    for r2_group in range($(32)) {
+      r2_left = tl.load($(input0_ptr) + (((((((r2_group % $(32)) * $(16384)) + (r2_row[:, None] * $(128)) + r2_lane[None, :]) / $(262144)) % $(2)) * $(262144)) + ((((((r2_group % $(32)) * $(16384)) + (r2_row[:, None] * $(128)) + r2_lane[None, :]) / $(16384)) % $(16)) * $(16384)) + ((((((r2_group % $(32)) * $(16384)) + (r2_row[:, None] * $(128)) + r2_lane[None, :]) / $(128)) % $(128)) * $(128)) + ((((r2_group % $(32)) * $(16384)) + (r2_row[:, None] * $(128)) + r2_lane[None, :]) % $(128))), dtype=tl.bfloat16)
+      r2_right = tl.load($(input1_ptr) + (((((((r2_group % $(32)) * $(16384)) + (r2_lane[:, None] * $(128)) + r2_col[None, :]) / $(262144)) % $(2)) * $(131072)) + ((((((((((r2_group % $(32)) * $(16384)) + (r2_lane[:, None] * $(128)) + r2_col[None, :]) / $(262144)) % $(2)) * $(262144)) + ((((((r2_group % $(32)) * $(16384)) + (r2_lane[:, None] * $(128)) + r2_col[None, :]) / $(16384)) % $(16)) * $(16384)) + (((((r2_group % $(32)) * $(16384)) + (r2_lane[:, None] * $(128)) + r2_col[None, :]) % $(128)) * $(128)) + (((((r2_group % $(32)) * $(16384)) + (r2_lane[:, None] * $(128)) + r2_col[None, :]) / $(128)) % $(128))) / $(32768)) % $(8)) * $(16384)) + (((((r2_group % $(32)) * $(16384)) + (r2_lane[:, None] * $(128)) + r2_col[None, :]) % $(128)) * $(128)) + (((((r2_group % $(32)) * $(16384)) + (r2_lane[:, None] * $(128)) + r2_col[None, :]) / $(128)) % $(128))), dtype=tl.bfloat16)
+      r2_value = tl.dot(r2_left, r2_right)
+      r2_value = r2_value.to(tl.bfloat16)
+      tl.store($(vbmm_ptr) + ((r2_group * $(16384)) + (r2_row[:, None] * $(128)) + r2_col[None, :]), r2_value)
+    }
+    r3_z = tl.arange($(524288))
+    r3_value = (tl.load($(vbmm_ptr) + ((((r3_z / $(262144)) % $(2)) * $(262144)) + (((r3_z / $(16384)) % $(16)) * $(16384)) + (((r3_z / $(128)) % $(128)) * $(128)) + (r3_z % $(128))), dtype=tl.bfloat16) * tl.cast(0.08838834764831845, tl.bfloat16))
+    r3_value = r3_value.to(tl.bfloat16)
+    r3_value = tl.broadcast_to(r3_value, [$(524288)])
+    tl.store($(vmul_ptr) + r3_z, r3_value)
+    r4_z = tl.arange($(524288))
+    r4_value = (tl.load($(vmul_ptr) + ((((r4_z / $(262144)) % $(2)) * $(262144)) + (((r4_z / $(16384)) % $(16)) * $(16384)) + (((r4_z / $(128)) % $(128)) * $(128)) + (r4_z % $(128))), dtype=tl.bfloat16) + tl.load($(vmasked_fill_ptr) + ((((r4_z / $(262144)) % $(2)) * $(16384)) + (((r4_z / $(128)) % $(128)) * $(128)) + (r4_z % $(128))), dtype=tl.bfloat16))
+    r4_value = r4_value.to(tl.bfloat16)
+    r4_value = tl.broadcast_to(r4_value, [$(524288)])
+    tl.store($(vadd_ptr) + r4_z, r4_value)
+    r5_z = tl.arange($(524288))
+    r5_value = tl.load($(vadd_ptr) + ((((r5_z / $(262144)) % $(2)) * $(262144)) + (((r5_z / $(16384)) % $(16)) * $(16384)) + (((r5_z / $(128)) % $(128)) * $(128)) + (r5_z % $(128))), dtype=tl.bfloat16)
+    r5_value = r5_value.to(tl.float32)
+    r5_value = tl.broadcast_to(r5_value, [$(524288)])
+    tl.store($(vto_copy_ptr) + r5_z, r5_value)
+    r6_z = tl.arange($(524288))
+    r6_lane = tl.arange($(128))
+    r6_row_values = tl.load($(vto_copy_ptr) + ((((r6_z[:, None] / $(262144)) % $(2)) * $(262144)) + (((r6_z[:, None] / $(16384)) % $(16)) * $(16384)) + (((r6_z[:, None] / $(128)) % $(128)) * $(128)) + (r6_lane[None, :] % $(128))), dtype=tl.float32)
+    r6_maximum = tl.max(r6_row_values, axis=1, keep_dims=true)
+    r6_weights = tl.exp(r6_row_values - r6_maximum)
+    r6_total = tl.sum(r6_weights, axis=1)
+    r6_maximum = tl.max(r6_row_values, axis=1)
+    r6_value = tl.exp(tl.load($(vto_copy_ptr) + ((((r6_z / $(262144)) % $(2)) * $(262144)) + (((r6_z / $(16384)) % $(16)) * $(16384)) + (((r6_z / $(128)) % $(128)) * $(128)) + (r6_z % $(128))), dtype=tl.float32) - r6_maximum) / r6_total
+    r6_value = r6_value.to(tl.float32)
+    r6_value = tl.broadcast_to(r6_value, [$(524288)])
+    tl.store($(vsoftmax_ptr) + r6_z, r6_value)
+    r7_row = tl.arange($(128))
+    r7_col = tl.arange($(128))
+    r7_lane = tl.arange($(128))
+    for r7_group in range($(32)) {
+      r7_left = tl.load($(input3_ptr) + (((((((r7_group % $(32)) * $(16384)) + (r7_row[:, None] * $(128)) + r7_lane[None, :]) / $(262144)) % $(2)) * $(262144)) + ((((((r7_group % $(32)) * $(16384)) + (r7_row[:, None] * $(128)) + r7_lane[None, :]) / $(128)) % $(128)) * $(2048)) + ((((((r7_group % $(32)) * $(16384)) + (r7_row[:, None] * $(128)) + r7_lane[None, :]) / $(16384)) % $(16)) * $(128)) + ((((r7_group % $(32)) * $(16384)) + (r7_row[:, None] * $(128)) + r7_lane[None, :]) % $(128))), dtype=tl.bfloat16)
+      r7_right = tl.load($(input2_ptr) + (((((((r7_group % $(32)) * $(16384)) + (r7_col[None, :] * $(128)) + r7_lane[:, None]) / $(262144)) % $(2)) * $(131072)) + ((((((((((r7_group % $(32)) * $(16384)) + (r7_col[None, :] * $(128)) + r7_lane[:, None]) / $(262144)) % $(2)) * $(262144)) + ((((((r7_group % $(32)) * $(16384)) + (r7_col[None, :] * $(128)) + r7_lane[:, None]) / $(16384)) % $(16)) * $(16384)) + ((((((r7_group % $(32)) * $(16384)) + (r7_col[None, :] * $(128)) + r7_lane[:, None]) / $(128)) % $(128)) * $(128)) + ((((r7_group % $(32)) * $(16384)) + (r7_col[None, :] * $(128)) + r7_lane[:, None]) % $(128))) / $(32768)) % $(8)) * $(16384)) + ((((((r7_group % $(32)) * $(16384)) + (r7_col[None, :] * $(128)) + r7_lane[:, None]) / $(128)) % $(128)) * $(128)) + ((((r7_group % $(32)) * $(16384)) + (r7_col[None, :] * $(128)) + r7_lane[:, None]) % $(128))), dtype=tl.bfloat16)
+      r7_value = tl.dot(r7_left, r7_right)
+      r7_value = r7_value.to(tl.bfloat16)
+      tl.store($(vbmm_2_ptr) + ((r7_group * $(16384)) + (r7_row[:, None] * $(128)) + r7_col[None, :]), r7_value)
+    }
+    r8_z = tl.arange($(524288))
+    r8_value = tl.load($(vbmm_2_ptr) + ((((r8_z / $(262144)) % $(2)) * $(262144)) + (((r8_z / $(16384)) % $(16)) * $(16384)) + (((r8_z / $(128)) % $(128)) * $(128)) + (r8_z % $(128))), dtype=tl.bfloat16)
+    r8_value = r8_value.to(tl.float32)
+    r8_value = tl.broadcast_to(r8_value, [$(524288)])
+    tl.store($(vto_copy_2_ptr) + r8_z, r8_value)
+    r9_z = tl.arange($(524288))
+    r9_lane = tl.arange($(128))
+    r9_row_values = tl.load($(vsoftmax_ptr) + ((((r9_z[:, None] / $(262144)) % $(2)) * $(262144)) + (((r9_z[:, None] / $(16384)) % $(16)) * $(16384)) + (((r9_z[:, None] / $(128)) % $(128)) * $(128)) + (r9_lane[None, :] % $(128))), dtype=tl.float32)
+    r9_row_grad = tl.load($(vto_copy_2_ptr) + ((((r9_z[:, None] / $(262144)) % $(2)) * $(262144)) + (((r9_z[:, None] / $(16384)) % $(16)) * $(16384)) + (((r9_z[:, None] / $(128)) % $(128)) * $(128)) + (r9_lane[None, :] % $(128))), dtype=tl.float32)
+    r9_weighted = r9_row_grad * r9_row_values
+    r9_dot_grad = tl.sum(r9_weighted, axis=1)
+    r9_value = (tl.load($(vto_copy_2_ptr) + ((((r9_z / $(262144)) % $(2)) * $(262144)) + (((r9_z / $(16384)) % $(16)) * $(16384)) + (((r9_z / $(128)) % $(128)) * $(128)) + (r9_z % $(128))), dtype=tl.float32) - r9_dot_grad) * tl.load($(vsoftmax_ptr) + ((((r9_z / $(262144)) % $(2)) * $(262144)) + (((r9_z / $(16384)) % $(16)) * $(16384)) + (((r9_z / $(128)) % $(128)) * $(128)) + (r9_z % $(128))), dtype=tl.float32)
+    r9_value = r9_value.to(tl.float32)
+    r9_value = tl.broadcast_to(r9_value, [$(524288)])
+    tl.store($(vsoftmax_backward_data_ptr) + r9_z, r9_value)
+    r10_z = tl.arange($(524288))
+    r10_value = tl.load($(vsoftmax_backward_data_ptr) + ((((r10_z / $(262144)) % $(2)) * $(262144)) + (((r10_z / $(16384)) % $(16)) * $(16384)) + (((r10_z / $(128)) % $(128)) * $(128)) + (r10_z % $(128))), dtype=tl.float32)
+    r10_value = r10_value.to(tl.bfloat16)
+    r10_value = tl.broadcast_to(r10_value, [$(524288)])
+    tl.store($(vto_copy_3_ptr) + r10_z, r10_value)
+    r11_z = tl.arange($(524288))
+    r11_value = (tl.load($(vto_copy_3_ptr) + ((((r11_z / $(262144)) % $(2)) * $(262144)) + (((r11_z / $(16384)) % $(16)) * $(16384)) + (((r11_z / $(128)) % $(128)) * $(128)) + (r11_z % $(128))), dtype=tl.bfloat16) * tl.cast(0.08838834764831845, tl.bfloat16))
+    r11_value = r11_value.to(tl.bfloat16)
+    r11_value = tl.broadcast_to(r11_value, [$(524288)])
+    tl.store($(vmul_1_ptr) + r11_z, r11_value)
+    r12_row = tl.arange($(128))
+    r12_col = tl.arange($(128))
+    r12_lane = tl.arange($(128))
+    for r12_group in range($(32)) {
+      r12_left = tl.load($(vmul_1_ptr) + (((((((r12_group % $(32)) * $(16384)) + (r12_row[:, None] * $(128)) + r12_lane[None, :]) / $(262144)) % $(2)) * $(262144)) + ((((((r12_group % $(32)) * $(16384)) + (r12_row[:, None] * $(128)) + r12_lane[None, :]) / $(16384)) % $(16)) * $(16384)) + ((((((r12_group % $(32)) * $(16384)) + (r12_row[:, None] * $(128)) + r12_lane[None, :]) / $(128)) % $(128)) * $(128)) + ((((r12_group % $(32)) * $(16384)) + (r12_row[:, None] * $(128)) + r12_lane[None, :]) % $(128))), dtype=tl.bfloat16)
+      r12_right = tl.load($(input1_ptr) + (((((((r12_group % $(32)) * $(16384)) + (r12_col[None, :] * $(128)) + r12_lane[:, None]) / $(262144)) % $(2)) * $(131072)) + ((((((((((r12_group % $(32)) * $(16384)) + (r12_col[None, :] * $(128)) + r12_lane[:, None]) / $(262144)) % $(2)) * $(262144)) + ((((((r12_group % $(32)) * $(16384)) + (r12_col[None, :] * $(128)) + r12_lane[:, None]) / $(16384)) % $(16)) * $(16384)) + (((((r12_group % $(32)) * $(16384)) + (r12_col[None, :] * $(128)) + r12_lane[:, None]) % $(128)) * $(128)) + (((((r12_group % $(32)) * $(16384)) + (r12_col[None, :] * $(128)) + r12_lane[:, None]) / $(128)) % $(128))) / $(32768)) % $(8)) * $(16384)) + (((((r12_group % $(32)) * $(16384)) + (r12_col[None, :] * $(128)) + r12_lane[:, None]) % $(128)) * $(128)) + (((((r12_group % $(32)) * $(16384)) + (r12_col[None, :] * $(128)) + r12_lane[:, None]) / $(128)) % $(128))), dtype=tl.bfloat16)
+      r12_value = tl.dot(r12_left, r12_right)
+      r12_value = r12_value.to(tl.bfloat16)
+      tl.store($(vbmm_3_ptr) + ((r12_group * $(16384)) + (r12_row[:, None] * $(128)) + r12_col[None, :]), r12_value)
+    }
+    z = tl.arange($(524288))
+    value = tl.load($(vbmm_3_ptr) + ((((z / $(262144)) % $(2)) * $(262144)) + (((z / $(16384)) % $(16)) * $(16384)) + (((z / $(128)) % $(128)) * $(128)) + (z % $(128))), dtype=tl.bfloat16)
+    value = tl.broadcast_to(value, [$(524288)])
+    tl.store($(out_ptr) + z, value)
+  }
+
+def candidate : ComputeKernel :=
+  let input0_ptr : RegionName := "input0"
+  let input1_ptr : RegionName := "input1"
+  let input2_ptr : RegionName := "input2"
+  let input3_ptr : RegionName := "input3"
+  let out_ptr : RegionName := "out"
+  let vtriu_ptr : RegionName := "vtriu"
+  let vmasked_fill_ptr : RegionName := "vmasked_fill"
+  let vmul_ptr : RegionName := "vmul"
+  let vto_copy_ptr : RegionName := "vto_copy"
+  let vsoftmax_ptr : RegionName := "vsoftmax"
+  let vbmm_2_ptr : RegionName := "vbmm_2"
+  let vto_copy_2_ptr : RegionName := "vto_copy_2"
+  let vsoftmax_backward_data_ptr : RegionName := "vsoftmax_backward_data"
+  let vto_copy_3_ptr : RegionName := "vto_copy_3"
+  let candidate_vbaddbmm_ptr : RegionName := "candidate_vbaddbmm"
+  let candidate_vto_copy_ptr : RegionName := "candidate_vto_copy"
+  let candidate_vtriu_ptr : RegionName := "candidate_vtriu"
+  let candidate_vmasked_fill_ptr : RegionName := "candidate_vmasked_fill"
+  let candidate_vsoftmax_ptr : RegionName := "candidate_vsoftmax"
+  let candidate_vbmm_1_ptr : RegionName := "candidate_vbmm_1"
+  let candidate_vto_copy_2_ptr : RegionName := "candidate_vto_copy_2"
+  let candidate_vsoftmax_backward_data_ptr : RegionName := "candidate_vsoftmax_backward_data"
+  let candidate_vmasked_fill_1_ptr : RegionName := "candidate_vmasked_fill_1"
+  let candidate_vto_copy_3_ptr : RegionName := "candidate_vto_copy_3"
+  let candidate_vbmm_2_ptr : RegionName := "candidate_vbmm_2"
+  let candidate_vmul_ptr : RegionName := "candidate_vmul"
+  triton {
+    r0_row = tl.arange($(128))
+    r0_col = tl.arange($(128))
+    r0_lane = tl.arange($(128))
+    for r0_group in range($(32)) {
+      r0_left = tl.load($(input0_ptr) + (((((((r0_group % $(32)) * $(16384)) + (r0_row[:, None] * $(128)) + r0_lane[None, :]) / $(262144)) % $(2)) * $(262144)) + ((((((r0_group % $(32)) * $(16384)) + (r0_row[:, None] * $(128)) + r0_lane[None, :]) / $(16384)) % $(16)) * $(16384)) + ((((((r0_group % $(32)) * $(16384)) + (r0_row[:, None] * $(128)) + r0_lane[None, :]) / $(128)) % $(128)) * $(128)) + ((((r0_group % $(32)) * $(16384)) + (r0_row[:, None] * $(128)) + r0_lane[None, :]) % $(128))), dtype=tl.bfloat16)
+      r0_right = tl.load($(input1_ptr) + (((((((r0_group % $(32)) * $(16384)) + (r0_col[None, :] * $(128)) + r0_lane[:, None]) / $(262144)) % $(2)) * $(131072)) + ((((((((((r0_group % $(32)) * $(16384)) + (r0_col[None, :] * $(128)) + r0_lane[:, None]) / $(262144)) % $(2)) * $(262144)) + ((((((r0_group % $(32)) * $(16384)) + (r0_col[None, :] * $(128)) + r0_lane[:, None]) / $(16384)) % $(16)) * $(16384)) + ((((((r0_group % $(32)) * $(16384)) + (r0_col[None, :] * $(128)) + r0_lane[:, None]) / $(128)) % $(128)) * $(128)) + ((((r0_group % $(32)) * $(16384)) + (r0_col[None, :] * $(128)) + r0_lane[:, None]) % $(128))) / $(32768)) % $(8)) * $(16384)) + ((((((r0_group % $(32)) * $(16384)) + (r0_col[None, :] * $(128)) + r0_lane[:, None]) / $(128)) % $(128)) * $(128)) + ((((r0_group % $(32)) * $(16384)) + (r0_col[None, :] * $(128)) + r0_lane[:, None]) % $(128))), dtype=tl.bfloat16)
+      r0_value = tl.dot(r0_left, r0_right)
+      r0_value = r0_value * 0.08838834764831845
+      r0_value = r0_value.to(tl.bfloat16)
+      tl.store($(candidate_vbaddbmm_ptr) + ((r0_group * $(16384)) + (r0_row[:, None] * $(128)) + r0_col[None, :]), r0_value)
+    }
+    r1_z = tl.arange($(524288))
+    r1_value = tl.load($(candidate_vbaddbmm_ptr) + ((((r1_z / $(262144)) % $(2)) * $(262144)) + (((r1_z / $(16384)) % $(16)) * $(16384)) + (((r1_z / $(128)) % $(128)) * $(128)) + (r1_z % $(128))), dtype=tl.bfloat16)
+    r1_value = r1_value.to(tl.float32)
+    r1_value = tl.broadcast_to(r1_value, [$(524288)])
+    tl.store($(candidate_vto_copy_ptr) + r1_z, r1_value)
+    r2_z = tl.arange($(16384))
+    r2_value = tl.where((r2_z % $(128)) >= ((r2_z / $(128)) % $(128)) + $(1), true, false)
+    r2_value = tl.broadcast_to(r2_value, [$(16384)])
+    tl.store($(candidate_vtriu_ptr) + r2_z, r2_value)
+    r3_z = tl.arange($(524288))
+    r3_value = tl.where(tl.load($(candidate_vtriu_ptr) + ((((r3_z / $(128)) % $(128)) * $(128)) + (r3_z % $(128))), dtype=tl.int1), -10000.0, tl.load($(candidate_vto_copy_ptr) + ((((r3_z / $(262144)) % $(2)) * $(262144)) + (((r3_z / $(16384)) % $(16)) * $(16384)) + (((r3_z / $(128)) % $(128)) * $(128)) + (r3_z % $(128))), dtype=tl.float32))
+    r3_value = r3_value.to(tl.float32)
+    r3_value = tl.broadcast_to(r3_value, [$(524288)])
+    tl.store($(candidate_vmasked_fill_ptr) + r3_z, r3_value)
+    r4_z = tl.arange($(524288))
+    r4_lane = tl.arange($(128))
+    r4_row_values = tl.load($(candidate_vmasked_fill_ptr) + ((((r4_z[:, None] / $(262144)) % $(2)) * $(262144)) + (((r4_z[:, None] / $(16384)) % $(16)) * $(16384)) + (((r4_z[:, None] / $(128)) % $(128)) * $(128)) + (r4_lane[None, :] % $(128))), dtype=tl.float32)
+    r4_maximum = tl.max(r4_row_values, axis=1, keep_dims=true)
+    r4_weights = tl.exp(r4_row_values - r4_maximum)
+    r4_total = tl.sum(r4_weights, axis=1)
+    r4_maximum = tl.max(r4_row_values, axis=1)
+    r4_value = tl.exp(tl.load($(candidate_vmasked_fill_ptr) + ((((r4_z / $(262144)) % $(2)) * $(262144)) + (((r4_z / $(16384)) % $(16)) * $(16384)) + (((r4_z / $(128)) % $(128)) * $(128)) + (r4_z % $(128))), dtype=tl.float32) - r4_maximum) / r4_total
+    r4_value = r4_value.to(tl.float32)
+    r4_value = tl.broadcast_to(r4_value, [$(524288)])
+    tl.store($(candidate_vsoftmax_ptr) + r4_z, r4_value)
+    r5_row = tl.arange($(128))
+    r5_col = tl.arange($(128))
+    r5_lane = tl.arange($(128))
+    for r5_group in range($(32)) {
+      r5_left = tl.load($(input3_ptr) + (((((((r5_group % $(32)) * $(16384)) + (r5_row[:, None] * $(128)) + r5_lane[None, :]) / $(262144)) % $(2)) * $(262144)) + ((((((r5_group % $(32)) * $(16384)) + (r5_row[:, None] * $(128)) + r5_lane[None, :]) / $(128)) % $(128)) * $(2048)) + ((((((r5_group % $(32)) * $(16384)) + (r5_row[:, None] * $(128)) + r5_lane[None, :]) / $(16384)) % $(16)) * $(128)) + ((((r5_group % $(32)) * $(16384)) + (r5_row[:, None] * $(128)) + r5_lane[None, :]) % $(128))), dtype=tl.bfloat16)
+      r5_right = tl.load($(input2_ptr) + (((((((r5_group % $(32)) * $(16384)) + (r5_col[None, :] * $(128)) + r5_lane[:, None]) / $(262144)) % $(2)) * $(131072)) + ((((((((((r5_group % $(32)) * $(16384)) + (r5_col[None, :] * $(128)) + r5_lane[:, None]) / $(262144)) % $(2)) * $(262144)) + ((((((r5_group % $(32)) * $(16384)) + (r5_col[None, :] * $(128)) + r5_lane[:, None]) / $(16384)) % $(16)) * $(16384)) + ((((((r5_group % $(32)) * $(16384)) + (r5_col[None, :] * $(128)) + r5_lane[:, None]) / $(128)) % $(128)) * $(128)) + ((((r5_group % $(32)) * $(16384)) + (r5_col[None, :] * $(128)) + r5_lane[:, None]) % $(128))) / $(32768)) % $(8)) * $(16384)) + ((((((r5_group % $(32)) * $(16384)) + (r5_col[None, :] * $(128)) + r5_lane[:, None]) / $(128)) % $(128)) * $(128)) + ((((r5_group % $(32)) * $(16384)) + (r5_col[None, :] * $(128)) + r5_lane[:, None]) % $(128))), dtype=tl.bfloat16)
+      r5_value = tl.dot(r5_left, r5_right)
+      r5_value = r5_value.to(tl.bfloat16)
+      tl.store($(candidate_vbmm_1_ptr) + ((r5_group * $(16384)) + (r5_row[:, None] * $(128)) + r5_col[None, :]), r5_value)
+    }
+    r6_z = tl.arange($(524288))
+    r6_value = tl.load($(candidate_vbmm_1_ptr) + ((((r6_z / $(262144)) % $(2)) * $(262144)) + (((r6_z / $(16384)) % $(16)) * $(16384)) + (((r6_z / $(128)) % $(128)) * $(128)) + (r6_z % $(128))), dtype=tl.bfloat16)
+    r6_value = r6_value.to(tl.float32)
+    r6_value = tl.broadcast_to(r6_value, [$(524288)])
+    tl.store($(candidate_vto_copy_2_ptr) + r6_z, r6_value)
+    r7_z = tl.arange($(524288))
+    r7_lane = tl.arange($(128))
+    r7_row_values = tl.load($(candidate_vsoftmax_ptr) + ((((r7_z[:, None] / $(262144)) % $(2)) * $(262144)) + (((r7_z[:, None] / $(16384)) % $(16)) * $(16384)) + (((r7_z[:, None] / $(128)) % $(128)) * $(128)) + (r7_lane[None, :] % $(128))), dtype=tl.float32)
+    r7_row_grad = tl.load($(candidate_vto_copy_2_ptr) + ((((r7_z[:, None] / $(262144)) % $(2)) * $(262144)) + (((r7_z[:, None] / $(16384)) % $(16)) * $(16384)) + (((r7_z[:, None] / $(128)) % $(128)) * $(128)) + (r7_lane[None, :] % $(128))), dtype=tl.float32)
+    r7_weighted = r7_row_grad * r7_row_values
+    r7_dot_grad = tl.sum(r7_weighted, axis=1)
+    r7_value = (tl.load($(candidate_vto_copy_2_ptr) + ((((r7_z / $(262144)) % $(2)) * $(262144)) + (((r7_z / $(16384)) % $(16)) * $(16384)) + (((r7_z / $(128)) % $(128)) * $(128)) + (r7_z % $(128))), dtype=tl.float32) - r7_dot_grad) * tl.load($(candidate_vsoftmax_ptr) + ((((r7_z / $(262144)) % $(2)) * $(262144)) + (((r7_z / $(16384)) % $(16)) * $(16384)) + (((r7_z / $(128)) % $(128)) * $(128)) + (r7_z % $(128))), dtype=tl.float32)
+    r7_value = r7_value.to(tl.float32)
+    r7_value = tl.broadcast_to(r7_value, [$(524288)])
+    tl.store($(candidate_vsoftmax_backward_data_ptr) + r7_z, r7_value)
+    r8_z = tl.arange($(524288))
+    r8_value = tl.where(tl.load($(candidate_vtriu_ptr) + ((((r8_z / $(128)) % $(128)) * $(128)) + (r8_z % $(128))), dtype=tl.int1), 0.0, tl.load($(candidate_vsoftmax_backward_data_ptr) + ((((r8_z / $(262144)) % $(2)) * $(262144)) + (((r8_z / $(16384)) % $(16)) * $(16384)) + (((r8_z / $(128)) % $(128)) * $(128)) + (r8_z % $(128))), dtype=tl.float32))
+    r8_value = r8_value.to(tl.float32)
+    r8_value = tl.broadcast_to(r8_value, [$(524288)])
+    tl.store($(candidate_vmasked_fill_1_ptr) + r8_z, r8_value)
+    r9_z = tl.arange($(524288))
+    r9_value = tl.load($(candidate_vmasked_fill_1_ptr) + ((((r9_z / $(262144)) % $(2)) * $(262144)) + (((r9_z / $(16384)) % $(16)) * $(16384)) + (((r9_z / $(128)) % $(128)) * $(128)) + (r9_z % $(128))), dtype=tl.float32)
+    r9_value = r9_value.to(tl.bfloat16)
+    r9_value = tl.broadcast_to(r9_value, [$(524288)])
+    tl.store($(candidate_vto_copy_3_ptr) + r9_z, r9_value)
+    r10_row = tl.arange($(128))
+    r10_col = tl.arange($(128))
+    r10_lane = tl.arange($(128))
+    for r10_group in range($(32)) {
+      r10_left = tl.load($(candidate_vto_copy_3_ptr) + (((((((r10_group % $(32)) * $(16384)) + (r10_row[:, None] * $(128)) + r10_lane[None, :]) / $(262144)) % $(2)) * $(262144)) + ((((((r10_group % $(32)) * $(16384)) + (r10_row[:, None] * $(128)) + r10_lane[None, :]) / $(16384)) % $(16)) * $(16384)) + ((((((r10_group % $(32)) * $(16384)) + (r10_row[:, None] * $(128)) + r10_lane[None, :]) / $(128)) % $(128)) * $(128)) + ((((r10_group % $(32)) * $(16384)) + (r10_row[:, None] * $(128)) + r10_lane[None, :]) % $(128))), dtype=tl.bfloat16)
+      r10_right = tl.load($(input1_ptr) + (((((((r10_group % $(32)) * $(16384)) + (r10_lane[:, None] * $(128)) + r10_col[None, :]) / $(262144)) % $(2)) * $(131072)) + ((((((((((r10_group % $(32)) * $(16384)) + (r10_lane[:, None] * $(128)) + r10_col[None, :]) / $(262144)) % $(2)) * $(262144)) + ((((((r10_group % $(32)) * $(16384)) + (r10_lane[:, None] * $(128)) + r10_col[None, :]) / $(16384)) % $(16)) * $(16384)) + ((((((r10_group % $(32)) * $(16384)) + (r10_lane[:, None] * $(128)) + r10_col[None, :]) / $(128)) % $(128)) * $(128)) + ((((r10_group % $(32)) * $(16384)) + (r10_lane[:, None] * $(128)) + r10_col[None, :]) % $(128))) / $(32768)) % $(8)) * $(16384)) + ((((((r10_group % $(32)) * $(16384)) + (r10_lane[:, None] * $(128)) + r10_col[None, :]) / $(128)) % $(128)) * $(128)) + ((((r10_group % $(32)) * $(16384)) + (r10_lane[:, None] * $(128)) + r10_col[None, :]) % $(128))), dtype=tl.bfloat16)
+      r10_value = tl.dot(r10_left, r10_right)
+      r10_value = r10_value.to(tl.bfloat16)
+      tl.store($(candidate_vbmm_2_ptr) + ((r10_group * $(16384)) + (r10_row[:, None] * $(128)) + r10_col[None, :]), r10_value)
+    }
+    r11_z = tl.arange($(524288))
+    r11_value = (tl.load($(candidate_vbmm_2_ptr) + ((((r11_z / $(16384)) % $(32)) * $(16384)) + (((r11_z / $(128)) % $(128)) * $(128)) + (r11_z % $(128))), dtype=tl.bfloat16) * tl.cast(0.08838834764831845, tl.bfloat16))
+    r11_value = r11_value.to(tl.bfloat16)
+    r11_value = tl.broadcast_to(r11_value, [$(524288)])
+    tl.store($(candidate_vmul_ptr) + r11_z, r11_value)
+    z = tl.arange($(524288))
+    value = tl.load($(candidate_vmul_ptr) + ((((z / $(262144)) % $(2)) * $(262144)) + (((z / $(16384)) % $(16)) * $(16384)) + (((z / $(128)) % $(128)) * $(128)) + (z % $(128))), dtype=tl.bfloat16)
+    value = tl.broadcast_to(value, [$(524288)])
+    tl.store($(out_ptr) + z, value)
+  }
+
+end Kernels
+end
+end VeriTile.Bench.PretrainKernels.local_attention_baddbmm_dq

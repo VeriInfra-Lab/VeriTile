@@ -1,0 +1,93 @@
+{
+  "schema_version": 3,
+  "id": "local_muon_spectral_normalize",
+  "suite": "pretrain",
+  "self_contained": true,
+  "proof_status": "UNSOLVED",
+  "backend_binding_status": "PENDING",
+  "numerical_admission": "NONE",
+  "conversion_status": "LEAN_DRAFT",
+  "comparison": {
+    "function": "build_local_muon_spectral_normalize"
+  },
+  "source_organization_status": "PROVISIONAL_LOWERING",
+  "inputs": [
+    [
+      "input0",
+      [
+        3,
+        249,
+        517
+      ],
+      "fp32"
+    ]
+  ],
+  "output": [
+    3,
+    249,
+    517
+  ],
+  "output_precision": "fp32",
+  "scratch": [
+    [
+      "vlinalg_vector_norm",
+      [
+        3,
+        1,
+        1
+      ],
+      "fp32"
+    ],
+    [
+      "vclamp",
+      [
+        3,
+        1,
+        1
+      ],
+      "fp32"
+    ],
+    [
+      "vdiv",
+      [
+        3,
+        249,
+        517
+      ],
+      "fp32"
+    ],
+    [
+      "candidate_vlinalg_vector_norm",
+      [
+        3,
+        1,
+        1
+      ],
+      "fp32"
+    ],
+    [
+      "candidate_vclamp",
+      [
+        3,
+        1,
+        1
+      ],
+      "fp32"
+    ],
+    [
+      "candidate_vdiv",
+      [
+        3,
+        249,
+        517
+      ],
+      "fp32"
+    ]
+  ],
+  "scope": "Initialized weights and tensor tables are explicit task parameters. Native layout and configuration connections remain obligations.",
+  "native_comparison": "local_muon_spectral_normalize",
+  "reference_graph_nodes": 5,
+  "candidate_graph_nodes": 6,
+  "real_projection_status": "DIRECT",
+  "metadata_decoder_binding_status": "NOT_REQUIRED"
+}
