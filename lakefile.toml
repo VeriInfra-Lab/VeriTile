@@ -78,6 +78,7 @@ globs = [
   "bench.tests.FPStructural",
   "bench.tests.FPStructuralSafety",
   "bench.tests.FPProgramIO",
+  "bench.tests.FPGuardedProgramIO",
   "bench.tests.FPInputBindingIO",
   "bench.tests.FPAddressedInputsIO",
   "bench.tests.FPObservedProgramIO",
@@ -133,6 +134,19 @@ roots = [
   "bench.examples.TritonBenchVectorAddition.Correct",
   "bench.examples.TritonBenchVectorAddition.FPEquiv",
 ]
+
+# Independent Triton lowerings and unsolved Real/FP/counterexample challenges.
+[[lean_lib]]
+name = "BugDetection"
+globs = ["bench.bug_detection.+"]
+roots = ["bench.bug_detection.All", "bench.bug_detection.Validation"]
+
+# Independent pretraining equivalence problems; proof/backend goals are unsolved.
+[[lean_lib]]
+name = "PretrainKernels"
+globs = ["bench.pretrain_kernels.+"]
+roots = ["bench.pretrain_kernels.All", "bench.pretrain_kernels.Validation"]
+weakLeanArgs = ["--tstack=65536"]
 
 # Full target: Lite + Math + ApproxGeLU. Build this when working on the
 # GeLU error bound or before any release tagging.

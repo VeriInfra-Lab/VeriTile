@@ -1,0 +1,221 @@
+{
+  "schema_version": 3,
+  "id": "local_pad_routing_map",
+  "suite": "pretrain",
+  "self_contained": true,
+  "proof_status": "UNSOLVED",
+  "backend_binding_status": "PENDING",
+  "numerical_admission": "NONE",
+  "conversion_status": "LEAN_DRAFT",
+  "comparison": {
+    "function": "build_local_pad_routing_map"
+  },
+  "source_organization_status": "PROVISIONAL_LOWERING",
+  "inputs": [
+    [
+      "input0",
+      [
+        128,
+        16
+      ],
+      "boolean"
+    ]
+  ],
+  "output": [
+    128,
+    16
+  ],
+  "output_precision": "bf16",
+  "scratch": [
+    [
+      "vto_copy",
+      [
+        16,
+        128
+      ],
+      "integer"
+    ],
+    [
+      "vsum_1",
+      [
+        16
+      ],
+      "integer"
+    ],
+    [
+      "vneg",
+      [
+        16
+      ],
+      "integer"
+    ],
+    [
+      "vremainder",
+      [
+        16
+      ],
+      "integer"
+    ],
+    [
+      "veq",
+      [
+        16,
+        128
+      ],
+      "boolean"
+    ],
+    [
+      "vto_copy_1",
+      [
+        16,
+        128
+      ],
+      "integer"
+    ],
+    [
+      "vcumsum",
+      [
+        16,
+        128
+      ],
+      "integer"
+    ],
+    [
+      "vle",
+      [
+        16,
+        128
+      ],
+      "boolean"
+    ],
+    [
+      "vbitwise_and",
+      [
+        16,
+        128
+      ],
+      "boolean"
+    ],
+    [
+      "vwhere",
+      [
+        16,
+        128
+      ],
+      "integer"
+    ],
+    [
+      "vto_copy_2",
+      [
+        128,
+        16
+      ],
+      "bf16"
+    ],
+    [
+      "candidate_vto_copy",
+      [
+        16,
+        128
+      ],
+      "integer"
+    ],
+    [
+      "candidate_vsum_1",
+      [
+        16
+      ],
+      "integer"
+    ],
+    [
+      "candidate_vremainder",
+      [
+        16
+      ],
+      "integer"
+    ],
+    [
+      "candidate_vne",
+      [
+        16
+      ],
+      "boolean"
+    ],
+    [
+      "candidate_vrsub",
+      [
+        16
+      ],
+      "integer"
+    ],
+    [
+      "candidate_vwhere",
+      [
+        16
+      ],
+      "integer"
+    ],
+    [
+      "candidate_veq",
+      [
+        16,
+        128
+      ],
+      "boolean"
+    ],
+    [
+      "candidate_vto_copy_1",
+      [
+        16,
+        128
+      ],
+      "integer"
+    ],
+    [
+      "candidate_vcumsum",
+      [
+        16,
+        128
+      ],
+      "integer"
+    ],
+    [
+      "candidate_vle",
+      [
+        16,
+        128
+      ],
+      "boolean"
+    ],
+    [
+      "candidate_vbitwise_and",
+      [
+        16,
+        128
+      ],
+      "boolean"
+    ],
+    [
+      "candidate_vwhere_1",
+      [
+        16,
+        128
+      ],
+      "integer"
+    ],
+    [
+      "candidate_vto_copy_3",
+      [
+        128,
+        16
+      ],
+      "bf16"
+    ]
+  ],
+  "scope": "Initialized weights and tensor tables are explicit task parameters. Native layout and configuration connections remain obligations.",
+  "native_comparison": "local_pad_routing_map",
+  "reference_graph_nodes": 17,
+  "candidate_graph_nodes": 21,
+  "real_projection_status": "DIRECT",
+  "metadata_decoder_binding_status": "NOT_REQUIRED"
+}
