@@ -213,7 +213,7 @@ The algorithm view and constant-bitcast projection use `Float32Bits.decodeRat`
 as their authoritative decoder; the macro does not re-implement decoding in
 `MacroM`. The separate software-value decoder agrees on every 32-bit payload,
 as proved by `FP.DecoderCompatibility.equals_software_decoder` in
-[`DecoderCompatibility.lean`](https://github.com/Lizn-zn/VeriTile/blob/main/VeriTile/Triton/Float/DecoderCompatibility.lean).
+[`DecoderCompatibility.lean`](https://github.com/VeriInfra-Lab/VeriTile/blob/main/VeriTile/Triton/Float/DecoderCompatibility.lean).
 The algorithm view's `Option.get (by decide)`
 elaborates the decoder on the concrete `BitVec 32` literal at typechecking
 time.
@@ -242,7 +242,7 @@ algorithm fallback constant.
 
 The finite extension preserves every previous nonzero-exponent result.
 Binary64 constant projection retains its separate finite-normal domain.
-[`Float32FiniteDecode.lean`](https://github.com/Lizn-zn/VeriTile/blob/main/bench/tests/Float32FiniteDecode.lean) checks
+[`Float32FiniteDecode.lean`](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/tests/Float32FiniteDecode.lean) checks
 the actual scalar and vector DSL paths, including arbitrary vector lengths
 and retained NaN/Inf rejection.
 

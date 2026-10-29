@@ -16,13 +16,15 @@ import tempfile
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE = ROOT / 'bench/examples/VectorAdd/Correct.lean'
 KERNELS = ROOT / 'bench/examples/VectorAdd/Kernels.lean'
+REAL_PROOFS = ROOT / 'bench/examples/VectorAdd/Proofs/Real.lean'
 OUTPUT = ROOT / 'site/src/lib/vector-add-record.json'
 
 
 def fingerprint():
     paths = [ROOT / p for p in ('lean-toolchain', 'lakefile.toml', 'lake-manifest.json',
                                'site/scripts/record-home-demo.py', 'bench/examples/VectorAdd/Correct.lean',
-                               'bench/examples/VectorAdd/Kernels.lean')]
+                               'bench/examples/VectorAdd/Kernels.lean',
+                               'bench/examples/VectorAdd/Proofs/Real.lean')]
     paths += list((ROOT / 'VeriTile').rglob('*.lean'))
     digest = hashlib.sha256()
     for path in sorted(paths, key=lambda path: path.relative_to(ROOT).as_posix()):
@@ -44,12 +46,20 @@ def main():
 
     lake = os.environ.get('VERITILE_LAKE', 'lake')
     lean = os.environ.get('VERITILE_LEAN', 'lean')
-    # Inline the shared declaration into a temporary proof copy so changing
-    # its operator checks the actual general proof, without editing imports.
-    declaration = re.search(r'(def addKernel [^\n]* := triton \{[\s\S]*?\n\})',
-                            KERNELS.read_text())[1]
-    text = SOURCE.read_text().replace('open VeriTile.Examples\n',
-                                     'open VeriTile.Examples\n\n' + declaration + '\n', 1)
+    # Re-elaborate the complete source/proof chain together. Importing the
+    # existing helpers while shadowing only addKernel would keep their proofs
+    # attached to the unmodified kernel, invalidating the mutation check.
+    imports, bodies = [], []
+    for path in (KERNELS, REAL_PROOFS, SOURCE):
+        body = []
+        for line in path.read_text().splitlines():
+            if line.startswith('import '):
+                if not line.startswith('import bench.examples.VectorAdd.') and line not in imports:
+                    imports.append(line)
+            else:
+                body.append(line)
+        bodies.append('\n'.join(body))
+    text = '\n'.join(imports + bodies) + '\n'
     original_line = '  out  := x + y'
     assert text.count(original_line) == 1
     kernel = re.search(r'def addKernel [^\n]* := (triton \{[\s\S]*?\n\})', text)[1]

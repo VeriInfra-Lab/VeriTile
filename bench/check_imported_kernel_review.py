@@ -177,6 +177,10 @@ def probes():
 def main():
     record = json.loads(RECORD.read_text())
     assert record['source_sha256'] == snapshot(), 'reviewed sources changed; a new review is required'
+    for relative, expected in record.get('main_integration', {}).get('dependency_source_sha256', {}).items():
+        path = (ROOT / relative).resolve()
+        assert path.is_relative_to(ROOT), 'dependency escapes the repository'
+        assert digest(path) == expected, 'validated dependency changed: ' + relative
     assert record['probes'] == probes()
     counts = Counter()
     for key, row in record['tasks'].items():
