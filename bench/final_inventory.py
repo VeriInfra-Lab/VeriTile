@@ -25,6 +25,27 @@ DIRECTORIES = ('VeriTile', 'bench/tritonbench_g', 'bench/repairs', 'bench/exampl
 REVIEW = 'bench/validation/contracts.json'
 LEDGER = 'bench/tritonbench_g/task_progress.json'
 MANIFEST = 'bench/validation/source.json'
+CORPUS_PREFIXES = ('bench/tritonbench_g/', 'bench/repairs/', 'bench/examples/', 'bench/tests/')
+
+
+def ci_targets(paths, imports, rows):
+    """Replay public contracts/tests; build their complete retained closure."""
+    corpus = {p for p in paths if p.startswith(CORPUS_PREFIXES)}
+    selected = {p for row in rows.values() for p in row['public_entries']}
+    selected.update(row['kernel_source'] for row in rows.values())
+    selected.update(p for p in corpus if p.startswith(('bench/examples/', 'bench/tests/')))
+    if selected - corpus:
+        raise ValueError('CI entry outside retained corpus: ' + repr(sorted(selected - corpus)))
+    reached, pending = set(), list(selected)
+    while pending:
+        path = pending.pop()
+        if path in reached:
+            continue
+        reached.add(path)
+        pending.extend(module.replace('.', '/') + '.lean' for module in imports.get(path, []))
+    if corpus - reached:
+        raise ValueError('retained modules outside CI build closure: ' + repr(sorted(corpus - reached)))
+    return sorted(selected)
 
 
 def digest(path):
@@ -137,6 +158,7 @@ def collect(root=ROOT):
     inputs.update(row['python_source'] for row in rows.values() if row.get('python_source'))
     return {'schema': 1, 'kind': 'final_source_inventory',
             'tasks': sorted(rows), 'lean_files': paths, 'imports': imports,
+            'ci_targets': ci_targets(paths, imports, rows),
             'source_sha256': {name: digest(local(root, name)) for name in sorted(inputs)},
             'validation_boundary': 'Membership and reviewed scope only; requires Lean build, axiom/spec gates and official replay. Imported benchmark proof goals and Python/native correspondence gaps remain separate.'}
 
@@ -177,6 +199,8 @@ def main():
     mode.add_argument('--write', action='store_true')
     mode.add_argument('--check', action='store_true')
     mode.add_argument('--targets', action='store_true')
+    mode.add_argument('--ci-targets', action='store_true',
+                      help='public entries, canonical sources, examples and regressions')
     mode.add_argument('--coverage', action='store_true')
     args = parser.parse_args()
     if args.coverage:
@@ -185,9 +209,11 @@ def main():
     data = collect(args.root) if args.write else check(args.root)
     if args.write:
         (args.root / MANIFEST).write_text(json.dumps(data, indent=2, ensure_ascii=False) + '\n')
-    if args.targets:
+    if args.ci_targets:
+        print('\n'.join(data['ci_targets']))
+    elif args.targets:
         for path in data['lean_files']:
-            if path.startswith(('bench/tritonbench_g/', 'bench/repairs/', 'bench/examples/', 'bench/tests/')):
+            if path.startswith(CORPUS_PREFIXES):
                 print(path)
     else:
         print(json.dumps({'tasks': len(data['tasks']), 'lean_files': len(data['lean_files']),

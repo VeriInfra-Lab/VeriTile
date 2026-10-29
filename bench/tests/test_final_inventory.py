@@ -7,7 +7,7 @@ import tempfile
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from final_inventory import digest, local, modules, read, validate_review
+from final_inventory import ci_targets, digest, local, modules, read, validate_review
 from audit_trust_prep import prepare_source
 
 
@@ -126,6 +126,34 @@ class FinalReviewTests(unittest.TestCase):
                       '  bench.repairs.fixture.Kernels\n', audited)
         self.assertIn('#auditModuleSpecs from [bench.repairs.fixture.Kernels]', audited)
         self.assertNotIn('from [bench.fake', audited)
+
+
+class FinalCITargetTests(unittest.TestCase):
+    def setUp(self):
+        self.prefix = 'bench/repairs/task/'
+        self.entries = [self.prefix + p + '.lean' for p in ('Contract', 'Correct', 'FPEquiv')]
+        self.kernel = self.prefix + 'Kernels.lean'
+        self.helper = self.prefix + 'Proofs/Helper.lean'
+        self.tests = ['bench/tests/Regression.lean', 'bench/examples/Example/Correct.lean']
+        self.rows = {'task': {'public_entries': self.entries, 'kernel_source': self.kernel}}
+        self.paths = self.entries + [self.kernel, self.helper] + self.tests + ['VeriTile/Shared.lean']
+        self.imports = {self.entries[1]: ['VeriTile.Shared'],
+                        'VeriTile/Shared.lean': ['bench.repairs.task.Proofs.Helper']}
+
+    def test_public_entries_sources_and_tests_cover_transitive_build(self):
+        targets = ci_targets(self.paths, self.imports, self.rows)
+        self.assertEqual(targets, sorted(self.entries + [self.kernel] + self.tests))
+        self.assertNotIn(self.helper, targets)
+
+    def test_unbuilt_helper_is_rejected(self):
+        self.imports['VeriTile/Shared.lean'] = []
+        with self.assertRaisesRegex(ValueError, 'outside CI build closure'):
+            ci_targets(self.paths, self.imports, self.rows)
+
+    def test_missing_canonical_source_is_rejected(self):
+        self.paths.remove(self.kernel)
+        with self.assertRaisesRegex(ValueError, 'entry outside retained corpus'):
+            ci_targets(self.paths, self.imports, self.rows)
 
 
 if __name__ == '__main__':

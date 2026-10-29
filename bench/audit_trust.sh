@@ -25,6 +25,7 @@
 #
 # Usage:
 #   bench/audit_trust.sh                 # audit the whole bench corpus
+#   bench/audit_trust.sh --ci-targets    # public entries, sources and tests
 #   bench/audit_trust.sh <kernel> ...    # audit only named tritonbench_g kernels
 #   bench/audit_trust.sh --catalog PATH [<kernel> ...]
 #     Use the explicit current catalog for multi-entry/typed source layouts.
@@ -48,16 +49,20 @@ TESTS_ROOT="bench/tests"
 catalog=''
 catalog_sha256=''
 final_inventory=false
+inventory_targets='--targets'
 if [ "$#" -eq 0 ]; then
   set -- --final-inventory
 fi
-if [ "${1-}" = '--final-inventory' ]; then
+if [ "${1-}" = '--final-inventory' ] || [ "${1-}" = '--ci-targets' ]; then
   final_inventory=true
+  if [ "$1" = '--ci-targets' ]; then
+    inventory_targets='--ci-targets'
+  fi
   catalog='bench/validation/source.json'
   catalog_sha256="$(sha256sum -- "${catalog}")" || exit "$?"
   shift
   if [ "$#" -ne 0 ]; then
-    printf 'Final inventory mode audits the complete retained corpus\n' >&2
+    printf 'Final inventory modes cannot be combined with named targets\n' >&2
     exit 2
   fi
 fi
@@ -73,7 +78,7 @@ fi
 
 select_targets() {
   if [ "${final_inventory}" = true ]; then
-    python3 bench/final_inventory.py --targets || return $?
+    python3 bench/final_inventory.py "${inventory_targets}" || return $?
     return
   fi
   if [ -n "${catalog}" ]; then

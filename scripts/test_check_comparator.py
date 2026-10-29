@@ -35,10 +35,14 @@ class ComparatorGateTests(unittest.TestCase):
             'name': 'comparatorgates', 'lakeDir': '.lake'}))
         subprocess.run(['git', 'init', '-q', str(root)], check=True)
 
-    def run_check(self, source, script=None, library=False, env=None):
+    def run_check(self, source, script=None, library=False, env=None, dependencies=None):
         with tempfile.TemporaryDirectory(prefix='veritile-check-regression-') as temp:
             root = Path(temp)
             self.project(root, source)
+            for name, body in (dependencies or {}).items():
+                path = root / name
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text(body)
             if library:
                 (root / 'VeriTile/Fixture.lean').write_text(source)
                 (root / 'scripts/kernel-manifest.tsv').write_text(
@@ -149,6 +153,20 @@ theorem chosen : model.choose (some 7) = 7 := by simp [model]
         result, reports, _ = self.run_check('theorem target : True := by sorry\n')
         self.assertNotEqual(result.returncode, 0)
         self.assertIn('sorryAx', result.stderr)
+
+    def test_public_entry_replay_checks_imported_proof_dependencies(self):
+        for helper, accepted in [
+            ('theorem helper : True := True.intro\n', True),
+            ('axiom injected : True\ntheorem helper : True := injected\n', False)]:
+            with self.subTest(accepted=accepted):
+                result, reports, inventories = self.run_check(
+                    'import VeriTile.Helper\ntheorem target : True := helper\n',
+                    dependencies={'VeriTile/Helper.lean': helper})
+                self.assertEqual(inventories[0]['theorems'], ['target'])
+                self.assertEqual(result.returncode == 0, accepted, result.stdout + result.stderr)
+                self.assertEqual(reports[0]['accepted'], accepted)
+                if not accepted:
+                    self.assertIn('Illegal axiom detected', result.stderr)
         self.assertFalse(reports[0]['accepted'])
 
     def test_library_manifest_passes(self):

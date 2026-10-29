@@ -6,6 +6,11 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      full_audit:
+        description: Replay every retained module, including unused helper theorems
+        type: boolean
+        default: false
   schedule:
     - cron: '17 3 * * 1'
 
@@ -22,8 +27,26 @@ jobs:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-24.04
     timeout-minutes: 360
+    outputs:
+      audit_mode: ${{ steps.scope.outputs.mode }}
+      shard_count: ${{ steps.scope.outputs.count }}
+      shards: ${{ steps.scope.outputs.shards }}
     steps:
       - uses: actions/checkout@v4
+      - name: Select public-entry or full-corpus audit
+        id: scope
+        env:
+          FULL_AUDIT: ${{ inputs.full_audit }}
+        run: |
+          python3 - <<'PY'
+          import json, os
+          full = os.environ['GITHUB_EVENT_NAME'] == 'schedule' or os.environ['FULL_AUDIT'] == 'true'
+          count = 64 if full else 16
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
+              print('mode=' + ('--final-inventory' if full else '--ci-targets'), file=output)
+              print(f'count={count}', file=output)
+              print('shards=' + json.dumps(list(range(count))), file=output)
+          PY
       - name: Make room for the complete Lean corpus
         run: sudo rm -rf /usr/local/lib/android /opt/ghc /usr/share/dotnet
       - name: Install required source audit tools
@@ -76,18 +99,19 @@ jobs:
           python3 bench/check_imported_kernel_review.py
 
   audit:
-    name: Final corpus build and replay ${{ matrix.shard }}
+    name: Final entry build and replay ${{ matrix.shard }}
     needs: global
     runs-on: ubuntu-24.04
     timeout-minutes: 360
     strategy:
       fail-fast: false
       matrix:
-        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63]
+        shard: ${{ fromJSON(needs.global.outputs.shards) }}
     env:
       AUDIT_TRUST_JOBS: 1
-      AUDIT_TRUST_SHARD_COUNT: 64
+      AUDIT_TRUST_SHARD_COUNT: ${{ needs.global.outputs.shard_count }}
       AUDIT_TRUST_SHARD_INDEX: ${{ matrix.shard }}
+      AUDIT_MODE: ${{ needs.global.outputs.audit_mode }}
     steps:
       - uses: actions/checkout@v4
       - name: Make room for proof replay
@@ -100,14 +124,18 @@ jobs:
           use-mathlib-cache: auto
       - name: Build every selected module and its complete dependencies
         run: |
-          python3 bench/final_inventory.py --targets > "$RUNNER_TEMP/all-targets.txt"
+          if [ "$AUDIT_MODE" = --final-inventory ]; then
+            python3 bench/final_inventory.py --targets > "$RUNNER_TEMP/all-targets.txt"
+          else
+            python3 bench/final_inventory.py --ci-targets > "$RUNNER_TEMP/all-targets.txt"
+          fi
           python3 bench/select_audit_shard.py "$AUDIT_TRUST_SHARD_COUNT" "$AUDIT_TRUST_SHARD_INDEX" \
             < "$RUNNER_TEMP/all-targets.txt" > "$RUNNER_TEMP/shard-targets.txt"
           test -s "$RUNNER_TEMP/shard-targets.txt"
           sed 's|/|.|g; s|\.lean$||' "$RUNNER_TEMP/shard-targets.txt" | xargs lake build
       - uses: ./.github/actions/setup-comparator
-      - name: Replay every retained corpus module
-        run: bench/audit_trust.sh --final-inventory
+      - name: Replay selected entries and their proof dependencies
+        run: bench/audit_trust.sh "$AUDIT_MODE"
 
   complete:
     name: TritonBench-G audit complete
