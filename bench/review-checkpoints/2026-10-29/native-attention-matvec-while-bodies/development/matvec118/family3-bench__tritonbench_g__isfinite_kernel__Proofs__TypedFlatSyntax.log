@@ -1,0 +1,22 @@
+/tmp/matvec118-frontend/bench/tritonbench_g/isfinite_kernel/Proofs/TypedFlatSyntax.lean:29:2: error: Missing cases:
+_, _, (ComputeExpr.fmaTyped _ _ _ _ _ FloatDType.f8e5 _ _ _ _ _)
+_, _, (ComputeExpr.fmaTyped _ _ _ _ _ FloatDType.f8e4 _ _ _ _ _)
+_, _, (ComputeExpr.fmaTyped _ _ _ _ _ FloatDType.bf16 _ _ _ _ _)
+_, _, (ComputeExpr.fmaTyped _ _ _ _ _ FloatDType.fp16 _ _ _ _ _)
+_, _, (ComputeExpr.fmaTyped _ _ _ _ _ FloatDType.fp32 _ _ _ _ _)
+_, _, (ComputeExpr.fmaTyped _ _ _ _ _ FloatDType.real _ _ _ _ _)
+_, _, (ComputeExpr.fma _ _ _ _ _ IndexComputePrecision.fp64 _ _ _ _ _)
+_, _, (ComputeExpr.fma _ _ _ _ _ IndexComputePrecision.fp32 _ _ _ _ _)
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.TypedFlat.flattenComputeOp_load: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.TypedFlat.flattenComputeOp_bitcast: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/matvec118-frontend/bench/tritonbench_g/isfinite_kernel/Proofs/TypedFlatSyntax.lean:167:0: error: VeriTile.Bench.TritonBenchG.IsfiniteKernel.TypedFlat.flattenExpr_classifier_casts: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/matvec118-frontend/bench/tritonbench_g/isfinite_kernel/Proofs/TypedFlatSyntax.lean:168:0: error: VeriTile.Bench.TritonBenchG.IsfiniteKernel.TypedFlat.flattenExpr_opaque: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/matvec118-frontend/bench/tritonbench_g/isfinite_kernel/Proofs/TypedFlatSyntax.lean:169:0: error: VeriTile.Bench.TritonBenchG.IsfiniteKernel.TypedFlat.flattenComputeStmt_effectMarker: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/matvec118-frontend/bench/tritonbench_g/isfinite_kernel/Proofs/TypedFlatSyntax.lean:170:0: error: VeriTile.Bench.TritonBenchG.IsfiniteKernel.TypedFlat.flattenComputeStmt_dynamic_branch: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/matvec118-frontend/bench/tritonbench_g/isfinite_kernel/Proofs/TypedFlatSyntax.lean:171:0: error: VeriTile.Bench.TritonBenchG.IsfiniteKernel.TypedFlat.flattenComputeStmts_length: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/matvec118-frontend/bench/tritonbench_g/isfinite_kernel/Proofs/TypedFlatSyntax.lean:172:0: error: VeriTile.Bench.TritonBenchG.IsfiniteKernel.TypedFlat.flattenComputeKernel_mk: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/matvec118-frontend/bench/tritonbench_g/isfinite_kernel/Proofs/TypedFlatSyntax.lean:173:0: error: VeriTile.Bench.TritonBenchG.IsfiniteKernel.TypedFlat.flattenComputeKernel_surfaceBody_length: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

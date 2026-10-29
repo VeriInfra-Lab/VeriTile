@@ -1,0 +1,9 @@
+VeriTile.Bench.Repairs.LayerNormLiger.Correctness.layer_norm_original_inputs: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormLiger.Correctness.layer_norm_roundtrip_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormLiger.Correctness.layer_norm_backward_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

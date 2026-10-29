@@ -1,0 +1,12 @@
+VeriTile.Bench.Repairs.LayerNormLiger.Correctness.forwardFormula: definition does not reference [VeriTile.Bench.Repairs.LayerNormLiger.Forward.kernel,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.LayerNormLiger.Forward.reference] — non-circular ✓
+VeriTile.Bench.Repairs.LayerNormLiger.Correctness.backwardFormula: definition does not reference [VeriTile.Bench.Repairs.LayerNormLiger.Backward.kernel,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.LayerNormLiger.Backward.reference] — non-circular ✓
+VeriTile.Bench.Repairs.LayerNormLiger.Correctness.layer_norm_forward_kernel_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormLiger.Correctness.layer_norm_backward_kernel_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

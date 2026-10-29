@@ -1,0 +1,60 @@
+{
+  "status": "PREEXISTING_FAILURES_OUTSIDE_SELECTED_SOURCE_CLOSURE",
+  "baseline_code_commit": "526edd2db1c9e83abfa55e6b7b0dcb16c6198b00",
+  "selected_roots": 98,
+  "selected_closure": 467,
+  "diagnostic_expanded_roots": 128,
+  "failures": [
+    {
+      "module": "bench.tritonbench_g.attention_fwd_triton3.Proofs.FPModel",
+      "source_sha256": "63e1a57b9da1e784f2342c067815a98735cc05273c6042bb7c301665e28eaeab",
+      "baseline_log": "/tmp/score121-baseline-family1-bench__tritonbench_g__attention_fwd_triton3__Proofs__FPModel.log",
+      "current_log": "/tmp/score121-family33-bench__tritonbench_g__attention_fwd_triton3__Proofs__FPModel.log",
+      "error_headers_identical": true,
+      "errors": [
+        "112:6: error: Tactic `subst` failed: did not find equation for eliminating 'entry'",
+        "103:52: error: unsolved goals"
+      ],
+      "in_selected_import_closure": false
+    },
+    {
+      "module": "bench.tritonbench_g.attention_fwd_triton3.Proofs.RealHeaderSource",
+      "source_sha256": "7a1385ad99927f8bf14a18545563c26b8cc25f1ea52f4f5648620346c0360601",
+      "baseline_log": "/tmp/score121-baseline-family1-bench__tritonbench_g__attention_fwd_triton3__Proofs__RealHeaderSource.log",
+      "current_log": "/tmp/score121-family33-bench__tritonbench_g__attention_fwd_triton3__Proofs__RealHeaderSource.log",
+      "error_headers_identical": true,
+      "errors": [
+        "101:93: error: Tactic `rfl` failed: The left-hand side",
+        "133:93: error: Tactic `rfl` failed: The left-hand side"
+      ],
+      "in_selected_import_closure": false
+    },
+    {
+      "module": "bench.tritonbench_g.attention_score.Proofs.LegacyNaturalWindow",
+      "source_sha256": "5cc6ed06b4371d210f541e1096683067ccd2280a6deb1dcca67f866c695c13de",
+      "baseline_log": "/tmp/score121-baseline-family1-bench__tritonbench_g__attention_score__Proofs__LegacyNaturalWindow.log",
+      "current_log": "/tmp/score121-family33-bench__tritonbench_g__attention_score__Proofs__LegacyNaturalWindow.log",
+      "error_headers_identical": true,
+      "errors": [
+        "1725:2: error: Tactic `rfl` failed: The left-hand side",
+        "1752:2: error: Tactic `rfl` failed: The left-hand side",
+        "2698:2: error: Tactic `rfl` failed: The left-hand side",
+        "2712:2: error: Tactic `rfl` failed: The left-hand side"
+      ],
+      "in_selected_import_closure": false
+    },
+    {
+      "module": "bench.tritonbench_g.attention_score.Proofs.RealProgram",
+      "source_sha256": "c249c59c6f0550b4b555289ff489d6f52dfec919c61bd9d94874abb33f307914",
+      "baseline_log": "/tmp/score121-baseline-family1-bench__tritonbench_g__attention_score__Proofs__RealProgram.log",
+      "current_log": "/tmp/score121-family33-bench__tritonbench_g__attention_score__Proofs__RealProgram.log",
+      "error_headers_identical": true,
+      "errors": [
+        "109:2: error: Tactic `rfl` failed: The left-hand side",
+        "132:2: error: Tactic `rfl` failed: The left-hand side"
+      ],
+      "in_selected_import_closure": false
+    }
+  ],
+  "scope": "Four optional frozen historical-source failures reproduce before the attention-score frontend changes. They do not count as passing or as current source coverage. Current selected repaired task proofs have a disjoint complete import closure. User limited completion to Liger, selected attention-score and matrix-vector while; historical versions remain unchanged."
+}

@@ -1,0 +1,5 @@
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.RawCorrect.kernelMathematical: definition does not reference [VeriTile.Bench.Repairs.AttentionScoreTileChecked.realExecute,
+ VeriTile.Triton.exec] — non-circular ✓
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.RawCorrect.kernel_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

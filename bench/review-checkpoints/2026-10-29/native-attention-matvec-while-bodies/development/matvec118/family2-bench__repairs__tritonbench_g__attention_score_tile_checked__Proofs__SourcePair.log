@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.SourcePair.required_site_present: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.SourcePair.equivalent: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

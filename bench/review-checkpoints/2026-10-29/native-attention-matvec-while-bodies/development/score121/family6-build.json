@@ -1,0 +1,33 @@
+{
+  "status": "FAIL",
+  "start": 1793274800.5122747,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealArithmetic",
+      "source_sha256": "5d70a9e880453ca863fe45f1a5079bb51e39f66df57eaae758fca26db7018b11",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793274800.512645,
+      "end": 1793274813.9897637,
+      "log": "/tmp/score121-family6-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__RealArithmetic.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealBody",
+      "source_sha256": "52105ab2d3161b9b5960704a7e761060d03c47a08fe855c5cdf4cc87208a6947",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealArithmetic"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealProgram",
+      "source_sha256": "4878ef822aabc3f0bd9bdc839647debe8ca58b2a33e6b885dc223010eca1cf8b",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealBody"
+      ]
+    }
+  ],
+  "scope": "One serial queue; failed imports block dependents, independent modules continue.",
+  "end": 1793274813.9905612
+}

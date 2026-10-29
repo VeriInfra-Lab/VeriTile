@@ -1,0 +1,58 @@
+[
+  {
+    "python_function": "mv_contiguous_kernel",
+    "lean_definition": "source",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "N": "N",
+      "M": "M",
+      "stride_an": "stride_an",
+      "stride_am": "stride_am",
+      "stride_bm": "stride_bm",
+      "stride_cn": "stride_cn"
+    },
+    "statements": 18,
+    "runtime_parameters": {
+      "N": "integer",
+      "M": "integer",
+      "stride_an": "integer",
+      "stride_am": "integer",
+      "stride_bm": "integer",
+      "stride_cn": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_M",
+      "BLOCK_N"
+    ]
+  },
+  {
+    "python_function": "mv_contiguous_fma_kernel",
+    "lean_definition": "explicitFMA",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "N": "N",
+      "M": "M",
+      "stride_an": "stride_an",
+      "stride_am": "stride_am",
+      "stride_bm": "stride_bm",
+      "stride_cn": "stride_cn"
+    },
+    "statements": 18,
+    "runtime_parameters": {
+      "N": "integer",
+      "M": "integer",
+      "stride_an": "integer",
+      "stride_am": "integer",
+      "stride_bm": "integer",
+      "stride_cn": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_M",
+      "BLOCK_N"
+    ]
+  }
+]

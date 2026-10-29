@@ -1,0 +1,66 @@
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/NativeSourceSafety.lean:42:4: error: Type mismatch
+  hb.key d j (Or.inl hn)
+has type
+  baseK p s + ↑d * p.keyDim + (s.pids 0 * B + ↑j) * p.keyRow < bounds p.K
+but is expected to have type
+  Int.toNat
+          ((if ↑(s.pids 1) < 0 then -(-↑(s.pids 1) / ↑p.heads * ↑p.keyBatch)
+            else ↑(s.pids 1) / ↑p.heads * ↑p.keyBatch) +
+            if
+                ↑(s.pids 1) <
+                  if ↑(s.pids 1) < 0 then -(↑p.heads * (-↑(s.pids 1) / ↑p.heads))
+                  else ↑p.heads * (↑(s.pids 1) / ↑p.heads) then
+              -((((if ↑(s.pids 1) < 0 then -(↑p.heads * (-↑(s.pids 1) / ↑p.heads))
+                      else ↑p.heads * (↑(s.pids 1) / ↑p.heads)) -
+                      ↑(s.pids 1)) /
+                    if ↑p.heads < 0 then -(-↑p.heads / ↑p.kvHeads) else ↑p.heads / ↑p.kvHeads) *
+                  ↑p.keyHead)
+            else
+              ((↑(s.pids 1) -
+                    if ↑(s.pids 1) < 0 then -(↑p.heads * (-↑(s.pids 1) / ↑p.heads))
+                    else ↑p.heads * (↑(s.pids 1) / ↑p.heads)) /
+                  if ↑p.heads < 0 then -(-↑p.heads / ↑p.kvHeads) else ↑p.heads / ↑p.kvHeads) *
+                ↑p.keyHead) +
+        ↑d * p.keyDim +
+      (Int.toNat
+            (if 2 * (Int.toNat (↑(s.pids 0) * ↑B % 4294967296) % 4294967296) < 4294967296 then
+              max (↑(s.pids 0) * ↑B % 4294967296) 0 % 4294967296
+            else max (↑(s.pids 0) * ↑B % 4294967296) 0 % 4294967296 - 4294967296) +
+          ↑j) *
+        p.keyRow <
+    bounds p.K
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/NativeSourceSafety.lean:44:29: error: Application type mismatch: The argument
+  hj
+has type
+  Int.toNat
+        (if 2 * (Int.toNat (↑(s.pids 0) * ↑B % 4294967296) % 4294967296) < 4294967296 then
+          max (↑(s.pids 0) * ↑B % 4294967296) 0 % 4294967296
+        else max (↑(s.pids 0) * ↑B % 4294967296) 0 % 4294967296 - 4294967296) +
+      ↑j <
+    p.keyContext
+but is expected to have type
+  s.pids 0 * B + ↑j < p.keyContext
+in the application
+  Or.inr hj
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/NativeSourceSafety.lean:74:60: error: Application type mismatch: The argument
+  hi
+has type
+  ↑row + ↑↑i < ↑p.queryContext
+but is expected to have type
+  row + ↑i < p.queryContext
+in the application
+  hb.normalizer (row + ↑i) hi
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/NativeSourceSafety.lean:74:60: error: Application type mismatch: The argument
+  hi
+has type
+  ↑row + ↑↑i < ↑p.queryContext
+but is expected to have type
+  row + ↑i < p.queryContext
+in the application
+  hb.normalizer (row + ↑i) hi
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/NativeSourceSafety.lean:92:20: error: Type mismatch: After simplification, term
+  hi
+ has type
+  ↑↑i + ↑(initial.pids 0) * ↑B < ↑p.keyContext
+but is expected to have type
+  ↑i + initial.pids 0 * B < p.keyContext

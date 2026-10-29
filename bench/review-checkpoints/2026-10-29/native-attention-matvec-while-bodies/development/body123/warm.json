@@ -1,0 +1,12 @@
+{
+  "status": "FAIL",
+  "code_commit": "77a5c65e9766ba2dec49b6b9631c24f595b8733a",
+  "checkout": "/tmp/veritile-hgrn54-clean",
+  "explicit_modules": 6163,
+  "start": 1793289936.391657,
+  "scope": "All cumulative task/example/frontend roots, now including all 254 final Liger, attention-score, matrix-vector and shared/frontend roots, plus their full local import closure and joint import.",
+  "build_status": "COMPLETED",
+  "build_exit_code": 1,
+  "build_end": 1793293148.3219526,
+  "end": 1793293148.3222084
+}

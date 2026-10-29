@@ -1,0 +1,9 @@
+{
+  "status": "DRAFT_NOT_ELABORATED",
+  "raw_functions": [
+    "mv_contiguous_kernel",
+    "mv_contiguous_fma_kernel"
+  ],
+  "sha256": "31a43e4edb448c41b28c99b6a5132a359368a093e75fa806e4cd14d13294e208",
+  "scope": "No domain, public entry or original Python changes. Caller contiguous strides remain outside both bodies. Typed unsigned scalar ABI metadata requires source/host proof revalidation."
+}

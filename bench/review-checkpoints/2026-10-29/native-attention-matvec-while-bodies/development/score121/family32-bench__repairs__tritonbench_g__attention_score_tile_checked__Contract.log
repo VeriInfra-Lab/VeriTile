@@ -1,0 +1,11 @@
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Contract.lean:42:30: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.InputContract: definition does not reference [VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.check_iff: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.source_tiles_bounded: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.empty_preserves_domain: axiom footprint ⊆ standard base ✓  ([propext])

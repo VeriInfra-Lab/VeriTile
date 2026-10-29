@@ -1,0 +1,50 @@
+{
+  "status": "FAIL",
+  "start": 1793276614.066013,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.FPEngine",
+      "source_sha256": "0529d75ca006e4b9bbe4f294cb0696be286e15ece6124a57dcb41c4390b1a30f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793276614.0662677,
+      "end": 1793276617.4579663,
+      "log": "/tmp/score121-family22-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__FPEngine.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.FPEntry",
+      "source_sha256": "c21f11d110f5129f18ef5255a1599d9e42ba35fb36932a73d57f19239a55bf25",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793276617.4583452,
+      "end": 1793276621.569324,
+      "log": "/tmp/score121-family22-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__FPEntry.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.FPContext",
+      "source_sha256": "a478b4b571be0d8ecfb3ea7d3ef9e13f1b5ac9f594af1ed7639f4d047da6248d",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.FPEntry"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.FPBody",
+      "source_sha256": "48b12f6862430f88722270071481aecd8df7e0751282aa624d6fbbd48fd4f1ca",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.FPContext"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.FPValues",
+      "source_sha256": "6682714531fd90b9f3619b21f78c389a7667f29254206b371d0d36ae8e38dc80",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.FPBody"
+      ]
+    }
+  ],
+  "scope": "One serial queue; failed imports block dependents, independent modules continue.",
+  "end": 1793276621.5702968
+}

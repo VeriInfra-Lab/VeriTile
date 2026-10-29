@@ -1,0 +1,20 @@
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealLoads.lean:47:40: warning: 'omega' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealLoads.lean:47:40: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealLoads.lean:61:40: warning: 'omega' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealLoads.lean:61:40: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealLoads.lean:74:104: warning: This simp argument is unused:
+  BlockState.defaultCarrier
+
+Hint: Omit it from the simp argument list.
+  simp [normalizerPointers, RealTiles.normalizer, inputs, Nat.add_assoc, Region.cast,
+  ̲  ̲ ̲ ̲N̵u̵m̵e̵r̵i̵c̵D̵T̵y̵p̵e̵.̵a̵d̵d̵,̵ ̵B̵l̵o̵c̵k̵S̵t̵a̵t̵e̵.̵d̵e̵f̵a̵u̵l̵t̵C̵a̵r̵r̵i̵e̵r̵]̵N̲u̲m̲e̲r̲i̲c̲D̲T̲y̲p̲e̲.̲a̲d̲d̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

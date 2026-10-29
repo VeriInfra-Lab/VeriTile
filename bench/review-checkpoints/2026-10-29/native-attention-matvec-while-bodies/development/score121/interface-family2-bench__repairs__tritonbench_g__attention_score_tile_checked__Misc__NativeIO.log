@@ -1,0 +1,5 @@
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.NativeInterface.formula: definition does not reference [VeriTile.Bench.Repairs.AttentionScoreTileChecked.kernel,
+ VeriTile.Bench.Repairs.AttentionScoreTileChecked.nativeExecute,
+ VeriTile.Triton.FP.Structural.State,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.FPGrid.run] — non-circular ✓

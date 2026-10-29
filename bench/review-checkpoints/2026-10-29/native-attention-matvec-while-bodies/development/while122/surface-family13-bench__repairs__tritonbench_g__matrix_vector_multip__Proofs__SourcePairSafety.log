@@ -1,0 +1,91 @@
+/tmp/while122-surface-probe/bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/SourcePairSafety.lean:112:2: error: Tactic `rfl` failed: The left-hand side
+  ∀ (current : State Payload),
+    Control.While.Reaches
+        (fun state =>
+          Option.map (fun c => c PUnit.unit)
+            (FP.Structural.evalOp (algebra native g) none (SourceCode.original N M BN BM rowShape columnShape).condition
+              state))
+        (run (algebra native g) (SourceCode.original N M BN BM rowShape columnShape).body) s current →
+      Safety.safeOp (fusedAlgebra native g) none bounds current
+          (SourceCode.candidate N M BN BM rowShape columnShape).condition ∧
+        (Option.map (fun c => c PUnit.unit)
+              (FP.Structural.evalOp (algebra native g) none
+                (SourceCode.original N M BN BM rowShape columnShape).condition current) =
+            some «true» →
+          Safety.traceSafeList (algebra native g) bounds (SourceCode.original N M BN BM rowShape columnShape).body
+            current)
+is not definitionally equal to the right-hand side
+  ∀ (current : State Payload),
+    Control.While.Reaches
+        (fun state =>
+          Option.map (fun c => c PUnit.unit)
+            (FP.Structural.evalOp (algebra native g) none (SourceCode.original N M BN BM rowShape columnShape).condition
+              state))
+        (run (algebra native g) (SourceCode.original N M BN BM rowShape columnShape).body) s current →
+      Safety.safeOp (algebra native g) none bounds current
+          (SourceCode.original N M BN BM rowShape columnShape).condition ∧
+        (Option.map (fun c => c PUnit.unit)
+              (FP.Structural.evalOp (algebra native g) none
+                (SourceCode.original N M BN BM rowShape columnShape).condition current) =
+            some «true» →
+          Safety.traceSafeList (algebra native g) bounds (SourceCode.original N M BN BM rowShape columnShape).body
+            current)
+
+native : Scalars
+N M BN BM : ℕ
+g : Graph BN BM
+rowShape : Random.ArangeSizeDomain BN
+columnShape : Random.ArangeSizeDomain BM
+bounds : RegionName → ℕ
+s : State Payload
+cond :
+  FP.Structural.evalOp (fusedAlgebra native g) none (SourceCode.candidate N M BN BM rowShape columnShape).condition =
+    FP.Structural.evalOp (algebra native g) none (SourceCode.original N M BN BM rowShape columnShape).condition
+body :
+  run (fusedAlgebra native g) (SourceCode.candidate N M BN BM rowShape columnShape).body =
+    run (algebra native g) (SourceCode.original N M BN BM rowShape columnShape).body
+⊢ (∀ (current : State Payload),
+      Control.While.Reaches
+          (fun state =>
+            Option.map (fun c => c PUnit.unit)
+              (FP.Structural.evalOp (algebra native g) none
+                (SourceCode.original N M BN BM rowShape columnShape).condition state))
+          (run (algebra native g) (SourceCode.original N M BN BM rowShape columnShape).body) s current →
+        Safety.safeOp (fusedAlgebra native g) none bounds current
+            (SourceCode.candidate N M BN BM rowShape columnShape).condition ∧
+          (Option.map (fun c => c PUnit.unit)
+                (FP.Structural.evalOp (algebra native g) none
+                  (SourceCode.original N M BN BM rowShape columnShape).condition current) =
+              some «true» →
+            Safety.traceSafeList (algebra native g) bounds (SourceCode.original N M BN BM rowShape columnShape).body
+              current)) ↔
+    ∀ (current : State Payload),
+      Control.While.Reaches
+          (fun state =>
+            Option.map (fun c => c PUnit.unit)
+              (FP.Structural.evalOp (algebra native g) none
+                (SourceCode.original N M BN BM rowShape columnShape).condition state))
+          (run (algebra native g) (SourceCode.original N M BN BM rowShape columnShape).body) s current →
+        Safety.safeOp (algebra native g) none bounds current
+            (SourceCode.original N M BN BM rowShape columnShape).condition ∧
+          (Option.map (fun c => c PUnit.unit)
+                (FP.Structural.evalOp (algebra native g) none
+                  (SourceCode.original N M BN BM rowShape columnShape).condition current) =
+              some «true» →
+            Safety.traceSafeList (algebra native g) bounds (SourceCode.original N M BN BM rowShape columnShape).body
+              current)
+/tmp/while122-surface-probe/bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/SourcePairSafety.lean:120:76: error(lean.invalidField): Invalid field `append`: The environment does not contain `List.Forall₂.append`, so it is not possible to project the field `append` from an expression
+  SourcePair.prefix_steps native N M BN BM g rowShape columnShape
+of type
+  List.Forall₂ (fun a b => ∀ (s : State Payload), step (fusedAlgebra native g) a s = step (algebra native g) b s)
+    (SourceCode.candidate N M BN BM rowShape columnShape).before
+    (SourceCode.original N M BN BM rowShape columnShape).before
+/tmp/while122-surface-probe/bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/SourcePairSafety.lean:123:72: error(lean.invalidField): Invalid field `append`: The environment does not contain `List.Forall₂.append`, so it is not possible to project the field `append` from an expression
+  prefix_steps native N M BN BM g rowShape columnShape bounds
+of type
+  List.Forall₂
+    (fun a b =>
+      ∀ (s : State Payload),
+        Safety.stepSafe (fusedAlgebra native g) bounds a s ↔ Safety.stepSafe (algebra native g) bounds b s)
+    (SourceCode.candidate N M BN BM rowShape columnShape).before
+    (SourceCode.original N M BN BM rowShape columnShape).before

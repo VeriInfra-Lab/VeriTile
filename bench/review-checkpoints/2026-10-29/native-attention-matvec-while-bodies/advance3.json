@@ -1,0 +1,9 @@
+{
+  "status": "RUNNING",
+  "start": 1793291850.7727673,
+  "step": "receipt",
+  "warm_exit_code": 0,
+  "clean_exit_code": 0,
+  "audit_exit_code": 0,
+  "inspections_exit_code": 0
+}

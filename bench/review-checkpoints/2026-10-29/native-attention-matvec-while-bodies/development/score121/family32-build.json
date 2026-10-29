@@ -1,0 +1,1650 @@
+{
+  "status": "FAIL",
+  "start": 1793277318.8332708,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.CurrentRepresentation",
+      "source_sha256": "f2f2c005c00f14ab08be7b4b76fb4419b7d997d096a0825dd2c8aa3da1927f89",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277318.8335764,
+      "end": 1793277322.6990037,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__CurrentRepresentation.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.CurrentMachine",
+      "source_sha256": "5800306239f0a28496d8be51d3ef2cb5e189724ae112b21b54181c37f6dba8e0",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277322.6994245,
+      "end": 1793277326.6985016,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__CurrentMachine.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.Contract",
+      "source_sha256": "8377ddba9197d78bd5807f153c31386ca79a5e40aa81208b4dbd18590f3e2ff6",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277326.6989722,
+      "end": 1793277329.5400643,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__Contract.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Tensor",
+      "source_sha256": "df99e048a84d951460187f4f79d60be1cea2c4e6c0be1b6f7e3af66734cb4e0a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277329.540632,
+      "end": 1793277332.456781,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Tensor.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Contract",
+      "source_sha256": "de3a1121736d7a9cb8d86de54967d4955ce9b3491050bf9ea5b8397bf004d745",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277332.4571466,
+      "end": 1793277335.739614,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__attention_score_tile_checked__Contract.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.NativeReduction",
+      "source_sha256": "044edc3a7426a00de6ad094ef610bb1893bd5d05acdec28a75a9b86916cd99ad",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277335.7399757,
+      "end": 1793277339.5036426,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__NativeReduction.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.NativeInstructions",
+      "source_sha256": "e294eb6855baf8527d61673048e4a072322fd837bf79f63c81c57f51a6a28a13",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277339.504037,
+      "end": 1793277344.1587934,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__NativeInstructions.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.NativeStaging",
+      "source_sha256": "ee7f694cd1e93ab100de5310212068840eed9c11c535661c85575b2fac7b96d0",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277344.159339,
+      "end": 1793277348.2453833,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__NativeStaging.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.NativeFormula",
+      "source_sha256": "cf9258ebe885adcf0f656599d495a54748fd3ffd190006d81c123efe3cab775d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277348.245791,
+      "end": 1793277352.5503252,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__NativeFormula.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.NativeLoop",
+      "source_sha256": "9c1b8b70a4ec2aebeb8cf228b6fe7a39d4cfaf17c88f108458582a18cc5b3e1c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277352.5508654,
+      "end": 1793277356.5465672,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__NativeLoop.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.NativePhysical",
+      "source_sha256": "4fdfb491dc2b665f64c31b797f66f17fed754ef5fac7086b60fee6732fd32332",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793277356.5470862,
+      "end": 1793277361.2680926,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__NativePhysical.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.NativeIdeal",
+      "source_sha256": "fd8d69cc0b4ae878ac787a19b1943c3d7c105f57239c0ea53343ca68f98e7252",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.NativePhysical"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.NativeMath",
+      "source_sha256": "a2fea1d0e9e6061a2881d1ae8f13dc3a534b88c03f33e04af0ec72313e9cc175",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.NativeIdeal"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.NativeColumn",
+      "source_sha256": "5eb4173f3c8d9530759439ca43461d1969fcac3bfa7b7a8d2c8cd7cd278b96a3",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.NativeMath"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.NativeReturnedMath",
+      "source_sha256": "4503cd041f5011f0847a7e44594a84c9499f5285b6dedad88dc85f5024c0fa3e",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.NativeColumn"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.CurrentExecution",
+      "source_sha256": "de1476c88bdf906a472c4f7db58319e9f7168061f291b285fa8bc7f2aff12dc4",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.NativeReturnedMath"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.SourceBridge",
+      "source_sha256": "779a75a4e14380525a43d956d41538c6529f4134d4cb08fddbe51f1d8af61ec1",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.CurrentExecution"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.IO",
+      "source_sha256": "88eb746bb4c88d060d17d77516656fbf60f47dce3abf0a1902ca29a1200f0a05",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.SourceBridge"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.RealIO",
+      "source_sha256": "fc9e0a43a12c39ab880f525a7476ced4b78fd75170c27f89a40750008f5ab0d3",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.IO"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.RealIOProof",
+      "source_sha256": "ae4b45511e5188e4d4ddb425f9fcee2df6e750f4525ba9b02ba589bc0e9f3027",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.RealIO"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.LogicalReader",
+      "source_sha256": "644b03d0bceae67ba00500b090a60b96f790c231c38bf6408ffe2d03effcd4bd",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.IO",
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.RealIOProof"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Correct",
+      "source_sha256": "27391c6bdc379d95720958de13c090d33e0365478d1f085f92f092252279c8c1",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.RealIOProof"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.PairIO",
+      "source_sha256": "4a1280288c8b934f44bc2be41b0f649c8b08c2e1301c45c1b81793419030f709",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277361.271956,
+      "end": 1793277364.0976336,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__attention_score_tile_checked__PairIO.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.SourcePair",
+      "source_sha256": "132927af8f22a28e89e7a2865e43b71564415634cd1aac5276bd5ae3503dff64",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277364.098212,
+      "end": 1793277367.9319286,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__SourcePair.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.FPEquiv",
+      "source_sha256": "a566f1c608823b91214f5cee8cdb1ec463a0e0756641aaac06f20ff7e9b571f6",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277367.9325209,
+      "end": 1793277376.9749596,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__attention_score_tile_checked__FPEquiv.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.NativeReference",
+      "source_sha256": "3ea53e6bc6c496d94cf5a8aaa9467dcaa1c9fc63db5ead61e46a2ba41c85d972",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.RealIO"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.NativeIO",
+      "source_sha256": "afc4ee47fd2cb4d23868c37e1f858fc28ca4899ac5f581cf6956994f087af637",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.NativeReference"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.NativeBinding",
+      "source_sha256": "daecfbc8838afc26fc9bc64edc0ebf2caea7ac7d03468c7e83da98f9383a2598",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.NativeIO"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.NativeSafetySteps",
+      "source_sha256": "acc5f1d2476882ab5d3508e17c010c1582feb4c7756d1865aac51af201fd96e2",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277376.976523,
+      "end": 1793277386.5640059,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__NativeSafetySteps.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.NativeSourceSafety",
+      "source_sha256": "d8ec7ac220bf6a4337f003b8dc0740cf7274122123aba93ab2d6e73ab98d5462",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793277386.5645757,
+      "end": 1793277406.6070936,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__NativeSourceSafety.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.NativeSafetyLoop",
+      "source_sha256": "7f8b3519815ca831c204797a91e4d72c4897a2c8f613256225840a1c7b088157",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.NativeSourceSafety"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.NativeIOValues",
+      "source_sha256": "ecb969b8da846290459fccdcaad48de48de03ea3cb74fc131b1772f2fc705a46",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.NativeBinding"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.NativeIOSafety",
+      "source_sha256": "fb8095f6ffeba24b46bcc82a48032324af6981d535dc59d87c2ffd96ac71ed54",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.NativeIOValues",
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.NativeSafetyLoop"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.NativeIOProof",
+      "source_sha256": "20412c73d72ecf02d6a9382ea9ba4b6ab98ddb2678a9e0fac1eee8633d1638cf",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.NativeIOSafety"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.RawNative",
+      "source_sha256": "a5a8bec54d25ed51bfd7184401c08ebd61ad8d0b309d872d45cb32a2c93e5010",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793277406.608791,
+      "end": 1793277412.510779,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__attention_score_tile_checked__Misc__RawNative.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.NativeCorrect",
+      "source_sha256": "609db096d69d1b593ebda10c928e6f5d717bce8f7054c9dccf86be07631a5260",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.NativeIOProof",
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.RawNative"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.PhysicalIOBinding",
+      "source_sha256": "850c727d96190afece590dedd089af5e0b9d4ef9d6dfe454dc4c9d67e20dbf55",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.NativeIO",
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.RealIOProof"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.RawCorrect",
+      "source_sha256": "9f7bea3a91ec9c302f4aad722291de53732cb208168871aa4a10cae49f0de04f",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793277412.511992,
+      "end": 1793277416.249148,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__attention_score_tile_checked__Misc__RawCorrect.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_simple.Kernels",
+      "source_sha256": "374064e91a018398dac1e1f5df8f6d0a4c3b946663c37508649669dcda91b0dd",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277416.2497077,
+      "end": 1793277434.037906,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_simple__Kernels.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_simple.Proofs.WholeShape",
+      "source_sha256": "bedae847b4a5d1213a1e785fc1c0a3f3874cb5c900218ae46c0fb510d72a68f5",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277434.0384297,
+      "end": 1793277435.5258577,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_simple__Proofs__WholeShape.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Kernels",
+      "source_sha256": "7236d4f701b5aa3bedea0251127ba111a49616ee753fda72b833c9b5118c4cb2",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277435.526387,
+      "end": 1793277462.3331482,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_simple__Kernels.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_simple.Proofs.RealProgram",
+      "source_sha256": "bb775ac828f4bc161f74eb7087a13a7793aa607b7b4d048bb86d9f474eb33b86",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277462.333691,
+      "end": 1793277512.0224826,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_simple__Proofs__RealProgram.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_simple.Proofs.RealStep",
+      "source_sha256": "5ce732f5a137561378f9facba13558736163195bb3b2a0159533a9c27ee4d8e7",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277512.023083,
+      "end": 1793277518.4555454,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_simple__Proofs__RealStep.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_simple.Proofs.RealMath",
+      "source_sha256": "832ce6029ecf90212682da92fdec214d74417164564b92f3257c239baf5168ce",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277518.4561477,
+      "end": 1793277524.656799,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_simple__Proofs__RealMath.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_simple.Proofs.RealExecution",
+      "source_sha256": "0a130eb98579b1535e8347152218595fe77074c292f2772a703db240f23b52a4",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277524.6574779,
+      "end": 1793277537.4761558,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_simple__Proofs__RealExecution.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.Program",
+      "source_sha256": "5ae2633213e2498e6d017c7bb528e7adf5bd2cd53417149ac09c3cded2efd5f5",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277537.4768622,
+      "end": 1793277546.4074013,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__Program.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.Memory",
+      "source_sha256": "2d872a346ecd9c4fb3f9eae512fda158fcd0eda67ad73ae2928f5633f2c825f2",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277546.4082382,
+      "end": 1793277554.543884,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__Memory.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.Execution",
+      "source_sha256": "24d7ca2a4229541a88512749dabeb8bacaf2ba63a2fdd3bc7ecc38c816c25d15",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277554.5453205,
+      "end": 1793277578.868647,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__Execution.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Kernels",
+      "source_sha256": "10be7af02a5fd0004503b44c6ffe55b3913a863eb037a1ecfcdba8c888506c44",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277578.8708127,
+      "end": 1793277663.838213,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Kernels.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealOutput",
+      "source_sha256": "be49de33073c2fd62349f107457f113a5b11729488150df88cbe7d91b0d3db6f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277663.8395627,
+      "end": 1793277673.7496128,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealOutput.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealOutputSource",
+      "source_sha256": "3183af12a46ea015673ea4bc4636b616f59dc63ed0032c3310b8fe96ea6ef723",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277673.7502663,
+      "end": 1793277734.1660972,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealOutputSource.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealOutputSafety",
+      "source_sha256": "e0102318e922c84b5cac0a23500c9e8ab520ff2b7d9b50b5e31ce66fff17fe70",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277734.166742,
+      "end": 1793277740.9962566,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealOutputSafety.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_simple.Proofs.RealSafety",
+      "source_sha256": "9f6cb052db81a26f82bb7510d45a89aaa526e1a74dd064d17bf18df93ac39cea",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277740.996797,
+      "end": 1793277745.954307,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_simple__Proofs__RealSafety.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.IO",
+      "source_sha256": "0a4d4b5a70b04eee56f9d84d4b57df10f2df68e85425c369ce611a4eee680511",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277745.95489,
+      "end": 1793277749.3485029,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__IO.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_simple.Proofs.RealFlat",
+      "source_sha256": "4f01ee713e8763d1d460409aa466b70fced3c6d3abb30a489c94a862639a9430",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277749.3490329,
+      "end": 1793277753.4345376,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_simple__Proofs__RealFlat.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_simple.Proofs.HostGeometry",
+      "source_sha256": "2ac3687e775b4eebf6019ca42f594fb8fdba84f3cd1c21487ffc52fe478ea61e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277753.4350543,
+      "end": 1793277757.4201365,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_simple__Proofs__HostGeometry.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_simple.Proofs.HostLayout",
+      "source_sha256": "a0087c909d9278cbbb7b6fcb92d22fd762b33a3fd856f37b524841e64bd7f42e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277757.420713,
+      "end": 1793277765.9465609,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_simple__Proofs__HostLayout.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_simple.Proofs.HostReal",
+      "source_sha256": "a50bf9e35c7a103c76699b21be3ff7bcfb9cfe4c6b511d4e54f7ec9384d56234",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277765.9471076,
+      "end": 1793277769.4532738,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_simple__Proofs__HostReal.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.DirectReal",
+      "source_sha256": "db4d082728909762f8209f714330ee5e122d5bb4f7dfaca99410240269f6fcd3",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277769.4538164,
+      "end": 1793277773.1972582,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__DirectReal.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.LogicalView",
+      "source_sha256": "6f23300783d1f025da9e7d3125e007d8416cfbd4f78f6e4dc12896c87f0f608c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277773.1979864,
+      "end": 1793277774.9806333,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__LogicalView.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_simple.Proofs.FP",
+      "source_sha256": "717f0753f835152712ab62ca0f0f9a82631d39e61a930f7d8a1f03dcfeb13960",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277774.9814088,
+      "end": 1793277832.6865807,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_simple__Proofs__FP.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_simple.Proofs.HostFP",
+      "source_sha256": "2dcbf32611aa8cf5373e9ceaf6095c68e9440c235855d3b726fec1e4e62a8c87",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277832.6871302,
+      "end": 1793278008.3023953,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_simple__Proofs__HostFP.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.FP",
+      "source_sha256": "03af0e1404e555da232832e3eab5fda7a0242e79f357a4ae9f2a6e391761465d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793278008.3046968,
+      "end": 1793278014.2672284,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__FP.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.Typed",
+      "source_sha256": "c367f3bb84c850284ad09939244f50496daf4a28b306912e7829e51ed7c5d42d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793278014.2945101,
+      "end": 1793278051.9684098,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__Typed.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.FPValue",
+      "source_sha256": "fdd6a44e3345ab55b638073838d98b604e0b20b7665c77767039f2a0ce07f78e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793278051.9692628,
+      "end": 1793278060.8547947,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__FPValue.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.FPExecution",
+      "source_sha256": "48dd0533e219f0e405e06442d240ed2c823a3458859beb1a616be0e44666e438",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793278060.8556554,
+      "end": 1793278086.6478286,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__FPExecution.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.FPComplete",
+      "source_sha256": "031862400bf7d3d171bd2fc2fc98f9df0a49ef12dd9629e45f1d3f84ce236e2d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793278086.648707,
+      "end": 1793278114.911435,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__FPComplete.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.FPGrid",
+      "source_sha256": "396e591ea0e0205e0091e0d6d8c40b0af8a23fa9bb15a21972c55299f1a5d2d0",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793278114.9121983,
+      "end": 1793278125.3082051,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__FPGrid.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.NativeGraph",
+      "source_sha256": "594b1d1aac2a11f68f914f146ceeee07f670d55ac3145bac941c56205e11aa12",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793278125.308974,
+      "end": 1793278135.1686027,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__NativeGraph.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.SourceCompatibility",
+      "source_sha256": "99c40b90adbc007d70de95320bca82260b21e60736a671411b1e5719ca6881e9",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793278135.169475,
+      "end": 1793278145.1199765,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_fwd__SourceCompatibility.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Kernels",
+      "source_sha256": "a6b4e5a0dc537f9612261e227f59ead92979b2e0e688b12c204683d16e4324b9",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793278145.1213272,
+      "end": 1793278293.3897197,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_fwd__Kernels.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealOutputCandidate",
+      "source_sha256": "dcc9672b93c2a6fefc75b0b2a24dae12371a265ea3c320db05fc4f6bccd13529",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793278293.3905866,
+      "end": 1793278300.7951405,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealOutputCandidate.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealOutputFlat",
+      "source_sha256": "5b65dee2c3688a425d1f14efc9095b6ca0159c9e108997f1559a96dfcaec1767",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793278300.7959096,
+      "end": 1793278307.330981,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealOutputFlat.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealOutputIO",
+      "source_sha256": "c17ee89c78bbc7b4e8bc67af58df413fea38bac9c2c6417161fe70646c595cd0",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793278307.3318973,
+      "end": 1793278315.4946532,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealOutputIO.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealInterSource",
+      "source_sha256": "3e3f8fcff2bc0fc00f63a65c5c84601c5e5cd239c8802e816fa6647b73589014",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793278315.4955013,
+      "end": 1793278419.5328822,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealInterSource.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealInterMath",
+      "source_sha256": "fdc4faa348608f2caad61a2ac7bf7b10de0fff7fa9afde49363c1de33da8f586",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793278419.5337124,
+      "end": 1793278428.0984058,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealInterMath.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealInterProgram",
+      "source_sha256": "572ab5620b931a709b8bbede57a2624a82e4b447f03273ea3ea6b93a660031f3",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793278428.0998197,
+      "end": 1793278436.1906588,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealInterProgram.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gated_attention.Kernels",
+      "source_sha256": "05c56032b836d71078f04dd75ac322e1723ece2ba725a018c2a9c3d63b8af6c7",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793278436.191509,
+      "end": 1793278497.481481,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gated_attention__Kernels.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gated_attention.Proofs.RealHSource",
+      "source_sha256": "26eeb9b5cd47c5160df89029dd27b2f26d4c01248bf70924882ae07e18bb6a4f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793278497.482947,
+      "end": 1793278625.8850718,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gated_attention__Proofs__RealHSource.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gated_attention.Proofs.RealHMath",
+      "source_sha256": "0ccc1c76bf2ce41195ee3ac789f3fe87615fe5d66a55778102d0a0acfd4c4142",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793278625.8863485,
+      "end": 1793278631.6164167,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gated_attention__Proofs__RealHMath.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gated_attention.Proofs.RealHProgram",
+      "source_sha256": "21f5f5b5c5d283230a2cddc562aec59e4788a4a83dd7b4848c81c20fc4c62c4a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793278631.6173425,
+      "end": 1793278645.3709161,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gated_attention__Proofs__RealHProgram.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gated_attention.Proofs.RealHPointers",
+      "source_sha256": "4c49f05977a84958d1b8b2ae0efe71bcdda8e7faec29fdbd5426615cba119f9f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793278645.4086342,
+      "end": 1793278652.7005467,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gated_attention__Proofs__RealHPointers.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealInterPointers",
+      "source_sha256": "5a705d20c556a9690f6d371ec504aaca9b76c0dad5c1be619833be11df06be3e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793278652.7015083,
+      "end": 1793278660.9938242,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealInterPointers.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealInterLoads",
+      "source_sha256": "9f51ee86205164b06c7fea846e416167b62b75ce8b29daf4a64efd40b5c56ed9",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793278660.9953995,
+      "end": 1793278666.9784455,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealInterLoads.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealInterAlgebra",
+      "source_sha256": "f48b96f4c2471280bf45e5ec9199ba7855423a5618eeb2453f0693bed3a9243b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793278666.9793358,
+      "end": 1793278673.6699505,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealInterAlgebra.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealInterStep",
+      "source_sha256": "61b750c3d8ff1d5b9ea012418b3213f5612386ab70be038b300c384a58c03b3e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793278673.6709516,
+      "end": 1793278807.3108077,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealInterStep.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealInterLoop",
+      "source_sha256": "80ecce7e01977638f65e952f869ebac8e3ace74b51af9a1d0b64b499651b590d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793278807.3895164,
+      "end": 1793278937.42419,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealInterLoop.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealInterFinal",
+      "source_sha256": "dc6f70553a3966ee197a2059b25fb1124b58846ae90f0130abd9f2b5dc6299ab",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793278937.424817,
+      "end": 1793278940.7713683,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealInterFinal.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealInterExecution",
+      "source_sha256": "636b8330e47e2c4f4b06ebeb6844c6a45ea96f860de66017c0a85f8060b59090",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793278940.7719522,
+      "end": 1793278944.262349,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealInterExecution.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealInterAccessSafety",
+      "source_sha256": "7d38d14ea8b3a6aef5d147a968db1388dbf182c380f6fa0c3834c63b1090cf2f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793278944.2629645,
+      "end": 1793278950.6620946,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealInterAccessSafety.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealInterStepSafety",
+      "source_sha256": "6b2055bbaa1ce76232a3b5269985d975ffe8311d9f8eb374fdd0e75ea0a5834f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793278950.6628013,
+      "end": 1793278954.5185795,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealInterStepSafety.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealInterSafety",
+      "source_sha256": "15da9ff9b2c52fc7e9959cf4a958e95a4c18a5daec0539fb21fd580b0894ebba",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793278954.5192118,
+      "end": 1793278958.285965,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealInterSafety.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealInterFlat",
+      "source_sha256": "0da28448c517b4cbce86a7268dbc398494c508c203c649a848829d119f3d9651",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793278958.2865672,
+      "end": 1793278961.8312826,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealInterFlat.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealInterIO",
+      "source_sha256": "41fa508306524325f355e2fed476fdbc0320d46885028dd4bed98b025b0d29b0",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793278961.8320403,
+      "end": 1793278965.4034176,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealInterIO.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealIntraSource",
+      "source_sha256": "f234a0e94a003e337d06c15cd67759d6338f56c559f18fb0d44a2bca00d855bd",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793278965.4039752,
+      "end": 1793278992.4405186,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealIntraSource.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealIntraMath",
+      "source_sha256": "c176f00d90c92cc2eb254d37fd255b26e585886e70181c5c73524cd41f24fa82",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793278992.4411252,
+      "end": 1793278995.9053907,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealIntraMath.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealIntraProgram",
+      "source_sha256": "16e01542eb500de8d53bbae81470329bf41bc173f4a3715ac80372c347918cd1",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793278995.9060113,
+      "end": 1793279000.1723797,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealIntraProgram.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealIntraMemory",
+      "source_sha256": "faed40b2e78d788abaec6360e6a2c6db49188fff8346fc46806c83cd58ea23a5",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279000.1946826,
+      "end": 1793279004.2841616,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealIntraMemory.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealIntraAlgebra",
+      "source_sha256": "5946977ebf18641517c3485e885543b0038eaa08a64d8d8a83ecd6f34b84453a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279004.2847762,
+      "end": 1793279007.6998248,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealIntraAlgebra.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealIntraSetup",
+      "source_sha256": "439f1578916886bd15babbca5425dd0264c55220e6baac740790a941343d8e9f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279007.7004578,
+      "end": 1793279012.0568798,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealIntraSetup.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealIntraStep",
+      "source_sha256": "d945a5195b1efbeca525afa4e53e26b7ed5cc0681712ed845a906212c8e37001",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279012.0575397,
+      "end": 1793279015.4252121,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealIntraStep.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealIntraLoop",
+      "source_sha256": "753f541befd0de4887c215953d08da3de5ed84367442c30aab3152ad0385c1ef",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279015.4258406,
+      "end": 1793279047.1611073,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealIntraLoop.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealIntraExecution",
+      "source_sha256": "de38df44a0635fcaf47670437b5312f9b9eec7446e7ba2f8b638514b5f2498d4",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279047.1617541,
+      "end": 1793279050.3118536,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealIntraExecution.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealIntraAccessSafety",
+      "source_sha256": "75c6446e1f5485fa87506862188894b885c5d075fe33b29e41133574e563e201",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279050.3124754,
+      "end": 1793279053.6229122,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealIntraAccessSafety.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealIntraStepSafety",
+      "source_sha256": "cd4ca89e9d813ba04b059cb11030e24fb7c49dc6132f5e573c5b2c51052397bb",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279053.623581,
+      "end": 1793279057.2733407,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealIntraStepSafety.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealIntraSafety",
+      "source_sha256": "0c6a2cbfe836a3d9e54a633439aec7732c483f9557a339a66912c3b1459280ce",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279057.273978,
+      "end": 1793279060.7326205,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealIntraSafety.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealIntraFlat",
+      "source_sha256": "ecfdfc52211678549b90efd1b13f154b3dbff0c2f218e1ebb84ca78c34244f01",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279060.7332823,
+      "end": 1793279063.926767,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealIntraFlat.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealIntraIO",
+      "source_sha256": "0e4ea35d685ad7e88d68594362957931a1087c9b64f94bd26b9f9b6b5db6a265",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279063.927419,
+      "end": 1793279067.1475768,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealIntraIO.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealSplitSource",
+      "source_sha256": "24e97a6737a552340a2123927d87bfd1e23084dbe257435f1a52efc825226c32",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279067.1482074,
+      "end": 1793279095.3851047,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealSplitSource.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealSplitMath",
+      "source_sha256": "4521f5ec0a7d531051b46a465f394694dbe8a9e4422880288ca4e5c39c11b371",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279095.3857818,
+      "end": 1793279098.7282698,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealSplitMath.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealSplitProgram",
+      "source_sha256": "f12a7fdd87789ec326f62d5fd7e0a30c4d20141c8ba03346cc22f15a5be31174",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279098.7289336,
+      "end": 1793279103.0329287,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealSplitProgram.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealSplitMemory",
+      "source_sha256": "2472b3dab2321c8671452572f245c241fe6ab602ad3bd59e59009670e7adcc73",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279103.0336492,
+      "end": 1793279107.09665,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealSplitMemory.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealSplitAlgebra",
+      "source_sha256": "cba39fc9bed351b1baa99a5dddf433ad080fdc8c17f074a6e1064dc4e1a69e9a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279107.0973265,
+      "end": 1793279110.5215342,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealSplitAlgebra.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealSplitSetup",
+      "source_sha256": "b87cc9495e38f8cec72b379c99ab5bffafbaf25784526312664465d1d8e827a8",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279110.5222223,
+      "end": 1793279115.0658655,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealSplitSetup.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealSplitStep",
+      "source_sha256": "ad86bccb30f19651e4e72305d65a07623b3dc00cbcca1b1b19023e3ab3638213",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279115.0665843,
+      "end": 1793279118.4767165,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealSplitStep.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealSplitLoop",
+      "source_sha256": "dbcd66e3a1329f9eeb2aad452a25da930c7cefc79619df8c881cf93f2d00ce9e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279118.4774308,
+      "end": 1793279353.60436,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealSplitLoop.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealSplitExecution",
+      "source_sha256": "b395e96ec166d66a24431476a102c1090afe50fdcbea5ff3b4023c5fe13bbf8f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279353.605022,
+      "end": 1793279356.6643817,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealSplitExecution.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealSplitAccessSafety",
+      "source_sha256": "71a26f10873ca450a22618eb6f3a7abc049c656195e2320da29e4715749e4d29",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279356.6650343,
+      "end": 1793279359.8047643,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealSplitAccessSafety.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealSplitStepSafety",
+      "source_sha256": "8f5beb7f2ea7f8ee5a47640dd1f4711986ba369cf463920b31a11f2993e233ca",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279359.8054647,
+      "end": 1793279363.4781234,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealSplitStepSafety.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealSplitSafety",
+      "source_sha256": "e9661670f7961b7b9878f174c9bfac76f997809c756604058cd6970e0c874258",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279363.4788094,
+      "end": 1793279366.7985175,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealSplitSafety.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealSplitFlat",
+      "source_sha256": "ce434a2307220baa75c377f230ffe7ba7b6299b8c22219e5ff172bb5f5a4fcf2",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279366.799238,
+      "end": 1793279369.8053572,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealSplitFlat.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealSplitIO",
+      "source_sha256": "2a2f28b01e3e849d8fe915b4a7209680f634125f1f54ebd99b54c6e47a8afeb4",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279369.8060248,
+      "end": 1793279372.8381386,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealSplitIO.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealMergeProgram",
+      "source_sha256": "c9b788df5bfdaf9719331ee59cf637edd13404e21b40445dd6818529e30cda0c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279372.838823,
+      "end": 1793279379.5631263,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealMergeProgram.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealMergeStep",
+      "source_sha256": "325196585a989a7464d541aef6ecf0cb8101310944dd69d878b004dea6177bff",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279379.5638287,
+      "end": 1793279383.3347008,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealMergeStep.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealMergeLoop",
+      "source_sha256": "b8013cb3ae7767fc3b2718a884a7b64f9c59f6b1bca99de2d5fa59c71104479d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279383.335412,
+      "end": 1793279386.4773695,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealMergeLoop.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealMergeFinal",
+      "source_sha256": "60d91612186dbc54f4d53ac3f49ddf3cf284628e478a08be02e88333941e79c7",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279386.4780478,
+      "end": 1793279389.5219762,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealMergeFinal.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealMergeExecution",
+      "source_sha256": "75071855281570b098985a3681928c28d64bdbc0fab54de79c0df6e3aef36218",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279389.5226645,
+      "end": 1793279392.5788183,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealMergeExecution.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealMergeSafety",
+      "source_sha256": "3ae83e81b4142cf02f44db35a530e1a9b3d789bf2fb1728fa0f89cecd9f66479",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279392.5795445,
+      "end": 1793279398.0753615,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealMergeSafety.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealMergeFlat",
+      "source_sha256": "71bffee909c8e94d9cbefa8a9f311c485a16c13bd15c5ae3cb9eece202790268",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279398.0760696,
+      "end": 1793279401.0658197,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealMergeFlat.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealMergeIO",
+      "source_sha256": "d3fc02a6a6bc680b1fd6ae2c595fec4c4d9627c7b5cbc499fd3c7819d17cd713",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279401.0664995,
+      "end": 1793279404.0313911,
+      "log": "/tmp/score121-family32-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealMergeIO.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.SourceBridge",
+      "source_sha256": "e6fd97fa56d4c3743b377c7e8319a90f8aa3b7796f43f3f134914af914cf8314",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279404.0321162,
+      "end": 1793279410.7296565,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__SourceBridge.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.OutputTail",
+      "source_sha256": "b44373f903427f1689a99df1782ae8fe2df8d1222f31dfb4890b104709d5c0db",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279410.7304034,
+      "end": 1793279414.133418,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__OutputTail.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.LocalReal",
+      "source_sha256": "7a39e7c53370d0427603e5f7985e5ea3358da6dba5099b440fad9dd4629d2784",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279414.1341202,
+      "end": 1793279417.3533707,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__LocalReal.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.Geometry",
+      "source_sha256": "74916a7aee9ece95f0bf3813155fcb987c8a1c73c713009de04d9b3e0b93910e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279417.354072,
+      "end": 1793279420.3721218,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__Geometry.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.OutputGrid",
+      "source_sha256": "dc42bfc924211ff859c31bcbc0ab6a7d1edf2cf944a1102a49afbaf6dfcd692f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279420.3728733,
+      "end": 1793279424.7515993,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__OutputGrid.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.FPMerge",
+      "source_sha256": "a55a6e91ac36c5bc31551f9c313c21e3a41511a1d9cebbf2068cd5c123e1d853",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279424.7523327,
+      "end": 1793279430.1806824,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__FPMerge.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.FPOutput",
+      "source_sha256": "9496cac62d0fe7ef2fe39ba3dcf5a536e1a21d78395a77986a2acb8ad22908d0",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279430.1814952,
+      "end": 1793279438.3279414,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__FPOutput.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.FPOutputValues",
+      "source_sha256": "f6d4530bd2969270f777e91641ed01e4ee84c95092365f85bdd6340a5dbedd3f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279438.328656,
+      "end": 1793279442.6373694,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__FPOutputValues.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.FPOutputComplete",
+      "source_sha256": "e3b61f02e806ca2af4b04f5f1f1818e0a2789f8a6d010cca76a5941eb9c023e4",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279442.6381319,
+      "end": 1793279449.106378,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__FPOutputComplete.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.FPStorage",
+      "source_sha256": "4b6295b1a07d6a702847bf75f440b6f620bb8597b4cf658be2b00078efca4e2e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279449.1071131,
+      "end": 1793279452.2693431,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__FPStorage.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.FPGrid",
+      "source_sha256": "712bbe2e65754232b3f83e482c8628ecfc745f6476a0084d7b80a64e620e1e04",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279452.27005,
+      "end": 1793279455.4585195,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__FPGrid.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.SumBlocks",
+      "source_sha256": "acd29f6c96ce2f5f9f08a22d42706d0c0bf4f2b55e1f89cc5ebbff2547383fcc",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279455.4592314,
+      "end": 1793279458.891451,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__SumBlocks.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.Logical",
+      "source_sha256": "628626d9b8ff4e9353f2b5655b4c7f9613ede84b674c5665fade77685d9be811",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279458.8922005,
+      "end": 1793279462.0474558,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__Logical.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.ProducerGeometry",
+      "source_sha256": "cccf4f92f1cd71f38c3d2cd3a59faf0d362bba886330677d45a51d0bbb71f953",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279462.0482445,
+      "end": 1793279465.365808,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__ProducerGeometry.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.FPInter",
+      "source_sha256": "5721c28bb4f54e96d37071ce2163f4f115f87424457d3acfc563549bc47cf7e1",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279465.3665538,
+      "end": 1793279477.9099329,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__FPInter.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.FPInterValues",
+      "source_sha256": "14438d5974a46642155a633bf24046e2551a567e968c9a524fac1cc96c930649",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279477.9106967,
+      "end": 1793279483.159397,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__FPInterValues.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.FPInterComplete",
+      "source_sha256": "e762f22709cba9ed5100c100c87eed7e5c7cf41f207f132da5d2c8cffb5c7796",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279483.1601565,
+      "end": 1793279489.042042,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__FPInterComplete.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.DiagonalGeometry",
+      "source_sha256": "d12684b2997f338c69b37e74225ef86791d5ded25d5240690bee20b823f1c720",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279489.042833,
+      "end": 1793279492.392777,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__DiagonalGeometry.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.InterGrid",
+      "source_sha256": "733e364b85cb7acdd8579189f5552ee2ec5550b3752a65fd7802a94933f59879",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279492.3935552,
+      "end": 1793279496.586257,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__InterGrid.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.IntraGrid",
+      "source_sha256": "1d846624c31b5bd2615a2604718b8f017368fcfb2fef1204133520325701419c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279496.5869856,
+      "end": 1793279500.818582,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__IntraGrid.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.SplitGeometry",
+      "source_sha256": "79cba94e3c036225f2e5ecf50f22a0619d48aa5813816013cdcd1afe95d564fd",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279500.8193564,
+      "end": 1793279504.1413891,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__SplitGeometry.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.SplitGrid",
+      "source_sha256": "96c5a0b69029c9ac53d244c63239229d12a6e88c53d91025c531bf5264e85507",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279504.1421545,
+      "end": 1793279508.3733006,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__SplitGrid.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.FPDiagonal",
+      "source_sha256": "063bef812ee5c298948eee06beb93e4640ea0cc49fef9351a3f93a26c6bd2a9b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279508.3740938,
+      "end": 1793279531.9179957,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__FPDiagonal.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.FPDiagonalValues",
+      "source_sha256": "d05328d39ea0cf1913c8dd49191fb66537efcca5ca5abdb30f48d12764527816",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279531.918781,
+      "end": 1793279542.4628189,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__FPDiagonalValues.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.FPDiagonalLoop",
+      "source_sha256": "852c82f7d574173c0eedc7a3ba3a3e09e7213200abb7923536f69afd0dbe1ca5",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279542.4635627,
+      "end": 1793279545.8425307,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__FPDiagonalLoop.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.FPDiagonalBranch",
+      "source_sha256": "8723cdc80a57d22ac484d6d5f14f8989801e7c4232af1c1f9fdf1c39534a8438",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279545.8432956,
+      "end": 1793279552.611035,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__FPDiagonalBranch.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.FPDiagonalComplete",
+      "source_sha256": "98c86f30e1fb744e2ee13017f23d0f0f1c9e00e32db7a216c534e9485cd8d6bc",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279552.6118205,
+      "end": 1793279556.5686996,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__FPDiagonalComplete.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.FPDiagonalReadback",
+      "source_sha256": "5c5afd3b8db86dc4143b30cc261154304a7321709a10d90c8f8b31f1571cf69b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279556.5694766,
+      "end": 1793279560.0114057,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__FPDiagonalReadback.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.FPMergeComplete",
+      "source_sha256": "e60b510d4a8dcf002fc53f02a2f2043e637525cf15f0aae43ce3790d8fda4c51",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279560.0121968,
+      "end": 1793279564.649861,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__FPMergeComplete.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.FPStages",
+      "source_sha256": "13ec49adcdb957620ef20e1f5dd7fbbda5f84c3b08250d9a0e29e7c93c09ab56",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279564.6506622,
+      "end": 1793279568.7710707,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__FPStages.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.HostMetadata",
+      "source_sha256": "87fc6569f03bbdea7608a2c41e24a99f34738e3288f047562fffef9a7b31b3cd",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279568.7718554,
+      "end": 1793279572.0582051,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__HostMetadata.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.FPBounds",
+      "source_sha256": "4f407a337858bd7e5ae28c151a749fe6816129338fb76690b12903fe3f1f5557",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279572.058995,
+      "end": 1793279575.316743,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__FPBounds.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.FPHost",
+      "source_sha256": "c03e941e6747c624be1aad9e270b791d29464868ad8050660f475f501551a248",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279575.3175611,
+      "end": 1793279579.8866527,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__FPHost.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.FPReadBounds",
+      "source_sha256": "521310e24de847271fe9118f08f6c72934dc1846ae780a63b4c545b0685a38cf",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279579.887481,
+      "end": 1793279583.0739925,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__FPReadBounds.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.Physical",
+      "source_sha256": "7f4e11b19a09c2b3f497dbb522d604ebb4877a58fbfe747fe1b1753ee90bd2c6",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279583.0748122,
+      "end": 1793279587.6696212,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__Physical.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.FPReturned",
+      "source_sha256": "0484e31140315a1ec1ae7baf831aa85164c49ed7acbf984689baa19d0cd2f86e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279587.6704245,
+      "end": 1793279591.136081,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__FPReturned.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.PhysicalReturned",
+      "source_sha256": "b8ffe4a5a7a85dac8998c865ef80dbb288638460748da27c499353511cd53989",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279591.1368785,
+      "end": 1793279594.9686651,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__PhysicalReturned.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.NativeReduction",
+      "source_sha256": "3c03187d6752f15df6fea39443f23c6aa36886612e527cf718f9606d660730f9",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279594.969455,
+      "end": 1793279620.1574697,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__NativeReduction.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.NativeInstructions",
+      "source_sha256": "9ad581e7dcb04fb1fa13bf1f1d2567c7904d6c2b7588e421e4377ff18905d6ae",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279620.1583014,
+      "end": 1793279623.471052,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__NativeInstructions.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.NativeComposition",
+      "source_sha256": "c9c1f6c3b0481ed4f048645d1524eca774943fc4a95d800198b8950295adfeca",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279623.471852,
+      "end": 1793279626.6063507,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__NativeComposition.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.ScalarGraph",
+      "source_sha256": "e7c0b84dd569898c0b8b0c674d139f8509e578a440c75a95f688763efe138b0b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279626.6071537,
+      "end": 1793279630.1191516,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__ScalarGraph.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.Address",
+      "source_sha256": "d3e604d2c739a65d444d3b3f8b9670203780bbdb75dccfd289f5c34fe4f00179",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279630.1200166,
+      "end": 1793279633.1068285,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__Address.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.Native",
+      "source_sha256": "b6fb464850c176781126b2e58ffed9e725821ae266ee19e1b5e1170861f31d28",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279633.1077018,
+      "end": 1793279636.5610118,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__Native.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.NativeIO",
+      "source_sha256": "f3491996e5727ac089af408637ea634e04b873b08adb6d39e657882a59a3a930",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279636.5619035,
+      "end": 1793279640.3680685,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__NativeIO.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.NativeControl",
+      "source_sha256": "0c0f2215f73cd8b3ca2a7534e717e2ea259e4db0974a03a81e5293cd229a520f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279640.3688982,
+      "end": 1793279643.6840253,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__NativeControl.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.Admission",
+      "source_sha256": "63d6d86f8adba5e3f64dca4162527e52ae424adeae89037be23b7e60a7c2a409",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279643.6848903,
+      "end": 1793279646.5526743,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__Admission.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.Admission",
+      "source_sha256": "bda0f6696478513aca02ba1be3718cbebe14ce3c0e2153c54365d20666d71040",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279646.5535245,
+      "end": 1793279649.2592888,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__Admission.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.NativeComplete",
+      "source_sha256": "ba6aa93dda12562186bec7d031085bd5703e6b1cf2b55ac1970c45bc9217e83d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279649.2600958,
+      "end": 1793279653.1147134,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__NativeComplete.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.NativeABI",
+      "source_sha256": "086cb930bc4e7377683a092c73a209815ff43ff437641a3664cc39eff81835c0",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279653.115578,
+      "end": 1793279656.692748,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__NativeABI.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.PhysicalDirect",
+      "source_sha256": "a85bfb585fcdcd7fd87e531bed509c1e162a106e32d66e4435807e9f89ecf5db",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279656.6936212,
+      "end": 1793279663.4151604,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__PhysicalDirect.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.CheckedHost",
+      "source_sha256": "011cbc6a3186f4e2bf64cb85d4bc33ac5646529e61a2d6469e4bd417267b62d7",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279663.4160082,
+      "end": 1793279666.6348042,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__CheckedHost.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.ByteMemory",
+      "source_sha256": "2a96ad8fe0fa1ea7f0888187d7817c4f49fa55a3bb7dce0267655c01997a425e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793279666.6356328,
+      "end": 1793279670.357943,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__ByteMemory.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Memory",
+      "source_sha256": "82e99884751271ff4b540e24d1de29e8ebeab76ad15ac7b374fb84a00edb2938",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793279670.3588126,
+      "end": 1793279674.2179139,
+      "log": "/tmp/score121-family32-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Memory.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.TensorBridge",
+      "source_sha256": "27ac225cecc682cea4984af4e0fa65ca7def2774e04a1d49ec5fe8ce3d3f5968",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.RawCorrect",
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.RawNative",
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Memory"
+      ]
+    }
+  ],
+  "scope": "One serial queue; failed imports block dependents, independent modules continue.",
+  "end": 1793279674.2193193
+}

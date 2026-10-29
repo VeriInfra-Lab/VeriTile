@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.RealInterface.formula: definition does not reference [VeriTile.Bench.Repairs.AttentionScoreTileChecked.kernel,
+ VeriTile.Bench.Repairs.AttentionScoreTileChecked.realExecute,
+ VeriTile.Triton.exec] — non-circular ✓

@@ -1,0 +1,40 @@
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/SourceTiles.lean:52:22: warning: This simp argument is unused:
+  algorithmShapes
+
+Hint: Omit it from the simp argument list.
+  simp [Reused.Whole002.TypedSource.widened, ̲ComputeKernel.surfaceBody, ̲statementListShapes,
+        statementShapes, ̲algorithmS̵h̵a̵p̵e̵s̵,̵a̵l̵g̵o̵r̵i̵t̵h̵m̵ListShapes, ̲List.mem_append, ̲smallBlock, ̲tile,
+  ̵  ̵ ̵ ̵ ̵ ̵transpose, ̲square]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/SourceTiles.lean:52:38: warning: This simp argument is unused:
+  algorithmListShapes
+
+Hint: Omit it from the simp argument list.
+  simp [Reused.Whole002.TypedSource.widened, ̲ComputeKernel.surfaceBody, ̲statementListShapes,
+        statementShapes, ̲algorithmShapes,a̵l̵g̵o̵r̵i̵t̵h̵m̵ ̲ListS̵h̵a̵p̵e̵s̵,̵L̵i̵s̵t̵.mem_append, ̲smallBlock, ̲tile,
+  ̵  ̵ ̵ ̵ ̵ ̵transpose, ̲square]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/SourceTiles.lean:52:58: warning: This simp argument is unused:
+  List.mem_append
+
+Hint: Omit it from the simp argument list.
+  simp [Reused.Whole002.TypedSource.widened, ̲ComputeKernel.surfaceBody, ̲statementListShapes,
+        statementShapes, ̲algorithmShapes, ̲algorithmListShapes,L̵i̵ ̲st̵.̵me̵m̵_̵ap̵p̵e̵n̵d̵,̵s̵m̵a̵llBlock, ̲tile,
+  ̵  ̵ ̵ ̵ ̵ ̵transpose, ̲square]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/SourceTiles.lean:52:74: warning: This simp argument is unused:
+  smallBlock
+
+Hint: Omit it from the simp argument list.
+  simp [Reused.Whole002.TypedSource.widened, ̲ComputeKernel.surfaceBody, ̲statementListShapes,
+        statementShapes, ̲algorithmShapes, ̲algorithmListShapes, ̲List.mem_append,s̵m̵a̵l̵l̵B̵l̵o̵c̵k̵,̵ ̲tile,
+  ̵  ̵ ̵ ̵ ̵ ̵transpose,
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲square]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.quotation_shapes_bounded: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

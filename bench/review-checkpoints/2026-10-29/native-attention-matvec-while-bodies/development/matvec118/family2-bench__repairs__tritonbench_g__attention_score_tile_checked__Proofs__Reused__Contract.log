@@ -1,0 +1,7 @@
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.Contract.InputContract: definition does not reference [VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.Contract.check_iff: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.Contract.domain: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.Contract.aligned: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

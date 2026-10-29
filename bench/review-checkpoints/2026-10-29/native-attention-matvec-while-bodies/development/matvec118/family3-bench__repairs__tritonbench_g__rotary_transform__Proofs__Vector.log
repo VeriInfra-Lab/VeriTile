@@ -1,0 +1,17 @@
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/rotary_transform/Proofs/Vector.lean:128:26: warning: This simp argument is unused:
+  programWork
+
+Hint: Omit it from the simp argument list.
+  simp [schedule, ̲launches,p̵r̵o̵g̵r̵a̵m̵W̵o̵r̵k̵,̵ ̲SProd.sprod, ̲List.product, ̲List.map_flatMap, ̲List.filter_flatMap,
+  ̲ ̲ ̲ ̲ ̲List.map_map, ̲Function.comp_def]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.RotaryTransform.vector_eq_execute: axiom footprint ⊆ standard base ✓  ([Quot.sound,
+ propext,
+ Classical.choice])
+VeriTile.Bench.Repairs.RotaryTransform.sourceProgram_eq: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.RotaryTransform.source_eq_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

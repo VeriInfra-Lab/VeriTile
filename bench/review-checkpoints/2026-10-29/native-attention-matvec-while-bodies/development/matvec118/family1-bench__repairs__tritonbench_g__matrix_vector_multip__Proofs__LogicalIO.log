@@ -1,0 +1,13 @@
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/LogicalIO.lean:30:91: warning: This simp argument is unused:
+  zero
+
+Hint: Omit it from the simp argument list.
+  simp [IO.logicalRow, ̲IO.logicalInputs, ̲IO.matrixValues, ̲IO.vectorValues, ̲active, ̲col.isLt,̵z̵e̵r̵o̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.MatrixVectorMultip.LogicalIOProof.headline_iff: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MatrixVectorMultip.LogicalIOProof.implements: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

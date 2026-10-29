@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.MatrixVectorMultip.FPEquiv.mv_fp32_kernel_equiv: statement's project surface ⊆ allowlist ✓
+VeriTile.Bench.Repairs.MatrixVectorMultip.KernelFP.formula: definition does not reference [VeriTile.Bench.Repairs.MatrixVectorMultip.Kernels.source,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.Repairs.MatrixVectorMultip.FPEquiv.mv_fp32_kernel_equiv: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

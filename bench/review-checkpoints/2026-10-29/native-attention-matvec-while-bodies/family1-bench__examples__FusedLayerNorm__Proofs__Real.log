@@ -1,0 +1,10 @@
+/tmp/body124-frontend/bench/examples/FusedLayerNorm/Proofs/Real.lean:83:85: warning: This simp argument is unused:
+  IntegralDType.eraseDType
+
+Hint: Omit it from the simp argument list.
+  simp [Op.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType,̵ ̵I̵n̵t̵e̵g̵r̵a̵l̵D̵T̵y̵p̵e̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/body124-frontend/bench/examples/FusedLayerNorm/Proofs/Real.lean:80:2: warning: 'all_goals try norm_num' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`

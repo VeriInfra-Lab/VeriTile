@@ -1,0 +1,326 @@
+/tmp/while122-surface-probe/bench/tests/WhileExecution.lean:15:23: warning: This simp argument is unused:
+  ComputeKernel.surfaceBody
+
+Hint: Omit it from the simp argument list.
+  simp [counter, exec, C̵o̵m̵p̵u̵t̵e̵K̵e̵r̵n̵e̵l̵.̵s̵u̵r̵f̵a̵c̵e̵B̵o̵d̵y̵,̵ ̵run, step, evalExpr, evalOp_unfold, Op.natToUnsigned, Op.intToUnsigned,
+  ̲  ̲ ̲ ̲numeric, numericLt, natLt, integralMod, bop, Broadcast.leftIndex, Broadcast.rightIndex,
+  ̲  ̲ ̲ ̲Option.bind, State.setReg]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-surface-probe/bench/tests/WhileExecution.lean:17:9: warning: This simp argument is unused:
+  Broadcast.leftIndex
+
+Hint: Omit it from the simp argument list.
+  simp [counter, exec, ComputeKernel.surfaceBody, run, step, evalExpr, evalOp_unfold,
+      Op.natToUnsigned, Op.intToUnsigned, numeric, numericLt, natLt, integralMod,
+  ̵  ̵ ̵ ̵bop,
+  ̲ B̵r̵o̵a̵d̵c̵a̵s̵t̵.̵l̵e̵f̵t̵I̵n̵d̵e̵x̵,̵  ̲ ̲Broadcast.rightIndex, Option.bind,
+  ̵  ̵ ̵ ̵State.setReg]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-surface-probe/bench/tests/WhileExecution.lean:17:30: warning: This simp argument is unused:
+  Broadcast.rightIndex
+
+Hint: Omit it from the simp argument list.
+  simp [counter, exec, ComputeKernel.surfaceBody, run, step, evalExpr, evalOp_unfold,
+      Op.natToUnsigned, Op.intToUnsigned, numeric, numericLt, natLt, integralMod,
+  ̵  ̵ ̵ ̵bop,
+  ̲  ̲ ̲ ̲Broadcast.leftIndex, B̵r̵o̵a̵d̵c̵a̵s̵t̵.̵r̵i̵g̵h̵t̵I̵n̵d̵e̵x̵,̵ ̵Option.bind,
+  ̵  ̵ ̵ ̵State.setReg]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-surface-probe/bench/tests/WhileExecution.lean:19:41: warning: This simp argument is unused:
+  evalOp_unfold
+
+Hint: Omit it from the simp argument list.
+  simp [e̵v̵a̵l̵O̵p̵_̵u̵nf̵o̵l̵d̵,̵ ̵n̵umeric, numericLt, natLt,
+  ̵  ̵ ̵ ̵bop, integralMod,
+  ̲  ̲ ̲ ̲IntegerExpr.sameShape, Broadcast.leftIndex, Broadcast.rightIndex,
+  ̵  ̵ ̵ ̵State.setReg, Option.bind]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-surface-probe/bench/tests/WhileExecution.lean:19:56: warning: This simp argument is unused:
+  numeric
+
+Hint: Omit it from the simp argument list.
+  simp [evalOp_unfold, numeric,̵ ̵n̵u̵m̵e̵r̵i̵c̵Lt, natLt,
+  ̵  ̵ ̵ ̵bop, integralMod,
+  ̲  ̲ ̲ ̲IntegerExpr.sameShape, Broadcast.leftIndex, Broadcast.rightIndex,
+  ̵  ̵ ̵ ̵State.setReg, Option.bind]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-surface-probe/bench/tests/WhileExecution.lean:19:65: warning: This simp argument is unused:
+  numericLt
+
+Hint: Omit it from the simp argument list.
+  simp [evalOp_unfold, numeric, nu̵m̵e̵r̵i̵c̵L̵t̵,̵ ̵n̵atLt,
+  ̵  ̵ ̵ ̵bop, integralMod,
+  ̲  ̲ ̲ ̲IntegerExpr.sameShape, Broadcast.leftIndex, Broadcast.rightIndex,
+  ̵  ̵ ̵ ̵State.setReg, Option.bind]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-surface-probe/bench/tests/WhileExecution.lean:19:76: warning: This simp argument is unused:
+  natLt
+
+Hint: Omit it from the simp argument list.
+  simp [evalOp_unfold, numeric, numericLt, n̵a̵t̵L̵t̵,̵
+  ̵ ̵ ̵ ̵ ̵bop, integralMod,
+  ̲  ̲ ̲ ̲IntegerExpr.sameShape, Broadcast.leftIndex, Broadcast.rightIndex,
+  ̵  ̵ ̵ ̵State.setReg, Option.bind]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-surface-probe/bench/tests/WhileExecution.lean:20:9: warning: This simp argument is unused:
+  integralMod
+
+Hint: Omit it from the simp argument list.
+  simp [evalOp_unfold, numeric, numericLt, natLt,
+  ̵  ̵ ̵ ̵bop,
+  ̲ i̵n̵t̵e̵g̵r̵a̵l̵M̵o̵d̵,̵  ̲ ̲IntegerExpr.sameShape, Broadcast.leftIndex, Broadcast.rightIndex,
+  ̵  ̵ ̵ ̵State.setReg, Option.bind]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-surface-probe/bench/tests/WhileExecution.lean:20:45: warning: This simp argument is unused:
+  Broadcast.leftIndex
+
+Hint: Omit it from the simp argument list.
+  simp [evalOp_unfold, numeric, numericLt, natLt, bop, integralMod,
+  ̲  ̲ ̲ ̲IntegerExpr.sameShape, B̵r̵o̵a̵d̵c̵a̵s̵t̵.̵l̵e̵f̵t̵I̵n̵d̵e̵x̵,̵ ̵Broadcast.rightIndex, State.setReg, Option.bind]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-surface-probe/bench/tests/WhileExecution.lean:20:66: warning: This simp argument is unused:
+  Broadcast.rightIndex
+
+Hint: Omit it from the simp argument list.
+  simp [evalOp_unfold, numeric, numericLt, natLt, bop, integralMod,
+  ̲  ̲ ̲ ̲IntegerExpr.sameShape, Broadcast.leftIndex, B̵r̵o̵a̵d̵c̵a̵s̵t̵.̵r̵i̵g̵h̵t̵I̵n̵d̵e̵x̵,̵State.setReg, Option.bind]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-surface-probe/bench/tests/WhileExecution.lean:21:4: warning: This simp argument is unused:
+  State.setReg
+
+Hint: Omit it from the simp argument list.
+  simp [evalOp_unfold, numeric, numericLt, natLt,
+  ̵  ̵ ̵ ̵bop, integralMod,
+  ̲  ̲ ̲ ̲IntegerExpr.sameShape, Broadcast.leftIndex, Broadcast.rightIndex,
+  ̵  ̵ ̵ ̵S̵t̵a̵t̵e̵.̵s̵e̵t̵R̵e̵g̵,̵ ̵Option.bind]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-surface-probe/bench/tests/WhileExecution.lean:27:23: warning: This simp argument is unused:
+  ComputeKernel.surfaceBody
+
+Hint: Omit it from the simp argument list.
+  simp [counter, exec, C̵o̵m̵p̵u̵t̵e̵K̵e̵r̵n̵e̵l̵.̵s̵u̵r̵f̵a̵c̵e̵B̵o̵d̵y̵,̵ ̵run, step, evalExpr, evalOp_unfold, Op.natToUnsigned, Op.intToUnsigned,
+  ̲  ̲ ̲ ̲numeric, numericLt, natLt, integralMod, bop, Broadcast.leftIndex, Broadcast.rightIndex,
+  ̲  ̲ ̲ ̲Option.bind, State.setReg]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-surface-probe/bench/tests/WhileExecution.lean:29:9: warning: This simp argument is unused:
+  Broadcast.leftIndex
+
+Hint: Omit it from the simp argument list.
+  simp [counter, exec, ComputeKernel.surfaceBody, run, step, evalExpr, evalOp_unfold,
+      Op.natToUnsigned, Op.intToUnsigned, numeric, numericLt, natLt, integralMod,
+  ̵  ̵ ̵ ̵bop,
+  ̲ B̵r̵o̵a̵d̵c̵a̵s̵t̵.̵l̵e̵f̵t̵I̵n̵d̵e̵x̵,̵  ̲ ̲Broadcast.rightIndex, Option.bind,
+  ̵  ̵ ̵ ̵State.setReg]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-surface-probe/bench/tests/WhileExecution.lean:29:30: warning: This simp argument is unused:
+  Broadcast.rightIndex
+
+Hint: Omit it from the simp argument list.
+  simp [counter, exec, ComputeKernel.surfaceBody, run, step, evalExpr, evalOp_unfold,
+      Op.natToUnsigned, Op.intToUnsigned, numeric, numericLt, natLt, integralMod,
+  ̵  ̵ ̵ ̵bop,
+  ̲  ̲ ̲ ̲Broadcast.leftIndex, B̵r̵o̵a̵d̵c̵a̵s̵t̵.̵r̵i̵g̵h̵t̵I̵n̵d̵e̵x̵,̵ ̵Option.bind,
+  ̵  ̵ ̵ ̵State.setReg]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-surface-probe/bench/tests/WhileExecution.lean:31:41: warning: This simp argument is unused:
+  evalOp_unfold
+
+Hint: Omit it from the simp argument list.
+  simp [e̵v̵a̵l̵O̵p̵_̵u̵nf̵o̵l̵d̵,̵ ̵n̵umeric, numericLt, natLt,
+  ̵  ̵ ̵ ̵bop, integralMod,
+  ̲  ̲ ̲ ̲IntegerExpr.sameShape, Broadcast.leftIndex, Broadcast.rightIndex,
+  ̵  ̵ ̵ ̵State.setReg, Option.bind]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-surface-probe/bench/tests/WhileExecution.lean:31:56: warning: This simp argument is unused:
+  numeric
+
+Hint: Omit it from the simp argument list.
+  simp [evalOp_unfold, numeric,̵ ̵n̵u̵m̵e̵r̵i̵c̵Lt, natLt,
+  ̵  ̵ ̵ ̵bop, integralMod,
+  ̲  ̲ ̲ ̲IntegerExpr.sameShape, Broadcast.leftIndex, Broadcast.rightIndex,
+  ̵  ̵ ̵ ̵State.setReg, Option.bind]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-surface-probe/bench/tests/WhileExecution.lean:31:65: warning: This simp argument is unused:
+  numericLt
+
+Hint: Omit it from the simp argument list.
+  simp [evalOp_unfold, numeric, nu̵m̵e̵r̵i̵c̵L̵t̵,̵ ̵n̵atLt,
+  ̵  ̵ ̵ ̵bop, integralMod,
+  ̲  ̲ ̲ ̲IntegerExpr.sameShape, Broadcast.leftIndex, Broadcast.rightIndex,
+  ̵  ̵ ̵ ̵State.setReg, Option.bind]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-surface-probe/bench/tests/WhileExecution.lean:31:76: warning: This simp argument is unused:
+  natLt
+
+Hint: Omit it from the simp argument list.
+  simp [evalOp_unfold, numeric, numericLt, n̵a̵t̵L̵t̵,̵
+  ̵ ̵ ̵ ̵ ̵bop, integralMod,
+  ̲  ̲ ̲ ̲IntegerExpr.sameShape, Broadcast.leftIndex, Broadcast.rightIndex,
+  ̵  ̵ ̵ ̵State.setReg, Option.bind]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-surface-probe/bench/tests/WhileExecution.lean:32:9: warning: This simp argument is unused:
+  integralMod
+
+Hint: Omit it from the simp argument list.
+  simp [evalOp_unfold, numeric, numericLt, natLt,
+  ̵  ̵ ̵ ̵bop,
+  ̲ i̵n̵t̵e̵g̵r̵a̵l̵M̵o̵d̵,̵  ̲ ̲IntegerExpr.sameShape, Broadcast.leftIndex, Broadcast.rightIndex,
+  ̵  ̵ ̵ ̵State.setReg, Option.bind]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-surface-probe/bench/tests/WhileExecution.lean:32:45: warning: This simp argument is unused:
+  Broadcast.leftIndex
+
+Hint: Omit it from the simp argument list.
+  simp [evalOp_unfold, numeric, numericLt, natLt, bop, integralMod,
+  ̲  ̲ ̲ ̲IntegerExpr.sameShape, B̵r̵o̵a̵d̵c̵a̵s̵t̵.̵l̵e̵f̵t̵I̵n̵d̵e̵x̵,̵ ̵Broadcast.rightIndex, State.setReg, Option.bind]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-surface-probe/bench/tests/WhileExecution.lean:32:66: warning: This simp argument is unused:
+  Broadcast.rightIndex
+
+Hint: Omit it from the simp argument list.
+  simp [evalOp_unfold, numeric, numericLt, natLt, bop, integralMod,
+  ̲  ̲ ̲ ̲IntegerExpr.sameShape, Broadcast.leftIndex, B̵r̵o̵a̵d̵c̵a̵s̵t̵.̵r̵i̵g̵h̵t̵I̵n̵d̵e̵x̵,̵State.setReg, Option.bind]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-surface-probe/bench/tests/WhileExecution.lean:33:4: warning: This simp argument is unused:
+  State.setReg
+
+Hint: Omit it from the simp argument list.
+  simp [evalOp_unfold, numeric, numericLt, natLt,
+  ̵  ̵ ̵ ̵bop, integralMod,
+  ̲  ̲ ̲ ̲IntegerExpr.sameShape, Broadcast.leftIndex, Broadcast.rightIndex,
+  ̵  ̵ ̵ ̵S̵t̵a̵t̵e̵.̵s̵e̵t̵R̵e̵g̵,̵ ̵Option.bind]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-surface-probe/bench/tests/WhileExecution.lean:40:24: warning: This simp argument is unused:
+  ComputeKernel.surfaceBody
+
+Hint: Omit it from the simp argument list.
+  simp [wrapping, exec, C̵o̵m̵p̵u̵t̵e̵K̵e̵r̵n̵e̵l̵.̵s̵u̵r̵f̵a̵c̵e̵B̵o̵d̵y̵,̵ ̵run, step, evalExpr, evalOp_unfold, Op.natToUnsigned, Op.intToUnsigned,
+  ̲  ̲ ̲ ̲numeric, numericLt, natLt, integralMod, bop, Broadcast.leftIndex, Broadcast.rightIndex,
+  ̲  ̲ ̲ ̲Option.bind, State.setReg]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-surface-probe/bench/tests/WhileExecution.lean:42:9: warning: This simp argument is unused:
+  Broadcast.leftIndex
+
+Hint: Omit it from the simp argument list.
+  simp [wrapping, exec, ComputeKernel.surfaceBody, run, step, evalExpr, evalOp_unfold,
+      Op.natToUnsigned, Op.intToUnsigned, numeric, numericLt, natLt, integralMod,
+  ̵  ̵ ̵ ̵bop,
+  ̲ B̵r̵o̵a̵d̵c̵a̵s̵t̵.̵l̵e̵f̵t̵I̵n̵d̵e̵x̵,̵  ̲ ̲Broadcast.rightIndex, Option.bind,
+  ̵  ̵ ̵ ̵State.setReg]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-surface-probe/bench/tests/WhileExecution.lean:42:30: warning: This simp argument is unused:
+  Broadcast.rightIndex
+
+Hint: Omit it from the simp argument list.
+  simp [wrapping, exec, ComputeKernel.surfaceBody, run, step, evalExpr, evalOp_unfold,
+      Op.natToUnsigned, Op.intToUnsigned, numeric, numericLt, natLt, integralMod,
+  ̵  ̵ ̵ ̵bop,
+  ̲  ̲ ̲ ̲Broadcast.leftIndex, B̵r̵o̵a̵d̵c̵a̵s̵t̵.̵r̵i̵g̵h̵t̵I̵n̵d̵e̵x̵,̵ ̵Option.bind,
+  ̵  ̵ ̵ ̵State.setReg]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-surface-probe/bench/tests/WhileExecution.lean:44:41: warning: This simp argument is unused:
+  evalOp_unfold
+
+Hint: Omit it from the simp argument list.
+  simp [e̵v̵a̵l̵O̵p̵_̵u̵nf̵o̵l̵d̵,̵ ̵n̵umeric, numericLt, natLt,
+  ̵  ̵ ̵ ̵bop, integralMod,
+  ̲  ̲ ̲ ̲IntegerExpr.sameShape, Broadcast.leftIndex, Broadcast.rightIndex,
+  ̵  ̵ ̵ ̵State.setReg, Option.bind]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-surface-probe/bench/tests/WhileExecution.lean:44:56: warning: This simp argument is unused:
+  numeric
+
+Hint: Omit it from the simp argument list.
+  simp [evalOp_unfold, numeric,̵ ̵n̵u̵m̵e̵r̵i̵c̵Lt, natLt,
+  ̵  ̵ ̵ ̵bop, integralMod,
+  ̲  ̲ ̲ ̲IntegerExpr.sameShape, Broadcast.leftIndex, Broadcast.rightIndex,
+  ̵  ̵ ̵ ̵State.setReg, Option.bind]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-surface-probe/bench/tests/WhileExecution.lean:44:65: warning: This simp argument is unused:
+  numericLt
+
+Hint: Omit it from the simp argument list.
+  simp [evalOp_unfold, numeric, nu̵m̵e̵r̵i̵c̵L̵t̵,̵ ̵n̵atLt,
+  ̵  ̵ ̵ ̵bop, integralMod,
+  ̲  ̲ ̲ ̲IntegerExpr.sameShape, Broadcast.leftIndex, Broadcast.rightIndex,
+  ̵  ̵ ̵ ̵State.setReg, Option.bind]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-surface-probe/bench/tests/WhileExecution.lean:44:76: warning: This simp argument is unused:
+  natLt
+
+Hint: Omit it from the simp argument list.
+  simp [evalOp_unfold, numeric, numericLt, n̵a̵t̵L̵t̵,̵
+  ̵ ̵ ̵ ̵ ̵bop, integralMod,
+  ̲  ̲ ̲ ̲IntegerExpr.sameShape, Broadcast.leftIndex, Broadcast.rightIndex,
+  ̵  ̵ ̵ ̵State.setReg, Option.bind]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-surface-probe/bench/tests/WhileExecution.lean:45:9: warning: This simp argument is unused:
+  integralMod
+
+Hint: Omit it from the simp argument list.
+  simp [evalOp_unfold, numeric, numericLt, natLt,
+  ̵  ̵ ̵ ̵bop,
+  ̲ i̵n̵t̵e̵g̵r̵a̵l̵M̵o̵d̵,̵  ̲ ̲IntegerExpr.sameShape, Broadcast.leftIndex, Broadcast.rightIndex,
+  ̵  ̵ ̵ ̵State.setReg, Option.bind]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-surface-probe/bench/tests/WhileExecution.lean:45:45: warning: This simp argument is unused:
+  Broadcast.leftIndex
+
+Hint: Omit it from the simp argument list.
+  simp [evalOp_unfold, numeric, numericLt, natLt, bop, integralMod,
+  ̲  ̲ ̲ ̲IntegerExpr.sameShape, B̵r̵o̵a̵d̵c̵a̵s̵t̵.̵l̵e̵f̵t̵I̵n̵d̵e̵x̵,̵ ̵Broadcast.rightIndex, State.setReg, Option.bind]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-surface-probe/bench/tests/WhileExecution.lean:45:66: warning: This simp argument is unused:
+  Broadcast.rightIndex
+
+Hint: Omit it from the simp argument list.
+  simp [evalOp_unfold, numeric, numericLt, natLt, bop, integralMod,
+  ̲  ̲ ̲ ̲IntegerExpr.sameShape, Broadcast.leftIndex, B̵r̵o̵a̵d̵c̵a̵s̵t̵.̵r̵i̵g̵h̵t̵I̵n̵d̵e̵x̵,̵State.setReg, Option.bind]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-surface-probe/bench/tests/WhileExecution.lean:46:4: warning: This simp argument is unused:
+  State.setReg
+
+Hint: Omit it from the simp argument list.
+  simp [evalOp_unfold, numeric, numericLt, natLt,
+  ̵  ̵ ̵ ̵bop, integralMod,
+  ̲  ̲ ̲ ̲IntegerExpr.sameShape, Broadcast.leftIndex, Broadcast.rightIndex,
+  ̵  ̵ ̵ ̵S̵t̵a̵t̵e̵.̵s̵e̵t̵R̵e̵g̵,̵ ̵Option.bind]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Tests.WhileBody.zero_iterations: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+VeriTile.Tests.WhileBody.reevaluates_guard: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+VeriTile.Tests.WhileBody.unsigned_wrap_stops: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

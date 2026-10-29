@@ -1,0 +1,6 @@
+VeriTile.Bench.TritonBenchG.LayerNormLiger.FPStages.mean_store_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.LayerNormLiger.FPStages.rstd_store_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

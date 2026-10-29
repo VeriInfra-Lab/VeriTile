@@ -1,0 +1,58 @@
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/rotary_transform/Proofs/Metadata.lean:57:25: warning: This simp argument is unused:
+  Bool.false_eq_true
+
+Hint: Omit it from the simp argument list.
+  simp only [̵n̵o̵r̵m̵a̵l̵i̵z̵e̵,̵h̵,̵B̵o̵o̵l̵.̵f̵a̵l̵s̵e̵_̵e̵q̵_̵t̵r̵u̵e̵,̵↓̵r̵e̵d̵u̵c̵e̵I̵t̵e̵,̵h̵d̵,̵h̵m̵]̵[̲n̲o̲r̲m̲a̲l̲i̲z̲e̲,̲ ̲h̲,̲ ̲↓̲r̲e̲d̲u̲c̲e̲I̲t̲e̲,̲ ̲h̲d̲,̲ ̲h̲m̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/rotary_transform/Proofs/Metadata.lean:64:15: warning: This simp argument is unused:
+  metadata
+
+Hint: Omit it from the simp argument list.
+  simp only [m̵e̵t̵a̵d̵a̵t̵a̵,̵originalMetadata, ̲MetadataABI.unit, ̲Nat.mul_one, ̲integer]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/rotary_transform/Proofs/Metadata.lean:64:24: warning: This simp argument is unused:
+  originalMetadata
+
+Hint: Omit it from the simp argument list.
+  simp only [̵m̵e̵t̵a̵d̵a̵t̵a̵,̵o̵r̵i̵g̵i̵n̵a̵l̵M̵e̵t̵a̵d̵a̵t̵a̵,̵M̵e̵t̵a̵d̵a̵t̵a̵A̵B̵I̵.̵u̵n̵i̵t̵,̵N̵a̵t̵.̵m̵u̵l̵_̵o̵n̵e̵,̵i̵n̵t̵e̵g̵e̵r̵]̵[̲m̲e̲t̲a̲d̲a̲t̲a̲,̲ ̲M̲e̲t̲a̲d̲a̲t̲a̲A̲B̲I̲.̲u̲n̲i̲t̲,̲ ̲N̲a̲t̲.̲m̲u̲l̲_̲o̲n̲e̲,̲ ̲i̲n̲t̲e̲g̲e̲r̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/rotary_transform/Proofs/Metadata.lean:66:17: warning: This simp argument is unused:
+  h
+
+Hint: Omit it from the simp argument list.
+  simp only [h̵,̵Bool.false_eq_true, ̲↓reduceIte]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/rotary_transform/Proofs/Metadata.lean:68:17: warning: This simp argument is unused:
+  h
+
+Hint: Omit it from the simp argument list.
+  simp only [h̵,̵↓reduceIte]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/rotary_transform/Proofs/Metadata.lean:75:10: warning: This simp argument is unused:
+  metadata
+
+Hint: Omit it from the simp argument list.
+  simp [m̵e̵t̵a̵d̵a̵t̵a̵,̵originalMetadata, ̲MetadataABI.unit, ̲integer, ̲load, ̲normalize]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/rotary_transform/Proofs/Metadata.lean:75:19: warning: This simp argument is unused:
+  originalMetadata
+
+Hint: Omit it from the simp argument list.
+  simp [̵m̵e̵t̵a̵d̵a̵t̵a̵,̵o̵r̵i̵g̵i̵n̵a̵l̵M̵e̵t̵a̵d̵a̵t̵a̵,̵M̵e̵t̵a̵d̵a̵t̵a̵A̵B̵I̵.̵u̵n̵i̵t̵,̵i̵n̵t̵e̵g̵e̵r̵,̵l̵o̵a̵d̵,̵n̵o̵r̵m̵a̵l̵i̵z̵e̵]̵[̲m̲e̲t̲a̲d̲a̲t̲a̲,̲ ̲M̲e̲t̲a̲d̲a̲t̲a̲A̲B̲I̲.̲u̲n̲i̲t̲,̲ ̲i̲n̲t̲e̲g̲e̲r̲,̲ ̲l̲o̲a̲d̲,̲ ̲n̲o̲r̲m̲a̲l̲i̲z̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.RotaryTransform.Physical.metadata: definition does not reference [VeriTile.Bench.Repairs.RotaryTransform.source,
+ VeriTile.Bench.Repairs.RotaryTransform.pairValues,
+ VeriTile.Bench.Repairs.RotaryTransform.Physical.dynamic,
+ VeriTile.Bench.Repairs.RotaryTransform.Physical.native] — non-circular ✓
+VeriTile.Bench.Repairs.RotaryTransform.Physical.normalize_metadata: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.RotaryTransform.Physical.dynamic_eq: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.RotaryTransform.Physical.signed32: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.RotaryTransform.Physical.signed64: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])

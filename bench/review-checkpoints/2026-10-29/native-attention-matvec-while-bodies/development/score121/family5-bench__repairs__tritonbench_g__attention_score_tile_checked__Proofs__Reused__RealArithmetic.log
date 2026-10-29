@@ -1,0 +1,36 @@
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealArithmetic.lean:84:2: error: Tactic `rfl` failed: The left-hand side
+  Option.map (fun code => List.take 9 (List.drop 3 code))
+    (loopBody?
+      (TypedSource.original Q K M Out sqz sqh sqm sqk skz skh skn skk soz soh son Z H HK N RN NK BN BD BN offset size
+              scale window complement evenM evenN ⋯).eraseDType.toAlgKernel.body)
+is not definitionally equal to the right-hand side
+  some (body BN BD N offset size window complement evenM «false»)
+
+Q K M Out : RegionName
+sqz sqh sqm sqk skz skh skn skk soz soh son Z H HK N RN NK BD BN : ℕ
+offset size : ℤ
+scale : ℝ
+window complement evenM evenN : Bool
+⊢ Option.map (fun code => List.take 9 (List.drop 3 code))
+      (loopBody?
+        (TypedSource.original Q K M Out sqz sqh sqm sqk skz skh skn skk soz soh son Z H HK N RN NK BN BD BN offset size
+                scale window complement evenM evenN ⋯).eraseDType.toAlgKernel.body) =
+    some (body BN BD N offset size window complement evenM «false»)
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealArithmetic.lean:93:2: error: Tactic `rfl` failed: The left-hand side
+  Option.map (fun code => List.take 9 (List.drop 3 code))
+    (loopBody?
+      (TypedSource.scalarLeft Q K M Out sqz sqh sqm sqk skz skh skn skk soz soh son Z H HK N RN NK BN BD BN offset size
+              scale window complement evenM evenN ⋯).eraseDType.toAlgKernel.body)
+is not definitionally equal to the right-hand side
+  some (body BN BD N offset size window complement evenM «true»)
+
+Q K M Out : RegionName
+sqz sqh sqm sqk skz skh skn skk soz soh son Z H HK N RN NK BD BN : ℕ
+offset size : ℤ
+scale : ℝ
+window complement evenM evenN : Bool
+⊢ Option.map (fun code => List.take 9 (List.drop 3 code))
+      (loopBody?
+        (TypedSource.scalarLeft Q K M Out sqz sqh sqm sqk skz skh skn skk soz soh son Z H HK N RN NK BN BD BN offset
+                size scale window complement evenM evenN ⋯).eraseDType.toAlgKernel.body) =
+    some (body BN BD N offset size window complement evenM «true»)

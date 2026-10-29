@@ -1,0 +1,20 @@
+/tmp/score121-frontend/bench/tritonbench_g/attention_fwd_triton3/Proofs/FPModel.lean:112:6: error: Tactic `subst` failed: did not find equation for eliminating 'entry'
+
+case atoms.some
+R : FP.ScalarArithmetic.Rules
+entry : Spec.RuleEntry FP.GuardedFragment
+member : entry ∈ R.assumptions
+atom : FP.ScalarArithmetic.Atom
+left✝ : atom ∈ FP.ScalarArithmetic.candidates
+row : FP.ReportedScalarRule
+hr : atom.report? = some row
+he :
+  (if atom.isStrict = «true» then none
+    else some (row.report.bind [FP.ScalarArithmetic.lhs atom] [FP.ScalarArithmetic.rhs atom])) =
+    some entry
+⊢ List.Forall₂ (FP.FragmentSound model domain) entry.rule.lhs entry.rule.rhs
+/tmp/score121-frontend/bench/tritonbench_g/attention_fwd_triton3/Proofs/FPModel.lean:103:52: error: unsolved goals
+case strict
+R : FP.ScalarArithmetic.Rules
+⊢ ∀ (lhs rhs : List FP.GuardedFragment),
+    Spec.StatementTheory.Certified lhs rhs → List.Forall₂ (FP.FragmentSound model domain) lhs rhs

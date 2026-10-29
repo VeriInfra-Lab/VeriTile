@@ -1,0 +1,4 @@
+/tmp/body124-frontend/bench/examples/FusedLayerNorm/Correct.lean:20:4: error: (kernel) deep recursion detected
+/tmp/body124-frontend/bench/examples/FusedLayerNorm/Correct.lean:36:14: error: (kernel) deep recursion detected
+/tmp/body124-frontend/bench/examples/FusedLayerNorm/Correct.lean:58:4: error: (kernel) deep recursion detected
+/tmp/body124-frontend/bench/examples/FusedLayerNorm/Correct.lean:74:14: error: (kernel) deep recursion detected

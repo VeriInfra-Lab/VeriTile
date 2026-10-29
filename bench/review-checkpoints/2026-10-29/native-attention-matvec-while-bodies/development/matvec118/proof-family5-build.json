@@ -1,0 +1,41 @@
+{
+  "status": "FAIL",
+  "start": 1793283989.4951766,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.SourcePrelude",
+      "source_sha256": "3054be0daa7b09eb6246af5e69dd5915b691ce9ef7e521a3c00baf7f1d07e4e9",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793283989.495429,
+      "end": 1793283997.581603,
+      "log": "/tmp/matvec118-proof-family5-bench__repairs__tritonbench_g__matrix_vector_multip__Proofs__SourcePrelude.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.SourceBody",
+      "source_sha256": "73260b513357417060f4d788c85161976f9ce1949443ef5bf55e20348c0a9fb8",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.SourcePrelude"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.SourceLoop",
+      "source_sha256": "7a637e069cb785207ce2ff2fd65d7f5c483ea3b25977fd4a662ad2e830b18bfc",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.SourceBody"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.SourceOutput",
+      "source_sha256": "2d852138367a2bc8f25eec92d7652991a00523706161fa99e5529b42cb7f47db",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.SourceLoop"
+      ]
+    }
+  ],
+  "scope": "One serial queue; failed imports block dependents, independent modules continue.",
+  "end": 1793283997.58247
+}

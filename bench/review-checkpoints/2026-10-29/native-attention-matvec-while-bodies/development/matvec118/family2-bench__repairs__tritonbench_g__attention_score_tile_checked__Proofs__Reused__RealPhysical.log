@@ -1,0 +1,7 @@
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.RealPhysical.logicalTarget: definition does not reference [VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.RealPhysical.execute,
+ VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.RealReturned.hostRun,
+ VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.WholeGrid.run,
+ VeriTile.Triton.exec] — non-circular ✓
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.RealPhysical.returned: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

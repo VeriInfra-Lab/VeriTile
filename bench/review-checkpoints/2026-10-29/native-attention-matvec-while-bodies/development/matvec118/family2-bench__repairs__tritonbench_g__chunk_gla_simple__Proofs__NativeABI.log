@@ -1,0 +1,6 @@
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/chunk_gla_simple/Proofs/NativeABI.lean:46:20: warning: unused variable `h`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.Repairs.ChunkGlaSimple.NativeABI.whole_grid: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

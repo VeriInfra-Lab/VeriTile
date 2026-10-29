@@ -1,0 +1,31 @@
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/rotary_transform/Proofs/HistoricalPublic.lean:77:53: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/rotary_transform/Proofs/HistoricalPublic.lean:79:53: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+VeriTile.Bench.Repairs.RotaryTransform.Public.nativeExpected: definition does not reference [VeriTile.Bench.Repairs.RotaryTransform.Public.invoke,
+ VeriTile.Bench.Repairs.RotaryTransform.Host.selected,
+ VeriTile.Bench.Repairs.RotaryTransform.Native.graph,
+ VeriTile.Bench.Repairs.RotaryTransform.Native.pairWord,
+ VeriTile.Bench.Repairs.RotaryTransform.Physical.native] — non-circular ✓
+VeriTile.Bench.Repairs.RotaryTransform.Public.realExpected: definition does not reference [VeriTile.Bench.Repairs.RotaryTransform.Public.ideal,
+ VeriTile.Bench.Repairs.RotaryTransform.source,
+ VeriTile.Bench.Repairs.RotaryTransform.pairValues,
+ VeriTile.Bench.Repairs.RotaryTransform.sourcePair,
+ VeriTile.Bench.Repairs.RotaryTransform.Host.mathematical] — non-circular ✓
+VeriTile.Bench.Repairs.RotaryTransform.Public.payload: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.RotaryTransform.Public.ideal_payload: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.RotaryTransform.Public.frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.RotaryTransform.Public.source_interpretation: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.RotaryTransform.Public.return_contract: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.RotaryTransform.Public.fp_equivalent: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])

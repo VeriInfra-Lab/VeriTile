@@ -1,0 +1,3 @@
+VeriTile.Triton.Op.eraseDType_truncDiv: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+VeriTile.Triton.Op.eraseDType_truncMod: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+VeriTile.Triton.Op.eraseDType_intToSigned: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])

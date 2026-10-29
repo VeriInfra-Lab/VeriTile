@@ -1,0 +1,35 @@
+{
+  "status": "FAIL",
+  "start": 1793276903.020638,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.FPContext",
+      "source_sha256": "f5398e57f22cb47b1fd0705d0f132faee06cb5cc5246fad3ee265b95e939fc0e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793276903.0209022,
+      "end": 1793276913.0563743,
+      "log": "/tmp/score121-family28-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__FPContext.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.FPBody",
+      "source_sha256": "47237ae7000e6d4502e7dad00c7ceb75aca70ef0cb3fbd599a1c6d92e27e73fa",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793276913.0567305,
+      "end": 1793276972.4963923,
+      "log": "/tmp/score121-family28-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__FPBody.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.FPValues",
+      "source_sha256": "6682714531fd90b9f3619b21f78c389a7667f29254206b371d0d36ae8e38dc80",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793276972.4968178,
+      "end": 1793277020.1602592,
+      "log": "/tmp/score121-family28-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__FPValues.log"
+    }
+  ],
+  "scope": "One serial queue; failed imports block dependents, independent modules continue.",
+  "end": 1793277020.160538
+}

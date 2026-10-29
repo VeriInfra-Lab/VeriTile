@@ -1,0 +1,219 @@
+/tmp/while122-surface-probe/bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/SourcePrelude.lean:41:36: error: unsolved goals
+α : Type
+inst✝ : Inhabited α
+A : FP.Structural.Algebra α
+N M BN BM : ℕ
+rowShape : Random.ArangeSizeDomain BN
+columnShape : Random.ArangeSizeDomain BM
+s : State α
+domain : SourceDomain N M BN BM (s.pids 0)
+hn : N % 2 ^ 64 = N
+hm : M % 2 ^ 64 = M
+hp : s.pids 0 % 2 ^ 64 = s.pids 0
+hprod : s.pids 0 * BN % 2 ^ 64 = s.pids 0 * BN
+hnLane : ∀ (i : Fin BN), ↑i % 2 ^ 64 = ↑i
+hmLane : ∀ (i : Fin BM), ↑i % 2 ^ 64 = ↑i
+hrow : ∀ (i : Fin BN), (s.pids 0 * BN + ↑i) % 2 ^ 64 = s.pids 0 * BN + ↑i
+⊢ (fun d sh n =>
+      if n = "m" then if h : TileDType.nat = d then if h_1 : sh = [] then some (⋯ ▸ ⋯ ▸ fun x => 0) else none else none
+      else
+        if n = "acc" then
+          if hd : TileDType.real = d then
+            if hs : [BN, BM] = sh then some (hd ▸ hs ▸ fun x => A.literal (some ComputeDType.fp32) FloatDType.real 0)
+            else none
+          else none
+        else
+          if n = "B_ptrs" then
+            if hd : TileDType.ptr = d then
+              if hs : [1, BM] = sh then
+                some
+                  (hd ▸
+                    hs ▸
+                      bop (fun a b => (a.1, a.2 + b)) Broadcast.scalarL (fun x => ({ name := "B" }, 0)) fun i =>
+                        Int.toNat (↑↑i.2.1 % 18446744073709551616))
+              else none
+            else none
+          else
+            if n = "A_ptrs" then
+              if hd : TileDType.ptr = d then
+                if hs : [BN, BM] = sh then
+                  some
+                    (hd ▸
+                      hs ▸
+                        bop (fun a b => (a.1, a.2 + b)) Broadcast.scalarL (fun x => ({ name := "A" }, 0))
+                          (bop (fun x1 x2 => x1 + x2) Broadcast.nil.consL.consR
+                            (fun i =>
+                              Int.toNat
+                                (max ((max (↑(s.pids 0) * ↑BN % 18446744073709551616) 0 + ↑↑i.1) % 18446744073709551616)
+                                      0 *
+                                    (↑M % 18446744073709551616) %
+                                  18446744073709551616))
+                            fun i => Int.toNat (↑↑i.2.1 % 18446744073709551616)))
+                else none
+              else none
+            else
+              if n = "n_mask" then
+                if hd : TileDType.bool = d then
+                  if hs : [BN, 1] = sh then
+                    some
+                      (hd ▸
+                        hs ▸
+                          bop (fun a b => decide (a < b)) Broadcast.scalarR
+                            (fun i =>
+                              Int.toNat
+                                ((max (↑(s.pids 0) * ↑BN % 18446744073709551616) 0 + ↑↑i.1) % 18446744073709551616))
+                            (bop (fun x1 x2 => x1 % x2) Broadcast.nil (fun x => N) fun x => 18446744073709551616))
+                  else none
+                else none
+              else
+                if n = "offset_m" then
+                  if h : TileDType.nat = d then if h_1 : [1, BM] = sh then some (⋯ ▸ ⋯ ▸ fun i => ↑i.2.1) else none
+                  else none
+                else
+                  if n = "offset_n" then
+                    if h : TileDType.nat = d then
+                      if h_1 : [BN, 1] = sh then
+                        some
+                          (⋯ ▸
+                            ⋯ ▸ fun i =>
+                              Int.toNat
+                                ((max (↑(s.pids 0) * ↑BN % 18446744073709551616) 0 + ↑↑i.1) % 18446744073709551616))
+                      else none
+                    else none
+                  else
+                    if n = "pid" then
+                      if h : TileDType.nat = d then
+                        if h_1 : sh = [] then
+                          some
+                            (⋯ ▸
+                              ⋯ ▸
+                                bop (fun x1 x2 => x1 % x2) Broadcast.nil (fun x => s.pids 0) fun x =>
+                                  18446744073709551616)
+                        else none
+                      else none
+                    else
+                      if n = "stride_cn" then
+                        if h : TileDType.nat = d then
+                          if h_1 : sh = [] then
+                            some
+                              (⋯ ▸
+                                ⋯ ▸ bop (fun x1 x2 => x1 % x2) Broadcast.nil (fun x => 1) fun x => 18446744073709551616)
+                          else none
+                        else none
+                      else
+                        if n = "stride_bm" then
+                          if h : TileDType.nat = d then
+                            if h_1 : sh = [] then
+                              some
+                                (⋯ ▸
+                                  ⋯ ▸
+                                    bop (fun x1 x2 => x1 % x2) Broadcast.nil (fun x => 1) fun x => 18446744073709551616)
+                            else none
+                          else none
+                        else
+                          if n = "stride_am" then
+                            if h : TileDType.nat = d then
+                              if h_1 : sh = [] then
+                                some
+                                  (⋯ ▸
+                                    ⋯ ▸
+                                      bop (fun x1 x2 => x1 % x2) Broadcast.nil (fun x => 1) fun x =>
+                                        18446744073709551616)
+                              else none
+                            else none
+                          else
+                            if n = "stride_an" then
+                              if h : TileDType.nat = d then
+                                if h_1 : sh = [] then
+                                  some
+                                    (⋯ ▸
+                                      ⋯ ▸
+                                        bop (fun x1 x2 => x1 % x2) Broadcast.nil (fun x => M) fun x =>
+                                          18446744073709551616)
+                                else none
+                              else none
+                            else
+                              if n = "M" then
+                                if h : TileDType.nat = d then
+                                  if h_1 : sh = [] then
+                                    some
+                                      (⋯ ▸
+                                        ⋯ ▸
+                                          bop (fun x1 x2 => x1 % x2) Broadcast.nil (fun x => M) fun x =>
+                                            18446744073709551616)
+                                  else none
+                                else none
+                              else
+                                if n = "N" then
+                                  if h : TileDType.nat = d then
+                                    if h_1 : sh = [] then
+                                      some
+                                        (⋯ ▸
+                                          ⋯ ▸
+                                            bop (fun x1 x2 => x1 % x2) Broadcast.nil (fun x => N) fun x =>
+                                              18446744073709551616)
+                                    else none
+                                  else none
+                                else s.regs d sh n) =
+    fun d sh n =>
+    if n = "m" then if h : TileDType.nat = d then if h_1 : sh = [] then some (⋯ ▸ ⋯ ▸ fun x => 0) else none else none
+    else
+      if n = "acc" then
+        if hd : TileDType.real = d then
+          if hs : [BN, BM] = sh then some (hd ▸ hs ▸ fun x => A.literal (some ComputeDType.fp32) FloatDType.real 0)
+          else none
+        else none
+      else
+        if n = "B_ptrs" then
+          if hd : TileDType.ptr = d then
+            if hs : [1, BM] = sh then some (hd ▸ hs ▸ fun i => ({ name := "B" }, ↑i.2.1)) else none
+          else none
+        else
+          if n = "A_ptrs" then
+            if h : TileDType.ptr = d then
+              if h_1 : [BN, BM] = sh then
+                some (⋯ ▸ ⋯ ▸ fun i => ({ name := "A" }, (s.pids 0 * BN + ↑i.1) * M % 18446744073709551616 + ↑i.2.1))
+              else none
+            else none
+          else
+            if n = "n_mask" then
+              if hd : TileDType.bool = d then
+                if hs : [BN, 1] = sh then some (hd ▸ hs ▸ fun i => decide (s.pids 0 * BN + ↑i.1 < N)) else none
+              else none
+            else
+              if n = "offset_m" then
+                if hd : TileDType.nat = d then if hs : [1, BM] = sh then some (hd ▸ hs ▸ fun i => ↑i.2.1) else none
+                else none
+              else
+                if n = "offset_n" then
+                  if hd : TileDType.nat = d then
+                    if hs : [BN, 1] = sh then some (hd ▸ hs ▸ fun i => s.pids 0 * BN + ↑i.1) else none
+                  else none
+                else
+                  if n = "pid" then
+                    if h : TileDType.nat = d then if h_1 : sh = [] then some (⋯ ▸ ⋯ ▸ fun x => s.pids 0) else none
+                    else none
+                  else
+                    if n = "stride_cn" then
+                      if h : TileDType.nat = d then if h_1 : sh = [] then some (⋯ ▸ ⋯ ▸ fun x => 1) else none else none
+                    else
+                      if n = "stride_bm" then
+                        if h : TileDType.nat = d then if h_1 : sh = [] then some (⋯ ▸ ⋯ ▸ fun x => 1) else none
+                        else none
+                      else
+                        if n = "stride_am" then
+                          if h : TileDType.nat = d then if h_1 : sh = [] then some (⋯ ▸ ⋯ ▸ fun x => 1) else none
+                          else none
+                        else
+                          if n = "stride_an" then
+                            if h : TileDType.nat = d then if h_1 : sh = [] then some (⋯ ▸ ⋯ ▸ fun x => M) else none
+                            else none
+                          else
+                            if n = "M" then
+                              if h : TileDType.nat = d then if h_1 : sh = [] then some (⋯ ▸ ⋯ ▸ fun x => M) else none
+                              else none
+                            else
+                              if n = "N" then
+                                if h : TileDType.nat = d then if h_1 : sh = [] then some (⋯ ▸ ⋯ ▸ fun x => N) else none
+                                else none
+                              else s.regs d sh n

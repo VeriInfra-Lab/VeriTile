@@ -1,0 +1,6 @@
+/tmp/matvec118-frontend/bench/tritonbench_g/matrix_vector_multip/Proofs/WholeSource.lean:115:5: warning: unused variable `h`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/matvec118-frontend/bench/tritonbench_g/matrix_vector_multip/Proofs/WholeSource.lean:165:10: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`

@@ -1,0 +1,127 @@
+/tmp/matvec118-proof-probe/bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/SourceBody.lean:69:55: error: unsolved goals
+case e_s.e_s.e_s.e_s.e_s.e_v.h
+α : Type
+inst✝ : Inhabited α
+A : FP.Structural.Algebra α
+N M BN BM pid off : ℕ
+rowShape : Random.ArangeSizeDomain BN
+columnShape : Random.ArangeSizeDomain BM
+memory : RegionName → ℕ → Cell α
+acc : Acc α BN BM
+s : State α
+domain : SourceDomain N M BN BM pid
+active : off < M
+hblock : BM % 18446744073709551616 = BM
+hcounter : (off + BM) % 18446744073709551616 = off + BM
+hlane : ∀ (i : Fin BM), (off + ↑i) % 18446744073709551616 = off + ↑i
+ha : aChunk A N M BN BM pid off memory = WholeSource.aChunk A (parameters N M BN BM) pid off memory
+hM : s.regs TileDType.nat [] "M" = some fun x => M
+hOff : s.regs TileDType.nat [] "m" = some fun x => off
+hsa : s.regs TileDType.nat [] "stride_am" = some fun x => 1
+hsb : s.regs TileDType.nat [] "stride_bm" = some fun x => 1
+hsc : s.regs TileDType.nat [] "stride_cn" = some fun x => 1
+hn : s.regs TileDType.nat [BN, 1] "offset_n" = some fun i => row BN pid ↑i.1
+hm : s.regs TileDType.nat [1, BM] "offset_m" = some fun i => ↑i.2.1
+hmask : s.regs TileDType.bool [BN, 1] "n_mask" = some fun i => decide (row BN pid ↑i.1 < N)
+hap : s.regs TileDType.ptr [BN, BM] "A_ptrs" = some fun i => ({ name := "A" }, matrixOffset M BN pid off ↑i.1 ↑i.2.1)
+hbp : s.regs TileDType.ptr [1, BM] "B_ptrs" = some fun i => ({ name := "B" }, ↑i.2.1 + off)
+hacc : s.regs TileDType.real [BN, BM] "acc" = some acc
+hmem : s.mem = memory
+i : TileIndex [BN, BM]
+⊢ A.cast (some ComputeDType.fp32) FloatDType.fp32 FloatDType.real
+      (if row BN pid ↑i.1 < N ∧ off + ↑i.2.1 < M then
+        Cell.read TileDType.fp32 (memory { name := "A" } (row BN pid ↑i.1 * M % 18446744073709551616 + (↑i.2.1 + off)))
+      else
+        A.cast (some ComputeDType.fp32) FloatDType.real FloatDType.fp32
+          (A.literal (some ComputeDType.fp32) FloatDType.real 0.0)) =
+    WholeSource.aChunk A
+      { a := { name := "A" }, b := { name := "B" }, out := { name := "C" }, rows := N, columns := M, strideRow := M,
+        strideColumn := 1, strideVector := 1, strideOut := 1, blockRows := BN, blockColumns := BM }
+      pid off memory i
+
+case e_s.e_s.e_s.e_s.e_v.h
+α : Type
+inst✝ : Inhabited α
+A : FP.Structural.Algebra α
+N M BN BM pid off : ℕ
+rowShape : Random.ArangeSizeDomain BN
+columnShape : Random.ArangeSizeDomain BM
+memory : RegionName → ℕ → Cell α
+acc : Acc α BN BM
+s : State α
+domain : SourceDomain N M BN BM pid
+active : off < M
+hblock : BM % 18446744073709551616 = BM
+hcounter : (off + BM) % 18446744073709551616 = off + BM
+hlane : ∀ (i : Fin BM), (off + ↑i) % 18446744073709551616 = off + ↑i
+ha : aChunk A N M BN BM pid off memory = WholeSource.aChunk A (parameters N M BN BM) pid off memory
+hM : s.regs TileDType.nat [] "M" = some fun x => M
+hOff : s.regs TileDType.nat [] "m" = some fun x => off
+hsa : s.regs TileDType.nat [] "stride_am" = some fun x => 1
+hsb : s.regs TileDType.nat [] "stride_bm" = some fun x => 1
+hsc : s.regs TileDType.nat [] "stride_cn" = some fun x => 1
+hn : s.regs TileDType.nat [BN, 1] "offset_n" = some fun i => row BN pid ↑i.1
+hm : s.regs TileDType.nat [1, BM] "offset_m" = some fun i => ↑i.2.1
+hmask : s.regs TileDType.bool [BN, 1] "n_mask" = some fun i => decide (row BN pid ↑i.1 < N)
+hap : s.regs TileDType.ptr [BN, BM] "A_ptrs" = some fun i => ({ name := "A" }, matrixOffset M BN pid off ↑i.1 ↑i.2.1)
+hbp : s.regs TileDType.ptr [1, BM] "B_ptrs" = some fun i => ({ name := "B" }, ↑i.2.1 + off)
+hacc : s.regs TileDType.real [BN, BM] "acc" = some acc
+hmem : s.mem = memory
+i : TileIndex [1, BM]
+⊢ A.cast (some ComputeDType.fp32) FloatDType.fp32 FloatDType.real
+      (if off + ↑i.2.1 < M then Cell.read TileDType.fp32 (memory { name := "B" } (↑i.2.1 + off))
+      else
+        A.cast (some ComputeDType.fp32) FloatDType.real FloatDType.fp32
+          (A.literal (some ComputeDType.fp32) FloatDType.real 0.0)) =
+    WholeSource.bChunk A
+      { a := { name := "A" }, b := { name := "B" }, out := { name := "C" }, rows := N, columns := M, strideRow := M,
+        strideColumn := 1, strideVector := 1, strideOut := 1, blockRows := BN, blockColumns := BM }
+      off memory i
+
+case e_s.e_s.e_s.e_v.h
+α : Type
+inst✝ : Inhabited α
+A : FP.Structural.Algebra α
+N M BN BM pid off : ℕ
+rowShape : Random.ArangeSizeDomain BN
+columnShape : Random.ArangeSizeDomain BM
+memory : RegionName → ℕ → Cell α
+acc : Acc α BN BM
+s : State α
+domain : SourceDomain N M BN BM pid
+active : off < M
+hblock : BM % 18446744073709551616 = BM
+hcounter : (off + BM) % 18446744073709551616 = off + BM
+hlane : ∀ (i : Fin BM), (off + ↑i) % 18446744073709551616 = off + ↑i
+ha : aChunk A N M BN BM pid off memory = WholeSource.aChunk A (parameters N M BN BM) pid off memory
+hM : s.regs TileDType.nat [] "M" = some fun x => M
+hOff : s.regs TileDType.nat [] "m" = some fun x => off
+hsa : s.regs TileDType.nat [] "stride_am" = some fun x => 1
+hsb : s.regs TileDType.nat [] "stride_bm" = some fun x => 1
+hsc : s.regs TileDType.nat [] "stride_cn" = some fun x => 1
+hn : s.regs TileDType.nat [BN, 1] "offset_n" = some fun i => row BN pid ↑i.1
+hm : s.regs TileDType.nat [1, BM] "offset_m" = some fun i => ↑i.2.1
+hmask : s.regs TileDType.bool [BN, 1] "n_mask" = some fun i => decide (row BN pid ↑i.1 < N)
+hap : s.regs TileDType.ptr [BN, BM] "A_ptrs" = some fun i => ({ name := "A" }, matrixOffset M BN pid off ↑i.1 ↑i.2.1)
+hbp : s.regs TileDType.ptr [1, BM] "B_ptrs" = some fun i => ({ name := "B" }, ↑i.2.1 + off)
+hacc : s.regs TileDType.real [BN, BM] "acc" = some acc
+hmem : s.mem = memory
+i : TileIndex [BN, BM]
+⊢ A.binary (some ComputeDType.fp32) FloatDType.real Binary.add (acc (i.1, i.2.1, PUnit.unit))
+      (A.binary (some ComputeDType.fp32) FloatDType.real Binary.mul
+        (A.cast (some ComputeDType.fp32) FloatDType.fp32 FloatDType.real
+          (if row BN pid ↑i.1 < N ∧ off + ↑i.2.1 < M then
+            Cell.read TileDType.fp32
+              (memory { name := "A" } (row BN pid ↑i.1 * M % 18446744073709551616 + (↑i.2.1 + off)))
+          else
+            A.cast (some ComputeDType.fp32) FloatDType.real FloatDType.fp32
+              (A.literal (some ComputeDType.fp32) FloatDType.real 0.0)))
+        (A.cast (some ComputeDType.fp32) FloatDType.fp32 FloatDType.real
+          (if off + ↑i.2.1 < M then Cell.read TileDType.fp32 (memory { name := "B" } (↑i.2.1 + off))
+          else
+            A.cast (some ComputeDType.fp32) FloatDType.real FloatDType.fp32
+              (A.literal (some ComputeDType.fp32) FloatDType.real 0.0)))) =
+    WholeSource.nextAcc A
+      { a := { name := "A" }, b := { name := "B" }, out := { name := "C" }, rows := N, columns := M, strideRow := M,
+        strideColumn := 1, strideVector := 1, strideOut := 1, blockRows := BN, blockColumns := BM }
+      pid off memory acc i

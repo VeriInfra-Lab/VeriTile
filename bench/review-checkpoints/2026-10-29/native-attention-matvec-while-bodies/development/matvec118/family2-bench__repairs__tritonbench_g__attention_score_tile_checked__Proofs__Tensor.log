@@ -1,0 +1,4 @@
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.Tensors.address: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.logical_fp32: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

@@ -1,0 +1,9 @@
+VeriTile.Bench.Repairs.RotaryEmb.workOf_injective_on: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.RotaryEmb.schedule_covers: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.RotaryEmb.run_readback: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.RotaryEmb.run_tail: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.RotaryEmb.run_coefficients: axiom footprint ⊆ standard base ✓  ([propext])

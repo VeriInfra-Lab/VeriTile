@@ -1,0 +1,42 @@
+{
+  "status": "FAIL",
+  "start": 1793276644.838596,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.FPEntry",
+      "source_sha256": "bf90b2185162d09e017055e8a4671da15c6e6f68af0e579029af126bf93bdb55",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793276644.838933,
+      "end": 1793276665.2792633,
+      "log": "/tmp/score121-family23-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__FPEntry.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.FPContext",
+      "source_sha256": "a478b4b571be0d8ecfb3ea7d3ef9e13f1b5ac9f594af1ed7639f4d047da6248d",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793276665.2797065,
+      "end": 1793276674.502389,
+      "log": "/tmp/score121-family23-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__FPContext.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.FPBody",
+      "source_sha256": "47237ae7000e6d4502e7dad00c7ceb75aca70ef0cb3fbd599a1c6d92e27e73fa",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.FPContext"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.FPValues",
+      "source_sha256": "6682714531fd90b9f3619b21f78c389a7667f29254206b371d0d36ae8e38dc80",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.FPBody"
+      ]
+    }
+  ],
+  "scope": "One serial queue; failed imports block dependents, independent modules continue.",
+  "end": 1793276674.503045
+}

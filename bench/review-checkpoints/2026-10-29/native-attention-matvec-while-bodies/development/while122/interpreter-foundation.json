@@ -1,0 +1,20 @@
+{
+  "status": "INTERPRETER_FOUNDATION_PASS_NOT_INTEGRATED",
+  "roots": [
+    "VeriTile.Triton.Control.While",
+    "VeriTile.Triton.Core.Ast",
+    "VeriTile.Triton.Semantics.Step",
+    "VeriTile.Triton.Float.Structural",
+    "VeriTile.Triton.Float.Erasure"
+  ],
+  "closure": 38,
+  "audited_theorems": 8,
+  "source_sha256": {
+    "VeriTile/Triton/Core/Ast.lean": "4af065001cc490ce8ef628c4756a04cee6232b2c99900cba307037736b69860e",
+    "VeriTile/Triton/Semantics/Step.lean": "1f1d1416b95355606594047ecc0eaf883656165ec79b86304102d5a7aed2e97a",
+    "VeriTile/Triton/Float/Erasure.lean": "3b5f8b4b318fe76716c24baf5b0b5d690699cd4fa1015ddfe988dc081114b6d2",
+    "VeriTile/Triton/Float/Structural.lean": "c2665ce59108e3f5ae97866534926797298ed7c8662c9c89ccd7af59b78f72a6",
+    "VeriTile/Triton/Control/While.lean": "9458d645f4c27328b3a32316a4242e6685bdf8ba7fa9e5c9eca1aa21b154e2b2"
+  },
+  "scope": "While AST constructors, least-fixed-point runner with seven finite-trace/simulation/invariant theorems, Real and FP interpreter branches, dtype erasure, and Real program-ID preservation. Public source syntax, memory-safety and task proof integration remain pending; no task coverage increment."
+}

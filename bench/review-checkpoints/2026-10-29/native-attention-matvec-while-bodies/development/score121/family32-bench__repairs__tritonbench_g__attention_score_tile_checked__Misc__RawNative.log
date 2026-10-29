@@ -1,0 +1,301 @@
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/RawNative.lean:5:46: error: unknown namespace `NativeInstructions`
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/RawNative.lean:12:13: error(lean.invalidField): Invalid field notation: Field projection operates on types of the form `C ...` where C is a constant. The expression
+  c
+has type `Shape` which does not have the necessary form.
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/RawNative.lean:12:27: error(lean.invalidField): Invalid field notation: Field projection operates on types of the form `C ...` where C is a constant. The expression
+  c
+has type `Shape` which does not have the necessary form.
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/RawNative.lean:12:41: error(lean.invalidField): Invalid field notation: Field projection operates on types of the form `C ...` where C is a constant. The expression
+  c
+has type `Shape` which does not have the necessary form.
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/RawNative.lean:10:28: error: Function expected at
+  ISA
+but this term has type
+  ?m.1
+
+Note: Expected a function because this term is being applied to the argument
+  (BitVec 32)
+
+Hint: The identifier `ISA` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/RawNative.lean:10:64: error: Function expected at
+  ABI
+but this term has type
+  ?m.3
+
+Note: Expected a function because this term is being applied to the argument
+  c
+
+Hint: The identifier `ABI` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/RawNative.lean:13:3: error(lean.unknownIdentifier): Unknown identifier `NativePhysical.target`
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/RawNative.lean:21:14: error(lean.unknownIdentifier): Unknown identifier `Whole002.Representation.Domain`
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/RawNative.lean:21:79: error(lean.invalidField): Invalid field notation: Field projection operates on types of the form `C ...` where C is a constant. The expression
+  c
+has type `Shape` which does not have the necessary form.
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/RawNative.lean:21:83: error(lean.invalidField): Invalid field notation: Field projection operates on types of the form `C ...` where C is a constant. The expression
+  c
+has type `Shape` which does not have the necessary form.
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/RawNative.lean:22:4: error(lean.unknownIdentifier): Unknown identifier `Whole002.Machine.Closed`
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/RawNative.lean:26:20: error(lean.invalidField): Invalid field notation: Field projection operates on types of the form `C ...` where C is a constant. The expression
+  c
+has type `Shape` which does not have the necessary form.
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/RawNative.lean:26:34: error(lean.invalidField): Invalid field notation: Field projection operates on types of the form `C ...` where C is a constant. The expression
+  c
+has type `Shape` which does not have the necessary form.
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/RawNative.lean:26:48: error(lean.invalidField): Invalid field notation: Field projection operates on types of the form `C ...` where C is a constant. The expression
+  c
+has type `Shape` which does not have the necessary form.
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/RawNative.lean:29:43: error: Type mismatch
+  "out"
+has type
+  String
+but is expected to have type
+  RegionName
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/RawNative.lean:30:40: error(lean.unknownIdentifier): Unknown identifier `Graph.bits`
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/RawNative.lean:31:55: error(lean.unknownIdentifier): Unknown identifier `Graph.bits`
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/RawNative.lean:19:27: error: Function expected at
+  ISA
+but this term has type
+  ?m.1
+
+Note: Expected a function because this term is being applied to the argument
+  (BitVec 32)
+
+Hint: The identifier `ISA` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/RawNative.lean:19:63: error: Function expected at
+  ABI
+but this term has type
+  ?m.3
+
+Note: Expected a function because this term is being applied to the argument
+  c
+
+Hint: The identifier `ABI` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/RawNative.lean:23:17: error: Function expected at
+  statementListShapes
+but this term has type
+  ?m.4
+
+Note: Expected a function because this term is being applied to the argument
+  (kernel c offset size scale window complement).surfaceBody
+
+Hint: The identifier `statementListShapes` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/RawNative.lean:24:8: error(lean.invalidField): Invalid field notation: Type of
+  shape
+is not known; cannot resolve field `prod`
+
+Hint: Consider replacing the field projection with a call to one of the following:
+  • `AbstractCompletion.prod`
+  • `AddActionHom.prod`
+  • `AddCommute.prod`
+  • `AddCon.prod`
+  • `AddHom.prod`
+  • `AddMonoidHom.prod`
+  • `AddSemiconjBy.prod`
+  • `AddSubgroup.prod`
+  • `AddSubmonoid.prod`
+  • `AddSubsemigroup.prod`
+  • `AffineMap.prod`
+  • `AlgHom.prod`
+  • `AlternatingMap.prod`
+  • `AnalyticAt.prod`
+  • `AnalyticOn.prod`
+  • `AnalyticOnNhd.prod`
+  • `AnalyticWithinAt.prod`
+  • `Associated.prod`
+  • `Cardinal.prod`
+  • `CategoryTheory.prod`
+  • `Cauchy.prod`
+  • `Commute.prod`
+  • `CompleteSpace.prod`
+  • `Con.prod`
+  • `ContinuousAddMonoidHom.prod`
+  • `ContinuousAffineMap.prod`
+  • `ContinuousAlgHom.prod`
+  • `ContinuousAlternatingMap.prod`
+  • `ContinuousLinearMap.prod`
+  • `ContinuousMonoidHom.prod`
+  • `ContinuousMultilinearMap.prod`
+  • `Convex.prod`
+  • `DFinsupp.prod`
+  • `Dense.prod`
+  • `Denumerable.prod`
+  • `DirectedOn.prod`
+  • `Fin.prod`
+  • `FinVec.prod`
+  • `Finset.prod`
+  • `Finsupp.prod`
+  • `FormalMultilinearSeries.prod`
+  • `FreeGroup.prod`
+  • `HasFPowerSeriesAt.prod`
+  • `HasFPowerSeriesOnBall.prod`
+  • `HasFPowerSeriesWithinAt.prod`
+  • `HasFPowerSeriesWithinOnBall.prod`
+  • `Ideal.prod`
+  • `InfClosed.prod`
+  • `Inseparable.prod`
+  • `IsClopen.prod`
+  • `IsClosed.prod`
+  • `IsCompact.prod`
+  • `IsConnected.prod`
+  • `IsCountablySpanning.prod`
+  • `IsGLB.prod`
+  • `IsIntegral.prod`
+  • `IsLUB.prod`
+  • `IsLeftRegular.prod`
+  • `IsOpen.prod`
+  • `IsPiSystem.prod`
+  • `IsPreconnected.prod`
+  • `IsRegular.prod`
+  • `IsRightRegular.prod`
+  • `IsSublattice.prod`
+  • `IsUnifLocDoublingMeasure.prod`
+  • `IsUniformEmbedding.prod`
+  • `IsUniformInducing.prod`
+  • `LinearMap.prod`
+  • `List.prod`
+  • `Measurable.prod`
+  • `MeasurableSet.prod`
+  • `MeasurableSpace.prod`
+  • `MonoidHom.prod`
+  • `MulActionHom.prod`
+  • `MulHom.prod`
+  • `MultilinearMap.prod`
+  • `Multipliable.prod`
+  • `Multiset.prod`
+  • `NonUnitalAlgHom.prod`
+  • `NonUnitalRingHom.prod`
+  • `NonUnitalStarAlgHom.prod`
+  • `NonUnitalStarSubalgebra.prod`
+  • `NonUnitalSubalgebra.prod`
+  • `NonUnitalSubring.prod`
+  • `NonUnitalSubsemiring.prod`
+  • `OpenAddSubgroup.prod`
+  • `OpenSubgroup.prod`
+  • `OrderHom.prod`
+  • `OrthonormalBasis.prod`
+  • `PartialEquiv.prod`
+  • `Path.prod`
+  • `Pi.prod`
+  • `RingHom.prod`
+  • `SModEq.prod`
+  • `SemiconjBy.prod`
+  • `Set.prod`
+  • `Setoid.prod`
+  • `Specializes.prod`
+  • `StandardBorelSpace.prod`
+  • `StarAlgHom.prod`
+  • `StarConvex.prod`
+  • `Subalgebra.prod`
+  • `Subgroup.prod`
+  • `Sublattice.prod`
+  • `Submodule.prod`
+  • `Submonoid.prod`
+  • `Subring.prod`
+  • `Subsemigroup.prod`
+  • `Subsemiring.prod`
+  • `Summable.prod`
+  • `SupClosed.prod`
+  • `UniformCauchySeqOn.prod`
+  • `UniqueDiffOn.prod`
+  • `UniqueDiffWithinAt.prod`
+  • `WellQuasiOrdered.prod`
+  • `AddSubgroup.FG.prod`
+  • `AddSubmonoid.FG.prod`
+  • `Algebra.FiniteType.prod`
+  • `Algebra.IsIntegral.prod`
+  • `Associates.FactorSet.prod`
+  • `Bornology.IsBounded.prod`
+  • `CategoryTheory.Equivalence.prod`
+  • `CategoryTheory.Functor.prod`
+  • `CategoryTheory.IsConnected.prod`
+  • `CategoryTheory.IsPreconnected.prod`
+  • `CategoryTheory.Iso.prod`
+  • `CategoryTheory.Limits.prod`
+  • `CategoryTheory.MorphismProperty.prod`
+  • `CategoryTheory.NatIso.prod`
+  • `CategoryTheory.NatTrans.prod`
+  • `Equiv.Set.prod`
+  • `Filter.HasAntitoneBasis.prod`
+  • `Filter.HasBasis.prod`
+  • `Filter.NeBot.prod`
+  • `Filter.Subsingleton.prod`
+  • `Function.HasFiniteMulSupport.prod`
+  • `Homeomorph.Set.prod`
+  • `MeasurableEquiv.Set.prod`
+  • `MeasureTheory.Measure.prod`
+  • `MeasureTheory.MeasurePreserving.prod`
+  • `MeasureTheory.MemLp.prod`
+  • `MeasureTheory.NullMeasurableSet.prod`
+  • `Module.Basis.prod`
+  • `Module.Finite.prod`
+  • `Module.Free.prod`
+  • `Polynomial.Splits.prod`
+  • `Set.Countable.prod`
+  • `Set.Finite.prod`
+  • `Set.IsPWO.prod`
+  • `Set.Nonempty.prod`
+  • `Set.PairwiseDisjoint.prod`
+  • `Set.PartiallyWellOrderedOn.prod`
+  • `Set.Subsingleton.prod`
+  • `Subalgebra.FG.prod`
+  • `Subgroup.FG.prod`
+  • `Submodule.FG.prod`
+  • `Submonoid.FG.prod`
+  • `TopologicalSpace.CompactOpens.prod`
+  • `TopologicalSpace.Compacts.prod`
+  • `TopologicalSpace.IsCompletelyMetrizableSpace.prod`
+  • `TopologicalSpace.IsCompletelyPseudoMetrizableSpace.prod`
+  • `TopologicalSpace.IsSeparable.prod`
+  • `TopologicalSpace.IsTopologicalBasis.prod`
+  • `TopologicalSpace.NonemptyCompacts.prod`
+  • `TopologicalSpace.PositiveCompacts.prod`
+  • `Lean.Expr.ProdTree.prod`
+  • `MeasureTheory.Measure.AbsolutelyContinuous.prod`
+  • `MeasureTheory.Measure.FiniteAtFilter.prod`
+  • `MeasureTheory.Measure.FiniteSpanningSetsIn.prod`
+  • `Triton.ScanOp.prod`
+  • `CategoryTheory.Limits.Cofan.IsColimit.prod`
+  • `CategoryTheory.Limits.Fan.IsLimit.prod`
+  • `Prod.PrettyPrinting.pp.numericProj.prod`
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/RawNative.lean:25:16: error: Function expected at
+  nativeExecute
+but this term has type
+  ?m.5
+
+Note: Expected a function because this term is being applied to the argument
+  c
+
+Hint: The identifier `nativeExecute` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/RawNative.lean:27:11: error: Function expected at
+  result
+but this term has type
+  ?m.40
+
+Note: Expected a function because this term is being applied to the argument
+  ((abi.alloc "out").base + c.outputBase z.val h.val + j.val)
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/RawNative.lean:29:29: error: Function expected at
+  tracked
+but this term has type
+  ?m.7
+
+Note: Expected a function because this term is being applied to the argument
+  r
+
+Hint: The identifier `tracked` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/RawNative.lean:30:10: error: Function expected at
+  result
+but this term has type
+  ?m.40
+
+Note: Expected a function because this term is being applied to the argument
+  ((abi.alloc r).base + i)
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/RawNative.lean:31:46: error: Function expected at
+  result
+but this term has type
+  ?m.40
+
+Note: Expected a function because this term is being applied to the argument
+  a
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/RawNative.lean:32:45: error(lean.unknownIdentifier): Unknown identifier `NativePhysical.returned`
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/RawNative.lean:40:46: error(lean.unknownIdentifier): Unknown constant `nativeExecute`
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/RawNative.lean:41:13: error(lean.unknownIdentifier): Unknown constant `kernel_native`

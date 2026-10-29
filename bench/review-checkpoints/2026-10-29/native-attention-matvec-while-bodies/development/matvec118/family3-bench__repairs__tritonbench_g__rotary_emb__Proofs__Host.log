@@ -1,0 +1,11 @@
+VeriTile.Bench.Repairs.RotaryEmb.Host.mathematical_memory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.RotaryEmb.Host.selected_memory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.RotaryEmb.Host.returned_objects: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.RotaryEmb.Host.no_launch_no_writes: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.RotaryEmb.Host.data_byte_int64: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.RotaryEmb.Host.coefficient_offset_bound: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

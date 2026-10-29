@@ -1,0 +1,3 @@
+/tmp/matvec118-frontend/bench/tritonbench_g/chunk_gla_simple/Proofs/HostReal.lean:67:2: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`

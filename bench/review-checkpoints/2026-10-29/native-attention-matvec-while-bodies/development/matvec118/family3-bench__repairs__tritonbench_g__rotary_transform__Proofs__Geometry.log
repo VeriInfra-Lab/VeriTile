@@ -1,0 +1,22 @@
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/rotary_transform/Proofs/Geometry.lean:5:36: warning: unused variable `hc`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/rotary_transform/Proofs/Geometry.lean:67:67: warning: This simp argument is unused:
+  hi
+
+Hint: Omit it from the simp argument list.
+  simp_all ̵[̵h̵i̵]̵
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/rotary_transform/Proofs/Geometry.lean:93:38: warning: This simp argument is unused:
+  Work.mk.injEq
+
+Hint: Omit it from the simp argument list.
+  simp_all ̵[̵W̵o̵r̵k̵.̵m̵k̵.̵i̵n̵j̵E̵q̵]̵
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.RotaryTransform.row_injective: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.RotaryTransform.intervals_cover: axiom footprint ⊆ standard base ✓  ([Quot.sound, propext])
+VeriTile.Bench.Repairs.RotaryTransform.cell_injective: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

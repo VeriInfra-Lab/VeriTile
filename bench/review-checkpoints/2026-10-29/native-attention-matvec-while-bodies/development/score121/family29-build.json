@@ -1,0 +1,138 @@
+{
+  "status": "FAIL",
+  "start": 1793277062.7185035,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.FPValues",
+      "source_sha256": "31db7fba66e7cdd2f1342ec8c917ecb5de6133c1b95dc8c0980dc19e77800c36",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277062.7187414,
+      "end": 1793277110.6131594,
+      "log": "/tmp/score121-family29-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__FPValues.log"
+    },
+    {
+      "module": "VeriTile.Triton",
+      "source_sha256": "0937879a78c271cce7beda0e77d0b0bcf90a23a2ce90485ab011a5472d75f9a0",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277110.6135333,
+      "end": 1793277112.9195855,
+      "log": "/tmp/score121-family29-VeriTile__Triton.log"
+    },
+    {
+      "module": "bench.tritonbench_g.parallel_attention.Kernels",
+      "source_sha256": "7f470ccdf8aa02c50834f344a57d7bdbb5ab5d75cc1d99b2b71792ced28efc89",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277112.9200408,
+      "end": 1793277116.7496767,
+      "log": "/tmp/score121-family29-bench__tritonbench_g__parallel_attention__Kernels.log"
+    },
+    {
+      "module": "bench.tritonbench_g.parallel_attention.Proofs.FPSources",
+      "source_sha256": "385ad1f6cb51bcbe8d6f48b5298dfd7ea6d2cc996df60438a0766ca25ab14832",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277116.7500293,
+      "end": 1793277119.0552669,
+      "log": "/tmp/score121-family29-bench__tritonbench_g__parallel_attention__Proofs__FPSources.log"
+    },
+    {
+      "module": "bench.tritonbench_g.parallel_attention.Proofs.FPForwardGraph",
+      "source_sha256": "bc938a8432d831494df61a6f0dfae1a448a1e2f0bf7372737bd31fb3b19a5026",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277119.055673,
+      "end": 1793277121.8067293,
+      "log": "/tmp/score121-family29-bench__tritonbench_g__parallel_attention__Proofs__FPForwardGraph.log"
+    },
+    {
+      "module": "bench.tritonbench_g.parallel_attention.Proofs.FPRange",
+      "source_sha256": "f43093ea1d5d2e07cce23d9a1ba1d121d1bb68130546fd3d2c91891d8f91a7a1",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277121.8070948,
+      "end": 1793277124.403209,
+      "log": "/tmp/score121-family29-bench__tritonbench_g__parallel_attention__Proofs__FPRange.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.FPLoop",
+      "source_sha256": "e462b07272e84ad54b3b36f4480f9c7034c172a29673fc809bece261c46f25be",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277124.4035876,
+      "end": 1793277128.0175705,
+      "log": "/tmp/score121-family29-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__FPLoop.log"
+    },
+    {
+      "module": "bench.tritonbench_g.kcache_copy_triton.KcacheCopyTriton",
+      "source_sha256": "fb16f21d28e45b01dff210b98a37029c4d623b8710d6a91b43edea53f967bb74",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277128.018302,
+      "end": 1793277133.2711978,
+      "log": "/tmp/score121-family29-bench__tritonbench_g__kcache_copy_triton__KcacheCopyTriton.log"
+    },
+    {
+      "module": "bench.tritonbench_g.kcache_copy_triton.Proofs.TypedCopy",
+      "source_sha256": "727b75143b5d44732b8240aadd0a5e62ab1bd4ba81cd37420d89e02b1a73ca34",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277133.2716362,
+      "end": 1793277146.8316615,
+      "log": "/tmp/score121-family29-bench__tritonbench_g__kcache_copy_triton__Proofs__TypedCopy.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.FPOutput",
+      "source_sha256": "7997975d636531cfa04f9bf080acd1453e93ed41f792eb1c8fa03005259f5667",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793277146.832117,
+      "end": 1793277151.686185,
+      "log": "/tmp/score121-family29-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__FPOutput.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.FPGrid",
+      "source_sha256": "d8987eba8846063a8c56d76fc1c322abf3c015404efe5beff6f7e98d9e22d10e",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.FPOutput"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.FPReturned",
+      "source_sha256": "2d7bb8203c1d75900af18cdeec8cc39b876303be83c2b33a1ed47e4cbb89c4b5",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.FPGrid"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.FPStorage",
+      "source_sha256": "4487e64b3b5dca720b15b4c43cc5925bc5907303cad08c866448ee52fc887e40",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.FPReturned"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.Physical",
+      "source_sha256": "d9882bdc63badb7ed16b5235e6acc7250592e095d399fc024a268718f5592b6a",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.FPStorage"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealPhysical",
+      "source_sha256": "74087cb2331a546508eb088e7b6439775e68dadc8c0ede5e29b683f69a46b859",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.Physical"
+      ]
+    }
+  ],
+  "scope": "One serial queue; failed imports block dependents, independent modules continue.",
+  "end": 1793277151.6875577
+}

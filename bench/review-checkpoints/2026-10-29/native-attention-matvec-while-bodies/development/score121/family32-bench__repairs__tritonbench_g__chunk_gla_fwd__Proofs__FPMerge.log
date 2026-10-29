@@ -1,0 +1,6 @@
+/tmp/score121-frontend/bench/repairs/tritonbench_g/chunk_gla_fwd/Proofs/FPMerge.lean:77:46: warning: 'rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/score121-frontend/bench/repairs/tritonbench_g/chunk_gla_fwd/Proofs/FPMerge.lean:77:46: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`

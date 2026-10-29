@@ -1,0 +1,10 @@
+VeriTile.Bench.Repairs.ChunkGlaFwd.FPStages.reference: definition does not reference [VeriTile.Bench.Repairs.ChunkGlaFwd.FPStages.execute,
+ VeriTile.Bench.Repairs.ChunkGlaFwd.FPGrid.runJobs,
+ VeriTile.Bench.Repairs.ChunkGlaFwd.FPGrid.invoke,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.Repairs.ChunkGlaFwd.FPStages.execute_eq: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.ChunkGlaFwd.FPStages.reference_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

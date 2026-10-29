@@ -1,0 +1,3 @@
+bench.examples.FusedLayerNorm.Correct PASS
+bench.examples.Welford.Correct PASS
+PASS 2

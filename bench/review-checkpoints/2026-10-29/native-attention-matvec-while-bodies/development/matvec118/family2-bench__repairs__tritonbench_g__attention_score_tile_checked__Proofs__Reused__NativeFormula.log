@@ -1,0 +1,4 @@
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.NativeFormula.accumulated: definition does not reference [VeriTile.Triton.FP.Structural.run,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.FPValues.update,
+ VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.FPLoop.accumulated] — non-circular ✓

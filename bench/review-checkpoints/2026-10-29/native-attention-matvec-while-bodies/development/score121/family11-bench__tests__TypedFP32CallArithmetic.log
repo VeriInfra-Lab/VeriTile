@@ -1,0 +1,6 @@
+VeriTile.Tests.TypedFP32CallArithmetic.multiply_typed_store: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.TypedFP32CallArithmetic.augmented_matches_binary: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

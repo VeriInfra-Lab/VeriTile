@@ -1,0 +1,23 @@
+{
+  "status": "FOUNDATION_PASS_NOT_INTEGRATED",
+  "source": "/tmp/while122-staging/VeriTile/Triton/Control/While.lean",
+  "sha256": "1b82303834dacbecccda52108a6e5bb131850365bc6a3e4a57323c60bd58070a",
+  "theorems": 6,
+  "foundation_build_exit": 0,
+  "axiom_audit_exit": 0,
+  "allowed_axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "scope": "Generic Option least-fixed-point while runner. Rechecks current-state guard every iteration; successful execution iff a finite guard/body trace; always-active loops produce no result; forward relational trace/execution simulation. No arbitrary fuel and no termination assumption.",
+  "not_yet_done": [
+    "Stmt/ComputeStmt while constructors",
+    "Real/FP interpreters and erasure bridges",
+    "DSL syntax and metadata propagation",
+    "access-safety and rewrite traversal cases",
+    "matrix-vector original while source execution and public proofs",
+    "cumulative regression and clean replay"
+  ],
+  "task_coverage_increment": 0
+}

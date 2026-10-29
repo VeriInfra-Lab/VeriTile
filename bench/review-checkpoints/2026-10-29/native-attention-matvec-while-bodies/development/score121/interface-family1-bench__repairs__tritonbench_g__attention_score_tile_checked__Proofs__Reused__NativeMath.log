@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.NativeMath.probability_eval: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.NativeMath.contribution_eval: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

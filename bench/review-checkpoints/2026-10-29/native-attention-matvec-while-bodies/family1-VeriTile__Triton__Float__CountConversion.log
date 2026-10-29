@@ -1,0 +1,14 @@
+VeriTile.Triton.FP.CountConversion.strict_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.CountConversion.strict_sound: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.CountConversion.strict: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+VeriTile.Triton.FP.CountConversion.strict_rewrite: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.CountConversion.admitted: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.CountConversion.rewrite: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])

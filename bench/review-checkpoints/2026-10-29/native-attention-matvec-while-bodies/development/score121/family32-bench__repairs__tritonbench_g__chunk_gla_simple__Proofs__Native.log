@@ -1,0 +1,4 @@
+'VeriTile.Bench.Repairs.ChunkGlaSimple.Native.all_coordinates' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'VeriTile.Bench.Repairs.ChunkGlaSimple.Native.history_exact' depends on axioms: [propext, Classical.choice, Quot.sound]

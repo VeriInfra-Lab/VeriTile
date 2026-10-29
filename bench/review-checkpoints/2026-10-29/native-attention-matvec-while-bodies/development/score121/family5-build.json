@@ -1,0 +1,51 @@
+{
+  "status": "FAIL",
+  "start": 1793274757.173616,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.Widened",
+      "source_sha256": "3071efd112df1beb96cb118b43b8b4e35139ea63da376647352c075b71106a6a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793274757.173834,
+      "end": 1793274758.4917247,
+      "log": "/tmp/score121-family5-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__Widened.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealArithmetic",
+      "source_sha256": "5d3d02bd6df6dfddf93c6bd9526b1826c62f2f132dee994a1aca9f6a2b697576",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793274758.4921188,
+      "end": 1793274771.8799093,
+      "log": "/tmp/score121-family5-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__RealArithmetic.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealLoads",
+      "source_sha256": "016bb5b33d0f3b470179b05daed53f9b821381da14ce738e3664be8c54032f37",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793274771.880341,
+      "end": 1793274775.3097367,
+      "log": "/tmp/score121-family5-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__RealLoads.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealBody",
+      "source_sha256": "52105ab2d3161b9b5960704a7e761060d03c47a08fe855c5cdf4cc87208a6947",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealArithmetic"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealProgram",
+      "source_sha256": "4878ef822aabc3f0bd9bdc839647debe8ca58b2a33e6b885dc223010eca1cf8b",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealBody"
+      ]
+    }
+  ],
+  "scope": "One serial queue; failed imports block dependents, independent modules continue.",
+  "end": 1793274775.3104656
+}

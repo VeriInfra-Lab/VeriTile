@@ -1,0 +1,34 @@
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/IndexProjection.lean:20:2: error: Tactic `rfl` failed: The left-hand side
+  some { data := fun i => (BitVec.ofInt 32 ((Tile.scalar ↑n).data i)).toInt.toNat }
+is not definitionally equal to the right-hand side
+  some (Tile.scalar n)
+
+s : BlockState
+value : Op TileDType.int []
+n : ℕ
+evaluates : evalOp value s = some (Tile.scalar ↑n)
+bound : n < 2147483648
+exactCast : (BitVec.ofInt 32 ↑n).toInt = ↑n
+⊢ some { data := fun i => (BitVec.ofInt 32 ((Tile.scalar ↑n).data i)).toInt.toNat } = some (Tile.scalar n)
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/IndexProjection.lean:19:43: warning: This simp argument is unused:
+  Tile.scalar_data
+
+Hint: Omit it from the simp argument list.
+  simp only [bind, Option.bind_some, pure, T̵i̵l̵e̵.̵s̵c̵a̵l̵a̵r̵_̵d̵a̵t̵a̵,̵ ̵exactCast, Int.toNat_natCast]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/IndexProjection.lean:19:61: warning: This simp argument is unused:
+  exactCast
+
+Hint: Omit it from the simp argument list.
+  simp only [bind, Option.bind_some, pure, Tile.scalar_data, e̵x̵a̵c̵t̵C̵a̵s̵t̵,̵ ̵Int.toNat_natCast]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/IndexProjection.lean:19:72: warning: This simp argument is unused:
+  Int.toNat_natCast
+
+Hint: Omit it from the simp argument list.
+  simp only [bind, Option.bind_some, pure, Tile.scalar_data, exactCast,̵ ̵I̵n̵t̵.̵t̵o̵N̵a̵t̵_̵n̵a̵t̵C̵a̵s̵t̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/IndexProjection.lean:22:0: error: VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.IndexProjection.key_offset: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

@@ -1,0 +1,6 @@
+/tmp/matvec118-frontend/bench/tritonbench_g/chunk_gla_simple/Proofs/RealProgram.lean:14:26: warning: unused variable `v`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/matvec118-frontend/bench/tritonbench_g/chunk_gla_simple/Proofs/RealProgram.lean:111:23: warning: unused variable `o`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`

@@ -1,0 +1,84 @@
+/tmp/while122-surface-probe/bench/tritonbench_g/isfinite_kernel/Proofs/BitClassification.lean:112:71: warning: This simp argument is unused:
+  hi
+
+Hint: Omit it from the simp argument list.
+  simp only [finite32, exponent32, Float32Bits.decodeRat, ne_eq, hz, h̵i̵,̵ite_true, ite_false,
+  ̲  ̲ ̲ ̲ ̲ ̲not_true_eq_false, not_false_eq_true, decide_true, decide_false, Option.isSome]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-surface-probe/bench/tritonbench_g/isfinite_kernel/Proofs/BitClassification.lean:113:16: warning: This simp argument is unused:
+  ite_false
+
+Hint: Omit it from the simp argument list.
+  simp only [finite32, exponent32, Float32Bits.decodeRat, ne_eq, hz, hi, ite_true,
+  ̲  ̲ ̲ ̲ ̲ ̲i̵t̵e̵_̵f̵a̵l̵s̵e̵,̵ ̵not_true_eq_false, not_false_eq_true, decide_true, decide_false, Option.isSome]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-surface-probe/bench/tritonbench_g/isfinite_kernel/Proofs/BitClassification.lean:113:27: warning: This simp argument is unused:
+  not_true_eq_false
+
+Hint: Omit it from the simp argument list.
+  simp only [finite32, exponent32, Float32Bits.decodeRat, ne_eq, hz, hi, ite_true, ite_false,
+  ̲  ̲ ̲ ̲ ̲ ̲n̵o̵t̵_̵t̵r̵u̵e̵_̵e̵q̵_̵f̵a̵l̵s̵e̵,̵ ̵not_false_eq_true, decide_true, decide_false, Option.isSome]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-surface-probe/bench/tritonbench_g/isfinite_kernel/Proofs/BitClassification.lean:113:46: warning: This simp argument is unused:
+  not_false_eq_true
+
+Hint: Omit it from the simp argument list.
+  simp only [finite32, exponent32, Float32Bits.decodeRat, ne_eq, hz, hi, ite_true, ite_false,
+  ̲  ̲ ̲ ̲ ̲ ̲not_true_eq_false, n̵o̵t̵_̵f̵a̵l̵s̵e̵_̵e̵q̵_̵t̵r̵u̵e̵,̵decide_true, decide_false, Option.isSome]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-surface-probe/bench/tritonbench_g/isfinite_kernel/Proofs/BitClassification.lean:114:6: warning: This simp argument is unused:
+  decide_true
+
+Hint: Omit it from the simp argument list.
+  simp only [finite32, exponent32, Float32Bits.decodeRat, ne_eq, hz, hi, ite_true, ite_false,
+  ̲  ̲ ̲ ̲ ̲ ̲not_true_eq_false, not_false_eq_true, d̵e̵c̵i̵d̵e̵_̵t̵r̵u̵e̵,̵ ̵decide_false, Option.isSome]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-surface-probe/bench/tritonbench_g/isfinite_kernel/Proofs/BitClassification.lean:114:19: warning: This simp argument is unused:
+  decide_false
+
+Hint: Omit it from the simp argument list.
+  simp only [finite32, exponent32, Float32Bits.decodeRat, ne_eq, hz, hi, ite_true, ite_false,
+  ̲  ̲ ̲ ̲ ̲ ̲not_true_eq_false, not_false_eq_true, decide_true, d̵e̵c̵i̵d̵e̵_̵f̵a̵l̵s̵e̵,̵ ̵Option.isSome]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-surface-probe/bench/tritonbench_g/isfinite_kernel/Proofs/BitClassification.lean:114:48: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/while122-surface-probe/bench/tritonbench_g/isfinite_kernel/Proofs/BitClassification.lean:118:50: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.BitClassification.classify_finite: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.BitClassification.classify_infinity: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.BitClassification.classify_nan: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.BitClassification.bit_decode_class: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.BitClassification.bitFinite_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.BitClassification.bitFinite_eq_projection: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.BitClassification.bitFinite_zero_or_subnormal: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.BitClassification.bitFinite_normal: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.BitClassification.bitFinite_infinity_or_nan: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.BitClassification.binary64_zero_or_subnormal: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.BitClassification.binary64_normal: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.BitClassification.binary64_infinity_or_nan: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.BitClassification.bitFinite_fp32: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.BitClassification.bfloat16_examples: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.BitClassification.finite32_correct: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.BitClassification.finite64_correct: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.BitClassification.finite32_eq_decode: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.BitClassification.binary32_examples: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.BitClassification.binary64_examples: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.BitClassification.binary64_decoder_is_not_finiteness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

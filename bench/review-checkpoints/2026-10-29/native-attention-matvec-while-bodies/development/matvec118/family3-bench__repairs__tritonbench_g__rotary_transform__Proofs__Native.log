@@ -1,0 +1,13 @@
+VeriTile.Bench.Repairs.RotaryTransform.Native.graph: definition does not reference [VeriTile.Bench.Repairs.RotaryTransform.Native.ops,
+ VeriTile.Bench.Repairs.RotaryTransform.sourcePair,
+ VeriTile.Bench.Repairs.RotaryTransform.source,
+ VeriTile.Bench.Repairs.RotaryTransform.Native.selected] — non-circular ✓
+VeriTile.Bench.Repairs.RotaryTransform.Native.source_graph_lowering: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.Repairs.RotaryTransform.Native.source_selected: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.RotaryTransform.Native.selected_readback: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.RotaryTransform.Native.selected_frame: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.RotaryTransform.Native.selected_equiv: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])

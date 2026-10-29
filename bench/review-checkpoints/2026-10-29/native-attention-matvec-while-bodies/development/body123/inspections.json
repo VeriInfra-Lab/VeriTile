@@ -1,0 +1,124 @@
+{
+  "status": "PASS_WITH_RECORDED_LIMITS",
+  "code_commit": "77a5c65e9766ba2dec49b6b9631c24f595b8733a",
+  "start": 1793289942.9278848,
+  "end": 1793290036.924945,
+  "python": {
+    "targeted": {
+      "status": "PASS",
+      "tests": 439
+    },
+    "full": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 684,
+      "errors": 1
+    }
+  },
+  "raw_bodies": [
+    {
+      "name": "layer_norm_liger-raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/layer_norm_liger/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "77a5c65e9766ba2dec49b6b9631c24f595b8733a",
+      "log": "/tmp/body123-layer_norm_liger-raw-body-check.log",
+      "status": "PASS"
+    },
+    {
+      "name": "attention_score_tile_checked-raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/attention_score_tile_checked/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "77a5c65e9766ba2dec49b6b9631c24f595b8733a",
+      "log": "/tmp/body123-attention_score_tile_checked-raw-body-check.log",
+      "status": "PASS"
+    },
+    {
+      "name": "matrix_vector_multip-raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/matrix_vector_multip/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "77a5c65e9766ba2dec49b6b9631c24f595b8733a",
+      "log": "/tmp/body123-matrix_vector_multip-raw-body-check.log",
+      "status": "PASS"
+    }
+  ],
+  "cpu": {
+    "status": "PASS",
+    "scope": "CPU-only source/metadata unit checks. These are not Triton runtime or hardware execution."
+  },
+  "torch": {
+    "name": "torch-dependencies",
+    "command": [
+      "python3",
+      "-c",
+      "import torch; import triton"
+    ],
+    "exit_code": 1,
+    "code_commit": "77a5c65e9766ba2dec49b6b9631c24f595b8733a",
+    "log": "/tmp/body123-torch-dependencies.log",
+    "status": "UNAVAILABLE",
+    "reason": "Torch/Triton are absent; no GPU or new numerical experiment was run."
+  },
+  "original_python_and_contracts": {
+    "status": "PASS",
+    "sha256": {
+      "bench/repairs/tritonbench_g/layer_norm_liger/Contract.lean": "5963b2aa329f646707f4c0f7827f080cbbd57010fc072202ef199b7a48dcd7ad",
+      "bench/repairs/tritonbench_g/layer_norm_liger/Proofs/Contract.lean": "e9aec1fba006cef159bf95c6790c785a3be42df7850aefcf6b094364c540d2c9",
+      "bench/repairs/tritonbench_g/layer_norm_liger/check_kernel.py": "df5fd2c795ee654e20f01c93a5885b281f36401eed8781a820aa1f0681ec6667",
+      "bench/repairs/tritonbench_g/layer_norm_liger/check_lowering.py": "7a590da26debd9c6b601c2f9ee2fac775ad299cd9dca51912d0d55559c343870",
+      "bench/repairs/tritonbench_g/layer_norm_liger/check_source.py": "f27d5663114dd064eb023af7372a326b3c83478bfcda358ab26236afe7d5620f",
+      "bench/repairs/tritonbench_g/layer_norm_liger/layer_norm_liger_optimized.py": "58666428abc0f9d3a6d686e65f31e04782d1c5456bdab9a3acc1db36ea2d0bb8",
+      "bench/repairs/tritonbench_g/layer_norm_liger/layer_norm_liger_repaired.py": "6ba82f8c92986e02bca37469e5c17f2e1471137f939191d7fef4b48bd7266a28",
+      "bench/repairs/tritonbench_g/attention_score_tile_checked/Contract.lean": "de3a1121736d7a9cb8d86de54967d4955ce9b3491050bf9ea5b8397bf004d745",
+      "bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/Contract.lean": "8377ddba9197d78bd5807f153c31386ca79a5e40aa81208b4dbd18590f3e2ff6",
+      "bench/repairs/tritonbench_g/attention_score_tile_checked/attention_score_tile_checked.py": "01b60924cbd5d95928d0f043e534ed057267faf02309633b1bf32027b59381e6",
+      "bench/repairs/tritonbench_g/attention_score_tile_checked/check_candidate.py": "158f494fdf4ecd2cdbf6e2e5fd06f7d79bb6d2c11dd2ede7e967e5a2b5af12ab",
+      "bench/repairs/tritonbench_g/matrix_vector_multip/Contract.lean": "d4f5be69f60cfe2d44de28da921e1784cef566c6332ba597bea68ea285383526",
+      "bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/Contract.lean": "ed6e939e630dd1a1991ac90d0236c44fed0ca6f5a3a26ae69885ce9abda57793",
+      "bench/repairs/tritonbench_g/matrix_vector_multip/check_contract.py": "86035a13cb86e4cb8c9adf4bf3ac2f0f00f97189528a902714e755ca3b2ddde2",
+      "bench/repairs/tritonbench_g/matrix_vector_multip/matrix_vector_multip_repaired.py": "31a43e4edb448c41b28c99b6a5132a359368a093e75fa806e4cd14d13294e208"
+    }
+  },
+  "public_surface": [
+    {
+      "path": "bench/repairs/tritonbench_g/attention_score_tile_checked/Correct.lean",
+      "statement_headers_identical": true
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/attention_score_tile_checked/FPEquiv.lean",
+      "statement_headers_identical": true
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/layer_norm_liger/Correct.lean",
+      "statement_headers_identical": true
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/layer_norm_liger/FPEquiv.lean",
+      "statement_headers_identical": true
+    },
+    {
+      "task": "matrix_vector_multip",
+      "change": "Explicit legal arange sizes and SourceDomain for actual uint64 execution; N/M, PID and active matrix-offset bounds are derived for existing checked Tensor inputs. Python and Contract.lean are unchanged. Historical all-Nat host model is labelled separately; no AST identity to the raw while body is claimed."
+    }
+  ],
+  "comparator": {
+    "attempts": 254,
+    "statuses": [
+      "UNAVAILABLE"
+    ]
+  },
+  "scope": "Exact frozen source for the three user-selected closing tasks; complete semantic proofs and their dependencies are verified separately by Lean."
+}

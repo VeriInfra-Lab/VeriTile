@@ -1,0 +1,25 @@
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Memory.lean:88:73: warning: This simp argument is unused:
+  if_true
+
+Hint: Omit it from the simp argument list.
+  s̵i̵m̵p̵ ̵o̵n̵l̵y̵ ̵[̵s̵h̵o̵w̵ ̵4̵*̵(̵a̵b̵i̵.̵a̵l̵l̵o̵c̵ ̵"̵o̵u̵t̵"̵)̵.̵b̵a̵s̵e̵ ̵≤̵ ̵4̵*̵(̵a̵b̵i̵.̵a̵l̵l̵o̵c̵ ̵"̵o̵u̵t̵"̵)̵.̵b̵a̵s̵e̵+̵4̵*̵i̵ ̵∧̵
+  ̵ ̵ ̵ ̵ ̵4̵*̵(̵a̵b̵i̵.̵a̵l̵l̵o̵c̵ ̵"̵o̵u̵t̵"̵)̵.̵b̵a̵s̵e̵+̵4̵*̵i̵ ̵<̵ ̵4̵*̵(̵a̵b̵i̵.̵a̵l̵l̵o̵c̵ ̵"̵o̵u̵t̵"̵)̵.̵b̵a̵s̵e̵+̵4̵*̵c̵.̵o̵u̵t̵p̵u̵t̵S̵i̵z̵e̵ ̵∧̵
+  ̵ ̵ ̵ ̵ ̵(̵4̵*̵(̵a̵b̵i̵.̵a̵l̵l̵o̵c̵ ̵"̵o̵u̵t̵"̵)̵.̵b̵a̵s̵e̵+̵4̵*̵i̵-̵4̵*̵(̵a̵b̵i̵.̵a̵l̵l̵o̵c̵ ̵"̵o̵u̵t̵"̵)̵.̵b̵a̵s̵e̵)̵%̵4̵=̵0̵ ̵b̵y̵ ̵o̵m̵e̵g̵a̵,̵i̵f̵_̵t̵r̵u̵e̵]̵s̲i̲m̲p̲ ̲o̲n̲l̲y̲ ̲[̲s̲h̲o̲w̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲4̲ ̲*̲ ̲(̲a̲b̲i̲.̲a̲l̲l̲o̲c̲ ̲"̲o̲u̲t̲"̲)̲.̲b̲a̲s̲e̲ ̲≤̲ ̲4̲ ̲*̲ ̲(̲a̲b̲i̲.̲a̲l̲l̲o̲c̲ ̲"̲o̲u̲t̲"̲)̲.̲b̲a̲s̲e̲ ̲+̲ ̲4̲ ̲*̲ ̲i̲ ̲∧̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲4̲ ̲*̲ ̲(̲a̲b̲i̲.̲a̲l̲l̲o̲c̲ ̲"̲o̲u̲t̲"̲)̲.̲b̲a̲s̲e̲ ̲+̲ ̲4̲ ̲*̲ ̲i̲ ̲<̲ ̲4̲ ̲*̲ ̲(̲a̲b̲i̲.̲a̲l̲l̲o̲c̲ ̲"̲o̲u̲t̲"̲)̲.̲b̲a̲s̲e̲ ̲+̲ ̲4̲ ̲*̲ ̲c̲.̲o̲u̲t̲p̲u̲t̲S̲i̲z̲e̲ ̲∧̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲(̲4̲ ̲*̲ ̲(̲a̲b̲i̲.̲a̲l̲l̲o̲c̲ ̲"̲o̲u̲t̲"̲)̲.̲b̲a̲s̲e̲ ̲+̲ ̲4̲ ̲*̲ ̲i̲ ̲-̲ ̲4̲ ̲*̲ ̲(̲a̲b̲i̲.̲a̲l̲l̲o̲c̲ ̲"̲o̲u̲t̲"̲)̲.̲b̲a̲s̲e̲)̲ ̲%̲ ̲4̲ ̲=̲ ̲0̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲b̲y̲ ̲o̲m̲e̲g̲a̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.inputs_direct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.input_words: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.native_read: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.native_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

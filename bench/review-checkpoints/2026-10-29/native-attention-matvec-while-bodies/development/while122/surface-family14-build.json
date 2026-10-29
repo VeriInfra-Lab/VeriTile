@@ -1,0 +1,8 @@
+{
+  "status": "INTERRUPTED_PROOF_EXPANSION",
+  "start": 1793284182.2488172,
+  "results": [],
+  "scope": "One serial queue; failed imports block dependents, independent modules continue.",
+  "end": 1793284273.9854064,
+  "reason": "Restrict guard simplification to its own lemma rather than expanding the full Reaches proposition."
+}

@@ -1,0 +1,14 @@
+VeriTile.Bench.Repairs.MatrixVectorMultip.TensorBridge.python_checks_iff_preconditions: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.MatrixVectorMultip.TensorBridge.real_kernel_contract_sound: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MatrixVectorMultip.TensorBridge.fp32_kernel_contract_sound: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MatrixVectorMultip.TensorBridge.mv_checked_kernel_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MatrixVectorMultip.TensorBridge.mv_checked_fp32_kernel_equiv: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

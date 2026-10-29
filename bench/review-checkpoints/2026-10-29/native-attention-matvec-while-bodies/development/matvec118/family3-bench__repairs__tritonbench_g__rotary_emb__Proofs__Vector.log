@@ -1,0 +1,9 @@
+VeriTile.Bench.Repairs.RotaryEmb.vector_eq_execute: axiom footprint ⊆ standard base ✓  ([Quot.sound,
+ propext,
+ Classical.choice])
+VeriTile.Bench.Repairs.RotaryEmb.sourceProgram_eq: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.RotaryEmb.source_eq_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

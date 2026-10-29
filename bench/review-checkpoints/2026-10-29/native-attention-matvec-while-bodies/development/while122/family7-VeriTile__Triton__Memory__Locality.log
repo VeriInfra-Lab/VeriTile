@@ -1,0 +1,8 @@
+/tmp/while122-frontend/VeriTile/Triton/Memory/Locality.lean:1621:47: error: Application type mismatch: The argument
+  hms
+has type
+  Stmt.TraceSafe bounds (Stmt.whileLoop cond✝ body✝) x✝²
+but is expected to have type
+  False
+in the application
+  False.elim hms

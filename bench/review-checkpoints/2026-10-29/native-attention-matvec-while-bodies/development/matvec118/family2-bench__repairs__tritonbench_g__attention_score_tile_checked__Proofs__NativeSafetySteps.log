@@ -1,0 +1,12 @@
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/NativeSafetySteps.lean:52:2: warning: 'all_goals try rw [safeBlockPtr2]' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/NativeSafetySteps.lean:53:2: warning: 'all_goals try rw [safeAdvance2]' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/NativeSafetySteps.lean:70:2: warning: 'all_goals try rw [safeBlockPtr2]' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/NativeSafetySteps.lean:71:2: warning: 'all_goals try rw [safeAdvance2]' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`

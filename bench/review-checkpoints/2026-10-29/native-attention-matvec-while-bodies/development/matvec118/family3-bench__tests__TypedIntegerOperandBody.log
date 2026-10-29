@@ -1,0 +1,18 @@
+VeriTile.Tests.TypedIntegerOperandBody.product_reduction_keeps_fp32_conversion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.TypedIntegerOperandBody.signed_right_keeps_fp32_conversion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.TypedIntegerOperandBody.signed_left_keeps_operand_order: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.TypedIntegerOperandBody.natural_uses_unsigned_conversion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/matvec118-frontend/bench/tests/TypedIntegerOperandBody.lean:101:6: warning: unused variable `dtype`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Tests.TypedIntegerOperandBody.source_dtype_matches_caller: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

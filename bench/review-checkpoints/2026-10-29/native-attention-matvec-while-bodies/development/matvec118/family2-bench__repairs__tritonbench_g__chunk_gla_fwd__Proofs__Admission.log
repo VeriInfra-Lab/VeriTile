@@ -1,0 +1,25 @@
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/chunk_gla_fwd/Proofs/Admission.lean:35:18: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/chunk_gla_fwd/Proofs/Admission.lean:36:18: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/chunk_gla_fwd/Proofs/Admission.lean:37:18: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/chunk_gla_fwd/Proofs/Admission.lean:38:18: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/chunk_gla_fwd/Proofs/Admission.lean:39:18: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/chunk_gla_fwd/Proofs/Admission.lean:40:18: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/chunk_gla_fwd/Proofs/Admission.lean:41:18: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+VeriTile.Bench.Repairs.ChunkGlaFwd.Admission.admitted: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.ChunkGlaFwd.Admission.checked_address: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.ChunkGlaFwd.Admission.allocation_finite: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

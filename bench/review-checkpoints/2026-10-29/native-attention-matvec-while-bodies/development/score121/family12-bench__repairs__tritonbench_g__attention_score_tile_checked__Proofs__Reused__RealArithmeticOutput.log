@@ -1,0 +1,204 @@
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealArithmeticOutput.lean:29:47: error: unsolved goals
+case false.false.false.e_val.e_a.h
+s : BlockState
+D : ℕ
+xs : Inputs D
+B N NK startM startN : ℕ
+offset size : ℤ
+scale : ℝ
+evenN : Bool
+old : Fin B → ℝ
+hk : s.regs TileDType.real [D, B] "k" = some (RealTiles.key xs B NK startN evenN)
+hm : s.regs TileDType.real [B] "m" = some (RealTiles.normalizer xs B N startM)
+ho : s.regs TileDType.real [B] "o" = some (Tile.vec fun k => some (old k))
+hs : s.regs TileDType.real [] "qk_scale" = some (Tile.scalar (some (scale * 1.4426950408889634)))
+hsm : s.regs TileDType.int [] "start_m" = some (Tile.scalar ↑startM)
+hsn : s.regs TileDType.int [] "start_n" = some (Tile.scalar ↑startN)
+hq : s.regs TileDType.real [B, D] "q" = some (RealTiles.query xs B N startM «false»)
+hcolumns :
+  ∀ (j : Fin B),
+    (Tile.reduceSumDrop ⟨0, ⋯⟩
+            (RealTiles.contributions xs scale B N NK startM startN «false» «false» «false» evenN offset size)).data
+        (j, PUnit.unit) =
+      some (∑ r, weight xs scale N NK «false» «false» «false» evenN offset size (startM + ↑r) (startN * B + ↑j))
+k : Fin B
+hc :
+  (Tile.reduceSumDrop ⟨0, ⋯⟩
+          (RealTiles.contributions xs scale B N NK startM startN «false» «false» «false» evenN offset size)).data
+      (k, PUnit.unit) =
+    some (∑ r, weight xs scale N NK «false» «false» «false» evenN offset size (startM + ↑r) (startN * B + ↑k))
+ha : ∀ (value : ℝ), WithBot.realAdd (some (old k)) (some value) = some (old k + value)
+r j : Fin B
+hdist : ↑↑r - ↑↑j + ↑startM - ↑startN * ↑B + offset = ↑startM + ↑↑r - (↑startN * ↑B + ↑↑j) + offset
+⊢ (if ↑startM + ↑↑r < ↑N then
+      WithBot.realExp2
+        (Option.map₂ (fun x1 x2 => x1 - x2)
+          (Option.map (fun a => a * (scale * 1.4426950408889634))
+            ((Tile.dot [] (RealTiles.query xs B N startM «false») (RealTiles.key xs B NK startN evenN)).data
+              (r, j, PUnit.unit)))
+          ((RealTiles.normalizer xs B N startM).data (r, PUnit.unit)))
+    else some 0) =
+    if startM + ↑r < N then
+      WithBot.realExp2
+        (Option.map₂ (fun x1 x2 => x1 - x2)
+          (Option.map (fun a => a * (scale * 1.4426950408889634))
+            ((Tile.dot [] (RealTiles.query xs B N startM «false») (RealTiles.key xs B NK startN evenN)).data
+              (r, j, PUnit.unit)))
+          ((RealTiles.normalizer xs B N startM).data (r, PUnit.unit)))
+    else some 0
+
+case false.true.false.e_val.e_a.h
+s : BlockState
+D : ℕ
+xs : Inputs D
+B N NK startM startN : ℕ
+offset size : ℤ
+scale : ℝ
+evenN : Bool
+old : Fin B → ℝ
+hk : s.regs TileDType.real [D, B] "k" = some (RealTiles.key xs B NK startN evenN)
+hm : s.regs TileDType.real [B] "m" = some (RealTiles.normalizer xs B N startM)
+ho : s.regs TileDType.real [B] "o" = some (Tile.vec fun k => some (old k))
+hs : s.regs TileDType.real [] "qk_scale" = some (Tile.scalar (some (scale * 1.4426950408889634)))
+hsm : s.regs TileDType.int [] "start_m" = some (Tile.scalar ↑startM)
+hsn : s.regs TileDType.int [] "start_n" = some (Tile.scalar ↑startN)
+hq : s.regs TileDType.real [B, D] "q" = some (RealTiles.query xs B N startM «false»)
+hcolumns :
+  ∀ (j : Fin B),
+    (Tile.reduceSumDrop ⟨0, ⋯⟩
+            (RealTiles.contributions xs scale B N NK startM startN «false» «true» «false» evenN offset size)).data
+        (j, PUnit.unit) =
+      some (∑ r, weight xs scale N NK «false» «true» «false» evenN offset size (startM + ↑r) (startN * B + ↑j))
+k : Fin B
+hc :
+  (Tile.reduceSumDrop ⟨0, ⋯⟩
+          (RealTiles.contributions xs scale B N NK startM startN «false» «true» «false» evenN offset size)).data
+      (k, PUnit.unit) =
+    some (∑ r, weight xs scale N NK «false» «true» «false» evenN offset size (startM + ↑r) (startN * B + ↑k))
+ha : ∀ (value : ℝ), WithBot.realAdd (some (old k)) (some value) = some (old k + value)
+r j : Fin B
+hdist : ↑↑r - ↑↑j + ↑startM - ↑startN * ↑B + offset = ↑startM + ↑↑r - (↑startN * ↑B + ↑↑j) + offset
+⊢ (if ↑startM + ↑↑r < ↑N then
+      WithBot.realExp2
+        (Option.map₂ (fun x1 x2 => x1 - x2)
+          (Option.map (fun a => a * (scale * 1.4426950408889634))
+            ((Tile.dot [] (RealTiles.query xs B N startM «false») (RealTiles.key xs B NK startN evenN)).data
+              (r, j, PUnit.unit)))
+          ((RealTiles.normalizer xs B N startM).data (r, PUnit.unit)))
+    else some 0) =
+    if startM + ↑r < N then
+      WithBot.realExp2
+        (Option.map₂ (fun x1 x2 => x1 - x2)
+          (Option.map (fun a => a * (scale * 1.4426950408889634))
+            ((Tile.dot [] (RealTiles.query xs B N startM «false») (RealTiles.key xs B NK startN evenN)).data
+              (r, j, PUnit.unit)))
+          ((RealTiles.normalizer xs B N startM).data (r, PUnit.unit)))
+    else some 0
+
+case true.false.false.e_val.e_a.h
+s : BlockState
+D : ℕ
+xs : Inputs D
+B N NK startM startN : ℕ
+offset size : ℤ
+scale : ℝ
+evenN : Bool
+old : Fin B → ℝ
+hk : s.regs TileDType.real [D, B] "k" = some (RealTiles.key xs B NK startN evenN)
+hm : s.regs TileDType.real [B] "m" = some (RealTiles.normalizer xs B N startM)
+ho : s.regs TileDType.real [B] "o" = some (Tile.vec fun k => some (old k))
+hs : s.regs TileDType.real [] "qk_scale" = some (Tile.scalar (some (scale * 1.4426950408889634)))
+hsm : s.regs TileDType.int [] "start_m" = some (Tile.scalar ↑startM)
+hsn : s.regs TileDType.int [] "start_n" = some (Tile.scalar ↑startN)
+hq : s.regs TileDType.real [B, D] "q" = some (RealTiles.query xs B N startM «false»)
+hcolumns :
+  ∀ (j : Fin B),
+    (Tile.reduceSumDrop ⟨0, ⋯⟩
+            (RealTiles.contributions xs scale B N NK startM startN «true» «false» «false» evenN offset size)).data
+        (j, PUnit.unit) =
+      some (∑ r, weight xs scale N NK «true» «false» «false» evenN offset size (startM + ↑r) (startN * B + ↑j))
+k : Fin B
+hc :
+  (Tile.reduceSumDrop ⟨0, ⋯⟩
+          (RealTiles.contributions xs scale B N NK startM startN «true» «false» «false» evenN offset size)).data
+      (k, PUnit.unit) =
+    some (∑ r, weight xs scale N NK «true» «false» «false» evenN offset size (startM + ↑r) (startN * B + ↑k))
+ha : ∀ (value : ℝ), WithBot.realAdd (some (old k)) (some value) = some (old k + value)
+r j : Fin B
+hdist : ↑↑r - ↑↑j + ↑startM - ↑startN * ↑B + offset = ↑startM + ↑↑r - (↑startN * ↑B + ↑↑j) + offset
+⊢ (if ↑startM + ↑↑r < ↑N then
+      if
+          0 ≤ offset + (↑startM + ↑↑r - (↑startN * ↑B + ↑↑j)) ∧
+            offset + (↑startM + ↑↑r - (↑startN * ↑B + ↑↑j)) < size then
+        WithBot.realExp2
+          (Option.map₂ (fun x1 x2 => x1 - x2)
+            (Option.map (fun a => a * (scale * 1.4426950408889634))
+              ((Tile.dot [] (RealTiles.query xs B N startM «false») (RealTiles.key xs B NK startN evenN)).data
+                (r, j, PUnit.unit)))
+            ((RealTiles.normalizer xs B N startM).data (r, PUnit.unit)))
+      else some 0
+    else some 0) =
+    if startM + ↑r < N then
+      if
+          0 ≤ offset + (↑startM + ↑↑r - (↑startN * ↑B + ↑↑j)) ∧
+            offset + (↑startM + ↑↑r - (↑startN * ↑B + ↑↑j)) < size then
+        WithBot.realExp2
+          (Option.map₂ (fun x1 x2 => x1 - x2)
+            (Option.map (fun a => a * (scale * 1.4426950408889634))
+              ((Tile.dot [] (RealTiles.query xs B N startM «false») (RealTiles.key xs B NK startN evenN)).data
+                (r, j, PUnit.unit)))
+            ((RealTiles.normalizer xs B N startM).data (r, PUnit.unit)))
+      else some 0
+    else some 0
+
+case true.true.false.e_val.e_a.h
+s : BlockState
+D : ℕ
+xs : Inputs D
+B N NK startM startN : ℕ
+offset size : ℤ
+scale : ℝ
+evenN : Bool
+old : Fin B → ℝ
+hk : s.regs TileDType.real [D, B] "k" = some (RealTiles.key xs B NK startN evenN)
+hm : s.regs TileDType.real [B] "m" = some (RealTiles.normalizer xs B N startM)
+ho : s.regs TileDType.real [B] "o" = some (Tile.vec fun k => some (old k))
+hs : s.regs TileDType.real [] "qk_scale" = some (Tile.scalar (some (scale * 1.4426950408889634)))
+hsm : s.regs TileDType.int [] "start_m" = some (Tile.scalar ↑startM)
+hsn : s.regs TileDType.int [] "start_n" = some (Tile.scalar ↑startN)
+hq : s.regs TileDType.real [B, D] "q" = some (RealTiles.query xs B N startM «false»)
+hcolumns :
+  ∀ (j : Fin B),
+    (Tile.reduceSumDrop ⟨0, ⋯⟩
+            (RealTiles.contributions xs scale B N NK startM startN «true» «true» «false» evenN offset size)).data
+        (j, PUnit.unit) =
+      some (∑ r, weight xs scale N NK «true» «true» «false» evenN offset size (startM + ↑r) (startN * B + ↑j))
+k : Fin B
+hc :
+  (Tile.reduceSumDrop ⟨0, ⋯⟩
+          (RealTiles.contributions xs scale B N NK startM startN «true» «true» «false» evenN offset size)).data
+      (k, PUnit.unit) =
+    some (∑ r, weight xs scale N NK «true» «true» «false» evenN offset size (startM + ↑r) (startN * B + ↑k))
+ha : ∀ (value : ℝ), WithBot.realAdd (some (old k)) (some value) = some (old k + value)
+r j : Fin B
+hdist : ↑↑r - ↑↑j + ↑startM - ↑startN * ↑B + offset = ↑startM + ↑↑r - (↑startN * ↑B + ↑↑j) + offset
+⊢ (if ↑startM + ↑↑r < ↑N then
+      if size ≤ offset + (↑startM + ↑↑r - (↑startN * ↑B + ↑↑j)) then
+        WithBot.realExp2
+          (Option.map₂ (fun x1 x2 => x1 - x2)
+            (Option.map (fun a => a * (scale * 1.4426950408889634))
+              ((Tile.dot [] (RealTiles.query xs B N startM «false») (RealTiles.key xs B NK startN evenN)).data
+                (r, j, PUnit.unit)))
+            ((RealTiles.normalizer xs B N startM).data (r, PUnit.unit)))
+      else some 0
+    else some 0) =
+    if startM + ↑r < N then
+      if size ≤ offset + (↑startM + ↑↑r - (↑startN * ↑B + ↑↑j)) then
+        WithBot.realExp2
+          (Option.map₂ (fun x1 x2 => x1 - x2)
+            (Option.map (fun a => a * (scale * 1.4426950408889634))
+              ((Tile.dot [] (RealTiles.query xs B N startM «false») (RealTiles.key xs B NK startN evenN)).data
+                (r, j, PUnit.unit)))
+            ((RealTiles.normalizer xs B N startM).data (r, PUnit.unit)))
+      else some 0
+    else some 0

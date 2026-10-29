@@ -1,0 +1,168 @@
+{
+  "status": "PASS_WITH_RECORDED_LIMITS",
+  "code_commit": "19b8074c8150397bea1cc6273825db3d7c2bf777",
+  "start": 1793293158.943875,
+  "end": 1793293264.2862997,
+  "python": {
+    "targeted": {
+      "status": "PASS",
+      "tests": 439
+    },
+    "full": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 684,
+      "errors": 1
+    }
+  },
+  "raw_bodies": [
+    {
+      "name": "layer_norm_liger-raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/layer_norm_liger/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "19b8074c8150397bea1cc6273825db3d7c2bf777",
+      "log": "/tmp/body124-layer_norm_liger-raw-body-check.log",
+      "status": "PASS"
+    },
+    {
+      "name": "attention_score_tile_checked-raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/attention_score_tile_checked/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "19b8074c8150397bea1cc6273825db3d7c2bf777",
+      "log": "/tmp/body124-attention_score_tile_checked-raw-body-check.log",
+      "status": "PASS"
+    },
+    {
+      "name": "matrix_vector_multip-raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/matrix_vector_multip/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "19b8074c8150397bea1cc6273825db3d7c2bf777",
+      "log": "/tmp/body124-matrix_vector_multip-raw-body-check.log",
+      "status": "PASS"
+    },
+    {
+      "name": "Welford-raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/examples/Welford/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "19b8074c8150397bea1cc6273825db3d7c2bf777",
+      "log": "/tmp/body124-Welford-raw-body-check.log",
+      "status": "PASS"
+    },
+    {
+      "name": "FusedLayerNorm-raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/examples/FusedLayerNorm/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "19b8074c8150397bea1cc6273825db3d7c2bf777",
+      "log": "/tmp/body124-FusedLayerNorm-raw-body-check.log",
+      "status": "PASS"
+    }
+  ],
+  "cpu": {
+    "status": "PASS",
+    "scope": "CPU-only source/metadata unit checks. These are not Triton runtime or hardware execution."
+  },
+  "torch": {
+    "name": "torch-dependencies",
+    "command": [
+      "python3",
+      "-c",
+      "import torch; import triton"
+    ],
+    "exit_code": 1,
+    "code_commit": "19b8074c8150397bea1cc6273825db3d7c2bf777",
+    "log": "/tmp/body124-torch-dependencies.log",
+    "status": "UNAVAILABLE",
+    "reason": "Torch/Triton are absent; no GPU or new numerical experiment was run."
+  },
+  "original_python_and_contracts": {
+    "status": "PASS",
+    "sha256": {
+      "bench/repairs/tritonbench_g/layer_norm_liger/Contract.lean": "5963b2aa329f646707f4c0f7827f080cbbd57010fc072202ef199b7a48dcd7ad",
+      "bench/repairs/tritonbench_g/layer_norm_liger/Proofs/Contract.lean": "e9aec1fba006cef159bf95c6790c785a3be42df7850aefcf6b094364c540d2c9",
+      "bench/repairs/tritonbench_g/layer_norm_liger/check_kernel.py": "df5fd2c795ee654e20f01c93a5885b281f36401eed8781a820aa1f0681ec6667",
+      "bench/repairs/tritonbench_g/layer_norm_liger/check_lowering.py": "7a590da26debd9c6b601c2f9ee2fac775ad299cd9dca51912d0d55559c343870",
+      "bench/repairs/tritonbench_g/layer_norm_liger/check_source.py": "f27d5663114dd064eb023af7372a326b3c83478bfcda358ab26236afe7d5620f",
+      "bench/repairs/tritonbench_g/layer_norm_liger/layer_norm_liger_optimized.py": "58666428abc0f9d3a6d686e65f31e04782d1c5456bdab9a3acc1db36ea2d0bb8",
+      "bench/repairs/tritonbench_g/layer_norm_liger/layer_norm_liger_repaired.py": "6ba82f8c92986e02bca37469e5c17f2e1471137f939191d7fef4b48bd7266a28",
+      "bench/repairs/tritonbench_g/attention_score_tile_checked/Contract.lean": "de3a1121736d7a9cb8d86de54967d4955ce9b3491050bf9ea5b8397bf004d745",
+      "bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/Contract.lean": "8377ddba9197d78bd5807f153c31386ca79a5e40aa81208b4dbd18590f3e2ff6",
+      "bench/repairs/tritonbench_g/attention_score_tile_checked/attention_score_tile_checked.py": "01b60924cbd5d95928d0f043e534ed057267faf02309633b1bf32027b59381e6",
+      "bench/repairs/tritonbench_g/attention_score_tile_checked/check_candidate.py": "158f494fdf4ecd2cdbf6e2e5fd06f7d79bb6d2c11dd2ede7e967e5a2b5af12ab",
+      "bench/repairs/tritonbench_g/matrix_vector_multip/Contract.lean": "d4f5be69f60cfe2d44de28da921e1784cef566c6332ba597bea68ea285383526",
+      "bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/Contract.lean": "ed6e939e630dd1a1991ac90d0236c44fed0ca6f5a3a26ae69885ce9abda57793",
+      "bench/repairs/tritonbench_g/matrix_vector_multip/check_contract.py": "86035a13cb86e4cb8c9adf4bf3ac2f0f00f97189528a902714e755ca3b2ddde2",
+      "bench/repairs/tritonbench_g/matrix_vector_multip/matrix_vector_multip_repaired.py": "31a43e4edb448c41b28c99b6a5132a359368a093e75fa806e4cd14d13294e208",
+      "bench/examples/Welford/native_kernels.py": "5b021702042d4df0bf7213b5dabec155956f757dc489268d057273fbc9f51601",
+      "bench/examples/Welford/Kernels.lean": "7c3d0bdf6cd4780457d7884c6f266c2d3a0b1e57285818d0702cd1ea499102a9",
+      "bench/examples/Welford/FPEquiv.lean": "c765e1db74e8bcf7e84a1b193e19589db6f8b9065aa8254fb92a419d667073c2",
+      "bench/examples/FusedLayerNorm/native_kernels.py": "f1ac489a38d4d0f10a9d1388b87be02cc1d0b5d0d2cdd39796e573a197d8ebcd",
+      "bench/examples/FusedLayerNorm/Kernels.lean": "b4f1e07e399684ad3718fbd093d57578e48d94e5e77a0f333a05fb1bf5a954db",
+      "bench/examples/FusedLayerNorm/FPEquiv.lean": "d4e341a9c4424df59071b75f526e32dd6b14c2f3c49fd4a3c4a7b887b917b71e"
+    }
+  },
+  "public_surface": [
+    {
+      "path": "bench/repairs/tritonbench_g/attention_score_tile_checked/Correct.lean",
+      "statement_headers_identical": true
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/attention_score_tile_checked/FPEquiv.lean",
+      "statement_headers_identical": true
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/layer_norm_liger/Correct.lean",
+      "statement_headers_identical": true
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/layer_norm_liger/FPEquiv.lean",
+      "statement_headers_identical": true
+    },
+    {
+      "task": "matrix_vector_multip",
+      "change": "Explicit legal arange sizes and SourceDomain for actual uint64 execution; N/M, PID and active matrix-offset bounds are derived for existing checked Tensor inputs. Python and Contract.lean are unchanged. Historical all-Nat host model is labelled separately; no AST identity to the raw while body is claimed."
+    },
+    {
+      "example": "Welford",
+      "real_public_change": "Only the explicit N < 2^64 premise; mathematical formulas are unchanged.",
+      "fp_public_headers": "byte-identical file; existing CountConversion.limit bound retained",
+      "source_bodies": "Python and quoted Lean kernels byte-identical"
+    },
+    {
+      "example": "FusedLayerNorm",
+      "real_public_change": "Only the explicit N < 2^64 premise; mathematical formulas are unchanged.",
+      "fp_public_headers": "byte-identical file; existing CountConversion.limit bound retained",
+      "source_bodies": "Python and quoted Lean kernels byte-identical"
+    }
+  ],
+  "comparator": {
+    "attempts": 268,
+    "statuses": [
+      "UNAVAILABLE"
+    ]
+  },
+  "scope": "Exact frozen source for the three user-selected closing tasks; complete semantic proofs and their dependencies are verified separately by Lean."
+}

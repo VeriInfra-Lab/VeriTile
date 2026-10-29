@@ -1,0 +1,5 @@
+VeriTile.Tests.WhileBody.zero_iterations: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+VeriTile.Tests.WhileBody.reevaluates_guard: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+VeriTile.Tests.WhileBody.unsigned_wrap_stops: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

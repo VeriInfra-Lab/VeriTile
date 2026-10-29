@@ -1,0 +1,73 @@
+/tmp/matvec118-proof-probe/bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/SourcePrelude.lean:49:36: error: unsolved goals
+case e_s.e_s.e_s.e_s.e_s.e_s.e_v.h
+α : Type
+inst✝ : Inhabited α
+A : FP.Structural.Algebra α
+N M BN BM : ℕ
+rowShape : Random.ArangeSizeDomain BN
+columnShape : Random.ArangeSizeDomain BM
+s : State α
+domain : SourceDomain N M BN BM (s.pids 0)
+hn : N % 18446744073709551616 = N
+hm : M % 18446744073709551616 = M
+hp : s.pids 0 % 18446744073709551616 = s.pids 0
+hprod : s.pids 0 * BN % 18446744073709551616 = s.pids 0 * BN
+hnLane : ∀ (i : Fin BN), ↑i % 18446744073709551616 = ↑i
+hmLane : ∀ (i : Fin BM), ↑i % 18446744073709551616 = ↑i
+hrow : ∀ (i : Fin BN), (s.pids 0 * BN + ↑i) % 18446744073709551616 = s.pids 0 * BN + ↑i
+i : TileIndex [BN, 1]
+⊢ Int.toNat
+      ((↑(Int.toNat (↑(s.pids 0) % 18446744073709551616 * ↑BN % 18446744073709551616)) + ↑↑i.1) %
+        18446744073709551616) =
+    s.pids 0 * BN + ↑i.1
+
+case e_s.e_s.e_s.e_s.e_v.h
+α : Type
+inst✝ : Inhabited α
+A : FP.Structural.Algebra α
+N M BN BM : ℕ
+rowShape : Random.ArangeSizeDomain BN
+columnShape : Random.ArangeSizeDomain BM
+s : State α
+domain : SourceDomain N M BN BM (s.pids 0)
+hn : N % 18446744073709551616 = N
+hm : M % 18446744073709551616 = M
+hp : s.pids 0 % 18446744073709551616 = s.pids 0
+hprod : s.pids 0 * BN % 18446744073709551616 = s.pids 0 * BN
+hnLane : ∀ (i : Fin BN), ↑i % 18446744073709551616 = ↑i
+hmLane : ∀ (i : Fin BM), ↑i % 18446744073709551616 = ↑i
+hrow : ∀ (i : Fin BN), (s.pids 0 * BN + ↑i) % 18446744073709551616 = s.pids 0 * BN + ↑i
+i : TileIndex [BN, 1]
+⊢ decide
+      (Int.toNat
+          ((↑(Int.toNat (↑(s.pids 0) % 18446744073709551616 * ↑BN % 18446744073709551616)) + ↑↑i.1) %
+            18446744073709551616) <
+        N) =
+    decide (s.pids 0 * BN + ↑i.1 < N)
+
+case e_s.e_s.e_s.e_v.h
+α : Type
+inst✝ : Inhabited α
+A : FP.Structural.Algebra α
+N M BN BM : ℕ
+rowShape : Random.ArangeSizeDomain BN
+columnShape : Random.ArangeSizeDomain BM
+s : State α
+domain : SourceDomain N M BN BM (s.pids 0)
+hn : N % 18446744073709551616 = N
+hm : M % 18446744073709551616 = M
+hp : s.pids 0 % 18446744073709551616 = s.pids 0
+hprod : s.pids 0 * BN % 18446744073709551616 = s.pids 0 * BN
+hnLane : ∀ (i : Fin BN), ↑i % 18446744073709551616 = ↑i
+hmLane : ∀ (i : Fin BM), ↑i % 18446744073709551616 = ↑i
+hrow : ∀ (i : Fin BN), (s.pids 0 * BN + ↑i) % 18446744073709551616 = s.pids 0 * BN + ↑i
+i : TileIndex [BN, BM]
+⊢ ({ name := "A" },
+      Int.toNat
+          (↑(Int.toNat
+                  ((↑(Int.toNat (↑(s.pids 0) % 18446744073709551616 * ↑BN % 18446744073709551616)) + ↑↑i.1) %
+                    18446744073709551616)) *
+              ↑M %
+            18446744073709551616) +
+        ↑i.2.1) =
+    ({ name := "A" }, (s.pids 0 * BN + ↑i.1) * M % 18446744073709551616 + ↑i.2.1)

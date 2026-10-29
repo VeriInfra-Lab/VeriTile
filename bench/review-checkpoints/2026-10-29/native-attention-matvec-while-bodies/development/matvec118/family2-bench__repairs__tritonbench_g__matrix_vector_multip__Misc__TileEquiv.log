@@ -1,0 +1,5 @@
+FP assumptions used by explicit_fma_equiv:
+  none
+VeriTile.Bench.Repairs.MatrixVectorMultip.FPEquiv.explicit_fma_equiv: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,3 @@
+VeriTile.Bench.TritonBenchG.MatrixVectorMultip.WholePublic.mv_real_source_outcomes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

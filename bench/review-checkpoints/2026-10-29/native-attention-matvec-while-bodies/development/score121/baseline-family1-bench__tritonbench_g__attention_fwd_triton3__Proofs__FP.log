@@ -1,0 +1,2 @@
+FP assumptions used by attention_reciprocal_equiv:
+  div_mul_rcp

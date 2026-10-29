@@ -1,0 +1,30 @@
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/PhysicalIOBinding.lean:87:4: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/PhysicalIOBinding.lean:102:20: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/PhysicalIOBinding.lean:102:20: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/PhysicalIOBinding.lean:102:20: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/PhysicalIOBinding.lean:102:20: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/PhysicalIOBinding.lean:107:4: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.PhysicalIOBinding.real_binding: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.PhysicalIOBinding.native_binding: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.PhysicalIOBinding.real_bounds: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.PhysicalIOBinding.native_bounds: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

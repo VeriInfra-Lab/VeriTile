@@ -1,0 +1,10 @@
+{
+  "status": "NOT_RUN_WARM_FAILED",
+  "code_commit": "77a5c65e9766ba2dec49b6b9631c24f595b8733a",
+  "checkout": "/tmp/veritile-body77",
+  "explicit_modules": 6163,
+  "start": 1793289942.738323,
+  "scope": "All cumulative task/example/frontend roots, now including all 254 final Liger, attention-score, matrix-vector and shared/frontend roots, plus their full local import closure and joint import.",
+  "warm_status": "FAIL",
+  "end": 1793293149.4124117
+}

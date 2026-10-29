@@ -1,0 +1,14 @@
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/KernelFP.lean:25:5: warning: unused variable `h`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/KernelFP.lean:108:60: warning: This simp argument is unused:
+  dif_pos rfl
+
+Hint: Omit it from the simp argument list.
+  simp only [sum, show (parameters N M BN BM).blockRows = BN from rfl,
+      show (parameters N M BN BM).blockColumns = BM from rfl,̵ ̵d̵i̵f̵_̵p̵o̵s̵ ̵r̵f̵l̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.MatrixVectorMultip.KernelFP.formula_eq: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

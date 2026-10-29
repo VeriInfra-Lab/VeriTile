@@ -1,0 +1,52 @@
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/FPOutput.lean:45:98: error: unsolved goals
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+dot : Dot α
+B D : ℕ
+p : RealSource.Parameters
+initial current : State α
+row : ℕ
+acc : Fin B → α
+ctx : Context M B D p initial row acc current
+⊢ List.foldl
+      (fun mem i =>
+        if ↑↑i.1 + ↑(initial.pids 0) * ↑B < ↑p.keyContext then fun r o =>
+          if
+              r = { name := p.Out.name } ∧
+                o =
+                  Int.toNat
+                    (↑(initial.pids 1) / ↑p.heads * ↑p.outputBatch + ↑(initial.pids 1) % ↑p.heads * ↑p.outputHead +
+                      (↑↑i.1 + ↑(initial.pids 0) * ↑B)) then
+            Cell.mk TileDType.real (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real (acc i.1))
+          else mem r o
+        else mem)
+      initial.mem (TileShape.allIndices [B]) =
+    List.foldl
+      (fun mem i =>
+        if ↑i.1 + initial.pids 0 * B < p.keyContext then fun r o =>
+          if
+              r = p.Out ∧
+                o =
+                  ↑i.1 +
+                    (initial.pids 0 * B +
+                      (initial.pids 1 / p.heads * p.outputBatch + initial.pids 1 % p.heads * p.outputHead)) then
+            Cell.mk TileDType.real (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real (acc i.1))
+          else mem r o
+        else mem)
+      initial.mem (TileShape.allIndices [B])
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/FPOutput.lean:78:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.FPOutput.readback`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/FPOutput.lean:88:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.FPOutput.frame`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.FPOutput.value: definition does not reference [VeriTile.Triton.FP.Structural.run,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/FPOutput.lean:99:0: error: VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.FPOutput.source_memory: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

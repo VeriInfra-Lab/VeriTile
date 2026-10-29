@@ -1,0 +1,14 @@
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealExpressions.lean:65:19: warning: This simp argument is unused:
+  TypedSource.original
+
+Hint: Omit it from the simp argument list.
+  simp [distance?, T̵y̵p̵e̵d̵S̵o̵u̵r̵c̵e̵.̵o̵r̵i̵g̵i̵n̵a̵l̵,̵ ̵Whole002.TypedSource.widened, ComputeKernel.surfaceBody, distanceExpr]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealExpressions.lean:74:19: warning: This simp argument is unused:
+  TypedSource.scalarLeft
+
+Hint: Omit it from the simp argument list.
+  simp [distance?, T̵y̵p̵e̵d̵S̵o̵u̵r̵c̵e̵.̵s̵c̵a̵l̵a̵r̵L̵e̵f̵t̵,̵ ̵Whole002.TypedSource.widenedScalarLeft, ComputeKernel.surfaceBody, distanceExpr]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

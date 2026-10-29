@@ -1,0 +1,5 @@
+bench.examples.FusedLayerNorm.Correct FAIL
+bench.examples.FusedLayerNorm.Proofs.FP PASS
+bench.examples.FusedLayerNorm.FPEquiv PASS
+bench.examples.Welford.Correct FAIL
+FAIL 4

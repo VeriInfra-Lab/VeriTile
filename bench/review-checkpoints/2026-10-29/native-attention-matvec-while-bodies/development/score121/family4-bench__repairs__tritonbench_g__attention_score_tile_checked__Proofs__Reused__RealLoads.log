@@ -1,0 +1,38 @@
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealLoads.lean:75:16: error: Tactic `rfl` failed: The left-hand side
+  some (s.readMem { name := M.name } (baseM + (row + ↑i)))
+is not definitionally equal to the right-hand side
+  some 0
+
+case neg
+s : BlockState
+Q K M : RegionName
+B D N baseQ baseK baseM sqm sqk skn skk row : ℕ
+hp : s.regs TileDType.ptr [B] "m_ptrs" = some (normalizerPointers M B baseM row)
+hr : s.regs TileDType.int [] "start_m" = some (Tile.scalar ↑row)
+i : Fin B
+h✝¹ : ↑row + ↑↑i < ↑N
+h✝ : ¬row + ↑i < N
+⊢ some (s.readMem { name := M.name } (baseM + (row + ↑i))) = some 0
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealLoads.lean:75:16: error: Tactic `rfl` failed: The left-hand side
+  some 0
+is not definitionally equal to the right-hand side
+  some (s.readMem M (baseM + (row + ↑i)))
+
+case pos
+s : BlockState
+Q K M : RegionName
+B D N baseQ baseK baseM sqm sqk skn skk row : ℕ
+hp : s.regs TileDType.ptr [B] "m_ptrs" = some (normalizerPointers M B baseM row)
+hr : s.regs TileDType.int [] "start_m" = some (Tile.scalar ↑row)
+i : Fin B
+h✝¹ : ¬↑row + ↑↑i < ↑N
+h✝ : row + ↑i < N
+⊢ some 0 = some (s.readMem M (baseM + (row + ↑i)))
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealLoads.lean:74:104: warning: This simp argument is unused:
+  BlockState.defaultCarrier
+
+Hint: Omit it from the simp argument list.
+  simp [normalizerPointers, RealTiles.normalizer, inputs, Nat.add_assoc, Region.cast,
+  ̲  ̲ ̲ ̲N̵u̵m̵e̵r̵i̵c̵D̵T̵y̵p̵e̵.̵a̵d̵d̵,̵ ̵B̵l̵o̵c̵k̵S̵t̵a̵t̵e̵.̵d̵e̵f̵a̵u̵l̵t̵C̵a̵r̵r̵i̵e̵r̵]̵N̲u̲m̲e̲r̲i̲c̲D̲T̲y̲p̲e̲.̲a̲d̲d̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

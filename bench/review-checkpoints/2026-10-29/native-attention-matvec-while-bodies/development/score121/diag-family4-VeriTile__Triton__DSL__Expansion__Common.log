@@ -1,0 +1,3 @@
+/tmp/score121-diagnostic/VeriTile/Triton/DSL/Expansion/Common.lean:220:29: warning: unused variable `ctx`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`

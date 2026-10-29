@@ -1,0 +1,12 @@
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/FPReturned.lean:29:4: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/FPReturned.lean:71:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.FPReturned.zero_inputs`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.FPReturned.returnedValue: definition does not reference [VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.FPGrid.run,
+ VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.FPReturned.hostRun] — non-circular ✓

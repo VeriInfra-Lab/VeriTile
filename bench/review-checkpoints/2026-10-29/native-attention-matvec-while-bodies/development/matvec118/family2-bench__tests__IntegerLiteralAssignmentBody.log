@@ -1,0 +1,36 @@
+VeriTile.Tests.IntegerLiteralAssignmentBody.i32_min_conversion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.IntegerLiteralAssignmentBody.i32_max_conversion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.IntegerLiteralAssignmentBody.u32_min_conversion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.IntegerLiteralAssignmentBody.u32_max_conversion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.IntegerLiteralAssignmentBody.i64_above_u32_conversion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.IntegerLiteralAssignmentBody.i64_min_conversion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.IntegerLiteralAssignmentBody.i64_max_conversion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/matvec118-frontend/bench/tests/IntegerLiteralAssignmentBody.lean:203:74: error: unsolved goals
+⊢ 1 + -↑(integralMod IntegralDType.nat 9223372036854775808 18446744073709551616) = -9223372036854775807
+/tmp/matvec118-frontend/bench/tests/IntegerLiteralAssignmentBody.lean:209:0: error: VeriTile.Tests.IntegerLiteralAssignmentBody.u64_min_conversion: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/matvec118-frontend/bench/tests/IntegerLiteralAssignmentBody.lean:221:75: error: unsolved goals
+⊢ 1 + -↑(integralMod IntegralDType.nat 18446744073709551615 18446744073709551616) = -18446744073709551614
+/tmp/matvec118-frontend/bench/tests/IntegerLiteralAssignmentBody.lean:227:0: error: VeriTile.Tests.IntegerLiteralAssignmentBody.u64_max_conversion: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Tests.IntegerLiteralAssignmentBody.tuple_integers_materialize: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.IntegerLiteralAssignmentBody.ordinary_integer_tensor: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.IntegerLiteralAssignmentBody.inline_integer_remains_weak: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

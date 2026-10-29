@@ -1,0 +1,35 @@
+{
+  "status": "FAIL",
+  "start": 1793282909.7519937,
+  "results": [
+    {
+      "module": "bench.tests.WhileExecution",
+      "source_sha256": "c964ae69d889b9e3c48c7b36bb4f49b8aebc1b781aec44457abe11734e5472d5",
+      "status": "FAIL",
+      "exit_code": -6,
+      "start": 1793282909.7522945,
+      "end": 1793282926.1066182,
+      "log": "/tmp/while122-surface-family4-bench__tests__WhileExecution.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.UnsignedCast",
+      "source_sha256": "297f5a3cd7b5911ea8995a46b8c4d5f4dec4f9596475bcb6003ea27cdeb56b9d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793282926.1070335,
+      "end": 1793282928.7827103,
+      "log": "/tmp/while122-surface-family4-VeriTile__Triton__Float__UnsignedCast.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.SourcePrelude",
+      "source_sha256": "9e09258de59391e12e5c199d5e11a75e91d44f423098f282b33d6b332bd4e7cd",
+      "status": "FAIL",
+      "exit_code": -6,
+      "start": 1793282928.7830677,
+      "end": 1793282952.0523908,
+      "log": "/tmp/while122-surface-family4-bench__repairs__tritonbench_g__matrix_vector_multip__Proofs__SourcePrelude.log"
+    }
+  ],
+  "scope": "One serial queue; failed imports block dependents, independent modules continue.",
+  "end": 1793282952.0526521
+}

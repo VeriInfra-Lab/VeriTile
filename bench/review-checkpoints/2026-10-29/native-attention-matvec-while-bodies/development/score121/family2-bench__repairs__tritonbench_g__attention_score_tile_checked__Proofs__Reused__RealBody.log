@@ -1,0 +1,3 @@
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealBody.lean:34:29: warning: unused variable `evenN`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`

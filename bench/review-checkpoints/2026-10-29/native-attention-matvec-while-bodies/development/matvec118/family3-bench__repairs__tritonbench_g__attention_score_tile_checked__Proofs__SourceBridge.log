@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.shared_source: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.kernel_tiles_bounded: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

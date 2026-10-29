@@ -1491,7 +1491,7 @@
       "readers": [
         {
           "path": "bench/repairs/tritonbench_g/attention_score_tile_checked/Correct.lean",
-          "sha256": "538289fbc3dae195d24dc988c0f64d68905623e50bba04b7c0407a3139522b1c",
+          "sha256": "27391c6bdc379d95720958de13c090d33e0365478d1f085f92f092252279c8c1",
           "surface": "Correct",
           "declarations": [
             {
@@ -1555,9 +1555,8 @@
         }
       ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/reference-separation/tasks/attention_score.json",
-        "sha256": "b787613ebe3d37608ea76d90e7369ff8c3754499ce0750b218893b95e46758e2",
-        "task": "attention_score"
+        "path": "bench/review-checkpoints/2026-10-29/native-attention-matvec-while-bodies/review.json",
+        "sha256": "796c12634c6202522025c651a28e0c396a929dbc063540eede12479c95897472"
       },
       "change": null,
       "new_misc_entries": [],
@@ -1597,7 +1596,8 @@
         "path": "bench/review-checkpoints/2026-10-23/reference-separation/tasks/attention_score.json",
         "sha256": "b787613ebe3d37608ea76d90e7369ff8c3754499ce0750b218893b95e46758e2",
         "task": "attention_score"
-      }
+      },
+      "current_body_source_review": "The original attention-score body and explicitly labelled scalar-left scale candidate are preserved as complete 21-statement quotations. The actual signed cursor, int64 casts, masks, bare tl.dot and source accumulation order are retained. Independent Real results, selected generic/native FP execution, full memory IO, safety/frame and the complete source pair are reconnected. Original Python, Contract.lean, IO data and public Correct/FPEquiv theorem headers remain unchanged. Four optional historical failures outside the selected closure reproduce on the published baseline and remain separately recorded; they are not accepted as passing."
     },
     {
       "task": "attn_fwd_causal",
@@ -14428,7 +14428,7 @@
       "readers": [
         {
           "path": "bench/repairs/tritonbench_g/matrix_vector_multip/Correct.lean",
-          "sha256": "b298700cd4c443ffc7a472c8829825f0985f40a8ce13627b7f2aa21485dd5de8",
+          "sha256": "d6ecfd9a1afc2a46c5d86fd835fc69eb8e93161426641ba625b6097b02463003",
           "surface": "Correct",
           "declarations": [
             {
@@ -14442,7 +14442,7 @@
             {
               "kind": "abbrev",
               "name": "matrixVectorIO",
-              "line": 15,
+              "line": 17,
               "full_name": "VeriTile.Bench.Repairs.MatrixVectorMultip.Correct.matrixVectorIO",
               "role": "named_io_formula_or_program_view",
               "reason": "Independent Real formula for the selected kernel, with the existing safety, output and frame scope."
@@ -14450,7 +14450,7 @@
             {
               "kind": "specification",
               "name": "mv_kernel_correctness",
-              "line": 16,
+              "line": 19,
               "full_name": "VeriTile.Bench.Repairs.MatrixVectorMultip.Correct.mv_kernel_correctness",
               "role": "independent_real",
               "reason": "Independent Real formula for the selected kernel, with the existing safety, output and frame scope."
@@ -14460,7 +14460,7 @@
         },
         {
           "path": "bench/repairs/tritonbench_g/matrix_vector_multip/FPEquiv.lean",
-          "sha256": "03c9dcfc70273e0c60668ba6f2357ebbc004800e9c6fec5d552cf2824981dbfb",
+          "sha256": "b70b37409bdc53da2c8642bf43cd67edeb1e954fd0aa3c09ecdee1a2306af805",
           "surface": "FPEquiv",
           "declarations": [
             {
@@ -14482,7 +14482,7 @@
             {
               "kind": "specification",
               "name": "grid_explicit_fma_equiv",
-              "line": 20,
+              "line": 21,
               "full_name": "VeriTile.Bench.Repairs.MatrixVectorMultip.FPEquiv.grid_explicit_fma_equiv",
               "role": "actual_program_pair",
               "reason": "Actual full selected original/candidate source pair; existing native model and input domain retained."
@@ -14492,9 +14492,8 @@
         }
       ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/matrix_vector_multip.json",
-        "sha256": "debe1b43a9fa3b2918a117f1799146c60f41454c5de956e1062e0e71642869d5",
-        "task": "matrix_vector_multip"
+        "path": "bench/review-checkpoints/2026-10-29/native-attention-matvec-while-bodies/review.json",
+        "sha256": "796c12634c6202522025c651a28e0c396a929dbc063540eede12479c95897472"
       },
       "change": "单 CTA 等价辅助及其程序视图移至 Misc；保留完整 grid 主等价",
       "new_misc_entries": [
@@ -14531,7 +14530,8 @@
         "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/matrix_vector_multip.json",
         "sha256": "debe1b43a9fa3b2918a117f1799146c60f41454c5de956e1062e0e71642869d5",
         "task": "matrix_vector_multip"
-      }
+      },
+      "current_body_source_review": "Both complete matrix-vector bodies retain all 18 top-level statements, the original seven-statement while body, casts, masks, pointer increments, reduction and store. The authored candidate changes only multiply-add syntax to explicit tl.fma. The actual raw-source execution is connected to an independent ordered matrix-vector sum and existing selected native FP model, with termination, memory safety, frame and complete source/candidate execution equivalence proved. Raw-source entry points now explicitly require legal arange sizes and SourceDomain machine/address bounds: N and M below 2^63, PID below 2^31, and active matrix offsets below 2^64. This corrects the old all-Nat source claim, which was invalid for the retained uint64 casts; it is a disclosed premise correction, not an unchanged theorem domain. Existing checked Tensor contracts discharge these bounds and all 48 shape configurations. Original Python and Contract.lean remain unchanged; no new Python guard or value restriction was added. Historical natural-number host models are labelled separately, without asserting AST equality to the raw while program."
     },
     {
       "task": "max_reduction",

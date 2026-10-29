@@ -1,0 +1,10 @@
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/rotary_transform/Proofs/Guards.lean:14:24: warning: This simp argument is unused:
+  Bool.and_eq_true
+
+Hint: Omit it from the simp argument list.
+  simp only [̵s̵h̵a̵p̵e̵C̵h̵e̵c̵k̵,̵B̵o̵o̵l̵.̵a̵n̵d̵_̵e̵q̵_̵t̵r̵u̵e̵,̵d̵e̵c̵i̵d̵e̵_̵e̵q̵_̵t̵r̵u̵e̵_̵e̵q̵]̵[̲s̲h̲a̲p̲e̲C̲h̲e̲c̲k̲,̲ ̲d̲e̲c̲i̲d̲e̲_̲e̲q̲_̲t̲r̲u̲e̲_̲e̲q̲]̲ at hs
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.RotaryTransform.Checked.config_valid: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.RotaryTransform.Checked.indices: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.RotaryTransform.Checked.admitted: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])

@@ -1,0 +1,20 @@
+{
+  "status": "FAIL",
+  "start": 1793291788.496539,
+  "results": [
+    {
+      "file": "bench/examples/Welford/Correct.lean",
+      "status": "FAIL",
+      "sha256": "4d7696a99b4832848d4df70a1917c070e383ca44e7183c3b778626a0eb819703",
+      "exit_code": 1
+    },
+    {
+      "file": "bench/examples/FusedLayerNorm/Correct.lean",
+      "status": "FAIL",
+      "sha256": "91e5d5822f0b5395c4bbdc15592ad575802c3573360189e4acca251454a5be26",
+      "exit_code": 1
+    }
+  ],
+  "end": 1793291788.882542,
+  "scope": "Failed initial probe setup: LEAN_PATH selected the incomplete probe directory. No source theorem was checked in this attempt. Raw logs were superseded by the corrected-path rerun; status retained, not counted as passing."
+}

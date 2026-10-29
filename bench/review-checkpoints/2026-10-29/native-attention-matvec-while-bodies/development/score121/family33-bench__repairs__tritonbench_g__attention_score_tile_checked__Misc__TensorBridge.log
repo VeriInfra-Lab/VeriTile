@@ -1,0 +1,14 @@
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.TensorBridge.mathematical: definition does not reference [VeriTile.Bench.Repairs.AttentionScoreTileChecked.realExecute,
+ VeriTile.Triton.exec] — non-circular ✓
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.TensorBridge.nativeTarget: definition does not reference [VeriTile.Bench.Repairs.AttentionScoreTileChecked.nativeExecute,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.NativePhysical.execute] — non-circular ✓
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.TensorBridge.kernel_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.TensorBridge.empty_query_target: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.TensorBridge.kernel_native: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

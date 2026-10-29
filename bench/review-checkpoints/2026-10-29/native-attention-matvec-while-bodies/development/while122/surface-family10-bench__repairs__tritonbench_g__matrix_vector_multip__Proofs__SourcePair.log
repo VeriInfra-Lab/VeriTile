@@ -1,0 +1,71 @@
+/tmp/while122-surface-probe/bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/SourcePair.lean:25:11: error: Tactic `rfl` failed: The left-hand side
+  run A [] s
+is not definitionally equal to the right-hand side
+  run B [] s
+
+case nil
+α : Type
+inst✝ : Inhabited α
+A B : FP.Structural.Algebra α
+left right : List ComputeStmt
+s : State α
+⊢ run A [] s = run B [] s
+/tmp/while122-surface-probe/bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/SourcePair.lean:34:84: error(lean.unknownIdentifier): Unknown constant `List.forall₂_nil`
+/tmp/while122-surface-probe/bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/SourcePair.lean:53:84: error(lean.unknownIdentifier): Unknown constant `List.forall₂_nil`
+/tmp/while122-surface-probe/bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/SourcePair.lean:51:67: error: unsolved goals
+case a.a.a.a.some.some.some
+native : Scalars
+N M BN BM : ℕ
+g : Graph BN BM
+rowShape : Random.ArangeSizeDomain BN
+columnShape : Random.ArangeSizeDomain BM
+s : State Payload
+val✝² : Values Payload TileDType.real [Random.i32ArangeSize BN rowShape, Random.i32ArangeSize BM columnShape]
+ha : s.regs TileDType.real [Random.i32ArangeSize BN rowShape, Random.i32ArangeSize BM columnShape] "a" = some val✝²
+val✝¹ : Values Payload TileDType.real [1, Random.i32ArangeSize BM columnShape]
+hb : s.regs TileDType.real [1, Random.i32ArangeSize BM columnShape] "b" = some val✝¹
+val✝ : Values Payload TileDType.real [Random.i32ArangeSize BN rowShape, Random.i32ArangeSize BM columnShape]
+hc : s.regs TileDType.real [Random.i32ArangeSize BN rowShape, Random.i32ArangeSize BM columnShape] "acc" = some val✝
+⊢ (s.setReg "acc" TileDType.real [Random.i32ArangeSize BN rowShape, Random.i32ArangeSize BM columnShape] fun i =>
+      Payload.carry (val✝ (i.1, i.2.1, PUnit.unit)) (val✝² (i.1, i.2.1, PUnit.unit)) (val✝¹ (0, i.2.1, PUnit.unit))) =
+    s.setReg "acc" TileDType.real [Random.i32ArangeSize BN rowShape, Random.i32ArangeSize BM columnShape]
+      (bop
+        (fun left right =>
+          match right with
+          | a.product b => left.carry a b
+          | x => Payload.word 0#32)
+        Broadcast.nil.consSame.consSame val✝
+        (bop (fun left right => left.product right) Broadcast.nil.consSame.consR val✝² val✝¹))
+/tmp/while122-surface-probe/bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/SourcePair.lean:76:84: error(lean.unknownIdentifier): Unknown constant `List.forall₂_nil`
+/tmp/while122-surface-probe/bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/SourcePair.lean:116:2: error: Tactic `apply` failed: could not unify the conclusion of `@funext`
+  ?f = ?g
+with the goal
+  ((run (algebra native g) (SourceCode.original N M BN BM rowShape columnShape).before s).bind fun a =>
+      run (fusedAlgebra native g)
+        [ComputeStmt.whileLoop (SourceCode.candidate N M BN BM rowShape columnShape).condition
+            (SourceCode.candidate N M BN BM rowShape columnShape).body]
+        a) =
+    (run (algebra native g) (SourceCode.original N M BN BM rowShape columnShape).before s).bind
+      (run (algebra native g)
+        [ComputeStmt.whileLoop (SourceCode.original N M BN BM rowShape columnShape).condition
+            (SourceCode.original N M BN BM rowShape columnShape).body])
+
+Note: The full type of `@funext` is
+  ∀ {α : Sort ?u.5156.733} {β : α → Sort ?u.5156.732} {f g : (x : α) → β x}, (∀ (x : α), f x = g x) → f = g
+
+case e_a
+native : Scalars
+N M BN BM : ℕ
+g : Graph BN BM
+rowShape : Random.ArangeSizeDomain BN
+columnShape : Random.ArangeSizeDomain BM
+s : State Payload
+⊢ ((run (algebra native g) (SourceCode.original N M BN BM rowShape columnShape).before s).bind fun a =>
+      run (fusedAlgebra native g)
+        [ComputeStmt.whileLoop (SourceCode.candidate N M BN BM rowShape columnShape).condition
+            (SourceCode.candidate N M BN BM rowShape columnShape).body]
+        a) =
+    (run (algebra native g) (SourceCode.original N M BN BM rowShape columnShape).before s).bind
+      (run (algebra native g)
+        [ComputeStmt.whileLoop (SourceCode.original N M BN BM rowShape columnShape).condition
+            (SourceCode.original N M BN BM rowShape columnShape).body])

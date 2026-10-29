@@ -1,0 +1,20 @@
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/rotary_emb/Proofs/Geometry.lean:117:40: warning: This simp argument is unused:
+  Work.mk.injEq
+
+Hint: Omit it from the simp argument list.
+  simp_all ̵[̵W̵o̵r̵k̵.̵m̵k̵.̵i̵n̵j̵E̵q̵]̵
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/rotary_emb/Proofs/Geometry.lean:116:43: warning: 'omega' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/rotary_emb/Proofs/Geometry.lean:116:43: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+VeriTile.Bench.Repairs.RotaryEmb.heads_covered: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.RotaryEmb.pairs_covered: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.RotaryEmb.cell_injective: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

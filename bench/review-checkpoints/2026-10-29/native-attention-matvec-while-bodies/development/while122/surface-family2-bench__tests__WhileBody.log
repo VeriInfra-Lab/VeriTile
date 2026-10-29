@@ -1,0 +1,21 @@
+def VeriTile.Tests.WhileBody.counter : ℕ → ComputeKernel :=
+fun limit =>
+  ComputeKernel.mk [] []
+    [ComputeStmt.assign TileDType.nat [] "limit64" (ComputeExpr.alg (Op.natToUnsigned 64 (Op.constNat limit))),
+      ComputeStmt.assign TileDType.nat [] "i" (ComputeExpr.alg (Op.full [] (Op.constNat 0))),
+      ComputeStmt.whileLoop
+        (Op.lt ComparableDType.nat Broadcast.nil (Op.ref TileDType.nat [] "i") (Op.ref TileDType.nat [] "limit64"))
+        [ComputeStmt.assign TileDType.nat [] "i"
+            (ComputeExpr.alg
+              (Op.intToUnsigned 64
+                (Op.add NumericDType.int Broadcast.nil (Op.ref TileDType.nat [] "i").castNatToInt (Op.constInt 1))))]]
+def VeriTile.Tests.WhileBody.wrapping : ComputeKernel :=
+ComputeKernel.mk [] []
+  [ComputeStmt.assign TileDType.nat [] "i" (ComputeExpr.alg (Op.full [] (Op.constNat 18446744073709551615))),
+    ComputeStmt.assign TileDType.nat [] "zero" (ComputeExpr.alg (Op.full [] (Op.constNat 0))),
+    ComputeStmt.whileLoop
+      (Op.gt ComparableDType.nat Broadcast.nil (Op.ref TileDType.nat [] "i") (Op.ref TileDType.nat [] "zero"))
+      [ComputeStmt.assign TileDType.nat [] "i"
+          (ComputeExpr.alg
+            (Op.intToUnsigned 64
+              (Op.add NumericDType.int Broadcast.nil (Op.ref TileDType.nat [] "i").castNatToInt (Op.constInt 1))))]]

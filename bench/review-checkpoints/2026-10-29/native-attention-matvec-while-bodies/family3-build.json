@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "start": 1793292061.0053933,
+  "results": [
+    {
+      "module": "bench.examples.FusedLayerNorm.Correct",
+      "source_sha256": "91e5d5822f0b5395c4bbdc15592ad575802c3573360189e4acca251454a5be26",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793292061.0056884,
+      "end": 1793292067.4759161,
+      "log": "/tmp/body124-family3-bench__examples__FusedLayerNorm__Correct.log"
+    },
+    {
+      "module": "bench.examples.Welford.Correct",
+      "source_sha256": "4d7696a99b4832848d4df70a1917c070e383ca44e7183c3b778626a0eb819703",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793292067.476317,
+      "end": 1793292073.9185486,
+      "log": "/tmp/body124-family3-bench__examples__Welford__Correct.log"
+    }
+  ],
+  "scope": "One serial queue; failed imports block dependents, independent modules continue.",
+  "end": 1793292073.9187894
+}

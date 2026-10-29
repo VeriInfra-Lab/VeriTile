@@ -1,0 +1,1 @@
+/tmp/while122-surface-probe/bench/repairs/tritonbench_g/matrix_vector_multip/Kernels.lean:17:17: error: loop-carried value requires a stable, known source dtype: acc

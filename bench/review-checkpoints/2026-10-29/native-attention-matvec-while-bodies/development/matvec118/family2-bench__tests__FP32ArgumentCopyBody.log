@@ -1,0 +1,3 @@
+VeriTile.Tests.FP32ArgumentCopyBody.copied_argument_keeps_fp32: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

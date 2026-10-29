@@ -1,0 +1,11 @@
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/IndexProjection.lean:17:57: error: No goals to be solved
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/IndexProjection.lean:19:8: warning: Possibly looping simp theorem: `Tile.scalar.eq_1`
+
+Note: Possibly caused by: `Tile.scalar_eta` and `Tile.scalar`
+
+Hint: You can disable a simp theorem from the default simp set by passing `- theoremName` to `simp`.
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/IndexProjection.lean:19:2: error: Tactic `simp` failed with a nested error:
+maximum recursion depth has been reached
+use `set_option maxRecDepth <num>` to increase limit
+use `set_option diagnostics true` to get diagnostic information
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/IndexProjection.lean:21:0: error: VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.IndexProjection.key_offset: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

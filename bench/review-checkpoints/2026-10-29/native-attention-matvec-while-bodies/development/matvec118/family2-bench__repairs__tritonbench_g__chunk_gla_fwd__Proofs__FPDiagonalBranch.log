@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.ChunkGlaFwd.FPDiagonal.condition_eval: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.ChunkGlaFwd.FPDiagonal.stop_eval: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,4 @@
+/tmp/while122-surface-probe/bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/SourceCode.lean:11:92: error: unexpected token 'true'; expected term
+/tmp/while122-surface-probe/bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/SourceCode.lean:14:97: error: unexpected token 'true'; expected term
+/tmp/while122-surface-probe/bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/SourceCode.lean:16:4: warning: declaration uses `sorry`
+/tmp/while122-surface-probe/bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/SourceCode.lean:20:4: warning: declaration uses `sorry`

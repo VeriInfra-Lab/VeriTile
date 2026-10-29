@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.ChunkGlaSimple.CheckedHost.wrapper_complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.ChunkGlaSimple.CheckedHost.native_abi: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

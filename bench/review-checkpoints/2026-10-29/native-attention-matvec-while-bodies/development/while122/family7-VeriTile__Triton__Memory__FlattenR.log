@@ -1,0 +1,132 @@
+/tmp/while122-frontend/VeriTile/Triton/Memory/FlattenR.lean:1306:58: warning: This simp argument is unused:
+  Region.cast_cast
+
+Hint: Omit it from the simp argument list.
+  simp only [reduceIte, FlatAlloc.trTile, R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵_̵c̵a̵s̵t̵,̵ ̵Region.cast_self]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-frontend/VeriTile/Triton/Memory/FlattenR.lean:1306:76: warning: This simp argument is unused:
+  Region.cast_self
+
+Hint: Omit it from the simp argument list.
+  simp only [reduceIte, FlatAlloc.trTile, Region.cast_cast,̵ ̵R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵_̵s̵e̵l̵f̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-frontend/VeriTile/Triton/Memory/FlattenR.lean:1342:62: warning: This simp argument is unused:
+  Region.cast_cast
+
+Hint: Omit it from the simp argument list.
+  simp only [reduceIte, FlatAlloc.trTile, R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵_̵c̵a̵s̵t̵,̵ ̵Region.cast_self]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-frontend/VeriTile/Triton/Memory/FlattenR.lean:1342:80: warning: This simp argument is unused:
+  Region.cast_self
+
+Hint: Omit it from the simp argument list.
+  simp only [reduceIte, FlatAlloc.trTile, Region.cast_cast,̵ ̵R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵_̵s̵e̵l̵f̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-frontend/VeriTile/Triton/Memory/FlattenR.lean:1397:66: warning: This simp argument is unused:
+  Region.cast_cast
+
+Hint: Omit it from the simp argument list.
+  simp only [reduceIte, FlatAlloc.trTile, R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵_̵c̵a̵s̵t̵,̵ ̵Region.cast_self]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-frontend/VeriTile/Triton/Memory/FlattenR.lean:1397:84: warning: This simp argument is unused:
+  Region.cast_self
+
+Hint: Omit it from the simp argument list.
+  simp only [reduceIte, FlatAlloc.trTile, Region.cast_cast,̵ ̵R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵_̵s̵e̵l̵f̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-frontend/VeriTile/Triton/Memory/FlattenR.lean:1432:29: warning: This simp argument is unused:
+  reduceIte
+
+Hint: Omit it from the simp argument list.
+  simp only [r̵e̵d̵u̵c̵e̵I̵t̵e̵,̵ ̵FlatAlloc.trTile, Region.cast_cast, Region.cast_self]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-frontend/VeriTile/Triton/Memory/FlattenR.lean:1432:58: warning: This simp argument is unused:
+  Region.cast_cast
+
+Hint: Omit it from the simp argument list.
+  simp only [reduceIte, FlatAlloc.trTile, R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵_̵c̵a̵s̵t̵,̵ ̵Region.cast_self]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-frontend/VeriTile/Triton/Memory/FlattenR.lean:1432:76: warning: This simp argument is unused:
+  Region.cast_self
+
+Hint: Omit it from the simp argument list.
+  simp only [reduceIte, FlatAlloc.trTile, Region.cast_cast,̵ ̵R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵_̵s̵e̵l̵f̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-frontend/VeriTile/Triton/Memory/FlattenR.lean:1479:33: warning: This simp argument is unused:
+  reduceIte
+
+Hint: Omit it from the simp argument list.
+  simp only [r̵e̵d̵u̵c̵e̵I̵t̵e̵,̵ ̵FlatAlloc.trTile, Region.cast_cast, Region.cast_self]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-frontend/VeriTile/Triton/Memory/FlattenR.lean:1479:62: warning: This simp argument is unused:
+  Region.cast_cast
+
+Hint: Omit it from the simp argument list.
+  simp only [reduceIte, FlatAlloc.trTile, R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵_̵c̵a̵s̵t̵,̵ ̵Region.cast_self]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-frontend/VeriTile/Triton/Memory/FlattenR.lean:1479:80: warning: This simp argument is unused:
+  Region.cast_self
+
+Hint: Omit it from the simp argument list.
+  simp only [reduceIte, FlatAlloc.trTile, Region.cast_cast,̵ ̵R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵_̵s̵e̵l̵f̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-frontend/VeriTile/Triton/Memory/FlattenR.lean:1546:37: warning: This simp argument is unused:
+  reduceIte
+
+Hint: Omit it from the simp argument list.
+  simp only [r̵e̵d̵u̵c̵e̵I̵t̵e̵,̵ ̵FlatAlloc.trTile, Region.cast_cast, Region.cast_self]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-frontend/VeriTile/Triton/Memory/FlattenR.lean:1546:66: warning: This simp argument is unused:
+  Region.cast_cast
+
+Hint: Omit it from the simp argument list.
+  simp only [reduceIte, FlatAlloc.trTile, R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵_̵c̵a̵s̵t̵,̵ ̵Region.cast_self]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-frontend/VeriTile/Triton/Memory/FlattenR.lean:1546:84: warning: This simp argument is unused:
+  Region.cast_self
+
+Hint: Omit it from the simp argument list.
+  simp only [reduceIte, FlatAlloc.trTile, Region.cast_cast,̵ ̵R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵_̵s̵e̵l̵f̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-frontend/VeriTile/Triton/Memory/FlattenR.lean:1670:27: warning: 'simp_wf' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/while122-frontend/VeriTile/Triton/Memory/FlattenR.lean:1684:27: warning: 'simp_wf' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/while122-frontend/VeriTile/Triton/Memory/FlattenR.lean:1697:27: warning: 'simp_wf' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/while122-frontend/VeriTile/Triton/Memory/FlattenR.lean:2400:27: warning: 'simp_wf' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/while122-frontend/VeriTile/Triton/Memory/FlattenR.lean:2426:27: warning: 'simp_wf' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/while122-frontend/VeriTile/Triton/Memory/FlattenR.lean:2451:27: warning: 'simp_wf' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/while122-frontend/VeriTile/Triton/Memory/FlattenR.lean:3306:27: warning: 'simp_wf' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/while122-frontend/VeriTile/Triton/Memory/FlattenR.lean:3347:27: warning: 'simp_wf' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/while122-frontend/VeriTile/Triton/Memory/FlattenR.lean:3387:27: warning: 'simp_wf' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`

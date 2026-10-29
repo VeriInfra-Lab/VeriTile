@@ -1,0 +1,3 @@
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/IO.lean:34:5: warning: unused variable `width`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`

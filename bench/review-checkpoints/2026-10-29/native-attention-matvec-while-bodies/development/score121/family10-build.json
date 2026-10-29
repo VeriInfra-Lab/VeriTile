@@ -1,0 +1,25 @@
+{
+  "status": "FAIL",
+  "start": 1793275035.7453694,
+  "results": [
+    {
+      "module": "VeriTile.Triton.Float.IntegerErasure",
+      "source_sha256": "a3507fa09f729eb1953f4dc425663cad8990f520819065b7ea97f8093cb00f0c",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793275035.745659,
+      "end": 1793275073.7397223,
+      "log": "/tmp/score121-family10-VeriTile__Triton__Float__IntegerErasure.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealProgram",
+      "source_sha256": "ff65de7f64a7ca969dfdff95629950fe7f2a0d31cdf53ef9b843ab90c99ec791",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "VeriTile.Triton.Float.IntegerErasure"
+      ]
+    }
+  ],
+  "scope": "One serial queue; failed imports block dependents, independent modules continue.",
+  "end": 1793275073.7402906
+}

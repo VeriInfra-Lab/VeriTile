@@ -1,0 +1,27 @@
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/BackwardInterface.lean:70:50: warning: 'rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/BackwardInterface.lean:88:52: warning: 'rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/BackwardInterface.lean:70:50: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/BackwardInterface.lean:88:52: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/BackwardInterface.lean:67:58: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/BackwardInterface.lean:73:41: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/BackwardInterface.lean:80:58: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/BackwardInterface.lean:86:58: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+VeriTile.Bench.Repairs.LayerNormLiger.Ordered.backward_implements: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.RotaryTransformTileChecked.SourceBlocks.run_constant_branch: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

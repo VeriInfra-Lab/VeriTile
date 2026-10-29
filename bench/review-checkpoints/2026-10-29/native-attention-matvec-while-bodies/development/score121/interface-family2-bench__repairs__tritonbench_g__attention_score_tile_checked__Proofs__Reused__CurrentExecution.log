@@ -1,0 +1,12 @@
+/tmp/score121-interface-probe/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/CurrentExecution.lean:42:6: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.Whole002.Execution.kernel_eq: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.Whole002.Execution.ExactReal.execute_eq: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.Whole002.Execution.Native.execute_eq: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

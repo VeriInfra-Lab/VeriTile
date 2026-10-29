@@ -1,0 +1,45 @@
+/tmp/body124-frontend/bench/examples/Welford/Proofs/Real.lean:206:29: warning: This simp argument is unused:
+  Except.bind
+
+Hint: Omit it from the simp argument list.
+  simp [twopassWelfordKernel, twopassMathKernel, ComputeKernel.eraseDType,
+  ̵  ̵ ̵ ̵ComputeStmt.toAlgorithm?,
+  ̲  ̲ ̲ ̲ComputeStmt.listToAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
+      ComputeDType.eraseDType, E̵x̵c̵e̵p̵t̵.̵b̵i̵n̵d̵,̵
+  ̵ ̵ ̵ ̵ ̵Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,
+  ̵  ̵ ̵ ̵Op.eraseDType,
+  ̲  ̲ ̲ ̲VeriTile.Triton.eraseDType, NumericDType.eraseDType, IntegralDType.eraseDType,
+      MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/body124-frontend/bench/examples/Welford/Proofs/Real.lean:214:85: warning: This simp argument is unused:
+  IntegralDType.eraseDType
+
+Hint: Omit it from the simp argument list.
+  simp [Op.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType,̵ ̵I̵n̵t̵e̵g̵r̵a̵l̵D̵T̵y̵p̵e̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/body124-frontend/bench/examples/Welford/Proofs/Real.lean:211:2: warning: 'all_goals try norm_num' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/body124-frontend/bench/examples/Welford/Proofs/Real.lean:221:29: warning: This simp argument is unused:
+  Except.bind
+
+Hint: Omit it from the simp argument list.
+  simp [onlineWelfordKernel, onlineMathKernel, ComputeKernel.eraseDType,
+  ̵  ̵ ̵ ̵ComputeStmt.toAlgorithm?,
+  ̲  ̲ ̲ ̲ComputeStmt.listToAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
+      ComputeDType.eraseDType, E̵x̵c̵e̵p̵t̵.̵b̵i̵n̵d̵,̵
+  ̵ ̵ ̵ ̵ ̵Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,
+  ̵  ̵ ̵ ̵Op.eraseDType,
+  ̲  ̲ ̲ ̲VeriTile.Triton.eraseDType, NumericDType.eraseDType, IntegralDType.eraseDType,
+      MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/body124-frontend/bench/examples/Welford/Proofs/Real.lean:229:85: warning: This simp argument is unused:
+  IntegralDType.eraseDType
+
+Hint: Omit it from the simp argument list.
+  simp [Op.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType,̵ ̵I̵n̵t̵e̵g̵r̵a̵l̵D̵T̵y̵p̵e̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

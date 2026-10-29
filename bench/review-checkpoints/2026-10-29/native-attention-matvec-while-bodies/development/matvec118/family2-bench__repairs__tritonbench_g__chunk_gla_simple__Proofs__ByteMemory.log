@@ -1,0 +1,30 @@
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/chunk_gla_simple/Proofs/ByteMemory.lean:28:35: warning: This simp argument is unused:
+  BitVec.getElem_append
+
+Hint: Omit it from the simp argument list.
+  simp [̵B̵i̵t̵V̵e̵c̵.̵g̵e̵t̵E̵l̵e̵m̵_̵a̵p̵p̵e̵n̵d̵,̵B̵i̵t̵V̵e̵c̵.̵g̵e̵t̵E̵l̵e̵m̵_̵e̵x̵t̵r̵a̵c̵t̵L̵s̵b̵'̵]̵[̲B̲i̲t̲V̲e̲c̲.̲g̲e̲t̲E̲l̲e̲m̲_̲e̲x̲t̲r̲a̲c̲t̲L̲s̲b̲'̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/chunk_gla_simple/Proofs/ByteMemory.lean:28:57: warning: This simp argument is unused:
+  BitVec.getElem_extractLsb'
+
+Hint: Omit it from the simp argument list.
+  simp [BitVec.getElem_append,̵B̵i̵t̵V̵e̵c̵.̵g̵e̵t̵E̵l̵e̵m̵_̵e̵x̵t̵r̵a̵c̵t̵L̵s̵b̵'̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.ChunkGlaSimple.ByteMemory.decode_encode: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.ChunkGlaSimple.ByteMemory.encode_decode: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.ChunkGlaSimple.ByteMemory.store_read: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.ChunkGlaSimple.ByteMemory.stores_render: axiom footprint ⊆ standard base ✓  ([Quot.sound,
+ propext,
+ Classical.choice])
+VeriTile.Bench.Repairs.ChunkGlaSimple.ByteMemory.render_read: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.ChunkGlaSimple.ByteMemory.render_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

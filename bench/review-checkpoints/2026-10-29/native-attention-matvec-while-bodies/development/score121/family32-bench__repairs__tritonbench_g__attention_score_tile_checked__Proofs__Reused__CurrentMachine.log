@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.Whole002.Machine.source_pointers_exact: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.Whole002.Machine.closed: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

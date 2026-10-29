@@ -1,0 +1,9 @@
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/Settings.lean:18:16: warning: 'simp_wf' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/Settings.lean:27:14: warning: 'simp_wf' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/Settings.lean:39:14: warning: 'simp_wf' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`

@@ -1,0 +1,3 @@
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/chunk_gla_fwd/Proofs/FPOutput.lean:63:42: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`

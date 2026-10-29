@@ -1,0 +1,14 @@
+/tmp/while122-frontend/VeriTile/Triton/Launch/Grid.lean:199:8: warning: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp ̵[̵e̵v̵a̵l̵O̵p̵]̵
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-frontend/VeriTile/Triton/Launch/Grid.lean:206:8: warning: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp [e̵v̵a̵l̵O̵p̵,̵ ̵h]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

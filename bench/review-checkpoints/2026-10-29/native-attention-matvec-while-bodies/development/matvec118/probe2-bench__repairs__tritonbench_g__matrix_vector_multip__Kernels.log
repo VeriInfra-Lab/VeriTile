@@ -1,0 +1,4 @@
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/matrix_vector_multip/Kernels.lean:9:36: error: invalid {...} notation, expected type is not of the form (C ...)
+  CallSignature
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/matrix_vector_multip/Kernels.lean:27:6: error: unexpected token ':='; expected ':' or ']'
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/matrix_vector_multip/Kernels.lean:67:6: error: unexpected token ':='; expected ':' or ']'

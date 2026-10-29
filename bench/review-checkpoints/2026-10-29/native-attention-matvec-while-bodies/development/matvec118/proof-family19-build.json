@@ -1,0 +1,25 @@
+{
+  "status": "FAIL",
+  "start": 1793284792.5988002,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.SourceOutput",
+      "source_sha256": "dd7ed41616d58e09a562cae0ad316055a9ec7d2e9e32cbde1794f06b1045109f",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793284792.5994573,
+      "end": 1793284798.4656868,
+      "log": "/tmp/matvec118-proof-family19-bench__repairs__tritonbench_g__matrix_vector_multip__Proofs__SourceOutput.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.SourceSafety",
+      "source_sha256": "8748d72dd2c67ef7376fe0b810df4c2def73d97a6ddd34f29371be641c70e846",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.SourceOutput"
+      ]
+    }
+  ],
+  "scope": "One serial queue; failed imports block dependents, independent modules continue.",
+  "end": 1793284798.4665143
+}

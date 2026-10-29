@@ -1,0 +1,15 @@
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/CandidateBackwardRun.lean:75:12: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/CandidateBackwardRun.lean:73:2: warning: 'all_goals try simp only [← Int.natCast_mul, ← Int.natCast_add, Int.toNat_natCast]' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/CandidateBackwardRun.lean:74:2: warning: 'all_goals try rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+VeriTile.Bench.Repairs.LayerNormLiger.Backward.Candidate.prelude_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormLiger.Backward.Candidate.body_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

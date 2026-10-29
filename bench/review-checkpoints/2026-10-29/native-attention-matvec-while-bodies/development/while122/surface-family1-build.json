@@ -1,0 +1,97 @@
+{
+  "status": "FAIL",
+  "start": 1793282403.8027909,
+  "results": [
+    {
+      "module": "VeriTile.Triton.DSL.TypedStores",
+      "source_sha256": "ce802b39123d99d91a6b396e03b45f4d447570fb1ff359be43ac30f8c18c999d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793282403.803408,
+      "end": 1793282412.4522827,
+      "log": "/tmp/while122-surface-family1-VeriTile__Triton__DSL__TypedStores.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.TypedStorageReduction",
+      "source_sha256": "fd7f424b3a27ae3b381c6972ba223946bd6d54d93666439934ed0c87afedc5b4",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793282412.4526777,
+      "end": 1793282414.5103352,
+      "log": "/tmp/while122-surface-family1-VeriTile__Triton__DSL__TypedStorageReduction.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.CallSignature",
+      "source_sha256": "736efa77feb20d07503e00fa78b37e30680c209610bacbe1f09c022ad688e67b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793282414.5112097,
+      "end": 1793282461.6121168,
+      "log": "/tmp/while122-surface-family1-VeriTile__Triton__DSL__CallSignature.log"
+    },
+    {
+      "module": "bench.tests.WhileBody",
+      "source_sha256": "f6a4a5030ff49a27bffd4cdc6d3d3577cf606461e61d893a041b14814112c405",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793282461.61262,
+      "end": 1793282463.094664,
+      "log": "/tmp/while122-surface-family1-bench__tests__WhileBody.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Kernels",
+      "source_sha256": "4b0542a4fbee0f3ca584b44364bd632e31efa75dc299f27a59cc6197109705da",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793282463.0950327,
+      "end": 1793282464.746561,
+      "log": "/tmp/while122-surface-family1-bench__repairs__tritonbench_g__matrix_vector_multip__Kernels.log"
+    },
+    {
+      "module": "VeriTile.Triton.Source.While",
+      "source_sha256": "e6e9410143520b400d4c93043c303e99b673ea44635a62bf6aefda9df015d69e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793282464.747016,
+      "end": 1793282466.0792804,
+      "log": "/tmp/while122-surface-family1-VeriTile__Triton__Source__While.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.SourceCode",
+      "source_sha256": "048f182dc179498a3b6be0b9deb6ee0dbdfbca15d6d9509b9a09a5d590ca5d8b",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.matrix_vector_multip.Kernels"
+      ]
+    },
+    {
+      "module": "VeriTile.Torch.Tensor",
+      "source_sha256": "5ffea95271519b19b6ac5bd006cb95f778ebc99c21648700ca74d054557db052",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793282466.0798056,
+      "end": 1793282467.2404742,
+      "log": "/tmp/while122-surface-family1-VeriTile__Torch__Tensor.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Contract",
+      "source_sha256": "d4f5be69f60cfe2d44de28da921e1784cef566c6332ba597bea68ea285383526",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793282467.240825,
+      "end": 1793282468.4234943,
+      "log": "/tmp/while122-surface-family1-bench__repairs__tritonbench_g__matrix_vector_multip__Contract.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.SourceDomain",
+      "source_sha256": "d77f2fd73bec145a1e4cb69af85bbea491929ceeecfe2d25939c805deac32b15",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793282468.423854,
+      "end": 1793282470.858492,
+      "log": "/tmp/while122-surface-family1-bench__repairs__tritonbench_g__matrix_vector_multip__SourceDomain.log"
+    }
+  ],
+  "scope": "One serial queue; failed imports block dependents, independent modules continue.",
+  "end": 1793282470.8587618
+}

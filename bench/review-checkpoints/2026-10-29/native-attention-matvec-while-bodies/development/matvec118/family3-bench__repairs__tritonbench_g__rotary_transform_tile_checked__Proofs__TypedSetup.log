@@ -1,0 +1,15 @@
+VeriTile.Bench.Repairs.RotaryTransformTileChecked.TypedExecution.run_source_body: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/rotary_transform_tile_checked/Proofs/TypedSetup.lean:52:5: warning: unused variable `cumulative64`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/rotary_transform_tile_checked/Proofs/TypedSetup.lean:52:18: warning: unused variable `offsets64`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.Repairs.RotaryTransformTileChecked.TypedExecution.setup: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.RotaryTransformTileChecked.TypedExecution.indices: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

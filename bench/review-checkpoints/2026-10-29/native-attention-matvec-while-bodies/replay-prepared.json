@@ -1,0 +1,10 @@
+{
+  "status": "PREPARED_ONLY_NOT_RUN",
+  "focused": 268,
+  "cumulative": 6163,
+  "audit_modules": 2659,
+  "tasks": 124,
+  "pairs": 433,
+  "pending": 59,
+  "scope": "Necessary Welford/FusedLayerNorm regression: Real count bounds are explicit; FP public bounds and source bodies are unchanged. Final user-limited scope: Liger, selected attention-score and repaired matrix-vector while. Original/candidate bodies retain all statements, casts, masks and source control flow. Shared while semantics reevaluates the current-state guard without arbitrary fuel; explicit uint64 constructors and carried arithmetic keep modular behavior. Full source execution, independent Real results, actual FP pairs and complete IO/safety/frame are reconnected. Matrix-vector raw-source theorems now explicitly require legal arange sizes and machine/address bounds; existing Tensor contracts discharge them, without new Python guards. Attention-score and Liger public domains remain unchanged. No other pending task or signed full-constructor feature is included. Keep draft; no merge."
+}

@@ -1,0 +1,15 @@
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/rotary_transform_tile_checked/Contract.lean:26:46: warning: This simp argument is unused:
+  h
+
+Hint: Omit it from the simp argument list.
+  simp ̵[̵h̵]̵
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.RotaryTransformTileChecked.check_iff: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.RotaryTransformTileChecked.empty_preserves: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.RotaryTransformTileChecked.vector_bounds: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.RotaryTransformTileChecked.check: definition does not reference [VeriTile.Bench.Repairs.RotaryTransform.source,
+ VeriTile.Bench.Repairs.RotaryTransform.Native.selected] — non-circular ✓

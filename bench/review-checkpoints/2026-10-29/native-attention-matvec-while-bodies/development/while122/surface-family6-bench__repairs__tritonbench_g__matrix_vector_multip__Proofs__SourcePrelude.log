@@ -1,0 +1,293 @@
+/tmp/while122-surface-probe/bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/SourcePrelude.lean:41:36: error: unsolved goals
+α : Type
+inst✝ : Inhabited α
+A : FP.Structural.Algebra α
+N M BN BM : ℕ
+rowShape : Random.ArangeSizeDomain BN
+columnShape : Random.ArangeSizeDomain BM
+s : State α
+domain : SourceDomain N M BN BM (s.pids 0)
+hn : N % 2 ^ 64 = N
+hm : M % 2 ^ 64 = M
+hp : s.pids 0 % 2 ^ 64 = s.pids 0
+hprod : s.pids 0 * BN % 2 ^ 64 = s.pids 0 * BN
+hnLane : ∀ (i : Fin BN), ↑i % 2 ^ 64 = ↑i
+hmLane : ∀ (i : Fin BM), ↑i % 2 ^ 64 = ↑i
+hrow : ∀ (i : Fin BN), (s.pids 0 * BN + ↑i) % 2 ^ 64 = s.pids 0 * BN + ↑i
+⊢ (do
+      let __do_lift ←
+        do
+          let v ←
+            do
+              let __do_lift ← some fun x => N
+              let __do_lift_1 ←
+                do
+                  let v ← some fun x => 2 ^ 64
+                  pure fun x => v PUnit.unit
+              pure (bop (integralMod IntegralDType.nat) (IntegerExpr.sameShape []) __do_lift __do_lift_1)
+          pure (s.setReg "N" TileDType.nat [] v)
+      let __do_lift ←
+        do
+          let v ←
+            do
+              let __do_lift ← some fun x => M
+              let __do_lift_1 ←
+                do
+                  let v ← some fun x => 2 ^ 64
+                  pure fun x => v PUnit.unit
+              pure (bop (integralMod IntegralDType.nat) (IntegerExpr.sameShape []) __do_lift __do_lift_1)
+          pure (__do_lift.setReg "M" TileDType.nat [] v)
+      let __do_lift ←
+        do
+          let v ←
+            do
+              let __do_lift ← some fun x => M
+              let __do_lift_1 ←
+                do
+                  let v ← some fun x => 2 ^ 64
+                  pure fun x => v PUnit.unit
+              pure (bop (integralMod IntegralDType.nat) (IntegerExpr.sameShape []) __do_lift __do_lift_1)
+          pure (__do_lift.setReg "stride_an" TileDType.nat [] v)
+      let __do_lift ←
+        do
+          let v ←
+            do
+              let __do_lift ← some fun x => 1
+              let __do_lift_1 ←
+                do
+                  let v ← some fun x => 2 ^ 64
+                  pure fun x => v PUnit.unit
+              pure (bop (integralMod IntegralDType.nat) (IntegerExpr.sameShape []) __do_lift __do_lift_1)
+          pure (__do_lift.setReg "stride_am" TileDType.nat [] v)
+      let __do_lift ←
+        do
+          let v ←
+            do
+              let __do_lift ← some fun x => 1
+              let __do_lift_1 ←
+                do
+                  let v ← some fun x => 2 ^ 64
+                  pure fun x => v PUnit.unit
+              pure (bop (integralMod IntegralDType.nat) (IntegerExpr.sameShape []) __do_lift __do_lift_1)
+          pure (__do_lift.setReg "stride_bm" TileDType.nat [] v)
+      let __do_lift ←
+        do
+          let v ←
+            do
+              let __do_lift ← some fun x => 1
+              let __do_lift_1 ←
+                do
+                  let v ← some fun x => 2 ^ 64
+                  pure fun x => v PUnit.unit
+              pure (bop (integralMod IntegralDType.nat) (IntegerExpr.sameShape []) __do_lift __do_lift_1)
+          pure (__do_lift.setReg "stride_cn" TileDType.nat [] v)
+      let __do_lift ←
+        do
+          let v ←
+            do
+              let __do_lift ← some fun x => __do_lift.pids 0
+              let __do_lift_1 ←
+                do
+                  let v ← some fun x => 2 ^ 64
+                  pure fun x => v PUnit.unit
+              pure (bop (integralMod IntegralDType.nat) (IntegerExpr.sameShape []) __do_lift __do_lift_1)
+          pure (__do_lift.setReg "pid" TileDType.nat [] v)
+      let __do_lift ←
+        do
+          let v ←
+            do
+              let v ←
+                do
+                  let __do_lift ←
+                    do
+                      let __do_lift ←
+                        do
+                          let v ←
+                            do
+                              let v ←
+                                do
+                                  let __do_lift ←
+                                    do
+                                      let __do_lift ←
+                                        do
+                                          let v ← __do_lift.regs TileDType.nat [] "pid"
+                                          pure fun i => Int.ofNat (v i)
+                                      let __do_lift_1 ← some fun x => Int.ofNat BN
+                                      pure (bop (fun x1 x2 => x1 * x2) Broadcast.nil __do_lift __do_lift_1)
+                                  let __do_lift_1 ←
+                                    do
+                                      let v ← some fun x => 2 ^ 64
+                                      pure fun x => v PUnit.unit
+                                  pure
+                                      (bop (integralMod IntegralDType.int) (IntegerExpr.sameShape []) __do_lift
+                                        __do_lift_1)
+                              pure fun i => Int.toNat (v i)
+                          pure fun i => Int.ofNat (v i)
+                      let __do_lift_1 ←
+                        do
+                          let v ←
+                            do
+                              let v ←
+                                do
+                                  let __do_lift ← some fun i => ↑i.1
+                                  let __do_lift_1 ←
+                                    do
+                                      let v ← some fun x => 2 ^ 64
+                                      pure fun x => v PUnit.unit
+                                  pure
+                                      (bop (integralMod IntegralDType.nat) (IntegerExpr.sameShape [BN]) __do_lift
+                                        __do_lift_1)
+                              pure fun i => v (TileShape.dropInsertedIndex [BN] ⟨1, ⋯⟩ 1 i)
+                          pure fun i => Int.ofNat (v i)
+                      pure (bop (fun x1 x2 => x1 + x2) Broadcast.scalarL __do_lift __do_lift_1)
+                  let __do_lift_1 ←
+                    do
+                      let v ← some fun x => 2 ^ 64
+                      pure fun x => v PUnit.unit
+                  pure (bop (integralMod IntegralDType.int) (IntegerExpr.sameShape [BN, 1]) __do_lift __do_lift_1)
+              pure fun i => Int.toNat (v i)
+          pure (__do_lift.setReg "offset_n" TileDType.nat [BN, 1] v)
+      let __do_lift ←
+        do
+          let v ←
+            do
+              let v ←
+                do
+                  let __do_lift ← some fun i => ↑i.1
+                  let __do_lift_1 ←
+                    do
+                      let v ← some fun x => 2 ^ 64
+                      pure fun x => v PUnit.unit
+                  pure (bop (integralMod IntegralDType.nat) (IntegerExpr.sameShape [BM]) __do_lift __do_lift_1)
+              pure fun i => v (TileShape.dropInsertedIndex [BM] ⟨0, ⋯⟩ 1 i)
+          pure (__do_lift.setReg "offset_m" TileDType.nat [1, BM] v)
+      let __do_lift ←
+        do
+          let v ←
+            do
+              let f ← some fun a b => decide (a < b)
+              let __do_lift_1 ← __do_lift.regs TileDType.nat [BN, 1] "offset_n"
+              let __do_lift ← __do_lift.regs TileDType.nat [] "N"
+              pure (bop f Broadcast.scalarR __do_lift_1 __do_lift)
+          pure (__do_lift.setReg "n_mask" TileDType.bool [BN, 1] v)
+      let __do_lift ←
+        do
+          let v ←
+            do
+              let __do_lift_1 ← some fun x => ({ name := "A" }, 0)
+              let __do_lift ←
+                do
+                  let __do_lift_2 ←
+                    do
+                      let v ←
+                        do
+                          let __do_lift ←
+                            do
+                              let __do_lift_2 ←
+                                do
+                                  let v ← __do_lift.regs TileDType.nat [BN, 1] "offset_n"
+                                  pure fun i => Int.ofNat (v i)
+                              let __do_lift ←
+                                do
+                                  let v ← __do_lift.regs TileDType.nat [] "stride_an"
+                                  pure fun i => Int.ofNat (v i)
+                              pure (bop (fun x1 x2 => x1 * x2) Broadcast.scalarR __do_lift_2 __do_lift)
+                          let __do_lift_2 ←
+                            do
+                              let v ← some fun x => 2 ^ 64
+                              pure fun x => v PUnit.unit
+                          pure
+                              (bop (integralMod IntegralDType.int) (IntegerExpr.sameShape [BN, 1]) __do_lift
+                                __do_lift_2)
+                      pure fun i => Int.toNat (v i)
+                  let __do_lift ←
+                    do
+                      let v ←
+                        do
+                          let __do_lift ←
+                            do
+                              let __do_lift_3 ←
+                                do
+                                  let v ← __do_lift.regs TileDType.nat [1, BM] "offset_m"
+                                  pure fun i => Int.ofNat (v i)
+                              let __do_lift ←
+                                do
+                                  let v ← __do_lift.regs TileDType.nat [] "stride_am"
+                                  pure fun i => Int.ofNat (v i)
+                              pure (bop (fun x1 x2 => x1 * x2) Broadcast.scalarR __do_lift_3 __do_lift)
+                          let __do_lift_3 ←
+                            do
+                              let v ← some fun x => 2 ^ 64
+                              pure fun x => v PUnit.unit
+                          pure
+                              (bop (integralMod IntegralDType.int) (IntegerExpr.sameShape [1, BM]) __do_lift
+                                __do_lift_3)
+                      pure fun i => Int.toNat (v i)
+                  pure (bop (fun x1 x2 => x1 + x2) Broadcast.nil.consL.consR __do_lift_2 __do_lift)
+              pure (bop (fun a b => (a.1, a.2 + b)) Broadcast.scalarL __do_lift_1 __do_lift)
+          pure (__do_lift.setReg "A_ptrs" TileDType.ptr [BN, BM] v)
+      let __do_lift ←
+        do
+          let v ←
+            do
+              let __do_lift_1 ← some fun x => ({ name := "B" }, 0)
+              let __do_lift ←
+                do
+                  let v ←
+                    do
+                      let __do_lift ←
+                        do
+                          let __do_lift_2 ←
+                            do
+                              let v ← __do_lift.regs TileDType.nat [1, BM] "offset_m"
+                              pure fun i => Int.ofNat (v i)
+                          let __do_lift ←
+                            do
+                              let v ← __do_lift.regs TileDType.nat [] "stride_bm"
+                              pure fun i => Int.ofNat (v i)
+                          pure (bop (fun x1 x2 => x1 * x2) Broadcast.scalarR __do_lift_2 __do_lift)
+                      let __do_lift_2 ←
+                        do
+                          let v ← some fun x => 2 ^ 64
+                          pure fun x => v PUnit.unit
+                      pure (bop (integralMod IntegralDType.int) (IntegerExpr.sameShape [1, BM]) __do_lift __do_lift_2)
+                  pure fun i => Int.toNat (v i)
+              pure (bop (fun a b => (a.1, a.2 + b)) Broadcast.scalarL __do_lift_1 __do_lift)
+          pure (__do_lift.setReg "B_ptrs" TileDType.ptr [1, BM] v)
+      let __do_lift ←
+        do
+          let v ←
+            do
+              let v ← some fun x => A.literal (some ComputeDType.fp32) FloatDType.real 0
+              pure fun x => v PUnit.unit
+          pure (__do_lift.setReg "acc" TileDType.real [BN, BM] v)
+      let __do_lift ←
+        do
+          let v ←
+            do
+              let v ←
+                do
+                  let __do_lift ← some fun x => 0
+                  let __do_lift_1 ←
+                    do
+                      let v ← some fun x => 2 ^ 64
+                      pure fun x => v PUnit.unit
+                  pure (bop (integralMod IntegralDType.nat) (IntegerExpr.sameShape []) __do_lift __do_lift_1)
+              pure fun x => v PUnit.unit
+          pure (__do_lift.setReg "m" TileDType.nat [] v)
+      some __do_lift) =
+    some
+      ((((((((((((((s.setReg "N" TileDType.nat [] fun x => N).setReg "M" TileDType.nat [] fun x => M).setReg "stride_an"
+                                                    TileDType.nat [] fun x => M).setReg
+                                                "stride_am" TileDType.nat [] fun x => 1).setReg
+                                            "stride_bm" TileDType.nat [] fun x => 1).setReg
+                                        "stride_cn" TileDType.nat [] fun x => 1).setReg
+                                    "pid" TileDType.nat [] fun x => s.pids 0).setReg
+                                "offset_n" TileDType.nat [BN, 1] fun i => s.pids 0 * BN + ↑i.1).setReg
+                            "offset_m" TileDType.nat [1, BM] fun i => ↑i.2.1).setReg
+                        "n_mask" TileDType.bool [BN, 1] fun i => decide (s.pids 0 * BN + ↑i.1 < N)).setReg
+                    "A_ptrs" TileDType.ptr [BN, BM] fun i =>
+                    ({ name := "A" }, (s.pids 0 * BN + ↑i.1) * M % 2 ^ 64 + ↑i.2.1 + 0)).setReg
+                "B_ptrs" TileDType.ptr [1, BM] fun i => ({ name := "B" }, ↑i.2.1)).setReg
+            "acc" TileDType.real [BN, BM] fun x => A.literal (some ComputeDType.fp32) FloatDType.real 0).setReg
+        "m" TileDType.nat [] fun x => 0)

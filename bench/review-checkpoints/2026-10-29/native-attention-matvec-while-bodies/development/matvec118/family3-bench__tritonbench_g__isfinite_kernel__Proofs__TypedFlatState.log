@@ -1,0 +1,22 @@
+/tmp/matvec118-frontend/bench/tritonbench_g/isfinite_kernel/Proofs/TypedFlatState.lean:61:58: warning: This simp argument is unused:
+  defaultValue
+
+Hint: Omit it from the simp argument list.
+  simp_all [trCell, trValue, Cell.read,̵ ̵d̵e̵f̵a̵u̵l̵t̵V̵a̵l̵u̵e̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.TypedFlat.state_ext: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.TypedFlat.trCell_read_data: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.TypedFlat.mem_addr: axiom footprint ⊆ standard base ✓  ([Quot.sound,
+ propext,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.TypedFlat.readFlat_write: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.TypedFlat.flatten_setReg: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.TypedFlat.flatten_write: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.TypedFlat.flatten_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

@@ -1,0 +1,9 @@
+/tmp/matvec118-frontend/bench/tritonbench_g/matrix_vector_multip/Proofs/WholeNativeHost.lean:36:4: warning: 'all_goals split <;> rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/matvec118-frontend/bench/tritonbench_g/matrix_vector_multip/Proofs/WholeNativeHost.lean:36:14: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/matvec118-frontend/bench/tritonbench_g/matrix_vector_multip/Proofs/WholeNativeHost.lean:97:2: warning: 'simp_wf' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`

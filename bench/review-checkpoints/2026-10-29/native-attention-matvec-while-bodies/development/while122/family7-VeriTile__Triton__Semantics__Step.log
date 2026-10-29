@@ -1,0 +1,25 @@
+/tmp/while122-frontend/VeriTile/Triton/Semantics/Step.lean:980:25: warning: 'subst_vars' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/while122-frontend/VeriTile/Triton/Semantics/Step.lean:980:37: warning: 'simp_wf' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/while122-frontend/VeriTile/Triton/Semantics/Step.lean:1001:25: warning: 'subst_vars' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/while122-frontend/VeriTile/Triton/Semantics/Step.lean:1001:37: warning: 'simp_wf' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/while122-frontend/VeriTile/Triton/Semantics/Step.lean:1022:25: warning: 'subst_vars' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/while122-frontend/VeriTile/Triton/Semantics/Step.lean:1022:37: warning: 'simp_wf' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/while122-frontend/VeriTile/Triton/Semantics/Step.lean:1045:8: warning: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp [e̵v̵a̵l̵O̵p̵,̵ ̵Tile.bop, NumericDType.add]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

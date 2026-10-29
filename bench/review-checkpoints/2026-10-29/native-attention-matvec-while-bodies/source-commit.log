@@ -1,0 +1,4 @@
+Auto packing the repository in background for optimum performance.
+See "git help gc" for manual housekeeping.
+[codex/body-copy-cache-and-constexpr 19b8074c8] Respect uint64 count bounds in existing statistics proofs
+ 8 files changed, 117 insertions(+), 67 deletions(-)

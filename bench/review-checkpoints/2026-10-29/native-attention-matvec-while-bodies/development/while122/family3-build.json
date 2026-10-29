@@ -1,0 +1,35 @@
+{
+  "status": "FAIL",
+  "start": 1793280879.8828235,
+  "results": [
+    {
+      "module": "VeriTile.Triton.Control.While",
+      "source_sha256": "9458d645f4c27328b3a32316a4242e6685bdf8ba7fa9e5c9eca1aa21b154e2b2",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793280879.8831131,
+      "end": 1793280880.1814508,
+      "log": "/tmp/while122-family3-VeriTile__Triton__Control__While.log"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.Step",
+      "source_sha256": "a1f1344ca1c45b77a74a4f0995cc3ea592c1d4d5b114862da0f18a9fa3a2cb5a",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793280880.1821182,
+      "end": 1793280887.6354942,
+      "log": "/tmp/while122-family3-VeriTile__Triton__Semantics__Step.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.Structural",
+      "source_sha256": "c2665ce59108e3f5ae97866534926797298ed7c8662c9c89ccd7af59b78f72a6",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793280887.6363034,
+      "end": 1793280986.4686692,
+      "log": "/tmp/while122-family3-VeriTile__Triton__Float__Structural.log"
+    }
+  ],
+  "scope": "One serial queue; failed imports block dependents, independent modules continue.",
+  "end": 1793280986.468987
+}

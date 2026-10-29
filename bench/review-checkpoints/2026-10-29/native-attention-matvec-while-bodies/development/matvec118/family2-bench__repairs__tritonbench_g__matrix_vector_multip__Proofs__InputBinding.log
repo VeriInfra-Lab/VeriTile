@@ -1,0 +1,11 @@
+VeriTile.Bench.Repairs.MatrixVectorMultip.TensorBinding.matrix_base_bytes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.MatrixVectorMultip.TensorBinding.vector_base_bytes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.MatrixVectorMultip.TensorBinding.matrix_pointer: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.MatrixVectorMultip.TensorBinding.vector_pointer: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.MatrixVectorMultip.TensorBinding.matrix_index: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

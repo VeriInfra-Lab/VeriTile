@@ -1,0 +1,32 @@
+/tmp/while122-surface-probe/bench/repairs/tritonbench_g/matrix_vector_multip/SourceDomain.lean:47:64: error: Application type mismatch: The argument
+  x
+has type
+  Torch.TensorMetadata
+of sort `Type` but is expected to have type
+  SourceDomain ?m.1 ?m.2 ?m.3 ?m.4 ?m.5
+of sort `Prop` in the application
+  rows x
+/tmp/while122-surface-probe/bench/repairs/tritonbench_g/matrix_vector_multip/SourceDomain.lean:47:76: error: Application type mismatch: The argument
+  x
+has type
+  Torch.TensorMetadata
+of sort `Type` but is expected to have type
+  SourceDomain ?m.6 ?m.7 ?m.8 ?m.9 ?m.10
+of sort `Prop` in the application
+  columns x
+/tmp/while122-surface-probe/bench/repairs/tritonbench_g/matrix_vector_multip/SourceDomain.lean:49:23: error: Application type mismatch: The argument
+  x
+has type
+  Torch.TensorMetadata
+of sort `Type` but is expected to have type
+  SourceDomain ?m.11 ?m.12 ?m.13 ?m.14 ?m.15
+of sort `Prop` in the application
+  rows x
+/tmp/while122-surface-probe/bench/repairs/tritonbench_g/matrix_vector_multip/SourceDomain.lean:49:35: error: Application type mismatch: The argument
+  x
+has type
+  Torch.TensorMetadata
+of sort `Type` but is expected to have type
+  SourceDomain ?m.16 ?m.17 ?m.18 ?m.19 ?m.20
+of sort `Prop` in the application
+  columns x

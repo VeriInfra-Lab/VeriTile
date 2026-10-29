@@ -1,0 +1,44 @@
+{
+  "status": "FAIL",
+  "start": 1793291662.0220544,
+  "results": [
+    {
+      "module": "bench.examples.FusedLayerNorm.Correct",
+      "source_sha256": "1b91036d696503860ba38ab862ff0b9b0f43d32d07eddc4210be9f910344c5a2",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793291662.0224943,
+      "end": 1793291670.7685115,
+      "log": "/tmp/body124-family2-bench__examples__FusedLayerNorm__Correct.log"
+    },
+    {
+      "module": "bench.examples.FusedLayerNorm.Proofs.FP",
+      "source_sha256": "9f1bc59f95043bab687fd1ae7751773126ef917229ed61c6100a1a54575d42b2",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793291670.7691436,
+      "end": 1793291684.9269502,
+      "log": "/tmp/body124-family2-bench__examples__FusedLayerNorm__Proofs__FP.log"
+    },
+    {
+      "module": "bench.examples.FusedLayerNorm.FPEquiv",
+      "source_sha256": "d4e341a9c4424df59071b75f526e32dd6b14c2f3c49fd4a3c4a7b887b917b71e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793291684.9273813,
+      "end": 1793292052.743994,
+      "log": "/tmp/body124-family2-bench__examples__FusedLayerNorm__FPEquiv.log"
+    },
+    {
+      "module": "bench.examples.Welford.Correct",
+      "source_sha256": "800c2e25479fd1c36c47b0d5845bbba3a41b944d376b3c03b99672c4cb323102",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793292052.74454,
+      "end": 1793292060.5752456,
+      "log": "/tmp/body124-family2-bench__examples__Welford__Correct.log"
+    }
+  ],
+  "scope": "One serial queue; failed imports block dependents, independent modules continue.",
+  "end": 1793292060.5755093
+}

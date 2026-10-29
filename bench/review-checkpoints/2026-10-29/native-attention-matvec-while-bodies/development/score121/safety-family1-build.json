@@ -1,0 +1,35 @@
+{
+  "status": "PASS",
+  "start": 1793277920.60253,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.NativePhysical",
+      "source_sha256": "244cbbdd935759bea600cf40f667d057412c82a907327a389102f318c84c0cea",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277920.6029236,
+      "end": 1793277929.0185862,
+      "log": "/tmp/score121-safety-family1-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__NativePhysical.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.NativeSourceSafety",
+      "source_sha256": "f97ea012498c996787e486fe2bee76591111a17d8193732c7c2f5b5d17451e47",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277929.0191019,
+      "end": 1793277969.1718519,
+      "log": "/tmp/score121-safety-family1-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__NativeSourceSafety.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.NativeSafetyLoop",
+      "source_sha256": "7f8b3519815ca831c204797a91e4d72c4897a2c8f613256225840a1c7b088157",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793277969.172408,
+      "end": 1793277978.611881,
+      "log": "/tmp/score121-safety-family1-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__NativeSafetyLoop.log"
+    }
+  ],
+  "scope": "One serial queue; failed imports block dependents, independent modules continue.",
+  "end": 1793277978.612816
+}

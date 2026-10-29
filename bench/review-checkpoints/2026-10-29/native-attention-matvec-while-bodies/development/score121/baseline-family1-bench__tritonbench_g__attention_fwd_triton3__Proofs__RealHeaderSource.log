@@ -1,0 +1,64 @@
+/tmp/score121-historical-baseline/bench/tritonbench_g/attention_fwd_triton3/Proofs/RealHeaderSource.lean:101:93: error: Tactic `rfl` failed: The left-hand side
+  leadingAssignments
+    (TypedSource.original Q K V M Out L sm_scale stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn
+          stride_kk stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on Z H H_KV N_CTX
+          ROUND_CTX NKV_CTX IS_EVEN_M IS_EVEN_N BLOCK_M BLOCK_DMODEL BLOCK_N END INIT SLIDING_WINDOW
+          COMPLEMENT_SLIDING_WINDOW sliding_window_offset sliding_window_size).toAlgKernel.body
+is not definitionally equal to the right-hand side
+  RealHeader.code H H_KV
+      { qBatch := stride_qz, qHead := stride_qh, kBatch := stride_kz, kHead := stride_kh, vBatch := stride_vz,
+        vHead := stride_vh, oBatch := stride_oz, oHead := stride_oh } ++
+    RealPointers.code BLOCK_M BLOCK_N BLOCK_DMODEL
+      { Q := Q, K := K, V := V, M := M, Out := Out, L := L, queryContext := N_CTX, roundedContext := ROUND_CTX,
+        kvContext := NKV_CTX, qRow := stride_qm, qDim := stride_qk, kDim := stride_kk, kRow := stride_kn,
+        vRow := stride_vk, vDim := stride_vn, oRow := stride_om, oDim := stride_on }
+
+Q K V M Out L : RegionName
+sm_scale : ℝ
+stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on Z H H_KV N_CTX ROUND_CTX NKV_CTX IS_EVEN_M IS_EVEN_N BLOCK_M BLOCK_DMODEL BLOCK_N END INIT SLIDING_WINDOW COMPLEMENT_SLIDING_WINDOW :
+  ℕ
+sliding_window_offset sliding_window_size : ℤ
+⊢ leadingAssignments
+      (TypedSource.original Q K V M Out L sm_scale stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn
+            stride_kk stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on Z H H_KV N_CTX
+            ROUND_CTX NKV_CTX IS_EVEN_M IS_EVEN_N BLOCK_M BLOCK_DMODEL BLOCK_N END INIT SLIDING_WINDOW
+            COMPLEMENT_SLIDING_WINDOW sliding_window_offset sliding_window_size).toAlgKernel.body =
+    RealHeader.code H H_KV
+        { qBatch := stride_qz, qHead := stride_qh, kBatch := stride_kz, kHead := stride_kh, vBatch := stride_vz,
+          vHead := stride_vh, oBatch := stride_oz, oHead := stride_oh } ++
+      RealPointers.code BLOCK_M BLOCK_N BLOCK_DMODEL
+        { Q := Q, K := K, V := V, M := M, Out := Out, L := L, queryContext := N_CTX, roundedContext := ROUND_CTX,
+          kvContext := NKV_CTX, qRow := stride_qm, qDim := stride_qk, kDim := stride_kk, kRow := stride_kn,
+          vRow := stride_vk, vDim := stride_vn, oRow := stride_om, oDim := stride_on }
+/tmp/score121-historical-baseline/bench/tritonbench_g/attention_fwd_triton3/Proofs/RealHeaderSource.lean:133:93: error: Tactic `rfl` failed: The left-hand side
+  leadingAssignments
+    (TypedSource.reciprocal Q K V M Out L sm_scale stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn
+          stride_kk stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on Z H H_KV N_CTX
+          ROUND_CTX NKV_CTX IS_EVEN_M IS_EVEN_N BLOCK_M BLOCK_DMODEL BLOCK_N END INIT SLIDING_WINDOW
+          COMPLEMENT_SLIDING_WINDOW sliding_window_offset sliding_window_size).toAlgKernel.body
+is not definitionally equal to the right-hand side
+  RealHeader.code H H_KV
+      { qBatch := stride_qz, qHead := stride_qh, kBatch := stride_kz, kHead := stride_kh, vBatch := stride_vz,
+        vHead := stride_vh, oBatch := stride_oz, oHead := stride_oh } ++
+    RealPointers.code BLOCK_M BLOCK_N BLOCK_DMODEL
+      { Q := Q, K := K, V := V, M := M, Out := Out, L := L, queryContext := N_CTX, roundedContext := ROUND_CTX,
+        kvContext := NKV_CTX, qRow := stride_qm, qDim := stride_qk, kDim := stride_kk, kRow := stride_kn,
+        vRow := stride_vk, vDim := stride_vn, oRow := stride_om, oDim := stride_on }
+
+Q K V M Out L : RegionName
+sm_scale : ℝ
+stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on Z H H_KV N_CTX ROUND_CTX NKV_CTX IS_EVEN_M IS_EVEN_N BLOCK_M BLOCK_DMODEL BLOCK_N END INIT SLIDING_WINDOW COMPLEMENT_SLIDING_WINDOW :
+  ℕ
+sliding_window_offset sliding_window_size : ℤ
+⊢ leadingAssignments
+      (TypedSource.reciprocal Q K V M Out L sm_scale stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh
+            stride_kn stride_kk stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on Z H H_KV
+            N_CTX ROUND_CTX NKV_CTX IS_EVEN_M IS_EVEN_N BLOCK_M BLOCK_DMODEL BLOCK_N END INIT SLIDING_WINDOW
+            COMPLEMENT_SLIDING_WINDOW sliding_window_offset sliding_window_size).toAlgKernel.body =
+    RealHeader.code H H_KV
+        { qBatch := stride_qz, qHead := stride_qh, kBatch := stride_kz, kHead := stride_kh, vBatch := stride_vz,
+          vHead := stride_vh, oBatch := stride_oz, oHead := stride_oh } ++
+      RealPointers.code BLOCK_M BLOCK_N BLOCK_DMODEL
+        { Q := Q, K := K, V := V, M := M, Out := Out, L := L, queryContext := N_CTX, roundedContext := ROUND_CTX,
+          kvContext := NKV_CTX, qRow := stride_qm, qDim := stride_qk, kDim := stride_kk, kRow := stride_kn,
+          vRow := stride_vk, vDim := stride_vn, oRow := stride_om, oDim := stride_on }

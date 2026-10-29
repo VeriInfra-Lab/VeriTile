@@ -1,0 +1,2 @@
+/tmp/score121-diagnostic/bench/repairs/tritonbench_g/attention_score_tile_checked/Kernels.lean:208:2: error: per-call FP32 literal requires an FP32 computation context; use runtime scalar binding
+/tmp/score121-diagnostic/bench/repairs/tritonbench_g/attention_score_tile_checked/Kernels.lean:306:2: error: per-call FP32 literal requires an FP32 computation context; use runtime scalar binding

@@ -1,0 +1,185 @@
+{
+  "status": "SELECTED_FOCUS_PASS_PENDING_FINAL_CUMULATIVE_REPLAY",
+  "python": "bench/repairs/tritonbench_g/attention_score_tile_checked/attention_score_tile_checked.py",
+  "lean": "bench/repairs/tritonbench_g/attention_score_tile_checked/Kernels.lean",
+  "signature": {
+    "pointers": [
+      [
+        "Q",
+        "fp32"
+      ],
+      [
+        "K",
+        "fp32"
+      ],
+      [
+        "M",
+        "fp32"
+      ],
+      [
+        "Out",
+        "fp32"
+      ]
+    ],
+    "scalars": [
+      [
+        "stride_qz",
+        "integer"
+      ],
+      [
+        "stride_qh",
+        "integer"
+      ],
+      [
+        "stride_qm",
+        "integer"
+      ],
+      [
+        "stride_qk",
+        "integer"
+      ],
+      [
+        "stride_kz",
+        "integer"
+      ],
+      [
+        "stride_kh",
+        "integer"
+      ],
+      [
+        "stride_kn",
+        "integer"
+      ],
+      [
+        "stride_kk",
+        "integer"
+      ],
+      [
+        "stride_oz",
+        "integer"
+      ],
+      [
+        "stride_oh",
+        "integer"
+      ],
+      [
+        "stride_on",
+        "integer"
+      ],
+      [
+        "Z",
+        "integer"
+      ],
+      [
+        "H",
+        "integer"
+      ],
+      [
+        "H_KV",
+        "integer"
+      ],
+      [
+        "N_CTX",
+        "integer"
+      ],
+      [
+        "ROUND_CTX",
+        "integer"
+      ],
+      [
+        "NKV_CTX",
+        "integer"
+      ],
+      [
+        "sliding_window_offset",
+        "integer"
+      ],
+      [
+        "sliding_window_size",
+        "integer"
+      ],
+      [
+        "sm_scale",
+        "fp32"
+      ]
+    ],
+    "constexpr": [
+      "SLIDING_WINDOW",
+      "COMPLEMENT_SLIDING_WINDOW",
+      "IS_EVEN_M",
+      "IS_EVEN_N",
+      "BLOCK_M",
+      "BLOCK_DMODEL",
+      "BLOCK_N"
+    ],
+    "readPorts": [
+      "Q",
+      "K",
+      "M"
+    ],
+    "writePorts": [
+      "Out"
+    ]
+  },
+  "call_bindings": {
+    "stride_qz": "stride_qz",
+    "stride_qh": "stride_qh",
+    "stride_qm": "stride_qm",
+    "stride_qk": "stride_qk",
+    "stride_kz": "stride_kz",
+    "stride_kh": "stride_kh",
+    "stride_kn": "stride_kn",
+    "stride_kk": "stride_kk",
+    "stride_oz": "stride_oz",
+    "stride_oh": "stride_oh",
+    "stride_on": "stride_on",
+    "Z": "Z",
+    "H": "H",
+    "H_KV": "H_KV",
+    "N_CTX": "N_CTX",
+    "ROUND_CTX": "ROUND_CTX",
+    "NKV_CTX": "NKV_CTX",
+    "sliding_window_offset": "sliding_window_offset",
+    "sliding_window_size": "sliding_window_size",
+    "sm_scale": "sm_scale"
+  },
+  "raw_statements": 21,
+  "open": [
+    "Default no-keyword dot tracking regression passes locally; generic frontend cumulative replay remains pending.",
+    "Bare FP32 call-copy precision patch under development; current diagnostic family4 has frozen older layout.",
+    "Actual raw source must connect to the internal historical index model through a valid equality or semantic proof; no false identity accepted.",
+    "Complete selected Real/FP/IO/safety proofs not yet verified.",
+    "Historical attention_fwd_triton3 RealHeaderSource baseline failure recorded; score now reuses extracted generic safety lemmas without depending on that unrelated executor."
+  ],
+  "raw_bodies": 2,
+  "provenance": "Original unchanged; new candidate counterpart of the existing scalar-left rewrite. Generic access lemmas and caller data separated without statement changes.",
+  "raw_statement_counts": [
+    21,
+    21
+  ],
+  "generic_safety_scope": "Verified generic access and register-only lemmas are moved into new shared Memory.AccessHelpers/RegisterSafety namespaces for the selected score task. Historical attention_fwd_triton3 source/proofs remain untouched and its unrelated baseline AST failure is recorded.",
+  "fp_pair": {
+    "status": "PASS",
+    "build": "/tmp/score121-diag-family6-build.json",
+    "requirements_site_guard": "one actual signed range site",
+    "numerical_assumptions": "none",
+    "scope": "Complete original/candidate source in strict FP32 model"
+  },
+  "real_connection": {
+    "status": "PENDING",
+    "reason": "Historical natural-index AST equality is false for signed source range and int32 block offset. Existing public machine-range domain must justify the actual operations."
+  },
+  "verified_local": {
+    "real_source_and_safety": "family20 PASS",
+    "real_full_grid": "family21 PASS",
+    "generic_fp_output_grid_physical": "family31 PASS",
+    "actual_source_pair": "family32 SourcePair and FPEquiv PASS; other family modules still running",
+    "native_physical": "safety-family1 NativePhysical PASS; remaining safety helpers running",
+    "public_interfaces": "interface-family2 PASS: Real Correct, native complete IO, raw Real/native endpoints",
+    "public_surface": "8 preservation checks PASS: public theorem statement text, exact IO data except imports, original Python and Contract unchanged",
+    "selected_focus": "98 roots,2361 theorem footprints,99 audited modules and joint import PASS"
+  },
+  "scope_limit": "Staged only; not counted in published or cumulative task coverage.",
+  "historical_diagnostic": "/tmp/score121-historical-diagnostic.json",
+  "user_scope": "Finish only Liger, selected attention-score and matrix-vector while; then stop; no merge."
+}

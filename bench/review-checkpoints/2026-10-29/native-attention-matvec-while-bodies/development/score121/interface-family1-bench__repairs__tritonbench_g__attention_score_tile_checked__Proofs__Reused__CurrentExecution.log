@@ -1,0 +1,25 @@
+/tmp/score121-interface-probe/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/CurrentExecution.lean:41:21: error: unsolved goals
+case cons
+c : Shape
+offset size : ℤ
+scale : ℝ
+window complement : Bool
+job : Job c
+rest : List (Job c)
+ih :
+  ∀ (s : BlockState),
+    run c offset size scale window complement rest s = WholeGrid.run c offset size scale window complement rest s
+s : BlockState
+⊢ ((Triton.exec (DenseSource.kernel c offset size scale window complement).eraseDType.toAlgKernel
+          (DenseSource.programState c s ↑job.2.2 ↑job.1 ↑job.2.1)).bind
+      fun a => WholeGrid.run c offset size scale window complement rest a) =
+    (Triton.exec (AttentionScoreTileChecked.kernel c offset size scale window complement).eraseDType.toAlgKernel
+          (DenseSource.programState c s ↑job.2.2 ↑job.1 ↑job.2.1)).bind
+      (WholeGrid.run c offset size scale window complement rest)
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.Whole002.Execution.kernel_eq: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/score121-interface-probe/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/CurrentExecution.lean:106:0: error: VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.Whole002.Execution.ExactReal.execute_eq: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.Whole002.Execution.Native.execute_eq: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

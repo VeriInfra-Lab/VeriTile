@@ -1,0 +1,54 @@
+'VeriTile.Scratch.WhileDesign.finite_execution' depends on axioms: [propext, Classical.choice, Quot.sound]
+VeriTile.Scratch.WhileDesign.run.eq_1 {σ : Type} (condition : σ → Option Bool) (body : σ → Option σ) (state : σ) :
+  run condition body state = do
+    let active ← condition state
+    if active = true then do
+        let next ← body state
+        run condition body next
+      else pure state
+VeriTile.Scratch.WhileDesign.run.fixpoint_induct {σ : Type} (condition : σ → Option Bool) (body : σ → Option σ)
+  (motive : (σ → Option σ) → Prop) (adm : Lean.Order.admissible motive)
+  (h :
+    ∀ (run : σ → Option σ),
+      motive run →
+        motive fun state => do
+          let active ← condition state
+          if active = true then do
+              let next ← body state
+              run next
+            else pure state) :
+  motive (run condition body)
+VeriTile.Scratch.WhileDesign.run.partial_correctness {σ : Type} (condition : σ → Option Bool) (body : σ → Option σ)
+  (motive : σ → σ → Prop)
+  (h :
+    ∀ (run : σ → Option σ),
+      (∀ (state r : σ), run state = some r → motive state r) →
+        ∀ (state r : σ),
+          (do
+                let active ← condition state
+                if active = true then do
+                    let next ← body state
+                    run next
+                  else pure state) =
+              some r →
+            motive state r)
+  (state r✝ : σ) : run condition body state = some r✝ → motive state r✝
+theorem VeriTile.Scratch.WhileDesign.run.partial_correctness : ∀ {σ : Type} (condition : σ → Option Bool)
+  (body : σ → Option σ) (motive : σ → σ → Prop),
+  (∀ (run : σ → Option σ),
+      (∀ (state r : σ), run state = some r → motive state r) →
+        ∀ (state r : σ),
+          (do
+                let active ← condition state
+                if active = true then do
+                    let next ← body state
+                    run next
+                  else pure state) =
+              some r →
+            motive state r) →
+    ∀ (state r : σ), run condition body state = some r → motive state r :=
+fun {σ} condition body motive =>
+  run.fixpoint_induct condition body (fun f => ∀ (state r : σ), f state = some r → motive state r)
+    (Lean.Order.admissible_pi_apply (fun x x_1 => ∀ (y : σ), x_1 = some y → motive x y) fun state =>
+      Lean.Order.admissible_pi (fun x y => x = some y → motive state y) fun r =>
+        Lean.Order.Option.admissible_eq_some (motive state r) r)

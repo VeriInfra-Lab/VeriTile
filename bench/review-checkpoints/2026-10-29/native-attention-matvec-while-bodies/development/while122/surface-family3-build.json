@@ -1,0 +1,143 @@
+{
+  "status": "PASS",
+  "start": 1793282605.7337327,
+  "results": [
+    {
+      "module": "VeriTile.Triton.DSL.Expansion.Compute",
+      "source_sha256": "42846ca084fe6e557bcd0dd1f97dbbd06e3d82a3f400009c59e4e25a70117b02",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793282605.734514,
+      "end": 1793282611.6704342,
+      "log": "/tmp/while122-surface-family3-VeriTile__Triton__DSL__Expansion__Compute.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Expansion.DType",
+      "source_sha256": "2d61abff958ff6abdd0768a6bcd72c9d1192679b4c30c2d67c83efa774c23b7b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793282611.6708102,
+      "end": 1793282613.3323202,
+      "log": "/tmp/while122-surface-family3-VeriTile__Triton__DSL__Expansion__DType.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Expansion.Main",
+      "source_sha256": "3d4e6a036e6369bca66510e613e2461aa42ae51399f8a51abc48b96a9452b495",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793282613.3344517,
+      "end": 1793282712.8023853,
+      "log": "/tmp/while122-surface-family3-VeriTile__Triton__DSL__Expansion__Main.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Expansion",
+      "source_sha256": "abf572865569f8411e47bca680bf6f7a2ff1cfd2f0d4cac2a581d8212ba19802",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793282712.8028378,
+      "end": 1793282714.1003642,
+      "log": "/tmp/while122-surface-family3-VeriTile__Triton__DSL__Expansion.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL",
+      "source_sha256": "2423c62c7d2ce4f66fb836f36c35d2b904fc759e8f782684a28af52d0ab7faf4",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793282714.1006994,
+      "end": 1793282715.4050138,
+      "log": "/tmp/while122-surface-family3-VeriTile__Triton__DSL.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.SourceDType",
+      "source_sha256": "1be7dc331ac611ad0ee68e85f1010519d9ddfa7c3eea80c095b0c1e713708999",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793282715.4055574,
+      "end": 1793282717.5355933,
+      "log": "/tmp/while122-surface-family3-VeriTile__Triton__DSL__SourceDType.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.PointerType",
+      "source_sha256": "2b409ab95e27f68ad359b5b8065b04ce954ffcc580ea7e35c742f65f3d8b7fe7",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793282717.5359588,
+      "end": 1793282718.9212713,
+      "log": "/tmp/while122-surface-family3-VeriTile__Triton__DSL__PointerType.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.TypedStores",
+      "source_sha256": "d4a991a4f5261fd253a2302c7563088b9b932db8650aec8cf6f599866c3ec3b7",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793282718.9219882,
+      "end": 1793282727.833786,
+      "log": "/tmp/while122-surface-family3-VeriTile__Triton__DSL__TypedStores.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.TypedStorageReduction",
+      "source_sha256": "dadef4761110e5123359df9394f59d7c5a309a64f65419755cc9c9af94680d44",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793282727.834207,
+      "end": 1793282729.9375288,
+      "log": "/tmp/while122-surface-family3-VeriTile__Triton__DSL__TypedStorageReduction.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.SourceFunctionStatements",
+      "source_sha256": "83fb073da8c909806638c1349dc7ac36c111d9ae96e86b86a3794604fd97659c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793282729.9379468,
+      "end": 1793282732.094789,
+      "log": "/tmp/while122-surface-family3-VeriTile__Triton__DSL__SourceFunctionStatements.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Constexpr",
+      "source_sha256": "167269e39e3f81eb1f568a4cbb7cffb1777b5c5cc004b55ef40ba57dcb90cf75",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793282732.0951605,
+      "end": 1793282733.5954232,
+      "log": "/tmp/while122-surface-family3-VeriTile__Triton__DSL__Constexpr.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.CallSignature",
+      "source_sha256": "736efa77feb20d07503e00fa78b37e30680c209610bacbe1f09c022ad688e67b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793282733.5963268,
+      "end": 1793282780.3306463,
+      "log": "/tmp/while122-surface-family3-VeriTile__Triton__DSL__CallSignature.log"
+    },
+    {
+      "module": "bench.tests.WhileBody",
+      "source_sha256": "f6a4a5030ff49a27bffd4cdc6d3d3577cf606461e61d893a041b14814112c405",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793282780.3310273,
+      "end": 1793282781.8351212,
+      "log": "/tmp/while122-surface-family3-bench__tests__WhileBody.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Kernels",
+      "source_sha256": "4b0542a4fbee0f3ca584b44364bd632e31efa75dc299f27a59cc6197109705da",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793282781.8355474,
+      "end": 1793282783.7629912,
+      "log": "/tmp/while122-surface-family3-bench__repairs__tritonbench_g__matrix_vector_multip__Kernels.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.SourceCode",
+      "source_sha256": "5f01ead19c38790d27890552189bb802f475b5388554102ad0eabde9f2a9f4f2",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793282783.76342,
+      "end": 1793282785.339656,
+      "log": "/tmp/while122-surface-family3-bench__repairs__tritonbench_g__matrix_vector_multip__Proofs__SourceCode.log"
+    }
+  ],
+  "scope": "One serial queue; failed imports block dependents, independent modules continue.",
+  "end": 1793282785.3398871
+}

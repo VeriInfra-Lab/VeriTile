@@ -1,0 +1,11 @@
+Updating 77a5c65e9..19b8074c8
+Fast-forward
+ bench/examples/FusedLayerNorm/Correct.lean     | 31 +++++++++++++------
+ bench/examples/FusedLayerNorm/Proofs/FP.lean   | 22 +++++++++-----
+ bench/examples/FusedLayerNorm/Proofs/Real.lean | 18 ++++++-----
+ bench/examples/Welford/Correct.lean            | 31 +++++++++++++------
+ bench/examples/Welford/Proofs/FP.lean          | 42 ++++++++++++++++----------
+ bench/examples/Welford/Proofs/Real.lean        | 20 +++++++-----
+ bench/examples/source-references.json          |  8 ++---
+ bench/source-correspondence.json               | 12 ++++----
+ 8 files changed, 117 insertions(+), 67 deletions(-)

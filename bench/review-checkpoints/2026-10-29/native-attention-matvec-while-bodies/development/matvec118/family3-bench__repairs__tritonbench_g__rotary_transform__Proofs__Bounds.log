@@ -1,0 +1,5 @@
+VeriTile.Bench.Repairs.RotaryTransform.cell_signed32: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.RotaryTransform.coeff_signed32: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.RotaryTransform.byte_signed64: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.RotaryTransform.padded_coeff_signed32: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.RotaryTransform.padded_input_signed32: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])

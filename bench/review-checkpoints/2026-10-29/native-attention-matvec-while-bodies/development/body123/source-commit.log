@@ -1,0 +1,41 @@
+Auto packing the repository in background for optimum performance.
+See "git help gc" for manual housekeeping.
+[codex/body-copy-cache-and-constexpr 77a5c65e9] Preserve raw attention-score and matrix-vector while bodies with full proofs
+ 136 files changed, 4183 insertions(+), 1425 deletions(-)
+ create mode 100644 VeriTile/Triton/Control/While.lean
+ create mode 100644 VeriTile/Triton/Float/IntegerErasure.lean
+ create mode 100644 VeriTile/Triton/Memory/AccessHelpers.lean
+ create mode 100644 VeriTile/Triton/Memory/RegisterSafety.lean
+ create mode 100644 VeriTile/Triton/Memory/SignedRangeTrace.lean
+ create mode 100644 VeriTile/Triton/Source/While.lean
+ rewrite bench/repairs/tritonbench_g/attention_score_tile_checked/Kernels.lean (84%)
+ create mode 100644 bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/IndexModel.lean
+ create mode 100644 bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/IndexProjection.lean
+ create mode 100644 bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/SourceDecomposition.lean
+ rewrite bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/Widened.lean (60%)
+ copy bench/repairs/tritonbench_g/attention_score_tile_checked/{Kernels.lean => Proofs/SourceBridge.lean} (66%)
+ rewrite bench/repairs/tritonbench_g/attention_score_tile_checked/SourceDefinitions.lean (99%)
+ create mode 100644 bench/repairs/tritonbench_g/attention_score_tile_checked/SourceParameters.lean
+ create mode 100644 bench/repairs/tritonbench_g/attention_score_tile_checked/attention_score_scalar_left.py
+ create mode 100644 bench/repairs/tritonbench_g/attention_score_tile_checked/jit-correspondence.json
+ rewrite bench/repairs/tritonbench_g/matrix_vector_multip/Kernels.lean (84%)
+ rewrite bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/ExplicitFMA.lean (84%)
+ create mode 100644 bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/SourceBody.lean
+ create mode 100644 bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/SourceCode.lean
+ create mode 100644 bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/SourceLoop.lean
+ create mode 100644 bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/SourceOutput.lean
+ create mode 100644 bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/SourcePair.lean
+ create mode 100644 bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/SourcePairSafety.lean
+ create mode 100644 bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/SourcePairSafetySteps.lean
+ create mode 100644 bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/SourcePairSafetyTools.lean
+ create mode 100644 bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/SourcePrelude.lean
+ create mode 100644 bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/SourceSafety.lean
+ create mode 100644 bench/repairs/tritonbench_g/matrix_vector_multip/SourceDomain.lean
+ create mode 100644 bench/repairs/tritonbench_g/matrix_vector_multip/SourceShapes.lean
+ create mode 100644 bench/repairs/tritonbench_g/matrix_vector_multip/jit-correspondence.json
+ create mode 100644 bench/tests/FP32ArgumentCopyBody.lean
+ create mode 100644 bench/tests/TypedDefaultDotLoopBody.lean
+ create mode 100644 bench/tests/WhileBody.lean
+ create mode 100644 bench/tests/WhileExecution.lean
+ create mode 100644 bench/tests/test_attention_score_body.py
+ create mode 100644 bench/tests/test_matrix_vector_while_body.py

@@ -1,0 +1,12 @@
+/tmp/score121-frontend/bench/repairs/tritonbench_g/chunk_gla_fwd/Proofs/SourceBridge.lean:35:2: warning: 'all_goals rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/score121-frontend/bench/repairs/tritonbench_g/chunk_gla_fwd/Proofs/SourceBridge.lean:35:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/score121-frontend/bench/repairs/tritonbench_g/chunk_gla_fwd/Proofs/SourceBridge.lean:125:2: warning: 'all_goals rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/score121-frontend/bench/repairs/tritonbench_g/chunk_gla_fwd/Proofs/SourceBridge.lean:125:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`

@@ -1,0 +1,162 @@
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/matrix_vector_multip/Misc/TensorBridge.lean:70:82: error: unexpected token '('; expected ')', ',' or ':'
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/matrix_vector_multip/Misc/TensorBridge.lean:70:8: error: Type mismatch: After simplification, term
+  SourceDomain.of_kernel_contract
+ has type
+  KernelContract ?m.100 ?m.101 ?m.102 ?m.103 ?m.104 →
+    SourceDomain (rows ?m.100) (columns ?m.100) (KernelConfig.blockRows ?m.102) (KernelConfig.blockColumns ?m.102)
+      ?m.103
+but is expected to have type
+  SourceDomain (rows x.metadata) (columns x.metadata) c.blockRows c.blockColumns pid
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/matrix_vector_multip/Misc/TensorBridge.lean:63:75: error: unsolved goals
+x y : Torch.FP32.Tensor
+lx : Torch.FP32.TensorLaws x
+ly : Torch.FP32.TensorLaws y
+h : InputContract x.metadata y.metadata
+out : KernelBinding.Output x y lx ly h
+c : KernelConfig
+pid : ℕ
+program : pid < (rows x.metadata + c.blockRows - 1) / c.blockRows
+programABI : pid < 2 ^ 31
+decode : Torch.FP32.Word → ℝ
+read : ℕ → Torch.FP32.Word
+surrounding : State ℝ
+run :
+  ∀ (matrix : ℕ → ℕ → ℝ) (vector : ℕ → ℝ),
+    (∀ (i j : ℕ),
+        i < rows x.metadata →
+          j < columns x.metadata →
+            Cell.read TileDType.fp32
+                ((KernelBinding.state x y lx ly h out decode read pid surrounding).mem { name := "A" }
+                  (i * columns x.metadata + j)) =
+              matrix i j) →
+      (∀ j < columns x.metadata,
+          Cell.read TileDType.fp32
+              ((KernelBinding.state x y lx ly h out decode read pid surrounding).mem { name := "B" } j) =
+            vector j) →
+        Spec.Real
+          (∃ t,
+            FP.Structural.exec WholeMath.algebra
+                  (Kernels.source (rows x.metadata) (columns x.metadata) c.blockRows c.blockColumns ⋯ ⋯)
+                  (KernelBinding.state x y lx ly h out decode read pid surrounding) =
+                some t ∧
+              t.mem =
+                  (reference (rows x.metadata) c.blockRows
+                      (KernelBinding.state x y lx ly h out decode read pid surrounding) fun i =>
+                      KernelRealResult.matrixVector (columns x.metadata) matrix vector
+                        (row c.blockRows ((KernelBinding.state x y lx ly h out decode read pid surrounding).pids 0)
+                          ↑i)).mem ∧
+                (∀ (i : Fin c.blockRows),
+                    row c.blockRows ((KernelBinding.state x y lx ly h out decode read pid surrounding).pids 0) ↑i <
+                        rows x.metadata →
+                      t.mem { name := "C" }
+                          (row c.blockRows ((KernelBinding.state x y lx ly h out decode read pid surrounding).pids 0)
+                            ↑i) =
+                        Cell.mk TileDType.fp32
+                          (KernelRealResult.matrixVector (columns x.metadata) matrix vector
+                            (row c.blockRows ((KernelBinding.state x y lx ly h out decode read pid surrounding).pids 0)
+                              ↑i))) ∧
+                  ∀ (r : RegionName) (o : ℕ),
+                    Outside (rows x.metadata) c.blockRows
+                        ((KernelBinding.state x y lx ly h out decode read pid surrounding).pids 0) r o →
+                      t.mem r o = (KernelBinding.state x y lx ly h out decode read pid surrounding).mem r o)
+⊢ ∃ t,
+    FP.Structural.exec WholeMath.algebra
+          (Kernels.source (rows x.metadata) (columns x.metadata) c.blockRows c.blockColumns ⋯ ⋯)
+          (KernelBinding.state x y lx ly h out decode read pid surrounding) =
+        some t ∧
+      t.mem =
+          (reference (rows x.metadata) c.blockRows (KernelBinding.state x y lx ly h out decode read pid surrounding)
+              fun i =>
+              Correct.matrixVector (columns x.metadata) (TensorBinding.matrix x lx decode read)
+                (TensorBinding.vector y ly decode read) (row c.blockRows pid ↑i)).mem ∧
+        (∀ (i : Fin c.blockRows),
+            row c.blockRows pid ↑i < rows x.metadata →
+              t.mem { name := "C" } (row c.blockRows pid ↑i) =
+                Cell.mk TileDType.fp32
+                  (Correct.matrixVector (columns x.metadata) (TensorBinding.matrix x lx decode read)
+                    (TensorBinding.vector y ly decode read) (row c.blockRows pid ↑i))) ∧
+          ∀ (r : RegionName) (o : ℕ),
+            Outside (rows x.metadata) c.blockRows pid r o →
+              t.mem r o = (KernelBinding.state x y lx ly h out decode read pid surrounding).mem r o
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/matrix_vector_multip/Misc/TensorBridge.lean:110:104: error: unexpected token '('; expected ')', ',' or ':'
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/matrix_vector_multip/Misc/TensorBridge.lean:110:8: error: Type mismatch: After simplification, term
+  SourceDomain.of_kernel_contract
+ has type
+  KernelContract ?m.98 ?m.99 ?m.100 ?m.101 ?m.102 →
+    SourceDomain (rows ?m.98) (columns ?m.98) (KernelConfig.blockRows ?m.100) (KernelConfig.blockColumns ?m.100) ?m.101
+but is expected to have type
+  SourceDomain (rows x.metadata) (columns x.metadata) c.blockRows c.blockColumns pid
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/matrix_vector_multip/Misc/TensorBridge.lean:103:72: error: unsolved goals
+native : Scalars
+x y : Torch.FP32.Tensor
+lx : Torch.FP32.TensorLaws x
+ly : Torch.FP32.TensorLaws y
+h : InputContract x.metadata y.metadata
+out : KernelBinding.Output x y lx ly h
+c : KernelConfig
+g : Graph c.blockRows c.blockColumns
+pid : ℕ
+program : pid < (rows x.metadata + c.blockRows - 1) / c.blockRows
+programABI : pid < 2 ^ 31
+read : ℕ → Torch.FP32.Word
+surrounding : State Payload
+run :
+  ∀ (matrix : ℕ → ℕ → BitVec 32) (vector : ℕ → BitVec 32),
+    KernelFP.InputWords (rows x.metadata) (columns x.metadata)
+        (KernelBinding.fpState x y lx ly h out read pid surrounding) matrix vector →
+      ∃ t,
+        FP.Structural.exec (algebra native g)
+              (Kernels.source (rows x.metadata) (columns x.metadata) c.blockRows c.blockColumns ⋯ ⋯)
+              (KernelBinding.fpState x y lx ly h out read pid surrounding) =
+            some t ∧
+          t.mem =
+              (reference (rows x.metadata) c.blockRows (KernelBinding.fpState x y lx ly h out read pid surrounding)
+                  fun i =>
+                  Payload.word
+                    (KernelFP.formula native (rows x.metadata) (columns x.metadata) c.blockRows c.blockColumns g matrix
+                      vector ((KernelBinding.fpState x y lx ly h out read pid surrounding).pids 0) i)).mem ∧
+            (∀ (i : Fin c.blockRows),
+                row c.blockRows ((KernelBinding.fpState x y lx ly h out read pid surrounding).pids 0) ↑i <
+                    rows x.metadata →
+                  t.mem { name := "C" }
+                      (row c.blockRows ((KernelBinding.fpState x y lx ly h out read pid surrounding).pids 0) ↑i) =
+                    Cell.mk TileDType.fp32
+                      (Payload.word
+                        (KernelFP.formula native (rows x.metadata) (columns x.metadata) c.blockRows c.blockColumns g
+                          matrix vector ((KernelBinding.fpState x y lx ly h out read pid surrounding).pids 0) i))) ∧
+              ∀ (r : RegionName) (o : ℕ),
+                Outside (rows x.metadata) c.blockRows
+                    ((KernelBinding.fpState x y lx ly h out read pid surrounding).pids 0) r o →
+                  t.mem r o = (KernelBinding.fpState x y lx ly h out read pid surrounding).mem r o
+⊢ ∃ t,
+    FP.Structural.exec (algebra native g)
+          (Kernels.source (rows x.metadata) (columns x.metadata) c.blockRows c.blockColumns ⋯ ⋯)
+          (KernelBinding.fpState x y lx ly h out read pid surrounding) =
+        some t ∧
+      t.mem =
+          (reference (rows x.metadata) c.blockRows (KernelBinding.fpState x y lx ly h out read pid surrounding) fun i =>
+              Payload.word
+                (KernelFP.formula native (rows x.metadata) (columns x.metadata) c.blockRows c.blockColumns g
+                  (TensorBinding.matrix x lx KernelBinding.bits read)
+                  (TensorBinding.vector y ly KernelBinding.bits read) pid i)).mem ∧
+        (∀ (i : Fin c.blockRows),
+            row c.blockRows pid ↑i < rows x.metadata →
+              t.mem { name := "C" } (row c.blockRows pid ↑i) =
+                Cell.mk TileDType.fp32
+                  (Payload.word
+                    (KernelFP.formula native (rows x.metadata) (columns x.metadata) c.blockRows c.blockColumns g
+                      (TensorBinding.matrix x lx KernelBinding.bits read)
+                      (TensorBinding.vector y ly KernelBinding.bits read) pid i))) ∧
+          ∀ (r : RegionName) (o : ℕ),
+            Outside (rows x.metadata) c.blockRows pid r o →
+              t.mem r o = (KernelBinding.fpState x y lx ly h out read pid surrounding).mem r o
+VeriTile.Bench.Repairs.MatrixVectorMultip.TensorBridge.python_checks_iff_preconditions: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.MatrixVectorMultip.TensorBridge.real_kernel_contract_sound: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MatrixVectorMultip.TensorBridge.fp32_kernel_contract_sound: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/matrix_vector_multip/Misc/TensorBridge.lean:120:0: error: VeriTile.Bench.Repairs.MatrixVectorMultip.TensorBridge.mv_checked_kernel_correctness: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/matrix_vector_multip/Misc/TensorBridge.lean:121:0: error: VeriTile.Bench.Repairs.MatrixVectorMultip.TensorBridge.mv_checked_fp32_kernel_equiv: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

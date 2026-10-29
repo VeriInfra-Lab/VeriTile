@@ -1,0 +1,12 @@
+VeriTile.Bench.Repairs.RotaryTransform.Physical.callerConfiguration: definition does not reference [VeriTile.Bench.Repairs.RotaryTransform.source,
+ VeriTile.Bench.Repairs.RotaryTransform.pairValues,
+ VeriTile.Bench.Repairs.RotaryTransform.Physical.dynamic,
+ VeriTile.Bench.Repairs.RotaryTransform.Physical.native] — non-circular ✓
+VeriTile.Bench.Repairs.RotaryTransform.Physical.callerWords: definition does not reference [VeriTile.Bench.Repairs.RotaryTransform.source,
+ VeriTile.Bench.Repairs.RotaryTransform.pairValues,
+ VeriTile.Bench.Repairs.RotaryTransform.Physical.dynamic,
+ VeriTile.Bench.Repairs.RotaryTransform.Physical.native] — non-circular ✓
+VeriTile.Bench.Repairs.RotaryTransform.Physical.staged_configuration: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.RotaryTransform.Physical.staged_inputs: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

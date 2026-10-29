@@ -1,0 +1,30 @@
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/rotary_transform/Spec.lean:43:39: warning: This simp argument is unused:
+  hi
+
+Hint: Omit it from the simp argument list.
+  simp [sourcePair, ̲realOps, ̲component, ̲hi̵,̵h̵c]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/rotary_transform/Spec.lean:43:42: warning: This simp argument is unused:
+  hc
+
+Hint: Omit it from the simp argument list.
+  simp [sourcePair, ̲realOps, ̲component, ̲hi,̵h̵c̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.RotaryTransform.realFormula: definition does not reference [VeriTile.Bench.Repairs.RotaryTransform.sourcePair,
+ VeriTile.Bench.Repairs.RotaryTransform.pairValues,
+ VeriTile.Bench.Repairs.RotaryTransform.source,
+ VeriTile.Bench.Repairs.RotaryTransform.run,
+ VeriTile.Bench.Repairs.RotaryTransform.Host.mathematical] — non-circular ✓
+VeriTile.Bench.Repairs.RotaryTransform.nativeFormula: definition does not reference [VeriTile.Bench.Repairs.RotaryTransform.Native.graph,
+ VeriTile.Bench.Repairs.RotaryTransform.Native.pairWord,
+ VeriTile.Bench.Repairs.RotaryTransform.Native.selected,
+ VeriTile.Bench.Repairs.RotaryTransform.Physical.native,
+ VeriTile.Bench.Repairs.RotaryTransform.Host.selected] — non-circular ✓
+VeriTile.Bench.Repairs.RotaryTransform.real_pair_formula: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.RotaryTransform.native_pair_formula: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

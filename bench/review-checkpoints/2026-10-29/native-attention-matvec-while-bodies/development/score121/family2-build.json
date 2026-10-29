@@ -1,0 +1,264 @@
+{
+  "status": "FAIL",
+  "start": 1793273939.638195,
+  "results": [
+    {
+      "module": "bench.tests.CallSignature",
+      "source_sha256": "f713a665021b4d38e4cdec2635349fdfdf5d64c5dcf086797f49b409d530eaf1",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793273939.6387234,
+      "end": 1793273954.0193574,
+      "log": "/tmp/score121-family2-bench__tests__CallSignature.log"
+    },
+    {
+      "module": "bench.tests.TypedFP32CallArithmetic",
+      "source_sha256": "7708a00780580eb575b73c1d40ccb4c07ed9aaa22e387b12b2ffba4a132a499d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793273954.0197337,
+      "end": 1793273959.3221958,
+      "log": "/tmp/score121-family2-bench__tests__TypedFP32CallArithmetic.log"
+    },
+    {
+      "module": "bench.tests.CallRandomABI",
+      "source_sha256": "0f2e27c6c9dae020f0cc64bc740151185453758e8e92011e33da690b29167126",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793273959.3225951,
+      "end": 1793273964.412932,
+      "log": "/tmp/score121-family2-bench__tests__CallRandomABI.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.IndexModel",
+      "source_sha256": "366d4b180b09906ff6600663109dfc3fab03d6feaa4b14a2e85747a91b884fab",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793273964.4133801,
+      "end": 1793273966.2624533,
+      "log": "/tmp/score121-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__IndexModel.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Kernels",
+      "source_sha256": "14e01207686acbd868d9ff314bf5fd7827a38b27a4031b1580285b46c347d595",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793273966.2629237,
+      "end": 1793273968.472914,
+      "log": "/tmp/score121-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Kernels.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.SourceDefinitions",
+      "source_sha256": "5f6b35b38d5de6cb3d27c886940d799508feb87a30d9eeaf47a575627f15e42d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793273968.4732537,
+      "end": 1793273969.7482595,
+      "log": "/tmp/score121-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__SourceDefinitions.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.Kernels",
+      "source_sha256": "4911503d29704311f94f80d155f0f5d2f6c3640346d03b48f266921610563f16",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793273969.7486048,
+      "end": 1793273970.9926746,
+      "log": "/tmp/score121-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__Kernels.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealExpressions",
+      "source_sha256": "621a17c865bdf4419cf2eb957311f73474d8ea266fe2f2499e202fb67fc88478",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793273970.9930716,
+      "end": 1793273974.7358968,
+      "log": "/tmp/score121-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__RealExpressions.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealArithmetic",
+      "source_sha256": "8539d0edc2cfd869e0b09f1153a5f064f842ae8d56310b395311c19d04fc2e3f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793273974.7363913,
+      "end": 1793273988.6840894,
+      "log": "/tmp/score121-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__RealArithmetic.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealTiles",
+      "source_sha256": "bdbbd0eaf0400221f90acbd1892c4c04f2914d5e287b38050723f3db391e3d04",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793273988.684541,
+      "end": 1793273992.6874282,
+      "log": "/tmp/score121-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__RealTiles.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealLoads",
+      "source_sha256": "8fc0fd4cb6c53fa866fd720e08ce8cef33b8f29698f35c9bf8f8756a9a0b58c9",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793273992.687893,
+      "end": 1793273996.0097983,
+      "log": "/tmp/score121-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__RealLoads.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealBody",
+      "source_sha256": "3044b286957c9fb0375356d519f8956aa723a6db8b2440248f5b938b05fc1858",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793273996.0102851,
+      "end": 1793274000.7766638,
+      "log": "/tmp/score121-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__RealBody.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealArithmeticOutput",
+      "source_sha256": "0474a7306910681abce3998275a1aa8497dd2540e6ea1ef5936cc71b46abbe65",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793274000.7770877,
+      "end": 1793274018.1983404,
+      "log": "/tmp/score121-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__RealArithmeticOutput.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealIteration",
+      "source_sha256": "589591af960e67efd3fd8420da882487d02e3e5ac1c8643d5be6af914dec3041",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793274018.1988611,
+      "end": 1793274021.479108,
+      "log": "/tmp/score121-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__RealIteration.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealLoop",
+      "source_sha256": "315fc822671979b1320288b5c3e64f806c9df21e1d7a88dc6addc79490f64e79",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793274021.4796114,
+      "end": 1793274024.6619577,
+      "log": "/tmp/score121-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__RealLoop.log"
+    },
+    {
+      "module": "bench.tritonbench_g.attention_fwd_triton3.Proofs.RealAccessCore",
+      "source_sha256": "d40075db50c566e64e4b797e6f0829d91498f7042d34f49146d29543e1d0ca96",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793274024.6624548,
+      "end": 1793274030.108074,
+      "log": "/tmp/score121-family2-bench__tritonbench_g__attention_fwd_triton3__Proofs__RealAccessCore.log"
+    },
+    {
+      "module": "bench.tritonbench_g.attention_fwd_triton3.Proofs.RealRegisterSafetyCore",
+      "source_sha256": "337e301bc6ca4901254629242d02e17498d034a825a6227c72a317781898ed1d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793274030.1085374,
+      "end": 1793274033.0853212,
+      "log": "/tmp/score121-family2-bench__tritonbench_g__attention_fwd_triton3__Proofs__RealRegisterSafetyCore.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealSafetyParts",
+      "source_sha256": "a4988db9d4ce4290e1fd59beb997a15514f871a96473cc7a4df5bd692ac796af",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793274033.0857933,
+      "end": 1793274037.1767619,
+      "log": "/tmp/score121-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__RealSafetyParts.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealProgram",
+      "source_sha256": "bf2023674d869e77602490068e87fa65c90a7c4e58e32b0f82b36f99e3fdd525",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793274037.1772738,
+      "end": 1793274040.6283488,
+      "log": "/tmp/score121-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__RealProgram.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealPrelude",
+      "source_sha256": "e4c740fc0a21a106332f452d418e07db34481a4f6ea738b942deb00aab7576ed",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealProgram"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealSafetyPrelude",
+      "source_sha256": "72fe709734348f355227b7f753f73e163b390ecc14d9d4c7f5a3c4b98973ca34",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealPrelude"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealSafetyLoop",
+      "source_sha256": "c4dbd2c9200ce87aa487c27642343b3ce32e28764d6b40606231100731cca7c3",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793274040.629486,
+      "end": 1793274043.7919538,
+      "log": "/tmp/score121-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__RealSafetyLoop.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealSafetyOutput",
+      "source_sha256": "a7b0975c81225baabb5a7c06577785ea0dfa3b9dab7bb605968eeec1d0f0ae35",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealProgram"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealSafety",
+      "source_sha256": "85fbe65d24dd691b8a576e14a776f936305af034c97682b14311a05ae0c5010e",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealSafetyOutput",
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealSafetyPrelude"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealOutput",
+      "source_sha256": "eb50f93178b3cb9f30dfbb6cc09c6036d58e764775b108d0997e031848e19550",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealProgram"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealExecution",
+      "source_sha256": "195af4773ca2e43d764bc3944c5d99963832ecc6c91f8796526e15fe49fac6c9",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealOutput",
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealPrelude"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealSource",
+      "source_sha256": "12ff4f217c367167bb1d32e0e68df6fd0b9eeb9fbbc82edfb643efaeb3431d95",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealExecution",
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealSafety"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.Widened",
+      "source_sha256": "01050545aba87ede5ae740b2d45453b52066a9ab071db5a61e1bd9ba5de91690",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealSource"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.SourceTiles",
+      "source_sha256": "2ce6d749f5057c1fd5835ed71fb56caf2cdb2679be6b10ba6891ef05c6911a91",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793274043.7939265,
+      "end": 1793274049.101976,
+      "log": "/tmp/score121-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__SourceTiles.log"
+    }
+  ],
+  "scope": "One serial queue; failed imports block dependents, independent modules continue.",
+  "end": 1793274049.102277
+}

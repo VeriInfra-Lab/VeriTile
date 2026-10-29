@@ -1,0 +1,12 @@
+/tmp/score121-diagnostic/bench/repairs/tritonbench_g/attention_score_tile_checked/Kernels.lean:23:26: warning: unused variable `stride_on`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/score121-diagnostic/bench/repairs/tritonbench_g/attention_score_tile_checked/Kernels.lean:24:6: warning: unused variable `Z`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/score121-diagnostic/bench/repairs/tritonbench_g/attention_score_tile_checked/Kernels.lean:121:26: warning: unused variable `stride_on`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/score121-diagnostic/bench/repairs/tritonbench_g/attention_score_tile_checked/Kernels.lean:122:6: warning: unused variable `Z`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`

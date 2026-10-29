@@ -1,0 +1,87 @@
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/rotary_transform_tile_checked/Proofs/SourceTiles.lean:65:6: warning: This simp argument is unused:
+  algorithmListShapes
+
+Hint: Omit it from the simp argument list.
+  simp [̵K̵e̵r̵n̵e̵l̵S̵o̵u̵r̵c̵e̵.̵s̵o̵u̵r̵c̵e̵6̵4̵_̵6̵4̵,̵K̵e̵r̵n̵e̵l̵S̵o̵u̵r̵c̵e̵.̵s̵o̵u̵r̵c̵e̵6̵4̵_̵6̵4̵_̵t̵e̵n̵s̵o̵r̵,̵K̵e̵r̵n̵e̵l̵S̵o̵u̵r̵c̵e̵.̵s̵o̵u̵r̵c̵e̵6̵4̵_̵3̵2̵_̵s̵c̵a̵l̵a̵r̵,̵C̵o̵m̵p̵u̵t̵e̵K̵e̵r̵n̵e̵l̵.̵s̵u̵r̵f̵a̵c̵e̵B̵o̵d̵y̵,̵s̵t̵a̵t̵e̵m̵e̵n̵t̵L̵i̵s̵t̵S̵h̵a̵p̵e̵s̵,̵s̵t̵a̵t̵e̵m̵e̵n̵t̵S̵h̵a̵p̵e̵s̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵a̵l̵g̵o̵r̵i̵t̵h̵m̵L̵i̵s̵t̵S̵h̵a̵p̵e̵s̵,̵a̵l̵g̵o̵r̵i̵t̵h̵m̵S̵h̵a̵p̵e̵s̵,̵s̵t̵a̵t̵i̵c̵B̵o̵o̵l̵,̵h̵i̵,̵h̵v̵,̵h̵o̵,̵h̵c̵,̵L̵i̵s̵t̵.̵m̵e̵m̵_̵a̵p̵p̵e̵n̵d̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵v̵e̵c̵t̵o̵r̵s̵.̵1̵,̵v̵e̵c̵t̵o̵r̵s̵.̵2̵.̵1̵,̵v̵e̵c̵t̵o̵r̵s̵.̵2̵.̵2̵,̵m̵a̵t̵r̵i̵x̵]̵[̲K̲e̲r̲n̲e̲l̲S̲o̲u̲r̲c̲e̲.̲s̲o̲u̲r̲c̲e̲6̲4̲_̲6̲4̲,̲ ̲K̲e̲r̲n̲e̲l̲S̲o̲u̲r̲c̲e̲.̲s̲o̲u̲r̲c̲e̲6̲4̲_̲6̲4̲_̲t̲e̲n̲s̲o̲r̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲K̲e̲r̲n̲e̲l̲S̲o̲u̲r̲c̲e̲.̲s̲o̲u̲r̲c̲e̲6̲4̲_̲3̲2̲_̲s̲c̲a̲l̲a̲r̲,̲ ̲C̲o̲m̲p̲u̲t̲e̲K̲e̲r̲n̲e̲l̲.̲s̲u̲r̲f̲a̲c̲e̲B̲o̲d̲y̲,̲ ̲s̲t̲a̲t̲e̲m̲e̲n̲t̲L̲i̲s̲t̲S̲h̲a̲p̲e̲s̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲s̲t̲a̲t̲e̲m̲e̲n̲t̲S̲h̲a̲p̲e̲s̲,̲ ̲a̲l̲g̲o̲r̲i̲t̲h̲m̲S̲h̲a̲p̲e̲s̲,̲ ̲s̲t̲a̲t̲i̲c̲B̲o̲o̲l̲,̲ ̲h̲i̲,̲ ̲h̲v̲,̲ ̲h̲o̲,̲ ̲h̲c̲,̲ ̲L̲i̲s̲t̲.̲m̲e̲m̲_̲a̲p̲p̲e̲n̲d̲,̲ ̲v̲e̲c̲t̲o̲r̲s̲.̲1̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲v̲e̲c̲t̲o̲r̲s̲.̲2̲.̲1̲,̲ ̲v̲e̲c̲t̲o̲r̲s̲.̲2̲.̲2̲,̲ ̲m̲a̲t̲r̲i̲x̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/rotary_transform_tile_checked/Proofs/SourceTiles.lean:65:26: warning: This simp argument is unused:
+  algorithmShapes
+
+Hint: Omit it from the simp argument list.
+  simp [̵K̵e̵r̵n̵e̵l̵S̵o̵u̵r̵c̵e̵.̵s̵o̵u̵r̵c̵e̵6̵4̵_̵6̵4̵,̵K̵e̵r̵n̵e̵l̵S̵o̵u̵r̵c̵e̵.̵s̵o̵u̵r̵c̵e̵6̵4̵_̵6̵4̵_̵t̵e̵n̵s̵o̵r̵,̵K̵e̵r̵n̵e̵l̵S̵o̵u̵r̵c̵e̵.̵s̵o̵u̵r̵c̵e̵6̵4̵_̵3̵2̵_̵s̵c̵a̵l̵a̵r̵,̵C̵o̵m̵p̵u̵t̵e̵K̵e̵r̵n̵e̵l̵.̵s̵u̵r̵f̵a̵c̵e̵B̵o̵d̵y̵,̵s̵t̵a̵t̵e̵m̵e̵n̵t̵L̵i̵s̵t̵S̵h̵a̵p̵e̵s̵,̵s̵t̵a̵t̵e̵m̵e̵n̵t̵S̵h̵a̵p̵e̵s̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵a̵l̵g̵o̵r̵i̵t̵h̵m̵L̵i̵s̵t̵S̵h̵a̵p̵e̵s̵,̵a̵l̵g̵o̵r̵i̵t̵h̵m̵S̵h̵a̵p̵e̵s̵,̵s̵t̵a̵t̵i̵c̵B̵o̵o̵l̵,̵h̵i̵,̵h̵v̵,̵h̵o̵,̵h̵c̵,̵L̵i̵s̵t̵.̵m̵e̵m̵_̵a̵p̵p̵e̵n̵d̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵v̵e̵c̵t̵o̵r̵s̵.̵1̵,̵v̵e̵c̵t̵o̵r̵s̵.̵2̵.̵1̵,̵v̵e̵c̵t̵o̵r̵s̵.̵2̵.̵2̵,̵m̵a̵t̵r̵i̵x̵]̵[̲K̲e̲r̲n̲e̲l̲S̲o̲u̲r̲c̲e̲.̲s̲o̲u̲r̲c̲e̲6̲4̲_̲6̲4̲,̲ ̲K̲e̲r̲n̲e̲l̲S̲o̲u̲r̲c̲e̲.̲s̲o̲u̲r̲c̲e̲6̲4̲_̲6̲4̲_̲t̲e̲n̲s̲o̲r̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲K̲e̲r̲n̲e̲l̲S̲o̲u̲r̲c̲e̲.̲s̲o̲u̲r̲c̲e̲6̲4̲_̲3̲2̲_̲s̲c̲a̲l̲a̲r̲,̲ ̲C̲o̲m̲p̲u̲t̲e̲K̲e̲r̲n̲e̲l̲.̲s̲u̲r̲f̲a̲c̲e̲B̲o̲d̲y̲,̲ ̲s̲t̲a̲t̲e̲m̲e̲n̲t̲L̲i̲s̲t̲S̲h̲a̲p̲e̲s̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲s̲t̲a̲t̲e̲m̲e̲n̲t̲S̲h̲a̲p̲e̲s̲,̲ ̲a̲l̲g̲o̲r̲i̲t̲h̲m̲L̲i̲s̲t̲S̲h̲a̲p̲e̲s̲,̲ ̲s̲t̲a̲t̲i̲c̲B̲o̲o̲l̲,̲ ̲h̲i̲,̲ ̲h̲v̲,̲ ̲h̲o̲,̲ ̲h̲c̲,̲ ̲L̲i̲s̲t̲.̲m̲e̲m̲_̲a̲p̲p̲e̲n̲d̲,̲ ̲v̲e̲c̲t̲o̲r̲s̲.̲1̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲v̲e̲c̲t̲o̲r̲s̲.̲2̲.̲1̲,̲ ̲v̲e̲c̲t̲o̲r̲s̲.̲2̲.̲2̲,̲ ̲m̲a̲t̲r̲i̲x̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/rotary_transform_tile_checked/Proofs/SourceTiles.lean:65:53: warning: This simp argument is unused:
+  hi
+
+Hint: Omit it from the simp argument list.
+  simp [̵K̵e̵r̵n̵e̵l̵S̵o̵u̵r̵c̵e̵.̵s̵o̵u̵r̵c̵e̵6̵4̵_̵6̵4̵,̵K̵e̵r̵n̵e̵l̵S̵o̵u̵r̵c̵e̵.̵s̵o̵u̵r̵c̵e̵6̵4̵_̵6̵4̵_̵t̵e̵n̵s̵o̵r̵,̵K̵e̵r̵n̵e̵l̵S̵o̵u̵r̵c̵e̵.̵s̵o̵u̵r̵c̵e̵6̵4̵_̵3̵2̵_̵s̵c̵a̵l̵a̵r̵,̵C̵o̵m̵p̵u̵t̵e̵K̵e̵r̵n̵e̵l̵.̵s̵u̵r̵f̵a̵c̵e̵B̵o̵d̵y̵,̵s̵t̵a̵t̵e̵m̵e̵n̵t̵L̵i̵s̵t̵S̵h̵a̵p̵e̵s̵,̵s̵t̵a̵t̵e̵m̵e̵n̵t̵S̵h̵a̵p̵e̵s̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵a̵l̵g̵o̵r̵i̵t̵h̵m̵L̵i̵s̵t̵S̵h̵a̵p̵e̵s̵,̵a̵l̵g̵o̵r̵i̵t̵h̵m̵S̵h̵a̵p̵e̵s̵,̵s̵t̵a̵t̵i̵c̵B̵o̵o̵l̵,̵h̵i̵,̵h̵v̵,̵h̵o̵,̵h̵c̵,̵L̵i̵s̵t̵.̵m̵e̵m̵_̵a̵p̵p̵e̵n̵d̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵v̵e̵c̵t̵o̵r̵s̵.̵1̵,̵v̵e̵c̵t̵o̵r̵s̵.̵2̵.̵1̵,̵v̵e̵c̵t̵o̵r̵s̵.̵2̵.̵2̵,̵m̵a̵t̵r̵i̵x̵]̵[̲K̲e̲r̲n̲e̲l̲S̲o̲u̲r̲c̲e̲.̲s̲o̲u̲r̲c̲e̲6̲4̲_̲6̲4̲,̲ ̲K̲e̲r̲n̲e̲l̲S̲o̲u̲r̲c̲e̲.̲s̲o̲u̲r̲c̲e̲6̲4̲_̲6̲4̲_̲t̲e̲n̲s̲o̲r̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲K̲e̲r̲n̲e̲l̲S̲o̲u̲r̲c̲e̲.̲s̲o̲u̲r̲c̲e̲6̲4̲_̲3̲2̲_̲s̲c̲a̲l̲a̲r̲,̲ ̲C̲o̲m̲p̲u̲t̲e̲K̲e̲r̲n̲e̲l̲.̲s̲u̲r̲f̲a̲c̲e̲B̲o̲d̲y̲,̲ ̲s̲t̲a̲t̲e̲m̲e̲n̲t̲L̲i̲s̲t̲S̲h̲a̲p̲e̲s̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲s̲t̲a̲t̲e̲m̲e̲n̲t̲S̲h̲a̲p̲e̲s̲,̲ ̲a̲l̲g̲o̲r̲i̲t̲h̲m̲L̲i̲s̲t̲S̲h̲a̲p̲e̲s̲,̲ ̲a̲l̲g̲o̲r̲i̲t̲h̲m̲S̲h̲a̲p̲e̲s̲,̲ ̲s̲t̲a̲t̲i̲c̲B̲o̲o̲l̲,̲ ̲h̲v̲,̲ ̲h̲o̲,̲ ̲h̲c̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲L̲i̲s̲t̲.̲m̲e̲m̲_̲a̲p̲p̲e̲n̲d̲,̲ ̲v̲e̲c̲t̲o̲r̲s̲.̲1̲,̲ ̲v̲e̲c̲t̲o̲r̲s̲.̲2̲.̲1̲,̲ ̲v̲e̲c̲t̲o̲r̲s̲.̲2̲.̲2̲,̲ ̲m̲a̲t̲r̲i̲x̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/rotary_transform_tile_checked/Proofs/SourceTiles.lean:65:56: warning: This simp argument is unused:
+  hv
+
+Hint: Omit it from the simp argument list.
+  simp [̵K̵e̵r̵n̵e̵l̵S̵o̵u̵r̵c̵e̵.̵s̵o̵u̵r̵c̵e̵6̵4̵_̵6̵4̵,̵K̵e̵r̵n̵e̵l̵S̵o̵u̵r̵c̵e̵.̵s̵o̵u̵r̵c̵e̵6̵4̵_̵6̵4̵_̵t̵e̵n̵s̵o̵r̵,̵K̵e̵r̵n̵e̵l̵S̵o̵u̵r̵c̵e̵.̵s̵o̵u̵r̵c̵e̵6̵4̵_̵3̵2̵_̵s̵c̵a̵l̵a̵r̵,̵C̵o̵m̵p̵u̵t̵e̵K̵e̵r̵n̵e̵l̵.̵s̵u̵r̵f̵a̵c̵e̵B̵o̵d̵y̵,̵s̵t̵a̵t̵e̵m̵e̵n̵t̵L̵i̵s̵t̵S̵h̵a̵p̵e̵s̵,̵s̵t̵a̵t̵e̵m̵e̵n̵t̵S̵h̵a̵p̵e̵s̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵a̵l̵g̵o̵r̵i̵t̵h̵m̵L̵i̵s̵t̵S̵h̵a̵p̵e̵s̵,̵a̵l̵g̵o̵r̵i̵t̵h̵m̵S̵h̵a̵p̵e̵s̵,̵s̵t̵a̵t̵i̵c̵B̵o̵o̵l̵,̵h̵i̵,̵h̵v̵,̵h̵o̵,̵h̵c̵,̵L̵i̵s̵t̵.̵m̵e̵m̵_̵a̵p̵p̵e̵n̵d̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵v̵e̵c̵t̵o̵r̵s̵.̵1̵,̵v̵e̵c̵t̵o̵r̵s̵.̵2̵.̵1̵,̵v̵e̵c̵t̵o̵r̵s̵.̵2̵.̵2̵,̵m̵a̵t̵r̵i̵x̵]̵[̲K̲e̲r̲n̲e̲l̲S̲o̲u̲r̲c̲e̲.̲s̲o̲u̲r̲c̲e̲6̲4̲_̲6̲4̲,̲ ̲K̲e̲r̲n̲e̲l̲S̲o̲u̲r̲c̲e̲.̲s̲o̲u̲r̲c̲e̲6̲4̲_̲6̲4̲_̲t̲e̲n̲s̲o̲r̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲K̲e̲r̲n̲e̲l̲S̲o̲u̲r̲c̲e̲.̲s̲o̲u̲r̲c̲e̲6̲4̲_̲3̲2̲_̲s̲c̲a̲l̲a̲r̲,̲ ̲C̲o̲m̲p̲u̲t̲e̲K̲e̲r̲n̲e̲l̲.̲s̲u̲r̲f̲a̲c̲e̲B̲o̲d̲y̲,̲ ̲s̲t̲a̲t̲e̲m̲e̲n̲t̲L̲i̲s̲t̲S̲h̲a̲p̲e̲s̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲s̲t̲a̲t̲e̲m̲e̲n̲t̲S̲h̲a̲p̲e̲s̲,̲ ̲a̲l̲g̲o̲r̲i̲t̲h̲m̲L̲i̲s̲t̲S̲h̲a̲p̲e̲s̲,̲ ̲a̲l̲g̲o̲r̲i̲t̲h̲m̲S̲h̲a̲p̲e̲s̲,̲ ̲s̲t̲a̲t̲i̲c̲B̲o̲o̲l̲,̲ ̲h̲i̲,̲ ̲h̲o̲,̲ ̲h̲c̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲L̲i̲s̲t̲.̲m̲e̲m̲_̲a̲p̲p̲e̲n̲d̲,̲ ̲v̲e̲c̲t̲o̲r̲s̲.̲1̲,̲ ̲v̲e̲c̲t̲o̲r̲s̲.̲2̲.̲1̲,̲ ̲v̲e̲c̲t̲o̲r̲s̲.̲2̲.̲2̲,̲ ̲m̲a̲t̲r̲i̲x̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/rotary_transform_tile_checked/Proofs/SourceTiles.lean:65:59: warning: This simp argument is unused:
+  ho
+
+Hint: Omit it from the simp argument list.
+  simp [̵K̵e̵r̵n̵e̵l̵S̵o̵u̵r̵c̵e̵.̵s̵o̵u̵r̵c̵e̵6̵4̵_̵6̵4̵,̵K̵e̵r̵n̵e̵l̵S̵o̵u̵r̵c̵e̵.̵s̵o̵u̵r̵c̵e̵6̵4̵_̵6̵4̵_̵t̵e̵n̵s̵o̵r̵,̵K̵e̵r̵n̵e̵l̵S̵o̵u̵r̵c̵e̵.̵s̵o̵u̵r̵c̵e̵6̵4̵_̵3̵2̵_̵s̵c̵a̵l̵a̵r̵,̵C̵o̵m̵p̵u̵t̵e̵K̵e̵r̵n̵e̵l̵.̵s̵u̵r̵f̵a̵c̵e̵B̵o̵d̵y̵,̵s̵t̵a̵t̵e̵m̵e̵n̵t̵L̵i̵s̵t̵S̵h̵a̵p̵e̵s̵,̵s̵t̵a̵t̵e̵m̵e̵n̵t̵S̵h̵a̵p̵e̵s̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵a̵l̵g̵o̵r̵i̵t̵h̵m̵L̵i̵s̵t̵S̵h̵a̵p̵e̵s̵,̵a̵l̵g̵o̵r̵i̵t̵h̵m̵S̵h̵a̵p̵e̵s̵,̵s̵t̵a̵t̵i̵c̵B̵o̵o̵l̵,̵h̵i̵,̵h̵v̵,̵h̵o̵,̵h̵c̵,̵L̵i̵s̵t̵.̵m̵e̵m̵_̵a̵p̵p̵e̵n̵d̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵v̵e̵c̵t̵o̵r̵s̵.̵1̵,̵v̵e̵c̵t̵o̵r̵s̵.̵2̵.̵1̵,̵v̵e̵c̵t̵o̵r̵s̵.̵2̵.̵2̵,̵m̵a̵t̵r̵i̵x̵]̵[̲K̲e̲r̲n̲e̲l̲S̲o̲u̲r̲c̲e̲.̲s̲o̲u̲r̲c̲e̲6̲4̲_̲6̲4̲,̲ ̲K̲e̲r̲n̲e̲l̲S̲o̲u̲r̲c̲e̲.̲s̲o̲u̲r̲c̲e̲6̲4̲_̲6̲4̲_̲t̲e̲n̲s̲o̲r̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲K̲e̲r̲n̲e̲l̲S̲o̲u̲r̲c̲e̲.̲s̲o̲u̲r̲c̲e̲6̲4̲_̲3̲2̲_̲s̲c̲a̲l̲a̲r̲,̲ ̲C̲o̲m̲p̲u̲t̲e̲K̲e̲r̲n̲e̲l̲.̲s̲u̲r̲f̲a̲c̲e̲B̲o̲d̲y̲,̲ ̲s̲t̲a̲t̲e̲m̲e̲n̲t̲L̲i̲s̲t̲S̲h̲a̲p̲e̲s̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲s̲t̲a̲t̲e̲m̲e̲n̲t̲S̲h̲a̲p̲e̲s̲,̲ ̲a̲l̲g̲o̲r̲i̲t̲h̲m̲L̲i̲s̲t̲S̲h̲a̲p̲e̲s̲,̲ ̲a̲l̲g̲o̲r̲i̲t̲h̲m̲S̲h̲a̲p̲e̲s̲,̲ ̲s̲t̲a̲t̲i̲c̲B̲o̲o̲l̲,̲ ̲h̲i̲,̲ ̲h̲v̲,̲ ̲h̲c̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲L̲i̲s̲t̲.̲m̲e̲m̲_̲a̲p̲p̲e̲n̲d̲,̲ ̲v̲e̲c̲t̲o̲r̲s̲.̲1̲,̲ ̲v̲e̲c̲t̲o̲r̲s̲.̲2̲.̲1̲,̲ ̲v̲e̲c̲t̲o̲r̲s̲.̲2̲.̲2̲,̲ ̲m̲a̲t̲r̲i̲x̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/rotary_transform_tile_checked/Proofs/SourceTiles.lean:65:62: warning: This simp argument is unused:
+  hc
+
+Hint: Omit it from the simp argument list.
+  simp [̵K̵e̵r̵n̵e̵l̵S̵o̵u̵r̵c̵e̵.̵s̵o̵u̵r̵c̵e̵6̵4̵_̵6̵4̵,̵K̵e̵r̵n̵e̵l̵S̵o̵u̵r̵c̵e̵.̵s̵o̵u̵r̵c̵e̵6̵4̵_̵6̵4̵_̵t̵e̵n̵s̵o̵r̵,̵K̵e̵r̵n̵e̵l̵S̵o̵u̵r̵c̵e̵.̵s̵o̵u̵r̵c̵e̵6̵4̵_̵3̵2̵_̵s̵c̵a̵l̵a̵r̵,̵C̵o̵m̵p̵u̵t̵e̵K̵e̵r̵n̵e̵l̵.̵s̵u̵r̵f̵a̵c̵e̵B̵o̵d̵y̵,̵s̵t̵a̵t̵e̵m̵e̵n̵t̵L̵i̵s̵t̵S̵h̵a̵p̵e̵s̵,̵s̵t̵a̵t̵e̵m̵e̵n̵t̵S̵h̵a̵p̵e̵s̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵a̵l̵g̵o̵r̵i̵t̵h̵m̵L̵i̵s̵t̵S̵h̵a̵p̵e̵s̵,̵a̵l̵g̵o̵r̵i̵t̵h̵m̵S̵h̵a̵p̵e̵s̵,̵s̵t̵a̵t̵i̵c̵B̵o̵o̵l̵,̵h̵i̵,̵h̵v̵,̵h̵o̵,̵h̵c̵,̵L̵i̵s̵t̵.̵m̵e̵m̵_̵a̵p̵p̵e̵n̵d̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵v̵e̵c̵t̵o̵r̵s̵.̵1̵,̵v̵e̵c̵t̵o̵r̵s̵.̵2̵.̵1̵,̵v̵e̵c̵t̵o̵r̵s̵.̵2̵.̵2̵,̵m̵a̵t̵r̵i̵x̵]̵[̲K̲e̲r̲n̲e̲l̲S̲o̲u̲r̲c̲e̲.̲s̲o̲u̲r̲c̲e̲6̲4̲_̲6̲4̲,̲ ̲K̲e̲r̲n̲e̲l̲S̲o̲u̲r̲c̲e̲.̲s̲o̲u̲r̲c̲e̲6̲4̲_̲6̲4̲_̲t̲e̲n̲s̲o̲r̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲K̲e̲r̲n̲e̲l̲S̲o̲u̲r̲c̲e̲.̲s̲o̲u̲r̲c̲e̲6̲4̲_̲3̲2̲_̲s̲c̲a̲l̲a̲r̲,̲ ̲C̲o̲m̲p̲u̲t̲e̲K̲e̲r̲n̲e̲l̲.̲s̲u̲r̲f̲a̲c̲e̲B̲o̲d̲y̲,̲ ̲s̲t̲a̲t̲e̲m̲e̲n̲t̲L̲i̲s̲t̲S̲h̲a̲p̲e̲s̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲s̲t̲a̲t̲e̲m̲e̲n̲t̲S̲h̲a̲p̲e̲s̲,̲ ̲a̲l̲g̲o̲r̲i̲t̲h̲m̲L̲i̲s̲t̲S̲h̲a̲p̲e̲s̲,̲ ̲a̲l̲g̲o̲r̲i̲t̲h̲m̲S̲h̲a̲p̲e̲s̲,̲ ̲s̲t̲a̲t̲i̲c̲B̲o̲o̲l̲,̲ ̲h̲i̲,̲ ̲h̲v̲,̲ ̲h̲o̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲L̲i̲s̲t̲.̲m̲e̲m̲_̲a̲p̲p̲e̲n̲d̲,̲ ̲v̲e̲c̲t̲o̲r̲s̲.̲1̲,̲ ̲v̲e̲c̲t̲o̲r̲s̲.̲2̲.̲1̲,̲ ̲v̲e̲c̲t̲o̲r̲s̲.̲2̲.̲2̲,̲ ̲m̲a̲t̲r̲i̲x̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/rotary_transform_tile_checked/Proofs/SourceTiles.lean:65:65: warning: This simp argument is unused:
+  List.mem_append
+
+Hint: Omit it from the simp argument list.
+  simp [̵K̵e̵r̵n̵e̵l̵S̵o̵u̵r̵c̵e̵.̵s̵o̵u̵r̵c̵e̵6̵4̵_̵6̵4̵,̵K̵e̵r̵n̵e̵l̵S̵o̵u̵r̵c̵e̵.̵s̵o̵u̵r̵c̵e̵6̵4̵_̵6̵4̵_̵t̵e̵n̵s̵o̵r̵,̵K̵e̵r̵n̵e̵l̵S̵o̵u̵r̵c̵e̵.̵s̵o̵u̵r̵c̵e̵6̵4̵_̵3̵2̵_̵s̵c̵a̵l̵a̵r̵,̵C̵o̵m̵p̵u̵t̵e̵K̵e̵r̵n̵e̵l̵.̵s̵u̵r̵f̵a̵c̵e̵B̵o̵d̵y̵,̵s̵t̵a̵t̵e̵m̵e̵n̵t̵L̵i̵s̵t̵S̵h̵a̵p̵e̵s̵,̵s̵t̵a̵t̵e̵m̵e̵n̵t̵S̵h̵a̵p̵e̵s̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵a̵l̵g̵o̵r̵i̵t̵h̵m̵L̵i̵s̵t̵S̵h̵a̵p̵e̵s̵,̵a̵l̵g̵o̵r̵i̵t̵h̵m̵S̵h̵a̵p̵e̵s̵,̵s̵t̵a̵t̵i̵c̵B̵o̵o̵l̵,̵h̵i̵,̵h̵v̵,̵h̵o̵,̵h̵c̵,̵L̵i̵s̵t̵.̵m̵e̵m̵_̵a̵p̵p̵e̵n̵d̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵v̵e̵c̵t̵o̵r̵s̵.̵1̵,̵v̵e̵c̵t̵o̵r̵s̵.̵2̵.̵1̵,̵v̵e̵c̵t̵o̵r̵s̵.̵2̵.̵2̵,̵m̵a̵t̵r̵i̵x̵]̵[̲K̲e̲r̲n̲e̲l̲S̲o̲u̲r̲c̲e̲.̲s̲o̲u̲r̲c̲e̲6̲4̲_̲6̲4̲,̲ ̲K̲e̲r̲n̲e̲l̲S̲o̲u̲r̲c̲e̲.̲s̲o̲u̲r̲c̲e̲6̲4̲_̲6̲4̲_̲t̲e̲n̲s̲o̲r̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲K̲e̲r̲n̲e̲l̲S̲o̲u̲r̲c̲e̲.̲s̲o̲u̲r̲c̲e̲6̲4̲_̲3̲2̲_̲s̲c̲a̲l̲a̲r̲,̲ ̲C̲o̲m̲p̲u̲t̲e̲K̲e̲r̲n̲e̲l̲.̲s̲u̲r̲f̲a̲c̲e̲B̲o̲d̲y̲,̲ ̲s̲t̲a̲t̲e̲m̲e̲n̲t̲L̲i̲s̲t̲S̲h̲a̲p̲e̲s̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲s̲t̲a̲t̲e̲m̲e̲n̲t̲S̲h̲a̲p̲e̲s̲,̲ ̲a̲l̲g̲o̲r̲i̲t̲h̲m̲L̲i̲s̲t̲S̲h̲a̲p̲e̲s̲,̲ ̲a̲l̲g̲o̲r̲i̲t̲h̲m̲S̲h̲a̲p̲e̲s̲,̲ ̲s̲t̲a̲t̲i̲c̲B̲o̲o̲l̲,̲ ̲h̲i̲,̲ ̲h̲v̲,̲ ̲h̲o̲,̲ ̲h̲c̲,̲ ̲v̲e̲c̲t̲o̲r̲s̲.̲1̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲v̲e̲c̲t̲o̲r̲s̲.̲2̲.̲1̲,̲ ̲v̲e̲c̲t̲o̲r̲s̲.̲2̲.̲2̲,̲ ̲m̲a̲t̲r̲i̲x̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.RotaryTransformTileChecked.SourceTiles.quotation_shapes_bounded: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

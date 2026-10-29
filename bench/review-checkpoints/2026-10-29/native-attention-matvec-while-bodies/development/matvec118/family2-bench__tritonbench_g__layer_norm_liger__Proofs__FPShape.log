@@ -1,0 +1,63 @@
+/tmp/matvec118-frontend/bench/tritonbench_g/layer_norm_liger/Proofs/FPShape.lean:45:2: warning: 'all_goals conv_lhs => rw [Op.eraseDType.eq_def]' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/matvec118-frontend/bench/tritonbench_g/layer_norm_liger/Proofs/FPShape.lean:46:2: warning: 'all_goals
+  simp [Op.eraseDType, MemAccess.eraseDType, MaskOpt.eraseDType, VeriTile.Triton.eraseDType]' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/matvec118-frontend/bench/tritonbench_g/layer_norm_liger/Proofs/FPShape.lean:47:2: warning: 'all_goals
+  simp only [FloatDType.toTileDType, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, Op.eraseDType.eq_def,
+    NumericDType.eraseDType, ComparableDType.eraseDType, VeriTile.Triton.eraseDType]' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/matvec118-frontend/bench/tritonbench_g/layer_norm_liger/Proofs/FPShape.lean:50:2: warning: 'all_goals try simp [eq_mp_eq_cast, eq_mpr_eq_cast, cast_eq, id_eq]' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/matvec118-frontend/bench/tritonbench_g/layer_norm_liger/Proofs/FPShape.lean:45:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/matvec118-frontend/bench/tritonbench_g/layer_norm_liger/Proofs/FPShape.lean:46:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/matvec118-frontend/bench/tritonbench_g/layer_norm_liger/Proofs/FPShape.lean:47:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/matvec118-frontend/bench/tritonbench_g/layer_norm_liger/Proofs/FPShape.lean:50:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+VeriTile.Bench.TritonBenchG.LayerNormLiger.FPStages.mean_store_shape: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/matvec118-frontend/bench/tritonbench_g/layer_norm_liger/Proofs/FPShape.lean:64:2: warning: 'all_goals conv_lhs => rw [Op.eraseDType.eq_def]' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/matvec118-frontend/bench/tritonbench_g/layer_norm_liger/Proofs/FPShape.lean:65:2: warning: 'all_goals
+  simp [Op.eraseDType, MemAccess.eraseDType, MaskOpt.eraseDType, VeriTile.Triton.eraseDType]' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/matvec118-frontend/bench/tritonbench_g/layer_norm_liger/Proofs/FPShape.lean:66:2: warning: 'all_goals
+  simp only [FloatDType.toTileDType, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, Op.eraseDType.eq_def,
+    NumericDType.eraseDType, ComparableDType.eraseDType, VeriTile.Triton.eraseDType]' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/matvec118-frontend/bench/tritonbench_g/layer_norm_liger/Proofs/FPShape.lean:69:2: warning: 'all_goals try simp [eq_mp_eq_cast, eq_mpr_eq_cast, cast_eq, id_eq]' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/matvec118-frontend/bench/tritonbench_g/layer_norm_liger/Proofs/FPShape.lean:64:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/matvec118-frontend/bench/tritonbench_g/layer_norm_liger/Proofs/FPShape.lean:65:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/matvec118-frontend/bench/tritonbench_g/layer_norm_liger/Proofs/FPShape.lean:66:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/matvec118-frontend/bench/tritonbench_g/layer_norm_liger/Proofs/FPShape.lean:69:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+VeriTile.Bench.TritonBenchG.LayerNormLiger.FPStages.rstd_store_shape: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.LayerNormLiger.FPStages.source_shape: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,7 @@
+VeriTile.Bench.Repairs.MatrixVectorMultip.KernelRealResult.io_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MatrixVectorMultip.KernelRealResult.matrixVector: definition does not reference [VeriTile.Bench.Repairs.MatrixVectorMultip.Kernels.source] — non-circular ✓
+VeriTile.Bench.Repairs.MatrixVectorMultip.KernelRealResult.mv_kernel_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

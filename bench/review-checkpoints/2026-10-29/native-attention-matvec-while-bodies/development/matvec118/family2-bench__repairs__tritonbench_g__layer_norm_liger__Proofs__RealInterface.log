@@ -1,0 +1,9 @@
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/RealInterface.lean:107:4: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+VeriTile.Bench.Repairs.LayerNormLiger.LayerIO.forward_implements: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormLiger.LayerIO.backward_implements: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

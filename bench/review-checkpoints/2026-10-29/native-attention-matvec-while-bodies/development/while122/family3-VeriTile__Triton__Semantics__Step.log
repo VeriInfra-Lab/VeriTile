@@ -1,0 +1,15 @@
+/tmp/while122-frontend/VeriTile/Triton/Semantics/Step.lean:924:64: error: Application type mismatch: The argument
+  h
+has type
+  stepStmt (Stmt.whileLoop cond body) s = some s'
+but is expected to have type
+  Control.While.run ?m.3604 (fun current => stepStmts (?m.3620 current) (?m.3621 current)) ?m.3629 = some ?m.3630
+in the application
+  Control.While.run_preserves (fun t => ?m.3608 = s.pid) (fun current next hc ran => ?m.3627) h
+/tmp/while122-frontend/VeriTile/Triton/Semantics/Step.lean:1043:8: warning: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp [e̵v̵a̵l̵O̵p̵,̵ ̵Tile.bop, NumericDType.add]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

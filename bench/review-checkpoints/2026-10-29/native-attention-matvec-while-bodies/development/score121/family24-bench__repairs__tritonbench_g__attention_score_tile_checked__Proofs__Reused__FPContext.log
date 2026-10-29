@@ -1,0 +1,279 @@
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/FPContext.lean:60:14: error: Tactic `rfl` failed: The left-hand side
+  ↑(s.pids 1) - if ↑(s.pids 1) < 0 then -(↑p.heads * (-↑(s.pids 1) / ↑p.heads)) else ↑p.heads * (↑(s.pids 1) / ↑p.heads)
+is not definitionally equal to the right-hand side
+  ↑(s.pids 1) % ↑p.heads
+
+case pos.head.h
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+dot : Dot α
+B D : ℕ
+p : RealSource.Parameters
+s : State α
+keyOffsetBound : s.pids 0 * B < 2147483648
+signedExact : (BitVec.ofInt 32 ↑(s.pids 0 * B)).toInt = ↑(s.pids 0 * B)
+hn : p.evenN = «true»
+i : TileIndex []
+⊢ (↑(s.pids 1) -
+      if ↑(s.pids 1) < 0 then -(↑p.heads * (-↑(s.pids 1) / ↑p.heads)) else ↑p.heads * (↑(s.pids 1) / ↑p.heads)) =
+    ↑(s.pids 1) % ↑p.heads
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/FPContext.lean:60:14: error: Tactic `rfl` failed: The left-hand side
+  Int.toNat
+    ((if ↑(s.pids 1) < 0 then -(-↑(s.pids 1) / ↑p.heads * ↑p.queryBatch) else ↑(s.pids 1) / ↑p.heads * ↑p.queryBatch) +
+      (↑(s.pids 1) -
+          if ↑(s.pids 1) < 0 then -(↑p.heads * (-↑(s.pids 1) / ↑p.heads)) else ↑p.heads * (↑(s.pids 1) / ↑p.heads)) *
+        ↑p.queryHead)
+is not definitionally equal to the right-hand side
+  s.pids 1 / p.heads * p.queryBatch + s.pids 1 % p.heads * p.queryHead
+
+case pos.query.h
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+dot : Dot α
+B D : ℕ
+p : RealSource.Parameters
+s : State α
+keyOffsetBound : s.pids 0 * B < 2147483648
+signedExact : (BitVec.ofInt 32 ↑(s.pids 0 * B)).toInt = ↑(s.pids 0 * B)
+hn : p.evenN = «true»
+i : TileIndex [B, D]
+⊢ Int.toNat
+      ((if ↑(s.pids 1) < 0 then -(-↑(s.pids 1) / ↑p.heads * ↑p.queryBatch)
+        else ↑(s.pids 1) / ↑p.heads * ↑p.queryBatch) +
+        (↑(s.pids 1) -
+            if ↑(s.pids 1) < 0 then -(↑p.heads * (-↑(s.pids 1) / ↑p.heads)) else ↑p.heads * (↑(s.pids 1) / ↑p.heads)) *
+          ↑p.queryHead) =
+    s.pids 1 / p.heads * p.queryBatch + s.pids 1 % p.heads * p.queryHead
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/FPContext.lean:60:14: error: Tactic `rfl` failed: The left-hand side
+  M.fp32Load
+    (Cell.read TileDType.real
+      (s.mem p.K
+        (Int.toNat
+              ((if ↑(s.pids 1) < 0 then -(-↑(s.pids 1) / ↑p.heads * ↑p.keyBatch)
+                else ↑(s.pids 1) / ↑p.heads * ↑p.keyBatch) +
+                if
+                    ↑(s.pids 1) <
+                      if ↑(s.pids 1) < 0 then -(↑p.heads * (-↑(s.pids 1) / ↑p.heads))
+                      else ↑p.heads * (↑(s.pids 1) / ↑p.heads) then
+                  -((((if ↑(s.pids 1) < 0 then -(↑p.heads * (-↑(s.pids 1) / ↑p.heads))
+                          else ↑p.heads * (↑(s.pids 1) / ↑p.heads)) -
+                          ↑(s.pids 1)) /
+                        if ↑p.heads < 0 then -(-↑p.heads / ↑p.kvHeads) else ↑p.heads / ↑p.kvHeads) *
+                      ↑p.keyHead)
+                else
+                  ((↑(s.pids 1) -
+                        if ↑(s.pids 1) < 0 then -(↑p.heads * (-↑(s.pids 1) / ↑p.heads))
+                        else ↑p.heads * (↑(s.pids 1) / ↑p.heads)) /
+                      if ↑p.heads < 0 then -(-↑p.heads / ↑p.kvHeads) else ↑p.heads / ↑p.kvHeads) *
+                    ↑p.keyHead) +
+            ↑i.1 * p.keyDim +
+          (Int.toNat
+                (if 2 * (Int.toNat (↑(s.pids 0 * B) % 4294967296) % 4294967296) < 4294967296 then
+                  max (↑(s.pids 0 * B) % 4294967296) 0 % 4294967296
+                else max (↑(s.pids 0 * B) % 4294967296) 0 % 4294967296 - 4294967296) +
+              ↑i.2.1) *
+            p.keyRow)))
+is not definitionally equal to the right-hand side
+  M.fp32Load
+    (Cell.read TileDType.real
+      (s.mem p.K
+        (s.pids 1 / p.heads * p.keyBatch + s.pids 1 % p.heads / (p.heads / p.kvHeads) * p.keyHead + ↑i.1 * p.keyDim +
+          (s.pids 0 * B + ↑i.2.1) * p.keyRow)))
+
+case pos.key.h
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+dot : Dot α
+B D : ℕ
+p : RealSource.Parameters
+s : State α
+keyOffsetBound : s.pids 0 * B < 2147483648
+signedExact : (BitVec.ofInt 32 ↑(s.pids 0 * B)).toInt = ↑(s.pids 0 * B)
+hn : p.evenN = «true»
+i : TileIndex [D, B]
+⊢ M.fp32Load
+      (Cell.read TileDType.real
+        (s.mem p.K
+          (Int.toNat
+                ((if ↑(s.pids 1) < 0 then -(-↑(s.pids 1) / ↑p.heads * ↑p.keyBatch)
+                  else ↑(s.pids 1) / ↑p.heads * ↑p.keyBatch) +
+                  if
+                      ↑(s.pids 1) <
+                        if ↑(s.pids 1) < 0 then -(↑p.heads * (-↑(s.pids 1) / ↑p.heads))
+                        else ↑p.heads * (↑(s.pids 1) / ↑p.heads) then
+                    -((((if ↑(s.pids 1) < 0 then -(↑p.heads * (-↑(s.pids 1) / ↑p.heads))
+                            else ↑p.heads * (↑(s.pids 1) / ↑p.heads)) -
+                            ↑(s.pids 1)) /
+                          if ↑p.heads < 0 then -(-↑p.heads / ↑p.kvHeads) else ↑p.heads / ↑p.kvHeads) *
+                        ↑p.keyHead)
+                  else
+                    ((↑(s.pids 1) -
+                          if ↑(s.pids 1) < 0 then -(↑p.heads * (-↑(s.pids 1) / ↑p.heads))
+                          else ↑p.heads * (↑(s.pids 1) / ↑p.heads)) /
+                        if ↑p.heads < 0 then -(-↑p.heads / ↑p.kvHeads) else ↑p.heads / ↑p.kvHeads) *
+                      ↑p.keyHead) +
+              ↑i.1 * p.keyDim +
+            (Int.toNat
+                  (if 2 * (Int.toNat (↑(s.pids 0 * B) % 4294967296) % 4294967296) < 4294967296 then
+                    max (↑(s.pids 0 * B) % 4294967296) 0 % 4294967296
+                  else max (↑(s.pids 0 * B) % 4294967296) 0 % 4294967296 - 4294967296) +
+                ↑i.2.1) *
+              p.keyRow))) =
+    M.fp32Load
+      (Cell.read TileDType.real
+        (s.mem p.K
+          (s.pids 1 / p.heads * p.keyBatch + s.pids 1 % p.heads / (p.heads / p.kvHeads) * p.keyHead + ↑i.1 * p.keyDim +
+            (s.pids 0 * B + ↑i.2.1) * p.keyRow)))
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/FPContext.lean:60:14: error: Tactic `rfl` failed: The left-hand side
+  ↑(s.pids 1) - if ↑(s.pids 1) < 0 then -(↑p.heads * (-↑(s.pids 1) / ↑p.heads)) else ↑p.heads * (↑(s.pids 1) / ↑p.heads)
+is not definitionally equal to the right-hand side
+  ↑(s.pids 1) % ↑p.heads
+
+case neg.head.h
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+dot : Dot α
+B D : ℕ
+p : RealSource.Parameters
+s : State α
+keyOffsetBound : s.pids 0 * B < 2147483648
+signedExact : (BitVec.ofInt 32 ↑(s.pids 0 * B)).toInt = ↑(s.pids 0 * B)
+hn : ¬p.evenN = «true»
+i : TileIndex []
+⊢ (↑(s.pids 1) -
+      if ↑(s.pids 1) < 0 then -(↑p.heads * (-↑(s.pids 1) / ↑p.heads)) else ↑p.heads * (↑(s.pids 1) / ↑p.heads)) =
+    ↑(s.pids 1) % ↑p.heads
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/FPContext.lean:60:14: error: Tactic `rfl` failed: The left-hand side
+  Int.toNat
+    ((if ↑(s.pids 1) < 0 then -(-↑(s.pids 1) / ↑p.heads * ↑p.queryBatch) else ↑(s.pids 1) / ↑p.heads * ↑p.queryBatch) +
+      (↑(s.pids 1) -
+          if ↑(s.pids 1) < 0 then -(↑p.heads * (-↑(s.pids 1) / ↑p.heads)) else ↑p.heads * (↑(s.pids 1) / ↑p.heads)) *
+        ↑p.queryHead)
+is not definitionally equal to the right-hand side
+  s.pids 1 / p.heads * p.queryBatch + s.pids 1 % p.heads * p.queryHead
+
+case neg.query.h
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+dot : Dot α
+B D : ℕ
+p : RealSource.Parameters
+s : State α
+keyOffsetBound : s.pids 0 * B < 2147483648
+signedExact : (BitVec.ofInt 32 ↑(s.pids 0 * B)).toInt = ↑(s.pids 0 * B)
+hn : ¬p.evenN = «true»
+i : TileIndex [B, D]
+⊢ Int.toNat
+      ((if ↑(s.pids 1) < 0 then -(-↑(s.pids 1) / ↑p.heads * ↑p.queryBatch)
+        else ↑(s.pids 1) / ↑p.heads * ↑p.queryBatch) +
+        (↑(s.pids 1) -
+            if ↑(s.pids 1) < 0 then -(↑p.heads * (-↑(s.pids 1) / ↑p.heads)) else ↑p.heads * (↑(s.pids 1) / ↑p.heads)) *
+          ↑p.queryHead) =
+    s.pids 1 / p.heads * p.queryBatch + s.pids 1 % p.heads * p.queryHead
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/FPContext.lean:60:14: error: Tactic `rfl` failed: The left-hand side
+  M.fp32Load
+    (if
+        Int.toNat
+              (if 2 * (Int.toNat (↑(s.pids 0 * B) % 4294967296) % 4294967296) < 4294967296 then
+                max (↑(s.pids 0 * B) % 4294967296) 0 % 4294967296
+              else max (↑(s.pids 0 * B) % 4294967296) 0 % 4294967296 - 4294967296) +
+            ↑i.2.1 <
+          p.keyContext then
+      Cell.read TileDType.real
+        (s.mem p.K
+          (Int.toNat
+                ((if ↑(s.pids 1) < 0 then -(-↑(s.pids 1) / ↑p.heads * ↑p.keyBatch)
+                  else ↑(s.pids 1) / ↑p.heads * ↑p.keyBatch) +
+                  if
+                      ↑(s.pids 1) <
+                        if ↑(s.pids 1) < 0 then -(↑p.heads * (-↑(s.pids 1) / ↑p.heads))
+                        else ↑p.heads * (↑(s.pids 1) / ↑p.heads) then
+                    -((((if ↑(s.pids 1) < 0 then -(↑p.heads * (-↑(s.pids 1) / ↑p.heads))
+                            else ↑p.heads * (↑(s.pids 1) / ↑p.heads)) -
+                            ↑(s.pids 1)) /
+                          if ↑p.heads < 0 then -(-↑p.heads / ↑p.kvHeads) else ↑p.heads / ↑p.kvHeads) *
+                        ↑p.keyHead)
+                  else
+                    ((↑(s.pids 1) -
+                          if ↑(s.pids 1) < 0 then -(↑p.heads * (-↑(s.pids 1) / ↑p.heads))
+                          else ↑p.heads * (↑(s.pids 1) / ↑p.heads)) /
+                        if ↑p.heads < 0 then -(-↑p.heads / ↑p.kvHeads) else ↑p.heads / ↑p.kvHeads) *
+                      ↑p.keyHead) +
+              ↑i.1 * p.keyDim +
+            (Int.toNat
+                  (if 2 * (Int.toNat (↑(s.pids 0 * B) % 4294967296) % 4294967296) < 4294967296 then
+                    max (↑(s.pids 0 * B) % 4294967296) 0 % 4294967296
+                  else max (↑(s.pids 0 * B) % 4294967296) 0 % 4294967296 - 4294967296) +
+                ↑i.2.1) *
+              p.keyRow))
+    else M.literal (some ComputeDType.fp32) FloatDType.real 0)
+is not definitionally equal to the right-hand side
+  M.fp32Load
+    (if s.pids 0 * B + ↑i.2.1 < p.keyContext then
+      Cell.read TileDType.real
+        (s.mem p.K
+          (s.pids 1 / p.heads * p.keyBatch + s.pids 1 % p.heads / (p.heads / p.kvHeads) * p.keyHead + ↑i.1 * p.keyDim +
+            (s.pids 0 * B + ↑i.2.1) * p.keyRow))
+    else M.literal (some ComputeDType.fp32) FloatDType.real 0)
+
+case neg.key.h
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+dot : Dot α
+B D : ℕ
+p : RealSource.Parameters
+s : State α
+keyOffsetBound : s.pids 0 * B < 2147483648
+signedExact : (BitVec.ofInt 32 ↑(s.pids 0 * B)).toInt = ↑(s.pids 0 * B)
+hn : ¬p.evenN = «true»
+i : TileIndex [D, B]
+⊢ M.fp32Load
+      (if
+          Int.toNat
+                (if 2 * (Int.toNat (↑(s.pids 0 * B) % 4294967296) % 4294967296) < 4294967296 then
+                  max (↑(s.pids 0 * B) % 4294967296) 0 % 4294967296
+                else max (↑(s.pids 0 * B) % 4294967296) 0 % 4294967296 - 4294967296) +
+              ↑i.2.1 <
+            p.keyContext then
+        Cell.read TileDType.real
+          (s.mem p.K
+            (Int.toNat
+                  ((if ↑(s.pids 1) < 0 then -(-↑(s.pids 1) / ↑p.heads * ↑p.keyBatch)
+                    else ↑(s.pids 1) / ↑p.heads * ↑p.keyBatch) +
+                    if
+                        ↑(s.pids 1) <
+                          if ↑(s.pids 1) < 0 then -(↑p.heads * (-↑(s.pids 1) / ↑p.heads))
+                          else ↑p.heads * (↑(s.pids 1) / ↑p.heads) then
+                      -((((if ↑(s.pids 1) < 0 then -(↑p.heads * (-↑(s.pids 1) / ↑p.heads))
+                              else ↑p.heads * (↑(s.pids 1) / ↑p.heads)) -
+                              ↑(s.pids 1)) /
+                            if ↑p.heads < 0 then -(-↑p.heads / ↑p.kvHeads) else ↑p.heads / ↑p.kvHeads) *
+                          ↑p.keyHead)
+                    else
+                      ((↑(s.pids 1) -
+                            if ↑(s.pids 1) < 0 then -(↑p.heads * (-↑(s.pids 1) / ↑p.heads))
+                            else ↑p.heads * (↑(s.pids 1) / ↑p.heads)) /
+                          if ↑p.heads < 0 then -(-↑p.heads / ↑p.kvHeads) else ↑p.heads / ↑p.kvHeads) *
+                        ↑p.keyHead) +
+                ↑i.1 * p.keyDim +
+              (Int.toNat
+                    (if 2 * (Int.toNat (↑(s.pids 0 * B) % 4294967296) % 4294967296) < 4294967296 then
+                      max (↑(s.pids 0 * B) % 4294967296) 0 % 4294967296
+                    else max (↑(s.pids 0 * B) % 4294967296) 0 % 4294967296 - 4294967296) +
+                  ↑i.2.1) *
+                p.keyRow))
+      else M.literal (some ComputeDType.fp32) FloatDType.real 0) =
+    M.fp32Load
+      (if s.pids 0 * B + ↑i.2.1 < p.keyContext then
+        Cell.read TileDType.real
+          (s.mem p.K
+            (s.pids 1 / p.heads * p.keyBatch + s.pids 1 % p.heads / (p.heads / p.kvHeads) * p.keyHead +
+                ↑i.1 * p.keyDim +
+              (s.pids 0 * B + ↑i.2.1) * p.keyRow))
+      else M.literal (some ComputeDType.fp32) FloatDType.real 0)

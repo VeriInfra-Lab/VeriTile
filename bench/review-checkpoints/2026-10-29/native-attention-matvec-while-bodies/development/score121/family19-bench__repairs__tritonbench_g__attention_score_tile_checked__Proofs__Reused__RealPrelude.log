@@ -1,0 +1,156 @@
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealPrelude.lean:124:63: error: unsolved goals
+s : BlockState
+Q K M : RegionName
+H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk : ℕ
+offset size : ℤ
+scale : ℝ
+window complement evenM evenN candidate : Bool
+keyOffsetBound : s.pids 0 * B < 2147483648
+⊢ Tile.scalar ((↑(s.pids 1)).tmod ↑H) = Tile.scalar (↑(s.pids 1) % ↑H)
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealPrelude.lean:132:76: error: unsolved goals
+s : BlockState
+Q K M : RegionName
+H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk : ℕ
+offset size : ℤ
+scale : ℝ
+window complement evenM evenN candidate : Bool
+keyOffsetBound : s.pids 0 * B < 2147483648
+⊢ Tile.scalar ((↑(s.pids 1) % ↑H).tdiv (↑H / ↑HK)) = Tile.scalar (↑(s.pids 1) % ↑H / (↑H / ↑HK))
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealPrelude.lean:175:51: error: unsolved goals
+s : BlockState
+Q K M : RegionName
+H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk : ℕ
+offset size : ℤ
+scale : ℝ
+window complement evenM evenN candidate : Bool
+keyOffsetBound : s.pids 0 * B < 2147483648
+⊢ (fun i => (↑(s.pids 1) / ↑H * ↑sqz + ↑(s.pids 1) % ↑H * ↑sqh).toNat) = fun x =>
+    s.pids 1 / H * sqz + s.pids 1 % H * sqh
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealPrelude.lean:189:10: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  evalOp (Op.intToSigned 32 ?m.890).castIntToNat ?m.889
+in the target expression
+  (do
+      let base ←
+        evalOp (Op.ref TileDType.int [] "k_offset").castIntToNat
+            ((((((((((s.setReg "start_n" TileDType.int [] (Tile.scalar ↑(s.pids 0))).setReg "off_hz" TileDType.int []
+                                              (Tile.scalar ↑(s.pids 1))).setReg
+                                          "off_z" TileDType.int [] (Tile.scalar ↑(s.pids 1 / H))).setReg
+                                      "off_h" TileDType.int [] (Tile.scalar ↑(s.pids 1 % H))).setReg
+                                  "off_hkv" TileDType.int [] (Tile.scalar ↑(s.pids 1 % H / (H / HK)))).setReg
+                              "q_offset" TileDType.int []
+                              (Tile.scalar ↑(s.pids 1 / H * sqz + s.pids 1 % H * sqh))).setReg
+                          "k_offset" TileDType.int []
+                          (Tile.scalar ↑(s.pids 1 / H * skz + s.pids 1 % H / (H / HK) * skh))).setReg
+                      "m_ptrs" TileDType.ptr [B] { data := fun idx => (Region.cast M, s.pids 1 * RN + ↑idx.1) }).setReg
+                  "o" TileDType.real [B] { data := fun x => some 0 }).setReg
+              "Q_block_ptr" TileDType.blockPtr [B, D]
+              {
+                data := fun x =>
+                  { region := Q, baseOffset := s.pids 1 / H * sqz + s.pids 1 % H * sqh, parentShape := [N, D],
+                    blockShape := [B, D], strides := [sqm, sqk], offsets := [0, 0] } })
+      let offs ←
+        List.mapM
+            (fun off => do
+              let v ←
+                evalOp off
+                    ((((((((((s.setReg "start_n" TileDType.int [] (Tile.scalar ↑(s.pids 0))).setReg "off_hz"
+                                                      TileDType.int [] (Tile.scalar ↑(s.pids 1))).setReg
+                                                  "off_z" TileDType.int [] (Tile.scalar ↑(s.pids 1 / H))).setReg
+                                              "off_h" TileDType.int [] (Tile.scalar ↑(s.pids 1 % H))).setReg
+                                          "off_hkv" TileDType.int [] (Tile.scalar ↑(s.pids 1 % H / (H / HK)))).setReg
+                                      "q_offset" TileDType.int []
+                                      (Tile.scalar ↑(s.pids 1 / H * sqz + s.pids 1 % H * sqh))).setReg
+                                  "k_offset" TileDType.int []
+                                  (Tile.scalar ↑(s.pids 1 / H * skz + s.pids 1 % H / (H / HK) * skh))).setReg
+                              "m_ptrs" TileDType.ptr [B]
+                              { data := fun idx => (Region.cast M, s.pids 1 * RN + ↑idx.1) }).setReg
+                          "o" TileDType.real [B] { data := fun x => some 0 }).setReg
+                      "Q_block_ptr" TileDType.blockPtr [B, D]
+                      {
+                        data := fun x =>
+                          { region := Q, baseOffset := s.pids 1 / H * sqz + s.pids 1 % H * sqh, parentShape := [N, D],
+                            blockShape := [B, D], strides := [sqm, sqk], offsets := [0, 0] } })
+              some (v.data PUnit.unit))
+            [Op.constNat 0,
+              (Op.intToSigned 32
+                  (Op.mul NumericDType.int Broadcast.nil (Op.ref TileDType.int [] "start_n")
+                    (Op.constNat B).castNatToInt)).castIntToNat]
+      some
+          {
+            data := fun x =>
+              { region := K, baseOffset := base.data PUnit.unit, parentShape := [D, NK], blockShape := [D, B],
+                strides := [skk, skn], offsets := offs } }) =
+    some
+      {
+        data := fun x =>
+          { region := K, baseOffset := s.pids 1 / H * skz + s.pids 1 % H / (H / HK) * skh, parentShape := [D, NK],
+            blockShape := [D, B], strides := [skk, skn], offsets := [0, s.pids 0 * B] } }
+
+s : BlockState
+Q K M : RegionName
+H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk : ℕ
+offset size : ℤ
+scale : ℝ
+window complement evenM evenN candidate : Bool
+keyOffsetBound : s.pids 0 * B < 2147483648
+⊢ (do
+      let base ←
+        evalOp (Op.ref TileDType.int [] "k_offset").castIntToNat
+            ((((((((((s.setReg "start_n" TileDType.int [] (Tile.scalar ↑(s.pids 0))).setReg "off_hz" TileDType.int []
+                                              (Tile.scalar ↑(s.pids 1))).setReg
+                                          "off_z" TileDType.int [] (Tile.scalar ↑(s.pids 1 / H))).setReg
+                                      "off_h" TileDType.int [] (Tile.scalar ↑(s.pids 1 % H))).setReg
+                                  "off_hkv" TileDType.int [] (Tile.scalar ↑(s.pids 1 % H / (H / HK)))).setReg
+                              "q_offset" TileDType.int []
+                              (Tile.scalar ↑(s.pids 1 / H * sqz + s.pids 1 % H * sqh))).setReg
+                          "k_offset" TileDType.int []
+                          (Tile.scalar ↑(s.pids 1 / H * skz + s.pids 1 % H / (H / HK) * skh))).setReg
+                      "m_ptrs" TileDType.ptr [B] { data := fun idx => (Region.cast M, s.pids 1 * RN + ↑idx.1) }).setReg
+                  "o" TileDType.real [B] { data := fun x => some 0 }).setReg
+              "Q_block_ptr" TileDType.blockPtr [B, D]
+              {
+                data := fun x =>
+                  { region := Q, baseOffset := s.pids 1 / H * sqz + s.pids 1 % H * sqh, parentShape := [N, D],
+                    blockShape := [B, D], strides := [sqm, sqk], offsets := [0, 0] } })
+      let offs ←
+        List.mapM
+            (fun off => do
+              let v ←
+                evalOp off
+                    ((((((((((s.setReg "start_n" TileDType.int [] (Tile.scalar ↑(s.pids 0))).setReg "off_hz"
+                                                      TileDType.int [] (Tile.scalar ↑(s.pids 1))).setReg
+                                                  "off_z" TileDType.int [] (Tile.scalar ↑(s.pids 1 / H))).setReg
+                                              "off_h" TileDType.int [] (Tile.scalar ↑(s.pids 1 % H))).setReg
+                                          "off_hkv" TileDType.int [] (Tile.scalar ↑(s.pids 1 % H / (H / HK)))).setReg
+                                      "q_offset" TileDType.int []
+                                      (Tile.scalar ↑(s.pids 1 / H * sqz + s.pids 1 % H * sqh))).setReg
+                                  "k_offset" TileDType.int []
+                                  (Tile.scalar ↑(s.pids 1 / H * skz + s.pids 1 % H / (H / HK) * skh))).setReg
+                              "m_ptrs" TileDType.ptr [B]
+                              { data := fun idx => (Region.cast M, s.pids 1 * RN + ↑idx.1) }).setReg
+                          "o" TileDType.real [B] { data := fun x => some 0 }).setReg
+                      "Q_block_ptr" TileDType.blockPtr [B, D]
+                      {
+                        data := fun x =>
+                          { region := Q, baseOffset := s.pids 1 / H * sqz + s.pids 1 % H * sqh, parentShape := [N, D],
+                            blockShape := [B, D], strides := [sqm, sqk], offsets := [0, 0] } })
+              some (v.data PUnit.unit))
+            [Op.constNat 0,
+              (Op.intToSigned 32
+                  (Op.mul NumericDType.int Broadcast.nil (Op.ref TileDType.int [] "start_n")
+                    (Op.constNat B).castNatToInt)).castIntToNat]
+      some
+          {
+            data := fun x =>
+              { region := K, baseOffset := base.data PUnit.unit, parentShape := [D, NK], blockShape := [D, B],
+                strides := [skk, skn], offsets := offs } }) =
+    some
+      {
+        data := fun x =>
+          { region := K, baseOffset := s.pids 1 / H * skz + s.pids 1 % H / (H / HK) * skh, parentShape := [D, NK],
+            blockShape := [D, B], strides := [skk, skn], offsets := [0, s.pids 0 * B] } }
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealPrelude.lean:213:12: error: (deterministic) timeout at `whnf`, maximum number of heartbeats (1000000) has been reached
+
+Note: Use `set_option maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.

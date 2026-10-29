@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.ChunkGlaFwd.FPDiagonal.bodyMemory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.ChunkGlaFwd.FPDiagonal.bodyContext: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

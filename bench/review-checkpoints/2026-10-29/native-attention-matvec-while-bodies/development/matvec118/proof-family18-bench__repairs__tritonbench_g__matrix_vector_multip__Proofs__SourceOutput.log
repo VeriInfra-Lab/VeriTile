@@ -1,0 +1,18 @@
+/tmp/matvec118-proof-probe/bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/SourceOutput.lean:58:4: error: 'change' tactic failed, pattern
+  (Control.While.run (SourceLoop.condition A N M BN BM rowShape columnShape)
+          (run A (SourceCode.original N M BN BM rowShape columnShape).body) ?m.155).bind
+      ?m.158 =
+    ?m.160
+is not definitionally equal to target
+  ((do
+          let __do_lift ←
+            Control.While.run
+                (fun current =>
+                  Option.map (fun c => c PUnit.unit)
+                    (FP.Structural.evalOp A none (SourceCode.original N M BN BM rowShape columnShape).condition
+                      current))
+                (fun current => run A (SourceCode.original N M BN BM rowShape columnShape).body current)
+                (SourcePrelude.state A N M BN BM s)
+          some __do_lift).bind
+      fun a => run A (SourceCode.original N M BN BM rowShape columnShape).after a) =
+    some (WholeSource.suffixState A p (s.pids 0) acc middle)

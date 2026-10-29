@@ -1,0 +1,21 @@
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/NativePhysical.lean:57:9: error: Tactic `rcases` failed: `x✝ : (c.N ≠ 0 → c.outputSize ≠ 0 → KeyOffsetsFit c) →
+  ∃ result,
+    execute c abi physical offset size scale window complement = some result ∧
+      (∀ (z : Fin c.Z) (h : Fin c.H) (j : Fin c.NK),
+          result ((abi.alloc { name := "out" }).base + c.outputBase ↑z ↑h + ↑j) =
+            target c abi physical offset size scale window complement z h j) ∧
+        (∀ (r : RegionName),
+            tracked r →
+              r ≠ { name := "out" } →
+                ∀ i < (abi.alloc r).length,
+                  result ((abi.alloc r).base + i) = Graph.bits (physical ((abi.alloc r).base + i))) ∧
+          ∀ (a : ℕ),
+            ¬(abi.alloc { name := "out" }).Contains a → result a = Graph.bits (physical a)` is not an inductive datatype
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.NativePhysical.target: definition does not reference [VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.NativePhysical.execute,
+ VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.Physical.execute,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.FPReturned.hostRun] — non-circular ✓
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.NativePhysical.returned: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/NativePhysical.lean:65:0: error: VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.NativePhysical.returned_transport: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

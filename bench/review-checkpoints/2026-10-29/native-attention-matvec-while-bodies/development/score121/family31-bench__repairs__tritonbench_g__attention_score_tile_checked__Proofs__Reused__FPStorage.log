@@ -1,0 +1,19 @@
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/FPStorage.lean:64:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.FPStorage.flush_readback`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/FPStorage.lean:66:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.FPStorage.flush_frame`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.FPStorage.export_import: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.FPStorage.flush_readback: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.FPStorage.flush_preserves_input: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

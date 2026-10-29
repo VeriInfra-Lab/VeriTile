@@ -1,0 +1,286 @@
+{
+  "status": "FAIL",
+  "start": 1793290766.4155562,
+  "results": [
+    {
+      "module": "bench.examples.FusedLayerNorm.Kernels",
+      "source_sha256": "b4f1e07e399684ad3718fbd093d57578e48d94e5e77a0f333a05fb1bf5a954db",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793290766.4161339,
+      "end": 1793290769.8036673,
+      "log": "/tmp/body124-family1-bench__examples__FusedLayerNorm__Kernels.log"
+    },
+    {
+      "module": "bench.examples.Welford.Kernels",
+      "source_sha256": "7c3d0bdf6cd4780457d7884c6f266c2d3a0b1e57285818d0702cd1ea499102a9",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793290769.8040688,
+      "end": 1793290772.4584146,
+      "log": "/tmp/body124-family1-bench__examples__Welford__Kernels.log"
+    },
+    {
+      "module": "VeriTile.Examples.Common",
+      "source_sha256": "0cfaa95dd3ddf3c945a54a3534de5cbec73bcdc3bf778dcad9361f9f9980c41a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793290772.4595845,
+      "end": 1793290777.6685183,
+      "log": "/tmp/body124-family1-VeriTile__Examples__Common.log"
+    },
+    {
+      "module": "bench.examples.Welford.Proofs.Real",
+      "source_sha256": "e0b88f5019ab561977f00c094a880595de8fe0f61d5f7c8bb4e8501a4921c588",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793290777.6698947,
+      "end": 1793290797.819547,
+      "log": "/tmp/body124-family1-bench__examples__Welford__Proofs__Real.log"
+    },
+    {
+      "module": "bench.examples.FusedLayerNorm.Proofs.Real",
+      "source_sha256": "6f3fd5852d4360dffc9b05f4cd9d4b1e8a3f0d5053045db723b3507f5f4eae9b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793290797.8490481,
+      "end": 1793290814.2633665,
+      "log": "/tmp/body124-family1-bench__examples__FusedLayerNorm__Proofs__Real.log"
+    },
+    {
+      "module": "bench.examples.FusedLayerNorm.Correct",
+      "source_sha256": "f3ca36a480d4a6e2fd8f2fbcce18be648aba25c0f48ce332319dc98b28f237af",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793290814.2638276,
+      "end": 1793290833.063451,
+      "log": "/tmp/body124-family1-bench__examples__FusedLayerNorm__Correct.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ScalarReduction",
+      "source_sha256": "ae3c5852a3f024f287ad59e95c5e64899aa3f51c252525953388d2814a614fe8",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793290833.0639524,
+      "end": 1793290839.8623898,
+      "log": "/tmp/body124-family1-VeriTile__Triton__Float__ScalarReduction.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.Welford",
+      "source_sha256": "33a9c9df1fac86f7c64bac667714249b3fb890b9406d8780ceccd58d158352bd",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793290839.8629565,
+      "end": 1793290848.8983953,
+      "log": "/tmp/body124-family1-VeriTile__Triton__Float__Welford.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.WelfordReduction",
+      "source_sha256": "135daa01d81bce28908a447b01fbd7e74996dc573f1d887c4b3aac217c9b7863",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793290848.899081,
+      "end": 1793290855.1799338,
+      "log": "/tmp/body124-family1-VeriTile__Triton__Float__WelfordReduction.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.WelfordAppend",
+      "source_sha256": "66a4eb5b9ba6d5ad4460816e9e41118a193dd3689fca3239162b0e9a079f904e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793290855.1804981,
+      "end": 1793290860.256408,
+      "log": "/tmp/body124-family1-VeriTile__Triton__Float__WelfordAppend.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.WelfordInit",
+      "source_sha256": "9f71e0f3e8dbcf6905023ee92647b5c9c49dfb029af5d682b2f3659edd5d7d84",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793290860.2569568,
+      "end": 1793290865.0743835,
+      "log": "/tmp/body124-family1-VeriTile__Triton__Float__WelfordInit.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.WelfordInduction",
+      "source_sha256": "3199e3385a729e05ae92c3f4b0d659a9fe69c2cbd4d98fdb30698118a13f2702",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793290865.0757089,
+      "end": 1793290870.8664045,
+      "log": "/tmp/body124-family1-VeriTile__Triton__Float__WelfordInduction.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ReductionSchedule",
+      "source_sha256": "51db39247364267d4f2db454d6dfee960b66f626e94ca7e9fa7049c8898de756",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793290870.8669744,
+      "end": 1793290876.2887619,
+      "log": "/tmp/body124-family1-VeriTile__Triton__Float__ReductionSchedule.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.WelfordSchedule",
+      "source_sha256": "56f2e4717182888094633c6be632756b828a1491e3607eece9751b682e63de46",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793290876.28998,
+      "end": 1793290880.8755457,
+      "log": "/tmp/body124-family1-VeriTile__Triton__Float__WelfordSchedule.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.GuardExpression",
+      "source_sha256": "838cd6322e903e31ab7686f96f64a03e8c03a322274146f810017a223c15b04d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793290880.876093,
+      "end": 1793290886.692402,
+      "log": "/tmp/body124-family1-VeriTile__Triton__Float__GuardExpression.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.WelfordConditions",
+      "source_sha256": "44e0b9e0d6b1e80d5517e4e492ef5e79c889b957b756d32111afb087a076840e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793290886.6932247,
+      "end": 1793290893.5215364,
+      "log": "/tmp/body124-family1-VeriTile__Triton__Float__WelfordConditions.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ScheduledIO",
+      "source_sha256": "c4c864fd40d80f5e718751b1f419c7e3d07accfbd4562b99ad8d8d630c33f0f5",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793290893.52251,
+      "end": 1793290898.632403,
+      "log": "/tmp/body124-family1-VeriTile__Triton__Float__ScheduledIO.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.CountConversionExact",
+      "source_sha256": "dcba36659acaaba961095cf1cc99df64203dc23a1d12fbd0b6c4924b4e274342",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793290898.6335065,
+      "end": 1793290907.3038728,
+      "log": "/tmp/body124-family1-VeriTile__Triton__Float__CountConversionExact.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.CountConversion",
+      "source_sha256": "06acee3bbd6b56e3981c8fd1211341a14d9734a6b8ceee55b69e914ed5bf391f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793290907.3045473,
+      "end": 1793290924.3344886,
+      "log": "/tmp/body124-family1-VeriTile__Triton__Float__CountConversion.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.CountConversionLaws",
+      "source_sha256": "69379886f6bc45c0a34dad9b26b24fb78c7aed4dcd0e712ffd0db9eca320786a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793290924.335224,
+      "end": 1793290938.895546,
+      "log": "/tmp/body124-family1-VeriTile__Triton__Float__CountConversionLaws.log"
+    },
+    {
+      "module": "bench.examples.Welford.Proofs.FP",
+      "source_sha256": "deda36fe6d1af915f7c3eed8775bc584110eb078ab82738799f8455572c40241",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793290938.8970854,
+      "end": 1793290962.3129725,
+      "log": "/tmp/body124-family1-bench__examples__Welford__Proofs__FP.log"
+    },
+    {
+      "module": "bench.examples.FusedLayerNorm.Proofs.FP",
+      "source_sha256": "dbd6cae92fed71ca6992ab63184edd89b589cc65dfe8567f15548a65799e32f0",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793290962.3155704,
+      "end": 1793290998.489913,
+      "log": "/tmp/body124-family1-bench__examples__FusedLayerNorm__Proofs__FP.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ConditionalIO",
+      "source_sha256": "af6da36a56ab121659e98cf8717ad82f5a9f2fa400173505e1528d37e64944fe",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793290998.4909434,
+      "end": 1793291002.9783998,
+      "log": "/tmp/body124-family1-VeriTile__Triton__Float__ConditionalIO.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.Kernel",
+      "source_sha256": "13fba06fc059dc7d7308a804a2d57093314dc72660fa82843db455b644681aed",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793291002.9789815,
+      "end": 1793291009.4643924,
+      "log": "/tmp/body124-family1-VeriTile__Triton__Float__Kernel.log"
+    },
+    {
+      "module": "bench.examples.FusedLayerNorm.FPEquiv",
+      "source_sha256": "d4e341a9c4424df59071b75f526e32dd6b14c2f3c49fd4a3c4a7b887b917b71e",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.examples.FusedLayerNorm.Proofs.FP"
+      ]
+    },
+    {
+      "module": "bench.examples.FusedLayerNorm.Proofs.LegacyBody",
+      "source_sha256": "9dfcdd8fb375d2c30368482ed740cb6ede9256c58658446bfc4ad098a201e869",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793291009.4652262,
+      "end": 1793291011.9672217,
+      "log": "/tmp/body124-family1-bench__examples__FusedLayerNorm__Proofs__LegacyBody.log"
+    },
+    {
+      "module": "bench.examples.FusedLayerNorm.Proofs.LegacyRealEquiv",
+      "source_sha256": "833c08042992dc1abec464b3561ef89c0650148349399e41897d3d779564682a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793291011.9685388,
+      "end": 1793291040.2243161,
+      "log": "/tmp/body124-family1-bench__examples__FusedLayerNorm__Proofs__LegacyRealEquiv.log"
+    },
+    {
+      "module": "bench.examples.Welford.Correct",
+      "source_sha256": "0a58cbf855f84572516320c6b2c4a9f8817e2b720fa13360562ca66cebe107bb",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793291040.2253354,
+      "end": 1793291055.9383874,
+      "log": "/tmp/body124-family1-bench__examples__Welford__Correct.log"
+    },
+    {
+      "module": "bench.examples.Welford.FPEquiv",
+      "source_sha256": "c765e1db74e8bcf7e84a1b193e19589db6f8b9065aa8254fb92a419d667073c2",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793291055.9391031,
+      "end": 1793291650.9800947,
+      "log": "/tmp/body124-family1-bench__examples__Welford__FPEquiv.log"
+    },
+    {
+      "module": "bench.examples.Welford.Proofs.LegacyBody",
+      "source_sha256": "abcef4b8230b50e5275c74663fd085ecc327dae4877aa1d471492e0ad2a432de",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793291650.9806595,
+      "end": 1793291652.607265,
+      "log": "/tmp/body124-family1-bench__examples__Welford__Proofs__LegacyBody.log"
+    },
+    {
+      "module": "bench.examples.Welford.Proofs.LegacyRealEquiv",
+      "source_sha256": "10b4bac81bd0eb3d04f310a6fa80c9d395182555d31def6c9a4417705c171fbb",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793291652.6082437,
+      "end": 1793291661.4623709,
+      "log": "/tmp/body124-family1-bench__examples__Welford__Proofs__LegacyRealEquiv.log"
+    }
+  ],
+  "scope": "One serial queue; failed imports block dependents, independent modules continue.",
+  "end": 1793291661.4627383
+}

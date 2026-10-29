@@ -1,0 +1,10 @@
+'VeriTile.Triton.Control.While.finite_execution' depends on axioms: [propext, Classical.choice, Quot.sound]
+'VeriTile.Triton.Control.While.successful_execution_is_finite' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'VeriTile.Triton.Control.While.execution_iff_finite' depends on axioms: [propext, Classical.choice, Quot.sound]
+'VeriTile.Triton.Control.While.never_stops_has_no_result' depends on axioms: [propext, Classical.choice, Quot.sound]
+'VeriTile.Triton.Control.While.run_preserves' depends on axioms: [propext, Classical.choice, Quot.sound]
+'VeriTile.Triton.Control.While.trace_simulation' does not depend on any axioms
+'VeriTile.Triton.Control.While.run_simulation' depends on axioms: [propext, Classical.choice, Quot.sound]
+'VeriTile.Triton.stepStmt_pid' depends on axioms: [propext, Classical.choice, Quot.sound]

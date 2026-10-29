@@ -1,0 +1,174 @@
+{
+  "status": "FAIL",
+  "start": 1793281690.4918175,
+  "results": [
+    {
+      "module": "VeriTile.Triton.Control.While",
+      "source_sha256": "4db8602f502e147b547cdef17de3c14cec028b4d8816540e2deaab0f33b23603",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793281690.492107,
+      "end": 1793281690.978423,
+      "log": "/tmp/while122-family6-VeriTile__Triton__Control__While.log"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.Step",
+      "source_sha256": "1f1d1416b95355606594047ecc0eaf883656165ec79b86304102d5a7aed2e97a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793281690.979425,
+      "end": 1793281699.8932552,
+      "log": "/tmp/while122-family6-VeriTile__Triton__Semantics__Step.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.Structural",
+      "source_sha256": "c2665ce59108e3f5ae97866534926797298ed7c8662c9c89ccd7af59b78f72a6",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793281699.8939753,
+      "end": 1793281806.9419484,
+      "log": "/tmp/while122-family6-VeriTile__Triton__Float__Structural.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.RandomProfile",
+      "source_sha256": "69285bc180e760e75544ebbb838c7727eaa4c7913a0ec92ebde2f1576fcdb7e3",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793281806.9424875,
+      "end": 1793281810.669946,
+      "log": "/tmp/while122-family6-VeriTile__Triton__DSL__RandomProfile.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Expansion.Main",
+      "source_sha256": "d969e61a90cefdbac393f14f6f5ec0fb683d33219d5a17f5d4eaa4efa1804dea",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793281810.6721566,
+      "end": 1793281902.4915757,
+      "log": "/tmp/while122-family6-VeriTile__Triton__DSL__Expansion__Main.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Expansion",
+      "source_sha256": "abf572865569f8411e47bca680bf6f7a2ff1cfd2f0d4cac2a581d8212ba19802",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "VeriTile.Triton.DSL.Expansion.Main"
+      ]
+    },
+    {
+      "module": "VeriTile.Triton.DSL",
+      "source_sha256": "2423c62c7d2ce4f66fb836f36c35d2b904fc759e8f782684a28af52d0ab7faf4",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "VeriTile.Triton.DSL.Expansion"
+      ]
+    },
+    {
+      "module": "VeriTile.Triton.DSL.SourceDType",
+      "source_sha256": "1be7dc331ac611ad0ee68e85f1010519d9ddfa7c3eea80c095b0c1e713708999",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "VeriTile.Triton.DSL"
+      ]
+    },
+    {
+      "module": "VeriTile.Triton.DSL.PointerType",
+      "source_sha256": "2b409ab95e27f68ad359b5b8065b04ce954ffcc580ea7e35c742f65f3d8b7fe7",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "VeriTile.Triton.DSL.SourceDType"
+      ]
+    },
+    {
+      "module": "VeriTile.Triton.DSL.TypedStores",
+      "source_sha256": "6c37d1e850bce75415a6e80e26f4d15ed0564d2089b36509c1b8fccdbc7d15aa",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "VeriTile.Triton.DSL.PointerType"
+      ]
+    },
+    {
+      "module": "VeriTile.Triton.DSL.TypedStorageReduction",
+      "source_sha256": "fd7f424b3a27ae3b381c6972ba223946bd6d54d93666439934ed0c87afedc5b4",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "VeriTile.Triton.DSL.TypedStores"
+      ]
+    },
+    {
+      "module": "VeriTile.Triton.DSL.SourceFunctionStatements",
+      "source_sha256": "83fb073da8c909806638c1349dc7ac36c111d9ae96e86b86a3794604fd97659c",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "VeriTile.Triton.DSL.SourceDType"
+      ]
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Constexpr",
+      "source_sha256": "167269e39e3f81eb1f568a4cbb7cffb1777b5c5cc004b55ef40ba57dcb90cf75",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "VeriTile.Triton.DSL.SourceDType"
+      ]
+    },
+    {
+      "module": "VeriTile.Triton.DSL.CallSignature",
+      "source_sha256": "736efa77feb20d07503e00fa78b37e30680c209610bacbe1f09c022ad688e67b",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "VeriTile.Triton.DSL.Constexpr",
+        "VeriTile.Triton.DSL.SourceDType",
+        "VeriTile.Triton.DSL.SourceFunctionStatements",
+        "VeriTile.Triton.DSL.TypedStorageReduction",
+        "VeriTile.Triton.DSL.TypedStores"
+      ]
+    },
+    {
+      "module": "VeriTile.Triton.Float.RoundingModel",
+      "source_sha256": "daf9e33b135dada924c82ff35858160eccee563486eaa3c0806698647821a673",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793281902.5049021,
+      "end": 1793281903.9589932,
+      "log": "/tmp/while122-family6-VeriTile__Triton__Float__RoundingModel.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.EvalOpR",
+      "source_sha256": "bd84bfe187b0da3cfbedde19cb125a0984090289482504b99308c2c81573d91e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793281903.9595945,
+      "end": 1793281948.5206661,
+      "log": "/tmp/while122-family6-VeriTile__Triton__Float__EvalOpR.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.StepR",
+      "source_sha256": "93b328394bb2eb603c7e3e9b95b51647ebcf5bc313243d76c7b0cbe3e3a9860f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793281948.5212736,
+      "end": 1793281954.9580317,
+      "log": "/tmp/while122-family6-VeriTile__Triton__Float__StepR.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.StructuralSafety",
+      "source_sha256": "9d1b2f558d91a2cc9ad9f3d2b7623360bb69adb54913041628b298d86c96c5ec",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793281954.95857,
+      "end": 1793281985.6831298,
+      "log": "/tmp/while122-family6-VeriTile__Triton__Float__StructuralSafety.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Kernels",
+      "source_sha256": "5a25fb88f3f2b126652e8b2d797d88b2b32670c7464e8a6b1f4b52b4e28cae49",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "VeriTile.Triton.DSL",
+        "VeriTile.Triton.DSL.CallSignature"
+      ]
+    }
+  ],
+  "scope": "One serial queue; failed imports block dependents, independent modules continue.",
+  "end": 1793281985.6850078
+}

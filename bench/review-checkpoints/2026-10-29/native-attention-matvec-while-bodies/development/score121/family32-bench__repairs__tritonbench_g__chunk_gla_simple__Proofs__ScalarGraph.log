@@ -1,0 +1,8 @@
+VeriTile.Bench.Repairs.ChunkGlaSimple.ScalarGraph.value: definition does not reference [VeriTile.Bench.Repairs.ChunkGlaSimple.FPGrid.run,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.Repairs.ChunkGlaSimple.ScalarGraph.complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.ChunkGlaSimple.ScalarGraph.transport: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,7 @@
+/tmp/score121-frontend/bench/repairs/tritonbench_g/chunk_gla_fwd/Proofs/OutputGrid.lean:95:2: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+VeriTile.Bench.Repairs.ChunkGlaFwd.OutputGrid.formula: definition does not reference [VeriTile.Triton.exec] — non-circular ✓
+VeriTile.Bench.Repairs.ChunkGlaFwd.OutputGrid.executes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

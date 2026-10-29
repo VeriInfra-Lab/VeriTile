@@ -1,0 +1,25 @@
+/tmp/matvec118-frontend/bench/tritonbench_g/matrix_vector_multip/Proofs/WholeHost.lean:66:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.TritonBenchG.MatrixVectorMultip.WholeHost.Allocated.protected_frame`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/tmp/matvec118-frontend/bench/tritonbench_g/matrix_vector_multip/Proofs/WholeHost.lean:86:8: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.TritonBenchG.MatrixVectorMultip.WholeHost.Allocated.commit_value`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/tmp/matvec118-frontend/bench/tritonbench_g/matrix_vector_multip/Proofs/WholeHost.lean:89:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.TritonBenchG.MatrixVectorMultip.WholeHost.Allocated.commit_frame`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/tmp/matvec118-frontend/bench/tritonbench_g/matrix_vector_multip/Proofs/WholeHost.lean:161:32: warning: This simp argument is unused:
+  Option.bind_some
+
+Hint: Omit it from the simp argument list.
+  simp only [̵r̵u̵n̵P̵l̵a̵n̵,̵t̵r̵i̵a̵l̵R̵a̵n̵,̵O̵p̵t̵i̵o̵n̵.̵b̵i̵n̵d̵_̵s̵o̵m̵e̵]̵[̲r̲u̲n̲P̲l̲a̲n̲,̲ ̲t̲r̲i̲a̲l̲R̲a̲n̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

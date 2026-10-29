@@ -1,0 +1,26 @@
+{
+  "status": "FAIL",
+  "start": 1793276261.2799003,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealPrelude",
+      "source_sha256": "736edc1885204c3e177ec0415b3cb8b4b6b96a97ff787eee057b32405296f136",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793276261.2805898,
+      "end": 1793276377.7588427,
+      "log": "/tmp/score121-family19-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__RealPrelude.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealOutput",
+      "source_sha256": "9411e3b60d64aa3d1bb034b38feb133cee6f4bc736a3a9f6e5866147780fe03a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793276377.759455,
+      "end": 1793276384.9682138,
+      "log": "/tmp/score121-family19-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__RealOutput.log"
+    }
+  ],
+  "scope": "One serial queue; failed imports block dependents, independent modules continue.",
+  "end": 1793276384.9684982
+}

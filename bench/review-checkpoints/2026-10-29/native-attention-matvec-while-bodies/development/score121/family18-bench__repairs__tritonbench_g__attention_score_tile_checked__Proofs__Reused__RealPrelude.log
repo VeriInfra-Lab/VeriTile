@@ -1,0 +1,228 @@
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealPrelude.lean:178:38: error: unexpected identifier; expected '}'
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealPrelude.lean:110:152: warning: Possibly looping simp theorem: `evalOp.eq_def`
+
+Note: Possibly caused by: `Tile.scalar` and `Tile.scalar_eta`
+
+Hint: You can disable a simp theorem from the default simp set by passing `- theoremName` to `simp`.
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealPrelude.lean:110:167: warning: Possibly looping simp theorem: `Tile.scalar.eq_1`
+
+Note: Possibly caused by: `Tile.scalar_eta` and `Tile.scalar`
+
+Hint: You can disable a simp theorem from the default simp set by passing `- theoremName` to `simp`.
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealPrelude.lean:110:146: error: Tactic `simp` failed with a nested error:
+maximum recursion depth has been reached
+use `set_option maxRecDepth <num>` to increase limit
+use `set_option diagnostics true` to get diagnostic information
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealPrelude.lean:111:152: warning: Possibly looping simp theorem: `evalOp.eq_def`
+
+Note: Possibly caused by: `Tile.scalar` and `Tile.scalar_eta`
+
+Hint: You can disable a simp theorem from the default simp set by passing `- theoremName` to `simp`.
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealPrelude.lean:111:167: warning: Possibly looping simp theorem: `Tile.scalar.eq_1`
+
+Note: Possibly caused by: `Tile.scalar_eta` and `Tile.scalar`
+
+Hint: You can disable a simp theorem from the default simp set by passing `- theoremName` to `simp`.
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealPrelude.lean:111:146: error: Tactic `simp` failed with a nested error:
+maximum recursion depth has been reached
+use `set_option maxRecDepth <num>` to increase limit
+use `set_option diagnostics true` to get diagnostic information
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealPrelude.lean:116:29: error(lean.unknownIdentifier): Unknown identifier `evalOp_constInt`
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealPrelude.lean:114:63: error: unsolved goals
+s : BlockState
+Q K M : RegionName
+H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk : ℕ
+offset size : ℤ
+scale : ℝ
+window complement evenM evenN candidate : Bool
+keyOffsetBound : s.pids 0 * B < 2147483648
+⊢ ((evalOp (Op.constInt ↑H)
+          ((s.setReg "start_n" TileDType.int [] (Tile.scalar ↑(s.pids 0))).setReg "off_hz" TileDType.int []
+            (Tile.scalar ↑(s.pids 1)))).bind
+      fun a => some (Tile.bop Int.tdiv Broadcast.nil (Tile.scalar ↑(s.pids 1)) a)) =
+    some (Tile.scalar (↑(s.pids 1) / ↑H))
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealPrelude.lean:123:29: error(lean.unknownIdentifier): Unknown identifier `evalOp_constInt`
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealPrelude.lean:121:63: error: unsolved goals
+s : BlockState
+Q K M : RegionName
+H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk : ℕ
+offset size : ℤ
+scale : ℝ
+window complement evenM evenN candidate : Bool
+keyOffsetBound : s.pids 0 * B < 2147483648
+⊢ ((evalOp (Op.constInt ↑H)
+          (((s.setReg "start_n" TileDType.int [] (Tile.scalar ↑(s.pids 0))).setReg "off_hz" TileDType.int []
+                (Tile.scalar ↑(s.pids 1))).setReg
+            "off_z" TileDType.int [] (Tile.scalar (↑(s.pids 1) / ↑H)))).bind
+      fun a => some (Tile.bop Int.tmod Broadcast.nil (Tile.scalar ↑(s.pids 1)) a)) =
+    some (Tile.scalar (↑(s.pids 1) % ↑H))
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealPrelude.lean:131:29: error(lean.unknownIdentifier): Unknown identifier `evalOp_constInt`
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealPrelude.lean:133:10: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  Tile.bop ?f Broadcast.nil (Tile.scalar ?a) (Tile.scalar ?b)
+in the target expression
+  (((evalOp (Op.constInt ↑H)
+              ((((s.setReg "start_n" TileDType.int [] (Tile.scalar ↑(s.pids 0))).setReg "off_hz" TileDType.int []
+                        (Tile.scalar ↑(s.pids 1))).setReg
+                    "off_z" TileDType.int [] (Tile.scalar ↑(s.pids 1 / H))).setReg
+                "off_h" TileDType.int [] (Tile.scalar ↑(s.pids 1 % H)))).bind
+          fun x =>
+          (evalOp (Op.constInt ↑HK)
+                ((((s.setReg "start_n" TileDType.int [] (Tile.scalar ↑(s.pids 0))).setReg "off_hz" TileDType.int []
+                          (Tile.scalar ↑(s.pids 1))).setReg
+                      "off_z" TileDType.int [] (Tile.scalar ↑(s.pids 1 / H))).setReg
+                  "off_h" TileDType.int [] (Tile.scalar ↑(s.pids 1 % H)))).bind
+            fun y => pure (Tile.bop Int.tdiv Broadcast.nil x y)).bind
+      fun y => pure (Tile.bop Int.tdiv Broadcast.nil (Tile.scalar ↑(s.pids 1 % H)) y)) =
+    some (Tile.scalar ↑(s.pids 1 % H / (H / HK)))
+
+s : BlockState
+Q K M : RegionName
+H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk : ℕ
+offset size : ℤ
+scale : ℝ
+window complement evenM evenN candidate : Bool
+keyOffsetBound : s.pids 0 * B < 2147483648
+⊢ (((evalOp (Op.constInt ↑H)
+              ((((s.setReg "start_n" TileDType.int [] (Tile.scalar ↑(s.pids 0))).setReg "off_hz" TileDType.int []
+                        (Tile.scalar ↑(s.pids 1))).setReg
+                    "off_z" TileDType.int [] (Tile.scalar ↑(s.pids 1 / H))).setReg
+                "off_h" TileDType.int [] (Tile.scalar ↑(s.pids 1 % H)))).bind
+          fun x =>
+          (evalOp (Op.constInt ↑HK)
+                ((((s.setReg "start_n" TileDType.int [] (Tile.scalar ↑(s.pids 0))).setReg "off_hz" TileDType.int []
+                          (Tile.scalar ↑(s.pids 1))).setReg
+                      "off_z" TileDType.int [] (Tile.scalar ↑(s.pids 1 / H))).setReg
+                  "off_h" TileDType.int [] (Tile.scalar ↑(s.pids 1 % H)))).bind
+            fun y => pure (Tile.bop Int.tdiv Broadcast.nil x y)).bind
+      fun y => pure (Tile.bop Int.tdiv Broadcast.nil (Tile.scalar ↑(s.pids 1 % H)) y)) =
+    some (Tile.scalar ↑(s.pids 1 % H / (H / HK)))
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealPrelude.lean:140:17: error(lean.unknownIdentifier): Unknown identifier `evalOp_constInt`
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealPrelude.lean:138:90: error: unsolved goals
+s : BlockState
+Q K M : RegionName
+H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk : ℕ
+offset size : ℤ
+scale : ℝ
+window complement evenM evenN candidate : Bool
+keyOffsetBound : s.pids 0 * B < 2147483648
+⊢ (((evalOp (Op.constInt ↑sqz)
+              (((((s.setReg "start_n" TileDType.int [] (Tile.scalar ↑(s.pids 0))).setReg "off_hz" TileDType.int []
+                            (Tile.scalar ↑(s.pids 1))).setReg
+                        "off_z" TileDType.int [] (Tile.scalar (↑(s.pids 1) / ↑H))).setReg
+                    "off_h" TileDType.int [] (Tile.scalar (↑(s.pids 1) % ↑H))).setReg
+                "off_hkv" TileDType.int [] (Tile.scalar (↑(s.pids 1) % ↑H / (↑H / ↑HK))))).bind
+          fun a => some (Tile.bop NumericDType.int.mul Broadcast.nil (Tile.scalar (↑(s.pids 1) / ↑H)) a)).bind
+      fun a =>
+      ((evalOp (Op.constInt ↑sqh)
+                (((((s.setReg "start_n" TileDType.int [] (Tile.scalar ↑(s.pids 0))).setReg "off_hz" TileDType.int []
+                              (Tile.scalar ↑(s.pids 1))).setReg
+                          "off_z" TileDType.int [] (Tile.scalar (↑(s.pids 1) / ↑H))).setReg
+                      "off_h" TileDType.int [] (Tile.scalar (↑(s.pids 1) % ↑H))).setReg
+                  "off_hkv" TileDType.int [] (Tile.scalar (↑(s.pids 1) % ↑H / (↑H / ↑HK))))).bind
+            fun a => some (Tile.bop NumericDType.int.mul Broadcast.nil (Tile.scalar (↑(s.pids 1) % ↑H)) a)).bind
+        fun a_1 => some (Tile.bop NumericDType.int.add Broadcast.nil a a_1)) =
+    some (Tile.scalar (↑(s.pids 1) / ↑H * ↑sqz + ↑(s.pids 1) % ↑H * ↑sqh))
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealPrelude.lean:149:17: error(lean.unknownIdentifier): Unknown identifier `evalOp_constInt`
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealPrelude.lean:147:103: error: unsolved goals
+s : BlockState
+Q K M : RegionName
+H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk : ℕ
+offset size : ℤ
+scale : ℝ
+window complement evenM evenN candidate : Bool
+keyOffsetBound : s.pids 0 * B < 2147483648
+⊢ (((evalOp (Op.constInt ↑skz)
+              ((((((s.setReg "start_n" TileDType.int [] (Tile.scalar ↑(s.pids 0))).setReg "off_hz" TileDType.int []
+                                (Tile.scalar ↑(s.pids 1))).setReg
+                            "off_z" TileDType.int [] (Tile.scalar (↑(s.pids 1) / ↑H))).setReg
+                        "off_h" TileDType.int [] (Tile.scalar (↑(s.pids 1) % ↑H))).setReg
+                    "off_hkv" TileDType.int [] (Tile.scalar (↑(s.pids 1) % ↑H / (↑H / ↑HK)))).setReg
+                "q_offset" TileDType.int [] (Tile.scalar (↑(s.pids 1) / ↑H * ↑sqz + ↑(s.pids 1) % ↑H * ↑sqh)))).bind
+          fun a => some (Tile.bop NumericDType.int.mul Broadcast.nil (Tile.scalar (↑(s.pids 1) / ↑H)) a)).bind
+      fun a =>
+      ((evalOp (Op.constInt ↑skh)
+                ((((((s.setReg "start_n" TileDType.int [] (Tile.scalar ↑(s.pids 0))).setReg "off_hz" TileDType.int []
+                                  (Tile.scalar ↑(s.pids 1))).setReg
+                              "off_z" TileDType.int [] (Tile.scalar (↑(s.pids 1) / ↑H))).setReg
+                          "off_h" TileDType.int [] (Tile.scalar (↑(s.pids 1) % ↑H))).setReg
+                      "off_hkv" TileDType.int [] (Tile.scalar (↑(s.pids 1) % ↑H / (↑H / ↑HK)))).setReg
+                  "q_offset" TileDType.int [] (Tile.scalar (↑(s.pids 1) / ↑H * ↑sqz + ↑(s.pids 1) % ↑H * ↑sqh)))).bind
+            fun a =>
+            some (Tile.bop NumericDType.int.mul Broadcast.nil (Tile.scalar (↑(s.pids 1) % ↑H / (↑H / ↑HK))) a)).bind
+        fun a_1 => some (Tile.bop NumericDType.int.add Broadcast.nil a a_1)) =
+    some (Tile.scalar (↑(s.pids 1) / ↑H * ↑skz + ↑(s.pids 1) % ↑H / (↑H / ↑HK) * ↑skh))
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealPrelude.lean:163:35: warning: Possibly looping simp theorem: `Tile.scalar.eq_1`
+
+Note: Possibly caused by: `Tile.scalar_eta` and `Tile.scalar`
+
+Hint: You can disable a simp theorem from the default simp set by passing `- theoremName` to `simp`.
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealPrelude.lean:163:6: error: Tactic `simp` failed with a nested error:
+maximum recursion depth has been reached
+use `set_option maxRecDepth <num>` to increase limit
+use `set_option diagnostics true` to get diagnostic information
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealPrelude.lean:172:60: warning: Possibly looping simp theorem: `evalOp.eq_def`
+
+Note: Possibly caused by: `Tile.scalar` and `Tile.scalar_eta`
+
+Hint: You can disable a simp theorem from the default simp set by passing `- theoremName` to `simp`.
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealPrelude.lean:172:75: warning: Possibly looping simp theorem: `Tile.scalar.eq_1`
+
+Note: Possibly caused by: `Tile.scalar_eta` and `Tile.scalar`
+
+Hint: You can disable a simp theorem from the default simp set by passing `- theoremName` to `simp`.
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealPrelude.lean:172:54: error: Tactic `simp` failed with a nested error:
+maximum recursion depth has been reached
+use `set_option maxRecDepth <num>` to increase limit
+use `set_option diagnostics true` to get diagnostic information
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealPrelude.lean:174:5: error: unexpected syntax
+  failed to pretty print term (use 'set_option pp.rawOnError true' for raw representation)
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealPrelude.lean:96:38: error: unsolved goals
+s : BlockState
+Q K M : RegionName
+H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk : ℕ
+offset size : ℤ
+scale : ℝ
+window complement evenM evenN candidate : Bool
+keyOffsetBound : s.pids 0 * B < 2147483648
+⊢ ∃ t,
+    stepStmts
+          [Stmt.assign TileDType.blockPtr [D, B] "K_block_ptr"
+              (Op.makeBlockPtrDynOffsets K (Op.ref TileDType.int [] "k_offset").castIntToNat [D, NK] [D, B] [skk, skn]
+                [Op.constNat 0,
+                  (Op.intToSigned 32
+                      (Op.mul NumericDType.int Broadcast.nil (Op.ref TileDType.int [] "start_n")
+                        (Op.constNat B).castNatToInt)).castIntToNat]),
+            RealBody.loadKey B D evenN, Stmt.assign TileDType.int [] "lo" (Op.full [] (Op.constInt 0)),
+            Stmt.assign TileDType.int [] "hi" (Op.constNat N).castNatToInt,
+            Stmt.assign TileDType.real [] "qk_scale" (Op.const scale),
+            Stmt.assign TileDType.real [] "qk_scale"
+              (Op.mul NumericDType.real Broadcast.nil (Op.ref TileDType.real [] "qk_scale")
+                (Op.const 1.4426950408889634))]
+          ((((((((((s.setReg "start_n" TileDType.int [] (Tile.scalar ↑(s.pids 0))).setReg "off_hz" TileDType.int []
+                                            (Tile.scalar ↑(s.pids 1))).setReg
+                                        "off_z" TileDType.int [] (Tile.scalar ↑(s.pids 1 / H))).setReg
+                                    "off_h" TileDType.int [] (Tile.scalar ↑(s.pids 1 % H))).setReg
+                                "off_hkv" TileDType.int [] (Tile.scalar ↑(s.pids 1 % H / (H / HK)))).setReg
+                            "q_offset" TileDType.int [] (Tile.scalar ↑(s.pids 1 / H * sqz + s.pids 1 % H * sqh))).setReg
+                        "k_offset" TileDType.int []
+                        (Tile.scalar ↑(s.pids 1 / H * skz + s.pids 1 % H / (H / HK) * skh))).setReg
+                    "m_ptrs" TileDType.ptr [B] { data := fun idx => (Region.cast M, s.pids 1 * RN + ↑idx.1) }).setReg
+                "o" TileDType.real [B] { data := fun x => some 0 }).setReg
+            "Q_block_ptr" TileDType.blockPtr [B, D]
+            {
+              data := fun x =>
+                { region := Q, baseOffset := s.pids 1 / H * sqz + s.pids 1 % H * sqh, parentShape := [N, D],
+                  blockShape := [B, D], strides := [sqm, sqk], offsets := [0, 0] } }) =
+        some t ∧
+      RealLoop.Invariant
+          (config s Q K M H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk offset size scale window complement evenM
+            evenN candidate)
+          s 0 t ∧
+        t.regs TileDType.int [] "lo" = some (Tile.scalar 0) ∧
+          t.regs TileDType.int [] "hi" = some (Tile.scalar ↑N) ∧
+            t.regs TileDType.int [] "off_z" = some (Tile.scalar ↑(s.pids 1 / H)) ∧
+              t.regs TileDType.int [] "off_h" = some (Tile.scalar ↑(s.pids 1 % H)) ∧
+                t.regs TileDType.blockPtr [D, B] "K_block_ptr" =
+                  some
+                    (RealLoads.keyPointer K B D NK (s.pids 1 / H * skz + s.pids 1 % H / (H / HK) * skh) skn skk
+                      (s.pids 0))

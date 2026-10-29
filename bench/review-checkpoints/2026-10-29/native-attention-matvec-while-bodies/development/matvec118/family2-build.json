@@ -1,0 +1,3819 @@
+{
+  "status": "FAIL",
+  "start": 1793285340.1012151,
+  "results": [
+    {
+      "module": "VeriTile.Triton.DSL.RandomProfile",
+      "source_sha256": "c33ac383f8c0093bdcb70f7a8f47551c8200f5a83e429e641f6e0dccf6fd981f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285340.1016366,
+      "end": 1793285343.778888,
+      "log": "/tmp/matvec118-family2-VeriTile__Triton__DSL__RandomProfile.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Expansion.Main",
+      "source_sha256": "3d4e6a036e6369bca66510e613e2461aa42ae51399f8a51abc48b96a9452b495",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285343.7812393,
+      "end": 1793285439.2582903,
+      "log": "/tmp/matvec118-family2-VeriTile__Triton__DSL__Expansion__Main.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Expansion",
+      "source_sha256": "abf572865569f8411e47bca680bf6f7a2ff1cfd2f0d4cac2a581d8212ba19802",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285439.2586133,
+      "end": 1793285440.5219672,
+      "log": "/tmp/matvec118-family2-VeriTile__Triton__DSL__Expansion.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL",
+      "source_sha256": "2423c62c7d2ce4f66fb836f36c35d2b904fc759e8f782684a28af52d0ab7faf4",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285440.5223324,
+      "end": 1793285441.7653124,
+      "log": "/tmp/matvec118-family2-VeriTile__Triton__DSL.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.SourceDType",
+      "source_sha256": "1be7dc331ac611ad0ee68e85f1010519d9ddfa7c3eea80c095b0c1e713708999",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285441.7657967,
+      "end": 1793285443.8114126,
+      "log": "/tmp/matvec118-family2-VeriTile__Triton__DSL__SourceDType.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.PointerType",
+      "source_sha256": "2b409ab95e27f68ad359b5b8065b04ce954ffcc580ea7e35c742f65f3d8b7fe7",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285443.8117678,
+      "end": 1793285445.1593354,
+      "log": "/tmp/matvec118-family2-VeriTile__Triton__DSL__PointerType.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.TypedStores",
+      "source_sha256": "d4a991a4f5261fd253a2302c7563088b9b932db8650aec8cf6f599866c3ec3b7",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285445.160002,
+      "end": 1793285453.8758438,
+      "log": "/tmp/matvec118-family2-VeriTile__Triton__DSL__TypedStores.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.TypedStorageReduction",
+      "source_sha256": "dadef4761110e5123359df9394f59d7c5a309a64f65419755cc9c9af94680d44",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285453.8763106,
+      "end": 1793285455.9396307,
+      "log": "/tmp/matvec118-family2-VeriTile__Triton__DSL__TypedStorageReduction.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.SourceFunctionStatements",
+      "source_sha256": "83fb073da8c909806638c1349dc7ac36c111d9ae96e86b86a3794604fd97659c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285455.9400518,
+      "end": 1793285458.0293648,
+      "log": "/tmp/matvec118-family2-VeriTile__Triton__DSL__SourceFunctionStatements.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Constexpr",
+      "source_sha256": "167269e39e3f81eb1f568a4cbb7cffb1777b5c5cc004b55ef40ba57dcb90cf75",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285458.0297308,
+      "end": 1793285459.4768326,
+      "log": "/tmp/matvec118-family2-VeriTile__Triton__DSL__Constexpr.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.CallSignature",
+      "source_sha256": "736efa77feb20d07503e00fa78b37e30680c209610bacbe1f09c022ad688e67b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285459.4777353,
+      "end": 1793285505.1911254,
+      "log": "/tmp/matvec118-family2-VeriTile__Triton__DSL__CallSignature.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Kernels",
+      "source_sha256": "4b0542a4fbee0f3ca584b44364bd632e31efa75dc299f27a59cc6197109705da",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285505.1915162,
+      "end": 1793285506.9861956,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__matrix_vector_multip__Kernels.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.SourceCode",
+      "source_sha256": "d56645377df2029939ea2798f03f71a09bc906729927d822d6d47e847dd360c6",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285506.9865658,
+      "end": 1793285508.4246614,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__matrix_vector_multip__Proofs__SourceCode.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.SourceDomain",
+      "source_sha256": "e28a2d2e9dc0c379c7d636092f9b4c4843ed9ca100b00e60c7d9c7cec2cef6ae",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285508.4250412,
+      "end": 1793285510.8437598,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__matrix_vector_multip__SourceDomain.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.SourcePrelude",
+      "source_sha256": "8b9c7e2fd37c03a365739d46b3658cb5d8a195a075ed33fc2125047428ed5412",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285510.8441868,
+      "end": 1793285520.5685635,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__matrix_vector_multip__Proofs__SourcePrelude.log"
+    },
+    {
+      "module": "VeriTile.Triton",
+      "source_sha256": "0937879a78c271cce7beda0e77d0b0bcf90a23a2ce90485ab011a5472d75f9a0",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285520.5689304,
+      "end": 1793285522.908295,
+      "log": "/tmp/matvec118-family2-VeriTile__Triton.log"
+    },
+    {
+      "module": "bench.tritonbench_g.matrix_vector_multip.Kernels",
+      "source_sha256": "c011ef84dba1e7e7f123de62c425508148c998440562f37cc5c97b0a7f2df8cb",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285522.908674,
+      "end": 1793285525.5125797,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__matrix_vector_multip__Kernels.log"
+    },
+    {
+      "module": "bench.tritonbench_g.matrix_vector_multip.Proofs.TypedSource",
+      "source_sha256": "edeac834f34245ea8547b6bd455c8c9e2132ce6e7865e6ff654931b286456c66",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285525.5129595,
+      "end": 1793285527.8506277,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__matrix_vector_multip__Proofs__TypedSource.log"
+    },
+    {
+      "module": "bench.tritonbench_g.matrix_vector_multip.Proofs.TypedExecution",
+      "source_sha256": "292fdb63cf3e70eaf19b2b1f78ee0b6a3c4eb757cda90b62c285c83f072a59b8",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285527.8510175,
+      "end": 1793285552.6851375,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__matrix_vector_multip__Proofs__TypedExecution.log"
+    },
+    {
+      "module": "bench.tritonbench_g.matrix_vector_multip.Proofs.TypedContract",
+      "source_sha256": "46e2997c66ec4a80848408adcab38af00181e2d4d51f70db79b8f318a0a5a6de",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285552.6855934,
+      "end": 1793285581.2341852,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__matrix_vector_multip__Proofs__TypedContract.log"
+    },
+    {
+      "module": "bench.tritonbench_g.matrix_vector_multip.Proofs.TypedIO",
+      "source_sha256": "21155b0db5fef10886cd40d71648a047a10d298e0975b13625c0ce6e976351f8",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285581.2346017,
+      "end": 1793285583.832956,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__matrix_vector_multip__Proofs__TypedIO.log"
+    },
+    {
+      "module": "bench.tritonbench_g.matrix_vector_multip.Proofs.WholeSource",
+      "source_sha256": "9a96c90802bda514e04a91a1dc4cf148c6ea728a1aceb923362c7985fe8c4d06",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285583.8334486,
+      "end": 1793285589.0542905,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__matrix_vector_multip__Proofs__WholeSource.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.SourceBody",
+      "source_sha256": "6798a76bdd2eb19b886b490f5af3531110a3ab065e10bb8434e2f058b96e5c63",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285589.054742,
+      "end": 1793285593.8072867,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__matrix_vector_multip__Proofs__SourceBody.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.SourceLoop",
+      "source_sha256": "404019fcb313608eb4df7666a45bc62133be56ea2aaa45e5f4bcf45924d39903",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285593.8077264,
+      "end": 1793285596.5208037,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__matrix_vector_multip__Proofs__SourceLoop.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.SourceOutput",
+      "source_sha256": "50cebba0333a0fa6edc97d7962a595a870c24363449d91bacb8fafd100c227c2",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285596.521287,
+      "end": 1793285599.7864614,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__matrix_vector_multip__Proofs__SourceOutput.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.KernelSource",
+      "source_sha256": "236460bc425bcd22a57aa59ff397fe6be7d16937b578aa7c84aab80ce408408a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285599.7868912,
+      "end": 1793285603.4746811,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__matrix_vector_multip__Proofs__KernelSource.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.IO",
+      "source_sha256": "bb2b66b7082c341fc1abc81368b88d80ab3d9cbfa0bde73c6b181876e35f7ae1",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285603.475132,
+      "end": 1793285606.163198,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__matrix_vector_multip__IO.log"
+    },
+    {
+      "module": "bench.tritonbench_g.matrix_vector_multip.Proofs.WholeNative",
+      "source_sha256": "f933e497a4b3cb6c46b306edce2f665fc6013f71422da8c3d2794e1311c2814b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285606.163666,
+      "end": 1793285609.8491492,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__matrix_vector_multip__Proofs__WholeNative.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.KernelFP",
+      "source_sha256": "fb96991d0f8cc8c8931ddcc8fbbbca4869b17f787964c966d788f0f74d52772b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285609.849618,
+      "end": 1793285613.442807,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__matrix_vector_multip__Proofs__KernelFP.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.CandidateIO",
+      "source_sha256": "03daffb5044242b5527bd3d778d392d43cfc2fbb17bc10293e86c3b763815c3c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285613.4432614,
+      "end": 1793285615.9298174,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__matrix_vector_multip__CandidateIO.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.SourceSafety",
+      "source_sha256": "d0e19897619a2bf01873c251808aef6ddc910588e5d8225dee6cc46dd018a447",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285615.9303145,
+      "end": 1793285621.7695847,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__matrix_vector_multip__Proofs__SourceSafety.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.IO",
+      "source_sha256": "2997f1a024d48b646348e825a9e28ef6c25d8f7ae2df29585b727597b6eb0137",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285621.7700353,
+      "end": 1793285624.5675523,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__matrix_vector_multip__Proofs__IO.log"
+    },
+    {
+      "module": "bench.tritonbench_g.matrix_vector_multip.Proofs.WholeMath",
+      "source_sha256": "8a22cd93210f0fc50ea1f4e0a270c08cf537e5733ddb6fea79d80b9f7393466a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285624.5680034,
+      "end": 1793285628.0314915,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__matrix_vector_multip__Proofs__WholeMath.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.RealResult",
+      "source_sha256": "d97b3a78594ad4620a20a40923985d0cec5750f7fb9856fb4f905e33347c0b58",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285628.0319383,
+      "end": 1793285632.3353662,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__matrix_vector_multip__Proofs__RealResult.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.LogicalIO",
+      "source_sha256": "ad7ca45ea3392f042242e8a23c8b2e21f24c0c7f14ce08c629d337c379c9ed56",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285632.3357854,
+      "end": 1793285635.8823655,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__matrix_vector_multip__Proofs__LogicalIO.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Correct",
+      "source_sha256": "d6ecfd9a1afc2a46c5d86fd835fc69eb8e93161426641ba625b6097b02463003",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285635.8828137,
+      "end": 1793285639.766918,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__matrix_vector_multip__Correct.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.NativeResult",
+      "source_sha256": "44cd9a31f9f09fc7125f3f9401bf02342711301938f08e6c26438b122ed40216",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285639.7673807,
+      "end": 1793285644.007599,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__matrix_vector_multip__Proofs__NativeResult.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.SourcePair",
+      "source_sha256": "282d13baafc6f3d12624145af504707ef71d3fa09e31353a3f6632f47d77476f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285644.0080645,
+      "end": 1793285651.1578841,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__matrix_vector_multip__Proofs__SourcePair.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.SourcePairSafetyTools",
+      "source_sha256": "717712bc4acb4d48f6c244c6361bed253de7c0068a1b32d8fcbf688fb6ec31b3",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285651.1583447,
+      "end": 1793285653.637557,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__matrix_vector_multip__Proofs__SourcePairSafetyTools.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.SourcePairSafetySteps",
+      "source_sha256": "271db68b4864bbf5fd7ade21688ba1689e8796e206bd67129dfcc5fab58fce52",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285653.6380172,
+      "end": 1793285660.7425501,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__matrix_vector_multip__Proofs__SourcePairSafetySteps.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.SourcePairSafety",
+      "source_sha256": "e78164ed05d9d150dcb8d2fc36dad1046a31a98c9136dbfaa65c29b88424aec7",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285660.7430468,
+      "end": 1793285663.6100118,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__matrix_vector_multip__Proofs__SourcePairSafety.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.ExplicitFMA",
+      "source_sha256": "d746d6ae27459c94d9845e85486a10a0617548d20cf99b1dee3aa03999e595d7",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285663.6105027,
+      "end": 1793285667.288502,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__matrix_vector_multip__Proofs__ExplicitFMA.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.GridPair",
+      "source_sha256": "bf42e5d3188e1129328a2b6ba85d589336a6a8ab68141c7913dcefafa73a3fa4",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285667.2889807,
+      "end": 1793285670.5256732,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__matrix_vector_multip__Proofs__GridPair.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.FPEquiv",
+      "source_sha256": "b70b37409bdc53da2c8642bf43cd67edeb1e954fd0aa3c09ecdee1a2306af805",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285670.5261135,
+      "end": 1793285675.9555643,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__matrix_vector_multip__FPEquiv.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Misc.NativeCorrect",
+      "source_sha256": "9d4b0883538c2adbb9003d548585d73b8d00e857541b09f6cf6765f67232d9d0",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285675.9560347,
+      "end": 1793285679.5487092,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__matrix_vector_multip__Misc__NativeCorrect.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.SourceShapes",
+      "source_sha256": "18287df16280f50a7c784cc7a52695a81ee1aebc258250ffe87fa960590dedd4",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285679.5491471,
+      "end": 1793285682.0892334,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__matrix_vector_multip__SourceShapes.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.Contract",
+      "source_sha256": "ed6e939e630dd1a1991ac90d0236c44fed0ca6f5a3a26ae69885ce9abda57793",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285682.0897117,
+      "end": 1793285685.2929833,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__matrix_vector_multip__Proofs__Contract.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.InputBinding",
+      "source_sha256": "569d7dd10bd13adca20134898739678259fb6617b8209c028d3e7f7f17dd0d57",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285685.2934594,
+      "end": 1793285688.4575996,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__matrix_vector_multip__Proofs__InputBinding.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.KernelIndex",
+      "source_sha256": "fb6953f484f4f09c2bca571819efa5d2ad05a630ad2ebd59e65bd3fc3a0be25b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285688.4581397,
+      "end": 1793285692.107546,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__matrix_vector_multip__Proofs__KernelIndex.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.KernelBinding",
+      "source_sha256": "1ae96eb8c31be7a24e72a7cb6931d8a7aed14b50bc8f647cd502475cf466e272",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285692.1080709,
+      "end": 1793285695.613391,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__matrix_vector_multip__Proofs__KernelBinding.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Misc.TensorBridge",
+      "source_sha256": "396328e4d12f8c173ef28e3df75b7026a0292dcc2072f68738df9b9739f4b928",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285695.6138968,
+      "end": 1793285699.5337188,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__matrix_vector_multip__Misc__TensorBridge.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Misc.TileEquiv",
+      "source_sha256": "d7e4dfebaa4ff1c5638b9e96552a2cee71a3ac6ea9ff746344ecb7447a39304a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285699.5342166,
+      "end": 1793285704.4990985,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__matrix_vector_multip__Misc__TileEquiv.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.AccessSafety",
+      "source_sha256": "7ea6345928aa836291a833027d73c269c2925247aae7a1b1769942c6ec7759ee",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285704.499635,
+      "end": 1793285710.5969803,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__matrix_vector_multip__Proofs__AccessSafety.log"
+    },
+    {
+      "module": "bench.tritonbench_g.matrix_vector_multip.Proofs.WholeGrid",
+      "source_sha256": "dc5bf1721e66581db6ca99a44007e604aa6392b89d3a2eb14132c0bf1efa420b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285710.5975153,
+      "end": 1793285713.9539123,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__matrix_vector_multip__Proofs__WholeGrid.log"
+    },
+    {
+      "module": "bench.tritonbench_g.matrix_vector_multip.Proofs.WholeHost",
+      "source_sha256": "574811c3ec2deb955fd9e485c681e66ffe00d9f79c1fdf6b4264bfe9835f28f3",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285713.9544897,
+      "end": 1793285717.4895654,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__matrix_vector_multip__Proofs__WholeHost.log"
+    },
+    {
+      "module": "bench.tritonbench_g.matrix_vector_multip.Proofs.WholeFinite",
+      "source_sha256": "fc31967b26a18bf870904e0d50f6a106bda4c0805887ec5102313f7e6b275095",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285717.4901223,
+      "end": 1793285721.1364923,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__matrix_vector_multip__Proofs__WholeFinite.log"
+    },
+    {
+      "module": "bench.tritonbench_g.matrix_vector_multip.Proofs.WholeContract",
+      "source_sha256": "87edacfe1b76a9de00af2818adb42fe06a5b875c5d901e179846ede77e12d6a1",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285721.136998,
+      "end": 1793285724.2522233,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__matrix_vector_multip__Proofs__WholeContract.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.Host",
+      "source_sha256": "e499b8ae6866c22216305386d6e7d3b072e3e7f568ce0dabf294bfcb51e1d432",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285724.252726,
+      "end": 1793285726.861078,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__matrix_vector_multip__Proofs__Host.log"
+    },
+    {
+      "module": "bench.tritonbench_g.matrix_vector_multip.Proofs.WholeNativeHost",
+      "source_sha256": "bf85fa928546da36b3d076ad65168865bd73b30bcc03580220238157422180e1",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285726.861655,
+      "end": 1793285730.1488345,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__matrix_vector_multip__Proofs__WholeNativeHost.log"
+    },
+    {
+      "module": "bench.tritonbench_g.matrix_vector_multip.Proofs.WholeNativePublic",
+      "source_sha256": "0915694784b3ea2b2586e6578b8f7b3f40e07bd1c8fc29e263d094b70a4e2122",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285730.1493857,
+      "end": 1793285733.9692068,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__matrix_vector_multip__Proofs__WholeNativePublic.log"
+    },
+    {
+      "module": "bench.tritonbench_g.matrix_vector_multip.Proofs.WholeNativeChoices",
+      "source_sha256": "76c990873246135a12704441ceeb01a381ca29d1782ba261b143f4b288d73c59",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285733.9697526,
+      "end": 1793285737.1476135,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__matrix_vector_multip__Proofs__WholeNativeChoices.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.FP",
+      "source_sha256": "f83834456656c4e3c24f88188f735977b30a048553635fde4dc9c225f787b63f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285737.1481843,
+      "end": 1793285741.0197845,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__matrix_vector_multip__Proofs__FP.log"
+    },
+    {
+      "module": "bench.tritonbench_g.matrix_vector_multip.Proofs.WholeReal",
+      "source_sha256": "df6f01a4cf860ab37cb8d85cb08eb87f60dd40e199734af668594d36aa8e11b7",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285741.0203557,
+      "end": 1793285744.1480768,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__matrix_vector_multip__Proofs__WholeReal.log"
+    },
+    {
+      "module": "bench.tritonbench_g.matrix_vector_multip.Proofs.WholeRealPublic",
+      "source_sha256": "c4bed03cb028643362806284939a7140b1820b608ff1ff6e15887cb8cca87c8b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285744.148619,
+      "end": 1793285747.971315,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__matrix_vector_multip__Proofs__WholeRealPublic.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.Real",
+      "source_sha256": "5e2e6473c7a9e80300433a81c6763b1e35e4dde2d88a28f29dc9561d258dfafa",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285747.9718227,
+      "end": 1793285751.400045,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__matrix_vector_multip__Proofs__Real.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.Index",
+      "source_sha256": "776cef23035fcac358f91450d130343f1e7db4be4a6cdbb0113c13b7e0a48053",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285751.4006965,
+      "end": 1793285754.8409474,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__matrix_vector_multip__Proofs__Index.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.TensorBinding",
+      "source_sha256": "839d53b2f9d5d4964a823501a5dd8ebc613833e8f93189b74639b3c3fc4fb878",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285754.8415093,
+      "end": 1793285758.1576595,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__matrix_vector_multip__Proofs__TensorBinding.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.HistoricalCorrect",
+      "source_sha256": "cc609662bba2d204a5d29c3fc47b7b9e0878bc1ba05b5f4e181322b65db9c5a0",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285758.1582024,
+      "end": 1793285761.990657,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__matrix_vector_multip__Proofs__HistoricalCorrect.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.Numerical",
+      "source_sha256": "110622c48fc2b45224902d4c02f286f5d111e17dad97ef3577d00fe210649982",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285761.9912167,
+      "end": 1793285765.112867,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__matrix_vector_multip__Proofs__Numerical.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.ReturnedTensor",
+      "source_sha256": "7c85a2959c156040e5c620c7df8be81abc74927e7060771ffce45eb1a81d5772",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285765.1134303,
+      "end": 1793285768.7122283,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__matrix_vector_multip__Proofs__ReturnedTensor.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.HistoricalFPEquiv",
+      "source_sha256": "a40116c57ec402858184edf0813602e2da3ac4b1b7a3fe949b38ac247189be55",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285768.7127874,
+      "end": 1793285773.9921901,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__matrix_vector_multip__Proofs__HistoricalFPEquiv.log"
+    },
+    {
+      "module": "bench.tests.WhileBody",
+      "source_sha256": "1a9d24d49b6e9f39434d8cec9e2530ad2aa3108ffa3a4251431585a46ea7d345",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285773.9927106,
+      "end": 1793285775.4403703,
+      "log": "/tmp/matvec118-family2-bench__tests__WhileBody.log"
+    },
+    {
+      "module": "bench.tests.WhileExecution",
+      "source_sha256": "23c956d46b334920ee02e3944bd2d4d6539cdab52c0a4e5561e6302379b7420d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285775.4409204,
+      "end": 1793285781.7666628,
+      "log": "/tmp/matvec118-family2-bench__tests__WhileExecution.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.IntegerErasure",
+      "source_sha256": "9ce392b08341f7eee08b3ef249b73b7c76a4373cc2707d0d389ad841676d12e7",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285781.7672243,
+      "end": 1793285785.9461293,
+      "log": "/tmp/matvec118-family2-VeriTile__Triton__Float__IntegerErasure.log"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.TraceProofs",
+      "source_sha256": "751d23465c2e356f803beb8cfb2b9c419cdde8dd6418fd035a0d20959c027843",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285785.9467247,
+      "end": 1793285788.540893,
+      "log": "/tmp/matvec118-family2-VeriTile__Triton__Memory__TraceProofs.log"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.AccessHelpers",
+      "source_sha256": "8aa1e81306653d022e73e270b5dcca077392044b235cb96d3b73c4cb914bf91f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285788.5414956,
+      "end": 1793285793.90726,
+      "log": "/tmp/matvec118-family2-VeriTile__Triton__Memory__AccessHelpers.log"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.RegisterSafety",
+      "source_sha256": "ba4f88fc6c7bf60af59e320ed4f625e7d4db583d42722d2e980ccf4b556519f7",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285793.9078214,
+      "end": 1793285796.9773033,
+      "log": "/tmp/matvec118-family2-VeriTile__Triton__Memory__RegisterSafety.log"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.SignedRangeTrace",
+      "source_sha256": "fa2d5fa02ce7e7963bfe232d89402f09b6af2c57747edf5fba0a22dc48f81d08",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285796.9778435,
+      "end": 1793285800.3481338,
+      "log": "/tmp/matvec118-family2-VeriTile__Triton__Memory__SignedRangeTrace.log"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.Integer",
+      "source_sha256": "0b31e7fff195cfa3fe909472949280edc451f0e4acb8b1991529ebc177a9d09c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285800.3487241,
+      "end": 1793285802.9067147,
+      "log": "/tmp/matvec118-family2-VeriTile__Triton__Semantics__Integer.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.Integer",
+      "source_sha256": "a31f967a2cdce541a8992f6e39e71c65b4efccce08b6f87a6cdb0983a4301a1f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285802.9073222,
+      "end": 1793285806.1706183,
+      "log": "/tmp/matvec118-family2-VeriTile__Triton__Float__Integer.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.FixedInteger",
+      "source_sha256": "376b99eb05cb9fa3433ea9fb3ebe3edb4aa90b535323b71eac600300bc40fdda",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285806.1712363,
+      "end": 1793285809.2883768,
+      "log": "/tmp/matvec118-family2-VeriTile__Triton__Float__FixedInteger.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.SignedCast",
+      "source_sha256": "79fb0af591b285287bc861973fe18571f5ae8528605f0ee783d1417c6bbe8c6c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285809.2889314,
+      "end": 1793285811.8519886,
+      "log": "/tmp/matvec118-family2-VeriTile__Triton__Float__SignedCast.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.SourceParameters",
+      "source_sha256": "7d77e35123aca62f743a4a6fe6f26869b718716b73e76b4fb83d52826de02bd8",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285811.852582,
+      "end": 1793285813.1633725,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__SourceParameters.log"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.UncheckedBlockLoad",
+      "source_sha256": "a7db8be77a106d735287a84887897737e41df4fcc4721c61cb455f851f02a72f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285813.16394,
+      "end": 1793285815.5904946,
+      "log": "/tmp/matvec118-family2-VeriTile__Triton__Semantics__UncheckedBlockLoad.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Kernels",
+      "source_sha256": "14e01207686acbd868d9ff314bf5fd7827a38b27a4031b1580285b46c347d595",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285815.5911145,
+      "end": 1793285817.7728028,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Kernels.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.SourceDefinitions",
+      "source_sha256": "5f6b35b38d5de6cb3d27c886940d799508feb87a30d9eeaf47a575627f15e42d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285817.7734432,
+      "end": 1793285819.0031512,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__SourceDefinitions.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.IndexModel",
+      "source_sha256": "31215ccbe90bb2c40d7af571e13ec9ebbdf4ec4280ad0f8a3bc2e310d3f575f2",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285819.0037203,
+      "end": 1793285820.2380557,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__IndexModel.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.Kernels",
+      "source_sha256": "4911503d29704311f94f80d155f0f5d2f6c3640346d03b48f266921610563f16",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285820.2385838,
+      "end": 1793285821.4752538,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__Kernels.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealExpressions",
+      "source_sha256": "4dd58957c2cebaf6556e5c19bd67a7ec77b9e3713cdabf6b5f77b5f23911dbb1",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285821.4757962,
+      "end": 1793285825.2874658,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__RealExpressions.log"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.ProgramRewrite",
+      "source_sha256": "89578bff9606a30c553b81309dcbabbd6717a848fde304ab47a838ad93d6aefc",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285825.2880383,
+      "end": 1793285827.7314875,
+      "log": "/tmp/matvec118-family2-VeriTile__Triton__Semantics__ProgramRewrite.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealArithmetic",
+      "source_sha256": "ae7ca643ff468ea4c526a1be823dcb1fa07afc37e2714f3ab6a690e8ada9720a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285827.7321203,
+      "end": 1793285841.2166977,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__RealArithmetic.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealTiles",
+      "source_sha256": "bdbbd0eaf0400221f90acbd1892c4c04f2914d5e287b38050723f3db391e3d04",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285841.2173078,
+      "end": 1793285845.2485683,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__RealTiles.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealLoads",
+      "source_sha256": "016bb5b33d0f3b470179b05daed53f9b821381da14ce738e3664be8c54032f37",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285845.2492101,
+      "end": 1793285848.6327116,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__RealLoads.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealFrame",
+      "source_sha256": "e444154eb76558e85ef82c8abbc9762932b7dc86eea52d8134aeaf4de5c4a49f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285848.633338,
+      "end": 1793285851.6785421,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__RealFrame.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealBody",
+      "source_sha256": "cfa4c0a78e20f56132d00dbf8a6d1890ae34f76c81806e21b2b129dcd11a38d3",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285851.6791153,
+      "end": 1793285854.7468758,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__RealBody.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealArithmeticOutput",
+      "source_sha256": "d4915193758de190910e35669a76c77853d145955bacb64948b41d9e8dd0cc88",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285854.7475069,
+      "end": 1793285871.6535676,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__RealArithmeticOutput.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealIteration",
+      "source_sha256": "1e3a288592b36ec5c07b244db27caab7388e5f98e597cabd48f75a931f216548",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285871.6542327,
+      "end": 1793285874.9463246,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__RealIteration.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealLoop",
+      "source_sha256": "a531b2182413bf899eae242d858c3045c0683040e47d41e764282453f121aa9a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285874.946946,
+      "end": 1793285878.2184927,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__RealLoop.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealSafetyParts",
+      "source_sha256": "3970c9b4339525f2fc4f3349dcbe7ec8180ecad8421a8558da68c91c4f8c67f3",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285878.2191236,
+      "end": 1793285882.4029348,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__RealSafetyParts.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.IndexProjection",
+      "source_sha256": "b7515327125db393feb5cad0a9ab0c3c306c1fcb389f82873679ee4927934f71",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285882.4035628,
+      "end": 1793285885.7892413,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__IndexProjection.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealProgram",
+      "source_sha256": "3f93516f5ac54685b8924665d0a935dbceb4e56bdc19ac713b2eee0bb78ef966",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285885.7898877,
+      "end": 1793285890.681935,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__RealProgram.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealPrelude",
+      "source_sha256": "447a35f9cff3cf810f88226bb3aba244b35d2abe7945fd66df7a7bbc7837d02c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793285890.6826365,
+      "end": 1793286004.7094476,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__RealPrelude.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealSafetyPrelude",
+      "source_sha256": "e1790d0b26c02745b87fa1b8191c59309283d3cc6df624bf0affcbd3cde09433",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286004.7105246,
+      "end": 1793286012.473781,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__RealSafetyPrelude.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealSafetyLoop",
+      "source_sha256": "66bd8d6c900fd7fffc3d4978eb602df0ce0a24218633d4e43357d203118edf3d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286012.4752972,
+      "end": 1793286018.7219825,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__RealSafetyLoop.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealSafetyOutput",
+      "source_sha256": "c14a22743cc8c849e577cf8b00f9da7503941f5ea99f21b3f8d92b1349ae6259",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286018.7236598,
+      "end": 1793286025.907455,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__RealSafetyOutput.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealSafety",
+      "source_sha256": "a5e2351848c279298fb5f36c55bdfe3815bdb76b94094f04fa8988f4ec0afc20",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286025.9084532,
+      "end": 1793286033.0179522,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__RealSafety.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealOutput",
+      "source_sha256": "9411e3b60d64aa3d1bb034b38feb133cee6f4bc736a3a9f6e5866147780fe03a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286033.0193543,
+      "end": 1793286040.165809,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__RealOutput.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealExecution",
+      "source_sha256": "198703591027c7827f17cbc5706ea8dd71c77253a12fbeaa13d0cc31ef0eaca4",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286040.1674562,
+      "end": 1793286048.3322706,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__RealExecution.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealSource",
+      "source_sha256": "5ccb0eb4a912ee75a233c6b8818dfd1b1c4b9017112680f1cfae11b9a336a5d8",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286048.333191,
+      "end": 1793286058.8517468,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__RealSource.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.FPEngine",
+      "source_sha256": "0529d75ca006e4b9bbe4f294cb0696be286e15ece6124a57dcb41c4390b1a30f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286058.8527575,
+      "end": 1793286066.3030849,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__FPEngine.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.FPEntry",
+      "source_sha256": "6c3b11fda7ce121da2e7613ed573ad4f6ac79cb07cdd3367e6ebc5de22c630af",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286066.304887,
+      "end": 1793286106.0634754,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__FPEntry.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.FPContext",
+      "source_sha256": "f5398e57f22cb47b1fd0705d0f132faee06cb5cc5246fad3ee265b95e939fc0e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286106.0642302,
+      "end": 1793286115.9553158,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__FPContext.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.FPBody",
+      "source_sha256": "47237ae7000e6d4502e7dad00c7ceb75aca70ef0cb3fbd599a1c6d92e27e73fa",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286115.9559634,
+      "end": 1793286174.4651155,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__FPBody.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.FPValues",
+      "source_sha256": "31db7fba66e7cdd2f1342ec8c917ecb5de6133c1b95dc8c0980dc19e77800c36",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286174.4658408,
+      "end": 1793286222.726684,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__FPValues.log"
+    },
+    {
+      "module": "bench.tritonbench_g.parallel_attention.Kernels",
+      "source_sha256": "7f470ccdf8aa02c50834f344a57d7bdbb5ab5d75cc1d99b2b71792ced28efc89",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286222.7274182,
+      "end": 1793286226.6140172,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__parallel_attention__Kernels.log"
+    },
+    {
+      "module": "bench.tritonbench_g.parallel_attention.Proofs.FPSources",
+      "source_sha256": "385ad1f6cb51bcbe8d6f48b5298dfd7ea6d2cc996df60438a0766ca25ab14832",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286226.6147022,
+      "end": 1793286229.012826,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__parallel_attention__Proofs__FPSources.log"
+    },
+    {
+      "module": "bench.tritonbench_g.parallel_attention.Proofs.FPForwardGraph",
+      "source_sha256": "bc938a8432d831494df61a6f0dfae1a448a1e2f0bf7372737bd31fb3b19a5026",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286229.0135288,
+      "end": 1793286231.7140388,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__parallel_attention__Proofs__FPForwardGraph.log"
+    },
+    {
+      "module": "bench.tritonbench_g.parallel_attention.Proofs.FPRange",
+      "source_sha256": "f43093ea1d5d2e07cce23d9a1ba1d121d1bb68130546fd3d2c91891d8f91a7a1",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286231.714726,
+      "end": 1793286234.3033514,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__parallel_attention__Proofs__FPRange.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.FPLoop",
+      "source_sha256": "e462b07272e84ad54b3b36f4480f9c7034c172a29673fc809bece261c46f25be",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286234.304023,
+      "end": 1793286237.8524334,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__FPLoop.log"
+    },
+    {
+      "module": "bench.tritonbench_g.kcache_copy_triton.KcacheCopyTriton",
+      "source_sha256": "fb16f21d28e45b01dff210b98a37029c4d623b8710d6a91b43edea53f967bb74",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286237.8661249,
+      "end": 1793286243.200942,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__kcache_copy_triton__KcacheCopyTriton.log"
+    },
+    {
+      "module": "bench.tritonbench_g.kcache_copy_triton.Proofs.TypedCopy",
+      "source_sha256": "727b75143b5d44732b8240aadd0a5e62ab1bd4ba81cd37420d89e02b1a73ca34",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286243.2016945,
+      "end": 1793286256.820836,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__kcache_copy_triton__Proofs__TypedCopy.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.FPOutput",
+      "source_sha256": "f7f88ad8f79fa1d22e1841eaa698acc9eb9ac100b6b06e81fcf23e19e0656868",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286256.8215473,
+      "end": 1793286262.0571935,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__FPOutput.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.LogicalFormula",
+      "source_sha256": "8cc155fb26360cf6ae383e9622d584ef8971a1b309998a04e68bb6912d4ef407",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286262.05786,
+      "end": 1793286265.2058065,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__LogicalFormula.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.Geometry",
+      "source_sha256": "abfb8a650585d065c3aad0400c7d94d1b03d47a9dd0c8b1e072aeddd5b358a20",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286265.2065148,
+      "end": 1793286268.443359,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__Geometry.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.DenseSource",
+      "source_sha256": "954849ff7cc56c6e47950dfa47fbb0efdcf052cf6bd307e4aafb0c9b79701305",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286268.4440455,
+      "end": 1793286271.5951962,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__DenseSource.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.DenseSafety",
+      "source_sha256": "7770ef480b04ce6fcfd9c1c9fb2e2cdcd2e3c04d2b445c5f7a9a54268333f558",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286271.5958614,
+      "end": 1793286274.6927812,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__DenseSafety.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.WholeGrid",
+      "source_sha256": "41080929184e3f2b5fff88323cf33eb9261d594464416fc601889f03370c3da6",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286274.6934845,
+      "end": 1793286279.8181517,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__WholeGrid.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.FPGrid",
+      "source_sha256": "d8987eba8846063a8c56d76fc1c322abf3c015404efe5beff6f7e98d9e22d10e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286279.8192983,
+      "end": 1793286285.7120285,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__FPGrid.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.FPReturned",
+      "source_sha256": "2d7bb8203c1d75900af18cdeec8cc39b876303be83c2b33a1ed47e4cbb89c4b5",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286285.7127435,
+      "end": 1793286289.3457594,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__FPReturned.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.FPStorage",
+      "source_sha256": "4487e64b3b5dca720b15b4c43cc5925bc5907303cad08c866448ee52fc887e40",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286289.3464892,
+      "end": 1793286292.7016335,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__FPStorage.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.Physical",
+      "source_sha256": "d9882bdc63badb7ed16b5235e6acc7250592e095d399fc024a268718f5592b6a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286292.7023754,
+      "end": 1793286296.4582798,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__Physical.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.Widened",
+      "source_sha256": "3071efd112df1beb96cb118b43b8b4e35139ea63da376647352c075b71106a6a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286296.4589252,
+      "end": 1793286297.802481,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__Widened.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.CurrentRepresentation",
+      "source_sha256": "f2f2c005c00f14ab08be7b4b76fb4419b7d997d096a0825dd2c8aa3da1927f89",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286297.803243,
+      "end": 1793286301.2772849,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__CurrentRepresentation.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.CurrentMachine",
+      "source_sha256": "5800306239f0a28496d8be51d3ef2cb5e189724ae112b21b54181c37f6dba8e0",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286301.312233,
+      "end": 1793286304.812331,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__CurrentMachine.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.Contract",
+      "source_sha256": "8377ddba9197d78bd5807f153c31386ca79a5e40aa81208b4dbd18590f3e2ff6",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286304.8130217,
+      "end": 1793286307.3387904,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__Contract.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Tensor",
+      "source_sha256": "df99e048a84d951460187f4f79d60be1cea2c4e6c0be1b6f7e3af66734cb4e0a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286307.3395233,
+      "end": 1793286309.9365182,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Tensor.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Contract",
+      "source_sha256": "de3a1121736d7a9cb8d86de54967d4955ce9b3491050bf9ea5b8397bf004d745",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286309.93724,
+      "end": 1793286312.897427,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Contract.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.NativeStaging",
+      "source_sha256": "ee7f694cd1e93ab100de5310212068840eed9c11c535661c85575b2fac7b96d0",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286312.89813,
+      "end": 1793286316.058498,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__NativeStaging.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.NativeFormula",
+      "source_sha256": "cf9258ebe885adcf0f656599d495a54748fd3ffd190006d81c123efe3cab775d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286316.0592422,
+      "end": 1793286319.289339,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__NativeFormula.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.NativeLoop",
+      "source_sha256": "9c1b8b70a4ec2aebeb8cf228b6fe7a39d4cfaf17c88f108458582a18cc5b3e1c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286319.290048,
+      "end": 1793286322.32228,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__NativeLoop.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.NativePhysical",
+      "source_sha256": "244cbbdd935759bea600cf40f667d057412c82a907327a389102f318c84c0cea",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286322.3230011,
+      "end": 1793286326.2109504,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__NativePhysical.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.NativeIdeal",
+      "source_sha256": "fd8d69cc0b4ae878ac787a19b1943c3d7c105f57239c0ea53343ca68f98e7252",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286326.2117043,
+      "end": 1793286329.9661307,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__NativeIdeal.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.NativeMath",
+      "source_sha256": "a2fea1d0e9e6061a2881d1ae8f13dc3a534b88c03f33e04af0ec72313e9cc175",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286329.9668708,
+      "end": 1793286334.1022074,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__NativeMath.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.NativeColumn",
+      "source_sha256": "5eb4173f3c8d9530759439ca43461d1969fcac3bfa7b7a8d2c8cd7cd278b96a3",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286334.1029105,
+      "end": 1793286337.6234705,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__NativeColumn.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealReturned",
+      "source_sha256": "d29ad5b979fbf2d1b808ad4e97b6a8db6f26c4a2d6ad81d486665f897d724b46",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286337.624269,
+      "end": 1793286340.6679916,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__RealReturned.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.RealPhysical",
+      "source_sha256": "74087cb2331a546508eb088e7b6439775e68dadc8c0ede5e29b683f69a46b859",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286340.6687455,
+      "end": 1793286344.8150995,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__RealPhysical.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.NativeReturnedMath",
+      "source_sha256": "4503cd041f5011f0847a7e44594a84c9499f5285b6dedad88dc85f5024c0fa3e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286344.8158545,
+      "end": 1793286348.7177763,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__NativeReturnedMath.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.CurrentExecution",
+      "source_sha256": "2cc20c2bce1bec78c0bb7c51bc3a42692e5db34fc269c28e82c341c0defc6738",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286348.7185454,
+      "end": 1793286352.9442,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__CurrentExecution.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.SourceTiles",
+      "source_sha256": "2ce6d749f5057c1fd5835ed71fb56caf2cdb2679be6b10ba6891ef05c6911a91",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793286352.9449105,
+      "end": 1793286358.1968842,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__SourceTiles.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.SourceBridge",
+      "source_sha256": "779a75a4e14380525a43d956d41538c6529f4134d4cb08fddbe51f1d8af61ec1",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.SourceTiles"
+      ]
+    },
+    {
+      "module": "VeriTile.Triton.Memory.RegionalKernelIO",
+      "source_sha256": "16ab7a3a919f2e02a7d8de6aadbca2a584de084c8be0e624c5d393f817c6133c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286358.1982107,
+      "end": 1793286360.953123,
+      "log": "/tmp/matvec118-family2-VeriTile__Triton__Memory__RegionalKernelIO.log"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.RegionalScheduledKernelIO",
+      "source_sha256": "9e82b396891063a5e26b3ef6e8d8c21463d978e58a0ed955922d20f1eb67f60a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286360.9539294,
+      "end": 1793286363.3920074,
+      "log": "/tmp/matvec118-family2-VeriTile__Triton__Memory__RegionalScheduledKernelIO.log"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.AlgorithmProgramIO",
+      "source_sha256": "79603b6e433bf560a7101082adbb10fa26ceb2a6d63b0b0bacd49b1baae39d4c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286363.3928366,
+      "end": 1793286366.1977932,
+      "log": "/tmp/matvec118-family2-VeriTile__Triton__Memory__AlgorithmProgramIO.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.IO",
+      "source_sha256": "88eb746bb4c88d060d17d77516656fbf60f47dce3abf0a1902ca29a1200f0a05",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.SourceBridge"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.RealIO",
+      "source_sha256": "fc9e0a43a12c39ab880f525a7476ced4b78fd75170c27f89a40750008f5ab0d3",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.IO"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.RealIOProof",
+      "source_sha256": "ae4b45511e5188e4d4ddb425f9fcee2df6e750f4525ba9b02ba589bc0e9f3027",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.RealIO"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.LogicalReader",
+      "source_sha256": "644b03d0bceae67ba00500b090a60b96f790c231c38bf6408ffe2d03effcd4bd",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.IO",
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.RealIOProof"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Correct",
+      "source_sha256": "27391c6bdc379d95720958de13c090d33e0365478d1f085f92f092252279c8c1",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.RealIOProof"
+      ]
+    },
+    {
+      "module": "VeriTile.Triton.Float.BranchRewrite",
+      "source_sha256": "9bb9d2c18ac6c7d112590486260c2f29dcacdc48662468459baada212eceb3a4",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286366.20108,
+      "end": 1793286368.8007462,
+      "log": "/tmp/matvec118-family2-VeriTile__Triton__Float__BranchRewrite.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.RewriteTactics",
+      "source_sha256": "691c8a1ecdf64890aeed92041fa93f862b1c4438fd5810e87b26a32abf5fcf02",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286368.8015504,
+      "end": 1793286371.7039402,
+      "log": "/tmp/matvec118-family2-VeriTile__Triton__Float__RewriteTactics.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.PairIO",
+      "source_sha256": "4a1280288c8b934f44bc2be41b0f649c8b08c2e1301c45c1b81793419030f709",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286371.704698,
+      "end": 1793286374.03524,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__PairIO.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.SourcePair",
+      "source_sha256": "132927af8f22a28e89e7a2865e43b71564415634cd1aac5276bd5ae3503dff64",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286374.03598,
+      "end": 1793286377.164129,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__SourcePair.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.FPEquiv",
+      "source_sha256": "a566f1c608823b91214f5cee8cdb1ec463a0e0756641aaac06f20ff7e9b571f6",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286377.164883,
+      "end": 1793286384.4918413,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__FPEquiv.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.NativeReference",
+      "source_sha256": "3ea53e6bc6c496d94cf5a8aaa9467dcaa1c9fc63db5ead61e46a2ba41c85d972",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.RealIO"
+      ]
+    },
+    {
+      "module": "VeriTile.Triton.Float.ObservedProgramIO",
+      "source_sha256": "fb01b6d94d565ad9361ea012c448d62c201b656c2104ffc06b722f069d62a570",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286384.4931476,
+      "end": 1793286386.2334952,
+      "log": "/tmp/matvec118-family2-VeriTile__Triton__Float__ObservedProgramIO.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ObservedInputCellsIO",
+      "source_sha256": "1c6caead522b51fdb7c0f38098a9a9c4c795f549cce9a2db4a77faddadb909ec",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286386.2342813,
+      "end": 1793286387.7289376,
+      "log": "/tmp/matvec118-family2-VeriTile__Triton__Float__ObservedInputCellsIO.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.NativeIO",
+      "source_sha256": "afc4ee47fd2cb4d23868c37e1f858fc28ca4899ac5f581cf6956994f087af637",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.NativeReference"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.NativeBinding",
+      "source_sha256": "daecfbc8838afc26fc9bc64edc0ebf2caea7ac7d03468c7e83da98f9383a2598",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.NativeIO"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.NativeSafetySteps",
+      "source_sha256": "acc5f1d2476882ab5d3508e17c010c1582feb4c7756d1865aac51af201fd96e2",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286387.7308354,
+      "end": 1793286395.2048752,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__NativeSafetySteps.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.NativeSourceSafety",
+      "source_sha256": "f97ea012498c996787e486fe2bee76591111a17d8193732c7c2f5b5d17451e47",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286395.205707,
+      "end": 1793286431.911371,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__NativeSourceSafety.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.NativeSafetyLoop",
+      "source_sha256": "7f8b3519815ca831c204797a91e4d72c4897a2c8f613256225840a1c7b088157",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286431.9125988,
+      "end": 1793286438.427509,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__NativeSafetyLoop.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.NativeIOValues",
+      "source_sha256": "ecb969b8da846290459fccdcaad48de48de03ea3cb74fc131b1772f2fc705a46",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.NativeBinding"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.NativeIOSafety",
+      "source_sha256": "fb8095f6ffeba24b46bcc82a48032324af6981d535dc59d87c2ffd96ac71ed54",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.NativeIOValues"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.NativeIOProof",
+      "source_sha256": "20412c73d72ecf02d6a9382ea9ba4b6ab98ddb2678a9e0fac1eee8633d1638cf",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.NativeIOSafety"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.RawNative",
+      "source_sha256": "f0a1292b84b3b6560003545bea16669de5d32f279696aac101b8bf1ad77fbbfc",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.SourceBridge"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.NativeCorrect",
+      "source_sha256": "609db096d69d1b593ebda10c928e6f5d717bce8f7054c9dccf86be07631a5260",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.NativeIOProof",
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.RawNative"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.PhysicalIOBinding",
+      "source_sha256": "850c727d96190afece590dedd089af5e0b9d4ef9d6dfe454dc4c9d67e20dbf55",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.NativeIO",
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.RealIOProof"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.RawCorrect",
+      "source_sha256": "9efb2c3206c09d048acc82852725ec4dfc34d5542e2258895c0cf328c5390cb3",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.SourceBridge"
+      ]
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_simple.Kernels",
+      "source_sha256": "374064e91a018398dac1e1f5df8f6d0a4c3b946663c37508649669dcda91b0dd",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286438.4410045,
+      "end": 1793286476.255931,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_simple__Kernels.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_simple.Proofs.WholeShape",
+      "source_sha256": "bedae847b4a5d1213a1e785fc1c0a3f3874cb5c900218ae46c0fb510d72a68f5",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286476.2572136,
+      "end": 1793286479.3398926,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_simple__Proofs__WholeShape.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Kernels",
+      "source_sha256": "7236d4f701b5aa3bedea0251127ba111a49616ee753fda72b833c9b5118c4cb2",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286479.341464,
+      "end": 1793286530.3278885,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_simple__Kernels.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_simple.Proofs.RealProgram",
+      "source_sha256": "bb775ac828f4bc161f74eb7087a13a7793aa607b7b4d048bb86d9f474eb33b86",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286530.3293257,
+      "end": 1793286611.5867877,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_simple__Proofs__RealProgram.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_simple.Proofs.RealStep",
+      "source_sha256": "5ce732f5a137561378f9facba13558736163195bb3b2a0159533a9c27ee4d8e7",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286611.588288,
+      "end": 1793286623.3664098,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_simple__Proofs__RealStep.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_simple.Proofs.RealMath",
+      "source_sha256": "832ce6029ecf90212682da92fdec214d74417164564b92f3257c239baf5168ce",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286623.3715296,
+      "end": 1793286635.0673766,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_simple__Proofs__RealMath.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_simple.Proofs.RealExecution",
+      "source_sha256": "0a130eb98579b1535e8347152218595fe77074c292f2772a703db240f23b52a4",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286635.068794,
+      "end": 1793286659.1114867,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_simple__Proofs__RealExecution.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.Program",
+      "source_sha256": "5ae2633213e2498e6d017c7bb528e7adf5bd2cd53417149ac09c3cded2efd5f5",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286659.112878,
+      "end": 1793286675.126892,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__Program.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.Memory",
+      "source_sha256": "2d872a346ecd9c4fb3f9eae512fda158fcd0eda67ad73ae2928f5633f2c825f2",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286675.1285017,
+      "end": 1793286682.532098,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__Memory.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.Execution",
+      "source_sha256": "24d7ca2a4229541a88512749dabeb8bacaf2ba63a2fdd3bc7ecc38c816c25d15",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286682.5334375,
+      "end": 1793286703.2334104,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__Execution.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Kernels",
+      "source_sha256": "10be7af02a5fd0004503b44c6ffe55b3913a863eb037a1ecfcdba8c888506c44",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286703.2530148,
+      "end": 1793286820.0763493,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Kernels.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealOutput",
+      "source_sha256": "be49de33073c2fd62349f107457f113a5b11729488150df88cbe7d91b0d3db6f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286820.0860605,
+      "end": 1793286839.0538955,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealOutput.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealOutputSource",
+      "source_sha256": "3183af12a46ea015673ea4bc4636b616f59dc63ed0032c3310b8fe96ea6ef723",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286839.0555093,
+      "end": 1793286960.7204762,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealOutputSource.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealOutputSafety",
+      "source_sha256": "e0102318e922c84b5cac0a23500c9e8ab520ff2b7d9b50b5e31ce66fff17fe70",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286960.7219403,
+      "end": 1793286974.5503206,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealOutputSafety.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_simple.Proofs.RealSafety",
+      "source_sha256": "9f6cb052db81a26f82bb7510d45a89aaa526e1a74dd064d17bf18df93ac39cea",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286974.5518172,
+      "end": 1793286986.3129342,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_simple__Proofs__RealSafety.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.IO",
+      "source_sha256": "0a4d4b5a70b04eee56f9d84d4b57df10f2df68e85425c369ce611a4eee680511",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286986.315091,
+      "end": 1793286992.139033,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__IO.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_simple.Proofs.RealFlat",
+      "source_sha256": "4f01ee713e8763d1d460409aa466b70fced3c6d3abb30a489c94a862639a9430",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793286992.144489,
+      "end": 1793287000.2361202,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_simple__Proofs__RealFlat.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_simple.Proofs.HostGeometry",
+      "source_sha256": "2ac3687e775b4eebf6019ca42f594fb8fdba84f3cd1c21487ffc52fe478ea61e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793287000.2373052,
+      "end": 1793287006.6963735,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_simple__Proofs__HostGeometry.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_simple.Proofs.HostLayout",
+      "source_sha256": "a0087c909d9278cbbb7b6fcb92d22fd762b33a3fd856f37b524841e64bd7f42e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793287006.6987426,
+      "end": 1793287022.9942403,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_simple__Proofs__HostLayout.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_simple.Proofs.HostReal",
+      "source_sha256": "a50bf9e35c7a103c76699b21be3ff7bcfb9cfe4c6b511d4e54f7ec9384d56234",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793287022.9955034,
+      "end": 1793287029.4216633,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_simple__Proofs__HostReal.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.DirectReal",
+      "source_sha256": "db4d082728909762f8209f714330ee5e122d5bb4f7dfaca99410240269f6fcd3",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793287029.4229753,
+      "end": 1793287035.8737028,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__DirectReal.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.LogicalView",
+      "source_sha256": "6f23300783d1f025da9e7d3125e007d8416cfbd4f78f6e4dc12896c87f0f608c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793287035.87727,
+      "end": 1793287039.2710056,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__LogicalView.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_simple.Proofs.FP",
+      "source_sha256": "717f0753f835152712ab62ca0f0f9a82631d39e61a930f7d8a1f03dcfeb13960",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793287039.272377,
+      "end": 1793287166.8879266,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_simple__Proofs__FP.log"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ProfiledSoundness",
+      "source_sha256": "b1ccae5aa5c914c00044f202df69086393936c8d9df3071046b755ef3a0a03f0",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793287166.8895137,
+      "end": 1793287171.7775028,
+      "log": "/tmp/matvec118-family2-VeriTile__Triton__Float__ProfiledSoundness.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_simple.Proofs.HostFP",
+      "source_sha256": "2dcbf32611aa8cf5373e9ceaf6095c68e9440c235855d3b726fec1e4e62a8c87",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793287171.778807,
+      "end": 1793287283.5931048,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_simple__Proofs__HostFP.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.FP",
+      "source_sha256": "03af0e1404e555da232832e3eab5fda7a0242e79f357a4ae9f2a6e391761465d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793287283.5945835,
+      "end": 1793287289.9813392,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__FP.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.Typed",
+      "source_sha256": "c367f3bb84c850284ad09939244f50496daf4a28b306912e7829e51ed7c5d42d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793287289.9827075,
+      "end": 1793287312.9208977,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__Typed.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.FPValue",
+      "source_sha256": "fdd6a44e3345ab55b638073838d98b604e0b20b7665c77767039f2a0ce07f78e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793287312.9233565,
+      "end": 1793287319.3956506,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__FPValue.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.FPExecution",
+      "source_sha256": "48dd0533e219f0e405e06442d240ed2c823a3458859beb1a616be0e44666e438",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793287319.3971295,
+      "end": 1793287343.2628422,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__FPExecution.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.FPComplete",
+      "source_sha256": "031862400bf7d3d171bd2fc2fc98f9df0a49ef12dd9629e45f1d3f84ce236e2d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793287343.2641373,
+      "end": 1793287359.196027,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__FPComplete.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.FPGrid",
+      "source_sha256": "396e591ea0e0205e0091e0d6d8c40b0af8a23fa9bb15a21972c55299f1a5d2d0",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793287359.1983163,
+      "end": 1793287366.5414007,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__FPGrid.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.NativeGraph",
+      "source_sha256": "594b1d1aac2a11f68f914f146ceeee07f670d55ac3145bac941c56205e11aa12",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793287366.5428338,
+      "end": 1793287374.367322,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__NativeGraph.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.SourceCompatibility",
+      "source_sha256": "99c40b90adbc007d70de95320bca82260b21e60736a671411b1e5719ca6881e9",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793287374.3692057,
+      "end": 1793287380.5770044,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_fwd__SourceCompatibility.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Kernels",
+      "source_sha256": "a6b4e5a0dc537f9612261e227f59ead92979b2e0e688b12c204683d16e4324b9",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793287380.578905,
+      "end": 1793287472.9621608,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_fwd__Kernels.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.ZeroPadding",
+      "source_sha256": "a0f3d79edda9236ecb041409d34776f359358948871de001957296f7725fc679",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793287472.9654582,
+      "end": 1793287659.5100827,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__ZeroPadding.log"
+    },
+    {
+      "module": "VeriTile.Triton.Math.MatrixRewrite",
+      "source_sha256": "8274df58343a4d83389d595ca9875403c7975d31754f10d50c6d3359e3a48e5b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793287659.5120628,
+      "end": 1793287663.4990091,
+      "log": "/tmp/matvec118-family2-VeriTile__Triton__Math__MatrixRewrite.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealOutputCandidate",
+      "source_sha256": "dcc9672b93c2a6fefc75b0b2a24dae12371a265ea3c320db05fc4f6bccd13529",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793287663.5004895,
+      "end": 1793287669.576403,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealOutputCandidate.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealOutputFlat",
+      "source_sha256": "5b65dee2c3688a425d1f14efc9095b6ca0159c9e108997f1559a96dfcaec1767",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793287669.5780084,
+      "end": 1793287674.878389,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealOutputFlat.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealOutputIO",
+      "source_sha256": "c17ee89c78bbc7b4e8bc67af58df413fea38bac9c2c6417161fe70646c595cd0",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793287674.8797631,
+      "end": 1793287680.5671096,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealOutputIO.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealInterSource",
+      "source_sha256": "3e3f8fcff2bc0fc00f63a65c5c84601c5e5cd239c8802e816fa6647b73589014",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793287680.568499,
+      "end": 1793287740.3546863,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealInterSource.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealInterMath",
+      "source_sha256": "fdc4faa348608f2caad61a2ac7bf7b10de0fff7fa9afde49363c1de33da8f586",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793287740.356138,
+      "end": 1793287745.963602,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealInterMath.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealInterProgram",
+      "source_sha256": "572ab5620b931a709b8bbede57a2624a82e4b447f03273ea3ea6b93a660031f3",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793287745.9674494,
+      "end": 1793287753.198141,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealInterProgram.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gated_attention.Kernels",
+      "source_sha256": "05c56032b836d71078f04dd75ac322e1723ece2ba725a018c2a9c3d63b8af6c7",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793287753.200133,
+      "end": 1793287781.8101997,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gated_attention__Kernels.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gated_attention.Proofs.RealHSource",
+      "source_sha256": "26eeb9b5cd47c5160df89029dd27b2f26d4c01248bf70924882ae07e18bb6a4f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793287781.8112402,
+      "end": 1793287856.174461,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gated_attention__Proofs__RealHSource.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gated_attention.Proofs.RealHMath",
+      "source_sha256": "0ccc1c76bf2ce41195ee3ac789f3fe87615fe5d66a55778102d0a0acfd4c4142",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793287856.1970048,
+      "end": 1793287859.7546446,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gated_attention__Proofs__RealHMath.log"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.TraceRewrite",
+      "source_sha256": "87c428d3ce2966479441b2ef5016247f733a59bf59b8261d75201baa2657658f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793287859.75566,
+      "end": 1793287862.4324636,
+      "log": "/tmp/matvec118-family2-VeriTile__Triton__Memory__TraceRewrite.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gated_attention.Proofs.RealHProgram",
+      "source_sha256": "21f5f5b5c5d283230a2cddc562aec59e4788a4a83dd7b4848c81c20fc4c62c4a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793287862.433454,
+      "end": 1793287869.0076349,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gated_attention__Proofs__RealHProgram.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gated_attention.Proofs.RealHPointers",
+      "source_sha256": "4c49f05977a84958d1b8b2ae0efe71bcdda8e7faec29fdbd5426615cba119f9f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793287869.008615,
+      "end": 1793287872.6973827,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gated_attention__Proofs__RealHPointers.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealInterPointers",
+      "source_sha256": "5a705d20c556a9690f6d371ec504aaca9b76c0dad5c1be619833be11df06be3e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793287872.6987693,
+      "end": 1793287876.882204,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealInterPointers.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealInterLoads",
+      "source_sha256": "9f51ee86205164b06c7fea846e416167b62b75ce8b29daf4a64efd40b5c56ed9",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793287876.8831453,
+      "end": 1793287880.1888862,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealInterLoads.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealInterAlgebra",
+      "source_sha256": "f48b96f4c2471280bf45e5ec9199ba7855423a5618eeb2453f0693bed3a9243b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793287880.189879,
+      "end": 1793287883.8938005,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealInterAlgebra.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealInterStep",
+      "source_sha256": "61b750c3d8ff1d5b9ea012418b3213f5612386ab70be038b300c384a58c03b3e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793287883.8947778,
+      "end": 1793287985.0432632,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealInterStep.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealInterLoop",
+      "source_sha256": "80ecce7e01977638f65e952f869ebac8e3ace74b51af9a1d0b64b499651b590d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793287985.044231,
+      "end": 1793288109.6496935,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealInterLoop.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealInterFinal",
+      "source_sha256": "dc6f70553a3966ee197a2059b25fb1124b58846ae90f0130abd9f2b5dc6299ab",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288109.650707,
+      "end": 1793288112.7249486,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealInterFinal.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealInterExecution",
+      "source_sha256": "636b8330e47e2c4f4b06ebeb6844c6a45ea96f860de66017c0a85f8060b59090",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288112.7259367,
+      "end": 1793288115.8203285,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealInterExecution.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealInterAccessSafety",
+      "source_sha256": "7d38d14ea8b3a6aef5d147a968db1388dbf182c380f6fa0c3834c63b1090cf2f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288115.8212821,
+      "end": 1793288121.332298,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealInterAccessSafety.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealInterStepSafety",
+      "source_sha256": "6b2055bbaa1ce76232a3b5269985d975ffe8311d9f8eb374fdd0e75ea0a5834f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288121.33327,
+      "end": 1793288124.5845122,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealInterStepSafety.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealInterSafety",
+      "source_sha256": "15da9ff9b2c52fc7e9959cf4a958e95a4c18a5daec0539fb21fd580b0894ebba",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288124.5855107,
+      "end": 1793288127.862229,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealInterSafety.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealInterFlat",
+      "source_sha256": "0da28448c517b4cbce86a7268dbc398494c508c203c649a848829d119f3d9651",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288127.8631866,
+      "end": 1793288130.8694634,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealInterFlat.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealInterIO",
+      "source_sha256": "41fa508306524325f355e2fed476fdbc0320d46885028dd4bed98b025b0d29b0",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288130.8704107,
+      "end": 1793288133.9075274,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealInterIO.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealIntraSource",
+      "source_sha256": "f234a0e94a003e337d06c15cd67759d6338f56c559f18fb0d44a2bca00d855bd",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288133.9085062,
+      "end": 1793288158.644728,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealIntraSource.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealIntraMath",
+      "source_sha256": "c176f00d90c92cc2eb254d37fd255b26e585886e70181c5c73524cd41f24fa82",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288158.6456904,
+      "end": 1793288161.7137675,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealIntraMath.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealIntraProgram",
+      "source_sha256": "16e01542eb500de8d53bbae81470329bf41bc173f4a3715ac80372c347918cd1",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288161.7147663,
+      "end": 1793288165.6173139,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealIntraProgram.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealIntraMemory",
+      "source_sha256": "faed40b2e78d788abaec6360e6a2c6db49188fff8346fc46806c83cd58ea23a5",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288165.6182847,
+      "end": 1793288169.4216766,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealIntraMemory.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealIntraAlgebra",
+      "source_sha256": "5946977ebf18641517c3485e885543b0038eaa08a64d8d8a83ecd6f34b84453a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288169.4226425,
+      "end": 1793288172.5952885,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealIntraAlgebra.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealIntraSetup",
+      "source_sha256": "439f1578916886bd15babbca5425dd0264c55220e6baac740790a941343d8e9f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288172.5962722,
+      "end": 1793288176.666791,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealIntraSetup.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealIntraStep",
+      "source_sha256": "d945a5195b1efbeca525afa4e53e26b7ed5cc0681712ed845a906212c8e37001",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288176.6678019,
+      "end": 1793288179.8671157,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealIntraStep.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealIntraLoop",
+      "source_sha256": "753f541befd0de4887c215953d08da3de5ed84367442c30aab3152ad0385c1ef",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288179.8681183,
+      "end": 1793288210.8459792,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealIntraLoop.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealIntraExecution",
+      "source_sha256": "de38df44a0635fcaf47670437b5312f9b9eec7446e7ba2f8b638514b5f2498d4",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288210.8469563,
+      "end": 1793288213.8919692,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealIntraExecution.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealIntraAccessSafety",
+      "source_sha256": "75c6446e1f5485fa87506862188894b885c5d075fe33b29e41133574e563e201",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288213.8929548,
+      "end": 1793288216.986359,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealIntraAccessSafety.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealIntraStepSafety",
+      "source_sha256": "cd4ca89e9d813ba04b059cb11030e24fb7c49dc6132f5e573c5b2c51052397bb",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288216.987347,
+      "end": 1793288220.5081434,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealIntraStepSafety.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealIntraSafety",
+      "source_sha256": "0c6a2cbfe836a3d9e54a633439aec7732c483f9557a339a66912c3b1459280ce",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288220.5091429,
+      "end": 1793288223.7281022,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealIntraSafety.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealIntraFlat",
+      "source_sha256": "ecfdfc52211678549b90efd1b13f154b3dbff0c2f218e1ebb84ca78c34244f01",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288223.7290657,
+      "end": 1793288226.7114465,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealIntraFlat.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealIntraIO",
+      "source_sha256": "0e4ea35d685ad7e88d68594362957931a1087c9b64f94bd26b9f9b6b5db6a265",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288226.71244,
+      "end": 1793288229.696466,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealIntraIO.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealSplitSource",
+      "source_sha256": "24e97a6737a552340a2123927d87bfd1e23084dbe257435f1a52efc825226c32",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288229.697445,
+      "end": 1793288256.326476,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealSplitSource.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealSplitMath",
+      "source_sha256": "4521f5ec0a7d531051b46a465f394694dbe8a9e4422880288ca4e5c39c11b371",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288256.3274782,
+      "end": 1793288259.3688488,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealSplitMath.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealSplitProgram",
+      "source_sha256": "f12a7fdd87789ec326f62d5fd7e0a30c4d20141c8ba03346cc22f15a5be31174",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288259.369868,
+      "end": 1793288263.308675,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealSplitProgram.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealSplitMemory",
+      "source_sha256": "2472b3dab2321c8671452572f245c241fe6ab602ad3bd59e59009670e7adcc73",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288263.3097062,
+      "end": 1793288267.203473,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealSplitMemory.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealSplitAlgebra",
+      "source_sha256": "cba39fc9bed351b1baa99a5dddf433ad080fdc8c17f074a6e1064dc4e1a69e9a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288267.2045062,
+      "end": 1793288270.4343207,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealSplitAlgebra.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealSplitSetup",
+      "source_sha256": "b87cc9495e38f8cec72b379c99ab5bffafbaf25784526312664465d1d8e827a8",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288270.4353294,
+      "end": 1793288274.8663023,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealSplitSetup.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealSplitStep",
+      "source_sha256": "ad86bccb30f19651e4e72305d65a07623b3dc00cbcca1b1b19023e3ab3638213",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288274.8673193,
+      "end": 1793288278.2436316,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealSplitStep.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealSplitLoop",
+      "source_sha256": "dbcd66e3a1329f9eeb2aad452a25da930c7cefc79619df8c881cf93f2d00ce9e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288278.2447155,
+      "end": 1793288509.4546356,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealSplitLoop.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealSplitExecution",
+      "source_sha256": "b395e96ec166d66a24431476a102c1090afe50fdcbea5ff3b4023c5fe13bbf8f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288509.4559915,
+      "end": 1793288514.396683,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealSplitExecution.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealSplitAccessSafety",
+      "source_sha256": "71a26f10873ca450a22618eb6f3a7abc049c656195e2320da29e4715749e4d29",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288514.398141,
+      "end": 1793288518.9463198,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealSplitAccessSafety.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealSplitStepSafety",
+      "source_sha256": "8f5beb7f2ea7f8ee5a47640dd1f4711986ba369cf463920b31a11f2993e233ca",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288518.947848,
+      "end": 1793288523.3707078,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealSplitStepSafety.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealSplitSafety",
+      "source_sha256": "e9661670f7961b7b9878f174c9bfac76f997809c756604058cd6970e0c874258",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288523.3717718,
+      "end": 1793288527.235276,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealSplitSafety.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealSplitFlat",
+      "source_sha256": "ce434a2307220baa75c377f230ffe7ba7b6299b8c22219e5ff172bb5f5a4fcf2",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288527.236307,
+      "end": 1793288530.6681988,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealSplitFlat.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealSplitIO",
+      "source_sha256": "2a2f28b01e3e849d8fe915b4a7209680f634125f1f54ebd99b54c6e47a8afeb4",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288530.6692657,
+      "end": 1793288533.9678798,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealSplitIO.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealMergeProgram",
+      "source_sha256": "c9b788df5bfdaf9719331ee59cf637edd13404e21b40445dd6818529e30cda0c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288533.9689689,
+      "end": 1793288541.343346,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealMergeProgram.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealMergeStep",
+      "source_sha256": "325196585a989a7464d541aef6ecf0cb8101310944dd69d878b004dea6177bff",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288541.344885,
+      "end": 1793288545.4119296,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealMergeStep.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealMergeLoop",
+      "source_sha256": "b8013cb3ae7767fc3b2718a884a7b64f9c59f6b1bca99de2d5fa59c71104479d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288545.4129887,
+      "end": 1793288548.8224678,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealMergeLoop.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealMergeFinal",
+      "source_sha256": "60d91612186dbc54f4d53ac3f49ddf3cf284628e478a08be02e88333941e79c7",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288548.8235335,
+      "end": 1793288552.0641327,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealMergeFinal.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealMergeExecution",
+      "source_sha256": "75071855281570b098985a3681928c28d64bdbc0fab54de79c0df6e3aef36218",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288552.0651507,
+      "end": 1793288555.2185757,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealMergeExecution.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealMergeSafety",
+      "source_sha256": "3ae83e81b4142cf02f44db35a530e1a9b3d789bf2fb1728fa0f89cecd9f66479",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288555.2196379,
+      "end": 1793288560.8823354,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealMergeSafety.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealMergeFlat",
+      "source_sha256": "71bffee909c8e94d9cbefa8a9f311c485a16c13bd15c5ae3cb9eece202790268",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288560.883387,
+      "end": 1793288563.9564407,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealMergeFlat.log"
+    },
+    {
+      "module": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealMergeIO",
+      "source_sha256": "d3fc02a6a6bc680b1fd6ae2c595fec4c4d9627c7b5cbc499fd3c7819d17cd713",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288563.957676,
+      "end": 1793288567.0213764,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__chunk_gla_fwd__Proofs__RealMergeIO.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.SourceBridge",
+      "source_sha256": "e6fd97fa56d4c3743b377c7e8319a90f8aa3b7796f43f3f134914af914cf8314",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288567.0224402,
+      "end": 1793288574.165688,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__SourceBridge.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.OutputTail",
+      "source_sha256": "b44373f903427f1689a99df1782ae8fe2df8d1222f31dfb4890b104709d5c0db",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288574.166771,
+      "end": 1793288577.7090046,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__OutputTail.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.LocalReal",
+      "source_sha256": "7a39e7c53370d0427603e5f7985e5ea3358da6dba5099b440fad9dd4629d2784",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288577.7100976,
+      "end": 1793288581.1757872,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__LocalReal.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.Geometry",
+      "source_sha256": "74916a7aee9ece95f0bf3813155fcb987c8a1c73c713009de04d9b3e0b93910e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288581.2587748,
+      "end": 1793288584.4185367,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__Geometry.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.OutputGrid",
+      "source_sha256": "dc42bfc924211ff859c31bcbc0ab6a7d1edf2cf944a1102a49afbaf6dfcd692f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288584.4196966,
+      "end": 1793288588.742707,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__OutputGrid.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.FPMerge",
+      "source_sha256": "a55a6e91ac36c5bc31551f9c313c21e3a41511a1d9cebbf2068cd5c123e1d853",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288588.7437732,
+      "end": 1793288594.1342015,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__FPMerge.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.FPOutput",
+      "source_sha256": "9496cac62d0fe7ef2fe39ba3dcf5a536e1a21d78395a77986a2acb8ad22908d0",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288594.1352925,
+      "end": 1793288602.3967555,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__FPOutput.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.FPOutputValues",
+      "source_sha256": "f6d4530bd2969270f777e91641ed01e4ee84c95092365f85bdd6340a5dbedd3f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288602.397836,
+      "end": 1793288606.5984743,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__FPOutputValues.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.FPOutputComplete",
+      "source_sha256": "e3b61f02e806ca2af4b04f5f1f1818e0a2789f8a6d010cca76a5941eb9c023e4",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288606.599607,
+      "end": 1793288613.2094789,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__FPOutputComplete.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.FPStorage",
+      "source_sha256": "4b6295b1a07d6a702847bf75f440b6f620bb8597b4cf658be2b00078efca4e2e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288613.2105675,
+      "end": 1793288616.4634855,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__FPStorage.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.FPGrid",
+      "source_sha256": "712bbe2e65754232b3f83e482c8628ecfc745f6476a0084d7b80a64e620e1e04",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288616.4645445,
+      "end": 1793288619.7347422,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__FPGrid.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.SumBlocks",
+      "source_sha256": "acd29f6c96ce2f5f9f08a22d42706d0c0bf4f2b55e1f89cc5ebbff2547383fcc",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288619.7357955,
+      "end": 1793288623.307819,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__SumBlocks.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.Logical",
+      "source_sha256": "628626d9b8ff4e9353f2b5655b4c7f9613ede84b674c5665fade77685d9be811",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288623.3089342,
+      "end": 1793288626.5080845,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__Logical.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.ProducerGeometry",
+      "source_sha256": "cccf4f92f1cd71f38c3d2cd3a59faf0d362bba886330677d45a51d0bbb71f953",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288626.5091887,
+      "end": 1793288629.9179163,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__ProducerGeometry.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.FPInter",
+      "source_sha256": "5721c28bb4f54e96d37071ce2163f4f115f87424457d3acfc563549bc47cf7e1",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288629.9189966,
+      "end": 1793288642.6512756,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__FPInter.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.FPInterValues",
+      "source_sha256": "14438d5974a46642155a633bf24046e2551a567e968c9a524fac1cc96c930649",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288642.65233,
+      "end": 1793288647.9308388,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__FPInterValues.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.FPInterComplete",
+      "source_sha256": "e762f22709cba9ed5100c100c87eed7e5c7cf41f207f132da5d2c8cffb5c7796",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288647.9320374,
+      "end": 1793288653.7883763,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__FPInterComplete.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.DiagonalGeometry",
+      "source_sha256": "d12684b2997f338c69b37e74225ef86791d5ded25d5240690bee20b823f1c720",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288653.7894802,
+      "end": 1793288657.06709,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__DiagonalGeometry.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.InterGrid",
+      "source_sha256": "733e364b85cb7acdd8579189f5552ee2ec5550b3752a65fd7802a94933f59879",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288657.0682368,
+      "end": 1793288661.3077989,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__InterGrid.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.IntraGrid",
+      "source_sha256": "1d846624c31b5bd2615a2604718b8f017368fcfb2fef1204133520325701419c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288661.308974,
+      "end": 1793288665.6666856,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__IntraGrid.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.SplitGeometry",
+      "source_sha256": "79cba94e3c036225f2e5ecf50f22a0619d48aa5813816013cdcd1afe95d564fd",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288665.6678116,
+      "end": 1793288669.0368237,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__SplitGeometry.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.SplitGrid",
+      "source_sha256": "96c5a0b69029c9ac53d244c63239229d12a6e88c53d91025c531bf5264e85507",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288669.03797,
+      "end": 1793288673.228502,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__SplitGrid.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.FPDiagonal",
+      "source_sha256": "063bef812ee5c298948eee06beb93e4640ea0cc49fef9351a3f93a26c6bd2a9b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288673.22968,
+      "end": 1793288697.3883078,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__FPDiagonal.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.FPDiagonalValues",
+      "source_sha256": "d05328d39ea0cf1913c8dd49191fb66537efcca5ca5abdb30f48d12764527816",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288697.3893967,
+      "end": 1793288707.8597846,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__FPDiagonalValues.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.FPDiagonalLoop",
+      "source_sha256": "852c82f7d574173c0eedc7a3ba3a3e09e7213200abb7923536f69afd0dbe1ca5",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288707.860855,
+      "end": 1793288711.3170204,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__FPDiagonalLoop.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.FPDiagonalBranch",
+      "source_sha256": "8723cdc80a57d22ac484d6d5f14f8989801e7c4232af1c1f9fdf1c39534a8438",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288711.318135,
+      "end": 1793288718.2059047,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__FPDiagonalBranch.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.FPDiagonalComplete",
+      "source_sha256": "98c86f30e1fb744e2ee13017f23d0f0f1c9e00e32db7a216c534e9485cd8d6bc",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288718.2070265,
+      "end": 1793288722.2702713,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__FPDiagonalComplete.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.FPDiagonalReadback",
+      "source_sha256": "5c5afd3b8db86dc4143b30cc261154304a7321709a10d90c8f8b31f1571cf69b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288722.271411,
+      "end": 1793288725.7388053,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__FPDiagonalReadback.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.FPMergeComplete",
+      "source_sha256": "e60b510d4a8dcf002fc53f02a2f2043e637525cf15f0aae43ce3790d8fda4c51",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288725.7399454,
+      "end": 1793288730.4710517,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__FPMergeComplete.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.FPStages",
+      "source_sha256": "13ec49adcdb957620ef20e1f5dd7fbbda5f84c3b08250d9a0e29e7c93c09ab56",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288730.4722645,
+      "end": 1793288734.7174144,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__FPStages.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.HostMetadata",
+      "source_sha256": "87fc6569f03bbdea7608a2c41e24a99f34738e3288f047562fffef9a7b31b3cd",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288734.7185597,
+      "end": 1793288738.0529945,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__HostMetadata.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.FPBounds",
+      "source_sha256": "4f407a337858bd7e5ae28c151a749fe6816129338fb76690b12903fe3f1f5557",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288738.0541902,
+      "end": 1793288741.4507475,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__FPBounds.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.FPHost",
+      "source_sha256": "c03e941e6747c624be1aad9e270b791d29464868ad8050660f475f501551a248",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288741.4555337,
+      "end": 1793288746.1785986,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__FPHost.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.FPReadBounds",
+      "source_sha256": "521310e24de847271fe9118f08f6c72934dc1846ae780a63b4c545b0685a38cf",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288746.1797366,
+      "end": 1793288749.4539058,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__FPReadBounds.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.Physical",
+      "source_sha256": "7f4e11b19a09c2b3f497dbb522d604ebb4877a58fbfe747fe1b1753ee90bd2c6",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288749.4550912,
+      "end": 1793288754.071756,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__Physical.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.FPReturned",
+      "source_sha256": "0484e31140315a1ec1ae7baf831aa85164c49ed7acbf984689baa19d0cd2f86e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288754.072913,
+      "end": 1793288757.5421286,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__FPReturned.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.PhysicalReturned",
+      "source_sha256": "b8ffe4a5a7a85dac8998c865ef80dbb288638460748da27c499353511cd53989",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288757.5432847,
+      "end": 1793288761.4555604,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__PhysicalReturned.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.NativeReduction",
+      "source_sha256": "3c03187d6752f15df6fea39443f23c6aa36886612e527cf718f9606d660730f9",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288761.456738,
+      "end": 1793288786.7994375,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__NativeReduction.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.NativeInstructions",
+      "source_sha256": "9ad581e7dcb04fb1fa13bf1f1d2567c7904d6c2b7588e421e4377ff18905d6ae",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288786.8006053,
+      "end": 1793288790.1288044,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__NativeInstructions.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.NativeComposition",
+      "source_sha256": "c9c1f6c3b0481ed4f048645d1524eca774943fc4a95d800198b8950295adfeca",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288790.1299484,
+      "end": 1793288793.2862058,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__NativeComposition.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.ScalarGraph",
+      "source_sha256": "e7c0b84dd569898c0b8b0c674d139f8509e578a440c75a95f688763efe138b0b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288793.2873557,
+      "end": 1793288796.8298538,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__ScalarGraph.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.Address",
+      "source_sha256": "d3e604d2c739a65d444d3b3f8b9670203780bbdb75dccfd289f5c34fe4f00179",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288796.8309963,
+      "end": 1793288799.8854733,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__Address.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.Native",
+      "source_sha256": "b6fb464850c176781126b2e58ffed9e725821ae266ee19e1b5e1170861f31d28",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288799.8866684,
+      "end": 1793288803.387888,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__Native.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.NativeIO",
+      "source_sha256": "f3491996e5727ac089af408637ea634e04b873b08adb6d39e657882a59a3a930",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288803.3891196,
+      "end": 1793288807.2646089,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__NativeIO.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.NativeControl",
+      "source_sha256": "0c0f2215f73cd8b3ca2a7534e717e2ea259e4db0974a03a81e5293cd229a520f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288807.2657735,
+      "end": 1793288810.7126694,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__NativeControl.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_fwd.Proofs.Admission",
+      "source_sha256": "63d6d86f8adba5e3f64dca4162527e52ae424adeae89037be23b7e60a7c2a409",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288810.7138782,
+      "end": 1793288813.6394627,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_fwd__Proofs__Admission.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.Admission",
+      "source_sha256": "bda0f6696478513aca02ba1be3718cbebe14ce3c0e2153c54365d20666d71040",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288813.640613,
+      "end": 1793288816.4194853,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__Admission.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.NativeComplete",
+      "source_sha256": "ba6aa93dda12562186bec7d031085bd5703e6b1cf2b55ac1970c45bc9217e83d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288816.420662,
+      "end": 1793288820.350115,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__NativeComplete.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.NativeABI",
+      "source_sha256": "086cb930bc4e7377683a092c73a209815ff43ff437641a3664cc39eff81835c0",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288820.3513303,
+      "end": 1793288824.0661883,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__NativeABI.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.PhysicalDirect",
+      "source_sha256": "a85bfb585fcdcd7fd87e531bed509c1e162a106e32d66e4435807e9f89ecf5db",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288824.067441,
+      "end": 1793288830.8941026,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__PhysicalDirect.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.CheckedHost",
+      "source_sha256": "011cbc6a3186f4e2bf64cb85d4bc33ac5646529e61a2d6469e4bd417267b62d7",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288830.895314,
+      "end": 1793288834.1885123,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__CheckedHost.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.ByteMemory",
+      "source_sha256": "2a96ad8fe0fa1ea7f0888187d7817c4f49fa55a3bb7dce0267655c01997a425e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288834.189685,
+      "end": 1793288837.9326732,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__chunk_gla_simple__Proofs__ByteMemory.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Memory",
+      "source_sha256": "4b5eb80a71c715a02815d98882a457c8ac1bdccd9672cf8fcdb1f6c514bff661",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.SourceBridge"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.TensorBridge",
+      "source_sha256": "27ac225cecc682cea4984af4e0fa65ca7def2774e04a1d49ec5fe8ce3d3f5968",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.RawCorrect",
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Misc.RawNative",
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Memory"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.SourceDecomposition",
+      "source_sha256": "529c984283707c772c1f295810e5a8b1efdf9fd8cf67a2ae17570f154220ba7c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288837.936316,
+      "end": 1793288840.3947792,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__attention_score_tile_checked__Proofs__Reused__SourceDecomposition.log"
+    },
+    {
+      "module": "bench.tests.CallRandomABI",
+      "source_sha256": "0f2e27c6c9dae020f0cc64bc740151185453758e8e92011e33da690b29167126",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288840.395946,
+      "end": 1793288845.6417882,
+      "log": "/tmp/matvec118-family2-bench__tests__CallRandomABI.log"
+    },
+    {
+      "module": "bench.tests.CallSignature",
+      "source_sha256": "f713a665021b4d38e4cdec2635349fdfdf5d64c5dcf086797f49b409d530eaf1",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288845.6432545,
+      "end": 1793288859.907747,
+      "log": "/tmp/matvec118-family2-bench__tests__CallSignature.log"
+    },
+    {
+      "module": "bench.tests.FP32ArgumentCopyBody",
+      "source_sha256": "9b1a064fbd867f1866b7f4e07fd9ff11076e09618162b67d40c46ab195a4df9d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288859.9089057,
+      "end": 1793288864.5262427,
+      "log": "/tmp/matvec118-family2-bench__tests__FP32ArgumentCopyBody.log"
+    },
+    {
+      "module": "bench.tests.TypedDefaultDotLoopBody",
+      "source_sha256": "19301077c31bc161e71681a13c641aac124db3bd2ee2ae9fdeee47c08b37bb12",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288864.5273986,
+      "end": 1793288871.0941117,
+      "log": "/tmp/matvec118-family2-bench__tests__TypedDefaultDotLoopBody.log"
+    },
+    {
+      "module": "bench.tests.TypedFP32CallArithmetic",
+      "source_sha256": "7708a00780580eb575b73c1d40ccb4c07ed9aaa22e387b12b2ffba4a132a499d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288871.095277,
+      "end": 1793288876.4611123,
+      "log": "/tmp/matvec118-family2-bench__tests__TypedFP32CallArithmetic.log"
+    },
+    {
+      "module": "bench.tests.IntegerLiteralAssignmentBody",
+      "source_sha256": "4b847ca9fbbb6b66a95801a615f4302236a67260095c109546940f38114ead2d",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793288876.4623888,
+      "end": 1793288890.394642,
+      "log": "/tmp/matvec118-family2-bench__tests__IntegerLiteralAssignmentBody.log"
+    },
+    {
+      "module": "bench.tests.TypedIntegerOperandBody",
+      "source_sha256": "304f11e976b0674f6b69b8139c6fd5518090f7f9d5b0a1ea99b1f59b3e9e3ad3",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.tests.IntegerLiteralAssignmentBody"
+      ]
+    },
+    {
+      "module": "bench.tests.KnownIntegerRangeStepBody",
+      "source_sha256": "afbfa0b43e5f77c55b96e016ef4e890324c8db9512fddd592db09948eb52812b",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.tests.IntegerLiteralAssignmentBody"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Kernels",
+      "source_sha256": "3c1b6b6b8f04c2d2035f9f6c9f427aef8838c4cc422fa294c8b77f3fd7548db5",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288890.397766,
+      "end": 1793288893.7833416,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Kernels.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Settings",
+      "source_sha256": "8ed3720639da842c0f686b1d4e0ac919630c1ed6fb4dbe51cbe2aa3119450080",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288893.7845542,
+      "end": 1793288895.8466725,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__Settings.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Contract",
+      "source_sha256": "5963b2aa329f646707f4c0f7827f080cbbd57010fc072202ef199b7a48dcd7ad",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288895.8479197,
+      "end": 1793288899.0065997,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Contract.log"
+    },
+    {
+      "module": "bench.tritonbench_g.token_attn_reduceV.Proofs.FPTypedSource",
+      "source_sha256": "ceb1d1a2b571863d0901e86e586f68c8f04ac074c39048476fe737c4ebefecba",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288899.0077899,
+      "end": 1793288901.6474698,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__token_attn_reduceV__Proofs__FPTypedSource.log"
+    },
+    {
+      "module": "bench.tritonbench_g.token_attn_reduceV.Proofs.FPModel",
+      "source_sha256": "a2f3470690d51fdde017aef94451202478e2e1d5944631f066b44442cd18d9d5",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288901.6486654,
+      "end": 1793288904.2533598,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__token_attn_reduceV__Proofs__FPModel.log"
+    },
+    {
+      "module": "bench.tritonbench_g.token_attn_reduceV.Proofs.FPComplete",
+      "source_sha256": "e79cb06864d4f2bb9d8dbb6035c907e5507a855840595d7ebe30cb60f69fe101",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288904.2545586,
+      "end": 1793288930.9319732,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__token_attn_reduceV__Proofs__FPComplete.log"
+    },
+    {
+      "module": "bench.tritonbench_g.token_attn_reduceV.Proofs.FPContract",
+      "source_sha256": "fe66f03b9ec0fa3264766164697481270a4915a9100dccad41d4bd126b98fe88",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288930.9337776,
+      "end": 1793288935.4301457,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__token_attn_reduceV__Proofs__FPContract.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ForwardModel",
+      "source_sha256": "7c403467167acadb264d1bd3d1797ec34a7e2f08089219b8dacfd3e634b889cf",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288935.4320467,
+      "end": 1793288938.112205,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__ForwardModel.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardKernels",
+      "source_sha256": "9dca121630f4ba3708e9b6e48471d03f15bb2f048e341825aa4c04a90d9f6d27",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288938.1180692,
+      "end": 1793288940.8489633,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__BackwardKernels.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardModel",
+      "source_sha256": "017a93ccddf74dc25a6d318645ebb24e19c2b5b5e373a7c1b3c3e488fb0a91a9",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288940.8502321,
+      "end": 1793288943.7947824,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__BackwardModel.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Logical",
+      "source_sha256": "1f76fd8bad724753c0382d4a18c9e3cddebb9fbd18e8c20ba76627c014c5c9fd",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288943.796844,
+      "end": 1793288946.7654154,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__Logical.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.IO",
+      "source_sha256": "33e769e024a9471006306b9fdcd2e465045e781016ee0f1601ecb27e2ba01516",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288946.76681,
+      "end": 1793288951.4425633,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__IO.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.SourceOffsets",
+      "source_sha256": "c08f94a2ebc138c53959d1c8a57312761823b9119c1f293a175ea7e885150c12",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288951.4438014,
+      "end": 1793288952.5258744,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__SourceOffsets.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardRun",
+      "source_sha256": "2f7a4cbf93aa1155ebaa65bf30954d4d51a25401b06298c53bf3f28b7c38899c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793288952.5271108,
+      "end": 1793289073.1063883,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__BackwardRun.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardWhole",
+      "source_sha256": "a0e3439e9f9e0e9ffe8159d9e6010e87c0c18a503fa94ff315d9c62371d71bc7",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289073.107626,
+      "end": 1793289077.2604616,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__BackwardWhole.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ForwardRun",
+      "source_sha256": "2a96be70bea8e17c64ad2348263d334c6c649d6e614b8eb354a827ae01f1aff4",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289077.262222,
+      "end": 1793289084.1515932,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__ForwardRun.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.SourceSafety",
+      "source_sha256": "3cc9ad4b9757d41c5e80c4929f86ff6cadb251161d965a98bf27b7138084541e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289084.1528745,
+      "end": 1793289094.8671155,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__SourceSafety.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.LogicalBackward",
+      "source_sha256": "99b35f77443d50db6176b4da0e2fa96bad205a8fecd56deb5390169796a08a46",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289094.8684564,
+      "end": 1793289100.013069,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__LogicalBackward.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.FoldFacts",
+      "source_sha256": "f525b2c139c9cc30df64aaa11d406cae481394b3bc0bb3a644fa7d4ccb14ea6b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289100.0143263,
+      "end": 1793289102.7804775,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__FoldFacts.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.LaunchCoverage",
+      "source_sha256": "f109074e05ca937017d4bf0142ac6ee64b23930894ace1d754acaa46a12ae75b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289102.7817218,
+      "end": 1793289106.144354,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__LaunchCoverage.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardContract",
+      "source_sha256": "6b1b497337d3ad6b3f984ccc7a42a7d3d2ae2c5ae25de56997efbef6e9dc6630",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289106.1456077,
+      "end": 1793289110.3077316,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__BackwardContract.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardResult",
+      "source_sha256": "6d430e9b9dd6240bf725246bfde029eacefa85550877ea94f1684c64103c78ca",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289110.3090105,
+      "end": 1793289114.5903618,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__BackwardResult.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Frame",
+      "source_sha256": "8ed0a4c1e92fdc1727cec3c61a31389baf2b2c090b894e76d6817f636d32ded8",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289114.5915828,
+      "end": 1793289117.6058757,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__Frame.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.IOBindings",
+      "source_sha256": "603cebdf0e27896318c2067dfc8dd238b6d22be858e3c65696363ad2aa564882",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289117.6071494,
+      "end": 1793289121.212309,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__IOBindings.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ForwardContract",
+      "source_sha256": "762073f4e9814f8d0d2f70de97393341adabfb971c4129fc50e65b96ce566a1c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289121.213534,
+      "end": 1793289124.1154819,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__ForwardContract.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.LogicalForward",
+      "source_sha256": "6626342408a51ea3dba715a8aba302abb7d58c2d98f01db46c407f0dae497e2b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289124.1168187,
+      "end": 1793289128.685604,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__LogicalForward.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ForwardResult",
+      "source_sha256": "7fecae0a9ae103a421f3ec353ea45821c49d6c73f01d3058f78cefa4d2c07296",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289128.6868656,
+      "end": 1793289131.665867,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__ForwardResult.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.HostContract",
+      "source_sha256": "6b9b3c5d112fd7c7bcddc6e1117c39e56243a198470d0ebb950784ede6bcf0cb",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289131.6672049,
+      "end": 1793289133.0650427,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__HostContract.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Contract",
+      "source_sha256": "e9aec1fba006cef159bf95c6790c785a3be42df7850aefcf6b094364c540d2c9",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289133.0663185,
+      "end": 1793289136.410773,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__Contract.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.NativeIndex",
+      "source_sha256": "3dc415b2ad68c5f6e558f0dea14e4812061c57ab7e60530cfb86d93e7a0a27c1",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289136.4120462,
+      "end": 1793289144.3409228,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__NativeIndex.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.HostResults",
+      "source_sha256": "5c65eccb6581c5a38cc2d7c2d975f42139ab25753e729193944d690c35646e85",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289144.342213,
+      "end": 1793289147.5840256,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__HostResults.log"
+    },
+    {
+      "module": "bench.tritonbench_g.matrix_vector_multip.Proofs.TypedSoftware",
+      "source_sha256": "970685a2a8c0916802f1641b6261fe0e5145fd193bc5de403883ae62695e8784",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289147.585303,
+      "end": 1793289150.5822062,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__matrix_vector_multip__Proofs__TypedSoftware.log"
+    },
+    {
+      "module": "bench.tritonbench_g.token_attn_reduceV.Proofs.FPSoftware",
+      "source_sha256": "bf8c04fd12109c2d40082a216c2cbf4c7221c7c175330217fb4051a18047f0ed",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289150.5834787,
+      "end": 1793289153.9804285,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__token_attn_reduceV__Proofs__FPSoftware.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ForwardSoftware",
+      "source_sha256": "fe6e077a12067c51b1ba6de5f02ab2d1a1560d5fce41b41aa881080f5321f688",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289153.9817607,
+      "end": 1793289157.1731575,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__ForwardSoftware.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardSoftware",
+      "source_sha256": "d9b7c3400f9ea1c85acccfc5bf31535fd9dd1db770686103ec967f361311ce1e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289157.1744335,
+      "end": 1793289160.8671355,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__BackwardSoftware.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ClosedFP",
+      "source_sha256": "be28c4c59b645ccff2c459d88422d6a472d85485fb60a60d52d2cc544bc6458b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289160.8684323,
+      "end": 1793289164.9945161,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__ClosedFP.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.SourceShape",
+      "source_sha256": "86d09674067e603015ee61adbedc58abc44e57b3fb20537b6974c9c35cc615ad",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289164.995787,
+      "end": 1793289168.216883,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__SourceShape.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.WholeCheck",
+      "source_sha256": "d1c6221b234f0b5041f90031260c9d8db669de9b9446c58ae8b243f126c0b38a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289168.2183025,
+      "end": 1793289173.886428,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__WholeCheck.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Grid",
+      "source_sha256": "279d3c8d94657cfc31f1bb9bdf4ede2320aa3bad9e0a0186494c9c8b4f55241f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289173.8877268,
+      "end": 1793289178.1493514,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__Grid.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.GridCells",
+      "source_sha256": "9d13fc642655a45154e3f963d4f1c27a186e4a3af4f1cb0b47cbbecc6c903937",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289178.1506388,
+      "end": 1793289181.9398975,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__GridCells.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ReductionPlan",
+      "source_sha256": "9dbedab06e73240c48978625824411a1a3579c2fe026d0eda4f2643947cf04d8",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289181.941219,
+      "end": 1793289184.6573641,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__ReductionPlan.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.GridHost",
+      "source_sha256": "a31c8ac307ae8a8d260a6ab194e28e42c4c764d9676c234a4375c5b988793d35",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289184.6587057,
+      "end": 1793289188.9254248,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__GridHost.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Returned",
+      "source_sha256": "969ba1238eebe50a8a358442c3d3f557026456a544414e962d682aba0a238f0a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289188.9267483,
+      "end": 1793289194.2669094,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__Returned.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ForwardSaved",
+      "source_sha256": "a8554bd1b392a400c0242da27aa5e3afc27ff21bd010687b8ccf6d116e6caae5",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289194.2682114,
+      "end": 1793289198.2555895,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__ForwardSaved.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.PublicReturn",
+      "source_sha256": "22d0bc8c49f3b77ddcad5b6f0882a7060adf59fe4df1d78c43cc6ad3162e0287",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289198.2569175,
+      "end": 1793289202.706723,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__PublicReturn.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.NativePlan",
+      "source_sha256": "51db97f543b91707f7fda1f27b7090fdc83bfaf0ad976a413c08b63fdad9f73c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289202.7080743,
+      "end": 1793289207.026052,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__NativePlan.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.NativeLaws",
+      "source_sha256": "9c99f258bce0969dccd126d5cf97c8bd55c28608ece9980c5f3b2765f5c17fba",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289207.0273669,
+      "end": 1793289212.5637562,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__NativeLaws.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.PublicCheck",
+      "source_sha256": "54816b60bcc2b27f92f2933b650a228506fb8f737499bde0577d3caf04163f73",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289212.5651028,
+      "end": 1793289217.2497,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__PublicCheck.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Wrapper",
+      "source_sha256": "fad31c8ba739379705e35ce118bfc7d94ed04327c3a9956476ac13ce4a59b542",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289217.2511497,
+      "end": 1793289220.6294866,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__Wrapper.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Preparation",
+      "source_sha256": "bb0f0e070d1d641b3fec0bb2d40e193674214257996c3d86b0f0ddf6d2b7fa1e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289220.6315234,
+      "end": 1793289224.178398,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__Preparation.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.LogicalInputs",
+      "source_sha256": "f480a1969b8fa6b174e4ea16bab916401249373027e6629812ce076d6d82f735",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289224.1797223,
+      "end": 1793289227.53568,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__LogicalInputs.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.RealInterface",
+      "source_sha256": "00856d5f2851ac014bf7caf9e2381ff4115d67748c59bb2bfba8da0aedbb5e36",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289227.537056,
+      "end": 1793289232.867501,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__RealInterface.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.LogicalIO",
+      "source_sha256": "861e5862c91653c6ee8ba41833fef1c55b5f00087400603f6776d6f12c576589",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289232.868839,
+      "end": 1793289236.3430722,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__LogicalIO.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Correct",
+      "source_sha256": "0a49199b645c3050a93c875c61d807574a9313917efac9585b0b76888ae24929",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289236.3443933,
+      "end": 1793289241.6917884,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Correct.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.CandidateBackwardSource",
+      "source_sha256": "d1106083c5d02ebefa80a30266e54492521a4df55018b5e59bca9db9705ae128",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289241.693079,
+      "end": 1793289244.3401165,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__CandidateBackwardSource.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.CandidateBackwardRun",
+      "source_sha256": "f7427be9ecfad2bcc85f4896f8ff6ff937512b463b14a91a124daa06e58db418",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289244.3414323,
+      "end": 1793289380.2054088,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__CandidateBackwardRun.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.CandidateBackwardWhole",
+      "source_sha256": "0e933f904d3d7f57f6044e0b1e096422be2bbaa4a2d8c0fd17533103ea468d53",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289380.2067292,
+      "end": 1793289384.3685448,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__CandidateBackwardWhole.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.CandidateForward",
+      "source_sha256": "4e6df178191b97e903adcd174c07bdaf3ae8bb8edd0b55a4e92cdd8040a6794a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289384.3698196,
+      "end": 1793289391.3619406,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__CandidateForward.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.CandidateSafetyForward",
+      "source_sha256": "7441a0e95e23f1475d31a2b44ae1362de1f7f241abccd1176bff6474e0da185e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289391.3633552,
+      "end": 1793289415.0672324,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__CandidateSafetyForward.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.CandidateSafety",
+      "source_sha256": "3e72a95b22d5966c95a24dae406d9a137513b8782afbea722cf0ba1cb80861bc",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289415.0685391,
+      "end": 1793289424.076523,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__CandidateSafety.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ProgramPair",
+      "source_sha256": "b1ad286e6fb95b67fc5eb6ea335d35d61d7a8f0a44add46bd64a0c8dc41b01c3",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289424.0778825,
+      "end": 1793289429.0082057,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__ProgramPair.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.FPEquiv",
+      "source_sha256": "9acbe4d81e376068c4c89b8733f93b0fd4e20ea53f8b203ffb15c1971ccd048c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289429.0095656,
+      "end": 1793289434.1941361,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__FPEquiv.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Misc.HostCorrect",
+      "source_sha256": "e357731a60826f71c3b3ce0a9918159a14b0c5c259b3a19e4d0154eedd820c29",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289434.195524,
+      "end": 1793289440.0998402,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Misc__HostCorrect.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Misc.HostFPEquiv",
+      "source_sha256": "51a8d93890c9333e82e2ebdc9e9a192607bd1a427548116a2411ba8a21bae776",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289440.101178,
+      "end": 1793289444.4260905,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Misc__HostFPEquiv.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.OrderedReference",
+      "source_sha256": "990c228d91c866076b1428a96edb6d8297be109af79c23f406d6a66584dc68ee",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289444.453667,
+      "end": 1793289447.8758934,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__OrderedReference.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.OrderedMemory",
+      "source_sha256": "3127ffd813fad5c9c50ac511a4faf2118b0dd0afaceaf65f609962c840018562",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289447.8773007,
+      "end": 1793289453.0575697,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__OrderedMemory.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ForwardInterface",
+      "source_sha256": "71708ce7fe3f4f468cc530ab6da7a7aa1869491c4994beb0c4b3d6214464238d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289453.0589368,
+      "end": 1793289457.4049573,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__ForwardInterface.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardInterface",
+      "source_sha256": "47fda51c602d03cc9bdb671c46d14b6299f924b815d46cb61632688adbeca558",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289457.4063554,
+      "end": 1793289461.9887502,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__BackwardInterface.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.NativeInterface",
+      "source_sha256": "a4d85d46ae0485c24ca2c3720c56090906acec13243e500b27891a727442cacd",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289461.9900975,
+      "end": 1793289465.4087226,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__NativeInterface.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Misc.NativeCorrect",
+      "source_sha256": "9d0f2b9c974ea80ddb64c0a03973461bdb02b5d32e92831f1166ad20998f54c5",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289465.4100692,
+      "end": 1793289469.5595396,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Misc__NativeCorrect.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.KernelBoundary",
+      "source_sha256": "2198f4db13bef8aa57cc8543b5f3d5d346cd5145c179f1e9d074ae3a8d839f14",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289469.5609179,
+      "end": 1793289473.0154657,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__KernelBoundary.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.KernelIndex",
+      "source_sha256": "bb931aee909eddbb4509cb80b430f484a04eb51fdc72b41b0be39774de663632",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289473.0168242,
+      "end": 1793289476.2476697,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__KernelIndex.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.KernelReal",
+      "source_sha256": "1785956a2b52f4b17807d606451225d1d11be8deb6b833d417e6404a6b9d763e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289476.2491298,
+      "end": 1793289479.703419,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__KernelReal.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.KernelFP",
+      "source_sha256": "ab888f443e3edc658301b25d6b95edd71cada97540456faf3f1b5aac8b2b63e9",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289479.7048178,
+      "end": 1793289482.9455006,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__KernelFP.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.KernelStrides",
+      "source_sha256": "00870bccc08385cc9b2b75f76138d0670ccc4dd96c862cdf483e5affa1a1b5bc",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289482.946922,
+      "end": 1793289486.516692,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__KernelStrides.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Misc.TensorBridge",
+      "source_sha256": "2db96e02b079158d6fb927378ffef4f39888715f2f8ceca3ba9fa3162a996c99",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289486.5180616,
+      "end": 1793289491.483313,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Misc__TensorBridge.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Misc.KernelAudit",
+      "source_sha256": "75a0435c536c600a21b4204c96deb4e4677d0dbf2f4854279115831116cd7a67",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289491.4846902,
+      "end": 1793289498.7391176,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Misc__KernelAudit.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Misc.KernelProofAudit",
+      "source_sha256": "a8318dc57273080b2a2c7f5239e907df8bf4f3343934a97c893c9291ccda2557",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289498.7404993,
+      "end": 1793289504.1020079,
+      "log": "/tmp/matvec118-family2-bench__repairs__tritonbench_g__layer_norm_liger__Misc__KernelProofAudit.log"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_liger.Proofs.FPTypedSource",
+      "source_sha256": "65ae3b1c1e5c1c7e3f8383a0f8201560b356362c3e5effebdacc63bbd5e11bcf",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289504.1033838,
+      "end": 1793289506.6860485,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__layer_norm_liger__Proofs__FPTypedSource.log"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_liger.Proofs.FPModel",
+      "source_sha256": "0eb44c09ff0cb00659ce0f1507b8d1544c320c209e608608742fa5ec01c4315e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289506.6874776,
+      "end": 1793289509.2330568,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__layer_norm_liger__Proofs__FPModel.log"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_liger.Proofs.FPComplete",
+      "source_sha256": "350b1b28257590bb2a261d44d47b81f01febc9fa714cee041e7f5743ae90c9ab",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289509.2344244,
+      "end": 1793289514.704447,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__layer_norm_liger__Proofs__FPComplete.log"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_liger.Proofs.FPContract",
+      "source_sha256": "0fa386e40c83cef46df48e1872bf3f336a7815a1c440a9c1b81c0b4808d38ced",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289514.705849,
+      "end": 1793289517.6054957,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__layer_norm_liger__Proofs__FPContract.log"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_liger.Proofs.FPSupplied",
+      "source_sha256": "aa3c556ecf7f03a371e9d7ca5992ac9469644ef1fd5be1fabdec5cb43c88e56b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289517.606852,
+      "end": 1793289520.857672,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__layer_norm_liger__Proofs__FPSupplied.log"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_liger.LayerNormLiger",
+      "source_sha256": "d4fae193cb438dca0ab567406a4f98983e208ffbbcc51a4f8fb2621dc2b55ddf",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289520.8593194,
+      "end": 1793289529.742743,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__layer_norm_liger__LayerNormLiger.log"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_liger.Proofs.FPShape",
+      "source_sha256": "2a0665f75fbd1c3c0478fcb6696fa3d2449da793cc3953df0ff46281f615cfb1",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289529.744158,
+      "end": 1793289537.5847347,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__layer_norm_liger__Proofs__FPShape.log"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_liger.Proofs.FPSoftware",
+      "source_sha256": "6d80316b357d52dae17e45fd957ae4cca37d71554c85dfb982ee05d30384b582",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289537.5873857,
+      "end": 1793289540.814082,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__layer_norm_liger__Proofs__FPSoftware.log"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_liger.FPCorrect",
+      "source_sha256": "b25c368dc6168a82026ddafa82f19536f389dff103b29d049b1ea1681db67772",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289540.8154857,
+      "end": 1793289544.250904,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__layer_norm_liger__FPCorrect.log"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_liger.Proofs.FPWitness",
+      "source_sha256": "31a922abd22d822a97c58f1981501b1df6276a30f2d775577c5d52030d78bd63",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793289544.2523012,
+      "end": 1793289547.9488928,
+      "log": "/tmp/matvec118-family2-bench__tritonbench_g__layer_norm_liger__Proofs__FPWitness.log"
+    }
+  ],
+  "scope": "One serial queue; failed imports block dependents, independent modules continue.",
+  "end": 1793289547.9501524
+}

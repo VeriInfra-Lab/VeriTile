@@ -1,0 +1,65 @@
+/tmp/matvec118-proof-probe/bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/SourceLoop.lean:43:53: error(lean.unknownIdentifier): Unknown constant `Bool.true_eq_true`
+/tmp/matvec118-proof-probe/bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/SourceLoop.lean:39:33: error: failed to prove termination, possible solutions:
+  - Use `have`-expressions to prove the remaining goals
+  - Use `termination_by` to specify a different well-founded relation
+  - Use `decreasing_by` to specify your own tactic for discharging this kind of goal
+α : Type
+inst✝ : Inhabited α
+A : FP.Structural.Algebra α
+N M BN BM pid : ℕ
+rowShape : Random.ArangeSizeDomain BN
+columnShape : Random.ArangeSizeDomain BM
+memory : RegionName → ℕ → Cell α
+domain : SourceDomain N M BN BM pid
+_x : (off : ℕ) ×' (acc : SourceBody.Acc α BN BM) ×' (s : State α) ×' Context N M BN BM pid off memory acc s
+a✝³ :
+  ∀ (y : (off : ℕ) ×' (acc : SourceBody.Acc α BN BM) ×' (s : State α) ×' Context N M BN BM pid off memory acc s),
+    InvImage (fun x1 x2 => x1 < x2)
+        (fun x => PSigma.casesOn x fun off acc => PSigma.casesOn acc fun acc s => PSigma.casesOn s fun s ctx => M - off)
+        y _x →
+      ∃ last t,
+        Control.While.run (condition A N M BN BM rowShape columnShape)
+              (run A (SourceCode.original N M BN BM rowShape columnShape).body) y.2.2.1 =
+            some t ∧
+          Context N M BN BM pid last memory (WholeSource.accumulated A (parameters N M BN BM) pid memory y.1 y.2.1) t
+off : ℕ
+acc✝ : (acc : SourceBody.Acc α BN BM) ×' (s : State α) ×' Context N M BN BM pid off memory acc s
+a✝² :
+  ∀ (y : (off : ℕ) ×' (acc : SourceBody.Acc α BN BM) ×' (s : State α) ×' Context N M BN BM pid off memory acc s),
+    InvImage (fun x1 x2 => x1 < x2)
+        (fun x => PSigma.casesOn x fun off acc => PSigma.casesOn acc fun acc s => PSigma.casesOn s fun s ctx => M - off)
+        y ⟨off, acc✝⟩ →
+      ∃ last t,
+        Control.While.run (condition A N M BN BM rowShape columnShape)
+              (run A (SourceCode.original N M BN BM rowShape columnShape).body) y.2.2.1 =
+            some t ∧
+          Context N M BN BM pid last memory (WholeSource.accumulated A (parameters N M BN BM) pid memory y.1 y.2.1) t
+acc : SourceBody.Acc α BN BM
+s✝ : (s : State α) ×' Context N M BN BM pid off memory acc s
+a✝¹ :
+  ∀ (y : (off : ℕ) ×' (acc : SourceBody.Acc α BN BM) ×' (s : State α) ×' Context N M BN BM pid off memory acc s),
+    InvImage (fun x1 x2 => x1 < x2)
+        (fun x => PSigma.casesOn x fun off acc => PSigma.casesOn acc fun acc s => PSigma.casesOn s fun s ctx => M - off)
+        y ⟨off, ⟨acc, s✝⟩⟩ →
+      ∃ last t,
+        Control.While.run (condition A N M BN BM rowShape columnShape)
+              (run A (SourceCode.original N M BN BM rowShape columnShape).body) y.2.2.1 =
+            some t ∧
+          Context N M BN BM pid last memory (WholeSource.accumulated A (parameters N M BN BM) pid memory y.1 y.2.1) t
+s : State α
+ctx : Context N M BN BM pid off memory acc s
+a✝ :
+  ∀ (y : (off : ℕ) ×' (acc : SourceBody.Acc α BN BM) ×' (s : State α) ×' Context N M BN BM pid off memory acc s),
+    InvImage (fun x1 x2 => x1 < x2)
+        (fun x => PSigma.casesOn x fun off acc => PSigma.casesOn acc fun acc s => PSigma.casesOn s fun s ctx => M - off)
+        y ⟨off, ⟨acc, ⟨s, ctx⟩⟩⟩ →
+      ∃ last t,
+        Control.While.run (condition A N M BN BM rowShape columnShape)
+              (run A (SourceCode.original N M BN BM rowShape columnShape).body) y.2.2.1 =
+            some t ∧
+          Context N M BN BM pid last memory (WholeSource.accumulated A (parameters N M BN BM) pid memory y.1 y.2.1) t
+active : off < M
+next :
+  Context N M BN BM pid (off + BM) memory (WholeSource.nextAcc A (parameters N M BN BM) pid off memory acc)
+    (state A N M BN BM pid off memory acc s)
+⊢ M - (off + BM) < M - off

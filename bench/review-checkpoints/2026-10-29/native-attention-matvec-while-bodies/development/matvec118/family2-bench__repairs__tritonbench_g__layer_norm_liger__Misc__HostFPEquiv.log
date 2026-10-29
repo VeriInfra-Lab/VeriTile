@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.LayerNormLiger.Equivalence.layer_norm_source_fp32: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormLiger.Equivalence.layer_norm_selected_plan: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

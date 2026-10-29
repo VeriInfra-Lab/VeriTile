@@ -1,0 +1,27 @@
+/tmp/matvec118-frontend/bench/tests/KnownIntegerRangeStepBody.lean:49:37: warning: 'norm_num [integralMod]' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/matvec118-frontend/bench/tests/KnownIntegerRangeStepBody.lean:49:37: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+VeriTile.Tests.KnownIntegerRangeStepBody.range_captures_entry_step: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/matvec118-frontend/bench/tests/KnownIntegerRangeStepBody.lean:59:37: warning: 'norm_num [integralMod]' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/matvec118-frontend/bench/tests/KnownIntegerRangeStepBody.lean:59:37: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+VeriTile.Tests.KnownIntegerRangeStepBody.earlier_rebinding_changes_step: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/matvec118-frontend/bench/tests/KnownIntegerRangeStepBody.lean:73:2: warning: 'all_goals norm_num [integralMod]' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/matvec118-frontend/bench/tests/KnownIntegerRangeStepBody.lean:73:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+VeriTile.Tests.KnownIntegerRangeStepBody.negative_constant_keeps_descending_order: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

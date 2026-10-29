@@ -1,0 +1,4 @@
+/tmp/body124-frontend/bench/examples/Welford/Correct.lean:19:4: error: (kernel) deep recursion detected
+/tmp/body124-frontend/bench/examples/Welford/Correct.lean:32:14: error: (kernel) deep recursion detected
+/tmp/body124-frontend/bench/examples/Welford/Correct.lean:62:4: error: (kernel) deep recursion detected
+/tmp/body124-frontend/bench/examples/Welford/Correct.lean:75:14: error: (kernel) deep recursion detected

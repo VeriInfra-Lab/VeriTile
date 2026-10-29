@@ -1,0 +1,3 @@
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealReturned.lean:24:29: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`

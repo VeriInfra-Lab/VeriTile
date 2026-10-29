@@ -1,0 +1,6 @@
+/tmp/score121-interface-probe/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/NativeBinding.lean:11:34: warning: unused variable `hB`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.NativeInterface.Binding.returned: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

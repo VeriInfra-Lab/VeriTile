@@ -1,0 +1,63 @@
+/tmp/body124-frontend/bench/examples/FusedLayerNorm/Proofs/FP.lean:41:183: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/body124-frontend/bench/examples/FusedLayerNorm/Proofs/FP.lean:184:54: warning: This simp argument is unused:
+  loop
+
+Hint: Omit it from the simp argument list.
+  simp [twoPassLayerNormKernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp,
+      evalOp_unfold, numeric, FP.Structural.bop, store, l̵o̵o̵p̵,̵
+  ̵ ̵ ̵ ̵ ̵TileShape.allIndices, TileShape.eraseAxis,
+  ̲  ̲ ̲ ̲Region.cast, ofFloat, toFloat,
+  ̵  ̵ ̵ ̵ComputeDType.eraseDType, State.setReg]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/body124-frontend/bench/examples/FusedLayerNorm/Proofs/FP.lean:249:9: error: Tactic `rcases` failed: `x✝ : N < 18446744073709551616 →
+  ∃ t,
+    FP.Structural.exec (WelfordFPExecution.sourceEngine (FP.ScalarReduction.algebra M plans))
+          (fusedLayerNormKernel x g b y N stride ε) s =
+        some t ∧
+      (∀ (i : Fin N),
+          t.mem y (s.pids 0 * stride + ↑i) =
+            Cell.mk TileDType.bf16
+              (outputValue (WelfordFPExecution.sourceEngine (FP.ScalarReduction.algebra M plans)) ε (rowPrefix xs N i)
+                (gs i) (bs i)
+                (WelfordFPExecution.recurrence (WelfordFPExecution.sourceEngine (FP.ScalarReduction.algebra M plans))
+                    (rowPrefix xs N) N).1
+                (onlineVariance (WelfordFPExecution.sourceEngine (FP.ScalarReduction.algebra M plans))
+                  (rowPrefix xs N)))) ∧
+        ∀ (r : RegionName) (o : ℕ),
+          (r ≠ y ∨ ∀ (i : Fin N), o ≠ s.pids 0 * stride + ↑i) → t.mem r o = s.mem r o` is not an inductive datatype
+/tmp/body124-frontend/bench/examples/FusedLayerNorm/Proofs/FP.lean:271:8: error: Invalid projection: Projections cannot be used on functions, and
+  original_runs_under_count R.arithmetic M D (FP.CountConversion.arithmetic_models R M D hM) s plans { name := "x" }
+    { name := "gamma" } { name := "beta" } { name := "y" } N stride ε empty
+    (FP.CountConversion.conversion R M D hM s N hBound) hd
+has function type
+  N < 18446744073709551616 →
+    PrivateScratch (fused { name := "x" } { name := "gamma" } { name := "beta" } { name := "y" } N stride ε empty).io ∧
+      PrivateScratch
+          (twopass { name := "x" } { name := "gamma" } { name := "beta" } { name := "y" } N stride ε empty).io ∧
+        ∃ a z,
+          FP.Structural.exec
+                ((fused { name := "x" } { name := "gamma" } { name := "beta" } { name := "y" } N stride ε
+                        empty).profile.algebra
+                  M plans)
+                (fused { name := "x" } { name := "gamma" } { name := "beta" } { name := "y" } N stride ε
+                      empty).io.kernel
+                s =
+              some a ∧
+            FP.Structural.exec
+                  ((twopass { name := "x" } { name := "gamma" } { name := "beta" } { name := "y" } N stride ε
+                          empty).profile.algebra
+                    M plans)
+                  (twopass { name := "x" } { name := "gamma" } { name := "beta" } { name := "y" } N stride ε
+                        empty).io.kernel
+                  s =
+                some z ∧
+              (∀ (i : Fin N),
+                  a.mem { name := "y" } (s.pids 0 * stride + ↑i) = z.mem { name := "y" } (s.pids 0 * stride + ↑i)) ∧
+                Frame (fused { name := "x" } { name := "gamma" } { name := "beta" } { name := "y" } N stride ε empty).io
+                    s a ∧
+                  Frame
+                    (twopass { name := "x" } { name := "gamma" } { name := "beta" } { name := "y" } N stride ε empty).io
+                    s z

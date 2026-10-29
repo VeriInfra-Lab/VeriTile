@@ -1,0 +1,9 @@
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/chunk_gla_fwd/Proofs/ZeroPadding.lean:83:25: warning: 'simp_wf' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/chunk_gla_fwd/Proofs/ZeroPadding.lean:99:25: warning: 'simp_wf' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/chunk_gla_fwd/Proofs/ZeroPadding.lean:120:25: warning: 'simp_wf' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`

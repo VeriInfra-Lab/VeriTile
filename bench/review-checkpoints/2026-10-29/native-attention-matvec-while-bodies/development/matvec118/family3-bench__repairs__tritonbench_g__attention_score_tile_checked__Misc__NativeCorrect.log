@@ -1,0 +1,8 @@
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.FPEquiv.kernel_native: statement's project surface ⊆ allowlist ✓
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.FPEquiv.formula: definition does not reference [VeriTile.Bench.Repairs.AttentionScoreTileChecked.kernel,
+ VeriTile.Bench.Repairs.AttentionScoreTileChecked.nativeExecute,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.FPGrid.run] — non-circular ✓
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.FPEquiv.kernel_native: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

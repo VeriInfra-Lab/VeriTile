@@ -1,0 +1,70 @@
+{
+  "status": "FAIL",
+  "start": 1793273494.004705,
+  "results": [
+    {
+      "module": "VeriTile.Triton.DSL.TypedStores",
+      "source_sha256": "a1e6e06166b343b4abdcc76c2fae753c9d8cb63882adb33eb3442db06ffaef4f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793273494.0054338,
+      "end": 1793273503.2360725,
+      "log": "/tmp/score121-diag-family3-VeriTile__Triton__DSL__TypedStores.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.TypedStorageReduction",
+      "source_sha256": "26c50b50885cb0cc8a81863783fc01c8917be74a01efb6f47eff1d560fa9707d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793273503.236485,
+      "end": 1793273505.466538,
+      "log": "/tmp/score121-diag-family3-VeriTile__Triton__DSL__TypedStorageReduction.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.CallSignature",
+      "source_sha256": "b341da6323cdc406cff0e6a3db6a296f5903d77da99ff587c71d53a50a3240cc",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793273505.467475,
+      "end": 1793273550.848153,
+      "log": "/tmp/score121-diag-family3-VeriTile__Triton__DSL__CallSignature.log"
+    },
+    {
+      "module": "bench.tests.TypedDefaultDotLoopBody",
+      "source_sha256": "19301077c31bc161e71681a13c641aac124db3bd2ee2ae9fdeee47c08b37bb12",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793273550.8485358,
+      "end": 1793273557.9558384,
+      "log": "/tmp/score121-diag-family3-bench__tests__TypedDefaultDotLoopBody.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.SourceParameters",
+      "source_sha256": "7d77e35123aca62f743a4a6fe6f26869b718716b73e76b4fb83d52826de02bd8",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793273557.9562416,
+      "end": 1793273559.5939944,
+      "log": "/tmp/score121-diag-family3-bench__repairs__tritonbench_g__attention_score_tile_checked__SourceParameters.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.Kernels",
+      "source_sha256": "d9f7ba25a3da738dcfde9c3d15181092f72752f370f32567212c19b221497241",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793273559.5944622,
+      "end": 1793273562.546215,
+      "log": "/tmp/score121-diag-family3-bench__repairs__tritonbench_g__attention_score_tile_checked__Kernels.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.SourceDefinitions",
+      "source_sha256": "5f6b35b38d5de6cb3d27c886940d799508feb87a30d9eeaf47a575627f15e42d",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Kernels"
+      ]
+    }
+  ],
+  "scope": "One serial queue; failed imports block dependents, independent modules continue.",
+  "end": 1793273562.54671
+}

@@ -1,0 +1,5 @@
+VeriTile.Bench.Repairs.ChunkGlaFwd.Host.nextPowerOfTwo_ge: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.ChunkGlaFwd.Host.source_split_grid: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.ChunkGlaFwd.Host.intra_covers_K: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])

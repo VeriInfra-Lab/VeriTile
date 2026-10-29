@@ -1,0 +1,221 @@
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/RawCorrect.lean:11:2: error(lean.unknownIdentifier): Unknown identifier `RealPhysical.logicalTarget`
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/RawCorrect.lean:22:17: error: Function expected at
+  statementListShapes
+but this term has type
+  ?m.1
+
+Note: Expected a function because this term is being applied to the argument
+  (kernel c offset size scale window complement).surfaceBody
+
+Hint: The identifier `statementListShapes` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/RawCorrect.lean:23:8: error(lean.invalidField): Invalid field notation: Type of
+  shape
+is not known; cannot resolve field `prod`
+
+Hint: Consider replacing the field projection with a call to one of the following:
+  • `AbstractCompletion.prod`
+  • `AddActionHom.prod`
+  • `AddCommute.prod`
+  • `AddCon.prod`
+  • `AddHom.prod`
+  • `AddMonoidHom.prod`
+  • `AddSemiconjBy.prod`
+  • `AddSubgroup.prod`
+  • `AddSubmonoid.prod`
+  • `AddSubsemigroup.prod`
+  • `AffineMap.prod`
+  • `AlgHom.prod`
+  • `AlternatingMap.prod`
+  • `AnalyticAt.prod`
+  • `AnalyticOn.prod`
+  • `AnalyticOnNhd.prod`
+  • `AnalyticWithinAt.prod`
+  • `Associated.prod`
+  • `Cardinal.prod`
+  • `CategoryTheory.prod`
+  • `Cauchy.prod`
+  • `Commute.prod`
+  • `CompleteSpace.prod`
+  • `Con.prod`
+  • `ContinuousAddMonoidHom.prod`
+  • `ContinuousAffineMap.prod`
+  • `ContinuousAlgHom.prod`
+  • `ContinuousAlternatingMap.prod`
+  • `ContinuousLinearMap.prod`
+  • `ContinuousMonoidHom.prod`
+  • `ContinuousMultilinearMap.prod`
+  • `Convex.prod`
+  • `DFinsupp.prod`
+  • `Dense.prod`
+  • `Denumerable.prod`
+  • `DirectedOn.prod`
+  • `Fin.prod`
+  • `FinVec.prod`
+  • `Finset.prod`
+  • `Finsupp.prod`
+  • `FormalMultilinearSeries.prod`
+  • `FreeGroup.prod`
+  • `HasFPowerSeriesAt.prod`
+  • `HasFPowerSeriesOnBall.prod`
+  • `HasFPowerSeriesWithinAt.prod`
+  • `HasFPowerSeriesWithinOnBall.prod`
+  • `Ideal.prod`
+  • `InfClosed.prod`
+  • `Inseparable.prod`
+  • `IsClopen.prod`
+  • `IsClosed.prod`
+  • `IsCompact.prod`
+  • `IsConnected.prod`
+  • `IsCountablySpanning.prod`
+  • `IsGLB.prod`
+  • `IsIntegral.prod`
+  • `IsLUB.prod`
+  • `IsLeftRegular.prod`
+  • `IsOpen.prod`
+  • `IsPiSystem.prod`
+  • `IsPreconnected.prod`
+  • `IsRegular.prod`
+  • `IsRightRegular.prod`
+  • `IsSublattice.prod`
+  • `IsUnifLocDoublingMeasure.prod`
+  • `IsUniformEmbedding.prod`
+  • `IsUniformInducing.prod`
+  • `LinearMap.prod`
+  • `List.prod`
+  • `Measurable.prod`
+  • `MeasurableSet.prod`
+  • `MeasurableSpace.prod`
+  • `MonoidHom.prod`
+  • `MulActionHom.prod`
+  • `MulHom.prod`
+  • `MultilinearMap.prod`
+  • `Multipliable.prod`
+  • `Multiset.prod`
+  • `NonUnitalAlgHom.prod`
+  • `NonUnitalRingHom.prod`
+  • `NonUnitalStarAlgHom.prod`
+  • `NonUnitalStarSubalgebra.prod`
+  • `NonUnitalSubalgebra.prod`
+  • `NonUnitalSubring.prod`
+  • `NonUnitalSubsemiring.prod`
+  • `OpenAddSubgroup.prod`
+  • `OpenSubgroup.prod`
+  • `OrderHom.prod`
+  • `OrthonormalBasis.prod`
+  • `PartialEquiv.prod`
+  • `Path.prod`
+  • `Pi.prod`
+  • `RingHom.prod`
+  • `SModEq.prod`
+  • `SemiconjBy.prod`
+  • `Set.prod`
+  • `Setoid.prod`
+  • `Specializes.prod`
+  • `StandardBorelSpace.prod`
+  • `StarAlgHom.prod`
+  • `StarConvex.prod`
+  • `Subalgebra.prod`
+  • `Subgroup.prod`
+  • `Sublattice.prod`
+  • `Submodule.prod`
+  • `Submonoid.prod`
+  • `Subring.prod`
+  • `Subsemigroup.prod`
+  • `Subsemiring.prod`
+  • `Summable.prod`
+  • `SupClosed.prod`
+  • `UniformCauchySeqOn.prod`
+  • `UniqueDiffOn.prod`
+  • `UniqueDiffWithinAt.prod`
+  • `WellQuasiOrdered.prod`
+  • `AddSubgroup.FG.prod`
+  • `AddSubmonoid.FG.prod`
+  • `Algebra.FiniteType.prod`
+  • `Algebra.IsIntegral.prod`
+  • `Associates.FactorSet.prod`
+  • `Bornology.IsBounded.prod`
+  • `CategoryTheory.Equivalence.prod`
+  • `CategoryTheory.Functor.prod`
+  • `CategoryTheory.IsConnected.prod`
+  • `CategoryTheory.IsPreconnected.prod`
+  • `CategoryTheory.Iso.prod`
+  • `CategoryTheory.Limits.prod`
+  • `CategoryTheory.MorphismProperty.prod`
+  • `CategoryTheory.NatIso.prod`
+  • `CategoryTheory.NatTrans.prod`
+  • `Equiv.Set.prod`
+  • `Filter.HasAntitoneBasis.prod`
+  • `Filter.HasBasis.prod`
+  • `Filter.NeBot.prod`
+  • `Filter.Subsingleton.prod`
+  • `Function.HasFiniteMulSupport.prod`
+  • `Homeomorph.Set.prod`
+  • `MeasurableEquiv.Set.prod`
+  • `MeasureTheory.Measure.prod`
+  • `MeasureTheory.MeasurePreserving.prod`
+  • `MeasureTheory.MemLp.prod`
+  • `MeasureTheory.NullMeasurableSet.prod`
+  • `Module.Basis.prod`
+  • `Module.Finite.prod`
+  • `Module.Free.prod`
+  • `Polynomial.Splits.prod`
+  • `Set.Countable.prod`
+  • `Set.Finite.prod`
+  • `Set.IsPWO.prod`
+  • `Set.Nonempty.prod`
+  • `Set.PairwiseDisjoint.prod`
+  • `Set.PartiallyWellOrderedOn.prod`
+  • `Set.Subsingleton.prod`
+  • `Subalgebra.FG.prod`
+  • `Subgroup.FG.prod`
+  • `Submodule.FG.prod`
+  • `Submonoid.FG.prod`
+  • `TopologicalSpace.CompactOpens.prod`
+  • `TopologicalSpace.Compacts.prod`
+  • `TopologicalSpace.IsCompletelyMetrizableSpace.prod`
+  • `TopologicalSpace.IsCompletelyPseudoMetrizableSpace.prod`
+  • `TopologicalSpace.IsSeparable.prod`
+  • `TopologicalSpace.IsTopologicalBasis.prod`
+  • `TopologicalSpace.NonemptyCompacts.prod`
+  • `TopologicalSpace.PositiveCompacts.prod`
+  • `Lean.Expr.ProdTree.prod`
+  • `MeasureTheory.Measure.AbsolutelyContinuous.prod`
+  • `MeasureTheory.Measure.FiniteAtFilter.prod`
+  • `MeasureTheory.Measure.FiniteSpanningSetsIn.prod`
+  • `ScanOp.prod`
+  • `CategoryTheory.Limits.Cofan.IsColimit.prod`
+  • `CategoryTheory.Limits.Fan.IsLimit.prod`
+  • `Prod.PrettyPrinting.pp.numericProj.prod`
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/RawCorrect.lean:24:16: error: Function expected at
+  realExecute
+but this term has type
+  ?m.2
+
+Note: Expected a function because this term is being applied to the argument
+  c
+
+Hint: The identifier `realExecute` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/RawCorrect.lean:26:10: error: Function expected at
+  result
+but this term has type
+  ?m.30
+
+Note: Expected a function because this term is being applied to the argument
+  ((abi.alloc "out").base + c.outputBase z.val h.val + j.val)
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/RawCorrect.lean:29:10: error: Function expected at
+  result
+but this term has type
+  ?m.30
+
+Note: Expected a function because this term is being applied to the argument
+  ((abi.alloc r).base + i)
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/RawCorrect.lean:30:46: error: Function expected at
+  result
+but this term has type
+  ?m.30
+
+Note: Expected a function because this term is being applied to the argument
+  a
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/RawCorrect.lean:31:45: error(lean.unknownIdentifier): Unknown identifier `RealPhysical.returned`
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/RawCorrect.lean:37:46: error(lean.unknownIdentifier): Unknown constant `realExecute`
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/RawCorrect.lean:38:13: error(lean.unknownIdentifier): Unknown constant `kernel_correct`

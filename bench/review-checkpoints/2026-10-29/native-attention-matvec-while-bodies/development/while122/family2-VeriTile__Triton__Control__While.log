@@ -1,0 +1,8 @@
+/tmp/while122-frontend/VeriTile/Triton/Control/While.lean:76:31: error: Application type mismatch: The argument
+  preserved state✝ next✝ holds hb
+has type
+  property next✝
+but is expected to have type
+  run condition body next✝ = some final✝
+in the application
+  ih (preserved state✝ next✝ holds hb)

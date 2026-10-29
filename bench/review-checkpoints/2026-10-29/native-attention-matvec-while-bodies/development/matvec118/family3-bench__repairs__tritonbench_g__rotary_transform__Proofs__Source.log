@@ -1,0 +1,20 @@
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/rotary_transform/Proofs/Source.lean:8:42: warning: This simp argument is unused:
+  hi
+
+Hint: Omit it from the simp argument list.
+  simp only [h̵i̵,̵↓reduceIte, ̲Bool.false_eq_true]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/rotary_transform/Proofs/Source.lean:19:19: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/rotary_transform/Proofs/Source.lean:21:19: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+VeriTile.Bench.Repairs.RotaryTransform.column_inverse: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.RotaryTransform.adjacent_column_pair: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.Repairs.RotaryTransform.source_early_return: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

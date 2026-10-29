@@ -1,0 +1,9 @@
+VeriTile.Bench.Repairs.MatrixVectorMultip.HistoricalFPEquiv.mv_fp32_returned_tensor: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MatrixVectorMultip.HistoricalFPEquiv.mv_fp32_outcomes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MatrixVectorMultip.HistoricalFPEquiv.mv_fp32_finite_ops_if_local: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

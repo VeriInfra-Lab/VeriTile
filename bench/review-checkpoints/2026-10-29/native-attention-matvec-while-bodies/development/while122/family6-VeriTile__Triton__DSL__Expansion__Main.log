@@ -1,0 +1,4 @@
+/tmp/while122-frontend/VeriTile/Triton/DSL/Expansion/Main.lean:4168:15: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  BEq (DInfo × SInfo × Option DInfo)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.

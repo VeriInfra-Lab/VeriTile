@@ -1,0 +1,30 @@
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/LogicalIO.lean:22:41: warning: This simp argument is unused:
+  LayerIO.fAt
+
+Hint: Omit it from the simp argument list.
+  simp [LayerIO.forwardFormula, ̲LayerIO.fA̵t̵,̵L̵a̵y̵e̵r̵IO̵.̵f̵I̵nput, ̲LogicalForwardIO.extend]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/LogicalIO.lean:22:53: warning: This simp argument is unused:
+  LayerIO.fInput
+
+Hint: Omit it from the simp argument list.
+  simp [̵L̵a̵y̵e̵r̵I̵O̵.̵f̵o̵r̵w̵a̵r̵d̵F̵o̵r̵m̵u̵l̵a̵,̵L̵a̵y̵e̵r̵I̵O̵.̵f̵A̵t̵,̵L̵a̵y̵e̵r̵I̵O̵.̵f̵I̵n̵p̵u̵t̵,̵L̵o̵g̵i̵c̵a̵l̵F̵o̵r̵w̵a̵r̵d̵I̵O̵.̵e̵x̵t̵e̵n̵d̵]̵[̲L̲a̲y̲e̲r̲I̲O̲.̲f̲o̲r̲w̲a̲r̲d̲F̲o̲r̲m̲u̲l̲a̲,̲ ̲L̲a̲y̲e̲r̲I̲O̲.̲f̲A̲t̲,̲ ̲L̲o̲g̲i̲c̲a̲l̲F̲o̲r̲w̲a̲r̲d̲I̲O̲.̲e̲x̲t̲e̲n̲d̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/LogicalIO.lean:22:68: warning: This simp argument is unused:
+  LogicalForwardIO.extend
+
+Hint: Omit it from the simp argument list.
+  simp [̵L̵a̵y̵e̵r̵I̵O̵.̵f̵o̵r̵w̵a̵r̵d̵F̵o̵r̵m̵u̵l̵a̵,̵L̵a̵y̵e̵r̵I̵O̵.̵f̵A̵t̵,̵L̵a̵y̵e̵r̵I̵O̵.̵f̵I̵n̵p̵u̵t̵,̵L̵o̵g̵i̵c̵a̵l̵F̵o̵r̵w̵a̵r̵d̵I̵O̵.̵e̵x̵t̵e̵n̵d̵]̵[̲L̲a̲y̲e̲r̲I̲O̲.̲f̲o̲r̲w̲a̲r̲d̲F̲o̲r̲m̲u̲l̲a̲,̲ ̲L̲a̲y̲e̲r̲I̲O̲.̲f̲A̲t̲,̲ ̲L̲a̲y̲e̲r̲I̲O̲.̲f̲I̲n̲p̲u̲t̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/LogicalIO.lean:43:15: warning: This simp argument is unused:
+  LayerIO.bw
+
+Hint: Omit it from the simp argument list.
+  simp [LayerIO.backwardFormula, ̲LayerIO.dwFormula, ̲LayerIO.dbFormula, ̲LayerIO.first,L̵a̵y̵e̵r̵I̵O̵.̵l̵a̵s̵t̵,̵
+      LayerIO.b̵x̵l̲a̲s̲t̲, ̲LayerIO.bw̵x̲, ̲LayerIO.bdy, ̲LayerIO.bmean, ̲LayerIO.brstd, ̲Logical.xhat,
+      LogicalBackwardIO.extend, ̲LogicalBackwardIO.extend2]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

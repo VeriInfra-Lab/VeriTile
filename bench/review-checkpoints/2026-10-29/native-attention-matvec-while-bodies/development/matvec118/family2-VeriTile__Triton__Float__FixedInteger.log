@@ -1,0 +1,86 @@
+/tmp/matvec118-frontend/VeriTile/Triton/Float/FixedInteger.lean:54:15: warning: This simp argument is unused:
+  hx
+
+Hint: Omit it from the simp argument list.
+  simp only [hx̵,̵ ̵h̵y, bind, pure, Option.bind_none, Option.bind_some]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/matvec118-frontend/VeriTile/Triton/Float/FixedInteger.lean:54:19: warning: This simp argument is unused:
+  hy
+
+Hint: Omit it from the simp argument list.
+  simp only [hx, h̵y̵,̵ ̵bind, pure, Option.bind_none, Option.bind_some]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/matvec118-frontend/VeriTile/Triton/Float/FixedInteger.lean:105:15: warning: This simp argument is unused:
+  hx
+
+Hint: Omit it from the simp argument list.
+  simp only [hx̵,̵ ̵h̵y, bind, pure, Option.bind_none, Option.bind_some]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/matvec118-frontend/VeriTile/Triton/Float/FixedInteger.lean:105:19: warning: This simp argument is unused:
+  hy
+
+Hint: Omit it from the simp argument list.
+  simp only [hx, h̵y̵,̵ ̵bind, pure, Option.bind_none, Option.bind_some]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/matvec118-frontend/VeriTile/Triton/Float/FixedInteger.lean:124:15: warning: This simp argument is unused:
+  Op.unsignedToInt
+
+Hint: Omit it from the simp argument list.
+  simp only [̵O̵p̵.̵u̵n̵s̵i̵g̵n̵e̵d̵T̵o̵I̵n̵t̵,̵ ̵O̵p̵.̵n̵a̵t̵T̵o̵U̵n̵s̵i̵g̵n̵e̵d̵,̵[̲O̲p̲.̲n̲a̲t̲T̲o̲U̲n̲s̲i̲g̲n̲e̲d̲,̲ FP.Structural.evalOp, h, bind, pure, Option.bind_none,
+  ̲  ̲ ̲ ̲ ̲ ̲Option.bind_some, FP.Structural.numeric, FP.Structural.bop, FP.Structural.integralMod,
+  ̲  ̲ ̲ ̲ ̲ ̲FP.Structural.numericLt, FP.Structural.natLt, IntegerExpr.same_left, IntegerExpr.same_right,
+        IntegerExpr.signedBits, decide_eq_true_eq]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/matvec118-frontend/VeriTile/Triton/Float/FixedInteger.lean:124:33: warning: This simp argument is unused:
+  Op.natToUnsigned
+
+Hint: Omit it from the simp argument list.
+  simp only [Op.unsignedToInt, O̵p̵.̵n̵a̵t̵T̵o̵U̵n̵s̵i̵g̵n̵e̵d̵,̵ ̵FP.Structural.evalOp, h, bind, pure, Option.bind_none,
+  ̲  ̲ ̲ ̲ ̲ ̲Option.bind_some, FP.Structural.numeric, FP.Structural.bop, FP.Structural.integralMod,
+  ̲  ̲ ̲ ̲ ̲ ̲FP.Structural.numericLt, FP.Structural.natLt, IntegerExpr.same_left, IntegerExpr.same_right,
+        IntegerExpr.signedBits, decide_eq_true_eq]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/matvec118-frontend/VeriTile/Triton/Float/FixedInteger.lean:140:15: warning: This simp argument is unused:
+  Op.intShiftRight
+
+Hint: Omit it from the simp argument list.
+  simp only [̵O̵p̵.̵i̵n̵t̵S̵h̵i̵f̵t̵R̵i̵g̵h̵t̵,̵ ̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵e̵v̵a̵l̵O̵p̵,̵[̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲e̲v̲a̲l̲O̲p̲,̲ hx, hy, bind, pure, Option.bind_none, Option.bind_some,
+  ̲  ̲ ̲ ̲ ̲ ̲FP.Structural.bop, FP.Structural.integralFloorDiv, IntegerExpr.same_left,
+  ̲  ̲ ̲ ̲ ̲ ̲IntegerExpr.same_right]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/matvec118-frontend/VeriTile/Triton/Float/FixedInteger.lean:142:38: warning: This simp argument is unused:
+  IntegerExpr.same_left
+
+Hint: Omit it from the simp argument list.
+  simp only [Op.intShiftRight, FP.Structural.evalOp, hx, hy, bind, pure, Option.bind_none,
+  ̲  ̲ ̲ ̲ ̲ ̲Option.bind_some, FP.Structural.bop, FP.Structural.integralFloorDiv, I̵n̵t̵e̵g̵e̵r̵E̵x̵p̵r̵.̵s̵a̵m̵e̵_̵l̵e̵f̵t̵,̵ ̵IntegerExpr.same_right]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/matvec118-frontend/VeriTile/Triton/Float/FixedInteger.lean:158:35: warning: This simp argument is unused:
+  FP.Structural.eval_intToUnsigned
+
+Hint: Omit it from the simp argument list.
+  simp only [FP.Structural.evalOp,̵ ̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵e̵v̵a̵l̵_̵i̵n̵t̵T̵o̵U̵n̵s̵i̵g̵n̵e̵d̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/matvec118-frontend/VeriTile/Triton/Float/FixedInteger.lean:161:15: warning: This simp argument is unused:
+  hx
+
+Hint: Omit it from the simp argument list.
+  simp only [hx̵,̵ ̵h̵y, bind, pure, Option.bind_none, Option.bind_some]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/matvec118-frontend/VeriTile/Triton/Float/FixedInteger.lean:161:19: warning: This simp argument is unused:
+  hy
+
+Hint: Omit it from the simp argument list.
+  simp only [hx, h̵y̵,̵ ̵bind, pure, Option.bind_none, Option.bind_some]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

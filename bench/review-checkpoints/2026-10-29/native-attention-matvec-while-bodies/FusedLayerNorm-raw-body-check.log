@@ -1,0 +1,38 @@
+[
+  {
+    "python_function": "twoPassLayerNormKernel",
+    "lean_definition": "twoPassLayerNormKernel",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "rowStride": "rowStride"
+    },
+    "statements": 14,
+    "runtime_parameters": {
+      "rowStride": "integer"
+    },
+    "constexpr_parameters": [
+      "N",
+      "\u03b5"
+    ]
+  },
+  {
+    "python_function": "fusedLayerNormKernel",
+    "lean_definition": "fusedLayerNormKernel",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "rowStride": "rowStride"
+    },
+    "statements": 14,
+    "runtime_parameters": {
+      "rowStride": "integer"
+    },
+    "constexpr_parameters": [
+      "N",
+      "\u03b5"
+    ]
+  }
+]

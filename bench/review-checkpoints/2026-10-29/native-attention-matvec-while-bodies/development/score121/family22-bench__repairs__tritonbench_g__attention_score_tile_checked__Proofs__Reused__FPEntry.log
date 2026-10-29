@@ -1,0 +1,640 @@
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/FPEntry.lean:25:4: error: Tactic `rfl` failed: The left-hand side
+  run
+    {
+      literal := fun q =>
+        M.literal
+          (some
+            (match q with
+            | some x => x
+            | none => ComputeDType.fp32)),
+      negInf := M.negInf,
+      binary := fun q =>
+        M.binary
+          (some
+            (match q with
+            | some x => x
+            | none => ComputeDType.fp32)),
+      fma := M.fma, atomicAdd := M.atomicAdd,
+      unary := fun q =>
+        M.unary
+          (some
+            (match q with
+            | some x => x
+            | none => ComputeDType.fp32)),
+      libdevicePowi := fun q =>
+        M.libdevicePowi
+          (some
+            (match q with
+            | some x => x
+            | none => ComputeDType.fp32)),
+      isFinite := M.isFinite,
+      compareLt := fun q =>
+        M.compareLt
+          (some
+            (match q with
+            | some x => x
+            | none => ComputeDType.fp32)),
+      compareLe := fun q =>
+        M.compareLe
+          (some
+            (match q with
+            | some x => x
+            | none => ComputeDType.fp32)),
+      compareEq := fun q =>
+        M.compareEq
+          (some
+            (match q with
+            | some x => x
+            | none => ComputeDType.fp32)),
+      floatToInt := M.floatToInt, floatToNat := M.floatToNat,
+      cast := fun q =>
+        M.cast
+          (some
+            (match q with
+            | some x => x
+            | none => ComputeDType.fp32)),
+      fromNat := fun q =>
+        M.fromNat
+          (some
+            (match q with
+            | some x => x
+            | none => ComputeDType.fp32)),
+      fromInt := fun q =>
+        M.fromInt
+          (some
+            (match q with
+            | some x => x
+            | none => ComputeDType.fp32)),
+      fp32Bits := M.fp32Bits, float8E5Bits := M.float8E5Bits, fp32Load := M.fp32Load,
+      reduceMin := fun q {shape} =>
+        M.reduceMin
+          (some
+            (match q with
+            | some x => x
+            | none => ComputeDType.fp32)),
+      reduceMax := fun q {shape} =>
+        M.reduceMax
+          (some
+            (match q with
+            | some x => x
+            | none => ComputeDType.fp32)),
+      reduceSum := fun q {shape} =>
+        M.reduceSum
+          (some
+            (match q with
+            | some x => x
+            | none => ComputeDType.fp32)),
+      reduceSumTyped := fun q =>
+        M.reduceSumTyped
+          (some
+            (match q with
+            | some x => x
+            | none => ComputeDType.fp32)),
+      reduceMaxTyped := fun q =>
+        M.reduceMaxTyped
+          (some
+            (match q with
+            | some x => x
+            | none => ComputeDType.fp32)),
+      indexedMax := fun q =>
+        M.indexedMax
+          (some
+            (match q with
+            | some x => x
+            | none => ComputeDType.fp32)),
+      scan := fun q {shape} =>
+        M.scan
+          (some
+            (match q with
+            | some x => x
+            | none => ComputeDType.fp32)),
+      dot := fun q {batch} {m k n} a b =>
+        some
+          (dot.apply
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32))
+            FloatDType.real FloatDType.real FloatDType.real { } a b),
+      dotWithOptions := fun q options {x} {x_1 x_2 x_3} a b =>
+        some
+          (dot.apply
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32))
+            FloatDType.real FloatDType.real FloatDType.real options a b),
+      dotTyped := fun q l r o options {x} {x_1 x_2 x_3} a b =>
+        some
+          (dot.apply
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32))
+            l r o options a b),
+      dotAcc := fun q =>
+        M.dotAcc
+          (some
+            (match q with
+            | some x => x
+            | none => ComputeDType.fp32)),
+      integerDot := M.integerDot, fmaTyped := M.fmaTyped,
+      minimum := fun q =>
+        M.minimum
+          (some
+            (match q with
+            | some x => x
+            | none => ComputeDType.fp32)),
+      divRN := M.divRN }
+    (match Source.intRange? (FPEngine.kernel B D p).3 "start_m" with
+      | some x => x
+      | none =>
+        { before := [], start := Op.constInt 0, stop := Op.constInt 0, stride := Op.constNat 0, body := [],
+          after := [] }).before
+    s
+is not definitionally equal to the right-hand side
+  some ?pos.refine_1✝
+
+case pos.refine_2
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+dot : Dot α
+B D : ℕ
+p : RealSource.Parameters
+s : State α
+hn : p.evenN = «true»
+⊢ run
+      {
+        literal := fun q =>
+          M.literal
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        negInf := M.negInf,
+        binary := fun q =>
+          M.binary
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        fma := M.fma, atomicAdd := M.atomicAdd,
+        unary := fun q =>
+          M.unary
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        libdevicePowi := fun q =>
+          M.libdevicePowi
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        isFinite := M.isFinite,
+        compareLt := fun q =>
+          M.compareLt
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        compareLe := fun q =>
+          M.compareLe
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        compareEq := fun q =>
+          M.compareEq
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        floatToInt := M.floatToInt, floatToNat := M.floatToNat,
+        cast := fun q =>
+          M.cast
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        fromNat := fun q =>
+          M.fromNat
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        fromInt := fun q =>
+          M.fromInt
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        fp32Bits := M.fp32Bits, float8E5Bits := M.float8E5Bits, fp32Load := M.fp32Load,
+        reduceMin := fun q {shape} =>
+          M.reduceMin
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        reduceMax := fun q {shape} =>
+          M.reduceMax
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        reduceSum := fun q {shape} =>
+          M.reduceSum
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        reduceSumTyped := fun q =>
+          M.reduceSumTyped
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        reduceMaxTyped := fun q =>
+          M.reduceMaxTyped
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        indexedMax := fun q =>
+          M.indexedMax
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        scan := fun q {shape} =>
+          M.scan
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        dot := fun q {batch} {m k n} a b =>
+          some
+            (dot.apply
+              (some
+                (match q with
+                | some x => x
+                | none => ComputeDType.fp32))
+              FloatDType.real FloatDType.real FloatDType.real { } a b),
+        dotWithOptions := fun q options {x} {x_1 x_2 x_3} a b =>
+          some
+            (dot.apply
+              (some
+                (match q with
+                | some x => x
+                | none => ComputeDType.fp32))
+              FloatDType.real FloatDType.real FloatDType.real options a b),
+        dotTyped := fun q l r o options {x} {x_1 x_2 x_3} a b =>
+          some
+            (dot.apply
+              (some
+                (match q with
+                | some x => x
+                | none => ComputeDType.fp32))
+              l r o options a b),
+        dotAcc := fun q =>
+          M.dotAcc
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        integerDot := M.integerDot, fmaTyped := M.fmaTyped,
+        minimum := fun q =>
+          M.minimum
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        divRN := M.divRN }
+      (match Source.intRange? (FPEngine.kernel B D p).3 "start_m" with
+        | some x => x
+        | none =>
+          { before := [], start := Op.constInt 0, stop := Op.constInt 0, stride := Op.constNat 0, body := [],
+            after := [] }).before
+      s =
+    some ?pos.refine_1✝
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/FPEntry.lean:25:4: error: Tactic `rfl` failed: The left-hand side
+  run
+    {
+      literal := fun q =>
+        M.literal
+          (some
+            (match q with
+            | some x => x
+            | none => ComputeDType.fp32)),
+      negInf := M.negInf,
+      binary := fun q =>
+        M.binary
+          (some
+            (match q with
+            | some x => x
+            | none => ComputeDType.fp32)),
+      fma := M.fma, atomicAdd := M.atomicAdd,
+      unary := fun q =>
+        M.unary
+          (some
+            (match q with
+            | some x => x
+            | none => ComputeDType.fp32)),
+      libdevicePowi := fun q =>
+        M.libdevicePowi
+          (some
+            (match q with
+            | some x => x
+            | none => ComputeDType.fp32)),
+      isFinite := M.isFinite,
+      compareLt := fun q =>
+        M.compareLt
+          (some
+            (match q with
+            | some x => x
+            | none => ComputeDType.fp32)),
+      compareLe := fun q =>
+        M.compareLe
+          (some
+            (match q with
+            | some x => x
+            | none => ComputeDType.fp32)),
+      compareEq := fun q =>
+        M.compareEq
+          (some
+            (match q with
+            | some x => x
+            | none => ComputeDType.fp32)),
+      floatToInt := M.floatToInt, floatToNat := M.floatToNat,
+      cast := fun q =>
+        M.cast
+          (some
+            (match q with
+            | some x => x
+            | none => ComputeDType.fp32)),
+      fromNat := fun q =>
+        M.fromNat
+          (some
+            (match q with
+            | some x => x
+            | none => ComputeDType.fp32)),
+      fromInt := fun q =>
+        M.fromInt
+          (some
+            (match q with
+            | some x => x
+            | none => ComputeDType.fp32)),
+      fp32Bits := M.fp32Bits, float8E5Bits := M.float8E5Bits, fp32Load := M.fp32Load,
+      reduceMin := fun q {shape} =>
+        M.reduceMin
+          (some
+            (match q with
+            | some x => x
+            | none => ComputeDType.fp32)),
+      reduceMax := fun q {shape} =>
+        M.reduceMax
+          (some
+            (match q with
+            | some x => x
+            | none => ComputeDType.fp32)),
+      reduceSum := fun q {shape} =>
+        M.reduceSum
+          (some
+            (match q with
+            | some x => x
+            | none => ComputeDType.fp32)),
+      reduceSumTyped := fun q =>
+        M.reduceSumTyped
+          (some
+            (match q with
+            | some x => x
+            | none => ComputeDType.fp32)),
+      reduceMaxTyped := fun q =>
+        M.reduceMaxTyped
+          (some
+            (match q with
+            | some x => x
+            | none => ComputeDType.fp32)),
+      indexedMax := fun q =>
+        M.indexedMax
+          (some
+            (match q with
+            | some x => x
+            | none => ComputeDType.fp32)),
+      scan := fun q {shape} =>
+        M.scan
+          (some
+            (match q with
+            | some x => x
+            | none => ComputeDType.fp32)),
+      dot := fun q {batch} {m k n} a b =>
+        some
+          (dot.apply
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32))
+            FloatDType.real FloatDType.real FloatDType.real { } a b),
+      dotWithOptions := fun q options {x} {x_1 x_2 x_3} a b =>
+        some
+          (dot.apply
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32))
+            FloatDType.real FloatDType.real FloatDType.real options a b),
+      dotTyped := fun q l r o options {x} {x_1 x_2 x_3} a b =>
+        some
+          (dot.apply
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32))
+            l r o options a b),
+      dotAcc := fun q =>
+        M.dotAcc
+          (some
+            (match q with
+            | some x => x
+            | none => ComputeDType.fp32)),
+      integerDot := M.integerDot, fmaTyped := M.fmaTyped,
+      minimum := fun q =>
+        M.minimum
+          (some
+            (match q with
+            | some x => x
+            | none => ComputeDType.fp32)),
+      divRN := M.divRN }
+    (match Source.intRange? (FPEngine.kernel B D p).3 "start_m" with
+      | some x => x
+      | none =>
+        { before := [], start := Op.constInt 0, stop := Op.constInt 0, stride := Op.constNat 0, body := [],
+          after := [] }).before
+    s
+is not definitionally equal to the right-hand side
+  some ?neg.refine_1✝
+
+case neg.refine_2
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+dot : Dot α
+B D : ℕ
+p : RealSource.Parameters
+s : State α
+hn : ¬p.evenN = «true»
+⊢ run
+      {
+        literal := fun q =>
+          M.literal
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        negInf := M.negInf,
+        binary := fun q =>
+          M.binary
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        fma := M.fma, atomicAdd := M.atomicAdd,
+        unary := fun q =>
+          M.unary
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        libdevicePowi := fun q =>
+          M.libdevicePowi
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        isFinite := M.isFinite,
+        compareLt := fun q =>
+          M.compareLt
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        compareLe := fun q =>
+          M.compareLe
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        compareEq := fun q =>
+          M.compareEq
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        floatToInt := M.floatToInt, floatToNat := M.floatToNat,
+        cast := fun q =>
+          M.cast
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        fromNat := fun q =>
+          M.fromNat
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        fromInt := fun q =>
+          M.fromInt
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        fp32Bits := M.fp32Bits, float8E5Bits := M.float8E5Bits, fp32Load := M.fp32Load,
+        reduceMin := fun q {shape} =>
+          M.reduceMin
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        reduceMax := fun q {shape} =>
+          M.reduceMax
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        reduceSum := fun q {shape} =>
+          M.reduceSum
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        reduceSumTyped := fun q =>
+          M.reduceSumTyped
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        reduceMaxTyped := fun q =>
+          M.reduceMaxTyped
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        indexedMax := fun q =>
+          M.indexedMax
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        scan := fun q {shape} =>
+          M.scan
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        dot := fun q {batch} {m k n} a b =>
+          some
+            (dot.apply
+              (some
+                (match q with
+                | some x => x
+                | none => ComputeDType.fp32))
+              FloatDType.real FloatDType.real FloatDType.real { } a b),
+        dotWithOptions := fun q options {x} {x_1 x_2 x_3} a b =>
+          some
+            (dot.apply
+              (some
+                (match q with
+                | some x => x
+                | none => ComputeDType.fp32))
+              FloatDType.real FloatDType.real FloatDType.real options a b),
+        dotTyped := fun q l r o options {x} {x_1 x_2 x_3} a b =>
+          some
+            (dot.apply
+              (some
+                (match q with
+                | some x => x
+                | none => ComputeDType.fp32))
+              l r o options a b),
+        dotAcc := fun q =>
+          M.dotAcc
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        integerDot := M.integerDot, fmaTyped := M.fmaTyped,
+        minimum := fun q =>
+          M.minimum
+            (some
+              (match q with
+              | some x => x
+              | none => ComputeDType.fp32)),
+        divRN := M.divRN }
+      (match Source.intRange? (FPEngine.kernel B D p).3 "start_m" with
+        | some x => x
+        | none =>
+          { before := [], start := Op.constInt 0, stop := Op.constInt 0, stride := Op.constNat 0, body := [],
+            after := [] }).before
+      s =
+    some ?neg.refine_1✝

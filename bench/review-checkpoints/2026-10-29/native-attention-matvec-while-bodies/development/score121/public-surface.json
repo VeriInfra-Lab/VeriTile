@@ -1,0 +1,67 @@
+{
+  "status": "PASS",
+  "scope": "Textual preservation check for the public theorem statements, IO data, selected original Python and contract. Source execution and semantic connections require the separate Lean replays.",
+  "checks": [
+    {
+      "path": "bench/repairs/tritonbench_g/attention_score_tile_checked/Correct.lean",
+      "statement_headers_identical": true,
+      "names": [
+        "kernel_correct"
+      ],
+      "baseline_sha256": "538289fbc3dae195d24dc988c0f64d68905623e50bba04b7c0407a3139522b1c",
+      "current_sha256": "27391c6bdc379d95720958de13c090d33e0365478d1f085f92f092252279c8c1"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/attention_score_tile_checked/FPEquiv.lean",
+      "statement_headers_identical": true,
+      "names": [
+        "score_scaling_equiv"
+      ],
+      "baseline_sha256": "a566f1c608823b91214f5cee8cdb1ec463a0e0756641aaac06f20ff7e9b571f6",
+      "current_sha256": "a566f1c608823b91214f5cee8cdb1ec463a0e0756641aaac06f20ff7e9b571f6"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/NativeCorrect.lean",
+      "statement_headers_identical": true,
+      "names": [
+        "kernel_native"
+      ],
+      "baseline_sha256": "71795c272e0198e60f68eaceb27bccb9bbf27b05ad3c40f749a457fb2258c44e",
+      "current_sha256": "609db096d69d1b593ebda10c928e6f5d717bce8f7054c9dccf86be07631a5260"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/RawCorrect.lean",
+      "statement_headers_identical": true,
+      "names": [
+        "kernel_correct"
+      ],
+      "baseline_sha256": "008d813b93f71caa8f2878c0f946aa92690bb274dbc03dc4c32d9b6878778bbe",
+      "current_sha256": "9efb2c3206c09d048acc82852725ec4dfc34d5542e2258895c0cf328c5390cb3"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/attention_score_tile_checked/Misc/RawNative.lean",
+      "statement_headers_identical": true,
+      "names": [
+        "kernel_native"
+      ],
+      "baseline_sha256": "2fa6d72c82fc0950e4d1163ac7db6adef15fdc47d978fd80eed83b172b8b8edb",
+      "current_sha256": "f0a1292b84b3b6560003545bea16669de5d32f279696aac101b8bf1ad77fbbfc"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/attention_score_tile_checked/IO.lean",
+      "exact_text_except_imports_identical": true,
+      "baseline_sha256": "9507b4df91fa80e839e76dc116bd08131fcc4f0a1634c9eda27873520d563854",
+      "current_sha256": "88eb746bb4c88d060d17d77516656fbf60f47dce3abf0a1902ca29a1200f0a05"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/attention_score_tile_checked/Contract.lean",
+      "byte_identical": true,
+      "sha256": "de3a1121736d7a9cb8d86de54967d4955ce9b3491050bf9ea5b8397bf004d745"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/attention_score_tile_checked/attention_score_tile_checked.py",
+      "byte_identical": true,
+      "sha256": "01b60924cbd5d95928d0f043e534ed057267faf02309633b1bf32027b59381e6"
+    }
+  ]
+}

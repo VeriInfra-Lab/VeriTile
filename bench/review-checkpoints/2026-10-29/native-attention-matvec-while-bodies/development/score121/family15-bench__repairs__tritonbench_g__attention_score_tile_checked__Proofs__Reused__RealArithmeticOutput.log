@@ -1,0 +1,139 @@
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealArithmeticOutput.lean:59:32: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  e ≥ 0
+  d ≥ 0
+  c ≥ 0
+  b ≥ 0
+  b - d ≤ -1
+  a ≥ 0
+  a - d ≤ -1
+  a + c - e ≥ 0
+where
+ a := ↑↑r
+ b := ↑↑j
+ c := ↑startM
+ d := ↑B
+ e := ↑N
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealArithmeticOutput.lean:59:32: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  e ≥ 0
+  d ≥ 0
+  c ≥ 0
+  b ≥ 0
+  b - d ≤ -1
+  a ≥ 0
+  a - d ≤ -1
+  a + c - e ≤ -1
+where
+ a := ↑↑r
+ b := ↑↑j
+ c := ↑startM
+ d := ↑B
+ e := ↑N
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealArithmeticOutput.lean:59:32: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  e ≥ 0
+  d ≥ 0
+  c ≥ 0
+  b ≥ 0
+  b - d ≤ -1
+  a ≥ 0
+  a - d ≤ -1
+  a + c - e ≥ 0
+where
+ a := ↑↑r
+ b := ↑↑j
+ c := ↑startM
+ d := ↑B
+ e := ↑N
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealArithmeticOutput.lean:59:32: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  e ≥ 0
+  d ≥ 0
+  c ≥ 0
+  b ≥ 0
+  b - d ≤ -1
+  a ≥ 0
+  a - d ≤ -1
+  a + c - e ≤ -1
+where
+ a := ↑↑r
+ b := ↑↑j
+ c := ↑startM
+ d := ↑B
+ e := ↑N
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealArithmeticOutput.lean:59:32: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  e ≥ 0
+  d ≥ 0
+  c ≥ 0
+  b ≥ 0
+  b - d ≤ -1
+  a ≥ 0
+  a - d ≤ -1
+  a + c - e ≥ 0
+where
+ a := ↑↑r
+ b := ↑↑j
+ c := ↑startM
+ d := ↑B
+ e := ↑N
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealArithmeticOutput.lean:59:32: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  g ≥ 0
+  f ≥ 0
+  c ≥ 0
+  b ≥ 0
+  b - f ≤ -1
+  a ≥ 0
+  a - b + c - d + e ≥ 0
+  a - b + c - d + e - h ≤ -1
+  a - f ≤ -1
+  a + c - g ≤ -1
+where
+ a := ↑↑r
+ b := ↑↑j
+ c := ↑startM
+ d := ↑startN * ↑B
+ e := offset
+ f := ↑B
+ g := ↑N
+ h := size
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealArithmeticOutput.lean:59:4: error: No goals to be solved
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealArithmeticOutput.lean:59:32: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  e ≥ 0
+  d ≥ 0
+  c ≥ 0
+  b ≥ 0
+  b - d ≤ -1
+  a ≥ 0
+  a - d ≤ -1
+  a + c - e ≥ 0
+where
+ a := ↑↑r
+ b := ↑↑j
+ c := ↑startM
+ d := ↑B
+ e := ↑N
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealArithmeticOutput.lean:59:32: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  g ≥ 0
+  f ≥ 0
+  c ≥ 0
+  b ≥ 0
+  b - f ≤ -1
+  a ≥ 0
+  a - b + c - d + e - h ≥ 0
+  a - f ≤ -1
+  a + c - g ≤ -1
+where
+ a := ↑↑r
+ b := ↑↑j
+ c := ↑startM
+ d := ↑startN * ↑B
+ e := offset
+ f := ↑B
+ g := ↑N
+ h := size
+/tmp/score121-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/RealArithmeticOutput.lean:59:4: error: No goals to be solved

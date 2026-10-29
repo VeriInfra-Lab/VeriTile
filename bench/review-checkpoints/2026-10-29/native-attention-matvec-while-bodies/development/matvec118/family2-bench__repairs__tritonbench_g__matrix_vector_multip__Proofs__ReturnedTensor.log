@@ -1,0 +1,9 @@
+VeriTile.Bench.Repairs.MatrixVectorMultip.ReturnedTensor.span: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.MatrixVectorMultip.ReturnedTensor.pointer: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.MatrixVectorMultip.ReturnedTensor.logical_readback: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.MatrixVectorMultip.ReturnedTensor.returns: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

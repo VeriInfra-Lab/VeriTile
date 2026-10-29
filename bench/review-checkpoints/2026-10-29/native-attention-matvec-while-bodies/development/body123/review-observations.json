@@ -1,0 +1,16 @@
+{
+  "status": "SOURCE_REVIEW_COMPLETE_FINAL_BUILD_PENDING",
+  "reviewed": [
+    "Control.While.run uses partial_fixpoint, with finite execution iff successful result and reachability-based safety.",
+    "Matrix-vector body preserves source casts, masked loads, pointer advances and reduction/store order. SourcePair proves per-step execution equality in the existing fused native model; no whole-target equivalence is assumed.",
+    "SourceDomain bounds refer only to launch integers and active backing addresses; existing KernelContract discharges them and no output/accumulator equality is assumed.",
+    "KernelSource.execution applies actual SourceOutput execution; source_binding is an actual while decomposition, not historical-AST equality.",
+    "Existing exhaustive shape/flatten walkers need recursive while cases; three compatibility changes staged after focused regression found the omission.",
+    "Historical optional attention errors are excluded from accepted coverage with baseline reproduction evidence.",
+    "Two uint64 boundary fixture expectations remain unchanged. Their proofs now normalize the retained explicit modulo conversion; the isolated final-source fixture passes."
+  ],
+  "scope": "Only Liger regression, selected attention-score and repaired matrix-vector migration; shared while compatibility repairs are necessary to build the existing selected corpus.",
+  "no_new_tasks": true,
+  "draft_only": true,
+  "merged": false
+}

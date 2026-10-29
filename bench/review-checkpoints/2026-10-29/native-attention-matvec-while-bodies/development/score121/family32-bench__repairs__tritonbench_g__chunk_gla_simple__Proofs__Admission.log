@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.ChunkGlaSimple.Admission.accepted: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.ChunkGlaSimple.Admission.pointer: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

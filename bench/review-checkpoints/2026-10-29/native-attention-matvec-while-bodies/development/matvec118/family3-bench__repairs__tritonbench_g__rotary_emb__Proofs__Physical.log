@@ -1,0 +1,32 @@
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/rotary_emb/Proofs/Physical.lean:42:6: warning: Local variable 'q' resembles constructor 'VeriTile.Bench.Repairs.RotaryEmb.Region.q' - write '.q' (with a dot) or 'VeriTile.Bench.Repairs.RotaryEmb.Region.q' to use the constructor.
+
+Note: This linter can be disabled with `set_option linter.constructorNameAsVariable false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/rotary_emb/Proofs/Physical.lean:46:9: warning: Local variable 'q' resembles constructor 'VeriTile.Bench.Repairs.RotaryEmb.Region.q' - write '.q' (with a dot) or 'VeriTile.Bench.Repairs.RotaryEmb.Region.q' to use the constructor.
+
+Note: This linter can be disabled with `set_option linter.constructorNameAsVariable false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/rotary_emb/Proofs/Physical.lean:67:67: warning: Local variable 'q' resembles constructor 'VeriTile.Bench.Repairs.RotaryEmb.Region.q' - write '.q' (with a dot) or 'VeriTile.Bench.Repairs.RotaryEmb.Region.q' to use the constructor.
+
+Note: This linter can be disabled with `set_option linter.constructorNameAsVariable false`
+VeriTile.Bench.Repairs.RotaryEmb.Physical.decode_encode: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.RotaryEmb.Physical.encode_decode: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.RotaryEmb.Physical.load_store: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.RotaryEmb.Physical.native_source: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.RotaryEmb.Physical.native_result: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.RotaryEmb.Physical.native_bytes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.RotaryEmb.Physical.native_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.RotaryEmb.Physical.native_tail: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.RotaryEmb.Physical.native_coefficients: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

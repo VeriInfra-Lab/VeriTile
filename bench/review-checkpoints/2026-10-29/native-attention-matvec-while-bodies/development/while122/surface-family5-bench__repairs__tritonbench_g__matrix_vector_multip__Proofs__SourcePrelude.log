@@ -1,0 +1,260 @@
+/tmp/while122-surface-probe/bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/SourcePrelude.lean:41:36: error: unsolved goals
+α : Type
+inst✝ : Inhabited α
+A : FP.Structural.Algebra α
+N M BN BM : ℕ
+rowShape : Random.ArangeSizeDomain BN
+columnShape : Random.ArangeSizeDomain BM
+s : State α
+domain : SourceDomain N M BN BM (s.pids 0)
+hn : N % 2 ^ 64 = N
+hm : M % 2 ^ 64 = M
+hp : s.pids 0 % 2 ^ 64 = s.pids 0
+hprod : s.pids 0 * BN % 2 ^ 64 = s.pids 0 * BN
+hnLane : ∀ (i : Fin BN), ↑i % 2 ^ 64 = ↑i
+hmLane : ∀ (i : Fin BM), ↑i % 2 ^ 64 = ↑i
+hrow : ∀ (i : Fin BN), (s.pids 0 * BN + ↑i) % 2 ^ 64 = s.pids 0 * BN + ↑i
+⊢ run A
+      ((Option.map
+              (fun loop =>
+                {
+                  before :=
+                    ComputeStmt.assign TileDType.nat [] "N" (ComputeExpr.alg (Op.natToUnsigned 64 (Op.constNat N))) ::
+                      loop.before,
+                  condition := loop.condition, body := loop.body, after := loop.after })
+              (Option.map
+                (fun loop =>
+                  {
+                    before :=
+                      ComputeStmt.assign TileDType.nat [] "M" (ComputeExpr.alg (Op.natToUnsigned 64 (Op.constNat M))) ::
+                        loop.before,
+                    condition := loop.condition, body := loop.body, after := loop.after })
+                (Option.map
+                  (fun loop =>
+                    {
+                      before :=
+                        ComputeStmt.assign TileDType.nat [] "stride_an"
+                            (ComputeExpr.alg (Op.natToUnsigned 64 (Op.constNat M))) ::
+                          loop.before,
+                      condition := loop.condition, body := loop.body, after := loop.after })
+                  (Option.map
+                    (fun loop =>
+                      {
+                        before :=
+                          ComputeStmt.assign TileDType.nat [] "stride_am"
+                              (ComputeExpr.alg (Op.natToUnsigned 64 (Op.constNat 1))) ::
+                            loop.before,
+                        condition := loop.condition, body := loop.body, after := loop.after })
+                    (Option.map
+                      (fun loop =>
+                        {
+                          before :=
+                            ComputeStmt.assign TileDType.nat [] "stride_bm"
+                                (ComputeExpr.alg (Op.natToUnsigned 64 (Op.constNat 1))) ::
+                              loop.before,
+                          condition := loop.condition, body := loop.body, after := loop.after })
+                      (Option.map
+                        (fun loop =>
+                          {
+                            before :=
+                              ComputeStmt.assign TileDType.nat [] "stride_cn"
+                                  (ComputeExpr.alg (Op.natToUnsigned 64 (Op.constNat 1))) ::
+                                loop.before,
+                            condition := loop.condition, body := loop.body, after := loop.after })
+                        (Option.map
+                          (fun loop =>
+                            {
+                              before :=
+                                ComputeStmt.assign TileDType.nat [] "pid"
+                                    (ComputeExpr.alg (Op.natToUnsigned 64 (Op.programId 0))) ::
+                                  loop.before,
+                              condition := loop.condition, body := loop.body, after := loop.after })
+                          (Option.map
+                            (fun loop =>
+                              {
+                                before :=
+                                  ComputeStmt.assign TileDType.nat [BN, 1] "offset_n"
+                                      (ComputeExpr.alg
+                                        (Op.intToUnsigned 64
+                                          (Op.add NumericDType.int Broadcast.scalarL
+                                            (Op.intToUnsigned 64
+                                                (Op.mul NumericDType.int Broadcast.nil
+                                                  (Op.ref TileDType.nat [] "pid").castNatToInt
+                                                  (Op.constInt (Int.ofNat BN)))).castNatToInt
+                                            (Op.expandDim ⟨1, ⋯⟩
+                                                (Op.natToUnsigned 64 (Op.arange BN))).castNatToInt))) ::
+                                    loop.before,
+                                condition := loop.condition, body := loop.body, after := loop.after })
+                            (Option.map
+                              (fun loop =>
+                                {
+                                  before :=
+                                    ComputeStmt.assign TileDType.nat [1, BM] "offset_m"
+                                        (ComputeExpr.alg (Op.expandDim ⟨0, ⋯⟩ (Op.natToUnsigned 64 (Op.arange BM)))) ::
+                                      loop.before,
+                                  condition := loop.condition, body := loop.body, after := loop.after })
+                              (Option.map
+                                (fun loop =>
+                                  {
+                                    before :=
+                                      ComputeStmt.assign TileDType.bool [BN, 1] "n_mask"
+                                          (ComputeExpr.alg
+                                            (Op.lt ComparableDType.nat Broadcast.scalarR
+                                              (Op.ref TileDType.nat [BN, 1] "offset_n")
+                                              (Op.ref TileDType.nat [] "N"))) ::
+                                        loop.before,
+                                    condition := loop.condition, body := loop.body, after := loop.after })
+                                (Option.map
+                                  (fun loop =>
+                                    {
+                                      before :=
+                                        ComputeStmt.assign TileDType.ptr [BN, BM] "A_ptrs"
+                                            (ComputeExpr.alg
+                                              (Op.ptrAdd Broadcast.scalarL (Op.ptrBase { name := "A" })
+                                                (Op.add NumericDType.nat Broadcast.nil.consL.consR
+                                                  (Op.intToUnsigned 64
+                                                    (Op.mul NumericDType.int Broadcast.scalarR
+                                                      (Op.ref TileDType.nat [BN, 1] "offset_n").castNatToInt
+                                                      (Op.ref TileDType.nat [] "stride_an").castNatToInt))
+                                                  (Op.intToUnsigned 64
+                                                    (Op.mul NumericDType.int Broadcast.scalarR
+                                                      (Op.ref TileDType.nat [1, BM] "offset_m").castNatToInt
+                                                      (Op.ref TileDType.nat [] "stride_am").castNatToInt))))) ::
+                                          loop.before,
+                                      condition := loop.condition, body := loop.body, after := loop.after })
+                                  (Option.map
+                                    (fun loop =>
+                                      {
+                                        before :=
+                                          ComputeStmt.assign TileDType.ptr [1, BM] "B_ptrs"
+                                              (ComputeExpr.alg
+                                                (Op.ptrAdd Broadcast.scalarL (Op.ptrBase { name := "B" })
+                                                  (Op.intToUnsigned 64
+                                                    (Op.mul NumericDType.int Broadcast.scalarR
+                                                      (Op.ref TileDType.nat [1, BM] "offset_m").castNatToInt
+                                                      (Op.ref TileDType.nat [] "stride_bm").castNatToInt)))) ::
+                                            loop.before,
+                                        condition := loop.condition, body := loop.body, after := loop.after })
+                                    (Option.map
+                                      (fun loop =>
+                                        {
+                                          before :=
+                                            ComputeStmt.assign TileDType.real [BN, BM] "acc"
+                                                (ComputeExpr.compute
+                                                  (ComputeOp.full [BN, BM]
+                                                    (ComputeOp.alg ComputeDType.fp32 (Op.const 0)))) ::
+                                              loop.before,
+                                          condition := loop.condition, body := loop.body, after := loop.after })
+                                      (Option.map
+                                        (fun loop =>
+                                          {
+                                            before :=
+                                              ComputeStmt.assign TileDType.nat [] "m"
+                                                  (ComputeExpr.alg
+                                                    (Op.full [] (Op.natToUnsigned 64 (Op.constNat 0)))) ::
+                                                loop.before,
+                                            condition := loop.condition, body := loop.body, after := loop.after })
+                                        (some
+                                          { before := [],
+                                            condition :=
+                                              Op.lt ComparableDType.nat Broadcast.nil (Op.ref TileDType.nat [] "m")
+                                                (Op.ref TileDType.nat [] "M"),
+                                            body :=
+                                              [ComputeStmt.assign TileDType.bool [1, BM] "m_mask"
+                                                  (ComputeExpr.alg
+                                                    (Op.lt ComparableDType.nat Broadcast.scalarR
+                                                      (Op.intToUnsigned 64
+                                                        (Op.add NumericDType.int Broadcast.scalarL
+                                                          (Op.ref TileDType.nat [] "m").castNatToInt
+                                                          (Op.ref TileDType.nat [1, BM] "offset_m").castNatToInt))
+                                                      (Op.ref TileDType.nat [] "M"))),
+                                                ComputeStmt.assign TileDType.real [BN, BM] "a"
+                                                  (ComputeExpr.compute
+                                                    (ComputeOp.alg ComputeDType.fp32
+                                                      (Op.castFloat FloatDType.fp32 FloatDType.real
+                                                        (Op.load FloatDType.fp32.toTileDType
+                                                          (MemAccess.ptr (Op.ref TileDType.ptr [BN, BM] "A_ptrs"))
+                                                          (MaskOpt.maskOther
+                                                            (Op.boolAnd Broadcast.nil.consL.consR
+                                                              (Op.ref TileDType.bool [BN, 1] "n_mask")
+                                                              (Op.ref TileDType.bool [1, BM] "m_mask"))
+                                                            ((Op.castFloat FloatDType.real FloatDType.fp32
+                                                                  (Op.const 0.0)).broadcast
+                                                              [BN, BM])))))),
+                                                ComputeStmt.assign TileDType.real [1, BM] "b"
+                                                  (ComputeExpr.compute
+                                                    (ComputeOp.alg ComputeDType.fp32
+                                                      (Op.castFloat FloatDType.fp32 FloatDType.real
+                                                        (Op.load FloatDType.fp32.toTileDType
+                                                          (MemAccess.ptr (Op.ref TileDType.ptr [1, BM] "B_ptrs"))
+                                                          (MaskOpt.maskOther (Op.ref TileDType.bool [1, BM] "m_mask")
+                                                            ((Op.castFloat FloatDType.real FloatDType.fp32
+                                                                  (Op.const 0.0)).broadcast
+                                                              [1, BM])))))),
+                                                ComputeStmt.assign TileDType.real [BN, BM] "acc"
+                                                  (ComputeExpr.compute
+                                                    (ComputeOp.alg ComputeDType.fp32
+                                                      (Op.add NumericDType.real Broadcast.nil.consSame.consSame
+                                                        (Op.ref TileDType.real [BN, BM] "acc")
+                                                        (Op.mul NumericDType.real Broadcast.nil.consSame.consR
+                                                          (Op.ref TileDType.real [BN, BM] "a")
+                                                          (Op.ref TileDType.real [1, BM] "b"))))),
+                                                ComputeStmt.assign TileDType.ptr [BN, BM] "A_ptrs"
+                                                  (ComputeExpr.alg
+                                                    (Op.ptrAdd Broadcast.scalarR
+                                                      (Op.ref TileDType.ptr [BN, BM] "A_ptrs")
+                                                      (Op.intToUnsigned 64
+                                                        (Op.mul NumericDType.int Broadcast.nil
+                                                          (Op.constInt (Int.ofNat BM))
+                                                          (Op.ref TileDType.nat [] "stride_am").castNatToInt)))),
+                                                ComputeStmt.assign TileDType.ptr [1, BM] "B_ptrs"
+                                                  (ComputeExpr.alg
+                                                    (Op.ptrAdd Broadcast.scalarR (Op.ref TileDType.ptr [1, BM] "B_ptrs")
+                                                      (Op.intToUnsigned 64
+                                                        (Op.mul NumericDType.int Broadcast.nil
+                                                          (Op.constInt (Int.ofNat BM))
+                                                          (Op.ref TileDType.nat [] "stride_bm").castNatToInt)))),
+                                                ComputeStmt.assign TileDType.nat [] "m"
+                                                  (ComputeExpr.alg
+                                                    (Op.intToUnsigned 64
+                                                      (Op.add NumericDType.int Broadcast.nil
+                                                        (Op.ref TileDType.nat [] "m").castNatToInt
+                                                        (Op.constInt (Int.ofNat BM)))))],
+                                            after :=
+                                              [ComputeStmt.assign TileDType.real [BN] "acc"
+                                                  (ComputeExpr.compute
+                                                    (ComputeOp.alg ComputeDType.fp32
+                                                      (Op.reduceSum ⟨1, ⋯⟩ «false»
+                                                        (Op.ref TileDType.real [BN, BM] "acc")))),
+                                                ComputeStmt.assign TileDType.ptr [BN, 1] "C_ptrs"
+                                                  (ComputeExpr.alg
+                                                    (Op.ptrAdd Broadcast.scalarL (Op.ptrBase { name := "C" })
+                                                      (Op.intToUnsigned 64
+                                                        (Op.mul NumericDType.int Broadcast.scalarR
+                                                          (Op.ref TileDType.nat [BN, 1] "offset_n").castNatToInt
+                                                          (Op.ref TileDType.nat [] "stride_cn").castNatToInt)))),
+                                                ComputeStmt.store FloatDType.fp32.toTileDType [BN, 1]
+                                                  (MemAccess.ptr (Op.ref TileDType.ptr [BN, 1] "C_ptrs"))
+                                                  (ComputeExpr.alg
+                                                    (Op.castFloat FloatDType.real FloatDType.fp32
+                                                      (Op.withPrecision FloatDType.real IndexComputePrecision.fp32
+                                                        (Op.expandDim ⟨1, ⋯⟩ (Op.ref TileDType.real [BN] "acc")))))
+                                                  (MaskOpt.mask
+                                                    (Op.ref TileDType.bool [BN, 1] "n_mask"))] }))))))))))))))).get
+          ⋯).before
+      s =
+    some
+      ((((((((((((((s.setReg "N" TileDType.nat [] fun x => N).setReg "M" TileDType.nat [] fun x => M).setReg "stride_an"
+                                                    TileDType.nat [] fun x => M).setReg
+                                                "stride_am" TileDType.nat [] fun x => 1).setReg
+                                            "stride_bm" TileDType.nat [] fun x => 1).setReg
+                                        "stride_cn" TileDType.nat [] fun x => 1).setReg
+                                    "pid" TileDType.nat [] fun x => s.pids 0).setReg
+                                "offset_n" TileDType.nat [BN, 1] fun i => s.pids 0 * BN + ↑i.1).setReg
+                            "offset_m" TileDType.nat [1, BM] fun i => ↑i.2.1).setReg
+                        "n_mask" TileDType.bool [BN, 1] fun i => decide (s.pids 0 * BN + ↑i.1 < N)).setReg
+                    "A_ptrs" TileDType.ptr [BN, BM] fun i =>
+                    ({ name := "A" }, (s.pids 0 * BN + ↑i.1) * M % 2 ^ 64 + ↑i.2.1 + 0)).setReg
+                "B_ptrs" TileDType.ptr [1, BM] fun i => ({ name := "B" }, ↑i.2.1)).setReg
+            "acc" TileDType.real [BN, BM] fun x => A.literal (some ComputeDType.fp32) FloatDType.real 0).setReg
+        "m" TileDType.nat [] fun x => 0)

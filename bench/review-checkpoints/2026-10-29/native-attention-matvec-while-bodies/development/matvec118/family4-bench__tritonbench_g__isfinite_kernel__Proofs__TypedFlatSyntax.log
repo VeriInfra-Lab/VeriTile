@@ -1,0 +1,27 @@
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.TypedFlat.flattenComputeOp_load: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.TypedFlat.flattenComputeOp_bitcast: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.TypedFlat.flattenExpr_classifier_casts: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.TypedFlat.flattenExpr_opaque: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.TypedFlat.flattenComputeStmt_effectMarker: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.TypedFlat.flattenComputeStmt_dynamic_branch: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.TypedFlat.flattenComputeStmts_length: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.TypedFlat.flattenComputeKernel_mk: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.IsfiniteKernel.TypedFlat.flattenComputeKernel_surfaceBody_length: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

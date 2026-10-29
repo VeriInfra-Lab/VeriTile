@@ -1,0 +1,24 @@
+VeriTile.Bench.Repairs.MatrixVectorMultip.KernelIndex.row_mask: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.MatrixVectorMultip.KernelIndex.column_mask: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.MatrixVectorMultip.KernelIndex.loop_mask: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.MatrixVectorMultip.KernelIndex.matrix_active: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.MatrixVectorMultip.KernelIndex.vector_active: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.MatrixVectorMultip.KernelIndex.output_active: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.MatrixVectorMultip.KernelIndex.output_separate: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.MatrixVectorMultip.KernelIndex.correspondence: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.MatrixVectorMultip.KernelIndex.checked_correspondence: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

@@ -1,0 +1,8 @@
+VeriTile.Bench.Repairs.RotaryTransform.Physical.stage_frame: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.RotaryTransform.Physical.stage_input: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.RotaryTransform.Physical.stage_cosine: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.RotaryTransform.Physical.stage_sine: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.RotaryTransform.Physical.stage_offset32: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.RotaryTransform.Physical.stage_offset64: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

@@ -1,0 +1,3 @@
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/NativeSourceSafety.lean:79:2: warning: 'all_goals try simp only [safeBlockPtr2, safeAdvance2]' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`

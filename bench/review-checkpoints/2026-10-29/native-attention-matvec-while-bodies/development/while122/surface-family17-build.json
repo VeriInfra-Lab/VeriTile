@@ -1,0 +1,27 @@
+{
+  "status": "INTERRUPTED_LOOP_PROOF",
+  "start": 1793284562.3089929,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.SourcePairSafetyTools",
+      "source_sha256": "46a46a26e5be1478b76d8698086c5a797a72773ae096379be8c30ee16cc2a8f3",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793284562.3095856,
+      "end": 1793284567.895717,
+      "log": "/tmp/while122-surface-family17-bench__repairs__tritonbench_g__matrix_vector_multip__Proofs__SourcePairSafetyTools.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.SourcePairSafetySteps",
+      "source_sha256": "ba36d99f1a3271185648cd48ccb26097f10acb000e6096c11ee24e9516de31eb",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793284567.8965025,
+      "end": 1793284593.5407968,
+      "log": "/tmp/while122-surface-family17-bench__repairs__tritonbench_g__matrix_vector_multip__Proofs__SourcePairSafetySteps.log"
+    }
+  ],
+  "scope": "One serial queue; failed imports block dependents, independent modules continue.",
+  "end": 1793284676.73483,
+  "reason": "Tools and straight-line safety steps passed; replace loop simplifier with explicit two-direction Reaches transport."
+}

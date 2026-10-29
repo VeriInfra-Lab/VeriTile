@@ -1,0 +1,6 @@
+/tmp/score121-interface-probe/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/NativeReturnedMath.lean:41:8: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.NativeReturnedMath.target_logical: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,7 @@
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/Preparation.lean:89:40: warning: This simp argument is unused:
+  hvx
+
+Hint: Omit it from the simp argument list.
+  simp [̵h̵c̵,̵h̵w̵,̵h̵b̵,̵h̵g̵,̵h̵v̵x̵,̵h̵v̵g̵]̵[̲h̲c̲,̲ ̲h̲w̲,̲ ̲h̲b̲,̲ ̲h̲g̲,̲ ̲h̲v̲g̲]̲ at success
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

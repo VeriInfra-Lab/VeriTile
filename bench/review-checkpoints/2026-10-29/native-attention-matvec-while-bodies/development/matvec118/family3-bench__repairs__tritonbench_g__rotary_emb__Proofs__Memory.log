@@ -1,0 +1,4 @@
+VeriTile.Bench.Repairs.RotaryEmb.execute_frame: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.RotaryEmb.execute_readback: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.RawNative.kernelNativeTarget: definition does not reference [VeriTile.Bench.Repairs.AttentionScoreTileChecked.nativeExecute,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.NativePhysical.execute] — non-circular ✓
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.RawNative.kernel_native: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

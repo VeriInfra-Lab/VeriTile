@@ -1,0 +1,9 @@
+VeriTile.Bench.Repairs.RotaryEmb.formula: definition does not reference [VeriTile.Bench.Repairs.RotaryEmb.sourcePair,
+ VeriTile.Bench.Repairs.RotaryEmb.pairValues,
+ VeriTile.Bench.Repairs.RotaryEmb.step,
+ VeriTile.Bench.Repairs.RotaryEmb.execute,
+ VeriTile.Bench.Repairs.RotaryEmb.source,
+ VeriTile.Bench.Repairs.RotaryEmb.run] — non-circular ✓
+VeriTile.Bench.Repairs.RotaryEmb.source_formula: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

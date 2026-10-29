@@ -1,0 +1,26 @@
+/tmp/while122-surface-probe/VeriTile/Triton/Float/IntegerLiteralBackend.lean:29:29: warning: This simp argument is unused:
+  existsInt
+
+Hint: Omit it from the simp argument list.
+  simp [̵i̵n̵t̵e̵g̵e̵r̵L̵i̵t̵e̵r̵a̵l̵F̵P̵3̵2̵,̵h̵,̵e̵x̵i̵s̵t̵s̵I̵n̵t̵,̵c̵h̵o̵s̵e̵n̵]̵[̲i̲n̲t̲e̲g̲e̲r̲L̲i̲t̲e̲r̲a̲l̲F̲P̲3̲2̲,̲ ̲h̲,̲ ̲c̲h̲o̲s̲e̲n̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-surface-probe/VeriTile/Triton/Float/IntegerLiteralBackend.lean:29:39: warning: This simp argument is unused:
+  chosen
+
+Hint: Omit it from the simp argument list.
+  simp [̵i̵n̵t̵e̵g̵e̵r̵L̵i̵t̵e̵r̵a̵l̵F̵P̵3̵2̵,̵h̵,̵e̵x̵i̵s̵t̵s̵I̵n̵t̵,̵c̵h̵o̵s̵e̵n̵]̵[̲i̲n̲t̲e̲g̲e̲r̲L̲i̲t̲e̲r̲a̲l̲F̲P̲3̲2̲,̲ ̲h̲,̲ ̲e̲x̲i̲s̲t̲s̲I̲n̲t̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Triton.FP.Software.integerLiteralFP32_int: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.Software.integerLiteralFP32_zero: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.Software.integerLiteralFP32_one: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.Software.integerLiteralFP32_unsupported: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

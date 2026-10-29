@@ -1,0 +1,33 @@
+/tmp/matvec118-proof-probe/bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/SourceSafety.lean:69:2: error: Type mismatch
+  output
+has type
+  ∀ (i : Fin BN), row BN pid ↑i < N → row BN pid ↑i < bounds { name := "C" }
+but is expected to have type
+  ∀ (a : Fin BN), pid * BN + ↑a < N → Int.toNat ((↑pid * ↑BN + ↑↑a) % 18446744073709551616) < bounds { name := "C" }
+/tmp/matvec118-proof-probe/bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/SourceSafety.lean:118:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  @Safety.traceSafeList ?m.117 ?m.118 ?M ?bounds (?st :: ?rest) ?s
+in the target expression
+  @Safety.traceSafeList α inst✝ A bounds
+    ([ComputeStmt.whileLoop (SourceCode.original N M BN BM rowShape columnShape).condition
+          (SourceCode.original N M BN BM rowShape columnShape).body] ++
+      (SourceCode.original N M BN BM rowShape columnShape).after)
+    (SourcePrelude.state A N M BN BM s)
+
+case refl
+α : Type
+inst✝ : Inhabited α
+A : FP.Structural.Algebra α
+N M BN BM : ℕ
+rowShape : Random.ArangeSizeDomain BN
+columnShape : Random.ArangeSizeDomain BM
+s : State α
+domain : SourceDomain N M BN BM (s.pids 0)
+bounds : RegionName → ℕ
+matrix : ∀ (i j : ℕ), i < N → j < M → i * M + j < bounds { name := "A" }
+vector : ∀ j < M, j < bounds { name := "B" }
+output : ∀ (i : Fin BN), row BN (s.pids 0) ↑i < N → row BN (s.pids 0) ↑i < bounds { name := "C" }
+⊢ Safety.traceSafeList A bounds
+    ([ComputeStmt.whileLoop (SourceCode.original N M BN BM rowShape columnShape).condition
+          (SourceCode.original N M BN BM rowShape columnShape).body] ++
+      (SourceCode.original N M BN BM rowShape columnShape).after)
+    (SourcePrelude.state A N M BN BM s)

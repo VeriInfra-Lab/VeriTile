@@ -1,0 +1,52 @@
+/tmp/matvec118-proof-probe/bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/SourceOutput.lean:58:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  Control.While.run (SourceLoop.condition A N M BN BM rowShape columnShape)
+    (run A (SourceCode.original N M BN BM rowShape columnShape).body) (SourcePrelude.state A N M BN BM s)
+in the target expression
+  ((do
+          let __do_lift ←
+            Control.While.run
+                (fun current =>
+                  Option.map (fun c => c PUnit.unit)
+                    (FP.Structural.evalOp A none (SourceCode.original N M BN BM rowShape columnShape).condition
+                      current))
+                (fun current => run A (SourceCode.original N M BN BM rowShape columnShape).body current)
+                (SourcePrelude.state A N M BN BM s)
+          some __do_lift).bind
+      fun a => run A (SourceCode.original N M BN BM rowShape columnShape).after a) =
+    some (WholeSource.suffixState A p (s.pids 0) acc middle)
+
+case refine_1
+α : Type
+inst✝ : Inhabited α
+A : FP.Structural.Algebra α
+N M BN BM : ℕ
+rowShape : Random.ArangeSizeDomain BN
+columnShape : Random.ArangeSizeDomain BM
+s : State α
+domain : SourceDomain N M BN BM (s.pids 0)
+p : Typed.Parameters := parameters N M BN BM
+last : ℕ
+middle : State α
+loopRan :
+  Control.While.run (SourceLoop.condition A N M BN BM rowShape columnShape)
+      (run A (SourceCode.original N M BN BM rowShape columnShape).body) (SourcePrelude.state A N M BN BM s) =
+    some middle
+ctx :
+  Context N M BN BM (s.pids 0) last s.mem
+    (WholeSource.accumulated A (parameters N M BN BM) (s.pids 0) s.mem 0 fun x =>
+      A.literal (some ComputeDType.fp32) FloatDType.real 0)
+    middle
+acc : WholeSource.Acc α p :=
+  WholeSource.accumulated A p (s.pids 0) s.mem 0 fun x => A.literal (some ComputeDType.fp32) FloatDType.real 0
+⊢ ((do
+          let __do_lift ←
+            Control.While.run
+                (fun current =>
+                  Option.map (fun c => c PUnit.unit)
+                    (FP.Structural.evalOp A none (SourceCode.original N M BN BM rowShape columnShape).condition
+                      current))
+                (fun current => run A (SourceCode.original N M BN BM rowShape columnShape).body current)
+                (SourcePrelude.state A N M BN BM s)
+          some __do_lift).bind
+      fun a => run A (SourceCode.original N M BN BM rowShape columnShape).after a) =
+    some (WholeSource.suffixState A p (s.pids 0) acc middle)

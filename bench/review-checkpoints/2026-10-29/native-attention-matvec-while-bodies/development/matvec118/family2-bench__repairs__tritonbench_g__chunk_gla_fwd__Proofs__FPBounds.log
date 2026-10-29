@@ -1,0 +1,6 @@
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/chunk_gla_fwd/Proofs/FPBounds.lean:17:2: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+VeriTile.Bench.Repairs.ChunkGlaFwd.FPStages.reference_bounded: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

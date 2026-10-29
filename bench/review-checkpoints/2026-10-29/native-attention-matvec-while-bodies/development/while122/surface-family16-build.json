@@ -1,0 +1,8 @@
+{
+  "status": "INTERRUPTED_PROOF_EXPANSION",
+  "start": 1793284478.3022876,
+  "results": [],
+  "scope": "One serial queue; failed imports block dependents, independent modules continue.",
+  "end": 1793284561.853297,
+  "reason": "Split safety tools, straight-line steps and loop proof into separate build modules for precise diagnostics."
+}

@@ -1,0 +1,26 @@
+{
+  "status": "FAIL",
+  "start": 1793283122.1103902,
+  "results": [
+    {
+      "module": "bench.tests.WhileExecution",
+      "source_sha256": "23c956d46b334920ee02e3944bd2d4d6539cdab52c0a4e5561e6302379b7420d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793283122.110714,
+      "end": 1793283128.7874067,
+      "log": "/tmp/while122-surface-family6-bench__tests__WhileExecution.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.SourcePrelude",
+      "source_sha256": "2537e949ec8bf9ed2cd3d53c3db675215431709cde34de109caf04aee70edd4d",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793283128.787881,
+      "end": 1793283136.7496607,
+      "log": "/tmp/while122-surface-family6-bench__repairs__tritonbench_g__matrix_vector_multip__Proofs__SourcePrelude.log"
+    }
+  ],
+  "scope": "One serial queue; failed imports block dependents, independent modules continue.",
+  "end": 1793283136.749932
+}

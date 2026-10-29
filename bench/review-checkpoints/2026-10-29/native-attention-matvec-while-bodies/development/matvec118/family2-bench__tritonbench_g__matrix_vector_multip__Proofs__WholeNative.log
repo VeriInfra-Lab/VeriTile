@@ -1,0 +1,10 @@
+/tmp/matvec118-frontend/bench/tritonbench_g/matrix_vector_multip/Proofs/WholeNative.lean:132:5: warning: unused variable `h`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/matvec118-frontend/bench/tritonbench_g/matrix_vector_multip/Proofs/WholeNative.lean:170:17: warning: This simp argument is unused:
+  dif_pos rfl
+
+Hint: Omit it from the simp argument list.
+  simp only [sum,̵d̵i̵f̵_̵p̵o̵s̵ ̵r̵f̵l̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

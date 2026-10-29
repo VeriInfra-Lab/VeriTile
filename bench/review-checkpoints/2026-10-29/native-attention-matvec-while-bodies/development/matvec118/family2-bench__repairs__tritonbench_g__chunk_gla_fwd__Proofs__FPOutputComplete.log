@@ -1,0 +1,5 @@
+VeriTile.Bench.Repairs.ChunkGlaFwd.FPOutput.value: definition does not reference [VeriTile.Triton.FP.Structural.run,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.Repairs.ChunkGlaFwd.FPOutput.source_memory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

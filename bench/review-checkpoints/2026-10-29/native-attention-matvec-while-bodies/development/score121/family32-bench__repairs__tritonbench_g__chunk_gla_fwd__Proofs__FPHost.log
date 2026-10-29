@@ -1,0 +1,32 @@
+/tmp/score121-frontend/bench/repairs/tritonbench_g/chunk_gla_fwd/Proofs/FPHost.lean:14:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.ChunkGlaFwd.Host.zeroRange_readback`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/tmp/score121-frontend/bench/repairs/tritonbench_g/chunk_gla_fwd/Proofs/FPHost.lean:17:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.ChunkGlaFwd.Host.zeroRange_frame`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+VeriTile.Bench.Repairs.ChunkGlaFwd.Host.producerReference: definition does not reference [VeriTile.Bench.Repairs.ChunkGlaFwd.Host.producerExecute,
+ VeriTile.Bench.Repairs.ChunkGlaFwd.FPStages.execute,
+ VeriTile.Bench.Repairs.ChunkGlaFwd.FPGrid.invoke,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.Repairs.ChunkGlaFwd.Host.consumerReference: definition does not reference [VeriTile.Bench.Repairs.ChunkGlaFwd.Host.consumerExecute,
+ VeriTile.Bench.Repairs.ChunkGlaFwd.FPStages.execute,
+ VeriTile.Bench.Repairs.ChunkGlaFwd.FPGrid.invoke,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.Repairs.ChunkGlaFwd.Host.producer_source: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.ChunkGlaFwd.Host.consumer_source: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.ChunkGlaFwd.Host.producer_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.ChunkGlaFwd.Host.calls_compose: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

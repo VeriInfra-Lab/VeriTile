@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.Correct.scoreSum: definition does not reference [VeriTile.Bench.Repairs.AttentionScoreTileChecked.kernel,
+ VeriTile.Bench.Repairs.AttentionScoreTileChecked.realExecute,
+ VeriTile.Triton.exec] — non-circular ✓
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.Correct.kernel_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

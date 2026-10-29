@@ -1,0 +1,190 @@
+/tmp/matvec118-proof-probe/bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/SourcePrelude.lean:49:36: error: unsolved goals
+case e_s.e_s.e_s.e_s.e_s.e_s.e_s.e_s.e_s.e_s.e_s.e_s.e_s.e_v.h
+α : Type
+inst✝ : Inhabited α
+A : FP.Structural.Algebra α
+N M BN BM : ℕ
+rowShape : Random.ArangeSizeDomain BN
+columnShape : Random.ArangeSizeDomain BM
+s : State α
+domain : SourceDomain N M BN BM (s.pids 0)
+hn : N % 2 ^ 64 = N
+hm : M % 2 ^ 64 = M
+hp : s.pids 0 % 2 ^ 64 = s.pids 0
+hprod : s.pids 0 * BN % 2 ^ 64 = s.pids 0 * BN
+hnLane : ∀ (i : Fin BN), ↑i % 2 ^ 64 = ↑i
+hmLane : ∀ (i : Fin BM), ↑i % 2 ^ 64 = ↑i
+hrow : ∀ (i : Fin BN), (s.pids 0 * BN + ↑i) % 2 ^ 64 = s.pids 0 * BN + ↑i
+i : TileIndex []
+⊢ bop (fun x1 x2 => x1 % x2) Broadcast.nil (fun x => N) (fun x => 18446744073709551616) i = N
+
+case e_s.e_s.e_s.e_s.e_s.e_s.e_s.e_s.e_s.e_s.e_s.e_s.e_v.h
+α : Type
+inst✝ : Inhabited α
+A : FP.Structural.Algebra α
+N M BN BM : ℕ
+rowShape : Random.ArangeSizeDomain BN
+columnShape : Random.ArangeSizeDomain BM
+s : State α
+domain : SourceDomain N M BN BM (s.pids 0)
+hn : N % 2 ^ 64 = N
+hm : M % 2 ^ 64 = M
+hp : s.pids 0 % 2 ^ 64 = s.pids 0
+hprod : s.pids 0 * BN % 2 ^ 64 = s.pids 0 * BN
+hnLane : ∀ (i : Fin BN), ↑i % 2 ^ 64 = ↑i
+hmLane : ∀ (i : Fin BM), ↑i % 2 ^ 64 = ↑i
+hrow : ∀ (i : Fin BN), (s.pids 0 * BN + ↑i) % 2 ^ 64 = s.pids 0 * BN + ↑i
+i : TileIndex []
+⊢ bop (fun x1 x2 => x1 % x2) Broadcast.nil (fun x => M) (fun x => 18446744073709551616) i = M
+
+case e_s.e_s.e_s.e_s.e_s.e_s.e_s.e_s.e_s.e_s.e_s.e_v.h
+α : Type
+inst✝ : Inhabited α
+A : FP.Structural.Algebra α
+N M BN BM : ℕ
+rowShape : Random.ArangeSizeDomain BN
+columnShape : Random.ArangeSizeDomain BM
+s : State α
+domain : SourceDomain N M BN BM (s.pids 0)
+hn : N % 2 ^ 64 = N
+hm : M % 2 ^ 64 = M
+hp : s.pids 0 % 2 ^ 64 = s.pids 0
+hprod : s.pids 0 * BN % 2 ^ 64 = s.pids 0 * BN
+hnLane : ∀ (i : Fin BN), ↑i % 2 ^ 64 = ↑i
+hmLane : ∀ (i : Fin BM), ↑i % 2 ^ 64 = ↑i
+hrow : ∀ (i : Fin BN), (s.pids 0 * BN + ↑i) % 2 ^ 64 = s.pids 0 * BN + ↑i
+i : TileIndex []
+⊢ bop (fun x1 x2 => x1 % x2) Broadcast.nil (fun x => M) (fun x => 18446744073709551616) i = M
+
+case e_s.e_s.e_s.e_s.e_s.e_s.e_s.e_v.h
+α : Type
+inst✝ : Inhabited α
+A : FP.Structural.Algebra α
+N M BN BM : ℕ
+rowShape : Random.ArangeSizeDomain BN
+columnShape : Random.ArangeSizeDomain BM
+s : State α
+domain : SourceDomain N M BN BM (s.pids 0)
+hn : N % 2 ^ 64 = N
+hm : M % 2 ^ 64 = M
+hp : s.pids 0 % 2 ^ 64 = s.pids 0
+hprod : s.pids 0 * BN % 2 ^ 64 = s.pids 0 * BN
+hnLane : ∀ (i : Fin BN), ↑i % 2 ^ 64 = ↑i
+hmLane : ∀ (i : Fin BM), ↑i % 2 ^ 64 = ↑i
+hrow : ∀ (i : Fin BN), (s.pids 0 * BN + ↑i) % 2 ^ 64 = s.pids 0 * BN + ↑i
+i : TileIndex []
+⊢ bop (fun x1 x2 => x1 % x2) Broadcast.nil (fun x => s.pids 0) (fun x => 18446744073709551616) i = s.pids 0
+
+case e_s.e_s.e_s.e_s.e_s.e_s.e_v.h
+α : Type
+inst✝ : Inhabited α
+A : FP.Structural.Algebra α
+N M BN BM : ℕ
+rowShape : Random.ArangeSizeDomain BN
+columnShape : Random.ArangeSizeDomain BM
+s : State α
+domain : SourceDomain N M BN BM (s.pids 0)
+hn : N % 2 ^ 64 = N
+hm : M % 2 ^ 64 = M
+hp : s.pids 0 % 2 ^ 64 = s.pids 0
+hprod : s.pids 0 * BN % 2 ^ 64 = s.pids 0 * BN
+hnLane : ∀ (i : Fin BN), ↑i % 2 ^ 64 = ↑i
+hmLane : ∀ (i : Fin BM), ↑i % 2 ^ 64 = ↑i
+hrow : ∀ (i : Fin BN), (s.pids 0 * BN + ↑i) % 2 ^ 64 = s.pids 0 * BN + ↑i
+i : TileIndex [BN, 1]
+⊢ ((↑(Int.toNat (↑(s.pids 0) % 18446744073709551616 * ↑BN % 18446744073709551616)) + ↑↑i.1) %
+        18446744073709551616).toNat =
+    s.pids 0 * BN + ↑i.1
+
+case e_s.e_s.e_s.e_s.e_s.e_v.h
+α : Type
+inst✝ : Inhabited α
+A : FP.Structural.Algebra α
+N M BN BM : ℕ
+rowShape : Random.ArangeSizeDomain BN
+columnShape : Random.ArangeSizeDomain BM
+s : State α
+domain : SourceDomain N M BN BM (s.pids 0)
+hn : N % 2 ^ 64 = N
+hm : M % 2 ^ 64 = M
+hp : s.pids 0 % 2 ^ 64 = s.pids 0
+hprod : s.pids 0 * BN % 2 ^ 64 = s.pids 0 * BN
+hnLane : ∀ (i : Fin BN), ↑i % 2 ^ 64 = ↑i
+hmLane : ∀ (i : Fin BM), ↑i % 2 ^ 64 = ↑i
+hrow : ∀ (i : Fin BN), (s.pids 0 * BN + ↑i) % 2 ^ 64 = s.pids 0 * BN + ↑i
+i : TileIndex (TileShape.insertAxis [BM] 0 1)
+⊢ ↑i.2.1 % 18446744073709551616 = ↑i.2.1
+
+case e_s.e_s.e_s.e_s.e_v.h
+α : Type
+inst✝ : Inhabited α
+A : FP.Structural.Algebra α
+N M BN BM : ℕ
+rowShape : Random.ArangeSizeDomain BN
+columnShape : Random.ArangeSizeDomain BM
+s : State α
+domain : SourceDomain N M BN BM (s.pids 0)
+hn : N % 2 ^ 64 = N
+hm : M % 2 ^ 64 = M
+hp : s.pids 0 % 2 ^ 64 = s.pids 0
+hprod : s.pids 0 * BN % 2 ^ 64 = s.pids 0 * BN
+hnLane : ∀ (i : Fin BN), ↑i % 2 ^ 64 = ↑i
+hmLane : ∀ (i : Fin BM), ↑i % 2 ^ 64 = ↑i
+hrow : ∀ (i : Fin BN), (s.pids 0 * BN + ↑i) % 2 ^ 64 = s.pids 0 * BN + ↑i
+i : TileIndex [BN, 1]
+⊢ bop (fun a b => decide (a < b)) Broadcast.scalarR
+      (fun i =>
+        ((↑(Int.toNat (↑(s.pids 0) % 18446744073709551616 * ↑BN % 18446744073709551616)) + ↑↑i.1) %
+            18446744073709551616).toNat)
+      (bop (fun x1 x2 => x1 % x2) Broadcast.nil (fun x => N) fun x => 18446744073709551616) i =
+    decide (s.pids 0 * BN + ↑i.1 < N)
+
+case e_s.e_s.e_s.e_v.h
+α : Type
+inst✝ : Inhabited α
+A : FP.Structural.Algebra α
+N M BN BM : ℕ
+rowShape : Random.ArangeSizeDomain BN
+columnShape : Random.ArangeSizeDomain BM
+s : State α
+domain : SourceDomain N M BN BM (s.pids 0)
+hn : N % 2 ^ 64 = N
+hm : M % 2 ^ 64 = M
+hp : s.pids 0 % 2 ^ 64 = s.pids 0
+hprod : s.pids 0 * BN % 2 ^ 64 = s.pids 0 * BN
+hnLane : ∀ (i : Fin BN), ↑i % 2 ^ 64 = ↑i
+hmLane : ∀ (i : Fin BM), ↑i % 2 ^ 64 = ↑i
+hrow : ∀ (i : Fin BN), (s.pids 0 * BN + ↑i) % 2 ^ 64 = s.pids 0 * BN + ↑i
+i : TileIndex [BN, BM]
+⊢ bop (fun a b => (a.1, a.2 + b)) Broadcast.scalarL (fun x => ({ name := "A" }, 0))
+      (bop (fun x1 x2 => x1 + x2) Broadcast.nil.consL.consR
+        (fun i =>
+          Int.toNat
+            (↑((↑(Int.toNat (↑(s.pids 0) % 18446744073709551616 * ↑BN % 18446744073709551616)) + ↑↑i.1) %
+                      18446744073709551616).toNat *
+                (↑M % 18446744073709551616) %
+              18446744073709551616))
+        fun i => (↑↑i.2.1 % 18446744073709551616).toNat)
+      i =
+    ({ name := "A" }, (s.pids 0 * BN + ↑i.1) * M % 18446744073709551616 + ↑i.2.1)
+
+case e_s.e_s.e_v.h
+α : Type
+inst✝ : Inhabited α
+A : FP.Structural.Algebra α
+N M BN BM : ℕ
+rowShape : Random.ArangeSizeDomain BN
+columnShape : Random.ArangeSizeDomain BM
+s : State α
+domain : SourceDomain N M BN BM (s.pids 0)
+hn : N % 2 ^ 64 = N
+hm : M % 2 ^ 64 = M
+hp : s.pids 0 % 2 ^ 64 = s.pids 0
+hprod : s.pids 0 * BN % 2 ^ 64 = s.pids 0 * BN
+hnLane : ∀ (i : Fin BN), ↑i % 2 ^ 64 = ↑i
+hmLane : ∀ (i : Fin BM), ↑i % 2 ^ 64 = ↑i
+hrow : ∀ (i : Fin BN), (s.pids 0 * BN + ↑i) % 2 ^ 64 = s.pids 0 * BN + ↑i
+i : TileIndex [1, BM]
+⊢ bop (fun a b => (a.1, a.2 + b)) Broadcast.scalarL (fun x => ({ name := "B" }, 0))
+      (fun i => (↑↑i.2.1 % 18446744073709551616).toNat) i =
+    ({ name := "B" }, ↑i.2.1)

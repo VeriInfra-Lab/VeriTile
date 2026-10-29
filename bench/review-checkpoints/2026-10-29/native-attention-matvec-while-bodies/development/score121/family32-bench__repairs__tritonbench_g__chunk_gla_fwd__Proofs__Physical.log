@@ -1,0 +1,24 @@
+VeriTile.Bench.Repairs.ChunkGlaFwd.Physical.producerReference: definition does not reference [VeriTile.Bench.Repairs.ChunkGlaFwd.Physical.producerExecute,
+ VeriTile.Bench.Repairs.ChunkGlaFwd.Host.producerExecute,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.Repairs.ChunkGlaFwd.Physical.consumerReference: definition does not reference [VeriTile.Bench.Repairs.ChunkGlaFwd.Physical.consumerExecute,
+ VeriTile.Bench.Repairs.ChunkGlaFwd.Host.consumerExecute,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.Repairs.ChunkGlaFwd.Physical.stage_projection: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.ChunkGlaFwd.Physical.producer_source: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.ChunkGlaFwd.Physical.producer_readback: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.ChunkGlaFwd.Physical.producer_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.ChunkGlaFwd.Physical.consumer_source: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.ChunkGlaFwd.Physical.consumer_readback: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

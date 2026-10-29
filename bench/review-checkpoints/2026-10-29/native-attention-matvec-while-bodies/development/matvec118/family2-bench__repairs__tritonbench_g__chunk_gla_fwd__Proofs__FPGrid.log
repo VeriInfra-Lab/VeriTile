@@ -1,0 +1,20 @@
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/chunk_gla_fwd/Proofs/FPGrid.lean:36:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.ChunkGlaFwd.FPGrid.reference_frame`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/chunk_gla_fwd/Proofs/FPGrid.lean:48:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.ChunkGlaFwd.FPGrid.reference_invariant`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+VeriTile.Bench.Repairs.ChunkGlaFwd.FPGrid.referenceJobs: definition does not reference [VeriTile.Bench.Repairs.ChunkGlaFwd.FPGrid.runJobs,
+ VeriTile.Bench.Repairs.ChunkGlaFwd.FPGrid.invoke,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.Repairs.ChunkGlaFwd.FPGrid.runJobs_eq: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.ChunkGlaFwd.FPGrid.reference_frame: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.ChunkGlaFwd.FPGrid.reference_readback: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])

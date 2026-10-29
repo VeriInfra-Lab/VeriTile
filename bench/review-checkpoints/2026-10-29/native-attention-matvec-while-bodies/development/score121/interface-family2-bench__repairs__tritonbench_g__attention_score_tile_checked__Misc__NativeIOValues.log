@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.NativeInterface.SafetyProof.values: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

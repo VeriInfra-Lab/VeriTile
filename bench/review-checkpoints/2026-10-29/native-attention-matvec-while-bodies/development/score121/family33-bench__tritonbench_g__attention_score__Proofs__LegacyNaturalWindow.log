@@ -1,0 +1,131 @@
+/tmp/score121-frontend/bench/tritonbench_g/attention_score/Proofs/LegacyNaturalWindow.lean:1017:5: warning: unused variable `hq`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/score121-frontend/bench/tritonbench_g/attention_score/Proofs/LegacyNaturalWindow.lean:1362:28: warning: 'omega' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/score121-frontend/bench/tritonbench_g/attention_score/Proofs/LegacyNaturalWindow.lean:1362:28: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/score121-frontend/bench/tritonbench_g/attention_score/Proofs/LegacyNaturalWindow.lean:1444:28: warning: unused variable `NKV_CTX`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/score121-frontend/bench/tritonbench_g/attention_score/Proofs/LegacyNaturalWindow.lean:1446:5: warning: unused variable `hBNpos`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/score121-frontend/bench/tritonbench_g/attention_score/Proofs/LegacyNaturalWindow.lean:1577:28: warning: 'omega' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/score121-frontend/bench/tritonbench_g/attention_score/Proofs/LegacyNaturalWindow.lean:1577:28: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/score121-frontend/bench/tritonbench_g/attention_score/Proofs/LegacyNaturalWindow.lean:1725:2: error: Tactic `rfl` failed: The left-hand side
+  List.take 16
+    (attention_score_kernel Q K M Out 32768 8192 64 1 32768 8192 64 1 512 128 1 2 4 4 128 128 128 0 64 64 64 64 sm_scale
+          «true» «false» «true» «true» ⋯).toAlgKernel.body
+is not definitionally equal to the right-hand side
+  attentionScoreCase1PreLoop Q K M sm_scale
+
+Q K M Out : RegionName
+sm_scale : ℝ
+⊢ List.take 16
+      (attention_score_kernel Q K M Out 32768 8192 64 1 32768 8192 64 1 512 128 1 2 4 4 128 128 128 0 64 64 64 64
+            sm_scale «true» «false» «true» «true» ⋯).toAlgKernel.body =
+    attentionScoreCase1PreLoop Q K M sm_scale
+/tmp/score121-frontend/bench/tritonbench_g/attention_score/Proofs/LegacyNaturalWindow.lean:1752:2: error: Tactic `rfl` failed: The left-hand side
+  List.drop 17
+    (attention_score_kernel Q K M Out 32768 8192 64 1 32768 8192 64 1 512 128 1 2 4 4 128 128 128 0 64 64 64 64 sm_scale
+          «true» «false» «true» «true» ⋯).toAlgKernel.body
+is not definitionally equal to the right-hand side
+  attentionScoreCase1Post Out
+
+Q K M Out : RegionName
+sm_scale : ℝ
+⊢ List.drop 17
+      (attention_score_kernel Q K M Out 32768 8192 64 1 32768 8192 64 1 512 128 1 2 4 4 128 128 128 0 64 64 64 64
+            sm_scale «true» «false» «true» «true» ⋯).toAlgKernel.body =
+    attentionScoreCase1Post Out
+/tmp/score121-frontend/bench/tritonbench_g/attention_score/Proofs/LegacyNaturalWindow.lean:1944:39: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/score121-frontend/bench/tritonbench_g/attention_score/Proofs/LegacyNaturalWindow.lean:2184:39: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/score121-frontend/bench/tritonbench_g/attention_score/Proofs/LegacyNaturalWindow.lean:2329:22: warning: `push_neg` has been deprecated. Prefer using `push Not` instead.
+If you'd rather continue using `push_neg` in your project, you can implement it as follows:
+```
+open Lean.Parser.Tactic in
+macro "push_neg" cfg:optConfig loc:(location)? : tactic =>
+  `(tactic| push $cfg:optConfig Not $[$loc]?)
+```
+/tmp/score121-frontend/bench/tritonbench_g/attention_score/Proofs/LegacyNaturalWindow.lean:2698:2: error: Tactic `rfl` failed: The left-hand side
+  List.take 16
+    (attention_score_kernel Q K M Out stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk
+          stride_oz stride_oh stride_on Z H H_KV N_CTX ROUND_CTX NKV_CTX swo sws BN BD BN sm_scale «true» «false» «true»
+          «true» ⋯).toAlgKernel.body
+is not definitionally equal to the right-hand side
+  attentionScoreCase1PreLoopG Q K M sm_scale H H_KV N_CTX ROUND_CTX NKV_CTX BN BD stride_qz stride_qh stride_qm
+    stride_qk stride_kz stride_kh stride_kn stride_kk
+
+Q K M Out : RegionName
+stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk stride_oz stride_oh stride_on Z H H_KV N_CTX ROUND_CTX NKV_CTX swo sws BN BD :
+  ℕ
+sm_scale : ℝ
+⊢ List.take 16
+      (attention_score_kernel Q K M Out stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk
+            stride_oz stride_oh stride_on Z H H_KV N_CTX ROUND_CTX NKV_CTX swo sws BN BD BN sm_scale «true» «false»
+            «true» «true» ⋯).toAlgKernel.body =
+    attentionScoreCase1PreLoopG Q K M sm_scale H H_KV N_CTX ROUND_CTX NKV_CTX BN BD stride_qz stride_qh stride_qm
+      stride_qk stride_kz stride_kh stride_kn stride_kk
+/tmp/score121-frontend/bench/tritonbench_g/attention_score/Proofs/LegacyNaturalWindow.lean:2712:2: error: Tactic `rfl` failed: The left-hand side
+  List.drop 16
+    (attention_score_kernel Q K M Out stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk
+          stride_oz stride_oh stride_on Z H H_KV N_CTX ROUND_CTX NKV_CTX swo sws BN BD BN sm_scale «true» «false» «true»
+          «true» ⋯).toAlgKernel.body
+is not definitionally equal to the right-hand side
+  Stmt.forRangeDyn "start_m" (Op.ref TileDType.nat [] "lo") (Op.ref TileDType.nat [] "hi") (Op.constNat BN)
+      (attentionScoreCase1LoopBodyG BN BD swo sws N_CTX) ::
+    attentionScoreCase1PostG Out BN NKV_CTX stride_oz stride_oh
+
+Q K M Out : RegionName
+stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk stride_oz stride_oh stride_on Z H H_KV N_CTX ROUND_CTX NKV_CTX swo sws BN BD :
+  ℕ
+sm_scale : ℝ
+⊢ List.drop 16
+      (attention_score_kernel Q K M Out stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk
+            stride_oz stride_oh stride_on Z H H_KV N_CTX ROUND_CTX NKV_CTX swo sws BN BD BN sm_scale «true» «false»
+            «true» «true» ⋯).toAlgKernel.body =
+    Stmt.forRangeDyn "start_m" (Op.ref TileDType.nat [] "lo") (Op.ref TileDType.nat [] "hi") (Op.constNat BN)
+        (attentionScoreCase1LoopBodyG BN BD swo sws N_CTX) ::
+      attentionScoreCase1PostG Out BN NKV_CTX stride_oz stride_oh
+/tmp/score121-frontend/bench/tritonbench_g/attention_score/Proofs/LegacyNaturalWindow.lean:3484:39: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/score121-frontend/bench/tritonbench_g/attention_score/Proofs/LegacyNaturalWindow.lean:3605:11: warning: unused variable `ROUND_CTX`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/score121-frontend/bench/tritonbench_g/attention_score/Proofs/LegacyNaturalWindow.lean:3728:28: warning: 'omega' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/score121-frontend/bench/tritonbench_g/attention_score/Proofs/LegacyNaturalWindow.lean:3728:28: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/score121-frontend/bench/tritonbench_g/attention_score/Proofs/LegacyNaturalWindow.lean:3791:6: warning: `push_neg` has been deprecated. Prefer using `push Not` instead.
+If you'd rather continue using `push_neg` in your project, you can implement it as follows:
+```
+open Lean.Parser.Tactic in
+macro "push_neg" cfg:optConfig loc:(location)? : tactic =>
+  `(tactic| push $cfg:optConfig Not $[$loc]?)
+```
+/tmp/score121-frontend/bench/tritonbench_g/attention_score/Proofs/LegacyNaturalWindow.lean:3765:5: warning: unused variable `hBN`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/score121-frontend/bench/tritonbench_g/attention_score/Proofs/LegacyNaturalWindow.lean:3812:5: warning: unused variable `hBN`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/score121-frontend/bench/tritonbench_g/attention_score/Proofs/LegacyNaturalWindow.lean:4052:14: warning: unused variable `t`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/score121-frontend/bench/tritonbench_g/attention_score/Proofs/LegacyNaturalWindow.lean:4132:14: warning: unused variable `t`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`

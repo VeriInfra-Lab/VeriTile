@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.RotaryTransformTileChecked.KernelAlgebra.literal_zero: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.RotaryTransformTileChecked.KernelAlgebra.literal_one: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

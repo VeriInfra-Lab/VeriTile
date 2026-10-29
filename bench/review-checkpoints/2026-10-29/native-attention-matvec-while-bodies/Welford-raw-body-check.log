@@ -1,0 +1,36 @@
+[
+  {
+    "python_function": "twopassWelfordKernel",
+    "lean_definition": "twopassWelfordKernel",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "rowStride": "rowStride"
+    },
+    "statements": 11,
+    "runtime_parameters": {
+      "rowStride": "integer"
+    },
+    "constexpr_parameters": [
+      "blockSize"
+    ]
+  },
+  {
+    "python_function": "onlineWelfordKernel",
+    "lean_definition": "onlineWelfordKernel",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "rowStride": "rowStride"
+    },
+    "statements": 7,
+    "runtime_parameters": {
+      "rowStride": "integer"
+    },
+    "constexpr_parameters": [
+      "blockSize"
+    ]
+  }
+]

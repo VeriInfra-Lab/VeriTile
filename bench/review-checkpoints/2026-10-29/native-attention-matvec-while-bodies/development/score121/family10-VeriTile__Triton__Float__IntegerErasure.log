@@ -1,0 +1,21 @@
+/tmp/score121-frontend/VeriTile/Triton/Float/IntegerErasure.lean:13:2: error: Tactic `simp` failed with a nested error:
+(deterministic) timeout at `whnf`, maximum number of heartbeats (200000) has been reached
+
+Note: Use `set_option maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+/tmp/score121-frontend/VeriTile/Triton/Float/IntegerErasure.lean:19:2: error: Tactic `simp` failed with a nested error:
+(deterministic) timeout at `whnf`, maximum number of heartbeats (200000) has been reached
+
+Note: Use `set_option maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+/tmp/score121-frontend/VeriTile/Triton/Float/IntegerErasure.lean:24:2: error: Tactic `simp` failed with a nested error:
+(deterministic) timeout at `whnf`, maximum number of heartbeats (200000) has been reached
+
+Note: Use `set_option maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+/tmp/score121-frontend/VeriTile/Triton/Float/IntegerErasure.lean:28:0: error: VeriTile.Triton.Op.eraseDType_truncDiv: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/score121-frontend/VeriTile/Triton/Float/IntegerErasure.lean:29:0: error: VeriTile.Triton.Op.eraseDType_truncMod: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/score121-frontend/VeriTile/Triton/Float/IntegerErasure.lean:30:0: error: VeriTile.Triton.Op.eraseDType_intToSigned: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

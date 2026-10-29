@@ -1,0 +1,13 @@
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/matrix_vector_multip/FPEquiv.lean:22:106: warning: unused variable `rows`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+FP assumptions used by grid_explicit_fma_equiv:
+  none
+VeriTile.Bench.Repairs.MatrixVectorMultip.FPEquiv.grid_explicit_fma_equiv: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MatrixVectorMultip.FPEquiv.grid_explicit_fma_equiv: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+Axiom audit: headlines=1
+headlines: [VeriTile.Bench.Repairs.MatrixVectorMultip.FPEquiv.grid_explicit_fma_equiv]

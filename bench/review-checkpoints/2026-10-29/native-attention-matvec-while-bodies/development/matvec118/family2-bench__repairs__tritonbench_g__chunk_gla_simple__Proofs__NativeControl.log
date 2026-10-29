@@ -1,0 +1,7 @@
+VeriTile.Bench.Repairs.ChunkGlaSimple.NativeControl.setup: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.ChunkGlaSimple.NativeControl.range_eq: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.ChunkGlaSimple.NativeControl.loop_control: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

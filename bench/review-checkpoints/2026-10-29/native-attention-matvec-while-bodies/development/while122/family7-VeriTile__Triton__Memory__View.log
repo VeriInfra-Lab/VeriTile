@@ -1,0 +1,18 @@
+/tmp/while122-frontend/VeriTile/Triton/Memory/View.lean:226:33: warning: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp [observeTileAt, stepStmt, e̵v̵a̵l̵O̵p̵,̵ ̵hPtrs, hVal, Tile.ofReal,
+  ̵  ̵ ̵ ̵BlockState.writeMemTyped_real,
+  ̲  ̲ ̲ ̲Offset.rowMajor2D, Offset.strided]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/while122-frontend/VeriTile/Triton/Memory/View.lean:254:33: warning: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp [observeTileAt, stepStmt, e̵v̵a̵l̵O̵p̵,̵ ̵hPtrs, hVal, Tile.ofReal,
+  ̵  ̵ ̵ ̵BlockState.writeMemTyped_real,
+  ̲  ̲ ̲ ̲Offset.rowMajor2D, Offset.strided]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

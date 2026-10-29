@@ -1,0 +1,10 @@
+'VeriTile.Scratch.WhileDesign.finite_execution' depends on axioms: [propext, Classical.choice, Quot.sound]
+VeriTile.Scratch.WhileDesign.run.eq_1 {σ : Type} (condition : σ → Option Bool) (body : σ → Option σ) (state : σ) :
+  run condition body state = do
+    let active ← condition state
+    if active = true then do
+        let next ← body state
+        run condition body next
+      else pure state
+Loop.lean:28:7: error(lean.unknownIdentifier): Unknown constant `VeriTile.Scratch.WhileDesign.run.induct`
+Loop.lean:29:7: error(lean.unknownIdentifier): Unknown constant `run.induct`

@@ -1,0 +1,7 @@
+/tmp/while122-frontend/bench/tests/WhileBody.lean:15:9: error: unsupported Python Triton body: <input>:2:0: expected '}'
+/tmp/while122-frontend/bench/tests/WhileBody.lean:24:34: error: unexpected token 'true'; expected term
+/tmp/while122-frontend/bench/tests/WhileBody.lean:28:2: error: while condition: dtype mismatch
+def VeriTile.Tests.WhileBody.counter : ℕ → ComputeKernel :=
+fun limit => sorry
+def VeriTile.Tests.WhileBody.wrapping : ComputeKernel :=
+sorry

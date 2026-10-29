@@ -1,0 +1,8 @@
+{
+  "status": "INTERRUPTED_PROOF_EXPANSION",
+  "start": 1793283730.5792031,
+  "results": [],
+  "scope": "One serial queue; failed imports block dependents, independent modules continue.",
+  "end": 1793283855.2367938,
+  "reason": "Congruence expansion was unbounded; replaced by smaller semantic lemmas. No proof accepted from this attempt."
+}

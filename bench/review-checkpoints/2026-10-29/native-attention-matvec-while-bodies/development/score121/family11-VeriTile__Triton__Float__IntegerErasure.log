@@ -1,0 +1,86 @@
+/tmp/score121-frontend/VeriTile/Triton/Float/IntegerErasure.lean:14:82: error: unsolved goals
+a b out : TileShape
+bc : Broadcast a b out
+x : Op TileDType.int a
+y : Op TileDType.int b
+⊢ (lt ComparableDType.int (IntegerExpr.sameShape out) (add NumericDType.int bc x.eraseDType («full» b (constInt 0)))
+          («full» out (constInt 0))).where
+      (sub NumericDType.int (IntegerExpr.sameShape out) («full» out (constInt 0))
+        (floorDiv IntegralDType.int (IntegerExpr.sameShape out)
+          (sub NumericDType.int (IntegerExpr.sameShape out) («full» out (constInt 0))
+            (add NumericDType.int bc x.eraseDType («full» b (constInt 0))))
+          (add NumericDType.int bc («full» a (constInt 0)) y.eraseDType)))
+      (floorDiv IntegralDType.int (IntegerExpr.sameShape out)
+        (add NumericDType.int bc x.eraseDType («full» b (constInt 0)))
+        (add NumericDType.int bc («full» a (constInt 0)) y.eraseDType)) =
+    (lt ComparableDType.int (IntegerExpr.sameShape out) (add NumericDType.int bc x.eraseDType («full» b (constInt 0)))
+          («full» out (constInt 0))).where
+      (sub NumericDType.int (IntegerExpr.sameShape out) («full» out (constInt 0))
+        (floorDiv IntegralDType.int (IntegerExpr.sameShape out)
+          (sub NumericDType.int (IntegerExpr.sameShape out) («full» out (constInt 0))
+            (add NumericDType.int bc x.eraseDType («full» b (constInt 0))))
+          (add NumericDType.int bc («full» a (constInt 0)) y.eraseDType)))
+      (floorDiv IntegralDType.int (IntegerExpr.sameShape out)
+        (add NumericDType.int bc x.eraseDType («full» b (constInt 0)))
+        (add NumericDType.int bc («full» a (constInt 0)) y.eraseDType))
+/tmp/score121-frontend/VeriTile/Triton/Float/IntegerErasure.lean:20:82: error: unsolved goals
+a b out : TileShape
+bc : Broadcast a b out
+x : Op TileDType.int a
+y : Op TileDType.int b
+⊢ sub NumericDType.int (IntegerExpr.sameShape out) (add NumericDType.int bc x.eraseDType («full» b (constInt 0)))
+      (mul NumericDType.int (IntegerExpr.sameShape out) (add NumericDType.int bc («full» a (constInt 0)) y.eraseDType)
+        ((lt ComparableDType.int (IntegerExpr.sameShape out)
+              (add NumericDType.int bc x.eraseDType («full» b (constInt 0))) («full» out (constInt 0))).where
+          (sub NumericDType.int (IntegerExpr.sameShape out) («full» out (constInt 0))
+            (floorDiv IntegralDType.int (IntegerExpr.sameShape out)
+              (sub NumericDType.int (IntegerExpr.sameShape out) («full» out (constInt 0))
+                (add NumericDType.int bc x.eraseDType («full» b (constInt 0))))
+              (add NumericDType.int bc («full» a (constInt 0)) y.eraseDType)))
+          (floorDiv IntegralDType.int (IntegerExpr.sameShape out)
+            (add NumericDType.int bc x.eraseDType («full» b (constInt 0)))
+            (add NumericDType.int bc («full» a (constInt 0)) y.eraseDType)))) =
+    sub NumericDType.int (IntegerExpr.sameShape out) (add NumericDType.int bc x.eraseDType («full» b (constInt 0)))
+      (mul NumericDType.int (IntegerExpr.sameShape out) (add NumericDType.int bc («full» a (constInt 0)) y.eraseDType)
+        (truncDiv bc x.eraseDType y.eraseDType))
+/tmp/score121-frontend/VeriTile/Triton/Float/IntegerErasure.lean:25:79: error: unsolved goals
+shape : TileShape
+width : ℕ
+x : Op TileDType.int shape
+⊢ (lt ComparableDType.nat (IntegerExpr.sameShape shape)
+          (mul NumericDType.nat (IntegerExpr.sameShape shape) («full» shape (constNat 2))
+            (mod IntegralDType.nat (IntegerExpr.sameShape shape)
+              (mod IntegralDType.int (IntegerExpr.sameShape shape) x.eraseDType
+                  («full» shape (constInt (2 ^ width)))).castIntToNat
+              («full» shape (constNat (2 ^ width)))))
+          («full» shape (constNat (2 ^ width)))).where
+      (mod IntegralDType.nat (IntegerExpr.sameShape shape)
+          (mod IntegralDType.int (IntegerExpr.sameShape shape) x.eraseDType
+              («full» shape (constInt (2 ^ width)))).castIntToNat
+          («full» shape (constNat (2 ^ width)))).castNatToInt
+      (sub NumericDType.int (IntegerExpr.sameShape shape)
+        (mod IntegralDType.nat (IntegerExpr.sameShape shape)
+            (mod IntegralDType.int (IntegerExpr.sameShape shape) x.eraseDType
+                («full» shape (constInt (2 ^ width)))).castIntToNat
+            («full» shape (constNat (2 ^ width)))).castNatToInt
+        («full» shape (constInt (2 ^ width)))) =
+    (lt ComparableDType.nat (IntegerExpr.sameShape shape)
+          (mul NumericDType.nat (IntegerExpr.sameShape shape) («full» shape (constNat 2))
+            (mod IntegralDType.nat (IntegerExpr.sameShape shape)
+              (mod IntegralDType.int (IntegerExpr.sameShape shape) x.eraseDType
+                  («full» shape (constInt (2 ^ width)))).castIntToNat
+              («full» shape (constNat (2 ^ width)))))
+          («full» shape (constNat (2 ^ width)))).where
+      (mod IntegralDType.nat (IntegerExpr.sameShape shape)
+          (mod IntegralDType.int (IntegerExpr.sameShape shape) x.eraseDType
+              («full» shape (constInt (2 ^ width)))).castIntToNat
+          («full» shape (constNat (2 ^ width)))).castNatToInt
+      (sub NumericDType.int (IntegerExpr.sameShape shape)
+        (mod IntegralDType.nat (IntegerExpr.sameShape shape)
+            (mod IntegralDType.int (IntegerExpr.sameShape shape) x.eraseDType
+                («full» shape (constInt (2 ^ width)))).castIntToNat
+            («full» shape (constNat (2 ^ width)))).castNatToInt
+        («full» shape (constInt (2 ^ width))))
+/tmp/score121-frontend/VeriTile/Triton/Float/IntegerErasure.lean:30:0: error: VeriTile.Triton.Op.eraseDType_truncDiv: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/score121-frontend/VeriTile/Triton/Float/IntegerErasure.lean:31:0: error: VeriTile.Triton.Op.eraseDType_truncMod: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/score121-frontend/VeriTile/Triton/Float/IntegerErasure.lean:32:0: error: VeriTile.Triton.Op.eraseDType_intToSigned: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

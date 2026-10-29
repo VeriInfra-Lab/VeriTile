@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.MatrixVectorMultip.Numerical.native_eq_reference: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

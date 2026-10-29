@@ -1,0 +1,44 @@
+{
+  "status": "FAIL",
+  "start": 1793273252.0465727,
+  "results": [
+    {
+      "module": "VeriTile.Triton.DSL.TypedStores",
+      "source_sha256": "516784b2af8b210fefa2835b8a5f72973453244a3cd696e69ab625f4eabd0907",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793273252.0478559,
+      "end": 1793273269.4324756,
+      "log": "/tmp/score121-diag-family1-VeriTile__Triton__DSL__TypedStores.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.TypedStorageReduction",
+      "source_sha256": "26c50b50885cb0cc8a81863783fc01c8917be74a01efb6f47eff1d560fa9707d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793273269.4329774,
+      "end": 1793273272.974677,
+      "log": "/tmp/score121-diag-family1-VeriTile__Triton__DSL__TypedStorageReduction.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.CallSignature",
+      "source_sha256": "b341da6323cdc406cff0e6a3db6a296f5903d77da99ff587c71d53a50a3240cc",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793273272.9759505,
+      "end": 1793273346.1551483,
+      "log": "/tmp/score121-diag-family1-VeriTile__Triton__DSL__CallSignature.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.attention_score_tile_checked.SourceDefinitions",
+      "source_sha256": "43a164f6ec879432f4bef09fd3e2178557a7c09059b34477b8b3dc998a014cc7",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793273346.1561003,
+      "end": 1793273349.1988158,
+      "log": "/tmp/score121-diag-family1-bench__repairs__tritonbench_g__attention_score_tile_checked__SourceDefinitions.log"
+    }
+  ],
+  "scope": "One serial queue; failed imports block dependents, independent modules continue.",
+  "end": 1793273349.1995971
+}

@@ -1,0 +1,8 @@
+{
+  "status": "INTERRUPTED_PROOF_EXPANSION",
+  "start": 1793284275.3371348,
+  "results": [],
+  "scope": "One serial queue; failed imports block dependents, independent modules continue.",
+  "end": 1793284477.8972008,
+  "reason": "Instrument theorem-level diagnostics to isolate expensive elaboration."
+}

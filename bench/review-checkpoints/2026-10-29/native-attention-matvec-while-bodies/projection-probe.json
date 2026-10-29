@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "start": 1793291815.8052332,
+  "results": [
+    {
+      "file": "bench/examples/Welford/Correct.lean",
+      "status": "PASS",
+      "sha256": "4d7696a99b4832848d4df70a1917c070e383ca44e7183c3b778626a0eb819703",
+      "exit_code": 0,
+      "log": "/tmp/body124-projection-Welford.log"
+    },
+    {
+      "file": "bench/examples/FusedLayerNorm/Correct.lean",
+      "status": "PASS",
+      "sha256": "91e5d5822f0b5395c4bbdc15592ad575802c3573360189e4acca251454a5be26",
+      "exit_code": 0,
+      "log": "/tmp/body124-projection-FusedLayerNorm.log"
+    }
+  ],
+  "end": 1793291830.3024254
+}

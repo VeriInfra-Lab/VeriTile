@@ -1,0 +1,10 @@
+VeriTile.Bench.Repairs.RotaryTransform.schedule_covers: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.RotaryTransform.schedule_nodup: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.RotaryTransform.run_readback: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.RotaryTransform.run_tail: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])

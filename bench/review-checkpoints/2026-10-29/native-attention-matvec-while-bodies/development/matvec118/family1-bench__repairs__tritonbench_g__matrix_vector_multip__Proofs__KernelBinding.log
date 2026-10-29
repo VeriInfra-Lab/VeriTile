@@ -1,0 +1,52 @@
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/KernelBinding.lean:110:20: warning: This simp argument is unused:
+  if_pos rfl
+
+Hint: Omit it from the simp argument list.
+  simp only [state, i̵f̵_̵p̵o̵s̵ ̵r̵f̵l̵,̵ ̵Cell.read_same]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/KernelBinding.lean:110:32: warning: This simp argument is unused:
+  Cell.read_same
+
+Hint: Omit it from the simp argument list.
+  simp only [state, if_pos rfl,̵ ̵C̵e̵l̵l̵.̵r̵e̵a̵d̵_̵s̵a̵m̵e̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/KernelBinding.lean:127:61: warning: This simp argument is unused:
+  if_neg
+
+Hint: Omit it from the simp argument list.
+  simp only [state, show ("B" : RegionName) ≠ "A" by decide, if_n̵e̵g̵,̵ ̵i̵f̵_̵pos rfl, Cell.read_same]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/KernelBinding.lean:127:69: warning: This simp argument is unused:
+  if_pos rfl
+
+Hint: Omit it from the simp argument list.
+  simp only [state, show ("B" : RegionName) ≠ "A" by decide, if_neg, i̵f̵_̵p̵o̵s̵ ̵r̵f̵l̵,̵ ̵Cell.read_same]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/matvec118-frontend/bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/KernelBinding.lean:127:81: warning: This simp argument is unused:
+  Cell.read_same
+
+Hint: Omit it from the simp argument list.
+  simp only [state, show ("B" : RegionName) ≠ "A" by decide, if_neg, if_pos rfl,̵ ̵C̵e̵l̵l̵.̵r̵e̵a̵d̵_̵s̵a̵m̵e̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.MatrixVectorMultip.KernelBinding.memory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MatrixVectorMultip.KernelBinding.contract: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MatrixVectorMultip.KernelBinding.matrix_read: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MatrixVectorMultip.KernelBinding.vector_read: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.MatrixVectorMultip.KernelBinding.aliases: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.MatrixVectorMultip.KernelBinding.input_words: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

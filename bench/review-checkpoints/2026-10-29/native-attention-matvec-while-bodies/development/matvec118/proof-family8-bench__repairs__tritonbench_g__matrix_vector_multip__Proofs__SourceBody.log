@@ -1,0 +1,52 @@
+/tmp/matvec118-proof-probe/bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/SourceBody.lean:28:50: error: Invalid projection: Type of
+  i
+is not known; cannot resolve projection `1`
+/tmp/matvec118-proof-probe/bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/SourceBody.lean:28:58: error: Invalid projection: Type of
+  i
+is not known; cannot resolve projection `2`
+/tmp/matvec118-proof-probe/bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/SourceBody.lean:67:11: error: Function expected at
+  Context
+but this term has type
+  ?m.1
+
+Note: Expected a function because this term is being applied to the argument
+  N
+
+Hint: The identifier `Context` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.
+/tmp/matvec118-proof-probe/bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/SourceBody.lean:94:11: error: Function expected at
+  Context
+but this term has type
+  ?m.1
+
+Note: Expected a function because this term is being applied to the argument
+  N
+
+Hint: The identifier `Context` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.
+/tmp/matvec118-proof-probe/bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/SourceBody.lean:95:4: error: Function expected at
+  Context
+but this term has type
+  ?m.1
+
+Note: Expected a function because this term is being applied to the argument
+  N
+
+Hint: The identifier `Context` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.
+/tmp/matvec118-proof-probe/bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/SourceBody.lean:103:4: error: Function expected at
+  Context
+but this term has type
+  ?m.1
+
+Note: Expected a function because this term is being applied to the argument
+  N
+
+Hint: The identifier `Context` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.
+/tmp/matvec118-proof-probe/bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/SourceBody.lean:105:2: error: Tactic `constructor` failed: target is not an inductive datatype
+
+x✝ : Sort u_1
+Context : x✝
+α : Type
+inst✝ : Inhabited α
+A : FP.Structural.Algebra α
+N M BN BM : ℕ
+s : State α
+⊢ sorry

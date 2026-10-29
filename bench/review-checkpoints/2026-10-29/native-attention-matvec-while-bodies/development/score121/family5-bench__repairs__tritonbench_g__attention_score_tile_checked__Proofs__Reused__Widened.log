@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.Whole002.TypedSource.widened_eq: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

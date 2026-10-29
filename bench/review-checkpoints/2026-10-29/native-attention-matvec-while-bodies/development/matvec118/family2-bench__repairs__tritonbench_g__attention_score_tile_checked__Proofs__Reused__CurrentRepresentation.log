@@ -1,0 +1,11 @@
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.Whole002.Representation.distance64_exact: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.Whole002.Representation.window_equivalence: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.Whole002.Representation.formed_address: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.Whole002.Representation.F1_old_wrap: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.Whole002.Representation.F1_widened: axiom footprint ⊆ standard base ✓  ([propext])

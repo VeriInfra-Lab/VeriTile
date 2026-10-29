@@ -1,0 +1,5 @@
+VeriTile.Bench.Repairs.MatrixVectorMultip.Correct.matrixVector: definition does not reference [VeriTile.Bench.Repairs.MatrixVectorMultip.Kernels.source] — non-circular ✓
+VeriTile.Bench.Repairs.MatrixVectorMultip.Correct.mv_kernel_correctness: statement's project surface ⊆ allowlist ✓
+VeriTile.Bench.Repairs.MatrixVectorMultip.Correct.mv_kernel_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
