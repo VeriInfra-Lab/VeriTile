@@ -76,11 +76,28 @@ def reluSignature : CallSignature where
 ```
 
 主函数体保留 `y = relu_forward(x)`。helper 参数类型由调用的实际值决定；
-不会把整个 helper 结果作为假设或外部原语。当前支持一个 `return` 表达式，
-以及由已登记 helper 组成的调用。调用实参须为已有变量；自由名称、递归、错误
-参数个数、把 helper 当作值、需要复制 load／表达式的实参都会被拒绝。多语句／多结果
-helper 和 libdevice 别名尚不在这个接口的支持范围内。对照清单必须同时包含
-helper 的原始 Python 与 Lean 定义，不能只核对主函数里的调用名称。
+不会把整个 helper 结果作为假设或外部原语。支持已检查的顺序赋值和末尾
+return，以及已登记 helper 的调用；双结果、三结果的直接赋值分别检查数量。
+运行实参按源码顺序求值一次，helper 局部变量使用独立名称，返回值先完整求值
+再写入调用者的目标。递归、自由名称、错误的参数／结果数量及不支持的控制流
+仍会被拒绝。
+
+helper 的未注解参数可以接收字面量或调用者的 constexpr；它们保留弱标量
+性质，不会仅因传参就变成 tensor。例如 `divide(x, 4)` 中的 `4` 与
+`denominator = 4; divide(x, denominator)` 中的整数 tensor 保持区别。
+helper 内部重新赋值时，右侧先读取旧值，随后按普通赋值规则创建局部 tensor。
+对照清单必须同时包含 helper 的原始 Python 与 Lean 定义，不能只核对调用名称。
+
+局部 `BLOCK_SIZE_OUT: tl.constexpr = BLOCK_SIZE_IN * 2` 可保留在原函数体中。
+当前支持独立 Nat constexpr 的加法、乘法及先前局部别名；不能把 Python 的
+减法直接解释为 Nat 的截断减法。FP4 的完整 helper/caller 示例位于
+`bench/repairs/tritonbench_g/fp4_to_bf16/Kernels.lean`。
+
+已知 uint8/uint16 输入及受支持的别名、交错和位运算路径保留无符号宽度，
+同种类弱标量须落在该类型范围内，加减乘按保留的宽度取模。`tl.where` 的已知
+有符号分支保留 int8/int32 信息，越界弱标量会报错。这不等于通用整数类型推断
+已完成：例如 `tl.full([], 8, tl.int32)` 后接位运算的有符号宽度传播仍未支持。
+不支持的构造须修复并重证，不能通过删掉原始 cast 或改写函数体登记为通过。
 
 原生 rank-one block pointer 支持完整的 positional singleton tuple 参数，
 如 `tl.make_block_ptr(X, (N,), (stride,), (offset,), (B,), order=(0,))`。

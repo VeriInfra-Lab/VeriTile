@@ -1,0 +1,64 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/fp4_to_bf16/fp4_to_bf16_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/fp4_to_bf16/Kernels.lean",
+    "python_function": "_fp4_packed_to_bf16",
+    "lean_definition": "packedToBf16"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/fp4_to_bf16/fp4_to_bf16_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/fp4_to_bf16/Kernels.lean",
+    "python_function": "triton_f4_to_bf16_kernel_repaired",
+    "lean_definition": "body",
+    "signature_definition": "sourceSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "x_ptr",
+          "u8"
+        ],
+        [
+          "output_ptr",
+          "bf16"
+        ]
+      ],
+      "scalars": [
+        [
+          "n_elements_in",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "sign_mask_f4",
+        "mantissa_mask_f4",
+        "mbits_f4_e2m1",
+        "ebits_f4_e2m1",
+        "f4_e2m1_exp_bias",
+        "mbits_f32",
+        "ebits_f32",
+        "f32_exp_bias",
+        "zero_bits_f32",
+        "zero_point_five_bits_f32",
+        "BLOCK_SIZE_IN"
+      ],
+      "functions": [
+        "packedToBf16"
+      ]
+    },
+    "expected_call_bindings": {
+      "n_elements_in": "n"
+    },
+    "expected_constexpr_bindings": {
+      "sign_mask_f4": 8,
+      "mantissa_mask_f4": 1,
+      "mbits_f4_e2m1": 1,
+      "ebits_f4_e2m1": 2,
+      "f4_e2m1_exp_bias": 1,
+      "mbits_f32": 23,
+      "ebits_f32": 8,
+      "f32_exp_bias": 127,
+      "zero_bits_f32": 0,
+      "zero_point_five_bits_f32": 1056964608
+    }
+  }
+]

@@ -15,8 +15,14 @@ theorem complete (rest : Algebra Word) (h : Input) (storage : Finite.Storage h.s
     ∃ final, Launch.run rest h jobs initial=some final ∧
       final.mem=Host.expectedMemory h initial ∧
       (∀ r o,r≠h.output ∨ h.shape.count*2≤o → final.mem r o=initial.mem r o) := by
-  rw [Launch.complete_refinement rest h storage jobs initial gridSafe order]
-  exact ScheduleCorrect.fp4_to_bf16_arbitrary_program_order_correctness rest h jobs initial fresh typed order
+  obtain ⟨previous,ran,memory,frame⟩ :=
+    ScheduleCorrect.fp4_to_bf16_arbitrary_program_order_correctness rest h jobs initial fresh typed order
+  obtain ⟨final,actual,same⟩ :=
+    Launch.complete_transfer rest h storage jobs initial previous gridSafe order ran
+  refine ⟨final,actual,same.trans memory,?_⟩
+  intro r o outside
+  rw [same]
+  exact frame r o outside
 
 #axiomsClean complete
 end

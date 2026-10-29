@@ -6,8 +6,8 @@
     "tasks": 183,
     "examples": 19,
     "task_status": {
-      "selected_body_copy_checked": 118,
-      "uncovered_jit_functions": 65
+      "selected_body_copy_checked": 119,
+      "uncovered_jit_functions": 64
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
@@ -15,7 +15,7 @@
       "spec_derived_body_copy_checked": 15
     },
     "selected_jit_functions": 333,
-    "uncovered_selected_jit_functions": 145,
+    "uncovered_selected_jit_functions": 143,
     "primary_files_with_int64_screen_warning": 19,
     "primary_lean_file_features": {
       "tasks": {
@@ -7784,10 +7784,10 @@
       "lean": "bench/repairs/tritonbench_g/fp4_to_bf16/Kernels.lean",
       "source_provenance": "selected_revision",
       "lean_screen": {
-        "quotations": 0,
+        "quotations": 2,
         "in_body_type_directives": 0,
         "antiquotes": 0,
-        "dsl_assignment": 10,
+        "dsl_assignment": 26,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -7823,23 +7823,75 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_fp4_packed_to_bf16",
+          "lean_definition": "packedToBf16",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "inferred_helper_values",
+          "call_bindings": null,
+          "statements": 22,
+          "runtime_parameters": {},
+          "constexpr_parameters": [],
+          "body_kind": "helper",
+          "helper_parameters": [
+            "x_packed",
+            "sign_mask_f4",
+            "mantissa_mask_f4",
+            "mbits_f4_e2m1",
+            "ebits_f4_e2m1",
+            "f4_e2m1_exp_bias",
+            "mbits_f32",
+            "ebits_f32",
+            "f32_exp_bias",
+            "zero_bits_f32",
+            "zero_point_five_bits_f32"
+          ],
           "python": "bench/repairs/tritonbench_g/fp4_to_bf16/fp4_to_bf16_repaired.py",
-          "function": "_fp4_packed_to_bf16"
+          "lean": "bench/repairs/tritonbench_g/fp4_to_bf16/Kernels.lean"
         },
         {
+          "python_function": "triton_f4_to_bf16_kernel_repaired",
+          "lean_definition": "body",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "n_elements_in": "n"
+          },
+          "statements": 13,
+          "runtime_parameters": {
+            "n_elements_in": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_IN",
+            "ebits_f32",
+            "ebits_f4_e2m1",
+            "f32_exp_bias",
+            "f4_e2m1_exp_bias",
+            "mantissa_mask_f4",
+            "mbits_f32",
+            "mbits_f4_e2m1",
+            "sign_mask_f4",
+            "zero_bits_f32",
+            "zero_point_five_bits_f32"
+          ],
+          "source_functions": [
+            "packedToBf16"
+          ],
           "python": "bench/repairs/tritonbench_g/fp4_to_bf16/fp4_to_bf16_repaired.py",
-          "function": "triton_f4_to_bf16_kernel_repaired"
+          "lean": "bench/repairs/tritonbench_g/fp4_to_bf16/Kernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/fp4_to_bf16/Kernels.lean": "e5b3546e7d97163db37ed1fe3e6df860c812ba6fa944aed2e0ca3cf09a8205d3",
-        "bench/repairs/tritonbench_g/fp4_to_bf16/fp4_to_bf16_repaired.py": "70f10f7ab112fd50f29511e24c8dac26374d51e3ea8bb6dc769e899bdc6d22be"
+        "bench/repairs/tritonbench_g/fp4_to_bf16/Kernels.lean": "113d4866dd1205e1ef270a85bf82819ab04eea416887732ebff23aa9b115ea76",
+        "bench/repairs/tritonbench_g/fp4_to_bf16/fp4_to_bf16_repaired.py": "70f10f7ab112fd50f29511e24c8dac26374d51e3ea8bb6dc769e899bdc6d22be",
+        "bench/repairs/tritonbench_g/fp4_to_bf16/jit-correspondence.json": "405990ecf3fe290190ce2652f559485048bab82756c2cd3e8bc3fa8e7be0a759"
       }
     },
     {

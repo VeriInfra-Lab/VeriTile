@@ -326,6 +326,61 @@ private partial def assignedNames (raw : Syntax) : List Name := Id.run do
     names := raw[1].getId.eraseMacroScopes :: names
   return names ++ raw.getArgs.toList.flatMap assignedNames
 
+/-- Exact symbolic natural arithmetic for local compile-time dimensions.
+Runtime ABI parameters are deliberately absent from `external`: a supplied
+per-call value does not turn a Python tensor argument into a constexpr. -/
+private partial def localNatTerm (external : List Name)
+    (locals : List (Name × TSyntax `term)) (e : TSyntax `tritonExpr) :
+    TermElabM (Option (TSyntax `term)) := do
+  match e with
+  | `(tritonExpr| $n:num) => return some (← `(term| $n:num))
+  | `(tritonExpr| ($inner:tritonExpr))
+  | `(tritonExpr| tl.__python_literal($inner:tritonExpr)) => localNatTerm external locals inner
+  | `(tritonExpr| $id:ident) =>
+      let name := id.getId.eraseMacroScopes
+      if let some (_,term) := locals.find? (fun p => p.1 == name) then return some term
+      if !external.contains name then return none
+      let value ← elabTerm (⟨id.raw⟩ : TSyntax `term) none
+      if (← whnf (← inferType value)).isConstOf ``Nat then
+        return some (← `(term| $id:ident))
+      return none
+  | `(tritonExpr| $a:tritonExpr + $b:tritonExpr) =>
+      let some a ← localNatTerm external locals a | return none
+      let some b ← localNatTerm external locals b | return none
+      return some (← `(term| $a:term + $b:term))
+  | `(tritonExpr| $a:tritonExpr * $b:tritonExpr) =>
+      let some a ← localNatTerm external locals a | return none
+      let some b ← localNatTerm external locals b | return none
+      return some (← `(term| $a:term * $b:term))
+  | _ => return none
+
+/-- Resolve supported declarations at compilation time while retaining their
+raw source spelling. Only independent Nat sums/products are admitted here;
+Python subtraction is never replaced by saturating natural subtraction. -/
+private def lowerLocalNatConstants (parameters external : List Name)
+    (body : Array (TSyntax `tritonStmt)) : TermElabM (Array (TSyntax `tritonStmt)) := do
+  let mut external := external
+  let mut locals : List (Name × TSyntax `term) := []
+  let mut values : List (Name × TSyntax `tritonExpr) := []
+  let mut written : List Name := parameters
+  let mut output := #[]
+  for statement in body do
+    if let `(tritonStmt| $id:ident : tl.constexpr = $rhs:tritonExpr) := statement then
+      let name := id.getId.eraseMacroScopes
+      if written.contains name then
+        throwErrorAt id "local constexpr cannot redeclare an existing input or value"
+      if let some term ← localNatTerm external locals rhs then
+        locals := (name,term) :: locals
+        let value ← liftMacroM `(tritonExpr| $($term:term))
+        values := (name,value) :: values
+        written := name :: written
+        continue
+    output := output.push (⟨← liftMacroM <| bindSourceValues values statement.raw⟩ : TSyntax `tritonStmt)
+    let targets := assignedNames statement.raw
+    external := external.filter (fun name => !targets.contains name)
+    written := targets ++ written
+  return output
+
 private partial def rejectConstexprIteratorShadow (constants : List String)
     (raw : Syntax) : TermElabM Unit := do
   if raw.getNumArgs > 1 && raw[0].isAtom && raw[1].isIdent &&
@@ -796,8 +851,26 @@ private def elaborateCallCore (profile : TSyntax `term) (stmts : Array (TSyntax 
         -- Validate imports and helper expressions even if a helper is unused.
         let _ ← FiniteHelperSource.prepare declarations.toList names
         pure declarations
+      -- Closed caller constexpr values are still weak constants inside an
+      -- unannotated helper. Resolve them only for arguments whose binding is
+      -- known static at that call; later caller writes invalidate that fact.
+      let mut helperLiterals := checkedConstants
+      if !ordinaryFunctions.isEmpty then
+        for constant in constants do
+          let name := Name.mkSimple constant
+          let value ← elabTerm (mkIdent name) none
+          if (← whnf (← inferType value)).isConstOf ``Nat then
+            if let some n ← getNatValue? (← whnf value) then
+              let literal : TSyntax `num := ⟨Syntax.mkNumLit (toString n)⟩
+              let literal ← liftMacroM `(tritonExpr| $literal:num)
+              helperLiterals := (name,literal) :: helperLiterals
       let stmts ← liftMacroM <| SourceFunction.expandStatements ordinaryFunctions stmts names
-      let stmts ← liftMacroM <| NarrowUnsigned.lower stmts
+        (constants ++ globalNames) helperLiterals
+      let narrowPointers := pointers.filterMap fun (name,kind) =>
+        if kind == .u8 then some (Name.mkSimple name,8)
+        else if kind == .u16 then some (Name.mkSimple name,16)
+        else none
+      let stmts ← liftMacroM <| NarrowUnsigned.lower stmts narrowPointers
       let stmts ← liftMacroM <| stmts.mapM fun stmt => do
         return (⟨← SourceIntrinsic.lower unaryImports stmt.raw⟩ : TSyntax `tritonStmt)
       let stmts ← liftMacroM <| stmts.mapM fun stmt => do
@@ -889,7 +962,8 @@ private def elaborateCallCore (profile : TSyntax `term) (stmts : Array (TSyntax 
         if let `(tritonStmt| $id:ident : tl.constexpr = $_:tritonExpr) := stmt then
           localConstants := id.getId.eraseMacroScopes :: localConstants
       let stmts ← liftMacroM <| Constexpr.lower stmts.toList
-      let stmts := stmts.toArray
+      let stmts ← lowerLocalNatConstants (names.map Name.mkSimple)
+        (constants.map Name.mkSimple) stmts.toArray
       let assigned := stmts.toList.flatMap (fun st => assignedNames st.raw)
       let mut strings : StringChoices := []
       for constant in constants do

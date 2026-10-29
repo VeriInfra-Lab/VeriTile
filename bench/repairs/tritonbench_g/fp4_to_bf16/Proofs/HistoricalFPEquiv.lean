@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.fp4_to_bf16.Proofs.RawKernel
 import bench.repairs.tritonbench_g.fp4_to_bf16.Proofs.CheckedHost
 import bench.repairs.tritonbench_g.fp4_to_bf16.Kernels
 import bench.repairs.tritonbench_g.fp4_to_bf16.Proofs.Host
@@ -28,14 +29,13 @@ specification complete_fp_equivalence
       (∀ address, (address<s.outputBase ∨ s.outputBase+4*h.shape.count≤address) →
         physical h s heap sa.mem address=heap address) := by
   obtain ⟨sa,ra,ma,fa⟩ :=
-    ScheduleCorrect.fp4_to_bf16_arbitrary_program_order_correctness left h a initial
-      fresh (packed_of_rep h s heap initial rep.input) ha
+    RawKernel.complete left h s a initial
+      fresh (packed_of_rep h s heap initial rep.input) gridSafe ha
   obtain ⟨sb,rb,mb,_⟩ :=
-    ScheduleCorrect.fp4_to_bf16_arbitrary_program_order_correctness right h b initial
-      fresh (packed_of_rep h s heap initial rep.input) hb
+    RawKernel.complete right h s b initial
+      fresh (packed_of_rep h s heap initial rep.input) gridSafe hb
   have same : sa.mem=sb.mem := ma.trans mb.symm
-  refine ⟨sa,sb,(Launch.complete_refinement left h s a initial gridSafe ha).trans ra,
-    (Launch.complete_refinement right h s b initial gridSafe hb).trans rb,same,congrArg (physical h s heap) same,?_,physical_frame h s heap sa.mem⟩
+  refine ⟨sa,sb,ra,rb,same,congrArg (physical h s heap) same,?_,physical_frame h s heap sa.mem⟩
   intro j hj
   rw [physical_read h s heap sa.mem j hj,ma]
   have bound : j<h.shape.count*2 := by omega
