@@ -1,0 +1,223 @@
+{
+  "status": "FAIL",
+  "start": 1793268809.1341128,
+  "results": [
+    {
+      "module": "VeriTile.Triton.DSL.Expansion.Common",
+      "source_sha256": "36ef484a5b0de825c03cd3fc2d8dd5862208541e229d0d1fae8d284de69a9047",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793268809.134412,
+      "end": 1793268812.5240097,
+      "log": "/tmp/liger120-probe3-VeriTile__Triton__DSL__Expansion__Common.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.SourceIntrinsic",
+      "source_sha256": "702ff51e9343b71d35fdbdafee7a8c099b7fbfcc2902496176ab77bc4d89f320",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793268812.5242872,
+      "end": 1793268814.0279982,
+      "log": "/tmp/liger120-probe3-VeriTile__Triton__DSL__SourceIntrinsic.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Expansion.Memory",
+      "source_sha256": "f91af55661f6d7e1728d49d36a61a7dcd61553a165dfe89ef0fbbb531c67a93e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793268814.0283475,
+      "end": 1793268818.4423943,
+      "log": "/tmp/liger120-probe3-VeriTile__Triton__DSL__Expansion__Memory.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Expansion.Compute",
+      "source_sha256": "daf0fef4891c6c5e854099bcf64d564aa1c754f1902d6df53659dc9052a4be71",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793268818.4428189,
+      "end": 1793268824.242802,
+      "log": "/tmp/liger120-probe3-VeriTile__Triton__DSL__Expansion__Compute.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Expansion.Control",
+      "source_sha256": "5a64987af770f0c2ffbf01c23c3069ad9971e03a55e3b117a76c1578f42b8b1d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793268824.2431226,
+      "end": 1793268825.9765675,
+      "log": "/tmp/liger120-probe3-VeriTile__Triton__DSL__Expansion__Control.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.FiniteHelperSource",
+      "source_sha256": "b16e6ac66af74f85feefa9219e4aa880b46d54277d1d309ca495dbb62cccf0d0",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793268825.9768467,
+      "end": 1793268827.9369738,
+      "log": "/tmp/liger120-probe3-VeriTile__Triton__DSL__FiniteHelperSource.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.WelfordSource",
+      "source_sha256": "6e2ada87558bdca06378f2e80778cea8ea4a34c44efe4065240b5db3d43622e0",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793268827.93729,
+      "end": 1793268829.3236103,
+      "log": "/tmp/liger120-probe3-VeriTile__Triton__DSL__WelfordSource.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Expansion.DType",
+      "source_sha256": "2d61abff958ff6abdd0768a6bcd72c9d1192679b4c30c2d67c83efa774c23b7b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793268829.323872,
+      "end": 1793268830.944358,
+      "log": "/tmp/liger120-probe3-VeriTile__Triton__DSL__Expansion__DType.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Expansion.InlineAsm",
+      "source_sha256": "bc2d2a1a3b5b2eb3e092f1035ed8e3880372001ce66e03356b5b6bd7b4859c0b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793268830.9446173,
+      "end": 1793268832.6480803,
+      "log": "/tmp/liger120-probe3-VeriTile__Triton__DSL__Expansion__InlineAsm.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Expansion.DirectRandom",
+      "source_sha256": "7bd69539f4301bf3de9a42074fd1d90318b682552c0c28e4e39eab20ba7cf6dc",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793268832.6483963,
+      "end": 1793268835.3067799,
+      "log": "/tmp/liger120-probe3-VeriTile__Triton__DSL__Expansion__DirectRandom.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Expansion.Main",
+      "source_sha256": "d8a6bc8f52e32d5a0197a6245446c231dd99d9c916053c1f869866c9da326a98",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793268835.3073738,
+      "end": 1793268938.4237447,
+      "log": "/tmp/liger120-probe3-VeriTile__Triton__DSL__Expansion__Main.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Expansion",
+      "source_sha256": "abf572865569f8411e47bca680bf6f7a2ff1cfd2f0d4cac2a581d8212ba19802",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793268938.424021,
+      "end": 1793268939.6956694,
+      "log": "/tmp/liger120-probe3-VeriTile__Triton__DSL__Expansion.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL",
+      "source_sha256": "2423c62c7d2ce4f66fb836f36c35d2b904fc759e8f782684a28af52d0ab7faf4",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793268939.6959603,
+      "end": 1793268941.0006225,
+      "log": "/tmp/liger120-probe3-VeriTile__Triton__DSL.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.SourceDType",
+      "source_sha256": "1be7dc331ac611ad0ee68e85f1010519d9ddfa7c3eea80c095b0c1e713708999",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793268941.000919,
+      "end": 1793268943.0833771,
+      "log": "/tmp/liger120-probe3-VeriTile__Triton__DSL__SourceDType.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.PointerType",
+      "source_sha256": "2b409ab95e27f68ad359b5b8065b04ce954ffcc580ea7e35c742f65f3d8b7fe7",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793268943.0836575,
+      "end": 1793268944.4595568,
+      "log": "/tmp/liger120-probe3-VeriTile__Triton__DSL__PointerType.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.TypedStores",
+      "source_sha256": "290ffd50664ff8c19b794d7f8baf63d7fa939dd036b757c7dcfc184e0183f51a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793268944.4599082,
+      "end": 1793268953.1265798,
+      "log": "/tmp/liger120-probe3-VeriTile__Triton__DSL__TypedStores.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.TypedStorageReduction",
+      "source_sha256": "26c50b50885cb0cc8a81863783fc01c8917be74a01efb6f47eff1d560fa9707d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793268953.126874,
+      "end": 1793268955.0705795,
+      "log": "/tmp/liger120-probe3-VeriTile__Triton__DSL__TypedStorageReduction.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.SourceFunctionStatements",
+      "source_sha256": "83fb073da8c909806638c1349dc7ac36c111d9ae96e86b86a3794604fd97659c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793268955.0708735,
+      "end": 1793268957.1807344,
+      "log": "/tmp/liger120-probe3-VeriTile__Triton__DSL__SourceFunctionStatements.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.NarrowUnsigned",
+      "source_sha256": "fca8b659bab86d5f7294d8f0e8c1f14eee32f9ad39f7dcee3b0e5d8c041da8fb",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793268957.1810305,
+      "end": 1793268959.3996506,
+      "log": "/tmp/liger120-probe3-VeriTile__Triton__DSL__NarrowUnsigned.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Constexpr",
+      "source_sha256": "167269e39e3f81eb1f568a4cbb7cffb1777b5c5cc004b55ef40ba57dcb90cf75",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793268959.3999438,
+      "end": 1793268960.8960612,
+      "log": "/tmp/liger120-probe3-VeriTile__Triton__DSL__Constexpr.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.OrderedRowSum",
+      "source_sha256": "72f2bb739e10cab701cede2e5498a8bf110947d21a3d3e7b188ce1b351291fcd",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793268960.8963768,
+      "end": 1793268962.3367405,
+      "log": "/tmp/liger120-probe3-VeriTile__Triton__DSL__OrderedRowSum.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.CallSignature",
+      "source_sha256": "b341da6323cdc406cff0e6a3db6a296f5903d77da99ff587c71d53a50a3240cc",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793268962.3371036,
+      "end": 1793269007.4672782,
+      "log": "/tmp/liger120-probe3-VeriTile__Triton__DSL__CallSignature.log"
+    },
+    {
+      "module": "bench.tests.IntegerLiteralAssignmentBody",
+      "source_sha256": "4b847ca9fbbb6b66a95801a615f4302236a67260095c109546940f38114ead2d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793269007.467595,
+      "end": 1793269022.1142259,
+      "log": "/tmp/liger120-probe3-bench__tests__IntegerLiteralAssignmentBody.log"
+    },
+    {
+      "module": "bench.tests.TypedIntegerOperandBody",
+      "source_sha256": "15b2d3b8d20c0e6ca67a65dc1f28f136a2673f4675994461f45a1bf02bcfea2f",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793269022.1145709,
+      "end": 1793269023.9787345,
+      "log": "/tmp/liger120-probe3-bench__tests__TypedIntegerOperandBody.log"
+    }
+  ],
+  "end": 1793269023.9790034
+}

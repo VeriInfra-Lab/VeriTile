@@ -1,0 +1,16 @@
+{
+  "status": "FAIL",
+  "start": 1793268587.1616738,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Kernels",
+      "source_sha256": "0b8b4ed3c83e514a81f704511388abed11f9d9095aa5e5cecc360968412d4608",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793268587.162148,
+      "end": 1793268592.15441,
+      "log": "/tmp/liger120-probe2-bench__repairs__tritonbench_g__layer_norm_liger__Kernels.log"
+    }
+  ],
+  "end": 1793268592.1546452
+}

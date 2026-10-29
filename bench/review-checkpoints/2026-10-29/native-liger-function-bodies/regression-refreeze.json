@@ -1,0 +1,27 @@
+{
+  "status": "FOCUSED_REGRESSIONS_PASS_FINAL_REPLAY_PENDING",
+  "code_commit": "526edd2db1c9e83abfa55e6b7b0dcb16c6198b00",
+  "prior_failed_code": "85a4bbd28517ebc2e184e6aa8e0068ba348c8e72",
+  "files": [
+    "bench/tests/PositionalReductionLoop.lean",
+    "bench/tests/SignedRangeCallBody.lean"
+  ],
+  "proof": {
+    "results": [
+      {
+        "module": "PositionalReductionLoop",
+        "status": "PASS",
+        "sha256": "2c5abadedfad74f352238e66c3ecab8bc94b583542efcc7c6bcc48508ce0d5b3",
+        "log": "/tmp/liger120-regression1-PositionalReductionLoop.log"
+      },
+      {
+        "module": "SignedRangeCallBody",
+        "status": "PASS",
+        "sha256": "b81208905c551d7fa567df2e2d5bd28dd8782660e6efe1265c3cbf844eb4c802",
+        "log": "/tmp/liger120-regression1-SignedRangeCallBody.log"
+      }
+    ],
+    "status": "PASS"
+  },
+  "failure_archive": "/tmp/liger120-final-attempt1"
+}

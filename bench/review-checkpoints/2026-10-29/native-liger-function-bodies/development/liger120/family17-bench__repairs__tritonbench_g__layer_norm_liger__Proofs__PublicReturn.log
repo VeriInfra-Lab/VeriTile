@@ -1,0 +1,13 @@
+VeriTile.Bench.Repairs.LayerNormLiger.Public.backward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormLiger.Public.roundtrip: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormLiger.Public.Correct: definition does not reference [VeriTile.Bench.Repairs.LayerNormLiger.Forward.kernel,
+ VeriTile.Bench.Repairs.LayerNormLiger.Backward.kernel,
+ VeriTile.Bench.Repairs.LayerNormLiger.Forward.reference,
+ VeriTile.Bench.Repairs.LayerNormLiger.Backward.reference,
+ VeriTile.Bench.Repairs.LayerNormLiger.Grid.reference,
+ VeriTile.Bench.Repairs.LayerNormLiger.Host.backward,
+ VeriTile.Bench.Repairs.LayerNormLiger.Host.forwardBackward] — non-circular ✓

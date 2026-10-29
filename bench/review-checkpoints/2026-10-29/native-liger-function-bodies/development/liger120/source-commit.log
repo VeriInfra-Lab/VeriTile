@@ -1,0 +1,13 @@
+Auto packing the repository in background for optimum performance.
+See "git help gc" for manual housekeeping.
+[codex/body-copy-cache-and-constexpr 85a4bbd28] Paste complete Liger bodies with preserved conversions and full proofs
+ 38 files changed, 1805 insertions(+), 749 deletions(-)
+ create mode 100644 VeriTile/Triton/DSL/KnownRangeStep.lean
+ rewrite bench/repairs/tritonbench_g/layer_norm_liger/Kernels.lean (71%)
+ rewrite bench/repairs/tritonbench_g/layer_norm_liger/Proofs/CandidateSafety.lean (67%)
+ create mode 100644 bench/repairs/tritonbench_g/layer_norm_liger/Proofs/SourceOffsets.lean
+ rewrite bench/repairs/tritonbench_g/layer_norm_liger/Proofs/SourceShape.lean (97%)
+ create mode 100644 bench/repairs/tritonbench_g/layer_norm_liger/jit-correspondence.json
+ create mode 100644 bench/tests/KnownIntegerRangeStepBody.lean
+ create mode 100644 bench/tests/TypedIntegerOperandBody.lean
+ create mode 100644 bench/tests/test_layer_norm_liger_body.py

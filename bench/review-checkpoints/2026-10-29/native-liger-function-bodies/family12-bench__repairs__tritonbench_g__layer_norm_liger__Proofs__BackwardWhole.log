@@ -1,0 +1,55 @@
+/tmp/liger120-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/BackwardWhole.lean:38:47: error: unsolved goals
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+R : SumPrimitive α
+p : Parameters
+s t : State α
+row : ℕ
+a : Acc α p
+h : Ready p s t row a
+⊢ List.foldl
+      (fun mem i =>
+        if ↑i.1 < p.columns then fun r o =>
+          if r = { name := p.db.name } ∧ o = Int.toNat (↑(s.pids 0) * ↑p.dbStride + ↑↑i.1) then
+            Cell.mk TileDType.fp32
+              (M.cast none FloatDType.real FloatDType.fp32
+                (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real (a.db i)))
+          else mem r o
+        else mem)
+      (List.foldl
+        (fun mem i =>
+          if ↑i.1 < p.columns then fun r o =>
+            if r = { name := p.dw.name } ∧ o = Int.toNat (↑(s.pids 0) * ↑p.dwStride + ↑↑i.1) then
+              Cell.mk TileDType.fp32
+                (M.cast none FloatDType.real FloatDType.fp32
+                  (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real (a.dw i)))
+            else mem r o
+          else mem)
+        a.state.mem (TileShape.allIndices [p.block]))
+      (TileShape.allIndices [p.block]) =
+    List.foldl
+      (fun mem i =>
+        if ↑i.1 < p.columns then fun r o =>
+          if r = p.db ∧ o = s.pids 0 * p.dbStride + ↑i.1 then
+            Cell.mk TileDType.fp32
+              (M.cast none FloatDType.real FloatDType.fp32
+                (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real (a.db i)))
+          else mem r o
+        else mem)
+      (List.foldl
+        (fun mem i =>
+          if ↑i.1 < p.columns then fun r o =>
+            if r = p.dw ∧ o = s.pids 0 * p.dwStride + ↑i.1 then
+              Cell.mk TileDType.fp32
+                (M.cast none FloatDType.real FloatDType.fp32
+                  (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real (a.dw i)))
+            else mem r o
+          else mem)
+        a.state.mem (TileShape.allIndices [p.block]))
+      (TileShape.allIndices [p.block])
+VeriTile.Bench.Repairs.LayerNormLiger.Backward.range_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/liger120-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/BackwardWhole.lean:62:0: error: VeriTile.Bench.Repairs.LayerNormLiger.Backward.postlude_run: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/liger120-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/BackwardWhole.lean:63:0: error: VeriTile.Bench.Repairs.LayerNormLiger.Backward.complete_run: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

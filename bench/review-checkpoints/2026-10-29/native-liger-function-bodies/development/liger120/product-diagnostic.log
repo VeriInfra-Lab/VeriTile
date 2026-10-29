@@ -1,0 +1,27 @@
+/tmp/liger120-product-diagnostic.lean:57:0: error: Unknown option `pp.width`
+def VeriTile.Tests.TypedIntegerOperandBody.reducedProduct : RegionName → RegionName → ComputeKernel :=
+fun X Y =>
+  have dtype := FloatDType.fp32;
+  ComputeKernel.mk [X] [Y]
+    [ComputeStmt.assign TileDType.nat [1] "offsets" (ComputeExpr.alg (Op.arange 1)),
+      ComputeStmt.assign dtype.toTileDType [1] "x"
+        (ComputeExpr.alg
+          (Op.load dtype.toTileDType (MemAccess.region (Region.cast X) (Op.ref TileDType.nat [1] "offsets"))
+            MaskOpt.none)),
+      ComputeStmt.assign dtype.toTileDType [1] "wdy"
+        (ComputeExpr.alg
+          (Op.mul dtype.numericDType Broadcast.nil.consSame (Op.ref dtype.toTileDType [1] "x")
+            (Op.ref dtype.toTileDType [1] "x"))),
+      ComputeStmt.assign TileDType.int [] "n" (ComputeExpr.alg (Op.full [] (Op.constInt 2))),
+      ComputeStmt.assign TileDType.real [] "result"
+        (ComputeExpr.compute
+          (ComputeOp.alg ComputeDType.fp32
+            (Op.div NumericDType.real Broadcast.nil
+              (Op.castFloat dtype FloatDType.real
+                (Op.reduceSumTyped dtype ⟨0, reducedProduct._proof_1⟩ «false» (Op.ref dtype.toTileDType [1] "wdy")))
+              (Op.ref TileDType.int [] "n").intToReal))),
+      ComputeStmt.store dtype.toTileDType [] (MemAccess.region (Region.cast Y) (Op.constNat 0))
+        (ComputeExpr.alg
+          (Op.castFloat FloatDType.real dtype
+            (Op.withPrecision FloatDType.real IndexComputePrecision.fp32 (Op.ref TileDType.real [] "result"))))
+        MaskOpt.none]

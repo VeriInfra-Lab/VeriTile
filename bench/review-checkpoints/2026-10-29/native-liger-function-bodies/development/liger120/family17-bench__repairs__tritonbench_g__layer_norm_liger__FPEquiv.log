@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.LayerNormLiger.Kernel.FPEquiv.forward_pair: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormLiger.Kernel.FPEquiv.backward_pair: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

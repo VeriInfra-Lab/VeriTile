@@ -1,0 +1,8 @@
+{
+  "kind": "trailing_whitespace_only",
+  "old_sha256": "69e5750a82efdcc56a254f8576bd46b5b9b44088e614a772650b4f2d2f18b8a8",
+  "new_sha256": "3c1b6b6b8f04c2d2035f9f6c9f427aef8838c4cc422fa294c8b77f3fd7548db5",
+  "unchanged_tokens": true,
+  "replay": "PASS: 84 roots plus joint import and theorem audit",
+  "owned_generated_corpus_sha256": "dec43525b14e2ffcc47bf248fd6a20fbf9d33c58e4c7382b06fa9ad2ec11b854"
+}

@@ -1,0 +1,12 @@
+{
+  "status": "FAIL",
+  "code_commit": "85a4bbd28517ebc2e184e6aa8e0068ba348c8e72",
+  "checkout": "/tmp/veritile-hgrn54-clean",
+  "explicit_modules": 6013,
+  "start": 1793275766.9300256,
+  "scope": "All cumulative task/example/frontend roots, now including all 84 Liger and frontend roots, plus their full local import closure and joint import.",
+  "build_status": "COMPLETED",
+  "build_exit_code": 1,
+  "build_end": 1793277245.3253214,
+  "end": 1793277245.3255877
+}

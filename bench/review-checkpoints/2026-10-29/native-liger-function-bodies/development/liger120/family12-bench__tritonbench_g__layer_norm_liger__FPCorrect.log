@@ -1,0 +1,12 @@
+VeriTile.Bench.TritonBenchG.LayerNormLiger.FPCorrect.fp32_forward_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.LayerNormLiger.FPCorrect.fp32_scalarops_forward_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.LayerNormLiger.FPCorrect.supplied_mean_store_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.LayerNormLiger.FPCorrect.supplied_rstd_store_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

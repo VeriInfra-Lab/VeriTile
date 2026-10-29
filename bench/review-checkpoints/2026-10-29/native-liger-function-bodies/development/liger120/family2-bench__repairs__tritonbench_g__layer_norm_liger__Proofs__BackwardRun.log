@@ -1,0 +1,6 @@
+/tmp/liger120-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/BackwardRun.lean:34:18: error: `simp` made no progress
+/tmp/liger120-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/BackwardRun.lean:28:8: error: (kernel) declaration has metavariables 'VeriTile.Bench.Repairs.LayerNormLiger.Backward.prelude_run'
+/tmp/liger120-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/BackwardRun.lean:53:18: error: `simp` made no progress
+/tmp/liger120-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/BackwardRun.lean:42:8: error: (kernel) declaration has metavariables 'VeriTile.Bench.Repairs.LayerNormLiger.Backward.body_run'
+/tmp/liger120-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/BackwardRun.lean:67:0: error: VeriTile.Bench.Repairs.LayerNormLiger.Backward.prelude_run: DISALLOWED axioms [VeriTile.Bench.Repairs.LayerNormLiger.Backward.prelude_run] (sorryAx ⇒ fake proof)
+/tmp/liger120-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/BackwardRun.lean:68:0: error: VeriTile.Bench.Repairs.LayerNormLiger.Backward.body_run: DISALLOWED axioms [VeriTile.Bench.Repairs.LayerNormLiger.Backward.body_run] (sorryAx ⇒ fake proof)

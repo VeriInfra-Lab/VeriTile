@@ -1,0 +1,33 @@
+/tmp/liger120-frontend/bench/tests/TypedIntegerOperandBody.lean:58:55: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  OfNat (Value ℤ FloatDType.fp32.toTileDType) 11
+numerals are polymorphic in Lean, but the numeral `11` cannot be used in a context where the expected type is
+  Value ℤ FloatDType.fp32.toTileDType
+due to the absence of the instance above
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+/tmp/liger120-frontend/bench/tests/TypedIntegerOperandBody.lean:58:63: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  OfNat (Value ℤ FloatDType.fp32.toTileDType) 9000
+numerals are polymorphic in Lean, but the numeral `9000` cannot be used in a context where the expected type is
+  Value ℤ FloatDType.fp32.toTileDType
+due to the absence of the instance above
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+/tmp/liger120-frontend/bench/tests/TypedIntegerOperandBody.lean:62:56: error: unsolved goals
+⊢ 100 * sorry () + 2 = 1102
+/tmp/liger120-frontend/bench/tests/TypedIntegerOperandBody.lean:64:64: warning: declaration uses `sorry`
+/tmp/liger120-frontend/bench/tests/TypedIntegerOperandBody.lean:68:0: error: VeriTile.Tests.TypedIntegerOperandBody.product_reduction_keeps_fp32_conversion: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Tests.TypedIntegerOperandBody.signed_right_keeps_fp32_conversion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.TypedIntegerOperandBody.signed_left_keeps_operand_order: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.TypedIntegerOperandBody.natural_uses_unsigned_conversion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/liger120-frontend/bench/tests/TypedIntegerOperandBody.lean:102:6: warning: unused variable `dtype`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Tests.TypedIntegerOperandBody.source_dtype_matches_caller: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

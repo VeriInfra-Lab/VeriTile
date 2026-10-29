@@ -1,0 +1,34 @@
+{
+  "status": "FAIL",
+  "start": 1793269757.271254,
+  "results": [
+    {
+      "module": "VeriTile.Triton.DSL.CallSignature",
+      "source_sha256": "e4416e27332a8f75546ea3764531a4ef7256e92753805933de14baa4269712e7",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793269757.2714849,
+      "end": 1793269802.6972306,
+      "log": "/tmp/liger120-probe10-VeriTile__Triton__DSL__CallSignature.log"
+    },
+    {
+      "module": "bench.tests.IntegerLiteralAssignmentBody",
+      "source_sha256": "4b847ca9fbbb6b66a95801a615f4302236a67260095c109546940f38114ead2d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793269802.6974976,
+      "end": 1793269816.4004147,
+      "log": "/tmp/liger120-probe10-bench__tests__IntegerLiteralAssignmentBody.log"
+    },
+    {
+      "module": "bench.tests.TypedIntegerOperandBody",
+      "source_sha256": "f89a33350a1828068095034007d579fe782e9f8c7c8749987cb1bae5999c8605",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793269816.4006827,
+      "end": 1793269821.7700255,
+      "log": "/tmp/liger120-probe10-bench__tests__TypedIntegerOperandBody.log"
+    }
+  ],
+  "end": 1793269821.7702355
+}

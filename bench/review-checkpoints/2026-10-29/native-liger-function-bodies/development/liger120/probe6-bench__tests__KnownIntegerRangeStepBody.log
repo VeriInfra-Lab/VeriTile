@@ -1,0 +1,14 @@
+VeriTile.Tests.KnownIntegerRangeStepBody.range_captures_entry_step: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.KnownIntegerRangeStepBody.earlier_rebinding_changes_step: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/liger120-frontend/bench/tests/KnownIntegerRangeStepBody.lean:65:2: error: `simp` failed: maximum number of steps exceeded
+/tmp/liger120-frontend/bench/tests/KnownIntegerRangeStepBody.lean:70:0: error: VeriTile.Tests.KnownIntegerRangeStepBody.negative_constant_keeps_descending_order: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/liger120-frontend/bench/tests/KnownIntegerRangeStepBody.lean:77:2: error: tl.cast: signed integer casts are not modeled yet
+/tmp/liger120-frontend/bench/tests/KnownIntegerRangeStepBody.lean:75:0: error: ❌️ Docstring on `#guard_msgs` does not match generated message:
+
+- This pre-existing constructor limitation is separate from range lowering;
+- ordinary signed literal assignment above still exercises descending order.
+  error: tl.cast: signed integer casts are not modeled yet

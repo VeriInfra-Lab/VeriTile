@@ -1,0 +1,18 @@
+/tmp/liger120-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Misc/HostFPEquiv.lean:51:35: error: typeclass instance problem is stuck
+  Inhabited ?m.4
+
+Note: Lean will not try to resolve this typeclass instance problem because the type argument to `Inhabited` is a metavariable. This argument must be fully determined before Lean will try to resolve the typeclass.
+
+Hint: Adding type annotations and supplying implicit arguments to functions can give Lean more information for typeclass resolution. For example, if you have a variable `x` that you intend to be a `Nat`, but Lean reports it as having an unresolved type like `?m`, replacing `x` with `(x : Nat)` can get typeclass resolution un-stuck.
+/tmp/liger120-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Misc/HostFPEquiv.lean:52:36: error: typeclass instance problem is stuck
+  Inhabited ?m.4
+
+Note: Lean will not try to resolve this typeclass instance problem because the type argument to `Inhabited` is a metavariable. This argument must be fully determined before Lean will try to resolve the typeclass.
+
+Hint: Adding type annotations and supplying implicit arguments to functions can give Lean more information for typeclass resolution. For example, if you have a variable `x` that you intend to be a `Nat`, but Lean reports it as having an unresolved type like `?m`, replacing `x` with `(x : Nat)` can get typeclass resolution un-stuck.
+VeriTile.Bench.Repairs.LayerNormLiger.Equivalence.layer_norm_source_fp32: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormLiger.Equivalence.layer_norm_selected_plan: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

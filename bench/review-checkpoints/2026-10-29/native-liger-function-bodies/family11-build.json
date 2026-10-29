@@ -1,0 +1,25 @@
+{
+  "status": "FAIL",
+  "start": 1793271515.6039777,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardRun",
+      "source_sha256": "2f7a4cbf93aa1155ebaa65bf30954d4d51a25401b06298c53bf3f28b7c38899c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793271515.6041353,
+      "end": 1793271628.0391526,
+      "log": "/tmp/liger120-family11-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__BackwardRun.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardWhole",
+      "source_sha256": "3960454968bb7dff8c90a678eff39579b5d52e0f8272dd95812233f6d52ddc7c",
+      "status": "FAIL",
+      "exit_code": -6,
+      "start": 1793271628.0394435,
+      "end": 1793271644.1300368,
+      "log": "/tmp/liger120-family11-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__BackwardWhole.log"
+    }
+  ],
+  "end": 1793271644.1302416
+}

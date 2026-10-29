@@ -1,0 +1,61 @@
+{
+  "status": "FAIL",
+  "start": 1793270029.9780664,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ForwardModel",
+      "source_sha256": "7c403467167acadb264d1bd3d1797ec34a7e2f08089219b8dacfd3e634b889cf",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793270029.978236,
+      "end": 1793270032.4668117,
+      "log": "/tmp/liger120-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__ForwardModel.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardKernels",
+      "source_sha256": "9dca121630f4ba3708e9b6e48471d03f15bb2f048e341825aa4c04a90d9f6d27",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793270032.4670641,
+      "end": 1793270034.99254,
+      "log": "/tmp/liger120-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__BackwardKernels.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardModel",
+      "source_sha256": "24b7507e3b5f7faf5a28d0c0a5133681940fd958a98f5c2c5b683dab95186757",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793270035.0107079,
+      "end": 1793270037.6684237,
+      "log": "/tmp/liger120-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__BackwardModel.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Logical",
+      "source_sha256": "b4de6a53b73055afb86baacaa9b1e68ba7ae746e393dc482041021dfcf02c848",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793270037.6686845,
+      "end": 1793270040.378563,
+      "log": "/tmp/liger120-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__Logical.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.IO",
+      "source_sha256": "33e769e024a9471006306b9fdcd2e465045e781016ee0f1601ecb27e2ba01516",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793270040.3788314,
+      "end": 1793270044.7928267,
+      "log": "/tmp/liger120-family2-bench__repairs__tritonbench_g__layer_norm_liger__IO.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardRun",
+      "source_sha256": "a2e7598c7025babae20e71f1b85196da740645d78ee76a49ead8ca7f2318bfba",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793270044.7930844,
+      "end": 1793270047.9510372,
+      "log": "/tmp/liger120-family2-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__BackwardRun.log"
+    }
+  ],
+  "end": 1793270047.951258
+}

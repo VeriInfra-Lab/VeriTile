@@ -1,0 +1,72 @@
+{
+  "status": "PASS_WITH_RECORDED_LIMITS",
+  "code_commit": "85a4bbd28517ebc2e184e6aa8e0068ba348c8e72",
+  "start": 1793275767.178155,
+  "end": 1793275882.8732572,
+  "python": {
+    "targeted": {
+      "status": "PASS",
+      "tests": 419
+    },
+    "full": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 664,
+      "errors": 1
+    }
+  },
+  "raw_bodies": [
+    {
+      "name": "layer_norm_liger-raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/layer_norm_liger/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "85a4bbd28517ebc2e184e6aa8e0068ba348c8e72",
+      "log": "/tmp/liger120-layer_norm_liger-raw-body-check.log",
+      "status": "PASS"
+    }
+  ],
+  "cpu": {
+    "status": "PASS",
+    "scope": "Four complete Liger original and existing optimized Python bodies remain unchanged. Quoted casts, pointer updates, masks, scalar range step and source dtype conversions are retained. Actual signed-index execution, independent Real normalization and gradients, complete FP pairs and entire memory/safety judgments pass without narrowing public domains. Shared frontend supports checked FP32 dtype constexpr, typed FP32/integer operand conversion and syntactically captured integer range strides. Optional software/native expressions now retain integer conversion and output cast events. Obsolete shortened-AST diagnostic equalities are replaced by actual execution and complete-memory statements. Historical original-library modules are replayed separately and not counted as new literal mappings. No numerical experiment. Keep draft; no merge. Four literal mappings and their external caller metadata are checked; source checks are not hardware execution.",
+    "public_statements": "Main Correct/FPEquiv, Contract and IO definitions and domains remain byte-identical."
+  },
+  "torch": {
+    "name": "torch-dependencies",
+    "command": [
+      "python3",
+      "-c",
+      "import torch; import triton"
+    ],
+    "exit_code": 1,
+    "code_commit": "85a4bbd28517ebc2e184e6aa8e0068ba348c8e72",
+    "log": "/tmp/liger120-torch-dependencies.log",
+    "status": "UNAVAILABLE",
+    "reason": "The retained Torch source checker requires absent Torch/Triton. No GPU or numerical experiment was run."
+  },
+  "original_python_and_contracts": {
+    "status": "PASS",
+    "sha256": {
+      "bench/repairs/tritonbench_g/layer_norm_liger/Contract.lean": "5963b2aa329f646707f4c0f7827f080cbbd57010fc072202ef199b7a48dcd7ad",
+      "bench/repairs/tritonbench_g/layer_norm_liger/Correct.lean": "0a49199b645c3050a93c875c61d807574a9313917efac9585b0b76888ae24929",
+      "bench/repairs/tritonbench_g/layer_norm_liger/FPEquiv.lean": "9acbe4d81e376068c4c89b8733f93b0fd4e20ea53f8b203ffb15c1971ccd048c",
+      "bench/repairs/tritonbench_g/layer_norm_liger/IO.lean": "33e769e024a9471006306b9fdcd2e465045e781016ee0f1601ecb27e2ba01516",
+      "bench/repairs/tritonbench_g/layer_norm_liger/Proofs/Contract.lean": "e9aec1fba006cef159bf95c6790c785a3be42df7850aefcf6b094364c540d2c9",
+      "bench/repairs/tritonbench_g/layer_norm_liger/check_kernel.py": "df5fd2c795ee654e20f01c93a5885b281f36401eed8781a820aa1f0681ec6667",
+      "bench/repairs/tritonbench_g/layer_norm_liger/check_lowering.py": "7a590da26debd9c6b601c2f9ee2fac775ad299cd9dca51912d0d55559c343870",
+      "bench/repairs/tritonbench_g/layer_norm_liger/check_source.py": "f27d5663114dd064eb023af7372a326b3c83478bfcda358ab26236afe7d5620f",
+      "bench/repairs/tritonbench_g/layer_norm_liger/layer_norm_liger_optimized.py": "58666428abc0f9d3a6d686e65f31e04782d1c5456bdab9a3acc1db36ea2d0bb8",
+      "bench/repairs/tritonbench_g/layer_norm_liger/layer_norm_liger_repaired.py": "6ba82f8c92986e02bca37469e5c17f2e1471137f939191d7fef4b48bd7266a28"
+    }
+  },
+  "comparator": {
+    "attempts": 87,
+    "statuses": [
+      "UNAVAILABLE"
+    ]
+  },
+  "scope": "Exact frozen source. Actual Liger source execution, typed FP32/integer conversion and captured-stride frontend changes and all affected roots are verified separately by Lean; source checks are not hardware or numerical evidence."
+}

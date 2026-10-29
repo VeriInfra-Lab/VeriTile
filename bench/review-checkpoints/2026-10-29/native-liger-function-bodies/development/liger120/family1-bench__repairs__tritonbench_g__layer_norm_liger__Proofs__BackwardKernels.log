@@ -1,0 +1,14 @@
+/tmp/liger120-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/BackwardKernels.lean:16:52: error: Tactic `rfl` failed: The left-hand side
+  (kernel p).surfaceBody
+is not definitionally equal to the right-hand side
+  prelude p ++
+      [ComputeStmt.forRangeDyn "_row" (Op.ref TileDType.nat [] "row_start") (Op.ref TileDType.nat [] "row_end")
+          (Op.constNat 1) (body p)] ++
+    postlude p
+
+p : Parameters
+⊢ (kernel p).surfaceBody =
+    prelude p ++
+        [ComputeStmt.forRangeDyn "_row" (Op.ref TileDType.nat [] "row_start") (Op.ref TileDType.nat [] "row_end")
+            (Op.constNat 1) (body p)] ++
+      postlude p

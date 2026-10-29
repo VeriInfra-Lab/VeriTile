@@ -1,0 +1,9 @@
+/tmp/liger120-frontend/bench/tritonbench_g/layer_norm_liger/LayerNormLiger.lean:74:26: warning: unused variable `W_row_stride`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/liger120-frontend/bench/tritonbench_g/layer_norm_liger/LayerNormLiger.lean:75:26: warning: unused variable `B_row_stride`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/liger120-frontend/bench/tritonbench_g/layer_norm_liger/LayerNormLiger.lean:267:5: warning: unused variable `hOutInj`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`

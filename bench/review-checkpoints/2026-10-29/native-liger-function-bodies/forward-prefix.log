@@ -1,0 +1,25 @@
+/tmp/liger120-forward-prefix.lean:20:15: warning: unused variable `BLOCK_SIZE`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/liger120-forward-prefix.lean:33:15: warning: unused variable `BLOCK_SIZE`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/liger120-forward-prefix.lean:47:15: warning: unused variable `BLOCK_SIZE`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/liger120-forward-prefix.lean:62:15: warning: unused variable `BLOCK_SIZE`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/liger120-forward-prefix.lean:78:15: warning: unused variable `BLOCK_SIZE`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/liger120-forward-prefix.lean:95:15: warning: unused variable `BLOCK_SIZE`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/liger120-forward-prefix.lean:332:2: error: arithmetic: dtype mismatch
+/tmp/liger120-forward-prefix.lean:363:2: error: arithmetic: dtype mismatch
+/tmp/liger120-forward-prefix.lean:395:2: error: arithmetic: dtype mismatch
+/tmp/liger120-forward-prefix.lean:428:2: error: arithmetic: dtype mismatch
+/tmp/liger120-forward-prefix.lean:463:2: error: arithmetic: dtype mismatch
+/tmp/liger120-forward-prefix.lean:499:2: error: arithmetic: dtype mismatch
+/tmp/liger120-forward-prefix.lean:537:2: error: arithmetic: dtype mismatch

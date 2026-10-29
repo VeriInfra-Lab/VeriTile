@@ -1,0 +1,49 @@
+/tmp/liger120-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/BackwardRun.lean:15:40: error: Type mismatch
+  some fun x => s.pids 0
+has type
+  Option (?m.9 → ℕ)
+but is expected to have type
+  Option (Values α TileDType.int [])
+/tmp/liger120-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/BackwardRun.lean:40:52: error: Function expected at
+  Ready
+but this term has type
+  ?m.1
+
+Note: Expected a function because this term is being applied to the argument
+  p
+
+Hint: The identifier `Ready` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.
+/tmp/liger120-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/BackwardRun.lean:44:2: error: Tactic `constructor` failed: target is not an inductive datatype
+
+x✝ : Sort u_1
+Ready : x✝
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+R : SumPrimitive α
+p : Parameters
+s : State α
+⊢ sorry ()
+/tmp/liger120-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/BackwardRun.lean:54:9: error: Function expected at
+  Ready
+but this term has type
+  ?m.1
+
+Note: Expected a function because this term is being applied to the argument
+  p
+
+Hint: The identifier `Ready` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.
+/tmp/liger120-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/BackwardRun.lean:56:6: error: Function expected at
+  Ready
+but this term has type
+  ?m.1
+
+Note: Expected a function because this term is being applied to the argument
+  p
+
+Hint: The identifier `Ready` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.
+/tmp/liger120-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/BackwardRun.lean:63:18: error: `simp` made no progress
+/tmp/liger120-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/BackwardRun.lean:52:8: error: (kernel) declaration has metavariables 'VeriTile.Bench.Repairs.LayerNormLiger.Backward.body_run'
+/tmp/liger120-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/BackwardRun.lean:77:0: error: VeriTile.Bench.Repairs.LayerNormLiger.Backward.prelude_run: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/liger120-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/BackwardRun.lean:78:0: error: VeriTile.Bench.Repairs.LayerNormLiger.Backward.body_run: DISALLOWED axioms [VeriTile.Bench.Repairs.LayerNormLiger.Backward.body_run,
+ sorryAx] (sorryAx ⇒ fake proof)

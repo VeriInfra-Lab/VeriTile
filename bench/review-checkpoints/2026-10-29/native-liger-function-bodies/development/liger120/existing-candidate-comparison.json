@@ -1,0 +1,14 @@
+[
+  {
+    "original": "_layer_norm_forward_kernel",
+    "candidate": "_layer_norm_forward_centered_kernel",
+    "same_args": true,
+    "same_body": true
+  },
+  {
+    "original": "_layer_norm_backward_kernel",
+    "candidate": "_layer_norm_backward_denominator_kernel",
+    "same_args": true,
+    "same_body": true
+  }
+]

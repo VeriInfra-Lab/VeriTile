@@ -1,0 +1,112 @@
+[
+  [
+    1,
+    13,
+    "Y_row_stride = tl.cast(Y_row_stride, tl.int64)"
+  ],
+  [
+    2,
+    26,
+    "X_row_stride = tl.cast(X_row_stride, tl.int64)"
+  ],
+  [
+    3,
+    40,
+    "Mean_row_stride = tl.cast(Mean_row_stride, tl.int64)"
+  ],
+  [
+    4,
+    55,
+    "RSTD_row_stride = tl.cast(RSTD_row_stride, tl.int64)"
+  ],
+  [
+    5,
+    71,
+    "n_cols = tl.cast(n_cols, tl.int64)"
+  ],
+  [
+    6,
+    88,
+    "row_idx = tl.program_id(0).to(tl.int64)"
+  ],
+  [
+    7,
+    106,
+    "col_offsets = tl.arange(0, BLOCK_SIZE).to(tl.int64)"
+  ],
+  [
+    8,
+    125,
+    "mask = col_offsets < n_cols"
+  ],
+  [
+    9,
+    145,
+    "Y_ptr += row_idx * Y_row_stride"
+  ],
+  [
+    10,
+    167,
+    "X_ptr += row_idx * X_row_stride"
+  ],
+  [
+    11,
+    190,
+    "Mean_ptr += row_idx * Mean_row_stride"
+  ],
+  [
+    12,
+    214,
+    "RSTD_ptr += row_idx * RSTD_row_stride"
+  ],
+  [
+    13,
+    239,
+    "X_row = tl.load(X_ptr + col_offsets, mask=mask, other=0)"
+  ],
+  [
+    14,
+    266,
+    "W_row = tl.load(W_ptr + col_offsets, mask=mask, other=0)"
+  ],
+  [
+    15,
+    294,
+    "B_row = tl.load(B_ptr + col_offsets, mask=mask, other=0)"
+  ],
+  [
+    16,
+    323,
+    "mean = tl.sum(X_row, axis=0) / n_cols"
+  ],
+  [
+    17,
+    354,
+    "var = tl.sum(tl.where(mask, (X_row - mean) * (X_row - mean), 0.0), axis=0) / n_cols"
+  ],
+  [
+    18,
+    386,
+    "rstd = tl.rsqrt(var + eps)"
+  ],
+  [
+    19,
+    419,
+    "tl.store(Mean_ptr, mean)"
+  ],
+  [
+    20,
+    454,
+    "tl.store(RSTD_ptr, rstd)"
+  ],
+  [
+    21,
+    490,
+    "Y_row = (X_row - mean) * rstd * W_row + B_row"
+  ],
+  [
+    22,
+    528,
+    "tl.store(Y_ptr + col_offsets, Y_row, mask=mask)"
+  ]
+]

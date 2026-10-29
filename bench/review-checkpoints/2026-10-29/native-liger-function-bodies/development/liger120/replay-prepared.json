@@ -1,0 +1,11 @@
+{
+  "status": "PREPARED_ONLY_NOT_RUN",
+  "focused": 84,
+  "cumulative": 6013,
+  "audit_modules": 2494,
+  "tasks": 122,
+  "pairs": 429,
+  "pending": 61,
+  "parent_required": "117 final receipt and publication; Liger focus passed84/2179",
+  "note": "Four complete Liger original and existing optimized Python bodies remain unchanged. Quoted casts, pointer updates, masks, scalar range step and source dtype conversions are retained. Actual signed-index execution, independent Real normalization and gradients, complete FP pairs and entire memory/safety judgments pass without narrowing public domains. Shared frontend supports checked FP32 dtype constexpr, typed FP32/integer operand conversion and syntactically captured integer range strides. Optional software/native expressions now retain integer conversion and output cast events. Obsolete shortened-AST diagnostic equalities are replaced by actual execution and complete-memory statements. Historical original-library modules are replayed separately and not counted as new literal mappings. No numerical experiment. Keep draft; no merge."
+}

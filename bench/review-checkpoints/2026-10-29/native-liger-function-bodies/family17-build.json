@@ -1,0 +1,620 @@
+{
+  "status": "PASS",
+  "start": 1793275118.2018847,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Kernels",
+      "source_sha256": "3c1b6b6b8f04c2d2035f9f6c9f427aef8838c4cc422fa294c8b77f3fd7548db5",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275118.2022505,
+      "end": 1793275121.6838286,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Kernels.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Contract",
+      "source_sha256": "5963b2aa329f646707f4c0f7827f080cbbd57010fc072202ef199b7a48dcd7ad",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275121.6842284,
+      "end": 1793275124.8872142,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Contract.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ForwardModel",
+      "source_sha256": "7c403467167acadb264d1bd3d1797ec34a7e2f08089219b8dacfd3e634b889cf",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275124.8875756,
+      "end": 1793275127.481671,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__ForwardModel.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardKernels",
+      "source_sha256": "9dca121630f4ba3708e9b6e48471d03f15bb2f048e341825aa4c04a90d9f6d27",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275127.4819896,
+      "end": 1793275130.074097,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__BackwardKernels.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardModel",
+      "source_sha256": "017a93ccddf74dc25a6d318645ebb24e19c2b5b5e373a7c1b3c3e488fb0a91a9",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275130.0744998,
+      "end": 1793275132.7940059,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__BackwardModel.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Logical",
+      "source_sha256": "1f76fd8bad724753c0382d4a18c9e3cddebb9fbd18e8c20ba76627c014c5c9fd",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275132.7943883,
+      "end": 1793275135.5960093,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__Logical.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.IO",
+      "source_sha256": "33e769e024a9471006306b9fdcd2e465045e781016ee0f1601ecb27e2ba01516",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275135.596468,
+      "end": 1793275140.0455458,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__IO.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardRun",
+      "source_sha256": "2f7a4cbf93aa1155ebaa65bf30954d4d51a25401b06298c53bf3f28b7c38899c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275140.045946,
+      "end": 1793275253.4508789,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__BackwardRun.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardWhole",
+      "source_sha256": "a0e3439e9f9e0e9ffe8159d9e6010e87c0c18a503fa94ff315d9c62371d71bc7",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275253.4512784,
+      "end": 1793275257.5413127,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__BackwardWhole.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ForwardRun",
+      "source_sha256": "2a96be70bea8e17c64ad2348263d334c6c649d6e614b8eb354a827ae01f1aff4",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275257.5416682,
+      "end": 1793275264.160751,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__ForwardRun.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.SourceSafety",
+      "source_sha256": "3cc9ad4b9757d41c5e80c4929f86ff6cadb251161d965a98bf27b7138084541e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275264.1611948,
+      "end": 1793275274.4192753,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__SourceSafety.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.LogicalBackward",
+      "source_sha256": "99b35f77443d50db6176b4da0e2fa96bad205a8fecd56deb5390169796a08a46",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275274.4196928,
+      "end": 1793275279.4374456,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__LogicalBackward.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.FoldFacts",
+      "source_sha256": "f525b2c139c9cc30df64aaa11d406cae481394b3bc0bb3a644fa7d4ccb14ea6b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275279.4378366,
+      "end": 1793275282.243807,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__FoldFacts.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.LaunchCoverage",
+      "source_sha256": "f109074e05ca937017d4bf0142ac6ee64b23930894ace1d754acaa46a12ae75b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275282.2442167,
+      "end": 1793275285.4812543,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__LaunchCoverage.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardContract",
+      "source_sha256": "6b1b497337d3ad6b3f984ccc7a42a7d3d2ae2c5ae25de56997efbef6e9dc6630",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275285.4816878,
+      "end": 1793275289.5630407,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__BackwardContract.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardResult",
+      "source_sha256": "6d430e9b9dd6240bf725246bfde029eacefa85550877ea94f1684c64103c78ca",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275289.5634928,
+      "end": 1793275293.6442964,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__BackwardResult.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Frame",
+      "source_sha256": "8ed0a4c1e92fdc1727cec3c61a31389baf2b2c090b894e76d6817f636d32ded8",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275293.6446857,
+      "end": 1793275296.6753469,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__Frame.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.IOBindings",
+      "source_sha256": "603cebdf0e27896318c2067dfc8dd238b6d22be858e3c65696363ad2aa564882",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275296.675767,
+      "end": 1793275300.2130253,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__IOBindings.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ForwardContract",
+      "source_sha256": "762073f4e9814f8d0d2f70de97393341adabfb971c4129fc50e65b96ce566a1c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275300.213444,
+      "end": 1793275303.0278382,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__ForwardContract.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.LogicalForward",
+      "source_sha256": "6626342408a51ea3dba715a8aba302abb7d58c2d98f01db46c407f0dae497e2b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275303.0282848,
+      "end": 1793275307.3053894,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__LogicalForward.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ForwardResult",
+      "source_sha256": "7fecae0a9ae103a421f3ec353ea45821c49d6c73f01d3058f78cefa4d2c07296",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275307.3058114,
+      "end": 1793275310.1794662,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__ForwardResult.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.NativeIndex",
+      "source_sha256": "3dc415b2ad68c5f6e558f0dea14e4812061c57ab7e60530cfb86d93e7a0a27c1",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275310.1798878,
+      "end": 1793275317.814058,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__NativeIndex.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.HostResults",
+      "source_sha256": "5c65eccb6581c5a38cc2d7c2d975f42139ab25753e729193944d690c35646e85",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275317.8145108,
+      "end": 1793275320.9474514,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__HostResults.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ForwardSoftware",
+      "source_sha256": "fe6e077a12067c51b1ba6de5f02ab2d1a1560d5fce41b41aa881080f5321f688",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275320.9478905,
+      "end": 1793275324.0615587,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__ForwardSoftware.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardSoftware",
+      "source_sha256": "d9b7c3400f9ea1c85acccfc5bf31535fd9dd1db770686103ec967f361311ce1e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275324.0620131,
+      "end": 1793275327.6788177,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__BackwardSoftware.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ClosedFP",
+      "source_sha256": "be28c4c59b645ccff2c459d88422d6a472d85485fb60a60d52d2cc544bc6458b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275327.6792896,
+      "end": 1793275331.5997064,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__ClosedFP.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.SourceShape",
+      "source_sha256": "86d09674067e603015ee61adbedc58abc44e57b3fb20537b6974c9c35cc615ad",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275331.6001525,
+      "end": 1793275334.7267587,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__SourceShape.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.WholeCheck",
+      "source_sha256": "d1c6221b234f0b5041f90031260c9d8db669de9b9446c58ae8b243f126c0b38a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275334.7272413,
+      "end": 1793275340.1993477,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__WholeCheck.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Grid",
+      "source_sha256": "279d3c8d94657cfc31f1bb9bdf4ede2320aa3bad9e0a0186494c9c8b4f55241f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275340.1997933,
+      "end": 1793275344.2639053,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__Grid.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.GridCells",
+      "source_sha256": "9d13fc642655a45154e3f963d4f1c27a186e4a3af4f1cb0b47cbbecc6c903937",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275344.26436,
+      "end": 1793275347.9301999,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__GridCells.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ReductionPlan",
+      "source_sha256": "9dbedab06e73240c48978625824411a1a3579c2fe026d0eda4f2643947cf04d8",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275347.930622,
+      "end": 1793275350.5891023,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__ReductionPlan.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.GridHost",
+      "source_sha256": "a31c8ac307ae8a8d260a6ab194e28e42c4c764d9676c234a4375c5b988793d35",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275350.589613,
+      "end": 1793275354.7394445,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__GridHost.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Returned",
+      "source_sha256": "969ba1238eebe50a8a358442c3d3f557026456a544414e962d682aba0a238f0a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275354.7399406,
+      "end": 1793275359.9625044,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__Returned.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ForwardSaved",
+      "source_sha256": "a8554bd1b392a400c0242da27aa5e3afc27ff21bd010687b8ccf6d116e6caae5",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275359.9629524,
+      "end": 1793275363.8129323,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__ForwardSaved.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.PublicReturn",
+      "source_sha256": "22d0bc8c49f3b77ddcad5b6f0882a7060adf59fe4df1d78c43cc6ad3162e0287",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275363.8134305,
+      "end": 1793275368.1787212,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__PublicReturn.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.NativePlan",
+      "source_sha256": "51db97f543b91707f7fda1f27b7090fdc83bfaf0ad976a413c08b63fdad9f73c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275368.1791916,
+      "end": 1793275372.3752248,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__NativePlan.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.NativeLaws",
+      "source_sha256": "9c99f258bce0969dccd126d5cf97c8bd55c28608ece9980c5f3b2765f5c17fba",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275372.3756518,
+      "end": 1793275377.3667,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__NativeLaws.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.PublicCheck",
+      "source_sha256": "54816b60bcc2b27f92f2933b650a228506fb8f737499bde0577d3caf04163f73",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275377.3671887,
+      "end": 1793275381.763745,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__PublicCheck.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Wrapper",
+      "source_sha256": "fad31c8ba739379705e35ce118bfc7d94ed04327c3a9956476ac13ce4a59b542",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275381.76422,
+      "end": 1793275385.0638154,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__Wrapper.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Preparation",
+      "source_sha256": "bb0f0e070d1d641b3fec0bb2d40e193674214257996c3d86b0f0ddf6d2b7fa1e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275385.0643287,
+      "end": 1793275388.4963667,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__Preparation.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.LogicalInputs",
+      "source_sha256": "f480a1969b8fa6b174e4ea16bab916401249373027e6629812ce076d6d82f735",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275388.4968362,
+      "end": 1793275391.643356,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__LogicalInputs.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.RealInterface",
+      "source_sha256": "00856d5f2851ac014bf7caf9e2381ff4115d67748c59bb2bfba8da0aedbb5e36",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275391.6438496,
+      "end": 1793275396.9295833,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__RealInterface.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.LogicalIO",
+      "source_sha256": "861e5862c91653c6ee8ba41833fef1c55b5f00087400603f6776d6f12c576589",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275396.9300733,
+      "end": 1793275400.3556645,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__LogicalIO.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Correct",
+      "source_sha256": "0a49199b645c3050a93c875c61d807574a9313917efac9585b0b76888ae24929",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275400.356137,
+      "end": 1793275405.4973254,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Correct.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.CandidateBackwardSource",
+      "source_sha256": "d1106083c5d02ebefa80a30266e54492521a4df55018b5e59bca9db9705ae128",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275405.497806,
+      "end": 1793275408.0222533,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__CandidateBackwardSource.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.CandidateBackwardRun",
+      "source_sha256": "f7427be9ecfad2bcc85f4896f8ff6ff937512b463b14a91a124daa06e58db418",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275408.0227346,
+      "end": 1793275538.8001475,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__CandidateBackwardRun.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.CandidateBackwardWhole",
+      "source_sha256": "0e933f904d3d7f57f6044e0b1e096422be2bbaa4a2d8c0fd17533103ea468d53",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275538.8006527,
+      "end": 1793275542.9540854,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__CandidateBackwardWhole.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.CandidateForward",
+      "source_sha256": "4e6df178191b97e903adcd174c07bdaf3ae8bb8edd0b55a4e92cdd8040a6794a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275542.9545805,
+      "end": 1793275549.5868423,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__CandidateForward.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.CandidateSafetyForward",
+      "source_sha256": "7441a0e95e23f1475d31a2b44ae1362de1f7f241abccd1176bff6474e0da185e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275549.5874486,
+      "end": 1793275572.8778157,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__CandidateSafetyForward.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.CandidateSafety",
+      "source_sha256": "3e72a95b22d5966c95a24dae406d9a137513b8782afbea722cf0ba1cb80861bc",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275572.8783479,
+      "end": 1793275581.4224072,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__CandidateSafety.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ProgramPair",
+      "source_sha256": "b1ad286e6fb95b67fc5eb6ea335d35d61d7a8f0a44add46bd64a0c8dc41b01c3",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275581.4229302,
+      "end": 1793275586.222028,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__ProgramPair.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.FPEquiv",
+      "source_sha256": "9acbe4d81e376068c4c89b8733f93b0fd4e20ea53f8b203ffb15c1971ccd048c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275586.2225385,
+      "end": 1793275591.4158452,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__FPEquiv.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Misc.HostCorrect",
+      "source_sha256": "e357731a60826f71c3b3ce0a9918159a14b0c5c259b3a19e4d0154eedd820c29",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275591.4163952,
+      "end": 1793275597.2826438,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Misc__HostCorrect.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Misc.HostFPEquiv",
+      "source_sha256": "51a8d93890c9333e82e2ebdc9e9a192607bd1a427548116a2411ba8a21bae776",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275597.283191,
+      "end": 1793275601.4484127,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Misc__HostFPEquiv.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.OrderedReference",
+      "source_sha256": "990c228d91c866076b1428a96edb6d8297be109af79c23f406d6a66584dc68ee",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275601.4489617,
+      "end": 1793275604.7333834,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__OrderedReference.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.OrderedMemory",
+      "source_sha256": "3127ffd813fad5c9c50ac511a4faf2118b0dd0afaceaf65f609962c840018562",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275604.7338996,
+      "end": 1793275609.882913,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__OrderedMemory.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ForwardInterface",
+      "source_sha256": "71708ce7fe3f4f468cc530ab6da7a7aa1869491c4994beb0c4b3d6214464238d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275609.883457,
+      "end": 1793275614.1390085,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__ForwardInterface.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardInterface",
+      "source_sha256": "47fda51c602d03cc9bdb671c46d14b6299f924b815d46cb61632688adbeca558",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275614.1395636,
+      "end": 1793275618.5836298,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__BackwardInterface.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.NativeInterface",
+      "source_sha256": "a4d85d46ae0485c24ca2c3720c56090906acec13243e500b27891a727442cacd",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275618.584115,
+      "end": 1793275621.902156,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__NativeInterface.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Misc.NativeCorrect",
+      "source_sha256": "9d0f2b9c974ea80ddb64c0a03973461bdb02b5d32e92831f1166ad20998f54c5",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275621.9026794,
+      "end": 1793275625.8469102,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Misc__NativeCorrect.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.KernelBoundary",
+      "source_sha256": "2198f4db13bef8aa57cc8543b5f3d5d346cd5145c179f1e9d074ae3a8d839f14",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275625.8474977,
+      "end": 1793275629.0798266,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__KernelBoundary.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.KernelIndex",
+      "source_sha256": "bb931aee909eddbb4509cb80b430f484a04eb51fdc72b41b0be39774de663632",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275629.0803823,
+      "end": 1793275632.2346942,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__KernelIndex.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.KernelReal",
+      "source_sha256": "1785956a2b52f4b17807d606451225d1d11be8deb6b833d417e6404a6b9d763e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275632.2353346,
+      "end": 1793275635.5211985,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__KernelReal.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.KernelFP",
+      "source_sha256": "ab888f443e3edc658301b25d6b95edd71cada97540456faf3f1b5aac8b2b63e9",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275635.521778,
+      "end": 1793275638.6470149,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__KernelFP.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.KernelStrides",
+      "source_sha256": "00870bccc08385cc9b2b75f76138d0670ccc4dd96c862cdf483e5affa1a1b5bc",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275638.6476052,
+      "end": 1793275642.070714,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__KernelStrides.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Misc.TensorBridge",
+      "source_sha256": "2db96e02b079158d6fb927378ffef4f39888715f2f8ceca3ba9fa3162a996c99",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275642.0713146,
+      "end": 1793275646.7817762,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Misc__TensorBridge.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Misc.KernelAudit",
+      "source_sha256": "75a0435c536c600a21b4204c96deb4e4677d0dbf2f4854279115831116cd7a67",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275646.7823687,
+      "end": 1793275653.892591,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Misc__KernelAudit.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Misc.KernelProofAudit",
+      "source_sha256": "a8318dc57273080b2a2c7f5239e907df8bf4f3343934a97c893c9291ccda2557",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793275653.893149,
+      "end": 1793275659.145588,
+      "log": "/tmp/liger120-family17-bench__repairs__tritonbench_g__layer_norm_liger__Misc__KernelProofAudit.log"
+    }
+  ],
+  "scope": "One serial queue; failed imports block dependents, independent modules continue.",
+  "end": 1793275659.1459816
+}

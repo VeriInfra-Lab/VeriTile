@@ -1,0 +1,24 @@
+{
+  "status": "PASS",
+  "code_commit": "526edd2db1c9e83abfa55e6b7b0dcb16c6198b00",
+  "checkout": "/tmp/veritile-body77",
+  "explicit_modules": 6013,
+  "start": 1793277281.8336477,
+  "scope": "All cumulative task/example/frontend roots, now including all 84 Liger and frontend roots, plus their full local import closure and joint import.",
+  "cache_cleanup": {
+    "removed": "/tmp/veritile-body77/.lake/build",
+    "previous_verified_code": "3227d79070da6db233055554475b7d98bef06532",
+    "reason": "Remove only the completed owned 117 project cache before independent Liger source replay. Historical evidence and pinned external dependencies are retained."
+  },
+  "project_build_initially_present": false,
+  "veritile_cache_initially_present": false,
+  "project_objects_imported_from_other_checkouts": false,
+  "fixed_external_packages_reused": "/home/argustest/lizn/VeriTile/.lake/packages",
+  "build_status": "COMPLETED",
+  "build_exit_code": 0,
+  "build_end": 1793280314.2218354,
+  "joint_status": "COMPLETED",
+  "joint_exit_code": 0,
+  "joint_end": 1793280321.9049957,
+  "end": 1793280322.0902076
+}

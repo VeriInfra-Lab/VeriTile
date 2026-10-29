@@ -1,0 +1,4 @@
+/tmp/liger120-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Kernels.lean:33:2: error: arithmetic: dtype mismatch
+/tmp/liger120-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Kernels.lean:77:2: error: arithmetic: dtype mismatch
+/tmp/liger120-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Kernels.lean:16:37: error: nat expression: dtype mismatch
+/tmp/liger120-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Kernels.lean:16:73: error: nat expression: dtype mismatch

@@ -1,0 +1,8 @@
+{
+  "status": "NOT_RUN_WARM_FAILED",
+  "prior_wait_state": {
+    "status": "WAITING_FOR_WARM"
+  },
+  "end": 1793277266.2111988,
+  "reason": "Audit worker exited at its warm-PASS prerequisite after warm build failed in the two recorded regression fixtures. No axiom audit ran for this attempt."
+}

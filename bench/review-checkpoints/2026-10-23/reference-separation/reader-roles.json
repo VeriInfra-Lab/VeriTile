@@ -11645,9 +11645,8 @@
         }
       ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/layer_norm_liger.json",
-        "sha256": "be0bcbf0a4fc7ab7e122b2efed682632492f696f4683787bf4a0dacc783fe613",
-        "task": "layer_norm_liger"
+        "path": "bench/review-checkpoints/2026-10-29/native-liger-function-bodies/review.json",
+        "sha256": "44b1632250999f658c4aad2a8d78a106b1ccc2c2198d083dbd997a8f4ac79811"
       },
       "change": null,
       "new_misc_entries": [],
@@ -11682,7 +11681,8 @@
         "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/layer_norm_liger.json",
         "sha256": "be0bcbf0a4fc7ab7e122b2efed682632492f696f4683787bf4a0dacc783fe613",
         "task": "layer_norm_liger"
-      }
+      },
+      "current_body_source_review": "Four complete forward/backward original and existing optimized Liger bodies match their unchanged Python sources. All casts, masks, pointer updates, scalar loop step, reductions and output conversions are retained. Actual source execution, independent Real normalization/gradient formulas, complete source FP pairs and full-memory/safety judgments are reconnected without narrowing public domains. Optional software and symbolic native models preserve integer conversion and output cast events. The obsolete shortened-AST diagnostics are replaced by actual successful execution/full-memory statements, not asserted AST equality. Caller storage and dtype reflect the existing fixed FP32 host contract."
     },
     {
       "task": "layer_norm_ops",

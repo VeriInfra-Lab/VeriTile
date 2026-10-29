@@ -1,0 +1,417 @@
+{
+  "status": "FAIL",
+  "start": 1793272065.8455553,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardWhole",
+      "source_sha256": "e9a7550927c2e63192dc83806d3b47118811ae99672a754aae2f22858e1ea0c6",
+      "status": "FAIL",
+      "exit_code": -6,
+      "start": 1793272065.8457937,
+      "end": 1793272083.3660314,
+      "log": "/tmp/liger120-family13-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__BackwardWhole.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.SourceSafety",
+      "source_sha256": "bba9ceddc41c6511973ccca614982849639d88ba8b08ff43b5dd516ec0fce671",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardWhole"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardContract",
+      "source_sha256": "6b1b497337d3ad6b3f984ccc7a42a7d3d2ae2c5ae25de56997efbef6e9dc6630",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardWhole"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardResult",
+      "source_sha256": "6d430e9b9dd6240bf725246bfde029eacefa85550877ea94f1684c64103c78ca",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardContract"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Frame",
+      "source_sha256": "8ed0a4c1e92fdc1727cec3c61a31389baf2b2c090b894e76d6817f636d32ded8",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardResult"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.IOBindings",
+      "source_sha256": "603cebdf0e27896318c2067dfc8dd238b6d22be858e3c65696363ad2aa564882",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Frame",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.SourceSafety"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.HostResults",
+      "source_sha256": "5c65eccb6581c5a38cc2d7c2d975f42139ab25753e729193944d690c35646e85",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardResult"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardSoftware",
+      "source_sha256": "d9b7c3400f9ea1c85acccfc5bf31535fd9dd1db770686103ec967f361311ce1e",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardWhole"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ClosedFP",
+      "source_sha256": "be28c4c59b645ccff2c459d88422d6a472d85485fb60a60d52d2cc544bc6458b",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardSoftware"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.SourceShape",
+      "source_sha256": "86d09674067e603015ee61adbedc58abc44e57b3fb20537b6974c9c35cc615ad",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardWhole"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.WholeCheck",
+      "source_sha256": "d1c6221b234f0b5041f90031260c9d8db669de9b9446c58ae8b243f126c0b38a",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ClosedFP",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Frame",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.HostResults",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.SourceShape"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Grid",
+      "source_sha256": "279d3c8d94657cfc31f1bb9bdf4ede2320aa3bad9e0a0186494c9c8b4f55241f",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ClosedFP",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Frame"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.GridCells",
+      "source_sha256": "9d13fc642655a45154e3f963d4f1c27a186e4a3af4f1cb0b47cbbecc6c903937",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Grid"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ReductionPlan",
+      "source_sha256": "9dbedab06e73240c48978625824411a1a3579c2fe026d0eda4f2643947cf04d8",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Grid"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.GridHost",
+      "source_sha256": "a31c8ac307ae8a8d260a6ab194e28e42c4c764d9676c234a4375c5b988793d35",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.GridCells",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ReductionPlan"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Returned",
+      "source_sha256": "969ba1238eebe50a8a358442c3d3f557026456a544414e962d682aba0a238f0a",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.GridHost",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.HostResults"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ForwardSaved",
+      "source_sha256": "a8554bd1b392a400c0242da27aa5e3afc27ff21bd010687b8ccf6d116e6caae5",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.GridCells",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.HostResults"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.PublicReturn",
+      "source_sha256": "22d0bc8c49f3b77ddcad5b6f0882a7060adf59fe4df1d78c43cc6ad3162e0287",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ForwardSaved",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Returned"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.NativePlan",
+      "source_sha256": "51db97f543b91707f7fda1f27b7090fdc83bfaf0ad976a413c08b63fdad9f73c",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.GridHost"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.NativeLaws",
+      "source_sha256": "9c99f258bce0969dccd126d5cf97c8bd55c28608ece9980c5f3b2765f5c17fba",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.NativePlan"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.PublicCheck",
+      "source_sha256": "54816b60bcc2b27f92f2933b650a228506fb8f737499bde0577d3caf04163f73",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.NativeLaws",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.PublicReturn",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.WholeCheck"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Wrapper",
+      "source_sha256": "fad31c8ba739379705e35ce118bfc7d94ed04327c3a9956476ac13ce4a59b542",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.PublicCheck"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Preparation",
+      "source_sha256": "bb0f0e070d1d641b3fec0bb2d40e193674214257996c3d86b0f0ddf6d2b7fa1e",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Wrapper"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.LogicalInputs",
+      "source_sha256": "f480a1969b8fa6b174e4ea16bab916401249373027e6629812ce076d6d82f735",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Preparation"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.RealInterface",
+      "source_sha256": "00856d5f2851ac014bf7caf9e2381ff4115d67748c59bb2bfba8da0aedbb5e36",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.IOBindings",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.LogicalInputs"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.LogicalIO",
+      "source_sha256": "861e5862c91653c6ee8ba41833fef1c55b5f00087400603f6776d6f12c576589",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.RealInterface"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Correct",
+      "source_sha256": "0a49199b645c3050a93c875c61d807574a9313917efac9585b0b76888ae24929",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.LogicalIO"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.CandidateBackwardWhole",
+      "source_sha256": "59e5abb6fbd671ce4bccba85ae7daf8dc83da83cdf50603b577cf067fd1fb8a4",
+      "status": "FAIL",
+      "exit_code": -6,
+      "start": 1793272083.3728702,
+      "end": 1793272101.0084453,
+      "log": "/tmp/liger120-family13-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__CandidateBackwardWhole.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.CandidateSafetyForward",
+      "source_sha256": "3ba661e9eeeb805164758a58a49f69973f8f4f41349420b6cc5d31bea3fde326",
+      "status": "FAIL",
+      "exit_code": -6,
+      "start": 1793272101.0090392,
+      "end": 1793272121.1124241,
+      "log": "/tmp/liger120-family13-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__CandidateSafetyForward.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.CandidateSafety",
+      "source_sha256": "db2da2fd8f028293bd5fec4d2ce91551b902e2c43014b0b9a7ff1124b2785428",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.CandidateBackwardWhole",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.CandidateSafetyForward",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.SourceSafety"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ProgramPair",
+      "source_sha256": "b1ad286e6fb95b67fc5eb6ea335d35d61d7a8f0a44add46bd64a0c8dc41b01c3",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.CandidateSafety",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.IOBindings"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.FPEquiv",
+      "source_sha256": "9acbe4d81e376068c4c89b8733f93b0fd4e20ea53f8b203ffb15c1971ccd048c",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ProgramPair"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Misc.HostCorrect",
+      "source_sha256": "e357731a60826f71c3b3ce0a9918159a14b0c5c259b3a19e4d0154eedd820c29",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.LogicalInputs"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Misc.HostFPEquiv",
+      "source_sha256": "76df8dbcabeac90d26b85176b434dff0983f011b3b15ba9b2b33330773b422cd",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Preparation"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.OrderedMemory",
+      "source_sha256": "3127ffd813fad5c9c50ac511a4faf2118b0dd0afaceaf65f609962c840018562",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.IOBindings"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ForwardInterface",
+      "source_sha256": "71708ce7fe3f4f468cc530ab6da7a7aa1869491c4994beb0c4b3d6214464238d",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.OrderedMemory"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardInterface",
+      "source_sha256": "47fda51c602d03cc9bdb671c46d14b6299f924b815d46cb61632688adbeca558",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.OrderedMemory"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.NativeInterface",
+      "source_sha256": "a4d85d46ae0485c24ca2c3720c56090906acec13243e500b27891a727442cacd",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardInterface",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ForwardInterface",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.NativePlan"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Misc.NativeCorrect",
+      "source_sha256": "9d0f2b9c974ea80ddb64c0a03973461bdb02b5d32e92831f1166ad20998f54c5",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.NativeInterface"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.KernelBoundary",
+      "source_sha256": "2198f4db13bef8aa57cc8543b5f3d5d346cd5145c179f1e9d074ae3a8d839f14",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Frame"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.KernelIndex",
+      "source_sha256": "bb931aee909eddbb4509cb80b430f484a04eb51fdc72b41b0be39774de663632",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.KernelBoundary"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.KernelReal",
+      "source_sha256": "1785956a2b52f4b17807d606451225d1d11be8deb6b833d417e6404a6b9d763e",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.KernelIndex"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.KernelFP",
+      "source_sha256": "ab888f443e3edc658301b25d6b95edd71cada97540456faf3f1b5aac8b2b63e9",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.KernelIndex",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.NativePlan"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.KernelStrides",
+      "source_sha256": "00870bccc08385cc9b2b75f76138d0670ccc4dd96c862cdf483e5affa1a1b5bc",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.KernelIndex"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Misc.TensorBridge",
+      "source_sha256": "2db96e02b079158d6fb927378ffef4f39888715f2f8ceca3ba9fa3162a996c99",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Correct",
+        "bench.repairs.tritonbench_g.layer_norm_liger.FPEquiv",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Misc.NativeCorrect",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.KernelFP",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.KernelReal",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.KernelStrides"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Misc.KernelAudit",
+      "source_sha256": "75a0435c536c600a21b4204c96deb4e4677d0dbf2f4854279115831116cd7a67",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Correct",
+        "bench.repairs.tritonbench_g.layer_norm_liger.FPEquiv",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Misc.HostCorrect",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Misc.HostFPEquiv",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Misc.NativeCorrect",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Misc.TensorBridge"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Misc.KernelProofAudit",
+      "source_sha256": "a8318dc57273080b2a2c7f5239e907df8bf4f3343934a97c893c9291ccda2557",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.KernelStrides",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.NativeInterface",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.RealInterface"
+      ]
+    }
+  ],
+  "scope": "One serial queue; failed imports block dependents, independent modules continue.",
+  "end": 1793272121.3625624
+}

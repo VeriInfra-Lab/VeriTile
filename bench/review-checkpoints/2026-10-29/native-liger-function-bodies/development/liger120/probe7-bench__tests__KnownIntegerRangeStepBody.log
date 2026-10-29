@@ -1,0 +1,20 @@
+/tmp/liger120-frontend/bench/tests/KnownIntegerRangeStepBody.lean:49:37: warning: 'norm_num [integralMod]' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/liger120-frontend/bench/tests/KnownIntegerRangeStepBody.lean:49:37: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+VeriTile.Tests.KnownIntegerRangeStepBody.range_captures_entry_step: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/liger120-frontend/bench/tests/KnownIntegerRangeStepBody.lean:59:37: warning: 'norm_num [integralMod]' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/liger120-frontend/bench/tests/KnownIntegerRangeStepBody.lean:59:37: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+VeriTile.Tests.KnownIntegerRangeStepBody.earlier_rebinding_changes_step: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/liger120-frontend/bench/tests/KnownIntegerRangeStepBody.lean:65:2: error: `simp` failed: maximum number of steps exceeded
+/tmp/liger120-frontend/bench/tests/KnownIntegerRangeStepBody.lean:70:0: error: VeriTile.Tests.KnownIntegerRangeStepBody.negative_constant_keeps_descending_order: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

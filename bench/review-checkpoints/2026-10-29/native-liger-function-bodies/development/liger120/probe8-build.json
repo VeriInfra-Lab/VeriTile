@@ -1,0 +1,25 @@
+{
+  "status": "FAIL",
+  "start": 1793269543.4688554,
+  "results": [
+    {
+      "module": "bench.tests.KnownIntegerRangeStepBody",
+      "source_sha256": "afbfa0b43e5f77c55b96e016ef4e890324c8db9512fddd592db09948eb52812b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793269543.4689996,
+      "end": 1793269551.3902144,
+      "log": "/tmp/liger120-probe8-bench__tests__KnownIntegerRangeStepBody.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Kernels",
+      "source_sha256": "84c02141feed47dd678cb4710761b4cbead7350cb97b7e801cbaf5db0e0dce46",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793269551.3905284,
+      "end": 1793269554.5553148,
+      "log": "/tmp/liger120-probe8-bench__repairs__tritonbench_g__layer_norm_liger__Kernels.log"
+    }
+  ],
+  "end": 1793269554.5555189
+}

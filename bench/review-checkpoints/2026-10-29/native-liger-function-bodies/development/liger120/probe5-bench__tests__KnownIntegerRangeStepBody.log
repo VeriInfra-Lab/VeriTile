@@ -1,0 +1,23 @@
+/tmp/liger120-frontend/bench/tests/KnownIntegerRangeStepBody.lean:34:2: error: tl.cast: signed integer casts are not modeled yet
+VeriTile.Tests.KnownIntegerRangeStepBody.range_captures_entry_step: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.KnownIntegerRangeStepBody.earlier_rebinding_changes_step: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/liger120-frontend/bench/tests/KnownIntegerRangeStepBody.lean:64:52: error: unsolved goals
+⊢ (match
+      run
+        { literal := fun x x_1 x_2 => 9000, negInf := 0,
+          binary := fun p x x_1 a b => if p = some ComputeDType.fp32 then a + b else 5000,
+          unary := fun x x_1 x_2 => x_2, cast := fun x x_1 x_2 x_3 => x_3, fromNat := fun x n => -↑n,
+          fromInt := fun p n => if p = some ComputeDType.fp32 then n else 7000 + n, fp32Bits := fun x => 0,
+          fp32Load := id, reduceMax := fun x {x_1} x_2 x_3 x_4 x_5 => 0, reduceSum := fun x {x_1} x_2 x_3 x_4 x_5 => 0 }
+        (sorry ()).3
+        { mem := fun x x_1 => Cell.mk TileDType.int 0, regs := fun x x_1 x_2 => none, pids := fun x => 0,
+          numPids := fun x => 1, undef := fun d x x_1 => defaultValue d } with
+    | some x => some (x.mem { name := "y" } 0)
+    | none => none) =
+    some (Cell.mk TileDType.int 6)
+/tmp/liger120-frontend/bench/tests/KnownIntegerRangeStepBody.lean:65:27: warning: declaration uses `sorry`
+/tmp/liger120-frontend/bench/tests/KnownIntegerRangeStepBody.lean:70:0: error: VeriTile.Tests.KnownIntegerRangeStepBody.negative_constant_keeps_descending_order: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

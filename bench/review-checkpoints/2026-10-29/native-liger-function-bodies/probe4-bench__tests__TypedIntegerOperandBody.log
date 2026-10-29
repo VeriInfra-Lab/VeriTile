@@ -1,0 +1,9 @@
+/tmp/liger120-frontend/bench/tests/TypedIntegerOperandBody.lean:45:56: error: unsolved goals
+⊢ (ComputeDType.fp32 == ComputeDType.fp32) = «true»
+/tmp/liger120-frontend/bench/tests/TypedIntegerOperandBody.lean:51:0: error: VeriTile.Tests.TypedIntegerOperandBody.signed_right_keeps_fp32_conversion: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/liger120-frontend/bench/tests/TypedIntegerOperandBody.lean:55:55: error: unsolved goals
+⊢ (ComputeDType.fp32 == ComputeDType.fp32) = «true»
+/tmp/liger120-frontend/bench/tests/TypedIntegerOperandBody.lean:61:0: error: VeriTile.Tests.TypedIntegerOperandBody.signed_left_keeps_operand_order: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/liger120-frontend/bench/tests/TypedIntegerOperandBody.lean:65:55: error: unsolved goals
+⊢ (ComputeDType.fp32 == ComputeDType.fp32) = «true»
+/tmp/liger120-frontend/bench/tests/TypedIntegerOperandBody.lean:71:0: error: VeriTile.Tests.TypedIntegerOperandBody.natural_uses_unsigned_conversion: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

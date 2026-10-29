@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.LayerNormLiger.ReductionPlan.Tree.real_sum: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormLiger.ReductionPlan.Plan.real_sum: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

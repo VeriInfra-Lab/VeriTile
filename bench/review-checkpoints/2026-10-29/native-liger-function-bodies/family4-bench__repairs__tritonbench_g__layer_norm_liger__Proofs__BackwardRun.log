@@ -1,0 +1,87 @@
+/tmp/liger120-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/BackwardRun.lean:49:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  if (s.pids 0 + 1) * p.rowsPerProgram < p.rows then ?m.130 else ?m.131
+in the target expression
+  (if (↑(s.pids 0) + 1) * ↑p.rowsPerProgram < ↑p.rows then (↑(s.pids 0) + 1) * ↑p.rowsPerProgram else ↑p.rows) =
+    min ((↑(s.pids 0) + 1) * ↑p.rowsPerProgram) ↑p.rows
+
+case pos
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+R : SumPrimitive α
+p : Parameters
+s : State α
+i : TileIndex []
+hab : (s.pids 0 + 1) * p.rowsPerProgram < p.rows
+⊢ (if (↑(s.pids 0) + 1) * ↑p.rowsPerProgram < ↑p.rows then (↑(s.pids 0) + 1) * ↑p.rowsPerProgram else ↑p.rows) =
+    min ((↑(s.pids 0) + 1) * ↑p.rowsPerProgram) ↑p.rows
+/tmp/liger120-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/BackwardRun.lean:50:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  if (s.pids 0 + 1) * p.rowsPerProgram < p.rows then ?m.135 else ?m.136
+in the target expression
+  (if (↑(s.pids 0) + 1) * ↑p.rowsPerProgram < ↑p.rows then (↑(s.pids 0) + 1) * ↑p.rowsPerProgram else ↑p.rows) =
+    min ((↑(s.pids 0) + 1) * ↑p.rowsPerProgram) ↑p.rows
+
+case neg
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+R : SumPrimitive α
+p : Parameters
+s : State α
+i : TileIndex []
+hab : ¬(s.pids 0 + 1) * p.rowsPerProgram < p.rows
+⊢ (if (↑(s.pids 0) + 1) * ↑p.rowsPerProgram < ↑p.rows then (↑(s.pids 0) + 1) * ↑p.rowsPerProgram else ↑p.rows) =
+    min ((↑(s.pids 0) + 1) * ↑p.rowsPerProgram) ↑p.rows
+/tmp/liger120-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/BackwardRun.lean:40:95: error: unsolved goals
+case xp.h
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+R : SumPrimitive α
+p : Parameters
+s : State α
+i : TileIndex []
+⊢ Int.toNat (↑(s.pids 0) * ↑p.rowsPerProgram * ↑p.xStride) = s.pids 0 * p.rowsPerProgram * p.xStride
+
+case mp.h
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+R : SumPrimitive α
+p : Parameters
+s : State α
+i : TileIndex []
+⊢ Int.toNat (↑(s.pids 0) * ↑p.rowsPerProgram) = s.pids 0 * p.rowsPerProgram
+
+case rp.h
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+R : SumPrimitive α
+p : Parameters
+s : State α
+i : TileIndex []
+⊢ Int.toNat (↑(s.pids 0) * ↑p.rowsPerProgram) = s.pids 0 * p.rowsPerProgram
+
+case dxp.h
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+R : SumPrimitive α
+p : Parameters
+s : State α
+i : TileIndex []
+⊢ Int.toNat (↑(s.pids 0) * ↑p.rowsPerProgram * ↑p.dxStride) = s.pids 0 * p.rowsPerProgram * p.dxStride
+
+case dyp.h
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+R : SumPrimitive α
+p : Parameters
+s : State α
+i : TileIndex []
+⊢ Int.toNat (↑(s.pids 0) * ↑p.rowsPerProgram * ↑p.dyStride) = s.pids 0 * p.rowsPerProgram * p.dyStride
+/tmp/liger120-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/BackwardRun.lean:74:16: error: Tactic `rcases` failed: `j : α` is not an inductive datatype
+/tmp/liger120-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/BackwardRun.lean:77:0: error: VeriTile.Bench.Repairs.LayerNormLiger.Backward.prelude_run: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/liger120-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/BackwardRun.lean:78:0: error: VeriTile.Bench.Repairs.LayerNormLiger.Backward.body_run: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

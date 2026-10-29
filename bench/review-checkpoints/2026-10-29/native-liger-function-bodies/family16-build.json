@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "start": 1793272530.0112677,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Misc.HostFPEquiv",
+      "source_sha256": "51a8d93890c9333e82e2ebdc9e9a192607bd1a427548116a2411ba8a21bae776",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793272530.0115213,
+      "end": 1793272534.5937881,
+      "log": "/tmp/liger120-family16-bench__repairs__tritonbench_g__layer_norm_liger__Misc__HostFPEquiv.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Misc.KernelAudit",
+      "source_sha256": "75a0435c536c600a21b4204c96deb4e4677d0dbf2f4854279115831116cd7a67",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793272534.5941489,
+      "end": 1793272542.207505,
+      "log": "/tmp/liger120-family16-bench__repairs__tritonbench_g__layer_norm_liger__Misc__KernelAudit.log"
+    }
+  ],
+  "scope": "One serial queue; failed imports block dependents, independent modules continue.",
+  "end": 1793272542.2077038
+}

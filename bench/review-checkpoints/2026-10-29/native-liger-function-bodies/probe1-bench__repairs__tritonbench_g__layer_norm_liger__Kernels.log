@@ -1,0 +1,4 @@
+/tmp/liger120-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Kernels.lean:32:2: error: arithmetic: dtype mismatch
+/tmp/liger120-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Kernels.lean:76:2: error: arithmetic: dtype mismatch
+/tmp/liger120-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Kernels.lean:21:47: error: loop-carried value requires a stable, known source dtype
+/tmp/liger120-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Kernels.lean:22:23: error: loop-carried value requires a stable, known source dtype

@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.LayerNormLiger.Logical.forward_all_exec: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

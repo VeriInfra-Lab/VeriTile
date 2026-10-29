@@ -1,0 +1,16 @@
+{
+  "status": "FAIL",
+  "start": 1793269839.6542556,
+  "results": [
+    {
+      "module": "bench.tests.TypedIntegerOperandBody",
+      "source_sha256": "568c90c9c135b2f34d55731c82c445aace7d9ad0080c37c823ccae33537417a4",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793269839.6544025,
+      "end": 1793269845.1670275,
+      "log": "/tmp/liger120-probe11-bench__tests__TypedIntegerOperandBody.log"
+    }
+  ],
+  "end": 1793269845.1672297
+}

@@ -1,0 +1,597 @@
+{
+  "status": "FAIL",
+  "start": 1793271696.9843876,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardWhole",
+      "source_sha256": "57ea6f239542963ce28eb30eedb5d5f01efb9a09c0f92f10809b01e3a0262435",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793271696.9846308,
+      "end": 1793271700.9476218,
+      "log": "/tmp/liger120-family12-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__BackwardWhole.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ForwardRun",
+      "source_sha256": "2a96be70bea8e17c64ad2348263d334c6c649d6e614b8eb354a827ae01f1aff4",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793271700.9480443,
+      "end": 1793271707.4873164,
+      "log": "/tmp/liger120-family12-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__ForwardRun.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.SourceSafety",
+      "source_sha256": "bba9ceddc41c6511973ccca614982849639d88ba8b08ff43b5dd516ec0fce671",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardWhole"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.LogicalBackward",
+      "source_sha256": "99b35f77443d50db6176b4da0e2fa96bad205a8fecd56deb5390169796a08a46",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793271707.4878767,
+      "end": 1793271712.3938472,
+      "log": "/tmp/liger120-family12-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__LogicalBackward.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.FoldFacts",
+      "source_sha256": "f525b2c139c9cc30df64aaa11d406cae481394b3bc0bb3a644fa7d4ccb14ea6b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793271712.3942177,
+      "end": 1793271715.0759125,
+      "log": "/tmp/liger120-family12-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__FoldFacts.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.LaunchCoverage",
+      "source_sha256": "f109074e05ca937017d4bf0142ac6ee64b23930894ace1d754acaa46a12ae75b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793271715.0763094,
+      "end": 1793271718.2420104,
+      "log": "/tmp/liger120-family12-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__LaunchCoverage.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardContract",
+      "source_sha256": "6b1b497337d3ad6b3f984ccc7a42a7d3d2ae2c5ae25de56997efbef6e9dc6630",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardWhole"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardResult",
+      "source_sha256": "6d430e9b9dd6240bf725246bfde029eacefa85550877ea94f1684c64103c78ca",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardContract"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Frame",
+      "source_sha256": "8ed0a4c1e92fdc1727cec3c61a31389baf2b2c090b894e76d6817f636d32ded8",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardResult"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.IOBindings",
+      "source_sha256": "603cebdf0e27896318c2067dfc8dd238b6d22be858e3c65696363ad2aa564882",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Frame",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.SourceSafety"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ForwardContract",
+      "source_sha256": "762073f4e9814f8d0d2f70de97393341adabfb971c4129fc50e65b96ce566a1c",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793271718.2431185,
+      "end": 1793271721.0480545,
+      "log": "/tmp/liger120-family12-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__ForwardContract.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.LogicalForward",
+      "source_sha256": "6626342408a51ea3dba715a8aba302abb7d58c2d98f01db46c407f0dae497e2b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793271721.0484984,
+      "end": 1793271725.3182216,
+      "log": "/tmp/liger120-family12-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__LogicalForward.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ForwardResult",
+      "source_sha256": "7fecae0a9ae103a421f3ec353ea45821c49d6c73f01d3058f78cefa4d2c07296",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793271725.3186066,
+      "end": 1793271728.2141988,
+      "log": "/tmp/liger120-family12-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__ForwardResult.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.HostContract",
+      "source_sha256": "6b9b3c5d112fd7c7bcddc6e1117c39e56243a198470d0ebb950784ede6bcf0cb",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793271728.2146168,
+      "end": 1793271729.5501378,
+      "log": "/tmp/liger120-family12-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__HostContract.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Contract",
+      "source_sha256": "e9aec1fba006cef159bf95c6790c785a3be42df7850aefcf6b094364c540d2c9",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793271729.550584,
+      "end": 1793271732.6910107,
+      "log": "/tmp/liger120-family12-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__Contract.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.NativeIndex",
+      "source_sha256": "3dc415b2ad68c5f6e558f0dea14e4812061c57ab7e60530cfb86d93e7a0a27c1",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793271732.691484,
+      "end": 1793271740.181702,
+      "log": "/tmp/liger120-family12-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__NativeIndex.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.HostResults",
+      "source_sha256": "5c65eccb6581c5a38cc2d7c2d975f42139ab25753e729193944d690c35646e85",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardResult"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ForwardSoftware",
+      "source_sha256": "fe6e077a12067c51b1ba6de5f02ab2d1a1560d5fce41b41aa881080f5321f688",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793271740.182403,
+      "end": 1793271743.3057694,
+      "log": "/tmp/liger120-family12-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__ForwardSoftware.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardSoftware",
+      "source_sha256": "d9b7c3400f9ea1c85acccfc5bf31535fd9dd1db770686103ec967f361311ce1e",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardWhole"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ClosedFP",
+      "source_sha256": "be28c4c59b645ccff2c459d88422d6a472d85485fb60a60d52d2cc544bc6458b",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardSoftware"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.SourceShape",
+      "source_sha256": "86d09674067e603015ee61adbedc58abc44e57b3fb20537b6974c9c35cc615ad",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardWhole"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.WholeCheck",
+      "source_sha256": "d1c6221b234f0b5041f90031260c9d8db669de9b9446c58ae8b243f126c0b38a",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ClosedFP",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Frame",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.HostResults",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.SourceShape"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Grid",
+      "source_sha256": "279d3c8d94657cfc31f1bb9bdf4ede2320aa3bad9e0a0186494c9c8b4f55241f",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ClosedFP",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Frame"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.GridCells",
+      "source_sha256": "9d13fc642655a45154e3f963d4f1c27a186e4a3af4f1cb0b47cbbecc6c903937",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Grid"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ReductionPlan",
+      "source_sha256": "9dbedab06e73240c48978625824411a1a3579c2fe026d0eda4f2643947cf04d8",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Grid"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.GridHost",
+      "source_sha256": "a31c8ac307ae8a8d260a6ab194e28e42c4c764d9676c234a4375c5b988793d35",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.GridCells",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ReductionPlan"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Returned",
+      "source_sha256": "969ba1238eebe50a8a358442c3d3f557026456a544414e962d682aba0a238f0a",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.GridHost",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.HostResults"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ForwardSaved",
+      "source_sha256": "a8554bd1b392a400c0242da27aa5e3afc27ff21bd010687b8ccf6d116e6caae5",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.GridCells",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.HostResults"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.PublicReturn",
+      "source_sha256": "22d0bc8c49f3b77ddcad5b6f0882a7060adf59fe4df1d78c43cc6ad3162e0287",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ForwardSaved",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Returned"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.NativePlan",
+      "source_sha256": "51db97f543b91707f7fda1f27b7090fdc83bfaf0ad976a413c08b63fdad9f73c",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.GridHost"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.NativeLaws",
+      "source_sha256": "9c99f258bce0969dccd126d5cf97c8bd55c28608ece9980c5f3b2765f5c17fba",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.NativePlan"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.PublicCheck",
+      "source_sha256": "54816b60bcc2b27f92f2933b650a228506fb8f737499bde0577d3caf04163f73",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.NativeLaws",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.PublicReturn",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.WholeCheck"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Wrapper",
+      "source_sha256": "fad31c8ba739379705e35ce118bfc7d94ed04327c3a9956476ac13ce4a59b542",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.PublicCheck"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Preparation",
+      "source_sha256": "bb0f0e070d1d641b3fec0bb2d40e193674214257996c3d86b0f0ddf6d2b7fa1e",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Wrapper"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.LogicalInputs",
+      "source_sha256": "f480a1969b8fa6b174e4ea16bab916401249373027e6629812ce076d6d82f735",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Preparation"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.RealInterface",
+      "source_sha256": "00856d5f2851ac014bf7caf9e2381ff4115d67748c59bb2bfba8da0aedbb5e36",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.IOBindings",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.LogicalInputs"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.LogicalIO",
+      "source_sha256": "861e5862c91653c6ee8ba41833fef1c55b5f00087400603f6776d6f12c576589",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.RealInterface"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Correct",
+      "source_sha256": "0a49199b645c3050a93c875c61d807574a9313917efac9585b0b76888ae24929",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.LogicalIO"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.CandidateBackwardSource",
+      "source_sha256": "d1106083c5d02ebefa80a30266e54492521a4df55018b5e59bca9db9705ae128",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793271743.3106422,
+      "end": 1793271745.867021,
+      "log": "/tmp/liger120-family12-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__CandidateBackwardSource.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.CandidateBackwardRun",
+      "source_sha256": "f7427be9ecfad2bcc85f4896f8ff6ff937512b463b14a91a124daa06e58db418",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793271745.8675187,
+      "end": 1793271875.7526157,
+      "log": "/tmp/liger120-family12-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__CandidateBackwardRun.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.CandidateBackwardWhole",
+      "source_sha256": "3e1457d08debe1c1fcd7b72071707e89b775cf04aaacca3a326afb5d2e8ab57f",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793271875.7530742,
+      "end": 1793271879.825236,
+      "log": "/tmp/liger120-family12-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__CandidateBackwardWhole.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.CandidateForward",
+      "source_sha256": "4e6df178191b97e903adcd174c07bdaf3ae8bb8edd0b55a4e92cdd8040a6794a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793271879.8257318,
+      "end": 1793271886.4297543,
+      "log": "/tmp/liger120-family12-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__CandidateForward.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.CandidateSafetyForward",
+      "source_sha256": "1574ef1c6d87449157f0ce00fce44a3a178a7b923a77f66ff483ebf6bbb9254f",
+      "status": "FAIL",
+      "exit_code": -6,
+      "start": 1793271886.4302526,
+      "end": 1793271904.118396,
+      "log": "/tmp/liger120-family12-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__CandidateSafetyForward.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.CandidateSafety",
+      "source_sha256": "db2da2fd8f028293bd5fec4d2ce91551b902e2c43014b0b9a7ff1124b2785428",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.CandidateBackwardWhole",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.CandidateSafetyForward",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.SourceSafety"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ProgramPair",
+      "source_sha256": "b1ad286e6fb95b67fc5eb6ea335d35d61d7a8f0a44add46bd64a0c8dc41b01c3",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.CandidateSafety",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.IOBindings"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.FPEquiv",
+      "source_sha256": "9acbe4d81e376068c4c89b8733f93b0fd4e20ea53f8b203ffb15c1971ccd048c",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ProgramPair"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Misc.HostCorrect",
+      "source_sha256": "e357731a60826f71c3b3ce0a9918159a14b0c5c259b3a19e4d0154eedd820c29",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.LogicalInputs"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Misc.HostFPEquiv",
+      "source_sha256": "76df8dbcabeac90d26b85176b434dff0983f011b3b15ba9b2b33330773b422cd",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Preparation"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.OrderedReference",
+      "source_sha256": "990c228d91c866076b1428a96edb6d8297be109af79c23f406d6a66584dc68ee",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793271904.1202142,
+      "end": 1793271907.5277438,
+      "log": "/tmp/liger120-family12-bench__repairs__tritonbench_g__layer_norm_liger__Proofs__OrderedReference.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.OrderedMemory",
+      "source_sha256": "3127ffd813fad5c9c50ac511a4faf2118b0dd0afaceaf65f609962c840018562",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.IOBindings"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ForwardInterface",
+      "source_sha256": "71708ce7fe3f4f468cc530ab6da7a7aa1869491c4994beb0c4b3d6214464238d",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.OrderedMemory"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardInterface",
+      "source_sha256": "47fda51c602d03cc9bdb671c46d14b6299f924b815d46cb61632688adbeca558",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.OrderedMemory"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.NativeInterface",
+      "source_sha256": "a4d85d46ae0485c24ca2c3720c56090906acec13243e500b27891a727442cacd",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardInterface",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ForwardInterface",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.NativePlan"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Misc.NativeCorrect",
+      "source_sha256": "9d0f2b9c974ea80ddb64c0a03973461bdb02b5d32e92831f1166ad20998f54c5",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.NativeInterface"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.KernelBoundary",
+      "source_sha256": "2198f4db13bef8aa57cc8543b5f3d5d346cd5145c179f1e9d074ae3a8d839f14",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Frame"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.KernelIndex",
+      "source_sha256": "bb931aee909eddbb4509cb80b430f484a04eb51fdc72b41b0be39774de663632",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.KernelBoundary"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.KernelReal",
+      "source_sha256": "1785956a2b52f4b17807d606451225d1d11be8deb6b833d417e6404a6b9d763e",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.KernelIndex"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.KernelFP",
+      "source_sha256": "ab888f443e3edc658301b25d6b95edd71cada97540456faf3f1b5aac8b2b63e9",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.KernelIndex",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.NativePlan"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.KernelStrides",
+      "source_sha256": "00870bccc08385cc9b2b75f76138d0670ccc4dd96c862cdf483e5affa1a1b5bc",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.KernelIndex"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Misc.TensorBridge",
+      "source_sha256": "2db96e02b079158d6fb927378ffef4f39888715f2f8ceca3ba9fa3162a996c99",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Correct",
+        "bench.repairs.tritonbench_g.layer_norm_liger.FPEquiv",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Misc.NativeCorrect",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.KernelFP",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.KernelReal",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.KernelStrides"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Misc.KernelAudit",
+      "source_sha256": "75a0435c536c600a21b4204c96deb4e4677d0dbf2f4854279115831116cd7a67",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Correct",
+        "bench.repairs.tritonbench_g.layer_norm_liger.FPEquiv",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Misc.HostCorrect",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Misc.HostFPEquiv",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Misc.NativeCorrect",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Misc.TensorBridge"
+      ]
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Misc.KernelProofAudit",
+      "source_sha256": "a8318dc57273080b2a2c7f5239e907df8bf4f3343934a97c893c9291ccda2557",
+      "status": "SKIPPED_FAILED_IMPORT",
+      "blocked_imports": [
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.KernelStrides",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.NativeInterface",
+        "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.RealInterface"
+      ]
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_liger.Proofs.FPSupplied",
+      "source_sha256": "aa3c556ecf7f03a371e9d7ca5992ac9469644ef1fd5be1fabdec5cb43c88e56b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793271907.5317473,
+      "end": 1793271910.7354553,
+      "log": "/tmp/liger120-family12-bench__tritonbench_g__layer_norm_liger__Proofs__FPSupplied.log"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_liger.LayerNormLiger",
+      "source_sha256": "d4fae193cb438dca0ab567406a4f98983e208ffbbcc51a4f8fb2621dc2b55ddf",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793271910.7363017,
+      "end": 1793271919.5078607,
+      "log": "/tmp/liger120-family12-bench__tritonbench_g__layer_norm_liger__LayerNormLiger.log"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_liger.Proofs.FPShape",
+      "source_sha256": "2a0665f75fbd1c3c0478fcb6696fa3d2449da793cc3953df0ff46281f615cfb1",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793271919.5084143,
+      "end": 1793271927.2016027,
+      "log": "/tmp/liger120-family12-bench__tritonbench_g__layer_norm_liger__Proofs__FPShape.log"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_liger.FPCorrect",
+      "source_sha256": "b25c368dc6168a82026ddafa82f19536f389dff103b29d049b1ea1681db67772",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793271927.2021298,
+      "end": 1793271930.5999603,
+      "log": "/tmp/liger120-family12-bench__tritonbench_g__layer_norm_liger__FPCorrect.log"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_liger.Proofs.FPWitness",
+      "source_sha256": "31a922abd22d822a97c58f1981501b1df6276a30f2d775577c5d52030d78bd63",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793271930.6005108,
+      "end": 1793271934.2453768,
+      "log": "/tmp/liger120-family12-bench__tritonbench_g__layer_norm_liger__Proofs__FPWitness.log"
+    }
+  ],
+  "scope": "One serial queue; failed imports block dependents, independent modules continue.",
+  "end": 1793271934.2457366
+}

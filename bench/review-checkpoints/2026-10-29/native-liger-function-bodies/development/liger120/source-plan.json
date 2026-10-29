@@ -1,0 +1,46 @@
+{
+  "status": "LOCAL_84_ROOTS_PASS_FINAL_CUMULATIVE_PENDING",
+  "raw_bodies": 4,
+  "source_sha256": "6ba82f8c92986e02bca37469e5c17f2e1471137f939191d7fef4b48bd7266a28",
+  "original_statements": [
+    22,
+    24
+  ],
+  "provenance": "Both original repaired and existing optimized Python files are unchanged. Initial draft counterpart bodies were verified AST-identical to the existing optimized Python and removed as redundant.",
+  "open": [
+    "Integrate after the completed and published 117 receipt",
+    "Run cumulative6013 and independent empty-project replay, standard-base2494-module audit, source guards and exact final-source comparator attempts"
+  ],
+  "precision_decision": "The existing selected host and all public kernel invocations are FP32. Raw definitions now state that exact storage profile; removed the unused generic dtype argument from implementation helpers. Public mathematical domains and theorem parameters are not changed. Historical original-library generic sources remain separate.",
+  "raw_correspondence": {
+    "status": "PASS",
+    "mappings": 4,
+    "statement_counts": [
+      22,
+      24,
+      23,
+      25
+    ],
+    "python_tests": 127,
+    "log": "/tmp/liger120-source-tests-existing-candidates.log"
+  },
+  "original_python_sha256": {
+    "layer_norm_liger_repaired.py": "6ba82f8c92986e02bca37469e5c17f2e1471137f939191d7fef4b48bd7266a28",
+    "layer_norm_liger_optimized.py": "58666428abc0f9d3a6d686e65f31e04782d1c5456bdab9a3acc1db36ea2d0bb8"
+  },
+  "diagnostic_interface_change": "The old shortened-natural-body AST equality is replaced by actual successful execution and full-memory observation statements. Main Real formulas and FP pair domains remain unchanged. All local task modules and joint theorem audit pass; final cumulative replay pending.",
+  "frontend_regressions": "PASS: probe12 typed integer operand events, preserved dtype binding and captured signed range steps",
+  "task_replay_progress": {
+    "original_backward_loop_body": "PASS family11, exact storage and cast events plus source register invariant",
+    "original_backward_full_range": "PASS family12, signed range connected by well-founded induction to mathematical row fold",
+    "forward_actual_execution": "PASS family12",
+    "independent_forward_and_backward_Real_scalar_lemmas": "PASS family12",
+    "full_task_status": "PENDING: candidate execution, remaining IO/safety/native modules and final source snapshot"
+  },
+  "focused_replay": {
+    "status": "PASS",
+    "roots": 84,
+    "axiom_theorems": 2179,
+    "evidence": "/tmp/liger120-stage-final.json"
+  }
+}

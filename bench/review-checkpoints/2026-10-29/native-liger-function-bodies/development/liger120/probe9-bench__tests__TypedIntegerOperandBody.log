@@ -1,0 +1,12 @@
+/tmp/liger120-frontend/bench/tests/TypedIntegerOperandBody.lean:59:56: error: unsolved goals
+⊢ False
+/tmp/liger120-frontend/bench/tests/TypedIntegerOperandBody.lean:65:0: error: VeriTile.Tests.TypedIntegerOperandBody.product_reduction_keeps_fp32_conversion: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Tests.TypedIntegerOperandBody.signed_right_keeps_fp32_conversion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.TypedIntegerOperandBody.signed_left_keeps_operand_order: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.TypedIntegerOperandBody.natural_uses_unsigned_conversion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

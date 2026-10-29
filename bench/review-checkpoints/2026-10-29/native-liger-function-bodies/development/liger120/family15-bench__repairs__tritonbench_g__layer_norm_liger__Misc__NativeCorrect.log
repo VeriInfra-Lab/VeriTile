@@ -1,0 +1,14 @@
+VeriTile.Bench.Repairs.LayerNormLiger.Equivalence.layer_norm_forward_kernel_fp32: statement's project surface ⊆ allowlist ✓
+VeriTile.Bench.Repairs.LayerNormLiger.Equivalence.layer_norm_backward_kernel_fp32: statement's project surface ⊆ allowlist ✓
+VeriTile.Bench.Repairs.LayerNormLiger.Equivalence.forwardReference: definition does not reference [VeriTile.Bench.Repairs.LayerNormLiger.Forward.kernel,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.LayerNormLiger.Forward.reference] — non-circular ✓
+VeriTile.Bench.Repairs.LayerNormLiger.Equivalence.backwardReference: definition does not reference [VeriTile.Bench.Repairs.LayerNormLiger.Backward.kernel,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.LayerNormLiger.Backward.reference] — non-circular ✓
+VeriTile.Bench.Repairs.LayerNormLiger.Equivalence.layer_norm_forward_kernel_fp32: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormLiger.Equivalence.layer_norm_backward_kernel_fp32: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

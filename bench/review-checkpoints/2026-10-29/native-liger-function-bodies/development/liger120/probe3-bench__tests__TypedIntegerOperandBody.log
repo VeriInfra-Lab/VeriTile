@@ -1,0 +1,52 @@
+/tmp/liger120-frontend/bench/tests/TypedIntegerOperandBody.lean:17:77: error: unexpected identifier; expected '}'
+/tmp/liger120-frontend/bench/tests/TypedIntegerOperandBody.lean:21:2: error: arithmetic: dtype mismatch
+/tmp/liger120-frontend/bench/tests/TypedIntegerOperandBody.lean:28:2: error: arithmetic: dtype mismatch
+/tmp/liger120-frontend/bench/tests/TypedIntegerOperandBody.lean:35:2: error: arithmetic: dtype mismatch
+/tmp/liger120-frontend/bench/tests/TypedIntegerOperandBody.lean:44:56: error: unsolved goals
+⊢ (match
+      run
+        { literal := fun x x_1 x_2 => 9000, negInf := 0,
+          binary := fun p x x_1 a b => if (p == some ComputeDType.fp32) = «true» then 100 * a + b else 5000,
+          unary := fun x x_1 x_2 => x_2, cast := fun x x_1 x_2 x_3 => x_3, fromNat := fun x n => -↑n,
+          fromInt := fun p n => if p = some ComputeDType.fp32 then n else 7000 + n, fp32Bits := fun x => 0,
+          fp32Load := id, reduceMax := fun x {x_1} x_2 x_3 x_4 x_5 => 0, reduceSum := fun x {x_1} x_2 x_3 x_4 x_5 => 0 }
+        (sorry ()).3
+        { mem := fun x x_1 => Cell.mk TileDType.fp32 10, regs := fun x x_1 x_2 => none, pids := fun x => 0,
+          numPids := fun x => 1, undef := fun d x x_1 => defaultValue d } with
+    | some x => some (x.mem { name := "y" } 0)
+    | none => none) =
+    some (Cell.mk TileDType.fp32 1002)
+/tmp/liger120-frontend/bench/tests/TypedIntegerOperandBody.lean:45:27: warning: declaration uses `sorry`
+/tmp/liger120-frontend/bench/tests/TypedIntegerOperandBody.lean:50:0: error: VeriTile.Tests.TypedIntegerOperandBody.signed_right_keeps_fp32_conversion: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/liger120-frontend/bench/tests/TypedIntegerOperandBody.lean:54:55: error: unsolved goals
+⊢ (match
+      run
+        { literal := fun x x_1 x_2 => 9000, negInf := 0,
+          binary := fun p x x_1 a b => if (p == some ComputeDType.fp32) = «true» then 100 * a + b else 5000,
+          unary := fun x x_1 x_2 => x_2, cast := fun x x_1 x_2 x_3 => x_3, fromNat := fun x n => -↑n,
+          fromInt := fun p n => if p = some ComputeDType.fp32 then n else 7000 + n, fp32Bits := fun x => 0,
+          fp32Load := id, reduceMax := fun x {x_1} x_2 x_3 x_4 x_5 => 0, reduceSum := fun x {x_1} x_2 x_3 x_4 x_5 => 0 }
+        (sorry ()).3
+        { mem := fun x x_1 => Cell.mk TileDType.fp32 10, regs := fun x x_1 x_2 => none, pids := fun x => 0,
+          numPids := fun x => 1, undef := fun d x x_1 => defaultValue d } with
+    | some x => some (x.mem { name := "y" } 0)
+    | none => none) =
+    some (Cell.mk TileDType.fp32 210)
+/tmp/liger120-frontend/bench/tests/TypedIntegerOperandBody.lean:55:27: warning: declaration uses `sorry`
+/tmp/liger120-frontend/bench/tests/TypedIntegerOperandBody.lean:60:0: error: VeriTile.Tests.TypedIntegerOperandBody.signed_left_keeps_operand_order: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/liger120-frontend/bench/tests/TypedIntegerOperandBody.lean:64:55: error: unsolved goals
+⊢ (match
+      run
+        { literal := fun x x_1 x_2 => 9000, negInf := 0,
+          binary := fun p x x_1 a b => if (p == some ComputeDType.fp32) = «true» then 100 * a + b else 5000,
+          unary := fun x x_1 x_2 => x_2, cast := fun x x_1 x_2 x_3 => x_3, fromNat := fun x n => -↑n,
+          fromInt := fun p n => if p = some ComputeDType.fp32 then n else 7000 + n, fp32Bits := fun x => 0,
+          fp32Load := id, reduceMax := fun x {x_1} x_2 x_3 x_4 x_5 => 0, reduceSum := fun x {x_1} x_2 x_3 x_4 x_5 => 0 }
+        (sorry ()).3
+        { mem := fun x x_1 => Cell.mk TileDType.fp32 10, regs := fun x x_1 x_2 => none, pids := fun x => 0,
+          numPids := fun x => 1, undef := fun d x x_1 => defaultValue d } with
+    | some x => some (x.mem { name := "y" } 0)
+    | none => none) =
+    some (Cell.mk TileDType.fp32 997)
+/tmp/liger120-frontend/bench/tests/TypedIntegerOperandBody.lean:65:27: warning: declaration uses `sorry`
+/tmp/liger120-frontend/bench/tests/TypedIntegerOperandBody.lean:70:0: error: VeriTile.Tests.TypedIntegerOperandBody.natural_uses_unsigned_conversion: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
