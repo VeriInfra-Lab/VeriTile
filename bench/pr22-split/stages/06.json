@@ -1,0 +1,111 @@
+{
+  "schema": 1,
+  "part": 6,
+  "title": "Reduction, optional-mask, BMM and diagonal SSM bodies",
+  "branch": "codex/pr22-06-reductions",
+  "archived_snapshot": "aefda0d5b5c1188e81b0146d3dd3d807d9d89e5f",
+  "archive_head": "5ea0e46126cc1c6eb05e4219ddc5dc13246ec3ce",
+  "base_commit": "25ad2949386cd0b992e2d3cb7cf26fac86f6a25c",
+  "source_identity": "All changed Lean and Python files are byte-identical to the archived snapshot. New base additions are retained verbatim. lakefile.toml combines both target lists.",
+  "changed_source_file_count": 910,
+  "changed_source_blobs_sha256": "372f00162b4effd4aadd0b1c5785fc832e267655d5a576c8d2c43578b4aee4c4",
+  "receipt_excerpts": [
+    "bench/pr22-split/receipts/loops-and-spec-derived-sources.json",
+    "bench/pr22-split/receipts/native-adam-and-masked-add.json",
+    "bench/pr22-split/receipts/native-block-pointer-reduction.json",
+    "bench/pr22-split/receipts/native-rmsnorm-body.json",
+    "bench/pr22-split/receipts/native-rope-bodies.json",
+    "bench/pr22-split/receipts/native-vector-cumsum-bodies.json",
+    "bench/pr22-split/receipts/native-diagonal-ssm-function-bodies.json"
+  ],
+  "integration_validation": {
+    "status": "passed",
+    "checks": {
+      "formulas": {
+        "command": [
+          "python3",
+          "-B",
+          "bench/check_main_formula_review.py"
+        ],
+        "exit_code": 0,
+        "seconds": 0.63,
+        "log_sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+      },
+      "io": {
+        "command": [
+          "python3",
+          "-B",
+          "bench/check_io_organization.py"
+        ],
+        "exit_code": 0,
+        "seconds": 0.42,
+        "log_sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+      },
+      "roles": {
+        "command": [
+          "python3",
+          "-B",
+          "bench/check_main_entry_roles.py"
+        ],
+        "exit_code": 0,
+        "seconds": 7.49,
+        "log_sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+      },
+      "corpus": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "bench.check_body_corpus",
+          "--check"
+        ],
+        "exit_code": 0,
+        "seconds": 2.43,
+        "log_sha256": "e648f792b1a3d9e1ac8f5c84f2bc98eeb1ae9b3937bdb295c8bcac67af066feb"
+      },
+      "python": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "bench.tests.test_jit_correspondence",
+          "bench.tests.test_body_corpus"
+        ],
+        "exit_code": 0,
+        "seconds": 5.22,
+        "log_sha256": "53a9402efe1edd30f0af5f349dac7cae833a626ce2c512f705a3471d85b18d76"
+      },
+      "ledger": {
+        "command": [
+          "python3",
+          "-B",
+          "-c",
+          "import sys,json; sys.path.insert(0,'bench'); import task_progress; task_progress.validate(json.load(open('bench/tritonbench_g/task_progress.json')))"
+        ],
+        "exit_code": 0,
+        "seconds": 0.18,
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "base-integration": {
+        "command": [
+          "lake",
+          "build",
+          "VeriTile.Triton.Memory.LogicalScheduledKernelIO",
+          "VeriTile.Triton.Float.GuardedProgramIO",
+          "bench.tests.FPGuardedProgramIO"
+        ],
+        "exit_code": 0,
+        "seconds": 1.74,
+        "log_sha256": "0bcf9650e048492917412ff238b86f812eace5946a108a8b2454cadf127548e9"
+      }
+    },
+    "scope": "Fresh metadata/body-copy checks and compilation of the new base interfaces and guarded-program regression on this exact prefix. Task proofs retain the archived exact-source replay; this is not a fresh full-corpus replay for every prefix.",
+    "source_identity_check": {
+      "status": "passed",
+      "files": 19577,
+      "application_tree_sha256": "569569cd6a6c2659b4438c51dad385901ee08a577a070e6501b26b7fcc759cf4",
+      "method": "Complete staged application Lean/Python path and Git blob map (historical checkpoint snapshots excluded) equals archived snapshot plus preserved newer base additions, including deletions."
+    }
+  }
+}

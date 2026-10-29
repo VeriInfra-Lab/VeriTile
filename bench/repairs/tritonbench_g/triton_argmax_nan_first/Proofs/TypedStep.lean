@@ -11,8 +11,8 @@ set_option maxRecDepth 30000
 set_option linter.unusedSimpArgs false
 
 def Ready (BM row inner : Nat) (current : Fin BM → Word × Nat) (s : State Word) : Prop :=
-  s.regs .nat [] "pid_k"=some (fun _ => inner) ∧
-  s.regs .nat [BM] "m_offset"=some (fun i => row+i.1.val) ∧
+  s.regs .int [] "pid_k"=some (fun _ => (inner : Int)) ∧
+  s.regs .int [BM] "m_offset"=some (fun i => ((row+i.1.val : Nat) : Int)) ∧
   s.regs .real [BM] "max_values"=some (fun i => (current i.1).1) ∧
   s.regs .int [BM] "argmax_values"=some (fun i => Int.ofNat (current i.1).2)
 
@@ -42,7 +42,7 @@ theorem body_run (rest : Algebra Word) (s : State Word) (X : RegionName) (O : Re
     TileShape.axisDim,positive,Nat.ne_of_gt positive,TileShape.insertAxisIndex,TileShape.eraseAxis,
     ofFloat,toFloat,bop,numeric,numericLt,numericEq,natLt,TileShape.discreteMaximum,
     TileShape.discreteIntArgMax,TypedReduction.self_equal,TypedReduction.presence,
-    TypedReduction.selected,flag,clean,loaded,next,Ready,update_exact,Option.bind]
+    TypedReduction.selected,flag,clean,loaded,next,Ready,update_exact,Option.bind, -Nat.cast_add, -Nat.cast_mul, ← Int.natCast_add, ← Int.natCast_mul]
   constructor <;> funext i
   all_goals dsimp only [flag,clean,loaded]
   all_goals simp only [apply_ite Prod.fst,apply_ite Prod.snd,apply_ite Int.ofNat,apply_ite (fun n : Nat => (n : Int)),Nat.cast_add]

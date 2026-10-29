@@ -31,12 +31,12 @@ theorem chunk_safe (M : Algebra α) (p : Parameters) (flag : Bool) (row start : 
     traceSafeList (engine M) bounds (Backward.body p flag) (b0 s start) := by
   rw [body_commands]
   refine traceSafeList_cons_of_step ?_ (step0 M p flag s start)
-    (traceSafeList_cons_of_step ?_ (step1 M p flag s start)
+    (traceSafeList_cons_of_step ?_ (step1 M p flag s start row h)
       (traceSafeList_cons_of_step ?_ (step2 M p flag s row start h)
         (traceSafeList_cons_of_step ?_ (step3 M p flag s row start)
           (traceSafeList_cons_intro ?_ (by intro t _;exact traceSafeList_nil _ _ _)))))
   all_goals cases flag
-  all_goals simp only [command,Backward.body,backward,KernelDSL.backward,KernelDSL.backwardDefault,KernelDSL.backwardLog,
+  all_goals simp only [command,Backward.body,backward,KernelDSL.backward,KernelDSL.backwardDefault,KernelDSL.backwardLog,KernelDSL.backwardBody,
     VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardLog,
     VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardDefault,
     VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardDefaultOriginal,
@@ -47,12 +47,15 @@ theorem chunk_safe (M : Algebra α) (p : Parameters) (flag : Bool) (row start : 
     safeMask_unfold,addressSafe_unfold,maskActive_unfold,precisionContext,
     evalOp_unfold,Option.bind_eq_bind,Option.pure_def,Option.bind,
     engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
-    b0,b1,b2,b3,b4,State.setReg,h.target,h.output,
+    b0,b1,b2,b3,b4,State.setReg,h.target,h.output,h.cols,
     numeric,numericLt,natLt,FP.Structural.bop,Region.cast,
     ne_eq,not_false_eq_true,not_true_eq_false,String.reduceEq,reduceCtorEq,
     decide_eq_true_eq,ite_true,ite_false,dite_true,dite_false,Bool.false_eq_true,Bool.true_eq,
     Option.some.injEq,forall_eq,forall_eq',exists_eq_left,exists_eq_left',true_and,and_true,
     Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt]
+  all_goals try simp only [Bool.not_false,Bool.not_true,Bool.false_eq_true,Bool.true_eq,
+    ite_true,ite_false,traceSafeList_cons,traceSafeList_nil,stepSafe_unfold,safeExpr_unfold,
+    safeCompute_unfold,safeOp_unfold,precisionContext,true_and,and_true,implies_true,forall_const]
   all_goals first | exact fun j hj => ht j.1 hj | exact fun j hj => ho j.1 hj
 
 theorem prefix_safe (M : Algebra α) (p : Parameters) (flag : Bool)
@@ -61,7 +64,7 @@ theorem prefix_safe (M : Algebra α) (p : Parameters) (flag : Bool)
   apply pure_trace
   intro cmd member state
   cases flag
-  all_goals simp only [Backward.backwardPrefix,backward,KernelDSL.backward,KernelDSL.backwardDefault,KernelDSL.backwardLog,
+  all_goals simp only [Backward.backwardPrefix,backward,KernelDSL.backward,KernelDSL.backwardDefault,KernelDSL.backwardLog,KernelDSL.backwardBody,
     VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardLog,
     VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardDefault,
     VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardDefaultOriginal,
@@ -69,7 +72,7 @@ theorem prefix_safe (M : Algebra α) (p : Parameters) (flag : Bool)
     VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.commuteOutput,
     ComputeKernel.surfaceBody,List.take,Bool.false_eq_true,Bool.true_eq,ite_true,ite_false,
     List.mem_cons,List.not_mem_nil,or_false] at member
-  all_goals rcases member with rfl | rfl | rfl | rfl | rfl
+  all_goals rcases member with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
   all_goals simp only [stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
     precisionContext,and_true]
 
@@ -107,7 +110,7 @@ theorem source_safe (M : Algebra α) (p : Parameters) (flag : Bool) (s : State �
   subst prepared
   apply traceSafeList_cons_intro
   · simp only [stepSafe_unfold,safeOp_unfold,evalOp_unfold,Option.bind_eq_bind,
-      Option.pure_def,Option.bind,true_and]
+      Option.pure_def,Option.bind,true_and,(Backward.prefix_registers M p flag s).cols]
     exact range_safe M p flag (s.pids 0) 0 _ (Backward.prefix_registers M p flag s) positive bounds ht ho
   · intro final _
     exact traceSafeList_nil _ _ _

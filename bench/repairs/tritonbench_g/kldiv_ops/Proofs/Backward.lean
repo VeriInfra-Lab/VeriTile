@@ -8,16 +8,17 @@ set_option maxHeartbeats 10000000
 set_option maxRecDepth 24000
 set_option linter.unusedSimpArgs false
 
-def backwardPrefix (p : Parameters) (flag : Bool) := (backward p flag).surfaceBody.take 5
+def backwardPrefix (p : Parameters) (flag : Bool) := (backward p flag).surfaceBody.take 8
 
 def body (p : Parameters) (flag : Bool) : List ComputeStmt :=
-  match ((backward p flag).surfaceBody[5]? : Option ComputeStmt) with
+  match ((backward p flag).surfaceBody[8]? : Option ComputeStmt) with
   | some (ComputeStmt.forRangeInt _ _ _ _ statements) => statements
   | _ => []
 
 structure Registers {α : Type} (p : Parameters) (row : Nat) (s : State α) : Prop where
-  target : s.regs .ptr [] "T"=some (fun _ => (p.T,row*p.cols))
-  output : s.regs .ptr [] "O"=some (fun _ => (p.O,row*p.cols))
+  cols : s.regs .int [] "n_cols" = some (fun _ => (p.cols : Int))
+  target : s.regs .ptr [] "target_ptr"=some (fun _ => (p.T,row*p.cols))
+  output : s.regs .ptr [] "new_grads_ptr"=some (fun _ => (p.O,row*p.cols))
 
 def scalar (M : Algebra α) (flag : Bool) (target : α) : α :=
   if flag then M.unary (some .fp32) (.neg .real) (M.unary (some .fp32) .exp (M.fp32Load target))
@@ -29,7 +30,7 @@ def prefixRun {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (flag
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp [backwardPrefix,backward,KernelDSL.backward,KernelDSL.backwardDefault,KernelDSL.backwardLog,VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardLog,
+    simp [backwardPrefix,backward,KernelDSL.backward,KernelDSL.backwardDefault,KernelDSL.backwardLog,KernelDSL.backwardBody,VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardLog,
       VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardDefault,
       VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardDefaultOriginal,
       VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardLogOriginal,
@@ -52,14 +53,14 @@ def chunkRun {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (flag 
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp [body,backward,KernelDSL.backward,KernelDSL.backwardDefault,KernelDSL.backwardLog,VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardLog,
+    simp [body,backward,KernelDSL.backward,KernelDSL.backwardDefault,KernelDSL.backwardLog,KernelDSL.backwardBody,VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardLog,
       VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardDefault,
       VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardDefaultOriginal,
       VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardLogOriginal,
       VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.commuteOutput,
       ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
       Option.bind,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
-      State.setReg,numeric,numericLt,natLt,FP.Structural.bop,store,Region.cast,h.target,h.output]
+      State.setReg,numeric,numericLt,natLt,FP.Structural.bop,store,Region.cast,h.target,h.output,h.cols]
     rfl
 
 def chunkMemory {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (flag : Bool)
@@ -91,7 +92,7 @@ theorem chunk_registers {α : Type} [Inhabited α] (M : Algebra α) (p : Paramet
     (row start : Nat) (s : State α) (h : Registers p row s) :
     Registers p row (chunkRun M p flag row start s h).val := by
   cases flag <;> constructor
-  all_goals simp [chunkRun,Tile.masked_regs,State.setReg,h.target,h.output]
+  all_goals simp [chunkRun,Tile.masked_regs,State.setReg,h.target,h.output,h.cols]
 
 attribute [irreducible] chunkRun prefixRun
 
@@ -127,7 +128,7 @@ decreasing_by omega
 
 theorem source_decomposition (p : Parameters) (flag : Bool) :
     (backward p flag).surfaceBody=backwardPrefix p flag ++
-      [.forRangeInt "i" (.constInt 0) (.constInt p.cols) (.constNat p.block) (body p flag)] := by
+      [.forRangeInt "i" (.constInt 0) (.ref .int [] "n_cols") (.constNat p.block) (body p flag)] := by
   cases flag <;> rfl
 
 theorem row_complete {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (flag : Bool)
@@ -139,9 +140,9 @@ theorem row_complete {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters
   have hi := prefix_registers M p flag s
   have hpMem : prepared.mem=s.mem := by cases flag <;> unfold prepared prefixRun <;> rfl
   obtain ⟨final,he,hm,hr⟩ := loop_complete M p flag (s.pids 0) 0 prepared hi hb
-  have hs : step (engine M) (.forRangeInt "i" (.constInt 0) (.constInt p.cols)
+  have hs : step (engine M) (.forRangeInt "i" (.constInt 0) (.ref .int [] "n_cols")
       (.constNat p.block) (body p flag)) prepared=some final := by
-    simpa [step,evalOp_unfold] using he
+    simpa [step,evalOp_unfold,prepared,hi.cols] using he
   refine ⟨final,?_,?_⟩
   · rw [source_decomposition,run_append,hp]
     simpa [run,hs,prepared]

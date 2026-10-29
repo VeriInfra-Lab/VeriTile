@@ -81,7 +81,8 @@ theorem stage1_run (kind : Kind) (r : Rounding) (rest : Algebra Word) (s : State
       ofFloat,toFloat,bop,numeric,numericLt,numericEq,natLt,TileShape.discreteMaximum,
       TileShape.discreteIntArgMax,TypedReduction.self_equal,TypedReduction.presence,
       TypedReduction.selected,flag,clean,Typed.globalLoaded,Typed.firstIndex,firstWritten,Option.bind,
-      store,TileShape.allIndices,Region.cast,channel,Rounding.cast]
+      store,TileShape.allIndices,Region.cast,channel,Rounding.cast,-Nat.cast_add,-Nat.cast_mul,← Int.natCast_add,← Int.natCast_mul]
+  all_goals simp only [← apply_ite (fun n : Nat => (n : Int)), ← Int.natCast_add, Int.toNat_natCast, State.write, State.setReg_mem]
   all_goals rfl
 
 def secondIndex (kind : Kind) (s : State Word) (V : RegionName)

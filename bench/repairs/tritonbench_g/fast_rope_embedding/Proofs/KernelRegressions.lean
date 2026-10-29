@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.fast_rope_embedding.Proofs.LegacyStoreView
 import bench.tritonbench_g.fast_rope_embedding.Kernels
 import bench.repairs.tritonbench_g.fast_rope_embedding.Contract
 import bench.repairs.tritonbench_g.rope_embedding.Proofs.SourceBinding
@@ -5,11 +6,12 @@ import bench.repairs.tritonbench_g.rope_embedding.Proofs.SourceBinding
 namespace VeriTile.Bench.Repairs.FastRopeEmbedding.KernelContract
 open VeriTile.Bench.Repairs.RopeEmbedding
 
-/-- The readable local quote is exactly the original retained typed fast JIT. -/
+/-- Exact historical syntax connection after removing its two fabricated
+same-FP32 store casts. Actual execution is proved from the raw quotation. -/
 theorem original_typed_source (c : Call) :
-    c.source=VeriTile.Bench.TritonBenchG.FastRopeEmbedding.TypedSource.rope
+    c.source=LegacyStoreView.current (VeriTile.Bench.TritonBenchG.FastRopeEmbedding.TypedSource.rope
       .fp32 .fp32 .fp32 Bool.false "Q" "C" "S" c.qStride c.cosineStride c.sineStride
-      c.geometry.sequence c.geometry.dimension c.geometry.heads c.geometry.block c.backward := rfl
+      c.geometry.sequence c.geometry.dimension c.geometry.heads c.geometry.block c.backward) := rfl
 
 theorem nonunit_not_inverse :
     let forward := Spec.pair Bool.false 1 2 2 0

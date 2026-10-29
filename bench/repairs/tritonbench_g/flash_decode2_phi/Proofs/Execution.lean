@@ -52,7 +52,7 @@ structure Carry (α : Type) (BD : Nat) where
   z : α
   a : TileIndex [BD] → α
 
-def initial (A : Algebra α) (BD : Nat) : Carry α BD := ⟨A.negInf,A.literal none .real 0,fun _ => zero A⟩
+def initial (A : Algebra α) (BD : Nat) : Carry α BD := ⟨A.negInf,zero A,fun _ => zero A⟩
 def next (A : Algebra α) (s : State α) (masked : Bool) (H S D j : Nat)
     (c : Carry α BD) : Carry α BD :=
   let x := logvalue A s H S j

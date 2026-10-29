@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.fast_rope_embedding.Proofs.LegacyStoreView
 import bench.repairs.tritonbench_g.fast_rope_embedding.Kernels
 import bench.tritonbench_g.fast_rope_embedding.Kernels
 import VeriTile.Triton.Float.ProgramIO
@@ -14,12 +15,12 @@ end Old
 
 theorem original_source (Q C S : RegionName) (QR CR SR seq H heads B : Nat) (backwards : Bool) :
     Kernels.rope Q C S QR CR SR seq H heads B backwards =
-      Old.source .fp32 .fp32 .fp32 Bool.false Q C S QR CR SR seq H heads B backwards := by
+      LegacyStoreView.current (Old.source .fp32 .fp32 .fp32 Bool.false Q C S QR CR SR seq H heads B backwards) := by
   cases backwards <;> rfl
 
 theorem candidate_source (Q C S : RegionName) (QR CR SR seq H heads B : Nat) (backwards : Bool) :
     Kernels.ropeIndexCommuted Q C S QR CR SR seq H heads B backwards =
-      Old.source .fp32 .fp32 .fp32 Bool.true Q C S QR CR SR seq H heads B backwards := by
+      LegacyStoreView.current (Old.source .fp32 .fp32 .fp32 Bool.true Q C S QR CR SR seq H heads B backwards) := by
   cases backwards <;> rfl
 
 /-- Proof-only decomposition of the one changed integer assignment. -/

@@ -22,11 +22,22 @@ and that the new conditional is the only added Python AST node.
 
 ## Proof connection
 
-`Kernels.lean` contains one readable source quotation. Its eight constexpr mask
-specializations omit dead `mask=None` assignments and use an unmasked memory
-operation for those branches. Nontrivial mask shapes and broadcasts, grouping
-and short groups, pointer updates, loop, zero fill, and store remain explicit.
-Tuple PID assignment is split into two scalar statements.
+`Kernels.lean` retains the complete original `bmm_kernel` Python body and the
+existing quotient/remainder candidate body. This includes the tuple PID
+assignment, original `_` loop iterator, all nested constexpr branches,
+`mask_a/mask_b/mask_c = None`, mask shapes, dot options and positional masks.
+`jit-correspondence.json` checks both bodies against Python. Pointer dtypes,
+runtime signed-32-bit size bindings and the seven constexpr parameters are
+supplied outside the quotations. The selected wrapper's existing signed-width,
+grid and shape checks are unchanged.
+
+The generic `ConstexprMask` frontend elaborates every Boolean constexpr case
+and retains the caller's actual selector. Python `None` bindings introduce no
+runtime register; a direct absent mask selects an unmasked load or store.
+Runtime branches with incompatible None facts, arithmetic on None, reassigned
+constexpr selectors and possibly undefined/None loop variables fail closed.
+A loop may execute zero times; local None facts never become an unconditional
+post-loop mask. The original source is not edited into eight manual bodies.
 
 `IO.lean` exposes shared `ProgramIO` with finite contiguous A/B/O channels,
 their exact capacities and flat row-major windows, all channel masks, no private
@@ -85,10 +96,14 @@ expression; no measured speedup is claimed. All floating operations and the
 selected live-FMA interpretation remain identical. The exact Nat identity and
 non-underflow bound hold even for a zero divisor.
 
-Both sources are ordinary complete quotations for all eight constexpr mask
-branches. `Proofs/SourcePreservation.lean` proves complete original interface
-and AST equality to the archived prior source. `PairConnection.source_pair`
-proves whole-state execution equality and actual access-safety equivalence;
+Both complete raw bodies retain all eight constexpr mask combinations.
+`Proofs/SourcePreservation.lean` compares their original memory interface and
+complete original instructions with the archived manual view after restoring
+the `_` iterator and the tuple assignment's always-taken block. It does not
+claim whole-state identity with the old `_i` register. The actual prefix, loop,
+epilogue, graph execution and safety proofs now consume the raw quotation.
+`PairConnection.source_pair` proves whole-state execution equality and actual
+access-safety equivalence of the original and candidate, including failures;
 `PairIO.equivalent` lifts these to any complete three-axis CTA permutation,
 including empty outputs and K=0, equal tagged observations and both exterior
 memory frames. No finite-value guard or numerical rule is needed.
@@ -111,7 +126,10 @@ connection. Lazy negation remains rejected by the original validator.
 
 ## Evidence and boundaries
 
-Evidence lives in `.veritile-cache/kernel-evidence/bmm_optimized_grid_axes_checked`.
+Historical wrapper/compiler evidence was recorded under
+`.veritile-cache/kernel-evidence/bmm_optimized_grid_axes_checked`. The source
+and Lean proof imports are tracked in Git and do not require that cache.
+The following counts describe those historical controls, not new GPU runs.
 The metadata controls cover both axis endpoints, both frozen witnesses, K=0,
 all three empty-output cases, and retention of the old empty-input index checks.
 The CPU controls cover 43 wrapper trials: 40 actual source interpreter launches

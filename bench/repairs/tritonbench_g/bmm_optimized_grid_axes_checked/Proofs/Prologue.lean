@@ -79,7 +79,7 @@ private theorem gridExecution (o : BmmOptimized.Scalar α) (rest : Algebra α)
         VeriTile.Bench.TritonBenchG.BmmOptimized.RealGrid.rowTile,
         VeriTile.Bench.TritonBenchG.BmmOptimized.RealGrid.columnTile,
         VeriTile.Bench.TritonBenchG.BmmOptimized.RealGrid.groupSize,
-        hg,hb,run,step,localStep,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,
+        hg,hb,run,step,localStep,FP.Structural.run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,
         numeric,FP.Structural.bop,natLt,numericLt,numericEq,ComputeDType.eraseDType,Region.cast,
         Option.bind,integralFloorDiv,integralMod,algebra,Broadcast.leftIndex,Broadcast.rightIndex]
       try rfl

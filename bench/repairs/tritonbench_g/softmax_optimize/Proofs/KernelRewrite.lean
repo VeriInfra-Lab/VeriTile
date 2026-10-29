@@ -52,7 +52,8 @@ theorem execution {A : Type} [Inhabited A] (algebra : FP.Structural.Algebra A)
       exact ih u (fun st member => same st (by simp [member]))
   apply run_map
   intro statement member t
-  simp only [ComputeKernel.surfaceBody, List.mem_cons,
+  simp only [kernel, body, ComputeKernel.withScalarArguments, ScalarArgument.integer, ScalarArgument.statement,
+    List.map_cons, List.map_nil, List.cons_append, List.nil_append, ComputeKernel.surfaceBody, List.mem_cons,
     List.mem_nil_iff, or_false] at member
   rcases member with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
   all_goals first | rfl | exact loop_step t _ _ _ _ _ _ _ _

@@ -35,7 +35,8 @@ theorem stage1_run (rest : Algebra Word) (s : State Word) (X V : RegionName) (I 
       ofFloat,toFloat,bop,numeric,numericLt,numericEq,natLt,TileShape.discreteMaximum,
       TileShape.discreteIntArgMax,TypedReduction.self_equal,TypedReduction.presence,
       TypedReduction.selected,flag,clean,globalLoaded,firstIndex,firstWritten,Option.bind,
-      store,TileShape.allIndices,Region.cast]
+      store,TileShape.allIndices,Region.cast, -Nat.cast_add, -Nat.cast_mul, ← Int.natCast_add, ← Int.natCast_mul]
+  all_goals simp only [← apply_ite (fun n : Nat => (n : Int)), ← Int.natCast_add, Int.toNat_natCast, State.write, State.setReg_mem]
   all_goals rfl
 
 def secondIndex (s : State Word) (V : RegionName) (size block : Nat) (positive : 0<block) : Nat :=

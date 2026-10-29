@@ -14,40 +14,75 @@ class JITCorrespondenceTests(unittest.TestCase):
     def setUp(self):
         self.python = (DIRECTORY / "triton_argmax_nan_first.py").read_text()
         self.lean = (DIRECTORY / "Kernels.lean").read_text()
+        self.record = json.loads((DIRECTORY / "jit-correspondence.json").read_text())[0]
+
+    def compare(self, lean, python=None, dtype=None):
+        r = self.record
+        return check(self.python if python is None else python, lean,
+                     r["python_function"], r["lean_definition"],
+                     r["signature_definition"], r["expected_signature"],
+                     expected_source_dtype=r["expected_source_dtype"] if dtype is None else dtype)
 
     def test_all_original_and_candidate_bodies(self):
-        self.assertEqual(len(check_manifest(ROOT, DIRECTORY / "jit-correspondence.json")), 5)
+        pairs = check_manifest(ROOT, DIRECTORY / "jit-correspondence.json")
+        self.assertEqual(len(pairs), 5)
+        self.assertTrue(all(p["mode"] == "pasted_body" for p in pairs))
+        self.assertEqual([p["statements"] for p in pairs], [20, 9, 12, 20, 12])
 
     def test_cast_nan_clamp_store_and_parameter_changes_are_rejected(self):
         mutations = [
-            ("(pid).to(tl.int64)", "pid"),
+            ("pid.to(tl.int64)", "pid"),
             ("tl.maximum(stored_value,", "tl.minimum(stored_value,"),
-            ("tl.where((max_val == max_val), max_val, 0.0)", "max_val"),
+            ("tl.where(max_val == max_val, max_val, 0.0)", "max_val"),
             ("tl.store(mid_value_ptr, stored_value)", "tl.store(mid_value_ptr, max_val)"),
-            ("tl.param M : tl.int64", "tl.param M : tl.float32"),
-            ("(offset < M)", "(offset <= M)"),
+            ('("M",.i64)', '("M",.fp32)'),
+            ("mask = offset < M", "mask = offset <= M"),
+            ("8 if is_bool else", "16 if is_bool else"),
+            ("width - 1 if signed else width", "width"),
         ]
         for before, after in mutations:
             with self.subTest(before=before):
                 self.assertIn(before, self.lean)
                 with self.assertRaises(ValueError):
-                    check(self.python, self.lean.replace(before, after, 1),
-                          "argmax_kernel_1_repaired", "stage1")
+                    self.compare(self.lean.replace(before, after, 1))
 
     def test_jit_decorator_is_required(self):
         with self.assertRaisesRegex(ValueError, "expected one explicitly selected"):
-            check(self.python.replace("@triton.jit", "", 1), self.lean,
-                  "argmax_kernel_1_repaired", "stage1")
+            self.compare(self.lean, self.python.replace("@triton.jit", "", 1))
 
     def test_runtime_parameter_cannot_be_replaced_by_antiquote(self):
-        with self.assertRaisesRegex(ValueError, "not a constexpr"):
-            check(self.python, self.lean.replace("(offset < M)", "(offset < $(M))", 1),
-                  "argmax_kernel_1_repaired", "stage1")
+        with self.assertRaisesRegex(ValueError, "metadata directives or Lean antiquotes"):
+            self.compare(self.lean.replace("offset < M", "offset < $(M)", 1))
 
     def test_unsupported_splice_cannot_hide_arithmetic(self):
-        with self.assertRaisesRegex(ValueError, "unsupported antiquotation"):
-            check(self.python, self.lean.replace("$(BLOCK_SIZE)", "$(BLOCK_SIZE + 1)", 1),
-                  "argmax_kernel_1_repaired", "stage1")
+        with self.assertRaisesRegex(ValueError, "metadata directives or Lean antiquotes"):
+            self.compare(self.lean.replace("* BLOCK_SIZE +", "* $(BLOCK_SIZE + 1) +", 1))
+
+    def test_source_dtype_binding_and_pointer_declaration_are_checked(self):
+        for before, after in [
+            ("source_dtype mid_value := MID_DTYPE", "source_dtype inp := MID_DTYPE"),
+            ("source_dtype mid_value := MID_DTYPE", "source_dtype mid_value := SourceDType.fp32"),
+            ('sourceDTypePointers := ["mid_value"]', 'sourceDTypePointers := ["inp"]'),
+            ('sourceDTypePointers := ["mid_value"]', 'sourceDTypePointers := ["mid_value","mid_value"]'),
+            ('sourceDTypePointers := ["mid_value"]', 'sourceDTypePointers := []'),
+        ]:
+            with self.subTest(before=before, after=after), self.assertRaises(ValueError):
+                self.compare(self.lean.replace(before, after, 1))
+        with self.assertRaises(ValueError):
+            self.compare(self.lean, dtype={"pointer": "mid_value", "value": "OtherType"})
+
+    def test_typed_constexpr_and_integer_runtime_annotations_stay_original(self):
+        with self.assertRaisesRegex(ValueError, "annotation"):
+            self.compare(self.lean, self.python.replace("M: tl.int64", "M: tl.int32", 1))
+        self.assertIn("width: tl.constexpr = 8 if is_bool else", self.lean)
+        self.assertNotIn("tl.region", quotation(self.lean, "stage1")[1])
+
+    def test_bool_and_integer_scratch_branches_cannot_be_dropped(self):
+        for before, after in [("mid_value.dtype.element_ty.is_int()", "mid_value.dtype.element_ty.is_int1()"),
+                              ("is_bool or mid_value.dtype.element_ty.is_int_signed()", "False"),
+                              ("(1 << exponent) - gap", "(1 << exponent)")]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.compare(self.lean.replace(before, after, 1))
 
 
 class PastedBodyTests(unittest.TestCase):
@@ -1280,3 +1315,436 @@ class AttentionFwdFunctionBodyTests(unittest.TestCase):
                     self.assertIn(before, lean)
                     with self.assertRaises(ValueError):
                         self.compare(record, lean.replace(before, after))
+
+
+class IsfiniteFunctionBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/isfinite_kernel"
+
+    def compare(self, record, lean, python=None):
+        kwargs = {k: v for k, v in record.items() if k not in ("python", "lean", "profile_variant")}
+        return check(python or (ROOT / record["python"]).read_text(), lean, **kwargs)
+
+    def test_original_helper_and_both_precisions_of_each_writer(self):
+        pairs = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual([(p["mode"], p["statements"]) for p in pairs],
+                         [("pasted_body", 1)] + [("pasted_body", 7)] * 4)
+        for record in json.loads((self.directory / "jit-correspondence.json").read_text()):
+            source = (ROOT / record["python"]).read_text()
+            fn = next(n for n in ast.parse(source).body if isinstance(n, ast.FunctionDef)
+                      and n.name == record["python_function"])
+            raw = "\n".join(source.splitlines()[fn.body[0].lineno-1:fn.end_lineno])
+            lean = (ROOT / record["lean"]).read_text()
+            self.assertEqual(textwrap.dedent(raw).strip(),
+                             textwrap.dedent(quotation(lean, record["lean_definition"])[1]).strip())
+
+    def test_signed_casts_precision_imports_and_call_coordinates_are_checked(self):
+        mutations = [
+            ("offsets.to(tl.int64)", "offsets"),
+            ("tl.cast(in0_stride, tl.int64)", "in0_stride"),
+            ("tl.cast(out0_stride, tl.int64)", "out0_stride"),
+            (".to(in0_ptr.type.element_ty)", ""),
+            ("out0.to(out0_ptr.type.element_ty)", "out0"),
+            ("offsets < n", "offsets <= n"),
+            ("in0_stride := input.byteStride", "in0_stride := output.byteStride"),
+            ("in0_ptr := input.pointer", "in0_ptr := output.pointer"),
+            ('("_isfinited","triton.language.extra.cuda.libdevice.isfinited")',
+             '("_isfinited","triton.language.extra.cuda.libdevice.finitef")'),
+        ]
+        records = json.loads((self.directory / "jit-correspondence.json").read_text())
+        for record in records[1:]:
+            lean = (ROOT / record["lean"]).read_text()
+            for before, after in mutations:
+                with self.subTest(definition=record["lean_definition"], mutation=before):
+                    self.assertIn(before, lean)
+                    with self.assertRaises(ValueError):
+                        self.compare(record, lean.replace(before, after))
+        helper = records[0]
+        for before, after in [("x.dtype.is_fp64()", "x.dtype.is_fp32()"),
+                              ("x.to(tl.float32)", "x"), ("_isfinited(x)", "_finitef(x)")]:
+            with self.assertRaises(ValueError):
+                self.compare(helper, lean.replace(before, after))
+
+    def test_original_import_binding_must_match_profile(self):
+        record = json.loads((self.directory / "jit-correspondence.json").read_text())[1]
+        source = (ROOT / record["python"]).read_text()
+        changed = source.replace("import isfinited as _isfinited", "import finitef as _isfinited")
+        self.assertNotEqual(source, changed)
+        with self.assertRaisesRegex(ValueError, "source import"):
+            self.compare(record, (ROOT / record["lean"]).read_text(), changed)
+
+
+class KldivOpsFunctionBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/kldiv_ops"
+
+    def compare(self, record, lean):
+        kwargs = {k: v for k, v in record.items() if k not in ("python", "lean")}
+        return check((ROOT / record["python"]).read_text(), lean, **kwargs)
+
+    def test_complete_forward_and_backward_bodies_are_verbatim(self):
+        pairs = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual([(p["mode"], p["statements"]) for p in pairs],
+                         [("pasted_body", 12)] * 2 + [("pasted_body", 9)] * 2)
+        for record in json.loads((self.directory / "jit-correspondence.json").read_text()):
+            source = (ROOT / record["python"]).read_text()
+            fn = next(n for n in ast.parse(source).body if isinstance(n, ast.FunctionDef)
+                      and n.name == record["python_function"])
+            raw = "\n".join(source.splitlines()[fn.body[0].lineno-1:fn.end_lineno])
+            lean = (ROOT / record["lean"]).read_text()
+            self.assertEqual(textwrap.dedent(raw).strip(),
+                             textwrap.dedent(quotation(lean, record["lean_definition"])[1]).strip())
+
+    def test_cast_branch_epsilon_mask_and_call_binding_drift_is_rejected(self):
+        common = [("n_cols = tl.cast(n_cols, tl.int64)", "n_cols = n_cols"),
+                  ("if not log_target:", "if log_target:"),
+                  ("offsets < n_cols", "offsets <= n_cols"),
+                  ("n_cols := p.cols", "n_cols := p.rows")]
+        for record in json.loads((self.directory / "jit-correspondence.json").read_text()):
+            lean = (ROOT / record["lean"]).read_text()
+            mutations = common + ([("tl.maximum(y_true, eps)", "tl.maximum(y_true, eps.to(tl.float32))"),
+                                   ("loss = tl.where(mask, loss, 0.0)", "loss = loss"),
+                                   ("loss_stride := outputStride", "loss_stride := p.cols")]
+                                  if record["lean_definition"].startswith("forward") else
+                                  [("res = target * -1", "res = -target"),
+                                   ("new_grads_stride := p.cols", "new_grads_stride := p.rows")])
+            for before, after in mutations:
+                with self.subTest(definition=record["lean_definition"], mutation=before):
+                    self.assertIn(before, lean)
+                    with self.assertRaises(ValueError):
+                        self.compare(record, lean.replace(before, after))
+
+
+class SoftmaxOptimizeFunctionBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/softmax_optimize"
+
+    def compare(self, record, lean):
+        kwargs = {k: v for k, v in record.items() if k not in ("python", "lean")}
+        return check((ROOT / record["python"]).read_text(), lean, **kwargs)
+
+    def test_helper_and_both_complete_four_loop_bodies_are_verbatim(self):
+        pairs = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual([(p["mode"], p["statements"]) for p in pairs],
+                         [("pasted_body", 1), ("pasted_body", 12), ("pasted_body", 12)])
+        for record in json.loads((self.directory / "jit-correspondence.json").read_text()):
+            source = (ROOT / record["python"]).read_text()
+            fn = next(n for n in ast.parse(source).body if isinstance(n, ast.FunctionDef)
+                      and n.name == record["python_function"])
+            raw = "\n".join(source.splitlines()[fn.body[0].lineno-1:fn.end_lineno])
+            lean = (ROOT / record["lean"]).read_text()
+            self.assertEqual(textwrap.dedent(raw).strip(),
+                             textwrap.dedent(quotation(lean, record["lean_definition"])[1]).strip())
+
+    def test_dtype_cast_guards_loop_bounds_and_masks_cannot_drift(self):
+        records = json.loads((self.directory / "jit-correspondence.json").read_text())
+        helper = records[0]
+        lean = (ROOT / helper["lean"]).read_text()
+        with self.assertRaises(ValueError):
+            self.compare(helper, lean.replace("tl.cdiv(a, b) * b - b", "tl.cdiv(a, b) * b"))
+        mutations = [("tl.program_id(0).to(tl.int64)", "tl.program_id(0)"),
+                     ("tl.arange(0, TILE_N).to(tl.int64)", "tl.arange(0, TILE_N)"),
+                     (".to(output_ptr.dtype.element_ty)", ""),
+                     ("dtype=output_ptr.dtype.element_ty", "dtype=tl.float32"),
+                     ('new_m == -float("inf")', 'new_m == float("inf")'),
+                     ('inp == -float("inf")', 'inp == float("inf")'),
+                     ("range(0, prev_multiple, TILE_N)", "range(0, N, TILE_N)"),
+                     ("range(prev_multiple, N, TILE_N)", "range(prev_multiple, N + 1, TILE_N)"),
+                     ("n_offsets < N", "n_offsets <= N"),
+                     ("tl.store(output_ptrs, out, mask=mask)", "tl.store(output_ptrs, out)"),
+                     ('("N",.i64)', '("N",.i32)')]
+        for record in records[1:]:
+            for before, after in mutations:
+                with self.subTest(definition=record["lean_definition"], mutation=before):
+                    self.assertIn(before, lean)
+                    with self.assertRaises(ValueError):
+                        self.compare(record, lean.replace(before, after))
+
+
+class ChunkDeltaFunctionBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot"
+
+    def compare(self, record, lean):
+        kwargs = {k: v for k, v in record.items() if k not in ("python", "lean")}
+        return check((ROOT / record["python"]).read_text(), lean, **kwargs)
+
+    def test_complete_original_and_address_candidate_are_verbatim(self):
+        pairs = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual([(p["mode"], p["statements"]) for p in pairs],
+                         [("pasted_body", 5), ("pasted_body", 5)])
+        for record in json.loads((self.directory / "jit-correspondence.json").read_text()):
+            source = (ROOT / record["python"]).read_text()
+            fn = next(n for n in ast.parse(source).body if isinstance(n, ast.FunctionDef)
+                      and n.name == record["python_function"])
+            raw = "\n".join(source.splitlines()[fn.body[0].lineno-1:fn.end_lineno])
+            lean = (ROOT / record["lean"]).read_text()
+            self.assertEqual(textwrap.dedent(raw).strip(),
+                             textwrap.dedent(quotation(lean, record["lean_definition"])[1]).strip())
+
+    def test_dtype_queries_tf32_flags_boundaries_loops_and_strides_cannot_drift(self):
+        mutations = [("b_h.to(b_k.dtype)", "b_h"),
+                     ("b_v.to(b_k.dtype)", "b_v.to(tl.float16)"),
+                     ("b_h.to(p_h.dtype.element_ty)", "b_h.to(tl.float32)"),
+                     ("b_v.to(p_v_new.dtype.element_ty)", "b_v"),
+                     ("allow_tf32=False", "allow_tf32=True"),
+                     ("boundary_check=(0, 1)", "boundary_check=(0,)"),
+                     ("range(tl.cdiv(BT, BC))", "range(BT // BC)"),
+                     ("range(NT)", "range(NT - 1)"),
+                     ("if USE_INITIAL_STATE:", "if not USE_INITIAL_STATE:"),
+                     ("if STORE_FINAL_STATE:", "if not STORE_FINAL_STATE:"),
+                     ("s_w_t := p.wTime", "s_w_t := p.K"),
+                     ('writePorts := ["v_new", "h", "final_state"]',
+                      'writePorts := ["v_new", "h"]')]
+        for record in json.loads((self.directory / "jit-correspondence.json").read_text()):
+            lean = (ROOT / record["lean"]).read_text()
+            for before, after in mutations:
+                with self.subTest(definition=record["lean_definition"], mutation=before):
+                    self.assertIn(before, lean)
+                    with self.assertRaises(ValueError):
+                        self.compare(record, lean.replace(before, after))
+
+class SoftmaxTriton3BodyTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/repairs/tritonbench_g/softmax_triton3'
+        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+        self.python = (self.directory / 'softmax_triton3_repaired.py').read_text()
+        self.lean = (self.directory / 'Kernels.lean').read_text()
+
+    def compare(self, lean=None, record=None):
+        r = self.records[0] if record is None else record
+        return check(self.python, self.lean if lean is None else lean,
+                     r['python_function'], r['lean_definition'], r['signature_definition'],
+                     r['expected_signature'], r['expected_call_bindings'],
+                     expected_pointer_presence=r.get('expected_pointer_presence'))
+
+    def test_both_complete_bodies(self):
+        pairs = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual([p['statements'] for p in pairs], [14, 17])
+        self.assertTrue(all(p['mode'] == 'pasted_body' for p in pairs))
+        self.assertTrue(all(p['pointer_presence'] == {'mask_ptr': 'HAS_MASK'} for p in pairs))
+
+    def test_casts_none_test_and_caller_types_are_preserved(self):
+        for before, after in [
+            ('tl.program_id(0).to(tl.int64)', 'tl.program_id(0)'),
+            ('tl.arange(0, BLOCK_SIZE).to(tl.int64)', 'tl.arange(0, BLOCK_SIZE)'),
+            ('if mask_ptr is not None:', 'if mask_ptr is None:'),
+            ('pointer_presence [mask_ptr := HAS_MASK]', 'pointer_presence [mask_ptr := Bool.true]'),
+            ('optionalPointers := ["mask_ptr"]', 'optionalPointers := []'),
+            ('("row_stride",.i64)', '("row_stride",.i32)'),
+        ]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.compare(self.lean.replace(before, after, 1))
+
+    def test_presence_binding_requires_review(self):
+        record = dict(self.records[0])
+        record.pop('expected_pointer_presence')
+        with self.assertRaises(ValueError):
+            self.compare(record=record)
+
+    def test_duplicate_and_unknown_presence_bindings_are_rejected(self):
+        for binding in ['mask_ptr := HAS_MASK, mask_ptr := HAS_MASK',
+                        'input_ptr := HAS_MASK', 'mask_ptr := (HAS_MASK)']:
+            with self.subTest(binding=binding), self.assertRaises(ValueError):
+                self.compare(self.lean.replace('mask_ptr := HAS_MASK', binding, 1))
+
+    def test_duplicate_optional_declarations_are_rejected(self):
+        with self.assertRaises(ValueError):
+            self.compare(self.lean.replace('optionalPointers := ["mask_ptr"]',
+                                          'optionalPointers := ["mask_ptr","mask_ptr"]'))
+
+    def test_candidate_fallback_and_float_literal_are_preserved(self):
+        for before, after in [('denominator >= 1.0', 'denominator >= 0.0'),
+                              ('1.0 / denominator', '1.0 * denominator'),
+                              ('softmax_output = numerator / denominator',
+                               'softmax_output = numerator * denominator')]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.compare(self.lean.replace(before, after), self.records[1])
+
+class BmmConstexprBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/bmm_optimized_grid_axes_checked"
+
+    def test_two_complete_bodies(self):
+        pairs = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual([p["statements"] for p in pairs], [20,20])
+        self.assertTrue(all(p["mode"] == "pasted_body" for p in pairs))
+
+    def test_masks_branches_tuple_loop_and_dot_cannot_drift(self):
+        records = json.loads((self.directory / "jit-correspondence.json").read_text())
+        for record in records:
+            python = (ROOT / record["python"]).read_text()
+            lean = (ROOT / record["lean"]).read_text()
+            for before, after in [
+                ("mask_a = None", "mask_a = True"),
+                ("if DIVISIBLE_M and DIVISIBLE_K:", "if DIVISIBLE_M:"),
+                ("pid_m, pid_n = pidx, pidy", "pid_m, pid_n = pidy, pidx"),
+                ("for _ in range(num_iters):", "for _ in range(num_iters + 1):"),
+                ("mask_b = mask_k[:, None] & mask_n[None, :]", "mask_b = mask_n[None, :]"),
+                ("tl.dot(a, b, allow_tf32=False)", "tl.dot(a, b, allow_tf32=True)"),
+                ("tl.store(o_ptrs, o, mask_c)", "tl.store(o_ptrs, o)"),
+            ]:
+                self.assertIn(before, lean)
+                with self.subTest(definition=record["lean_definition"], change=before), self.assertRaises(ValueError):
+                    check(python,lean.replace(before,after),**{k:v for k,v in record.items() if k not in ["python","lean"]})
+
+    def test_runtime_sizes_and_constexpr_flags_keep_their_types(self):
+        record=json.loads((self.directory / "jit-correspondence.json").read_text())[0]
+        python=(ROOT/record["python"]).read_text();lean=(ROOT/record["lean"]).read_text()
+        for before,after in [('("M",.i32)','("M",.i64)'),
+                             ('"DIVISIBLE_K"]','"DIFFERENT_FLAG"]'),
+                             ('M := p.M, N := p.N, K := p.K','M := p.N, N := p.N, K := p.K')]:
+            self.assertIn(before,lean)
+            with self.subTest(change=before),self.assertRaises(ValueError):
+                check(python,lean.replace(before,after),**{k:v for k,v in record.items() if k not in ["python","lean"]})
+
+    def test_candidate_changes_only_the_existing_integer_remainder(self):
+        import copy
+        original = ast.parse((self.directory / "bmm_optimized_grid_axes_checked.py").read_text())
+        candidate = ast.parse((self.directory / "candidate_kernels.py").read_text())
+        expected = copy.deepcopy(next(n for n in original.body if isinstance(n, ast.FunctionDef) and n.name == "bmm_kernel"))
+        expected.name = "bmm_quotient_remainder"
+        assignments = [n for n in ast.walk(expected) if isinstance(n, ast.Assign)
+                       and any(isinstance(t, ast.Name) and t.id == "inner_group_id" for t in n.targets)]
+        self.assertEqual(len(assignments),1)
+        self.assertEqual(ast.unparse(assignments[0].value),"pid % num_CTA_per_group")
+        assignments[0].value = ast.parse("pid - (pid // num_CTA_per_group) * num_CTA_per_group",mode="eval").body
+        actual = next(n for n in candidate.body if isinstance(n,ast.FunctionDef) and n.name == expected.name)
+        self.assertEqual(ast.dump(expected,include_attributes=False),ast.dump(actual,include_attributes=False))
+        for name in ["heur_divisible_m","heur_divisible_n","heur_divisible_k"]:
+            left=next(n for n in original.body if isinstance(n,ast.FunctionDef) and n.name == name)
+            right=next(n for n in candidate.body if isinstance(n,ast.FunctionDef) and n.name == name)
+            self.assertEqual(ast.dump(left,include_attributes=False),ast.dump(right,include_attributes=False))
+
+
+class SphericalHarmonicFunctionBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/fifth_order_sph_harmonics"
+
+    def test_all_four_complete_bodies(self):
+        pairs = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual([p["statements"] for p in pairs], [73, 73, 122, 122])
+        self.assertTrue(all(p["mode"] == "pasted_body" for p in pairs))
+
+    def test_casts_constants_masks_and_accumulation_cannot_drift(self):
+        records = json.loads((self.directory / "jit-correspondence.json").read_text())
+        checked = set()
+        for record in records:
+            python = (ROOT / record["python"]).read_text()
+            lean = (ROOT / record["lean"]).read_text()
+            body = quotation(lean, record["lean_definition"])[1]
+            import re
+            mutations = []
+            for pattern, replacement in [
+                (r"tl\.cast\(upstream_row_stride, tl\.int64\)", "upstream_row_stride"),
+                (r"tl\.cast\(upstream_col_stride, tl\.int64\)", "upstream_col_stride"),
+                (r"\.to\(tl\.int64\)", ""),
+                (r"mask=[^,)\n]+", "mask=True"),
+                (r"\+=", "="),
+                (r"CONST\d+ = -?\d+\.\d+", "CONST000 = 0.0"),
+            ]:
+                match = re.search(pattern, body)
+                if match:
+                    mutations.append((match.group(), replacement))
+                    checked.add(pattern)
+            for before, after in mutations:
+                with self.subTest(definition=record["lean_definition"], change=before), self.assertRaises(ValueError):
+                    check(python, lean.replace(before, after), **{
+                        k: v for k, v in record.items() if k not in ["python", "lean"]})
+        self.assertEqual(len(checked), 6)
+
+    def test_stride_bindings_and_pointer_types_cannot_drift(self):
+        record = json.loads((self.directory / "jit-correspondence.json").read_text())[2]
+        python = (ROOT / record["python"]).read_text()
+        lean = (ROOT / record["lean"]).read_text()
+        for before, after in [
+            ('("sph_grad_ptr",.fp32)', '("sph_grad_ptr",.fp16)'),
+            ('("upstream_row_stride",.integer)', '("upstream_row_stride",.i32)'),
+            ('upstream_row_stride := upstream_row_stride', 'upstream_row_stride := upstream_col_stride'),
+        ]:
+            self.assertIn(before, lean)
+            with self.subTest(change=before), self.assertRaises(ValueError):
+                check(python, lean.replace(before, after), **{
+                    k: v for k, v in record.items() if k not in ["python", "lean"]})
+
+    def test_candidates_only_reuse_existing_left_associated_powers(self):
+        import copy
+        original = ast.parse((self.directory / "fifth_order_sph_harmonics_repaired.py").read_text())
+        candidate = ast.parse((self.directory / "candidate_kernels.py").read_text())
+        for phase, source_name, depth in [
+            ("forward", "fifth_order_fwd_repaired", 5),
+            ("backward", "fifth_order_bwd_repaired", 4),
+        ]:
+            expected = copy.deepcopy(next(n for n in original.body if isinstance(n, ast.FunctionDef) and n.name == source_name))
+            expected.name = phase + "_powers_kernel"
+            positions = [i for i, n in enumerate(expected.body) if isinstance(n, ast.Assign)
+                         and isinstance(n.targets[0], ast.Name) and n.targets[0].id.startswith("VAR")]
+            self.assertEqual(positions, list(range(positions[0], positions[-1] + 1)))
+            powers = []
+            for coordinate, square in [("x", 8), ("y", 17), ("z", 26)]:
+                powers.append(f"VAR{square:02} = {coordinate} * {coordinate}")
+                for power in range(3, depth + 1):
+                    index = square - power + 2
+                    powers.append(f"VAR{index:02} = VAR{index+1:02} * {coordinate}")
+            expected.body[positions[0]:positions[-1] + 1] = ast.parse("\n".join(powers)).body
+            actual = next(n for n in candidate.body if isinstance(n, ast.FunctionDef) and n.name == expected.name)
+            self.assertEqual(ast.dump(expected, include_attributes=False), ast.dump(actual, include_attributes=False))
+
+
+class GegluFunctionBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/geglu_tanh_triton"
+
+    def compare(self, record, lean=None, python=None):
+        kwargs = {k: v for k, v in record.items() if k not in ("python", "lean")}
+        return check((ROOT / record["python"]).read_text() if python is None else python,
+                     (ROOT / record["lean"]).read_text() if lean is None else lean, **kwargs)
+
+    def test_four_complete_bodies_preserve_comments_and_statement_order(self):
+        records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+        result = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual([p['statements'] for p in result], [12,12,18,18])
+        self.assertTrue(all(p['mode'] == 'pasted_body' for p in result))
+        for record in records:
+            python = (ROOT / record['python']).read_text()
+            function = next(f for f in ast.parse(python).body if isinstance(f, ast.FunctionDef)
+                            and f.name == record['python_function'])
+            raw = '\n'.join(python.splitlines()[function.body[0].lineno-1:function.end_lineno])
+            self.assertEqual(textwrap.dedent(raw).strip(), textwrap.dedent(
+                quotation((ROOT / record['lean']).read_text(),record['lean_definition'])[1]).strip())
+
+    def test_original_import_is_checked(self):
+        record=json.loads((self.directory/'jit-correspondence.json').read_text())[0]
+        source=(ROOT/record['python']).read_text()
+        for before,after in [('from triton.language.extra.libdevice import tanh',
+                              'from triton.language import tanh'),
+                             ('from triton.language.extra.libdevice import tanh',''),
+                             ('from triton.language.extra.libdevice import tanh',
+                              'from triton.language.extra.libdevice import tanh\ntanh = lambda x: x'),
+                             ('from triton.language.extra.libdevice import tanh',
+                              'from triton.language.extra.libdevice import tanh\nimport math as tanh'),
+                             ('from triton.language.extra.libdevice import tanh',
+                              'from triton.language.extra.libdevice import tanh\ndel tanh')]:
+            with self.subTest(after=after), self.assertRaises(ValueError):
+                self.compare(record,python=source.replace(before,after))
+
+    def test_missing_import_metadata_cannot_select_a_different_intrinsic(self):
+        record=json.loads((self.directory/'jit-correspondence.json').read_text())[0]
+        lean=(ROOT/record['lean']).read_text()
+        changed=json.loads(json.dumps(record));changed['expected_signature'].pop('unaryImports')
+        lean=lean.replace('  unaryImports := [("tanh", "triton.language.extra.libdevice.tanh")]\n','')
+        with self.assertRaises(ValueError):self.compare(changed,lean=lean)
+
+    def test_casts_intrinsic_and_runtime_order_cannot_drift(self):
+        for record in json.loads((self.directory/'jit-correspondence.json').read_text()):
+            lean=(ROOT/record['lean']).read_text()
+            for before,after in [('tl.program_id(0).to(tl.int64)','tl.program_id(0)'),
+                                 ('tl.arange(0, BLOCK_SIZE).to(tl.int64)','tl.arange(0, BLOCK_SIZE)'),
+                                 ('tanh_result = tanh(tanh_arg)','tanh_result = tl.tanh(tanh_arg)'),
+                                 ('a_cubed = a_row * a_row * a_row','a_cubed = a_row * (a_row * a_row)'),
+                                 ('mask=mask, other=0).to(tl.float32)','mask=mask, other=0)'),
+                                 ('3 * 0.044715 * a_row * a_row','0.134145 * a_row * a_row')]:
+                if before not in quotation(lean,record['lean_definition'])[1]:continue
+                with self.subTest(name=record['lean_definition'],change=before), self.assertRaises(ValueError):
+                    self.compare(record,lean=lean.replace(before,after))
+
+    def test_duplicate_or_wrong_unary_import_metadata_is_rejected(self):
+        record=json.loads((self.directory/'jit-correspondence.json').read_text())[0]
+        lean=(ROOT/record['lean']).read_text()
+        for value in ['[("tanh", "triton.language.tanh")]',
+                      '[("tanh", "triton.language.extra.libdevice.tanh"), ("tanh", "triton.language.extra.libdevice.tanh")]']:
+            with self.subTest(value=value),self.assertRaises(ValueError):
+                self.compare(record,lean=lean.replace('[("tanh", "triton.language.extra.libdevice.tanh")]',value))

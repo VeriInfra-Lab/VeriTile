@@ -31,7 +31,7 @@ theorem candidate_safe {α : Type} [Inhabited α] (M : Algebra α) (D : Domain �
     FP.Structural.run,FP.Structural.step,FP.Structural.evalExpr,
     FP.Structural.evalComputeOp,FP.Structural.evalOp_unfold,
     FP.Structural.evalOffsets,FP.Structural.store,FP.Structural.numeric,
-    FP.Structural.bop,FP.Structural.natLt,FP.Structural.numericEq,FP.Structural.numericLe,
+    FP.Structural.bop,FP.Structural.natLt,FP.Structural.numericLt,FP.Structural.numericEq,FP.Structural.numericLe,
     ComputeDType.eraseDType,FP.Structural.ofFloat,FP.Structural.toFloat,TileShape.axisDim,hB,
     Region.cast,Option.bind,FP.ProfiledRewrite.engine,Algebra.withDefaultPrecision,
     resolvePrecision,ports.finite_bind,ports.order_bind] at input maskInput output ⊢
@@ -39,7 +39,7 @@ theorem candidate_safe {α : Type} [Inhabited α] (M : Algebra α) (D : Domain �
   all_goals
     simp (maxSteps := 800000) [Option.bind,FP.Structural.run,FP.Structural.step,
       FP.Structural.evalExpr,FP.Structural.evalComputeOp,FP.Structural.evalOp_unfold,
-      FP.Structural.store,FP.Structural.State.setReg,FP.Structural.numeric,FP.Structural.natLt,
+      FP.Structural.store,FP.Structural.State.setReg,FP.Structural.numeric,FP.Structural.natLt,FP.Structural.numericLt,
       FP.Structural.numericEq,FP.Structural.numericLe,FP.Structural.bop,
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
       Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
@@ -69,7 +69,7 @@ theorem original_safe {α : Type} [Inhabited α] (M : Algebra α)
       FP.Structural.run,FP.Structural.step,FP.Structural.evalExpr,
       FP.Structural.evalComputeOp,FP.Structural.evalOp_unfold,
       FP.Structural.evalOffsets,FP.Structural.store,FP.Structural.numeric,
-      FP.Structural.bop,FP.Structural.natLt,FP.Structural.numericEq,ComputeDType.eraseDType,
+      FP.Structural.bop,FP.Structural.natLt,FP.Structural.numericLt,FP.Structural.numericEq,ComputeDType.eraseDType,
       FP.Structural.ofFloat,FP.Structural.toFloat,TileShape.axisDim,hB,
       Region.cast,Option.bind,FP.ProfiledRewrite.engine,Algebra.withDefaultPrecision,
       resolvePrecision] at input maskInput output ⊢

@@ -1,0 +1,170 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/geglu_tanh_triton/geglu_tanh_triton_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/geglu_tanh_triton/Kernels.lean",
+    "python_function": "_geglu_tanh_forward_kernel_repaired",
+    "lean_definition": "forwardKernel",
+    "signature_definition": "forwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "a",
+          "fp32"
+        ],
+        [
+          "b",
+          "fp32"
+        ],
+        [
+          "c",
+          "fp32"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "n_elements",
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "a",
+        "b"
+      ],
+      "writePorts": [
+        "c"
+      ],
+      "unaryImports": [
+        [
+          "tanh",
+          "triton.language.extra.libdevice.tanh"
+        ]
+      ]
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/geglu_tanh_triton/candidate_kernels.py",
+    "lean": "bench/repairs/tritonbench_g/geglu_tanh_triton/Kernels.lean",
+    "python_function": "forward_index_commuted_kernel",
+    "lean_definition": "forwardIndexCommuted",
+    "signature_definition": "forwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "a",
+          "fp32"
+        ],
+        [
+          "b",
+          "fp32"
+        ],
+        [
+          "c",
+          "fp32"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "n_elements",
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "a",
+        "b"
+      ],
+      "writePorts": [
+        "c"
+      ],
+      "unaryImports": [
+        [
+          "tanh",
+          "triton.language.extra.libdevice.tanh"
+        ]
+      ]
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/geglu_tanh_triton/geglu_tanh_triton_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/geglu_tanh_triton/Kernels.lean",
+    "python_function": "_geglu_tanh_backward_kernel_repaired",
+    "lean_definition": "backwardKernel",
+    "signature_definition": "backwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "dc",
+          "fp32"
+        ],
+        [
+          "a",
+          "fp32"
+        ],
+        [
+          "b",
+          "fp32"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "n_elements",
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "dc",
+        "a",
+        "b"
+      ],
+      "writePorts": [
+        "a",
+        "b"
+      ],
+      "unaryImports": [
+        [
+          "tanh",
+          "triton.language.extra.libdevice.tanh"
+        ]
+      ]
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/geglu_tanh_triton/candidate_kernels.py",
+    "lean": "bench/repairs/tritonbench_g/geglu_tanh_triton/Kernels.lean",
+    "python_function": "backward_index_commuted_kernel",
+    "lean_definition": "backwardIndexCommuted",
+    "signature_definition": "backwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "dc",
+          "fp32"
+        ],
+        [
+          "a",
+          "fp32"
+        ],
+        [
+          "b",
+          "fp32"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "n_elements",
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "dc",
+        "a",
+        "b"
+      ],
+      "writePorts": [
+        "a",
+        "b"
+      ],
+      "unaryImports": [
+        [
+          "tanh",
+          "triton.language.extra.libdevice.tanh"
+        ]
+      ]
+    }
+  }
+]

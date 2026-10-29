@@ -33,11 +33,27 @@ the mask in the maximum. Large positive masks can therefore overflow native
 exponentiation even when a differently ordered stable softmax would not. No
 numerical rewrite hides that behavior.
 
-`Kernels.lean` contains one readable typed DSL transcription, with explicit
-FP32 input, mask and output storage. `Proofs/KernelSource.source_legacy` checks
-its exact equality to the retained source on both optional-mask branches. The
-complete Real, typed FP32 and ordered native row proofs are reused. Launch
-selection and the unchanged wrapper guards live in `Contract.lean`.
+`Kernels.lean` contains the two complete Python function bodies from
+`softmax_triton3_repaired.py`, including both signed-int64 casts, the original
+`mask_ptr is not None` test, explicit FP32 load casts, finite classifiers,
+`1.0` literals, fast-path guard and division fallback. Pointer storage, signed
+runtime scalar values, constexpr size and optional-pointer presence are supplied
+outside `triton { ... }`. The caller binds presence to the existing `HAS_MASK`
+argument; the actual optional-input interfaces supply `mask.isSome`.
+
+The frontend preserves the conditional and rejects uses of the optional pointer
+outside its non-None branch. `jit-correspondence.json` checks both raw bodies,
+the dtype/scalar profile and the caller presence binding. No pointer address or
+load is invented for an absent mask. The Python implementation, wrappers,
+public mathematical/FP statements and input domain remain unchanged.
+
+The historical manual AST omitted signed casts and specialized the mask test
+in the body, so it is no longer used as an AST-equality certificate.
+`Proofs/RealExecution.lean` proves actual execution, output values, masked access
+safety and exterior frames for both mask branches. `Proofs/FP.lean`,
+`PairExecution.lean` and `PairSafety.lean` independently follow the actual source
+and the existing numerical model/rules. Launch selection and the unchanged
+wrapper guards live in `Contract.lean`.
 
 `Proofs/Binding.lean` interprets each formal pointer as a window starting at the
 actual Tensor storage offset. For each row, it reads from the exact reached

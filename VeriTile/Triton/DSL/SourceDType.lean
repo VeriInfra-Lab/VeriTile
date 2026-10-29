@@ -229,6 +229,15 @@ partial def lowerStores (dtype : Triton.SourceDType) (aliases : List Name)
             Macro.throwErrorAt stmt "unsupported store control flow in dtype specialization"
       return stmt :: (← lowerStores dtype next tail)
 
+/-- Specialize only source dtype queries and their constexpr bindings. Pasted
+body callers retain their own checked pointer ABI and destination conversions. -/
+def specializeBody (pointer : Name) (dtype : Triton.SourceDType)
+    (stmts : Array (TSyntax `tritonStmt)) : MacroM (Array (TSyntax `tritonStmt)) := do
+  let normalized ← stmts.toList.mapM fun st =>
+    return (⟨← Inference.normalizeControlFlow st.raw⟩ : TSyntax `tritonStmt)
+  let (body, _) ← prepare pointer dtype [] normalized
+  return body.toArray
+
 macro_rules
   | `(triton (dtype $pointer:ident := $kind:term) { $stmts:tritonStmt* }) => do
       let kinds : List Triton.SourceDType := [.fp16,.bf16,.fp32,.fp64,.f8e4,.f8e5,.i8,.i16,.i32,.i64,.u8,.u16,.u32,.u64,.boolean]

@@ -27,7 +27,7 @@ def b4 (M : Algebra α) (p : Parameters) (flag : Bool) (s : State α) (row start
 theorem step0 (M : Algebra α) (p : Parameters) (flag : Bool) (s : State α) (start : Nat) :
     step (engine M) (command p flag 0) (b0 s start)=some (b1 p s start) := by
   cases flag
-  all_goals simp only [command,Backward.body,backward,KernelDSL.backward,KernelDSL.backwardDefault,KernelDSL.backwardLog,
+  all_goals simp only [command,Backward.body,backward,KernelDSL.backward,KernelDSL.backwardDefault,KernelDSL.backwardLog,KernelDSL.backwardBody,
     VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardLog,
     VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardDefault,
     VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardDefaultOriginal,
@@ -35,7 +35,7 @@ theorem step0 (M : Algebra α) (p : Parameters) (flag : Bool) (s : State α) (st
     VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.commuteOutput,
     ComputeKernel.surfaceBody,List.getD,List.getElem?_cons_zero,List.getElem?_cons_succ,Option.getD,
     Bool.false_eq_true,Bool.true_eq,ite_true,ite_false,
-    step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind_eq_bind,Option.pure_def,Option.bind,
+    step,run,evalExpr,evalComputeOp,evalOp_unfold,Option.bind_eq_bind,Option.pure_def,Option.bind,
     engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,State.setReg,
     numeric,numericLt,natLt,FP.Structural.bop,Region.cast,b0,b1,
     ne_eq,not_false_eq_true,not_true_eq_false,String.reduceEq,reduceCtorEq,
@@ -45,10 +45,11 @@ theorem step0 (M : Algebra α) (p : Parameters) (flag : Bool) (s : State α) (st
   all_goals try simp only [FP.Structural.bop, Broadcast.leftIndex, Broadcast.rightIndex, Int.ofNat_lt]
   all_goals rfl
 
-theorem step1 (M : Algebra α) (p : Parameters) (flag : Bool) (s : State α) (start : Nat) :
+theorem step1 (M : Algebra α) (p : Parameters) (flag : Bool) (s : State α) (start row : Nat)
+    (h : Backward.Registers p row s) :
     step (engine M) (command p flag 1) (b1 p s start)=some (b2 p s start) := by
   cases flag
-  all_goals simp only [command,Backward.body,backward,KernelDSL.backward,KernelDSL.backwardDefault,KernelDSL.backwardLog,
+  all_goals simp only [command,Backward.body,backward,KernelDSL.backward,KernelDSL.backwardDefault,KernelDSL.backwardLog,KernelDSL.backwardBody,
     VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardLog,
     VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardDefault,
     VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardDefaultOriginal,
@@ -56,10 +57,10 @@ theorem step1 (M : Algebra α) (p : Parameters) (flag : Bool) (s : State α) (st
     VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.commuteOutput,
     ComputeKernel.surfaceBody,List.getD,List.getElem?_cons_zero,List.getElem?_cons_succ,Option.getD,
     Bool.false_eq_true,Bool.true_eq,ite_true,ite_false,
-    step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind_eq_bind,Option.pure_def,Option.bind,
+    step,run,evalExpr,evalComputeOp,evalOp_unfold,Option.bind_eq_bind,Option.pure_def,Option.bind,
     engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,State.setReg,
     numeric,numericLt,natLt,FP.Structural.bop,Region.cast,b0,b1,b2,b3,b4,raw,Backward.scalar,ofFloat,toFloat,
-    ←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt,Tile.active_int,
+    ←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt,Tile.active_int,h.cols,
     ne_eq,not_false_eq_true,not_true_eq_false,String.reduceEq,reduceCtorEq,
     decide_eq_true_eq,ite_true,ite_false,dite_true,dite_false,
     Broadcast.leftIndex,Broadcast.rightIndex]
@@ -79,7 +80,7 @@ theorem step2 (M : Algebra α) (p : Parameters) (flag : Bool) (s : State α) (ro
     (h : Backward.Registers p row s) :
     step (engine M) (command p flag 2) (b2 p s start)=some (b3 M p s row start) := by
   cases flag
-  all_goals simp only [command,Backward.body,backward,KernelDSL.backward,KernelDSL.backwardDefault,KernelDSL.backwardLog,
+  all_goals simp only [command,Backward.body,backward,KernelDSL.backward,KernelDSL.backwardDefault,KernelDSL.backwardLog,KernelDSL.backwardBody,
     VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardLog,
     VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardDefault,
     VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardDefaultOriginal,
@@ -87,10 +88,10 @@ theorem step2 (M : Algebra α) (p : Parameters) (flag : Bool) (s : State α) (ro
     VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.commuteOutput,
     ComputeKernel.surfaceBody,List.getD,List.getElem?_cons_zero,List.getElem?_cons_succ,Option.getD,
     Bool.false_eq_true,Bool.true_eq,ite_true,ite_false,
-    step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind_eq_bind,Option.pure_def,Option.bind,
+    step,run,evalExpr,evalComputeOp,evalOp_unfold,Option.bind_eq_bind,Option.pure_def,Option.bind,
     engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,State.setReg,
     numeric,numericLt,natLt,FP.Structural.bop,Region.cast,b0,b1,b2,b3,b4,raw,Backward.scalar,ofFloat,toFloat,
-    ←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt,Tile.active_int,h.target,h.output,
+    ←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt,Tile.active_int,h.target,h.output,h.cols,
     ne_eq,not_false_eq_true,not_true_eq_false,String.reduceEq,reduceCtorEq,
     decide_eq_true_eq,ite_true,ite_false,dite_true,dite_false,
     Broadcast.leftIndex,Broadcast.rightIndex]
@@ -101,7 +102,7 @@ theorem step2 (M : Algebra α) (p : Parameters) (flag : Bool) (s : State α) (ro
 theorem step3 (M : Algebra α) (p : Parameters) (flag : Bool) (s : State α) (row start : Nat) :
     step (engine M) (command p flag 3) (b3 M p s row start)=some (b4 M p flag s row start) := by
   cases flag
-  all_goals simp only [command,Backward.body,backward,KernelDSL.backward,KernelDSL.backwardDefault,KernelDSL.backwardLog,
+  all_goals simp only [command,Backward.body,backward,KernelDSL.backward,KernelDSL.backwardDefault,KernelDSL.backwardLog,KernelDSL.backwardBody,
     VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardLog,
     VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardDefault,
     VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardDefaultOriginal,
@@ -109,7 +110,7 @@ theorem step3 (M : Algebra α) (p : Parameters) (flag : Bool) (s : State α) (ro
     VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.commuteOutput,
     ComputeKernel.surfaceBody,List.getD,List.getElem?_cons_zero,List.getElem?_cons_succ,Option.getD,
     Bool.false_eq_true,Bool.true_eq,ite_true,ite_false,
-    step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind_eq_bind,Option.pure_def,Option.bind,
+    step,run,evalExpr,evalComputeOp,evalOp_unfold,Option.bind_eq_bind,Option.pure_def,Option.bind,
     engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,State.setReg,
     numeric,numericLt,natLt,FP.Structural.bop,Region.cast,b0,b1,b2,b3,b4,raw,Backward.scalar,ofFloat,toFloat,
     ←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt,Tile.active_int,

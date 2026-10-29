@@ -27,7 +27,7 @@ theorem chunk_registers {α : Type} [Inhabited α] (M : Algebra α) (p : Paramet
     simp [chunkRun,nextCarry,chunkSum,lane,scalar,zero,hr,masked_regs,
       State.setReg,FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,
       TileShape.dropInsertedIndex,Int.toNat_add,active_int,ofFloat,toFloat,engine,
-      Algebra.withDefaultPrecision,resolvePrecision,h.y,h.t,h.o,h.base,h.epsilon,h.sum]
+      Algebra.withDefaultPrecision,resolvePrecision,h.y,h.t,h.o,h.base,h.epsilon,h.sum,h.cols,h.cols]
   all_goals norm_num
   all_goals funext i; cases i; rfl
 

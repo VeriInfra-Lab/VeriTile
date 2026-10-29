@@ -32,8 +32,8 @@ theorem program (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
   let finish := finishState M p pid mid hfinal
   have hf := finish_run M D p pid input mid hfinal hctx hhmid
   refine ⟨finish,?_,?_,(finish_ready M p pid input mid hfinal hctx).inputs⟩
-  · have hl : step (engine (withDot M D)) (.forRange "i_t" 0 p.NT 1 (outer p).body)
-        start.val=some mid := by simpa only [step] using hm
+  · have hl : step (engine (withDot M D)) (.forLoop "i_t" p.NT (outer p).body)
+        start.val=some mid := by simpa only [step, loop_eq_range] using hm
     change run (engine (withDot M D)) (kernel p).surfaceBody s=some finish
     rw [outer_parts,List.append_assoc,run_append,start.property]
     simp only [Option.bind_some,List.singleton_append,run,hl,bind,hf]

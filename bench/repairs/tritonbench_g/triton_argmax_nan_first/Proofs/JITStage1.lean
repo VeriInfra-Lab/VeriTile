@@ -55,6 +55,7 @@ theorem floating_second (kind : Kind) (r : Rounding) (rest : Algebra Word) (s : 
       TypedReduction.selected,flag,clean,secondIndex,secondWritten,Option.bind,
       store,TileShape.allIndices,Region.cast,channel,-Nat.cast_add,-Nat.cast_mul,← Int.natCast_add,← Int.natCast_mul,r.fp16Padding,r.bf16Padding]
   all_goals try simp only [pad16,padbf]
+  all_goals simp only [← apply_ite (fun n : Nat => (n : Int)), Int.toNat_natCast, State.write, State.setReg_mem]
   all_goals rfl
 
 

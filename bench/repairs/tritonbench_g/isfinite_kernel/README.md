@@ -61,11 +61,23 @@ signed sum; no padded allocation is assumed for masked lanes.
 
 ## Files and public proofs
 
-- `Kernels.lean`: four complete ordinary Triton DSL quotations display the two
-  precisions and original/index-commuted sources. The source is shared by both
-  public proof entries. Its region indices are absolute byte addresses;
-  `View.byteStride` and the proved native element-width scaling connect this
-  convention to the Python typed pointers.
+- `Kernels.lean`: the complete original `isfinite_func` helper and four raw
+  Python writer quotations retain both precision profiles and the existing
+  index-commuted candidate. Only the function bodies are pasted inside
+  `triton { ... }`; pointer types, checked CUDA import aliases, runtime call
+  bindings and `BLOCK_SIZE` are outside. Every original cast and mask remains.
+  Region indices are absolute byte addresses: `View.byteStride`, signed
+  pointer offsets and the proved native element-width scaling connect this
+  convention to Python typed pointers, including negative and zero strides.
+- `jit-correspondence.json`: five checked helper/body mappings, with distinct
+  FP32/FP64 input profiles. Source imports are checked against the original
+  Python bindings, and helper definitions must themselves have a checked pair.
+- `Proofs/SourcePreservation.lean`: all executable statements are definitionally
+  equal to the earlier proof view. The old collector omitted input port `x`;
+  the current signature records it correctly. Whole-state execution, failures
+  and actual access safety are unchanged for every primitive algebra. The
+  public IO, mathematical/FP specifications and host input contract are
+  unchanged.
 - `IO.lean`: the shared public descriptor fixes the selected source and primitive
   classifier, FP32/FP64 storage interpretation, Boolean output, signed byte
   windows, masks and program ID. Both readers use this one layout.

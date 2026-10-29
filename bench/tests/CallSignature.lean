@@ -1053,3 +1053,94 @@ theorem complete_kernel (P C Out : Region .nat) (B N : Nat) :
     source P C Out B N = expected P C Out B N := rfl
 #axiomsClean complete_kernel
 end VeriTile.Tests.NaturalSignedOffsetRebind
+
+namespace VeriTile.Tests.ImportedFiniteFunction
+open VeriTile.Triton
+
+def helper : SourceFunction :=
+  triton_function isfinite_func(x) in triton {
+    return _isfinited(x) if x.dtype.is_fp64() else _finitef(x.to(tl.float32))
+  }
+
+def profile32 : CallSignature where
+  pointers := [("X",.fp32),("Y",.boolean)]
+  functions := [helper]
+  finiteImports := [("_isfinited","triton.language.extra.cuda.libdevice.isfinited"),
+    ("_finitef","triton.language.extra.cuda.libdevice.finitef")]
+
+def profile64 : CallSignature :=
+  {profile32 with pointers := [("X",.fp64),("Y",.boolean)]}
+
+def source32 (X Y : RegionName) : ComputeKernel :=
+  with_triton_signature profile32 in triton {
+    x = tl.load(X)
+    y = isfinite_func(x)
+    tl.store(Y, y)
+  }
+
+def source64 (X Y : RegionName) : ComputeKernel :=
+  with_triton_signature profile64 in triton {
+    x = tl.load(X)
+    y = isfinite_func(x)
+    tl.store(Y, y)
+  }
+
+def expected32 (X Y : RegionName) : ComputeKernel :=
+  with_triton_signature {profile32 with functions := [], finiteImports := []} in triton {
+    x = tl.load(X)
+    y = tl.extra.cuda.libdevice.finitef(x.to(tl.float32))
+    tl.store(Y, y)
+  }
+
+def expected64 (X Y : RegionName) : ComputeKernel :=
+  with_triton_signature {profile64 with functions := [], finiteImports := []} in triton {
+    x = tl.load(X)
+    y = tl.extra.cuda.libdevice.isfinited(x)
+    tl.store(Y, y)
+  }
+
+theorem single_complete (X Y : RegionName) : source32 X Y = expected32 X Y := rfl
+theorem double_complete (X Y : RegionName) : source64 X Y = expected64 X Y := rfl
+#axiomsClean single_complete
+#axiomsClean double_complete
+
+def wrongHelper : SourceFunction :=
+  triton_function isfinite_func(x) in triton {
+    return _isfinited(x) if x.dtype.is_fp64() else _finitef(x)
+  }
+
+/-- error: finite helper narrow branch requires its explicit float32 cast -/
+#guard_msgs in
+example (X Y : RegionName) : ComputeKernel :=
+  with_triton_signature {profile32 with functions := [wrongHelper]} in triton {
+    x = tl.load(X)
+    y = isfinite_func(x)
+    tl.store(Y, y)
+  }
+
+/-- error: finite source alias requires the explicit CUDA libdevice finitef/isfinited import -/
+#guard_msgs in
+example (X Y : RegionName) : ComputeKernel :=
+  with_triton_signature {profile32 with finiteImports := [("_finitef","untrusted.finitef")], functions := []} in triton {
+    x = tl.load(X)
+    tl.store(Y, x > 0)
+  }
+
+/-- error: source import aliases must be distinct from parameters and helpers -/
+#guard_msgs in
+example (X Y : RegionName) : ComputeKernel :=
+  with_triton_signature {profile32 with finiteImports := [("X","triton.language.extra.cuda.libdevice.finitef")]} in triton {
+    x = tl.load(X)
+    tl.store(Y, x > 0)
+  }
+
+/-- error: source helper and import names cannot be rebound -/
+#guard_msgs in
+example (X Y : RegionName) : ComputeKernel :=
+  with_triton_signature profile32 in triton {
+    _finitef = 0
+    x = tl.load(X)
+    tl.store(Y, x > 0)
+  }
+
+end VeriTile.Tests.ImportedFiniteFunction

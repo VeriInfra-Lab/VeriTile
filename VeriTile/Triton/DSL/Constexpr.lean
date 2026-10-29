@@ -17,6 +17,12 @@ private partial def integer (e : TSyntax `tritonExpr) : Option Int :=
   | `(tritonExpr| $a:tritonExpr * $b:tritonExpr) => return (← integer a) * (← integer b)
   | _ => none
 
+/-- Parentheses delimit the original Python RHS without changing its value. -/
+private partial def ungroup (e : TSyntax `tritonExpr) : TSyntax `tritonExpr :=
+  match e with
+  | `(tritonExpr| ($inner:tritonExpr)) => ungroup inner
+  | _ => e
+
 private def logPowerTwo (n : Nat) : Option Nat :=
   let k := n.log2
   if n == 2^k then some k else none
@@ -24,7 +30,7 @@ private def logPowerTwo (n : Nat) : Option Nat :=
 /-- Exact decimal spellings of positive binary powers only. Decimal fractions
 that would need Python binary64 rounding fail closed in this subset. -/
 private def floatPowerTwo (e : TSyntax `tritonExpr) : Option Int := do
-  let `(tritonExpr| $n:scientific) := e | none
+  let `(tritonExpr| $n:scientific) := ungroup e | none
   let (m,denominator,exponent) := n.getScientific
   if exponent > 400 then none else do
     let num := if denominator then m else m * 10^exponent
@@ -58,6 +64,7 @@ def lower (body : List (TSyntax `tritonStmt)) : MacroM (List (TSyntax `tritonStm
   body.mapM fun stmt => do
     match stmt with
     | `(tritonStmt| $name:ident : tl.constexpr = $value:tritonExpr) =>
+        let value := ungroup value
         if let `(tritonExpr| $_base:tritonExpr ** $_exponent:tritonExpr) := value then
           let value ← powerValue value
           `(tritonStmt| $name:ident = $value:tritonExpr)

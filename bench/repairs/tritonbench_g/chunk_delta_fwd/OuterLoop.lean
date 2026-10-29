@@ -1,3 +1,4 @@
+import VeriTile.Triton.Float.StructuralLoopNormalization
 import bench.repairs.tritonbench_g.chunk_delta_fwd.OuterEdges
 import bench.repairs.tritonbench_g.chunk_delta_fwd.InnerLoop
 namespace VeriTile.Bench.Repairs.ChunkDeltaFwd
@@ -22,15 +23,9 @@ theorem outerStep (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
   let finish := updateState M p mid frozen (accumulated M D p pid input c frozen)
   have hf := update_run M D p mid frozen (accumulated M D p pid input c frozen) hhmid hamid
   refine ⟨finish,?_,update_ready M p pid input mid _ _ hctx,?_,?_⟩
-  · have hl : step (engine (withDot M D)) (.forRangeDyn "i_c" (inner p).start
-        (inner p).stop (inner p).stride (inner p).body) start.val=some mid := by
-      have h0 : (inner p).start = .constNat 0 := rfl
-      have hn : (inner p).stop = .div .nat .nil
-        (.sub .nat .nil (.add .nat .nil (.constNat p.BT) (.constNat p.BC)) (.constNat 1))
-          (.constNat p.BC) := rfl
-      have h1 : (inner p).stride = .constNat 1 := rfl
-      simp only [step,h0,hn,h1,evalOp_unfold,Option.bind,Option.bind_some,numeric,bop]
-      exact hm
+  · have hl : step (engine (withDot M D))
+        (.forLoop "i_c" ((p.BT + p.BC - 1) / p.BC) (inner p).body) start.val=some mid := by
+      simpa only [step, loop_eq_range, innerCount] using hm
     rw [inner_parts,List.append_assoc,run_append,start.property]
     simp only [Option.bind_some,List.singleton_append,run,hl,bind,hf]
     rfl

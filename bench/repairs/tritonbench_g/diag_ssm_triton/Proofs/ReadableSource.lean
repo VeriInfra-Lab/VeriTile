@@ -1,25 +1,15 @@
-import bench.repairs.tritonbench_g.diag_ssm_triton.Kernels
-import VeriTile.Meta.StatementAudit
+import bench.repairs.tritonbench_g.diag_ssm_triton.Proofs.SourceRealRun
+import bench.repairs.tritonbench_g.diag_ssm_triton.Proofs.SourceRealSafety
+import bench.repairs.tritonbench_g.diag_ssm_triton.Proofs.SourceBackwardRun
+import bench.repairs.tritonbench_g.diag_ssm_triton.Proofs.SourceBackwardSafety
+import bench.repairs.tritonbench_g.diag_ssm_triton.Proofs.SourceComplexRun
+import bench.repairs.tritonbench_g.diag_ssm_triton.Proofs.SourceComplexSafety
+import bench.repairs.tritonbench_g.diag_ssm_triton.Proofs.SourceComplexBackwardRun
+import bench.repairs.tritonbench_g.diag_ssm_triton.Proofs.SourceComplexBackwardSafety
+import bench.repairs.tritonbench_g.diag_ssm_triton.Proofs.SourcePair
 
-namespace VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.ReadableSource
-open VeriTile.Bench.TritonBenchG.DiagSsmTriton
-
-/-- Complete function equality, including source IO, all arguments and branches. -/
-theorem forward_preserved : forwardTyped=TypedSource.forward .fp32 Bool.false := rfl
-theorem backward_preserved : backwardTyped=TypedSource.backward .fp32 Bool.false := rfl
-theorem complex_forward_preserved : complexForwardTyped=TypedSource.complexForward Bool.false := rfl
-theorem complex_backward_preserved : complexBackwardTyped=TypedSource.complexBackward Bool.false := rfl
-theorem candidate_forward_preserved : forwardIndexCommuted=TypedSource.forward .fp32 Bool.true := rfl
-theorem candidate_backward_preserved : backwardIndexCommuted=TypedSource.backward .fp32 Bool.true := rfl
-theorem candidate_complex_forward_preserved : complexForwardIndexCommuted=TypedSource.complexForward Bool.true := rfl
-theorem candidate_complex_backward_preserved : complexBackwardIndexCommuted=TypedSource.complexBackward Bool.true := rfl
-
-#axiomsClean forward_preserved
-#axiomsClean backward_preserved
-#axiomsClean complex_forward_preserved
-#axiomsClean complex_backward_preserved
-#axiomsClean candidate_forward_preserved
-#axiomsClean candidate_backward_preserved
-#axiomsClean candidate_complex_forward_preserved
-#axiomsClean candidate_complex_backward_preserved
-end VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.ReadableSource
+/-! The copied Python bodies retain signed casts and their own temporary
+registers. The imported execution and access-safety theorems connect their
+complete runs to the independently proved mathematical implementations.
+There is no assertion that the new and historical ASTs or register states are
+identical. SourcePair separately compares the actual original/candidate bodies. -/

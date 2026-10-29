@@ -17,7 +17,7 @@ structure Accumulator where
   denominator : Term
   numerator : Nat → Term
 
-def initial : Accumulator := ⟨.negInf,.literal none .real 0,fun _ => .literal (some .fp32) .real 0⟩
+def initial : Accumulator := ⟨.negInf,.literal (some .fp32) .real 0,fun _ => .literal (some .fp32) .real 0⟩
 def op (o : Binary) (a b : Term) : Term := .binary (some .fp32) .real o a b
 def exp (a : Term) : Term := .unary (some .fp32) .exp a
 

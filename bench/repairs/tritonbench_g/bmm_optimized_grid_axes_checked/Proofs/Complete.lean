@@ -11,11 +11,11 @@ variable {α : Type} [Inhabited α]
 theorem loopExecution (o : BmmOptimized.Scalar α) (rest : Algebra α)
     (p : Parameters) (initial current : RegisterState α) (k : Nat)
     (hk : k ≤ iterations p) (h : Invariant o p initial k current) :
-    ∃ final,range o rest "_i" k (iterations p) 1 (body p) current=some final ∧
+    ∃ final,range o rest "_" k (iterations p) 1 (body p) current=some final ∧
       Invariant o p initial (iterations p) final := by
   have aux : ∀ fuel k (current : RegisterState α),iterations p-k=fuel → k ≤ iterations p →
       Invariant o p initial k current →
-      ∃ final,range o rest "_i" k (iterations p) 1 (body p) current=some final ∧
+      ∃ final,range o rest "_" k (iterations p) 1 (body p) current=some final ∧
         Invariant o p initial (iterations p) final := by
     intro fuel
     induction fuel with
@@ -28,7 +28,7 @@ theorem loopExecution (o : BmmOptimized.Scalar α) (rest : Algebra α)
       intro k current eq bound h
       have hk : k < iterations p := by omega
       have hset:=loopRegister o p initial current k h
-      let next:=bodyResult o p initial (current.setReg "_i" .nat [] (fun _=>k)) k
+      let next:=bodyResult o p initial (current.setReg "_" .nat [] (fun _=>k)) k
       have hn : Invariant o p initial (k+1) next := bodyInvariant o p initial _ k hset
       obtain ⟨final,run,hf⟩:=ih (k+1) next (by omega) (by omega) hn
       refine ⟨final,?_,hf⟩
@@ -106,7 +106,7 @@ theorem correctness (o : BmmOptimized.Scalar α) (rest : Algebra α)
   · unfold exec
     rw [source_decomposition]
     have hp:=preludeExecution o rest p initial
-    have hl : run o rest [.forRangeDyn "_i" (.constNat 0) (.ref .nat [] "num_iters")
+    have hl : run o rest [.forRangeDyn "_" (.constNat 0) (.ref .nat [] "num_iters")
         (.constNat 1) (body p)] start=some middle := by
       have hstart:=preludeInvariant o p initial
       simpa [run,step,evalOp_unfold,hstart.iterations] using hm

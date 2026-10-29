@@ -39,8 +39,8 @@ def body (xReg : RegionName) (rowStride : Nat) : List ComputeStmt :=
 
 def initialCode : List ComputeStmt :=
   [.assign .nat [] "pid" (.alg (.programId 0)),
-   .assign .real [] "M" (.alg (.const 0)),
-   .assign .real [] "S" (.alg (.const 0))]
+   .assign .real [] "M" (.compute (.full [] (.alg .fp32 (.const 0)))),
+   .assign .real [] "S" (.compute (.full [] (.alg .fp32 (.const 0))))]
 
 /-- The explicit count conversion and both original output stores. -/
 def outputCode (meanReg varReg : RegionName) (N : Nat) : List ComputeStmt :=

@@ -1,0 +1,90 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/softmax_optimize/softmax_optimize_repaired.py",
+    "python_function": "prev_multiple_of",
+    "lean": "bench/repairs/tritonbench_g/softmax_optimize/Kernels.lean",
+    "lean_definition": "previousMultiple"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/softmax_optimize/softmax_optimize_repaired.py",
+    "python_function": "softmax_kernel_online_v2_repaired",
+    "lean": "bench/repairs/tritonbench_g/softmax_optimize/Kernels.lean",
+    "lean_definition": "body",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "output_ptr",
+          "fp32"
+        ],
+        [
+          "input_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "i64"
+        ],
+        [
+          "N",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "TILE_N"
+      ],
+      "functions": [
+        "previousMultiple"
+      ],
+      "readPorts": [
+        "input_ptr"
+      ],
+      "writePorts": [
+        "output_ptr"
+      ]
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/softmax_optimize/softmax_optimize_index_commuted.py",
+    "python_function": "softmax_kernel_online_v2_index_commuted",
+    "lean": "bench/repairs/tritonbench_g/softmax_optimize/Kernels.lean",
+    "lean_definition": "candidateBody",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "output_ptr",
+          "fp32"
+        ],
+        [
+          "input_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "i64"
+        ],
+        [
+          "N",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "TILE_N"
+      ],
+      "functions": [
+        "previousMultiple"
+      ],
+      "readPorts": [
+        "input_ptr"
+      ],
+      "writePorts": [
+        "output_ptr"
+      ]
+    }
+  }
+]

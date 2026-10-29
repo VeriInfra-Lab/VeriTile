@@ -14,7 +14,7 @@ local instance : DecidableEq (WithBot ℝ) := Classical.decEq _
 source's two scalar integer registers. No successful-execution premise. -/
 theorem prefix_run (X : RegionName) (N B start row : Nat) (s : BlockState)
     (hpid : s.regs .int [] "pid_m" = some (Tile.scalar (row : Int)))
-    (hcols : s.regs .int [] "cols" = some (Tile.scalar (N : Int))) :
+    (hcols : s.regs .int [] "N" = some (Tile.scalar (N : Int))) :
     stepStmts (Source.indexPrefix X B) (s.setReg "start_n" .int [] (Tile.scalar (start : Int))) =
       some (prefixIntState X N B start row s) := by
   simp only [Source.indexPrefix]

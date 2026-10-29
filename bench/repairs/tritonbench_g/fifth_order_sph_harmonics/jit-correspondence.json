@@ -1,0 +1,172 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/fifth_order_sph_harmonics_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Kernels.lean",
+    "python_function": "fifth_order_fwd_repaired",
+    "lean_definition": "source",
+    "signature_definition": "forwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "coord_ptr",
+          "fp32"
+        ],
+        [
+          "output_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "block_size",
+        "coord_numel",
+        "output_numel",
+        "col_offset",
+        "output_stride"
+      ],
+      "readPorts": [
+        "coord_ptr"
+      ],
+      "writePorts": [
+        "output_ptr"
+      ]
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/candidate_kernels.py",
+    "lean": "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Kernels.lean",
+    "python_function": "forward_powers_kernel",
+    "lean_definition": "forwardPowersSource",
+    "signature_definition": "forwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "coord_ptr",
+          "fp32"
+        ],
+        [
+          "output_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "block_size",
+        "coord_numel",
+        "output_numel",
+        "col_offset",
+        "output_stride"
+      ],
+      "readPorts": [
+        "coord_ptr"
+      ],
+      "writePorts": [
+        "output_ptr"
+      ]
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/fifth_order_sph_harmonics_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Kernels.lean",
+    "python_function": "fifth_order_bwd_repaired",
+    "lean_definition": "backwardSource",
+    "signature_definition": "backwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "coord_ptr",
+          "fp32"
+        ],
+        [
+          "coord_grad_ptr",
+          "fp32"
+        ],
+        [
+          "sph_grad_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "upstream_row_stride",
+          "integer"
+        ],
+        [
+          "upstream_col_stride",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "block_size",
+        "coord_numel",
+        "output_numel",
+        "col_offset",
+        "output_stride"
+      ],
+      "readPorts": [
+        "coord_ptr",
+        "coord_grad_ptr",
+        "sph_grad_ptr"
+      ],
+      "writePorts": [
+        "coord_grad_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "upstream_row_stride": "upstream_row_stride",
+      "upstream_col_stride": "upstream_col_stride"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/candidate_kernels.py",
+    "lean": "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Kernels.lean",
+    "python_function": "backward_powers_kernel",
+    "lean_definition": "backwardPowersSource",
+    "signature_definition": "backwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "coord_ptr",
+          "fp32"
+        ],
+        [
+          "coord_grad_ptr",
+          "fp32"
+        ],
+        [
+          "sph_grad_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "upstream_row_stride",
+          "integer"
+        ],
+        [
+          "upstream_col_stride",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "block_size",
+        "coord_numel",
+        "output_numel",
+        "col_offset",
+        "output_stride"
+      ],
+      "readPorts": [
+        "coord_ptr",
+        "coord_grad_ptr",
+        "sph_grad_ptr"
+      ],
+      "writePorts": [
+        "coord_grad_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "upstream_row_stride": "upstream_row_stride",
+      "upstream_col_stride": "upstream_col_stride"
+    }
+  }
+]

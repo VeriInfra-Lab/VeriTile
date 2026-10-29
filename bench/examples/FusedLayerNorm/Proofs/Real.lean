@@ -43,8 +43,8 @@ def fusedMathKernel
     ComputeKernel := triton {
   tl.ports inputs=[xReg, γReg, βReg], outputs=[yReg]
   pid := tl.program_id(0)
-  M   := 0
-  S   := 0
+  M   := tl.full([], 0)
+  S   := tl.full([], 0)
   tl.for i in $(N) {
     xi      := tl.load($(xReg) + (pid * $(rowStride) + i))
     delta   := xi - M

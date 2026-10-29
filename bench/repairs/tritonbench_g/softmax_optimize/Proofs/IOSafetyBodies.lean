@@ -27,7 +27,7 @@ theorem update_safe (bounds : RegionBounds) (B : Nat) (s : BlockState) :
 
 theorem input_full (bounds : RegionBounds) (X : RegionName) (N B start row : Nat) (s : BlockState)
     (hpid : s.regs .int [] "pid_m" = some (Tile.scalar (row : Int)))
-    (hcols : s.regs .int [] "cols" = some (Tile.scalar (N : Int)))
+    (hcols : s.regs .int [] "N" = some (Tile.scalar (N : Int)))
     (hx : ∀ i : Fin B, row*N+(start+i.val) < bounds X) :
     Stmt.TraceSafeList bounds (Source.inputFull X N B)
       (s.setReg "start_n" .int [] (Tile.scalar (start : Int))) := by
@@ -45,7 +45,7 @@ theorem input_full (bounds : RegionBounds) (X : RegionName) (N B start row : Nat
 
 theorem input_tail (bounds : RegionBounds) (X : RegionName) (N B start row : Nat) (s : BlockState)
     (hpid : s.regs .int [] "pid_m" = some (Tile.scalar (row : Int)))
-    (hcols : s.regs .int [] "cols" = some (Tile.scalar (N : Int)))
+    (hcols : s.regs .int [] "N" = some (Tile.scalar (N : Int)))
     (hx : ∀ i : Fin B, start+i.val < N → row*N+(start+i.val) < bounds X) :
     Stmt.TraceSafeList bounds (Source.inputTail X N B)
       (s.setReg "start_n" .int [] (Tile.scalar (start : Int))) := by
@@ -69,7 +69,7 @@ theorem input_tail (bounds : RegionBounds) (X : RegionName) (N B start row : Nat
 
 theorem output_full (bounds : RegionBounds) (Y X : RegionName) (N B start row : Nat) (s : BlockState)
     (hpid : s.regs .int [] "pid_m" = some (Tile.scalar (row : Int)))
-    (hcols : s.regs .int [] "cols" = some (Tile.scalar (N : Int)))
+    (hcols : s.regs .int [] "N" = some (Tile.scalar (N : Int)))
     (hx : ∀ i : Fin B, row*N+(start+i.val) < bounds X)
     (hy : ∀ i : Fin B, row*N+(start+i.val) < bounds Y) :
     Stmt.TraceSafeList bounds (Source.outputFull Y X N B)
@@ -95,7 +95,7 @@ theorem output_full (bounds : RegionBounds) (Y X : RegionName) (N B start row : 
 
 theorem output_tail (bounds : RegionBounds) (Y X : RegionName) (N B start row : Nat) (s : BlockState)
     (hpid : s.regs .int [] "pid_m" = some (Tile.scalar (row : Int)))
-    (hcols : s.regs .int [] "cols" = some (Tile.scalar (N : Int)))
+    (hcols : s.regs .int [] "N" = some (Tile.scalar (N : Int)))
     (hx : ∀ i : Fin B, start+i.val < N → row*N+(start+i.val) < bounds X)
     (hy : ∀ i : Fin B, start+i.val < N → row*N+(start+i.val) < bounds Y) :
     Stmt.TraceSafeList bounds (Source.outputTail Y X N B)

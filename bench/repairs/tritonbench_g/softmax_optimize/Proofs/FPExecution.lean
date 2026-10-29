@@ -18,7 +18,7 @@ def previous (N B : Nat) : Int := ((N:Int)+B-1)/(B:Int)*B-B
 
 def Ready (shape : TileShape) (N B pid : Nat) (s : State α) : Prop :=
   s.regs .int [] "pid_m"=some (fun _ => (pid:Int)) ∧
-  s.regs .int [] "cols"=some (fun _ => (N:Int)) ∧
+  s.regs .int [] "N"=some (fun _ => (N:Int)) ∧
   s.regs .int [] "prev_multiple"=some (fun _ => previous N B) ∧
   (s.regs .real shape "m").isSome ∧ (s.regs .real shape "z").isSome
 
@@ -30,11 +30,14 @@ theorem prelude (A : Algebra α) (eq : α → α → Bool)
     ∃ t, run (VeriTile.Triton.FP.ProfiledRewrite.engine (withEq A eq)) ((TypedSource.body Y X N B).take 5) s=some t ∧
       Ready [B] N B (s.pids 0) t ∧ t.mem=s.mem := by
   have nonneg : ¬((N:Int)+(B:Int)<1) := by omega
-  simp (config := {maxSteps := 300000}) [TypedSource.body,kernel,ComputeKernel.surfaceBody,
+  simp (config := {maxSteps := 300000}) [TypedSource.body,kernel,body,ComputeKernel.withScalarArguments,
+    ScalarArgument.integer,ScalarArgument.statement,ComputeKernel.surfaceBody,
     run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     VeriTile.Triton.FP.ProfiledRewrite.engine,Algebra.withDefaultPrecision,resolvePrecision,withEq,
     ComputeDType.eraseDType,numeric,numericEq,numericLt,numericLe,bop,ofFloat,toFloat,
     State.setReg,integralFloorDiv,integralMod,Ready,previous,nonneg,TileShape.axisDim,hB]
+  have hn : ¬ ((N : Int) + ((B : Int) - 1) < 0) := by omega
+  simp [bop, hn, nonneg, ← add_sub_assoc]
   rfl
 
 theorem input_body (A : Algebra α) (eq : α → α → Bool)
@@ -49,7 +52,8 @@ theorem input_body (A : Algebra α) (eq : α → α → Bool)
   obtain ⟨z,hz⟩ := Option.isSome_iff_exists.mp hz
   cases tail <;>
     simp (config := {maxSteps := 300000}) [TypedSource.fullInput,TypedSource.tailInput,
-      TypedSource.loopBody,TypedSource.body,kernel,ComputeKernel.surfaceBody,
+      TypedSource.loopBody,TypedSource.body,kernel,body,ComputeKernel.withScalarArguments,
+    ScalarArgument.integer,ScalarArgument.statement,ComputeKernel.surfaceBody,
       run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
       VeriTile.Triton.FP.ProfiledRewrite.engine,Algebra.withDefaultPrecision,resolvePrecision,withEq,
       ComputeDType.eraseDType,numeric,numericEq,numericLt,numericLe,bop,ofFloat,toFloat,
@@ -64,11 +68,14 @@ theorem reduction (A : Algebra α) (eq : α → α → Bool)
   rcases ready with ⟨hp,hc,hprev,hm,hz⟩
   obtain ⟨m,hm⟩ := Option.isSome_iff_exists.mp hm
   obtain ⟨z,hz⟩ := Option.isSome_iff_exists.mp hz
-  simp (config := {maxSteps := 300000}) [TypedSource.body,kernel,ComputeKernel.surfaceBody,
+  simp (config := {maxSteps := 300000}) [TypedSource.body,kernel,body,ComputeKernel.withScalarArguments,
+    ScalarArgument.integer,ScalarArgument.statement,ComputeKernel.surfaceBody,
     run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     VeriTile.Triton.FP.ProfiledRewrite.engine,Algebra.withDefaultPrecision,resolvePrecision,withEq,
     ComputeDType.eraseDType,numeric,numericEq,numericLt,numericLe,bop,ofFloat,toFloat,
     State.setReg,integralFloorDiv,integralMod,Ready,previous,hp,hc,hprev,hm,hz,nonneg,TileShape.axisDim,hB]
+  have hn : ¬ ((N : Int) + ((B : Int) - 1) < 0) := by omega
+  simp [bop, hn, nonneg, ← add_sub_assoc]
   rfl
 
 @[simp] theorem masked_regs {ι : Type} (r : RegionName) (off : ι → Nat)
@@ -89,7 +96,8 @@ theorem output_body (A : Algebra α) (eq : α → α → Bool)
   obtain ⟨z,hz⟩ := Option.isSome_iff_exists.mp hz
   cases tail <;>
     simp (config := {maxSteps := 300000}) [TypedSource.fullOutput,TypedSource.tailOutput,
-      TypedSource.loopBody,TypedSource.body,kernel,ComputeKernel.surfaceBody,
+      TypedSource.loopBody,TypedSource.body,kernel,body,ComputeKernel.withScalarArguments,
+    ScalarArgument.integer,ScalarArgument.statement,ComputeKernel.surfaceBody,
       run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,Option.bind,store,
       VeriTile.Triton.FP.ProfiledRewrite.engine,Algebra.withDefaultPrecision,resolvePrecision,withEq,
       ComputeDType.eraseDType,numeric,numericEq,numericLt,numericLe,bop,ofFloat,toFloat,

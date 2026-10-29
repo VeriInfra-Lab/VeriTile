@@ -20,11 +20,25 @@ semantics do not replace it by the ideal `sqrt(2/pi)`.
 Selected input/output storage is FP32, matching the benchmark profile and
 existing checked repair. The source's FP32 casts, scalar order, decimal
 constants and libdevice tanh are retained. Python's constexpr `3*0.044715`
-folds to `0.134145` before FP32 conversion. No dtype family is added.
+folds to `0.134145` before FP32 conversion. The source frontend models each
+constant operation with exact rational binary64 nearest-even rounding, then
+checks the folded literal preserves both binary64 and FP32 conversion while
+retaining the ideal Real projection. It does not reassociate runtime products.
+The bounded constant subset rejects cancellation/zero, overflow, FP64-only
+promotion and incompatible rounding; no arbitrary FP arithmetic identity is
+assumed. No dtype family is added. The implementation follows Triton's
+[`constexpr` arithmetic](https://github.com/triton-lang/triton/blob/v3.7.1/python/triton/language/core.py)
+and [binary-expression dispatch](https://github.com/triton-lang/triton/blob/v3.7.1/python/triton/compiler/code_generator.py).
 
-`Kernels.lean` owns complete ordinary typed DSL quotations for forward, backward and
+`Kernels.lean` contains the complete raw Python function bodies for forward, backward and
 the existing integer-index commutation: `program_id * block` becomes
-`block * program_id`. The scalar suffix is shared literally. This is the
+`block * program_id`. The scalar suffix is preserved verbatim. `candidate_kernels.py` spells the existing
+index transformation in Python; the original repaired Python and wrappers are
+unchanged. `jit-correspondence.json` checks all four complete bodies, their call
+types and the actual `from triton.language.extra.libdevice import tanh` binding.
+Pointer dtypes, constexpr arguments and import bindings are outside `triton { ... }`.
+Both explicit int64 casts, the explicit FP32 input cast, comments and the
+written `3 * 0.044715` product remain in each quotation. This is the
 existing address-product transformation applied to the repaired flat launch;
 it is not a new floating rewrite or a performance claim.
 

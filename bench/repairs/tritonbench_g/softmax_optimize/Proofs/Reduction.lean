@@ -8,25 +8,35 @@ set_option maxHeartbeats 4000000
 noncomputable section
 
 theorem previous_eval (N B : Nat) (hN : 0 < N) (hB : 0 < B) (s : BlockState)
-    (hcols : s.regs .int [] "cols" = some (Tile.scalar (N : Int))) :
+    (hcols : s.regs .int [] "N" = some (Tile.scalar (N : Int))) :
     evalOp (Source.previousExpression B) s = some (Tile.scalar (Config.previous N B : Int)) := by
   have he : evalOp (Source.previousExpression B) s =
       evalOp (FullSource.previousExpression N B) s := by
     simp only [Source.previousExpression, FullSource.previousExpression, FullSource.signedQuotient,
       evalOp.eq_def, hcols, Option.bind_some, Option.bind_eq_bind]
+    apply congrArg some
+    apply Tile.ext
+    intro i
+    change ((if decide ((N : Int) + (B - 1 : Nat) + 0 < 0) then
+        0 - (0 - ((N : Int) + (B - 1 : Nat) + 0)) / (0 + B)
+      else ((N : Int) + (B - 1 : Nat) + 0) / (0 + B)) * B - B) =
+      ((if decide (((N : Int) + B - 1) + 0 < 0) then
+        0 - (0 - (((N : Int) + B - 1) + 0)) / (0 + B)
+      else (((N : Int) + B - 1) + 0) / (0 + B)) * B - B)
+    simp [Int.natCast_sub (by omega : 1 ≤ B), add_sub_assoc]
   rw [he, SignedTransport.previous_eval N B hN hB]
   rfl
 
 def seedStatements (N B : Nat) : List Stmt :=
-  [.assign .int [] "pid_m" (.castNatToInt (.programId 0)),
-   .assign .int [] "cols" (.constInt N),
+  [.assign .int [] "N" (.constInt N),
+   .assign .int [] "pid_m" (.castNatToInt (.programId 0)),
    .assign .real [B] "m" (.full [B] .negInf),
    .assign .real [B] "z" (.full [B] (.const 0)),
    .assign .int [] "prev_multiple" (Source.previousExpression B)]
 
 def seed (s : BlockState) (N B : Nat) : BlockState :=
-  ((((s.setReg "pid_m" .int [] (Tile.scalar (s.pid : Int))).setReg
-    "cols" .int [] (Tile.scalar (N : Int))).setReg
+  ((((s.setReg "N" .int [] (Tile.scalar (N : Int))).setReg
+    "pid_m" .int [] (Tile.scalar (s.pid : Int))).setReg
     "m" .real [B] ⟨fun _ => (⊥ : WithBot ℝ)⟩).setReg
     "z" .real [B] ⟨fun _ => ((0 : ℝ) : WithBot ℝ)⟩).setReg
     "prev_multiple" .int [] (Tile.scalar (Config.previous N B : Int))
@@ -34,10 +44,10 @@ def seed (s : BlockState) (N B : Nat) : BlockState :=
 theorem seed_run (s : BlockState) (N B : Nat) (hN : 0 < N) (hB : 0 < B) :
     stepStmts (seedStatements N B) s = some (seed s N B) := by
   unfold seedStatements
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some
-    (v := Tile.scalar (s.pid : Int)) (by simp only [evalOp.eq_def, Option.bind_some]; rfl))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (v := Tile.scalar (N : Int))
     (by simp only [evalOp.eq_def]))]
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some
+    (v := Tile.scalar (s.pid : Int)) (by simp only [evalOp.eq_def, Option.bind_some]; rfl))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (v := (⟨fun _ => (⊥ : WithBot ℝ)⟩ : Tile .real [B]))
     (by simp only [evalOp.eq_def, Option.bind_some]; rfl))]
