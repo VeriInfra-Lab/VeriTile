@@ -6,6 +6,7 @@ namespace VeriTile.Bench.Repairs.Conv2d.Pair
 open VeriTile Triton FP.Structural KernelNumeric
 noncomputable section
 set_option maxHeartbeats 400000
+set_option linter.unusedSimpArgs false
 set_option maxRecDepth 32000
 
 def before (s : Shape) (f : Flags) := (originalKernel s f).surfaceBody.take 5
@@ -13,7 +14,22 @@ def after (s : Shape) (f : Flags) := (originalKernel s f).surfaceBody.drop 6
 def originalSite (s : Shape) (f : Flags) :=
   ((originalKernel s f).surfaceBody[5]? : Option ComputeStmt).getD (.effectMarker "unreachable")
 def shiftedSite (s : Shape) (f : Flags) :=
-  ((kernel s f).surfaceBody[5]? : Option ComputeStmt).getD (.effectMarker "unreachable")
+  ((kernel s f).surfaceBody[6]? : Option ComputeStmt).getD (.effectMarker "unreachable")
+
+/-- The source static assertion is true at every existing public invocation.
+Its retained no-runtime-work statement is proved safe and inert below. -/
+def compileGuard : ComputeStmt := .ifThen (.constBool Bool.false) []
+
+theorem public_block_size (s : Shape) (f : Flags) :
+    (KernelBinding.parameters s f).BLOCK_SIZE_BATCH_HEIGHT_WIDTH = 128 := rfl
+
+theorem guard_run {α : Type} [Inhabited α] (M : Algebra α) (s : State α) :
+    step M compileGuard s = some s := by
+  simp [compileGuard,step,evalOp_unfold]
+
+theorem guard_safe {α : Type} [Inhabited α] (M : Algebra α) (bounds : RegionName → Nat)
+    (s : State α) : Safety.stepSafe M bounds compileGuard s := by
+  simp [compileGuard,Safety.stepSafe_unfold,Safety.safeOp_unfold,evalOp_unfold]
 
 theorem original_code (s : Shape) (f : Flags) :
     (originalKernel s f).surfaceBody = before s f ++ originalSite s f :: after s f := by
@@ -21,7 +37,7 @@ theorem original_code (s : Shape) (f : Flags) :
   cases f <;> rfl
 
 theorem shifted_code (s : Shape) (f : Flags) :
-    (kernel s f).surfaceBody = before s f ++ shiftedSite s f :: after s f := by
+    (kernel s f).surfaceBody = compileGuard :: (before s f ++ shiftedSite s f :: after s f) := by
   rcases f with ⟨f,t⟩
   cases f <;> rfl
 
@@ -31,7 +47,7 @@ theorem site_run {α : Type} [Inhabited α] (M : Algebra α) (c : Shape) (f : Fl
   cases f
   all_goals simp only [originalSite,shiftedSite,originalKernel,kernel,KernelSource.kernel,CandidateSource.kernel,
     KernelHalf.source,KernelDefault.source,CandidateHalf.source,CandidateDefault.source,
-    KernelHalf.typed,KernelDefault.typed,CandidateHalf.typed,CandidateDefault.typed,KernelBinding.parameters,
+    KernelHalf.halfBody,KernelDefault.defaultBody,CandidateHalf.halfBody,CandidateDefault.defaultBody,KernelBinding.parameters,
     Bool.false_eq_true,ite_false,ite_true,ComputeKernel.surfaceBody,
     List.getElem?_cons_succ,List.getElem?_cons_zero,Option.getD_some]
   all_goals simp only [step,evalExpr,evalOp_unfold]
@@ -47,7 +63,7 @@ theorem site_safe {α : Type} [Inhabited α] (M : Algebra α) (bounds : RegionNa
   cases f
   all_goals simp only [originalSite,shiftedSite,originalKernel,kernel,KernelSource.kernel,CandidateSource.kernel,
     KernelHalf.source,KernelDefault.source,CandidateHalf.source,CandidateDefault.source,
-    KernelHalf.typed,KernelDefault.typed,CandidateHalf.typed,CandidateDefault.typed,KernelBinding.parameters,
+    KernelHalf.halfBody,KernelDefault.defaultBody,CandidateHalf.halfBody,CandidateDefault.defaultBody,KernelBinding.parameters,
     Bool.false_eq_true,ite_false,ite_true,ComputeKernel.surfaceBody,
     List.getElem?_cons_succ,List.getElem?_cons_zero,Option.getD_some]
   all_goals simp only [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeOp_unfold,and_true,true_and]
@@ -61,7 +77,9 @@ theorem run_cons {α : Type} [Inhabited α] (M : Algebra α)
 theorem kernel_run {α : Type} [Inhabited α] (M : Algebra α) (c : Shape) (f : Flags) (s : State α) :
     exec M (originalKernel c f) s = exec M (kernel c f) s := by
   have er (k : ComputeKernel) : exec M k s = run M k.surfaceBody s := by cases k; rfl
-  rw [er,er,original_code,shifted_code,run_append,run_append]
+  rw [er,er,original_code,shifted_code,run_cons,guard_run]
+  simp only [Option.bind_some]
+  rw [run_append,run_append]
   apply congrArg (fun g => (run M (before c f) s).bind g)
   funext t
   rw [run_cons,run_cons,site_run]
@@ -70,7 +88,9 @@ theorem kernel_safe {α : Type} [Inhabited α] (M : Algebra α) (bounds : Region
     (c : Shape) (f : Flags) (s : State α) :
     TraceSafe M bounds (originalKernel c f) s ↔ TraceSafe M bounds (kernel c f) s := by
   unfold TraceSafe
-  rw [original_code,shifted_code,Safety.traceSafeList_append,Safety.traceSafeList_append]
+  rw [original_code,shifted_code,Safety.traceSafeList_cons]
+  simp only [guard_safe,guard_run,true_and,Option.some.injEq,forall_eq']
+  rw [Safety.traceSafeList_append,Safety.traceSafeList_append]
   apply and_congr_right
   intro _
   apply forall_congr'
@@ -130,6 +150,9 @@ theorem equivalent {A : Type} [Inhabited A] (o : Operations A) (s : Shape) (v : 
   · intro k j _
     rfl
 
+#axiomsClean public_block_size
+#axiomsClean guard_run
+#axiomsClean guard_safe
 #axiomsClean equivalent
 end
 end VeriTile.Bench.Repairs.Conv2d.Pair

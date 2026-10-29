@@ -3,17 +3,17 @@ import VeriTile.Meta.StatementAudit
 namespace VeriTile.Bench.Repairs.LayerNormLiger.Backward.Candidate
 open VeriTile.Triton
 open LayerNormLiger.Backward
-def prelude (p : Parameters) := (candidateKernel p).surfaceBody.take 13
+def prelude (p : Parameters) := (candidateKernel p).surfaceBody.take 22
 def body (p : Parameters) : List ComputeStmt :=
   let code : List ComputeStmt := (candidateKernel p).surfaceBody
-  match code[13]? with
-  | some (ComputeStmt.forRangeDyn _ _ _ _ b) => b
+  match code[22]? with
+  | some (ComputeStmt.forRangeInt _ _ _ _ b) => b
   | _ => []
-def postlude (p : Parameters) := (candidateKernel p).surfaceBody.drop 14
+def postlude (p : Parameters) := (candidateKernel p).surfaceBody.drop 23
 
 
 theorem source_split (p : Parameters) : (candidateKernel p).surfaceBody = prelude p ++
-    [.forRangeDyn "_row" (Op.ref .nat [] "row_start") (Op.ref .nat [] "row_end")
+    [.forRangeInt "_" (Op.ref .int [] "row_start") (Op.ref .int [] "row_end")
       (Op.constNat 1) (body p)] ++ postlude p := by rfl
 
 end VeriTile.Bench.Repairs.LayerNormLiger.Backward.Candidate

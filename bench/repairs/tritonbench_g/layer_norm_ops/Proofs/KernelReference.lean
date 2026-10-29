@@ -16,7 +16,8 @@ def forwardY (A : Algebra α) (p : ForwardParameters) (s : State α)
     Forward.unhintedBinary A .sub (Forward.z A p s i) (Forward.meanValue A p s)
   let h := Forward.unhintedBinary A .mul base (Forward.rstdValue A p s)
   let y := Forward.unhintedBinary A .mul h (Forward.unspecified A p s p.weight i)
-  if p.hasBias then Forward.unhintedBinary A .add y (Forward.unspecified A p s p.bias i) else y
+  A.cast (some .fp32) .real .real
+    (if p.hasBias then Forward.unhintedBinary A .add y (Forward.unspecified A p s p.bias i) else y)
 
 def rowDX (A : Algebra α) (p : BackwardParameters) (s : State α)
     (row : Nat) (i : TileIndex [p.block]) : α :=

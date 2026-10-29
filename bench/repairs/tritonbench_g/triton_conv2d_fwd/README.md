@@ -1,5 +1,47 @@
 # triton_conv2d_fwd repair
 
+## Literal Python bodies
+
+`Kernels.lean` now copies the complete `conv2d_forward_kernel` body into both
+`halfBody` and `defaultBody`. `CandidateKernels.lean` does the same for the
+existing shifted candidate, including its `tl.static_assert`. The `if fp16`
+branch, both explicit casts, three nested loops, pointer updates, masks,
+`allow_tf32=tf32`, docstring and final store remain exactly as Python statements.
+The two copies select true/false constexpr invocation values outside the body;
+FP32 storage and all runtime metadata come from the existing public IO.
+The candidate's 128-row binding is the existing `KernelBinding.parameters`
+configuration and is checked separately from its literal body.
+
+`jit-correspondence.json` and `check_body_source.py` check all four bodies and
+caller aliases. `Proofs/KernelHalfGraph.lean` and `KernelDefaultGraph.lean` prove
+that the original mask makes the signed pointer additions agree with the
+independent read addresses. Counted source loops connect through the shared
+proved `loop_eq_range` and `loopSafe_eq_rangeSafe`; no source AST equality is
+assumed. The independent Real formula, public contracts and native numerical
+boundaries retain their existing meaning.
+
+The original-library `FPReference` and `FPDefaultReference` also retain the
+signed subtraction terms in their formed input addresses. Unlike the repaired
+zero-filled loads, the historical omitted-`other` source reads its `undef`
+function at inactive addresses. Those keys must follow the actual pointer
+expression too; no zero-undef or inactive-address equality is assumed.
+
+The migration adds source and Lean proof checks. The compiler/interpreter
+experiments discussed in the historical sections below are inherited evidence,
+not reruns of this migration. This environment lacks Torch/Triton and the
+required official-comparator isolation. No GPU or numerical result is claimed.
+The current build uses tracked sources and pinned dependencies; it needs no
+private `.veritile-cache` source tree.
+
+```bash
+python3 -m bench.repairs.tritonbench_g.triton_conv2d_fwd.check_body_source
+python3 -m unittest bench.tests.test_conv2d_body
+lake build bench.repairs.tritonbench_g.triton_conv2d_fwd.Correct \
+  bench.repairs.tritonbench_g.triton_conv2d_fwd.FPEquiv \
+  bench.repairs.tritonbench_g.triton_conv2d_fwd.Misc.TensorBridge
+```
+
+
 The repair adds `other=0.0` to the two masked dot-operand loads. The original omission permits undefined channel-tail and spatial-padding values to contaminate an active result. `Proofs/Witness.lean` checks two admissible undefined-value witnesses: channel-tail result 32 instead of 1, and padded-spatial result 288 instead of 32. These are semantic counterexamples, not GPU observations.
 
 The mathematical target is grouped cross-correlation, with dilation one and no bias:
@@ -70,10 +112,10 @@ python bench/repairs/tritonbench_g/triton_conv2d_fwd/check_kernel_layouts.py
 python bench/repairs/tritonbench_g/triton_conv2d_fwd/check_kernel_profiles.py
 python bench/repairs/tritonbench_g/triton_conv2d_fwd/check_source_binding.py
 python bench/repairs/tritonbench_g/triton_conv2d_fwd/check_storage_tail_metadata.py
-python .veritile-cache/task-deliveries/triton_conv2d_fwd/build-task.py
+lake build bench.repairs.tritonbench_g.triton_conv2d_fwd.Correct bench.repairs.tritonbench_g.triton_conv2d_fwd.FPEquiv
 ```
 
-The frozen packet is `.veritile-cache/task-deliveries/triton_conv2d_fwd/delivery.json`. It records exact reproduction arguments, evidence scope, source/build/import hashes, and the retained initial snapshot. Independent acceptance is recorded separately by the root-assigned reviewer.
+The historical delivery packet recorded reproduction arguments, evidence scope, source/build/import hashes and an initial snapshot. It is not a dependency of the current source/proof build. Current verification receipts are recorded under the tracked review checkpoints.
 
 ## Public IO organization
 
@@ -109,3 +151,22 @@ output cells and both exterior frames. Its experimental rule set is empty and
 it imposes no numerical restriction on original word/symbolic payloads.
 The independent Real formula, accepted shape/layout domain and optional native
 model correspondences retain their earlier scope.
+
+## Retained flat-memory theorem
+
+The original library's retained full flat-memory IO theorem is rechecked for
+its signed-pointer Lean program. `SignedBodySimulation`, `SignedLoopSimulation` and
+`SignedPostSimulation` prove execution correspondence with the explicitly
+internal `PositivePointerModel`, whose independent convolution and IO proof
+is retained in `PositivePointerCorrect`. Active input-mask lanes have equal
+addresses. Inactive loads use the theorem's existing zero-undef IO pin.
+`SignedFlatSimulation` transfers successful execution and the complete final
+memory, including the exterior frame. It does not assert equality of the two
+ASTs or their temporary input-pointer registers.
+
+The public theorem retains its original fp16 modeling premise, tile coverage
+and output injectivity conditions. No pointer-underflow restriction is added.
+The four pasted Python bodies are the source of the repaired primary Real/FP
+results. The original-library module retains its historical DSL view and is
+checked as an import regression; it is not one of these four literal-body
+mappings.

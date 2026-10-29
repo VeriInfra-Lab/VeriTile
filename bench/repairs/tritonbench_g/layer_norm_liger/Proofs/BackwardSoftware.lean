@@ -29,12 +29,12 @@ def bitC1 [Inhabited (FP.Value .fp32)] (cfg : FP.Config) (literal : ℝ → FP.V
     (p : Parameters) (a : Acc (FP.Value .fp32) p) (row : Nat) :=
   FP.div cfg (sequentialSum cfg ⟨0,by simp⟩ Bool.false (fun i =>
     FP.mul cfg (bitXhat cfg p a row i) (bitWdy cfg p a row i)) PUnit.unit)
-    (literal32 literal p.columns)
+    (FP.round .fp32 .ieeeValue (Rat.ofInt (p.columns : Int)))
 
 def bitC2 [Inhabited (FP.Value .fp32)] (cfg : FP.Config) (literal : ℝ → FP.Value .fp32)
     (p : Parameters) (a : Acc (FP.Value .fp32) p) (row : Nat) :=
   FP.div cfg (sequentialSum cfg ⟨0,by simp⟩ Bool.false (bitWdy cfg p a row) PUnit.unit)
-    (literal32 literal p.columns)
+    (FP.round .fp32 .ieeeValue (Rat.ofInt (p.columns : Int)))
 
 def bitDX [Inhabited (FP.Value .fp32)] (cfg : FP.Config) (literal : ℝ → FP.Value .fp32)
     (p : Parameters) (a : Acc (FP.Value .fp32) p) (row : Nat) (i : TileIndex [p.block]) :=
@@ -63,7 +63,7 @@ theorem update_software [Inhabited (FP.Value .fp32)] (rest : Algebra (FP.Value .
       VeriTile.Bench.TritonBenchG.MatrixVectorMultip.Typed.backend,
       FP.Software.scalarFP32, FP.Software.fp32Context]
   simp only [update, dxValue, c1, c2, hw]
-  simp [xhat, load, padding, cast, binary, denom, stored,
+  simp [xhat, xhatTyped, load, padding, cast, binary, denom, stored,
     bitUpdate, bitDX, bitC1, bitC2, bitXhat, bitWdy, bitLoad,
     software, softwareSum, literal32,
     VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages.software,

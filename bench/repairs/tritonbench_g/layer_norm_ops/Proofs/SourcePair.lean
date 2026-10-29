@@ -10,23 +10,36 @@ set_option maxHeartbeats 12000000
 set_option maxRecDepth 30000
 set_option linter.unusedSimpArgs false
 
-private def backBefore (p : BackwardParameters) := (backwardKernel p).surfaceBody.take 14
+/-- The index rewrite is located by its source assignment, since caller
+constexpr specialization changes the lengths of preceding optional branches. -/
+private def isBackIndex : ComputeStmt → Bool
+  | .alg (.assign _ _ "row_end" _) => Bool.true
+  | .assign _ _ "row_end" _ => Bool.true
+  | _ => Bool.false
+private def backBefore (p : BackwardParameters) :=
+  (backwardKernel p).surfaceBody.takeWhile (fun st => !isBackIndex st)
 private def backIndex (reuse : Bool) (p : BackwardParameters) :=
-  ((if reuse then backwardRowStartReusedKernel p else backwardKernel p).surfaceBody.drop 14).take 1
-private def backAfter (p : BackwardParameters) := (backwardKernel p).surfaceBody.drop 15
+  (((if reuse then backwardRowStartReusedKernel p else backwardKernel p).surfaceBody).dropWhile
+    (fun st => !isBackIndex st)).take 1
+private def backAfter (p : BackwardParameters) :=
+  ((backwardKernel p).surfaceBody.dropWhile (fun st => !isBackIndex st)).drop 1
 private theorem back_split (reuse : Bool) (p : BackwardParameters) :
     (if reuse then backwardRowStartReusedKernel p else backwardKernel p).surfaceBody =
       backBefore p ++ (backIndex reuse p ++ backAfter p) := by
-  cases reuse <;> rfl
+  cases hr : p.rms <;> cases hd : p.hasDres <;> cases hs : p.storeDres <;>
+    cases hb : p.hasBias <;> cases hy : p.recompute <;> cases reuse
+  all_goals simp [backwardKernel,backwardSource,backwardRowStartReusedKernel,
+    backwardRowStartReusedSource,backBefore,backIndex,backAfter,isBackIndex,
+    ComputeKernel.surfaceBody,hr,hd,hs,hb,hy]
 
 private theorem back_registers (M : Algebra α) (p : BackwardParameters) (s t : State α)
     (ran : run M (backBefore p) s=some t) :
     t.regs .nat [] "row_block_id"=some (fun _ => s.pids 0) ∧
     t.regs .nat [] "row_start"=some (fun _ => s.pids 0*p.rowsPerProgram) := by
-  cases hd : p.hasDres <;> cases hs : p.storeDres <;>
+  cases hr : p.rms <;> cases hd : p.hasDres <;> cases hs : p.storeDres <;>
     cases hy : p.recompute <;> cases hb : p.hasBias
   all_goals
-    simp [backBefore,backwardKernel,backwardSource,ComputeKernel.surfaceBody,List.take,
+    simp [backBefore,isBackIndex,hr,backwardKernel,backwardSource,ComputeKernel.surfaceBody,List.take,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,FP.Structural.numeric,FP.Structural.bop,FP.Structural.numericLt,FP.Structural.natLt,
       Broadcast.leftIndex,Broadcast.rightIndex,ofFloat,toFloat,Region.cast,
       hd,hs,hy,hb,State.setReg] at ran
@@ -38,7 +51,9 @@ private theorem back_index_run (M : Algebra α) (p : BackwardParameters) (s t : 
     (ran : run M (backBefore p) s=some t) :
     run M (backIndex Bool.false p) t=run M (backIndex Bool.true p) t := by
   obtain ⟨pid,start⟩ := back_registers M p s t ran
-  simp [backIndex,backwardKernel,backwardSource,backwardRowStartReusedKernel,
+  cases hr : p.rms <;> cases hd : p.hasDres <;> cases hs : p.storeDres <;>
+    cases hb : p.hasBias <;> cases hy : p.recompute
+  all_goals simp [backIndex,isBackIndex,hr,hd,hs,hb,hy,backwardKernel,backwardSource,backwardRowStartReusedKernel,
     backwardRowStartReusedSource,ComputeKernel.surfaceBody,List.drop,List.take,
     run,step,evalExpr,evalOp_unfold,Option.bind,FP.Structural.numeric,FP.Structural.bop,FP.Structural.numericLt,FP.Structural.natLt,
     Broadcast.leftIndex,Broadcast.rightIndex,pid,start,Nat.add_mul]
@@ -46,9 +61,10 @@ private theorem back_index_run (M : Algebra α) (p : BackwardParameters) (s t : 
 private theorem back_index_safe (M : Algebra α) (bounds : RegionName → Nat)
     (reuse : Bool) (p : BackwardParameters) (s : State α) :
     Safety.traceSafeList M bounds (backIndex reuse p) s := by
-  cases reuse
+  cases hr : p.rms <;> cases hd : p.hasDres <;> cases hs : p.storeDres <;>
+    cases hb : p.hasBias <;> cases hy : p.recompute <;> cases reuse
   all_goals
-    simp [backIndex,backwardKernel,backwardSource,backwardRowStartReusedKernel,
+    simp [backIndex,isBackIndex,hr,hd,hs,hb,hy,backwardKernel,backwardSource,backwardRowStartReusedKernel,
       backwardRowStartReusedSource,ComputeKernel.surfaceBody,List.drop,List.take,
       Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeAlg,
       Safety.safeOp,Safety.safeOp_unfold]

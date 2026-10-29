@@ -112,6 +112,12 @@ partial def lower (raw : Syntax) : MacroM Syntax := do
           unless admissible value do
             Macro.throwErrorAt raw "Python literal arithmetic cannot be folded preserving binary64, FP32 promotion and the ideal Real projection"
           return (← decimal value.ideal).raw
+        else
+          unless value.ideal.den == 1 do
+            Macro.throwErrorAt raw "internal integer constant expression is not integral"
+          let literal : TSyntax `num := ⟨Syntax.mkNumLit (toString value.ideal.num.natAbs)⟩
+          if value.ideal.num < 0 then return (← `(tritonExpr| -$literal:num)).raw
+          else return (← `(tritonExpr| $literal:num)).raw
     | .ok none => pure ()
   match raw with
   | .node info kind args => return .node info kind (← args.mapM lower)

@@ -755,11 +755,17 @@ partial def expandWhereFromCond (env : Env) (c' : EOut)
     | `(tritonExpr| $n:num) =>
         if dtype == .nat then return some ⟨← `(Op.constNat $n), .nat, .scalar, none, none⟩
         if dtype == .int || dtype == .int8 || dtype == .int32 then
-          return some ⟨← `(Op.constInt $n), .int, .scalar, none, none⟩
+          if (dtype == .int8 && n.getNat ≥ 2^7) ||
+              (dtype == .int32 && n.getNat ≥ 2^31) then
+            Macro.throwError "tl.where integer scalar exceeds the signed tensor dtype range"
+          return some ⟨← `(Op.constInt $n), dtype, .scalar, none, none⟩
         return none
     | `(tritonExpr| -$n:num) =>
         if dtype == .int || dtype == .int8 || dtype == .int32 then
-          return some ⟨← `(Op.constInt (-($n : Int))), .int, .scalar, none, none⟩
+          if (dtype == .int8 && n.getNat > 2^7) ||
+              (dtype == .int32 && n.getNat > 2^31) then
+            Macro.throwError "tl.where integer scalar exceeds the signed tensor dtype range"
+          return some ⟨← `(Op.constInt (-($n : Int))), dtype, .scalar, none, none⟩
         return none
     | _ => return none
   let a' := (← integerLiteral b'.dtype a).getD a'

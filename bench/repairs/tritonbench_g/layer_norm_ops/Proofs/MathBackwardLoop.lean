@@ -83,7 +83,7 @@ structure LoopInvariant (rest : Algebra ℝ) (p : BackwardParameters) (s : State
   rw [Logical.backward_xhat,h.weight,h.bias]
   cases hb : p.hasBias <;>
     simp [rowY,Logical.bhat,Logical.bx,Logical.bmu,Logical.binv,readRow,
-      Backward.initial,Backward.loaded,Forward.cast,Forward.unhintedBinary,
+      Backward.initial,Backward.loaded,Forward.cast,Forward.unhintedBinary,Backward.binary,Forward.binary,
       Logical.algebra,LayerNormLiger.Logical.algebra,hi,hb,
       h.reads p.x (by simp [backwardReads]),h.reads p.mean (by simp [backwardReads]),
       h.reads p.rstd (by simp [backwardReads])]

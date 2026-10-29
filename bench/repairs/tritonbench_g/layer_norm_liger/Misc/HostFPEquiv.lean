@@ -48,8 +48,8 @@ theorem layer_norm_selected_plan (P : NativePlan.Primitives) (contract : NativeP
   exact PublicReader.returned_selected_plan_bits P contract trees _ _ _ _ _ _ _ _ _ s
 
 abbrev python_checks_iff_preconditions := Contract.checkArguments_iff
-abbrev source_forward_shape := Shape.forward_shape
-abbrev source_backward_shape := Shape.backward_shape
+abbrev source_forward_execution := @Shape.forward_execution
+abbrev source_backward_execution := @Shape.backward_execution
 
 #axiomsClean layer_norm_source_fp32
 #axiomsClean layer_norm_selected_plan

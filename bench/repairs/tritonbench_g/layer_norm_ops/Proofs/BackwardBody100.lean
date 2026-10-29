@@ -19,7 +19,7 @@ theorem body100 {α : Type} [Inhabited α] (M : Algebra α)
       Ready p s u (row+1) (update M p row a) := by
   cases hb : p.hasBias <;> cases hy : p.recompute
   all_goals
-    simp [body, backwardKernel, backwardSource, ComputeKernel.surfaceBody, run, step, evalExpr,
+    simp [body, isRowLoop, backwardKernel, backwardSource, ComputeKernel.surfaceBody, run, step, evalExpr,
       evalComputeOp, evalOp_unfold, evalOffsets, store, Option.bind, ComputeDType.eraseDType,
       FloatDType.toTileDType, FloatDType.numericDType, ofFloat, toFloat,
       numeric, bop, numericLt, natLt, Region.cast, hr, hd, hs, hb, hy,

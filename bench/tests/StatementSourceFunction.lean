@@ -67,7 +67,7 @@ def wrongResults (P : RegionName) : ComputeKernel :=
     a, b = mix(tl.load(P), tl.load(P + 1), 7)
   }
 
-/-- error: helper constexpr arguments require an integer literal -/
+/-- error: helper constexpr arguments require a known constant -/
 #guard_msgs in
 def runtimeConstant (P : RegionName) : ComputeKernel :=
   with_triton_signature signature in triton {

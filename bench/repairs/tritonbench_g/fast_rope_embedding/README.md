@@ -1,3 +1,11 @@
+The local `ROPE_GROUP_SIZE = 4` creates a signed integer tensor. Its
+`head_start`, `head_end` and dynamic loop index retain that signed carrier.
+`Proofs/Source.lean` proves the actual prelude and each signed iteration;
+`Proofs/AccessSafety.lean` follows those same successor states. Mathematical
+helpers are shared with RoPE, but their loop ASTs are no longer identified.
+The actual original/candidate pair is connected directly by signed integer
+multiplication commutativity. No FP rule or public input condition is added.
+
 The raw Python body retains both explicit query-half casts to `sin1.dtype`.
 The ordinary FP32 stores do not contain a further cast. The proof execution
 summary follows that exact order; it does not assume arbitrary casts are
@@ -95,8 +103,8 @@ non-overwrite, and no-launch theorems accompany the endpoints. They do not
 claim execution of the Python launch or autograd engine.
 
 `Kernels.lean` contains the readable full source quote.
-`KernelRegressions.original_typed_source` proves its exact identity with the
-retained original typed fast JIT. `KernelSource.lean` reuses the full-loop
+`KernelRegressions.original_typed_source` checks the caller selects that
+complete pasted body with its actual arguments. `KernelSource.lean` reuses the full-loop
 source proof with actual strides; `KernelMemory.lean` and `Misc/KernelResult.lean`
 derive the Tensor and memory observations; `KernelAccess.lean` checks formed
 padded offsets and both possible Q stride integer widths. The mathematical

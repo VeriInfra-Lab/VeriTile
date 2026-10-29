@@ -15,9 +15,9 @@ theorem prelude00 {α : Type} [Inhabited α] (M : Algebra α)
     (hd : p.hasDres = Bool.false) (hs : p.storeDres = Bool.false)
     :
     ∃ t, run M (prelude p) s = some t ∧ Ready p s t (start p s) (initial M p s) := by
-  cases hb : p.hasBias <;> cases hy : p.recompute
+  cases hr : p.rms <;> cases hb : p.hasBias <;> cases hy : p.recompute
   all_goals
-    simp [prelude, backwardKernel, backwardSource, ComputeKernel.surfaceBody, run, step, evalExpr,
+    simp [prelude, isRowLoop, hr, backwardKernel, backwardSource, ComputeKernel.surfaceBody, run, step, evalExpr,
       evalComputeOp, evalOp_unfold, Option.bind, numeric, bop, integralFloorDiv,
       numericLt, natLt, Region.cast, ofFloat, toFloat, hd, hs, hb, hy]
     constructor <;> simp [initial, literal, loaded, cast, padding, start, stop,

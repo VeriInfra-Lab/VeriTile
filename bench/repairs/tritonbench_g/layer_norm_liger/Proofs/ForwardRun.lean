@@ -12,7 +12,7 @@ theorem complete_run {α : Type} [Inhabited α] (M : Algebra α) (R : SumPrimiti
     (p : Parameters) (s : State α) :
     ∃ t, FP.Structural.exec (withSum M R) (kernel p) s = some t ∧
       t.mem = (reference M R p s).mem := by
-  simp [FP.Structural.exec, kernel, source, run, step, evalExpr, evalComputeOp,
+  simp [FP.Structural.exec, kernel, source, forwardSource, run, step, evalExpr, evalComputeOp,
     evalOp_unfold, evalOffsets, store, Option.bind, ComputeDType.eraseDType,
     FloatDType.toTileDType, FloatDType.numericDType, ofFloat, toFloat,
     numeric, bop, numericLt, natLt, Region.cast, withSum]

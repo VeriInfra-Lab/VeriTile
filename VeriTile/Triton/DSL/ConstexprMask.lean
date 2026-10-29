@@ -57,12 +57,19 @@ partial def directMaskNeeded (raw : Syntax) : Bool :=
     | _ => Bool.false
   atRoot || raw.getArgs.any directMaskNeeded
 
-private partial def replaceChoices (choices : Choices) (raw : Syntax) : MacroM Syntax := do
+private partial def replaceChoices (choices : Choices) (conditionalValues : Bool) (raw : Syntax) : MacroM Syntax := do
+  -- Python's conditional expression evaluates only the selected arm. Resolve
+  -- it from the same immutable caller constexpr choices as statement branches,
+  -- before dtype tracking can see an undefined name in an unselected arm.
+  if conditionalValues then
+    if let `(tritonExpr| ($yes:tritonExpr if $condition:tritonExpr else $no:tritonExpr)) := raw then
+      if let some value := boolValue choices condition then
+        return ← replaceChoices choices conditionalValues (if value then yes.raw else no.raw)
   if let `(tritonExpr| $id:ident) := raw then
     if let some value := choices.lookup id.getId.eraseMacroScopes then
       return (← if value then `(tritonExpr| true) else `(tritonExpr| false)).raw
   match raw with
-  | .node info kind args => return .node info kind (← args.mapM (replaceChoices choices))
+  | .node info kind args => return .node info kind (← args.mapM (replaceChoices choices conditionalValues))
   | _ => return raw
 
 private def maskArgs (names : List Name) (kwargs : Array (TSyntax `tritonMemKwarg))
@@ -212,9 +219,10 @@ private partial def block (choices : Choices) (initial initialUncertain : List N
     output := output ++ [⟨← expression names uncertain st.raw⟩]
   return (output,names,uncertain)
 
-def lower (choices : Choices) (stmts : Array (TSyntax `tritonStmt)) :
+def lower (choices : Choices) (stmts : Array (TSyntax `tritonStmt))
+    (conditionalValues : Bool := Bool.false) :
     MacroM (Array (TSyntax `tritonStmt)) := do
   let (body,_,_) ← block choices [] [] stmts.toList
-  body.toArray.mapM fun st => return ⟨← replaceChoices choices st.raw⟩
+  body.toArray.mapM fun st => return ⟨← replaceChoices choices conditionalValues st.raw⟩
 
 end VeriTile.Triton.DSL.ConstexprMask

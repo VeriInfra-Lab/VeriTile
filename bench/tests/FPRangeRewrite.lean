@@ -44,7 +44,7 @@ info:   none
 ---
 info: Strict model certificates used by loop_add_commute:
 ---
-info:   model: VeriTile.Software.strictFP32/ieeeValue/maxnum/documented-exp-special-values
+info:   model: VeriTile.Software.strictFP32/ieeeValue/integer-literals/maxnum/documented-exp-special-values
     certificate: List.Forall₂.cons (FP.ScalarArithmetic.strict_certificate FP.ScalarArithmetic.Atom.addCommute rfl) List.Forall₂.nil -/
 #guard_msgs in
 #print_fp_assumptions loop_add_commute
@@ -88,7 +88,7 @@ info:   none
 ---
 info: Strict model certificates used by nested_ranges:
 ---
-info:   model: VeriTile.Software.strictFP32/ieeeValue/maxnum/documented-exp-special-values
+info:   model: VeriTile.Software.strictFP32/ieeeValue/integer-literals/maxnum/documented-exp-special-values
     certificate: List.Forall₂.cons (FP.ScalarArithmetic.strict_certificate FP.ScalarArithmetic.Atom.addCommute rfl) List.Forall₂.nil -/
 #guard_msgs in
 #print_fp_assumptions nested_ranges
@@ -212,7 +212,7 @@ info:   none
 ---
 info: Strict model certificates used by explicit_cast_preserved:
 ---
-info:   model: VeriTile.Software.strictFP32/ieeeValue/maxnum/documented-exp-special-values
+info:   model: VeriTile.Software.strictFP32/ieeeValue/integer-literals/maxnum/documented-exp-special-values
     certificate: List.Forall₂.cons (FP.ScalarArithmetic.strict_certificate FP.ScalarArithmetic.Atom.mulCommute rfl) List.Forall₂.nil -/
 #guard_msgs in
 #print_fp_assumptions explicit_cast_preserved

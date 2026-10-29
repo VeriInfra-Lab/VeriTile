@@ -31,7 +31,7 @@ def z {α : Type} [Inhabited α] (M : Algebra α) (p : ForwardParameters)
 def average {α : Type} (M : Algebra α) (p : ForwardParameters)
     (values : TileIndex [p.block] → α) : α :=
   binary M .div (M.reduceSum (some .fp32) ⟨0,by simp⟩ Bool.false values PUnit.unit)
-    (literal M (p.columns : ℝ))
+    (M.fromNat (some .fp32) p.columns)
 
 def meanValue {α : Type} [Inhabited α] (M : Algebra α) (p : ForwardParameters) (s : State α) :=
   average M p (z M p s)
@@ -69,7 +69,10 @@ def yValue {α : Type} [Inhabited α] (M : Algebra α) (p : ForwardParameters)
   let base := if p.rms then z M p s i else unhintedBinary M .sub (z M p s i) (meanValue M p s)
   let h := unhintedBinary M .mul base (rstdValue M p s)
   let y := unhintedBinary M .mul h (unspecified M p t p.weight i)
-  if p.hasBias then unhintedBinary M .add y (unspecified M p t p.bias i) else y
+  -- The destination conversion inferred for the conditional result is a
+  -- real-to-real cast under FP32 precision before the FP32 cell store.
+  M.cast (some .fp32) .real .real
+    (if p.hasBias then unhintedBinary M .add y (unspecified M p t p.bias i) else y)
 
 /-- Explicit initial-state recurrence, including the source order of early
 residual/statistic writes and later parameter loads. Public freshness lemmas

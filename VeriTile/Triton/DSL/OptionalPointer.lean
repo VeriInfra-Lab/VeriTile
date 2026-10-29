@@ -34,6 +34,15 @@ private partial def rootedAt (root name : Name) : Bool :=
     | .anonymous => Bool.false
 
 private partial def expression (bindings : Presence) (active : List Name) (raw : Syntax) : MacroM Syntax := do
+  if let `(tritonExpr| ($yes:tritonExpr if $condition:tritonExpr else $no:tritonExpr)) := raw then
+    let condition' : TSyntax `tritonExpr := ⟨← expression bindings active condition.raw⟩
+    let (yesActive, noActive) := match test? condition with
+      | some (pointer, Bool.true) => (pointer :: active, active)
+      | some (pointer, Bool.false) => (active, pointer :: active)
+      | none => (active, active)
+    let yes' : TSyntax `tritonExpr := ⟨← expression bindings yesActive yes.raw⟩
+    let no' : TSyntax `tritonExpr := ⟨← expression bindings noActive no.raw⟩
+    return (← `(tritonExpr| ($yes' if $condition' else $no'))).raw
   if let some (name, positive) := test? ⟨raw⟩ then
     let present ← value bindings name
     if positive then return present.raw
@@ -75,6 +84,8 @@ private partial def statement (bindings : Presence) (active : List Name)
           return (← statement bindings active ⟨raw⟩).raw
         if let `(tritonStmt| if $_:tritonExpr { $_:tritonStmt* } else { $_:tritonStmt* }) := raw then
           return (← statement bindings active ⟨raw⟩).raw
+        if let `(tritonExpr| ($_:tritonExpr if $_:tritonExpr else $_:tritonExpr)) := raw then
+          return ← expression bindings active raw
         if (test? ⟨raw⟩).isSome then return ← expression bindings active raw
         if raw.isIdent then return ← expression bindings active raw
         match raw with
@@ -84,6 +95,14 @@ private partial def statement (bindings : Presence) (active : List Name)
       match raw with
       | .node info kind args => return ⟨.node info kind (← args.mapM visit)⟩
       | _ => return ⟨← expression bindings active raw⟩
+
+/-- A guarded value expression may depend on surrounding constexpr paths.
+Specialize those caller flags before merging source dtype environments. -/
+partial def needsConditionalSpecialization (raw : Syntax) : Bool :=
+  match (⟨raw⟩ : TSyntax `tritonExpr) with
+  | `(tritonExpr| ($_ if $condition:tritonExpr else $_)) =>
+      (test? condition).isSome || raw.getArgs.any needsConditionalSpecialization
+  | _ => raw.getArgs.any needsConditionalSpecialization
 
 def specialize (bindings : Presence) (body : Array (TSyntax `tritonStmt)) :
     MacroM (Array (TSyntax `tritonStmt)) :=

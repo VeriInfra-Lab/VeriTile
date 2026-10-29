@@ -97,7 +97,7 @@ info:   none
 ---
 info: Strict model certificates used by static_range_with_insertions:
 ---
-info:   model: VeriTile.Software.strictFP32/ieeeValue/maxnum/documented-exp-special-values
+info:   model: VeriTile.Software.strictFP32/ieeeValue/integer-literals/maxnum/documented-exp-special-values
     certificate: List.Forall₂.cons (FP.ScalarArithmetic.strict_certificate FP.ScalarArithmetic.Atom.addCommute rfl) List.Forall₂.nil -/
 #guard_msgs in
 #print_fp_assumptions static_range_with_insertions

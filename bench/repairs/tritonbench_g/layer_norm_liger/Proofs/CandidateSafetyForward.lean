@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.layer_norm_liger.Proofs.SourceOffsets
 import bench.repairs.tritonbench_g.layer_norm_liger.Proofs.CandidateForward
 import VeriTile.Triton.Float.StructuralSafety
 namespace VeriTile.Bench.Repairs.LayerNormLiger.CandidateSafety
@@ -36,7 +37,7 @@ theorem forward (M : Algebra α) (R : SumPrimitive α) (p : Forward.Parameters)
     (hy : ∀ i : Fin p.block,i.val<p.columns → s.pids 0*p.yStride+i.val<bounds p.y) :
     TraceSafe (withSum M R) bounds (Forward.candidateKernel p) s := by
   change traceSafeList (withSum M R) bounds (Forward.candidateKernel p).surfaceBody s
-  simp only [Forward.candidateKernel,Forward.candidateSource,ComputeKernel.surfaceBody]
+  simp only [Forward.candidateKernel,Forward.candidateSource,Forward.forwardCandidateSource,ComputeKernel.surfaceBody]
   rw [traceSafeList_unfold]
   constructor
   · simp [stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
@@ -100,85 +101,130 @@ theorem forward (M : Algebra α) (R : SumPrimitive α) (p : Forward.Parameters)
                   ofFloat,toFloat,numeric,bop,numericLt,natLt,Region.cast,withSum,hm,hr]
               · simp [step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,bind,pure,
                   State.setReg,numeric,bop,numericLt,natLt,Region.cast]
-                apply assign_any
-                · simpa [stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
+                rw [traceSafeList_unfold]
+                constructor
+                · simp [stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
                     safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
                     step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,Option.bind,
                     State.setReg,ComputeDType.eraseDType,FloatDType.toTileDType,FloatDType.numericDType,
-                    ofFloat,toFloat,numeric,bop,numericLt,natLt,Region.cast,withSum,hm,hr,hx,hw,hb] using hx
-                · intro value0
-                  apply assign_any
-                  · simpa [stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
+                    ofFloat,toFloat,numeric,bop,numericLt,natLt,Region.cast,withSum,hm,hr]
+                · simp [step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,bind,pure,
+                    State.setReg,numeric,bop,numericLt,natLt,Region.cast]
+                  rw [traceSafeList_unfold]
+                  constructor
+                  · simp [stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
                       safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
                       step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,Option.bind,
                       State.setReg,ComputeDType.eraseDType,FloatDType.toTileDType,FloatDType.numericDType,
-                      ofFloat,toFloat,numeric,bop,numericLt,natLt,Region.cast,withSum,hm,hr,hx,hw,hb] using hw
-                  · intro value1
-                    apply assign_any
-                    · simpa [stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
+                      ofFloat,toFloat,numeric,bop,numericLt,natLt,Region.cast,withSum,hm,hr]
+                  · simp [step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,bind,pure,
+                      State.setReg,numeric,bop,numericLt,natLt,Region.cast]
+                    rw [traceSafeList_unfold]
+                    constructor
+                    · simp [stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
                         safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
                         step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,Option.bind,
                         State.setReg,ComputeDType.eraseDType,FloatDType.toTileDType,FloatDType.numericDType,
-                        ofFloat,toFloat,numeric,bop,numericLt,natLt,Region.cast,withSum,hm,hr,hx,hw,hb] using hb
-                    · intro value2
-                      apply assign_any
+                        ofFloat,toFloat,numeric,bop,numericLt,natLt,Region.cast,withSum,hm,hr]
+                    · simp [step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,bind,pure,
+                        State.setReg,numeric,bop,numericLt,natLt,Region.cast]
+                      rw [traceSafeList_unfold]
+                      constructor
                       · simp [stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
                           safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
                           step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,Option.bind,
                           State.setReg,ComputeDType.eraseDType,FloatDType.toTileDType,FloatDType.numericDType,
-                          ofFloat,toFloat,numeric,bop,numericLt,natLt,Region.cast,withSum,hm,hr,hx,hw,hb]
-                      · intro value3
-                        apply assign_any
+                          ofFloat,toFloat,numeric,bop,numericLt,natLt,Region.cast,withSum,hm,hr]
+                      · simp [step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,bind,pure,
+                          State.setReg,numeric,bop,numericLt,natLt,Region.cast]
+                        rw [traceSafeList_unfold]
+                        constructor
                         · simp [stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
                             safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
                             step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,Option.bind,
                             State.setReg,ComputeDType.eraseDType,FloatDType.toTileDType,FloatDType.numericDType,
-                            ofFloat,toFloat,numeric,bop,numericLt,natLt,Region.cast,withSum,hm,hr,hx,hw,hb]
-                        · intro value4
+                            ofFloat,toFloat,numeric,bop,numericLt,natLt,Region.cast,withSum,hm,hr]
+                        · simp [step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,bind,pure,
+                            State.setReg,numeric,bop,numericLt,natLt,Region.cast]
                           apply assign_any
-                          · simp [stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
+                          · simpa [stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
                               safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
                               step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,Option.bind,
                               State.setReg,ComputeDType.eraseDType,FloatDType.toTileDType,FloatDType.numericDType,
-                              ofFloat,toFloat,numeric,bop,numericLt,natLt,Region.cast,withSum,hm,hr,hx,hw,hb]
-                          · intro value5
+                              ofFloat,toFloat,numeric,bop,numericLt,natLt,Region.cast,withSum,hm,hr,hx,hw,hb] using hx
+                          · intro value0
                             apply assign_any
-                            · simp [stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
+                            · simpa [stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
                                 safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
                                 step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,Option.bind,
                                 State.setReg,ComputeDType.eraseDType,FloatDType.toTileDType,FloatDType.numericDType,
-                                ofFloat,toFloat,numeric,bop,numericLt,natLt,Region.cast,withSum,hm,hr,hx,hw,hb]
-                            · intro value6
-                              rw [traceSafeList_unfold]
-                              constructor
-                              · simp [stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
+                                ofFloat,toFloat,numeric,bop,numericLt,natLt,Region.cast,withSum,hm,hr,hx,hw,hb] using hw
+                            · intro value1
+                              apply assign_any
+                              · simpa [stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
                                   safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
                                   step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,Option.bind,
                                   State.setReg,ComputeDType.eraseDType,FloatDType.toTileDType,FloatDType.numericDType,
-                                  ofFloat,toFloat,numeric,bop,numericLt,natLt,Region.cast,withSum,hm,hr]
-                              · simp [step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,bind,pure,store,
-                                  State.setReg,ofFloat,toFloat,Region.cast]
-                                rw [traceSafeList_unfold]
-                                constructor
+                                  ofFloat,toFloat,numeric,bop,numericLt,natLt,Region.cast,withSum,hm,hr,hx,hw,hb] using hb
+                              · intro value2
+                                apply assign_any
                                 · simp [stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
                                     safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
                                     step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,Option.bind,
                                     State.setReg,ComputeDType.eraseDType,FloatDType.toTileDType,FloatDType.numericDType,
-                                    ofFloat,toFloat,numeric,bop,numericLt,natLt,Region.cast,withSum,hm,hr]
-                                · simp [step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,bind,pure,store,
-                                    State.setReg,ofFloat,toFloat,Region.cast]
+                                    ofFloat,toFloat,numeric,bop,numericLt,natLt,Region.cast,withSum,hm,hr,hx,hw,hb]
+                                · intro value3
                                   apply assign_any
                                   · simp [stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
                                       safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
                                       step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,Option.bind,
                                       State.setReg,ComputeDType.eraseDType,FloatDType.toTileDType,FloatDType.numericDType,
-                                      ofFloat,toFloat,numeric,bop,numericLt,natLt,Region.cast,withSum,hm,hr]
-                                  · intro outputValue
-                                    simpa [traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
+                                      ofFloat,toFloat,numeric,bop,numericLt,natLt,Region.cast,withSum,hm,hr,hx,hw,hb]
+                                  · intro value4
+                                    apply assign_any
+                                    · simp [stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
                                         safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
                                         step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,Option.bind,
                                         State.setReg,ComputeDType.eraseDType,FloatDType.toTileDType,FloatDType.numericDType,
-                                        ofFloat,toFloat,numeric,bop,numericLt,natLt,Region.cast,withSum,hm,hr,hy] using hy
+                                        ofFloat,toFloat,numeric,bop,numericLt,natLt,Region.cast,withSum,hm,hr,hx,hw,hb]
+                                    · intro value5
+                                      apply assign_any
+                                      · simp [stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
+                                          safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
+                                          step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,Option.bind,
+                                          State.setReg,ComputeDType.eraseDType,FloatDType.toTileDType,FloatDType.numericDType,
+                                          ofFloat,toFloat,numeric,bop,numericLt,natLt,Region.cast,withSum,hm,hr,hx,hw,hb]
+                                      · intro value6
+                                        rw [traceSafeList_unfold]
+                                        constructor
+                                        · simp [stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
+                                            safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
+                                            step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,Option.bind,
+                                            State.setReg,ComputeDType.eraseDType,FloatDType.toTileDType,FloatDType.numericDType,
+                                            ofFloat,toFloat,numeric,bop,numericLt,natLt,Region.cast,withSum,hm,hr]
+                                        · simp [step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,bind,pure,store,
+                                            State.setReg,ofFloat,toFloat,Region.cast]
+                                          rw [traceSafeList_unfold]
+                                          constructor
+                                          · simp [stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
+                                              safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
+                                              step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,Option.bind,
+                                              State.setReg,ComputeDType.eraseDType,FloatDType.toTileDType,FloatDType.numericDType,
+                                              ofFloat,toFloat,numeric,bop,numericLt,natLt,Region.cast,withSum,hm,hr]
+                                          · simp [step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,bind,pure,store,
+                                              State.setReg,ofFloat,toFloat,Region.cast]
+                                            apply assign_any
+                                            · simp [stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
+                                                safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
+                                                step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,Option.bind,
+                                                State.setReg,ComputeDType.eraseDType,FloatDType.toTileDType,FloatDType.numericDType,
+                                                ofFloat,toFloat,numeric,bop,numericLt,natLt,Region.cast,withSum,hm,hr]
+                                            · intro outputValue
+                                              simpa [traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
+                                                  safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
+                                                  step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,Option.bind,
+                                                  State.setReg,ComputeDType.eraseDType,FloatDType.toTileDType,FloatDType.numericDType,
+                                                  ofFloat,toFloat,numeric,bop,numericLt,natLt,Region.cast,withSum,hm,hr,hy] using hy
 
 #axiomsClean forward
 end

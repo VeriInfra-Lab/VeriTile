@@ -1,4 +1,5 @@
 import VeriTile.Triton.DSL.SourceFunction
+import VeriTile.Triton.DSL.SourceDType
 
 /-! Checked statement helpers preserve argument evaluation order, local scope,
 and simultaneous tuple results. This pass runs before dtype inference. -/
@@ -11,6 +12,7 @@ syntax (name := sourceHelperDiscardPair)
 private structure ExpansionState where
   next : Nat := 0
   used : List Name := []
+  literalValues : List (Name × TSyntax `tritonExpr) := []
 
 private abbrev LowerM := StateT ExpansionState MacroM
 
@@ -51,18 +53,51 @@ private def directCall (statement : TSyntax `tritonStmt) :
       some (#[some a,some (mkIdent `_),some (mkIdent `_)],fn,args.getElems)
   | _ => none
 
+/-- A JIT callee receives caller constexpr values without tensor materialization,
+even when its formal parameter has no annotation. Runtime named values still
+need a single evaluated capture. See pinned Triton code_generator.call_JitFunction. -/
+private partial def constantArgument (known : List Name) (e : TSyntax `tritonExpr) : Bool :=
+  match e with
+  | `(tritonExpr| $_:num) | `(tritonExpr| $_:scientific)
+  | `(tritonExpr| True) | `(tritonExpr| False) | `(tritonExpr| None) => Bool.true
+  | `(tritonExpr| $id:ident) => known.contains id.getId.eraseMacroScopes
+  | `(tritonExpr| ($x:tritonExpr)) | `(tritonExpr| -$x:tritonExpr) => constantArgument known x
+  | `(tritonExpr| $a:tritonExpr + $b:tritonExpr)
+  | `(tritonExpr| $a:tritonExpr - $b:tritonExpr)
+  | `(tritonExpr| $a:tritonExpr * $b:tritonExpr) =>
+      constantArgument known a && constantArgument known b
+  | _ => Bool.false
+
+/-- Forget static facts when a source write may rebind their name. Branches
+start with their entry facts; their continuation keeps only unwritten inputs. -/
+private partial def writes (raw : Syntax) : List Name := Id.run do
+  let args := raw.getArgs
+  let mut localNames := []
+  if args[0]?.any Syntax.isIdent then
+    if let some position := args.findIdx? (fun arg => arg.isAtom &&
+        ["=",":=","+=","-=","*=","/="].contains arg.getAtomVal.trimAscii.toString) then
+      localNames := (args.extract 0 position).toList.flatMap namesIn
+  if args.size > 1 && args[0]!.isAtom && args[1]!.isIdent &&
+      ["for","tl.for"].contains args[0]!.getAtomVal.trimAscii.toString then
+    localNames := args[1]!.getId.eraseMacroScopes :: localNames
+  return localNames ++ args.toList.flatMap writes
+
 mutual
   private partial def lowerStatements (functions : List Checked)
-      (statements : Array (TSyntax `tritonStmt)) (stack : List Name) :
+      (statements : Array (TSyntax `tritonStmt)) (stack : List Name) (known : List Name) :
       LowerM (Array (TSyntax `tritonStmt)) := do
     let mut output := #[]
+    let mut known := known
     for statement in statements do
-      output := output ++ (← lowerStatement functions statement stack)
+      output := output ++ (← lowerStatement functions statement stack known)
+      known := known.filter (fun name => !(writes statement.raw).contains name)
+      if let `(tritonStmt| $id:ident : tl.constexpr = $_:tritonExpr) := statement then
+        known := id.getId.eraseMacroScopes :: known
     return output
 
   private partial def lowerCall (functions : List Checked) (function : Checked)
       (destinations : Array (Option Ident)) (arguments : Array (TSyntax `tritonExpr))
-      (stack : List Name) : LowerM (Array (TSyntax `tritonStmt)) := do
+      (stack : List Name) (known : List Name) : LowerM (Array (TSyntax `tritonStmt)) := do
     if stack.contains function.name then
       Macro.throwError "recursive source helpers are unsupported"
     unless arguments.size == function.parameters.length do
@@ -73,26 +108,36 @@ mutual
     let mut renamed : List (Name × Ident) := []
     let mut constants : List (Name × TSyntax `tritonExpr) := []
     for (parameter,argument) in function.parameters.zip arguments.toList do
-      if function.constexpr.contains parameter then
-        let `(tritonExpr| $_:num) := argument
-          | Macro.throwErrorAt argument "helper constexpr arguments require an integer literal"
+      let constant := constantArgument known argument
+      if function.constexpr.contains parameter && !constant then
+        Macro.throwErrorAt argument "helper constexpr arguments require a known constant"
+      if constant then
+        let bindings := (← get).literalValues.filter (fun p => known.contains p.1)
+        let argument : TSyntax `tritonExpr := ⟨← substituteConstants bindings argument.raw⟩
         constants := constants ++ [(parameter,argument)]
       else
         let name ← fresh ("arg_" ++ parameter.toString)
         let argument : TSyntax `tritonExpr := ⟨← expand functions argument.raw stack⟩
         code := code.push (← `(tritonStmt| $name:ident = $argument:tritonExpr))
         renamed := renamed ++ [(parameter,name)]
-    for statement in function.assignments do
-      let `(tritonStmt| $lhs:ident = $_:tritonExpr) := statement
-        | Macro.throwError "invalid checked helper assignment"
-      let name := lhs.getId.eraseMacroScopes
-      unless renamed.any (fun p => p.1 == name) do
-        renamed := renamed ++ [(name,← fresh ("local_" ++ name.toString))]
     let mut body := #[]
     for statement in function.assignments do
-      let replaced ← substituteConstants constants (substitute renamed statement.raw)
-      body := body.push (⟨replaced⟩ : TSyntax `tritonStmt)
-    code := code ++ (← lowerStatements functions body (function.name :: stack))
+      let `(tritonStmt| $lhs:ident = $rhs:tritonExpr) := statement
+        | Macro.throwError "invalid checked helper assignment"
+      -- Read the old binding before the assignment creates/reuses its local
+      -- tensor register. An unannotated constexpr argument may be rebound.
+      let rhs : TSyntax `tritonExpr :=
+        ⟨← substituteConstants constants (substitute renamed rhs.raw)⟩
+      let name := lhs.getId.eraseMacroScopes
+      let target ← match renamed.find? (fun p => p.1 == name) with
+        | some (_, id) => pure id
+        | none => do
+          let id ← fresh ("local_" ++ name.toString)
+          renamed := renamed ++ [(name,id)]
+          pure id
+      constants := constants.filter (fun p => p.1 != name)
+      body := body.push (← `(tritonStmt| $target:ident = $rhs:tritonExpr))
+    code := code ++ (← lowerStatements functions body (function.name :: stack) known)
     let mut returns : Array Ident := #[]
     for result in function.results do
       let raw ← substituteConstants constants (substitute renamed result.raw)
@@ -106,7 +151,7 @@ mutual
     return code
 
   private partial def lowerStatement (functions : List Checked)
-      (statement : TSyntax `tritonStmt) (stack : List Name) :
+      (statement : TSyntax `tritonStmt) (stack : List Name) (known : List Name) :
       LowerM (Array (TSyntax `tritonStmt)) := do
     if let some (destinations,callee,arguments) := directCall statement then
       if let some function := functions.find? (fun f => f.name == callee.getId.eraseMacroScopes) then
@@ -114,16 +159,16 @@ mutual
         let old := function.assignments.isEmpty && function.results.size == 1 &&
           function.constexpr.isEmpty && arguments.all (fun arg =>
             match arg with | `(tritonExpr| $_:ident) => Bool.true | _ => Bool.false)
-        if !old then return ← lowerCall functions function destinations arguments stack
+        if !old then return ← lowerCall functions function destinations arguments stack known
     match statement with
     | `(tritonStmt| if $condition:tritonExpr { $yes:tritonStmt* } else { $no:tritonStmt* }) =>
         let condition : TSyntax `tritonExpr := ⟨← expand functions condition.raw stack⟩
-        let yes ← lowerStatements functions yes stack
-        let no ← lowerStatements functions no stack
+        let yes ← lowerStatements functions yes stack known
+        let no ← lowerStatements functions no stack known
         return #[← `(tritonStmt| if $condition:tritonExpr { $yes:tritonStmt* } else { $no:tritonStmt* })]
     | `(tritonStmt| if $condition:tritonExpr { $body:tritonStmt* }) =>
         let condition : TSyntax `tritonExpr := ⟨← expand functions condition.raw stack⟩
-        let body ← lowerStatements functions body stack
+        let body ← lowerStatements functions body stack known
         return #[← `(tritonStmt| if $condition:tritonExpr { $body:tritonStmt* })]
     | `(tritonStmt| $_:ident, _, _ = $_:ident($_:tritonExpr,*)) =>
         Macro.throwErrorAt statement "multi-result source helper calls are unsupported"
@@ -133,8 +178,9 @@ end
 /-- Fresh names avoid every caller name. Local assignments and all return
 expressions are evaluated before assigning any caller tuple destination. -/
 def expandStatements (functions : List Checked) (statements : Array (TSyntax `tritonStmt))
-    (callerNames : List String) : MacroM (Array (TSyntax `tritonStmt)) := do
+    (callerNames : List String) (constants : List String := [])
+    (literalValues : List (Name × TSyntax `tritonExpr) := []) : MacroM (Array (TSyntax `tritonStmt)) := do
   let used := callerNames.map Name.mkSimple ++ statements.toList.flatMap (fun st => namesIn st.raw)
-  return (← (lowerStatements functions statements []).run { used }).1
+  return (← (lowerStatements functions statements [] (constants.map Name.mkSimple)).run { used, literalValues }).1
 
 end VeriTile.Triton.DSL.SourceFunction

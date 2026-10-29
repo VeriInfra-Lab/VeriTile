@@ -26,11 +26,14 @@ def ih {α : Type} (p : Parameters) (s : State α) (h : Nat) (i : Fin (BHW p)) :
 def iw {α : Type} (p : Parameters) (s : State α) (w : Nat) (i : Fin (BHW p)) : Int :=
   (w : Int) - p.padding_width + (p.stride_width : Int) * ow p s i
 
-/-- Exact original pointer arithmetic; no zero-padding replacement. -/
+/-- Retain each signed pointer addition, including the address supplied to
+`undef` on inactive lanes of the original omitted-other loads. -/
 def inputOffset {α : Type} (p : Parameters) (s : State α) (h w c : Nat) (i : AIndex p) : Nat :=
   inputBase p s i.1 + p.input_in_feat_stride * (c + i.2.1.val) +
-    ((p.input_height_stride : Int) * ih p s h i.1).toNat +
-    ((p.input_width_stride : Int) * iw p s w i.1).toNat
+    ((p.input_height_stride : Int) * ih p s h i.1).toNat -
+    (-((p.input_height_stride : Int) * ih p s h i.1)).toNat +
+    ((p.input_width_stride : Int) * iw p s w i.1).toNat -
+    (-((p.input_width_stride : Int) * iw p s w i.1)).toNat
 
 def weightOffset {α : Type} (p : Parameters) (s : State α) (h w c : Nat) (i : BIndex p) : Nat :=
   weightBase p s i.2.1 + p.weight_in_feat_stride * (c+i.1.val) +

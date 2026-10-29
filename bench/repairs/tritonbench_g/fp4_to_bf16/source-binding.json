@@ -9,5 +9,7 @@
   "logical_negative_view_rejected": true,
   "selected_source_sha256": "70f10f7ab112fd50f29511e24c8dac26374d51e3ea8bb6dc769e899bdc6d22be",
   "candidate_sha256_status": "historical revision before owning-device context correction",
-  "current_kernel_proof_scope": "complete selected kernel; shared mathematical-index DSL with proved native signed64 refinement"
+  "current_kernel_proof_scope": "complete selected Python helper and caller pasted verbatim; actual execution, full memory/IO and complete schedule refinement with native signed64 address certificates",
+  "body_correspondence_manifest": "jit-correspondence.json",
+  "body_source_status": "unchanged selected repaired Python; original benchmark signed-int32 defect remains separate"
 }

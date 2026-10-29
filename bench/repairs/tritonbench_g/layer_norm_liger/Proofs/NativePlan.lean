@@ -12,6 +12,7 @@ result can be supplied as a primitive. -/
 inductive Expr where
   | word (value : FP.Value .fp32)
   | literal (precision : Option ComputeDType) (dtype : FloatDType) (value : ℝ)
+  | integer (precision : Option ComputeDType) (value : Int)
   | binary (precision : Option ComputeDType) (dtype : FloatDType) (op : Binary) (left right : Expr)
   | fma (precision : Option ComputeDType) (dtype : FloatDType) (x y z : Expr)
   | neg (value : Expr)
@@ -47,10 +48,12 @@ structure Primitives where
   hostCastFP32 : FP.Value .fp32 → FP.Value .fp32
 
 /-- All arithmetic is explicit scalar software arithmetic, including actual
-one-rounding FMA. Literal/cast/rsqrt numerical correspondence stays local. -/
+one-rounding FMA and nearest-even integer-to-FP32 conversion.
+Literal/cast/rsqrt numerical correspondence stays local. -/
 def Expr.eval (P : Primitives) : Expr → FP.Value .fp32
   | .word v => v
   | .literal pr d v => P.literalFP32 pr d v
+  | .integer _ n => FP.round .fp32 .ieeeValue (Rat.ofInt n)
   | .binary pr d op x y => match op with
       | .add => FP.add (P.scalarConfig pr d .add) (x.eval P) (y.eval P)
       | .sub => FP.sub (P.scalarConfig pr d .sub) (x.eval P) (y.eval P)
@@ -71,6 +74,7 @@ def realBinary (op : Binary) (x y : ℝ) : ℝ := match op with
 def Expr.ideal (input : FP.Value .fp32 → ℝ) : Expr → ℝ
   | .word v => input v
   | .literal _ _ v => v
+  | .integer _ n => (n : ℝ)
   | .binary _ _ op x y => realBinary op (x.ideal input) (y.ideal input)
   | .fma _ _ x y z => x.ideal input*y.ideal input+z.ideal input
   | .neg x => -(x.ideal input)
@@ -124,8 +128,8 @@ def algebra (contract : Contraction) (trees : Trees) : Algebra Expr where
     | .neg _ => .neg x
     | _ => .word (FP.Value.qNaN .fp32)
   cast := cast
-  fromNat := fun pr n => .literal pr .fp32 (n : ℝ)
-  fromInt := fun pr n => .literal pr .fp32 (n : ℝ)
+  fromNat := fun pr n => .integer pr (n : Int)
+  fromInt := Expr.integer
   fp32Bits := fun bits => .word ⟨bits.bits⟩
   fp32Load := id
   reduceMax := fun _ {_} _ _ _ _ => .word (FP.Value.qNaN .fp32)

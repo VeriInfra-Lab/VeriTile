@@ -49,7 +49,7 @@ theorem StrictFragmentSound.trans {lhs middle rhs : GuardedFragment}
 /-- This named instance is fixed in every guarded public program view and in
 `Models`; public equivalence statements cannot substitute another theory. -/
 instance fp32Theory : Spec.StatementTheory GuardedFragment where
-  modelID := "VeriTile.Software.strictFP32/ieeeValue/maxnum/documented-exp-special-values"
+  modelID := "VeriTile.Software.strictFP32/ieeeValue/integer-literals/maxnum/documented-exp-special-values"
   Certified := List.Forall₂ StrictFragmentSound
 
 theorem strict_derivation (R : Spec.Assumptions GuardedFragment)

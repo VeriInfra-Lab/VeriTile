@@ -160,11 +160,13 @@ theorem observe_correct (rest : Algebra Word) (h : Input) (s : Finite.Storage h.
   | ok shape =>
     obtain ⟨final,hr,hi,hs,ht,hd,hn,hv,hf,hx,hl⟩ :=
       completion rest h s heap initial identity device jobs fresh rep order
-    refine ⟨.ok ⟨returned h s identity device, final, physical h s heap final.mem⟩, ?_, ?_⟩
-    · have native := Launch.complete_refinement rest h s jobs initial
-        (protocol_grid h allocationReady contiguous inputCuda outputCuda setupReady shape hp) order
-      simp only [native, hr, Option.map_some]
-    · exact ⟨hi,hs,ht,hd,rfl,hn,hv,hf,hx,hl⟩
+    obtain ⟨actual,ran,memory⟩ := Launch.complete_transfer rest h s jobs initial final
+      (protocol_grid h allocationReady contiguous inputCuda outputCuda setupReady shape hp) order hr
+    refine ⟨.ok ⟨returned h s identity device, actual, physical h s heap actual.mem⟩, ?_, ?_⟩
+    · simp only [ran,Option.map_some]
+    · dsimp only [ResultSpec]
+      rw [memory]
+      exact ⟨hi,hs,ht,hd,rfl,hn,hv,hf,hx,hl⟩
 
 #specNonCircular ResultSpec avoiding [observe, runSchedule, Launch.run, FP.Structural.exec]
 #axiomsClean observe_correct

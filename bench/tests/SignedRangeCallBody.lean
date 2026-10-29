@@ -34,11 +34,9 @@ theorem kept_step_assignment (out : RegionName) (n : Nat) :
     (forward out n).surfaceBody[2]? = some
       (.assign .int [] "step" (.alg (.full [] (.constInt 4)))) := rfl
 
--- A second assignment invalidates constant propagation, even with the same
--- initial full constructor. Unknown signed strides remain rejected.
-/-- error: nat expression: dtype mismatch -/
-#guard_msgs (error) in
-example (out : RegionName) (n : Nat) : ComputeKernel :=
+-- A known rebinding before loop entry changes the captured stride. Preserve
+-- both assignments and prove the entire program equals its literal-step form.
+def rebound (out : RegionName) (n : Nat) : ComputeKernel :=
   let BLOCK : Nat := 4
   with_triton_call signature call_args [n := n] in
   triton {
@@ -50,6 +48,23 @@ example (out : RegionName) (n : Nat) : ComputeKernel :=
         tl.store(out + i, 1.0)
   }
 
+def reboundLiteral (out : RegionName) (n : Nat) : ComputeKernel :=
+  let BLOCK : Nat := 4
+  with_triton_call signature call_args [n := n] in
+  triton {
+    N = tl.cast(n, tl.int64)
+    zero = tl.full((), 0, tl.int64)
+    step = tl.full((), BLOCK, tl.int64)
+    step = -1
+    for i in range(zero, N, -1):
+        tl.store(out + i, 1.0)
+  }
+
+theorem known_rebinding (out : RegionName) (n : Nat) :
+    rebound out n = reboundLiteral out n := rfl
+#axiomsClean known_rebinding
+
+-- A loop-carried unknown stride is still rejected.
 /-- error: nat expression: dtype mismatch -/
 #guard_msgs (error) in
 example (out : RegionName) (n : Nat) : ComputeKernel :=

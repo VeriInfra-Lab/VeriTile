@@ -25,15 +25,25 @@ representable in both formats. Existing kernel-checked `Bits.all_nibbles`,
 
 ## Source and public entries
 
-`Kernels.source` selects the shared readable `FPValue.unscaled` Triton DSL,
-including the complete inlined helper, load mask, interleave and BF16 store.
-The shared DSL uses mathematical indices. Existing `Finite` certificates
-prove the selected repair's widened native signed64 count, program ID,
-padded lane indices, masks and accessed pointers equal those mathematical
-indices. `Launch.program` binds the actual count/program-ID ABI to this same
-source; `Launch.complete_refinement` connects every complete program order.
-This explicit refinement boundary is retained, with no handwritten duplicate
-conversion AST or new implementation variant.
+`Kernels.lean` pastes the selected Python helper and calling kernel in full:
+`packedToBf16` has the helper's 22 statements (including its docstring), and
+`body` has the caller's 13 statements. `jit-correspondence.json` checks both
+bodies. Casts to signed64, local `BLOCK_SIZE_OUT: tl.constexpr`, uint8
+arithmetic, helper assignments, `tl.where`, bitcast and BF16 conversion remain
+in their original order. Input/output dtypes and the wrapper's format constants
+are supplied by `sourceSignature` and its invocation outside the pasted body.
+The helper's unannotated parameters remain unannotated.
+
+`Kernels.source` selects this actual caller. `Proofs/SourceLoad.lean`,
+`SourceArithmetic.lean` and `SourceContract.lean` prove its complete execution
+and memory result, including every helper argument/result copy. `SourceSafety`
+checks its actual masked loads and stores. The historical conversion's
+independent E2M1/BF16 tables and finite signed64 address certificates are reused.
+`Launch.program` binds the actual count/program-ID ABI;
+`Launch.complete_transfer` connects complete schedules through successful
+execution and equality of the entire memory. The new helper registers may
+differ from the historical inlined implementation, so no equality of full
+register states or old/new source ASTs is asserted.
 
 - `TensorBridge.fp4_to_bf16_kernel_real` proves complete successful source execution
   and the independent Real formula at every actual output Tensor coordinate.
@@ -84,16 +94,19 @@ Tensor. Grid-product overflow/segmented launch work is not expanded here.
 
 ## Validation
 
-The unchanged existing `test_revision.py` source is pinned in the delivery
-packet. Its verified prior replay covers seven actual Triton CPU interpreter
-cases (all packed bytes, signed zeros, offsets, tails and multiple blocks),
-complete input storage and output guard sentinels, eight admission and eight
-rejection controls, two storage-capacity boundaries, and owning-device context
-restoration on normal/exception paths. No new Python execution is needed for
-this proof-interface change; the packet cites the existing source/test hashes
-and replay receipt. This is CPU interpretation with explicit host mocks,
-not native GPU execution. Targeted Lean builds and the combined public-entry
-axiom/specification audit are recorded separately in the packet.
+`bench/tests/test_packed_fp4_body.py` checks the two complete bodies and
+rejects mutations of casts, bitcasts, nibble order, operation order, masks,
+helper parameter annotations and external invocation metadata. Lean checks
+cover the actual execution, full IO, independent Real target, exact BF16 word
+and complete schedule comparison. Their replay and axiom-footprint results are
+recorded with the source snapshot; a body check alone is not a proof result.
+
+The unchanged `test_revision.py` retains its historical CPU interpreter and
+mock-host checks. This migration does not report a new interpreter/GPU run:
+Torch and Triton are absent in the current verification environment. The
+standalone trust comparator is also unavailable because host isolation cannot
+be established (Landlock ABI 4 versus required 5; no systemd user isolation).
+These unavailable checks are recorded separately from Lean results.
 
 `Misc/TensorBridge.lean` contains the optional Tensor/check correspondence theorems;
 `Correct.lean` and `FPEquiv.lean` retain the primary kernel specifications.

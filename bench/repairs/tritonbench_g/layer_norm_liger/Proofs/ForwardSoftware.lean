@@ -13,13 +13,16 @@ set_option linter.unusedSimpArgs false
 def literal32 (other : ℝ → FP.Value .fp32) (x : ℝ) : FP.Value .fp32 :=
   if x=0 then FP.Value.zero .fp32 else if x=1 then FP.Value.ofBits .fp32 0x3f800000 else other x
 /-- Concrete separately rounded ScalarOps and ascending-lane reductions.
-The rsqrt instruction and conversion of other real source literals remain
+Integer denominators use the exact nearest-even FP32 integer conversion.
+The rsqrt instruction and conversion of real source literals remain
 explicit primitive bindings. No hardware implementation of these is assumed. -/
 def software (rest : Algebra (FP.Value .fp32)) (cfg : FP.Config)
     (literal : ℝ → FP.Value .fp32) (rsqrt32 : FP.Value .fp32 → FP.Value .fp32) :
     Algebra (FP.Value .fp32) :=
   { VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages.software rest cfg with
     literal := fun _ _ x => literal32 literal x
+    fromInt := fun pr n => if pr = some .fp32 then
+      FP.round .fp32 .ieeeValue (Rat.ofInt n) else rest.fromInt pr n
     unary := fun pr op x => match pr,op with
       | some .fp32, .rsqrt => rsqrt32 x
       | _,_ => rest.unary pr op x
@@ -32,7 +35,7 @@ def bitInput [Inhabited (FP.Value .fp32)] (p : Parameters) (s : State (FP.Value 
 def bitMean [Inhabited (FP.Value .fp32)] (cfg : FP.Config) (literal : ℝ → FP.Value .fp32)
     (p : Parameters) (s : State (FP.Value .fp32)) : FP.Value .fp32 :=
   FP.div cfg (sequentialSum cfg ⟨0, by simp⟩ Bool.false
-    (bitInput p s p.x (s.pids 0*p.xStride)) PUnit.unit) (literal32 literal (p.columns : ℝ))
+    (bitInput p s p.x (s.pids 0*p.xStride)) PUnit.unit) (FP.round .fp32 .ieeeValue (Rat.ofInt (p.columns : Int)))
 def bitCentered [Inhabited (FP.Value .fp32)] (cfg : FP.Config) (literal : ℝ → FP.Value .fp32)
     (p : Parameters) (s : State (FP.Value .fp32)) (i : TileIndex [p.block]) : FP.Value .fp32 :=
   FP.sub cfg (bitInput p s p.x (s.pids 0*p.xStride) i) (bitMean cfg literal p s)
@@ -42,7 +45,7 @@ def bitVariance [Inhabited (FP.Value .fp32)] (cfg : FP.Config) (literal : ℝ �
     if i.1.val < p.columns then
       FP.mul cfg (bitCentered cfg literal p s i) (bitCentered cfg literal p s i)
     else FP.Value.zero .fp32) PUnit.unit)
-    (literal32 literal (p.columns : ℝ))
+    (FP.round .fp32 .ieeeValue (Rat.ofInt (p.columns : Int)))
 def bitRstd [Inhabited (FP.Value .fp32)] (cfg : FP.Config) (literal : ℝ → FP.Value .fp32)
     (rsqrt32 : FP.Value .fp32 → FP.Value .fp32) (p : Parameters) (s : State (FP.Value .fp32)) :=
   rsqrt32 (FP.add cfg (bitVariance cfg literal p s) (literal32 literal p.epsilon))

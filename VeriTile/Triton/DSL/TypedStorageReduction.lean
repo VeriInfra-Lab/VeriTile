@@ -29,6 +29,13 @@ private partial def carrier (pointers values : List Name) (e : TSyntax `tritonEx
   | `(tritonExpr| tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*))
   | `(tritonExpr| tl.load($p:tritonExpr, $_:tritonExpr $[, $kwargs:tritonMemKwarg]*)) =>
       pointer pointers p && !kwargs.any (fun kw => overridesDType kw.raw)
+  | `(tritonExpr| tl.sum($e:tritonExpr $[, $kwargs:tritonReduceKwarg]*)) =>
+      carrier pointers values e && !kwargs.any (fun kw => overridesDType kw.raw)
+  | `(tritonExpr| $a:tritonExpr + $b:tritonExpr)
+  | `(tritonExpr| $a:tritonExpr - $b:tritonExpr)
+  | `(tritonExpr| $a:tritonExpr * $b:tritonExpr)
+  | `(tritonExpr| $a:tritonExpr / $b:tritonExpr) =>
+      carrier pointers values a && carrier pointers values b
   | _ => Bool.false
 
 private partial def expression (pointers values : List Name) (raw : Syntax) : MacroM Syntax := do
@@ -37,6 +44,26 @@ private partial def expression (pointers values : List Name) (raw : Syntax) : Ma
   let project (e : TSyntax `tritonExpr) : MacroM (TSyntax `tritonExpr) := do
     if carrier pointers values e then `(tritonExpr| ($e:tritonExpr).to(tl.float32)) else pure e
   match (⟨raw⟩ : TSyntax `tritonExpr) with
+  | `(tritonExpr| $a:tritonExpr + $b:tritonExpr) =>
+      if carrier pointers values a == carrier pointers values b then return raw
+      let a ← project a
+      let b ← project b
+      return (← `(tritonExpr| $a:tritonExpr + $b:tritonExpr)).raw
+  | `(tritonExpr| $a:tritonExpr - $b:tritonExpr) =>
+      if carrier pointers values a == carrier pointers values b then return raw
+      let a ← project a
+      let b ← project b
+      return (← `(tritonExpr| $a:tritonExpr - $b:tritonExpr)).raw
+  | `(tritonExpr| $a:tritonExpr * $b:tritonExpr) =>
+      if carrier pointers values a == carrier pointers values b then return raw
+      let a ← project a
+      let b ← project b
+      return (← `(tritonExpr| $a:tritonExpr * $b:tritonExpr)).raw
+  | `(tritonExpr| $a:tritonExpr / $b:tritonExpr) =>
+      if carrier pointers values a == carrier pointers values b then return raw
+      let a ← project a
+      let b ← project b
+      return (← `(tritonExpr| $a:tritonExpr / $b:tritonExpr)).raw
   | `(tritonExpr| tl.max($e:tritonExpr, $axisIndex:num)) =>
       let e ← project e
       return (← `(tritonExpr| tl.max($e:tritonExpr, axis = $axisIndex:num))).raw

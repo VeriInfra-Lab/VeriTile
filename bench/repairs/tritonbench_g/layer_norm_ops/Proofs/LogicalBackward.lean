@@ -22,7 +22,7 @@ theorem backward_xhat (rest : Algebra ℝ) (p : BackwardParameters) (a : Backwar
     (row : Nat) (i : TileIndex [p.block]) :
     Backward.xhat (algebra rest) p a row i = if i.1.val < p.columns then bhat p a row i.1.val else 0 := by
   cases hr : p.rms <;> by_cases hi : i.1.val < p.columns <;>
-    simp [Backward.xhat,Backward.loaded,Backward.meanValue,Forward.cast,Forward.unhintedBinary,
+    simp [Backward.xhat,Backward.loaded,Backward.meanValue,Forward.cast,Forward.unhintedBinary,Forward.binary,Forward.literal,
       algebra,LayerNormLiger.Logical.algebra,bhat,bx,bmu,binv,hr,hi]
 
 theorem backward_wdy (rest : Algebra ℝ) (p : BackwardParameters) (a : Backward.Acc ℝ p)
