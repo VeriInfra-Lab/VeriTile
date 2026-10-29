@@ -47,6 +47,9 @@ globs = ["VeriTile.Math.+"]
 [[lean_lib]]
 name = "FPFrontendRegressions"
 globs = [
+  "bench.tests.ConstexprMaskBody",
+  "bench.tests.DTypeResolution",
+  "bench.tests.SourceDTypeBody",
   "bench.tests.FPDebugBarrier",
   "bench.tests.ConditionalCast",
   "bench.tests.RegisterDTypeLoad",
