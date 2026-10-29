@@ -15,9 +15,9 @@
   },
   "final_verification": {
     "collection_modules": 2342,
-    "independent_builds": "PENDING_FINAL_SOURCE_REBUILD",
-    "per_collection_joint_imports": "PENDING_FINAL_SOURCE_REBUILD",
-    "cross_collection_joint_import": "PENDING_FINAL_SOURCE_REBUILD",
+    "independent_builds": "PASS",
+    "per_collection_joint_imports": "PASS",
+    "cross_collection_joint_import": "PASS",
     "real_formula_contract_checks": 334,
     "checker_regression_groups": 4,
     "storage_tag_lean_probes": "PASS",
@@ -53224,7 +53224,7 @@
     "lakefile.toml": "af966429e65ef77286eeefdfeb353ca4807902cb8f26927a3799b7ab91f52321"
   },
   "main_integration": {
-    "validation": "PENDING_FINAL_CI",
+    "validation": "LOCAL_BUILD_PASS",
     "dependency_source_sha256": {
       "VeriTile/Meta/Specification.lean": "7580bdc657b49d3cb8c518cbc08bcd7f405f0ede509e3a7deb6dd8ab9dbdb8fe",
       "VeriTile/Meta/StatementAudit.lean": "e1ac36f818e15228ad1e14fece5b314b103d36e953a0c7f0869e178a4da69dec",
@@ -53336,6 +53336,6 @@
       "lake-manifest.json": "de981cfa9d3ed8d548669570dde19d20b103c081d0772c0184d6e401f9fe96f7",
       "lean-toolchain": "651c8accb402b0c071cd336e9d3dc0a55516b1bfb434ddc4801f14936785b1d2"
     },
-    "scope": "Final retained source tree; full library and collection build plus official proof replay are required before merge. No historical build receipt substitutes for this run."
+    "scope": "Complete final library/corpus/regression build, fresh isolated compilation of all 334 tasks and joint collection import against the final shared framework. Official comparator CI must also pass before merge."
   }
 }

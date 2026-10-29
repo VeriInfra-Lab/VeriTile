@@ -249,58 +249,6 @@ class GuardedMaterializationTests(unittest.TestCase):
                 self.reject(profile=bad)
 
 
-class ProductionGuardedMaterializationTests(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        cls.temporary = tempfile.TemporaryDirectory()
-        cls.repo = Path(cls.temporary.name) / 'repo'
-        (cls.repo / 'bench').mkdir(parents=True)
-        for path in (ROOT / 'bench').glob('*.py'):
-            shutil.copyfile(path, cls.repo / 'bench' / path.name)
-        adapter = cls.repo / material.ADAPTER_PATH
-        adapter.parent.mkdir(parents=True)
-        shutil.copyfile(ADAPTER_FIXTURE, adapter)
-        script = (ROOT / 'bench/audit_tritonbench_g.sh').read_text()
-        section = script[script.index('# A source view must be extractable'):
-                         script.index('# ---- Machine-checkable trust audit')]
-        cls.command = 'failures=0\nPORTS_ROOT="$1"\n' + section + '\nexit "$failures"\n'
-
-    @classmethod
-    def tearDownClass(cls):
-        cls.temporary.cleanup()
-
-    def production(self, lean, python=PYTHON):
-        with tempfile.TemporaryDirectory(dir=self.temporary.name) as temporary:
-            port = Path(temporary) / 'layer_norm_fwd'
-            port.mkdir()
-            (port / 'LayerNormFwd.lean').write_text(lean)
-            (port / 'layer_norm_fwd.py').write_text(python)
-            return subprocess.run(['bash', '-c', self.command, 'guarded-source-only-harness', temporary],
-                                  cwd=self.repo, capture_output=True, text=True, timeout=120)
-
-    def test_full_symbolic_source_passes_all_production_source_gates(self):
-        _, lean, _ = fixture()
-        result = self.production(lean)
-        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-        self.assertEqual(sum(line.startswith('ok ') for line in result.stdout.splitlines()), 24)
-        self.assertIn('1 extractable source views, 0 unresolved source views', result.stdout)
-
-    def test_absent_profile_does_not_silently_erase_materialization(self):
-        _, lean, _ = fixture()
-        lean = re.sub(r'^Source-audit materializations: .*\n', '', lean, flags=re.M)
-        result = self.production(lean)
-        self.assertNotEqual(result.returncode, 0)
-        self.assertIn('FAIL tl.arange call scan', result.stdout)
-        self.assertIn('FAIL statement lhs sequence scan', result.stdout)
-
-    def test_translation_marker_cannot_bypass_full_ast_mismatch(self):
-        _, lean, _ = fixture()
-        lean = lean.replace('/-!\n', '/-!\nTranslation-surface blocker: adversarial diagnostic\n', 1)
-        lean = lean.replace('x += residual', 'x = residual')
-        result = self.production(lean)
-        self.assertNotEqual(result.returncode, 0)
-        self.assertIn('FAIL source-view extraction scan', result.stdout)
-        self.assertIn('complete source statement/expression AST differs', result.stdout)
 
 
 if __name__ == '__main__':

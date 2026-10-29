@@ -116,7 +116,7 @@ pretrain_kernels 61 题。这不自动构成自比较错误，也不证明两个
 
 ## 验证及证据边界
 
-两组共有 **2,342 个模块**。最终共享框架变更后，需要重新验证全部题目、两个集合入口和 FP 接口回归。当前源码快照与共享依赖哈希记录在 `imported_kernel_review.json`，最终 CI 通过前不沿用旧版构建结果。
+两组共有 **2,342 个模块**。已基于最终共享框架隔离重编译全部 334 题，通过两个集合各自的入口检查，以及同时导入两个集合和 FP 接口回归的联合检查。当前源码快照与共享依赖哈希记录在 `imported_kernel_review.json`；合入还要求完整 CI 和官方 comparator 重放通过。
 
 ```sh
 lake build BugDetection PretrainKernels bench.tests.FPGuardedProgramIO

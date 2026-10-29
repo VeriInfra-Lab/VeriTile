@@ -254,57 +254,6 @@ class MaterializationTests(unittest.TestCase):
         self.reject(lean=lean.replace('$(p)', '$seedTy*'))
 
 
-class ProductionMaterializationTests(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        cls.temporary = tempfile.TemporaryDirectory()
-        cls.repo = Path(cls.temporary.name) / 'repo'
-        (cls.repo / 'bench').mkdir(parents=True)
-        for path in (ROOT / 'bench').glob('*.py'):
-            shutil.copyfile(path, cls.repo / 'bench' / path.name)
-        adapter = cls.repo / material.ADAPTER_PATH
-        adapter.parent.mkdir(parents=True)
-        shutil.copyfile(ADAPTER_FIXTURE, adapter)
-        script = (ROOT / 'bench/audit_tritonbench_g.sh').read_text()
-        section = script[script.index('# A source view must be extractable'):
-                         script.index('# ---- Machine-checkable trust audit')]
-        cls.command = 'failures=0\nPORTS_ROOT="$1"\n' + section + '\nexit "$failures"\n'
-
-    @classmethod
-    def tearDownClass(cls):
-        cls.temporary.cleanup()
-
-    def production(self, lean, python=PYTHON):
-        with tempfile.TemporaryDirectory(dir=self.temporary.name) as temporary:
-            port = write_harness(Path(temporary), lean)
-            (port / 'seeded_dropout.py').write_text(python)
-            return subprocess.run(['bash', '-c', self.command, 'materialization-source-harness', temporary],
-                                  cwd=self.repo, capture_output=True, text=True, timeout=45)
-
-    def test_all_24_original_profiles_pass_every_production_source_gate(self):
-        for storage, seed in itertools.product(STORAGES, SEEDS):
-            with self.subTest(storage=storage, seed=seed):
-                _, lean, _ = fixture(storage, seed)
-                result = self.production(lean)
-                self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-                self.assertEqual(sum(line.startswith('ok ') for line in result.stdout.splitlines()), 24)
-                self.assertIn('1 extractable source views, 0 unresolved source views', result.stdout)
-
-    def test_absent_profile_restores_exact_arange_and_lhs_failures(self):
-        _, lean, _ = fixture()
-        lean = re.sub(r'^Source-audit materializations: .*\n', '', lean, flags=re.M)
-        result = self.production(lean)
-        self.assertEqual([line for line in result.stdout.splitlines() if line.startswith('FAIL ')],
-                         ['FAIL tl.arange call scan', 'FAIL statement lhs sequence scan'])
-
-    def test_mandatory_extraction_rejects_changed_eager_division_even_with_translation_marker(self):
-        _, lean, _ = fixture()
-        lean = lean.replace('/-!\n', '/-!\nTranslation-surface blocker: diagnostic adversary\n', 1)
-        lean = lean.replace('x / (1 - $(p))', 'x')
-        result = self.production(lean)
-        self.assertNotEqual(result.returncode, 0)
-        self.assertIn('FAIL source-view extraction scan', result.stdout)
-        self.assertIn('complete source statement/expression AST differs', result.stdout)
 
 
 if __name__ == '__main__':

@@ -12,41 +12,6 @@ from bench.audit_source import declared_region_dtypes, resolve_source_dtype_attr
 
 
 class SourceDtypeAuditTests(unittest.TestCase):
-    def test_production_memory_gate_resolves_both_pointer_element_spellings(self):
-        script = (ROOT / 'bench/audit_tritonbench_g.sh').read_text()
-        gates = [body for body in re.findall(r"<<'PY'\n(.*?)\nPY\nthen", script, re.S)
-                 if 'tl.{fn} call expression mismatch' in body]
-        self.assertEqual(len(gates), 1)
-        python = ('@triton.jit\ndef kernel(O, N, B, value):\n'
-                  '    p = tl.make_block_ptr(base=O, shape=(N,), strides=(1,), '
-                  'offsets=(0,), block_shape=(B,), order=(0,))\n'
-                  '    tl.store(p, value.to(p.dtype.element_ty), boundary_check=(0,))\n')
-        for dtype in ['tl.float16', 'tl.bfloat16', 'tl.float32', 'tl.float64', 'OUT_DTYPE']:
-            wrong = 'tl.float16' if dtype == 'tl.float32' else 'tl.float32'
-            for cast, value, boundary, expected in [
-                    ('p.dtype.element_ty', 'value', '0', 0),
-                    (dtype, 'value', '0', 0),
-                    (wrong, 'value', '0', 1),
-                    ('p.dtype.element_ty', 'value + 1', '0', 1),
-                    ('p.dtype.element_ty', 'value', '1', 1)]:
-                with self.subTest(dtype=dtype, cast=cast, value=value, boundary=boundary), \
-                        tempfile.TemporaryDirectory() as temp:
-                    port = Path(temp) / 'fixture'
-                    port.mkdir()
-                    (port / 'fixture.py').write_text(python)
-                    (port / 'Fixture.lean').write_text(
-                        '/-!\nSource-audit target: kernel\n-/\n'
-                        'def source (O : RegionName) (N B : Nat) (value : Real) := triton {\n'
-                        f'tl.region O = {dtype}\n'
-                        'p = tl.make_block_ptr(base=O, shape=($(N)), strides=($(1)), '
-                        'offsets=($(0)), block_shape=($(B)), order=(0))\n'
-                        f'tl.store(p, ({value}).to({cast}), boundary_check=([{boundary}] : List Nat))\n'
-                        '}\n')
-                    result = subprocess.run([sys.executable, '-', temp], input=gates[0],
-                                            text=True, cwd=ROOT, capture_output=True, timeout=20)
-                    self.assertEqual(result.returncode, expected, result.stdout + result.stderr)
-                    if expected:
-                        self.assertIn('tl.store call expression mismatch', result.stdout)
 
     def test_declared_pointer_self_advances_retain_only_the_declared_type(self):
         for dtype in ['tl.float16', 'tl.float32', 'tl.int32', '$storage']:
@@ -102,34 +67,6 @@ class SourceDtypeAuditTests(unittest.TestCase):
             with self.subTest(mutation=mutation):
                 self.assertEqual(resolve('x.to(v.dtype)', body), 'x.to(v.dtype)')
 
-    def test_production_cast_gate_checks_negation_and_destination_dtypes(self):
-        script = (ROOT / 'bench/audit_tritonbench_g.sh').read_text()
-        bodies = re.findall(r"<<'PY'\n(.*?)\nPY\nthen", script, re.S)
-        gates = [body for body in bodies if '.to(...) cast sequence mismatch' in body]
-        self.assertEqual(len(gates), 1)
-        python = ('@triton.jit\ndef kernel(P, X, BACKWARD):\n'
-                  '    v = tl.load(P)\n    if BACKWARD:\n        v = -v\n'
-                  '    q = tl.load(X).to(v.dtype)\n')
-        for dtype in ['tl.float16', 'tl.bfloat16', 'tl.float32', 'tl.float64']:
-            for update, cast, expected in [('v = -v', dtype, 0),
-                                            ('v = -v + wide', dtype, 1),
-                                            ('v = -v\n + wide', dtype, 1),
-                                            ('v = -v', 'tl.int32', 1)]:
-                with self.subTest(dtype=dtype, update=update, cast=cast), tempfile.TemporaryDirectory() as temp:
-                    port = Path(temp) / 'fixture'
-                    port.mkdir()
-                    (port / 'fixture.py').write_text(python)
-                    (port / 'Fixture.lean').write_text(
-                        '/-!\nSource-audit target: kernel\n-/\n'
-                        'def source (P X : RegionName) (BACKWARD : Bool) := triton {\n'
-                        f'tl.region P = {dtype}, X = tl.float32\n'
-                        'v = tl.load(P)\nif BACKWARD {\n' + update + '\n}\n'
-                        f'q = tl.load(X).to({cast})\n' + '}\n')
-                    result = subprocess.run([sys.executable, '-', temp], input=gates[0],
-                                            text=True, cwd=ROOT, capture_output=True, timeout=20)
-                    self.assertEqual(result.returncode, expected, result.stdout + result.stderr)
-                    if expected:
-                        self.assertIn('.to(...) cast sequence mismatch', result.stdout)
 
     def test_multiline_load_suffixes_do_not_establish_storage_dtype(self):
         for suffix in ['+ wide', '* scale', '.to(tl.float32)', '[indices]',

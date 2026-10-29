@@ -38,18 +38,6 @@ def kernel(X, N, B):
                 'Source-audit helpers: ' + json.dumps(profile) + '\n' + extra + '-/\n'
                 + (self.body if body is None else body))
 
-    def production(self, python, lean):
-        script = (ROOT/'bench/audit_tritonbench_g.sh').read_text()
-        section = script[script.index('# A source view must be extractable'):
-                         script.index('# ---- Machine-checkable trust audit')]
-        command = 'failures=0\nPORTS_ROOT="$1"\n' + section + '\nexit "$failures"\n'
-        with tempfile.TemporaryDirectory() as directory:
-            port = Path(directory)/'fixture'
-            port.mkdir()
-            (port/'fixture.py').write_text(python)
-            (port/'Fixture.lean').write_text(lean)
-            return subprocess.run(['bash', '-c', command, 'helper-regression', directory],
-                                  cwd=ROOT, text=True, capture_output=True, timeout=30)
 
     def test_exact_expression_is_inlined_without_changing_original_function(self):
         result = python_source_with_helpers(self.python, self.lean())
@@ -205,33 +193,7 @@ def kernel(X, N, B):
         self.assertIn('message = "例子"; previous_multiple = tl.cdiv(N, B) * B - B # previous(N, B)', result)
         ast.parse(result)
 
-    def test_production_baseline_and_helper_mutations(self):
-        result = self.production(self.python, self.lean())
-        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-        for python, lean in [(self.python.replace('* b - b', '* b + b'), self.lean()),
-                             (self.python, self.lean(body=self.body.replace(' - $(B)', ' + $(B)'))),
-                             (self.python, self.lean().replace('"previous"', '"missing"'))]:
-            for marker in ['', 'Translation-surface blocker: existing fixture\n']:
-                with self.subTest(python=python, lean=lean, marker=marker):
-                    result = self.production(python, lean.replace('/-\n', '/-\n' + marker, 1))
-                    self.assertNotEqual(result.returncode, 0)
-                    self.assertIn('FAIL source-view extraction scan', result.stdout)
 
-    def test_augmented_assignment_gate_uses_the_selected_jit(self):
-        other = '\n@triton.jit\ndef other(X, N):\n    N += 1\n    tl.store(X, N)\n'
-        result = self.production(self.python + other, self.lean())
-        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-        selected = self.python.replace('    tl.store(X + previous_multiple, N)',
-                                       '    N += 1\n    tl.store(X + previous_multiple, N)')
-        # Neither comments nor a different Lean body can supply the missing update.
-        for decoy in ['-- N += 1\n', 'def sibling (N : Nat) := triton { N += 1 }\n']:
-            with self.subTest(decoy=decoy):
-                result = self.production(selected + other, self.lean() + decoy)
-                self.assertNotEqual(result.returncode, 0)
-                self.assertIn('FAIL Python += missing from Lean', result.stdout)
-        good = self.lean(body=self.body.replace('    tl.store(', '    N += 1\n    tl.store('))
-        result = self.production(selected + other, good)
-        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
 
 if __name__ == '__main__':

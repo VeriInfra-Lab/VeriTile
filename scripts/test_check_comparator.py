@@ -16,7 +16,7 @@ class ComparatorGateTests(unittest.TestCase):
         (root / 'bench/tritonbench_g/fixture').mkdir(parents=True)
         for name in ('check_comparator.py', 'comparator_common.py', 'check-artifact.sh', 'source_axioms.py'):
             shutil.copyfile(ROOT / 'scripts' / name, root / 'scripts' / name)
-        for name in ('audit_trust_prep.py', 'check_ports.sh', 'audit_trust.sh', 'check_worker_results.py', 'port_layout.py'):
+        for name in ('audit_trust_prep.py', 'audit_source.py', 'check_ports.sh', 'audit_trust.sh', 'check_worker_results.py', 'port_layout.py'):
             shutil.copyfile(ROOT / 'bench' / name, root / 'bench' / name)
         # The trust-path fixture has a real Lean command boundary without
         # importing this project's Mathlib-heavy library into tiny regressions.

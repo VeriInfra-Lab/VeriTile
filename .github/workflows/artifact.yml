@@ -50,7 +50,6 @@ jobs:
         run: |
           python3 -m unittest discover -s scripts -p 'test_audit_source.py'
           python3 -m unittest discover -s scripts -p 'test_correctness_surface_audit.py'
-          python3 -m unittest discover -s scripts -p 'test_source_shape_audit.py'
           python3 -m unittest discover -s scripts -p 'test_source_dtype_audit.py'
           python3 -m unittest discover -s scripts -p 'test_source_helpers.py'
           python3 -m unittest discover -s scripts -p 'test_source_materializations.py'

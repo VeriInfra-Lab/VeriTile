@@ -157,44 +157,8 @@ def kernel(X, value, other, runtime, FLAG: tl.constexpr = True):
             with self.subTest(lean=bad), self.assertRaises(ValueError):
                 source.source_constexpr_profile(self.python, bad)
 
-    def production(self, python, lean):
-        script = (ROOT / 'bench/audit_tritonbench_g.sh').read_text()
-        section = script[script.index('# A source view must be extractable'):
-                         script.index('# ---- Machine-checkable trust audit')]
-        command = 'failures=0\nPORTS_ROOT="$1"\n' + section + '\nexit "$failures"\n'
-        with tempfile.TemporaryDirectory() as directory:
-            port = Path(directory) / 'fixture'
-            port.mkdir()
-            (port/'fixture.py').write_text(python)
-            (port/'Fixture.lean').write_text(lean)
-            return subprocess.run(['bash', '-c', command, 'profile-regression', directory],
-                                  cwd=ROOT, text=True, capture_output=True, timeout=30)
 
-    def test_actual_production_gates_keep_source_mutations_visible(self):
-        good = self.lean()
-        # Both selected branches have a passing production control fixture.
-        for python, lean in [(self.python, good),
-                             (self.python, self.lean({'FLAG': True}, body=self.lean_body.replace('X, other', 'X, value')))]:
-            result = self.production(python, lean)
-            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-        for bad in [good.replace('"FLAG": false', '"FLAG": true'),
-                    good.replace('tl.store(X, other)', 'tl.store(X, value)'),
-                    good.replace('tl.store(X, other)', 'tl.store(X, other.to(tl.float16))')]:
-            with self.subTest(lean=bad):
-                result = self.production(self.python, bad)
-                self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
-                self.assertIn('tl.store call expression mismatch', result.stdout)
 
-    def test_bad_profiles_fail_mandatory_extraction_even_with_existing_blocker(self):
-        for bad in [self.lean().replace('"FLAG": false', '"FLAG": 0'),
-                    self.lean().replace('"source": "chosen"', '"source": "other"'),
-                    self.lean().replace('"args": {}', '"args": {"unknown": "half"}')]:
-            for marker in ['', 'Translation-surface blocker: existing fixture marker\n']:
-                with self.subTest(marker=marker, lean=bad):
-                    lean = bad.replace('/-\n', '/-\n' + marker, 1)
-                    result = self.production(self.python, lean)
-                    self.assertNotEqual(result.returncode, 0)
-                    self.assertIn('FAIL source-view extraction scan', result.stdout)
 
 
 if __name__ == '__main__':

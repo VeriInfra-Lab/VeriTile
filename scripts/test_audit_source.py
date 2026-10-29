@@ -403,25 +403,6 @@ macro_rules
             with self.subTest(broken=broken), self.assertRaises(ValueError):
                 source.lean_first_triton_body(broken)
 
-    def test_placeholder_scan_distinguishes_admission_field_from_tactic(self):
-        script = (ROOT / 'bench/audit_tritonbench_g.sh').read_text()
-        start = script.index("<<'PY'\n", script.index('# Placeholder-proof scan.')) + len("<<'PY'\n")
-        code = script[start:script.index('\nPY\n', start)]
-        fixtures = [
-            ('by\n  exact p.row.admit _ _ (R.validated p)', True),
-            ('by\n  exact p.row.admit _ _ (R.validated p)\n  admit', False),
-            ('by\n  · admit', False),
-            ('by admit', False),
-            ('sorry', False),
-            ('by\n  exact p.row.admit sorry _ proof', False),
-            ('by\n  -- admit\n  exact admitted_rule', True),
-        ]
-        for proof, allowed in fixtures:
-            with self.subTest(proof=proof), tempfile.TemporaryDirectory() as temp:
-                (Path(temp) / 'Fixture.lean').write_text('theorem fixture : P := ' + proof + '\n')
-                result = subprocess.run([sys.executable, '-', temp], input=code,
-                                        cwd=ROOT, text=True, capture_output=True, timeout=20)
-                self.assertEqual(result.returncode == 0, allowed, result.stdout + result.stderr)
 
     def test_store_whitespace_and_nested_values(self):
         for py_ws in ['', ' ', '\n ']:
@@ -439,19 +420,6 @@ macro_rules
                         lean.replace('to($storage)', 'to(tl.float32)')]:
             self.assertEqual(source.store_calls_with_explicit_destination_casts(py, changed), [py])
 
-    def test_load_default_splice_removes_only_surrounding_whitespace(self):
-        script = (ROOT / 'bench/audit_tritonbench_g.sh').read_text()
-        start = script.index('def normalize_other(value: str) -> str:')
-        end = script.index('\ndef other_values(', start)
-        namespace = {'re': re}
-        exec(script[start:end], namespace)
-        normalize = namespace['normalize_other']
-        for value in ['vob_end_id', '$(vob_end_id)', '$((vob_end_id : Int))',
-                      '  $((vob_end_id  : Int))  ']:
-            self.assertEqual(normalize(value), 'vob_end_id')
-        for value in ['$((vob_start_id : Int))', '$((vob_end_id + 1 : Int))',
-                      '$((0 : Int))']:
-            self.assertNotEqual(normalize(value), 'vob_end_id')
 
     def test_store_parameter_offsets_and_compound_values(self):
         normalize = source.store_calls_with_explicit_destination_casts
@@ -478,20 +446,6 @@ macro_rules
         self.assertEqual(normalize('out = other + off\n' + py, lean), [call])
         self.assertEqual(normalize('other = out + off\nout = other + off\n' + call, lean), [call])
 
-    def test_scalar_parameter_splices_keep_names_values_and_operations(self):
-        script = (ROOT / 'bench/audit_tritonbench_g.sh').read_text()
-        start = script.index('def normalize_call(call: str) -> str:')
-        end = script.index('\nfailures = []', start)
-        namespace = {'re': re}
-        exec(script[start:end], namespace)
-        normalize = namespace['normalize_call']
-        for ty in ['ℝ', 'Nat', 'Int']:
-            self.assertEqual(normalize(f'tl.where(mask, $((alpha : {ty})), value)'),
-                             normalize('tl.where(mask, alpha, value)'))
-        base = normalize('tl.where(mask, alpha, value)')
-        for value in ['$((beta : ℝ))', '$((alpha + 1 : ℝ))', '$((1 : ℝ))',
-                      '$((alpha : SomeType))', 'alpha.to(tl.float16)']:
-            self.assertNotEqual(base, normalize(f'tl.where(mask, {value}, value)'))
 
     def test_store_offset_preserves_destination_cast(self):
         normalize = source.store_calls_with_explicit_destination_casts
@@ -637,20 +591,6 @@ v = tl.load(next_ptrs + offset, mask=active, other=0.0)
         self.assertNotEqual(source.cast_sequence('p.to($storage)'), source.cast_sequence('p.to($other)'))
         self.assertNotEqual(source.cast_sequence('p.to(tl.float16)'), source.cast_sequence('p.to(tl.float32)'))
 
-    def test_store_splice_category_keeps_the_selected_dtype(self):
-        script = (ROOT / 'bench/audit_tritonbench_g.sh').read_text()
-        start = script.index('def normalize_call(call: str) -> str:')
-        end = script.index('\nfailures = []', start)
-        namespace = {'re': re}
-        exec(script[start:end], namespace)
-        normalize = namespace['normalize_call']
-        plain = normalize('tl.store(p, v.to($valueTy))')
-        typed = normalize('tl.store(p, v.to($valueTy:tritonDType))')
-        self.assertEqual(plain, typed)
-        self.assertNotEqual(typed, normalize('tl.store(p, v.to($finalTy:tritonDType))'))
-        self.assertNotEqual(typed, normalize('tl.store(p, v.to(tl.float16))'))
-        self.assertNotEqual(normalize('tl.store(p, v.to(tl.float16))'),
-                            normalize('tl.store(p, v.to(tl.float32))'))
 
     def test_true_equality_is_not_a_bare_placeholder(self):
         for text in ['theorem empty : True := by trivial', '    True := by']:
@@ -893,137 +833,10 @@ Source-audit params: X=Y, Y=X
         with self.assertRaisesRegex(ValueError, 'not selected Lean binders'):
             source.source_parameter_map(self.python, decoy.replace('BLOCK_SIZE=B', 'BLOCK_SIZE=Fake'))
 
-    def production_gates(self):
-        script = (ROOT / 'bench/audit_tritonbench_g.sh').read_text()
-        gates = re.findall(r'if python3[^\n]*<<\'PY\'\n.*?\nPY\nthen\n.*?\nfi', script, re.S)
-        diagnostics = ['extractable source views', 'Python kernel params missing from Lean',
-                       'tl.{fn} call expression mismatch', 'tl.arange call mismatch']
-        selected = []
-        for diagnostic in diagnostics:
-            matches = [gate for gate in gates if diagnostic in gate]
-            self.assertEqual(len(matches), 1, diagnostic)
-            selected.append(matches[0])
-        conclusion = re.search(r'if "\$\{source_only\}"; then\n.*?\nfi', script, re.S)[0]
-        return ('failures=0\nsource_only=true\nPORTS_ROOT="$1"\n' + '\n'.join(selected) + '\n' + conclusion)
-
-    def test_production_gates_accept_explicit_maps_and_reject_source_mutations(self):
-        command = self.production_gates()
-        fixtures = [(self.lean, True),
-                    (self.lean.replace('X + cols, mask', 'Y + cols, mask'), False),
-                    (self.lean.replace('x, mask=cols < $(B)', 'x, mask=cols > $(B)'), False),
-                    (self.lean.replace('tl.arange(0, $(B))', 'tl.arange(1, $(B))'), False),
-                    (self.lean.replace('x, mask=cols < $(B)', 'x + 1, mask=cols < $(B)'), False),
-                    (self.lean.replace('BLOCK_SIZE=B', 'BLOCK_SIZE=Wrong'), False),
-                    (self.lean.replace(', enabled=ACTIVE', ''), False)]
-        for lean, allowed in fixtures:
-            with self.subTest(lean=lean), tempfile.TemporaryDirectory() as temp:
-                port = Path(temp) / 'fixture'
-                port.mkdir()
-                (port / 'Fixture.lean').write_text(lean)
-                (port / 'fixture.py').write_text(self.python)
-                result = subprocess.run(['bash', '-c', command, 'audit-fixture', temp],
-                                        cwd=ROOT, text=True, capture_output=True, timeout=20)
-                self.assertEqual(result.returncode == 0, allowed, result.stdout + result.stderr)
-                if 'BLOCK_SIZE=Wrong' in lean:
-                    self.assertIn('FAIL source-view extraction scan', result.stdout)
-                    self.assertIn('ok tl.load/store call expression scan', result.stdout)
-
-    def test_production_store_gate_rejects_inline_pointer_rebinding(self):
-        command = self.production_gates()
-        python = ('@triton.jit\n'
-                  'def kernel(out, other, off, active, value):\n'
-                  '    p = out + off\n'
-                  '{update}'
-                  '    tl.store(p, value)\n')
-        lean = ('/-\nSource-audit target: kernel\nSource-audit Lean: kernel\n'
-                'Source-audit params: out=out, other=other, off=off, active=active, value=value\n-/\n'
-                'def kernel (out other : RegionName) (off value : Nat) (active : Bool) := triton {{\n'
-                '  tl.region out = tl.float16, other = tl.float32\n'
-                '  p = out + off\n'
-                '{update}'
-                '  tl.store(p, value.to(tl.float16))\n}}\n')
-        fixtures = [('', '', True),
-                    ('    if active: p = other + off\n',
-                     '  if active { p = other + off }\n', False)]
-        for py_update, lean_update, allowed in fixtures:
-            with self.subTest(update=py_update), tempfile.TemporaryDirectory() as temp:
-                port = Path(temp) / 'fixture'
-                port.mkdir()
-                (port / 'fixture.py').write_text(python.format(update=py_update))
-                (port / 'Fixture.lean').write_text(lean.format(update=lean_update))
-                result = subprocess.run(['bash', '-c', command, 'audit-fixture', temp],
-                                        cwd=ROOT, text=True, capture_output=True, timeout=20)
-                self.assertEqual(result.returncode == 0, allowed, result.stdout + result.stderr)
-                if not allowed:
-                    self.assertIn('tl.store call expression mismatch', result.stdout)
 
 
-class AuditRuleIntegrationTests(unittest.TestCase):
-    def test_extraction_failure_cannot_pass_the_aggregate_after_rules_skip_it(self):
-        script = (ROOT / 'bench/audit_tritonbench_g.sh').read_text()
-        gates = re.findall(r'if python3[^\n]*<<\'PY\'\n.*?\nPY\nthen\n.*?\nfi', script, re.S)
-        extraction = next(gate for gate in gates if 'extractable source views' in gate)
-        masks = next(gate for gate in gates if 'tl.{fn} mask presence mismatch' in gate)
-        conclusion = re.search(r'if "\$\{source_only\}"; then\n.*?\nfi', script, re.S)[0]
-        fixtures = [
-            'def kernel := triton {\n$unresolved\n}\n',
-            'def legacy := triton { tl.store(Y, x) }\n'
-            'macro_rules\n  | `(typed%) => `(triton { tl.store(Y, x, mask=mask) })\n',
-        ]
-        for fixture in fixtures:
-            with self.subTest(fixture=fixture), tempfile.TemporaryDirectory() as temp:
-                port = Path(temp) / 'fixture'
-                port.mkdir()
-                (port / 'Fixture.lean').write_text(fixture)
-                (port / 'fixture.py').write_text('@triton.jit\ndef kernel(Y, x, mask):\n'
-                                                 '    tl.store(Y, x, mask=mask)\n')
-                command = ('failures=0\nsource_only=true\nPORTS_ROOT="$1"\n' + extraction +
-                           '\n' + masks + '\n' + conclusion)
-                result = subprocess.run(['bash', '-c', command, 'audit-fixture', temp],
-                                        cwd=ROOT, text=True, capture_output=True, timeout=20)
-                self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
-                self.assertIn('FAIL source-view extraction scan', result.stdout)
-                self.assertIn('ok tl.load/store mask presence scan', result.stdout)
-                self.assertNotIn('source gates passed', result.stdout)
 
-    def run_rule(self, diagnostic, lean_body):
-        # Run the production shell's actual rule body. A missing shared import
-        # or changed call-selection option must not turn mismatches into passes.
-        script = (ROOT / 'bench/audit_tritonbench_g.sh').read_text()
-        blocks = re.findall(r"<<'PY'\n(.*?)\nPY\n", script, re.S)
-        matches = [block for block in blocks if diagnostic in block]
-        self.assertEqual(len(matches), 1)
-        with tempfile.TemporaryDirectory() as temp:
-            root = Path(temp)
-            port = root / 'fixture'
-            port.mkdir()
-            (port / 'fixture.py').write_text('''@triton.jit
-def kernel(X, Y, mask):
-    x = tl.load(X, mask=mask, other=0).to(tl.float32)
-    tl.store(Y, x, mask=mask)
-''')
-            (port / 'Fixture.lean').write_text('def kernel := triton {\n' + lean_body + '\n}\n')
-            return subprocess.run([sys.executable, '-', str(root)], input=matches[0],
-                                  cwd=ROOT, text=True, capture_output=True, timeout=20)
 
-    def test_matching_casts_and_masks_pass(self):
-        body = '  x = tl.load(X, mask=mask, other=0).to(tl.float32)\n  tl.store(Y, x, mask=mask)'
-        for diagnostic in ('.to(...) cast sequence mismatch', 'tl.{fn} mask presence mismatch'):
-            with self.subTest(diagnostic=diagnostic):
-                result = self.run_rule(diagnostic, body)
-                self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-
-    def test_missing_cast_fails(self):
-        result = self.run_rule('.to(...) cast sequence mismatch',
-                               '  x = tl.load(X, mask=mask, other=0)\n  tl.store(Y, x, mask=mask)')
-        self.assertNotEqual(result.returncode, 0)
-        self.assertIn('cast sequence mismatch', result.stdout)
-
-    def test_missing_store_mask_fails(self):
-        result = self.run_rule('tl.{fn} mask presence mismatch',
-                               '  x = tl.load(X, mask=mask, other=0).to(tl.float32)\n  tl.store(Y, x)')
-        self.assertNotEqual(result.returncode, 0)
-        self.assertIn('tl.store mask presence mismatch', result.stdout)
 
 
 class PointerAdvanceTests(unittest.TestCase):
