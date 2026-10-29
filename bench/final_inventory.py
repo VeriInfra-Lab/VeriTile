@@ -132,6 +132,7 @@ def collect(root=ROOT):
                            'bench/audit_trust.sh', 'bench/audit_trust_prep.py', 'bench/audit_tritonbench_g.sh',
                            'bench/select_audit_shard.py', 'bench/check_worker_results.py',
                            'scripts/check_comparator.py', 'scripts/comparator_common.py',
+                           'scripts/setup-comparator.sh', 'scripts/comparator-string-literals.patch',
                            'scripts/kernel-manifest.tsv'}
     inputs.update(row['python_source'] for row in rows.values() if row.get('python_source'))
     return {'schema': 1, 'kind': 'final_source_inventory',

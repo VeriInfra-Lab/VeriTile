@@ -83,6 +83,18 @@ class ComparatorGateTests(unittest.TestCase):
         self.assertTrue(any(name.endswith('Settings.nextPower_covers') for name in names), names)
         self.assertTrue(any('.nextPower_covers.go' in name for name in names), names)
 
+    def test_string_literal_reduction_is_replayed(self):
+        result, reports, _ = self.run_check('''
+def strTag (s : String) : Nat := if s = "live" then 1 else 0
+theorem strTag_live : strTag "live" = 1 := rfl
+theorem dtype_distinct : ("int32" = "int64") = False := by decide
+theorem region_distinct : ("Q" = "O") = False := by decide
+theorem append_literal : "abc" ++ "def" = "abcdef" := by decide
+''', script='bench/audit_trust.sh')
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertTrue(reports[0]['accepted'])
+        self.assertGreaterEqual(reports[0]['theorem_count'], 4)
+
     def test_core_module_audit_rejects_axioms_and_specifications(self):
         for declaration, diagnostic in [
             ('axiom injected : False\ntheorem target : False := injected\n', 'axiom'),

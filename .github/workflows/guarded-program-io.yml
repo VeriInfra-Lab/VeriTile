@@ -9,6 +9,7 @@ on:
       - 'scripts/check_comparator.py'
       - 'scripts/comparator_common.py'
       - 'scripts/setup-comparator.sh'
+      - 'scripts/comparator-string-literals.patch'
       - '.github/actions/setup-comparator/**'
       - '.github/workflows/guarded-program-io.yml'
       - 'lakefile.toml'

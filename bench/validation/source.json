@@ -57845,7 +57845,7 @@
     "bench/examples/Welford/Proofs/FP.lean": "33d19573a6eec3a7e820cd59d6d53065259a4e8b4c6cffb015d895de2baa9fb1",
     "bench/examples/Welford/Proofs/LegacyRealEquiv.lean": "102c3e1ec4d4ddd042dc2ba9192a145a0f1029bfbc787a02a5777b5f5a7ca728",
     "bench/examples/Welford/Proofs/Real.lean": "cad4f557caa912e59d9e29eac1bcf1fa776e18d8c74a0ab35655eb2244ed681e",
-    "bench/final_inventory.py": "660c74fa8da33b2a07f472b6d30e246b615df5010326e919da9ae220c95641b6",
+    "bench/final_inventory.py": "c63b3ba4e1ff0cdfb740e7fbe7622dbbc5523b9f71320e78b942cdf74dd4cfb6",
     "bench/pretrain_kernels/All.lean": "4a8cc395a432d03ce154bfad4128057a0c14783f174b2a9d90e345039d2f486b",
     "bench/pretrain_kernels/Validation.lean": "5ee4038d2189480c830e90d49615feb631d53dcf2f0b12ba51abd51374d250d3",
     "bench/pretrain_kernels/tasks/local_adamw_multi_foreach_vs_loop/Contract.lean": "474e0c47a5bea091633f9b8df3e2c65d0e9db0c9a52a5f060fd76b4d43fd222c",
@@ -68250,8 +68250,10 @@
     "lakefile.toml": "af966429e65ef77286eeefdfeb353ca4807902cb8f26927a3799b7ab91f52321",
     "lean-toolchain": "651c8accb402b0c071cd336e9d3dc0a55516b1bfb434ddc4801f14936785b1d2",
     "scripts/check_comparator.py": "17ba2bba5d95ca5ed5984a03e6c70c6858ce765ca2a56d23d7e89a18c5244018",
+    "scripts/comparator-string-literals.patch": "794dde266e32a66077e944e55d471803068e5d449dbaafd5bf987adcded85080",
     "scripts/comparator_common.py": "f149a75de2c4fe9e3558c5b4e6ad66bbe7ba392a6a331c7af4d64c539bff0509",
-    "scripts/kernel-manifest.tsv": "2acb91d7ef16ea8a2cd1869c8ae4767315f60b3d3dc49fb91886bd5099ac0dc2"
+    "scripts/kernel-manifest.tsv": "2acb91d7ef16ea8a2cd1869c8ae4767315f60b3d3dc49fb91886bd5099ac0dc2",
+    "scripts/setup-comparator.sh": "7a2bf23339f32019c5f51ff05dd7e525855a116c9fa9e5056b03c548d7be528b"
   },
   "validation_boundary": "Membership and reviewed scope only; requires Lean build, axiom/spec gates and official replay. Imported benchmark proof goals and Python/native correspondence gaps remain separate."
 }

@@ -27,6 +27,14 @@ Lean. The landrun pin preserves the CLI argument handling expected by this
 comparator version. `COMPARATOR_BIN` may specify another compatible official comparator
 executable; `landrun` and `lean4export` must be on `PATH`.
 
+For the pinned Lean 4.29 checker, the installer backports the upstream
+[string-literal replay fix](https://github.com/leanprover/lean4/commit/94e0a0e4f6f4c3fa207aa7738fdd198067b4b3de).
+It checks the exact checker source before and after applying the patch. The
+fix replays `String.ofList` and `Char.ofNat` before declarations that reduce
+string literals; these implicit dependencies are absent from ordinary
+constant traversal. Both definitions are still checked by the kernel.
+Statement comparison, axiom checks, kernel replay and sandboxing remain enabled.
+
 ## Usage
 
 ```bash
