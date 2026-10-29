@@ -1,4 +1,0 @@
-QuantTransposeFinite.singleton_all_masks: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
-QuantTransposeFinite.safe_wrapped_active_addresses: axiom footprint ⊆ standard base ✓  ([propext])
-QuantTransposeFinite.active_wrapping_not_refinement: axiom footprint ⊆ standard base ✓  ([propext])
-QuantTransposeFinite.unsafe_wrapped_active_address: axiom footprint ⊆ standard base ✓  ([propext])

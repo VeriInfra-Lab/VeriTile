@@ -69,7 +69,10 @@ def step? (statement theory rules code fact : Expr) (backwards : Bool)
     let proof ← instantiateMVars hole
     if !solved || next.hasMVar || proof.hasMVar then pure none
     else
-      let proof ← if backwards then mkAppM ``Spec.Derivation.symm #[proof] else pure proof
+      let proof ← if backwards then
+          mkAppOptM ``Spec.Derivation.symm
+            #[some statement, some theory, some rules, none, none, some proof]
+        else pure proof
       pure (some (next, proof))
   catch _ => pure none
   saved.restore
@@ -115,8 +118,10 @@ def search (goal : MVarId) (facts : Array Expr) (maxSteps : Nat) : MetaM Bool :=
           if let some (next, edge) ← step? statement theory rules fragment fact backwards facts then
             let next ← mkAppM ``List.append #[before, (← mkAppM ``List.append #[next, after])]
             if ← queue.anyM (fun old => same old.code next) then continue
-            let edge ← mkAppM ``Spec.Derivation.frame #[before, after, edge]
-            let proof ← mkAppM ``Spec.Derivation.trans #[node.proof, edge]
+            let edge ← mkAppOptM ``Spec.Derivation.frame
+              #[some statement, some theory, some rules, some before, some after, none, none, some edge]
+            let proof ← mkAppOptM ``Spec.Derivation.trans
+              #[some statement, some theory, some rules, none, none, none, some node.proof, some edge]
             if ← same next rhs then
               goal.assign proof
               return true

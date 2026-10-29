@@ -133,7 +133,7 @@ SoftmaxStable、OnlineSoftmax、StableLogSumExp 的 exp-sub，以及 LogExp 的�
 ### 2.1 已有严格证书的规则
 
 下列原目录实例已有匹配的模型证明；适用范围包含其 typed load/rnd/store 路径。
-这不是所有硬件实现的一致性声明。全部 42 个严格实例及模型边界见[严格规则记录](../bench/review-checkpoints/2026-10-21/strict-fp-laws/README.md)。
+这不是所有硬件实现的一致性声明。全部 42 个严格实例及模型边界见[当前规则分类](../VeriTile/Triton/Float/CurrentAdmission.lean)。
 
 | ID | 规则 | 模式 | 关键前提与当前证据 |
 |---|---|---|---|

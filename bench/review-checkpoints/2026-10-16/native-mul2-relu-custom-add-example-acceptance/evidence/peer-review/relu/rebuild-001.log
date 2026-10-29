@@ -1,9 +1,0 @@
-bench/tritonbench_g/relu_triton_kernel/Proofs/ActualIndices.lean 0
-bench/tritonbench_g/relu_triton_kernel/Proofs/ActualScalar.lean 0
-bench/tritonbench_g/relu_triton_kernel/Proofs/ActualSource.lean 0
-bench/tritonbench_g/relu_triton_kernel/Proofs/ActualPhysical.lean 0
-bench/tritonbench_g/relu_triton_kernel/Proofs/ActualGrid.lean 0
-bench/tritonbench_g/relu_triton_kernel/Proofs/ActualAdmission.lean 0
-bench/tritonbench_g/relu_triton_kernel/Proofs/ActualHost.lean 0
-bench/tritonbench_g/relu_triton_kernel/ActualCorrect.lean 0
-BUILD PASSED 182 36

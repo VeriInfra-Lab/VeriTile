@@ -1,7 +1,0 @@
-VeriTile.Bench.TritonBenchG.ReluTritonKernel.FiniteHost.Ready: definition does not reference [VeriTile.Bench.TritonBenchG.ReluTritonKernel.HostWrapper.relu,
- VeriTile.Bench.TritonBenchG.ReluTritonKernel.FP64Host.logicalLaunch] — non-circular ✓
-VeriTile.Bench.TritonBenchG.ReluTritonKernel.FiniteHost.Outcome: definition does not reference [VeriTile.Bench.TritonBenchG.ReluTritonKernel.HostWrapper.relu,
- VeriTile.Bench.TritonBenchG.ReluTritonKernel.FP64Host.logicalLaunch] — non-circular ✓
-VeriTile.Bench.TritonBenchG.ReluTritonKernel.FiniteHost.all_outcomes: axiom footprint ⊆ standard base ✓  ([propext,
- Quot.sound,
- Classical.choice])

@@ -12,7 +12,7 @@ The source Python is pinned to upstream revision `603e28a`.
   recognizer are unchanged. Tests use this current adapter checkpoint; the
   earlier snapshot above remains available as historical evidence. Lean and
   axiom-check logs are in
-  `bench/review-checkpoints/2026-10-13/unsigned-casts/`.
+  the current signed/unsigned cast regression fixtures.
 - `RandomProfile-20261013-direct.lean.txt`: `37e7fadbcdfe41dc76c68638ab3ed4215c187752b097f38958d03f1255054467`,
   the reviewed direct-Philox, explicit helper-binding and unsigned-arithmetic
   frontend. Its identity adapter definitions and recognizers are unchanged.
@@ -30,4 +30,4 @@ compile native code, or assert whole-corpus correctness. The fixture adapter is
 used only as read-only provenance evidence; production profiles check the actual
 repository library path and exact reviewed hash.
 
-- `RandomProfile-20261014-signed.lean.txt`: `61f31027a53ea7305b18341f0c7dced51c9407589bf4fe16b1c7bfded7859d04`. Adds i64-to-i32 source provenance only after actual signed low-word cast lowering. Identity adapters/recognizers are unchanged; older fixtures are retained. The corresponding stage proof and full-source admission receipt is `bench/review-checkpoints/2026-10-14/multinomial-cast-stage`.
+- `RandomProfile-20261014-signed.lean.txt`: `61f31027a53ea7305b18341f0c7dced51c9407589bf4fe16b1c7bfded7859d04`. Adds i64-to-i32 source provenance only after actual signed low-word cast lowering. Identity adapters/recognizers are unchanged; older fixtures are retained.

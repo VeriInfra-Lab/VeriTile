@@ -1,9 +1,0 @@
-import VeriTile.Meta.StatementAudit
-import bench.repairs.tritonbench_g.fused_recurrent_delta.Contract
-import bench.repairs.tritonbench_g.fused_recurrent_delta.Correct
-import bench.repairs.tritonbench_g.fused_recurrent_delta.FPEquiv
-import bench.repairs.tritonbench_g.fused_recurrent_delta.Whole
-
-#axiomsClean VeriTile.Bench.Repairs.FusedRecurrentDelta.fused_recurrent_delta_forward_correctness
-#axiomsClean VeriTile.Bench.Repairs.FusedRecurrentDelta.fused_recurrent_delta_backward_correctness
-#axiomsClean VeriTile.Bench.Repairs.FusedRecurrentDelta.FPEquiv.kernel_equivalent

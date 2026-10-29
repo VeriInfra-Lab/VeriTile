@@ -128,7 +128,8 @@ def decomposeList (goal : MVarId) (splitChanges : Bool) : MetaM (List MVarId) :=
   let mut proof ← mkAppOptM ``Spec.Derivation.refl
     #[some statement, some theory, some rules, some nil]
   for p in proofs.reverse do
-    proof ← mkAppM ``Spec.Derivation.append_congr #[p, proof]
+    proof ← mkAppOptM ``Spec.Derivation.append_congr
+      #[some statement, some theory, some rules, none, none, none, none, some p, some proof]
   goal.assign proof
   return goals
 

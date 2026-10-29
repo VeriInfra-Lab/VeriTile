@@ -1,2 +1,0 @@
-/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/attempt0002/Matrix.lean:491:84: error: unexpected token 'true'; expected term
-/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/attempt0002/Matrix.lean:492:0: error: VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.recorded_native_matrix_agrees: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

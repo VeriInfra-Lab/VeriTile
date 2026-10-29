@@ -1,8 +1,0 @@
-bench/tritonbench_g/vector_addition_custom/Proofs/NativeArithmetic.lean 0
-bench/tritonbench_g/vector_addition_custom/Proofs/NativeScalar.lean 0
-bench/tritonbench_g/vector_addition_custom/Proofs/NativeMemory.lean 0
-bench/tritonbench_g/vector_addition_custom/Proofs/NativeProgram.lean 0
-bench/tritonbench_g/vector_addition_custom/Proofs/NativeGrid.lean 0
-bench/tritonbench_g/vector_addition_custom/Proofs/NativeAdmission.lean 0
-bench/tritonbench_g/vector_addition_custom/NativeCorrect.lean 0
-BUILD PASSED 200 37

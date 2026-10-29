@@ -1,7 +1,0 @@
-VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.Quote.rangeExecution: axiom footprint ⊆ standard base ✓  ([propext,
- Quot.sound,
- Classical.choice])
-VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.Quote.epilogueExecution: axiom footprint ⊆ standard base ✓  ([propext,
- Quot.sound,
- Classical.choice])
-{"module": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteComplete.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteComplete.olean"}

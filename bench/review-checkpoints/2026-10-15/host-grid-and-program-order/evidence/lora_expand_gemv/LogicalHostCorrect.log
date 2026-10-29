@@ -1,6 +1,0 @@
-VeriTile.Bench.TritonBenchG.LoraExpandGemv.Host.lora_expand_logical_wrapper_correctness: axiom footprint ⊆ standard base ✓  ([propext,
- Quot.sound,
- Classical.choice])
-VeriTile.Bench.TritonBenchG.LoraExpandGemv.Host.rejected_before_launch: axiom footprint ⊆ standard base ✓  ([propext,
- Quot.sound,
- Classical.choice])

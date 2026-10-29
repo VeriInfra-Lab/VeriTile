@@ -1,3 +1,0 @@
-Numerical scope validation now reuses local rule/binding indexes within each call and rejects malformed callback references before deriving source authority. Otherwise-valid calls still derive the full authority and check exact queue, ports, callback names and usage sets. There is no cross-call cache. Multiply-invalid input may report errors in a different order.
-
-The exact candidate passed 93 production regression tests against unchanged repository inputs. Existing tests used real source authority; the six added tests use explicitly labelled authority fixtures. Source, review, tests and actual logs are retained with exact hashes. No task acceptance is added.

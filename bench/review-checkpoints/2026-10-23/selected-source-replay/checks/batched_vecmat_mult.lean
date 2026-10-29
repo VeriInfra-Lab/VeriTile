@@ -1,7 +1,0 @@
-import VeriTile.Meta.StatementAudit
-import bench.repairs.tritonbench_g.batched_vecmat_mult.Contract
-import bench.repairs.tritonbench_g.batched_vecmat_mult.Correct
-import bench.repairs.tritonbench_g.batched_vecmat_mult.FPEquiv
-
-#axiomsClean VeriTile.Bench.Repairs.BatchedVecmatMult.Correctness.batched_vecmat_grid_real
-#axiomsClean VeriTile.Bench.Repairs.BatchedVecmatMult.Equivalence.block_first_strict

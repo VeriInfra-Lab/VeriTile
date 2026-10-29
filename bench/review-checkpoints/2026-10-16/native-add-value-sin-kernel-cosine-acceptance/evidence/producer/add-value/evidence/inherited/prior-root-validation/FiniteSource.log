@@ -1,5 +1,0 @@
-AddValueFinite.original_ast_lowering: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
-AddValueFinite.storeLanes_eq_stores: axiom footprint ⊆ standard base ✓  ([propext])
-AddValueFinite.runProgram_eq_stores: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
-AddValueFinite.runPrograms_eq_batches: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
-AddValueFinite.sourceGrid_eq_executeGrid: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])

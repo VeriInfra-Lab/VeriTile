@@ -1,7 +1,0 @@
-import VeriTile.Meta.StatementAudit
-import bench.repairs.tritonbench_g.rms_matmul_rbe_scalar_domain.Contract
-import bench.repairs.tritonbench_g.rms_matmul_rbe_scalar_domain.Correct
-import bench.repairs.tritonbench_g.rms_matmul_rbe_scalar_domain.FPEquiv
-
-#axiomsClean VeriTile.Bench.Repairs.RmsMatmulRbeScalarDomain.Correct.kernel_real
-#axiomsClean VeriTile.Bench.Repairs.RmsMatmulRbeScalarDomain.FPEquiv.rms_qkv_index_commuted_equiv

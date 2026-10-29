@@ -1,7 +1,0 @@
-Traceback (most recent call last):
-  File "/tmp/veritile-standardization-20261015/queue-gzip-integration-scripts-wip/audit_candidate.py", line 16, in <module>
-    m.require(after.strip()==before.strip(),'scope changes exceed queue loader factoring')
-  File "/tmp/veritile-standardization-20261015/queue-gzip-integration-scripts-wip/integration.py", line 12, in require
-    if not ok:raise ValueError(message)
-              ^^^^^^^^^^^^^^^^^^^^^^^^^
-ValueError: scope changes exceed queue loader factoring

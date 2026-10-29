@@ -29,4 +29,4 @@ harness; they never create theorem receipts.
 The harness copies the actual frozen `Proofs/SourceDomain.lean` to preserve the
 macro's complete local import graph. Copying that source is not proof replay.
 
-- `RandomProfile-20261014-signed.lean.txt`: `61f31027a53ea7305b18341f0c7dced51c9407589bf4fe16b1c7bfded7859d04`. Adds i64-to-i32 source provenance only after actual signed low-word cast lowering. Identity adapters/recognizers are unchanged; older fixtures are retained. The corresponding stage proof and full-source admission receipt is `bench/review-checkpoints/2026-10-14/multinomial-cast-stage`.
+- `RandomProfile-20261014-signed.lean.txt`: `61f31027a53ea7305b18341f0c7dced51c9407589bf4fe16b1c7bfded7859d04`. Adds i64-to-i32 source provenance only after actual signed low-word cast lowering. Identity adapters/recognizers are unchanged; older fixtures are retained.

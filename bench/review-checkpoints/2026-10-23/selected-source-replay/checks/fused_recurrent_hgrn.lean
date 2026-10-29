@@ -1,7 +1,0 @@
-import VeriTile.Meta.StatementAudit
-import bench.repairs.tritonbench_g.fused_recurrent_hgrn.Contract
-import bench.repairs.tritonbench_g.fused_recurrent_hgrn.Correct
-import bench.repairs.tritonbench_g.fused_recurrent_hgrn.FPEquiv
-
-#axiomsClean VeriTile.Bench.Repairs.FusedRecurrentHgrn.kernel_correct
-#axiomsClean VeriTile.Bench.Repairs.FusedRecurrentHgrn.stride_folded_equiv

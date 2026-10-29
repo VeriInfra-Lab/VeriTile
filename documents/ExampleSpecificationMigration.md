@@ -251,10 +251,10 @@ bf16 memory cell a real memory cell. This distinction matters for the
 
 ## Validation
 
-The [strict-rule checkpoint](../bench/review-checkpoints/2026-10-21/strict-fp-laws/README.md)
-retains the completed build, regression and independent-comparator record.
-It is a historical snapshot; the current usage counts are in the rule-usage
-guide above. Detailed experiment records remain alongside their frozen reports.
+The current strict-rule classification is in
+[CurrentAdmission](../VeriTile/Triton/Float/CurrentAdmission.lean).
+Proof builds, regression checks and independent replay validate the current
+source tree. Experimental rules retain the reports required by their admission.
 
 For code changes, run `lake build VeriTile TritonBenchSpecExamples` and the
 relevant existing regressions. The example target includes all `bench.examples`

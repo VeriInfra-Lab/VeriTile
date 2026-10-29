@@ -1,7 +1,0 @@
-import VeriTile.Meta.StatementAudit
-import bench.repairs.tritonbench_g.matrix_vector_multip.Contract
-import bench.repairs.tritonbench_g.matrix_vector_multip.Correct
-import bench.repairs.tritonbench_g.matrix_vector_multip.FPEquiv
-
-#axiomsClean VeriTile.Bench.Repairs.MatrixVectorMultip.Correct.mv_kernel_correctness
-#axiomsClean VeriTile.Bench.Repairs.MatrixVectorMultip.FPEquiv.grid_explicit_fma_equiv

@@ -1,8 +1,0 @@
-Traceback (most recent call last):
-  File "/tmp/veritile-standardization-20261015/prepare_softmax_host_grid_integration.py", line 54, in <module>
-    shutil.copyfile(OLD/'numerical-followup.json',B/'numerical-followup.json');shutil.copyfile(R/'bench/original_program_scope.json',B/'evidence/ledger-before.json')
-    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.12/shutil.py", line 260, in copyfile
-    with open(src, 'rb') as fsrc:
-         ^^^^^^^^^^^^^^^
-FileNotFoundError: [Errno 2] No such file or directory: '/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/review-checkpoints/2026-10-16/relu-finite-source-acceptance/numerical-followup.json'

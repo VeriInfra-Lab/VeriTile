@@ -1,2 +1,0 @@
-import bench.repairs.tritonbench_g.triton_attention.Whole001.Kernels
-import bench.repairs.tritonbench_g.triton_attention.Whole001.NativeKernels

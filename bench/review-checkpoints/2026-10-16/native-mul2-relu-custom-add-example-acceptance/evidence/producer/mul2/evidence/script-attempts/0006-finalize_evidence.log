@@ -1,1 +1,0 @@
-{"status": "passed", "named_axiom_checks": 36, "noncircular_checks": 7, "dependency_sources_unchanged": 174, "dependency_objects_unchanged": 210, "all_failed_lean_attempts_preserved": true, "lean_attempts": 14, "failed_lean_attempts": 3}

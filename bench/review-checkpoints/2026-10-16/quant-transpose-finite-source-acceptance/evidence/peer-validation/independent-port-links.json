@@ -1,7 +1,0 @@
-{
-  "status": "passed",
-  "cases": 863,
-  "omitted_ports_rejected": 140,
-  "validator": "unchanged bench.exact_scope_gate.validate_exact_case_links",
-  "not_whole_queue_integration": true
-}

@@ -12,10 +12,10 @@ function excerpt(pattern: RegExp): string {
 }
 
 export const tutorial = {
-  python: excerpt(/```python\n([\s\S]*?)\n```/),
+  python: readFileSync(resolve(process.cwd(), '../bench/examples/VectorAdd/vector_add.py'), 'utf8').trim(),
   setup: excerpt(/(import bench\.examples\.VectorAdd\.Kernels\n[\s\S]*?open VeriTile\.Examples\n)/),
   kernel: excerpt(/(def addKernel [\s\S]*?\n\})/),
   io: excerpt(/(def addIO [\s\S]*?write := fun pid => pid \* B)/),
-  proof: excerpt(/(specification add_kernel_correctness[\s\S]*?)(?=\n\n\/\-! ## Trust gates)/),
+  proof: excerpt(/(specification add_kernel_correctness[\s\S]*?)(?=\n\nsection Optimized)/),
   gates: excerpt(/(#axiomsClean add_kernel_correctness[\s\S]*?)(?=\n\nend VeriTile\.Bench)/),
 };

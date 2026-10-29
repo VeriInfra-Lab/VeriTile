@@ -1,5 +1,0 @@
-QuantizeIntegerStage.Global.source_run: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
-QuantizeIntegerStage.Global.offset_injective: axiom footprint ⊆ standard base ✓  ([propext])
-QuantizeIntegerStage.Global.quantize_global_fp32_llrint_int8_correctness: axiom footprint ⊆ standard base ✓  ([propext,
- Quot.sound,
- Classical.choice])

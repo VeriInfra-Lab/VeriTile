@@ -34,11 +34,11 @@ theorem libdevice_product_syntax :
     (Atom.log_mul .libdevice).lhs.code = fragmentAt 4 ∧
     (Atom.log_mul .libdevice).rhs.code = fragmentAt 5 := ⟨rfl, rfl⟩
 
--- The DSL leaves the outer where expression untagged. Its enclosing fp32
--- profile is checked against the actual assignments in FPLogProduct.lean.
+-- The outer conditional retains the fp32 computation inherited from its inputs.
 theorem conditional_product_syntax :
     (Atom.log_mul_split .libdevice).lhs.code = fragmentAt 4 ∧
-    [.assign .real [] "out" (.alg (splitProduct .libdevice input secondInput))] = fragmentAt 10 := by
+    [.assign .real [] "out" (.compute (.alg .fp32
+      (splitProduct .libdevice input secondInput)))] = fragmentAt 10 := by
   have half : (0.5 : ℝ) = 1 / 2 := by norm_num
   have one : (1.0 : ℝ) = 1 := by norm_num
   have two : (2.0 : ℝ) = 2 := by norm_num

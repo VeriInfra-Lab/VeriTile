@@ -1,7 +1,0 @@
-import VeriTile.Meta.StatementAudit
-import bench.repairs.tritonbench_g.f8_conversion_utils.Contract
-import bench.repairs.tritonbench_g.f8_conversion_utils.Correct
-import bench.repairs.tritonbench_g.f8_conversion_utils.FPEquiv
-
-#axiomsClean VeriTile.Bench.Repairs.F8ConversionUtils.Correct.complete_kernel_real_formula
-#axiomsClean VeriTile.Bench.Repairs.F8ConversionUtils.FPEquiv.conversion_index_equiv

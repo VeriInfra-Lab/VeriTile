@@ -1,5 +1,0 @@
-Command: python prepare.py (login:false, default sandbox)
-Exit code: 1
-error: could not detect the configuration of the Lake installation
-subprocess.CalledProcessError: Command ['/tmp/veritile-lean-toolchain/bin/lake', 'env', 'printenv', 'LEAN_PATH'] returned non-zero exit status 1.
-No new Lean import or compilation occurred. Corrective attempt explicitly sets existing toolchain PATH and LAKE_HOME.

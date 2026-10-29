@@ -114,7 +114,7 @@ def twoSources (A B Y : RegionName) (first second : Bool) : ComputeKernel := tri
 }
 
 theorem branch_region_inventory (A B Y : RegionName) (first second : Bool) :
-    (twoSources A B Y first second).inputs = [A, A, B, B] ∧
+    (twoSources A B Y first second).inputs = [A, B] ∧
     (twoSources A B Y first second).outputs = [Y] := by
   exact ⟨rfl, rfl⟩
 

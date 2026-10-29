@@ -1,7 +1,0 @@
-import VeriTile.Meta.StatementAudit
-import bench.repairs.tritonbench_g.uniform_sampling.Contract
-import bench.repairs.tritonbench_g.uniform_sampling.Correct
-import bench.repairs.tritonbench_g.uniform_sampling.FPEquiv
-
-#axiomsClean VeriTile.Bench.Repairs.UniformSampling.Correct.uniform_sampling_kernel_correctness
-#axiomsClean VeriTile.Bench.Repairs.UniformSampling.FPEquiv.index_commuted_equiv

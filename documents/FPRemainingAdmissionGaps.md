@@ -12,20 +12,15 @@ The [task ledger](../bench/tritonbench_g/task_progress.json) tracks 183 tasks:
 numerical evidence**. Of those 183 pairs, 178 use strict-model/structural proofs,
 4 use the existing FP32 DIV-MUL-RCP admission (`apply_penalty`,
 `softmax_triton1`, `softmax_triton2`, `softmax_triton3`), and `matmul_leakyrelu`
-depends on one deferred local dot/add-to-dotAcc rule. The earlier
-181 strict/structural + 2 admitted classification included single-source
-native results; it did not establish 183 two-program equivalences.
-The deferred rule is `MATMUL-LEAKYRELU-FP32-K32-DOT-ADD-TO-DOTACC`, instance
+depends on one deferred local dot/add-to-dotAcc rule. The deferred rule is `MATMUL-LEAKYRELU-FP32-K32-DOT-ADD-TO-DOTACC`, instance
 `matmul_leakyrelu.fp32.tf32.k32.live_acc.all_words.v1`. Both gates are `NOT_RUN`,
 with no evidence artifact; the complete program proof explicitly depends on
 future local evidence/admission. See its
 [precision, applicability domain and experiment plan](../bench/repairs/tritonbench_g/matmul_leakyrelu/KernelOnly/NUMERICAL_VALIDATION.md).
 The current auxiliary experiment queue is empty. Program-proof gaps cannot be
-reclassified as numerical deferrals. Per-task root acceptance and validation
-are recorded in the [105-task completion report](../bench/review-checkpoints/2026-10-21/finish-pending-105/README.md).
-The optional `apply_penalty` compiler-native
-equivalence and its experiment were removed at the user's request; see the
-[benchmark scope](../bench/TODO.md).
+reclassified as numerical deferrals. Per-task formulas, domains, actual program pairs and proof scope are recorded in
+the [final contract review](../bench/validation/contracts.json). Current build
+and replay results are checked independently by CI.
 
 ## Available catalogue and actual use
 
@@ -105,9 +100,6 @@ has a checked logical countermodel satisfying the selected rules and domain;
 this is not a GPU failure. Older main-table-only algebraic countermodels do not
 establish a missing rule in today's combined strict and experimental theory.
 
-The [strict-rule checkpoint](../bench/review-checkpoints/2026-10-21/strict-fp-laws/README.md)
-contains the model details, frozen experiment references and validation record.
-It is a historical snapshot; current task status comes from the task ledger.
 Use the [rewrite-rule guide](FloatingPointRewriteRules.md) for relation definitions
 and the [special-value guide](FloatingPointSpecialValues.md) for model boundaries.
 

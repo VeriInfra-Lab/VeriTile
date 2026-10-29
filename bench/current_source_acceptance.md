@@ -1,43 +1,21 @@
-# Current development and acceptance
+# Final selected corpus
 
-The current target is **Real, FP32 and BF16 for 183 original programs, plus
-source-required types**, under the approved [primary-version policy](review-checkpoints/2026-10-16/native-mul2-relu-custom-add-example-acceptance/primary-version-policy.md).
-Existing wider proofs remain available. This integration changes the legacy
-full-source ledger; it does not establish completion of the three primary versions.
-The [new three-task applicability inventory](review-checkpoints/2026-10-16/native-add-value-sin-kernel-cosine-acceptance/primary-version-applicability.md)
-records source-case evidence and leaves version completion pending.
+`tritonbench_g/task_progress.json` selects the final source and public entries for all 183 tasks. `validation/contracts.json` records their independent mathematical targets, complete FP program pairs, required conditions and numerical dependencies. `validation/source.json` binds the entire retained Lean tree and its project import closure.
 
-The active [scope ledger](original_program_scope.json.gz) records **11 legacy
-full-source scopes accepted and 172 pending**. `matrix_transpose` is verified
-under explicit primitive contracts. Ten tasks retain registered numerical
-deferrals: `quantize_global`, `vector_addition`, `quant_transpose_kernel`,
-`triton_mul2`, `relu_triton_kernel`, `vector_addition_custom`, `add_example`,
-`add_value`, `sin_kernel` and `cosine_compute`. `fp4_to_bf16_conversion` remains
-the separate repaired candidate; the original `fp4_to_bf16` stays in the requested set.
+Run the final checks from the repository root:
 
-The [compressed numerical queue](tritonbench_g/deferred_numerical_experiments.json.gz)
-contains **273 rules, 2,943 exact bindings, 22,875 cases and 15 declarations**.
-The prior 239 rules, 2,366 bindings and twelve callback tables retain their exact
-contents. Every numerical port remains bound to its actual source case. In
-particular, cosine host arithmetic has obligations on post-allocation paths;
-empty or masked labels do not generically erase host numerical requirements.
-Native scalar conformance remains deferred.
+```sh
+python3 -B -m unittest discover -s bench/tests -p 'test_*.py'
+python3 -B bench/final_inventory.py --check
+python3 -B -m bench.check_body_corpus --check
+python3 -B bench/check_imported_kernel_review.py
+lake build VeriTile VeriTileMath VeriTileFull TritonBenchGFinal FinalRegressions TritonBenchSpecExamples BugDetection PretrainKernels
+python3 scripts/check_comparator.py --library
+bench/audit_trust.sh --final-inventory
+```
 
-The [current catalog](review-checkpoints/2026-10-16/native-add-value-sin-kernel-cosine-acceptance/current-source-catalog.json.gz) contains 184 tasks,
-964 public declarations, 3,690 task modules and 4,121 registered modules.
-The [supplement](review-checkpoints/2026-10-16/native-add-value-sin-kernel-cosine-acceptance/catalog-supplement.json.gz) contains 65 execution and six
-protocol contracts. These are inventory counts, separate from primary-version
-completion and legacy acceptance.
+The proof comparator requires the pinned tools and their systemd/Landlock isolation; `.github/actions/setup-comparator` installs them in CI. Every retained corpus module must pass the axiom/specification audit and independent proof replay. The complete gate fails if any worker is missing, skipped, cancelled or fails.
 
-The workflow uses the current gzip catalog, supplement and active ledger.
-The [combined source review](review-checkpoints/2026-10-16/native-add-value-sin-kernel-cosine-acceptance/root-review.json.gz) and
-[recorded integration attempts](review-checkpoints/2026-10-16/native-add-value-sin-kernel-cosine-acceptance/README.md) retain exact evidence.
-The global scope-completeness gate still reports 172 pending tasks. Build,
-test, comparator and numerical outcomes are reported only from actual runs;
-no GPU or whole-corpus success follows from these counts.
+Source correspondence is tracked independently in `source-correspondence.json`. Pending Python-to-Lean correspondence remains pending. The 65 bug-detection and 269 pretraining benchmark tasks are explicit unsolved challenges; their successful compilation does not complete their proof or backend obligations. Native execution and compiler conformance are not established by these checks.
 
-The [previous scope document](review-checkpoints/2026-10-16/native-add-value-sin-kernel-cosine-acceptance/evidence/baseline-progress.md) and
-[previous development summary](review-checkpoints/2026-10-16/native-add-value-sin-kernel-cosine-acceptance/evidence/baseline-current-source-acceptance.md)
-are archived byte-for-byte. All earlier checkpoints, wider proofs, reopenings,
-numerical registrations and failure records are retained. This batch authorizes
-no historical cleanup or deletion.
+The repository contains the final source tree and current validation records. Superseded source versions, review checkpoints and archived proof runs are not required by this workflow.

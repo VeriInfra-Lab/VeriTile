@@ -1,8 +1,0 @@
-{
-  "status": "passed",
-  "manifest": "bench/review-checkpoints/2026-10-16/numerical-queue-gzip-migration/snapshot/manifest.json.gz",
-  "sha256": "9db17cc541aadb23c094cba4d3ec7ea8df918a128af44745beba2f73b25420a1",
-  "root_input_count": 14537,
-  "dependency_files_copied": 0,
-  "acceptance_increment": 0
-}

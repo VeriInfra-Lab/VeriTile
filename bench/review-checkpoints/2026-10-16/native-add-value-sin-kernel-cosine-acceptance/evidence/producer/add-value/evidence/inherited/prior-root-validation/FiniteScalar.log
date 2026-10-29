@@ -1,8 +1,0 @@
-/tmp/veritile-standardization-20261015/add-value-finite-root-validation/build-attempt-002/bench/tritonbench_g/add_value/Proofs/FiniteScalar.lean:155:41: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
-
-Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
-AddValueFinite.result: definition does not reference [AddValueFinite.source, AddValueFinite.Expr.eval] — non-circular ✓
-AddValueFinite.source_scalar: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
-AddValueFinite.existing_fp64_scalar: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
-AddValueFinite.argument_exact: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
-AddValueFinite.signed_defined: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])

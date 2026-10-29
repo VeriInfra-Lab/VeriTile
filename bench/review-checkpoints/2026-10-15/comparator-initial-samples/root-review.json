@@ -1,7 +1,0 @@
-{
-  "reviewer": "root",
-  "status": "passed_three_initial_invocations_only",
-  "receipt_sha256": "7963fcc8a39ae484b0e198706e8ca9498260962fa1f9bdda38920bab5ed05cb6",
-  "full_task_corpus_passed": false,
-  "native_execution": false
-}

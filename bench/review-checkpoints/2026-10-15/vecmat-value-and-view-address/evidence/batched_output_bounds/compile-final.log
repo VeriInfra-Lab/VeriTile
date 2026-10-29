@@ -1,8 +1,0 @@
-VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.output_address_in_declared_extent: axiom footprint ⊆ standard base ✓  ([propext,
- Quot.sound])
-VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.output_address_unique: axiom footprint ⊆ standard base ✓  ([propext,
- Quot.sound])
-VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.actual_program_output_in_bounds: axiom footprint ⊆ standard base ✓  ([propext,
- Quot.sound])
-VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.actual_program_output_unique: axiom footprint ⊆ standard base ✓  ([propext,
- Quot.sound])

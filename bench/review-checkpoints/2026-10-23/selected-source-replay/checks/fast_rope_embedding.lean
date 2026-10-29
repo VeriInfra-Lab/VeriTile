@@ -1,7 +1,0 @@
-import VeriTile.Meta.StatementAudit
-import bench.repairs.tritonbench_g.fast_rope_embedding.Contract
-import bench.repairs.tritonbench_g.fast_rope_embedding.Correct
-import bench.repairs.tritonbench_g.fast_rope_embedding.FPEquiv
-
-#axiomsClean VeriTile.Bench.Repairs.FastRopeEmbedding.fast_rope_kernel_correctness
-#axiomsClean VeriTile.Bench.Repairs.FastRopeEmbedding.FPEquiv.fast_rope_kernel_equivalent

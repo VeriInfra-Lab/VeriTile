@@ -1,7 +1,0 @@
-import VeriTile.Meta.StatementAudit
-import bench.repairs.tritonbench_g.dequantize_rowwise.Contract
-import bench.repairs.tritonbench_g.dequantize_rowwise.Correct
-import bench.repairs.tritonbench_g.dequantize_rowwise.FPEquiv
-
-#axiomsClean VeriTile.Bench.Repairs.DequantizeRowwise.dequantize_rowwise_correct
-#axiomsClean VeriTile.Bench.Repairs.DequantizeRowwise.FPEquivalence.selected_equivalent

@@ -1,8 +1,0 @@
-{
-  "command": "python bench/repairs/tritonbench_g/rotary_transform/check_contract.py",
-  "tool_session_id": 34745,
-  "exit_code": 0,
-  "stdout": "rotary_transform: unchanged complete JIT; 78 full source/host paths, 16 rejections.\nCPU storage replay only; CUDA and native floating-point conformance are not tested.\n",
-  "evidence_kind": "saved result of the observed regression run during this review",
-  "gpu_execution": false
-}

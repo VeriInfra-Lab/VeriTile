@@ -1,8 +1,0 @@
-/tmp/veritile-standardization-20261015/add-value-finite-acceptance-revision1-wip/after/bench/tritonbench_g/add_value/Proofs/NativeMemory.lean:44:9: error(lean.unknownIdentifier): Unknown constant `AddValueNative.Buffer.Disjoint`
-/tmp/veritile-standardization-20261015/add-value-finite-acceptance-revision1-wip/after/bench/tritonbench_g/add_value/Proofs/NativeMemory.lean:79:15: error(lean.unknownIdentifier): Unknown constant `AddValueNative.Buffer.Contains`
-AddValueNative.finalByte: definition does not reference [AddValueNative.applyWrites] — non-circular ✓
-/tmp/veritile-standardization-20261015/add-value-finite-acceptance-revision1-wip/after/bench/tritonbench_g/add_value/Proofs/NativeMemory.lean:129:0: error: AddValueNative.load_outside: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
-AddValueNative.writes_append: axiom footprint ⊆ standard base ✓  ([])
-/tmp/veritile-standardization-20261015/add-value-finite-acceptance-revision1-wip/after/bench/tritonbench_g/add_value/Proofs/NativeMemory.lean:131:0: error: AddValueNative.writes_outside: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
-AddValueNative.writes_byte_frame: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
-AddValueNative.writes_byte_result: axiom footprint ⊆ standard base ✓  ([Classical.choice, propext, Quot.sound])

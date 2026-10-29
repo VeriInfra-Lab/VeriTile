@@ -1,7 +1,0 @@
-import VeriTile.Meta.StatementAudit
-import bench.repairs.tritonbench_g.cache_transform_triton.Contract
-import bench.repairs.tritonbench_g.cache_transform_triton.Correct
-import bench.repairs.tritonbench_g.cache_transform_triton.FPEquiv
-
-#axiomsClean VeriTile.Bench.Repairs.CacheTransform.Correct.kernel_real
-#axiomsClean VeriTile.Bench.Repairs.CacheTransform.Equivalence.quotient_remainder_equiv

@@ -1,7 +1,0 @@
-import VeriTile.Meta.StatementAudit
-import bench.repairs.tritonbench_g.matrix_transpose.Contract
-import bench.repairs.tritonbench_g.matrix_transpose.Correct
-import bench.repairs.tritonbench_g.matrix_transpose.FPEquiv
-
-#axiomsClean VeriTile.Bench.Repairs.MatrixTranspose.Correct.transpose_kernel_correctness
-#axiomsClean VeriTile.Bench.Repairs.MatrixTranspose.FPEquiv.transpose_index_equiv

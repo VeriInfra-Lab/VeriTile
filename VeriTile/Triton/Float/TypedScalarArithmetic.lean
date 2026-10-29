@@ -4,7 +4,7 @@ import VeriTile.Meta.StatementAudit
 /-! Strict multiplication commutation for actual `.fp32` operands and output.
 The fixed software theory certifies this typed execution directly; no coherence
 between `.real` and `.fp32` channels and no new experimental binding is assumed.
-The previous report binding remains available as historical metadata. -/
+-/
 namespace VeriTile.Triton.FP.TypedScalarArithmetic
 open Structural Guarded
 open scoped VeriTile.Spec
@@ -16,19 +16,6 @@ def lhs : GuardedFragment := ⟨guards,
 def rhs : GuardedFragment := ⟨guards,
   [.assign .fp32 [] "out" (.alg
     (.mul .fp32 .nil (.ref .fp32 [] "b") (.ref .fp32 [] "a")))], .fp32, some .fp32⟩
-
-/-- Historical provenance for the previous experimental typed binding. This
-entry is not part of the active assumptions or the strict derivation below. -/
-def report : ReportedRule :=
-  { ReportedAdmission.fp32_mul_commute with
-    key := ReportedAdmission.fp32_mul_commute.key ++ ":typed-fp32"
-    configuration := Lean.Json.mkObj [
-      ("source_report", ReportedAdmission.fp32_mul_commute.configuration),
-      ("lean_binding", .str "typed-fp32 scalar a*b -> b*a; finite actual fp32 a,b; fp32 out"),
-      ("binding_evidence", .str "bench/review-checkpoints/2026-10-14/typed-fp32-mul-binding.md")]
-    description := "Typed fp32 MUL-COMMUTE; finite fp32 operands; separately validated binding of the published fp32 row" }
-
-def entry : Spec.RuleEntry GuardedFragment := report.bind [lhs] [rhs]
 
 structure Rules where
   scalar : ScalarArithmetic.Rules

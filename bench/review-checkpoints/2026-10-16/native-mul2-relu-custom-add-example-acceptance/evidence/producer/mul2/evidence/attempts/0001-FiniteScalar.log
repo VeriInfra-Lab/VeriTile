@@ -1,8 +1,0 @@
-TritonMul2Finite.result: definition does not reference [TritonMul2Finite.source,
- TritonMul2Finite.Expr.eval,
- TritonMul2Finite.stored,
- TritonMul2Finite.multiply,
- TritonMul2Finite.loaded] — non-circular ✓
-TritonMul2Finite.source_scalar: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
-TritonMul2Finite.bool_raw_store: axiom footprint ⊆ standard base ✓  ([])
-TritonMul2Finite.storage_width_positive: axiom footprint ⊆ standard base ✓  ([])

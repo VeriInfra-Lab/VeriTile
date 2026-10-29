@@ -237,7 +237,7 @@ The per-task review records the actual formula, input domain, complete scope,
 proof connection and FP program/rule binding. Format repair and a substantive
 proof gap are different findings. Syntax checks, successful compilation and
 earlier task acceptance alone are insufficient evidence of semantic review.
-Run `python bench/check_main_formula_review.py` to check the current selected
+Run `python bench/final_inventory.py --check` to check the current selected
 readers, reviewed source connections, recorded rules and per-task evidence
 against that explicit review. This is a drift guard, not a replacement for
 semantic review, Lean proof checking or numerical validation.

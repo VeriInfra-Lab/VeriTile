@@ -1,2 +1,0 @@
-PASS: 8 SM80/SM90 actual-JIT profiles; 40 exact ordered Q/K/V store dataflows; unchanged arithmetic AST, metadata-only copies, independent FP proof closure
-Original SHA256: 3581c60f75eb5314c472d4e9ccfd2c0cc8c6a089352352247258c8cbabe7f630

@@ -1,7 +1,0 @@
-import VeriTile.Meta.StatementAudit
-import bench.repairs.tritonbench_g.triton_attention_scalar_abi_checked.Contract
-import bench.repairs.tritonbench_g.triton_attention_scalar_abi_checked.Correct
-import bench.repairs.tritonbench_g.triton_attention_scalar_abi_checked.FPEquivBound
-
-#axiomsClean VeriTile.Bench.Repairs.TritonAttentionScalarABI.Correct.kernel_real
-#axiomsClean VeriTile.Bench.Repairs.TritonAttentionScalarABI.FPEquiv.grid_equiv

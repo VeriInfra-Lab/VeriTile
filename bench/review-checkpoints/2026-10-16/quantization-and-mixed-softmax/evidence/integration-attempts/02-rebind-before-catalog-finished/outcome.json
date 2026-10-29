@@ -1,5 +1,0 @@
-{
-  "observed_exit_code": 1,
-  "reason": "catalog generation had not finished; missing file detected before any writes",
-  "ledger_mutated": false
-}

@@ -10,9 +10,10 @@ import { tutorial } from '../../../lib/vector-add-tutorial';
 
 This walkthrough uses the complete, executable
 [VectorAdd showcase](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/examples/VectorAdd/Correct.lean).
-Every Lean excerpt below comes from that file at website build time. The
-source includes all helper proofs, imports, and audit commands; use the full
-file when running it. The displayed fragments explain its construction.
+Every excerpt below is read from the example directory at website build time.
+`Kernels.lean` contains the programs, `Proofs/Real.lean` contains the execution
+and memory lemmas, and `Correct.lean` imports them for the public contract.
+Use the complete repository when running the proof.
 
 ## 1. Choose the translation's scope
 

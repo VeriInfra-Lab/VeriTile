@@ -103,7 +103,8 @@ theorem half_sum_and_addition_keep_dtype :
     assignment (yesBody (loopBody
       (source .fp16 .fp16 Bool.false Bool.false .fp16 Bool.false Bool.true))) "accumulator" =
       some (.assign .fp16 [2] "accumulator" (.alg (.castFloat .fp16 .fp16
-        (.add .fp16 (.consSame .nil) halfSum (.ref .fp16 [2] "tiled_out"))))) := rfl
+        (.withPrecision .fp16 .fp32
+          (.add .fp16 (.consSame .nil) halfSum (.ref .fp16 [2] "tiled_out")))))) := rfl
 
 /-- Promotion occurs after the typed reduction when output storage is fp32. -/
 theorem fp32_output_promotes_after_half_sum :
@@ -118,7 +119,8 @@ theorem half_candidate_preserves_sum_dtype :
     assignment (yesBody (loopBody
       (source .fp16 .fp16 Bool.false Bool.true .fp16 Bool.false Bool.true))) "accumulator" =
       some (.assign .fp16 [2] "accumulator" (.alg (.castFloat .fp16 .fp16
-        (.add .fp16 (.consSame .nil) (.ref .fp16 [2] "tiled_out") halfSum)))) := rfl
+        (.withPrecision .fp16 .fp32
+          (.add .fp16 (.consSame .nil) (.ref .fp16 [2] "tiled_out") halfSum))))) := rfl
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

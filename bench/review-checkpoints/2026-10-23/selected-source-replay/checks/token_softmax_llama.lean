@@ -1,7 +1,0 @@
-import VeriTile.Meta.StatementAudit
-import bench.repairs.tritonbench_g.token_softmax_llama.Contract
-import bench.repairs.tritonbench_g.token_softmax_llama.Correct
-import bench.repairs.tritonbench_g.token_softmax_llama.FPEquiv
-
-#axiomsClean VeriTile.Bench.Repairs.TokenSoftmaxLlama.Correct.token_softmax_grid_real
-#axiomsClean VeriTile.Bench.Repairs.TokenSoftmaxLlama.FPEquiv.token_softmax_source_equiv

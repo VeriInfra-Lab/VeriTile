@@ -1,9 +1,0 @@
-VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.hostFormula: definition does not reference [VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.sourceHost,
- VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.runGrid,
- VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.runProgram,
- VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.executeBody,
- VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.step,
- VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.applyWrites] — non-circular ✓
-VeriTile.Bench.TritonBenchG.ReluTritonKernel.relu_actual_source_outcomes: axiom footprint ⊆ standard base ✓  ([propext,
- Quot.sound,
- Classical.choice])

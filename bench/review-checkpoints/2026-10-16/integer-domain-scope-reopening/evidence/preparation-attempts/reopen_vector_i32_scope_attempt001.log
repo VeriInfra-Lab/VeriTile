@@ -1,1 +1,0 @@
-Attempt failed before repository mutation: adapter_common.hash_file requires Path; source string passed at line20. AttributeError: str object has no attribute open. Git diff remained empty.

@@ -1,7 +1,0 @@
-import VeriTile.Meta.StatementAudit
-import bench.repairs.tritonbench_g.token_attn_mistral_grid_y_checked.Contract
-import bench.repairs.tritonbench_g.token_attn_mistral_grid_y_checked.Correct
-import bench.repairs.tritonbench_g.token_attn_mistral_grid_y_checked.FPEquiv
-
-#axiomsClean VeriTile.Bench.Repairs.TokenAttnMistralGridYChecked.kernel_correct
-#axiomsClean VeriTile.Bench.Repairs.TokenAttnMistralGridYChecked.FPEquiv.affine_address_equiv

@@ -1,9 +1,0 @@
-{
-  "script": "map_revision.py",
-  "source_snapshot": "evidence/script-attempts/0001-map_revision.py.txt",
-  "source_sha256": "5f5656b025748611f1eb42fcf1910368f9d6aac1ce74d9535adc885caaf67957",
-  "exit_code": 1,
-  "log": "evidence/script-attempts/0001-map_revision.log",
-  "log_sha256": "34efb50611b9c17e8adab12b7dc63db322a63fa0af6e36dc161bc54743f40925",
-  "capture": "Observed tool failure summarized after invocation; no Lean was run."
-}

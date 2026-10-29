@@ -29,4 +29,4 @@ unsigned arithmetic; the identity adapter definitions and recognizers are
 unchanged. The original adapter file above remains an unmodified historical
 snapshot, as do the earlier build receipts.
 
-- `RandomProfile-20261014-signed.lean.txt`: `61f31027a53ea7305b18341f0c7dced51c9407589bf4fe16b1c7bfded7859d04`. Adds i64-to-i32 source provenance only after actual signed low-word cast lowering. Identity adapters/recognizers are unchanged; older fixtures are retained. The corresponding stage proof and full-source admission receipt is `bench/review-checkpoints/2026-10-14/multinomial-cast-stage`.
+- `RandomProfile-20261014-signed.lean.txt`: `61f31027a53ea7305b18341f0c7dced51c9407589bf4fe16b1c7bfded7859d04`. Adds i64-to-i32 source provenance only after actual signed low-word cast lowering. Identity adapters/recognizers are unchanged; older fixtures are retained.

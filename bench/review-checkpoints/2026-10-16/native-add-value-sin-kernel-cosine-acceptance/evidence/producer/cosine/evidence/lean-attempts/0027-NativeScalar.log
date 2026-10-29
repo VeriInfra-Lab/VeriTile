@@ -1,9 +1,0 @@
-/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeScalar.lean:151:12: warning: This simp argument is unused:
-  hz
-
-Hint: Omit it from the simp argument list.
-  simp ̵[̵h̵z̵]̵
-
-Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
-CosineNative.result: definition does not reference [CosineNative.source, CosineNative.Expr.eval] — non-circular ✓
-CosineNative.source_scalar: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])

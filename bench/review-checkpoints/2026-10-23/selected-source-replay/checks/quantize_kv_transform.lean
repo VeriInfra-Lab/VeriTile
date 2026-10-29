@@ -1,7 +1,0 @@
-import VeriTile.Meta.StatementAudit
-import bench.repairs.tritonbench_g.quantize_kv_transform.Contract
-import bench.repairs.tritonbench_g.quantize_kv_transform.Correct
-import bench.repairs.tritonbench_g.quantize_kv_transform.FPEquiv
-
-#axiomsClean VeriTile.Bench.Repairs.QuantizeKvTransform.Correct.kernel_real
-#axiomsClean VeriTile.Bench.Repairs.QuantizeKvTransform.FPEquiv.address_early_equiv

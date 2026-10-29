@@ -1,7 +1,0 @@
-import VeriTile.Meta.StatementAudit
-import bench.repairs.tritonbench_g.block_sparse_attn.KernelOnly.Contract
-import bench.repairs.tritonbench_g.block_sparse_attn.KernelOnly.Correct
-import bench.repairs.tritonbench_g.block_sparse_attn.KernelOnly.FPEquiv
-
-#axiomsClean VeriTile.Bench.Repairs.BlockSparseAttn.KernelOnly.Correct.kernel_correctness
-#axiomsClean VeriTile.Bench.Repairs.BlockSparseAttn.KernelOnly.Equivalence.quotient_remainder_equiv

@@ -1,7 +1,0 @@
-# Final root aggregate for the multinomial frontend prerequisites
-
-The requested aggregate libraries, regular frontend regression target, and recorded softmax/retention/isfinite public/proof targets all passed. The terminal receipt records 4,922 Lake jobs and 1,566 unchanged recursively captured local inputs. This is the final source version after registering the two additional numerical/RNG regressions and all four multinomial Scores storage profiles.
-
-The change implements signed i64-to-i32 low-word interpretation and Bool-to-i32 conversion, retaining integer storage under nested casts and signed values during address inference. Seven evaluator laws cover mathematical, rounded and structural semantics. Three additional theorems establish narrowed offset validity and typed vector RNG execution without an original-offset bound premise. Six scalar theorems preserve the rounded CDF boundary behavior at an actual canonical sample.
-
-The full multinomial body elaborates for fp16/bf16/fp32/fp64 Scores with the original i64 seed/offset/index/output buffers. This remains a frontend fixture, not the ordinary paired corpus source import or a complete sampling execution/value/host/native theorem. Independent acceptance and corpus completion labels are unchanged. The separate source audit covers 178 views; 49 adapter regression tests and eight unchanged-source native compilations are archived independently.

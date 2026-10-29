@@ -1,7 +1,0 @@
-{
-  "delivery": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/delivery.json",
-  "sha256": "11f4ef71a014f6e916ccf9fa1e1c264536655767bbebfea0ef896789f9c4913d",
-  "module_receipts": 21,
-  "repository_dependencies": 248,
-  "predecessor_pins": 29
-}

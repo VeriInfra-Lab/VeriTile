@@ -1,7 +1,0 @@
-VeriTile.Bench.TritonBenchG.VectorAddition.IntegerValueCorrect.spec: definition does not reference [VeriTile.Bench.TritonBenchG.VectorAddition.IntegerSource.source,
- VeriTile.Bench.TritonBenchG.VectorAddition.IntegerSource.runGrid,
- VeriTile.Bench.TritonBenchG.VectorAddition.IntegerSource.runGridPrefix,
- VeriTile.Triton.FP.Structural.exec] — non-circular ✓
-VeriTile.Bench.TritonBenchG.VectorAddition.IntegerValueCorrect.correct: axiom footprint ⊆ standard base ✓  ([propext,
- Quot.sound,
- Classical.choice])

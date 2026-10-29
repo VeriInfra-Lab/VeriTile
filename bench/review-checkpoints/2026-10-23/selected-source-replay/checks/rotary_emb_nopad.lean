@@ -1,9 +1,0 @@
-import VeriTile.Meta.StatementAudit
-import bench.repairs.tritonbench_g.rotary_emb_nopad.Contract
-import bench.repairs.tritonbench_g.rotary_emb_nopad.Correct
-import bench.repairs.tritonbench_g.rotary_emb_nopad.FPEquiv
-
-#axiomsClean VeriTile.Bench.Repairs.RotaryEmbNopad.Correct.rotary_uncached_correct
-#axiomsClean VeriTile.Bench.Repairs.RotaryEmbNopad.Correct.rotary_cached_correct
-#axiomsClean VeriTile.Bench.Repairs.RotaryEmbNopad.FPEquiv.uncached_source_candidate_equivalence
-#axiomsClean VeriTile.Bench.Repairs.RotaryEmbNopad.FPEquiv.cached_source_candidate_equivalence

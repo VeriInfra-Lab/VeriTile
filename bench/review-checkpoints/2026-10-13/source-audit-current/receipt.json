@@ -1,8 +1,0 @@
-{
-  "root_exit_code": 0,
-  "command": "bash bench/audit_tritonbench_g.sh --source-only",
-  "log_sha256": "8616db277d4977f3d61bdccc8187ec60fb2ff53e9ba315b318fd9f2abdcd9ea6",
-  "proof_replay": false,
-  "complete_task": false,
-  "scope": "Source gates with refreshed reviewed support and proof-gap manifest, after completed local LayerNorm and uniform public entries. Does not constitute comparator acceptance."
-}

@@ -1,5 +1,0 @@
-VeriTile.Bench.TritonBenchG.VectorAddition.IntegerSource.canonical_promotion: axiom footprint ⊆ standard base ✓  ([propext])
-VeriTile.Bench.TritonBenchG.VectorAddition.IntegerSource.canonical_store: axiom footprint ⊆ standard base ✓  ([propext])
-VeriTile.Bench.TritonBenchG.VectorAddition.IntegerSource.bool_true_plus_true_wraps: axiom footprint ⊆ standard base ✓  ([propext])
-VeriTile.Bench.TritonBenchG.VectorAddition.IntegerSource.int8_overflow_wraps: axiom footprint ⊆ standard base ✓  ([propext])
-VeriTile.Bench.TritonBenchG.VectorAddition.IntegerSource.bool_int8_store_is_not_nonzero_normalization: axiom footprint ⊆ standard base ✓  ([propext])

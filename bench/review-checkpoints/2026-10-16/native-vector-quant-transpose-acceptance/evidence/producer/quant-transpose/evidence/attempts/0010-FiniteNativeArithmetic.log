@@ -1,7 +1,0 @@
-QuantTransposeFinite.ArithmeticRefines: definition does not reference [QuantTransposeFinite.executeAPI,
- QuantTransposeFinite.execute,
- QuantTransposeFinite.runGrid,
- QuantTransposeFinite.runLanes] — non-circular ✓
-QuantTransposeFinite.metadata_specializations: axiom footprint ⊆ standard base ✓  ([propext])
-QuantTransposeFinite.singleton_active_wide_strides: axiom footprint ⊆ standard base ✓  ([propext])
-QuantTransposeFinite.narrow_product_before_extension: axiom footprint ⊆ standard base ✓  ([propext])

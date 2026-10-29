@@ -1,7 +1,0 @@
-import VeriTile.Meta.StatementAudit
-import bench.repairs.tritonbench_g.destindex_copy_kv1.Contract
-import bench.repairs.tritonbench_g.destindex_copy_kv1.Correct
-import bench.repairs.tritonbench_g.destindex_copy_kv1.FPEquiv
-
-#axiomsClean VeriTile.Bench.Repairs.DestindexCopyKv1.Correct.destindex_copy_kv1_kernel_real
-#axiomsClean VeriTile.Bench.Repairs.DestindexCopyKv1.FPEquiv.index_commuted_equiv

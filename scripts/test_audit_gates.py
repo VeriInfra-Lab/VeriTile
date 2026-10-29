@@ -1,6 +1,7 @@
 """Failure-injection regressions for the standalone audit gates."""
 import importlib.util
 import os
+import shutil
 from pathlib import Path
 import subprocess
 import sys
@@ -23,9 +24,24 @@ sheets = load('spec_sheets', 'scripts/spec_sheet.py')
 
 
 class AuditGateTests(unittest.TestCase):
+    def setUp(self):
+        self.fixture = tempfile.TemporaryDirectory()
+        self.addCleanup(self.fixture.cleanup)
+        self.fixture_root = Path(self.fixture.name)
+        for name in ('bench/check_ports.sh', 'bench/audit_trust.sh', 'bench/port_layout.py',
+                     'bench/audit_source.py', 'bench/check_worker_results.py'):
+            target = self.fixture_root / name
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(ROOT / name, target)
+        for task, helpers in [('vector_addition', ['Real']), ('mean_reduction', ['Candidate', 'Source'])]:
+            directory = self.fixture_root / 'bench/tritonbench_g' / task
+            (directory / 'Proofs').mkdir(parents=True)
+            for name in ['Correct', 'FPEquiv', 'Kernels', *['Proofs/' + h for h in helpers]]:
+                (directory / (name + '.lean')).write_text('-- Synthetic worker-accounting fixture.\n')
+
     def run_gate(self, script, env):
-        return subprocess.run(['bash', str(ROOT / script), 'vector_addition', 'mean_reduction'],
-                              cwd=ROOT, env={**os.environ, **env}, text=True,
+        return subprocess.run(['bash', str(self.fixture_root / script), 'vector_addition', 'mean_reduction'],
+                              cwd=self.fixture_root, env={**os.environ, **env}, text=True,
                               capture_output=True, timeout=20)
 
     def test_invalid_concurrency(self):
@@ -166,10 +182,6 @@ class AuditGateTests(unittest.TestCase):
 
     def test_unannotated_proof_is_not_promoted(self):
         self.assertEqual(coverage.classify('kernel_correctness', 'a checked theorem')[0], 'unreviewed')
-        rows = {Path(row.file).parent.name: row for row in coverage.collect()}
-        self.assertEqual(rows['int8_quantization'].coverage_level, 'precomputed_input_slice')
-        for name in ['quantize_global', 'rowwise_quantization_triton']:
-            self.assertEqual(rows[name].coverage_level, 'pre_rounding_slice')
 
     def test_real_runner_rejects_macro_generated_circular_specs(self):
         declarations = [

@@ -1,6 +1,0 @@
-VeriTile.Bench.TritonBenchG.ReluTritonKernel.WordGridCorrect.relu_word_grid_correctness: axiom footprint ⊆ standard base ✓  ([propext,
- Quot.sound,
- Classical.choice])
-VeriTile.Bench.TritonBenchG.ReluTritonKernel.WordGridCorrect.actual_result_and_frame: axiom footprint ⊆ standard base ✓  ([propext,
- Quot.sound,
- Classical.choice])

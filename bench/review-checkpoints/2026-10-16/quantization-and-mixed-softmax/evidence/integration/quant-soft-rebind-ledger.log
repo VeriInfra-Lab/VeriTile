@@ -1,1 +1,0 @@
-{"accepted": 0, "pending": 183, "confirmed_gaps": 85, "unreviewed": 98, "changed_tasks": ["quant_transpose_kernel", "quantize_global", "token_softmax_bloom", "token_softmax_llama"], "catalog_sha256": "5e710316ce4828d9b0d1e6d1edad246b895557aa25baca6893a14c74f68886d7"}

@@ -1,7 +1,0 @@
-import VeriTile.Meta.StatementAudit
-import bench.repairs.tritonbench_g.reversed_cumsum.Contract
-import bench.repairs.tritonbench_g.reversed_cumsum.Correct
-import bench.repairs.tritonbench_g.reversed_cumsum.FPEquiv
-
-#axiomsClean VeriTile.Bench.Repairs.ReversedCumsum.Correctness.kernel_correct
-#axiomsClean VeriTile.Bench.Repairs.ReversedCumsum.Equivalence.reversed_cumsum_compare_right_equiv

@@ -1,4 +1,0 @@
-QuantizeIntegerStage.Transpose.source_run: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
-QuantizeIntegerStage.Transpose.quant_transpose_fp32_llrint_int8_correctness: axiom footprint ⊆ standard base ✓  ([propext,
- Quot.sound,
- Classical.choice])

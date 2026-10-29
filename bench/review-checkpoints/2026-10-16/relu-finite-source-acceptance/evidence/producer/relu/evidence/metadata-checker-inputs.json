@@ -1,8 +1,0 @@
-{
-  "bench/adapter_common.py": "0f6817ac657b1c1d53d8cb9073a32bfd850526e1cc42dce3168aa6108889dcef",
-  "bench/check_original_program_scope.py": "fdaea9635c386e2b9083e82f6a40958142733d49dfd242154a8d02d5365347e6",
-  "bench/exact_scope_gate.py": "ea2bb821d97e28e48b5272a8282e186b7de7580888efe37ca645be60080f27e1",
-  "bench/exact_numerical_bindings.py": "fc49be311b150b876039c4c5994fe7926bf5ebeb37486de4a38f74868ff61e32",
-  "bench/current_source_catalog.py": "87d4642855036cc1397640d47b4a51c8032a1ab115c24be86b0c74082210b4e5",
-  "bench/original_program_acceptance.md": "24d3d26972a22729d4f6f1d90aacdd2508f057468f54f8b0d9bf0508b873ae28"
-}

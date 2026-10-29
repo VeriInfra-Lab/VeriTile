@@ -1,7 +1,0 @@
-import VeriTile.Meta.StatementAudit
-import bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Contract
-import bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.Correct
-import bench.repairs.tritonbench_g.matmul_persistent_triton_scalar_cast.FPEquiv
-
-#axiomsClean VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.kernel_correct
-#axiomsClean VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.FPEquiv.source_pair_equiv

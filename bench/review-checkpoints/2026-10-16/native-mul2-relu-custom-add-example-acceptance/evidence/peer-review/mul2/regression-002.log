@@ -1,4 +1,0 @@
-Mul2IndependentReview.translated_load: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
-Mul2IndependentReview.translated_program: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
-Mul2IndependentReview.shared_alias_observes_store: axiom footprint ⊆ standard base ✓  ([Quot.sound, propext])
-Mul2IndependentReview.signed_minimum_grid_rejection: axiom footprint ⊆ standard base ✓  ([propext])

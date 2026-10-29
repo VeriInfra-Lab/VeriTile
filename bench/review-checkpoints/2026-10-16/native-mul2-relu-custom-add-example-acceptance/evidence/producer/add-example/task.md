@@ -1,3 +1,0 @@
-Complete finite original-source acceptance proposal for add_example.
-Authorized ownership: /tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip only. Repository, Git and frozen packages read-only. Root substantive review precedes any acceptance increment.
-Source: exact zeros_like(x), BLOCK_SIZE=4, x.numel(), (n+3)//4, annotated add_kernel launch, return. Model actual dtype admission, allocation/empty metadata, finite addresses, raw linear pointer loads/stores and frames. Numeric primitives may be explicitly deferred; structural gaps may not. Preserve every failed attempt and before/after dependency hash. CPU/offline native probes do not establish GPU execution.

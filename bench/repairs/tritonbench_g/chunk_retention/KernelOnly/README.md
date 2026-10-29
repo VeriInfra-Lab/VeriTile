@@ -1,14 +1,19 @@
-# chunk_retention kernel entry
+# chunk_retention
 
+Mathematics exposes headRate, weighted forward and reverse suffix sums, state/final state, forcing, local coefficients, chunk output/dQ/dK and key-block partial dV. result explicitly routes all seven possible output channels.
 
-Public FP entry status, 2026-10-21: **comparison proof pending**.
-`Misc/NativeCorrect.lean` retains the former single-source `source_fp_equiv`
-result as an ordinary theorem under its original namespace, full input domain
-and proof. `FPEquiv.lean` records the missing/pending comparison and declares no two-program
-FP specification. Original typed-source candidate exists but its source and numeric/contextual proof have not been connected to the selected repaired KernelPacket/AddressedProgramIO staging; do not count a native implementation as pair proof.
-The independent `Correct.lean` mathematical theorem and the complete native
-Tensor application are preserved. This gap is a missing program comparison,
-not an unproved numerical law; no new numerical experiment is claimed.
+- [chunk_retention_repaired.py](../Whole001/chunk_retention_repaired.py)
+- [Kernels.lean](Kernels.lean)
+- [Contract.lean](Contract.lean)
+- [Correct.lean](Correct.lean)
+- [FPEquiv.lean](FPEquiv.lean)
 
+## Scope
 
-可选证明入口统一位于 `Misc/`：`Misc/TensorBridge.lean`, `Misc/NativeCorrect.lean`, `Misc/Reader.lean`。文件迁移保留声明全名、类型、证明和原有状态；主入口不再为兼容重导出可选 native 结果。所需 IO、公式及连接助手继续保留原位置。
+Original four standalone stage interface with Legal p/grid and complete active cells for that invocation. Supplied saved/future history stays ordinary input for output/gradient stages. Partial dV remains partial; no new whole-pipeline/Tensor claim.
+
+## Conditions
+
+Call and PublicIO.Legal a p grid retained. IO provides exact active output masks, optional seed/final channels, coordinate bounds and frames; selected Contract exports existing addressed legality and Tensor binding/separation contracts.
+
+Exact FP program pairs and numerical dependencies are recorded in the [chunk_retention contract review](../../../../validation/contracts.json). The final source inventory, Lean build, axiom/spec audits and independent proof replay are separate checks; this review does not certify GPU execution.

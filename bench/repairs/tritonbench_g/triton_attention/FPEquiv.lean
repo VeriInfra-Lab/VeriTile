@@ -1,2 +1,0 @@
-import bench.repairs.tritonbench_g.triton_attention.Whole001.FPEquiv
-import bench.repairs.tritonbench_g.triton_attention.Proofs.CheckedFPEquiv

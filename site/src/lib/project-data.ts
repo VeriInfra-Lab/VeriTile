@@ -5,19 +5,10 @@ import demoRecord from './vector-add-record.json';
 
 // The documented dev script and CI build both run from site/.
 const repositoryRoot = resolve(process.cwd(), '..');
-const benchRoot = resolve(repositoryRoot, 'bench/tritonbench_g');
-const ports = readdirSync(benchRoot, { withFileTypes: true })
-  // Private/generated directories (for example _spec-sheets) are metadata.
-  .filter((entry) => entry.isDirectory() && !entry.name.startsWith('_') && !entry.name.startsWith('.'))
-  .map((entry) => {
-    const files = readdirSync(resolve(benchRoot, entry.name));
-    return {
-      python: files.some((file) => file.endsWith('.py')),
-      lean: files.some((file) => file.endsWith('.lean')),
-      readme: files.includes('README.md'),
-    };
-  })
-  .filter((entry) => entry.python || entry.lean || entry.readme);
+const selection = JSON.parse(readFileSync(resolve(repositoryRoot, 'bench/tritonbench_g/task_progress.json'), 'utf8'));
+const ports = selection.tasks.map((task: { kernel_revision: { source?: string; kernel_source: string } }) => ({
+  python: Boolean(task.kernel_revision.source), lean: Boolean(task.kernel_revision.kernel_source),
+}));
 
 export const corpus = {
   pairedPorts: ports.filter((port) => port.python && port.lean).length,
@@ -29,7 +20,7 @@ const vectorAddSource = readFileSync(resolve(repositoryRoot, 'bench/examples/Vec
   + '\n' + readFileSync(resolve(repositoryRoot, 'bench/examples/VectorAdd/Kernels.lean'), 'utf8');
 const kernelMatch = vectorAddSource.match(/def addKernel [^\n]* := (triton \{[\s\S]*?\n\})/);
 const contractMatch = vectorAddSource.match(/specification add_kernel_correctness[^\n]*\n\s*(.+) := by/);
-const proofMatch = vectorAddSource.match(/(specification add_kernel_correctness[^\n]*\n[\s\S]*?)(?=\n\n\/\-! ## Trust gates)/);
+const proofMatch = vectorAddSource.match(/(specification add_kernel_correctness[^\n]*\n[\s\S]*?)(?=\n\nsection Optimized)/);
 if (!kernelMatch || !contractMatch || !proofMatch) {
   throw new Error('The VectorAdd showcase changed. Update the homepage excerpt selectors.');
 }
@@ -38,7 +29,8 @@ export const vectorAddKernel = kernelMatch[1];
 export const vectorAddContract = contractMatch[1];
 export const vectorAddProof = proofMatch[1];
 
-const pythonMatch = vectorAddSource.match(/```python\n([\s\S]*?)\n```/);
+const pythonSource = readFileSync(resolve(repositoryRoot, 'bench/examples/VectorAdd/vector_add.py'), 'utf8');
+const pythonMatch = pythonSource.match(/@triton.jit\n(def add_kernel[^\n]*\n[\s\S]*)/);
 if (!pythonMatch) throw new Error('Homepage Python excerpt changed. Update its selector.');
 // Show only the aligned, unmasked kernel bodies. Match display names so readers
 // can compare operations directly; the verified kernel and demo stay verbatim.
@@ -51,22 +43,16 @@ function comparisonBody(lines: string[], aliases: Record<string, string>): strin
     .join('\n');
 }
 export const vectorAddBodies = {
-  python: comparisonBody(pythonMatch[1].split('\n').slice(2), { BLOCK_SIZE: 'B' }),
+  python: comparisonBody(pythonMatch[1].trimEnd().split('\n').slice(1), { BLOCK_SIZE: 'B' }),
   lean: comparisonBody(vectorAddKernel.split('\n').slice(1, -1), {
     blockSize: 'B', offs: 'offsets', xReg: 'x_ptr', yReg: 'y_ptr', outReg: 'out_ptr', out: 'output',
   }),
 };
 
-const proofRows = readFileSync(resolve(benchRoot, 'proof_gap_manifest.tsv'), 'utf8').trim().split('\n');
-const proofColumns = proofRows.shift()!.split('\t');
-const declarationColumn = proofColumns.indexOf('declaration');
-const fileColumn = proofColumns.indexOf('file');
-if (declarationColumn < 0 || fileColumn < 0) throw new Error('Proof manifest schema changed.');
+const review = JSON.parse(readFileSync(resolve(repositoryRoot, 'bench/validation/contracts.json'), 'utf8'));
 export const proofInventory = {
-  statements: new Set(proofRows.map((row) => {
-    const columns = row.split('\t');
-    return `${columns[fileColumn]}:${columns[declarationColumn]}`;
-  })).size,
+  statements: new Set(review.tasks.flatMap((task: { readers: { path: string; specifications: { name: string }[] }[] }) =>
+    task.readers.flatMap((reader) => reader.specifications.map((spec) => `${reader.path}:${spec.name}`)))).size,
 };
 
 // Fail the site build if recorded Lean results no longer match this checkout.
@@ -80,6 +66,7 @@ const recordInputs = [
   'lean-toolchain', 'lakefile.toml', 'lake-manifest.json',
   'site/scripts/record-home-demo.py', 'bench/examples/VectorAdd/Correct.lean',
   'bench/examples/VectorAdd/Kernels.lean',
+  'bench/examples/VectorAdd/Proofs/Real.lean',
   ...leanFiles('VeriTile'),
 ].sort();
 const fingerprint = createHash('sha256');

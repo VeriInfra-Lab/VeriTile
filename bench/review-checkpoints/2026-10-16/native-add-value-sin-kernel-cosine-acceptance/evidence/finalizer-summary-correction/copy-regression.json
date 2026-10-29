@@ -1,9 +1,0 @@
-{
-  "schema": 1,
-  "actual_common_helper_used": true,
-  "old_none_return_copy_bug_reproduced": true,
-  "corrected_checked_copy_passed": true,
-  "wrong_source_rejected": true,
-  "wrong_destination_rejected": true,
-  "full_preservation_rerun": false
-}

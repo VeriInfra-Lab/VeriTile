@@ -92,4 +92,25 @@ theorem named_conversion_keeps_signed_ops (X : RegionName) (count : Nat) :
   exact ⟨rfl, rfl⟩
 
 #axiomsClean named_conversion_keeps_signed_ops
+
+/-- Packed int32 fields retain their width after a left shift, including the
+sign bit. The following OR must still be a signed machine-word operation. -/
+def packedFields : ComputeKernel := triton {
+  sign = ($(1)).to(tl.int32) << $(31)
+  payload = ($(1)).to(tl.int32) << $(0)
+  combined = sign | payload
+}
+
+theorem packed_fields_wrap_before_or :
+    packedFields.surfaceBody[0]? = some
+      (.assign .int [] "sign" (.alg (Op.intToSigned 32
+        (.mul .int .nil (.intToSigned 32 (.castNatToInt (.constNat 1)))
+          (.castNatToInt (.shiftLeft .nil (.full [] (.constNat 1)) (.constNat 31))))))) ∧
+    packedFields.surfaceBody[2]? = some
+      (.assign .int [] "combined" (.alg (Op.unsignedToInt 32 (.bitOr .nil
+        (.intToUnsigned 32 (.ref .int [] "sign"))
+        (.intToUnsigned 32 (.ref .int [] "payload")))))) := by
+  exact ⟨rfl, rfl⟩
+
+#axiomsClean packed_fields_wrap_before_or
 end VeriTile.Tests.SignedBitwiseSource

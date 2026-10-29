@@ -1,5 +1,0 @@
-Traceback (most recent call last):
-  File "/tmp/veritile-standardization-20261015/review_quant_transpose_revision1.py", line 32, in <module>
-    for mod in imports((P/p).read_text()):assert mod in known,(p,mod)
-                                                 ^^^^^^^^^^^^
-AssertionError: ('bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteScalar.lean', 'Mathlib.Data.List.Range')

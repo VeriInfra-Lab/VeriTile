@@ -1,4 +1,0 @@
-VeriTile.Bench.TritonBenchG.VectorAddition.FP64GridCorrect.vector_addition_fp64_defined_grid_correctness: axiom footprint ⊆ standard base ✓  ([propext,
- Quot.sound])
-VeriTile.Bench.TritonBenchG.VectorAddition.FP64GridCorrect.vector_addition_fp64_floating_grid_correctness: axiom footprint ⊆ standard base ✓  ([propext,
- Quot.sound])

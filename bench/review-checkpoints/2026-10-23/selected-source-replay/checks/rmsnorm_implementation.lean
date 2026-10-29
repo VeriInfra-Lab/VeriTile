@@ -1,7 +1,0 @@
-import VeriTile.Meta.StatementAudit
-import bench.repairs.tritonbench_g.rmsnorm_implementation.Contract
-import bench.repairs.tritonbench_g.rmsnorm_implementation.Correct
-import bench.repairs.tritonbench_g.rmsnorm_implementation.FPEquiv
-
-#axiomsClean VeriTile.Bench.Repairs.RmsnormImplementation.Correct.rmsnorm_kernel_correctness
-#axiomsClean VeriTile.Bench.Repairs.RmsnormImplementation.FPEquiv.rmsnorm_index_commuted_equiv

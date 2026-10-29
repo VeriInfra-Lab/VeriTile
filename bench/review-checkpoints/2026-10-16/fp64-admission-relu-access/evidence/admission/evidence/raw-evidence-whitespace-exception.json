@@ -1,9 +1,0 @@
-{
-  "path": "evidence/source-audit/original_python__test_add.txt",
-  "attribute_file": "evidence/source-audit/.gitattributes",
-  "attribute": "/original_python__test_add.txt whitespace=-blank-at-eol",
-  "reason": "Preserve exact frozen original Python test_add text including six original whitespace-only lines. Lean and executable source rules are unchanged.",
-  "raw_sha256": "9c4d6ceebe682675a8fc0827f6509a1081620932d7267821a4c8d08cee11c0ef",
-  "prior_recorded_sha256": "9c4d6ceebe682675a8fc0827f6509a1081620932d7267821a4c8d08cee11c0ef",
-  "original_failed_check": "evidence/failed-whitespace-check.json"
-}

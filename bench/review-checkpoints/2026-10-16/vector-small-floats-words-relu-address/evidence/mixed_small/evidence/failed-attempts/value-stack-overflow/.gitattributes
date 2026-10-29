@@ -1,2 +1,0 @@
-# Preserve the single-space blank context line in this exact archived unified diff.
-/structural-proof-fix.diff whitespace=-blank-at-eol

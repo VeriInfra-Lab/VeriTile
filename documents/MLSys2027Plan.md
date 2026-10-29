@@ -106,7 +106,7 @@ structure RoundingModel where
 | 201 个文件的 comparator 重放成功记录 | 本地 `Logs/comparator-check-m6yn0xci/`：173 个 corpus 文件、17 个 showcase、11 个测试文件 | 是已有证明的检查记录，不是新任务的自动证明成功率 |
 | 118 个 library theorem 的重放成功记录 | 本地 `Logs/comparator-check-kol1n_tb/` | 与上面的文件数不能相加当作 kernel 数 |
 | 上述两个批次各自记录的 365 个文件指纹与当前文件一致 | 两个批次的 `inputs.json` | 本次没有重新运行全量 Lean 检查；本地日志在 Git 忽略目录中，仍需整理为投稿 artifact |
-| 覆盖与 manifest 一致性检查通过 | `python3 bench/coverage_review.py`；`python3 bench/check_proof_gap_manifest.py` | 验证清单、源码指纹和链接一致性，不代替证明重放 |
+| 覆盖与 manifest 一致性检查通过 | `python3 bench/coverage_review.py`；`python3 bench/final_inventory.py --check` | 验证清单、源码指纹和链接一致性，不代替证明重放 |
 
 345 个 headline 的范围分类为：8 个 `full_value_candidate`、296 个 `specialization`、37 个 `precomputed_input_slice`、3 个 `pre_rounding_slice`、1 个 `blocked_summary`。数值模型分为 268 个 `mathematical` 和 77 个 `abstract_rounding`。
 

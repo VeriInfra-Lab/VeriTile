@@ -1,7 +1,0 @@
-import VeriTile.Meta.StatementAudit
-import bench.repairs.tritonbench_g.flash_attn_scalar_abi_checked.Contract
-import bench.repairs.tritonbench_g.flash_attn_scalar_abi_checked.Correct
-import bench.repairs.tritonbench_g.flash_attn_scalar_abi_checked.FPEquiv
-
-#axiomsClean VeriTile.Bench.Repairs.FlashAttnScalarABIChecked.whole_real
-#axiomsClean VeriTile.Bench.Repairs.FlashAttnScalarABIChecked.whole_fp

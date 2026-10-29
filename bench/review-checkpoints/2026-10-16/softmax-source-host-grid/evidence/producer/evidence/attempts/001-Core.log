@@ -1,6 +1,0 @@
-/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Core.lean:94:4: error: Type mismatch: After simplification, term
-  Nat.mul_div_right r (Decidable.byContradiction fun a => decode_inner._proof_1_1 hn a)
- has type
-  N * r / N = r
-but is expected to have type
-  (r * N + n) / N = r

@@ -41,13 +41,15 @@ theorem history_storage (BT BK BV : Nat) (gateK initial final : Bool) :
     ((loop BT BK BV gateK initial final).body.drop
       (Source.prefixBeforeStore (loop BT BK BV gateK initial final).body).length).head? = some
       (.store .bf16 [BK,BV] (.blockPtr (.ref .blockPtr [BK,BV] "p_h") [0,1])
-        (.alg (.castFloat .real .bf16 (.ref .real [BK,BV] "b_h"))) .none) := rfl
+        (.alg (.castFloat .real .bf16
+          (.withPrecision .real .fp32 (.ref .real [BK,BV] "b_h")))) .none) := rfl
 
 theorem final_storage (BT BK BV : Nat) (gateK initial final : Bool) :
     ((finalBranch BT BK BV gateK initial final).yes.drop
       (Source.prefixBeforeStore (finalBranch BT BK BV gateK initial final).yes).length).head? = some
       (.store .fp32 [BK,BV] (.blockPtr (.ref .blockPtr [BK,BV] "p_h") [0,1])
-        (.alg (.castFloat .real .fp32 (.ref .real [BK,BV] "b_h"))) .none) := rfl
+        (.alg (.castFloat .real .fp32
+          (.withPrecision .real .fp32 (.ref .real [BK,BV] "b_h")))) .none) := rfl
 
 /-- The endpoint is at the full chunk end in a flattened parent of size T*K. -/
 theorem key_endpoint (BT BK BV : Nat) (gateK initial final : Bool) :
@@ -74,7 +76,13 @@ theorem intrinsic_value_gate (BT BK BV : Nat) (gateK initial final : Bool) :
 
 /-- Both dot operands remain fp16 after the gated operand's storage cast. -/
 theorem final_addition_precision (BT BK BV : Nat) (gateK initial final : Bool) :
-    assignment (loop BT BK BV gateK initial final).body "b_h" = some
+    assignment (gate BT BK BV gateK initial final).yes "b_h" 1 = some
+      (.assign .real [BK,BV] "b_h" (.compute (.alg .fp32
+        (.add .real (.consSame (.consSame .nil)) (.ref .real [BK,BV] "b_h")
+          (FPEquivProofs.blockDot .fp16 BK BT BV))))) := rfl
+
+theorem final_value_addition_precision (BT BK BV : Nat) (gateK initial final : Bool) :
+    assignment (gate BT BK BV gateK initial final).no "b_h" 1 = some
       (.assign .real [BK,BV] "b_h" (.compute (.alg .fp32
         (.add .real (.consSame (.consSame .nil)) (.ref .real [BK,BV] "b_h")
           (FPEquivProofs.blockDot .fp16 BK BT BV))))) := rfl
@@ -115,7 +123,12 @@ info:   none -/
 #print_fp_assumptions FPEquivProofs.cumulative_equiv
 /-- info: FP assumptions used by recurrent_equiv:
 ---
-info:   add_commute -/
+info:   none
+---
+info: Strict model certificates used by recurrent_equiv:
+---
+info:   model: VeriTile.Software.strictFP32/ieeeValue/maxnum/documented-exp-special-values
+    certificate: List.Forall₂.cons (FP.ScalarArithmetic.strict_certificate FP.ScalarArithmetic.Atom.addCommute rfl) List.Forall₂.nil -/
 #guard_msgs in
 #print_fp_assumptions FPEquivProofs.recurrent_equiv
 #guard_msgs (drop info) in

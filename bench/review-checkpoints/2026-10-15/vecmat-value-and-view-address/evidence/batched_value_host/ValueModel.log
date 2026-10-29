@@ -1,9 +1,0 @@
-VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.expectedMemory: definition does not reference [VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.source,
- VeriTile.Triton.FP.Structural.exec,
- VeriTile.Triton.FP.Structural.run] — non-circular ✓
-VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.source_admitted: axiom footprint ⊆ standard base ✓  ([propext,
- Quot.sound,
- Classical.choice])
-VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.expectedMemory_frame: axiom footprint ⊆ standard base ✓  ([propext,
- Quot.sound,
- Classical.choice])

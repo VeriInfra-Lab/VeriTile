@@ -51,8 +51,9 @@ def mixedHalf (X W : RegionName) := triton {
 /-- Triton prefers fp16 for the fp16/bf16 pair (its usual tensor promotion rule). -/
 theorem mixed_half_prefers_fp16 (X W : RegionName) : (mixedHalf X W).surfaceBody.drop 2 = [
     .assign .fp16 [2] "y" (.alg
-      (.mul .fp16 (.consSame .nil) (.ref .fp16 [2] "x")
-        (.castFloat .bf16 .fp16 (.ref .bf16 [2] "w"))))] := rfl
+      (.mul .fp16 (.consSame .nil) (.withPrecision .fp16 .fp32 (.ref .fp16 [2] "x"))
+        (.withPrecision .fp16 .fp32
+          (.castFloat .bf16 .fp16 (.ref .bf16 [2] "w")))))] := rfl
 
 def halfBeforeWeight := triton {
   x = $((2 : ℝ)).to(tl.float32)

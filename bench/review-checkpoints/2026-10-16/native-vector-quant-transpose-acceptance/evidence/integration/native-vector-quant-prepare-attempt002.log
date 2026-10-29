@@ -1,8 +1,0 @@
-{
-  "checkpoint": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/review-checkpoints/2026-10-16/native-vector-quant-transpose-acceptance",
-  "modules": 25,
-  "publics": 2,
-  "retained_files": 2751,
-  "archive_relocations": 21,
-  "root_review_sha256": "465be09888f151bde335c39d7de44c84bc7a39a56390ae5f71c16f9d9daacf16"
-}

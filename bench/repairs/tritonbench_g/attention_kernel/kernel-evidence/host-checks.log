@@ -1,5 +1,0 @@
-host controls: 49
-complete address grids: 7
-original addressing/tail counterexamples: 6
-CPU metadata/address controls only; floating instruction validation is deferred
-scalar launch-word controls: 6; total host controls: 55

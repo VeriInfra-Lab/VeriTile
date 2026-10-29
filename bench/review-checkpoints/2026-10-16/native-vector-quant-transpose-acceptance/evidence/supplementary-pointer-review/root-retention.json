@@ -1,8 +1,0 @@
-{
-  "reviewer": "root",
-  "receipt_sha256": "aa62e23414c2cafe4bc69906f304256e3bdeadc36b9bebe1cb3ebaf97b864d60",
-  "conclusion": "Read the focused argument and actual CPU metadata witnesses. An unused total pointer field does not assert Result.ok or grant permissions. Its interpretation on absent/failed extraction is arbitrary unconsumed completion; successful extraction still binds the actual pointer. This supplies no new numerical or native correctness claim.",
-  "source_or_authority_modified": false,
-  "independent_cpu_witnesses": 5,
-  "root_reexecuted_witnesses": false
-}

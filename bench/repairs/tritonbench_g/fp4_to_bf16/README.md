@@ -1,135 +1,30 @@
-# Packed FP4 to BF16: kernel proof
+# fp4_to_bf16
 
-The selected source is `fp4_to_bf16_repaired.py` (SHA256
-`70f10f7ab112fd50f29511e24c8dac26374d51e3ea8bb6dc769e899bdc6d22be`).
-This revision preserves its Python, every input guard and the existing test.
-The original benchmark's signed-int32 indexing defect remains separately
-recorded; no correctness claim is transferred to that original source.
+fp4_to_bf16_real: logicalRealIO implements, on LogicalByteDomain, xs ↦ (j ↦ some (nibbleReal (logicalNibble xs j))).
 
-## Independent target and precision
+- [fp4_to_bf16_repaired.py](fp4_to_bf16_repaired.py)
+- [Kernels.lean](Kernels.lean)
+- [Contract.lean](Contract.lean)
+- [Correct.lean](Correct.lean)
+- [FPEquiv.lean](FPEquiv.lean)
 
-Each packed uint8 byte produces two E2M1 values, **high nibble first**. For a
-nibble with sign s, exponent e and one mantissa bit m, the magnitude is m/2
-when e=0 and `(1+m/2)*2^(e-1)` otherwise; s chooses the sign. The last Tensor
-dimension doubles. `KernelResult.mathematical` states this Real formula using
-logical input bytes, independently of kernel execution or output memory.
-`nativeTarget` uses the independent BF16 format table and distinguishes both
-zero signs. Every nibble and all 256 packed bytes are admitted.
-For example, `0x21` becomes `(1, 0.5)` and `0x80` becomes `(-0, +0)`.
+## Scope
 
-The actual conversion performs uint8 bit manipulation, constructs a signed32
-payload, bitcasts to FP32 and then converts to BF16. All E2M1 values are exactly
-representable in both formats. Existing kernel-checked `Bits.all_nibbles`,
-`integer_payload` and full conversion execution proofs are reused. There are
-**zero numerical assumptions or numerical experiment deferrals**.
+Complete finite-ABI CTA grid; exactly 2*count outputs, all 256 input bytes, masked final CTA, both zero signs at the native-bit endpoint, safe source accesses and exterior frame.
 
-## Source and public entries
+## Conditions
 
-`Kernels.source` selects the shared readable `FPValue.unscaled` Triton DSL,
-including the complete inlined helper, load mask, interleave and BF16 store.
-The shared DSL uses mathematical indices. Existing `Finite` certificates
-prove the selected repair's widened native signed64 count, program ID,
-padded lane indices, masks and accessed pointers equal those mathematical
-indices. `Launch.program` binds the actual count/program-ID ABI to this same
-source; `Launch.complete_refinement` connects every complete program order.
-This explicit refinement boundary is retained, with no handwritten duplicate
-conversion AST or new implementation variant.
+Public conditions:
 
-- `TensorBridge.fp4_to_bf16_kernel_real` proves complete successful source execution
-  and the independent Real formula at every actual output Tensor coordinate.
-- `TensorBridge.fp4_to_bf16_kernel_native` proves the exact corresponding BF16 word
-  against the independent format graph, including negative zero.
-- Both entries include the complete tagged-memory frame, exterior physical
-  byte frame and preservation of the complete input backing allocation.
-- `TensorBridge.native_lane_refinement` states the exact padded native masks using
-  a bound derived from the actual output allocation.
-- `TensorBridge.python_checks_iff_preconditions` retains exact guard equivalence.
+- Finite.Storage count
+- input != output
+- grid <= 2147483647
+- jobs.Perm (List.range grid)
+- ProgramIO input domain ByteDomain: every discrete input <256
+- ProgramIO memory binding and InBounds remain in the public judgment
 
-These are kernel results. Historical wrapper/protocol statements remain in
-`Proofs/HistoricalCorrect.lean` and `Proofs/HistoricalFPEquiv.lean`; public
-entries do not invoke `observe`, `runChecked` or allocation/error protocols.
-The reused original `Host`/`HostSchedule` helper files describe kernel grids,
-register reset and shared memory, not a new whole-wrapper proof obligation.
+Contract and domain correspondence:
 
-## Actual Tensor and memory binding
+Contract accepts contiguous nonnegative-view CUDA uint8 Tensor storage. The discrete byte domain is visible in the headline; Finite.Storage, signed PID/count safety and schedule/freshness remain explicit. Real observation does not introduce a finite floating input premise because there are no floating input channels.
 
-`KernelBinding.PackedTensor` describes the actual input object, metadata,
-backing storage identity, byte capacity, storage offset, physical logical
-indices and observed data pointer. The admitted no-negative and contiguity
-checks derive direct packed-byte reads. `Bf16Tensor` describes the actual
-output with two-byte element addressing, dtype/layout, shape, physical
-indices and pointer laws. `Binding` connects both objects to the same launch,
-doubled last dimension, device and fresh backing allocations. Nonzero input
-and output storage offsets are supported; empty windows impose no unused
-pointer/offset bound.
-
-`Binding.storage` derives the existing finite-address certificate from those
-actual allocations. BF16 constructor alignment and signed host storage-size
-limits are ordinary output-allocation facts, not added user assertions.
-`Bytes.represent` represents every initial heap, including arbitrary
-`torch.empty` output bits, and `initial_realization` proves its roundtrip.
-`Bytes.physical_store` already proves that each active source BF16 store
-commutes with the two-byte representation. The final result reads the output
-through its actual Tensor coordinates and this proved memory connection.
-Memory-model/API rationale is in `documents/GpuMemoryModel.md` and the shared
-`VeriTile/Torch` Tensor bindings; Torch, allocator and compiler implementations
-are platform boundaries rather than new task-local proof projects.
-
-The unchanged guards require Tensor, strided layout, uint8, nonzero rank,
-CUDA, contiguity and no lazy negative flag. There is no count cutoff or payload
-restriction in the guards. Successful allocation supplies finite storage;
-`gridSafe` is the existing launch representability condition. Unsupported
-launches may fail in the runtime and are not claimed to return a correct
-Tensor. Grid-product overflow/segmented launch work is not expanded here.
-
-## Validation
-
-The unchanged existing `test_revision.py` source is pinned in the delivery
-packet. Its verified prior replay covers seven actual Triton CPU interpreter
-cases (all packed bytes, signed zeros, offsets, tails and multiple blocks),
-complete input storage and output guard sentinels, eight admission and eight
-rejection controls, two storage-capacity boundaries, and owning-device context
-restoration on normal/exception paths. No new Python execution is needed for
-this proof-interface change; the packet cites the existing source/test hashes
-and replay receipt. This is CPU interpretation with explicit host mocks,
-not native GPU execution. Targeted Lean builds and the combined public-entry
-axiom/specification audit are recorded separately in the packet.
-
-`Misc/TensorBridge.lean` contains the optional Tensor/check correspondence theorems;
-`Correct.lean` and `FPEquiv.lean` retain the primary kernel specifications.
-
-The main `Correct.fp4_to_bf16_real` entry uses shared `ProgramIO.ImplementsOn`.
-`FPEquiv.fp4_to_bf16_schedule_equiv` compares two actual complete CTA orders as
-`ScheduleIO.original h a ≡[[]] ScheduleIO.candidate h b`. This retains the
-schedule-reordering comparison already proved in
-`Proofs/HistoricalFPEquiv.complete_fp_equivalence`; it does not introduce a new
-conversion kernel. `ScheduleIO.Equivalent` requires both source traces to be
-safe, both full schedules to succeed, every BF16 output to agree and both
-exterior frames to hold on the same `ByteDomain`. `Proofs/ScheduleEquivalence.lean`
-reuses the existing complete IO implementation proof for each order. The old
-`FPEquiv.fp4_to_bf16_native` declaration is an ordinary auxiliary theorem in
-`Misc/NativeCorrect.lean`, imported explicitly by optional consumers.
-
-`IO.lean` exposes the complete actual finite-ABI
-launch schedule, packed uint8 input window, BF16 output window, source precision,
-register reset and grid metadata. `ByteDomain` is exactly the unsigned-byte
-range, covering all 256 input values. The existing finite storage, region
-separation and grid-representability conditions remain explicit.
-
-The mathematical target independently decodes each high/low nibble as E2M1;
-its observation is `Option Real`, and the proved output is `some` of that
-formula. Thus finiteness remains a conclusion, with no default-value fallback.
-The native target separately retains the exact BF16 bits, including both zero
-signs. Schedule reordering changes no arithmetic or numerical assumptions.
-
-`Proofs/SourceSafety.lean` checks both actual masks and all intervening pure
-source operations. `LogicalResult.lean` reuses the established raw source-memory
-result with logical byte reads; `LogicalGrid.lean` retains the entire arbitrary
-program permutation, and `PublicIO.lean` connects safety, successful execution,
-outputs and the full exterior cell frame. Former raw kernel statements and the
-native-mask consequence are ordinary helpers in `KernelRealResult.lean` and
-`KernelNativeResult.lean`. The complete `Misc/TensorBridge.lean` source and theorem
-statements are unchanged; they reuse the same source execution foundation and
-existing physical-store/Tensor binding proofs.
-
-Optional proof entries are in [Misc/TensorBridge.lean](Misc/TensorBridge.lean), [Misc/NativeCorrect.lean](Misc/NativeCorrect.lean). Their declaration namespaces, full statements and proof bodies are retained; the primary entries do not import these optional readers.
+Exact FP program pairs and numerical dependencies are recorded in the [fp4_to_bf16 contract review](../../../validation/contracts.json). The final source inventory, Lean build, axiom/spec audits and independent proof replay are separate checks; this review does not certify GPU execution.

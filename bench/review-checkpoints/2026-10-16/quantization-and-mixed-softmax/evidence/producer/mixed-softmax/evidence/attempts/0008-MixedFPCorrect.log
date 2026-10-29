@@ -1,3 +1,0 @@
-VeriTile.Bench.TritonBenchG.TokenSoftmaxLlama.MixedFPCorrect.token_softmax_mixed_output_typed_correctness: axiom footprint ⊆ standard base ✓  ([propext,
- Quot.sound,
- Classical.choice])

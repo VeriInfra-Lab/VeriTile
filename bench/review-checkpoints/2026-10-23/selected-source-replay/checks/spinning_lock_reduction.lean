@@ -1,7 +1,0 @@
-import VeriTile.Meta.StatementAudit
-import bench.repairs.tritonbench_g.spinning_lock_reduction.Contract
-import bench.repairs.tritonbench_g.spinning_lock_reduction.Correct
-import bench.repairs.tritonbench_g.spinning_lock_reduction.FPEquiv
-
-#axiomsClean VeriTile.Bench.Repairs.SpinningLock.Correct.spinning_kernel_correctness
-#axiomsClean VeriTile.Bench.Repairs.SpinningLock.FPEquiv.tile_area_equiv

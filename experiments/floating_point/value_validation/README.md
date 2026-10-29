@@ -19,9 +19,7 @@ python experiments/floating_point/value_validation/fp4_unscaled/run.py run \
   --output /tmp/fp4-unscaled-native
 ```
 
-[v2 验收补充包](../../../bench/review-checkpoints/2026-10-14/next-value-repair/fp4-unscaled-experiment-runner-v2/README.md)记录 26 项 CPU 检查、block 16/512 两个 SM90 离线编译通过，以及 CUDA 不可用的 `NOT_RUN` 回执，GPU 启动次数为 0。21 个配置包含非零指针偏移、尾部和额外完全 masked program；按原始 bf16 位比较活动输出，并检查输入、输出整个分配范围。物理别名和内部操作数尚未覆盖。v2 修复了命名编译元数据和源码/旧字节码缓存绑定；`environment_binding_complete` 与数值匹配状态分开记录。
-
-这只是 N21 的一个具体实验配置，不表示 N21 或 37 项完整原生工作项已完成。另见 [LayerNorm 九阶段软件闭合](../../../bench/review-checkpoints/2026-10-14/next-value-repair/layernorm-software-closure/README.md)：N 经过实际 fp32 舍入，但 GPU 树和融合仍未绑定；[int4 完整 tile 反例](../../../bench/review-checkpoints/2026-10-14/next-value-repair/int4-dotacc-gap/README.md)已否定分开 dot/add 与 carry-dot 的普适等式，不能继续把该等式当作待实验通过的假设，也不能把软件反例输出当作 GPU 实测。
+采集配置包含非零指针偏移、尾部和额外完全 masked program；按原始 bf16 位比较活动输出，并检查整个分配范围。物理别名和内部操作数尚未覆盖。编译与源码绑定状态、数值匹配和 GPU 执行结果分开记录。此工具不代表完整原生一致性验证已完成。
 
 逐任务还需检查以下关系，不能用这组标量样本代替：
 

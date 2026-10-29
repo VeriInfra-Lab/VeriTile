@@ -1,8 +1,0 @@
-/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/probe_host.py:21: UserWarning: ComplexHalf support is experimental and many operators don't support it yet. (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/EmptyTensor.cpp:54.)
-  x=torch.empty(size,dtype=getattr(torch,name));y=torch.empty(size,dtype=getattr(torch,name));out=mod.relu(x);row.update(status='returned',x=meta(x),output=meta(out),launch=calls[-1])
-{
-  "receipt": "/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/evidence/host-attempts/20261015T222523139812Z/receipt.json",
-  "sha256": "78032e191789538d3b5eb32537ade7b3ab4d07320d9b59ca3790d3f3b5b26b16",
-  "cases": 73,
-  "errors": []
-}

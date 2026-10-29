@@ -47,8 +47,10 @@ theorem default_typed_result_is_fp32 : typedResults.surfaceBody[4]? =
 
 theorem mixed_result_promotes_to_fp32 : typedResults.surfaceBody[5]? =
     some (.assign .fp32 [16, 16] "mixed" (.alg
-      (.add .fp32 (.consSame (.consSame .nil)) (.ref .fp32 [16, 16] "d")
-        (.castFloat .fp16 .fp32 (.ref .fp16 [16, 16] "c"))))) := rfl
+      (.add .fp32 (.consSame (.consSame .nil))
+        (.withPrecision .fp32 .fp32 (.ref .fp32 [16, 16] "d"))
+        (.withPrecision .fp32 .fp32
+          (.castFloat .fp16 .fp32 (.ref .fp16 [16, 16] "c")))))) := rfl
 
 def bf16Result : ComputeKernel := triton {
   a = tl.full([16, 16], 0, dtype=tl.bfloat16)
@@ -74,12 +76,12 @@ private def explicitOptions : DotOptions where
   maxNumImpreciseAcc := some 8
 
 theorem source_precision_options : (modes.surfaceBody[2]?, modes.surfaceBody[3]?) =
-    (some (.assign .real [16, 16] "c" (.alg
+    (some (.assign .real [16, 16] "c" (.compute (.alg .fp32
       (.dot (options := explicitOptions) (batch := [])
-        (.ref .real [16, 16] "a") (.ref .real [16, 16] "b")))),
-     some (.assign .real [16, 16] "d" (.alg
+        (.ref .real [16, 16] "a") (.ref .real [16, 16] "b"))))),
+     some (.assign .real [16, 16] "d" (.compute (.alg .fp32
       (.dot (options := { allowTF32 := some Bool.false }) (batch := [])
-        (.ref .real [16, 16] "a") (.ref .real [16, 16] "b"))))) := rfl
+        (.ref .real [16, 16] "a") (.ref .real [16, 16] "b")))))) := rfl
 
 private def input : Op .real [16, 16] := .full [16, 16] (.const 0)
 private def dot (options : DotOptions) : Op .real [16, 16] :=

@@ -1,9 +1,0 @@
-{
-  "checkpoint": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/review-checkpoints/2026-10-16/quant-transpose-finite-source-acceptance",
-  "modules": 18,
-  "publics": 1,
-  "supplement_declarations": 63,
-  "root_review_sha256": "927ecbeb85ff22ab5de735290faefd784f7ab00f82959a51380ce1f058e514b6",
-  "retained_files": 938,
-  "historical_lean_relocations": 11
-}

@@ -1,8 +1,0 @@
-CosineNative.finalByte: definition does not reference [CosineNative.applyWrites] — non-circular ✓
-CosineNative.rawFinalByte: definition does not reference [CosineNative.applyWrites] — non-circular ✓
-CosineNative.load_outside: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
-CosineNative.writes_append: axiom footprint ⊆ standard base ✓  ([])
-CosineNative.writes_outside: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
-CosineNative.writes_byte_frame: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
-CosineNative.writes_byte_result: axiom footprint ⊆ standard base ✓  ([Classical.choice, propext, Quot.sound])
-CosineNative.writes_raw_result: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])

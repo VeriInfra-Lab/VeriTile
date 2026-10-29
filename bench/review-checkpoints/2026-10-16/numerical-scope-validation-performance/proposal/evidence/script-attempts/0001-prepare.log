@@ -1,1 +1,0 @@
-{"changed_functions": ["validate_used_numerics"], "added_functions": ["validate_callback_scope_references"], "patch_applied": false, "baseline_source_sha256": "8a5fccb70fa937d5f6696905a530d6cafd2a0bb2256a55d4f3baaf3e5b74fd72", "candidate_sha256": "20a806dfce9e14d5a78c2c8e18715e23c7be9736110938265827667dcd7abc3f"}

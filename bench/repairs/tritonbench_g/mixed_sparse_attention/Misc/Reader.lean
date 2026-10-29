@@ -1,8 +1,0 @@
-import bench.repairs.tritonbench_g.mixed_sparse_attention.Source
-import bench.repairs.tritonbench_g.mixed_sparse_attention.Contract
-import bench.repairs.tritonbench_g.mixed_sparse_attention.Correct
-import bench.repairs.tritonbench_g.mixed_sparse_attention.Misc.NativeCorrect
-namespace VeriTile.Bench.Repairs.MixedSparseAttention.Reader
-#auditStmt kernel_real
-#auditStmt kernel_native
-end VeriTile.Bench.Repairs.MixedSparseAttention.Reader

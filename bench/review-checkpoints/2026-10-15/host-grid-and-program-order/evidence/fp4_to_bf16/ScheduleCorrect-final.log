@@ -1,3 +1,0 @@
-VeriTile.Bench.TritonBenchG.Fp4ToBf16.ScheduleCorrect.fp4_to_bf16_arbitrary_program_order_correctness: axiom footprint ⊆ standard base ✓  ([propext,
- Quot.sound,
- Classical.choice])

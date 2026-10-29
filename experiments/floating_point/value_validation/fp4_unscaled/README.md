@@ -39,4 +39,4 @@ python -m unittest discover \
 
 `reference/original.py` 是冻结原文件，SHA-256 为 `8571cb56ce932af6a7dd68e4047ee0863984812ac303d0d2959fc544a65e9958`。运行时只导入 `original_jit.py`；它逐行提取原有两个装饰后的函数定义，函数体未改写，不执行原文件中的测试或 host wrapper。该提取模块也会在每次运行前后重新验证。参考值、工具、Lean 导出记录、原始源码及实验配置的哈希均被绑定；变更工具或配置必须生成新参考，不能复用旧结果。
 
-冻结的导出、离线编译、未运行回执和安装检查见 [验收补充包 v2](../../../../bench/review-checkpoints/2026-10-14/next-value-repair/fp4-unscaled-experiment-runner-v2/README.md)。v2 保留 Triton namedtuple 编译元数据的字段名，并直接执行原 JIT 与独立 oracle 的已校验源码字节，防止未绑定的 `.pyc` 缓存替代实际执行内容。oracle 的加载时、当前文件和参考记录三方哈希均需一致。v1 工具与结果作为历史证据保留。
+工具保留 Triton namedtuple 编译元数据的字段名，并执行经过校验的 JIT 与独立 oracle 源码字节。oracle 的加载时、当前文件和参考记录三方哈希必须一致。生成参考、离线编译和 GPU 验证是分别执行、分别报告的步骤。

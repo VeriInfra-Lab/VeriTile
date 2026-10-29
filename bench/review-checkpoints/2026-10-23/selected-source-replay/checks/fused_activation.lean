@@ -1,7 +1,0 @@
-import VeriTile.Meta.StatementAudit
-import bench.repairs.tritonbench_g.fused_activation.Contract
-import bench.repairs.tritonbench_g.fused_activation.Correct
-import bench.repairs.tritonbench_g.fused_activation.FPEquiv
-
-#axiomsClean VeriTile.Bench.Repairs.FusedActivation.Correct.fused_activation_kernel_correctness
-#axiomsClean VeriTile.Bench.Repairs.FusedActivation.FPEquiv.fused_activation_commuted_equiv

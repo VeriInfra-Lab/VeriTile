@@ -1,7 +1,0 @@
-vector_addition binder accepted 2147483648 as i32
-vector_addition compiled and wrapper returned
-vector_addition_custom binder accepted 2147483648 as i32
-vector_addition_custom compiled and wrapper returned
-add_value binder accepted 2147483648 as i32
-add_value compiled and wrapper returned
-{"status": "passed", "tasks": 3, "gpu_launches": 0}

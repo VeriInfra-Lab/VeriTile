@@ -1,7 +1,0 @@
-import VeriTile.Meta.StatementAudit
-import bench.repairs.tritonbench_g.int8_dequant_matmul_scalar_cast.Contract
-import bench.repairs.tritonbench_g.int8_dequant_matmul_scalar_cast.Correct
-import bench.repairs.tritonbench_g.int8_dequant_matmul_scalar_cast.FPEquiv
-
-#axiomsClean VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.Correct.kernel_real
-#axiomsClean VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.FPEquiv.reuse_indices_equiv

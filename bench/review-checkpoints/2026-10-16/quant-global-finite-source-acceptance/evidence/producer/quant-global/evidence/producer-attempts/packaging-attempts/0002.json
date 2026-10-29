@@ -1,6 +1,0 @@
-{
-  "exit_code": 1,
-  "status": "failed_proposal_preflight",
-  "reason": "Probe artifact basenames use u8/i8/i16/i32/i64/fp32/fp64; scope dtype labels use canonical Torch names. Explicit filename mapping needed.",
-  "script": "0002-make_proposals.py.txt"
-}

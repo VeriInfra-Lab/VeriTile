@@ -1,42 +1,27 @@
 # index_select_cat
 
-`IO.lean` declares `Correct.gatherIO`: the signed-INT64 index channel, selected FP32 input
-cells, metadata-dependent source window, strided output window, and both tail
-masks. `Correct.kernel_correct` uses the shared `ProgramIO.Implements` judgment:
-every selected source value is copied to its output coordinate, the actual
-source accesses are backed by the declared windows, execution succeeds, and
-all exterior typed cells are preserved. Output-address injectivity stays an
-explicit geometry condition. Arbitrary BI/BC, source strides and signed index
-values remain in the regional model; checked Tensor applications retain their
-existing physical index bounds. The Python and both kernel programs are retained.
+index_select_cat.kernel_correct: logicalGatherIO implements (i,j) ↦ xs.payload[i,j].
 
-`FPEquiv.index_select_index_commuted_equiv` is the sole floating entry. It uses
-the standard profiled program equivalence for the retained integer-index
-commutation and reports zero numerical assumptions. The complete successful
-native execution, gather outputs and memory equality remain in
-`Proofs/KernelNativeResults.lean`; they do not add a correctness obligation to
-the public equivalence statement.
+- [index_select_cat_repaired.py](index_select_cat_repaired.py)
+- [Kernels.lean](Kernels.lean)
+- [Contract.lean](Contract.lean)
+- [Correct.lean](Correct.lean)
+- [FPEquiv.lean](FPEquiv.lean)
 
-`Misc/TensorBridge.lean` retains the checked Tensor request results and access/check
-helpers. Their existing metadata/index correspondence applies the same
-`TypedGather.execution` / `RawKernel.complete` foundation as the public IO.
-`Proofs/KernelSafety.lean` proves trace safety of the actual source and its
-actual evaluated metadata, load/store masks and signed pointer expressions.
-Real denotes the mathematical copy; all FP32 payloads remain admitted and no
-numerical experiment was added. Independent replay and GPU execution were not
-rerun during this format pass.
+## Scope
 
-`Correct.lean` contains the public IO theorem and a single composition call.
-Its window/index/mask data lives in `IO.lean`; the execution and safety
-connections remain in `Proofs/LogicalIO.lean` and `Proofs/IOCorrect.lean`. No proof helper
-imports either public reader entry.
+One complete BI*BC source program at explicit rowPid/colPid with both logical row/column tail masks; int64 index metadata, all selected payload values, safe actual accesses and output frame. No whole-grid theorem is newly claimed.
 
-Optional application proofs and readers are under `Misc/`; their declaration namespaces and theorem statements are unchanged. Required main proof helpers remain under `Proofs/`.
+## Conditions
 
-Source readability maintenance (2026-10-22): `Kernels.lean` replaces the
-whole-source generator with complete ordinary Triton quotations for `kernel`
-and `indexCommutedKernel`. Audit-only complete function equalities by `rfl`
-cover arbitrary layouts, including signed-index storage, both masks and all
-strides. Targeted source/proof builds and fresh joint main/retained optional
-imports are recorded in the source-only cache. Domains, programs and theorem
-statements are unchanged.
+Public conditions:
+
+- LogicalIO.Unique p rowPid colPid ensures distinct active output writes
+- Actual index input binding and metadata-dependent source payload read are in gatherIO
+- ProgramIO active read/write InBounds and input memory bindings remain
+
+Contract and domain correspondence:
+
+Contract target is source(indices i, d), with valid signed indices, canonical contiguous Layout specialization, native bounds and disjoint output/index/source. LogicalIO.read performs the signed index/stride selection, so copying the payload channel is an independent gather target, not an output/run premise.
+
+Exact FP program pairs and numerical dependencies are recorded in the [index_select_cat contract review](../../../validation/contracts.json). The final source inventory, Lean build, axiom/spec audits and independent proof replay are separate checks; this review does not certify GPU execution.

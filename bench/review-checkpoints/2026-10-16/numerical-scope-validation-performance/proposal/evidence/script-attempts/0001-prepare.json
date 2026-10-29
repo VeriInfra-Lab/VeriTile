@@ -1,8 +1,0 @@
-{
-  "script": "prepare.py",
-  "source_sha256": "cb8783c40e4c8e294b040dce3a053a3e4e9a2242403c57b92e27952c46c79839",
-  "exit_code": 0,
-  "log": "evidence/script-attempts/0001-prepare.log",
-  "log_sha256": "62e11e0950174c3bd10e82b954cab79d4e0684e49150823fdb326d51f0fb04d9",
-  "seconds": 0.09334631008096039
-}

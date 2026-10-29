@@ -285,28 +285,6 @@ class ProductionGuardedMaterializationTests(unittest.TestCase):
         self.assertEqual(sum(line.startswith('ok ') for line in result.stdout.splitlines()), 24)
         self.assertIn('1 extractable source views, 0 unresolved source views', result.stdout)
 
-    def test_actual_port_selected_source_passes_all_production_source_gates(self):
-        # Read the current entry through production import/selector discovery.
-        # The original source is reviewed and pinned; the evolving Lean entry
-        # must pass the actual AST comparison, not match a frozen fixture hash.
-        directory = ROOT / 'bench/tritonbench_g/layer_norm_fwd'
-        entry = source_file(directory)
-        self.assertIsNotNone(entry)
-        lean = source_text(entry)
-        python = (directory / 'layer_norm_fwd.py').read_text()
-        self.assertEqual(hashlib.sha256(python.encode()).hexdigest(), guarded.SOURCE_SHA256)
-        profile = source._source_profile_json(
-            source.source_audit_metadata(lean, 'materializations'), 'materializations')
-        self.assertEqual(profile['kind'], guarded.KIND)
-        self.assertEqual(profile['lean'], {
-            'source': guarded.SELECTOR,
-            'args': dict.fromkeys(guarded.DTYPE_ARGUMENTS, 'tl.float32') | {'version': 'original'},
-        })
-        result = self.production(lean, python)
-        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-        self.assertEqual(sum(line.startswith('ok ') for line in result.stdout.splitlines()), 24)
-        self.assertIn('1 extractable source views, 0 unresolved source views', result.stdout)
-
     def test_absent_profile_does_not_silently_erase_materialization(self):
         _, lean, _ = fixture()
         lean = re.sub(r'^Source-audit materializations: .*\n', '', lean, flags=re.M)

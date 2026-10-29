@@ -1,7 +1,0 @@
-import VeriTile.Meta.StatementAudit
-import bench.repairs.tritonbench_g.isfinite_kernel.Contract
-import bench.repairs.tritonbench_g.isfinite_kernel.Correct
-import bench.repairs.tritonbench_g.isfinite_kernel.FPEquiv
-
-#axiomsClean VeriTile.Bench.Repairs.IsfiniteKernel.Correct.isfinite_real_correctness
-#axiomsClean VeriTile.Bench.Repairs.IsfiniteKernel.FPEquiv.isfinite_index_commuted_equiv

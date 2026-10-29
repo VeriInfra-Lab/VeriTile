@@ -1,9 +1,0 @@
-{
-  "profiles": 20,
-  "exp_straight_chains": 76,
-  "div_spans": {
-    "STRAIGHT_REGISTER_SPAN": 12,
-    "CONTROL_OR_SYNCHRONIZATION_NOT_PROVED": 64
-  },
-  "whole_ptx_semantics_proved": false
-}

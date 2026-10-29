@@ -197,7 +197,12 @@ theorem computed_scalar (R : ScalarArithmetic.Rules) :
 
 /-- info: FP assumptions used by computed_scalar:
 ---
-info:   add_commute -/
+info:   none
+---
+info: Strict model certificates used by computed_scalar:
+---
+info:   model: VeriTile.Software.strictFP32/ieeeValue/maxnum/documented-exp-special-values
+    certificate: List.Forall₂.cons (ScalarArithmetic.strict_certificate ScalarArithmetic.Atom.addCommute rfl) List.Forall₂.nil -/
 #guard_msgs in
 #print_fp_assumptions computed_scalar
 #guard_msgs (drop info) in
@@ -264,7 +269,12 @@ theorem inplace_computed_multiplier (R : ScalarArithmetic.Rules) :
 
 /-- info: FP assumptions used by inplace_computed_multiplier:
 ---
-info:   mul_commute -/
+info:   none
+---
+info: Strict model certificates used by inplace_computed_multiplier:
+---
+info:   model: VeriTile.Software.strictFP32/ieeeValue/maxnum/documented-exp-special-values
+    certificate: List.Forall₂.cons (ScalarArithmetic.strict_certificate ScalarArithmetic.Atom.mulCommute rfl) List.Forall₂.nil -/
 #guard_msgs in
 #print_fp_assumptions inplace_computed_multiplier
 #guard_msgs (drop info) in
@@ -331,7 +341,12 @@ theorem masked_store_value (R : ScalarArithmetic.Rules) :
 
 /-- info: FP assumptions used by masked_store_value:
 ---
-info:   add_commute -/
+info:   none
+---
+info: Strict model certificates used by masked_store_value:
+---
+info:   model: VeriTile.Software.strictFP32/ieeeValue/maxnum/documented-exp-special-values
+    certificate: List.Forall₂.cons (ScalarArithmetic.strict_certificate ScalarArithmetic.Atom.addCommute rfl) List.Forall₂.nil -/
 #guard_msgs in
 #print_fp_assumptions masked_store_value
 #guard_msgs (drop info) in
@@ -397,7 +412,12 @@ theorem computed_fp32_scalar (R : ScalarArithmetic.Rules) :
 
 /-- info: FP assumptions used by computed_fp32_scalar:
 ---
-info:   mul_commute -/
+info:   none
+---
+info: Strict model certificates used by computed_fp32_scalar:
+---
+info:   model: VeriTile.Software.strictFP32/ieeeValue/maxnum/documented-exp-special-values
+    certificate: List.Forall₂.cons (ScalarArithmetic.strict_certificate ScalarArithmetic.Atom.mulCommute rfl) List.Forall₂.nil -/
 #guard_msgs in
 #print_fp_assumptions computed_fp32_scalar
 #guard_msgs (drop info) in

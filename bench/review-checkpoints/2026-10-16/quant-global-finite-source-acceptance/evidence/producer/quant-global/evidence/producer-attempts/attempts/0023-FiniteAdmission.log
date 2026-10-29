@@ -1,4 +1,0 @@
-QuantizeGlobalFinite.quantize_global_dtype_admission_inventory: axiom footprint ⊆ standard base ✓  ([propext])
-QuantizeGlobalFinite.admitted_route: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
-QuantizeGlobalFinite.route_signature: axiom footprint ⊆ standard base ✓  ([propext])
-QuantizeGlobalFinite.first_primitive_failure: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])

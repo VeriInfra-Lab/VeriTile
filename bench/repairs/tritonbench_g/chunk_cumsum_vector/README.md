@@ -1,74 +1,29 @@
 # chunk_cumsum_vector
 
-`Correct.lean` displays `prefixIO`: the exact source under its Real
-interpretation, input/output buffers, actual strides, all time rows, active
-feature-column masks and no scratch. `prefixFormula` independently states the
-inclusive time prefix. Its single `Correct.memory_correct` specification uses
-the shared `UKernelIO.RegionalScheduledImplements` relation. One invocation
-executes the complete dynamic time loop, including every partial final block;
-this retains the previous per-program scope.
+For the same feature column, inclusive sum over logical time k≤t and k<T of the initial input, with time/feature coordinates made explicit.
 
-`IO.lean` displays `prefixNativeIO`, the existing `sumLeftVariant`, and
-`carryDomain`. `FPEquiv.memory_equiv` compares the actual `original` and
-`sumLeft` implementations as `original ≡[[]] sumLeft`. The shared
-`ProgramIO.Implementation` view retains both complete invocation schedules and
-their typed observers. Its existing `ProgramIO.EquivalentOn` proof remains as
-ordinary `FPEquiv.memory_io_equiv` in `Misc/KernelFPInterface.lean`: both sources succeed, all active typed output
-cells agree, both source traces are safe, and both exterior frames hold. The only source change remains the existing operand-order
-swap in the FP32 carry update. The load promotion, explicit zero padding,
-TF32-disabled dot, reduction order and output casts remain unchanged.
+- [chunk_cumsum_vector_repaired.py](chunk_cumsum_vector_repaired.py)
+- [Kernels.lean](Kernels.lean)
+- [Contract.lean](Contract.lean)
+- [Correct.lean](Correct.lean)
+- [FPEquiv.lean](FPEquiv.lean)
 
-The checked Python path remains FP32. All nine configurations and every dtype
-parameter already admitted by the generic source theorems are retained. The
-logical `carryDomain` is exactly the prior `Rewrite.FiniteCarry` domain:
-`NativeIO.finite_binding_iff` proves equivalence under the common input binding.
-It constrains only active carry updates read by a later output block; inactive
-lanes, the final unused update and other payloads gain no new finite-value
-restriction. ADD-COMMUTE now uses the shared strict FP32 certificate for the
-nearest-even software profile without input or result flushing. The public
-theorem retains its primitive-model bindings through `Models []` of the fixed
-strict theory and has no experimental `Rules` parameter. This change adds no
-numerical experiments and preserves the existing carry domain.
+## Scope
 
-`Proofs/FPAccess*` and `Proofs/RealAccess*` prove actual load/store safety along
-both complete source executions, reusing the established loop invariants.
-`Proofs/PublicRealIO.lean` and `Proofs/PublicNativeIO.lean` connect those proofs,
-initial logical input values, every output and the exact exterior frame to the
-shared IO relations. No execution, output or access-safety conclusion is assumed
-as an input-domain or numerical condition.
+One actual feature-tile invocation with its row/feature Program coordinates, running the complete time loop; all nine source configurations and tail feature/time masks. It is not relabeled as a simultaneous whole-feature-grid result.
 
-The former physical-heap Real result, including `Stream.StableInput` and the
-entire physical exterior frame, remains unchanged as
-`RealInterface.memory_correct` in `Misc/KernelRealInterface.lean`. The former
-raw native successful-execution/memory-equality/frame result is retained as
-`FPInterface.memory_equiv` in `Misc/KernelFPInterface.lean`, using the same
-empty experimental rule set. These reuse the existing proofs; they are ordinary
-helpers, not extra public specifications.
+## Conditions
 
-`Misc/TensorBridge.lean` retains the execution and memory conclusions of
-`TensorBridge.Correct.kernel_correct`,
-`TensorBridge.FPEquiv.chunk_sum_left_equiv`, admission checks and all native
-index/address bindings. Its FP consumer uses the empty experimental rule set
-through the preserved helper interface and the same logical-input binding law.
-Neither primary reader imports the bridge,
-and no proof helper imports a primary reader.
+Public conditions:
 
-Validation for this pass is targeted Lean compilation and standard-base axiom
-and independent-formula audits. No new independent replay or GPU run is claimed.
-The strict-rule migration builds the 37-module local import closure of the
-selected FP entrypoint and registered Tensor consumer. The direct
-`#print_fp_assumptions memory_equiv` audit reports no experimental assumptions
-and identifies the shared strict ADD-COMMUTE certificate; the standard-base
-axiom and independent-domain audits pass.
+- Geometry.OutputLayout h
+- c∈configurations
+- p : Geometry.Program h
+- The singleton prefixLaunch explicitly binds the actual source program IDs
+- RegionalScheduledImplements preserves actual source safety/success, all active logical outputs, bounded regional accesses and exact exterior raw-cell frame
 
-The 2026-10-21 pair-entry review reuses `NativeIO.equivalent` and the complete
-existing proof chain through `Rewrite.successful_pair`. The empty displayed
-rule set means no experimental assumptions; `Models []` and the original
-finite-carry domain still bind the fixed strict FP32 theory. Neither the
-backend, input domain, source precision nor per-program coverage changed.
+Contract domain source:
 
-Optional proof applications and reader audits are now under `Misc/`. Their
-namespaces, full theorem statements, proof bodies and prior acceptance status
-are preserved. `Correct.lean`, `FPEquiv.lean` and their required proof helpers
-do not import these optional entries. This directory move adds no correctness
-claim or numerical validation.
+Contract.mathematical is the independent inclusive prefix. Contract retains FP32 rank-4 contiguous CUDA input/output choices, row/feature-grid limits and alignment. Geometry/output layout and source strides remain visible rather than replaced by a generic output-existence premise.
+
+Exact FP program pairs and numerical dependencies are recorded in the [chunk_cumsum_vector contract review](../../../validation/contracts.json). The final source inventory, Lean build, axiom/spec audits and independent proof replay are separate checks; this review does not certify GPU execution.

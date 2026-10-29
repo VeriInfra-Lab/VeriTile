@@ -1,7 +1,0 @@
-{
-  "status": "passed",
-  "scenario_count": 30,
-  "candidate_function_executions": 116,
-  "full_authority_derivation_run": false,
-  "scope": "Production validated_exact_requirements, validate_exact_queue/extend_queue and exact-case-link functions execute unchanged on synthetic authority fixtures. Only derive_authority and collect_legacy data sources are test doubles with call counters; no real full authority derivation or native execution occurs. Every successful exact-queue call reaches both exactly once. Source extraction is test-only; candidates retain original imports and public signatures."
-}

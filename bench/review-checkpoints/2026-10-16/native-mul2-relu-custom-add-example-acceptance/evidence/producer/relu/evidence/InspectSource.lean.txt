@@ -1,4 +1,0 @@
-import bench.tritonbench_g.relu_triton_kernel.Kernels
-open VeriTile.Triton VeriTile.Bench.TritonBenchG.ReluTritonKernel
-set_option pp.width 180
-#reduce (relu_kernel ⟨"X"⟩ ⟨"O"⟩ 1025 1024).surfaceBody

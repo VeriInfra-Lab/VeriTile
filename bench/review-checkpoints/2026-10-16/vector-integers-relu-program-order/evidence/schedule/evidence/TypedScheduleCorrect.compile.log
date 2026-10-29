@@ -1,3 +1,0 @@
-VeriTile.Bench.TritonBenchG.VectorAddition.TypedScheduleCorrect.vector_addition_typed_program_order_correctness: axiom footprint ⊆ standard base ✓  ([propext,
- Quot.sound,
- Classical.choice])

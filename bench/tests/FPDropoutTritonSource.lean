@@ -43,6 +43,7 @@ def arithmetic {d : TileDType} {sh : TileShape} : Op d sh → List (String × Ti
   | .div _ _ a b => ("div",d) :: (arithmetic a ++ arithmetic b)
   | .sub _ _ a b => ("sub",d) :: (arithmetic a ++ arithmetic b)
   | .castFloat _ dst e => ("cast",dst.toTileDType) :: arithmetic e
+  | .withPrecision _ _ e => arithmetic e
   | .where c a b => ("where",d) :: (arithmetic c ++ arithmetic a ++ arithmetic b)
   | .ne .int _ (.ref .int _ _) (.broadcast (.constInt 0) _) => [("nonzero",.int)]
   | _ => []

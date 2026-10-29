@@ -1,5 +1,0 @@
-Traceback (most recent call last):
-  File "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/check_adapter.py", line 61, in <module>
-    assert len(previous['rules']) == 100
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-AssertionError

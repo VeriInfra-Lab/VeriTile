@@ -1,7 +1,0 @@
-import VeriTile.Meta.StatementAudit
-import bench.repairs.tritonbench_g.multinomial_sampling.Contract
-import bench.repairs.tritonbench_g.multinomial_sampling.Correct
-import bench.repairs.tritonbench_g.multinomial_sampling.FPEquiv
-
-#axiomsClean VeriTile.Bench.Repairs.MultinomialSampling.multinomial_categorical_correctness
-#axiomsClean VeriTile.Bench.Repairs.MultinomialSampling.FPEquiv.static_unroll_equiv

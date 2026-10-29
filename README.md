@@ -46,18 +46,16 @@ externally checked. See [Triton subset and gaps](./documents/TritonSubset.md).
   [`bench/examples/FusedSwiglu/Proofs/LegacyRealEquiv.lean`](./bench/examples/FusedSwiglu/Proofs/LegacyRealEquiv.lean).
 - **Examples**: 184 TritonBench-G task directories, with original-source
   proof contracts in the declared scopes of 183 tasks and one repaired-only
-  candidate. The [development progress audit](./bench/review-checkpoints/2026-10-15/development-progress-audit/README.md)
-  separates mathematical proofs, implementation equivalence, software bit-value
-  contracts and remaining acceptance work. See the
+  candidate. The [final contract review](./bench/validation/contracts.json) records mathematical targets, implementation pairs, conditions and proof scope. See the
   [current source inventory](./bench/current_source_acceptance.md) for checked
   inputs and reproduction commands. Additional examples include FlashAttention-1
   forward, online softmax, Welford, LayerNorm, log-sum-exp.
 - **CI gates**: `.github/workflows/bench-audit.yml` runs the full library build,
-  Python↔Lean faithfulness scans, proof-gap manifest checks, and library
-  comparator once, then checks the standalone corpus in four shards through
+  source correspondence inventories, final contract/source checks, and library
+  comparator once, then checks the standalone corpus in 16 shards through
   `bench/audit_trust.sh`. Each file must pass elaboration, Lean trust/spec
   checks, and official comparator replay. The final gate requires the global
-  job and all four shards to succeed. `.github/workflows/artifact.yml` runs `lake build` +
+  job and all 16 shards to succeed. `.github/workflows/artifact.yml` runs `lake build` +
   `scripts/check-artifact.sh` (no `sorry`, axiom whitelist, manifest schema,
   doc-drift checks). `.github/workflows/site.yml` builds and deploys the docs
   site to GitHub Pages on every push touching `site/`.

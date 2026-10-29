@@ -1,5 +1,0 @@
-SinKernelNative.result: definition does not reference [SinKernelNative.source,
- SinKernelNative.Expr.eval] — non-circular ✓
-SinKernelNative.source_scalar: axiom footprint ⊆ standard base ✓  ([])
-SinKernelNative.source_total: axiom footprint ⊆ standard base ✓  ([])
-SinKernelNative.retained_source_precision: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])

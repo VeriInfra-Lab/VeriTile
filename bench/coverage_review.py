@@ -156,14 +156,13 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--json', action='store_true')
     args = parser.parse_args()
-    from check_proof_gap_manifest import collect
-    rows = collect()
-    data = render_inventory(rows)
+    from final_inventory import coverage
+    data = coverage(ROOT)
     if args.json:
         print(json.dumps(data, ensure_ascii=False))
     else:
-        print(f'{len(data["rows"])} coverage reviews; '
-              f'{len({r.file for r in rows})} source pairs and Python links checked.')
+        print(f'{len(data["rows"])} selected public specifications; '
+              f'{len({r["port"] for r in data["rows"]})} final task reviews checked.')
 
 
 if __name__ == '__main__':

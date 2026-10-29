@@ -1,3 +1,0 @@
-/opt/conda/lib/python3.11/site-packages/triton/language/core.py:2625: UserWarning: tl.make_block_ptr is deprecated. Use TensorDescriptor or tl.make_tensor_descriptor instead.
-  warn("tl.make_block_ptr is deprecated. Use TensorDescriptor or tl.make_tensor_descriptor instead.")
-{"status": "COMPILED_ONLY", "records": 24, "native_execution": false, "native_launches_completed": 0, "numeric_acceptance": false}

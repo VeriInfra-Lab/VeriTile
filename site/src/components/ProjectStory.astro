@@ -111,7 +111,7 @@ const source = (path: string) => `${github}/blob/main/${path}`;
         <div class="corpus-grid" aria-hidden="true">{Array.from({ length: corpus.totalDirectories }, (_, i) => <span class:list={{ paired: i < corpus.pairedPorts }}></span>)}</div>
         <p class="statement-count"><strong>{proofInventory.statements}</strong> {copy.statements}</p>
         <p>{copy.corpusText}</p>
-        <a href={source('bench/tritonbench_g/completion_audit.md')}>{copy.auditLink} ↗</a>
+        <a href={source('bench/current_source_acceptance.md')}>{copy.auditLink} ↗</a>
         <a href={`${docsBase}/proofs/coverage/`}>Browse theorem coverage →</a>
         <a href={`${docsBase}/status/`}>{copy.coverageLink} →</a>
         <p class="scope-note">{copy.corpusNote}</p>

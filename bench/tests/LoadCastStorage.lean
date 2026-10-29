@@ -28,7 +28,8 @@ theorem first_load_reads_fp16 (X Y : RegionName) (N : Nat) :
 
 theorem rebound_load_reads_bf16 (X Y : RegionName) (N : Nat) :
     ∃ access mask, assignment (source X Y N) "second" = some
-      (.assign .fp16 [N] "second" (.alg (.castFloat .bf16 .fp16 (.load .bf16 access mask)))) := by
+      (.assign .fp16 [N] "second" (.alg (.castFloat .bf16 .fp16
+        (.withPrecision .bf16 .fp32 (.load .bf16 access mask))))) := by
   exact ⟨_, _, rfl⟩
 
 theorem positional_mask_retains_storage (X Y : RegionName) (N : Nat) :

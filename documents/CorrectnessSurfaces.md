@@ -17,7 +17,7 @@ independent logical formula. `IO.lean` may hold shared source, argument, channel
 window, mask and schedule data; `Correct.lean` and `FPEquiv.lean` remain independent
 short reader entries. Operational assembly and optional flat/Tensor corollaries
 belong in supporting files. The current format rollout is separately counted in
-the [task checklist](../bench/tritonbench_g/task_progress.md).
+the [task checklist](../bench/tritonbench_g/README.md).
 
 For the selected main readers, display the actual independent mathematical
 formula in `Correct.lean`: simple formulas directly in
@@ -331,7 +331,7 @@ surface that the bench corpus actually states its headlines on is the **KernelIO
 `⊨` triple**, defined in
 [`VeriTile/Triton/Memory/KernelSpec.lean`](../VeriTile/Triton/Memory/KernelSpec.lean). The signature variants cover different input/output arities, masks,
 indices, and streaming windows. Consult the
-[proof-gap manifest](../bench/tritonbench_g/proof_gap_manifest.tsv) for
+[final contract review](../bench/validation/contracts.json) for
 per-port coverage.
 
 ### What a `KernelIO` is
@@ -360,7 +360,7 @@ are in bounds, and every launch state whose input windows hold `xs`/`ys`, the
 
 That last conjunct is the part a hand-rolled `∃ sF, exec … = some sF ∧ …`
 headline usually omits, which is why it is not merely a different spelling —
-see `proof_blockers.md`'s "Correctness-Surface Blockers" for the ports that
+see the final contract review for the ports that
 still owe it.
 
 ### The notations

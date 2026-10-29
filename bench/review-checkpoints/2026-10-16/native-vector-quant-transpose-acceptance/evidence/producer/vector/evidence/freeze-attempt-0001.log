@@ -1,1 +1,0 @@
-Freeze aborted before receipt creation: KeyError 'bench/tritonbench_g/vector_addition/Proofs/TypedHostExecution.lean'. This existing scalar execution source is dependency-bound, not a new native module. Validation lookup corrected to include captured existing dependencies.

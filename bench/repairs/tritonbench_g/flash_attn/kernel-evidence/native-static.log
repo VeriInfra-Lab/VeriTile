@@ -1,8 +1,0 @@
-Traceback (most recent call last):
-  File "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/flash_attn/kernel-evidence/native_static.py", line 172, in <module>
-    result=audit(case);report['cases'].append(result);print(result['label'],'PASS',flush=True)
-           ^^^^^^^^^^^
-  File "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/flash_attn/kernel-evidence/native_static.py", line 115, in audit
-    assert a[1] in query_scales,('query scale first',case['label'],number)
-           ^^^^^^^^^^^^^^^^^^^^
-AssertionError: ('query scale first', 'causal0-d16', 119)

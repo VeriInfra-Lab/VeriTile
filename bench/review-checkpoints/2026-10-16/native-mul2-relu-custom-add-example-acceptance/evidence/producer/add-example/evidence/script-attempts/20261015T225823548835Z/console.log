@@ -1,8 +1,0 @@
-Traceback (most recent call last):
-  File "/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/propose.py", line 86, in <module>
-    if __name__=='__main__':generate()
-                            ^^^^^^^^^^
-  File "/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/propose.py", line 25, in generate
-    assert ast.dump(ast.parse(prefix),include_attributes=False)==ast.dump(ast.Module(body=ast.parse(source).body[:6],type_ignores=[]),include_attributes=False)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-AssertionError

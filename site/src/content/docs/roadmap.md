@@ -14,7 +14,7 @@ repository so this page does not duplicate a changing issue backlog.
 - [Coverage and known limitations](https://github.com/VeriInfra-Lab/VeriTile/issues/2): current corpus scope and theorem interface work.
 - [Open issues](https://github.com/VeriInfra-Lab/VeriTile/issues): current tasks and discussions.
 - [Design plan](https://github.com/VeriInfra-Lab/VeriTile/blob/main/PLAN.md): architecture and decisions.
-- [Completion audit](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/tritonbench_g/completion_audit.md): corpus evidence and documented gaps.
+- [Completion audit](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/current_source_acceptance.md): corpus evidence and documented gaps.
 
 For a starting point in the existing implementation, see the
 [project overview](/VeriTile/overview/) and [translation cookbook](/VeriTile/cookbook/).

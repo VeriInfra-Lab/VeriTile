@@ -40,7 +40,7 @@ T = 17, BT = 16 and unspecified padding value 7. The public FP interface
 uses the same `FP.ProfiledRewrite.engine` as this witness.
 
 The full source AST check and seven scalar mutation rejection controls are
-recorded in `bench/review-checkpoints/2026-10-13/reverse-source-ast`.
+covered by the current source and regression checks.
 Offline native admission is recorded in the sibling `reverse-native`
 checkpoint: 150 scalar cases cover all five original BT/warp configurations
 at six matching storage types for T = 0, 1, BT and BT + 1, plus all independent

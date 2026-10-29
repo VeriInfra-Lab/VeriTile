@@ -1,7 +1,0 @@
-import VeriTile.Meta.StatementAudit
-import bench.repairs.tritonbench_g.fused_rwkv6_kernel_scalar_abi_checked.Contract
-import bench.repairs.tritonbench_g.fused_rwkv6_kernel_scalar_abi_checked.Correct
-import bench.repairs.tritonbench_g.fused_rwkv6_kernel_scalar_abi_checked.FPEquiv
-
-#axiomsClean VeriTile.Bench.Repairs.FusedRwkv6KernelScalarABIChecked.Correct.rwkv_real
-#axiomsClean VeriTile.Bench.Repairs.FusedRwkv6KernelScalarABIChecked.FPEquiv.u_early_equiv

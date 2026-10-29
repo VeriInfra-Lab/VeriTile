@@ -47,6 +47,17 @@ TESTS_ROOT="bench/tests"
 
 catalog=''
 catalog_sha256=''
+final_inventory=false
+if [ "${1-}" = '--final-inventory' ]; then
+  final_inventory=true
+  catalog='bench/validation/source.json'
+  catalog_sha256="$(sha256sum -- "${catalog}")" || exit "$?"
+  shift
+  if [ "$#" -ne 0 ]; then
+    printf 'Final inventory mode audits the complete retained corpus\n' >&2
+    exit 2
+  fi
+fi
 if [ "${1-}" = '--catalog' ]; then
   if [ "$#" -lt 2 ] || [ -z "$2" ] || [[ "$2" = --* ]]; then
     printf 'Usage: %s [--catalog PATH] [<kernel> ...]\n' "$0" >&2
@@ -58,6 +69,10 @@ if [ "${1-}" = '--catalog' ]; then
 fi
 
 select_targets() {
+  if [ "${final_inventory}" = true ]; then
+    python3 bench/final_inventory.py --targets || return $?
+    return
+  fi
   if [ -n "${catalog}" ]; then
     python3 bench/current_source_catalog.py targets --root "${PROJECT_ROOT}" \
       --catalog "${catalog}" "$@" || return $?
@@ -161,8 +176,7 @@ if [ -n "${catalog}" ]; then
     printf 'Current source catalog changed during trust audit\n' >&2
     exit 1
   fi
-  if ! python3 bench/current_source_catalog.py targets --root "${PROJECT_ROOT}" \
-      --catalog "${catalog}" "$@" > /dev/null; then
+  if ! select_targets "$@" > /dev/null; then
     printf 'Current source catalog changed during trust audit\n' >&2
     exit 1
   fi

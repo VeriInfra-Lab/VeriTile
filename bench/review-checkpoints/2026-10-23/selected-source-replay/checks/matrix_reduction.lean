@@ -1,7 +1,0 @@
-import VeriTile.Meta.StatementAudit
-import bench.tritonbench_g.matrix_reduction.Contract
-import bench.tritonbench_g.matrix_reduction.Correct
-import bench.tritonbench_g.matrix_reduction.FPEquiv
-
-#axiomsClean VeriTile.Bench.TritonBenchG.MatrixReduction.matrix_reduction_kernel_correct
-#axiomsClean VeriTile.Bench.TritonBenchG.MatrixReduction.FPEquiv.matrix_reduction_pair

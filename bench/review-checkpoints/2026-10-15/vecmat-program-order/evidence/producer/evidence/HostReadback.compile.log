@@ -1,3 +1,0 @@
-VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.actual_program_expected_readback: axiom footprint ⊆ standard base ✓  ([propext,
- Quot.sound,
- Classical.choice])

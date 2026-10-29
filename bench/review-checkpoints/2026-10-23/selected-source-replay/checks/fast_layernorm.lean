@@ -1,9 +1,0 @@
-import VeriTile.Meta.StatementAudit
-import bench.repairs.tritonbench_g.fast_layernorm.Contract
-import bench.repairs.tritonbench_g.fast_layernorm.Correct
-import bench.repairs.tritonbench_g.fast_layernorm.FPEquiv
-
-#axiomsClean VeriTile.Bench.Repairs.FastLayernorm.Correctness.forward_kernel_correctness
-#axiomsClean VeriTile.Bench.Repairs.FastLayernorm.Correctness.backward_kernel_correctness
-#axiomsClean VeriTile.Bench.Repairs.FastLayernorm.Correctness.affine_kernel_correctness
-#axiomsClean VeriTile.Bench.Repairs.FastLayernorm.FPEquiv.kernel_equivalent

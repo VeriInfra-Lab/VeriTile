@@ -1,5 +1,0 @@
-Traceback (most recent call last):
-  File "/tmp/veritile-standardization-20261015/review_softmax_host_grid.py", line 32, in <module>
-    assert not re.search(r'\berror:|sorryAx|DISALLOWED|warning:',(P/row['log']).read_text())
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-AssertionError

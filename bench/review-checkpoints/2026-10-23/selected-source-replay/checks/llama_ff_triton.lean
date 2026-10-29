@@ -1,7 +1,0 @@
-import VeriTile.Meta.StatementAudit
-import bench.repairs.tritonbench_g.llama_ff_triton_scalar_cast.Contract
-import bench.repairs.tritonbench_g.llama_ff_triton_scalar_cast.Correct
-import bench.repairs.tritonbench_g.llama_ff_triton_scalar_cast.FPEquiv
-
-#axiomsClean VeriTile.Bench.Repairs.LlamaFFScalarCast.Correct.kernel_correct
-#axiomsClean VeriTile.Bench.Repairs.LlamaFFScalarCast.FPEquiv.source_equivalence

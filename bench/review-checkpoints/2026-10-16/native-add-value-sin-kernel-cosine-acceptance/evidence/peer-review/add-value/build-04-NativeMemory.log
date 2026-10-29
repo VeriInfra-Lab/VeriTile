@@ -1,6 +1,0 @@
-AddValueNative.finalByte: definition does not reference [AddValueNative.applyWrites] — non-circular ✓
-AddValueNative.load_outside: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
-AddValueNative.writes_append: axiom footprint ⊆ standard base ✓  ([])
-AddValueNative.writes_outside: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
-AddValueNative.writes_byte_frame: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
-AddValueNative.writes_byte_result: axiom footprint ⊆ standard base ✓  ([Classical.choice, propext, Quot.sound])

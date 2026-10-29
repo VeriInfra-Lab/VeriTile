@@ -1,118 +1,27 @@
-# Checked FP32 RoPE embedding
+# rope_embedding
 
-The current public proof object is the complete `_rope_embedding` kernel.
-The selected Python revision is unchanged in this kernel revision. It keeps
-the original forward `transpose(1,2).clone()`, squeeze and reshape, and the
-original backward transpose/reshape. There are no added copies, layout
-conversions, dtype alternatives or arithmetic optimizations.
+Displayed independent forward/back pair polynomial on every head and rotated column in the active group.
 
-For `H = floor(D/2)`, a lane reads `a = Q[row,head,j]`,
-`b = Q[row,head,j+H]`, `c = cos[row % S,j]`, and `s = sin[row % S,j]`.
-The independent forward target is `(a*c-b*s, b*c+a*s)`; the backward target
-is `(a*c+b*s, b*c-a*s)`. The backward map is the adjoint for arbitrary supplied
-coefficients; no unit-circle assumption is made. If `D` is odd, the last
-channel is unchanged.
+- [rope_embedding_repaired.py](rope_embedding_repaired.py)
+- [Kernels.lean](Kernels.lean)
+- [Contract.lean](Contract.lean)
+- [Correct.lean](Correct.lean)
+- [FPEquiv.lean](FPEquiv.lean)
 
-The supported payload remains contiguous strided FP32 tensors on one CUDA
-device with resolved view flags. The original input shape is `[B,heads,S,D]`;
-the kernel receives its packed `[B*S,heads*D]` view. Coefficient views must be
-`[L,H]`, or `[L]` when `H=1`, with `L>=S` and packed rows. Writable Q storage
-must be separate from coefficient storage; the read-only tables may alias.
-Existing assertions check storage containment/alignment, backward cached
-geometry, signed-i32 metadata and padded offsets, and 64-bit formed pointers.
-Empty payloads and `D<2` submit no kernel. `Request.Launched` expresses that
-boundary without adding a host-execution proof requirement.
+## Scope
 
-`Kernels.lean` contains complete readable typed FP32 transcriptions for the original and
-existing index-commuted candidate, retaining both
-branches, the four-head dynamic loop, both load-before-store halves, casts,
-masks and stores. `selected_source_binding` proves exact equality with the
-retained complete typed source. `Contract.lean` owns the independent polynomial,
-launch domain and kernel metadata checks. `Correct.lean` presents the actual
-source through the shared `ProgramIO` relation and the independent rotation
-formula. It proves actual source access safety, successful execution, both
-outputs for every head in a group and the full memory frame. The common typed
-Q/C/S channels, group masks and stride windows are displayed in
-`fast_rope_embedding/IO.lean`; the complete source safety proof is shared in
-that task's `Proofs/AccessSafety.lean`. `Proofs/RealResult.lean` retains the old
-raw execution endpoint and complete coordinate coverage. `Misc/TensorBridge.lean` contains the checked
-Tensor applications, whose checked theorem includes bounds for
-formed pointers and masked padding lanes. Helpers also prove signed-i32
-interpretation, odd-tail preservation and separation of different programs.
+One launched row and active four-head group, complete dynamic source loop, both rotated halves, odd tails framed. It is not a whole-grid observation theorem.
 
-`Misc/NativeCorrect.lean` preserves the ordinary source-to-native theorem for the
-same actual source and memory IO, through the shared `ProgramIO` relation. It proves
-source access safety, successful execution, exact typed output leaves and the
-full exterior frame; every FP32 word remains admitted. The prior whole-word
-memory equality is preserved in `Proofs/KernelFP.lean`. It instantiates the
-retained source-specific lowering model explicitly: products are coefficient
-first; the first output is `fma(c,a,neg(mul(signed_s,b)))`, and the second is
-`fma(signed_s,a,mul(c,b))`. Backward `signed_s` is `sub(+0,s)` in the observed
-compiler profile. The product tags in the interpreter track contraction in
-registers and are removed at memory stores. `softwarePrimitives cfg` fixes
-primitive rounding, FTZ, NaN, cast and FMA semantics. These primitives and the
-source-to-native compiler lowering are model boundaries. There are **no
-numerical transformation assumptions or deferred experiments** for this
-unchanged arithmetic graph. No universal FP32-to-Real equality is claimed.
+## Conditions
 
-The mathematical and native Tensor applications in `Misc/TensorBridge.lean` start from actual `TensorMetadata.dataPtr`
-observations. `Proofs/KernelBinding.lean` derives logical Q/coefficient reads
-using shared `Torch.FP32.TensorLaws`, including nonzero storage offsets,
-contiguity and the absence of the negative-view flag. `Proofs/RealBinding.lean`
-constructs the Real source state from those same physical input reads under
-an explicit `Word → Real` input interpretation, then substitutes the derived
-logical values into the independent polynomial. The checked Real endpoint
-therefore uses the same pointers for source inputs and finite address bounds;
-it does not accept an unrelated Real memory state. The input interpretation
-is not an assertion that FP32 arithmetic is exact over Real. No output values
-or execution results are premises of either binding. Prior optional
-host/returned-Tensor proofs remain in `Misc/HostCorrect.lean` and their
-original helper modules.
+Explicit conditions:
 
-The original unguarded source is not certified by this revision. A concrete
-counterexample uses `[B,heads,S,D]=[1,2,3,4]`, cosine `[3,2]`, and sine `[1,2]`.
-Its cosine-only length assertion passes, squeeze leaves the sine with two
-words, and row 2 reads beyond that storage. The CPU source replay reproduces
-the invalid read; the selected checked revision rejects before launch.
+- r:Request, back:Bool
+- row/group with r.Launched: 0<half, row<rows, group<groups
+- ProgramIO includes coherent source-bound inputs, physical windows/masks, access safety, success, all active outputs and exact exterior cell frame.
 
-Validation uses targeted Lean builds and standard-base axiom audits; the
-existing CPU suite checks the unchanged JIT/settings AST, eleven forward and
-backward storage paths, fifteen rejection/cache paths, and the counterexample.
-Four offline Triton 3.7.1 compilations (SM80/SM90, both directions) check the
-complete ordered native output graph and six masked FP32 memory accesses.
-Those finite compiler observations are not a compiler-correctness theorem.
-CUDA is mocked for CPU replay. No GPU execution or independent native numerical
-replay was performed.
+Contract correspondence:
 
-The optional applications are `TensorBridge.rope_embedding_tensor_correct`, `TensorBridge.rope_embedding_checked_kernel_correct`, and `TensorBridge.rope_embedding_tensor_fp32`. Neither primary entry imports the bridge.
+Original Request domain and both forward/back branches preserved. Spec.pair is the same independent polynomial; coefficients need not have unit norm. Proofs/SourceBinding gives exact local source equality to retained shared FastRopeEmbedding FP32 source.
 
-## Program-pair review, 2026-10-21
-
-`FPEquiv.lean` now compares the actual complete FP32 source with the existing
-`fast_rope_embedding` index-commuted candidate. The exact source binding is
-retained in `Proofs/SourceBinding.lean`; `Proofs/Pair.lean` reuses the existing
-full-loop proof. Only the natural-number head-group product changes. Both
-rotation directions, casts, arithmetic order, input domain and stores remain
-in the comparison. The experimental rule set is empty.
-
-The historical `rope_embedding_kernel_fp32_equiv` source-to-native result is
-preserved as an ordinary theorem in `Misc/NativeCorrect.lean`, imported explicitly
-when needed. It is auxiliary to the program equivalence.
-
-
-## Optional proofs in Misc, 2026-10-21
-
-Optional native observations, Tensor applications and reader/audit entries are
-imported explicitly from `Misc/`. The primary `Contract.lean`, `Correct.lean` and
-`FPEquiv.lean` keep the same mathematical and program-pair scope. Main proofs do
-not re-export optional native conclusions. Declaration names, statements and
-proof bodies are preserved; this file organization changes no input domain,
-precision, numerical rule or task completion status.
-
-Source readability maintenance (2026-10-22): the retained `indexCommuted`
-candidate is now a complete ordinary Triton quotation beside `rope`, preserving
-the sole integer head-group operand change. Both full functions are
-definitionally equal to the previous definitions for all parameters and both
-directions. The source-only cache records preservation and fresh joint
-main/retained optional imports; source domains, precision and judgments remain
-unchanged.
+Exact FP program pairs and numerical dependencies are recorded in the [rope_embedding contract review](../../../validation/contracts.json). The final source inventory, Lean build, axiom/spec audits and independent proof replay are separate checks; this review does not certify GPU execution.

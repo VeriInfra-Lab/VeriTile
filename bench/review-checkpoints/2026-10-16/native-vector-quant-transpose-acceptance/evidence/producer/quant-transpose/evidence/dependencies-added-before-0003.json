@@ -1,8 +1,0 @@
-{
-  "external_objects": {
-    "Mathlib.Tactic.Linarith": {
-      "olean": "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean/Mathlib/Tactic/Linarith.olean",
-      "sha256": "2ccde834a2f952eec6acd00904f7cb4ab46e7824832115e1fbbc95040ed951d7"
-    }
-  }
-}

@@ -1,4 +1,0 @@
-CosineNative.shape_failure_counts: axiom footprint ⊆ standard base ✓  ([propext])
-CosineNative.scalar_failure_counts: axiom footprint ⊆ standard base ✓  ([propext])
-CosineNative.parse_name: axiom footprint ⊆ standard base ✓  ([])
-CosineNative.admission_counts: axiom footprint ⊆ standard base ✓  ([propext])

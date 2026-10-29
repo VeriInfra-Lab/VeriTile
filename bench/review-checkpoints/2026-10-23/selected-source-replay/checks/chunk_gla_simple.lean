@@ -1,7 +1,0 @@
-import VeriTile.Meta.StatementAudit
-import bench.repairs.tritonbench_g.chunk_gla_simple_min_dot_tile.Contract
-import bench.repairs.tritonbench_g.chunk_gla_simple_min_dot_tile.Correct
-import bench.repairs.tritonbench_g.chunk_gla_simple_min_dot_tile.FPEquiv
-
-#axiomsClean VeriTile.Bench.Repairs.ChunkGlaSimpleMinDotTile.Correct.whole_kernel
-#axiomsClean VeriTile.Bench.Repairs.ChunkGlaSimpleMinDotTile.FPEquiv.whole_kernel_equiv

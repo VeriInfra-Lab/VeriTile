@@ -116,24 +116,13 @@ pretrain_kernels 61 题。这不自动构成自比较错误，也不证明两个
 
 ## 验证及证据边界
 
-两组的完整构建范围共 **2,342 个模块**。FP 接口修复后，使用更新的基础库
-重新独立编译每题全部模块，并检查两个集合各自的联合导入。
-两个集合的全部入口同时导入的额外集成检查也已通过。
-各集合的 `validation.json` 记录最终编译器、模块数和源码哈希。
+两组共有 **2,342 个模块**。最终共享框架变更后，需要重新验证全部题目、两个集合入口和 FP 接口回归。当前源码快照与共享依赖哈希记录在 `imported_kernel_review.json`，最终 CI 通过前不沿用旧版构建结果。
 
 ```sh
+lake build BugDetection PretrainKernels bench.tests.FPGuardedProgramIO
 python3 bench/bug_detection/check.py --verify-record
 python3 bench/pretrain_kernels/check.py --verify-record
 python3 bench/check_imported_kernel_review.py
 ```
 
-集合编译记录覆盖题目目录与两个共享适配模块，没有覆盖整个 Mathlib/VeriTile
-基础库的源码和编译产物闭包。整体集成后再次独立编译全部 334 题，并通过两个
-集合与 FP 回归的联合导入；`main_integration` 另外记录并校验本次共享 Lean
-依赖源码、工具链和包清单的哈希，不包含外部包完整源码或编译产物的证明。
-完整库构建通过 3,735 个任务，独立比较器接受接口的 6 个目标及回归的 57 个目标。
-全仓库 CI 仍有既有的源码审计样例、历史数值绑定哈希及网站依赖审计失败；
-这些失败没有被计为通过，也没有修改历史证据来消除哈希不匹配。
-本轮使用固定 Lean 4.29.0 和既有基础缓存。
-源码快照检查、声明编译和小规模反例测试均不构成实际源码翻译、数学正确性、
-数值规则准入或硬件一致性的证明。
+最终完整版的构建和独立证明重放见 [验证流程](current_source_acceptance.md)。源码快照检查、声明编译和小规模反例测试均不构成实际源码翻译、数学正确性、数值规则准入或硬件一致性的证明。

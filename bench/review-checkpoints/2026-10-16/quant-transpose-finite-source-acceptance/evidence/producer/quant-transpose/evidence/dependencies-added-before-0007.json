@@ -1,8 +1,0 @@
-{
-  "external_objects": {
-    "Mathlib.Data.Nat.ModEq": {
-      "olean": "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean/Mathlib/Data/Nat/ModEq.olean",
-      "sha256": "fb59840f2bdad0c539f43bd26544a78e595cc2ccd9f1ad396e28de245ceabbc8"
-    }
-  }
-}

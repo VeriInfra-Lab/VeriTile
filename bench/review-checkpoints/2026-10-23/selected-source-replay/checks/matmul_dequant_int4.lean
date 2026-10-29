@@ -1,7 +1,0 @@
-import VeriTile.Meta.StatementAudit
-import bench.repairs.tritonbench_g.matmul_dequant_int4_grid_y_checked.Contract
-import bench.repairs.tritonbench_g.matmul_dequant_int4_grid_y_checked.Correct
-import bench.repairs.tritonbench_g.matmul_dequant_int4_grid_y_checked.FPEquiv
-
-#axiomsClean VeriTile.Bench.Repairs.MatmulDequantInt4GridYChecked.Correct.kernel_real
-#axiomsClean VeriTile.Bench.Repairs.MatmulDequantInt4GridYChecked.FPEquiv.unit_stride_equiv

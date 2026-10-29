@@ -1,7 +1,0 @@
-import VeriTile.Meta.StatementAudit
-import bench.repairs.tritonbench_g.triton_linear_activation.Contract
-import bench.repairs.tritonbench_g.triton_linear_activation.Correct
-import bench.repairs.tritonbench_g.triton_linear_activation.FPEquiv
-
-#axiomsClean VeriTile.Bench.Repairs.TritonLinearActivation.Correct.kernel_correct
-#axiomsClean VeriTile.Bench.Repairs.TritonLinearActivation.FPEquiv.kernel_equiv

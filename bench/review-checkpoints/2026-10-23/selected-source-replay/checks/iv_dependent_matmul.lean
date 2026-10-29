@@ -1,7 +1,0 @@
-import VeriTile.Meta.StatementAudit
-import bench.repairs.tritonbench_g.iv_dependent_matmul_dot_shape.Contract
-import bench.repairs.tritonbench_g.iv_dependent_matmul_dot_shape.Correct
-import bench.repairs.tritonbench_g.iv_dependent_matmul_dot_shape.FPEquiv
-
-#axiomsClean VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Correct.kernel_real
-#axiomsClean VeriTile.Bench.Repairs.IvDependentMatmulDotShape.FPEquiv.kernel_native

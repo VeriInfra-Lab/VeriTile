@@ -1,7 +1,0 @@
-import VeriTile.Meta.StatementAudit
-import bench.repairs.tritonbench_g.relu_strided_buffer.Contract
-import bench.repairs.tritonbench_g.relu_strided_buffer.Correct
-import bench.repairs.tritonbench_g.relu_strided_buffer.FPEquiv
-
-#axiomsClean VeriTile.Bench.Repairs.ReluStridedBuffer.relu_strided_buffer_kernel_correctness
-#axiomsClean VeriTile.Bench.Repairs.ReluStridedBuffer.relu_strided_buffer_folded_equiv

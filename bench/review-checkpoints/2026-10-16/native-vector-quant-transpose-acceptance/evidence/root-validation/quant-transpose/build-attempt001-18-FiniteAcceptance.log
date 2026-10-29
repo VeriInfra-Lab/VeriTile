@@ -1,3 +1,0 @@
-QuantTransposeFinite.quant_transpose_finite_acceptance: axiom footprint ⊆ standard base ✓  ([propext,
- Classical.choice,
- Quot.sound])

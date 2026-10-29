@@ -1,9 +1,0 @@
-import RetainedBridge
-
-open Lean Elab Command in
-elab "#quantFiniteSupport" : command => do
-  let env ← getEnv
-  for entry in env.header.modules do
-    liftIO <| IO.println s!"dependency {entry.module}"
-
-#quantFiniteSupport

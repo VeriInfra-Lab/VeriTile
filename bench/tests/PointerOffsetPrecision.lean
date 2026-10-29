@@ -94,7 +94,8 @@ theorem parametric_store (dtype out_dtype : FloatDType) :
     (parametric dtype out_dtype).surfaceBody.getLast? = some
       (.store out_dtype.toTileDType [4]
         (.ptr (.ptrAdd .scalarL (.ref .ptr [] "q") (.arange 4)))
-        (.alg (.castFloat dtype out_dtype (.ref dtype.toTileDType [4] "x"))) .none) := rfl
+        (.alg (.castFloat dtype out_dtype
+          (.withPrecision dtype .fp32 (.ref dtype.toTileDType [4] "x")))) .none) := rfl
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

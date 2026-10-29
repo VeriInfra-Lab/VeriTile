@@ -27,7 +27,7 @@ example {α : Type} [Inhabited α] (M : Algebra α) (stride : Nat) (s : State α
     ∃ t, FP.Structural.exec M (Welford.Kernels.onlineWelfordKernel "x" "m" "v" 0 stride) s = some t ∧
       t.mem "m" 0 = .mk .bf16 (M.cast none .real .bf16 (M.literal none .real 0)) ∧
       t.mem "v" 0 = .mk .bf16 (M.cast none .real .bf16
-        (M.binary none .real .div (M.literal none .real 0) (M.fromNat none 0))) ∧
+        (M.binary (some .fp32) .real .div (M.literal none .real 0) (M.fromNat (some .fp32) 0))) ∧
       (∀ (r : RegionName) o, (r ≠ "m" ∨ o ≠ 0) → (r ≠ "v" ∨ o ≠ 0) → t.mem r o = s.mem r o) := by
   exact WelfordFPExecution.online_run M "x" "m" "v" stride Fin.elim0 s (by decide)
     (fun i => Fin.elim0 i)

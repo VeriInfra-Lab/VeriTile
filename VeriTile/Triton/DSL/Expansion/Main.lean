@@ -1878,6 +1878,8 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
       expandNatBitwise expandExpr env "`^`" (← `(Op.bitXor)) a b
   | `(tritonExpr| $a:tritonExpr << $b:tritonExpr) => do
       let left ← expandExpr env a
+      if left.dtype == .int8 || left.dtype == .int32 then
+        return ← expandNatBitwise expandExpr env "`<<`" (← `(Op.shiftLeft)) a b
       if left.forgetStorageWidth.dtype == .int then
         let right ← expandNatExpectedExpr env b
         let (bc, shape) ← broadcastTerm left.shape right.shape "signed left shift"
@@ -2854,6 +2856,19 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
       | .real | .fp32 | .fp16 | .bf16 | .f8e4 | .f8e5 | .floatVar _ => return inferred
       | _ => pure ()
     if intPinned.contains dest.getId.toString then
+      -- A packed signed word keeps its machine width through shifts and bit
+      -- operations. Address inference must not turn it into an unbounded Int
+      -- before the next bitwise operation or bitcast.
+      let wordOperation := match e with
+        | `(tritonExpr| $_:tritonExpr << $_:tritonExpr)
+        | `(tritonExpr| $_:tritonExpr >> $_:tritonExpr)
+        | `(tritonExpr| $_:tritonExpr & $_:tritonExpr)
+        | `(tritonExpr| $_:tritonExpr | $_:tritonExpr)
+        | `(tritonExpr| $_:tritonExpr ^ $_:tritonExpr) => Bool.true
+        | _ => Bool.false
+      if wordOperation then
+        let inferred ← expandExpr env e
+        if inferred.dtype == .int8 || inferred.dtype == .int32 then return inferred
       -- Signed offset propagation can also reach a named pointer binding.
       -- Keep its pointer dtype: only the offset is an integer expression.
       if (Inference.pointerElementDType? regionDTypes ptrElems e).isSome then

@@ -1,4 +1,0 @@
-def add(x, y, sanitize_overflow: constexpr = True, _semantic=None):
-    x = _unwrap_if_constexpr(x)
-    y = _unwrap_if_constexpr(y)
-    return _semantic.add(x, y, sanitize_overflow)

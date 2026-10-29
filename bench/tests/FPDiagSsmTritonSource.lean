@@ -14,6 +14,8 @@ def loaded {d : TileDType} {sh : TileShape} : Op d sh → List (TileDType × Boo
   | .load dt _ (.maskOther _ _) _ => [(dt,Bool.true)]
   | .load dt _ _ _ => [(dt,Bool.false)]
   | .castFloat _ _ e => loaded e
+  | .withPrecision _ _ e => loaded e
+  | .negFloat _ e => loaded e
   | .sub _ _ _ b => loaded b
   | _ => []
 

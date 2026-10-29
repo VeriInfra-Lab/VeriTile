@@ -1,9 +1,0 @@
-{
-  "task": "apply_penalty",
-  "files": {
-    "bench/tritonbench_g/apply_penalty/apply_penalty.py": "9b39b67dc031960848ec6f2c006935441c2b26536a41e83b461e92f3b87859e9",
-    "bench/tritonbench_g/apply_penalty/Correct.lean": "dd5e11e0ee2913ff2f72167e69cf262a29522be2d67e96973454c7822454bbdd",
-    "bench/tritonbench_g/apply_penalty/FPEquiv.lean": "51f38772f97390ff7379a78e8b547d6cdbc29162674e5a43345267cdfa2b0ee1",
-    "bench/tritonbench_g/apply_penalty/Kernels.lean": "018e9802b90646ca9267bdedf747c212e01e799094e16c16d48bef529e68888e"
-  }
-}

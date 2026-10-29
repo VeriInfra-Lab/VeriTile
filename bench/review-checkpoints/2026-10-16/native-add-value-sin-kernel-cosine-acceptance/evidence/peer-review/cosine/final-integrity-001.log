@@ -1,5 +1,0 @@
-Traceback (most recent call last):
-  File "/tmp/veritile-standardization-20261015/cosine-revision1-independent-review/final-integrity-001.py", line 20, in <module>
-    assert sha(Path(d['olean']))==d['sha256']==ext['external_objects'][rel]['object_sha256'],mod
-                                               ~~~~~~~~~~~~~~~~~~~~~~~^^^^^
-KeyError: 'Mathlib/Data/Rat/Floor.olean'

@@ -1,7 +1,0 @@
-import VeriTile.Meta.StatementAudit
-import bench.repairs.tritonbench_g.chunk_delta_fwd_static_dot.Contract
-import bench.repairs.tritonbench_g.chunk_delta_fwd_static_dot.Correct
-import bench.repairs.tritonbench_g.chunk_delta_fwd_static_dot.FPEquiv
-
-#axiomsClean VeriTile.Bench.Repairs.ChunkDeltaFwdStaticDot.Correct.chunk_delta_kernel_correct
-#axiomsClean VeriTile.Bench.Repairs.ChunkDeltaFwdStaticDot.FPEquiv.chunk_delta_addressFold_equiv

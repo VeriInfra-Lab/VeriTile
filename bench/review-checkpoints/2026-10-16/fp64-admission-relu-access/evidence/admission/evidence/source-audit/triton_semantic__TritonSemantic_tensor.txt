@@ -1,1 +1,0 @@
-    tensor: Type[TensorTy] = tl.tensor

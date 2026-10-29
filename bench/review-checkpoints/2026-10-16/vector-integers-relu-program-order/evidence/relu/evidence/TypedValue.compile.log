@@ -1,6 +1,0 @@
-VeriTile.Bench.TritonBenchG.ReluTritonKernel.TypedValue.resultValue: definition does not reference [VeriTile.Bench.TritonBenchG.ReluTritonKernel.TypedValue.source,
- VeriTile.Bench.TritonBenchG.ReluTritonKernel.TypedValue.materialized,
- VeriTile.Triton.FP.Structural.exec] — non-circular ✓
-VeriTile.Bench.TritonBenchG.ReluTritonKernel.TypedValue.source_run: axiom footprint ⊆ standard base ✓  ([propext,
- Quot.sound,
- Classical.choice])

@@ -1,3 +1,0 @@
-TritonMul2Finite.triton_mul2_finite_source_outcomes: axiom footprint ⊆ standard base ✓  ([propext,
- Classical.choice,
- Quot.sound])

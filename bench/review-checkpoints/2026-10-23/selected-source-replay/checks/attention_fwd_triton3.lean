@@ -1,7 +1,0 @@
-import VeriTile.Meta.StatementAudit
-import bench.repairs.tritonbench_g.attention_fwd_triton3_scalar_cast.Contract
-import bench.repairs.tritonbench_g.attention_fwd_triton3_scalar_cast.Correct
-import bench.repairs.tritonbench_g.attention_fwd_triton3_scalar_cast.FPEquiv
-
-#axiomsClean VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.correct
-#axiomsClean VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.FPEquiv.key_mask_equiv

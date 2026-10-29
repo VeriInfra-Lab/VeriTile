@@ -1,7 +1,0 @@
-import VeriTile.Meta.StatementAudit
-import bench.repairs.tritonbench_g.rope_backward_transform.Contract
-import bench.repairs.tritonbench_g.rope_backward_transform.Correct
-import bench.repairs.tritonbench_g.rope_backward_transform.FPEquiv
-
-#axiomsClean VeriTile.Bench.Repairs.RopeBackwardTransform.rope_backward_kernel_correct
-#axiomsClean VeriTile.Bench.Repairs.RopeBackwardTransform.source_candidate_equivalence

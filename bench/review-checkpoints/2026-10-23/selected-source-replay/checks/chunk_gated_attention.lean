@@ -1,9 +1,0 @@
-import VeriTile.Meta.StatementAudit
-import bench.repairs.tritonbench_g.chunk_gated_attention.KernelOnly.Contract
-import bench.repairs.tritonbench_g.chunk_gated_attention.KernelOnly.Correct
-import bench.repairs.tritonbench_g.chunk_gated_attention.KernelOnly.FPEquiv
-
-#axiomsClean VeriTile.Bench.Repairs.ChunkGatedAttention.KernelOnly.inner_correct
-#axiomsClean VeriTile.Bench.Repairs.ChunkGatedAttention.KernelOnly.prefix_correct
-#axiomsClean VeriTile.Bench.Repairs.ChunkGatedAttention.KernelOnly.inner_source_equiv
-#axiomsClean VeriTile.Bench.Repairs.ChunkGatedAttention.KernelOnly.prefix_source_equiv

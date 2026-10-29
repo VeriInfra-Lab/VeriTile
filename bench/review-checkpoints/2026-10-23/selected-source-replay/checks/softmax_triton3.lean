@@ -1,8 +1,0 @@
-import VeriTile.Meta.StatementAudit
-import bench.repairs.tritonbench_g.softmax_triton3.Contract
-import bench.repairs.tritonbench_g.softmax_triton3.Correct
-import bench.repairs.tritonbench_g.softmax_triton3.FPEquiv
-
-#axiomsClean VeriTile.Bench.Repairs.SoftmaxTriton3.Correct.softmax_kernel_correct
-#axiomsClean VeriTile.Bench.Repairs.SoftmaxTriton3.Correct.softmax_masked_kernel_correct
-#axiomsClean VeriTile.Bench.Repairs.SoftmaxTriton3.FPEquiv.softmax_reciprocal_equiv

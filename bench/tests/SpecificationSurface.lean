@@ -134,6 +134,7 @@ theorem no_unchecked_rewrite {rules : Spec.Assumptions Nat}
   induction h with
   | refl => rfl
   | atom entry member accepted => exact False.elim (hNone entry member accepted)
+  | strict certificate => exact False.elim certificate
   | symm _ ih => exact ih.symm
   | trans _ _ ih₁ ih₂ => exact ih₁.trans ih₂
   | frame _ _ _ ih => rw [ih]

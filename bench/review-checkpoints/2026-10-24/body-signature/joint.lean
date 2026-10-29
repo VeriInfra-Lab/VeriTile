@@ -1,9 +1,0 @@
-import bench.repairs.tritonbench_g.dequantize_rowwise.Correct
-import bench.repairs.tritonbench_g.dequantize_rowwise.FPEquiv
-import bench.repairs.tritonbench_g.dequantize_rowwise.Proofs.ReadableSource
-import bench.repairs.tritonbench_g.dequantize_rowwise.Misc.TensorBridge
-
-#axiomsClean VeriTile.Bench.Repairs.DequantizeRowwise.dequantize_rowwise_correct
-#axiomsClean VeriTile.Bench.Repairs.DequantizeRowwise.FPEquivalence.selected_equivalent
-#axiomsClean VeriTile.Bench.Repairs.DequantizeRowwise.BodyExecution.source_memory
-#axiomsClean VeriTile.Bench.Repairs.DequantizeRowwise.KernelCorrectness.traceSafe

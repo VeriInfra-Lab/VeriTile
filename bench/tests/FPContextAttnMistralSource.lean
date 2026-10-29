@@ -68,14 +68,14 @@ queryRow < window. A Nat subtraction here would incorrectly clip to zero. -/
 theorem signed_window (storage : Storage) (candidate : Bool) (BM BN D : Nat) (window : Int) :
     ((Source.intRange? (selected storage candidate BM BN D window).surfaceBody "start_n").bind
       fun lp => (lp.body.drop (Source.prefixBefore lp.body "qk" 4).length).head?) =
-    some (.assign .real [BM,BN] "qk" (.alg
+    some (.assign .real [BM,BN] "qk" (.compute (.alg .fp32
       (.where (.gt .int Broadcast.nil.consR.consL
         (.add .int .scalarL (.ref .int [] "start_n")
           (Op.expandDim ⟨0,by simp⟩ (.ref .nat [BN] "offs_n")).castNatToInt)
         (.sub .int .scalarR
           (Op.expandDim ⟨1,by simp⟩ (.ref .nat [BM] "offs_m")).castNatToInt (.constInt window)))
         (.ref .real [BM,BN] "qk")
-        (.broadcast (.sub .real .nil (.const (0.0 : ℝ)) (.const (1e9 : ℝ))) [BM,BN])))) := by
+        (.broadcast (.const (-1e9 : ℝ)) [BM,BN]))))) := by
   cases storage <;> cases candidate <;> rfl
 
 #guard_msgs (drop info) in

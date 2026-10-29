@@ -100,8 +100,7 @@ identical intermediate operations.
 The featured FlashAttention link covers the forward causal/non-causal
 reference contracts with their boundary/D-tail conditions.
 The benchmark shows paired-port inventory and unique theorem statements from
-`proof_gap_manifest.tsv`, with prominent links to the recorded completion
-audit and per-kernel scope. Counts do not label every statement fully proved.
+`bench/validation/contracts.json`, with links to each current entry and its reviewed scope. Counts do not label every statement fully proved.
 
 The agent section uses two panels: reusable lemmas on the left, proof generation
 on the right. Four lemma groups link directly to the loop-invariant, matrix
@@ -221,24 +220,14 @@ The workflow can also be triggered manually from the Actions tab
 `/proofs/coverage/` displays every registered TritonBench-G headline with its
 exact statement, relevant IO definitions, source links, numeric model, and
 reviewed scope. Search and filters enhance an already readable HTML table.
-`bench/coverage_review.py` validates `bench/tritonbench_g/coverage_review.json`
-against complete Lean/Python source fingerprints and exact declaration/function
-identities. Python 3 is required during site builds; Lean is not. After changing
-a port, review its statements and excluded operations before updating its
-fingerprints and regenerating `proof_gap_manifest.tsv`. Never refresh hashes
-merely to silence the validator.
+`bench/coverage_review.py` checks the selected public statements against
+`bench/validation/contracts.json`. `bench/final_inventory.py --check` checks the
+complete retained source tree and dependencies. Python 3 is required during site
+builds; Lean is not. Review a changed contract's formula, scope and conditions
+before updating its source pins. Full builds and independent proof replay are
+separate required checks.
 
-The historical completed corpus audit in `src/lib/coverage-ci.json` is pinned
-to an exact commit and linked from every row. Refresh it only after a newer
-full audit succeeds:
 
-```bash
-python3 scripts/record_coverage_ci.py RUN_ID  # from repository root; requires gh
-```
-
-Pending, failed, and skipped runs cannot be recorded. This record is historical
-evidence, not a claim that later source commits passed; the page links to newer
-runs. Building the coverage table does not replay proofs.
 
 `/cookbook/vector-add-walkthrough/` walks from the Python kernel through the
 checked DSL/IO contract, full proof, trust checks, and rejected mutation. Its

@@ -1,7 +1,0 @@
-Traceback (most recent call last):
-  File "/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision1-wip/check_authority.py", line 33, in <module>
-    extended=extend_vector_native_authority(root,previous,'checkpoint',rh,'synthetic-review.json',vh)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision1-wip/authority_adapter.py", line 44, in extend_vector_native_authority
-    raise ValueError('changed vector public statement')
-ValueError: changed vector public statement

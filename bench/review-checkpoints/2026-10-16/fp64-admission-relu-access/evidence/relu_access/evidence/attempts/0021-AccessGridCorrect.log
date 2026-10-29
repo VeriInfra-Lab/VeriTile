@@ -1,6 +1,0 @@
-VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessGridCorrect.relu_access_grid_correctness: axiom footprint ⊆ standard base ✓  ([propext,
- Quot.sound,
- Classical.choice])
-VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessGridCorrect.constructed_access_grid: axiom footprint ⊆ standard base ✓  ([propext,
- Quot.sound,
- Classical.choice])

@@ -1,4 +1,0 @@
-VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.promotion_matches_all_289_observations: axiom footprint ⊆ standard base ✓  ([propext])
-VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.observed_success_count: axiom footprint ⊆ standard base ✓  ([])
-VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.observed_rejection_count: axiom footprint ⊆ standard base ✓  ([])
-VeriTile.Bench.TritonBenchG.VectorAddition.DTypeScope.typed_promotion_agrees: axiom footprint ⊆ standard base ✓  ([propext])

@@ -1,9 +1,0 @@
-QuantTransposeFinite.result: definition does not reference [QuantTransposeFinite.source,
- QuantTransposeFinite.Expr.eval] — non-circular ✓
-QuantTransposeFinite.LlrintDefined: definition does not reference [QuantTransposeFinite.source,
- QuantTransposeFinite.Expr.eval,
- QuantTransposeFinite.llrint] — non-circular ✓
-QuantTransposeFinite.source_scalar: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
-QuantTransposeFinite.defined_result: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
-QuantTransposeFinite.special_conversions: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
-QuantTransposeFinite.conversion_boundaries: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])

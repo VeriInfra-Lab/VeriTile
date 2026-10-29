@@ -1,6 +1,0 @@
-VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.batched_vecmat_fp32_machine_correctness: axiom footprint ⊆ standard base ✓  ([propext,
- Quot.sound,
- Classical.choice])
-VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.memory_independent_of_unused_backend: axiom footprint ⊆ standard base ✓  ([propext,
- Quot.sound,
- Classical.choice])

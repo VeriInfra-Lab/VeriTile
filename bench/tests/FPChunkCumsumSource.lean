@@ -18,9 +18,9 @@ theorem load_explicitly_promotes (dtype out_dtype : FloatDType) (T BT : Nat) :
 
 theorem scan_keeps_input_axis_and_direction (dtype out_dtype : FloatDType) (T BT : Nat) :
     (loop dtype out_dtype T BT).body[3]? = some (.assign .real [BT] "b_o"
-      (.alg (.add .real Broadcast.nil.consR
+      (.compute (.alg .fp32 (.add .real Broadcast.nil.consR
         (.scan .sum ⟨0, by simp⟩ .forward (.ref .real [BT] "b_s"))
-        (.expandDim ⟨0, by simp⟩ (.ref .real [] "b_z"))))) := rfl
+        (.expandDim ⟨0, by simp⟩ (.ref .real [] "b_z")))))) := rfl
 
 theorem total_is_fp32 (dtype out_dtype : FloatDType) (T BT : Nat) :
     (loop dtype out_dtype T BT).body[4]? = some (.assign .real [] "b_zz"
@@ -29,7 +29,8 @@ theorem total_is_fp32 (dtype out_dtype : FloatDType) (T BT : Nat) :
 theorem output_cast_is_retained (dtype out_dtype : FloatDType) (T BT : Nat) :
     (loop dtype out_dtype T BT).body[6]? = some (.store out_dtype.toTileDType [BT]
       (.blockPtr (.ref .blockPtr [BT] "p_o") [0])
-      (.alg (.castFloat .real out_dtype (.ref .real [BT] "b_o"))) .none) := rfl
+      (.alg (.castFloat .real out_dtype
+        (.withPrecision .real .fp32 (.ref .real [BT] "b_o")))) .none) := rfl
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

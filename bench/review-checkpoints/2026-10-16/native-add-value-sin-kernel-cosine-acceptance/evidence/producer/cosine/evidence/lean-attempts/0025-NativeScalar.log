@@ -1,3 +1,0 @@
-/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeScalar.lean:149:43: error: No goals to be solved
-CosineNative.result: definition does not reference [CosineNative.source, CosineNative.Expr.eval] — non-circular ✓
-/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeScalar.lean:161:0: error: CosineNative.source_scalar: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

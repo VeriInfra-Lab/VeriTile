@@ -1,6 +1,0 @@
-bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteScalar.lean 1
-Traceback (most recent call last):
-  File "/tmp/veritile-standardization-20261015/build_quant_transpose_revision1_root.py", line 30, in <module>
-    assert len(records)==18 and all(x['exit_code']==0 for x in records) and unchanged
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-AssertionError

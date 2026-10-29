@@ -44,8 +44,8 @@ theorem load_padding (swapped : Bool) (n B : Nat) :
 /-- The intrinsic receives the explicit fp16-to-fp32 conversion. -/
 theorem cosine_conversion (swapped : Bool) (n B : Nat) :
     ((selected .fp16 swapped n B).surfaceBody.drop 3).head? =
-      some (.assign .real [B] "b_value" (.alg
-        (.cos (.castFloat .fp16 .real (.ref .fp16 [B] "a_value"))))) := by
+      some (.assign .real [B] "b_value" (.compute (.alg .fp32
+        (.cos (.castFloat .fp16 .real (.ref .fp16 [B] "a_value")))))) := by
   cases swapped <;> rfl
 
 #guard_msgs (drop info) in

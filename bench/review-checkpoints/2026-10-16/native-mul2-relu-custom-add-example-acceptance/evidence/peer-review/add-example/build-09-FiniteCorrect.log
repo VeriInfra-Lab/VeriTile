@@ -1,3 +1,0 @@
-VeriTile.Bench.TritonBenchG.AddExample.add_example_actual_source_outcomes: axiom footprint ⊆ standard base ✓  ([propext,
- Quot.sound,
- Classical.choice])

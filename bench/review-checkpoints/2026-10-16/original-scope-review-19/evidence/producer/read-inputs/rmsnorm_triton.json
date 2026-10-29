@@ -1,9 +1,0 @@
-{
-  "task": "rmsnorm_triton",
-  "files": {
-    "bench/tritonbench_g/rmsnorm_triton/rmsnorm_triton.py": "61038e7d13a219fb9fdd2f236d05a8c441d5530e28d3128e4d994503d9c4c7fb",
-    "bench/tritonbench_g/rmsnorm_triton/Correct.lean": "cc5912ab489d508fa6ff43307d42e8d0508c6ef09b7fe2acb174334eab714f3c",
-    "bench/tritonbench_g/rmsnorm_triton/FPEquiv.lean": "0f345f1b445f621d69c496a3e15a7ccbb95fe3b54ed57dcaf39561b0b6ec63ee",
-    "bench/tritonbench_g/rmsnorm_triton/Kernels.lean": "6798bf7716d042af1218518e33689d6e24053052e6d9865001377fed32afbdea"
-  }
-}

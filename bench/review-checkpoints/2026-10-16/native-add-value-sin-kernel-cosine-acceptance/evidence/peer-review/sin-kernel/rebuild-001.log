@@ -1,9 +1,0 @@
-bench/tritonbench_g/sin_kernel/Proofs/NativeScalar.lean 0
-bench/tritonbench_g/sin_kernel/Proofs/NativeArithmetic.lean 0
-bench/tritonbench_g/sin_kernel/Proofs/NativeMemory.lean 0
-bench/tritonbench_g/sin_kernel/Proofs/NativeSource.lean 0
-bench/tritonbench_g/sin_kernel/Proofs/NativeProgram.lean 0
-bench/tritonbench_g/sin_kernel/Proofs/NativeGrid.lean 0
-bench/tritonbench_g/sin_kernel/Proofs/NativeAdmission.lean 0
-bench/tritonbench_g/sin_kernel/NativeCorrect.lean 0
-BUILD PASSED 204 37

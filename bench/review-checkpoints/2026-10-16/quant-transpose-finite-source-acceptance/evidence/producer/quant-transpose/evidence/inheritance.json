@@ -1,8 +1,0 @@
-{
-  "frozen_v1_receipt": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-wip/evidence/receipt.json",
-  "frozen_v1_sha256": "11bf46d3b53848860556a2852a96e8a5556bb37d55b0d083dfca658b7f914386",
-  "peer_review_receipt_sha256": "30218217496d7351a19c53c30ed3032874863f6c6c896b441c99011f1686b61e",
-  "reason": "Replace overstrict padded signed-i32 assumptions with exact runtime metadata specialization and active-address semantics; frozen v1 is preserved, not accepted.",
-  "peer_arithmetic_review_notes_sha256": "465e688026221bb3d44a63801ca02cf379450ff56a9e34b267412456c33a9aa8",
-  "peer_arithmetic_review_notes_source": "/tmp/veritile-standardization-20261015/quant-transpose-peer-review/arithmetic-review-notes.md"
-}

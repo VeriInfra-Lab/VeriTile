@@ -1,9 +1,0 @@
-{
-  "bench/tritonbench_g/vector_addition_custom/NativeCorrect.lean": "1f56f911ae9f15426aaf94cfe32f2ad4f3b6298b08d00ec3113b7cbe190b1a32",
-  "bench/tritonbench_g/vector_addition_custom/Proofs/NativeAdmission.lean": "68ebe7b783765dfcd9be974b9eed39f8701c59da9cde534b328af7ccbbf24ae5",
-  "bench/tritonbench_g/vector_addition_custom/Proofs/NativeArithmetic.lean": "582d69b0e84a12751d5c6177598ef25254072a90c454b92029f225eb82de14e1",
-  "bench/tritonbench_g/vector_addition_custom/Proofs/NativeGrid.lean": "b43e301e105cc5f238aa17386695c42810d82f4dde6ffb5efbf6cffb5413adcc",
-  "bench/tritonbench_g/vector_addition_custom/Proofs/NativeMemory.lean": "1aaf3ea31ebc7ff8b1a92738153f0464d78690ba77d207de3851fea09ed26c7a",
-  "bench/tritonbench_g/vector_addition_custom/Proofs/NativeProgram.lean": "fde7b8669077c832fdba5163da9ec356e918b13633ddc7a5aca8f3847ae13bea",
-  "bench/tritonbench_g/vector_addition_custom/Proofs/NativeScalar.lean": "8705979544f504e4142136e59f671e5f4e047250293450ab52e2354acc092b13"
-}

@@ -1,8 +1,0 @@
-1 1 {'frontend_passed': 15, 'rejected': 7}
-2147483648 65536 {'frontend_passed': 15, 'rejected': 7}
-1099511627776 1048576 {'frontend_passed': 15, 'rejected': 7}
-1099511627777 2097152 {'frontend_passed': 0, 'rejected': 22}
-4503599627370497 67108864 {'frontend_passed': 0, 'rejected': 22}
-4503599627370498 134217728 {'frontend_passed': 0, 'rejected': 22}
-9223372036854775807 4294967296 {'frontend_passed': 0, 'rejected': 22}
-{"receipt": "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/extent-frontend-attempts/20261015T234016609687Z/receipt.json", "sha256": "7cb2b4e6c070ea047813b10cf3c0d31feced3bc5a2634a8ec8656b933fb417e1", "profiles": 154}

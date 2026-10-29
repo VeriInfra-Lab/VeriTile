@@ -1,9 +1,0 @@
-/tmp/veritile-int4-dotacc-closure-20261015/bench/tritonbench_g/int4_matmul/DotAccCorrect.lean:12:5: warning: unused variable `hTrip`
-
-Note: This linter can be disabled with `set_option linter.unusedVariables false`
-/tmp/veritile-int4-dotacc-closure-20261015/bench/tritonbench_g/int4_matmul/DotAccCorrect.lean:12:48: warning: unused variable `hSplit`
-
-Note: This linter can be disabled with `set_option linter.unusedVariables false`
-VeriTile.Bench.TritonBenchG.Int4Matmul.int4_matmul_dotacc_plan_correctness: axiom footprint ⊆ standard base ✓  ([propext,
- Quot.sound,
- Classical.choice])

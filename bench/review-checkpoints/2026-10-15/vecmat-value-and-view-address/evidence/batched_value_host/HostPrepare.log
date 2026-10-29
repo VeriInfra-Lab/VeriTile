@@ -1,5 +1,0 @@
-VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.Host.prepare_fields: axiom footprint ⊆ standard base ✓  ([propext,
- Quot.sound,
- Classical.choice])
-VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.Host.allocation_failure_precedes_guards: axiom footprint ⊆ standard base ✓  ([propext])
-VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.Host.zero_inner_block_after_allocations: axiom footprint ⊆ standard base ✓  ([propext])

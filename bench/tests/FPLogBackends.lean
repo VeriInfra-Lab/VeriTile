@@ -60,6 +60,7 @@ private def model : Algebra ℚ where
     | .add => a + b
     | _ => a - b
   unary := fun _ op a => match op with
+    | .abs _ => |a|
     | .log => a + 10
     | .libdeviceLog => a + 100
     | .libdeviceExp => a + 1000
@@ -94,7 +95,7 @@ theorem intrinsic_elimination_routes :
     evaluate (expression .tl (.const (1 / 2)) .tl) = some (4021 / 2) ∧
     evaluate (expression .libdevice (.const (1 / 2)) .tl) = some (4201 / 2) := by
   norm_num [evaluate, expression, Backend.log, Backend.exp, useIdentity, absolute,
-    evalOp_unfold, numeric, numericLt, numericLe, bop, model]
+    evalOp_unfold, numeric, numericLt, numericLe, bop, model, ofFloat, toFloat, Option.bind]
 
 set_option maxHeartbeats 1600000 in
 theorem intrinsic_product_routes :
