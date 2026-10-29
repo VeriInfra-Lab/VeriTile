@@ -24761,14 +24761,14 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "spec_derived_body_copy_checked",
       "source_sha256": {
-        "bench/examples/FusedLayerNorm/Correct.lean": "5023cfb2e095414d9d43f3d4936937f2362f272b49c0463124ee4fd20734075d",
+        "bench/examples/FusedLayerNorm/Correct.lean": "91e5d5822f0b5395c4bbdc15592ad575802c3573360189e4acca251454a5be26",
         "bench/examples/FusedLayerNorm/Kernels.lean": "b4f1e07e399684ad3718fbd093d57578e48d94e5e77a0f333a05fb1bf5a954db",
         "bench/examples/FusedLayerNorm/jit-correspondence.json": "7b89da85e4ee66c57f89d4d5dcc07fad154c2d8e994b12133af404d592a591ff",
         "bench/examples/FusedLayerNorm/native_kernels.py": "f1ac489a38d4d0f10a9d1388b87be02cc1d0b5d0d2cdd39796e573a197d8ebcd"
       },
-      "source_note": "New Python derived from the independent public population-statistics/affine specifications, not recovered historical source. Preserve FP32 inputs, BF16 outputs and full original IO scope; explicit uint64-to-FP32 counts and native loop casts replace Lean-only toReal. Source execution and numerical domains are re-proved for the actual typed reads. Welford writes both scalar outputs at zero; LayerNorm retains its second input read and empty-row case. Separate arithmetic uses enable_fp_fusion=False.",
+      "source_note": "New Python derived from the independent public population-statistics/affine specifications, not recovered historical source. Preserve FP32 inputs, BF16 outputs and full original IO scope; explicit uint64-to-FP32 counts and native loop casts replace Lean-only toReal. Source execution and numerical domains are re-proved for the actual typed reads. Welford writes both scalar outputs at zero; LayerNorm retains its second input read and empty-row case. Separate arithmetic uses enable_fp_fusion=False. The uint64 full-constructor semantics is now enforced: the Real population-statistics claims explicitly require N < 2^64 to exclude count wraparound. This corrects the old overbroad all-Nat Real claim; formulas are unchanged. Public FP specifications already require N <= CountConversion.limit and retain their original headers. Python and quoted Lean kernels are byte-identical to the published source.",
       "mathematical_spec_sha256": {
-        "bench/examples/FusedLayerNorm/Correct.lean": "5023cfb2e095414d9d43f3d4936937f2362f272b49c0463124ee4fd20734075d"
+        "bench/examples/FusedLayerNorm/Correct.lean": "91e5d5822f0b5395c4bbdc15592ad575802c3573360189e4acca251454a5be26"
       }
     },
     {
@@ -26101,14 +26101,14 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "spec_derived_body_copy_checked",
       "source_sha256": {
-        "bench/examples/Welford/Correct.lean": "b67dec22b919918295b2799afc232b5c168e2eb9a5d8d1a18502f40dce645500",
+        "bench/examples/Welford/Correct.lean": "4d7696a99b4832848d4df70a1917c070e383ca44e7183c3b778626a0eb819703",
         "bench/examples/Welford/Kernels.lean": "7c3d0bdf6cd4780457d7884c6f266c2d3a0b1e57285818d0702cd1ea499102a9",
         "bench/examples/Welford/jit-correspondence.json": "ead1d8431df104b8bfc5e68e1e5c87f4d1fa462a1aacb3d4ccdeabc3134c4a7a",
         "bench/examples/Welford/native_kernels.py": "5b021702042d4df0bf7213b5dabec155956f757dc489268d057273fbc9f51601"
       },
-      "source_note": "New Python derived from the independent public population-statistics/affine specifications, not recovered historical source. Preserve FP32 inputs, BF16 outputs and full original IO scope; explicit uint64-to-FP32 counts and native loop casts replace Lean-only toReal. Source execution and numerical domains are re-proved for the actual typed reads. Welford writes both scalar outputs at zero; LayerNorm retains its second input read and empty-row case. Separate arithmetic uses enable_fp_fusion=False.",
+      "source_note": "New Python derived from the independent public population-statistics/affine specifications, not recovered historical source. Preserve FP32 inputs, BF16 outputs and full original IO scope; explicit uint64-to-FP32 counts and native loop casts replace Lean-only toReal. Source execution and numerical domains are re-proved for the actual typed reads. Welford writes both scalar outputs at zero; LayerNorm retains its second input read and empty-row case. Separate arithmetic uses enable_fp_fusion=False. The uint64 full-constructor semantics is now enforced: the Real population-statistics claims explicitly require N < 2^64 to exclude count wraparound. This corrects the old overbroad all-Nat Real claim; formulas are unchanged. Public FP specifications already require N <= CountConversion.limit and retain their original headers. Python and quoted Lean kernels are byte-identical to the published source.",
       "mathematical_spec_sha256": {
-        "bench/examples/Welford/Correct.lean": "b67dec22b919918295b2799afc232b5c168e2eb9a5d8d1a18502f40dce645500"
+        "bench/examples/Welford/Correct.lean": "4d7696a99b4832848d4df70a1917c070e383ca44e7183c3b778626a0eb819703"
       }
     }
   ]
