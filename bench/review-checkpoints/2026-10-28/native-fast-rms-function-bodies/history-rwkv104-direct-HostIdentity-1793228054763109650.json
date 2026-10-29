@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.HostIdentity",
+  "start": 1793228054.7631242,
+  "end": 1793228057.428243,
+  "log": "/tmp/rwkv104-direct-HostIdentity-1793228054763109650.log",
+  "stop_file": "/tmp/rwkv104-direct-HostIdentity-1793228054763109650.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

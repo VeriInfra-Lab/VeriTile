@@ -1,0 +1,21 @@
+VeriTile.Bench.Repairs.FastRmsLayernorm.SavedAliasInhabited.preparation_with_visible_saved: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.SavedAliasInhabited.saved_x_valid: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.SavedAliasInhabited.saved_r_valid: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.SavedAliasInhabited.saved_w_valid: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.SavedAliasInhabited.zero_row_saved_x: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.SavedAliasInhabited.raw_payload_not_restored: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.SavedAliasInhabited.version_error_preserves_current_entry: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

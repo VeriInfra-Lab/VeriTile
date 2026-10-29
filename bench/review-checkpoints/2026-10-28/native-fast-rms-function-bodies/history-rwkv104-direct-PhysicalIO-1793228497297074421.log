@@ -1,0 +1,15 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/PhysicalIO.lean:60:40: warning: unused variable `empty`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.Repairs.FastRmsLayernorm.PhysicalIO.real_binding: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.PhysicalIO.native_binding: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.PhysicalIO.real_empty_domain: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.PhysicalIO.native_empty_domain: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

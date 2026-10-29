@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.SourceParameters",
+  "start": 1793226906.6022668,
+  "end": 1793226908.7208138,
+  "log": "/tmp/rwkv104-direct-SourceParameters-1793226906602244405.log",
+  "stop_file": "/tmp/rwkv104-direct-SourceParameters-1793226906602244405.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

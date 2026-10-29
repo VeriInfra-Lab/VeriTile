@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RawCorrect",
+  "start": 1793228026.5747604,
+  "end": 1793228031.041041,
+  "log": "/tmp/rwkv104-direct-RawCorrect-1793228026574744871.log",
+  "stop_file": "/tmp/rwkv104-direct-RawCorrect-1793228026574744871.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,9 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/IOPair.lean:65:44: warning: This simp argument is unused:
+  Bool.true_eq_false
+
+Hint: Omit it from the simp argument list.
+  simp only [̵N̵a̵t̵i̵v̵e̵I̵O̵.̵s̵c̵h̵e̵d̵u̵l̵e̵,̵s̵c̵h̵e̵d̵u̵l̵e̵,̵B̵o̵o̵l̵.̵t̵r̵u̵e̵_̵e̵q̵_̵f̵a̵l̵s̵e̵,̵↓̵r̵e̵d̵u̵c̵e̵I̵t̵e̵,̵e̵m̵p̵t̵y̵,̵w̵e̵i̵g̵h̵t̵s̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵r̵u̵n̵S̵c̵h̵e̵d̵u̵l̵e̵_̵a̵p̵p̵e̵n̵d̵,̵s̵c̵h̵e̵d̵u̵l̵e̵S̵a̵f̵e̵_̵a̵p̵p̵e̵n̵d̵]̵[̲N̲a̲t̲i̲v̲e̲I̲O̲.̲s̲c̲h̲e̲d̲u̲l̲e̲,̲ ̲s̲c̲h̲e̲d̲u̲l̲e̲,̲ ̲↓̲r̲e̲d̲u̲c̲e̲I̲t̲e̲,̲ ̲e̲m̲p̲t̲y̲,̲ ̲w̲e̲i̲g̲h̲t̲s̲,̲ ̲r̲u̲n̲S̲c̲h̲e̲d̲u̲l̲e̲_̲a̲p̲p̲e̲n̲d̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲s̲c̲h̲e̲d̲u̲l̲e̲S̲a̲f̲e̲_̲a̲p̲p̲e̲n̲d̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

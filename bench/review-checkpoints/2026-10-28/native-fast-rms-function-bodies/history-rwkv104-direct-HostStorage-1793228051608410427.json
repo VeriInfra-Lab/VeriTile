@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.HostStorage",
+  "start": 1793228051.6084263,
+  "end": 1793228054.7237003,
+  "log": "/tmp/rwkv104-direct-HostStorage-1793228051608410427.log",
+  "stop_file": "/tmp/rwkv104-direct-HostStorage-1793228051608410427.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

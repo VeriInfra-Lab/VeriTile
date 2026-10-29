@@ -1,0 +1,36 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Misc/OptionalHostCorrect.lean:51:5: warning: unused variable `views`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Misc/OptionalHostCorrect.lean:52:5: warning: unused variable `inputBytes`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.Repairs.FastRmsLayernorm.OptionalHostCorrect.wrapper_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.OptionalHostCorrect.output: definition does not reference [VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.forward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.backward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.weightBackward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Host.forward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Host.backward] — non-circular ✓
+VeriTile.Bench.Repairs.FastRmsLayernorm.OptionalHostCorrect.inputGradient: definition does not reference [VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.forward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.backward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.weightBackward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Host.forward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Host.backward] — non-circular ✓
+VeriTile.Bench.Repairs.FastRmsLayernorm.OptionalHostCorrect.weightGradient: definition does not reference [VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.forward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.backward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.weightBackward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Host.forward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Host.backward] — non-circular ✓
+VeriTile.Bench.Repairs.FastRmsLayernorm.OptionalHostCorrect.source_wrapper_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.OptionalHostCorrect.wrapper_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+Axiom audit: headlines=2
+headlines: [VeriTile.Bench.Repairs.FastRmsLayernorm.OptionalHostCorrect.source_wrapper_correct,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.OptionalHostCorrect.wrapper_correct]
+'VeriTile.Bench.Repairs.FastRmsLayernorm.OptionalHostCorrect.wrapper_correct' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

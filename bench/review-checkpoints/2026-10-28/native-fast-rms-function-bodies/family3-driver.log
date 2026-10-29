@@ -1,0 +1,11 @@
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.IOSafety 0 /tmp/rwkv104-direct-IOSafety-1793228577653989503.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealPublicIO 0 /tmp/rwkv104-direct-RealPublicIO-1793228580227523324.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.LogicalIO 0 /tmp/rwkv104-direct-LogicalIO-1793228585132787411.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.ReaderConnections 0 /tmp/rwkv104-direct-ReaderConnections-1793228587673187150.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Correct 0 /tmp/rwkv104-direct-Correct-1793228590377551462.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Misc.Audit 1 /tmp/rwkv104-direct-Audit-1793228597833808613.log
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Misc/Audit.lean:15:13: error(lean.unknownIdentifier): Unknown constant `Kernels.regular_source`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Misc/Audit.lean:16:13: error(lean.unknownIdentifier): Unknown constant `Kernels.gemma_source`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Misc/Audit.lean:17:13: error(lean.unknownIdentifier): Unknown constant `Kernels.input_gradient_source`
+bench.tritonbench_g.fast_rms_layernorm.Proofs.TypedExecution 0 /tmp/rwkv104-direct-TypedExecution-1793228607792601498.log
+BATCH COMPLETE fastrms107-family3 failed/skipped 1

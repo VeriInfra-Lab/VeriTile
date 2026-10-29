@@ -11364,109 +11364,12 @@
         "bench/repairs/tritonbench_g/fast_rms_layernorm/FPEquiv.lean"
       ],
       "assessment": {
+        "organization": "Task-level IO retains shared channels, coordinates and complete forward/backward schedules. The prepared input/weight bodies now unfold the exact source wrappers; signed weight execution, trace safety, independent Real formulas and complete FP pair proofs live in Proofs.",
+        "source_update": "All four original Python JIT bodies are retained: regular/Gemma forward, input backward and weight backward, with eleven raw body/ABI profile mappings including runtime and literal epsilon. Int64 metadata casts, pointer updates, signed weight loop, Gemma branch and the exact weight cast chain remain. The existing candidate only commutes three independent X row-index products and renames those JIT entries/calls; the full module AST is checked. Complete actual source execution, trace safety, full grids, outputs and frames are connected to independent Real formulas and full FP pair equivalence. Integer row/column counts use their actual fromNat conversion. Original Python, Contract and public Real/FP parameters and premises remain unchanged. Optional native/Tensor applications retain explicit modeling boundaries.",
+        "verification": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
         "previous_assessment": {
-          "organization": "Moved the existing Ports, RealIO and NativeIO namespace bodies byte for byte into IO.lean, ahead of its existing IOPair and LogicalIO namespaces. The real prepared-program and typed-native views remain distinct descriptions within that file. Redirected the three current consumers, removed the three redundant source modules, and retained all execution/safety/judgment proofs in Proofs/.",
-          "preservation": {
-            "body_evidence": [
-              {
-                "from": "bench/repairs/tritonbench_g/fast_rms_layernorm/Ports.lean",
-                "to": "bench/repairs/tritonbench_g/fast_rms_layernorm/IO.lean",
-                "namespace": [
-                  "VeriTile.Bench.Repairs.FastRmsLayernorm.Ports"
-                ],
-                "declarations": [
-                  "inputRole",
-                  "inputSize",
-                  "outputRole",
-                  "outputSize",
-                  "active",
-                  "inputs",
-                  "outputs",
-                  "Values",
-                  "Results",
-                  "logical",
-                  "ofNative"
-                ],
-                "body_sha256": "20e6f4c2fb951e7410476ca97596354127b937c861a6543887f142823d684a5c",
-                "body_preserved_byte_for_byte": true
-              },
-              {
-                "from": "bench/repairs/tritonbench_g/fast_rms_layernorm/RealIO.lean",
-                "to": "bench/repairs/tritonbench_g/fast_rms_layernorm/IO.lean",
-                "namespace": [
-                  "VeriTile.Bench.Repairs.FastRmsLayernorm.RealIO"
-                ],
-                "declarations": [
-                  "source",
-                  "job",
-                  "schedule",
-                  "memory",
-                  "program"
-                ],
-                "body_sha256": "e381d2e89d75414e1814118379116fad4eb79971b8a66031ceda0c88ecdf81d8",
-                "body_preserved_byte_for_byte": true
-              },
-              {
-                "from": "bench/repairs/tritonbench_g/fast_rms_layernorm/NativeIO.lean",
-                "to": "bench/repairs/tritonbench_g/fast_rms_layernorm/IO.lean",
-                "namespace": [
-                  "VeriTile.Bench.Repairs.FastRmsLayernorm.NativeIO"
-                ],
-                "declarations": [
-                  "forwardJob",
-                  "backwardJob",
-                  "schedule",
-                  "program"
-                ],
-                "body_sha256": "034a34d2c93a2d5da07d1d62248a729482dbe8fb562dd8f1bd7a7a2db80f5311",
-                "body_preserved_byte_for_byte": true
-              },
-              {
-                "from": "bench/repairs/tritonbench_g/fast_rms_layernorm/IO.lean",
-                "to": "bench/repairs/tritonbench_g/fast_rms_layernorm/IO.lean",
-                "namespace": [
-                  "VeriTile.Bench.Repairs.FastRmsLayernorm.IOPair",
-                  "VeriTile.Bench.Repairs.FastRmsLayernorm.LogicalIO"
-                ],
-                "declarations": [
-                  "forwardJob",
-                  "backwardJob",
-                  "schedule",
-                  "variant",
-                  "matrix",
-                  "Inputs",
-                  "ForwardOutputs",
-                  "BackwardOutputs",
-                  "inputs",
-                  "forwardOutputs",
-                  "backwardOutputs",
-                  "forwardView",
-                  "backwardView"
-                ],
-                "body_sha256": "dabaabd06fe47e050df3765377ec19c373655306db47f86c24bcbaf26d7d36e0",
-                "body_preserved_byte_for_byte": true
-              }
-            ],
-            "evidence_file": ".veritile-cache/io-unification-20261023/queue05/preservation.json",
-            "evidence_sha256": "dda0b0e225ab97d10ed3f1e1118d17737df973c3be1f472683e70ea5ec581a89",
-            "public_entry_sources_unchanged": true,
-            "consumer_changes": "Reference.lean, Proofs/IOExecution.lean and Proofs/IOBounds.lean change imports only; audit compares all nonimport bytes.",
-            "complete_judgment": "Ports.Values/Results, RealIO.program, NativeIO.program, IOPair.variant and LogicalIO.forwardView/backwardView keep all original names and complete byte-identical bodies. Public Correct/FPEquiv sources are unchanged and rebuilt successfully.",
-            "import_order_note": "IO imports the existing Proofs.RealWeightProgram before the original prepared-source certificate, sharing Lean lazy equation declarations with downstream raw execution proofs; no declarations or proofs were moved into IO from that proof module."
-          },
-          "different_stage_or_encoding_exceptions": [],
-          "previous_assessment": {
-            "manifest": "bench/review-checkpoints/2026-10-22/logical-readers/io-audit.json",
-            "task": "fast_rms_layernorm"
-          }
-        },
-        "reference_separation": {
-          "organization": "The six main channel/domain/formula adapters remain in IO, including native, which supplies the main FP success/frame certificate. Only the observer and nativeWords optional observation adapters move to Misc.",
-          "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/reference-separation/tasks/fast_rms_layernorm.json",
-            "sha256": "49ac5c20a7d379527c6cb05c6504ed3a27238de7231a142153921fa657846ab1",
-            "task": "fast_rms_layernorm"
-          }
+          "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/previous-reviews.json.gz",
+          "sha256": "d22ea1ee5cb0ae8d27666cbfa140d0094e76bc4a3a6339bdd5bc3e965ed01198"
         }
       },
       "distinct_views": "Prepared Algorithm Real IO and native Term ProgramIO have different source interpretation, runtime epsilon handling and invocation carriers. They already share the canonical Ports roles/sizes/active inputs. Both preserve regular/Gemma forward and weight-before-input backward stages, including the zero-row behavior.",
@@ -11477,7 +11380,7 @@
         },
         {
           "path": "bench/repairs/tritonbench_g/fast_rms_layernorm/FPEquiv.lean",
-          "sha256": "3473f64b443bf5ab0928046e2283d2a38f074e9c122b4f33f221a336dbda59c7"
+          "sha256": "a931c33e7a3256b0d6e3064515f826cbec0f1ca490effcc26b238ad716f8b3a4"
         }
       ],
       "io_sources": [
@@ -11495,26 +11398,23 @@
         },
         {
           "path": "bench/repairs/tritonbench_g/fast_rms_layernorm/IO.lean",
-          "sha256": "7c8ee463a189982f4ae9a1448e8a4170d359af6ead179bf075fc3c8a31861b5b"
+          "sha256": "21df497bb52e5a33190fe0dbd1b47cafbeea118ae196f84c51f2a64944e1a675"
         }
       ],
       "changed_paths": [
+        "bench/repairs/tritonbench_g/fast_rms_layernorm/FPEquiv.lean",
         "bench/repairs/tritonbench_g/fast_rms_layernorm/IO.lean"
       ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/reference-separation/tasks/fast_rms_layernorm.json",
-        "sha256": "49ac5c20a7d379527c6cb05c6504ed3a27238de7231a142153921fa657846ab1",
-        "task": "fast_rms_layernorm"
+        "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/review.json",
+        "sha256": "a5ab2ad44070541ce5689e0e9a322cf0f283af851a46ec4e5e18e6133da47936"
       },
       "preservation_and_build_passed": true,
       "validation_limits": {
-        "historical_attempts": [
-          {
-            "path": ".veritile-cache/io-consolidation-20261022/queue08/fast_rms_layernorm/previous-attempt-01.json",
-            "sha256": "730372c49b7577b8690e623b458d3c39d634f79a988d02b559495923b460172e",
-            "status": "build_failed"
-          }
-        ]
+        "official_comparator": "Unavailable; actual final-source attempts retained.",
+        "torch": "Unavailable.",
+        "numerical_receipt": "Known unchanged Structural receipt hash error.",
+        "scope": "Original mathematical input domain and public premises preserved; no new numerical experiment. FP32 source profile with explicit optional native modeling boundaries."
       },
       "remaining_issues": [],
       "main_formula_review": {
@@ -11525,7 +11425,7 @@
           "task_index": 6,
           "task": "fast_rms_layernorm"
         },
-        "io_data_unchanged": true
+        "io_data_unchanged": false
       },
       "previous_io_sources": [
         {
@@ -11668,6 +11568,10 @@
         "path": "bench/review-checkpoints/2026-10-23/reference-separation/tasks/fast_rms_layernorm.json",
         "sha256": "49ac5c20a7d379527c6cb05c6504ed3a27238de7231a142153921fa657846ab1",
         "task": "fast_rms_layernorm"
+      },
+      "current_body_source_review": {
+        "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/review.json",
+        "sha256": "a5ab2ad44070541ce5689e0e9a322cf0f283af851a46ec4e5e18e6133da47936"
       }
     },
     {

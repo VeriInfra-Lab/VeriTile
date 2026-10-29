@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.fast_rms_layernorm.Proofs.Candidate",
+  "start": 1793228113.862775,
+  "end": 1793228122.6802833,
+  "log": "/tmp/rwkv104-direct-Candidate-1793228113862761930.log",
+  "stop_file": "/tmp/rwkv104-direct-Candidate-1793228113862761930.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

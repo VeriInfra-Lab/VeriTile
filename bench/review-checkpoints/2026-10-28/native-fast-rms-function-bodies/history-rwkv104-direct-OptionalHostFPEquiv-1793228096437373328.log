@@ -1,0 +1,64 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Misc/OptionalHostFPEquiv.lean:58:5: warning: unused variable `views`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Misc/OptionalHostFPEquiv.lean:59:5: warning: unused variable `inputBytes`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.Repairs.FastRmsLayernorm.OptionalHostFPEquiv.native_forward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.OptionalHostFPEquiv.native_backward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.OptionalHostFPEquiv.nativeForwardReference: definition does not reference [VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.forward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.backward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.weightBackward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Host.forward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Host.backward,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.Repairs.FastRmsLayernorm.OptionalHostFPEquiv.nativeSavedReference: definition does not reference [VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.forward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.backward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.weightBackward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Host.forward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Host.backward,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.Repairs.FastRmsLayernorm.OptionalHostFPEquiv.nativeInputGradientReference: definition does not reference [VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.forward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.backward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.weightBackward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Host.forward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Host.backward,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.Repairs.FastRmsLayernorm.OptionalHostFPEquiv.nativeWeightGradientReference: definition does not reference [VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.forward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.backward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.weightBackward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Host.forward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Host.backward,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.Repairs.FastRmsLayernorm.OptionalHostFPEquiv.wrapper_equiv: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.OptionalHostFPEquiv.forwardReference: definition does not reference [VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.forward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.backward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.weightBackward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Host.forward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Host.backward] — non-circular ✓
+VeriTile.Bench.Repairs.FastRmsLayernorm.OptionalHostFPEquiv.savedReference: definition does not reference [VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.forward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.backward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.weightBackward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Host.forward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Host.backward] — non-circular ✓
+VeriTile.Bench.Repairs.FastRmsLayernorm.OptionalHostFPEquiv.inputGradientReference: definition does not reference [VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.forward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.backward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.weightBackward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Host.forward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Host.backward] — non-circular ✓
+VeriTile.Bench.Repairs.FastRmsLayernorm.OptionalHostFPEquiv.weightGradientReference: definition does not reference [VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.forward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.backward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.weightBackward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Host.forward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Host.backward] — non-circular ✓
+Axiom audit: headlines=0
+headlines: []
+'VeriTile.Bench.Repairs.FastRmsLayernorm.OptionalHostFPEquiv.wrapper_equiv' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

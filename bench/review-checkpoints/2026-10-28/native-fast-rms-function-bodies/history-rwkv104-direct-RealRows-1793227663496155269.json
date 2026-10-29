@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealRows",
+  "start": 1793227663.4961941,
+  "end": 1793227669.3627837,
+  "log": "/tmp/rwkv104-direct-RealRows-1793227663496155269.log",
+  "stop_file": "/tmp/rwkv104-direct-RealRows-1793227663496155269.stop",
+  "status": "COMPLETED",
+  "exit_code": 1
+}

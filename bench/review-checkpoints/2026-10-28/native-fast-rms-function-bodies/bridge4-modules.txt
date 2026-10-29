@@ -1,0 +1,13 @@
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPWeightMemory
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPGridWeight
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPSequence
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.KernelFrame
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPTensor
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RuntimeForward
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealRows
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealWeightOps
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealWeightEval
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealWeightStep
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealWeightLoop
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealWeightMemory
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealSourceSafety

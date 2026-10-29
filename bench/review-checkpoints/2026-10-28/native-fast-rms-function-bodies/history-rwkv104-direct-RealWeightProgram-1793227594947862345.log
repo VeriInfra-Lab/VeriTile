@@ -1,0 +1,41 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealWeightProgram.lean:21:88: warning: This simp argument is unused:
+  ComputeKernel.surfaceBody
+
+Hint: Omit it from the simp argument list.
+  simp [̵p̵r̵e̵f̵i̵x̵C̵o̵d̵e̵,̵l̵o̵o̵p̵B̵o̵d̵y̵,̵t̵a̵i̵l̵C̵o̵d̵e̵,̵s̵o̵u̵r̵c̵e̵,̵K̵e̵r̵n̵e̵l̵s̵.̵w̵e̵i̵g̵h̵t̵B̵a̵c̵k̵w̵a̵r̵d̵,̵K̵e̵r̵n̵e̵l̵s̵.̵w̵e̵i̵g̵h̵t̵S̵o̵u̵r̵c̵e̵,̵C̵o̵m̵p̵u̵t̵e̵K̵e̵r̵n̵e̵l̵.̵s̵u̵r̵f̵a̵c̵e̵B̵o̵d̵y̵,̵C̵o̵m̵p̵u̵t̵e̵K̵e̵r̵n̵e̵l̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵,̵
+  ̵ ̵ ̵ ̵ ̵C̵o̵m̵p̵u̵t̵e̵K̵e̵r̵n̵e̵l̵.̵t̵o̵A̵l̵g̵o̵r̵i̵t̵h̵m̵?̵,̵C̵o̵m̵p̵u̵t̵e̵K̵e̵r̵n̵e̵l̵.̵t̵o̵A̵l̵g̵K̵e̵r̵n̵e̵l̵,̵C̵o̵m̵p̵u̵t̵e̵K̵e̵r̵n̵e̵l̵.̵f̵r̵o̵m̵K̵e̵r̵n̵e̵l̵B̵o̵d̵y̵,̵
+  ̵ ̵ ̵ ̵ ̵C̵o̵m̵p̵u̵t̵e̵S̵t̵m̵t̵.̵l̵i̵s̵t̵T̵o̵A̵l̵g̵o̵r̵i̵t̵h̵m̵?̵,̵C̵o̵m̵p̵u̵t̵e̵S̵t̵m̵t̵.̵t̵o̵A̵l̵g̵o̵r̵i̵t̵h̵m̵?̵,̵C̵o̵m̵p̵u̵t̵e̵E̵x̵p̵r̵.̵t̵o̵A̵l̵g̵o̵r̵i̵t̵h̵m̵?̵,̵C̵o̵m̵p̵u̵t̵e̵O̵p̵.̵t̵o̵A̵l̵g̵o̵r̵i̵t̵h̵m̵?̵,̵
+  ̵ ̵ ̵ ̵ ̵K̵e̵r̵n̵e̵l̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵,̵S̵t̵m̵t̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵L̵i̵s̵t̵,̵S̵t̵m̵t̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵,̵
+  ̵ ̵ ̵ ̵ ̵O̵p̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵.̵e̵q̵_̵d̵e̵f̵,̵M̵e̵m̵A̵c̵c̵e̵s̵s̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵.̵e̵q̵_̵d̵e̵f̵,̵M̵a̵s̵k̵O̵p̵t̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵.̵e̵q̵_̵d̵e̵f̵,̵
+  ̵ ̵ ̵ ̵ ̵V̵e̵r̵i̵T̵i̵l̵e̵.̵T̵r̵i̵t̵o̵n̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵,̵N̵u̵m̵e̵r̵i̵c̵D̵T̵y̵p̵e̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵,̵C̵o̵m̵p̵a̵r̵a̵b̵l̵e̵D̵T̵y̵p̵e̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵,̵
+  ̵ ̵ ̵ ̵ ̵I̵n̵t̵e̵g̵r̵a̵l̵D̵T̵y̵p̵e̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵,̵C̵o̵m̵p̵u̵t̵e̵D̵T̵y̵p̵e̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵,̵E̵x̵c̵e̵p̵t̵.̵b̵i̵n̵d̵,̵b̵i̵n̵d̵]̵[̲p̲r̲e̲f̲i̲x̲C̲o̲d̲e̲,̲ ̲l̲o̲o̲p̲B̲o̲d̲y̲,̲ ̲t̲a̲i̲l̲C̲o̲d̲e̲,̲ ̲s̲o̲u̲r̲c̲e̲,̲ ̲K̲e̲r̲n̲e̲l̲s̲.̲w̲e̲i̲g̲h̲t̲B̲a̲c̲k̲w̲a̲r̲d̲,̲ ̲K̲e̲r̲n̲e̲l̲s̲.̲w̲e̲i̲g̲h̲t̲S̲o̲u̲r̲c̲e̲,̲
+  ̲ ̲ ̲ ̲ ̲C̲o̲m̲p̲u̲t̲e̲K̲e̲r̲n̲e̲l̲.̲e̲r̲a̲s̲e̲D̲T̲y̲p̲e̲,̲ ̲C̲o̲m̲p̲u̲t̲e̲K̲e̲r̲n̲e̲l̲.̲t̲o̲A̲l̲g̲o̲r̲i̲t̲h̲m̲?̲,̲ ̲C̲o̲m̲p̲u̲t̲e̲K̲e̲r̲n̲e̲l̲.̲t̲o̲A̲l̲g̲K̲e̲r̲n̲e̲l̲,̲
+  ̲ ̲ ̲ ̲ ̲C̲o̲m̲p̲u̲t̲e̲K̲e̲r̲n̲e̲l̲.̲f̲r̲o̲m̲K̲e̲r̲n̲e̲l̲B̲o̲d̲y̲,̲ ̲C̲o̲m̲p̲u̲t̲e̲S̲t̲m̲t̲.̲l̲i̲s̲t̲T̲o̲A̲l̲g̲o̲r̲i̲t̲h̲m̲?̲,̲ ̲C̲o̲m̲p̲u̲t̲e̲S̲t̲m̲t̲.̲t̲o̲A̲l̲g̲o̲r̲i̲t̲h̲m̲?̲,̲
+  ̲ ̲ ̲ ̲ ̲C̲o̲m̲p̲u̲t̲e̲E̲x̲p̲r̲.̲t̲o̲A̲l̲g̲o̲r̲i̲t̲h̲m̲?̲,̲ ̲C̲o̲m̲p̲u̲t̲e̲O̲p̲.̲t̲o̲A̲l̲g̲o̲r̲i̲t̲h̲m̲?̲,̲ ̲K̲e̲r̲n̲e̲l̲.̲e̲r̲a̲s̲e̲D̲T̲y̲p̲e̲,̲ ̲S̲t̲m̲t̲.̲e̲r̲a̲s̲e̲D̲T̲y̲p̲e̲L̲i̲s̲t̲,̲
+  ̲ ̲ ̲ ̲ ̲S̲t̲m̲t̲.̲e̲r̲a̲s̲e̲D̲T̲y̲p̲e̲,̲ ̲O̲p̲.̲e̲r̲a̲s̲e̲D̲T̲y̲p̲e̲.̲e̲q̲_̲d̲e̲f̲,̲ ̲M̲e̲m̲A̲c̲c̲e̲s̲s̲.̲e̲r̲a̲s̲e̲D̲T̲y̲p̲e̲.̲e̲q̲_̲d̲e̲f̲,̲ ̲M̲a̲s̲k̲O̲p̲t̲.̲e̲r̲a̲s̲e̲D̲T̲y̲p̲e̲.̲e̲q̲_̲d̲e̲f̲,̲
+  ̲ ̲ ̲ ̲ ̲V̲e̲r̲i̲T̲i̲l̲e̲.̲T̲r̲i̲t̲o̲n̲.̲e̲r̲a̲s̲e̲D̲T̲y̲p̲e̲,̲ ̲N̲u̲m̲e̲r̲i̲c̲D̲T̲y̲p̲e̲.̲e̲r̲a̲s̲e̲D̲T̲y̲p̲e̲,̲ ̲C̲o̲m̲p̲a̲r̲a̲b̲l̲e̲D̲T̲y̲p̲e̲.̲e̲r̲a̲s̲e̲D̲T̲y̲p̲e̲,̲
+  ̲ ̲ ̲ ̲ ̲I̲n̲t̲e̲g̲r̲a̲l̲D̲T̲y̲p̲e̲.̲e̲r̲a̲s̲e̲D̲T̲y̲p̲e̲,̲ ̲C̲o̲m̲p̲u̲t̲e̲D̲T̲y̲p̲e̲.̲e̲r̲a̲s̲e̲D̲T̲y̲p̲e̲,̲ ̲E̲x̲c̲e̲p̲t̲.̲b̲i̲n̲d̲,̲ ̲b̲i̲n̲d̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealWeightProgram.lean:27:4: warning: This simp argument is unused:
+  IntegralDType.eraseDType
+
+Hint: Omit it from the simp argument list.
+  simp [̵p̵r̵e̵f̵i̵x̵C̵o̵d̵e̵,̵l̵o̵o̵p̵B̵o̵d̵y̵,̵t̵a̵i̵l̵C̵o̵d̵e̵,̵s̵o̵u̵r̵c̵e̵,̵K̵e̵r̵n̵e̵l̵s̵.̵w̵e̵i̵g̵h̵t̵B̵a̵c̵k̵w̵a̵r̵d̵,̵K̵e̵r̵n̵e̵l̵s̵.̵w̵e̵i̵g̵h̵t̵S̵o̵u̵r̵c̵e̵,̵C̵o̵m̵p̵u̵t̵e̵K̵e̵r̵n̵e̵l̵.̵s̵u̵r̵f̵a̵c̵e̵B̵o̵d̵y̵,̵C̵o̵m̵p̵u̵t̵e̵K̵e̵r̵n̵e̵l̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵,̵
+  ̵ ̵ ̵ ̵ ̵C̵o̵m̵p̵u̵t̵e̵K̵e̵r̵n̵e̵l̵.̵t̵o̵A̵l̵g̵o̵r̵i̵t̵h̵m̵?̵,̵C̵o̵m̵p̵u̵t̵e̵K̵e̵r̵n̵e̵l̵.̵t̵o̵A̵l̵g̵K̵e̵r̵n̵e̵l̵,̵C̵o̵m̵p̵u̵t̵e̵K̵e̵r̵n̵e̵l̵.̵f̵r̵o̵m̵K̵e̵r̵n̵e̵l̵B̵o̵d̵y̵,̵
+  ̵ ̵ ̵ ̵ ̵C̵o̵m̵p̵u̵t̵e̵S̵t̵m̵t̵.̵l̵i̵s̵t̵T̵o̵A̵l̵g̵o̵r̵i̵t̵h̵m̵?̵,̵C̵o̵m̵p̵u̵t̵e̵S̵t̵m̵t̵.̵t̵o̵A̵l̵g̵o̵r̵i̵t̵h̵m̵?̵,̵C̵o̵m̵p̵u̵t̵e̵E̵x̵p̵r̵.̵t̵o̵A̵l̵g̵o̵r̵i̵t̵h̵m̵?̵,̵C̵o̵m̵p̵u̵t̵e̵O̵p̵.̵t̵o̵A̵l̵g̵o̵r̵i̵t̵h̵m̵?̵,̵
+  ̵ ̵ ̵ ̵ ̵K̵e̵r̵n̵e̵l̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵,̵S̵t̵m̵t̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵L̵i̵s̵t̵,̵S̵t̵m̵t̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵,̵
+  ̵ ̵ ̵ ̵ ̵O̵p̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵.̵e̵q̵_̵d̵e̵f̵,̵M̵e̵m̵A̵c̵c̵e̵s̵s̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵.̵e̵q̵_̵d̵e̵f̵,̵M̵a̵s̵k̵O̵p̵t̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵.̵e̵q̵_̵d̵e̵f̵,̵
+  ̵ ̵ ̵ ̵ ̵V̵e̵r̵i̵T̵i̵l̵e̵.̵T̵r̵i̵t̵o̵n̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵,̵N̵u̵m̵e̵r̵i̵c̵D̵T̵y̵p̵e̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵,̵C̵o̵m̵p̵a̵r̵a̵b̵l̵e̵D̵T̵y̵p̵e̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵,̵
+  ̵ ̵ ̵ ̵ ̵I̵n̵t̵e̵g̵r̵a̵l̵D̵T̵y̵p̵e̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵,̵C̵o̵m̵p̵u̵t̵e̵D̵T̵y̵p̵e̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵,̵E̵x̵c̵e̵p̵t̵.̵b̵i̵n̵d̵,̵b̵i̵n̵d̵]̵[̲p̲r̲e̲f̲i̲x̲C̲o̲d̲e̲,̲ ̲l̲o̲o̲p̲B̲o̲d̲y̲,̲ ̲t̲a̲i̲l̲C̲o̲d̲e̲,̲ ̲s̲o̲u̲r̲c̲e̲,̲ ̲K̲e̲r̲n̲e̲l̲s̲.̲w̲e̲i̲g̲h̲t̲B̲a̲c̲k̲w̲a̲r̲d̲,̲ ̲K̲e̲r̲n̲e̲l̲s̲.̲w̲e̲i̲g̲h̲t̲S̲o̲u̲r̲c̲e̲,̲
+  ̲ ̲ ̲ ̲ ̲C̲o̲m̲p̲u̲t̲e̲K̲e̲r̲n̲e̲l̲.̲s̲u̲r̲f̲a̲c̲e̲B̲o̲d̲y̲,̲ ̲C̲o̲m̲p̲u̲t̲e̲K̲e̲r̲n̲e̲l̲.̲e̲r̲a̲s̲e̲D̲T̲y̲p̲e̲,̲ ̲C̲o̲m̲p̲u̲t̲e̲K̲e̲r̲n̲e̲l̲.̲t̲o̲A̲l̲g̲o̲r̲i̲t̲h̲m̲?̲,̲
+  ̲ ̲ ̲ ̲ ̲C̲o̲m̲p̲u̲t̲e̲K̲e̲r̲n̲e̲l̲.̲t̲o̲A̲l̲g̲K̲e̲r̲n̲e̲l̲,̲ ̲C̲o̲m̲p̲u̲t̲e̲K̲e̲r̲n̲e̲l̲.̲f̲r̲o̲m̲K̲e̲r̲n̲e̲l̲B̲o̲d̲y̲,̲ ̲C̲o̲m̲p̲u̲t̲e̲S̲t̲m̲t̲.̲l̲i̲s̲t̲T̲o̲A̲l̲g̲o̲r̲i̲t̲h̲m̲?̲,̲
+  ̲ ̲ ̲ ̲ ̲C̲o̲m̲p̲u̲t̲e̲S̲t̲m̲t̲.̲t̲o̲A̲l̲g̲o̲r̲i̲t̲h̲m̲?̲,̲ ̲C̲o̲m̲p̲u̲t̲e̲E̲x̲p̲r̲.̲t̲o̲A̲l̲g̲o̲r̲i̲t̲h̲m̲?̲,̲ ̲C̲o̲m̲p̲u̲t̲e̲O̲p̲.̲t̲o̲A̲l̲g̲o̲r̲i̲t̲h̲m̲?̲,̲ ̲K̲e̲r̲n̲e̲l̲.̲e̲r̲a̲s̲e̲D̲T̲y̲p̲e̲,̲
+  ̲ ̲ ̲ ̲ ̲S̲t̲m̲t̲.̲e̲r̲a̲s̲e̲D̲T̲y̲p̲e̲L̲i̲s̲t̲,̲ ̲S̲t̲m̲t̲.̲e̲r̲a̲s̲e̲D̲T̲y̲p̲e̲,̲ ̲O̲p̲.̲e̲r̲a̲s̲e̲D̲T̲y̲p̲e̲.̲e̲q̲_̲d̲e̲f̲,̲ ̲M̲e̲m̲A̲c̲c̲e̲s̲s̲.̲e̲r̲a̲s̲e̲D̲T̲y̲p̲e̲.̲e̲q̲_̲d̲e̲f̲,̲
+  ̲ ̲ ̲ ̲ ̲M̲a̲s̲k̲O̲p̲t̲.̲e̲r̲a̲s̲e̲D̲T̲y̲p̲e̲.̲e̲q̲_̲d̲e̲f̲,̲ ̲V̲e̲r̲i̲T̲i̲l̲e̲.̲T̲r̲i̲t̲o̲n̲.̲e̲r̲a̲s̲e̲D̲T̲y̲p̲e̲,̲ ̲N̲u̲m̲e̲r̲i̲c̲D̲T̲y̲p̲e̲.̲e̲r̲a̲s̲e̲D̲T̲y̲p̲e̲,̲
+  ̲ ̲ ̲ ̲ ̲C̲o̲m̲p̲a̲r̲a̲b̲l̲e̲D̲T̲y̲p̲e̲.̲e̲r̲a̲s̲e̲D̲T̲y̲p̲e̲,̲ ̲C̲o̲m̲p̲u̲t̲e̲D̲T̲y̲p̲e̲.̲e̲r̲a̲s̲e̲D̲T̲y̲p̲e̲,̲ ̲E̲x̲c̲e̲p̲t̲.̲b̲i̲n̲d̲,̲ ̲b̲i̲n̲d̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.FastRmsLayernorm.RealWeightProgram.source_body: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

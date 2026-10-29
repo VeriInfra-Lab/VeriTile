@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.SavedAliasInhabited",
+  "start": 1793228101.0109782,
+  "end": 1793228106.2773364,
+  "log": "/tmp/rwkv104-direct-SavedAliasInhabited-1793228101010961774.log",
+  "stop_file": "/tmp/rwkv104-direct-SavedAliasInhabited-1793228101010961774.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

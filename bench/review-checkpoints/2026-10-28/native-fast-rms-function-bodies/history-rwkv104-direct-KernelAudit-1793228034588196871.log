@@ -1,0 +1,84 @@
+VeriTile.Bench.Repairs.FastRmsLayernorm.RawCorrect.kernel_forward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.RawCorrect.kernel_backward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.RawNative.kernel_forward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.RawNative.kernel_backward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.FPEquiv.zero_bytes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Misc/KernelAudit.lean:10:13: error(lean.unknownIdentifier): Unknown constant `Kernels.regular_source`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Misc/KernelAudit.lean:11:13: error(lean.unknownIdentifier): Unknown constant `Kernels.gemma_source`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Misc/KernelAudit.lean:12:13: error(lean.unknownIdentifier): Unknown constant `Kernels.input_gradient_source`
+VeriTile.Bench.Repairs.FastRmsLayernorm.KernelTensor.logical_read: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.Contract.observed_tensor_checks: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.FastRmsLayernorm.Contract.python_checks_iff: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.Contract.backward_checks_iff: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.NativeGraph.mapWords_shape: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.NativeGraph.bits_shape: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.NativeGraph.epsilon_shape: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.NativeGraph.epsilon_eval: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.EpsilonABI.positive_zero: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.EpsilonABI.negative_zero: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.EpsilonABI.zero_runtime_distinct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.RuntimeForward.Source.runtime_body: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.RuntimeForward.Source.runtime_length: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.RuntimeForward.Reference.literal_output: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.RuntimeForward.Source.forward_memory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.RuntimeForward.Grid.complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.RuntimeForward.Tensor.forward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.EpsilonABI.Binding — trusted project surface (0):
+[]
+VeriTile.Bench.Repairs.FastRmsLayernorm.NativeGraph.reduction_complete: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.Repairs.FastRmsLayernorm.NativeGraph.Instructions — trusted project surface (0):
+[]
+VeriTile.Bench.Repairs.FastRmsLayernorm.NativeGraph.CompilerBinding — trusted project surface (2):
+[VeriTile.Bench.Repairs.FastRmsLayernorm.NativeGraph.Reductions,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.NativeGraph.Selection]
+VeriTile.Bench.Repairs.FastRmsLayernorm.RealReference.output: definition does not reference [VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.forward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.backward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.weightBackward] — non-circular ✓
+VeriTile.Bench.Repairs.FastRmsLayernorm.RealReference.inputGradient: definition does not reference [VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.forward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.backward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.weightBackward] — non-circular ✓
+VeriTile.Bench.Repairs.FastRmsLayernorm.RealReference.weightGradient: definition does not reference [VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.forward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.backward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.weightBackward] — non-circular ✓

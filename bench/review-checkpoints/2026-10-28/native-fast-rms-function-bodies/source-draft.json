@@ -1,0 +1,7 @@
+{
+  "status": "RAW_SOURCE_DRAFT_PROOF_RECONNECTION_PENDING",
+  "pairs": 7,
+  "original_sha256": "032d4fa4043306a5b4ad0162e312a74328eaa81e8bdb9f711b5c0cff79d5d75a",
+  "candidate_scope": "Only three X row-stride multiplication operands and their JIT call names change; weight body and all wrappers remain.",
+  "draft": "/tmp/fastrms107-staging"
+}

@@ -1,0 +1,15 @@
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPWeightMemory 1 /tmp/rwkv104-direct-FPWeightMemory-1793227687226937603.log
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPWeightMemory.lean:39:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPWeightMemory.lean:70:0: error: VeriTile.Bench.Repairs.FastRmsLayernorm.FPWeightMemory.source_memory: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPWeightMemory.lean:71:0: error: VeriTile.Bench.Repairs.FastRmsLayernorm.FPWeightMemory.complete: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealRows 0 /tmp/rwkv104-direct-RealRows-1793227690384702444.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealWeightOps 0 /tmp/rwkv104-direct-RealWeightOps-1793227696341126941.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealWeightEval 0 /tmp/rwkv104-direct-RealWeightEval-1793227699847867325.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealWeightStep 0 /tmp/rwkv104-direct-RealWeightStep-1793227706354515236.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealWeightLoop 0 /tmp/rwkv104-direct-RealWeightLoop-1793227711760400779.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealWeightMemory 1 /tmp/rwkv104-direct-RealWeightMemory-1793227715765133847.log
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealWeightMemory.lean:19:63: error: unsolved goals
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealWeightMemory.lean:41:4: error: Type mismatch
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealWeightMemory.lean:57:0: error: VeriTile.Bench.Repairs.FastRmsLayernorm.RealWeightMemory.complete: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealSourceSafety 0 /tmp/rwkv104-direct-RealSourceSafety-1793227719337725401.log
+BATCH COMPLETE fastrms107-bridge4 failed/skipped 7

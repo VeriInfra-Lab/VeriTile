@@ -1,0 +1,18 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealTensor.lean:38:18: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealTensor.lean:87:46: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealTensor.lean:93:46: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealTensor.lean:106:64: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+VeriTile.Bench.Repairs.FastRmsLayernorm.RealTensor.forward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.RealTensor.backward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

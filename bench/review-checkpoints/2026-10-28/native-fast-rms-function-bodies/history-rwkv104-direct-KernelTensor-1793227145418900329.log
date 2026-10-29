@@ -1,0 +1,17 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/KernelTensor.lean:62:33: warning: This simp argument is unused:
+  Prod.fst
+
+Hint: Omit it from the simp argument list.
+  s̵i̵m̵p̵ ̵o̵n̵l̵y̵ ̵[̵l̵i̵f̵t̵,̵d̵i̵f̵_̵p̵o̵s̵ ̵m̵e̵m̵b̵e̵r̵,̵P̵r̵o̵d̵.̵f̵s̵t̵,̵P̵r̵o̵d̵.̵s̵n̵d̵,̵n̵a̵t̵i̵v̵e̵]̵s̲i̲m̲p̲ ̲o̲n̲l̲y̲ ̲[̲l̲i̲f̲t̲,̲ ̲d̲i̲f̲_̲p̲o̲s̲ ̲m̲e̲m̲b̲e̲r̲,̲ ̲P̲r̲o̲d̲.̲s̲n̲d̲,̲ ̲n̲a̲t̲i̲v̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/KernelTensor.lean:62:42: warning: This simp argument is unused:
+  Prod.snd
+
+Hint: Omit it from the simp argument list.
+  simp only [̵l̵i̵f̵t̵,̵d̵i̵f̵_̵p̵o̵s̵ ̵m̵e̵m̵b̵e̵r̵,̵P̵r̵o̵d̵.̵f̵s̵t̵,̵P̵r̵o̵d̵.̵s̵n̵d̵,̵n̵a̵t̵i̵v̵e̵]̵[̲l̲i̲f̲t̲,̲ ̲d̲i̲f̲_̲p̲o̲s̲ ̲m̲e̲m̲b̲e̲r̲,̲ ̲P̲r̲o̲d̲.̲f̲s̲t̲,̲ ̲n̲a̲t̲i̲v̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.FastRmsLayernorm.KernelTensor.logical_read: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

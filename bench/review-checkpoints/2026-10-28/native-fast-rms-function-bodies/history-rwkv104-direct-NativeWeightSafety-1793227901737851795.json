@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.NativeWeightSafety",
+  "start": 1793227901.737868,
+  "end": 1793227910.8547657,
+  "log": "/tmp/rwkv104-direct-NativeWeightSafety-1793227901737851795.log",
+  "stop_file": "/tmp/rwkv104-direct-NativeWeightSafety-1793227901737851795.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

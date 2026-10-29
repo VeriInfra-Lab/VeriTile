@@ -1,0 +1,26 @@
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPWeightProgram 0 /tmp/rwkv104-direct-FPWeightProgram-1793227048108271799.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPWeightStep 1 /tmp/rwkv104-direct-FPWeightStep-1793227053211971868.log
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPWeightStep.lean:29:2: error: Tactic `rfl` failed: The left-hand side
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPWeightStep.lean:44:67: error: unsolved goals
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPWeightStep.lean:57:0: error: VeriTile.Bench.Repairs.FastRmsLayernorm.FPWeightStep.prefix_executes: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPWeightStep.lean:58:0: error: VeriTile.Bench.Repairs.FastRmsLayernorm.FPWeightStep.iteration: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPMemory 0 /tmp/rwkv104-direct-FPMemory-1793227068371149837.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.Settings 0 /tmp/rwkv104-direct-Settings-1793227074028153410.log
+bench.repairs.tritonbench_g.chunk_cumsum_vector.Kernels 0 /tmp/rwkv104-direct-Kernels-1793227076866706101.log
+VeriTile.Triton 0 /tmp/rwkv104-direct-Triton-1793227080526370069.log
+bench.repairs.tritonbench_g.chunk_cumsum_vector.Proofs.Geometry 0 /tmp/rwkv104-direct-Geometry-1793227084583131139.log
+bench.repairs.tritonbench_g.chunk_cumsum_vector.Proofs.NativeIndex 0 /tmp/rwkv104-direct-NativeIndex-1793227092949019568.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.Native 0 /tmp/rwkv104-direct-Native-1793227099346658602.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.Geometry 0 /tmp/rwkv104-direct-Geometry-1793227104200203795.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.NativeGrid 0 /tmp/rwkv104-direct-NativeGrid-1793227107302318980.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.Storage 0 /tmp/rwkv104-direct-Storage-1793227112846782594.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.StorageImage 0 /tmp/rwkv104-direct-StorageImage-1793227118480452831.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.HostMetadata 0 /tmp/rwkv104-direct-HostMetadata-1793227123476138224.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Contract 0 /tmp/rwkv104-direct-Contract-1793227134552626487.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.KernelStorage 0 /tmp/rwkv104-direct-KernelStorage-1793227139647581359.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.KernelTensor 0 /tmp/rwkv104-direct-KernelTensor-1793227145418900329.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.GridRun 0 /tmp/rwkv104-direct-GridRun-1793227150768283761.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPGridForward 0 /tmp/rwkv104-direct-FPGridForward-1793227153262783083.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPBackwardMemory 0 /tmp/rwkv104-direct-FPBackwardMemory-1793227159297592721.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPGridBackward 0 /tmp/rwkv104-direct-FPGridBackward-1793227164739723895.log
+BATCH COMPLETE fastrms107-weight failed/skipped 8

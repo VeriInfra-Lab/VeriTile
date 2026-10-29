@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealWeightOps",
+  "start": 1793227599.4537215,
+  "end": 1793227602.7693005,
+  "log": "/tmp/rwkv104-direct-RealWeightOps-1793227599453705289.log",
+  "stop_file": "/tmp/rwkv104-direct-RealWeightOps-1793227599453705289.stop",
+  "status": "COMPLETED",
+  "exit_code": 1
+}

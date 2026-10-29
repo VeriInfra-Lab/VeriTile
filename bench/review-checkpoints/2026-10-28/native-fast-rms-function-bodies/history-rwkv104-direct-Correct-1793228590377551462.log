@@ -1,0 +1,14 @@
+VeriTile.Bench.Repairs.FastRmsLayernorm.Reference.real: definition does not reference [VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.forward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.backward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.weightBackward] — non-circular ✓
+VeriTile.Bench.Repairs.FastRmsLayernorm.Reference.realDomain: definition does not reference [VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.forward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.backward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.weightBackward] — non-circular ✓
+VeriTile.Bench.Repairs.FastRmsLayernorm.Correct.kernel_forward: statement's project surface ⊆ allowlist ✓
+VeriTile.Bench.Repairs.FastRmsLayernorm.Correct.kernel_backward: statement's project surface ⊆ allowlist ✓
+VeriTile.Bench.Repairs.FastRmsLayernorm.Correct.kernel_forward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.Correct.kernel_backward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

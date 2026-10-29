@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealGridWeight",
+  "start": 1793228005.2430992,
+  "end": 1793228008.6589556,
+  "log": "/tmp/rwkv104-direct-RealGridWeight-1793228005243082847.log",
+  "stop_file": "/tmp/rwkv104-direct-RealGridWeight-1793228005243082847.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

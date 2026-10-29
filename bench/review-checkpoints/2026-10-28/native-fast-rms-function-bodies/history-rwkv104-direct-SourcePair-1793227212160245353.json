@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.SourcePair",
+  "start": 1793227212.1602688,
+  "end": 1793227228.0918012,
+  "log": "/tmp/rwkv104-direct-SourcePair-1793227212160245353.log",
+  "stop_file": "/tmp/rwkv104-direct-SourcePair-1793227212160245353.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

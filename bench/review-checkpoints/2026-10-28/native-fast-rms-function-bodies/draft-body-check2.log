@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/tmp/veritile-pr18-review/bench/jit_correspondence.py", line 870, in <module>
+    print(json.dumps(check_manifest(args.root, args.manifest), indent=2))
+                     ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/veritile-pr18-review/bench/jit_correspondence.py", line 843, in check_manifest
+    validate_manifest_records(records)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/tmp/veritile-pr18-review/bench/jit_correspondence.py", line 823, in validate_manifest_records
+    raise ValueError("reused Python correspondence requires distinct explicit profile variants")
+ValueError: reused Python correspondence requires distinct explicit profile variants

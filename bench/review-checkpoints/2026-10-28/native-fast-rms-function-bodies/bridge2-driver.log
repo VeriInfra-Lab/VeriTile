@@ -1,0 +1,12 @@
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPWeightStep 0 /tmp/rwkv104-direct-FPWeightStep-1793227554694594528.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPWeightLoop 0 /tmp/rwkv104-direct-FPWeightLoop-1793227563053828069.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPWeightMemory 1 /tmp/rwkv104-direct-FPWeightMemory-1793227566209713189.log
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPWeightMemory.lean:36:2: error: Type mismatch: After simplification, term
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPWeightMemory.lean:66:0: error: VeriTile.Bench.Repairs.FastRmsLayernorm.FPWeightMemory.source_memory: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPWeightMemory.lean:67:0: error: VeriTile.Bench.Repairs.FastRmsLayernorm.FPWeightMemory.complete: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealSource 0 /tmp/rwkv104-direct-RealSource-1793227569367705385.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealWeightProgram 0 /tmp/rwkv104-direct-RealWeightProgram-1793227594947862345.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealWeightOps 1 /tmp/rwkv104-direct-RealWeightOps-1793227599453705289.log
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealWeightOps.lean:32:116: error: unsolved goals
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealWeightOps.lean:42:0: error: VeriTile.Bench.Repairs.FastRmsLayernorm.RealWeightOps.bindings: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+BATCH COMPLETE fastrms107-bridge2 failed/skipped 11

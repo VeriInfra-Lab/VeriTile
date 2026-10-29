@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.IOBounds",
+  "start": 1793228471.1332686,
+  "end": 1793228473.8987634,
+  "log": "/tmp/rwkv104-direct-IOBounds-1793228471133252427.log",
+  "stop_file": "/tmp/rwkv104-direct-IOBounds-1793228471133252427.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

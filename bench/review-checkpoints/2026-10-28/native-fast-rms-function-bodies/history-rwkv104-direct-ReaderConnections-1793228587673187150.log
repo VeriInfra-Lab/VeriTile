@@ -1,0 +1,26 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/ReaderConnections.lean:62:8: warning: This simp argument is unused:
+  RealReference.weightGradient
+
+Hint: Omit it from the simp argument list.
+  simp only [̵d̵e̵f̵i̵n̵i̵t̵i̵o̵n̵,̵L̵o̵g̵i̵c̵a̵l̵I̵O̵.̵x̵_̵r̵o̵w̵,̵L̵o̵g̵i̵c̵a̵l̵I̵O̵.̵u̵p̵s̵t̵r̵e̵a̵m̵_̵r̵o̵w̵,̵i̵n̵v̵D̵e̵f̵i̵n̵i̵t̵i̵o̵n̵,̵R̵e̵f̵e̵r̵e̵n̵c̵e̵.̵r̵e̵a̵l̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵R̵e̵a̵l̵R̵e̵f̵e̵r̵e̵n̵c̵e̵.̵w̵e̵i̵g̵h̵t̵G̵r̵a̵d̵i̵e̵n̵t̵,̵R̵e̵a̵l̵R̵e̵f̵e̵r̵e̵n̵c̵e̵.̵i̵n̵v̵,̵R̵e̵a̵l̵R̵e̵f̵e̵r̵e̵n̵c̵e̵.̵v̵a̵r̵i̵a̵n̵c̵e̵]̵[̲d̲e̲f̲i̲n̲i̲t̲i̲o̲n̲,̲ ̲L̲o̲g̲i̲c̲a̲l̲I̲O̲.̲x̲_̲r̲o̲w̲,̲ ̲L̲o̲g̲i̲c̲a̲l̲I̲O̲.̲u̲p̲s̲t̲r̲e̲a̲m̲_̲r̲o̲w̲,̲ ̲i̲n̲v̲D̲e̲f̲i̲n̲i̲t̲i̲o̲n̲,̲ ̲R̲e̲f̲e̲r̲e̲n̲c̲e̲.̲r̲e̲a̲l̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲R̲e̲a̲l̲R̲e̲f̲e̲r̲e̲n̲c̲e̲.̲i̲n̲v̲,̲ ̲R̲e̲a̲l̲R̲e̲f̲e̲r̲e̲n̲c̲e̲.̲v̲a̲r̲i̲a̲n̲c̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/ReaderConnections.lean:62:37: warning: This simp argument is unused:
+  RealReference.inv
+
+Hint: Omit it from the simp argument list.
+  simp only [definition, ̲LogicalIO.x_row, ̲LogicalIO.upstream_row, ̲invDefinition, ̲Reference.real,
+          RealReference.weightGradient, ̲RealReference.i̵n̵v,̵R̵e̵al̵R̵e̵f̵e̵re̵n̵c̵e̵.̵v̵a̵r̵iance]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/ReaderConnections.lean:62:55: warning: This simp argument is unused:
+  RealReference.variance
+
+Hint: Omit it from the simp argument list.
+  simp only [̵d̵e̵f̵i̵n̵i̵t̵i̵o̵n̵,̵L̵o̵g̵i̵c̵a̵l̵I̵O̵.̵x̵_̵r̵o̵w̵,̵L̵o̵g̵i̵c̵a̵l̵I̵O̵.̵u̵p̵s̵t̵r̵e̵a̵m̵_̵r̵o̵w̵,̵i̵n̵v̵D̵e̵f̵i̵n̵i̵t̵i̵o̵n̵,̵R̵e̵f̵e̵r̵e̵n̵c̵e̵.̵r̵e̵a̵l̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵R̵e̵a̵l̵R̵e̵f̵e̵r̵e̵n̵c̵e̵.̵w̵e̵i̵g̵h̵t̵G̵r̵a̵d̵i̵e̵n̵t̵,̵R̵e̵a̵l̵R̵e̵f̵e̵r̵e̵n̵c̵e̵.̵i̵n̵v̵,̵R̵e̵a̵l̵R̵e̵f̵e̵r̵e̵n̵c̵e̵.̵v̵a̵r̵i̵a̵n̵c̵e̵]̵[̲d̲e̲f̲i̲n̲i̲t̲i̲o̲n̲,̲ ̲L̲o̲g̲i̲c̲a̲l̲I̲O̲.̲x̲_̲r̲o̲w̲,̲ ̲L̲o̲g̲i̲c̲a̲l̲I̲O̲.̲u̲p̲s̲t̲r̲e̲a̲m̲_̲r̲o̲w̲,̲ ̲i̲n̲v̲D̲e̲f̲i̲n̲i̲t̲i̲o̲n̲,̲ ̲R̲e̲f̲e̲r̲e̲n̲c̲e̲.̲r̲e̲a̲l̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲R̲e̲a̲l̲R̲e̲f̲e̲r̲e̲n̲c̲e̲.̲w̲e̲i̲g̲h̲t̲G̲r̲a̲d̲i̲e̲n̲t̲,̲ ̲R̲e̲a̲l̲R̲e̲f̲e̲r̲e̲n̲c̲e̲.̲i̲n̲v̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

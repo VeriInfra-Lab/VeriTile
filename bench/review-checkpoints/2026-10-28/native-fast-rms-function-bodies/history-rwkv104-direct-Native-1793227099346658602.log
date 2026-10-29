@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.FastRmsLayernorm.Native.accessed_word: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.Native.row_bound: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

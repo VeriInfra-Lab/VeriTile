@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Misc.OptionalHostFPEquiv",
+  "start": 1793228096.4373875,
+  "end": 1793228100.970835,
+  "log": "/tmp/rwkv104-direct-OptionalHostFPEquiv-1793228096437373328.log",
+  "stop_file": "/tmp/rwkv104-direct-OptionalHostFPEquiv-1793228096437373328.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

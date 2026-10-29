@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealReads",
+  "start": 1793227656.8342433,
+  "end": 1793227659.949406,
+  "log": "/tmp/rwkv104-direct-RealReads-1793227656834227267.log",
+  "stop_file": "/tmp/rwkv104-direct-RealReads-1793227656834227267.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

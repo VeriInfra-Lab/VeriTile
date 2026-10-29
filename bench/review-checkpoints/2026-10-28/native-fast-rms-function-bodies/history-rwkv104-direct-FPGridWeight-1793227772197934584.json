@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPGridWeight",
+  "start": 1793227772.1979496,
+  "end": 1793227775.0135126,
+  "log": "/tmp/rwkv104-direct-FPGridWeight-1793227772197934584.log",
+  "stop_file": "/tmp/rwkv104-direct-FPGridWeight-1793227772197934584.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

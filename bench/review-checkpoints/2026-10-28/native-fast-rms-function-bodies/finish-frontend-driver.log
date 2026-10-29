@@ -1,0 +1,16 @@
+PASS 7 raw bodies
+Closure 142 affected 63 compile 13 new copied 0
+bench.tests.AttributeCastChain 0 /tmp/rwkv104-direct-AttributeCastChain-1793226863066760987.log
+bench.tests.ValueDTypeBody 0 /tmp/rwkv104-direct-ValueDTypeBody-1793226866363043128.log
+bench.tests.SourceFunction 0 /tmp/rwkv104-direct-SourceFunction-1793226869371284426.log
+bench.tests.StatementSourceFunction 0 /tmp/rwkv104-direct-StatementSourceFunction-1793226873237438846.log
+bench.tritonbench_g.fast_rms_layernorm.Kernels 0 /tmp/rwkv104-direct-Kernels-1793226891645263687.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.SourceParameters 0 /tmp/rwkv104-direct-SourceParameters-1793226906602244405.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.LegacyKernels 0 /tmp/rwkv104-direct-LegacyKernels-1793226908781730216.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Kernels 0 /tmp/rwkv104-direct-Kernels-1793226913466130196.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPReference 0 /tmp/rwkv104-direct-FPReference-1793226918674385220.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPSource 0 /tmp/rwkv104-direct-FPSource-1793226923606339193.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPBackwardReference 0 /tmp/rwkv104-direct-FPBackwardReference-1793226953735551378.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPBackward 0 /tmp/rwkv104-direct-FPBackward-1793226958592631678.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPWeightReference 0 /tmp/rwkv104-direct-FPWeightReference-1793226988988903718.log
+BATCH COMPLETE fastrms107-prefix failed/skipped 0

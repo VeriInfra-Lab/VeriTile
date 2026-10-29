@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPTensor",
+  "start": 1793227781.1650944,
+  "end": 1793227784.6669488,
+  "log": "/tmp/rwkv104-direct-FPTensor-1793227781165078965.log",
+  "stop_file": "/tmp/rwkv104-direct-FPTensor-1793227781165078965.stop",
+  "status": "COMPLETED",
+  "exit_code": 1
+}

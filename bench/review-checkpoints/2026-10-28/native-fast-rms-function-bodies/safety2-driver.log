@@ -1,0 +1,10 @@
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPTensor 0 /tmp/rwkv104-direct-FPTensor-1793227823843697934.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RuntimeForward 0 /tmp/rwkv104-direct-RuntimeForward-1793227827498209161.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.NativeSafety 0 /tmp/rwkv104-direct-NativeSafety-1793227843206451609.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealWeightMemory 0 /tmp/rwkv104-direct-RealWeightMemory-1793227861515268611.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealWeightSafety 1 /tmp/rwkv104-direct-RealWeightSafety-1793227865119299363.log
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealWeightSafety.lean:74:40: error(lean.unknownIdentifier): Unknown constant `Int.natCast_lt`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealWeightSafety.lean:75:11: error: Invalid `⟨...⟩` notation: The expected type
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealWeightSafety.lean:76:4: error: No goals to be solved
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealWeightSafety.lean:90:0: error: VeriTile.Bench.Repairs.FastRmsLayernorm.RealWeightSafety.loop_safe: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+BATCH COMPLETE fastrms107-safety2 failed/skipped 5

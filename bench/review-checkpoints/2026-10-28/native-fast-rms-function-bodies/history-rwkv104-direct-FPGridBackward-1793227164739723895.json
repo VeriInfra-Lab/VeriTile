@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPGridBackward",
+  "start": 1793227164.7397459,
+  "end": 1793227171.0104136,
+  "log": "/tmp/rwkv104-direct-FPGridBackward-1793227164739723895.log",
+  "stop_file": "/tmp/rwkv104-direct-FPGridBackward-1793227164739723895.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

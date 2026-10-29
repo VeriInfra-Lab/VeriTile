@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.Geometry",
+  "start": 1793227104.2002308,
+  "end": 1793227107.237916,
+  "log": "/tmp/rwkv104-direct-Geometry-1793227104200203795.log",
+  "stop_file": "/tmp/rwkv104-direct-Geometry-1793227104200203795.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

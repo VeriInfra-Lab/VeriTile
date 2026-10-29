@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.fast_rms_layernorm.Proofs.TypedExecution",
+  "start": 1793228607.7926176,
+  "end": 1793228733.247635,
+  "log": "/tmp/rwkv104-direct-TypedExecution-1793228607792601498.log",
+  "stop_file": "/tmp/rwkv104-direct-TypedExecution-1793228607792601498.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,13 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealReads.lean:14:26: warning: This simp argument is unused:
+  padded
+
+Hint: Omit it from the simp argument list.
+  simp [̵R̵e̵a̵l̵M̵a̵t̵h̵.̵p̵a̵d̵d̵e̵d̵,̵p̵a̵d̵d̵e̵d̵,̵h̵j̵]̵[̲R̲e̲a̲l̲M̲a̲t̲h̲.̲p̲a̲d̲d̲e̲d̲,̲ ̲h̲j̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.FastRmsLayernorm.RealReads.output_agrees: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.RealReads.gradient_agrees: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPWeightStep",
+  "start": 1793227053.212,
+  "end": 1793227068.2911522,
+  "log": "/tmp/rwkv104-direct-FPWeightStep-1793227053211971868.log",
+  "stop_file": "/tmp/rwkv104-direct-FPWeightStep-1793227053211971868.stop",
+  "status": "COMPLETED",
+  "exit_code": 1
+}

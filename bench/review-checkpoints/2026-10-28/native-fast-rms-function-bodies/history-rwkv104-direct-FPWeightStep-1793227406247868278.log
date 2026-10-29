@@ -1,0 +1,40 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPWeightStep.lean:24:64: error: unsolved goals
+case pos
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+h : Call
+K : ℕ
+u : State α
+h✝ : ¬"mask" = "acc"
+⊢ (bop (fun a b => decide (a < b)) Broadcast.scalarR
+      (bop (fun x1 x2 => x1 + x2) Broadcast.scalarL
+        (bop (fun x1 x2 => x1 * x2) Broadcast.nil (fun i => ↑(u.pids 0)) fun x => ↑K) fun i => ↑↑i.1)
+      fun i => ↑h.cols) =
+    masks h K (u.pids 0)
+
+case pos
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+h : Call
+K : ℕ
+u : State α
+h✝¹ : ¬"col" = "acc"
+h✝ : ¬"col" = "mask"
+⊢ (bop (fun x1 x2 => x1 + x2) Broadcast.scalarL
+      (bop (fun x1 x2 => x1 * x2) Broadcast.nil (fun i => ↑(u.pids 0)) fun x => ↑K) fun i => ↑↑i.1) =
+    columns K (u.pids 0)
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPWeightStep.lean:55:4: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPWeightStep.lean:56:4: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPWeightStep.lean:59:4: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPWeightStep.lean:61:0: error: VeriTile.Bench.Repairs.FastRmsLayernorm.FPWeightStep.prefix_executes: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.Repairs.FastRmsLayernorm.FPWeightStep.iteration: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

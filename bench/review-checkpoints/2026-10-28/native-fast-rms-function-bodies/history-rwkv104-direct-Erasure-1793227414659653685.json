@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.fast_rms_layernorm.Proofs.Erasure",
+  "start": 1793227414.6596687,
+  "end": 1793227442.0342746,
+  "log": "/tmp/rwkv104-direct-Erasure-1793227414659653685.log",
+  "stop_file": "/tmp/rwkv104-direct-Erasure-1793227414659653685.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,19 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealRows.lean:53:15: error: Application type mismatch: The argument
+  hv
+has type
+  exec (Kernels.forward h).eraseDType.toAlgKernel u = some v
+but is expected to have type
+  some v = some v
+in the application
+  And.intro hv
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealRows.lean:111:15: error: Application type mismatch: The argument
+  hv
+has type
+  exec (Kernels.backward h).eraseDType.toAlgKernel u = some v
+but is expected to have type
+  some v = some v
+in the application
+  And.intro hv
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealRows.lean:129:0: error: VeriTile.Bench.Repairs.FastRmsLayernorm.RealRows.forward_complete: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealRows.lean:130:0: error: VeriTile.Bench.Repairs.FastRmsLayernorm.RealRows.backward_values: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealRows.lean:131:0: error: VeriTile.Bench.Repairs.FastRmsLayernorm.RealRows.backward_complete: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealSourceSafety",
+  "start": 1793227719.3377392,
+  "end": 1793227752.16282,
+  "log": "/tmp/rwkv104-direct-RealSourceSafety-1793227719337725401.log",
+  "stop_file": "/tmp/rwkv104-direct-RealSourceSafety-1793227719337725401.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.fast_rms_layernorm.Proofs.BackwardRun",
+  "start": 1793227483.0114038,
+  "end": 1793227498.481442,
+  "log": "/tmp/rwkv104-direct-BackwardRun-1793227483011388593.log",
+  "stop_file": "/tmp/rwkv104-direct-BackwardRun-1793227483011388593.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

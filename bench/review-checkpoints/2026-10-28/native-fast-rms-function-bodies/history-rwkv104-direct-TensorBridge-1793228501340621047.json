@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Misc.TensorBridge",
+  "start": 1793228501.340637,
+  "end": 1793228507.207285,
+  "log": "/tmp/rwkv104-direct-TensorBridge-1793228501340621047.log",
+  "stop_file": "/tmp/rwkv104-direct-TensorBridge-1793228501340621047.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,66 @@
+{
+  "status": "PASS_WITH_RECORDED_LIMITS",
+  "code_commit": "fc086570c7b845998b42edc6f1afde190334119f",
+  "start": 1793231728.6792448,
+  "end": 1793231809.4607725,
+  "python": {
+    "targeted": {
+      "status": "PASS",
+      "tests": 299
+    },
+    "full": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 544,
+      "errors": 1
+    }
+  },
+  "raw_bodies": [
+    {
+      "name": "raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/fast_rms_layernorm/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "fc086570c7b845998b42edc6f1afde190334119f",
+      "log": "/tmp/fastrms107-raw-body-check.log",
+      "status": "PASS"
+    }
+  ],
+  "cpu": {
+    "status": "PASS",
+    "scope": "The targeted FastRmsBody.test_full_candidate_module checks the complete original/candidate Python AST: only three independent row-index product commutations and their JIT names/call sites change. Original weight body, casts, loops, masks, wrappers and host guards remain unchanged.",
+    "public_statements": "The original public Real and FP reader declarations, including every parameter and premise, are text-identical to the previous receipt; only the FP audit command is added."
+  },
+  "torch": {
+    "name": "torch-dependencies",
+    "command": [
+      "python3",
+      "-c",
+      "import torch; import triton"
+    ],
+    "exit_code": 1,
+    "code_commit": "fc086570c7b845998b42edc6f1afde190334119f",
+    "log": "/tmp/fastrms107-torch-dependencies.log",
+    "status": "UNAVAILABLE",
+    "reason": "The retained Torch source checker requires absent Torch/Triton. No GPU or numerical experiment was run."
+  },
+  "original_python_and_contracts": {
+    "status": "PASS",
+    "sha256": {
+      "bench/repairs/tritonbench_g/fast_rms_layernorm/Contract.lean": "d4ccd1c632574a2af00816bd18fca5bc5e1cc1eb1f526975c4b08240cff8529f",
+      "bench/repairs/tritonbench_g/fast_rms_layernorm/check_contract.py": "2c405207954bbb30749089773bc4617874af7ca1efb18f013b8b8d19522d4d20",
+      "bench/repairs/tritonbench_g/fast_rms_layernorm/fast_rms_layernorm_repaired.py": "032d4fa4043306a5b4ad0162e312a74328eaa81e8bdb9f711b5c0cff79d5d75a",
+      "bench/tritonbench_g/fast_rms_layernorm/fast_rms_layernorm.py": "4a3553e0f4dee342c393edf0b8aaf82504153d1bd39b724072e566612fb9c1e8"
+    }
+  },
+  "comparator": {
+    "attempts": 121,
+    "statuses": [
+      "UNAVAILABLE"
+    ]
+  },
+  "scope": "Exact frozen source. Complete runtime-epsilon forward/backward/weight typed IO/safety/frame and independent Real mathematics are verified separately by Lean; body tests are source correspondence checks, not hardware/numerical evidence."
+}

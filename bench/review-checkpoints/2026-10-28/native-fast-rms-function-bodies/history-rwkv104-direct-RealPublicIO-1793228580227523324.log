@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.FastRmsLayernorm.RealPublicIO.forward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.RealPublicIO.backward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.fast_rms_layernorm.Proofs.RealMath",
+  "start": 1793227473.2449825,
+  "end": 1793227476.3102925,
+  "log": "/tmp/rwkv104-direct-RealMath-1793227473244967763.log",
+  "stop_file": "/tmp/rwkv104-direct-RealMath-1793227473244967763.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

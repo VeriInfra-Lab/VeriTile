@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.NativePublicIO",
+  "start": 1793228479.6994448,
+  "end": 1793228483.5655313,
+  "log": "/tmp/rwkv104-direct-NativePublicIO-1793228479699430782.log",
+  "stop_file": "/tmp/rwkv104-direct-NativePublicIO-1793228479699430782.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

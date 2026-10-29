@@ -7512,7 +7512,7 @@
         },
         {
           "path": "bench/repairs/tritonbench_g/fast_rms_layernorm/FPEquiv.lean",
-          "sha256": "3473f64b443bf5ab0928046e2283d2a38f074e9c122b4f33f221a336dbda59c7",
+          "sha256": "a931c33e7a3256b0d6e3064515f826cbec0f1ca490effcc26b238ad716f8b3a4",
           "surface": "FPEquiv",
           "declarations": [
             {
@@ -7544,9 +7544,8 @@
         }
       ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/reference-separation/tasks/fast_rms_layernorm.json",
-        "sha256": "49ac5c20a7d379527c6cb05c6504ed3a27238de7231a142153921fa657846ab1",
-        "task": "fast_rms_layernorm"
+        "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/review.json",
+        "sha256": "a5ab2ad44070541ce5689e0e9a322cf0f283af851a46ec4e5e18e6133da47936"
       },
       "change": null,
       "new_misc_entries": [],
@@ -7586,7 +7585,8 @@
         "path": "bench/review-checkpoints/2026-10-23/reference-separation/tasks/fast_rms_layernorm.json",
         "sha256": "49ac5c20a7d379527c6cb05c6504ed3a27238de7231a142153921fa657846ab1",
         "task": "fast_rms_layernorm"
-      }
+      },
+      "current_body_source_review": "All four original Python JIT bodies are retained: regular/Gemma forward, input backward and weight backward, with eleven raw body/ABI profile mappings including runtime and literal epsilon. Int64 metadata casts, pointer updates, signed weight loop, Gemma branch and the exact weight cast chain remain. The existing candidate only commutes three independent X row-index products and renames those JIT entries/calls; the full module AST is checked. Complete actual source execution, trace safety, full grids, outputs and frames are connected to independent Real formulas and full FP pair equivalence. Integer row/column counts use their actual fromNat conversion. Original Python, Contract and public Real/FP parameters and premises remain unchanged. Optional native/Tensor applications retain explicit modeling boundaries."
     },
     {
       "task": "fast_rope_embedding",

@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealPublicIO",
+  "start": 1793228580.2275398,
+  "end": 1793228585.093736,
+  "log": "/tmp/rwkv104-direct-RealPublicIO-1793228580227523324.log",
+  "stop_file": "/tmp/rwkv104-direct-RealPublicIO-1793228580227523324.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

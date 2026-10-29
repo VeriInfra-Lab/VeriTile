@@ -1,0 +1,179 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPWeightStep.lean:29:2: error: Tactic `rfl` failed: The left-hand side
+  fun d sh n =>
+    if n = "acc" then
+      if hd : TileDType.real = d then
+        if hs : [K] = sh then some (hd ▸ hs ▸ fun x => M.literal (some ComputeDType.fp32) FloatDType.real 0) else none
+      else none
+    else
+      if n = "mask" then
+        if hd : TileDType.bool = d then
+          if hs : [K] = sh then
+            some
+              (hd ▸
+                hs ▸
+                  bop (fun a b => decide (a < b)) Broadcast.scalarR
+                    (bop (fun x1 x2 => x1 + x2) Broadcast.scalarL
+                      (bop (fun x1 x2 => x1 * x2) Broadcast.nil (fun i => ↑(u.pids 0)) fun x => ↑K) fun i => ↑↑i.1)
+                    fun i => ↑h.cols)
+          else none
+        else none
+      else
+        if n = "col" then
+          if hd : TileDType.int = d then
+            if hs : [K] = sh then
+              some
+                (hd ▸
+                  hs ▸
+                    bop (fun x1 x2 => x1 + x2) Broadcast.scalarL
+                      (bop (fun x1 x2 => x1 * x2) Broadcast.nil (fun i => ↑(u.pids 0)) fun x => ↑K) fun i => ↑↑i.1)
+            else none
+          else none
+        else u.regs d sh n
+is not definitionally equal to the right-hand side
+  fun d sh n =>
+    if n = "acc" then
+      if h : TileDType.real = d then
+        if h_1 : [K] = sh then some (⋯ ▸ ⋯ ▸ fun x => M.literal (some ComputeDType.fp32) FloatDType.real 0) else none
+      else none
+    else
+      if n = "mask" then
+        if hd : TileDType.bool = d then if hs : [K] = sh then some (hd ▸ hs ▸ masks h K (u.pids 0)) else none else none
+      else
+        if n = "col" then
+          if hd : TileDType.int = d then if hs : [K] = sh then some (hd ▸ hs ▸ columns K (u.pids 0)) else none else none
+        else u.regs d sh n
+
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+h : Call
+K : ℕ
+u : State α
+⊢ (fun d sh n =>
+      if n = "acc" then
+        if hd : TileDType.real = d then
+          if hs : [K] = sh then some (hd ▸ hs ▸ fun x => M.literal (some ComputeDType.fp32) FloatDType.real 0) else none
+        else none
+      else
+        if n = "mask" then
+          if hd : TileDType.bool = d then
+            if hs : [K] = sh then
+              some
+                (hd ▸
+                  hs ▸
+                    bop (fun a b => decide (a < b)) Broadcast.scalarR
+                      (bop (fun x1 x2 => x1 + x2) Broadcast.scalarL
+                        (bop (fun x1 x2 => x1 * x2) Broadcast.nil (fun i => ↑(u.pids 0)) fun x => ↑K) fun i => ↑↑i.1)
+                      fun i => ↑h.cols)
+            else none
+          else none
+        else
+          if n = "col" then
+            if hd : TileDType.int = d then
+              if hs : [K] = sh then
+                some
+                  (hd ▸
+                    hs ▸
+                      bop (fun x1 x2 => x1 + x2) Broadcast.scalarL
+                        (bop (fun x1 x2 => x1 * x2) Broadcast.nil (fun i => ↑(u.pids 0)) fun x => ↑K) fun i => ↑↑i.1)
+              else none
+            else none
+          else u.regs d sh n) =
+    fun d sh n =>
+    if n = "acc" then
+      if h : TileDType.real = d then
+        if h_1 : [K] = sh then some (⋯ ▸ ⋯ ▸ fun x => M.literal (some ComputeDType.fp32) FloatDType.real 0) else none
+      else none
+    else
+      if n = "mask" then
+        if hd : TileDType.bool = d then if hs : [K] = sh then some (hd ▸ hs ▸ masks h K (u.pids 0)) else none else none
+      else
+        if n = "col" then
+          if hd : TileDType.int = d then if hs : [K] = sh then some (hd ▸ hs ▸ columns K (u.pids 0)) else none else none
+        else u.regs d sh n
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPWeightStep.lean:44:67: error: unsolved goals
+case false.h
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+h : Call
+K pid row : ℕ
+u : State α
+acc : Values α TileDType.real [K]
+hcol : u.regs TileDType.int [K] "col" = some (columns K pid)
+hmask : u.regs TileDType.bool [K] "mask" = some (masks h K pid)
+hacc : u.regs TileDType.real [K] "acc" = some acc
+mode : h.gemma = «false»
+i : TileIndex [K]
+⊢ M.binary (some ComputeDType.fp32) FloatDType.real Binary.add (acc (i.1, PUnit.unit))
+      (M.binary (some ComputeDType.fp32) FloatDType.real Binary.mul
+        (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real
+          (if pid * K + ↑i.1 < h.cols then
+            Cell.read TileDType.real (u.mem { name := "dx" } (Int.toNat (↑row * ↑h.cols + (↑pid * ↑K + ↑↑i.1))))
+          else M.literal (some ComputeDType.fp32) FloatDType.real 0))
+        (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real
+          (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real
+            (M.binary (some ComputeDType.fp32) FloatDType.real Binary.mul
+              (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real
+                (if pid * K + ↑i.1 < h.cols then
+                  Cell.read TileDType.real (u.mem { name := "x" } (Int.toNat (↑row * ↑h.cols + (↑pid * ↑K + ↑↑i.1))))
+                else M.literal (some ComputeDType.fp32) FloatDType.real 0))
+              (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real
+                (Cell.read TileDType.real (u.mem { name := "r" } row))))))) =
+    M.binary (some ComputeDType.fp32) FloatDType.real Binary.add (acc i)
+      (M.binary (some ComputeDType.fp32) FloatDType.real Binary.mul
+        (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real
+          (if pid * K + ↑i.1 < h.cols then
+            Cell.read TileDType.real (u.mem { name := "dx" } (row * h.cols + (pid * K + ↑i.1)))
+          else M.literal (some ComputeDType.fp32) FloatDType.real 0))
+        (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real
+          (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real
+            (M.binary (some ComputeDType.fp32) FloatDType.real Binary.mul
+              (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real
+                (if pid * K + ↑i.1 < h.cols then
+                  Cell.read TileDType.real (u.mem { name := "x" } (row * h.cols + (pid * K + ↑i.1)))
+                else M.literal (some ComputeDType.fp32) FloatDType.real 0))
+              (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real
+                (Cell.read TileDType.real (u.mem { name := "r" } row)))))))
+
+case true.h
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+h : Call
+K pid row : ℕ
+u : State α
+acc : Values α TileDType.real [K]
+hcol : u.regs TileDType.int [K] "col" = some (columns K pid)
+hmask : u.regs TileDType.bool [K] "mask" = some (masks h K pid)
+hacc : u.regs TileDType.real [K] "acc" = some acc
+mode : h.gemma = «true»
+i : TileIndex [K]
+⊢ M.binary (some ComputeDType.fp32) FloatDType.real Binary.add (acc (i.1, PUnit.unit))
+      (M.binary (some ComputeDType.fp32) FloatDType.real Binary.mul
+        (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real
+          (if pid * K + ↑i.1 < h.cols then
+            Cell.read TileDType.real (u.mem { name := "dx" } (Int.toNat (↑row * ↑h.cols + (↑pid * ↑K + ↑↑i.1))))
+          else M.literal (some ComputeDType.fp32) FloatDType.real 0))
+        (M.binary (some ComputeDType.fp32) FloatDType.real Binary.mul
+          (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real
+            (if pid * K + ↑i.1 < h.cols then
+              Cell.read TileDType.real (u.mem { name := "x" } (Int.toNat (↑row * ↑h.cols + (↑pid * ↑K + ↑↑i.1))))
+            else M.literal (some ComputeDType.fp32) FloatDType.real 0))
+          (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real
+            (Cell.read TileDType.real (u.mem { name := "r" } row))))) =
+    M.binary (some ComputeDType.fp32) FloatDType.real Binary.add (acc i)
+      (M.binary (some ComputeDType.fp32) FloatDType.real Binary.mul
+        (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real
+          (if pid * K + ↑i.1 < h.cols then
+            Cell.read TileDType.real (u.mem { name := "dx" } (row * h.cols + (pid * K + ↑i.1)))
+          else M.literal (some ComputeDType.fp32) FloatDType.real 0))
+        (M.binary (some ComputeDType.fp32) FloatDType.real Binary.mul
+          (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real
+            (if pid * K + ↑i.1 < h.cols then
+              Cell.read TileDType.real (u.mem { name := "x" } (row * h.cols + (pid * K + ↑i.1)))
+            else M.literal (some ComputeDType.fp32) FloatDType.real 0))
+          (M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.real
+            (Cell.read TileDType.real (u.mem { name := "r" } row)))))
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPWeightStep.lean:57:0: error: VeriTile.Bench.Repairs.FastRmsLayernorm.FPWeightStep.prefix_executes: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPWeightStep.lean:58:0: error: VeriTile.Bench.Repairs.FastRmsLayernorm.FPWeightStep.iteration: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

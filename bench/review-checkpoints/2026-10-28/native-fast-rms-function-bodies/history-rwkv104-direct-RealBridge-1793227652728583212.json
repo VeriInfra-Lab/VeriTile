@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealBridge",
+  "start": 1793227652.7285974,
+  "end": 1793227656.7940185,
+  "log": "/tmp/rwkv104-direct-RealBridge-1793227652728583212.log",
+  "stop_file": "/tmp/rwkv104-direct-RealBridge-1793227652728583212.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Kernels",
+  "start": 1793226913.46615,
+  "end": 1793226918.589244,
+  "log": "/tmp/rwkv104-direct-Kernels-1793226913466130196.log",
+  "stop_file": "/tmp/rwkv104-direct-Kernels-1793226913466130196.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

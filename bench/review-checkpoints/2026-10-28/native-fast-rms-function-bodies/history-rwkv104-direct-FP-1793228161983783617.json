@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.fast_rms_layernorm.Proofs.FP",
+  "start": 1793228161.9837968,
+  "end": 1793228174.9529722,
+  "log": "/tmp/rwkv104-direct-FP-1793228161983783617.log",
+  "stop_file": "/tmp/rwkv104-direct-FP-1793228161983783617.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

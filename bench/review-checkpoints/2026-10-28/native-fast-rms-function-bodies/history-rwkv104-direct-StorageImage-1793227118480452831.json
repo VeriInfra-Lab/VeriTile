@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.StorageImage",
+  "start": 1793227118.4804778,
+  "end": 1793227123.4004998,
+  "log": "/tmp/rwkv104-direct-StorageImage-1793227118480452831.log",
+  "stop_file": "/tmp/rwkv104-direct-StorageImage-1793227118480452831.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

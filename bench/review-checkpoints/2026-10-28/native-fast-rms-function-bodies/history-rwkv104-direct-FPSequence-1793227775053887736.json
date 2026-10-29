@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPSequence",
+  "start": 1793227775.0539052,
+  "end": 1793227778.369604,
+  "log": "/tmp/rwkv104-direct-FPSequence-1793227775053887736.log",
+  "stop_file": "/tmp/rwkv104-direct-FPSequence-1793227775053887736.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.IOBinding",
+  "start": 1793228468.0920148,
+  "end": 1793228471.0936565,
+  "log": "/tmp/rwkv104-direct-IOBinding-1793228468091997592.log",
+  "stop_file": "/tmp/rwkv104-direct-IOBinding-1793228468091997592.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

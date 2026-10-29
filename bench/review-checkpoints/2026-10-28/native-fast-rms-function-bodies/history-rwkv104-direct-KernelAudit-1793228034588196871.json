@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Misc.KernelAudit",
+  "start": 1793228034.5882127,
+  "end": 1793228041.5051346,
+  "log": "/tmp/rwkv104-direct-KernelAudit-1793228034588196871.log",
+  "stop_file": "/tmp/rwkv104-direct-KernelAudit-1793228034588196871.stop",
+  "status": "COMPLETED",
+  "exit_code": 1
+}

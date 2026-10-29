@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealReference",
+  "start": 1793227646.8216016,
+  "end": 1793227652.687964,
+  "log": "/tmp/rwkv104-direct-RealReference-1793227646821587491.log",
+  "stop_file": "/tmp/rwkv104-direct-RealReference-1793227646821587491.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

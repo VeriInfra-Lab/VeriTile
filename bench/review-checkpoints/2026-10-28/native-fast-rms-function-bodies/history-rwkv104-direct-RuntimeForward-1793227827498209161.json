@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RuntimeForward",
+  "start": 1793227827.498224,
+  "end": 1793227843.1673088,
+  "log": "/tmp/rwkv104-direct-RuntimeForward-1793227827498209161.log",
+  "stop_file": "/tmp/rwkv104-direct-RuntimeForward-1793227827498209161.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

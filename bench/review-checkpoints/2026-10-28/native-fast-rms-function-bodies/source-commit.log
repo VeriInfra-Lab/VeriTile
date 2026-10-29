@@ -1,0 +1,14 @@
+Auto packing the repository in background for optimum performance.
+See "git help gc" for manual housekeeping.
+[codex/body-copy-cache-and-constexpr fc086570c] Copy all Fast RMS LayerNorm bodies and reprove complete source IO
+ 45 files changed, 2538 insertions(+), 569 deletions(-)
+ rewrite bench/repairs/tritonbench_g/fast_rms_layernorm/Kernels.lean (82%)
+ copy bench/repairs/tritonbench_g/fast_rms_layernorm/{Kernels.lean => LegacyKernels.lean} (97%)
+ create mode 100644 bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealSource.lean
+ create mode 100644 bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealSourceSafety.lean
+ rewrite bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/SourcePair.lean (76%)
+ create mode 100644 bench/repairs/tritonbench_g/fast_rms_layernorm/SourceParameters.lean
+ create mode 100644 bench/repairs/tritonbench_g/fast_rms_layernorm/fast_rms_layernorm_index_commuted.py
+ create mode 100644 bench/repairs/tritonbench_g/fast_rms_layernorm/jit-correspondence.json
+ create mode 100644 bench/tests/AttributeCastChain.lean
+ create mode 100644 bench/tests/test_fast_rms_body.py

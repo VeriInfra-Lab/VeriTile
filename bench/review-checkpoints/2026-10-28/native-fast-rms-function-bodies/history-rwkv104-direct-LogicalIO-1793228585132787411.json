@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.LogicalIO",
+  "start": 1793228585.1328013,
+  "end": 1793228587.6343813,
+  "log": "/tmp/rwkv104-direct-LogicalIO-1793228585132787411.log",
+  "stop_file": "/tmp/rwkv104-direct-LogicalIO-1793228585132787411.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

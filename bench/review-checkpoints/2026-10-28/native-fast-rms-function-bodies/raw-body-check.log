@@ -1,0 +1,303 @@
+[
+  {
+    "python_function": "_rms_layernorm_forward",
+    "lean_definition": "regularRuntimeSource",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "mixed_integer_calls_and_runtime_registers",
+    "call_bindings": {
+      "Y_row_stride": "Y_row_stride",
+      "X_row_stride": "X_row_stride",
+      "W_row_stride": "W_row_stride",
+      "r_row_stride": "r_row_stride",
+      "n_cols": "n_cols"
+    },
+    "statements": 16,
+    "runtime_parameters": {
+      "Y_row_stride": "i32",
+      "X_row_stride": "i32",
+      "W_row_stride": "i32",
+      "r_row_stride": "i32",
+      "n_cols": "i32",
+      "eps": "fp32"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE"
+    ],
+    "profile_variant": "runtime_epsilon"
+  },
+  {
+    "python_function": "_rms_layernorm_forward_index_commuted",
+    "lean_definition": "regularRuntimeSourceIndexCommuted",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "mixed_integer_calls_and_runtime_registers",
+    "call_bindings": {
+      "Y_row_stride": "Y_row_stride",
+      "X_row_stride": "X_row_stride",
+      "W_row_stride": "W_row_stride",
+      "r_row_stride": "r_row_stride",
+      "n_cols": "n_cols"
+    },
+    "statements": 16,
+    "runtime_parameters": {
+      "Y_row_stride": "i32",
+      "X_row_stride": "i32",
+      "W_row_stride": "i32",
+      "r_row_stride": "i32",
+      "n_cols": "i32",
+      "eps": "fp32"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE"
+    ],
+    "profile_variant": "runtime_epsilon"
+  },
+  {
+    "python_function": "_gemma_rms_layernorm_forward",
+    "lean_definition": "gemmaRuntimeSource",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "mixed_integer_calls_and_runtime_registers",
+    "call_bindings": {
+      "Y_row_stride": "Y_row_stride",
+      "X_row_stride": "X_row_stride",
+      "W_row_stride": "W_row_stride",
+      "r_row_stride": "r_row_stride",
+      "n_cols": "n_cols"
+    },
+    "statements": 14,
+    "runtime_parameters": {
+      "Y_row_stride": "i32",
+      "X_row_stride": "i32",
+      "W_row_stride": "i32",
+      "r_row_stride": "i32",
+      "n_cols": "i32",
+      "eps": "fp32"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE"
+    ],
+    "profile_variant": "runtime_epsilon"
+  },
+  {
+    "python_function": "_gemma_rms_layernorm_forward_index_commuted",
+    "lean_definition": "gemmaRuntimeSourceIndexCommuted",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "mixed_integer_calls_and_runtime_registers",
+    "call_bindings": {
+      "Y_row_stride": "Y_row_stride",
+      "X_row_stride": "X_row_stride",
+      "W_row_stride": "W_row_stride",
+      "r_row_stride": "r_row_stride",
+      "n_cols": "n_cols"
+    },
+    "statements": 14,
+    "runtime_parameters": {
+      "Y_row_stride": "i32",
+      "X_row_stride": "i32",
+      "W_row_stride": "i32",
+      "r_row_stride": "i32",
+      "n_cols": "i32",
+      "eps": "fp32"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE"
+    ],
+    "profile_variant": "runtime_epsilon"
+  },
+  {
+    "python_function": "_rms_layernorm_backward",
+    "lean_definition": "inputGradientBody",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "mixed_integer_calls_and_runtime_registers",
+    "call_bindings": {
+      "dY_row_stride": "dY_row_stride",
+      "X_row_stride": "X_row_stride",
+      "W_row_stride": "W_row_stride",
+      "r_row_stride": "r_row_stride",
+      "dW_row_stride": "dW_row_stride",
+      "n_cols": "n_cols"
+    },
+    "statements": 16,
+    "runtime_parameters": {
+      "dY_row_stride": "i32",
+      "X_row_stride": "i32",
+      "W_row_stride": "i32",
+      "r_row_stride": "i32",
+      "dW_row_stride": "i32",
+      "n_cols": "i32",
+      "eps": "fp32"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE",
+      "GEMMA"
+    ],
+    "profile_variant": "runtime_epsilon"
+  },
+  {
+    "python_function": "_rms_layernorm_backward_index_commuted",
+    "lean_definition": "inputGradientBodyIndexCommuted",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "mixed_integer_calls_and_runtime_registers",
+    "call_bindings": {
+      "dY_row_stride": "dY_row_stride",
+      "X_row_stride": "X_row_stride",
+      "W_row_stride": "W_row_stride",
+      "r_row_stride": "r_row_stride",
+      "dW_row_stride": "dW_row_stride",
+      "n_cols": "n_cols"
+    },
+    "statements": 16,
+    "runtime_parameters": {
+      "dY_row_stride": "i32",
+      "X_row_stride": "i32",
+      "W_row_stride": "i32",
+      "r_row_stride": "i32",
+      "dW_row_stride": "i32",
+      "n_cols": "i32",
+      "eps": "fp32"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE",
+      "GEMMA"
+    ],
+    "profile_variant": "runtime_epsilon"
+  },
+  {
+    "python_function": "_rms_layernorm_weight_backward",
+    "lean_definition": "weightSource",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "n_rows": "n_rows",
+      "n_cols": "n_cols"
+    },
+    "statements": 5,
+    "runtime_parameters": {
+      "n_rows": "i32",
+      "n_cols": "i32"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE",
+      "GEMMA"
+    ],
+    "profile_variant": "weight_gradient"
+  },
+  {
+    "python_function": "_rms_layernorm_forward",
+    "lean_definition": "regularSource",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "typed_per_call_specialization",
+    "call_bindings": {
+      "Y_row_stride": "Y_row_stride",
+      "X_row_stride": "X_row_stride",
+      "W_row_stride": "W_row_stride",
+      "r_row_stride": "r_row_stride",
+      "n_cols": "n_cols",
+      "eps": "eps"
+    },
+    "statements": 16,
+    "runtime_parameters": {
+      "Y_row_stride": "i32",
+      "X_row_stride": "i32",
+      "W_row_stride": "i32",
+      "r_row_stride": "i32",
+      "n_cols": "i32",
+      "eps": "fp32"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE"
+    ],
+    "profile_variant": "literal_epsilon"
+  },
+  {
+    "python_function": "_rms_layernorm_forward_index_commuted",
+    "lean_definition": "regularSourceIndexCommuted",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "typed_per_call_specialization",
+    "call_bindings": {
+      "Y_row_stride": "Y_row_stride",
+      "X_row_stride": "X_row_stride",
+      "W_row_stride": "W_row_stride",
+      "r_row_stride": "r_row_stride",
+      "n_cols": "n_cols",
+      "eps": "eps"
+    },
+    "statements": 16,
+    "runtime_parameters": {
+      "Y_row_stride": "i32",
+      "X_row_stride": "i32",
+      "W_row_stride": "i32",
+      "r_row_stride": "i32",
+      "n_cols": "i32",
+      "eps": "fp32"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE"
+    ],
+    "profile_variant": "literal_epsilon"
+  },
+  {
+    "python_function": "_gemma_rms_layernorm_forward",
+    "lean_definition": "gemmaSource",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "typed_per_call_specialization",
+    "call_bindings": {
+      "Y_row_stride": "Y_row_stride",
+      "X_row_stride": "X_row_stride",
+      "W_row_stride": "W_row_stride",
+      "r_row_stride": "r_row_stride",
+      "n_cols": "n_cols",
+      "eps": "eps"
+    },
+    "statements": 14,
+    "runtime_parameters": {
+      "Y_row_stride": "i32",
+      "X_row_stride": "i32",
+      "W_row_stride": "i32",
+      "r_row_stride": "i32",
+      "n_cols": "i32",
+      "eps": "fp32"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE"
+    ],
+    "profile_variant": "literal_epsilon"
+  },
+  {
+    "python_function": "_gemma_rms_layernorm_forward_index_commuted",
+    "lean_definition": "gemmaSourceIndexCommuted",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "typed_per_call_specialization",
+    "call_bindings": {
+      "Y_row_stride": "Y_row_stride",
+      "X_row_stride": "X_row_stride",
+      "W_row_stride": "W_row_stride",
+      "r_row_stride": "r_row_stride",
+      "n_cols": "n_cols",
+      "eps": "eps"
+    },
+    "statements": 14,
+    "runtime_parameters": {
+      "Y_row_stride": "i32",
+      "X_row_stride": "i32",
+      "W_row_stride": "i32",
+      "r_row_stride": "i32",
+      "n_cols": "i32",
+      "eps": "fp32"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE"
+    ],
+    "profile_variant": "literal_epsilon"
+  }
+]

@@ -1,0 +1,106 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPWeightStep.lean:29:2: error: Tactic `rfl` failed: The left-hand side
+  fun d sh n =>
+    if n = "acc" then
+      if hd : TileDType.real = d then
+        if hs : [K] = sh then some (hd ▸ hs ▸ fun x => M.literal (some ComputeDType.fp32) FloatDType.real 0) else none
+      else none
+    else
+      if n = "mask" then
+        if hd : TileDType.bool = d then
+          if hs : [K] = sh then
+            some
+              (hd ▸
+                hs ▸
+                  bop (fun a b => decide (a < b)) Broadcast.scalarR
+                    (bop (fun x1 x2 => x1 + x2) Broadcast.scalarL
+                      (bop (fun x1 x2 => x1 * x2) Broadcast.nil (fun i => ↑(u.pids 0)) fun x => ↑K) fun i => ↑↑i.1)
+                    fun i => ↑h.cols)
+          else none
+        else none
+      else
+        if n = "col" then
+          if hd : TileDType.int = d then
+            if hs : [K] = sh then
+              some
+                (hd ▸
+                  hs ▸
+                    bop (fun x1 x2 => x1 + x2) Broadcast.scalarL
+                      (bop (fun x1 x2 => x1 * x2) Broadcast.nil (fun i => ↑(u.pids 0)) fun x => ↑K) fun i => ↑↑i.1)
+            else none
+          else none
+        else u.regs d sh n
+is not definitionally equal to the right-hand side
+  fun d sh n =>
+    if n = "acc" then
+      if h : TileDType.real = d then
+        if h_1 : [K] = sh then some (⋯ ▸ ⋯ ▸ fun x => M.literal (some ComputeDType.fp32) FloatDType.real 0) else none
+      else none
+    else
+      if n = "mask" then
+        if hd : TileDType.bool = d then if hs : [K] = sh then some (hd ▸ hs ▸ masks h K (u.pids 0)) else none else none
+      else
+        if n = "col" then
+          if hd : TileDType.int = d then if hs : [K] = sh then some (hd ▸ hs ▸ columns K (u.pids 0)) else none else none
+        else u.regs d sh n
+
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+h : Call
+K : ℕ
+u : State α
+⊢ (fun d sh n =>
+      if n = "acc" then
+        if hd : TileDType.real = d then
+          if hs : [K] = sh then some (hd ▸ hs ▸ fun x => M.literal (some ComputeDType.fp32) FloatDType.real 0) else none
+        else none
+      else
+        if n = "mask" then
+          if hd : TileDType.bool = d then
+            if hs : [K] = sh then
+              some
+                (hd ▸
+                  hs ▸
+                    bop (fun a b => decide (a < b)) Broadcast.scalarR
+                      (bop (fun x1 x2 => x1 + x2) Broadcast.scalarL
+                        (bop (fun x1 x2 => x1 * x2) Broadcast.nil (fun i => ↑(u.pids 0)) fun x => ↑K) fun i => ↑↑i.1)
+                      fun i => ↑h.cols)
+            else none
+          else none
+        else
+          if n = "col" then
+            if hd : TileDType.int = d then
+              if hs : [K] = sh then
+                some
+                  (hd ▸
+                    hs ▸
+                      bop (fun x1 x2 => x1 + x2) Broadcast.scalarL
+                        (bop (fun x1 x2 => x1 * x2) Broadcast.nil (fun i => ↑(u.pids 0)) fun x => ↑K) fun i => ↑↑i.1)
+              else none
+            else none
+          else u.regs d sh n) =
+    fun d sh n =>
+    if n = "acc" then
+      if h : TileDType.real = d then
+        if h_1 : [K] = sh then some (⋯ ▸ ⋯ ▸ fun x => M.literal (some ComputeDType.fp32) FloatDType.real 0) else none
+      else none
+    else
+      if n = "mask" then
+        if hd : TileDType.bool = d then if hs : [K] = sh then some (hd ▸ hs ▸ masks h K (u.pids 0)) else none else none
+      else
+        if n = "col" then
+          if hd : TileDType.int = d then if hs : [K] = sh then some (hd ▸ hs ▸ columns K (u.pids 0)) else none else none
+        else u.regs d sh n
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPWeightStep.lean:52:4: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPWeightStep.lean:53:4: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPWeightStep.lean:56:4: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPWeightStep.lean:58:0: error: VeriTile.Bench.Repairs.FastRmsLayernorm.FPWeightStep.prefix_executes: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.Repairs.FastRmsLayernorm.FPWeightStep.iteration: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

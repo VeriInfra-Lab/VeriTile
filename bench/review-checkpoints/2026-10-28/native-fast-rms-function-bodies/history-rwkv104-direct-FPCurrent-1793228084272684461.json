@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPCurrent",
+  "start": 1793228084.2726989,
+  "end": 1793228088.0884235,
+  "log": "/tmp/rwkv104-direct-FPCurrent-1793228084272684461.log",
+  "stop_file": "/tmp/rwkv104-direct-FPCurrent-1793228084272684461.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

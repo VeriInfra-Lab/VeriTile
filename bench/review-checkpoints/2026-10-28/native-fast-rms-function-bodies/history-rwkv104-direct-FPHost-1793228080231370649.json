@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPHost",
+  "start": 1793228080.2313862,
+  "end": 1793228084.233594,
+  "log": "/tmp/rwkv104-direct-FPHost-1793228080231370649.log",
+  "stop_file": "/tmp/rwkv104-direct-FPHost-1793228080231370649.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

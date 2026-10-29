@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.FastRmsLayernorm.RealSequence.complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.RealSequence.weight_formula: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

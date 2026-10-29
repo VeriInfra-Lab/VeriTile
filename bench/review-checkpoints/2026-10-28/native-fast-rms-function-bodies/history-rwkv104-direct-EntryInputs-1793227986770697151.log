@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.FastRmsLayernorm.FPEquiv.word_reads: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.FPEquiv.zero_bytes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.Native",
+  "start": 1793227099.3466802,
+  "end": 1793227104.1165164,
+  "log": "/tmp/rwkv104-direct-Native-1793227099346658602.log",
+  "stop_file": "/tmp/rwkv104-direct-Native-1793227099346658602.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

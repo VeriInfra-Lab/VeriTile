@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealPhysicalFrame",
+  "start": 1793228065.614379,
+  "end": 1793228070.0307515,
+  "log": "/tmp/rwkv104-direct-RealPhysicalFrame-1793228065614364333.log",
+  "stop_file": "/tmp/rwkv104-direct-RealPhysicalFrame-1793228065614364333.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

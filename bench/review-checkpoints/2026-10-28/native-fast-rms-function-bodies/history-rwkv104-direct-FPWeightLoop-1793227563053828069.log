@@ -1,0 +1,17 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPWeightLoop.lean:27:31: warning: This simp argument is unused:
+  carry
+
+Hint: Omit it from the simp argument list.
+  simp [FPWeightStep.initial,c̵a̵r̵r̵y̵,̵ ̲FPWeightReference.carry]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPWeightLoop.lean:27:37: warning: This simp argument is unused:
+  FPWeightReference.carry
+
+Hint: Omit it from the simp argument list.
+  simp [̵F̵P̵W̵e̵i̵g̵h̵t̵S̵t̵e̵p̵.̵i̵n̵i̵t̵i̵a̵l̵,̵c̵a̵r̵r̵y̵,̵F̵P̵W̵e̵i̵g̵h̵t̵R̵e̵f̵e̵r̵e̵n̵c̵e̵.̵c̵a̵r̵r̵y̵]̵[̲F̲P̲W̲e̲i̲g̲h̲t̲S̲t̲e̲p̲.̲i̲n̲i̲t̲i̲a̲l̲,̲ ̲c̲a̲r̲r̲y̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.FastRmsLayernorm.FPWeightLoop.loop_executes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Misc.Audit",
+  "start": 1793228748.677103,
+  "end": 1793228761.7454932,
+  "log": "/tmp/rwkv104-direct-Audit-1793228748677088057.log",
+  "stop_file": "/tmp/rwkv104-direct-Audit-1793228748677088057.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

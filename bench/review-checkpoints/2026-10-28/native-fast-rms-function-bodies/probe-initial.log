@@ -1,0 +1,25 @@
+/tmp/fastrms107-probe/FastRms107Probe.lean:85:31: warning: unused variable `W_row_stride`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fastrms107-probe/FastRms107Probe.lean:109:31: warning: unused variable `W_row_stride`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fastrms107-probe/FastRms107Probe.lean:139:29: warning: unused variable `dW`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fastrms107-probe/FastRms107Probe.lean:140:32: warning: unused variable `W_row_stride`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fastrms107-probe/FastRms107Probe.lean:140:58: warning: unused variable `dW_row_stride`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fastrms107-probe/FastRms107Probe.lean:171:36: warning: unused variable `dW`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fastrms107-probe/FastRms107Probe.lean:172:32: warning: unused variable `W_row_stride`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fastrms107-probe/FastRms107Probe.lean:172:58: warning: unused variable `dW_row_stride`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/fastrms107-probe/FastRms107Probe.lean:213:9: error: unsupported Python Triton body: <input>:11:39: expected '}'

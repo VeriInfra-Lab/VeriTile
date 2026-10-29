@@ -1,0 +1,431 @@
+{
+  "plan": {
+    "time": 1793226438.3408449,
+    "roots": [
+      "VeriTile.Triton.DSL.CallSignature"
+    ],
+    "modules": [
+      "VeriTile.Triton.DSL.Syntax",
+      "VeriTile.Triton.DSL.PythonConstants",
+      "VeriTile.Triton.DSL.SourceConstant",
+      "VeriTile.Triton.DSL.NestedLoadAssignments",
+      "VeriTile.Triton.DSL.ConstexprMask",
+      "VeriTile.Triton.Core.Types",
+      "VeriTile.Triton.Core.Shape",
+      "VeriTile.Triton.Core.Float8",
+      "VeriTile.Spec",
+      "VeriTile.Meta.Specification",
+      "VeriTile.Triton.Float.BitValue",
+      "VeriTile.Triton.Float.ScalarOps",
+      "VeriTile.Triton.Random.Philox",
+      "VeriTile.Triton.Random.SourceProfile",
+      "VeriTile.Triton.Random.Direct",
+      "VeriTile.Triton.Random.DirectProfile",
+      "VeriTile.Triton.Core.Ast",
+      "VeriTile.Triton.Core",
+      "VeriTile.Triton.DSL.CallValue",
+      "VeriTile.Triton.DSL.Metadata",
+      "VeriTile.Triton.DSL.Typing",
+      "VeriTile.Triton.DSL.Expansion.Common",
+      "VeriTile.Triton.DSL.PythonBody",
+      "VeriTile.Triton.DSL.SourceFunction",
+      "VeriTile.Triton.DSL.SourceIntrinsic",
+      "VeriTile.Triton.DSL.OptionalPointer",
+      "VeriTile.Triton.DSL.OptionalString",
+      "VeriTile.Triton.DSL.Inference",
+      "VeriTile.Triton.Core.Integer",
+      "VeriTile.Triton.Core.FixedInteger",
+      "VeriTile.Triton.Core.SignedCast",
+      "VeriTile.Triton.DSL.Expansion.Memory",
+      "VeriTile.Triton.DSL.Expansion.Compute",
+      "VeriTile.Triton.DSL.Expansion.Control",
+      "VeriTile.Triton.DSL.RandomProfile",
+      "VeriTile.Triton.DSL.FiniteHelperSource",
+      "VeriTile.Triton.DSL.WelfordSource",
+      "VeriTile.Triton.DSL.Expansion.DType",
+      "VeriTile.Triton.DSL.Expansion.InlineAsm",
+      "VeriTile.Triton.DSL.Expansion.DirectRandom",
+      "VeriTile.Triton.DSL.Expansion.Main",
+      "VeriTile.Triton.DSL.Expansion",
+      "VeriTile.Triton.DSL",
+      "VeriTile.Triton.DSL.SourceDType",
+      "VeriTile.Triton.DSL.PointerType",
+      "VeriTile.Triton.DSL.TypedStores",
+      "VeriTile.Triton.DSL.TypedStorageReduction",
+      "VeriTile.Triton.DSL.RankOneBlockPtr",
+      "VeriTile.Triton.DSL.SourceFunctionStatements",
+      "VeriTile.Triton.DSL.NarrowUnsigned",
+      "VeriTile.Triton.DSL.Constexpr",
+      "VeriTile.Triton.DSL.CallSignature"
+    ],
+    "changed": [
+      "VeriTile.Triton.DSL.Syntax"
+    ],
+    "forced_since_receipt": [
+      "VeriTile.Meta.StatementAudit",
+      "VeriTile.Triton.DSL.CallSignature",
+      "VeriTile.Triton.DSL.Expansion.Main",
+      "VeriTile.Triton.DSL.TypedStores",
+      "bench.repairs.tritonbench_g.layernorm_fwd_triton.FPEquiv",
+      "bench.repairs.tritonbench_g.layernorm_fwd_triton.IO",
+      "bench.repairs.tritonbench_g.layernorm_fwd_triton.Kernels",
+      "bench.repairs.tritonbench_g.layernorm_fwd_triton.LegacyKernels",
+      "bench.repairs.tritonbench_g.layernorm_fwd_triton.Misc.NativeCorrect",
+      "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.KernelGraph",
+      "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.KernelGrid",
+      "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.KernelMath",
+      "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.PairExecution",
+      "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.PairSource",
+      "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.SignedRange",
+      "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.SourceAccumulate",
+      "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.SourceComplete",
+      "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.SourceModel",
+      "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.SourceOutput",
+      "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.SourceSafety",
+      "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.SourceSafetySteps",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.audit",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.final-joint",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.VeriTile.Triton.DSL.CallSignature",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.bench.repairs.tritonbench_g.layer_norm_fwd.Kernels",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.bench.repairs.tritonbench_g.layer_norm_fwd.SourceParameters",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Correct",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.IO",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Kernels",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Misc.RawRealResults",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Misc.TensorBridge",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.NativeIO",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.ActualPhysical",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.ActualRealImplementation",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.IOSafetyComplete",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.IOSafetyPrefix",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.IOSafetyStreams",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.IOSafetyTail",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.NativeMathematics",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.Pair",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.PairSafety",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.RawPair",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.RawPairSafety",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.RawSource",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.RealPrimitives",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.TypedAffineValues",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.TypedExecution",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.TypedFormula",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.TypedFrame",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.TypedFrameTail",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.TypedGrid",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.TypedInputPost",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.TypedInputPreserves",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.TypedInputStores",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.TypedInputValues",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.TypedNormValues",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.TypedReturn",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.TypedRowPost",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.TypedSource",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.TypedStoredScalars",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.TypedStreamValues",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.TypedStreams",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.TypedTail",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.TypedValues",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.TypedWhole",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.RealModel",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Source",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.history-full1-source.bench.tests.CheckedArangeCallBody",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.joint-all",
+      "bench.review-checkpoints.2026-10-28.native-layernorm-function-bodies.name-probe",
+      "bench.tests.FPStrictMeta",
+      "bench.tests.SignedRangeCallBody"
+    ],
+    "affected": [
+      "VeriTile.Triton.DSL",
+      "VeriTile.Triton.DSL.CallSignature",
+      "VeriTile.Triton.DSL.Constexpr",
+      "VeriTile.Triton.DSL.ConstexprMask",
+      "VeriTile.Triton.DSL.Expansion",
+      "VeriTile.Triton.DSL.Expansion.Common",
+      "VeriTile.Triton.DSL.Expansion.Compute",
+      "VeriTile.Triton.DSL.Expansion.Control",
+      "VeriTile.Triton.DSL.Expansion.DType",
+      "VeriTile.Triton.DSL.Expansion.DirectRandom",
+      "VeriTile.Triton.DSL.Expansion.InlineAsm",
+      "VeriTile.Triton.DSL.Expansion.Main",
+      "VeriTile.Triton.DSL.Expansion.Memory",
+      "VeriTile.Triton.DSL.FiniteHelperSource",
+      "VeriTile.Triton.DSL.Inference",
+      "VeriTile.Triton.DSL.Metadata",
+      "VeriTile.Triton.DSL.NarrowUnsigned",
+      "VeriTile.Triton.DSL.NestedLoadAssignments",
+      "VeriTile.Triton.DSL.OptionalPointer",
+      "VeriTile.Triton.DSL.OptionalString",
+      "VeriTile.Triton.DSL.PointerType",
+      "VeriTile.Triton.DSL.PythonBody",
+      "VeriTile.Triton.DSL.PythonConstants",
+      "VeriTile.Triton.DSL.RandomProfile",
+      "VeriTile.Triton.DSL.RankOneBlockPtr",
+      "VeriTile.Triton.DSL.SourceConstant",
+      "VeriTile.Triton.DSL.SourceDType",
+      "VeriTile.Triton.DSL.SourceFunction",
+      "VeriTile.Triton.DSL.SourceFunctionStatements",
+      "VeriTile.Triton.DSL.SourceIntrinsic",
+      "VeriTile.Triton.DSL.Syntax",
+      "VeriTile.Triton.DSL.TypedStorageReduction",
+      "VeriTile.Triton.DSL.TypedStores",
+      "VeriTile.Triton.DSL.Typing",
+      "VeriTile.Triton.DSL.WelfordSource"
+    ],
+    "compile": [
+      "VeriTile.Triton.DSL.Syntax",
+      "VeriTile.Triton.DSL.PythonConstants",
+      "VeriTile.Triton.DSL.SourceConstant",
+      "VeriTile.Triton.DSL.NestedLoadAssignments",
+      "VeriTile.Triton.DSL.ConstexprMask",
+      "VeriTile.Triton.DSL.Metadata",
+      "VeriTile.Triton.DSL.Typing",
+      "VeriTile.Triton.DSL.Expansion.Common",
+      "VeriTile.Triton.DSL.PythonBody",
+      "VeriTile.Triton.DSL.SourceFunction",
+      "VeriTile.Triton.DSL.SourceIntrinsic",
+      "VeriTile.Triton.DSL.OptionalPointer",
+      "VeriTile.Triton.DSL.OptionalString",
+      "VeriTile.Triton.DSL.Inference",
+      "VeriTile.Triton.DSL.Expansion.Memory",
+      "VeriTile.Triton.DSL.Expansion.Compute",
+      "VeriTile.Triton.DSL.Expansion.Control",
+      "VeriTile.Triton.DSL.RandomProfile",
+      "VeriTile.Triton.DSL.FiniteHelperSource",
+      "VeriTile.Triton.DSL.WelfordSource",
+      "VeriTile.Triton.DSL.Expansion.DType",
+      "VeriTile.Triton.DSL.Expansion.InlineAsm",
+      "VeriTile.Triton.DSL.Expansion.DirectRandom",
+      "VeriTile.Triton.DSL.Expansion.Main",
+      "VeriTile.Triton.DSL.Expansion",
+      "VeriTile.Triton.DSL",
+      "VeriTile.Triton.DSL.SourceDType",
+      "VeriTile.Triton.DSL.PointerType",
+      "VeriTile.Triton.DSL.TypedStores",
+      "VeriTile.Triton.DSL.TypedStorageReduction",
+      "VeriTile.Triton.DSL.RankOneBlockPtr",
+      "VeriTile.Triton.DSL.SourceFunctionStatements",
+      "VeriTile.Triton.DSL.NarrowUnsigned",
+      "VeriTile.Triton.DSL.Constexpr",
+      "VeriTile.Triton.DSL.CallSignature"
+    ],
+    "copied": [],
+    "scope": "Development only; unchanged modules may be copied from completed 105 baseline at source1952; affected modules rebuilt in this Stage checkout. Final cumulative warm/clean acceptance remains separate."
+  },
+  "start": 1793226438.4702635,
+  "results": [
+    {
+      "module": "VeriTile.Triton.DSL.Syntax",
+      "status": "PASS",
+      "exit_code": 0,
+      "sha256": "46bc13b6faf673be676714db2119ade5ad037ff133cc1bd93749fa41f4b0302d"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.PythonConstants",
+      "status": "PASS",
+      "exit_code": 0,
+      "sha256": "fa6db2930401f0d3a48e8f30c47336f960e59c1a143baafac6ae5382977b9060"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.SourceConstant",
+      "status": "PASS",
+      "exit_code": 0,
+      "sha256": "1ce3264b5945845566d92c001762c7019e11fc7cefd063fb9375de2bd9d5de4d"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.NestedLoadAssignments",
+      "status": "PASS",
+      "exit_code": 0,
+      "sha256": "363c595e7bd60fa234bfb2bbc3ea41909429ebd8b2462af0763fb66482321539"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.ConstexprMask",
+      "status": "PASS",
+      "exit_code": 0,
+      "sha256": "fe6b88dbb25c25516d5292d97e20cd5e5186acb47f0d988f7bf17b2d1d32ee92"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Metadata",
+      "status": "PASS",
+      "exit_code": 0,
+      "sha256": "bda57fc078b83c92238e2d6dc4b848ee6d7962a13579316c931f2097d18d33fb"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Typing",
+      "status": "PASS",
+      "exit_code": 0,
+      "sha256": "fdc00b7c1c29376ee6bac33640f598ffb0a4c133f03cbe800a6d5121b7e6fb4c"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Expansion.Common",
+      "status": "PASS",
+      "exit_code": 0,
+      "sha256": "a426984479421dc48b54f5a0c02b9192222010786233c8d9753f9044a2b1c608"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.PythonBody",
+      "status": "PASS",
+      "exit_code": 0,
+      "sha256": "dba5ad840c6afb4e169653d91acbcf536787ad5468b190a636e50ad1e1748a23"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.SourceFunction",
+      "status": "PASS",
+      "exit_code": 0,
+      "sha256": "96e9accd0140a9c09560dfd869a8c391c10cb9bc7ab9be59a5027ba4d34f6f8f"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.SourceIntrinsic",
+      "status": "PASS",
+      "exit_code": 0,
+      "sha256": "702ff51e9343b71d35fdbdafee7a8c099b7fbfcc2902496176ab77bc4d89f320"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.OptionalPointer",
+      "status": "PASS",
+      "exit_code": 0,
+      "sha256": "9d1dfd33d3709af8e13ba1878b275658b88dd2333c4f231f872f61c1b22d212c"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.OptionalString",
+      "status": "PASS",
+      "exit_code": 0,
+      "sha256": "8c21dbf4980afd255e3cdc962c1532edf75d3b67c933ef2cd9c0854bca731f79"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Inference",
+      "status": "PASS",
+      "exit_code": 0,
+      "sha256": "e98155c15100eae54b7e2778c14471f4fe208bc2af0ad4bcbf2b4b0b91f8eb5f"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Expansion.Memory",
+      "status": "PASS",
+      "exit_code": 0,
+      "sha256": "f91af55661f6d7e1728d49d36a61a7dcd61553a165dfe89ef0fbbb531c67a93e"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Expansion.Compute",
+      "status": "PASS",
+      "exit_code": 0,
+      "sha256": "422576859aa1aa4dcf8bdba83b86a44726807194cf0839d10f0ae348cf8d5356"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Expansion.Control",
+      "status": "PASS",
+      "exit_code": 0,
+      "sha256": "5a64987af770f0c2ffbf01c23c3069ad9971e03a55e3b117a76c1578f42b8b1d"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.RandomProfile",
+      "status": "PASS",
+      "exit_code": 0,
+      "sha256": "41ca2d187a5a6d37d8469427a799e4803463277c1f36f536d10f3006d714d4c3"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.FiniteHelperSource",
+      "status": "PASS",
+      "exit_code": 0,
+      "sha256": "b16e6ac66af74f85feefa9219e4aa880b46d54277d1d309ca495dbb62cccf0d0"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.WelfordSource",
+      "status": "PASS",
+      "exit_code": 0,
+      "sha256": "6e2ada87558bdca06378f2e80778cea8ea4a34c44efe4065240b5db3d43622e0"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Expansion.DType",
+      "status": "PASS",
+      "exit_code": 0,
+      "sha256": "2d61abff958ff6abdd0768a6bcd72c9d1192679b4c30c2d67c83efa774c23b7b"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Expansion.InlineAsm",
+      "status": "PASS",
+      "exit_code": 0,
+      "sha256": "bc2d2a1a3b5b2eb3e092f1035ed8e3880372001ce66e03356b5b6bd7b4859c0b"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Expansion.DirectRandom",
+      "status": "PASS",
+      "exit_code": 0,
+      "sha256": "7bd69539f4301bf3de9a42074fd1d90318b682552c0c28e4e39eab20ba7cf6dc"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Expansion.Main",
+      "status": "PASS",
+      "exit_code": 0,
+      "sha256": "d181c8e2684630ad6b1b656d97a9b6bcb54e8bf61bcabf42fd42e56045814cb5"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Expansion",
+      "status": "PASS",
+      "exit_code": 0,
+      "sha256": "abf572865569f8411e47bca680bf6f7a2ff1cfd2f0d4cac2a581d8212ba19802"
+    },
+    {
+      "module": "VeriTile.Triton.DSL",
+      "status": "PASS",
+      "exit_code": 0,
+      "sha256": "2423c62c7d2ce4f66fb836f36c35d2b904fc759e8f782684a28af52d0ab7faf4"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.SourceDType",
+      "status": "PASS",
+      "exit_code": 0,
+      "sha256": "1be7dc331ac611ad0ee68e85f1010519d9ddfa7c3eea80c095b0c1e713708999"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.PointerType",
+      "status": "PASS",
+      "exit_code": 0,
+      "sha256": "2b409ab95e27f68ad359b5b8065b04ce954ffcc580ea7e35c742f65f3d8b7fe7"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.TypedStores",
+      "status": "PASS",
+      "exit_code": 0,
+      "sha256": "5dd0594f5962bf476b4da04eac722eb118e51c07fffe2ec031d6d48a57eb6863"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.TypedStorageReduction",
+      "status": "PASS",
+      "exit_code": 0,
+      "sha256": "26c50b50885cb0cc8a81863783fc01c8917be74a01efb6f47eff1d560fa9707d"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.RankOneBlockPtr",
+      "status": "PASS",
+      "exit_code": 0,
+      "sha256": "9f984cab41d3cc2d0225b8f0f27d13047e665d4fc5eeb92a311635e174f76f24"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.SourceFunctionStatements",
+      "status": "PASS",
+      "exit_code": 0,
+      "sha256": "ec986d063264fd50647d267fc77d120b5296327c61de4835e4dbef87d6437885"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.NarrowUnsigned",
+      "status": "PASS",
+      "exit_code": 0,
+      "sha256": "b705eab3631823b87ded1758f470cdae8a30980a4394fa9462c2c9b55d6b638f"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Constexpr",
+      "status": "PASS",
+      "exit_code": 0,
+      "sha256": "167269e39e3f81eb1f568a4cbb7cffb1777b5c5cc004b55ef40ba57dcb90cf75"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.CallSignature",
+      "status": "PASS",
+      "exit_code": 0,
+      "sha256": "95d002e0a4f7a9f9c61346dd657cf9b9c7f6f744bc17e5bf92eb64480f4e2fc8"
+    }
+  ],
+  "status": "COMPLETED",
+  "end": 1793226857.1424696,
+  "failed": []
+}

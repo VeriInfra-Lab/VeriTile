@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPSource",
+  "start": 1793226923.6063607,
+  "end": 1793226953.5938888,
+  "log": "/tmp/rwkv104-direct-FPSource-1793226923606339193.log",
+  "stop_file": "/tmp/rwkv104-direct-FPSource-1793226923606339193.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

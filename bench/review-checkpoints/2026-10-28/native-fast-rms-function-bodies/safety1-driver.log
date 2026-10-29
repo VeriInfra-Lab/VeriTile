@@ -1,0 +1,11 @@
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPWeightMemory 0 /tmp/rwkv104-direct-FPWeightMemory-1793227769042807533.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPGridWeight 0 /tmp/rwkv104-direct-FPGridWeight-1793227772197934584.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPSequence 0 /tmp/rwkv104-direct-FPSequence-1793227775053887736.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.KernelFrame 0 /tmp/rwkv104-direct-KernelFrame-1793227778408958891.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPTensor 1 /tmp/rwkv104-direct-FPTensor-1793227781165078965.log
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPTensor.lean:161:4: error: Tactic `apply` failed: could not unify the conclusion of `congrArg (FPReference.cast W)`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPTensor.lean:177:0: error: VeriTile.Bench.Repairs.FastRmsLayernorm.FPTensor.backward: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealWeightMemory 1 /tmp/rwkv104-direct-RealWeightMemory-1793227784706976058.log
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealWeightMemory.lean:43:4: error: Type mismatch
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealWeightMemory.lean:59:0: error: VeriTile.Bench.Repairs.FastRmsLayernorm.RealWeightMemory.complete: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+BATCH COMPLETE fastrms107-safety1 failed/skipped 9

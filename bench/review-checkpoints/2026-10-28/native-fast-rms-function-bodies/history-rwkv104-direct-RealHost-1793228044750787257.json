@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealHost",
+  "start": 1793228044.750803,
+  "end": 1793228051.5676205,
+  "log": "/tmp/rwkv104-direct-RealHost-1793228044750787257.log",
+  "stop_file": "/tmp/rwkv104-direct-RealHost-1793228044750787257.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

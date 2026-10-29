@@ -1,0 +1,6 @@
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealWeightSafety 0 /tmp/rwkv104-direct-RealWeightSafety-1793227894531243202.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.NativeWeightSafety 0 /tmp/rwkv104-direct-NativeWeightSafety-1793227901737851795.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealWeightTrace 0 /tmp/rwkv104-direct-RealWeightTrace-1793227910894499854.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealWeightFlat 0 /tmp/rwkv104-direct-RealWeightFlat-1793227915999810840.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.StorageAccess 0 /tmp/rwkv104-direct-StorageAccess-1793227919754916137.log
+BATCH COMPLETE fastrms107-safety3 failed/skipped 0

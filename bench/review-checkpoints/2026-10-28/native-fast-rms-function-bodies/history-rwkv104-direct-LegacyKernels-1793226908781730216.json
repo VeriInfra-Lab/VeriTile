@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.LegacyKernels",
+  "start": 1793226908.7817523,
+  "end": 1793226913.3982964,
+  "log": "/tmp/rwkv104-direct-LegacyKernels-1793226908781730216.log",
+  "stop_file": "/tmp/rwkv104-direct-LegacyKernels-1793226908781730216.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,17 @@
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPWeightStep 1 /tmp/rwkv104-direct-FPWeightStep-1793227406247868278.log
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPWeightStep.lean:24:64: error: unsolved goals
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPWeightStep.lean:61:0: error: VeriTile.Bench.Repairs.FastRmsLayernorm.FPWeightStep.prefix_executes: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+bench.tritonbench_g.fast_rms_layernorm.Proofs.Erasure 0 /tmp/rwkv104-direct-Erasure-1793227414659653685.log
+bench.tritonbench_g.fast_rms_layernorm.Proofs.RealExecution 0 /tmp/rwkv104-direct-RealExecution-1793227442079830069.log
+bench.tritonbench_g.fast_rms_layernorm.Proofs.RealMath 0 /tmp/rwkv104-direct-RealMath-1793227473244967763.log
+bench.tritonbench_g.fast_rms_layernorm.Proofs.MathBridge 0 /tmp/rwkv104-direct-MathBridge-1793227476350157540.log
+bench.tritonbench_g.fast_rms_layernorm.Proofs.ForwardRun 0 /tmp/rwkv104-direct-ForwardRun-1793227479655190223.log
+bench.tritonbench_g.fast_rms_layernorm.Proofs.BackwardRun 0 /tmp/rwkv104-direct-BackwardRun-1793227483011388593.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealSource 1 /tmp/rwkv104-direct-RealSource-1793227498521330452.log
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealSource.lean:36:8: error: Tactic `rfl` failed: The left-hand side
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealSource.lean:36:8: error: Tactic `rfl` failed: The left-hand side
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealSource.lean:57:8: error: Tactic `rfl` failed: The left-hand side
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealSource.lean:57:8: error: Tactic `rfl` failed: The left-hand side
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealSource.lean:59:0: error: VeriTile.Bench.Repairs.FastRmsLayernorm.RealSource.forward_memory: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealSource.lean:60:0: error: VeriTile.Bench.Repairs.FastRmsLayernorm.RealSource.backward_memory: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+BATCH COMPLETE fastrms107-bridge1 failed/skipped 9

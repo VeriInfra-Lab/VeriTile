@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealTensor",
+  "start": 1793228016.159066,
+  "end": 1793228020.8249326,
+  "log": "/tmp/rwkv104-direct-RealTensor-1793228016159049205.log",
+  "stop_file": "/tmp/rwkv104-direct-RealTensor-1793228016159049205.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

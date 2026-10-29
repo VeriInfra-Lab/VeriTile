@@ -1,0 +1,33 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPWeightMemory.lean:24:6: warning: '(try
+    dsimp only [FP.Structural.bop, Broadcast.leftIndex, Broadcast.rightIndex, State.write, update])' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPWeightMemory.lean:24:2: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPWeightMemory.lean:25:2: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPWeightMemory.lean:39:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  rangeInt (engine M) "row" (↑0) (↑h.rows) 1 (loopBody h K) (initial M h K u)
+in the target expression
+  ((rangeInt (engine M) "row" 0 (↑h.rows) 1 (loopBody h K) (initial M h K u)).bind fun a =>
+      run (engine M) (tailCode h K) a) =
+    some w
+
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+h : Call
+K : ℕ
+u v : State α
+he : rangeInt (engine M) "row" (↑0) (↑h.rows) 1 (loopBody h K) (initial M h K u) = some v
+inv : Holds M h K (u.pids 0) u h.rows v
+w : State α
+hw : run (engine M) (tailCode h K) v = some w
+hmem : w.mem = expectedHeap M h K (u.pids 0) u
+⊢ ((rangeInt (engine M) "row" 0 (↑h.rows) 1 (loopBody h K) (initial M h K u)).bind fun a =>
+      run (engine M) (tailCode h K) a) =
+    some w
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPWeightMemory.lean:70:0: error: VeriTile.Bench.Repairs.FastRmsLayernorm.FPWeightMemory.source_memory: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPWeightMemory.lean:71:0: error: VeriTile.Bench.Repairs.FastRmsLayernorm.FPWeightMemory.complete: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

@@ -1,0 +1,20 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealEndToEnd.lean:81:64: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealEndToEnd.lean:40:38: warning: This simp argument is unused:
+  Prod.fst
+
+Hint: Omit it from the simp argument list.
+  simp only [̵R̵e̵a̵l̵S̵e̵q̵u̵e̵n̵c̵e̵.̵d̵a̵t̵a̵,̵s̵e̵e̵d̵,̵P̵r̵o̵d̵.̵f̵s̵t̵,̵i̵f̵_̵n̵e̵g̵[̲R̲e̲a̲l̲S̲e̲q̲u̲e̲n̲c̲e̲.̲d̲a̲t̲a̲,̲ ̲s̲e̲e̲d̲,̲ ̲i̲f̲_̲n̲e̲g̲ (by decide : ¬̵(̵(̵"̵x̵"̵:̵R̵e̵g̵i̵o̵n̵N̵a̵m̵e̵)̵=̵"̵d̵x̵"̵)̵)̵]̵¬̲(̲(̲"̲x̲"̲ ̲:̲ ̲R̲e̲g̲i̲o̲n̲N̲a̲m̲e̲)̲ ̲=̲ ̲"̲d̲x̲"̲)̲)̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealEndToEnd.lean:44:28: warning: This simp argument is unused:
+  Prod.fst
+
+Hint: Omit it from the simp argument list.
+  simp only [̵w̵e̵i̵g̵h̵t̵s̵,̵s̵e̵e̵d̵,̵P̵r̵o̵d̵.̵f̵s̵t̵,̵i̵f̵_̵n̵e̵g̵[̲w̲e̲i̲g̲h̲t̲s̲,̲ ̲s̲e̲e̲d̲,̲ ̲i̲f̲_̲n̲e̲g̲ (by decide : ¬̵(̵(̵"̵w̵"̵:̵R̵e̵g̵i̵o̵n̵N̵a̵m̵e̵)̵=̵"̵d̵x̵"̵)̵)̵]̵¬̲(̲(̲"̲w̲"̲ ̲:̲ ̲R̲e̲g̲i̲o̲n̲N̲a̲m̲e̲)̲ ̲=̲ ̲"̲d̲x̲"̲)̲)̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.FastRmsLayernorm.RealEndToEnd.complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

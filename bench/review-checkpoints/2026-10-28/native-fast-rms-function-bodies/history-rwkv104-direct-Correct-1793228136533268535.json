@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.fast_rms_layernorm.Correct",
+  "start": 1793228136.5332844,
+  "end": 1793228146.8513925,
+  "log": "/tmp/rwkv104-direct-Correct-1793228136533268535.log",
+  "stop_file": "/tmp/rwkv104-direct-Correct-1793228136533268535.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

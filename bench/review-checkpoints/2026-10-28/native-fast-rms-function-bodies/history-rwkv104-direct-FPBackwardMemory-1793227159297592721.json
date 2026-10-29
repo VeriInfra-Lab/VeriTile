@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPBackwardMemory",
+  "start": 1793227159.2976174,
+  "end": 1793227164.6202276,
+  "log": "/tmp/rwkv104-direct-FPBackwardMemory-1793227159297592721.log",
+  "stop_file": "/tmp/rwkv104-direct-FPBackwardMemory-1793227159297592721.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

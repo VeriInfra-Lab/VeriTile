@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealEndToEnd",
+  "start": 1793228012.454256,
+  "end": 1793228016.11962,
+  "log": "/tmp/rwkv104-direct-RealEndToEnd-1793228012454238436.log",
+  "stop_file": "/tmp/rwkv104-direct-RealEndToEnd-1793228012454238436.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

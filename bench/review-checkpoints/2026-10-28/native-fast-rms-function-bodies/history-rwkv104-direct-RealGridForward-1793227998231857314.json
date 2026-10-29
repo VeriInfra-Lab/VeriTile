@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealGridForward",
+  "start": 1793227998.2318711,
+  "end": 1793228001.697839,
+  "log": "/tmp/rwkv104-direct-RealGridForward-1793227998231857314.log",
+  "stop_file": "/tmp/rwkv104-direct-RealGridForward-1793227998231857314.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

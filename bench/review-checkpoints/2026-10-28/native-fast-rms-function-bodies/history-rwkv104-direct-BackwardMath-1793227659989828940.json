@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.fast_rms_layernorm.Proofs.BackwardMath",
+  "start": 1793227659.9898453,
+  "end": 1793227663.455756,
+  "log": "/tmp/rwkv104-direct-BackwardMath-1793227659989828940.log",
+  "stop_file": "/tmp/rwkv104-direct-BackwardMath-1793227659989828940.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

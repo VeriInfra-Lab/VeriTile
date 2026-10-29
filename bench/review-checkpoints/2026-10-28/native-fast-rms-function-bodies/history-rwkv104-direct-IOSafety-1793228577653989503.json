@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.IOSafety",
+  "start": 1793228577.6540039,
+  "end": 1793228580.186885,
+  "log": "/tmp/rwkv104-direct-IOSafety-1793228577653989503.log",
+  "stop_file": "/tmp/rwkv104-direct-IOSafety-1793228577653989503.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

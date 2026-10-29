@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.fast_rms_layernorm.Proofs.ForwardRun",
+  "start": 1793227479.6552055,
+  "end": 1793227482.9710267,
+  "log": "/tmp/rwkv104-direct-ForwardRun-1793227479655190223.log",
+  "stop_file": "/tmp/rwkv104-direct-ForwardRun-1793227479655190223.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

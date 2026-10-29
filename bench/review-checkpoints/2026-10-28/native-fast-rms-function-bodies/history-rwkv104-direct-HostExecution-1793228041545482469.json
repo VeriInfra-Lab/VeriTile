@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.HostExecution",
+  "start": 1793228041.5454986,
+  "end": 1793228044.710687,
+  "log": "/tmp/rwkv104-direct-HostExecution-1793228041545482469.log",
+  "stop_file": "/tmp/rwkv104-direct-HostExecution-1793228041545482469.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.fast_rms_layernorm.Proofs.MathBridge",
+  "start": 1793227476.3501873,
+  "end": 1793227479.6159518,
+  "log": "/tmp/rwkv104-direct-MathBridge-1793227476350157540.log",
+  "stop_file": "/tmp/rwkv104-direct-MathBridge-1793227476350157540.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

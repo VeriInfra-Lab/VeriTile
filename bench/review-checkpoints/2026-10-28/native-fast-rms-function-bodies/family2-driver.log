@@ -1,0 +1,19 @@
+bench.repairs.tritonbench_g.fast_rms_layernorm.IO 0 /tmp/rwkv104-direct-IO-1793228457381672761.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.IOExecution 0 /tmp/rwkv104-direct-IOExecution-1793228465487017648.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.IOBinding 0 /tmp/rwkv104-direct-IOBinding-1793228468091997592.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.IOBounds 0 /tmp/rwkv104-direct-IOBounds-1793228471133252427.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.IOSafety 1 /tmp/rwkv104-direct-IOSafety-1793228473938020395.log
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/IOSafety.lean:32:4: error: Tactic `apply` failed: could not unify the conclusion of `ForwardRun.trace_safe h.gemma { name := "y" } { name := "x" }
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/IOSafety.lean:37:4: error: Tactic `apply` failed: could not unify the conclusion of `BackwardRun.trace_safe h.gemma { name := "dx" }
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.NativeIOSafety 0 /tmp/rwkv104-direct-NativeIOSafety-1793228476894642735.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.NativePublicIO 0 /tmp/rwkv104-direct-NativePublicIO-1793228479699430782.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.IOPair 0 /tmp/rwkv104-direct-IOPair-1793228483606343173.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.FPEquiv 0 /tmp/rwkv104-direct-FPEquiv-1793228486261407159.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Misc.NativeReference 0 /tmp/rwkv104-direct-NativeReference-1793228490833657683.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Misc.NativeCorrect 0 /tmp/rwkv104-direct-NativeCorrect-1793228493340595762.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.PhysicalIO 0 /tmp/rwkv104-direct-PhysicalIO-1793228497297074421.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Misc.TensorBridge 0 /tmp/rwkv104-direct-TensorBridge-1793228501340621047.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Misc.KernelAudit 0 /tmp/rwkv104-direct-KernelAudit-1793228507246721176.log
+bench.tritonbench_g.fast_rms_layernorm.Proofs.TypedExecution -15 /tmp/rwkv104-direct-TypedExecution-1793228517289769192.log
+
+BATCH COMPLETE fastrms107-family2 failed/skipped 7

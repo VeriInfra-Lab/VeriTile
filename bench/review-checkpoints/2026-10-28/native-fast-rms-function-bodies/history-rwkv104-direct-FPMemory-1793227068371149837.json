@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPMemory",
+  "start": 1793227068.3711987,
+  "end": 1793227073.9383106,
+  "log": "/tmp/rwkv104-direct-FPMemory-1793227068371149837.log",
+  "stop_file": "/tmp/rwkv104-direct-FPMemory-1793227068371149837.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

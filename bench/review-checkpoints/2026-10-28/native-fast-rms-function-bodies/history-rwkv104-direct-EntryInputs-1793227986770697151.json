@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.EntryInputs",
+  "start": 1793227986.7707138,
+  "end": 1793227990.0362747,
+  "log": "/tmp/rwkv104-direct-EntryInputs-1793227986770697151.log",
+  "stop_file": "/tmp/rwkv104-direct-EntryInputs-1793227986770697151.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

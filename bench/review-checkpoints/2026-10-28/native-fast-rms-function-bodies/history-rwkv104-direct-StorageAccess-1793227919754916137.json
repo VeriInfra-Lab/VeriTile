@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.StorageAccess",
+  "start": 1793227919.75493,
+  "end": 1793227928.2583187,
+  "log": "/tmp/rwkv104-direct-StorageAccess-1793227919754916137.log",
+  "stop_file": "/tmp/rwkv104-direct-StorageAccess-1793227919754916137.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

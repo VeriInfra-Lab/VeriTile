@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.FastRmsLayernorm.RealWeightStep.prefix_executes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.RealWeightStep.iteration: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,4 @@
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPWeightStep 1 /tmp/rwkv104-direct-FPWeightStep-1793227346934266537.log
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPWeightStep.lean:29:2: error: Tactic `rfl` failed: The left-hand side
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPWeightStep.lean:58:0: error: VeriTile.Bench.Repairs.FastRmsLayernorm.FPWeightStep.prefix_executes: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+BATCH COMPLETE fastrms107-weight3 failed/skipped 8

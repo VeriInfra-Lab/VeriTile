@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.PhysicalIO",
+  "start": 1793228497.2970908,
+  "end": 1793228501.300188,
+  "log": "/tmp/rwkv104-direct-PhysicalIO-1793228497297074421.log",
+  "stop_file": "/tmp/rwkv104-direct-PhysicalIO-1793228497297074421.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

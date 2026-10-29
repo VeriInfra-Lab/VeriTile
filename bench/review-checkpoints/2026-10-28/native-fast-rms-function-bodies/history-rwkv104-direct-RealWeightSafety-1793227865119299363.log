@@ -1,0 +1,20 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealWeightSafety.lean:74:40: error(lean.unknownIdentifier): Unknown constant `Int.natCast_lt`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealWeightSafety.lean:75:11: error: Invalid `⟨...⟩` notation: The expected type
+  Decidable.rec (fun h_1 => (fun x => True) h_1)
+    (fun h_1 =>
+      (fun x =>
+          Stmt.TraceSafeList bounds (loopBody h K) (u.setReg "row" TileDType.int [] (Tile.scalar ↑row)) ∧
+            match stepStmts (loopBody h K) (u.setReg "row" TileDType.int [] (Tile.scalar ↑row)) with
+            | some s' => Stmt.forRangeIntTraceSafe bounds "row" (↑row + ↑1) (↑h.rows) 1 (loopBody h K) s'
+            | none => True)
+        h_1)
+    ((↑row).decLt ↑h.rows)
+is not an inductive type
+
+Note: This notation can only be used when the expected type is an inductive type with a single constructor
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealWeightSafety.lean:76:4: error: No goals to be solved
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealWeightSafety.lean:82:0: warning: unused `termination_by`, function is not recursive
+VeriTile.Bench.Repairs.FastRmsLayernorm.RealWeightSafety.iteration_safe: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealWeightSafety.lean:90:0: error: VeriTile.Bench.Repairs.FastRmsLayernorm.RealWeightSafety.loop_safe: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

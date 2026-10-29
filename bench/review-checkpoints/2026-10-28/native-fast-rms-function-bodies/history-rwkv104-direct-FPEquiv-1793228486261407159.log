@@ -1,0 +1,5 @@
+FP assumptions used by kernel_equivalent:
+  none
+VeriTile.Bench.Repairs.FastRmsLayernorm.FPEquiv.kernel_equivalent: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

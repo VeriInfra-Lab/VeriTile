@@ -1,0 +1,19 @@
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPWeightMemory 1 /tmp/rwkv104-direct-FPWeightMemory-1793227643762589077.log
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPWeightMemory.lean:36:2: error: 'change' tactic failed, pattern
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPWeightMemory.lean:69:0: error: VeriTile.Bench.Repairs.FastRmsLayernorm.FPWeightMemory.source_memory: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPWeightMemory.lean:70:0: error: VeriTile.Bench.Repairs.FastRmsLayernorm.FPWeightMemory.complete: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealReference 0 /tmp/rwkv104-direct-RealReference-1793227646821587491.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealBridge 0 /tmp/rwkv104-direct-RealBridge-1793227652728583212.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealReads 0 /tmp/rwkv104-direct-RealReads-1793227656834227267.log
+bench.tritonbench_g.fast_rms_layernorm.Proofs.BackwardMath 0 /tmp/rwkv104-direct-BackwardMath-1793227659989828940.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealRows 1 /tmp/rwkv104-direct-RealRows-1793227663496155269.log
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealRows.lean:53:15: error: Application type mismatch: The argument
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealRows.lean:111:15: error: Application type mismatch: The argument
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealRows.lean:129:0: error: VeriTile.Bench.Repairs.FastRmsLayernorm.RealRows.forward_complete: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealRows.lean:130:0: error: VeriTile.Bench.Repairs.FastRmsLayernorm.RealRows.backward_values: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealRows.lean:131:0: error: VeriTile.Bench.Repairs.FastRmsLayernorm.RealRows.backward_complete: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealWeightOps 1 /tmp/rwkv104-direct-RealWeightOps-1793227669404079277.log
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealWeightOps.lean:8:0: error: Unknown option `pp.depth`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealWeightOps.lean:42:6: error: Tactic `rfl` failed: The left-hand side
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealWeightOps.lean:44:0: error: VeriTile.Bench.Repairs.FastRmsLayernorm.RealWeightOps.bindings: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+BATCH COMPLETE fastrms107-bridge3 failed/skipped 12

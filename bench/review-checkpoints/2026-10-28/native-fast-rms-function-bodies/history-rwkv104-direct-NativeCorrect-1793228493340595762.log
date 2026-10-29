@@ -1,0 +1,18 @@
+VeriTile.Bench.Repairs.FastRmsLayernorm.Reference.nativeWords: definition does not reference [VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.forwardRuntime,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.forward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.backward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.weightBackward,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.Repairs.FastRmsLayernorm.Reference.nativeDomain: definition does not reference [VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.forwardRuntime,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.forward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.backward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.weightBackward,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.Repairs.FastRmsLayernorm.FPEquiv.kernel_forward: statement's project surface ⊆ allowlist ✓
+VeriTile.Bench.Repairs.FastRmsLayernorm.FPEquiv.kernel_backward: statement's project surface ⊆ allowlist ✓
+VeriTile.Bench.Repairs.FastRmsLayernorm.FPEquiv.kernel_forward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.FPEquiv.kernel_backward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

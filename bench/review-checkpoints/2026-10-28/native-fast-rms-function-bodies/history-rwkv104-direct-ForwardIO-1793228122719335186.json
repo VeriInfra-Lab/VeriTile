@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.fast_rms_layernorm.Proofs.ForwardIO",
+  "start": 1793228122.719352,
+  "end": 1793228129.5363176,
+  "log": "/tmp/rwkv104-direct-ForwardIO-1793228122719335186.log",
+  "stop_file": "/tmp/rwkv104-direct-ForwardIO-1793228122719335186.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

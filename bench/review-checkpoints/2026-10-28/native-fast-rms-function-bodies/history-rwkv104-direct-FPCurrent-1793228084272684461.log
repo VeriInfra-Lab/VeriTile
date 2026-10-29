@@ -1,0 +1,13 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPCurrent.lean:24:5: warning: unused variable `current`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.Repairs.FastRmsLayernorm.FPCurrent.Result: definition does not reference [VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.forward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.backward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.weightBackward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Host.forward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Host.backward] — non-circular ✓
+VeriTile.Bench.Repairs.FastRmsLayernorm.FPCurrent.backward_current: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+Axiom audit: headlines=0
+headlines: []

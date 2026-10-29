@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.fast_rms_layernorm.Proofs.BackwardIO",
+  "start": 1793228129.5754724,
+  "end": 1793228136.4925995,
+  "log": "/tmp/rwkv104-direct-BackwardIO-1793228129575456554.log",
+  "stop_file": "/tmp/rwkv104-direct-BackwardIO-1793228129575456554.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

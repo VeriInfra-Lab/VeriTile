@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.FastRmsLayernorm.RealWeightTrace.complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastRmsLayernorm.RealWeightTrace.flatten_ok: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

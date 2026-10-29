@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.NativeIOSafety",
+  "start": 1793228476.8946564,
+  "end": 1793228479.6602848,
+  "log": "/tmp/rwkv104-direct-NativeIOSafety-1793228476894642735.log",
+  "stop_file": "/tmp/rwkv104-direct-NativeIOSafety-1793228476894642735.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

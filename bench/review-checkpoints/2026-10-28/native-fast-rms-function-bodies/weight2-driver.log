@@ -1,0 +1,5 @@
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPWeightStep 1 /tmp/rwkv104-direct-FPWeightStep-1793227196161387170.log
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPWeightStep.lean:29:2: error: `simp` made no progress
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPWeightStep.lean:59:0: error: VeriTile.Bench.Repairs.FastRmsLayernorm.FPWeightStep.prefix_executes: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.SourcePair 0 /tmp/rwkv104-direct-SourcePair-1793227212160245353.log
+BATCH COMPLETE fastrms107-weight2 failed/skipped 8

@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealWeightStep",
+  "start": 1793227706.3545299,
+  "end": 1793227711.7210233,
+  "log": "/tmp/rwkv104-direct-RealWeightStep-1793227706354515236.log",
+  "stop_file": "/tmp/rwkv104-direct-RealWeightStep-1793227706354515236.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

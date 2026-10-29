@@ -1,0 +1,9 @@
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPTensor
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RuntimeForward
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.NativeSafety
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealWeightMemory
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealWeightSafety
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.NativeWeightSafety
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealWeightTrace
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealWeightFlat
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.StorageAccess

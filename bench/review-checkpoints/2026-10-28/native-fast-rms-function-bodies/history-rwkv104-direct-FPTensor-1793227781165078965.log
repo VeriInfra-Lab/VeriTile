@@ -1,0 +1,94 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPTensor.lean:26:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.FastRmsLayernorm.FPTensor.padded_agrees`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPTensor.lean:100:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.FastRmsLayernorm.FPTensor.carry_congr`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPTensor.lean:144:49: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPTensor.lean:153:62: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPTensor.lean:161:4: error: Tactic `apply` failed: could not unify the conclusion of `congrArg (FPReference.cast W)`
+  FPReference.cast W ?m.380 = FPReference.cast W ?m.381
+with the goal
+  FPWeightReference.carry W h.gemma
+      (fun row =>
+        FPWeightStep.raw W h 256 (↑pid) (entry initial (↑pid) (Geometry.featureCount h)) { name := "x" } row
+          (↑lane, PUnit.unit))
+      (fun row =>
+        FPWeightStep.raw W h 256 (↑pid) (entry initial (↑pid) (Geometry.featureCount h)) { name := "dx" } row
+          (↑lane, PUnit.unit))
+      (FPWeightStep.saved (entry initial (↑pid) (Geometry.featureCount h))) h.rows =
+    FPWeightReference.carry W h.gemma (fun i => logical { name := "x" } (i * h.cols + ↑j))
+      (fun i => logical { name := "dx" } (i * h.cols + ↑j)) (logical { name := "r" }) h.rows
+
+Note: The full type of `congrArg (FPReference.cast W)` is
+  ?m.380 = ?m.381 → FPReference.cast W ?m.380 = FPReference.cast W ?m.381
+
+case neg.refine_2.e_value
+α : Type
+inst✝ : Inhabited α
+β : Type
+W X : FP.Structural.Algebra α
+h : Call
+zero : Cell α
+storage : Placement h Phase.backward
+tensors : RegionName → Torch.TensorMetadata
+binding : Binding h Phase.backward storage tensors
+heap : ℕ → β
+decode : (Fin 4 → β) → Cell α
+other : Cell α
+logical : RegionName → ℕ → α
+reads : ReadLaw Phase.backward tensors heap decode (Cell.read TileDType.real) logical
+initial : RegionName × ℕ → Cell α := lift storage heap decode other
+empty : ¬h.rows = 0
+lr :
+  ∀ role ∈ inputs Phase.backward,
+    ∀ off < cells h role, Cell.read TileDType.real (lift storage heap decode other (role, off)) = logical role off
+final : FPGridForward.Heap α
+run : sequence W X h initial = some final
+dx : ∀ (i : Fin h.rows) (j : Fin h.cols), final (FPGridBackward.address h i j) = FPGridBackward.expected X h initial i j
+dw :
+  ∀ (pid : Fin (Geometry.featureCount h)) (j : FPGridWeight.Output h pid),
+    final (FPGridWeight.address h pid j) = FPGridWeight.expected W h initial pid j
+frame : KernelTensor.Frame h Phase.backward initial final
+j : Fin h.cols
+pid : Fin (Geometry.featureCount h) := Geometry.owner h j
+lane : FPGridWeight.Output h pid := ⟨Geometry.lane j, ⋯⟩
+covered : Geometry.column ↑pid ↑lane = ↑j
+value : final ({ name := "dw" }, ↑j) = FPGridWeight.expected W h initial pid lane
+addr : FPGridWeight.address h pid lane = ({ name := "dw" }, ↑j)
+⊢ FPWeightReference.carry W h.gemma
+      (fun row =>
+        FPWeightStep.raw W h 256 (↑pid) (entry initial (↑pid) (Geometry.featureCount h)) { name := "x" } row
+          (↑lane, PUnit.unit))
+      (fun row =>
+        FPWeightStep.raw W h 256 (↑pid) (entry initial (↑pid) (Geometry.featureCount h)) { name := "dx" } row
+          (↑lane, PUnit.unit))
+      (FPWeightStep.saved (entry initial (↑pid) (Geometry.featureCount h))) h.rows =
+    FPWeightReference.carry W h.gemma (fun i => logical { name := "x" } (i * h.cols + ↑j))
+      (fun i => logical { name := "dx" } (i * h.cols + ↑j)) (logical { name := "r" }) h.rows
+VeriTile.Bench.Repairs.FastRmsLayernorm.FPTensor.forward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/FPTensor.lean:177:0: error: VeriTile.Bench.Repairs.FastRmsLayernorm.FPTensor.backward: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.Repairs.FastRmsLayernorm.FPTensor.forwardReference: definition does not reference [VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.forward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.backward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.weightBackward] — non-circular ✓
+VeriTile.Bench.Repairs.FastRmsLayernorm.FPTensor.inputReference: definition does not reference [VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.forward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.backward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.weightBackward] — non-circular ✓
+VeriTile.Bench.Repairs.FastRmsLayernorm.FPTensor.weightReference: definition does not reference [VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.forward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.backward,
+ VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.weightBackward] — non-circular ✓

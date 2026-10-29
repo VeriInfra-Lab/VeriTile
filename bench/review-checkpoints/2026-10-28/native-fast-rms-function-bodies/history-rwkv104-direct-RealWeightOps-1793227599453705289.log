@@ -1,0 +1,5 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealWeightOps.lean:32:116: error: unsolved goals
+h : Call
+K : ℕ
+⊢ False
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealWeightOps.lean:42:0: error: VeriTile.Bench.Repairs.FastRmsLayernorm.RealWeightOps.bindings: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

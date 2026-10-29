@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPEndToEnd",
+  "start": 1793228077.225786,
+  "end": 1793228080.1917617,
+  "log": "/tmp/rwkv104-direct-FPEndToEnd-1793228077225770418.log",
+  "stop_file": "/tmp/rwkv104-direct-FPEndToEnd-1793228077225770418.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.fast_rms_layernorm.Proofs.RealExecution",
+  "start": 1793227442.079846,
+  "end": 1793227473.2048306,
+  "log": "/tmp/rwkv104-direct-RealExecution-1793227442079830069.log",
+  "stop_file": "/tmp/rwkv104-direct-RealExecution-1793227442079830069.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,18 @@
+E.......
+======================================================================
+ERROR: test_all_bodies (test_fast_rms_body.FastRmsBody.test_all_bodies)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/fastrms107-staging/bench/tests/test_fast_rms_body.py", line 37, in test_all_bodies
+    result = check_manifest(ROOT, MANIFEST)
+  File "/tmp/veritile-pr18-review/bench/jit_correspondence.py", line 843, in check_manifest
+    validate_manifest_records(records)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/tmp/veritile-pr18-review/bench/jit_correspondence.py", line 823, in validate_manifest_records
+    raise ValueError("reused Python correspondence requires distinct explicit profile variants")
+ValueError: reused Python correspondence requires distinct explicit profile variants
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.105s
+
+FAILED (errors=1)

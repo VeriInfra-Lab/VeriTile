@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealSequence",
+  "start": 1793228008.6994932,
+  "end": 1793228012.41513,
+  "log": "/tmp/rwkv104-direct-RealSequence-1793228008699477060.log",
+  "stop_file": "/tmp/rwkv104-direct-RealSequence-1793228008699477060.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

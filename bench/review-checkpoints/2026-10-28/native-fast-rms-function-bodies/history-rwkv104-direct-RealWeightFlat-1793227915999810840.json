@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealWeightFlat",
+  "start": 1793227915.9998245,
+  "end": 1793227919.7156014,
+  "log": "/tmp/rwkv104-direct-RealWeightFlat-1793227915999810840.log",
+  "stop_file": "/tmp/rwkv104-direct-RealWeightFlat-1793227915999810840.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

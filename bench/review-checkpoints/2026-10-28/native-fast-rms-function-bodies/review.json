@@ -1,0 +1,2275 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "fc086570c7b845998b42edc6f1afde190334119f",
+  "merge_policy": "Keep draft; do not merge before explicit human review.",
+  "new_task_migrations": [
+    "fast_rms_layernorm"
+  ],
+  "regression_only_pending_body_tasks": [],
+  "semantic_review": {
+    "adam_update_triton": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "add_example": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "add_value": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "apply_penalty": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "attention_fwd_triton1": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "batched_vecmat_mult": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "bgmv_expand_slice": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "bmm_optimized": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "cache_transform_triton": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "chunk_cumsum_kernel": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "chunk_cumsum_vector": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "chunk_delta_fwd": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "chunked_cumsum_fwd": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "cosine_compute": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "cross_entropy1": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "cross_entropy2": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "cross_entropy_ops": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "decay_cumsum": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "dequantize_matmul": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "dequantize_rowwise": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "destindex_copy": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "destindex_copy_kv1": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "destindex_copy_kv2": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "diag_ssm_triton": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "dropout_triton": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "embedding_triton_kernel": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "f8_conversion_utils": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "fast_ce_loss": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "fast_rms_layernorm": "All four original Python JIT bodies are retained: regular/Gemma forward, input backward and weight backward, with eleven raw body/ABI profile mappings including runtime and literal epsilon. Int64 metadata casts, pointer updates, signed weight loop, Gemma branch and the exact weight cast chain remain. The existing candidate only commutes three independent X row-index products and renames those JIT entries/calls; the full module AST is checked. Complete actual source execution, trace safety, full grids, outputs and frames are connected to independent Real formulas and full FP pair equivalence. Integer row/column counts use their actual fromNat conversion. Original Python, Contract and public Real/FP parameters and premises remain unchanged. Optional native/Tensor applications retain explicit modeling boundaries.",
+    "fast_rope_embedding": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "fifth_order_sph_harmonics": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "flash_decode2_llama": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "flash_decode2_phi": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "fused_activation": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "fused_recurrent_hgrn": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "fused_rotary_embedding": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "fused_rwkv6_kernel": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "geglu_tanh_triton": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "index_select_bwd": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "index_select_cat": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "int8_matmul_kernel": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "isfinite_kernel": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "kcache_copy_triton": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "kldiv_compute": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "kldiv_ops": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "kldiv_triton": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "ksoftmax_triton": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "kv_cache_copy": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "kv_cache_filling": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "l2_norm_bwd": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "l2_norm_triton1": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "l2_norm_triton2": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "layer_norm_fwd": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "layernorm_fwd_triton": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "log_softmax": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "logsumexp_fwd": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "lora_expand_gemv": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "masked_add_cuda": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "masked_select": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "matmul_kernel": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "matmul_tma": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "matrix_reduction": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "matrix_transpose": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "max_reduction": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "mean_reduction": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "mul_exponent_compensator": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "nested_loops_processing": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "pow_scalar_tensor": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "quant_transpose_kernel": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "quantize_copy_kv": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "quantize_global": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "quantize_kv_copy": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "quantize_kv_transform": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "relu_strided_buffer": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "relu_triton_kernel": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "reversed_cumsum": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "reversed_cumsum_scalar": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "rms_norm_triton": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "rmsnorm_fused": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "rmsnorm_fused_llama": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "rmsnorm_implementation": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "rmsnorm_triton": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "rope_backward_transform": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "rope_embedding": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "rope_transform": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "rotary_emb": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "rotary_emb_nopad": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "rotary_transform": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "rotary_transform_ops": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "rowwise_quantization_triton": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "seeded_dropout": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "sin_computation": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "sin_kernel": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "softmax_optimize": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "softmax_reducev": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "softmax_triton1": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "softmax_triton2": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "softmax_triton3": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "square_matrix": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "swiglu_backward": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "swiglu_fwd": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "swiglu_triton": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "token_attn_llama2": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "token_attn_mistral": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "token_attn_reduceV": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "token_softmax_bloom": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "token_softmax_llama": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "triton_argmax": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "triton_mul2": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "triton_softmax": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "var_len_copy": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "vector_addition": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added.",
+    "vector_addition_custom": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added."
+  },
+  "compiler_change": {
+    "files": [
+      "VeriTile/Triton/DSL/Syntax.lean"
+    ],
+    "behavior": "The source helper-call grammar now retains chained pointer/value dtype casts. The new FP16-to-FP32 chain regression verifies complete executable equality with explicit conversions inside every loop iteration. Existing source helpers, dtype inference, signed loops and strict/empirical reporting remain covered. All cumulative task/example/frontend roots and joint import pass warm and independently with empty project objects; no numerical assumption or caller input restriction is added."
+  },
+  "verification": {
+    "focused": {
+      "status": "PASS",
+      "explicit_modules": 120,
+      "compiled_modules": 181,
+      "joint_import": "PASS",
+      "scope": "Latest successful versions across serial batches and direct prerequisite repairs, with dependency-complete deltas; intermediate failures retained."
+    },
+    "warm_and_joint": {
+      "status": "PASS",
+      "explicit_modules": 5323,
+      "jobs": 14978
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 5323,
+      "jobs": 14978,
+      "project_build_initially_present": false,
+      "project_objects_imported_from_other_checkouts": false,
+      "only_fixed_external_dependencies_imported": true,
+      "setup": {
+        "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/clean.json",
+        "sha256": "7e55631866d781b0e4fc9ffad13ca055011cc126fe057af09024524a660e4a07"
+      }
+    },
+    "axiom_audit": {
+      "status": "PASS",
+      "defining_modules": 1493,
+      "elaborated_theorems": 28494,
+      "private_helpers_included": true,
+      "allowed": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "method": "Theorem roots discovered by defining module; accumulated dependency union checked after every root in one immutable Lean environment."
+    },
+    "fp_assumptions": "Fast RMS kernel_equivalent, three-pass source_equivalence, LayerNorm index_commuted_equiv and RWKV u_early_equiv print none; cumulative builds replay all imported audit commands.",
+    "python": {
+      "targeted": {
+        "status": "PASS",
+        "tests": 299
+      },
+      "full": {
+        "status": "KNOWN_PREEXISTING_FAILURE",
+        "tests": 544,
+        "errors": 1
+      }
+    },
+    "source": "All four original Python JIT bodies are retained: regular/Gemma forward, input backward and weight backward, with eleven raw body/ABI profile mappings including runtime and literal epsilon. Int64 metadata casts, pointer updates, signed weight loop, Gemma branch and the exact weight cast chain remain. The existing candidate only commutes three independent X row-index products and renames those JIT entries/calls; the full module AST is checked. Complete actual source execution, trace safety, full grids, outputs and frames are connected to independent Real formulas and full FP pair equivalence. Integer row/column counts use their actual fromNat conversion. Original Python, Contract and public Real/FP parameters and premises remain unchanged. Optional native/Tensor applications retain explicit modeling boundaries.",
+    "official_comparator": {
+      "status": "UNAVAILABLE",
+      "actual_final_source_attempts": 121,
+      "reason": "Pinned official binaries require Landlock ABI v5; host supplies v4 and no systemd user isolation. No bypass."
+    },
+    "torch": "UNAVAILABLE: retained checker requires missing Torch/Triton.",
+    "cpu": {
+      "status": "PASS",
+      "scope": "The targeted FastRmsBody.test_full_candidate_module checks the complete original/candidate Python AST: only three independent row-index product commutations and their JIT names/call sites change. Original weight body, casts, loops, masks, wrappers and host guards remain unchanged.",
+      "public_statements": "The original public Real and FP reader declarations, including every parameter and premise, are text-identical to the previous receipt; only the FP audit command is added."
+    },
+    "original_python_and_contracts": {
+      "status": "PASS",
+      "sha256": {
+        "bench/repairs/tritonbench_g/fast_rms_layernorm/Contract.lean": "d4ccd1c632574a2af00816bd18fca5bc5e1cc1eb1f526975c4b08240cff8529f",
+        "bench/repairs/tritonbench_g/fast_rms_layernorm/check_contract.py": "2c405207954bbb30749089773bc4617874af7ca1efb18f013b8b8d19522d4d20",
+        "bench/repairs/tritonbench_g/fast_rms_layernorm/fast_rms_layernorm_repaired.py": "032d4fa4043306a5b4ad0162e312a74328eaa81e8bdb9f711b5c0cff79d5d75a",
+        "bench/tritonbench_g/fast_rms_layernorm/fast_rms_layernorm.py": "4a3553e0f4dee342c393edf0b8aaf82504153d1bd39b724072e566612fb9c1e8"
+      }
+    },
+    "gpu_or_numerical_experiment": "Not run.",
+    "earlier_failures": "Failed drafts exposed chained dtype parser precedence, signed weight addresses, actual integer-to-FP conversion, complete memory/trace bridges and a stale historical typed-execution witness. Dependency-complete repairs pass; failed logs are retained and do not count as success.",
+    "scope_limits": "Formal tensor storage profile is FP32, including runtime epsilon and all regular/Gemma forward/backward paths. Optional native/Tensor applications retain their stated instruction, ABI, address and storage models. The full Python suite retains one old Structural numerical receipt hash failure; it was not falsely repinned.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending; the known unchanged numerical receipt failure remains explicit."
+  },
+  "source_pairs": {
+    "total": 392,
+    "pasted_body": 392,
+    "legacy_ast": 0
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/source-closure.json",
+    "sha256": "4be9527c84207660d88e743899472f8020619883c62f469e354b7e193abc3493"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "selected_body_copy_checked": 113,
+      "uncovered_jit_functions": 70
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 333,
+    "uncovered_selected_jit_functions": 151,
+    "primary_files_with_int64_screen_warning": 19,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 49,
+        "antiquotes": 55,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/VeriTile__Triton__DSL__Syntax-comparator.log",
+      "sha256": "fcc7e4b929e86b78add6cf9b7081fa69ce91303e465e7e0a63c913e5d3c5a24b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/all-modules.txt",
+      "sha256": "84f0872f6a89bacdb32dc08a63d64ec73fbc693603fdf469926d48475632de28"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/all-python.log",
+      "sha256": "63f425c2d6e02eb614a77578e0b8c8efffc3437e44110e000bc19ca426e33238"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/audit-modules.json",
+      "sha256": "e10b3a5b8a71318d016482ccf980053797e4a5d2d442797356bf5d3dbafe28e2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/audit-targets.json",
+      "sha256": "3d564b43c237786b2a2f93604874b4d6a2aba633a8348e0efa664801da994495"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/audit.json",
+      "sha256": "22edc8d97eb9b650a8a9232dd9b4a6c82b56d6720606a33718d48b8c489218c4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/audit.lean",
+      "sha256": "8057be6e95b8faed7f95135b551e110363aa1ee2798aae3548d98da84f782207"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/audit.log.gz",
+      "sha256": "a2ed66ba2dc721a57d37a020e569d16789880ccaf36454f2c441c95d105b00f7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Contract-comparator.log",
+      "sha256": "fcc7e4b929e86b78add6cf9b7081fa69ce91303e465e7e0a63c913e5d3c5a24b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Correct-comparator.log",
+      "sha256": "fcc7e4b929e86b78add6cf9b7081fa69ce91303e465e7e0a63c913e5d3c5a24b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__FPEquiv-comparator.log",
+      "sha256": "fcc7e4b929e86b78add6cf9b7081fa69ce91303e465e7e0a63c913e5d3c5a24b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__IO-comparator.log",
+      "sha256": "fcc7e4b929e86b78add6cf9b7081fa69ce91303e465e7e0a63c913e5d3c5a24b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Kernels-comparator.log",
+      "sha256": "fcc7e4b929e86b78add6cf9b7081fa69ce91303e465e7e0a63c913e5d3c5a24b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__LegacyKernels-comparator.log",
+      "sha256": "fcc7e4b929e86b78add6cf9b7081fa69ce91303e465e7e0a63c913e5d3c5a24b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Misc__Audit-comparator.log",
+      "sha256": "fcc7e4b929e86b78add6cf9b7081fa69ce91303e465e7e0a63c913e5d3c5a24b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Misc__KernelAudit-comparator.log",
+      "sha256": "fcc7e4b929e86b78add6cf9b7081fa69ce91303e465e7e0a63c913e5d3c5a24b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Misc__NativeCorrect-comparator.log",
+      "sha256": "fcc7e4b929e86b78add6cf9b7081fa69ce91303e465e7e0a63c913e5d3c5a24b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Misc__NativeReference-comparator.log",
+      "sha256": "fcc7e4b929e86b78add6cf9b7081fa69ce91303e465e7e0a63c913e5d3c5a24b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Misc__OptionalHostCorrect-comparator.log",
+      "sha256": "fcc7e4b929e86b78add6cf9b7081fa69ce91303e465e7e0a63c913e5d3c5a24b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Misc__OptionalHostFPEquiv-comparator.log",
+      "sha256": "fcc7e4b929e86b78add6cf9b7081fa69ce91303e465e7e0a63c913e5d3c5a24b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Misc__RevisionAudit-comparator.log",
+      "sha256": "fcc7e4b929e86b78add6cf9b7081fa69ce91303e465e7e0a63c913e5d3c5a24b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Misc__TensorBridge-comparator.log",
+      "sha256": "fcc7e4b929e86b78add6cf9b7081fa69ce91303e465e7e0a63c913e5d3c5a24b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__CheckedHost-comparator.log",
+      "sha256": "fcc7e4b929e86b78add6cf9b7081fa69ce91303e465e7e0a63c913e5d3c5a24b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__EntryInputs-comparator.log",
+      "sha256": "fcc7e4b929e86b78add6cf9b7081fa69ce91303e465e7e0a63c913e5d3c5a24b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__EpsilonABI-comparator.log",
+      "sha256": "fcc7e4b929e86b78add6cf9b7081fa69ce91303e465e7e0a63c913e5d3c5a24b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__FPBackward-comparator.log",
+      "sha256": "fcc7e4b929e86b78add6cf9b7081fa69ce91303e465e7e0a63c913e5d3c5a24b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__FPBackwardMemory-comparator.log",
+      "sha256": "fcc7e4b929e86b78add6cf9b7081fa69ce91303e465e7e0a63c913e5d3c5a24b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__FPBackwardReference-comparator.log",
+      "sha256": "fcc7e4b929e86b78add6cf9b7081fa69ce91303e465e7e0a63c913e5d3c5a24b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__FPCurrent-comparator.log",
+      "sha256": "fcc7e4b929e86b78add6cf9b7081fa69ce91303e465e7e0a63c913e5d3c5a24b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__FPEndToEnd-comparator.log",
+      "sha256": "7c84bba6a281bca3f67fe630add8ed49b9295eb2f9f88c58d43eb856dc14b523"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__FPGridBackward-comparator.log",
+      "sha256": "7c84bba6a281bca3f67fe630add8ed49b9295eb2f9f88c58d43eb856dc14b523"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__FPGridForward-comparator.log",
+      "sha256": "7c84bba6a281bca3f67fe630add8ed49b9295eb2f9f88c58d43eb856dc14b523"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__FPGridWeight-comparator.log",
+      "sha256": "7c84bba6a281bca3f67fe630add8ed49b9295eb2f9f88c58d43eb856dc14b523"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__FPHost-comparator.log",
+      "sha256": "7c84bba6a281bca3f67fe630add8ed49b9295eb2f9f88c58d43eb856dc14b523"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__FPMemory-comparator.log",
+      "sha256": "7c84bba6a281bca3f67fe630add8ed49b9295eb2f9f88c58d43eb856dc14b523"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__FPPhysicalFrame-comparator.log",
+      "sha256": "7c84bba6a281bca3f67fe630add8ed49b9295eb2f9f88c58d43eb856dc14b523"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__FPReference-comparator.log",
+      "sha256": "7c84bba6a281bca3f67fe630add8ed49b9295eb2f9f88c58d43eb856dc14b523"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__FPSequence-comparator.log",
+      "sha256": "7c84bba6a281bca3f67fe630add8ed49b9295eb2f9f88c58d43eb856dc14b523"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__FPSource-comparator.log",
+      "sha256": "7c84bba6a281bca3f67fe630add8ed49b9295eb2f9f88c58d43eb856dc14b523"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__FPTensor-comparator.log",
+      "sha256": "7c84bba6a281bca3f67fe630add8ed49b9295eb2f9f88c58d43eb856dc14b523"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__FPWeightLoop-comparator.log",
+      "sha256": "7c84bba6a281bca3f67fe630add8ed49b9295eb2f9f88c58d43eb856dc14b523"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__FPWeightMemory-comparator.log",
+      "sha256": "7c84bba6a281bca3f67fe630add8ed49b9295eb2f9f88c58d43eb856dc14b523"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__FPWeightProgram-comparator.log",
+      "sha256": "7c84bba6a281bca3f67fe630add8ed49b9295eb2f9f88c58d43eb856dc14b523"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__FPWeightReference-comparator.log",
+      "sha256": "7c84bba6a281bca3f67fe630add8ed49b9295eb2f9f88c58d43eb856dc14b523"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__FPWeightStep-comparator.log",
+      "sha256": "7c84bba6a281bca3f67fe630add8ed49b9295eb2f9f88c58d43eb856dc14b523"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__Geometry-comparator.log",
+      "sha256": "7c84bba6a281bca3f67fe630add8ed49b9295eb2f9f88c58d43eb856dc14b523"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__GridRun-comparator.log",
+      "sha256": "7c84bba6a281bca3f67fe630add8ed49b9295eb2f9f88c58d43eb856dc14b523"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__HostExecution-comparator.log",
+      "sha256": "7c84bba6a281bca3f67fe630add8ed49b9295eb2f9f88c58d43eb856dc14b523"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__HostIdentity-comparator.log",
+      "sha256": "7c84bba6a281bca3f67fe630add8ed49b9295eb2f9f88c58d43eb856dc14b523"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__HostMetadata-comparator.log",
+      "sha256": "7c84bba6a281bca3f67fe630add8ed49b9295eb2f9f88c58d43eb856dc14b523"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__HostStorage-comparator.log",
+      "sha256": "7c84bba6a281bca3f67fe630add8ed49b9295eb2f9f88c58d43eb856dc14b523"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__IOBinding-comparator.log",
+      "sha256": "5492de26015599da57a5259af323bef9d78717973aa8ffacb7f1ac42b176f54d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__IOBounds-comparator.log",
+      "sha256": "5492de26015599da57a5259af323bef9d78717973aa8ffacb7f1ac42b176f54d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__IOExecution-comparator.log",
+      "sha256": "5492de26015599da57a5259af323bef9d78717973aa8ffacb7f1ac42b176f54d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__IOPair-comparator.log",
+      "sha256": "5492de26015599da57a5259af323bef9d78717973aa8ffacb7f1ac42b176f54d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__IOSafety-comparator.log",
+      "sha256": "5492de26015599da57a5259af323bef9d78717973aa8ffacb7f1ac42b176f54d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__KernelFrame-comparator.log",
+      "sha256": "5492de26015599da57a5259af323bef9d78717973aa8ffacb7f1ac42b176f54d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__KernelStorage-comparator.log",
+      "sha256": "5492de26015599da57a5259af323bef9d78717973aa8ffacb7f1ac42b176f54d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__KernelTensor-comparator.log",
+      "sha256": "5492de26015599da57a5259af323bef9d78717973aa8ffacb7f1ac42b176f54d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__LogicalIO-comparator.log",
+      "sha256": "5492de26015599da57a5259af323bef9d78717973aa8ffacb7f1ac42b176f54d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__Native-comparator.log",
+      "sha256": "5492de26015599da57a5259af323bef9d78717973aa8ffacb7f1ac42b176f54d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__NativeGraph-comparator.log",
+      "sha256": "5492de26015599da57a5259af323bef9d78717973aa8ffacb7f1ac42b176f54d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__NativeGrid-comparator.log",
+      "sha256": "5492de26015599da57a5259af323bef9d78717973aa8ffacb7f1ac42b176f54d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__NativeHost-comparator.log",
+      "sha256": "5492de26015599da57a5259af323bef9d78717973aa8ffacb7f1ac42b176f54d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__NativeIOSafety-comparator.log",
+      "sha256": "5492de26015599da57a5259af323bef9d78717973aa8ffacb7f1ac42b176f54d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__NativePublicIO-comparator.log",
+      "sha256": "5492de26015599da57a5259af323bef9d78717973aa8ffacb7f1ac42b176f54d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__NativeSafety-comparator.log",
+      "sha256": "5492de26015599da57a5259af323bef9d78717973aa8ffacb7f1ac42b176f54d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__NativeWeightSafety-comparator.log",
+      "sha256": "5492de26015599da57a5259af323bef9d78717973aa8ffacb7f1ac42b176f54d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__PhysicalIO-comparator.log",
+      "sha256": "5492de26015599da57a5259af323bef9d78717973aa8ffacb7f1ac42b176f54d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__RawCorrect-comparator.log",
+      "sha256": "5492de26015599da57a5259af323bef9d78717973aa8ffacb7f1ac42b176f54d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__RawInputs-comparator.log",
+      "sha256": "5492de26015599da57a5259af323bef9d78717973aa8ffacb7f1ac42b176f54d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__RawNative-comparator.log",
+      "sha256": "5492de26015599da57a5259af323bef9d78717973aa8ffacb7f1ac42b176f54d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__ReaderConnections-comparator.log",
+      "sha256": "5492de26015599da57a5259af323bef9d78717973aa8ffacb7f1ac42b176f54d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__RealBridge-comparator.log",
+      "sha256": "ff265cf30bfcdf73746e329a626f9dc5f2fd6d1bd92c8cfb680e87e953114db2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__RealCurrent-comparator.log",
+      "sha256": "ff265cf30bfcdf73746e329a626f9dc5f2fd6d1bd92c8cfb680e87e953114db2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__RealEndToEnd-comparator.log",
+      "sha256": "ff265cf30bfcdf73746e329a626f9dc5f2fd6d1bd92c8cfb680e87e953114db2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__RealGridBackward-comparator.log",
+      "sha256": "ff265cf30bfcdf73746e329a626f9dc5f2fd6d1bd92c8cfb680e87e953114db2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__RealGridForward-comparator.log",
+      "sha256": "ff265cf30bfcdf73746e329a626f9dc5f2fd6d1bd92c8cfb680e87e953114db2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__RealGridWeight-comparator.log",
+      "sha256": "ff265cf30bfcdf73746e329a626f9dc5f2fd6d1bd92c8cfb680e87e953114db2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__RealHost-comparator.log",
+      "sha256": "ff265cf30bfcdf73746e329a626f9dc5f2fd6d1bd92c8cfb680e87e953114db2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__RealPhysicalFrame-comparator.log",
+      "sha256": "ff265cf30bfcdf73746e329a626f9dc5f2fd6d1bd92c8cfb680e87e953114db2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__RealPublicIO-comparator.log",
+      "sha256": "ff265cf30bfcdf73746e329a626f9dc5f2fd6d1bd92c8cfb680e87e953114db2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__RealReads-comparator.log",
+      "sha256": "ff265cf30bfcdf73746e329a626f9dc5f2fd6d1bd92c8cfb680e87e953114db2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__RealReference-comparator.log",
+      "sha256": "ff265cf30bfcdf73746e329a626f9dc5f2fd6d1bd92c8cfb680e87e953114db2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__RealRows-comparator.log",
+      "sha256": "ff265cf30bfcdf73746e329a626f9dc5f2fd6d1bd92c8cfb680e87e953114db2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__RealSequence-comparator.log",
+      "sha256": "ff265cf30bfcdf73746e329a626f9dc5f2fd6d1bd92c8cfb680e87e953114db2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__RealSource-comparator.log",
+      "sha256": "ff265cf30bfcdf73746e329a626f9dc5f2fd6d1bd92c8cfb680e87e953114db2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__RealSourceSafety-comparator.log",
+      "sha256": "ff265cf30bfcdf73746e329a626f9dc5f2fd6d1bd92c8cfb680e87e953114db2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__RealTensor-comparator.log",
+      "sha256": "ff265cf30bfcdf73746e329a626f9dc5f2fd6d1bd92c8cfb680e87e953114db2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__RealWeightEval-comparator.log",
+      "sha256": "ff265cf30bfcdf73746e329a626f9dc5f2fd6d1bd92c8cfb680e87e953114db2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__RealWeightFlat-comparator.log",
+      "sha256": "ff265cf30bfcdf73746e329a626f9dc5f2fd6d1bd92c8cfb680e87e953114db2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__RealWeightLoop-comparator.log",
+      "sha256": "ff265cf30bfcdf73746e329a626f9dc5f2fd6d1bd92c8cfb680e87e953114db2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__RealWeightMemory-comparator.log",
+      "sha256": "ff265cf30bfcdf73746e329a626f9dc5f2fd6d1bd92c8cfb680e87e953114db2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__RealWeightOps-comparator.log",
+      "sha256": "ff265cf30bfcdf73746e329a626f9dc5f2fd6d1bd92c8cfb680e87e953114db2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__RealWeightProgram-comparator.log",
+      "sha256": "ff265cf30bfcdf73746e329a626f9dc5f2fd6d1bd92c8cfb680e87e953114db2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__RealWeightSafety-comparator.log",
+      "sha256": "ff265cf30bfcdf73746e329a626f9dc5f2fd6d1bd92c8cfb680e87e953114db2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__RealWeightStep-comparator.log",
+      "sha256": "f784b19eea2b3d09243dbc0b00564146190a90434ae0bddc67f1764f5a20fea2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__RealWeightTrace-comparator.log",
+      "sha256": "f784b19eea2b3d09243dbc0b00564146190a90434ae0bddc67f1764f5a20fea2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__RuntimeForward-comparator.log",
+      "sha256": "f784b19eea2b3d09243dbc0b00564146190a90434ae0bddc67f1764f5a20fea2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__SavedAliasInhabited-comparator.log",
+      "sha256": "f784b19eea2b3d09243dbc0b00564146190a90434ae0bddc67f1764f5a20fea2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__Settings-comparator.log",
+      "sha256": "f784b19eea2b3d09243dbc0b00564146190a90434ae0bddc67f1764f5a20fea2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__SourcePair-comparator.log",
+      "sha256": "f784b19eea2b3d09243dbc0b00564146190a90434ae0bddc67f1764f5a20fea2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__Storage-comparator.log",
+      "sha256": "f784b19eea2b3d09243dbc0b00564146190a90434ae0bddc67f1764f5a20fea2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__StorageAccess-comparator.log",
+      "sha256": "f784b19eea2b3d09243dbc0b00564146190a90434ae0bddc67f1764f5a20fea2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__Proofs__StorageImage-comparator.log",
+      "sha256": "f784b19eea2b3d09243dbc0b00564146190a90434ae0bddc67f1764f5a20fea2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__repairs__tritonbench_g__fast_rms_layernorm__SourceParameters-comparator.log",
+      "sha256": "f784b19eea2b3d09243dbc0b00564146190a90434ae0bddc67f1764f5a20fea2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__tests__AttributeCastChain-comparator.log",
+      "sha256": "f784b19eea2b3d09243dbc0b00564146190a90434ae0bddc67f1764f5a20fea2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__tests__FPStrictMeta-comparator.log",
+      "sha256": "f784b19eea2b3d09243dbc0b00564146190a90434ae0bddc67f1764f5a20fea2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__tests__FPStrictRuleBoundaries-comparator.log",
+      "sha256": "f784b19eea2b3d09243dbc0b00564146190a90434ae0bddc67f1764f5a20fea2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__tests__SignedRangeCallBody-comparator.log",
+      "sha256": "f784b19eea2b3d09243dbc0b00564146190a90434ae0bddc67f1764f5a20fea2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__tests__SourceFunction-comparator.log",
+      "sha256": "f784b19eea2b3d09243dbc0b00564146190a90434ae0bddc67f1764f5a20fea2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__tests__StatementSourceFunction-comparator.log",
+      "sha256": "f784b19eea2b3d09243dbc0b00564146190a90434ae0bddc67f1764f5a20fea2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__tests__ValueDTypeBody-comparator.log",
+      "sha256": "f784b19eea2b3d09243dbc0b00564146190a90434ae0bddc67f1764f5a20fea2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__tritonbench_g__fast_rms_layernorm__Correct-comparator.log",
+      "sha256": "f784b19eea2b3d09243dbc0b00564146190a90434ae0bddc67f1764f5a20fea2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__tritonbench_g__fast_rms_layernorm__FPEquiv-comparator.log",
+      "sha256": "f784b19eea2b3d09243dbc0b00564146190a90434ae0bddc67f1764f5a20fea2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__tritonbench_g__fast_rms_layernorm__Kernels-comparator.log",
+      "sha256": "f784b19eea2b3d09243dbc0b00564146190a90434ae0bddc67f1764f5a20fea2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__tritonbench_g__fast_rms_layernorm__Proofs__BackwardIO-comparator.log",
+      "sha256": "f784b19eea2b3d09243dbc0b00564146190a90434ae0bddc67f1764f5a20fea2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__tritonbench_g__fast_rms_layernorm__Proofs__BackwardMath-comparator.log",
+      "sha256": "f784b19eea2b3d09243dbc0b00564146190a90434ae0bddc67f1764f5a20fea2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__tritonbench_g__fast_rms_layernorm__Proofs__BackwardRun-comparator.log",
+      "sha256": "a7e89af26b7bfa461157d6d26f821cd2abc35e685acb541e261beef663d32206"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__tritonbench_g__fast_rms_layernorm__Proofs__Candidate-comparator.log",
+      "sha256": "a7e89af26b7bfa461157d6d26f821cd2abc35e685acb541e261beef663d32206"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__tritonbench_g__fast_rms_layernorm__Proofs__Erasure-comparator.log",
+      "sha256": "a7e89af26b7bfa461157d6d26f821cd2abc35e685acb541e261beef663d32206"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__tritonbench_g__fast_rms_layernorm__Proofs__FP-comparator.log",
+      "sha256": "a7e89af26b7bfa461157d6d26f821cd2abc35e685acb541e261beef663d32206"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__tritonbench_g__fast_rms_layernorm__Proofs__ForwardIO-comparator.log",
+      "sha256": "a7e89af26b7bfa461157d6d26f821cd2abc35e685acb541e261beef663d32206"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__tritonbench_g__fast_rms_layernorm__Proofs__ForwardRun-comparator.log",
+      "sha256": "a7e89af26b7bfa461157d6d26f821cd2abc35e685acb541e261beef663d32206"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__tritonbench_g__fast_rms_layernorm__Proofs__MathBridge-comparator.log",
+      "sha256": "a7e89af26b7bfa461157d6d26f821cd2abc35e685acb541e261beef663d32206"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__tritonbench_g__fast_rms_layernorm__Proofs__RealExecution-comparator.log",
+      "sha256": "a7e89af26b7bfa461157d6d26f821cd2abc35e685acb541e261beef663d32206"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__tritonbench_g__fast_rms_layernorm__Proofs__RealMath-comparator.log",
+      "sha256": "a7e89af26b7bfa461157d6d26f821cd2abc35e685acb541e261beef663d32206"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bench__tritonbench_g__fast_rms_layernorm__Proofs__TypedExecution-comparator.log",
+      "sha256": "a7e89af26b7bfa461157d6d26f821cd2abc35e685acb541e261beef663d32206"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/body-corpus.log",
+      "sha256": "deee1961e54353dfdfb92d3f7df68b3d18f8d09b4991151d7037396b4be0e63b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bridge1-driver.log",
+      "sha256": "1937855ff9772634676b9a5e647e135c5b0839de65d03e2369feeaf5cd3b6e8d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bridge1-modules.txt",
+      "sha256": "37a639b3b4cabca02a569cff69128270d37d0c13dbe12c9f99ac44c27b59805a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bridge1-plan.json",
+      "sha256": "6578f6b0f91f4efe98fe5ec8246e1abab3d1a5bedc0d614cc33b25a546fa3994"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bridge2-driver.log",
+      "sha256": "23586002c1cc69a395fd9bec4f3951d8fa8005ea7b80b34ea6bd6eb5b6ac3b97"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bridge2-modules.txt",
+      "sha256": "b149b710194d2d0ff34acad82ad2b5cac5503cc6bf1f3bd46e16e58bd7902f39"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bridge2-plan.json",
+      "sha256": "86fb0f1a8593ef78d81d6c1d81232afe86a726abf9fd7fb7de16dc7066938e49"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bridge3-driver.log",
+      "sha256": "376feb8bcb54ca6761781a6b50a838f6411216f55cbdbbbc8323f67e5d8a6a9b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bridge3-modules.txt",
+      "sha256": "f54bfe08d99245c5ae6b8ca0c87f90a49117b0e25b1a09983249adb46b738732"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bridge3-plan.json",
+      "sha256": "9796ba21d1f9e416493342e466a6c18deb829017785df90b808f94d5af12d256"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bridge4-driver.log",
+      "sha256": "48493e2dff673298fa2f5f46a264587a7647db917da379467e0cb5ec0e2b37f4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bridge4-modules.txt",
+      "sha256": "8e6d256804adb0381fe21413de4ded1514d59f267fb6336cb58ef4e6e71e674c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/bridge4-plan.json",
+      "sha256": "6e23afb32e87e82cb371431cbe236863f21d17ce116b6b7176769bfd3252c4a3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/clean-build.log.gz",
+      "sha256": "3ab9267ce88101a90a9b595707f7baa65412ebd5691a7ad0d54a86e139020561"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/clean-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/clean-sync.log.gz",
+      "sha256": "22fb0373104e8843d0a05cca09d136fd1853b86d2bf6385e8b74ca7a2f55fd38"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/clean.json",
+      "sha256": "7e55631866d781b0e4fc9ffad13ca055011cc126fe057af09024524a660e4a07"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/code.txt",
+      "sha256": "942a126c2ab77c2b68b42fa4687bd152ecc60d38d722776e9847381735b68923"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/comparator-invocations.json",
+      "sha256": "df7c1a2cdba88a947b13c95cf8b897e7abe0204b7492cbe9b13c727d38a5c2ef"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/comparator-tools.json",
+      "sha256": "28998e17d51b0fb5930f7489e64512a57f8a8146d1470063a624a75bbabdb0d3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/copied-source.json",
+      "sha256": "e9fdd5ef6fd3207e30a107fad8c0effbd5d135f116244a0d10000e06fa238c67"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/corpus-guard.log",
+      "sha256": "deee1961e54353dfdfb92d3f7df68b3d18f8d09b4991151d7037396b4be0e63b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/draft-body-check.log",
+      "sha256": "80485ebe5cdd5b21cb6f4c2958e3d3e4533bf605524cfdc4cc5495d9cb3792f9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/draft-body-check2.log",
+      "sha256": "b4fa2c4501e91d1a66026f97f56eb4f15ec5f7fbbaffce1c7761ff2558ebcd7a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/draft-body-check3.log",
+      "sha256": "f011c6e0ae9f3dc2ee99340bea29fcaa043d36dca256295fc3883513f3f0c8bd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/draft-body-tests.log",
+      "sha256": "f1e6f8cd8480cf23fd755d1a9b0028f029c6ccecfc70725f44e21d5587fe29b2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/draft-body-tests2.log",
+      "sha256": "d3ca52e7da3247f198f464819e6be27566dbbd273eddad37df444e5d3a287403"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/draft-body-tests3.log",
+      "sha256": "771dcb69cad7d0fb2ff1f9f4ec638c5fda9e3b7e7d22095934b5942b2463e021"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/family-modules.txt",
+      "sha256": "b8b57e80548203e1f976fe69b3fefd5aca7d4e3ff2881ac4d4015559f5c8a7ae"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/family1-driver.log",
+      "sha256": "8a77acef57513bbb02903c0ebba3ee4a90e554ac280f36fc5a17a8fcd968005b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/family1-modules.txt",
+      "sha256": "8ba9220c29634f949420707554d576d2c6cdf856f51033dbb0d81ae8b9e26730"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/family1-plan.json",
+      "sha256": "fd61b7a9e83dcc3867236ada8cd445f3e8254282a8e71282d8bed9d25b9c9613"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/family2-driver.log",
+      "sha256": "f2cf14b4ed66e956419da18868491214dd44142720bcd31fa906e108d4b23f51"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/family2-modules.txt",
+      "sha256": "c10dee951020b199eea5913b05428b925686f82c47d5c3e8d633ba846c6abc4d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/family2-plan.json",
+      "sha256": "d1bc88aec74267ba928c6e5757f02f765eac4f0ec4306e7d5b34000a4c3ccbf2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/family3-driver.log",
+      "sha256": "9aff0f0aface3d261d8366149209d7d27e97e7f9b946217c4c054504ffe33ea4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/family3-modules.txt",
+      "sha256": "ecc62b0d1ac7d0c70b17af7a97d7218c0800937d9ff8d82d847efd85857bff77"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/family3-plan.json",
+      "sha256": "16b5748d202c2a4b0b201f37b45ff748e9a33a3d8825044e21d36704d9a3a885"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/family4-driver.log",
+      "sha256": "988cf005500ed2c3a7925d71d68af9c796720e97c5b78714f00c8f8c5d479b0a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/family4-modules.txt",
+      "sha256": "ebbfc8f95f9961e686211981c4ec56a0a80a0327fbfa97a44c38f30a4b07e5d1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/family4-plan.json",
+      "sha256": "8c7a7095535f1a898122eef08288e28bd36fad2917e487b0ab3e5ed74d363472"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/final-body-tests.log",
+      "sha256": "62f67c313d8a5c5b2836f7cfc93f186393741a548f1380a2e9aa55ea95990c80"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/final-joint.lean",
+      "sha256": "e05ec6f090bf439709f8a7d48c151e1a0fdd8e20f4739862c8dd39da3d79d067"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/final-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/finish-frontend-driver.log",
+      "sha256": "e4cd75cd8c7e9a16e8e126b05ae2a799ae5f58b82ab2afa3c7a6a5a90545ccf4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/focused-modules.txt",
+      "sha256": "17df01d9104fbb7657f521f405a3c39169a9d561df1c283df9b3dfc4de5d6f6a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/freeze.json",
+      "sha256": "8304f1583d54c58c77f23587d76d2cd181296e11faab8249754c167911c23b00"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/frontend-plan.log",
+      "sha256": "037a5de0bfbbc892eb20373032ec384b0cc0cdecc97a713b717e0eb28b0989ef"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/frontend1-driver.log",
+      "sha256": "fef7bfcfbe7881e7af6a3640a7016bbe7ddf97cfacfb0d3581c299e43128d990"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-fastrms107-bridge1.json",
+      "sha256": "cf96aa807390a1efc082a348344db4146f85bcc4ead5c5f40c95f886657d4f0c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-fastrms107-bridge2.json",
+      "sha256": "865fc13ecefbccdfe5ae3166f8b95874e17619150ff6e5a57aaf37f8811c0a4f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-fastrms107-bridge3.json",
+      "sha256": "bdf0bf9a40e946702fcfd5917441048dbe230e471667def34b6d1699a4c29ca0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-fastrms107-bridge4.json",
+      "sha256": "bd1e608995d1b9342ff6f28529a0af975184638e49f416373a34ab63366a988c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-fastrms107-family1.json",
+      "sha256": "5da3baabf8b77891dfbc030b8f710d9e087dcabf3b572a7d114aed8a13eb92d0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-fastrms107-family2.json",
+      "sha256": "796de22746c00adc0c605df6c4241311c2942065cc1977e791256001dcd121ca"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-fastrms107-family3.json",
+      "sha256": "8187ad2757e045e4fcf400fc3c79e08ab336751d2fc0e90f449d1c390c29a742"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-fastrms107-family4.json",
+      "sha256": "58b01b4044e03110af17aab951e1d5612b7755666ec5dfc9d57850b4539c525c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-fastrms107-frontend1.json",
+      "sha256": "cbe74c44c149d965b3ed68326b4d91adeaa4332b5186fa7955f7ab83f3c31c0a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-fastrms107-prefix.json",
+      "sha256": "4d8228f621f251fcafaa7037b9d6e25cb3f333d4dc5e9839e9689ceffc1110ee"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-fastrms107-safety1.json",
+      "sha256": "5e6a1baa5c95123cc1fcda5201d330240dc59a97aea8c4bf528e3fcb6e30d0e6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-fastrms107-safety2.json",
+      "sha256": "c2306420184deff6042e973565e1aff534fd83a8c9da0e581faaedc21975b6a0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-fastrms107-safety3.json",
+      "sha256": "03169feb8c39aa85c6f1c068a945a9342af2233d2a61597c069308e30c8f24ee"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-fastrms107-weight.json",
+      "sha256": "e8225ee51a0cfd0cb2de53a27bcfed4c7c5551ecec5daccf0fc5af2ad54aefda"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-fastrms107-weight2.json",
+      "sha256": "c347f00a793dbfb428c16023d32eb9fee4e620a7618caf0476a963a65a70d509"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-fastrms107-weight3.json",
+      "sha256": "fdfdd69e4c20c22bbdfdc11c025c5235c7fa3fe860411a80f64dbe875d216f76"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-Audit-1793228597833808613.json",
+      "sha256": "1ecf106ca1f4c66582f4fc5bc5e490cd3fcbe8b4715433383c814c5a8ee1039e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-Audit-1793228597833808613.log",
+      "sha256": "2c64c8669db4e83f5eabe5fe9759629caea8f3685b8491903aacdc216d49583e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-Audit-1793228748677088057.json",
+      "sha256": "3c9e264a8157007619b1769c7c404f94260718d666a2fcad7a2193b41c34b400"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-Audit-1793228748677088057.log",
+      "sha256": "582d46cf1625277bf14298fa1f9d43dde4f871f881ce6a1fc1c71dd5abe19fe6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-BackwardIO-1793228129575456554.json",
+      "sha256": "c20c5f1f83958740040070ea95465b2786507228f55795be39e17f95b98c26be"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-BackwardIO-1793228129575456554.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-BackwardMath-1793227659989828940.json",
+      "sha256": "3262b236d4e6bdeac6903fa9188b4931b1c6029900736e039dd51f50b432cb38"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-BackwardMath-1793227659989828940.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-BackwardRun-1793227483011388593.json",
+      "sha256": "999314d23d7f85e776b81910c0b057a866fdd1e767d4306dd21c9b97a33b22f9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-BackwardRun-1793227483011388593.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-Candidate-1793228113862761930.json",
+      "sha256": "f490c7a5f0f6495de82f74dbf23157f0e71afa4c667f665c57151f79a1d6a3b8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-Candidate-1793228113862761930.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-CheckedHost-1793228057467935144.json",
+      "sha256": "b7441b557f53af227fd78b70661bb35e2fae327b057b7e1eee9bfbc6a8a9047f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-CheckedHost-1793228057467935144.log",
+      "sha256": "2e2099d78fd4f7879fd419788502c12d14f93f472fe32e9cc4a3c5f6c1d40fd5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-Contract-1793227134552626487.json",
+      "sha256": "d019b7cd8b92360b0fefa13f7125084124c4e8e3bf7d2a668820167b03abccbf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-Contract-1793227134552626487.log",
+      "sha256": "cb3abae784883e9f614ec5fa69d815ddcfa226257a48a26ea1d206a73bbe74c7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-Correct-1793228136533268535.json",
+      "sha256": "5556aa55cbe8736fa3fb1f4ecef2ec1384ee51125ffa5b96e149506194dcdd38"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-Correct-1793228136533268535.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-Correct-1793228590377551462.json",
+      "sha256": "f0d398e46d599e2a115f13e0dd920048a2c2dbbdc3f8dc37532310ab9b204692"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-Correct-1793228590377551462.log",
+      "sha256": "1103684e9ecf1391a1ae093170b7130df956d7c47e45c7aa29594c5dd928daf2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-EntryInputs-1793227986770697151.json",
+      "sha256": "5e332acaef3158ad3f994b2471e26fb328ae3d4feabca7e5bb76eed2e6a2fb3d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-EntryInputs-1793227986770697151.log",
+      "sha256": "f0a6dd713ae16c84dec7226ed9b979b5af5846a28ba2b1831775675f8d6fd454"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-EpsilonABI-1793227946207378401.json",
+      "sha256": "92c6f601d54a88e73163053d39d419dbc8c8128a07fa5a690173f10a0225c6de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-EpsilonABI-1793227946207378401.log",
+      "sha256": "83505962e11cf0dc6d161da569eff7ff5763eb41f83e8d9619eb132f2648bedd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-Erasure-1793227414659653685.json",
+      "sha256": "8ec5f3bf527408ce7b5d4fcc2da56d8d1bac8bdf5d30e094c4119617a2c2c233"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-Erasure-1793227414659653685.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FP-1793228161983783617.json",
+      "sha256": "4efc59dbc9c04e442e12d9f922ccbd95c3f69e6c5d63406da8a3a1633530c66d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FP-1793228161983783617.log",
+      "sha256": "a22ebe577bf2bdc0f071efd74739d8da0a12de5b152bb07d7db5d6563261ac89"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPBackward-1793226958592631678.json",
+      "sha256": "49665d9648deec3cb9953d47d7e1fd19eefb22e545603054fdc53aa07bfb073b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPBackward-1793226958592631678.log",
+      "sha256": "f77252b3e45e484ee048db7c4d8463c5051f4f744f356d56b5734ad82ef51407"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPBackwardMemory-1793227159297592721.json",
+      "sha256": "c883eb1818662b4b904a0ead791d1caab60dfa6eaab2c83e57147d4877a5a39c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPBackwardMemory-1793227159297592721.log",
+      "sha256": "6727b332affb7a8f08b3c46b1b44a0333bfc635e841ea480c8e1331a4dabd14e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPBackwardReference-1793226953735551378.json",
+      "sha256": "3d160fe4a448e5934148ddc42139778d11acb5ab42443eb11399cff1a68e19bf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPBackwardReference-1793226953735551378.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPCurrent-1793228084272684461.json",
+      "sha256": "bde7c691b9d2dd1d3e8df64a5532ae89d1b4f4b30b91931bf632da4d4846806c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPCurrent-1793228084272684461.log",
+      "sha256": "47e8bef47f6d74fbf016ba939d9a35e7845c7b47c9232738b7b77d273fd78ae0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPEndToEnd-1793228077225770418.json",
+      "sha256": "ec90d9822c80c5665814f13943791c5c0e22068e49e987f9dff11fb6d8c9a986"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPEndToEnd-1793228077225770418.log",
+      "sha256": "bc80c94c0b7cbaff3d7e88962cf92d10e94577ca03008a4807559ad12e0a0b83"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPEquiv-1793228174992304045.json",
+      "sha256": "f537480ddba3b4b62f48516da2bb76b65836c71bc91add26fbabd6d91aa3220c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPEquiv-1793228174992304045.log",
+      "sha256": "9e36aca5c566da207738bd7d94b6585d75a9db346b08231b8d655aff72695413"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPEquiv-1793228486261407159.json",
+      "sha256": "f1860b70d40a53c6b26899b1e38a2dcbd0eef4d4ae7dee57962760162cf0b809"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPEquiv-1793228486261407159.log",
+      "sha256": "7f8c2981c23f0aa12e91540ad98de974dd912c975ee75bb8e8bf5746f002b6af"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPGridBackward-1793227164739723895.json",
+      "sha256": "bdf43584e0d2a296895d8fa3ec10f191d111530342270cb3e089f4a3f5beafbd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPGridBackward-1793227164739723895.log",
+      "sha256": "f16f412ed8f5e7efd4daa050d241393ea4f8c7abb8bf5c8c38a42b45b3c77259"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPGridForward-1793227153262783083.json",
+      "sha256": "b7e1613f77c559ff58f11e1c1f2db2108900dc23dcf3fb53e4876e36914ca7c9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPGridForward-1793227153262783083.log",
+      "sha256": "0f8a94c16d1e1f5276ba0269e741c9a9af99b95f7b0168ea380b0f3c1b26fdd7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPGridWeight-1793227772197934584.json",
+      "sha256": "fd8dbc2c3bcb2bc81433f18ff562a5c61fd92dbddac2d703a6d99fb23d8a732d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPGridWeight-1793227772197934584.log",
+      "sha256": "c2d1ecda21f802e44bd7fa4ed09e60a0aa0ed4d533927018c301f9d107bb32b8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPHost-1793228080231370649.json",
+      "sha256": "956cf3cbf3a12ff8608d6abec80e5f4a4736d82448c367f8476cd323c05ec9bc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPHost-1793228080231370649.log",
+      "sha256": "fe5bd94c8c79b544829bb81ecf59cf0286e9056474688db6e91517a68bb48fe7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPMemory-1793227068371149837.json",
+      "sha256": "0707dd661f2f834c82b3fa9fccb7afd4bbab120aa06d5ebed1fa805359319ea7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPMemory-1793227068371149837.log",
+      "sha256": "ff0f750b0a8bf8959224e38d05d4c4495eb73ce3e2152e8e2a7f302ce1cc793a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPPhysicalFrame-1793228093232733174.json",
+      "sha256": "41310ef42d544e75238b634746cabe27d7188804b649ea88bdb79689b110a18c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPPhysicalFrame-1793228093232733174.log",
+      "sha256": "ea7773cd1344ffe8dc01de0038d2ef83422d4ef12cd67a0e96b9c2d9f6024b5a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPReference-1793226918674385220.json",
+      "sha256": "6ed710233e0da807b42ebb986b52450d82befcc57b0f6682f63bf7f8ea3af578"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPReference-1793226918674385220.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPSequence-1793227775053887736.json",
+      "sha256": "b7441130779825868fe53d2b4c0c862293d91b14e8cd13eb378e7c095ff62b37"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPSequence-1793227775053887736.log",
+      "sha256": "463671526a102f78ada362bfb333017fc1753ffa6b9f7f692831de97bd386156"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPSource-1793226923606339193.json",
+      "sha256": "de5ff6b45a81572afcc0c2e6245abfd3fb3a63cbd1c0396fce6d08948ed04668"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPSource-1793226923606339193.log",
+      "sha256": "89f214eec1c2ba028a1c8e1f658e72ca1f88009f8e88357b013ce5a1f92b757b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPTensor-1793227781165078965.json",
+      "sha256": "4882b38f225d9247ca3a497cb45095c49039639f05dd5f86cd9b6bb15403c5dd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPTensor-1793227781165078965.log",
+      "sha256": "494bfdf6e6f796f622e83691da38235143c73630f34dd8970a89299b0a0aadee"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPTensor-1793227823843697934.json",
+      "sha256": "b45e2759a6bf6d282d98ab2edea9e9506de87f627c8e02103aa34322cc13d795"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPTensor-1793227823843697934.log",
+      "sha256": "b443d3df0a50cbd978a6e44e19735bdc49cadc87422363fe880e2db13d28c5d8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPWeightLoop-1793227563053828069.json",
+      "sha256": "6cec9d8cb3163a2e1a4fa7189859514783ef9d77781005d3a82138cc0c1a4959"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPWeightLoop-1793227563053828069.log",
+      "sha256": "eab3aeb62cbb9a566331bf10b0f469443516ee01cd43d927c30c9a6ffddf1751"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPWeightMemory-1793227566209713189.json",
+      "sha256": "889c3515ea71c8d971709da94d6b981fded3d06c10793d98e762e5fbb756fb75"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPWeightMemory-1793227566209713189.log",
+      "sha256": "56e530b9ba24334b73c83e87f322dd54f660e0c0c40794a3063fbcc8329309b4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPWeightMemory-1793227643762589077.json",
+      "sha256": "e857e07d92ba4ace621950444bfcc4ee2fa0cacbb34aa170dfd15d606d4d0a11"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPWeightMemory-1793227643762589077.log",
+      "sha256": "a7149eedb71666408dd7a1e2fb093032a99292a2fc52683b9f0cc009f960ff10"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPWeightMemory-1793227687226937603.json",
+      "sha256": "53ee08fef412f97dbd147fba5d1c58542c690459aacc994b7a9e5e43ab8ae012"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPWeightMemory-1793227687226937603.log",
+      "sha256": "5448f785132853749e3bcec2ddca2710fb73ebc559b3ced626b9269ec21bdcc4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPWeightMemory-1793227769042807533.json",
+      "sha256": "3c4f86f3a62ecbbd721ede4b430fb14a63856dd15fd7760a82902803c75e948a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPWeightMemory-1793227769042807533.log",
+      "sha256": "832555cc38a7f68251547a7b2988bce5de9ef7865a97b6971c098aaea0d5e79d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPWeightProgram-1793227048108271799.json",
+      "sha256": "56b5bbd84688f36f529e22493c8f9e50b1847a7c61be768f22644567f01939f2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPWeightProgram-1793227048108271799.log",
+      "sha256": "3d566f3dbb807cabbb467e84de9935b75093dbc68c5ee23f5574075f77a8f1fe"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPWeightReference-1793226988988903718.json",
+      "sha256": "ddc24924c6f5ba212f399e5722e274571ea76a11e0b7e142f7ed924f1e7b3c4a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPWeightReference-1793226988988903718.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPWeightStep-1793227053211971868.json",
+      "sha256": "578d88efe8bf47f46b3d294037889025223f55c7e583e172ba126b5f01d94d15"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPWeightStep-1793227053211971868.log",
+      "sha256": "f9f0e0c051fedb76eb71d5f53c948e1e8d5e378a6f978316b91fff3663b6ce33"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPWeightStep-1793227196161387170.json",
+      "sha256": "875dc4cab80de5bcac4ce48555449a252d75d1f584c2cdbc7a41d111ca34f13a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPWeightStep-1793227196161387170.log",
+      "sha256": "4f552f6ee96c3f399390c65f708b4c266649215a6d4905089034e614d6c146a3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPWeightStep-1793227346934266537.json",
+      "sha256": "7540e52252f1af043b190076e6f94706da7ae1f2131f52b5ec349cb81acb17db"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPWeightStep-1793227346934266537.log",
+      "sha256": "1460e6fd5f8262d108084234a0d60b136227c3fa9e235566bd834d9b390bccc5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPWeightStep-1793227406247868278.json",
+      "sha256": "4311499a64c37fb743c7f0fbc2bcd6db50965aa57b0b91991cf85fb44170aaa1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPWeightStep-1793227406247868278.log",
+      "sha256": "d2fee05cf550004ad90030e5e794873ab300ed807530ba54e5606b3d977f9847"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPWeightStep-1793227554694594528.json",
+      "sha256": "daa34e3168718af6e47da5ff434f16922bd726b67dbad5c5f191ac51125010fa"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-FPWeightStep-1793227554694594528.log",
+      "sha256": "39d501025a818ce67b569b7565a5a0badc44d2e29d99e59409a9b1a56d712edc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-ForwardIO-1793228122719335186.json",
+      "sha256": "9f4ea8b0f5f463a7f65bda5bb0691c245ab7789881efba0b09b35c7ce9336d19"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-ForwardIO-1793228122719335186.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-ForwardRun-1793227479655190223.json",
+      "sha256": "b3c3e68bcdeb0afed161325f9b1a354ef77e6609423972d01e78f741bdf62c36"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-ForwardRun-1793227479655190223.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-Geometry-1793227104200203795.json",
+      "sha256": "53f616a04e3c7bf4f527a08a0a69b742b677c366ecfa3d5719e17f2433d4e60e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-Geometry-1793227104200203795.log",
+      "sha256": "92e08f3f14f4101f5528cc2085da37b8a28cf2da44b54ee821ec60dc97150171"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-GridRun-1793227150768283761.json",
+      "sha256": "d2234e00e8114fcff6420829aa91567d4f85a9efb588c7f681516c6bb66335a6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-GridRun-1793227150768283761.log",
+      "sha256": "ed00102fa7165ba420dcf3f6cf5cee539b24b7900f94030201129ff531fdeb86"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-HostExecution-1793228041545482469.json",
+      "sha256": "56b369697e0cdd8f77ea50b7d63634295121fc0b781652bd9b41b4aaa6115091"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-HostExecution-1793228041545482469.log",
+      "sha256": "55c856b37d5e6c1e4ad5b8b2d0545f7dd158fbd89c39b9171e0c968c44cdc0f9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-HostIdentity-1793228054763109650.json",
+      "sha256": "d18c8a4112aece7cc4beef136eb1754679cb99046f494fa0799a6bc90ba28721"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-HostIdentity-1793228054763109650.log",
+      "sha256": "2dc9ab35aad3c6654db6d8d43623707c1c2d900469d80f023c646900ce43ac89"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-HostMetadata-1793227123476138224.json",
+      "sha256": "08f74a5b64e736a5050314fb286e949bb5a609f67b2f17ed92f7b690462736cf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-HostMetadata-1793227123476138224.log",
+      "sha256": "b1126c2fabbc6b63a4ebebcac01370aecf1d26f379a7727c3a8360e2588af64b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-HostStorage-1793228051608410427.json",
+      "sha256": "319a8bc12203ad99018c5afe01256c2b11d7af60670969c313d6fc9a982567f7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-HostStorage-1793228051608410427.log",
+      "sha256": "51e8174965e5e6df08c9b8556da79da23e63cbbc27cb795a0a71781d08640369"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-IO-1793227990075419118.json",
+      "sha256": "c17a164d3fa9419624a0bae6f3b8c8832eca3bc0504bc19c0b3f4d261778e916"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-IO-1793227990075419118.log.gz",
+      "sha256": "bbb1a34b1eda13feebf3ef1dc00729d51897422d73d1ea73bdd9d89347228ab1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-IO-1793228457381672761.json",
+      "sha256": "1db0cf85e048419e6db0c2077e93fc3ef02bc6d5095cd5da71fa6363a72cafde"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-IO-1793228457381672761.log",
+      "sha256": "4ba2eaebefc6e80df535817537c542bd63f5dab60467e7c1ff3cb8020820bdd3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-IOBinding-1793228468091997592.json",
+      "sha256": "6b56fbfb1cca53dff125f4dbd2953a41835bdd06b35f605e4727350ee0766c0f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-IOBinding-1793228468091997592.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-IOBounds-1793228471133252427.json",
+      "sha256": "239b5aa349ee40524db10409eb1f76404e4708f1f04004afe8318cb6a4715b06"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-IOBounds-1793228471133252427.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-IOExecution-1793228465487017648.json",
+      "sha256": "15d06330831b0f9abb9711b17fb207058008688e1dd80616675223846c883d75"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-IOExecution-1793228465487017648.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-IOPair-1793228483606343173.json",
+      "sha256": "31b42e2ddd7f50e422e8abb3ed51b2b895d6e7e05a114005b1cffec7ba9ece3c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-IOPair-1793228483606343173.log",
+      "sha256": "4656213aa87c1b2920f8c372d820d47519663f3e23807f2beca46b7915fd651d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-IOSafety-1793228473938020395.json",
+      "sha256": "dde23ccb7c2b738c4836d81efe3f9db4624a19cef28ec6e2e046c7798f576162"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-IOSafety-1793228473938020395.log",
+      "sha256": "df6a937ed76c5469027b340b3a5d9a657eec5bc3d16d7c7f3bd4879efaf7dfbe"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-IOSafety-1793228577653989503.json",
+      "sha256": "02d3acb9b414a0ee6a9123f810f669c43e63d84d434e41a62aef6a6a331adc71"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-IOSafety-1793228577653989503.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-KernelAudit-1793228034588196871.json",
+      "sha256": "98c0baa5b08e9ef8148062ce26e4398bd32f1cb6418b198582d0003306382595"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-KernelAudit-1793228034588196871.log",
+      "sha256": "e68f40eee456b920e3ff964a7e8f4db798afde36ba0fccd205f849d457546a79"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-KernelAudit-1793228507246721176.json",
+      "sha256": "114b3e30c5445588c4e33b1abba4b577009d87dd34778d064c789502027f2936"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-KernelAudit-1793228507246721176.log",
+      "sha256": "ef555d298aa4c4fbd33a6305b1297e79e6bf5fee7847cd890126381f19041fad"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-KernelFrame-1793227778408958891.json",
+      "sha256": "d812c74fc47eb201454376b196a953310aeb75098df3ee5fac327c8696624fb1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-KernelFrame-1793227778408958891.log",
+      "sha256": "bf04fe65b703c5ac4bfd7a34fb01e4b8a7021cbcbff2dcb26ab5ca1e51ef23b2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-KernelStorage-1793227139647581359.json",
+      "sha256": "57e06fbc2ee2a3fa36c8cd3cf3c022e1c895d8eaa8412256400b3227f7d1658c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-KernelStorage-1793227139647581359.log",
+      "sha256": "d7bed01adcd425931078b5bd574efebbb3d158cbc1b2409bf7b3096d3b5454d8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-KernelTensor-1793227145418900329.json",
+      "sha256": "402feaaed9022ed8dafecc2d649aeb80a78392ad7f84ccdf643debc696132d21"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-KernelTensor-1793227145418900329.log",
+      "sha256": "0f1a9829190fbf0505b57cc96150e66e21f121dc2751c0dd5082cf7c1040156c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-Kernels-1793226891645263687.json",
+      "sha256": "2784e6d3bd7a073ae655454d6a8c2385dc6ea27ad4cffa6864901ebb205d8bdb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-Kernels-1793226891645263687.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-Kernels-1793226913466130196.json",
+      "sha256": "ed14ad593c7bf2f2110791124fe43f1f369e1a2c61f52a273b049e23c1be571f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-Kernels-1793226913466130196.log",
+      "sha256": "9c2d6571157dd0f74763632303f7986c017f7bc49d2e1f0d64b6dbcdb9c3b286"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-LegacyKernels-1793226908781730216.json",
+      "sha256": "e54dae015eb1800c36b74688a7af97a5593f104b7c7141385b6fdf3610f151cd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-LegacyKernels-1793226908781730216.log",
+      "sha256": "f07d143e4887031abc8e0f9a496ccbcdc9224fd939e2a7afe7c8ce12916a514c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-LogicalIO-1793228585132787411.json",
+      "sha256": "94a84a94f31bcdd570d44f9849193b19f125c34b6299c605b911419226c55cb6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-LogicalIO-1793228585132787411.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-MathBridge-1793227476350157540.json",
+      "sha256": "844d648fced5652cb46d5cf67db28f3079ec9d10b28ccb115e9959aded573479"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-MathBridge-1793227476350157540.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-Native-1793227099346658602.json",
+      "sha256": "8be3fa84e6fdbccb5b21967d5f0e7e8e924d427a3872881110e00141cc99fac3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-Native-1793227099346658602.log",
+      "sha256": "a72ddb1113357dc3208adb5cfaf6a567789925739dd6fd76759e112f5954320f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-NativeCorrect-1793228493340595762.json",
+      "sha256": "bcf0b0d1e150cc1fd6abcb1648e2a1d1f99ebbde54502ccd502ffc79f57360a8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-NativeCorrect-1793228493340595762.log",
+      "sha256": "fcf1df6afb93f6d131a7015b62440a8d64cd0543bd032d875abfbc1235c6a1e0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-NativeGraph-1793227982729142387.json",
+      "sha256": "51d4426cac4f5b366b5340b56aaaae12775335076cb4dddf9224a9cb88478aa9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-NativeGraph-1793227982729142387.log",
+      "sha256": "586ba9a5d21358b79cfec210a51a5e4349002386e7ea5db552967ecd0d26aa7d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-NativeGrid-1793227107302318980.json",
+      "sha256": "bc529abe53f73d0b4a949fce9b61262aa3bcc06f22bb1b990b19c51b74ed200a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-NativeGrid-1793227107302318980.log",
+      "sha256": "81c1b2e6dd849671b471a647c4aaf30f3c8f06db761fa0d904bdcce9e6f54ac4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-NativeHost-1793228088128098984.json",
+      "sha256": "0f754a535726ca50f08539dc1e98c92e86324b02c5d52490d40f37e9aee7925c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-NativeHost-1793228088128098984.log",
+      "sha256": "612bf702c3c77a1e1a18e633e8fa25ba80a580036a8da8745b95e4fdeac9e2b3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-NativeIOSafety-1793228476894642735.json",
+      "sha256": "8d32ed845b1c8776a872ceb47daf0b9516a6a2a8ff13b5f97e9b2c826d142c56"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-NativeIOSafety-1793228476894642735.log",
+      "sha256": "7c9d3b9ccfdcb7dba520f62f98b0ff1aed1f38c55886f09c9a3d015df370ab61"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-NativePublicIO-1793228479699430782.json",
+      "sha256": "69064474a8d9515796aa1cd1823e4a48b7824f9c86293bdf052a1f9faedcaa56"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-NativePublicIO-1793228479699430782.log",
+      "sha256": "1cce3d5050be9da1c4be2b26a74bb9257cac717061820bfddfeecba6b3bbc680"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-NativeReference-1793228490833657683.json",
+      "sha256": "98562f950f78d87c8a807df1eeacac0efa5ce33e4250162f3cce83b2ec8d027a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-NativeReference-1793228490833657683.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-NativeSafety-1793227843206451609.json",
+      "sha256": "397d4c8ce65fd570b68386eb8f39f4274d00b92ac07fcee1e9e415c4a2c59607"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-NativeSafety-1793227843206451609.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-NativeWeightSafety-1793227901737851795.json",
+      "sha256": "ef8f3d7de4dc3d60df2b3c49b155b83127791074e785e6e0bc8dd1cb28244a0c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-NativeWeightSafety-1793227901737851795.log",
+      "sha256": "557518042a79b193b9282b051604522c7ba4caa7eba935495651ba440439fc5f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-OptionalHostCorrect-1793228070069677864.json",
+      "sha256": "27ccd53781cc2c1df62f78e129fe02cc65d1cfd7d8bc84ef6d39a8d191c524fc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-OptionalHostCorrect-1793228070069677864.log",
+      "sha256": "2ee2b490ac8305ed977c091f438f462bc5cdd87f2abde25adaaf40d1ac1c0b18"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-OptionalHostFPEquiv-1793228096437373328.json",
+      "sha256": "6a769df5a01c6cebcfb4f18b4acbcd6459573dec9ef8b300f30ab39dfd6f9b6f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-OptionalHostFPEquiv-1793228096437373328.log",
+      "sha256": "b34589676d59d75b1602ad682d4e7acbbd79cfea0b3bf3b015c1fcbbea164def"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-PhysicalIO-1793228497297074421.json",
+      "sha256": "55859c92b3510ac35e023469664596438eb03559f6a842e65d4184ffbcd3aef0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-PhysicalIO-1793228497297074421.log",
+      "sha256": "7efc81ce70dd9bf8ca987f2d0a16b5113df78308af82695a96aa6779acc9df52"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RawCorrect-1793228026574744871.json",
+      "sha256": "81f4d7d11304589bd804d1a38ffbd6c1d71c8ea40b9cb76257b6059cef4b8036"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RawCorrect-1793228026574744871.log",
+      "sha256": "39e6513c17dfca1fb557fd84f0995d082269199b8202a5cca2b56ed276c27c21"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RawInputs-1793228020864494793.json",
+      "sha256": "34d9fdbfc857b8c1d41a3fb9317bbd3084605aceabb57761599a49694f33a99e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RawInputs-1793228020864494793.log",
+      "sha256": "baa038eabe41f5a4cc9f4068fcd97d46b3b69c6edd010227bf9f7a2745695155"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RawNative-1793228031081527070.json",
+      "sha256": "badcc71e7cf34bcd5749ad05233ddd7838a05383e7e9cd30395efac341908de6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RawNative-1793228031081527070.log",
+      "sha256": "21d9c70d71d9dc142e31d34893c4cd9f2be9f8202d118f3e9a5f6471351f1737"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-ReaderConnections-1793228587673187150.json",
+      "sha256": "bb3c31f7bc0d8c8d76a653b8a868379fc60a26f2df9df20409e81161bbeb22fd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-ReaderConnections-1793228587673187150.log",
+      "sha256": "7a6678757ce7ae72b3f292304c76ff2cbf8139d245011183a958d91efb6d944b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealBridge-1793227652728583212.json",
+      "sha256": "7bb9d9ffda0722707f2238e785835bcc6f3249ac5c7774505919f954cfca46b8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealBridge-1793227652728583212.log",
+      "sha256": "8b373f14475ba79a4b3a341062c93745e543b20f70c6a04a4cead246efa702e1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealCurrent-1793228061073118772.json",
+      "sha256": "50f1e124ae8ee74dc32d44dd8d83d02e57b6556c733d6987ed5fdc576ec5511d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealCurrent-1793228061073118772.log",
+      "sha256": "dc162381808af7ebad7b9049aed5c903f999cda754cf3f1b793d3d85c1db11db"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealEndToEnd-1793228012454238436.json",
+      "sha256": "d0fe949636d5b30b4db372d11b9cb371ac3765066d12b02d0d47958b55e27540"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealEndToEnd-1793228012454238436.log",
+      "sha256": "90654a47ef7aa7348bfa06fe478d27029c598710ddd53e55a0ed8f1b49340988"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealExecution-1793227442079830069.json",
+      "sha256": "0fc0d7d8c22b5c0f27ac34b19cdfa084cb87fef8cf353bcac67826f91cc0de9e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealExecution-1793227442079830069.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealGridBackward-1793228001736556248.json",
+      "sha256": "3639fd192a8da7abd4b7469a8c3ef9a2f9b36cc01471259778b8bc2fa12fac22"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealGridBackward-1793228001736556248.log",
+      "sha256": "56bedbeb84b89729f8937d328fff433d5a6fb74834d4b61124a09d321412ffcb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealGridForward-1793227998231857314.json",
+      "sha256": "486786147510ff7e93778c730aef6df9e83f4f40c1b903afd7777a41d04dce54"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealGridForward-1793227998231857314.log",
+      "sha256": "340d1673a075f762baf4a14ad09cc2750f781a3e42a1c7d0b8b5ed0c8a31ce29"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealGridWeight-1793228005243082847.json",
+      "sha256": "4be30b51894e8dd046c31e3e70de0e5bbfdbf2d8288f30c3829251434cbc959a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealGridWeight-1793228005243082847.log",
+      "sha256": "05fcb80d4042cc2c047f939f842266df7b9e197f4128d5c4168208826ba5dbbc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealHost-1793228044750787257.json",
+      "sha256": "d532ee3e6066a7162a966aab64ed9341becfa2de87fd7d79b5d31f5de20af2c8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealHost-1793228044750787257.log",
+      "sha256": "1d664b6dcc9195bea83faf13c1f7c789be4588cecc6378442ab4e2d7142f4565"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealMath-1793227473244967763.json",
+      "sha256": "d3d0c1849ec7202fe8ff3d209f99d6350b2fc528b875d1d20ca8ba74bbab3e02"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealMath-1793227473244967763.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealPhysicalFrame-1793228065614364333.json",
+      "sha256": "37b33f17fcb3e892636e340c65076fd24c270d7afc564b6e2389970ad391960a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealPhysicalFrame-1793228065614364333.log",
+      "sha256": "0967d20bb6dd7fcef996d9144ae5e02cd2af6fc3f1ee88154ded8a1747daaef5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealPublicIO-1793228580227523324.json",
+      "sha256": "11ba4e0d2f20c9d7d79affdba60a2a7620dfa7eeaff5666b352f7abe13c4c520"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealPublicIO-1793228580227523324.log",
+      "sha256": "7a80780f6f47130f3844a7340f72c0a27be885d83d8d77a3381f0b5c83255053"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealReads-1793227656834227267.json",
+      "sha256": "26dbf7ddb20c518862515155d466cc384ed7800a7b8c08944dff45baeee2e6a6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealReads-1793227656834227267.log",
+      "sha256": "c40e5a0b094eb07ea76485449b554d7deefdc8d106d3f5f0f993b83bcac70162"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealReference-1793227646821587491.json",
+      "sha256": "713e796c44096e6f04171009598153ee746527aa852045429c6eb787d77faa29"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealReference-1793227646821587491.log",
+      "sha256": "4fa1942c2b3d8c81400219c245463d0d7926f656eec9484ded20b15dfd60ad6f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealRows-1793227663496155269.json",
+      "sha256": "644504ef1cb5725384a31510bb5c2a8283af8d048d478d9246eac570316f0fcf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealRows-1793227663496155269.log",
+      "sha256": "106e415d97b19d677f5a597dd103ac1282428accbadac6029048029d26076934"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealRows-1793227690384702444.json",
+      "sha256": "2f0906b55d73411053a0a1d2ae169ae3dc1fc41a69ce0502361bcae8e7a0f8fa"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealRows-1793227690384702444.log",
+      "sha256": "07b905968f0f237178f6adeacd34f43a80cafa2a661907feb3f27510e7207c7e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealSequence-1793228008699477060.json",
+      "sha256": "0553623f087d9e2d412db432d08d5bd7ea7db5f2a2ef8a95b002baa14f4b7de9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealSequence-1793228008699477060.log",
+      "sha256": "4c1091d27e254ba9e270eec1bd947005c209319a858bb50d3b7739fc328919b1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealSource-1793227498521330452.json",
+      "sha256": "864f055dbcaf2024dc2acb0a4e295f27c2d648cb1c52e454dc18056cc9ec386c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealSource-1793227498521330452.log.gz",
+      "sha256": "7c48f59ca078d4437adc3f94fb8a7aa2b10f7bd4a60e34d35bd72c2e6db6ec5f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealSource-1793227569367705385.json",
+      "sha256": "1cb9df0b238b411a5241e41c855816d77c70e07dc73e35b7e385933974f5ab2f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealSource-1793227569367705385.log",
+      "sha256": "acbbd14c7e0441a3ddd91a987eab06ab55bc5557e0f80b52a16f75e2a04812ef"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealSourceSafety-1793227719337725401.json",
+      "sha256": "d55becb9109fc555d90744c68bf4426a758d9f90625aa5d163fb36e78becc8b3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealSourceSafety-1793227719337725401.log",
+      "sha256": "9a59fc3bc490a4eaaaf07f5a16ed2948ca99f6e37b5937af193db5d8a9396789"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealTensor-1793228016159049205.json",
+      "sha256": "1eef64424e3d3106b982f768a8af1269ab14e19aef8e8090f77f516a0297ef81"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealTensor-1793228016159049205.log",
+      "sha256": "71c275ba38eb820546406e05836fb1c1a48a17bea67db8ae1917a2fc8b3588b2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealWeightEval-1793227699847867325.json",
+      "sha256": "a13b3a4e481d6ef050c7164f46ccbfcf3f537847fb1a0cb52917f0d503dc3a4d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealWeightEval-1793227699847867325.log",
+      "sha256": "1e7871a4759bb7b96bf94f86ab8a7a24e024d94cdd2794ff030b40e77fc7ea61"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealWeightFlat-1793227915999810840.json",
+      "sha256": "caf0259ecd462c719c0f0dd4de527b4869b2030d9eeb50cafb9aaf0c0d7675ee"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealWeightFlat-1793227915999810840.log",
+      "sha256": "de4270c0aec9b549bccafbc3b53ca982c0fc47b2d2bfe6312c54712e6f905eb4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealWeightLoop-1793227711760400779.json",
+      "sha256": "ac4bd5af0cb937a9f43ce123de5486954b7378d3156c90c507661dfba3f31301"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealWeightLoop-1793227711760400779.log",
+      "sha256": "387ef6366338a02a7d649c28191841230c3eba6b930649b19284029132809ab0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealWeightMemory-1793227715765133847.json",
+      "sha256": "cdf534e2475f043b0f09ff800cc5f95285b2d1bcb070ab90eed116e16bf9833c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealWeightMemory-1793227715765133847.log",
+      "sha256": "fe0d61ecd390c440cd2b4580c442129c9bd9d19b9f6af81ee55bd21d0e631e62"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealWeightMemory-1793227784706976058.json",
+      "sha256": "857bc0055d80a8aae3f399c415117c66a4fbfab99ff65734aee34ee65bd35c04"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealWeightMemory-1793227784706976058.log",
+      "sha256": "a8cbcc61d1044257982f6f61abac94f4052fca88eea66a145e307b539b7454c2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealWeightMemory-1793227861515268611.json",
+      "sha256": "b27e9a3b98114de569668f55c84f2c45ced3cb2dc0b8f62fdfb0570d4310e961"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealWeightMemory-1793227861515268611.log",
+      "sha256": "92ea1706ceb0386adb2fd0d16433bcd306cabb2c6a67d87955be78e065b11b0f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealWeightOps-1793227599453705289.json",
+      "sha256": "caff07596a4df9c14352e3e5717e20b35b405bdd746fb486f5b1a827aef6a902"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealWeightOps-1793227599453705289.log",
+      "sha256": "16ff0892f7049020e5e98ac84ac978ab30dd95632908e903c82e0c83a4dd1419"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealWeightOps-1793227669404079277.json",
+      "sha256": "84d4b98a0927a08125a123ebee939ec4eac4c5af49f762b8986e4a2c5ec25192"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealWeightOps-1793227669404079277.log.gz",
+      "sha256": "75175e5798f76931bd558913db470d0c874bcdfa1d2bbe79b926600717aa7a76"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealWeightOps-1793227696341126941.json",
+      "sha256": "a790002aa198f047e974c59fb0e05c662f7e3a7aeef3e923723181a300364295"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealWeightOps-1793227696341126941.log",
+      "sha256": "70267aac0466fbaea174e0af6e82ff192891f196db82c08ecdb146df44ff7994"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealWeightProgram-1793227594947862345.json",
+      "sha256": "d514cfbf2c0a26bd557eecfcfc494602730b177fc56f1fdf45b3a0568b0ca0d7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealWeightProgram-1793227594947862345.log",
+      "sha256": "c159149fce95912dbd648846ff679c7d6985b3ed94bce0f879f687342c534169"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealWeightSafety-1793227865119299363.json",
+      "sha256": "c7ae207477075d44fc7bddc8d3f4c353b0bcd77efc1fff21a2d232e1ca070df0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealWeightSafety-1793227865119299363.log",
+      "sha256": "5f6b4b0fe8060cea4cfd20c768a2afb0697bf23c9767cfe2457611805778fbc3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealWeightSafety-1793227894531243202.json",
+      "sha256": "fb15b128a710a785c43679ad0673385798da571bf253f01cd15960e5bc973319"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealWeightSafety-1793227894531243202.log",
+      "sha256": "60a436a498517696b1915c6330fbc8ded61ab950ccaae1ee9e63595026252eb3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealWeightStep-1793227706354515236.json",
+      "sha256": "f90438019574eef2bd7deb110af69664b8752d2e9b4425533840daf17a7936b2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealWeightStep-1793227706354515236.log",
+      "sha256": "5c9edb0183899547837bf3effd4b122c9c4607d37407a6d06731d3431a481716"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealWeightTrace-1793227910894499854.json",
+      "sha256": "9ab2c053775206d8338b27ec6ca87a9758e92ae121433bacb336c8c20ad38145"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RealWeightTrace-1793227910894499854.log",
+      "sha256": "8a5659af2a4765bbe4bd556dc8847c9e78fb883f400a9f8388bc594e512fc730"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RevisionAudit-1793228106316396614.json",
+      "sha256": "501261f184965899f349f6ed7b5d7f0058a9300231f20feb043b07ac04cbdebf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RevisionAudit-1793228106316396614.log",
+      "sha256": "106c0839a1ba02bff9b1f0b8064c586823911889563c06a9a16a7a79ec648653"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RuntimeForward-1793227827498209161.json",
+      "sha256": "ff93e97ffc0415347e36f0561d05258e592edcfd04d8133cbffb50661980c9f0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-RuntimeForward-1793227827498209161.log",
+      "sha256": "7e00753ca55648cd917c3f9a45a95f768b1ae7f998c55bd551ebc08c64145ae3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-SavedAliasInhabited-1793228101010961774.json",
+      "sha256": "6be5a11a439dacd6f7584f55ede07b74c3da0464d0f4027da5a4f1dfc07bb368"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-SavedAliasInhabited-1793228101010961774.log",
+      "sha256": "7e48d413b4ec19cf2bdcc7fce612559c71b294106a202135409a9d9552d41e22"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-Settings-1793227074028153410.json",
+      "sha256": "062b266e37d00f24243e8c2d3be3ffa211e0c2489ab95a4d902ad7f1a17f6b17"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-Settings-1793227074028153410.log",
+      "sha256": "7d850217aebcaf65c7e02c306276a63476919e2316f0ad3429ccb1032ac5b1db"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-SourcePair-1793227212160245353.json",
+      "sha256": "3667d57418e9c97368db480785ee44055a155debbc68d17427bf48a071232fbc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-SourcePair-1793227212160245353.log",
+      "sha256": "2697432c6792d4947689f30849d45234f2528f311e872b94aed675241de8830c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-SourceParameters-1793226906602244405.json",
+      "sha256": "0d2e89e546c337a941fe6f835c3195896200fef38f7b5de8cf89fea678f80c98"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-SourceParameters-1793226906602244405.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-Storage-1793227112846782594.json",
+      "sha256": "155fef59faebdf2ebae08afb2014e82c33936dbb46d108342016e31a10614504"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-Storage-1793227112846782594.log",
+      "sha256": "a996286c95dc70ab5bd632b079923c067b25047971f0020a7516ddb918e4b46c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-StorageAccess-1793227919754916137.json",
+      "sha256": "2106a9b9f243ac4e775895d68261b72932b1b45ad7edcec8a4372390c1a778de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-StorageAccess-1793227919754916137.log",
+      "sha256": "2abafde12af0a665baea6fb5389260b98c81ebee491786dfbee81acc7ff30ba5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-StorageImage-1793227118480452831.json",
+      "sha256": "04caed12d46f89bcb38289194ecd20c9b20b4f92add683f3909f9cf8deaf1e88"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-StorageImage-1793227118480452831.log",
+      "sha256": "253ab4345ff0e5f993cda06f29455ee156cf80f417de9ae0081ddb1b70190221"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-TensorBridge-1793228501340621047.json",
+      "sha256": "2b56c6e1f9e09d0d79670c3b1521508504f77083f89700a68fb7c0e1385b62bf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-TensorBridge-1793228501340621047.log",
+      "sha256": "ec0cbc361d518b0874a208ceb0286dd154b6753f92aa0cead921fa9170dbea7b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-TypedExecution-1793228280242924503.json",
+      "sha256": "130c59d8f081c916a3a72cdb81518cd7ddc916bace8e88d6fbfdfdea64ac14b2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-TypedExecution-1793228280242924503.log",
+      "sha256": "1f01235caafa97c0c565fbccc25821667c0d5a2fcee9b307ae54f3196e500c91"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-TypedExecution-1793228517289769192.json",
+      "sha256": "62d1618222f5a47927199e034c53ca8bfcae1272f8f8a3e576241428e9907b8d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-TypedExecution-1793228517289769192.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-TypedExecution-1793228607792601498.json",
+      "sha256": "2ae7983f6bcf42970480b4c0e047309b0d71864ad60b6dea4650044f3ed84293"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/history-rwkv104-direct-TypedExecution-1793228607792601498.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/inspections.json",
+      "sha256": "41c2981ab862e7cc4dc89fe90e4ffb3d608b575f3e59e9f7562aaf37bc0a231e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/io-guard.log",
+      "sha256": "0f30b59dbce8b6a941f456fa71d69795b1865a876e70f3aaa8ba54be4f0dbe9c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/joint-all.lean",
+      "sha256": "25ed79a707fbdbb4c5dc0478dfa6eb578c4fd66cbe0df9cefd4656fcd4e8ac07"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/modules.json",
+      "sha256": "bf6801433ef85681f70ad58b164050cebcebb86c27269acf1af4d4c9cc4dacb8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/pairs.json",
+      "sha256": "336b51100d7d64af8362ace3a762d48f248353990396c41b7768a367b8302ba3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/prefix-plan.json",
+      "sha256": "578c6c64ccb127d2629206781bedc9a98093e35eaa9a5174f1cb399d5b9cf4e9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/previous-reviews.json.gz",
+      "sha256": "d22ea1ee5cb0ae8d27666cbfa140d0094e76bc4a3a6339bdd5bc3e965ed01198"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/probe-driver.log",
+      "sha256": "46581a598e2c57024925e56ef4703879e2afeb410aa72e258179c8fc93274e60"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/probe-initial.json",
+      "sha256": "03fd7d8f2be90c798408c72ccf42280ba528d5bf779c49370c253c42af53ab13"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/probe-initial.log",
+      "sha256": "2b685f257618e1c0fda72ec3bad02048a0c4d7c43c1e138eea8c0e2e5fdcf20e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/probe.json",
+      "sha256": "56b50234373239d2cbf0ad4c4e29d515e9c6fc705493741ea7dada9e7e14d633"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/probe.log",
+      "sha256": "d6586793fc698fef4f43004eff21f0b9e545800d6e46218018b8ce08ea5164d7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/python-invocations.json",
+      "sha256": "1c1b3204aefb8b33d7a54e3b71c0123e6cab033a073aea6a65b38de5c42d2cb1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/python-tests.log",
+      "sha256": "d474570c27e12a0caa707e1ae94ff900c6903d1930292b078d42b8242198f073"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/raw-body-check.log",
+      "sha256": "d9dd88642b123607fb0f7da68703be19c345f0de4eed6f8784eb00ced9bdca31"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/reader-guard.log",
+      "sha256": "d9b26faff45f491e7f11725a6806321e60d1bca058fc70ca625f9baef33f4182"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/safety1-driver.log",
+      "sha256": "8dde20326bbd3cf824762c93f023c23ec8894f6e5db79563043b2fa0c1b2a29d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/safety1-modules.txt",
+      "sha256": "0a0fc251d82a294588a5b009402a03bc815fcd92940854e20ffd928cc9fc0576"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/safety1-plan.json",
+      "sha256": "87f483a36ff36e8107af3750b022988b21115399cdb36df15b85351237cdcac1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/safety2-driver.log",
+      "sha256": "cc05ed3d3127ba0558447de515ce227732d02234f2d4a78a05278da332e0665f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/safety2-modules.txt",
+      "sha256": "1b91c3d05cb7c31bde5d910f628db3ec167fba8378910b6e5826ef9a9ab8dd84"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/safety2-plan.json",
+      "sha256": "ed9ed53f9e0e2356b569b8d0d88527931ec3acb3a6b4a3a090b82daaa7de4207"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/safety3-driver.log",
+      "sha256": "31e8f449e195860e7bee7b4ea13f7e0a8e864be07beed33174db3e99438e625a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/safety3-modules.txt",
+      "sha256": "f1ba7c91b37eaffaea402720ff4a35177dbee5033dcceb548d5ea8687e0410cb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/safety3-plan.json",
+      "sha256": "f22448f234a7f24ae15d2226a6b185717b42fe7b7db9132b682c3ff3fd91e125"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/source-closure.json",
+      "sha256": "4be9527c84207660d88e743899472f8020619883c62f469e354b7e193abc3493"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/source-commit.log",
+      "sha256": "9b11fad9104322bc952bb0e16205546d9e7fa700a37c3f442922566d3d7c8ff5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/source-draft.json",
+      "sha256": "35f1924dcbf76da9eea3379adf450b9a46bead5d5b69ea21b8b1e2a478ee3d6e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/stage-final-driver.log",
+      "sha256": "69dfbd3add6d54d935216c0b49b8560b803e127ca813d9d9cddbd13c0b7c501f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/stage-final.json",
+      "sha256": "3823918552853069bcfa81c54e9bc44e9500f185a352b7a03f6b6b19b2027b12"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/torch-dependencies.log",
+      "sha256": "87d9405c4a55de97f36059e8cb620351749c55abe86ed7b329988b7c32238fb8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/warm-build.log.gz",
+      "sha256": "736dc85b9561559afc8d37a2e6f0bb400c15616ed5a510c16f88ff383ce145c7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/warm-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/warm-sync.log.gz",
+      "sha256": "8a38fdc641a3653a774c3ac6ff853c9904b3955475d594dbdc7be7b8d2e94c0a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/warm.json",
+      "sha256": "57bcf82125ee18354fe0b82a4c94611a10f2e3aa6c77912cc69a0bb64b1714db"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/weight-driver.log",
+      "sha256": "3b357755de048aac3d52db13f6c3249cba1805480812af77751c68bdbe009795"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/weight-plan.json",
+      "sha256": "3bce802effdc934ad7ccfb6126219328fc2439db32462b00921e740a7c2db3dc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/weight2-driver.log",
+      "sha256": "5236e584868aba3a96168d6968ce0e9ac1dfb32ee77dc507875bdc4e564169f4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/weight2-plan.json",
+      "sha256": "6198d4e10177bc7664db318e157cbc4e6ea84b37b3aa4922d7b41bed4cc53b23"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/weight3-driver.log",
+      "sha256": "3e0f94957a13c004da32ace3480e71e812342f75dcb07ca7486e2dba9664b421"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/weight3-modules.txt",
+      "sha256": "9ff2f75060103ea2ec656d173489345bcb677e4659207a59a0948a5a6b252cb8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-fast-rms-function-bodies/weight3-plan.json",
+      "sha256": "11370c304c59a205d55dfe4d128a6b0a8ead7045dbed15e300dedd120db9cadd"
+    }
+  ]
+}

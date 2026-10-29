@@ -1,0 +1,60 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/IOSafety.lean:32:4: error: Tactic `apply` failed: could not unify the conclusion of `ForwardRun.trace_safe h.gemma { name := "y" } { name := "x" }
+  { name := "w" } { name := "r" } h.cols h.cols 1 1 h.cols h.block h.eps`
+  Kernel.TraceSafe ?bounds
+    (ForwardRun.original h.gemma { name := "y" } { name := "x" } { name := "w" } { name := "r" } h.cols h.cols 1 1
+      h.cols h.block h.eps)
+    ?u
+with the goal
+  (RealIO.job h «false» «false» (↑pid) h.rows).Safe bounds s
+
+Note: The full type of `ForwardRun.trace_safe h.gemma { name := "y" } { name := "x" } { name := "w" } { name := "r" }
+  h.cols h.cols 1 1 h.cols h.block h.eps` is
+  ∀ (bounds : RegionBounds) (u : BlockState),
+    (∀ (j : Fin h.block), ↑j < h.cols → u.pids 0 * h.cols + ↑j < bounds { name := "x" }) →
+      (∀ (j : Fin h.block), ↑j < h.cols → ForwardRun.weightOffset h.gemma 1 ↑j < bounds { name := "w" }) →
+        (∀ (j : Fin h.block), ↑j < h.cols → u.pids 0 * h.cols + ↑j < bounds { name := "y" }) →
+          u.pids 0 * 1 < bounds { name := "r" } →
+            Kernel.TraceSafe bounds
+              (ForwardRun.original h.gemma { name := "y" } { name := "x" } { name := "w" } { name := "r" } h.cols h.cols
+                1 1 h.cols h.block h.eps)
+              u
+
+case false
+h : Call
+bounds : RegionName → ℕ
+pid : Fin h.rows
+s : BlockState
+cap : Capacity h «false» bounds
+u : BlockState := (RealIO.job h «false» «false» (↑pid) h.rows).initial s
+p : u.pids 0 < h.rows
+⊢ (RealIO.job h «false» «false» (↑pid) h.rows).Safe bounds s
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/IOSafety.lean:37:4: error: Tactic `apply` failed: could not unify the conclusion of `BackwardRun.trace_safe h.gemma { name := "dx" }
+  { name := "x" } { name := "w" } { name := "r" } { name := "dw" } h.cols h.cols 1 1 1 h.cols h.block h.eps`
+  Kernel.TraceSafe ?bounds
+    (BackwardRun.original h.gemma { name := "dx" } { name := "x" } { name := "w" } { name := "r" } { name := "dw" }
+      h.cols h.cols 1 1 1 h.cols h.block h.eps)
+    ?u
+with the goal
+  (RealIO.job h «true» «false» (↑pid) h.rows).Safe bounds s
+
+Note: The full type of `BackwardRun.trace_safe h.gemma { name := "dx" } { name := "x" } { name := "w" } { name := "r" }
+  { name := "dw" } h.cols h.cols 1 1 1 h.cols h.block h.eps` is
+  ∀ (bounds : RegionBounds) (u : BlockState),
+    (∀ (j : Fin h.block), ↑j < h.cols → u.pids 0 * h.cols + ↑j < bounds { name := "dx" }) →
+      (∀ (j : Fin h.block), ↑j < h.cols → u.pids 0 * h.cols + ↑j < bounds { name := "x" }) →
+        (∀ (j : Fin h.block), ↑j < h.cols → ↑j < bounds { name := "w" }) →
+          u.pids 0 * 1 < bounds { name := "r" } →
+            Kernel.TraceSafe bounds
+              (BackwardRun.original h.gemma { name := "dx" } { name := "x" } { name := "w" } { name := "r" }
+                { name := "dw" } h.cols h.cols 1 1 1 h.cols h.block h.eps)
+              u
+
+case true
+h : Call
+bounds : RegionName → ℕ
+pid : Fin h.rows
+s : BlockState
+cap : Capacity h «true» bounds
+u : BlockState := (RealIO.job h «true» «false» (↑pid) h.rows).initial s
+p : u.pids 0 < h.rows
+⊢ (RealIO.job h «true» «false» (↑pid) h.rows).Safe bounds s

@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealCurrent",
+  "start": 1793228061.0731342,
+  "end": 1793228065.5752592,
+  "log": "/tmp/rwkv104-direct-RealCurrent-1793228061073118772.log",
+  "stop_file": "/tmp/rwkv104-direct-RealCurrent-1793228061073118772.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.NativeGraph",
+  "start": 1793227982.7291594,
+  "end": 1793227986.7310977,
+  "log": "/tmp/rwkv104-direct-NativeGraph-1793227982729142387.log",
+  "stop_file": "/tmp/rwkv104-direct-NativeGraph-1793227982729142387.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.KernelFrame",
+  "start": 1793227778.408975,
+  "end": 1793227781.1243,
+  "log": "/tmp/rwkv104-direct-KernelFrame-1793227778408958891.log",
+  "stop_file": "/tmp/rwkv104-direct-KernelFrame-1793227778408958891.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,10 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealWeightMemory.lean:43:4: error: Type mismatch
+  tail_executes h K (u.pids 0) v (carry h K (u.pids 0) u h.rows) inv.col inv.mask inv.acc
+has type
+  stepStmts (tailCode h K) v = some (scatter h K (u.pids 0) (carry h K (u.pids 0) u h.rows) v)
+but is expected to have type
+  (match stepForRangeIntAux "row" 0 (Int.ofNat h.rows) 1 (loopBody h K) (initial h K u) with
+    | some s' => stepStmts (tailCode h K) s'
+    | none => none) =
+    some result
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Proofs/RealWeightMemory.lean:59:0: error: VeriTile.Bench.Repairs.FastRmsLayernorm.RealWeightMemory.complete: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

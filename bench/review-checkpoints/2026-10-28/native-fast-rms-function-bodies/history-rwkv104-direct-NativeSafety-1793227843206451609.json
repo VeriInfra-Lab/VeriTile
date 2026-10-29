@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.NativeSafety",
+  "start": 1793227843.206465,
+  "end": 1793227861.4764462,
+  "log": "/tmp/rwkv104-direct-NativeSafety-1793227843206451609.log",
+  "stop_file": "/tmp/rwkv104-direct-NativeSafety-1793227843206451609.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

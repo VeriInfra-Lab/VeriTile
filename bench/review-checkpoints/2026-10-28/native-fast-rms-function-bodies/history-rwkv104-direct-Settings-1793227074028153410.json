@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.Settings",
+  "start": 1793227074.0281982,
+  "end": 1793227076.7945275,
+  "log": "/tmp/rwkv104-direct-Settings-1793227074028153410.log",
+  "stop_file": "/tmp/rwkv104-direct-Settings-1793227074028153410.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

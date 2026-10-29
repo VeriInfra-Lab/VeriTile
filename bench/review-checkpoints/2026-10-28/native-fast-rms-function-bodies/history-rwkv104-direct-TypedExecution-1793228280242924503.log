@@ -1,0 +1,129 @@
+/tmp/rwkv104-staging/bench/tritonbench_g/fast_rms_layernorm/Proofs/TypedExecution.lean:29:70: error: Application type mismatch: The argument
+  initial input weight
+has type
+  State ℝ
+but is expected to have type
+  State ContextAttnFwd.FPModel.Number
+in the application
+  FP.Structural.exec (engine model)
+    (forward input weight «false» { name := "y" } { name := "x" } { name := "w" } { name := "r" } 4 4 2 1 3 4 1)
+    (initial input weight)
+/tmp/rwkv104-staging/bench/tritonbench_g/fast_rms_layernorm/Proofs/TypedExecution.lean:41:69: error: Application type mismatch: The argument
+  initial input weight
+has type
+  State ℝ
+but is expected to have type
+  State ContextAttnFwd.FPModel.Number
+in the application
+  FP.Structural.exec (engine model)
+    (forward input weight «true» { name := "y" } { name := "x" } { name := "w" } { name := "r" } 4 4 2 1 3 4 1)
+    (initial input weight)
+/tmp/rwkv104-staging/bench/tritonbench_g/fast_rms_layernorm/Proofs/TypedExecution.lean:45:6: error: Application type mismatch: The argument
+  model
+has type
+  FP.Structural.Algebra ContextAttnFwd.FPModel.Number
+but is expected to have type
+  FP.Structural.Algebra ℝ
+in the application
+  sound
+    (FPProof.forward_equivalent input weight { name := "y" } { name := "x" } { name := "w" } { name := "r" } 4 4 2 1 3 4
+      1)
+    ℝ model
+/tmp/rwkv104-staging/bench/tritonbench_g/fast_rms_layernorm/Proofs/TypedExecution.lean:45:31: error: unsolved goals
+case strict
+input weight : Storage
+v : State ContextAttnFwd.FPModel.Number
+hv :
+  FP.Structural.exec (engine model)
+      (forward input weight «false» { name := "y" } { name := "x" } { name := "w" } { name := "r" } 4 4 2 1 3 4 1)
+      sorry =
+    some v
+⊢ ∀ (lhs rhs : List FP.GuardedFragment),
+    Spec.StatementTheory.Certified lhs rhs → List.Forall₂ (FP.FragmentSound sorry fun x x_1 => True) lhs rhs
+/tmp/rwkv104-staging/bench/tritonbench_g/fast_rms_layernorm/Proofs/TypedExecution.lean:51:68: error: Application type mismatch: The argument
+  initial input weight
+has type
+  State ℝ
+but is expected to have type
+  State ContextAttnFwd.FPModel.Number
+in the application
+  FP.Structural.exec (engine model)
+    (gemma input weight «false» { name := "y" } { name := "x" } { name := "w" } { name := "r" } 4 4 2 1 3 4 1)
+    (initial input weight)
+/tmp/rwkv104-staging/bench/tritonbench_g/fast_rms_layernorm/Proofs/TypedExecution.lean:63:67: error: Application type mismatch: The argument
+  initial input weight
+has type
+  State ℝ
+but is expected to have type
+  State ContextAttnFwd.FPModel.Number
+in the application
+  FP.Structural.exec (engine model)
+    (gemma input weight «true» { name := "y" } { name := "x" } { name := "w" } { name := "r" } 4 4 2 1 3 4 1)
+    (initial input weight)
+/tmp/rwkv104-staging/bench/tritonbench_g/fast_rms_layernorm/Proofs/TypedExecution.lean:67:6: error: Application type mismatch: The argument
+  model
+has type
+  FP.Structural.Algebra ContextAttnFwd.FPModel.Number
+but is expected to have type
+  FP.Structural.Algebra ℝ
+in the application
+  sound
+    (FPProof.gemma_equivalent input weight { name := "y" } { name := "x" } { name := "w" } { name := "r" } 4 4 2 1 3 4
+      1)
+    ℝ model
+/tmp/rwkv104-staging/bench/tritonbench_g/fast_rms_layernorm/Proofs/TypedExecution.lean:67:31: error: unsolved goals
+case strict
+input weight : Storage
+v : State ContextAttnFwd.FPModel.Number
+hv :
+  FP.Structural.exec (engine model)
+      (gemma input weight «false» { name := "y" } { name := "x" } { name := "w" } { name := "r" } 4 4 2 1 3 4 1) sorry =
+    some v
+⊢ ∀ (lhs rhs : List FP.GuardedFragment),
+    Spec.StatementTheory.Certified lhs rhs → List.Forall₂ (FP.FragmentSound sorry fun x x_1 => True) lhs rhs
+/tmp/rwkv104-staging/bench/tritonbench_g/fast_rms_layernorm/Proofs/TypedExecution.lean:73:86: error: Application type mismatch: The argument
+  initial input weight
+has type
+  State ℝ
+but is expected to have type
+  State ContextAttnFwd.FPModel.Number
+in the application
+  FP.Structural.exec (engine model)
+    (backward input weight «false» { name := "y" } { name := "x" } { name := "w" } { name := "r" } { name := "dw" } 4 4
+      2 1 5 3 4 1 isGemma)
+    (initial input weight)
+/tmp/rwkv104-staging/bench/tritonbench_g/fast_rms_layernorm/Proofs/TypedExecution.lean:85:85: error: Application type mismatch: The argument
+  initial input weight
+has type
+  State ℝ
+but is expected to have type
+  State ContextAttnFwd.FPModel.Number
+in the application
+  FP.Structural.exec (engine model)
+    (backward input weight «true» { name := "y" } { name := "x" } { name := "w" } { name := "r" } { name := "dw" } 4 4 2
+      1 5 3 4 1 isGemma)
+    (initial input weight)
+/tmp/rwkv104-staging/bench/tritonbench_g/fast_rms_layernorm/Proofs/TypedExecution.lean:89:6: error: Application type mismatch: The argument
+  model
+has type
+  FP.Structural.Algebra ContextAttnFwd.FPModel.Number
+but is expected to have type
+  FP.Structural.Algebra ℝ
+in the application
+  sound
+    (FPProof.backward_equivalent input weight { name := "y" } { name := "x" } { name := "w" } { name := "r" }
+      { name := "dw" } 4 4 2 1 5 3 4 1 isGemma)
+    ℝ model
+/tmp/rwkv104-staging/bench/tritonbench_g/fast_rms_layernorm/Proofs/TypedExecution.lean:89:31: error: unsolved goals
+case strict
+input weight : Storage
+isGemma : Bool
+v : State ContextAttnFwd.FPModel.Number
+hv :
+  FP.Structural.exec (engine model)
+      (backward input weight «false» { name := "y" } { name := "x" } { name := "w" } { name := "r" } { name := "dw" } 4
+        4 2 1 5 3 4 1 isGemma)
+      sorry =
+    some v
+⊢ ∀ (lhs rhs : List FP.GuardedFragment),
+    Spec.StatementTheory.Certified lhs rhs → List.Forall₂ (FP.FragmentSound sorry fun x x_1 => True) lhs rhs

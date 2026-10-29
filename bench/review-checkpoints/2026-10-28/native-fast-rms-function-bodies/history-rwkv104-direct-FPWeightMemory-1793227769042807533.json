@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPWeightMemory",
+  "start": 1793227769.0428224,
+  "end": 1793227772.1580794,
+  "log": "/tmp/rwkv104-direct-FPWeightMemory-1793227769042807533.log",
+  "stop_file": "/tmp/rwkv104-direct-FPWeightMemory-1793227769042807533.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

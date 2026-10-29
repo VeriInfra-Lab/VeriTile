@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.HostMetadata",
+  "start": 1793227123.4761865,
+  "end": 1793227134.4847271,
+  "log": "/tmp/rwkv104-direct-HostMetadata-1793227123476138224.log",
+  "stop_file": "/tmp/rwkv104-direct-HostMetadata-1793227123476138224.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

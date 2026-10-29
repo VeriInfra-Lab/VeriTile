@@ -1,0 +1,79 @@
+VeriTile.Triton.Memory.PreparedAlgorithmProgramIO 0 /tmp/rwkv104-direct-PreparedAlgorithmProgramIO-1793227943635451231.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.EpsilonABI 0 /tmp/rwkv104-direct-EpsilonABI-1793227946207378401.log
+bench.tritonbench_g.rmsnorm_fused_llama.Kernels 0 /tmp/rwkv104-direct-Kernels-1793227948112134247.log
+bench.repairs.tritonbench_g.rmsnorm_fused_llama.Kernels 0 /tmp/rwkv104-direct-Kernels-1793227976725664650.log
+bench.repairs.tritonbench_g.rmsnorm_fused_llama.Proofs.Native 0 /tmp/rwkv104-direct-Native-1793227979773397444.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.NativeGraph 0 /tmp/rwkv104-direct-NativeGraph-1793227982729142387.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.EntryInputs 0 /tmp/rwkv104-direct-EntryInputs-1793227986770697151.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.IO 1 /tmp/rwkv104-direct-IO-1793227990075419118.log
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/IO.lean:70:36: error: unsolved goals
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealGridForward 0 /tmp/rwkv104-direct-RealGridForward-1793227998231857314.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealGridBackward 0 /tmp/rwkv104-direct-RealGridBackward-1793228001736556248.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealGridWeight 0 /tmp/rwkv104-direct-RealGridWeight-1793228005243082847.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealSequence 0 /tmp/rwkv104-direct-RealSequence-1793228008699477060.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealEndToEnd 0 /tmp/rwkv104-direct-RealEndToEnd-1793228012454238436.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealTensor 0 /tmp/rwkv104-direct-RealTensor-1793228016159049205.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RawInputs 0 /tmp/rwkv104-direct-RawInputs-1793228020864494793.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RawCorrect 0 /tmp/rwkv104-direct-RawCorrect-1793228026574744871.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RawNative 0 /tmp/rwkv104-direct-RawNative-1793228031081527070.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Misc.KernelAudit 1 /tmp/rwkv104-direct-KernelAudit-1793228034588196871.log
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Misc/KernelAudit.lean:10:13: error(lean.unknownIdentifier): Unknown constant `Kernels.regular_source`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Misc/KernelAudit.lean:11:13: error(lean.unknownIdentifier): Unknown constant `Kernels.gemma_source`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/fast_rms_layernorm/Misc/KernelAudit.lean:12:13: error(lean.unknownIdentifier): Unknown constant `Kernels.input_gradient_source`
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.HostExecution 0 /tmp/rwkv104-direct-HostExecution-1793228041545482469.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealHost 0 /tmp/rwkv104-direct-RealHost-1793228044750787257.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.HostStorage 0 /tmp/rwkv104-direct-HostStorage-1793228051608410427.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.HostIdentity 0 /tmp/rwkv104-direct-HostIdentity-1793228054763109650.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.CheckedHost 0 /tmp/rwkv104-direct-CheckedHost-1793228057467935144.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealCurrent 0 /tmp/rwkv104-direct-RealCurrent-1793228061073118772.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealPhysicalFrame 0 /tmp/rwkv104-direct-RealPhysicalFrame-1793228065614364333.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Misc.OptionalHostCorrect 0 /tmp/rwkv104-direct-OptionalHostCorrect-1793228070069677864.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPEndToEnd 0 /tmp/rwkv104-direct-FPEndToEnd-1793228077225770418.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPHost 0 /tmp/rwkv104-direct-FPHost-1793228080231370649.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPCurrent 0 /tmp/rwkv104-direct-FPCurrent-1793228084272684461.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.NativeHost 0 /tmp/rwkv104-direct-NativeHost-1793228088128098984.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.FPPhysicalFrame 0 /tmp/rwkv104-direct-FPPhysicalFrame-1793228093232733174.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Misc.OptionalHostFPEquiv 0 /tmp/rwkv104-direct-OptionalHostFPEquiv-1793228096437373328.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.SavedAliasInhabited 0 /tmp/rwkv104-direct-SavedAliasInhabited-1793228101010961774.log
+bench.repairs.tritonbench_g.fast_rms_layernorm.Misc.RevisionAudit 0 /tmp/rwkv104-direct-RevisionAudit-1793228106316396614.log
+bench.tests.SignedRangeCallBody 0 /tmp/rwkv104-direct-SignedRangeCallBody-1793228111858282439.log
+bench.tritonbench_g.fast_rms_layernorm.Proofs.Candidate 0 /tmp/rwkv104-direct-Candidate-1793228113862761930.log
+bench.tritonbench_g.fast_rms_layernorm.Proofs.ForwardIO 0 /tmp/rwkv104-direct-ForwardIO-1793228122719335186.log
+bench.tritonbench_g.fast_rms_layernorm.Proofs.BackwardIO 0 /tmp/rwkv104-direct-BackwardIO-1793228129575456554.log
+bench.tritonbench_g.fast_rms_layernorm.Correct 0 /tmp/rwkv104-direct-Correct-1793228136533268535.log
+VeriTile.Triton.Float.ExpressionRewrite 0 /tmp/rwkv104-direct-ExpressionRewrite-1793228146891996000.log
+VeriTile.Triton.Float.BranchRewrite 0 /tmp/rwkv104-direct-BranchRewrite-1793228149897349726.log
+VeriTile.Triton.Float.RewriteTactics 0 /tmp/rwkv104-direct-RewriteTactics-1793228152501345987.log
+bench.tritonbench_g.cache_transform_triton.Proofs.IndexRewrite 0 /tmp/rwkv104-direct-IndexRewrite-1793228155406284173.log
+bench.tritonbench_g.destindex_copy.Proofs.IndexRewrite 0 /tmp/rwkv104-direct-IndexRewrite-1793228158978630970.log
+bench.tritonbench_g.fast_rms_layernorm.Proofs.FP 0 /tmp/rwkv104-direct-FP-1793228161983783617.log
+bench.tritonbench_g.fast_rms_layernorm.FPEquiv 0 /tmp/rwkv104-direct-FPEquiv-1793228174992304045.log
+VeriTile.Triton.Float.WhereRewrite 0 /tmp/rwkv104-direct-WhereRewrite-1793228180297836264.log
+VeriTile.Triton.Float.TypedScalarArithmetic 0 /tmp/rwkv104-direct-TypedScalarArithmetic-1793228183552657067.log
+VeriTile.Triton.Float.TypedWhereRewrite 0 /tmp/rwkv104-direct-TypedWhereRewrite-1793228188757908800.log
+bench.tritonbench_g.context_attn_llama.Proofs.ScopedWhere 0 /tmp/rwkv104-direct-ScopedWhere-1793228192212956924.log
+bench.tritonbench_g.context_attn_fwd.Kernels 0 /tmp/rwkv104-direct-Kernels-1793228196218111375.log
+bench.tritonbench_g.context_attn_fwd.Proofs.FP 0 /tmp/rwkv104-direct-FP-1793228200423107105.log
+VeriTile.Triton.Float.GuardExpression 0 /tmp/rwkv104-direct-GuardExpression-1793228210330347949.log
+VeriTile.Triton.Float.ScalarReduction 0 /tmp/rwkv104-direct-ScalarReduction-1793228213084647350.log
+VeriTile.Triton.Float.ScheduledIO 0 /tmp/rwkv104-direct-ScheduledIO-1793228215939952757.log
+VeriTile.Triton.Float.Countermodel 0 /tmp/rwkv104-direct-Countermodel-1793228218511607182.log
+bench.tritonbench_g.context_attn_fwd.Proofs.FPModelData 0 /tmp/rwkv104-direct-FPModelData-1793228221017702908.log
+VeriTile.Triton.Float.ScalarArithmeticModel 0 /tmp/rwkv104-direct-ScalarArithmeticModel-1793228223559373655.log
+bench.tritonbench_g.context_attn_fwd.Proofs.FPModelCore 0 /tmp/rwkv104-direct-FPModelCore-1793228231365574603.log
+bench.tritonbench_g.context_attn_fwd.Proofs.FPModel 0 /tmp/rwkv104-direct-FPModel-1793228275483158625.log
+VeriTile.Triton.Float.ProfiledSoundness 0 /tmp/rwkv104-direct-ProfiledSoundness-1793228277837935569.log
+bench.tritonbench_g.fast_rms_layernorm.Proofs.TypedExecution 1 /tmp/rwkv104-direct-TypedExecution-1793228280242924503.log
+/tmp/rwkv104-staging/bench/tritonbench_g/fast_rms_layernorm/Proofs/TypedExecution.lean:29:70: error: Application type mismatch: The argument
+/tmp/rwkv104-staging/bench/tritonbench_g/fast_rms_layernorm/Proofs/TypedExecution.lean:41:69: error: Application type mismatch: The argument
+/tmp/rwkv104-staging/bench/tritonbench_g/fast_rms_layernorm/Proofs/TypedExecution.lean:45:6: error: Application type mismatch: The argument
+/tmp/rwkv104-staging/bench/tritonbench_g/fast_rms_layernorm/Proofs/TypedExecution.lean:45:31: error: unsolved goals
+/tmp/rwkv104-staging/bench/tritonbench_g/fast_rms_layernorm/Proofs/TypedExecution.lean:51:68: error: Application type mismatch: The argument
+/tmp/rwkv104-staging/bench/tritonbench_g/fast_rms_layernorm/Proofs/TypedExecution.lean:63:67: error: Application type mismatch: The argument
+/tmp/rwkv104-staging/bench/tritonbench_g/fast_rms_layernorm/Proofs/TypedExecution.lean:67:6: error: Application type mismatch: The argument
+/tmp/rwkv104-staging/bench/tritonbench_g/fast_rms_layernorm/Proofs/TypedExecution.lean:67:31: error: unsolved goals
+/tmp/rwkv104-staging/bench/tritonbench_g/fast_rms_layernorm/Proofs/TypedExecution.lean:73:86: error: Application type mismatch: The argument
+/tmp/rwkv104-staging/bench/tritonbench_g/fast_rms_layernorm/Proofs/TypedExecution.lean:85:85: error: Application type mismatch: The argument
+/tmp/rwkv104-staging/bench/tritonbench_g/fast_rms_layernorm/Proofs/TypedExecution.lean:89:6: error: Application type mismatch: The argument
+/tmp/rwkv104-staging/bench/tritonbench_g/fast_rms_layernorm/Proofs/TypedExecution.lean:89:31: error: unsolved goals
+BATCH COMPLETE fastrms107-family1 failed/skipped 20

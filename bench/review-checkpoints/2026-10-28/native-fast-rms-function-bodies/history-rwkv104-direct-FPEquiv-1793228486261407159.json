@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.FPEquiv",
+  "start": 1793228486.2614226,
+  "end": 1793228490.7948942,
+  "log": "/tmp/rwkv104-direct-FPEquiv-1793228486261407159.log",
+  "stop_file": "/tmp/rwkv104-direct-FPEquiv-1793228486261407159.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

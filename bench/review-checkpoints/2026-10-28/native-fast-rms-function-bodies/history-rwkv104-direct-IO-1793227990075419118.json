@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.fast_rms_layernorm.IO",
+  "start": 1793227990.0754323,
+  "end": 1793227998.1922512,
+  "log": "/tmp/rwkv104-direct-IO-1793227990075419118.log",
+  "stop_file": "/tmp/rwkv104-direct-IO-1793227990075419118.stop",
+  "status": "COMPLETED",
+  "exit_code": 1
+}
