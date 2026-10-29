@@ -185,6 +185,7 @@ theorem projections_safe (M : Algebra α) (bounds : RegionName → Nat)
     List.take,List.mem_cons,List.not_mem_nil,or_false] at member
   rcases member with rfl | rfl | rfl <;>
     simp [Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,Safety.safeOp]
+  all_goals simp [Safety.safeOp_unfold]
 
 theorem statistics_safe_for (hoist : Bool) (M : Algebra α) (eq32 : α → α → Bool)
     (s : State α) (X W Bias Y Mean Rstd : RegionName) (S D B : Nat)

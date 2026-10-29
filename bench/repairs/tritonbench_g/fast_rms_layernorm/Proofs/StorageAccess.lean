@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealSourceSafety
 import bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.Storage
 import bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealWeightFlat
 import bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealRows
@@ -46,6 +47,7 @@ theorem row_access {h : Call} {p : Phase} (s : Placement h p) (r : RegionName)
 
 theorem forward_safe (h : Call) (s : Placement h .forward) (u : BlockState) (pid : u.pids 0<h.rows) :
     Kernel.TraceSafe (flat s).extent (Kernels.forward h).eraseDType.toAlgKernel u := by
+  apply (RealSourceSafety.forward_trace h _ u).mpr
   apply ForwardRun.trace_safe h.gemma "y" "x" "w" "r" h.cols h.cols 1 1 h.cols h.block h.eps
   · intro j hj
     exact row_access s "x" (by simp [buffers]) (by simp [cells]) _ _ pid hj
@@ -59,6 +61,7 @@ theorem forward_safe (h : Call) (s : Placement h .forward) (u : BlockState) (pid
 
 theorem backward_safe (h : Call) (s : Placement h .backward) (u : BlockState) (pid : u.pids 0<h.rows) :
     Kernel.TraceSafe (flat s).extent (Kernels.backward h).eraseDType.toAlgKernel u := by
+  apply (RealSourceSafety.backward_trace h _ u).mpr
   apply BackwardRun.trace_safe h.gemma "dx" "x" "w" "r" "dw" h.cols h.cols 1 1 1 h.cols h.block h.eps
   · intro j hj
     exact row_access s "dx" (by simp [buffers]) (by simp [cells]) _ _ pid hj
@@ -92,7 +95,7 @@ theorem forward_flat (h : Call) (s : Placement h .forward) (u : BlockState)
   obtain ⟨v,he,_⟩:=RealRows.forward_complete h u
   refine ⟨v,?_,he⟩
   rw [(flat s).exec_flatten (flat_disjoint s) (flat_closed s) _ u (forward_safe h s u pid)
-    (ForwardRun.flatten_ok h.gemma "y" "x" "w" "r" h.cols h.cols 1 1 h.cols h.block h.eps) undef,he,Option.map_some]
+    (RealSourceSafety.forward_flat h) undef,he,Option.map_some]
 
 theorem backward_flat (h : Call) (s : Placement h .backward) (u : BlockState)
     (pid : u.pids 0<h.rows) (undef : u.undef=fun _ _ => 0) :
@@ -101,7 +104,7 @@ theorem backward_flat (h : Call) (s : Placement h .backward) (u : BlockState)
   obtain ⟨v,he,_⟩:=RealRows.backward_values h u
   refine ⟨v,?_,he⟩
   rw [(flat s).exec_flatten (flat_disjoint s) (flat_closed s) _ u (backward_safe h s u pid)
-    (BackwardRun.flatten_ok h.gemma "dx" "x" "w" "r" "dw" h.cols h.cols 1 1 1 h.cols h.block h.eps) undef,he,Option.map_some]
+    (RealSourceSafety.backward_flat h) undef,he,Option.map_some]
 
 theorem weight_flat (h : Call) (s : Placement h .backward) (u : BlockState)
     (undef : u.undef=fun _ _ => 0) :

@@ -12,7 +12,7 @@ def logicalInputs {α : Type} (M : Algebra α) (x w bias : Nat → α)
   let pair := Nat.unpair n
   match pair.1 with
   | 0 => M.fromNat (some .fp32) D
-  | 1 => M.literal none .real (1e-05)
+  | 1 => M.literal (some .fp32) .real (1e-05)
   | 2 => x (pair.2 + D * row)
   | 3 => w pair.2
   | _ => bias pair.2

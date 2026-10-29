@@ -28,7 +28,7 @@ def ideal : Algebra ℝ where
 theorem mean_real (N : Nat) (x : Nat → ℝ) :
     Graph.mean ideal N x=Contract.Math.mean N x := by
   unfold Graph.mean Graph.divide Graph.sum
-  simp only [ideal,Graph.add,Graph.loadX,Graph.zero,TileShape.insertAxisIndex]
+  simp only [ideal,Graph.add,Graph.loadX,Graph.zero,TileShape.insertAxisIndex, Int.cast_natCast]
   change (∑ i : Fin 128, foldRange (RealProof.addStep x N) 0 N 128 (fun _ => 0) i)/(N:ℝ)=_
   rw [RealProof.accumulation_total]
   rfl
@@ -47,7 +47,7 @@ theorem variance_real (N : Nat) (x : Nat → ℝ) :
     · simp [Graph.centered,Graph.mul,Graph.add,Graph.zero,ideal,RealProof.addStep,h]
   unfold Graph.variance Graph.divide Graph.sum
   rw [step]
-  simp only [ideal,Graph.zero,TileShape.insertAxisIndex]
+  simp only [ideal,Graph.zero,TileShape.insertAxisIndex, Int.cast_natCast]
   change (∑ i : Fin 128, foldRange (RealProof.addStep (fun j => (x j-Contract.Math.mean N x)^2) N)
     0 N 128 (fun _ => 0) i)/(N:ℝ)=_
   rw [RealProof.accumulation_total]

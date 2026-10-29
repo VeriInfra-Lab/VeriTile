@@ -21,7 +21,7 @@ theorem outerExecution (P : Source.Arithmetic α α) (p : Parameters) (b : Buffe
     (layout : Layout p.problem b) (strides : Strides p b) (inputs : Inputs p b initial entry)
     (zero : P.cast p.problem.profile P.accumulatorZero=P.inputZero)
     (regs : Registers p pid initial) (tileBound : p.problem.tile pid ordinal<p.problem.tiles) :
-    ∃ final,run (backend P) (outer p) (initial.setReg "tile_ordinal" .nat [] (fun _ => ordinal))=some final ∧
+    ∃ final,run (backend P) (outer p) (initial.setReg "tile_ordinal" .int [] (fun _ => (ordinal : Int)))=some final ∧
       Post "C" (logicalAddress p) (referenceValue P p b entry) (Owns p (p.problem.tile pid ordinal)) initial final ∧
       Registers p pid final := by
   let setup := tilePreludeExecution P p pid ordinal initial regs
@@ -29,6 +29,7 @@ theorem outerExecution (P : Source.Arithmetic α α) (p : Parameters) (b : Buffe
   have registers := tile_registers P p pid ordinal initial regs
   obtain ⟨last,ran,inv,reg⟩ := innerLoop P p initial setup.val pid (p.problem.tile pid ordinal) 0
     (Nat.zero_le _) invariant registers
+  simp only [Int.natCast_zero] at ran
   refine ⟨suffixResult P p initial last (p.problem.tile pid ordinal),?_,
     suffix_post P p b initial last entry (p.problem.tile pid ordinal) layout strides inputs zero inv,
     suffix_registers P p initial last pid (p.problem.tile pid ordinal) reg⟩

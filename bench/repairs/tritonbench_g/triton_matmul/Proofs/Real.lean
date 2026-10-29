@@ -18,7 +18,7 @@ abbrev idealDot := LogicalViewDefect.idealDot
 theorem ideal_primitives (st : Storage) : PrimitiveLaws ideal idealDot idealNumerics st := by
   cases st <;> constructor
   all_goals intros
-  all_goals simp [ideal,LogicalViewDefect.ideal,ContextAttnFwd.FPModel.model,idealNumerics,
+  all_goals simp [ideal,LogicalViewDefect.ideal,idealNumerics,
     idealDot,LogicalViewDefect.idealDot,LogicalViewDefect.idealDotValue,dtype]
   all_goals norm_num
 

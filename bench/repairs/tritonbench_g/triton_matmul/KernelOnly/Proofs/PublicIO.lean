@@ -46,7 +46,11 @@ theorem schedule_safe (g : Geometry) (M : Algebra α) (D : DotAcc α)
       simp [programs,tileColumns,Geometry.request,hz] at active
     change TraceSafe (backend M D) bounds (Source.typed g.request.parameters g.storage)
       (instanceState g.request pid s)
-    apply SourceSafety.source_safe
+    obtain ⟨hpm,hpn,_⟩ := RawSource.launch_parameters g.A g.B g.C g.storage
+      g.rows g.columns g.inner g.strideAM g.strideAK g.strideBK g.strideBN
+      (instanceState g.request pid s) (by
+        simpa [instanceState,programs,tileRows,tileColumns,Geometry.request] using active)
+    apply SourceSafety.source_safe (hpm := hpm) (hpn := hpn)
     · intro q i hk
       have rowBound : aRow g.request.parameters (instanceState g.request pid s) i.1<g.rows := by
         unfold aRow

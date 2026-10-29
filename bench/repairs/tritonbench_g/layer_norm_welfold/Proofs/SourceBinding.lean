@@ -2,8 +2,9 @@ import bench.repairs.tritonbench_g.layer_norm_welfold.Kernels
 import bench.repairs.tritonbench_g.layer_norm_welfold.Proofs.LegacySource
 import bench.repairs.tritonbench_g.layer_norm_welfold.Proofs.Source
 
-/-! Checked adapter from the historical complete proof's reduction profile to
-the historical source snapshot. No program/result equality is a premise. -/
+/-! Checked adapter between the corrected unrolled proof references and their
+reduction profiles. The canonical Python body is in Kernels.lean; the raw source
+execution bridge is established separately. No program/result equality is a premise. -/
 namespace VeriTile.Bench.Repairs.LayerNormWelfold.SourceBinding
 open VeriTile.Triton Reuse
 

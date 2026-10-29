@@ -48,14 +48,17 @@ theorem prefix_frame {α : Type} [Inhabited α] (A : Algebra α)
     (eps p : ℝ) (block : Nat) (hb : Random.ArangeSizeDomain block)
     (s t : State α) (ht : run (engine A) (stagePrefix f r stride M N eps p block hb) s=some t) :
     t.mem=s.mem := by
-  rcases f with ⟨rms,res,resout,bias,drop,mask,scale,x1,w1,b1⟩
-  cases res <;> cases resout <;> cases x1 <;> cases w1
-  all_goals simp [stagePrefix,repaired,original,ComputeKernel.surfaceBody,
-    run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
-    Option.bind,ComputeDType.eraseDType,numeric,integralMod,bop,natLt,
-    numericLt,Cell.read,ofFloat,toFloat,Region.cast,Random.i32ArangeSize,
-    State.setReg] at ht
-  all_goals subst t; rfl
+  by_cases hN : N = 1
+  all_goals
+    rcases f with ⟨rms,res,resout,bias,drop,mask,scale,x1,w1,b1⟩
+    cases res <;> cases resout <;> cases x1 <;> cases w1
+    all_goals simp [stagePrefix,actual,Source.kernel,Source.rawKernel,Source.rawKernelOne,hN,sourceFlags,sourceRegions,sourceStrides,ComputeKernel.surfaceBody,
+      run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
+      Option.bind,ComputeDType.eraseDType,numeric,integralMod,bop,natLt,
+      ←Int.natCast_mul,←Int.natCast_add,-Nat.cast_mul,-Nat.cast_add,
+      numericLt,Cell.read,ofFloat,toFloat,Region.cast,Random.i32ArangeSize,
+      State.setReg] at ht
+    all_goals subst t; rfl
 
 theorem firstStream_frame {α : Type} [Inhabited α] (A : Algebra α) (cmp : Comparisons A)
     (f : Flags) (r : Regions) (stride : Strides) (M N : Nat)
@@ -63,26 +66,29 @@ theorem firstStream_frame {α : Type} [Inhabited α] (A : Algebra α) (cmp : Com
     (s t : State α) (hs : Ready f r stride block row s)
     (ht : run (engine A) (firstStream f r stride M N eps p block hb) s=some t) :
     Frame f r stride M N row s t := by
-  rcases hs with ⟨hrow,hcols,hy,hx1,hres,hresout,hy1,x,hx⟩
-  have hv := (Random.SourceProfile.inputsValid_iff _ _ _).mp
-    (seed_valid ((s.mem r.seeds row).read .int) hb)
-  have ho : ∀ j : Fin block, Random.IntegerType.i32.inRange (j.val : Int) = Bool.true :=
-    fun j => hv.2 (j,PUnit.unit)
-  have hu := hv.1
-  simp at hu
-  intro region offset hw
-  have hm : f.dropout=Bool.true → f.dropoutMask=Bool.true →
-      ¬ (region=r.dropoutMask ∧ Contract.inRow (row*N) N offset) := by
-    intro hd hm h; exact hw (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr ⟨hd,hm,h⟩))))))
-  cases hsc : f.rowscale <;> cases hd : f.dropout <;> cases hmask : f.dropoutMask
-  all_goals simp [firstStream,repaired,original,ComputeKernel.surfaceBody,
-    run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
-    Option.bind,ComputeDType.eraseDType,numeric,integralMod,FP.Structural.bop,natLt,
-    numericLt,cmp.available,seed_valid,Region.cast,Random.i32ArangeSize,
-    hrow,hcols,hy,hx1,hres,hresout,hy1,hx,hu,ho,hsc,hd,hmask] at ht
-  all_goals subst t
-  all_goals try simp only [State.setReg_mem]
-  all_goals first | rfl | exact vector_frame _ _ _ _ _ _ _ _ (hm hd hmask)
+  by_cases hN : N = 1
+  all_goals
+    rcases hs with ⟨hrow,hcols,hy,hx1,hres,hresout,hy1,x,hx⟩
+    have hv := (Random.SourceProfile.inputsValid_iff _ _ _).mp
+      (seed_valid ((s.mem r.seeds row).read .int) hb)
+    have ho : ∀ j : Fin block, Random.IntegerType.i32.inRange (j.val : Int) = Bool.true :=
+      fun j => hv.2 (j,PUnit.unit)
+    have hu := hv.1
+    simp at hu
+    intro region offset hw
+    have hm : f.dropout=Bool.true → f.dropoutMask=Bool.true →
+        ¬ (region=r.dropoutMask ∧ Contract.inRow (row*N) N offset) := by
+      intro hd hm h; exact hw (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr ⟨hd,hm,h⟩))))))
+    cases hsc : f.rowscale <;> cases hd : f.dropout <;> cases hmask : f.dropoutMask
+    all_goals simp [firstStream,actual,Source.kernel,Source.rawKernel,Source.rawKernelOne,hN,sourceFlags,sourceRegions,sourceStrides,ComputeKernel.surfaceBody,
+      run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
+      Option.bind,ComputeDType.eraseDType,numeric,integralMod,FP.Structural.bop,natLt,
+      ←Int.natCast_mul,←Int.natCast_add,-Nat.cast_mul,-Nat.cast_add,
+      numericLt,cmp.available,seed_valid,Region.cast,Random.i32ArangeSize,
+      hrow,hcols,hy,hx1,hres,hresout,hy1,hx,hu,ho,hsc,hd,hmask] at ht
+    all_goals subst t
+    all_goals try simp only [State.setReg_mem]
+    all_goals first | rfl | simpa [hN] using (vector_frame r.dropoutMask region (row*N) N offset block _ _ (hm hd hmask))
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

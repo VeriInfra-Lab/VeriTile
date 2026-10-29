@@ -26,8 +26,8 @@ theorem setReg_comm {α : Type} (s : State α) (a b : RegName)
     · simp [State.setReg, ha, hb]
 
 def outputBody (p : Parameters) : List ComputeStmt :=
-  match ((candidateKernel p).surfaceBody : List ComputeStmt)[12]? with
-  | some (ComputeStmt.forRange _ _ _ _ body) => body
+  match ((candidateKernel p).surfaceBody : List ComputeStmt)[24]? with
+  | some (ComputeStmt.forRangeInt _ _ _ _ body) => body
   | _ => []
 
 /-- The weight vector is loaded after x_hat, shortening its lifetime. Every
@@ -35,14 +35,14 @@ operand, cast, arithmetic operation, mask and store remains the same. -/
 theorem output_body_eq {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
     (s t : State α) (off : Nat) (mem : RegionName → Nat → Cell α)
     (ready : OutputReady M p s t mem) :
-    run M (loopBody p 12) (t.setReg "off" .nat [] (fun _ => off)) =
-      run M (outputBody p) (t.setReg "off" .nat [] (fun _ => off)) := by
+    run M (loopBody p 24) (t.setReg "off" .int [] (fun _ => (off : Int))) =
+      run M (outputBody p) (t.setReg "off" .int [] (fun _ => (off : Int))) := by
   simp [outputBody, candidateKernel, runtimeSourceCandidate, loopBody, kernel,
-    runtimeSource, ComputeKernel.surfaceBody, run, step, evalExpr, evalComputeOp,
+    runtimeSource, ComputeKernel.surfaceBody, Random.i32ArangeSize, run, step, evalExpr, evalComputeOp,
     evalOp_unfold, evalOffsets, store, Option.bind, ComputeDType.eraseDType,
     FloatDType.toTileDType, FloatDType.numericDType, ofFloat, toFloat,
-    numeric, bop, numericLt, natLt, Region.cast,
-    ready.x, ready.y, ready.w, ready.mean, ready.rstd]
+    numeric, bop, numericLt, natLt, Region.cast, Int.toNat_add, Int.toNat_mul, Int.natCast_nonneg, Int.toNat_of_nonpos,
+    ready.x, ready.nValue, ready.zeroValue, ready.stepValue, ready.lanes, ready.xStride, ready.yStride, ready.wStride, ready.y, ready.w, ready.mean, ready.rstd]
   rw [setReg_comm _ "w" "x" _ _ _ _ _ _ (by decide)]
   rw [setReg_comm _ "w" "x_hat" _ _ _ _ _ _ (by decide)]
 

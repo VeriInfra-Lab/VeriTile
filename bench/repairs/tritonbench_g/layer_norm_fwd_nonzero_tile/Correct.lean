@@ -1,4 +1,4 @@
-import bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.LogicalIO
+import bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.ActualRealImplementation
 
 namespace VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile
 open VeriTile.Triton
@@ -81,8 +81,8 @@ access safety, all enabled outputs and the exact exterior memory frame. -/
 specification correct (f : Flags) (r : Regions) (stride : Strides) (M N : Nat)
     (eps p : ℝ) (width : widthCheck N=Bool.true)
     (sep : Domain.ReadWriteSeparated f r) (geometry : NativeGeometry.Geometry f r stride M N) :
-    Spec.Real (LogicalIO.io f r stride M N eps p ⊨ formula f M N eps p) :=
-  LogicalIO.implements f r stride M N eps p width sep geometry
+    Spec.Real (ActualLogical.io f r stride M N eps p ⊨ formula f M N eps p) :=
+  ActualLogical.implements f r stride M N eps p width sep geometry
 
 #axiomsClean correct
 #specNonCircular formula avoiding [VeriTile.Triton.exec,quoted]

@@ -20,15 +20,18 @@ theorem prefix_value {α : Type} [Inhabited α] (A : Algebra α)
     (eps p : ℝ) (block : Nat) (hb : Random.ArangeSizeDomain block) (s : State α) :
     ∃ t, run (engine A) (stagePrefix f r stride M N eps p block hb) s=some t ∧
       t.regs .real [block] "x" = some (fun j => raw A s r.x ((s.pids 0)*stride.x) N j.1.val) := by
-  rcases f with ⟨rms,res,resout,bias,drop,mask,scale,x1,w1,b1⟩
-  cases res <;> cases resout <;> cases x1 <;> cases w1
-  all_goals simp [stagePrefix,repaired,original,ComputeKernel.surfaceBody,
-    run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
-    Option.bind,ComputeDType.eraseDType,numeric,integralMod,bop,natLt,
-    numericLt,ofFloat,toFloat,Region.cast,Random.i32ArangeSize,
-    State.setReg,raw]
-  all_goals (funext i; cases i; simp [FP.Structural.bop])
-  all_goals norm_num
+  by_cases hN : N = 1
+  all_goals
+    rcases f with ⟨rms,res,resout,bias,drop,mask,scale,x1,w1,b1⟩
+    cases res <;> cases resout <;> cases x1 <;> cases w1
+    all_goals simp [stagePrefix,actual,Source.kernel,Source.rawKernel,Source.rawKernelOne,hN,sourceFlags,sourceRegions,sourceStrides,ComputeKernel.surfaceBody,
+      run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
+      Option.bind,ComputeDType.eraseDType,numeric,integralMod,bop,natLt,
+      ←Int.natCast_mul,←Int.natCast_add,-Nat.cast_mul,-Nat.cast_add,
+      numericLt,ofFloat,toFloat,Region.cast,Random.i32ArangeSize,
+      State.setReg,raw]
+    all_goals (funext i; cases i; simp [FP.Structural.bop])
+    all_goals norm_num
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

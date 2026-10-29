@@ -9,9 +9,9 @@ set_option maxRecDepth 22000
 theorem output_range_run {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
     (s t : State α) (start stop : Nat) (mem : RegionName → Nat → Cell α)
     (hx : p.x ≠ p.y) (hw : p.weight ≠ p.y) (h : OutputReady M p s t mem) :
-    ∃ u, FP.Structural.range M "off" start stop p.block (loopBody p 12) t = some u ∧
+    ∃ u, FP.Structural.rangeInt M "off" (start : Int) (stop : Int) p.block (loopBody p 24) t = some u ∧
       OutputReady M p s u (foldRange (outputStep M p s) start stop p.block mem) := by
-  apply range_values M "off" (loopBody p 12) (outputStep M p s)
+  apply SignedRange.values M "off" (loopBody p 24) (outputStep M p s)
     (fun _ mem t => OutputReady M p s t mem) (fun mem t => OutputReady M p s t mem)
     start stop p.block mem t
   · intro n a u hu _
@@ -21,12 +21,12 @@ theorem output_range_run {α : Type} [Inhabited α] (M : Algebra α) (p : Parame
   · exact h
 
 theorem source_split (p : Parameters) : (kernel p).surfaceBody = prelude p ++
-    [ComputeStmt.forRange "off" 0 p.columns p.block (loopBody p 6)] ++ meanPost p ++
-    [ComputeStmt.forRange "off" 0 p.columns p.block (loopBody p 9)] ++ varPost p ++
-    [ComputeStmt.forRange "off" 0 p.columns p.block (loopBody p 12)] := by rfl
+    [ComputeStmt.forRangeInt "off" (.ref .int [] "zero") (.ref .int [] "N") (.constNat p.block) (loopBody p 18)] ++ meanPost p ++
+    [ComputeStmt.forRangeInt "off" (.ref .int [] "zero") (.ref .int [] "N") (.constNat p.block) (loopBody p 21)] ++ varPost p ++
+    [ComputeStmt.forRangeInt "off" (.ref .int [] "zero") (.ref .int [] "N") (.constNat p.block) (loopBody p 24)] := by rfl
 
 theorem complete_run {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : State α)
-    (epsilon : α) (heps : s.regs .real [] "eps_arg"=some (fun _ => epsilon))
+    (epsilon : α) (heps : s.regs .real [] "eps"=some (fun _ => epsilon))
     (hx : p.x ≠ p.y) (hw : p.weight ≠ p.y) :
     ∃ t, FP.Structural.exec M (kernel p) s = some t ∧ t.mem = referenceMem M p s := by
   obtain ⟨a,ha,hr⟩ := prelude_run M p s
@@ -35,11 +35,12 @@ theorem complete_run {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters
   obtain ⟨d,hd,hu⟩ := var_range_run M p s c 0 p.columns (initial M p) ht
   obtain ⟨e,he,hv⟩ := var_post_run M p s d epsilon heps hu
   obtain ⟨f,hf,hw'⟩ := output_range_run M p s e 0 p.columns s.mem hx hw hv
+  simp only [Int.natCast_zero] at hb hd hf
   refine ⟨f,?_,hw'.memory⟩
   change run M (kernel p).surfaceBody s = some f
   rw [source_split]
   simp only [run_append, ha, run, List.foldlM_cons, List.foldlM_nil, bind, pure, Option.bind,
-    step, hb, hc, hd, he, hf]
+    step, evalOp_unfold, hr.zeroValue, hr.nValue, ht.zeroValue, ht.nValue, hv.zeroValue, hv.nValue, hb, hc, hd, he, hf]
 
 #axiomsClean output_range_run
 #axiomsClean source_split

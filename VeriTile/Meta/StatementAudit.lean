@@ -467,7 +467,16 @@ private def fpExprReachable (proof : Expr) : StateRefT FPAssumptionState MetaM B
   if localState.1 then return true
   for localProof in localState.2 do
     let type ← Meta.inferType localProof
-    if type.getAppFn.isFVar || type.isMVar then return true
+    if type.isMVar then return true
+    if type.getAppFn.isFVar then
+      -- An abstract data carrier α : Type cannot make a value a : α a
+      -- proof. Treating every such value as an opaque proof prevents pruning
+      -- throughout otherwise FP-free execution lemmas. Keep unknown Prop and
+      -- unresolved Sort cases conservative; concrete proof-bearing records,
+      -- projections and proof arguments still follow their dependency graph.
+      let kind ← Meta.whnf (← Meta.inferType type)
+      unless (match kind with | .sort (.succ _) => true | _ => false) do
+        return true
     names := names ++ (← specExprConsts env type)
   for name in names do
     if ← fpConstantReachable name [name] then return true
@@ -510,8 +519,12 @@ private partial def visitFPAssumptions (proof : Expr) :
       visitFPAssumptions body
       modify fun s => { s with internalProofVars := previous }
   | _ =>
-    unless ← Meta.isProof proof do return
+    -- Reachability is conservative and independent of proof elaboration.
+    -- Prune FP-free terms before asking isProof to weak-head normalize large
+    -- execution-state types. This uses the same dependency predicate as below;
+    -- no reachable atom, strict certificate or opaque premise is discarded.
     unless ← fpExprReachable proof do return
+    unless ← Meta.isProof proof do return
     let args := proof.getAppArgs
     -- Dispatchers may select strict versus empirical evidence with a concrete
     -- condition. Reduce only the conditional head before inspecting branches;
@@ -625,7 +638,8 @@ private partial def visitFPAssumptions (proof : Expr) :
             modify fun s => { s with
               internalProofVars := previousVars
               forwardedCertificates := previousCertificates }
-        else if ← Meta.isProof arg then visitFPAssumptions arg
+        else if ← fpExprReachable arg then
+          if ← Meta.isProof arg then visitFPAssumptions arg
       return
     let env ← getEnv
     if let .const name levels := proof.getAppFn then
@@ -642,7 +656,8 @@ private partial def visitFPAssumptions (proof : Expr) :
     -- Constructors, transports and library combinators retain their proof
     -- arguments. Skip data arguments, including unused rule-table entries.
     for arg in args do
-      if ← Meta.isProof arg then visitFPAssumptions arg
+      if ← fpExprReachable arg then
+        if ← Meta.isProof arg then visitFPAssumptions arg
     -- A local/opaque FP proof may conceal further atoms. Never print "none"
     -- in this case. Core recursors have their branches inspected above.
     let opaqueHead := match proof.getAppFn with

@@ -1,0 +1,358 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/matmul_persistent_triton_scalar_cast.py",
+    "lean": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Kernels.lean",
+    "python_function": "matmul_kernel_persistent",
+    "lean_definition": "fp16",
+    "signature_definition": "fp16Signature",
+    "mode": "pasted_body",
+    "expected_signature": {
+      "pointers": [
+        [
+          "a_ptr",
+          "fp16"
+        ],
+        [
+          "b_ptr",
+          "fp16"
+        ],
+        [
+          "c_ptr",
+          "fp16"
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "i64"
+        ],
+        [
+          "N",
+          "i64"
+        ],
+        [
+          "K",
+          "i64"
+        ],
+        [
+          "stride_am",
+          "i64"
+        ],
+        [
+          "stride_ak",
+          "i64"
+        ],
+        [
+          "stride_bk",
+          "i64"
+        ],
+        [
+          "stride_bn",
+          "i64"
+        ],
+        [
+          "stride_cm",
+          "i64"
+        ],
+        [
+          "stride_cn",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE_M",
+        "BLOCK_SIZE_N",
+        "BLOCK_SIZE_K",
+        "GROUP_SIZE_M",
+        "NUM_SMS"
+      ],
+      "readPorts": [
+        "a_ptr",
+        "b_ptr"
+      ],
+      "writePorts": [
+        "c_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "M": "M",
+      "N": "N",
+      "K": "K",
+      "stride_am": "stride_am",
+      "stride_ak": "stride_ak",
+      "stride_bk": "stride_bk",
+      "stride_bn": "stride_bn",
+      "stride_cm": "stride_cm",
+      "stride_cn": "stride_cn"
+    },
+    "profile_variant": "fp16",
+    "profile_scope": "selected Python wrapper storage profile"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/matmul_persistent_triton_scalar_cast.py",
+    "lean": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Kernels.lean",
+    "python_function": "matmul_kernel_persistent",
+    "lean_definition": "f8e4",
+    "signature_definition": "f8e4Signature",
+    "mode": "pasted_body",
+    "expected_signature": {
+      "pointers": [
+        [
+          "a_ptr",
+          "f8e4"
+        ],
+        [
+          "b_ptr",
+          "f8e4"
+        ],
+        [
+          "c_ptr",
+          "f8e4"
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "i64"
+        ],
+        [
+          "N",
+          "i64"
+        ],
+        [
+          "K",
+          "i64"
+        ],
+        [
+          "stride_am",
+          "i64"
+        ],
+        [
+          "stride_ak",
+          "i64"
+        ],
+        [
+          "stride_bk",
+          "i64"
+        ],
+        [
+          "stride_bn",
+          "i64"
+        ],
+        [
+          "stride_cm",
+          "i64"
+        ],
+        [
+          "stride_cn",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE_M",
+        "BLOCK_SIZE_N",
+        "BLOCK_SIZE_K",
+        "GROUP_SIZE_M",
+        "NUM_SMS"
+      ],
+      "readPorts": [
+        "a_ptr",
+        "b_ptr"
+      ],
+      "writePorts": [
+        "c_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "M": "M",
+      "N": "N",
+      "K": "K",
+      "stride_am": "stride_am",
+      "stride_ak": "stride_ak",
+      "stride_bk": "stride_bk",
+      "stride_bn": "stride_bn",
+      "stride_cm": "stride_cm",
+      "stride_cn": "stride_cn"
+    },
+    "profile_variant": "f8e4",
+    "profile_scope": "selected Python wrapper storage profile"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/matmul_persistent_triton_reordered.py",
+    "lean": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Kernels.lean",
+    "python_function": "matmul_kernel_persistent",
+    "lean_definition": "fp16Reordered",
+    "signature_definition": "fp16ReorderedSignature",
+    "mode": "pasted_body",
+    "expected_signature": {
+      "pointers": [
+        [
+          "a_ptr",
+          "fp16"
+        ],
+        [
+          "b_ptr",
+          "fp16"
+        ],
+        [
+          "c_ptr",
+          "fp16"
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "i64"
+        ],
+        [
+          "N",
+          "i64"
+        ],
+        [
+          "K",
+          "i64"
+        ],
+        [
+          "stride_am",
+          "i64"
+        ],
+        [
+          "stride_ak",
+          "i64"
+        ],
+        [
+          "stride_bk",
+          "i64"
+        ],
+        [
+          "stride_bn",
+          "i64"
+        ],
+        [
+          "stride_cm",
+          "i64"
+        ],
+        [
+          "stride_cn",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE_M",
+        "BLOCK_SIZE_N",
+        "BLOCK_SIZE_K",
+        "GROUP_SIZE_M",
+        "NUM_SMS"
+      ],
+      "readPorts": [
+        "a_ptr",
+        "b_ptr"
+      ],
+      "writePorts": [
+        "c_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "M": "M",
+      "N": "N",
+      "K": "K",
+      "stride_am": "stride_am",
+      "stride_ak": "stride_ak",
+      "stride_bk": "stride_bk",
+      "stride_bn": "stride_bn",
+      "stride_cm": "stride_cm",
+      "stride_cn": "stride_cn"
+    },
+    "profile_variant": "fp16Reordered",
+    "profile_scope": "selected Python wrapper storage profile"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/matmul_persistent_triton_reordered.py",
+    "lean": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Kernels.lean",
+    "python_function": "matmul_kernel_persistent",
+    "lean_definition": "f8e4Reordered",
+    "signature_definition": "f8e4ReorderedSignature",
+    "mode": "pasted_body",
+    "expected_signature": {
+      "pointers": [
+        [
+          "a_ptr",
+          "f8e4"
+        ],
+        [
+          "b_ptr",
+          "f8e4"
+        ],
+        [
+          "c_ptr",
+          "f8e4"
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "i64"
+        ],
+        [
+          "N",
+          "i64"
+        ],
+        [
+          "K",
+          "i64"
+        ],
+        [
+          "stride_am",
+          "i64"
+        ],
+        [
+          "stride_ak",
+          "i64"
+        ],
+        [
+          "stride_bk",
+          "i64"
+        ],
+        [
+          "stride_bn",
+          "i64"
+        ],
+        [
+          "stride_cm",
+          "i64"
+        ],
+        [
+          "stride_cn",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE_M",
+        "BLOCK_SIZE_N",
+        "BLOCK_SIZE_K",
+        "GROUP_SIZE_M",
+        "NUM_SMS"
+      ],
+      "readPorts": [
+        "a_ptr",
+        "b_ptr"
+      ],
+      "writePorts": [
+        "c_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "M": "M",
+      "N": "N",
+      "K": "K",
+      "stride_am": "stride_am",
+      "stride_ak": "stride_ak",
+      "stride_bk": "stride_bk",
+      "stride_bn": "stride_bn",
+      "stride_cm": "stride_cm",
+      "stride_cn": "stride_cn"
+    },
+    "profile_variant": "f8e4Reordered",
+    "profile_scope": "selected Python wrapper storage profile"
+  }
+]

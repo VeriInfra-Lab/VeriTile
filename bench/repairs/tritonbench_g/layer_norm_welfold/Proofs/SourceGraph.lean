@@ -15,7 +15,8 @@ structure SourceBindings {α : Type} (M : Algebra α) (p : Primitives α) : Prop
   div : ∀ x y, p.div x y = M.binary (some .fp32) .real .div x y
   cast32 : ∀ x, p.unary 0 x = M.cast (some .fp32) .real .real x
   bf16 : ∀ x, p.unary 1 x = M.cast none .real .bf16 x
-  rsqrt : ∀ x, p.unary 2 x = M.unary (some .fp32) .rsqrt x
+  /-- The selected source uses the CUDA device-library port. -/
+  rsqrt : ∀ x, p.unary 2 x = M.unary (some .fp32) .libdeviceRsqrt x
 
 /-- Atom kinds 0/1 are D/epsilon; kinds 2/3/4 are original X/W/bias cells.
 There is no atom representing a desired reduction or output. -/
@@ -24,7 +25,7 @@ def inputs {α : Type} [Inhabited α] (M : Algebra α) (s : State α)
   let pair := Nat.unpair n
   match pair.1 with
   | 0 => M.fromNat (some .fp32) D
-  | 1 => M.literal none .real (1e-05)
+  | 1 => M.literal (some .fp32) .real (1e-05)
   | 2 => (s.mem X (pair.2+D*row)).read .real
   | 3 => (s.mem W pair.2).read .real
   | _ => (s.mem Bias pair.2).read .real

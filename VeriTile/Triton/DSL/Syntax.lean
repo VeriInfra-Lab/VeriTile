@@ -20,7 +20,7 @@ declare_syntax_cat tritonInlineAsmKwarg
 -- An inline instruction keeps its literal text and complete call ABI. The
 -- expander accepts only explicitly modeled instruction/constraint profiles.
 syntax ident "=" tritonExpr : tritonInlineAsmKwarg
-syntax ident "=" tritonDType : tritonInlineAsmKwarg
+-- Dtypes are expressions; a second dtype production would make dtype=tl.int32 ambiguous.
 syntax ident "=" "[" tritonExpr,* "]" : tritonInlineAsmKwarg
 syntax (name := tritonInlineAsm) "tl.inline_asm_elementwise(" str
   ("," tritonInlineAsmKwarg)* ")" : tritonExpr
@@ -53,7 +53,10 @@ syntax (name := tritonRandRoundsKw) "tl.rand(" tritonExpr ", " tritonExpr "," "n
 -- Generated only by the source-profile prepass; a direct surface use is rejected.
 syntax (name := tritonRandProfiled) "tl.__rand_profiled(" term ", " tritonExpr ", " tritonExpr ")" : tritonExpr
 -- Only explicitly bound source helpers are admitted by the random prepass.
-syntax (name := tritonSourceHelperCall) (priority := low) ident "(" tritonExpr ")" : tritonExpr
+-- Python call results are atoms for postfix casts and indexing. This also
+-- lets an attribute-target cast, initially lexed as a dotted helper name,
+-- be followed by another cast before its checked syntax normalization.
+syntax:max (name := tritonSourceHelperCall) (priority := low) ident "(" tritonExpr ")" : tritonExpr
 syntax (name := tritonUniform32Profiled) "tl.__uniform32_profiled(" tritonExpr ")" : tritonExpr
 syntax (name := tritonUnsignedAddProfiled) "tl.__unsigned_add_profiled(" num ", " term ", " term ", " tritonExpr ", " tritonExpr ")" : tritonExpr
 syntax (name := tritonUnsignedMulProfiled) "tl.__unsigned_mul_profiled(" num ", " term ", " term ", " tritonExpr ", " tritonExpr ")" : tritonExpr
@@ -81,6 +84,8 @@ syntax "leaky_relu" "(" tritonExpr ")" : tritonExpr
 syntax "tl.sqrt(" tritonExpr ")" : tritonExpr
 syntax "tl.math.rsqrt(" tritonExpr ")" : tritonExpr
 syntax "tl.rsqrt(" tritonExpr ")" : tritonExpr
+syntax "libdevice.rsqrt(" tritonExpr ")" : tritonExpr
+syntax "tl.extra.cuda.libdevice.rsqrt(" tritonExpr ")" : tritonExpr
 syntax "tl.tanh(" tritonExpr ")" : tritonExpr
 syntax "triton_tanh(" tritonExpr ")" : tritonExpr
 syntax "libdevice.tanh(" tritonExpr ")" : tritonExpr
@@ -172,6 +177,9 @@ syntax "tl.uint32" : tritonDType
 syntax "tl.uint64" : tritonDType
 syntax "OUT_DTYPE" : tritonDType
 syntax "DTYPE" : tritonDType
+
+-- Source metadata predicates are resolved from the checked type environment.
+syntax:max (name := tritonSourceDTypeValue) tritonDType : tritonExpr
 
 -- Block-level matrix multiply.
 syntax "tl.dot(" tritonExpr ", " tritonExpr ")" : tritonExpr

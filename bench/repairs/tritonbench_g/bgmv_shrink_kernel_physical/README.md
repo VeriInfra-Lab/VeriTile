@@ -39,16 +39,15 @@ float descriptor to its actual FP32 launch word is an ordinary local host ABI
 boundary, not a whole-result numerical assumption.
 
 `Target.lean` declares independent dense Real and typed numerical targets.
-`SurfaceSource.lean` quotes the complete signed source. The source check compares
-the entire quotation AST and rejects mutations of loop stride, masks, padding,
-scaling, atomic operation, PID axis, and integer width. The comparison permits
-only the documented early-return/active-guard translation, explicit implicit
-output conversion, equivalent `tl.cast(x, dtype)` / `x.to(dtype)` syntax, and
-tuple/list shape notation. A template-only zero assignment establishes the
-external scale register's type and is removed by `.drop 1`; actual execution
-starts with the supplied launch scalar word. The shared DSL represents some provably nonnegative
-int64 aranges through its Nat channel; signed PID, rank and range arithmetic
-remain explicit, and `Proofs/Bounds.lean` derives the finite-word bounds.
+`Kernels.lean` contains the complete original Python function body and explicit
+scalar-left candidate. Eight exact body mappings cover FP16/BF16 storage and
+i32/i64 metadata pointers. Call metadata remains outside `triton { ... }`;
+no template assignment, statement removal, guard inversion or cast rewriting
+is needed to paste the original function body. The signed int64 aranges, return,
+split-K loop, masks, augmented scaling and atomic call remain as written.
+`jit-correspondence.json` pins the sources and ABI bindings. The separate
+`check_pair_source.py` validates the complete candidate Python module, permitting
+only the final multiplication operand exchange and entry/call names.
 
 `check_candidate.py` executes the actual host AST against CPU tensor backing
 storage and a launch-recording CUDA metadata stub. It checks the physical
@@ -96,8 +95,11 @@ statements, caller-Tensor results and physical byte/backing frames.
 `Kernels.lean` contains ordinary direct quotations of both FP16 and BF16
 sources, with runtime FP32 scaling explicit. The existing scalar-left candidate
 exchanges only the final `accumulator * scaling` operands. The original source
-is preserved as a complete kernel equality in `Proofs/SourcePreservation.lean`;
-the archived generator is outside the main proof dependency closure.
+is connected to its historical presentation by complete execution equality and
+access-safety equivalence in `Proofs/SourcePreservation.lean`; the source trees
+are not claimed equal. `Proofs/SourceControl.lean` proves the Boolean guard and
+constant loop-stride connections. The archived generator is outside the main
+proof dependency closure.
 
 `Proofs/PairConnection.lean` proves complete state equality and access-safety
 equivalence, including failed executions, from the local FP32 multiplication
@@ -123,3 +125,24 @@ imported explicitly from `Misc/`. The primary `Contract.lean`, `Correct.lean` an
 not re-export optional native conclusions. Declaration names, statements and
 proof bodies are preserved; this file organization changes no input domain,
 precision, numerical rule or task completion status.
+
+## Literal function-body migration
+
+The public Real and FP readers and their contracts are unchanged. The proofs
+follow actual integer registers produced by `.to(tl.int64)` and prove their
+nonnegative address parts from the existing call geometry. The runtime FP32
+scale stays a supplied register. The quotation inserts Triton's implicit
+conversion to the destination element type at `tl.atomic_add`; it uses the
+same conversion discipline as `tl.store`. The generic Lean output-type domain
+is retained, while the selected Python wrapper supplies FP32 Y.
+
+The proof chain reconnects complete source execution and safety, every batch
+and all 64 split programs, sentinel rows, each output address's atomic order,
+the independent Real formula, typed FP observations and exterior frames.
+The FP pair reuses its existing strict all-word FP32 multiplication certificate;
+no experimental rule or arbitrary cast identity is introduced.
+
+The pure source checker and mutation tests run without Torch. The original
+host guard checks are retained but require Torch to execute; source validation
+does not count as a host or GPU run. The final frozen cumulative replay and
+its exact environment limitations are recorded in the review checkpoints.

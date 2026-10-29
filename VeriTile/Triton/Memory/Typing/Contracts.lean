@@ -160,6 +160,7 @@ def Op.RespectsRegionTyping (Γ : RegionTyping) : Op dtype shape → Prop
   | .sigmoid a => a.RespectsRegionTyping Γ
   | .sqrt a => a.RespectsRegionTyping Γ
   | .rsqrt a => a.RespectsRegionTyping Γ
+  | .libdeviceRsqrt a => a.RespectsRegionTyping Γ
   | .tanh a => a.RespectsRegionTyping Γ
   | .sin a => a.RespectsRegionTyping Γ
   | .cos a => a.RespectsRegionTyping Γ

@@ -50,7 +50,7 @@ inductive Unary where
   | neg (dtype : FloatDType)
   | abs (dtype : FloatDType)
   | exp | libdeviceExp | libdeviceLog | libdeviceExpm1 | libdeviceLog1p | libdeviceTanh
-  | exp2 | log | log2 | sigmoid | sqrt | rsqrt | tanh
+  | exp2 | log | log2 | sigmoid | sqrt | rsqrt | libdeviceRsqrt | tanh
   | sin | cos | tan | atan | cosh | sinh | erf
   /-- Minimum with a positive-infinite right operand; preserves FP behavior. -/
   | minPosInf
@@ -583,6 +583,7 @@ noncomputable def evalOp {α : Type} [Inhabited α] (M : Algebra α) (p : Option
   | .sigmoid a, s => return (M.unary p .sigmoid) ∘ (← evalOp M p a s)
   | .sqrt a, s => return (M.unary p .sqrt) ∘ (← evalOp M p a s)
   | .rsqrt a, s => return (M.unary p .rsqrt) ∘ (← evalOp M p a s)
+  | .libdeviceRsqrt a, s => return (M.unary p .libdeviceRsqrt) ∘ (← evalOp M p a s)
   | .tanh a, s => return (M.unary p .tanh) ∘ (← evalOp M p a s)
   | .sin a, s => return (M.unary p .sin) ∘ (← evalOp M p a s)
   | .cos a, s => return (M.unary p .cos) ∘ (← evalOp M p a s)

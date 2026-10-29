@@ -18,6 +18,6 @@ def carry (M : Algebra α) (gemma : Bool) (x g saved : Nat → α) : Nat → α
   | n+1 => add M (carry M gemma x g saved n) (term M gemma (x n) (g n) (saved n))
 
 def output (M : Algebra α) (gemma : Bool) (x g saved : Nat → α) (rows : Nat) : Cell α :=
-  .mk .real (cast M (carry M gemma x g saved rows))
+  .mk .real (carry M gemma x g saved rows)
 end
 end VeriTile.Bench.Repairs.FastRmsLayernorm.FPWeightReference

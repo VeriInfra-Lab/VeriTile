@@ -14,29 +14,31 @@ variable {α : Type} [Inhabited α]
 theorem iteration_safe (M : Algebra α) (h : Call) (K pid row : Nat) (initial s : State α)
     (bounds : RegionName → Nat) (inside : RealWeightSafety.Bounds h K pid bounds)
     (inv : Holds M h K pid initial row s) (active : row<h.rows) :
-    traceSafeList (engine M) bounds (loopBody h K) (s.setReg "row" .nat [] (fun _=>row)) := by
+    traceSafeList (engine M) bounds (loopBody h K) (s.setReg "row" .int [] (fun _=>(row : Int))) := by
   cases mode : h.gemma
   all_goals
-    simp (config := {maxSteps:=500000}) [loopBody,Kernels.weightBackward,mode,
+    simp (config := {maxSteps:=500000}) [loopBody,Kernels.weightBackward,Kernels.weightSource,mode,
       ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,
       safeCompute_unfold,safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,
       maskActive_unfold,run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,
       Option.bind,engine,Algebra.withDefaultPrecision,resolvePrecision,
       ComputeDType.eraseDType,numeric,natLt,numericLt,numericLe,numericEq,bop,Region.cast,
-      State.setReg,ofFloat,toFloat,inv.col,inv.mask,inv.acc,columns,masks]
+      State.setReg,ofFloat,toFloat,inv.col,inv.mask,inv.acc,columns,masks,
+      -Nat.cast_mul,-Nat.cast_add,← Int.natCast_mul,← Int.natCast_add]
   all_goals exact ⟨inside.upstream row active,inside.input row active,inside.saved row active⟩
 
 theorem loop_safe (M : Algebra α) (h : Call) (K pid row : Nat) (initial s : State α)
     (bounds : RegionName → Nat) (inside : RealWeightSafety.Bounds h K pid bounds)
     (inv : Holds M h K pid initial row s) :
-    rangeSafe (engine M) bounds "row" row h.rows 1 (loopBody h K) s := by
-  rw [rangeSafe_unfold]
+    rangeIntSafe (engine M) bounds "row" (row : Int) (h.rows : Int) 1 (loopBody h K) s := by
+  rw [rangeIntSafe_unfold]
   by_cases active : row<h.rows
-  · simp only [Nat.one_ne_zero,if_false,active,if_true]
+  · simp only [Nat.one_ne_zero,if_false,Int.ofNat_lt,active,if_true]
     refine ⟨iteration_safe M h K pid row initial s bounds inside inv active,?_⟩
     obtain ⟨next,ran,mem,_,col,mask,acc⟩ := iteration M h K pid row s
       (carry M h K pid initial row) inv.col inv.mask inv.acc
     rw [ran]
+    simp only [← Int.natCast_add, Int.natCast_one]
     apply loop_safe M h K pid (row+1) initial next bounds inside
     refine ⟨by omega,col,mask,?_,mem.trans inv.mem⟩
     rw [acc]
@@ -52,7 +54,7 @@ theorem complete (M : Algebra α) (h : Call) (K : Nat) (s : State α)
   unfold TraceSafe
   rw [source_body,List.append_assoc,traceSafeList_append]
   constructor
-  · simp [prefixCode,Kernels.weightBackward,ComputeKernel.surfaceBody,traceSafeList_unfold,
+  · simp [prefixCode,Kernels.weightBackward,Kernels.weightSource,ComputeKernel.surfaceBody,traceSafeList_unfold,
       stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,run,step,evalExpr,
       evalComputeOp,evalOp_unfold,Option.bind,engine,Algebra.withDefaultPrecision,
       resolvePrecision,ComputeDType.eraseDType,numeric,natLt,numericLt,bop,Region.cast,State.setReg]
@@ -65,10 +67,11 @@ theorem complete (M : Algebra α) (h : Call) (K : Nat) (s : State α)
     · intro after ran
       obtain ⟨final,executed,inv⟩ := loop_executes M h K (s.pids 0) s 0 _ (initial_holds M h K s)
       simp only [step,evalOp_unfold,Option.bind] at ran
-      change range (engine M) "row" 0 h.rows 1 (loopBody h K) (initial M h K s)=some after at ran
+      change rangeInt (engine M) "row" 0 (h.rows : Int) 1 (loopBody h K) (initial M h K s)=some after at ran
+      simp only [Int.natCast_zero] at executed
       rw [executed] at ran
       cases ran
-      simp [tailCode,Kernels.weightBackward,ComputeKernel.surfaceBody,traceSafeList_unfold,
+      simp [tailCode,Kernels.weightBackward,Kernels.weightSource,ComputeKernel.surfaceBody,traceSafeList_unfold,
         stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,safeAddress_unfold,
         safeMask_unfold,addressSafe_unfold,maskActive_unfold,run,step,evalExpr,evalComputeOp,
         evalOp_unfold,Option.bind,engine,Algebra.withDefaultPrecision,resolvePrecision,

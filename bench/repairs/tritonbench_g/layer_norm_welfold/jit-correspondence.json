@@ -1,0 +1,194 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/layer_norm_welfold/layer_norm_welfold_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/layer_norm_welfold/Kernels.lean",
+    "python_function": "triton_red_fused_native_layer_norm_no_welford",
+    "lean_definition": "rowKernel",
+    "signature_definition": "rowSignature",
+    "expected_signature_arguments": [
+      "B",
+      "tree"
+    ],
+    "expected_signature": {
+      "parameters": [
+        [
+          "B",
+          "Nat"
+        ],
+        [
+          "tree",
+          "DSL.WelfordSource.Tree B"
+        ]
+      ],
+      "orderedRowSums": [
+        [
+          "_tmp3",
+          "B",
+          "tree"
+        ],
+        [
+          "_tmp12",
+          "B",
+          "tree"
+        ]
+      ],
+      "pointers": [
+        [
+          "in_out_ptr0",
+          "fp32"
+        ],
+        [
+          "in_out_ptr1",
+          "fp32"
+        ],
+        [
+          "in_ptr0",
+          "fp32"
+        ],
+        [
+          "in_ptr1",
+          "fp32"
+        ],
+        [
+          "in_ptr2",
+          "fp32"
+        ],
+        [
+          "out_ptr0",
+          "bf16"
+        ]
+      ],
+      "scalars": [
+        [
+          "xnumel",
+          "i32"
+        ],
+        [
+          "rnumel",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "XBLOCK",
+        "RBLOCK"
+      ],
+      "readPorts": [
+        "in_ptr0",
+        "in_ptr1",
+        "in_ptr2"
+      ],
+      "writePorts": [
+        "in_out_ptr0",
+        "in_out_ptr1",
+        "out_ptr0"
+      ]
+    },
+    "expected_call_bindings": {
+      "xnumel": "S",
+      "rnumel": "D"
+    },
+    "expected_constexpr_bindings": {
+      "XBLOCK": 1,
+      "RBLOCK": {
+        "parameter": "B"
+      }
+    },
+    "mode": "pasted_body"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/layer_norm_welfold/layer_norm_welfold_row_offset_reused.py",
+    "lean": "bench/repairs/tritonbench_g/layer_norm_welfold/Kernels.lean",
+    "python_function": "triton_red_fused_native_layer_norm_no_welford_row_offset_reused",
+    "lean_definition": "rowOffsetReusedKernel",
+    "signature_definition": "rowSignature",
+    "expected_signature_arguments": [
+      "B",
+      "tree"
+    ],
+    "expected_signature": {
+      "parameters": [
+        [
+          "B",
+          "Nat"
+        ],
+        [
+          "tree",
+          "DSL.WelfordSource.Tree B"
+        ]
+      ],
+      "orderedRowSums": [
+        [
+          "_tmp3",
+          "B",
+          "tree"
+        ],
+        [
+          "_tmp12",
+          "B",
+          "tree"
+        ]
+      ],
+      "pointers": [
+        [
+          "in_out_ptr0",
+          "fp32"
+        ],
+        [
+          "in_out_ptr1",
+          "fp32"
+        ],
+        [
+          "in_ptr0",
+          "fp32"
+        ],
+        [
+          "in_ptr1",
+          "fp32"
+        ],
+        [
+          "in_ptr2",
+          "fp32"
+        ],
+        [
+          "out_ptr0",
+          "bf16"
+        ]
+      ],
+      "scalars": [
+        [
+          "xnumel",
+          "i32"
+        ],
+        [
+          "rnumel",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "XBLOCK",
+        "RBLOCK"
+      ],
+      "readPorts": [
+        "in_ptr0",
+        "in_ptr1",
+        "in_ptr2"
+      ],
+      "writePorts": [
+        "in_out_ptr0",
+        "in_out_ptr1",
+        "out_ptr0"
+      ]
+    },
+    "expected_call_bindings": {
+      "xnumel": "S",
+      "rnumel": "D"
+    },
+    "expected_constexpr_bindings": {
+      "XBLOCK": 1,
+      "RBLOCK": {
+        "parameter": "B"
+      }
+    },
+    "mode": "pasted_body"
+  }
+]

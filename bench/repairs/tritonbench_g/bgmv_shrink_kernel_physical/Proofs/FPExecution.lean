@@ -16,7 +16,7 @@ end Control
 theorem exec_code (M : Algebra α) (h : Call) (s : State α) :
     FP.Structural.exec M (Surface.source h) s=run M (code h) s := by
   unfold code
-  cases eq : h.storage <;> simp only [Surface.source,Kernels.source,Kernels.originalFP16,Kernels.originalBF16,eq]
+  cases eq : h.storage <;> simp only [Surface.source,Kernels.source,Kernels.originalFP16,Kernels.originalBF16,Kernels.original_fp16_i64,Kernels.original_bf16_i64,eq]
   all_goals rfl
 
 theorem preguard_memory (M : Algebra α) (P : Primitives α) (h : Call)
@@ -29,6 +29,7 @@ theorem condition (M : Algebra α) (P : Primitives α) (h : Call)
     (batch split : Nat) (data : Data α) :
     FP.Structural.evalOp (machine M P) none guard (preguard M P h batch split data).val=
       some (fun _ => decide (data.indices batch ≠ -1)) := by
+  rw [FPProgram.guard,SourceControl.eval_not_eq]
   apply Control.integer_guard
   rcases h with ⟨batches,adapters,N,K,BN,columns,positive,covered,outputCovered,storage,outputType,scaling⟩
   cases storage <;> rfl

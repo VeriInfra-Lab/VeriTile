@@ -1,0 +1,145 @@
+{
+  "schema": 1,
+  "kind": "verbatim_fields_from_archived_review",
+  "archive": {
+    "commit": "5ea0e46126cc1c6eb05e4219ddc5dc13246ec3ce",
+    "path": "bench/review-checkpoints/2026-10-29/native-two-pass-layernorm-function-bodies/review.json",
+    "sha256": "e80439ccad63b1ff8f829fb30ec3718bef54c3026b9d42e910b9d972ca6dc860",
+    "url": "https://github.com/VeriInfra-Lab/VeriTile/blob/5ea0e46126cc1c6eb05e4219ddc5dc13246ec3ce/bench/review-checkpoints/2026-10-29/native-two-pass-layernorm-function-bodies/review.json"
+  },
+  "context": "Verification below was performed on the archived source snapshot. Nested evidence paths resolve in that archive. The full semantic review, theorem audit and logs remain there. This split has separate integration checks.",
+  "excerpt": {
+    "status": "verified_task_batch_corpus_migration_incomplete",
+    "code_commit": "c072de255673a3dedbfaf56ec6a079992928f83e",
+    "new_task_migrations": [
+      "layer_norm_welfold"
+    ],
+    "regression_only_pending_body_tasks": [
+      "attn_fwd_triton",
+      "block_sparse_attn",
+      "chunk_bwd_dqkg",
+      "context_attn_mistral",
+      "fused_layernorm_triton"
+    ],
+    "verification": {
+      "focused": {
+        "status": "PASS",
+        "explicit_modules": 102,
+        "compiled_modules": 243,
+        "joint_import": "PASS",
+        "scope": "All 102 task/frontend roots and joint import pass; every theorem in the 103 focused defining modules is audited. Final 5657-root warm/clean replays cover every cumulative root with the same shared frontend."
+      },
+      "warm_and_joint": {
+        "status": "PASS",
+        "explicit_modules": 5657,
+        "jobs": 15370
+      },
+      "independent_clean_checkout": {
+        "status": "PASS",
+        "explicit_modules": 5657,
+        "jobs": 15370,
+        "project_build_initially_present": false,
+        "project_objects_imported_from_other_checkouts": false,
+        "only_fixed_external_dependencies_imported": true,
+        "setup": {
+          "path": "bench/review-checkpoints/2026-10-29/native-two-pass-layernorm-function-bodies/clean.json",
+          "sha256": "0ef5042debdcdce23677f24295ef35557084e9f36602db0d0a8e8e9bc84bf4d0"
+        }
+      },
+      "axiom_audit": {
+        "status": "PASS",
+        "defining_modules": 1940,
+        "elaborated_theorems": 45013,
+        "private_helpers_included": true,
+        "allowed": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "method": "Theorem roots discovered by defining module; accumulated dependency union checked after every root in one immutable Lean environment."
+      },
+      "fp_assumptions": "row_offset_reused_equiv prints none. The address rewrite retains the complete FP graph, including the distinct libdevice port and every source cast. All cumulative theorem audit commands are replayed.",
+      "python": {
+        "targeted": {
+          "status": "PASS",
+          "tests": 362
+        },
+        "full": {
+          "status": "KNOWN_PREEXISTING_FAILURE",
+          "tests": 607,
+          "errors": 1
+        }
+      },
+      "source": {
+        "layer_norm_welfold": "Both complete 23-statement two-pass LayerNorm bodies retain the actual element-offset range loops, two-dimensional tiles, temporary names, casts, None masks, barriers, ordered sums and libdevice.rsqrt. The original Python is unchanged. A newly tracked Python candidate expresses the existing Lean row-address reuse; its whole-module AST restores exactly to the original after that sole rewrite. Actual prefix, loop, reduction, normalization, row/grid, access-safety and exterior-frame proofs reconnect to the independent Real formula and full FP program pair. The corrected unrolled reference is a proof aid, not a claim of unchanged historical AST equality. Public contracts and input domains remain unchanged; no new numerical assumption is introduced."
+      },
+      "official_comparator": {
+        "status": "UNAVAILABLE",
+        "actual_final_source_attempts": 102,
+        "reason": "Pinned official binaries require Landlock ABI v5; host supplies v4 and no systemd user isolation. No bypass."
+      },
+      "torch": "UNAVAILABLE: retained checker requires missing Torch/Triton.",
+      "cpu": {
+        "status": "PASS",
+        "scope": "Full Python module AST restoration permits only the existing row-address reuse, including definition-before-use ordering. The original Python remains unchanged; the candidate Python is newly tracked from the existing Lean transformation. No GPU or numerical execution.",
+        "pair_checker": {
+          "name": "full-pair-source-check",
+          "command": [
+            "python3",
+            "bench/repairs/tritonbench_g/layer_norm_welfold/check_pair_source.py"
+          ],
+          "exit_code": 0,
+          "code_commit": "c072de255673a3dedbfaf56ec6a079992928f83e",
+          "log": "/tmp/welfold112-full-pair-source-check.log"
+        },
+        "public_statements": "Public Real/FP readers, contracts and existing Python files are text-identical, including all parameters and premises."
+      },
+      "original_python_and_contracts": {
+        "status": "PASS",
+        "sha256": {
+          "bench/repairs/tritonbench_g/layer_norm_welfold/Contract.lean": "b0615a26b70c92c70760282fdf49db2c8ca8b938992c6998cff2f2b32b1415e8",
+          "bench/repairs/tritonbench_g/layer_norm_welfold/Correct.lean": "9b05fddde5936c057b16d2224895fa5b9b603e3a302b618cb5fa1ce99f101e86",
+          "bench/repairs/tritonbench_g/layer_norm_welfold/FPEquiv.lean": "4ddc099e963b8cd60d0f808f5eb08c5bd89dc21e113210350139cba52df32b7b",
+          "bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/Contract.lean": "29f11570b4f170a4865a61a5ac60ce718a4ae64f9fd45fc1b946e1ff2c65c210",
+          "bench/repairs/tritonbench_g/layer_norm_welfold/check_contract.py": "129962c156a5957a3eef0255569c475ae9ed836ba4a035fc368155ad6fb2bb93",
+          "bench/repairs/tritonbench_g/layer_norm_welfold/layer_norm_welfold_repaired.py": "73275d9885b7f63480d94dfeb2f9312f92266d030d2482061a3c41d9c9171742"
+        }
+      },
+      "gpu_or_numerical_experiment": "Not run.",
+      "earlier_failures": "Failed parser and proof drafts, including interrupted profiling, are retained. Fixes preserve view precision, positional None masks, loop-carried types, source reduction order and the distinct libdevice port. Unavailable, interrupted and failed checks do not count as passing.",
+      "scope_limits": "The original row-grid, tails, BF16 output and FP32 intermediate/mean/Rstd profiles and public contracts remain. Optional native results retain explicit operation-model bindings. Full Python discovery retains a pre-existing historical Structural receipt import error; this checkpoint also changes Structural to add the distinct intrinsic, and does not falsely repin the old receipt. The frontend retains FP compute precision through reshape and broadcast views, preserves dtype across positional stores and barriers, accepts direct None masks, and binds axis-one ordered sums through external reduction-tree metadata. libdevice.rsqrt has its own structural operation and Real projection, without identifying it with tl.rsqrt. Four new regressions distinguish intrinsic ports, nonidentity casts, ordered nonassociative reductions and typed versus untyped division; sixteen prior frontend regressions are replayed. All cumulative task/example roots are rebuilt with the final shared semantics. A separate standalone integer-literal assignment inference issue remains recorded for the ongoing migration; this task uses its original typed runtime alias.",
+      "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending; the pre-existing numerical receipt import error remains explicit."
+    },
+    "corpus_complete": false,
+    "corpus_counts": {
+      "tasks": 183,
+      "examples": 19,
+      "task_status": {
+        "selected_body_copy_checked": 118,
+        "uncovered_jit_functions": 65
+      },
+      "example_status": {
+        "authored_counterpart_body_copy_checked": 2,
+        "selected_body_copy_checked": 2,
+        "spec_derived_body_copy_checked": 15
+      },
+      "selected_jit_functions": 333,
+      "uncovered_selected_jit_functions": 145,
+      "primary_files_with_int64_screen_warning": 19,
+      "primary_lean_file_features": {
+        "tasks": {
+          "in_body_type_directives": 45,
+          "antiquotes": 51,
+          "dsl_loop": 0,
+          "dsl_numeric_helpers": 8
+        },
+        "examples": {
+          "in_body_type_directives": 0,
+          "antiquotes": 0,
+          "dsl_loop": 0,
+          "dsl_numeric_helpers": 0
+        }
+      }
+    }
+  }
+}

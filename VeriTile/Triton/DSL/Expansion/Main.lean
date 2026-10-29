@@ -311,6 +311,9 @@ private def machineIntegerCast? (dst : TSyntax `tritonDType) (src : EOut) :
     | .int32 => return some src
     | .int8 => return some { src with dtype := .int32 }
     | _ => return none
+  if let `(tritonDType| tl.int64) := dst then
+    if src.dtype == .bool then
+      return some ⟨← `(Op.boolToInt $src.term), .int, src.shape, none, none⟩
   let some width := unsignedCastWidth? dst | return none
   let bits : TSyntax `term := ⟨Syntax.mkNumLit (toString width)⟩
   let term ← match src.dtype with
@@ -321,7 +324,8 @@ private def machineIntegerCast? (dst : TSyntax `tritonDType) (src : EOut) :
 
 private def signedMachineCast (dt : TSyntax `tritonDType) : Bool :=
   match dt with
-  | `(tritonDType| tl.int8) | `(tritonDType| tl.int16) | `(tritonDType| tl.int32) => Bool.true
+  | `(tritonDType| tl.int8) | `(tritonDType| tl.int16) | `(tritonDType| tl.int32)
+  | `(tritonDType| tl.int64) => Bool.true
   | _ => Bool.false
 
 /-- Facts about immutable, external constexpr parameters on the current path.
@@ -485,6 +489,7 @@ partial def expandIntExpectedExpr (env : Env) (stx : TSyntax `tritonExpr) :
   let natToInt (e' : EOut) : MacroM EOut := do
     match e'.dtype with
     | .int | .int8 | .int32 => pure e'.forgetStorageWidth
+    | .bool => pure ⟨← `(Op.boolToInt $e'.term), .int, e'.shape, none, none⟩
     | .nat =>
         pure ⟨← `(Op.castNatToInt $e'.term), .int, e'.shape,
           e'.computeTerm, e'.computeDType?⟩
@@ -514,7 +519,7 @@ partial def expandIntExpectedExpr (env : Env) (stx : TSyntax `tritonExpr) :
     let args := stx.raw.getArgs
     if h : 0 < args.size then
       let e : TSyntax `tritonExpr := ⟨args[0]⟩
-      if methodCastTargetName? stx == some `tl.int32 then
+      if [some `tl.int32, some `tl.int64].contains (methodCastTargetName? stx) then
         natToInt (← expandExpr env stx)
       else expandIntExpectedExpr env e
     else
@@ -1253,7 +1258,7 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
       match target with
       | some .int =>
           let original ← expandExpr env e
-          if methodCastTargetName? stx == some `tl.int32 then
+          if [some `tl.int32, some `tl.int64].contains (methodCastTargetName? stx) then
             if let some cast ← machineIntegerCast? (← `(tritonDType| tl.int32)) original then
               return cast
           expandIntExpectedExpr env e
@@ -1562,6 +1567,13 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
       let eTerm ← realMathTerm "tl.rsqrt" e'
       let term ← `(Op.rsqrt $eTerm)
       let (ct, cp) ← floatingComputeArith? "tl.rsqrt" term e' e'
+      pure ⟨term, .real, e'.shape, ct, cp⟩
+  | `(tritonExpr| libdevice.rsqrt($e:tritonExpr))
+  | `(tritonExpr| tl.extra.cuda.libdevice.rsqrt($e:tritonExpr)) => do
+      let e' ← expandExpr env e
+      let eTerm ← realMathTerm "libdevice.rsqrt" e'
+      let term ← `(Op.libdeviceRsqrt $eTerm)
+      let (ct, cp) ← floatingComputeArith? "libdevice.rsqrt" term e' e'
       pure ⟨term, .real, e'.shape, ct, cp⟩
   | `(tritonExpr| tl.tanh($e:tritonExpr)) => do
       let e' ← expandExpr env e
@@ -2216,7 +2228,8 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
       let e' ← expandExpr env e
       let (_, targetShape) ← expandShapeDims "tl.broadcast_to" dims.getElems
       let out ← coerceShape e'.term e'.shape targetShape "tl.broadcast_to"
-      pure ⟨out, e'.dtype, targetShape, none, none⟩
+      let (computeTerm?, computeDType?) ← floatingComputeArith? "tl.broadcast_to" out e' e'
+      pure ⟨out, e'.dtype, targetShape, computeTerm?, computeDType?⟩
   | `(tritonExpr| tl.view($e:tritonExpr, [$dims:tritonExpr,*])) => do
       expandReshapeLike expandExpr env "tl.view" e dims.getElems
   | `(tritonExpr| tl.ravel($e:tritonExpr)) => do
@@ -2359,7 +2372,21 @@ private partial def hasKnownFloatingValue (env : Env) (raw : Syntax) : Bool :=
   let explicitLiteral := match (⟨raw⟩ : TSyntax `tritonExpr) with
     | `(tritonExpr| $_:scientific) => Bool.true
     | _ => Bool.false
-  here || explicitLiteral || raw.getArgs.any (hasKnownFloatingValue env)
+  -- An explicitly floating zero/full constructor is also source type
+  -- evidence. A later integer divisor can pin its accumulator in the coarse
+  -- whole-body scan, but cannot turn this assignment into integer arithmetic.
+  let rec floatingDTypeToken (value : Syntax) : Bool :=
+    let names := ["tl.float16", "tl.bfloat16", "tl.float32", "tl.float64",
+      "tl.float8e4nv", "tl.float8e5"]
+    if value.isAtom then names.contains value.getAtomVal
+    else if value.isIdent then names.contains value.getId.eraseMacroScopes.toString
+    else if value.getNumArgs == 1 then floatingDTypeToken value[0]
+    else Bool.false
+  let args := raw.getArgs
+  let explicitConstructor := args[0]?.any (fun first => first.isAtom &&
+      ["tl.zeros(", "tl.full("].contains first.getAtomVal) &&
+    args.any floatingDTypeToken
+  here || explicitLiteral || explicitConstructor || raw.getArgs.any (hasKnownFloatingValue env)
 
 /-- Carry known floating and int32 storage into nested load expressions, and
 preserve integer storage underneath unsigned casts. This is

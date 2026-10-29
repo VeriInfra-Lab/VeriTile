@@ -13,21 +13,21 @@ variable {α : Type} [Inhabited α]
 theorem bodyInvariant (P : Source.Arithmetic α α) (p : Parameters)
     (initial current : State α) (tile block : Nat) (h : InnerInvariant P p initial tile block current) :
     InnerInvariant P p initial tile (block+1) (bodyResult P p initial current tile block) := by
-  constructor <;> simp [bodyResult,h.memory,h.offCM,h.offCN,h.offAM,h.offBN,h.offK]
+  constructor <;> simp [bodyResult,h.memory,h.offCM,h.offCN,h.offAM,h.offBN,h.offK,h.dimM,h.dimN,h.dimK,h.strideAM,h.strideAK,h.strideBK,h.strideBN,h.strideCM,h.strideCN]
 
 theorem bodyRegisters (P : Source.Arithmetic α α) (p : Parameters)
     (initial current : State α) (pid tile block : Nat) (h : Registers p pid current) :
     Registers p pid (bodyResult P p initial current tile block) := by
-  constructor <;> simp [bodyResult,h.start,h.rows,h.columns,h.count,h.work,h.group,h.span,h.lanesM,h.lanesN,h.lanesK]
+  constructor <;> simp [bodyResult,h.start,h.rows,h.columns,h.count,h.work,h.group,h.span,h.lanesM,h.lanesN,h.lanesK,h.dimM,h.dimN,h.dimK,h.strideAM,h.strideAK,h.strideBK,h.strideBN,h.strideCM,h.strideCN]
 
 theorem innerLoop (P : Source.Arithmetic α α) (p : Parameters)
     (initial current : State α) (pid tile block : Nat) (hb : block≤p.problem.kTiles)
     (h : InnerInvariant P p initial tile block current) (regs : Registers p pid current) :
-    ∃ final,FP.Structural.range (backend P) "ki" block p.problem.kTiles 1 (inner p) current=some final ∧
+    ∃ final,FP.Structural.rangeInt (backend P) "ki" block p.problem.kTiles 1 (inner p) current=some final ∧
       InnerInvariant P p initial tile p.problem.kTiles final ∧ Registers p pid final := by
   have aux : ∀ fuel block (current : State α),p.problem.kTiles-block=fuel → block≤p.problem.kTiles →
       InnerInvariant P p initial tile block current → Registers p pid current →
-      ∃ final,FP.Structural.range (backend P) "ki" block p.problem.kTiles 1 (inner p) current=some final ∧
+      ∃ final,FP.Structural.rangeInt (backend P) "ki" block p.problem.kTiles 1 (inner p) current=some final ∧
         InnerInvariant P p initial tile p.problem.kTiles final ∧ Registers p pid final := by
     intro fuel
     induction fuel using Nat.strong_induction_on with
@@ -39,12 +39,12 @@ theorem innerLoop (P : Source.Arithmetic α α) (p : Parameters)
           (block+1) next rfl (by omega) (bodyInvariant P p initial current tile block h)
           (bodyRegisters P p initial current pid tile block regs)
         refine ⟨final,?_,invariant,registers⟩
-        rw [FP.Structural.range,if_neg (by decide),if_pos active,bodyExecution P p initial current tile block h]
-        exact ran
+        rw [FP.Structural.rangeInt,if_neg (by decide),if_pos (show (block : Int) < (p.problem.kTiles : Int) by omega),bodyExecution P p initial current tile block h]
+        simpa only [Int.natCast_add,Int.natCast_one] using ran
       · have equal : block=p.problem.kTiles := by omega
         subst block
         refine ⟨current,?_,h,regs⟩
-        rw [FP.Structural.range,if_neg (by decide),if_neg (by omega)]
+        rw [FP.Structural.rangeInt,if_neg (by decide),if_neg (by omega)]
   exact aux _ block current rfl hb h regs
 
 def innerStatement (p : Parameters) : ComputeStmt :=
@@ -53,7 +53,7 @@ def innerStatement (p : Parameters) : ComputeStmt :=
 theorem dynamicInner (P : Source.Arithmetic α α) (p : Parameters)
     (current : State α) (pid : Nat) (h : Registers p pid current) :
     step (backend P) (innerStatement p) current=
-      FP.Structural.range (backend P) "ki" 0 p.problem.kTiles 1 (inner p) current := by
+      FP.Structural.rangeInt (backend P) "ki" 0 p.problem.kTiles 1 (inner p) current := by
   cases hp : p.problem.profile <;>
     simp [innerStatement,inner,outer,source,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,hp,ComputeKernel.surfaceBody,step,
       evalOp_unfold,evalExpr,evalComputeOp,Option.bind,h.count]

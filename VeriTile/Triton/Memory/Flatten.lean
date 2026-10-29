@@ -229,6 +229,7 @@ def flattenOp (A : FlatAlloc) :
   | _, _, .sigmoid a => .sigmoid (A.flattenOp a)
   | _, _, .sqrt a => .sqrt (A.flattenOp a)
   | _, _, .rsqrt a => .rsqrt (A.flattenOp a)
+  | _, _, .libdeviceRsqrt a => .libdeviceRsqrt (A.flattenOp a)
   | _, _, .tanh a => .tanh (A.flattenOp a)
   | _, _, .sin a => .sin (A.flattenOp a)
   | _, _, .cos a => .cos (A.flattenOp a)
@@ -554,6 +555,7 @@ def Op.FlattenOk : Op dtype shape → Prop
   | .sigmoid a => a.FlattenOk
   | .sqrt a => a.FlattenOk
   | .rsqrt a => a.FlattenOk
+  | .libdeviceRsqrt a => a.FlattenOk
   | .tanh a => a.FlattenOk
   | .sin a => a.FlattenOk
   | .cos a => a.FlattenOk
@@ -689,6 +691,7 @@ def Op.FlattenOkR : Op dtype shape → Prop
   | .sigmoid a => a.FlattenOkR
   | .sqrt a => a.FlattenOkR
   | .rsqrt a => a.FlattenOkR
+  | .libdeviceRsqrt a => a.FlattenOkR
   | .tanh a => a.FlattenOkR
   | .sin a => a.FlattenOkR
   | .cos a => a.FlattenOkR
@@ -975,6 +978,7 @@ def Op.SafeAt (bounds : RegionBounds) (s : BlockState) : Op dtype shape → Prop
   | .sigmoid a => a.SafeAt bounds s
   | .sqrt a => a.SafeAt bounds s
   | .rsqrt a => a.SafeAt bounds s
+  | .libdeviceRsqrt a => a.SafeAt bounds s
   | .tanh a => a.SafeAt bounds s
   | .sin a => a.SafeAt bounds s
   | .cos a => a.SafeAt bounds s
@@ -1537,6 +1541,12 @@ theorem FlatAlloc.evalOp_flatten (A : FlatAlloc) (hd : A.Disjoint)
         A.trTileFun_data (d := .real) (by decide) (by decide),
         Option.map_id, id_eq]
   | _, _, .rsqrt a, s, hms, hok, hu => by
+      simp only [Op.SafeAt] at hms
+      simp only [Op.FlattenOk] at hok
+      simp only [flattenOp, evalOp, evalOp_flatten A hd hcov a s hms hok hu,
+        A.trTileFun_data (d := .real) (by decide) (by decide),
+        Option.map_id, id_eq]
+  | _, _, .libdeviceRsqrt a, s, hms, hok, hu => by
       simp only [Op.SafeAt] at hms
       simp only [Op.FlattenOk] at hok
       simp only [flattenOp, evalOp, evalOp_flatten A hd hcov a s hms hok hu,

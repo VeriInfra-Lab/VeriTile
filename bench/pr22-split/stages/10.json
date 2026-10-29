@@ -1,0 +1,118 @@
+{
+  "schema": 1,
+  "part": 10,
+  "title": "Normalization, matrix multiplication and sampling",
+  "branch": "codex/pr22-10-normalization",
+  "archived_snapshot": "c369f8e2da7dba42d02878022b4ace716afbea0c",
+  "archive_head": "5ea0e46126cc1c6eb05e4219ddc5dc13246ec3ce",
+  "base_commit": "25ad2949386cd0b992e2d3cb7cf26fac86f6a25c",
+  "source_identity": "All changed Lean and Python files are byte-identical to the archived snapshot. New base additions are retained verbatim. lakefile.toml combines both target lists.",
+  "changed_source_file_count": 1467,
+  "changed_source_blobs_sha256": "899a38c0a1dce8b33d22db6c8a41e014fa1c9c3763e40ea088c8239b771baff2",
+  "receipt_excerpts": [
+    "bench/pr22-split/receipts/loops-and-spec-derived-sources.json",
+    "bench/pr22-split/receipts/native-adam-and-masked-add.json",
+    "bench/pr22-split/receipts/native-block-pointer-reduction.json",
+    "bench/pr22-split/receipts/native-rope-bodies.json",
+    "bench/pr22-split/receipts/native-fast-rms-function-bodies.json",
+    "bench/pr22-split/receipts/native-ksoftmax-function-bodies.json",
+    "bench/pr22-split/receipts/native-kv-cache-filling-function-bodies.json",
+    "bench/pr22-split/receipts/native-layernorm-function-bodies.json",
+    "bench/pr22-split/receipts/native-lora-expand-function-bodies.json",
+    "bench/pr22-split/receipts/native-rwkv6-function-bodies.json",
+    "bench/pr22-split/receipts/native-threepass-layernorm-function-bodies.json",
+    "bench/pr22-split/receipts/native-tma-matmul-function-bodies.json",
+    "bench/pr22-split/receipts/native-token-attention-function-bodies.json",
+    "bench/pr22-split/receipts/native-two-pass-layernorm-function-bodies.json"
+  ],
+  "integration_validation": {
+    "status": "passed",
+    "checks": {
+      "formulas": {
+        "command": [
+          "python3",
+          "-B",
+          "bench/check_main_formula_review.py"
+        ],
+        "exit_code": 0,
+        "seconds": 0.86,
+        "log_sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+      },
+      "io": {
+        "command": [
+          "python3",
+          "-B",
+          "bench/check_io_organization.py"
+        ],
+        "exit_code": 0,
+        "seconds": 0.43,
+        "log_sha256": "0f30b59dbce8b6a941f456fa71d69795b1865a876e70f3aaa8ba54be4f0dbe9c"
+      },
+      "roles": {
+        "command": [
+          "python3",
+          "-B",
+          "bench/check_main_entry_roles.py"
+        ],
+        "exit_code": 0,
+        "seconds": 7.59,
+        "log_sha256": "d9b26faff45f491e7f11725a6806321e60d1bca058fc70ca625f9baef33f4182"
+      },
+      "corpus": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "bench.check_body_corpus",
+          "--check"
+        ],
+        "exit_code": 0,
+        "seconds": 4.04,
+        "log_sha256": "1938745515fa6b3312b7fbed72857c763dbafa9d81fadb2837d19db95b9e3e67"
+      },
+      "python": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "bench.tests.test_jit_correspondence",
+          "bench.tests.test_body_corpus"
+        ],
+        "exit_code": 0,
+        "seconds": 5.82,
+        "log_sha256": "8e5d61a347bee982b38014d021953446bb32a6b498b53fbebfb7954e54c20bbb"
+      },
+      "ledger": {
+        "command": [
+          "python3",
+          "-B",
+          "-c",
+          "import sys,json; sys.path.insert(0,'bench'); import task_progress; task_progress.validate(json.load(open('bench/tritonbench_g/task_progress.json')))"
+        ],
+        "exit_code": 0,
+        "seconds": 0.18,
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "base-integration": {
+        "command": [
+          "lake",
+          "build",
+          "VeriTile.Triton.Memory.LogicalScheduledKernelIO",
+          "VeriTile.Triton.Float.GuardedProgramIO",
+          "bench.tests.FPGuardedProgramIO"
+        ],
+        "exit_code": 0,
+        "seconds": 405.18,
+        "log_sha256": "675cecd68ed9c1e0cd100b0aaeba10046fab64e330b62ca6f249ab65266f11e3"
+      }
+    },
+    "scope": "Fresh metadata/body-copy checks and compilation of the new base interfaces and guarded-program regression on this exact prefix. Task proofs retain the archived exact-source replay; this is not a fresh full-corpus replay for every prefix.",
+    "source_identity_check": {
+      "status": "passed",
+      "files": 19761,
+      "application_tree_sha256": "92920f769eb670e0783ff2844d2f0a83ca7525b16d04ab0dfa3abd1348b01388",
+      "method": "Complete staged application Lean/Python path and Git blob map (historical checkpoint snapshots excluded) equals archived snapshot plus preserved newer base additions, including deletions."
+    }
+  }
+}

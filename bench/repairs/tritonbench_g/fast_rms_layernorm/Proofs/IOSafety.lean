@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealSourceSafety
 import bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.IOBounds
 import bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealRows
 import bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealWeightTrace
@@ -29,12 +30,14 @@ theorem real_row (h : Call) (backward : Bool) (bounds : RegionName → Nat)
   let u:=(RealIO.job h backward Bool.false pid.val h.rows).initial s
   have p : u.pids 0<h.rows:=pid.isLt
   cases backward
-  · apply ForwardRun.trace_safe h.gemma "y" "x" "w" "r" h.cols h.cols 1 1 h.cols h.block h.eps
+  · apply (RealSourceSafety.forward_trace h bounds u).mpr
+    apply ForwardRun.trace_safe h.gemma "y" "x" "w" "r" h.cols h.cols 1 1 h.cols h.block h.eps
     · intro j hj;exact (Native.offset_bound h _ _ p hj).trans_le cap.x
     · intro j hj;cases h.gemma <;> simpa [ForwardRun.weightOffset] using hj.trans_le cap.w
     · intro j hj;exact (Native.offset_bound h _ _ p hj).trans_le cap.row
     · simpa using p.trans_le cap.r
-  · apply BackwardRun.trace_safe h.gemma "dx" "x" "w" "r" "dw" h.cols h.cols 1 1 1 h.cols h.block h.eps
+  · apply (RealSourceSafety.backward_trace h bounds u).mpr
+    apply BackwardRun.trace_safe h.gemma "dx" "x" "w" "r" "dw" h.cols h.cols 1 1 1 h.cols h.block h.eps
     · intro j hj;exact (Native.offset_bound h _ _ p hj).trans_le cap.row
     · intro j hj;exact (Native.offset_bound h _ _ p hj).trans_le cap.x
     · intro j hj;exact hj.trans_le cap.w
