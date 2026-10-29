@@ -1,0 +1,1 @@
+/tmp/conv115-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/RawPrototype.lean:35:4: error: loop-carried value requires a stable, known source dtype

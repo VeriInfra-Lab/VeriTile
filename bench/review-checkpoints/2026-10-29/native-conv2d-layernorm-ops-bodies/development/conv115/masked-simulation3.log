@@ -1,0 +1,34 @@
+/tmp/conv115-diagnostics/MaskedPointerSimulation.lean:95:2: error: unsolved goals
+case neg
+R : RoundingModel
+shape : TileShape
+sourcePointer modelPointer : Op TileDType.ptr shape
+sourceMask modelMask : Op TileDType.bool shape
+s t : BlockState
+sp tp : Tile TileDType.ptr shape
+mask : Tile TileDType.bool shape
+hsp : evalOpR R sourcePointer s = some sp
+htp : evalOpR R modelPointer t = some tp
+hsm : evalOpR R sourceMask s = some mask
+htm : evalOpR R modelMask t = some mask
+memory : s.mem = t.mem
+source_zero : ∀ (r : RegionName) (o : ℕ), s.undef r o = 0
+model_zero : ∀ (r : RegionName) (o : ℕ), t.undef r o = 0
+active : ∀ (i : TileIndex shape), mask.data i = true → sp.data i = tp.data i
+i : TileIndex shape
+hm : ¬mask.data i = true
+⊢ (if false = true then s.readMemValue TileDType.real (sp.data i).1 (sp.data i).2 else some 0) =
+    if false = true then t.readMemValue TileDType.real (tp.data i).1 (tp.data i).2 else some 0
+/tmp/conv115-diagnostics/MaskedPointerSimulation.lean:108:0: error: VeriTile.Bench.TritonBenchG.TritonConv2dFwd.MaskedPointerSimulation.masked_load: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.TritonBenchG.TritonConv2dFwd.MaskedPointerSimulation.active_signed_offset: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.TritonConv2dFwd.MaskedPointerSimulation.AgreeExcept.setReg: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonConv2dFwd.MaskedPointerSimulation.AgreeExcept.writeIgnored: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonConv2dFwd.MaskedPointerSimulation.range: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

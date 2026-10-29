@@ -1,0 +1,15 @@
+/tmp/conv-layer117-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/LogicalReference.lean:29:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.Conv2d.ConvIO.inputArray_eq`:
+  [Inhabited A]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited A] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/tmp/conv-layer117-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/LogicalReference.lean:42:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.Conv2d.ConvIO.refB_eq`:
+  [Inhabited A]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited A] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+VeriTile.Bench.Repairs.Conv2d.ConvIO.reference_eq: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,4 @@
+VeriTile.Bench.Repairs.Conv2d.KernelOperands.input_load: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.Conv2d.KernelOperands.weight_load: axiom footprint ⊆ standard base ✓  ([propext])

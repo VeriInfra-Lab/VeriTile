@@ -1,0 +1,7 @@
+VeriTile.Bench.Repairs.Conv2d.output_owner: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+VeriTile.Bench.Repairs.Conv2d.any_program_order: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.address_covers: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

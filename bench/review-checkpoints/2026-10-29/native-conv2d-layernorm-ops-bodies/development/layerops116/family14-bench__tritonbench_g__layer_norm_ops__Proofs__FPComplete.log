@@ -1,0 +1,156 @@
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:31:2: warning: 'all_goals try rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:33:2: warning: 'all_goals try rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:34:2: warning: 'all_goals try (unfold wdyValue dyValue loaded pad op; norm_num; rfl)' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:33:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:34:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+VeriTile.Bench.TritonBenchG.LayerNormOps.FPStages.rms_row_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:48:2: warning: 'all_goals try rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:50:2: warning: 'all_goals try rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+VeriTile.Bench.TritonBenchG.LayerNormOps.FPStages.plain_row_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:65:2: warning: 'all_goals try rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:66:2: warning: 'all_goals norm_num' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:67:2: warning: 'all_goals try rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:68:2: warning: 'all_goals try (unfold wdyValue dyValue loaded pad op; norm_num; rfl)' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:65:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:66:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:67:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:68:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+VeriTile.Bench.TritonBenchG.LayerNormOps.FPStages.rms_dx_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:82:2: warning: 'all_goals try rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:83:2: warning: 'all_goals norm_num' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:84:2: warning: 'all_goals try rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:85:2: warning: 'all_goals try (unfold wdyValue dyValue loaded pad op; norm_num; rfl)' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:82:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:83:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:84:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:85:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+VeriTile.Bench.TritonBenchG.LayerNormOps.FPStages.plain_dx_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:99:2: warning: 'all_goals try rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:100:2: warning: 'all_goals norm_num' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:101:2: warning: 'all_goals try rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:102:2: warning: 'all_goals try (unfold wdyValue dyValue loaded pad op; norm_num; rfl)' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:99:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:100:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:101:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:102:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+VeriTile.Bench.TritonBenchG.LayerNormOps.FPStages.residual_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:116:2: warning: 'all_goals try rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:117:2: warning: 'all_goals norm_num' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:118:2: warning: 'all_goals try rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:119:2: warning: 'all_goals try (unfold wdyValue dyValue loaded pad op; norm_num; rfl)' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:116:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:117:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:118:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:119:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+VeriTile.Bench.TritonBenchG.LayerNormOps.FPStages.c1_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:134:2: warning: 'all_goals norm_num' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:135:2: warning: 'all_goals try rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:136:2: warning: 'all_goals try (unfold wdyValue dyValue loaded pad op; norm_num; rfl)' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:134:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:135:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/layerops116-frontend/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean:136:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+VeriTile.Bench.TritonBenchG.LayerNormOps.FPStages.c2_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

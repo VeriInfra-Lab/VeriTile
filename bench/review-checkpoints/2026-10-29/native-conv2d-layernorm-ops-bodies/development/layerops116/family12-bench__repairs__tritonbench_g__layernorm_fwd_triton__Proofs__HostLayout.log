@@ -1,0 +1,4 @@
+VeriTile.Bench.Repairs.LayernormFwdTriton.HostLayout.layout: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayernormFwdTriton.HostLayout.caller_outside: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

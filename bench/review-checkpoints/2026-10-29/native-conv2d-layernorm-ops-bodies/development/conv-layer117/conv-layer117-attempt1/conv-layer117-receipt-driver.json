@@ -1,0 +1,9 @@
+{
+  "status": "NOT_RUN_FAILED_VERIFICATION",
+  "start": 1793270367.2966642,
+  "states": {
+    "warm": "FAIL",
+    "clean": "WAITING_FOR_WARM",
+    "audit": "WAITING_FOR_WARM"
+  }
+}

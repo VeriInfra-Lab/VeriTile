@@ -1,0 +1,70 @@
+{
+  "status": "FAIL",
+  "start": 1793260763.0493574,
+  "results": [
+    {
+      "module": "VeriTile.Triton.DSL.NestedLoadAssignments",
+      "source_sha256": "c335584987301239527eb36b20f1cf475aa16c9c008875115bc575fef8cbef99",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793260763.0495908,
+      "end": 1793260765.2757585,
+      "log": "/tmp/layerops116-probe8-VeriTile__Triton__DSL__NestedLoadAssignments.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.TypedStores",
+      "source_sha256": "e86440a7ab2b09f5c03bf76590d6ff0187f1eea19833438d652e88bd040be7b7",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793260765.276117,
+      "end": 1793260775.438952,
+      "log": "/tmp/layerops116-probe8-VeriTile__Triton__DSL__TypedStores.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.TypedStorageReduction",
+      "source_sha256": "26c50b50885cb0cc8a81863783fc01c8917be74a01efb6f47eff1d560fa9707d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793260775.4393375,
+      "end": 1793260777.761237,
+      "log": "/tmp/layerops116-probe8-VeriTile__Triton__DSL__TypedStorageReduction.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.CallSignature",
+      "source_sha256": "fda4e3d84bc60fcdd02e4e5ea83ec017549395f6ab311c130abb1947bb681746",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793260777.7616827,
+      "end": 1793260823.4395566,
+      "log": "/tmp/layerops116-probe8-VeriTile__Triton__DSL__CallSignature.log"
+    },
+    {
+      "module": "bench.tests.OptionalPointerExpressionBody",
+      "source_sha256": "9722b4e262bb3dcc8115926e84025fb4bc0280e3fab1228ef36725d4c62d1b17",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793260823.4398987,
+      "end": 1793260841.4285371,
+      "log": "/tmp/layerops116-probe8-bench__tests__OptionalPointerExpressionBody.log"
+    },
+    {
+      "module": "bench.tests.OptionalPointerBody",
+      "source_sha256": "b44615c8f2e98812f058d275f22dd1c06c89d6375a015d61fe070d40642c6799",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793260841.4289072,
+      "end": 1793260845.5162964,
+      "log": "/tmp/layerops116-probe8-bench__tests__OptionalPointerBody.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_ops.Kernels",
+      "source_sha256": "599434b6b5303a68719fb6c1fdadda5804e5951dbeb2303682df579e961f6c27",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793260845.518216,
+      "end": 1793260852.8471055,
+      "log": "/tmp/layerops116-probe8-bench__repairs__tritonbench_g__layer_norm_ops__Kernels.log"
+    }
+  ],
+  "end": 1793260852.8474183
+}

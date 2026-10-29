@@ -1,0 +1,14 @@
+/tmp/conv-layer117-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/Scatter.lean:9:11: warning: Try `simp at present` instead of `simpa using present`
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+/tmp/conv-layer117-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/Scatter.lean:25:42: warning: unused variable `v`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/conv-layer117-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/Scatter.lean:43:27: warning: unused variable `v`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/conv-layer117-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/Scatter.lean:73:4: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+VeriTile.Bench.Repairs.Conv2d.source_read: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.source_frame: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])

@@ -1,0 +1,9 @@
+VeriTile.Bench.Repairs.FastLayernorm.Compiler.selected_warps: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.FastLayernorm.Compiler.selected_normal: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.Repairs.FastLayernorm.Compiler.selected_output: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.FastLayernorm.Compiler.selected_affine: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.FastLayernorm.Compiler.selected_subtract: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.FastLayernorm.Compiler.nextPower_covers: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FastLayernorm.Compiler.settings_success: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

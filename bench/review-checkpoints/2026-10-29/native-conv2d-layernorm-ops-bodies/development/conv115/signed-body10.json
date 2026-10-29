@@ -1,0 +1,8 @@
+{
+  "status": "FAIL",
+  "start": 1793265349.2582135,
+  "source_sha256": "96750a81ba2b79ffe679c23037720003c9effff8f86fcdca9a3d89a868cb44b2",
+  "exit_code": 1,
+  "end": 1793265375.9678016,
+  "log": "/tmp/conv115-signed-body10.log"
+}

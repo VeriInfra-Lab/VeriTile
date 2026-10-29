@@ -1,0 +1,21 @@
+/tmp/conv115-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelHalfSource.lean:43:63: warning: unused variable `batch`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/conv115-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelHalfSource.lean:43:71: warning: unused variable `m`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/conv115-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelHalfSource.lean:43:75: warning: unused variable `k`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/conv115-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelHalfSource.lean:43:79: warning: unused variable `n`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.Repairs.Conv2d.KernelHalf.decomposition: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.KernelHalf.hBody_shape: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.KernelHalf.wBody_shape: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

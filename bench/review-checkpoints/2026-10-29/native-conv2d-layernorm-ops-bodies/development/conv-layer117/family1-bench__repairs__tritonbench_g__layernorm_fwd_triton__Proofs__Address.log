@@ -1,0 +1,12 @@
+VeriTile.Bench.Repairs.LayernormFwdTriton.Address.guarded_word_exact: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayernormFwdTriton.Address.input_ne_output: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayernormFwdTriton.Address.allocation_loop_bound: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayernormFwdTriton.Address.loop_exact: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

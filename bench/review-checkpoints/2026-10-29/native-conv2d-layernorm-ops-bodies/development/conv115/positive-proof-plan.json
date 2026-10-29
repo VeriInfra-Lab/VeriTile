@@ -1,0 +1,6 @@
+{
+  "source_reference": "bench/tritonbench_g/triton_conv2d_fwd/TritonConv2dFwd.lean",
+  "reference_sha256": "518a301c0cdfcbb8df438856616aac585a2bd57830d122f00f9e58bb89ce96e9",
+  "status": "DEVELOPMENT_ONLY",
+  "scope": "Reuse historical complete positive-offset proof ONLY for explicit internal model. Actual source equivalence remains to prove."
+}

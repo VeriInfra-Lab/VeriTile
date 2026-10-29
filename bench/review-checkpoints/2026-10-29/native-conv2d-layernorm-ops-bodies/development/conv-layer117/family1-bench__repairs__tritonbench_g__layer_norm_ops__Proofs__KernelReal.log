@@ -1,0 +1,64 @@
+/tmp/conv-layer117-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/KernelReal.lean:34:13: warning: This simp argument is unused:
+  hr
+
+Hint: Omit it from the simp argument list.
+  simp [hi, ̲hr̵,̵h̵bb, ̲Logical.y, ̲Logical.normalized, ̲Logical.mean, ̲Forward.cast,
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲Forward.unhintedBinary, ̲Forward.binary,
+  ̵  ̵ ̵ ̵ ̵ ̵Logical.algebra, ̲LayerNormLiger.Logical.algebra]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/conv-layer117-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/KernelReal.lean:34:16: warning: This simp argument is unused:
+  hbb
+
+Hint: Omit it from the simp argument list.
+  simp [hi, ̲hr,h̵b̵b̵,̵ ̲Logical.y, ̲Logical.normalized, ̲Logical.mean, ̲Forward.cast, ̲Forward.unhintedBinary,
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲Forward.binary,
+  ̵  ̵ ̵ ̵ ̵ ̵Logical.algebra, ̲LayerNormLiger.Logical.algebra]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/conv-layer117-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/KernelReal.lean:34:98: warning: This simp argument is unused:
+  Forward.binary
+
+Hint: Omit it from the simp argument list.
+  simp [̵h̵i̵,̵h̵r̵,̵h̵b̵b̵,̵L̵o̵g̵i̵c̵a̵l̵.̵y̵,̵L̵o̵g̵i̵c̵a̵l̵.̵n̵o̵r̵m̵a̵l̵i̵z̵e̵d̵,̵L̵o̵g̵i̵c̵a̵l̵.̵m̵e̵a̵n̵,̵F̵o̵r̵w̵a̵r̵d̵.̵c̵a̵s̵t̵,̵F̵o̵r̵w̵a̵r̵d̵.̵u̵n̵h̵i̵n̵t̵e̵d̵B̵i̵n̵a̵r̵y̵,̵F̵o̵r̵w̵a̵r̵d̵.̵b̵i̵n̵a̵r̵y̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵L̵o̵g̵i̵c̵a̵l̵.̵a̵l̵g̵e̵b̵r̵a̵,̵L̵a̵y̵e̵r̵N̵o̵r̵m̵L̵i̵g̵e̵r̵.̵L̵o̵g̵i̵c̵a̵l̵.̵a̵l̵g̵e̵b̵r̵a̵]̵[̲h̲i̲,̲ ̲h̲r̲,̲ ̲h̲b̲b̲,̲ ̲L̲o̲g̲i̲c̲a̲l̲.̲y̲,̲ ̲L̲o̲g̲i̲c̲a̲l̲.̲n̲o̲r̲m̲a̲l̲i̲z̲e̲d̲,̲ ̲L̲o̲g̲i̲c̲a̲l̲.̲m̲e̲a̲n̲,̲ ̲F̲o̲r̲w̲a̲r̲d̲.̲c̲a̲s̲t̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲F̲o̲r̲w̲a̲r̲d̲.̲u̲n̲h̲i̲n̲t̲e̲d̲B̲i̲n̲a̲r̲y̲,̲ ̲L̲o̲g̲i̲c̲a̲l̲.̲a̲l̲g̲e̲b̲r̲a̲,̲ ̲L̲a̲y̲e̲r̲N̲o̲r̲m̲L̲i̲g̲e̲r̲.̲L̲o̲g̲i̲c̲a̲l̲.̲a̲l̲g̲e̲b̲r̲a̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/conv-layer117-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/KernelReal.lean:57:52: warning: This simp argument is unused:
+  Forward.unhintedBinary
+
+Hint: Omit it from the simp argument list.
+  simp [̵r̵o̵w̵Y̵,̵r̵e̵a̵d̵R̵o̵w̵,̵L̵o̵g̵i̵c̵a̵l̵.̵b̵h̵a̵t̵,̵L̵o̵g̵i̵c̵a̵l̵.̵b̵x̵,̵L̵o̵g̵i̵c̵a̵l̵.̵b̵m̵u̵,̵L̵o̵g̵i̵c̵a̵l̵.̵b̵i̵n̵v̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵B̵a̵c̵k̵w̵a̵r̵d̵.̵i̵n̵i̵t̵i̵a̵l̵,̵B̵a̵c̵k̵w̵a̵r̵d̵.̵l̵o̵a̵d̵e̵d̵,̵F̵o̵r̵w̵a̵r̵d̵.̵c̵a̵s̵t̵,̵F̵o̵r̵w̵a̵r̵d̵.̵u̵n̵h̵i̵n̵t̵e̵d̵B̵i̵n̵a̵r̵y̵,̵F̵o̵r̵w̵a̵r̵d̵.̵b̵i̵n̵a̵r̵y̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵L̵o̵g̵i̵c̵a̵l̵.̵a̵l̵g̵e̵b̵r̵a̵,̵L̵a̵y̵e̵r̵N̵o̵r̵m̵L̵i̵g̵e̵r̵.̵L̵o̵g̵i̵c̵a̵l̵.̵a̵l̵g̵e̵b̵r̵a̵,̵h̵i̵,̵h̵b̵]̵[̲r̲o̲w̲Y̲,̲ ̲r̲e̲a̲d̲R̲o̲w̲,̲ ̲L̲o̲g̲i̲c̲a̲l̲.̲b̲h̲a̲t̲,̲ ̲L̲o̲g̲i̲c̲a̲l̲.̲b̲x̲,̲ ̲L̲o̲g̲i̲c̲a̲l̲.̲b̲m̲u̲,̲ ̲L̲o̲g̲i̲c̲a̲l̲.̲b̲i̲n̲v̲,̲ ̲B̲a̲c̲k̲w̲a̲r̲d̲.̲i̲n̲i̲t̲i̲a̲l̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲B̲a̲c̲k̲w̲a̲r̲d̲.̲l̲o̲a̲d̲e̲d̲,̲ ̲F̲o̲r̲w̲a̲r̲d̲.̲c̲a̲s̲t̲,̲ ̲F̲o̲r̲w̲a̲r̲d̲.̲b̲i̲n̲a̲r̲y̲,̲ ̲L̲o̲g̲i̲c̲a̲l̲.̲a̲l̲g̲e̲b̲r̲a̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲L̲a̲y̲e̲r̲N̲o̲r̲m̲L̲i̲g̲e̲r̲.̲L̲o̲g̲i̲c̲a̲l̲.̲a̲l̲g̲e̲b̲r̲a̲,̲ ̲h̲i̲,̲ ̲h̲b̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.LayerNormOps.KernelReal.forward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormOps.KernelReal.backward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormOps.KernelReal.rowDX: definition does not reference [VeriTile.Bench.Repairs.LayerNormOps.forwardKernel,
+ VeriTile.Bench.Repairs.LayerNormOps.backwardKernel,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.LayerNormOps.Backward.reference,
+ VeriTile.Bench.Repairs.LayerNormOps.Backward.update] — non-circular ✓
+VeriTile.Bench.Repairs.LayerNormOps.KernelReal.rowY: definition does not reference [VeriTile.Bench.Repairs.LayerNormOps.forwardKernel,
+ VeriTile.Bench.Repairs.LayerNormOps.backwardKernel,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.LayerNormOps.Backward.reference,
+ VeriTile.Bench.Repairs.LayerNormOps.Backward.update] — non-circular ✓
+VeriTile.Bench.Repairs.LayerNormOps.KernelReal.partialDW: definition does not reference [VeriTile.Bench.Repairs.LayerNormOps.forwardKernel,
+ VeriTile.Bench.Repairs.LayerNormOps.backwardKernel,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.LayerNormOps.Backward.reference,
+ VeriTile.Bench.Repairs.LayerNormOps.Backward.update] — non-circular ✓
+VeriTile.Bench.Repairs.LayerNormOps.KernelReal.partialDB: definition does not reference [VeriTile.Bench.Repairs.LayerNormOps.forwardKernel,
+ VeriTile.Bench.Repairs.LayerNormOps.backwardKernel,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.LayerNormOps.Backward.reference,
+ VeriTile.Bench.Repairs.LayerNormOps.Backward.update] — non-circular ✓

@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.Conv2d.KernelNumeric.launch_reference: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.LayerNormLiger.Forward.software_values: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

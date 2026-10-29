@@ -11847,9 +11847,8 @@
         }
       ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/layer_norm_ops.json",
-        "sha256": "5968d0d7fcd883795fce6d3803277757f0ecb550340144b7a6bed7cb4fe3e993",
-        "task": "layer_norm_ops"
+        "path": "bench/review-checkpoints/2026-10-29/native-conv2d-layernorm-ops-bodies/review.json",
+        "sha256": "26ba0592504fd03499b74e72af10623a28ebf4af6ea4cfb4c89a2445facf1d11"
       },
       "change": null,
       "new_misc_entries": [],
@@ -11884,7 +11883,8 @@
         "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/layer_norm_ops.json",
         "sha256": "5968d0d7fcd883795fce6d3803277757f0ecb550340144b7a6bed7cb4fe3e993",
         "task": "layer_norm_ops"
-      }
+      },
+      "current_body_source_review": "Four complete LayerNormOps forward/backward and existing mask/row-start reuse candidate bodies retain all casts, flags, conditional optional Mean loads, row-loop bounds, pointer updates and stores. Candidate Python is explicitly an authored counterpart of the existing two rewrites. Caller metadata matches the selected FP32 storage and plain-LN/RMS Mean presence. Actual source execution for all admitted branches, independent normalization/gradient formulas, source FP pairs and complete IO are rechecked without changing public domains or schedule scope."
     },
     {
       "task": "layer_norm_triton",
@@ -20872,9 +20872,8 @@
         }
       ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/triton_conv2d_fwd.json",
-        "sha256": "2e40aca92e097396073c8f8cad845333f427100582d64abf656e0fec3ae9c7a1",
-        "task": "triton_conv2d_fwd"
+        "path": "bench/review-checkpoints/2026-10-29/native-conv2d-layernorm-ops-bodies/review.json",
+        "sha256": "26ba0592504fd03499b74e72af10623a28ebf4af6ea4cfb4c89a2445facf1d11"
       },
       "change": null,
       "new_misc_entries": [],
@@ -20909,7 +20908,8 @@
         "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/triton_conv2d_fwd.json",
         "sha256": "2e40aca92e097396073c8f8cad845333f427100582d64abf656e0fec3ae9c7a1",
         "task": "triton_conv2d_fwd"
-      }
+      },
+      "current_body_source_review": "Four complete selected repaired Conv2d bodies retain the FP16/default branches and existing shifted candidates. Their actual signed pointer arithmetic, cast/dot operations, complete execution, access safety and entire memory results connect to independent grouped cross-correlation and complete actual pair IO. The historical original-library signed-pointer program is related observationally to an explicitly internal positive-pointer model, including all three loops and the complete flat-memory postlude; no false AST identity or extra underflow premise is asserted. That historical DSL view is not counted among literal-body mappings. Original Python, public domains and candidate scope are unchanged."
     },
     {
       "task": "triton_linear_activation",

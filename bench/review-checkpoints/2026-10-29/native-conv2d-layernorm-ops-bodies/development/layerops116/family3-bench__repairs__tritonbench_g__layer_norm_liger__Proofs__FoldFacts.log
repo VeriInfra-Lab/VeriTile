@@ -1,0 +1,70 @@
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/FoldFacts.lean:15:36: warning: This simp argument is unused:
+  if_false
+
+Hint: Omit it from the simp argument list.
+  simp only [Nat.one_ne_zero, hc, if_f̵a̵l̵s̵e̵,̵ ̵i̵f̵_̵true, dite_false, dite_true]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/FoldFacts.lean:15:46: warning: This simp argument is unused:
+  if_true
+
+Hint: Omit it from the simp argument list.
+  simp only [Nat.one_ne_zero, hc, if_false, i̵f̵_̵t̵r̵u̵e̵,̵ ̵dite_false, dite_true]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/FoldFacts.lean:26:36: warning: This simp argument is unused:
+  if_false
+
+Hint: Omit it from the simp argument list.
+  simp only [Nat.one_ne_zero, hc, if_f̵a̵l̵s̵e̵,̵ ̵i̵f̵_̵true, dite_false, dite_true]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/FoldFacts.lean:26:46: warning: This simp argument is unused:
+  if_true
+
+Hint: Omit it from the simp argument list.
+  simp only [Nat.one_ne_zero, hc, if_false, i̵f̵_̵t̵r̵u̵e̵,̵ ̵dite_false, dite_true]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/FoldFacts.lean:36:36: warning: This simp argument is unused:
+  if_false
+
+Hint: Omit it from the simp argument list.
+  simp only [Nat.one_ne_zero, hc, if_f̵a̵l̵s̵e̵,̵ ̵i̵f̵_̵true, dite_false, dite_true]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/FoldFacts.lean:36:46: warning: This simp argument is unused:
+  if_true
+
+Hint: Omit it from the simp argument list.
+  simp only [Nat.one_ne_zero, hc, if_false, i̵f̵_̵t̵r̵u̵e̵,̵ ̵dite_false, dite_true]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/FoldFacts.lean:49:46: warning: This simp argument is unused:
+  if_true
+
+Hint: Omit it from the simp argument list.
+  simp only [Nat.one_ne_zero, hc, if_false, i̵f̵_̵t̵r̵u̵e̵,̵ ̵dite_false, dite_true, hn]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/FoldFacts.lean:60:34: warning: This simp argument is unused:
+  if_false
+
+Hint: Omit it from the simp argument list.
+  simp only [Nat.one_ne_zero, hc, if_f̵a̵l̵s̵e̵,̵ ̵i̵f̵_̵true, dite_false, dite_true]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Proofs/FoldFacts.lean:60:44: warning: This simp argument is unused:
+  if_true
+
+Hint: Omit it from the simp argument list.
+  simp only [Nat.one_ne_zero, hc, if_false, i̵f̵_̵t̵r̵u̵e̵,̵ ̵dite_false, dite_true]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.LayerNormLiger.Folds.project: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.LayerNormLiger.Folds.preserves: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.LayerNormLiger.Folds.add_sum: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormLiger.Folds.set_inside: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.LayerNormLiger.Folds.set_outside: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])

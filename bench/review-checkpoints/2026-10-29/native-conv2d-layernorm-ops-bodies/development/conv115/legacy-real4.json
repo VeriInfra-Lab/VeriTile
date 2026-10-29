@@ -1,0 +1,14 @@
+[
+  {
+    "file": "/tmp/conv115-diagnostics/VeriTile/Triton/Semantics/ProgramRewrite.lean",
+    "status": "PASS",
+    "log": "/tmp/conv115-diagnostics/ProgramRewrite-signed4.log",
+    "seconds": 4.566126346588135
+  },
+  {
+    "file": "/tmp/conv115-diagnostics/LegacyReal.lean",
+    "status": "PASS",
+    "log": "/tmp/conv115-diagnostics/LegacyReal-signed4.log",
+    "seconds": 25.841925859451294
+  }
+]

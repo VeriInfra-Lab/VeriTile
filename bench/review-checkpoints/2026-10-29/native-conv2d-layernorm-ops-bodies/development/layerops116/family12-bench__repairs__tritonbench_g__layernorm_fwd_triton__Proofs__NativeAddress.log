@@ -1,0 +1,13 @@
+VeriTile.Bench.Repairs.LayernormFwdTriton.Address.native_pointer_exact: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayernormFwdTriton.Address.native_x: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayernormFwdTriton.Address.native_w: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayernormFwdTriton.Address.native_y: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayernormFwdTriton.Address.pointer_increment: axiom footprint ⊆ standard base ✓  ([propext])

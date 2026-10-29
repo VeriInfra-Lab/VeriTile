@@ -1,0 +1,16 @@
+/tmp/conv-layer117-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/KernelIndex.lean:41:47: warning: This simp argument is unused:
+  bound
+
+Hint: Omit it from the simp argument list.
+  simp ̵[̵b̵o̵u̵n̵d̵]̵
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.LayerNormOps.KernelIndex.forward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormOps.KernelIndex.backward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormOps.KernelIndex.saved_statistics: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

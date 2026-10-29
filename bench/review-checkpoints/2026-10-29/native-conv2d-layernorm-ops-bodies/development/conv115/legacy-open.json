@@ -1,0 +1,50 @@
+{
+  "status": "LOCAL_ACTUAL_SOURCE_FULL_IO_PASS_FAMILY_AND_FINAL_REPLAY_PENDING",
+  "module": "bench.tritonbench_g.triton_conv2d_fwd.TritonConv2dFwd",
+  "failure_log": "/tmp/conv115-family7-bench__tritonbench_g__triton_conv2d_fwd__TritonConv2dFwd.log",
+  "actual_failure": "Signed-pointer AST and closed-form Real theorem repaired and kernel-checked in isolated prefix. Full old module still fails at unconditional FlattenOk and intermediate pointer-underflow TraceSafeR obligations.",
+  "follow_on_concern": "The historical flat-memory argument uses unconditional FlattenOk (including all-state ptrSub no-underflow), whereas source inactive padded lanes may form negative offsets. This has not yet been proved compatible; no input-domain narrowing or assertion of full AST equality is authorized.",
+  "selected_repaired_task": "Current raw body execution, safety, Real/full IO and complete FP pair have passed targeted build; this does not certify the historical monolithic proof.",
+  "policy": "Do not mark broad 87-root task validation PASS, do not erase failure or change public historical statements merely to make the build pass. Preserve source and investigate a correct proof bridge or clearly separate historical unadmitted claims with user-visible evidence.",
+  "real_prefix": {
+    "status": "PASS",
+    "record": "/tmp/conv115-legacy-real4.json",
+    "source": "/tmp/conv115-diagnostics/LegacyReal.lean",
+    "theorem": "conv2d_closed_form_correct",
+    "domain": "Original symbolic domain unchanged"
+  },
+  "full_retry": "/tmp/conv115-legacy-full2.json",
+  "remaining_obligations": [
+    "Historical unconditional FlattenOk rejects signed negative intermediates.",
+    "Historical TraceSafeR also requires underflow-free arithmetic on masked-off coordinates."
+  ],
+  "active_read_bound": "Signed source address equals the unchanged independent address under the actual load mask; repaired bound compiles in the full diagnostic.",
+  "original_fp_branch_validation": {
+    "record": "/tmp/conv115-family8-build.json",
+    "status": "PASS_EXCEPT_RECORDED_HISTORICAL_MONOLITH",
+    "module_count_excluding_monolith": 86,
+    "note": "Original half/default software and optional witnesses were checked after retaining signed undef-address keys; FPShape imports only the source it uses. This is not full task completion."
+  },
+  "masked_pointer_support": {
+    "status": "PASS_AUXILIARY_ONLY",
+    "record": "/tmp/conv115-masked-simulation4.json",
+    "module": "bench.tritonbench_g.triton_conv2d_fwd.Proofs.MaskedPointerSimulation",
+    "scope": "Kernel-checked: one-register observational agreement, range simulation, actual RoundingModel masked-load equality under equal active addresses and existing zero-undef pins, and active signed-offset equality for arbitrary bases. Actual whole-body/loop source-model simulation and public flat IO bridge remain unproved."
+  },
+  "positive_internal_model": {
+    "status": "PASS_INTERNAL_MODEL_ONLY",
+    "record": "/tmp/conv115-positive-proof1.json",
+    "model": "bench/tritonbench_g/triton_conv2d_fwd/Proofs/PositivePointerModel.lean",
+    "proof": "bench/tritonbench_g/triton_conv2d_fwd/Proofs/PositivePointerCorrect.lean",
+    "scope": "Historical independent convolution Real and complete flat IO rechecked for explicitly named positive-offset internal model. No equality or behavioral correspondence to signed source is asserted yet. Actual body/loop observational simulation remains to prove."
+  },
+  "time": 1793266117.574679,
+  "bridge": {
+    "body": "/tmp/conv115-signed-body13.json",
+    "loops": "/tmp/conv115-signed-loop2.json",
+    "postlude": "/tmp/conv115-signed-post1.json",
+    "flat_execution": "/tmp/conv115-signed-flat2.json",
+    "public_theorem": "/tmp/conv115-legacy-transport2.json"
+  },
+  "scope": "The actual signed source public flat IO theorem and original independent Real prefix now pass locally with standard axiom footprint; full 95-root family, cumulative and empty-project replay remain pending. Original public statement unchanged. Earlier failed diagnostics are retained."
+}

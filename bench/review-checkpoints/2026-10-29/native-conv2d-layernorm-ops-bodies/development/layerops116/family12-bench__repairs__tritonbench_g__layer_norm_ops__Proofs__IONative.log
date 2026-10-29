@@ -1,0 +1,13 @@
+VeriTile.Bench.Repairs.LayerNormOps.Interface.forwardNative: definition does not reference [VeriTile.Bench.Repairs.LayerNormOps.forwardKernel,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.LayerNormOps.Forward.reference] — non-circular ✓
+VeriTile.Bench.Repairs.LayerNormOps.Interface.backwardNative: definition does not reference [VeriTile.Bench.Repairs.LayerNormOps.backwardKernel,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.LayerNormOps.Backward.reference,
+ VeriTile.Bench.Repairs.LayerNormOps.Backward.update] — non-circular ✓
+VeriTile.Bench.Repairs.LayerNormOps.Interface.forward_native: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormOps.Interface.backward_native: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

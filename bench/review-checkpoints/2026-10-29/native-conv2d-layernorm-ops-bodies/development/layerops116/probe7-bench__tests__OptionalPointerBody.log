@@ -1,0 +1,16 @@
+VeriTile.Tests.OptionalPointerBody.ordinary_lean_names: axiom footprint ⊆ standard base ✓  ([])
+/tmp/layerops116-frontend/bench/tests/OptionalPointerBody.lean:70:12: warning: unused variable `X`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/layerops116-frontend/bench/tests/OptionalPointerBody.lean:79:20: warning: unused variable `X`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Tests.OptionalPointerBody.guarded_load: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.OptionalPointerBody.inverse_branch: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.OptionalPointerBody.nested_guard: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

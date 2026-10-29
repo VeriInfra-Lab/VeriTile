@@ -1,0 +1,12 @@
+VeriTile.Bench.TritonBenchG.TritonConv2dFwd.SignedBodySimulation.pointer_chunk: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonConv2dFwd.SignedBodySimulation.common_suffix: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonConv2dFwd.SignedBodySimulation.inner: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonConv2dFwd.SignedBodySimulation.common_prefix: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

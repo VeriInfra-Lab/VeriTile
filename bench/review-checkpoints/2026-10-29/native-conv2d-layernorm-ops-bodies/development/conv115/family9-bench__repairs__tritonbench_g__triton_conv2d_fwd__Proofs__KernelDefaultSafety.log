@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.Conv2d.KernelDefault.Access.source_safe: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

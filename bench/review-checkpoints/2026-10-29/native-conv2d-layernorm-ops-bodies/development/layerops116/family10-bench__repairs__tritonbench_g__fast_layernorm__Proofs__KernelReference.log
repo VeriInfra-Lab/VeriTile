@@ -1,0 +1,16 @@
+VeriTile.Bench.Repairs.FastLayernorm.KernelReference.output: definition does not reference [VeriTile.Bench.Repairs.FastLayernorm.forwardKernel,
+ VeriTile.Bench.Repairs.FastLayernorm.backwardKernel,
+ VeriTile.Bench.Repairs.FastLayernorm.affineKernel,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.Repairs.FastLayernorm.KernelReference.gradient: definition does not reference [VeriTile.Bench.Repairs.FastLayernorm.forwardKernel,
+ VeriTile.Bench.Repairs.FastLayernorm.backwardKernel,
+ VeriTile.Bench.Repairs.FastLayernorm.affineKernel,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.Repairs.FastLayernorm.KernelReference.affineWeight: definition does not reference [VeriTile.Bench.Repairs.FastLayernorm.forwardKernel,
+ VeriTile.Bench.Repairs.FastLayernorm.backwardKernel,
+ VeriTile.Bench.Repairs.FastLayernorm.affineKernel,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.Repairs.FastLayernorm.KernelReference.affineBias: definition does not reference [VeriTile.Bench.Repairs.FastLayernorm.forwardKernel,
+ VeriTile.Bench.Repairs.FastLayernorm.backwardKernel,
+ VeriTile.Bench.Repairs.FastLayernorm.affineKernel,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓

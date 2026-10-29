@@ -1,0 +1,13 @@
+VeriTile.Bench.Repairs.Conv2d.Software.default_reference: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.Software.reference: definition does not reference [VeriTile.Bench.Repairs.Conv2d.source,
+ VeriTile.Bench.Repairs.Conv2d.sourceValue,
+ VeriTile.Bench.Repairs.Conv2d.sourceProgram,
+ VeriTile.Bench.Repairs.Conv2d.sourcePrograms,
+ VeriTile.Bench.Repairs.Conv2d.Native.selected] — non-circular ✓
+VeriTile.Bench.Repairs.Conv2d.Software.fmaRN: definition does not reference [VeriTile.Bench.Repairs.Conv2d.source,
+ VeriTile.Bench.Repairs.Conv2d.sourceValue,
+ VeriTile.Bench.Repairs.Conv2d.sourceProgram,
+ VeriTile.Bench.Repairs.Conv2d.sourcePrograms,
+ VeriTile.Bench.Repairs.Conv2d.Native.selected] — non-circular ✓

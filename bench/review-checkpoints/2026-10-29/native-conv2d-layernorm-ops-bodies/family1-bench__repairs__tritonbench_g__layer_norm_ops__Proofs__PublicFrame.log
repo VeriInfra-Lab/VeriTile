@@ -1,0 +1,17 @@
+/tmp/conv-layer117-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/PublicFrame.lean:14:15: warning: This simp argument is unused:
+  ht
+
+Hint: Omit it from the simp argument list.
+  simp only [h̵t̵,̵Bool.false_eq_true, ̲if_false]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/conv-layer117-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/PublicFrame.lean:16:15: warning: This simp argument is unused:
+  ht
+
+Hint: Omit it from the simp argument list.
+  simp only [h̵t̵,̵if_true]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.LayerNormOps.Host.caller_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

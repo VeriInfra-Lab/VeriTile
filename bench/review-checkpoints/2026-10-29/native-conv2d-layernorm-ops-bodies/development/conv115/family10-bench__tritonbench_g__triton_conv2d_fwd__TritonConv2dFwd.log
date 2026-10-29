@@ -1,0 +1,19 @@
+/tmp/conv115-frontend/bench/tritonbench_g/triton_conv2d_fwd/TritonConv2dFwd.lean:703:78: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/conv115-frontend/bench/tritonbench_g/triton_conv2d_fwd/TritonConv2dFwd.lean:716:78: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+VeriTile.Bench.TritonBenchG.TritonConv2dFwd.conv2d_closed_form_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonConv2dFwd.conv2d_output_summary: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonConv2dFwd.triton_conv2d_fwd_io_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+Axiom audit: headlines=3
+headlines: [VeriTile.Bench.TritonBenchG.TritonConv2dFwd.conv2d_closed_form_correct,
+ VeriTile.Bench.TritonBenchG.TritonConv2dFwd.conv2d_output_summary,
+ VeriTile.Bench.TritonBenchG.TritonConv2dFwd.triton_conv2d_fwd_io_correctness]

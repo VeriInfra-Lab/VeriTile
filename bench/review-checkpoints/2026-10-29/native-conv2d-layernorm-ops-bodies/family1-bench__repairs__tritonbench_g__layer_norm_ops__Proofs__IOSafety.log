@@ -1,0 +1,12 @@
+/tmp/conv-layer117-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/IOSafety.lean:9:8: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.LayerNormOps.Interface.invocation_pid`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+VeriTile.Bench.Repairs.LayerNormOps.Interface.forward_safe: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormOps.Interface.backward_safe: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,9 @@
+VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPCorrect.full_backend_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPCorrect.clean_undef_backend_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPCorrect.full_software_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

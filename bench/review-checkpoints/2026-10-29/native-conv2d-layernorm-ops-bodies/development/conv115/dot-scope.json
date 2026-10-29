@@ -1,0 +1,13 @@
+{
+  "status": "FOCUSED_TESTS_PASS_TASK_AND_CUMULATIVE_PENDING",
+  "primary_source": "https://github.com/triton-lang/triton/blob/v3.7.1/python/triton/language/semantic.py",
+  "blob": "691c471296e90d9f78ee35915e50f4e388360032",
+  "scope": "Two-argument dot default/explicit-FP32 result for matching fp16/bf16 or supported fp8 inputs. Existing fp32 input path retained. Constructor default dtype and exact operands remain in source. Generic alternate result-format behavior outside this change still needs audit.",
+  "cause": "The loop-carried FP32 accumulator lost known dtype because two-argument dot inference previously accepted only fp32 inputs.",
+  "focused_evidence": {
+    "source": "bench/tests/TypedDotLoopBody.lean",
+    "build": "/tmp/conv115-probe4-build.json",
+    "success": "two FP16-input/FP32-output typed dots accumulate tags 7+7, without untyped fallback",
+    "failure": "unsupported optional typed port returns none"
+  }
+}

@@ -1,0 +1,158 @@
+[
+  {
+    "python_function": "_layer_norm_fwd_1pass_kernel",
+    "lean_definition": "forwardSource",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "typed_per_call_specialization",
+    "call_bindings": {
+      "stride_x_row": "stride_x_row",
+      "stride_y_row": "stride_y_row",
+      "stride_res_row": "stride_res_row",
+      "stride_res_out_row": "stride_res_out_row",
+      "N": "N",
+      "eps": "eps"
+    },
+    "statements": 18,
+    "runtime_parameters": {
+      "stride_x_row": "i32",
+      "stride_y_row": "i32",
+      "stride_res_row": "i32",
+      "stride_res_out_row": "i32",
+      "N": "i32",
+      "eps": "fp32"
+    },
+    "constexpr_parameters": [
+      "BLOCK_N",
+      "HAS_BIAS",
+      "HAS_RESIDUAL",
+      "IS_RMS_NORM",
+      "STORE_RESIDUAL_OUT"
+    ]
+  },
+  {
+    "python_function": "_layer_norm_bwd_kernel",
+    "lean_definition": "backwardSource",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "typed_per_call_specialization",
+    "call_bindings": {
+      "stride_x_row": "stride_x_row",
+      "stride_y_row": "stride_y_row",
+      "stride_dy_row": "stride_dy_row",
+      "stride_dx_row": "stride_dx_row",
+      "stride_dres_row": "stride_dres_row",
+      "stride_dres_in_row": "stride_dres_in_row",
+      "stride_mean": "stride_mean",
+      "stride_rstd": "stride_rstd",
+      "M": "M",
+      "N": "N",
+      "rows_per_program": "rows_per_program",
+      "eps": "eps"
+    },
+    "statements": 18,
+    "runtime_parameters": {
+      "stride_x_row": "i32",
+      "stride_y_row": "i32",
+      "stride_dy_row": "i32",
+      "stride_dx_row": "i32",
+      "stride_dres_row": "i32",
+      "stride_dres_in_row": "i32",
+      "stride_mean": "i32",
+      "stride_rstd": "i32",
+      "M": "i32",
+      "N": "i32",
+      "rows_per_program": "i32",
+      "eps": "fp32"
+    },
+    "constexpr_parameters": [
+      "BLOCK_N",
+      "HAS_BIAS",
+      "HAS_DRESIDUAL",
+      "IS_RMS_NORM",
+      "RECOMPUTE_OUTPUT",
+      "STORE_DRESIDUAL"
+    ],
+    "pointer_presence": {
+      "Mean": "meanPresent"
+    }
+  },
+  {
+    "python_function": "_layer_norm_fwd_1pass_kernel_mask_reused",
+    "lean_definition": "forwardMaskReusedSource",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "typed_per_call_specialization",
+    "call_bindings": {
+      "stride_x_row": "stride_x_row",
+      "stride_y_row": "stride_y_row",
+      "stride_res_row": "stride_res_row",
+      "stride_res_out_row": "stride_res_out_row",
+      "N": "N",
+      "eps": "eps"
+    },
+    "statements": 18,
+    "runtime_parameters": {
+      "stride_x_row": "i32",
+      "stride_y_row": "i32",
+      "stride_res_row": "i32",
+      "stride_res_out_row": "i32",
+      "N": "i32",
+      "eps": "fp32"
+    },
+    "constexpr_parameters": [
+      "BLOCK_N",
+      "HAS_BIAS",
+      "HAS_RESIDUAL",
+      "IS_RMS_NORM",
+      "STORE_RESIDUAL_OUT"
+    ]
+  },
+  {
+    "python_function": "_layer_norm_bwd_kernel_row_start_reused",
+    "lean_definition": "backwardRowStartReusedSource",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "typed_per_call_specialization",
+    "call_bindings": {
+      "stride_x_row": "stride_x_row",
+      "stride_y_row": "stride_y_row",
+      "stride_dy_row": "stride_dy_row",
+      "stride_dx_row": "stride_dx_row",
+      "stride_dres_row": "stride_dres_row",
+      "stride_dres_in_row": "stride_dres_in_row",
+      "stride_mean": "stride_mean",
+      "stride_rstd": "stride_rstd",
+      "M": "M",
+      "N": "N",
+      "rows_per_program": "rows_per_program",
+      "eps": "eps"
+    },
+    "statements": 18,
+    "runtime_parameters": {
+      "stride_x_row": "i32",
+      "stride_y_row": "i32",
+      "stride_dy_row": "i32",
+      "stride_dx_row": "i32",
+      "stride_dres_row": "i32",
+      "stride_dres_in_row": "i32",
+      "stride_mean": "i32",
+      "stride_rstd": "i32",
+      "M": "i32",
+      "N": "i32",
+      "rows_per_program": "i32",
+      "eps": "fp32"
+    },
+    "constexpr_parameters": [
+      "BLOCK_N",
+      "HAS_BIAS",
+      "HAS_DRESIDUAL",
+      "IS_RMS_NORM",
+      "RECOMPUTE_OUTPUT",
+      "STORE_DRESIDUAL"
+    ],
+    "pointer_presence": {
+      "Mean": "meanPresent"
+    }
+  }
+]

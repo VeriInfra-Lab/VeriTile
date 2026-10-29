@@ -1,0 +1,9 @@
+VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPDefault.default_multiblock_value: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPDefault.fp16_flags_have_different_values: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPDefault.default_multiblock_execution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

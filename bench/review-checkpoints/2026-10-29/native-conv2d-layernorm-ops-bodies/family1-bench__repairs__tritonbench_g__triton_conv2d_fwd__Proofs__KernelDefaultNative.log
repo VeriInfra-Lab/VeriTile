@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.Conv2d.KernelNative.defaultReference: definition does not reference [VeriTile.Bench.Repairs.Conv2d.KernelSource.kernel,
+ VeriTile.Bench.Repairs.Conv2d.KernelGrid.launch,
+ VeriTile.Bench.Repairs.Conv2d.KernelGrid.value] — non-circular ✓
+VeriTile.Bench.Repairs.Conv2d.KernelNative.default_reference: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

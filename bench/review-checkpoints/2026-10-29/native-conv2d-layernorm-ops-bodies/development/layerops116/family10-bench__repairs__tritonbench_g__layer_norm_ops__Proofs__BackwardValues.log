@@ -1,0 +1,57 @@
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/BackwardValues.lean:88:2: error: 'change' tactic failed, pattern
+  (if ↑i.1 < p.columns then
+      Forward.unhintedBinary A Binary.mul
+        (if p.rms = «true» then Backward.loaded A p s p.x (row * p.xStride) i
+        else
+          Forward.unhintedBinary A Binary.sub (Backward.loaded A p s p.x (row * p.xStride) i)
+            (A.cast none FloatDType.fp32 FloatDType.real
+              (Cell.read TileDType.fp32 (s.mem p.mean (row * p.meanStride)))))
+        (A.cast none FloatDType.fp32 FloatDType.real (Cell.read TileDType.fp32 (s.mem p.rstd (row * p.rstdStride))))
+    else A.literal none FloatDType.real 0) =
+    ?m.82
+is not definitionally equal to target
+  Backward.xhat A p (Backward.initial A p s) row i = backwardHat A p v row i
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/BackwardValues.lean:130:2: error: unsolved goals
+case pos
+α : Type
+inst✝ : Inhabited α
+A : FP.Structural.Algebra α
+p : BackwardParameters
+pid : ℕ
+v : BackwardValues α p
+s : State α
+bound : BackwardBinding p pid v s
+row : ℕ
+live : rowActive p pid row
+hy : p.recompute = «true»
+i : TileIndex [p.block]
+hb : p.hasBias = «true»
+hbias : (Backward.initial A p s).bias = backwardLoad A p (backwardBias v)
+⊢ Backward.binary A Binary.add
+      (Backward.binary A Binary.mul (backwardHat A p v row i) (backwardLoad A p (backwardWeight v) i))
+      (backwardLoad A p (backwardBias v) i) =
+    Forward.unhintedBinary A Binary.add
+      (Forward.unhintedBinary A Binary.mul (backwardHat A p v row i) (backwardLoad A p (backwardWeight v) i))
+      (backwardLoad A p (backwardBias v) i)
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/BackwardValues.lean:135:2: error: unsolved goals
+case neg
+α : Type
+inst✝ : Inhabited α
+A : FP.Structural.Algebra α
+p : BackwardParameters
+pid : ℕ
+v : BackwardValues α p
+s : State α
+bound : BackwardBinding p pid v s
+row : ℕ
+live : rowActive p pid row
+hy : p.recompute = «true»
+i : TileIndex [p.block]
+hb : ¬p.hasBias = «true»
+⊢ Backward.binary A Binary.mul (backwardHat A p v row i) (backwardLoad A p (backwardWeight v) i) =
+    Forward.unhintedBinary A Binary.mul (backwardHat A p v row i) (backwardLoad A p (backwardWeight v) i)
+VeriTile.Bench.Repairs.LayerNormOps.Interface.backward_binding: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/BackwardValues.lean:178:0: error: VeriTile.Bench.Repairs.LayerNormOps.Interface.backward_dx_eq: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/BackwardValues.lean:179:0: error: VeriTile.Bench.Repairs.LayerNormOps.Interface.backward_partials_eq: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

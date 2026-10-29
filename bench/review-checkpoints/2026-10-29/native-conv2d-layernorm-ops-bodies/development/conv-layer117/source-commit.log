@@ -1,0 +1,27 @@
+Auto packing the repository in background for optimum performance.
+See "git help gc" for manual housekeeping.
+[codex/body-copy-cache-and-constexpr 87c269419] Paste Conv2d and LayerNormOps bodies and reconnect complete proofs
+ 78 files changed, 9150 insertions(+), 2472 deletions(-)
+ rewrite bench/repairs/tritonbench_g/layer_norm_ops/Kernels.lean (74%)
+ create mode 100644 bench/repairs/tritonbench_g/layer_norm_ops/Proofs/ForwardSafety.lean
+ create mode 100644 bench/repairs/tritonbench_g/layer_norm_ops/Proofs/ForwardSafety00.lean
+ create mode 100644 bench/repairs/tritonbench_g/layer_norm_ops/Proofs/ForwardSafety01.lean
+ create mode 100644 bench/repairs/tritonbench_g/layer_norm_ops/Proofs/ForwardSafety10.lean
+ create mode 100644 bench/repairs/tritonbench_g/layer_norm_ops/Proofs/ForwardSafety11.lean
+ create mode 100644 bench/repairs/tritonbench_g/layer_norm_ops/jit-correspondence.json
+ create mode 100644 bench/repairs/tritonbench_g/layer_norm_ops/layer_norm_ops_candidates.py
+ rewrite bench/repairs/tritonbench_g/triton_conv2d_fwd/CandidateKernels.lean (92%)
+ create mode 100644 bench/repairs/tritonbench_g/triton_conv2d_fwd/check_body_source.py
+ create mode 100644 bench/repairs/tritonbench_g/triton_conv2d_fwd/jit-correspondence.json
+ create mode 100644 bench/tests/OptionalPointerExpressionBody.lean
+ create mode 100644 bench/tests/TypedDotLoopBody.lean
+ create mode 100644 bench/tests/test_conv2d_body.py
+ create mode 100644 bench/tests/test_layer_norm_ops_body.py
+ create mode 100644 bench/tritonbench_g/triton_conv2d_fwd/Proofs/MaskedPointerSimulation.lean
+ create mode 100644 bench/tritonbench_g/triton_conv2d_fwd/Proofs/PositivePointerCorrect.lean
+ create mode 100644 bench/tritonbench_g/triton_conv2d_fwd/Proofs/PositivePointerModel.lean
+ create mode 100644 bench/tritonbench_g/triton_conv2d_fwd/Proofs/SignedBodySimulation.lean
+ create mode 100644 bench/tritonbench_g/triton_conv2d_fwd/Proofs/SignedFlatSimulation.lean
+ create mode 100644 bench/tritonbench_g/triton_conv2d_fwd/Proofs/SignedLoopSimulation.lean
+ create mode 100644 bench/tritonbench_g/triton_conv2d_fwd/Proofs/SignedPointerModel.lean
+ create mode 100644 bench/tritonbench_g/triton_conv2d_fwd/Proofs/SignedPostSimulation.lean

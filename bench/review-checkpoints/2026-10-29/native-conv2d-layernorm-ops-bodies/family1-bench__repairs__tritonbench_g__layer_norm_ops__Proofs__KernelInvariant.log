@@ -1,0 +1,28 @@
+/tmp/conv-layer117-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/KernelInvariant.lean:50:23: warning: This simp argument is unused:
+  dy A p s a h row
+
+Hint: Omit it from the simp argument list.
+  simp only [̵B̵a̵c̵k̵w̵a̵r̵d̵.̵d̵x̵B̵a̵s̵e̵,̵B̵a̵c̵k̵w̵a̵r̵d̵.̵c̵1̵,̵B̵a̵c̵k̵w̵a̵r̵d̵.̵c̵2̵,̵h̵g̵,̵[̲B̲a̲c̲k̲w̲a̲r̲d̲.̲d̲x̲B̲a̲s̲e̲,̲ ̲B̲a̲c̲k̲w̲a̲r̲d̲.̲c̲1̲,̲ ̲B̲a̲c̲k̲w̲a̲r̲d̲.̲c̲2̲,̲ ̲h̲g̲,̲ xhat A p s a h r̵o̵w̵,̵d̵y̵ ̵A̵ ̵p̵ ̵s̵ ̵a̵ ̵h̵ ̵r̵o̵w̵,̵h̵.̵w̵e̵i̵g̵h̵t̵,̵B̵a̵c̵k̵w̵a̵r̵d̵.̵r̵s̵t̵d̵V̵a̵l̵u̵e̵,̵r̲o̲w̲,̲ ̲h̲.̲w̲e̲i̲g̲h̲t̲,̲
+  ̲ ̲ ̲ ̲ ̲B̲a̲c̲k̲w̲a̲r̲d̲.̲r̲s̲t̲d̲V̲a̲l̲u̲e̲,̲ h.memory p.rstd (by simp [̵r̵e̵a̵d̵s̵]̵)̵,̵B̵a̵c̵k̵w̵a̵r̵d̵.̵i̵n̵i̵t̵i̵a̵l̵]̵[̲r̲e̲a̲d̲s̲]̲)̲,̲ ̲B̲a̲c̲k̲w̲a̲r̲d̲.̲i̲n̲i̲t̲i̲a̲l̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/conv-layer117-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/KernelInvariant.lean:50:40: warning: This simp argument is unused:
+  h.weight
+
+Hint: Omit it from the simp argument list.
+  simp only [̵B̵a̵c̵k̵w̵a̵r̵d̵.̵d̵x̵B̵a̵s̵e̵,̵B̵a̵c̵k̵w̵a̵r̵d̵.̵c̵1̵,̵B̵a̵c̵k̵w̵a̵r̵d̵.̵c̵2̵,̵h̵g̵,̵[̲B̲a̲c̲k̲w̲a̲r̲d̲.̲d̲x̲B̲a̲s̲e̲,̲ ̲B̲a̲c̲k̲w̲a̲r̲d̲.̲c̲1̲,̲ ̲B̲a̲c̲k̲w̲a̲r̲d̲.̲c̲2̲,̲ ̲h̲g̲,̲ xhat A p s a h r̵o̵w̵,̵d̵y̵r̲o̲w̲,̲ ̲d̲y̲ A p s a h r̵o̵w̵,̵h̵.̵w̵e̵i̵g̵h̵t̵,̵B̵a̵c̵k̵w̵a̵r̵d̵.̵r̵s̵t̵d̵V̵a̵l̵u̵e̵,̵r̲o̲w̲,̲
+  ̲ ̲ ̲ ̲ ̲B̲a̲c̲k̲w̲a̲r̲d̲.̲r̲s̲t̲d̲V̲a̲l̲u̲e̲,̲ h.memory p.rstd (by simp [̵r̵e̵a̵d̵s̵]̵)̵,̵B̵a̵c̵k̵w̵a̵r̵d̵.̵i̵n̵i̵t̵i̵a̵l̵]̵[̲r̲e̲a̲d̲s̲]̲)̲,̲ ̲B̲a̲c̲k̲w̲a̲r̲d̲.̲i̲n̲i̲t̲i̲a̲l̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.LayerNormOps.KernelInvariant.dx: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormOps.KernelInvariant.y: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormOps.KernelInvariant.partials: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormOps.KernelInvariant.forward_y: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

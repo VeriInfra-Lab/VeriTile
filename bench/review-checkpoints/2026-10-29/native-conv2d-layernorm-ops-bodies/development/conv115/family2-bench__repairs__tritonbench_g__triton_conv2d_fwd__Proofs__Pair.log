@@ -1,0 +1,28 @@
+/tmp/conv115-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/Pair.lean:92:61: error(lean.unknownIdentifier): Unknown identifier `forall_eq_apply`
+/tmp/conv115-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/Pair.lean:93:34: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  Safety.traceSafeList ?M ?bounds (?before ++ ?after) ?s
+in the target expression
+  (Safety.traceSafeList M bounds (before c f) s ∧
+      ∀ (t : State α),
+        run M (before c f) s = some t → Safety.traceSafeList M bounds (originalSite c f :: after c f) t) ↔
+    ∀ (t : State α), s = t → Safety.traceSafeList M bounds (before c f ++ shiftedSite c f :: after c f) t
+
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+bounds : RegionName → ℕ
+c : Shape
+f : Flags
+s : State α
+⊢ (Safety.traceSafeList M bounds (before c f) s ∧
+      ∀ (t : State α),
+        run M (before c f) s = some t → Safety.traceSafeList M bounds (originalSite c f :: after c f) t) ↔
+    ∀ (t : State α), s = t → Safety.traceSafeList M bounds (before c f ++ shiftedSite c f :: after c f) t
+VeriTile.Bench.Repairs.Conv2d.Pair.public_block_size: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.Repairs.Conv2d.Pair.guard_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.Pair.guard_safe: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/conv115-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/Pair.lean:156:0: error: VeriTile.Bench.Repairs.Conv2d.Pair.equivalent: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

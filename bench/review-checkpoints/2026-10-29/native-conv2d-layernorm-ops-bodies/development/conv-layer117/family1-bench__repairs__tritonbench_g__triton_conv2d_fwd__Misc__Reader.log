@@ -1,0 +1,140 @@
+VeriTile.Bench.Repairs.Conv2d.KernelRealResult.correct_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.KernelNativeResult.fp_equivalent: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.KernelNativeResult.fp_default: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.KernelNativeResult.physical_execution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.checkCall_iff: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.Conv2d.rejected_iff: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+VeriTile.Bench.Repairs.Conv2d.KernelHalf.correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.KernelDefault.correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.KernelBinding.active_iff: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.Conv2d.KernelBinding.output_address: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.Conv2d.KernelBinding.stores_unique: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.Conv2d.KernelBinding.covers: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.Conv2d.KernelGrid.launch_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.KernelOperands.input_load: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.Conv2d.KernelOperands.weight_load: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.Conv2d.KernelNumeric.source_reference: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.KernelNumeric.point_reference: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.KernelNumeric.launch_reference: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.KernelReal.reference_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.KernelNative.default_reference: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.KernelStorage.image_initial: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.KernelStorage.image_write: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.KernelStorage.fold_projection: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.KernelStores.program_bytes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.KernelTensor.address: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.Conv2d.KernelTensor.native_read: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.Conv2d.KernelEntries.real_input: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.KernelEntries.real_weight: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.KernelEntries.native_input: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.KernelEntries.native_weight: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.KernelEntries.native_initial: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.KernelEntries.real_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.KernelEntries.native_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.Lowering.input_address: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.Conv2d.Lowering.weight_address: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.Conv2d.Lowering.output_address: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.Conv2d.Witness.channel_tail_witness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.Witness.spatial_padding_witness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.mathematical: definition does not reference [VeriTile.Bench.Repairs.Conv2d.source,
+ VeriTile.Bench.Repairs.Conv2d.sourceValue,
+ VeriTile.Bench.Repairs.Conv2d.sourceStep,
+ VeriTile.Bench.Repairs.Conv2d.aLoad,
+ VeriTile.Bench.Repairs.Conv2d.bLoad,
+ VeriTile.Bench.Repairs.Conv2d.Host.invokeReal,
+ VeriTile.Bench.Repairs.Conv2d.KernelSource.kernel,
+ VeriTile.Bench.Repairs.Conv2d.KernelGrid.launch] — non-circular ✓
+VeriTile.Bench.Repairs.Conv2d.KernelNumeric.reference: definition does not reference [VeriTile.Bench.Repairs.Conv2d.KernelSource.kernel,
+ VeriTile.Bench.Repairs.Conv2d.KernelGrid.value,
+ VeriTile.Bench.Repairs.Conv2d.KernelGrid.point,
+ VeriTile.Bench.Repairs.Conv2d.KernelGrid.launch,
+ VeriTile.Bench.Repairs.Conv2d.KernelStores.stores,
+ VeriTile.Bench.Repairs.Conv2d.KernelEntries.nativeHeap] — non-circular ✓
+VeriTile.Bench.Repairs.Conv2d.KernelNative.lower32: definition does not reference [VeriTile.Bench.Repairs.Conv2d.KernelSource.kernel,
+ VeriTile.Bench.Repairs.Conv2d.KernelGrid.value,
+ VeriTile.Bench.Repairs.Conv2d.KernelGrid.point,
+ VeriTile.Bench.Repairs.Conv2d.KernelGrid.launch] — non-circular ✓
+VeriTile.Bench.Repairs.Conv2d.KernelNative.defaultReference: definition does not reference [VeriTile.Bench.Repairs.Conv2d.KernelSource.kernel,
+ VeriTile.Bench.Repairs.Conv2d.KernelGrid.value,
+ VeriTile.Bench.Repairs.Conv2d.KernelGrid.point,
+ VeriTile.Bench.Repairs.Conv2d.KernelGrid.launch] — non-circular ✓
+VeriTile.Bench.Repairs.Conv2d.Domain: definition does not reference [VeriTile.Bench.Repairs.Conv2d.source,
+ VeriTile.Bench.Repairs.Conv2d.sourceValue,
+ VeriTile.Bench.Repairs.Conv2d.mathematical,
+ VeriTile.Bench.Repairs.Conv2d.ordered,
+ VeriTile.Bench.Repairs.Conv2d.Host.invoke,
+ VeriTile.Bench.Repairs.Conv2d.Host.invokeReal,
+ VeriTile.Bench.Repairs.Conv2d.KernelSource.kernel,
+ VeriTile.Bench.Repairs.Conv2d.KernelGrid.launch] — non-circular ✓
+VeriTile.Bench.Repairs.Conv2d.KernelTensor.Binding: definition does not reference [VeriTile.Bench.Repairs.Conv2d.KernelSource.kernel,
+ VeriTile.Bench.Repairs.Conv2d.KernelGrid.launch,
+ VeriTile.Bench.Repairs.Conv2d.KernelEntries.realResult,
+ VeriTile.Bench.Repairs.Conv2d.KernelEntries.nativeResult] — non-circular ✓
+VeriTile.Bench.Repairs.Conv2d.KernelTensor.Prepared: definition does not reference [VeriTile.Bench.Repairs.Conv2d.KernelSource.kernel,
+ VeriTile.Bench.Repairs.Conv2d.KernelGrid.launch,
+ VeriTile.Bench.Repairs.Conv2d.KernelEntries.realResult,
+ VeriTile.Bench.Repairs.Conv2d.KernelEntries.nativeResult] — non-circular ✓

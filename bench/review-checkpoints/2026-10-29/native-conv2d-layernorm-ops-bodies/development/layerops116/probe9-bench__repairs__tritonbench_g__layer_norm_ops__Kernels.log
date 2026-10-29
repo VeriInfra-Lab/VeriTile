@@ -1,0 +1,2 @@
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Kernels.lean:22:163: error: loop-carried value requires a stable, known source dtype
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Kernels.lean:22:154: error: loop-carried value requires a stable, known source dtype

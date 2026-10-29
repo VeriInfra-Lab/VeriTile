@@ -1,0 +1,79 @@
+/tmp/conv115-diagnostics/MaskedPointerSimulation.lean:92:26: error: Application type mismatch: The argument
+  i
+has type
+  Tile TileDType.ptr shape
+but is expected to have type
+  TileIndex shape
+in the application
+  mask.data i
+/tmp/conv115-diagnostics/MaskedPointerSimulation.lean:93:36: error: Application type mismatch: The argument
+  i
+has type
+  Tile TileDType.ptr shape
+but is expected to have type
+  TileIndex shape
+in the application
+  active i
+/tmp/conv115-diagnostics/MaskedPointerSimulation.lean:93:4: error: `simp` made no progress
+/tmp/conv115-diagnostics/MaskedPointerSimulation.lean:95:4: error: `simp` made no progress
+/tmp/conv115-diagnostics/MaskedPointerSimulation.lean:87:73: error: unsolved goals
+case e_a
+R : RoundingModel
+shape : TileShape
+sourcePointer modelPointer : Op TileDType.ptr shape
+sourceMask modelMask : Op TileDType.bool shape
+s t : BlockState
+sp tp : Tile TileDType.ptr shape
+mask : Tile TileDType.bool shape
+hsp : evalOpR R sourcePointer s = some sp
+htp : evalOpR R modelPointer t = some tp
+hsm : evalOpR R sourceMask s = some mask
+htm : evalOpR R modelMask t = some mask
+memory : s.mem = t.mem
+source_zero : ∀ (r : RegionName) (o : ℕ), s.undef r o = 0
+model_zero : ∀ (r : RegionName) (o : ℕ), t.undef r o = 0
+active : ∀ (i : TileIndex shape), mask.data i = true → sp.data i = tp.data i
+⊢ (fun ptrs => do
+      let y ← some fun i => ((ptrs.data i).1, (ptrs.data i).2, true)
+      let masks ← some mask
+      some
+          {
+            data := fun i =>
+              if masks.data i = true then
+                if (y i).2.2 = true then s.readMemValue TileDType.real (y i).1 (y i).2.1
+                else s.paddingValue TileDType.real PaddingOption.zero (y i).1 (y i).2.1
+              else
+                if (y i).2.2 = true then some (s.undef (y i).1 (y i).2.1)
+                else s.paddingValue TileDType.real PaddingOption.zero (y i).1 (y i).2.1 }) =
+    fun ptrs => do
+    let y ← some fun i => ((ptrs.data i).1, (ptrs.data i).2, true)
+    let masks ← some mask
+    some
+        {
+          data := fun i =>
+            if masks.data i = true then
+              if (y i).2.2 = true then t.readMemValue TileDType.real (y i).1 (y i).2.1
+              else t.paddingValue TileDType.real PaddingOption.zero (y i).1 (y i).2.1
+            else
+              if (y i).2.2 = true then some (t.undef (y i).1 (y i).2.1)
+              else t.paddingValue TileDType.real PaddingOption.zero (y i).1 (y i).2.1 }
+/tmp/conv115-diagnostics/MaskedPointerSimulation.lean:89:29: warning: This simp argument is unused:
+  Option.bind_some
+
+Hint: Omit it from the simp argument list.
+  simp only [̵h̵s̵p̵,̵h̵t̵p̵,̵h̵s̵m̵,̵h̵t̵m̵,̵O̵p̵t̵i̵o̵n̵.̵b̵i̵n̵d̵_̵s̵o̵m̵e̵]̵[̲h̲s̲p̲,̲ ̲h̲t̲p̲,̲ ̲h̲s̲m̲,̲ ̲h̲t̲m̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/conv115-diagnostics/MaskedPointerSimulation.lean:108:0: error: VeriTile.Bench.TritonBenchG.TritonConv2dFwd.MaskedPointerSimulation.masked_load: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.TritonBenchG.TritonConv2dFwd.MaskedPointerSimulation.active_signed_offset: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.TritonConv2dFwd.MaskedPointerSimulation.AgreeExcept.setReg: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonConv2dFwd.MaskedPointerSimulation.AgreeExcept.writeIgnored: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonConv2dFwd.MaskedPointerSimulation.range: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

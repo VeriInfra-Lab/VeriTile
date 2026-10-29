@@ -1,0 +1,131 @@
+/tmp/conv115-frontend/bench/tests/TypedDotLoopBody.lean:53:54: error: unsolved goals
+⊢ (match
+      match
+        loop
+          { literal := fun x x_1 x_2 => 0, negInf := 0, binary := fun x x_1 x_2 a b => a + b, unary := fun x x_1 a => a,
+            cast := fun x x_1 x_2 a => a, fromNat := fun x n => n, fromInt := fun x n => n.toNat,
+            fp32Bits := fun x => 0, fp32Load := id, reduceMax := fun x x_1 x_2 x_3 x_4 => 0,
+            reduceSum := fun x x_1 x_2 x_3 x_4 => 0, dot := fun x {x_1} {x_2 x_3 x_4} x_5 x_6 => some fun x => 999,
+            dotTyped := fun x left right out options {x_1} {x_2 x_3 x_4} x_5 x_6 =>
+              some fun x =>
+                (match (motive := (x : FloatDType) → ℕ → Value ℕ x.toTileDType) out with
+                  | FloatDType.real => id
+                  | FloatDType.fp32 => id
+                  | FloatDType.fp16 => id
+                  | FloatDType.bf16 => id
+                  | FloatDType.f8e4 => id
+                  | FloatDType.f8e5 => id)
+                  (if
+                      left = FloatDType.fp16 ∧
+                        right = FloatDType.fp16 ∧ out = FloatDType.fp32 ∧ options.allowTF32 = some «false» then
+                    7
+                  else 41) }
+          "step" 0 2
+          [ComputeStmt.assign TileDType.real [1, 1] "accum"
+              (ComputeExpr.compute
+                (ComputeOp.alg ComputeDType.fp32
+                  (Op.add NumericDType.real Broadcast.nil.consSame.consSame (Op.ref TileDType.real [1, 1] "accum")
+                    (Op.castFloat FloatDType.fp32 FloatDType.real
+                      (Op.dotTyped FloatDType.fp16 FloatDType.fp16 FloatDType.fp32 (Op.ref TileDType.fp16 [1, 1] "a")
+                        (Op.ref TileDType.fp16 [1, 1] "b") { allowTF32 := some «false» })))))]
+          { mem := fun x x_1 => Cell.mk TileDType.real 99,
+            regs := fun d sh n =>
+              if n = "accum" then
+                if hd : TileDType.real = d then if hs : [1, 1] = sh then some (hd ▸ hs ▸ fun x => 0) else none else none
+              else
+                if n = "b" then
+                  if hd : TileDType.fp16 = d then if hs : [1, 1] = sh then some (hd ▸ hs ▸ fun x => 0) else none
+                  else none
+                else
+                  if n = "a" then
+                    if hd : TileDType.fp16 = d then if hs : [1, 1] = sh then some (hd ▸ hs ▸ fun x => 0) else none
+                    else none
+                  else none,
+            pids := fun x => 0, numPids := fun x => 1, undef := fun d x x_1 => defaultValue d },
+        fun __do_lift =>
+        match
+          match __do_lift.regs TileDType.real [1, 1] "accum", fun __do_lift_1 =>
+            some
+              (List.foldl
+                (fun t i =>
+                  {
+                    mem := fun r' o' =>
+                      if r' = { name := "y" } ∧ o' = 0 then Cell.mk TileDType.real (__do_lift_1 i) else t.mem r' o',
+                    regs := t.regs, pids := t.pids, numPids := t.numPids, undef := t.undef })
+                { mem := __do_lift.mem,
+                  regs := fun d sh n =>
+                    if n = "lane" then
+                      if hd : TileDType.nat = d then if hs : [1] = sh then some (hd ▸ hs ▸ fun i => 0) else none
+                      else none
+                    else __do_lift.regs d sh n,
+                  pids := __do_lift.pids, numPids := __do_lift.numPids, undef := __do_lift.undef }
+                (List.flatMap
+                  (fun i => List.map (fun is => (i, is)) (List.flatMap (fun i => [(i, PUnit.unit)]) (List.finRange 1)))
+                  (List.finRange 1))) with
+          | none, x => none
+          | some a, f => f a,
+          fun __do_lift => some __do_lift with
+        | none, x => none
+        | some a, f => f a with
+      | none, x => none
+      | some a, f => f a with
+    | some x => some (x.mem { name := "y" } 0)
+    | none => none) =
+    some (Cell.mk TileDType.real 14)
+/tmp/conv115-frontend/bench/tests/TypedDotLoopBody.lean:62:37: error: unsolved goals
+⊢ (match
+      loop
+        { literal := fun x x_1 x_2 => 0, negInf := 0, binary := fun x x_1 x_2 a b => a + b, unary := fun x x_1 a => a,
+          cast := fun x x_1 x_2 a => a, fromNat := fun x n => n, fromInt := fun x n => n.toNat, fp32Bits := fun x => 0,
+          fp32Load := id, reduceMax := fun x x_1 x_2 x_3 x_4 => 0, reduceSum := fun x x_1 x_2 x_3 x_4 => 0,
+          dot := fun x {x_1} {x_2 x_3 x_4} x_5 x_6 => some fun x => 999 }
+        "step" 0 2
+        [ComputeStmt.assign TileDType.real [1, 1] "accum"
+            (ComputeExpr.compute
+              (ComputeOp.alg ComputeDType.fp32
+                (Op.add NumericDType.real Broadcast.nil.consSame.consSame (Op.ref TileDType.real [1, 1] "accum")
+                  (Op.castFloat FloatDType.fp32 FloatDType.real
+                    (Op.dotTyped FloatDType.fp16 FloatDType.fp16 FloatDType.fp32 (Op.ref TileDType.fp16 [1, 1] "a")
+                      (Op.ref TileDType.fp16 [1, 1] "b") { allowTF32 := some «false» })))))]
+        { mem := fun x x_1 => Cell.mk TileDType.real 99,
+          regs := fun d sh n =>
+            if n = "accum" then
+              if hd : TileDType.real = d then if hs : [1, 1] = sh then some (hd ▸ hs ▸ fun x => 0) else none else none
+            else
+              if n = "b" then
+                if hd : TileDType.fp16 = d then if hs : [1, 1] = sh then some (hd ▸ hs ▸ fun x => 0) else none else none
+              else
+                if n = "a" then
+                  if hd : TileDType.fp16 = d then if hs : [1, 1] = sh then some (hd ▸ hs ▸ fun x => 0) else none
+                  else none
+                else none,
+          pids := fun x => 0, numPids := fun x => 1, undef := fun d x x_1 => defaultValue d },
+      fun __do_lift =>
+      match
+        match __do_lift.regs TileDType.real [1, 1] "accum", fun __do_lift_1 =>
+          store
+            { literal := fun x x_1 x_2 => 0, negInf := 0, binary := fun x x_1 x_2 a b => a + b,
+              unary := fun x x_1 a => a, cast := fun x x_1 x_2 a => a, fromNat := fun x n => n,
+              fromInt := fun x n => n.toNat, fp32Bits := fun x => 0, fp32Load := id,
+              reduceMax := fun x x_1 x_2 x_3 x_4 => 0, reduceSum := fun x x_1 x_2 x_3 x_4 => 0,
+              dot := fun x {x_1} {x_2 x_3 x_4} x_5 x_6 => some fun x => 999 }
+            (MemAccess.region { name := "y" }
+              (Op.add NumericDType.nat Broadcast.nil.consSame.consSame
+                (Op.expandDim 1 (Op.ref TileDType.nat [1] "lane")) (Op.expandDim 0 (Op.ref TileDType.nat [1] "lane"))))
+            MaskOpt.none __do_lift_1
+            { mem := __do_lift.mem,
+              regs := fun d sh n =>
+                if n = "lane" then
+                  if hd : TileDType.nat = d then if hs : [1] = sh then some (hd ▸ hs ▸ fun i => 0) else none else none
+                else __do_lift.regs d sh n,
+              pids := __do_lift.pids, numPids := __do_lift.numPids, undef := __do_lift.undef } with
+        | none, x => none
+        | some a, f => f a,
+        fun __do_lift => some __do_lift with
+      | none, x => none
+      | some a, f => f a with
+    | none, x => none
+    | some a, f => f a) =
+    none
+/tmp/conv115-frontend/bench/tests/TypedDotLoopBody.lean:67:0: error: VeriTile.Tests.TypedDotLoopBody.typed_dot_loop_result: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/conv115-frontend/bench/tests/TypedDotLoopBody.lean:68:0: error: VeriTile.Tests.TypedDotLoopBody.missing_typed_port_preserves_failure: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

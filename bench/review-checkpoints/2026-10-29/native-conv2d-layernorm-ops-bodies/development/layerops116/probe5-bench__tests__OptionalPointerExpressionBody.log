@@ -1,0 +1,87 @@
+/tmp/layerops116-frontend/bench/tests/OptionalPointerExpressionBody.lean:28:73: error: unsolved goals
+α : Type
+inst✝ : Inhabited α
+M : Algebra α
+s : State α
+Mean : RegionName
+⊢ (Safety.safeCompute M (fun x => 0) s (ComputeOp.full [] (ComputeOp.alg ComputeDType.fp32 (Op.const 0.0))) ∧
+      match
+        match evalExpr M (ComputeExpr.compute (ComputeOp.full [] (ComputeOp.alg ComputeDType.fp32 (Op.const 0.0)))) s,
+          fun v => some (s.setReg "value" TileDType.real [] v) with
+        | none, x => none
+        | some a, f => f a with
+      | some t => True
+      | none => True) ∧
+    match
+      match
+        match evalExpr M (ComputeExpr.compute (ComputeOp.full [] (ComputeOp.alg ComputeDType.fp32 (Op.const 0.0)))) s,
+          fun v => some (s.setReg "value" TileDType.real [] v) with
+        | none, x => none
+        | some a, f => f a,
+        fun __do_lift => some __do_lift with
+      | none, x => none
+      | some a, f => f a with
+    | some t => True
+    | none => True
+/tmp/layerops116-frontend/bench/tests/OptionalPointerExpressionBody.lean:35:74: error: unsolved goals
+α : Type
+inst✝ : Inhabited α
+M : Algebra α
+s : State α
+Mean : RegionName
+⊢ (Safety.safeCompute M (fun x => 0) s (ComputeOp.full [] (ComputeOp.alg ComputeDType.fp32 (Op.const 0.0))) ∧
+      match
+        match evalExpr M (ComputeExpr.compute (ComputeOp.full [] (ComputeOp.alg ComputeDType.fp32 (Op.const 0.0)))) s,
+          fun v => some (s.setReg "value" TileDType.real [] v) with
+        | none, x => none
+        | some a, f => f a with
+      | some t => True
+      | none => True) ∧
+    match
+      match
+        match evalExpr M (ComputeExpr.compute (ComputeOp.full [] (ComputeOp.alg ComputeDType.fp32 (Op.const 0.0)))) s,
+          fun v => some (s.setReg "value" TileDType.real [] v) with
+        | none, x => none
+        | some a, f => f a,
+        fun __do_lift => some __do_lift with
+      | none, x => none
+      | some a, f => f a with
+    | some t => True
+    | none => True
+/tmp/layerops116-frontend/bench/tests/OptionalPointerExpressionBody.lean:44:74: error: unsolved goals
+α : Type
+inst✝ : Inhabited α
+M : Algebra α
+s : State α
+Mean : RegionName
+⊢ Safety.safeCompute M (fun x => 0) s
+      (ComputeOp.load ComputeDType.fp32 (MemAccess.region Mean (Op.constNat 0)) MaskOpt.none) →
+    (match
+        match
+          evalExpr M
+            (ComputeExpr.compute
+              (ComputeOp.load ComputeDType.fp32 (MemAccess.region Mean (Op.constNat 0)) MaskOpt.none))
+            s,
+          fun v => some (s.setReg "value" TileDType.real [] v) with
+        | none, x => none
+        | some a, f => f a with
+      | some t => True
+      | none => True) →
+      ¬match
+          match
+            match
+              evalExpr M
+                (ComputeExpr.compute
+                  (ComputeOp.load ComputeDType.fp32 (MemAccess.region Mean (Op.constNat 0)) MaskOpt.none))
+                s,
+              fun v => some (s.setReg "value" TileDType.real [] v) with
+            | none, x => none
+            | some a, f => f a,
+            fun __do_lift => some __do_lift with
+          | none, x => none
+          | some a, f => f a with
+        | some t => True
+        | none => True
+/tmp/layerops116-frontend/bench/tests/OptionalPointerExpressionBody.lean:63:0: error: VeriTile.Tests.OptionalPointerExpressionBody.absent_needs_no_storage: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/layerops116-frontend/bench/tests/OptionalPointerExpressionBody.lean:64:0: error: VeriTile.Tests.OptionalPointerExpressionBody.inverse_absent_needs_no_storage: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/layerops116-frontend/bench/tests/OptionalPointerExpressionBody.lean:65:0: error: VeriTile.Tests.OptionalPointerExpressionBody.present_requires_storage: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

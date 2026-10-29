@@ -1,0 +1,205 @@
+/tmp/conv115-diagnostics/bench/tritonbench_g/triton_conv2d_fwd/Proofs/SignedBodySimulation.lean:71:87: error: unsolved goals
+case none
+R : RoundingModel
+a b c d : List Stmt
+h : Simulates R a b
+xs ys : List Stmt
+s : BlockState
+hx : stepStmtsR R xs s = none
+⊢ (match do
+      let c ← some { data := fun x => «true» }
+      if c.data PUnit.unit = «true» then none else stepStmtsR R ys s with
+    | some s' => some s'
+    | none => none) =
+    none
+
+case some
+R : RoundingModel
+a b c d : List Stmt
+h : Simulates R a b
+xs ys : List Stmt
+s val✝ : BlockState
+hx : stepStmtsR R xs s = some val✝
+⊢ (match do
+      let c ← some { data := fun x => «true» }
+      if c.data PUnit.unit = «true» then some val✝ else stepStmtsR R ys s with
+    | some s' => some s'
+    | none => none) =
+    some val✝
+/tmp/conv115-diagnostics/bench/tritonbench_g/triton_conv2d_fwd/Proofs/SignedBodySimulation.lean:210:6: error: Application type mismatch: The argument
+  pointer_chunk R BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW
+has type
+  Simulates R
+    (List.take 5
+      (List.drop 3
+        (SignedPointerModel.innerFactored BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH
+          SW)))
+    (List.take 5
+      (List.drop 3
+        (PositivePointerModel.convInnerBodyFactored BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH
+          PW SH SW)))
+but is expected to have type
+  Simulates R
+    (Stmt.assign TileDType.ptr [BHW, BIN] "curr_input_pointer"
+        (Op.ptrSub Broadcast.nil.consR.consSame
+          (Op.ptrAdd Broadcast.nil.consR.consSame
+            (Op.ptrSub Broadcast.nil.consR.consSame
+              (Op.ptrAdd Broadcast.nil.consR.consSame
+                (Op.ptrAdd Broadcast.nil.consL.consR (Op.ref TileDType.ptr [BHW, 1] "Input")
+                  (Op.expandDim ⟨0, ⋯⟩
+                    (Op.mul NumericDType.nat Broadcast.scalarL (Op.constNat IIFS)
+                      (Op.ref TileDType.nat [BIN] "input_feat_offset"))))
+                (Op.expandDim ⟨1, ⋯⟩
+                    (Op.mul NumericDType.int Broadcast.scalarL (Op.constNat IHS).castNatToInt
+                      (Op.ref TileDType.int [BHW] "input_height_offset"))).castIntToNat)
+              (Op.sub NumericDType.int Broadcast.scalarL (Op.constInt 0)
+                  (Op.expandDim ⟨1, ⋯⟩
+                    (Op.mul NumericDType.int Broadcast.scalarL (Op.constNat IHS).castNatToInt
+                      (Op.ref TileDType.int [BHW] "input_height_offset")))).castIntToNat)
+            (Op.expandDim ⟨1, ⋯⟩
+                (Op.mul NumericDType.int Broadcast.scalarL (Op.constNat IWS).castNatToInt
+                  (Op.ref TileDType.int [BHW] "input_width_offset"))).castIntToNat)
+          (Op.sub NumericDType.int Broadcast.scalarL (Op.constInt 0)
+              (Op.expandDim ⟨1, ⋯⟩
+                (Op.mul NumericDType.int Broadcast.scalarL (Op.constNat IWS).castNatToInt
+                  (Op.ref TileDType.int [BHW] "input_width_offset")))).castIntToNat) ::
+      List.take 5
+        [Stmt.assign TileDType.ptr [BIN, OF] "curr_weight_pointer"
+            (Op.ptrAdd Broadcast.scalarR
+              (Op.ptrAdd Broadcast.scalarR
+                (Op.ptrAdd Broadcast.nil.consR.consL (Op.ref TileDType.ptr [1, OF] "Weight")
+                  (Op.expandDim ⟨1, ⋯⟩
+                    (Op.mul NumericDType.nat Broadcast.scalarL (Op.constNat WIFS)
+                      (Op.ref TileDType.nat [BIN] "input_feat_offset"))))
+                (Op.mul NumericDType.nat Broadcast.nil (Op.constNat WHS) (Op.ref TileDType.nat [] "h")))
+              (Op.mul NumericDType.nat Broadcast.nil (Op.constNat WWS) (Op.ref TileDType.nat [] "w"))),
+          Stmt.assign TileDType.bool [BHW, BIN] "input_mask"
+            (Op.boolAnd Broadcast.nil.consR.consSame
+              (Op.boolAnd Broadcast.nil.consR.consSame
+                (Op.boolAnd Broadcast.nil.consR.consSame
+                  (Op.boolAnd Broadcast.nil.consR.consSame
+                    (Op.boolAnd Broadcast.nil.consL.consR
+                      (Op.lt ComparableDType.nat Broadcast.scalarR
+                        (Op.expandDim ⟨1, ⋯⟩ (Op.ref TileDType.nat [BHW] "batch_offset")) (Op.constNat batch_dim))
+                      (Op.lt ComparableDType.nat Broadcast.scalarR
+                        (Op.expandDim ⟨0, ⋯⟩ (Op.ref TileDType.nat [BIN] "input_feat_offset"))
+                        (Op.ref TileDType.nat [] "in_group_dim")))
+                    (Op.le ComparableDType.int Broadcast.scalarL (Op.constInt (Int.ofNat 0))
+                      (Op.expandDim ⟨1, ⋯⟩ (Op.ref TileDType.int [BHW] "input_height_offset"))))
+                  (Op.lt ComparableDType.int Broadcast.scalarR
+                    (Op.expandDim ⟨1, ⋯⟩ (Op.ref TileDType.int [BHW] "input_height_offset"))
+                    (Op.constNat in_height).castNatToInt))
+                (Op.le ComparableDType.int Broadcast.scalarL (Op.constInt (Int.ofNat 0))
+                  (Op.expandDim ⟨1, ⋯⟩ (Op.ref TileDType.int [BHW] "input_width_offset"))))
+              (Op.lt ComparableDType.int Broadcast.scalarR
+                (Op.expandDim ⟨1, ⋯⟩ (Op.ref TileDType.int [BHW] "input_width_offset"))
+                (Op.constNat in_width).castNatToInt)),
+          Stmt.assign TileDType.bool [BIN, OF] "weight_mask"
+            (Op.boolAnd Broadcast.nil.consL.consR
+              (Op.lt ComparableDType.nat Broadcast.scalarR
+                (Op.expandDim ⟨1, ⋯⟩ (Op.ref TileDType.nat [BIN] "input_feat_offset"))
+                (Op.ref TileDType.nat [] "in_group_dim"))
+              (Op.lt ComparableDType.nat Broadcast.scalarR
+                (Op.expandDim ⟨0, ⋯⟩ (Op.ref TileDType.nat [OF] "output_feat_offset"))
+                (Op.ref TileDType.nat [] "out_group_dim"))),
+          Stmt.assign TileDType.real [BHW, BIN] "input_block"
+            (Op.load TileDType.real (MemAccess.ptr (Op.ref TileDType.ptr [BHW, BIN] "curr_input_pointer"))
+              (MaskOpt.mask (Op.ref TileDType.bool [BHW, BIN] "input_mask"))),
+          Stmt.assign TileDType.real [BIN, OF] "weight_block"
+            (Op.load TileDType.real (MemAccess.ptr (Op.ref TileDType.ptr [BIN, OF] "curr_weight_pointer"))
+              (MaskOpt.mask (Op.ref TileDType.bool [BIN, OF] "weight_mask"))),
+          Stmt.ifThen (Op.constBool «true»)
+            [Stmt.assign TileDType.fp16 [BHW, BIN] "input_block"
+                (Op.castFloat FloatDType.real FloatDType.fp16
+                  (Op.withPrecision FloatDType.real IndexComputePrecision.fp32
+                    (Op.ref TileDType.real [BHW, BIN] "input_block"))),
+              Stmt.assign TileDType.fp16 [BIN, OF] "weight_block"
+                (Op.castFloat FloatDType.real FloatDType.fp16
+                  (Op.withPrecision FloatDType.real IndexComputePrecision.fp32
+                    (Op.ref TileDType.real [BIN, OF] "weight_block")))],
+          Stmt.assign TileDType.real [BHW, OF] "accum"
+            (Op.add NumericDType.real Broadcast.nil.consSame.consSame (Op.ref TileDType.real [BHW, OF] "accum")
+              ((Op.castFloat FloatDType.fp16 FloatDType.real (Op.ref TileDType.fp16 [BHW, BIN] "input_block")).dot
+                (Op.castFloat FloatDType.fp16 FloatDType.real (Op.ref TileDType.fp16 [BIN, OF] "weight_block"))))])
+    (Stmt.assign TileDType.ptr [BHW, BIN] "curr_input_pointer"
+        (Op.ptrAdd Broadcast.nil.consR.consSame
+          (Op.ptrAdd Broadcast.nil.consR.consSame
+            (Op.ptrAdd Broadcast.nil.consL.consR (Op.ref TileDType.ptr [BHW, 1] "Input")
+              (Op.expandDim ⟨0, ⋯⟩
+                (Op.mul NumericDType.nat Broadcast.scalarL (Op.constNat IIFS)
+                  (Op.ref TileDType.nat [BIN] "input_feat_offset"))))
+            (Op.expandDim ⟨1, ⋯⟩
+                (Op.mul NumericDType.int Broadcast.scalarL (Op.constNat IHS).castNatToInt
+                  (Op.ref TileDType.int [BHW] "input_height_offset"))).castIntToNat)
+          (Op.expandDim ⟨1, ⋯⟩
+              (Op.mul NumericDType.int Broadcast.scalarL (Op.constNat IWS).castNatToInt
+                (Op.ref TileDType.int [BHW] "input_width_offset"))).castIntToNat) ::
+      List.take 5
+        [Stmt.assign TileDType.ptr [BIN, OF] "curr_weight_pointer"
+            (Op.ptrAdd Broadcast.scalarR
+              (Op.ptrAdd Broadcast.scalarR
+                (Op.ptrAdd Broadcast.nil.consR.consL (Op.ref TileDType.ptr [1, OF] "Weight")
+                  (Op.expandDim ⟨1, ⋯⟩
+                    (Op.mul NumericDType.nat Broadcast.scalarL (Op.constNat WIFS)
+                      (Op.ref TileDType.nat [BIN] "input_feat_offset"))))
+                (Op.mul NumericDType.nat Broadcast.nil (Op.constNat WHS) (Op.ref TileDType.nat [] "h")))
+              (Op.mul NumericDType.nat Broadcast.nil (Op.constNat WWS) (Op.ref TileDType.nat [] "w"))),
+          Stmt.assign TileDType.bool [BHW, BIN] "input_mask"
+            (Op.boolAnd Broadcast.nil.consR.consSame
+              (Op.boolAnd Broadcast.nil.consR.consSame
+                (Op.boolAnd Broadcast.nil.consR.consSame
+                  (Op.boolAnd Broadcast.nil.consR.consSame
+                    (Op.boolAnd Broadcast.nil.consL.consR
+                      (Op.lt ComparableDType.nat Broadcast.scalarR
+                        (Op.expandDim ⟨1, ⋯⟩ (Op.ref TileDType.nat [BHW] "batch_offset")) (Op.constNat batch_dim))
+                      (Op.lt ComparableDType.nat Broadcast.scalarR
+                        (Op.expandDim ⟨0, ⋯⟩ (Op.ref TileDType.nat [BIN] "input_feat_offset"))
+                        (Op.ref TileDType.nat [] "in_group_dim")))
+                    (Op.le ComparableDType.int Broadcast.scalarL (Op.constInt (Int.ofNat 0))
+                      (Op.expandDim ⟨1, ⋯⟩ (Op.ref TileDType.int [BHW] "input_height_offset"))))
+                  (Op.lt ComparableDType.int Broadcast.scalarR
+                    (Op.expandDim ⟨1, ⋯⟩ (Op.ref TileDType.int [BHW] "input_height_offset"))
+                    (Op.constNat in_height).castNatToInt))
+                (Op.le ComparableDType.int Broadcast.scalarL (Op.constInt (Int.ofNat 0))
+                  (Op.expandDim ⟨1, ⋯⟩ (Op.ref TileDType.int [BHW] "input_width_offset"))))
+              (Op.lt ComparableDType.int Broadcast.scalarR
+                (Op.expandDim ⟨1, ⋯⟩ (Op.ref TileDType.int [BHW] "input_width_offset"))
+                (Op.constNat in_width).castNatToInt)),
+          Stmt.assign TileDType.bool [BIN, OF] "weight_mask"
+            (Op.boolAnd Broadcast.nil.consL.consR
+              (Op.lt ComparableDType.nat Broadcast.scalarR
+                (Op.expandDim ⟨1, ⋯⟩ (Op.ref TileDType.nat [BIN] "input_feat_offset"))
+                (Op.ref TileDType.nat [] "in_group_dim"))
+              (Op.lt ComparableDType.nat Broadcast.scalarR
+                (Op.expandDim ⟨0, ⋯⟩ (Op.ref TileDType.nat [OF] "output_feat_offset"))
+                (Op.ref TileDType.nat [] "out_group_dim"))),
+          Stmt.assign TileDType.real [BHW, BIN] "input_block"
+            (Op.load TileDType.real (MemAccess.ptr (Op.ref TileDType.ptr [BHW, BIN] "curr_input_pointer"))
+              (MaskOpt.mask (Op.ref TileDType.bool [BHW, BIN] "input_mask"))),
+          Stmt.assign TileDType.real [BIN, OF] "weight_block"
+            (Op.load TileDType.real (MemAccess.ptr (Op.ref TileDType.ptr [BIN, OF] "curr_weight_pointer"))
+              (MaskOpt.mask (Op.ref TileDType.bool [BIN, OF] "weight_mask"))),
+          Stmt.ifThen (Op.constBool «true»)
+            [Stmt.assign TileDType.fp16 [BHW, BIN] "input_block"
+                (Op.castFloat FloatDType.real FloatDType.fp16
+                  (Op.withPrecision FloatDType.real IndexComputePrecision.fp32
+                    (Op.ref TileDType.real [BHW, BIN] "input_block"))),
+              Stmt.assign TileDType.fp16 [BIN, OF] "weight_block"
+                (Op.castFloat FloatDType.real FloatDType.fp16
+                  (Op.withPrecision FloatDType.real IndexComputePrecision.fp32
+                    (Op.ref TileDType.real [BIN, OF] "weight_block")))],
+          Stmt.assign TileDType.real [BHW, OF] "accum"
+            (Op.add NumericDType.real Broadcast.nil.consSame.consSame (Op.ref TileDType.real [BHW, OF] "accum")
+              ((Op.castFloat FloatDType.fp16 FloatDType.real (Op.ref TileDType.fp16 [BHW, BIN] "input_block")).dot
+                (Op.castFloat FloatDType.fp16 FloatDType.real (Op.ref TileDType.fp16 [BIN, OF] "weight_block"))))])
+in the application
+  append R (common_prefix R BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW)
+    (pointer_chunk R BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW)
+VeriTile.Bench.TritonBenchG.TritonConv2dFwd.SignedBodySimulation.pointer_chunk: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/conv115-diagnostics/bench/tritonbench_g/triton_conv2d_fwd/Proofs/SignedBodySimulation.lean:216:0: error: VeriTile.Bench.TritonBenchG.TritonConv2dFwd.SignedBodySimulation.common_suffix: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/conv115-diagnostics/bench/tritonbench_g/triton_conv2d_fwd/Proofs/SignedBodySimulation.lean:217:0: error: VeriTile.Bench.TritonBenchG.TritonConv2dFwd.SignedBodySimulation.inner: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.TritonBenchG.TritonConv2dFwd.SignedBodySimulation.common_prefix: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

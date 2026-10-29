@@ -1,0 +1,25 @@
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/Logical.lean:45:2: error: 'change' tactic failed, pattern
+  (∑ i, Forward.z (algebra rest) p s (i, PUnit.unit)) / ↑p.columns = ?m.23
+is not definitionally equal to target
+  Forward.meanValue (algebra rest) p s = sum p.columns (input p s) / ↑p.columns
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/Logical.lean:54:34: warning: This simp argument is unused:
+  hr
+
+Hint: Omit it from the simp argument list.
+  simp [mean, ̲hr̵,̵h̵i, ̲Forward.binary, ̲algebra, ̲LayerNormLiger.Logical.algebra]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/Logical.lean:59:2: error: 'change' tactic failed, pattern
+  (∑ i,
+        (if ↑i < p.columns then Forward.centered (algebra rest) p s (i, PUnit.unit) else 0) *
+          if ↑i < p.columns then Forward.centered (algebra rest) p s (i, PUnit.unit) else 0) /
+      ↑p.columns =
+    ?m.42
+is not definitionally equal to target
+  Forward.varianceValue (algebra rest) p s = variance p.columns p.rms (input p s)
+VeriTile.Bench.Repairs.LayerNormOps.Logical.z_value: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/Logical.lean:80:0: error: VeriTile.Bench.Repairs.LayerNormOps.Logical.mean_value: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/Logical.lean:81:0: error: VeriTile.Bench.Repairs.LayerNormOps.Logical.variance_value: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/Logical.lean:82:0: error: VeriTile.Bench.Repairs.LayerNormOps.Logical.rstd_value: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

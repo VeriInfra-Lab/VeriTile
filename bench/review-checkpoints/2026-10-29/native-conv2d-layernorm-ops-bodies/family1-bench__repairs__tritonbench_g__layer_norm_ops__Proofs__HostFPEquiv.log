@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.LayerNormOps.HostFPEquiv.layer_norm_ops_whole_fp32: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

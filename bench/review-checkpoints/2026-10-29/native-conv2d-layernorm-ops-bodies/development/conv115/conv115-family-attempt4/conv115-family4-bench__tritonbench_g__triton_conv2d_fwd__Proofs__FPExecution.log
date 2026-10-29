@@ -1,0 +1,125 @@
+/tmp/conv115-frontend/bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPExecution.lean:83:4: error: Tactic `rfl` failed: The left-hand side
+  bop (M.binary (some ComputeDType.fp32) FloatDType.real Binary.add) Broadcast.nil.consSame.consSame a fun i =>
+    M.cast (some ComputeDType.fp32) FloatDType.fp32 FloatDType.real
+      (D.apply (some ComputeDType.fp32) { allowTF32 := some p.tf32 }
+        (fun i =>
+          M.cast none FloatDType.fp32 FloatDType.fp16
+            (if
+                ((((batch p initial i.1 < p.batch_dim ∧ c + ↑i.2.1 < igd p) ∧
+                        0 ≤ ↑h - ↑p.padding_height + ↑p.stride_height * ↑(oh p initial i.1)) ∧
+                      ↑h - ↑p.padding_height + ↑p.stride_height * ↑(oh p initial i.1) < ↑p.in_height) ∧
+                    0 ≤ ↑w - ↑p.padding_width + ↑p.stride_width * ↑(ow p initial i.1)) ∧
+                  ↑w - ↑p.padding_width + ↑p.stride_width * ↑(ow p initial i.1) < ↑p.in_width then
+              Cell.read TileDType.fp32
+                (initial.mem p.Input
+                  (inputBase p initial i.1 + p.input_in_feat_stride * (c + ↑i.2.1) +
+                          Int.toNat
+                            (↑p.input_height_stride *
+                              (↑h - ↑p.padding_height + ↑p.stride_height * ↑(oh p initial i.1))) -
+                        Int.toNat
+                          (-(↑p.input_height_stride *
+                              (↑h - ↑p.padding_height + ↑p.stride_height * ↑(oh p initial i.1)))) +
+                      Int.toNat
+                        (↑p.input_width_stride * (↑w - ↑p.padding_width + ↑p.stride_width * ↑(ow p initial i.1))) -
+                    Int.toNat
+                      (-(↑p.input_width_stride * (↑w - ↑p.padding_width + ↑p.stride_width * ↑(ow p initial i.1))))))
+            else
+              initial.undef TileDType.fp32 p.Input
+                (inputBase p initial i.1 + p.input_in_feat_stride * (c + ↑i.2.1) +
+                        Int.toNat
+                          (↑p.input_height_stride * (↑h - ↑p.padding_height + ↑p.stride_height * ↑(oh p initial i.1))) -
+                      Int.toNat
+                        (-(↑p.input_height_stride *
+                            (↑h - ↑p.padding_height + ↑p.stride_height * ↑(oh p initial i.1)))) +
+                    Int.toNat
+                      (↑p.input_width_stride * (↑w - ↑p.padding_width + ↑p.stride_width * ↑(ow p initial i.1))) -
+                  Int.toNat
+                    (-(↑p.input_width_stride * (↑w - ↑p.padding_width + ↑p.stride_width * ↑(ow p initial i.1)))))))
+        (fun i =>
+          M.cast none FloatDType.fp32 FloatDType.fp16
+            (if c + ↑i.1 < igd p ∧ feat p initial i.2.1 < ogd p then
+              Cell.read TileDType.fp32
+                (initial.mem p.Weight
+                  (weightBase p initial i.2.1 + p.weight_in_feat_stride * (c + ↑i.1) + p.weight_height_stride * h +
+                    p.weight_width_stride * w))
+            else
+              initial.undef TileDType.fp32 p.Weight
+                (weightBase p initial i.2.1 + p.weight_in_feat_stride * (c + ↑i.1) + p.weight_height_stride * h +
+                  p.weight_width_stride * w)))
+        i)
+is not definitionally equal to the right-hand side
+  update M D p initial h w c a
+
+case refine_2
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+D : Dot α
+p : Parameters
+initial current : State α
+h w c : ℕ
+a : CIndex p → α
+ctx : Context p initial current
+ha : HasAcc p a current
+hh : current.regs TileDType.nat [] "h" = some fun x => h
+hw : current.regs TileDType.nat [] "w" = some fun x => w
+⊢ (bop (M.binary (some ComputeDType.fp32) FloatDType.real Binary.add) Broadcast.nil.consSame.consSame a fun i =>
+      M.cast (some ComputeDType.fp32) FloatDType.fp32 FloatDType.real
+        (D.apply (some ComputeDType.fp32) { allowTF32 := some p.tf32 }
+          (fun i =>
+            M.cast none FloatDType.fp32 FloatDType.fp16
+              (if
+                  ((((batch p initial i.1 < p.batch_dim ∧ c + ↑i.2.1 < igd p) ∧
+                          0 ≤ ↑h - ↑p.padding_height + ↑p.stride_height * ↑(oh p initial i.1)) ∧
+                        ↑h - ↑p.padding_height + ↑p.stride_height * ↑(oh p initial i.1) < ↑p.in_height) ∧
+                      0 ≤ ↑w - ↑p.padding_width + ↑p.stride_width * ↑(ow p initial i.1)) ∧
+                    ↑w - ↑p.padding_width + ↑p.stride_width * ↑(ow p initial i.1) < ↑p.in_width then
+                Cell.read TileDType.fp32
+                  (initial.mem p.Input
+                    (inputBase p initial i.1 + p.input_in_feat_stride * (c + ↑i.2.1) +
+                            Int.toNat
+                              (↑p.input_height_stride *
+                                (↑h - ↑p.padding_height + ↑p.stride_height * ↑(oh p initial i.1))) -
+                          Int.toNat
+                            (-(↑p.input_height_stride *
+                                (↑h - ↑p.padding_height + ↑p.stride_height * ↑(oh p initial i.1)))) +
+                        Int.toNat
+                          (↑p.input_width_stride * (↑w - ↑p.padding_width + ↑p.stride_width * ↑(ow p initial i.1))) -
+                      Int.toNat
+                        (-(↑p.input_width_stride * (↑w - ↑p.padding_width + ↑p.stride_width * ↑(ow p initial i.1))))))
+              else
+                initial.undef TileDType.fp32 p.Input
+                  (inputBase p initial i.1 + p.input_in_feat_stride * (c + ↑i.2.1) +
+                          Int.toNat
+                            (↑p.input_height_stride *
+                              (↑h - ↑p.padding_height + ↑p.stride_height * ↑(oh p initial i.1))) -
+                        Int.toNat
+                          (-(↑p.input_height_stride *
+                              (↑h - ↑p.padding_height + ↑p.stride_height * ↑(oh p initial i.1)))) +
+                      Int.toNat
+                        (↑p.input_width_stride * (↑w - ↑p.padding_width + ↑p.stride_width * ↑(ow p initial i.1))) -
+                    Int.toNat
+                      (-(↑p.input_width_stride * (↑w - ↑p.padding_width + ↑p.stride_width * ↑(ow p initial i.1)))))))
+          (fun i =>
+            M.cast none FloatDType.fp32 FloatDType.fp16
+              (if c + ↑i.1 < igd p ∧ feat p initial i.2.1 < ogd p then
+                Cell.read TileDType.fp32
+                  (initial.mem p.Weight
+                    (weightBase p initial i.2.1 + p.weight_in_feat_stride * (c + ↑i.1) + p.weight_height_stride * h +
+                      p.weight_width_stride * w))
+              else
+                initial.undef TileDType.fp32 p.Weight
+                  (weightBase p initial i.2.1 + p.weight_in_feat_stride * (c + ↑i.1) + p.weight_height_stride * h +
+                    p.weight_width_stride * w)))
+          i)) =
+    update M D p initial h w c a
+VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPValue.preludeExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPValue.preludeContext: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPValue.bodyExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/conv115-frontend/bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPExecution.lean:90:0: error: VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPValue.bodyContext: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

@@ -1,0 +1,14 @@
+/tmp/conv115-diagnostics/bench/tritonbench_g/triton_conv2d_fwd/Proofs/SignedBodySimulation.lean:40:18: warning: This simp argument is unused:
+  Option.bind_some
+
+Hint: Omit it from the simp argument list.
+  simp only [ht,̵O̵p̵t̵i̵o̵n̵.̵b̵i̵n̵d̵_̵s̵o̵m̵e̵] at run ⊢
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/conv115-diagnostics/bench/tritonbench_g/triton_conv2d_fwd/Proofs/SignedBodySimulation.lean:44:7: error: unexpected token 'prefix'; expected identifier
+/tmp/conv115-diagnostics/bench/tritonbench_g/triton_conv2d_fwd/Proofs/SignedBodySimulation.lean:65:12: error: unexpected token 'prefix'; expected identifier
+/tmp/conv115-diagnostics/bench/tritonbench_g/triton_conv2d_fwd/Proofs/SignedBodySimulation.lean:65:19: error: unexpected token 'end'; expected ':'
+/tmp/conv115-diagnostics/bench/tritonbench_g/triton_conv2d_fwd/Proofs/SignedBodySimulation.lean:66:0: error: Unexpected name `VeriTile.Bench.TritonBenchG.TritonConv2dFwd.SignedBodySimulation` after `end`: The current section is unnamed
+
+Hint: Delete the name `VeriTile.Bench.TritonBenchG.TritonConv2dFwd.SignedBodySimulation` to end the current unnamed scope; outer named scopes can then be closed using additional `end` command(s):
+  end ̵V̵e̵r̵i̵T̵i̵l̵e̵.̵B̵e̵n̵c̵h̵.̵T̵r̵i̵t̵o̵n̵B̵e̵n̵c̵h̵G̵.̵T̵r̵i̵t̵o̵n̵C̵o̵n̵v̵2̵d̵F̵w̵d̵.̵S̵i̵g̵n̵e̵d̵B̵o̵d̵y̵S̵i̵m̵u̵l̵a̵t̵i̵o̵n̵

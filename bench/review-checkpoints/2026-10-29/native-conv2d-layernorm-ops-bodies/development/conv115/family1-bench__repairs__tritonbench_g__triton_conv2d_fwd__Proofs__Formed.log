@@ -1,0 +1,38 @@
+/tmp/conv115-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/Formed.lean:13:44: warning: This simp argument is unused:
+  List.mem_singleton
+
+Hint: Omit it from the simp argument list.
+  simp only [̵s̵c̵a̵l̵a̵r̵P̵a̵r̵a̵m̵e̵t̵e̵r̵s̵,̵L̵i̵s̵t̵.̵m̵e̵m̵_̵c̵o̵n̵s̵,̵L̵i̵s̵t̵.̵m̵e̵m̵_̵s̵i̵n̵g̵l̵e̵t̵o̵n̵,̵L̵i̵s̵t̵.̵n̵o̵t̵_̵m̵e̵m̵_̵n̵i̵l̵,̵o̵r̵_̵f̵a̵l̵s̵e̵]̵[̲s̲c̲a̲l̲a̲r̲P̲a̲r̲a̲m̲e̲t̲e̲r̲s̲,̲ ̲L̲i̲s̲t̲.̲m̲e̲m̲_̲c̲o̲n̲s̲,̲ ̲L̲i̲s̲t̲.̲n̲o̲t̲_̲m̲e̲m̲_̲n̲i̲l̲,̲ ̲o̲r̲_̲f̲a̲l̲s̲e̲]̲ at hz
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/conv115-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/Formed.lean:95:46: warning: This simp argument is unused:
+  List.mem_singleton
+
+Hint: Omit it from the simp argument list.
+  simp only [̵i̵n̵p̵u̵t̵I̵n̵t̵e̵r̵m̵e̵d̵i̵a̵t̵e̵s̵,̵L̵i̵s̵t̵.̵m̵e̵m̵_̵c̵o̵n̵s̵,̵L̵i̵s̵t̵.̵m̵e̵m̵_̵s̵i̵n̵g̵l̵e̵t̵o̵n̵,̵L̵i̵s̵t̵.̵n̵o̵t̵_̵m̵e̵m̵_̵n̵i̵l̵,̵o̵r̵_̵f̵a̵l̵s̵e̵]̵[̲i̲n̲p̲u̲t̲I̲n̲t̲e̲r̲m̲e̲d̲i̲a̲t̲e̲s̲,̲ ̲L̲i̲s̲t̲.̲m̲e̲m̲_̲c̲o̲n̲s̲,̲ ̲L̲i̲s̲t̲.̲n̲o̲t̲_̲m̲e̲m̲_̲n̲i̲l̲,̲ ̲o̲r̲_̲f̲a̲l̲s̲e̲]̲ at hz
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/conv115-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/Formed.lean:120:47: warning: This simp argument is unused:
+  List.mem_singleton
+
+Hint: Omit it from the simp argument list.
+  simp only [̵w̵e̵i̵g̵h̵t̵I̵n̵t̵e̵r̵m̵e̵d̵i̵a̵t̵e̵s̵,̵L̵i̵s̵t̵.̵m̵e̵m̵_̵c̵o̵n̵s̵,̵L̵i̵s̵t̵.̵m̵e̵m̵_̵s̵i̵n̵g̵l̵e̵t̵o̵n̵,̵L̵i̵s̵t̵.̵n̵o̵t̵_̵m̵e̵m̵_̵n̵i̵l̵,̵o̵r̵_̵f̵a̵l̵s̵e̵]̵[̲w̲e̲i̲g̲h̲t̲I̲n̲t̲e̲r̲m̲e̲d̲i̲a̲t̲e̲s̲,̲ ̲L̲i̲s̲t̲.̲m̲e̲m̲_̲c̲o̲n̲s̲,̲ ̲L̲i̲s̲t̲.̲n̲o̲t̲_̲m̲e̲m̲_̲n̲i̲l̲,̲ ̲o̲r̲_̲f̲a̲l̲s̲e̲]̲ at hz
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/conv115-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/Formed.lean:130:47: warning: This simp argument is unused:
+  List.mem_singleton
+
+Hint: Omit it from the simp argument list.
+  simp only [̵o̵u̵t̵p̵u̵t̵I̵n̵t̵e̵r̵m̵e̵d̵i̵a̵t̵e̵s̵,̵L̵i̵s̵t̵.̵m̵e̵m̵_̵c̵o̵n̵s̵,̵L̵i̵s̵t̵.̵m̵e̵m̵_̵s̵i̵n̵g̵l̵e̵t̵o̵n̵,̵L̵i̵s̵t̵.̵n̵o̵t̵_̵m̵e̵m̵_̵n̵i̵l̵,̵o̵r̵_̵f̵a̵l̵s̵e̵]̵[̲o̲u̲t̲p̲u̲t̲I̲n̲t̲e̲r̲m̲e̲d̲i̲a̲t̲e̲s̲,̲ ̲L̲i̲s̲t̲.̲m̲e̲m̲_̲c̲o̲n̲s̲,̲ ̲L̲i̲s̲t̲.̲n̲o̲t̲_̲m̲e̲m̲_̲n̲i̲l̲,̲ ̲o̲r̲_̲f̲a̲l̲s̲e̲]̲ at hz
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.Conv2d.parameters_bound: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.Conv2d.input_intermediates_bound: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.weight_intermediates_bound: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.output_intermediates_bound: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

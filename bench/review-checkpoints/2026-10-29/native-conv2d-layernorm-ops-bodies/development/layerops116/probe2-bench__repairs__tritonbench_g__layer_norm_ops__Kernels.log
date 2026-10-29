@@ -1,0 +1,2 @@
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Kernels.lean:15:85: error: nested load source precision is unsupported by the current frontend
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Kernels.lean:15:76: error: nested load source precision is unsupported by the current frontend

@@ -1,0 +1,6 @@
+/tmp/conv115-diagnostics/bench/tritonbench_g/triton_conv2d_fwd/Proofs/SignedLoopSimulation.lean:25:2: warning: 'change ∃ s', stepForRangeAuxR R index first last stride a s = some s' ∧ Related s' t'' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+VeriTile.Bench.TritonBenchG.TritonConv2dFwd.SignedLoopSimulation.nest: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

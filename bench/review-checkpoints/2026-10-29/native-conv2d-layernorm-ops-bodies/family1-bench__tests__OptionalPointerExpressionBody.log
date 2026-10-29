@@ -1,0 +1,15 @@
+VeriTile.Tests.OptionalPointerExpressionBody.nested_absent_needs_no_storage: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.OptionalPointerExpressionBody.rms_branch_needs_no_storage: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.OptionalPointerExpressionBody.absent_needs_no_storage: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.OptionalPointerExpressionBody.inverse_absent_needs_no_storage: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.OptionalPointerExpressionBody.present_requires_storage: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

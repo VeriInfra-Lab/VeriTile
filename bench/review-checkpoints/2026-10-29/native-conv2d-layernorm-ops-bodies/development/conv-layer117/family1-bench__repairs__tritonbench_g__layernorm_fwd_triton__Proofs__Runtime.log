@@ -1,0 +1,18 @@
+/tmp/conv-layer117-frontend/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/Runtime.lean:69:21: warning: unused variable `p`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/conv-layer117-frontend/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/Runtime.lean:141:14: warning: unused variable `r`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.Repairs.LayernormFwdTriton.Runtime.kernel_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayernormFwdTriton.Runtime.dispatch_route: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayernormFwdTriton.Runtime.successful_memory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayernormFwdTriton.Runtime.successful_readback: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

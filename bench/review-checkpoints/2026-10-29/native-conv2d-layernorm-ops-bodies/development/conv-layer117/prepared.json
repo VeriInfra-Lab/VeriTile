@@ -1,0 +1,9 @@
+{
+  "status": "PREPARED_ONLY_JOINT_FRONTEND_NOT_CHECKED",
+  "roots": 201,
+  "files": 77,
+  "tasks_after_final_replay": 121,
+  "mappings_after_final_replay": 425,
+  "pending_after_final_replay": 62,
+  "scope": "Combines the two independently checked task migrations and disjoint shared frontend fixes; joint validation and frozen cumulative/empty-project replay remain mandatory."
+}

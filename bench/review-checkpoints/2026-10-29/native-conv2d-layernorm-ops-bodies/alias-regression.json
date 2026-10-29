@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "source_sha256": "261a9f1bae20d882e929a56b4a199bf2fe9ef2e1238f074f3067d20d4c697313",
+  "start": 1793271965.3739974,
+  "end": 1793271966.823569,
+  "log": "/tmp/conv-layer117-alias-regression.log",
+  "scope": "Complete source AST including load/cast ordering, alias updates and user-name hygiene; only expected compiler temporary names changed. No production compiler/source/proof changes."
+}

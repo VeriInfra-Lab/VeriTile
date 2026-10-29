@@ -1,0 +1,6 @@
+VeriTile.Triton.FP.Structural.ProgramIO.Implementation.of_equivalentOn: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Triton.FP.Structural.ProgramIO.Implementation.of_equivalentOnCells: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

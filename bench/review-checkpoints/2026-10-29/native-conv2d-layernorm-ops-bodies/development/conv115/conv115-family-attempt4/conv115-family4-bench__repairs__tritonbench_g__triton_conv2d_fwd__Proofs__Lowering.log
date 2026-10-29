@@ -1,0 +1,30 @@
+/tmp/conv115-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/Lowering.lean:169:37: warning: This simp argument is unused:
+  inputPointer
+
+Hint: Omit it from the simp argument list.
+  simp [inputIntermediates,̵i̵n̵p̵u̵t̵P̵o̵i̵n̵t̵e̵r̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.Conv2d.Lowering.stagedPointer_eq: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.Lowering.input_native_binding: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.Conv2d.Lowering.weight_native_binding: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.Conv2d.Lowering.input32_word: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.Conv2d.Lowering.signed_compare: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.Conv2d.Lowering.pointer_exact: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.Lowering.input_address: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.Conv2d.Lowering.weight_address: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.Conv2d.Lowering.output_address: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

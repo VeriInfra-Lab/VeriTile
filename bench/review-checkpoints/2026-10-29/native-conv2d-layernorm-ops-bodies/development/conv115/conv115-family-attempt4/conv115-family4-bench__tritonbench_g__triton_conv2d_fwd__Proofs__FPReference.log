@@ -1,0 +1,3 @@
+VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPValue.zero_height: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

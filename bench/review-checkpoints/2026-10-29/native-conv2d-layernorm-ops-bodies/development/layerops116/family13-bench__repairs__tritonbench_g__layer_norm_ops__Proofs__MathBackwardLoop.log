@@ -1,0 +1,164 @@
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/MathBackwardLoop.lean:59:10: warning: This simp argument is unused:
+  hd
+
+Hint: Omit it from the simp argument list.
+  simp [̵h̵d̵,̵B̵a̵c̵k̵w̵a̵r̵d̵.̵l̵o̵a̵d̵e̵d̵,̵h̵i̵,̵h̵f̵,̵F̵o̵r̵w̵a̵r̵d̵.̵c̵a̵s̵t̵,̵F̵o̵r̵w̵a̵r̵d̵.̵b̵i̵n̵a̵r̵y̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵L̵o̵g̵i̵c̵a̵l̵.̵a̵l̵g̵e̵b̵r̵a̵,̵L̵a̵y̵e̵r̵N̵o̵r̵m̵L̵i̵g̵e̵r̵.̵L̵o̵g̵i̵c̵a̵l̵.̵a̵l̵g̵e̵b̵r̵a̵,̵L̵o̵g̵i̵c̵a̵l̵.̵d̵x̵]̵[̲B̲a̲c̲k̲w̲a̲r̲d̲.̲l̲o̲a̲d̲e̲d̲,̲ ̲h̲i̲,̲ ̲h̲f̲,̲ ̲F̲o̲r̲w̲a̲r̲d̲.̲c̲a̲s̲t̲,̲ ̲F̲o̲r̲w̲a̲r̲d̲.̲b̲i̲n̲a̲r̲y̲,̲ ̲L̲o̲g̲i̲c̲a̲l̲.̲a̲l̲g̲e̲b̲r̲a̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲L̲a̲y̲e̲r̲N̲o̲r̲m̲L̲i̲g̲e̲r̲.̲L̲o̲g̲i̲c̲a̲l̲.̲a̲l̲g̲e̲b̲r̲a̲,̲ ̲L̲o̲g̲i̲c̲a̲l̲.̲d̲x̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/MathBackwardLoop.lean:59:32: warning: This simp argument is unused:
+  hf
+
+Hint: Omit it from the simp argument list.
+  simp [̵h̵d̵,̵B̵a̵c̵k̵w̵a̵r̵d̵.̵l̵o̵a̵d̵e̵d̵,̵h̵i̵,̵h̵f̵,̵F̵o̵r̵w̵a̵r̵d̵.̵c̵a̵s̵t̵,̵F̵o̵r̵w̵a̵r̵d̵.̵b̵i̵n̵a̵r̵y̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵L̵o̵g̵i̵c̵a̵l̵.̵a̵l̵g̵e̵b̵r̵a̵,̵L̵a̵y̵e̵r̵N̵o̵r̵m̵L̵i̵g̵e̵r̵.̵L̵o̵g̵i̵c̵a̵l̵.̵a̵l̵g̵e̵b̵r̵a̵,̵L̵o̵g̵i̵c̵a̵l̵.̵d̵x̵]̵[̲h̲d̲,̲ ̲B̲a̲c̲k̲w̲a̲r̲d̲.̲l̲o̲a̲d̲e̲d̲,̲ ̲h̲i̲,̲ ̲F̲o̲r̲w̲a̲r̲d̲.̲c̲a̲s̲t̲,̲ ̲F̲o̲r̲w̲a̲r̲d̲.̲b̲i̲n̲a̲r̲y̲,̲ ̲L̲o̲g̲i̲c̲a̲l̲.̲a̲l̲g̲e̲b̲r̲a̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲L̲a̲y̲e̲r̲N̲o̲r̲m̲L̲i̲g̲e̲r̲.̲L̲o̲g̲i̲c̲a̲l̲.̲a̲l̲g̲e̲b̲r̲a̲,̲ ̲L̲o̲g̲i̲c̲a̲l̲.̲d̲x̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/MathBackwardLoop.lean:81:79: error: unsolved goals
+case false
+rest : FP.Structural.Algebra ℝ
+p : BackwardParameters
+s : State ℝ
+a : Backward.Acc ℝ p
+h : LoopInvariant rest p s a
+row : ℕ
+i : TileIndex [p.block]
+hi : ↑i.1 < p.columns
+hb : p.hasBias = «false»
+⊢ Backward.binary
+      { literal := fun x x_1 x_2 => x_2, negInf := rest.negInf,
+        binary := fun x x_1 op x_2 y =>
+          match op with
+          | Binary.add => x_2 + y
+          | Binary.sub => x_2 - y
+          | Binary.mul => x_2 * y
+          | Binary.div => x_2 / y
+          | Binary.max => max x_2 y
+          | Binary.pow => x_2 ^ y,
+        fma := rest.fma, atomicAdd := rest.atomicAdd,
+        unary := fun pr op x =>
+          match op with
+          | Unary.sqrt => √x
+          | x_1 =>
+            match op with
+            | Unary.rsqrt => (√x)⁻¹
+            | x_2 => rest.unary pr op x,
+        libdevicePowi := rest.libdevicePowi, isFinite := rest.isFinite, compareLt := rest.compareLt,
+        compareLe := rest.compareLe, compareEq := rest.compareEq, floatToInt := rest.floatToInt,
+        floatToNat := rest.floatToNat, cast := fun x x_1 x_2 x_3 => x_3, fromNat := fun x n => ↑n,
+        fromInt := fun x n => ↑n, fp32Bits := rest.fp32Bits, float8E5Bits := rest.float8E5Bits,
+        fp32Load := rest.fp32Load, reduceMin := rest.reduceMin, reduceMax := rest.reduceMax,
+        reduceSum := fun x {x_1} ax keep xs => Logical.sumValues ax keep xs, reduceSumTyped := rest.reduceSumTyped,
+        reduceMaxTyped := rest.reduceMaxTyped, indexedMax := rest.indexedMax, scan := rest.scan, dot := rest.dot,
+        dotWithOptions := rest.dotWithOptions, dotTyped := rest.dotTyped, dotAcc := rest.dotAcc,
+        integerDot := rest.integerDot, fmaTyped := rest.fmaTyped, minimum := rest.minimum, divRN := rest.divRN }
+      Binary.mul
+      ((Cell.read TileDType.fp32 (s.mem p.x (row * p.xStride + ↑i.1)) -
+          if p.rms = «true» then 0 else Cell.read TileDType.fp32 (s.mem p.mean (row * p.meanStride))) *
+        Cell.read TileDType.fp32 (s.mem p.rstd (row * p.rstdStride)))
+      (Cell.read TileDType.fp32 (s.mem p.weight ↑i.1)) =
+    (Cell.read TileDType.fp32 (s.mem p.x (row * p.xStride + ↑i.1)) -
+          if p.rms = «true» then 0 else Cell.read TileDType.fp32 (s.mem p.mean (row * p.meanStride))) *
+        Cell.read TileDType.fp32 (s.mem p.rstd (row * p.rstdStride)) *
+      Cell.read TileDType.fp32 (s.mem p.weight ↑i.1)
+
+case true
+rest : FP.Structural.Algebra ℝ
+p : BackwardParameters
+s : State ℝ
+a : Backward.Acc ℝ p
+h : LoopInvariant rest p s a
+row : ℕ
+i : TileIndex [p.block]
+hi : ↑i.1 < p.columns
+hb : p.hasBias = «true»
+⊢ Backward.binary
+      { literal := fun x x_1 x_2 => x_2, negInf := rest.negInf,
+        binary := fun x x_1 op x_2 y =>
+          match op with
+          | Binary.add => x_2 + y
+          | Binary.sub => x_2 - y
+          | Binary.mul => x_2 * y
+          | Binary.div => x_2 / y
+          | Binary.max => max x_2 y
+          | Binary.pow => x_2 ^ y,
+        fma := rest.fma, atomicAdd := rest.atomicAdd,
+        unary := fun pr op x =>
+          match op with
+          | Unary.sqrt => √x
+          | x_1 =>
+            match op with
+            | Unary.rsqrt => (√x)⁻¹
+            | x_2 => rest.unary pr op x,
+        libdevicePowi := rest.libdevicePowi, isFinite := rest.isFinite, compareLt := rest.compareLt,
+        compareLe := rest.compareLe, compareEq := rest.compareEq, floatToInt := rest.floatToInt,
+        floatToNat := rest.floatToNat, cast := fun x x_1 x_2 x_3 => x_3, fromNat := fun x n => ↑n,
+        fromInt := fun x n => ↑n, fp32Bits := rest.fp32Bits, float8E5Bits := rest.float8E5Bits,
+        fp32Load := rest.fp32Load, reduceMin := rest.reduceMin, reduceMax := rest.reduceMax,
+        reduceSum := fun x {x_1} ax keep xs => Logical.sumValues ax keep xs, reduceSumTyped := rest.reduceSumTyped,
+        reduceMaxTyped := rest.reduceMaxTyped, indexedMax := rest.indexedMax, scan := rest.scan, dot := rest.dot,
+        dotWithOptions := rest.dotWithOptions, dotTyped := rest.dotTyped, dotAcc := rest.dotAcc,
+        integerDot := rest.integerDot, fmaTyped := rest.fmaTyped, minimum := rest.minimum, divRN := rest.divRN }
+      Binary.add
+      (Backward.binary
+        { literal := fun x x_1 x_2 => x_2, negInf := rest.negInf,
+          binary := fun x x_1 op x_2 y =>
+            match op with
+            | Binary.add => x_2 + y
+            | Binary.sub => x_2 - y
+            | Binary.mul => x_2 * y
+            | Binary.div => x_2 / y
+            | Binary.max => max x_2 y
+            | Binary.pow => x_2 ^ y,
+          fma := rest.fma, atomicAdd := rest.atomicAdd,
+          unary := fun pr op x =>
+            match op with
+            | Unary.sqrt => √x
+            | x_1 =>
+              match op with
+              | Unary.rsqrt => (√x)⁻¹
+              | x_2 => rest.unary pr op x,
+          libdevicePowi := rest.libdevicePowi, isFinite := rest.isFinite, compareLt := rest.compareLt,
+          compareLe := rest.compareLe, compareEq := rest.compareEq, floatToInt := rest.floatToInt,
+          floatToNat := rest.floatToNat, cast := fun x x_1 x_2 x_3 => x_3, fromNat := fun x n => ↑n,
+          fromInt := fun x n => ↑n, fp32Bits := rest.fp32Bits, float8E5Bits := rest.float8E5Bits,
+          fp32Load := rest.fp32Load, reduceMin := rest.reduceMin, reduceMax := rest.reduceMax,
+          reduceSum := fun x {x_1} ax keep xs => Logical.sumValues ax keep xs, reduceSumTyped := rest.reduceSumTyped,
+          reduceMaxTyped := rest.reduceMaxTyped, indexedMax := rest.indexedMax, scan := rest.scan, dot := rest.dot,
+          dotWithOptions := rest.dotWithOptions, dotTyped := rest.dotTyped, dotAcc := rest.dotAcc,
+          integerDot := rest.integerDot, fmaTyped := rest.fmaTyped, minimum := rest.minimum, divRN := rest.divRN }
+        Binary.mul
+        ((Cell.read TileDType.fp32 (s.mem p.x (row * p.xStride + ↑i.1)) -
+            if p.rms = «true» then 0 else Cell.read TileDType.fp32 (s.mem p.mean (row * p.meanStride))) *
+          Cell.read TileDType.fp32 (s.mem p.rstd (row * p.rstdStride)))
+        (Cell.read TileDType.fp32 (s.mem p.weight ↑i.1)))
+      (Cell.read TileDType.fp32 (s.mem p.bias ↑i.1)) =
+    (Cell.read TileDType.fp32 (s.mem p.x (row * p.xStride + ↑i.1)) -
+            if p.rms = «true» then 0 else Cell.read TileDType.fp32 (s.mem p.mean (row * p.meanStride))) *
+          Cell.read TileDType.fp32 (s.mem p.rstd (row * p.rstdStride)) *
+        Cell.read TileDType.fp32 (s.mem p.weight ↑i.1) +
+      Cell.read TileDType.fp32 (s.mem p.bias ↑i.1)
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/MathBackwardLoop.lean:86:52: warning: This simp argument is unused:
+  Forward.unhintedBinary
+
+Hint: Omit it from the simp argument list.
+  simp [rowY, ̲Logical.bhat, ̲Logical.bx, ̲Logical.bmu, ̲Logical.binv, ̲readRow,
+  ̵  ̵ ̵ ̵ ̵ ̵Backward.initial,
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲Backward.loaded, ̲Forward.cast,F̵o̵r̵w̵a̵r̵d̵.̵u̵n̵h̵i̵n̵t̵e̵d̵B̵i̵n̵a̵r̵y̵,̵
+  ̵  ̵ ̵ ̵ ̵ ̵Logical.algebra, ̲LayerNormLiger.Logical.algebra, ̲hi, ̲hb,
+        h.reads p.x (by simp [backwardReads]), ̲h.reads p.mean (by simp [backwardReads]),
+        h.reads p.rstd (by simp [backwardReads])]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.LayerNormOps.MathReturn.dx_value: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/MathBackwardLoop.lean:172:0: error: VeriTile.Bench.Repairs.LayerNormOps.MathReturn.y_value: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.Repairs.LayerNormOps.MathReturn.loop_dx_inside: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormOps.MathReturn.loop_dx_outside: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.LayerNormOps.MathReturn.ReturnPost: definition does not reference [VeriTile.Bench.Repairs.LayerNormOps.forwardKernel,
+ VeriTile.Bench.Repairs.LayerNormOps.backwardKernel,
+ VeriTile.Bench.Repairs.LayerNormOps.Host.composed] — non-circular ✓
+VeriTile.Bench.Repairs.LayerNormOps.MathReturn.complete_math: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

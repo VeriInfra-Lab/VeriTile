@@ -1,0 +1,124 @@
+{
+  "status": "FAIL",
+  "start": 1793258436.2704844,
+  "results": [
+    {
+      "module": "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPReference",
+      "source_sha256": "eb660bd17d136190a88149c896b09ecaaa9c187c0fbd1252387e211ec3237fd8",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793258436.2706282,
+      "end": 1793258438.9392056,
+      "log": "/tmp/conv115-family7-bench__tritonbench_g__triton_conv2d_fwd__Proofs__FPReference.log"
+    },
+    {
+      "module": "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPExecution",
+      "source_sha256": "8f0a6e2dfff9d00471dab96dadc47a43bdcff96d7a2c8f4da8265fdeb5f84b12",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793258438.9394875,
+      "end": 1793258451.7648358,
+      "log": "/tmp/conv115-family7-bench__tritonbench_g__triton_conv2d_fwd__Proofs__FPExecution.log"
+    },
+    {
+      "module": "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPLoops",
+      "source_sha256": "f0e5db9d98aada17094943df4aa612af1224005685bf27675527ac97b4d565a6",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793258451.7650878,
+      "end": 1793258454.9486625,
+      "log": "/tmp/conv115-family7-bench__tritonbench_g__triton_conv2d_fwd__Proofs__FPLoops.log"
+    },
+    {
+      "module": "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPComplete",
+      "source_sha256": "1cdd2be3af012721b6494914bb51329a11367f76c4f10d05b05297477621f7b0",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793258454.9489105,
+      "end": 1793258459.8582203,
+      "log": "/tmp/conv115-family7-bench__tritonbench_g__triton_conv2d_fwd__Proofs__FPComplete.log"
+    },
+    {
+      "module": "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPCleanUndef",
+      "source_sha256": "341f0785c108eb786de6f959d7154b94133a8e00e908233dc8ca4300a5d33ec8",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793258459.858477,
+      "end": 1793258462.6023462,
+      "log": "/tmp/conv115-family7-bench__tritonbench_g__triton_conv2d_fwd__Proofs__FPCleanUndef.log"
+    },
+    {
+      "module": "bench.tritonbench_g.matrix_reduction.Kernels",
+      "source_sha256": "f08dae9ec0a1711178e8e41f1d8e98ffb47b61732a0cdfc942f1d4cc12141744",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793258462.6026073,
+      "end": 1793258465.303985,
+      "log": "/tmp/conv115-family7-bench__tritonbench_g__matrix_reduction__Kernels.log"
+    },
+    {
+      "module": "bench.tritonbench_g.matrix_reduction.Proofs.TypedSource",
+      "source_sha256": "7073b5fac2c417a970cf4f7a14e6bb86d05225f6f1ce1e53d9013cf04bca76fc",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793258465.304276,
+      "end": 1793258467.6475663,
+      "log": "/tmp/conv115-family7-bench__tritonbench_g__matrix_reduction__Proofs__TypedSource.log"
+    },
+    {
+      "module": "bench.tritonbench_g.matrix_reduction.Proofs.MachineMax",
+      "source_sha256": "695a899065f4b1202c2e6a6057b1e6d303e8b4bb475caab70c7b7a032185fe20",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793258467.6478307,
+      "end": 1793258470.2518015,
+      "log": "/tmp/conv115-family7-bench__tritonbench_g__matrix_reduction__Proofs__MachineMax.log"
+    },
+    {
+      "module": "bench.tritonbench_g.quantize_kv_copy.Proofs.FP32Profile",
+      "source_sha256": "0904e9bba00cdab5a00aeb9a6b179be0e679bd15ad44029db9998edba6bc35eb",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793258470.2521236,
+      "end": 1793258472.606221,
+      "log": "/tmp/conv115-family7-bench__tritonbench_g__quantize_kv_copy__Proofs__FP32Profile.log"
+    },
+    {
+      "module": "bench.tritonbench_g.quantize_kv_transform.Proofs.MixedBits",
+      "source_sha256": "5d774c65adefd8e9c46073c4d94a257ad8b57fbb8a7bcc6ebfe1df88e30513c3",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793258472.6065602,
+      "end": 1793258475.1725538,
+      "log": "/tmp/conv115-family7-bench__tritonbench_g__quantize_kv_transform__Proofs__MixedBits.log"
+    },
+    {
+      "module": "bench.tritonbench_g.int4_matmul.Proofs.FPMixed",
+      "source_sha256": "74d0c20f2e0295227f79bc86c1457d1918b7e0ce994feddb4855979f986b5b93",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793258475.172824,
+      "end": 1793258477.969195,
+      "log": "/tmp/conv115-family7-bench__tritonbench_g__int4_matmul__Proofs__FPMixed.log"
+    },
+    {
+      "module": "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPSoftware",
+      "source_sha256": "0a7a2293a5f0dee30a6a43da64035b66798679e5f8eb5d6986eb0971cd9e010d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793258477.9694781,
+      "end": 1793258481.0947213,
+      "log": "/tmp/conv115-family7-bench__tritonbench_g__triton_conv2d_fwd__Proofs__FPSoftware.log"
+    },
+    {
+      "module": "bench.tritonbench_g.triton_conv2d_fwd.TritonConv2dFwd",
+      "source_sha256": "518a301c0cdfcbb8df438856616aac585a2bd57830d122f00f9e58bb89ce96e9",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793258481.095343,
+      "end": 1793258498.3828423,
+      "log": "/tmp/conv115-family7-bench__tritonbench_g__triton_conv2d_fwd__TritonConv2dFwd.log"
+    }
+  ],
+  "end": 1793258498.3830717
+}

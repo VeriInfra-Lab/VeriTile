@@ -1,0 +1,6 @@
+VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPValue.software_reference: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPValue.software_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

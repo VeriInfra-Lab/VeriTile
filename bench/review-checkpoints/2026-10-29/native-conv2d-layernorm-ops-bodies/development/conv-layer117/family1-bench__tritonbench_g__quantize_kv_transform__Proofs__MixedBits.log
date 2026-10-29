@@ -1,0 +1,5 @@
+VeriTile.Bench.TritonBenchG.QuantizeKvTransform.MixedBits.half_embedding: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.QuantizeKvTransform.MixedBits.storage_boundary_vectors: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

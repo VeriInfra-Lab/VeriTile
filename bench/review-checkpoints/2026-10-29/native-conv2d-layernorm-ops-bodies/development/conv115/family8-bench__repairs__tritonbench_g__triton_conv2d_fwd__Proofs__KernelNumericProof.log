@@ -1,0 +1,21 @@
+/tmp/conv115-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelNumericProof.lean:13:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.Conv2d.KernelNumeric.foldRange_lane`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/tmp/conv115-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelNumericProof.lean:50:4: warning: 'all_goals rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/conv115-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelNumericProof.lean:50:14: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+VeriTile.Bench.Repairs.Conv2d.KernelNumeric.half_lane: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.KernelNumeric.default_lane: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.KernelNumeric.source_reference: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

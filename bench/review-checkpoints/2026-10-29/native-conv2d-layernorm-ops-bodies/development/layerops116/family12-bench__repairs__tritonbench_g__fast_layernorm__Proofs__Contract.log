@@ -1,0 +1,14 @@
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/fast_layernorm/Proofs/Contract.lean:47:66: warning: This simp argument is unused:
+  ite_eq_iff
+
+Hint: Omit it from the simp argument list.
+  simp [̵c̵h̵e̵c̵k̵G̵r̵a̵d̵i̵e̵n̵t̵,̵h̵d̵,̵i̵t̵e̵_̵e̵q̵_̵i̵f̵f̵,̵a̵n̵d̵_̵a̵s̵s̵o̵c̵]̵[̲c̲h̲e̲c̲k̲G̲r̲a̲d̲i̲e̲n̲t̲,̲ ̲h̲d̲,̲ ̲a̲n̲d̲_̲a̲s̲s̲o̲c̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/fast_layernorm/Proofs/Contract.lean:47:77: warning: This simp argument is unused:
+  and_assoc
+
+Hint: Omit it from the simp argument list.
+  simp [̵c̵h̵e̵c̵k̵G̵r̵a̵d̵i̵e̵n̵t̵,̵h̵d̵,̵i̵t̵e̵_̵e̵q̵_̵i̵f̵f̵,̵a̵n̵d̵_̵a̵s̵s̵o̵c̵]̵[̲c̲h̲e̲c̲k̲G̲r̲a̲d̲i̲e̲n̲t̲,̲ ̲h̲d̲,̲ ̲i̲t̲e̲_̲e̲q̲_̲i̲f̲f̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

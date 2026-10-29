@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.LayerNormLiger.Backward.update_software: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormLiger.Backward.accumulated_software: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

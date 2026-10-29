@@ -1,0 +1,7 @@
+VeriTile.Bench.Repairs.Conv2d.aLoad_reference: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.bLoad_reference: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.Conv2d.source_ordered: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

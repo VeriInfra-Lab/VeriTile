@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.Conv2d.Witness.channel_tail_witness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.Witness.spatial_padding_witness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

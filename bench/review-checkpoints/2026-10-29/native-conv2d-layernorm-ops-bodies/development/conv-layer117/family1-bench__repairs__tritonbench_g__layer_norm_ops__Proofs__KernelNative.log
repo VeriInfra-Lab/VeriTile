@@ -1,0 +1,39 @@
+VeriTile.Bench.Repairs.LayerNormOps.KernelNative.withCount_eq: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormOps.KernelNative.count_facts: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormOps.KernelNative.count_one_division: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormOps.KernelNative.forward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormOps.KernelNative.backward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormOps.KernelNative.forwardY: definition does not reference [VeriTile.Bench.Repairs.LayerNormOps.forwardKernel,
+ VeriTile.Bench.Repairs.LayerNormOps.backwardKernel,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.LayerNormOps.Forward.reference] — non-circular ✓
+VeriTile.Bench.Repairs.LayerNormOps.KernelNative.rowDX: definition does not reference [VeriTile.Bench.Repairs.LayerNormOps.forwardKernel,
+ VeriTile.Bench.Repairs.LayerNormOps.backwardKernel,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.LayerNormOps.Backward.reference,
+ VeriTile.Bench.Repairs.LayerNormOps.Backward.update] — non-circular ✓
+VeriTile.Bench.Repairs.LayerNormOps.KernelNative.rowY: definition does not reference [VeriTile.Bench.Repairs.LayerNormOps.forwardKernel,
+ VeriTile.Bench.Repairs.LayerNormOps.backwardKernel,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.LayerNormOps.Backward.reference,
+ VeriTile.Bench.Repairs.LayerNormOps.Backward.update] — non-circular ✓
+VeriTile.Bench.Repairs.LayerNormOps.KernelNative.partialDW: definition does not reference [VeriTile.Bench.Repairs.LayerNormOps.forwardKernel,
+ VeriTile.Bench.Repairs.LayerNormOps.backwardKernel,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.LayerNormOps.Backward.reference,
+ VeriTile.Bench.Repairs.LayerNormOps.Backward.update] — non-circular ✓
+VeriTile.Bench.Repairs.LayerNormOps.KernelNative.partialDB: definition does not reference [VeriTile.Bench.Repairs.LayerNormOps.forwardKernel,
+ VeriTile.Bench.Repairs.LayerNormOps.backwardKernel,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.LayerNormOps.Backward.reference,
+ VeriTile.Bench.Repairs.LayerNormOps.Backward.update] — non-circular ✓

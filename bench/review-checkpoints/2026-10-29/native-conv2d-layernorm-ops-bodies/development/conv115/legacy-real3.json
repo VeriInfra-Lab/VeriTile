@@ -1,0 +1,8 @@
+[
+  {
+    "file": "/tmp/conv115-diagnostics/VeriTile/Triton/Semantics/ProgramRewrite.lean",
+    "status": "FAIL",
+    "log": "/tmp/conv115-diagnostics/ProgramRewrite-signed3.log",
+    "seconds": 0.27846360206604004
+  }
+]

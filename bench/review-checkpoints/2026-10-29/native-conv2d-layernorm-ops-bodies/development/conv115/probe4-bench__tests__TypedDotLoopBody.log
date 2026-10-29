@@ -1,0 +1,6 @@
+VeriTile.Tests.TypedDotLoopBody.typed_dot_loop_result: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.TypedDotLoopBody.missing_typed_port_preserves_failure: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

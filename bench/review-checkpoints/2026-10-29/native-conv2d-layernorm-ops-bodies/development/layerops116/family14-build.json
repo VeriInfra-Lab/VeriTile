@@ -1,0 +1,268 @@
+{
+  "status": "PASS",
+  "start": 1793266058.9813037,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.MathBackwardLoop",
+      "source_sha256": "0668d1153064a2a6115f0616226ddf48a657067beae9778573d8e6b49efdb2bf",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793266058.9814725,
+      "end": 1793266063.355025,
+      "log": "/tmp/layerops116-family14-bench__repairs__tritonbench_g__layer_norm_ops__Proofs__MathBackwardLoop.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.MathRecomputed",
+      "source_sha256": "3c2e564b38724babcb1be75edca33cf38e4d7cbf149a894daaaf88918ff9d5f8",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793266063.3553905,
+      "end": 1793266066.799278,
+      "log": "/tmp/layerops116-family14-bench__repairs__tritonbench_g__layer_norm_ops__Proofs__MathRecomputed.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.MathGrid",
+      "source_sha256": "b489699d36d92de9787caf5333d3c7b6ccec68e9d459b377d1ea85b53c9713ba",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793266066.7995298,
+      "end": 1793266080.334347,
+      "log": "/tmp/layerops116-family14-bench__repairs__tritonbench_g__layer_norm_ops__Proofs__MathGrid.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.MathPartials",
+      "source_sha256": "8b62d12bfd0f6bb3dbe10a381e501fa4d520e6f5a0278e9150ced3682f841e38",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793266080.3346133,
+      "end": 1793266085.0746942,
+      "log": "/tmp/layerops116-family14-bench__repairs__tritonbench_g__layer_norm_ops__Proofs__MathPartials.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.MathSaved",
+      "source_sha256": "3ef1d396e6ed3b31a572966e3860a03a7457ef92bef2f3ff08c373b2292d1d23",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793266085.075051,
+      "end": 1793266089.401689,
+      "log": "/tmp/layerops116-family14-bench__repairs__tritonbench_g__layer_norm_ops__Proofs__MathSaved.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.MathReturned",
+      "source_sha256": "53bd68bbe6bbcbe9b87e31248ee64528216badfb9c350b41bcdeae19bb4fe849",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793266089.402154,
+      "end": 1793266095.9299774,
+      "log": "/tmp/layerops116-family14-bench__repairs__tritonbench_g__layer_norm_ops__Proofs__MathReturned.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.HostCorrect",
+      "source_sha256": "37396c24c081d52217d3d502e669bb850d6f2a7df8a3fe984980a5040629e9a1",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793266095.930318,
+      "end": 1793266102.2036624,
+      "log": "/tmp/layerops116-family14-bench__repairs__tritonbench_g__layer_norm_ops__Proofs__HostCorrect.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ScalarPlan",
+      "source_sha256": "9ae6514888a767ed40ad3fd5c3405d531f1900e65465c92885a8e8b68955f344",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793266102.2039425,
+      "end": 1793266105.9343958,
+      "log": "/tmp/layerops116-family14-bench__repairs__tritonbench_g__layer_norm_ops__Proofs__ScalarPlan.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.Native",
+      "source_sha256": "092ad5976e92a7e35b456c84b24c5777f724122a7521b8e1c4e9272317060284",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793266105.9346852,
+      "end": 1793266109.9944134,
+      "log": "/tmp/layerops116-family14-bench__repairs__tritonbench_g__layer_norm_ops__Proofs__Native.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.NativeLaws",
+      "source_sha256": "0bdc8325168d83fc7c04411c635191ec59faa6f2f57e1a41d59f9fe1d862f885",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793266109.994708,
+      "end": 1793266115.3654704,
+      "log": "/tmp/layerops116-family14-bench__repairs__tritonbench_g__layer_norm_ops__Proofs__NativeLaws.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.HostFPEquiv",
+      "source_sha256": "fc89ccaa40b56e539be6b25da0d338b4c05ee48fd0f1e9f04caaf4980b4fd0bb",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793266115.3657548,
+      "end": 1793266118.6802275,
+      "log": "/tmp/layerops116-family14-bench__repairs__tritonbench_g__layer_norm_ops__Proofs__HostFPEquiv.log"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_ops.Proofs.FPTypedSource",
+      "source_sha256": "792fb00d9e094c82babefffacc646cb951b6b02e91d65a682c56826f53415371",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793266118.680535,
+      "end": 1793266121.9613333,
+      "log": "/tmp/layerops116-family14-bench__tritonbench_g__layer_norm_ops__Proofs__FPTypedSource.log"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_ops.Proofs.FPModel",
+      "source_sha256": "3b2525c0663717cdc75e278b3c2d59a1001b7309fee376b62801ca7560499cae",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793266121.9616308,
+      "end": 1793266124.7437434,
+      "log": "/tmp/layerops116-family14-bench__tritonbench_g__layer_norm_ops__Proofs__FPModel.log"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_ops.Proofs.FPComplete",
+      "source_sha256": "1c6dce9fc7c754293df74117e598da265200335a8cb10455dd10b6160e6d54c1",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793266124.744043,
+      "end": 1793266144.7244654,
+      "log": "/tmp/layerops116-family14-bench__tritonbench_g__layer_norm_ops__Proofs__FPComplete.log"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_ops.Proofs.FPContract",
+      "source_sha256": "dab3169cbda2f72999ee0c00ae3162831a26f8feeba0c2f4f6cbc7e74f9cafad",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793266144.7247698,
+      "end": 1793266147.8503172,
+      "log": "/tmp/layerops116-family14-bench__tritonbench_g__layer_norm_ops__Proofs__FPContract.log"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_ops.Proofs.FPSupplied",
+      "source_sha256": "39a07f051f1b5fe422064744f3310998c93418d69009a1c3c6ba0e07d5d25f8d",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793266147.8506129,
+      "end": 1793266151.7354598,
+      "log": "/tmp/layerops116-family14-bench__tritonbench_g__layer_norm_ops__Proofs__FPSupplied.log"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_ops.LayerNormOps",
+      "source_sha256": "eb73b9c1e52a86d4937180e9c3e8d1ff525f56ea30f1bdf0a9dedd68716bf9d1",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793266151.7360673,
+      "end": 1793266192.3003767,
+      "log": "/tmp/layerops116-family14-bench__tritonbench_g__layer_norm_ops__LayerNormOps.log"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_ops.Proofs.FPShape",
+      "source_sha256": "a033c028f38012d83dfa2dc6986755475bde00471fc1eabf2629042d478f5717",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793266192.300701,
+      "end": 1793266206.9167998,
+      "log": "/tmp/layerops116-family14-bench__tritonbench_g__layer_norm_ops__Proofs__FPShape.log"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_ops.FPCorrect",
+      "source_sha256": "707b9f1cf4d067e01f9c1f752e281be5bc020e62dc69908dcbada7478b8f07da",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793266206.9171178,
+      "end": 1793266211.5037808,
+      "log": "/tmp/layerops116-family14-bench__tritonbench_g__layer_norm_ops__FPCorrect.log"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_liger.Proofs.FPTypedSource",
+      "source_sha256": "65ae3b1c1e5c1c7e3f8383a0f8201560b356362c3e5effebdacc63bbd5e11bcf",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793266211.504078,
+      "end": 1793266214.1868956,
+      "log": "/tmp/layerops116-family14-bench__tritonbench_g__layer_norm_liger__Proofs__FPTypedSource.log"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_liger.Proofs.FPModel",
+      "source_sha256": "0eb44c09ff0cb00659ce0f1507b8d1544c320c209e608608742fa5ec01c4315e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793266214.1872447,
+      "end": 1793266216.8494246,
+      "log": "/tmp/layerops116-family14-bench__tritonbench_g__layer_norm_liger__Proofs__FPModel.log"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_liger.Proofs.FPComplete",
+      "source_sha256": "350b1b28257590bb2a261d44d47b81f01febc9fa714cee041e7f5743ae90c9ab",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793266216.8497488,
+      "end": 1793266222.3358774,
+      "log": "/tmp/layerops116-family14-bench__tritonbench_g__layer_norm_liger__Proofs__FPComplete.log"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_liger.Proofs.FPContract",
+      "source_sha256": "0fa386e40c83cef46df48e1872bf3f336a7815a1c440a9c1b81c0b4808d38ced",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793266222.3362107,
+      "end": 1793266225.2896502,
+      "log": "/tmp/layerops116-family14-bench__tritonbench_g__layer_norm_liger__Proofs__FPContract.log"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_liger.Proofs.FPSoftware",
+      "source_sha256": "6d80316b357d52dae17e45fd957ae4cca37d71554c85dfb982ee05d30384b582",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793266225.2899654,
+      "end": 1793266228.5836096,
+      "log": "/tmp/layerops116-family14-bench__tritonbench_g__layer_norm_liger__Proofs__FPSoftware.log"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_ops.Proofs.FPSoftware",
+      "source_sha256": "a4832f84860d6f4ab543ccc7dc89ea58f69d733093eed860d2f7aef749a08a2f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793266228.5839343,
+      "end": 1793266231.6658106,
+      "log": "/tmp/layerops116-family14-bench__tritonbench_g__layer_norm_ops__Proofs__FPSoftware.log"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_ops.Proofs.FPClosed",
+      "source_sha256": "b9efb88354a4051c846ed5effff58edec5f232188a60ce3e12fb352589b97e02",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793266231.6661355,
+      "end": 1793266236.2883656,
+      "log": "/tmp/layerops116-family14-bench__tritonbench_g__layer_norm_ops__Proofs__FPClosed.log"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_ops.SoftwareCorrect",
+      "source_sha256": "ce1aa5820dd86004f789fa6eb16fb906189a324dde683f0eee19c0b9e45e4673",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793266236.288719,
+      "end": 1793266241.6428747,
+      "log": "/tmp/layerops116-family14-bench__tritonbench_g__layer_norm_ops__SoftwareCorrect.log"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_ops.Proofs.FPClosedWitness",
+      "source_sha256": "6efcab4c35cec7ecc766c2d1a301badcefa0fd91795aef4139db997fce1ba590",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793266241.6432555,
+      "end": 1793266244.6945484,
+      "log": "/tmp/layerops116-family14-bench__tritonbench_g__layer_norm_ops__Proofs__FPClosedWitness.log"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_ops.Proofs.FPWitness",
+      "source_sha256": "c05b43f3df2da6b1c3da331eb0c8b3395bf502785aca2d3fec37ef093a4fe3ac",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793266244.6948824,
+      "end": 1793266248.8266428,
+      "log": "/tmp/layerops116-family14-bench__tritonbench_g__layer_norm_ops__Proofs__FPWitness.log"
+    }
+  ],
+  "end": 1793266248.82692
+}

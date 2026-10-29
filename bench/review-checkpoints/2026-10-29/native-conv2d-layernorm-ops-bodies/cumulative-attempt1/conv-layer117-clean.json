@@ -1,0 +1,10 @@
+{
+  "status": "NOT_RUN_WARM_FAILED",
+  "code_commit": "87c269419af77b8489e8ced56747d56c78a8ec03",
+  "checkout": "/tmp/veritile-body77",
+  "explicit_modules": 5929,
+  "start": 1793270342.984119,
+  "scope": "All cumulative task/example/frontend roots, now including all 201 Conv2d, LayerNormOps and frontend roots, plus their full local import closure and joint import.",
+  "warm_status": "FAIL",
+  "end": 1793271799.3022146
+}

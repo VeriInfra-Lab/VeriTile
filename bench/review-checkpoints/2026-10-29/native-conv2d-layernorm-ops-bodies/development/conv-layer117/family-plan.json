@@ -1,0 +1,2206 @@
+{
+  "roots": [
+    "bench.repairs.tritonbench_g.layer_norm_ops.Contract",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Correct",
+    "bench.repairs.tritonbench_g.layer_norm_ops.FPEquiv",
+    "bench.repairs.tritonbench_g.layer_norm_ops.IO",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Kernels",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Misc.NativeCorrect",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Misc.TensorBridge",
+    "bench.repairs.tritonbench_g.layer_norm_ops.PairIO",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.Allocation",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardBody000",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardBody001",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardBody010",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardBody011",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardBody100",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardBody101",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardBody110",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardBody111",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardIO",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardInvariant",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardModel",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardPrelude00",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardPrelude01",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardPrelude10",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardPrelude11",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardRun",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardValues",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardWhole",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.CheckedHost",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.Contract",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.FiniteReference",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ForwardIO",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ForwardModel",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ForwardRun",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ForwardRun00",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ForwardRun01",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ForwardRun10",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ForwardRun11",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ForwardSafety",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ForwardSafety00",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ForwardSafety01",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ForwardSafety10",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ForwardSafety11",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.Frame",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.Host",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.HostCorrect",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.HostFPEquiv",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.HostResults",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.IONative",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.IOReal",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.IOResults",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.IOSafety",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.KernelBound",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.KernelCompiler",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.KernelCoverage",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.KernelDispatch",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.KernelExecution",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.KernelFrame",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.KernelIndex",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.KernelInputs",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.KernelInvariant",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.KernelNative",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.KernelReadback",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.KernelReal",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.KernelReference",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.Logical",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.LogicalBackward",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.LogicalHost",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.LogicalIO",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.LogicalLoop",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.LogicalResult",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.MathBackwardLoop",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.MathForward",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.MathGrid",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.MathModel",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.MathPartials",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.MathRecomputed",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.MathReturned",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.MathSaved",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.MathValues",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.Mathematical",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.MemoryHelpers",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.Native",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.NativeLaws",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.PairEquivalence",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.PublicFrame",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.Readback",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ScalarPlan",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.Scope",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.SourcePair",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.SourceSafety",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.CandidateKernels",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Contract",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Correct",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.FPEquiv",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.IO",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Kernels",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Misc.AuxiliaryFPEquiv",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Misc.NativeCorrect",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Misc.Reader",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Misc.Review",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Misc.TensorBridge",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Arithmetic",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Contract",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Coordinates",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Formed",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Grid",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Host",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.ISA",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelBinding",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelDefaultComplete",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelDefaultExecution",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelDefaultGraph",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelDefaultLoops",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelDefaultNative",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelDefaultSafety",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelDefaultSource",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelEntries",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelExecution",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelGrid",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelHalfComplete",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelHalfExecution",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelHalfGraph",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelHalfLoops",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelHalfSafety",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelHalfSource",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelInputs",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelLaunch",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelNative",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelNativeResult",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelNumeric",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelNumericProof",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelOperands",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelReal",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelRealResult",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelReference",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelStorage",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelStores",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelTensor",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.LogicalIO",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.LogicalInputs",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.LogicalReference",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Lowering",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Memory",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Native",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Ownership",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Pair",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Physical",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.PublicResult",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.PublicSafety",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Real",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Safety",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Scatter",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Software",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.SourceIndex",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Witness",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Spec",
+    "bench.tests.ConstexprMaskBody",
+    "bench.tests.OptionalPointerBody",
+    "bench.tests.OptionalPointerExpressionBody",
+    "bench.tests.TypedDotLoopBody",
+    "bench.tritonbench_g.layer_norm_ops.FPCorrect",
+    "bench.tritonbench_g.layer_norm_ops.LayerNormOps",
+    "bench.tritonbench_g.layer_norm_ops.Proofs.FPClosed",
+    "bench.tritonbench_g.layer_norm_ops.Proofs.FPClosedWitness",
+    "bench.tritonbench_g.layer_norm_ops.Proofs.FPComplete",
+    "bench.tritonbench_g.layer_norm_ops.Proofs.FPContract",
+    "bench.tritonbench_g.layer_norm_ops.Proofs.FPModel",
+    "bench.tritonbench_g.layer_norm_ops.Proofs.FPShape",
+    "bench.tritonbench_g.layer_norm_ops.Proofs.FPSoftware",
+    "bench.tritonbench_g.layer_norm_ops.Proofs.FPSupplied",
+    "bench.tritonbench_g.layer_norm_ops.Proofs.FPTypedSource",
+    "bench.tritonbench_g.layer_norm_ops.Proofs.FPWitness",
+    "bench.tritonbench_g.layer_norm_ops.SoftwareCorrect",
+    "bench.tritonbench_g.triton_conv2d_fwd.BranchesCorrect",
+    "bench.tritonbench_g.triton_conv2d_fwd.FPCorrect",
+    "bench.tritonbench_g.triton_conv2d_fwd.Kernels",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPCleanUndef",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPComplete",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPDefaultComplete",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPDefaultExecution",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPDefaultLoops",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPDefaultReference",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPDefaultSoftware",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPDefaultTypedSource",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPDefaultWitness",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPExecution",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPLoops",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPReference",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPShape",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPSoftware",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPTypedSource",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPWitness",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.MaskedPointerSimulation",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.PositivePointerCorrect",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.PositivePointerModel",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.SignedBodySimulation",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.SignedFlatSimulation",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.SignedLoopSimulation",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.SignedPointerModel",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.SignedPostSimulation",
+    "bench.tritonbench_g.triton_conv2d_fwd.TritonConv2dFwd"
+  ],
+  "modules": [
+    "VeriTile.Spec",
+    "VeriTile.Meta.Specification",
+    "VeriTile.Triton.Float.BitValue",
+    "VeriTile.Torch.Tensor",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Contract",
+    "VeriTile.Triton.Core.Types",
+    "VeriTile.Triton.Core.Shape",
+    "VeriTile.Triton.Core.Float8",
+    "VeriTile.Triton.Float.ScalarOps",
+    "VeriTile.Triton.Random.Philox",
+    "VeriTile.Triton.Random.SourceProfile",
+    "VeriTile.Triton.Random.Direct",
+    "VeriTile.Triton.Random.DirectProfile",
+    "VeriTile.Triton.Core.Ast",
+    "VeriTile.Triton.Core",
+    "VeriTile.Triton.Semantics.Scalar",
+    "VeriTile.Triton.Semantics.State",
+    "VeriTile.Triton.Semantics.Offset",
+    "VeriTile.Triton.Math.Erf",
+    "VeriTile.Triton.Core.DiscreteReduction",
+    "VeriTile.Triton.Semantics.TileOps",
+    "VeriTile.Triton.Semantics.Float8",
+    "VeriTile.Triton.Random.Proofs.Dyadic",
+    "VeriTile.Triton.Random.Proofs.RoundQuotientBridge",
+    "VeriTile.Triton.Random.Proofs.RoundExpansion",
+    "VeriTile.Triton.Random.Proofs.DyadicExponent",
+    "VeriTile.Triton.Random.Proofs.DyadicStep",
+    "VeriTile.Triton.Random.Proofs.PackDecode",
+    "VeriTile.Triton.Random.Proofs.PackRoundedProof",
+    "VeriTile.Triton.Random.Proofs.SignificandBounds",
+    "VeriTile.Triton.Random.Proofs.RoundDyadic",
+    "VeriTile.Triton.Random.Proofs.CanonicalUniformBridge",
+    "VeriTile.Triton.Random.Values",
+    "VeriTile.Triton.Random.UniformValues",
+    "VeriTile.Triton.Semantics.EvalOp",
+    "VeriTile.Triton.Semantics.AtomicReduction",
+    "VeriTile.Triton.Semantics.Step",
+    "VeriTile.Triton.Semantics.Eval",
+    "VeriTile.Triton.Math.LogSumExp",
+    "VeriTile.Triton.Semantics.TiledIndexing",
+    "VeriTile.Triton.Semantics.LaneBridge",
+    "VeriTile.Triton.Semantics.StreamBridge",
+    "VeriTile.Triton.Math.L2Norm",
+    "VeriTile.Triton.Semantics.MaskedReduction",
+    "VeriTile.Triton.Semantics.BroadcastReshape.Attr",
+    "VeriTile.Triton.Semantics.BroadcastReshape",
+    "VeriTile.Triton.Semantics.BlockPtrEval",
+    "VeriTile.Triton.Math.Attention",
+    "VeriTile.Triton.Semantics.StreamingAccumulator",
+    "VeriTile.Triton.Semantics",
+    "VeriTile.Triton.Memory.View",
+    "VeriTile.Triton.Memory.Bounds",
+    "VeriTile.Triton.Memory.Frame.Basic",
+    "VeriTile.Triton.Memory.Frame.Stmt",
+    "VeriTile.Triton.Memory.Frame.Kernel",
+    "VeriTile.Triton.Memory.Frame",
+    "VeriTile.Triton.Memory.Footprint",
+    "VeriTile.Triton.Memory.Typing.Region",
+    "VeriTile.Triton.Memory.Typing.Contracts",
+    "VeriTile.Triton.Memory.Typing.Checker",
+    "VeriTile.Triton.Memory.Typing",
+    "VeriTile.Triton.Float.RoundingModel",
+    "VeriTile.Triton.Float.EvalOpR",
+    "VeriTile.Triton.Semantics.BlockPadding",
+    "VeriTile.Triton.Memory.Flatten",
+    "VeriTile.Triton.Float.StepR",
+    "VeriTile.Triton.Memory.FlattenR",
+    "VeriTile.Triton.Memory.FlattenTolerant",
+    "VeriTile.Triton.Memory.Locality",
+    "VeriTile.Triton.Memory.Denotation",
+    "VeriTile.Triton.Memory.Layout",
+    "VeriTile.Triton.Memory.KernelCore",
+    "VeriTile.Triton.Memory.KernelSpec.Base",
+    "VeriTile.Triton.Memory.KernelSpec.Basic",
+    "VeriTile.Triton.Memory.KernelSpec.Masked",
+    "VeriTile.Triton.Memory.KernelSpec.MaskedND",
+    "VeriTile.Triton.Memory.KernelSpec.BooleanMasked",
+    "VeriTile.Triton.Memory.KernelSpec.Metadata",
+    "VeriTile.Triton.Memory.KernelSpec.Scatter",
+    "VeriTile.Triton.Memory.KernelSpec.Gather",
+    "VeriTile.Triton.Memory.KernelSpec.Grouped",
+    "VeriTile.Triton.Memory.KernelSpec.Stream",
+    "VeriTile.Triton.Memory.KernelSpec.StreamEmit",
+    "VeriTile.Triton.Memory.KernelSpec.StreamAttention",
+    "VeriTile.Triton.Memory.KernelSpec.StreamAttentionMetadata",
+    "VeriTile.Triton.Memory.KernelSpec.TileIndex",
+    "VeriTile.Triton.Memory.KernelSpec.Tile",
+    "VeriTile.Triton.Memory.KernelSpec.TileND",
+    "VeriTile.Triton.Memory.KernelSpec.TileMetadata",
+    "VeriTile.Triton.Memory.KernelSpec.TileGather",
+    "VeriTile.Triton.Memory.KernelSpec",
+    "VeriTile.Triton.Memory",
+    "VeriTile.Triton.KernelLemmas.EvalHelpers",
+    "VeriTile.Triton.KernelLemmas.OffsetInjective",
+    "VeriTile.Triton.KernelLemmas.Matmul",
+    "VeriTile.Triton.KernelLemmas.ScatterStore",
+    "VeriTile.Triton.KernelLemmas.LoopInvariant",
+    "VeriTile.Triton.Float.Erasure",
+    "VeriTile.Triton.Float.StateErasure",
+    "VeriTile.Triton.ExternalCheck",
+    "VeriTile.Triton.Correctness",
+    "VeriTile.Triton.KernelLemmas.CarryFold",
+    "VeriTile.Triton.KernelLemmas",
+    "VeriTile.Triton.Float.Refine",
+    "VeriTile.Triton.Float.Pipeline",
+    "VeriTile.Triton.Float.Equivalence",
+    "VeriTile.Triton.Float",
+    "VeriTile.Triton.DSL.Syntax",
+    "VeriTile.Triton.DSL.Typing",
+    "VeriTile.Triton.DSL.Metadata",
+    "VeriTile.Triton.DSL.Inference",
+    "VeriTile.Triton.DSL.CallValue",
+    "VeriTile.Triton.DSL.Expansion.Common",
+    "VeriTile.Triton.Core.Integer",
+    "VeriTile.Triton.Core.FixedInteger",
+    "VeriTile.Triton.Core.SignedCast",
+    "VeriTile.Triton.DSL.Expansion.Memory",
+    "VeriTile.Triton.DSL.Expansion.Compute",
+    "VeriTile.Triton.DSL.Expansion.Control",
+    "VeriTile.Triton.DSL.RandomProfile",
+    "VeriTile.Triton.DSL.FiniteHelperSource",
+    "VeriTile.Triton.DSL.WelfordSource",
+    "VeriTile.Triton.DSL.Expansion.DType",
+    "VeriTile.Triton.DSL.Expansion.InlineAsm",
+    "VeriTile.Triton.DSL.Expansion.DirectRandom",
+    "VeriTile.Triton.DSL.Expansion.Main",
+    "VeriTile.Triton.DSL.Expansion",
+    "VeriTile.Triton.DSL",
+    "VeriTile.Triton.Math.Activation",
+    "VeriTile.Triton.Math.Loss",
+    "VeriTile.Triton.Math.Optimizer",
+    "VeriTile.Triton.Math.Reduction",
+    "VeriTile.Triton.Math.RMSNorm",
+    "VeriTile.Triton.Math.Softmax",
+    "VeriTile.Triton.Math",
+    "VeriTile.Triton.Launch.Grid",
+    "VeriTile.Triton.Launch.Composition",
+    "VeriTile.Triton.Launch",
+    "VeriTile.Triton.Concurrency.Trace",
+    "VeriTile.Triton.Concurrency.Discipline",
+    "VeriTile.Triton.Concurrency.Refinement",
+    "VeriTile.Triton.Concurrency.ProducerConsumer",
+    "VeriTile.Triton.Concurrency.Atomic",
+    "VeriTile.Triton.Concurrency",
+    "VeriTile.Triton",
+    "VeriTile.Triton.DSL.PythonConstants",
+    "VeriTile.Triton.DSL.SourceConstant",
+    "VeriTile.Triton.DSL.NestedLoadAssignments",
+    "VeriTile.Triton.DSL.ConstexprMask",
+    "VeriTile.Triton.DSL.PythonBody",
+    "VeriTile.Triton.DSL.SourceFunction",
+    "VeriTile.Triton.DSL.SourceIntrinsic",
+    "VeriTile.Triton.DSL.OptionalPointer",
+    "VeriTile.Triton.DSL.OptionalString",
+    "VeriTile.Triton.DSL.SourceDType",
+    "VeriTile.Triton.DSL.PointerType",
+    "VeriTile.Triton.DSL.TypedStores",
+    "VeriTile.Triton.DSL.TypedStorageReduction",
+    "VeriTile.Triton.DSL.RankOneBlockPtr",
+    "VeriTile.Triton.DSL.SourceFunctionStatements",
+    "VeriTile.Triton.DSL.NarrowUnsigned",
+    "VeriTile.Triton.DSL.Constexpr",
+    "VeriTile.Triton.DSL.OrderedRowSum",
+    "VeriTile.Triton.DSL.CallSignature",
+    "VeriTile.Meta.StatementAudit",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Kernels",
+    "VeriTile.Triton.Core.Reshape",
+    "VeriTile.Triton.Float.Structural",
+    "VeriTile.Triton.Float.StructuralSafety",
+    "VeriTile.Triton.Float.ProgramIO",
+    "VeriTile.Triton.Float.ObservedProgramIO",
+    "VeriTile.Triton.Memory.LogicalIO",
+    "VeriTile.Triton.Float.LogicalProgramIO",
+    "bench.repairs.tritonbench_g.layer_norm_ops.IO",
+    "bench.tritonbench_g.token_attn_reduceV.Proofs.FPTypedSource",
+    "bench.tritonbench_g.parallel_attention.Kernels",
+    "bench.tritonbench_g.parallel_attention.Proofs.FPSources",
+    "bench.tritonbench_g.parallel_attention.Proofs.FPForwardGraph",
+    "bench.tritonbench_g.parallel_attention.Proofs.FPRange",
+    "bench.tritonbench_g.isfinite_kernel.Proofs.BitClassification",
+    "VeriTile.Triton.Source",
+    "VeriTile.Triton.Float.ReportedRules",
+    "VeriTile.Triton.Float.GuardedRules",
+    "VeriTile.Triton.Float.Equational",
+    "VeriTile.Triton.Float.TermModel",
+    "VeriTile.Triton.Float.StructuralIO",
+    "VeriTile.Triton.Float.ExecutionProfile",
+    "VeriTile.Triton.Float.GuardedSemantics",
+    "VeriTile.Triton.Float.ScalarBackend",
+    "VeriTile.Triton.Float.IntegerLiteralBackend",
+    "VeriTile.Triton.Float.MaximumExact",
+    "VeriTile.Triton.Float.ScalarOpsLaws",
+    "VeriTile.Triton.Float.ExponentialExact",
+    "VeriTile.Triton.Float.StrictBackend",
+    "VeriTile.Triton.Float.GuardedStrict",
+    "VeriTile.Triton.Float.GuardedIO",
+    "VeriTile.Triton.Float.ReportedAdmission",
+    "VeriTile.Triton.Float.SupplementalAdmission",
+    "VeriTile.Triton.Float.Reciprocal",
+    "VeriTile.Triton.Float.CastExact.Fields",
+    "VeriTile.Triton.Float.BitValueLaws",
+    "VeriTile.Triton.Float.CastExact.SameFormat",
+    "VeriTile.Triton.Float.ScalarArithmetic",
+    "VeriTile.Triton.Float.ScalarArithmeticLaws",
+    "VeriTile.Triton.Float.GuardedRewrite",
+    "VeriTile.Triton.Float.Loop",
+    "VeriTile.Triton.Float.ProfiledRewrite",
+    "bench.tritonbench_g.isfinite_kernel.Proofs.BitBackend",
+    "bench.tritonbench_g.isfinite_kernel.Proofs.MemoryProjection",
+    "bench.tritonbench_g.token_attn_reduceV.Proofs.FPModel",
+    "bench.tritonbench_g.token_attn_reduceV.Proofs.FPComplete",
+    "bench.tritonbench_g.token_attn_reduceV.Proofs.FPContract",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ForwardModel",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardModel",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.KernelReference",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.FiniteReference",
+    "bench.repairs.tritonbench_g.layer_norm_liger.Kernels",
+    "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardKernels",
+    "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardModel",
+    "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.FoldFacts",
+    "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ForwardModel",
+    "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ForwardRun",
+    "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ForwardContract",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.Frame",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.Readback",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.KernelInvariant",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.KernelFrame",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.KernelReadback",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.MemoryHelpers",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ForwardRun00",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ForwardRun01",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ForwardRun10",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ForwardRun11",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ForwardRun",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardInvariant",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardPrelude00",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardPrelude01",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardPrelude10",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardPrelude11",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardBody000",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardBody001",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardBody010",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardBody011",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardBody100",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardBody101",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardBody110",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardBody111",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardRun",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardWhole",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.KernelExecution",
+    "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Logical",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.Logical",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.LogicalBackward",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.LogicalLoop",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.KernelReal",
+    "bench.repairs.tritonbench_g.fast_layernorm.Kernels",
+    "bench.repairs.tritonbench_g.fast_layernorm.Proofs.KernelReference",
+    "bench.tritonbench_g.layer_norm_fwd.Kernels",
+    "bench.repairs.tritonbench_g.layer_norm_fwd.SourceParameters",
+    "bench.repairs.tritonbench_g.layer_norm_fwd.Kernels",
+    "bench.tritonbench_g.layer_norm_fwd.Proofs.Formula",
+    "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.WholeReduction",
+    "bench.tritonbench_g.layer_norm_fwd.Proofs.WholeReduction",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.LegacyKernels",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.Kernels",
+    "bench.tritonbench_g.layer_norm_fwd.Proofs.Contracts",
+    "bench.tritonbench_g.layer_norm_fwd.Proofs.Source",
+    "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.SourceBinding",
+    "VeriTile.Triton.Float.UnsignedCast",
+    "bench.tritonbench_g.layer_norm_fwd.Proofs.Domain",
+    "bench.tritonbench_g.layer_norm_fwd.Proofs.Memory",
+    "bench.tritonbench_g.layer_norm_fwd.Proofs.InputDomain",
+    "VeriTile.Triton.Memory.TraceProofs",
+    "bench.tritonbench_g.layer_norm_fwd.Proofs.FlatDomain",
+    "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.Address",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.Address",
+    "bench.tritonbench_g.layernorm_fwd_triton.Proofs.FPTypedSource",
+    "bench.tritonbench_g.layernorm_fwd_triton.Proofs.FPModel",
+    "bench.tritonbench_g.layernorm_fwd_triton.Proofs.FPAccumulate",
+    "bench.tritonbench_g.layernorm_fwd_triton.Proofs.FPOutput",
+    "bench.tritonbench_g.layernorm_fwd_triton.Proofs.FPComplete",
+    "bench.tritonbench_g.layernorm_fwd_triton.Proofs.FPContract",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.Memory",
+    "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.WrapperAction",
+    "bench.repairs.tritonbench_g.fast_layernorm.Proofs.Model",
+    "bench.repairs.tritonbench_g.fast_layernorm.Proofs.Real",
+    "bench.repairs.tritonbench_g.fast_layernorm.Proofs.KernelMath",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.Mathematical",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardValues",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ForwardIO",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardIO",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.MathValues",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ForwardSafety00",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ForwardSafety01",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ForwardSafety10",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ForwardSafety11",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ForwardSafety",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.SourceSafety",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.IOSafety",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.IOResults",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.IOReal",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.LogicalIO",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Correct",
+    "VeriTile.Triton.Float.ProgramEquivalence",
+    "VeriTile.Triton.Float.InputBindingIO",
+    "VeriTile.Triton.Float.ProgramEquivalenceSyntax",
+    "bench.repairs.tritonbench_g.layer_norm_ops.PairIO",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.SourcePair",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.PairEquivalence",
+    "bench.repairs.tritonbench_g.layer_norm_ops.FPEquiv",
+    "bench.repairs.tritonbench_g.fast_layernorm.Proofs.Settings",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.Model",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.Execution",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.Grid",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.NativeAddress",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.Compiler",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.CompilerControl",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.Torch",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.HostPrelude",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.HostLayout",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.HostPrepared",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.Runtime",
+    "bench.repairs.tritonbench_g.fast_layernorm.Proofs.Compiler",
+    "bench.repairs.tritonbench_g.fast_layernorm.Proofs.KernelNative",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.KernelNative",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.Contract",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.KernelDispatch",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.KernelCompiler",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.IONative",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Misc.NativeCorrect",
+    "bench.repairs.tritonbench_g.fast_layernorm.Contract",
+    "bench.repairs.tritonbench_g.fast_layernorm.Proofs.Contract",
+    "VeriTile.Torch.FP32",
+    "bench.repairs.tritonbench_g.fast_layernorm.Proofs.KernelInputs",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.KernelInputs",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.KernelCoverage",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.KernelIndex",
+    "bench.repairs.tritonbench_g.fast_layernorm.Proofs.KernelStorage",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.KernelBound",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Misc.TensorBridge",
+    "bench.tritonbench_g.matrix_vector_multip.Kernels",
+    "bench.tritonbench_g.matrix_vector_multip.Proofs.TypedSource",
+    "VeriTile.Triton.Float.Control",
+    "bench.tritonbench_g.matrix_vector_multip.Proofs.TypedExecution",
+    "bench.tritonbench_g.matrix_vector_multip.Proofs.TypedContract",
+    "bench.tritonbench_g.matrix_vector_multip.Proofs.TypedIO",
+    "bench.tritonbench_g.matrix_vector_multip.Proofs.TypedSoftware",
+    "bench.tritonbench_g.token_attn_reduceV.Proofs.FPSoftware",
+    "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ForwardSoftware",
+    "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardRun",
+    "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardWhole",
+    "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardSoftware",
+    "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ClosedFP",
+    "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.LogicalBackward",
+    "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.LaunchCoverage",
+    "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardContract",
+    "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardResult",
+    "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Frame",
+    "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Grid",
+    "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.GridCells",
+    "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ReductionPlan",
+    "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.GridHost",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.Host",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.Scope",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.HostResults",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.Allocation",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.PublicFrame",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.CheckedHost",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.LogicalResult",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.LogicalHost",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.MathModel",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.MathForward",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.MathBackwardLoop",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.MathRecomputed",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.MathGrid",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.MathPartials",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.MathSaved",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.MathReturned",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.HostCorrect",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ScalarPlan",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.Native",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.NativeLaws",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.HostFPEquiv",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Kernels",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.CandidateKernels",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Grid",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.SourceIndex",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Contract",
+    "VeriTile.Triton.Float.StructuralLoopNormalization",
+    "bench.tritonbench_g.kcache_copy_triton.KcacheCopyTriton",
+    "bench.tritonbench_g.kcache_copy_triton.Proofs.TypedCopy",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelHalfSource",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelHalfGraph",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelHalfExecution",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelHalfLoops",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelHalfComplete",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelDefaultSource",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelDefaultGraph",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelDefaultExecution",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelDefaultLoops",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelDefaultComplete",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Formed",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Coordinates",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Memory",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Scatter",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Ownership",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Spec",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Arithmetic",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Native",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.ISA",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Safety",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Contract",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelBinding",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelGrid",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelLaunch",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelOperands",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelNumeric",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelNumericProof",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelReference",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Real",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelReal",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Software",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelNative",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelDefaultNative",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.IO",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.LogicalInputs",
+    "VeriTile.Triton.Float.StructuralSafetyLoops",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelHalfSafety",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelDefaultSafety",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.PublicSafety",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.LogicalReference",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelExecution",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.PublicResult",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.LogicalIO",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Correct",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Pair",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.FPEquiv",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Misc.AuxiliaryFPEquiv",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Misc.NativeCorrect",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelRealResult",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Physical",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelStorage",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelStores",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelNativeResult",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Host",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelTensor",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelEntries",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelInputs",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Lowering",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Witness",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Misc.Reader",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Misc.TensorBridge",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Misc.Review",
+    "bench.tests.ConstexprMaskBody",
+    "bench.tests.OptionalPointerBody",
+    "bench.tests.OptionalPointerExpressionBody",
+    "bench.tests.TypedDotLoopBody",
+    "bench.tritonbench_g.layer_norm_ops.Proofs.FPTypedSource",
+    "bench.tritonbench_g.layer_norm_ops.Proofs.FPModel",
+    "bench.tritonbench_g.layer_norm_ops.Proofs.FPComplete",
+    "bench.tritonbench_g.layer_norm_ops.Proofs.FPContract",
+    "bench.tritonbench_g.layer_norm_ops.Proofs.FPSupplied",
+    "bench.tritonbench_g.layer_norm_ops.LayerNormOps",
+    "bench.tritonbench_g.layer_norm_ops.Proofs.FPShape",
+    "bench.tritonbench_g.layer_norm_ops.FPCorrect",
+    "bench.tritonbench_g.layer_norm_liger.Proofs.FPTypedSource",
+    "bench.tritonbench_g.layer_norm_liger.Proofs.FPModel",
+    "bench.tritonbench_g.layer_norm_liger.Proofs.FPComplete",
+    "bench.tritonbench_g.layer_norm_liger.Proofs.FPContract",
+    "bench.tritonbench_g.layer_norm_liger.Proofs.FPSoftware",
+    "bench.tritonbench_g.layer_norm_ops.Proofs.FPSoftware",
+    "bench.tritonbench_g.layer_norm_ops.Proofs.FPClosed",
+    "bench.tritonbench_g.layer_norm_ops.SoftwareCorrect",
+    "bench.tritonbench_g.layer_norm_ops.Proofs.FPClosedWitness",
+    "bench.tritonbench_g.layer_norm_ops.Proofs.FPWitness",
+    "bench.tritonbench_g.triton_conv2d_fwd.Kernels",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPTypedSource",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPReference",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPExecution",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPLoops",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPComplete",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPCleanUndef",
+    "bench.tritonbench_g.matrix_reduction.Kernels",
+    "bench.tritonbench_g.matrix_reduction.Proofs.TypedSource",
+    "bench.tritonbench_g.matrix_reduction.Proofs.OrderKey",
+    "bench.tritonbench_g.matrix_reduction.Proofs.MachineMax",
+    "VeriTile.Triton.Float.IntegerConversion",
+    "VeriTile.Triton.Float.IntegerConversionTotal",
+    "bench.tritonbench_g.quantize_kv_copy.Proofs.FP32Profile",
+    "bench.tritonbench_g.matrix_reduction.Proofs.BitEncoding",
+    "bench.tritonbench_g.matrix_reduction.Proofs.BinaryConversion",
+    "bench.tritonbench_g.matmul_dequant_int4.Proofs.Binary16",
+    "bench.tritonbench_g.quantize_kv_transform.Proofs.MixedBits",
+    "bench.tritonbench_g.int4_matmul.Proofs.FPMixed",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPSoftware",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPShape",
+    "bench.tritonbench_g.triton_conv2d_fwd.FPCorrect",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPDefaultTypedSource",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPDefaultReference",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPDefaultExecution",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPDefaultLoops",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPDefaultComplete",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPDefaultSoftware",
+    "bench.tritonbench_g.triton_conv2d_fwd.BranchesCorrect",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPWitness",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPDefaultWitness",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.MaskedPointerSimulation",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.PositivePointerModel",
+    "VeriTile.Triton.Semantics.ProgramRewrite",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.PositivePointerCorrect",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.SignedPointerModel",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.SignedBodySimulation",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.SignedLoopSimulation",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.SignedPostSimulation",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.SignedFlatSimulation",
+    "bench.tritonbench_g.triton_conv2d_fwd.TritonConv2dFwd"
+  ],
+  "compile": [
+    "VeriTile.Triton.DSL.TypedStores",
+    "VeriTile.Triton.DSL.TypedStorageReduction",
+    "VeriTile.Triton.DSL.CallSignature",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Kernels",
+    "bench.repairs.tritonbench_g.layer_norm_ops.IO",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ForwardModel",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardModel",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.KernelReference",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.FiniteReference",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.Frame",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.Readback",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.KernelInvariant",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.KernelFrame",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.KernelReadback",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.MemoryHelpers",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ForwardRun00",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ForwardRun01",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ForwardRun10",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ForwardRun11",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ForwardRun",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardInvariant",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardPrelude00",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardPrelude01",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardPrelude10",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardPrelude11",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardBody000",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardBody001",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardBody010",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardBody011",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardBody100",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardBody101",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardBody110",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardBody111",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardRun",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardWhole",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.KernelExecution",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.Logical",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.LogicalBackward",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.LogicalLoop",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.KernelReal",
+    "bench.repairs.tritonbench_g.layer_norm_fwd.SourceParameters",
+    "bench.repairs.tritonbench_g.layer_norm_fwd.Kernels",
+    "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.WholeReduction",
+    "bench.tritonbench_g.layer_norm_fwd.Proofs.WholeReduction",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.Kernels",
+    "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.SourceBinding",
+    "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.Address",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.Address",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.Memory",
+    "bench.repairs.tritonbench_g.fast_layernorm.Proofs.Model",
+    "bench.repairs.tritonbench_g.fast_layernorm.Proofs.Real",
+    "bench.repairs.tritonbench_g.fast_layernorm.Proofs.KernelMath",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.Mathematical",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardValues",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ForwardIO",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardIO",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.MathValues",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ForwardSafety00",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ForwardSafety01",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ForwardSafety10",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ForwardSafety11",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ForwardSafety",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.SourceSafety",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.IOSafety",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.IOResults",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.IOReal",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.LogicalIO",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Correct",
+    "bench.repairs.tritonbench_g.layer_norm_ops.PairIO",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.SourcePair",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.PairEquivalence",
+    "bench.repairs.tritonbench_g.layer_norm_ops.FPEquiv",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.Model",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.Execution",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.Grid",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.NativeAddress",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.Compiler",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.CompilerControl",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.Torch",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.HostPrelude",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.HostLayout",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.HostPrepared",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.Runtime",
+    "bench.repairs.tritonbench_g.fast_layernorm.Proofs.Compiler",
+    "bench.repairs.tritonbench_g.fast_layernorm.Proofs.KernelNative",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.KernelNative",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.KernelDispatch",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.KernelCompiler",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.IONative",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Misc.NativeCorrect",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.KernelCoverage",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.KernelIndex",
+    "bench.repairs.tritonbench_g.fast_layernorm.Proofs.KernelStorage",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.KernelBound",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Misc.TensorBridge",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.Host",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.Scope",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.HostResults",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.Allocation",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.PublicFrame",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.CheckedHost",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.LogicalResult",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.LogicalHost",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.MathModel",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.MathForward",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.MathBackwardLoop",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.MathRecomputed",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.MathGrid",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.MathPartials",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.MathSaved",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.MathReturned",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.HostCorrect",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.Native",
+    "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.HostFPEquiv",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Kernels",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.CandidateKernels",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Grid",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.SourceIndex",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Contract",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelHalfSource",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelHalfGraph",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelHalfExecution",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelHalfLoops",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelHalfComplete",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelDefaultSource",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelDefaultGraph",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelDefaultExecution",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelDefaultLoops",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelDefaultComplete",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Formed",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Coordinates",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Memory",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Scatter",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Ownership",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Spec",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Arithmetic",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Native",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.ISA",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Safety",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Contract",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelBinding",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelGrid",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelLaunch",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelOperands",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelNumeric",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelNumericProof",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelReference",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Real",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelReal",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Software",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelNative",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelDefaultNative",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.IO",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.LogicalInputs",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelHalfSafety",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelDefaultSafety",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.PublicSafety",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.LogicalReference",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelExecution",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.PublicResult",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.LogicalIO",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Correct",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Pair",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.FPEquiv",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Misc.AuxiliaryFPEquiv",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Misc.NativeCorrect",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelRealResult",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Physical",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelStorage",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelStores",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelNativeResult",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Host",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelTensor",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelEntries",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.KernelInputs",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Lowering",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Proofs.Witness",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Misc.Reader",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Misc.TensorBridge",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Misc.Review",
+    "bench.tests.ConstexprMaskBody",
+    "bench.tests.OptionalPointerBody",
+    "bench.tests.OptionalPointerExpressionBody",
+    "bench.tests.TypedDotLoopBody",
+    "bench.tritonbench_g.matrix_reduction.Kernels",
+    "bench.tritonbench_g.matrix_reduction.Proofs.TypedSource",
+    "bench.tritonbench_g.matrix_reduction.Proofs.MachineMax",
+    "bench.tritonbench_g.quantize_kv_copy.Proofs.FP32Profile",
+    "bench.tritonbench_g.quantize_kv_transform.Proofs.MixedBits",
+    "bench.tritonbench_g.int4_matmul.Proofs.FPMixed",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPSoftware",
+    "bench.tritonbench_g.triton_conv2d_fwd.FPCorrect",
+    "bench.tritonbench_g.triton_conv2d_fwd.BranchesCorrect",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPWitness",
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPDefaultWitness"
+  ],
+  "reused": [
+    {
+      "module": "VeriTile.Spec",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Meta.Specification",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.BitValue",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Torch.Tensor",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_ops.Contract",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Core.Types",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Core.Shape",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Core.Float8",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ScalarOps",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Philox",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Random.SourceProfile",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Direct",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Random.DirectProfile",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Core.Ast",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Core",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.Scalar",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.State",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.Offset",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Math.Erf",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Core.DiscreteReduction",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.TileOps",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.Float8",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Proofs.Dyadic",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Proofs.RoundQuotientBridge",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Proofs.RoundExpansion",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Proofs.DyadicExponent",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Proofs.DyadicStep",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Proofs.PackDecode",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Proofs.PackRoundedProof",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Proofs.SignificandBounds",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Proofs.RoundDyadic",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Proofs.CanonicalUniformBridge",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Values",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Random.UniformValues",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.EvalOp",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.AtomicReduction",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.Step",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.Eval",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Math.LogSumExp",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.TiledIndexing",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.LaneBridge",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.StreamBridge",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Math.L2Norm",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.MaskedReduction",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.BroadcastReshape.Attr",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.BroadcastReshape",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.BlockPtrEval",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Math.Attention",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.StreamingAccumulator",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.View",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Bounds",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Frame.Basic",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Frame.Stmt",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Frame.Kernel",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Frame",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Footprint",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Typing.Region",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Typing.Contracts",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Typing.Checker",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Typing",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.RoundingModel",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.EvalOpR",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.BlockPadding",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Flatten",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.StepR",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.FlattenR",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.FlattenTolerant",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Locality",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Denotation",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Layout",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelCore",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Base",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Basic",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Masked",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.MaskedND",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.BooleanMasked",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Metadata",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Scatter",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Gather",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Grouped",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Stream",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.StreamEmit",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.StreamAttention",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.StreamAttentionMetadata",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.TileIndex",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Tile",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.TileND",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.TileMetadata",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.TileGather",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas.EvalHelpers",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas.OffsetInjective",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas.Matmul",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas.ScatterStore",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas.LoopInvariant",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.Erasure",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.StateErasure",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.ExternalCheck",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Correctness",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas.CarryFold",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.Refine",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.Pipeline",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.Equivalence",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Syntax",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Typing",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Metadata",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Inference",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.CallValue",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Expansion.Common",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Core.Integer",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Core.FixedInteger",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Core.SignedCast",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Expansion.Memory",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Expansion.Compute",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Expansion.Control",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.RandomProfile",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.FiniteHelperSource",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.WelfordSource",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Expansion.DType",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Expansion.InlineAsm",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Expansion.DirectRandom",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Expansion.Main",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Expansion",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Math.Activation",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Math.Loss",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Math.Optimizer",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Math.Reduction",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Math.RMSNorm",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Math.Softmax",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Math",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Launch.Grid",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Launch.Composition",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Launch",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Concurrency.Trace",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Concurrency.Discipline",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Concurrency.Refinement",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Concurrency.ProducerConsumer",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Concurrency.Atomic",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Concurrency",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.PythonConstants",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.SourceConstant",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.NestedLoadAssignments",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.ConstexprMask",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.PythonBody",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.SourceFunction",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.SourceIntrinsic",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.OptionalPointer",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.OptionalString",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.SourceDType",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.PointerType",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.RankOneBlockPtr",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.SourceFunctionStatements",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.NarrowUnsigned",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Constexpr",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.OrderedRowSum",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Meta.StatementAudit",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Core.Reshape",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.Structural",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.StructuralSafety",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ProgramIO",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ObservedProgramIO",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.LogicalIO",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.LogicalProgramIO",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.token_attn_reduceV.Proofs.FPTypedSource",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.parallel_attention.Kernels",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.parallel_attention.Proofs.FPSources",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.parallel_attention.Proofs.FPForwardGraph",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.parallel_attention.Proofs.FPRange",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.isfinite_kernel.Proofs.BitClassification",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Source",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ReportedRules",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.GuardedRules",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.Equational",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.TermModel",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.StructuralIO",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ExecutionProfile",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.GuardedSemantics",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ScalarBackend",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.IntegerLiteralBackend",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.MaximumExact",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ScalarOpsLaws",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ExponentialExact",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.StrictBackend",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.GuardedStrict",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.GuardedIO",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ReportedAdmission",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.SupplementalAdmission",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.Reciprocal",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.CastExact.Fields",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.BitValueLaws",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.CastExact.SameFormat",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ScalarArithmetic",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ScalarArithmeticLaws",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.GuardedRewrite",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.Loop",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ProfiledRewrite",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.isfinite_kernel.Proofs.BitBackend",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.isfinite_kernel.Proofs.MemoryProjection",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.token_attn_reduceV.Proofs.FPModel",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.token_attn_reduceV.Proofs.FPComplete",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.token_attn_reduceV.Proofs.FPContract",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Kernels",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardKernels",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardModel",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.FoldFacts",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ForwardModel",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ForwardRun",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ForwardContract",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Logical",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.fast_layernorm.Kernels",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.fast_layernorm.Proofs.KernelReference",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_fwd.Kernels",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_fwd.Proofs.Formula",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layernorm_fwd_triton.LegacyKernels",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_fwd.Proofs.Contracts",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_fwd.Proofs.Source",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.UnsignedCast",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_fwd.Proofs.Domain",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_fwd.Proofs.Memory",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_fwd.Proofs.InputDomain",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.TraceProofs",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_fwd.Proofs.FlatDomain",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.layernorm_fwd_triton.Proofs.FPTypedSource",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.layernorm_fwd_triton.Proofs.FPModel",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.layernorm_fwd_triton.Proofs.FPAccumulate",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.layernorm_fwd_triton.Proofs.FPOutput",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.layernorm_fwd_triton.Proofs.FPComplete",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.layernorm_fwd_triton.Proofs.FPContract",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.WrapperAction",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ProgramEquivalence",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.InputBindingIO",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ProgramEquivalenceSyntax",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.fast_layernorm.Proofs.Settings",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.Contract",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.fast_layernorm.Contract",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.fast_layernorm.Proofs.Contract",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "VeriTile.Torch.FP32",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.fast_layernorm.Proofs.KernelInputs",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.KernelInputs",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.matrix_vector_multip.Kernels",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.matrix_vector_multip.Proofs.TypedSource",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.Control",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.matrix_vector_multip.Proofs.TypedExecution",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.matrix_vector_multip.Proofs.TypedContract",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.matrix_vector_multip.Proofs.TypedIO",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.matrix_vector_multip.Proofs.TypedSoftware",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.token_attn_reduceV.Proofs.FPSoftware",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ForwardSoftware",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardRun",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardWhole",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardSoftware",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ClosedFP",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.LogicalBackward",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.LaunchCoverage",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardContract",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.BackwardResult",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Frame",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.Grid",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.GridCells",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.ReductionPlan",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_liger.Proofs.GridHost",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ScalarPlan",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.NativeLaws",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.StructuralLoopNormalization",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.kcache_copy_triton.KcacheCopyTriton",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.kcache_copy_triton.Proofs.TypedCopy",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.StructuralSafetyLoops",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_ops.Proofs.FPTypedSource",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_ops.Proofs.FPModel",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_ops.Proofs.FPComplete",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_ops.Proofs.FPContract",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_ops.Proofs.FPSupplied",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_ops.LayerNormOps",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_ops.Proofs.FPShape",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_ops.FPCorrect",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_liger.Proofs.FPTypedSource",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_liger.Proofs.FPModel",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_liger.Proofs.FPComplete",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_liger.Proofs.FPContract",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_liger.Proofs.FPSoftware",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_ops.Proofs.FPSoftware",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_ops.Proofs.FPClosed",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_ops.SoftwareCorrect",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_ops.Proofs.FPClosedWitness",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.layer_norm_ops.Proofs.FPWitness",
+      "checkout": "/tmp/layerops116-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.triton_conv2d_fwd.Kernels",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPTypedSource",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPReference",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPExecution",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPLoops",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPComplete",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPCleanUndef",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.matrix_reduction.Proofs.OrderKey",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.IntegerConversion",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.IntegerConversionTotal",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.matrix_reduction.Proofs.BitEncoding",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.matrix_reduction.Proofs.BinaryConversion",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.matmul_dequant_int4.Proofs.Binary16",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPShape",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPDefaultTypedSource",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPDefaultReference",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPDefaultExecution",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPDefaultLoops",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPDefaultComplete",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPDefaultSoftware",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.triton_conv2d_fwd.Proofs.MaskedPointerSimulation",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.triton_conv2d_fwd.Proofs.PositivePointerModel",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.ProgramRewrite",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.triton_conv2d_fwd.Proofs.PositivePointerCorrect",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.triton_conv2d_fwd.Proofs.SignedPointerModel",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.triton_conv2d_fwd.Proofs.SignedBodySimulation",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.triton_conv2d_fwd.Proofs.SignedLoopSimulation",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.triton_conv2d_fwd.Proofs.SignedPostSimulation",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.triton_conv2d_fwd.Proofs.SignedFlatSimulation",
+      "checkout": "/tmp/conv115-frontend"
+    },
+    {
+      "module": "bench.tritonbench_g.triton_conv2d_fwd.TritonConv2dFwd",
+      "checkout": "/tmp/conv115-frontend"
+    }
+  ]
+}

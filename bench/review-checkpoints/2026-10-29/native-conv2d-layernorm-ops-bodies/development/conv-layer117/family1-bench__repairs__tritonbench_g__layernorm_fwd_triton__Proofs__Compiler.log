@@ -1,0 +1,11 @@
+/tmp/conv-layer117-frontend/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/Compiler.lean:164:17: warning: unused variable `ops`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.Repairs.LayernormFwdTriton.Compiler.local_mean: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.Repairs.LayernormFwdTriton.Compiler.local_carry: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.Repairs.LayernormFwdTriton.Compiler.compiled_mean: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayernormFwdTriton.Compiler.compiled_variance: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayernormFwdTriton.Compiler.execute_grid: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

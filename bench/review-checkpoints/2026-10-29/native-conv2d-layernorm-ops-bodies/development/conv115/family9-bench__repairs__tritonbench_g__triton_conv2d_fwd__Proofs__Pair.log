@@ -1,0 +1,10 @@
+VeriTile.Bench.Repairs.Conv2d.Pair.public_block_size: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.Repairs.Conv2d.Pair.guard_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.Pair.guard_safe: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.Pair.equivalent: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

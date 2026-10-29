@@ -1,0 +1,52 @@
+{
+  "status": "FAIL",
+  "start": 1793262499.0234594,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardPrelude00",
+      "source_sha256": "e21e34e6354def2f79f7001bb328ed7a2e9b80221d6d992ddbb723944cbcf26f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793262499.0236077,
+      "end": 1793262517.6790204,
+      "log": "/tmp/layerops116-family6-bench__repairs__tritonbench_g__layer_norm_ops__Proofs__BackwardPrelude00.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardPrelude01",
+      "source_sha256": "bd51d1f020569429f3a5d3543061597596c9cb3339004ae32d31dc6679e52784",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793262517.679294,
+      "end": 1793262537.5705216,
+      "log": "/tmp/layerops116-family6-bench__repairs__tritonbench_g__layer_norm_ops__Proofs__BackwardPrelude01.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardPrelude10",
+      "source_sha256": "0c1bf33af622ade1732c5d1da58405bdc726c97aa800ee586da391a3520f3677",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793262537.5708401,
+      "end": 1793262557.9777482,
+      "log": "/tmp/layerops116-family6-bench__repairs__tritonbench_g__layer_norm_ops__Proofs__BackwardPrelude10.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardPrelude11",
+      "source_sha256": "9970763112c74022779b6891387748136ca5c9fe5545c99e32ab45e15747d36e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793262557.9780324,
+      "end": 1793262579.9735477,
+      "log": "/tmp/layerops116-family6-bench__repairs__tritonbench_g__layer_norm_ops__Proofs__BackwardPrelude11.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardBody000",
+      "source_sha256": "fce40811703835b729266b6a5bd0c49af127f568b65b53e93c6a6c1b41935400",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793262579.973807,
+      "end": 1793262604.669489,
+      "log": "/tmp/layerops116-family6-bench__repairs__tritonbench_g__layer_norm_ops__Proofs__BackwardBody000.log"
+    }
+  ],
+  "end": 1793262604.6696792
+}

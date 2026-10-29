@@ -1,0 +1,16 @@
+VeriTile.Bench.Repairs.Conv2d.KernelEntries.realTarget: definition does not reference [VeriTile.Bench.Repairs.Conv2d.KernelSource.kernel,
+ VeriTile.Bench.Repairs.Conv2d.KernelGrid.launch,
+ VeriTile.Bench.Repairs.Conv2d.KernelEntries.realResult] — non-circular ✓
+VeriTile.Bench.Repairs.Conv2d.KernelEntries.nativeTarget: definition does not reference [VeriTile.Bench.Repairs.Conv2d.KernelSource.kernel,
+ VeriTile.Bench.Repairs.Conv2d.KernelGrid.launch,
+ VeriTile.Bench.Repairs.Conv2d.KernelEntries.nativeResult,
+ VeriTile.Bench.Repairs.Conv2d.KernelEntries.nativeHeap] — non-circular ✓
+VeriTile.Bench.Repairs.Conv2d.KernelEntries.native_initial: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.KernelEntries.real_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.KernelEntries.native_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

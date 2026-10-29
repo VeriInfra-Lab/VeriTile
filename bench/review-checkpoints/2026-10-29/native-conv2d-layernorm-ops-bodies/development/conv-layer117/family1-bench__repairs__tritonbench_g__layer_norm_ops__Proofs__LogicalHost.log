@@ -1,0 +1,11 @@
+VeriTile.Bench.Repairs.LayerNormOps.Logical.host_dw: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormOps.Logical.host_db: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormOps.Logical.complete_word_bound: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormOps.Logical.statistic_word_bound: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

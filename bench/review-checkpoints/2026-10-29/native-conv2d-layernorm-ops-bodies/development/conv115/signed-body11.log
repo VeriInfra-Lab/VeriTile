@@ -1,0 +1,25 @@
+/tmp/conv115-diagnostics/bench/tritonbench_g/triton_conv2d_fwd/Proofs/SignedBodySimulation.lean:74:37: error: Tactic `rfl` failed: The left-hand side
+  match do
+    let c ← some { data := fun x => «true» }
+    if c.data PUnit.unit = «true» then some val✝ else stepStmtsR R ys s with
+  | some s' => stepStmtsR R [] s'
+  | none => none
+is not definitionally equal to the right-hand side
+  some val✝
+
+case some
+R : RoundingModel
+a b c d : List Stmt
+h : Simulates R a b
+xs ys : List Stmt
+s val✝ : BlockState
+hx : stepStmtsR R xs s = some val✝
+⊢ (match do
+      let c ← some { data := fun x => «true» }
+      if c.data PUnit.unit = «true» then some val✝ else stepStmtsR R ys s with
+    | some s' => stepStmtsR R [] s'
+    | none => none) =
+    some val✝
+VeriTile.Bench.TritonBenchG.TritonConv2dFwd.SignedBodySimulation.common_prefix: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

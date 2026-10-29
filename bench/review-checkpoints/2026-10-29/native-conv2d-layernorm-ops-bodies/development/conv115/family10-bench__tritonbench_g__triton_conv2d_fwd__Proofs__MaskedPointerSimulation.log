@@ -1,0 +1,15 @@
+VeriTile.Bench.TritonBenchG.TritonConv2dFwd.MaskedPointerSimulation.masked_load: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonConv2dFwd.MaskedPointerSimulation.active_signed_offset: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.TritonConv2dFwd.MaskedPointerSimulation.AgreeExcept.setReg: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonConv2dFwd.MaskedPointerSimulation.AgreeExcept.writeIgnored: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonConv2dFwd.MaskedPointerSimulation.range: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

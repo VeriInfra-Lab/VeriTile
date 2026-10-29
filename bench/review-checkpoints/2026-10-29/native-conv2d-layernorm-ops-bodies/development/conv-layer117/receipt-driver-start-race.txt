@@ -1,0 +1,1 @@
+Initial driver raced creation of clean status JSON before verification started. It exited FileNotFoundError; this is not a failed verification and not a passing receipt. Restarted only after all three status files exist.

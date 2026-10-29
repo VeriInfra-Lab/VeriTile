@@ -1,0 +1,4 @@
+VeriTile.Bench.Repairs.Conv2d.source_safe: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+VeriTile.Bench.Repairs.Conv2d.scaled_pointer_signed64: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

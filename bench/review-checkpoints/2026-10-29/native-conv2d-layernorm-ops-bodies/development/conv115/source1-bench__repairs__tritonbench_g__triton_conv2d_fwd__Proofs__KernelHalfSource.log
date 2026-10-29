@@ -1,0 +1,38 @@
+/tmp/conv115-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelHalfSource.lean:43:63: warning: unused variable `batch`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/conv115-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelHalfSource.lean:43:71: warning: unused variable `m`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/conv115-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelHalfSource.lean:43:75: warning: unused variable `k`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/conv115-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelHalfSource.lean:43:79: warning: unused variable `n`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/conv115-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelHalfSource.lean:50:72: error: Tactic `rfl` failed: The left-hand side
+  (source p).surfaceBody
+is not definitionally equal to the right-hand side
+  prelude p ++ [ComputeStmt.forRange "h" 0 p.kernel_height 1 (hBody p)] ++ epilogue p
+
+p : Parameters
+⊢ (source p).surfaceBody = prelude p ++ [ComputeStmt.forRange "h" 0 p.kernel_height 1 (hBody p)] ++ epilogue p
+/tmp/conv115-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelHalfSource.lean:53:65: error: Tactic `rfl` failed: The left-hand side
+  hBody p
+is not definitionally equal to the right-hand side
+  [ComputeStmt.forRange "w" 0 p.kernel_width 1 (wBody p)]
+
+p : Parameters
+⊢ hBody p = [ComputeStmt.forRange "w" 0 p.kernel_width 1 (wBody p)]
+/tmp/conv115-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelHalfSource.lean:57:43: error: Tactic `rfl` failed: The left-hand side
+  wBody p
+is not definitionally equal to the right-hand side
+  [ComputeStmt.forRangeDyn "c" (Op.constNat 0) (Op.ref TileDType.nat [] "in_group_dim") (Op.constNat (BIN p)) (cBody p)]
+
+p : Parameters
+⊢ wBody p =
+    [ComputeStmt.forRangeDyn "c" (Op.constNat 0) (Op.ref TileDType.nat [] "in_group_dim") (Op.constNat (BIN p))
+        (cBody p)]
+/tmp/conv115-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelHalfSource.lean:59:0: error: VeriTile.Bench.Repairs.Conv2d.KernelHalf.decomposition: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/conv115-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelHalfSource.lean:60:0: error: VeriTile.Bench.Repairs.Conv2d.KernelHalf.hBody_shape: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/conv115-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelHalfSource.lean:61:0: error: VeriTile.Bench.Repairs.Conv2d.KernelHalf.wBody_shape: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

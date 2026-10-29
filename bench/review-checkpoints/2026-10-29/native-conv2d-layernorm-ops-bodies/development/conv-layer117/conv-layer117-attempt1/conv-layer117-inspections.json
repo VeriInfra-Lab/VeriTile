@@ -1,0 +1,107 @@
+{
+  "status": "PASS_WITH_RECORDED_LIMITS",
+  "code_commit": "87c269419af77b8489e8ced56747d56c78a8ec03",
+  "start": 1793270343.1698632,
+  "end": 1793270463.3335714,
+  "python": {
+    "targeted": {
+      "status": "PASS",
+      "tests": 409
+    },
+    "full": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 654,
+      "errors": 1
+    }
+  },
+  "raw_bodies": [
+    {
+      "name": "triton_conv2d_fwd-raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/triton_conv2d_fwd/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "87c269419af77b8489e8ced56747d56c78a8ec03",
+      "log": "/tmp/conv-layer117-triton_conv2d_fwd-raw-body-check.log",
+      "status": "PASS"
+    },
+    {
+      "name": "layer_norm_ops-raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/layer_norm_ops/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "87c269419af77b8489e8ced56747d56c78a8ec03",
+      "log": "/tmp/conv-layer117-layer_norm_ops-raw-body-check.log",
+      "status": "PASS"
+    }
+  ],
+  "cpu": {
+    "status": "PASS",
+    "scope": "Eight literal bodies, caller metadata and existing candidate deltas are checked. Original selected Python and public Real/FP statements, input domains and IO data are byte-identical. The new LayerNormOps candidate Python is labelled as an authored counterpart of the existing rewrites. The historical original-library Conv2d DSL is connected by checked execution/memory proofs but not counted among the eight literal mappings. Source checks are not GPU or numerical execution.",
+    "public_statements": "Statements, parameters and premises unchanged.",
+    "conv_source_binding": {
+      "name": "conv-source-binding",
+      "command": [
+        "python3",
+        "-m",
+        "bench.repairs.tritonbench_g.triton_conv2d_fwd.check_source_binding"
+      ],
+      "exit_code": 0,
+      "code_commit": "87c269419af77b8489e8ced56747d56c78a8ec03",
+      "log": "/tmp/conv-layer117-conv-source-binding.log"
+    }
+  },
+  "torch": {
+    "name": "torch-dependencies",
+    "command": [
+      "python3",
+      "-c",
+      "import torch; import triton"
+    ],
+    "exit_code": 1,
+    "code_commit": "87c269419af77b8489e8ced56747d56c78a8ec03",
+    "log": "/tmp/conv-layer117-torch-dependencies.log",
+    "status": "UNAVAILABLE",
+    "reason": "The retained Torch source checker requires absent Torch/Triton. No GPU or numerical experiment was run."
+  },
+  "original_python_and_contracts": {
+    "status": "PASS",
+    "sha256": {
+      "bench/repairs/tritonbench_g/triton_conv2d_fwd/Contract.lean": "b90c5a99e90b960b94c9fa11bb52683d08df829e13fca36faeab6cec71a5e994",
+      "bench/repairs/tritonbench_g/triton_conv2d_fwd/Correct.lean": "09fa5dc92e98aea519a3f013b75c9a54a8b77cd0f492a39cad4c1e7f5b77bd99",
+      "bench/repairs/tritonbench_g/triton_conv2d_fwd/FPEquiv.lean": "d5a711da160ef6bab020386221432e7aa532eb3da92c87132e8511b46a4bc467",
+      "bench/repairs/tritonbench_g/triton_conv2d_fwd/IO.lean": "156364c5daa4059612481e18cca3e9aad912c3b11278491ecdca5bbed35418f1",
+      "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/Contract.lean": "b99a4f6a6db1e407048f7303ad944c09160591806ee1b10d449bd449b7c4471c",
+      "bench/repairs/tritonbench_g/triton_conv2d_fwd/check_cuda_lowering.py": "c16c3b6673e22ec40295530db9a87cd67dcf2de91f5dbf74e238653aa114dddf",
+      "bench/repairs/tritonbench_g/triton_conv2d_fwd/check_kernel_layouts.py": "2897aa2b60886f60b200dea78127aa944558c8cb9350dfcf125c00a5b4eb0b47",
+      "bench/repairs/tritonbench_g/triton_conv2d_fwd/check_kernel_profiles.py": "ab8c0b6f976058753f8dbee6ac758b1a3ade3676e831bd81d8224a8802a0fa89",
+      "bench/repairs/tritonbench_g/triton_conv2d_fwd/check_pair_source.py": "0a38f5682bb42bd31d4768cdb4112e57cdf9f91038b1c5cad80115658c44f684",
+      "bench/repairs/tritonbench_g/triton_conv2d_fwd/check_ptx_provenance.py": "221ba7d0512b8a716a523a1f8ddb8455f22a9038ad75d3a3ee0a23069b5a80f3",
+      "bench/repairs/tritonbench_g/triton_conv2d_fwd/check_storage_tail_metadata.py": "7f2c56b12858222aae508a768169e91089b7222185f7d6cfff332ae352a90292",
+      "bench/repairs/tritonbench_g/triton_conv2d_fwd/test_revision.py": "a8ec5341836356b315fa10babbe11157b36c577cbe5cf0d59f1a2940baa58fda",
+      "bench/repairs/tritonbench_g/triton_conv2d_fwd/triton_conv2d_fwd_repaired.py": "37ad52bccd9a329291c6509200adfb8a3125975225685c9e2c4f300578a8561b",
+      "bench/repairs/tritonbench_g/triton_conv2d_fwd/triton_conv2d_fwd_shifted.py": "2840100648667eb9b21f21db42e3daafa9197e5fce595c148df454216219bb37",
+      "bench/repairs/tritonbench_g/layer_norm_ops/Contract.lean": "0fe1c085969bd0b50b9a5ead5a029d8938da6bd51bec284b1b0c00b9d5d1ab59",
+      "bench/repairs/tritonbench_g/layer_norm_ops/Correct.lean": "5c8ad3d9e0af6f02f02b3084e14a01212868221ee26e16e2391738be14e998c1",
+      "bench/repairs/tritonbench_g/layer_norm_ops/FPEquiv.lean": "e419d634d10dda106f9442eb3f53c9f3775889fb236eaaa356797aa7a626fa21",
+      "bench/repairs/tritonbench_g/layer_norm_ops/IO.lean": "ae9528a4388817fa754e0bb9b18441d7d1251874cfe42745dcffa612540a6713",
+      "bench/repairs/tritonbench_g/layer_norm_ops/Proofs/Contract.lean": "cd542604ed4590b5667c32aed7c4cb0f8f7802a5902c9021abb315234cc70ede",
+      "bench/repairs/tritonbench_g/layer_norm_ops/check_contract.py": "3ffe32e1a54c6be58b10c1334486840b6ccc28ee1242fe8ee598a652ca7196c8",
+      "bench/repairs/tritonbench_g/layer_norm_ops/layer_norm_ops_repaired.py": "a04aa0d8020ac89ab5cd5b5798736532685a8734535e2085f7f81e942d56f795"
+    }
+  },
+  "comparator": {
+    "attempts": 206,
+    "statuses": [
+      "UNAVAILABLE"
+    ]
+  },
+  "scope": "Exact frozen source. Actual Conv2d/LayerNormOps source execution, optional-pointer/dot frontend changes and all affected roots are verified separately by Lean; source checks are not hardware or numerical evidence."
+}

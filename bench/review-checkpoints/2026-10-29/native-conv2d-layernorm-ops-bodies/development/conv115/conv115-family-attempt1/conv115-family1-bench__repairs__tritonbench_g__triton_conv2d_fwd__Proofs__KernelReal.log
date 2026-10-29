@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.Conv2d.KernelReal.block_fold: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.KernelReal.reference_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

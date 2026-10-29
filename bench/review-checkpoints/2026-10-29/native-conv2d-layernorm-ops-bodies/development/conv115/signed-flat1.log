@@ -1,0 +1,84 @@
+/tmp/conv115-diagnostics/bench/tritonbench_g/triton_conv2d_fwd/Proofs/SignedFlatSimulation.lean:21:11: error: Type mismatch: After simplification, term
+  congrArg (Option.map BlockState.undef) run
+ has type
+  Option.map BlockState.undef (some s) = Option.map BlockState.undef (some t)
+but is expected to have type
+  t.undef = s.undef
+/tmp/conv115-diagnostics/bench/tritonbench_g/triton_conv2d_fwd/Proofs/SignedFlatSimulation.lean:30:16: error: Application type mismatch: The argument
+  onlyAssignments
+has type
+  ∀ x ∈ rest,
+    (match x with
+      | Stmt.assign dtype shape a a_1 => «true»
+      | x => «false») =
+      «true»
+but is expected to have type
+  rest.all assignment = «true»
+in the application
+  ih onlyAssignments
+/tmp/conv115-diagnostics/bench/tritonbench_g/triton_conv2d_fwd/Proofs/SignedFlatSimulation.lean:44:60: error: Tactic `rfl` failed: The left-hand side
+  A.flattenStmts
+    (SignedPointerModel.inner BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW tf32)
+is not definitionally equal to the right-hand side
+  SignedPointerModel.inner BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW tf32
+
+A : FlatAlloc
+BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW : ℕ
+tf32 : Bool
+⊢ A.flattenStmts
+      (SignedPointerModel.inner BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW tf32) =
+    SignedPointerModel.inner BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW tf32
+/tmp/conv115-diagnostics/bench/tritonbench_g/triton_conv2d_fwd/Proofs/SignedFlatSimulation.lean:52:60: error: Tactic `rfl` failed: The left-hand side
+  A.flattenStmts
+    (PositivePointerModel.convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW
+      tf32)
+is not definitionally equal to the right-hand side
+  PositivePointerModel.convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW tf32
+
+A : FlatAlloc
+BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW : ℕ
+tf32 : Bool
+⊢ A.flattenStmts
+      (PositivePointerModel.convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW
+        tf32) =
+    PositivePointerModel.convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW
+      tf32
+/tmp/conv115-diagnostics/bench/tritonbench_g/triton_conv2d_fwd/Proofs/SignedFlatSimulation.lean:72:17: error(lean.invalidDottedIdent): Invalid dotted identifier notation: The expected type of `.forRange` could not be determined
+
+Hint: Using one of these would be unambiguous:
+  [apply] `ComputeStmt.forRange`
+  [apply] `Stmt.forRange`
+/tmp/conv115-diagnostics/bench/tritonbench_g/triton_conv2d_fwd/Proofs/SignedFlatSimulation.lean:67:23: error: unsolved goals
+R : RoundingModel
+A : FlatAlloc
+Input Weight Output : RegionName
+batch_dim in_feat_dim in_height in_width out_feat_dim out_height out_width IBS IIFS IHS IWS WOFS WIFS WHS WWS OBS OOFS OHS OWS KH KW SH SW PH PW groups :
+  ℕ
+tf32 : Bool
+BHW BIN OF : ℕ
+s t : BlockState
+zero : ∀ (r : RegionName) (o : ℕ), s.undef r o = 0
+run :
+  execR R
+      (A.flattenKernel
+        (PositivePointerModel.surface Input Weight Output batch_dim in_feat_dim in_height in_width out_feat_dim
+            out_height out_width IBS IIFS IHS IWS WOFS WIFS WHS WWS OBS OOFS OHS OWS KH KW SH SW PH PW groups tf32 BHW
+            BIN OF).toAlgKernel)
+      s =
+    some t
+pre : List Stmt :=
+  PositivePointerModel.convPreBody Input Weight in_feat_dim out_feat_dim out_height out_width IBS IIFS WOFS groups BHW
+    OF
+post : List Stmt :=
+  PositivePointerModel.convPostBody Input Weight Output batch_dim out_height out_width OBS OOFS OHS OWS
+    (in_feat_dim / groups) BHW OF
+⊢ ∃ u,
+    execR R
+          (A.flattenKernel
+            (conv2d_forward_surface Input Weight Output batch_dim in_feat_dim in_height in_width out_feat_dim out_height
+                out_width IBS IIFS IHS IWS WOFS WIFS WHS WWS OBS OOFS OHS OWS KH KW SH SW PH PW groups «true» tf32 BHW
+                BIN OF).toAlgKernel)
+          s =
+        some u ∧
+      u.mem = t.mem
+/tmp/conv115-diagnostics/bench/tritonbench_g/triton_conv2d_fwd/Proofs/SignedFlatSimulation.lean:110:0: error: VeriTile.Bench.TritonBenchG.TritonConv2dFwd.SignedFlatSimulation.execution: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

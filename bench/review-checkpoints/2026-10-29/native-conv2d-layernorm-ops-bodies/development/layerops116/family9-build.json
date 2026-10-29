@@ -1,0 +1,34 @@
+{
+  "status": "FAIL",
+  "start": 1793263173.645328,
+  "results": [
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.LogicalBackward",
+      "source_sha256": "293d574263274c63f9e8cceaadb28752b6ed1463aa213e048c4bbe8bfe56392b",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793263173.6454725,
+      "end": 1793263178.8810008,
+      "log": "/tmp/layerops116-family9-bench__repairs__tritonbench_g__layer_norm_ops__Proofs__LogicalBackward.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.LogicalLoop",
+      "source_sha256": "565ac873b63ff8e8294b01d22adcb3baec703c3d0689217a755a115c51c0d5e3",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793263178.8813114,
+      "end": 1793263182.469439,
+      "log": "/tmp/layerops116-family9-bench__repairs__tritonbench_g__layer_norm_ops__Proofs__LogicalLoop.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.KernelReal",
+      "source_sha256": "94c5692fd15508a425048330cd569cd1fdf12a30be923e8ee668fb0434ba0410",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793263182.4696867,
+      "end": 1793263186.400225,
+      "log": "/tmp/layerops116-family9-bench__repairs__tritonbench_g__layer_norm_ops__Proofs__KernelReal.log"
+    }
+  ],
+  "end": 1793263186.4004114
+}

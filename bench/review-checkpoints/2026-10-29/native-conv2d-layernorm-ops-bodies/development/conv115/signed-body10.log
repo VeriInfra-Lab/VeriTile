@@ -1,0 +1,239 @@
+/tmp/conv115-diagnostics/bench/tritonbench_g/triton_conv2d_fwd/Proofs/SignedBodySimulation.lean:70:2: error: Tactic `simp` failed with a nested error:
+maximum recursion depth has been reached
+use `set_option maxRecDepth <num>` to increase limit
+use `set_option diagnostics true` to get diagnostic information
+/tmp/conv115-diagnostics/bench/tritonbench_g/triton_conv2d_fwd/Proofs/SignedBodySimulation.lean:91:6: error: unsolved goals
+case next.first.first.same
+R : RoundingModel
+BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW : ℕ
+tf32 : Bool
+s t : BlockState
+h : Related s t
+⊢ (do
+      let va ← s.regs FloatDType.real.toTileDType [BHW, BIN] "input_block"
+      some { data := fun i => R.cast FloatDType.real FloatDType.fp16 (va.data i) }) =
+    do
+    let va ← t.regs FloatDType.real.toTileDType [BHW, BIN] "input_block"
+    some { data := fun i => R.cast FloatDType.real FloatDType.fp16 (va.data i) }
+/tmp/conv115-diagnostics/bench/tritonbench_g/triton_conv2d_fwd/Proofs/SignedBodySimulation.lean:94:6: error: unsolved goals
+case next.first.next.same
+R : RoundingModel
+BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW : ℕ
+tf32 : Bool
+s t : BlockState
+h : Related s t
+⊢ (do
+      let va ← s.regs FloatDType.real.toTileDType [BIN, OF] "weight_block"
+      some { data := fun i => R.cast FloatDType.real FloatDType.fp16 (va.data i) }) =
+    do
+    let va ← t.regs FloatDType.real.toTileDType [BIN, OF] "weight_block"
+    some { data := fun i => R.cast FloatDType.real FloatDType.fp16 (va.data i) }
+/tmp/conv115-diagnostics/bench/tritonbench_g/triton_conv2d_fwd/Proofs/SignedBodySimulation.lean:97:4: error: unsolved goals
+case next.next.same
+R : RoundingModel
+BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW : ℕ
+tf32 : Bool
+s t : BlockState
+h : Related s t
+⊢ (do
+      let va ← t.regs TileDType.real [BHW, OF] "accum"
+      let vb ←
+        do
+          let va ←
+            do
+              let va ← s.regs FloatDType.fp16.toTileDType ([] ++ [BHW, BIN]) "input_block"
+              let vb ← s.regs FloatDType.fp16.toTileDType ([] ++ [BIN, OF]) "weight_block"
+              some
+                  {
+                    data := fun i =>
+                      FloatDType.real.cast FloatDType.fp32
+                        ((Tile.dot [] { data := fun i => FloatDType.fp16.cast FloatDType.real (va.data i) }
+                              { data := fun i => FloatDType.fp16.cast FloatDType.real (vb.data i) }).data
+                          i) }
+          some { data := fun i => R.cast FloatDType.fp32 FloatDType.real (va.data i) }
+      some (Tile.bop NumericDType.real.add Broadcast.nil.consSame.consSame va vb)) =
+    do
+    let va ← t.regs TileDType.real [BHW, OF] "accum"
+    let vb ←
+      do
+        let va ←
+          do
+            let va ← t.regs FloatDType.fp16.toTileDType ([] ++ [BHW, BIN]) "input_block"
+            let vb ← t.regs FloatDType.fp16.toTileDType ([] ++ [BIN, OF]) "weight_block"
+            some
+                {
+                  data := fun i =>
+                    FloatDType.real.cast FloatDType.fp32
+                      ((Tile.dot [] { data := fun i => FloatDType.fp16.cast FloatDType.real (va.data i) }
+                            { data := fun i => FloatDType.fp16.cast FloatDType.real (vb.data i) }).data
+                        i) }
+        some { data := fun i => R.cast FloatDType.fp32 FloatDType.real (va.data i) }
+    some (Tile.bop NumericDType.real.add Broadcast.nil.consSame.consSame va vb)
+/tmp/conv115-diagnostics/bench/tritonbench_g/triton_conv2d_fwd/Proofs/SignedBodySimulation.lean:169:28: error: unsolved goals
+case pos.e_e
+R : RoundingModel
+BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW : ℕ
+s t : BlockState
+h : Related s t
+shared :
+  ∀ (dtype : TileDType) (shape : TileShape) (name : RegName),
+    name ≠ "curr_input_pointer" → s.regs dtype shape name = t.regs dtype shape name
+v0 : Tile TileDType.ptr [BHW, 1]
+hv0 : t.regs TileDType.ptr [BHW, 1] "Input" = some v0
+v1 : Tile TileDType.nat [BIN]
+hv1 : t.regs TileDType.nat [BIN] "input_feat_offset" = some v1
+v2 : Tile TileDType.int [BHW]
+hv2 : t.regs TileDType.int [BHW] "input_height_offset" = some v2
+v3 : Tile TileDType.int [BHW]
+hv3 : t.regs TileDType.int [BHW] "input_width_offset" = some v3
+v4 : Tile TileDType.ptr [1, OF]
+hv4 : t.regs TileDType.ptr [1, OF] "Weight" = some v4
+v5 : Tile TileDType.nat []
+hv5 : t.regs TileDType.nat [] "h" = some v5
+v6 : Tile TileDType.nat []
+hv6 : t.regs TileDType.nat [] "w" = some v6
+v7 : Tile TileDType.nat [BHW]
+hv7 : t.regs TileDType.nat [BHW] "batch_offset" = some v7
+v8 : Tile TileDType.nat []
+hv8 : t.regs TileDType.nat [] "in_group_dim" = some v8
+v9 : Tile TileDType.nat [OF]
+hv9 : t.regs TileDType.nat [OF] "output_feat_offset" = some v9
+v10 : Tile TileDType.nat []
+hv10 : t.regs TileDType.nat [] "out_group_dim" = some v10
+hn : "input_block" ≠ "curr_input_pointer"
+⊢ (if "input_block" = "weight_mask" then
+      if h : TileDType.real = TileDType.bool then
+        if h_1 : [BHW, BIN] = [BIN, OF] then
+          some
+            (Eq.rec (motive := fun x x_1 => Tile x [BIN, OF] → Tile TileDType.real [BHW, BIN])
+              (fun v =>
+                Eq.rec (motive := fun x x_1 => Tile TileDType.real x → Tile TileDType.real [BHW, BIN]) (fun v => v) ⋯ v)
+              ⋯
+              (Tile.bop (fun x y => x && y) Broadcast.nil.consL.consR
+                (Tile.cop ComparableDType.nat.lt Broadcast.scalarR (Tile.expandDim 1 v1) v8)
+                (Tile.cop ComparableDType.nat.lt Broadcast.scalarR (Tile.expandDim 0 v9) v10)))
+        else none
+      else none
+    else
+      if "input_block" = "input_mask" then
+        if h : TileDType.real = TileDType.bool then
+          some
+            (Eq.rec (motive := fun x x_1 => Tile x [BHW, BIN] → Tile TileDType.real [BHW, BIN]) (fun v => v) ⋯
+              (Tile.bop (fun x y => x && y) Broadcast.nil.consR.consSame
+                (Tile.bop (fun x y => x && y) Broadcast.nil.consR.consSame
+                  (Tile.bop (fun x y => x && y) Broadcast.nil.consR.consSame
+                    (Tile.bop (fun x y => x && y) Broadcast.nil.consR.consSame
+                      (Tile.bop (fun x y => x && y) Broadcast.nil.consL.consR
+                        (Tile.cop ComparableDType.nat.lt Broadcast.scalarR (Tile.expandDim 1 v7)
+                          (Tile.scalar batch_dim))
+                        (Tile.cop ComparableDType.nat.lt Broadcast.scalarR (Tile.expandDim 0 v1) v8))
+                      (Tile.cop ComparableDType.int.le Broadcast.scalarL (Tile.scalar 0) (Tile.expandDim 1 v2)))
+                    (Tile.cop ComparableDType.int.lt Broadcast.scalarR (Tile.expandDim 1 v2) (Tile.scalar ↑in_height)))
+                  (Tile.cop ComparableDType.int.le Broadcast.scalarL (Tile.scalar 0) (Tile.expandDim 1 v3)))
+                (Tile.cop ComparableDType.int.lt Broadcast.scalarR (Tile.expandDim 1 v3) (Tile.scalar ↑in_width))))
+        else none
+      else
+        if "input_block" = "curr_weight_pointer" then
+          if h : TileDType.real = TileDType.ptr then
+            if h_1 : [BHW, BIN] = [BIN, OF] then
+              some
+                (Eq.rec (motive := fun x x_1 => Tile x [BIN, OF] → Tile TileDType.real [BHW, BIN])
+                  (fun v =>
+                    Eq.rec (motive := fun x x_1 => Tile TileDType.real x → Tile TileDType.real [BHW, BIN]) (fun v => v)
+                      ⋯ v)
+                  ⋯
+                  (Tile.ptrAdd Broadcast.scalarR
+                    (Tile.ptrAdd Broadcast.scalarR
+                      (Tile.ptrAdd Broadcast.nil.consR.consL v4
+                        (Tile.expandDim 1 (Tile.bop NumericDType.nat.mul Broadcast.scalarL (Tile.scalar WIFS) v1)))
+                      (Tile.bop NumericDType.nat.mul Broadcast.nil (Tile.scalar WHS) v5))
+                    (Tile.bop NumericDType.nat.mul Broadcast.nil (Tile.scalar WWS) v6)))
+            else none
+          else none
+        else
+          if "input_block" = "curr_input_pointer" then
+            if h : TileDType.real = TileDType.ptr then
+              some
+                (Eq.rec (motive := fun x x_1 => Tile x [BHW, BIN] → Tile TileDType.real [BHW, BIN]) (fun v => v) ⋯
+                  (Tile.ptrSub Broadcast.nil.consR.consSame
+                    (Tile.ptrAdd Broadcast.nil.consR.consSame
+                      (Tile.ptrSub Broadcast.nil.consR.consSame
+                        (Tile.ptrAdd Broadcast.nil.consR.consSame
+                          (Tile.ptrAdd Broadcast.nil.consL.consR v0
+                            (Tile.expandDim 0 (Tile.bop NumericDType.nat.mul Broadcast.scalarL (Tile.scalar IIFS) v1)))
+                          { data := fun i => Int.toNat (NumericDType.int.mul (↑IHS) (v2.data (i.1, PUnit.unit))) })
+                        {
+                          data := fun i =>
+                            Int.toNat
+                              (NumericDType.int.sub 0 (NumericDType.int.mul (↑IHS) (v2.data (i.1, PUnit.unit)))) })
+                      { data := fun i => Int.toNat (NumericDType.int.mul (↑IWS) (v3.data (i.1, PUnit.unit))) })
+                    {
+                      data := fun i =>
+                        Int.toNat (NumericDType.int.sub 0 (NumericDType.int.mul (↑IWS) (v3.data (i.1, PUnit.unit)))) }))
+            else none
+          else s.regs TileDType.real [BHW, BIN] "input_block") =
+    if "input_block" = "weight_mask" then
+      if h : TileDType.real = TileDType.bool then
+        if h_1 : [BHW, BIN] = [BIN, OF] then
+          some
+            (Eq.rec (motive := fun x x_1 => Tile x [BIN, OF] → Tile TileDType.real [BHW, BIN])
+              (fun v =>
+                Eq.rec (motive := fun x x_1 => Tile TileDType.real x → Tile TileDType.real [BHW, BIN]) (fun v => v) ⋯ v)
+              ⋯
+              (Tile.bop (fun x y => x && y) Broadcast.nil.consL.consR
+                (Tile.cop ComparableDType.nat.lt Broadcast.scalarR (Tile.expandDim 1 v1) v8)
+                (Tile.cop ComparableDType.nat.lt Broadcast.scalarR (Tile.expandDim 0 v9) v10)))
+        else none
+      else none
+    else
+      if "input_block" = "input_mask" then
+        if h : TileDType.real = TileDType.bool then
+          some
+            (Eq.rec (motive := fun x x_1 => Tile x [BHW, BIN] → Tile TileDType.real [BHW, BIN]) (fun v => v) ⋯
+              (Tile.bop (fun x y => x && y) Broadcast.nil.consR.consSame
+                (Tile.bop (fun x y => x && y) Broadcast.nil.consR.consSame
+                  (Tile.bop (fun x y => x && y) Broadcast.nil.consR.consSame
+                    (Tile.bop (fun x y => x && y) Broadcast.nil.consR.consSame
+                      (Tile.bop (fun x y => x && y) Broadcast.nil.consL.consR
+                        (Tile.cop ComparableDType.nat.lt Broadcast.scalarR (Tile.expandDim 1 v7)
+                          (Tile.scalar batch_dim))
+                        (Tile.cop ComparableDType.nat.lt Broadcast.scalarR (Tile.expandDim 0 v1) v8))
+                      (Tile.cop ComparableDType.int.le Broadcast.scalarL (Tile.scalar 0) (Tile.expandDim 1 v2)))
+                    (Tile.cop ComparableDType.int.lt Broadcast.scalarR (Tile.expandDim 1 v2) (Tile.scalar ↑in_height)))
+                  (Tile.cop ComparableDType.int.le Broadcast.scalarL (Tile.scalar 0) (Tile.expandDim 1 v3)))
+                (Tile.cop ComparableDType.int.lt Broadcast.scalarR (Tile.expandDim 1 v3) (Tile.scalar ↑in_width))))
+        else none
+      else
+        if "input_block" = "curr_weight_pointer" then
+          if h : TileDType.real = TileDType.ptr then
+            if h_1 : [BHW, BIN] = [BIN, OF] then
+              some
+                (Eq.rec (motive := fun x x_1 => Tile x [BIN, OF] → Tile TileDType.real [BHW, BIN])
+                  (fun v =>
+                    Eq.rec (motive := fun x x_1 => Tile TileDType.real x → Tile TileDType.real [BHW, BIN]) (fun v => v)
+                      ⋯ v)
+                  ⋯
+                  (Tile.ptrAdd Broadcast.scalarR
+                    (Tile.ptrAdd Broadcast.scalarR
+                      (Tile.ptrAdd Broadcast.nil.consR.consL v4
+                        (Tile.expandDim 1 (Tile.bop NumericDType.nat.mul Broadcast.scalarL (Tile.scalar WIFS) v1)))
+                      (Tile.bop NumericDType.nat.mul Broadcast.nil (Tile.scalar WHS) v5))
+                    (Tile.bop NumericDType.nat.mul Broadcast.nil (Tile.scalar WWS) v6)))
+            else none
+          else none
+        else
+          if "input_block" = "curr_input_pointer" then
+            if h : TileDType.real = TileDType.ptr then
+              some
+                (Eq.rec (motive := fun x x_1 => Tile x [BHW, BIN] → Tile TileDType.real [BHW, BIN]) (fun v => v) ⋯
+                  (Tile.ptrAdd Broadcast.nil.consR.consSame
+                    (Tile.ptrAdd Broadcast.nil.consR.consSame
+                      (Tile.ptrAdd Broadcast.nil.consL.consR v0
+                        (Tile.expandDim 0 (Tile.bop NumericDType.nat.mul Broadcast.scalarL (Tile.scalar IIFS) v1)))
+                      { data := fun i => Int.toNat (NumericDType.int.mul (↑IHS) (v2.data (i.1, PUnit.unit))) })
+                    { data := fun i => Int.toNat (NumericDType.int.mul (↑IWS) (v3.data (i.1, PUnit.unit))) }))
+            else none
+          else t.regs TileDType.real [BHW, BIN] "input_block"
+VeriTile.Bench.TritonBenchG.TritonConv2dFwd.SignedBodySimulation.common_prefix: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

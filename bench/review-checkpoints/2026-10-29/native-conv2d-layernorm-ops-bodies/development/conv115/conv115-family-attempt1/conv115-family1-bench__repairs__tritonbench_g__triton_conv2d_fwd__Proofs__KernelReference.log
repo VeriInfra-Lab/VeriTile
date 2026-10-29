@@ -1,0 +1,12 @@
+VeriTile.Bench.Repairs.Conv2d.KernelNumeric.reference: definition does not reference [VeriTile.Bench.Repairs.Conv2d.KernelSource.kernel,
+ VeriTile.Bench.Repairs.Conv2d.KernelGrid.launch,
+ VeriTile.Bench.Repairs.Conv2d.KernelGrid.value,
+ VeriTile.Bench.Repairs.Conv2d.KernelOperands.input,
+ VeriTile.Bench.Repairs.Conv2d.KernelOperands.weight] — non-circular ✓
+VeriTile.Bench.Repairs.Conv2d.KernelNumeric.input_reference: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.Conv2d.KernelNumeric.weight_reference: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.Conv2d.KernelNumeric.point_reference: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

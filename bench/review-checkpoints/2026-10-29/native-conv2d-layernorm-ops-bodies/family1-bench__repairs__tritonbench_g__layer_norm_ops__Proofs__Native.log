@@ -1,0 +1,10 @@
+VeriTile.Bench.Repairs.LayerNormOps.Native.complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormOps.Native.complete_bits: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormOps.ScalarPlan.Expr.eval: definition does not reference [VeriTile.Bench.Repairs.LayerNormOps.forwardKernel,
+ VeriTile.Bench.Repairs.LayerNormOps.backwardKernel,
+ VeriTile.Bench.Repairs.LayerNormOps.Forward.reference,
+ VeriTile.Bench.Repairs.LayerNormOps.Backward.reference] — non-circular ✓

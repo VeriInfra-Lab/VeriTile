@@ -1,0 +1,15 @@
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/BackwardModel.lean:19:52: error: Tactic `rfl` failed: The left-hand side
+  (backwardKernel p).surfaceBody
+is not definitionally equal to the right-hand side
+  prelude p ++
+      [ComputeStmt.forRangeDyn "row" (Op.ref TileDType.nat [] "row_start") (Op.ref TileDType.nat [] "row_end")
+          (Op.constNat 1) (body p)] ++
+    postlude p
+
+p : BackwardParameters
+⊢ (backwardKernel p).surfaceBody =
+    prelude p ++
+        [ComputeStmt.forRangeDyn "row" (Op.ref TileDType.nat [] "row_start") (Op.ref TileDType.nat [] "row_end")
+            (Op.constNat 1) (body p)] ++
+      postlude p
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/BackwardModel.lean:111:0: error: VeriTile.Bench.Repairs.LayerNormOps.Backward.source_split: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

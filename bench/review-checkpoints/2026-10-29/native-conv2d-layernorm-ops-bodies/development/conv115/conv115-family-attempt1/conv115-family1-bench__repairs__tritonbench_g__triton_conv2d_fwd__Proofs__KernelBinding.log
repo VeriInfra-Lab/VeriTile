@@ -1,0 +1,8 @@
+VeriTile.Bench.Repairs.Conv2d.KernelBinding.active_iff: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.Conv2d.KernelBinding.output_address: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.Conv2d.KernelBinding.stores_unique: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.Conv2d.KernelBinding.covers: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

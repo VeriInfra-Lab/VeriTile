@@ -1,0 +1,8 @@
+VeriTile.Bench.TritonBenchG.TritonConv2dFwd.BranchesCorrect.expectedMemory: definition does not reference [VeriTile.Bench.TritonBenchG.TritonConv2dFwd.BranchesCorrect.source,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.TritonBenchG.TritonConv2dFwd.BranchesCorrect.all_fp16_branches_backend_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TritonConv2dFwd.BranchesCorrect.all_fp16_branches_software_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

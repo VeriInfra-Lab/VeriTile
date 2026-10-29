@@ -1,0 +1,17 @@
+/tmp/conv-layer117-frontend/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/CompilerControl.lean:118:5: warning: unused variable `h`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.Repairs.LayernormFwdTriton.CompilerControl.x_pointer: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayernormFwdTriton.CompilerControl.w_pointer: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayernormFwdTriton.CompilerControl.y_pointer: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayernormFwdTriton.CompilerControl.fixed_columns: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayernormFwdTriton.CompilerControl.execute_selected: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

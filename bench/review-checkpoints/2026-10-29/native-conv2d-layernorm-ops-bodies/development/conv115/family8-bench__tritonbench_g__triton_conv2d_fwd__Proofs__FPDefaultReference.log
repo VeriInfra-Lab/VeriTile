@@ -1,0 +1,9 @@
+/tmp/conv115-frontend/bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPDefaultReference.lean:65:41: warning: unused variable `M`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/conv115-frontend/bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPDefaultReference.lean:71:42: warning: unused variable `M`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPDefault.zero_height: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

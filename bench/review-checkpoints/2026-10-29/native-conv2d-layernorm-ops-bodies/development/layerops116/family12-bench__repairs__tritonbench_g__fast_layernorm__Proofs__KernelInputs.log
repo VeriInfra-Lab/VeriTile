@@ -1,0 +1,38 @@
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/fast_layernorm/Proofs/KernelInputs.lean:79:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.FastLayernorm.KernelInputs.physical_eq_logical`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/fast_layernorm/Proofs/KernelInputs.lean:102:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.FastLayernorm.KernelInputs.actual_pointers`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/fast_layernorm/Proofs/KernelInputs.lean:103:44: warning: unused variable `hv`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/fast_layernorm/Proofs/KernelInputs.lean:107:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.FastLayernorm.KernelInputs.native_address`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/fast_layernorm/Proofs/KernelInputs.lean:142:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.FastLayernorm.KernelInputs.checked_forward_reads`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+VeriTile.Bench.Repairs.FastLayernorm.KernelInputs.physical_eq_logical: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FastLayernorm.KernelInputs.actual_pointers: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FastLayernorm.KernelInputs.native_address: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FastLayernorm.KernelInputs.checked_forward_reads: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastLayernorm.KernelInputs.active_physical_load: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

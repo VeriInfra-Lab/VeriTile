@@ -1,0 +1,8 @@
+VeriTile.Bench.Repairs.Conv2d.fp_equivalent: statement's project surface ⊆ allowlist ✓
+VeriTile.Bench.Repairs.Conv2d.ConvIO.nativeTarget: definition does not reference [VeriTile.Bench.Repairs.Conv2d.KernelSource.kernel,
+ VeriTile.Bench.Repairs.Conv2d.KernelGrid.launch,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.Conv2d.KernelGrid.value] — non-circular ✓
+VeriTile.Bench.Repairs.Conv2d.fp_equivalent: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

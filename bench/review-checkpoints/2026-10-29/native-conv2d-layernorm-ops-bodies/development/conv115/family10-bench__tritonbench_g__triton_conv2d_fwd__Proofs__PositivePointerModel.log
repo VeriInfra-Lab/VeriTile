@@ -1,0 +1,9 @@
+/tmp/conv115-frontend/bench/tritonbench_g/triton_conv2d_fwd/Proofs/PositivePointerModel.lean:115:18: warning: unused variable `Input`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/conv115-frontend/bench/tritonbench_g/triton_conv2d_fwd/Proofs/PositivePointerModel.lean:115:24: warning: unused variable `Weight`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/conv115-frontend/bench/tritonbench_g/triton_conv2d_fwd/Proofs/PositivePointerModel.lean:116:53: warning: unused variable `OGD`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`

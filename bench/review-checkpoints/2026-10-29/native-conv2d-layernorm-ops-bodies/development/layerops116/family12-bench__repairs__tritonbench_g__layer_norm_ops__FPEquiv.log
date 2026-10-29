@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.LayerNormOps.FPEquiv.forward_mask_reused_equiv: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormOps.FPEquiv.backward_row_start_reused_equiv: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

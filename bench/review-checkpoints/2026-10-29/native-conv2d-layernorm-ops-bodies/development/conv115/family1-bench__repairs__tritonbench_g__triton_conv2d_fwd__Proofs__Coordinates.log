@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.Conv2d.coordinates_bound: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.Conv2d.group_division: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.Conv2d.channel_lane: axiom footprint ⊆ standard base ✓  ([Classical.choice, propext, Quot.sound])
+VeriTile.Bench.Repairs.Conv2d.source_grid_arithmetic: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

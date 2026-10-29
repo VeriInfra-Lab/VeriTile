@@ -1,0 +1,13 @@
+/tmp/conv-layer117-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelTensor.lean:54:66: warning: This simp argument is unused:
+  Nat.zero_add
+
+Hint: Omit it from the simp argument list.
+  simp only [View4.logical, ̲View4.offset, ̲Nat.zero_mul, ̲Nat.mul_zero, ̲Nat.z̵e̵r̵o̵_̵add,̵N̵a̵t̵.̵a̵d̵d̵_zero] at z
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.Conv2d.KernelTensor.logical_bound: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.Conv2d.KernelTensor.pointer_nat: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.Conv2d.KernelTensor.address: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.Conv2d.KernelTensor.native_read: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])

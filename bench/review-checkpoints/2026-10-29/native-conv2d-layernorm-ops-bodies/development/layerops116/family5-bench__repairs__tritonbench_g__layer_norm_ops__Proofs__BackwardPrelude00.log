@@ -1,0 +1,5 @@
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/BackwardPrelude00.lean:23:20: error: `simp` made no progress
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/BackwardPrelude00.lean:23:20: error: `simp` made no progress
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/BackwardPrelude00.lean:23:20: error: `simp` made no progress
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/BackwardPrelude00.lean:23:20: error: `simp` made no progress
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/BackwardPrelude00.lean:35:0: error: VeriTile.Bench.Repairs.LayerNormOps.Backward.prelude00: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

@@ -1,0 +1,29 @@
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/HostPrelude.lean:34:43: warning: This simp argument is unused:
+  Action.pure
+
+Hint: Omit it from the simp argument list.
+  simp [̵v̵a̵l̵i̵d̵a̵t̵e̵,̵A̵c̵t̵i̵o̵n̵.̵b̵i̵n̵d̵,̵c̵h̵e̵c̵k̵,̵A̵c̵t̵i̵o̵n̵.̵p̵u̵r̵e̵,̵h̵x̵s̵,̵h̵w̵s̵,̵h̵c̵,̵h̵b̵]̵[̲v̲a̲l̲i̲d̲a̲t̲e̲,̲ ̲A̲c̲t̲i̲o̲n̲.̲b̲i̲n̲d̲,̲ ̲c̲h̲e̲c̲k̲,̲ ̲h̲x̲s̲,̲ ̲h̲w̲s̲,̲ ̲h̲c̲,̲ ̲h̲b̲]̲ at ok
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/HostPrelude.lean:35:41: warning: This simp argument is unused:
+  Action.pure
+
+Hint: Omit it from the simp argument list.
+  simp [̵v̵a̵l̵i̵d̵a̵t̵e̵,̵A̵c̵t̵i̵o̵n̵.̵b̵i̵n̵d̵,̵c̵h̵e̵c̵k̵,̵A̵c̵t̵i̵o̵n̵.̵p̵u̵r̵e̵,̵h̵x̵s̵,̵h̵w̵s̵,̵h̵c̵]̵[̲v̲a̲l̲i̲d̲a̲t̲e̲,̲ ̲A̲c̲t̲i̲o̲n̲.̲b̲i̲n̲d̲,̲ ̲c̲h̲e̲c̲k̲,̲ ̲h̲x̲s̲,̲ ̲h̲w̲s̲,̲ ̲h̲c̲]̲ at ok
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.LayernormFwdTriton.HostPrelude.validate_shapes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayernormFwdTriton.HostPrelude.prepare_route: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayernormFwdTriton.HostPrelude.route_inputs: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayernormFwdTriton.HostPrelude.route_owner: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayernormFwdTriton.HostPrelude.route_shadow_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

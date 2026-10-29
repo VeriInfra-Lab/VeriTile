@@ -1,0 +1,3 @@
+VeriTile.Bench.TritonBenchG.Int4Matmul.FPSoftware.bounded_integer_cast: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

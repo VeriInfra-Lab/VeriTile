@@ -1,0 +1,16 @@
+/tmp/conv-layer117-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelStorage.lean:64:27: warning: This simp argument is unused:
+  eq_self_iff_true
+
+Hint: Omit it from the simp argument list.
+  simp only [̵S̵t̵a̵t̵e̵.̵w̵r̵i̵t̵e̵,̵e̵q̵_̵s̵e̵l̵f̵_̵i̵f̵f̵_̵t̵r̵u̵e̵,̵a̵n̵d̵_̵s̵e̵l̵f̵,̵i̵t̵e̵_̵t̵r̵u̵e̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵C̵e̵l̵l̵.̵r̵e̵a̵d̵_̵s̵a̵m̵e̵]̵[̲S̲t̲a̲t̲e̲.̲w̲r̲i̲t̲e̲,̲ ̲a̲n̲d̲_̲s̲e̲l̲f̲,̲ ̲i̲t̲e̲_̲t̲r̲u̲e̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲C̲e̲l̲l̲.̲r̲e̲a̲d̲_̲s̲a̲m̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.Conv2d.KernelStorage.image_initial: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.KernelStorage.image_write: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.KernelStorage.fold_projection: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

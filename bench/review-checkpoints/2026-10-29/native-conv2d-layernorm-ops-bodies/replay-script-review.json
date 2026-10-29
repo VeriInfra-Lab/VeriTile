@@ -1,0 +1,11 @@
+{
+  "driver_calls_existing_scripts": true,
+  "copy_conv_layer117_source": "PREPARED_NOT_RUN",
+  "freeze_conv_layer117_source": "PREPARED_NOT_RUN",
+  "inspect_conv_layer117_frozen": "PREPARED_NOT_RUN",
+  "record_conv_layer117_review": "PREPARED_NOT_RUN",
+  "finalize_conv_layer117_review_main": "PREPARED_NOT_RUN",
+  "parent_receipt_guard": true,
+  "parent_publication_guard": true,
+  "source_mutation_during_build": false
+}

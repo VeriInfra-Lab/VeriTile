@@ -1,0 +1,42 @@
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/MathBackwardLoop.lean:59:10: warning: This simp argument is unused:
+  hd
+
+Hint: Omit it from the simp argument list.
+  simp [̵h̵d̵,̵B̵a̵c̵k̵w̵a̵r̵d̵.̵l̵o̵a̵d̵e̵d̵,̵h̵i̵,̵h̵f̵,̵F̵o̵r̵w̵a̵r̵d̵.̵c̵a̵s̵t̵,̵F̵o̵r̵w̵a̵r̵d̵.̵b̵i̵n̵a̵r̵y̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵L̵o̵g̵i̵c̵a̵l̵.̵a̵l̵g̵e̵b̵r̵a̵,̵L̵a̵y̵e̵r̵N̵o̵r̵m̵L̵i̵g̵e̵r̵.̵L̵o̵g̵i̵c̵a̵l̵.̵a̵l̵g̵e̵b̵r̵a̵,̵L̵o̵g̵i̵c̵a̵l̵.̵d̵x̵]̵[̲B̲a̲c̲k̲w̲a̲r̲d̲.̲l̲o̲a̲d̲e̲d̲,̲ ̲h̲i̲,̲ ̲h̲f̲,̲ ̲F̲o̲r̲w̲a̲r̲d̲.̲c̲a̲s̲t̲,̲ ̲F̲o̲r̲w̲a̲r̲d̲.̲b̲i̲n̲a̲r̲y̲,̲ ̲L̲o̲g̲i̲c̲a̲l̲.̲a̲l̲g̲e̲b̲r̲a̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲L̲a̲y̲e̲r̲N̲o̲r̲m̲L̲i̲g̲e̲r̲.̲L̲o̲g̲i̲c̲a̲l̲.̲a̲l̲g̲e̲b̲r̲a̲,̲ ̲L̲o̲g̲i̲c̲a̲l̲.̲d̲x̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/MathBackwardLoop.lean:59:32: warning: This simp argument is unused:
+  hf
+
+Hint: Omit it from the simp argument list.
+  simp [̵h̵d̵,̵B̵a̵c̵k̵w̵a̵r̵d̵.̵l̵o̵a̵d̵e̵d̵,̵h̵i̵,̵h̵f̵,̵F̵o̵r̵w̵a̵r̵d̵.̵c̵a̵s̵t̵,̵F̵o̵r̵w̵a̵r̵d̵.̵b̵i̵n̵a̵r̵y̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵L̵o̵g̵i̵c̵a̵l̵.̵a̵l̵g̵e̵b̵r̵a̵,̵L̵a̵y̵e̵r̵N̵o̵r̵m̵L̵i̵g̵e̵r̵.̵L̵o̵g̵i̵c̵a̵l̵.̵a̵l̵g̵e̵b̵r̵a̵,̵L̵o̵g̵i̵c̵a̵l̵.̵d̵x̵]̵[̲h̲d̲,̲ ̲B̲a̲c̲k̲w̲a̲r̲d̲.̲l̲o̲a̲d̲e̲d̲,̲ ̲h̲i̲,̲ ̲F̲o̲r̲w̲a̲r̲d̲.̲c̲a̲s̲t̲,̲ ̲F̲o̲r̲w̲a̲r̲d̲.̲b̲i̲n̲a̲r̲y̲,̲ ̲L̲o̲g̲i̲c̲a̲l̲.̲a̲l̲g̲e̲b̲r̲a̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲L̲a̲y̲e̲r̲N̲o̲r̲m̲L̲i̲g̲e̲r̲.̲L̲o̲g̲i̲c̲a̲l̲.̲a̲l̲g̲e̲b̲r̲a̲,̲ ̲L̲o̲g̲i̲c̲a̲l̲.̲d̲x̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/MathBackwardLoop.lean:86:52: warning: This simp argument is unused:
+  Forward.unhintedBinary
+
+Hint: Omit it from the simp argument list.
+  simp [̵r̵o̵w̵Y̵,̵L̵o̵g̵i̵c̵a̵l̵.̵b̵h̵a̵t̵,̵L̵o̵g̵i̵c̵a̵l̵.̵b̵x̵,̵L̵o̵g̵i̵c̵a̵l̵.̵b̵m̵u̵,̵L̵o̵g̵i̵c̵a̵l̵.̵b̵i̵n̵v̵,̵r̵e̵a̵d̵R̵o̵w̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵B̵a̵c̵k̵w̵a̵r̵d̵.̵i̵n̵i̵t̵i̵a̵l̵,̵B̵a̵c̵k̵w̵a̵r̵d̵.̵l̵o̵a̵d̵e̵d̵,̵F̵o̵r̵w̵a̵r̵d̵.̵c̵a̵s̵t̵,̵F̵o̵r̵w̵a̵r̵d̵.̵u̵n̵h̵i̵n̵t̵e̵d̵B̵i̵n̵a̵r̵y̵,̵B̵a̵c̵k̵w̵a̵r̵d̵.̵b̵i̵n̵a̵r̵y̵,̵F̵o̵r̵w̵a̵r̵d̵.̵b̵i̵n̵a̵r̵y̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵L̵o̵g̵i̵c̵a̵l̵.̵a̵l̵g̵e̵b̵r̵a̵,̵L̵a̵y̵e̵r̵N̵o̵r̵m̵L̵i̵g̵e̵r̵.̵L̵o̵g̵i̵c̵a̵l̵.̵a̵l̵g̵e̵b̵r̵a̵,̵h̵i̵,̵h̵b̵,̵[̲r̲o̲w̲Y̲,̲ ̲L̲o̲g̲i̲c̲a̲l̲.̲b̲h̲a̲t̲,̲ ̲L̲o̲g̲i̲c̲a̲l̲.̲b̲x̲,̲ ̲L̲o̲g̲i̲c̲a̲l̲.̲b̲m̲u̲,̲ ̲L̲o̲g̲i̲c̲a̲l̲.̲b̲i̲n̲v̲,̲ ̲r̲e̲a̲d̲R̲o̲w̲,̲ ̲B̲a̲c̲k̲w̲a̲r̲d̲.̲i̲n̲i̲t̲i̲a̲l̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲B̲a̲c̲k̲w̲a̲r̲d̲.̲l̲o̲a̲d̲e̲d̲,̲ ̲F̲o̲r̲w̲a̲r̲d̲.̲c̲a̲s̲t̲,̲ ̲B̲a̲c̲k̲w̲a̲r̲d̲.̲b̲i̲n̲a̲r̲y̲,̲ ̲F̲o̲r̲w̲a̲r̲d̲.̲b̲i̲n̲a̲r̲y̲,̲ ̲L̲o̲g̲i̲c̲a̲l̲.̲a̲l̲g̲e̲b̲r̲a̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲L̲a̲y̲e̲r̲N̲o̲r̲m̲L̲i̲g̲e̲r̲.̲L̲o̲g̲i̲c̲a̲l̲.̲a̲l̲g̲e̲b̲r̲a̲,̲ ̲h̲i̲,̲ ̲h̲b̲,̲ h.reads p.x (by simp [̵b̵a̵c̵k̵w̵a̵r̵d̵R̵e̵a̵d̵s̵]̵)̵,̵h̵.̵r̵e̵a̵d̵s̵[̲b̲a̲c̲k̲w̲a̲r̲d̲R̲e̲a̲d̲s̲]̲)̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲h̲.̲r̲e̲a̲d̲s̲ p.mean (by simp [backwardReads]), h.reads p.rstd (by simp [backwardReads])]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.LayerNormOps.MathReturn.dx_value: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormOps.MathReturn.y_value: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormOps.MathReturn.loop_dx_inside: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormOps.MathReturn.loop_dx_outside: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

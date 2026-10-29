@@ -1,0 +1,13 @@
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/KernelInputs.lean:104:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.LayerNormOps.KernelInputs.physical_eq_logical`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+VeriTile.Bench.Repairs.LayerNormOps.KernelInputs.physical_eq_logical: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayerNormOps.KernelInputs.logical_read: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayerNormOps.KernelInputs.pointers: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.LayerNormOps.KernelInputs.checked_words: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

@@ -1,0 +1,12 @@
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Kernels.lean:17:26: warning: unused variable `W_row_stride`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Kernels.lean:18:26: warning: unused variable `B_row_stride`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Kernels.lean:48:26: warning: unused variable `W_row_stride`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_liger/Kernels.lean:49:26: warning: unused variable `B_row_stride`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`

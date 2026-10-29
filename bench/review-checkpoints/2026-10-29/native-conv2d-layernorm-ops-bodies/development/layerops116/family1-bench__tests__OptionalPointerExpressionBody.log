@@ -1,0 +1,124 @@
+VeriTile.Tests.OptionalPointerExpressionBody.nested_absent_needs_no_storage: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/layerops116-frontend/bench/tests/OptionalPointerExpressionBody.lean:86:76: error: unsolved goals
+α : Type
+inst✝ : Inhabited α
+M : Algebra α
+s : State α
+Mean : RegionName
+⊢ ((match
+        match
+          match
+            (s.setReg "total" TileDType.real [1] fun x => M.literal (some ComputeDType.fp32) FloatDType.real 0).regs
+              ComputeDType.fp32.eraseDType [1] "total",
+            fun __do_lift =>
+            match
+              (((s.setReg "total" TileDType.real [1] fun x =>
+                            M.literal (some ComputeDType.fp32) FloatDType.real 0).setReg
+                        "row" TileDType.nat [] fun x => 0).setReg
+                    "xhat" TileDType.real [] fun x => M.literal (some ComputeDType.fp32) FloatDType.real 1.0).regs
+                ComputeDType.fp32.eraseDType [] "xhat",
+              fun __do_lift_1 =>
+              some
+                (bop (numeric M (some ComputeDType.fp32) Binary.add NumericDType.real) Broadcast.scalarR __do_lift
+                  __do_lift_1) with
+            | none, x => none
+            | some a, f => f a with
+          | none, x => none
+          | some a, f => f a,
+          fun v =>
+          some
+            ((((s.setReg "total" TileDType.real [1] fun x =>
+                          M.literal (some ComputeDType.fp32) FloatDType.real 0).setReg
+                      "row" TileDType.nat [] fun x => 0).setReg
+                  "xhat" TileDType.real [] fun x => M.literal (some ComputeDType.fp32) FloatDType.real 1.0).setReg
+              "total" TileDType.real [1] v) with
+        | none, x => none
+        | some a, f => f a with
+      | some t => True
+      | none => True) ∧
+      match
+        match
+          match
+            match
+              (s.setReg "total" TileDType.real [1] fun x => M.literal (some ComputeDType.fp32) FloatDType.real 0).regs
+                ComputeDType.fp32.eraseDType [1] "total",
+              fun __do_lift =>
+              match
+                (((s.setReg "total" TileDType.real [1] fun x =>
+                              M.literal (some ComputeDType.fp32) FloatDType.real 0).setReg
+                          "row" TileDType.nat [] fun x => 0).setReg
+                      "xhat" TileDType.real [] fun x => M.literal (some ComputeDType.fp32) FloatDType.real 1.0).regs
+                  ComputeDType.fp32.eraseDType [] "xhat",
+                fun __do_lift_1 =>
+                some
+                  (bop (numeric M (some ComputeDType.fp32) Binary.add NumericDType.real) Broadcast.scalarR __do_lift
+                    __do_lift_1) with
+              | none, x => none
+              | some a, f => f a with
+            | none, x => none
+            | some a, f => f a,
+            fun v =>
+            some
+              ((((s.setReg "total" TileDType.real [1] fun x =>
+                            M.literal (some ComputeDType.fp32) FloatDType.real 0).setReg
+                        "row" TileDType.nat [] fun x => 0).setReg
+                    "xhat" TileDType.real [] fun x => M.literal (some ComputeDType.fp32) FloatDType.real 1.0).setReg
+                "total" TileDType.real [1] v) with
+          | none, x => none
+          | some a, f => f a,
+          fun __do_lift => some __do_lift with
+        | none, x => none
+        | some a, f => f a with
+      | some t => True
+      | none => True) ∧
+    match
+      match
+        match
+          match
+            match
+              (s.setReg "total" TileDType.real [1] fun x => M.literal (some ComputeDType.fp32) FloatDType.real 0).regs
+                ComputeDType.fp32.eraseDType [1] "total",
+              fun __do_lift =>
+              match
+                (((s.setReg "total" TileDType.real [1] fun x =>
+                              M.literal (some ComputeDType.fp32) FloatDType.real 0).setReg
+                          "row" TileDType.nat [] fun x => 0).setReg
+                      "xhat" TileDType.real [] fun x => M.literal (some ComputeDType.fp32) FloatDType.real 1.0).regs
+                  ComputeDType.fp32.eraseDType [] "xhat",
+                fun __do_lift_1 =>
+                some
+                  (bop (numeric M (some ComputeDType.fp32) Binary.add NumericDType.real) Broadcast.scalarR __do_lift
+                    __do_lift_1) with
+              | none, x => none
+              | some a, f => f a with
+            | none, x => none
+            | some a, f => f a,
+            fun v =>
+            some
+              ((((s.setReg "total" TileDType.real [1] fun x =>
+                            M.literal (some ComputeDType.fp32) FloatDType.real 0).setReg
+                        "row" TileDType.nat [] fun x => 0).setReg
+                    "xhat" TileDType.real [] fun x => M.literal (some ComputeDType.fp32) FloatDType.real 1.0).setReg
+                "total" TileDType.real [1] v) with
+          | none, x => none
+          | some a, f => f a,
+          fun __do_lift => some __do_lift with
+        | none, x => none
+        | some a, f => f a,
+        fun __do_lift => some __do_lift with
+      | none, x => none
+      | some a, f => f a with
+    | some t => True
+    | none => True
+/tmp/layerops116-frontend/bench/tests/OptionalPointerExpressionBody.lean:92:0: error: VeriTile.Tests.OptionalPointerExpressionBody.rms_branch_needs_no_storage: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Tests.OptionalPointerExpressionBody.absent_needs_no_storage: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.OptionalPointerExpressionBody.inverse_absent_needs_no_storage: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.OptionalPointerExpressionBody.present_requires_storage: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,53 @@
+/tmp/conv-layer117-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/Mathematical.lean:18:22: warning: Local variable 'unit' resembles constructor 'PUnit.unit' - write '.unit' (with a dot) or 'PUnit.unit' to use the constructor.
+
+Note: This linter can be disabled with `set_option linter.constructorNameAsVariable false`
+/tmp/conv-layer117-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/Mathematical.lean:73:15: warning: This simp argument is unused:
+  h
+
+Hint: Omit it from the simp argument list.
+  simp only [h̵,̵Bool.false_eq_true, ̲if_false]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/conv-layer117-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/Mathematical.lean:74:15: warning: This simp argument is unused:
+  h
+
+Hint: Omit it from the simp argument list.
+  simp only [h̵,̵if_true, ̲hb h i hi]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/conv-layer117-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/Mathematical.lean:85:17: warning: This simp argument is unused:
+  h
+
+Hint: Omit it from the simp argument list.
+  simp only [h̵,̵Bool.false_eq_true, ̲if_false, ̲hmu h]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/conv-layer117-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/Mathematical.lean:86:17: warning: This simp argument is unused:
+  h
+
+Hint: Omit it from the simp argument list.
+  simp only [h̵,̵if_true]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/conv-layer117-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/Mathematical.lean:97:15: warning: This simp argument is unused:
+  h
+
+Hint: Omit it from the simp argument list.
+  simp only [h̵,̵Bool.false_eq_true, ̲if_false]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/conv-layer117-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/Mathematical.lean:98:15: warning: This simp argument is unused:
+  h
+
+Hint: Omit it from the simp argument list.
+  simp only [h̵,̵if_true, ̲hdr h i hi]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.LayerNormOps.Interface.forwardMath: definition does not reference [VeriTile.Bench.Repairs.LayerNormOps.forwardKernel,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.LayerNormOps.Forward.reference,
+ VeriTile.Bench.Repairs.LayerNormOps.Interface.forwardGraph] — non-circular ✓
+VeriTile.Bench.Repairs.LayerNormOps.Interface.backwardMath: definition does not reference [VeriTile.Bench.Repairs.LayerNormOps.backwardKernel,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.LayerNormOps.Backward.reference,
+ VeriTile.Bench.Repairs.LayerNormOps.Interface.backwardGraph] — non-circular ✓

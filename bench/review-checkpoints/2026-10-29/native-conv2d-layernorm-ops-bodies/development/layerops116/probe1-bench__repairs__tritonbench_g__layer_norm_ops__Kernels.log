@@ -1,0 +1,2 @@
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Kernels.lean:16:5: error: optional pointer use requires its non-None branch
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Kernels.lean:15:84: error: optional pointer use requires its non-None branch

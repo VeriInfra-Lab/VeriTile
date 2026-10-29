@@ -1,0 +1,93 @@
+/tmp/conv115-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/Pair.lean:26:14: error: Tactic `rfl` failed: The left-hand side
+  (kernel s { fp16 := «false», tf32 := t }).surfaceBody
+is not definitionally equal to the right-hand side
+  before s { fp16 := «false», tf32 := t } ++
+    shiftedSite s { fp16 := «false», tf32 := t } :: after s { fp16 := «false», tf32 := t }
+
+case false
+s : Shape
+t : Bool
+⊢ (kernel s { fp16 := «false», tf32 := t }).surfaceBody =
+    before s { fp16 := «false», tf32 := t } ++
+      shiftedSite s { fp16 := «false», tf32 := t } :: after s { fp16 := «false», tf32 := t }
+/tmp/conv115-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/Pair.lean:26:14: error: Tactic `rfl` failed: The left-hand side
+  (kernel s { fp16 := «true», tf32 := t }).surfaceBody
+is not definitionally equal to the right-hand side
+  before s { fp16 := «true», tf32 := t } ++
+    shiftedSite s { fp16 := «true», tf32 := t } :: after s { fp16 := «true», tf32 := t }
+
+case true
+s : Shape
+t : Bool
+⊢ (kernel s { fp16 := «true», tf32 := t }).surfaceBody =
+    before s { fp16 := «true», tf32 := t } ++
+      shiftedSite s { fp16 := «true», tf32 := t } :: after s { fp16 := «true», tf32 := t }
+/tmp/conv115-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/Pair.lean:40:19: error: Tactic `unfold` failed to unfold `bop` in
+  False
+/tmp/conv115-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/Pair.lean:40:19: error: Tactic `unfold` failed to unfold `bop` in
+  False
+/tmp/conv115-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/Pair.lean:29:64: error: unsolved goals
+case true.some
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+c : Shape
+s : State α
+t : Bool
+val✝ : Values α TileDType.nat []
+hr : s.regs TileDType.nat [] "batch_height_width_pid" = some val✝
+⊢ (s.setReg "batch_height_width_offset" TileDType.nat [128] fun i =>
+      (fun x1 x2 => x1 + x2)
+        ((fun x1 x2 => x1 * x2) (val✝ (Broadcast.nil.leftIndex (Broadcast.scalarL.leftIndex i)))
+          ((fun x => 128) (Broadcast.nil.rightIndex (Broadcast.scalarL.leftIndex i))))
+        ((fun i => ↑i.1) (Broadcast.scalarL.rightIndex i))) =
+    s.setReg "out_group_dim" TileDType.nat [] fun i =>
+      integralFloorDiv IntegralDType.nat ((fun x => c.outputs) (Broadcast.nil.leftIndex i))
+        ((fun x => c.groups) (Broadcast.nil.rightIndex i))
+/tmp/conv115-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/Pair.lean:28:8: error: (kernel) declaration has metavariables 'VeriTile.Bench.Repairs.Conv2d.Pair.site_run'
+/tmp/conv115-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/Pair.lean:39:18: warning: This simp argument is unused:
+  hr
+
+Hint: Omit it from the simp argument list.
+  simp [h̵r̵,̵numeric, ̲FP.Structural.bop, ̲Nat.shiftLeft_eq, ̲Broadcast.leftIndex,
+  ̲ ̲ ̲ ̲ ̲Broadcast.rightIndex]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/conv115-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/Pair.lean:39:29: warning: This simp argument is unused:
+  FP.Structural.bop
+
+Hint: Omit it from the simp argument list.
+  simp [̵h̵r̵,̵n̵u̵m̵e̵r̵i̵c̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵b̵o̵p̵,̵N̵a̵t̵.̵s̵h̵i̵f̵t̵L̵e̵f̵t̵_̵e̵q̵,̵B̵r̵o̵a̵d̵c̵a̵s̵t̵.̵l̵e̵f̵t̵I̵n̵d̵e̵x̵,̵B̵r̵o̵a̵d̵c̵a̵s̵t̵.̵r̵i̵g̵h̵t̵I̵n̵d̵e̵x̵]̵[̲h̲r̲,̲ ̲n̲u̲m̲e̲r̲i̲c̲,̲ ̲N̲a̲t̲.̲s̲h̲i̲f̲t̲L̲e̲f̲t̲_̲e̲q̲,̲ ̲B̲r̲o̲a̲d̲c̲a̲s̲t̲.̲l̲e̲f̲t̲I̲n̲d̲e̲x̲,̲ ̲B̲r̲o̲a̲d̲c̲a̲s̲t̲.̲r̲i̲g̲h̲t̲I̲n̲d̲e̲x̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/conv115-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/Pair.lean:39:47: warning: This simp argument is unused:
+  Nat.shiftLeft_eq
+
+Hint: Omit it from the simp argument list.
+  simp [̵h̵r̵,̵n̵u̵m̵e̵r̵i̵c̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵b̵o̵p̵,̵N̵a̵t̵.̵s̵h̵i̵f̵t̵L̵e̵f̵t̵_̵e̵q̵,̵B̵r̵o̵a̵d̵c̵a̵s̵t̵.̵l̵e̵f̵t̵I̵n̵d̵e̵x̵,̵B̵r̵o̵a̵d̵c̵a̵s̵t̵.̵r̵i̵g̵h̵t̵I̵n̵d̵e̵x̵]̵[̲h̲r̲,̲ ̲n̲u̲m̲e̲r̲i̲c̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲b̲o̲p̲,̲ ̲B̲r̲o̲a̲d̲c̲a̲s̲t̲.̲l̲e̲f̲t̲I̲n̲d̲e̲x̲,̲ ̲B̲r̲o̲a̲d̲c̲a̲s̲t̲.̲r̲i̲g̲h̲t̲I̲n̲d̲e̲x̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/conv115-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/Pair.lean:39:64: warning: This simp argument is unused:
+  Broadcast.leftIndex
+
+Hint: Omit it from the simp argument list.
+  simp [̵h̵r̵,̵n̵u̵m̵e̵r̵i̵c̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵b̵o̵p̵,̵N̵a̵t̵.̵s̵h̵i̵f̵t̵L̵e̵f̵t̵_̵e̵q̵,̵B̵r̵o̵a̵d̵c̵a̵s̵t̵.̵l̵e̵f̵t̵I̵n̵d̵e̵x̵,̵B̵r̵o̵a̵d̵c̵a̵s̵t̵.̵r̵i̵g̵h̵t̵I̵n̵d̵e̵x̵]̵[̲h̲r̲,̲ ̲n̲u̲m̲e̲r̲i̲c̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲b̲o̲p̲,̲ ̲N̲a̲t̲.̲s̲h̲i̲f̲t̲L̲e̲f̲t̲_̲e̲q̲,̲ ̲B̲r̲o̲a̲d̲c̲a̲s̲t̲.̲r̲i̲g̲h̲t̲I̲n̲d̲e̲x̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/conv115-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/Pair.lean:39:84: warning: This simp argument is unused:
+  Broadcast.rightIndex
+
+Hint: Omit it from the simp argument list.
+  simp [̵h̵r̵,̵n̵u̵m̵e̵r̵i̵c̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵b̵o̵p̵,̵N̵a̵t̵.̵s̵h̵i̵f̵t̵L̵e̵f̵t̵_̵e̵q̵,̵B̵r̵o̵a̵d̵c̵a̵s̵t̵.̵l̵e̵f̵t̵I̵n̵d̵e̵x̵,̵B̵r̵o̵a̵d̵c̵a̵s̵t̵.̵r̵i̵g̵h̵t̵I̵n̵d̵e̵x̵]̵[̲h̲r̲,̲ ̲n̲u̲m̲e̲r̲i̲c̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲b̲o̲p̲,̲ ̲N̲a̲t̲.̲s̲h̲i̲f̲t̲L̲e̲f̲t̲_̲e̲q̲,̲ ̲B̲r̲o̲a̲d̲c̲a̲s̲t̲.̲l̲e̲f̲t̲I̲n̲d̲e̲x̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/conv115-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/Pair.lean:53:99: warning: This simp argument is unused:
+  true_and
+
+Hint: Omit it from the simp argument list.
+  simp only [̵S̵a̵f̵e̵t̵y̵.̵s̵t̵e̵p̵S̵a̵f̵e̵_̵u̵n̵f̵o̵l̵d̵,̵S̵a̵f̵e̵t̵y̵.̵s̵a̵f̵e̵E̵x̵p̵r̵_̵u̵n̵f̵o̵l̵d̵,̵S̵a̵f̵e̵t̵y̵.̵s̵a̵f̵e̵O̵p̵_̵u̵n̵f̵o̵l̵d̵,̵a̵n̵d̵_̵t̵r̵u̵e̵,̵t̵r̵u̵e̵_̵a̵n̵d̵]̵[̲S̲a̲f̲e̲t̲y̲.̲s̲t̲e̲p̲S̲a̲f̲e̲_̲u̲n̲f̲o̲l̲d̲,̲ ̲S̲a̲f̲e̲t̲y̲.̲s̲a̲f̲e̲E̲x̲p̲r̲_̲u̲n̲f̲o̲l̲d̲,̲ ̲S̲a̲f̲e̲t̲y̲.̲s̲a̲f̲e̲O̲p̲_̲u̲n̲f̲o̲l̲d̲,̲
+  ̲ ̲ ̲ ̲ ̲a̲n̲d̲_̲t̲r̲u̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/conv115-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/Pair.lean:133:0: error: VeriTile.Bench.Repairs.Conv2d.Pair.equivalent: DISALLOWED axioms [sorryAx,
+ VeriTile.Bench.Repairs.Conv2d.Pair.site_run] (sorryAx ⇒ fake proof)

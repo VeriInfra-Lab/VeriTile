@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.Conv2d.KernelHalf.sourceInputValue_eq: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.KernelHalf.zero_height: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

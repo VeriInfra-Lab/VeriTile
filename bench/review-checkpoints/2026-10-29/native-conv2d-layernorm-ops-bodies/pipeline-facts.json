@@ -1,0 +1,54 @@
+{
+  "status": "PREPARED_ONLY_NOT_RUN",
+  "focused": 201,
+  "cumulative": 5929,
+  "audit_modules": 2410,
+  "tasks": 121,
+  "pairs": 425,
+  "pending": 62,
+  "parent_required": "FP4 final receipt and publication; 201-root combined focus must pass",
+  "note": "Eight complete literal bodies preserve Conv2d FP16/default branches and existing shifted candidates, and LayerNormOps forward/backward plus mask/row-start reuse candidates. Shared frontend retains matching dot input precision and guarded optional-pointer expressions, without changing ordinary branch behavior. Actual source execution, independent Real formulas, full FP pair and IO results are replayed jointly. Historical original-library Conv2d signed pointers are connected observationally to its internal proof model with complete memory equality; that historical DSL view is not a literal-body mapping. Original selected source Python, public statement domains and existing candidates are preserved. No new numerical experiment. Keep draft; no merge.",
+  "notes": {
+    "triton_conv2d_fwd": "Four complete selected repaired Conv2d bodies retain the FP16/default branches and existing shifted candidates. Their actual signed pointer arithmetic, cast/dot operations, complete execution, access safety and entire memory results connect to independent grouped cross-correlation and complete actual pair IO. The historical original-library signed-pointer program is related observationally to an explicitly internal positive-pointer model, including all three loops and the complete flat-memory postlude; no false AST identity or extra underflow premise is asserted. That historical DSL view is not counted among literal-body mappings. Original Python, public domains and candidate scope are unchanged.",
+    "layer_norm_ops": "Four complete LayerNormOps forward/backward and existing mask/row-start reuse candidate bodies retain all casts, flags, conditional optional Mean loads, row-loop bounds, pointer updates and stores. Candidate Python is explicitly an authored counterpart of the existing two rewrites. Caller metadata matches the selected FP32 storage and plain-LN/RMS Mean presence. Actual source execution for all admitted branches, independent normalization/gradient formulas, source FP pairs and complete IO are rechecked without changing public domains or schedule scope."
+  },
+  "regression": "The joint frontend accepts matching supported dot input precisions for default/explicit FP32 output and preserves guarded optional-pointer conditional expressions. Conditional loads execute only the selected arm; ordinary constexpr-mask behavior remains unchanged. Typed dot and absent/present/correlated RMS/nested-loop fixtures cover these semantic risks. All cumulative roots are rechecked with the combined frontend. Generic signed full-constructor width propagation remains separately unsupported. No numerical or hardware experiment was run.",
+  "bases": {
+    "triton_conv2d_fwd": [
+      "bench/repairs/tritonbench_g/triton_conv2d_fwd/",
+      "bench/tritonbench_g/triton_conv2d_fwd/"
+    ],
+    "layer_norm_ops": [
+      "bench/repairs/tritonbench_g/layer_norm_ops/",
+      "bench/tritonbench_g/layer_norm_ops/"
+    ]
+  },
+  "bridges": {
+    "triton_conv2d_fwd": {
+      "raw_source": "Kernels.lean",
+      "raw_candidates": "CandidateKernels.lean",
+      "actual_half": "Proofs/KernelHalfExecution.lean",
+      "actual_default": "Proofs/KernelDefaultExecution.lean",
+      "actual_full_memory": "Proofs/KernelExecution.lean",
+      "public_io": "Proofs/PublicResult.lean",
+      "public_safety": "Proofs/PublicSafety.lean",
+      "actual_pair": "Proofs/Pair.lean",
+      "public_real": "Correct.lean",
+      "public_fp_pair": "FPEquiv.lean"
+    },
+    "layer_norm_ops": {
+      "raw_bodies": "Kernels.lean",
+      "actual_execution": "Proofs/KernelExecution.lean",
+      "actual_backward_memory": "Proofs/BackwardWhole.lean",
+      "actual_safety": "Proofs/SourceSafety.lean",
+      "independent_real": "Proofs/KernelReal.lean",
+      "full_io": "Proofs/IOReal.lean",
+      "actual_source_pair": "Proofs/SourcePair.lean",
+      "full_pair": "Proofs/PairEquivalence.lean",
+      "public_real": "Correct.lean",
+      "public_fp_pair": "FPEquiv.lean"
+    }
+  },
+  "targeted_tests": 409,
+  "full_tests": 654
+}

@@ -1,0 +1,11 @@
+{
+  "status": "PREPARED_ONLY_NOT_RUN",
+  "focused": 201,
+  "cumulative": 5929,
+  "audit_modules": 2410,
+  "tasks": 121,
+  "pairs": 425,
+  "pending": 62,
+  "parent_required": "FP4 final receipt and publication; 201-root combined focus must pass",
+  "note": "Eight complete literal bodies preserve Conv2d FP16/default branches and existing shifted candidates, and LayerNormOps forward/backward plus mask/row-start reuse candidates. Shared frontend retains matching dot input precision and guarded optional-pointer expressions, without changing ordinary branch behavior. Actual source execution, independent Real formulas, full FP pair and IO results are replayed jointly. Historical original-library Conv2d signed pointers are connected observationally to its internal proof model with complete memory equality; that historical DSL view is not a literal-body mapping. Original selected source Python, public statement domains and existing candidates are preserved. No new numerical experiment. Keep draft; no merge."
+}

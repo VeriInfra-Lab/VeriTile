@@ -1,0 +1,15 @@
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/CheckedHost.lean:9:19: error: Ambiguous term
+  ScalarArgument
+Possible interpretations:
+  Admission.ScalarArgument : Type
+  
+  Triton.ScalarArgument : Type
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/CheckedHost.lean:15:4: warning: declaration uses `sorry`
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/CheckedHost.lean:29:4: warning: declaration uses `sorry`
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/CheckedHost.lean:100:34: warning: declaration uses `sorry`
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/CheckedHost.lean:88:8: warning: declaration uses `sorry`
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/CheckedHost.lean:121:16: warning: declaration uses `sorry`
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/CheckedHost.lean:102:8: warning: declaration uses `sorry`
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/CheckedHost.lean:141:0: error: VeriTile.Bench.Repairs.LayerNormOps.Checked.composed_admitted: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/CheckedHost.lean:142:0: error: VeriTile.Bench.Repairs.LayerNormOps.Checked.supported: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Proofs/CheckedHost.lean:143:0: error: VeriTile.Bench.Repairs.LayerNormOps.Checked.caller_frame: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

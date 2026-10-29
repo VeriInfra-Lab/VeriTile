@@ -1,0 +1,15 @@
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/HostPrepared.lean:40:5: warning: unused variable `xr`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/HostPrepared.lean:40:55: warning: unused variable `wr`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.Repairs.LayernormFwdTriton.HostPrepared.ofRoute: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayernormFwdTriton.HostPrepared.ofRoute_ready: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayernormFwdTriton.HostPrepared.caller_outside: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

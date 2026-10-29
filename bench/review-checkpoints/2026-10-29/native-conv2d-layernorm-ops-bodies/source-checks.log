@@ -1,0 +1,8 @@
+....................................................................................................................................................
+----------------------------------------------------------------------
+Ran 148 tests in 8.165s
+
+OK
+PASS: exactly one fixed-128 spatial base shift; full precision flags, loops, masks, guards and 3D launch preserved
+PASS: exact four raw bodies; two zero-fill kernel edits; host and domain preservation; 66 Lean sources pinned
+PASS 148

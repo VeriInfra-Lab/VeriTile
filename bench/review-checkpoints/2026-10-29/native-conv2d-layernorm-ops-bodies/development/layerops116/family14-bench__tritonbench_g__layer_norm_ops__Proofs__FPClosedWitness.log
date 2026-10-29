@@ -1,0 +1,9 @@
+VeriTile.Bench.TritonBenchG.LayerNormOps.FPClosedWitness.tail_product_is_retained: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.LayerNormOps.FPClosedWitness.nonempty_c2_source_success: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.LayerNormOps.FPClosedWitness.positive_zero_add_is_not_identity: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

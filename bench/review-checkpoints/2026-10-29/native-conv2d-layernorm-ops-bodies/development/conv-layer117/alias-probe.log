@@ -1,0 +1,52 @@
+def VeriTile.Tests.AliasedNestedLoadBody.source : RegionName → RegionName → ℕ → ComputeKernel :=
+fun X Y N =>
+  ComputeKernel.mk [X, Y] [Y]
+    [ComputeStmt.assign TileDType.ptr [] "p" (ComputeExpr.alg (Op.ptrAdd Broadcast.nil (Op.ptrBase X) (Op.constNat 0))),
+      ComputeStmt.assign TileDType.real [] "__veritile_source_load_0"
+        (ComputeExpr.compute (ComputeOp.load ComputeDType.fp32 (MemAccess.region Y (Op.constNat 0)) MaskOpt.none)),
+      ComputeStmt.forRange "i" 0 N 1
+        [ComputeStmt.assign TileDType.fp16 [] "__veritile_source_load_2"
+            (ComputeExpr.alg (Op.load TileDType.fp16 (MemAccess.ptr (Op.ref TileDType.ptr [] "p")) MaskOpt.none)),
+          ComputeStmt.assign TileDType.real [] "x"
+            (ComputeExpr.compute
+              (ComputeOp.alg ComputeDType.fp32
+                (Op.mul NumericDType.real Broadcast.nil
+                  (Op.castFloat FloatDType.fp16 FloatDType.real (Op.ref TileDType.fp16 [] "__veritile_source_load_2"))
+                  (Op.ref TileDType.real [] "scale")))),
+          ComputeStmt.assign TileDType.real [] "__veritile_source_load_1"
+            (ComputeExpr.compute (ComputeOp.load ComputeDType.fp32 (MemAccess.region Y (Op.constNat 0)) MaskOpt.none)),
+          ComputeStmt.assign TileDType.real [] "y"
+            (ComputeExpr.compute
+              (ComputeOp.alg ComputeDType.fp32
+                (Op.add NumericDType.real Broadcast.nil (Op.ref TileDType.real [] "__veritile_source_load_1")
+                  (Op.ref TileDType.real [] "x")))),
+          ComputeStmt.store TileDType.real [] (MemAccess.region Y (Op.constNat 0))
+            (ComputeExpr.compute (ComputeOp.alg ComputeDType.fp32 (Op.ref TileDType.real [] "y"))) MaskOpt.none,
+          ComputeStmt.assign TileDType.ptr [] "p"
+            (ComputeExpr.alg (Op.ptrAdd Broadcast.nil (Op.ref TileDType.ptr [] "p") (Op.constNat 1)))]]
+def VeriTile.Tests.AliasedNestedLoadBody.explicitLoads : RegionName → RegionName → ℕ → ComputeKernel :=
+fun X Y N =>
+  ComputeKernel.mk [X, Y] [Y]
+    [ComputeStmt.assign TileDType.ptr [] "p" (ComputeExpr.alg (Op.ptrAdd Broadcast.nil (Op.ptrBase X) (Op.constNat 0))),
+      ComputeStmt.assign TileDType.real [] "__veritile_source_load_0"
+        (ComputeExpr.compute (ComputeOp.load ComputeDType.fp32 (MemAccess.region Y (Op.constNat 0)) MaskOpt.none)),
+      ComputeStmt.forRange "i" 0 N 1
+        [ComputeStmt.assign TileDType.fp16 [] "__veritile_source_load_1"
+            (ComputeExpr.alg (Op.load TileDType.fp16 (MemAccess.ptr (Op.ref TileDType.ptr [] "p")) MaskOpt.none)),
+          ComputeStmt.assign TileDType.real [] "x"
+            (ComputeExpr.compute
+              (ComputeOp.alg ComputeDType.fp32
+                (Op.mul NumericDType.real Broadcast.nil
+                  (Op.castFloat FloatDType.fp16 FloatDType.real (Op.ref TileDType.fp16 [] "__veritile_source_load_1"))
+                  (Op.ref TileDType.real [] "scale")))),
+          ComputeStmt.assign TileDType.real [] "__veritile_source_load_2"
+            (ComputeExpr.compute (ComputeOp.load ComputeDType.fp32 (MemAccess.region Y (Op.constNat 0)) MaskOpt.none)),
+          ComputeStmt.assign TileDType.real [] "y"
+            (ComputeExpr.compute
+              (ComputeOp.alg ComputeDType.fp32
+                (Op.add NumericDType.real Broadcast.nil (Op.ref TileDType.real [] "__veritile_source_load_2")
+                  (Op.ref TileDType.real [] "x")))),
+          ComputeStmt.store TileDType.real [] (MemAccess.region Y (Op.constNat 0))
+            (ComputeExpr.compute (ComputeOp.alg ComputeDType.fp32 (Op.ref TileDType.real [] "y"))) MaskOpt.none,
+          ComputeStmt.assign TileDType.ptr [] "p"
+            (ComputeExpr.alg (Op.ptrAdd Broadcast.nil (Op.ref TileDType.ptr [] "p") (Op.constNat 1)))]]

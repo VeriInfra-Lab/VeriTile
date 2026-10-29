@@ -1,0 +1,3 @@
+VeriTile.Bench.TritonBenchG.TritonConv2dFwd.SignedPostSimulation.postlude: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

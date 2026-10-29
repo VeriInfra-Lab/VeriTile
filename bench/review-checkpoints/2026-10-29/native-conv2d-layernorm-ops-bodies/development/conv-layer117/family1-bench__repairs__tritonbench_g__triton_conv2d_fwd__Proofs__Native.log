@@ -1,0 +1,14 @@
+VeriTile.Bench.Repairs.Conv2d.Native.isa: definition does not reference [VeriTile.Bench.Repairs.Conv2d.source,
+ VeriTile.Bench.Repairs.Conv2d.sourceValue,
+ VeriTile.Bench.Repairs.Conv2d.sourceProgram,
+ VeriTile.Bench.Repairs.Conv2d.sourcePrograms,
+ VeriTile.Bench.Repairs.Conv2d.Native.selected] — non-circular ✓
+VeriTile.Bench.Repairs.Conv2d.Native.load_store: axiom footprint ⊆ standard base ✓  ([Quot.sound, propext])
+VeriTile.Bench.Repairs.Conv2d.Native.load_selected: axiom footprint ⊆ standard base ✓  ([Quot.sound, propext])
+VeriTile.Bench.Repairs.Conv2d.Native.selected_read: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.Native.selected_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Conv2d.Native.selected_equiv: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])

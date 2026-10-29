@@ -1,0 +1,25 @@
+/tmp/layerops116-frontend/bench/tests/OptionalPointerExpressionBody.lean:28:73: error: unsolved goals
+α : Type
+inst✝ : Inhabited α
+M : Algebra α
+s : State α
+Mean : RegionName
+⊢ Safety.safeOp M (some ComputeDType.fp32) (fun x => 0) s (Op.const 0.0)
+/tmp/layerops116-frontend/bench/tests/OptionalPointerExpressionBody.lean:36:74: error: unsolved goals
+α : Type
+inst✝ : Inhabited α
+M : Algebra α
+s : State α
+Mean : RegionName
+⊢ Safety.safeOp M (some ComputeDType.fp32) (fun x => 0) s (Op.const 0.0)
+/tmp/layerops116-frontend/bench/tests/OptionalPointerExpressionBody.lean:46:74: error: unsolved goals
+α : Type
+inst✝ : Inhabited α
+M : Algebra α
+s : State α
+Mean : RegionName
+⊢ ¬Safety.safeOp M (some ComputeDType.fp32) (fun x => 0) s
+      (Op.load TileDType.real (MemAccess.region Mean (Op.constNat 0)) MaskOpt.none)
+/tmp/layerops116-frontend/bench/tests/OptionalPointerExpressionBody.lean:66:0: error: VeriTile.Tests.OptionalPointerExpressionBody.absent_needs_no_storage: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/layerops116-frontend/bench/tests/OptionalPointerExpressionBody.lean:67:0: error: VeriTile.Tests.OptionalPointerExpressionBody.inverse_absent_needs_no_storage: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/layerops116-frontend/bench/tests/OptionalPointerExpressionBody.lean:68:0: error: VeriTile.Tests.OptionalPointerExpressionBody.present_requires_storage: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

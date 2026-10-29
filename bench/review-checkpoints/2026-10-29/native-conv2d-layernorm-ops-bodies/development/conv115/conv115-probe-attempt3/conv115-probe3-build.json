@@ -1,0 +1,16 @@
+{
+  "status": "FAIL",
+  "start": 1793256931.3104253,
+  "results": [
+    {
+      "module": "bench.tests.TypedDotLoopBody",
+      "source_sha256": "ca535ac562cfa7702301f2fdbeaabdd2350f743d9e0a4fd77b405afc8efdcada",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793256931.3105643,
+      "end": 1793256936.523478,
+      "log": "/tmp/conv115-probe3-bench__tests__TypedDotLoopBody.log"
+    }
+  ],
+  "end": 1793256936.523656
+}

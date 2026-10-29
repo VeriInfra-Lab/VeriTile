@@ -1,0 +1,3 @@
+VeriTile.Bench.TritonBenchG.TritonConv2dFwd.SignedFlatSimulation.execution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

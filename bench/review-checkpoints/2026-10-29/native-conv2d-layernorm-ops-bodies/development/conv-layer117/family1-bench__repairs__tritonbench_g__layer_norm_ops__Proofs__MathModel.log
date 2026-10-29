@@ -1,0 +1,9 @@
+VeriTile.Bench.Repairs.LayerNormOps.MathReturn.y: definition does not reference [VeriTile.Bench.Repairs.LayerNormOps.forwardKernel,
+ VeriTile.Bench.Repairs.LayerNormOps.backwardKernel,
+ VeriTile.Bench.Repairs.LayerNormOps.Host.composed] — non-circular ✓
+VeriTile.Bench.Repairs.LayerNormOps.MathReturn.dx: definition does not reference [VeriTile.Bench.Repairs.LayerNormOps.forwardKernel,
+ VeriTile.Bench.Repairs.LayerNormOps.backwardKernel,
+ VeriTile.Bench.Repairs.LayerNormOps.Host.composed] — non-circular ✓
+VeriTile.Bench.Repairs.LayerNormOps.MathReturn.dw: definition does not reference [VeriTile.Bench.Repairs.LayerNormOps.forwardKernel,
+ VeriTile.Bench.Repairs.LayerNormOps.backwardKernel,
+ VeriTile.Bench.Repairs.LayerNormOps.Host.composed] — non-circular ✓

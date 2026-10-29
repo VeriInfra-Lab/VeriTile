@@ -1,0 +1,6 @@
+......................
+----------------------------------------------------------------------
+Ran 22 tests in 0.342s
+
+OK
+PASS: exactly one fixed-128 spatial base shift; full precision flags, loops, masks, guards and 3D launch preserved

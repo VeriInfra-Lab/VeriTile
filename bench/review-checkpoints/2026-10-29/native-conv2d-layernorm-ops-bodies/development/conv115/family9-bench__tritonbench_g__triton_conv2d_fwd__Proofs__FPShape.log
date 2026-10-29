@@ -1,0 +1,9 @@
+/tmp/conv115-frontend/bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPShape.lean:32:2: warning: 'all_goals rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/conv115-frontend/bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPShape.lean:32:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPValue.source_projection: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

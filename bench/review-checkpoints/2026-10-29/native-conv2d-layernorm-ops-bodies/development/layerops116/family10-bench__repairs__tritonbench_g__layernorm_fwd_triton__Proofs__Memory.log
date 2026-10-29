@@ -1,0 +1,5 @@
+VeriTile.Bench.Repairs.LayernormFwdTriton.Memory.run_read_frame: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.Repairs.LayernormFwdTriton.Memory.run_byte_frame: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.Repairs.LayernormFwdTriton.Memory.run_readback: axiom footprint ⊆ standard base ✓  ([Quot.sound,
+ propext,
+ Classical.choice])

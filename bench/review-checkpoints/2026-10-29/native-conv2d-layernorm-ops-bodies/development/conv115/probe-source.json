@@ -1,0 +1,41 @@
+{
+  "status": "PREPARED_NOT_COMPILED",
+  "task": "triton_conv2d_fwd",
+  "statements": 19,
+  "scope": "FP16=true source-prototype only. Existing authoritative task and proofs unchanged. Full body, both branches/candidate, correspondence and execution proof remain required.",
+  "runtime": [
+    "batch_dim",
+    "in_feat_dim",
+    "in_height",
+    "in_width",
+    "out_feat_dim",
+    "out_height",
+    "out_width",
+    "input_batch_stride",
+    "input_in_feat_stride",
+    "input_height_stride",
+    "input_width_stride",
+    "weight_out_feat_stride",
+    "weight_in_feat_stride",
+    "weight_height_stride",
+    "weight_width_stride",
+    "output_batch_stride",
+    "output_out_feat_stride",
+    "output_height_stride",
+    "output_width_stride"
+  ],
+  "constexpr": [
+    "kernel_height",
+    "kernel_width",
+    "stride_height",
+    "stride_width",
+    "padding_height",
+    "padding_width",
+    "groups",
+    "fp16",
+    "tf32",
+    "BLOCK_SIZE_BATCH_HEIGHT_WIDTH",
+    "BLOCK_SIZE_IN_FEAT",
+    "BLOCK_SIZE_OUT_FEAT"
+  ]
+}

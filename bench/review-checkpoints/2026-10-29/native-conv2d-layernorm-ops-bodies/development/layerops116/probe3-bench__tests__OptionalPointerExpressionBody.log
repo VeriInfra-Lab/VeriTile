@@ -1,0 +1,6 @@
+/tmp/layerops116-frontend/bench/tests/OptionalPointerExpressionBody.lean:28:48: error: unexpected token 'false'; expected ')', ',' or ':'
+/tmp/layerops116-frontend/bench/tests/OptionalPointerExpressionBody.lean:35:49: error: unexpected token 'false'; expected ')', ',' or ':'
+/tmp/layerops116-frontend/bench/tests/OptionalPointerExpressionBody.lean:44:50: error: unexpected token 'true'; expected ')', ',' or ':'
+VeriTile.Tests.OptionalPointerExpressionBody.absent_needs_no_storage: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Tests.OptionalPointerExpressionBody.inverse_absent_needs_no_storage: axiom footprint ⊆ standard base ✓  ([])
+/tmp/layerops116-frontend/bench/tests/OptionalPointerExpressionBody.lean:65:0: error: VeriTile.Tests.OptionalPointerExpressionBody.present_requires_storage: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

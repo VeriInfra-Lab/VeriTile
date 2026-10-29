@@ -1,0 +1,8 @@
+VeriTile.Bench.Repairs.Conv2d.output_layout_covers: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.Repairs.Conv2d.output_layout_unique: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.Repairs.Conv2d.a16_layout_covers: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.Conv2d.fragment_anchor: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,12 @@
+/tmp/conv115-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelHalfSafety.lean:55:4: error: Type mismatch
+  hb.input h hhb w hwb c hcb (i, k, ()) ⟨⟨⟨⟨⟨hn, hc⟩, hy0⟩, hy⟩, hx0⟩, hx⟩
+has type
+  inputOffset p initial h w c (i, k, ()) < bounds p.Input
+but is expected to have type
+  inputBase p initial i + p.input_in_feat_stride * (c + ↑k) +
+            Int.toNat (↑p.input_height_stride * (↑h - ↑p.padding_height + ↑p.stride_height * ↑(oh p initial i))) -
+          Int.toNat (-(↑p.input_height_stride * (↑h - ↑p.padding_height + ↑p.stride_height * ↑(oh p initial i)))) +
+        Int.toNat (↑p.input_width_stride * (↑w - ↑p.padding_width + ↑p.stride_width * ↑(ow p initial i))) -
+      Int.toNat (-(↑p.input_width_stride * (↑w - ↑p.padding_width + ↑p.stride_width * ↑(ow p initial i)))) <
+    bounds p.Input
+/tmp/conv115-frontend/bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelHalfSafety.lean:166:0: error: VeriTile.Bench.Repairs.Conv2d.KernelHalf.Access.source_safe: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

@@ -1,0 +1,3 @@
+VeriTile.Bench.TritonBenchG.LayerNormOps.FPStages.dw_db_software: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

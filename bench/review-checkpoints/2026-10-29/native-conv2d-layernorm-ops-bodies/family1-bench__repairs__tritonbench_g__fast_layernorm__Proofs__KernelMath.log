@@ -1,0 +1,16 @@
+/tmp/conv-layer117-frontend/bench/repairs/tritonbench_g/fast_layernorm/Proofs/KernelMath.lean:29:57: warning: This simp argument is unused:
+  TileShape.eraseAxis
+
+Hint: Omit it from the simp argument list.
+  simp [̵K̵e̵r̵n̵e̵l̵R̵e̵f̵e̵r̵e̵n̵c̵e̵.̵r̵e̵d̵u̵c̵e̵,̵a̵l̵g̵e̵b̵r̵a̵,̵T̵i̵l̵e̵S̵h̵a̵p̵e̵.̵a̵x̵i̵s̵D̵i̵m̵,̵T̵i̵l̵e̵S̵h̵a̵p̵e̵.̵e̵r̵a̵s̵e̵A̵x̵i̵s̵,̵T̵i̵l̵e̵S̵h̵a̵p̵e̵.̵i̵n̵s̵e̵r̵t̵A̵x̵i̵s̵I̵n̵d̵e̵x̵]̵[̲K̲e̲r̲n̲e̲l̲R̲e̲f̲e̲r̲e̲n̲c̲e̲.̲r̲e̲d̲u̲c̲e̲,̲ ̲a̲l̲g̲e̲b̲r̲a̲,̲ ̲T̲i̲l̲e̲S̲h̲a̲p̲e̲.̲a̲x̲i̲s̲D̲i̲m̲,̲ ̲T̲i̲l̲e̲S̲h̲a̲p̲e̲.̲i̲n̲s̲e̲r̲t̲A̲x̲i̲s̲I̲n̲d̲e̲x̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.FastLayernorm.KernelMath.output_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastLayernorm.KernelMath.gradient_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FastLayernorm.KernelMath.affine_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

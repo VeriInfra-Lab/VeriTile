@@ -1,0 +1,6 @@
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Kernels.lean:76:5: warning: unused variable `eps`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/layerops116-frontend/bench/repairs/tritonbench_g/layer_norm_ops/Kernels.lean:191:5: warning: unused variable `eps`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`

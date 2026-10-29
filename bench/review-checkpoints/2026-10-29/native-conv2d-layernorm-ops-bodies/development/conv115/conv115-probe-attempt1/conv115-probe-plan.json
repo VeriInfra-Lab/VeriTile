@@ -1,0 +1,798 @@
+{
+  "roots": [
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.RawPrototype"
+  ],
+  "modules": [
+    "VeriTile.Spec",
+    "VeriTile.Meta.Specification",
+    "VeriTile.Triton.Core.Types",
+    "VeriTile.Triton.Core.Shape",
+    "VeriTile.Triton.Core.Float8",
+    "VeriTile.Triton.Float.BitValue",
+    "VeriTile.Triton.Float.ScalarOps",
+    "VeriTile.Triton.Random.Philox",
+    "VeriTile.Triton.Random.SourceProfile",
+    "VeriTile.Triton.Random.Direct",
+    "VeriTile.Triton.Random.DirectProfile",
+    "VeriTile.Triton.Core.Ast",
+    "VeriTile.Triton.Core",
+    "VeriTile.Triton.Semantics.Scalar",
+    "VeriTile.Triton.Semantics.State",
+    "VeriTile.Triton.Semantics.Offset",
+    "VeriTile.Triton.Math.Erf",
+    "VeriTile.Triton.Core.DiscreteReduction",
+    "VeriTile.Triton.Semantics.TileOps",
+    "VeriTile.Triton.Semantics.Float8",
+    "VeriTile.Triton.Random.Proofs.Dyadic",
+    "VeriTile.Triton.Random.Proofs.RoundQuotientBridge",
+    "VeriTile.Triton.Random.Proofs.RoundExpansion",
+    "VeriTile.Triton.Random.Proofs.DyadicExponent",
+    "VeriTile.Triton.Random.Proofs.DyadicStep",
+    "VeriTile.Triton.Random.Proofs.PackDecode",
+    "VeriTile.Triton.Random.Proofs.PackRoundedProof",
+    "VeriTile.Triton.Random.Proofs.SignificandBounds",
+    "VeriTile.Triton.Random.Proofs.RoundDyadic",
+    "VeriTile.Triton.Random.Proofs.CanonicalUniformBridge",
+    "VeriTile.Triton.Random.Values",
+    "VeriTile.Triton.Random.UniformValues",
+    "VeriTile.Triton.Semantics.EvalOp",
+    "VeriTile.Triton.Semantics.AtomicReduction",
+    "VeriTile.Triton.Semantics.Step",
+    "VeriTile.Triton.Semantics.Eval",
+    "VeriTile.Triton.Math.LogSumExp",
+    "VeriTile.Triton.Semantics.TiledIndexing",
+    "VeriTile.Triton.Semantics.LaneBridge",
+    "VeriTile.Triton.Semantics.StreamBridge",
+    "VeriTile.Triton.Math.L2Norm",
+    "VeriTile.Triton.Semantics.MaskedReduction",
+    "VeriTile.Triton.Semantics.BroadcastReshape.Attr",
+    "VeriTile.Triton.Semantics.BroadcastReshape",
+    "VeriTile.Triton.Semantics.BlockPtrEval",
+    "VeriTile.Triton.Math.Attention",
+    "VeriTile.Triton.Semantics.StreamingAccumulator",
+    "VeriTile.Triton.Semantics",
+    "VeriTile.Triton.Memory.View",
+    "VeriTile.Triton.Memory.Bounds",
+    "VeriTile.Triton.Memory.Frame.Basic",
+    "VeriTile.Triton.Memory.Frame.Stmt",
+    "VeriTile.Triton.Memory.Frame.Kernel",
+    "VeriTile.Triton.Memory.Frame",
+    "VeriTile.Triton.Memory.Footprint",
+    "VeriTile.Triton.Memory.Typing.Region",
+    "VeriTile.Triton.Memory.Typing.Contracts",
+    "VeriTile.Triton.Memory.Typing.Checker",
+    "VeriTile.Triton.Memory.Typing",
+    "VeriTile.Triton.Float.RoundingModel",
+    "VeriTile.Triton.Float.EvalOpR",
+    "VeriTile.Triton.Semantics.BlockPadding",
+    "VeriTile.Triton.Memory.Flatten",
+    "VeriTile.Triton.Float.StepR",
+    "VeriTile.Triton.Memory.FlattenR",
+    "VeriTile.Triton.Memory.FlattenTolerant",
+    "VeriTile.Triton.Memory.Locality",
+    "VeriTile.Triton.Memory.Denotation",
+    "VeriTile.Triton.Memory.Layout",
+    "VeriTile.Triton.Memory.KernelCore",
+    "VeriTile.Triton.Memory.KernelSpec.Base",
+    "VeriTile.Triton.Memory.KernelSpec.Basic",
+    "VeriTile.Triton.Memory.KernelSpec.Masked",
+    "VeriTile.Triton.Memory.KernelSpec.MaskedND",
+    "VeriTile.Triton.Memory.KernelSpec.BooleanMasked",
+    "VeriTile.Triton.Memory.KernelSpec.Metadata",
+    "VeriTile.Triton.Memory.KernelSpec.Scatter",
+    "VeriTile.Triton.Memory.KernelSpec.Gather",
+    "VeriTile.Triton.Memory.KernelSpec.Grouped",
+    "VeriTile.Triton.Memory.KernelSpec.Stream",
+    "VeriTile.Triton.Memory.KernelSpec.StreamEmit",
+    "VeriTile.Triton.Memory.KernelSpec.StreamAttention",
+    "VeriTile.Triton.Memory.KernelSpec.StreamAttentionMetadata",
+    "VeriTile.Triton.Memory.KernelSpec.TileIndex",
+    "VeriTile.Triton.Memory.KernelSpec.Tile",
+    "VeriTile.Triton.Memory.KernelSpec.TileND",
+    "VeriTile.Triton.Memory.KernelSpec.TileMetadata",
+    "VeriTile.Triton.Memory.KernelSpec.TileGather",
+    "VeriTile.Triton.Memory.KernelSpec",
+    "VeriTile.Triton.Memory",
+    "VeriTile.Triton.KernelLemmas.EvalHelpers",
+    "VeriTile.Triton.KernelLemmas.OffsetInjective",
+    "VeriTile.Triton.KernelLemmas.Matmul",
+    "VeriTile.Triton.KernelLemmas.ScatterStore",
+    "VeriTile.Triton.KernelLemmas.LoopInvariant",
+    "VeriTile.Triton.Float.Erasure",
+    "VeriTile.Triton.Float.StateErasure",
+    "VeriTile.Triton.ExternalCheck",
+    "VeriTile.Triton.Correctness",
+    "VeriTile.Triton.KernelLemmas.CarryFold",
+    "VeriTile.Triton.KernelLemmas",
+    "VeriTile.Triton.Float.Refine",
+    "VeriTile.Triton.Float.Pipeline",
+    "VeriTile.Triton.Float.Equivalence",
+    "VeriTile.Triton.Float",
+    "VeriTile.Triton.DSL.Syntax",
+    "VeriTile.Triton.DSL.Typing",
+    "VeriTile.Triton.DSL.Metadata",
+    "VeriTile.Triton.DSL.Inference",
+    "VeriTile.Triton.DSL.CallValue",
+    "VeriTile.Triton.DSL.Expansion.Common",
+    "VeriTile.Triton.Core.Integer",
+    "VeriTile.Triton.Core.FixedInteger",
+    "VeriTile.Triton.Core.SignedCast",
+    "VeriTile.Triton.DSL.Expansion.Memory",
+    "VeriTile.Triton.DSL.Expansion.Compute",
+    "VeriTile.Triton.DSL.Expansion.Control",
+    "VeriTile.Triton.DSL.RandomProfile",
+    "VeriTile.Triton.DSL.FiniteHelperSource",
+    "VeriTile.Triton.DSL.WelfordSource",
+    "VeriTile.Triton.DSL.Expansion.DType",
+    "VeriTile.Triton.DSL.Expansion.InlineAsm",
+    "VeriTile.Triton.DSL.Expansion.DirectRandom",
+    "VeriTile.Triton.DSL.Expansion.Main",
+    "VeriTile.Triton.DSL.Expansion",
+    "VeriTile.Triton.DSL",
+    "VeriTile.Triton.Math.Activation",
+    "VeriTile.Triton.Math.Loss",
+    "VeriTile.Triton.Math.Optimizer",
+    "VeriTile.Triton.Math.Reduction",
+    "VeriTile.Triton.Math.RMSNorm",
+    "VeriTile.Triton.Math.Softmax",
+    "VeriTile.Triton.Math",
+    "VeriTile.Triton.Launch.Grid",
+    "VeriTile.Triton.Launch.Composition",
+    "VeriTile.Triton.Launch",
+    "VeriTile.Triton.Concurrency.Trace",
+    "VeriTile.Triton.Concurrency.Discipline",
+    "VeriTile.Triton.Concurrency.Refinement",
+    "VeriTile.Triton.Concurrency.ProducerConsumer",
+    "VeriTile.Triton.Concurrency.Atomic",
+    "VeriTile.Triton.Concurrency",
+    "VeriTile.Triton",
+    "VeriTile.Triton.Core.Reshape",
+    "VeriTile.Triton.Float.Structural",
+    "VeriTile.Meta.StatementAudit",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Kernels",
+    "VeriTile.Triton.DSL.PythonConstants",
+    "VeriTile.Triton.DSL.SourceConstant",
+    "VeriTile.Triton.DSL.NestedLoadAssignments",
+    "VeriTile.Triton.DSL.ConstexprMask",
+    "VeriTile.Triton.DSL.PythonBody",
+    "VeriTile.Triton.DSL.SourceFunction",
+    "VeriTile.Triton.DSL.SourceIntrinsic",
+    "VeriTile.Triton.DSL.OptionalPointer",
+    "VeriTile.Triton.DSL.OptionalString",
+    "VeriTile.Triton.DSL.SourceDType",
+    "VeriTile.Triton.DSL.PointerType",
+    "VeriTile.Triton.DSL.TypedStores",
+    "VeriTile.Triton.DSL.TypedStorageReduction",
+    "VeriTile.Triton.DSL.RankOneBlockPtr",
+    "VeriTile.Triton.DSL.SourceFunctionStatements",
+    "VeriTile.Triton.DSL.NarrowUnsigned",
+    "VeriTile.Triton.DSL.Constexpr",
+    "VeriTile.Triton.DSL.OrderedRowSum",
+    "VeriTile.Triton.DSL.CallSignature",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.RawPrototype"
+  ],
+  "compile": [
+    "VeriTile.Triton.DSL.Expansion.Main",
+    "VeriTile.Triton.DSL.Expansion",
+    "VeriTile.Triton.DSL",
+    "VeriTile.Triton",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.Kernels",
+    "VeriTile.Triton.DSL.PythonConstants",
+    "VeriTile.Triton.DSL.SourceConstant",
+    "VeriTile.Triton.DSL.SourceDType",
+    "VeriTile.Triton.DSL.PointerType",
+    "VeriTile.Triton.DSL.TypedStores",
+    "VeriTile.Triton.DSL.TypedStorageReduction",
+    "VeriTile.Triton.DSL.SourceFunctionStatements",
+    "VeriTile.Triton.DSL.NarrowUnsigned",
+    "VeriTile.Triton.DSL.Constexpr",
+    "VeriTile.Triton.DSL.CallSignature",
+    "bench.repairs.tritonbench_g.triton_conv2d_fwd.RawPrototype"
+  ],
+  "reused": [
+    {
+      "module": "VeriTile.Spec",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Meta.Specification",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Core.Types",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Core.Shape",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Core.Float8",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.BitValue",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.ScalarOps",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Philox",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Random.SourceProfile",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Direct",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Random.DirectProfile",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Core.Ast",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Core",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.Scalar",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.State",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.Offset",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Math.Erf",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Core.DiscreteReduction",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.TileOps",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.Float8",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Proofs.Dyadic",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Proofs.RoundQuotientBridge",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Proofs.RoundExpansion",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Proofs.DyadicExponent",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Proofs.DyadicStep",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Proofs.PackDecode",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Proofs.PackRoundedProof",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Proofs.SignificandBounds",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Proofs.RoundDyadic",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Proofs.CanonicalUniformBridge",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Random.Values",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Random.UniformValues",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.EvalOp",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.AtomicReduction",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.Step",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.Eval",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Math.LogSumExp",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.TiledIndexing",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.LaneBridge",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.StreamBridge",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Math.L2Norm",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.MaskedReduction",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.BroadcastReshape.Attr",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.BroadcastReshape",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.BlockPtrEval",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Math.Attention",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.StreamingAccumulator",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.View",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Bounds",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Frame.Basic",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Frame.Stmt",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Frame.Kernel",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Frame",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Footprint",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Typing.Region",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Typing.Contracts",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Typing.Checker",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Typing",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.RoundingModel",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.EvalOpR",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Semantics.BlockPadding",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Flatten",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.StepR",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.FlattenR",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.FlattenTolerant",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Locality",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Denotation",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Layout",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelCore",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Base",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Basic",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Masked",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.MaskedND",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.BooleanMasked",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Metadata",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Scatter",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Gather",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Grouped",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Stream",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.StreamEmit",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.StreamAttention",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.StreamAttentionMetadata",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.TileIndex",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Tile",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.TileND",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.TileMetadata",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.TileGather",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Memory",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas.EvalHelpers",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas.OffsetInjective",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas.Matmul",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas.ScatterStore",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas.LoopInvariant",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.Erasure",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.StateErasure",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.ExternalCheck",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Correctness",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas.CarryFold",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.Refine",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.Pipeline",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.Equivalence",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Syntax",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Typing",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Metadata",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Inference",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.CallValue",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Expansion.Common",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Core.Integer",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Core.FixedInteger",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Core.SignedCast",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Expansion.Memory",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Expansion.Compute",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Expansion.Control",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.RandomProfile",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.FiniteHelperSource",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.WelfordSource",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Expansion.DType",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Expansion.InlineAsm",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.Expansion.DirectRandom",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Math.Activation",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Math.Loss",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Math.Optimizer",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Math.Reduction",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Math.RMSNorm",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Math.Softmax",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Math",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Launch.Grid",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Launch.Composition",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Launch",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Concurrency.Trace",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Concurrency.Discipline",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Concurrency.Refinement",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Concurrency.ProducerConsumer",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Concurrency.Atomic",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Concurrency",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Core.Reshape",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.Float.Structural",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Meta.StatementAudit",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.NestedLoadAssignments",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.ConstexprMask",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.PythonBody",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.SourceFunction",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.SourceIntrinsic",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.OptionalPointer",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.OptionalString",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.RankOneBlockPtr",
+      "checkout": "/tmp/integer113-fast-frontend"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.OrderedRowSum",
+      "checkout": "/tmp/integer113-fast-frontend"
+    }
+  ]
+}

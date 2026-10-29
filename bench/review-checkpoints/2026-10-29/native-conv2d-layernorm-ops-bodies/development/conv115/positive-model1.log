@@ -1,0 +1,14 @@
+/tmp/conv115-diagnostics/PositivePointerModel.lean:115:18: warning: unused variable `Input`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/conv115-diagnostics/PositivePointerModel.lean:115:24: warning: unused variable `Weight`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/conv115-diagnostics/PositivePointerModel.lean:116:53: warning: unused variable `OGD`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/conv115-diagnostics/PositivePointerModel.lean:209:5: error(lean.invalidDottedIdent): Invalid dotted identifier notation: The expected type of `.forRange` could not be determined
+
+Hint: Using one of these would be unambiguous:
+  [apply] `ComputeStmt.forRange`
+  [apply] `Stmt.forRange`

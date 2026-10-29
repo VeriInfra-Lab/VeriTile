@@ -1,0 +1,5 @@
+VeriTile.Bench.Repairs.Conv2d.KernelNative.half_embed: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.Conv2d.KernelNative.instructions_eq: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.Conv2d.KernelNative.lower32: definition does not reference [VeriTile.Bench.Repairs.Conv2d.KernelSource.kernel,
+ VeriTile.Bench.Repairs.Conv2d.KernelGrid.launch,
+ VeriTile.Bench.Repairs.Conv2d.KernelGrid.value] — non-circular ✓

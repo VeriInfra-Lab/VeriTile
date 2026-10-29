@@ -1,0 +1,5 @@
+/tmp/conv115-diagnostics/bench/tritonbench_g/triton_conv2d_fwd/Proofs/SignedLoopSimulation.lean:23:2: error: 'change' tactic failed, pattern
+  stepForRangeAuxR R index first last stride b t = some t'
+is not definitionally equal to target
+  stepStmtR R (Stmt.forRange index first last stride b) t = some t'
+/tmp/conv115-diagnostics/bench/tritonbench_g/triton_conv2d_fwd/Proofs/SignedLoopSimulation.lean:61:0: error: VeriTile.Bench.TritonBenchG.TritonConv2dFwd.SignedLoopSimulation.nest: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

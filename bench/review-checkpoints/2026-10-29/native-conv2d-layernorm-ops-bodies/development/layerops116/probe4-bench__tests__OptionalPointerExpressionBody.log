@@ -1,0 +1,30 @@
+/tmp/layerops116-frontend/bench/tests/OptionalPointerExpressionBody.lean:28:4: error(lean.unknownIdentifier): Unknown identifier `Safety.TraceSafe`
+/tmp/layerops116-frontend/bench/tests/OptionalPointerExpressionBody.lean:29:8: error(lean.unknownIdentifier): Unknown identifier `Safety.TraceSafe`
+/tmp/layerops116-frontend/bench/tests/OptionalPointerExpressionBody.lean:28:66: error: unsolved goals
+α : Type
+inst✝ : Inhabited α
+M : Algebra α
+s : State α
+Mean : RegionName
+⊢ sorry ()
+/tmp/layerops116-frontend/bench/tests/OptionalPointerExpressionBody.lean:35:4: error(lean.unknownIdentifier): Unknown identifier `Safety.TraceSafe`
+/tmp/layerops116-frontend/bench/tests/OptionalPointerExpressionBody.lean:36:8: error(lean.unknownIdentifier): Unknown identifier `Safety.TraceSafe`
+/tmp/layerops116-frontend/bench/tests/OptionalPointerExpressionBody.lean:35:67: error: unsolved goals
+α : Type
+inst✝ : Inhabited α
+M : Algebra α
+s : State α
+Mean : RegionName
+⊢ sorry ()
+/tmp/layerops116-frontend/bench/tests/OptionalPointerExpressionBody.lean:44:6: error(lean.unknownIdentifier): Unknown identifier `Safety.TraceSafe`
+/tmp/layerops116-frontend/bench/tests/OptionalPointerExpressionBody.lean:45:8: error(lean.unknownIdentifier): Unknown identifier `Safety.TraceSafe`
+/tmp/layerops116-frontend/bench/tests/OptionalPointerExpressionBody.lean:44:67: error: unsolved goals
+α : Type
+inst✝ : Inhabited α
+M : Algebra α
+s : State α
+Mean : RegionName
+⊢ ¬sorry ()
+VeriTile.Tests.OptionalPointerExpressionBody.absent_needs_no_storage: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Tests.OptionalPointerExpressionBody.inverse_absent_needs_no_storage: axiom footprint ⊆ standard base ✓  ([])
+/tmp/layerops116-frontend/bench/tests/OptionalPointerExpressionBody.lean:65:0: error: VeriTile.Tests.OptionalPointerExpressionBody.present_requires_storage: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

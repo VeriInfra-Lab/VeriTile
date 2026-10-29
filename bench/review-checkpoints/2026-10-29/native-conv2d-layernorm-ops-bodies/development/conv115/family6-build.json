@@ -1,0 +1,16 @@
+{
+  "status": "FAIL",
+  "start": 1793258374.9030328,
+  "results": [
+    {
+      "module": "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPReference",
+      "source_sha256": "fc504085e714c81ef88f857d7bb82020ec785a897a0b361666a3b24fe9b50425",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793258374.9031904,
+      "end": 1793258377.4981427,
+      "log": "/tmp/conv115-family6-bench__tritonbench_g__triton_conv2d_fwd__Proofs__FPReference.log"
+    }
+  ],
+  "end": 1793258377.4983494
+}

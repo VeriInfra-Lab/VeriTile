@@ -1,0 +1,223 @@
+{
+  "status": "FAIL",
+  "start": 1793262243.6086354,
+  "results": [
+    {
+      "module": "VeriTile.Triton.DSL.ConstexprMask",
+      "source_sha256": "82a67cf871b38f223173f7c0cc6cea6a96233ea25a3a75a52a874ac15ce7e260",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793262243.6088328,
+      "end": 1793262244.5623305,
+      "log": "/tmp/layerops116-family5-VeriTile__Triton__DSL__ConstexprMask.log"
+    },
+    {
+      "module": "VeriTile.Triton.DSL.CallSignature",
+      "source_sha256": "b341da6323cdc406cff0e6a3db6a296f5903d77da99ff587c71d53a50a3240cc",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793262244.5626512,
+      "end": 1793262288.9995244,
+      "log": "/tmp/layerops116-family5-VeriTile__Triton__DSL__CallSignature.log"
+    },
+    {
+      "module": "bench.tests.OptionalPointerExpressionBody",
+      "source_sha256": "6e0d08c3a4102c459f908bb4de43ed204cc79ea34ae1cf37e296eddff00102da",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793262288.9998453,
+      "end": 1793262297.2222002,
+      "log": "/tmp/layerops116-family5-bench__tests__OptionalPointerExpressionBody.log"
+    },
+    {
+      "module": "bench.tests.OptionalPointerBody",
+      "source_sha256": "b44615c8f2e98812f058d275f22dd1c06c89d6375a015d61fe070d40642c6799",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793262297.2224638,
+      "end": 1793262298.9014168,
+      "log": "/tmp/layerops116-family5-bench__tests__OptionalPointerBody.log"
+    },
+    {
+      "module": "bench.tests.ConstexprMaskBody",
+      "source_sha256": "41cc1f33ca954aa213c3caae820779dca8c5a1287e95f96426348d70b55208ac",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793262298.901677,
+      "end": 1793262300.5827866,
+      "log": "/tmp/layerops116-family5-bench__tests__ConstexprMaskBody.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_ops.Kernels",
+      "source_sha256": "93bf54c1f5010e081b4fcf219b29fdb24d08f147af41550c71132d2658edbd5e",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793262300.5830567,
+      "end": 1793262324.1596897,
+      "log": "/tmp/layerops116-family5-bench__repairs__tritonbench_g__layer_norm_ops__Kernels.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_ops.IO",
+      "source_sha256": "ae9528a4388817fa754e0bb9b18441d7d1251874cfe42745dcffa612540a6713",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793262324.1599698,
+      "end": 1793262328.9181776,
+      "log": "/tmp/layerops116-family5-bench__repairs__tritonbench_g__layer_norm_ops__IO.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ForwardModel",
+      "source_sha256": "ad2e36e34f095cc86e3fd553e0646b474bec31deabda6c12bfecc52406364f2f",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793262328.918446,
+      "end": 1793262331.5638797,
+      "log": "/tmp/layerops116-family5-bench__repairs__tritonbench_g__layer_norm_ops__Proofs__ForwardModel.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardModel",
+      "source_sha256": "6247df2c03341044c187892419508cf7f1deecfc9ac3726186efc091b1d79759",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793262331.5641341,
+      "end": 1793262342.442054,
+      "log": "/tmp/layerops116-family5-bench__repairs__tritonbench_g__layer_norm_ops__Proofs__BackwardModel.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.KernelReference",
+      "source_sha256": "3dbd5db0e3fbb4756900950ebc99d966c37b403d06e5e82544610f44071fab55",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793262342.4423487,
+      "end": 1793262344.9249713,
+      "log": "/tmp/layerops116-family5-bench__repairs__tritonbench_g__layer_norm_ops__Proofs__KernelReference.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.FiniteReference",
+      "source_sha256": "ea789ce2a14df044721cab2b47d8d5e5eb8a79f3b3e8b10df43b108ac32b63c5",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793262344.92528,
+      "end": 1793262347.8500736,
+      "log": "/tmp/layerops116-family5-bench__repairs__tritonbench_g__layer_norm_ops__Proofs__FiniteReference.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.Frame",
+      "source_sha256": "b27d70315150344ccfd9d4e2589e05616fbd96ba8c606c68cdf5dc355c632484",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793262347.850375,
+      "end": 1793262350.557628,
+      "log": "/tmp/layerops116-family5-bench__repairs__tritonbench_g__layer_norm_ops__Proofs__Frame.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.Readback",
+      "source_sha256": "8f4eaedd1ad06ec4c794428fe7d556b3d3b1b41a81e49409e57a4736bc903681",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793262350.5579088,
+      "end": 1793262353.5185614,
+      "log": "/tmp/layerops116-family5-bench__repairs__tritonbench_g__layer_norm_ops__Proofs__Readback.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.KernelInvariant",
+      "source_sha256": "50d5d8da1c8a61b6b2205b37d1fa4c72026111984d52c97dd87754d56f048412",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793262353.5188513,
+      "end": 1793262356.3788655,
+      "log": "/tmp/layerops116-family5-bench__repairs__tritonbench_g__layer_norm_ops__Proofs__KernelInvariant.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.KernelFrame",
+      "source_sha256": "6982c8f3b45acef5431077338ec4b7fabfc337081643bf87458741cb5e4f9090",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793262356.3791492,
+      "end": 1793262359.3123317,
+      "log": "/tmp/layerops116-family5-bench__repairs__tritonbench_g__layer_norm_ops__Proofs__KernelFrame.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.KernelReadback",
+      "source_sha256": "a73390a67a9874a2f5791903d9c5036073ff47edbe1178e4080900ccf769c2e8",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793262359.3126233,
+      "end": 1793262362.9747903,
+      "log": "/tmp/layerops116-family5-bench__repairs__tritonbench_g__layer_norm_ops__Proofs__KernelReadback.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.MemoryHelpers",
+      "source_sha256": "9d4737a6a0df3194a849967fb3c337737f547fd2308e5315a919385347857665",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793262362.975085,
+      "end": 1793262365.5394232,
+      "log": "/tmp/layerops116-family5-bench__repairs__tritonbench_g__layer_norm_ops__Proofs__MemoryHelpers.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ForwardRun00",
+      "source_sha256": "76031f3d5d12423a343cec4e073502edfd2dbc51c3e4d89157df384fc3e50b5a",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793262365.5397148,
+      "end": 1793262390.3723106,
+      "log": "/tmp/layerops116-family5-bench__repairs__tritonbench_g__layer_norm_ops__Proofs__ForwardRun00.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ForwardRun01",
+      "source_sha256": "2f4ef20566712d94d96ecdb1970fbe68fb59a1769f4b994a764e943bbf313fbb",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793262390.3726087,
+      "end": 1793262420.7580373,
+      "log": "/tmp/layerops116-family5-bench__repairs__tritonbench_g__layer_norm_ops__Proofs__ForwardRun01.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ForwardRun10",
+      "source_sha256": "21d5bbfa2d45a1f12d6f1ffc138faf8884036fda04f90d8379b9b6887e3227a1",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793262420.7583618,
+      "end": 1793262440.7476397,
+      "log": "/tmp/layerops116-family5-bench__repairs__tritonbench_g__layer_norm_ops__Proofs__ForwardRun10.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ForwardRun11",
+      "source_sha256": "a0414644024719b38a083e9e483e87c762536027fceb4f8828f8bc453863c5d5",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793262440.7479496,
+      "end": 1793262466.2019012,
+      "log": "/tmp/layerops116-family5-bench__repairs__tritonbench_g__layer_norm_ops__Proofs__ForwardRun11.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.ForwardRun",
+      "source_sha256": "7a3e8ebb00204abc5b95dd7019b85f240c62daf5e1a7abb22b7c0cacb39d4ded",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793262466.2022426,
+      "end": 1793262469.1147792,
+      "log": "/tmp/layerops116-family5-bench__repairs__tritonbench_g__layer_norm_ops__Proofs__ForwardRun.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardInvariant",
+      "source_sha256": "488f3ce065c5465c79dccec6ad9d6500cef0793aeb0c1b36b034d1969f1c6f02",
+      "status": "PASS",
+      "exit_code": 0,
+      "start": 1793262469.115091,
+      "end": 1793262471.6284254,
+      "log": "/tmp/layerops116-family5-bench__repairs__tritonbench_g__layer_norm_ops__Proofs__BackwardInvariant.log"
+    },
+    {
+      "module": "bench.repairs.tritonbench_g.layer_norm_ops.Proofs.BackwardPrelude00",
+      "source_sha256": "b720e30c63917363d6a6d799eced62b37d312f0cdcf9382389507e11b81876cb",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793262471.628736,
+      "end": 1793262474.5550754,
+      "log": "/tmp/layerops116-family5-bench__repairs__tritonbench_g__layer_norm_ops__Proofs__BackwardPrelude00.log"
+    }
+  ],
+  "end": 1793262474.5553458
+}

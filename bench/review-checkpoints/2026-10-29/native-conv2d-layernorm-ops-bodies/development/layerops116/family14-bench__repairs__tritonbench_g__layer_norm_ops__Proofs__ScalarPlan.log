@@ -1,0 +1,11 @@
+VeriTile.Bench.Repairs.LayerNormOps.ScalarPlan.fma_add_ideal: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormOps.ScalarPlan.fma_sub_ideal: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormOps.ScalarPlan.sqrt_node: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormOps.ScalarPlan.Expr.eval: definition does not reference [VeriTile.Bench.Repairs.LayerNormLiger.Forward.kernel,
+ VeriTile.Bench.Repairs.LayerNormLiger.Backward.kernel] — non-circular ✓

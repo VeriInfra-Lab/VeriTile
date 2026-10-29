@@ -1,0 +1,10 @@
+VeriTile.Bench.Repairs.Conv2d.validCheck_iff: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.Conv2d.checkCall_iff: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.Conv2d.check_iff: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+VeriTile.Bench.Repairs.Conv2d.rejected_iff: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+VeriTile.Bench.Repairs.Conv2d.domain_safety: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.Conv2d.grid_limits: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])

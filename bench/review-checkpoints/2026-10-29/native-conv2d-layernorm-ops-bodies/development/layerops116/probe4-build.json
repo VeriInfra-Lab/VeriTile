@@ -1,0 +1,16 @@
+{
+  "status": "FAIL",
+  "start": 1793260472.6188924,
+  "results": [
+    {
+      "module": "bench.tests.OptionalPointerExpressionBody",
+      "source_sha256": "b4b3e2880538cf6367b8015d004fc514e376d3fc12c703be24b6697e634520e3",
+      "status": "FAIL",
+      "exit_code": 1,
+      "start": 1793260472.6190345,
+      "end": 1793260480.5340831,
+      "log": "/tmp/layerops116-probe4-bench__tests__OptionalPointerExpressionBody.log"
+    }
+  ],
+  "end": 1793260480.534301
+}
