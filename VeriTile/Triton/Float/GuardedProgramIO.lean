@@ -29,6 +29,13 @@ def Models (R : Spec.Assumptions FP.GuardedFragment)
     (p : GuardedProgram io allowed domain) : Prop :=
   ∀ job ∈ p.jobs, FP.Guarded.Models R job.backend domain
 
+/-- Each numerical step supplies both model certificates and the complete IO
+proof. These must not be implications: transitivity may choose a different
+intermediate backend, including one that does not model the rule set. -/
+def Numerical (R : Spec.Assumptions FP.GuardedFragment)
+    (p q : GuardedProgram io allowed domain) : Prop :=
+  p.Models R ∧ q.Models R ∧ Equivalent p q
+
 instance : Spec.ProgramSyntax (GuardedProgram io allowed domain) where
   Statement := FP.GuardedFragment
   theory := FP.Guarded.fp32Theory
@@ -36,7 +43,7 @@ instance : Spec.ProgramSyntax (GuardedProgram io allowed domain) where
   signature := GuardedProgram.outputPrecision
   body := fun p => p.jobs.map fun job => ⟨[], job.kernel.surfaceBody, .real, none⟩
   structural := some Equivalent
-  numerical := fun R p q => p.Models R → q.Models R → Equivalent p q
+  numerical := Numerical
   sameContext := Eq
 
 /-- A numerical step still has to prove the complete, existing IO judgment.
@@ -46,6 +53,18 @@ theorem of_equivalent (p q : GuardedProgram io allowed domain)
     (proof : Equivalent p q) (R : Spec.Assumptions FP.GuardedFragment) :
     Spec.Equiv p q R :=
   Spec.FloatingPoint.ofStructural rfl precision proof
+
+/-- Numeric laws may be used in `proof` through the supplied certificates;
+neither a missing model nor a model certificate replaces execution evidence. -/
+theorem of_numerical (p q : GuardedProgram io allowed domain)
+    (precision : p.outputPrecision = q.outputPrecision)
+    (R : Spec.Assumptions FP.GuardedFragment)
+    (leftModel : p.Models R) (rightModel : q.Models R)
+    (proof : Equivalent p q) : Spec.Equiv p q R :=
+  Spec.FloatingPoint.ofNumerical rfl precision ⟨leftModel, rightModel, proof⟩
+
+#axiomsClean of_equivalent
+#axiomsClean of_numerical
 
 end GuardedProgram
 end

@@ -76,6 +76,7 @@ globs = [
   "bench.tests.FPStructural",
   "bench.tests.FPStructuralSafety",
   "bench.tests.FPProgramIO",
+  "bench.tests.FPGuardedProgramIO",
   "bench.tests.FPInputBindingIO",
   "bench.tests.FPAddressedInputsIO",
   "bench.tests.FPObservedProgramIO",

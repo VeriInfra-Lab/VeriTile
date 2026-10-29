@@ -129,6 +129,7 @@ def snapshot():
         paths.extend((bench / 'tasks').glob('*/task.json'))
         paths.extend([bench / 'manifest.json', bench / 'check.py', bench / 'README.md'])
     paths.extend([ROOT / 'AGENTS.md', ROOT / 'bench/MAIN_THEOREM_CONVENTIONS.md',
+                  ROOT / 'lakefile.toml', ROOT / 'bench/tests/FPGuardedProgramIO.lean',
                   ROOT / 'VeriTile/Triton/Float/GuardedProgramIO.lean',
                   ROOT / 'VeriTile/Triton/Memory/LogicalScheduledKernelIO.lean',
                   Path(__file__)])

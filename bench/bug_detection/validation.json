@@ -541,7 +541,7 @@
     "bench/bug_detection/tasks/swiglu__scale3/Misc/Validation.lean": "29f5d7fd25ee24ef3011399a795d27bac2f42d5ede7a2788668f76d76fcfea17",
     "bench/bug_detection/tasks/swiglu__scale3/Proofs/Backend.lean": "81f3854c3aebdc7fc063ba0cb484ddd72a0ad8780f8f28662a5dcdd92229d6f1",
     "bench/bug_detection/tasks/swiglu__scale3/task.json": "31567131be39e2b4c800e290cef10d85f908cc53a9add90e8e196d6e3ef224db",
-    "VeriTile/Triton/Float/GuardedProgramIO.lean": "6cb69d57124300eee8d1c86f906dce5260e4169004de76fb8cc1782e6abfdb5a",
+    "VeriTile/Triton/Float/GuardedProgramIO.lean": "d49d97865627028acef594b848a4627e83e139849ce8f882c8901d75e11d6046",
     "VeriTile/Triton/Memory/LogicalScheduledKernelIO.lean": "63fc2fd56a16d72f476294a9bd175483cc1d188e5760f18d0c40ba59d9764e2b"
   }
 }
