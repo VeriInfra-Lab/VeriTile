@@ -2,10 +2,10 @@ import bench.repairs.tritonbench_g.batched_vecmat_mult.Proofs.PairExecution
 
 namespace VeriTile.Bench.Repairs.BatchedVecmatMult.BlockFirst
 open VeriTile.Triton FP.Structural
+open FP.Equational (ReductionPlan)
 open VeriTile.Bench.TritonBenchG.BatchedVecmatMult
 open SourceGraph (Expr Word Memory Parameters PlanSelector engine treeValue sumValues
-  row col outputOffset aOffset bOffset blockSum Outside)
-open FP.Equational (ReductionPlan)
+  row col outputOffset aOffset bOffset blockSum accumulated expectedMemory Outside expectedMemory_frame)
 noncomputable section
 set_option maxRecDepth 16000
 set_option maxHeartbeats 3000000
@@ -17,14 +17,14 @@ theorem loop_correct (rest : Algebra Word) (plans : PlanSelector)
     (p : Parameters) (initial : State Word) (fuel c : Nat) (current : State Word)
     (hle : c ≤ p.K / p.BK) (hbound : p.K / p.BK - c ≤ fuel)
     (h : Invariant plans p initial c current) :
-    ∃ final, FP.Structural.range (engine rest plans) "k_index" c (p.K / p.BK) 1
+    ∃ final, FP.Structural.rangeInt (engine rest plans) "k_index" (c : Int) ((p.K / p.BK : Nat) : Int) 1
       (body p) current = some final ∧ Invariant plans p initial (p.K / p.BK) final := by
   induction fuel generalizing c current with
   | zero =>
     have he : c = p.K / p.BK := by omega
     subst c
     refine ⟨current, ?_, h⟩
-    rw [FP.Structural.range]
+    rw [FP.Structural.rangeInt]
     simp
   | succ fuel ih =>
     by_cases hc : c < p.K / p.BK
@@ -32,12 +32,12 @@ theorem loop_correct (rest : Algebra Word) (plans : PlanSelector)
       obtain ⟨final, he, hf⟩ := ih (c+1) next.val (by omega) (by omega)
         (bodyInvariant rest plans p initial current c h)
       refine ⟨final, ?_, hf⟩
-      rw [FP.Structural.range, if_neg (by decide), if_pos hc, next.property]
-      exact he
+      rw [FP.Structural.rangeInt, if_neg (by decide), if_pos (Int.ofNat_lt.mpr hc), next.property]
+      simpa only [Int.natCast_add,Int.natCast_one] using he
     · have he : c = p.K / p.BK := by omega
       subst c
       refine ⟨current, ?_, h⟩
-      rw [FP.Structural.range]
+      rw [FP.Structural.rangeInt]
       simp
 
 def tailExecution (rest : Algebra Word) (plans : PlanSelector)
@@ -46,9 +46,10 @@ def tailExecution (rest : Algebra Word) (plans : PlanSelector)
     {t : State Word // run (engine rest plans) (tail p) current = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [tail, source, VeriTile.Bench.Repairs.BatchedVecmatMult.blockFirst, TypedSource.blockFirst, ComputeKernel.surfaceBody,
+  simp [tail, source, VeriTile.Bench.Repairs.BatchedVecmatMult.blockFirst,
+    VeriTile.Bench.Repairs.BatchedVecmatMult.blockFirstKernel, ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
-    store, h.offsets, h.carry, Region.cast]
+    store, h.offsets, h.carry, Region.cast,Int.toNat_natCast]
   rfl
 
 theorem fold_write_memory (p : Parameters) (initial s : State Word)
@@ -89,7 +90,9 @@ theorem complete_correct (rest : Algebra Word) (plans : PlanSelector)
     simp only [Option.bind_some, run, step, evalExpr, evalComputeOp, evalOp_unfold,
       bind, Option.bind]
     rw [hp.blocks]
-    simp only [hl]
+    simp only [Option.bind_some]
+    simp only [Int.natCast_zero] at hl
+    rw [hl]
     exact final.property
   · intro r o ho
     rw [tail_memory]

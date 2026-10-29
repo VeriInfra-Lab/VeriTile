@@ -1,0 +1,204 @@
+[
+  {
+    "lean": "bench/repairs/tritonbench_g/flash_decode2_phi/Kernels.lean",
+    "lean_definition": "phi",
+    "python": "bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/flash_decode2_phi_block_checked.py",
+    "python_function": "_fwd_kernel_flash_decode_stage2",
+    "signature_definition": "phiCallSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "B_Seqlen",
+          "i32"
+        ],
+        [
+          "Mid_O",
+          "fp32"
+        ],
+        [
+          "Mid_O_LogExpSum",
+          "fp32"
+        ],
+        [
+          "Out",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_mid_ob",
+          "integer"
+        ],
+        [
+          "stride_mid_oh",
+          "integer"
+        ],
+        [
+          "stride_mid_os",
+          "integer"
+        ],
+        [
+          "stride_mid_od",
+          "integer"
+        ],
+        [
+          "stride_mid_o_eb",
+          "integer"
+        ],
+        [
+          "stride_mid_o_eh",
+          "integer"
+        ],
+        [
+          "stride_mid_o_es",
+          "integer"
+        ],
+        [
+          "stride_obs",
+          "integer"
+        ],
+        [
+          "stride_oh",
+          "integer"
+        ],
+        [
+          "stride_od",
+          "integer"
+        ],
+        [
+          "head_dim",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SEQ",
+        "BLOCK_DMODEL"
+      ],
+      "readPorts": [
+        "B_Seqlen",
+        "Mid_O",
+        "Mid_O_LogExpSum"
+      ],
+      "writePorts": [
+        "Out"
+      ],
+      "naturalIntegerPointers": [
+        "B_Seqlen"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_mid_ob": "H * S * D",
+      "stride_mid_oh": "S * D",
+      "stride_mid_os": "D",
+      "stride_mid_od": "1",
+      "stride_mid_o_eb": "H * S",
+      "stride_mid_o_eh": "S",
+      "stride_mid_o_es": "1",
+      "stride_obs": "H * D",
+      "stride_oh": "D",
+      "stride_od": "1",
+      "head_dim": "D"
+    }
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/flash_decode2_phi/Kernels.lean",
+    "lean_definition": "phiSharedBase",
+    "python": "bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/candidate_kernels.py",
+    "python_function": "_fwd_kernel_flash_decode_stage2_shared_base",
+    "signature_definition": "phiCallSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "B_Seqlen",
+          "i32"
+        ],
+        [
+          "Mid_O",
+          "fp32"
+        ],
+        [
+          "Mid_O_LogExpSum",
+          "fp32"
+        ],
+        [
+          "Out",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_mid_ob",
+          "integer"
+        ],
+        [
+          "stride_mid_oh",
+          "integer"
+        ],
+        [
+          "stride_mid_os",
+          "integer"
+        ],
+        [
+          "stride_mid_od",
+          "integer"
+        ],
+        [
+          "stride_mid_o_eb",
+          "integer"
+        ],
+        [
+          "stride_mid_o_eh",
+          "integer"
+        ],
+        [
+          "stride_mid_o_es",
+          "integer"
+        ],
+        [
+          "stride_obs",
+          "integer"
+        ],
+        [
+          "stride_oh",
+          "integer"
+        ],
+        [
+          "stride_od",
+          "integer"
+        ],
+        [
+          "head_dim",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SEQ",
+        "BLOCK_DMODEL"
+      ],
+      "readPorts": [
+        "B_Seqlen",
+        "Mid_O",
+        "Mid_O_LogExpSum"
+      ],
+      "writePorts": [
+        "Out"
+      ],
+      "naturalIntegerPointers": [
+        "B_Seqlen"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_mid_ob": "H * S * D",
+      "stride_mid_oh": "S * D",
+      "stride_mid_os": "D",
+      "stride_mid_od": "1",
+      "stride_mid_o_eb": "H * S",
+      "stride_mid_o_eh": "S",
+      "stride_mid_o_es": "1",
+      "stride_obs": "H * D",
+      "stride_oh": "D",
+      "stride_od": "1",
+      "head_dim": "D"
+    }
+  }
+]

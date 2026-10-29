@@ -387,6 +387,11 @@ partial def expandCdiv (expandExpr : ExprExpander) (env : Env)
   let b' ← expandExpr env b
   ensureAlgorithmOnly "tl.cdiv" a'
   ensureAlgorithmOnly "tl.cdiv" b'
+  if a'.dtype == .int || b'.dtype == .int then
+    -- The source helper is (x + (div - 1)) // div. Signed runtime //
+    -- truncates toward zero; it is not mathematical ceiling for negatives.
+    -- Reuse ordinary expression lowering for its casts and broadcasting.
+    return ← expandExpr env (← `(tritonExpr| ($a + ($b - 1)) // $b))
   ensureDType .nat a'.dtype "tl.cdiv lhs"
   ensureDType .nat b'.dtype "tl.cdiv rhs"
   let (addBc, outShape) ← broadcastTerm a'.shape b'.shape "tl.cdiv"

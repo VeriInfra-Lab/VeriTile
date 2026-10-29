@@ -79,6 +79,14 @@ and operand/target order are retained. -/
 syntax (name := tritonPythonParenthesizedAssignment)
   ident ", " ident (", " ident)* " = " "(" tritonExpr ", " tritonExpr (", " tritonExpr)* ")" : tritonStmt
 
+/-- Positional block-pointer arguments have the same order as Triton's named
+arguments. Normalize their spelling before dtype and pointer analysis; the
+stored Python body and every argument expression remain intact. -/
+syntax (name := tritonPythonPositionalBlockPtr)
+  "tl.make_block_ptr(" tritonExpr "," "(" tritonExpr,* ")"
+  "," "(" tritonExpr,* ")" "," "(" tritonExpr,* ")"
+  "," "(" tritonExpr,* ")" "," "(" num,* ")" ")" : tritonExpr
+
 private structure Line where
   indent : Nat
   text : String
@@ -232,6 +240,19 @@ private partial def normalizeAttributeCasts (raw : Syntax) : MacroM Syntax := do
   let rebuilt := match raw with
     | .node info kind _ => Syntax.node info kind children
     | _ => raw
+  if let `(tritonExpr| tl.make_block_ptr($base:tritonExpr,
+      ($shape:tritonExpr,*), ($strides:tritonExpr,*), ($offsets:tritonExpr,*),
+      ($block:tritonExpr,*), ($order:num,*))) := rebuilt then
+    let baseKey := mkIdent `base
+    let shapeKey := mkIdent `shape
+    let stridesKey := mkIdent `strides
+    let offsetsKey := mkIdent `offsets
+    let blockKey := mkIdent `block_shape
+    let orderKey := mkIdent `order
+    return (← `(tritonExpr| tl.make_block_ptr($baseKey:ident=$base,
+      $shapeKey:ident=($shape,*), $stridesKey:ident=($strides,*),
+      $offsetsKey:ident=($offsets,*), $blockKey:ident=($block,*),
+      $orderKey:ident=($order,*)))).raw
   if let `(tritonStmt| $a:ident, $b:ident $[, $ids:ident]* =
       ($x:tritonExpr, $y:tritonExpr $[, $values:tritonExpr]*)) := rebuilt then
     return (← `(tritonStmt| $a:ident, $b:ident $[, $ids:ident]* =

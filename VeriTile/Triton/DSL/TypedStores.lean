@@ -92,17 +92,22 @@ private def explicitCastType (pointers : Types) (e : TSyntax `tritonExpr) : Opti
   | .str (.str pointer "type") "element_ty" => lookup pointers (mkIdent pointer)
   | _ => sourceKinds.find? (fun dtype => PointerType.dtypeName dtype == target)
 
-private def constructorType (e : TSyntax `tritonExpr) : Option Triton.PointerType := do
+private def constructorType (pointers : Types) (e : TSyntax `tritonExpr) : Option Triton.PointerType := do
+  let resolve (target : Name) : Option Triton.PointerType :=
+    match target with
+    | .str (.str pointer "dtype") "element_ty"
+    | .str (.str pointer "type") "element_ty" => lookup pointers (mkIdent pointer)
+    | _ => sourceKinds.find? (fun dtype => PointerType.dtypeName dtype == target)
   let args := e.raw.getArgs
   let first ← args[0]?
-  unless first.isAtom && ["tl.zeros(","tl.full("].contains first.getAtomVal do failure
+  unless first.isAtom && ["tl.zeros(","tl.full(","tl.sum(","tl.cumsum("].contains first.getAtomVal do failure
   for i in [:args.size] do
     if args[i]!.isIdent && args[i]!.getId.eraseMacroScopes == `dtype && i+2 < args.size then
       let target ← dtypeToken args[i+2]!
-      return ← sourceKinds.find? (fun dtype => PointerType.dtypeName dtype == target)
+      return ← resolve target
   for arg in args do
     if let some target := dtypeToken arg then
-      if let some dtype := sourceKinds.find? (fun dtype => PointerType.dtypeName dtype == target) then
+      if let some dtype := resolve target then
         return dtype
   match e with
   | `(tritonExpr| tl.zeros([$_:tritonExpr,*])) => return .fp32
@@ -126,8 +131,21 @@ private partial def valueType (pointers : Types) (values : Values)
     | .typed .fp32, .floatingLiteral | .floatingLiteral, .typed .fp32 => some .fp32
     | .typed .fp32, .typed integer | .typed integer, .typed .fp32 =>
         if [.fp16,.bf16,.i8,.i16,.i32,.i64,.u8,.u16,.u32,.u64,.boolean].contains integer then some .fp32 else none
+    | .typed .fp16, .integerLiteral | .integerLiteral, .typed .fp16
+    | .typed .fp16, .integerScalar | .integerScalar, .typed .fp16
+    | .typed .fp16, .floatingLiteral | .floatingLiteral, .typed .fp16 => some .fp16
+    | .typed .bf16, .integerLiteral | .integerLiteral, .typed .bf16
+    | .typed .bf16, .floatingLiteral | .floatingLiteral, .typed .bf16 => some .bf16
+    | .typed left, .typed right =>
+        if left == right && [.fp16,.bf16].contains left then some left
+        else if (left == .fp16 && right == .bf16) || (left == .bf16 && right == .fp16) then some .fp16
+        else if [.fp16,.bf16].contains left &&
+            [.i8,.i16,.i32,.i64,.u8,.u16,.u32,.u64,.boolean].contains right then some (if left == .bf16 then .fp32 else left)
+        else if [.fp16,.bf16].contains right &&
+            [.i8,.i16,.i32,.i64,.u8,.u16,.u32,.u64,.boolean].contains left then some (if right == .bf16 then .fp32 else right)
+        else none
     | _, _ => none
-  if let some dtype := (explicitCastType pointers e).orElse (fun _ => constructorType e) then some (.typed dtype) else
+  if let some dtype := (explicitCastType pointers e).orElse (fun _ => constructorType pointers e) then some (.typed dtype) else
   match e with
   | `(tritonExpr| tl.__python_literal($inner:tritonExpr)) => valueType pointers values inner
   | `(tritonExpr| $id:ident) => (values.find? (fun entry => entry.1 == name id)).map Prod.snd
@@ -137,6 +155,7 @@ private partial def valueType (pointers : Types) (values : Values)
   | `(tritonExpr| $(($_:term : ℝ))) => some .floatingLiteral
   | `(tritonExpr| $_:num) | `(tritonExpr| -$_:num) => some .integerLiteral
   | `(tritonExpr| $_:scientific) | `(tritonExpr| -$_:scientific)
+  | `(tritonExpr| -inf)
   | `(tritonExpr| float($_:term)) | `(tritonExpr| -float($_:term)) => some .floatingLiteral
   | `(tritonExpr| tl.load($p:tritonExpr, $_mask:tritonExpr $[, $kwargs:tritonMemKwarg]*)) =>
       if kwargs.any (fun kw => dtypeOverride kw.raw) then none else (pointerType pointers p).map ValueInfo.typed
@@ -144,8 +163,10 @@ private partial def valueType (pointers : Types) (values : Values)
       if kwargs.any (fun kw => dtypeOverride kw.raw) then none else (pointerType pointers p).map ValueInfo.typed
   | `(tritonExpr| $a:tritonExpr + $b:tritonExpr)
   | `(tritonExpr| $a:tritonExpr - $b:tritonExpr)
-  | `(tritonExpr| $a:tritonExpr * $b:tritonExpr)
-  | `(tritonExpr| $a:tritonExpr / $b:tritonExpr) => (sameWorkingFloat a b).map ValueInfo.typed
+  | `(tritonExpr| $a:tritonExpr * $b:tritonExpr) => (sameWorkingFloat a b).map ValueInfo.typed
+  | `(tritonExpr| $a:tritonExpr / $b:tritonExpr) =>
+      ((sameWorkingFloat a b).map fun dtype =>
+        if [.fp16,.bf16].contains dtype then .fp32 else dtype).map ValueInfo.typed
   | `(tritonExpr| tl.div_rn($_:tritonExpr, $_:tritonExpr)) => some (.typed .fp32)
   | `(tritonExpr| tl.where($_:tritonExpr, $a:tritonExpr, $b:tritonExpr)) =>
       (sameWorkingFloat a b).map ValueInfo.typed
@@ -167,9 +188,20 @@ private partial def valueType (pointers : Types) (values : Values)
       if valueType pointers values a == some (.typed .fp32) then some (.typed .fp32) else none
   | `(tritonExpr| tl.extra.cuda.libdevice.pow($a:tritonExpr, $_:num)) =>
       if valueType pointers values a == some (.typed .fp32) then some (.typed .fp32) else none
-  | `(tritonExpr| tl.cumsum($a:tritonExpr $[, $_:tritonReduceKwarg]*))
-  | `(tritonExpr| tl.sum($a:tritonExpr $[, $_:tritonReduceKwarg]*)) =>
-      if valueType pointers values a == some (.typed .fp32) then some (.typed .fp32) else none
+  | `(tritonExpr| tl.sum($a:tritonExpr $[, $kwargs:tritonReduceKwarg]*)) =>
+      -- Triton 3.7.1 keeps the floating input dtype unless dtype= overrides it.
+      -- An unresolved override must not fall back to the input's type.
+      if kwargs.any (fun kw => dtypeOverride kw.raw) then none else
+      match valueType pointers values a with
+      | some (.typed dtype) =>
+          if [.fp16,.bf16,.fp32,.fp64].contains dtype then some (.typed dtype) else none
+      | _ => none
+  | `(tritonExpr| tl.cumsum($a:tritonExpr $[, $kwargs:tritonReduceKwarg]*)) =>
+      if kwargs.any (fun kw => dtypeOverride kw.raw) then none else
+      match valueType pointers values a with
+      | some (.typed dtype) =>
+          if [.fp16,.fp32,.fp64].contains dtype then some (.typed dtype) else none
+      | _ => none
   | `(tritonExpr| tl.max($a:tritonExpr $[, $_:tritonReduceKwarg]*)) =>
       match valueType pointers values a with
       | some (.typed .fp16) | some (.typed .bf16) | some (.typed .fp32) => some (.typed .fp32)
@@ -211,6 +243,41 @@ private partial def valueType (pointers : Types) (values : Values)
       return .typed result
   | `(tritonExpr| tl.trans($a:tritonExpr)) => valueType pointers values a
   | _ => none
+
+/-- An ordinary Python assignment materializes a numeric scalar as a tensor;
+an inline scalar remains weak. Classify the source floating literal before it
+enters register dataflow. Triton's to_tensor_type uses the FP32 normal range,
+zero and infinities; other finite literals require an FP64 tensor frontend.
+See triton/compiler/code_generator.py::_sanitize_target_value and
+triton/language/semantic.py::to_tensor_type in the upstream implementation. -/
+private partial def literalTensorFloatType (e : TSyntax `tritonExpr) : Option Triton.PointerType :=
+  match e with
+  | `(tritonExpr| tl.__python_literal($inner:tritonExpr))
+  | `(tritonExpr| ($inner:tritonExpr))
+  | `(tritonExpr| -$inner:tritonExpr) => literalTensorFloatType inner
+  | `(tritonExpr| $n:scientific) =>
+      let (mantissa,denominator,exponent) := n.getScientific
+      let value := (_root_.Float.ofScientific mantissa denominator exponent).abs
+      let lower := _root_.Float.ofBinaryScientific 1 (-126)
+      let upper := _root_.Float.ofBinaryScientific 16777215 104
+      if value == 0 || value.isInf || (lower ≤ value && value ≤ upper)
+      then some .fp32 else some .fp64
+  | `(tritonExpr| -inf) => some .fp32
+  | `(tritonExpr| float($arg:term))
+  | `(tritonExpr| -float($arg:term)) =>
+      if arg.raw.isNatLit? == some 0 then some .fp32 else
+      match arg with
+      | `(term| $s:str) => if ["inf","-inf"].contains s.getString then some .fp32 else none
+      | _ => none
+  | _ => none
+
+private def assignedValueType (pointers : Types) (values : Values)
+    (e : TSyntax `tritonExpr) : MacroM (Option ValueInfo) := do
+  match literalTensorFloatType e with
+  | some .fp32 => return some (.typed .fp32)
+  | some .fp64 =>
+      Macro.throwErrorAt e "fp64 scalar literal assignment is not supported by this source frontend"
+  | _ => return valueType pointers values e
 
 private partial def containsStore (raw : Syntax) : Bool :=
   (raw.isAtom && raw.getAtomVal == "tl.store") || raw.getArgs.any containsStore
@@ -327,6 +394,22 @@ This tracks dtype, never equality of pointer addresses or computed values. -/
 private def commonInfo [BEq α] (yes no : List (Name × α)) : List (Name × α) :=
   yes.filter (fun entry => no.any (fun other => other.1 == entry.1 && other.2 == entry.2))
 
+/-- A supplied Bool term is a constexpr value, not a tensor condition.
+Only such conditions may carry different source dtypes into the continuation. -/
+private partial def staticBoolCondition (condition : TSyntax `tritonExpr) : Bool :=
+  match condition with
+  | `(tritonExpr| $(($_:term : Bool))) => Bool.true
+  | `(tritonExpr| ($inner:tritonExpr)) => staticBoolCondition inner
+  | _ => Bool.false
+
+private def differentKnownFloats (yes no : Values) : Bool :=
+  yes.any fun (name,kind) =>
+    match kind, no.find? (fun entry => entry.1 == name) with
+    | .typed left, some (_, .typed right) =>
+        [.fp16,.bf16,.fp32,.fp64,.f8e4,.f8e5].contains left &&
+        [.fp16,.bf16,.fp32,.fp64,.f8e4,.f8e5].contains right && left != right
+    | _, _ => Bool.false
+
 /-- Lower the full block and retain its conservative exit information. A
 supported branch joins only identical known dtypes from both exits; one-arm
 branches include the unchanged entry environment as their other exit. -/
@@ -358,6 +441,34 @@ private partial def lowerWithState (pointers : Types) (values : Values)
         let (body,_,_) ← lowerWithState pointers entry body.toList (invariants ++ stable)
         return (body.toArray, stable)
       match stmt with
+      | `(tritonStmt| $a:ident, $b:ident = tl.broadcast($x:tritonExpr, $y:tritonExpr))
+      | `(tritonStmt| $a:ident, $b:ident := tl.broadcast($x:tritonExpr, $y:tritonExpr)) =>
+          -- Broadcasting changes shapes, not element dtypes. Both result
+          -- types are read from the entry environment, as in Python tuples.
+          if readsTupleTarget (name a) y.raw then
+            Macro.throwErrorAt stmt
+              "tuple assignment needs unsupported simultaneous register capture"
+          checkAssignmentLoads pointers values x
+          checkAssignmentLoads pointers values y
+          for (id,value) in [(a,x),(b,y)] do
+            if (lookup pointers id).isSome then
+              Macro.throwErrorAt stmt "pointer tuple assignment needs an explicit supported binding"
+            let dtype ← assignedValueType pointers values value
+            checkInvariant invariants id dtype
+            nextPointers := nextPointers.filter (fun entry => entry.1 != name id)
+            nextValues := nextValues.filter (fun entry => entry.1 != name id)
+            if let some dtype := dtype then nextValues := (name id,dtype) :: nextValues
+      | `(tritonStmt| $a:ident, _ = tl.broadcast($x:tritonExpr, $y:tritonExpr))
+      | `(tritonStmt| $a:ident, _ := tl.broadcast($x:tritonExpr, $y:tritonExpr)) =>
+          checkAssignmentLoads pointers values x
+          checkAssignmentLoads pointers values y
+          if (lookup pointers a).isSome then
+            Macro.throwErrorAt stmt "pointer tuple assignment needs an explicit supported binding"
+          let dtype ← assignedValueType pointers values x
+          checkInvariant invariants a dtype
+          nextPointers := pointers.filter (fun entry => entry.1 != name a)
+          nextValues := values.filter (fun entry => entry.1 != name a)
+          if let some dtype := dtype then nextValues := (name a,dtype) :: nextValues
       | `(tritonStmt| $maximum:ident, $position:ident = tl.max($input:tritonExpr $[, $kwargs:tritonReduceKwarg]*))
       | `(tritonStmt| $maximum:ident, $position:ident := tl.max($input:tritonExpr $[, $kwargs:tritonReduceKwarg]*)) =>
           let reduction ← `(tritonExpr| tl.max($input:tritonExpr $[, $kwargs:tritonReduceKwarg]*))
@@ -394,7 +505,7 @@ private partial def lowerWithState (pointers : Types) (values : Values)
             if (lookup pointers id).isSome || (pointerType pointers value).isSome then
               Macro.throwErrorAt stmt "pointer tuple assignment needs an explicit supported binding"
             checkAssignmentLoads pointers values value
-            let dtype := valueType pointers values value
+            let dtype ← assignedValueType pointers values value
             checkInvariant invariants id dtype
             nextPointers := nextPointers.filter (fun entry => entry.1 != name id)
             nextValues := nextValues.filter (fun entry => entry.1 != name id)
@@ -415,12 +526,13 @@ private partial def lowerWithState (pointers : Types) (values : Values)
             nextValues := (name id, dtype) :: nextValues
       | `(tritonStmt| $id:ident = $value:tritonExpr) =>
           checkAssignmentLoads pointers values value
-          checkInvariant invariants id (valueType pointers values value)
+          let dtype ← assignedValueType pointers values value
+          checkInvariant invariants id dtype
           nextPointers := pointers.filter (fun entry => entry.1 != name id)
           nextValues := values.filter (fun entry => entry.1 != name id)
           if let some dtype := pointerType pointers value then
             nextPointers := (name id, dtype) :: nextPointers
-          if let some dtype := valueType pointers values value then
+          if let some dtype := dtype then
             nextValues := (name id, dtype) :: nextValues
       | `(tritonStmt| $id:ident += $value:tritonExpr) =>
           checkAugmentedLoads pointers values value
@@ -474,6 +586,19 @@ private partial def lowerWithState (pointers : Types) (values : Values)
           for st in yes ++ no do rejectPointerRebinding pointers st.raw
           let (yes,yesPointers,yesValues) ← lowerWithState pointers values yes.toList invariants
           let (no,noPointers,noValues) ← lowerWithState pointers values no.toList invariants
+          if staticBoolCondition condition && differentKnownFloats yesValues noValues then
+            -- A constexpr branch selects a source type. Lower the continuation
+            -- in that path's actual type environment before merging exits.
+            -- This never permits a tensor condition to merge different dtypes.
+            let (yesRest,yesFinalPointers,yesFinalValues) ←
+              lowerWithState yesPointers yesValues rest invariants
+            let (noRest,noFinalPointers,noFinalValues) ←
+              lowerWithState noPointers noValues rest invariants
+            let yes := (yes ++ yesRest).toArray
+            let no := (no ++ noRest).toArray
+            let fork ← `(tritonStmt| if $condition { $yes* } else { $no* })
+            return ([fork],commonInfo yesFinalPointers noFinalPointers,
+              commonInfo yesFinalValues noFinalValues)
           let yes := yes.toArray
           let no := no.toArray
           stmt ← `(tritonStmt| if $condition { $yes* } else { $no* })
@@ -484,6 +609,16 @@ private partial def lowerWithState (pointers : Types) (values : Values)
           rejectNestedLoads pointers condition.raw
           for st in yes do rejectPointerRebinding pointers st.raw
           let (yes,yesPointers,yesValues) ← lowerWithState pointers values yes.toList invariants
+          if staticBoolCondition condition && differentKnownFloats yesValues values then
+            let (yesRest,yesFinalPointers,yesFinalValues) ←
+              lowerWithState yesPointers yesValues rest invariants
+            let (noRest,noFinalPointers,noFinalValues) ←
+              lowerWithState pointers values rest invariants
+            let yes := (yes ++ yesRest).toArray
+            let no := noRest.toArray
+            let fork ← `(tritonStmt| if $condition { $yes* } else { $no* })
+            return ([fork],commonInfo yesFinalPointers noFinalPointers,
+              commonInfo yesFinalValues noFinalValues)
           let yes := yes.toArray
           stmt ← `(tritonStmt| if $condition { $yes* })
           nextPointers := commonInfo yesPointers pointers

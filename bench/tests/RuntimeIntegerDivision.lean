@@ -1,4 +1,5 @@
 import VeriTile.Triton.DSL
+import VeriTile.Triton.DSL.CallSignature
 import VeriTile.Triton.Semantics.Integer
 import VeriTile.Triton.Semantics.Step
 import VeriTile.Triton.Float.Integer
@@ -150,6 +151,77 @@ theorem missing_operand {α : Type} [Inhabited α] (M : FP.Structural.Algebra α
       (Op.truncMod .nil (.constInt (-7)) (.ref .int [] "missing")) s = none := by
   rw [FP.Structural.eval_truncDiv, FP.Structural.eval_truncMod]
   simp [FP.Structural.evalOp, h]
+
+/-- Signed cdiv follows the actual helper expression, including negative
+operands and the interpreter's total zero-divisor convention. -/
+def signedCdiv (x y : Int) : ComputeKernel := triton {
+  numerator = $((x : Int))
+  denominator = $((y : Int))
+  quotient = tl.cdiv(numerator, denominator)
+}
+def signedCdivReference (x y : Int) : ComputeKernel := triton {
+  numerator = $((x : Int))
+  denominator = $((y : Int))
+  quotient = (numerator + (denominator - 1)) // denominator
+}
+theorem signed_cdiv_source (x y : Int) :
+    signedCdiv x y = signedCdivReference x y := rfl
+
+noncomputable def signedCdivResult {α : Type} [Inhabited α] (M : FP.Structural.Algebra α)
+    (x y : Int) (s : FP.Structural.State α) :=
+  (FP.Structural.exec M (signedCdiv x y) s).map (fun t => t.regs .int [] "quotient")
+
+theorem signed_cdiv_execution {α : Type} [Inhabited α] (M : FP.Structural.Algebra α)
+    (x y : Int) (s : FP.Structural.State α) :
+    signedCdivResult M x y s = some (some (fun _ => (x + (y - 1)).tdiv y)) := by
+  simp only [signedCdivResult,signedCdiv,FP.Structural.exec,FP.Structural.run,
+    FP.Structural.step,FP.Structural.evalExpr,FP.Structural.eval_truncDiv]
+  simp [FP.Structural.evalOp,FP.Structural.State.setReg,FP.Structural.numeric,
+    FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex]
+  rfl
+
+theorem negative_cdiv_is_source_truncation {α : Type} [Inhabited α]
+    (M : FP.Structural.Algebra α) (s : FP.Structural.State α) :
+    signedCdivResult M (-6) 4 s = some (some (fun _ => 0)) := by
+  simpa using signed_cdiv_execution M (-6) 4 s
+
+def signedCdivLoop (x y : Int) : ComputeKernel := triton {
+  stop = tl.cdiv($((x : Int)), $((y : Int)))
+  for i in range(tl.cast(0, tl.int64), stop, 1) {
+    last = i
+  }
+}
+def signedCdivLoopReference (x y : Int) : ComputeKernel := triton {
+  stop = ($((x : Int)) + ($((y : Int)) - 1)) // $((y : Int))
+  for i in range(tl.cast(0, tl.int64), stop, 1) {
+    last = i
+  }
+}
+/-- Later use as a range bound cannot pin an explicitly signed cdiv to Nat. -/
+theorem signed_cdiv_range_bound (x y : Int) :
+    signedCdivLoop x y = signedCdivLoopReference x y := rfl
+
+def signedArangeSignature : CallSignature where
+  pointers := [("X",.fp32),("Y",.fp32)]
+  scalars := [("n",.integer)]
+  constexpr := ["B"]
+def signedArangeMemory (X Y : RegionName) (B n : Nat) : ComputeKernel :=
+  with_triton_call signedArangeSignature call_args [n := n] in triton {
+    offsets = tl.arange(0, B).to(tl.int64)
+    x = tl.load(X + offsets, mask=offsets < n, other=0.0)
+    tl.store(Y + offsets, x, mask=offsets < n)
+  }
+/-- Pointer and mask uses cannot silently retag the explicit INT64 arange
+as Nat. This checks the signed instruction itself, not a renamed reference. -/
+theorem signed_arange_cast_survives_address_inference (X Y : RegionName) (B n : Nat) :
+    (signedArangeMemory X Y B n).surfaceBody.head? = some
+      (.assign .int [B] "offsets" (.alg (.castNatToInt (.arange B)))) := rfl
+#axiomsClean signed_arange_cast_survives_address_inference
+
+#axiomsClean signed_cdiv_range_bound
+#axiomsClean signed_cdiv_source
+#axiomsClean signed_cdiv_execution
+#axiomsClean negative_cdiv_is_source_truncation
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

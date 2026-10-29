@@ -6,7 +6,7 @@ import bench.repairs.tritonbench_g.bgmv_expand_slice_physical_tile_checked.Input
 import bench.repairs.tritonbench_g.bgmv_expand_slice_physical_tile_checked.Safety
 
 /-! Original complete Tensor applications and physical byte/read-backing frames.
-The source execution is the same Signed.Grid.executes/FPGrid.values composition
+The source execution is the same Signed.Grid.executes/SourceGrid.values composition
 exposed by KernelRaw; the existing scalar store/readback lemmas supply the API bridge. -/
 namespace VeriTile.Bench.Repairs.BgmvExpandSlicePhysicalTileChecked.TensorBridge
 open VeriTile Triton

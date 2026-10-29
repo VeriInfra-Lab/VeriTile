@@ -14,8 +14,8 @@ def indexed (h : Call) (c : Config) (q f : Nat) (u : State α) : State α :=
   let u0 := u.setReg "i_t" .int [] (fun _ => (q:Int))
   let u1 := u0.setReg "start_t" .int [] (fun _ => (q*c.BT:Int))
   let u2 := u1.setReg "start_s" .int [] (fun _ => (f*BS:Int))
-  let u3 := u2.setReg "lane_t" .nat [c.BT] (lanes c.BT)
-  let u4 := u3.setReg "lane_s" .nat [BS] (lanes BS)
+  let u3 := u2.setReg "lane_t" .int [c.BT] (signedLanes c.BT)
+  let u4 := u3.setReg "lane_s" .int [BS] (signedLanes BS)
   let u5 := u4.setReg "active_t" .bool [c.BT] (maskT h c q)
   let u6 := u5.setReg "active_s" .bool [BS] (maskS h f)
   let u7 := u6.setReg "times" .int [c.BT] (times h c q)
@@ -49,8 +49,8 @@ theorem executes (M : Algebra α) (dot : DotBackend α) (h : Call) (c : Config) 
   rw [assign_alg _ _ _ _ _ _ _ _ (ReversedCumsumScalar.FPValues.index_eval (machine M dot) j u hj hr)]
   rw [assign_alg _ _ _ _ _ _ _ _ (startT_eval (machine M dot) c (-j).toNat _ (by simp))]
   rw [assign_alg _ _ _ _ _ _ _ _ (startS_eval (machine M dot) f.val _ (by simp [his]))]
-  rw [assign_alg _ _ _ _ _ _ _ _ (show FP.Structural.evalOp (machine M dot) none (.arange c.BT) _=some (lanes c.BT) from rfl)]
-  rw [assign_alg _ _ _ _ _ _ _ _ (show FP.Structural.evalOp (machine M dot) none (.arange BS) _=some (lanes BS) from rfl)]
+  rw [assign_alg _ _ _ _ _ _ _ _ (show FP.Structural.evalOp (machine M dot) none (.castNatToInt (.arange c.BT)) _=some (signedLanes c.BT) from rfl)]
+  rw [assign_alg _ _ _ _ _ _ _ _ (show FP.Structural.evalOp (machine M dot) none (.castNatToInt (.arange BS)) _=some (signedLanes BS) from rfl)]
   rw [assign_alg _ _ _ _ _ _ _ _ (activeT_eval (machine M dot) h c (-j).toNat _ start (by simp) (by simp))]
   rw [assign_alg _ _ _ _ _ _ _ _ (activeS_eval (machine M dot) h f.val _ (by simp) (by simp))]
   rw [assign_alg _ _ _ _ _ _ _ _ (time_eval (machine M dot) h c (-j).toNat _ (by simp) (by simp) (by simp))]

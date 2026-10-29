@@ -340,11 +340,16 @@ def isRealDType : DInfo → Bool
 partial def natDimTerm (ctx : String) (d : TSyntax `tritonExpr) :
     MacroM (TSyntax `term) := do
   match d with
+  | `(tritonExpr| ($inner:tritonExpr)) => natDimTerm ctx inner
   | `(tritonExpr| $($t:term)) => `(($t : Nat))
   | `(tritonExpr| $n:num) => `(($n : Nat))
   | `(tritonExpr| $i:ident) =>
       let t : TSyntax `term := ⟨i.raw⟩
       `(($t : Nat))
+  | `(tritonExpr| $a:tritonExpr * $b:tritonExpr) => do
+      let aTerm ← natDimTerm ctx a
+      let bTerm ← natDimTerm ctx b
+      `(($aTerm * $bTerm : Nat))
   | `(tritonExpr| $a:tritonExpr // $b:tritonExpr) => do
       let aTerm ← natDimTerm ctx a
       let bTerm ← natDimTerm ctx b

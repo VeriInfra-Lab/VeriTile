@@ -75,10 +75,10 @@ theorem chunk_safe (h : Call) (c : Config) (row q : Nat)
   rw [TraceProofs.cons_of_run_iff (stepStmt_assign_eq_some (startS_eval f.val _ (by simp [his])))]
   refine ⟨by simp [Stmt.TraceSafe,startSOp,Op.SafeAt],?_⟩
   rw [TraceProofs.cons_of_run_iff (stepStmt_assign_eq_some
-    (show evalOp (.arange c.BT) _=some (lanes c.BT) from by rw [evalOp]; rfl))]
+    (show evalOp (.castNatToInt (.arange c.BT)) _=some (signedLanes c.BT) from by simp only [evalOp, Option.bind_some]; rfl))]
   refine ⟨by simp [Stmt.TraceSafe,Op.SafeAt],?_⟩
   rw [TraceProofs.cons_of_run_iff (stepStmt_assign_eq_some
-    (show evalOp (.arange BS) _=some (lanes BS) from by rw [evalOp]; rfl))]
+    (show evalOp (.castNatToInt (.arange BS)) _=some (signedLanes BS) from by simp only [evalOp, Option.bind_some]; rfl))]
   refine ⟨by simp [Stmt.TraceSafe,Op.SafeAt],?_⟩
   rw [TraceProofs.cons_of_run_iff (stepStmt_assign_eq_some (activeT_eval h c q _ start (by simp) (by simp)))]
   refine ⟨by simp [Stmt.TraceSafe,activeTOp,Op.SafeAt],?_⟩

@@ -688,8 +688,35 @@ private def propagateCmpDeps (natPins : List String)
   deps.foldl (fun acc (guards, rhsIds) =>
     if anyContained guards acc then addManyUnique acc rhsIds else acc) natPins
 
+/-- An explicit signed cast determines the result channel, including when
+its input is a natural arange. Later address/range uses cannot erase it. -/
+private def signedSourceCast (stx : TSyntax `tritonExpr) : Bool :=
+  let signed (dtype : TSyntax `tritonDType) : Bool := match dtype with
+    | `(tritonDType| tl.int8) | `(tritonDType| tl.int16)
+    | `(tritonDType| tl.int32) | `(tritonDType| tl.int64) => Bool.true
+    | _ => Bool.false
+  match stx with
+  | `(tritonExpr| tl.cast($_:tritonExpr, $dtype:tritonDType)) => signed dtype
+  | _ =>
+      -- Match the ordinary and dotted cast syntax layouts before the
+      -- expression expander exists; Inference must not import that expander.
+      let kind := stx.raw.getKind
+      let args := stx.raw.getArgs
+      if [``tritonMethodCast,``tritonIdentMethodCast,
+          ``tritonIdentMethodCastSpaced].contains kind then
+        if h : args.size = 5 then signed ⟨args[3]⟩
+        else if h : args.size = 6 then signed ⟨args[4]⟩
+        else Bool.false
+      else if kind == ``tritonDottedIdentMethodCast then
+        if h : args.size = 4 then
+          args[0].isIdent &&
+            args[0].getId.eraseMacroScopes.toString.endsWith ".to" && signed ⟨args[2]⟩
+        else Bool.false
+      else Bool.false
+
 private partial def intExprWithPins? (pins : List String) :
     TSyntax `tritonExpr → Bool := fun stx =>
+  if signedSourceCast stx then Bool.true else
   match stx with
   | `(tritonExpr| tl.cast($_:tritonExpr, tl.int64)) => Bool.true
   | `(tritonExpr| $(($_:term : Int))) => Bool.true
@@ -719,6 +746,8 @@ private partial def intExprWithPins? (pins : List String) :
   | `(tritonExpr| $a:tritonExpr & $b:tritonExpr)
   | `(tritonExpr| $a:tritonExpr | $b:tritonExpr)
   | `(tritonExpr| $a:tritonExpr ^ $b:tritonExpr) => intExprWithPins? pins a || intExprWithPins? pins b
+  | `(tritonExpr| tl.cdiv($a:tritonExpr, $b:tritonExpr)) =>
+      intExprWithPins? pins a || intExprWithPins? pins b
   | `(tritonExpr| tl.minimum($a:tritonExpr, $b:tritonExpr))
   | `(tritonExpr| tl.maximum($a:tritonExpr, $b:tritonExpr))
   | `(tritonExpr| min($a:tritonExpr, $b:tritonExpr)) =>

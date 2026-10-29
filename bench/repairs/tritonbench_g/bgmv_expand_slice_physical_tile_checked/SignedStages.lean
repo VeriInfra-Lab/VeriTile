@@ -16,12 +16,16 @@ theorem preloop_length (M : Algebra α) (reduction : Reduction α) (h : Call)
       some (fun _ => 1) := by
   have length := signed_length h positiveN
   rcases h with ⟨batches,adapters,N,K,columns,slice,BK,positive,covered,inside,ev,evExact,adds,ity,wty,oty⟩
+  change ((N:Int)+N-1)/N=1 at length
   have positive_sum : ¬((N:Int)+N<1) := by change 0<N at positiveN;omega
-  cases ev
+  have positive_source : ¬((N:Int)+(N-1)<0) := by change 0<N at positiveN;omega
+  have source_length : ((N:Int)+(N-1))/N=1 := by
+    convert length using 1 <;> congr 1 <;> omega
+  cases ev <;> cases adds
   all_goals
     simp [preloop,integralFloorDiv]
     funext i
-    simpa only [if_neg positive_sum] using length
+    simpa only [if_neg positive_sum,if_neg positive_source] using source_length
 
 
 @[irreducible] def readyState (M : Algebra α) (reduction : Reduction α) (h : Call)
@@ -56,7 +60,7 @@ theorem final_memory (M : Algebra α) (reduction : Reduction α) (h : Call)
     (batch row slot : Nat) (data : Data α) (metadata : data.indices batch=(slot:Int)) (positiveN : 0<h.N) :
     (finalState M reduction h batch row slot data metadata).mem=
       ((entry h batch row data).write "Y" (batch*h.columns+row+h.slice)
-        (.mk .real (result M reduction h batch slot row data ⟨0,by decide⟩))).mem := by
+        (.mk .real (SourceValues.result M reduction h batch slot row data ⟨0,by decide⟩))).mem := by
   unfold finalState
   exact iteration_memory M reduction h batch row slot data metadata positiveN
 

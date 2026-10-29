@@ -1,10 +1,12 @@
+import bench.repairs.tritonbench_g.rope_transform.Proofs.ActualSource
 import bench.repairs.tritonbench_g.rope_transform.Proofs.Settings
 import bench.tritonbench_g.rope_transform.Proofs.TypedFrame
 import bench.tritonbench_g.rope_transform.Proofs.TypedShape
 namespace VeriTile.Bench.Repairs.RopeTransform
 open VeriTile Triton FP.Structural
 namespace T
-export VeriTile.Bench.TritonBenchG.RopeTransform.Typed (Memory Parameters active address kernel readFloat coefficient component laneResult scatter referenceMemory execution execution_memory scatter_frame Outside reference_frame)
+export VeriTile.Bench.TritonBenchG.RopeTransform.Typed (Memory Parameters active address readFloat coefficient component laneResult scatter referenceMemory scatter_frame Outside reference_frame)
+export VeriTile.Bench.Repairs.RopeTransform.ActualSource (kernel execution execution_memory)
 end T
 noncomputable section
 set_option maxHeartbeats 3000000

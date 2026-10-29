@@ -5,7 +5,13 @@ The selected source is `rope_backward_transform_repaired.py`, SHA256
 The current proof update leaves the Python source and its guards unchanged.
 `Kernels.lean` quotes the complete two-branch JIT, including all four gradient
 loads, coefficient loads, casts and stores. `Contract.source_binding` identifies that quote with the
-retained typed source by definitional equality. The public Python call selects
+canonical source used by the re-proved execution and memory results.
+Its proof source is a thin reference to `Kernels.lean`; no second statement
+list is maintained. Four pointer storage families, seven runtime integer
+bindings and nine constexpr roles are outside the quotations. Both independent
+coefficient column strides are retained. The index-sharing Python counterpart
+is explicitly authored from the existing candidate, and both complete bodies
+are checked by `jit-correspondence.json`. The public Python call selects
 `BACKWARD_PASS=True`, which is the scope of the public theorems.
 
 At the Tensor application boundary, Q and K are contiguous FP32 Tensor views of

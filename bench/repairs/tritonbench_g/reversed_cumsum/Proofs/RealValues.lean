@@ -8,6 +8,7 @@ set_option maxRecDepth 24000
 set_option linter.unusedSimpArgs false
 
 def lanes (n : Nat) : Tile .nat [n] := ⟨fun i => i.1.val⟩
+def signedLanes (n : Nat) : Tile .int [n] := ⟨fun i => (i.1.val : Int)⟩
 def maskT (h : Call) (c : Config) (q : Nat) : Tile .bool [c.BT] := ⟨fun i => decide (Geometry.activeT h c q i.1)⟩
 def maskS (h : Call) (f : Nat) : Tile .bool [BS] := ⟨fun j => decide (Geometry.activeS h f j.1)⟩
 def times (h : Call) (c : Config) (q : Nat) : Tile .int [c.BT] := ⟨fun i => (Geometry.time h c q i.1:Int)⟩
@@ -30,13 +31,13 @@ theorem startS_eval (f : Nat) (u : BlockState)
 
 theorem activeT_eval (h : Call) (c : Config) (q : Nat) (u : BlockState) (hq : q*c.BT<h.T)
     (hs : u.regs .int [] "start_t"=some (Tile.scalar (q*c.BT:Int)))
-    (hl : u.regs .nat [c.BT] "lane_t"=some (lanes c.BT)) :
+    (hl : u.regs .int [c.BT] "lane_t"=some (signedLanes c.BT)) :
     evalOp (activeTOp h c) u=some (maskT h c q) := by
   simp only [activeTOp,evalOp,hs,hl]
   apply congrArg some
   apply Tile.ext
   rintro ⟨i,⟨⟩⟩
-  simp [-Tile.scalar_eta,lanes,maskT,Geometry.activeT,Tile.bop,Tile.scalar,Broadcast.leftIndex,Broadcast.rightIndex,
+  simp [-Tile.scalar_eta,signedLanes,lanes,maskT,Geometry.activeT,Tile.bop,Tile.scalar,Broadcast.leftIndex,Broadcast.rightIndex,
     NumericDType.sub,ComparableDType.lt,Int.natCast_sub (Nat.le_of_lt hq)]
   rw [←Int.natCast_mul,←Int.natCast_sub (Nat.le_of_lt hq)]
   change ((i.val:Int)<((h.T-q*c.BT:Nat):Int)) ↔ i.val<h.T-q*c.BT
@@ -44,13 +45,13 @@ theorem activeT_eval (h : Call) (c : Config) (q : Nat) (u : BlockState) (hq : q*
 
 theorem activeS_eval (h : Call) (f : Nat) (u : BlockState)
     (hs : u.regs .int [] "start_s"=some (Tile.scalar (f*BS:Int)))
-    (hl : u.regs .nat [BS] "lane_s"=some (lanes BS)) :
+    (hl : u.regs .int [BS] "lane_s"=some (signedLanes BS)) :
     evalOp (activeSOp h) u=some (maskS h f) := by
   simp only [activeSOp,evalOp,hs,hl]
   apply congrArg some
   apply Tile.ext
   rintro ⟨j,⟨⟩⟩
-  simp [-Tile.scalar_eta,lanes,maskS,Geometry.activeS,Tile.bop,Tile.scalar,Broadcast.leftIndex,Broadcast.rightIndex,
+  simp [-Tile.scalar_eta,signedLanes,lanes,maskS,Geometry.activeS,Tile.bop,Tile.scalar,Broadcast.leftIndex,Broadcast.rightIndex,
     NumericDType.sub,ComparableDType.lt]
 
   rw [←Int.natCast_mul]
@@ -64,26 +65,26 @@ theorem activeS_eval (h : Call) (f : Nat) (u : BlockState)
 
 theorem time_eval (h : Call) (c : Config) (q : Nat) (u : BlockState)
     (hs : u.regs .int [] "start_t"=some (Tile.scalar (q*c.BT:Int)))
-    (hl : u.regs .nat [c.BT] "lane_t"=some (lanes c.BT))
+    (hl : u.regs .int [c.BT] "lane_t"=some (signedLanes c.BT))
     (hm : u.regs .bool [c.BT] "active_t"=some (maskT h c q)) :
     evalOp (timeOp c) u=some (times h c q) := by
   simp only [timeOp,evalOp,hs,hl,hm]
   apply congrArg some
   apply Tile.ext
   rintro ⟨i,⟨⟩⟩
-  simp [-Tile.scalar_eta,lanes,maskT,times,Geometry.time,Tile.bop,Tile.scalar,
+  simp [-Tile.scalar_eta,signedLanes,lanes,maskT,times,Geometry.time,Tile.bop,Tile.scalar,
     Broadcast.leftIndex,Broadcast.rightIndex,NumericDType.add]
 
 theorem feature_eval (h : Call) (f : Nat) (u : BlockState)
     (hs : u.regs .int [] "start_s"=some (Tile.scalar (f*BS:Int)))
-    (hl : u.regs .nat [BS] "lane_s"=some (lanes BS))
+    (hl : u.regs .int [BS] "lane_s"=some (signedLanes BS))
     (hm : u.regs .bool [BS] "active_s"=some (maskS h f)) :
     evalOp featureOp u=some (features h f) := by
   simp only [featureOp,evalOp,hs,hl,hm]
   apply congrArg some
   apply Tile.ext
   rintro ⟨j,⟨⟩⟩
-  simp [-Tile.scalar_eta,lanes,maskS,features,Geometry.feature,Tile.bop,Tile.scalar,
+  simp [-Tile.scalar_eta,signedLanes,lanes,maskS,features,Geometry.feature,Tile.bop,Tile.scalar,
     Broadcast.leftIndex,Broadcast.rightIndex,NumericDType.add]
 
 theorem mask_eval (h : Call) (c : Config) (q f : Nat) (u : BlockState)

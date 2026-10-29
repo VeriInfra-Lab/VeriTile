@@ -1,0 +1,110 @@
+[
+  {
+    "lean": "bench/repairs/tritonbench_g/batched_vecmat_mult/Kernels.lean",
+    "lean_definition": "kernel",
+    "python": "bench/repairs/tritonbench_g/batched_vecmat_mult/batched_vecmat_mult_int64.py",
+    "python_function": "batched_vecmat_kernel",
+    "signature_definition": "callSignature",
+    "expected_call_bindings": {
+      "dim_m": "dim_m",
+      "dim_n": "dim_n",
+      "dim_k": "dim_k"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "A",
+          "fp32"
+        ],
+        [
+          "B",
+          "fp32"
+        ],
+        [
+          "output",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "dim_m",
+          "integer"
+        ],
+        [
+          "dim_n",
+          "integer"
+        ],
+        [
+          "dim_k",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "block_m",
+        "block_n",
+        "block_k"
+      ],
+      "readPorts": [
+        "A",
+        "B"
+      ],
+      "writePorts": [
+        "output"
+      ]
+    }
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/batched_vecmat_mult/Kernels.lean",
+    "lean_definition": "blockFirstKernel",
+    "python": "bench/repairs/tritonbench_g/batched_vecmat_mult/candidate_kernels.py",
+    "python_function": "batched_vecmat_block_first",
+    "signature_definition": "callSignature",
+    "expected_call_bindings": {
+      "dim_m": "dim_m",
+      "dim_n": "dim_n",
+      "dim_k": "dim_k"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "A",
+          "fp32"
+        ],
+        [
+          "B",
+          "fp32"
+        ],
+        [
+          "output",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "dim_m",
+          "integer"
+        ],
+        [
+          "dim_n",
+          "integer"
+        ],
+        [
+          "dim_k",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "block_m",
+        "block_n",
+        "block_k"
+      ],
+      "readPorts": [
+        "A",
+        "B"
+      ],
+      "writePorts": [
+        "output"
+      ]
+    }
+  }
+]

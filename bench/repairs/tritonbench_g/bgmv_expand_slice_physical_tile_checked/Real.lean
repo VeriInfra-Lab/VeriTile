@@ -38,7 +38,7 @@ def initial (r : Request) (heap : ByteMemory) (read : Nat → ℝ) : Data ℝ wh
 def formula (h : Call) (p : Geometry.Program h) (data : Data ℝ) : ℝ :=
   let total := ∑ k : Fin h.K, data.input (p.batch*h.K+k.val)*
     data.weights ((data.indices p.batch).toNat*(h.N*h.K)+p.row*h.K+k.val)
-  if h.add then total+data.output (FPGrid.address h p) else total
+  if h.add then total+data.output (SourceGrid.address h p) else total
 
 theorem padded_sum (f : Nat → ℝ) (K BK : Nat) (covered : K≤BK) :
     (∑ k : Fin BK,if k.val<K then f k.val else 0)=∑ k : Fin K,f k.val := by
@@ -57,7 +57,7 @@ theorem padded_sum (f : Nat → ℝ) (K BK : Nat) (covered : K≤BK) :
       simp only [if_pos (Finset.mem_range.mp hk)]
 
 theorem value_formula (h : Call) (p : Geometry.Program h) (data : Data ℝ) :
-    FPGrid.value algebra reduction h p data=formula h p data := by
+    SourceGrid.value algebra reduction h p data=formula h p data := by
   have product (k : Fin h.BK) :
       products algebra h p.batch (data.indices p.batch).toNat p.row data (0,k,PUnit.unit)=
         if k.val<h.K then data.input (p.batch*h.K+k.val)*
@@ -71,7 +71,7 @@ theorem value_formula (h : Call) (p : Geometry.Program h) (data : Data ℝ) :
     exact padded_sum (fun k => data.input (p.batch*h.K+k)*
       data.weights ((data.indices p.batch).toNat*(h.N*h.K)+p.row*h.K+k)) h.K h.BK h.rankCovered
   change (if h.add then sums algebra reduction h p.batch (data.indices p.batch).toNat p.row data (0,PUnit.unit)+
-      data.output (FPGrid.address h p) else
+      data.output (SourceGrid.address h p) else
       sums algebra reduction h p.batch (data.indices p.batch).toNat p.row data (0,PUnit.unit))=formula h p data
   rw [total]
   rfl
@@ -91,6 +91,6 @@ theorem source_result (r : Request) (heap : ByteMemory) (h : Admitted r heap) (r
 
 #axiomsClean value_formula
 #axiomsClean source_result
-#specNonCircular formula avoiding [execute,Signed.Grid.run,FPGrid.fold,FP.Structural.exec,Surface.source]
+#specNonCircular formula avoiding [execute,Signed.Grid.run,SourceGrid.fold,FP.Structural.exec,Surface.source]
 end
 end VeriTile.Bench.Repairs.BgmvExpandSlicePhysicalTileChecked.Real

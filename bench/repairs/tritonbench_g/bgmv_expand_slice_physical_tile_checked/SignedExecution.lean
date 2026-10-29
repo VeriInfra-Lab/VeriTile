@@ -50,10 +50,12 @@ theorem source_executes (M : Algebra α) (reduction : Reduction α) (h : Call)
     ∃ t, FP.Structural.exec (machine M reduction) (Surface.source h) (entry h p.batch p.row data)=some t ∧
       t.mem=(if data.indices p.batch=-1 then (entry h p.batch p.row data).mem else
         ((entry h p.batch p.row data).write "Y" (p.batch*h.columns+p.row+h.slice)
-          (.mk .real (result M reduction h p.batch (data.indices p.batch).toNat p.row data ⟨0,by decide⟩))).mem) := by
+          (.mk .real (SourceValues.result M reduction h p.batch (data.indices p.batch).toNat p.row data ⟨0,by decide⟩))).mem) := by
   by_cases sentinel : data.indices p.batch=-1
   · refine ⟨(preguard M reduction h p.batch p.row data).val,?_,?_⟩
-    · change run (machine M reduction) (code h) (entry h p.batch p.row data)=_
+    · change run (machine M reduction) (SourceView.rawCode h) (entry h p.batch p.row data)=_
+      rw [SourceView.source_run]
+      change run _ (code h) _ = _
       rw [complete_code,run_append]
       simp only [(preguard M reduction h p.batch p.row data).property,Option.bind_some]
       apply Control.single
@@ -65,7 +67,9 @@ theorem source_executes (M : Algebra α) (reduction : Reduction α) (h : Call)
     have metadata : data.indices p.batch=((data.indices p.batch).toNat:Int) := (Int.toNat_of_nonneg nonnegative).symm
     have positiveN : 0<h.N := by have := p.rowInside; omega
     refine ⟨(finalState M reduction h p.batch p.row (data.indices p.batch).toNat data metadata),?_,?_⟩
-    · change run (machine M reduction) (code h) (entry h p.batch p.row data)=_
+    · change run (machine M reduction) (SourceView.rawCode h) (entry h p.batch p.row data)=_
+      rw [SourceView.source_run]
+      change run _ (code h) _ = _
       rw [complete_code,run_append]
       simp only [(preguard M reduction h p.batch p.row data).property,Option.bind_some]
       apply Control.single

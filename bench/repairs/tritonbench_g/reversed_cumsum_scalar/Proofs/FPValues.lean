@@ -29,7 +29,7 @@ def output (M : Algebra α) (scan : ScanBackend α) (h : Call) (c : Config) (inp
     (M.binary (some .fp32) .real .sub (loaded M h c input q i)
       (scan (some .fp32) .sum ⟨0,by simp⟩ .forward (loaded M h c input q) i)) acc
 
-def lanes (c : Config) : Values α .nat [c.BT] := fun i => i.1.val
+def lanes (c : Config) : Values α .int [c.BT] := fun i => (i.1.val : Int)
 def mask (h : Call) (c : Config) (q : Nat) : Values α .bool [c.BT] := fun i => decide (Geometry.active h c q i.1)
 def times (h : Call) (c : Config) (q : Nat) : Values α .int [c.BT] := fun i => (Geometry.time h c q i.1:Int)
 def pointer (h : Call) (c : Config) (row q : Nat) (r : RegionName) (strides : Strides) : Values α .ptr [c.BT] :=
@@ -55,7 +55,7 @@ theorem start_eval (M : Algebra α) (c : Config) (q : Nat) (u : State α)
 theorem active_eval (M : Algebra α) (h : Call) (c : Config) (q : Nat) (u : State α)
     (hq : q*c.BT<h.T)
     (hs : u.regs .int [] "start_t"=some (fun _ => (q*c.BT:Int)))
-    (hl : u.regs .nat [c.BT] "lanes"=some (lanes c)) :
+    (hl : u.regs .int [c.BT] "lanes"=some (lanes c)) :
     FP.Structural.evalOp M none (activeOp h c) u=some (mask h c q) := by
   simp only [activeOp,FP.Structural.evalOp,hs,hl,numericLt]
   apply congrArg some
@@ -67,7 +67,7 @@ theorem active_eval (M : Algebra α) (h : Call) (c : Config) (q : Nat) (u : Stat
 
 theorem time_eval (M : Algebra α) (h : Call) (c : Config) (q : Nat) (u : State α)
     (hs : u.regs .int [] "start_t"=some (fun _ => (q*c.BT:Int)))
-    (hl : u.regs .nat [c.BT] "lanes"=some (lanes c))
+    (hl : u.regs .int [c.BT] "lanes"=some (lanes c))
     (hm : u.regs .bool [c.BT] "active"=some (mask h c q)) :
     FP.Structural.evalOp M none (timeOp c) u=some (times h c q) := by
   simp only [timeOp,FP.Structural.evalOp,hs,hl,hm]

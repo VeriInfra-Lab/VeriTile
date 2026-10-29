@@ -12,7 +12,7 @@ theorem body_safe [Inhabited α] (c : Shape) (scale : ℝ) (head chunk : Nat)
     (storeFlag ifcond : Bool) (carry : Matrix α c.D c.D)
     (bounds : RegionName → Nat) (bounded : Bounds c storeFlag bounds)
     (headBound : head<c.heads) (chunkBound : chunk<c.chunks) (s : State (Term α))
-    (hh : s.regs .nat [] "i_bh"=some (fun _=>head))
+    (hh : s.regs .int [] "i_bh"=some (fun _ => (head : Int)))
     (hi : s.regs .nat [] "i"=some (fun _=>chunk))
     (hc : s.regs .real [c.D,c.D] "b_h"=some carry) :
     Safety.traceSafeList algebra bounds (Program.body c scale storeFlag ifcond) s := by
@@ -71,7 +71,7 @@ theorem kernel_safe [Inhabited α] (c : Shape) (scale : ℝ) (head : Nat)
   rw [Program.quoted]
   change Safety.traceSafeList algebra bounds (Program.code c scale storeFlag ifcond) s
   unfold Program.code
-  apply Safety.traceSafeList_cons_of_step (t:=s.setReg "i_bh" .nat [] (fun _=>head))
+  apply Safety.traceSafeList_cons_of_step (t:=s.setReg "i_bh" .int [] (fun _ => (head : Int)))
   · simp only [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeOp_unfold]
   · simp [step,evalExpr,evalOp_unfold,pid]
   apply Safety.traceSafeList_cons_of_step (t:=SharedLoop.initial c head s)

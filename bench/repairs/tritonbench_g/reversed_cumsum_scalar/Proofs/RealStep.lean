@@ -14,7 +14,7 @@ def beforeStore (h : Call) (c : Config) (row q : Nat)
     (f : Nat → ℝ) (acc : ℝ) (u : BlockState) : BlockState :=
   let u0 := u.setReg "i_t" .int [] (Tile.scalar (q:Int))
   let u1 := u0.setReg "start_t" .int [] (Tile.scalar (q*c.BT:Int))
-  let u2 := u1.setReg "lanes" .nat [c.BT] (lanes c)
+  let u2 := u1.setReg "lanes" .int [c.BT] (lanes c)
   let u3 := u2.setReg "active" .bool [c.BT] (mask h c q)
   let u4 := u3.setReg "times" .int [c.BT] (times h c q)
   let u5 := u4.setReg "p_s" .ptr [c.BT] (pointer h c row q h.input h.inputStrides)
@@ -39,7 +39,7 @@ theorem executes (h : Call) (c : Config) (row : Nat) (input : Nat → ℝ)
   unfold loopBody
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (index_eval j u hj hr))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (RealValues.start_eval c (-j).toNat _ (by simp)))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (show evalOp (.arange c.BT) _=some (lanes c) from by simpa [lanes,Tile.vec] using evalOp_arange c.BT _))]
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some (show evalOp (.castNatToInt (.arange c.BT)) _=some (lanes c) from by simp only [evalOp, Option.bind_some]; rfl))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (active_eval h c (-j).toNat _ start (by simp) (by simp)))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (time_eval h c (-j).toNat _ (by simp) (by simp) (by simp)))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (pointer_eval h c row (-j).toNat h.input h.inputStrides _ (by simp [hh]) (by simp)))]

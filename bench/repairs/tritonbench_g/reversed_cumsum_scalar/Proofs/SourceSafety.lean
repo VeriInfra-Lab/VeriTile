@@ -75,7 +75,7 @@ theorem iteration_safe (h : Call) (c : Config) (row : Nat)
   refine ⟨by simp [Stmt.TraceSafe,Op.SafeAt],?_⟩
   rw [cons_of_run (stepStmt_assign_eq_some (RealValues.start_eval c (-j).toNat _ (by simp)))]
   refine ⟨by simp [Stmt.TraceSafe,startOp,Op.SafeAt],?_⟩
-  rw [cons_of_run (stepStmt_assign_eq_some (show evalOp (.arange c.BT) _=some (lanes c) from by simpa [lanes,Tile.vec] using evalOp_arange c.BT _))]
+  rw [cons_of_run (stepStmt_assign_eq_some (show evalOp (.castNatToInt (.arange c.BT)) _=some (lanes c) from by simp only [evalOp, Option.bind_some]; rfl))]
   refine ⟨by simp [Stmt.TraceSafe,Op.SafeAt],?_⟩
   rw [cons_of_run (stepStmt_assign_eq_some (active_eval h c (-j).toNat _ start (by simp) (by simp)))]
   refine ⟨by simp [Stmt.TraceSafe,activeOp,Op.SafeAt],?_⟩

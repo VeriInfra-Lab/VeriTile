@@ -73,15 +73,17 @@ structure Inv (A : Algebra α) (s : State α) (masked : Bool) (H S D Q BD j : Na
     (q : State α) : Prop where
   mem : q.mem=s.mem
   pids : q.pids=s.pids
-  batch : q.regs .nat [] "cur_batch"=some (fun _ => s.pids 0)
-  head : q.regs .nat [] "cur_head"=some (fun _ => s.pids 1)
+  batch : q.regs .int [] "cur_batch"=some (fun _ => (s.pids 0 : Int))
+  head : q.regs .int [] "cur_head"=some (fun _ => (s.pids 1 : Int))
   lanes : q.regs .nat [BD] "offs_d"=some lane
-  stop : q.regs .nat [] "block_n_size"=some (fun _ => count s Q)
-  ov : q.regs .nat [BD] "offs_v"=some (fun k => voff s H S D 0 k)
-  oe : q.regs .nat [] "offs_logic"=some (fun _ => eoff s H S 0)
+  stop : q.regs .int [] "block_n_size"=some (fun _ => (count s Q : Int))
+  ov : q.regs .int [BD] "offs_v"=some (fun k => (voff s H S D 0 k : Int))
+  oe : q.regs .int [] "offs_logic"=some (fun _ => (eoff s H S 0 : Int))
   max : q.regs .real [] "max_logic"=some (fun _ => (values A s masked H S D BD j).m)
   sum : q.regs .real [] "sum_exp"=some (fun _ => (values A s masked H S D BD j).z)
   acc : q.regs .real [BD] "acc"=some (values A s masked H S D BD j).a
+
+@[simp] private theorem real_zero_decimal : (0.0 : ℝ) = 0 := by norm_num
 
 theorem prologue_run (A : Algebra α) (s : State α) (masked : Bool) (H S D Q BD : Nat) :
     ∃ q, run A (prologue H S D Q BD) s=some q ∧ Inv A s masked H S D Q BD 0 q := by
@@ -94,15 +96,28 @@ theorem prologue_run (A : Algebra α) (s : State α) (masked : Bool) (H S D Q BD
     Broadcast.leftIndex,Broadcast.rightIndex,integralFloorDiv]
   all_goals funext k
   all_goals first | rfl | (try simp [FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,integralFloorDiv])
-  all_goals norm_num
+  all_goals try norm_num
+  let l := (s.mem "L" (s.pids 0)).read .nat
+  change (if (if l = 0 then 0 else (l : Int) + Q - 1) < 0 then
+    -(-(if l = 0 then 0 else (l : Int) + Q - 1) / (Q : Int)) else
+    (if l = 0 then 0 else (l : Int) + Q - 1) / (Q : Int)) =
+    (if l = 0 then 0 else ((l + Q - 1 : Nat) : Int)) / (Q : Int)
+  by_cases hz : l = 0
+  · simp [hz]
+  · have positive : 1 ≤ l + Q := Nat.succ_le_iff.mpr (Nat.add_pos_left (Nat.pos_of_ne_zero hz) Q)
+    have hs : ((l + Q - 1 : Nat) : Int) = (l : Int) + Q - 1 := by
+      simp only [Int.natCast_sub positive,Int.natCast_add,Int.natCast_one]
+    simp [hz, ←hs]
 
 theorem body_run (A : Algebra α) (s q : State α) (masked : Bool) (H S D Q BD j : Nat)
     (I : Inv A s masked H S D Q BD j q) :
     ∃ r, run A (body masked H S D Q BD)
-      (q.setReg "block_seq_n" .nat [] (fun _ => j))=some r ∧
+      (q.setReg "block_seq_n" .int [] (fun _ => (j : Int)))=some r ∧
       Inv A s masked H S D Q BD (j+1) r := by
   rcases I with ⟨hm,hp,hb,hh,hl,hs,hv,he,hmax,hsum,ha⟩
   cases masked <;>
+    simp only [body,kernel,phi,llama,ComputeKernel.surfaceBody,List.getD,
+      List.getElem?_cons_zero,List.getElem?_cons_succ] <;>
     simp [body,kernel,phi,llama,ComputeKernel.surfaceBody,run,step,evalExpr,
       evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,FP.Structural.bop,
       natLt,natLe,numericLt,numericLe,Region.cast,State.setReg,
@@ -114,7 +129,7 @@ theorem body_run (A : Algebra α) (s q : State α) (masked : Bool) (H S D Q BD j
     hb,hh,hl,hs,hv,he,hmax,hsum,ha,hm,hp]
   all_goals funext k
   all_goals simp [FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,Function.comp_def]
-  all_goals norm_num
+  all_goals simp only [←Int.natCast_add,←Int.natCast_mul,Int.toNat_natCast]
 
 
 theorem range_complete (A : Algebra α) (idx : RegName) (body : List ComputeStmt)
@@ -142,17 +157,43 @@ theorem range_complete (A : Algebra α) (idx : RegName) (body : List ComputeStmt
       simpa [hlt,hq] using hr
   exact go (stop-start) start (by omega) s initial
 
+theorem rangeInt_complete (A : Algebra α) (idx : RegName) (body : List ComputeStmt)
+    (stop : Nat) (P : Nat → State α → Prop)
+    (one : ∀ i, i<stop → ∀ s, P i s → ∃ q,
+      run A body (s.setReg idx .int [] (fun _ => (i : Int)))=some q ∧ P (i+1) q)
+    (s : State α) (start : Nat) (bound : start≤stop) (initial : P start s) :
+    ∃ q, rangeInt A idx (start : Int) (stop : Int) 1 body s=some q ∧ P stop q := by
+  have go : ∀ n i, i+n=stop → ∀ s, P i s →
+      ∃ q, rangeInt A idx (i : Int) (stop : Int) 1 body s=some q ∧ P stop q := by
+    intro n
+    induction n with
+    | zero =>
+      intro i hi s hs
+      have h : i=stop := by omega
+      subst i
+      exact ⟨s,by rw [rangeInt];simp,hs⟩
+    | succ n ih =>
+      intro i hi s hs
+      have hlt : i<stop := by omega
+      obtain ⟨q,hq,hP⟩ := one i hlt s hs
+      obtain ⟨r,hr,hR⟩ := ih (i+1) (by omega) q hP
+      refine ⟨r,?_,hR⟩
+      rw [rangeInt]
+      simpa [Int.ofNat_lt.mpr hlt,hq,Int.natCast_add] using hr
+  exact go (stop-start) start (by omega) s initial
+
 theorem loop_run (A : Algebra α) (s : State α) (masked : Bool) (H S D Q BD : Nat) :
     ∃ q, run A (prologue H S D Q BD ++
-      [.forRangeDyn "block_seq_n" (.constNat 0) (.ref .nat [] "block_n_size")
+      [.forRangeInt "block_seq_n" (.constInt 0) (.ref .int [] "block_n_size")
         (.constNat 1) (body masked H S D Q BD)]) s=some q ∧
       Inv A s masked H S D Q BD (count s Q) q := by
   obtain ⟨q,hq,I⟩ := prologue_run A s masked H S D Q BD
-  obtain ⟨r,hr,J⟩ := range_complete A "block_seq_n" (body masked H S D Q BD)
+  obtain ⟨r,hr,J⟩ := rangeInt_complete A "block_seq_n" (body masked H S D Q BD)
     (count s Q) (Inv A s masked H S D Q BD)
     (fun j _ q h => body_run A s q masked H S D Q BD j h) q 0 (by omega) I
   refine ⟨r,?_,J⟩
   rw [run_append,hq]
+  simp only [Int.natCast_zero] at hr
   simp [run,step,evalOp_unfold,Option.bind,I.stop,hr]
 
 def output (A : Algebra α) (s : State α) (masked : Bool) (H S D Q BD : Nat)

@@ -1039,3 +1039,244 @@ class LogSoftmaxRawBodyTests(unittest.TestCase):
                               record["python_function"], record["lean_definition"],
                               record["signature_definition"], record["expected_signature"],
                               record["expected_call_bindings"])
+
+
+class FusedDecodingRotaryRawBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/fused_rotary_embedding_tile_checked"
+
+    def test_complete_q_k_cache_and_full_width_v_bodies(self):
+        pairs = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual([(p["mode"], p["statements"]) for p in pairs],
+                         [("pasted_body", 21), ("pasted_body", 21)])
+
+    def test_cast_cache_mask_integer_channel_and_runtime_stride_drift_are_rejected(self):
+        records = json.loads((self.directory / "jit-correspondence.json").read_text())
+        lean = (self.directory / "Kernels.lean").read_text()
+        for record in records:
+            for before, after in [
+                ("tl.program_id(1).to(tl.int64)", "tl.program_id(1)"),
+                ("tl.arange(0, BLOCK_HALF).to(tl.int64)", "tl.arange(0, BLOCK_HALF)"),
+                ("handle_kv = cur_head_idx % KV_GROUP_NUM == 0", "handle_kv = cur_head_idx == 0"),
+                ("dim_range < HEAD_DIM", "dim_range < BLOCK_HALF"),
+                ("length_stride := length_stride", "length_stride := q_token_stride"),
+                ('("context_lengths",.i32)', '("context_lengths",.i64)'),
+            ]:
+                with self.subTest(definition=record["lean_definition"], mutation=before):
+                    self.assertIn(before, lean)
+                    with self.assertRaises(ValueError):
+                        check((ROOT / record["python"]).read_text(), lean.replace(before, after),
+                              record["python_function"], record["lean_definition"],
+                              record["signature_definition"], record["expected_signature"],
+                              record["expected_call_bindings"])
+
+
+class RopeFunctionBodyTests(unittest.TestCase):
+    def test_both_pitch_variants_keep_full_original_and_index_candidate(self):
+        for task in ["rope_transform", "rope_backward_transform"]:
+            directory = ROOT / "bench/repairs/tritonbench_g" / task
+            pairs = check_manifest(ROOT, directory / "jit-correspondence.json")
+            self.assertEqual([(p["mode"], p["statements"]) for p in pairs],
+                             [("pasted_body", 23), ("pasted_body", 23)])
+
+    def test_coefficient_casts_branches_padding_and_runtime_pitches_are_pinned(self):
+        for task in ["rope_transform", "rope_backward_transform"]:
+            directory = ROOT / "bench/repairs/tritonbench_g" / task
+            records = json.loads((directory / "jit-correspondence.json").read_text())
+            lean = (directory / "Kernels.lean").read_text()
+            mutations = [
+                (".to(sin_row.dtype)", ""),
+                ("if not BACKWARD_PASS:", "if BACKWARD_PASS:"),
+                ("tl.arange(0, pad_hd // 2)", "tl.arange(0, hd // 2)"),
+                ("new_q_tile_2, mask=second_q_mask", "new_q_tile_2"),
+                ('("q_ptr",.inputFloat)', '("q_ptr",.outputFloat)'),
+                ("sl := sl", "sl := q_row_stride"),
+            ]
+            if task == "rope_backward_transform":
+                mutations += [("cos_offsets * cos_col_stride", "cos_offsets"),
+                              ("cos_offsets * sin_col_stride", "cos_offsets")]
+            for record in records:
+                for before, after in mutations:
+                    with self.subTest(task=task, definition=record["lean_definition"], mutation=before):
+                        self.assertIn(before, lean)
+                        with self.assertRaises(ValueError):
+                            check((ROOT / record["python"]).read_text(), lean.replace(before, after),
+                                  record["python_function"], record["lean_definition"],
+                                  record["signature_definition"], record["expected_signature"],
+                                  record["expected_call_bindings"])
+
+
+class BatchedVecmatFunctionBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/batched_vecmat_mult"
+
+    def test_complete_signed_index_source_and_existing_carry_candidate(self):
+        pairs = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual([(p["mode"], p["statements"]) for p in pairs],
+                         [("pasted_body", 9), ("pasted_body", 9)])
+
+    def test_widening_broadcast_reduction_axis_and_actual_arguments_are_pinned(self):
+        records = json.loads((self.directory / "jit-correspondence.json").read_text())
+        lean = (self.directory / "Kernels.lean").read_text()
+        for record in records:
+            for before, after in [
+                ("dim_n = tl.cast(dim_n, tl.int64)", "dim_n = dim_n"),
+                ("dim_k = tl.cast(dim_k, tl.int64)", "dim_k = dim_k"),
+                ("tl.program_id(0).to(tl.int64)", "tl.program_id(0)"),
+                ("tl.program_id(1).to(tl.int64)", "tl.program_id(1)"),
+                ("expanded_a, _ = tl.broadcast(a, b)", "expanded_a = a"),
+                ("tl.sum(expanded_a * b, axis=2)", "tl.sum(expanded_a * b, axis=1)"),
+                ("dim_k := dim_k", "dim_k := dim_n"),
+            ]:
+                with self.subTest(definition=record["lean_definition"], mutation=before):
+                    self.assertIn(before, lean)
+                    with self.assertRaises(ValueError):
+                        check((ROOT / record["python"]).read_text(), lean.replace(before, after),
+                              record["python_function"], record["lean_definition"],
+                              record["signature_definition"], record["expected_signature"],
+                              record["expected_call_bindings"])
+
+
+class FlashDecodeFunctionBodyTests(unittest.TestCase):
+    tasks = ["flash_decode2_llama", "flash_decode2_phi_block_checked"]
+
+    def compare(self, record, lean):
+        return check((ROOT / record["python"]).read_text(), lean,
+                     record["python_function"], record["lean_definition"],
+                     record["signature_definition"], record["expected_signature"],
+                     record["expected_call_bindings"])
+
+    def test_complete_original_and_existing_cse_bodies(self):
+        for task in self.tasks:
+            directory = ROOT / "bench/repairs/tritonbench_g" / task
+            results = check_manifest(ROOT, directory / "jit-correspondence.json")
+            self.assertEqual([(x["mode"], x["statements"]) for x in results],
+                             [("pasted_body", 13), ("pasted_body", 13)])
+
+    def test_signed_casts_masks_and_canonical_runtime_stride_products_are_pinned(self):
+        for task in self.tasks:
+            directory = ROOT / "bench/repairs/tritonbench_g" / task
+            records = json.loads((directory / "jit-correspondence.json").read_text())
+            for record in records:
+                lean = (ROOT / record["lean"]).read_text()
+                mutations = [
+                    ("tl.program_id(0).to(tl.int64)", "tl.program_id(0)"),
+                    ("tl.program_id(1).to(tl.int64)", "tl.program_id(1)"),
+                    ("tl.load(B_Seqlen + cur_batch).to(tl.int64)", "tl.load(B_Seqlen + cur_batch)"),
+                    ("stride_mid_ob := H * S * D", "stride_mid_ob := H * S"),
+                    ("stride_mid_os := D", "stride_mid_os := H"),
+                    ("stride_obs := H * D", "stride_obs := D"),
+                    ("new_max_logic = tl.maximum(tlogic, max_logic)",
+                     "new_max_logic = tl.minimum(tlogic, max_logic)"),
+                ]
+                if "phi" in task:
+                    mutations += [("mask=offs_d < head_dim", "mask=offs_d <= head_dim"),
+                                  ("head_dim := D", "head_dim := BD")]
+                for before, after in mutations:
+                    with self.subTest(task=task, definition=record["lean_definition"], mutation=before):
+                        self.assertIn(before, lean)
+                        with self.assertRaises(ValueError):
+                            self.compare(record, lean.replace(before, after))
+
+    def test_stride_products_accept_spacing_but_reject_calls_and_changed_grouping(self):
+        task = ROOT / "bench/repairs/tritonbench_g/flash_decode2_llama"
+        record = json.loads((task / "jit-correspondence.json").read_text())[0]
+        lean = (ROOT / record["lean"]).read_text()
+        self.compare(record, lean.replace("stride_mid_ob := H * S * D",
+                                        "stride_mid_ob := (H*S) * D"))
+        for value in ["H * (S * D)", "wrong(H, S, D)", "H[S] * D"]:
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                self.compare(record, lean.replace("stride_mid_ob := H * S * D",
+                                                 "stride_mid_ob := " + value))
+
+
+class BgmvExpandFunctionBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked"
+
+    def compare(self, record, lean):
+        return check((ROOT / record["python"]).read_text(), lean,
+                     record["python_function"], record["lean_definition"],
+                     record["signature_definition"], record["expected_signature"],
+                     record["expected_call_bindings"])
+
+    def test_complete_body_for_both_index_widths_and_candidates(self):
+        results = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual([(x["mode"], x["statements"]) for x in results],
+                         [("pasted_body", 13)] * 4)
+        for record in json.loads((self.directory / "jit-correspondence.json").read_text()):
+            source = (ROOT / record["python"]).read_text()
+            fn = next(n for n in ast.parse(source).body if isinstance(n, ast.FunctionDef)
+                      and n.name == record["python_function"])
+            body = "\n".join(source.splitlines()[fn.body[0].lineno-1:fn.end_lineno])
+            lean = (ROOT / record["lean"]).read_text()
+            self.assertEqual(textwrap.dedent(body).strip(),
+                             textwrap.dedent(quotation(lean, record["lean_definition"])[1]).strip())
+
+    def test_cast_early_return_mask_reduction_and_stride_changes_are_rejected(self):
+        mutations = [
+            ("tl.program_id(axis=0).to(tl.int64)", "tl.program_id(axis=0)"),
+            ("tl.load(lora_indices + cur_batch).to(tl.int64)", "tl.load(lora_indices + cur_batch)"),
+            ("tl.arange(0, BLOCK_N).to(tl.int64)", "tl.arange(0, BLOCK_N)"),
+            ("if lora_index == -1:", "if lora_index == 0:"),
+            ("tl.cast(N, tl.int64)", "N"),
+            ("tiled_a.to(lora_ptr.dtype.element_ty)", "tiled_a"),
+            ("current_n < split_n_length", "current_n <= split_n_length"),
+            ("tl.sum(tiled_a * tiled_b, 1)", "tl.sum(tiled_a * tiled_b, 0)"),
+            ("l0_stride := h.N * h.K", "l0_stride := h.N"),
+            ("cn_stride := 1", "cn_stride := h.columns"),
+            ('("out_ptr",.fp32)', '("out_ptr",.fp16)'),
+        ]
+        for record in json.loads((self.directory / "jit-correspondence.json").read_text()):
+            lean = (ROOT / record["lean"]).read_text()
+            for before, after in mutations:
+                with self.subTest(definition=record["lean_definition"], mutation=before):
+                    self.assertIn(before, lean)
+                    with self.assertRaises(ValueError):
+                        self.compare(record, lean.replace(before, after))
+
+
+class AttentionFwdFunctionBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked"
+
+    def compare(self, record, lean):
+        return check((ROOT / record["python"]).read_text(), lean,
+                     record["python_function"], record["lean_definition"],
+                     record["signature_definition"], record["expected_signature"],
+                     record["expected_call_bindings"])
+
+    def test_complete_original_and_shift_candidate(self):
+        pairs = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual([(p["mode"], p["statements"]) for p in pairs],
+                         [("pasted_body", 3), ("pasted_body", 4)])
+        for record in json.loads((self.directory / "jit-correspondence.json").read_text()):
+            source = (ROOT / record["python"]).read_text()
+            fn = next(n for n in ast.parse(source).body if isinstance(n, ast.FunctionDef)
+                      and n.name == record["python_function"])
+            body = "\n".join(source.splitlines()[fn.body[0].lineno-1:fn.end_lineno])
+            lean = (ROOT / record["lean"]).read_text()
+            self.assertEqual(textwrap.dedent(body).strip(),
+                             textwrap.dedent(quotation(lean, record["lean_definition"])[1]).strip())
+
+    def test_cast_block_geometry_boundary_and_candidate_delta_are_preserved(self):
+        mutations = [
+            ("tl.program_id(0).to(tl.int64)", "tl.program_id(0)"),
+            ("b_h.to(p_h.dtype.element_ty)", "b_h"),
+            ("(b_q * scale).to(b_q.dtype)", "(b_q * scale)"),
+            ("b_s.to(b_q.dtype)", "b_s"),
+            ("(NT * BD, BD)", "(T, BD)"),
+            ("boundary_check=(0,)", "boundary_check=(1,)"),
+            ('padding_option="zero"', 'padding_option=""'),
+            ("allow_tf32=False", "allow_tf32=True"),
+            ("if i == 0:", "if i == 1:"),
+            ("b_h += tl.dot(b_k, b_v", "b_h = tl.dot(b_k, b_v"),
+            ("s_hh := s_hh", "s_hh := s_qh"),
+            ('("scale",.fp32)', '("scale",.fp64)'),
+        ]
+        for record in json.loads((self.directory / "jit-correspondence.json").read_text()):
+            lean = (ROOT / record["lean"]).read_text()
+            cases = mutations + ([("tl.static_assert(BT == 32)", "tl.static_assert(BT == 16)"),
+                                  ("i << 5", "i << 4")]
+                                 if record["lean_definition"] == "shiftedSource" else [])
+            for before, after in cases:
+                with self.subTest(definition=record["lean_definition"], mutation=before):
+                    self.assertIn(before, lean)
+                    with self.assertRaises(ValueError):
+                        self.compare(record, lean.replace(before, after))

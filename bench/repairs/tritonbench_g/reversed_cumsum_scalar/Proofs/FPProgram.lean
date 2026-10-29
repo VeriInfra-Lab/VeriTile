@@ -12,12 +12,12 @@ def initCode : List ComputeStmt :=
 def startOp (c : Config) : Op .int [] :=
   .mul .int .nil (.ref .int [] "i_t") (.constInt c.BT)
 def activeOp (h : Call) (c : Config) : Op .bool [c.BT] :=
-  .lt .int .scalarR (.castNatToInt (.ref .nat [c.BT] "lanes"))
+  .lt .int .scalarR (.ref .int [c.BT] "lanes")
     (.sub .int .nil (.castNatToInt (.constNat h.T)) (.ref .int [] "start_t"))
 def timeOp (c : Config) : Op .int [c.BT] :=
   .add .int .scalarL (.ref .int [] "start_t")
-    (.castNatToInt (.where (.ref .bool [c.BT] "active") (.ref .nat [c.BT] "lanes")
-      (.broadcast (.constNat 0) [c.BT])))
+    (.where (.ref .bool [c.BT] "active") (.ref .int [c.BT] "lanes")
+      (.broadcast (.constInt 0) [c.BT]))
 def baseOp (H : Nat) (strides : Strides) : Op .int [] :=
   .add .int .nil
     (.mul .int .nil (.tritonDiv .int .nil (.ref .int [] "i_bh") (.castNatToInt (.constNat H)))
@@ -44,7 +44,7 @@ def storeOp (h : Call) (c : Config) : ComputeStmt :=
 def loopBody (h : Call) (c : Config) : List ComputeStmt :=
   [.assign .int [] "i_t" (.alg (.sub .int .nil (.constInt 0) (.ref .int [] "__rev_i_t"))),
    .assign .int [] "start_t" (.alg (startOp c)),
-   .assign .nat [c.BT] "lanes" (.alg (.arange c.BT)),
+   .assign .int [c.BT] "lanes" (.alg (.castNatToInt (.arange c.BT))),
    .assign .bool [c.BT] "active" (.alg (activeOp h c)),
    .assign .int [c.BT] "times" (.alg (timeOp c)),
    .assign .ptr [c.BT] "p_s" (.alg (pointerOp h c h.input h.inputStrides)),

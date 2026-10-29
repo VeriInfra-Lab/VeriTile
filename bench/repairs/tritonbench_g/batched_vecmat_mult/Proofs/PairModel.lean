@@ -27,12 +27,15 @@ def Outside (p : Parameters) (s : State Word) (r : RegionName) (o : Nat) : Prop 
 
 structure Invariant (plans : PlanSelector)
     (p : Parameters) (initial : State Word) (c : Nat) (current : State Word) : Prop where
-  mi : current.regs .nat [] "m_index" = some (fun _ => initial.pids 0)
-  ni : current.regs .nat [] "n_index" = some (fun _ => initial.pids 1)
-  offsets : current.regs .nat [p.BM,p.BN] "output_tile" = some (outputOffset p initial)
+  dimn : current.regs .int [] "dim_n" = some (fun _ => (p.N : Int))
+  dimk : current.regs .int [] "dim_k" = some (fun _ => (p.K : Int))
+  mi : current.regs .int [] "m_index" = some (fun _ => (initial.pids 0 : Int))
+  ni : current.regs .int [] "n_index" = some (fun _ => (initial.pids 1 : Int))
+  offsets : current.regs .int [p.BM,p.BN] "output_tile" = some (fun i => (outputOffset p initial i : Int))
   carry : current.regs .real [p.BM,p.BN] "vecmat" = some (accumulated plans p initial c)
-  blocks : current.regs .nat [] "k_blocks" = some (fun _ => p.K / p.BK)
+  blocks : current.regs .int [] "k_blocks" = some (fun _ => ((p.K / p.BK : Nat) : Int))
   memory : current.mem = initial.mem
+
 
 theorem expectedMemory_frame (plans : PlanSelector)
     (p : Parameters) (s : State Word) (r : RegionName) (o : Nat) (h : Outside p s r o) :

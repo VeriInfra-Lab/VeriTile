@@ -23,7 +23,7 @@ def iteration (M : Algebra α) (reduction : Reduction α) (h : Call)
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp only [body,active,code,Surface.source,
+    simp only [body,active,code,Surface.source,SourceView.code,SourceView.rawCode,SourceView.active,SourceView.rawActive,SourceView.selected,Kernels.source,
       ComputeKernel.surfaceBody,Source.conditional?,Source.intRange?,
       Option.map_some,Option.getD_some,beq_self_eq_true]
     dsimp [firstEntry,preloop]

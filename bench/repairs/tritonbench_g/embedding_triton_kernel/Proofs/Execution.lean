@@ -32,7 +32,7 @@ theorem decomposition (index : IndexType) (p : Parameters) :
 
 structure Context (p : Parameters) (s : State α) : Prop where
   rows : s.regs .int [1] "offs_nn"=some (fun j : TileIndex [1] => Int.ofNat (s.pids 0*64+j.1.val))
-  columns : s.regs .nat [p.width] "offs_d"=some (fun j=>j.1.val)
+  columns : s.regs .int [p.width] "offs_d"=some (fun j=>(j.1.val : Int))
 
 def row (s : State α) (start : Nat) : Nat := s.pids 0*64+start
 def token (p : Parameters) (s : State α) (start : Nat) : Int :=
