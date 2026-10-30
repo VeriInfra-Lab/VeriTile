@@ -28,10 +28,10 @@ class AuditGateTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
             (root / 'scripts' / 'bench').mkdir(parents=True)
-            shutil.copyfile(ROOT / 'scripts/bench/check_ports.sh', root / 'scripts/bench/check_ports.sh')
+            shutil.copy2(ROOT / 'scripts/bench/check_ports.sh', root / 'scripts/bench/check_ports.sh')
             entry = root / 'scripts/bench/audit_trust.sh'
             entry.write_text('printf "%s|%s\\n" "$*" "$AUDIT_TRUST_JOBS"\nexit 17\n')
-            result = subprocess.run(['bash', 'scripts/bench/check_ports.sh'], cwd=root,
+            result = subprocess.run([str(root / 'scripts/bench/check_ports.sh')], cwd=root,
                                     env={**os.environ, 'CHECK_PORTS_JOBS': '2'},
                                     text=True, capture_output=True)
             self.assertEqual(result.stdout.strip(), '--final-inventory|2')
@@ -45,7 +45,7 @@ class AuditGateTests(unittest.TestCase):
                      'scripts/bench/audit_source.py', 'scripts/bench/check_worker_results.py'):
             target = self.fixture_root / name
             target.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copyfile(ROOT / name, target)
+            shutil.copy2(ROOT / name, target)
         for task, helpers in [('vector_addition', ['Real']), ('mean_reduction', ['Candidate', 'Source'])]:
             directory = self.fixture_root / 'bench/tritonbench_g' / task
             (directory / 'Proofs').mkdir(parents=True)
@@ -53,7 +53,7 @@ class AuditGateTests(unittest.TestCase):
                 (directory / (name + '.lean')).write_text('-- Synthetic worker-accounting fixture.\n')
 
     def run_gate(self, script, env):
-        return subprocess.run(['bash', str(self.fixture_root / script), 'vector_addition', 'mean_reduction'],
+        return subprocess.run([str(self.fixture_root / script), 'vector_addition', 'mean_reduction'],
                               cwd=self.fixture_root, env={**os.environ, **env}, text=True,
                               capture_output=True, timeout=20)
 

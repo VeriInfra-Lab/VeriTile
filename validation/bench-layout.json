@@ -14,12 +14,24 @@
   "moved_lean_modules": 8307,
   "lean_comparison": {
     "non_import_code_differences": 0,
-    "normalization": "Remove comments/imports and update the single literal presentation path below. All definition/theorem bodies, guards, casts and namespaces are preserved.",
+    "normalization": "Remove comments/imports, transport the private-declaration module qualifiers listed below, and update the single literal presentation path. Definition/theorem bodies, guards, casts and namespaces otherwise remain unchanged.",
     "presentation_path_update": {
       "file": "verso/VeriTileOverview.lean",
       "from": "bench/tests/GridComposition.lean",
       "to": "tests/lean/GridComposition.lean"
-    }
+    },
+    "private_declaration_module_updates": [
+      {
+        "file": "bench/tritonbench_g/chunk_cumsum_kernel/Proofs/RealRow.lean",
+        "from": "bench.tritonbench_g.chunk_cumsum_kernel.Proofs.LegacyReal",
+        "to": "bench.tritonbench_g.chunk_cumsum_kernel.Proofs.Mathematical_LegacyReal"
+      },
+      {
+        "file": "bench/tritonbench_g/chunk_gla_fwd/Proofs/OutputTail.lean",
+        "from": "bench.tritonbench_g.chunk_gla_fwd.Proofs.RealOutput",
+        "to": "bench.tritonbench_g.chunk_gla_fwd.Sources.Mathematical_RealOutput"
+      }
+    ]
   },
   "retired_files_by_suffix": {
     ".lean": 2,
@@ -30,7 +42,6 @@
   },
   "retired_code_boundary": "Only old runnable Python implementations, retired validators and two comment-only Lean anchors were removed; every Lean declaration is retained. Git at base_commit preserves prior source and reports.",
   "source_correspondence_counts_unchanged": true,
-  "detailed_local_comparison_sha256": "fd1b8c20c1c6817fab5300c0783aa3b27a8acb712042a3a55fd91121289c7d3f",
   "runtime_components": [
     {
       "from": "bench/repairs/tritonbench_g/adam_update_triton/adam_update_triton_repaired.py",
@@ -1663,5 +1674,6 @@
       "after_sha256": "370ebcb75f0f4d4c872f3d6185320b8eb2aa1d4630f6719288ebbe581470e614",
       "jit_bodies_or_cpp_unchanged": true
     }
-  ]
+  ],
+  "retained_executable_files": 10
 }

@@ -22,7 +22,7 @@ class AuditAggregateTests(unittest.TestCase):
         ports = self.root / 'bench/tritonbench_g'
         ports.mkdir(parents=True)
         (self.root / 'scripts' / 'bench').mkdir(parents=True)
-        shutil.copyfile(ROOT / 'scripts/bench/audit_tritonbench_g.sh', self.root / 'scripts/bench/audit_tritonbench_g.sh')
+        shutil.copy2(ROOT / 'scripts/bench/audit_tritonbench_g.sh', self.root / 'scripts/bench/audit_tritonbench_g.sh')
         (self.root / 'scripts/bench/check_body_corpus.py').write_text('')
         (self.root / 'scripts/bench/check_imported_kernel_review.py').write_text('')
         tools = self.root / 'bin'
@@ -49,7 +49,7 @@ class AuditAggregateTests(unittest.TestCase):
     def run_aggregate(self, args=(), env=None):
         calls = self.root / 'calls'
         calls.unlink(missing_ok=True)
-        result = subprocess.run(['bash', 'scripts/bench/audit_tritonbench_g.sh', *args],
+        result = subprocess.run([str(self.root / 'scripts/bench/audit_tritonbench_g.sh'), *args],
                                 cwd=self.root, env={**self.env, **(env or {})},
                                 text=True, capture_output=True, timeout=20)
         return result, calls.read_text().splitlines() if calls.exists() else []

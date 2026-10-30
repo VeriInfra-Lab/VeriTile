@@ -62154,7 +62154,7 @@
     "bench/tritonbench_g/chunk_cumsum_kernel/Proofs/RealComplete.lean": "eac6d97b12a31670cd05cce881c1af3c1a902a7c48b50acabc179aae7be736d0",
     "bench/tritonbench_g/chunk_cumsum_kernel/Proofs/RealIndexBridge.lean": "0d1290fcba019d30914381b4d683da1abe29a3b0414fba856ebb2bea2aa02e6a",
     "bench/tritonbench_g/chunk_cumsum_kernel/Proofs/RealProjection.lean": "ff6ae790c3b26e360860b3e0f8459b8209e3721bebe440050664b10774acfde6",
-    "bench/tritonbench_g/chunk_cumsum_kernel/Proofs/RealRow.lean": "da2336b43a6566516b79d85fbc94ffb78de43f71a21167c8d520d13d61cf706e",
+    "bench/tritonbench_g/chunk_cumsum_kernel/Proofs/RealRow.lean": "07d50219ee1b25a9ed5a60a591b5165f06d87935bd38e51f7ce569a15f5aecf6",
     "bench/tritonbench_g/chunk_cumsum_kernel/Proofs/RealSafety.lean": "a726744fe4034ff4ed80dbee651c796d3b8aae305e5ce1d7d4ae418128badb2e",
     "bench/tritonbench_g/chunk_cumsum_kernel/Proofs/Rewrite.lean": "63ff05e3e6e31ef553504b2636d484a114844dbfe89b6c82050c0497e7b2ac93",
     "bench/tritonbench_g/chunk_cumsum_kernel/Proofs/SourceProjection.lean": "8e65ba9cd00c8762fa918a2a878cb9af1a96cdd5f6df93e4d5e3a3c69da5236a",
@@ -62479,7 +62479,7 @@
     "bench/tritonbench_g/chunk_gla_fwd/Proofs/NativeStaging.lean": "b7540152fbaee843f2035dfe1bae58635025bb2d964776702ac23dacefb7c7b0",
     "bench/tritonbench_g/chunk_gla_fwd/Proofs/OutputGrid.lean": "a39030f99d96b73f6feaa0d362ea23b56471603fa78d8cea086135e588671627",
     "bench/tritonbench_g/chunk_gla_fwd/Proofs/OutputLogical.lean": "a1fd5e62ea242263147d37e62a638f55bbed220743661a9b16680d41fbc32a00",
-    "bench/tritonbench_g/chunk_gla_fwd/Proofs/OutputTail.lean": "ce7edcde58304ec1d87c143214e477dc20b1d91317a7ff3c4d9112a68ea191ba",
+    "bench/tritonbench_g/chunk_gla_fwd/Proofs/OutputTail.lean": "f6c6469eb7a47c0246a523fb5e1df59d59d9cb6e60277e95900d5b2497c4dfeb",
     "bench/tritonbench_g/chunk_gla_fwd/Proofs/PairInter.lean": "4a8c398507b5b92c1c6039edcfc987383b76c3afaa871ef9c30c35b1cc94b788",
     "bench/tritonbench_g/chunk_gla_fwd/Proofs/PairIntra.lean": "906d9c1f5fd4fbf36b1c14b4acbcd967d4482cdcc8c885e5952f268c91ddfff3",
     "bench/tritonbench_g/chunk_gla_fwd/Proofs/PairMerge.lean": "eb2c2c805fd8f8177b4e3239e7165154dad7e30900f52b5bc0c58c16d4e27bfe",
@@ -69370,8 +69370,8 @@
     "tests/lean/TypedSum.lean": "af7d3364ccce2f4508f3774d30827560a9e92ab69a6e12c12b52d289e20b666e",
     "tests/lean/UnsignedIntegerCast.lean": "d315d7505465d25869603203c983fb4ff0e576bcb68bd4f8a9c87645f36c323c",
     "tests/lean/WelfordSourceContexts.lean": "f62e2138c4cfe983f10fade716f33eb4bdcf049374bad30225883a7da7c7a544",
-    "validation/bench-layout.json": "8869fd858bd9ca966a6276097bc5d17e7b12ee1ee05cc58c6a82f7bbad24769a",
-    "validation/contracts.json": "3a8b97636a9eee889e1da393ee2a04e4e5c086b325749050a93981c6d04f9330",
+    "validation/bench-layout.json": "0811e2b0f1d456687e23d144a7700d486d05e0cec9ee55c616e62cc8d05dc1c4",
+    "validation/contracts.json": "867e71c98e32fd2a8d8696acf990a04ecb6b1fcb141c666ca7ed41bcbd2dc33d",
     "validation/task_progress.json": "c00d05f4f17beabf26887bf9dcba850fc0b3b2ff194db595a81c0b92709225e8"
   },
   "validation_boundary": "Membership and reviewed scope only; requires Lean build, axiom/spec gates and official replay. Imported benchmark proof goals and Python/native correspondence gaps remain separate."

@@ -8,7 +8,7 @@ noncomputable section
 
 open Lean Elab Term in
 elab "legacyCompleteRow" : term =>
-  return mkConst ((Name.num `_private.bench.tritonbench_g.chunk_cumsum_kernel.Proofs.LegacyReal 0) ++
+  return mkConst ((Name.num `_private.bench.tritonbench_g.chunk_cumsum_kernel.Proofs.Mathematical_LegacyReal 0) ++
     `VeriTile.Bench.TritonBenchG.ChunkCumsumKernel.cc_runExact)
 
 /-- Reuse the unchanged legacy complete row theorem, including its tagged
