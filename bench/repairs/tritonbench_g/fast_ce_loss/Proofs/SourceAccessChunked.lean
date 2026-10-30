@@ -18,7 +18,7 @@ theorem chunked_safe (M : Algebra α) (bounds : RegionName → Nat) (p : Paramet
     (logitsBound : ∀ lane : Fin p.block, initial.pids 1*p.block+lane.val < p.vocab →
       initial.pids 0*p.logitsStride+(initial.pids 1*p.block+lane.val) < bounds p.logits)
     (gatherBound : initial.pids 1=0 → label p initial ≠ -100 →
-      initial.pids 0*p.logitsStride+(label p initial).toNat < bounds p.logits)
+      initial.pids 0*p.logitsStride+(label p initial).toNat-(-(label p initial)).toNat < bounds p.logits)
     (lossBound : initial.pids 1=0 → initial.pids 0 < bounds p.loss)
     (lseBound : initial.pids 0*p.chunks+initial.pids 1 < bounds p.lse) :
     TraceSafe (engine M) bounds (chunked p) initial := by

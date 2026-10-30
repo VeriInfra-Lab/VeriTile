@@ -1,0 +1,368 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/kv_cache_filling/kv_cache_filling_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/kv_cache_filling/Kernels.lean",
+    "python_function": "_quant_row",
+    "lean_definition": "quantRow"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/kv_cache_filling/kv_cache_filling_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/kv_cache_filling/Kernels.lean",
+    "python_function": "_fill_rows",
+    "lean_definition": "originalKernel",
+    "signature_definition": "copyCall",
+    "expected_signature": {
+      "pointers": [
+        [
+          "K",
+          "fp32"
+        ],
+        [
+          "V",
+          "fp32"
+        ],
+        [
+          "KC",
+          "fp32"
+        ],
+        [
+          "VC",
+          "fp32"
+        ],
+        [
+          "KSZ",
+          "fp32"
+        ],
+        [
+          "VSZ",
+          "fp32"
+        ],
+        [
+          "SRC",
+          "i64"
+        ],
+        [
+          "DST",
+          "i64"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "DK",
+        "DV",
+        "CK",
+        "CV",
+        "BK",
+        "BV",
+        "POLICY"
+      ],
+      "functions": [
+        "quantRow"
+      ]
+    },
+    "profile_variant": "0",
+    "expected_constexpr_bindings": {
+      "POLICY": 0
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/kv_cache_filling/candidate_kernels.py",
+    "lean": "bench/repairs/tritonbench_g/kv_cache_filling/Kernels.lean",
+    "python_function": "_fill_rows_commuted",
+    "lean_definition": "commutedKernel",
+    "signature_definition": "copyCall",
+    "expected_signature": {
+      "pointers": [
+        [
+          "K",
+          "fp32"
+        ],
+        [
+          "V",
+          "fp32"
+        ],
+        [
+          "KC",
+          "fp32"
+        ],
+        [
+          "VC",
+          "fp32"
+        ],
+        [
+          "KSZ",
+          "fp32"
+        ],
+        [
+          "VSZ",
+          "fp32"
+        ],
+        [
+          "SRC",
+          "i64"
+        ],
+        [
+          "DST",
+          "i64"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "DK",
+        "DV",
+        "CK",
+        "CV",
+        "BK",
+        "BV",
+        "POLICY"
+      ],
+      "functions": [
+        "quantRow"
+      ]
+    },
+    "profile_variant": "0",
+    "expected_constexpr_bindings": {
+      "POLICY": 0
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/kv_cache_filling/kv_cache_filling_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/kv_cache_filling/Kernels.lean",
+    "python_function": "_fill_rows",
+    "lean_definition": "original8Kernel",
+    "signature_definition": "quant8Call",
+    "expected_signature": {
+      "pointers": [
+        [
+          "K",
+          "fp32"
+        ],
+        [
+          "V",
+          "fp32"
+        ],
+        [
+          "KC",
+          "u8"
+        ],
+        [
+          "VC",
+          "u8"
+        ],
+        [
+          "KSZ",
+          "fp32"
+        ],
+        [
+          "VSZ",
+          "fp32"
+        ],
+        [
+          "SRC",
+          "i64"
+        ],
+        [
+          "DST",
+          "i64"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "DK",
+        "DV",
+        "CK",
+        "CV",
+        "BK",
+        "BV",
+        "POLICY"
+      ],
+      "functions": [
+        "quantRow"
+      ]
+    },
+    "profile_variant": "8",
+    "expected_constexpr_bindings": {
+      "POLICY": 8
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/kv_cache_filling/candidate_kernels.py",
+    "lean": "bench/repairs/tritonbench_g/kv_cache_filling/Kernels.lean",
+    "python_function": "_fill_rows_commuted",
+    "lean_definition": "commuted8Kernel",
+    "signature_definition": "quant8Call",
+    "expected_signature": {
+      "pointers": [
+        [
+          "K",
+          "fp32"
+        ],
+        [
+          "V",
+          "fp32"
+        ],
+        [
+          "KC",
+          "u8"
+        ],
+        [
+          "VC",
+          "u8"
+        ],
+        [
+          "KSZ",
+          "fp32"
+        ],
+        [
+          "VSZ",
+          "fp32"
+        ],
+        [
+          "SRC",
+          "i64"
+        ],
+        [
+          "DST",
+          "i64"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "DK",
+        "DV",
+        "CK",
+        "CV",
+        "BK",
+        "BV",
+        "POLICY"
+      ],
+      "functions": [
+        "quantRow"
+      ]
+    },
+    "profile_variant": "8",
+    "expected_constexpr_bindings": {
+      "POLICY": 8
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/kv_cache_filling/kv_cache_filling_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/kv_cache_filling/Kernels.lean",
+    "python_function": "_fill_rows",
+    "lean_definition": "original4Kernel",
+    "signature_definition": "quant4Call",
+    "expected_signature": {
+      "pointers": [
+        [
+          "K",
+          "fp32"
+        ],
+        [
+          "V",
+          "fp32"
+        ],
+        [
+          "KC",
+          "u8"
+        ],
+        [
+          "VC",
+          "u8"
+        ],
+        [
+          "KSZ",
+          "fp32"
+        ],
+        [
+          "VSZ",
+          "fp32"
+        ],
+        [
+          "SRC",
+          "i64"
+        ],
+        [
+          "DST",
+          "i64"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "DK",
+        "DV",
+        "CK",
+        "CV",
+        "BK",
+        "BV",
+        "POLICY"
+      ],
+      "functions": [
+        "quantRow"
+      ]
+    },
+    "profile_variant": "4",
+    "expected_constexpr_bindings": {
+      "POLICY": 4
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/kv_cache_filling/candidate_kernels.py",
+    "lean": "bench/repairs/tritonbench_g/kv_cache_filling/Kernels.lean",
+    "python_function": "_fill_rows_commuted",
+    "lean_definition": "commuted4Kernel",
+    "signature_definition": "quant4Call",
+    "expected_signature": {
+      "pointers": [
+        [
+          "K",
+          "fp32"
+        ],
+        [
+          "V",
+          "fp32"
+        ],
+        [
+          "KC",
+          "u8"
+        ],
+        [
+          "VC",
+          "u8"
+        ],
+        [
+          "KSZ",
+          "fp32"
+        ],
+        [
+          "VSZ",
+          "fp32"
+        ],
+        [
+          "SRC",
+          "i64"
+        ],
+        [
+          "DST",
+          "i64"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "DK",
+        "DV",
+        "CK",
+        "CV",
+        "BK",
+        "BV",
+        "POLICY"
+      ],
+      "functions": [
+        "quantRow"
+      ]
+    },
+    "profile_variant": "4",
+    "expected_constexpr_bindings": {
+      "POLICY": 4
+    }
+  }
+]

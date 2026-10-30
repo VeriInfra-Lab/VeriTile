@@ -1,4 +1,4 @@
-import bench.repairs.tritonbench_g.lora_expand_gemv.ByteSeparated.Kernels
+import bench.repairs.tritonbench_g.lora_expand_gemv.ByteSeparated.SourceCompatibility
 import bench.repairs.tritonbench_g.lora_expand_gemv.Proofs.Grid
 import bench.repairs.tritonbench_g.lora_expand_gemv.Proofs.Real
 import bench.repairs.tritonbench_g.lora_expand_gemv.Proofs.Native

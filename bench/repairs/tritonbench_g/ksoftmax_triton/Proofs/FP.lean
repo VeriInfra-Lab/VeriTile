@@ -24,14 +24,23 @@ def backward_run {α : Type} [Inhabited α] (M : Algebra α)
       TileShape.axisDim,Region.cast,State.setReg,FP.Structural.store]
     try rfl
 
-/-- Reuse the existing valid total-execution theorem for the unchanged forward
-arithmetic and control projection. Packing and native addressing are separate. -/
+/-- Execute the complete pasted forward body on its existing admitted modes. -/
 def forward_run {α : Type} [Inhabited α] (M : Algebra α)
     (Y X Mask : RegionName) (ym yn xm xn sm K D : Nat) (hD : 0<D)
     (log : Bool) (mode : Forward.MaskMode) (causal : Bool) (s : State α) :
     {t : State α // run (engine M)
-      (forward Y X Mask ym yn xm xn sm K D log mode.python causal Bool.false).surfaceBody s=some t} :=
-  Forward.TypedTotal.fp32_source_run M Y X Mask ym yn xm xn sm K D hD log mode causal Bool.false s
+      (forward Y X Mask ym yn xm xn sm K D log mode causal Bool.false).surfaceBody s=some t} :=
+by
+  cases mode <;> cases log <;> cases causal
+  all_goals
+    refine ⟨?_, ?_⟩
+    swap
+    simp (maxSteps := 300000) [forward,ComputeKernel.surfaceBody,run,step,stepAlg,
+      FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
+      Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
+      numeric,bop,numericLt,numericLe,natLt,natLe,ofFloat,toFloat,
+      TileShape.axisDim,Region.cast,State.setReg,FP.Structural.store,hD]
+    try rfl
 
 theorem backward_frame {α : Type} [Inhabited α] (M : Algebra α)
     (Dst G O : RegionName) (bm bn gm gn om on K D : Nat)
@@ -61,16 +70,17 @@ theorem forward_frame {α : Type} [Inhabited α] (M : Algebra α)
     · exact Or.inr (fun i _ hi => h i.1 hi)
 
 /-- The repaired causal future output depends only on the FP32 zero literal
-and destination cast, even if unread future input words contain NaN/infinity. -/
+even if unread future input words contain NaN/infinity. The raw same-dtype store adds no numerical cast. -/
 theorem backward_future {α : Type} [Inhabited α] (M : Algebra α)
     (Dst G O : RegionName) (bm bn gm gn om on K D : Nat) (log : Bool)
     (s : State α) (i : Fin D) (written : i.val<K) (future : s.pids 1 < i.val) :
     (backward_run M Dst G O bm bn gm gn om on K D log Bool.true s).val.mem Dst
       (s.pids 0*bm+s.pids 1*bn+i.val)=
-      Cell.mk .real (M.cast (some .fp32) .real .real (M.literal (some .fp32) .real 0)) := by
+      Cell.mk .real (M.literal (some .fp32) .real 0) := by
   cases log
   all_goals
     dsimp only [backward_run]
+    simp only [←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast]
     rw [State.masked_scatter_readback (shape := [D]) Dst
       (fun j => s.pids 0*bm+s.pids 1*bn+j.1.val) _ (fun j => j.1.val<K) _
       (i,PUnit.unit) written

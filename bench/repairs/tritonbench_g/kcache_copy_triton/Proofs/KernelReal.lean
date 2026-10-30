@@ -10,13 +10,17 @@ set_option maxHeartbeats 500000
 set_option maxRecDepth 4000
 set_option linter.unusedSimpArgs false
 
+private theorem positive_sub_negative (z : Int) :
+    z.toNat - (-z).toNat = z.toNat := by omega
+attribute [local simp] positive_sub_negative
+
 def sequence (p : Parameters) (ids : Nat → Nat) : Int := (ids 0 : Int).tdiv p.n
 def position (p : Parameters) (s : BlockState) : Int :=
   s.readMemValue .int p.lengths.cast (sequence p s.pids).toNat +
     ((s.pids 0 : Int) - (p.n : Int) * (sequence p s.pids + 1))
 def selectedBlock (p : Parameters) (s : BlockState) : Int :=
   s.readMemValue .int p.blockTables.cast
-    ((sequence p s.pids * p.strideBts).toNat + ((position p s).tdiv p.blockSize * p.strideBtb).toNat)
+    ((sequence p s.pids * p.strideBts).toNat + ((position p s).tdiv p.blockSize * p.strideBtb).toNat - (-((position p s).tdiv p.blockSize * p.strideBtb)).toNat)
 def sourceOffset (p : Parameters) (ids : Nat → Nat) (i : TileIndex [p.width]) : Nat :=
   ids 0 * p.strideKt + ids 1 * p.strideKh + (ids 2 * p.width + i.1.val) * p.strideKd
 def targetOffset (p : Parameters) (s : BlockState) (i : TileIndex [p.width]) : Nat :=
@@ -85,7 +89,7 @@ theorem head_run (p : Parameters) (s : BlockState) :
     ComputeOp.toAlgorithm?,ComputeDType.eraseDType,
     Region.cast,Except.bind,bind,
     stepStmts,stepStmt,evalOp.eq_def,Option.bind,Option.map,
-    Tile.bop,Tile.ptrAdd,Tile.uop,Tile.cop,Tile.select,IntegerExpr.same_left,IntegerExpr.same_right,NumericDType.add,NumericDType.mul,NumericDType.sub,
+    Tile.bop,Tile.ptrAdd,Tile.ptrSub,Tile.uop,Tile.cop,Tile.select,IntegerExpr.same_left,IntegerExpr.same_right,NumericDType.add,NumericDType.mul,NumericDType.sub,
     IntegralDType.floorDiv,IntegralDType.mod,ComparableDType.lt,
     VeriTile.Triton.eval_truncDiv,VeriTile.Triton.eval_truncMod,
     Broadcast.leftIndex,Broadcast.rightIndex]
@@ -100,7 +104,7 @@ theorem metadata_run (p : Parameters) (s : BlockState) :
     ComputeOp.toAlgorithm?,ComputeDType.eraseDType,
     Region.cast,Except.bind,bind,
     stepStmts,stepStmt,evalOp.eq_def,Option.bind,Option.map,
-    Tile.bop,Tile.ptrAdd,Tile.uop,Tile.cop,Tile.select,IntegerExpr.same_left,IntegerExpr.same_right,NumericDType.add,NumericDType.mul,NumericDType.sub,
+    Tile.bop,Tile.ptrAdd,Tile.ptrSub,Tile.uop,Tile.cop,Tile.select,IntegerExpr.same_left,IntegerExpr.same_right,NumericDType.add,NumericDType.mul,NumericDType.sub,
     IntegralDType.floorDiv,IntegralDType.mod,ComparableDType.lt,
     VeriTile.Triton.eval_truncDiv,VeriTile.Triton.eval_truncMod,
     Broadcast.leftIndex,Broadcast.rightIndex]
@@ -115,11 +119,11 @@ theorem tail_run (p : Parameters) (s : BlockState) :
     ComputeOp.toAlgorithm?,ComputeDType.eraseDType,
     Region.cast,Except.bind,bind,
     stepStmts,stepStmt,evalOp.eq_def,Option.bind,Option.map,
-    Tile.bop,Tile.ptrAdd,Tile.uop,Tile.cop,Tile.select,IntegerExpr.same_left,IntegerExpr.same_right,NumericDType.add,NumericDType.mul,NumericDType.sub,
+    Tile.bop,Tile.ptrAdd,Tile.ptrSub,Tile.uop,Tile.cop,Tile.select,IntegerExpr.same_left,IntegerExpr.same_right,NumericDType.add,NumericDType.mul,NumericDType.sub,
     IntegralDType.floorDiv,IntegralDType.mod,ComparableDType.lt,
     VeriTile.Triton.eval_truncDiv,VeriTile.Triton.eval_truncMod,
     Broadcast.leftIndex,Broadcast.rightIndex]
-  simp only [←Int.natCast_add,←Int.natCast_mul,Int.toNat_natCast]
+  simp only [←Int.natCast_add,←Int.natCast_mul,Int.toNat_natCast,Int.toNat_neg_natCast,Nat.sub_zero]
   all_goals simp [Tile.bop,Tile.uop,NumericDType.add,NumericDType.mul,NumericDType.sub,Int.add_comm,Int.add_left_comm,Int.add_assoc,Nat.add_comm,Nat.add_left_comm,Nat.add_assoc]
 
   congr 20

@@ -12,7 +12,7 @@ theorem body_run {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
     (h : Ready p s t a) (hN : 0 < p.tokens) :
     ∃ final, run M (loopBody p) (t.setReg "start_n" .nat [] (fun _ => start)) = some final ∧
       Ready p s final (update M p s start a) := by
-  simp [loopBody,source,typed,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+  simp [loopBody,source,sourceBody,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
     evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,bop,natLt,natLe,numericLt,numericLe,
     integralFloorDiv,integralMod,Region.cast,ofFloat,toFloat,State.setReg,
     h.mem,h.pids,h.undef,h.batch,h.head,h.seqlen,h.start,h.lanes,h.dimensions,h.locbase,h.valueptr,

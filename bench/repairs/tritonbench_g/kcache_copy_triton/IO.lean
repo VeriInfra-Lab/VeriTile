@@ -13,7 +13,8 @@ def position (p : Parameters) (ids : Nat → Nat) (length : Int) : Int :=
   length + ((ids 0 : Int) - (p.n : Int) * (sequenceIndex p ids + 1))
 def tableIndex (p : Parameters) (ids : Nat → Nat) (length : Int) : Nat :=
   (sequenceIndex p ids * p.strideBts).toNat +
-    ((position p ids length).tdiv p.blockSize * p.strideBtb).toNat
+    ((position p ids length).tdiv p.blockSize * p.strideBtb).toNat -
+    (-((position p ids length).tdiv p.blockSize * p.strideBtb)).toNat
 def inputIndex (p : Parameters) (ids : Nat → Nat) (i : TileIndex [p.width]) : Nat :=
   ids 0*p.strideKt + ids 1*p.strideKh + (ids 2*p.width+i.1.val)*p.strideKd
 def outputIndex (p : Parameters) (ids : Nat → Nat) (length block : Int)

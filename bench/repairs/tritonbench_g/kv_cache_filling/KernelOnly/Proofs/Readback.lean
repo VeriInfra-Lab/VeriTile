@@ -90,3 +90,69 @@ theorem metadata_cell {α : Type} [Inhabited α] (a : Ops α) (r : Request) (d :
 
 end
 end VeriTile.Bench.Repairs.KvCacheFilling.Interface
+
+namespace VeriTile.Bench.Repairs.KvCacheFilling.SharedReadback
+open VeriTile.Triton FP.Structural QuantProfile CopyExecution QuantExecution
+noncomputable section
+
+private theorem encoded_cache {α : Type} [Inhabited α] (policy : Policy)
+    (value : Cell α (BitVec 8)) :
+    FP.Structural.Cell.mk (Interface.cacheDType policy) (Interface.cacheValue policy value) =
+      match policy,value with
+      | .copy,.fp32 x => FP.Structural.Cell.mk .real x
+      | .copy,.uint8 _ => FP.Structural.Cell.mk .real (default : α)
+      | .int4,.uint8 x | .int8,.uint8 x => FP.Structural.Cell.mk .nat x.toNat
+      | .int4,.fp32 _ | .int8,.fp32 _ => FP.Structural.Cell.mk .nat 0 := by
+  cases policy <;> cases value <;> rfl
+
+/-- Reuse the complete typed row readback for the retained raw-state endpoint. -/
+theorem project {α : Type} [Inhabited α] (a : Ops α) (r : Request) (d : Domain r)
+    (s f : State α) (j : Job)
+    (hs : (s.mem "src" (s.pids 0)).read .int = (sourceRow r j : Int))
+    (hd : (s.mem "dst" (s.pids 0)).read .int = (destinationRow r j : Int))
+    (version : Bool) (success : exec (algebra a) (Shared.kernel version r) s = some f)
+    (address : Address) (ha : address ∈ rowAddresses r j) :
+    SourceBacking.project r f address = SharedTarget.value a r
+      (inputRow (Shared.parameters r) s (sourceRow r j) Bool.true)
+      (inputRow (Shared.parameters r) s (sourceRow r j) Bool.false) address := by
+  obtain ⟨hr,hc,active⟩ := (mem_rowAddresses r j address).mp ha
+  rcases address with ⟨role,row,col⟩
+  dsimp only at hr
+  subst row
+  cases role with
+  | key =>
+    have h := Interface.cache_cell a r d s f _ _ hs hd version success Bool.true col
+      (by simpa [capacity,Shared.parameters,Request.width] using hc)
+    rw [encoded_cache] at h
+    cases hp : r.policy <;>
+      simpa [SourceBacking.project,SharedTarget.value,rowValue,Interface.sourceRowTarget,
+        SharedTarget.row,Shared.parameters,
+        capacity,lanes,output,hp,h] using congrArg
+          (fun cell => if r.policy = .copy then Cell.fp32 (FP.Structural.Cell.read .real cell)
+            else Cell.uint8 (BitVec.ofNat 8 (FP.Structural.Cell.read .nat cell))) h
+  | value =>
+    have h := Interface.cache_cell a r d s f _ _ hs hd version success Bool.false col
+      (by simpa [capacity,Shared.parameters,Request.width] using hc)
+    rw [encoded_cache] at h
+    cases hp : r.policy <;>
+      simpa [SourceBacking.project,SharedTarget.value,rowValue,Interface.sourceRowTarget,
+        SharedTarget.row,Shared.parameters,
+        capacity,lanes,output,hp,h] using congrArg
+          (fun cell => if r.policy = .copy then Cell.fp32 (FP.Structural.Cell.read .real cell)
+            else Cell.uint8 (BitVec.ofNat 8 (FP.Structural.Cell.read .nat cell))) h
+  | keyMeta =>
+    have h := Interface.metadata_cell a r d s f _ _ hs hd version success
+      (by simpa [activeRole] using active) Bool.true col hc
+    simpa [SourceBacking.project,SharedTarget.value,rowValue,Interface.sourceRowTarget,
+      Shared.parameters,capacity,lanes,metaRegion] using
+      congrArg (fun cell => Cell.fp32 (β := BitVec 8) (FP.Structural.Cell.read .real cell)) h
+  | valueMeta =>
+    have h := Interface.metadata_cell a r d s f _ _ hs hd version success
+      (by simpa [activeRole] using active) Bool.false col hc
+    simpa [SourceBacking.project,SharedTarget.value,rowValue,Interface.sourceRowTarget,
+      Shared.parameters,capacity,lanes,metaRegion] using
+      congrArg (fun cell => Cell.fp32 (β := BitVec 8) (FP.Structural.Cell.read .real cell)) h
+
+#axiomsClean project
+end
+end VeriTile.Bench.Repairs.KvCacheFilling.SharedReadback

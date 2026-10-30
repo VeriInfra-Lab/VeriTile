@@ -192,3 +192,30 @@ def io (a : QuantProfile.Ops ℝ) (r : Request) (j : Job) (version : Bool) (pid 
 
 end
 end VeriTile.Bench.Repairs.KvCacheFilling.LogicalIO
+
+namespace VeriTile.Bench.Repairs.KvCacheFilling.SourceBacking
+open VeriTile.Triton
+noncomputable section
+
+/-- Observe each logical output directly from a completed source state. The
+byte conversion exposes the uint8 cache channel; copy/metadata retain FP32. -/
+def project {α : Type} [Inhabited α] (r : Request) (s : FP.Structural.State α)
+    (address : Address) : Cell α (BitVec 8) :=
+  match address.role with
+  | .key =>
+      if r.policy = .copy then .fp32 ((s.mem "keyCache" (address.row*r.ck+address.column)).read .real)
+      else .uint8 (BitVec.ofNat 8 ((s.mem "keyCache" (address.row*r.ck+address.column)).read .nat))
+  | .value =>
+      if r.policy = .copy then .fp32 ((s.mem "valueCache" (address.row*r.cv+address.column)).read .real)
+      else .uint8 (BitVec.ofNat 8 ((s.mem "valueCache" (address.row*r.cv+address.column)).read .nat))
+  | .keyMeta => .fp32 ((s.mem "keyMeta" (address.row*2+address.column)).read .real)
+  | .valueMeta => .fp32 ((s.mem "valueMeta" (address.row*2+address.column)).read .real)
+
+/-- Per-job observable stores in the existing source-family scheduling order. -/
+def stores {α : Type} [Inhabited α] (r : Request) (states : Job → FP.Structural.State α) :
+    List (Store (Cell α (BitVec 8))) :=
+  (jobs r).flatMap fun j => (rowAddresses r j).map fun address =>
+    ⟨address,project r (states j) address⟩
+
+end
+end VeriTile.Bench.Repairs.KvCacheFilling.SourceBacking

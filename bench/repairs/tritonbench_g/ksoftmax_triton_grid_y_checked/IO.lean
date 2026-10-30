@@ -99,9 +99,8 @@ def orderedRow (M : Algebra A) (op : Operation) (K r : Nat) {D : Nat}
     let z := fun j => M.binary (some .fp32) .real .sub (score j) (rowMax M score)
     let num := fun j => M.unary (some .fp32) .exp (z j)
     let den := rowSum M num
-    M.cast (some .fp32) .real .real
-      (if log then M.binary (some .fp32) .real .sub (z i) (M.unary (some .fp32) .log den)
-       else M.binary (some .fp32) .real .div (num i) den)
+    if log then M.binary (some .fp32) .real .sub (z i) (M.unary (some .fp32) .log den)
+    else M.binary (some .fp32) .real .div (num i) den
   | .backward log causal =>
     let zero := M.literal (some .fp32) .real 0
     let g := selectedValue M zero K r causal x
@@ -111,7 +110,7 @@ def orderedRow (M : Algebra A) (op : Operation) (K r : Nat) {D : Nat}
       else M.binary (some .fp32) .real .mul (o i)
         (M.binary (some .fp32) .real .sub (g i)
           (rowSum M (fun j => M.binary (some .fp32) .real .mul (g j) (o j))))
-    M.cast (some .fp32) .real .real (if causal then if i.val ≤ r then v else zero else v)
+    if causal then if i.val ≤ r then v else zero else v
 
 def orderedTarget (M : Algebra A) (op : Operation) (B Q K D : Nat)
     (encode : RegionName → Nat → V → A) (observe : A → V)

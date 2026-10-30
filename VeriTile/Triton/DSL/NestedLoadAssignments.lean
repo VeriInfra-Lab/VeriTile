@@ -114,8 +114,8 @@ private partial def block (pointers : List Name) (body : Array (TSyntax `tritonS
     | _ => result := result.push st
   return result
 
-def lower (pointers : List Name) (body : Array (TSyntax `tritonStmt)) :
-    MacroM (Array (TSyntax `tritonStmt)) := do
-  let used := pointers ++ body.toList.flatMap (fun s => namesIn s.raw)
+def lower (pointers : List Name) (body : Array (TSyntax `tritonStmt))
+    (reserved : List Name := []) : MacroM (Array (TSyntax `tritonStmt)) := do
+  let used := reserved ++ pointers ++ body.toList.flatMap (fun s => namesIn s.raw)
   return (← (block pointers body).run used).1
 end VeriTile.Triton.DSL.NestedLoadAssignments

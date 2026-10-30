@@ -74,6 +74,7 @@ theorem backward_readback (Dst G O : RegionName)
   cases log <;> cases causal
   all_goals
     dsimp only [backward_runState]
+    simp only [← Int.natCast_mul, ← Int.natCast_add, Int.toNat_natCast]
     rw [BlockState.scatter_readback_prop_masked_nd _ _ _ _
       (BlockState.tileIndex1d_base_offset_injective _) (i,PUnit.unit)]
     by_cases hi : i.val<K

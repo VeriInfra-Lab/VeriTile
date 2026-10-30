@@ -14,6 +14,11 @@ variable {α : Type} [Inhabited α]
   · simp [h,min_eq_left (le_of_lt h)]
   · simp [h,min_eq_right (le_of_not_gt h)]
 
+@[simp] theorem neg_nat_add_mul_toNat (a b c : Nat) :
+    (-(a : Int) + -((b : Int) * c)).toNat = 0 := by
+  have positive : (0 : Int) ≤ (b : Int) * c := Int.mul_nonneg (by omega) (by omega)
+  omega
+
 def engine (M : Algebra α) : Algebra α := M.withDefaultPrecision .fp32
 
 def front (p : Parameters) := (forwardSyntax p).surfaceBody.take 10
@@ -224,6 +229,12 @@ theorem forwardTail (M : Algebra α) (p : Parameters) (initial : State α)
       final.mem=((ready M p initial).write p.loss
         (p.lossBase+initial.pids 1*p.rows+initial.pids 0) (.mk .real (lossValue M p initial))).mem := by
   classical
+  have negative_offset (hit : owns p initial) :
+      ((p.classStart : Int) - target p initial).toNat = 0 := by
+    have positive : (0 : Int) ≤ (initial.pids 1 : Int) * p.block :=
+      Int.mul_nonneg (by omega) (by omega)
+    have lower := hit.1
+    omega
   cases hs : p.hasSmoothing <;> cases sp : p.split
   all_goals
     by_cases ignored : target p initial=p.ignored
@@ -249,7 +260,7 @@ theorem forwardTail (M : Algebra α) (p : Parameters) (initial : State α)
             State.setReg,FP.Structural.store,Region.cast,ignored,ready_lse,
             condition,ready_logits M p initial separate,abi.smoothing,abi.squareScale,abi.totalClasses]
           rfl
-        · simp [lossValue,coreLoss,ignored,hit,hs,sp,gathered,sumValue,State.write,
+        · simp [lossValue,coreLoss,ignored,hit,negative_offset,hs,sp,gathered,sumValue,State.write,
             RuntimeArgs.fp,RuntimeArgs.classes,abi.smoothing,abi.squareScale,abi.totalClasses] <;> rfl
 
 /-- Complete successful execution of the actual typed forward DSL, together

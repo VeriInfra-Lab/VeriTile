@@ -112,7 +112,7 @@ def cInput (g : Geometry) (pid0 pid1 : Nat) (key odd : Bool) (i : CLane g) :=
 def cCoefficient (g : Geometry) (pid1 : Nat) (sine : Bool) (i : CLane g) :=
   pid1*(if sine then g.sinWidth else g.cosWidth)+i.1.val
 def tableOffset {α : Type} (g : Geometry) (pid1 : Nat) (v : ChannelValues α (cInputs g)) :=
-  pid1*g.tableColumns+((past g v).tdiv g.blockSize).toNat
+  pid1*g.tableColumns+((past g v).tdiv g.blockSize).toNat-(-((past g v).tdiv g.blockSize)).toNat
 def cacheOffset {α : Type} (g : Geometry) (pid0 : Nat) (v : ChannelValues α (cInputs g))
     (odd : Bool) (i : CLane g) :=
   (page g v*(g.kHeads*g.blockSize*g.request.width)+(pid0*(g.blockSize*g.request.width) : Nat)+

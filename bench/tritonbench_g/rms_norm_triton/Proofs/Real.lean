@@ -27,7 +27,7 @@ rms_norm_kernel_correctness                   ← TOP THEOREM (rmsNormIO ⊨ rms
   ├─ rms_norm_kernel_traceSafe                per-execution lane-wise safety walk
   └─ rms_norm_kernel_region_run               region-model masked Hoare triple
        ├─ rms_norm_kernel_exec_isSome         termination
-       ├─ rms_norm_kernel_correct             ← algorithm-layer readback per lane
+       ├─ legacy_rms_norm_kernel_readback       ← algorithm-layer readback per lane
        ├─ rmsNormSpec_congr                   only active lanes feed the spec
        └─ rms_norm_kernel_frame               masked scatter frame
 ```
@@ -127,7 +127,7 @@ theorem rmsNormSpec_congr (N BLOCK_SIZE : Nat) (eps : ℝ)
 /-- Algorithm-layer correctness for `rms_norm_kernel`: in-bounds lanes hold
 `rmsNormSpec` of the loaded row and weights, out-of-bounds lanes are
 preserved. -/
-theorem rms_norm_kernel_correct
+theorem legacy_rms_norm_kernel_readback
     (Y X W : RegionName)
     (y_stride_r y_stride_c x_stride_r x_stride_c N BLOCK_SIZE : Nat)
     (eps : ℝ) (s s' : BlockState)
@@ -252,7 +252,7 @@ theorem rms_norm_kernel_region_run
   obtain ⟨s1, hs1⟩ := rms_norm_kernel_exec_isSome Y X W y_stride_r y_stride_c
     x_stride_r x_stride_c N BLOCK_SIZE eps s₀
   refine ⟨s1, hs1, fun j hj => ?_, fun r o hcond => ?_⟩
-  · have h := rms_norm_kernel_correct Y X W y_stride_r y_stride_c x_stride_r
+  · have h := legacy_rms_norm_kernel_readback Y X W y_stride_r y_stride_c x_stride_r
       x_stride_c N BLOCK_SIZE eps s₀ s1 hOutInj hs1 j
     simp only [hj, if_pos] at h
     rw [h]

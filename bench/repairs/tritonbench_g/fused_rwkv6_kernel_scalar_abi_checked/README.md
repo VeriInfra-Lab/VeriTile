@@ -1,21 +1,30 @@
 # RWKV6 scalar ABI checked candidate
 
-This separate candidate adds one assertion to the repaired forward wrapper:
-on the actual launch branch `T or output_final_state`, a raw Python `int` scale
-must satisfy `-(2**63) <= scale < 2**64`. The kernel body and every other Python
-AST node are unchanged. No scalar is converted to Python `float`. Floats,
-including Inf, NaN, overflowing-to-FP32 finite values and signed zero, retain
-their original admission. With `T=0` and no final state, arbitrary integers
-remain admitted and saved unchanged because no JIT binding occurs.
+The selected Python source is `fused_rwkv6_kernel_scalar_abi_checked.py` and the
+existing comparison candidate is `fused_rwkv6_kernel_u_early.py`. Both expose
+`fused_recurrent_rwkv6_fwd_kernel`. The only candidate body change moves the
+three U pointer/mask/load statements immediately after the head ID. No measured
+speedup or numerical rewrite is claimed.
 
-The original source and its independently accepted ABI-defect diagnosis remain
-in `../fused_rwkv6_kernel/`. This directory is a repair candidate, not evidence
-that the original unrestricted integer contract was correct.
+`Kernels.lean` and `CandidateKernels.lean` paste those complete function bodies
+into ordinary `triton { ... }` blocks. Each block has all 16 top-level Python
+statements, including the optional state branches, every cast, signed reverse
+pointer expression, time loop and stores. Caller dtypes, named regions and
+constexpr arguments are outside the pasted body. `jit-correspondence.json`
+checks ten mappings: original/candidate for FP32, I32, I64, U64 and integer 1.
+Integer 1 is Triton's native constexpr specialization; float 1.0 stays FP32.
 
-## Scope and independent target
+## Input contract and mathematical target
 
-For traversal step `n`, let `t=n` in forward mode and `t=T-1-n` in reverse mode.
-The source keeps a `[BV,BK]` register tile and writes key-shard partials:
+The existing wrapper checks are unchanged. On the actual launch branch
+`T != 0 or output_final_state`, raw integer scale must satisfy
+`-(2**63) <= scale < 2**64`. Floats, including Inf and NaN, retain their existing
+admission. With T=0 and final state disabled, no JIT binding occurs and arbitrary
+integers remain admitted. `Contract.lean` records this same branch-local domain;
+no conversion to Python `float` or new pitch restriction is introduced.
+
+For traversal step n, let t=n in forward mode and t=T-1-n in reverse mode.
+The independent Real recurrence is:
 
 ```
 O[ik,z,t,f] = sum over this key shard e:
@@ -23,135 +32,61 @@ O[ik,z,t,f] = sum over this key shard e:
 H[n+1,z,e,f] = H[n,z,e,f]*exp(W[z,t,e]) + K[z,t,e]*V[z,t,f]
 ```
 
-The optional seed is the actual source `0 + load(H0).to(float32)`, and the
-optional terminal store writes `H[T]`. Native semantics retain every padded
-reduction lane, source cast, operand order and local compiler contraction.
-The Real target is an independent exact mathematical recurrence; it does not
-assert native arithmetic equals real arithmetic.
+The source seed preserves `0 + load(H0).to(float32)` when enabled. Otherwise
+it is zero. The optional final store writes H[T]. Native semantics retain
+source casts, the nested FP32 query-storage load, padded reduction lanes,
+operand order and local compiler choices. The Real formula does not assert
+that native floating arithmetic equals real arithmetic.
 
-Only this launched forward kernel is being proved. Torch `o.sum(0)`, allocation,
-autograd internals and runtime implementation are outside the new proof scope.
-The existing host results remain available in the original repair directory.
+## Source-to-proof connections
 
-## Source organization and proof status
+- `IO.lean` owns the complete logical channels, affine head pitches, masks,
+  scalar binding and launch schedule. `Runtime` selects actual source/candidate
+  bodies for each scalar ABI and reuses this single IO layout. Integer bodies
+  retain conversion at their source arithmetic expression.
+- `Proofs/Execution.lean` through `Output.lean` connect entry, signed time loop,
+  per-step output and optional final store to actual execution. The Nat pointer
+  channel is proved equal to signed source addresses at every live access.
+  Dead reverse/T=0 and final-backedge pointer values are handled by termination
+  and exit noninterference; they are not assumed to be live valid addresses.
+- `Proofs/ScalarSource.lean`, `ScalarTransport.lean` and `ScalarSafety.lean`
+  connect each full raw integer body, including conversion, execution failure
+  and access safety, to the common proof interface. `NativeScalar.lean` binds
+  conversion to the explicit scalar ABI primitive, without a cast identity.
+- `Proofs/OptionalState.lean` and `RuntimeScalar.lean` cover absent H0/HT using
+  zero accessible capacity when their source flags are disabled. No accessible
+  allocation is fabricated for a Python `None` argument.
+- `Correct.lean` exposes the independent Real formula. `rwkv_real` retains its
+  existing signature and FP32 source interpretation; `rwkv_real_abi` covers all
+  actual scalar source profiles using the same complete logical IO judgment.
+- `FPEquiv.lean` compares `Runtime.original` and `Runtime.earlyU` with `≡[[]]`.
+  Both use the raw scalar-selected source body, original complete grid, all
+  payloads and optional branches. `PairPrefix` and `ScalarPair` prove the actual
+  reordered prefix and unchanged suffix preserve execution and trace safety.
+  `RuntimeScalar.equivalent` includes safe successful runs, typed output cells
+  and the exact exterior frame.
 
-- `fused_rwkv6_kernel_scalar_abi_checked.py`: sole new branch-local assertion.
-- `Contract.lean`: exact candidate admission and the check/contract equivalence;
-  includes unchanged float and no-launch domains.
-- `Kernels.lean`: ordinary typed `triton` sources with explicit `tl.param scale`,
-  including the full register loop, reverse traversal, per-step partial stores
-  and final state store. `kernel` is definitionally equal to the prior complete
-  source; `earlyUKernel` moves the unchanged U pointer, key mask and U load
-  immediately after the head ID.
-- `IO.lean`: explicit logical Q/K/W `[Z,T,K]`, V `[Z,T,V]`, U
-  `[H,K]` and optional H0 `[Z,K,V]` input channels; original affine head
-  pitches; O `[NK,Z,T,V]` and optional Ht `[Z,K,V]` output channels. The
-  actual `scale` register is bound at each launch, and the full original grid
-  is selected exactly when `T != 0` or final state is requested.
-- `IO.lean` also assembles the independent Real outputs and the generic ordered
-  scalar/reduction formula. Their existing recurrence definitions and proof
-  connections remain in `Proofs`; `Misc/NativeReference.lean` retains the
-  optional native output observer. Both traversal directions, padded lanes,
-  source casts and raw scalar interpretation are retained.
-- `Correct.lean`: one `ProgramIO.Implements` specification for the complete
-  grid and independent mathematical formula.
-- `Misc/NativeCorrect.lean`: the ordinary theorem `FPEquiv.rwkv_native` retains the
-  original `ProgramIO.Observes` statement, proof and primitive/compiler/reduction
-  parameters.
-- `fused_rwkv6_kernel_u_early.py`: complete optimization candidate; the only
-  Python AST change from the selected scalar-ABI source moves `p_u`, `mask_bk`
-  and `b_u` earlier in the kernel prologue. Host code is unchanged.
-- `FPEquiv.lean`: `u_early_equiv` compares `Pair.original` with `Pair.earlyU`
-  using `≡[[]]`. Both use the original complete grid, logical input domain,
-  raw scalar binding, all native payloads and optional initial/final branches.
-  `Proofs/PairPrefix.lean` proves complete prefix state equality and safety;
-  `Proofs/Pair.lean` lifts it through the unchanged time loop and full grid,
-  including successful runs, typed outputs and exact exterior frames.
-- `Proofs/`: existing entry/body/range/exit execution plus finite logical input
-  binding, actual reached load/store safety, exact raw-cell frame and typed
-  output coverage. `IOExecution` reuses the existing source-memory and scalar
-  model theorems for the actual full `runSchedule`; `IOResults` specializes
-  this complete implementation to Real/native meanings.
-- `Misc/RawCorrect.lean` and `Misc/RawNative.lean`: exact old raw endpoints,
-  including finite four-byte native stores, arbitrary initial bytes, all input
-  bytes, exterior bytes and the no-launch identity.
-- `Misc/PhysicalIOBinding.lean`: the original physical reader/byte-decoded words
-  supply the same logical inputs and address-labelled native leaves. Read
-  aliases are preserved. Concrete IO bounds are proved, including arbitrary
-  head pitches admitted by the old `Sizes`-only kernel theorem.
-- `Misc/TensorBridge.lean`: unchanged full Tensor theorem statements, with only
-  imports and proof references redirected to the retained Raw helpers.
-- `SOURCE_MAP.md`: statement-by-statement mapping and semantic boundaries.
-- `check_scalar_abi.py`: exact AST delta, unchanged raw identity, actual wrapper
-  branch capture, real Triton binder/packer and targeted SM80 compilation.
+The original proof scopes remain limited to this forward kernel's key-shard
+partials and optional terminal state. Torch `o.sum(0)`, allocation execution,
+autograd and runtime scheduling implementation are outside them. The original
+repair's diagnosis, host results and optional physical/byte/Tensor endpoints
+remain in their existing directories; they are not additional numerical claims.
 
-The pointer channel in the existing structural interpreter uses natural
-offsets. The source may form negative *dead* offsets at reverse/T=0 or the last
-backedge. The proof establishes active signed-address agreement,
-zero-trip/final range termination, and independence of the exit code from those
-dead pointer registers. No shared-core extension or source pointer-flow repair
-is introduced. The original signed setup and physical-address-room proofs are
-retained and reused.
+## Validation boundaries
 
-## Validation and model boundaries
+The raw-body checker and its mutation tests cover all ten source mappings,
+including cast and optional-branch deletion, reverse backedges, and exact
+integer-1 specialization. Shared frontend execution regressions exercise
+augmented conditional syntax, nested aliased loads, signed pointer movement
+and preservation of runtime integer conversions versus constexpr literals.
+Lean build, theorem-footprint and independent rebuild receipts are recorded in
+the repository review checkpoint when this migration is complete; source
+correspondence by itself does not certify the proofs.
 
-The scalar checker passed 18 wrapper profiles: four newly rejected out-of-range
-integers, two unchanged no-launch huge integers, and twelve legal bindings,
-including three SM80 compilations producing twelve compiler artifacts. The
-candidate kernel AST is identical to the retained repair's kernel AST; removing
-the one assertion restores the complete old Python AST.
-
-Evidence: `.veritile-cache/kernel-evidence/fused_rwkv6_kernel_scalar_abi_checked/scalar-abi/report.json`.
-Two additional installed-specializer controls confirm raw integer `1` becomes
-`constexpr`, while float `1.0` remains FP32. The native target preserves this
-difference without treating multiplication by one as an IEEE identity.
-Evidence: `.veritile-cache/kernel-evidence/fused_rwkv6_kernel_scalar_abi_checked/scalar-specialization/report.json`.
-No GPU execution or independent numerical replay has been performed.
-
-There are no registered numerical experiment assumptions. Raw scalar ABI
-conversion, primitive instruction semantics and structural compiler/reduction
-choices are explicit model boundaries. They must not be described as pending
-numerical experiments. The quoted program and observation proofs are discharged; their public
-statements contain no whole-execution or computed-output premise. Runtime
-grid-product compatibility remains the shared deferred follow-up and is not
-expanded here.
-
-The frozen packet is `.veritile-cache/task-deliveries/fused_rwkv6_kernel_scalar_abi_checked/delivery.json`; it pins candidate source snapshots, all 17 build receipts, reused ABI/compiler evidence, and the unchanged original diagnosis.
-
-The public entries now expose genuine shared IO judgments. Source identity,
-channels, affine windows, masks, scalar arguments and complete schedule are
-visible in `SourceIO.lean`. Successful execution, access safety, complete typed
-outputs and exact raw exterior frames are proved conclusions. The original
-`Sizes` domain remains explicit; no new pitch/contiguity restriction is added.
-The narrower physical admission remains in the original Tensor contract.
-
-The public source model and retained physical/byte endpoints reuse the same
-`Source.source_memory`, `program_model` and complete-grid proof foundation.
-The byte transport still executes the finite original output trace; the public
-IO presentation does not replace that endpoint with only regional values.
-Only `O` and enabled `Ht` cells are writable. With `T=0` and final output disabled,
-the source schedule is empty and the complete raw memory frame is unchanged.
-
-The campaign check covers the independent Real entry, the actual early-U pair,
-all retained native/raw endpoints, physical binding and Tensor consumer. The
-original Python source, contract and existing theorem statements are unchanged.
-The new pair changes only instruction scheduling: issuing U earlier can overlap
-its read latency with pointer construction and the optional initial-state read.
-No performance improvement is claimed without measurement. No numeric rewrite,
-experiment rule, GPU run or independent numerical replay was added.
-
-The campaign packet is
-`.veritile-cache/finish-pending-105-20261021/fused_rwkv6_kernel/delivery.json`.
-It records full source preservation, the exact candidate AST delta, targeted
-builds and a fresh joint main/optional check. The previous delivery above
-remains historical evidence for the scalar-ABI repair.
-
-## Optional proof layout (2026-10-21)
-
-Optional native, Tensor, host and audit applications are in `Misc/`; import them
-explicitly. Declaration namespaces, theorem statements, proof bodies and the
-retained optional theorem scope are preserved. The required entries do not re-export
-optional native conclusions. This file organization adds no mathematical or
-numerical completion claim.
-The retained raw compatibility applications are also under `Misc/`; the main
-readers do not import them merely to re-export their optional conclusions.
+There are no registered numerical experiment assumptions in the structural
+comparison. Scalar ABI conversion, primitive instructions, compiler choices
+and reduction plans remain explicit software-model boundaries. Retained
+specializer/compiler receipts are historical evidence, not a new GPU run.
+The official comparator and Torch-dependent checks must be reported separately
+when unavailable; neither is replaced by an invented PASS. No new GPU or
+numerical experiment is part of this source-body migration.

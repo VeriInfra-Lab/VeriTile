@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.fused_rwkv6_kernel_scalar_abi_checked.CandidateKernels
 import VeriTile.Triton.Float.LogicalProgramIO
 import VeriTile.Triton.Float.ProgramEquivalenceSyntax
 import bench.repairs.tritonbench_g.fused_rwkv6_kernel_scalar_abi_checked.Proofs.Observations
@@ -170,3 +171,95 @@ def real (c : Shape) (scale : ℝ) (xs : Interface.Inputs ℝ c) :
 #specNonCircular real avoiding [kernel,Source.launch,FP.Structural.exec,FusedRwkv6Kernel.runProgram]
 end
 end VeriTile.Bench.Repairs.FusedRwkv6KernelScalarABIChecked.Reference
+
+namespace VeriTile.Bench.Repairs.FusedRwkv6KernelScalarABIChecked.Runtime
+open VeriTile Triton FP.Structural FusedRwkv6Kernel
+noncomputable section
+attribute [local instance] Classical.propDecidable
+
+/-- The caller's scalar ABI selects a complete, unchanged Python function body.
+Integer 1 has Triton's native constexpr specialization; floating 1.0 does not. -/
+inductive Scalar (α : Type) where
+  | fp32 (value : α)
+  | i32 (value : Int)
+  | i64 (value : Int)
+  | u64 (value : Nat)
+  | one
+
+def Scalar.value {α : Type} (M : Algebra α) : Scalar α → α
+  | .fp32 value => value
+  | .i32 value | .i64 value => M.fromInt (some .fp32) value
+  | .u64 value => M.fromNat (some .fp32) value
+  | .one => M.literal (some .fp32) .real 1
+
+def Scalar.Fits {α : Type} : Scalar α → Prop
+  | .fp32 _ | .one => True
+  | .i32 value => -(2^31 : Int) ≤ value ∧ value < 2^31
+  | .i64 value => -(2^63 : Int) ≤ value ∧ value < 2^63
+  | .u64 value => value < 2^64
+
+/-- Scalar classification in Triton 3.7.1's `specialize.cc`. The existing
+branch-local ScalarABI contract supplies representability when a launch occurs. -/
+def classify {α : Type} (floatValue : BitVec 64 → α) : PythonNumber → Scalar α
+  | .float bits => .fp32 (floatValue bits)
+  | .integer value =>
+    if value=1 then .one
+    else if -(2^31 : Int) ≤ value ∧ value < 2^31 then .i32 value
+    else if value < (2^63 : Int) then .i64 value
+    else .u64 value.toNat
+
+def source {α : Type} (c : Shape) : Scalar α → ComputeKernel
+  | .fp32 _ => kernel c
+  | .i32 value => kernelI32 c value
+  | .i64 value => kernelI64 c value
+  | .u64 value => kernelU64 c value
+  | .one => kernelOne c
+
+def candidate {α : Type} (c : Shape) : Scalar α → ComputeKernel
+  | .fp32 _ => earlyUKernel c
+  | .i32 value => earlyUKernelI32 c value
+  | .i64 value => earlyUKernelI64 c value
+  | .u64 value => earlyUKernelU64 c value
+  | .one => earlyUKernelOne c
+
+/-- The auxiliary real register makes the arithmetic operand available to the
+common proof interface. Integer bodies use their own typed call argument and
+perform the conversion in the source expression; they do not read this register. -/
+def invocation {α : Type} (M : Algebra α) (c : Shape) (scalar : Scalar α)
+    (early : Bool) (p : FusedRwkv6Kernel.Program) : Invocation α :=
+  {Interface.invocation M c (scalar.value M) p with
+    kernel := if early then candidate c scalar else source c scalar}
+
+def schedule {α : Type} (M : Algebra α) (c : Shape) (scalar : Scalar α)
+    (early : Bool) : List (Invocation α) :=
+  if Launches c then (programs c).map (invocation M c scalar early) else []
+
+/-- The complete original IO layout and masks are shared without alteration;
+only the actual scalar-specialized source invocations change. -/
+def programIO {α : Type} (M : Algebra α) (c : Shape) (scalar : Scalar α) : ProgramIO α α :=
+  {Interface.programIO M c (scalar.value M) with schedule := fun _ => schedule M c scalar Bool.false}
+
+def variant {α : Type} (M : Algebra α) (c : Shape) (scalar : Scalar α) :
+    ProgramIO.Variant (programIO M c scalar) where
+  schedule := fun _ => schedule M c scalar Bool.true
+  observe := (programIO M c scalar).observe
+
+def nativeScalar (binding : Native.ScalarBinding) (raw : PythonNumber) : Scalar Native.Term :=
+  classify (fun bits => Native.scalar binding (.float bits)) raw
+
+def original (plan : Native.ReductionPlan) (binding : Native.ScalarBinding)
+    (raw : PythonNumber) (c : Shape) :=
+  ProgramIO.Implementation.original
+    (programIO (Native.scalarAlgebra plan binding) c (nativeScalar binding raw)) (fun _ => True)
+
+def earlyU (plan : Native.ReductionPlan) (binding : Native.ScalarBinding)
+    (raw : PythonNumber) (c : Shape) :=
+  ProgramIO.Implementation.ofVariant
+    (variant (Native.scalarAlgebra plan binding) c (nativeScalar binding raw)) (fun _ => True)
+
+def logicalIO (c : Shape) (scalar : Scalar ℝ) :
+    LogicalProgramIO ℝ ℝ (Interface.TensorInputs ℝ c) (Interface.TensorOutputs ℝ c) :=
+  {Interface.logicalIO c (scalar.value Real.algebra) with
+    core := programIO Real.algebra c scalar}
+end
+end VeriTile.Bench.Repairs.FusedRwkv6KernelScalarABIChecked.Runtime

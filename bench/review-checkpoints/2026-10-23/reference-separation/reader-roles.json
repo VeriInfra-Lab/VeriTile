@@ -12,7 +12,7 @@
   },
   "summary": {
     "tasks": 183,
-    "headlines": 449,
+    "headlines": 450,
     "counts": {
       "fixed": 179,
       "no_issue_identified": 4
@@ -201,7 +201,8 @@
     "resolved_reader_files": 367,
     "preserved_main_headlines": 449,
     "proof_completion_changed": false,
-    "numerical_scope_changed": false
+    "numerical_scope_changed": false,
+    "current_main_headlines": 450
   },
   "tasks": [
     {
@@ -8930,7 +8931,7 @@
       "readers": [
         {
           "path": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/Correct.lean",
-          "sha256": "218b5146b75ae3f9d84ee83a0bf65c4923c7dbcbf7d6ea2aa38f69520fe1eb3c",
+          "sha256": "d0f0666ebc19151f3e469e2157af559de54923c6338964a5ea9edc8be2f6c521",
           "surface": "Correct",
           "declarations": [
             {
@@ -8964,19 +8965,27 @@
               "full_name": "VeriTile.Bench.Repairs.FusedRwkv6KernelScalarABIChecked.Correct.rwkv_real",
               "role": "independent_real",
               "reason": "One recurrent source grid exposing key-shard partials and optional terminal state; no host reduction headline; actual U-load scheduling pair."
+            },
+            {
+              "kind": "specification",
+              "name": "rwkv_real_abi",
+              "line": 37,
+              "full_name": "VeriTile.Bench.Repairs.FusedRwkv6KernelScalarABIChecked.Correct.rwkv_real_abi",
+              "role": "independent_real",
+              "reason": "Full actual raw scalar-ABI source grid implements the independent recurrence/partial-output formula under its Real interpretation; original shape conditions, access safety, optional terminal state and full frame remain explicit."
             }
           ],
           "reexport_only": false
         },
         {
           "path": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/FPEquiv.lean",
-          "sha256": "dd41e3c775d025982704483dcfc49154304bf4af78e65e045861509f9fbb177f",
+          "sha256": "0d2a35bf928190774d63518030faf58d93f7b73b7cdf8594af9c67339bf89af3",
           "surface": "FPEquiv",
           "declarations": [
             {
               "kind": "specification",
               "name": "u_early_equiv",
-              "line": 10,
+              "line": 14,
               "full_name": "VeriTile.Bench.Repairs.FusedRwkv6KernelScalarABIChecked.FPEquiv.u_early_equiv",
               "role": "actual_program_pair",
               "reason": "One recurrent source grid exposing key-shard partials and optional terminal state; no host reduction headline; actual U-load scheduling pair."
@@ -8986,9 +8995,8 @@
         }
       ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/reference-separation/tasks/fused_rwkv6_kernel.json",
-        "sha256": "5d706dfd037d72b1ce13c74856892d122e03364db5e79941bb1c23bb627c1eb8",
-        "task": "fused_rwkv6_kernel"
+        "path": "bench/pr22-split/receipts/native-rwkv6-function-bodies.json",
+        "sha256": "0bcf8520e50a8f5dcf3f86d1e39f1c4b09c23c17097941c58d312aa2b5d2a973"
       },
       "change": null,
       "new_misc_entries": [],
@@ -9028,7 +9036,8 @@
         "path": "bench/review-checkpoints/2026-10-23/reference-separation/tasks/fused_rwkv6_kernel.json",
         "sha256": "5d706dfd037d72b1ce13c74856892d122e03364db5e79941bb1c23bb627c1eb8",
         "task": "fused_rwkv6_kernel"
-      }
+      },
+      "current_body_source_review": "Current source and both full-grid main roles reviewed; cumulative warm and clean Lean replay plus private-inclusive axiom audit pass. Comparator and Torch limitations remain in the referenced review."
     },
     {
       "task": "geglu_tanh_triton",
@@ -16758,13 +16767,13 @@
       "readers": [
         {
           "path": "bench/repairs/tritonbench_g/rms_norm_triton/Correct.lean",
-          "sha256": "8065e623589c627683b923296cbeff947a159700c29e4a6de6bfefcb0dd89f27",
+          "sha256": "de8cd5540d6d15e8014cdfe2ee68a8cd063a3fd78b560d9194d360ce0edae04e",
           "surface": "Correct",
           "declarations": [
             {
               "kind": "specification",
               "name": "kernel_correct",
-              "line": 13,
+              "line": 14,
               "full_name": "VeriTile.Bench.Repairs.RmsNormTriton.Correct.kernel_correct",
               "role": "independent_real",
               "reason": "独立 RMS formula/expected 与原始 kernel 的完整 row grid。"
@@ -16790,9 +16799,8 @@
         }
       ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/rms_norm_triton.json",
-        "sha256": "fe77afab7d0fc1b44eb3bdee5f25db34133ba24a3fb3c2fb14483859028db743",
-        "task": "rms_norm_triton"
+        "path": "bench/pr22-split/receipts/native-rwkv6-function-bodies.json",
+        "sha256": "0bcf8520e50a8f5dcf3f86d1e39f1c4b09c23c17097941c58d312aa2b5d2a973"
       },
       "change": null,
       "new_misc_entries": [],
@@ -16827,7 +16835,8 @@
         "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/rms_norm_triton.json",
         "sha256": "fe77afab7d0fc1b44eb3bdee5f25db34133ba24a3fb3c2fb14483859028db743",
         "task": "rms_norm_triton"
-      }
+      },
+      "current_body_source_review": "Current source and both full-grid main roles reviewed; cumulative warm and clean Lean replay plus private-inclusive axiom audit pass. Comparator and Torch limitations remain in the referenced review."
     },
     {
       "task": "rms_rbe_matmul",

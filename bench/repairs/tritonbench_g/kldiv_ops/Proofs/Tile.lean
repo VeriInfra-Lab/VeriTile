@@ -53,7 +53,8 @@ theorem prefix_registers {α : Type} [Inhabited α] (M : Algebra α) (p : Parame
     funext i
     try dsimp [FP.Structural.bop, Broadcast.leftIndex, Broadcast.rightIndex]
     try split_ifs
-    all_goals norm_num [Int.toNat_mul]
+    all_goals try simp only [←Int.neg_add,←Int.natCast_add,←Int.natCast_mul,Int.zero_sub,Int.toNat_natCast,Int.toNat_neg_natCast,Nat.sub_zero]
+  all_goals norm_num [Int.toNat_mul]
 
 theorem prefix_memory {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
     (flag : Bool) (red : Nat) (eps : α) (s : State α) :
@@ -113,6 +114,7 @@ theorem chunk_memory {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters
       State.setReg,FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,
       TileShape.dropInsertedIndex,Int.toNat_add,active_int,ofFloat,toFloat,engine,
       Algebra.withDefaultPrecision,resolvePrecision]
+  all_goals try simp only [←Int.neg_add,←Int.natCast_add,←Int.natCast_mul,Int.zero_sub,Int.toNat_natCast,Int.toNat_neg_natCast,Nat.sub_zero]
   all_goals norm_num
 
 end

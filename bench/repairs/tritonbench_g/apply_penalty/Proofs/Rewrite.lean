@@ -102,13 +102,13 @@ def DivisionDomain {α : Type} [Inhabited α] (M : Algebra α) (D : Domain α)
     VeriTile.Bench.TritonBenchG.VectorAddition.ValueProofs.masked_scatter_memory,
     State.setReg_mem]
   simp only [loadedLogit, loadedRepetition, address, active, start, stop] at values
-  simp only [←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt]
+  simp only [←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.toNat_neg_natCast,Nat.sub_zero,Int.ofNat_lt]
   congr 1
   funext mem i
   by_cases hi : active s i
   · have value := values i hi
     simp only [active, start, stop] at hi
-    simp only [hi, ↓reduceIte,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast] at value ⊢
+    simp only [hi, ↓reduceIte,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.toNat_neg_natCast,Nat.sub_zero] at value ⊢
     rw [value]
   · simp only [active, start, stop] at hi
     simp only [hi, ↓reduceIte]
@@ -132,7 +132,7 @@ theorem original_frame {α : Type} [Inhabited α] (M : Algebra α)
     simp only [address,active,start,stop] at ho'
     simp only [active,start,stop] at ha
     simpa only [ha,↓reduceIte,←Int.natCast_mul,←Int.natCast_add,
-      Int.toNat_natCast,Int.ofNat_lt] using ho'
+      Int.toNat_natCast,Int.toNat_neg_natCast,Nat.sub_zero,Int.ofNat_lt] using ho'
 
 
 /-- Empty metadata windows admit arbitrary values, including a zero or

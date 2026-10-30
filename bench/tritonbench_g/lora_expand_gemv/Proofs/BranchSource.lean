@@ -1,3 +1,4 @@
+import bench.tritonbench_g.lora_expand_gemv.SourceParameters
 import bench.tritonbench_g.lora_expand_gemv.Proofs.FPModel
 import bench.tritonbench_g.lora_expand_gemv.LoraExpandGemv
 
@@ -8,16 +9,6 @@ noncomputable section
 set_option maxRecDepth 28000
 set_option maxHeartbeats 12000000
 
-inductive InputProfile where
-  | halfHalf | halfBfloat | bfloatHalf | bfloatBfloat | singleHalf | singleBfloat
-  deriving DecidableEq, Repr
-
-structure Parameters where
-  (input weight output : RegionName)
-  indices : Region .int
-  (inner outputSize splits inputBatchStride inputInnerStride loraStride weightRowStride
-    weightInnerStride outputBatchStride outputStride blockRows blockInner : Nat)
-  (evenK addInputs castType : Bool)
 
 def length (p : Parameters) := (p.outputSize + p.splits - 1) / p.splits
 

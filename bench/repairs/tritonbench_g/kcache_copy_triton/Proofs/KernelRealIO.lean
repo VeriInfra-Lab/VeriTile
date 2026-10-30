@@ -12,7 +12,7 @@ theorem position_eq (m : Inputs) (n : Nat) (b : Bool) (l : Lengths) (t : Tables)
     (hp : ValidTile (config m n b) (programTile s.pids)) :
     position (parameters (config m n b)) s = (past (config m n b) l (s.pids 0):Int) := by
   simp only [position,sequence,parameters,Int.natCast_tdiv_eq_ediv,←Int.natCast_ediv,
-    Int.toNat_natCast,Region.cast]
+    Int.toNat_natCast,Int.toNat_neg_natCast,Nat.sub_zero,Region.cast]
   change s.readMemValue .int "lengths" (s.pids 0/n) +
     ((s.pids 0:Int)-(n:Int)*((s.pids 0/n:Nat)+1)) = _
   rw [binding.lengths (s.pids 0/n) (sequence_bound m n b l t h (s.pids 0) hp.1)]
@@ -26,7 +26,7 @@ theorem selectedBlock_eq (m : Inputs) (n : Nat) (b : Bool) (l : Lengths) (t : Ta
   unfold selectedBlock
   rw [position_eq m n b l t h s binding hp]
   simp only [sequence,parameters,Int.natCast_tdiv_eq_ediv,←Int.natCast_ediv,
-    ←Int.natCast_mul,Int.mul_one,Int.toNat_natCast,Nat.mul_one,Region.cast]
+    ←Int.natCast_mul,Int.mul_one,Int.toNat_natCast,Int.toNat_neg_natCast,Nat.sub_zero,Nat.mul_one,Region.cast]
   have bounds := metadata_bounds m n b l t h _ hp.1
   change s.readMemValue .int "table" (s.pids 0/n*(config m n b).columns +
     column (config m n b) l (s.pids 0)) = _
@@ -48,7 +48,7 @@ theorem targetOffset_eq (m : Inputs) (n : Nat) (b : Bool) (l : Lengths) (t : Tab
       outputIndex (config m n b) l t (s.pids 0) (s.pids 1) (s.pids 2*(config m n b).width+i.1.val) := by
   unfold targetOffset
   rw [selectedBlock_eq m n b l t h s binding hp,position_eq m n b l t h s binding hp]
-  simp only [parameters,←Int.ofNat_tmod,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast]
+  simp only [parameters,←Int.ofNat_tmod,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.toNat_neg_natCast,Nat.sub_zero]
   exact output_expanded m n b l t h ⟨programTile s.pids,i.1.val⟩ ⟨hp,i.1.isLt⟩
 
 theorem target_injective (m : Inputs) (n : Nat) (b : Bool) (l : Lengths) (t : Tables)

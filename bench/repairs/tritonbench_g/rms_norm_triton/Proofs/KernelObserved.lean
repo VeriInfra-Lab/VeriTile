@@ -24,7 +24,7 @@ theorem kernel_native_equivalence (c : Layout) (eps : ℝ)
     ∃ final, ActualGrid.runRows graphAlgebra c (.parameter "eps") rows s = some final ∧
       (∀ row : Fin c.M, ∀ i : Fin c.N,
         interpret M profile i.val ((final.mem c.Y (row.val*c.N+i.val)).read .real) =
-          reference M profile c.N c.B (xs row) ws i.val) ∧
+          RuntimeObserved.reference M profile c.N c.B (xs row) ws i.val) ∧
       (∀ region a, (region ≠ c.Y ∨ c.M*c.N ≤ a) → final.mem region a = s.mem region a) := by
   obtain ⟨final,ran,values,frame⟩ := ActualGrid.grid_result graphAlgebra c (.parameter "eps") xSeparate wSeparate rows schedule s
   refine ⟨epsilonArgument,final,ran,?_,frame⟩
@@ -36,7 +36,7 @@ theorem kernel_native_equivalence (c : Layout) (eps : ℝ)
   exact RuntimeObserved.source_graph_lowering M profile c (xs row) ws i.val
 
 #guard_msgs (drop info) in
-#specNonCircular reference avoiding [kernel,lower,interpret,rowValue,sourceRun,runRows]
+#specNonCircular RuntimeObserved.reference avoiding [kernel,lower,interpret,rowValue,sourceRun,runRows]
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end

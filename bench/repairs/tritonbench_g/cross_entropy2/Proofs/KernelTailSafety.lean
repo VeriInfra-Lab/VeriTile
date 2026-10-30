@@ -34,7 +34,7 @@ theorem forward_tail (M : Algebra α) (p : Parameters) (initial : State α)
       State.setReg,FP.Structural.store,TileShape.axisDim,Function.comp_def,
       abi.logitScale,abi.smoothing,abi.squareScale,abi.totalClasses,
       ready_lse,owner,ignored,condition,loss,zloss]
-    all_goals first | exact gather hit | exact False.elim (owner (owns_local p initial hit))
+    all_goals first | exact lt_of_le_of_lt (Nat.sub_le _ _) (gather hit) | exact False.elim (owner (owns_local p initial hit))
 
 theorem forward (M : Algebra α) (p : Parameters) (initial : State α)
     (positive : 0<p.block) (values : RuntimeArgs.Values α)

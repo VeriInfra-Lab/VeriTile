@@ -52,8 +52,10 @@ def partialLoss (p : Parameters) (x : Nat → ℝ) (target : Int) : ℝ :=
   · have active : (label p initial).toNat<p.vocab := by
       have range := valid.resolve_left ignored
       omega
+    have negLabel : (-(label p initial)).toNat = 0 :=
+      Int.toNat_of_nonpos (by have range := valid.resolve_left ignored; omega)
     have gather : gathered KernelReal.algebra p initial=some (x (label p initial).toNat) := by
-      simp only [gathered,inputs _ active,KernelReal.algebra,id_eq]
+      simp only [gathered,negLabel,Nat.sub_zero,inputs _ active,KernelReal.algebra,id_eq]
     simp only [forwardLoss,rowLoss,ignored,if_false,
       lse_full p initial flags x positive covered inputs,gather,
       KernelReal.transform_finite p flags]
@@ -70,8 +72,10 @@ def partialLoss (p : Parameters) (x : Nat → ℝ) (target : Int) : ℝ :=
   · have active : (label p initial).toNat<p.vocab := by
       have range := valid.resolve_left ignored
       omega
+    have negLabel : (-(label p initial)).toNat = 0 :=
+      Int.toNat_of_nonpos (by have range := valid.resolve_left ignored; omega)
     have gather : chunkTarget KernelReal.algebra p initial=some (x (label p initial).toNat) := by
-      simp only [chunkTarget,inputs _ active,KernelModel.cast,KernelReal.algebra,id_eq]
+      simp only [chunkTarget,negLabel,Nat.sub_zero,inputs _ active,KernelModel.cast,KernelReal.algebra,id_eq]
     simp only [chunkLoss,partialLoss,ignored,if_false,gather,KernelReal.transform_finite p flags]
     simp [KernelModel.cast,binary,literal,KernelReal.algebra,RealProof.arithmetic]
 

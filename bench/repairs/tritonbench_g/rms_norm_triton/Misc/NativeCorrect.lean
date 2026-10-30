@@ -15,7 +15,7 @@ abbrev nativeIO := FloatingIO.nativeIO
 /-- Independent native recurrence retains local instructions, reduction trees,
 FMA contraction and runtime epsilon. No FP-to-Real identity is asserted. -/
 def formula (M : NativeModel (BitVec 32)) (profile : ReductionFamily) (N B : Nat)
-    (xs ws : Nat → BitVec 32) (i : Nat) : BitVec 32 := reference M profile N B xs ws i
+    (xs ws : Nat → BitVec 32) (i : Nat) : BitVec 32 := RuntimeObserved.reference M profile N B xs ws i
 
 def expected (c : Layout) (eps : ℝ) (M : NativeModel (BitVec 32))
     (profile : ReductionFamily) (rows : List Nat)

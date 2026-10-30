@@ -89,6 +89,16 @@ structure ScalarBinding where
 def scalar (binding : ScalarBinding) (raw : FusedRwkv6Kernel.Checked.PythonNumber) : Term :=
   .word .outside 0 (binding.toFP32 raw)
 
+
+/-- Ordinary Python integer-to-FP32 conversion is an explicit ABI primitive.
+Only the source's literals 0 and specialized integer 1 are used here. Tensor
+arithmetic, casts, loads and the structural reduction plan stay unchanged. -/
+def scalarAlgebra (plan : ReductionPlan) (binding : ScalarBinding) : Algebra Term :=
+  {algebra plan with
+    literal := fun _ _ x => if x=1 then scalar binding (.integer 1) else .zero
+    fromInt := fun _ n => scalar binding (.integer n)
+    fromNat := fun _ n => scalar binding (.integer (n : Int))}
+
 def plans (c : Shape) (p : ReductionPlan) : Plans c where
   key := fun _ _ _ _ => p.tree c.BK
   host := fun _ _ _ => Tree.chain c.NK

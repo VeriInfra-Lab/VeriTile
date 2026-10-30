@@ -20,12 +20,12 @@ theorem cached_memory {A : Type} [Inhabited A] (rest : Algebra A) (ops : Ops A)
       Broadcast.leftIndex,Broadcast.rightIndex,State.setReg,masked_scatter_memory]
     try dsimp only [TileShape.insertAxis,TileShape.dropInsertedIndex]
     try simp only [int_half,←Int.natCast_add,←Int.natCast_mul,←Int.natCast_ediv,
-      Int.toNat_natCast,Int.ofNat_lt]
+      Int.toNat_natCast,Int.zero_sub,Int.toNat_neg_natCast,Nat.sub_zero,Int.ofNat_lt]
     all_goals simp (config := { maxSteps := 3000000 }) +contextual
       [and_assoc,token,←IntegerExpr.tdiv_formula,Int.tmod_def]
     try dsimp only [TileShape.insertAxis,TileShape.dropInsertedIndex]
     try simp only [int_half,←Int.natCast_add,←Int.natCast_mul,←Int.natCast_ediv,
-      Int.toNat_natCast,Int.ofNat_lt]
+      Int.toNat_natCast,Int.zero_sub,Int.toNat_neg_natCast,Nat.sub_zero,Int.ofNat_lt]
     all_goals simp (config := { maxSteps := 3000000 }) +contextual [and_assoc,token]
     try rfl
 

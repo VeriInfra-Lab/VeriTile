@@ -28,27 +28,30 @@ theorem entry_safe (M : Algebra α) (c : Shape) (s : State α)
     (bounds : RegionName → Nat) (hb : Bounds c s bounds) :
     traceSafeList (engine M) bounds (parts c).before s := by
   by_cases hi : c.initial=Bool.true
+  all_goals by_cases hr : c.reverse=Bool.true
   all_goals
-    simp [parts,kernel,ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,
-      Option.map,Option.getD,hi,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,
+    simp [parts,kernel,ComputeKernel.surfaceBody,Triton.Source.intRange?,
+      Option.map,Option.getD,hi,hr,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,
       safeCompute_unfold,safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
       run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,
       Option.bind,engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
       numeric,integralMod,numericLt,natLt,bop,ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg]
-  · constructor
-    · intro l j hl hj
-      have h := hb.seed hi l j hl hj
-      unfold terminalAddress at h
-      ring_nf at h ⊢
-      exact h
-    · intro j hj
-      exact hb.bias j hj
-  · intro j hj
-    exact hb.bias j hj
+  all_goals simp only [←Int.natCast_mul,←Int.natCast_add,←Int.natCast_emod,
+    Int.toNat_natCast,Int.ofNat_lt]
+  all_goals first
+    | (constructor
+       · intro l j hl hj
+         have h := hb.seed hi l j hl hj
+         unfold terminalAddress at h
+         ring_nf at h ⊢
+         exact h
+       · intro j hj
+         exact hb.bias j hj)
+    | (intro j hj; exact hb.bias j hj)
 
 theorem body_tail (M : Algebra α) (c : Shape) (s : State α) (bounds : RegionName → Nat) :
-    traceSafeList (engine M) bounds ((parts c).body.drop 11) s := by
-  simp [parts,kernel,ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,
+    traceSafeList (engine M) bounds ((parts c).body.drop 12) s := by
+  simp [parts,kernel,ComputeKernel.surfaceBody,Triton.Source.intRange?,
     Option.map,Option.getD,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,
     safeCompute_unfold,safeOp_unfold,evalOp_unfold]
   all_goals repeat' first | exact True.intro | constructor | split
@@ -57,10 +60,10 @@ theorem body_safe (M : Algebra α) (c : Shape) (initial current : State α) (sca
     (n : Nat) (hn : n<c.T) (ctx : Context M c initial scale n current)
     (bounds : RegionName → Nat) (hb : Bounds c initial bounds) :
     traceSafeList (engine M) bounds (parts c).body
-      (current.setReg "_i" .nat [] (fun _ => n)) := by
-  rw [←List.take_append_drop 11 (parts c).body,traceSafeList_append]
+      (current.setReg "_" .int [] (fun _ => (n : Int))) := by
+  rw [←List.take_append_drop 12 (parts c).body,traceSafeList_append]
   refine ⟨?_,fun next _ => body_tail M c next bounds⟩
-  simp [parts,kernel,ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,
+  simp [parts,kernel,ComputeKernel.surfaceBody,Triton.Source.intRange?,
     Option.map,Option.getD,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,
     safeCompute_unfold,safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,
@@ -86,7 +89,7 @@ theorem finish_safe (M : Algebra α) (c : Shape) (initial current : State α) (s
     (hb : Bounds c initial bounds) : traceSafeList (engine M) bounds (parts c).after current := by
   by_cases hf : c.final=Bool.true
   all_goals
-    simp [parts,kernel,ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,
+    simp [parts,kernel,ComputeKernel.surfaceBody,Triton.Source.intRange?,
       Option.map,Option.getD,hf,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,
       safeCompute_unfold,safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
       run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,

@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.ksoftmax_triton.SourceParameters
 import VeriTile.Triton
 import VeriTile.Meta.StatementAudit
 
@@ -7,15 +8,6 @@ observation is explicitly separate because the algorithm's store demotes it.
 -/
 namespace VeriTile.Bench.TritonBenchG.KsoftmaxTriton.Forward
 open scoped BigOperators
-
-inductive MaskMode where
-  | absent | qk | bk
-  deriving DecidableEq, Repr
-
-def MaskMode.python : MaskMode → Option String
-  | .absent => none
-  | .qk => some "qk"
-  | .bk => some "bk"
 
 def MaskMode.present (mode : MaskMode) : Bool := mode != .absent
 def MaskMode.isQK (mode : MaskMode) : Bool := mode == .qk

@@ -1,3 +1,4 @@
+import VeriTile.Triton.DSL.NestedLoadAssignments
 import VeriTile.Triton.DSL.CallValue
 import VeriTile.Triton.DSL.PointerType
 import VeriTile.Triton.DSL.PythonConstants
@@ -208,6 +209,13 @@ private partial def valueType (pointers : Types) (values : Values)
       match valueType pointers values a with
       | some (.typed dtype) =>
           if [.fp16,.fp32,.fp64].contains dtype then some (.typed dtype) else none
+      | _ => none
+  | `(tritonExpr| tl.max($a:tritonExpr, $_axis:num)) =>
+      -- Positional axes use the same value-only reduction promotion as
+      -- keyword axes (Triton 3.7.1 standard.max).
+      match valueType pointers values a with
+      | some (.typed .fp16) | some (.typed .bf16) | some (.typed .fp32) => some (.typed .fp32)
+      | some (.typed .fp64) => some (.typed .fp64)
       | _ => none
   | `(tritonExpr| tl.max($a:tritonExpr $[, $_:tritonReduceKwarg]*)) =>
       match valueType pointers values a with
@@ -484,6 +492,22 @@ private partial def lowerWithState (pointers : Types) (values : Values)
   match body with
   | [] => return ([],pointers,values)
   | stmt :: rest =>
+      -- Pointer aliases introduced by the source, including aliases used in
+      -- loops, are known at this point. Lift eager floating reads using those
+      -- actual storage facts, before the precision checker sees arithmetic.
+      -- The full suffix and current registers reserve temporary names.
+      if let `(tritonStmt| $_:ident = $_:tritonExpr) := stmt then
+        let floatingPointers := pointers.filterMap fun (name, kind) =>
+          if [.fp16,.bf16,.fp32,.fp64,.f8e4,.f8e5,.inputFloat,.outputFloat].contains kind
+          then some name else none
+        let rec namesIn (raw : Syntax) : List Name :=
+          if raw.isIdent then [raw.getId.eraseMacroScopes]
+          else raw.getArgs.toList.flatMap namesIn
+        let reserved := pointers.map Prod.fst ++ values.map Prod.fst ++
+          body.flatMap (fun s => namesIn s.raw)
+        let lifted ← NestedLoadAssignments.lower floatingPointers #[stmt] reserved
+        if lifted.size > 1 then
+          return ← lowerWithState pointers values (lifted.toList ++ rest) invariants
       let mut nextPointers := pointers
       let mut nextValues := values
       let mut stmt := stmt

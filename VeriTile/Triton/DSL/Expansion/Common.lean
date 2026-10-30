@@ -155,6 +155,18 @@ def expandLeanAntiquoteAs? (dtype : DInfo) (e : TSyntax `tritonExpr) :
     MacroM (Option EOut) := do
   if dtype == .real then
     if let some out ← suppliedFP32Literal? e then return some out
+  -- A checked integer call binding is a runtime operand. Let arithmetic
+  -- emit natToReal/intToReal; treating its value as a Real literal erases
+  -- conversion. Ordinary constexpr/legacy antiquotes retain their existing
+  -- literal interpretation; the call marker distinguishes their provenance.
+  let floating := match dtype with
+    | .real | .fp32 | .fp16 | .bf16 | .f8e4 | .f8e5 | .floatVar _ => Bool.true
+    | _ => Bool.false
+  if floating then
+    match e with
+    | `(tritonExpr| $((_root_.VeriTile.Triton.Random.sourceNatCallValue $_kind:term $_value:term : Nat))) => return none
+    | `(tritonExpr| $((_root_.VeriTile.Triton.Random.sourceIntCallValue $_kind:term $_value:term : Int))) => return none
+    | _ => pure ()
   match e with
   | `(tritonExpr| $($t:term)) =>
       let out ←

@@ -1,4 +1,4 @@
-import bench.repairs.tritonbench_g.fused_rwkv6_kernel_scalar_abi_checked.Proofs.LogicalCoordinates
+import bench.repairs.tritonbench_g.fused_rwkv6_kernel_scalar_abi_checked.Proofs.RuntimeReal
 
 namespace VeriTile.Bench.Repairs.FusedRwkv6KernelScalarABIChecked.Correct
 open VeriTile Triton FP.Structural FusedRwkv6Kernel
@@ -30,6 +30,15 @@ frame are included in the shared IO judgment. No host sum is introduced. -/
 specification rwkv_real (c : Shape) (hc : Sizes c) (scale : ℝ) :
     Spec.Real (kernelIO c scale ⊨ formula c scale) :=
   Interface.Result.logical_real c hc scale
+
+/-- Complete raw integer/FP32 source profiles under the independent Real
+interpretation. Scalar conversions are erased by Real.algebra; the original
+branches, signed traversal, entire grid, safety and frame remain in the judgment. -/
+specification rwkv_real_abi (c : Shape) (hc : Sizes c) (scalar : Runtime.Scalar ℝ) :
+    Spec.Real (Runtime.logicalIO c scalar ⊨ formula c (scalar.value Real.algebra)) :=
+  Runtime.logical_real c hc scalar
+
+#axiomsClean rwkv_real_abi
 
 #stmtSurfaceSubset rwkv_real ⊆ [Shape,Sizes,Spec.Real,LogicalProgramIO.Implements,kernelIO,formula,Interface.TensorInputs,Interface.TensorOutputs]
 #specNonCircular formula avoiding [kernel,Source.launch,FP.Structural.exec,FusedRwkv6Kernel.runProgram]

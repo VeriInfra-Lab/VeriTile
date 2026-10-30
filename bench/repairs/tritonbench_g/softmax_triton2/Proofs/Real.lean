@@ -1,6 +1,6 @@
 import bench.repairs.tritonbench_g.softmax_triton2.IO
 import bench.repairs.tritonbench_g.softmax_triton2.Proofs.Binding
-import bench.repairs.tritonbench_g.softmax_triton1.Proofs.KernelMath
+import bench.repairs.tritonbench_g.softmax_triton1.Proofs.RealIO
 
 namespace VeriTile.Bench.Repairs.SoftmaxTriton2.RealProof
 open VeriTile.Triton
@@ -14,28 +14,8 @@ theorem io_correct (out inp : RegionName) (ib ob n B : Nat)
     (hB : 0 < B) :
     Spec.Real (softmaxIO out inp ib ob n B ⊨ fun xs i =>
       Real.exp (xs i) / ∑ j : Fin B, if j.val < n then Real.exp (xs j) else 0) := by
-  refine MaskedKernelIO₁.Implements.intro _ (row_flattenOk ..) ?_ ?_
-  · intro bounds s hin hout _
-    exact row_safe out inp ib ob n 1 n 1 n B hB bounds s
-      (by simpa [softmaxIO] using hin) (by simpa [softmaxIO] using hout)
-  · intro s xs input
-    obtain ⟨t,he⟩ := row_exec out inp ib ob n 1 n 1 n B hB s
-    refine ⟨t,he,?_,?_⟩
-    · intro i hi
-      have value := row_value out inp ib ob n 1 n 1 n B hB
-        (by intro i j _ _ eq; apply Fin.ext; simpa using eq) s t he i hi
-      have same : ∀ j : Fin B, j.val < n →
-          s.readMem inp (ib+s.pid*n+j.val*1) = xs j := by
-        simpa [softmaxIO] using input
-      rw [VeriTile.Bench.TritonBenchG.SoftmaxTriton1.softmaxSpec_congr n B _ xs same i,
-        VeriTile.Bench.TritonBenchG.SoftmaxTriton1.softmaxSpec_eq_formula n B hB xs i hi] at value
-      simpa [softmaxIO] using value
-    · intro r a miss _
-      apply row_frame out inp ib ob n 1 n 1 n B hB s t he r a
-      intro i hi eq
-      rcases miss with hr | ha
-      · exact hr eq.1.symm
-      · exact ha i hi (by simpa [softmaxIO] using eq.2.symm)
+  simpa only [softmaxIO, SoftmaxTriton1.RealIO.softmaxIO, Binding.source_identity] using
+    SoftmaxTriton1.RealIO.original_correct out inp ib ob n B hB
 
 /-- A covering tile's masked sum is exactly the sum over all logical columns.
 This is an equality in Real arithmetic, with no numerical assumption. -/

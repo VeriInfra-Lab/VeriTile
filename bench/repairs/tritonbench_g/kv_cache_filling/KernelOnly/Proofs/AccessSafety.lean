@@ -26,7 +26,7 @@ theorem copy {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
       Safety.traceSafeList_unfold, Safety.stepSafe_unfold, Safety.safeExpr_unfold,
       Safety.safeCompute_unfold, Safety.safeOp_unfold, Safety.safeAddress_unfold,
       Safety.safeMask_unfold, Safety.addressSafe_unfold, Safety.maskActive_unfold,
-      run, step, evalExpr, evalComputeOp, evalOp_unfold, store, numeric, numericLt, bop,
+      run, step, evalExpr, evalComputeOp, evalOp_unfold, store, numeric, numericLt, numericEq, bop,
       ComputeDType.eraseDType, Region.cast, Option.bind, hs, hd, algebra,
       ofFloat, toFloat, TileShape.axisDim, State.setReg, Int.mul_comm,
       index_toNat, shapeK, shapeV, bs, bd]

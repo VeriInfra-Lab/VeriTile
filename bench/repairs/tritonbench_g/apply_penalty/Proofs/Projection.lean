@@ -49,35 +49,39 @@ theorem algorithm (candidate : Bool) (L P F R : RegionName) (I C S : Region .nat
     simp [current,mathematical,kernel,reciprocalKernel,apply_penalty,apply_penalty_reciprocal,
       ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeStmt.listToAlgorithm?,
       ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.bind,bind,
-      exec,stepStmts,stepStmt,evalOp.eq_def,Tile.bop,Tile.cop,Tile.ptrAdd,Tile.uop,
+      exec,stepStmts,stepStmt,evalOp.eq_def,Tile.bop,Tile.cop,Tile.ptrAdd,Tile.ptrSub,Tile.uop,
       Tile.select,NumericDType.add,NumericDType.mul,NumericDType.sub,NumericDType.div,
       ComparableDType.lt,ComparableDType.gt]
-  all_goals simp only [←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt]
+  all_goals simp only [←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.toNat_neg_natCast,Nat.sub_zero,Int.ofNat_lt]
   all_goals
     simp only [fold_mem]
     congr 1
     funext mem i
     by_cases ha : s.readMemValue .nat S (s.pids 0)+i.1.val <
       s.readMemValue .nat S (s.pids 0+1)
-    all_goals simp only [ha,↓reduceIte,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast]
+    all_goals simp only [ha,↓reduceIte,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.toNat_neg_natCast,Nat.sub_zero]
 
 
-theorem flattenOk (candidate : Bool) (L P F R : RegionName) (I C S : Region .nat)
+theorem mathematical_flattenOk (candidate : Bool) (L P F R : RegionName) (I C S : Region .nat)
     (stride skip B : Nat) :
-    (current candidate L P F R I C S stride skip B).toAlgKernel.FlattenOk := by
+    (mathematical candidate L P F R I C S stride skip B).toAlgKernel.FlattenOk := by
   cases candidate <;>
-    simp [current,kernel,reciprocalKernel,Kernel.FlattenOk,ComputeKernel.toAlgKernel,
+    simp [mathematical,apply_penalty,apply_penalty_reciprocal,Kernel.FlattenOk,ComputeKernel.toAlgKernel,
       ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,StmtList.FlattenOk,Stmt.FlattenOk,
       Op.FlattenOk.eq_def]
 
 private theorem cast_add_ite (a b : Nat) (p : Prop) [Decidable p] :
     ((a:Int) + if p then (b:Int) else 0).toNat = a + if p then b else 0 := by
   by_cases hp : p <;> simp only [hp,ite_true,ite_false,Int.add_zero,
-    ←Int.natCast_add,Int.toNat_natCast,Nat.add_zero]
+    ←Int.natCast_add,Int.toNat_natCast,Int.toNat_neg_natCast,Nat.sub_zero,Nat.add_zero]
 
 private theorem cast_ite (b : Nat) (p : Prop) [Decidable p] :
     (if p then (b:Int) else 0).toNat = if p then b else 0 := by
   by_cases hp : p <;> simp [hp]
+
+private theorem cast_neg_ite (b : Nat) (p : Prop) [Decidable p] :
+    (-(if p then (b : Int) else 0)).toNat = 0 := by
+  split <;> simp_all
 
 /-- The actual signed-index loads/stores reach exactly the same addresses and
 masks as the independent mathematical view, including all inactive lanes. -/
@@ -93,11 +97,11 @@ theorem traceSafe (candidate : Bool) (L P F R : RegionName) (I C S : Region .nat
       MaskOpt.SafeAt,MemAccess.SafeAt,stepStmt,stepStmts,evalOp.eq_def,
       MemAccess.ActiveAddressSafe,memAccessActiveAddressSafe,MaskOpt.Active,
       Op.PointerAddressesSafeOn,Op.MemorySafe,BlockState.setReg,BlockState.readMemValue,BlockState.readMemTyped,BlockState.readMem,tile_elementwise,Bool.and_eq_true,
-      Tile.bop,Tile.cop,Tile.uop,Tile.ptrAdd,Tile.select,NumericDType.add,NumericDType.mul,
+      Tile.bop,Tile.cop,Tile.uop,Tile.ptrAdd,Tile.ptrSub,Tile.select,NumericDType.add,NumericDType.mul,
       NumericDType.sub,NumericDType.div,ComparableDType.lt,ComparableDType.gt]
   all_goals
-    simp only [←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt,
-      cast_add_ite,cast_ite,and_self]
+    simp only [←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.toNat_neg_natCast,Nat.sub_zero,Int.ofNat_lt,
+      cast_add_ite,cast_ite,cast_neg_ite,and_self]
   all_goals simp
 
 theorem execution_of_mathematical (candidate : Bool) (L P F R : RegionName) (I C S : Region .nat)
@@ -195,7 +199,7 @@ theorem safe_pinned (candidate : Bool)
       hm₁ hm₂ hids hbf₁ hbf₂ hbf₃ hbm₁ hbm₂ hbi hbc hbr
 
 #axiomsClean algorithm
-#axiomsClean flattenOk
+#axiomsClean mathematical_flattenOk
 #axiomsClean region_run
 #axiomsClean safe_pinned
 #axiomsClean traceSafe

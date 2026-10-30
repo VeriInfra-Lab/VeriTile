@@ -28,7 +28,7 @@ theorem selectedBlock_eq (m : Inputs) (b : Bool) (l : Lengths) (t : Tables)
     selectedBlock (parameters (config m b)) s=(blockId (config m b) l t (s.pids 0):Int) := by
   unfold selectedBlock
   rw [position_eq m b l t h s binding hp]
-  simp only [parameters,Int.natCast_tdiv_eq_ediv,←Int.natCast_ediv,Nat.cast_one,Int.mul_one,Int.toNat_natCast]
+  simp only [parameters,Int.natCast_tdiv_eq_ediv,←Int.natCast_ediv,Nat.cast_one,Int.mul_one,Int.toNat_natCast,Int.toNat_neg_natCast,Nat.sub_zero]
   have bounds := metadata_bounds m b l t h _ hp.1
   change s.readMemValue .int "table" (s.pids 0*(config m b).columns+column (config m b) l (s.pids 0))=_
   rw [binding.table _ _ hp.1 bounds.2.1]
@@ -49,7 +49,7 @@ theorem targetInt_eq (m : Inputs) (b : Bool) (l : Lengths) (t : Tables)
   unfold targetInt
   rw [selectedBlock_eq m b l t h s binding hp,position_eq m b l t h s binding hp]
   cases key <;> simp only [parameters,ite_true,Bool.false_eq_true,ite_false,
-    ←Int.ofNat_tmod,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Nat.mul_one] at *
+    ←Int.ofNat_tmod,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.toNat_neg_natCast,Nat.sub_zero,Nat.mul_one] at *
   all_goals exact expanded
 
 theorem target_unique (m : Inputs) (b : Bool) (l : Lengths) (t : Tables)

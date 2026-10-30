@@ -40,7 +40,7 @@ def scalarTerm {α : Type} (a : Ops α) (c : Shape) (x : Input α) (scale : α)
   a.mul (a.add (scalarState a c x z e f n)
     (a.mul (scalarOuter a c x z n e f)
       (a.loadCast (if e<c.K then x.u z e else a.zero))))
-    (a.mul (a.loadCast (if e<c.K then x.q z (visit c n) e else a.zero)) scale)
+    (a.mul (a.loadCast (a.queryStorageLoad (if e<c.K then x.q z (visit c n) e else a.zero))) scale)
 
 def scalarPartial {α : Type} (a : Ops α) (c : Shape) (plan : Plans c) (x : Input α)
     (scale : α) (z i n f : Nat) :=

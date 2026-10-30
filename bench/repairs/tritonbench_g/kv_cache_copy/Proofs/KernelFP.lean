@@ -11,10 +11,14 @@ set_option maxHeartbeats 5000000
 set_option maxRecDepth 4000
 set_option linter.unusedSimpArgs false
 
+private theorem positive_sub_negative (z : Int) :
+    z.toNat - (-z).toNat = z.toNat := by omega
+attribute [local simp] positive_sub_negative
+
 def position {α : Type} [Inhabited α] (s : State α) : Int :=
   (s.mem "lengths" (s.pids 0)).read .int - 1
 def selectedBlock {α : Type} [Inhabited α] (p : Parameters) (s : State α) : Int :=
-  (s.mem "table" (s.pids 0*p.strideBts+((position s).tdiv p.blockSize*p.strideBtb).toNat)).read .int
+  (s.mem "table" (s.pids 0*p.strideBts+((position s).tdiv p.blockSize*p.strideBtb).toNat - (-((position s).tdiv p.blockSize*p.strideBtb)).toNat)).read .int
 
 def sourceOffset (p : Parameters) (ids : Nat → Nat) (key : Bool) (q : Nat)
     (i : TileIndex [p.width]) : Nat :=
@@ -112,7 +116,7 @@ theorem body_run {α : Type} [Inhabited α] (M : Algebra α) (v : Bool) (p : Par
     finalStep,preparedState,scatterOne,sourceOffset,targetInt,outputRegion,inputRegion,
     hs,hh,hb,hslot,hl,hk,hv,Broadcast.leftIndex,Broadcast.rightIndex]
   all_goals try dsimp only [bop,Broadcast.leftIndex,Broadcast.rightIndex]
-  all_goals simp only [←Int.natCast_add,←Int.natCast_mul,Int.toNat_natCast]
+  all_goals simp only [←Int.natCast_add,←Int.natCast_mul,Int.toNat_natCast,Int.toNat_neg_natCast,Nat.sub_zero]
   all_goals simp [Nat.add_comm,Nat.add_left_comm,Nat.add_assoc]
   all_goals congr 20
   all_goals funext

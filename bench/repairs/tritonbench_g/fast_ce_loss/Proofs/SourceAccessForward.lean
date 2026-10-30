@@ -18,7 +18,7 @@ theorem forward_safe (M : Algebra α) (bounds : RegionName → Nat) (p : Paramet
     (logitsBound : ∀ lane : Fin p.block, lane.val < p.vocab →
       initial.pids 0*p.logitsStride+lane.val < bounds p.logits)
     (gatherBound : label p initial ≠ -100 →
-      initial.pids 0*p.logitsStride+(label p initial).toNat < bounds p.logits)
+      initial.pids 0*p.logitsStride+(label p initial).toNat-(-(label p initial)).toNat < bounds p.logits)
     (lossBound : initial.pids 0 < bounds p.loss)
     (lseBound : initial.pids 0 < bounds p.lse) :
     TraceSafe (engine M) bounds (forward p) initial := by

@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.lora_expand_gemv.ByteSeparated.Proofs.SourceConnection
 import bench.repairs.tritonbench_g.lora_expand_gemv.ByteSeparated.IO
 
 namespace VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.IOGrid
@@ -73,7 +74,11 @@ theorem one_program (rest : Algebra Word) (plans : ∀ n, ReductionPlan n) (g : 
     by simpa [offset,new] using h.2.1 q hq
   obtain ⟨next,he,hm,_⟩ := Branches.correctness rest .ieeeValue plans
     g.parameters ((launch rest plans g q).initial s) (by change 0<256; decide)
-  refine ⟨next,he,?_⟩
+  refine ⟨next,?_,?_⟩
+  · change exec (Branches.engine rest .ieeeValue plans) (fullSource g.parameters)
+      ((launch rest plans g q).initial s)=some next
+    rw [SourceConnection.run_eq]
+    exact he
   have hm0 : Branches.expectedMemory .ieeeValue plans .singleHalf .single g.parameters
       ((launch rest plans g q).initial s)=
       Branches.expectedMemory .ieeeValue plans .singleHalf .single g.parameters
