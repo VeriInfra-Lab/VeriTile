@@ -126,33 +126,33 @@ tools, export failures, and comparator rejections fail the gate. CI installs
 the same pinned tools through `.github/actions/setup-comparator`.
 
 The Bench audit workflow checks the final source and contract inventory,
-builds/replays the library and builds all 334 benchmark interfaces. On pull
-requests and pushes it audits the 1,064 selected public entries, canonical
-sources, examples and regression modules in 16 shards. Their import closure
-covers all 8,428 retained corpus modules; the inventory rejects any module left
-outside that build closure. Each worker builds its complete dependencies, then
+builds/replays the library on pull requests and main pushes. Full corpus builds
+and replay, including all 334 benchmark interfaces, run daily at 04:00
+Asia/Singapore (20:00 UTC), and on manual runs with `full_audit=true` (the
+default). Each of the 64 corpus workers builds its complete dependencies, then
 checks axioms/specifications and runs official comparator replay. The exporter
-recursively includes the proof dependencies of each selected theorem. This
-avoids independently replaying every helper theorem on each pull request.
+recursively includes the proof dependencies of each selected theorem.
 
-The weekly schedule and manual runs with `full_audit=true` additionally replay
-every retained module in 64 shards, including helper theorems unused by the
-selected public results. A normal PR pass does not claim this exhaustive
-per-module audit. In either mode, the final gate requires the global job, draft
-build and every selected shard to succeed; failed, cancelled or skipped jobs
-fail it.
+The daily run covers all 8,428 retained corpus modules, including helper
+theorems unused by public results. Its final gate requires the global job,
+draft build and all shards to succeed; failed, cancelled or skipped jobs fail
+it. PRs require the global gates and explicitly skip corpus/draft jobs. A PR
+pass does not claim an exhaustive per-module audit. Separate concurrency groups
+prevent PR or main pushes from cancelling a daily run. Before merging proof
+changes, run the complete applicable proof checks locally.
 
 Local `bench/audit_tritonbench_g.sh` runs still cover all gates and the whole
 corpus by default. To reproduce the CI stages separately:
 
 ```bash
 bench/audit_tritonbench_g.sh --global-only
-AUDIT_TRUST_SHARD_COUNT=16 AUDIT_TRUST_SHARD_INDEX=0 bench/audit_trust.sh --final-inventory
-# PR scope (run indices 0–15):
+# Daily full scope (run indices 0–63):
+AUDIT_TRUST_SHARD_COUNT=64 AUDIT_TRUST_SHARD_INDEX=0 bench/audit_trust.sh --final-inventory
+# Optional public-entry audit (run indices 0–15):
 AUDIT_TRUST_SHARD_COUNT=16 AUDIT_TRUST_SHARD_INDEX=0 bench/audit_trust.sh --ci-targets
 ```
 
-Shard indices are 0–15; run every index for a complete corpus audit. Both shard
+Run every index for the selected shard count for a complete corpus audit. Both shard
 variables are required, and sharding cannot be combined with named targets or
 `--global-only`. A global-only result or a single shard is not a completed
 audit. The existing sharded aggregate command also remains available: setting
