@@ -1,0 +1,64 @@
+"""Proposed exact reviewed vector extension. Root supplies both literal pins.
+
+This producer module cannot authorize itself. Integration must call it only
+with independently reviewed receipt/review hashes; whole-queue equality stays
+unchanged. Every input is registered under a repo: key and bound fail-closed.
+"""
+# Support both module invocation and direct script execution.
+if __package__ in (None, ""):
+    import sys as _sys
+    from pathlib import Path as _Path
+    _sys.path.insert(0, str(_Path(__file__).resolve().parents[2]))
+
+from copy import deepcopy
+from pathlib import Path
+from scripts.bench.adapter_common import declarations,hash_file,load
+
+def extend_vector_native_authority(root,previous,package_path,receipt_sha256,review_path,review_sha256):
+ root=Path(root).resolve();result=deepcopy(previous)
+ def bind(relative,expected):
+  rel=Path(relative);p=(root/rel).resolve()
+  if rel.is_absolute() or '..' in rel.parts or not p.is_relative_to(root) or not p.is_file() or hash_file(p)!=expected:
+   raise ValueError('changed reviewed vector input: '+str(rel))
+  key='repo:'+rel.as_posix()
+  if result['input_sha256'].get(key,expected)!=expected:raise ValueError('conflicting vector input')
+  result['input_sha256'][key]=expected;return p
+ package=Path(package_path)
+ receipt=load(bind(package/'evidence/receipt.json',receipt_sha256))
+ review=load(bind(review_path,review_sha256))
+ if not receipt['frozen'] or review['reviewer']!='root' or review['status']!='substantively_reviewed_for_finite_scope_integration' or review['producer_receipt_sha256']!=receipt_sha256:
+  raise ValueError('unreviewed native vector revision2 authority')
+ mapping=receipt['checkpoint_module_source_paths']
+ if mapping!={p:p+'.txt' for p in receipt['modules']}:raise ValueError('invalid frozen vector source mapping')
+ for rel,h in receipt['modules'].items():bind(package/mapping[rel],h);bind(rel,h)
+ for rel,h in receipt['artifacts'].items():
+  # Preserve exact evidence bytes without registering historical Lean modules.
+  archived=rel+'.txt' if rel.endswith('.lean') else (rel+'.bin' if rel.endswith(('.olean','.olean.private','.olean.server','.ilean','.ir')) else rel)
+  bind(package/archived,h)
+ deps=load(root/package/'evidence/dependencies-before.json')
+ for rel,entry in deps['project'].items():bind(rel,entry['sha256'])
+ delta=load(root/package/'evidence/numerical-authority-delta.json')
+ if delta['task']!='vector_addition':raise ValueError('wrong task in vector delta')
+ for port in delta['provenance'].values():
+  for field in ['original_source','scalar_source']:
+   ref=port[field];bind(ref['path'],ref['sha256'])
+  for field in ['execution_source','host_source']:
+   ref=port[field];bind(ref['module'],ref['sha256'])
+  for rel,h in port['lean_source_sha256'].items():bind(rel,h)
+  for field in ['raw_ttir','frontend_receipt','producer_scalar_inventory']:
+   ref=port[field];bind(package/ref['path'],ref['sha256'])
+ for table in delta['requirements']:
+  ref=table['declaration'];decl=declarations(root/ref['file']).get(ref['declaration'])
+  if decl is None or decl['kind']!='specification' or decl['statement_sha256']!=ref['statement_sha256']:
+   raise ValueError('changed vector public statement')
+ oldids={r['id'] for r in result['rules']};newids=[r['id'] for r in delta['rules']]
+ oldrefs={(r['declaration']['file'],r['declaration']['declaration']) for r in result['requirements']}
+ newrefs=[(r['declaration']['file'],r['declaration']['declaration']) for r in delta['requirements']]
+ if oldids.intersection(newids) or len(newids)!=len(set(newids)) or set(result['provenance']).intersection(delta['provenance']) or oldrefs.intersection(newrefs) or len(newrefs)!=len(set(newrefs)):
+  raise ValueError('reviewed vector authority collision')
+ result['rules']+=deepcopy(delta['rules']);result['provenance'].update(deepcopy(delta['provenance']));result['requirements']+=deepcopy(delta['requirements'])
+ result['independent_source_reviews'].append({'package':'repo','path':str(review_path),'sha256':review_sha256})
+ result['summary'].update(new_scalar_families=len(result['rules']),scope_bindings=len(result['provenance']),
+  declaration_cases=sum(len(r['cases']) for r in result['requirements']),registered_declarations=len(result['requirements']),
+  unvalidated_numeric_instances=len(result['provenance']),vector_finite_delta=deepcopy(delta['summary']))
+ return result

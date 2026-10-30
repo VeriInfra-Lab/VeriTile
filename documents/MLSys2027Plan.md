@@ -1,8 +1,8 @@
 # VeriTile MLSys 2027 投稿准备
 
 Planning snapshot: the metrics and dated evidence below describe the earlier
-source revisions linked in this note. Use the [current corpus guide](../bench/current_source_acceptance.md)
-and [contract review](../bench/validation/contracts.json) for present selection and proof scope.
+source revisions linked in this note. Use the [current corpus guide](../documents/bench/current_source_acceptance.md)
+and [contract review](../validation/contracts.json) for present selection and proof scope.
 
 更新日期：2026-10-01。时间安排使用新加坡时间。
 
@@ -10,7 +10,7 @@ and [contract review](../bench/validation/contracts.json) for present selection 
 
 当前最需要补齐的是差异化贡献、核心案例的完整证明范围，以及可比较、可复现的验证成本实验。Lean 检查和验证成本可在 CPU 上评估；已选定的浮点原语准入路线明确使用 Python 调 Triton/GPU，需要用户回传实际数值实验结果。
 
-本清单管理这一版论文的范围；长期技术路线仍见 [PLAN.md](../PLAN.md)，语义边界仍以 [SemanticCaveats.md](./SemanticCaveats.md) 等参考文档为准。
+本清单管理这一版论文的范围；长期技术路线仍见 [PLAN.md](../PLAN.md)，语义边界仍以 [SemanticCaveats.md](SemanticCaveats.md) 等参考文档为准。
 
 ## 论文主线
 
@@ -18,7 +18,7 @@ and [contract review](../bench/validation/contracts.json) for present selection 
 
 > VeriTile 在实数语义下证明 kernel 与数学公式一致；在浮点优化理论中，用 two-gates 验证原子关系并将其登记为有配置和证据的假设，再由 Lean 推导实现等价性并列出依赖。Bias gate 检查方向性偏差，vars gate 检查相对高精度 oracle 的误差放大。
 
-这是正在实现的论文主线。既有实数算术与 cast/store 抽象舍入证明继续保留；新增 bf16/fp32 位值、逐操作舍入的基础标量语义、六个具体反例定理及规则登记接口。已写好 14 条局部 Triton 原子关系、Python two-gates 与结果导入；实际 GPU 测量和 Lean 规则表绑定尚未完成。完整原语架构及实施计划见 [FloatingPointPrimitives.md](./FloatingPointPrimitives.md)，接受关系见 [TwoGatesAcceptance.md](./TwoGatesAcceptance.md)。交付按完整目标验收，小例子只用于验证设计和实现。
+这是正在实现的论文主线。既有实数算术与 cast/store 抽象舍入证明继续保留；新增 bf16/fp32 位值、逐操作舍入的基础标量语义、六个具体反例定理及规则登记接口。已写好 14 条局部 Triton 原子关系、Python two-gates 与结果导入；实际 GPU 测量和 Lean 规则表绑定尚未完成。完整原语架构及实施计划见 [FloatingPointPrimitives.md](FloatingPointPrimitives.md)，接受关系见 [TwoGatesAcceptance.md](TwoGatesAcceptance.md)。交付按完整目标验收，小例子只用于验证设计和实现。
 
 已确定的用户流程是：在 Python 中定义 shape 和输入分布，系统检查预定义原子规则、生成可用规则集 `R`，再自动尝试实现等价证明；改配置后重新生成规则集并重跑证明。dtype、累加精度和实际执行配置仍纳入检查。该流程是完整交付目标，尚不是已实现的全自动能力；规则集下的形式推导与整 kernel 的统计接受结果分开报告。具体接口及失败行为见原语设计第 7.1 节。
 
@@ -38,7 +38,7 @@ Typed DSL、操作语义、correctness/refinement 接口、内存条件和共享
 - Vars gate 比较两者相对高精度 oracle 的峰值误差放大及其尾部。
 - 双 PASS 接受；FAIL 拒绝；WARN 保留为带警告结果，由契约决定是否允许替换。证据不足单独记录，不归为 PASS。
 
-原子数值检查依赖 dtype、累加精度、shape、输入分布、权重、阈值和证据，并且具有方向性。被准入的原子关系作为显式假设参与形式等价推导，允许对称、传递和共同语句上下文；这些证明规则不宣称统计检查可以反向或组合，也不构造具体 IEEE 位值的 Lean 等式。完整定义、结合律例子、接入边界和待验证保证见 [TwoGatesAcceptance.md](./TwoGatesAcceptance.md)。
+原子数值检查依赖 dtype、累加精度、shape、输入分布、权重、阈值和证据，并且具有方向性。被准入的原子关系作为显式假设参与形式等价推导，允许对称、传递和共同语句上下文；这些证明规则不宣称统计检查可以反向或组合，也不构造具体 IEEE 位值的 Lean 等式。完整定义、结合律例子、接入边界和待验证保证见 [TwoGatesAcceptance.md](TwoGatesAcceptance.md)。
 
 以下各节保留对**当前实现**的核对，作为扩展工作的基线。
 
@@ -90,7 +90,7 @@ structure RoundingModel where
 - [x] 写清实数结合律与跨舍入点重排的区别，记录候选贡献表述。
 - [x] 根据用户提供的报告定义 two-gates 接受关系、判决等级与外部证据边界。
 - [x] 按完整交付目标补充浮点原语架构，覆盖值表示、混合精度、FMA、归约/scan、dot/MMA、特殊值、后端与接受接口。
-- [x] 建立 [浮点变换规则表](./FloatingPointRewriteRules.md) 和 14 条基本原子关系目录，分开记录严格关系和 two-gates 接受结果；六个严格不等见证已有 Lean 内核检查，数值门尚未运行。
+- [x] 建立 [浮点变换规则表](FloatingPointRewriteRules.md) 和 14 条基本原子关系目录，分开记录严格关系和 two-gates 接受结果；六个严格不等见证已有 Lean 内核检查，数值门尚未运行。
 - [x] 对外区分实数正确性与基于原子假设的浮点实现等价性；实现 two-gates 原子准入条件、形式推导和 `#print_spec` 报告，外部验证仍为显式义务。
 - [ ] 接通 Python shape/输入分布配置 → 候选规则检查 → 自动生成 `R` → 自动证明尝试，并评估配置变化后的复用与重跑成本。
 - [ ] 在实际 GPU 验证 bf16/fp32 支持矩阵、14 条具体 Triton 局部关系与输入／执行契约；无需先构造完整 Lean IEEE 执行器。
@@ -106,11 +106,11 @@ structure RoundingModel where
 | 已有内容 | 已检查的证据 | 解释边界 |
 |---|---|---|
 | 173 个 Python/Lean 移植对、345 个 headline 定理 | [覆盖审计](https://github.com/VeriInfra-Lab/VeriTile/blob/d67b1d0444c2e0fb8066414c2041129b53bf2931/bench/tritonbench_g/completion_audit.md)、[逐定理记录](https://github.com/VeriInfra-Lab/VeriTile/blob/d67b1d0444c2e0fb8066414c2041129b53bf2931/bench/tritonbench_g/coverage_review.json) | 移植数、定理数和完整 kernel 验证数是不同指标 |
-| 正确性、等价性、内存条件与抽象舍入接口 | [项目说明](../README.md)、[正确性接口](./CorrectnessSurfaces.md) | 数学模型与抽象舍入不等于 IEEE/PTX/CUDA 执行认证 |
+| 正确性、等价性、内存条件与抽象舍入接口 | [项目说明](../README.md)、[正确性接口](CorrectnessSurfaces.md) | 数学模型与抽象舍入不等于 IEEE/PTX/CUDA 执行认证 |
 | 201 个文件的 comparator 重放成功记录 | 本地 `Logs/comparator-check-m6yn0xci/`：173 个 corpus 文件、17 个 showcase、11 个测试文件 | 是已有证明的检查记录，不是新任务的自动证明成功率 |
 | 118 个 library theorem 的重放成功记录 | 本地 `Logs/comparator-check-kol1n_tb/` | 与上面的文件数不能相加当作 kernel 数 |
 | 上述两个批次各自记录的 365 个文件指纹与当前文件一致 | 两个批次的 `inputs.json` | 本次没有重新运行全量 Lean 检查；本地日志在 Git 忽略目录中，仍需整理为投稿 artifact |
-| 覆盖与 manifest 一致性检查通过 | `python3 bench/coverage_review.py`；`python3 bench/final_inventory.py --check` | 验证清单、源码指纹和链接一致性，不代替证明重放 |
+| 覆盖与 manifest 一致性检查通过 | `python3 scripts/bench/coverage_review.py`；`python3 scripts/bench/final_inventory.py --check` | 验证清单、源码指纹和链接一致性，不代替证明重放 |
 
 345 个 headline 的范围分类为：8 个 `full_value_candidate`、296 个 `specialization`、37 个 `precomputed_input_slice`、3 个 `pre_rounding_slice`、1 个 `blocked_summary`。数值模型分为 268 个 `mathematical` 和 77 个 `abstract_rounding`。
 
@@ -196,7 +196,7 @@ Attention 案例应在 M2 中按完整计算范围、参数化程度和证明成
 
 当前开发环境没有 NVIDIA GPU。按用户安排，将运行配置、14 条 Triton 原子关系、checker 和结果导入推送到独立 dev 分支，由用户在 GPU 机器运行并回传完整结果目录。CPU 统计回归、解释器索引测试和离线编译不登记成 GPU 通过结果。
 
-**LLM 实验也不是默认主线。** [bench/README.md](../bench/README.md) 已记录旧 LLM proof-drafting benchmark 的退役，现有 `scripts/prove.py` 是单任务 agent-assisted proof wrapper。如果后续选择声称自动证明能力，需要另外建立固定任务、固定预算、独立判定、成功率与失败分析的实验；当前论文可以如实定位为人工辅助验证框架。
+**LLM 实验也不是默认主线。** [documents/bench/README.md](../documents/bench/README.md) 已记录旧 LLM proof-drafting benchmark 的退役，现有 `scripts/prove.py` 是单任务 agent-assisted proof wrapper。如果后续选择声称自动证明能力，需要另外建立固定任务、固定预算、独立判定、成功率与失败分析的实验；当前论文可以如实定位为人工辅助验证框架。
 
 ## 建议排期与投稿信息
 

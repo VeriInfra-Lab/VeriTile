@@ -1,3 +1,4 @@
+"""Direct-storage FP32 repair; original kernels and precision are retained."""
 
 import torch
 import triton
@@ -77,74 +78,61 @@ def _swiglu_backward_kernel(
     tl.store(a_ptr + col_offsets, da_row, mask=mask)
     tl.store(b_ptr + col_offsets, db_row, mask=mask)
 
-def swiglu_forward(a, b):
-    ori_shape = a.shape
+def _check_tensor(tensor):
+    if not isinstance(tensor, torch.Tensor):
+        raise TypeError("expected a tensor")
+    if tensor.layout != torch.strided or tensor.dtype != torch.float32:
+        raise TypeError("expected strided FP32 storage")
+    if not tensor.is_cuda or not tensor.is_contiguous() or tensor.is_neg():
+        raise ValueError("expected contiguous CUDA storage without a negative view")
 
-    n_cols = ori_shape[-1]
+
+def _check_call(tensors, shaped):
+    for tensor in tensors:
+        _check_tensor(tensor)
+    if shaped.ndim == 0 or shaped.shape[-1] == 0:
+        raise ValueError("expected a positive final dimension")
+    n = shaped.numel()
+    cols = shaped.shape[-1]
+    rows = n // cols
+    if any(t.device != shaped.device or t.numel() != n for t in tensors):
+        raise ValueError("payloads must have matching device and element count")
+    if rows >= 2**31 or n + 65536 >= 2**63:
+        raise ValueError("launch index bound exceeded")
+    if n > 0:
+        if any(t.data_ptr() % 4 for t in tensors):
+            raise ValueError("active FP32 pointers must be aligned")
+        for i, left in enumerate(tensors):
+            for right in tensors[i+1:]:
+                if not (left.data_ptr() + 4*n <= right.data_ptr() or
+                        right.data_ptr() + 4*n <= left.data_ptr()):
+                    raise ValueError("payload spans must be disjoint")
+    return rows, cols
+
+
+def swiglu_forward(a, b):
+    n_rows, n_cols = _check_call([a, b], a)
+    if a.shape != b.shape:
+        raise ValueError("forward shapes must match")
+    ori_shape = a.shape
     a = a.view(-1, n_cols)
     b = b.view(-1, n_cols)
-    c = torch.empty_like(a)
-    n_rows = a.shape[0]
-
     BLOCK_SIZE, num_warps = calculate_settings(n_cols)
-
-    _swiglu_forward_kernel[(n_rows,)](
-        a,
-        b,
-        c,
-        c.stride(-2),
-        n_cols=n_cols,
-        BLOCK_SIZE=BLOCK_SIZE,
-        num_warps=num_warps,
-    )
+    with torch.cuda.device(a.device):
+        c = torch.empty_like(a)
+        if n_rows > 0:
+            _swiglu_forward_kernel[(n_rows,)](
+                a, b, c, n_cols, n_cols=n_cols, BLOCK_SIZE=BLOCK_SIZE, num_warps=num_warps)
     return a, b, c.view(*ori_shape)
 
+
 def swiglu_backward(a, b, dc):
+    n_rows, n_cols = _check_call([a, b, dc], dc)
     ori_shape = dc.shape
-    n_cols = ori_shape[-1]
     dc = dc.view(-1, n_cols)
-    n_rows = dc.shape[0]
-
     BLOCK_SIZE, num_warps = calculate_settings(n_cols)
-
-    _swiglu_backward_kernel[(n_rows,)](
-        dc,
-        a,
-        b,
-        dc.stride(-2),
-        n_cols=n_cols,
-        BLOCK_SIZE=BLOCK_SIZE,
-        num_warps=num_warps,
-    )
+    with torch.cuda.device(dc.device):
+        if n_rows > 0:
+            _swiglu_backward_kernel[(n_rows,)](
+                dc, a, b, n_cols, n_cols=n_cols, BLOCK_SIZE=BLOCK_SIZE, num_warps=num_warps)
     return a.view(*ori_shape), b.view(*ori_shape)
-
-
-
-
-##################################################################################################################################################
-
-
-import torch
-
-# Test the swiglu_forward function
-def test_swiglu():
-    # Create input tensors
-    a = torch.randn(4, 8, dtype=torch.float32, device='cuda')  # Example shape (4, 8)
-    b = torch.randn(4, 8, dtype=torch.float32, device='cuda')  # Same shape as a
-    dc = torch.randn(4, 8, dtype=torch.float32, device='cuda')  # Gradient tensor
-
-    # Call the forward function
-    a_out, b_out, c_out = swiglu_forward(a, b)
-
-    # Call the backward function
-    da_out, db_out = swiglu_backward(a, b, dc)
-
-    # Store results in a dictionary
-    results = {
-        "test_case_1": (a_out, b_out, c_out, da_out, db_out)
-    }
-
-    return results
-
-# Run the tests
-result_gold = test_swiglu()

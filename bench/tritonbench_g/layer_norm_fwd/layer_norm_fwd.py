@@ -1,4 +1,5 @@
 
+import math
 import torch
 import triton
 import triton.language as tl
@@ -26,7 +27,7 @@ def _layer_norm_fwd_1pass_kernel(
     STORE_DROPOUT_MASK: tl.constexpr, HAS_ROWSCALE: tl.constexpr, HAS_X1: tl.constexpr,
     HAS_W1: tl.constexpr, HAS_B1: tl.constexpr,
 ):
-    row = tl.program_id(0)
+    row = tl.program_id(0).to(tl.int64)
     X += row * stride_x_row
     Y += row * stride_y_row
     if HAS_RESIDUAL:
@@ -89,10 +90,59 @@ def _layer_norm_fwd_1pass_kernel(
         y1 = x_hat * w1 + b1 if HAS_B1 else x_hat * w1
         tl.store(Y1 + cols, y1, mask=mask)
 
+def _check_tensor(value, shape, strides, device, name):
+    if not isinstance(value, torch.Tensor):
+        raise TypeError(f"{name} must be a Tensor")
+    if value.layout != torch.strided or value.dtype != torch.float32:
+        raise TypeError(f"{name} must be strided FP32")
+    if value.device.type != "cuda" or value.device != device:
+        raise ValueError(f"{name} must be on x's CUDA device")
+    if tuple(value.shape) != shape or tuple(value.stride()) != strides:
+        raise ValueError(f"{name} must have the stated shape and canonical strides")
+    if value.storage_offset() != 0 or value.is_neg():
+        raise ValueError(f"{name} must have offset zero and no negative view flag")
+    if value.numel() and value.data_ptr() % 4:
+        raise ValueError(f"{name} must have four-byte alignment")
+
+
+def _check_inputs(x, weight, bias, eps, residual, x1, weight1, bias1,
+                  dropout_p, rowscale, out_dtype, residual_dtype,
+                  is_rms_norm, return_dropout_mask):
+    if not isinstance(x, torch.Tensor) or x.ndim != 2:
+        raise ValueError("x must be a rank-two Tensor")
+    M, N = x.shape
+    matrix_stride = (max(N, 1), 1)
+    _check_tensor(x, (M, N), matrix_stride, x.device, "x")
+    _check_tensor(weight, (N,), (1,), x.device, "weight")
+    for name, value in (("bias", bias), ("weight1", weight1), ("bias1", bias1)):
+        if value is not None:
+            _check_tensor(value, (N,), (1,), x.device, name)
+    for name, value in (("residual", residual), ("x1", x1)):
+        if value is not None:
+            _check_tensor(value, (M, N), matrix_stride, x.device, name)
+    if rowscale is not None:
+        _check_tensor(rowscale, (M,), (1,), x.device, "rowscale")
+    if x1 is not None and rowscale is not None:
+        raise ValueError("x1 and rowscale cannot both be supplied")
+    if type(eps) is not float or not math.isfinite(eps) or eps <= 0.0:
+        raise ValueError("eps must be a finite positive builtin float")
+    if type(dropout_p) is not float or not math.isfinite(dropout_p) or not 0.0 <= dropout_p < 1.0:
+        raise ValueError("dropout_p must be a finite builtin float in [0, 1)")
+    if type(is_rms_norm) is not bool or type(return_dropout_mask) is not bool:
+        raise TypeError("normalization and mask flags must be bool")
+    if out_dtype is not None and not isinstance(out_dtype, torch.dtype):
+        raise TypeError("out_dtype must be a torch dtype or None")
+    if residual is None and residual_dtype is not None and not isinstance(residual_dtype, torch.dtype):
+        raise TypeError("residual_dtype must be a torch dtype or None")
+
+
 def _layer_norm_fwd(
     x, weight, bias, eps, residual=None, x1=None, weight1=None, bias1=None, dropout_p=0.0,
     rowscale=None, out_dtype=None, residual_dtype=None, is_rms_norm=False, return_dropout_mask=False,
 ):
+    _check_inputs(x, weight, bias, eps, residual, x1, weight1, bias1,
+                  dropout_p, rowscale, out_dtype, residual_dtype,
+                  is_rms_norm, return_dropout_mask)
     if residual is not None:
         residual_dtype = residual.dtype
     M, N = x.shape
@@ -151,7 +201,7 @@ def _layer_norm_fwd(
     else:
         dropout_mask = None
     MAX_FUSED_SIZE = 65536 // x.element_size()
-    BLOCK_N = min(MAX_FUSED_SIZE, triton.next_power_of_2(N))
+    BLOCK_N = max(1, min(MAX_FUSED_SIZE, triton.next_power_of_2(N)))
     if N > BLOCK_N:
         raise RuntimeError("This layer norm doesn't support feature dim >= 64KB.")
     with torch.cuda.device(x.device.index):
@@ -170,48 +220,3 @@ def _layer_norm_fwd(
     return (
         y, y1, mean, rstd, residual_out if residual_out is not None else x, seeds, dropout_mask, dropout_mask1,
     )
-
-
-
-
-##################################################################################################################################################
-
-
-import torch
-
-def test_layer_norm_fwd():
-    # Define the input parameters
-    M, N = 64, 128  # Example dimensions
-    eps = 1e-5
-    dropout_p = 0.1
-
-    # Create random input tensors
-    x = torch.randn(M, N, device='cuda', dtype=torch.float32)
-    weight = torch.randn(N, device='cuda', dtype=torch.float32)
-    bias = torch.randn(N, device='cuda', dtype=torch.float32)
-    residual = torch.randn(M, N, device='cuda', dtype=torch.float32)
-    x1 = torch.randn(M, N, device='cuda', dtype=torch.float32)
-    weight1 = torch.randn(N, device='cuda', dtype=torch.float32)
-    bias1 = torch.randn(N, device='cuda', dtype=torch.float32)
-    rowscale = torch.randn(M, device='cuda', dtype=torch.float32)
-
-    results = {}
-
-    # Test case 1: Basic layer norm
-    results['test_case_1'] = _layer_norm_fwd(x, weight, bias, eps)
-
-    # Test case 2: Layer norm with residual
-    results['test_case_2'] = _layer_norm_fwd(x, weight, bias, eps, residual=residual)
-
-    # Test case 3: Layer norm with additional input tensors
-    results['test_case_3'] = _layer_norm_fwd(x, weight, bias, eps, x1=x1, weight1=weight1, bias1=bias1)
-
-    # Test case 4: Layer norm with dropout
-    results['test_case_4'] = _layer_norm_fwd(x, weight, bias, eps, dropout_p=dropout_p, return_dropout_mask=True)
-
-    # Test case 5: Layer norm with row scaling
-    results['test_case_5'] = _layer_norm_fwd(x, weight, bias, eps, rowscale=rowscale)
-
-    return results
-
-result_gold = test_layer_norm_fwd()

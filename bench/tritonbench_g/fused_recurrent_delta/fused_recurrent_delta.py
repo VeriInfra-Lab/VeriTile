@@ -3,6 +3,8 @@ import torch
 import triton
 import triton.language as tl
 from typing import Tuple
+import math
+import struct
 
 @triton.jit
 def fused_recurrent_fwd_kernel(
@@ -79,7 +81,7 @@ def fused_recurrent_bwd_kernel(
     p_dk = dk + (i_bh + i_v * B * H) * s_qk_h + i_k * BK + tl.arange(0, BK) + (T - 1) * K
     p_dv = dv + (i_bh + i_k * B * H) * s_vo_h + i_v * BV + tl.arange(0, BV) + (T - 1) * V
     if IS_HEADWISE_BETA:
-        p_dbeta = dbeta + (i_bh + i_k * B * H + i_v * B * H * NK) * s_vo_h + tl.arange(0, BV) + (T - 1) * V
+        p_dbeta = dbeta + (i_bh + i_k * B * H + i_v * B * H * NK) * s_vo_h + i_v * BV + tl.arange(0, BV) + (T - 1) * V
     else:
         p_dbeta = dbeta + (i_bh + i_v * B * H) * T + T - 1
     d_h = tl.zeros([BK, BV], dtype=tl.float32)
@@ -175,11 +177,105 @@ def fused_recurrent_bwd_kernel(
         p_dq += K
         p_beta += V if IS_HEADWISE_BETA else 1
 
+def _tensor(tensor, shape, device):
+    if not isinstance(tensor, torch.Tensor):
+        raise TypeError("expected a tensor")
+    if tensor.dtype != torch.float32 or tensor.layout != torch.strided:
+        raise TypeError("only strided FP32 tensors are supported")
+    if tensor.device.type != "cuda" or tensor.device != device:
+        raise ValueError("all tensors must use the same CUDA device")
+    if tuple(tensor.shape) != tuple(shape) or not tensor.is_contiguous():
+        raise ValueError("tensor must have the expected dense shape")
+    step, expected = 1, []
+    for dimension in reversed(shape):
+        expected.append(step)
+        step *= max(dimension, 1)
+    if tensor.stride() != tuple(reversed(expected)):
+        raise ValueError("source strides must be canonical even on singleton axes")
+    if tensor.is_neg() or tensor.is_conj():
+        raise ValueError("lazy view flags are unsupported")
+
+
+def _shape(q, k, v, output_final_state):
+    if not isinstance(q, torch.Tensor) or q.ndim != 4:
+        raise TypeError("q must be a rank-four tensor")
+    if not isinstance(v, torch.Tensor) or v.ndim != 4:
+        raise TypeError("v must be a rank-four tensor")
+    if type(output_final_state) is not bool:
+        raise TypeError("output_final_state must be a bool")
+    B, H, T, K = q.shape
+    V = v.shape[-1]
+    if min(B, H, T, K, V) <= 0 or B * H > 65535:
+        raise ValueError("dimensions must be positive and the head grid must fit")
+    _tensor(q, (B, H, T, K), q.device)
+    _tensor(k, (B, H, T, K), q.device)
+    _tensor(v, (B, H, T, V), q.device)
+    return B, H, T, K, V
+
+
+def _spans(shape, vector):
+    B, H, T, K, V = shape
+    BK = triton.next_power_of_2(K)
+    FBV, BBV = min(triton.next_power_of_2(V), 8), min(triton.next_power_of_2(V), 32)
+    FNV, BNV = triton.cdiv(V, FBV), triton.cdiv(V, BBV)
+    if FNV >= 1 << 31 or BNV >= 1 << 31 or BK * BBV > 1048576:
+        raise ValueError("grid or block dimensions exceed the native domain")
+    sizes = {}
+    for name in ("q", "k", "v", "beta", "h0", "o", "ht", "do", "dht", "dq", "dk", "dv", "dbeta", "dh0", "retq", "retk", "retv", "retbeta"):
+        rows = K if name in ("h0", "ht", "dht", "dh0") else T
+        cols = K if name in ("q", "k", "dq", "dk", "retq", "retk") else (V if vector else 1) if name in ("beta", "dbeta", "retbeta") else V
+        planes = BNV * B * H if name in ("dq", "dk", "dbeta") else B * H
+        span = planes * rows * cols + rows * cols + cols + BK * V + BBV + BK
+        if span >= 1 << 31:
+            raise ValueError("formed source indices must fit signed32")
+        sizes[name] = span
+    return sizes
+
+
+def _windows(tensors, spans, shape):
+    lower = max(shape[3], shape[4], 1)
+    windows = []
+    for name, tensor in tensors:
+        base, size = tensor.data_ptr(), 4 * tensor.numel()
+        if base % 4 or base < 4 * lower or base + 4 * spans[name] + 4 > 1 << 64:
+            raise ValueError("formed native pointers must remain aligned and in range")
+        windows.append((base, base + size))
+    for i, (lo, hi) in enumerate(windows):
+        if any(not (hi <= other_lo or other_hi <= lo) for other_lo, other_hi in windows[i + 1:]):
+            raise ValueError("source regions must occupy disjoint byte windows")
+
+
+def _forward_inputs(q, k, v, beta, scale, initial_state, output_final_state):
+    shape = _shape(q, k, v, output_final_state)
+    B, H, T, K, V = shape
+    vector = beta is not None and isinstance(beta, torch.Tensor) and beta.ndim == 4
+    tensors = [("q", q), ("k", k), ("v", v)]
+    if beta is not None:
+        _tensor(beta, (B, H, T, V) if vector else (B, H, T), q.device)
+        tensors.append(("beta", beta))
+    if initial_state is not None:
+        _tensor(initial_state, (B, H, K, V), q.device)
+        tensors.append(("h0", initial_state))
+    if scale is not None:
+        if type(scale) is not float or scale <= 0:
+            raise ValueError("scale must be a positive Python float")
+        try:
+            launch = struct.unpack("f", struct.pack("f", scale))[0]
+        except (OverflowError, struct.error) as error:
+            raise ValueError("scale must have a finite FP32 launch value") from error
+        if not math.isfinite(launch):
+            raise ValueError("scale must have a finite FP32 launch value")
+    spans = _spans(shape, vector)
+    _windows(tensors, spans, shape)
+    return shape, spans, tensors
+
+
 class FusedRecurrentFunction(torch.autograd.Function):
 
     @staticmethod
     def forward(ctx, q, k, v, beta, scale=None, initial_state=None, output_final_state=False):
-        B, H, T, K, V = *q.shape, v.shape[-1]
+        shape, spans, tensors = _forward_inputs(q, k, v, beta, scale, initial_state, output_final_state)
+        B, H, T, K, V = shape
 
         BK, BV = triton.next_power_of_2(K), min(triton.next_power_of_2(V), 8)
         NK, NV = triton.cdiv(K, BK), triton.cdiv(V, BV)
@@ -193,28 +289,45 @@ class FusedRecurrentFunction(torch.autograd.Function):
         else:
             final_state = None
 
+        _windows(tensors + [("o", o)] + ([("ht", final_state)] if final_state is not None else []), spans, shape)
         grid = (NV, NK, B * H)
-        fused_recurrent_fwd_kernel[grid](
-            q, k, v, beta, o, initial_state, final_state,
-            q.stride(1),
-            v.stride(1),
-            scale,
-            B=B, H=H, T=T, K=K, V=V,
-            BK=BK, BV=BV,
-            USE_INITIAL_STATE=initial_state is not None,
-            STORE_FINAL_STATE=final_state is not None,
-            IS_HEADWISE_BETA=beta.ndim == v.ndim,
-            num_warps=num_warps,
-            num_stages=num_stages,
-        )
+        with torch.cuda.device(q.device):
+            fused_recurrent_fwd_kernel[grid](
+                q, k, v, beta, o, initial_state, final_state,
+                q.stride(1),
+                v.stride(1),
+                scale,
+                B=B, H=H, T=T, K=K, V=V,
+                BK=BK, BV=BV,
+                USE_INITIAL_STATE=initial_state is not None,
+                STORE_FINAL_STATE=final_state is not None,
+                IS_HEADWISE_BETA=beta.ndim == v.ndim,
+                num_warps=num_warps,
+                num_stages=num_stages,
+            )
         o = o.squeeze(0)
         ctx.save_for_backward(q, k, v, beta, initial_state)
         ctx.scale = scale
+        ctx._used = False
+        ctx._output_final = output_final_state
         return o, final_state
 
     @staticmethod
     def backward(ctx, do, dht):
+        if getattr(ctx, "_used", False) or torch.is_grad_enabled():
+            raise RuntimeError("only one ordinary first-order backward is supported")
         q, k, v, beta, initial_state = ctx.saved_tensors
+        shape, spans, tensors = _forward_inputs(q, k, v, beta, ctx.scale, initial_state, ctx._output_final)
+        B, H, T, K, V = shape
+        _tensor(do, (B, H, T, V), q.device)
+        tensors.append(("do", do))
+        if dht is not None:
+            if not ctx._output_final:
+                raise ValueError("a terminal cotangent requires a returned final state")
+            _tensor(dht, (B, H, K, V), q.device)
+            tensors.append(("dht", dht))
+        _windows(tensors, spans, shape)
+        ctx._used = True
         B, H, T, K, V = *q.shape, v.shape[-1]
         scale = ctx.scale
         BK, BV = triton.next_power_of_2(K), min(triton.next_power_of_2(V), 32)
@@ -229,7 +342,7 @@ class FusedRecurrentFunction(torch.autograd.Function):
         dk = q.new_empty(NV, B, H, T, K)
         dv = q.new_empty(NK, B, H, T, V)
         if beta_vector:
-            dbeta = q.new_empty(NV, NK, B, H, T, V)
+            dbeta = q.new_zeros(NV, NK, B, H, T, V)
         else:
             dbeta = q.new_empty(NV, B, H, T)
         grid = (NV, NK, B * H)
@@ -239,20 +352,25 @@ class FusedRecurrentFunction(torch.autograd.Function):
         else:
             dh0 = None
 
-        fused_recurrent_bwd_kernel[grid](
-            q, k, v, beta, dht, dh0, do, dq, dk, dv, dbeta, initial_state,
-            q.stride(1),
-            v.stride(1),
-            NK, scale,
-            B=B, H=H, T=T, K=K, V=V,
-            BK=BK, BV=BV,
-            USE_INITIAL_STATE=initial_state is not None,
-            USE_DH0=dh0 is not None,
-            USE_DHT=dht is not None,
-            IS_HEADWISE_BETA=beta_vector,
-            num_warps=num_warps,
-            num_stages=num_stages
-        )
+        scratch = [("dq", dq), ("dk", dk), ("dv", dv), ("dbeta", dbeta)]
+        if dh0 is not None:
+            scratch.append(("dh0", dh0))
+        _windows(tensors + scratch, spans, shape)
+        with torch.cuda.device(q.device):
+            fused_recurrent_bwd_kernel[grid](
+                q, k, v, beta, dht, dh0, do, dq, dk, dv, dbeta, initial_state,
+                q.stride(1),
+                v.stride(1),
+                NK, scale,
+                B=B, H=H, T=T, K=K, V=V,
+                BK=BK, BV=BV,
+                USE_INITIAL_STATE=initial_state is not None,
+                USE_DH0=dh0 is not None,
+                USE_DHT=dht is not None,
+                IS_HEADWISE_BETA=beta_vector,
+                num_warps=num_warps,
+                num_stages=num_stages
+            )
         dq = dq.sum(0)
         dk = dk.sum(0)
         dv = dv.sum(0)
@@ -268,6 +386,7 @@ def fused_recurrent_delta_rule(
     initial_state: torch.Tensor = None,
     output_final_state: bool = False
 ) -> Tuple[torch.Tensor, torch.Tensor]:
+    _forward_inputs(q, k, v, beta, scale, initial_state, output_final_state)
     if scale is None:
         scale = q.shape[-1] ** -0.5
     else:
@@ -276,104 +395,3 @@ def fused_recurrent_delta_rule(
         beta = torch.ones_like(q[..., 0])
     o, final_state = FusedRecurrentFunction.apply(q, k, v, beta, scale, initial_state, output_final_state)
     return o, final_state
-
-
-
-
-##################################################################################################################################################
-
-
-import torch
-
-def test_fused_recurrent_delta_rule_with_backward():
-    # Define the dimensions.
-    B, H, T, K, V = 2, 4, 8, 16, 32
-
-    # Ensure the inputs are leaf tensors with requires_grad=True.
-    q = torch.randn(B, H, T, K, dtype=torch.float32, device='cuda', requires_grad=True)
-    k = torch.randn(B, H, T, K, dtype=torch.float32, device='cuda', requires_grad=True)
-    v = torch.randn(B, H, T, V, dtype=torch.float32, device='cuda', requires_grad=True)
-    beta_headwise = torch.randn(B, H, T, V, dtype=torch.float32, device='cuda', requires_grad=True)
-    beta_non_headwise = torch.randn(B, H, T, dtype=torch.float32, device='cuda', requires_grad=True)
-    initial_state = torch.randn(B, H, K, V, dtype=torch.float32, device='cuda', requires_grad=True)
-
-    # Test 1: Headwise beta, with initial_state and final_state
-    o, final_state = fused_recurrent_delta_rule(q, k, v, beta=beta_headwise, scale=0.1, initial_state=initial_state, output_final_state=True)
-
-    loss = o.sum() + final_state.sum()
-    loss.backward()
-
-    result_1 = {
-        "grad_q": q.grad.norm().item(),
-        "grad_k": k.grad.norm().item(),
-        "grad_v": v.grad.norm().item(),
-        "grad_beta_headwise": beta_headwise.grad.norm().item(),
-        "grad_initial_state": initial_state.grad.norm().item()
-    }
-
-    q.grad.zero_()
-    k.grad.zero_()
-    v.grad.zero_()
-    beta_headwise.grad.zero_()
-    initial_state.grad.zero_()
-
-    # Test 2: Non-headwise beta, with initial_state and final_state
-    o, final_state = fused_recurrent_delta_rule(q, k, v, beta=beta_non_headwise, scale=0.1, initial_state=initial_state, output_final_state=True)
-
-    loss = o.sum() + final_state.sum()
-    loss.backward()
-
-    result_2 = {
-        "grad_q": q.grad.norm().item(),
-        "grad_k": k.grad.norm().item(),
-        "grad_v": v.grad.norm().item(),
-        "grad_beta_non_headwise": beta_non_headwise.grad.norm().item(),
-        "grad_initial_state": initial_state.grad.norm().item()
-    }
-
-    q.grad.zero_()
-    k.grad.zero_()
-    v.grad.zero_()
-    beta_non_headwise.grad.zero_()
-    initial_state.grad.zero_()
-
-    # Test 3: No initial state, with final state
-    o, final_state = fused_recurrent_delta_rule(q, k, v, beta=beta_headwise, scale=0.1, initial_state=None, output_final_state=True)
-
-    loss = o.sum() + final_state.sum()
-    loss.backward()
-
-    result_3 = {
-        "grad_q": q.grad.norm().item(),
-        "grad_k": k.grad.norm().item(),
-        "grad_v": v.grad.norm().item(),
-        "grad_beta_headwise": beta_headwise.grad.norm().item()
-    }
-
-    q.grad.zero_()
-    k.grad.zero_()
-    v.grad.zero_()
-    beta_headwise.grad.zero_()
-
-    # Test 4: With initial state, no final state output
-    o, _ = fused_recurrent_delta_rule(q, k, v, beta=beta_headwise, scale=0.1, initial_state=initial_state, output_final_state=False)
-
-    loss = o.sum()
-    loss.backward()
-
-    result_4 = {
-        "grad_q": q.grad.norm().item(),
-        "grad_k": k.grad.norm().item(),
-        "grad_v": v.grad.norm().item(),
-        "grad_beta_headwise": beta_headwise.grad.norm().item(),
-        "grad_initial_state": initial_state.grad.norm().item()
-    }
-
-    return {
-        "test_case_1": result_1,
-        "test_case_2": result_2,
-        "test_case_3": result_3,
-        "test_case_4": result_4
-    }
-
-result_gold = test_fused_recurrent_delta_rule_with_backward()

@@ -73,78 +73,85 @@ def _triton_rope(
         tl.store(k_ptr + second_half_k_offsets, new_k_tile_2, mask=second_k_mask)
 
 
-def rope_forward(q, k, cos, sin):
-    q = q.transpose(1, 2)
-    k = k.transpose(1, 2)
 
-    batch_size, seq_len, n_q_head, head_dim = q.shape
-    n_kv_head = k.shape[2]
+def rope_forward(q, k, cos, sin):
+    """Checked FP32 forward RoPE, preserving the original four return views.
+
+    Q/K are contiguous [B,H,S,D], coefficients are contiguous [S,D/2].
+    Transpose+contiguous may reuse Q/K storage when a transposed axis is
+    singleton; those inputs are intentionally updated in place in that case.
+    """
+    tensors = (q, k, cos, sin)
+    if any(not isinstance(t, torch.Tensor) for t in tensors):
+        raise TypeError("Q, K, cos and sin must be tensors")
+    if any(t.layout != torch.strided for t in tensors):
+        raise ValueError("only strided tensors are supported")
+    if any(t.dtype != torch.float32 for t in tensors):
+        raise TypeError("Q, K, cos and sin must all be FP32")
+    if q.ndim != 4 or k.ndim != 4 or cos.ndim != 2 or sin.ndim != 2:
+        raise ValueError("expected Q/K rank 4 and cos/sin rank 2")
+    if any(not t.is_cuda for t in tensors) or any(t.device != q.device for t in tensors):
+        raise ValueError("all tensors must be on the same CUDA device")
+    if any(not t.is_contiguous() or t.is_neg() or t.is_conj() for t in tensors):
+        raise ValueError("only contiguous tensors without lazy metadata are supported")
+    batch_size, n_q_head, seq_len, head_dim = q.shape
+    n_kv_head = k.shape[1]
+    if n_q_head <= 0 or n_kv_head <= 0 or head_dim < 2 or head_dim % 2:
+        raise ValueError("head counts must be positive and head_dim positive and even")
+    if k.shape != (batch_size, n_kv_head, seq_len, head_dim):
+        raise ValueError("Q and K must agree on batch, sequence and head dimensions")
+    if cos.shape != (seq_len, head_dim // 2) or sin.shape != cos.shape:
+        raise ValueError("coefficient shape must be exactly [S,D/2]")
+    # Four independent backing allocations, including any guard/prefix cells.
+    stores = [t.untyped_storage() for t in tensors]
+    for i, a in enumerate(stores):
+        for b in stores[i + 1:]:
+            if a.nbytes() and b.nbytes():
+                if not (a.data_ptr() + a.nbytes() <= b.data_ptr()
+                        or b.data_ptr() + b.nbytes() <= a.data_ptr()):
+                    raise ValueError("the four tensors must have separate backing allocations")
+    for t, storage in zip(tensors, stores):
+        if t.numel() and not (storage.data_ptr() <= t.data_ptr()
+                and t.data_ptr() + 4 * t.numel() <= storage.data_ptr() + storage.nbytes()
+                and storage.data_ptr() + storage.nbytes() <= 2**64):
+            raise ValueError("tensor view must fit its backing storage")
+        if t.numel() and t.data_ptr() % 4:
+            raise ValueError("FP32 data pointers must be four-byte aligned")
     pad_hd = triton.next_power_of_2(head_dim)
     pad_n_q_head = triton.next_power_of_2(n_q_head)
     pad_n_kv_head = triton.next_power_of_2(n_kv_head)
     BLOCK_SIZE = max(pad_n_q_head, pad_n_kv_head)
-
     n_row = batch_size * seq_len
-
-    q = q.contiguous()
-    k = k.contiguous()
-    cos = cos.contiguous()
-    sin = sin.contiguous()
-
-    _triton_rope[(n_row,)](
-        q,
-        q.stride(1),
-        k,
-        k.stride(1),
-        cos,
-        cos.stride(-2),
-        sin,
-        sin.stride(-2),
-        seq_len,
-        batch_size,
-        n_q_head,
-        n_kv_head,
-        head_dim,
-        pad_n_q_head,
-        pad_n_kv_head,
-        pad_hd,
-        BLOCK_SIZE=BLOCK_SIZE,
-        BACKWARD_PASS=False,
-    )
-    return q.transpose(1, 2), k.transpose(1, 2), cos, sin
-
-
-
-##################################################################################################################################################
-
-
-import torch
-
-def test_rope_forward():
-    # Define the test parameters
-    batch_size = 2
-    seq_len = 4
-    n_q_head = 8
-    n_kv_head = 8
-    head_dim = 16
-
-    # Create random input tensors
-    q = torch.randn(batch_size, n_q_head, seq_len, head_dim, dtype=torch.float32, device='cuda')
-    k = torch.randn(batch_size, n_kv_head, seq_len, head_dim, dtype=torch.float32, device='cuda')
-    cos = torch.randn(seq_len, head_dim // 2, dtype=torch.float32, device='cuda')
-    sin = torch.randn(seq_len, head_dim // 2, dtype=torch.float32, device='cuda')
-
-    # Dictionary to store results for each test case
-    results = {}
-
-    # Test case 1: Forward pass
-    q_out_1, k_out_1, cos_out_1, sin_out_1 = rope_forward(q, k, cos, sin)
-    results['test_case_1'] = (q_out_1, k_out_1, cos_out_1, sin_out_1)
-
-    # Test case 2: Backward pass
-    q_out_2, k_out_2, cos_out_2, sin_out_2 = rope_forward(q, k, cos, sin)
-    results['test_case_2'] = (q_out_2, k_out_2, cos_out_2, sin_out_2)
-
-    return results
-
-result_gold = test_rope_forward()
+    q_row_stride = n_q_head * head_dim
+    k_row_stride = n_kv_head * head_dim
+    if max(pad_n_q_head, pad_n_kv_head) * (pad_hd // 2) > 1048576:
+        raise ValueError("Triton tile exceeds the supported element limit")
+    if max(batch_size, seq_len, n_q_head, n_kv_head, head_dim,
+           pad_hd, pad_n_q_head, pad_n_kv_head, n_row,
+           q_row_stride, k_row_stride) >= 2**31:
+        raise ValueError("launch dimensions exceed the signed-i32 profile")
+    if n_row:
+        q_last = ((n_row - 1) * q_row_stride + (pad_n_q_head - 1) * head_dim
+                  + pad_hd // 2 - 1 + head_dim // 2)
+        k_last = ((n_row - 1) * k_row_stride + (pad_n_kv_head - 1) * head_dim
+                  + pad_hd // 2 - 1 + head_dim // 2)
+        coefficient_last = (seq_len - 1) * (head_dim // 2) + pad_hd // 2 - 1
+        if max(q_last, k_last, coefficient_last) >= 2**31:
+            raise ValueError("formed padded addresses exceed the signed-i32 profile")
+    with torch.cuda.device(q.device):
+        q = q.transpose(1, 2).contiguous()
+        k = k.transpose(1, 2).contiguous()
+        cos = cos.contiguous()
+        sin = sin.contiguous()
+        if n_row:
+            if any(t.data_ptr() + 4 * last + 4 > 2**64 for t, last in
+                   ((q, q_last), (k, k_last), (cos, coefficient_last), (sin, coefficient_last))):
+                raise ValueError("formed pointers exceed the 64-bit address profile")
+            _triton_rope[(n_row,)](
+                q, q_row_stride, k, k_row_stride,
+                cos, head_dim // 2, sin, head_dim // 2,
+                seq_len, batch_size, n_q_head, n_kv_head, head_dim,
+                pad_n_q_head, pad_n_kv_head, pad_hd,
+                BLOCK_SIZE=BLOCK_SIZE, BACKWARD_PASS=False,
+            )
+        return q.transpose(1, 2), k.transpose(1, 2), cos, sin

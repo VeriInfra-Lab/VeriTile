@@ -1,43 +1,40 @@
-import VeriTile.Triton
+import bench.tritonbench_g.mul_exponent_compensator.Sources.Mathematical_Kernels
 
-/-! The complete unmasked scaling source and a scalar-left candidate. The FP
-entry selects fp32 input and arithmetic, with the wrapper's fp32 output.
-The Python wrapper itself does not constrain the input dtype. Integer addresses are Nat;
-launch scheduling and fixed-width address overflow remain outside this model. -/
-
-namespace VeriTile.Bench.TritonBenchG.MulExponentCompensator
+/-! Separate complete masked scaling source. Production storage/load/multiply/
+store is FP32. The original constexpr and src*constant order are retained.
+Native i64 refinement and the host's actual user block are proved separately. -/
+namespace VeriTile.Bench.Repairs.MulExponentCompensator.Contiguous
 open VeriTile.Triton
+noncomputable section
 
-/-- The constexpr multiplier from `mul_exponent_compensator.py`. -/
-noncomputable def exponentCompensator : ℝ :=
-  (2 : ℝ) ^ (127 - 15)
+abbrev exponentCompensator := VeriTile.Bench.TritonBenchG.MulExponentCompensator.exponentCompensator
+abbrev Word := BitVec 32
+def constantWord : Word := 0x77800000
+def grid (n B : Nat) : Nat := (n+B-1)/B
 
-/-- Faithful 1:1 transcription of `mul_exponent_compensator.py`'s
-`mul_kernel`.
-
-Allowed mechanical Lean-syntax-only changes:
-- Python local constexpr literal `2.0 ** (127 - 15)` is represented by the
-  Lean constant `exponentCompensator` and injected as a real scalar antiquote.
-- Python `BLOCK_SIZE: tl.constexpr` → Lean `Nat` parameter. -/
-noncomputable def mul_kernel
-    (src dst : RegionName)
-    (BLOCK_SIZE : Nat) :
-    ComputeKernel := triton {
+/-- The selected FP32 view of the actual repaired JIT body. Integer controls
+are the Nat projection of the independently checked widened native operations. -/
+def candidateKernel (src dst : RegionName) (n B : Nat) : ComputeKernel := triton {
+  tl.region src = tl.float32, dst = tl.float32
   exponent_compensator = $((exponentCompensator : ℝ))
-  idxs = tl.program_id(0) * $(BLOCK_SIZE) + tl.arange(0, $(BLOCK_SIZE))
-  x = tl.load(src + idxs)
+  idxs = tl.program_id(0) * $(B) + tl.arange(0, $(B))
+  mask = idxs < $(n)
+  x = tl.load(src + idxs, mask=mask)
   y = x * exponent_compensator
-  tl.store(dst + idxs, y)
+  tl.store(dst + idxs, y, mask=mask)
 }
 
-/-- Scalar-left scaling with the same load, constant and store. -/
-noncomputable def mul_commuted_kernel (src dst : RegionName) (BLOCK_SIZE : Nat) :
-    ComputeKernel := triton {
+/-- The existing scalar-left multiplication candidate, applied to the complete
+repaired masked source. Only the FP32 multiplication operands are exchanged. -/
+def scalarLeftKernel (src dst : RegionName) (n B : Nat) : ComputeKernel := triton {
+  tl.region src = tl.float32, dst = tl.float32
   exponent_compensator = $((exponentCompensator : ℝ))
-  idxs = tl.program_id(0) * $(BLOCK_SIZE) + tl.arange(0, $(BLOCK_SIZE))
-  x = tl.load(src + idxs)
+  idxs = tl.program_id(0) * $(B) + tl.arange(0, $(B))
+  mask = idxs < $(n)
+  x = tl.load(src + idxs, mask=mask)
   y = exponent_compensator * x
-  tl.store(dst + idxs, y)
+  tl.store(dst + idxs, y, mask=mask)
 }
 
-end VeriTile.Bench.TritonBenchG.MulExponentCompensator
+end
+end VeriTile.Bench.Repairs.MulExponentCompensator.Contiguous

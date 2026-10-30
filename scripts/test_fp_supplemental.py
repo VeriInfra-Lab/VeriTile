@@ -25,7 +25,7 @@ class FPSupplementalTests(unittest.TestCase):
                                   text=True, capture_output=True, timeout=180)
 
     def test_domain_precision_casts_and_independent_proof_boundaries(self):
-        result = self.lean((ROOT / 'bench/tests/FPSupplementalAdmission.lean').read_text())
+        result = self.lean((ROOT / 'tests/lean/FPSupplementalAdmission.lean').read_text())
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertNotIn('warning:', result.stdout)
 

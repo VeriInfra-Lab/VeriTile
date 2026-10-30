@@ -1,3 +1,13 @@
 # dequantize_rowwise
 
-Original Python reference and shared proof dependencies. The final selected implementation and public contracts are in [dequantize_rowwise](../../repairs/tritonbench_g/dequantize_rowwise/README.md).
+Current repaired Python implementation: [dequantize_rowwise.py](dequantize_rowwise.py).
+
+[Lean source](Kernels.lean) · [input contract](Contract.lean) · [Real correctness](Correct.lean) · [FP equivalence](FPEquiv.lean).
+
+dequantize_rowwise_correct: scale * signed weight / 127 at every original active output.
+
+The public entries state the input conditions, execution scope and numerical assumptions. Required proof and lowering helpers support this selected implementation; Git retains prior implementations.
+
+[Proof helpers](Proofs/)
+
+[Selected-task and source-correspondence records](../../../validation/) track validation and pending work separately.

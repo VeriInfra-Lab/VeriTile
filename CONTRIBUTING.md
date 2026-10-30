@@ -10,14 +10,14 @@ for corpus scope and theorem interfaces. Open a separate issue for a concrete
 regression or a scoped task that is ready for implementation.
 
 Start with [the code map](documents/CodeOrganization.md) and
-[the benchmark index](bench/README.md). The selected source and public proof
-entries are recorded in `bench/tritonbench_g/task_progress.json`; the source
-and contract checks are described in [the validation guide](bench/current_source_acceptance.md).
+[the benchmark index](documents/bench/README.md). The selected source and public proof
+entries are recorded in `validation/task_progress.json`; the source
+and contract checks are described in [the validation guide](documents/bench/current_source_acceptance.md).
 
 Before submitting a structural or tooling change, run the relevant tests and:
 
 ```sh
-bash bench/audit_tritonbench_g.sh --source-only
+bash scripts/bench/audit_tritonbench_g.sh --source-only
 python3 scripts/check_docs.py
 ```
 

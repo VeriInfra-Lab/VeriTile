@@ -13,7 +13,7 @@
   "sha256": {
     "bench/pretrain_kernels/All.lean": "4a8cc395a432d03ce154bfad4128057a0c14783f174b2a9d90e345039d2f486b",
     "bench/pretrain_kernels/NOTICE.md": "4e4569fca1a4e4cb503755df464ec7057dc773d1d722b0671fbc0d46a4440710",
-    "bench/pretrain_kernels/README.md": "8c352569735f56287788ae2d70ae7a2d1b0ff24f64cf9863e5aa2da8020e6762",
+    "bench/pretrain_kernels/README.md": "91fcf2a2c5dec28b47ab96e555842a3bd03df891fd748eaa47f543b40a52c85f",
     "bench/pretrain_kernels/Validation.lean": "5ee4038d2189480c830e90d49615feb631d53dcf2f0b12ba51abd51374d250d3",
     "bench/pretrain_kernels/check.py": "55ef2927a9c2f912d465e6fc7962d139e7f658a983f582d6397679a56e154411",
     "bench/pretrain_kernels/manifest.json": "586ebd48731708afaaecbcd42703716a756349165194a712c95da824372c777c",
@@ -2171,5 +2171,16 @@
     "bench/pretrain_kernels/tasks/te_fused_attn_mla_thd_dv/task.json": "ce9735151cf467d28fae4020d4a1399cf1e02ec6b5525665019c9f6d4a3fbbd8",
     "VeriTile/Triton/Float/GuardedProgramIO.lean": "d49d97865627028acef594b848a4627e83e139849ce8f882c8901d75e11d6046",
     "VeriTile/Triton/Memory/LogicalScheduledKernelIO.lean": "63fc2fd56a16d72f476294a9bd175483cc1d188e5760f18d0c40ba59d9764e2b"
+  },
+  "layout_transport": {
+    "base_commit": "4edf710ba663205d9bbc16ed1efe12ea1a72a803",
+    "changed_document_bindings": {
+      "bench/pretrain_kernels/README.md": {
+        "before_sha256": "8c352569735f56287788ae2d70ae7a2d1b0ff24f64cf9863e5aa2da8020e6762",
+        "after_sha256": "91fcf2a2c5dec28b47ab96e555842a3bd03df891fd748eaa47f543b40a52c85f"
+      }
+    },
+    "lean_sources_unchanged": true,
+    "new_independent_compilation_claim": false
   }
 }

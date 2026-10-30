@@ -21,7 +21,7 @@ class FPStructuralTests(unittest.TestCase):
 
     def test_numerical_laws_and_failures_are_not_structural_certificates(self):
         result = subprocess.run(
-            ["lake", "env", "lean", "bench/tests/FPStructural.lean"], cwd=ROOT,
+            ["lake", "env", "lean", "tests/lean/FPStructural.lean"], cwd=ROOT,
             text=True, capture_output=True, timeout=180)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 

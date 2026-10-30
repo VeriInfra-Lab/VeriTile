@@ -6,7 +6,7 @@ import triton.language as tl
 
 # Triton kernel for rowwise dequantization
 @triton.jit
-def _dequantize_rowwise(
+def _dequantize_rowwise_repaired(
     x_ptr,
     state_x,
     output_ptr,
@@ -15,9 +15,9 @@ def _dequantize_rowwise(
     BLOCK_SIZE: tl.constexpr,
     P2: tl.constexpr,
 ):
-    pid = tl.program_id(axis=0)
+    pid = tl.program_id(axis=0).to(tl.int64)
     block_start = pid * BLOCK_SIZE
-    arange = tl.arange(0, P2)
+    arange = tl.arange(0, P2).to(tl.int64)
     offsets = block_start + arange
     row_mask = arange < BLOCK_SIZE
     x = tl.load(x_ptr + offsets, mask=row_mask)
@@ -25,53 +25,40 @@ def _dequantize_rowwise(
     output = max_val * x * inv_127
     tl.store(output_ptr + offsets, output, mask=row_mask)
 
-# Function to call the Triton kernel
-def dequantize_rowwise(x: torch.Tensor, state_x: torch.Tensor):
-    output = torch.empty(*x.shape, device=x.device, dtype=torch.float16)
+def _check(x, state_x):
+    if not isinstance(x, torch.Tensor) or not isinstance(state_x, torch.Tensor):
+        raise TypeError("dequantize_rowwise requires two Tensors")
+    if x.layout != torch.strided or state_x.layout != torch.strided:
+        raise TypeError("both tensors must use strided layout")
+    if x.dtype != torch.int8 or state_x.dtype != torch.float32:
+        raise TypeError("x must be INT8 and scales must be FP32")
+    if not x.is_cuda or not state_x.is_cuda:
+        raise ValueError("both tensors must be CUDA")
+    if x.device != state_x.device:
+        raise ValueError("both tensors must be on the same device")
+    if x.ndim != 2 or state_x.ndim != 1:
+        raise ValueError("input must be rank two and scales rank one")
+    if not x.is_contiguous() or not state_x.is_contiguous() or x.is_neg() or state_x.is_neg():
+        raise ValueError("inputs must be contiguous with no unresolved negative bit")
+    if x.shape[1] > 2**20:
+        raise ValueError("row width exceeds Triton block limit")
+    if x.shape[0] >= 2**31:
+        raise ValueError("row grid must fit signed int32")
+    if x.numel() > 0 and x.shape[0] > state_x.numel():
+        raise ValueError("nonempty input requires one scale per row")
+    if x.numel() > 0 and state_x.data_ptr() % 4 != 0:
+        raise ValueError("scale pointer must be FP32 aligned")
 
-    P2 = int(2 ** (math.ceil(math.log2(x.shape[1]))))
 
-    assert x.is_cuda and output.is_cuda
-    n_elements = output.numel()
-    grid = lambda meta: (x.shape[0],)
-    _dequantize_rowwise[grid](x, state_x, output, 1.0 / 127, n_elements, BLOCK_SIZE=x.shape[1], P2=P2)
-    return output
-
-
-
-
-##################################################################################################################################################
-
-
-# Test function for dequantize_rowwise
-def test_dequantize_rowwise():
-    results = {}
-
-    # Test case 1: Simple case
-    x = torch.tensor([[1, 2, 3, 4], [5, 6, 7, 8]], dtype=torch.int8, device='cuda')
-    state_x = torch.tensor([4.0, 8.0], dtype=torch.float32, device='cuda')
-    output = dequantize_rowwise(x, state_x)
-    results['test_case_1'] = output
-
-    # Test case 2: Larger input
-    x = torch.randint(-128, 127, (10, 16), dtype=torch.int8, device='cuda')
-    state_x = torch.rand(10, dtype=torch.float32, device='cuda') * 10
-    output = dequantize_rowwise(x, state_x)
-    results['test_case_2'] = output
-
-    # Test case 3: Edge case with zeros
-    x = torch.zeros((5, 8), dtype=torch.int8, device='cuda')
-    state_x = torch.ones(5, dtype=torch.float32, device='cuda')
-    output = dequantize_rowwise(x, state_x)
-    results['test_case_3'] = output
-
-    # Test case 4: Different block size
-    x = torch.randint(-128, 127, (3, 32), dtype=torch.int8, device='cuda')
-    state_x = torch.rand(3, dtype=torch.float32, device='cuda') * 10
-    output = dequantize_rowwise(x, state_x)
-    results['test_case_4'] = output
-
-    return results
-
-# Run the test function
-result_gold = test_dequantize_rowwise()
+def dequantize_rowwise_repaired(x: torch.Tensor, state_x: torch.Tensor):
+    _check(x, state_x)
+    with torch.cuda.device(x.device):
+        output = torch.empty(x.shape, device=x.device, dtype=torch.float16)
+        if output.numel() == 0:
+            return output
+        P2 = triton.next_power_of_2(x.shape[1])
+        n_elements = output.numel()
+        grid = lambda meta: (x.shape[0],)
+        _dequantize_rowwise_repaired[grid](x, state_x, output, 1.0 / 127, n_elements,
+                                         BLOCK_SIZE=x.shape[1], P2=P2)
+        return output

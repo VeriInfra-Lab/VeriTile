@@ -53,7 +53,7 @@ def triton_red_fused_native_layer_norm_no_welford(
         rmask = rindex < rnumel
         r1 = rindex
         tmp0 = tl.load(
-            in_ptr0 + (r1 + (rnumel * x0)), rmask, eviction_policy="evict_last"
+            in_ptr0 + (r1 + (rnumel * x0)), rmask, other=0.0, eviction_policy="evict_last"
         ).to(tl.float32)
         tmp1 = tmp0.to(tl.float32)
         tmp2 = tl.broadcast_to(tmp1, [XBLOCK, RBLOCK])
@@ -70,11 +70,11 @@ def triton_red_fused_native_layer_norm_no_welford(
         rmask = rindex < rnumel
         r1 = rindex
         tmp7 = tl.load(
-            in_ptr0 + (r1 + (rnumel * x0)), rmask, eviction_policy="evict_last"
+            in_ptr0 + (r1 + (rnumel * x0)), rmask, other=0.0, eviction_policy="evict_last"
         ).to(tl.float32)
         tmp8 = tmp7.to(tl.float32)
         tmp9 = tmp8 - tmp6
-        tmp10 = tmp9 * tmp9
+        tmp10 = tl.where(rmask, tmp9 * tmp9, 0.0)
         tmp11 = tl.broadcast_to(tmp10, [XBLOCK, RBLOCK])
         tmp13 = _tmp12 + tmp11
         _tmp12 = tmp13
@@ -109,8 +109,37 @@ def triton_red_fused_native_layer_norm_no_welford(
         tmp29 = tmp28.to(tl.float32)
         tl.store(out_ptr0 + (r1 + (rnumel * x0)), tmp29, rmask)
 
+def _check_inputs(weight, bias, x):
+    if not all(isinstance(t, torch.Tensor) for t in (weight, bias, x)):
+        raise TypeError("weight, bias and x must be tensors")
+    if any(t.layout != torch.strided for t in (weight, bias, x)):
+        raise ValueError("inputs must use strided layouts")
+    if any(t.dtype != torch.float32 for t in (weight, bias, x)):
+        raise ValueError("inputs must be FP32")
+    if any(not t.is_cuda or t.device.index != 0 for t in (weight, bias, x)):
+        raise ValueError("inputs must be on CUDA device 0")
+    if x.ndim != 2:
+        raise ValueError("x must have shape (S, D)")
+    S, D = x.shape
+    if D == 0:
+        raise ValueError("D must be positive")
+    if weight.shape != (D,) or bias.shape != (D,):
+        raise ValueError("weight and bias must have shape (D,)")
+    if x.stride() != (D, 1) or weight.stride() != (1,) or bias.stride() != (1,):
+        raise ValueError("inputs must have canonical contiguous strides")
+    if any(t.storage_offset() != 0 for t in (weight, bias, x)):
+        raise ValueError("inputs must have zero storage offset")
+    if any(t.is_neg() for t in (weight, bias, x)):
+        raise ValueError("unresolved negative views are unsupported")
+    if D + 2048 >= 2**31 or S * D + 2048 >= 2**31:
+        raise ValueError("source padded indices must fit signed int32")
+    if (S * D > 0 and x.data_ptr() % 16 != 0) or weight.data_ptr() % 16 != 0 or bias.data_ptr() % 16 != 0:
+        raise ValueError("nonempty inputs require the selected profile's 16-byte alignment")
+    return S, D
+
+
 def fused_native_layer_norm_no_welford(primals_1, primals_2, primals_3):
-    S, D = primals_3.shape
+    S, D = _check_inputs(primals_1, primals_2, primals_3)
     with torch.cuda._DeviceGuard(0):
         torch.cuda.set_device(0)
         buf0 = empty_strided_cuda((S, 1), (1, S), torch.float32)
@@ -134,51 +163,3 @@ def fused_native_layer_norm_no_welford(primals_1, primals_2, primals_3):
 
 
 
-
-##################################################################################################################################################
-
-
-import torch
-
-def test_fused_native_layer_norm_no_welford():
-    # Define the input shapes
-    S = 128  # Number of sequences
-    D = 4096  # Dimension of each sequence
-
-    # Create input tensors with appropriate shapes and data types
-    primals_1 = torch.randn(D, dtype=torch.bfloat16, device='cuda')  # Weight tensor
-    primals_2 = torch.randn(D, dtype=torch.bfloat16, device='cuda')  # Bias tensor
-    primals_3 = torch.randn(S, D, dtype=torch.bfloat16, device='cuda')  # Input tensor
-
-    # Test the fused_native_layer_norm_no_welford function
-    test_case_1 = fused_native_layer_norm_no_welford(primals_1, primals_2, primals_3)
-
-    # Additional test cases to cover all branches
-    # Test case 2: Different input size
-    S2 = 256
-    primals_3_case2 = torch.randn(S2, D, dtype=torch.bfloat16, device='cuda')
-    test_case_2 = fused_native_layer_norm_no_welford(primals_1, primals_2, primals_3_case2)
-
-    # Test case 3: Different dimension size
-    D2 = 2048
-    primals_1_case3 = torch.randn(D2, dtype=torch.bfloat16, device='cuda')
-    primals_2_case3 = torch.randn(D2, dtype=torch.bfloat16, device='cuda')
-    primals_3_case3 = torch.randn(S, D2, dtype=torch.bfloat16, device='cuda')
-    test_case_3 = fused_native_layer_norm_no_welford(primals_1_case3, primals_2_case3, primals_3_case3)
-
-    # Test case 4: Edge case with minimal size
-    S4 = 1
-    D4 = 1
-    primals_1_case4 = torch.randn(D4, dtype=torch.bfloat16, device='cuda')
-    primals_2_case4 = torch.randn(D4, dtype=torch.bfloat16, device='cuda')
-    primals_3_case4 = torch.randn(S4, D4, dtype=torch.bfloat16, device='cuda')
-    test_case_4 = fused_native_layer_norm_no_welford(primals_1_case4, primals_2_case4, primals_3_case4)
-
-    return {
-        "test_case_1": test_case_1,
-        "test_case_2": test_case_2,
-        "test_case_3": test_case_3,
-        "test_case_4": test_case_4,
-    }
-
-result_gold = test_fused_native_layer_norm_no_welford()

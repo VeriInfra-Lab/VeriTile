@@ -1,7 +1,7 @@
+"""Checked contiguous FP32 pointwise x * log(x / y), without input copies."""
 import torch
 import triton
 import triton.language as tl
-
 
 @triton.jit
 def kldivergence_kernel(
@@ -21,37 +21,39 @@ def kldivergence_kernel(
     tl.store(output_ptr + offsets, output, mask=mask)
 
 
-def kldivergence(x: torch.Tensor, y: torch.Tensor):
-    output = torch.empty_like(x)
-    assert x.is_cuda and y.is_cuda and output.is_cuda
-    n_elements = output.numel()
-    grid = lambda meta: (triton.cdiv(n_elements, meta["BLOCK_SIZE"]),)
-    kldivergence_kernel[grid](x, y, output, n_elements, BLOCK_SIZE=1024)
-    return output
+def _check_inputs(x, y):
+    if not isinstance(x, torch.Tensor) or not isinstance(y, torch.Tensor):
+        raise TypeError("x and y must be tensors")
+    if x.layout != torch.strided or y.layout != torch.strided:
+        raise TypeError("x and y must have strided layout")
+    if x.dtype != torch.float32 or y.dtype != torch.float32:
+        raise TypeError("x and y must have dtype torch.float32")
+    if not x.is_cuda or not y.is_cuda:
+        raise ValueError("x and y must be CUDA tensors")
+    if x.device != y.device:
+        raise ValueError("x and y must be on the same device")
+    if x.shape != y.shape:
+        raise ValueError("x and y must have the same shape")
+    if not x.is_contiguous() or not y.is_contiguous():
+        raise ValueError("x and y must be contiguous")
+    if x.is_neg() or y.is_neg():
+        raise ValueError("x and y must not have unresolved negative view bits")
+
+    n_elements = x.numel()
+    if n_elements >= (1 << 31):
+        raise ValueError("numel must be smaller than 2**31")
+    # Scalar .b32 access: PTX ISA 8.7 section 6.4.1; see ../add_example/LOAD_STORE_AUDIT.md.
+    if n_elements > 0 and (x.data_ptr() % 4 != 0 or y.data_ptr() % 4 != 0):
+        raise ValueError("nonempty inputs must have 4-byte-aligned data pointers")
+
+    return n_elements
 
 
-##################################################################################################################################################
-
-
-def test_kldivergence():
-    results = {}
-    x1 = torch.rand(1024, device="cuda")
-    y1 = torch.rand(1024, device="cuda")
-    results["test_case_1"] = kldivergence(x1, y1)
-
-    x2 = torch.rand(2048, device="cuda")
-    y2 = torch.rand(2048, device="cuda")
-    results["test_case_2"] = kldivergence(x2, y2)
-
-    x3 = torch.rand(4096, device="cuda")
-    y3 = torch.rand(4096, device="cuda")
-    results["test_case_3"] = kldivergence(x3, y3)
-
-    x4 = torch.rand(8192, device="cuda")
-    y4 = torch.rand(8192, device="cuda")
-    results["test_case_4"] = kldivergence(x4, y4)
-
-    return results
-
-
-result_gold = test_kldivergence()
+def kldivergence(x, y):
+    n_elements = _check_inputs(x, y)
+    with torch.cuda.device(x.device):
+        output = torch.empty_like(x)
+        if n_elements:
+            kldivergence_kernel[((n_elements + 1023) // 1024,)](
+                x, y, output, n_elements, BLOCK_SIZE=1024)
+        return output

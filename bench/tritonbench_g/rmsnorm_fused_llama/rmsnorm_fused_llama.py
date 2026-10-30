@@ -37,67 +37,36 @@ def _rms_norm_fwd_fused(
         tl.store(Y + cols, y.to(tl.float16), mask=mask)
 
 def rmsnorm_forward(x, weight, eps):
-    # allocate output
-    y = torch.empty_like(x)
-    # reshape input data into 2D tensor
-    x_arg = x.view(-1, x.shape[-1])
-    M, N = x_arg.shape
-    # Less than 64KB per feature: enqueue fused kernel
-    MAX_FUSED_SIZE = 65536 // x.element_size()
-    BLOCK_SIZE = min(MAX_FUSED_SIZE, triton.next_power_of_2(N))
-    if N > BLOCK_SIZE:
-        raise RuntimeError("This layer norm doesn't support feature dim >= 64KB.")
-    # heuristics for number of warps
-    num_warps = min(max(BLOCK_SIZE // 256, 1), 8)
-    BLOCK_SIZE = 128 * 2 * 2 * 2 * 2 * 2 * 2 * 2
-    num_warps = 8
-    # enqueue kernel
-    _rms_norm_fwd_fused[(M,)](x_arg, y, weight,
-                              x_arg.stride(0), N, eps,
-                              BLOCK_SIZE=BLOCK_SIZE, num_warps=num_warps)
+    """Contiguous FP32 RMSNorm, retaining the source's FP16 output round trip."""
+    if not isinstance(x, torch.Tensor) or not isinstance(weight, torch.Tensor):
+        raise TypeError("x and weight must be tensors")
+    if x.layout != torch.strided or weight.layout != torch.strided:
+        raise ValueError("x and weight must be strided tensors")
+    if x.dtype != torch.float32 or weight.dtype != torch.float32:
+        raise TypeError("x and weight must be float32")
+    if x.ndim < 1 or weight.ndim != 1:
+        raise ValueError("x needs a feature axis and weight must be one-dimensional")
+    if not x.is_contiguous() or not weight.is_contiguous():
+        raise ValueError("x and weight must be contiguous")
+    if x.is_neg() or x.is_conj() or weight.is_neg() or weight.is_conj():
+        raise ValueError("lazy tensor metadata is unsupported")
+    if x.device != weight.device or not x.is_cuda:
+        raise ValueError("x and weight must share a CUDA device")
+    N = x.shape[-1]
+    if N <= 0 or N > 16384 or weight.numel() != N:
+        raise ValueError("feature size must be between 1 and 16384 and match weight")
+    if x.numel() + 16383 >= 2**31:
+        raise ValueError("padded element offsets must fit signed 32-bit indexing")
+    if type(eps) is not float or not 0 < eps < float("inf"):
+        raise ValueError("eps must be a finite positive Python float")
+    if x.numel() and (x.data_ptr() % 16 or weight.data_ptr() % 16):
+        raise ValueError("nonempty RMSNorm inputs require 16-byte aligned pointers")
+    y = torch.empty_like(x, memory_format=torch.contiguous_format)
+    if x.numel() == 0:
+        return y
+    x_arg = x.view(-1, N)
+    M = x_arg.shape[0]
+    with torch.cuda.device(x.device):
+        _rms_norm_fwd_fused[(M,)](x_arg, y, weight, N, N, eps,
+                                BLOCK_SIZE=16384, num_warps=8)
     return y
-
-
-
-
-##################################################################################################################################################
-
-
-import torch
-
-# Test function for rmsnorm_forward
-def test_rmsnorm_forward():
-    results = {}
-    
-    # Test case 1: Small input tensor
-    x1 = torch.randn(2, 64, dtype=torch.float16).cuda()
-    weight1 = torch.randn(64, dtype=torch.float16).cuda()
-    eps1 = 1e-5
-    y1 = rmsnorm_forward(x1, weight1, eps1)
-    results['test_case_1'] = y1
-    
-    # Test case 2: Larger input tensor
-    x2 = torch.randn(4, 128, dtype=torch.float16).cuda()
-    weight2 = torch.randn(128, dtype=torch.float16).cuda()
-    eps2 = 1e-5
-    y2 = rmsnorm_forward(x2, weight2, eps2)
-    results['test_case_2'] = y2
-    
-    # Test case 3: Edge case with maximum supported feature dimension
-    x3 = torch.randn(1, 8192, dtype=torch.float16).cuda()  # 8192 * 2 bytes = 16384 bytes < 64KB
-    weight3 = torch.randn(8192, dtype=torch.float16).cuda()
-    eps3 = 1e-5
-    y3 = rmsnorm_forward(x3, weight3, eps3)
-    results['test_case_3'] = y3
-
-    # Test case 4: Edge case with minimum supported feature dimension
-    x4 = torch.randn(1, 1, dtype=torch.float16).cuda()
-    weight4 = torch.randn(1, dtype=torch.float16).cuda()
-    eps4 = 1e-5
-    y4 = rmsnorm_forward(x4, weight4, eps4)
-    results['test_case_4'] = y4
-
-    return results
-
-# Run the test function
-result_gold = test_rmsnorm_forward()

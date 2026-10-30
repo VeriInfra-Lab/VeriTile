@@ -79,10 +79,14 @@ def matmul_kernel_with_block_pointers(
         # check, if you can guarantee that the access is always in-bound in
         # that axis.
         # See above `Load/Store a Block Pointer` section for details.
-        a = tl.load(a_block_ptr, boundary_check=(0, 1))
-        b = tl.load(b_block_ptr, boundary_check=(0, 1))
+        a = tl.load(a_block_ptr, boundary_check=(0, 1), padding_option="zero")
+        b = tl.load(b_block_ptr, boundary_check=(0, 1), padding_option="zero")
         # We accumulate along the K dimension.
-        accumulator += tl.dot(a, b)
+        # Keep the wrapping add separate from Triton's saturating INT8 MMA.
+        accumulator = tl.inline_asm_elementwise(
+            "add.u32 $0, $1, $2;", constraints="=r,r,r",
+            args=[accumulator, tl.dot(a, b)], dtype=tl.int32, is_pure=True, pack=1,
+        )
         # Advance the block pointer to the next K block.
         # See above `Advance a Block Pointer` section for details.
         a_block_ptr = tl.advance(a_block_ptr, (0, BLOCK_K))
@@ -147,8 +151,8 @@ def scaled_matmul_kernel_with_block_pointers(
 
     rm = pid_m * BLOCK_M + tl.arange(0, BLOCK_M)
     rn = pid_n * BLOCK_N + tl.arange(0, BLOCK_N)
-    ram = tl.max_contiguous(tl.multiple_of(rm % M, BLOCK_M), BLOCK_M)
-    rbn = tl.max_contiguous(tl.multiple_of(rn % N, BLOCK_N), BLOCK_N)
+    ram = rm % M
+    rbn = rn % N
     rk = tl.arange(0, BLOCK_K)
     A = a_ptr + (ram[:, None] * stride_am + rk[None, :] * stride_ak)
     B = b_ptr + (rk[:, None] * stride_bk + rbn[None, :] * stride_bn)
@@ -161,7 +165,11 @@ def scaled_matmul_kernel_with_block_pointers(
         else:
             a = tl.load(A, mask=rk[None, :] < k, other=0.0)
             b = tl.load(B, mask=rk[:, None] < k, other=0.0)
-        acc += tl.dot(a, b)  # , allow_tf32=ALLOW_TF32)
+        # A zero-seeded tile dot is bounded; the carry update wraps modulo 2**32.
+        acc = tl.inline_asm_elementwise(
+            "add.u32 $0, $1, $2;", constraints="=r,r,r",
+            args=[acc, tl.dot(a, b)], dtype=tl.int32, is_pure=True, pack=1,
+        )
         A += BLOCK_K * stride_ak
         B += BLOCK_K * stride_bk
 
@@ -173,74 +181,109 @@ def scaled_matmul_kernel_with_block_pointers(
     mask = (idx_m < M) & (idx_n < N)
 
     # inductor generates a suffix
-    xindex = idx_n + (N * idx_m)
+    xindex = idx_n * stride_cn + idx_m * stride_cm
     tmp0 = tl.load(
-        s1_ptr + (tl.broadcast_to(idx_m, mask.shape)),
+        s1_ptr + (tl.broadcast_to(idx_m * stride_s1m, mask.shape)),
         mask,
         eviction_policy="evict_last",
     )
     tl.store(c_ptr + (tl.broadcast_to(xindex, mask.shape)), acc * tmp0, mask)
 
 
-def int_matmul_kernel(a, b, c, config):
+def _checked_inputs(a, b, c, config, scales1=None, *, scaled=False):
+    tensors = (a, b, c) if not scaled else (a, b, c, scales1)
+    if any(not isinstance(t, torch.Tensor) for t in tensors):
+        raise TypeError("expected Tensor arguments")
+    if any(t.layout != torch.strided for t in tensors):
+        raise ValueError("expected strided tensors")
+    if a.dtype != torch.int8 or b.dtype != torch.int8 or c.dtype != torch.int32:
+        raise ValueError("expected INT8 inputs and INT32 output")
+    if scaled and scales1.dtype != torch.float32:
+        raise ValueError("expected FP32 row scales")
+    if any(not t.is_cuda for t in tensors):
+        raise ValueError("expected CUDA tensors")
+    if any(t.device != a.device for t in tensors):
+        raise ValueError("expected the same CUDA device")
+    if any(t.ndim != 2 for t in tensors):
+        raise ValueError("expected rank-two tensors")
     M, K = a.shape
-    K, N = b.shape
-    grid = lambda META: (
-        triton.cdiv(M, META["BLOCK_M"]) * triton.cdiv(N, META["BLOCK_N"]),
-    )
-    matmul_kernel_with_block_pointers[grid](
-        a,
-        b,
-        c,  #
-        M,
-        N,
-        K,  #
-        a.stride(0),
-        a.stride(1),  #
-        b.stride(0),
-        b.stride(1),  #
-        c.stride(0),
-        c.stride(1),
-        num_warps=config.num_warps,
-        num_stages=config.num_stages,
-        num_ctas=config.num_ctas,
-        **config.kwargs,
-    )
+    K_b, N = b.shape
+    if K != K_b or tuple(c.shape) != (M, N):
+        raise ValueError("incompatible matmul shapes")
+    if scaled and tuple(scales1.shape) != (M, 1):
+        raise ValueError("expected one scale per output row")
+    if any(not t.is_contiguous() for t in tensors):
+        raise ValueError("expected contiguous tensors")
+    if any(t.is_neg() for t in tensors):
+        raise ValueError("expected resolved tensor storage")
+    if not isinstance(config, Config):
+        raise TypeError("expected Config")
+    if set(config.kwargs) != {"BLOCK_M", "BLOCK_N", "BLOCK_K", "GROUP_M"}:
+        raise ValueError("expected the four matrix tile parameters")
+    BM, BN, BK, G = (config.kwargs[k] for k in ("BLOCK_M", "BLOCK_N", "BLOCK_K", "GROUP_M"))
+    if any(type(v) is not int for v in (BM, BN, BK, G, config.num_warps, config.num_stages, config.num_ctas)):
+        raise TypeError("expected builtin integer configuration values")
+    if any(v < minimum or v & (v - 1) for v, minimum in ((BM, 16), (BN, 16), (BK, 32))):
+        raise ValueError("expected legal power-of-two INT8 dot tiles")
+    if max(BM * BN, BM * BK, BK * BN) > 2**20 or G <= 0:
+        raise ValueError("tile or group exceeds the supported Triton shape")
+    if config.num_warps not in (1, 2, 4, 8, 16, 32) or config.num_stages <= 0 or config.num_ctas != 1:
+        raise ValueError("unsupported launch configuration")
+    if M == 0 or N == 0:
+        return M, N, K
+    gm, gn, gk = triton.cdiv(M, BM), triton.cdiv(N, BN), triton.cdiv(K, BK)
+    pm, pn, pk = gm * BM, gn * BN, gk * BK
+    # Bound the actual cdiv numerators, grouped mapping, padded tile offsets,
+    # and pointer values after the final K advance in signed-int32 arithmetic.
+    envelope = (M + BM - 1, N + BN - 1, K + BK - 1, G * gn, gm * gn,
+                pm * K + pk + BK, (pk + BK) * N + pn, pm * N + pn)
+    if any(v >= 2**31 for v in envelope):
+        raise ValueError("source signed-int32 index envelope exceeded")
+    windows = []
+    for t in tensors:
+        if t.numel() == 0:
+            windows.append((0, 0))
+            continue
+        start = t.data_ptr()
+        width = t.element_size()
+        end = start + width * t.numel()
+        if start % width != 0 or end > 2**64:
+            raise ValueError("tensor byte window is not aligned and representable")
+        windows.append((start, end))
+    c_start, c_end = windows[2]
+    for i in (0, 1) if not scaled else (0, 1, 3):
+        start, end = windows[i]
+        if start < end and c_start < end and start < c_end:
+            raise ValueError("output must not overlap inputs or scales")
+    return M, N, K
+
+
+def int_matmul_kernel(a, b, c, config):
+    M, N, K = _checked_inputs(a, b, c, config)
+    if M == 0 or N == 0:
+        return c
+    grid = lambda META: (triton.cdiv(M, META["BLOCK_M"]) * triton.cdiv(N, META["BLOCK_N"]),)
+    with torch.cuda.device(a.device):
+        matmul_kernel_with_block_pointers[grid](
+            a, b, c, M, N, K, K, 1, N, 1, N, 1,
+            num_warps=config.num_warps, num_stages=config.num_stages,
+            num_ctas=config.num_ctas, **config.kwargs,
+        )
     return c
 
 
 def int_scaled_matmul_kernel(a, b, scales1, c, config):
-    M, K = a.shape
-    K, N = b.shape
-    # print("a.sizes(): ", a.size(), "a.strides(): ", a.stride(), "a.dtype: ", a.dtype)
-    # print("b.sizes(): ", b.size(), "b.strides(): ", b.stride(), "b.dtype: ", b.dtype)
-    # print("c.sizes(): ", c.size(), "c.strides(): ", c.stride(), "c.dtype: ", c.dtype)
-    # print("scales1.sizes(): ", scales1.size(), "scales1.strides(): ", scales1.stride(), "scales1.dtype", scales1.dtype)
-    grid = lambda META: (
-        triton.cdiv(M, META["BLOCK_M"]) * triton.cdiv(N, META["BLOCK_N"]),
-    )
-    scaled_matmul_kernel_with_block_pointers[grid](
-        a,
-        b,
-        c,
-        scales1,
-        M,
-        N,
-        K,  #
-        a.stride(0),
-        a.stride(1),  #
-        b.stride(0),
-        b.stride(1),  #
-        c.stride(0),
-        c.stride(1),
-        scales1.stride(0),
-        scales1.stride(1),
-        num_warps=config.num_warps,
-        num_stages=config.num_stages,
-        num_ctas=config.num_ctas,
-        EVEN_K=(K % 2 == 0),
-        **config.kwargs,
-    )
+    M, N, K = _checked_inputs(a, b, c, config, scales1, scaled=True)
+    if M == 0 or N == 0:
+        return c
+    grid = lambda META: (triton.cdiv(M, META["BLOCK_M"]) * triton.cdiv(N, META["BLOCK_N"]),)
+    with torch.cuda.device(a.device):
+        scaled_matmul_kernel_with_block_pointers[grid](
+            a, b, c, scales1, M, N, K, K, 1, N, 1, N, 1, 1, 1,
+            num_warps=config.num_warps, num_stages=config.num_stages,
+            num_ctas=config.num_ctas,
+            EVEN_K=(K % config.kwargs["BLOCK_K"] == 0), **config.kwargs,
+        )
     return c
 
 
@@ -254,50 +297,3 @@ class Config:
 
 
 
-##################################################################################################################################################
-
-
-def test_matmul_kernel():
-    M = 256
-    K = 128
-    N = 256
-
-    a = torch.randint(-128, 128, (M, K), dtype=torch.int8, device='cuda')
-    b = torch.randint(-128, 128, (K, N), dtype=torch.int8, device='cuda')
-
-    # Allocate the output tensor.
-    c = torch.empty((M, N), dtype=torch.int32, device='cuda')
-
-    # Triton kernel configuration
-    config = Config(
-        BLOCK_M=64,
-        BLOCK_N=64,
-        BLOCK_K=32,
-        GROUP_M=8
-    )
-
-    # Launch the custom matrix multiplication kernel.
-    c_triton = int_matmul_kernel(a, b, c, config)
-
-    scales1 = torch.rand((M, 1), dtype=torch.float32, device='cuda')  # Assume scaling by row.
-    c = torch.empty((M, N), dtype=torch.int32, device='cuda')
-
-    # Triton kernel configuration
-    config = Config(
-        BLOCK_M=64,
-        BLOCK_N=64,
-        BLOCK_K=32,
-        GROUP_M=8
-    )
-
-    # Launch the matrix multiplication kernel with scales.
-    c_triton_scaled = int_scaled_matmul_kernel(a, b, scales1, c, config)
-
-    # Return results in a dictionary
-    results = {
-        "test_case_1": c_triton,
-        "test_case_2": c_triton_scaled
-    }
-    return results
-
-result_gold = test_matmul_kernel()

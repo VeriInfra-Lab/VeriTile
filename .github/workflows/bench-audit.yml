@@ -59,11 +59,11 @@ jobs:
           command -v rg && command -v python3
       - name: Check final source and audit regressions
         run: |
-          python3 -B -m unittest discover -s bench/tests -p 'test_*.py'
+          python3 -B -m unittest discover -s tests/python -p 'test_*.py'
           python3 -B -m unittest discover -s scripts -p 'test_audit_source.py'
           python3 -B -m unittest discover -s scripts -p 'test_audit_shards.py'
           python3 -B -m unittest discover -s scripts -p 'test_comparator_preflight.py'
-          bash bench/audit_tritonbench_g.sh --source-only
+          bash scripts/bench/audit_tritonbench_g.sh --source-only
       - uses: leanprover/lean-action@v1
         with:
           build: true
@@ -75,7 +75,7 @@ jobs:
       - name: Replay library proofs
         run: python3 scripts/check_comparator.py --library
       - name: Bind the built snapshot
-        run: python3 bench/final_inventory.py --check
+        run: python3 scripts/bench/final_inventory.py --check
 
   drafts:
     name: All 334 benchmark interfaces
@@ -98,7 +98,7 @@ jobs:
         run: |
           python3 bench/bug_detection/check.py --verify-record
           python3 bench/pretrain_kernels/check.py --verify-record
-          python3 bench/check_imported_kernel_review.py
+          python3 scripts/bench/check_imported_kernel_review.py
 
   audit:
     name: Final entry build and replay ${{ matrix.shard }}
@@ -139,17 +139,17 @@ jobs:
       - name: Build every selected module and its complete dependencies
         run: |
           if [ "$AUDIT_MODE" = --final-inventory ]; then
-            python3 bench/final_inventory.py --targets > "$RUNNER_TEMP/all-targets.txt"
+            python3 scripts/bench/final_inventory.py --targets > "$RUNNER_TEMP/all-targets.txt"
           else
-            python3 bench/final_inventory.py --ci-targets > "$RUNNER_TEMP/all-targets.txt"
+            python3 scripts/bench/final_inventory.py --ci-targets > "$RUNNER_TEMP/all-targets.txt"
           fi
-          python3 bench/select_audit_shard.py "$AUDIT_TRUST_SHARD_COUNT" "$AUDIT_TRUST_SHARD_INDEX" \
+          python3 scripts/bench/select_audit_shard.py "$AUDIT_TRUST_SHARD_COUNT" "$AUDIT_TRUST_SHARD_INDEX" \
             < "$RUNNER_TEMP/all-targets.txt" > "$RUNNER_TEMP/shard-targets.txt"
           test -s "$RUNNER_TEMP/shard-targets.txt"
           sed 's|/|.|g; s|\.lean$||' "$RUNNER_TEMP/shard-targets.txt" | xargs lake build
       - uses: ./.github/actions/setup-comparator
       - name: Replay selected entries and their proof dependencies
-        run: bench/audit_trust.sh "$AUDIT_MODE"
+        run: scripts/bench/audit_trust.sh "$AUDIT_MODE"
 
   complete:
     name: TritonBench-G audit complete

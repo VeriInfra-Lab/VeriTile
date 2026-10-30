@@ -1,87 +1,55 @@
-
+# Separate repair of original SHA256:
+# 3b190a21ae5ef1c37f8d24e16c1757950215749d28a463f3c1989657fa07a017
 import torch
 import triton
 import triton.language as tl
 
+
 @triton.jit
-def _l2_norm_fwd_1pass_kernel(
-    X,  # pointer to the input
-    Y,  # pointer to the output
-    stride_x_row,  # how much to increase the pointer when moving by 1 row
-    N,  # number of columns in X
-    eps,  # epsilon to avoid division by zero
-    BLOCK_N: tl.constexpr,
+def _l2_norm_fwd_1pass_kernel_repaired(
+    X, Y, N, eps, BLOCK_N: tl.constexpr,
 ):
-    row = tl.program_id(0)
-    X += row * stride_x_row
-    Y += row * stride_x_row
-    cols = tl.arange(0, BLOCK_N)
+    row = tl.program_id(0).to(tl.int64)
+    X += row * N
+    Y += row * N
+    cols = tl.arange(0, BLOCK_N).to(tl.int64)
     x = tl.load(X + cols, mask=cols < N, other=0.0).to(tl.float32)
     xbar = tl.where(cols < N, x, 0.0)
-    var = tl.sum(xbar * xbar, axis=0) 
+    var = tl.sum(xbar * xbar, axis=0)
     rstd = 1 / tl.sqrt(var + eps)
     mask = cols < N
     y = x * rstd
     tl.store(Y + cols, y, mask=mask)
 
-def _l2_norm_fwd(
-    x, eps=1e-6
-):
-    x_shape_og = x.shape
-    x = x.reshape(-1, x.shape[-1])
-    if x.stride(-1) != 1:
-        x = x.contiguous()
-    y = torch.empty_like(x)
+
+def _l2_norm_fwd_repaired(x, eps=1e-6):
+    if not isinstance(x, torch.Tensor):
+        raise TypeError("x must be a tensor")
+    if x.layout != torch.strided:
+        raise TypeError("x must have strided layout")
+    if x.dtype != torch.float32:
+        raise TypeError("x must have dtype torch.float32")
+    if not x.is_cuda:
+        raise ValueError("x must be a CUDA tensor")
+    if x.ndim == 0:
+        raise ValueError("x must have at least one dimension")
     N = x.shape[-1]
-    M = x.shape[0]
-    MAX_FUSED_SIZE = 65536 // x.element_size()
-    BLOCK_N = min(MAX_FUSED_SIZE, triton.next_power_of_2(N))
-    if N > BLOCK_N:
-        raise RuntimeError(
-            "This layer norm doesn't support feature dim >= 64KB.")
-    with torch.cuda.device(x.device.index):
-        _l2_norm_fwd_1pass_kernel[(M,)](
-            x,
-            y,
-            x.stride(0),
-            N,
-            eps,
-            BLOCK_N,
-        )
-    return y.reshape(x_shape_og)
-
-
-
-
-##################################################################################################################################################
-
-
-import torch
-
-# Test the forward L2 normalization
-def test_l2_norm_fwd():
-    results = {}
-    
-    # Test case 1
-    x1 = torch.randn(4, 8, device='cuda', dtype=torch.float32)
-    y1 = _l2_norm_fwd(x1)
-    results['test_case_1'] = y1
-
-    # Test case 2: Different batch size
-    x2 = torch.randn(2, 8, device='cuda', dtype=torch.float32)
-    y2 = _l2_norm_fwd(x2)
-    results['test_case_2'] = y2
-
-    # Test case 3: Different feature size
-    x3 = torch.randn(4, 4, device='cuda', dtype=torch.float32)
-    y3 = _l2_norm_fwd(x3)
-    results['test_case_3'] = y3
-
-    # Test case 4: Larger tensor
-    x4 = torch.randn(8, 8, device='cuda', dtype=torch.float32)
-    y4 = _l2_norm_fwd(x4)
-    results['test_case_4'] = y4
-
-    return results
-
-result_gold = test_l2_norm_fwd()
+    if N == 0 or N > 16384:
+        raise ValueError("last dimension must be in [1, 16384]")
+    if not x.is_contiguous():
+        raise ValueError("x must be contiguous")
+    if x.is_neg():
+        raise ValueError("x must not have an unresolved negative view bit")
+    if x.numel() > 0 and x.data_ptr() % 16 != 0:
+        raise ValueError("nonempty x must have a 16-byte-aligned data pointer")
+    x_shape_og = x.shape
+    with torch.cuda.device(x.device):
+        x = x.view(-1, N)
+        y = torch.empty(x.shape, dtype=torch.float32, device=x.device)
+        M = x.shape[0]
+        BLOCK_N = triton.next_power_of_2(N)
+        if M:
+            _l2_norm_fwd_1pass_kernel_repaired[(M,)](
+                x, y, N, eps, BLOCK_N, num_warps=4, num_ctas=1,
+            )
+    return y.view(x_shape_og)

@@ -1,5 +1,5 @@
 import bench.examples.TritonBenchVectorAddition.Kernels
-import bench.tritonbench_g.vector_addition.Proofs.Real
+import bench.tritonbench_g.vector_addition.Proofs.Mathematical_Real
 import VeriTile.Meta.StatementAudit
 
 /-! Real execution, arithmetic and memory lemmas for TritonBenchVectorAddition.

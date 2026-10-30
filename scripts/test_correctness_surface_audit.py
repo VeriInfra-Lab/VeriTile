@@ -1,4 +1,9 @@
 """Regress source-order and prose false positives in the named-surface gate."""
+# Make the repository packages available for direct invocation.
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+
 from pathlib import Path
 import re
 import subprocess
@@ -6,7 +11,7 @@ import sys
 import tempfile
 import unittest
 
-from bench.audit_source import correctness_surface_evidence
+from scripts.bench.audit_source import correctness_surface_evidence
 
 ROOT = Path(__file__).resolve().parents[1]
 

@@ -1,4 +1,5 @@
 
+import math
 import triton
 import triton.language as tl
 import torch
@@ -33,7 +34,7 @@ def _rms_layernorm_forward(
         Inspiration from a Triton tutorial:
         https://triton-lang.org/main/getting-started/tutorials/05-layer-norm.html
     """
-    row_idx = tl.program_id(0)
+    row_idx = tl.program_id(0).to(tl.int64)
     col_offsets = tl.arange(0, BLOCK_SIZE)
     mask = col_offsets < n_cols
 
@@ -69,7 +70,7 @@ def _rms_layernorm_backward(
         Inspiration from a Triton tutorial:
         https://triton-lang.org/main/getting-started/tutorials/05-layer-norm.html
     """
-    row_idx = tl.program_id(0)
+    row_idx = tl.program_id(0).to(tl.int64)
     col_offsets = tl.arange(0, BLOCK_SIZE)
     mask = col_offsets < n_cols
 
@@ -100,7 +101,7 @@ def _gemma_rms_layernorm_forward(
     n_cols, eps,
     BLOCK_SIZE: tl.constexpr,
 ):
-    row_idx = tl.program_id(0)
+    row_idx = tl.program_id(0).to(tl.int64)
     col_offsets = tl.arange(0, BLOCK_SIZE)
     mask = col_offsets < n_cols
 
@@ -119,57 +120,146 @@ def _gemma_rms_layernorm_forward(
 
     tl.store(Y + col_offsets, output, mask=mask)
 
+@triton.jit
+def _rms_layernorm_weight_backward(
+    dW, dY, X, r,
+    n_rows, n_cols,
+    GEMMA: tl.constexpr,
+    BLOCK_SIZE: tl.constexpr,
+):
+    # One owner per weight lane, with a deterministic increasing-row fold.
+    col = tl.program_id(0).to(tl.int64) * BLOCK_SIZE + tl.arange(0, BLOCK_SIZE)
+    mask = col < n_cols
+    acc = tl.full((BLOCK_SIZE,), 0, tl.float32)
+    for row in range(tl.cast(n_rows, tl.int64)):
+        dy = tl.load(dY + row * n_cols + col, mask=mask, other=0).to(tl.float32)
+        x = tl.load(X + row * n_cols + col, mask=mask, other=0).to(tl.float32)
+        inv = tl.load(r + row).to(tl.float32)
+        normed = x * inv
+        if not GEMMA:
+            normed = normed.to(dW.dtype.element_ty).to(tl.float32)
+        acc = acc + dy * normed
+    tl.store(dW + col, acc, mask=mask)
+
+
+def _snapshot(tensor, shape):
+    # The input-gradient kernel writes this private buffer in place.
+    # Keep caller upstream storage read-only while dW reads its original values.
+    return tensor.view(shape).clone(memory_format=torch.contiguous_format)
+
+
+def _check_tensor(tensor):
+    if not isinstance(tensor, torch.Tensor):
+        raise TypeError("RMSNorm requires tensors")
+    if tensor.layout != torch.strided:
+        raise ValueError("RMSNorm requires strided tensors")
+    if tensor.dtype != torch.float32:
+        raise TypeError("RMSNorm requires FP32 tensors")
+    if not tensor.is_cuda:
+        raise ValueError("RMSNorm requires CUDA tensors")
+    if torch.cuda.current_device() != tensor.device.index:
+        raise ValueError("RMSNorm requires tensors on the current CUDA device")
+    if not tensor.is_contiguous():
+        raise ValueError("RMSNorm requires contiguous tensors")
+    if tensor.is_neg():
+        raise ValueError("RMSNorm does not accept unresolved negative views")
+
+
+def _check_forward(X, W, eps, gemma):
+    _check_tensor(X)
+    _check_tensor(W)
+    if X.device != W.device:
+        raise ValueError("RMSNorm input and weight must share a device")
+    if X.ndim == 0 or X.shape[-1] == 0:
+        raise ValueError("RMSNorm requires a nonempty final dimension")
+    if X.shape[-1] > MAX_FUSED_SIZE:
+        raise ValueError("RMSNorm feature count exceeds 65536")
+    if W.numel() != X.shape[-1]:
+        raise ValueError("RMSNorm weight count must equal the feature count")
+    if X.numel() // X.shape[-1] > 2147483647:
+        raise ValueError("RMSNorm row count exceeds the CUDA x-grid limit")
+    if X.untyped_storage()._cdata == W.untyped_storage()._cdata:
+        raise ValueError("RMSNorm input and weight require distinct backing storage")
+    if (X.numel() and X.data_ptr() % 16) or W.data_ptr() % 16:
+        raise ValueError("RMSNorm inputs require 16-byte aligned pointers")
+    if type(eps) is not float:
+        raise TypeError("RMSNorm epsilon must be a Python float")
+    if not math.isfinite(eps):
+        raise ValueError("RMSNorm epsilon must be finite")
+    if type(gemma) is not bool:
+        raise TypeError("RMSNorm gemma must be a bool")
+
+
 class Fast_RMS_Layernorm(torch.autograd.Function):
     @staticmethod
     def forward(ctx, X, W, eps, gemma=False):
-        shape = X.shape
+        _check_forward(X, W, eps, gemma)
+        shape = tuple(X.shape)
+        if not shape or shape[-1] == 0:
+            raise ValueError("RMSNorm requires a nonempty final dimension")
         dim = shape[-1]
-        X = X.view(-1, dim)
-        n_rows, n_cols = X.shape
-        BLOCK_SIZE, num_warps = calculate_settings(n_cols)
+        n_rows = X.numel() // dim
+        BLOCK_SIZE, num_warps = calculate_settings(dim)
+        if X.device != W.device:
+            raise ValueError("RMSNorm input and weight must share a device")
+        weight_shape = tuple(W.shape)
+        X = X.view((n_rows, dim))
+        W = W.view((dim,))
+        Y = torch.empty_like(X)
+        r = torch.empty(n_rows, dtype=torch.float32, device=X.device)
 
-        Y = torch.empty((n_rows, n_cols), dtype=X.dtype, device="cuda:0")
-        r = torch.empty(n_rows, dtype=torch.float32, device="cuda:0")
-
-        fx = _gemma_rms_layernorm_forward if gemma else _rms_layernorm_forward
-        fx[(n_rows,)](
-            Y, Y.stride(0),
-            X, X.stride(0),
-            W, W.stride(0),
-            r, r.stride(0),
-            n_cols, eps,
-            BLOCK_SIZE=BLOCK_SIZE,
-            num_warps=num_warps,
-        )
+        if n_rows:
+            fx = _gemma_rms_layernorm_forward if gemma else _rms_layernorm_forward
+            fx[(n_rows,)](
+                Y, dim,
+                X, dim,
+                W, 1,
+                r, 1,
+                dim, eps,
+                BLOCK_SIZE=BLOCK_SIZE,
+                num_warps=num_warps,
+            )
         ctx.eps = eps
         ctx.BLOCK_SIZE = BLOCK_SIZE
         ctx.num_warps = num_warps
         ctx.GEMMA = gemma
+        ctx.input_shape = shape
+        ctx.weight_shape = weight_shape
         ctx.save_for_backward(X, W, r)
-        return Y.view(*shape)
+        return Y.view(shape)
 
     @staticmethod
     def backward(ctx, dY):
-        shape = dY.shape
-        dim = shape[-1]
-        dY = dY.view(-1, dim)
         X, W, r = ctx.saved_tensors
-        n_rows, n_cols = dY.shape
-        dW = X
-
-        _rms_layernorm_backward[(n_rows,)](
-            dY, dY.stride(0),
-            X,  X.stride(0),
-            W,  W.stride(0),
-            r,  r.stride(0),
-            dW, dW.stride(0),
-            n_cols, ctx.eps,
-            GEMMA=ctx.GEMMA,
-            BLOCK_SIZE=ctx.BLOCK_SIZE,
-            num_warps=ctx.num_warps,
-        )
-        dX = dY.view(*shape)
-        return dX, None, None, None
+        _check_tensor(dY)
+        n_rows, n_cols = X.shape
+        if dY.device != X.device:
+            raise ValueError("RMSNorm gradient and saved input must share a device")
+        if dY.numel() != n_rows * n_cols:
+            raise ValueError("RMSNorm gradient count must equal the saved input count")
+        dX = _snapshot(dY, (n_rows, n_cols))
+        dW = torch.empty_like(W)
+        if n_rows:
+            _rms_layernorm_weight_backward[(triton.cdiv(n_cols, 256),)](
+                dW, dX, X, r, n_rows, n_cols,
+                GEMMA=ctx.GEMMA,
+                BLOCK_SIZE=256,
+                enable_fp_fusion=False,
+            )
+            _rms_layernorm_backward[(n_rows,)](
+                dX, n_cols,
+                X, n_cols,
+                W, 1,
+                r, 1,
+                dW, 1,
+                n_cols, ctx.eps,
+                GEMMA=ctx.GEMMA,
+                BLOCK_SIZE=ctx.BLOCK_SIZE,
+                num_warps=ctx.num_warps,
+            )
+        else:
+            dW.zero_()
+        return dX.view(ctx.input_shape), dW.view(ctx.weight_shape), None, None
 
 def fast_rms_layernorm(layernorm, X, gemma=False):
     W = layernorm.weight

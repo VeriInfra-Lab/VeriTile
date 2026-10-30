@@ -8,7 +8,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from bench.audit_source import declared_region_dtypes, resolve_source_dtype_attributes as resolve
+from scripts.bench.audit_source import declared_region_dtypes, resolve_source_dtype_attributes as resolve
 
 
 class SourceDtypeAuditTests(unittest.TestCase):

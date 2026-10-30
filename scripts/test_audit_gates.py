@@ -19,7 +19,7 @@ def load(name, relative):
     return module
 
 
-coverage = load('coverage_manifest', 'bench/check_proof_gap_manifest.py')
+coverage = load('coverage_manifest', 'scripts/bench/check_proof_gap_manifest.py')
 sheets = load('spec_sheets', 'scripts/spec_sheet.py')
 
 
@@ -27,11 +27,11 @@ class AuditGateTests(unittest.TestCase):
     def test_default_port_entry_forwards_scope_concurrency_and_exit_status(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
-            (root / 'bench').mkdir()
-            shutil.copyfile(ROOT / 'bench/check_ports.sh', root / 'bench/check_ports.sh')
-            entry = root / 'bench/audit_trust.sh'
+            (root / 'scripts' / 'bench').mkdir(parents=True)
+            shutil.copyfile(ROOT / 'scripts/bench/check_ports.sh', root / 'scripts/bench/check_ports.sh')
+            entry = root / 'scripts/bench/audit_trust.sh'
             entry.write_text('printf "%s|%s\\n" "$*" "$AUDIT_TRUST_JOBS"\nexit 17\n')
-            result = subprocess.run(['bash', 'bench/check_ports.sh'], cwd=root,
+            result = subprocess.run(['bash', 'scripts/bench/check_ports.sh'], cwd=root,
                                     env={**os.environ, 'CHECK_PORTS_JOBS': '2'},
                                     text=True, capture_output=True)
             self.assertEqual(result.stdout.strip(), '--final-inventory|2')
@@ -41,8 +41,8 @@ class AuditGateTests(unittest.TestCase):
         self.fixture = tempfile.TemporaryDirectory()
         self.addCleanup(self.fixture.cleanup)
         self.fixture_root = Path(self.fixture.name)
-        for name in ('bench/check_ports.sh', 'bench/audit_trust.sh', 'bench/port_layout.py',
-                     'bench/audit_source.py', 'bench/check_worker_results.py'):
+        for name in ('scripts/bench/check_ports.sh', 'scripts/bench/audit_trust.sh', 'scripts/bench/port_layout.py',
+                     'scripts/bench/audit_source.py', 'scripts/bench/check_worker_results.py'):
             target = self.fixture_root / name
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(ROOT / name, target)
@@ -58,8 +58,8 @@ class AuditGateTests(unittest.TestCase):
                               capture_output=True, timeout=20)
 
     def test_invalid_concurrency(self):
-        for script, variable in [('bench/check_ports.sh', 'CHECK_PORTS_JOBS'),
-                                 ('bench/audit_trust.sh', 'AUDIT_TRUST_JOBS')]:
+        for script, variable in [('scripts/bench/check_ports.sh', 'CHECK_PORTS_JOBS'),
+                                 ('scripts/bench/audit_trust.sh', 'AUDIT_TRUST_JOBS')]:
             for value in ['invalid', '0', '-1']:
                 with self.subTest(script=script, value=value):
                     result = self.run_gate(script, {variable: value})
@@ -68,13 +68,13 @@ class AuditGateTests(unittest.TestCase):
 
     def test_worker_failures_and_result_accounting(self):
         for script, variable, targets in [
-            ('bench/check_ports.sh', 'CHECK_PORTS_JOBS', [
+            ('scripts/bench/check_ports.sh', 'CHECK_PORTS_JOBS', [
                 'vector_addition/Correct.lean', 'vector_addition/FPEquiv.lean',
                 'vector_addition/Kernels.lean', 'vector_addition/Proofs/Real.lean',
                 'mean_reduction/Correct.lean', 'mean_reduction/FPEquiv.lean',
                 'mean_reduction/Kernels.lean', 'mean_reduction/Proofs/Candidate.lean',
                 'mean_reduction/Proofs/Source.lean']),
-            ('bench/audit_trust.sh', 'AUDIT_TRUST_JOBS', [
+            ('scripts/bench/audit_trust.sh', 'AUDIT_TRUST_JOBS', [
                 'bench/tritonbench_g/vector_addition/Correct.lean',
                 'bench/tritonbench_g/vector_addition/FPEquiv.lean',
                 'bench/tritonbench_g/vector_addition/Kernels.lean',
@@ -186,7 +186,7 @@ class AuditGateTests(unittest.TestCase):
                 (directory / 'Fixture.lean').write_text(
                     'import VeriTile.Meta.StatementAudit\nnamespace Nested\n'
                     'private axiom injected : False\n' + declaration + '\nend Nested\n')
-                result = subprocess.run(['bash', 'bench/audit_trust.sh', directory.name],
+                result = subprocess.run(['bash', 'scripts/bench/audit_trust.sh', directory.name],
                                         cwd=ROOT, text=True, capture_output=True, timeout=90,
                                         env={**os.environ, 'AUDIT_TRUST_JOBS': '1'})
                 self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
@@ -209,7 +209,7 @@ class AuditGateTests(unittest.TestCase):
                     'import VeriTile.Triton.Core\nimport VeriTile.Meta.StatementAudit\n'
                     'open VeriTile.Triton\ndef kernel : ComputeKernel := .mk [] [] []\n'
                     + declaration + '\n')
-                result = subprocess.run(['bash', 'bench/audit_trust.sh', directory.name],
+                result = subprocess.run(['bash', 'scripts/bench/audit_trust.sh', directory.name],
                                         cwd=ROOT, text=True, capture_output=True, timeout=90,
                                         env={**os.environ, 'AUDIT_TRUST_JOBS': '1'})
                 self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
@@ -226,7 +226,7 @@ class AuditGateTests(unittest.TestCase):
             self.assertIn('specifications but no ComputeKernel', result.stdout)
 
     def test_split_example_audit_checks_imported_sources_and_local_kernels(self):
-        prep = load('split_example_audit_prep', 'bench/audit_trust_prep.py')
+        prep = load('split_example_audit_prep', 'scripts/bench/audit_trust_prep.py')
         prefix = ('import bench.examples.VectorAdd.Kernels\n'
                   'import VeriTile.Meta.StatementAudit\n'
                   'open VeriTile.Triton\n'
@@ -287,8 +287,8 @@ class AuditGateTests(unittest.TestCase):
                 self.assertIn(marker, result.stdout)
 
     def test_split_benchmark_audit_checks_actual_imported_source(self):
-        prep = load('split_benchmark_audit_prep', 'bench/audit_trust_prep.py')
-        prefix = ('import bench.tritonbench_g.softmax_triton1.Kernels\n'
+        prep = load('split_benchmark_audit_prep', 'scripts/bench/audit_trust_prep.py')
+        prefix = ('import bench.tritonbench_g.softmax_triton1.Proofs.Mathematical_Kernels\n'
                   'open VeriTile.Bench.TritonBenchG.SoftmaxTriton1\n')
         for relative in ['Correct.lean', 'Proofs/Real.lean']:
             for circular in [False, True]:

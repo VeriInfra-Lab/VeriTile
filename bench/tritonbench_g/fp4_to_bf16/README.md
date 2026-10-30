@@ -1,3 +1,15 @@
 # fp4_to_bf16
 
-Original Python reference and shared proof dependencies. The final selected implementation and public contracts are in [fp4_to_bf16](../../repairs/tritonbench_g/fp4_to_bf16/README.md).
+Current repaired Python implementation: [fp4_to_bf16.py](fp4_to_bf16.py).
+
+[Lean source](Kernels.lean) · [input contract](Contract.lean) · [Real correctness](Correct.lean) · [FP equivalence](FPEquiv.lean).
+
+fp4_to_bf16_real: logicalRealIO implements, on LogicalByteDomain, xs ↦ (j ↦ some (nibbleReal (logicalNibble xs j))).
+
+The public entries state the input conditions, execution scope and numerical assumptions. Required proof and lowering helpers support this selected implementation; Git retains prior implementations.
+
+[Proof helpers](Proofs/)
+
+[Source and mathematical adapters](Sources/)
+
+[Selected-task and source-correspondence records](../../../validation/) track validation and pending work separately.

@@ -1,3 +1,15 @@
 # kcache_copy_triton
 
-Original Python reference and shared proof dependencies. The final selected implementation and public contracts are in [kcache_copy_triton](../../repairs/tritonbench_g/kcache_copy_triton/README.md).
+Current repaired Python implementation: [kcache_copy_triton.py](kcache_copy_triton.py).
+
+[Lean source](Kernels.lean) · [input contract](Contract.lean) · [Real correctness](Correct.lean) · [FP equivalence](FPEquiv.lean).
+
+kcache_copy_triton_real: output[lane] = payload[lane].
+
+The public entries state the input conditions, execution scope and numerical assumptions. Required proof and lowering helpers support this selected implementation; Git retains prior implementations.
+
+[Proof helpers](Proofs/)
+
+[Source and mathematical adapters](Sources/)
+
+[Selected-task and source-correspondence records](../../../validation/) track validation and pending work separately.

@@ -2,7 +2,7 @@
 
 These Lean-authored sources have **not yet been migrated or certified for
 verbatim Python function-body copying**. All 19 groups remain pending in the
-[body-source inventory](../BodySourceCorrespondence.md). Their existing Real
+[body-source inventory](../../documents/bench/BodySourceCorrespondence.md). Their existing Real
 and FP proofs establish the stated properties of the Lean sources; they do
 not by themselves certify correspondence with a Python `@triton.jit` body.
 
@@ -80,25 +80,25 @@ required input/intermediate domains remain part of the FP statements.
 
 | Example | Transformation and existing proof scope |
 | --- | --- |
-| [TritonBenchVectorAddition](TritonBenchVectorAddition/) | Masked TritonBench addition; strict FP32 addition commutation with `≡[[]]`. |
-| [VectorAdd](VectorAdd/) | Aligned addition; strict FP32 addition commutation with `≡[[]]`. |
-| [FlatVectorAdd](FlatVectorAdd/) | Masked addition; strict FP32 addition commutation with `≡[[]]`. |
-| [FloatDTypeAdd](FloatDTypeAdd/) | Explicitly typed addition; strict FP32 addition commutation with `≡[[]]`, preserving the output cast. |
-| [AdamUpdateGridLaunch](AdamUpdateGridLaunch/) | In-place Lion update (the source is named Adam); strictly commute the update's addition with `≡[[]]`. |
-| [HyperConnectionsDepth](HyperConnectionsDepth/) | Symbolic `S/T/D` and normalization count; strictly commute the final pointwise addition with `≡[[]]`. General real matrix formula with bounded flat memory; contextual FP proof uses the two tactics. |
-| [HyperConnectionsWidth](HyperConnectionsWidth/) | Scalar specialization strictly commutes two products with `≡[[]]`. The symbolic matrix variant replaces logit division by reciprocal multiplication and retains `R` for `DIV-MUL-RCP`, preserving both matrix products. General real formulas with bounded flat memory; the two tactics compose both FP rewrite sites. |
-| [RowWiseMax](RowWiseMax/) | Inline the maximum computation; structural FP equivalence without numerical assumptions. |
-| [RowWiseSum](RowWiseSum/) | Prove reversed reduction lanes using strict addition commutation and empirical association/zero identities, with guarded intermediate operands. |
-| [FusedSiLU](FusedSiLU/) | Fuse the pipeline; structural FP equivalence without numerical assumptions. |
-| [FusedSwiglu](FusedSwiglu/) | Fuse the masked pipeline while retaining casts; structural FP equivalence without numerical assumptions. |
-| [SoftmaxReciprocal](SoftmaxReciprocal/) | Replace per-lane division with reciprocal multiplication; unchanged tl.exp prefix, only div_mul_rcp assumed. |
-| [FloatDTypeSoftmax](FloatDTypeSoftmax/) | The reciprocal rewrite with fp32 loads/stores and fp64 work; unchanged tl.exp prefix, only the casted div_mul_rcp atom assumed. |
-| [SoftmaxStable](SoftmaxStable/) | Naive versus max-shifted softmax, derived from scalar assumptions and reduction plans. |
-| [OnlineSoftmax](OnlineSoftmax/) | Complete two-pass online kernel versus batch softmax; successful executions, stored output rows and memory frames; real correctness includes bounded flat memory. |
-| [Welford](Welford/) | Two-pass versus online mean/variance, with the stated count bound and reduction plan. |
-| [FusedLayerNorm](FusedLayerNorm/) | Two-pass versus Welford-based LayerNorm, with the stated count bound and domains. |
-| [LogExp](LogExp/) | Eliminate the masked, piecewise libdevice log-exp expression using its admitted atom. |
-| [StableLogSumExp](StableLogSumExp/) | Fallback-preserving optimized source versus the unchanged direct tl.log reference, proved using `log_mul_split .tl`, `log_exp_cancel .tl`, libdevice exp-sub and arithmetic. Symbolic row size, reduction schedule, bf16 output and frame retained. `Proofs/Unconditional.lean` refutes the historical general FP target: a singleton logical countermodel satisfies all selected rules but stores different results. This does not assert a GPU or two-gates failure. |
+| [TritonBenchVectorAddition](TritonBenchVectorAddition) | Masked TritonBench addition; strict FP32 addition commutation with `≡[[]]`. |
+| [VectorAdd](VectorAdd) | Aligned addition; strict FP32 addition commutation with `≡[[]]`. |
+| [FlatVectorAdd](FlatVectorAdd) | Masked addition; strict FP32 addition commutation with `≡[[]]`. |
+| [FloatDTypeAdd](FloatDTypeAdd) | Explicitly typed addition; strict FP32 addition commutation with `≡[[]]`, preserving the output cast. |
+| [AdamUpdateGridLaunch](AdamUpdateGridLaunch) | In-place Lion update (the source is named Adam); strictly commute the update's addition with `≡[[]]`. |
+| [HyperConnectionsDepth](HyperConnectionsDepth) | Symbolic `S/T/D` and normalization count; strictly commute the final pointwise addition with `≡[[]]`. General real matrix formula with bounded flat memory; contextual FP proof uses the two tactics. |
+| [HyperConnectionsWidth](HyperConnectionsWidth) | Scalar specialization strictly commutes two products with `≡[[]]`. The symbolic matrix variant replaces logit division by reciprocal multiplication and retains `R` for `DIV-MUL-RCP`, preserving both matrix products. General real formulas with bounded flat memory; the two tactics compose both FP rewrite sites. |
+| [RowWiseMax](RowWiseMax) | Inline the maximum computation; structural FP equivalence without numerical assumptions. |
+| [RowWiseSum](RowWiseSum) | Prove reversed reduction lanes using strict addition commutation and empirical association/zero identities, with guarded intermediate operands. |
+| [FusedSiLU](FusedSiLU) | Fuse the pipeline; structural FP equivalence without numerical assumptions. |
+| [FusedSwiglu](FusedSwiglu) | Fuse the masked pipeline while retaining casts; structural FP equivalence without numerical assumptions. |
+| [SoftmaxReciprocal](SoftmaxReciprocal) | Replace per-lane division with reciprocal multiplication; unchanged tl.exp prefix, only div_mul_rcp assumed. |
+| [FloatDTypeSoftmax](FloatDTypeSoftmax) | The reciprocal rewrite with fp32 loads/stores and fp64 work; unchanged tl.exp prefix, only the casted div_mul_rcp atom assumed. |
+| [SoftmaxStable](SoftmaxStable) | Naive versus max-shifted softmax, derived from scalar assumptions and reduction plans. |
+| [OnlineSoftmax](OnlineSoftmax) | Complete two-pass online kernel versus batch softmax; successful executions, stored output rows and memory frames; real correctness includes bounded flat memory. |
+| [Welford](Welford) | Two-pass versus online mean/variance, with the stated count bound and reduction plan. |
+| [FusedLayerNorm](FusedLayerNorm) | Two-pass versus Welford-based LayerNorm, with the stated count bound and domains. |
+| [LogExp](LogExp) | Eliminate the masked, piecewise libdevice log-exp expression using its admitted atom. |
+| [StableLogSumExp](StableLogSumExp) | Fallback-preserving optimized source versus the unchanged direct tl.log reference, proved using `log_mul_split .tl`, `log_exp_cancel .tl`, libdevice exp-sub and arithmetic. Symbolic row size, reduction schedule, bf16 output and frame retained. `Proofs/Unconditional.lean` refutes the historical general FP target: a singleton logical countermodel satisfies all selected rules but stores different results. This does not assert a GPU or two-gates failure. |
 
 Both versions now have real correctness specifications for vector addition,
 the Lion update, general mHC matrices and their scalar specializations, reversed row sum and inlined row max.

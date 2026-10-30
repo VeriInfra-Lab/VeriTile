@@ -73,7 +73,7 @@ run_cmd do
 ''')
 
     def test_scalar_gaps_casts_domains_outputs_and_projected_premises(self):
-        output = self.check_lean((ROOT / 'bench/tests/FPStableLogSumExp.lean').read_text())
+        output = self.check_lean((ROOT / 'tests/lean/FPStableLogSumExp.lean').read_text())
         expected = ''.join(
             f'FP assumptions used by {name}:\n'
             '  unresolved FP proof: h (atomic assumptions unavailable)\n'
@@ -112,10 +112,10 @@ example : (requirements "x" 1 FP.Equational.seededSchedules).Holds
 ''')
 
     def test_piecewise_branching_precision_and_exact_counterexamples(self):
-        self.check_lean((ROOT / 'bench/tests/FPLogExp.lean').read_text())
+        self.check_lean((ROOT / 'tests/lean/FPLogExp.lean').read_text())
 
     def test_logsumexp_candidate_branches_casts_and_source_binding(self):
-        self.check_lean((ROOT / 'bench/tests/FPLogSumExpCandidate.lean').read_text())
+        self.check_lean((ROOT / 'tests/lean/FPLogSumExpCandidate.lean').read_text())
 
     def test_log_exp_prints_only_its_elimination_rule(self):
         output = self.check_lean('''

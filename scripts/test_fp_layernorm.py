@@ -55,7 +55,7 @@ run_cmd do
 ''')
 
     def test_unrounded_statistics_domains_frames_and_assumption_reporting(self):
-        output = self.check_lean((ROOT / 'bench/tests/FPLayerNormExecution.lean').read_text())
+        output = self.check_lean((ROOT / 'tests/lean/FPLayerNormExecution.lean').read_text())
         self.assertEqual(output[output.index('FP assumptions used by'):],
                          'FP assumptions used by opaque_layernorm:\n'
                          '  unresolved FP proof: h (atomic assumptions unavailable)\n'

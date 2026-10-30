@@ -1,112 +1,81 @@
 import bench.tritonbench_g.rmsnorm_implementation.Kernels
-import VeriTile.Meta.StatementAudit
+import bench.tritonbench_g.rmsnorm_implementation.Proofs.Mathematical_Candidate
 
-namespace VeriTile.Bench.TritonBenchG.RmsnormImplementation
-open VeriTile.Triton
-set_option maxHeartbeats 12000000
+namespace VeriTile.Bench.Repairs.RmsnormImplementation.Source
+open VeriTile Triton
+open VeriTile.Bench.TritonBenchG.RmsnormImplementation
+set_option maxHeartbeats 4000000
 set_option maxRecDepth 16000
 
-def uncastMathKernel
-    (x_ptr rms_w_ptr out_ptr : RegionName)
-    (stride_x_batch stride_x_m stride_x_k stride_rms_w
-      stride_out_batch stride_out_m stride_out_k : Nat)
-    (N_SIZE BLOCK_N_SIZE : Nat) (eps : ℝ) :
-    ComputeKernel := ComputeKernel.mk [x_ptr, rms_w_ptr] [out_ptr] (triton {
-  pid_batch = tl.program_id(0)
-  pid_m = tl.program_id(1)
-  offset_m = pid_batch * $(stride_x_batch) + pid_m * $(stride_x_m)
-  block_n_size = tl.arange(0, $(BLOCK_N_SIZE))
-  var = tl.zeros([$(BLOCK_N_SIZE)], tl.float32)
-  for block_n_strart_ptr in range(0, $(N_SIZE), $(BLOCK_N_SIZE)) {
-    offset_n = block_n_strart_ptr + block_n_size
-    x_ptr_mask = offset_n < $(N_SIZE)
-    x = tl.load(x_ptr + offset_m + offset_n * $(stride_x_k), mask=x_ptr_mask, other=0.0)
-    xf = x
-    var += xf * xf
-  }
-  var = tl.sum(var, axis=0) / $(N_SIZE)
-  std = tl.sqrt(var + $(eps))
-  for block_n_strart_ptr in range(0, $(N_SIZE), $(BLOCK_N_SIZE)) {
-    offset_n = block_n_strart_ptr + block_n_size
-    x_ptr_mask = offset_n < $(N_SIZE)
-    rms_w_offset = tl.load(rms_w_ptr + offset_n * $(stride_rms_w), mask=x_ptr_mask)
-    x = tl.load(x_ptr + offset_m + offset_n * $(stride_x_k), mask=x_ptr_mask, other=0.0)
-    x_new = x / std
-    out = x_new * rms_w_offset
-    out_offset = pid_batch * $(stride_out_batch) + pid_m * $(stride_out_m) +
-      offset_n * $(stride_out_k)
-    tl.store(out_ptr + out_offset, out, mask=x_ptr_mask)
-  }
-}).surfaceBody
+theorem original (X W O : RegionName) (sxb sxm sxk sw sob som sok N B : Nat) (eps : ℝ) :
+    kernel X W O sxb sxm sxk sw sob som sok N B eps =
+      typedKernel .fp32 .fp32 .fp32 Bool.false X W O sxb sxm sxk sw sob som sok N B eps := rfl
 
-def commutedMathKernel
-    (x_ptr rms_w_ptr out_ptr : RegionName)
-    (stride_x_batch stride_x_m stride_x_k stride_rms_w
-      stride_out_batch stride_out_m stride_out_k : Nat)
-    (N_SIZE BLOCK_N_SIZE : Nat) (eps : ℝ) :
-    ComputeKernel := ComputeKernel.mk [x_ptr, rms_w_ptr] [out_ptr] (triton {
-  pid_batch = tl.program_id(0)
-  pid_m = tl.program_id(1)
-  offset_m = $(stride_x_batch) * pid_batch + pid_m * $(stride_x_m)
-  block_n_size = tl.arange(0, $(BLOCK_N_SIZE))
-  var = tl.zeros([$(BLOCK_N_SIZE)], tl.float32)
-  for block_n_strart_ptr in range(0, $(N_SIZE), $(BLOCK_N_SIZE)) {
-    offset_n = block_n_strart_ptr + block_n_size
-    x_ptr_mask = offset_n < $(N_SIZE)
-    x = tl.load(x_ptr + offset_m + offset_n * $(stride_x_k), mask=x_ptr_mask, other=0.0)
-    xf = x
-    var += xf * xf
-  }
-  var = tl.sum(var, axis=0) / $(N_SIZE)
-  std = tl.sqrt(var + $(eps))
-  for block_n_strart_ptr in range(0, $(N_SIZE), $(BLOCK_N_SIZE)) {
-    offset_n = block_n_strart_ptr + block_n_size
-    x_ptr_mask = offset_n < $(N_SIZE)
-    rms_w_offset = tl.load(rms_w_ptr + offset_n * $(stride_rms_w), mask=x_ptr_mask)
-    x = tl.load(x_ptr + offset_m + offset_n * $(stride_x_k), mask=x_ptr_mask, other=0.0)
-    x_new = x / std
-    out = x_new * rms_w_offset
-    out_offset = pid_batch * $(stride_out_batch) + pid_m * $(stride_out_m) +
-      offset_n * $(stride_out_k)
-    tl.store(out_ptr + out_offset, out, mask=x_ptr_mask)
-  }
-}).surfaceBody
+theorem commuted (X W O : RegionName) (sxb sxm sxk sw sob som sok N B : Nat) (eps : ℝ) :
+    indexCommutedKernel X W O sxb sxm sxk sw sob som sok N B eps =
+      typedKernel .fp32 .fp32 .fp32 Bool.true X W O sxb sxm sxk sw sob som sok N B eps := rfl
 
-def mathKernel (v : Bool) (X W O : RegionName)
-    (sxb sxm sxk sw sob som sok N B : Nat) (eps : ℝ) : Kernel :=
-  if v then (commutedMathKernel X W O sxb sxm sxk sw sob som sok N B eps).toAlgKernel
-  else (uncastMathKernel X W O sxb sxm sxk sw sob som sok N B eps).toAlgKernel
+/-- Remove only a Real-to-Real cast in the mathematical projection. -/
+theorem uncast_var_run (X : RegionName) (sxk N B : Nat) (s : BlockState) :
+    stepStmts (uncastVarBody X sxk N B) s = stepStmts (rmsVarLoopBody X sxk N B) s := by
+  have cast : ∀ t : BlockState,
+      stepStmts [.assign .real [B] "xf" (.ref .real [B] "x")] t =
+      stepStmts [.assign .real [B] "xf" (.castFloat .real .real (.ref .real [B] "x"))] t := by
+    intro t
+    simp [stepStmts, stepStmt, evalOp.eq_def, FloatDType.cast]
+    cases t.regs .real [B] "x" <;> rfl
+  have body : rmsVarLoopBody X sxk N B = (rmsVarLoopBody X sxk N B).take 3 ++
+      [.assign .real [B] "xf" (.castFloat .real .real (.ref .real [B] "x"))] ++
+      (rmsVarLoopBody X sxk N B).drop 4 := rfl
+  conv_rhs => rw [body]
+  simp only [uncastVarBody, ProgramRewrite.append, cast]
 
-theorem typed_projects (input weight output : Storage) (v : Bool)
-    (X W O : RegionName) (sxb sxm sxk sw sob som sok N B : Nat) (eps : ℝ) :
-    (typedKernel input weight output v X W O sxb sxm sxk sw sob som sok N B eps).toAlgorithm? =
-      .ok (typedKernel input weight output v X W O sxb sxm sxk sw sob som sok N B eps).toAlgKernel := by
-  cases input <;> cases weight <;> cases output <;> cases v <;> rfl
+theorem uncast_run (X W O : RegionName) (sxb sxm sxk sw sob som sok N B : Nat)
+    (eps : ℝ) (s : BlockState) :
+    exec (uncastMathKernel X W O sxb sxm sxk sw sob som sok N B eps).toAlgKernel s =
+      exec (rmsnorm_implementation X W O sxb sxm sxk sw sob som sok N B eps).toAlgKernel s := by
+  have body : (uncastMathKernel X W O sxb sxm sxk sw sob som sok N B eps).toAlgKernel.body =
+      rmsVarPreLoop sxb sxm B ++
+      [.forRange "block_n_strart_ptr" 0 N B (uncastVarBody X sxk N B)] ++
+      rmsStdPostLoop N B eps ++
+      [.forRange "block_n_strart_ptr" 0 N B (rmsOutLoopBody X W O sxk sw sob som sok N B)] := by
+    simp [uncastMathKernel, rmsVarPreLoop, uncastVarBody, rmsVarLoopBody,
+      rmsStdPostLoop, rmsOutLoopBody, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
+    repeat' constructor
+  have loop : ∀ t : BlockState,
+      stepStmts [.forRange "block_n_strart_ptr" 0 N B (uncastVarBody X sxk N B)] t =
+      stepStmts [.forRange "block_n_strart_ptr" 0 N B (rmsVarLoopBody X sxk N B)] t := by
+    intro t
+    simp only [stepStmts, stepStmt]
+    rw [ProgramRewrite.range_congr _ _ _ _ _ _ (uncast_var_run X sxk N B)]
+  unfold exec
+  rw [body, rmsnorm_implementation_toAlg_body]
+  simp only [ProgramRewrite.append, loop]
 
-theorem typed_projection (input weight output : Storage) (v : Bool)
-    (X W O : RegionName) (sxb sxm sxk sw sob som sok N B : Nat) (eps : ℝ) :
-    (typedKernel input weight output v X W O sxb sxm sxk sw sob som sok N B eps).eraseDType.toAlgKernel =
-      mathKernel v X W O sxb sxm sxk sw sob som sok N B eps := by
-  simp only [ComputeKernel.eraseDType, typed_projects, ComputeKernel.toAlgKernel_fromKernelBody]
-  cases input <;> cases weight <;> cases output <;> cases v
-  all_goals simp only [typedKernel, originalTyped, mathKernel, commutedMathKernel,
-    uncastMathKernel, Bool.false_eq_true, ↓reduceIte,
-    ComputeKernel.inputs, ComputeKernel.outputs,
-    ComputeKernel.surfaceBody, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel,
-    ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
-    ComputeOp.toAlgorithm?, Except.bind, bind, Kernel.eraseDType, Stmt.eraseDTypeList,
-    Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def,
-    VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType,
-    FloatDType.toTileDType, ComputeDType.eraseDType, List.take, List.drop, List.cons_append, List.nil_append]
-  all_goals rfl
+theorem original_run (X W O : RegionName) (sxb sxm sxk sw sob som sok N B : Nat)
+    (eps : ℝ) (s : BlockState) :
+    exec (kernel X W O sxb sxm sxk sw sob som sok N B eps).eraseDType.toAlgKernel s =
+      exec (rmsnorm_implementation X W O sxb sxm sxk sw sob som sok N B eps).toAlgKernel s := by
+  rw [original, typed_projection]
+  exact uncast_run X W O sxb sxm sxk sw sob som sok N B eps s
 
-theorem typed_supported (input weight output : Storage) (v : Bool)
-    (X W O : RegionName) (sxb sxm sxk sw sob som sok N B : Nat) (eps : ℝ) :
-    (typedKernel input weight output v X W O sxb sxm sxk sw sob som sok N B eps).eraseDType.toAlgorithm? =
-      .ok (typedKernel input weight output v X W O sxb sxm sxk sw sob som sok N B eps).eraseDType.toAlgKernel := by
-  simp only [ComputeKernel.eraseDType, typed_projects,
-    ComputeKernel.toAlgorithm?_fromKernelBody, ComputeKernel.toAlgKernel_fromKernelBody]
+theorem commuted_run (X W O : RegionName) (sxb sxm sxk sw sob som sok N B : Nat)
+    (eps : ℝ) (s : BlockState) :
+    exec (indexCommutedKernel X W O sxb sxm sxk sw sob som sok N B eps).eraseDType.toAlgKernel s =
+      exec (kernel X W O sxb sxm sxk sw sob som sok N B eps).eraseDType.toAlgKernel s := by
+  rw [commuted, original, typed_projection, typed_projection]
+  unfold exec
+  rw [← List.take_append_drop 3 (mathKernel Bool.true X W O sxb sxm sxk sw sob som sok N B eps).body,
+    ← List.take_append_drop 3 (mathKernel Bool.false X W O sxb sxm sxk sw sob som sok N B eps).body]
+  have tail : (mathKernel Bool.true X W O sxb sxm sxk sw sob som sok N B eps).body.drop 3 =
+      (mathKernel Bool.false X W O sxb sxm sxk sw sob som sok N B eps).body.drop 3 := rfl
+  simp [ProgramRewrite.append, prefix_source, tail, indexPrefix,
+    stepStmts, stepStmt, evalOp.eq_def, Tile.bop, NumericDType.mul, Nat.mul_comm]
 
+#axiomsClean original
+#axiomsClean commuted
+#axiomsClean original_run
+#axiomsClean commuted_run
 #guard_msgs (drop info) in
 #auditModuleAxioms
-end VeriTile.Bench.TritonBenchG.RmsnormImplementation
+end VeriTile.Bench.Repairs.RmsnormImplementation.Source

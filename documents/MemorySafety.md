@@ -92,7 +92,7 @@ Use `BlockState.WriteWithin.mem_eq_of_not_written`,
 
 ## Examples
 
-`bench/tests/MemorySafety.lean` contains representative proofs:
+`tests/lean/MemorySafety.lean` contains representative proofs:
 
 - `straightLineCopy_memorySafe`: direct region+offset load/store.
 - `maskedTailAdd_memorySafe`: masked inactive lanes are safe vacuously.

@@ -35,7 +35,7 @@ export const homeCopy = {
   resultsIntro: 'Follow a result from its specification to the Lean source.',
   allExamples: 'All examples',
   examples: [
-    { title: 'Log-sum-exp', kind: 'Mathematical correctness', text: 'Per-block reductions, active lanes, and masked tails.', source: 'bench/repairs/tritonbench_g/logsumexp_fwd/Correct.lean', file: 'Correct.lean' },
+    { title: 'Log-sum-exp', kind: 'Mathematical correctness', text: 'Per-block reductions, active lanes, and masked tails.', source: 'bench/tritonbench_g/logsumexp_fwd/Correct.lean', file: 'Correct.lean' },
     { title: 'Fused SiLU', kind: 'Kernel equivalence', text: 'Fused and staged implementations under an explicit rounding model.', source: 'bench/examples/FusedSiLU/Proofs/LegacyRealEquiv.lean', file: 'FusedSiLUEquiv.lean' },
     { title: 'FlashAttention', kind: 'Algorithm refinement', text: 'Tiled attention against a mathematical reference, with causal and boundary cases.', source: 'VeriTile/Examples/FlashAttention1/NaiveRefinement.lean', file: 'NaiveRefinement.lean' },
   ],

@@ -20,8 +20,8 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from bench import audit_source as source
-from bench.port_layout import source_text
+from scripts.bench import audit_source as source
+from scripts.bench.port_layout import source_text
 
 PORT = ROOT / 'bench/tritonbench_g/triton_softmax'
 DTYPES = ('float32', 'float64', 'float16', 'bfloat16', 'float8e4nv', 'float8e5')
@@ -79,8 +79,8 @@ def main():
     output = args.output.resolve()
     output.mkdir(parents=True, exist_ok=False)
     inputs = {PORT / 'Kernels.lean', PORT / 'triton_softmax.py', Path(__file__).resolve(),
-              ROOT / 'bench/audit_tritonbench_g.sh'}
-    inputs |= set((ROOT / 'bench').glob('*.py'))
+              ROOT / 'scripts/bench/audit_tritonbench_g.sh'}
+    inputs |= set((ROOT / 'scripts' / 'bench').glob('*.py'))
     inputs |= set(PORT.rglob('*.lean'))
     inputs |= set((ROOT / 'bench/tritonbench_g').glob('source_*profiles.json'))
     captured = {p: p.read_bytes() for p in sorted(inputs)}
@@ -133,7 +133,7 @@ def main():
         results.append({'input': input_type, 'output': output_type, 'full_ast_match': True,
                         'negative_controls_rejected': 3, 'selected_sha256': digest(selected.encode())})
 
-    script = captured[ROOT / 'bench/audit_tritonbench_g.sh'].decode()
+    script = captured[ROOT / 'scripts/bench/audit_tritonbench_g.sh'].decode()
     section = script[script.index('# A source view must be extractable'):
                      script.index('# ---- Machine-checkable trust audit')]
     command = 'failures=0\nPORTS_ROOT="$1"\n' + section + '\nexit "$failures"\n'

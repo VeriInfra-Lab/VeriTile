@@ -1,4 +1,9 @@
 """Regression tests for rejection of incomplete or stale acceptance evidence."""
+# Make the repository packages available for direct invocation.
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+
 import copy
 import io
 import json
@@ -10,7 +15,7 @@ from unittest.mock import patch
 import zipfile
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'bench'))
-from acceptance_tritonbench_g import REQUIRED_GATES, changed, digest, fp_contract_surface, inputs, run_gate, source_profile_inputs, successful, unregistered_modules
+from scripts.bench.acceptance_tritonbench_g import REQUIRED_GATES, changed, digest, fp_contract_surface, inputs, run_gate, source_profile_inputs, successful, unregistered_modules
 
 
 class AcceptanceBundleTests(unittest.TestCase):
@@ -198,7 +203,7 @@ class AcceptanceBundleTests(unittest.TestCase):
                 (base / 'fp16/kernel.cubin').write_bytes(b'changed after validation')
                 return bound
 
-            with patch('acceptance_tritonbench_g.source_profile_inputs', change_after_validation):
+            with patch('scripts.bench.acceptance_tritonbench_g.source_profile_inputs', change_after_validation):
                 with self.assertRaisesRegex(ValueError, 'changed during snapshot'):
                     inputs(root)
 
@@ -327,7 +332,7 @@ globs = ["bench.tritonbench_g.covered.+", "bench.tritonbench_g.legacy.Old"]
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory) / 'original'
             report = root / 'bench/tritonbench_g/current_completion_inventory.json'
-            name = 'bench/tritonbench_g/_spec-sheets/README.md'
+            name = 'documents/bench/spec-sheets/README.md'
             index = root / name
             index.parent.mkdir(parents=True)
             index.write_text('generated index explicitly fingerprinted by inventory')

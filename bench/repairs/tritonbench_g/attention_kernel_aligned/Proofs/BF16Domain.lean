@@ -1,4 +1,0 @@
-import bench.repairs.tritonbench_g.attention_kernel_aligned.Proofs.Domain
-namespace VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Whole
-export VeriTile.Bench.Repairs.AttentionKernelAligned.Whole (Strides qStrides kStrides vStrides oStrides bStrides offset Nonempty extentAt strideAt coordinate OutLayout outputInjective padded strideEnvelope biasEnvelope Guard TensorStorage formed_offset_le sourceintegerbounds biasintegerbounds query_lane_bound loop_lane_bound blocks_capacity head_decode Selected)
-end VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Whole

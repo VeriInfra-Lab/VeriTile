@@ -34,7 +34,7 @@ export const homeStory = {
       formulaLabel: 'Output equals the logarithm of the sum of exponentials over active lanes',
       exampleCaption: 'The formula shown omits input scaling and sums over the active lanes of one block.',
       scope: 'Arithmetic is modeled over real numbers. For admissible block widths and row lengths, the kernel terminates with the specified value at its output address and leaves every other memory cell unchanged. Active reads and the output store must be in bounds.',
-      source: 'bench/repairs/tritonbench_g/logsumexp_fwd/Correct.lean',
+      source: 'bench/tritonbench_g/logsumexp_fwd/Correct.lean',
     },
     {
       id: 'equivalence', label: 'KERNEL ↔ KERNEL', title: 'Equivalence',

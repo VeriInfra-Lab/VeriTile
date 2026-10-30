@@ -240,7 +240,7 @@ algorithm fallback constant.
 
 The finite extension preserves every previous nonzero-exponent result.
 Binary64 constant projection retains its separate finite-normal domain.
-[`Float32FiniteDecode.lean`](../bench/tests/Float32FiniteDecode.lean) checks
+[`Float32FiniteDecode.lean`](../tests/lean/Float32FiniteDecode.lean) checks
 the actual scalar and vector DSL paths, including arbitrary vector lengths
 and retained NaN/Inf rejection.
 

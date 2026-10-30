@@ -136,7 +136,7 @@ mimic the writeIf — let `writeIf` do the masking, keep the spec pure.
 
 ## See also
 
-- [`CodeOrganization.md`](./CodeOrganization.md) — three-layer structure
+- [`CodeOrganization.md`](CodeOrganization.md) — three-layer structure
   (Math / Semantics / per-kernel glue)
-- [`CorrectnessSurfaces.md`](./CorrectnessSurfaces.md) — the user-facing
+- [`CorrectnessSurfaces.md`](CorrectnessSurfaces.md) — the user-facing
   theorem surfaces (`Realizes`, `WriteMap`, `OutputReadable`)

@@ -1,3 +1,15 @@
 # rbe_triton_transform
 
-Original Python reference and shared proof dependencies. The final selected implementation and public contracts are in [rbe_triton_transform_checked_launch](../../repairs/tritonbench_g/rbe_triton_transform_checked_launch/README.md).
+Current repaired Python implementation: [rbe_triton_transform.py](rbe_triton_transform.py).
+
+[Lean source](Kernels.lean) · [input contract](Contract.lean) · [Real correctness](Correct.lean) · [FP equivalence](FPEquiv.lean).
+
+kernel_correct
+
+The public entries state the input conditions, execution scope and numerical assumptions. Required proof and lowering helpers support this selected implementation; Git retains prior implementations.
+
+[Proof helpers](Proofs/)
+
+[Source and mathematical adapters](Sources/)
+
+[Selected-task and source-correspondence records](../../../validation/) track validation and pending work separately.

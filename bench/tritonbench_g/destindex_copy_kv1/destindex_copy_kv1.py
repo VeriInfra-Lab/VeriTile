@@ -34,55 +34,47 @@ def _fwd_kernel_destindex_copy_kv(
     return
 
 
-@torch.no_grad()
-def destindex_copy_kv(K, DestLoc, Out):
-    seq_len = DestLoc.shape[0]
-    head_num = K.shape[1]
-    head_dim = K.shape[2]
-    assert K.shape[1] == Out.shape[1] and K.shape[2] == Out.shape[2]
-    BLOCK_HEAD = triton.next_power_of_2(head_num)
-    BLOCK_DMODEL = triton.next_power_of_2(head_dim)
-    grid = (seq_len,)
-    num_warps = 1
-
-    _fwd_kernel_destindex_copy_kv[grid](
-        K,
-        DestLoc,
-        Out,
-        K.stride(0),
-        K.stride(1),
-        K.stride(2),
-        Out.stride(0),
-        Out.stride(1),
-        Out.stride(2),
-        head_num,
-        head_dim,
-        BLOCK_DMODEL=BLOCK_DMODEL,
-        BLOCK_HEAD=BLOCK_HEAD,
-        num_warps=num_warps,
-        num_stages=1,
-    )
-    return
-
-
-
-##################################################################################################################################################
-
-
-import torch
-
-def test_destindex_copy_kv():
-    B, N_CTX, H, D = 32, 1024, 12, 96
-    dest = torch.randn((B * N_CTX, H, D), dtype=torch.float16).cuda()
-    src = torch.randn((B * N_CTX, H, D), dtype=torch.float16).cuda()
-    dest_loc = torch.arange(0, B * N_CTX, dtype=torch.int32, device="cuda")
-
-    destindex_copy_kv(src, dest_loc, dest)
-    torch.cuda.synchronize()
-    test_case = torch.allclose(src, dest, atol=1e-2, rtol=0)
-
-    return {
-        "test_case": test_case,
-    }
-
-result_gold = test_destindex_copy_kv()
+def destindex_copy_kv_repaired(K, DestLoc, Out):
+    tensors = (K, DestLoc, Out)
+    if not all(isinstance(t, torch.Tensor) for t in tensors):
+        raise TypeError("all arguments must be tensors")
+    if any(t.layout != torch.strided for t in tensors):
+        raise TypeError("strided tensors required")
+    if K.ndim != 3 or Out.ndim != 3 or DestLoc.ndim != 1:
+        raise ValueError("rank-three payloads and vector destinations required")
+    if K.dtype != torch.float32 or Out.dtype != torch.float32 or DestLoc.dtype != torch.int32:
+        raise TypeError("FP32 payloads and int32 destinations required")
+    if any(not t.is_cuda for t in tensors):
+        raise ValueError("CUDA tensors required")
+    if any(t.device != K.device for t in tensors):
+        raise ValueError("all tensors must use one device")
+    if any(not t.is_contiguous() for t in tensors):
+        raise ValueError("contiguous tensors required")
+    if any(t.is_neg() for t in tensors):
+        raise ValueError("unresolved negative views are unsupported")
+    count, heads, dims = DestLoc.numel(), K.shape[1], K.shape[2]
+    if K.shape[1:] != Out.shape[1:] or count > K.shape[0]:
+        raise ValueError("payload shapes or source row count do not match")
+    if any(t.numel() >= (1 << 31) for t in tensors):
+        raise ValueError("tensor extents must fit signed int32 indexing")
+    bh, bd = triton.next_power_of_2(heads), triton.next_power_of_2(dims)
+    if bh * bd > (1 << 20):
+        raise ValueError("padded Triton tile exceeds 2**20 elements")
+    if any(t.numel() > 0 and t.data_ptr() % 4 != 0 for t in tensors):
+        raise ValueError("nonempty data pointers must be 4-byte aligned")
+    out_begin, out_end = Out.data_ptr(), Out.data_ptr() + 4 * Out.numel()
+    if any(not (out_end <= t.data_ptr() or t.data_ptr() + 4 * t.numel() <= out_begin)
+           for t in (K, DestLoc)):
+        raise ValueError("output must be disjoint from read buffers")
+    destinations = DestLoc.cpu().tolist()
+    if any(d < 0 or d >= Out.shape[0] for d in destinations):
+        raise ValueError("destination row out of bounds")
+    if len(set(destinations)) != count:
+        raise ValueError("destination rows must be unique")
+    if count == 0 or heads == 0 or dims == 0:
+        return None
+    with torch.cuda.device(K.device):
+        _fwd_kernel_destindex_copy_kv[(count,)](
+            K, DestLoc, Out, heads * dims, dims, 1, heads * dims, dims, 1,
+            heads, dims, BLOCK_DMODEL=bd, BLOCK_HEAD=bh, num_warps=1, num_stages=1)
+    return None

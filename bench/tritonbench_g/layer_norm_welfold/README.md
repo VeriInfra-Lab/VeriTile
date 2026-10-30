@@ -1,3 +1,13 @@
 # layer_norm_welfold
 
-Original Python reference and shared proof dependencies. The final selected implementation and public contracts are in [layer_norm_welfold](../../repairs/tritonbench_g/layer_norm_welfold/README.md).
+Current repaired Python implementation: [layer_norm_welfold.py](layer_norm_welfold.py).
+
+[Lean source](Kernels.lean) · [input contract](Contract.lean) · [Real correctness](Correct.lean) · [FP equivalence](FPEquiv.lean).
+
+Mean = ∑j:Fin D X[s,j]/D; population variance and sqrt inverse; affine Y.
+
+The public entries state the input conditions, execution scope and numerical assumptions. Required proof and lowering helpers support this selected implementation; Git retains prior implementations.
+
+[Proof helpers](Proofs/)
+
+[Selected-task and source-correspondence records](../../../validation/) track validation and pending work separately.

@@ -1,3 +1,15 @@
 # chunked_cumsum_fwd
 
-Original Python reference and shared proof dependencies. The final selected implementation and public contracts are in [chunked_cumsum_fwd](../../repairs/tritonbench_g/chunked_cumsum_fwd/README.md).
+Current repaired Python implementation: [chunked_cumsum_fwd.py](chunked_cumsum_fwd.py).
+
+[Lean source](Kernels.lean) · [input contract](Contract.lean) · [Real correctness](Correct.lean) · [FP equivalence](FPEquiv.lean).
+
+Mathematics.softplus displays thresholded log(1+exp x); prepared displays optional bias, logical validity, lower/upper clamp and padding; cumulative displays inclusive prepared*rate sum.
+
+The public entries state the input conditions, execution scope and numerical assumptions. Required proof and lowering helpers support this selected implementation; Git retains prior implementations.
+
+[Proof helpers](Proofs/)
+
+[Source and mathematical adapters](Sources/)
+
+[Selected-task and source-correspondence records](../../../validation/) track validation and pending work separately.

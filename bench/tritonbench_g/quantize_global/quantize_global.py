@@ -1,9 +1,17 @@
+"""Separate FP32 global quantizer; the original corpus source is unchanged.
 
+For finite inputs this quantizes the logical tensor view using one global
+absolute maximum. Empty inputs return an empty int8 tensor and absmax [0].
+NaN/Inf, non-FP32, non-strided and non-CUDA inputs are explicitly rejected.
+The repaired arithmetic uses div.rn.f32 then mul.f32, not the original
+host reciprocal followed by two multiplications. No bitwise equivalence to
+that defective numerical graph is claimed.
+"""
 import torch
 import triton
 import triton.language as tl
 
-# global quantize
+
 @triton.autotune(
     configs=[
         triton.Config({"BLOCK_SIZE": 1024}, num_warps=4),
@@ -12,65 +20,55 @@ import triton.language as tl
     key=["n_elements"],
 )
 @triton.jit
-def _quantize_global(
+def _quantize_global_repaired(
     x_ptr,
-    absmax_inv_ptr,
+    absmax_ptr,
     output_ptr,
-    n_elements,
+    n_elements: tl.int64,
+    base: tl.int64,
     BLOCK_SIZE: tl.constexpr,
 ):
-    pid = tl.program_id(axis=0)
-    block_start = pid * BLOCK_SIZE
-    offsets = block_start + tl.arange(0, BLOCK_SIZE)
+    pid = tl.program_id(axis=0).to(tl.int64)
+    offsets = pid * BLOCK_SIZE + tl.arange(0, BLOCK_SIZE).to(tl.int64) + base
     mask = offsets < n_elements
-    x = tl.load(x_ptr + offsets, mask=mask)
-    absmax_inv = tl.load(absmax_inv_ptr)
-    output = tl.extra.cuda.libdevice.llrint(127.0 * (x * absmax_inv))
-    tl.store(output_ptr + offsets, output, mask=mask)
+    safe_offsets = tl.where(mask, offsets, 0)
+    x = tl.load(x_ptr + safe_offsets, mask=mask, other=0.0).to(tl.float32)
+    absmax = tl.load(absmax_ptr).to(tl.float32)
+    denominator = tl.where(absmax == 0.0, 1.0, absmax)
+    normalized = tl.div_rn(x, denominator)
+    scaled = 127.0 * normalized
+    lower_bounded = tl.where(scaled < -127.0, -127.0, scaled)
+    bounded = tl.where(lower_bounded > 127.0, 127.0, lower_bounded)
+    output = tl.extra.cuda.libdevice.llrint(bounded)
+    tl.store(output_ptr + safe_offsets, output, mask=mask)
+
 
 def quantize_global(x: torch.Tensor):
-    absmax = x.abs().max().unsqueeze(0)
-    absmax_inv = 1.0 / absmax
-    output = torch.empty(*x.shape, device="cuda", dtype=torch.int8)
-    assert x.is_cuda and output.is_cuda
-    n_elements = output.numel()
-    grid = lambda meta: (triton.cdiv(n_elements, meta["BLOCK_SIZE"]),)
-    _quantize_global[grid](x, absmax_inv, output, n_elements)
-    return output, absmax
-
-
-
-
-##################################################################################################################################################
-
-
-import torch
-
-# Test for quantize_global
-def test_quantize_global():
-    results = {}
-    
-    # Test case 1
-    x1 = torch.randn(2048, device='cuda', dtype=torch.float32)
-    output1, absmax1 = quantize_global(x1)
-    results['test_case_1'] = (output1, absmax1)
-    
-    # Test case 2
-    x2 = torch.randn(1024, device='cuda', dtype=torch.float32)
-    output2, absmax2 = quantize_global(x2)
-    results['test_case_2'] = (output2, absmax2)
-    
-    # Test case 3
-    x3 = torch.randn(3072, device='cuda', dtype=torch.float32)
-    output3, absmax3 = quantize_global(x3)
-    results['test_case_3'] = (output3, absmax3)
-    
-    # Test case 4
-    x4 = torch.randn(4096, device='cuda', dtype=torch.float32)
-    output4, absmax4 = quantize_global(x4)
-    results['test_case_4'] = (output4, absmax4)
-    
-    return results
-
-# Run the tests
-result_gold = test_quantize_global()
+    if not isinstance(x, torch.Tensor):
+        raise TypeError("quantize_global requires a torch.Tensor")
+    if x.layout != torch.strided or x.dtype != torch.float32:
+        raise TypeError("quantize_global requires a strided FP32 tensor")
+    if not x.is_cuda:
+        raise ValueError("quantize_global requires a CUDA tensor")
+    if not x.is_contiguous() or x.is_neg():
+        raise ValueError("quantize_global requires contiguous input with no unresolved negative bit")
+    if x.numel() >= 2**63:
+        raise ValueError("element count must fit signed int64")
+    if x.numel() > 0 and x.data_ptr() % 4 != 0:
+        raise ValueError("input data pointer must be FP32 aligned")
+    logical = x
+    with torch.cuda.device(x.device):
+        output = torch.empty(x.shape, device=x.device, dtype=torch.int8)
+        n_elements = logical.numel()
+        if n_elements == 0:
+            return output, torch.zeros((1,), device=x.device, dtype=torch.float32)
+        if not torch.isfinite(logical).all().item():
+            raise ValueError("quantize_global requires finite FP32 values")
+        absmax = logical.abs().amax().reshape(1)
+        # Both autotune block sizes divide this span. Every launch has at most
+        # 2**20 blocks; the final masked tail is the only partially covered tile.
+        for base in range(0, n_elements, 1 << 30):
+            count = min(n_elements - base, 1 << 30)
+            grid = lambda meta: (triton.cdiv(count, meta["BLOCK_SIZE"]),)
+            _quantize_global_repaired[grid](logical, absmax, output, n_elements, base)
+        return output, absmax

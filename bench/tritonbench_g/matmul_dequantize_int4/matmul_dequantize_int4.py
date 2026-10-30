@@ -4,6 +4,109 @@ import triton
 import triton.language as tl
 
 
+_I32 = 1 << 31
+_U64 = 1 << 64
+
+
+def _tensor_view(t, dtype, name, device=None):
+    if not isinstance(t, torch.Tensor):
+        raise TypeError(f"{name} must be a Tensor")
+    if t.dtype != dtype or t.layout != torch.strided or t.ndim != 2:
+        raise ValueError(f"{name} requires a rank-two strided {dtype} Tensor")
+    if t.is_neg() or t.is_conj():
+        raise ValueError(f"{name} must have resolved view flags")
+    if device is not None and (not t.is_cuda or t.device != device):
+        raise ValueError(f"{name} must be on the input CUDA device")
+    rows, cols = t.shape
+    sr, sc = t.stride()
+    if rows <= 0 or cols <= 0 or sr <= 0 or sc <= 0:
+        raise ValueError(f"{name} requires positive shape and strides")
+    if not (cols * sc <= sr or rows * sr <= sc):
+        raise ValueError(f"{name} requires separated strides")
+    width = t.element_size()
+    storage = t.untyped_storage()
+    base, size = storage.data_ptr(), storage.nbytes()
+    offset, ptr = t.storage_offset(), t.data_ptr()
+    if offset < 0 or ptr != base + width * offset or ptr % width:
+        raise ValueError(f"{name} has an invalid or unaligned view origin")
+    if base < 0 or base + size >= _U64 or size % width:
+        raise ValueError(f"{name} has an invalid allocation span")
+    if width * (offset + (rows - 1) * sr + (cols - 1) * sc + 1) > size:
+        raise ValueError(f"{name} exceeds its allocation")
+    return base, base + size
+
+
+def _disjoint(spans):
+    for i, (lo, hi) in enumerate(spans):
+        if any(not (hi <= other_lo or other_hi <= lo)
+               for other_lo, other_hi in spans[:i]):
+            raise ValueError("all matrix allocations must be disjoint")
+
+
+def _check_matmul(x, qweight, scales, qzeros, group_size, output=None):
+    if type(group_size) is not int or group_size <= 0:
+        raise ValueError("group_size must be a positive Python integer")
+    if not isinstance(x, torch.Tensor) or not x.is_cuda:
+        raise ValueError("x must be a CUDA Tensor")
+    inputs = (x, qweight, scales, qzeros)
+    spans = [_tensor_view(t, dtype, name, x.device) for t, dtype, name in zip(
+        inputs, (torch.float16, torch.int32, torch.float16, torch.int32),
+        ("x", "qweight", "scales", "qzeros"))]
+    M, K = x.shape
+    N = qweight.shape[1]
+    if K % 128 or N % 256 or group_size % 128 or K % group_size:
+        raise ValueError("all 17 tunings require K/group multiples of 128 and N of 256")
+    if (tuple(qweight.shape) != (K // 8, N) or
+            tuple(scales.shape) != (K // group_size, N) or
+            tuple(qzeros.shape) != (K // group_size, N // 8)):
+        raise ValueError("packed weight, scale, or zero shape mismatch")
+    if not x.is_contiguous() or tuple(x.stride()) != (K, 1):
+        raise ValueError("x requires canonical contiguous strides")
+    if output is not None:
+        spans.append(_tensor_view(output, torch.float16, "output", x.device))
+        if tuple(output.shape) != (M, N):
+            raise ValueError("output shape mismatch")
+    _disjoint(spans)
+    views = inputs + (() if output is None else (output,))
+    if not (M + 128 < _I32 and 8 * N + 256 < _I32 and
+            K + 128 < _I32 and group_size < _I32):
+        raise ValueError("dimension exceeds the signed int32 source envelope")
+    if any(v.stride(d) >= _I32 for v in views for d in (0, 1)):
+        raise ValueError("stride exceeds signed int32")
+    a, q, s, z = [v.stride() for v in inputs]
+    c = (N, 1) if output is None else output.stride()
+    formed = ((M + 128) * a[0] + (K + 128) * a[1],
+              (K // 8 + 16) * q[0] + N * q[1],
+              (K // group_size) * s[0] + N * s[1],
+              (K // group_size) * z[0] + (N // 8) * z[1],
+              (M + 128) * c[0] + N * c[1])
+    if any(v >= _I32 for v in formed):
+        raise ValueError("formed source address exceeds signed int32")
+    for t, span in zip(views, spans):
+        if t.data_ptr() + t.element_size() * _I32 >= _U64:
+            raise ValueError("formed pointer exceeds uint64")
+    return M, N, K
+
+
+def _check_quantize(weight, group_size, tp_rank):
+    if type(group_size) is not int or group_size <= 0:
+        raise ValueError("group_size must be a positive Python integer")
+    if type(tp_rank) is not int or tp_rank < 0:
+        raise ValueError("tp_rank must be a nonnegative Python integer")
+    _tensor_view(weight, torch.float32, "weight")
+    K, N = weight.shape
+    if K % 8 or N % 8 or K % group_size:
+        raise ValueError("K and N require multiples of 8 and group_size must divide K")
+    if weight.untyped_storage().nbytes() >= 1 << 63 or 4 * K * N >= 1 << 63:
+        raise ValueError("quantizer address exceeds signed int64")
+    _finite(weight, "weight")
+
+
+def _finite(value, name):
+    if not bool(torch.isfinite(value).all().item()):
+        raise ValueError(f"{name} must be finite")
+
+
 @triton.autotune(
 	configs=[
         triton.Config({'BLOCK_SIZE_M': 64, 'BLOCK_SIZE_N': 256, 'BLOCK_SIZE_K': 32, 'GROUP_SIZE_M': 8}, num_stages=4, num_warps=4),
@@ -137,17 +240,7 @@ def matmul_dequantize_int4_gptq(x: torch.FloatTensor, qweight: torch.IntTensor, 
 
 	Returns C of shape (..., N) float16
 	"""
-	assert x.shape[-1] == (qweight.shape[0] * 8), "A must be a multiple of 8 in the last dimension"
-	assert x.is_contiguous(), "A must be contiguous"
-
-	M, K = x.shape
-	N = qweight.shape[1]
-	# This is based on the possible BLOCK_SIZE_Ks
-	# assert K % 16 == 0 and K % 32 == 0 and K % 64 == 0 and K % 128 == 0, "K must be a multiple of 16, 32, 64, and 128"
-	# # This is based on the possible BLOCK_SIZE_Ns
-	# assert N % 16 == 0 and N % 32 == 0 and N % 64 == 0 and N % 128 == 0 and N % 256 == 0, "N must be a multiple of 16, 32, 64, 128, and 256"
-	# # This is based on the possible BLOCK_SIZE_Ks
-	# assert groupsize % 32 == 0 and groupsize % 64 == 0 and groupsize % 128 == 0, "groupsize must be a multiple of 32, 64, and 128"
+	M, N, K = _check_matmul(x, qweight, scales, qzeros, group_size, output)
 
 	# output = torch.empty((M, N), device='cuda', dtype=torch.float16)
 	if output is None:
@@ -156,6 +249,7 @@ def matmul_dequantize_int4_gptq(x: torch.FloatTensor, qweight: torch.IntTensor, 
 	else:
 		inplace = True
 
+	_check_matmul(x, qweight, scales, qzeros, group_size, output)
 	grid = lambda META: (
 		triton.cdiv(M, META['BLOCK_SIZE_M']) * triton.cdiv(N, META['BLOCK_SIZE_N']),
 	)
@@ -179,6 +273,7 @@ def quantize_int4(weight, group_size=128, tp_rank=0):
     # Scale shape: [H1 // group_size, H2]
     # zero_pint shape: [H1 // group_size, H2 // 8]
 
+    _check_quantize(weight, group_size, tp_rank)
     weight = weight.transpose(1, 0)
     h1, h2 = weight.shape
     assert h1 % 8 == 0 and h2 % 8 == 0, "H1 {} H2 {}".format(h1, h2)
@@ -190,9 +285,18 @@ def quantize_int4(weight, group_size=128, tp_rank=0):
     weight_min = torch.where(weight_min > 0, 0, weight_min)
     weight_range = weight_max - weight_min 
     scale = weight_range / (2 ** 4 - 1)
-    zero_point = (-weight_min / scale).round().clamp(0, 15).to(torch.int32)
-    weight = (weight / scale + zero_point).round().clamp(0, 15).to(torch.int32).view(h1, h2)
-    int_weight = torch.empty(h1, h2 // 8).to(torch.int32).to(weight.device)
+    _finite(scale, "scale")
+    if not bool((scale > 0).all().item()):
+        raise ValueError("each group requires a strictly positive scale")
+    zero_quotient = -weight_min / scale
+    _finite(zero_quotient, "zero quotient")
+    zero_point = zero_quotient.round().clamp(0, 15).to(torch.int32)
+    weight_quotient = weight / scale
+    _finite(weight_quotient, "weight quotient")
+    weight_shifted = weight_quotient + zero_point
+    _finite(weight_shifted, "weight quotient plus zero point")
+    weight = weight_shifted.round().clamp(0, 15).to(torch.int32).view(h1, h2)
+    int_weight = torch.zeros((h1, h2 // 8), dtype=torch.int32, device=weight.device)
     int_zero_point = torch.zeros(h1 // 8, h2 // group_size).to(torch.int32).to(weight.device)
     zero_point = zero_point.view(h1, -1)
     scale = scale.view(h1, -1)
@@ -227,42 +331,3 @@ def quantize_int4(weight, group_size=128, tp_rank=0):
 
 
 
-##################################################################################################################################################
-
-
-def test_correct_int4_gptq(M=32, K=2048, N=2048):
-    group_size = 128
-    a = torch.randn((M, K), device='cuda', dtype=torch.float16)
-    b = torch.randn((K, N), device='cuda', dtype=torch.float16)
-    int_b, b_scale, b_zero_point, _ = quantize_int4(b, group_size=group_size)
-    
-    # Test case 1
-    triton_output_1 = matmul_dequantize_int4_gptq(a, int_b, b_scale, b_zero_point, group_size)
-    
-    # Test case 2
-    a2 = torch.randn((M, K), device='cuda', dtype=torch.float16)
-    b2 = torch.randn((K, N), device='cuda', dtype=torch.float16)
-    int_b2, b_scale2, b_zero_point2, _ = quantize_int4(b2, group_size=group_size)
-    triton_output_2 = matmul_dequantize_int4_gptq(a2, int_b2, b_scale2, b_zero_point2, group_size)
-    
-    # Test case 3
-    a3 = torch.randn((M, K), device='cuda', dtype=torch.float16)
-    b3 = torch.randn((K, N), device='cuda', dtype=torch.float16)
-    int_b3, b_scale3, b_zero_point3, _ = quantize_int4(b3, group_size=group_size)
-    triton_output_3 = matmul_dequantize_int4_gptq(a3, int_b3, b_scale3, b_zero_point3, group_size)
-    
-    # Test case 4
-    a4 = torch.randn((M, K), device='cuda', dtype=torch.float16)
-    b4 = torch.randn((K, N), device='cuda', dtype=torch.float16)
-    int_b4, b_scale4, b_zero_point4, _ = quantize_int4(b4, group_size=group_size)
-    triton_output_4 = matmul_dequantize_int4_gptq(a4, int_b4, b_scale4, b_zero_point4, group_size)
-    
-    results = {
-        "test_case_1": triton_output_1,
-        "test_case_2": triton_output_2,
-        "test_case_3": triton_output_3,
-        "test_case_4": triton_output_4
-    }
-    return results
-
-result_gold = test_correct_int4_gptq()

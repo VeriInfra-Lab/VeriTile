@@ -3,7 +3,7 @@ import subprocess
 import unittest
 from unittest.mock import patch
 
-import comparator_common
+from scripts import comparator_common
 
 
 class ComparatorPreflightTests(unittest.TestCase):

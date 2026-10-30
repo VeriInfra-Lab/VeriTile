@@ -1,42 +1,60 @@
-import bench.tritonbench_g.batched_vecmat_mult.Proofs.RealSource
-import VeriTile.Triton.Memory.KernelSpec.StreamReal
+import bench.tritonbench_g.batched_vecmat_mult.Proofs.FiniteIndex
+import bench.tritonbench_g.batched_vecmat_mult.Proofs.Mathematical_Real
+import bench.tritonbench_g.batched_vecmat_mult.Proofs.Mathematical_SourceGraphReal
 
-/-! Both complete sources implement the independent double sum in flat memory.
-The original uses the existing real loop invariant and access-safety proof.
-The candidate transfers the entire successful execution and frame through
-real addition commutativity at every iteration; no FP assumptions are used. -/
-namespace VeriTile.Bench.TritonBenchG.BatchedVecmatMult.RealProofs
-open VeriTile.Triton
-open scoped VeriTile.Triton.StreamMasked2DKernelIO₂
+namespace VeriTile.Bench.Repairs.BatchedVecmatMult.RealProofs
+open VeriTile.Triton FP.Structural
+open VeriTile.Bench.TritonBenchG.BatchedVecmatMult
 noncomputable section
+local instance : Inhabited SourceGraph.Expr := ⟨SourceGraph.Expr.zero⟩
 
-section
-variable (A B out : RegionName) (M N BM BN BK T : Nat)
+/-- Independent full logical K sum, with no tile or program identifier. -/
+def tensorExpected (decode : ValueProofs.Word → ℝ) (p : Parameters)
+    (mem : SourceGraph.Memory) (m n : Nat) : ℝ :=
+  ∑ k : Fin p.K,
+    SourceGraph.realValue decode ((mem p.A (m*p.K+k.val)).read .real) *
+    SourceGraph.realValue decode ((mem p.B (m*p.N*p.K+n*p.K+k.val)).read .real)
 
-def io (candidate : Bool) : StreamMasked2DKernelIO₂ :=
-  { batchedVecmatIO A B out M N BM BN BK T with
-    kernel := RealSource.kernel A B out M N (BK*T) BM BN BK candidate
-    projection := RealSource.projection A B out M N (BK*T) BM BN BK candidate }
+theorem blocked_sum_eq_sum (K BK : Nat) (hK : BK ∣ K) (f : Nat → ℝ) :
+    (∑ c : Fin (K/BK), ∑ e : Fin BK, f (c.val*BK+e.val)) = ∑ k : Fin K, f k.val := by
+  let equiv : Fin (K/BK) × Fin BK ≃ Fin K :=
+    finProdFinEquiv.trans (finCongr (Nat.div_mul_cancel hK))
+  have h := equiv.sum_comp (fun k : Fin K => f k.val)
+  change (∑ q : Fin (K/BK) × Fin BK, f (q.2.val+BK*q.1.val)) = _ at h
+  simpa [Fintype.sum_prod_type, Nat.mul_comm, Nat.add_comm] using h
 
-def expected (xs : Fin T → Fin (BM*BK) → ℝ)
-    (ys : Fin T → Fin (BN*BM*BK) → ℝ) (l : Fin (BM*BN)) : ℝ :=
-  ∑ t : Fin T, ∑ e : Fin BK,
-    xs t (aLane BM BN BK l e) * ys t (bLane BM BN BK l e)
+theorem blocked_expected_eq_full (decode : ValueProofs.Word → ℝ) (p : Parameters)
+    (mem : SourceGraph.Memory) (m n : Nat) (hK : p.BK ∣ p.K) :
+    SourceGraph.realTensorExpected decode p mem m n (p.K/p.BK) = tensorExpected decode p mem m n := by
+  exact blocked_sum_eq_sum p.K p.BK hK (fun k =>
+    SourceGraph.realValue decode ((mem p.A (m*p.K+k)).read .real) *
+    SourceGraph.realValue decode ((mem p.B (m*p.N*p.K+n*p.K+k)).read .real))
 
-theorem original_correct (hBK : 0 < BK) (hBN : BN ≤ N) :
-    io A B out M N BM BN BK T Bool.false ⊨ fun _ _ xs ys l => expected BM BN BK T xs ys l := by
-  have h := StreamMasked2DKernelIO₂.Implements.of_identityRounding
-    (batchedVecmatIO A B out M N BM BN BK T) rfl _
-    (batched_vecmat_io_correctness .triv A B out M N BM BN BK T hBK hBN)
-  simpa only [io, StreamMasked2DKernelIO₂.Implements, RealSource.original_flat_source] using h
+/-- Full source grid, actual stored output, independent mathematical block sum,
+and complete memory frame. Whole-block K covers exactly 0..K-1 by the reused
+`complete_inner_coverage`; no final-output equation is a premise. -/
+theorem grid_real_correct (decode : ValueProofs.Word → ℝ)
+    (rest : Algebra SourceGraph.Expr) (plans : SourceGraph.PlanSelector)
+    (p : Parameters) (initial : State SourceGraph.Expr)
+    (separate : SourceGraph.InputsSeparate p)
+    (hBM : 0 < p.BM) (hBN : 0 < p.BN) (hM : p.BM ∣ p.M) (hN : p.BN ∣ p.N)
+    (hK : p.BK ∣ p.K) :
+    ∃ final, SourceGraph.runGrid rest plans p initial = some final ∧
+      (∀ m : Fin p.M, ∀ n : Fin p.N,
+        SourceGraph.realValue decode (SourceGraph.contract
+          ((final.mem p.output (m.val*p.N+n.val)).read .real)) =
+          tensorExpected decode p initial.mem m.val n.val) ∧
+      (∀ r o, SourceGraph.GridOutside p r o → final.mem r o = initial.mem r o) := by
+  obtain ⟨final,he,hm,hf⟩ := SourceGraph.grid_correct rest plans p initial
+  refine ⟨final,he,?_,hf⟩
+  intro m n
+  rw [hm, ← SourceGraph.complete_initial_memory_eq_grid plans p initial separate,
+    SourceGraph.complete_tensor_readback plans p initial hBM hBN hM hN m n]
+  exact (SourceGraph.selected_graph_real_correct decode plans p initial.mem m.val n.val
+    (p.K/p.BK)).trans (blocked_expected_eq_full decode p initial.mem m.val n.val hK)
 
-theorem candidate_correct (hBK : 0 < BK) (hBN : BN ≤ N) :
-    io A B out M N BM BN BK T Bool.true ⊨ fun _ _ xs ys l => expected BM BN BK T xs ys l := by
-  have h := original_correct A B out M N BM BN BK T hBK hBN
-  simpa only [io, StreamMasked2DKernelIO₂.Implements, RealSource.candidate_flat_execution] using h
-
+#specNonCircular tensorExpected avoiding [kernel, FP.Structural.exec]
+#axiomsClean blocked_sum_eq_sum
+#axiomsClean grid_real_correct
 end
-#guard_msgs (drop info) in
-#auditModuleAxioms
-end
-end VeriTile.Bench.TritonBenchG.BatchedVecmatMult.RealProofs
+end VeriTile.Bench.Repairs.BatchedVecmatMult.RealProofs

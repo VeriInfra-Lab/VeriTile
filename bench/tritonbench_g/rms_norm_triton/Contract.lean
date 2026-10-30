@@ -1,174 +1,133 @@
-import VeriTile.Torch.Tensor
-import Mathlib.Analysis.SpecialFunctions.Sqrt
-import VeriTile.Meta.StatementAudit
+import VeriTile.Torch.FP32
+import bench.tritonbench_g.rms_norm_triton.Proofs.Mathematical_Contract
+import Mathlib.Data.Real.Basic
 
-namespace VeriTile.Bench.TritonBenchG.RmsNormTriton
-inductive Storage where
-  | fp32 | fp16 | bf16 | fp64
-  deriving DecidableEq, Repr
+namespace VeriTile.Bench.Repairs.RmsNormTriton
+open VeriTile.Torch
+structure TensorInfo extends TensorMetadata where
+  isConj : Bool
+structure EpsilonInfo where
+  pythonFloat : Bool
+  finite : Bool
+  value : ℝ
+  /-- The actual runtime FP32 argument word, separate from the Real annotation. -/
+  runtimeWord : BitVec 32
+structure NormalizedInfo where
+  valid : Bool
+  dimensions : List Nat
+inductive Argument where
+  | nonTensor
+  | tensor (info : TensorInfo)
 
-namespace Whole
-open scoped BigOperators
-noncomputable section
+def dim (x : TensorInfo) (n : List Nat) : Nat := x.shape.length-n.length
+def rows (x : TensorInfo) (n : List Nat) : Nat := (x.shape.take (dim x n)).prod
+def columns (n : List Nat) : Nat := n.prod
+def block (n : Nat) : Nat :=
+  if n=0 then 0 else
+    let x := n-1
+    let x := x ||| (x >>> 1)
+    let x := x ||| (x >>> 2)
+    let x := x ||| (x >>> 4)
+    let x := x ||| (x >>> 8)
+    let x := x ||| (x >>> 16)
+    let x := x ||| (x >>> 32)
+    x+1
+def rowMax (x : TensorInfo) (n : List Nat) : Nat := (rows x n-1)*columns n
+def paddedMax (x : TensorInfo) (n : List Nat) : Nat := rowMax x n+(block (columns n)-1)
+structure Representation (x : TensorInfo) : Prop where
+  layout : x.layout=.strided
+  dtype : x.dtype=.floating .fp32
+  cuda : x.device.kind="cuda"
+structure InputContract (x w : TensorInfo) (n : NormalizedInfo) (eps : EpsilonInfo) : Prop where
+  input : Representation x
+  weight : Representation w
+  device : x.device=w.device
+  normalizedType : n.valid=Bool.true
+  rank : n.dimensions.length≤x.shape.length
+  suffix : x.shape.drop (dim x n.dimensions)=n.dimensions
+  weightShape : w.shape=n.dimensions
+  positive : 0<columns n.dimensions
+  flags : x.isNeg=Bool.false ∧ x.isConj=Bool.false ∧ w.isNeg=Bool.false ∧ w.isConj=Bool.false
+  epsilonType : eps.pythonFloat=Bool.true
+  epsilonFinite : eps.finite=Bool.true
+  epsilonPositive : 0<eps.value
+  rowsBound : rows x n.dimensions<2^31
+  columnsBound : columns n.dimensions<2^31
+  blockBound : block (columns n.dimensions)<2^31
+  rowProducts : rowMax x n.dimensions<2^31
+structure Pointers where
+  input : BitVec 64
+  weight : BitVec 64
+  output : BitVec 64
+structure PointerContract (x : TensorInfo) (n : List Nat) (p : Pointers) : Prop where
+  aligned : p.input.toNat%4=0 ∧ p.weight.toNat%4=0 ∧ p.output.toNat%4=0
+  inputEnd : p.input.toNat+4*paddedMax x n<2^64
+  weightEnd : p.weight.toNat+4*(block (columns n)-1)<2^64
+  outputEnd : p.output.toNat+4*paddedMax x n<2^64
+inductive InputError where
+  | tensor | representation | device | normalized | shape | flags | epsilon | dimensions | offsets | alignment | pointers
+  deriving DecidableEq
+noncomputable def checkTensorInput (x w : TensorInfo) (n : NormalizedInfo) (eps : EpsilonInfo) : Except InputError Unit := by
+  classical
+  exact
+    if x.layout != .strided || x.dtype != .floating .fp32 || !x.isCuda ||
+        w.layout != .strided || w.dtype != .floating .fp32 || !w.isCuda then .error .representation
+    else if x.device != w.device then .error .device
+    else if !n.valid then .error .normalized
+    else if n.dimensions.length>x.shape.length || x.shape.drop (dim x n.dimensions) != n.dimensions ||
+        w.shape != n.dimensions || columns n.dimensions≤0 then .error .shape
+    else if x.isNeg || x.isConj || w.isNeg || w.isConj then .error .flags
+    else if !eps.pythonFloat || !eps.finite || eps.value≤0 then .error .epsilon
+    else if rows x n.dimensions≥2^31 || columns n.dimensions≥2^31 then .error .dimensions
+    else if block (columns n.dimensions)≥2^31 || rowMax x n.dimensions≥2^31 then .error .offsets
+    else .ok ()
+noncomputable def checkInput (x w : Argument) (n : NormalizedInfo) (eps : EpsilonInfo) : Except InputError Unit :=
+  match x,w with
+  | .tensor x,.tensor w => checkTensorInput x w n eps
+  | _,_ => .error .tensor
+def Admitted (x w : Argument) (n : NormalizedInfo) (eps : EpsilonInfo) : Prop :=
+  match x,w with
+  | .tensor x,.tensor w => InputContract x w n eps
+  | _,_ => False
+noncomputable def checkPointers (x : TensorInfo) (n : List Nat) (p : Pointers) : Except InputError Unit := by
+  classical
+  exact
+    if p.input.toNat%4 != 0 || p.weight.toNat%4 != 0 || p.output.toNat%4 != 0 then .error .alignment
+    else if p.input.toNat+4*paddedMax x n≥2^64 || p.weight.toNat+4*(block (columns n)-1)≥2^64 ||
+        p.output.toNat+4*paddedMax x n≥2^64 then .error .pointers
+    else .ok ()
 
-/-- Independent logical RMSNorm. The sum ranges over exactly N logical input
-entries and does not mention memory, padded tiles, the DSL or its interpreter. -/
-def realFormula (N : Nat) (eps : ℝ) (xs ws : Nat → ℝ) (i : Nat) : ℝ :=
-  xs i * (1 / Real.sqrt ((∑ j ∈ Finset.range N, xs j * xs j) / (N : ℝ) + eps)) * ws i
-
-theorem realFormula_div (N : Nat) (eps : ℝ) (xs ws : Nat → ℝ) (i : Nat) :
-    realFormula N eps xs ws i =
-      (xs i / Real.sqrt ((∑ j ∈ Finset.range N, xs j*xs j)/(N : ℝ)+eps))*ws i := by
-  simp [realFormula,div_eq_mul_inv]
-
-def RegularRow (N : Nat) (eps : ℝ) (xs : Nat → ℝ) : Prop :=
-  0 < N ∧ 0 < (∑ j ∈ Finset.range N, xs j * xs j) / (N : ℝ) + eps
-
-abbrev Memory (α : Type) := Nat → Nat → α
-
-structure Tensor where
-  shape : List Nat
-  allocation : Nat
-  base : Nat
-  offset : Nat → Nat
-  dtype : Storage
-  device : Nat
-
-def Tensor.numel (x : Tensor) := x.shape.prod
-def Tensor.read (x : Tensor) (mem : Memory α) (i : Nat) : α := mem x.allocation (x.offset i)
-def Contiguous (x : Tensor) : Prop := ∀ i, i < x.numel → x.offset i = x.base+i
-
-def dim (input : Tensor) (normalized : List Nat) := input.shape.length-normalized.length
-def rows (input : Tensor) (normalized : List Nat) := (input.shape.take (dim input normalized)).prod
-def columns (normalized : List Nat) := normalized.prod
-
-/-- Standard RMSNorm shape/precision premises. They are public conditions, not
-invented Python assertions. Noncontiguous logical inputs and shared X/W storage
-are allowed; the source explicitly makes its two contiguous copies. -/
-structure InputDomain (input weight : Tensor) (normalized : List Nat)
-    (preexisting : Nat → Prop) : Prop where
-  rank : normalized.length ≤ input.shape.length
-  suffix : input.shape.drop (dim input normalized) = normalized
-  weightShape : weight.shape = normalized
-  inputDType : input.dtype = .fp32
-  weightDType : weight.dtype = .fp32
-  sameDevice : input.device = weight.device
-  inputExisted : preexisting input.allocation
-  weightExisted : preexisting weight.allocation
-
-/-- Ordinary contiguous-copy contract, including its possible alias of an
-already-contiguous input. It supplies copied input values, never RMSNorm values. -/
-structure Copied (α : Type) (input : Tensor) (entry : Memory α) (preexisting : Nat → Prop) where
-  tensor : Tensor
-  memory : Memory α
-  shape : tensor.shape = input.shape
-  dtype : tensor.dtype = input.dtype
-  device : tensor.device = input.device
-  contiguous : Contiguous tensor
-  values : ∀ i, i < input.numel → tensor.read memory i = input.read entry i
-  frame : ∀ allocation offset, preexisting allocation → memory allocation offset = entry allocation offset
-
-/-- Ordinary empty_like allocation after both copies; output bytes are initially
-arbitrary, fresh and contiguous because the template input copy is contiguous. -/
-structure Allocated (α : Type) (template : Tensor) (entry : Memory α) (preexisting : Nat → Prop) where
-  tensor : Tensor
-  memory : Memory α
-  shape : tensor.shape = template.shape
-  dtype : tensor.dtype = template.dtype
-  device : tensor.device = template.device
-  contiguous : Contiguous tensor
-  fresh : ¬ preexisting tensor.allocation
-  frame : ∀ allocation offset, preexisting allocation → memory allocation offset = entry allocation offset
-
-structure Prepared (α : Type) (input weight : Tensor) (entry : Memory α) (preexisting : Nat → Prop) where
-  xc : Copied α input entry preexisting
-  wc : Copied α weight xc.memory (fun a => preexisting a ∨ a = xc.tensor.allocation)
-  output : Allocated α xc.tensor wc.memory
-    (fun a => preexisting a ∨ a = xc.tensor.allocation ∨ a = wc.tensor.allocation)
-
-
-/-- Row-major logical indexing through the actual queried strides. Zero strides
-admit broadcast views; a nonzero storage offset admits slices. -/
-def stridedOffset : List Nat → List Nat → Nat → Nat
-  | [], _, _ => 0
-  | _::shape, stride::strides, i => (i / shape.prod)*stride +
-      stridedOffset shape strides (i % shape.prod)
-  | _, [], _ => 0
-
-/-- PyTorch API observations for an actual view and its backing allocation.
-The pointer includes the storage offset. The proof does not require original
-inputs to be contiguous: the Python source intentionally copies both inputs. -/
-structure TensorView where
-  metadata : VeriTile.Torch.TensorMetadata
+/-- The actual Torch Tensor and its API-certified backing storage. Queried
+strides bind the same logical index map; zero/broadcast strides and storage
+offsets are allowed. No original-input contiguity check is introduced. -/
+structure ActualTensor where
+  tensor : VeriTile.Torch.FP32.Tensor
+  laws : VeriTile.Torch.FP32.TensorLaws tensor
   strides : List Nat
-  allocation : Nat
-  storageBase : Nat
-  storageOffset : Nat
-  capacity : Nat
+  isConj : Bool
+  indices : ∀ i, i < tensor.metadata.numel → tensor.physicalIndex i =
+    tensor.storageOffset + VeriTile.Bench.TritonBenchG.RmsNormTriton.Whole.stridedOffset
+      tensor.metadata.shape strides i
 
-def TensorView.numel (v : TensorView) := v.metadata.shape.prod
-def TensorView.offset (v : TensorView) (i : Nat) :=
-  v.storageOffset + stridedOffset v.metadata.shape v.strides i
-def TensorView.read (v : TensorView) (mem : Memory α) (i : Nat) :=
-  mem v.allocation (v.offset i)
-def TensorView.address (v : TensorView) (i : Nat) :=
-  v.storageBase + 4*v.offset i
+def ActualTensor.info (t : ActualTensor) : TensorInfo := ⟨t.tensor.metadata,t.isConj⟩
+def ActualTensor.view (t : ActualTensor) : VeriTile.Bench.TritonBenchG.RmsNormTriton.Whole.TensorView where
+  metadata := t.tensor.metadata
+  strides := t.strides
+  allocation := t.tensor.storage.object
+  storageBase := t.tensor.storage.base
+  storageOffset := t.tensor.storageOffset
+  capacity := t.tensor.storage.elements
 
-/-- Bind a semantic Tensor to the same actual Tensor's metadata and physical
-logical-index map. These are ordinary API observations, never output values. -/
-structure TensorBinding (t : Tensor) (v : TensorView) : Prop where
-  shape : t.shape = v.metadata.shape
-  allocation : t.allocation = v.allocation
-  base : t.base = v.storageOffset
-  offsets : ∀ i, i < t.numel → t.offset i = v.offset i
-  rank : v.strides.length = v.metadata.shape.length
-  dtype : t.dtype = .fp32
-  fp32 : v.metadata.dtype = .floating .fp32
-  layout : v.metadata.layout = .strided
-  device : t.device = v.metadata.device.index
-  cuda : v.metadata.device.kind = "cuda"
-  pointer : 0 < v.numel → v.metadata.dataPtr.toNat = v.storageBase+4*v.storageOffset
-  capacity : ∀ i, i < v.numel → v.offset i < v.capacity
-  addressRange : v.storageBase+4*v.capacity ≤ 2^64
+/-- Direct logical read of the same backing storage. The checked source
+rejects lazy flags before its ordinary contiguous materializations. -/
+def ActualTensor.read (t : ActualTensor)
+    (memory : VeriTile.Bench.TritonBenchG.RmsNormTriton.Whole.Memory α) (i : Nat) : α :=
+  memory t.tensor.storage.object (t.tensor.physicalIndex i)
 
-/-- All source arguments, the two actual contiguous-copy results, and the
-actual output allocation are bound. No runtime/allocation implementation is
-part of the kernel theorem. `Copied.values` is only the ordinary copy law. -/
-structure TensorBindings (a : Prepared α input weight entry preexisting)
-    (x w xc wc y : TensorView) : Prop where
-  input : TensorBinding input x
-  weight : TensorBinding weight w
-  inputCopy : TensorBinding a.xc.tensor xc
-  weightCopy : TensorBinding a.wc.tensor wc
-  output : TensorBinding a.output.tensor y
+/-- Exact-real values in the original Tensor's logical order. -/
+noncomputable def mathematicalResult (n : List Nat) (eps : ℝ) (x w : ActualTensor)
+    (entry : VeriTile.Bench.TritonBenchG.RmsNormTriton.Whole.Memory ℝ) (k : Nat) : ℝ :=
+  VeriTile.Bench.TritonBenchG.RmsNormTriton.Whole.realFormula (columns n) eps
+    (fun j => x.read entry ((k/columns n)*columns n+j)) (w.read entry) (k%columns n)
 
-/-- Kernel observable independent of the source, DSL and interpreter. The
-frame quantifies over every physical allocation cell, including masked tails. -/
-def KernelResult (formula : Nat → α) (output : TensorView)
-    (initial final : Memory α) : Prop :=
-  (∀ i, i < output.numel → output.read final i = formula i) ∧
-  (∀ allocation offset,
-    (∀ i, i < output.numel → (allocation,offset) ≠ (output.allocation,output.offset i)) →
-      final allocation offset = initial allocation offset)
-
-/-- Source pointer expressions for the actual copies and output allocation. -/
-def KernelPointers (xc wc y : TensorView) : Prop :=
-  (∀ i, i < xc.numel → xc.address i = xc.metadata.dataPtr.toNat+4*i) ∧
-  (∀ i, i < wc.numel → wc.address i = wc.metadata.dataPtr.toNat+4*i) ∧
-  (∀ i, i < y.numel → y.address i = y.metadata.dataPtr.toNat+4*i)
-
-
-/-- Independent whole-memory update, useful for stating equality of every
-physical cell rather than only the active outputs. -/
-def referenceMemory (formula : Nat → α) (output : TensorView)
-    (initial : Memory α) : Memory α := fun allocation offset =>
-  if allocation = output.allocation ∧ output.storageOffset ≤ offset ∧
-      offset < output.storageOffset+output.numel then formula (offset-output.storageOffset)
-  else initial allocation offset
-
-
-end
-#guard_msgs (drop info) in
-#auditModuleAxioms
-end Whole
-end VeriTile.Bench.TritonBenchG.RmsNormTriton
+end VeriTile.Bench.Repairs.RmsNormTriton

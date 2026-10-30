@@ -21,7 +21,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from bench import audit_source as source
+from scripts.bench import audit_source as source
 from scripts.check_reversed_cumsum_sources import Canonical, braces
 
 PORT = ROOT / 'bench/tritonbench_g/fused_recurrent_retention'
@@ -102,7 +102,7 @@ def main():
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=False)
-    paths = [PYTHON, LEAN, Path(__file__).resolve(), ROOT / 'bench/audit_source.py',
+    paths = [PYTHON, LEAN, Path(__file__).resolve(), ROOT / 'scripts/bench/audit_source.py',
              ROOT / 'scripts/check_reversed_cumsum_sources.py',
              ROOT / 'scripts/check_reversed_cumsum_native.py']
     captured = {p: p.read_bytes() for p in paths}

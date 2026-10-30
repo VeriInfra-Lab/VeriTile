@@ -25,7 +25,7 @@ export type CoverageRow = {
 // One validator owns source fingerprints, explicit reviews, and the manifest.
 // A source edit without an updated review stops the website build too.
 export const coverage: { reviewed_on: string; basis: string; rows: CoverageRow[] } = JSON.parse(
-  execFileSync('python3', ['bench/coverage_review.py', '--json'], {
+  execFileSync('python3', ['scripts/bench/coverage_review.py', '--json'], {
     cwd: resolve(process.cwd(), '..'), encoding: 'utf8', maxBuffer: 16 * 1024 * 1024,
   }),
 );

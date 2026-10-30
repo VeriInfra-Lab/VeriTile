@@ -1,71 +1,36 @@
-/-
-Source-audit target: kernel
-Source-audit Lean: transposeSource%
-Source-audit args: storage=tl.float16, version=original
-Selected lexical source view only; this metadata is not all-profile certification.
-Original fp16 quotation used by typedKernel and the Python wrapper.
-Other Python dtypes and the index-commuted candidate are not certified by this view.
--/
+import bench.tritonbench_g.matrix_transpose.Sources.Mathematical_Kernels
 
-import VeriTile.Triton.DSL
-
-namespace VeriTile.Bench.TritonBenchG.MatrixTranspose
+/-! Complete selected FP16 sources. The historical untyped kernel and generic
+stride-family aliases remain for compatibility. No floating operation or cast
+is present; the existing candidate only commutes an integer index product. -/
+namespace VeriTile.Bench.Repairs.MatrixTranspose
 open VeriTile.Triton
-open Lean
 
-/-- Faithful 1:1 transcription of `matrix_transpose.py`'s `kernel`.
+abbrev kernel := VeriTile.Bench.TritonBenchG.MatrixTranspose.kernel
+abbrev typedKernel := VeriTile.Bench.TritonBenchG.MatrixTranspose.typedKernel
 
-Allowed mechanical Lean-syntax-only changes:
-- Python `SIZE_M: tl.constexpr` / `D_HEAD: tl.constexpr` → Lean `Nat`
-  parameters. -/
-def kernel
-    (M Out : RegionName)
-    (matrix_stridex matrix_stridey out_stridex out_stridey
-      SIZE_M D_HEAD : Nat) :
-    ComputeKernel := triton {
-  size_m_arange = tl.arange(0, $(SIZE_M))
-  d_head_arange = tl.arange(0, $(D_HEAD))
-  matrix_ptr = M + size_m_arange[:, None] * $(matrix_stridex)
-                + d_head_arange[None, :] * $(matrix_stridey)
-  out_ptr = Out + d_head_arange[:, None] * $(out_stridex)
-             + size_m_arange[None, :] * $(out_stridey)
+def source (M Out : RegionName) (m d : Nat) : ComputeKernel := triton {
+  tl.region M = tl.float16, Out = tl.float16
+  size_m_arange = tl.arange(0, $(m))
+  d_head_arange = tl.arange(0, $(d))
+  matrix_ptr = M + size_m_arange[:, None] * $(max d 1)
+    + d_head_arange[None, :] * $(1)
+  out_ptr = Out + d_head_arange[:, None] * $(max m 1)
+    + size_m_arange[None, :] * $(1)
   matrix = tl.load(matrix_ptr)
   tl.store(out_ptr, tl.trans(matrix))
 }
 
-
-/-! The wrapper allocates fp16 input and output. Both pointer tiles retain
-all four supplied strides. The candidate changes only exact index multiplication. -/
-syntax "transposeSource%" "[" tritonDType "," ident "]" : term
-set_option hygiene false in
-macro_rules
-  | `(transposeSource%[$storage:tritonDType, $version:ident]) => do
-    unless version.getId == `original || version.getId == `indexCommuted do
-      Macro.throwError "expected original or indexCommuted"
-    let inputPtr : TSyntax `tritonStmt ←
-      if version.getId == `original then
-        `(tritonStmt| matrix_ptr = M + size_m_arange[:, None] * $(matrix_stridex)
-          + d_head_arange[None, :] * $(matrix_stridey))
-      else `(tritonStmt| matrix_ptr = M + $(matrix_stridex) * size_m_arange[:, None]
-          + d_head_arange[None, :] * $(matrix_stridey))
-    `(fun (M Out : RegionName)
-        (matrix_stridex matrix_stridey out_stridex out_stridey SIZE_M D_HEAD : Nat) =>
-      ComputeKernel.mk [M] [Out] (triton {
-  tl.region M = $storage, Out = $storage
-  size_m_arange = tl.arange(0, $(SIZE_M))
-  d_head_arange = tl.arange(0, $(D_HEAD))
-  $inputPtr
-  out_ptr = Out + d_head_arange[:, None] * $(out_stridex)
-    + size_m_arange[None, :] * $(out_stridey)
+def indexCommutedSource (M Out : RegionName) (m d : Nat) : ComputeKernel := triton {
+  tl.region M = tl.float16, Out = tl.float16
+  size_m_arange = tl.arange(0, $(m))
+  d_head_arange = tl.arange(0, $(d))
+  matrix_ptr = M + $(max d 1) * size_m_arange[:, None]
+    + d_head_arange[None, :] * $(1)
+  out_ptr = Out + d_head_arange[:, None] * $(max m 1)
+    + size_m_arange[None, :] * $(1)
   matrix = tl.load(matrix_ptr)
   tl.store(out_ptr, tl.trans(matrix))
-}).surfaceBody)
+}
 
-abbrev Source := RegionName → RegionName → Nat → Nat → Nat → Nat → Nat → Nat → ComputeKernel
-
-/-- Complete float16 source used by the Python wrapper. -/
-def typedKernel (commuted : Bool) : Source :=
-  if commuted then transposeSource%[tl.float16, indexCommuted]
-  else transposeSource%[tl.float16, original]
-
-end VeriTile.Bench.TritonBenchG.MatrixTranspose
+end VeriTile.Bench.Repairs.MatrixTranspose

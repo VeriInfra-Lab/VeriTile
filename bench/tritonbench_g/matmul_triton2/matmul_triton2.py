@@ -22,26 +22,35 @@ def matmul_kernel(
     BLOCK_SIZE_M: tl.constexpr, BLOCK_SIZE_N: tl.constexpr, BLOCK_SIZE_K: tl.constexpr,
     GROUP_SIZE_M: tl.constexpr
 ):
-    pid = tl.program_id(axis=0)
+    M = tl.cast(M, tl.uint64)
+    N = tl.cast(N, tl.uint64)
+    K = tl.cast(K, tl.uint64)
+    stride_am = tl.cast(stride_am, tl.uint64)
+    stride_ak = tl.cast(stride_ak, tl.uint64)
+    stride_bk = tl.cast(stride_bk, tl.uint64)
+    stride_bn = tl.cast(stride_bn, tl.uint64)
+    stride_cm = tl.cast(stride_cm, tl.uint64)
+    stride_cn = tl.cast(stride_cn, tl.uint64)
+    pid = tl.program_id(axis=0).to(tl.uint64)
     num_pid_m = tl.cdiv(M, BLOCK_SIZE_M)
     num_pid_n = tl.cdiv(N, BLOCK_SIZE_N)
     num_pid_in_group = GROUP_SIZE_M * num_pid_n
     group_id = pid // num_pid_in_group
     first_pid_m = group_id * GROUP_SIZE_M
-    group_size_m = min(num_pid_m - first_pid_m, GROUP_SIZE_M)
+    group_size_m = tl.cast(min(num_pid_m - first_pid_m, GROUP_SIZE_M), tl.uint64)
     pid_m = first_pid_m + (pid % group_size_m)
     pid_n = (pid % num_pid_in_group) // group_size_m
 
-    offs_am = pid_m * BLOCK_SIZE_M + tl.arange(0, BLOCK_SIZE_M)
-    offs_bn = pid_n * BLOCK_SIZE_N + tl.arange(0, BLOCK_SIZE_N)
-    offs_k = tl.arange(0, BLOCK_SIZE_K)
+    offs_am = pid_m * BLOCK_SIZE_M + tl.arange(0, BLOCK_SIZE_M).to(tl.uint64)
+    offs_bn = pid_n * BLOCK_SIZE_N + tl.arange(0, BLOCK_SIZE_N).to(tl.uint64)
+    offs_k = tl.arange(0, BLOCK_SIZE_K).to(tl.uint64)
     a_ptrs = a_ptr + (offs_am[:, None] * stride_am + offs_k[None, :] * stride_ak)
     b_ptrs = b_ptr + (offs_k[:, None] * stride_bk + offs_bn[None, :] * stride_bn)
 
     accumulator = tl.zeros((BLOCK_SIZE_M, BLOCK_SIZE_N), dtype=tl.float32)
     for k in range(0, tl.cdiv(K, BLOCK_SIZE_K)):
-        a = tl.load(a_ptrs, mask=offs_k[None, :] < K - k * BLOCK_SIZE_K, other=0.0)
-        b = tl.load(b_ptrs, mask=offs_k[:, None] < K - k * BLOCK_SIZE_K, other=0.0)
+        a = tl.load(a_ptrs, mask=(offs_am[:, None] < M) & (offs_k[None, :] < K - k * BLOCK_SIZE_K), other=0.0)
+        b = tl.load(b_ptrs, mask=(offs_k[:, None] < K - k * BLOCK_SIZE_K) & (offs_bn[None, :] < N), other=0.0)
         accumulator += tl.dot(a, b)
         a_ptrs += BLOCK_SIZE_K * stride_ak
         b_ptrs += BLOCK_SIZE_K * stride_bk
@@ -51,53 +60,40 @@ def matmul_kernel(
     tl.store(c_ptrs, accumulator, mask=c_mask)
 
 def triton_matmul(a, b):
-    assert a.shape[1] == b.shape[0], "Incompatible dimensions"
+    if not isinstance(a, torch.Tensor) or not isinstance(b, torch.Tensor):
+        raise TypeError("expected Tensor inputs")
+    if a.layout != torch.strided or b.layout != torch.strided:
+        raise ValueError("expected strided inputs")
+    if a.dtype != torch.float32 or b.dtype != torch.float32:
+        raise ValueError("expected FP32 inputs")
+    if not a.is_cuda or not b.is_cuda:
+        raise ValueError("expected CUDA inputs")
+    if a.device != b.device:
+        raise ValueError("expected the same device")
+    if a.ndim != 2 or b.ndim != 2:
+        raise ValueError("expected matrices")
+    if a.shape[1] != b.shape[0]:
+        raise ValueError("incompatible dimensions")
+    if not a.is_contiguous() or not b.is_contiguous():
+        raise ValueError("expected contiguous inputs")
+    if a.is_neg() or b.is_neg():
+        raise ValueError("expected resolved input storage")
     M, K = a.shape
-    K, N = b.shape
+    _, N = b.shape
+    if M >= 2**63 or K >= 2**63 or N >= 2**63:
+        raise ValueError("dimensions must fit signed 64-bit metadata")
+    if (a.numel() > 0 and a.data_ptr() % 4 != 0) or (b.numel() > 0 and b.data_ptr() % 4 != 0):
+        raise ValueError("nonempty FP32 inputs require aligned pointers")
 
     c = torch.empty((M, N), device=a.device, dtype=a.dtype)
+    if M == 0 or N == 0:
+        return c
     grid = lambda META: (triton.cdiv(M, META['BLOCK_SIZE_M']) * triton.cdiv(N, META['BLOCK_SIZE_N']),)
-    matmul_kernel[grid](
-        a, b, c, M, N, K,
-        a.stride(0), a.stride(1),
-        b.stride(0), b.stride(1),
-        c.stride(0), c.stride(1)
-    )
+    with torch.cuda.device(a.device):
+        matmul_kernel[grid](
+            a, b, c, M, N, K,
+            K, 1,
+            N, 1,
+            N, 1
+        )
     return c
-
-
-
-##################################################################################################################################################
-
-
-import torch
-
-# Function to compare results of Triton and PyTorch matmul
-def test_matmul():
-    results = {}
-    
-    # Test case 1
-    M, K, N = 256, 256, 256
-    a = torch.randn((M, K), device='cuda', dtype=torch.float32)
-    b = torch.randn((K, N), device='cuda', dtype=torch.float32)
-    c_triton_1 = triton_matmul(a, b)
-    results['test_case_1'] = c_triton_1
-
-    # Test case 2
-    M, K, N = 64, 64, 64
-    a = torch.randn((M, K), device='cuda', dtype=torch.float32)
-    b = torch.randn((K, N), device='cuda', dtype=torch.float32)
-    c_triton_2 = triton_matmul(a, b)
-    results['test_case_2'] = c_triton_2
-
-    # Test case 3
-    M, K, N = 16, 16, 16
-    a = torch.randn((M, K), device='cuda', dtype=torch.float32)
-    b = torch.randn((K, N), device='cuda', dtype=torch.float32)
-    c_triton_3 = triton_matmul(a, b)
-    results['test_case_3'] = c_triton_3
-
-    return results
-
-# Run the comparison
-result_gold = test_matmul()

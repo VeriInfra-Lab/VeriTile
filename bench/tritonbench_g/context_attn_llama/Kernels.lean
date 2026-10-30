@@ -1,80 +1,72 @@
-import VeriTile.Triton.DSL
-import VeriTile.Triton.Source
+import bench.tritonbench_g.context_attn_llama.Sources.Mathematical_Program
+import bench.tritonbench_g.context_attn_llama.Sources.Mathematical_HostInterface
 
-/-! Source: context_attn_llama.py, _fwd_kernel.
-Complete original and scale-first candidate with typed floating Q/K/V/Out,
-signed metadata and gathered page indices. Both preserve the finite causal
-sentinel, base-2 exponential, fused accumulator dot and source masks/casts.
-The candidate only commutes qk and sm_scale inside the eager where arm. -/
-namespace VeriTile.Bench.TritonBenchG.ContextAttnLlama
-open Lean VeriTile.Triton
-inductive Storage where
-  | fp16 | bf16 | fp32
-  deriving DecidableEq
-syntax "contextLlamaSource%" "[" tritonDType "," ident "]" : term
-set_option hygiene false in
-macro_rules
-  | `(contextLlamaSource%[$storage:tritonDType, $version:ident]) => do
-    unless version.getId == `original || version.getId == `scaleFirst do
-      Macro.throwError "expected original or scaleFirst"
-    let scaling : TSyntax `tritonStmt ←
-      if version.getId == `scaleFirst then
-        `(tritonStmt| qk = tl.where(mask, $((sm_scale : ℝ)) * qk, -1.0e8))
-      else `(tritonStmt| qk = tl.where(mask, qk * $((sm_scale : ℝ)), -1.0e8))
-    `(fun
-    (Q K V : RegionName) (sm_scale : ℝ) (Out : RegionName)
-    (B_Start_Loc B_Seqlen Req_to_tokens B_req_idx b_prompt_cache_len : RegionName)
-    (stride_qbs stride_qh stride_qd
-      stride_kbs stride_kh stride_kd
-      stride_vbs stride_vh stride_vd
-      stride_obs stride_oh stride_od stride_req_to_tokens_b stride_req_to_tokens_s
-      kv_group_num H BLOCK_DMODEL BLOCK_M BLOCK_N : Nat) => ComputeKernel.mk
-      [Q,K,V,B_Start_Loc,B_Seqlen,Req_to_tokens,B_req_idx,b_prompt_cache_len] [Out] (triton {
-  tl.region Q = $storage, K = $storage, V = $storage, Out = $storage,
+/-! Complete selected FP32 source in the accepted bounded machine-index
+projection. Its signed-width transport is unchanged. Other storage cases retain
+the existing shared source as compatibility views. -/
+namespace VeriTile.Bench.Repairs.ContextAttnLlama.KernelOnly
+open VeriTile.Triton
+abbrev Storage := VeriTile.Bench.TritonBenchG.ContextAttnLlama.Storage
+abbrev Layout := VeriTile.Bench.TritonBenchG.ContextAttnLlama.Formula.Layout
+abbrev Regions := VeriTile.Bench.TritonBenchG.ContextAttnLlama.Program.Regions
+
+def originalFP32 (p : Layout) (r : Regions) (scale : ℝ) : ComputeKernel :=
+  let Q := r.query
+  let K := r.key
+  let V := r.value
+  let Out := r.out
+  let B_Start_Loc := r.start
+  let B_Seqlen := r.sequence
+  let b_prompt_cache_len := r.prompt
+  let Req_to_tokens := r.pages
+  let B_req_idx := r.request
+  triton {
+  tl.ports inputs=[Q,K,V,B_Start_Loc,B_Seqlen,Req_to_tokens,B_req_idx,b_prompt_cache_len], outputs=[Out]
+  tl.region Q = tl.float32, K = tl.float32, V = tl.float32, Out = tl.float32,
     B_Start_Loc = tl.int32, B_Seqlen = tl.int32, b_prompt_cache_len = tl.int32,
     Req_to_tokens = tl.int32, B_req_idx = tl.int32
 
   start_m = tl.program_id(0)
   cur_bh = tl.program_id(1)
-  cur_batch = cur_bh // $(H)
-  cur_head = cur_bh % $(H)
+  cur_batch = cur_bh // $(p.heads)
+  cur_head = cur_bh % $(p.heads)
 
-  cur_kv_head = cur_head // $(kv_group_num)
+  cur_kv_head = cur_head // $(p.kvGroup)
   cur_batch_in_all_start_index = tl.load(B_Start_Loc + cur_batch)
   prompt_cache_len = tl.load(b_prompt_cache_len + cur_batch)
   cur_batch_seq_len = tl.load(B_Seqlen + cur_batch) - prompt_cache_len
   cur_batch_req_idx = tl.load(B_req_idx + cur_batch)
 
-  block_start_loc = $(BLOCK_M) * start_m
+  block_start_loc = $(p.BM) * start_m
 
-  offs_n = tl.arange(0, $(BLOCK_N))
-  offs_d = tl.arange(0, $(BLOCK_DMODEL))
-  offs_m = block_start_loc + tl.arange(0, $(BLOCK_M))
-  off_q = (cur_batch_in_all_start_index + offs_m[:, None]) * $(stride_qbs) +
-    cur_head * $(stride_qh) + offs_d[None, :] * $(stride_qd)
+  offs_n = tl.arange(0, $(p.BN))
+  offs_d = tl.arange(0, $(p.D))
+  offs_m = block_start_loc + tl.arange(0, $(p.BM))
+  off_q = (cur_batch_in_all_start_index + offs_m[:, None]) * $(p.qRow) +
+    cur_head * $(p.qHead) + offs_d[None, :] * $(p.qDim)
   q = tl.load(Q + off_q, mask=offs_m[:, None] < cur_batch_seq_len, other=0.0)
 
-  m_i = tl.zeros([$(BLOCK_M)], dtype=tl.float32) - float("inf")
-  l_i = tl.zeros([$(BLOCK_M)], dtype=tl.float32)
-  acc = tl.zeros([$(BLOCK_M), $(BLOCK_DMODEL)], dtype=tl.float32)
+  m_i = tl.zeros([$(p.BM)], dtype=tl.float32) - float("inf")
+  l_i = tl.zeros([$(p.BM)], dtype=tl.float32)
+  acc = tl.zeros([$(p.BM), $(p.D)], dtype=tl.float32)
 
   block_mask = tl.where(block_start_loc < cur_batch_seq_len, $(1), $(0))
-  block_end_loc = tl.minimum(block_start_loc + $(BLOCK_M) + prompt_cache_len,
+  block_end_loc = tl.minimum(block_start_loc + $(p.BM) + prompt_cache_len,
     cur_batch_seq_len + prompt_cache_len)
-  for start_n in range($(0), block_mask * block_end_loc, $(BLOCK_N)) {
-    start_n = tl.multiple_of(start_n, $(BLOCK_N))
-    kv_loc = tl.load(Req_to_tokens + $(stride_req_to_tokens_b) * cur_batch_req_idx +
-      $(stride_req_to_tokens_s) * (start_n + offs_n),
+  for start_n in range($(0), block_mask * block_end_loc, $(p.BN)) {
+    start_n = tl.multiple_of(start_n, $(p.BN))
+    kv_loc = tl.load(Req_to_tokens + $(p.reqRow) * cur_batch_req_idx +
+      $(p.reqToken) * (start_n + offs_n),
       mask=(start_n + offs_n) < block_end_loc, other=0)
-    off_k = kv_loc[None, :] * $(stride_kbs) + cur_kv_head * $(stride_kh) +
-      offs_d[:, None] * $(stride_kd)
+    off_k = kv_loc[None, :] * $(p.kRow) + cur_kv_head * $(p.kHead) +
+      offs_d[:, None] * $(p.kDim)
     k = tl.load(K + off_k,
       mask=(start_n + offs_n[None, :]) < block_end_loc,
       other=0.0)
 
     qk = tl.dot(q, k)
     mask = (offs_m[:, None] + prompt_cache_len) >= (start_n + offs_n[None, :])
-    $scaling
+    qk = tl.where(mask, qk * $((scale : ℝ)), -1.0e8)
     m_ij = tl.maximum(m_i, tl.max(qk, 1))
     qk -= m_ij[:, None]
     p = tl.math.exp2(qk)
@@ -83,30 +75,109 @@ macro_rules
     alpha = tl.math.exp2(m_i - m_ij)
     l_i = l_i * alpha + l_ij
     acc = acc * alpha[:, None]
-    off_v = kv_loc[:, None] * $(stride_vbs) + cur_kv_head * $(stride_vh) +
-      offs_d[None, :] * $(stride_vd)
+    off_v = kv_loc[:, None] * $(p.vRow) + cur_kv_head * $(p.vHead) +
+      offs_d[None, :] * $(p.vDim)
     v = tl.load(V + off_v,
       mask=(start_n + offs_n[:, None]) < block_end_loc,
       other=0.0)
 
-    p = (p).to($storage:tritonDType)
+    p = (p).to(tl.float32)
     acc = tl.dot(p, v, acc)
     m_i = m_ij
   }
 
   acc = acc / l_i[:, None]
-  off_o = (cur_batch_in_all_start_index + offs_m[:, None]) * $(stride_obs) +
-    cur_head * $(stride_oh) + offs_d[None, :] * $(stride_od)
+  off_o = (cur_batch_in_all_start_index + offs_m[:, None]) * $(p.outRow) +
+    cur_head * $(p.outHead) + offs_d[None, :] * $(p.outDim)
   out_ptrs = Out + off_o
-  tl.store(out_ptrs, (acc).to($storage:tritonDType), mask=offs_m[:, None] < cur_batch_seq_len)
-}).surfaceBody)
+  tl.store(out_ptrs, (acc).to(tl.float32), mask=offs_m[:, None] < cur_batch_seq_len)
+}
 
-def original (storage : Storage) := match storage with
-  | .fp16 => contextLlamaSource%[tl.float16,original]
-  | .bf16 => contextLlamaSource%[tl.bfloat16,original]
-  | .fp32 => contextLlamaSource%[tl.float32,original]
-def scaleFirst (storage : Storage) := match storage with
-  | .fp16 => contextLlamaSource%[tl.float16,scaleFirst]
-  | .bf16 => contextLlamaSource%[tl.bfloat16,scaleFirst]
-  | .fp32 => contextLlamaSource%[tl.float32,scaleFirst]
-end VeriTile.Bench.TritonBenchG.ContextAttnLlama
+def blockEndFactoredFP32 (p : Layout) (r : Regions) (scale : ℝ) : ComputeKernel :=
+  let Q := r.query
+  let K := r.key
+  let V := r.value
+  let Out := r.out
+  let B_Start_Loc := r.start
+  let B_Seqlen := r.sequence
+  let b_prompt_cache_len := r.prompt
+  let Req_to_tokens := r.pages
+  let B_req_idx := r.request
+  triton {
+  tl.ports inputs=[Q,K,V,B_Start_Loc,B_Seqlen,Req_to_tokens,B_req_idx,b_prompt_cache_len], outputs=[Out]
+  tl.region Q = tl.float32, K = tl.float32, V = tl.float32, Out = tl.float32,
+    B_Start_Loc = tl.int32, B_Seqlen = tl.int32, b_prompt_cache_len = tl.int32,
+    Req_to_tokens = tl.int32, B_req_idx = tl.int32
+
+  start_m = tl.program_id(0)
+  cur_bh = tl.program_id(1)
+  cur_batch = cur_bh // $(p.heads)
+  cur_head = cur_bh % $(p.heads)
+
+  cur_kv_head = cur_head // $(p.kvGroup)
+  cur_batch_in_all_start_index = tl.load(B_Start_Loc + cur_batch)
+  prompt_cache_len = tl.load(b_prompt_cache_len + cur_batch)
+  cur_batch_seq_len = tl.load(B_Seqlen + cur_batch) - prompt_cache_len
+  cur_batch_req_idx = tl.load(B_req_idx + cur_batch)
+
+  block_start_loc = $(p.BM) * start_m
+
+  offs_n = tl.arange(0, $(p.BN))
+  offs_d = tl.arange(0, $(p.D))
+  offs_m = block_start_loc + tl.arange(0, $(p.BM))
+  off_q = (cur_batch_in_all_start_index + offs_m[:, None]) * $(p.qRow) +
+    cur_head * $(p.qHead) + offs_d[None, :] * $(p.qDim)
+  q = tl.load(Q + off_q, mask=offs_m[:, None] < cur_batch_seq_len, other=0.0)
+
+  m_i = tl.zeros([$(p.BM)], dtype=tl.float32) - float("inf")
+  l_i = tl.zeros([$(p.BM)], dtype=tl.float32)
+  acc = tl.zeros([$(p.BM), $(p.D)], dtype=tl.float32)
+
+  block_mask = tl.where(block_start_loc < cur_batch_seq_len, $(1), $(0))
+  block_end_loc = tl.minimum(block_start_loc + $(p.BM), cur_batch_seq_len) + prompt_cache_len
+  for start_n in range($(0), block_mask * block_end_loc, $(p.BN)) {
+    start_n = tl.multiple_of(start_n, $(p.BN))
+    kv_loc = tl.load(Req_to_tokens + $(p.reqRow) * cur_batch_req_idx +
+      $(p.reqToken) * (start_n + offs_n),
+      mask=(start_n + offs_n) < block_end_loc, other=0)
+    off_k = kv_loc[None, :] * $(p.kRow) + cur_kv_head * $(p.kHead) +
+      offs_d[:, None] * $(p.kDim)
+    k = tl.load(K + off_k,
+      mask=(start_n + offs_n[None, :]) < block_end_loc,
+      other=0.0)
+
+    qk = tl.dot(q, k)
+    mask = (offs_m[:, None] + prompt_cache_len) >= (start_n + offs_n[None, :])
+    qk = tl.where(mask, qk * $((scale : ℝ)), -1.0e8)
+    m_ij = tl.maximum(m_i, tl.max(qk, 1))
+    qk -= m_ij[:, None]
+    p = tl.math.exp2(qk)
+    l_ij = tl.sum(p, 1)
+
+    alpha = tl.math.exp2(m_i - m_ij)
+    l_i = l_i * alpha + l_ij
+    acc = acc * alpha[:, None]
+    off_v = kv_loc[:, None] * $(p.vRow) + cur_kv_head * $(p.vHead) +
+      offs_d[None, :] * $(p.vDim)
+    v = tl.load(V + off_v,
+      mask=(start_n + offs_n[:, None]) < block_end_loc,
+      other=0.0)
+
+    p = (p).to(tl.float32)
+    acc = tl.dot(p, v, acc)
+    m_i = m_ij
+  }
+
+  acc = acc / l_i[:, None]
+  off_o = (cur_batch_in_all_start_index + offs_m[:, None]) * $(p.outRow) +
+    cur_head * $(p.outHead) + offs_d[None, :] * $(p.outDim)
+  out_ptrs = Out + off_o
+  tl.store(out_ptrs, (acc).to(tl.float32), mask=offs_m[:, None] < cur_batch_seq_len)
+}
+
+noncomputable def kernel (p : Layout) (r : Regions) (storage : Storage) (scale : ℝ) : ComputeKernel :=
+  match storage with
+  | .fp32 => originalFP32 p r scale
+  | .fp16 => VeriTile.Bench.TritonBenchG.ContextAttnLlama.Program.kernel p r .fp16 Bool.false scale
+  | .bf16 => VeriTile.Bench.TritonBenchG.ContextAttnLlama.Program.kernel p r .bf16 Bool.false scale
+end VeriTile.Bench.Repairs.ContextAttnLlama.KernelOnly

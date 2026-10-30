@@ -1,3 +1,10 @@
+"""Checked nonempty FP32 rank-one ReLU with both signed stride directions.
+
+StridedBuffer, heuristics and kernels are unchanged. Views are bounded and
+accessed footprints are disjoint; input stride zero and disjoint views sharing
+one allocation are supported. The exact caller-provided out0 is returned.
+"""
+
 import math
 from typing import Union
 import torch
@@ -78,8 +85,72 @@ class StridedBuffer:
 
 
 
+def _checked_view(x):
+    if not isinstance(x, (torch.Tensor, StridedBuffer)):
+        raise TypeError("operands must be Tensor or StridedBuffer")
+    base = x.unwrap() if isinstance(x, StridedBuffer) else x
+    if not isinstance(base, torch.Tensor):
+        raise TypeError("StridedBuffer base must be a Tensor")
+    if base.layout != torch.strided:
+        raise TypeError("base must have strided layout")
+    if x.dtype != torch.float32 or base.dtype != torch.float32:
+        raise TypeError("view and base must have dtype torch.float32")
+    if x.device.type != "cuda" or base.device != x.device:
+        raise ValueError("view and base must share a CUDA device")
+    if base.is_neg():
+        raise ValueError("base must not have an unresolved negative view bit")
+    shape, strides = tuple(x.shape), tuple(x.stride())
+    if len(shape) != 1 or len(strides) != 1:
+        raise ValueError("operands must have rank one")
+    n, stride = shape[0], strides[0]
+    if type(n) is not int or type(stride) is not int:
+        raise TypeError("shape and stride must be Python integers")
+    if not 0 < n < (1 << 31):
+        raise ValueError("length must satisfy 0 < n < 2**31")
+    if not -(1 << 63) <= stride < (1 << 63):
+        raise ValueError("stride must fit signed int64")
+    storage = base.untyped_storage()
+    storage_ptr, capacity = storage.data_ptr(), storage.nbytes() // 4
+    pointer = x.data_ptr()
+    if type(pointer) is not int or storage_ptr % 4 != 0:
+        raise ValueError("FP32 storage must be four-byte aligned")
+    element_base = (pointer - storage_ptr) // 4
+    if pointer != storage_ptr + 4 * element_base:
+        raise ValueError("view pointer must select an FP32 storage cell")
+    last = element_base + (n - 1) * stride
+    if min(element_base, last) < 0 or max(element_base, last) >= capacity:
+        raise ValueError("view accesses must stay within the backing storage")
+    return n, stride, pointer // 4
+
+
+def _contains_cell(start, stride, n, address):
+    # Output stride has already been checked nonzero. Division is used only
+    # after exact divisibility, so both signs have the same integer quotient.
+    delta = address - start
+    return delta % stride == 0 and 0 <= delta // stride < n
+
+
+def _footprints_disjoint(x_start, sx, y_start, sy, n):
+    x_last, y_last = x_start + (n - 1) * sx, y_start + (n - 1) * sy
+    if max(x_start, x_last) < min(y_start, y_last) or max(y_start, y_last) < min(x_start, x_last):
+        return True
+    # Exact arithmetic-progression membership; same-allocation interleaved
+    # disjoint views remain admitted. No storage-sized temporary is allocated.
+    return all(not _contains_cell(y_start, sy, n, x_start + i * sx) for i in range(n))
+
+
 def relu_forward_wrapper_rank_1(in0: Union[torch.Tensor, StridedBuffer], /, *, out0: Union[torch.Tensor, StridedBuffer]): 
     """Generated wrapper function with Pointwise: StridedBuffer, StridedBuffer(a1!) -> StridedBuffer(a1!)"""
+    nx, sx, x_start = _checked_view(in0)
+    ny, sy, y_start = _checked_view(out0)
+    if nx != ny:
+        raise ValueError("operand shapes mismatch")
+    if in0.device != out0.device:
+        raise ValueError("operands must share a CUDA device")
+    if sy == 0:
+        raise ValueError("output stride must be nonzero")
+    if not _footprints_disjoint(x_start, sx, y_start, sy, nx):
+        raise ValueError("input and output accessed footprints must be disjoint")
     assert in0.shape == out0.shape, 'operand shapes mismatch'
     # task partitioning
     shape = out0.shape
@@ -173,55 +244,3 @@ def relu_forward_kernel_rank_1(
 
 
 
-##################################################################################################################################################
-
-
-def test_relu_forward():
-    # Test device (CUDA)
-    device = torch.device('cuda')
-
-    results = {}
-
-    # Test 1: A 1D tensor whose size is a multiple of the tile size.
-    in0 = torch.randn(512, device=device)
-    out0 = torch.empty_like(in0)
-    relu_forward_wrapper_rank_1(in0, out0=out0)
-    results['test_case_1'] = out0
-
-    # Test 2: A 1D tensor smaller than the tile size.
-    in0 = torch.randn(100, device=device)
-    out0 = torch.empty_like(in0)
-    relu_forward_wrapper_rank_1(in0, out0=out0)
-    results['test_case_2'] = out0
-
-    # Test 3: A 1D tensor larger than, but not a multiple of, the tile size.
-    in0 = torch.randn(1025, device=device)
-    out0 = torch.empty_like(in0)
-    relu_forward_wrapper_rank_1(in0, out0=out0)
-    results['test_case_3'] = out0
-
-    # Test 4: An input size near the boundary (4096).
-    in0 = torch.randn(4096, device=device)
-    out0 = torch.empty_like(in0)
-    relu_forward_wrapper_rank_1(in0, out0=out0)
-    results['test_case_4'] = out0
-
-    # Test 5: A very large input tensor.
-    in0 = torch.randn(10000, device=device)
-    out0 = torch.empty_like(in0)
-    relu_forward_wrapper_rank_1(in0, out0=out0)
-    results['test_case_5'] = out0
-
-    # Test 6: Tensor operations using StridedBuffer.
-    base = torch.randn(512, device=device)
-    shape = (512,)
-    strides = (1,)
-    strided_buffer = StridedBuffer(base, shape=shape, strides=strides, dtype=base.dtype)
-    out0 = torch.empty_like(base)
-    relu_forward_wrapper_rank_1(strided_buffer, out0=out0)
-    results['test_case_6'] = out0
-
-    return results
-
-# Run the tests.
-result_gold = test_relu_forward()

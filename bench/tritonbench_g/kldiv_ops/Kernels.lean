@@ -1,702 +1,245 @@
-import VeriTile.Triton
-
-/-!
-Source-audit target: _kldiv_kernel_forward
-Source-audit Lean: klOpsForward%
-Source-audit runtime: {"python":{"eps":{"object":"float","abi":"fp32"}},"lean":{"source":"klOpsForward%","args":{"pred":"tl.float32","target":"tl.float32","output":"tl.float32","branch":"defaultTarget"}},"native":{"profile":"kldiv_ops","sha256":"b51f2e6e2e6ac04d3a25e7f479f0901c1d337de52470c180c96c91949218c120"}}
-Source-audit params: y_ptr=Y, y_stride=sy, gt_ptr=T, gt_stride=st, loss_ptr=O, loss_stride=so, n_cols=N, BLOCK_SIZE=B
-Source-audit constexpr: {"python":{"log_target":false},"lean":{"source":"klOpsForward%","args":{"pred":"tl.float32","target":"tl.float32","output":"tl.float32","branch":"defaultTarget"}}}
-Source-audit args: pred=tl.float32, target=tl.float32, output=tl.float32, branch=defaultTarget
-Selected fp32 default-target forward profile only; logarithmic, backward and other storage profiles remain separate obligations.
--/
-
-/-! Complete KL-divergence ops source families. Runtime Python-float epsilon is
-represented at fp32. The accumulator initializer is the original `0.0` in every
-profile; frontend-inadmissible fp64 reduction carries are not silently widened.
-Native-device lowering is separate from the explicit frontend domain. -/
-namespace VeriTile.Bench.TritonBenchG.KldivOps.TypedSource
-open Lean VeriTile.Triton
-
-inductive Storage where
-  | fp32 | fp64 | fp16 | bf16 | f8e4 | f8e5
-  deriving DecidableEq, Repr
-
-/-- Pinned ordinary exp accepts only these raw tensor storage types. -/
-inductive MathStorage where
-  | fp32 | fp64
-  deriving DecidableEq, Repr
-
-def MathStorage.storage : MathStorage → Storage
-  | .fp32 => .fp32
-  | .fp64 => .fp64
-
-syntax "klOpsForward%" "[" tritonDType "," tritonDType "," tritonDType "," ident "]" : term
-set_option hygiene false in
-macro_rules
-  | `(klOpsForward%[$pred:tritonDType, $target:tritonDType, $output:tritonDType, $branch:ident]) => do
-    let logarithmic := branch.getId == `logarithmic
-    unless logarithmic || branch.getId == `defaultTarget do
-      Macro.throwError "expected logarithmic or defaultTarget"
-    let compute : TSyntax `tritonStmt ← if logarithmic then
-      `(tritonStmt| loss = tl.exp(y_true) * (y_true - y))
-      else `(tritonStmt| loss = y_true * (tl.log(tl.maximum(y_true,
-        ($((eps : ℝ))).to(tl.float32))) - y))
-    let wide := match pred, target with
-      | `(tritonDType| tl.float64), _ | _, `(tritonDType| tl.float64) => Bool.true
-      | _, _ => Bool.false
-    let same := match output with
-      | `(tritonDType| tl.float64) => wide
-      | `(tritonDType| tl.float32) => !wide
-      | _ => Bool.false
-    let elementStore : TSyntax `tritonStmt ← if same then
-      `(tritonStmt| tl.store(O + offsets, loss, mask=mask))
-      else `(tritonStmt| tl.store(O + offsets, loss.to($output), mask=mask))
-    -- Admitted reduced profiles keep the initially fp32 carried value fp32.
-    -- The formal fp64-carry profiles are explicitly excluded in SourceDomain.
-    let accumulatorMatches := match output with
-      | `(tritonDType| tl.float32) => Bool.true
-      | _ => Bool.false
-    let finalStore : TSyntax `tritonStmt ← if accumulatorMatches then
-      `(tritonStmt| tl.store(O, loss_sum))
-      else `(tritonStmt| tl.store(O, loss_sum.to($output)))
-    `(fun (Y T O : RegionName) (sy st so N B : Nat) (eps : ℝ) (reduction : Nat) =>
-      ComputeKernel.mk [Y, T] [O] (triton {
-        tl.region Y = $pred, T = $target, O = $output
-        pid = tl.program_id(0).to(tl.int64)
-        Y += pid * $(sy)
-        T += pid * $(st)
-        O += pid * $(so)
-        base_offsets = tl.arange(0, $(B))
-        loss_sum = 0.0
-        for i in range(0, $((N : Int)), $(B)) {
-          offsets = i + base_offsets
-          mask = offsets < $((N : Int))
-          y = tl.load(Y + offsets, mask=mask, other=0.0)
-          y_true = tl.load(T + offsets, mask=mask, other=0.0)
-          $compute
-          if $(reduction) == $(0) {
-            $elementStore
-          } else {
-            loss_sum += tl.sum(loss, axis=0)
-          }
-        }
-        if $(reduction) != $(0) {
-          $finalStore
-        }
-      }).surfaceBody)
-
-syntax "klOpsBackward%" "[" tritonDType "," tritonDType "," ident "]" : term
-set_option hygiene false in
-macro_rules
-  | `(klOpsBackward%[$target:tritonDType, $output:tritonDType, $branch:ident]) => do
-    let logarithmic := branch.getId == `logarithmic
-    unless logarithmic || branch.getId == `defaultTarget do
-      Macro.throwError "expected logarithmic or defaultTarget"
-    let compute : TSyntax `tritonStmt ← if logarithmic then
-      `(tritonStmt| res = -tl.exp(target))
-      else `(tritonStmt| res = target * -1)
-    let same := match target, output with
-      | `(tritonDType| tl.float32), `(tritonDType| tl.float32)
-      | `(tritonDType| tl.float64), `(tritonDType| tl.float64)
-      | `(tritonDType| tl.float16), `(tritonDType| tl.float16)
-      | `(tritonDType| tl.bfloat16), `(tritonDType| tl.bfloat16)
-      | `(tritonDType| tl.float8e4nv), `(tritonDType| tl.float8e4nv)
-      | `(tritonDType| tl.float8e5), `(tritonDType| tl.float8e5) => Bool.true
-      | _, _ => Bool.false
-    let store : TSyntax `tritonStmt ← if same then
-      `(tritonStmt| tl.store(O + offsets, res, mask=mask))
-      else `(tritonStmt| tl.store(O + offsets, res.to($output), mask=mask))
-    `(fun (T O : RegionName) (st so N B : Nat) =>
-      ComputeKernel.mk [T] [O] (triton {
-        tl.region T = $target, O = $output
-        pid = tl.program_id(0).to(tl.int64)
-        T += pid * $(st)
-        O += pid * $(so)
-        offsets = tl.arange(0, $(B))
-        mask = offsets < $((N : Int))
-        for i in range(0, $((N : Int)), $(B)) {
-          offsets = i + tl.arange(0, $(B))
-          mask = offsets < $((N : Int))
-          target = tl.load(T + offsets, mask=mask, other=0.0)
-          $compute
-          $store
-        }
-      }).surfaceBody)
-
-abbrev Forward := RegionName → RegionName → RegionName → Nat → Nat → Nat → Nat → Nat →
-  ℝ → Nat → ComputeKernel
-abbrev Backward := RegionName → RegionName → Nat → Nat → Nat → Nat → ComputeKernel
-
-def forwardDefault_fp32_fp32 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.float32, tl.float32, tl.float32, defaultTarget]
-  | .fp64 => klOpsForward%[tl.float32, tl.float32, tl.float64, defaultTarget]
-  | .fp16 => klOpsForward%[tl.float32, tl.float32, tl.float16, defaultTarget]
-  | .bf16 => klOpsForward%[tl.float32, tl.float32, tl.bfloat16, defaultTarget]
-  | .f8e4 => klOpsForward%[tl.float32, tl.float32, tl.float8e4nv, defaultTarget]
-  | .f8e5 => klOpsForward%[tl.float32, tl.float32, tl.float8e5, defaultTarget]
-
-def forwardDefault_fp32_fp64 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.float32, tl.float64, tl.float32, defaultTarget]
-  | .fp64 => klOpsForward%[tl.float32, tl.float64, tl.float64, defaultTarget]
-  | .fp16 => klOpsForward%[tl.float32, tl.float64, tl.float16, defaultTarget]
-  | .bf16 => klOpsForward%[tl.float32, tl.float64, tl.bfloat16, defaultTarget]
-  | .f8e4 => klOpsForward%[tl.float32, tl.float64, tl.float8e4nv, defaultTarget]
-  | .f8e5 => klOpsForward%[tl.float32, tl.float64, tl.float8e5, defaultTarget]
-
-def forwardDefault_fp32_fp16 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.float32, tl.float16, tl.float32, defaultTarget]
-  | .fp64 => klOpsForward%[tl.float32, tl.float16, tl.float64, defaultTarget]
-  | .fp16 => klOpsForward%[tl.float32, tl.float16, tl.float16, defaultTarget]
-  | .bf16 => klOpsForward%[tl.float32, tl.float16, tl.bfloat16, defaultTarget]
-  | .f8e4 => klOpsForward%[tl.float32, tl.float16, tl.float8e4nv, defaultTarget]
-  | .f8e5 => klOpsForward%[tl.float32, tl.float16, tl.float8e5, defaultTarget]
-
-def forwardDefault_fp32_bf16 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.float32, tl.bfloat16, tl.float32, defaultTarget]
-  | .fp64 => klOpsForward%[tl.float32, tl.bfloat16, tl.float64, defaultTarget]
-  | .fp16 => klOpsForward%[tl.float32, tl.bfloat16, tl.float16, defaultTarget]
-  | .bf16 => klOpsForward%[tl.float32, tl.bfloat16, tl.bfloat16, defaultTarget]
-  | .f8e4 => klOpsForward%[tl.float32, tl.bfloat16, tl.float8e4nv, defaultTarget]
-  | .f8e5 => klOpsForward%[tl.float32, tl.bfloat16, tl.float8e5, defaultTarget]
-
-def forwardDefault_fp32_f8e4 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.float32, tl.float8e4nv, tl.float32, defaultTarget]
-  | .fp64 => klOpsForward%[tl.float32, tl.float8e4nv, tl.float64, defaultTarget]
-  | .fp16 => klOpsForward%[tl.float32, tl.float8e4nv, tl.float16, defaultTarget]
-  | .bf16 => klOpsForward%[tl.float32, tl.float8e4nv, tl.bfloat16, defaultTarget]
-  | .f8e4 => klOpsForward%[tl.float32, tl.float8e4nv, tl.float8e4nv, defaultTarget]
-  | .f8e5 => klOpsForward%[tl.float32, tl.float8e4nv, tl.float8e5, defaultTarget]
-
-def forwardDefault_fp32_f8e5 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.float32, tl.float8e5, tl.float32, defaultTarget]
-  | .fp64 => klOpsForward%[tl.float32, tl.float8e5, tl.float64, defaultTarget]
-  | .fp16 => klOpsForward%[tl.float32, tl.float8e5, tl.float16, defaultTarget]
-  | .bf16 => klOpsForward%[tl.float32, tl.float8e5, tl.bfloat16, defaultTarget]
-  | .f8e4 => klOpsForward%[tl.float32, tl.float8e5, tl.float8e4nv, defaultTarget]
-  | .f8e5 => klOpsForward%[tl.float32, tl.float8e5, tl.float8e5, defaultTarget]
-
-def forwardDefault_fp64_fp32 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.float64, tl.float32, tl.float32, defaultTarget]
-  | .fp64 => klOpsForward%[tl.float64, tl.float32, tl.float64, defaultTarget]
-  | .fp16 => klOpsForward%[tl.float64, tl.float32, tl.float16, defaultTarget]
-  | .bf16 => klOpsForward%[tl.float64, tl.float32, tl.bfloat16, defaultTarget]
-  | .f8e4 => klOpsForward%[tl.float64, tl.float32, tl.float8e4nv, defaultTarget]
-  | .f8e5 => klOpsForward%[tl.float64, tl.float32, tl.float8e5, defaultTarget]
-
-def forwardDefault_fp64_fp64 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.float64, tl.float64, tl.float32, defaultTarget]
-  | .fp64 => klOpsForward%[tl.float64, tl.float64, tl.float64, defaultTarget]
-  | .fp16 => klOpsForward%[tl.float64, tl.float64, tl.float16, defaultTarget]
-  | .bf16 => klOpsForward%[tl.float64, tl.float64, tl.bfloat16, defaultTarget]
-  | .f8e4 => klOpsForward%[tl.float64, tl.float64, tl.float8e4nv, defaultTarget]
-  | .f8e5 => klOpsForward%[tl.float64, tl.float64, tl.float8e5, defaultTarget]
-
-def forwardDefault_fp64_fp16 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.float64, tl.float16, tl.float32, defaultTarget]
-  | .fp64 => klOpsForward%[tl.float64, tl.float16, tl.float64, defaultTarget]
-  | .fp16 => klOpsForward%[tl.float64, tl.float16, tl.float16, defaultTarget]
-  | .bf16 => klOpsForward%[tl.float64, tl.float16, tl.bfloat16, defaultTarget]
-  | .f8e4 => klOpsForward%[tl.float64, tl.float16, tl.float8e4nv, defaultTarget]
-  | .f8e5 => klOpsForward%[tl.float64, tl.float16, tl.float8e5, defaultTarget]
-
-def forwardDefault_fp64_bf16 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.float64, tl.bfloat16, tl.float32, defaultTarget]
-  | .fp64 => klOpsForward%[tl.float64, tl.bfloat16, tl.float64, defaultTarget]
-  | .fp16 => klOpsForward%[tl.float64, tl.bfloat16, tl.float16, defaultTarget]
-  | .bf16 => klOpsForward%[tl.float64, tl.bfloat16, tl.bfloat16, defaultTarget]
-  | .f8e4 => klOpsForward%[tl.float64, tl.bfloat16, tl.float8e4nv, defaultTarget]
-  | .f8e5 => klOpsForward%[tl.float64, tl.bfloat16, tl.float8e5, defaultTarget]
-
-def forwardDefault_fp64_f8e4 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.float64, tl.float8e4nv, tl.float32, defaultTarget]
-  | .fp64 => klOpsForward%[tl.float64, tl.float8e4nv, tl.float64, defaultTarget]
-  | .fp16 => klOpsForward%[tl.float64, tl.float8e4nv, tl.float16, defaultTarget]
-  | .bf16 => klOpsForward%[tl.float64, tl.float8e4nv, tl.bfloat16, defaultTarget]
-  | .f8e4 => klOpsForward%[tl.float64, tl.float8e4nv, tl.float8e4nv, defaultTarget]
-  | .f8e5 => klOpsForward%[tl.float64, tl.float8e4nv, tl.float8e5, defaultTarget]
-
-def forwardDefault_fp64_f8e5 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.float64, tl.float8e5, tl.float32, defaultTarget]
-  | .fp64 => klOpsForward%[tl.float64, tl.float8e5, tl.float64, defaultTarget]
-  | .fp16 => klOpsForward%[tl.float64, tl.float8e5, tl.float16, defaultTarget]
-  | .bf16 => klOpsForward%[tl.float64, tl.float8e5, tl.bfloat16, defaultTarget]
-  | .f8e4 => klOpsForward%[tl.float64, tl.float8e5, tl.float8e4nv, defaultTarget]
-  | .f8e5 => klOpsForward%[tl.float64, tl.float8e5, tl.float8e5, defaultTarget]
-
-def forwardDefault_fp16_fp32 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.float16, tl.float32, tl.float32, defaultTarget]
-  | .fp64 => klOpsForward%[tl.float16, tl.float32, tl.float64, defaultTarget]
-  | .fp16 => klOpsForward%[tl.float16, tl.float32, tl.float16, defaultTarget]
-  | .bf16 => klOpsForward%[tl.float16, tl.float32, tl.bfloat16, defaultTarget]
-  | .f8e4 => klOpsForward%[tl.float16, tl.float32, tl.float8e4nv, defaultTarget]
-  | .f8e5 => klOpsForward%[tl.float16, tl.float32, tl.float8e5, defaultTarget]
-
-def forwardDefault_fp16_fp64 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.float16, tl.float64, tl.float32, defaultTarget]
-  | .fp64 => klOpsForward%[tl.float16, tl.float64, tl.float64, defaultTarget]
-  | .fp16 => klOpsForward%[tl.float16, tl.float64, tl.float16, defaultTarget]
-  | .bf16 => klOpsForward%[tl.float16, tl.float64, tl.bfloat16, defaultTarget]
-  | .f8e4 => klOpsForward%[tl.float16, tl.float64, tl.float8e4nv, defaultTarget]
-  | .f8e5 => klOpsForward%[tl.float16, tl.float64, tl.float8e5, defaultTarget]
-
-def forwardDefault_fp16_fp16 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.float16, tl.float16, tl.float32, defaultTarget]
-  | .fp64 => klOpsForward%[tl.float16, tl.float16, tl.float64, defaultTarget]
-  | .fp16 => klOpsForward%[tl.float16, tl.float16, tl.float16, defaultTarget]
-  | .bf16 => klOpsForward%[tl.float16, tl.float16, tl.bfloat16, defaultTarget]
-  | .f8e4 => klOpsForward%[tl.float16, tl.float16, tl.float8e4nv, defaultTarget]
-  | .f8e5 => klOpsForward%[tl.float16, tl.float16, tl.float8e5, defaultTarget]
-
-def forwardDefault_fp16_bf16 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.float16, tl.bfloat16, tl.float32, defaultTarget]
-  | .fp64 => klOpsForward%[tl.float16, tl.bfloat16, tl.float64, defaultTarget]
-  | .fp16 => klOpsForward%[tl.float16, tl.bfloat16, tl.float16, defaultTarget]
-  | .bf16 => klOpsForward%[tl.float16, tl.bfloat16, tl.bfloat16, defaultTarget]
-  | .f8e4 => klOpsForward%[tl.float16, tl.bfloat16, tl.float8e4nv, defaultTarget]
-  | .f8e5 => klOpsForward%[tl.float16, tl.bfloat16, tl.float8e5, defaultTarget]
-
-def forwardDefault_fp16_f8e4 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.float16, tl.float8e4nv, tl.float32, defaultTarget]
-  | .fp64 => klOpsForward%[tl.float16, tl.float8e4nv, tl.float64, defaultTarget]
-  | .fp16 => klOpsForward%[tl.float16, tl.float8e4nv, tl.float16, defaultTarget]
-  | .bf16 => klOpsForward%[tl.float16, tl.float8e4nv, tl.bfloat16, defaultTarget]
-  | .f8e4 => klOpsForward%[tl.float16, tl.float8e4nv, tl.float8e4nv, defaultTarget]
-  | .f8e5 => klOpsForward%[tl.float16, tl.float8e4nv, tl.float8e5, defaultTarget]
-
-def forwardDefault_fp16_f8e5 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.float16, tl.float8e5, tl.float32, defaultTarget]
-  | .fp64 => klOpsForward%[tl.float16, tl.float8e5, tl.float64, defaultTarget]
-  | .fp16 => klOpsForward%[tl.float16, tl.float8e5, tl.float16, defaultTarget]
-  | .bf16 => klOpsForward%[tl.float16, tl.float8e5, tl.bfloat16, defaultTarget]
-  | .f8e4 => klOpsForward%[tl.float16, tl.float8e5, tl.float8e4nv, defaultTarget]
-  | .f8e5 => klOpsForward%[tl.float16, tl.float8e5, tl.float8e5, defaultTarget]
-
-def forwardDefault_bf16_fp32 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.bfloat16, tl.float32, tl.float32, defaultTarget]
-  | .fp64 => klOpsForward%[tl.bfloat16, tl.float32, tl.float64, defaultTarget]
-  | .fp16 => klOpsForward%[tl.bfloat16, tl.float32, tl.float16, defaultTarget]
-  | .bf16 => klOpsForward%[tl.bfloat16, tl.float32, tl.bfloat16, defaultTarget]
-  | .f8e4 => klOpsForward%[tl.bfloat16, tl.float32, tl.float8e4nv, defaultTarget]
-  | .f8e5 => klOpsForward%[tl.bfloat16, tl.float32, tl.float8e5, defaultTarget]
-
-def forwardDefault_bf16_fp64 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.bfloat16, tl.float64, tl.float32, defaultTarget]
-  | .fp64 => klOpsForward%[tl.bfloat16, tl.float64, tl.float64, defaultTarget]
-  | .fp16 => klOpsForward%[tl.bfloat16, tl.float64, tl.float16, defaultTarget]
-  | .bf16 => klOpsForward%[tl.bfloat16, tl.float64, tl.bfloat16, defaultTarget]
-  | .f8e4 => klOpsForward%[tl.bfloat16, tl.float64, tl.float8e4nv, defaultTarget]
-  | .f8e5 => klOpsForward%[tl.bfloat16, tl.float64, tl.float8e5, defaultTarget]
-
-def forwardDefault_bf16_fp16 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.bfloat16, tl.float16, tl.float32, defaultTarget]
-  | .fp64 => klOpsForward%[tl.bfloat16, tl.float16, tl.float64, defaultTarget]
-  | .fp16 => klOpsForward%[tl.bfloat16, tl.float16, tl.float16, defaultTarget]
-  | .bf16 => klOpsForward%[tl.bfloat16, tl.float16, tl.bfloat16, defaultTarget]
-  | .f8e4 => klOpsForward%[tl.bfloat16, tl.float16, tl.float8e4nv, defaultTarget]
-  | .f8e5 => klOpsForward%[tl.bfloat16, tl.float16, tl.float8e5, defaultTarget]
-
-def forwardDefault_bf16_bf16 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.bfloat16, tl.bfloat16, tl.float32, defaultTarget]
-  | .fp64 => klOpsForward%[tl.bfloat16, tl.bfloat16, tl.float64, defaultTarget]
-  | .fp16 => klOpsForward%[tl.bfloat16, tl.bfloat16, tl.float16, defaultTarget]
-  | .bf16 => klOpsForward%[tl.bfloat16, tl.bfloat16, tl.bfloat16, defaultTarget]
-  | .f8e4 => klOpsForward%[tl.bfloat16, tl.bfloat16, tl.float8e4nv, defaultTarget]
-  | .f8e5 => klOpsForward%[tl.bfloat16, tl.bfloat16, tl.float8e5, defaultTarget]
-
-def forwardDefault_bf16_f8e4 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.bfloat16, tl.float8e4nv, tl.float32, defaultTarget]
-  | .fp64 => klOpsForward%[tl.bfloat16, tl.float8e4nv, tl.float64, defaultTarget]
-  | .fp16 => klOpsForward%[tl.bfloat16, tl.float8e4nv, tl.float16, defaultTarget]
-  | .bf16 => klOpsForward%[tl.bfloat16, tl.float8e4nv, tl.bfloat16, defaultTarget]
-  | .f8e4 => klOpsForward%[tl.bfloat16, tl.float8e4nv, tl.float8e4nv, defaultTarget]
-  | .f8e5 => klOpsForward%[tl.bfloat16, tl.float8e4nv, tl.float8e5, defaultTarget]
-
-def forwardDefault_bf16_f8e5 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.bfloat16, tl.float8e5, tl.float32, defaultTarget]
-  | .fp64 => klOpsForward%[tl.bfloat16, tl.float8e5, tl.float64, defaultTarget]
-  | .fp16 => klOpsForward%[tl.bfloat16, tl.float8e5, tl.float16, defaultTarget]
-  | .bf16 => klOpsForward%[tl.bfloat16, tl.float8e5, tl.bfloat16, defaultTarget]
-  | .f8e4 => klOpsForward%[tl.bfloat16, tl.float8e5, tl.float8e4nv, defaultTarget]
-  | .f8e5 => klOpsForward%[tl.bfloat16, tl.float8e5, tl.float8e5, defaultTarget]
-
-def forwardDefault_f8e4_fp32 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.float8e4nv, tl.float32, tl.float32, defaultTarget]
-  | .fp64 => klOpsForward%[tl.float8e4nv, tl.float32, tl.float64, defaultTarget]
-  | .fp16 => klOpsForward%[tl.float8e4nv, tl.float32, tl.float16, defaultTarget]
-  | .bf16 => klOpsForward%[tl.float8e4nv, tl.float32, tl.bfloat16, defaultTarget]
-  | .f8e4 => klOpsForward%[tl.float8e4nv, tl.float32, tl.float8e4nv, defaultTarget]
-  | .f8e5 => klOpsForward%[tl.float8e4nv, tl.float32, tl.float8e5, defaultTarget]
-
-def forwardDefault_f8e4_fp64 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.float8e4nv, tl.float64, tl.float32, defaultTarget]
-  | .fp64 => klOpsForward%[tl.float8e4nv, tl.float64, tl.float64, defaultTarget]
-  | .fp16 => klOpsForward%[tl.float8e4nv, tl.float64, tl.float16, defaultTarget]
-  | .bf16 => klOpsForward%[tl.float8e4nv, tl.float64, tl.bfloat16, defaultTarget]
-  | .f8e4 => klOpsForward%[tl.float8e4nv, tl.float64, tl.float8e4nv, defaultTarget]
-  | .f8e5 => klOpsForward%[tl.float8e4nv, tl.float64, tl.float8e5, defaultTarget]
-
-def forwardDefault_f8e4_fp16 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.float8e4nv, tl.float16, tl.float32, defaultTarget]
-  | .fp64 => klOpsForward%[tl.float8e4nv, tl.float16, tl.float64, defaultTarget]
-  | .fp16 => klOpsForward%[tl.float8e4nv, tl.float16, tl.float16, defaultTarget]
-  | .bf16 => klOpsForward%[tl.float8e4nv, tl.float16, tl.bfloat16, defaultTarget]
-  | .f8e4 => klOpsForward%[tl.float8e4nv, tl.float16, tl.float8e4nv, defaultTarget]
-  | .f8e5 => klOpsForward%[tl.float8e4nv, tl.float16, tl.float8e5, defaultTarget]
-
-def forwardDefault_f8e4_bf16 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.float8e4nv, tl.bfloat16, tl.float32, defaultTarget]
-  | .fp64 => klOpsForward%[tl.float8e4nv, tl.bfloat16, tl.float64, defaultTarget]
-  | .fp16 => klOpsForward%[tl.float8e4nv, tl.bfloat16, tl.float16, defaultTarget]
-  | .bf16 => klOpsForward%[tl.float8e4nv, tl.bfloat16, tl.bfloat16, defaultTarget]
-  | .f8e4 => klOpsForward%[tl.float8e4nv, tl.bfloat16, tl.float8e4nv, defaultTarget]
-  | .f8e5 => klOpsForward%[tl.float8e4nv, tl.bfloat16, tl.float8e5, defaultTarget]
-
-def forwardDefault_f8e4_f8e4 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.float8e4nv, tl.float8e4nv, tl.float32, defaultTarget]
-  | .fp64 => klOpsForward%[tl.float8e4nv, tl.float8e4nv, tl.float64, defaultTarget]
-  | .fp16 => klOpsForward%[tl.float8e4nv, tl.float8e4nv, tl.float16, defaultTarget]
-  | .bf16 => klOpsForward%[tl.float8e4nv, tl.float8e4nv, tl.bfloat16, defaultTarget]
-  | .f8e4 => klOpsForward%[tl.float8e4nv, tl.float8e4nv, tl.float8e4nv, defaultTarget]
-  | .f8e5 => klOpsForward%[tl.float8e4nv, tl.float8e4nv, tl.float8e5, defaultTarget]
-
-def forwardDefault_f8e4_f8e5 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.float8e4nv, tl.float8e5, tl.float32, defaultTarget]
-  | .fp64 => klOpsForward%[tl.float8e4nv, tl.float8e5, tl.float64, defaultTarget]
-  | .fp16 => klOpsForward%[tl.float8e4nv, tl.float8e5, tl.float16, defaultTarget]
-  | .bf16 => klOpsForward%[tl.float8e4nv, tl.float8e5, tl.bfloat16, defaultTarget]
-  | .f8e4 => klOpsForward%[tl.float8e4nv, tl.float8e5, tl.float8e4nv, defaultTarget]
-  | .f8e5 => klOpsForward%[tl.float8e4nv, tl.float8e5, tl.float8e5, defaultTarget]
-
-def forwardDefault_f8e5_fp32 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.float8e5, tl.float32, tl.float32, defaultTarget]
-  | .fp64 => klOpsForward%[tl.float8e5, tl.float32, tl.float64, defaultTarget]
-  | .fp16 => klOpsForward%[tl.float8e5, tl.float32, tl.float16, defaultTarget]
-  | .bf16 => klOpsForward%[tl.float8e5, tl.float32, tl.bfloat16, defaultTarget]
-  | .f8e4 => klOpsForward%[tl.float8e5, tl.float32, tl.float8e4nv, defaultTarget]
-  | .f8e5 => klOpsForward%[tl.float8e5, tl.float32, tl.float8e5, defaultTarget]
-
-def forwardDefault_f8e5_fp64 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.float8e5, tl.float64, tl.float32, defaultTarget]
-  | .fp64 => klOpsForward%[tl.float8e5, tl.float64, tl.float64, defaultTarget]
-  | .fp16 => klOpsForward%[tl.float8e5, tl.float64, tl.float16, defaultTarget]
-  | .bf16 => klOpsForward%[tl.float8e5, tl.float64, tl.bfloat16, defaultTarget]
-  | .f8e4 => klOpsForward%[tl.float8e5, tl.float64, tl.float8e4nv, defaultTarget]
-  | .f8e5 => klOpsForward%[tl.float8e5, tl.float64, tl.float8e5, defaultTarget]
-
-def forwardDefault_f8e5_fp16 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.float8e5, tl.float16, tl.float32, defaultTarget]
-  | .fp64 => klOpsForward%[tl.float8e5, tl.float16, tl.float64, defaultTarget]
-  | .fp16 => klOpsForward%[tl.float8e5, tl.float16, tl.float16, defaultTarget]
-  | .bf16 => klOpsForward%[tl.float8e5, tl.float16, tl.bfloat16, defaultTarget]
-  | .f8e4 => klOpsForward%[tl.float8e5, tl.float16, tl.float8e4nv, defaultTarget]
-  | .f8e5 => klOpsForward%[tl.float8e5, tl.float16, tl.float8e5, defaultTarget]
-
-def forwardDefault_f8e5_bf16 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.float8e5, tl.bfloat16, tl.float32, defaultTarget]
-  | .fp64 => klOpsForward%[tl.float8e5, tl.bfloat16, tl.float64, defaultTarget]
-  | .fp16 => klOpsForward%[tl.float8e5, tl.bfloat16, tl.float16, defaultTarget]
-  | .bf16 => klOpsForward%[tl.float8e5, tl.bfloat16, tl.bfloat16, defaultTarget]
-  | .f8e4 => klOpsForward%[tl.float8e5, tl.bfloat16, tl.float8e4nv, defaultTarget]
-  | .f8e5 => klOpsForward%[tl.float8e5, tl.bfloat16, tl.float8e5, defaultTarget]
-
-def forwardDefault_f8e5_f8e4 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.float8e5, tl.float8e4nv, tl.float32, defaultTarget]
-  | .fp64 => klOpsForward%[tl.float8e5, tl.float8e4nv, tl.float64, defaultTarget]
-  | .fp16 => klOpsForward%[tl.float8e5, tl.float8e4nv, tl.float16, defaultTarget]
-  | .bf16 => klOpsForward%[tl.float8e5, tl.float8e4nv, tl.bfloat16, defaultTarget]
-  | .f8e4 => klOpsForward%[tl.float8e5, tl.float8e4nv, tl.float8e4nv, defaultTarget]
-  | .f8e5 => klOpsForward%[tl.float8e5, tl.float8e4nv, tl.float8e5, defaultTarget]
-
-def forwardDefault_f8e5_f8e5 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.float8e5, tl.float8e5, tl.float32, defaultTarget]
-  | .fp64 => klOpsForward%[tl.float8e5, tl.float8e5, tl.float64, defaultTarget]
-  | .fp16 => klOpsForward%[tl.float8e5, tl.float8e5, tl.float16, defaultTarget]
-  | .bf16 => klOpsForward%[tl.float8e5, tl.float8e5, tl.bfloat16, defaultTarget]
-  | .f8e4 => klOpsForward%[tl.float8e5, tl.float8e5, tl.float8e4nv, defaultTarget]
-  | .f8e5 => klOpsForward%[tl.float8e5, tl.float8e5, tl.float8e5, defaultTarget]
-
-/-- Complete forward source for the default target branch; all blocks and the final store remain. -/
-def forwardDefaultOriginal (pred : Storage) (target : Storage) (output : Storage) : Forward :=
-  match pred, target with
-  | .fp32, .fp32 => forwardDefault_fp32_fp32 output
-  | .fp32, .fp64 => forwardDefault_fp32_fp64 output
-  | .fp32, .fp16 => forwardDefault_fp32_fp16 output
-  | .fp32, .bf16 => forwardDefault_fp32_bf16 output
-  | .fp32, .f8e4 => forwardDefault_fp32_f8e4 output
-  | .fp32, .f8e5 => forwardDefault_fp32_f8e5 output
-  | .fp64, .fp32 => forwardDefault_fp64_fp32 output
-  | .fp64, .fp64 => forwardDefault_fp64_fp64 output
-  | .fp64, .fp16 => forwardDefault_fp64_fp16 output
-  | .fp64, .bf16 => forwardDefault_fp64_bf16 output
-  | .fp64, .f8e4 => forwardDefault_fp64_f8e4 output
-  | .fp64, .f8e5 => forwardDefault_fp64_f8e5 output
-  | .fp16, .fp32 => forwardDefault_fp16_fp32 output
-  | .fp16, .fp64 => forwardDefault_fp16_fp64 output
-  | .fp16, .fp16 => forwardDefault_fp16_fp16 output
-  | .fp16, .bf16 => forwardDefault_fp16_bf16 output
-  | .fp16, .f8e4 => forwardDefault_fp16_f8e4 output
-  | .fp16, .f8e5 => forwardDefault_fp16_f8e5 output
-  | .bf16, .fp32 => forwardDefault_bf16_fp32 output
-  | .bf16, .fp64 => forwardDefault_bf16_fp64 output
-  | .bf16, .fp16 => forwardDefault_bf16_fp16 output
-  | .bf16, .bf16 => forwardDefault_bf16_bf16 output
-  | .bf16, .f8e4 => forwardDefault_bf16_f8e4 output
-  | .bf16, .f8e5 => forwardDefault_bf16_f8e5 output
-  | .f8e4, .fp32 => forwardDefault_f8e4_fp32 output
-  | .f8e4, .fp64 => forwardDefault_f8e4_fp64 output
-  | .f8e4, .fp16 => forwardDefault_f8e4_fp16 output
-  | .f8e4, .bf16 => forwardDefault_f8e4_bf16 output
-  | .f8e4, .f8e4 => forwardDefault_f8e4_f8e4 output
-  | .f8e4, .f8e5 => forwardDefault_f8e4_f8e5 output
-  | .f8e5, .fp32 => forwardDefault_f8e5_fp32 output
-  | .f8e5, .fp64 => forwardDefault_f8e5_fp64 output
-  | .f8e5, .fp16 => forwardDefault_f8e5_fp16 output
-  | .f8e5, .bf16 => forwardDefault_f8e5_bf16 output
-  | .f8e5, .f8e4 => forwardDefault_f8e5_f8e4 output
-  | .f8e5, .f8e5 => forwardDefault_f8e5_f8e5 output
-
-def forwardLog_fp32_fp32 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.float32, tl.float32, tl.float32, logarithmic]
-  | .fp64 => klOpsForward%[tl.float32, tl.float32, tl.float64, logarithmic]
-  | .fp16 => klOpsForward%[tl.float32, tl.float32, tl.float16, logarithmic]
-  | .bf16 => klOpsForward%[tl.float32, tl.float32, tl.bfloat16, logarithmic]
-  | .f8e4 => klOpsForward%[tl.float32, tl.float32, tl.float8e4nv, logarithmic]
-  | .f8e5 => klOpsForward%[tl.float32, tl.float32, tl.float8e5, logarithmic]
-
-def forwardLog_fp32_fp64 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.float32, tl.float64, tl.float32, logarithmic]
-  | .fp64 => klOpsForward%[tl.float32, tl.float64, tl.float64, logarithmic]
-  | .fp16 => klOpsForward%[tl.float32, tl.float64, tl.float16, logarithmic]
-  | .bf16 => klOpsForward%[tl.float32, tl.float64, tl.bfloat16, logarithmic]
-  | .f8e4 => klOpsForward%[tl.float32, tl.float64, tl.float8e4nv, logarithmic]
-  | .f8e5 => klOpsForward%[tl.float32, tl.float64, tl.float8e5, logarithmic]
-
-def forwardLog_fp64_fp32 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.float64, tl.float32, tl.float32, logarithmic]
-  | .fp64 => klOpsForward%[tl.float64, tl.float32, tl.float64, logarithmic]
-  | .fp16 => klOpsForward%[tl.float64, tl.float32, tl.float16, logarithmic]
-  | .bf16 => klOpsForward%[tl.float64, tl.float32, tl.bfloat16, logarithmic]
-  | .f8e4 => klOpsForward%[tl.float64, tl.float32, tl.float8e4nv, logarithmic]
-  | .f8e5 => klOpsForward%[tl.float64, tl.float32, tl.float8e5, logarithmic]
-
-def forwardLog_fp64_fp64 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.float64, tl.float64, tl.float32, logarithmic]
-  | .fp64 => klOpsForward%[tl.float64, tl.float64, tl.float64, logarithmic]
-  | .fp16 => klOpsForward%[tl.float64, tl.float64, tl.float16, logarithmic]
-  | .bf16 => klOpsForward%[tl.float64, tl.float64, tl.bfloat16, logarithmic]
-  | .f8e4 => klOpsForward%[tl.float64, tl.float64, tl.float8e4nv, logarithmic]
-  | .f8e5 => klOpsForward%[tl.float64, tl.float64, tl.float8e5, logarithmic]
-
-def forwardLog_fp16_fp32 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.float16, tl.float32, tl.float32, logarithmic]
-  | .fp64 => klOpsForward%[tl.float16, tl.float32, tl.float64, logarithmic]
-  | .fp16 => klOpsForward%[tl.float16, tl.float32, tl.float16, logarithmic]
-  | .bf16 => klOpsForward%[tl.float16, tl.float32, tl.bfloat16, logarithmic]
-  | .f8e4 => klOpsForward%[tl.float16, tl.float32, tl.float8e4nv, logarithmic]
-  | .f8e5 => klOpsForward%[tl.float16, tl.float32, tl.float8e5, logarithmic]
-
-def forwardLog_fp16_fp64 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.float16, tl.float64, tl.float32, logarithmic]
-  | .fp64 => klOpsForward%[tl.float16, tl.float64, tl.float64, logarithmic]
-  | .fp16 => klOpsForward%[tl.float16, tl.float64, tl.float16, logarithmic]
-  | .bf16 => klOpsForward%[tl.float16, tl.float64, tl.bfloat16, logarithmic]
-  | .f8e4 => klOpsForward%[tl.float16, tl.float64, tl.float8e4nv, logarithmic]
-  | .f8e5 => klOpsForward%[tl.float16, tl.float64, tl.float8e5, logarithmic]
-
-def forwardLog_bf16_fp32 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.bfloat16, tl.float32, tl.float32, logarithmic]
-  | .fp64 => klOpsForward%[tl.bfloat16, tl.float32, tl.float64, logarithmic]
-  | .fp16 => klOpsForward%[tl.bfloat16, tl.float32, tl.float16, logarithmic]
-  | .bf16 => klOpsForward%[tl.bfloat16, tl.float32, tl.bfloat16, logarithmic]
-  | .f8e4 => klOpsForward%[tl.bfloat16, tl.float32, tl.float8e4nv, logarithmic]
-  | .f8e5 => klOpsForward%[tl.bfloat16, tl.float32, tl.float8e5, logarithmic]
-
-def forwardLog_bf16_fp64 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.bfloat16, tl.float64, tl.float32, logarithmic]
-  | .fp64 => klOpsForward%[tl.bfloat16, tl.float64, tl.float64, logarithmic]
-  | .fp16 => klOpsForward%[tl.bfloat16, tl.float64, tl.float16, logarithmic]
-  | .bf16 => klOpsForward%[tl.bfloat16, tl.float64, tl.bfloat16, logarithmic]
-  | .f8e4 => klOpsForward%[tl.bfloat16, tl.float64, tl.float8e4nv, logarithmic]
-  | .f8e5 => klOpsForward%[tl.bfloat16, tl.float64, tl.float8e5, logarithmic]
-
-def forwardLog_f8e4_fp32 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.float8e4nv, tl.float32, tl.float32, logarithmic]
-  | .fp64 => klOpsForward%[tl.float8e4nv, tl.float32, tl.float64, logarithmic]
-  | .fp16 => klOpsForward%[tl.float8e4nv, tl.float32, tl.float16, logarithmic]
-  | .bf16 => klOpsForward%[tl.float8e4nv, tl.float32, tl.bfloat16, logarithmic]
-  | .f8e4 => klOpsForward%[tl.float8e4nv, tl.float32, tl.float8e4nv, logarithmic]
-  | .f8e5 => klOpsForward%[tl.float8e4nv, tl.float32, tl.float8e5, logarithmic]
-
-def forwardLog_f8e4_fp64 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.float8e4nv, tl.float64, tl.float32, logarithmic]
-  | .fp64 => klOpsForward%[tl.float8e4nv, tl.float64, tl.float64, logarithmic]
-  | .fp16 => klOpsForward%[tl.float8e4nv, tl.float64, tl.float16, logarithmic]
-  | .bf16 => klOpsForward%[tl.float8e4nv, tl.float64, tl.bfloat16, logarithmic]
-  | .f8e4 => klOpsForward%[tl.float8e4nv, tl.float64, tl.float8e4nv, logarithmic]
-  | .f8e5 => klOpsForward%[tl.float8e4nv, tl.float64, tl.float8e5, logarithmic]
-
-def forwardLog_f8e5_fp32 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.float8e5, tl.float32, tl.float32, logarithmic]
-  | .fp64 => klOpsForward%[tl.float8e5, tl.float32, tl.float64, logarithmic]
-  | .fp16 => klOpsForward%[tl.float8e5, tl.float32, tl.float16, logarithmic]
-  | .bf16 => klOpsForward%[tl.float8e5, tl.float32, tl.bfloat16, logarithmic]
-  | .f8e4 => klOpsForward%[tl.float8e5, tl.float32, tl.float8e4nv, logarithmic]
-  | .f8e5 => klOpsForward%[tl.float8e5, tl.float32, tl.float8e5, logarithmic]
-
-def forwardLog_f8e5_fp64 (output : Storage) : Forward :=
-  match output with
-  | .fp32 => klOpsForward%[tl.float8e5, tl.float64, tl.float32, logarithmic]
-  | .fp64 => klOpsForward%[tl.float8e5, tl.float64, tl.float64, logarithmic]
-  | .fp16 => klOpsForward%[tl.float8e5, tl.float64, tl.float16, logarithmic]
-  | .bf16 => klOpsForward%[tl.float8e5, tl.float64, tl.bfloat16, logarithmic]
-  | .f8e4 => klOpsForward%[tl.float8e5, tl.float64, tl.float8e4nv, logarithmic]
-  | .f8e5 => klOpsForward%[tl.float8e5, tl.float64, tl.float8e5, logarithmic]
-
-/-- Complete forward source for the log target branch; all blocks and the final store remain. -/
-def forwardLogOriginal (pred : Storage) (target : MathStorage) (output : Storage) : Forward :=
-  match pred, target with
-  | .fp32, .fp32 => forwardLog_fp32_fp32 output
-  | .fp32, .fp64 => forwardLog_fp32_fp64 output
-  | .fp64, .fp32 => forwardLog_fp64_fp32 output
-  | .fp64, .fp64 => forwardLog_fp64_fp64 output
-  | .fp16, .fp32 => forwardLog_fp16_fp32 output
-  | .fp16, .fp64 => forwardLog_fp16_fp64 output
-  | .bf16, .fp32 => forwardLog_bf16_fp32 output
-  | .bf16, .fp64 => forwardLog_bf16_fp64 output
-  | .f8e4, .fp32 => forwardLog_f8e4_fp32 output
-  | .f8e4, .fp64 => forwardLog_f8e4_fp64 output
-  | .f8e5, .fp32 => forwardLog_f8e5_fp32 output
-  | .f8e5, .fp64 => forwardLog_f8e5_fp64 output
-
-/-- Complete backward default branch, retaining T then O pointer updates and the pre-loop mask. -/
-def backwardDefaultOriginal (target : Storage) (output : Storage) : Backward :=
-  match target, output with
-  | .fp32, .fp32 => klOpsBackward%[tl.float32, tl.float32, defaultTarget]
-  | .fp32, .fp64 => klOpsBackward%[tl.float32, tl.float64, defaultTarget]
-  | .fp32, .fp16 => klOpsBackward%[tl.float32, tl.float16, defaultTarget]
-  | .fp32, .bf16 => klOpsBackward%[tl.float32, tl.bfloat16, defaultTarget]
-  | .fp32, .f8e4 => klOpsBackward%[tl.float32, tl.float8e4nv, defaultTarget]
-  | .fp32, .f8e5 => klOpsBackward%[tl.float32, tl.float8e5, defaultTarget]
-  | .fp64, .fp32 => klOpsBackward%[tl.float64, tl.float32, defaultTarget]
-  | .fp64, .fp64 => klOpsBackward%[tl.float64, tl.float64, defaultTarget]
-  | .fp64, .fp16 => klOpsBackward%[tl.float64, tl.float16, defaultTarget]
-  | .fp64, .bf16 => klOpsBackward%[tl.float64, tl.bfloat16, defaultTarget]
-  | .fp64, .f8e4 => klOpsBackward%[tl.float64, tl.float8e4nv, defaultTarget]
-  | .fp64, .f8e5 => klOpsBackward%[tl.float64, tl.float8e5, defaultTarget]
-  | .fp16, .fp32 => klOpsBackward%[tl.float16, tl.float32, defaultTarget]
-  | .fp16, .fp64 => klOpsBackward%[tl.float16, tl.float64, defaultTarget]
-  | .fp16, .fp16 => klOpsBackward%[tl.float16, tl.float16, defaultTarget]
-  | .fp16, .bf16 => klOpsBackward%[tl.float16, tl.bfloat16, defaultTarget]
-  | .fp16, .f8e4 => klOpsBackward%[tl.float16, tl.float8e4nv, defaultTarget]
-  | .fp16, .f8e5 => klOpsBackward%[tl.float16, tl.float8e5, defaultTarget]
-  | .bf16, .fp32 => klOpsBackward%[tl.bfloat16, tl.float32, defaultTarget]
-  | .bf16, .fp64 => klOpsBackward%[tl.bfloat16, tl.float64, defaultTarget]
-  | .bf16, .fp16 => klOpsBackward%[tl.bfloat16, tl.float16, defaultTarget]
-  | .bf16, .bf16 => klOpsBackward%[tl.bfloat16, tl.bfloat16, defaultTarget]
-  | .bf16, .f8e4 => klOpsBackward%[tl.bfloat16, tl.float8e4nv, defaultTarget]
-  | .bf16, .f8e5 => klOpsBackward%[tl.bfloat16, tl.float8e5, defaultTarget]
-  | .f8e4, .fp32 => klOpsBackward%[tl.float8e4nv, tl.float32, defaultTarget]
-  | .f8e4, .fp64 => klOpsBackward%[tl.float8e4nv, tl.float64, defaultTarget]
-  | .f8e4, .fp16 => klOpsBackward%[tl.float8e4nv, tl.float16, defaultTarget]
-  | .f8e4, .bf16 => klOpsBackward%[tl.float8e4nv, tl.bfloat16, defaultTarget]
-  | .f8e4, .f8e4 => klOpsBackward%[tl.float8e4nv, tl.float8e4nv, defaultTarget]
-  | .f8e4, .f8e5 => klOpsBackward%[tl.float8e4nv, tl.float8e5, defaultTarget]
-  | .f8e5, .fp32 => klOpsBackward%[tl.float8e5, tl.float32, defaultTarget]
-  | .f8e5, .fp64 => klOpsBackward%[tl.float8e5, tl.float64, defaultTarget]
-  | .f8e5, .fp16 => klOpsBackward%[tl.float8e5, tl.float16, defaultTarget]
-  | .f8e5, .bf16 => klOpsBackward%[tl.float8e5, tl.bfloat16, defaultTarget]
-  | .f8e5, .f8e4 => klOpsBackward%[tl.float8e5, tl.float8e4nv, defaultTarget]
-  | .f8e5, .f8e5 => klOpsBackward%[tl.float8e5, tl.float8e5, defaultTarget]
-
-/-- Complete backward log branch, retaining T then O pointer updates and the pre-loop mask. -/
-def backwardLogOriginal (target : MathStorage) (output : Storage) : Backward :=
-  match target, output with
-  | .fp32, .fp32 => klOpsBackward%[tl.float32, tl.float32, logarithmic]
-  | .fp32, .fp64 => klOpsBackward%[tl.float32, tl.float64, logarithmic]
-  | .fp32, .fp16 => klOpsBackward%[tl.float32, tl.float16, logarithmic]
-  | .fp32, .bf16 => klOpsBackward%[tl.float32, tl.bfloat16, logarithmic]
-  | .fp32, .f8e4 => klOpsBackward%[tl.float32, tl.float8e4nv, logarithmic]
-  | .fp32, .f8e5 => klOpsBackward%[tl.float32, tl.float8e5, logarithmic]
-  | .fp64, .fp32 => klOpsBackward%[tl.float64, tl.float32, logarithmic]
-  | .fp64, .fp64 => klOpsBackward%[tl.float64, tl.float64, logarithmic]
-  | .fp64, .fp16 => klOpsBackward%[tl.float64, tl.float16, logarithmic]
-  | .fp64, .bf16 => klOpsBackward%[tl.float64, tl.bfloat16, logarithmic]
-  | .fp64, .f8e4 => klOpsBackward%[tl.float64, tl.float8e4nv, logarithmic]
-  | .fp64, .f8e5 => klOpsBackward%[tl.float64, tl.float8e5, logarithmic]
-
-/-- Candidate commutes only the exact signed output-row product. -/
-def commuteOutput (source : ComputeKernel) (position : Nat) (O : RegionName)
-    (stride : Nat) : ComputeKernel :=
-  ComputeKernel.mk source.inputs source.outputs (source.surfaceBody.take position ++
-    [.assign .ptr [] "O" (.alg (.ptrAdd .nil (.ptrBase O)
-      (.castIntToNat (.mul .int .nil (.castNatToInt (.constNat stride))
-        (.ref .int [] "pid")))))] ++ source.surfaceBody.drop (position + 1))
-
-def forwardDefault (pred : Storage) (target : Storage) (output : Storage) (v : Bool)
-    (Y T O : RegionName) (sy st so N B : Nat) (eps : ℝ) (reduction : Nat) : ComputeKernel :=
-  let source := forwardDefaultOriginal pred target output Y T O sy st so N B eps reduction
-  if v then commuteOutput source 3 O so else source
-
-def backwardDefault (target : Storage) (output : Storage) (v : Bool)
-    (T O : RegionName) (st so N B : Nat) : ComputeKernel :=
-  let source := backwardDefaultOriginal target output T O st so N B
-  if v then commuteOutput source 2 O so else source
-
-def forwardLog (pred : Storage) (target : MathStorage) (output : Storage) (v : Bool)
-    (Y T O : RegionName) (sy st so N B : Nat) (eps : ℝ) (reduction : Nat) : ComputeKernel :=
-  let source := forwardLogOriginal pred target output Y T O sy st so N B eps reduction
-  if v then commuteOutput source 3 O so else source
-
-def backwardLog (target : MathStorage) (output : Storage) (v : Bool)
-    (T O : RegionName) (st so N B : Nat) : ComputeKernel :=
-  let source := backwardLogOriginal target output T O st so N B
-  if v then commuteOutput source 2 O so else source
-
-end VeriTile.Bench.TritonBenchG.KldivOps.TypedSource
+import VeriTile.Triton.DSL
+import VeriTile.Triton.Float.Structural
+import VeriTile.Meta.StatementAudit
+
+namespace VeriTile.Bench.Repairs.KldivOps
+open VeriTile.Triton
+set_option maxRecDepth 24000
+set_option maxHeartbeats 6000000
+
+structure Parameters where
+  (Y T O : RegionName)
+  (rows cols block : Nat)
+  deriving Repr
+
+/-! Complete selected FP32 sources. Epsilon is supplied through the invocation's
+runtime scalar ABI. The existing candidate commutes only the signed output-row
+product, preserving every loop, branch, mask, reduction and floating operation. -/
+namespace KernelDSL
+
+def forwardDefault (p : Parameters) (red : Nat) : ComputeKernel :=
+  let Y := p.Y
+  let T := p.T
+  let O := p.O
+  triton {
+    tl.ports inputs=[Y,T], outputs=[O]
+    tl.region Y = tl.float32, T = tl.float32, O = tl.float32
+    tl.param eps : tl.float32
+    pid = tl.program_id(0).to(tl.int64)
+    Y += pid * $(p.cols)
+    T += pid * $(p.cols)
+    O += pid * $((if red=0 then p.cols else 1 : Nat))
+    base_offsets = tl.arange(0, $(p.block)).to(tl.int64)
+    loss_sum = 0.0
+    for i in range(0, $((p.cols : Int)), $(p.block)) {
+      offsets = i + base_offsets
+      mask = offsets < $((p.cols : Int))
+      y = tl.load(Y + offsets, mask=mask, other=0.0)
+      y_true = tl.load(T + offsets, mask=mask, other=0.0)
+      loss = y_true * (tl.log(tl.maximum(y_true,eps.to(tl.float32))) - y)
+      if $(red) == $(0) {
+        tl.store(O + offsets, loss, mask=mask)
+      } else {
+        loss = tl.where(mask, loss, 0.0)
+        loss_sum += tl.sum(loss, axis=0)
+      }
+    }
+    if $(red) != $(0) { tl.store(O, loss_sum) }
+  }
+
+def forwardLog (p : Parameters) (red : Nat) : ComputeKernel :=
+  let Y := p.Y
+  let T := p.T
+  let O := p.O
+  triton {
+    tl.ports inputs=[Y,T], outputs=[O]
+    tl.region Y = tl.float32, T = tl.float32, O = tl.float32
+    tl.param eps : tl.float32
+    pid = tl.program_id(0).to(tl.int64)
+    Y += pid * $(p.cols)
+    T += pid * $(p.cols)
+    O += pid * $((if red=0 then p.cols else 1 : Nat))
+    base_offsets = tl.arange(0, $(p.block)).to(tl.int64)
+    loss_sum = 0.0
+    for i in range(0, $((p.cols : Int)), $(p.block)) {
+      offsets = i + base_offsets
+      mask = offsets < $((p.cols : Int))
+      y = tl.load(Y + offsets, mask=mask, other=0.0)
+      y_true = tl.load(T + offsets, mask=mask, other=0.0)
+      loss = tl.exp(y_true) * (y_true - y)
+      if $(red) == $(0) {
+        tl.store(O + offsets, loss, mask=mask)
+      } else {
+        loss = tl.where(mask, loss, 0.0)
+        loss_sum += tl.sum(loss, axis=0)
+      }
+    }
+    if $(red) != $(0) { tl.store(O, loss_sum) }
+  }
+
+def forwardDefaultCommuted (p : Parameters) (red : Nat) : ComputeKernel :=
+  let Y := p.Y
+  let T := p.T
+  let O := p.O
+  triton {
+    tl.ports inputs=[Y,T], outputs=[O]
+    tl.region Y = tl.float32, T = tl.float32, O = tl.float32
+    tl.param eps : tl.float32
+    pid = tl.program_id(0).to(tl.int64)
+    Y += pid * $(p.cols)
+    T += pid * $(p.cols)
+    O += $((if red=0 then p.cols else 1 : Nat)) * pid
+    base_offsets = tl.arange(0, $(p.block)).to(tl.int64)
+    loss_sum = 0.0
+    for i in range(0, $((p.cols : Int)), $(p.block)) {
+      offsets = i + base_offsets
+      mask = offsets < $((p.cols : Int))
+      y = tl.load(Y + offsets, mask=mask, other=0.0)
+      y_true = tl.load(T + offsets, mask=mask, other=0.0)
+      loss = y_true * (tl.log(tl.maximum(y_true,eps.to(tl.float32))) - y)
+      if $(red) == $(0) {
+        tl.store(O + offsets, loss, mask=mask)
+      } else {
+        loss = tl.where(mask, loss, 0.0)
+        loss_sum += tl.sum(loss, axis=0)
+      }
+    }
+    if $(red) != $(0) { tl.store(O, loss_sum) }
+  }
+
+def forwardLogCommuted (p : Parameters) (red : Nat) : ComputeKernel :=
+  let Y := p.Y
+  let T := p.T
+  let O := p.O
+  triton {
+    tl.ports inputs=[Y,T], outputs=[O]
+    tl.region Y = tl.float32, T = tl.float32, O = tl.float32
+    tl.param eps : tl.float32
+    pid = tl.program_id(0).to(tl.int64)
+    Y += pid * $(p.cols)
+    T += pid * $(p.cols)
+    O += $((if red=0 then p.cols else 1 : Nat)) * pid
+    base_offsets = tl.arange(0, $(p.block)).to(tl.int64)
+    loss_sum = 0.0
+    for i in range(0, $((p.cols : Int)), $(p.block)) {
+      offsets = i + base_offsets
+      mask = offsets < $((p.cols : Int))
+      y = tl.load(Y + offsets, mask=mask, other=0.0)
+      y_true = tl.load(T + offsets, mask=mask, other=0.0)
+      loss = tl.exp(y_true) * (y_true - y)
+      if $(red) == $(0) {
+        tl.store(O + offsets, loss, mask=mask)
+      } else {
+        loss = tl.where(mask, loss, 0.0)
+        loss_sum += tl.sum(loss, axis=0)
+      }
+    }
+    if $(red) != $(0) { tl.store(O, loss_sum) }
+  }
+
+def backwardDefault (p : Parameters) : ComputeKernel :=
+  let T := p.T
+  let O := p.O
+  triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float32, O = tl.float32
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(p.cols)
+    O += pid * $(p.cols)
+    offsets = tl.arange(0, $(p.block)).to(tl.int64)
+    mask = offsets < $((p.cols : Int))
+    for i in range(0, $((p.cols : Int)), $(p.block)) {
+      offsets = i + tl.arange(0, $(p.block)).to(tl.int64)
+      mask = offsets < $((p.cols : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res, mask=mask)
+    }
+  }
+
+def backwardLog (p : Parameters) : ComputeKernel :=
+  let T := p.T
+  let O := p.O
+  triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float32, O = tl.float32
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(p.cols)
+    O += pid * $(p.cols)
+    offsets = tl.arange(0, $(p.block)).to(tl.int64)
+    mask = offsets < $((p.cols : Int))
+    for i in range(0, $((p.cols : Int)), $(p.block)) {
+      offsets = i + tl.arange(0, $(p.block)).to(tl.int64)
+      mask = offsets < $((p.cols : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = -tl.exp(target)
+      tl.store(O + offsets, res, mask=mask)
+    }
+  }
+
+def backwardDefaultCommuted (p : Parameters) : ComputeKernel :=
+  let T := p.T
+  let O := p.O
+  triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float32, O = tl.float32
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(p.cols)
+    O += $(p.cols) * pid
+    offsets = tl.arange(0, $(p.block)).to(tl.int64)
+    mask = offsets < $((p.cols : Int))
+    for i in range(0, $((p.cols : Int)), $(p.block)) {
+      offsets = i + tl.arange(0, $(p.block)).to(tl.int64)
+      mask = offsets < $((p.cols : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res, mask=mask)
+    }
+  }
+
+def backwardLogCommuted (p : Parameters) : ComputeKernel :=
+  let T := p.T
+  let O := p.O
+  triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float32, O = tl.float32
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(p.cols)
+    O += $(p.cols) * pid
+    offsets = tl.arange(0, $(p.block)).to(tl.int64)
+    mask = offsets < $((p.cols : Int))
+    for i in range(0, $((p.cols : Int)), $(p.block)) {
+      offsets = i + tl.arange(0, $(p.block)).to(tl.int64)
+      mask = offsets < $((p.cols : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = -tl.exp(target)
+      tl.store(O + offsets, res, mask=mask)
+    }
+  }
+
+/- Each complete quotation declares its original ABI before pointer rebinding. -/
+def forward (p : Parameters) (flag : Bool) (red : Nat) : ComputeKernel :=
+  if flag then forwardLog p red else forwardDefault p red
+
+def forwardCandidate (p : Parameters) (flag : Bool) (red : Nat) : ComputeKernel :=
+  if flag then forwardLogCommuted p red else forwardDefaultCommuted p red
+
+def backward (p : Parameters) (flag : Bool) : ComputeKernel :=
+  if flag then backwardLog p else backwardDefault p
+
+def backwardCandidate (p : Parameters) (flag : Bool) : ComputeKernel :=
+  if flag then backwardLogCommuted p else backwardDefaultCommuted p
+
+end KernelDSL
+
+/-- Compatibility names used by the existing execution and mathematical proofs. -/
+abbrev forward := KernelDSL.forward
+abbrev backward := KernelDSL.backward
+
+namespace KernelDSL
+ theorem forward_eq (p : Parameters) (flag : Bool) (red : Nat) :
+    forward p flag red = KldivOps.forward p flag red := rfl
+ theorem backward_eq (p : Parameters) (flag : Bool) :
+    backward p flag = KldivOps.backward p flag := rfl
+end KernelDSL
+end VeriTile.Bench.Repairs.KldivOps

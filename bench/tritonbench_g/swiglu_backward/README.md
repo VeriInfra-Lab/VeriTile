@@ -1,3 +1,15 @@
 # swiglu_backward
 
-Original Python reference and shared proof dependencies. The final selected implementation and public contracts are in [swiglu_backward](../../repairs/tritonbench_g/swiglu_backward/README.md).
+Current repaired Python implementation: [swiglu_backward.py](swiglu_backward.py).
+
+[Lean source](Kernels.lean) · [input contract](Contract.lean) · [Real correctness](Correct.lean) · [FP equivalence](FPEquiv.lean).
+
+fun xs ch row col => backwardFormula ch (xs.x row col) (xs.y row col) (xs.dout row col)
+
+The public entries state the input conditions, execution scope and numerical assumptions. Required proof and lowering helpers support this selected implementation; Git retains prior implementations.
+
+[Proof helpers](Proofs/)
+
+[Source and mathematical adapters](Sources/)
+
+[Selected-task and source-correspondence records](../../../validation/) track validation and pending work separately.

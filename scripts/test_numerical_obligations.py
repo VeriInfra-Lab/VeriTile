@@ -13,10 +13,8 @@ import tempfile
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / 'bench'))
-import numerical_obligations as numerical
-
-
+sys.path.insert(0, str(ROOT))
+from scripts.bench import numerical_obligations as numerical
 class NumericalObligationsTests(unittest.TestCase):
     def setUp(self):
         self.temporary = tempfile.TemporaryDirectory()
