@@ -9,6 +9,9 @@ import CoverageTable from '../../../components/CoverageTable.astro';
 The release gate covers the explicitly selected source and proof set. The
 rest of the repository includes historical proofs, intermediate work and
 benchmark drafts whose presence does not establish completion.
+PRs check sources and regressions. The full selected Lean build and axiom
+audit run daily at 04:00 Asia/Singapore (20:00 UTC), or on manual dispatch;
+proof changes require that full validation locally before merge.
 
 Three checks answer different questions:
 

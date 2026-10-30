@@ -5,13 +5,16 @@ on:
     branches: [main]
   push:
     branches: [main]
+  schedule:
+    # 04:00 Asia/Singapore; GitHub cron uses UTC.
+    - cron: '0 20 * * *'
   workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: verified-scope-${{ github.ref }}
+  group: verified-scope-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -35,7 +38,8 @@ jobs:
       - run: python3 -B bench/verified_scope.py --regressions
 
   proofs:
-    name: Selected Lean proofs and complete axiom audit
+    name: Daily selected Lean proofs and complete axiom audit
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     timeout-minutes: 360
     steps:

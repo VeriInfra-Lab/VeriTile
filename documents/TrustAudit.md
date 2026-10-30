@@ -10,9 +10,11 @@ these commands check exactly that.
 `verified-scope.yml` validates the source-bound selection in
 [`bench/verified-scope`](../bench/verified-scope/README.md): 6,169 roots covering
 the public entries of 124 selected tasks, with 59 task entry sets still pending.
-It rebuilds the selected roots and audits every theorem in those modules,
-including private helpers, against the standard axiom base. The source gate
-also checks formula, IO, reader and Python/Lean body correspondence records.
+Daily CI at 04:00 Asia/Singapore (20:00 UTC), and manual dispatch, rebuild the
+selected roots and audit every theorem in those modules, including private
+helpers, against the standard axiom base. Before merging proof changes, run
+that complete validation locally. PR CI checks source bindings, Python
+regressions, formula, IO, reader and Python/Lean body correspondence records.
 The latter is complete for 124/183 tasks and 19/19 worked examples.
 
 ```bash

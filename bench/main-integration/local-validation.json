@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "kind": "local_selected_scope_validation",
+  "validated_commit": "d776895c7beaa3c4c9cda96c8df850cf67ed29df",
+  "scope_manifest_sha256": "4729c39bc80d5c603aca88609efcae7008d2519433638c26c4e80cd92eba942b",
+  "proof_driver_sha256": "f3937435ca92a5ed2d514dd48d2bdb3e7eac00caaab6b9153a49fe912e78f250",
+  "proof_command": "python3 bench/verified_scope.py --audit-self-test --build",
+  "proof_command_exit_code": 0,
+  "selected_roots": 6169,
+  "build_jobs": 15868,
+  "checked_theorems": 120936,
+  "axiom_dependency_union": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "positive_private_and_injected_axiom_controls": "passed",
+  "python_regression_command": "python3 -B bench/verified_scope.py --regressions",
+  "python_tests": 695,
+  "python_regression_result": "passed",
+  "full_proof_log_sha256": "2f3b6b6ee2248d397b925214276c36ca95ffc182b9f9e45cd8b48c9b51d2b8fc",
+  "python_log_sha256": "7c1c22f8763b49e9f26e555438ad88adb6f4ecd0377bef845d118c26c04a9bcf",
+  "scope_note": "The subsequent integration commit changes CI scheduling, documentation and this record; selected proof sources, build inputs and the proof driver remain identical to the validated commit. This records local validation, not a completed clean GitHub rebuild or native hardware experiment.",
+  "pending_task_entry_sets": 59,
+  "pending_historical_original_program_reviews": 172
+}

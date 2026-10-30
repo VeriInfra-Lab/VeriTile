@@ -49,7 +49,12 @@ displayed sample outputs are proved separately.
 
 On 2026-10-30 the maintainer chose to publish the already verified scope and
 leave other work explicitly pending. `verified-scope.yml` is the main release
-gate. The old Artifact and Bench audit workflows remain manually runnable
+workflow. The maintainer subsequently chose daily full proof validation:
+the complete 6,169-root build and axiom audit run at 04:00 Asia/Singapore
+(20:00 UTC), or on manual dispatch. PRs retain source/contract/pending-inventory
+checks and Python regressions; local complete proof validation is required
+before merging proof changes. This integration's local validation is recorded
+in `local-validation.json`. The old Artifact and Bench audit workflows remain manually runnable
 diagnostics for the historical all-target/original-program requirements.
 
 The selected build contains 6,169 roots: the previous 6,166-root set plus the

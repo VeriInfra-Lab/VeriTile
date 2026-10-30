@@ -16,6 +16,13 @@ build configuration, root list, task dispositions and Python test inventory.
 A task cannot disappear or change disposition without updating that reviewed
 scope. The normal body/formula/IO/reader guards remain separate required checks.
 
+PR and main-push CI run the source, contract, pending-inventory and Python
+regression checks. The full 6,169-root Lean build and axiom audit run once daily
+at 04:00 Asia/Singapore (20:00 UTC), and on manual dispatch. Before merging
+proof changes, run the full build and audit locally; a PR does not wait for
+another remote full build. Daily runs use a separate concurrency group so a
+main push does not cancel an ongoing daily audit.
+
 ```sh
 python3 bench/verified_scope.py               # source and disposition checks
 python3 bench/verified_scope.py --json        # website/readable inventory

@@ -54,8 +54,10 @@ externally checked. See [Triton subset and gaps](./documents/TritonSubset.md).
   forward, online softmax, Welford, LayerNorm, log-sum-exp.
 - **Release validation**: `.github/workflows/verified-scope.yml` checks the
   explicit 6,169-root proof set, source fingerprints, current formula/IO/reader
-  reviews and body correspondence. All selected theorem dependencies are
-  audited against the standard Lean axiom base. The scope covers 124/183 task
+  reviews and body correspondence. PRs run the source and regression checks;
+  the complete Lean build and axiom audit run daily at 04:00 Asia/Singapore
+  (20:00 UTC), or on manual dispatch. Before merging proof changes, run the
+  complete selected build and audit locally. The scope covers 124/183 task
   entry sets and 19/19 worked examples; the other 59 task entry sets and the
   separate 172 pending original-program acceptance reviews stay pending.
   [Scope and reproduction](./bench/verified-scope/README.md) explain the limits.

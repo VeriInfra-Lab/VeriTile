@@ -96,7 +96,10 @@ when reporting benchmark results. The previous benchmark setup used version
 `scripts/check-artifact.sh` is the historical full-scope Lean artifact gate.
 Main releases use `python3 bench/verified_scope.py --build` and the checks in
 `.github/workflows/verified-scope.yml`; see `bench/verified-scope/README.md`.
-It runs `lake build VeriTile VeriTileFull`, rejects Lean `sorry` warnings, runs
+Run the complete selected proof build and audit locally before merging proof
+changes. CI runs that full set daily at 04:00 Asia/Singapore (20:00 UTC), or
+on manual dispatch; PRs run source, contract and Python regression checks.
+The historical artifact checker runs `lake build VeriTile VeriTileFull`, rejects Lean `sorry` warnings, runs
 the official comparator on every proven library target in the manifest, checks declared axioms
 against `scripts/artifact-axiom-whitelist.txt`, validates the per-kernel
 registry in `scripts/kernel-manifest.tsv`, and checks README example links for
