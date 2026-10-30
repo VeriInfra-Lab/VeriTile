@@ -16923,7 +16923,8 @@
           ],
           "reader_theorem": "Logical.reader_implements; scalar/stage formula identities and proof assembly live in Proofs/LogicalIO.lean."
         },
-        "statement_scope_unchanged": true
+        "statement_scope_unchanged": true,
+        "shared_control_source": "Kernels.lean retains the complete source/areaSource control-flow quotations using the shared source_program triton frontend. Successful whole-program decoding is proved before extracting either typed executable. Proofs/SourceEntry.lean proves both complete lists equal to frozen legacy quotations. The existing SC execution model, phase domain, all source effects and public judgments are preserved."
       },
       "fp_program_pair": {
         "headline": "original ≡[[]] tileArea",
@@ -16946,13 +16947,13 @@
         "bench/tritonbench_g/spinning_lock_reduction/FPEquiv.lean": "e1ddb8b2f3b02422db0b9297c7a349b31fd8d4a44873b167bb6096f5adc72c86",
         "bench/tritonbench_g/spinning_lock_reduction/Formula.lean": "403bda380646316ef027d21065d4d555627e29a7880767d7ece7704dbc550cb3",
         "bench/tritonbench_g/spinning_lock_reduction/IO.lean": "7df993fbc7636d1cc9e4fdd2f3636ea729bb89aa6d772a8cebe64466a34fa7df",
-        "bench/tritonbench_g/spinning_lock_reduction/Kernels.lean": "f44567b272a9dec26a59a8b1b151ec5826004a734b1e334512958b28ace0fbc9",
+        "bench/tritonbench_g/spinning_lock_reduction/Kernels.lean": "adee4812f719196c6529ebf6d80916064bd463894549bc06cb1e788d14ab510d",
         "bench/tritonbench_g/spinning_lock_reduction/Proofs/IOImplements.lean": "b4e99d040422d01418996e5304ff71ca38e9ee1b18658ea45aac4093fe008cf3",
         "bench/tritonbench_g/spinning_lock_reduction/Proofs/LogicalIO.lean": "6cd906fb8fc4da2e30e1db3ce8b50dcfa5427e3a7bf9bcbfa515cfb62f9fc9f3",
         "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
         "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
         "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8",
-        "bench/tritonbench_g/spinning_lock_reduction/SourceSyntax.lean": "d15c30f29ef7d5d194d502268d523adfba57b7e71d2a0ae3d0e016a2faed3ed3",
+        "bench/tritonbench_g/spinning_lock_reduction/SourceSyntax.lean": "102057639fa1d21dd4f774f2aa8cbed199f44b4c66e2cbc2f2232b6fe525e222",
         "bench/tritonbench_g/spinning_lock_reduction/ProgramView.lean": "0c30f8cdb2b51206bd07a32dfaea6cf21c48adb09069f0e19fc305f30fc49e0c",
         "bench/tritonbench_g/spinning_lock_reduction/SourceReader.lean": "a27fc751b353d21af2765345feb3864300a80f4df8132d28ae815329ef056fc5",
         "bench/tritonbench_g/spinning_lock_reduction/Controller.lean": "2f13474a4f644c0b2996f0e4ad4db3cf92ad1bb1abb6713ff52355984f160048",
@@ -16970,7 +16971,7 @@
         "bench/tritonbench_g/spinning_lock_reduction/Proofs/KernelStages.lean": "e08a2fcf1f15874049ca4ff7d984c48285e7cd0eae0ea814bd9e00f94e7962ff",
         "bench/tritonbench_g/spinning_lock_reduction/Proofs/IOFrame.lean": "e1768c9f0edc4aee95b2016f316d58c2db0779ccbef93ed289bf649a0f58b95d",
         "bench/tritonbench_g/spinning_lock_reduction/Proofs/PhasedHost.lean": "76d2f17b0faae63316ba14caf62ca3a0c51e826ecaaa98fe7a9681be2fdaa1a5",
-        "bench/tritonbench_g/spinning_lock_reduction/Proofs/SourceBridge.lean": "bd64c457f7474f06f315390102f3add64768c1633bb9a43ca129d149c551fcc0",
+        "bench/tritonbench_g/spinning_lock_reduction/Proofs/SourceBridge.lean": "7953e8bee691318e139c44787191335c6aa7626ea9bcb67c58a3143dfca0816e",
         "bench/tritonbench_g/spinning_lock_reduction/Proofs/WideAddress.lean": "e59d9678b4469b0cda17295fd2a72bf1eb9bb382f667d4335485277842fd1110",
         "bench/tritonbench_g/spinning_lock_reduction/Proofs/WideExecution.lean": "c2500d46eb93c1c91e5406f2f394b311b9ea59c04c2388494879996fddba97bb",
         "bench/tritonbench_g/spinning_lock_reduction/Proofs/PhasedControl.lean": "69f72fecf6ebba0219792d76f786f5606d564d3c21f47177e3c83c048cca8276",
@@ -16978,7 +16979,13 @@
         "bench/tritonbench_g/spinning_lock_reduction/Proofs/FiniteResults.lean": "4b787e19897a16bf374a00808b6e2a6ad743483c59905521badb7b65f9fc1e6b",
         "bench/tritonbench_g/spinning_lock_reduction/Proofs/WideAccess.lean": "e7d7a540df86a0747ca36b24d0e31ada6a0f63ad14184ddb0eb069d4563209e5",
         "bench/tritonbench_g/spinning_lock_reduction/Proofs/IOBoundary.lean": "89dbadf01a02166e51a68f2e55b44b00527efe0110944128e0c84432effd6a77",
-        "bench/tritonbench_g/spinning_lock_reduction/Proofs/WideHost.lean": "a2b5055fb01a03f5446b6a33369bb780478fca8d055d04b0ba46d1f499077467"
+        "bench/tritonbench_g/spinning_lock_reduction/Proofs/WideHost.lean": "a2b5055fb01a03f5446b6a33369bb780478fca8d055d04b0ba46d1f499077467",
+        "VeriTile/Triton/DSL/BoolTerms.lean": "c05a34e26d392a0f748b93b3b7a18e19bedeee49ad602a2cb005b19a6c298fcd",
+        "VeriTile/Triton/DSL/ControlSource.lean": "5244270db7d49498d30a891e935189ee1a04adbcb37433981e68169052317ee2",
+        "bench/tritonbench_g/spinning_lock_reduction/SourceAdapter.lean": "bd3118a0dbc4439ce7752ee66e5e3bfcc7ad54b3f2b1e81f97abdd769e3cafef",
+        "bench/tritonbench_g/spinning_lock_reduction/Proofs/SourceEntry.lean": "15a891f24af5899a8681eacaa245106abbda2cbdab7b716ccb393bfd362f33e2",
+        "bench/tritonbench_g/spinning_lock_reduction/Proofs/LegacySource.lean": "84a0170ea2ca1de9c624772cb24024b96057373020ca73e733bb94b438f3862b",
+        "bench/tritonbench_g/spinning_lock_reduction/Proofs/LegacySyntax.lean": "4657387ae9b83be0a67069a4d0b41303afab2903edfae4da5fce873d9c76d008"
       },
       "readers": [
         {
@@ -17114,7 +17121,8 @@
             "Geometry.input_mask_safe supplies actual finite strided A/B addresses"
           ]
         },
-        "statement_scope_unchanged": true
+        "statement_scope_unchanged": true,
+        "shared_control_source": "Kernels.lean retains all eight complete helper/stage source bodies through the shared source_program triton frontend. Whole-body success witnesses use the total adapter, which checks all helper bindings and precision forms. Proofs/SourceEntry.lean proves both full Sources sets equal to frozen legacy quotations. The existing original-domain/capacity execution connections, full state/event/frame observations, public judgments and numerical dependencies are unchanged."
       },
       "fp_program_pair": {
         "headline": "original reference p ≡[[]] tileArea reference p",
@@ -17135,21 +17143,21 @@
         "bench/tritonbench_g/streamk_matmul/Contract.lean": "ecf18d0dde7dafdedc7349d926f481ee7f947c1152f7d9ae82c88e6018e196f9",
         "bench/tritonbench_g/streamk_matmul/Correct.lean": "7a196725d160994780b714bea33ac80c8ed19a52e901ee1762051aedaa7ec864",
         "bench/tritonbench_g/streamk_matmul/FPEquiv.lean": "3fc3aef8f091e8821bffe5e71e59288c5dc377976842c2c8ab14a7d33ab2dbb6",
-        "bench/tritonbench_g/streamk_matmul/Kernels.lean": "9c2c1960df7709f2bcb19666a4da98e16577404fc043f389163505daa6c2d4c5",
+        "bench/tritonbench_g/streamk_matmul/Kernels.lean": "9df98de233711f9a47c662f65896680f6e855ece8da9ded857ba4f9871f12b4c",
         "bench/tritonbench_g/streamk_matmul/Proofs/EventCapacity.lean": "f01e3c54cc6813d003343a75a70987fa6b33d2bee5885115c24a5859c15f6fde",
         "bench/tritonbench_g/streamk_matmul/Proofs/EventOriginalDomain.lean": "6511f4fa3a8dd576d46caf55ffbf36f52d651181af5941c47e295e3f660b910b",
         "bench/tritonbench_g/streamk_matmul/Proofs/LogicalIO.lean": "3b0aa33b07747c2a83bb3efcda35638b1b40a8f2d39e344bf314d6b0b8fc0753",
         "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
         "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
         "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8",
-        "bench/tritonbench_g/streamk_matmul/SourceSyntax.lean": "09466bc4bd9e8a1934a25649904abe8080892a8d1a6b33edd353d49d03337e32",
+        "bench/tritonbench_g/streamk_matmul/SourceSyntax.lean": "0d8f957572e3142bf86761edbbe3540dd73824bc77b549a59ea8d62a09acdff1",
         "bench/tritonbench_g/streamk_matmul/ProgramView.lean": "5117af07c7f34818c4d1df54d1dcba095660f6c9551c413534c2982415c9ca6d",
         "bench/tritonbench_g/streamk_matmul/SourceReads.lean": "bfdc6207ebf12a7a2082293517df27448b9b29b9b4a8ccd0d089fc32da9ed78a",
         "bench/tritonbench_g/streamk_matmul/SourceReader.lean": "54a73e2b036c7b2353ce8d2c5939dcddb0d1bc1f2aaac8f2981925e617285d07",
-        "bench/tritonbench_g/streamk_matmul/Execution.lean": "3fe04e1230903f537292b19516cb3189f9b9e8a6d57a9c212e8605486fc362e2",
+        "bench/tritonbench_g/streamk_matmul/Execution.lean": "09ab13497f91ea4d0fda3624a81bd71217ef367d8a688c1bd4755033629bb67d",
         "bench/tritonbench_g/streamk_matmul/ClosedSource.lean": "9f5365684c9cee25c18208459d91841efbd76610797560195f714ba397c2b863",
         "bench/tritonbench_g/streamk_matmul/IO.lean": "e376e13cbd8af52a2144ced1119e0694f0c96fdd1bddc1731e328154df0ac0d6",
-        "bench/tritonbench_g/streamk_matmul/Proofs/AreaEquivalence.lean": "e86bd49f7a456188cfaeaee470f9351278c343d5cb9d21a655fc1fc639891704",
+        "bench/tritonbench_g/streamk_matmul/Proofs/AreaEquivalence.lean": "190d2273e271fb8b4cc0ef445535072141c0e0ee6099b201f284600d7ae9255a",
         "bench/tritonbench_g/streamk_matmul/Proofs/SourceTape.lean": "4460f0e4f6ed29d640751753adf598928244f6522aac61340fe69037c7cfbe55",
         "bench/tritonbench_g/streamk_matmul/Proofs/EventImplementation.lean": "7399ac90a1f33cf14526d091e337f14bb55f40b1d1a1955f70d6df567acf5fb0",
         "bench/tritonbench_g/streamk_matmul/Proofs/EventValues.lean": "917cfa67a7a79071477b7c830e6a7bcfaf360838a72a05cb30c4c19a79497b63",
@@ -17178,7 +17186,13 @@
         "bench/tritonbench_g/streamk_matmul/Proofs/Stores.lean": "9a3c3bbcf9313c6d4f8f6af675dc32304c6668d785f364ef81a6f497a551fe99",
         "bench/tritonbench_g/streamk_matmul/Proofs/Intervals.lean": "1f8a60b107d3f871eace5b288fc8df3eae3b356b5d0c38d6c9ff04c814a36a89",
         "bench/tritonbench_g/streamk_matmul/Proofs/Reference.lean": "b624d4c1547df1752543680bc2b889b471011a7a2ca64b05bd0fcb7bf910c420",
-        "bench/tritonbench_g/streamk_matmul/Proofs/StreamK_Reference.lean": "12cd861159ac3fb0a3b9195ababebda5600281ecc0ca4b44b7b5f1534484f306"
+        "bench/tritonbench_g/streamk_matmul/Proofs/StreamK_Reference.lean": "12cd861159ac3fb0a3b9195ababebda5600281ecc0ca4b44b7b5f1534484f306",
+        "VeriTile/Triton/DSL/BoolTerms.lean": "c05a34e26d392a0f748b93b3b7a18e19bedeee49ad602a2cb005b19a6c298fcd",
+        "VeriTile/Triton/DSL/ControlSource.lean": "5244270db7d49498d30a891e935189ee1a04adbcb37433981e68169052317ee2",
+        "bench/tritonbench_g/streamk_matmul/SourceAdapter.lean": "63f6e1532f8a218585722ed4d7d7e34e40da8b9ed960665c23c188ae3b2a99fd",
+        "bench/tritonbench_g/streamk_matmul/Proofs/SourceEntry.lean": "f6f0560fcdd66076099f6dd16881dfb481a777301425407419ba8fcc3ad94742",
+        "bench/tritonbench_g/streamk_matmul/Proofs/LegacySyntax.lean": "2ba8a80856c34623f1437eda278eb9f11ae8a88ce0412befe5dbf602aa8cfa55",
+        "bench/tritonbench_g/streamk_matmul/Proofs/LegacySource.lean": "01bfd9e4258c832c354675745ef6c31076a87af5eb2acfc072ea70b1874e6429"
       },
       "readers": [
         {

@@ -1,17 +1,17 @@
-import bench.tritonbench_g.spinning_lock_reduction.SourceSyntax
+import bench.tritonbench_g.spinning_lock_reduction.SourceAdapter
 
-/-! Canonical phased kernel, specialized to the checked false P_NEG/C_NEG/
-LOCK_NEG flags. Method casts are written as the equivalent `tl.cast`; tuple
-shape syntax is written as the shared quotation's bracket shape syntax.
-The task-local reader executes every extracted condition/address and the
-explicit while/CAS/barrier instructions. No proof module enters this source.
--/
+/-! Complete source programs use the shared control-flow frontend. The
+checked adapter retains the original typed SC execution model and rejects
+unsupported source forms. Compilation witnesses cover the full programs;
+spinning, barriers, atomic results and all nine rounds remain explicit. -/
 namespace VeriTile.Bench.Repairs.SpinningLock
-open SourceReader SourceSyntax VeriTile.Bench.TritonBenchG.SpinningLock
+open SourceReader VeriTile.Bench.TritonBenchG.SpinningLock
+set_option maxRecDepth 50000
+set_option maxHeartbeats 8000000
 
 /-- One source, specialized by PHASE at execution. The accumulator persists
 across all nine rounds. Producer and consumer kernels differ only by PHASE. -/
-def kernel : List Statement := spinning_triton {
+def source : VeriTile.Triton.ControlSource.Program := source_program triton {
   pid = tl.cast(tl.program_id(0), tl.int64)
   tl.static_assert(PHASE == 1 or PHASE == 2)
   is_reducer = tl.cast(pid, tl.uint64) % tl.cast(k, tl.uint64) == 0
@@ -54,7 +54,7 @@ def kernel : List Statement := spinning_triton {
 
 /-- Fold constexpr tile area before the live 64-bit program-index multiply.
 The complete CAS/barrier/control source is retained. -/
-def areaKernel : List Statement := spinning_triton {
+def areaSource : VeriTile.Triton.ControlSource.Program := source_program triton {
   pid = tl.cast(tl.program_id(0), tl.int64)
   tl.static_assert(PHASE == 1 or PHASE == 2)
   is_reducer = tl.cast(pid, tl.uint64) % tl.cast(k, tl.uint64) == 0
@@ -94,6 +94,18 @@ def areaKernel : List Statement := spinning_triton {
     tl.store(C_, acc, mask=mask)
   }
 }
+
+/-- Full checked lowering. The value is inferred from the successful decode;
+there is no fallback program for an unsupported statement. -/
+abbrev kernelDecoded : { body : List Statement // SourceAdapter.decode source = .ok body } := by
+  refine ⟨?_, ?_⟩
+  case refine_2 => rfl
+abbrev areaKernelDecoded : { body : List Statement // SourceAdapter.decode areaSource = .ok body } := by
+  refine ⟨?_, ?_⟩
+  case refine_2 => rfl
+
+def kernel : List Statement := kernelDecoded.val
+def areaKernel : List Statement := areaKernelDecoded.val
 
 /-- Public source execution. The option records source decoding/static-assert
 failure; compilation success is proved, never assumed as an input contract. -/
