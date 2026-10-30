@@ -1,0 +1,632 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/layer_norm_fwd_nonzero_tile.py",
+    "lean": "bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Kernels.lean",
+    "python_function": "_layer_norm_fwd_1pass_kernel",
+    "lean_definition": "rawKernel",
+    "signature_definition": "signature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "Y",
+          "fp32"
+        ],
+        [
+          "W",
+          "fp32"
+        ],
+        [
+          "B",
+          "fp32"
+        ],
+        [
+          "RESIDUAL",
+          "fp32"
+        ],
+        [
+          "X1",
+          "fp32"
+        ],
+        [
+          "W1",
+          "fp32"
+        ],
+        [
+          "B1",
+          "fp32"
+        ],
+        [
+          "Y1",
+          "fp32"
+        ],
+        [
+          "RESIDUAL_OUT",
+          "fp32"
+        ],
+        [
+          "ROWSCALE",
+          "fp32"
+        ],
+        [
+          "SEEDS",
+          "i64"
+        ],
+        [
+          "DROPOUT_MASK",
+          "boolean"
+        ],
+        [
+          "Mean",
+          "fp32"
+        ],
+        [
+          "Rstd",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_x_row",
+          "i32"
+        ],
+        [
+          "stride_y_row",
+          "i32"
+        ],
+        [
+          "stride_res_row",
+          "i32"
+        ],
+        [
+          "stride_res_out_row",
+          "i32"
+        ],
+        [
+          "stride_x1_row",
+          "i32"
+        ],
+        [
+          "stride_y1_row",
+          "i32"
+        ],
+        [
+          "M",
+          "i32"
+        ],
+        [
+          "N",
+          "i32"
+        ],
+        [
+          "eps",
+          "fp32"
+        ],
+        [
+          "dropout_p",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "IS_RMS_NORM",
+        "BLOCK_N",
+        "HAS_RESIDUAL",
+        "STORE_RESIDUAL_OUT",
+        "HAS_BIAS",
+        "HAS_DROPOUT",
+        "STORE_DROPOUT_MASK",
+        "HAS_ROWSCALE",
+        "HAS_X1",
+        "HAS_W1",
+        "HAS_B1"
+      ],
+      "readPorts": [
+        "X",
+        "W",
+        "B",
+        "RESIDUAL",
+        "X1",
+        "W1",
+        "B1",
+        "ROWSCALE",
+        "SEEDS"
+      ],
+      "writePorts": [
+        "Y",
+        "Y1",
+        "RESIDUAL_OUT",
+        "DROPOUT_MASK",
+        "Mean",
+        "Rstd"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_x_row": "stride_x_row",
+      "stride_y_row": "stride_y_row",
+      "stride_res_row": "stride_res_row",
+      "stride_res_out_row": "stride_res_out_row",
+      "stride_x1_row": "stride_x1_row",
+      "stride_y1_row": "stride_y1_row",
+      "M": "M",
+      "N": "N",
+      "eps": "eps",
+      "dropout_p": "dropout_p"
+    },
+    "profile_variant": "runtime_i32_metadata_fp32"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/layer_norm_fwd_index_commuted.py",
+    "lean": "bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Kernels.lean",
+    "python_function": "_layer_norm_fwd_1pass_kernel",
+    "lean_definition": "rawIndexCommuted",
+    "signature_definition": "signature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "Y",
+          "fp32"
+        ],
+        [
+          "W",
+          "fp32"
+        ],
+        [
+          "B",
+          "fp32"
+        ],
+        [
+          "RESIDUAL",
+          "fp32"
+        ],
+        [
+          "X1",
+          "fp32"
+        ],
+        [
+          "W1",
+          "fp32"
+        ],
+        [
+          "B1",
+          "fp32"
+        ],
+        [
+          "Y1",
+          "fp32"
+        ],
+        [
+          "RESIDUAL_OUT",
+          "fp32"
+        ],
+        [
+          "ROWSCALE",
+          "fp32"
+        ],
+        [
+          "SEEDS",
+          "i64"
+        ],
+        [
+          "DROPOUT_MASK",
+          "boolean"
+        ],
+        [
+          "Mean",
+          "fp32"
+        ],
+        [
+          "Rstd",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_x_row",
+          "i32"
+        ],
+        [
+          "stride_y_row",
+          "i32"
+        ],
+        [
+          "stride_res_row",
+          "i32"
+        ],
+        [
+          "stride_res_out_row",
+          "i32"
+        ],
+        [
+          "stride_x1_row",
+          "i32"
+        ],
+        [
+          "stride_y1_row",
+          "i32"
+        ],
+        [
+          "M",
+          "i32"
+        ],
+        [
+          "N",
+          "i32"
+        ],
+        [
+          "eps",
+          "fp32"
+        ],
+        [
+          "dropout_p",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "IS_RMS_NORM",
+        "BLOCK_N",
+        "HAS_RESIDUAL",
+        "STORE_RESIDUAL_OUT",
+        "HAS_BIAS",
+        "HAS_DROPOUT",
+        "STORE_DROPOUT_MASK",
+        "HAS_ROWSCALE",
+        "HAS_X1",
+        "HAS_W1",
+        "HAS_B1"
+      ],
+      "readPorts": [
+        "X",
+        "W",
+        "B",
+        "RESIDUAL",
+        "X1",
+        "W1",
+        "B1",
+        "ROWSCALE",
+        "SEEDS"
+      ],
+      "writePorts": [
+        "Y",
+        "Y1",
+        "RESIDUAL_OUT",
+        "DROPOUT_MASK",
+        "Mean",
+        "Rstd"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_x_row": "stride_x_row",
+      "stride_y_row": "stride_y_row",
+      "stride_res_row": "stride_res_row",
+      "stride_res_out_row": "stride_res_out_row",
+      "stride_x1_row": "stride_x1_row",
+      "stride_y1_row": "stride_y1_row",
+      "M": "M",
+      "N": "N",
+      "eps": "eps",
+      "dropout_p": "dropout_p"
+    },
+    "profile_variant": "runtime_i32_metadata_fp32"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/layer_norm_fwd_nonzero_tile.py",
+    "lean": "bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Kernels.lean",
+    "python_function": "_layer_norm_fwd_1pass_kernel",
+    "lean_definition": "rawKernelOne",
+    "signature_definition": "signatureOne",
+    "expected_signature": {
+      "pointers": [
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "Y",
+          "fp32"
+        ],
+        [
+          "W",
+          "fp32"
+        ],
+        [
+          "B",
+          "fp32"
+        ],
+        [
+          "RESIDUAL",
+          "fp32"
+        ],
+        [
+          "X1",
+          "fp32"
+        ],
+        [
+          "W1",
+          "fp32"
+        ],
+        [
+          "B1",
+          "fp32"
+        ],
+        [
+          "Y1",
+          "fp32"
+        ],
+        [
+          "RESIDUAL_OUT",
+          "fp32"
+        ],
+        [
+          "ROWSCALE",
+          "fp32"
+        ],
+        [
+          "SEEDS",
+          "i64"
+        ],
+        [
+          "DROPOUT_MASK",
+          "boolean"
+        ],
+        [
+          "Mean",
+          "fp32"
+        ],
+        [
+          "Rstd",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_x_row",
+          "i32"
+        ],
+        [
+          "stride_y_row",
+          "i32"
+        ],
+        [
+          "stride_res_row",
+          "i32"
+        ],
+        [
+          "stride_res_out_row",
+          "i32"
+        ],
+        [
+          "stride_x1_row",
+          "i32"
+        ],
+        [
+          "stride_y1_row",
+          "i32"
+        ],
+        [
+          "M",
+          "i32"
+        ],
+        [
+          "eps",
+          "fp32"
+        ],
+        [
+          "dropout_p",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "N",
+        "IS_RMS_NORM",
+        "BLOCK_N",
+        "HAS_RESIDUAL",
+        "STORE_RESIDUAL_OUT",
+        "HAS_BIAS",
+        "HAS_DROPOUT",
+        "STORE_DROPOUT_MASK",
+        "HAS_ROWSCALE",
+        "HAS_X1",
+        "HAS_W1",
+        "HAS_B1"
+      ],
+      "readPorts": [
+        "X",
+        "W",
+        "B",
+        "RESIDUAL",
+        "X1",
+        "W1",
+        "B1",
+        "ROWSCALE",
+        "SEEDS"
+      ],
+      "writePorts": [
+        "Y",
+        "Y1",
+        "RESIDUAL_OUT",
+        "DROPOUT_MASK",
+        "Mean",
+        "Rstd"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_x_row": "stride_x_row",
+      "stride_y_row": "stride_y_row",
+      "stride_res_row": "stride_res_row",
+      "stride_res_out_row": "stride_res_out_row",
+      "stride_x1_row": "stride_x1_row",
+      "stride_y1_row": "stride_y1_row",
+      "M": "M",
+      "eps": "eps",
+      "dropout_p": "dropout_p"
+    },
+    "profile_variant": "native_integer_one_constexpr",
+    "expected_constexpr_bindings": {
+      "N": 1
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/layer_norm_fwd_index_commuted.py",
+    "lean": "bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Kernels.lean",
+    "python_function": "_layer_norm_fwd_1pass_kernel",
+    "lean_definition": "rawIndexCommutedOne",
+    "signature_definition": "signatureOne",
+    "expected_signature": {
+      "pointers": [
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "Y",
+          "fp32"
+        ],
+        [
+          "W",
+          "fp32"
+        ],
+        [
+          "B",
+          "fp32"
+        ],
+        [
+          "RESIDUAL",
+          "fp32"
+        ],
+        [
+          "X1",
+          "fp32"
+        ],
+        [
+          "W1",
+          "fp32"
+        ],
+        [
+          "B1",
+          "fp32"
+        ],
+        [
+          "Y1",
+          "fp32"
+        ],
+        [
+          "RESIDUAL_OUT",
+          "fp32"
+        ],
+        [
+          "ROWSCALE",
+          "fp32"
+        ],
+        [
+          "SEEDS",
+          "i64"
+        ],
+        [
+          "DROPOUT_MASK",
+          "boolean"
+        ],
+        [
+          "Mean",
+          "fp32"
+        ],
+        [
+          "Rstd",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_x_row",
+          "i32"
+        ],
+        [
+          "stride_y_row",
+          "i32"
+        ],
+        [
+          "stride_res_row",
+          "i32"
+        ],
+        [
+          "stride_res_out_row",
+          "i32"
+        ],
+        [
+          "stride_x1_row",
+          "i32"
+        ],
+        [
+          "stride_y1_row",
+          "i32"
+        ],
+        [
+          "M",
+          "i32"
+        ],
+        [
+          "eps",
+          "fp32"
+        ],
+        [
+          "dropout_p",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "N",
+        "IS_RMS_NORM",
+        "BLOCK_N",
+        "HAS_RESIDUAL",
+        "STORE_RESIDUAL_OUT",
+        "HAS_BIAS",
+        "HAS_DROPOUT",
+        "STORE_DROPOUT_MASK",
+        "HAS_ROWSCALE",
+        "HAS_X1",
+        "HAS_W1",
+        "HAS_B1"
+      ],
+      "readPorts": [
+        "X",
+        "W",
+        "B",
+        "RESIDUAL",
+        "X1",
+        "W1",
+        "B1",
+        "ROWSCALE",
+        "SEEDS"
+      ],
+      "writePorts": [
+        "Y",
+        "Y1",
+        "RESIDUAL_OUT",
+        "DROPOUT_MASK",
+        "Mean",
+        "Rstd"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_x_row": "stride_x_row",
+      "stride_y_row": "stride_y_row",
+      "stride_res_row": "stride_res_row",
+      "stride_res_out_row": "stride_res_out_row",
+      "stride_x1_row": "stride_x1_row",
+      "stride_y1_row": "stride_y1_row",
+      "M": "M",
+      "eps": "eps",
+      "dropout_p": "dropout_p"
+    },
+    "profile_variant": "native_integer_one_constexpr",
+    "expected_constexpr_bindings": {
+      "N": 1
+    }
+  }
+]

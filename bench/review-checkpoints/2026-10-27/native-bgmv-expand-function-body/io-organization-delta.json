@@ -1,0 +1,13 @@
+{
+  "task": "bgmv_expand_slice",
+  "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+  "change": "Only localValue removes the fabricated FP32-to-FP32 cast around the optional FP32 addition. This corrects the ordered FP formula to the actual source and does not assert equality with the old opaque cast formula.",
+  "organization": "Physical and logical IO remain in the same task-level IO.lean. Read/write geometry, channels, masks, schedule, input bindings, logical bijections, public theorem text and domains are retained. Corrected values are connected by the actual raw-source execution, output/frame and safety proofs.",
+  "previous_io_sha256": "7e197b3769c18a1c08c6324f991bff967b063634c01b1fde39f53e4087b83149",
+  "current_io": {
+    "path": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/IO.lean",
+    "sha256": "6066e0cce6f266f7911f5e4bfb42e41038189ab049d95ec67ab074900675ccf3"
+  },
+  "validation": "All 112 focused/regression roots, all 3008 public/deep roots and joint imports pass, including the independent initially-empty project rebuild. No new FP identity or whole-kernel assumption.",
+  "remaining_io_organization_issues": []
+}

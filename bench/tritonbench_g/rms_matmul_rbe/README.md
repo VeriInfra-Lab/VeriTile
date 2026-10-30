@@ -1,36 +1,59 @@
 # rms_matmul_rbe
 
-- Source file: `rms_matmul_rbe.py` (upstream `data/TritonBench_G_v1/rms_matmul_rbe.py`)
-- Corpus: TritonBench-G v1
-- Size: 279 lines, 2 `@triton.jit` kernels
-- Status: **PORTED** — `RmsMatmulRbe.lean`, main theorems
-  `rms_matmul_rbe_closed_form_correct` (the GEMM) and
-  `rms_matmul_rbe_qkv_closed_form_correct` (the QKV caller — one bundled
-  specification, a conjunction of three `Realizes` faces), both
-  `exec`-level, dimension-general, 0 `sorry`.
+Public-entry cleanup (2026-10-14): the current benchmark specifications are the `specification` declarations in [Correct.lean](Correct.lean) and [FPEquiv.lean](FPEquiv.lean). Superseded entries have been retired; reusable mathematical facts remain ordinary helper theorems, and unused output-summary declarations have been removed. Historical preservation counts below describe the earlier snapshots. This cleanup adds no proof coverage or task acceptance.
 
-The file's first kernel `rms_matmul_rbe` is the batched RMSNorm-fused GEMM
-(byte-identical to the `rms_rbe_matmul` port's target JIT); its stack here
-is a twin mirror. The second kernel — the only one any host function
-launches — is **`rms_matmul_rbe_qkv`**, a **cross-JIT caller**: its body
-invokes `rms_matmul_rbe(...)` three times (Q/K/V weights and outputs,
-shared `x`/`rms_w`). The DSL has no jit-to-jit call surface, so the callee
-body is inlined three times (the `attn_fwd` inline precedent), and the
-proof factors one region/stride-parameterized pass bundle applied thrice
-with frame transport between passes (10 region-distinctness hypotheses —
-exactly the set the transport consumes; the host passes distinct buffers).
+The complete typed callee and sequential QKV caller are in `Kernels.lean`.
+Both weight branches retain every statement, the dynamic `cdiv(K, BK)` loop,
+native integer power, typed dot, raw E5M2 reinterpretations and conversions.
+Q always stores fp16; K and V store E5M2 in the int8 weight branch and fp16
+otherwise. The candidate commutes only the final natural output-row product.
 
-QKV headline: after the full run, each of Q/K/V's active cells holds the
-fp16 cast of `n_i · S_w[i,j]` — the shared RMS normalizer against the
-pass's own weight matrix. Side conditions: `K = BLOCK_SIZE_K · numKBlocks`
-(unmasked loads), per-output row-major injectivity pairs, the distinctness
-facts, clean-input `hundef`.
+`Correct.lean` exposes both historical specifications unchanged and two new
+complete non-FP8 IO specifications, plus callee and QKV byte IO specifications. They prove actual access safety,
+successful finite-flat execution, independent initial-input RMS/GEMM formulas
+and the full raw-cell frame. The QKV result is a single three-output contract,
+using the three original weight/output stride tuples and framing cells outside
+the union of active writes. K need not be divisible by BK: the bounds include every
+unmasked padding lane. Only active output addresses require injectivity.
 
-Translation-surface blocker (registered in `proof_blockers.md`): the
-cross-JIT calls inlined; the `USE_FP8` constexpr arm dropped
-(`bitcast=True` bit-reinterpretation, an ℝ-model limit); the callee's
-unused parameters (`start_token_position`/`RBE_EPILOGUE`/`THETA`)
-dropped/vanishing under inlining; `tl.cdiv(K, BLOCK_SIZE_K)` as the
-antiquoted `numKBlocks`; the stores' implicit fp16 casts spelled
-`(accumulator).to(tl.float16)`; loop counters `_i`. Host launch and
-per-dtype dispatch are the trusted boundary.
+`FPEquiv.lean` proves complete callee and QKV state/failure equivalence for
+arbitrary arithmetic, integer-power, dot and E5M2-decode backends, with **no FP
+assumptions**. Nonfinite or invalid byte payloads remain within these equivalence
+statements. They do not assert native frontend admission or IEEE equality.
+
+`Proofs/Precision.lean` checks independent templates for all 48 callee profiles
+(six floating X labels, two weight profiles, two independent output types,
+two variants), and all three QKV loops and output casts. The templates cover
+loads, fp32 power and moment, source-local multiplication promotion, separate
+dot/carry, normalization and pointer increments. In particular fp64 X-local
+multiplication is retained while the dot result/carry remains fp32.
+
+`Proofs/Witness.lean` and `Proofs/QKVWitness.lean` discharge the finite allocation
+and all execution hypotheses for nonempty partial K/N tiles with batch id one
+and independent strides. The complete QKV run returns **Q=1, K=2, V=3** and
+retains an integer sentinel in a masked output cell. These are exact-real
+model runs.
+
+`Proofs/NumericExecution.lean` additionally proves actual typed execution of
+the complete three-pass source for both weight profiles and both variants.
+Its nonempty K=1/BK=2 example produces **Q=2, K=3, V=4**, with Q stored as fp16
+and K/V stored as fp16 or E5M2 according to the weight profile. All three masked
+output cells retain their integer sentinels and the raw input bytes remain
+unchanged. The backend uses real arithmetic, actual sum/dot/integer power and
+finite E5M2 decoding; its identity casts do not establish IEEE rounding.
+
+The 70 historical declarations (69 public, one private helper) keep their
+source signatures and docstrings; the two historical specification blocks are
+in `Correct.lean` for inventory discovery. Historical module prose is retained
+in `Proofs/LegacyReal.lean`; `source_scope.md` supersedes its outdated claims
+about host-provided K divisibility, omitted branches and output dtypes.
+
+The byte IO contracts require actual integer-cell inputs and finite E5M2
+decoding at every unmasked address. They compare against independent pure
+`PaddedRMSGemm` arrays and retain the raw byte-memory frame. Callee byte
+witnesses produce two; the complete byte QKV witness produces **Q=2, K=3, V=4**
+with the same finite partial-tile geometry and masked integer sentinels.
+
+Still pending: formal coverage of unconstrained nonfloating X inputs, native admission,
+IEEE/storage-byte correspondence and independent comparator replay. No replay
+result or GPU validation is claimed. See `source_scope.md` for exact boundaries.

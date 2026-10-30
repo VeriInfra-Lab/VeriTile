@@ -10,6 +10,10 @@ audit:
 * `#stmtConsts T`          — every constant in `T`'s statement.
 * `#auditStmt T`           — just the project (non-core) constants: the surface
                              a human must read.
+* `#print_fp_assumptions T` — used experimental atoms and separate strict certificates.
+* `#print_spec T`          — reader-facing claim, premises and atomic rules.
+* `#print_spec T full`     — configuration/evidence, transitive dependencies
+                             and the complete trust audit.
 * `#stmtSurfaceSubset T ⊆ [a, b, …]` — GATE: fail if the statement mentions a
                              project constant outside the allowlist (e.g. a spec
                              sneaking into a spec-free headline).
@@ -140,20 +144,28 @@ elab "#specNonCircular " spec:ident " avoiding " "[" ks:ident,* "]" : command =>
 multiline declarations. Specs use the existing `*Spec` convention or `kernel_spec`;
 execution denotations must instead be registered with `kernel_denotation`.
 Every discovered pair is checked, and the actual inventory is printed. -/
-elab "#auditModuleSpecs" : command => do
+def auditModuleSpecs (kernelModules : Array Name := #[]) : CommandElabM Unit := do
   let env ← getEnv
+  for source in kernelModules do
+    unless env.header.modules.any (·.module == source) do
+      throwError "Spec audit kernel module is not imported: {source}"
   let mut kernels : Array Name := #[]
   let mut specs : Array Name := #[]
   let mut denotations : Array Name := #[]
   for (name, info) in env.constants.toList do
     let userName := ((privateToUserName? name).getD name).eraseMacroScopes
-    if (env.getModuleIdxFor? name).isSome then
-      continue
+    let origin := env.getModuleIdxFor? name
+    if let some idx := origin then
+      unless kernelModules.contains env.header.modules[idx.toNat]!.module do
+        continue
     unless info.isDefinition do continue
     let isKernel ← liftTermElabM do
       Meta.forallTelescopeReducing info.type fun _ result => do
         return result.isConstOf `VeriTile.Triton.ComputeKernel
     if isKernel then kernels := kernels.push name
+    -- Imported source modules contribute kernels only. The specifications
+    -- being audited must still belong to the current proof module.
+    if origin.isSome then continue
     let isDenotation := kernelDenotationAttr.hasTag env name
     if isDenotation then denotations := denotations.push name
     if independentSpecAttr.hasTag env name ||
@@ -172,5 +184,650 @@ elab "#auditModuleSpecs" : command => do
   let display := fun (names : Array Name) =>
     (names.map fun name => (privateToUserName? name).getD name).qsort (·.toString < ·.toString)
   logInfo m!"Spec audit: kernels={kernels.size}, independentSpecs={specs.size}, denotations={denotations.size}\nkernels: {display kernels}\nindependent specs: {display specs}\ndenotations: {display denotations}"
+
+elab "#auditModuleSpecs" : command => auditModuleSpecs
+
+/-- Include explicitly named source modules when kernels and proofs live in
+separate files. Local kernels remain included, and no imported spec is trusted
+as a replacement for checking the current module's specifications. -/
+elab "#auditModuleSpecs" " from " "[" sources:ident,* "]" : command =>
+  auditModuleSpecs (sources.getElems.map (·.getId))
+
+/-! ## Public specification reports
+
+This is inspection, not an acceptance checker. Traversal follows both types
+and proof/definition bodies in project modules, stopping at trusted library
+boundaries. It is conservative: all branches of a reachable definition count.
+No trace of actual GPU operations or minimal logical dependency is claimed.
+-/
+
+/-- `getUsedConstants` omits raw `Expr.proj` nodes. Recover their projection
+functions too, so a model/typeclass law cannot disappear from the report. -/
+def specExprConsts (env : Environment) (e : Expr) : CoreM (Array Name) := do
+  let visit : StateRefT (Array Name) CoreM Unit := e.forEach fun node => do
+    if let .proj structureName index _ := node then
+      if let some info := getStructureInfo? env structureName then
+        if let some projection := info.getProjFn? index then
+          modify (·.push projection)
+  return (← visit.run e.getUsedConstants).2
+
+structure SpecDependencies where
+  project : Array Name := #[]
+  library : Array Name := #[]
+
+/-- Transitive syntactic dependency closure, with an explicit trusted-library
+boundary. Origins, not namespace spellings, determine the boundary. -/
+partial def specDependencies (env : Environment) (work : List Name)
+    (seen : NameSet := {}) (found : SpecDependencies := {}) : CoreM SpecDependencies := do
+  match work with
+  | [] => return found
+  | n :: rest =>
+    if seen.contains n then return ← specDependencies env rest seen found
+    let seen := seen.insert n
+    if isCoreConst env n then
+      return ← specDependencies env rest seen { found with library := found.library.push n }
+    let some info := env.find? n | return ← specDependencies env rest seen found
+    let mut next ← specExprConsts env info.type
+    if let some value := info.value? then
+      next := next ++ (← specExprConsts env value)
+    specDependencies env (next.toList ++ rest) seen { found with project := found.project.push n }
+
+private def legacyPrimitive (n : Name) : Bool :=
+  #[`VeriTile.Triton.NumericDType.add, `VeriTile.Triton.NumericDType.sub,
+    `VeriTile.Triton.NumericDType.mul, `VeriTile.Triton.NumericDType.div,
+    `VeriTile.Triton.WithBot.realAdd, `VeriTile.Triton.WithBot.realSub,
+    `VeriTile.Triton.WithBot.realMul, `VeriTile.Triton.WithBot.realDiv,
+    `VeriTile.Triton.FloatDType.cast, `VeriTile.Triton.RoundingModel.cast,
+    `VeriTile.Triton.RoundingModel.storeValue, `VeriTile.Triton.Tile.reduceSum,
+    `VeriTile.Triton.Tile.dot].contains n
+
+/-- Syntax-level equivalence need not call an evaluator. Its operation and
+statement constructors are still primitive dependencies readers must see. -/
+private def syntaxPrimitive (env : Environment) (n : Name) : Bool :=
+  match env.find? n with
+  | some (.ctorInfo info) =>
+      #[`VeriTile.Triton.Op, `VeriTile.Triton.ComputeOp,
+        `VeriTile.Triton.Stmt, `VeriTile.Triton.ComputeStmt].contains info.induct
+  | _ => false
+
+private def fpProofType (name : Name) : Bool :=
+  #[``VeriTile.Spec.Derivation, ``VeriTile.Spec.ProgramDerivation,
+    ``VeriTile.Spec.StatementTheory.Certified,
+    ``VeriTile.Spec.FloatingPoint, ``VeriTile.Spec.ProgramSyntax.Derivation,
+    ``VeriTile.Spec.ProgramSyntax.numerical,
+    `VeriTile.Triton.FP.Equational.TermEq, `VeriTile.Triton.FP.Equational.OptionalEq,
+    `VeriTile.Triton.FP.Structural.IO₁NumericalEquiv,
+    `VeriTile.Triton.FP.Structural.ProgramIO.EquivalentOn,
+    `VeriTile.Triton.FP.Guarded.Equivalent,
+    `VeriTile.Triton.FP.GuardedRewrite.Equivalent,
+    `VeriTile.Triton.FP.Guarded.Equivalent₁ₓ₂,
+    `VeriTile.Triton.FP.Scheduled.Equivalent₁ₓ₂,
+    `VeriTile.Triton.FP.Scheduled.Equivalent₃,
+    `VeriTile.Triton.FP.Scheduled.Equivalent₁,
+    `VeriTile.Triton.FP.Scheduled.ConditionalEquivalent₁,
+    `VeriTile.Triton.FP.SoftmaxShift.LibdeviceExpSub,
+    `VeriTile.Triton.FP.LogSumExpShift.IntrinsicLogMul,
+    `VeriTile.Triton.FP.LogSumExpShift.LogLibdeviceExp,
+    `VeriTile.Triton.FP.WelfordInduction.CountConversion,
+    `VeriTile.Triton.FP.Structural.CellRelated,
+    `VeriTile.Triton.FP.Structural.ValueRelated].contains name
+
+/-- Stop before unfolding either public relation. Follow aliases one step at
+a time; a bounded failure is reported as an unwrapped legacy declaration. -/
+private def specConclusion (e : Expr) : MetaM Expr := do
+  let mut e := e
+  for _ in [:64] do
+    if e.isAppOf ``VeriTile.Spec.Real ||
+        (match e.getAppFn with | .const name _ => fpProofType name | _ => false) then
+      return e
+    match ← Meta.unfoldDefinition? e (ignoreTransparency := true) with
+    | some next => e := next
+    | none => return e
+  return e
+
+private def ppSpecField (label : String) (projection : Name) (value : Expr) : MetaM Unit := do
+  let env ← getEnv
+  let mut field ← Meta.mkAppM projection #[value]
+  -- Reduce the record, then select the field without unfolding its contents.
+  -- In particular a program stays a named program, not a printed AST dump.
+  if let some info := env.getProjectionFnInfo? projection then
+    let record ← Meta.withTransparency .all <| Meta.whnf value
+    if record.isAppOf info.ctorName then
+      if let some selected := record.getAppArgs[info.numParams + info.i]? then
+        field := selected
+  if projection == ``VeriTile.Spec.Evidence.bias || projection == ``VeriTile.Spec.Evidence.vars then
+    let rendered ← Meta.withTransparency .all <| Meta.whnf
+      (← Meta.mkAppM ``VeriTile.Spec.GateStatus.label #[field])
+    if let some status := Meta.getStringValue? rendered then
+      logInfo m!"  {label}: {status}"
+      return
+  -- Imported report rows use named projections for their IDs and digest keys.
+  -- Print the actual identity rather than an unevaluated `row.ruleID`.
+  if projection == ``VeriTile.Spec.Contract.ruleID ||
+      projection == ``VeriTile.Spec.Contract.instanceKey ||
+      projection == ``VeriTile.Spec.Contract.description ||
+      projection == ``VeriTile.Spec.Evidence.instanceKey then
+    let rendered ← Meta.withTransparency .all <| Meta.whnf field
+    if let some value := Meta.getStringValue? rendered then
+      logInfo m!"  {label}: {repr value}"
+      return
+  if projection == ``VeriTile.Spec.Evidence.artifact then
+    let rendered ← Meta.withTransparency .all <| Meta.whnf field
+    if rendered.isAppOf ``Option.some then
+      let value ← Meta.withTransparency .all <| Meta.whnf rendered.getAppArgs.back!
+      if let some artifact := Meta.getStringValue? value then
+        logInfo m!"  {label}: some {repr artifact}"
+        return
+  logInfo m!"  {label}: {← Meta.ppExpr field}"
+
+private def printAtomicEntry (entry : Expr) : MetaM Unit := do
+  let rule ← Meta.mkAppM ``VeriTile.Spec.RuleEntry.rule #[entry]
+  let evidence ← Meta.mkAppM ``VeriTile.Spec.RuleEntry.evidence #[entry]
+  let contract ← Meta.mkAppM ``VeriTile.Spec.AtomicRule.contract #[rule]
+  ppSpecField "rule ID" ``VeriTile.Spec.Contract.ruleID contract
+  ppSpecField "atom lhs" ``VeriTile.Spec.AtomicRule.lhs rule
+  ppSpecField "atom rhs" ``VeriTile.Spec.AtomicRule.rhs rule
+  ppSpecField "instance key" ``VeriTile.Spec.Contract.instanceKey contract
+  ppSpecField "configuration" ``VeriTile.Spec.Contract.configuration contract
+  ppSpecField "configuration summary" ``VeriTile.Spec.Contract.description contract
+  ppSpecField "warning policy" ``VeriTile.Spec.Contract.warningPolicy contract
+  ppSpecField "evidence key" ``VeriTile.Spec.Evidence.instanceKey evidence
+  ppSpecField "artifact" ``VeriTile.Spec.Evidence.artifact evidence
+  ppSpecField "bias gate" ``VeriTile.Spec.Evidence.bias evidence
+  ppSpecField "vars gate" ``VeriTile.Spec.Evidence.vars evidence
+  let validated ← Meta.mkAppM ``VeriTile.Spec.EvidenceValidated #[rule, evidence]
+  logInfo m!"  atomic validation obligation: {← Meta.ppExpr validated}"
+
+private def printFloatingPointTheory (assumptions lhs rhs : Expr) : MetaM Unit := do
+  logInfo m!"Implementation lhs: {← Meta.ppExpr lhs}"
+  logInfo m!"Implementation rhs: {← Meta.ppExpr rhs}"
+  logInfo m!"Atomic assumptions: {← Meta.ppExpr assumptions}"
+  logInfo "Declared atom scope (conservative; may include unused entries):"
+  let mut rest := assumptions
+  for i in [:256] do
+    let reduced ← Meta.withTransparency .all <| Meta.whnf rest
+    if reduced.isAppOf ``List.nil then
+      if i == 0 then logInfo "  none"
+      break
+    if reduced.isAppOf ``List.cons then
+      let args := reduced.getAppArgs
+      logInfo m!"Atom {i + 1}:"
+      printAtomicEntry args[1]!
+      rest := args[2]!
+    else
+      logInfo m!"  symbolic remainder: {← Meta.ppExpr rest}"
+      break
+    if i == 255 then logInfo "  further entries omitted (use the named table definition)."
+  logInfo "Meaning: formal implementation equivalence under admitted atomic assumptions."
+  logInfo "Symmetry, composition and common context are formal proof rules, not statistical gate guarantees."
+  logInfo "No IEEE value equality or whole-kernel two-gates result is implied."
+
+/-- Reduce a string-valued projection, without evaluating arbitrary code. -/
+private def specString? (projection : Name) (value : Expr) : MetaM (Option String) := do
+  let field ← Meta.mkAppM projection #[value]
+  return Meta.getStringValue? (← Meta.withTransparency .all <| Meta.whnf field)
+
+private def shortSpecName : Name → String
+  | .str _ name => name
+  | name => name.toString
+
+/-- Reader-facing names can differ from frozen experiment identifiers.
+This affects only the concise display; contracts and detailed reports retain
+their original identity. -/
+private def fpAtomName (id : String) : String :=
+  match id with
+  | "EXP-SUB-INTRINSIC" => "exp_sub(tl.exp)"
+  | "EXP-SUB" => "exp_sub(libdevice.exp)"
+  | "EXP-ZERO" => "exp_zero(tl.exp)"
+  | "EXP-ZERO-LIBDEVICE" => "exp_zero(libdevice.exp)"
+  | "EXP-NEG-INF-SUB" => "exp_neg_inf_sub(tl.exp)"
+  | "EXP-NEG-INF-SUB-LIBDEVICE" => "exp_neg_inf_sub(libdevice.exp)"
+  | "LOG-MUL" => "log_mul(tl.log)"
+  | "LOG-MUL-LIBDEVICE" => "log_mul(libdevice.log)"
+  | "LOG-MUL-GUARDED" => "log_mul_split(libdevice.log)"
+  | "LOG-MUL-GUARDED-INTRINSIC" => "log_mul_split(tl.log)"
+  | "LOG-EXP" => "log_exp(tl.log, tl.exp)"
+  | "LOG-EXP-LOG-LIBDEVICE" => "log_exp(libdevice.log, tl.exp)"
+  | "LOG-EXP-LIBDEVICE" => "log_exp(tl.log, libdevice.exp)"
+  | "LOG-EXP-FULL-LIBDEVICE" => "log_exp(libdevice.log, libdevice.exp)"
+  | "LOG-EXP-GUARDED" => "log_exp_cancel(libdevice.log, libdevice.exp)"
+  | "LOG-EXP-GUARDED-INTRINSIC" => "log_exp_cancel(tl.log, libdevice.exp)"
+  | "LOG-EXP-GUARDED-FULL-INTRINSIC" => "log_exp_cancel(tl.log, tl.exp)"
+  | "LOG-EXP-GUARDED-EXP-INTRINSIC" => "log_exp_cancel(libdevice.log, tl.exp)"
+  | _ => id.toLower.replace "-" "_"
+
+private def printFPAtom (entry : Expr) (details : Bool := false) : MetaM Unit := do
+  let rule ← Meta.mkAppM ``VeriTile.Spec.RuleEntry.rule #[entry]
+  let contract ← Meta.mkAppM ``VeriTile.Spec.AtomicRule.contract #[rule]
+  let id ← specString? ``VeriTile.Spec.Contract.ruleID contract
+  unless details do
+    match id with
+    | some id => logInfo m!"  {fpAtomName id}"
+    | none => logInfo m!"  {← Meta.ppExpr entry} [symbolic atom]"
+    return
+  let evidence ← Meta.mkAppM ``VeriTile.Spec.RuleEntry.evidence #[entry]
+  let scope ← specString? ``VeriTile.Spec.Contract.description contract
+  let status (projection : Name) : MetaM String := do
+    let gate ← Meta.mkAppM projection #[evidence]
+    return (← specString? ``VeriTile.Spec.GateStatus.label gate).getD "symbolic"
+  match id with
+  | some id => logInfo m!"  {id} [bias {← status ``VeriTile.Spec.Evidence.bias}; vars {← status ``VeriTile.Spec.Evidence.vars}]"
+  | none => logInfo m!"  {← Meta.ppExpr entry} [symbolic atom]"
+  if let some scope := scope then
+    unless scope.isEmpty do logInfo m!"    {scope}"
+
+private structure FPAssumptionState where
+  seen : Std.HashSet Expr := {}
+  internalProofVars : Std.HashSet Expr := {}
+  forwardedAtoms : Std.HashSet Expr := {}
+  forwardedCertificates : Std.HashSet Expr := {}
+  entries : Array Expr := #[]
+  printedAdmissions : Array (Expr × Expr) := #[]
+  printedStrict : Array (Expr × Expr) := #[]
+  strictReports : Array String := #[]
+  unresolved : Bool := false
+  fpConstants : Std.HashMap Name Bool := {}
+  remaining : Nat := 100000
+
+/-- Conservative reachability, including declaration types and projection
+functions. A closed dependency graph without an FP proof type cannot hide an
+atomic derivation. Cache negative results only after the entire graph has been
+searched; mutual recursion must not turn a back-edge into a false negative. -/
+private partial def fpConstantReachable (root : Name) (work : List Name)
+    (seen : NameSet := {}) : StateRefT FPAssumptionState MetaM Bool := do
+  match work with
+  | [] =>
+    modify fun s => { s with fpConstants := seen.foldl (fun m n => m.insert n false) s.fpConstants }
+    return false
+  | name :: rest =>
+    if seen.contains name then return ← fpConstantReachable root rest seen
+    if fpProofType name || (← get).fpConstants[name]? == some true then
+      modify fun s => { s with fpConstants := s.fpConstants.insert root true }
+      return true
+    if (← get).fpConstants[name]? == some false then
+      return ← fpConstantReachable root rest seen
+    let seen := seen.insert name
+    let env ← getEnv
+    if isCoreConst env name then return ← fpConstantReachable root rest seen
+    let some info := env.find? name | return true
+    let mut next ← specExprConsts env info.type
+    if let some value := info.value? then next := next ++ (← specExprConsts env value)
+    fpConstantReachable root (next.toList ++ rest) seen
+
+private def fpExprReachable (proof : Expr) : StateRefT FPAssumptionState MetaM Bool := do
+  let env ← getEnv
+  let mut names ← specExprConsts env proof
+  -- Actual proof arguments can introduce FP dependencies into otherwise
+  -- generic helpers. Include free-variable types instead of inspecting only
+  -- the helper's declaration or the result type of this proof.
+  let visit : StateRefT (Bool × Array Expr) MetaM Unit := proof.forEach fun e => do
+    if e.isFVar then modify fun s => (s.1, s.2.push e)
+    if e.isMVar then modify fun s => (true, s.2)
+  let (_, localState) ← visit.run (false, #[])
+  if localState.1 then return true
+  for localProof in localState.2 do
+    let type ← Meta.inferType localProof
+    if type.isMVar then return true
+    if type.getAppFn.isFVar then
+      -- An abstract data carrier α : Type cannot make a value a : α a
+      -- proof. Treating every such value as an opaque proof prevents pruning
+      -- throughout otherwise FP-free execution lemmas. Keep unknown Prop and
+      -- unresolved Sort cases conservative; concrete proof-bearing records,
+      -- projections and proof arguments still follow their dependency graph.
+      let kind ← Meta.whnf (← Meta.inferType type)
+      unless (match kind with | .sort (.succ _) => true | _ => false) do
+        return true
+    names := names ++ (← specExprConsts env type)
+  for name in names do
+    if ← fpConstantReachable name [name] then return true
+  return false
+
+/-- Expose a proof's callable head using only beta/zeta reduction. One
+`headBeta` pass can expose another applied lambda (notably the induction
+combinator generated by `induction ... using`). Its proof arguments must not
+be mistaken for unused data arguments while that lambda remains at the head. -/
+private partial def exposeFPProofHead (proof : Expr) : Expr :=
+  let reduced := proof.headBeta
+  if reduced != proof then exposeFPProofHead reduced
+  else
+    match proof.getAppFn with
+    | .mdata _ inner => exposeFPProofHead (mkAppN inner proof.getAppArgs)
+    | .letE _ _ value body _ =>
+        exposeFPProofHead (mkAppN (body.instantiate1 value) proof.getAppArgs)
+    | _ => proof
+
+/-- Walk instantiated proof bodies, not theorem types or the declared table.
+We inspect all reachable proof branches, not a minimal logical dependency set.
+An opaque derivation is reported explicitly rather than guessed from its table.
+Printing within each local context also supports atoms beneath proof lambdas. -/
+private partial def visitFPAssumptions (proof : Expr) :
+    StateRefT FPAssumptionState MetaM Unit := do
+  let proof := exposeFPProofHead proof
+  if (← get).seen.contains proof then return
+  if (← get).remaining == 0 then
+    throwError "FP assumption inspection exceeded its proof traversal limit"
+  modify fun s => { s with seen := s.seen.insert proof, remaining := s.remaining - 1 }
+  match proof with
+  | .mdata _ inner => visitFPAssumptions inner
+  | .letE _ _ value body _ => visitFPAssumptions (body.instantiate1 value)
+  | .lam .. => Meta.lambdaTelescope proof fun params body => do
+      -- These binders belong to a proof body (e.g. recursion hypotheses).
+      -- The headline's external premises have already been instantiated by
+      -- the command's outer telescope and must still be reported if opaque.
+      let previous := (← get).internalProofVars
+      modify fun s => { s with internalProofVars := params.foldl (·.insert ·) previous }
+      visitFPAssumptions body
+      modify fun s => { s with internalProofVars := previous }
+  | _ =>
+    -- Reachability is conservative and independent of proof elaboration.
+    -- Prune FP-free terms before asking isProof to weak-head normalize large
+    -- execution-state types. This uses the same dependency predicate as below;
+    -- no reachable atom, strict certificate or opaque premise is discarded.
+    unless ← fpExprReachable proof do return
+    unless ← Meta.isProof proof do return
+    let args := proof.getAppArgs
+    -- Dispatchers may select strict versus empirical evidence with a concrete
+    -- condition. Reduce only the conditional head before inspecting branches;
+    -- a symbolic decision still exposes both branches conservatively. Without
+    -- this step an instantiated `isStrict = false` case would incorrectly
+    -- report the impossible branch's strict certificate as used evidence.
+    if proof.isAppOf ``dite || proof.isAppOf ``ite then
+      let reduced ← Meta.withTransparency .all <| Meta.whnf proof
+      if reduced != proof then
+        visitFPAssumptions reduced
+        return
+    if proof.isAppOf ``VeriTile.Spec.Derivation.atom then
+      let entry := args[3]!
+      -- Track each syntax instantiation, but print the same concrete admission
+      -- once when it is applied at several sites. Different experimental
+      -- contracts/evidence stay distinct even when their textual IDs coincide.
+      let normalized ← Meta.withTransparency .all <| Meta.whnf entry
+      -- Only atoms forwarded by Derivation induction are covered by its
+      -- inspected input proof. Other symbolic entries must remain visible.
+      if (← get).forwardedAtoms.contains normalized then return
+      unless (← get).entries.contains normalized do
+        modify fun s => { s with entries := s.entries.push normalized }
+        let rule ← Meta.mkAppM ``VeriTile.Spec.RuleEntry.rule #[entry]
+        let contract ← Meta.mkAppM ``VeriTile.Spec.AtomicRule.contract #[rule]
+        let evidence ← Meta.mkAppM ``VeriTile.Spec.RuleEntry.evidence #[entry]
+        let concrete := (← specString? ``VeriTile.Spec.Contract.ruleID contract).isSome
+        let identity := (← Meta.withTransparency .all <| Meta.whnf contract,
+          ← Meta.withTransparency .all <| Meta.whnf evidence)
+        -- Weak-head reduction may leave record projections inside fields.
+        -- Compare closed admissions definitionally, so record updates that
+        -- only rename registers do not produce duplicate printed assumptions.
+        let closed := !identity.1.hasFVar && !identity.1.hasMVar &&
+          !identity.2.hasFVar && !identity.2.hasMVar
+        let duplicate ← if concrete && closed then
+          (← get).printedAdmissions.anyM fun previous =>
+            Meta.withTransparency .all do
+              if previous.1.hasFVar || previous.1.hasMVar ||
+                  previous.2.hasFVar || previous.2.hasMVar then return false
+              return (← Meta.isDefEq previous.1 identity.1) &&
+                (← Meta.isDefEq previous.2 identity.2)
+          else pure false
+        unless duplicate do
+          modify fun s => { s with printedAdmissions := s.printedAdmissions.push identity }
+          printFPAtom entry
+      return
+    if proof.isAppOf ``VeriTile.Spec.Derivation.strict then
+      let theory := args[1]!
+      let certificate := args[5]!
+      if (← get).forwardedCertificates.contains certificate then return
+      let identity := (theory, certificate)
+      unless (← get).printedStrict.contains identity do
+        let modelField ← Meta.mkAppOptM ``VeriTile.Spec.StatementTheory.modelID
+          #[some args[0]!, some theory]
+        let model := Meta.getStringValue?
+          (← Meta.withTransparency .all <| Meta.whnf modelField)
+        let model := model.getD (← Meta.ppExpr theory).pretty
+        let rendered := (← Meta.ppExpr certificate).pretty
+        let collect : StateRefT (Array Expr) MetaM Unit := certificate.forEach fun e => do
+          if e.isFVar && !(← get).contains e then modify (·.push e)
+        let (_, variables) ← collect.run #[]
+        let mut premises : Array String := #[]
+        for localVar in variables do
+          if !(← get).internalProofVars.contains localVar && (← Meta.isProof localVar) then
+            premises := premises.push (← Meta.ppExpr localVar).pretty
+        let status := if premises.isEmpty then ""
+          else "\n    conditional on proof premises: " ++ String.intercalate ", " premises.toList
+        modify fun s => { s with
+          printedStrict := s.printedStrict.push identity
+          strictReports := s.strictReports.push
+            ("  model: " ++ model ++ "\n    certificate: " ++ rendered ++ status) }
+      -- Certificates are actual proof arguments. Inspect them too, so an
+      -- opaque premise or an empirical dependency cannot disappear behind
+      -- the strict constructor's name.
+      visitFPAssumptions certificate
+      return
+    if proof.isAppOf ``VeriTile.Spec.Derivation.rec then
+      for i in [:args.size] do
+        let arg := args[i]!
+        -- Parameters and motive precede the refl and atom minor premises.
+        -- The atom branch re-emits an atom from the input derivation, whose
+        -- actual proof is also visited below. Do not generalize this to data
+        -- recursors: unpacking an entry there can introduce a new assumption.
+        if i == 5 then
+          Meta.lambdaTelescope arg fun params body => do
+            let previousVars := (← get).internalProofVars
+            let previousAtoms := (← get).forwardedAtoms
+            let forwarded := match params[0]? with
+              | some entry => previousAtoms.insert entry
+              | none => previousAtoms
+            modify fun s => { s with
+              internalProofVars := params.foldl (·.insert ·) previousVars
+              forwardedAtoms := forwarded }
+            visitFPAssumptions body
+            modify fun s => { s with
+              internalProofVars := previousVars
+              forwardedAtoms := previousAtoms }
+        else if i == 9 then
+          -- The final strict branch forwards the input certificate, just as
+          -- the atom branch forwards its entry. Inspect the input derivation
+          -- below instead of reporting the induction binder as new evidence.
+          Meta.lambdaTelescope arg fun params body => do
+            let previousVars := (← get).internalProofVars
+            let previousCertificates := (← get).forwardedCertificates
+            let forwarded := match params[2]? with
+              | some certificate => previousCertificates.insert certificate
+              | none => previousCertificates
+            modify fun s => { s with
+              internalProofVars := params.foldl (·.insert ·) previousVars
+              forwardedCertificates := forwarded }
+            visitFPAssumptions body
+            modify fun s => { s with
+              internalProofVars := previousVars
+              forwardedCertificates := previousCertificates }
+        else if ← fpExprReachable arg then
+          if ← Meta.isProof arg then visitFPAssumptions arg
+      return
+    let env ← getEnv
+    if let .const name levels := proof.getAppFn then
+      unless isCoreConst env name do
+        let info ← getConstInfo name
+        if let some value := info.value? then
+          let body := value.instantiateLevelParams info.levelParams levels
+          visitFPAssumptions (body.beta args)
+          return
+    if let .proj .. := proof.getAppFn then
+      if let some reduced ← Meta.withTransparency .all <| Meta.reduceProj? proof.getAppFn then
+        visitFPAssumptions (mkAppN reduced args)
+        return
+    -- Constructors, transports and library combinators retain their proof
+    -- arguments. Skip data arguments, including unused rule-table entries.
+    for arg in args do
+      if ← fpExprReachable arg then
+        if ← Meta.isProof arg then visitFPAssumptions arg
+    -- A local/opaque FP proof may conceal further atoms. Never print "none"
+    -- in this case. Core recursors have their branches inspected above.
+    let opaqueHead := match proof.getAppFn with
+      | .fvar .. | .proj .. => true
+      | .const name _ => match env.find? name with
+          | some (.axiomInfo _) | some (.opaqueInfo _) => true
+          | _ => false
+      | _ => false
+    let rec projectionRoot : Expr → Expr
+      | .proj _ _ base => projectionRoot base.getAppFn
+      | head => head
+    let root := projectionRoot proof.getAppFn
+    if let .proj _ _ base := proof.getAppFn then
+      -- A primitive-law record can be consumed only through a projected
+      -- equality. Inspect its record premise as well as the equality's type,
+      -- which by itself no longer identifies the pending numerical law.
+      visitFPAssumptions base
+    if opaqueHead && !(← get).internalProofVars.contains root then
+      let type ← specConclusion (← Meta.inferType proof)
+      if (match type.getAppFn with | .const name _ => fpProofType name | _ => false) then
+        modify fun s => { s with unresolved := true }
+        logInfo m!"  unresolved FP proof: {← Meta.ppExpr proof} (atomic assumptions unavailable)"
+
+/-- Print the experimental atoms actually reached in the proof, followed by
+the separately identified strict model certificates. Neither a declared table
+nor a certificate's label is treated as evidence that an experiment ran. -/
+elab "#print_fp_assumptions " id:ident : command => do
+  let name ← liftCoreM <| realizeGlobalConstNoOverload id
+  let info ← liftCoreM <| getConstInfo name
+  -- Scalar-derived recurrence proofs can contain tens of thousands of
+  -- instantiated nodes. Keep inspection bounded at ordinary call sites too.
+  -- Core stores heartbeats in units 1000 times the public option value.
+  liftTermElabM <| withTheReader Core.Context (fun ctx =>
+      { ctx with maxHeartbeats :=
+          if ctx.maxHeartbeats == 0 then 0 else max ctx.maxHeartbeats 4000000000 }) <|
+      Meta.forallTelescope info.type fun params conclusion => do
+    let target ← specConclusion conclusion
+    unless (match target.getAppFn with | .const name _ => fpProofType name | _ => false) do
+      throwError "{name}: expected a floating-point equivalence or derivation"
+    logInfo m!"FP assumptions used by {shortSpecName name}:"
+    let proof := mkAppN (mkConst name (info.levelParams.map Level.param)) params
+    let (_, state) ← (visitFPAssumptions proof).run {}
+    if state.entries.isEmpty && !state.unresolved then logInfo "  none"
+    unless state.strictReports.isEmpty do
+      logInfo m!"Strict model certificates used by {shortSpecName name}:"
+      for report in state.strictReports do logInfo report
+
+private def printCompactAtoms (assumptions : Expr) : MetaM Unit := do
+  logInfo "Atomic assumptions (declared scope):"
+  let mut rest := assumptions
+  for i in [:256] do
+    let reduced ← Meta.withTransparency .all <| Meta.whnf rest
+    if reduced.isAppOf ``List.nil then
+      if i == 0 then logInfo "  none"
+      return
+    unless reduced.isAppOf ``List.cons do
+      logInfo m!"  {← Meta.ppExpr rest} (symbolic table)"
+      return
+    let args := reduced.getAppArgs
+    printFPAtom args[1]! (details := true)
+    rest := args[2]!
+  logInfo "  further entries omitted; use #print_spec ... full."
+
+private def printCompactSpec (name : Name) (info : ConstantInfo)
+    (primitives rules : Array Name) : CommandElabM Unit := do
+  logInfo m!"Specification: {shortSpecName name}"
+  liftTermElabM <| Meta.forallTelescope info.type fun params conclusion => do
+    let target ← specConclusion conclusion
+    let floating := target.isAppOf ``VeriTile.Spec.FloatingPoint
+    if floating then
+      logInfo "Kind: floating-point equivalence under atomic assumptions"
+      let args := target.getAppArgs
+      let mut theory := (← Meta.ppExpr args[2]!).pretty
+      -- Coercions elaborate the public `R` to `R.assumptions`. Keep the
+      -- reader-facing model spelling when it is exactly that projection.
+      for param in params do
+        let model := (← Meta.ppExpr param).pretty
+        if theory == model ++ ".assumptions" then theory := model
+      logInfo m!"Claim: {← Meta.ppExpr args[3]!} ≡[{theory}] {← Meta.ppExpr args[4]!}"
+    else
+      logInfo "Kind: real-valued correctness"
+      let claim := if target.isAppOf ``VeriTile.Spec.Real then target.getAppArgs.back! else conclusion
+      logInfo m!"Claim: {← Meta.ppExpr claim}"
+    unless params.isEmpty do
+      logInfo "Parameters / premises:"
+      for param in params do
+        let decl ← Meta.getFVarLocalDecl param
+        logInfo m!"  {decl.userName} : {← Meta.ppExpr decl.type}"
+    if floating then
+      printCompactAtoms target.getAppArgs[2]!
+    else
+      unless primitives.isEmpty do
+        logInfo m!"Primitives: {primitives.map shortSpecName}"
+      unless rules.isEmpty do
+        logInfo m!"Rules: {rules.map shortSpecName}"
+  -- Compact output must never hide a nonstandard axiom or `sorryAx`.
+  let (_, ax) := ((CollectAxioms.collect name).run (← getEnv)).run {}
+  let bad := ax.axioms.filter fun a => ! #[`propext, `Classical.choice, `Quot.sound].contains a
+  unless bad.isEmpty do logWarning m!"Nonstandard axioms: {bad}"
+
+/-- Shared report implementation, also exercised by the regression fixtures. -/
+def printSpec (name : Name) (full : Bool := false) : CommandElabM Unit := do
+  let env ← getEnv
+  unless headlineAttr.hasTag env name do
+    throwError "{name}: not a registered specification"
+  let info ← liftCoreM <| getConstInfo name
+  let deps ← liftCoreM <| specDependencies env [name]
+  let order (ns : Array Name) := ns.qsort (·.toString < ·.toString)
+  let primitives := order ((deps.project ++ deps.library).filter fun n =>
+    specPrimitiveAttr.hasTag env n || legacyPrimitive n || syntaxPrimitive env n)
+  let rules := order ((deps.project ++ deps.library).filter (specRuleAttr.hasTag env))
+  unless full do
+    printCompactSpec name info primitives rules
+    return
+  logInfo m!"Specification: {name}"
+  liftTermElabM <| Meta.forallTelescope info.type fun params conclusion => do
+    let target ← specConclusion conclusion
+    if target.isAppOf ``VeriTile.Spec.FloatingPoint then
+      logInfo "Kind: FLOATING_POINT_EQUIVALENCE (two-gates-admitted atom assumptions)"
+    else if target.isAppOf ``VeriTile.Spec.Real then
+      logInfo "Kind: REAL (explicit mathematical claim)"
+    else
+      logInfo "Kind: REAL (legacy unwrapped claim; inspect the semantic dependencies)"
+    logInfo m!"Conclusion: {← Meta.ppExpr conclusion}"
+    logInfo "Declared parameters and assumptions (including implicit/instance binders):"
+    if params.isEmpty then logInfo "  none"
+    for param in params do
+      let decl ← Meta.getFVarLocalDecl param
+      let kind ← if ← Meta.isProp decl.type then pure "assumption"
+        else if (← Meta.isClass? decl.type).isSome then pure "class parameter"
+        else pure "parameter"
+      logInfo m!"  {kind} {decl.userName}: {← Meta.ppExpr decl.type}"
+    if target.isAppOf ``VeriTile.Spec.FloatingPoint then
+      let args := target.getAppArgs
+      printFloatingPointTheory args[2]! args[3]! args[4]!
+    if !params.isEmpty then
+      logInfo "Scope: conditional on all declared assumptions; this report does not discharge them."
+  logInfo m!"Reachable execution primitives ({primitives.size}): {primitives}"
+  logInfo m!"Reachable registered rules ({rules.size}): {rules}"
+  liftTermElabM do
+    for n in rules do
+      let ruleInfo ← getConstInfo n
+      logInfo m!"  rule {n}: {← Meta.ppExpr ruleInfo.type}"
+      if let .defnInfo ruleDef := ruleInfo then
+        logInfo m!"    definition: {← Meta.ppExpr ruleDef.value}"
+    logInfo "Reachable proposition-valued structure/class fields:"
+    let mut any := false
+    for n in order (deps.project ++ deps.library) do
+      if (env.getProjectionFnInfo? n).isSome then
+        let ty := (← getConstInfo n).type
+        if ← Meta.isProp ty then
+          any := true
+          logInfo m!"  {n}: {← Meta.ppExpr ty}"
+    unless any do logInfo "  none"
+  if deps.project.contains `VeriTile.Triton.RoundingModel then
+    logInfo "Semantic boundary: ABSTRACT CAST/STORE ROUNDING; this is not a concrete FP execution certificate."
+  let (_, ax) := ((CollectAxioms.collect name).run env).run {}
+  logInfo m!"Transitive axioms: {order ax.axioms}"
+  let bad := ax.axioms.filter fun a => ! #[`propext, `Classical.choice, `Quot.sound].contains a
+  unless bad.isEmpty do logWarning m!"Nonstandard axioms: {bad}"
+  logInfo m!"Dependency boundary: {deps.project.size} project declarations; {deps.library.size} trusted library declarations."
+  logInfo "Conservative type/proof dependency report; reachable definitions can include unexecuted branches."
+  if full then
+    logInfo m!"Project dependencies: {order deps.project}"
+    logInfo m!"Trusted library boundary: {order deps.library}"
+
+elab "#print_spec " id:ident : command => do
+  printSpec (← liftCoreM <| realizeGlobalConstNoOverload id)
+
+elab "#print_spec " id:ident " full" : command => do
+  printSpec (← liftCoreM <| realizeGlobalConstNoOverload id) true
 
 end VeriTile.Meta

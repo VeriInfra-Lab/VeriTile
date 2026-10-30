@@ -1,0 +1,458 @@
+[
+  {
+    "lean": "bench/repairs/tritonbench_g/f8_conversion_utils/Kernels.lean",
+    "lean_definition": "sourceDecodeE5",
+    "python": "bench/repairs/tritonbench_g/f8_conversion_utils/f8_conversion_utils_repaired.py",
+    "python_function": "kernel_f8_to_f16",
+    "profile_variant": "DecodeE5",
+    "signature_definition": "signatureDecodeE5",
+    "expected_call_bindings": {
+      "N": "N"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "Y",
+          "fp16"
+        ],
+        [
+          "X",
+          "f8e5"
+        ]
+      ],
+      "scalars": [
+        [
+          "N",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "X"
+      ],
+      "writePorts": [
+        "Y"
+      ]
+    }
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/f8_conversion_utils/Kernels.lean",
+    "lean_definition": "candidateDecodeE5",
+    "python": "bench/repairs/tritonbench_g/f8_conversion_utils/index_commuted.py",
+    "python_function": "kernel_f8_to_f16_index_commuted",
+    "profile_variant": "DecodeE5",
+    "signature_definition": "signatureDecodeE5",
+    "expected_call_bindings": {
+      "N": "N"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "Y",
+          "fp16"
+        ],
+        [
+          "X",
+          "f8e5"
+        ]
+      ],
+      "scalars": [
+        [
+          "N",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "X"
+      ],
+      "writePorts": [
+        "Y"
+      ]
+    }
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/f8_conversion_utils/Kernels.lean",
+    "lean_definition": "sourceDecodeE4",
+    "python": "bench/repairs/tritonbench_g/f8_conversion_utils/f8_conversion_utils_repaired.py",
+    "python_function": "kernel_f8_to_f16",
+    "profile_variant": "DecodeE4",
+    "signature_definition": "signatureDecodeE4",
+    "expected_call_bindings": {
+      "N": "N"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "Y",
+          "fp16"
+        ],
+        [
+          "X",
+          "f8e4"
+        ]
+      ],
+      "scalars": [
+        [
+          "N",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "X"
+      ],
+      "writePorts": [
+        "Y"
+      ]
+    }
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/f8_conversion_utils/Kernels.lean",
+    "lean_definition": "candidateDecodeE4",
+    "python": "bench/repairs/tritonbench_g/f8_conversion_utils/index_commuted.py",
+    "python_function": "kernel_f8_to_f16_index_commuted",
+    "profile_variant": "DecodeE4",
+    "signature_definition": "signatureDecodeE4",
+    "expected_call_bindings": {
+      "N": "N"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "Y",
+          "fp16"
+        ],
+        [
+          "X",
+          "f8e4"
+        ]
+      ],
+      "scalars": [
+        [
+          "N",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "X"
+      ],
+      "writePorts": [
+        "Y"
+      ]
+    }
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/f8_conversion_utils/Kernels.lean",
+    "lean_definition": "sourceEncodeHalfE5",
+    "python": "bench/repairs/tritonbench_g/f8_conversion_utils/f8_conversion_utils_repaired.py",
+    "python_function": "kernel_f16_to_f8",
+    "profile_variant": "EncodeHalfE5",
+    "signature_definition": "signatureEncodeHalfE5",
+    "expected_call_bindings": {
+      "N": "N"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "Y",
+          "f8e5"
+        ],
+        [
+          "X",
+          "fp16"
+        ]
+      ],
+      "scalars": [
+        [
+          "N",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "X"
+      ],
+      "writePorts": [
+        "Y"
+      ]
+    }
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/f8_conversion_utils/Kernels.lean",
+    "lean_definition": "candidateEncodeHalfE5",
+    "python": "bench/repairs/tritonbench_g/f8_conversion_utils/index_commuted.py",
+    "python_function": "kernel_f16_to_f8_index_commuted",
+    "profile_variant": "EncodeHalfE5",
+    "signature_definition": "signatureEncodeHalfE5",
+    "expected_call_bindings": {
+      "N": "N"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "Y",
+          "f8e5"
+        ],
+        [
+          "X",
+          "fp16"
+        ]
+      ],
+      "scalars": [
+        [
+          "N",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "X"
+      ],
+      "writePorts": [
+        "Y"
+      ]
+    }
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/f8_conversion_utils/Kernels.lean",
+    "lean_definition": "sourceEncodeHalfE4",
+    "python": "bench/repairs/tritonbench_g/f8_conversion_utils/f8_conversion_utils_repaired.py",
+    "python_function": "kernel_f16_to_f8",
+    "profile_variant": "EncodeHalfE4",
+    "signature_definition": "signatureEncodeHalfE4",
+    "expected_call_bindings": {
+      "N": "N"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "Y",
+          "f8e4"
+        ],
+        [
+          "X",
+          "fp16"
+        ]
+      ],
+      "scalars": [
+        [
+          "N",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "X"
+      ],
+      "writePorts": [
+        "Y"
+      ]
+    }
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/f8_conversion_utils/Kernels.lean",
+    "lean_definition": "candidateEncodeHalfE4",
+    "python": "bench/repairs/tritonbench_g/f8_conversion_utils/index_commuted.py",
+    "python_function": "kernel_f16_to_f8_index_commuted",
+    "profile_variant": "EncodeHalfE4",
+    "signature_definition": "signatureEncodeHalfE4",
+    "expected_call_bindings": {
+      "N": "N"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "Y",
+          "f8e4"
+        ],
+        [
+          "X",
+          "fp16"
+        ]
+      ],
+      "scalars": [
+        [
+          "N",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "X"
+      ],
+      "writePorts": [
+        "Y"
+      ]
+    }
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/f8_conversion_utils/Kernels.lean",
+    "lean_definition": "sourceEncodeSingleE5",
+    "python": "bench/repairs/tritonbench_g/f8_conversion_utils/f8_conversion_utils_repaired.py",
+    "python_function": "kernel_f16_to_f8",
+    "profile_variant": "EncodeSingleE5",
+    "signature_definition": "signatureEncodeSingleE5",
+    "expected_call_bindings": {
+      "N": "N"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "Y",
+          "f8e5"
+        ],
+        [
+          "X",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "N",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "X"
+      ],
+      "writePorts": [
+        "Y"
+      ]
+    }
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/f8_conversion_utils/Kernels.lean",
+    "lean_definition": "candidateEncodeSingleE5",
+    "python": "bench/repairs/tritonbench_g/f8_conversion_utils/index_commuted.py",
+    "python_function": "kernel_f16_to_f8_index_commuted",
+    "profile_variant": "EncodeSingleE5",
+    "signature_definition": "signatureEncodeSingleE5",
+    "expected_call_bindings": {
+      "N": "N"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "Y",
+          "f8e5"
+        ],
+        [
+          "X",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "N",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "X"
+      ],
+      "writePorts": [
+        "Y"
+      ]
+    }
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/f8_conversion_utils/Kernels.lean",
+    "lean_definition": "sourceEncodeSingleE4",
+    "python": "bench/repairs/tritonbench_g/f8_conversion_utils/f8_conversion_utils_repaired.py",
+    "python_function": "kernel_f16_to_f8",
+    "profile_variant": "EncodeSingleE4",
+    "signature_definition": "signatureEncodeSingleE4",
+    "expected_call_bindings": {
+      "N": "N"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "Y",
+          "f8e4"
+        ],
+        [
+          "X",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "N",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "X"
+      ],
+      "writePorts": [
+        "Y"
+      ]
+    }
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/f8_conversion_utils/Kernels.lean",
+    "lean_definition": "candidateEncodeSingleE4",
+    "python": "bench/repairs/tritonbench_g/f8_conversion_utils/index_commuted.py",
+    "python_function": "kernel_f16_to_f8_index_commuted",
+    "profile_variant": "EncodeSingleE4",
+    "signature_definition": "signatureEncodeSingleE4",
+    "expected_call_bindings": {
+      "N": "N"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "Y",
+          "f8e4"
+        ],
+        [
+          "X",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "N",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "X"
+      ],
+      "writePorts": [
+        "Y"
+      ]
+    }
+  }
+]

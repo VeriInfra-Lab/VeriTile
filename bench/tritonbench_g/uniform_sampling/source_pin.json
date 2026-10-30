@@ -1,0 +1,113 @@
+{
+  "upstream_commit": "603e28a",
+  "upstream_path": "data/TritonBench_G_v1/uniform_sampling.py",
+  "source_sha256": "d2046880647babeb532c22d3fe39e5f9662c52de36ac9a465b6405aab352a4c1",
+  "kernel": "uniform_kernel",
+  "complete_python_imported": true,
+  "compatibility_helper": {
+    "name": "uint_to_uniform_float",
+    "first_choice": "tl.uint_to_uniform_float",
+    "fallback": "Original @triton.jit compatibility helper, retained verbatim including both 32-bit and 64-bit branches",
+    "kernel_reachable_branch": "32-bit, because direct Philox consumes uint32 counter words"
+  },
+  "wrapper_block_sizes": [
+    512,
+    1024
+  ],
+  "wrapper_unroll": 4,
+  "source_seed_offset_cast": "signed int64",
+  "runtime_scalars": [
+    "N",
+    "philox_seed",
+    "philox_offset",
+    "from_",
+    "to"
+  ],
+  "offline_native_checkpoint": {
+    "receipt": "native_receipt.json",
+    "receipt_sha256": "eca99aa2f6c97763643b480d7bea251c08368b24bee86e290403d3ae649057f2",
+    "checker_sha256": "a637098c81aeda2793061948a033a5aaafd2599c35c272e3e8b47b5c85a0db35",
+    "triton_version": "3.8.0",
+    "target": "cuda sm90, warp size 32",
+    "primary_profiles": 18,
+    "separately_labelled_fallback_profiles": 6,
+    "compiled": 24,
+    "rejected": 0,
+    "stores_per_profile": 4,
+    "runtime_signature": "out_ptr: selected floating storage; N:i32; seed,offset:i64; from_,to:fp32",
+    "launch_profiles": [
+      [
+        512,
+        4
+      ],
+      [
+        1024,
+        8
+      ],
+      [
+        1024,
+        16
+      ]
+    ],
+    "storage_profiles": [
+      "fp16",
+      "bf16",
+      "fp32",
+      "fp64",
+      "fp8e4nv",
+      "fp8e5"
+    ],
+    "selected_helper_is_installed_tl_helper": true,
+    "installed_random_source_sha256": "1a7ae2a0c3de32df60ffc18f21a20f8dcf8bf3bc8cb018bb269b540533868829",
+    "installed_helper_jit_source_sha256": "6aac573e603d2af158239d7f0f17d913f8e432987b8d735e48dc742e0200b6f1",
+    "observed_counter_add_dtype": "uint32 by actual compiler promotion; i32-width TTIR add",
+    "observed_offset_shift": "arithmetic signed i64 shift, followed by mask and i32 truncation",
+    "observed_affine_rounding": "fp32 subtraction then contracted fp32 FMA; the canonical uniform decoder still has separate integer conversion and scale multiply",
+    "kernel_launched": false,
+    "scope": "Explicit offline native specializations only; no exhaustive host-argument inference, hardware conformance, or Lean source correspondence follows from compilation",
+    "original_receipt": "/tmp/veritile-uniform-sampling-native3/receipt.json"
+  },
+  "status": "formal_proofs_and_public_witness_audit_passed",
+  "not_claimed": [
+    "host-state verification",
+    "native numerical refinement",
+    "exhaustive native admission",
+    "GPU execution",
+    "hardware conformance"
+  ],
+  "strict_source_comparison": {
+    "profile": "direct_uniform_identity_v1",
+    "actual_port_result": "passed",
+    "explicit_storage_asts": [
+      "fp32",
+      "fp16",
+      "bf16",
+      "fp64",
+      "fp8e4nv",
+      "fp8e5"
+    ],
+    "declared_production_profile": "fp32, original",
+    "declared_production_gates_passed": 24,
+    "original_kernel_statements": 20,
+    "checked_identity_assignments": 3,
+    "original_helper_binding": "try tl.uint_to_uniform_float; except AttributeError original fallback",
+    "original_decorators_retained": true,
+    "all_four_store_arguments_compared": true,
+    "test": "scripts.test_source_uniform_materializations.ProductionUniformMaterializationTests.test_actual_port_entry_all_storage_asts_and_selected_production_gates",
+    "checker_sha256": "fadb33245dece3dbfc44b371188f8e17c303cb8ef4bd690c08766b7e69af8352",
+    "scope": "Complete selected kernel AST comparison; not execution correctness, host-state verification, or native numerical refinement"
+  },
+  "formal_checkpoint": {
+    "complete_real_execution": "passed, all 23 statements and all four streams",
+    "standard_tagged_cell_frame": "passed",
+    "finite_flat_memory_io": "passed, explicit allocation bounds and zero undef",
+    "source_and_candidate_public_real_specs": "passed",
+    "complete_typed_equivalence": "passed, arbitrary floating algebra and initial state, including failure",
+    "floating_rewrite_assumptions": [],
+    "typed_success": "passed, complete 23 statements, arbitrary floating algebra and initial state in original ABI domain",
+    "original_abi_domain": "seed and offset signed64, N < 2^31, launched program, legal power-of-two B <= 2^20",
+    "typed_nonempty_witness": "passed, same public engine; B1024, N4095, seed=offset=-1, empty registers, all four active streams, masked final lane, low-word wrap",
+    "public_witness_integration": "passed, Proofs.Audit full closure: 3463 jobs, 29 axiom gates, FP assumptions none",
+    "real_nonempty_witness": "passed, finite output allocation extent4095/base19, empty registers, all active cells and complete frame, both source variants"
+  }
+}

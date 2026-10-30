@@ -1,0 +1,92 @@
+{
+  "all_passed": true,
+  "candidate_sha256": "47f08cf938a3660112f763ffc8d64cb3e84b1f6e7f054d09518d21ae3e181628",
+  "quote_sha256": "978c20bc6607f3956d431bc4c3b56ff1d41acac416d06aab8e58e84ad2beed5e",
+  "source_AST_sha256": "e84c163bc55d8dff80ceb44af2cf1cc9533b7ca69c34304f20c7f4ef0b3667a1",
+  "sole_guard_AST_change": true,
+  "complete_quote_AST_identical": true,
+  "boundary_cases": [
+    {
+      "tokens": 1,
+      "width": 1048576,
+      "new_layout": false,
+      "accepted": true,
+      "launched": true,
+      "metadata_copies": 2
+    },
+    {
+      "tokens": 1,
+      "width": 1048578,
+      "new_layout": false,
+      "accepted": false,
+      "launched": false,
+      "metadata_copies": 0
+    },
+    {
+      "tokens": 0,
+      "width": 1048578,
+      "new_layout": false,
+      "accepted": true,
+      "launched": false,
+      "metadata_copies": 0
+    },
+    {
+      "tokens": 0,
+      "width": 2097152,
+      "new_layout": false,
+      "accepted": true,
+      "launched": false,
+      "metadata_copies": 0
+    },
+    {
+      "tokens": 0,
+      "width": 67108864,
+      "new_layout": false,
+      "accepted": true,
+      "launched": false,
+      "metadata_copies": 0
+    },
+    {
+      "tokens": 1,
+      "width": 1048576,
+      "new_layout": true,
+      "accepted": true,
+      "launched": true,
+      "metadata_copies": 2
+    },
+    {
+      "tokens": 1,
+      "width": 1048578,
+      "new_layout": true,
+      "accepted": false,
+      "launched": false,
+      "metadata_copies": 0
+    },
+    {
+      "tokens": 0,
+      "width": 1048578,
+      "new_layout": true,
+      "accepted": true,
+      "launched": false,
+      "metadata_copies": 0
+    },
+    {
+      "tokens": 0,
+      "width": 2097152,
+      "new_layout": true,
+      "accepted": true,
+      "launched": false,
+      "metadata_copies": 0
+    },
+    {
+      "tokens": 0,
+      "width": 67108864,
+      "new_layout": true,
+      "accepted": true,
+      "launched": false,
+      "metadata_copies": 0
+    }
+  ],
+  "new_gpu_execution": false,
+  "new_offline_compile": false
+}

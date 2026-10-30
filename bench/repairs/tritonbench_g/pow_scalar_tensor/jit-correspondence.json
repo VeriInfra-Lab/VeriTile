@@ -1,0 +1,154 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/pow_scalar_tensor/pow_scalar_tensor_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/pow_scalar_tensor/Kernels.lean",
+    "python_function": "pow_func_scalar_tensor",
+    "lean_definition": "powerFunction"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/pow_scalar_tensor/pow_scalar_tensor_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/pow_scalar_tensor/Kernels.lean",
+    "python_function": "pow_func_scalar_tensor_kernel_rank_1",
+    "lean_definition": "originalBody",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "in0_ptr",
+          "fp32"
+        ],
+        [
+          "out0_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "val0",
+          "fp32"
+        ],
+        [
+          "in0_stride0",
+          "integer"
+        ],
+        [
+          "out0_stride0",
+          "integer"
+        ],
+        [
+          "s0",
+          "integer"
+        ],
+        [
+          "num_tasks",
+          "integer"
+        ],
+        [
+          "tiles_per_cta",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "in0_stride_order0",
+        "out0_stride_order0",
+        "tile_size0",
+        "one_tile_per_cta"
+      ],
+      "functions": [
+        "powerFunction"
+      ],
+      "binaryImports": [
+        [
+          "_pow",
+          "triton.language.extra.cuda.libdevice.pow"
+        ]
+      ],
+      "typedFP32Storage": true
+    },
+    "expected_call_bindings": {
+      "val0": "c.base",
+      "in0_stride0": "c.input.stride",
+      "out0_stride0": "c.output.stride",
+      "s0": "c.n",
+      "num_tasks": "c.n",
+      "tiles_per_cta": "c.tiles"
+    },
+    "expected_pointer_offsets": {
+      "in0_ptr": "c.input.base",
+      "out0_ptr": "c.output.base"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/pow_scalar_tensor/candidate_kernels.py",
+    "lean": "bench/repairs/tritonbench_g/pow_scalar_tensor/Kernels.lean",
+    "python_function": "pow_func_scalar_tensor_kernel_rank_1_index_commuted",
+    "lean_definition": "commutedBody",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "in0_ptr",
+          "fp32"
+        ],
+        [
+          "out0_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "val0",
+          "fp32"
+        ],
+        [
+          "in0_stride0",
+          "integer"
+        ],
+        [
+          "out0_stride0",
+          "integer"
+        ],
+        [
+          "s0",
+          "integer"
+        ],
+        [
+          "num_tasks",
+          "integer"
+        ],
+        [
+          "tiles_per_cta",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "in0_stride_order0",
+        "out0_stride_order0",
+        "tile_size0",
+        "one_tile_per_cta"
+      ],
+      "functions": [
+        "powerFunction"
+      ],
+      "binaryImports": [
+        [
+          "_pow",
+          "triton.language.extra.cuda.libdevice.pow"
+        ]
+      ],
+      "typedFP32Storage": true
+    },
+    "expected_call_bindings": {
+      "val0": "c.base",
+      "in0_stride0": "c.input.stride",
+      "out0_stride0": "c.output.stride",
+      "s0": "c.n",
+      "num_tasks": "c.n",
+      "tiles_per_cta": "c.tiles"
+    },
+    "expected_pointer_offsets": {
+      "in0_ptr": "c.input.base",
+      "out0_ptr": "c.output.base"
+    }
+  }
+]

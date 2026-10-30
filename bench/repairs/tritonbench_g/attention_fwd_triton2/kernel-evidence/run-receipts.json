@@ -1,0 +1,91 @@
+{
+  "tool_exit_provenance": "Sessions are the actual observed tool session ids; pre-compaction results are retained from the supplied tool-state summary and pinned logs. No success inferred from a partial log.",
+  "scoped_build_driver": ".veritile-cache/build-tools/workspace_lean_local_first_v2.py",
+  "build_permissions": "Task-local elevated scoped builds automatically approved after sandbox startup limitation; no auto-review rejection for this task. Other task approval blockers untouched.",
+  "records": [
+    {
+      "log": "original-build.log",
+      "session_id": null,
+      "exit_code": 1,
+      "scope": "Initial sandbox Lean startup: failed to locate application; no proof result.",
+      "provenance": "inherited tool summary; no session id retained"
+    },
+    {
+      "log": "original-build-02.log",
+      "session_id": 90882,
+      "exit_code": 0,
+      "scope": "All original 31 task modules rebuilt using scoped driver.",
+      "provenance": "inherited successful tool exit summary"
+    },
+    {
+      "log": "kernel-inputs-build.log",
+      "session_id": 4304,
+      "exit_code": 1,
+      "scope": "Dependency race while original Output object was being rebuilt; no acceptance.",
+      "provenance": "inherited tool exit summary"
+    },
+    {
+      "log": "kernel-inputs-build-02.log",
+      "session_id": 5739,
+      "exit_code": 1,
+      "scope": "Development numel_positive proof goal failed.",
+      "provenance": "inherited tool exit summary"
+    },
+    {
+      "log": "kernel-inputs-build-03.log",
+      "session_id": 76435,
+      "exit_code": 0,
+      "scope": "Inputs and Model compiled before Admission import reorganization.",
+      "provenance": "inherited tool exit summary"
+    },
+    {
+      "log": "kernel-endpoints-build.log",
+      "session_id": 24605,
+      "exit_code": 1,
+      "scope": "Specification compiled; Binding definitional equalities not yet closed.",
+      "provenance": "inherited tool exit summary"
+    },
+    {
+      "log": "kernel-final-build.log",
+      "session_id": 20327,
+      "exit_code": 1,
+      "scope": "Admission/Inputs/Model/Specification/Binding passed; Endpoints Real read equalities not yet closed. Native and empty endpoint audit passed.",
+      "provenance": "observed write_stdin exit_code=1"
+    },
+    {
+      "log": "kernel-final-build-02.log",
+      "session_id": 16423,
+      "exit_code": 0,
+      "scope": "Endpoints, public Contract/Correct/FPEquiv, and final KernelOnly/Audit passed.",
+      "provenance": "observed write_stdin exit_code=0"
+    },
+    {
+      "log": "host-checks.log",
+      "session_id": 70768,
+      "exit_code": 0,
+      "scope": "Unchanged host checker, 41 controls.",
+      "provenance": "inherited successful tool exit summary"
+    },
+    {
+      "log": "binder-probe.log",
+      "session_id": 1362,
+      "exit_code": 0,
+      "scope": "Actual wrapper/default-binder five SM80 compiles and three empty skips.",
+      "provenance": "inherited successful tool exit summary"
+    },
+    {
+      "log": "interpreter-probe.log",
+      "session_id": 22965,
+      "exit_code": 0,
+      "scope": "Actual whole-source CPU interpreter: four nonempty and three empty controls.",
+      "provenance": "inherited successful tool exit summary"
+    },
+    {
+      "log": "source-binding.log",
+      "session_id": null,
+      "exit_code": 0,
+      "scope": "Read-only inspection of saved compiler artifacts, binder profiles and full source map.",
+      "provenance": "observed exec_command exit_code=0, chunk 1c35f8"
+    }
+  ]
+}

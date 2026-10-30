@@ -1,0 +1,60 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/reversed_cumsum/reversed_cumsum_repaired.py",
+    "python_function": "chunk_global_reversed_cumsum_vector_kernel",
+    "lean": "bench/repairs/tritonbench_g/reversed_cumsum/Kernels.lean",
+    "lean_definition": "source",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "s",
+          "inputFloat"
+        ],
+        [
+          "z",
+          "outputFloat"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "s_s_h",
+        "s_s_t",
+        "s_s_d",
+        "T",
+        "S",
+        "BT",
+        "BS"
+      ]
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/reversed_cumsum/reversed_cumsum_repaired.py",
+    "python_function": "chunk_global_reversed_cumsum_vector_kernel_compare_right",
+    "lean": "bench/repairs/tritonbench_g/reversed_cumsum/Kernels.lean",
+    "lean_definition": "compareRight",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "s",
+          "inputFloat"
+        ],
+        [
+          "z",
+          "outputFloat"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "s_s_h",
+        "s_s_t",
+        "s_s_d",
+        "T",
+        "S",
+        "BT",
+        "BS"
+      ]
+    }
+  }
+]

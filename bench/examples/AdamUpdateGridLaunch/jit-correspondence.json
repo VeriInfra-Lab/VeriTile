@@ -1,0 +1,130 @@
+[
+  {
+    "python": "bench/tritonbench_g/adam_update_triton/adam_update_triton.py",
+    "python_function": "update_fn_kernel",
+    "lean": "bench/examples/AdamUpdateGridLaunch/Kernels.lean",
+    "lean_definition": "update_fn_kernel",
+    "signature_definition": "updateSignature",
+    "expected_call_bindings": {
+      "lr": "lr",
+      "wd": "wd",
+      "beta1": "beta1",
+      "beta2": "beta2",
+      "n_elements": "n_elements"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "p_ptr",
+          "fp32"
+        ],
+        [
+          "grad_ptr",
+          "fp32"
+        ],
+        [
+          "exp_avg_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "lr",
+          "fp32"
+        ],
+        [
+          "wd",
+          "fp32"
+        ],
+        [
+          "beta1",
+          "fp32"
+        ],
+        [
+          "beta2",
+          "fp32"
+        ],
+        [
+          "n_elements",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "p_ptr",
+        "grad_ptr",
+        "exp_avg_ptr"
+      ],
+      "writePorts": [
+        "p_ptr",
+        "exp_avg_ptr"
+      ]
+    }
+  },
+  {
+    "python": "bench/examples/AdamUpdateGridLaunch/candidate_kernels.py",
+    "python_function": "commuted_update",
+    "lean": "bench/examples/AdamUpdateGridLaunch/Kernels.lean",
+    "lean_definition": "commuted_update",
+    "signature_definition": "updateSignature",
+    "expected_call_bindings": {
+      "lr": "lr",
+      "wd": "wd",
+      "beta1": "beta1",
+      "beta2": "beta2",
+      "n_elements": "n_elements"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "p_ptr",
+          "fp32"
+        ],
+        [
+          "grad_ptr",
+          "fp32"
+        ],
+        [
+          "exp_avg_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "lr",
+          "fp32"
+        ],
+        [
+          "wd",
+          "fp32"
+        ],
+        [
+          "beta1",
+          "fp32"
+        ],
+        [
+          "beta2",
+          "fp32"
+        ],
+        [
+          "n_elements",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "p_ptr",
+        "grad_ptr",
+        "exp_avg_ptr"
+      ],
+      "writePorts": [
+        "p_ptr",
+        "exp_avg_ptr"
+      ]
+    }
+  }
+]

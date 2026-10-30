@@ -1,5 +1,6 @@
 # Lake build artifacts and downloaded packages
-/.lake/
+/.lake
+/.veritile-cache/bug-detection-build/
 
 # macOS
 .DS_Store
@@ -30,3 +31,12 @@
 
 # Python bytecode caches (py_compile / import of the bench ports)
 __pycache__/
+
+# Returned FP experiment bundles contain large measurements and compiler output.
+/experiments/floating_point/results/
+
+# Local historical review snapshots moved out of the published checkpoint set.
+/.local-review-archive/
+# Historical audit inputs are restored from the fixed archive. Current selected
+# review records remain tracked; new long-form logs belong in an archive.
+/bench/review-checkpoints/

@@ -1,0 +1,76 @@
+[
+  {
+    "lean": "bench/repairs/tritonbench_g/mul_exponent_compensator/Kernels.lean",
+    "lean_definition": "sourceBody",
+    "python": "bench/repairs/tritonbench_g/mul_exponent_compensator/mul_exponent_compensator_repaired.py",
+    "python_function": "mul_kernel_repaired",
+    "signature_definition": "sourceSignature",
+    "expected_call_bindings": {
+      "n_elements": "n_elements"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "src",
+          "fp32"
+        ],
+        [
+          "dst",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "n_elements",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "src"
+      ],
+      "writePorts": [
+        "dst"
+      ]
+    }
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/mul_exponent_compensator/Kernels.lean",
+    "lean_definition": "scalarLeftBody",
+    "python": "bench/repairs/tritonbench_g/mul_exponent_compensator/mul_exponent_compensator_repaired.py",
+    "python_function": "mul_kernel_scalar_left",
+    "signature_definition": "sourceSignature",
+    "expected_call_bindings": {
+      "n_elements": "n_elements"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "src",
+          "fp32"
+        ],
+        [
+          "dst",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "n_elements",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "src"
+      ],
+      "writePorts": [
+        "dst"
+      ]
+    }
+  }
+]

@@ -1,0 +1,50 @@
+import VeriTile.Triton.DSL
+import VeriTile.Triton.DSL.CallSignature
+
+/-! Separate FP32 repair. The original source and its overwrite specifications
+remain unchanged. A single launch is one <=512-column slice of one index;
+Python iterates index positions first, then column slices. -/
+namespace VeriTile.Bench.Repairs.IndexSelectBwd
+open VeriTile.Triton
+
+def callSignature : CallSignature where
+  pointers := [("grad_source_ptr",.fp32),("grad_output_ptr",.fp32)]
+  scalars := [("count",.integer),("stride",.integer)]
+  constexpr := ["BLOCK"]
+
+
+structure Launch where
+  (destination incoming : RegionName)
+  (count stride block : Nat)
+
+def kernel (p : Launch) : ComputeKernel :=
+  let grad_source_ptr : RegionName := p.destination
+  let grad_output_ptr : RegionName := p.incoming
+  let BLOCK : Nat := p.block
+  let countValue : Int := p.count
+  let strideValue : Int := p.stride
+  with_triton_call callSignature call_args [count := countValue, stride := strideValue] in
+  triton {
+    lane = tl.arange(0, BLOCK).to(tl.int64)
+    active = lane < count
+    safe = tl.where(active, lane, 0)
+    current = tl.load(grad_source_ptr + safe * stride, mask=active, other=0).to(tl.float32)
+    incoming = tl.load(grad_output_ptr + safe, mask=active, other=0).to(tl.float32)
+    result = current + incoming
+    tl.store(grad_source_ptr + safe * stride, result, mask=active)
+  }
+
+/-- Smallest supported power-of-two lane block covering a <=512-column
+slice. The original uses 512 even for a short final slice. -/
+def tailBlock (count : Nat) : Nat :=
+  if count ≤ 1 then 1 else if count ≤ 2 then 2 else if count ≤ 4 then 4
+  else if count ≤ 8 then 8 else if count ≤ 16 then 16 else if count ≤ 32 then 32
+  else if count ≤ 64 then 64 else if count ≤ 128 then 128
+  else if count ≤ 256 then 256 else 512
+
+/-- The actual candidate reuses the same JIT source at a smaller launch
+specialization. FP32 load/add/store order and all active addresses stay fixed. -/
+def adaptiveKernel (p : Launch) : ComputeKernel :=
+  kernel {p with block := tailBlock p.count}
+
+end VeriTile.Bench.Repairs.IndexSelectBwd

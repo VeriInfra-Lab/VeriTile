@@ -1,0 +1,104 @@
+{
+  "schema": 1,
+  "kind": "verbatim_fields_from_archived_review",
+  "archive": {
+    "commit": "5ea0e46126cc1c6eb05e4219ddc5dc13246ec3ce",
+    "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/review.json",
+    "sha256": "351487f99ebd5594cf9a07df626106e45f1ecfe8352798614c3f1a9ba3cb61b8",
+    "url": "https://github.com/VeriInfra-Lab/VeriTile/blob/5ea0e46126cc1c6eb05e4219ddc5dc13246ec3ce/bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/review.json"
+  },
+  "context": "Verification below was performed on the archived source snapshot. Nested evidence paths resolve in that archive. The full semantic review, theorem audit and logs remain there. This split has separate integration checks.",
+  "excerpt": {
+    "status": "verified_task_batch_corpus_migration_incomplete",
+    "code_commit": "be136d5626a93eea3890dee5c7fef9ad7a6403bf",
+    "new_task_migrations": [
+      "matmul_tma"
+    ],
+    "regression_only_pending_body_tasks": [
+      "kv_cache_filling"
+    ],
+    "verification": {
+      "baseline": {
+        "status": "PASS",
+        "explicit_modules": 14,
+        "jobs": 3473
+      },
+      "frontend_preflight": {
+        "status": "PASS",
+        "explicit_modules": 109,
+        "jobs": 3763,
+        "scope": "All registered frontend roots, including typed-Bool constexpr continuation execution under arbitrary algebras and complete call AST equality."
+      },
+      "focused": {
+        "status": "PASS",
+        "explicit_modules": 18,
+        "jobs": 3491,
+        "additional_scope": "Joint import, standalone frontend AST footprint, 27 task theorem audits and the empty public FP assumption report."
+      },
+      "warm_and_joint": {
+        "status": "PASS",
+        "explicit_modules": 4209,
+        "jobs": 13889
+      },
+      "independent_clean_checkout": {
+        "status": "PASS",
+        "explicit_modules": 4209,
+        "jobs": 13889,
+        "project_build_initially_present": false,
+        "project_objects_imported_from_other_checkouts": false,
+        "only_fixed_external_dependencies_imported": true,
+        "setup": {
+          "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/final-clean-setup.json",
+          "sha256": "47b912cbb180c9f5adc771ec30e68764d08301818203e0606e916cfae5f7f155"
+        }
+      },
+      "trust": "PASS: 27 task theorem footprints and four new frontend proof footprints use only standard base. The public complete source pair prints no FP assumptions.",
+      "targeted_python": {
+        "status": "PASS",
+        "tests": 196
+      },
+      "all_python": {
+        "status": "KNOWN_PREEXISTING_FAILURE",
+        "tests": 441,
+        "errors": 1,
+        "reason": "Unchanged Structural.lean rejected by old numerical receipt; no false repin."
+      },
+      "source": "PASS: two complete raw original/corrected historical-candidate mappings and exact caller bindings; original Python/wrappers/Real specification unchanged; candidate orientation and explicit native storage binding corrected, complete deep proofs replayed.",
+      "official_comparator": "UNAVAILABLE: 20 actual final-source attempts with verified pinned binaries. Host Landlock ABI v4 is below required v5; no systemd user isolation or bypass.",
+      "cpu": "NOT_RUN: this task has no CPU contract checker; no GPU or new numerical experiment was requested or run.",
+      "gpu_or_numerical_experiment": "Not run.",
+      "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending; the known unchanged numerical receipt failure remains explicit."
+    },
+    "corpus_complete": false,
+    "corpus_counts": {
+      "tasks": 183,
+      "examples": 19,
+      "task_status": {
+        "selected_body_copy_checked": 102,
+        "uncovered_jit_functions": 81
+      },
+      "example_status": {
+        "authored_counterpart_body_copy_checked": 2,
+        "selected_body_copy_checked": 2,
+        "spec_derived_body_copy_checked": 15
+      },
+      "selected_jit_functions": 333,
+      "uncovered_selected_jit_functions": 169,
+      "primary_files_with_int64_screen_warning": 22,
+      "primary_lean_file_features": {
+        "tasks": {
+          "in_body_type_directives": 58,
+          "antiquotes": 64,
+          "dsl_loop": 0,
+          "dsl_numeric_helpers": 8
+        },
+        "examples": {
+          "in_body_type_directives": 0,
+          "antiquotes": 0,
+          "dsl_loop": 0,
+          "dsl_numeric_helpers": 0
+        }
+      }
+    }
+  }
+}

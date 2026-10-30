@@ -1,0 +1,126 @@
+{
+  "schema": 1,
+  "date": "2026-10-24",
+  "task": "dequantize_rowwise",
+  "source_commit": "199499ae70813d2d39296d18722bd982710855c9",
+  "kind": "Direct implementation/proof review and isolated source replay; not an independent second-agent audit.",
+  "entry": "with_triton_signature callSignature in triton { pasted Python body }",
+  "source_correspondence": {
+    "statements": 9,
+    "verbatim_body": "Python and Lean bodies are text-equal after dedenting, and AST-equal. No in-body metadata, antiquotes or added store cast.",
+    "casts": "Both explicit to(tl.int64) calls are retained.",
+    "signature": "Named pointer storage types, scalar carrier/precision and constexpr names are configured outside the body; these are not inferred from arbitrary Python text.",
+    "call_binding": "source invokes body through the generic withScalarArguments adapter. FP32 inv_127 is a bound runtime register; the unused n_elements integer is retained. integer describes the mathematical register channel, not an unannotated native ABI width.",
+    "implicit_store": "The shared frontend inserts destination conversion using the call signature and rejects unresolved destinations instead of dropping the cast.",
+    "evidence": {
+      "path": "bench/review-checkpoints/2026-10-24/body-signature/pairs.json",
+      "sha256": "c70b6e81614f583b9d379370bf5dd77d41450df1f3eee288ecfdc913965439c3"
+    }
+  },
+  "real": {
+    "target": "scale * (signed weight : Real) / 127 for all active row outputs.",
+    "connection": [
+      "BodyExecution.source_memory",
+      "KernelCorrectness.correct",
+      "KernelCorrectness.traceSafe",
+      "ReaderProof.logical_correct"
+    ],
+    "scope": "Complete new callee and argument binding; successful execution, actual access safety, independent active output formula and all exterior raw cells. Original zero/negative scale, masked/empty row, unmasked scale and regional alias scopes retained.",
+    "projection": "Existing local floating precision erasure and mathematical index model. NativeIndex.lane_exact separately retains the fixed-width physical address projection under the existing input bounds."
+  },
+  "fp": {
+    "target": "Actual original and index-commuted complete new calls; all typed memory agrees and both executions succeed.",
+    "connection": [
+      "FPExecution.same_run",
+      "FPExecution.execution",
+      "FPExecution.equivalence"
+    ],
+    "transformation": "Signed integer block_start multiplication commutativity, in full source context.",
+    "experimental_rules": [],
+    "printed_assumptions": "none",
+    "scope": "The existing ProfiledMemory program-pair judgment is preserved. It does not add hardware/ABI/compiler refinement or a numerical experiment."
+  },
+  "io_organization": "IO.lean retains the single regional/logical input/output interface and exact masks/windows. Source-level typing is a CallSignature outside the pasted body; call arguments are explicit data and use one shared adapter. No alternate runner or assumed successful execution is supplied.",
+  "validation": {
+    "python_regression_tests": 9,
+    "lean_regression_files": [
+      "bench/tests/CallSignature.lean",
+      "bench/tests/SourceDType.lean"
+    ],
+    "lean_regressions": "Implicit masked FP16 store, signed INT8 input, actual runtime argument values, missing/duplicate metadata, forbidden in-body metadata, escaping aliases and unresolved store destinations.",
+    "development_build_exit_code": 0,
+    "development_jobs": 8565,
+    "development_scope": "Selected Contract/Correct/FPEquiv, source bridge, optional Tensor endpoint, both frontend regression files, and both argmax public entries after shared helper changes.",
+    "clean_build_exit_code": 0,
+    "clean_jobs": 3484,
+    "clean_checkout": "/tmp/veritile-body-signature-clean",
+    "clean_initial_commit": "08251a9cc1b544b03d54ef5f570c6317c860dd0e",
+    "clean_final_commit": "199499ae70813d2d39296d18722bd982710855c9",
+    "clean_method": "Began with no project artifacts or .veritile-cache, reusing pinned external Lean/Mathlib packages. Initial build passed; final fail-closed store guard was then checked out from Git and rebuilt in the same isolated directory. No project build artifacts were copied.",
+    "joint_import_exit_code": 0,
+    "axioms": "Public Real/FP results and required execution/memory/safety bridges pass standard-base axiom checks.",
+    "official_comparator": "Both --trust calls fail preflight because the official comparator is unavailable; not passed.",
+    "python_contract_runtime_check": "Not run: torch is unavailable in the system Python. Python implementation/wrapper source is unchanged; AST correspondence and Lean contract/source proofs are checked.",
+    "gpu": "not run; no new numerical rewrite",
+    "evidence_files": [
+      {
+        "path": "bench/review-checkpoints/2026-10-24/body-signature/clean-initial.log.gz",
+        "sha256": "da099f3b93c8467cb5f5521079f45a8a42a29b3ffc2cbe96d6bdd19fbef7b2cd"
+      },
+      {
+        "path": "bench/review-checkpoints/2026-10-24/body-signature/clean-final.log.gz",
+        "sha256": "a267e2104ab0ddc66aeda8a7470515579eae2c776bdea416f3d46ec3d37951b1"
+      },
+      {
+        "path": "bench/review-checkpoints/2026-10-24/body-signature/development.log.gz",
+        "sha256": "5f8532b2a17814464bf8ca1b87313d016a1a844afba338f6b987f99712150e3b"
+      },
+      {
+        "path": "bench/review-checkpoints/2026-10-24/body-signature/joint.log.gz",
+        "sha256": "5d6a6d606478938d4871430c2d923e9c7218a7f35b7cb22391f4608cdced0121"
+      },
+      {
+        "path": "bench/review-checkpoints/2026-10-24/body-signature/python-tests.log.gz",
+        "sha256": "de24cf53f70054acc2a963735ea95c1e094acb5e97ff81a62671fd7e2343d77d"
+      },
+      {
+        "path": "bench/review-checkpoints/2026-10-24/body-signature/comparator-real.log.gz",
+        "sha256": "0c7858c5e4416e31fcd6c845e43f74e5f7041d81563f370115efe94b9907b081"
+      },
+      {
+        "path": "bench/review-checkpoints/2026-10-24/body-signature/comparator-fp.log.gz",
+        "sha256": "0c7858c5e4416e31fcd6c845e43f74e5f7041d81563f370115efe94b9907b081"
+      }
+    ]
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-24/body-signature/source-closure.json",
+    "sha256": "ca50357640c99c2f851052afb5b83c8ef81b8064a79818a44dc3a316c5c5dacf"
+  },
+  "tool_sources": {
+    "bench/jit_correspondence.py": "a1d2cf4debc90a3d40633f3879858dd1973403118d064a6e52bada47b4179c8d",
+    "bench/tests/test_jit_correspondence.py": "124d1ef59901a4166a5d8566f6fd29fbc74a72cef6b5ac0ef6010aac40fe85ae",
+    "bench/repairs/tritonbench_g/dequantize_rowwise/jit-correspondence.json": "8ab455940036b8c7401492e33d853cc24bc25c61eb3b71e579ad17f942b0e295",
+    "bench/tests/CallSignature.lean": "1982d157c0b9cc906295c7b3302ca59bf259e2ca50730931e187668538070db5",
+    "bench/tests/SourceDType.lean": "9164dd3de7faff229a1cc7aef3ed593f0639252cd5c9c7f560198e4f0563a7a6"
+  },
+  "remaining_limits": [
+    "This first example validates a straight-line body. Existing DSL operation/control-flow spelling limits still apply; arbitrary Python bodies are not all supported.",
+    "Call signatures must be statically known and unsupported pointer/store forms fail closed.",
+    "Existing numerical primitive and mathematical-index model boundaries remain; no compiler/ISA/host refinement is claimed.",
+    "Official comparator and Torch runtime contract check unavailable."
+  ],
+  "corpus_followup": {
+    "inventory": {
+      "path": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
+      "sha256": "30a7ad90bbaa69eb96a79280ca9061b0aafce73d1dec3bc02ce8eb89f4098c75"
+    },
+    "ast_checked_tasks": 2,
+    "other_missing_explicit_int64_cast": 44,
+    "not_certified_by_screen": 137,
+    "pasted_body_entry_validated_tasks": [
+      "dequantize_rowwise"
+    ],
+    "note": "Argmax retains its earlier normalized AST/source proof certification; only dequantize_rowwise has been migrated to this pasted-body interface. Other tasks are not silently repaired or recertified."
+  }
+}

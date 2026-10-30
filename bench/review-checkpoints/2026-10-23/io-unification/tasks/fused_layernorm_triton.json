@@ -1,0 +1,463 @@
+{
+  "schema": 1,
+  "task": "fused_layernorm_triton",
+  "status": "consolidated",
+  "owner": {
+    "path": ".veritile-cache/io-unification-20261023/queue06/result.json",
+    "sha256": "64a4ec4f1ad677bd8180544e612e7e6d5473e8e7d531f4586f5842128f96a317",
+    "task_index": 2
+  },
+  "reason": "The physical IO description and existing logical view now share task-level IO.lean with all original namespaces and declaration bodies; complete connection proofs stay in Proofs.",
+  "selected_public_entries": [
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Contract.lean",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Correct.lean",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/FPEquiv.lean"
+  ],
+  "previous_semantic_review": {
+    "manifest": {
+      "path": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json",
+      "sha256": "5df771b8603eaf5d9f08b4fde0c5b938c18087c00092f5348b47eb54d33a8225"
+    },
+    "task": "fused_layernorm_triton"
+  },
+  "changed_files": [
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/IO.lean",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/LogicalCoordinates.lean"
+  ],
+  "removed_files": [
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/LogicalCoordinates.lean"
+  ],
+  "moved_declarations": [
+    {
+      "from": "bench/repairs/tritonbench_g/fused_layernorm_triton/LogicalCoordinates.lean",
+      "to": "bench/repairs/tritonbench_g/fused_layernorm_triton/IO.lean",
+      "declarations": [
+        "TensorInputs",
+        "inputCoordinates",
+        "TensorOutputs",
+        "outputCoordinates",
+        "tensorX",
+        "tensorW",
+        "tensorB",
+        "logicalExpected",
+        "logicalIO"
+      ],
+      "moved_bytes_sha256": "09d7820bab4c64c899b4c95d4abf7978b38a58e3de3c146df51775732d951d01",
+      "byte_preserved": true,
+      "qualified_declarations": [
+        "VeriTile.Bench.Repairs.FusedLayernormTriton.PublicIO.TensorInputs",
+        "VeriTile.Bench.Repairs.FusedLayernormTriton.PublicIO.inputCoordinates",
+        "VeriTile.Bench.Repairs.FusedLayernormTriton.PublicIO.TensorOutputs",
+        "VeriTile.Bench.Repairs.FusedLayernormTriton.PublicIO.outputCoordinates",
+        "VeriTile.Bench.Repairs.FusedLayernormTriton.PublicIO.tensorX",
+        "VeriTile.Bench.Repairs.FusedLayernormTriton.PublicIO.tensorW",
+        "VeriTile.Bench.Repairs.FusedLayernormTriton.PublicIO.tensorB",
+        "VeriTile.Bench.Repairs.FusedLayernormTriton.PublicIO.logicalExpected",
+        "VeriTile.Bench.Repairs.FusedLayernormTriton.PublicIO.logicalIO"
+      ],
+      "before_and_after_exact_substring": true
+    }
+  ],
+  "preservation": {
+    "moved_declarations": [
+      {
+        "from": "bench/repairs/tritonbench_g/fused_layernorm_triton/LogicalCoordinates.lean",
+        "to": "bench/repairs/tritonbench_g/fused_layernorm_triton/IO.lean",
+        "declarations": [
+          "TensorInputs",
+          "inputCoordinates",
+          "TensorOutputs",
+          "outputCoordinates",
+          "tensorX",
+          "tensorW",
+          "tensorB",
+          "logicalExpected",
+          "logicalIO"
+        ],
+        "moved_bytes_sha256": "09d7820bab4c64c899b4c95d4abf7978b38a58e3de3c146df51775732d951d01",
+        "byte_preserved": true,
+        "qualified_declarations": [
+          "VeriTile.Bench.Repairs.FusedLayernormTriton.PublicIO.TensorInputs",
+          "VeriTile.Bench.Repairs.FusedLayernormTriton.PublicIO.inputCoordinates",
+          "VeriTile.Bench.Repairs.FusedLayernormTriton.PublicIO.TensorOutputs",
+          "VeriTile.Bench.Repairs.FusedLayernormTriton.PublicIO.outputCoordinates",
+          "VeriTile.Bench.Repairs.FusedLayernormTriton.PublicIO.tensorX",
+          "VeriTile.Bench.Repairs.FusedLayernormTriton.PublicIO.tensorW",
+          "VeriTile.Bench.Repairs.FusedLayernormTriton.PublicIO.tensorB",
+          "VeriTile.Bench.Repairs.FusedLayernormTriton.PublicIO.logicalExpected",
+          "VeriTile.Bench.Repairs.FusedLayernormTriton.PublicIO.logicalIO"
+        ],
+        "before_and_after_exact_substring": true
+      }
+    ],
+    "unchanged_public_kernel_and_proof_bodies": {
+      "bench/repairs/tritonbench_g/fused_layernorm_triton/Correct.lean": {
+        "body_unchanged_after_removing_import_lines": true,
+        "before_sha256": "35e88842d1436a92896631ed03fc6d7571f4fad5169f2a7fa76897689dcfd869",
+        "source_sha256": "35e88842d1436a92896631ed03fc6d7571f4fad5169f2a7fa76897689dcfd869"
+      },
+      "bench/repairs/tritonbench_g/fused_layernorm_triton/FPEquiv.lean": {
+        "body_unchanged_after_removing_import_lines": true,
+        "before_sha256": "768476cd3c619895670c378704dfe5382d81e0c1bebf2bf56a4450b7a91130ca",
+        "source_sha256": "768476cd3c619895670c378704dfe5382d81e0c1bebf2bf56a4450b7a91130ca"
+      },
+      "bench/repairs/tritonbench_g/fused_layernorm_triton/Contract.lean": {
+        "body_unchanged_after_removing_import_lines": true,
+        "before_sha256": "a99da7f114db8de85c60447ef81405434849332131cb0d977ca91c28c4af9777",
+        "source_sha256": "a99da7f114db8de85c60447ef81405434849332131cb0d977ca91c28c4af9777"
+      },
+      "bench/repairs/tritonbench_g/fused_layernorm_triton/Kernels.lean": {
+        "body_unchanged_after_removing_import_lines": true,
+        "before_sha256": "eff744a6951eca44f744094dab82c288815feeec9efd51aff3c4fcbd78c4c6f1",
+        "source_sha256": "eff744a6951eca44f744094dab82c288815feeec9efd51aff3c4fcbd78c4c6f1"
+      },
+      "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/Contract.lean": {
+        "body_unchanged_after_removing_import_lines": true,
+        "before_sha256": "eebf5042feb091418c2be0c2639b5ef3a7920ec08c2aaa77a607b69ca334fb6c",
+        "source_sha256": "eebf5042feb091418c2be0c2639b5ef3a7920ec08c2aaa77a607b69ca334fb6c"
+      },
+      "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/LogicalCoordinates.lean": {
+        "body_unchanged_after_removing_import_lines": true,
+        "before_sha256": "a57eedabcfa33f99a5473fe47f898f41bac5ae1664dd9355ccdbde25e55ef78f",
+        "source_sha256": "31d2116ec8c75de8c25036e73085b29a7a5398dcd30949028de9b1581982a613"
+      }
+    },
+    "original_physical_io_body": {
+      "from": "bench/repairs/tritonbench_g/fused_layernorm_triton/IO.lean",
+      "to": "bench/repairs/tritonbench_g/fused_layernorm_triton/IO.lean",
+      "body_sha256": "d76458fdfe9fe6793fc886ffd5ef613441f1e7ec11076af76f63df34329147b0",
+      "before_and_after_exact_substring": true
+    },
+    "full_judgment_preserved": "Existing core IO and moved LogicalIO/LogicalProgramIO/LogicalDomainIO bodies are byte-identical; complete Implements/Observes equivalence and execution/safety/frame proofs remain in Proofs. Existing public theorem/formula/premise/FP-pair/numerical-domain source bodies are unchanged."
+  },
+  "verification": [
+    {
+      "kind": "targeted_current_sources",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue06/build.py",
+        "bench/repairs/tritonbench_g/fused_layernorm_triton/Contract.lean",
+        "bench/repairs/tritonbench_g/fused_layernorm_triton/IO.lean",
+        "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/LogicalCoordinates.lean",
+        "bench/repairs/tritonbench_g/fused_layernorm_triton/Correct.lean",
+        "bench/repairs/tritonbench_g/fused_layernorm_triton/FPEquiv.lean",
+        "bench/repairs/tritonbench_g/fused_layernorm_triton/Misc/TensorBridge.lean"
+      ],
+      "exit_code": 1,
+      "log": ".veritile-cache/io-unification-20261023/queue06/fused_layernorm_triton.targeted.attempt01.log",
+      "log_sha256": "4b18b863f0eb1596374e5e0fe7ef618644b886a4f015eeaf9b5307f80d3c1882"
+    },
+    {
+      "kind": "targeted_current_sources",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue06/build.py",
+        "bench/repairs/tritonbench_g/fused_layernorm_triton/Contract.lean",
+        "bench/repairs/tritonbench_g/fused_layernorm_triton/IO.lean",
+        "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/PublicIO.lean",
+        "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/IOResults.lean",
+        "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/LogicalCoordinates.lean",
+        "bench/repairs/tritonbench_g/fused_layernorm_triton/Correct.lean",
+        "bench/repairs/tritonbench_g/fused_layernorm_triton/FPEquiv.lean",
+        "bench/repairs/tritonbench_g/fused_layernorm_triton/Misc/TensorBridge.lean"
+      ],
+      "exit_code": 1,
+      "log": ".veritile-cache/io-unification-20261023/queue06/fused_layernorm_triton.targeted.attempt02.log",
+      "log_sha256": "31b3cb55f226d265e008cccaffc258d696085311d437682747dce72780b4d765"
+    },
+    {
+      "kind": "targeted_current_sources",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue06/build.py",
+        "bench/repairs/tritonbench_g/fused_layernorm_triton/Contract.lean",
+        "bench/repairs/tritonbench_g/fused_layernorm_triton/IO.lean",
+        "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/PublicIO.lean",
+        "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/IOResults.lean",
+        "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/LogicalCoordinates.lean",
+        "bench/repairs/tritonbench_g/fused_layernorm_triton/Correct.lean",
+        "bench/repairs/tritonbench_g/fused_layernorm_triton/Programs.lean",
+        "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/PairIO.lean",
+        "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/PairEquivalence.lean",
+        "bench/repairs/tritonbench_g/fused_layernorm_triton/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue06/fused_layernorm_triton.targeted.attempt03.log",
+      "log_sha256": "49b0327351c1ba7a53316374d7f1cbcfc30e3ea37bf87966bc544e9e4fe4bac0"
+    },
+    {
+      "kind": "task_public_joint_import",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue06/build.py",
+        "--check",
+        ".veritile-cache/io-unification-20261023/queue06/fused_layernorm_triton.joint.lean"
+      ],
+      "exit_code": 0,
+      "fixture": ".veritile-cache/io-unification-20261023/queue06/fused_layernorm_triton.joint.lean",
+      "fixture_sha256": "76a7b590df0294f76713da0944ce9de882de6832e8db2e017453404ad8f7363f",
+      "log": ".veritile-cache/io-unification-20261023/queue06/fused_layernorm_triton.joint.attempt01.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Contract.lean": "a99da7f114db8de85c60447ef81405434849332131cb0d977ca91c28c4af9777",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Correct.lean": "35e88842d1436a92896631ed03fc6d7571f4fad5169f2a7fa76897689dcfd869",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/FPEquiv.lean": "768476cd3c619895670c378704dfe5382d81e0c1bebf2bf56a4450b7a91130ca",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Kernels.lean": "eff744a6951eca44f744094dab82c288815feeec9efd51aff3c4fcbd78c4c6f1",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/IOResults.lean": "479638ad3665f4d6deac653eadeb5b164ede10a9baa84e72f9af3501f0adc984",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/LogicalCoordinates.lean": "31d2116ec8c75de8c25036e73085b29a7a5398dcd30949028de9b1581982a613",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/PairEquivalence.lean": "04b3b5bc2e4828dc29c25f61d337efb6c89e688eed6e68df54fe96e7b621f90f",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/IO.lean": "fa1ffa4e14462a1d317c709f41224b96d2756293517d3d456de24e4e1dde51cb",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Misc/HostCorrect.lean": "b6eab9a4a49458dad01265dd2c0c0fb9c67ecc557095938d3dda4a5dfc1cf124",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Misc/HostFPEquiv.lean": "08dc25d3ba4ffce95692fe51d4d66b05b4914e490c20b71464980d309481d213",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Misc/NativeCorrect.lean": "e344f53828a40ccd5e84cd38e2b7f36b25d4e92119a53304404298770d2a5cb8",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Misc/TensorBridge.lean": "307770e68ceeca5b878c4a6a5c3b1dc90319f0ce9212a4db6df5126a801868ee",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Programs.lean": "a229a4d60d257bdd194ddf27fddce78d97f89607765294de540ba4f9d499c741",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/Binding.lean": "bd0758df227d392b7f35d0eaef2e485ef419eaf60af6d9d36b9881039c1d729a",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/Contract.lean": "eebf5042feb091418c2be0c2639b5ef3a7920ec08c2aaa77a607b69ca334fb6c",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/Host.lean": "a02ec1be75111b7daa7fa808e3554d1db49d8e2dfc8b99e7d39651c75d8f8ca9",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/Kernel.lean": "e19974b9fe47063e4fceb72ea684af77542df9f72fd4f4cdb0a1a4c6cc7384df",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/KernelBinding.lean": "55773934ae5fe1d6844ce0593b69a42a71d5df891570d846f894b0c333bc062b",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/KernelRaw.lean": "e31ed127d27ae208c420024b654cf737343321d3e7bd0aa332046be1765358d6",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/KernelValues.lean": "5f05e7ae8055edbe8f25de7ba899ade508a9e0b6552e2fe1a945dfdbd137ea30",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/LegacySource.lean": "42a8bb8170157aa01ecdcc785249f48e78fa4dfa1499619f98e4908445dc8295",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/Logical.lean": "e5faf9bccd7c33ca88192cc6a42b91fee149b8becee6165964358807c3d84c1d",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/Native.lean": "966499e837426a3b38eae5b192bab9c0b016f5e4bbca0259550668800f810181",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/NativeIndex.lean": "63c2b50dbb8f5ef4edbd795e2f9706ee89d1195c12c44b56a2e3f11a24e0ea5d",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/PairIO.lean": "5857c39faaf1d7c5460582f72e62d69079edb5e45921fdcd85d88b45a744f61b",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/Physical.lean": "ef66468c1b3405ec5751df997dfb66eb9e5c5f5c6ba84a602ce106b1d31decf1",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/PublicIO.lean": "6dffa8fa949b6b11354f31f1c7f5885939c6043d9affc4e972e14513fb2510fc",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/ReadableNormalize.lean": "2fbdc1d769d7fc668d25775857a62733eaffb5f3fff44dc390328195929b78b1",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/ReadableNormalizeLoop.lean": "9e2d34134d44bb737ca76456e381221c4b239f030b0d0537b1c53f47e8a29cfc",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/ReadableSafety.lean": "de83871bbefb42d279a63d601fa2710c2defd9be411742e1ca543186a45b0ea9",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/ReadableStatistics.lean": "e3be51ae4dba7be7a1aba908b1d615c6c09b83bbf84246b01157b344b72e8864",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/ReadableWhole.lean": "4c886709d50dbfd9bada4a0cf11b7bc3d1160be4a5a4bff326f59a33729177ad",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/Source.lean": "8a688dac7a24b55b4ce3848fe5589610c51ee86581f2226446e2f4e76f897b2b",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/SourcePieces.lean": "80b70599133e8a23cd0e8be8ca5ec0e3362e536b9d8bd010623e00503b7aab35",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/SourcePreservation.lean": "bb03c85f1f25df7586c70c3178d712142fd9291a3fbbff06bfdb9aa9ad5ffaff",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/SourceSafety.lean": "2f4610da88882cb10f033738766c357d0db153c1c32363363c9184bac71a5a38"
+  },
+  "source_pin_provenance": {
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Contract.lean": {
+      "owner_tasks": [
+        "fused_layernorm_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Correct.lean": {
+      "owner_tasks": [
+        "fused_layernorm_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/FPEquiv.lean": {
+      "owner_tasks": [
+        "fused_layernorm_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Kernels.lean": {
+      "owner_tasks": [
+        "fused_layernorm_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/IOResults.lean": {
+      "owner_tasks": [
+        "fused_layernorm_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/LogicalCoordinates.lean": {
+      "owner_tasks": [
+        "fused_layernorm_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/PairEquivalence.lean": {
+      "owner_tasks": [
+        "fused_layernorm_triton"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalIO.lean": {
+      "owner_tasks": [
+        "mixed_sparse_attention",
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/IO.lean": {
+      "owner_tasks": [
+        "fused_layernorm_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Misc/HostCorrect.lean": {
+      "owner_tasks": [
+        "fused_layernorm_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Misc/HostFPEquiv.lean": {
+      "owner_tasks": [
+        "fused_layernorm_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Misc/NativeCorrect.lean": {
+      "owner_tasks": [
+        "fused_layernorm_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Misc/TensorBridge.lean": {
+      "owner_tasks": [
+        "fused_layernorm_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Programs.lean": {
+      "owner_tasks": [
+        "fused_layernorm_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/Binding.lean": {
+      "owner_tasks": [
+        "fused_layernorm_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/Contract.lean": {
+      "owner_tasks": [
+        "fused_layernorm_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/Host.lean": {
+      "owner_tasks": [
+        "fused_layernorm_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/Kernel.lean": {
+      "owner_tasks": [
+        "fused_layernorm_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/KernelBinding.lean": {
+      "owner_tasks": [
+        "fused_layernorm_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/KernelRaw.lean": {
+      "owner_tasks": [
+        "fused_layernorm_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/KernelValues.lean": {
+      "owner_tasks": [
+        "fused_layernorm_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/LegacySource.lean": {
+      "owner_tasks": [
+        "fused_layernorm_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/Logical.lean": {
+      "owner_tasks": [
+        "fused_layernorm_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/Native.lean": {
+      "owner_tasks": [
+        "fused_layernorm_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/NativeIndex.lean": {
+      "owner_tasks": [
+        "fused_layernorm_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/PairIO.lean": {
+      "owner_tasks": [
+        "fused_layernorm_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/Physical.lean": {
+      "owner_tasks": [
+        "fused_layernorm_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/PublicIO.lean": {
+      "owner_tasks": [
+        "fused_layernorm_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/ReadableNormalize.lean": {
+      "owner_tasks": [
+        "fused_layernorm_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/ReadableNormalizeLoop.lean": {
+      "owner_tasks": [
+        "fused_layernorm_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/ReadableSafety.lean": {
+      "owner_tasks": [
+        "fused_layernorm_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/ReadableStatistics.lean": {
+      "owner_tasks": [
+        "fused_layernorm_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/ReadableWhole.lean": {
+      "owner_tasks": [
+        "fused_layernorm_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/Source.lean": {
+      "owner_tasks": [
+        "fused_layernorm_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/SourcePieces.lean": {
+      "owner_tasks": [
+        "fused_layernorm_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/SourcePreservation.lean": {
+      "owner_tasks": [
+        "fused_layernorm_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/SourceSafety.lean": {
+      "owner_tasks": [
+        "fused_layernorm_triton"
+      ]
+    }
+  },
+  "retired_current_source_pins": {
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/LogicalCoordinates.lean": "25ab97842f75ada48891ee6db6ac91f0716acb236a40982b7f82ccae20f61f14"
+  },
+  "limits": [
+    "No numerical experiments, GPU runs, or added native/host correctness acceptance; unchanged proof dependencies reuse the named read-only successful baseline."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/io-unification-20261023/queue16/result.json",
+    "sha256": "12f6dd5ed523e9f723fee3847af964fd8987958c2cb997aa572210c04de5bc84"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

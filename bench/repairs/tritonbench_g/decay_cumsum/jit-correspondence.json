@@ -1,0 +1,522 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/decay_cumsum/decay_cumsum_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/decay_cumsum/Kernels.lean",
+    "python_function": "fwd_decay_cumsum",
+    "lean_definition": "quotedForward",
+    "signature_definition": "forwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "g",
+          "fp32"
+        ],
+        [
+          "g_o",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "s_qk_h",
+          "integer"
+        ],
+        [
+          "s_qk_t",
+          "integer"
+        ],
+        [
+          "s_qk_d",
+          "integer"
+        ],
+        [
+          "B",
+          "integer"
+        ],
+        [
+          "H",
+          "integer"
+        ],
+        [
+          "T",
+          "integer"
+        ],
+        [
+          "scale",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BT",
+        "BK",
+        "DK"
+      ],
+      "readPorts": [
+        "g"
+      ],
+      "writePorts": [
+        "g_o"
+      ],
+      "sourceConstants": [
+        [
+          "inv_ln2",
+          "1.44269504"
+        ]
+      ]
+    },
+    "expected_call_bindings": {
+      "s_qk_h": "s_qk_h",
+      "s_qk_t": "s_qk_t",
+      "s_qk_d": "s_qk_d",
+      "B": "B",
+      "H": "H",
+      "T": "T",
+      "scale": "scale"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/decay_cumsum/candidate_kernels.py",
+    "lean": "bench/repairs/tritonbench_g/decay_cumsum/Kernels.lean",
+    "python_function": "fwd_decay_cumsum_index_commuted",
+    "lean_definition": "quotedForwardIndexCommuted",
+    "signature_definition": "forwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "g",
+          "fp32"
+        ],
+        [
+          "g_o",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "s_qk_h",
+          "integer"
+        ],
+        [
+          "s_qk_t",
+          "integer"
+        ],
+        [
+          "s_qk_d",
+          "integer"
+        ],
+        [
+          "B",
+          "integer"
+        ],
+        [
+          "H",
+          "integer"
+        ],
+        [
+          "T",
+          "integer"
+        ],
+        [
+          "scale",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BT",
+        "BK",
+        "DK"
+      ],
+      "readPorts": [
+        "g"
+      ],
+      "writePorts": [
+        "g_o"
+      ],
+      "sourceConstants": [
+        [
+          "inv_ln2",
+          "1.44269504"
+        ]
+      ]
+    },
+    "expected_call_bindings": {
+      "s_qk_h": "s_qk_h",
+      "s_qk_t": "s_qk_t",
+      "s_qk_d": "s_qk_d",
+      "B": "B",
+      "H": "H",
+      "T": "T",
+      "scale": "scale"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/decay_cumsum/decay_cumsum_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/decay_cumsum/Kernels.lean",
+    "python_function": "prepare_qg_kg",
+    "lean_definition": "quotedPrepare",
+    "signature_definition": "prepareSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "q",
+          "fp32"
+        ],
+        [
+          "k",
+          "fp32"
+        ],
+        [
+          "g",
+          "fp32"
+        ],
+        [
+          "qg",
+          "fp32"
+        ],
+        [
+          "kg",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "s_qk_h",
+          "integer"
+        ],
+        [
+          "s_qk_t",
+          "integer"
+        ],
+        [
+          "s_qk_d",
+          "integer"
+        ],
+        [
+          "B",
+          "integer"
+        ],
+        [
+          "H",
+          "integer"
+        ],
+        [
+          "T",
+          "integer"
+        ],
+        [
+          "scale",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BT",
+        "BK",
+        "DK"
+      ],
+      "readPorts": [
+        "q",
+        "k",
+        "g"
+      ],
+      "writePorts": [
+        "qg",
+        "kg"
+      ]
+    },
+    "expected_call_bindings": {
+      "s_qk_h": "s_qk_h",
+      "s_qk_t": "s_qk_t",
+      "s_qk_d": "s_qk_d",
+      "B": "B",
+      "H": "H",
+      "T": "T",
+      "scale": "scale"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/decay_cumsum/candidate_kernels.py",
+    "lean": "bench/repairs/tritonbench_g/decay_cumsum/Kernels.lean",
+    "python_function": "prepare_qg_kg_index_commuted",
+    "lean_definition": "quotedPrepareIndexCommuted",
+    "signature_definition": "prepareSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "q",
+          "fp32"
+        ],
+        [
+          "k",
+          "fp32"
+        ],
+        [
+          "g",
+          "fp32"
+        ],
+        [
+          "qg",
+          "fp32"
+        ],
+        [
+          "kg",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "s_qk_h",
+          "integer"
+        ],
+        [
+          "s_qk_t",
+          "integer"
+        ],
+        [
+          "s_qk_d",
+          "integer"
+        ],
+        [
+          "B",
+          "integer"
+        ],
+        [
+          "H",
+          "integer"
+        ],
+        [
+          "T",
+          "integer"
+        ],
+        [
+          "scale",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BT",
+        "BK",
+        "DK"
+      ],
+      "readPorts": [
+        "q",
+        "k",
+        "g"
+      ],
+      "writePorts": [
+        "qg",
+        "kg"
+      ]
+    },
+    "expected_call_bindings": {
+      "s_qk_h": "s_qk_h",
+      "s_qk_t": "s_qk_t",
+      "s_qk_d": "s_qk_d",
+      "B": "B",
+      "H": "H",
+      "T": "T",
+      "scale": "scale"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/decay_cumsum/decay_cumsum_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/decay_cumsum/Kernels.lean",
+    "python_function": "bwd_decay_global_cumsum",
+    "lean_definition": "quotedBackward",
+    "signature_definition": "backwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "dq_inner",
+          "fp32"
+        ],
+        [
+          "dq_inter",
+          "fp32"
+        ],
+        [
+          "dk_inner",
+          "fp32"
+        ],
+        [
+          "dk_inter",
+          "fp32"
+        ],
+        [
+          "q",
+          "fp32"
+        ],
+        [
+          "k",
+          "fp32"
+        ],
+        [
+          "g",
+          "fp32"
+        ],
+        [
+          "dg",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "s_qk_h",
+          "integer"
+        ],
+        [
+          "s_qk_t",
+          "integer"
+        ],
+        [
+          "s_qk_d",
+          "integer"
+        ],
+        [
+          "B",
+          "integer"
+        ],
+        [
+          "H",
+          "integer"
+        ],
+        [
+          "T",
+          "integer"
+        ],
+        [
+          "scale",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BT",
+        "BK",
+        "DK"
+      ],
+      "readPorts": [
+        "dq_inner",
+        "dq_inter",
+        "dk_inner",
+        "dk_inter",
+        "q",
+        "k",
+        "g"
+      ],
+      "writePorts": [
+        "dq_inter",
+        "dk_inter",
+        "dg"
+      ]
+    },
+    "expected_call_bindings": {
+      "s_qk_h": "s_qk_h",
+      "s_qk_t": "s_qk_t",
+      "s_qk_d": "s_qk_d",
+      "B": "B",
+      "H": "H",
+      "T": "T",
+      "scale": "scale"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/decay_cumsum/candidate_kernels.py",
+    "lean": "bench/repairs/tritonbench_g/decay_cumsum/Kernels.lean",
+    "python_function": "bwd_decay_global_cumsum_index_commuted",
+    "lean_definition": "quotedBackwardIndexCommuted",
+    "signature_definition": "backwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "dq_inner",
+          "fp32"
+        ],
+        [
+          "dq_inter",
+          "fp32"
+        ],
+        [
+          "dk_inner",
+          "fp32"
+        ],
+        [
+          "dk_inter",
+          "fp32"
+        ],
+        [
+          "q",
+          "fp32"
+        ],
+        [
+          "k",
+          "fp32"
+        ],
+        [
+          "g",
+          "fp32"
+        ],
+        [
+          "dg",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "s_qk_h",
+          "integer"
+        ],
+        [
+          "s_qk_t",
+          "integer"
+        ],
+        [
+          "s_qk_d",
+          "integer"
+        ],
+        [
+          "B",
+          "integer"
+        ],
+        [
+          "H",
+          "integer"
+        ],
+        [
+          "T",
+          "integer"
+        ],
+        [
+          "scale",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BT",
+        "BK",
+        "DK"
+      ],
+      "readPorts": [
+        "dq_inner",
+        "dq_inter",
+        "dk_inner",
+        "dk_inter",
+        "q",
+        "k",
+        "g"
+      ],
+      "writePorts": [
+        "dq_inter",
+        "dk_inter",
+        "dg"
+      ]
+    },
+    "expected_call_bindings": {
+      "s_qk_h": "s_qk_h",
+      "s_qk_t": "s_qk_t",
+      "s_qk_d": "s_qk_d",
+      "B": "B",
+      "H": "H",
+      "T": "T",
+      "scale": "scale"
+    }
+  }
+]

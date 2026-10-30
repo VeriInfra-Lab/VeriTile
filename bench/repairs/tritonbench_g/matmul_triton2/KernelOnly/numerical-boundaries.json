@@ -1,0 +1,26 @@
+{
+  "task": "matmul_triton2",
+  "selected_source_unchanged": true,
+  "domain_changed": false,
+  "real_target": "Independent full-K matrix product of arbitrary Real values at actual input addresses",
+  "native_target": "Independent source-ordered padded BK blocks, ascending k8 TF32-mode MMA instructions and live FP32 accumulator",
+  "native_payloads": "All FP32 words including signed zeros, NaNs, infinities and subnormals",
+  "initial_zero": "Fixed FP32 positive-zero word",
+  "local_ports": [
+    "sync MMA8",
+    "warp-group MMA8"
+  ],
+  "captured_target": "Triton 3.7.1 SM90; configs 0-5 warp-group and 6-7 synchronous",
+  "model_boundaries": [
+    "Ordinary same-call Torch Tensor storage/pointer/contiguity/logical-read API laws",
+    "Supported selected compiler lowering and local hardware instruction semantics",
+    "No concurrent caller-memory mutation"
+  ],
+  "new_numerical_experiments": [],
+  "new_primitive_obligations": [],
+  "gpu_execution": false,
+  "finite_executor_boundary": "Auxiliary Safety.finite_source retains inherited grid_count < 2^31; not an input assertion or public complete-quotation premise",
+  "shared_grid_product_runtime_compatibility": "Deferred under existing scope; not expanded",
+  "program_pair_status": "missing_pair_target",
+  "native_result_role": "Auxiliary ordinary theorem in selected NativeCorrect.lean; preserved historical full name"
+}

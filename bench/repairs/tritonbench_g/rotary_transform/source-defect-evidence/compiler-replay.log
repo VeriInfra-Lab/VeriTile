@@ -1,0 +1,9 @@
+sm80_interleaved_width262146 expected_frontend_rejection
+sm90_interleaved_width262146 expected_frontend_rejection
+sm80_split_width524290 expected_frontend_rejection
+sm90_split_width524290 expected_frontend_rejection
+sm80_interleaved_width514 control_compiled
+sm90_interleaved_width514 control_compiled
+sm80_split_width514 control_compiled
+sm90_split_width514 control_compiled
+PASS: four admitted frontend failures and four positive compiler controls; no GPU execution.

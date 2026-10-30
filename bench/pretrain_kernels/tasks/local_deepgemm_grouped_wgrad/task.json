@@ -1,0 +1,114 @@
+{
+  "schema_version": 3,
+  "id": "local_deepgemm_grouped_wgrad",
+  "suite": "pretrain",
+  "self_contained": true,
+  "proof_status": "UNSOLVED",
+  "backend_binding_status": "PENDING",
+  "numerical_admission": "NONE",
+  "conversion_status": "LEAN_DRAFT",
+  "comparison": {
+    "function": "build_local_deepgemm_grouped_wgrad"
+  },
+  "source_organization_status": "PROVISIONAL_LOWERING",
+  "inputs": [
+    [
+      "input0",
+      [
+        256,
+        2048
+      ],
+      "bf16"
+    ],
+    [
+      "input1",
+      [
+        256,
+        640
+      ],
+      "bf16"
+    ]
+  ],
+  "output": [
+    2,
+    640,
+    2048
+  ],
+  "output_precision": "bf16",
+  "scratch": [
+    [
+      "vmm_2",
+      [
+        640,
+        2048
+      ],
+      "bf16"
+    ],
+    [
+      "vselect_backward",
+      [
+        2,
+        640,
+        2048
+      ],
+      "bf16"
+    ],
+    [
+      "vmm_3",
+      [
+        640,
+        2048
+      ],
+      "bf16"
+    ],
+    [
+      "vselect_backward_1",
+      [
+        2,
+        640,
+        2048
+      ],
+      "bf16"
+    ],
+    [
+      "vadd",
+      [
+        2,
+        640,
+        2048
+      ],
+      "bf16"
+    ],
+    [
+      "candidate_vmm_2",
+      [
+        640,
+        2048
+      ],
+      "bf16"
+    ],
+    [
+      "candidate_vmm_3",
+      [
+        640,
+        2048
+      ],
+      "bf16"
+    ],
+    [
+      "candidate_vstack",
+      [
+        2,
+        640,
+        2048
+      ],
+      "bf16"
+    ]
+  ],
+  "scope": "Initialized weights and tensor tables are explicit task parameters. Native layout and configuration connections remain obligations.",
+  "native_comparison": "local_deepgemm_grouped_wgrad",
+  "reference_graph_nodes": 38,
+  "candidate_graph_nodes": 35,
+  "real_projection_status": "DIRECT",
+  "metadata_decoder_binding_status": "NOT_REQUIRED"
+}

@@ -1,0 +1,64 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/chunk_cumsum_kernel/chunk_cumsum_kernel_repaired.py",
+    "python_function": "chunk_global_cumsum_scalar_kernel_repaired",
+    "lean": "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Kernels.lean",
+    "lean_definition": "body",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "s",
+          "fp32"
+        ],
+        [
+          "o",
+          "fp32"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "T",
+        "BT"
+      ],
+      "readPorts": [
+        "s"
+      ],
+      "writePorts": [
+        "o"
+      ],
+      "typedFP32Storage": true
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/chunk_cumsum_kernel/chunk_cumsum_kernel_repaired.py",
+    "python_function": "chunk_global_cumsum_scalar_kernel_sum_left",
+    "lean": "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Kernels.lean",
+    "lean_definition": "sumLeftBody",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "s",
+          "fp32"
+        ],
+        [
+          "o",
+          "fp32"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "T",
+        "BT"
+      ],
+      "readPorts": [
+        "s"
+      ],
+      "writePorts": [
+        "o"
+      ],
+      "typedFP32Storage": true
+    }
+  }
+]

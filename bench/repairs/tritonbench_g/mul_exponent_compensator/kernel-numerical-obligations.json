@@ -1,0 +1,34 @@
+{
+  "scope": "new kernel-only Correct.correct and FPEquiv.fp_equiv",
+  "canonical_source_sha256": "c944bb5a524eac38541b0e01b75de94a25a3e24bebaf2ff319d4c805aa7e15d1",
+  "formula": "x[i] * 2^112",
+  "constant_word": "0x77800000",
+  "precision": "FP32 input/multiply/output",
+  "selected_model": {
+    "rounding": "nearestEven",
+    "input_FTZ": false,
+    "output_FTZ": false,
+    "multiply": "VeriTile.Triton.FP.mul",
+    "NaN": "model canonical qNaN"
+  },
+  "numerical_equality_assumptions": [],
+  "deferred_numerical_experiments": [],
+  "boundaries": [
+    "explicit FP32 primitive semantics; no GPU/compiler implementation conformance",
+    "ordinary Tensor API and prepared buffer facts",
+    "aligned FP32 word memory with derived byte observations",
+    "no native/Real accuracy equality"
+  ],
+  "compiler_evidence": {
+    "targets": [
+      "sm80",
+      "sm90"
+    ],
+    "blocks": [
+      1,
+      1024
+    ],
+    "scope": "mul.f32, no .ftz, 0f77800000; widened i64 indices; predicated FP32 accesses"
+  },
+  "historical": "FPProof.LocalMultiplyExact survives only in preserved historical host statements"
+}

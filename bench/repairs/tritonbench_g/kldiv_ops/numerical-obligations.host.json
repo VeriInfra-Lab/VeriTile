@@ -1,0 +1,104 @@
+{
+  "task": "kldiv_ops",
+  "entries": [
+    "VeriTile.Bench.Repairs.KldivOps.Contiguous.FPEquiv.forward_reference",
+    "VeriTile.Bench.Repairs.KldivOps.Contiguous.FPEquiv.backward_reference"
+  ],
+  "status": "local numerical conformance deferred",
+  "profile": "Checked contiguous FP32 CUDA production source, with explicit compiler-selected kernel addition trees and actual Torch reduction plans",
+  "admission": "All FP32 words and every Python float epsilon, including signed zeros, subnormals, NaNs and infinities; no finiteness or positivity guard.",
+  "local_predicates": [
+    "VeriTile.Bench.Repairs.KldivOps.Contiguous.Native.LocalPorts",
+    "VeriTile.Bench.Repairs.KldivTriton.NativeHost.Obligations"
+  ],
+  "operations": [
+    {
+      "name": "Native.add",
+      "arity": 2,
+      "domain": "FP32 words",
+      "required_evidence": "Actual scalar addition at every ordered tree node and chunk carry."
+    },
+    {
+      "name": "Native.sub",
+      "arity": 2,
+      "domain": "FP32 words",
+      "required_evidence": "Actual source subtraction operand roles and exceptional behavior."
+    },
+    {
+      "name": "Native.multiply",
+      "arity": 2,
+      "domain": "FP32 words",
+      "required_evidence": "Actual source product operand roles, NaN selection, signed zeros and FTZ behavior."
+    },
+    {
+      "name": "Native.maximum",
+      "arity": 2,
+      "domain": "FP32 words",
+      "required_evidence": "Actual tl.maximum, including NaN behavior and epsilon clamp operand roles."
+    },
+    {
+      "name": "Native.logarithm",
+      "arity": 1,
+      "domain": "FP32 words",
+      "required_evidence": "Installed tl.log lowering, including internal approximation/FMA/FTZ behavior."
+    },
+    {
+      "name": "Native.exponential",
+      "arity": 1,
+      "domain": "FP32 words",
+      "required_evidence": "Installed tl.exp lowering, including internal scaling and approximation."
+    },
+    {
+      "name": "Native.negate",
+      "arity": 1,
+      "domain": "FP32 words",
+      "required_evidence": "Actual unary negation in the log-target backward branch."
+    },
+    {
+      "name": "Native.multiplyMinusOne",
+      "arity": 1,
+      "domain": "FP32 words",
+      "required_evidence": "Actual multiply-by-literal-minus-one lowering; separate from unary negation."
+    },
+    {
+      "name": "Native.bindEpsilon",
+      "arity": 1,
+      "domain": "binary64 Python-float bits",
+      "required_evidence": "Actual scalar ABI conversion to the source FP32 epsilon, including overflow, underflow and NaNs."
+    },
+    {
+      "name": "Torch.add",
+      "arity": 2,
+      "domain": "FP32 words",
+      "required_evidence": "Actual scalar addition at each node of the returned Torch reduction plan."
+    },
+    {
+      "name": "Torch.mul",
+      "arity": 2,
+      "domain": "FP32 words",
+      "required_evidence": "Actual elementwise cotangent product."
+    },
+    {
+      "name": "Torch.equal",
+      "arity": 2,
+      "domain": "FP32 words",
+      "required_evidence": "Actual scalar equality after the exact scalar-shape comparison."
+    },
+    {
+      "name": "Torch.dividePythonNat",
+      "arity": 2,
+      "domain": "FP32 word and Python natural denominator",
+      "required_evidence": "Actual integer-scalar conversion and division, including zero and large denominators."
+    }
+  ],
+  "structural_not_deferred": [
+    "exact ordered Python checks and public domain",
+    "complete typed row and grid execution",
+    "physical input binding, checked alias separation, native signed64 masks and active pointers",
+    "explicit kernel binary reduction plans and sequential chunk carry",
+    "actual rank-one reduced allocation and Torch sum(dim=0) or sum() plans",
+    "direct destination identity, returned product and all four output bytes",
+    "whole backing frames and destination complement on every ordinary host outcome"
+  ],
+  "validation": "38 rejection cases, 5 ordinary failure prefixes, 182 CPU source/reference/frame cases and 3 original counterexamples. No GPU numerical conformance measurement."
+}

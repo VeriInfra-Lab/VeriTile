@@ -1,13 +1,11 @@
 # spinning_lock_reduction
 
-- Source file: `spinning_lock_reduction.py` (upstream `data/TritonBench_G_v1/spinning_lock_reduction.py`)
-- Corpus: TritonBench-G v1
-- Size: 99 lines, 1 `@triton.jit` kernel(s)
-- Status: READY — not imported yet, but every `tl.*` form it uses is already in the
-  DSL surface, so the port is a scheduling question, not a capability one.
-  Import the `.py` **with** its `.lean` port in one change:
-  `bench/audit_tritonbench_g.sh` enforces `py_count == lean_count`.
+The original Python source is present. A task-local typed AST represents both while loops and all nine rounds; five public declarations cover source correspondence, backend/software schedule semantics and the memory frame. The software model uses fp32 addition and signed-i32 control, arbitrary modeled initial memory/locks and every finite sequentially consistent (SC) schedule, including blocked and fault prefixes. This is a task-local model; shared DSL while/atomic-condition support is not claimed.
 
-This directory is the per-kernel workspace for the TritonBench-G
-full-formalization roadmap. It is currently a placeholder: the upstream
-Python source has **not** been imported.
+Public proof entries: [ConcurrentCorrect.lean](ConcurrentCorrect.lean), [SourceCorrect.lean](SourceCorrect.lean).
+
+The proofs do not establish termination, race freedom or refinement to GPU memory ordering. Initially ready locks are not assumed to justify the complete launch.
+
+Native GPU correspondence remains unestablished. Offline compilation and Lean proofs have separate meanings; current scope and experimental obligations are recorded in the [184-task review](../../review-checkpoints/2026-10-14/next-value-repair/final-acceptance/tasks-184.tsv) and [experiment handoff](../../review-checkpoints/2026-10-14/next-value-repair/native-experiment-handoff/EXPERIMENT-HANDOFF.md).
+
+The previous import-status note is preserved in the [documentation history](../../review-checkpoints/2026-10-14/next-value-repair/documentation-update/before/bench/tritonbench_g/spinning_lock_reduction/README.md).

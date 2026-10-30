@@ -35,15 +35,53 @@ noncomputable def evalOpR (R : RoundingModel) :
   | .numPrograms axis, s => some (Tile.scalar (s.numPids axis))
   | .ref dtype shape name, s => s.regs dtype shape name
   | .arange n, _ => some (Tile.vec (fun i => i.val))
+  | .philox4x32 cfg plan field seed c0 c1 c2 c3, s => do
+      let vs ← evalOpR R seed s
+      let v0 ← evalOpR R c0 s
+      let v1 ← evalOpR R c1 s
+      let v2 ← evalOpR R c2 s
+      let v3 ← evalOpR R c3 s
+      let result ← Random.Direct.evalField cfg plan field (vs.data PUnit.unit)
+        ⟨v0.data, v1.data, v2.data, v3.data⟩
+      return ⟨result⟩
+  | .uniform32 word, s => do
+      let v ← evalOpR R word s
+      if Random.Direct.uniformInputsValid v.data then
+        some ⟨fun i => some (Random.uniformReal (BitVec.ofNat 32 (v.data i)))⟩
+      else none
+  | .rand cfg seed offsets, s => do
+      let vs ← evalOpR R seed s
+      let vo ← evalOpR R offsets s
+      let seedValue := vs.data PUnit.unit
+      if cfg.inputsValid seedValue vo.data then
+        some ⟨fun i => some (Random.randReal seedValue (vo.data i)
+          cfg.offsetType.offsetWidth cfg.nRounds)⟩
+      else none
+  | .randTensor cfg seed offsets, s => do
+      let vs ← evalOpR R seed s
+      let vo ← evalOpR R offsets s
+      if cfg.tensorInputsValid vs.data vo.data then
+        some ⟨fun i => some (Random.randReal (vs.data i) (vo.data i)
+          cfg.offsetType.offsetWidth cfg.nRounds)⟩
+      else none
   | .broadcast e shape, s => do
       let v ← evalOpR R e s
       some ⟨fun _ => v.data PUnit.unit⟩
   | .full shape e, s => do
       let v ← evalOpR R e s
       some ⟨fun _ => v.data PUnit.unit⟩
+  | .withPrecision _ _ a, s => evalOpR R a s
   | .castFloat src dst a, s => do
       let va ← evalOpR R a s
       some ⟨fun i => R.cast src dst (va.data i)⟩
+  | .negFloat dtype a, s => do
+      let va ← evalOpR R a s
+      some ⟨fun i => dtype.ofWithBot ((dtype.toWithBot (va.data i)).map (fun x => -x))⟩
+  | .absFloat dtype a, s => do
+      let va ← evalOpR R a s
+      some ⟨fun i => dtype.ofWithBot ((dtype.toWithBot (va.data i)).map (fun x => |x|))⟩
+  | .floatToInt .., _ => none
+  | .floatToNat .., _ => none
   | .castNatToInt a, s => do
       let va ← evalOpR R a s
       some ⟨fun i => Int.ofNat (va.data i)⟩
@@ -53,6 +91,8 @@ noncomputable def evalOpR (R : RoundingModel) :
   | .castRealToInt8 a, s => do
       let va ← evalOpR R a s
       some ⟨fun i => WithBot.realToInt8 (va.data i)⟩
+  | .decodeFloat8E5 dst a, s => do
+      Float8E5Bits.decodeTile dst (← evalOpR R a s)
   | .add h bc a b, s => do
       let va ← evalOpR R a s
       let vb ← evalOpR R b s
@@ -69,6 +109,10 @@ noncomputable def evalOpR (R : RoundingModel) :
       let va ← evalOpR R a s
       let vb ← evalOpR R b s
       some (Tile.bop h.div bc va vb)
+  | .divRN bc a b, s => do
+      let va ← evalOpR R a s
+      let vb ← evalOpR R b s
+      some (Tile.bop NumericDType.real.div bc va vb)
   | .floorDiv h bc a b, s => do
       let va ← evalOpR R a s
       let vb ← evalOpR R b s
@@ -83,12 +127,18 @@ noncomputable def evalOpR (R : RoundingModel) :
   | .shiftLeft bc a b, s => return Tile.bop (· <<< ·) bc (← evalOpR R a s) (← evalOpR R b s)
   | .shiftRight bc a b, s => return Tile.bop (· >>> ·) bc (← evalOpR R a s) (← evalOpR R b s)
   | .exp a, s => return Tile.uop WithBot.realExp (← evalOpR R a s)
+  | .libdeviceExp a, s => return Tile.uop WithBot.realExp (← evalOpR R a s)
+  | .libdeviceLog a, s => return Tile.uop WithBot.realLog (← evalOpR R a s)
+  | .libdeviceExpm1 a, s => return Tile.uop WithBot.realExpm1 (← evalOpR R a s)
+  | .libdeviceTanh a, s => return Tile.uop WithBot.realTanh (← evalOpR R a s)
+  | .libdeviceLog1p a, s => return Tile.uop WithBot.realLog1p (← evalOpR R a s)
   | .exp2 a, s => return Tile.uop WithBot.realExp2 (← evalOpR R a s)
   | .log a, s => return Tile.uop WithBot.realLog (← evalOpR R a s)
   | .log2 a, s => return Tile.uop WithBot.realLog2 (← evalOpR R a s)
   | .sigmoid a, s => return Tile.uop WithBot.realSigmoid (← evalOpR R a s)
   | .sqrt a, s => return Tile.uop WithBot.realSqrt (← evalOpR R a s)
   | .rsqrt a, s => return Tile.uop WithBot.realRsqrt (← evalOpR R a s)
+  | .libdeviceRsqrt a, s => return Tile.uop WithBot.realRsqrt (← evalOpR R a s)
   | .tanh a, s => return Tile.uop WithBot.realTanh (← evalOpR R a s)
   | .sin a, s => return Tile.uop WithBot.realSin (← evalOpR R a s)
   | .cos a, s => return Tile.uop WithBot.realCos (← evalOpR R a s)
@@ -97,6 +147,7 @@ noncomputable def evalOpR (R : RoundingModel) :
   | .cosh a, s => return Tile.uop WithBot.realCosh (← evalOpR R a s)
   | .sinh a, s => return Tile.uop WithBot.realSinh (← evalOpR R a s)
   | .erf a, s => return Tile.uop WithBot.realErf (← evalOpR R a s)
+  | .minPosInf a, s => return Tile.uop id (← evalOpR R a s)
   | .lt h bc a b, s => return Tile.cop h.lt bc (← evalOpR R a s) (← evalOpR R b s)
   | .le h bc a b, s => return Tile.cop h.le bc (← evalOpR R a s) (← evalOpR R b s)
   | .eq h bc a b, s => return Tile.cop h.eq bc (← evalOpR R a s) (← evalOpR R b s)
@@ -118,26 +169,75 @@ noncomputable def evalOpR (R : RoundingModel) :
       let va ← evalOpR R a s
       let vb ← evalOpR R b s
       some (Tile.bop max bc va vb)
+  | .maximumFloat dtype bc a b, s => do
+      let va ← evalOpR R a s
+      let vb ← evalOpR R b s
+      some (Tile.bop (fun x y => dtype.ofWithBot
+        (max (dtype.toWithBot x) (dtype.toWithBot y))) bc va vb)
+  | .minimumFloat dtype bc a b, s => do
+      let va ← evalOpR R a s
+      let vb ← evalOpR R b s
+      some (Tile.bop (fun x y => dtype.ofWithBot
+        (min (dtype.toWithBot x) (dtype.toWithBot y))) bc va vb)
   | .pow bc a b, s => do
       let va ← evalOpR R a s
       let vb ← evalOpR R b s
       some (Tile.bop WithBot.realPow bc va vb)
+  | .libdevicePowi bc a b, s => do
+      let va ← evalOpR R a s
+      let vb ← evalOpR R b s
+      if Int32Bits.valuesValid vb.data then some (Tile.libdevicePowi bc va vb) else none
+  | .reduceMin axis keepDims a, s => do
+      let va ← evalOpR R a s
+      Tile.reduceMin axis keepDims va
   | .reduceMax axis keepDims a, s => do
       let va ← evalOpR R a s
       Tile.reduceMax axis keepDims va
   | .reduceMaxNat axis keepDims a, s => do
       let va ← evalOpR R a s
       Tile.reduceMaxNat axis keepDims va
+  | .reduceMaxInt axis keepDims a, s => do
+      let va ← evalOpR R a s
+      Tile.reduceMaxInt axis keepDims va
   | .reduceSum axis keepDims a, s => return Tile.reduceSum axis keepDims (← evalOpR R a s)
+  | .reduceSumBool axis keepDims a, s => do
+      let v ← evalOpR R a s
+      return ⟨TileShape.discreteBoolSum axis keepDims v.data⟩
+  | .reduceSumTyped dtype axis keepDims a, s =>
+      return Tile.reduceSumTyped dtype axis keepDims (← evalOpR R a s)
+  | .reduceMaxTyped dtype axis keepDims a, s => do
+      Tile.reduceMaxTyped dtype axis keepDims (← evalOpR R a s)
   | .scan op axis dir a, s => return Tile.scan op axis dir (← evalOpR R a s)
   | .argMax axis a, s => return Tile.argMaxDrop axis (← evalOpR R a s)
+  | .argMaxInt axis a, s => do
+      let v ← evalOpR R a s
+      return ⟨TileShape.discreteIntArgMax axis v.data⟩
+  | .argMaxTyped dtype axis a _, s => return Tile.argMaxTyped dtype axis (← evalOpR R a s)
+  | .indexedMaxValue dtype axis a, s => do
+      Tile.reduceMaxTyped dtype axis Bool.false (← evalOpR R a s)
   | .argMin axis a, s => return Tile.argMinDrop axis (← evalOpR R a s)
   | .sort axis a, s => return Tile.sortAxis axis (← evalOpR R a s)
-  | .dot (batch := batch) a b, s => do
+  | .dot (batch := batch) a b _, s => do
       let va ← evalOpR R a s
       let vb ← evalOpR R b s
       some (Tile.dot batch va vb)
-  | .dotInt (batch := batch) a b, s => do
+  | .dotTyped left right out (batch := batch) (M := m) (K := k) (N := n) a b _, s => do
+      let va ← evalOpR R a s
+      let vb ← evalOpR R b s
+      let product := Tile.dot batch (M := m) (K := k) (N := n)
+        ⟨fun i => FloatDType.cast left .real (va.data i)⟩
+        ⟨fun i => FloatDType.cast right .real (vb.data i)⟩
+      some ⟨fun i => FloatDType.cast .real out (product.data i)⟩
+  | .dotAcc left right out (batch := batch) (M := m) (K := k) (N := n) a b acc _, s => do
+      let va ← evalOpR R a s
+      let vb ← evalOpR R b s
+      let vc ← evalOpR R acc s
+      let product := Tile.dot batch (M := m) (K := k) (N := n)
+        ⟨fun i => FloatDType.cast left .real (va.data i)⟩
+        ⟨fun i => FloatDType.cast right .real (vb.data i)⟩
+      some ⟨fun i => FloatDType.cast .real out
+        (WithBot.realAdd (product.data i) (FloatDType.cast out .real (vc.data i)))⟩
+  | .dotInt (batch := batch) a b _, s => do
       let va ← evalOpR R a s
       let vb ← evalOpR R b s
       some (Tile.dotInt batch va vb)
@@ -198,7 +298,13 @@ noncomputable def evalOpR (R : RoundingModel) :
   | .advanceBlockPtr ptr deltas, s => do
       let p ← evalOpR R ptr s
       some ⟨fun i => (p.data i).advance deltas⟩
-  | .load dtype mem mask, s => do
+  | .advanceBlockPtrDyn ptr deltas, s => do
+      let p ← evalOpR R ptr s
+      let ds ← deltas.mapM (fun delta => do
+        let v ← evalOpR R delta s
+        some (v.data PUnit.unit))
+      some ⟨fun i => (p.data i).advance ds⟩
+  | .load dtype mem mask padding, s => do
       let addr : TileIndex shape → RegionName × Nat × Bool ←
         match mem with
         | .region region off => do
@@ -217,7 +323,7 @@ noncomputable def evalOpR (R : RoundingModel) :
               (bp.region, bp.address idx, bp.inBounds idx boundaryCheck)
       let read := fun i =>
         let (region, offset, ok) := addr i
-        if ok then s.readMemValue dtype region offset else BlockState.defaultCarrier dtype
+        if ok then s.readMemValue dtype region offset else s.paddingValue dtype padding region offset
       match mask with
       | .none => some ⟨read⟩
       | .mask mask => do
@@ -225,15 +331,15 @@ noncomputable def evalOpR (R : RoundingModel) :
           some ⟨fun i =>
             let (region, offset, ok) := addr i
             if masks.data i then
-              if ok then s.readMemValue dtype region offset else BlockState.defaultCarrier dtype
+              if ok then s.readMemValue dtype region offset else s.paddingValue dtype padding region offset
             else
               match dtype with
-              | .real => if ok then some (s.undef region offset) else some 0
-              | .fp32 => if ok then FloatDType.fp32.ofReal (s.undef region offset) else FloatDType.fp32.ofReal 0
-              | .fp16 => if ok then FloatDType.fp16.ofReal (s.undef region offset) else FloatDType.fp16.ofReal 0
-              | .bf16 => if ok then FloatDType.bf16.ofReal (s.undef region offset) else FloatDType.bf16.ofReal 0
-              | .f8e4 => if ok then FloatDType.f8e4.ofReal (s.undef region offset) else FloatDType.f8e4.ofReal 0
-              | .f8e5 => if ok then FloatDType.f8e5.ofReal (s.undef region offset) else FloatDType.f8e5.ofReal 0
+              | .real => if ok then some (s.undef region offset) else s.paddingValue .real padding region offset
+              | .fp32 => if ok then FloatDType.fp32.ofReal (s.undef region offset) else s.paddingValue .fp32 padding region offset
+              | .fp16 => if ok then FloatDType.fp16.ofReal (s.undef region offset) else s.paddingValue .fp16 padding region offset
+              | .bf16 => if ok then FloatDType.bf16.ofReal (s.undef region offset) else s.paddingValue .bf16 padding region offset
+              | .f8e4 => if ok then FloatDType.f8e4.ofReal (s.undef region offset) else s.paddingValue .f8e4 padding region offset
+              | .f8e5 => if ok then FloatDType.f8e5.ofReal (s.undef region offset) else s.paddingValue .f8e5 padding region offset
               | dtype => BlockState.defaultCarrier dtype⟩
       | .maskOther mask other => do
           let masks ← evalOpR R mask s
@@ -272,11 +378,18 @@ theorem evalOpR_triv : ∀ {dtype : TileDType} {shape : TileShape} (op : Op dtyp
   | _, _, .arange _, _ => by simp only [evalOpR, evalOp]
   | _, _, .broadcast e _, s => by simp only [evalOpR, evalOp, evalOpR_triv e s]
   | _, _, .full _ e, s => by simp only [evalOpR, evalOp, evalOpR_triv e s]
+  | _, _, .withPrecision _ _ a, s => by
+      simpa only [evalOpR, evalOp] using evalOpR_triv a s
   | _, _, .castFloat src dst a, s => by
       simp only [evalOpR, evalOp, evalOpR_triv a s, RoundingModel.triv_cast]
+  | _, _, .negFloat dtype a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
+  | _, _, .absFloat dtype a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
+  | _, _, .floatToInt .., _ => by simp only [evalOpR, evalOp]
+  | _, _, .floatToNat .., _ => by simp only [evalOpR, evalOp]
   | _, _, .castNatToInt a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .castIntToNat a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .castRealToInt8 a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
+  | _, _, .decodeFloat8E5 dst a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .add _ _ a b, s => by
       simp only [evalOpR, evalOp, evalOpR_triv a s, evalOpR_triv b s]
   | _, _, .sub _ _ a b, s => by
@@ -285,12 +398,23 @@ theorem evalOpR_triv : ∀ {dtype : TileDType} {shape : TileShape} (op : Op dtyp
       simp only [evalOpR, evalOp, evalOpR_triv a s, evalOpR_triv b s]
   | _, _, .div _ _ a b, s => by
       simp only [evalOpR, evalOp, evalOpR_triv a s, evalOpR_triv b s]
+  | _, _, .divRN _ a b, s => by
+      simp only [evalOpR, evalOp, evalOpR_triv a s, evalOpR_triv b s]
   | _, _, .floorDiv _ _ a b, s => by
       simp only [evalOpR, evalOp, evalOpR_triv a s, evalOpR_triv b s]
   | _, _, .mod _ _ a b, s => by
       simp only [evalOpR, evalOp, evalOpR_triv a s, evalOpR_triv b s]
   | _, _, .bitAnd _ a b, s => by
       simp only [evalOpR, evalOp, evalOpR_triv a s, evalOpR_triv b s]
+  | _, _, .philox4x32 _ _ _ seed c0 c1 c2 c3, s => by
+      simp only [evalOpR, evalOp, evalOpR_triv seed s,
+        evalOpR_triv c0 s, evalOpR_triv c1 s, evalOpR_triv c2 s, evalOpR_triv c3 s]
+  | _, _, .uniform32 word, s => by
+      simp only [evalOpR, evalOp, evalOpR_triv word s]
+  | _, _, .rand _ seed offsets, s => by
+      simp only [evalOpR, evalOp, evalOpR_triv seed s, evalOpR_triv offsets s]
+  | _, _, .randTensor _ seed offsets, s => by
+      simp only [evalOpR, evalOp, evalOpR_triv seed s, evalOpR_triv offsets s]
   | _, _, .bitOr _ a b, s => by
       simp only [evalOpR, evalOp, evalOpR_triv a s, evalOpR_triv b s]
   | _, _, .bitXor _ a b, s => by
@@ -300,12 +424,18 @@ theorem evalOpR_triv : ∀ {dtype : TileDType} {shape : TileShape} (op : Op dtyp
   | _, _, .shiftRight _ a b, s => by
       simp only [evalOpR, evalOp, evalOpR_triv a s, evalOpR_triv b s]
   | _, _, .exp a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
+  | _, _, .libdeviceExp a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
+  | _, _, .libdeviceLog a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
+  | _, _, .libdeviceExpm1 a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
+  | _, _, .libdeviceTanh a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
+  | _, _, .libdeviceLog1p a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .exp2 a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .log a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .log2 a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .sigmoid a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .sqrt a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .rsqrt a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
+  | _, _, .libdeviceRsqrt a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .tanh a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .sin a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .cos a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
@@ -314,6 +444,7 @@ theorem evalOpR_triv : ∀ {dtype : TileDType} {shape : TileShape} (op : Op dtyp
   | _, _, .cosh a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .sinh a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .erf a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
+  | _, _, .minPosInf a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .lt _ _ a b, s => by
       simp only [evalOpR, evalOp, evalOpR_triv a s, evalOpR_triv b s]
   | _, _, .le _ _ a b, s => by
@@ -333,18 +464,36 @@ theorem evalOpR_triv : ∀ {dtype : TileDType} {shape : TileShape} (op : Op dtyp
   | _, _, .boolNot a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .max2 _ a b, s => by
       simp only [evalOpR, evalOp, evalOpR_triv a s, evalOpR_triv b s]
+  | _, _, .maximumFloat _ _ a b, s => by
+      simp only [evalOpR, evalOp, evalOpR_triv a s, evalOpR_triv b s]
+  | _, _, .minimumFloat _ _ a b, s => by
+      simp only [evalOpR, evalOp, evalOpR_triv a s, evalOpR_triv b s]
   | _, _, .pow _ a b, s => by
       simp only [evalOpR, evalOp, evalOpR_triv a s, evalOpR_triv b s]
+  | _, _, .libdevicePowi _ a b, s => by
+      simp only [evalOpR, evalOp, evalOpR_triv a s, evalOpR_triv b s]
+  | _, _, .reduceMin _ _ a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .reduceMax _ _ a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .reduceMaxNat _ _ a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
+  | _, _, .reduceMaxInt _ _ a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .reduceSum _ _ a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
+  | _, _, .reduceSumBool _ _ a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
+  | _, _, .reduceSumTyped _ _ _ a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
+  | _, _, .reduceMaxTyped _ _ _ a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .scan _ _ _ a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .argMax _ a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
+  | _, _, .argMaxInt _ a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
+  | _, _, .argMaxTyped _ _ a _, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
+  | _, _, .indexedMaxValue _ _ a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .argMin _ a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .sort _ a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
-  | _, _, .dot a b, s => by
+  | _, _, .dot a b _, s => by
       simp only [evalOpR, evalOp, evalOpR_triv a s, evalOpR_triv b s]
-  | _, _, .dotInt a b, s => by
+  | _, _, .dotTyped _ _ _ a b _, s => by
+      simp only [evalOpR, evalOp, evalOpR_triv a s, evalOpR_triv b s]
+  | _, _, .dotAcc _ _ _ a b acc _, s => by
+      simp only [evalOpR, evalOp, evalOpR_triv a s, evalOpR_triv b s, evalOpR_triv acc s]
+  | _, _, .dotInt a b _, s => by
       simp only [evalOpR, evalOp, evalOpR_triv a s, evalOpR_triv b s]
   | _, _, .expandDim _ a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .where c a b, s => by
@@ -368,23 +517,25 @@ theorem evalOpR_triv : ∀ {dtype : TileDType} {shape : TileShape} (op : Op dtyp
   | _, _, .makeBlockPtrDynOffsets _ base _ _ _ offsets, s => by
       simp only [evalOpR, evalOp, evalOpR_triv base s, evalOpR_triv_offsets offsets s]
   | _, _, .advanceBlockPtr p _, s => by simp only [evalOpR, evalOp, evalOpR_triv p s]
-  | _, _, .load _ (.region region off) .none, s => by
+  | _, _, .advanceBlockPtrDyn p ds, s => by
+      simp only [evalOpR, evalOp, evalOpR_triv p s, evalOpR_triv_offsets ds s]
+  | _, _, .load _ (.region region off) .none padding, s => by
       simp only [evalOpR, evalOp, evalOpR_triv off s]
-  | _, _, .load dt (.region region off) (.mask m), s => by
+  | _, _, .load dt (.region region off) (.mask m) padding, s => by
       cases dt <;> simp only [evalOpR, evalOp, evalOpR_triv off s, evalOpR_triv m s]
-  | _, _, .load _ (.region region off) (.maskOther m other), s => by
+  | _, _, .load _ (.region region off) (.maskOther m other) padding, s => by
       simp only [evalOpR, evalOp, evalOpR_triv off s, evalOpR_triv m s, evalOpR_triv other s]
-  | _, _, .load _ (.ptr p) .none, s => by
+  | _, _, .load _ (.ptr p) .none padding, s => by
       simp only [evalOpR, evalOp, evalOpR_triv p s]
-  | _, _, .load dt (.ptr p) (.mask m), s => by
+  | _, _, .load dt (.ptr p) (.mask m) padding, s => by
       cases dt <;> simp only [evalOpR, evalOp, evalOpR_triv p s, evalOpR_triv m s]
-  | _, _, .load _ (.ptr p) (.maskOther m other), s => by
+  | _, _, .load _ (.ptr p) (.maskOther m other) padding, s => by
       simp only [evalOpR, evalOp, evalOpR_triv p s, evalOpR_triv m s, evalOpR_triv other s]
-  | _, _, .load _ (.blockPtr p _) .none, s => by
+  | _, _, .load _ (.blockPtr p _) .none padding, s => by
       simp only [evalOpR, evalOp, evalOpR_triv p s]
-  | _, _, .load dt (.blockPtr p _) (.mask m), s => by
+  | _, _, .load dt (.blockPtr p _) (.mask m) padding, s => by
       cases dt <;> simp only [evalOpR, evalOp, evalOpR_triv p s, evalOpR_triv m s]
-  | _, _, .load _ (.blockPtr p _) (.maskOther m other), s => by
+  | _, _, .load _ (.blockPtr p _) (.maskOther m other) padding, s => by
       simp only [evalOpR, evalOp, evalOpR_triv p s, evalOpR_triv m s, evalOpR_triv other s]
   | _, _, .natToReal a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .intToReal a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
@@ -393,7 +544,8 @@ decreasing_by all_goals (simp_wf <;> omega)
 
 /-- Pointwise `evalOpR_triv` congruence across the `List.mapM` in the
 `Op.makeBlockPtrDynOffsets` case (the nested-list recursion of `Op`). -/
-private theorem evalOpR_triv_offsets : ∀ (offsets : List (Op .nat [])) (s : BlockState),
+private theorem evalOpR_triv_offsets {dtype : TileDType} :
+    ∀ (offsets : List (Op dtype [])) (s : BlockState),
     offsets.mapM (fun off => do
       let v ← evalOpR RoundingModel.triv off s
       some (v.data PUnit.unit)) =

@@ -1,0 +1,492 @@
+{
+  "schema": 1,
+  "task": "matmul_leakyrelu_fp8",
+  "status": "consolidated",
+  "owner": {
+    "path": ".veritile-cache/io-unification-20261023/queue09/result-metadata-supplement.json",
+    "sha256": "2e5c7cdc538b520260d0163b8913e527de562cfed21f5bd015176120cda7d626",
+    "task_index": 11
+  },
+  "reason": "The original memory IO and complete logical input/output view now share the task IO.lean; original namespaces, encodings/stages and definitions are retained; proof connections remain in Proofs.",
+  "selected_public_entries": [
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Contract.lean",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Correct.lean",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/FPEquiv.lean"
+  ],
+  "previous_semantic_review": {
+    "manifest": {
+      "path": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json",
+      "sha256": "5df771b8603eaf5d9f08b4fde0c5b938c18087c00092f5348b47eb54d33a8225"
+    },
+    "task": "matmul_leakyrelu_fp8"
+  },
+  "changed_files": [
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/IO.lean",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Proofs/LogicalReader.lean"
+  ],
+  "removed_files": [
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/LogicalIO.lean"
+  ],
+  "moved_declarations": [
+    {
+      "from": "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/LogicalIO.lean",
+      "to": "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/IO.lean",
+      "declaration_names": [
+        "VeriTile.Bench.Repairs.MatmulLeakyreluFp8ScalarCast.ReaderIO.Inputs",
+        "VeriTile.Bench.Repairs.MatmulLeakyreluFp8ScalarCast.ReaderIO.inputs",
+        "VeriTile.Bench.Repairs.MatmulLeakyreluFp8ScalarCast.ReaderIO.outputs",
+        "VeriTile.Bench.Repairs.MatmulLeakyreluFp8ScalarCast.ReaderIO.view"
+      ],
+      "body_sha256": "b7b28246949c6d0a94e9d6f6d2f9a1c17dddcd7b661353c86d775259ca3995af",
+      "byte_identical": true
+    }
+  ],
+  "preservation": {
+    "evidence": {
+      "path": ".veritile-cache/io-unification-20261023/queue09/source-preservation.json",
+      "sha256": "17c7342caa6fb24ea081d4ef30b05bff7774be00d799760f073c758490b30c47"
+    },
+    "moved_definition_bodies": "byte-identical chunks with the same namespace and public declaration names",
+    "complete_judgments": "all selected Contract/Correct/FPEquiv files are byte-identical; all LogicalReader non-import bodies, including full judgment equivalences, are byte-identical",
+    "selected_public_files": {
+      "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Contract.lean": {
+        "before": "5fe984d136b5f9c39fd79cc93a0cb7a09b7a6e5853230902f80c15534a2d6cc4",
+        "current": "5fe984d136b5f9c39fd79cc93a0cb7a09b7a6e5853230902f80c15534a2d6cc4"
+      },
+      "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Correct.lean": {
+        "before": "f417247b364e7eb91eb114eb8e5d11c52747a3e94f35e60c6222c7528a47b980",
+        "current": "f417247b364e7eb91eb114eb8e5d11c52747a3e94f35e60c6222c7528a47b980"
+      },
+      "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/FPEquiv.lean": {
+        "before": "96a584da546df93e1072a1feda66425284d30a13dc5d4e28003e675deb599b6d",
+        "current": "96a584da546df93e1072a1feda66425284d30a13dc5d4e28003e675deb599b6d"
+      }
+    },
+    "connection_proof_nonimport_body_equal": true,
+    "kernels_unchanged": {
+      "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Kernels.lean": "74c9b79020b44aa7d836051e38fc5c6bf49028036b2898c92f91224720213235"
+    }
+  },
+  "verification": [
+    {
+      "kind": "fresh-targeted-build",
+      "phase": "io",
+      "module": "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/IO.lean",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue09/build.py",
+        "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/IO.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue09/logs/1792686389284084729-IO.log",
+      "log_sha256": "7c3a5dbfed135de60c8eb262239ca908f9d9310b01b3a54661e0832113c98835",
+      "execution_mode": "compiler-invoked"
+    },
+    {
+      "kind": "fresh-targeted-build",
+      "phase": "chain",
+      "module": "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Proofs/LogicalReader.lean",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue09/build.py",
+        "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Proofs/LogicalReader.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue09/logs/1792686553430739757-LogicalReader.log",
+      "log_sha256": "0e8c872996352ff3a9be9f74ab206429324f34c34322663ca71849257476caae",
+      "execution_mode": "compiler-invoked"
+    },
+    {
+      "kind": "fresh-targeted-build",
+      "phase": "public",
+      "module": "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Correct.lean",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue09/build.py",
+        "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Correct.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue09/logs/1792687038437813965-Correct.log",
+      "log_sha256": "d74c925acc6f48db1901390e95476248cfe9a3a070e70ae29eb111f4b5dad397",
+      "execution_mode": "compiler-invoked"
+    },
+    {
+      "kind": "fresh-targeted-build",
+      "phase": "public",
+      "module": "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/FPEquiv.lean",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue09/build.py",
+        "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/FPEquiv.lean"
+      ],
+      "exit_code": 1,
+      "log": ".veritile-cache/io-unification-20261023/queue09/logs/1792687046456935171-FPEquiv.log",
+      "log_sha256": "f376180356267c3bb53fb8b0c3b59904e186ae53b6a748e94c46626b0ae46ebb",
+      "execution_mode": "compiler-invoked"
+    },
+    {
+      "kind": "fresh-targeted-build",
+      "phase": "bench/repairs/tritonbench_g/matmul_kernel/Proofs/Pair.lean",
+      "module": "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Proofs/Pair.lean",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue09/build.py",
+        "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Proofs/Pair.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue09/logs/1792687139328084612-Pair.log",
+      "log_sha256": "277c2cf72b1091884660ab887d7ca07b7989936b4a04feb6d4c7008dd00e314e",
+      "execution_mode": "compiler-invoked"
+    },
+    {
+      "kind": "fresh-targeted-build",
+      "phase": "bench/repairs/tritonbench_g/matmul_kernel/Proofs/Pair.lean",
+      "module": "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Proofs/PairIO.lean",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue09/build.py",
+        "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Proofs/PairIO.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue09/logs/1792687150309970484-PairIO.log",
+      "log_sha256": "eb313dc2dd0d0f75abb727be68b858b595ea986160dcdc205e88bfdf42e10a5b",
+      "execution_mode": "compiler-invoked"
+    },
+    {
+      "kind": "fresh-targeted-build",
+      "phase": "bench/repairs/tritonbench_g/matmul_kernel/Proofs/Pair.lean",
+      "module": "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/FPEquiv.lean",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue09/build.py",
+        "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue09/logs/1792687156770686825-FPEquiv.log",
+      "log_sha256": "428248fd4961c7cdf87f2c897be0834682659b101ce4562f78504ddf52191843",
+      "execution_mode": "compiler-invoked"
+    },
+    {
+      "kind": "fresh-public-joint-check",
+      "task": "matmul_leakyrelu_fp8",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue09/build.py",
+        "--check",
+        ".veritile-cache/io-unification-20261023/queue09/joint/matmul_leakyrelu_fp8.lean"
+      ],
+      "exit_code": 0,
+      "source": ".veritile-cache/io-unification-20261023/queue09/joint/matmul_leakyrelu_fp8.lean",
+      "source_sha256": "e5c2f504cbfc1b92f8b554c3087337fc20337fbd8d4eabb06434dad0789be7e7",
+      "log": ".veritile-cache/io-unification-20261023/queue09/logs/joint-matmul_leakyrelu_fp8.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "kind": "fresh-public-joint-check",
+      "task": "Joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue09/build.py",
+        "--check",
+        ".veritile-cache/io-unification-20261023/queue09/Joint.lean"
+      ],
+      "exit_code": 0,
+      "source": ".veritile-cache/io-unification-20261023/queue09/Joint.lean",
+      "source_sha256": "7c21915b98fd1e3c4e803eb57c2295e6401ac9e65d78b85a6cdcbcf297d08d29",
+      "log": ".veritile-cache/io-unification-20261023/queue09/logs/joint-Joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "kind": "fresh-source-preservation-check",
+      "command": [
+        "python",
+        ".veritile-cache/io-unification-20261023/queue09/audit-source.py"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue09/logs/final-audit-source.py.log",
+      "log_sha256": "2f6e406be3ff22c83a1b2cd54135bcca753f5a11172c69f2a55d6937c4c0d2cf"
+    },
+    {
+      "kind": "verify-current-source-object-dependency-receipts",
+      "command": [
+        "python",
+        ".veritile-cache/io-unification-20261023/queue09/verify-receipts.py"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue09/logs/final-verify-receipts.py.log",
+      "log_sha256": "82e995adfa69340d11a484c34037038b7c5454ca9623e050cffe94d1c373d64b"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Contract.lean": "5fe984d136b5f9c39fd79cc93a0cb7a09b7a6e5853230902f80c15534a2d6cc4",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Correct.lean": "f417247b364e7eb91eb114eb8e5d11c52747a3e94f35e60c6222c7528a47b980",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/FPEquiv.lean": "96a584da546df93e1072a1feda66425284d30a13dc5d4e28003e675deb599b6d",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/IO.lean": "fcbe784b7d1f213234672a453c59252c7fc83b7c55cf2ae3e45b3da3ad276c7d",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Proofs/IOResults.lean": "59da4d41a769951ad81e0fd0c5d31a6eabc08754657715535e8e935e31748287",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Proofs/LogicalReader.lean": "fab344d6036e05a79671a7a691e0641683800c8346d557cd465dad9c316b6d75",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Kernels.lean": "74c9b79020b44aa7d836051e38fc5c6bf49028036b2898c92f91224720213235",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Target.lean": "6a4dc6eed0641ece9b48a5ac197f93ea1ac130d363c24eeaac12cc371efc29e3",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Proofs/PairIO.lean": "0688de597ef6ad58923f3a96868f6fcca5e0c825fa9ed555268939d828373787",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/ExecutionContext.lean": "f2502a961813796e436e33c89bf3de7a08409685df98418dbf2e38819e86a81b",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/TypedProgram.lean": "d6c07f0dae201b4bf85313d1d2425933f718cf7eb4c1eb8570d0343ce04c8c98",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Geometry.lean": "385483693fd413a37e219ca04f2a0d3a82053915b0f3464fdb61b032c9de5f13",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Memory.lean": "712b3a52ca9cf348a2bb66a615d57d9ba95b7a6f0828a63a8c6c5d4ab9abbc5c",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/SourceGrid.lean": "3e61f834e67c63162935b860e8d2306684b81eba68153df64cde2ba04a0b6a19",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/InstructionBackend.lean": "56b5636ce6fbad34bb8d6a1d5f0324a3fbd102cc67555f57001eca3dc5aebeed",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Backend.lean": "533186d87ab6a016c42d0ab10e56dacfd9d1cd79886804efb2ea996786bbfa2f",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Execution.lean": "5e52d7ba26870f80ab742e299e92cf25d01e6b9c51355369de3af43b00c41620",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/TypedReference.lean": "a85473f5c2f3fdf13030da4a261a949ee63ad3006f1eeafad3e51061ab036e85",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/EventResult.lean": "d71af0abda0bc95e999b4bfd86d667888591533c6c3a44e3c9aacf84f0d25663",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/SourceComputation.lean": "b4808f9711b82170d76ce9e8e2b07f190976927b56f8a80af9e3876ffa9847a0",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/ExecutionBody.lean": "0f61aaf5cdd270cf36db2c6652743b2fc9153fb3afb056366ceab6974e165c6f",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Misc/Audit.lean": "c94870b50525bcbecb3d4b2d958ac15ad5b3800003569231ae50f08990cdcf12",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Misc/NativeCorrect.lean": "21cf39cf7c6653d292efc788fa6889b184a78a99f96b9b9374cd37cacf1bd648",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Misc/Safety.lean": "e364d18072c7ec85e95a609bcbc8194b3e49f7d4dd80abbbafb08a94f84b7efb",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Misc/TensorBridge.lean": "55a06e2e17c9c185e2c77967c9a0279a0ca12b2a45974ebc62f148d330fbb91e",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Proofs/KernelRealResult.lean": "e662e94730e37fa657b54ce3f6a552a4688a360cad048d160200bba47419b829",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Proofs/FormulaCongruence.lean": "d99ce57659974e88626c37db8f9bb0283eddde8a8490d2ecef919a4d9fbcdd1f",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Proofs/PairComputation.lean": "487791d7ede6b829024036dc3e90082212ca78636f46bde3905322d810f2f426",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Proofs/RegionProjection.lean": "b85ddaecdaa2535052229433fe1b062d8bdbcc7a20b6a9bd7d9ec3a0edf9546e",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Proofs/GridSafety.lean": "adbad3fdd135352968fa93e029995f7e1f0844d6a48882ac4843fe48cf15d26c",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Proofs/ReadProjection.lean": "d5c3435b426bd1470a78cea78242435f7a11d7b585b461f54fb97d7cde82ef95",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Proofs/SourceSafety.lean": "a2651dbed7e438fc46fd93962d73aff67611b12732c4c95884490e0e4adeb82e",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Proofs/GridProjection.lean": "635192870cd2ce95b4cfa39104000832a17f2dda845bb61b704eb50177972701",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Proofs/Pair.lean": "ab2e1ba039f14019b589e579fd525fdf76d638dccbe1c1747d4d814594e640d5",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Proofs/IOImplements.lean": "7f16772c7ee2acb33268dc624104ee8e235b8fd04ffb050b277244931cbebd51",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Proofs/KernelNativeResult.lean": "d40b32ba895c04075130d28e31f9281434c85288228931b115898a0d5109f8a4",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Proofs/KernelBuffers.lean": "4900e7b93593333fa46c8617a47c2db591ad6ade3f39a1d8c88a5665cbd9b074"
+  },
+  "source_pin_provenance": {
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Contract.lean": {
+      "owner_tasks": [
+        "matmul_leakyrelu_fp8"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Correct.lean": {
+      "owner_tasks": [
+        "matmul_leakyrelu_fp8"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/FPEquiv.lean": {
+      "owner_tasks": [
+        "matmul_leakyrelu_fp8"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/IO.lean": {
+      "owner_tasks": [
+        "matmul_leakyrelu_fp8"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Proofs/IOResults.lean": {
+      "owner_tasks": [
+        "matmul_leakyrelu_fp8"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Proofs/LogicalReader.lean": {
+      "owner_tasks": [
+        "matmul_leakyrelu_fp8"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Kernels.lean": {
+      "owner_tasks": [
+        "matmul_leakyrelu_fp8"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Target.lean": {
+      "owner_tasks": [
+        "matmul_leakyrelu_fp8"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Proofs/PairIO.lean": {
+      "owner_tasks": [
+        "matmul_leakyrelu_fp8"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalIO.lean": {
+      "owner_tasks": [
+        "mixed_sparse_attention",
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/ExecutionContext.lean": {
+      "owner_tasks": [
+        "matmul_leakyrelu_fp8"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/TypedProgram.lean": {
+      "owner_tasks": [
+        "matmul_leakyrelu_fp8"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Geometry.lean": {
+      "owner_tasks": [
+        "matmul_leakyrelu_fp8"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Memory.lean": {
+      "owner_tasks": [
+        "matmul_leakyrelu_fp8"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/SourceGrid.lean": {
+      "owner_tasks": [
+        "matmul_leakyrelu_fp8"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/InstructionBackend.lean": {
+      "owner_tasks": [
+        "matmul_leakyrelu_fp8"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Backend.lean": {
+      "owner_tasks": [
+        "matmul_leakyrelu_fp8"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Execution.lean": {
+      "owner_tasks": [
+        "matmul_leakyrelu_fp8"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/TypedReference.lean": {
+      "owner_tasks": [
+        "matmul_leakyrelu_fp8"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/EventResult.lean": {
+      "owner_tasks": [
+        "matmul_leakyrelu_fp8"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/SourceComputation.lean": {
+      "owner_tasks": [
+        "matmul_leakyrelu_fp8"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/ExecutionBody.lean": {
+      "owner_tasks": [
+        "matmul_leakyrelu_fp8"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Misc/Audit.lean": {
+      "owner_tasks": [
+        "matmul_leakyrelu_fp8"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Misc/NativeCorrect.lean": {
+      "owner_tasks": [
+        "matmul_leakyrelu_fp8"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Misc/Safety.lean": {
+      "owner_tasks": [
+        "matmul_leakyrelu_fp8"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Misc/TensorBridge.lean": {
+      "owner_tasks": [
+        "matmul_leakyrelu_fp8"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Proofs/KernelRealResult.lean": {
+      "owner_tasks": [
+        "matmul_leakyrelu_fp8"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Proofs/FormulaCongruence.lean": {
+      "owner_tasks": [
+        "matmul_leakyrelu_fp8"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Proofs/PairComputation.lean": {
+      "owner_tasks": [
+        "matmul_leakyrelu_fp8"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Proofs/RegionProjection.lean": {
+      "owner_tasks": [
+        "matmul_leakyrelu_fp8"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Proofs/GridSafety.lean": {
+      "owner_tasks": [
+        "matmul_leakyrelu_fp8"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Proofs/ReadProjection.lean": {
+      "owner_tasks": [
+        "matmul_leakyrelu_fp8"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Proofs/SourceSafety.lean": {
+      "owner_tasks": [
+        "matmul_leakyrelu_fp8"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Proofs/GridProjection.lean": {
+      "owner_tasks": [
+        "matmul_leakyrelu_fp8"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Proofs/Pair.lean": {
+      "owner_tasks": [
+        "matmul_leakyrelu_fp8"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Proofs/IOImplements.lean": {
+      "owner_tasks": [
+        "matmul_leakyrelu_fp8"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Proofs/KernelNativeResult.lean": {
+      "owner_tasks": [
+        "matmul_leakyrelu_fp8"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Proofs/KernelBuffers.lean": {
+      "owner_tasks": [
+        "matmul_leakyrelu_fp8"
+      ]
+    }
+  },
+  "retired_current_source_pins": {
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/LogicalIO.lean": "96aa92565db0bb2ad0c3d32a4bdc2591e9c42a8194611895cf553aedb642a92a"
+  },
+  "limits": [
+    "Untouched dependencies and Contract objects are reused from the recorded successful queue09 baseline; this is a targeted IO/import verification, not a fresh rebuild of the full proof closure.",
+    "No new numerical experiments, GPU runs, native/host correctness checks, or global proof-completion claims."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/io-unification-20261023/queue16/result.json",
+    "sha256": "12f6dd5ed523e9f723fee3847af964fd8987958c2cb997aa572210c04de5bc84"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

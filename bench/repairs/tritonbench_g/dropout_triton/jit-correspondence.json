@@ -1,0 +1,96 @@
+[
+  {
+    "lean": "bench/repairs/tritonbench_g/dropout_triton/Kernels.lean",
+    "lean_definition": "sourceKernel",
+    "python": "bench/repairs/tritonbench_g/dropout_triton/dropout_triton_repaired.py",
+    "python_function": "_dropout",
+    "signature_definition": "sourceSignature",
+    "expected_call_bindings": {
+      "n_elements": "n",
+      "p": "p"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "x_ptr",
+          "fp32"
+        ],
+        [
+          "x_keep_ptr",
+          "i32"
+        ],
+        [
+          "output_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "n_elements",
+          "integer"
+        ],
+        [
+          "p",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "x_ptr",
+        "x_keep_ptr"
+      ],
+      "writePorts": [
+        "output_ptr"
+      ]
+    }
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/dropout_triton/Kernels.lean",
+    "lean_definition": "commutedSourceKernel",
+    "python": "bench/repairs/tritonbench_g/dropout_triton/dropout_triton_repaired.py",
+    "python_function": "_dropout_index_commuted",
+    "signature_definition": "sourceSignature",
+    "expected_call_bindings": {
+      "n_elements": "n",
+      "p": "p"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "x_ptr",
+          "fp32"
+        ],
+        [
+          "x_keep_ptr",
+          "i32"
+        ],
+        [
+          "output_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "n_elements",
+          "integer"
+        ],
+        [
+          "p",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "x_ptr",
+        "x_keep_ptr"
+      ],
+      "writePorts": [
+        "output_ptr"
+      ]
+    }
+  }
+]

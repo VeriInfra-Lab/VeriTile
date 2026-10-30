@@ -1,6 +1,8 @@
 import VeriTile.Triton.Core
 import VeriTile.Triton.Semantics
+import VeriTile.Triton.Semantics.Integer
 import VeriTile.Triton.Float
+import VeriTile.Triton.Float.MaximumPrimitive
 import VeriTile.Triton.DSL
 import VeriTile.Triton.Math.Attention
 import VeriTile.Triton.KernelLemmas
@@ -447,6 +449,28 @@ theorem mij_op_eval (s : BlockState) (BM BN : Nat)
   rw [evalOp_where]
   simp only [evalOp_gt, evalOp_ref, hmi, hrmax, Option.bind_eq_bind, Option.bind_some]
 
+/-- The compatibility here is restricted to the WithBot Real interpreter.
+Floating execution uses the independent maximum callback. -/
+private theorem math_maximum_select (BM : Nat) (x y : Op .real [BM]) (s : BlockState) :
+    evalOp (.maximumFloat .real (.consSame .nil) x y) s =
+      evalOp (.where (.gt .real (.consSame .nil) x y) x y) s := by
+  have h := evalOp_maximumFloat_real_select (Broadcast.consSame Broadcast.nil) x y s
+  simp only [FloatDType.toTileDType] at h
+  refine h.trans ?_
+  cases hx : evalOp x s <;> cases hy : evalOp y s <;>
+    simp [evalOp, hx, hy, Tile.remap, Broadcast.leftIndex, Broadcast.rightIndex]
+
+private theorem mij_primitive_op_eval (s : BlockState) (BM BN : Nat)
+    (mtile : Tile .real [BM]) (qktile : Tile .real [BM, BN]) (rmaxT : Tile .real [BM])
+    (hmi : s.regs .real [BM] "m_i" = some mtile)
+    (hqk : s.regs .real [BM, BN] "qk" = some qktile)
+    (hrm : Tile.reduceMaxDrop (⟨1, by simp⟩ : Fin [BM,BN].length) qktile = some rmaxT) :
+    @evalOp .real [BM] (Op.maximumFloat .real (.consSame .nil)
+      (Op.ref .real [BM] "m_i")
+      (Op.reduceMax (⟨1, by simp⟩ : Fin [BM,BN].length) Bool.false (Op.ref .real [BM,BN] "qk"))) s =
+      some (Tile.select (Tile.cop ComparableDType.real.gt (Broadcast.consSame Broadcast.nil) mtile rmaxT) mtile rmaxT) := by
+  exact (math_maximum_select BM _ _ s).trans (mij_op_eval s BM BN mtile qktile rmaxT hmi hqk hrm)
+
 /-- **`p` statement eval** (`tl.math.exp2(qk)`): `Tile.uop realExp2` over `qk`. -/
 theorem p_op_eval (s : BlockState) (BM BN : Nat) (qk2tile : Tile .real [BM,BN])
     (hqk : s.regs .real [BM,BN] "qk" = some qk2tile) :
@@ -514,9 +538,9 @@ theorem acc1_op_eval (s : BlockState) (BM BD : Nat) (hax : 1 < [BM].length.succ)
 /-- **`p`-to-fp16 statement eval** (`(p).to(tl.float16)`): pointwise float cast. -/
 theorem pfp16_op_eval (s : BlockState) (BM BN : Nat) (ptile : Tile .real [BM,BN])
     (hp : s.regs .real [BM,BN] "p" = some ptile) :
-    evalOp (Op.castFloat .real .fp16 (Op.ref .real [BM,BN] "p")) s
+    evalOp (Op.castFloat .real .fp16 (Op.withPrecision .real .fp32 (Op.ref .real [BM,BN] "p"))) s
       = some (⟨fun i => FloatDType.real.cast FloatDType.fp16 (ptile.data i)⟩ : Tile .fp16 [BM,BN]) := by
-  rw [evalOp_castFloat]; simp [hp]
+  rw [evalOp_castFloat]; simp [evalOp.eq_def, hp]
 
 /-- **Pointer-advance statement eval** (`K_ptrs += BLOCK_N · HEAD_DIM`, also `V_ptrs`):
 `ptrAdd` of the register by the scalar `BLOCK_N · HEAD_DIM`. -/
@@ -535,27 +559,29 @@ theorem ksptr_adv_eval (s : BlockState) (ksptr : Tile .ptr []) (name : RegName)
       = some (Tile.ptrAdd Broadcast.nil ksptr (Tile.scalar 1)) := by
   rw [evalOp_ptrAdd]; simp [evalOp_ref, hks, evalOp_constNat]
 
-/-- **`acc += tl.dot(p, v)` statement eval** (the numerator accumulation). The `p`
-fp16 round-trip `castFloat fp16 (castFloat real fp16 p)` reduces to `p` (cast
-identity); the `dot` is coerced like `qk`. -/
+/-- Numerator accumulation with a fp16 dot result promoted into the fp32
+accumulator. All numerical conversions are identities in this real model. -/
 theorem acc2_op_eval (s : BlockState) (BM BN BD : Nat)
     (acc1tile : Tile .real [BM,BD]) (ptile : Tile .real [BM,BN]) (vtile : Tile .real [BN,BD])
     (hacc : s.regs .real [BM,BD] "acc" = some acc1tile)
     (hpf16 : s.regs .fp16 [BM,BN] "p" = some (⟨fun i => FloatDType.real.cast FloatDType.fp16 (ptile.data i)⟩ : Tile .fp16 [BM,BN]))
     (hv : s.regs .real [BN,BD] "v" = some vtile) :
     evalOp (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil)) (Op.ref .real [BM,BD] "acc")
-        (Op.dot (batch := []) (Op.castFloat .fp16 .real (Op.ref .fp16 [BM,BN] "p")) (Op.ref .real [BN,BD] "v"))) s
+        (Op.castFloat .fp16 .real (Op.dotTyped .fp16 .real .fp16 (options := { outDType := some .fp16 }) (batch := []) (Op.ref .fp16 [BM,BN] "p") (Op.ref .real [BN,BD] "v")))) s
       = some (Tile.bop NumericDType.real.add (Broadcast.consSame (Broadcast.consSame Broadcast.nil)) acc1tile
           (Tile.dot [] ptile vtile)) := by
-  have hcb : evalOp (Op.castFloat .fp16 .real (Op.ref .fp16 [BM,BN] "p")) s = some ptile := by
-    rw [evalOp_castFloat]; simp [hpf16]; ext i; simp [FloatDType.cast]
-  have hcb2 : @evalOp TileDType.real [BM,BN] (Op.castFloat .fp16 .real (Op.ref .fp16 [BM,BN] "p")) s = some ptile := hcb
-  have hdotN : evalOp (Op.dot (batch := []) (Op.castFloat .fp16 .real (Op.ref .fp16 [BM,BN] "p")) (Op.ref .real [BN,BD] "v")) s
-      = some (Tile.dot [] ptile vtile) := by rw [evalOp_dot]; simp [hcb2, hv]
-  have hdotN2 : @evalOp TileDType.real [BM,BD]
-      (Op.dot (batch := []) (Op.castFloat .fp16 .real (Op.ref .fp16 [BM,BN] "p")) (Op.ref .real [BN,BD] "v")) s
-      = some (Tile.dot [] ptile vtile) := hdotN
-  rw [evalOp_add]; simp only [evalOp_ref, hacc, hdotN2, Option.bind_eq_bind, Option.bind_some]; rfl
+  have hdot : @evalOp TileDType.real [BM,BD]
+      (Op.castFloat .fp16 .real (Op.dotTyped .fp16 .real .fp16
+        (options := { outDType := some .fp16 }) (batch := [])
+        (Op.ref .fp16 [BM,BN] "p") (Op.ref .real [BN,BD] "v"))) s =
+      some (Tile.dot [] ptile vtile) := by
+    erw [evalOp_castFloat, evalOp_dotTyped .fp16 .real .fp16 []
+      (options := { outDType := some .fp16 })]
+    simp [evalOp, hpf16, hv, FloatDType.cast]
+    rfl
+  rw [evalOp_add]
+  simp only [evalOp_ref, hacc, hdot, Option.bind_eq_bind, Option.bind_some]
+  rfl
 
 def attention_forward_triton_surface
     (Q K V Q_scale K_scale Out : RegionName)
@@ -1439,6 +1465,79 @@ noncomputable def attnInvariant
         (V.cast, base + idx.1.val * HEAD_DIM + idx.2.1.val + c * BLOCK_N * HEAD_DIM)⟩) ∧
   (∀ rg o, s.undef rg o = 0) ∧ (s.mem = s0.mem)
 
+/-- Actual signed-base pointer operations. The final projection occurs only
+ after adding every lane offset, as in the source pointer expression. -/
+def signedQPtrOp (Q : RegionName) (BM BD D : Nat) : Op .ptr [BM,BD] :=
+  .ptrAdd .scalarL (.ptrBase Q) (.castIntToNat
+    (.add .int Broadcast.nil.consL.consR
+      (.add .int .scalarL (.ref .int [] "qvk_offset")
+        (.castNatToInt (.mul .nat .scalarR
+          (.expandDim ⟨1,by simp⟩ (.ref .nat [BM] "offs_m")) (.constNat D))))
+      (.castNatToInt (.mul .nat .scalarR
+        (.expandDim ⟨0,by simp⟩ (.ref .nat [BD] "offs_k")) (.constNat 1)))))
+
+def signedKPtrOp (K : RegionName) (BD BN D : Nat) : Op .ptr [BD,BN] :=
+  .ptrAdd .scalarL (.ptrBase K) (.castIntToNat
+    (.add .int Broadcast.nil.consL.consR
+      (.add .int .scalarL (.ref .int [] "qvk_offset")
+        (.castNatToInt (.expandDim ⟨1,by simp⟩ (.ref .nat [BD] "offs_k"))))
+      (.castNatToInt (.mul .nat .scalarR
+        (.expandDim ⟨0,by simp⟩ (.ref .nat [BN] "offs_n")) (.constNat D)))))
+
+def signedVPtrOp (V : RegionName) (BN BD D : Nat) : Op .ptr [BN,BD] :=
+  .ptrAdd .scalarL (.ptrBase V) (.castIntToNat
+    (.add .int Broadcast.nil.consL.consR
+      (.add .int .scalarL (.ref .int [] "qvk_offset")
+        (.castNatToInt (.mul .nat .scalarR
+          (.expandDim ⟨1,by simp⟩ (.ref .nat [BN] "offs_n")) (.constNat D))))
+      (.castNatToInt (.mul .nat .scalarR
+        (.expandDim ⟨0,by simp⟩ (.ref .nat [BD] "offs_k")) (.constNat 1)))))
+
+theorem qptrs_signed_eval (s : BlockState) (R : RegionName) (BM BD D base : Nat) (g : Fin BM → Nat)
+    (hb : s.regs .int [] "qvk_offset"=some (Tile.scalar (base : Int)))
+    (h0 : s.regs .nat [BM] "offs_m"=some (Tile.vec (g)))
+    (h1 : s.regs .nat [BD] "offs_k"=some (Tile.vec (fun e : Fin BD => e.val)))
+    : evalOp (signedQPtrOp R BM BD D) s = some (⟨fun idx : TileIndex [BM,BD] =>
+        (R, base + g idx.1 * D + idx.2.1.val * 1)⟩ : Tile .ptr [BM,BD]) := by
+  simp only [signedQPtrOp,evalOp_expandDim,evalOp,hb,h0,h1,bind,Option.bind_eq_bind,Option.pure_def,Option.bind,Option.map]
+  simp only [evalOp_expandDim_one_nat,evalOp_expandDim_zero_nat,h0,h1,Option.bind_eq_bind,Option.bind_some]
+  apply congrArg some
+  apply Tile.ext
+  rintro ⟨i,j,⟨⟩⟩
+  simp [-Tile.scalar_eta,Tile.ptrAdd,Tile.bop,Tile.vec,Tile.scalar,Tile.expandDim,TileShape.dropInsertedIndex,
+    Broadcast.leftIndex,Broadcast.rightIndex,NumericDType.add,NumericDType.mul]
+  simp only [←Int.natCast_mul, ←Int.natCast_add, Int.toNat_natCast, Nat.zero_add]
+
+theorem kptrs_signed_eval (s : BlockState) (R : RegionName) (BD BN D base : Nat)
+    (hb : s.regs .int [] "qvk_offset"=some (Tile.scalar (base : Int)))
+    (h0 : s.regs .nat [BD] "offs_k"=some (Tile.vec (fun e : Fin BD => e.val)))
+    (h1 : s.regs .nat [BN] "offs_n"=some (Tile.vec (fun j : Fin BN => j.val)))
+    : evalOp (signedKPtrOp R BD BN D) s = some (⟨fun idx : TileIndex [BD,BN] =>
+        (R, base + idx.1.val + idx.2.1.val * D)⟩ : Tile .ptr [BD,BN]) := by
+  simp only [signedKPtrOp,evalOp_expandDim,evalOp,hb,h0,h1,bind,Option.bind_eq_bind,Option.pure_def,Option.bind,Option.map]
+  simp only [evalOp_expandDim_one_nat,evalOp_expandDim_zero_nat,h0,h1,Option.bind_eq_bind,Option.bind_some]
+  apply congrArg some
+  apply Tile.ext
+  rintro ⟨i,j,⟨⟩⟩
+  simp [-Tile.scalar_eta,Tile.ptrAdd,Tile.bop,Tile.vec,Tile.scalar,Tile.expandDim,TileShape.dropInsertedIndex,
+    Broadcast.leftIndex,Broadcast.rightIndex,NumericDType.add,NumericDType.mul]
+  simp only [←Int.natCast_mul, ←Int.natCast_add, Int.toNat_natCast, Nat.zero_add]
+
+theorem vptrs_signed_eval (s : BlockState) (R : RegionName) (BN BD D base : Nat)
+    (hb : s.regs .int [] "qvk_offset"=some (Tile.scalar (base : Int)))
+    (h0 : s.regs .nat [BN] "offs_n"=some (Tile.vec (fun j : Fin BN => j.val)))
+    (h1 : s.regs .nat [BD] "offs_k"=some (Tile.vec (fun e : Fin BD => e.val)))
+    : evalOp (signedVPtrOp R BN BD D) s = some (⟨fun idx : TileIndex [BN,BD] =>
+        (R, base + idx.1.val * D + idx.2.1.val * 1)⟩ : Tile .ptr [BN,BD]) := by
+  simp only [signedVPtrOp,evalOp_expandDim,evalOp,hb,h0,h1,bind,Option.bind_eq_bind,Option.pure_def,Option.bind,Option.map]
+  simp only [evalOp_expandDim_one_nat,evalOp_expandDim_zero_nat,h0,h1,Option.bind_eq_bind,Option.bind_some]
+  apply congrArg some
+  apply Tile.ext
+  rintro ⟨i,j,⟨⟩⟩
+  simp [-Tile.scalar_eta,Tile.ptrAdd,Tile.bop,Tile.vec,Tile.scalar,Tile.expandDim,TileShape.dropInsertedIndex,
+    Broadcast.leftIndex,Broadcast.rightIndex,NumericDType.add,NumericDType.mul]
+  simp only [←Int.natCast_mul, ←Int.natCast_add, Int.toNat_natCast, Nat.zero_add]
+
 /-- **preLoop chunk 1** (statements 0–10): the 8 scalar offsets + the 3 index
 vectors. Steps to a state with all the register readbacks the pointer/load/init
 chunks need downstream. -/
@@ -1451,7 +1550,7 @@ theorem preLoop_scalars (Q K V Q_scale K_scale Out : RegionName) (s : BlockState
         HEAD_ACTIVE STAGE).toAlgKernel.body.take 11) s = some s11
       ∧ s11.pids = s.pids
       ∧ s11.regs .nat [] "start_m" = some (Tile.scalar (s.pids 0))
-      ∧ s11.regs .nat [] "qvk_offset" = some (Tile.scalar (s.pids 1 / H * stride_qz + s.pids 1 % H * stride_qh))
+      ∧ s11.regs .int [] "qvk_offset" = some (Tile.scalar ((s.pids 1 / H * stride_qz + s.pids 1 % H * stride_qh : Nat) : Int))
       ∧ s11.regs .nat [] "q_scale_offset" = some (Tile.scalar (s.pids 1 * cdiv (BLOCK_N * numKVBlocks) BLOCK_M))
       ∧ s11.regs .nat [] "k_scale_offset" = some (Tile.scalar (s.pids 1 * cdiv (BLOCK_N * numKVBlocks) BLOCK_N))
       ∧ s11.regs .nat [BLOCK_M] "offs_m" = some (Tile.vec (fun r : Fin BLOCK_M => s.pids 0 * BLOCK_M + r.val))
@@ -1468,10 +1567,10 @@ theorem preLoop_scalars (Q K V Q_scale K_scale Out : RegionName) (s : BlockState
           Stmt.assign .nat [] "off_hz" (Op.programId 1),
           Stmt.assign .nat [] "off_z" (Op.floorDiv .nat Broadcast.nil (Op.ref .nat [] "off_hz") (Op.constNat H)),
           Stmt.assign .nat [] "off_h" (Op.mod .nat Broadcast.nil (Op.ref .nat [] "off_hz") (Op.constNat H)),
-          Stmt.assign .nat [] "qvk_offset" (Op.add .nat Broadcast.nil
-              (Op.mul .nat Broadcast.nil (Op.ref .nat [] "off_z") (Op.constNat stride_qz))
-              (Op.mul .nat Broadcast.nil (Op.ref .nat [] "off_h") (Op.constNat stride_qh))),
-          Stmt.assign .nat [] "vk_offset" (Op.floorDiv .nat Broadcast.nil (Op.ref .nat [] "qvk_offset") (Op.constNat HEAD_DIM)),
+          Stmt.assign .int [] "qvk_offset" (Op.add .int Broadcast.nil
+              (Op.mul .int Broadcast.nil (Op.castNatToInt (Op.ref .nat [] "off_z")) (Op.constInt stride_qz))
+              (Op.mul .int Broadcast.nil (Op.castNatToInt (Op.ref .nat [] "off_h")) (Op.constInt stride_qh))),
+          Stmt.assign .int [] "vk_offset" (Op.truncDiv Broadcast.nil (Op.ref .int [] "qvk_offset") (Op.constInt HEAD_DIM)),
           Stmt.assign .nat [] "q_scale_offset" (Op.mul .nat Broadcast.nil (Op.ref .nat [] "off_hz")
               (Op.div .nat Broadcast.nil (Op.sub .nat Broadcast.nil
                 (Op.add .nat Broadcast.nil (Op.constNat (BLOCK_N * numKVBlocks)) (Op.constNat BLOCK_M)) (Op.constNat 1)) (Op.constNat BLOCK_M))),
@@ -1482,8 +1581,8 @@ theorem preLoop_scalars (Q K V Q_scale K_scale Out : RegionName) (s : BlockState
               (Op.mul .nat Broadcast.nil (Op.ref .nat [] "start_m") (Op.constNat BLOCK_M)) (Op.arange BLOCK_M)),
           Stmt.assign .nat [BLOCK_N] "offs_n" (Op.arange BLOCK_N),
           Stmt.assign .nat [BLOCK_DMODEL] "offs_k" (Op.arange BLOCK_DMODEL) ] from rfl]
-  simp [stepStmts, stepStmt, evalOp_floorDiv, evalOp_mod, Option.bind, BlockState.setReg,
-    Tile.bop, Tile.vec, NumericDType.add, NumericDType.mul, NumericDType.div, NumericDType.sub, cdiv]
+  simp [-Tile.scalar_eta, stepStmts, stepStmt, eval_truncDiv, evalOp, evalOp_floorDiv, evalOp_mod, Option.bind, BlockState.setReg,
+    Tile.bop, Tile.vec, Tile.scalar, NumericDType.add, NumericDType.mul, NumericDType.div, NumericDType.sub, cdiv]
 
 set_option maxHeartbeats 1000000 in
 /-- **preLoop** (statements 0–21): from a clean input state (`undef = 0`), the
@@ -1516,40 +1615,15 @@ theorem preLoop (Q K V Q_scale K_scale Out : RegionName) (s : BlockState)
         stride_qz stride_qh HEAD_DIM 1 stride_qz stride_qh HEAD_DIM 1
         stride_qz H (BLOCK_N * numKVBlocks) HEAD_DIM BLOCK_M BLOCK_N BLOCK_DMODEL
         HEAD_ACTIVE STAGE).toAlgKernel.body.take 11) ++
-      [ Stmt.assign .ptr [BLOCK_M, BLOCK_DMODEL] "Q_ptrs"
-          (Op.ptrAdd Broadcast.scalarL (Op.ptrBase Q)
-            (Op.add .nat Broadcast.nil.consL.consR
-              (Op.add .nat Broadcast.scalarL (Op.ref .nat [] "qvk_offset")
-                (Op.mul .nat Broadcast.scalarR (Op.expandDim ⟨1, by simp⟩ (Op.ref .nat [BLOCK_M] "offs_m"))
-                  (Op.constNat HEAD_DIM)))
-              (Op.mul .nat Broadcast.scalarR (Op.expandDim ⟨0, by simp⟩ (Op.ref .nat [BLOCK_DMODEL] "offs_k"))
-                (Op.constNat 1)))),
+      [ Stmt.assign .ptr [BLOCK_M, BLOCK_DMODEL] "Q_ptrs" (signedQPtrOp Q BLOCK_M BLOCK_DMODEL HEAD_DIM),
         Stmt.assign .ptr [] "Q_scale_ptr"
           (Op.ptrAdd Broadcast.nil (Op.ptrBase Q_scale)
             (Op.add .nat Broadcast.nil (Op.ref .nat [] "q_scale_offset") (Op.ref .nat [] "start_m"))),
-        Stmt.assign .ptr [BLOCK_DMODEL, BLOCK_N] "K_ptrs"
-          (Op.ptrAdd Broadcast.scalarL (Op.ptrBase K)
-            (Op.add .nat Broadcast.nil.consL.consR
-              (Op.add .nat Broadcast.scalarL (Op.ref .nat [] "qvk_offset")
-                (Op.expandDim ⟨1, by simp⟩ (Op.ref .nat [BLOCK_DMODEL] "offs_k")))
-              (Op.mul .nat Broadcast.scalarR (Op.expandDim ⟨0, by simp⟩ (Op.ref .nat [BLOCK_N] "offs_n"))
-                (Op.constNat HEAD_DIM)))),
+        Stmt.assign .ptr [BLOCK_DMODEL, BLOCK_N] "K_ptrs" (signedKPtrOp K BLOCK_DMODEL BLOCK_N HEAD_DIM),
         Stmt.assign .ptr [] "K_scale_ptr"
           (Op.ptrAdd Broadcast.nil (Op.ptrBase K_scale) (Op.ref .nat [] "k_scale_offset")),
-        Stmt.assign .ptr [BLOCK_N, BLOCK_DMODEL] "V_ptrs"
-          (Op.ptrAdd Broadcast.scalarL (Op.ptrBase V)
-            (Op.add .nat Broadcast.nil.consL.consR
-              (Op.add .nat Broadcast.scalarL (Op.ref .nat [] "qvk_offset")
-                (Op.mul .nat Broadcast.scalarR (Op.expandDim ⟨1, by simp⟩ (Op.ref .nat [BLOCK_N] "offs_n")) (Op.constNat HEAD_DIM)))
-              (Op.mul .nat Broadcast.scalarR (Op.expandDim ⟨0, by simp⟩ (Op.ref .nat [BLOCK_DMODEL] "offs_k")) (Op.constNat 1)))),
-        Stmt.assign .ptr [BLOCK_M, BLOCK_DMODEL] "O_block_ptr"
-          (Op.ptrAdd Broadcast.scalarL (Op.ptrBase Out)
-            (Op.add .nat Broadcast.nil.consL.consR
-              (Op.add .nat Broadcast.scalarL (Op.ref .nat [] "qvk_offset")
-                (Op.mul .nat Broadcast.scalarR (Op.expandDim ⟨1, by simp⟩ (Op.ref .nat [BLOCK_M] "offs_m"))
-                  (Op.constNat HEAD_DIM)))
-              (Op.mul .nat Broadcast.scalarR (Op.expandDim ⟨0, by simp⟩ (Op.ref .nat [BLOCK_DMODEL] "offs_k"))
-                (Op.constNat 1)))),
+        Stmt.assign .ptr [BLOCK_N, BLOCK_DMODEL] "V_ptrs" (signedVPtrOp V BLOCK_N BLOCK_DMODEL HEAD_DIM),
+        Stmt.assign .ptr [BLOCK_M, BLOCK_DMODEL] "O_block_ptr" (signedQPtrOp Out BLOCK_M BLOCK_DMODEL HEAD_DIM),
         Stmt.assign .real [BLOCK_M] "m_i"
           (Op.add .real Broadcast.scalarR (Op.full [BLOCK_M] (Op.const 0)) Op.negInf),
         Stmt.assign .real [BLOCK_M] "l_i"
@@ -1565,18 +1639,18 @@ theorem preLoop (Q K V Q_scale K_scale Out : RegionName) (s : BlockState)
           (Op.load .real (.ptr (Op.ref .ptr [] "Q_scale_ptr")) .none) ] from rfl,
       stepStmts.append_some h11,
     stepStmts.cons_some (stepStmt_assign_eq_some
-      (qptrs_eval s11 Q BLOCK_M BLOCK_DMODEL HEAD_DIM qvk gm hqvk hm hk)),
+      (qptrs_signed_eval s11 Q BLOCK_M BLOCK_DMODEL HEAD_DIM qvk gm hqvk hm hk)),
     stepStmts.cons_some (stepStmt_assign_eq_some
       (qscaleptr_eval _ Q_scale (s.pids 1 * cdiv (BLOCK_N * numKVBlocks) BLOCK_M) (s.pids 0)
         (by simp [hqso]) (by simp [hstart]))),
     stepStmts.cons_some (stepStmt_assign_eq_some
-      (kptrs_eval _ K BLOCK_DMODEL BLOCK_N HEAD_DIM qvk (by simp [hqvk]) (by simp [hk]) (by simp [hn]))),
+      (kptrs_signed_eval _ K BLOCK_DMODEL BLOCK_N HEAD_DIM qvk (by simp [hqvk]) (by simp [hk]) (by simp [hn]))),
     stepStmts.cons_some (stepStmt_assign_eq_some
       (kscaleptr_eval _ K_scale (s.pids 1 * cdiv (BLOCK_N * numKVBlocks) BLOCK_N) (by simp [hkso]))),
     stepStmts.cons_some (stepStmt_assign_eq_some
-      (vptrs_eval _ V BLOCK_N BLOCK_DMODEL HEAD_DIM qvk (by simp [hqvk]) (by simp [hn]) (by simp [hk]))),
+      (vptrs_signed_eval _ V BLOCK_N BLOCK_DMODEL HEAD_DIM qvk (by simp [hqvk]) (by simp [hn]) (by simp [hk]))),
     stepStmts.cons_some (stepStmt_assign_eq_some
-      (qptrs_eval _ Out BLOCK_M BLOCK_DMODEL HEAD_DIM qvk gm (by simp [hqvk]) (by simp [hm]) (by simp [hk]))),
+      (qptrs_signed_eval _ Out BLOCK_M BLOCK_DMODEL HEAD_DIM qvk gm (by simp [hqvk]) (by simp [hm]) (by simp [hk]))),
     stepStmts.cons_some (stepStmt_assign_eq_some (mi_init_eval _ BLOCK_M)),
     stepStmts.cons_some (stepStmt_assign_eq_some (li_init_eval _ BLOCK_M)),
     stepStmts.cons_some (stepStmt_assign_eq_some (acc_init_eval _ BLOCK_M BLOCK_DMODEL)),
@@ -1672,10 +1746,7 @@ def attnLoopBody (BLOCK_M BLOCK_N BLOCK_DMODEL HEAD_ACTIVE HEAD_DIM numKVBlocks 
           (Op.ref .real [] "q_scale"))
         (Op.ref .real [] "k_scale")),
     Stmt.assign .real [BLOCK_M] "m_ij"
-      (Op.where
-        (Op.gt .real (.consSame .nil) (Op.ref .real [BLOCK_M] "m_i")
-          (Op.reduceMax ⟨1, by simp⟩ Bool.false (Op.ref .real [BLOCK_M, BLOCK_N] "qk")))
-        (Op.ref .real [BLOCK_M] "m_i")
+      (Op.maximumFloat .real (.consSame .nil) (Op.ref .real [BLOCK_M] "m_i")
         (Op.reduceMax ⟨1, by simp⟩ Bool.false (Op.ref .real [BLOCK_M, BLOCK_N] "qk"))),
     Stmt.assign .real [BLOCK_M, BLOCK_N] "qk"
       (Op.sub .real (.consSame (.consR .nil)) (Op.ref .real [BLOCK_M, BLOCK_N] "qk")
@@ -1697,10 +1768,10 @@ def attnLoopBody (BLOCK_M BLOCK_N BLOCK_DMODEL HEAD_ACTIVE HEAD_DIM numKVBlocks 
           (Op.lt .nat .scalarR (Op.expandDim ⟨1, by simp⟩ (Op.ref .nat [BLOCK_N] "offs_n"))
             (Op.sub .nat .nil (Op.constNat (BLOCK_N * numKVBlocks)) (Op.ref .nat [] "start_n")))
           (Op.expandDim ⟨0, by simp⟩ (Op.lt .nat .scalarR (Op.arange BLOCK_DMODEL) (Op.constNat HEAD_ACTIVE)))))),
-    Stmt.assign .fp16 [BLOCK_M, BLOCK_N] "p" (Op.castFloat .real .fp16 (Op.ref .real [BLOCK_M, BLOCK_N] "p")),
+    Stmt.assign .fp16 [BLOCK_M, BLOCK_N] "p" (Op.castFloat .real .fp16 (Op.withPrecision .real .fp32 (Op.ref .real [BLOCK_M, BLOCK_N] "p"))),
     Stmt.assign .real [BLOCK_M, BLOCK_DMODEL] "acc"
       (Op.add .real (.consSame (.consSame .nil)) (Op.ref .real [BLOCK_M, BLOCK_DMODEL] "acc")
-        (Op.dot (batch := []) (Op.castFloat .fp16 .real (Op.ref .fp16 [BLOCK_M, BLOCK_N] "p")) (Op.ref .real [BLOCK_N, BLOCK_DMODEL] "v"))),
+        (Op.castFloat .fp16 .real (Op.dotTyped .fp16 .real .fp16 (options := { outDType := some .fp16 }) (batch := []) (Op.ref .fp16 [BLOCK_M, BLOCK_N] "p") (Op.ref .real [BLOCK_N, BLOCK_DMODEL] "v")))),
     Stmt.assign .real [BLOCK_M] "m_i" (Op.ref .real [BLOCK_M] "m_ij"),
     Stmt.assign .ptr [BLOCK_DMODEL, BLOCK_N] "K_ptrs"
       (Op.ptrAdd .scalarR (Op.ref .ptr [BLOCK_DMODEL, BLOCK_N] "K_ptrs")
@@ -1825,7 +1896,7 @@ theorem attn_loopBody_steps (BM BN BD NC HA HD : Nat) (hBN : 0 < BN)
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (load_ptr_mask_real (Op.ref .ptr [BD, BN] "K_ptrs") _ _ Kptr kmaskT (by rw [evalOp_ref]; simp [hKp]) (by rw [evalOp_ref]; simp [hkm]) (by intro rg o; simp [hundef])))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (load_ptr_none_real (Op.ref .ptr [] "K_scale_ptr") _ Ksptr (by rw [evalOp_ref]; simp [hKs])))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (qk_op_eval _ BM BN BD qtile kloadT qsv ksv (by simp [hq]) (by simp [hkl]) (by simp [hqs]) (by simp [hksv]; ext z; rfl)))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (mij_op_eval _ BM BN mtile qkT rmaxT (by simp [hmi]) (by simp [hqk]) hrm))]
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some (mij_primitive_op_eval _ BM BN mtile qkT rmaxT (by simp [hmi]) (by simp [hqk]) hrm))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (qk2_op_eval _ BM BN hax qkT mijT (by simp [hqk]) (by simp [hmij])))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (p_op_eval _ BM BN qk2T (by simp [hqk2])))]
   rw [stepStmts.cons_some (@stepStmt_assign_eq_some .real [BM] "l_ij" (Op.reduceSum (⟨1, by simp⟩ : Fin [BM,BN].length) Bool.false (Op.ref .real [BM,BN] "p")) _ lijT (lij_op_eval _ BM BN pT (by simp [hpT])))]
@@ -1833,7 +1904,7 @@ theorem attn_loopBody_steps (BM BN BD NC HA HD : Nat) (hBN : 0 < BN)
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (li_op_eval _ BM ltile alphaT lijT (by simp [hli]) (by simp [hal]) (by simp [hlij])))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (acc1_op_eval _ BM BD hax acctile alphaT (by simp [hacc]) (by simp [hal])))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (load_ptr_mask_real (Op.ref .ptr [BN, BD] "V_ptrs") _ _ Vptr vmaskT (by rw [evalOp_ref]; simp [hVp]) (vmask_eval _ BN BD (BN * NC) SN HA (by simp [hoffs]) (by simp)) (by intro rg o; simp [hundef])))]
-  rw [stepStmts.cons_some (@stepStmt_assign_eq_some TileDType.fp16 [BM,BN] "p" (Op.castFloat .real .fp16 (Op.ref .real [BM,BN] "p")) _ (⟨fun i => FloatDType.real.cast FloatDType.fp16 (pT.data i)⟩ : Tile .fp16 [BM,BN]) (pfp16_op_eval _ BM BN pT (by simp [hpT])))]
+  rw [stepStmts.cons_some (@stepStmt_assign_eq_some TileDType.fp16 [BM,BN] "p" (Op.castFloat .real .fp16 (Op.withPrecision .real .fp32 (Op.ref .real [BM,BN] "p"))) _ (⟨fun i => FloatDType.real.cast FloatDType.fp16 (pT.data i)⟩ : Tile .fp16 [BM,BN]) (pfp16_op_eval _ BM BN pT (by simp [hpT])))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (acc2_op_eval _ BM BN BD acc1T pT vloadT (by simp [hacc1]) (by simp [hpT]) (by simp [hvl])))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (show evalOp (Op.ref .real [BM] "m_ij") _ = some mijT from by rw [evalOp_ref]; simp [hmij]))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (kptr_adv_eval _ BD BN BN HD Kptr "K_ptrs" (by simp [hKp])))]

@@ -1,0 +1,92 @@
+{
+  "task": "attention_kernel_aligned",
+  "review_round": 2,
+  "reviewer": "/root/fast_layernorm_kernel",
+  "status": "ACCEPT",
+  "reviewed_delivery": {
+    "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/kernel-evidence/delivery.json",
+    "sha256": "7cdc3fbe183b5a87f77c99992f5300d8f38c8ef5e2ac56534bb3576e0915e082"
+  },
+  "previous_review": {
+    "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/kernel-evidence/independent-review-round1.json",
+    "sha256": "d7c04fa37ec3d0cda4bbd5bef120247dc287a0b2d9c55b45093247b9b91ab64b"
+  },
+  "method": "Round one reviewed the full source/proof/Tensor/compiler/closure package. Round two reviewed only the correction, exact task-source and import-closure deltas, affected build receipts and complete frozen pins. Read-only verifier rerun; no Lean compilation, CPU/compiler experiment or GPU execution repeated by reviewer.",
+  "verification": {
+    "all_passed": true,
+    "pin_records": 1184,
+    "unique_files": 863,
+    "successful_current_build_receipts": 72,
+    "public_import_closure": 215,
+    "audit_import_closure": 216,
+    "original_files_preserved": 92,
+    "host_admissions": 1042,
+    "host_rejections": 43,
+    "actual_JIT_binder_profiles": 8,
+    "compiler_text_artifacts": 32,
+    "CPU_FP16_complete_grids": 8,
+    "GPU_execution": false
+  },
+  "resolved_findings": [
+    {
+      "id": "BF16_SERIAL_DOMAIN",
+      "status": "RESOLVED",
+      "resolution": "Removed serialAbsent from the BF16 CompilerPlan and restored the inherited integer serialSource, denominatorSource and conditional serialRouting fields. CompilerPlan.ofOriginal projects every original BF16 CompilerBinding; compilerPlan_original_domain proves the new plan exists without a nativeSerial restriction. The source, numerical graph, successful-execution theorem body and Python admitted domain are unchanged.",
+      "evidence": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/KernelOnly/BF16Endpoints.lean",
+          "sha256": "d5e1937b9b31a0aa68a5df1bb308cb11822179122ddb98e8d97ab0f2dc038aeb",
+          "lines": [
+            60,
+            65,
+            74,
+            86
+          ]
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/KernelOnly/Audit.lean",
+          "sha256": "65b16bab02baa24b142f6091f5873ee4828d940e25697da803b775e86d092e75"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/kernel-evidence/round2-build.log",
+          "sha256": "4fea0548bbd970d2b2587d88c06dded803eb0e90317c77200c917b5d17ebcc85"
+        }
+      ]
+    }
+  ],
+  "delta_checks": {
+    "changed_task_sources": [
+      "KernelOnly/BF16Endpoints.lean",
+      "KernelOnly/Audit.lean",
+      "README.md"
+    ],
+    "task_source_set_unchanged": true,
+    "import_closure_membership_unchanged": true,
+    "effective_library_search_order_unchanged": true,
+    "four_affected_modules_rebuilt_successfully": [
+      "KernelOnly/BF16Endpoints",
+      "Correct",
+      "FPEquiv",
+      "KernelOnly/Audit"
+    ],
+    "all_other_task_sources_unchanged": true,
+    "all_compiler_artifacts_and_prior_validation_unchanged": true,
+    "round1_exact_packet_preserved": true,
+    "standard_base_axioms_and_non_circularity_passed": true
+  },
+  "positive_findings": [
+    "Both readable Python/Lean bodies retain independent input/output strides, complete query/key loops and masks, boundary loads/stores and distinct FP16/BF16 QK precision paths.",
+    "Whole.runPrograms invokes FP.Structural.exec on Source.source for every current-memory CTA. Source decomposition, prologue/loop/epilogue success and whole-grid coverage/uniqueness derive successful execution without result or execution premises.",
+    "Independent arbitrary-Real softmax and state-free native recurrences connect to actual caller Tensor pointer/coordinate observations and finite storage. Native instruction ports are scalar/conversion or single fixed seeded m16n8k16 output coordinates, not whole reductions or result oracles.",
+    "RawFrame, observed exterior word frames, preserved input coordinates and complete read-allocation exterior are proved. Empty work gives identity source execution and unchanged caller words.",
+    "Actual create_function_from_signature and _pack_args binder profiles preserve dynamic i32 arguments, singleton constexpr values and requested warp/stage/fusion options. Saved TTIR confirms FP16 dot output versus BF16 FP32 dot plus narrowing and explicit storage additions, probability casts and FP32 PV.",
+    "Current build objects, standard-base axiom and non-circularity audit evidence, exact source import closure, preserved originals and saved compiler artifacts are fully pinned. Runtime/compiler/ISA boundaries are stated separately and no GPU/runtime success or universal compiler-conformance claim is made."
+  ],
+  "remaining_findings": [],
+  "limits": [
+    "Compiler/source/ISA correspondence and ordinary truthful Tensor API observations remain explicit implementation boundaries.",
+    "No GPU execution, universal compiler-conformance or native-to-Real accuracy claim.",
+    "Host allocation/copyback implementation, unified byteheap and previously deferred shared launcher grid-product issue remain outside this scoped kernel task."
+  ],
+  "integration": "Recommend whole-task acceptance of this frozen package. Root owns canonical selection, ledger and counts; reviewer changed only independent-review files."
+}

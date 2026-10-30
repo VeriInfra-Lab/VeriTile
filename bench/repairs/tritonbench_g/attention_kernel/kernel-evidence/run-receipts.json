@@ -1,0 +1,23 @@
+{
+  "provenance": "Tool-session terminal exit observations recorded by the implementing agent. Raw logs are pinned separately. Failed development attempts are retained and do not establish current-source success. Current source/object hashes are checked through the reviewed driver's 39 final receipts.",
+  "runs": [
+    {"label": "unchanged original 32 task Lean modules", "session_id": 29953, "exit_code": 0, "log": "original-build.log", "modules": "original-build-modules.txt"},
+    {"label": "unchanged host and address checks", "session_id": 35499, "exit_code": 0, "log": "host-checks.log", "host_controls": 55, "address_grids": 7, "historical_original_counterexamples": 6},
+    {"label": "actual JIT signature binder and SM80 static compiler", "session_id": 92087, "exit_code": 0, "log": "binder-probe.log", "profiles": 10, "GPU_execution": false},
+    {"label": "unchanged precision/source-binding checker on all saved TTIR", "session_id": 11265, "exit_code": 0, "log": "precision-check.log", "profiles": 10},
+    {"label": "initial CPU source controls, BF16 unsupported", "session_id": 30404, "exit_code": 1, "log": "interpreter-probe-initial.log", "script": "interpreter_probe_initial.py", "cause": "Triton InterpreterBuilder.get_bf16 absent; no backend workaround"},
+    {"label": "CPU source controls with supported FP16 and empty BF16 cases", "session_id": 17923, "exit_code": 0, "log": "interpreter-probe.log", "script": "interpreter_probe.py", "complete_FP16_cases": 4, "empty_cases": 6},
+    {"label": "Inputs development", "session_id": 94487, "exit_code": 1, "log": "kernel-input-build.log", "cause": "structure binder syntax"},
+    {"label": "Inputs development", "session_id": 92092, "exit_code": 1, "log": "kernel-build-2.log", "cause": "shape projection"},
+    {"label": "Model development", "session_id": 54683, "exit_code": 1, "log": "kernel-build-3.log", "cause": "observation/frame simp steps"},
+    {"label": "Binding development", "session_id": 3679, "exit_code": 1, "log": "kernel-build-4.log", "cause": "recurrence function equality and ambiguous Grid"},
+    {"label": "Endpoints development", "session_id": 70313, "exit_code": 1, "log": "kernel-build-5.log", "cause": "Real target rewrite"},
+    {"label": "Inputs, Model, Specification, Binding and Endpoints pass", "session_id": 64315, "exit_code": 0, "log": "kernel-build-6.log"},
+    {"label": "Model backing_exterior, Specification, Binding and Endpoints pass; public alias fails", "session_id": 75986, "exit_code": 1, "log": "final-build-initial.log", "cause": "Contract.check alias required noncomputable"},
+    {"label": "Contract passes; public empty alias fails", "session_id": 42240, "exit_code": 1, "log": "final-build-2.log", "cause": "Correct.empty_kernel polymorphic alias required explicit implicit arguments with @"},
+    {"label": "Correct, FPEquiv and KernelOnly.Audit pass", "session_id": 57691, "exit_code": 0, "log": "final-build.log", "standard_base_axioms_only": true, "non_circularity": true}
+  ],
+  "build_driver": ".veritile-cache/build-tools/workspace_lean_local_first_v2.py",
+  "build_scope": "Only attention task modules rebuilt into workspace overlay. Existing core/package caches reused. Necessary build escalations auto-approved; no rejection or workaround.",
+  "GPU_execution": false
+}

@@ -1,149 +1,43 @@
 import VeriTile.Triton
+import VeriTile.Meta.StatementAudit
 
 /-!
-# `int_scaled_matmul` — strict per-kernel correctness (both JIT kernels)
+# Complete execution of the two int_scaled_matmul source programs
 
-This file is the DSL port of `int_scaled_matmul.py`'s
-`matmul_kernel_with_block_pointers` (the audit anchor, the file's first JIT) —
-a block-pointer int8×int8→int32 GEMM: three `tl.make_block_ptr` views with
-dynamic per-`pid` offsets, `boundary_check=(0, 1)` zero-fill loads, an
-`Op.dotInt` accumulation over the `range(0, K, BLOCK_K)` step-form loop with
-in-loop `tl.advance`, and a boundary-checked block-pointer store of the int32
-tile. The second JIT kernel, `scaled_matmul_kernel_with_block_pointers`
-(launched by `int_scaled_matmul_kernel`), is modeled in full as well: a
-classic pointer GEMM (no block pointers despite its name) over the
-**descending** `range(K, 0, -BLOCK_K)` loop with the genuine `EVEN_K` Bool
-constexpr (both arms), followed by the inductor-generated epilogue that
-rescales the int32 accumulator by the per-row fp32 scale `s1` through
-`tl.broadcast_to` flat-index addressing. Both kernels are launched by the
-test (`test_matmul_kernel` drives `int_matmul_kernel` then
-`int_scaled_matmul_kernel`); `A`/`B` are `torch.int8` signed inputs
-(`randint(-128, 128)`) on the `.int` channel and `C` is `torch.int32`.
+Source-audit target: matmul_kernel_with_block_pointers
 
-Translation-surface blocker: kernel 1 (`matmul_kernel_with_block_pointers`),
-four disclosed surface deviations, none semantic. **(1)** the block-pointer
-loads are spelled faithfully (`tl.load(bp, boundary_check=(0, 1))`, no
-added kwargs): their `.int` channel is inherited from the **typed base
-region** of `tl.make_block_ptr` (`base=$((a_ptr : Region .int))`, the
-family's usual typed-binder ascription) — a block pointer knows its element
-type, exactly as in Triton, via this port's inference rider
-(`tl.make_block_ptr` arms in the DSL's pointer-element-dtype propagation;
-untyped bases keep the historical `.real` default, so every existing
-block-ptr port lowers unchanged). What *is* disclosed is that integer
-**widths are erased** (the
-`int8_quantization` fixed-width family) — the model keeps full launch-state
-ℤ values where int8 hardware would wrap. **(2)** `tl.advance(ptr, (0, BLOCK_K))` tuple deltas are
-respelled with brackets `[$(0), $(BLOCK_K)]` (the audit-known tuple→bracket
-respell; same for `tl.zeros((M, N), …)` → `tl.zeros([$(M), $(N)], …)`).
-**(3)** the constexpr parameter rebind `GROUP_M = min(num_pid_m -
-first_pid_m, GROUP_M)` is spelled with the *register* `GROUP_M` on the left
-and the antiquoted *parameter* `$(GROUP_M)` inside `min` — after this
-statement every bare `GROUP_M` ident resolves to the register, exactly as
-Python rebinds the name (probed: the register may shadow the Lean binder's
-name with no clash, since the binder only ever appears antiquoted).
-**(4)** the TMA `order=(1, 0)` tuples are scheduling metadata the DSL erases
-into the same block-pointer AST (the `matmul_tma` precedent). Nothing else
-deviates: the step-form loop `for k in range(0, K, BLOCK_K)` is spelled
-directly (`Stmt.forRange` carries the step), so no trip-count binder is
-introduced and raggedness in every axis is handled by the boundary checks.
+Kernel 1 uses typed integer block pointers and `tl.load(...,
+boundary_check=(0, 1))` with no padding option. These loads retain unspecified
+padding. For an active output lane its exact integer result is
 
-Translation-surface blocker: kernel 2 (`scaled_matmul_kernel_with_block_pointers`),
-five disclosed surface deviations, none semantic. **(1)** the **descending**
-loop `for k in range(K, 0, -BLOCK_K)` is presented as the ascending
-change of variable `for j in range(0, numKBlocks, 1)` with the remaining
-count rematerialized as the first body statement `k = K - j*BLOCK_K`
-(ℕ-truncated subtraction; the `parallel_retention_attention` descending-lever
-precedent) — `numKBlocks` is the antiquoted trip count `tl.cdiv(K, BLOCK_K)`
-with the per-arm hypothesis `hK` (exact form `K = numKBlocks·BLOCK_K` for
-`EVEN_K = true`, ceil form `K ≤ numKBlocks·BLOCK_K` otherwise). **(2)**
-`ACC_TYPE: tl.constexpr = tl.int32` is a dtype-valued constexpr fixed at its
-only instantiation: `tl.zeros(…, dtype=ACC_TYPE)` is spelled
-`dtype=tl.int32` (the `bmm_optimized` fixed-arm family). **(3)** the
-inductor suffix's `tl.broadcast_to(…, mask.shape)` attribute argument is
-respelled to the explicit literal dims `[BLOCK_M, BLOCK_N]` (attribute
-spellings are not in the DSL; the target shape is statically known).
-**(4)** `eviction_policy="evict_last"` on the `s1` load is kept and erased
-as a pure cache hint; the positional `mask` arguments of the suffix's
-`tl.load`/`tl.store` parse natively (no respell). **(5)** integer widths
-are erased as in kernel 1, and `other=0.0` on the `.int`-channel masked
-loads is the faithful `Op.constInt 0` (the 171st-port rider). The
-`stride_s1m`/`stride_s1n` parameters are passed by the launcher but **dead
-in the body** (the `s1` load address is the strideless
-`tl.broadcast_to(idx_m, …)` — the `fused_recurrent_retention` dead-stride
-precedent); they are kept as (unused) binders. `EVEN_K` is a genuine
-`Bool` parameter with **both arms modeled** (the host passes `K % 2 == 0`;
-the `has_bias` / `NO_GROUPS` precedent). The `acc * tmp0` store value is
-`.int × .real` and auto-promotes through `Op.intToReal`: the stored cell is
-the **exact ℝ** product `(Σ ℤ : ℝ) · s1(row)` in a `.real`-typed `MemCell`,
-while the host allocates `C` as int32 — the hardware float→int32 truncation
-at the container boundary is outside the model (the #154 fixed-width
-family; the cell honestly carries the exact real, not a truncated int).
+`sum_{k<K} A[row,k]*B[k,col] + sum_{K<=k<F} U_A(row,k)*U_B(k,col)`,
 
-The textual py↔lean scans in `bench/audit_tritonbench_g.sh` exempt this port
-on these markers (registered in `proof_blockers.md`).
+where `F = ceil(K/BLOCK_K)*BLOCK_K` and each U is the integer projection
+(`Int.floor`) of the initial state's unspecified-value oracle at that actual
+block-pointer address. The former zero-padding-only GEMM statement was false
+for ragged K and arbitrary oracles; the current statement accounts for the
+source's tail without restricting the oracle or requiring divisible K.
+The loop invariant preserves both the input memory and the oracle.
 
-## The specs
+Kernel 2 retains its explicit `other=0.0` masked loads and its existing scaled
+GEMM theorem. Both EVEN_K arms remain modeled. Its real-valued store models
+`(integer GEMM : Real)*s1[row]`; hardware float-to-int32 container truncation
+is outside this model.
 
-Kernel 1, for an in-range output cell `(row, col)` (`row < M`, `col < N`),
-over exact ℤ:
+Translation-surface blocker: integer widths are erased; typed base regions
+preserve the integer load channel. Tuple shapes/advance deltas use brackets,
+and block-pointer order metadata is erased. Kernel 1 keeps the actual grouped
+program-ID mapping, constexpr GROUP_M rebind, positive-step K loop, all pointer
+advances, and boundary-checked stores. Kernel 2 retains its disclosed ascending
+counter representation of the descending remaining-K loop, explicit numKBlocks
+binder, and existing hCeil/hEven premises. Its broadcast shape attributes are
+spelled with known literal dimensions; the cache hint is preserved then erased.
+The passed scale strides are dead in the Python body and remain unused binders.
 
-`C[row, col] = ∑ kk < K, A[row, kk] · B[kk, col]`
-
-with `A[row, kk]` read at `row·stride_am + kk·stride_ak` and `B[kk, col]` at
-`kk·stride_bk + col·stride_bn` on the `.int` channel of the **launch** state
-(the block pointers' offset-`(pid_m·BM, 0)` / `(0, pid_n·BN)` addresses; the
-`boundary_check` zero-fill kills every out-of-range lane, so no divisibility
-of `K` is assumed — only `0 < BLOCK_K`).
-
-Kernel 2, same in-range cells, at the flat inductor address `col + N·row`:
-
-`C[col + N·row] = MemCell.of .real ((∑ kk < K, A[row, kk]·B[kk, col] : ℤ→ℝ) · s1(row))`
-
-with `s1` read at the strideless address `row`. The output region is never
-read back into either spec: no part of the trust path is self-referential.
-
-## Proof map
-
-```
-int_scaled_matmul_matmul_exec_genuine        kernel-1 headline
-├─ mm_body_eq              13 top-level statements by `rfl`
-├─ mmPreLoop_run           9 swizzle scalars + 2 block ptrs + zeros → mmInv 0
-├─ mmLoop_collapse         `forRange_inv` at step BLOCK_K over `mmInv`
-│  └─ mmBody_run           2 boundary-checked loads, dotInt, 2 advances
-├─ mmAccVal_final          guarded running sum → the `Fin K` spec at active lanes
-└─ mmPostLoop_run          c rebind, c_block_ptr, boundary-checked store
-   └─ mm_store_props       `MemCell`-level `.int` scatter readback
-mmCAddr_injective_rowMajor                   discharges the headline's `hInj`
-
-int_scaled_matmul_scaled_exec_genuine        kernel-2 headline
-├─ sm_body_eq              20 top-level statements by `rfl`
-├─ smPreLoop_run           swizzle + wrapped offsets + ptr tiles + zeros → smInv 0
-├─ smLoop_collapse         `forRange_inv` over `smInv` (ascending substitution)
-│  └─ smBody_run           k remat + `EVEN_K` branch (both arms) + dotInt + advances
-├─ smAccVal_final          guarded sum → the `Fin K` spec (per-arm `hK`)
-└─ smPostLoop_run          rm/rn remat, inductor suffix, masked `.real` store
-   ├─ sm_s1Load_eq         strideless broadcast_to load of the row scale
-   └─ sm_store_props       `.real` scatter readback (flat-address injectivity
-                           proven outright on the masked lanes — no hypothesis)
-```
-
-## Modeling boundary
-
-Arithmetic is exact ℤ for both accumulations and exact ℝ for the scale
-epilogue (no bit-accurate IEEE float); the host launches (1-D grids
-`cdiv(M,BM)·cdiv(N,BN)`), `num_warps`/`num_stages`/`num_ctas`, and the
-`Config` block sizes are the trusted boundary. Every dimension, stride and
-block size stays a symbolic parameter.
-
-## Correctness-surface status
-
-Correctness-surface blocker: the `*_exec_genuine` headline(s) in this file
-state correctness as an inline exec-existential
-(`∃ sF, exec … = some sF ∧ <output readback>`) rather than through a named
-`⊨` (`KernelIO`) or `ComputeCorrect.Realizes` surface. Termination and every
-stored output cell are proved; the **frame** — nothing outside the write set
-changes — is not part of the statement. Lifting this to `⊨` therefore needs
-the frame proof, not a rename. Registered in `proof_blockers.md`.
+Correctness-surface blocker: the two public theorems give successful complete
+execution and active output values via inline existentials. They do not claim
+a memory-frame theorem, host-launch validity, finite-allocation safety,
+fixed-width overflow behavior, or native GPU refinement.
 -/
 
 namespace VeriTile.Bench.TritonBenchG.IntScaledMatmul
@@ -746,27 +640,51 @@ def mmBElem (s : BlockState) (b_ptr : Region .int) (sbk sbn : Nat)
     (kk col : Nat) : ℤ :=
   s.readMemValue .int (Region.cast b_ptr) (kk * sbk + col * sbn)
 
+/-- The actual omitted-padding integer value, independently determined by
+  the launch state's unspecified-value oracle at the computed address. -/
+noncomputable def mmPad (s : BlockState) (r : RegionName) (addr : Nat) : Int :=
+  Int.floor (s.undef r addr)
+
+/-- Number of K lanes swept by the positive-step source loop. -/
+def mmSpan (K BK : Nat) : Nat := ((K+BK-1)/BK)*BK
+
 /-- One K-lane's ℤ contribution to output cell `(row, col)`, **as the
-boundary-checked loads produce it**: each factor is zero-filled whenever its
-own `(0, 1)` boundary check fails. On in-range output cells the guards
-reduce to `kk < K`. -/
-def mmG (s : BlockState) (a_ptr b_ptr : Region .int)
+boundary-checked loads produce it**: each failed boundary check takes its
+actual unspecified-value oracle factor. On active output cells only the
+K guard can fail. -/
+noncomputable def mmG (s : BlockState) (a_ptr b_ptr : Region .int)
     (M N K sam sak sbk sbn : Nat) (row col kk : Nat) : ℤ :=
-  (if row < M ∧ kk < K then mmAElem s a_ptr sam sak row kk else 0)
-    * (if kk < K ∧ col < N then mmBElem s b_ptr sbk sbn kk col else 0)
+  (if row < M ∧ kk < K then mmAElem s a_ptr sam sak row kk
+      else mmPad s (Region.cast a_ptr) (row*sam+kk*sak))
+    * (if kk < K ∧ col < N then mmBElem s b_ptr sbk sbn kk col
+      else mmPad s (Region.cast b_ptr) (kk*sbk+col*sbn))
 
 /-- The running accumulator after the loop counter has reached `c`: the sum
-of all `c` swept K-lanes (out-of-range lanes contribute `0`). -/
-def mmAccVal (s : BlockState) (a_ptr b_ptr : Region .int)
+of all `c` swept K-lanes, including any unspecified padded tail. -/
+noncomputable def mmAccVal (s : BlockState) (a_ptr b_ptr : Region .int)
     (M N K sam sak sbk sbn : Nat) (row col c : Nat) : ℤ :=
   ∑ kk ∈ Finset.range c, mmG s a_ptr b_ptr M N K sam sak sbk sbn row col kk
 
-/-- **The kernel-1 stored value**: the genuine ℤ GEMM
-`∑ kk < K, A[row, kk] · B[kk, col]`. -/
+/-- The ordinary, unpadded GEMM term. The actual source additionally
+contributes `mmPaddingTail` when K is ragged. -/
 def mmSpec (s : BlockState) (a_ptr b_ptr : Region .int)
     (K sam sak sbk sbn : Nat) (row col : Nat) : ℤ :=
   ∑ kk : Fin K, mmAElem s a_ptr sam sak row kk.val
     * mmBElem s b_ptr sbk sbn kk.val col
+
+/-- The padded K-tail contribution. It is a formula over the initial oracle,
+not an assumption about the final output. -/
+noncomputable def mmPaddingTail (s : BlockState) (a_ptr b_ptr : Region .int)
+    (K F sam sak sbk sbn row col : Nat) : Int :=
+  ∑ e ∈ Finset.range (F-K),
+    mmPad s (Region.cast a_ptr) (row*sam+(K+e)*sak) *
+      mmPad s (Region.cast b_ptr) ((K+e)*sbk+col*sbn)
+
+/-- The actual source result is GEMM plus the unspecified padded tail. -/
+noncomputable def mmPaddedSpec (s : BlockState) (a_ptr b_ptr : Region .int)
+    (K F sam sak sbk sbn row col : Nat) : Int :=
+  mmSpec s a_ptr b_ptr K sam sak sbk sbn row col +
+    mmPaddingTail s a_ptr b_ptr K F sam sak sbk sbn row col
 
 theorem mmAccVal_zero (s : BlockState) (a_ptr b_ptr : Region .int)
     (M N K sam sak sbk sbn row col : Nat) :
@@ -786,27 +704,25 @@ theorem mmAccVal_step (s : BlockState) (a_ptr b_ptr : Region .int)
   rw [Fin.sum_univ_eq_sum_range (fun e =>
     mmG s a_ptr b_ptr M N K sam sak sbk sbn row col (c + e)) BK]
 
-/-- At any final counter `F ≥ K` and any in-range output cell, the guarded
-running sum **is** the genuine GEMM: lanes `kk ≥ K` were zero-filled by the
-boundary check, and the `row < M` / `col < N` guards hold. -/
+/-- Split the actual accumulated result into the independent GEMM sum and
+the unspecified padding contribution on `[K,F)`. -/
 theorem mmAccVal_final (s : BlockState) (a_ptr b_ptr : Region .int)
     (M N K sam sak sbk sbn row col F : Nat)
     (hrow : row < M) (hcol : col < N) (hKF : K ≤ F) :
     mmAccVal s a_ptr b_ptr M N K sam sak sbk sbn row col F
-      = mmSpec s a_ptr b_ptr K sam sak sbk sbn row col := by
-  unfold mmAccVal mmSpec
-  rw [Fin.sum_univ_eq_sum_range (fun kk =>
-    mmAElem s a_ptr sam sak row kk * mmBElem s b_ptr sbk sbn kk col) K]
-  have hsub : Finset.range K ⊆ Finset.range F := fun x hx =>
-    Finset.mem_range.mpr (lt_of_lt_of_le (Finset.mem_range.mp hx) hKF)
-  rw [← Finset.sum_subset hsub
-    (fun kk _ hkk => by
-      unfold mmG
-      rw [if_neg (fun hc => hkk (Finset.mem_range.mpr hc.2)), zero_mul])]
-  refine Finset.sum_congr rfl fun kk hkk => ?_
-  have hk : kk < K := Finset.mem_range.mp hkk
-  unfold mmG
-  rw [if_pos ⟨hrow, hk⟩, if_pos ⟨hk, hcol⟩]
+      = mmPaddedSpec s a_ptr b_ptr K F sam sak sbk sbn row col := by
+  unfold mmAccVal mmPaddedSpec mmSpec mmPaddingTail
+  rw [show F=K+(F-K) from by omega, Finset.sum_range_add]
+  simp only [Nat.add_sub_cancel_left]
+  congr 1
+  · rw [Fin.sum_univ_eq_sum_range (fun kk =>
+      mmAElem s a_ptr sam sak row kk * mmBElem s b_ptr sbk sbn kk col) K]
+    apply Finset.sum_congr rfl
+    intro kk hk
+    simp [mmG,hrow,hcol,Finset.mem_range.mp hk]
+  · apply Finset.sum_congr rfl
+    intro e he
+    simp [mmG,show ¬K+e<K from by omega]
 
 /-- The `C` store address for output lane `idx` — the `c_block_ptr` address
 (base offset `0`, offsets `(pid_m·BM, pid_n·BN)`). -/
@@ -862,8 +778,7 @@ Checked against the macro output by `rfl`. Lowerings worth naming:
 `tl.make_block_ptr` with runtime offsets lower to
 `Op.makeBlockPtrDynOffsets` with per-axis offset *ops*; the
 `boundary_check=(0, 1)` loads are `.int`-typed `MemAccess.blockPtr … [0, 1]`
-accesses with `MaskOpt.none` (zero-fill is the block-ptr semantics, not a
-mask); `tl.advance` deltas are `Int`-cast; the store is the `.int`-typed
+accesses with `MaskOpt.none` and `PaddingOption.unspecified`; `tl.advance` deltas are `Int`-cast; the store is the `.int`-typed
 boundary-checked block-ptr store. -/
 
 /-- The prologue: nine swizzle scalars, the two input block pointers, and
@@ -922,11 +837,11 @@ def mmLoopBody (BM BN BK : Nat) : List Stmt :=
   [ Stmt.assign .int [BM, BK] "a"
       (Op.load .int
         (MemAccess.blockPtr (Op.ref .blockPtr [BM, BK] "a_block_ptr") [0, 1])
-        MaskOpt.none),
+        MaskOpt.none .unspecified),
     Stmt.assign .int [BK, BN] "b"
       (Op.load .int
         (MemAccess.blockPtr (Op.ref .blockPtr [BK, BN] "b_block_ptr") [0, 1])
-        MaskOpt.none),
+        MaskOpt.none .unspecified),
     Stmt.assign .int [BM, BN] "accumulator"
       (Op.add .int (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.ref .int [BM, BN] "accumulator")
@@ -986,16 +901,17 @@ private theorem mm_makeBP_eval {BR BC : Nat} (R : RegionName) (t : BlockState)
   rfl
 
 /-- A boundary-checked `.int` block-ptr load: in-bounds lanes read the
-`.int` channel at `(o0+i)·sR + (o1+j)·sC`, out-of-bounds lanes zero-fill. -/
+`.int` channel at `(o0+i)·sR + (o1+j)·sC`; out-of-bounds lanes take
+the oracle at that address, without reading memory. -/
 private theorem mm_load_int_eval {BR BC : Nat} (nm : RegName) (t : BlockState)
     (R : RegionName) (pR pC sR sC o0 o1 : Nat)
     (hbp : t.regs .blockPtr [BR, BC] nm = some (mmBPTile R pR pC sR sC BR BC o0 o1)) :
     evalOp (Op.load .int (MemAccess.blockPtr (Op.ref .blockPtr [BR, BC] nm) [0, 1])
-        MaskOpt.none) t
+        MaskOpt.none .unspecified) t
       = some (⟨fun idx => if o0 + idx.1.val < pR ∧ o1 + idx.2.1.val < pC
             then t.readMemValue .int R
               ((o0 + idx.1.val) * sR + (o1 + idx.2.1.val) * sC)
-            else 0⟩ : Tile .int [BR, BC]) := by
+            else mmPad t R ((o0+idx.1.val)*sR+(o1+idx.2.1.val)*sC)⟩ : Tile .int [BR, BC]) := by
   simp only [evalOp, evalOp_ref, hbp, Option.bind_some, Option.bind, Option.map]
   refine congrArg some ?_
   ext idx
@@ -1019,23 +935,24 @@ private theorem mm_advance_eval {BR BC : Nat} (nm : RegName) (t : BlockState)
 
 /-! ## Kernel 1 — loaded tiles and the accumulator tile -/
 
-/-- The loaded `a` tile at loop counter `c`: the boundary check zero-fills
-every lane outside the `M × K` parent. -/
-def mmATile (s : BlockState) (a_ptr : Region .int)
+/-- The loaded `a` tile, including the source's unspecified boundary lanes. -/
+noncomputable def mmATile (s : BlockState) (a_ptr : Region .int)
     (M K sam sak BM BK pm c : Nat) : Tile .int [BM, BK] :=
   ⟨fun idx => if pm * BM + idx.1.val < M ∧ c + idx.2.1.val < K
       then mmAElem s a_ptr sam sak (pm * BM + idx.1.val) (c + idx.2.1.val)
-      else 0⟩
+      else mmPad s (Region.cast a_ptr)
+        ((pm*BM+idx.1.val)*sam+(c+idx.2.1.val)*sak)⟩
 
 /-- The loaded `b` tile at loop counter `c`. -/
-def mmBTile (s : BlockState) (b_ptr : Region .int)
+noncomputable def mmBTile (s : BlockState) (b_ptr : Region .int)
     (K N sbk sbn BK BN pn c : Nat) : Tile .int [BK, BN] :=
   ⟨fun idx => if c + idx.1.val < K ∧ pn * BN + idx.2.1.val < N
       then mmBElem s b_ptr sbk sbn (c + idx.1.val) (pn * BN + idx.2.1.val)
-      else 0⟩
+      else mmPad s (Region.cast b_ptr)
+        ((c+idx.1.val)*sbk+(pn*BN+idx.2.1.val)*sbn)⟩
 
 /-- `accumulator` at loop counter `c`. -/
-def mmAccTile (s : BlockState) (a_ptr b_ptr : Region .int)
+noncomputable def mmAccTile (s : BlockState) (a_ptr b_ptr : Region .int)
     (M N K sam sak sbk sbn BM BN pm pn c : Nat) : Tile .int [BM, BN] :=
   ⟨fun idx => mmAccVal s a_ptr b_ptr M N K sam sak sbk sbn
       (pm * BM + idx.1.val) (pn * BN + idx.2.1.val) c⟩
@@ -1050,7 +967,7 @@ theorem mmAccTile_zero (s : BlockState) (a_ptr b_ptr : Region .int)
 
 /-- **The `Op.dotInt` accumulator step.** `accumulator += tl.dot(a, b)`
 extends the running sum by one `BK`-slab: the per-lane product of the two
-zero-filled loads is exactly the guarded summand `mmG`. -/
+actual padded loads is exactly the guarded summand `mmG`. -/
 theorem mmAccTile_dotInt_step (s : BlockState) (a_ptr b_ptr : Region .int)
     (M N K sam sak sbk sbn BM BN BK pm pn c : Nat) :
     Tile.bop NumericDType.int.add
@@ -1067,7 +984,7 @@ theorem mmAccTile_dotInt_step (s : BlockState) (a_ptr b_ptr : Region .int)
   erw [Tile.dotInt_nil_data]
   rw [← mmAccVal_step s a_ptr b_ptr M N K sam sak sbk sbn
     (pm * BM + r.val) (pn * BN + cc.val) c BK]
-  -- the per-lane product of the two zero-filled loads is *definitionally*
+  -- the per-lane product of the two actual padded loads is *definitionally*
   -- the guarded summand `mmG`, so `congr 1` closes the sum.
   congr 1
 
@@ -1078,6 +995,7 @@ multiple of `BK`). -/
 noncomputable def mmInv (s0 : BlockState) (a_ptr b_ptr : Region .int)
     (M N K sam sak sbk sbn BM BN BK GM : Nat) (c : Nat) (s : BlockState) : Prop :=
   s.mem = s0.mem
+  ∧ s.undef = s0.undef
   ∧ s.pids = s0.pids
   ∧ s.regs .nat [] "pid_m" = some (Tile.scalar (mmPidM s0 M N BM BN GM))
   ∧ s.regs .nat [] "pid_n" = some (Tile.scalar (mmPidN s0 M N BM BN GM))
@@ -1096,8 +1014,8 @@ theorem mmInv_setReg_k (s0 : BlockState) (a_ptr b_ptr : Region .int)
     (h : mmInv s0 a_ptr b_ptr M N K sam sak sbk sbn BM BN BK GM c s) :
     mmInv s0 a_ptr b_ptr M N K sam sak sbk sbn BM BN BK GM c
       (s.setReg "k" .nat [] (Tile.scalar v)) := by
-  obtain ⟨hmem, hpids, hpm, hpn, hA, hB, hacc⟩ := h
-  exact ⟨hmem, hpids, by simpa using hpm, by simpa using hpn,
+  obtain ⟨hmem, hundef, hpids, hpm, hpn, hA, hB, hacc⟩ := h
+  exact ⟨hmem, hundef, hpids, by simpa using hpm, by simpa using hpn,
     by simpa using hA, by simpa using hB, by simpa using hacc⟩
 
 /-- One loop iteration preserves the invariant, advancing the counter by
@@ -1107,31 +1025,31 @@ theorem mmBody_run (s0 : BlockState) (a_ptr b_ptr : Region .int)
     (hinv : mmInv s0 a_ptr b_ptr M N K sam sak sbk sbn BM BN BK GM c s) :
     ∃ s', stepStmts (mmLoopBody BM BN BK) s = some s'
       ∧ mmInv s0 a_ptr b_ptr M N K sam sak sbk sbn BM BN BK GM (c + BK) s' := by
-  obtain ⟨hmem, hpids, hpm, hpn, hA, hB, hacc⟩ := hinv
+  obtain ⟨hmem, hundef, hpids, hpm, hpn, hA, hB, hacc⟩ := hinv
   set pm := mmPidM s0 M N BM BN GM with hpmDef
   set pn := mmPidN s0 M N BM BN GM with hpnDef
   unfold mmLoopBody
   -- 1. `a = tl.load(a_block_ptr, boundary_check=(0, 1))`
   have haLoad : evalOp (Op.load .int
       (MemAccess.blockPtr (Op.ref .blockPtr [BM, BK] "a_block_ptr") [0, 1])
-      MaskOpt.none) s = some (mmATile s0 a_ptr M K sam sak BM BK pm c) := by
+      MaskOpt.none .unspecified) s = some (mmATile s0 a_ptr M K sam sak BM BK pm c) := by
     rw [mm_load_int_eval "a_block_ptr" s (Region.cast a_ptr) M K sam sak (pm * BM) c hA]
     refine congrArg some ?_
     ext idx
     simp only [mmATile, mmAElem, BlockState.readMemValue, BlockState.readMemTyped,
-      hmem]
+      hmem,mmPad,hundef]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some haLoad)]
   -- 2. `b = tl.load(b_block_ptr, boundary_check=(0, 1))`
   have hbLoad : evalOp (Op.load .int
       (MemAccess.blockPtr (Op.ref .blockPtr [BK, BN] "b_block_ptr") [0, 1])
-      MaskOpt.none) (s.setReg "a" .int [BM, BK] (mmATile s0 a_ptr M K sam sak BM BK pm c))
+      MaskOpt.none .unspecified) (s.setReg "a" .int [BM, BK] (mmATile s0 a_ptr M K sam sak BM BK pm c))
       = some (mmBTile s0 b_ptr K N sbk sbn BK BN pn c) := by
     rw [mm_load_int_eval "b_block_ptr" _ (Region.cast b_ptr) K N sbk sbn c (pn * BN)
       (by simpa using hB)]
     refine congrArg some ?_
     ext idx
     simp only [mmBTile, mmBElem, BlockState.readMemValue, BlockState.readMemTyped,
-      is_setReg_mem, hmem]
+      is_setReg_mem, hmem,mmPad,BlockState.setReg_undef,hundef]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some hbLoad)]
   -- 3. `accumulator += tl.dot(a, b)`
   have haccStep : evalOp (Op.add .int
@@ -1163,9 +1081,10 @@ theorem mmBody_run (s0 : BlockState) (a_ptr b_ptr : Region .int)
       mm_advance_eval "b_block_ptr" _ (Region.cast b_ptr) K N sbk sbn c (pn * BN) BK 0
         (by simpa using hB)))]
   rw [stepStmts.nil]
-  refine ⟨_, rfl, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
+  refine ⟨_, rfl, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   · simp only [is_setReg_mem]
     exact hmem
+  · simpa only [BlockState.setReg_undef] using hundef
   · simp only [BlockState.setReg_pids]
     exact hpids
   · simpa using hpm
@@ -1181,19 +1100,26 @@ theorem mmLoop_collapse (s0 : BlockState) (a_ptr b_ptr : Region .int)
     (hBK : 0 < BK)
     (h0 : mmInv s0 a_ptr b_ptr M N K sam sak sbk sbn BM BN BK GM 0 s) :
     ∃ F sF, stepStmt (Stmt.forRange "k" 0 K BK (mmLoopBody BM BN BK)) s = some sF
-      ∧ K ≤ F
+      ∧ K ≤ F ∧ F=mmSpan K BK
       ∧ mmInv s0 a_ptr b_ptr M N K sam sak sbk sbn BM BN BK GM F sF := by
-  obtain ⟨F, sF, hrun, hfinal, hP⟩ :=
+  obtain ⟨F, sF, hrun, hfinal, hP, hdvd, hupper⟩ :=
     forRange_inv (idx := "k") (start := 0) (stop := K) (step := BK)
-      (P := fun c t => mmInv s0 a_ptr b_ptr M N K sam sak sbk sbn BM BN BK GM c t)
-      (Nat.pos_iff_ne_zero.mp hBK) h0
+      (P := fun c t => mmInv s0 a_ptr b_ptr M N K sam sak sbk sbn BM BN BK GM c t
+        ∧ BK ∣ c ∧ c<K+BK)
+      (Nat.pos_iff_ne_zero.mp hBK) ⟨h0, dvd_zero BK, by omega⟩
       (fun c t hc hinv => by
         obtain ⟨s', hs', hinv'⟩ :=
           mmBody_run s0 a_ptr b_ptr M N K sam sak sbk sbn BM BN BK GM c _
             (mmInv_setReg_k s0 a_ptr b_ptr M N K sam sak sbk sbn BM BN BK GM
-              c c t hinv)
-        exact ⟨s', hs', hinv'⟩)
-  exact ⟨F, sF, hrun, hfinal, hP⟩
+              c c t hinv.1)
+        exact ⟨s', hs', hinv', Nat.dvd_add hinv.2.1 (dvd_refl BK), by omega⟩)
+  have hf : F=mmSpan K BK := by
+    obtain ⟨n, hn⟩ := hdvd
+    have hn' : F=n*BK := by simpa only [Nat.mul_comm] using hn
+    have hdiv : (K+BK-1)/BK=n := Nat.div_eq_of_lt_le
+      (by omega) (by rw [Nat.add_mul]; omega)
+    simp only [mmSpan,hdiv,←hn']
+  exact ⟨F, sF, hrun, hfinal, hf, hP⟩
 
 /-! ## Kernel 1 — the prologue walk -/
 
@@ -1325,7 +1251,7 @@ theorem mmPreLoop_run (s : BlockState) (a_ptr b_ptr : Region .int)
       rw [mmAccTile_zero]
       exact is_full_eval [BM, BN] (Op.constInt 0) _ _ (is_constInt_eval 0 _)))]
   rw [stepStmts.nil]
-  refine ⟨_, rfl, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩ <;> simp [is_setReg_mem]
+  refine ⟨_, rfl, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩ <;> first | rfl | simp [is_setReg_mem]
 
 /-! ## Kernel 1 — the store tail -/
 
@@ -1388,7 +1314,7 @@ private theorem mm_store_props (c_ptr : RegionName)
     (fun k₁ k₂ _ _ h => hInj h) i hi
 
 /-- The tail: `c = accumulator`, the output block pointer, and the
-boundary-checked store; every in-range lane holds the genuine GEMM value. -/
+boundary-checked store; every in-range lane holds the GEMM plus the actual padded-tail contribution. -/
 theorem mmPostLoop_run (s0 : BlockState) (a_ptr b_ptr : Region .int) (c_ptr : RegionName)
     (M N K sam sak sbk sbn scm scn BM BN BK GM F : Nat) (t : BlockState)
     (hKF : K ≤ F)
@@ -1402,10 +1328,10 @@ theorem mmPostLoop_run (s0 : BlockState) (a_ptr b_ptr : Region .int) (c_ptr : Re
             ∧ mmPidN s0 M N BM BN GM * BN + idx.2.1.val < N) →
           sF.mem c_ptr (mmCAddr scm scn BM BN (mmPidM s0 M N BM BN GM)
               (mmPidN s0 M N BM BN GM) idx)
-            = MemCell.of .int (mmSpec s0 a_ptr b_ptr K sam sak sbk sbn
+            = MemCell.of .int (mmPaddedSpec s0 a_ptr b_ptr K F sam sak sbk sbn
                 (mmPidM s0 M N BM BN GM * BM + idx.1.val)
                 (mmPidN s0 M N BM BN GM * BN + idx.2.1.val)) := by
-  obtain ⟨hmem, hpids, hpm, hpn, hA, hB, hacc⟩ := hinv
+  obtain ⟨hmem, hundef, hpids, hpm, hpn, hA, hB, hacc⟩ := hinv
   set pm := mmPidM s0 M N BM BN GM with hpmDef
   set pn := mmPidN s0 M N BM BN GM with hpnDef
   unfold mmPostLoop
@@ -1436,21 +1362,10 @@ theorem mmPostLoop_run (s0 : BlockState) (a_ptr b_ptr : Region .int) (c_ptr : Re
 
 set_option maxHeartbeats 1000000 in
 set_option linter.unusedVariables false in
-/-- **Genuine, dimension-general correctness of
-`matmul_kernel_with_block_pointers`.** For every launch state, the kernel
-runs to completion and every in-range output lane of `C` holds the `.int`
-memory cell carrying the exact ℤ GEMM
-
-`mmSpec = ∑ kk < K, A[row, kk] · B[kk, col]`
-
-at the block-pointer address `row·stride_cm + col·stride_cn`. No
-divisibility of `K` is assumed: the `boundary_check=(0, 1)` loads zero-fill
-every lane past `K` (and past `M`/`K` in the row axes), so the ragged tail
-contributes nothing — the only loop hypothesis is `0 < BLOCK_K` (a
-`range(0, K, BLOCK_K)` step must be positive). `hInj` says distinct output
-lanes get distinct `C` addresses — `mmCAddr_injective_rowMajor` discharges
-it for a row-major `C`. The grid is 1-D, so there is no auxiliary
-program-id hypothesis. -/
+/-- Complete execution and independent padded-output formula for the first
+source kernel. Positive BLOCK_K and output-address injectivity are the existing
+premises; no zero-oracle or K-divisibility condition is assumed. The oracle
+contribution is part of the conclusion and is read only from the initial state. -/
 specification int_scaled_matmul_matmul_exec_genuine
     (a_ptr b_ptr : Region .int) (c_ptr : RegionName)
     (M N K : Nat)
@@ -1468,7 +1383,7 @@ specification int_scaled_matmul_matmul_exec_genuine
             ∧ mmPidN s M N BM BN GM * BN + idx.2.1.val < N) →
           sF.mem c_ptr (mmCAddr stride_cm stride_cn BM BN (mmPidM s M N BM BN GM)
               (mmPidN s M N BM BN GM) idx)
-            = MemCell.of .int (mmSpec s a_ptr b_ptr K stride_am stride_ak
+            = MemCell.of .int (mmPaddedSpec s a_ptr b_ptr K (mmSpan K BK) stride_am stride_ak
                 stride_bk stride_bn
                 (mmPidM s M N BM BN GM * BM + idx.1.val)
                 (mmPidN s M N BM BN GM * BN + idx.2.1.val)) := by
@@ -1478,7 +1393,7 @@ specification int_scaled_matmul_matmul_exec_genuine
       BM BN BK GM
   simp only [List.append_assoc]
   rw [stepStmts.append_some hrun1]
-  obtain ⟨F, t2, hrun2, hKF, h2inv⟩ :=
+  obtain ⟨F, t2, hrun2, hKF, hF, h2inv⟩ :=
     mmLoop_collapse s a_ptr b_ptr M N K stride_am stride_ak stride_bk stride_bn
       BM BN BK GM t1 hBK h1inv
   rw [show [Stmt.forRange "k" 0 K BK (mmLoopBody BM BN BK)]
@@ -1489,7 +1404,7 @@ specification int_scaled_matmul_matmul_exec_genuine
   obtain ⟨sF, hpost, hout⟩ :=
     mmPostLoop_run s a_ptr b_ptr c_ptr M N K stride_am stride_ak stride_bk
       stride_bn stride_cm stride_cn BM BN BK GM F t2 hKF hInj h2inv
-  exact ⟨sF, hpost, hout⟩
+  exact ⟨sF, hpost, by simpa only [hF] using hout⟩
 
 /-! ## Kernel 2 — the group-swizzled block coordinates
 
@@ -2861,3 +2776,6 @@ end Correct_without_Rounding
 end VeriTile.Bench.TritonBenchG.IntScaledMatmul
 
 
+
+#guard_msgs (drop info) in
+#auditModuleAxioms

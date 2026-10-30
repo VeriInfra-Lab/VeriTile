@@ -1,0 +1,144 @@
+{
+  "status": "PASS",
+  "source": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/attention_kernel_aligned_repaired.py",
+  "source_sha256": "365cda104f62655345ad002a7d2815fba0d3c812e20c5a569e9b0214c92c85ea",
+  "typed_source": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/Kernels.lean",
+  "typed_source_sha256": "0516fccadda4635628be032f7d5fd6665ec4c9ed86fe48dd26280ad21cf59810",
+  "script_sha256": "dd573f6984494ae4e8775ec6dd44e76e457cd2d31618ef68c648e51173e12cae",
+  "profiles": [
+    {
+      "profile": "float16_N1_D16_M16_K16_W4_S2",
+      "ttir": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/kernel-evidence/binder-artifacts/float16_N1_D16_M16_K16_W4_S2.ttir",
+      "sha256": "b3f4b791161430c0298a8a5989d7572ec97d12b298deb6ade3917ebf7c255fb4",
+      "checks": {
+        "query_widen": true,
+        "query_narrow": true,
+        "bias_storage_add": true,
+        "bias_widen": true,
+        "QK_precision": true,
+        "P_storage_cast": true,
+        "PV_default_FP32": true,
+        "output_storage_cast": true,
+        "output_storage_store": true
+      }
+    },
+    {
+      "profile": "float16_N65_D128_M64_K64_W4_S2",
+      "ttir": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/kernel-evidence/binder-artifacts/float16_N65_D128_M64_K64_W4_S2.ttir",
+      "sha256": "7ba242bb43720d87084ba67d9bb15876cdc01615a1b8d89f5e4377bb855aa6c5",
+      "checks": {
+        "query_widen": true,
+        "query_narrow": true,
+        "bias_storage_add": true,
+        "bias_widen": true,
+        "QK_precision": true,
+        "P_storage_cast": true,
+        "PV_default_FP32": true,
+        "output_storage_cast": true,
+        "output_storage_store": true
+      }
+    },
+    {
+      "profile": "float16_N128_D128_M64_K64_W8_S4",
+      "ttir": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/kernel-evidence/binder-artifacts/float16_N128_D128_M64_K64_W8_S4.ttir",
+      "sha256": "b2b2690e6b6ab5db6566f1a0124e41b860010b34b076f4cac7d10e9bee6e51bf",
+      "checks": {
+        "query_widen": true,
+        "query_narrow": true,
+        "bias_storage_add": true,
+        "bias_widen": true,
+        "QK_precision": true,
+        "P_storage_cast": true,
+        "PV_default_FP32": true,
+        "output_storage_cast": true,
+        "output_storage_store": true
+      }
+    },
+    {
+      "profile": "float16_N97_D32_M32_K128_W4_S2",
+      "ttir": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/kernel-evidence/binder-artifacts/float16_N97_D32_M32_K128_W4_S2.ttir",
+      "sha256": "86d3ef5a269226e7cbd0c95b2a7ae8ab7892117d946aabfe0d28b81ae869aad7",
+      "checks": {
+        "query_widen": true,
+        "query_narrow": true,
+        "bias_storage_add": true,
+        "bias_widen": true,
+        "QK_precision": true,
+        "P_storage_cast": true,
+        "PV_default_FP32": true,
+        "output_storage_cast": true,
+        "output_storage_store": true
+      }
+    },
+    {
+      "profile": "bfloat16_N1_D16_M16_K16_W4_S2",
+      "ttir": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/kernel-evidence/binder-artifacts/bfloat16_N1_D16_M16_K16_W4_S2.ttir",
+      "sha256": "481ca70024f8ae22d10dcd3110cee3d8fa22fca02ae9ba59200659e981017ed1",
+      "checks": {
+        "query_widen": true,
+        "query_narrow": true,
+        "bias_storage_add": true,
+        "bias_widen": true,
+        "QK_precision": true,
+        "P_storage_cast": true,
+        "PV_default_FP32": true,
+        "output_storage_cast": true,
+        "output_storage_store": true
+      }
+    },
+    {
+      "profile": "bfloat16_N65_D128_M64_K64_W4_S2",
+      "ttir": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/kernel-evidence/binder-artifacts/bfloat16_N65_D128_M64_K64_W4_S2.ttir",
+      "sha256": "803e09eb0290abd42c59321d5f80f164d94330688840dd6c6d306e4446c1cf59",
+      "checks": {
+        "query_widen": true,
+        "query_narrow": true,
+        "bias_storage_add": true,
+        "bias_widen": true,
+        "QK_precision": true,
+        "P_storage_cast": true,
+        "PV_default_FP32": true,
+        "output_storage_cast": true,
+        "output_storage_store": true
+      }
+    },
+    {
+      "profile": "bfloat16_N128_D128_M64_K64_W8_S4",
+      "ttir": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/kernel-evidence/binder-artifacts/bfloat16_N128_D128_M64_K64_W8_S4.ttir",
+      "sha256": "a55ed97652a22a4d7d1eda74dfc70f9f11e5ec71dd1747892cbe9bcc1f096f84",
+      "checks": {
+        "query_widen": true,
+        "query_narrow": true,
+        "bias_storage_add": true,
+        "bias_widen": true,
+        "QK_precision": true,
+        "P_storage_cast": true,
+        "PV_default_FP32": true,
+        "output_storage_cast": true,
+        "output_storage_store": true
+      }
+    },
+    {
+      "profile": "bfloat16_N97_D32_M32_K128_W4_S2",
+      "ttir": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/kernel-evidence/binder-artifacts/bfloat16_N97_D32_M32_K128_W4_S2.ttir",
+      "sha256": "2f68bb7889bab5e35fa75cd7e520b44bfd9f193aa31dd931194057612bfa2f68",
+      "checks": {
+        "query_widen": true,
+        "query_narrow": true,
+        "bias_storage_add": true,
+        "bias_widen": true,
+        "QK_precision": true,
+        "P_storage_cast": true,
+        "PV_default_FP32": true,
+        "output_storage_cast": true,
+        "output_storage_store": true
+      }
+    }
+  ],
+  "typed_source_annotations": [
+    "FP16 QK has explicit FP16 output; BF16 uses FP32 QK followed by BF16 narrowing. Bias arithmetic has no log2(e) multiplier."
+  ],
+  "boundary": "Ordinary Python-to-typed-source, compiler/layout and runtime contracts. This check pins the complete candidate and both typed bodies and validates precision in all eight offline profiles; it is not a compiler implementation proof.",
+  "GPU_execution": false,
+  "FP_to_Real_accuracy_claimed": false
+}

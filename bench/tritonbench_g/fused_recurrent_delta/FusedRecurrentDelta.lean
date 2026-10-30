@@ -1,4 +1,5 @@
 import VeriTile.Triton
+import VeriTile.Meta.StatementAudit
 
 /-!
 # `fused_recurrent_delta` — genuine delta-rule recurrence correctness
@@ -3653,3 +3654,5 @@ end IOFace
 
 end VeriTile.Bench.TritonBenchG.FusedRecurrentDelta
 
+
+#auditModuleAxioms

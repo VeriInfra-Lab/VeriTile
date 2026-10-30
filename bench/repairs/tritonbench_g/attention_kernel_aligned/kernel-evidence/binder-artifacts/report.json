@@ -1,0 +1,2243 @@
+{
+  "status": "PASS",
+  "triton": "3.7.1",
+  "target": {
+    "backend": "cuda",
+    "arch": 80,
+    "warp_size": 32
+  },
+  "actual_JIT_signature_binder": true,
+  "actual_CUDA_JIT_launch": false,
+  "GPU_execution": false,
+  "FP_numerical_execution": false,
+  "results": [
+    {
+      "name": "float16_N1_D16_M16_K16_W4_S2",
+      "source": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/attention_kernel_aligned_repaired.py",
+      "source_sha256": "365cda104f62655345ad002a7d2815fba0d3c812e20c5a569e9b0214c92c85ea",
+      "shape": [
+        2,
+        3,
+        1,
+        16
+      ],
+      "signature": {
+        "Q": "*fp16",
+        "K": "*fp16",
+        "V": "*fp16",
+        "B0": "*fp16",
+        "sm_scale": "fp32",
+        "Out": "*fp16",
+        "stride_qz": "i32",
+        "stride_qh": "i32",
+        "stride_qm": "i32",
+        "stride_qk": "constexpr",
+        "stride_kz": "i32",
+        "stride_kh": "i32",
+        "stride_kn": "i32",
+        "stride_kk": "constexpr",
+        "stride_vz": "i32",
+        "stride_vh": "i32",
+        "stride_vk": "i32",
+        "stride_vn": "constexpr",
+        "stride_oz": "i32",
+        "stride_oh": "i32",
+        "stride_om": "i32",
+        "stride_on": "constexpr",
+        "stride_b0z": "i32",
+        "stride_b0h": "i32",
+        "stride_b0m": "i32",
+        "Z": "i32",
+        "H": "i32",
+        "N_CTX": "constexpr",
+        "P_SEQ": "i32",
+        "OUT_DTYPE": "constexpr",
+        "BIAS_LAST_SIZE": "constexpr",
+        "B0_NUMEL": "constexpr",
+        "BLOCK_DMODEL": "constexpr",
+        "BLOCK_M": "constexpr",
+        "BLOCK_N": "constexpr"
+      },
+      "constants": {
+        "stride_qk": "1",
+        "stride_kk": "1",
+        "stride_vn": "1",
+        "stride_on": "1",
+        "N_CTX": "1",
+        "OUT_DTYPE": "fp16",
+        "BIAS_LAST_SIZE": "64",
+        "B0_NUMEL": "128",
+        "BLOCK_DMODEL": "16",
+        "BLOCK_M": "16",
+        "BLOCK_N": "16"
+      },
+      "attrs": {
+        "(0,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(1,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(2,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(3,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(5,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(6,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(7,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(8,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(9,)": [],
+        "(10,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(11,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(12,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(13,)": [],
+        "(14,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(15,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(16,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(17,)": [],
+        "(18,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(19,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(20,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(21,)": [],
+        "(22,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(23,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(24,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(25,)": [],
+        "(26,)": [],
+        "(27,)": [],
+        "(28,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(29,)": [],
+        "(30,)": [],
+        "(31,)": [],
+        "(32,)": [],
+        "(33,)": [],
+        "(34,)": []
+      },
+      "requested_options": {
+        "num_warps": 4,
+        "num_stages": 2,
+        "enable_fp_fusion": true
+      },
+      "actual_JIT_signature_binder": true,
+      "descriptor_device": "CPU descriptor used for offline CUDA target compilation",
+      "status": "compiled",
+      "artifacts": {
+        "ttir": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/kernel-evidence/binder-artifacts/float16_N1_D16_M16_K16_W4_S2.ttir",
+          "sha256": "b3f4b791161430c0298a8a5989d7572ec97d12b298deb6ade3917ebf7c255fb4"
+        },
+        "ttgir": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/kernel-evidence/binder-artifacts/float16_N1_D16_M16_K16_W4_S2.ttgir",
+          "sha256": "83d4f73fb86b0c786bf3834065cc440332d86c222fad38e53bc3808645a80515"
+        },
+        "llir": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/kernel-evidence/binder-artifacts/float16_N1_D16_M16_K16_W4_S2.llir",
+          "sha256": "cb327e35d31a1f90bc0542f587862645b429c7ddd82baf1c2e7c18c6eb41dae6"
+        },
+        "ptx": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/kernel-evidence/binder-artifacts/float16_N1_D16_M16_K16_W4_S2.ptx",
+          "sha256": "84ee81185281cbcbb3326956d0b9de089bf7168da5f0353216c01d93b961165b"
+        }
+      },
+      "metadata": {
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "arch": "sm80",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "deprecated_fp8_dot_operand_dtypes": [],
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "8a2f3d3e1f1332029ae58d121ac9321000681173bc55d6cda238ff1fb79d739e",
+        "instrumentation_mode": "",
+        "ir_override": null,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 0,
+        "maxnreg": null,
+        "name": "_fwd_kernel_aligned_fp16",
+        "num_ctas": 1,
+        "num_stages": 2,
+        "num_warps": 4,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "ptx_options": null,
+        "ptx_version": null,
+        "sanitize_overflow": true,
+        "shared": 1568,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e5"
+        ],
+        "target": "GPUTarget(backend='cuda', arch=80, warp_size=32)",
+        "tensordesc_meta": [],
+        "tmem_size": 0,
+        "triton_version": "3.7.1",
+        "warp_size": 32
+      }
+    },
+    {
+      "name": "float16_N65_D128_M64_K64_W4_S2",
+      "source": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/attention_kernel_aligned_repaired.py",
+      "source_sha256": "365cda104f62655345ad002a7d2815fba0d3c812e20c5a569e9b0214c92c85ea",
+      "shape": [
+        2,
+        3,
+        65,
+        128
+      ],
+      "signature": {
+        "Q": "*fp16",
+        "K": "*fp16",
+        "V": "*fp16",
+        "B0": "*fp16",
+        "sm_scale": "fp32",
+        "Out": "*fp16",
+        "stride_qz": "i32",
+        "stride_qh": "i32",
+        "stride_qm": "i32",
+        "stride_qk": "constexpr",
+        "stride_kz": "i32",
+        "stride_kh": "i32",
+        "stride_kn": "i32",
+        "stride_kk": "constexpr",
+        "stride_vz": "i32",
+        "stride_vh": "i32",
+        "stride_vk": "i32",
+        "stride_vn": "constexpr",
+        "stride_oz": "i32",
+        "stride_oh": "i32",
+        "stride_om": "i32",
+        "stride_on": "constexpr",
+        "stride_b0z": "i32",
+        "stride_b0h": "i32",
+        "stride_b0m": "i32",
+        "Z": "i32",
+        "H": "i32",
+        "N_CTX": "i32",
+        "P_SEQ": "i32",
+        "OUT_DTYPE": "constexpr",
+        "BIAS_LAST_SIZE": "constexpr",
+        "B0_NUMEL": "constexpr",
+        "BLOCK_DMODEL": "constexpr",
+        "BLOCK_M": "constexpr",
+        "BLOCK_N": "constexpr"
+      },
+      "constants": {
+        "stride_qk": "1",
+        "stride_kk": "1",
+        "stride_vn": "1",
+        "stride_on": "1",
+        "OUT_DTYPE": "fp16",
+        "BIAS_LAST_SIZE": "64",
+        "B0_NUMEL": "128",
+        "BLOCK_DMODEL": "128",
+        "BLOCK_M": "64",
+        "BLOCK_N": "64"
+      },
+      "attrs": {
+        "(0,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(1,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(2,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(3,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(5,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(6,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(7,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(8,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(9,)": [],
+        "(10,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(11,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(12,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(13,)": [],
+        "(14,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(15,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(16,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(17,)": [],
+        "(18,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(19,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(20,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(21,)": [],
+        "(22,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(23,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(24,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(25,)": [],
+        "(26,)": [],
+        "(27,)": [],
+        "(28,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(29,)": [],
+        "(30,)": [],
+        "(31,)": [],
+        "(32,)": [],
+        "(33,)": [],
+        "(34,)": []
+      },
+      "requested_options": {
+        "num_warps": 4,
+        "num_stages": 2,
+        "enable_fp_fusion": true
+      },
+      "actual_JIT_signature_binder": true,
+      "descriptor_device": "CPU descriptor used for offline CUDA target compilation",
+      "status": "compiled",
+      "artifacts": {
+        "ttir": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/kernel-evidence/binder-artifacts/float16_N65_D128_M64_K64_W4_S2.ttir",
+          "sha256": "7ba242bb43720d87084ba67d9bb15876cdc01615a1b8d89f5e4377bb855aa6c5"
+        },
+        "ttgir": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/kernel-evidence/binder-artifacts/float16_N65_D128_M64_K64_W4_S2.ttgir",
+          "sha256": "bb9dddd6e51be445f3a66ecff38699f2368b1aa891fb23757d1cef4e2e330bd9"
+        },
+        "llir": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/kernel-evidence/binder-artifacts/float16_N65_D128_M64_K64_W4_S2.llir",
+          "sha256": "14dfd23ce0afa7f9578daa956eed46ef354e17bef24ddf8aec28c0921d060be3"
+        },
+        "ptx": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/kernel-evidence/binder-artifacts/float16_N65_D128_M64_K64_W4_S2.ptx",
+          "sha256": "653424b65da67cd6d563c94c7f961d7f11721a658ae36204bbb4281cd940f761"
+        }
+      },
+      "metadata": {
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "arch": "sm80",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "deprecated_fp8_dot_operand_dtypes": [],
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "b40ac3da9ca2ee9c0bc6cabc24681dd76d3f0572ed1a900bd8ae4378d18c0197",
+        "instrumentation_mode": "",
+        "ir_override": null,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 0,
+        "maxnreg": null,
+        "name": "_fwd_kernel_aligned_fp16",
+        "num_ctas": 1,
+        "num_stages": 2,
+        "num_warps": 4,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "ptx_options": null,
+        "ptx_version": null,
+        "sanitize_overflow": true,
+        "shared": 57344,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e5"
+        ],
+        "target": "GPUTarget(backend='cuda', arch=80, warp_size=32)",
+        "tensordesc_meta": [],
+        "tmem_size": 0,
+        "triton_version": "3.7.1",
+        "warp_size": 32
+      }
+    },
+    {
+      "name": "float16_N128_D128_M64_K64_W8_S4",
+      "source": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/attention_kernel_aligned_repaired.py",
+      "source_sha256": "365cda104f62655345ad002a7d2815fba0d3c812e20c5a569e9b0214c92c85ea",
+      "shape": [
+        2,
+        3,
+        128,
+        128
+      ],
+      "signature": {
+        "Q": "*fp16",
+        "K": "*fp16",
+        "V": "*fp16",
+        "B0": "*fp16",
+        "sm_scale": "fp32",
+        "Out": "*fp16",
+        "stride_qz": "i32",
+        "stride_qh": "i32",
+        "stride_qm": "i32",
+        "stride_qk": "constexpr",
+        "stride_kz": "i32",
+        "stride_kh": "i32",
+        "stride_kn": "i32",
+        "stride_kk": "constexpr",
+        "stride_vz": "i32",
+        "stride_vh": "i32",
+        "stride_vk": "i32",
+        "stride_vn": "constexpr",
+        "stride_oz": "i32",
+        "stride_oh": "i32",
+        "stride_om": "i32",
+        "stride_on": "constexpr",
+        "stride_b0z": "i32",
+        "stride_b0h": "i32",
+        "stride_b0m": "i32",
+        "Z": "i32",
+        "H": "i32",
+        "N_CTX": "i32",
+        "P_SEQ": "i32",
+        "OUT_DTYPE": "constexpr",
+        "BIAS_LAST_SIZE": "constexpr",
+        "B0_NUMEL": "constexpr",
+        "BLOCK_DMODEL": "constexpr",
+        "BLOCK_M": "constexpr",
+        "BLOCK_N": "constexpr"
+      },
+      "constants": {
+        "stride_qk": "1",
+        "stride_kk": "1",
+        "stride_vn": "1",
+        "stride_on": "1",
+        "OUT_DTYPE": "fp16",
+        "BIAS_LAST_SIZE": "64",
+        "B0_NUMEL": "128",
+        "BLOCK_DMODEL": "128",
+        "BLOCK_M": "64",
+        "BLOCK_N": "64"
+      },
+      "attrs": {
+        "(0,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(1,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(2,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(3,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(5,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(6,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(7,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(8,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(9,)": [],
+        "(10,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(11,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(12,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(13,)": [],
+        "(14,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(15,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(16,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(17,)": [],
+        "(18,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(19,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(20,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(21,)": [],
+        "(22,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(23,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(24,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(25,)": [],
+        "(26,)": [],
+        "(27,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(28,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(29,)": [],
+        "(30,)": [],
+        "(31,)": [],
+        "(32,)": [],
+        "(33,)": [],
+        "(34,)": []
+      },
+      "requested_options": {
+        "num_warps": 8,
+        "num_stages": 4,
+        "enable_fp_fusion": true
+      },
+      "actual_JIT_signature_binder": true,
+      "descriptor_device": "CPU descriptor used for offline CUDA target compilation",
+      "status": "compiled",
+      "artifacts": {
+        "ttir": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/kernel-evidence/binder-artifacts/float16_N128_D128_M64_K64_W8_S4.ttir",
+          "sha256": "b2b2690e6b6ab5db6566f1a0124e41b860010b34b076f4cac7d10e9bee6e51bf"
+        },
+        "ttgir": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/kernel-evidence/binder-artifacts/float16_N128_D128_M64_K64_W8_S4.ttgir",
+          "sha256": "93bc53be4e68cf878b96c8d799865153fbc1da794f25e8ae0faec719e5498e99"
+        },
+        "llir": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/kernel-evidence/binder-artifacts/float16_N128_D128_M64_K64_W8_S4.llir",
+          "sha256": "6da2c7957e9608b5bd8c41165aa9ee33dcbad36bc9556c1d5a06817dd8d9c3c4"
+        },
+        "ptx": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/kernel-evidence/binder-artifacts/float16_N128_D128_M64_K64_W8_S4.ptx",
+          "sha256": "846a225a1f242cb87a6d87bcb5ea639713807b7f361a07b3a3522645af13957e"
+        }
+      },
+      "metadata": {
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "arch": "sm80",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "deprecated_fp8_dot_operand_dtypes": [],
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "457b6042354fba64492332c960f5eafa2438b9bf5ed3eb6bf3e3c6e1b65fa2f1",
+        "instrumentation_mode": "",
+        "ir_override": null,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 0,
+        "maxnreg": null,
+        "name": "_fwd_kernel_aligned_fp16",
+        "num_ctas": 1,
+        "num_stages": 4,
+        "num_warps": 8,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "ptx_options": null,
+        "ptx_version": null,
+        "sanitize_overflow": true,
+        "shared": 122880,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e5"
+        ],
+        "target": "GPUTarget(backend='cuda', arch=80, warp_size=32)",
+        "tensordesc_meta": [],
+        "tmem_size": 0,
+        "triton_version": "3.7.1",
+        "warp_size": 32
+      }
+    },
+    {
+      "name": "float16_N97_D32_M32_K128_W4_S2",
+      "source": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/attention_kernel_aligned_repaired.py",
+      "source_sha256": "365cda104f62655345ad002a7d2815fba0d3c812e20c5a569e9b0214c92c85ea",
+      "shape": [
+        2,
+        3,
+        97,
+        32
+      ],
+      "signature": {
+        "Q": "*fp16",
+        "K": "*fp16",
+        "V": "*fp16",
+        "B0": "*fp16",
+        "sm_scale": "fp32",
+        "Out": "*fp16",
+        "stride_qz": "i32",
+        "stride_qh": "i32",
+        "stride_qm": "i32",
+        "stride_qk": "constexpr",
+        "stride_kz": "i32",
+        "stride_kh": "i32",
+        "stride_kn": "i32",
+        "stride_kk": "constexpr",
+        "stride_vz": "i32",
+        "stride_vh": "i32",
+        "stride_vk": "i32",
+        "stride_vn": "constexpr",
+        "stride_oz": "i32",
+        "stride_oh": "i32",
+        "stride_om": "i32",
+        "stride_on": "constexpr",
+        "stride_b0z": "i32",
+        "stride_b0h": "i32",
+        "stride_b0m": "i32",
+        "Z": "i32",
+        "H": "i32",
+        "N_CTX": "i32",
+        "P_SEQ": "i32",
+        "OUT_DTYPE": "constexpr",
+        "BIAS_LAST_SIZE": "constexpr",
+        "B0_NUMEL": "constexpr",
+        "BLOCK_DMODEL": "constexpr",
+        "BLOCK_M": "constexpr",
+        "BLOCK_N": "constexpr"
+      },
+      "constants": {
+        "stride_qk": "1",
+        "stride_kk": "1",
+        "stride_vn": "1",
+        "stride_on": "1",
+        "OUT_DTYPE": "fp16",
+        "BIAS_LAST_SIZE": "64",
+        "B0_NUMEL": "128",
+        "BLOCK_DMODEL": "32",
+        "BLOCK_M": "32",
+        "BLOCK_N": "128"
+      },
+      "attrs": {
+        "(0,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(1,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(2,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(3,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(5,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(6,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(7,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(8,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(9,)": [],
+        "(10,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(11,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(12,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(13,)": [],
+        "(14,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(15,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(16,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(17,)": [],
+        "(18,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(19,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(20,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(21,)": [],
+        "(22,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(23,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(24,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(25,)": [],
+        "(26,)": [],
+        "(27,)": [],
+        "(28,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(29,)": [],
+        "(30,)": [],
+        "(31,)": [],
+        "(32,)": [],
+        "(33,)": [],
+        "(34,)": []
+      },
+      "requested_options": {
+        "num_warps": 4,
+        "num_stages": 2,
+        "enable_fp_fusion": true
+      },
+      "actual_JIT_signature_binder": true,
+      "descriptor_device": "CPU descriptor used for offline CUDA target compilation",
+      "status": "compiled",
+      "artifacts": {
+        "ttir": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/kernel-evidence/binder-artifacts/float16_N97_D32_M32_K128_W4_S2.ttir",
+          "sha256": "86d3ef5a269226e7cbd0c95b2a7ae8ab7892117d946aabfe0d28b81ae869aad7"
+        },
+        "ttgir": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/kernel-evidence/binder-artifacts/float16_N97_D32_M32_K128_W4_S2.ttgir",
+          "sha256": "5e1693020f247bec57a5cff8a2f012b942e8616bb85d4936cb1202195295e0bb"
+        },
+        "llir": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/kernel-evidence/binder-artifacts/float16_N97_D32_M32_K128_W4_S2.llir",
+          "sha256": "4641f3176f610fdab3f3dc6fec13dc2ed6b3ac7c71d4d6e516a96b6195a2af2e"
+        },
+        "ptx": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/kernel-evidence/binder-artifacts/float16_N97_D32_M32_K128_W4_S2.ptx",
+          "sha256": "483a1536a34d8a63e16a6c9c8a69898ca2aa8797b227e18c503bde18e68cec40"
+        }
+      },
+      "metadata": {
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "arch": "sm80",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "deprecated_fp8_dot_operand_dtypes": [],
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "ddfda5687c15bba9d52a7f96c6bea08ae217c97cdbc6ee531e5779b198e8d5bd",
+        "instrumentation_mode": "",
+        "ir_override": null,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 0,
+        "maxnreg": null,
+        "name": "_fwd_kernel_aligned_fp16",
+        "num_ctas": 1,
+        "num_stages": 2,
+        "num_warps": 4,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "ptx_options": null,
+        "ptx_version": null,
+        "sanitize_overflow": true,
+        "shared": 18496,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e5"
+        ],
+        "target": "GPUTarget(backend='cuda', arch=80, warp_size=32)",
+        "tensordesc_meta": [],
+        "tmem_size": 0,
+        "triton_version": "3.7.1",
+        "warp_size": 32
+      }
+    },
+    {
+      "name": "bfloat16_N1_D16_M16_K16_W4_S2",
+      "source": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/attention_kernel_aligned_repaired.py",
+      "source_sha256": "365cda104f62655345ad002a7d2815fba0d3c812e20c5a569e9b0214c92c85ea",
+      "shape": [
+        2,
+        3,
+        1,
+        16
+      ],
+      "signature": {
+        "Q": "*bf16",
+        "K": "*bf16",
+        "V": "*bf16",
+        "B0": "*bf16",
+        "sm_scale": "fp32",
+        "Out": "*bf16",
+        "stride_qz": "i32",
+        "stride_qh": "i32",
+        "stride_qm": "i32",
+        "stride_qk": "constexpr",
+        "stride_kz": "i32",
+        "stride_kh": "i32",
+        "stride_kn": "i32",
+        "stride_kk": "constexpr",
+        "stride_vz": "i32",
+        "stride_vh": "i32",
+        "stride_vk": "i32",
+        "stride_vn": "constexpr",
+        "stride_oz": "i32",
+        "stride_oh": "i32",
+        "stride_om": "i32",
+        "stride_on": "constexpr",
+        "stride_b0z": "i32",
+        "stride_b0h": "i32",
+        "stride_b0m": "i32",
+        "Z": "i32",
+        "H": "i32",
+        "N_CTX": "constexpr",
+        "P_SEQ": "i32",
+        "OUT_DTYPE": "constexpr",
+        "BIAS_LAST_SIZE": "constexpr",
+        "B0_NUMEL": "constexpr",
+        "BLOCK_DMODEL": "constexpr",
+        "BLOCK_M": "constexpr",
+        "BLOCK_N": "constexpr"
+      },
+      "constants": {
+        "stride_qk": "1",
+        "stride_kk": "1",
+        "stride_vn": "1",
+        "stride_on": "1",
+        "N_CTX": "1",
+        "OUT_DTYPE": "bf16",
+        "BIAS_LAST_SIZE": "64",
+        "B0_NUMEL": "128",
+        "BLOCK_DMODEL": "16",
+        "BLOCK_M": "16",
+        "BLOCK_N": "16"
+      },
+      "attrs": {
+        "(0,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(1,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(2,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(3,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(5,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(6,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(7,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(8,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(9,)": [],
+        "(10,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(11,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(12,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(13,)": [],
+        "(14,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(15,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(16,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(17,)": [],
+        "(18,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(19,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(20,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(21,)": [],
+        "(22,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(23,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(24,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(25,)": [],
+        "(26,)": [],
+        "(27,)": [],
+        "(28,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(29,)": [],
+        "(30,)": [],
+        "(31,)": [],
+        "(32,)": [],
+        "(33,)": [],
+        "(34,)": []
+      },
+      "requested_options": {
+        "num_warps": 4,
+        "num_stages": 2,
+        "enable_fp_fusion": true
+      },
+      "actual_JIT_signature_binder": true,
+      "descriptor_device": "CPU descriptor used for offline CUDA target compilation",
+      "status": "compiled",
+      "artifacts": {
+        "ttir": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/kernel-evidence/binder-artifacts/bfloat16_N1_D16_M16_K16_W4_S2.ttir",
+          "sha256": "481ca70024f8ae22d10dcd3110cee3d8fa22fca02ae9ba59200659e981017ed1"
+        },
+        "ttgir": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/kernel-evidence/binder-artifacts/bfloat16_N1_D16_M16_K16_W4_S2.ttgir",
+          "sha256": "eee5e35e6d505d53694431f5869eb0ddd6fca0bcf1ad2fc19ae2b55e55977b2f"
+        },
+        "llir": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/kernel-evidence/binder-artifacts/bfloat16_N1_D16_M16_K16_W4_S2.llir",
+          "sha256": "45460a983e3ad8302400b6ccc3d32fcca33013a48a2820080850ecf36f16b2a1"
+        },
+        "ptx": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/kernel-evidence/binder-artifacts/bfloat16_N1_D16_M16_K16_W4_S2.ptx",
+          "sha256": "4ef689bd3997194f9bfb57550d63af9eaa105792b1ba906b38eb1d4f9cb4cbd8"
+        }
+      },
+      "metadata": {
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "arch": "sm80",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "deprecated_fp8_dot_operand_dtypes": [],
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "c1d3748dca1702b6e6e5bf9c92741cdfa7cbaebdfc38c2d36a2528d385899493",
+        "instrumentation_mode": "",
+        "ir_override": null,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 0,
+        "maxnreg": null,
+        "name": "_fwd_kernel_aligned_bf16",
+        "num_ctas": 1,
+        "num_stages": 2,
+        "num_warps": 4,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "ptx_options": null,
+        "ptx_version": null,
+        "sanitize_overflow": true,
+        "shared": 1568,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e5"
+        ],
+        "target": "GPUTarget(backend='cuda', arch=80, warp_size=32)",
+        "tensordesc_meta": [],
+        "tmem_size": 0,
+        "triton_version": "3.7.1",
+        "warp_size": 32
+      }
+    },
+    {
+      "name": "bfloat16_N65_D128_M64_K64_W4_S2",
+      "source": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/attention_kernel_aligned_repaired.py",
+      "source_sha256": "365cda104f62655345ad002a7d2815fba0d3c812e20c5a569e9b0214c92c85ea",
+      "shape": [
+        2,
+        3,
+        65,
+        128
+      ],
+      "signature": {
+        "Q": "*bf16",
+        "K": "*bf16",
+        "V": "*bf16",
+        "B0": "*bf16",
+        "sm_scale": "fp32",
+        "Out": "*bf16",
+        "stride_qz": "i32",
+        "stride_qh": "i32",
+        "stride_qm": "i32",
+        "stride_qk": "constexpr",
+        "stride_kz": "i32",
+        "stride_kh": "i32",
+        "stride_kn": "i32",
+        "stride_kk": "constexpr",
+        "stride_vz": "i32",
+        "stride_vh": "i32",
+        "stride_vk": "i32",
+        "stride_vn": "constexpr",
+        "stride_oz": "i32",
+        "stride_oh": "i32",
+        "stride_om": "i32",
+        "stride_on": "constexpr",
+        "stride_b0z": "i32",
+        "stride_b0h": "i32",
+        "stride_b0m": "i32",
+        "Z": "i32",
+        "H": "i32",
+        "N_CTX": "i32",
+        "P_SEQ": "i32",
+        "OUT_DTYPE": "constexpr",
+        "BIAS_LAST_SIZE": "constexpr",
+        "B0_NUMEL": "constexpr",
+        "BLOCK_DMODEL": "constexpr",
+        "BLOCK_M": "constexpr",
+        "BLOCK_N": "constexpr"
+      },
+      "constants": {
+        "stride_qk": "1",
+        "stride_kk": "1",
+        "stride_vn": "1",
+        "stride_on": "1",
+        "OUT_DTYPE": "bf16",
+        "BIAS_LAST_SIZE": "64",
+        "B0_NUMEL": "128",
+        "BLOCK_DMODEL": "128",
+        "BLOCK_M": "64",
+        "BLOCK_N": "64"
+      },
+      "attrs": {
+        "(0,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(1,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(2,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(3,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(5,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(6,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(7,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(8,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(9,)": [],
+        "(10,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(11,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(12,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(13,)": [],
+        "(14,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(15,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(16,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(17,)": [],
+        "(18,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(19,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(20,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(21,)": [],
+        "(22,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(23,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(24,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(25,)": [],
+        "(26,)": [],
+        "(27,)": [],
+        "(28,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(29,)": [],
+        "(30,)": [],
+        "(31,)": [],
+        "(32,)": [],
+        "(33,)": [],
+        "(34,)": []
+      },
+      "requested_options": {
+        "num_warps": 4,
+        "num_stages": 2,
+        "enable_fp_fusion": true
+      },
+      "actual_JIT_signature_binder": true,
+      "descriptor_device": "CPU descriptor used for offline CUDA target compilation",
+      "status": "compiled",
+      "artifacts": {
+        "ttir": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/kernel-evidence/binder-artifacts/bfloat16_N65_D128_M64_K64_W4_S2.ttir",
+          "sha256": "803e09eb0290abd42c59321d5f80f164d94330688840dd6c6d306e4446c1cf59"
+        },
+        "ttgir": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/kernel-evidence/binder-artifacts/bfloat16_N65_D128_M64_K64_W4_S2.ttgir",
+          "sha256": "31bf5463319858f91c521a5806d29c98b1a6da759a11e5cab315842fa53429fc"
+        },
+        "llir": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/kernel-evidence/binder-artifacts/bfloat16_N65_D128_M64_K64_W4_S2.llir",
+          "sha256": "2cdcd4ae9f3ec2a131d7a6670508ec45f249995e59c651e3acf4e818ec947a83"
+        },
+        "ptx": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/kernel-evidence/binder-artifacts/bfloat16_N65_D128_M64_K64_W4_S2.ptx",
+          "sha256": "4a15219277146093eae62a6e4274d0e2ea7153a107beb1739eea5e4ad7de9295"
+        }
+      },
+      "metadata": {
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "arch": "sm80",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "deprecated_fp8_dot_operand_dtypes": [],
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "fcc072980cf2860e6ed98539fd8fde1170038638100777b1b2d6b374cb35d190",
+        "instrumentation_mode": "",
+        "ir_override": null,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 0,
+        "maxnreg": null,
+        "name": "_fwd_kernel_aligned_bf16",
+        "num_ctas": 1,
+        "num_stages": 2,
+        "num_warps": 4,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "ptx_options": null,
+        "ptx_version": null,
+        "sanitize_overflow": true,
+        "shared": 57344,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e5"
+        ],
+        "target": "GPUTarget(backend='cuda', arch=80, warp_size=32)",
+        "tensordesc_meta": [],
+        "tmem_size": 0,
+        "triton_version": "3.7.1",
+        "warp_size": 32
+      }
+    },
+    {
+      "name": "bfloat16_N128_D128_M64_K64_W8_S4",
+      "source": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/attention_kernel_aligned_repaired.py",
+      "source_sha256": "365cda104f62655345ad002a7d2815fba0d3c812e20c5a569e9b0214c92c85ea",
+      "shape": [
+        2,
+        3,
+        128,
+        128
+      ],
+      "signature": {
+        "Q": "*bf16",
+        "K": "*bf16",
+        "V": "*bf16",
+        "B0": "*bf16",
+        "sm_scale": "fp32",
+        "Out": "*bf16",
+        "stride_qz": "i32",
+        "stride_qh": "i32",
+        "stride_qm": "i32",
+        "stride_qk": "constexpr",
+        "stride_kz": "i32",
+        "stride_kh": "i32",
+        "stride_kn": "i32",
+        "stride_kk": "constexpr",
+        "stride_vz": "i32",
+        "stride_vh": "i32",
+        "stride_vk": "i32",
+        "stride_vn": "constexpr",
+        "stride_oz": "i32",
+        "stride_oh": "i32",
+        "stride_om": "i32",
+        "stride_on": "constexpr",
+        "stride_b0z": "i32",
+        "stride_b0h": "i32",
+        "stride_b0m": "i32",
+        "Z": "i32",
+        "H": "i32",
+        "N_CTX": "i32",
+        "P_SEQ": "i32",
+        "OUT_DTYPE": "constexpr",
+        "BIAS_LAST_SIZE": "constexpr",
+        "B0_NUMEL": "constexpr",
+        "BLOCK_DMODEL": "constexpr",
+        "BLOCK_M": "constexpr",
+        "BLOCK_N": "constexpr"
+      },
+      "constants": {
+        "stride_qk": "1",
+        "stride_kk": "1",
+        "stride_vn": "1",
+        "stride_on": "1",
+        "OUT_DTYPE": "bf16",
+        "BIAS_LAST_SIZE": "64",
+        "B0_NUMEL": "128",
+        "BLOCK_DMODEL": "128",
+        "BLOCK_M": "64",
+        "BLOCK_N": "64"
+      },
+      "attrs": {
+        "(0,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(1,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(2,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(3,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(5,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(6,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(7,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(8,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(9,)": [],
+        "(10,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(11,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(12,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(13,)": [],
+        "(14,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(15,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(16,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(17,)": [],
+        "(18,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(19,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(20,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(21,)": [],
+        "(22,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(23,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(24,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(25,)": [],
+        "(26,)": [],
+        "(27,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(28,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(29,)": [],
+        "(30,)": [],
+        "(31,)": [],
+        "(32,)": [],
+        "(33,)": [],
+        "(34,)": []
+      },
+      "requested_options": {
+        "num_warps": 8,
+        "num_stages": 4,
+        "enable_fp_fusion": true
+      },
+      "actual_JIT_signature_binder": true,
+      "descriptor_device": "CPU descriptor used for offline CUDA target compilation",
+      "status": "compiled",
+      "artifacts": {
+        "ttir": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/kernel-evidence/binder-artifacts/bfloat16_N128_D128_M64_K64_W8_S4.ttir",
+          "sha256": "a55ed97652a22a4d7d1eda74dfc70f9f11e5ec71dd1747892cbe9bcc1f096f84"
+        },
+        "ttgir": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/kernel-evidence/binder-artifacts/bfloat16_N128_D128_M64_K64_W8_S4.ttgir",
+          "sha256": "70a82ff2b405307859ca4439b8a51ab4ed553f6172ba1b9f9be5a6996b7b5c17"
+        },
+        "llir": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/kernel-evidence/binder-artifacts/bfloat16_N128_D128_M64_K64_W8_S4.llir",
+          "sha256": "65f9877a6caec6f33b97d11e521fdd26f4b7b85beb39fcbe6c63a4cf1e228238"
+        },
+        "ptx": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/kernel-evidence/binder-artifacts/bfloat16_N128_D128_M64_K64_W8_S4.ptx",
+          "sha256": "e8b61513c4750bfc333a7f2246d60b57410c544153f4b93bc84e7a1ba6fcdd41"
+        }
+      },
+      "metadata": {
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "arch": "sm80",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "deprecated_fp8_dot_operand_dtypes": [],
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "c64fb807b10d5e900c6adf8af44d35c23d3a95d241ac6e3eb282e5011f4d57ed",
+        "instrumentation_mode": "",
+        "ir_override": null,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 0,
+        "maxnreg": null,
+        "name": "_fwd_kernel_aligned_bf16",
+        "num_ctas": 1,
+        "num_stages": 4,
+        "num_warps": 8,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "ptx_options": null,
+        "ptx_version": null,
+        "sanitize_overflow": true,
+        "shared": 122880,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e5"
+        ],
+        "target": "GPUTarget(backend='cuda', arch=80, warp_size=32)",
+        "tensordesc_meta": [],
+        "tmem_size": 0,
+        "triton_version": "3.7.1",
+        "warp_size": 32
+      }
+    },
+    {
+      "name": "bfloat16_N97_D32_M32_K128_W4_S2",
+      "source": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/attention_kernel_aligned_repaired.py",
+      "source_sha256": "365cda104f62655345ad002a7d2815fba0d3c812e20c5a569e9b0214c92c85ea",
+      "shape": [
+        2,
+        3,
+        97,
+        32
+      ],
+      "signature": {
+        "Q": "*bf16",
+        "K": "*bf16",
+        "V": "*bf16",
+        "B0": "*bf16",
+        "sm_scale": "fp32",
+        "Out": "*bf16",
+        "stride_qz": "i32",
+        "stride_qh": "i32",
+        "stride_qm": "i32",
+        "stride_qk": "constexpr",
+        "stride_kz": "i32",
+        "stride_kh": "i32",
+        "stride_kn": "i32",
+        "stride_kk": "constexpr",
+        "stride_vz": "i32",
+        "stride_vh": "i32",
+        "stride_vk": "i32",
+        "stride_vn": "constexpr",
+        "stride_oz": "i32",
+        "stride_oh": "i32",
+        "stride_om": "i32",
+        "stride_on": "constexpr",
+        "stride_b0z": "i32",
+        "stride_b0h": "i32",
+        "stride_b0m": "i32",
+        "Z": "i32",
+        "H": "i32",
+        "N_CTX": "i32",
+        "P_SEQ": "i32",
+        "OUT_DTYPE": "constexpr",
+        "BIAS_LAST_SIZE": "constexpr",
+        "B0_NUMEL": "constexpr",
+        "BLOCK_DMODEL": "constexpr",
+        "BLOCK_M": "constexpr",
+        "BLOCK_N": "constexpr"
+      },
+      "constants": {
+        "stride_qk": "1",
+        "stride_kk": "1",
+        "stride_vn": "1",
+        "stride_on": "1",
+        "OUT_DTYPE": "bf16",
+        "BIAS_LAST_SIZE": "64",
+        "B0_NUMEL": "128",
+        "BLOCK_DMODEL": "32",
+        "BLOCK_M": "32",
+        "BLOCK_N": "128"
+      },
+      "attrs": {
+        "(0,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(1,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(2,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(3,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(5,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(6,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(7,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(8,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(9,)": [],
+        "(10,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(11,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(12,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(13,)": [],
+        "(14,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(15,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(16,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(17,)": [],
+        "(18,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(19,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(20,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(21,)": [],
+        "(22,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(23,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(24,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(25,)": [],
+        "(26,)": [],
+        "(27,)": [],
+        "(28,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(29,)": [],
+        "(30,)": [],
+        "(31,)": [],
+        "(32,)": [],
+        "(33,)": [],
+        "(34,)": []
+      },
+      "requested_options": {
+        "num_warps": 4,
+        "num_stages": 2,
+        "enable_fp_fusion": true
+      },
+      "actual_JIT_signature_binder": true,
+      "descriptor_device": "CPU descriptor used for offline CUDA target compilation",
+      "status": "compiled",
+      "artifacts": {
+        "ttir": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/kernel-evidence/binder-artifacts/bfloat16_N97_D32_M32_K128_W4_S2.ttir",
+          "sha256": "2f68bb7889bab5e35fa75cd7e520b44bfd9f193aa31dd931194057612bfa2f68"
+        },
+        "ttgir": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/kernel-evidence/binder-artifacts/bfloat16_N97_D32_M32_K128_W4_S2.ttgir",
+          "sha256": "ff033e6ff31f546c8a8dabcdee08143b7b34717a4ede8008adac064224b60312"
+        },
+        "llir": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/kernel-evidence/binder-artifacts/bfloat16_N97_D32_M32_K128_W4_S2.llir",
+          "sha256": "9469a67d56fc74b5395bb34af1c292a321135a31ed3a72d6c6c56a0b7ec461b2"
+        },
+        "ptx": {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/kernel-evidence/binder-artifacts/bfloat16_N97_D32_M32_K128_W4_S2.ptx",
+          "sha256": "e0f29ba831960ee06d6214106f872ca80a93fefbabad6672357f9b1a1cb6bb47"
+        }
+      },
+      "metadata": {
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "arch": "sm80",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "deprecated_fp8_dot_operand_dtypes": [],
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "d555f1e79eda9f39bfd548902fa79ba345cca52f1a55ec9399c37881ec9297a0",
+        "instrumentation_mode": "",
+        "ir_override": null,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 0,
+        "maxnreg": null,
+        "name": "_fwd_kernel_aligned_bf16",
+        "num_ctas": 1,
+        "num_stages": 2,
+        "num_warps": 4,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "ptx_options": null,
+        "ptx_version": null,
+        "sanitize_overflow": true,
+        "shared": 18496,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e5"
+        ],
+        "target": "GPUTarget(backend='cuda', arch=80, warp_size=32)",
+        "tensordesc_meta": [],
+        "tmem_size": 0,
+        "triton_version": "3.7.1",
+        "warp_size": 32
+      }
+    }
+  ]
+}

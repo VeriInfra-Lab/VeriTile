@@ -1,0 +1,26 @@
+VeriTile.Bench.Repairs.AttentionKernel.KernelContract.accepted_iff: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernel.KernelContract.InputContract: definition does not reference [VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.AttentionKernel.Whole001.Whole.runPrograms] — non-circular ✓
+{"module": "bench/repairs/tritonbench_g/attention_kernel/Contract.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel/Contract.olean"}
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/Correct.lean:13:23: error: typeclass instance problem is stuck
+  Inhabited ?m.5
+
+Note: Lean will not try to resolve this typeclass instance problem because the type argument to `Inhabited` is a metavariable. This argument must be fully determined before Lean will try to resolve the typeclass.
+
+Hint: Adding type annotations and supplying implicit arguments to functions can give Lean more information for typeclass resolution. For example, if you have a variable `x` that you intend to be a `Nat`, but Lean reports it as having an unresolved type like `?m`, replacing `x` with `(x : Nat)` can get typeclass resolution un-stuck.
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/Correct.lean:20:51: warning: unused variable `hd`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.Repairs.AttentionKernel.Correct.target: definition does not reference [VeriTile.Bench.Repairs.AttentionKernel.Whole001.Physical.invoke,
+ VeriTile.Bench.Repairs.AttentionKernel.Whole001.Whole.invoke,
+ VeriTile.Bench.Repairs.AttentionKernel.Whole001.Whole.answer,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.Repairs.AttentionKernel.Correct.attention_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernel.Correct.kernel_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/Correct.lean:34:13: error(lean.unknownIdentifier): Unknown constant `empty_kernel`

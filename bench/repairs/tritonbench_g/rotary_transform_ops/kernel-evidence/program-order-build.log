@@ -1,0 +1,4 @@
+VeriTile.Bench.Repairs.RotaryTransformOps.sourcePrograms_order: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/repairs/tritonbench_g/rotary_transform_ops/Proofs/ProgramOrder.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/rotary_transform_ops/Proofs/ProgramOrder.olean"}

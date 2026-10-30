@@ -520,7 +520,7 @@ theorem rope_embedding_backward_first_half_correct
     · by_cases hHead : s.pids 1 * ROPE_GROUP_SIZE < n_heads
       · simp [active, ropeBackwardFirstSpec, qFirstOffset, qSecondOffset, cosOffset,
               sinOffset, rowMod, headStart, colIndex, hCol, hHead,
-              Option.map₂, Option.bind, Option.map]
+              Option.map₂, Option.bind, Option.map, WithBot.map] <;> norm_num
       · simp [active, headStart, colIndex, hCol, hHead]
     · simp [active, headStart, colIndex, hCol]
   · exact False.elim (hBS (Nat.lt_of_le_of_lt (Nat.zero_le _) i.isLt))
@@ -570,7 +570,7 @@ theorem rope_embedding_backward_second_half_correct
     · by_cases hHead : s.pids 1 * ROPE_GROUP_SIZE < n_heads
       · simp [active, ropeBackwardSecondSpec, qFirstOffset, qSecondOffset, cosOffset,
               sinOffset, rowMod, headStart, colIndex, hCol, hHead,
-              Option.map₂, Option.bind, Option.map]
+              Option.map₂, Option.bind, Option.map, WithBot.map] <;> norm_num
       · simp [active, headStart, colIndex, hCol, hHead]
     · simp [active, headStart, colIndex, hCol]
   · exact False.elim (hBS (Nat.lt_of_le_of_lt (Nat.zero_le _) i.isLt))
@@ -1104,7 +1104,7 @@ theorem bwd_first_flattenOk (Q cos sin : RegionName)
       ROPE_GROUP_SIZE BLOCK_SIZE).toAlgKernel).FlattenOk := by
   unfold Kernel.FlattenOk
   simp [rope_embedding_backward_first_half, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
-    ComputeOp.toAlgorithm?, StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk]
+    ComputeOp.toAlgorithm?, StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk, Op.FlattenOk.eq_def]
 
 /-- Termination of `rope_embedding_backward_first_half`. -/
 theorem bwd_first_terminates (Q cos sin : RegionName)
@@ -1162,7 +1162,7 @@ theorem bwd_first_traceSafe (Q cos sin : RegionName)
     ((rope_embedding_backward_first_half Q cos sin Q_row_stride cos_row_stride sin_row_stride seqlen head_dim n_heads
       ROPE_GROUP_SIZE BLOCK_SIZE).toAlgKernel).TraceSafe bounds s := by
   simp [Kernel.TraceSafe, rope_embedding_backward_first_half, Stmt.TraceSafeList, Stmt.TraceSafe,
-    Op.SafeAt, MaskOpt.SafeAt, MaskOpt.Active, MaskOpt.MemorySafe,
+    Op.SafeAt, Op.SafeAt.eq_def, MaskOpt.SafeAt, MaskOpt.Active, MaskOpt.MemorySafe,
     MemAccess.SafeAt, MemAccess.MemorySafe, memAccessMemorySafe,
     MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe,
     Op.PointerAddressesSafeOn, Op.MemorySafe, stepStmt, evalOp, evalOp.eq_def,
@@ -1266,7 +1266,7 @@ theorem bwd_second_flattenOk (Q cos sin : RegionName)
       ROPE_GROUP_SIZE BLOCK_SIZE).toAlgKernel).FlattenOk := by
   unfold Kernel.FlattenOk
   simp [rope_embedding_backward_second_half, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
-    ComputeOp.toAlgorithm?, StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk]
+    ComputeOp.toAlgorithm?, StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk, Op.FlattenOk.eq_def]
 
 /-- Termination of `rope_embedding_backward_second_half`. -/
 theorem bwd_second_terminates (Q cos sin : RegionName)
@@ -1324,7 +1324,7 @@ theorem bwd_second_traceSafe (Q cos sin : RegionName)
     ((rope_embedding_backward_second_half Q cos sin Q_row_stride cos_row_stride sin_row_stride seqlen head_dim n_heads
       ROPE_GROUP_SIZE BLOCK_SIZE).toAlgKernel).TraceSafe bounds s := by
   simp [Kernel.TraceSafe, rope_embedding_backward_second_half, Stmt.TraceSafeList, Stmt.TraceSafe,
-    Op.SafeAt, MaskOpt.SafeAt, MaskOpt.Active, MaskOpt.MemorySafe,
+    Op.SafeAt, Op.SafeAt.eq_def, MaskOpt.SafeAt, MaskOpt.Active, MaskOpt.MemorySafe,
     MemAccess.SafeAt, MemAccess.MemorySafe, memAccessMemorySafe,
     MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe,
     Op.PointerAddressesSafeOn, Op.MemorySafe, stepStmt, evalOp, evalOp.eq_def,

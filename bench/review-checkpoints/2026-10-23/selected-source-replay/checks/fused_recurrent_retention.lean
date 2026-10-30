@@ -1,0 +1,8 @@
+import VeriTile.Meta.StatementAudit
+import bench.repairs.tritonbench_g.fused_recurrent_retention.Contract
+import bench.repairs.tritonbench_g.fused_recurrent_retention.Correct
+import bench.repairs.tritonbench_g.fused_recurrent_retention.FPEquiv
+
+#axiomsClean VeriTile.Bench.Repairs.FusedRecurrentRetention.kernel_forward_real
+#axiomsClean VeriTile.Bench.Repairs.FusedRecurrentRetention.kernel_backward_real
+#axiomsClean VeriTile.Bench.Repairs.FusedRecurrentRetention.compare_right_equiv

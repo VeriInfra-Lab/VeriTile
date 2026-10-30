@@ -1,0 +1,147 @@
+{
+  "composition": "Apply these path replacements to the immutable accepted base. All other base source/evidence pins remain current. Historical base audit records retain their original hashes and are interpreted with this explicit overlay.",
+  "base_frozen_files": {
+    "path": "bench/repairs/tritonbench_g/context_attn_bloom/kernel-evidence/frozen-files.json",
+    "sha256": "9c2cbb796f3e03762d6a9e2ab8550ed887043e02e3d17b8b6ed7b89317d08977"
+  },
+  "base_manifest_replacements": [
+    {
+      "before": {
+        "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/context_attn_bloom/Correct.workspace-build.json",
+        "sha256": "ec309626009d5469dd54b5d4a5c6b692008eeab46774c4c2b1d9398df457fe8f"
+      },
+      "after": {
+        "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/context_attn_bloom/Correct.workspace-build.json",
+        "sha256": "f111afd293dc87bfba6f6604f331e1892992cadb601d36bbe71434da37c58b3b"
+      }
+    },
+    {
+      "before": {
+        "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/context_attn_bloom/FPEquiv.workspace-build.json",
+        "sha256": "3ae80a7d771837fd1d2644cb78f88d8b486ef5d0471dbb5d60697e6caa8b5696"
+      },
+      "after": {
+        "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/context_attn_bloom/FPEquiv.workspace-build.json",
+        "sha256": "436e2a61a88500b016a0088dd6cfb830c4e22a7214a7ed73ed0d13aa536518e9"
+      }
+    },
+    {
+      "before": {
+        "path": "bench/repairs/tritonbench_g/context_attn_bloom/Correct.lean",
+        "sha256": "49626b504305dad8b740299a501563d5a0b3729ca8a4c6f23b8e16ca93253530"
+      },
+      "after": {
+        "path": "bench/repairs/tritonbench_g/context_attn_bloom/Correct.lean",
+        "sha256": "5b951d9cbf77cf6f4b85e9ffd76cbf727239ba57ba88cd08d65ba77c4a73fd1a"
+      }
+    },
+    {
+      "before": {
+        "path": "bench/repairs/tritonbench_g/context_attn_bloom/FPEquiv.lean",
+        "sha256": "9460d6e75770bbc4d43d86bd2bfa2428c5b8c9f525ee701d5b331882fb8f7471"
+      },
+      "after": {
+        "path": "bench/repairs/tritonbench_g/context_attn_bloom/FPEquiv.lean",
+        "sha256": "1acae8b7b742a09f6c42da760b3d1ad56a754d246013670510cafd421d6791c2"
+      }
+    }
+  ],
+  "base_review_object_replacements": [
+    {
+      "before": {
+        "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/context_attn_bloom/Correct.ilean",
+        "sha256": "cad93f42e307b537bd08e11ced992557fbc3ef3cd41226e8326bad4fa16fc2f4"
+      },
+      "after": {
+        "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/context_attn_bloom/Correct.ilean",
+        "sha256": "89ea03f993f2a121edd687760fa689b93919a1a7c02001145dd8a9fd203c4b25"
+      }
+    },
+    {
+      "before": {
+        "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/context_attn_bloom/Correct.olean",
+        "sha256": "2df5e7514bec5d42996c5185a94e428e5924bb2d7325d518a725045f12f6bbcd"
+      },
+      "after": {
+        "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/context_attn_bloom/Correct.olean",
+        "sha256": "083cf288aa245121500899b1e1b30256e39756b78d9e5e1710f7c2ac44b73b44"
+      }
+    },
+    {
+      "before": {
+        "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/context_attn_bloom/FPEquiv.ilean",
+        "sha256": "7e2a810029dc8c5c091e8684344f730ad48a9cec58f958f470aa991b43039ee8"
+      },
+      "after": {
+        "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/context_attn_bloom/FPEquiv.ilean",
+        "sha256": "5546a2affa74c3970d5f35ecc00c1825b874bc286eee0912cfb1d350e5863538"
+      }
+    },
+    {
+      "before": {
+        "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/context_attn_bloom/FPEquiv.olean",
+        "sha256": "d8c028fbb582e6b5d66fc0866960aa78250b5558a8bc1b8d17fff8eaac76b5ab"
+      },
+      "after": {
+        "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/context_attn_bloom/FPEquiv.olean",
+        "sha256": "8c22dc3e2515a29eec9af0978757c120a1af8364c961788369fbb62359ab7fcf"
+      }
+    }
+  ],
+  "unchanged_base_file_pins_verified": 530,
+  "files": [
+    {
+      "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/context_attn_bloom/Correct.ilean",
+      "sha256": "89ea03f993f2a121edd687760fa689b93919a1a7c02001145dd8a9fd203c4b25"
+    },
+    {
+      "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/context_attn_bloom/Correct.olean",
+      "sha256": "083cf288aa245121500899b1e1b30256e39756b78d9e5e1710f7c2ac44b73b44"
+    },
+    {
+      "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/context_attn_bloom/Correct.workspace-build.json",
+      "sha256": "f111afd293dc87bfba6f6604f331e1892992cadb601d36bbe71434da37c58b3b"
+    },
+    {
+      "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/context_attn_bloom/Correct.workspace-owned",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/context_attn_bloom/FPEquiv.ilean",
+      "sha256": "5546a2affa74c3970d5f35ecc00c1825b874bc286eee0912cfb1d350e5863538"
+    },
+    {
+      "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/context_attn_bloom/FPEquiv.olean",
+      "sha256": "8c22dc3e2515a29eec9af0978757c120a1af8364c961788369fbb62359ab7fcf"
+    },
+    {
+      "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/context_attn_bloom/FPEquiv.workspace-build.json",
+      "sha256": "436e2a61a88500b016a0088dd6cfb830c4e22a7214a7ed73ed0d13aa536518e9"
+    },
+    {
+      "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/context_attn_bloom/FPEquiv.workspace-owned",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".veritile-cache/task-deliveries/context_attn_bloom/freeze_standard_entries.py",
+      "sha256": "86cdcc9934a058bcfda11fb512253aea69d5804669c8332c770ecd7b7cb9a12e"
+    },
+    {
+      "path": ".veritile-cache/task-deliveries/context_attn_bloom/standard-entry-build.log",
+      "sha256": "bbfb57c73affcb60290bed74f05fc532a50069e0ea7169351d39000ac59bcb78"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/Correct.lean",
+      "sha256": "5b951d9cbf77cf6f4b85e9ffd76cbf727239ba57ba88cd08d65ba77c4a73fd1a"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/FPEquiv.lean",
+      "sha256": "1acae8b7b742a09f6c42da760b3d1ad56a754d246013670510cafd421d6791c2"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/kernel-evidence/standard-entry-links.json",
+      "sha256": "fe04a135c8f3c6efcdad8e8087e1275fcd25a376f2a7241db5b85b2cca5e9b8d"
+    }
+  ],
+  "file_count": 13
+}

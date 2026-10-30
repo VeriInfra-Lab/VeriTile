@@ -1,0 +1,15 @@
+{
+  "original_sha256": "8571cb56ce932af6a7dd68e4047ee0863984812ac303d0d2959fc544a65e9958",
+  "candidate_sha256": "dbf52f619ca6e418ef690741e8b8a5f509de2cea4aeee3c1abe71f29179f3930",
+  "accepted_candidate_sha256": "e90a23b8d5b9f440c198683e6fb6b5b39ce4d7ca7daf888d5282bb189e826ab1",
+  "conversion_and_kernel_ast_unchanged": true,
+  "gpu_execution": false,
+  "accepted_host_body_unchanged_after_seven_admission_checks": true,
+  "accepted_host_body_identity_status": "historical pre-device-context candidate; selected host retains the subsequent owning-device context correction",
+  "logical_negative_view_rejected": true,
+  "selected_source_sha256": "70f10f7ab112fd50f29511e24c8dac26374d51e3ea8bb6dc769e899bdc6d22be",
+  "candidate_sha256_status": "historical revision before owning-device context correction",
+  "current_kernel_proof_scope": "complete selected Python helper and caller pasted verbatim; actual execution, full memory/IO and complete schedule refinement with native signed64 address certificates",
+  "body_correspondence_manifest": "jit-correspondence.json",
+  "body_source_status": "unchanged selected repaired Python; original benchmark signed-int32 defect remains separate"
+}

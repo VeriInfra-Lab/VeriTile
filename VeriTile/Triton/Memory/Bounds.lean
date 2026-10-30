@@ -66,16 +66,28 @@ def Op.MemorySafe (bounds : RegionBounds) : Op dtype shape → Prop
   | .numPrograms _ => True
   | .ref _ _ _ => True
   | .arange _ => True
+  | .philox4x32 _ _ _ seed c0 c1 c2 c3 =>
+      seed.MemorySafe bounds ∧ c0.MemorySafe bounds ∧ c1.MemorySafe bounds ∧ c2.MemorySafe bounds ∧ c3.MemorySafe bounds
+  | .uniform32 word => word.MemorySafe bounds
+  | .rand _ seed offsets => seed.MemorySafe bounds ∧ offsets.MemorySafe bounds
+  | .randTensor _ seed offsets => seed.MemorySafe bounds ∧ offsets.MemorySafe bounds
   | .broadcast e _ => e.MemorySafe bounds
   | .full _ e => e.MemorySafe bounds
+  | .withPrecision _ _ e => e.MemorySafe bounds
   | .castFloat _ _ e => e.MemorySafe bounds
   | .castNatToInt e => e.MemorySafe bounds
+  | .negFloat _ e => e.MemorySafe bounds
+  | .absFloat _ e => e.MemorySafe bounds
+  | .floatToInt _ _ _ e => e.MemorySafe bounds
+  | .floatToNat _ _ _ e => e.MemorySafe bounds
   | .castIntToNat e => e.MemorySafe bounds
   | .castRealToInt8 e => e.MemorySafe bounds
+  | .decodeFloat8E5 _ e => e.MemorySafe bounds
   | .add _ _ a b => a.MemorySafe bounds ∧ b.MemorySafe bounds
   | .sub _ _ a b => a.MemorySafe bounds ∧ b.MemorySafe bounds
   | .mul _ _ a b => a.MemorySafe bounds ∧ b.MemorySafe bounds
   | .div _ _ a b => a.MemorySafe bounds ∧ b.MemorySafe bounds
+  | .divRN _ a b => a.MemorySafe bounds ∧ b.MemorySafe bounds
   | .floorDiv _ _ a b => a.MemorySafe bounds ∧ b.MemorySafe bounds
   | .mod _ _ a b => a.MemorySafe bounds ∧ b.MemorySafe bounds
   | .bitAnd _ a b => a.MemorySafe bounds ∧ b.MemorySafe bounds
@@ -84,12 +96,18 @@ def Op.MemorySafe (bounds : RegionBounds) : Op dtype shape → Prop
   | .shiftLeft _ a b => a.MemorySafe bounds ∧ b.MemorySafe bounds
   | .shiftRight _ a b => a.MemorySafe bounds ∧ b.MemorySafe bounds
   | .exp a => a.MemorySafe bounds
+  | .libdeviceExp a => a.MemorySafe bounds
+  | .libdeviceLog a => a.MemorySafe bounds
+  | .libdeviceExpm1 a => a.MemorySafe bounds
+  | .libdeviceTanh a => a.MemorySafe bounds
+  | .libdeviceLog1p a => a.MemorySafe bounds
   | .exp2 a => a.MemorySafe bounds
   | .log a => a.MemorySafe bounds
   | .log2 a => a.MemorySafe bounds
   | .sigmoid a => a.MemorySafe bounds
   | .sqrt a => a.MemorySafe bounds
   | .rsqrt a => a.MemorySafe bounds
+  | .libdeviceRsqrt a => a.MemorySafe bounds
   | .tanh a => a.MemorySafe bounds
   | .sin a => a.MemorySafe bounds
   | .cos a => a.MemorySafe bounds
@@ -98,6 +116,7 @@ def Op.MemorySafe (bounds : RegionBounds) : Op dtype shape → Prop
   | .cosh a => a.MemorySafe bounds
   | .sinh a => a.MemorySafe bounds
   | .erf a => a.MemorySafe bounds
+  | .minPosInf a => a.MemorySafe bounds
   | .lt _ _ a b => a.MemorySafe bounds ∧ b.MemorySafe bounds
   | .le _ _ a b => a.MemorySafe bounds ∧ b.MemorySafe bounds
   | .eq _ _ a b => a.MemorySafe bounds ∧ b.MemorySafe bounds
@@ -108,18 +127,31 @@ def Op.MemorySafe (bounds : RegionBounds) : Op dtype shape → Prop
   | .boolOr _ a b => a.MemorySafe bounds ∧ b.MemorySafe bounds
   | .boolNot a => a.MemorySafe bounds
   | .max2 _ a b => a.MemorySafe bounds ∧ b.MemorySafe bounds
+  | .maximumFloat _ _ a b => a.MemorySafe bounds ∧ b.MemorySafe bounds
+  | .minimumFloat _ _ a b => a.MemorySafe bounds ∧ b.MemorySafe bounds
   | .pow _ a b => a.MemorySafe bounds ∧ b.MemorySafe bounds
+  | .libdevicePowi _ a b => a.MemorySafe bounds ∧ b.MemorySafe bounds
   | .where c a b => c.MemorySafe bounds ∧ a.MemorySafe bounds ∧ b.MemorySafe bounds
   | .ite c a b => c.MemorySafe bounds ∧ a.MemorySafe bounds ∧ b.MemorySafe bounds
+  | .reduceMin _ _ a => a.MemorySafe bounds
   | .reduceMax _ _ a => a.MemorySafe bounds
   | .reduceMaxNat _ _ a => a.MemorySafe bounds
+  | .reduceMaxInt _ _ a => a.MemorySafe bounds
   | .reduceSum _ _ a => a.MemorySafe bounds
+  | .reduceSumBool _ _ a => a.MemorySafe bounds
+  | .reduceSumTyped _ _ _ a => a.MemorySafe bounds
+  | .reduceMaxTyped _ _ _ a => a.MemorySafe bounds
   | .scan _ _ _ a => a.MemorySafe bounds
   | .argMax _ a => a.MemorySafe bounds
+  | .argMaxInt _ a => a.MemorySafe bounds
+  | .argMaxTyped _ _ a _ => a.MemorySafe bounds
+  | .indexedMaxValue _ _ a => a.MemorySafe bounds
   | .argMin _ a => a.MemorySafe bounds
   | .sort _ a => a.MemorySafe bounds
-  | .dot a b => a.MemorySafe bounds ∧ b.MemorySafe bounds
-  | .dotInt a b => a.MemorySafe bounds ∧ b.MemorySafe bounds
+  | .dot a b _ => a.MemorySafe bounds ∧ b.MemorySafe bounds
+  | .dotAcc _ _ _ a b acc _ => a.MemorySafe bounds ∧ b.MemorySafe bounds ∧ acc.MemorySafe bounds
+  | .dotTyped _ _ _ a b _ => a.MemorySafe bounds ∧ b.MemorySafe bounds
+  | .dotInt a b _ => a.MemorySafe bounds ∧ b.MemorySafe bounds
   | .transpose a => a.MemorySafe bounds
   | .reshape _ a => a.MemorySafe bounds
   | .remap _ _ a => a.MemorySafe bounds
@@ -134,7 +166,9 @@ def Op.MemorySafe (bounds : RegionBounds) : Op dtype shape → Prop
   | .makeBlockPtrDynOffsets _ base _ _ _ offsets =>
       base.MemorySafe bounds ∧ ∀ off ∈ offsets, off.MemorySafe bounds
   | .advanceBlockPtr ptr _ => ptr.MemorySafe bounds
-  | .load _ mem mask =>
+  | .advanceBlockPtrDyn ptr deltas =>
+      ptr.MemorySafe bounds ∧ ∀ delta ∈ deltas, delta.MemorySafe bounds
+  | .load _ mem mask padding =>
       (match mem with
         | .region _ off => off.MemorySafe bounds
         | .ptr ptr => ptr.MemorySafe bounds
@@ -258,6 +292,12 @@ def MemorySafe (bounds : RegionBounds) : Stmt → Prop
   | .forRangeDyn _ start stop step body =>
       start.MemorySafe bounds ∧ stop.MemorySafe bounds ∧ step.MemorySafe bounds ∧
         MemorySafeList bounds body
+  | .forRangeInt _ start stop step body =>
+      start.MemorySafe bounds ∧ stop.MemorySafe bounds ∧ step.MemorySafe bounds ∧
+        MemorySafeList bounds body
+  -- The legacy flattening contracts do not yet cover unbounded control flow.
+  -- Structural FP/Real execution uses Safety.stepSafe's reachable-state rule.
+  | .whileLoop _ _ => False
   | .ifThen cond body => cond.MemorySafe bounds ∧ MemorySafeList bounds body
   | .ifThenElse cond thenBody elseBody =>
       cond.MemorySafe bounds ∧

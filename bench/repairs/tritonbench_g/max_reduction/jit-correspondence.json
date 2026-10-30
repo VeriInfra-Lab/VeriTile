@@ -1,0 +1,256 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/max_reduction/max_reduction_repaired.py",
+    "python_function": "max_kernel_1",
+    "lean": "bench/repairs/tritonbench_g/max_reduction/Kernels.lean",
+    "lean_definition": "stage1",
+    "signature_definition": "stage1Signature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "inp",
+          "fp32"
+        ],
+        [
+          "mid",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "inp"
+      ],
+      "writePorts": [
+        "mid"
+      ]
+    },
+    "expected_call_bindings": {
+      "M": "M"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/max_reduction/candidate_kernels.py",
+    "python_function": "max_stage1_commuted",
+    "lean": "bench/repairs/tritonbench_g/max_reduction/Kernels.lean",
+    "lean_definition": "stage1Commuted",
+    "signature_definition": "stage1Signature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "inp",
+          "fp32"
+        ],
+        [
+          "mid",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "inp"
+      ],
+      "writePorts": [
+        "mid"
+      ]
+    },
+    "expected_call_bindings": {
+      "M": "M"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/max_reduction/max_reduction_repaired.py",
+    "python_function": "max_kernel_2",
+    "lean": "bench/repairs/tritonbench_g/max_reduction/Kernels.lean",
+    "lean_definition": "stage2",
+    "signature_definition": "stage2Signature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "mid",
+          "fp32"
+        ],
+        [
+          "out",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "mid_size",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_MID"
+      ],
+      "readPorts": [
+        "mid"
+      ],
+      "writePorts": [
+        "out"
+      ]
+    },
+    "expected_call_bindings": {
+      "mid_size": "mid_size"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/max_reduction/candidate_kernels.py",
+    "python_function": "max_stage2_complement",
+    "lean": "bench/repairs/tritonbench_g/max_reduction/Kernels.lean",
+    "lean_definition": "stage2Complement",
+    "signature_definition": "stage2Signature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "mid",
+          "fp32"
+        ],
+        [
+          "out",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "mid_size",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_MID"
+      ],
+      "readPorts": [
+        "mid"
+      ],
+      "writePorts": [
+        "out"
+      ]
+    },
+    "expected_call_bindings": {
+      "mid_size": "mid_size"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/max_reduction/max_reduction_repaired.py",
+    "python_function": "max_kernel",
+    "lean": "bench/repairs/tritonbench_g/max_reduction/Kernels.lean",
+    "lean_definition": "dimension",
+    "signature_definition": "dimensionSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "inp",
+          "fp32"
+        ],
+        [
+          "out_value",
+          "fp32"
+        ],
+        [
+          "out_index",
+          "i64"
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "i32"
+        ],
+        [
+          "N",
+          "i32"
+        ],
+        [
+          "K",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_M",
+        "BLOCK_N"
+      ],
+      "readPorts": [
+        "inp"
+      ],
+      "writePorts": [
+        "out_value",
+        "out_index"
+      ]
+    },
+    "expected_call_bindings": {
+      "M": "M",
+      "N": "N",
+      "K": "K"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/max_reduction/candidate_kernels.py",
+    "python_function": "max_dimension_commuted",
+    "lean": "bench/repairs/tritonbench_g/max_reduction/Kernels.lean",
+    "lean_definition": "dimensionCommuted",
+    "signature_definition": "dimensionSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "inp",
+          "fp32"
+        ],
+        [
+          "out_value",
+          "fp32"
+        ],
+        [
+          "out_index",
+          "i64"
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "i32"
+        ],
+        [
+          "N",
+          "i32"
+        ],
+        [
+          "K",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_M",
+        "BLOCK_N"
+      ],
+      "readPorts": [
+        "inp"
+      ],
+      "writePorts": [
+        "out_value",
+        "out_index"
+      ]
+    },
+    "expected_call_bindings": {
+      "M": "M",
+      "N": "N",
+      "K": "K"
+    }
+  }
+]

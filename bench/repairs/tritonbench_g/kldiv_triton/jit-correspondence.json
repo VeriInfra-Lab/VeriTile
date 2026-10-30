@@ -1,0 +1,228 @@
+[
+  {
+    "lean": "bench/repairs/tritonbench_g/kldiv_triton/Kernels.lean",
+    "lean_definition": "forwardTemplate",
+    "python": "bench/repairs/tritonbench_g/kldiv_triton/kldiv_triton_repaired.py",
+    "python_function": "_kldiv_kernel_forward_repaired",
+    "signature_definition": "forwardSignature",
+    "expected_call_bindings": {
+      "y_stride": "y_stride_value",
+      "gt_stride": "gt_stride_value",
+      "loss_stride": "loss_stride_value",
+      "n_cols": "n_cols_value"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "y_ptr",
+          "fp32"
+        ],
+        [
+          "gt_ptr",
+          "fp32"
+        ],
+        [
+          "loss_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "y_stride",
+          "i64"
+        ],
+        [
+          "gt_stride",
+          "i64"
+        ],
+        [
+          "loss_stride",
+          "i64"
+        ],
+        [
+          "n_cols",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE",
+        "log_target",
+        "reduction"
+      ],
+      "readPorts": [
+        "y_ptr",
+        "gt_ptr"
+      ],
+      "writePorts": [
+        "loss_ptr"
+      ],
+      "sourceConstants": [
+        [
+          "_REDUCTION_MODE_NONE",
+          "0"
+        ]
+      ]
+    }
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/kldiv_triton/Kernels.lean",
+    "lean_definition": "backwardTemplate",
+    "python": "bench/repairs/tritonbench_g/kldiv_triton/kldiv_triton_repaired.py",
+    "python_function": "_kldiv_kernel_backward_repaired",
+    "signature_definition": "backwardSignature",
+    "expected_call_bindings": {
+      "input_stride": "input_stride_value",
+      "target_stride": "target_stride_value",
+      "n_cols": "n_cols_value"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "input_ptr",
+          "fp32"
+        ],
+        [
+          "target_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "input_stride",
+          "i64"
+        ],
+        [
+          "target_stride",
+          "i64"
+        ],
+        [
+          "n_cols",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE",
+        "log_target"
+      ],
+      "readPorts": [
+        "target_ptr"
+      ],
+      "writePorts": [
+        "input_ptr"
+      ]
+    }
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/kldiv_triton/Kernels.lean",
+    "lean_definition": "forwardCandidateTemplate",
+    "python": "bench/repairs/tritonbench_g/kldiv_triton/index_commuted.py",
+    "python_function": "_kldiv_kernel_forward_index_commuted",
+    "signature_definition": "forwardSignature",
+    "expected_call_bindings": {
+      "y_stride": "y_stride_value",
+      "gt_stride": "gt_stride_value",
+      "loss_stride": "loss_stride_value",
+      "n_cols": "n_cols_value"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "y_ptr",
+          "fp32"
+        ],
+        [
+          "gt_ptr",
+          "fp32"
+        ],
+        [
+          "loss_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "y_stride",
+          "i64"
+        ],
+        [
+          "gt_stride",
+          "i64"
+        ],
+        [
+          "loss_stride",
+          "i64"
+        ],
+        [
+          "n_cols",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE",
+        "log_target",
+        "reduction"
+      ],
+      "readPorts": [
+        "y_ptr",
+        "gt_ptr"
+      ],
+      "writePorts": [
+        "loss_ptr"
+      ],
+      "sourceConstants": [
+        [
+          "_REDUCTION_MODE_NONE",
+          "0"
+        ]
+      ]
+    }
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/kldiv_triton/Kernels.lean",
+    "lean_definition": "backwardCandidateTemplate",
+    "python": "bench/repairs/tritonbench_g/kldiv_triton/index_commuted.py",
+    "python_function": "_kldiv_kernel_backward_index_commuted",
+    "signature_definition": "backwardSignature",
+    "expected_call_bindings": {
+      "input_stride": "input_stride_value",
+      "target_stride": "target_stride_value",
+      "n_cols": "n_cols_value"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "input_ptr",
+          "fp32"
+        ],
+        [
+          "target_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "input_stride",
+          "i64"
+        ],
+        [
+          "target_stride",
+          "i64"
+        ],
+        [
+          "n_cols",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE",
+        "log_target"
+      ],
+      "readPorts": [
+        "target_ptr"
+      ],
+      "writePorts": [
+        "input_ptr"
+      ]
+    }
+  }
+]

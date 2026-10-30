@@ -1,0 +1,25 @@
+Traceback (most recent call last):
+  File "bench/repairs/tritonbench_g/rotary_transform/source-defect-replay.md", line 99, in <module>
+    parsed, signature, constants, attrs = fn._pack_args(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py", line 307, in compile
+    module = src.make_ir(target, options, codegen_fns, module_map, context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py", line 80, in make_ir
+    return ast_to_ttir(self.fn, self, context=context, options=options, codegen_fns=codegen_fns,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+triton.compiler.errors.CompilationError: at 33:17:
+    if pid_m * BLOCK_M >= seqlen:
+        return
+    rm = pid_m * BLOCK_M + tl.arange(0, BLOCK_M)
+    if not IS_SEQLEN_OFFSETS_TENSOR:
+        rm_cs = rm + SEQLEN_OFFSETS
+    else:
+        rm_cs = rm + tl.load(SEQLEN_OFFSETS + pid_batch)
+    rk = tl.arange(0, BLOCK_K)
+    rk_half = tl.arange(0, BLOCK_K // 2)
+
+    if not INTERLEAVED:
+        X = X + (rm[:, None] * stride_x_seqlen + rk_half[None, :] * stride_x_headdim)
+                 ^
+ValueError('numel (2097152) exceeds triton maximum tensor numel (1048576)')

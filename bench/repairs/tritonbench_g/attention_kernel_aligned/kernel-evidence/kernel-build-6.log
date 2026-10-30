@@ -1,0 +1,133 @@
+VeriTile.Bench.Repairs.AttentionKernelAligned.KernelOnly.advance_check: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.KernelOnly.rounds_check: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.KernelOnly.source_algorithm: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.KernelOnly.algorithm_at: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/repairs/tritonbench_g/attention_kernel_aligned/KernelOnly/Binding.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/attention_kernel_aligned/KernelOnly/Binding.olean"}
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/KernelOnly/Endpoints.lean:50:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  RealMath.expected (parameters c).length (parameters c).head (parameters c).blockN (parameters c).biasLast
+    (parameters c).scale
+    (Real.qAt (parameters c)
+      (start (grid (parameters c)) (n / (parameters c).blockM, b * (parameters c).heads + h, 0) (realEntry c read))
+      (caller c read))
+    (Real.kAt (parameters c)
+      (start (grid (parameters c)) (n / (parameters c).blockM, b * (parameters c).heads + h, 0) (realEntry c read))
+      (caller c read))
+    (Real.vAt (parameters c)
+      (start (grid (parameters c)) (n / (parameters c).blockM, b * (parameters c).heads + h, 0) (realEntry c read))
+      (caller c read))
+    (Real.biasAt (parameters c)
+      (start (grid (parameters c)) (n / (parameters c).blockM, b * (parameters c).heads + h, 0) (realEntry c read))
+      (caller c read))
+    (row (parameters c)
+      (start (grid (parameters c)) (n / (parameters c).blockM, b * (parameters c).heads + h, 0) (realEntry c read))
+      (lane (parameters c) ⋯ n d hd).1)
+    ↑(lane (parameters c) ⋯ n d hd).2.1
+in the target expression
+  outputValue Real.model (parameters c)
+      (start (grid (parameters c)) (n / c.bm, b * (parameters c).heads + h, 0) (realEntry c read))
+      (lane (parameters c) ⋯ n d hd) =
+    some
+      (RealMath.expected (parameters c).length (parameters c).head (parameters c).blockN (parameters c).biasLast
+        (parameters c).scale
+        (Real.qAt (parameters c)
+          (start (grid (parameters c)) (n / c.bm, b * (parameters c).heads + h, 0) (realEntry c read)) (caller c read))
+        (Real.kAt (parameters c)
+          (start (grid (parameters c)) (n / c.bm, b * (parameters c).heads + h, 0) (realEntry c read)) (caller c read))
+        (Real.vAt (parameters c)
+          (start (grid (parameters c)) (n / c.bm, b * (parameters c).heads + h, 0) (realEntry c read)) (caller c read))
+        (Real.biasAt (parameters c)
+          (start (grid (parameters c)) (n / c.bm, b * (parameters c).heads + h, 0) (realEntry c read)) (caller c read))
+        (row (parameters c) (start (grid (parameters c)) (n / c.bm, b * (parameters c).heads + h, 0) (realEntry c read))
+          (lane (parameters c) ⋯ n d hd).1)
+        ↑(lane (parameters c) ⋯ n d hd).2.1)
+
+case refine_1
+c : Call
+hc : InputContract c
+laws : TensorLaws c
+_dtype : (c.tensors Buffer.query).metadata.dtype = Torch.DType.other "float16"
+read : ℕ → ℝ
+work : List Program
+order : (programs (grid (parameters c))).Perm work
+after : State Real.R
+run :
+  runPrograms (fun x => Real.algebra) (fun x => Real.model) (parameters c) (grid (parameters c)) work
+      (realEntry c read) =
+    some after
+values :
+  ∀ b < (parameters c).batches,
+    ∀ h < (parameters c).heads,
+      ∀ n < (parameters c).length,
+        ∀ (d : ℕ) (hd : d < (parameters c).head),
+          after.mem (tag Buffer.output) (offset (c.tensors Buffer.output).strides b h n d) =
+            Cell.mk TileDType.fp16
+              (Whole.answer Real.model (parameters c)
+                (start (grid (parameters c)) (n / c.bm, b * (parameters c).heads + h, 0) (realEntry c read))
+                (lane (parameters c) ⋯ n d hd))
+frame : RawFrame c (realEntry c read) after
+b : ℕ
+hb : b < (parameters c).batches
+h : ℕ
+hh : h < (parameters c).heads
+n : ℕ
+hn : n < (parameters c).length
+d : ℕ
+hd : d < (parameters c).head
+valid : Valid (parameters c) Buffer.output b h n d
+input :
+  Real.Reads (parameters c) (start (grid (parameters c)) (n / c.bm, b * (parameters c).heads + h, 0) (realEntry c read))
+    (caller c read)
+active :
+  row (parameters c) (start (grid (parameters c)) (n / c.bm, b * (parameters c).heads + h, 0) (realEntry c read))
+      (lane (parameters c) ⋯ n d hd).1 <
+    (parameters c).length
+answer :
+  outputValue Real.model (parameters c)
+      (start (grid (parameters c)) (n / c.bm, b * (parameters c).heads + h, 0) (realEntry c read))
+      (lane (parameters c) ⋯ n d hd) =
+    some
+      (RealMath.expected (parameters c).length (parameters c).head (parameters c).blockN (parameters c).biasLast
+        (parameters c).scale
+        (Real.qAt (parameters c)
+          (start (grid (parameters c)) (n / c.bm, b * (parameters c).heads + h, 0) (realEntry c read)) (caller c read))
+        (Real.kAt (parameters c)
+          (start (grid (parameters c)) (n / c.bm, b * (parameters c).heads + h, 0) (realEntry c read)) (caller c read))
+        (Real.vAt (parameters c)
+          (start (grid (parameters c)) (n / c.bm, b * (parameters c).heads + h, 0) (realEntry c read)) (caller c read))
+        (Real.biasAt (parameters c)
+          (start (grid (parameters c)) (n / c.bm, b * (parameters c).heads + h, 0) (realEntry c read)) (caller c read))
+        (row (parameters c) (start (grid (parameters c)) (n / c.bm, b * (parameters c).heads + h, 0) (realEntry c read))
+          (lane (parameters c) ⋯ n d hd).1)
+        ↑(lane (parameters c) ⋯ n d hd).2.1)
+⊢ realDecode
+      (Cell.read TileDType.fp16
+        (Cell.mk TileDType.fp16
+          (Whole.answer Real.model (parameters c)
+            (start (grid (parameters c)) (n / c.bm, b * (parameters c).heads + h, 0) (realEntry c read))
+            (lane (parameters c) ⋯ n d hd)))) =
+    mathematicalTarget c read b h n d
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/KernelOnly/Endpoints.lean:113:0: error: VeriTile.Bench.Repairs.AttentionKernelAligned.KernelOnly.kernel_real: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.Repairs.AttentionKernelAligned.KernelOnly.kernel_native: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.KernelOnly.empty_kernel: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.AttentionKernelAligned.KernelOnly.mathematicalTarget: definition does not reference [VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.runPrograms,
+ VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.answer,
+ VeriTile.Bench.Repairs.AttentionKernelAligned.Source.rounds,
+ VeriTile.Bench.Repairs.AttentionKernelAligned.Source.advance] — non-circular ✓
+VeriTile.Bench.Repairs.AttentionKernelAligned.KernelOnly.nativeReference: definition does not reference [VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.runPrograms,
+ VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.answer,
+ VeriTile.Bench.Repairs.AttentionKernelAligned.Source.rounds,
+ VeriTile.Bench.Repairs.AttentionKernelAligned.Source.advance] — non-circular ✓

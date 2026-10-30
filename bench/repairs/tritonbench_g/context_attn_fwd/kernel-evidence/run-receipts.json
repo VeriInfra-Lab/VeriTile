@@ -1,0 +1,61 @@
+{
+  "runs": [
+    {
+      "name": "initial Kernels rebuild",
+      "exit_code": 0,
+      "log": "initial-build.log"
+    },
+    {
+      "name": "42 unchanged task modules rebuild",
+      "exit_code": 0,
+      "session": 6655,
+      "log": "baseline-build.log"
+    },
+    {
+      "name": "KernelScale initial prelude build",
+      "exit_code": 1,
+      "log": "kernel-prelude-build.log",
+      "reason": "noncircularity audit named an FP module not imported by Host; changed audit avoidance to the actual Host.scale boundary"
+    },
+    {
+      "name": "3 new modules and 2 standard entry modules rebuild",
+      "exit_code": 0,
+      "session": 32956,
+      "log": "kernel-build.log"
+    },
+    {
+      "name": "printed statements, standard axioms, noncircular targets",
+      "exit_code": 0,
+      "session": 33646,
+      "log": "statement-audit.log"
+    },
+    {
+      "name": "actual source CPU contract checker plus launch-scale conversion table",
+      "exit_code": 0,
+      "session": 73985,
+      "log": "cpu-check.log",
+      "settings": {
+        "seed": 20261020,
+        "torch_threads": 1,
+        "dont_write_bytecode": true
+      },
+      "report": "cpu-check.json"
+    },
+    {
+      "name": "10 actual wrapper/native-binder SM90 offline compiles",
+      "exit_code": 0,
+      "session": 58515,
+      "log": "native-probe.log",
+      "report": "native-probe.json"
+    },
+    {
+      "name": "static symbolic PTX topology audit",
+      "exit_code": 0,
+      "log": "native-static.log",
+      "report": "native-static.json",
+      "no_floating_numerical_experiment": true
+    }
+  ],
+  "initial_sandbox_attempt": "failed to locate Lean application; reviewed workspace-only driver subsequently approved outside sandbox",
+  "GPU_execution": false
+}

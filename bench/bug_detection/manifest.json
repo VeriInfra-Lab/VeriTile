@@ -1,0 +1,412 @@
+{
+  "schema_version": 3,
+  "kind": "lean_equivalence_challenges",
+  "entrypoint": "bench.bug_detection.All",
+  "counts": {
+    "negative": 30,
+    "benign": 20,
+    "positive_variant": 15
+  },
+  "lean_challenges": 65,
+  "proved": 0,
+  "formal_counterexamples": 0,
+  "new_numerical_admissions": 0,
+  "source_layer": "standard_triton_lowerings",
+  "backend_bindings_verified": 0,
+  "tasks": [
+    {
+      "id": "rope_interleaved",
+      "suite": "negative",
+      "path": "tasks/rope_interleaved/task.json",
+      "lean_module": "bench.bug_detection.tasks.rope_interleaved.FPEquiv"
+    },
+    {
+      "id": "rope_bf16_freqs",
+      "suite": "negative",
+      "path": "tasks/rope_bf16_freqs/task.json",
+      "lean_module": "bench.bug_detection.tasks.rope_bf16_freqs.FPEquiv"
+    },
+    {
+      "id": "rmsnorm_cast_after",
+      "suite": "negative",
+      "path": "tasks/rmsnorm_cast_after/task.json",
+      "lean_module": "bench.bug_detection.tasks.rmsnorm_cast_after.FPEquiv"
+    },
+    {
+      "id": "attention_bf16_softmax",
+      "suite": "negative",
+      "path": "tasks/attention_bf16_softmax/task.json",
+      "lean_module": "bench.bug_detection.tasks.attention_bf16_softmax.FPEquiv"
+    },
+    {
+      "id": "attn_fa_bf16_accum",
+      "suite": "negative",
+      "path": "tasks/attn_fa_bf16_accum/task.json",
+      "lean_module": "bench.bug_detection.tasks.attn_fa_bf16_accum.FPEquiv"
+    },
+    {
+      "id": "rmsnorm_fp16",
+      "suite": "negative",
+      "path": "tasks/rmsnorm_fp16/task.json",
+      "lean_module": "bench.bug_detection.tasks.rmsnorm_fp16.FPEquiv"
+    },
+    {
+      "id": "rmsnorm_no_upcast",
+      "suite": "negative",
+      "path": "tasks/rmsnorm_no_upcast/task.json",
+      "lean_module": "bench.bug_detection.tasks.rmsnorm_no_upcast.FPEquiv"
+    },
+    {
+      "id": "gemma_one_plus_w_bf16",
+      "suite": "negative",
+      "path": "tasks/gemma_one_plus_w_bf16/task.json",
+      "lean_module": "bench.bug_detection.tasks.gemma_one_plus_w_bf16.FPEquiv"
+    },
+    {
+      "id": "rmsnorm_layernorm_swap",
+      "suite": "negative",
+      "path": "tasks/rmsnorm_layernorm_swap/task.json",
+      "lean_module": "bench.bug_detection.tasks.rmsnorm_layernorm_swap.FPEquiv"
+    },
+    {
+      "id": "rmsnorm_w_fp16_roundtrip",
+      "suite": "negative",
+      "path": "tasks/rmsnorm_w_fp16_roundtrip/task.json",
+      "lean_module": "bench.bug_detection.tasks.rmsnorm_w_fp16_roundtrip.FPEquiv"
+    },
+    {
+      "id": "rope_fp16_angles",
+      "suite": "negative",
+      "path": "tasks/rope_fp16_angles/task.json",
+      "lean_module": "bench.bug_detection.tasks.rope_fp16_angles.FPEquiv"
+    },
+    {
+      "id": "rope_inv_freq_downcast",
+      "suite": "negative",
+      "path": "tasks/rope_inv_freq_downcast/task.json",
+      "lean_module": "bench.bug_detection.tasks.rope_inv_freq_downcast.FPEquiv"
+    },
+    {
+      "id": "rope_position_offby1",
+      "suite": "negative",
+      "path": "tasks/rope_position_offby1/task.json",
+      "lean_module": "bench.bug_detection.tasks.rope_position_offby1.FPEquiv"
+    },
+    {
+      "id": "rope_theta_mismatch",
+      "suite": "negative",
+      "path": "tasks/rope_theta_mismatch/task.json",
+      "lean_module": "bench.bug_detection.tasks.rope_theta_mismatch.FPEquiv"
+    },
+    {
+      "id": "rope_partial_ignored",
+      "suite": "negative",
+      "path": "tasks/rope_partial_ignored/task.json",
+      "lean_module": "bench.bug_detection.tasks.rope_partial_ignored.FPEquiv"
+    },
+    {
+      "id": "attn_query_pre_scalar",
+      "suite": "negative",
+      "path": "tasks/attn_query_pre_scalar/task.json",
+      "lean_module": "bench.bug_detection.tasks.attn_query_pre_scalar.FPEquiv"
+    },
+    {
+      "id": "attn_softcap_missing",
+      "suite": "negative",
+      "path": "tasks/attn_softcap_missing/task.json",
+      "lean_module": "bench.bug_detection.tasks.attn_softcap_missing.FPEquiv"
+    },
+    {
+      "id": "attn_window_ignored",
+      "suite": "negative",
+      "path": "tasks/attn_window_ignored/task.json",
+      "lean_module": "bench.bug_detection.tasks.attn_window_ignored.FPEquiv"
+    },
+    {
+      "id": "attn_future_leak",
+      "suite": "negative",
+      "path": "tasks/attn_future_leak/task.json",
+      "lean_module": "bench.bug_detection.tasks.attn_future_leak.FPEquiv"
+    },
+    {
+      "id": "attn_gqa_tile_repeat",
+      "suite": "negative",
+      "path": "tasks/attn_gqa_tile_repeat/task.json",
+      "lean_module": "bench.bug_detection.tasks.attn_gqa_tile_repeat.FPEquiv"
+    },
+    {
+      "id": "attn_qknorm_wrong_dim",
+      "suite": "negative",
+      "path": "tasks/attn_qknorm_wrong_dim/task.json",
+      "lean_module": "bench.bug_detection.tasks.attn_qknorm_wrong_dim.FPEquiv"
+    },
+    {
+      "id": "attn_no_max_sub_fp16",
+      "suite": "negative",
+      "path": "tasks/attn_no_max_sub_fp16/task.json",
+      "lean_module": "bench.bug_detection.tasks.attn_no_max_sub_fp16.FPEquiv"
+    },
+    {
+      "id": "attn_dropout_at_eval",
+      "suite": "negative",
+      "path": "tasks/attn_dropout_at_eval/task.json",
+      "lean_module": "bench.bug_detection.tasks.attn_dropout_at_eval.FPEquiv"
+    },
+    {
+      "id": "moe_router_bf16",
+      "suite": "negative",
+      "path": "tasks/moe_router_bf16/task.json",
+      "lean_module": "bench.bug_detection.tasks.moe_router_bf16.FPEquiv"
+    },
+    {
+      "id": "moe_topk_renorm_skipped",
+      "suite": "negative",
+      "path": "tasks/moe_topk_renorm_skipped/task.json",
+      "lean_module": "bench.bug_detection.tasks.moe_topk_renorm_skipped.FPEquiv"
+    },
+    {
+      "id": "moe_probs_on_input",
+      "suite": "negative",
+      "path": "tasks/moe_probs_on_input/task.json",
+      "lean_module": "bench.bug_detection.tasks.moe_probs_on_input.FPEquiv"
+    },
+    {
+      "id": "moe_capacity_drop",
+      "suite": "negative",
+      "path": "tasks/moe_capacity_drop/task.json",
+      "lean_module": "bench.bug_detection.tasks.moe_capacity_drop.FPEquiv"
+    },
+    {
+      "id": "moe_router_softmax_swap",
+      "suite": "negative",
+      "path": "tasks/moe_router_softmax_swap/task.json",
+      "lean_module": "bench.bug_detection.tasks.moe_router_softmax_swap.FPEquiv"
+    },
+    {
+      "id": "mlp_gelu_exact_vs_tanh",
+      "suite": "negative",
+      "path": "tasks/mlp_gelu_exact_vs_tanh/task.json",
+      "lean_module": "bench.bug_detection.tasks.mlp_gelu_exact_vs_tanh.FPEquiv"
+    },
+    {
+      "id": "mlp_tf32_matmul",
+      "suite": "negative",
+      "path": "tasks/mlp_tf32_matmul/task.json",
+      "lean_module": "bench.bug_detection.tasks.mlp_tf32_matmul.FPEquiv"
+    },
+    {
+      "id": "ben_scale_in_gemm",
+      "suite": "benign",
+      "path": "tasks/ben_scale_in_gemm/task.json",
+      "lean_module": "bench.bug_detection.tasks.ben_scale_in_gemm.FPEquiv"
+    },
+    {
+      "id": "ben_online_softmax",
+      "suite": "benign",
+      "path": "tasks/ben_online_softmax/task.json",
+      "lean_module": "bench.bug_detection.tasks.ben_online_softmax.FPEquiv"
+    },
+    {
+      "id": "ben_packed_fc1",
+      "suite": "benign",
+      "path": "tasks/ben_packed_fc1/task.json",
+      "lean_module": "bench.bug_detection.tasks.ben_packed_fc1.FPEquiv"
+    },
+    {
+      "id": "ben_chunked_reduction",
+      "suite": "benign",
+      "path": "tasks/ben_chunked_reduction/task.json",
+      "lean_module": "bench.bug_detection.tasks.ben_chunked_reduction.FPEquiv"
+    },
+    {
+      "id": "ben_grouped_moe",
+      "suite": "benign",
+      "path": "tasks/ben_grouped_moe/task.json",
+      "lean_module": "bench.bug_detection.tasks.ben_grouped_moe.FPEquiv"
+    },
+    {
+      "id": "ben_embedding_onehot",
+      "suite": "benign",
+      "path": "tasks/ben_embedding_onehot/task.json",
+      "lean_module": "bench.bug_detection.tasks.ben_embedding_onehot.FPEquiv"
+    },
+    {
+      "id": "ben_ce_fused",
+      "suite": "benign",
+      "path": "tasks/ben_ce_fused/task.json",
+      "lean_module": "bench.bug_detection.tasks.ben_ce_fused.FPEquiv"
+    },
+    {
+      "id": "ben_ce_vocab_parallel",
+      "suite": "benign",
+      "path": "tasks/ben_ce_vocab_parallel/task.json",
+      "lean_module": "bench.bug_detection.tasks.ben_ce_vocab_parallel.FPEquiv"
+    },
+    {
+      "id": "ben_layernorm_welford",
+      "suite": "benign",
+      "path": "tasks/ben_layernorm_welford/task.json",
+      "lean_module": "bench.bug_detection.tasks.ben_layernorm_welford.FPEquiv"
+    },
+    {
+      "id": "ben_rope_complex",
+      "suite": "benign",
+      "path": "tasks/ben_rope_complex/task.json",
+      "lean_module": "bench.bug_detection.tasks.ben_rope_complex.FPEquiv"
+    },
+    {
+      "id": "ben_row_parallel_tp2",
+      "suite": "benign",
+      "path": "tasks/ben_row_parallel_tp2/task.json",
+      "lean_module": "bench.bug_detection.tasks.ben_row_parallel_tp2.FPEquiv"
+    },
+    {
+      "id": "ben_col_parallel_tp2",
+      "suite": "benign",
+      "path": "tasks/ben_col_parallel_tp2/task.json",
+      "lean_module": "bench.bug_detection.tasks.ben_col_parallel_tp2.FPEquiv"
+    },
+    {
+      "id": "ben_bias_addmm",
+      "suite": "benign",
+      "path": "tasks/ben_bias_addmm/task.json",
+      "lean_module": "bench.bug_detection.tasks.ben_bias_addmm.FPEquiv"
+    },
+    {
+      "id": "ben_chunked_tokens",
+      "suite": "benign",
+      "path": "tasks/ben_chunked_tokens/task.json",
+      "lean_module": "bench.bug_detection.tasks.ben_chunked_tokens.FPEquiv"
+    },
+    {
+      "id": "ben_kv_cache_decode",
+      "suite": "benign",
+      "path": "tasks/ben_kv_cache_decode/task.json",
+      "lean_module": "bench.bug_detection.tasks.ben_kv_cache_decode.FPEquiv"
+    },
+    {
+      "id": "ben_mask_add_vs_fill",
+      "suite": "benign",
+      "path": "tasks/ben_mask_add_vs_fill/task.json",
+      "lean_module": "bench.bug_detection.tasks.ben_mask_add_vs_fill.FPEquiv"
+    },
+    {
+      "id": "ben_silu_x_sigmoid",
+      "suite": "benign",
+      "path": "tasks/ben_silu_x_sigmoid/task.json",
+      "lean_module": "bench.bug_detection.tasks.ben_silu_x_sigmoid.FPEquiv"
+    },
+    {
+      "id": "ben_gelu_handrolled",
+      "suite": "benign",
+      "path": "tasks/ben_gelu_handrolled/task.json",
+      "lean_module": "bench.bug_detection.tasks.ben_gelu_handrolled.FPEquiv"
+    },
+    {
+      "id": "ben_softmax_logdomain",
+      "suite": "benign",
+      "path": "tasks/ben_softmax_logdomain/task.json",
+      "lean_module": "bench.bug_detection.tasks.ben_softmax_logdomain.FPEquiv"
+    },
+    {
+      "id": "ben_rms_div_vs_rsqrt",
+      "suite": "benign",
+      "path": "tasks/ben_rms_div_vs_rsqrt/task.json",
+      "lean_module": "bench.bug_detection.tasks.ben_rms_div_vs_rsqrt.FPEquiv"
+    },
+    {
+      "id": "rmsnorm__default",
+      "suite": "positive_variant",
+      "path": "tasks/rmsnorm__default/task.json",
+      "lean_module": "bench.bug_detection.tasks.rmsnorm__default.FPEquiv"
+    },
+    {
+      "id": "rmsnorm__n64",
+      "suite": "positive_variant",
+      "path": "tasks/rmsnorm__n64/task.json",
+      "lean_module": "bench.bug_detection.tasks.rmsnorm__n64.FPEquiv"
+    },
+    {
+      "id": "rmsnorm__scale8",
+      "suite": "positive_variant",
+      "path": "tasks/rmsnorm__scale8/task.json",
+      "lean_module": "bench.bug_detection.tasks.rmsnorm__scale8.FPEquiv"
+    },
+    {
+      "id": "swiglu__default",
+      "suite": "positive_variant",
+      "path": "tasks/swiglu__default/task.json",
+      "lean_module": "bench.bug_detection.tasks.swiglu__default.FPEquiv"
+    },
+    {
+      "id": "swiglu__scale3",
+      "suite": "positive_variant",
+      "path": "tasks/swiglu__scale3/task.json",
+      "lean_module": "bench.bug_detection.tasks.swiglu__scale3.FPEquiv"
+    },
+    {
+      "id": "attention__sq16",
+      "suite": "positive_variant",
+      "path": "tasks/attention__sq16/task.json",
+      "lean_module": "bench.bug_detection.tasks.attention__sq16.FPEquiv"
+    },
+    {
+      "id": "attention__sq64",
+      "suite": "positive_variant",
+      "path": "tasks/attention__sq64/task.json",
+      "lean_module": "bench.bug_detection.tasks.attention__sq64.FPEquiv"
+    },
+    {
+      "id": "attention__sq256",
+      "suite": "positive_variant",
+      "path": "tasks/attention__sq256/task.json",
+      "lean_module": "bench.bug_detection.tasks.attention__sq256.FPEquiv"
+    },
+    {
+      "id": "attention__scale3",
+      "suite": "positive_variant",
+      "path": "tasks/attention__scale3/task.json",
+      "lean_module": "bench.bug_detection.tasks.attention__scale3.FPEquiv"
+    },
+    {
+      "id": "rope__sq16",
+      "suite": "positive_variant",
+      "path": "tasks/rope__sq16/task.json",
+      "lean_module": "bench.bug_detection.tasks.rope__sq16.FPEquiv"
+    },
+    {
+      "id": "rope__sq64",
+      "suite": "positive_variant",
+      "path": "tasks/rope__sq64/task.json",
+      "lean_module": "bench.bug_detection.tasks.rope__sq64.FPEquiv"
+    },
+    {
+      "id": "rope__sq128",
+      "suite": "positive_variant",
+      "path": "tasks/rope__sq128/task.json",
+      "lean_module": "bench.bug_detection.tasks.rope__sq128.FPEquiv"
+    },
+    {
+      "id": "moe__s16",
+      "suite": "positive_variant",
+      "path": "tasks/moe__s16/task.json",
+      "lean_module": "bench.bug_detection.tasks.moe__s16.FPEquiv"
+    },
+    {
+      "id": "moe__s64",
+      "suite": "positive_variant",
+      "path": "tasks/moe__s64/task.json",
+      "lean_module": "bench.bug_detection.tasks.moe__s64.FPEquiv"
+    },
+    {
+      "id": "moe__scale3",
+      "suite": "positive_variant",
+      "path": "tasks/moe__scale3/task.json",
+      "lean_module": "bench.bug_detection.tasks.moe__scale3.FPEquiv"
+    }
+  ],
+  "organization": "self_contained_task_directories",
+  "external_task_dependency": "VeriTile.Spec",
+  "real_goals": 65,
+  "source_translations_verified": 0
+}

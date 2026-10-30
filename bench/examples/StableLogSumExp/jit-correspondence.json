@@ -1,0 +1,71 @@
+[
+  {
+    "python": "bench/examples/StableLogSumExp/native_kernels.py",
+    "python_function": "directLSEKernel",
+    "lean": "bench/examples/StableLogSumExp/Kernels.lean",
+    "lean_definition": "directLSEKernel",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "xReg",
+          "fp32"
+        ],
+        [
+          "yReg",
+          "bf16"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "blockSize"
+      ]
+    }
+  },
+  {
+    "python": "bench/examples/StableLogSumExp/native_kernels.py",
+    "python_function": "stableLSEKernel",
+    "lean": "bench/examples/StableLogSumExp/Kernels.lean",
+    "lean_definition": "stableLSEKernel",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "xReg",
+          "fp32"
+        ],
+        [
+          "yReg",
+          "bf16"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "blockSize"
+      ]
+    }
+  },
+  {
+    "python": "bench/examples/StableLogSumExp/native_kernels.py",
+    "python_function": "optimizedLSEKernel",
+    "lean": "bench/examples/StableLogSumExp/Kernels.lean",
+    "lean_definition": "optimizedLSEKernel",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "xReg",
+          "fp32"
+        ],
+        [
+          "yReg",
+          "bf16"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "blockSize"
+      ]
+    }
+  }
+]

@@ -1,0 +1,13 @@
+{
+  "candidate": "bench/repairs/tritonbench_g/sgmv_expand_slice/sgmv_expand_slice_byte_separated.py",
+  "candidate_sha256": "284def49ac88b5337bd0081c492f2d4e9cd6a0463966c33da9523d03410cc76b",
+  "frozen_canonical_sha256": "80cef4ba6062cc382fd30e6040a4cda218ca79b938fb23b55cf9b03355c169f4",
+  "kernel_ast_sha256": "4cdc95d24d77c8c3832bdb07094f9a53a68a558bf55dee13f0e25384af59e51f",
+  "candidate_production_ast_sha256": "08e6f331d896a72fd11600fb974066959e3a9007f09843293fb0d375bc55ab64",
+  "unchanged_quotation": "bench/repairs/tritonbench_g/sgmv_expand_slice/Kernels.lean",
+  "unchanged_quotation_sha256": "b244fe4f1abd8bc01a42b9f6e2f29cc02488aeb2c444e88fbab2c5b7016c912f",
+  "candidate_entry_sha256": "fc8868ef50e50c3da339379014340b92f4e27578ceea35102103716c4beb9b53",
+  "original_source_pin_sha256": "b2b0550c2f4699a04b5358a518c06f05372ca9286e0e0d40628bc366e5bc5107",
+  "numerical_profile_sha256": "ef5184f85bc8a4895153c9bb8e8c51b9cadd9a65c14ae1cd7d41f3474e0334ee",
+  "separation": "All five output/read full untyped backing byte intervals must be disjoint, treating zero bytes as empty."
+}

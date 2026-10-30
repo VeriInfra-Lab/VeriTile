@@ -1,0 +1,2281 @@
+{
+  "triton": "3.7.1",
+  "gpu_execution": false,
+  "numerical_experiments": false,
+  "actual_binder": true,
+  "actual_wrapper_arguments": true,
+  "results": [
+    {
+      "name": "fwd_t3_d65_u1_v1_bd32_w1",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        3,
+        2
+      ],
+      "signature": {
+        "x": "*fp32",
+        "g": "*fp32",
+        "o": "*fp32",
+        "h0": "*fp32",
+        "ht": "*fp32",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "STORE_FINAL_STATE": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=1, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "T": "3",
+        "D": "65",
+        "BD": "32",
+        "USE_INITIAL_STATE": "True",
+        "STORE_FINAL_STATE": "True"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t3_d65_u1_v1_bd32_w1.ttir",
+          "sha256": "00f329f5707b935f4562f3d4de5ac5b48e33551c507a9c55904c0b1ce3ee58f8"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t3_d65_u1_v1_bd32_w1.ptx",
+          "sha256": "3e98015d1bf7b6c6af3701f10e2a75ecd68c79d1b4c1733da914346d5c6a6ad7"
+        }
+      ]
+    },
+    {
+      "name": "bwd_t3_d65_u1_v1_bd32_w1",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        3,
+        2
+      ],
+      "signature": {
+        "g": "*fp32",
+        "o": "*fp32",
+        "dx": "*fp32",
+        "dg": "*fp32",
+        "do": "*fp32",
+        "h0": "*fp32",
+        "dht": "*fp32",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "USE_FINAL_GRAD": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=1, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "T": "3",
+        "D": "65",
+        "BD": "32",
+        "USE_INITIAL_STATE": "True",
+        "USE_FINAL_GRAD": "True"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t3_d65_u1_v1_bd32_w1.ttir",
+          "sha256": "39fb6d3f3de18b3305d3ab0f63ae6dc76197cffbc50e7004f147d957f9c883c7"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t3_d65_u1_v1_bd32_w1.ptx",
+          "sha256": "8727e5e9cb75784150f67ff9dd32f6367dd218c2b49eb3db9d240cfb7d2fceb5"
+        }
+      ]
+    },
+    {
+      "name": "fwd_t3_d65_u1_v1_bd32_w2",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        3,
+        2
+      ],
+      "signature": {
+        "x": "*fp32",
+        "g": "*fp32",
+        "o": "*fp32",
+        "h0": "*fp32",
+        "ht": "*fp32",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "STORE_FINAL_STATE": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=2, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "T": "3",
+        "D": "65",
+        "BD": "32",
+        "USE_INITIAL_STATE": "True",
+        "STORE_FINAL_STATE": "True"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t3_d65_u1_v1_bd32_w2.ttir",
+          "sha256": "00f329f5707b935f4562f3d4de5ac5b48e33551c507a9c55904c0b1ce3ee58f8"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t3_d65_u1_v1_bd32_w2.ptx",
+          "sha256": "e322f60ea6a8f4a7affd33a65ba25047b031d014b583426a020b86964490764a"
+        }
+      ]
+    },
+    {
+      "name": "bwd_t3_d65_u1_v1_bd32_w2",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        3,
+        2
+      ],
+      "signature": {
+        "g": "*fp32",
+        "o": "*fp32",
+        "dx": "*fp32",
+        "dg": "*fp32",
+        "do": "*fp32",
+        "h0": "*fp32",
+        "dht": "*fp32",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "USE_FINAL_GRAD": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=2, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "T": "3",
+        "D": "65",
+        "BD": "32",
+        "USE_INITIAL_STATE": "True",
+        "USE_FINAL_GRAD": "True"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t3_d65_u1_v1_bd32_w2.ttir",
+          "sha256": "39fb6d3f3de18b3305d3ab0f63ae6dc76197cffbc50e7004f147d957f9c883c7"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t3_d65_u1_v1_bd32_w2.ptx",
+          "sha256": "9bd32097930e0d6634e384038d5c5aae4d7a348170e4e8f470b1d66dff5a857f"
+        }
+      ]
+    },
+    {
+      "name": "fwd_t3_d65_u1_v1_bd32_w4",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        3,
+        2
+      ],
+      "signature": {
+        "x": "*fp32",
+        "g": "*fp32",
+        "o": "*fp32",
+        "h0": "*fp32",
+        "ht": "*fp32",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "STORE_FINAL_STATE": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "T": "3",
+        "D": "65",
+        "BD": "32",
+        "USE_INITIAL_STATE": "True",
+        "STORE_FINAL_STATE": "True"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t3_d65_u1_v1_bd32_w4.ttir",
+          "sha256": "00f329f5707b935f4562f3d4de5ac5b48e33551c507a9c55904c0b1ce3ee58f8"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t3_d65_u1_v1_bd32_w4.ptx",
+          "sha256": "be37429deb58b41fa174979c669f5299b48c677dfc09b2e5010efe08545f4558"
+        }
+      ]
+    },
+    {
+      "name": "bwd_t3_d65_u1_v1_bd32_w4",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        3,
+        2
+      ],
+      "signature": {
+        "g": "*fp32",
+        "o": "*fp32",
+        "dx": "*fp32",
+        "dg": "*fp32",
+        "do": "*fp32",
+        "h0": "*fp32",
+        "dht": "*fp32",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "USE_FINAL_GRAD": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "T": "3",
+        "D": "65",
+        "BD": "32",
+        "USE_INITIAL_STATE": "True",
+        "USE_FINAL_GRAD": "True"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t3_d65_u1_v1_bd32_w4.ttir",
+          "sha256": "39fb6d3f3de18b3305d3ab0f63ae6dc76197cffbc50e7004f147d957f9c883c7"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t3_d65_u1_v1_bd32_w4.ptx",
+          "sha256": "a2c88ac377225ef10720b5bfd5e00ebfe704b350cfee3a28983207cb445ac03b"
+        }
+      ]
+    },
+    {
+      "name": "fwd_t3_d65_u1_v1_bd32_w8",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        3,
+        2
+      ],
+      "signature": {
+        "x": "*fp32",
+        "g": "*fp32",
+        "o": "*fp32",
+        "h0": "*fp32",
+        "ht": "*fp32",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "STORE_FINAL_STATE": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=8, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "T": "3",
+        "D": "65",
+        "BD": "32",
+        "USE_INITIAL_STATE": "True",
+        "STORE_FINAL_STATE": "True"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t3_d65_u1_v1_bd32_w8.ttir",
+          "sha256": "00f329f5707b935f4562f3d4de5ac5b48e33551c507a9c55904c0b1ce3ee58f8"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t3_d65_u1_v1_bd32_w8.ptx",
+          "sha256": "9a04a62628908e5c0c83efd339841cbcd120fc7911e80ee2d925b4be4ad48f77"
+        }
+      ]
+    },
+    {
+      "name": "bwd_t3_d65_u1_v1_bd32_w8",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        3,
+        2
+      ],
+      "signature": {
+        "g": "*fp32",
+        "o": "*fp32",
+        "dx": "*fp32",
+        "dg": "*fp32",
+        "do": "*fp32",
+        "h0": "*fp32",
+        "dht": "*fp32",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "USE_FINAL_GRAD": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=8, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "T": "3",
+        "D": "65",
+        "BD": "32",
+        "USE_INITIAL_STATE": "True",
+        "USE_FINAL_GRAD": "True"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t3_d65_u1_v1_bd32_w8.ttir",
+          "sha256": "39fb6d3f3de18b3305d3ab0f63ae6dc76197cffbc50e7004f147d957f9c883c7"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t3_d65_u1_v1_bd32_w8.ptx",
+          "sha256": "c08ca250110ca50ff73ca19c7b4db2cd0fd8b43756db297385a107495afad553"
+        }
+      ]
+    },
+    {
+      "name": "fwd_t3_d65_u1_v1_bd64_w1",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        2,
+        2
+      ],
+      "signature": {
+        "x": "*fp32",
+        "g": "*fp32",
+        "o": "*fp32",
+        "h0": "*fp32",
+        "ht": "*fp32",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "STORE_FINAL_STATE": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=1, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "T": "3",
+        "D": "65",
+        "BD": "64",
+        "USE_INITIAL_STATE": "True",
+        "STORE_FINAL_STATE": "True"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t3_d65_u1_v1_bd64_w1.ttir",
+          "sha256": "410ee8e11dbc40a16cc71ab54daa01f7211ab67b5471807ac655ad6a68574664"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t3_d65_u1_v1_bd64_w1.ptx",
+          "sha256": "9a0f2671c74abad2aed8ab8789c5b49ee16c6732d8c7f370e58d8a16c85bfc64"
+        }
+      ]
+    },
+    {
+      "name": "bwd_t3_d65_u1_v1_bd64_w1",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        2,
+        2
+      ],
+      "signature": {
+        "g": "*fp32",
+        "o": "*fp32",
+        "dx": "*fp32",
+        "dg": "*fp32",
+        "do": "*fp32",
+        "h0": "*fp32",
+        "dht": "*fp32",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "USE_FINAL_GRAD": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=1, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "T": "3",
+        "D": "65",
+        "BD": "64",
+        "USE_INITIAL_STATE": "True",
+        "USE_FINAL_GRAD": "True"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t3_d65_u1_v1_bd64_w1.ttir",
+          "sha256": "92e20528cf75b5c90bb9767cb9ce9af89fa36effd7c224e2b599676d1325b079"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t3_d65_u1_v1_bd64_w1.ptx",
+          "sha256": "01f27a4a5f44569721b2db43fad98a26182dcfa126ee583a6b3b2790b883f5d0"
+        }
+      ]
+    },
+    {
+      "name": "fwd_t3_d65_u1_v1_bd64_w2",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        2,
+        2
+      ],
+      "signature": {
+        "x": "*fp32",
+        "g": "*fp32",
+        "o": "*fp32",
+        "h0": "*fp32",
+        "ht": "*fp32",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "STORE_FINAL_STATE": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=2, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "T": "3",
+        "D": "65",
+        "BD": "64",
+        "USE_INITIAL_STATE": "True",
+        "STORE_FINAL_STATE": "True"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t3_d65_u1_v1_bd64_w2.ttir",
+          "sha256": "410ee8e11dbc40a16cc71ab54daa01f7211ab67b5471807ac655ad6a68574664"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t3_d65_u1_v1_bd64_w2.ptx",
+          "sha256": "9c4146c4aa43b5c3d6146c449c9c073c857361936fd28a6a60813e3bc3b1e320"
+        }
+      ]
+    },
+    {
+      "name": "bwd_t3_d65_u1_v1_bd64_w2",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        2,
+        2
+      ],
+      "signature": {
+        "g": "*fp32",
+        "o": "*fp32",
+        "dx": "*fp32",
+        "dg": "*fp32",
+        "do": "*fp32",
+        "h0": "*fp32",
+        "dht": "*fp32",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "USE_FINAL_GRAD": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=2, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "T": "3",
+        "D": "65",
+        "BD": "64",
+        "USE_INITIAL_STATE": "True",
+        "USE_FINAL_GRAD": "True"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t3_d65_u1_v1_bd64_w2.ttir",
+          "sha256": "92e20528cf75b5c90bb9767cb9ce9af89fa36effd7c224e2b599676d1325b079"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t3_d65_u1_v1_bd64_w2.ptx",
+          "sha256": "ab3ba9cd9d1185b07e48334893ae543a9d9b21fa3d39ced08df09a2ce8f29c0b"
+        }
+      ]
+    },
+    {
+      "name": "fwd_t3_d65_u1_v1_bd64_w4",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        2,
+        2
+      ],
+      "signature": {
+        "x": "*fp32",
+        "g": "*fp32",
+        "o": "*fp32",
+        "h0": "*fp32",
+        "ht": "*fp32",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "STORE_FINAL_STATE": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "T": "3",
+        "D": "65",
+        "BD": "64",
+        "USE_INITIAL_STATE": "True",
+        "STORE_FINAL_STATE": "True"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t3_d65_u1_v1_bd64_w4.ttir",
+          "sha256": "410ee8e11dbc40a16cc71ab54daa01f7211ab67b5471807ac655ad6a68574664"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t3_d65_u1_v1_bd64_w4.ptx",
+          "sha256": "7d0b2b6310f9f6d3fe1513c71dacd22b076d8d28ab3d53f982e12a80617b0d05"
+        }
+      ]
+    },
+    {
+      "name": "bwd_t3_d65_u1_v1_bd64_w4",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        2,
+        2
+      ],
+      "signature": {
+        "g": "*fp32",
+        "o": "*fp32",
+        "dx": "*fp32",
+        "dg": "*fp32",
+        "do": "*fp32",
+        "h0": "*fp32",
+        "dht": "*fp32",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "USE_FINAL_GRAD": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "T": "3",
+        "D": "65",
+        "BD": "64",
+        "USE_INITIAL_STATE": "True",
+        "USE_FINAL_GRAD": "True"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t3_d65_u1_v1_bd64_w4.ttir",
+          "sha256": "92e20528cf75b5c90bb9767cb9ce9af89fa36effd7c224e2b599676d1325b079"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t3_d65_u1_v1_bd64_w4.ptx",
+          "sha256": "8bb5b4051403a159b332e0c70dfbfb812845cb481affb642cf5b8e411bad11f7"
+        }
+      ]
+    },
+    {
+      "name": "fwd_t3_d65_u1_v1_bd64_w8",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        2,
+        2
+      ],
+      "signature": {
+        "x": "*fp32",
+        "g": "*fp32",
+        "o": "*fp32",
+        "h0": "*fp32",
+        "ht": "*fp32",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "STORE_FINAL_STATE": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=8, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "T": "3",
+        "D": "65",
+        "BD": "64",
+        "USE_INITIAL_STATE": "True",
+        "STORE_FINAL_STATE": "True"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t3_d65_u1_v1_bd64_w8.ttir",
+          "sha256": "410ee8e11dbc40a16cc71ab54daa01f7211ab67b5471807ac655ad6a68574664"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t3_d65_u1_v1_bd64_w8.ptx",
+          "sha256": "ad12714598f1e4a8f95c0f0bdcf7b6d26e0c11b8642f7cba75ab814e497efe50"
+        }
+      ]
+    },
+    {
+      "name": "bwd_t3_d65_u1_v1_bd64_w8",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        2,
+        2
+      ],
+      "signature": {
+        "g": "*fp32",
+        "o": "*fp32",
+        "dx": "*fp32",
+        "dg": "*fp32",
+        "do": "*fp32",
+        "h0": "*fp32",
+        "dht": "*fp32",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "USE_FINAL_GRAD": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=8, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "T": "3",
+        "D": "65",
+        "BD": "64",
+        "USE_INITIAL_STATE": "True",
+        "USE_FINAL_GRAD": "True"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t3_d65_u1_v1_bd64_w8.ttir",
+          "sha256": "92e20528cf75b5c90bb9767cb9ce9af89fa36effd7c224e2b599676d1325b079"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t3_d65_u1_v1_bd64_w8.ptx",
+          "sha256": "bf5d16c859908ce8ebd948b45e2a5da4f09a4f290185d8269f016519c505877e"
+        }
+      ]
+    },
+    {
+      "name": "fwd_t3_d65_u1_v1_bd128_w1",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        1,
+        2
+      ],
+      "signature": {
+        "x": "*fp32",
+        "g": "*fp32",
+        "o": "*fp32",
+        "h0": "*fp32",
+        "ht": "*fp32",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "STORE_FINAL_STATE": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=1, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "T": "3",
+        "D": "65",
+        "BD": "128",
+        "USE_INITIAL_STATE": "True",
+        "STORE_FINAL_STATE": "True"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t3_d65_u1_v1_bd128_w1.ttir",
+          "sha256": "365f10da9a0e2df524068cc8b167d6cbf09785b1ed2917c61c66e2e600692cee"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t3_d65_u1_v1_bd128_w1.ptx",
+          "sha256": "939d878aca9e8a73f15f5e984c2e34db412f07086c40eff9bef4024c2e107686"
+        }
+      ]
+    },
+    {
+      "name": "bwd_t3_d65_u1_v1_bd128_w1",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        1,
+        2
+      ],
+      "signature": {
+        "g": "*fp32",
+        "o": "*fp32",
+        "dx": "*fp32",
+        "dg": "*fp32",
+        "do": "*fp32",
+        "h0": "*fp32",
+        "dht": "*fp32",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "USE_FINAL_GRAD": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=1, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "T": "3",
+        "D": "65",
+        "BD": "128",
+        "USE_INITIAL_STATE": "True",
+        "USE_FINAL_GRAD": "True"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t3_d65_u1_v1_bd128_w1.ttir",
+          "sha256": "5ec61f347801da5659bfc8bc52cab0a01a40f7279aa5b3b8aae21caa9628d99c"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t3_d65_u1_v1_bd128_w1.ptx",
+          "sha256": "60d85cc77a596f8f30ca60d34de351e5b8ad7beff6c10e62bd640a10de0479e8"
+        }
+      ]
+    },
+    {
+      "name": "fwd_t3_d65_u1_v1_bd128_w2",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        1,
+        2
+      ],
+      "signature": {
+        "x": "*fp32",
+        "g": "*fp32",
+        "o": "*fp32",
+        "h0": "*fp32",
+        "ht": "*fp32",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "STORE_FINAL_STATE": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=2, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "T": "3",
+        "D": "65",
+        "BD": "128",
+        "USE_INITIAL_STATE": "True",
+        "STORE_FINAL_STATE": "True"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t3_d65_u1_v1_bd128_w2.ttir",
+          "sha256": "365f10da9a0e2df524068cc8b167d6cbf09785b1ed2917c61c66e2e600692cee"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t3_d65_u1_v1_bd128_w2.ptx",
+          "sha256": "4e24752eafe7f3011aa04c9bc399f3660145c2186e1d857d3ff2acf8da22d7ce"
+        }
+      ]
+    },
+    {
+      "name": "bwd_t3_d65_u1_v1_bd128_w2",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        1,
+        2
+      ],
+      "signature": {
+        "g": "*fp32",
+        "o": "*fp32",
+        "dx": "*fp32",
+        "dg": "*fp32",
+        "do": "*fp32",
+        "h0": "*fp32",
+        "dht": "*fp32",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "USE_FINAL_GRAD": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=2, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "T": "3",
+        "D": "65",
+        "BD": "128",
+        "USE_INITIAL_STATE": "True",
+        "USE_FINAL_GRAD": "True"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t3_d65_u1_v1_bd128_w2.ttir",
+          "sha256": "5ec61f347801da5659bfc8bc52cab0a01a40f7279aa5b3b8aae21caa9628d99c"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t3_d65_u1_v1_bd128_w2.ptx",
+          "sha256": "9a1171a1ee56f94a9afecadbd3f4854ae7cf8142ad5e67b5542f011a338f956d"
+        }
+      ]
+    },
+    {
+      "name": "fwd_t3_d65_u1_v1_bd128_w4",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        1,
+        2
+      ],
+      "signature": {
+        "x": "*fp32",
+        "g": "*fp32",
+        "o": "*fp32",
+        "h0": "*fp32",
+        "ht": "*fp32",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "STORE_FINAL_STATE": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "T": "3",
+        "D": "65",
+        "BD": "128",
+        "USE_INITIAL_STATE": "True",
+        "STORE_FINAL_STATE": "True"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t3_d65_u1_v1_bd128_w4.ttir",
+          "sha256": "365f10da9a0e2df524068cc8b167d6cbf09785b1ed2917c61c66e2e600692cee"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t3_d65_u1_v1_bd128_w4.ptx",
+          "sha256": "99693e2623b5245047b5ac84c530387afca25651d0c2feaed511914e01d9823b"
+        }
+      ]
+    },
+    {
+      "name": "bwd_t3_d65_u1_v1_bd128_w4",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        1,
+        2
+      ],
+      "signature": {
+        "g": "*fp32",
+        "o": "*fp32",
+        "dx": "*fp32",
+        "dg": "*fp32",
+        "do": "*fp32",
+        "h0": "*fp32",
+        "dht": "*fp32",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "USE_FINAL_GRAD": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "T": "3",
+        "D": "65",
+        "BD": "128",
+        "USE_INITIAL_STATE": "True",
+        "USE_FINAL_GRAD": "True"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t3_d65_u1_v1_bd128_w4.ttir",
+          "sha256": "5ec61f347801da5659bfc8bc52cab0a01a40f7279aa5b3b8aae21caa9628d99c"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t3_d65_u1_v1_bd128_w4.ptx",
+          "sha256": "7dfa6c2a6b16a5936f5c3cd0e4263057fa4c6296382ba432fc97bb4c0ecaef8c"
+        }
+      ]
+    },
+    {
+      "name": "fwd_t3_d65_u1_v1_bd128_w8",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        1,
+        2
+      ],
+      "signature": {
+        "x": "*fp32",
+        "g": "*fp32",
+        "o": "*fp32",
+        "h0": "*fp32",
+        "ht": "*fp32",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "STORE_FINAL_STATE": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=8, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "T": "3",
+        "D": "65",
+        "BD": "128",
+        "USE_INITIAL_STATE": "True",
+        "STORE_FINAL_STATE": "True"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t3_d65_u1_v1_bd128_w8.ttir",
+          "sha256": "365f10da9a0e2df524068cc8b167d6cbf09785b1ed2917c61c66e2e600692cee"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t3_d65_u1_v1_bd128_w8.ptx",
+          "sha256": "6cb4c013992bedb34d9b559401ef82f502630b126bc75a137fbaff0da44f9b25"
+        }
+      ]
+    },
+    {
+      "name": "bwd_t3_d65_u1_v1_bd128_w8",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        1,
+        2
+      ],
+      "signature": {
+        "g": "*fp32",
+        "o": "*fp32",
+        "dx": "*fp32",
+        "dg": "*fp32",
+        "do": "*fp32",
+        "h0": "*fp32",
+        "dht": "*fp32",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "USE_FINAL_GRAD": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=8, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "T": "3",
+        "D": "65",
+        "BD": "128",
+        "USE_INITIAL_STATE": "True",
+        "USE_FINAL_GRAD": "True"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t3_d65_u1_v1_bd128_w8.ttir",
+          "sha256": "5ec61f347801da5659bfc8bc52cab0a01a40f7279aa5b3b8aae21caa9628d99c"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t3_d65_u1_v1_bd128_w8.ptx",
+          "sha256": "c9ab849186581ca3e64804256b4f194976faac8f2c2bb17221ef4a4377dbc33d"
+        }
+      ]
+    },
+    {
+      "name": "fwd_t0_d33_u0_v0_bd32_w4",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        2,
+        2
+      ],
+      "signature": {
+        "x": "*fp32",
+        "g": "*fp32",
+        "o": "*fp32",
+        "h0": "constexpr",
+        "ht": "constexpr",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "STORE_FINAL_STATE": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "h0": "None",
+        "ht": "None",
+        "T": "0",
+        "D": "33",
+        "BD": "32",
+        "USE_INITIAL_STATE": "False",
+        "STORE_FINAL_STATE": "False"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t0_d33_u0_v0_bd32_w4.ttir",
+          "sha256": "5427351e50364a2dc30eb7d251c664d16b00cb1e2821da2a670e2fc2c1eaa2ff"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t0_d33_u0_v0_bd32_w4.ptx",
+          "sha256": "869acd0c0c345f3e736e10a1f0a283694f17edc4d2f457dca77a0f2046c02fa0"
+        }
+      ]
+    },
+    {
+      "name": "bwd_t0_d33_u0_v0_bd32_w4",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        2,
+        2
+      ],
+      "signature": {
+        "g": "*fp32",
+        "o": "*fp32",
+        "dx": "*fp32",
+        "dg": "*fp32",
+        "do": "*fp32",
+        "h0": "constexpr",
+        "dht": "constexpr",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "USE_FINAL_GRAD": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "h0": "None",
+        "dht": "None",
+        "T": "0",
+        "D": "33",
+        "BD": "32",
+        "USE_INITIAL_STATE": "False",
+        "USE_FINAL_GRAD": "False"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t0_d33_u0_v0_bd32_w4.ttir",
+          "sha256": "fb09d5359797347656b675194ed5d887f8d45c19f5e046ece01b528fbabdb95c"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t0_d33_u0_v0_bd32_w4.ptx",
+          "sha256": "1684a747147c85ab0679fc92e6e1d08cbe5f797b374f922e9282ed07ff43a5e5"
+        }
+      ]
+    },
+    {
+      "name": "fwd_t0_d33_u0_v1_bd32_w4",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        2,
+        2
+      ],
+      "signature": {
+        "x": "*fp32",
+        "g": "*fp32",
+        "o": "*fp32",
+        "h0": "constexpr",
+        "ht": "*fp32",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "STORE_FINAL_STATE": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "h0": "None",
+        "T": "0",
+        "D": "33",
+        "BD": "32",
+        "USE_INITIAL_STATE": "False",
+        "STORE_FINAL_STATE": "True"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t0_d33_u0_v1_bd32_w4.ttir",
+          "sha256": "7edaee2d69159cec1c46f9adcdb98e2c150db65b8fef35c142b31a750f659132"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t0_d33_u0_v1_bd32_w4.ptx",
+          "sha256": "3bcc62c5819daffb93ecee3fcf9fca9ff0ae478395bd27b1620fc1925853ce12"
+        }
+      ]
+    },
+    {
+      "name": "bwd_t0_d33_u0_v1_bd32_w4",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        2,
+        2
+      ],
+      "signature": {
+        "g": "*fp32",
+        "o": "*fp32",
+        "dx": "*fp32",
+        "dg": "*fp32",
+        "do": "*fp32",
+        "h0": "constexpr",
+        "dht": "*fp32",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "USE_FINAL_GRAD": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "h0": "None",
+        "T": "0",
+        "D": "33",
+        "BD": "32",
+        "USE_INITIAL_STATE": "False",
+        "USE_FINAL_GRAD": "True"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t0_d33_u0_v1_bd32_w4.ttir",
+          "sha256": "438f4752105b9175cdc8237e317dabaabcd3eefb633efaa25dc31302b27910a5"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t0_d33_u0_v1_bd32_w4.ptx",
+          "sha256": "6cd06485742cc1bb1c4225dc29429cd56e6931f8d37bd365c8e4c7b5d672d88a"
+        }
+      ]
+    },
+    {
+      "name": "fwd_t0_d33_u1_v0_bd32_w4",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        2,
+        2
+      ],
+      "signature": {
+        "x": "*fp32",
+        "g": "*fp32",
+        "o": "*fp32",
+        "h0": "*fp32",
+        "ht": "constexpr",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "STORE_FINAL_STATE": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "ht": "None",
+        "T": "0",
+        "D": "33",
+        "BD": "32",
+        "USE_INITIAL_STATE": "True",
+        "STORE_FINAL_STATE": "False"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t0_d33_u1_v0_bd32_w4.ttir",
+          "sha256": "5209bf9874b295ec2f596959173261e93a0a29cd45c8f82e5ff0ebc3fa6a269f"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t0_d33_u1_v0_bd32_w4.ptx",
+          "sha256": "f6999d2d776f9922a7ecb5ea87fbbfd5111530bf286a20863ced9638e9c16227"
+        }
+      ]
+    },
+    {
+      "name": "bwd_t0_d33_u1_v0_bd32_w4",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        2,
+        2
+      ],
+      "signature": {
+        "g": "*fp32",
+        "o": "*fp32",
+        "dx": "*fp32",
+        "dg": "*fp32",
+        "do": "*fp32",
+        "h0": "*fp32",
+        "dht": "constexpr",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "USE_FINAL_GRAD": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "dht": "None",
+        "T": "0",
+        "D": "33",
+        "BD": "32",
+        "USE_INITIAL_STATE": "True",
+        "USE_FINAL_GRAD": "False"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t0_d33_u1_v0_bd32_w4.ttir",
+          "sha256": "5e69d4540f328c34f1aa50c98bb72bf35675730333739b299f1bd485ffd2c775"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t0_d33_u1_v0_bd32_w4.ptx",
+          "sha256": "6cd06485742cc1bb1c4225dc29429cd56e6931f8d37bd365c8e4c7b5d672d88a"
+        }
+      ]
+    },
+    {
+      "name": "fwd_t0_d33_u1_v1_bd32_w4",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        2,
+        2
+      ],
+      "signature": {
+        "x": "*fp32",
+        "g": "*fp32",
+        "o": "*fp32",
+        "h0": "*fp32",
+        "ht": "*fp32",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "STORE_FINAL_STATE": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "T": "0",
+        "D": "33",
+        "BD": "32",
+        "USE_INITIAL_STATE": "True",
+        "STORE_FINAL_STATE": "True"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t0_d33_u1_v1_bd32_w4.ttir",
+          "sha256": "7a5e78a588933aaf3b767d5a5b365e99ec5f5f49ade31e0522441d345caabaa9"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t0_d33_u1_v1_bd32_w4.ptx",
+          "sha256": "1f8fe421d2c3ecc2ca50fbacffccda2d645b4927b3c8cb4b749a31f7fdfc3288"
+        }
+      ]
+    },
+    {
+      "name": "bwd_t0_d33_u1_v1_bd32_w4",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        2,
+        2
+      ],
+      "signature": {
+        "g": "*fp32",
+        "o": "*fp32",
+        "dx": "*fp32",
+        "dg": "*fp32",
+        "do": "*fp32",
+        "h0": "*fp32",
+        "dht": "*fp32",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "USE_FINAL_GRAD": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "T": "0",
+        "D": "33",
+        "BD": "32",
+        "USE_INITIAL_STATE": "True",
+        "USE_FINAL_GRAD": "True"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t0_d33_u1_v1_bd32_w4.ttir",
+          "sha256": "41899afcd3460182e67aeaa5c72eadecc52627e2fce41b2d30ab64a4ae29d04f"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t0_d33_u1_v1_bd32_w4.ptx",
+          "sha256": "39d19e94ec9a2f448bdbdf8659cf34d2b132f926704033597d1c9b49dedc31bc"
+        }
+      ]
+    },
+    {
+      "name": "fwd_t1_d33_u0_v0_bd32_w4",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        2,
+        2
+      ],
+      "signature": {
+        "x": "*fp32",
+        "g": "*fp32",
+        "o": "*fp32",
+        "h0": "constexpr",
+        "ht": "constexpr",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "STORE_FINAL_STATE": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "h0": "None",
+        "ht": "None",
+        "T": "1",
+        "D": "33",
+        "BD": "32",
+        "USE_INITIAL_STATE": "False",
+        "STORE_FINAL_STATE": "False"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t1_d33_u0_v0_bd32_w4.ttir",
+          "sha256": "1850f46c7254fa716bd7b4b9b2566ddbb01d8468528a535e06e3f5406cf4cb13"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t1_d33_u0_v0_bd32_w4.ptx",
+          "sha256": "8cec4b9de2bcef6118e41837b4fd9800cd8e3ddc0fe1ea67cf1563fdba5bcdf2"
+        }
+      ]
+    },
+    {
+      "name": "bwd_t1_d33_u0_v0_bd32_w4",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        2,
+        2
+      ],
+      "signature": {
+        "g": "*fp32",
+        "o": "*fp32",
+        "dx": "*fp32",
+        "dg": "*fp32",
+        "do": "*fp32",
+        "h0": "constexpr",
+        "dht": "constexpr",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "USE_FINAL_GRAD": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "h0": "None",
+        "dht": "None",
+        "T": "1",
+        "D": "33",
+        "BD": "32",
+        "USE_INITIAL_STATE": "False",
+        "USE_FINAL_GRAD": "False"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t1_d33_u0_v0_bd32_w4.ttir",
+          "sha256": "444009676e0e1b60a68c0c0a552588a2280296c67858e68a50d549e354b01890"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t1_d33_u0_v0_bd32_w4.ptx",
+          "sha256": "58bce016cc79d7716b2e4a0b261a171e9747c0086c5a78509c31b6ff947dbf23"
+        }
+      ]
+    },
+    {
+      "name": "fwd_t1_d33_u0_v1_bd32_w4",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        2,
+        2
+      ],
+      "signature": {
+        "x": "*fp32",
+        "g": "*fp32",
+        "o": "*fp32",
+        "h0": "constexpr",
+        "ht": "*fp32",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "STORE_FINAL_STATE": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "h0": "None",
+        "T": "1",
+        "D": "33",
+        "BD": "32",
+        "USE_INITIAL_STATE": "False",
+        "STORE_FINAL_STATE": "True"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t1_d33_u0_v1_bd32_w4.ttir",
+          "sha256": "4f62e41d635cda9b69cd9618d99a5fae48a5ff3fd467b0c180f05efe5857dc08"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t1_d33_u0_v1_bd32_w4.ptx",
+          "sha256": "7ec65eb364a1236aefbf00f72fe33b4e50d946d2b7704f68e107b422f137ff63"
+        }
+      ]
+    },
+    {
+      "name": "bwd_t1_d33_u0_v1_bd32_w4",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        2,
+        2
+      ],
+      "signature": {
+        "g": "*fp32",
+        "o": "*fp32",
+        "dx": "*fp32",
+        "dg": "*fp32",
+        "do": "*fp32",
+        "h0": "constexpr",
+        "dht": "*fp32",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "USE_FINAL_GRAD": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "h0": "None",
+        "T": "1",
+        "D": "33",
+        "BD": "32",
+        "USE_INITIAL_STATE": "False",
+        "USE_FINAL_GRAD": "True"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t1_d33_u0_v1_bd32_w4.ttir",
+          "sha256": "6ce7c4039c5f11689e01c7ef43f4391c47dd39408d0fc39198b9de272dacd593"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t1_d33_u0_v1_bd32_w4.ptx",
+          "sha256": "ad52a6b8f0674761e1be8184e3377b0b69b6d5e04b4d031b86caf4a0cc79be8d"
+        }
+      ]
+    },
+    {
+      "name": "fwd_t1_d33_u1_v0_bd32_w4",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        2,
+        2
+      ],
+      "signature": {
+        "x": "*fp32",
+        "g": "*fp32",
+        "o": "*fp32",
+        "h0": "*fp32",
+        "ht": "constexpr",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "STORE_FINAL_STATE": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "ht": "None",
+        "T": "1",
+        "D": "33",
+        "BD": "32",
+        "USE_INITIAL_STATE": "True",
+        "STORE_FINAL_STATE": "False"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t1_d33_u1_v0_bd32_w4.ttir",
+          "sha256": "b53cb3b125394a45a2d810cf99ef36f09dbb9b75744631d62505da6c2d647dd8"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t1_d33_u1_v0_bd32_w4.ptx",
+          "sha256": "c7b9ab0981345f0aadaad21dbb3e170df1b07eada1440dcb73e891985a0b8717"
+        }
+      ]
+    },
+    {
+      "name": "bwd_t1_d33_u1_v0_bd32_w4",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        2,
+        2
+      ],
+      "signature": {
+        "g": "*fp32",
+        "o": "*fp32",
+        "dx": "*fp32",
+        "dg": "*fp32",
+        "do": "*fp32",
+        "h0": "*fp32",
+        "dht": "constexpr",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "USE_FINAL_GRAD": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "dht": "None",
+        "T": "1",
+        "D": "33",
+        "BD": "32",
+        "USE_INITIAL_STATE": "True",
+        "USE_FINAL_GRAD": "False"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t1_d33_u1_v0_bd32_w4.ttir",
+          "sha256": "eb0095b1ab5122c0298e1e005d99c6be363828107aababf0888538bb68d5a34f"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t1_d33_u1_v0_bd32_w4.ptx",
+          "sha256": "d488af45ef2fe018f70a40e527914d4abb916cee011b99923016fac3907acfa0"
+        }
+      ]
+    },
+    {
+      "name": "fwd_t1_d33_u1_v1_bd32_w4",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        2,
+        2
+      ],
+      "signature": {
+        "x": "*fp32",
+        "g": "*fp32",
+        "o": "*fp32",
+        "h0": "*fp32",
+        "ht": "*fp32",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "STORE_FINAL_STATE": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "T": "1",
+        "D": "33",
+        "BD": "32",
+        "USE_INITIAL_STATE": "True",
+        "STORE_FINAL_STATE": "True"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t1_d33_u1_v1_bd32_w4.ttir",
+          "sha256": "f2bd187eaa8459ec1c00a52ef80631b3a0529c02c0f071ab56125def92ae4a1f"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t1_d33_u1_v1_bd32_w4.ptx",
+          "sha256": "3f7a0bd5995dde9e85bc55de8d24bb67fc413b8b6e5b54c6e46dfb092a01dffa"
+        }
+      ]
+    },
+    {
+      "name": "bwd_t1_d33_u1_v1_bd32_w4",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        2,
+        2
+      ],
+      "signature": {
+        "g": "*fp32",
+        "o": "*fp32",
+        "dx": "*fp32",
+        "dg": "*fp32",
+        "do": "*fp32",
+        "h0": "*fp32",
+        "dht": "*fp32",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "USE_FINAL_GRAD": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "T": "1",
+        "D": "33",
+        "BD": "32",
+        "USE_INITIAL_STATE": "True",
+        "USE_FINAL_GRAD": "True"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t1_d33_u1_v1_bd32_w4.ttir",
+          "sha256": "8d3d8107065aaff86572b3f561bd8613ab5cfd9810860a5b51301bf90c6da1a7"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t1_d33_u1_v1_bd32_w4.ptx",
+          "sha256": "9190822f2732d2f22d9ca717290126dabef0b1b8adecb3d675afae765b2ff1f4"
+        }
+      ]
+    },
+    {
+      "name": "fwd_t2_d33_u0_v0_bd32_w4",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        2,
+        2
+      ],
+      "signature": {
+        "x": "*fp32",
+        "g": "*fp32",
+        "o": "*fp32",
+        "h0": "constexpr",
+        "ht": "constexpr",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "STORE_FINAL_STATE": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "h0": "None",
+        "ht": "None",
+        "T": "2",
+        "D": "33",
+        "BD": "32",
+        "USE_INITIAL_STATE": "False",
+        "STORE_FINAL_STATE": "False"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t2_d33_u0_v0_bd32_w4.ttir",
+          "sha256": "5ff5a6f869061f5d0fac1c469793332eed805d9ceefc2d2016182aa1707170fb"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t2_d33_u0_v0_bd32_w4.ptx",
+          "sha256": "0d1c2d6019ca35f5b52d843a2d29feb53fd9d3b357a523204a9df87b3b479e29"
+        }
+      ]
+    },
+    {
+      "name": "bwd_t2_d33_u0_v0_bd32_w4",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        2,
+        2
+      ],
+      "signature": {
+        "g": "*fp32",
+        "o": "*fp32",
+        "dx": "*fp32",
+        "dg": "*fp32",
+        "do": "*fp32",
+        "h0": "constexpr",
+        "dht": "constexpr",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "USE_FINAL_GRAD": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "h0": "None",
+        "dht": "None",
+        "T": "2",
+        "D": "33",
+        "BD": "32",
+        "USE_INITIAL_STATE": "False",
+        "USE_FINAL_GRAD": "False"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t2_d33_u0_v0_bd32_w4.ttir",
+          "sha256": "1f69f9f82a7cd552a6f939d52f74a6e116710a3a20e54e5b19b999afefc80f0a"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t2_d33_u0_v0_bd32_w4.ptx",
+          "sha256": "b9c95555d05d4505be359f8e978c8a3427f1595a04c1cdebfa8c81d252b94aa5"
+        }
+      ]
+    },
+    {
+      "name": "fwd_t2_d33_u0_v1_bd32_w4",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        2,
+        2
+      ],
+      "signature": {
+        "x": "*fp32",
+        "g": "*fp32",
+        "o": "*fp32",
+        "h0": "constexpr",
+        "ht": "*fp32",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "STORE_FINAL_STATE": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "h0": "None",
+        "T": "2",
+        "D": "33",
+        "BD": "32",
+        "USE_INITIAL_STATE": "False",
+        "STORE_FINAL_STATE": "True"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t2_d33_u0_v1_bd32_w4.ttir",
+          "sha256": "89cb17dfde3d951449da0f348432d14bcbc66acf11aeca789eccc5bc441e557f"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t2_d33_u0_v1_bd32_w4.ptx",
+          "sha256": "7ee3c0db24c06c7640db4b0e5b6b77c577037ea7890d2fc19207312545aa5eb8"
+        }
+      ]
+    },
+    {
+      "name": "bwd_t2_d33_u0_v1_bd32_w4",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        2,
+        2
+      ],
+      "signature": {
+        "g": "*fp32",
+        "o": "*fp32",
+        "dx": "*fp32",
+        "dg": "*fp32",
+        "do": "*fp32",
+        "h0": "constexpr",
+        "dht": "*fp32",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "USE_FINAL_GRAD": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "h0": "None",
+        "T": "2",
+        "D": "33",
+        "BD": "32",
+        "USE_INITIAL_STATE": "False",
+        "USE_FINAL_GRAD": "True"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t2_d33_u0_v1_bd32_w4.ttir",
+          "sha256": "f891be27b47e72c8acec9cdcdd65ff53e39ba632eb4df3ff82805e52ac225b49"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t2_d33_u0_v1_bd32_w4.ptx",
+          "sha256": "21c53b630a078f904de2236e6a9802a5cf898bb16c55f747f1003260d5829d66"
+        }
+      ]
+    },
+    {
+      "name": "fwd_t2_d33_u1_v0_bd32_w4",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        2,
+        2
+      ],
+      "signature": {
+        "x": "*fp32",
+        "g": "*fp32",
+        "o": "*fp32",
+        "h0": "*fp32",
+        "ht": "constexpr",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "STORE_FINAL_STATE": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "ht": "None",
+        "T": "2",
+        "D": "33",
+        "BD": "32",
+        "USE_INITIAL_STATE": "True",
+        "STORE_FINAL_STATE": "False"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t2_d33_u1_v0_bd32_w4.ttir",
+          "sha256": "e61fe406ef6a64f88ea7856bc5ea1e9c682b7bf80ab1b1f133b631600976470a"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t2_d33_u1_v0_bd32_w4.ptx",
+          "sha256": "a65cc8a0b0160772251ca19dc34ff0b490a2aaba903268c0a2ac3fc243d294bd"
+        }
+      ]
+    },
+    {
+      "name": "bwd_t2_d33_u1_v0_bd32_w4",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        2,
+        2
+      ],
+      "signature": {
+        "g": "*fp32",
+        "o": "*fp32",
+        "dx": "*fp32",
+        "dg": "*fp32",
+        "do": "*fp32",
+        "h0": "*fp32",
+        "dht": "constexpr",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "USE_FINAL_GRAD": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "dht": "None",
+        "T": "2",
+        "D": "33",
+        "BD": "32",
+        "USE_INITIAL_STATE": "True",
+        "USE_FINAL_GRAD": "False"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t2_d33_u1_v0_bd32_w4.ttir",
+          "sha256": "5a2ce354f4953012b92945610862d221beb7147d45a6517b69eb130dcaf316c8"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t2_d33_u1_v0_bd32_w4.ptx",
+          "sha256": "db89fcff513e4513664d3f5fb8949838ad949b2e9403632cab062f813b34ae58"
+        }
+      ]
+    },
+    {
+      "name": "fwd_t2_d33_u1_v1_bd32_w4",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        2,
+        2
+      ],
+      "signature": {
+        "x": "*fp32",
+        "g": "*fp32",
+        "o": "*fp32",
+        "h0": "*fp32",
+        "ht": "*fp32",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "STORE_FINAL_STATE": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "T": "2",
+        "D": "33",
+        "BD": "32",
+        "USE_INITIAL_STATE": "True",
+        "STORE_FINAL_STATE": "True"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t2_d33_u1_v1_bd32_w4.ttir",
+          "sha256": "a9e49be9af8b560e20bd82eb8d1f5d271f8e4ce1db0620490e1da9b55ff079d1"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t2_d33_u1_v1_bd32_w4.ptx",
+          "sha256": "226b016f8c7c5aa3350d67f9ed57f662d62f554ab4916e06c8da172adbc4a1d5"
+        }
+      ]
+    },
+    {
+      "name": "bwd_t2_d33_u1_v1_bd32_w4",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        2,
+        2
+      ],
+      "signature": {
+        "g": "*fp32",
+        "o": "*fp32",
+        "dx": "*fp32",
+        "dg": "*fp32",
+        "do": "*fp32",
+        "h0": "*fp32",
+        "dht": "*fp32",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "USE_FINAL_GRAD": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "T": "2",
+        "D": "33",
+        "BD": "32",
+        "USE_INITIAL_STATE": "True",
+        "USE_FINAL_GRAD": "True"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t2_d33_u1_v1_bd32_w4.ttir",
+          "sha256": "1b30170dd8b2a6b9ba46de1690ddd2755ad96729a45976474ca9878bc78be234"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t2_d33_u1_v1_bd32_w4.ptx",
+          "sha256": "8d316bd991dda0b72a200b8187081d628f172d6dc92921391bd1f666fe35f3b6"
+        }
+      ]
+    },
+    {
+      "name": "fwd_t4_d33_u0_v0_bd32_w4",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        2,
+        2
+      ],
+      "signature": {
+        "x": "*fp32",
+        "g": "*fp32",
+        "o": "*fp32",
+        "h0": "constexpr",
+        "ht": "constexpr",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "STORE_FINAL_STATE": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "h0": "None",
+        "ht": "None",
+        "T": "4",
+        "D": "33",
+        "BD": "32",
+        "USE_INITIAL_STATE": "False",
+        "STORE_FINAL_STATE": "False"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t4_d33_u0_v0_bd32_w4.ttir",
+          "sha256": "11a18afff0a5a78ac64de596e036f514489e4aed628b67b1c641fa2fd436edea"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t4_d33_u0_v0_bd32_w4.ptx",
+          "sha256": "f2ac4a2f6520b7fd85f28d5bf9aab5ef717a11d5ae18da819fdea12fb0eee214"
+        }
+      ]
+    },
+    {
+      "name": "bwd_t4_d33_u0_v0_bd32_w4",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        2,
+        2
+      ],
+      "signature": {
+        "g": "*fp32",
+        "o": "*fp32",
+        "dx": "*fp32",
+        "dg": "*fp32",
+        "do": "*fp32",
+        "h0": "constexpr",
+        "dht": "constexpr",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "USE_FINAL_GRAD": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "h0": "None",
+        "dht": "None",
+        "T": "4",
+        "D": "33",
+        "BD": "32",
+        "USE_INITIAL_STATE": "False",
+        "USE_FINAL_GRAD": "False"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t4_d33_u0_v0_bd32_w4.ttir",
+          "sha256": "e1602f4142c09735773331bff40a323b110aa84ef44dec85d0669996035bce4b"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t4_d33_u0_v0_bd32_w4.ptx",
+          "sha256": "aabd03a229db12a941f16c68c26fd2e55d6f374d392c85eedfd524bb6874c5dd"
+        }
+      ]
+    },
+    {
+      "name": "fwd_t4_d33_u0_v1_bd32_w4",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        2,
+        2
+      ],
+      "signature": {
+        "x": "*fp32",
+        "g": "*fp32",
+        "o": "*fp32",
+        "h0": "constexpr",
+        "ht": "*fp32",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "STORE_FINAL_STATE": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "h0": "None",
+        "T": "4",
+        "D": "33",
+        "BD": "32",
+        "USE_INITIAL_STATE": "False",
+        "STORE_FINAL_STATE": "True"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t4_d33_u0_v1_bd32_w4.ttir",
+          "sha256": "27e3f68a7a68fcc43670a991c98750925e79d2071127ec56b381ec63f6f006f5"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t4_d33_u0_v1_bd32_w4.ptx",
+          "sha256": "4cb725053d86f0c5c4811851d64c2614ed03bf9b155226dc1757a1f3b88ae570"
+        }
+      ]
+    },
+    {
+      "name": "bwd_t4_d33_u0_v1_bd32_w4",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        2,
+        2
+      ],
+      "signature": {
+        "g": "*fp32",
+        "o": "*fp32",
+        "dx": "*fp32",
+        "dg": "*fp32",
+        "do": "*fp32",
+        "h0": "constexpr",
+        "dht": "*fp32",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "USE_FINAL_GRAD": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "h0": "None",
+        "T": "4",
+        "D": "33",
+        "BD": "32",
+        "USE_INITIAL_STATE": "False",
+        "USE_FINAL_GRAD": "True"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t4_d33_u0_v1_bd32_w4.ttir",
+          "sha256": "48520cbef04c411e34b98a7845b14aa08381550804e84d1d837aedb73c8ec1ac"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t4_d33_u0_v1_bd32_w4.ptx",
+          "sha256": "2ac7586c08ae8864d0af5e1668836c49b3d3236592d91b3bfe7540e4fdd564ec"
+        }
+      ]
+    },
+    {
+      "name": "fwd_t4_d33_u1_v0_bd32_w4",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        2,
+        2
+      ],
+      "signature": {
+        "x": "*fp32",
+        "g": "*fp32",
+        "o": "*fp32",
+        "h0": "*fp32",
+        "ht": "constexpr",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "STORE_FINAL_STATE": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "ht": "None",
+        "T": "4",
+        "D": "33",
+        "BD": "32",
+        "USE_INITIAL_STATE": "True",
+        "STORE_FINAL_STATE": "False"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t4_d33_u1_v0_bd32_w4.ttir",
+          "sha256": "48cde8e09232c33d74b58cd014461d909ddb1156dad71300dc6b5bcf9dea54db"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t4_d33_u1_v0_bd32_w4.ptx",
+          "sha256": "859264109c587ab705d47395bf661c7b9128003f83c590e4975548d2c349c579"
+        }
+      ]
+    },
+    {
+      "name": "bwd_t4_d33_u1_v0_bd32_w4",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        2,
+        2
+      ],
+      "signature": {
+        "g": "*fp32",
+        "o": "*fp32",
+        "dx": "*fp32",
+        "dg": "*fp32",
+        "do": "*fp32",
+        "h0": "*fp32",
+        "dht": "constexpr",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "USE_FINAL_GRAD": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "dht": "None",
+        "T": "4",
+        "D": "33",
+        "BD": "32",
+        "USE_INITIAL_STATE": "True",
+        "USE_FINAL_GRAD": "False"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t4_d33_u1_v0_bd32_w4.ttir",
+          "sha256": "5afa2481965bb339daab9dbc7fe12dff757df40206b8af07801fd085a99ee9d2"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t4_d33_u1_v0_bd32_w4.ptx",
+          "sha256": "babdce51bc6c302e17dab89739b438213d20891cc0c76fc0abde7b6e608f1cd3"
+        }
+      ]
+    },
+    {
+      "name": "fwd_t4_d33_u1_v1_bd32_w4",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        2,
+        2
+      ],
+      "signature": {
+        "x": "*fp32",
+        "g": "*fp32",
+        "o": "*fp32",
+        "h0": "*fp32",
+        "ht": "*fp32",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "STORE_FINAL_STATE": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "T": "4",
+        "D": "33",
+        "BD": "32",
+        "USE_INITIAL_STATE": "True",
+        "STORE_FINAL_STATE": "True"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t4_d33_u1_v1_bd32_w4.ttir",
+          "sha256": "d2cb4b358a9e495a60d47533aee5ad2c1c3f1b3add252f18768d22577f8945bc"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/fwd_t4_d33_u1_v1_bd32_w4.ptx",
+          "sha256": "02c4a51f16e4433c25050a843d6026418cf531db361dda2424d6a6e51d6619fb"
+        }
+      ]
+    },
+    {
+      "name": "bwd_t4_d33_u1_v1_bd32_w4",
+      "status": "compiled",
+      "source_sha256": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
+      "grid": [
+        2,
+        2
+      ],
+      "signature": {
+        "g": "*fp32",
+        "o": "*fp32",
+        "dx": "*fp32",
+        "dg": "*fp32",
+        "do": "*fp32",
+        "h0": "*fp32",
+        "dht": "*fp32",
+        "T": "constexpr",
+        "D": "constexpr",
+        "BD": "constexpr",
+        "USE_INITIAL_STATE": "constexpr",
+        "USE_FINAL_GRAD": "constexpr"
+      },
+      "options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "T": "4",
+        "D": "33",
+        "BD": "32",
+        "USE_INITIAL_STATE": "True",
+        "USE_FINAL_GRAD": "True"
+      },
+      "artifacts": [
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t4_d33_u1_v1_bd32_w4.ttir",
+          "sha256": "f95590cc4d09bf01cfd7476135a60f36c6466d558073688839cc420e69b1d78c"
+        },
+        {
+          "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/kernel-evidence/bwd_t4_d33_u1_v1_bd32_w4.ptx",
+          "sha256": "005f190bb676f8c579017dc15deb5aee9404b21acf4457e8e321ec993aac0650"
+        }
+      ]
+    }
+  ]
+}

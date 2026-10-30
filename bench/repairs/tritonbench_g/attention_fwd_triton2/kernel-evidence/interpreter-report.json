@@ -1,0 +1,131 @@
+{
+  "source": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/attention_fwd_triton2_repaired.py",
+  "source_sha256": "eb7192d0aaab5db92b98eba026b05eb728774263b5f3afecbd7270d9d84bc005",
+  "method": "Actual source and wrapper in Triton CPU interpreter on real Tensor storage; exact-class/device/context/allocation facade",
+  "GPU_execution": false,
+  "instruction_conformance_experiment": false,
+  "reference": "Q=K=0, QS=KS=1, V=2; complete output is exactly 2",
+  "cases": [
+    {
+      "shape": [
+        1,
+        1,
+        1,
+        96
+      ],
+      "empty": false,
+      "readonly_alias": true,
+      "actual_returned_tensor": true,
+      "output_dtype": "bfloat16",
+      "all_output_words": "exact BF16 2",
+      "all_input_backing_frames": true,
+      "input_prefix_elements": 5,
+      "input_suffix_elements": 17,
+      "unused_M_frame": true
+    },
+    {
+      "shape": [
+        1,
+        2,
+        65,
+        96
+      ],
+      "empty": false,
+      "readonly_alias": false,
+      "actual_returned_tensor": true,
+      "output_dtype": "bfloat16",
+      "all_output_words": "exact BF16 2",
+      "all_input_backing_frames": true,
+      "input_prefix_elements": 5,
+      "input_suffix_elements": 17,
+      "unused_M_frame": true
+    },
+    {
+      "shape": [
+        2,
+        3,
+        129,
+        96
+      ],
+      "empty": false,
+      "readonly_alias": false,
+      "actual_returned_tensor": true,
+      "output_dtype": "bfloat16",
+      "all_output_words": "exact BF16 2",
+      "all_input_backing_frames": true,
+      "input_prefix_elements": 5,
+      "input_suffix_elements": 17,
+      "unused_M_frame": true
+    },
+    {
+      "shape": [
+        1,
+        1,
+        127,
+        96
+      ],
+      "empty": false,
+      "readonly_alias": false,
+      "actual_returned_tensor": true,
+      "output_dtype": "bfloat16",
+      "all_output_words": "exact BF16 2",
+      "all_input_backing_frames": true,
+      "input_prefix_elements": 5,
+      "input_suffix_elements": 17,
+      "unused_M_frame": true
+    },
+    {
+      "shape": [
+        0,
+        2,
+        64,
+        96
+      ],
+      "empty": true,
+      "readonly_alias": false,
+      "actual_returned_tensor": true,
+      "output_dtype": "bfloat16",
+      "all_output_words": "exact BF16 2",
+      "all_input_backing_frames": true,
+      "input_prefix_elements": 5,
+      "input_suffix_elements": 17,
+      "unused_M_frame": true
+    },
+    {
+      "shape": [
+        2,
+        0,
+        64,
+        96
+      ],
+      "empty": true,
+      "readonly_alias": false,
+      "actual_returned_tensor": true,
+      "output_dtype": "bfloat16",
+      "all_output_words": "exact BF16 2",
+      "all_input_backing_frames": true,
+      "input_prefix_elements": 5,
+      "input_suffix_elements": 17,
+      "unused_M_frame": true
+    },
+    {
+      "shape": [
+        2,
+        3,
+        0,
+        96
+      ],
+      "empty": true,
+      "readonly_alias": false,
+      "actual_returned_tensor": true,
+      "output_dtype": "bfloat16",
+      "all_output_words": "exact BF16 2",
+      "all_input_backing_frames": true,
+      "input_prefix_elements": 5,
+      "input_suffix_elements": 17,
+      "unused_M_frame": true
+    }
+  ],
+  "complete_nonempty_cases": 4,
+  "empty_cases": 3
+}

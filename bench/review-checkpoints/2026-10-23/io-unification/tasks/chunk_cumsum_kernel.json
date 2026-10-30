@@ -1,0 +1,425 @@
+{
+  "schema": 1,
+  "task": "chunk_cumsum_kernel",
+  "status": "consolidated",
+  "owner": {
+    "path": ".veritile-cache/io-unification-20261023/queue02/result.json",
+    "sha256": "65e3debe21e63566d1e97a95f34c01980c9c10848d5481f2e5abc79a836c1c42",
+    "task_index": 10
+  },
+  "reason": "The existing physical memory interface and the logical view used by the main theorem now reside together in task-level IO.lean; original namespaces and full judgments are retained. Execution, safety and complete connection proofs remain in Proofs.",
+  "selected_public_entries": [
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Contract.lean",
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Correct.lean",
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/FPEquiv.lean"
+  ],
+  "previous_semantic_review": {
+    "manifest": {
+      "path": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json",
+      "sha256": "5df771b8603eaf5d9f08b4fde0c5b938c18087c00092f5348b47eb54d33a8225"
+    },
+    "task": "chunk_cumsum_kernel"
+  },
+  "changed_files": [
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/IO.lean",
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/LogicalReader.lean",
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/PublicReal.lean",
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/SourceProjection.lean"
+  ],
+  "removed_files": [
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/LogicalIO.lean"
+  ],
+  "moved_declarations": [
+    {
+      "from": "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/PublicReal.lean",
+      "to": "bench/repairs/tritonbench_g/chunk_cumsum_kernel/IO.lean",
+      "names": [
+        "io"
+      ],
+      "exact_block": true
+    },
+    {
+      "from": "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/PublicReal.lean",
+      "to": "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/SourceProjection.lean",
+      "names": [
+        "projection"
+      ],
+      "exact_block": true
+    },
+    {
+      "from": "bench/repairs/tritonbench_g/chunk_cumsum_kernel/LogicalIO.lean",
+      "to": "bench/repairs/tritonbench_g/chunk_cumsum_kernel/IO.lean",
+      "names": [
+        "rowValues",
+        "prefixLogicalIO"
+      ],
+      "exact_body": true
+    }
+  ],
+  "preservation": {
+    "evidence": {
+      "path": ".veritile-cache/io-unification-20261023/queue02/preservation.json",
+      "sha256": "9a4c1f836b6f38f7601c7fcfaa8176eb48c1298cb8243ee1a1d9b1f1e1632c75"
+    },
+    "task_evidence": {
+      "moved_blocks": [
+        {
+          "from": "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/PublicReal.lean",
+          "to": "bench/repairs/tritonbench_g/chunk_cumsum_kernel/IO.lean",
+          "name": "io",
+          "declaration_sha256": "89c51af40ad43ca14196612f9303886192f0781ee4862846e43d38a9cab78aef",
+          "declaration_exact_substring": true
+        },
+        {
+          "from": "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/PublicReal.lean",
+          "to": "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/SourceProjection.lean",
+          "name": "projection",
+          "declaration_sha256": "1047c98492d21da5d8f23cccc60077baa6b6c8688d67e6f89fe5892e3ba466e1",
+          "declaration_exact_substring": true
+        },
+        {
+          "from": "bench/repairs/tritonbench_g/chunk_cumsum_kernel/LogicalIO.lean",
+          "to": "bench/repairs/tritonbench_g/chunk_cumsum_kernel/IO.lean",
+          "body_sha256": "cb75e35246b138e3c2ed05b853beeee32cd116bea604f6b4e5587abaf39305d0",
+          "body_exact_substring": true,
+          "names": [
+            "rowValues",
+            "prefixLogicalIO"
+          ]
+        },
+        {
+          "from": "bench/repairs/tritonbench_g/chunk_cumsum_kernel/IO.lean",
+          "to": "bench/repairs/tritonbench_g/chunk_cumsum_kernel/IO.lean",
+          "original_body_sha256": "f02dc12a1d0f540cf03f8375ad0ebf812da4878fbd5a571a4a68264c15d4a3ad",
+          "exact_body_after_two_lexical_spaces": false,
+          "body_exact_substring": true,
+          "normalized_body_exact_substring": true
+        }
+      ],
+      "import_only_changes": [
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/LogicalReader.lean"
+      ],
+      "byte_unchanged_files": [
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Correct.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/FPEquiv.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Contract.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Kernels.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Misc/OptionalHostFPEquiv.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Misc/TensorBridge.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Misc/OptionalHostCorrect.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/ProgramPair.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/NativeIndex.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/PublicFP.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/Rewrite.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/KernelRealResult.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/Geometry.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/RealSafety.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/RealGrid.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/Host.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/Contract.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/RealRow.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/Layout.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/Storage.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/RealIndexBridge.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/FPRow.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/CarryDomain.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/RealComplete.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/Tail.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/WholeReal.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/WholeFP.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/DirectHost.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/FPGrid.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/SourceSafety.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/KernelContract.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/KernelEquivalence.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/FPIndexBridge.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/RealProjection.lean"
+      ],
+      "protected_entries_byte_unchanged": [
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Contract.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Correct.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/FPEquiv.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Kernels.lean"
+      ],
+      "judgment_preservation": "The complete original physical IO bodies are retained (two whitespace disambiguations only for bgmv_expand_slice); all logical view declaration bodies including complete judgment types are byte-preserved. Contract, Correct, FPEquiv and Kernels source is byte unchanged. Proofs/LogicalReader signatures/bodies have only import changes.",
+      "lexical_disambiguation": {
+        "needed": false,
+        "reason": "Importing the logical view and concrete Real model exposes the Mathlib ≤i / <i notation; spaces preserve ordinary comparisons to index and inputWidth.",
+        "fixture": null
+      }
+    }
+  },
+  "verification": [
+    {
+      "task": "chunk_cumsum_kernel",
+      "kind": "targeted changed modules and public entries",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue02/build.py",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/SourceProjection.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/IO.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/LogicalReader.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Correct.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/FPEquiv.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/PublicReal.lean"
+      ],
+      "exit_code": 1,
+      "log": ".veritile-cache/io-unification-20261023/queue02/chunk_cumsum_kernel-targeted.log",
+      "log_sha256": "79ac4fed0cca67cf78bc02790bf35d45287d7b0c7c08bd768eda6f16ce20c49d",
+      "sandbox": "require_escalated"
+    },
+    {
+      "task": "chunk_cumsum_kernel",
+      "kind": "targeted changed modules and public entries",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue02/build.py",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/SourceProjection.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/IO.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/PublicReal.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/LogicalReader.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Correct.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/FPEquiv.lean"
+      ],
+      "exit_code": 1,
+      "log": ".veritile-cache/io-unification-20261023/queue02/chunk_cumsum_kernel-targeted-2.log",
+      "log_sha256": "d5d50018b0e2b483034b15eee570da5c8da01d303c135288bd661700b75b09f1",
+      "sandbox": "require_escalated"
+    },
+    {
+      "task": "chunk_cumsum_kernel",
+      "kind": "targeted changed modules and public entries",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue02/build.py",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/SourceProjection.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/IO.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/PublicReal.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/LogicalReader.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Correct.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/FPEquiv.lean"
+      ],
+      "exit_code": 1,
+      "log": ".veritile-cache/io-unification-20261023/queue02/chunk_cumsum_kernel-targeted-3.log",
+      "log_sha256": "054b0386310437ca1b6651d6a8632f8d8a6d9965e959273099cbc2afdcadad3e",
+      "sandbox": "require_escalated"
+    },
+    {
+      "task": "chunk_cumsum_kernel",
+      "kind": "targeted changed modules and public entries",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue02/build.py",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/SourceProjection.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/IO.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/PublicReal.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/LogicalReader.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Correct.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/PublicFP.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/ProgramPair.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue02/chunk_cumsum_kernel-targeted-4.log",
+      "log_sha256": "42d59e41c1e8af7ef416b039aeee1bc1cde8e7938e1ca55a717b356a96480b19",
+      "sandbox": "require_escalated"
+    },
+    {
+      "task": "chunk_cumsum_kernel",
+      "kind": "per-task public joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue02/build.py",
+        "--check",
+        ".veritile-cache/io-unification-20261023/queue02/fixtures/chunk_cumsum_kernel_joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue02/chunk_cumsum_kernel-joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sandbox": "require_escalated"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Contract.lean": "3632281d2dec01e7eea1c194f6c019f3fd739c402e9f812dc492fdbd99bb555d",
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Correct.lean": "819a845c8dadb23aac0c08eeff7f20393ffcad57956d38caecc53a0c6a661200",
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/FPEquiv.lean": "babef0c44faf6c5ca93dfbfd7be8053a4e79352a1e21d3dffee6ece95fec4326",
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/IO.lean": "36bd21d82f81a0607589eed238f0cd64865e2408de643df6d0ea8929205da8b3",
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/LogicalReader.lean": "bb1a7151b29435393eb17dfce3a79c526038acccfba24a942d903dd1c2899712",
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/PublicReal.lean": "45bfaa6ea8450752a4bec0b1b3d660c5d6653bae78505806845f0f70cfc92428",
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Kernels.lean": "5b2db3145e961e477982b0d07ef212f4878ecdab8b546d3e0d00219f744a646e",
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/CarryDomain.lean": "242578bf04f4645389c1367c758f7e78da2c09e8f996c3a1b843ba6f4209de00",
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/FPIndexBridge.lean": "0797fbebbf1b7323bedef3dd18892750d70c05c52bad8733b2aba0d853490b22",
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/FPRow.lean": "da9881b98538bd2108735bc527f2991b0da7696a90de2c8a49cd50f4e7afdbed",
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/Geometry.lean": "cbb1be376818c574d45c0d3e1e29768fadf61d4b6150c65c25c093f6f493ee99",
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/Layout.lean": "e28312c84c5db696e9ad2a11660cef66b8da854a62e3b59242e1cd9ef0f107bb",
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/NativeIndex.lean": "55715e44ef6d5609ab945217df126eb87a784101c9265dcd30a9d5241001bece",
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/ProgramPair.lean": "948138d8c421fed6b923ab43f68b415d4ad4265ef77c02c3cdc51325ad7c7f80",
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/PublicFP.lean": "0b57580f784250f0e97af26571bb5e3c4ce721352501cdf3f25f5bc8efe9e6ad",
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/RealComplete.lean": "8450196b1a90e041b4fe37756aa4ba78a786088a8f73dd3f3ad8bd643ee23af7",
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/RealIndexBridge.lean": "45d6b52211595c4f37bdf89fcff52f922863bdf087cc1406bd054f75472b81e6",
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/RealProjection.lean": "1fdf29d73bae37daed8478c5fc27e6b6d62a0428b6a060d1de05ec6e6175a8e1",
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/RealRow.lean": "fcaf4113caea7be4f5212e67112ec532d4047193963bf6c437076eed0c4eec80",
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/RealSafety.lean": "5ccb56671b1205ab320e7b5ff2c817c7355250ffbd69ec16eb3e5e187219666c",
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/Rewrite.lean": "531882b7580dcd9ed4b88411e1b19579788a0e0457199ff92d5acd15a6ac751e",
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/SourceSafety.lean": "0cd7dadc645274310f53f214e8c834a8cc23bcf8ae49a5e05ea02d18413a36c6",
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/Tail.lean": "2230f8c18aa9d6c730094507c569187116f4fcc2777a7ff104690f6af1796701",
+    "bench/tritonbench_g/chunk_cumsum_kernel/Kernels.lean": "15bb93fcdcd6ab447190a51cf62bc151d8cc07e7e5a805bfe32146a2764af545",
+    "bench/tritonbench_g/chunk_cumsum_kernel/Proofs/LegacyReal.lean": "6f9f559c2f55ea34283fcd4916038df9dc502b3c05c13dd862d2b71944664533",
+    "bench/tritonbench_g/chunk_cumsum_kernel/Proofs/RealCandidate.lean": "11a4d499f68058e1f6c9804deff55adf76101919e8e11e0111de9bbdf061b958",
+    "bench/tritonbench_g/chunk_cumsum_kernel/Proofs/RealPadding.lean": "ac035c10011fbba8a935b1fb8d79884f819a0d4c46f61a1fb518035bf87b0ead",
+    "bench/tritonbench_g/chunk_cumsum_kernel/Proofs/RealSource.lean": "c51eae77659366db2c0e058bac8e2fed06706873f98916e02e41e0977fb4e292",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8",
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/SourceProjection.lean": "956a2a6a377b20d11d98877183c4b2f2834c67bbe16c77d169db514600c38952"
+  },
+  "source_pin_provenance": {
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Contract.lean": {
+      "owner_tasks": [
+        "chunk_cumsum_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Correct.lean": {
+      "owner_tasks": [
+        "chunk_cumsum_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/FPEquiv.lean": {
+      "owner_tasks": [
+        "chunk_cumsum_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/IO.lean": {
+      "owner_tasks": [
+        "chunk_cumsum_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/LogicalReader.lean": {
+      "owner_tasks": [
+        "chunk_cumsum_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/PublicReal.lean": {
+      "owner_tasks": [
+        "chunk_cumsum_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Kernels.lean": {
+      "owner_tasks": [
+        "chunk_cumsum_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/CarryDomain.lean": {
+      "unchanged_prior_pin": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json"
+    },
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/FPIndexBridge.lean": {
+      "unchanged_prior_pin": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json"
+    },
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/FPRow.lean": {
+      "unchanged_prior_pin": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json"
+    },
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/Geometry.lean": {
+      "unchanged_prior_pin": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json"
+    },
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/Layout.lean": {
+      "unchanged_prior_pin": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json"
+    },
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/NativeIndex.lean": {
+      "unchanged_prior_pin": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json"
+    },
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/ProgramPair.lean": {
+      "owner_tasks": [
+        "chunk_cumsum_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/PublicFP.lean": {
+      "owner_tasks": [
+        "chunk_cumsum_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/RealComplete.lean": {
+      "unchanged_prior_pin": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json"
+    },
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/RealIndexBridge.lean": {
+      "unchanged_prior_pin": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json"
+    },
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/RealProjection.lean": {
+      "unchanged_prior_pin": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json"
+    },
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/RealRow.lean": {
+      "unchanged_prior_pin": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json"
+    },
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/RealSafety.lean": {
+      "unchanged_prior_pin": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json"
+    },
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/Rewrite.lean": {
+      "unchanged_prior_pin": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json"
+    },
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/SourceSafety.lean": {
+      "unchanged_prior_pin": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json"
+    },
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/Tail.lean": {
+      "unchanged_prior_pin": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json"
+    },
+    "bench/tritonbench_g/chunk_cumsum_kernel/Kernels.lean": {
+      "unchanged_prior_pin": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json"
+    },
+    "bench/tritonbench_g/chunk_cumsum_kernel/Proofs/LegacyReal.lean": {
+      "unchanged_prior_pin": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json"
+    },
+    "bench/tritonbench_g/chunk_cumsum_kernel/Proofs/RealCandidate.lean": {
+      "unchanged_prior_pin": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json"
+    },
+    "bench/tritonbench_g/chunk_cumsum_kernel/Proofs/RealPadding.lean": {
+      "unchanged_prior_pin": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json"
+    },
+    "bench/tritonbench_g/chunk_cumsum_kernel/Proofs/RealSource.lean": {
+      "unchanged_prior_pin": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json"
+    },
+    "VeriTile/Triton/Memory/LogicalIO.lean": {
+      "owner_tasks": [
+        "mixed_sparse_attention",
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/SourceProjection.lean": {
+      "owner_tasks": [
+        "chunk_cumsum_kernel"
+      ]
+    }
+  },
+  "retired_current_source_pins": {
+    "bench/repairs/tritonbench_g/chunk_cumsum_kernel/LogicalIO.lean": "14d761a217127265a097662ce5d06264820f575b48280702520a8c253d17102b"
+  },
+  "limits": [
+    "No kernel, mathematical formula, public condition, schedule, domain, observation, precision, FP program or numerical rule changed.",
+    "No new numerical experiments, GPU runs, native/host correctness or global proof-closure rebuild.",
+    "Per-task public joint imports were freshly checked in the new overlay; this is a source-organization migration, not a new global correctness audit."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/io-unification-20261023/queue16/result.json",
+    "sha256": "12f6dd5ed523e9f723fee3847af964fd8987958c2cb997aa572210c04de5bc84"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

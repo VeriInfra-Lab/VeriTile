@@ -1,0 +1,19 @@
+{
+  "application_lean_python_files": 19709,
+  "application_git_blobs_identical_to_fp_examples": true,
+  "main_website_dependency_update_preserved": true,
+  "source_commit": "d67b1d0444c2e0fb8066414c2041129b53bf2931",
+  "base_commit": "16abbb7e77bf111bf7ede620ec6bf91744e7325b",
+  "seven_document_conflicts": {
+    "files": [
+      "README.md",
+      "site/src/content/docs/architecture/gpu-memory-model.md",
+      "site/src/content/docs/cookbook/proof-templates.md",
+      "site/src/content/docs/cookbook/vector-add-walkthrough.mdx",
+      "site/src/content/docs/overview.md",
+      "site/src/content/docs/proofs/correctness-surfaces.md",
+      "site/src/content/docs/proofs/trust-audit.md"
+    ],
+    "resolution": "All seven main-side edits are exactly the repository/website URL migrations. Apply those substitutions to the complete fp-examples text; preserve all fp documentation changes."
+  }
+}

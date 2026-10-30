@@ -1,0 +1,8 @@
+bench/repairs/tritonbench_g/rotary_transform_ops/kernel-evidence/execution_probe.lean:44:12: error: `simp` failed: maximum number of steps exceeded
+bench/repairs/tritonbench_g/rotary_transform_ops/kernel-evidence/execution_probe.lean:44:12: error: `simp` failed: maximum number of steps exceeded
+bench/repairs/tritonbench_g/rotary_transform_ops/kernel-evidence/execution_probe.lean:27:0: error: (deterministic) timeout at `whnf`, maximum number of heartbeats (600000) has been reached
+
+Note: Use `set_option maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+VeriTile.Bench.Repairs.RotaryTransformOps.ExecutionProbe.executes: axiom footprint ⊆ standard base ✓  ([])

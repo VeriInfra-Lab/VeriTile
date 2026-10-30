@@ -1,0 +1,1138 @@
+{
+  "source_sha256": "c49fa6d8ad7c0f7fa54c2a389ab7506e5c90101e72e178cd0eaca50f890812b8",
+  "jit_ast_sha256": "4b0c466217e979aa545f70718801f9590ee40149b1903819bb9deaa29746c527",
+  "checker_sha256": "e438321061d55cfae1bef8f8fee98de56841dccd320130bbe48e3947a2e735e8",
+  "triton_version": "3.8.0",
+  "target": {
+    "backend": "cuda",
+    "arch": 90,
+    "warp_size": 32
+  },
+  "scope": "Unchanged softmax_kernel AST. Offline compilation only at BLOCK_SIZE=8 and four warps, signed i32 runtime strides/count. No GPU execution, shape-general native admission, fixed-width overflow, IEEE theorem, host grid/race or independent Lean replay claim. Rejected discrete same-storage profiles document frontend failures, not executions.",
+  "results": [
+    {
+      "input": "fp16",
+      "output": "fp16",
+      "signature": {
+        "output_ptr": "*fp16",
+        "input_ptr": "*fp16",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "compiled",
+      "ttir_sha256": "b5c48154d5cb14210e837a0fc3578ba6111c3ebd38c44e5055cebbb816a908f8",
+      "ptx_bytes": 14066,
+      "precision_lines": [
+        "%row_7 = tt.load %row_6, %row_4, %row : tensor<8x!tt.ptr<f16>> loc(#loc27)",
+        "%input = arith.extf %row_7 : tensor<8xf16> to tensor<8xf32> loc(#loc41)",
+        "%row_max = \"tt.reduce\"(%input) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %row_max_13 : f32 loc(#loc42)",
+        "%numerator_9 = math.exp %numerator_8 : tensor<8xf32> loc(#loc38)",
+        "%denominator = \"tt.reduce\"(%numerator_9) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %denominator_13 : f32 loc(#loc44)",
+        "%softmax_output_10 = arith.divf %numerator_9, %softmax_output : tensor<8xf32> loc(#loc40)",
+        "%2 = arith.truncf %softmax_output_10 : tensor<8xf32> to tensor<8xf16> loc(#loc21)",
+        "tt.store %1, %2, %row_4 : tensor<8x!tt.ptr<f16>> loc(#loc21)"
+      ]
+    },
+    {
+      "input": "fp16",
+      "output": "bf16",
+      "signature": {
+        "output_ptr": "*bf16",
+        "input_ptr": "*fp16",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "compiled",
+      "ttir_sha256": "fd48e8eba55d8432def39fea28f3b1c320457a65313d43cda81eabb16225862b",
+      "ptx_bytes": 14067,
+      "precision_lines": [
+        "%row_7 = tt.load %row_6, %row_4, %row : tensor<8x!tt.ptr<f16>> loc(#loc27)",
+        "%input = arith.extf %row_7 : tensor<8xf16> to tensor<8xf32> loc(#loc41)",
+        "%row_max = \"tt.reduce\"(%input) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %row_max_13 : f32 loc(#loc42)",
+        "%numerator_9 = math.exp %numerator_8 : tensor<8xf32> loc(#loc38)",
+        "%denominator = \"tt.reduce\"(%numerator_9) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %denominator_13 : f32 loc(#loc44)",
+        "%softmax_output_10 = arith.divf %numerator_9, %softmax_output : tensor<8xf32> loc(#loc40)",
+        "%2 = arith.truncf %softmax_output_10 : tensor<8xf32> to tensor<8xbf16> loc(#loc21)",
+        "tt.store %1, %2, %row_4 : tensor<8x!tt.ptr<bf16>> loc(#loc21)"
+      ]
+    },
+    {
+      "input": "fp16",
+      "output": "fp32",
+      "signature": {
+        "output_ptr": "*fp32",
+        "input_ptr": "*fp16",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "compiled",
+      "ttir_sha256": "cb334cf683d1712d98fb7e87b252bd04b5bbb23d0401540de92b89085e6f0af2",
+      "ptx_bytes": 14024,
+      "precision_lines": [
+        "%row_7 = tt.load %row_6, %row_4, %row : tensor<8x!tt.ptr<f16>> loc(#loc27)",
+        "%input = arith.extf %row_7 : tensor<8xf16> to tensor<8xf32> loc(#loc41)",
+        "%row_max = \"tt.reduce\"(%input) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %row_max_13 : f32 loc(#loc42)",
+        "%numerator_9 = math.exp %numerator_8 : tensor<8xf32> loc(#loc38)",
+        "%denominator = \"tt.reduce\"(%numerator_9) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %denominator_13 : f32 loc(#loc44)",
+        "%softmax_output_10 = arith.divf %numerator_9, %softmax_output : tensor<8xf32> loc(#loc40)",
+        "tt.store %1, %softmax_output_10, %row_4 : tensor<8x!tt.ptr<f32>> loc(#loc21)"
+      ]
+    },
+    {
+      "input": "fp16",
+      "output": "fp64",
+      "signature": {
+        "output_ptr": "*fp64",
+        "input_ptr": "*fp16",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "compiled",
+      "ttir_sha256": "8caaa5eeeed64976ccf778015ef2121f1570d16d33ab2d0b7f877aa3833001c4",
+      "ptx_bytes": 14048,
+      "precision_lines": [
+        "%row_7 = tt.load %row_6, %row_4, %row : tensor<8x!tt.ptr<f16>> loc(#loc27)",
+        "%input = arith.extf %row_7 : tensor<8xf16> to tensor<8xf32> loc(#loc41)",
+        "%row_max = \"tt.reduce\"(%input) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %row_max_13 : f32 loc(#loc42)",
+        "%numerator_9 = math.exp %numerator_8 : tensor<8xf32> loc(#loc38)",
+        "%denominator = \"tt.reduce\"(%numerator_9) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %denominator_13 : f32 loc(#loc44)",
+        "%softmax_output_10 = arith.divf %numerator_9, %softmax_output : tensor<8xf32> loc(#loc40)",
+        "%2 = arith.extf %softmax_output_10 : tensor<8xf32> to tensor<8xf64> loc(#loc21)",
+        "tt.store %1, %2, %row_4 : tensor<8x!tt.ptr<f64>> loc(#loc21)"
+      ]
+    },
+    {
+      "input": "fp16",
+      "output": "fp8e4nv",
+      "signature": {
+        "output_ptr": "*fp8e4nv",
+        "input_ptr": "*fp16",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "compiled",
+      "ttir_sha256": "381bc24760c0a2fd271831b17fd04d36579df85e8e20394940ecf6f0b5aee52b",
+      "ptx_bytes": 14231,
+      "precision_lines": [
+        "%row_7 = tt.load %row_6, %row_4, %row : tensor<8x!tt.ptr<f16>> loc(#loc27)",
+        "%input = arith.extf %row_7 : tensor<8xf16> to tensor<8xf32> loc(#loc41)",
+        "%row_max = \"tt.reduce\"(%input) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %row_max_13 : f32 loc(#loc42)",
+        "%numerator_9 = math.exp %numerator_8 : tensor<8xf32> loc(#loc38)",
+        "%denominator = \"tt.reduce\"(%numerator_9) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %denominator_13 : f32 loc(#loc44)",
+        "%softmax_output_10 = arith.divf %numerator_9, %softmax_output : tensor<8xf32> loc(#loc40)",
+        "tt.store %1, %2, %row_4 : tensor<8x!tt.ptr<f8E4M3FN>> loc(#loc21)"
+      ]
+    },
+    {
+      "input": "fp16",
+      "output": "fp8e5",
+      "signature": {
+        "output_ptr": "*fp8e5",
+        "input_ptr": "*fp16",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "compiled",
+      "ttir_sha256": "74f27485b242adeb0aa549674f6a3459160304145e84b9c5f349e25ade08f0f9",
+      "ptx_bytes": 14230,
+      "precision_lines": [
+        "%row_7 = tt.load %row_6, %row_4, %row : tensor<8x!tt.ptr<f16>> loc(#loc27)",
+        "%input = arith.extf %row_7 : tensor<8xf16> to tensor<8xf32> loc(#loc41)",
+        "%row_max = \"tt.reduce\"(%input) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %row_max_13 : f32 loc(#loc42)",
+        "%numerator_9 = math.exp %numerator_8 : tensor<8xf32> loc(#loc38)",
+        "%denominator = \"tt.reduce\"(%numerator_9) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %denominator_13 : f32 loc(#loc44)",
+        "%softmax_output_10 = arith.divf %numerator_9, %softmax_output : tensor<8xf32> loc(#loc40)",
+        "tt.store %1, %2, %row_4 : tensor<8x!tt.ptr<f8E5M2>> loc(#loc21)"
+      ]
+    },
+    {
+      "input": "bf16",
+      "output": "fp16",
+      "signature": {
+        "output_ptr": "*fp16",
+        "input_ptr": "*bf16",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "compiled",
+      "ttir_sha256": "8a413421de4f83953d3cbf8fe65c7d67bac1b233bd30c7b380a615a8233d4dae",
+      "ptx_bytes": 14066,
+      "precision_lines": [
+        "%row_7 = tt.load %row_6, %row_4, %row : tensor<8x!tt.ptr<bf16>> loc(#loc27)",
+        "%input = arith.extf %row_7 : tensor<8xbf16> to tensor<8xf32> loc(#loc41)",
+        "%row_max = \"tt.reduce\"(%input) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %row_max_13 : f32 loc(#loc42)",
+        "%numerator_9 = math.exp %numerator_8 : tensor<8xf32> loc(#loc38)",
+        "%denominator = \"tt.reduce\"(%numerator_9) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %denominator_13 : f32 loc(#loc44)",
+        "%softmax_output_10 = arith.divf %numerator_9, %softmax_output : tensor<8xf32> loc(#loc40)",
+        "%2 = arith.truncf %softmax_output_10 : tensor<8xf32> to tensor<8xf16> loc(#loc21)",
+        "tt.store %1, %2, %row_4 : tensor<8x!tt.ptr<f16>> loc(#loc21)"
+      ]
+    },
+    {
+      "input": "bf16",
+      "output": "bf16",
+      "signature": {
+        "output_ptr": "*bf16",
+        "input_ptr": "*bf16",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "compiled",
+      "ttir_sha256": "bbc134b055997006c9c123a220cfb87324448cc15cb2916f6212dbba10fbd478",
+      "ptx_bytes": 14067,
+      "precision_lines": [
+        "%row_7 = tt.load %row_6, %row_4, %row : tensor<8x!tt.ptr<bf16>> loc(#loc27)",
+        "%input = arith.extf %row_7 : tensor<8xbf16> to tensor<8xf32> loc(#loc41)",
+        "%row_max = \"tt.reduce\"(%input) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %row_max_13 : f32 loc(#loc42)",
+        "%numerator_9 = math.exp %numerator_8 : tensor<8xf32> loc(#loc38)",
+        "%denominator = \"tt.reduce\"(%numerator_9) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %denominator_13 : f32 loc(#loc44)",
+        "%softmax_output_10 = arith.divf %numerator_9, %softmax_output : tensor<8xf32> loc(#loc40)",
+        "%2 = arith.truncf %softmax_output_10 : tensor<8xf32> to tensor<8xbf16> loc(#loc21)",
+        "tt.store %1, %2, %row_4 : tensor<8x!tt.ptr<bf16>> loc(#loc21)"
+      ]
+    },
+    {
+      "input": "bf16",
+      "output": "fp32",
+      "signature": {
+        "output_ptr": "*fp32",
+        "input_ptr": "*bf16",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "compiled",
+      "ttir_sha256": "3161fd57928e19f000b6a83294eed1a49e2e6b6bc12c088b7931a52eb9f45b5e",
+      "ptx_bytes": 14024,
+      "precision_lines": [
+        "%row_7 = tt.load %row_6, %row_4, %row : tensor<8x!tt.ptr<bf16>> loc(#loc27)",
+        "%input = arith.extf %row_7 : tensor<8xbf16> to tensor<8xf32> loc(#loc41)",
+        "%row_max = \"tt.reduce\"(%input) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %row_max_13 : f32 loc(#loc42)",
+        "%numerator_9 = math.exp %numerator_8 : tensor<8xf32> loc(#loc38)",
+        "%denominator = \"tt.reduce\"(%numerator_9) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %denominator_13 : f32 loc(#loc44)",
+        "%softmax_output_10 = arith.divf %numerator_9, %softmax_output : tensor<8xf32> loc(#loc40)",
+        "tt.store %1, %softmax_output_10, %row_4 : tensor<8x!tt.ptr<f32>> loc(#loc21)"
+      ]
+    },
+    {
+      "input": "bf16",
+      "output": "fp64",
+      "signature": {
+        "output_ptr": "*fp64",
+        "input_ptr": "*bf16",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "compiled",
+      "ttir_sha256": "ec0fdc0ac31cbb64a209c56fd50734e4b53b06885bb5f46857d11e5cfcf6cf3e",
+      "ptx_bytes": 14048,
+      "precision_lines": [
+        "%row_7 = tt.load %row_6, %row_4, %row : tensor<8x!tt.ptr<bf16>> loc(#loc27)",
+        "%input = arith.extf %row_7 : tensor<8xbf16> to tensor<8xf32> loc(#loc41)",
+        "%row_max = \"tt.reduce\"(%input) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %row_max_13 : f32 loc(#loc42)",
+        "%numerator_9 = math.exp %numerator_8 : tensor<8xf32> loc(#loc38)",
+        "%denominator = \"tt.reduce\"(%numerator_9) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %denominator_13 : f32 loc(#loc44)",
+        "%softmax_output_10 = arith.divf %numerator_9, %softmax_output : tensor<8xf32> loc(#loc40)",
+        "%2 = arith.extf %softmax_output_10 : tensor<8xf32> to tensor<8xf64> loc(#loc21)",
+        "tt.store %1, %2, %row_4 : tensor<8x!tt.ptr<f64>> loc(#loc21)"
+      ]
+    },
+    {
+      "input": "bf16",
+      "output": "fp8e4nv",
+      "signature": {
+        "output_ptr": "*fp8e4nv",
+        "input_ptr": "*bf16",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "compiled",
+      "ttir_sha256": "7658ccf3f683be3a206de530498047886990a9400822ab500994d7e44c88afb3",
+      "ptx_bytes": 14231,
+      "precision_lines": [
+        "%row_7 = tt.load %row_6, %row_4, %row : tensor<8x!tt.ptr<bf16>> loc(#loc27)",
+        "%input = arith.extf %row_7 : tensor<8xbf16> to tensor<8xf32> loc(#loc41)",
+        "%row_max = \"tt.reduce\"(%input) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %row_max_13 : f32 loc(#loc42)",
+        "%numerator_9 = math.exp %numerator_8 : tensor<8xf32> loc(#loc38)",
+        "%denominator = \"tt.reduce\"(%numerator_9) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %denominator_13 : f32 loc(#loc44)",
+        "%softmax_output_10 = arith.divf %numerator_9, %softmax_output : tensor<8xf32> loc(#loc40)",
+        "tt.store %1, %2, %row_4 : tensor<8x!tt.ptr<f8E4M3FN>> loc(#loc21)"
+      ]
+    },
+    {
+      "input": "bf16",
+      "output": "fp8e5",
+      "signature": {
+        "output_ptr": "*fp8e5",
+        "input_ptr": "*bf16",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "compiled",
+      "ttir_sha256": "e3e3a024ae9c510d185855015715fa8fed695ae54e06d621dc06248b19d1c863",
+      "ptx_bytes": 14230,
+      "precision_lines": [
+        "%row_7 = tt.load %row_6, %row_4, %row : tensor<8x!tt.ptr<bf16>> loc(#loc27)",
+        "%input = arith.extf %row_7 : tensor<8xbf16> to tensor<8xf32> loc(#loc41)",
+        "%row_max = \"tt.reduce\"(%input) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %row_max_13 : f32 loc(#loc42)",
+        "%numerator_9 = math.exp %numerator_8 : tensor<8xf32> loc(#loc38)",
+        "%denominator = \"tt.reduce\"(%numerator_9) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %denominator_13 : f32 loc(#loc44)",
+        "%softmax_output_10 = arith.divf %numerator_9, %softmax_output : tensor<8xf32> loc(#loc40)",
+        "tt.store %1, %2, %row_4 : tensor<8x!tt.ptr<f8E5M2>> loc(#loc21)"
+      ]
+    },
+    {
+      "input": "fp32",
+      "output": "fp16",
+      "signature": {
+        "output_ptr": "*fp16",
+        "input_ptr": "*fp32",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "compiled",
+      "ttir_sha256": "598c3c5325cd997a9f0ea037c952423306b53e360eed7c25414666e8fa253a0f",
+      "ptx_bytes": 13940,
+      "precision_lines": [
+        "%row_7 = tt.load %row_6, %row_4, %row : tensor<8x!tt.ptr<f32>> loc(#loc26)",
+        "%row_max = \"tt.reduce\"(%row_7) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %row_max_13 : f32 loc(#loc39)",
+        "%numerator_9 = math.exp %numerator_8 : tensor<8xf32> loc(#loc36)",
+        "%denominator = \"tt.reduce\"(%numerator_9) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %denominator_13 : f32 loc(#loc41)",
+        "%softmax_output_10 = arith.divf %numerator_9, %softmax_output : tensor<8xf32> loc(#loc38)",
+        "%2 = arith.truncf %softmax_output_10 : tensor<8xf32> to tensor<8xf16> loc(#loc20)",
+        "tt.store %1, %2, %row_4 : tensor<8x!tt.ptr<f16>> loc(#loc20)"
+      ]
+    },
+    {
+      "input": "fp32",
+      "output": "bf16",
+      "signature": {
+        "output_ptr": "*bf16",
+        "input_ptr": "*fp32",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "compiled",
+      "ttir_sha256": "3cc3cfda8aac34479c8ec35130a71971674f687fbc20bb3cbd49f7cbc044bc92",
+      "ptx_bytes": 13941,
+      "precision_lines": [
+        "%row_7 = tt.load %row_6, %row_4, %row : tensor<8x!tt.ptr<f32>> loc(#loc26)",
+        "%row_max = \"tt.reduce\"(%row_7) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %row_max_13 : f32 loc(#loc39)",
+        "%numerator_9 = math.exp %numerator_8 : tensor<8xf32> loc(#loc36)",
+        "%denominator = \"tt.reduce\"(%numerator_9) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %denominator_13 : f32 loc(#loc41)",
+        "%softmax_output_10 = arith.divf %numerator_9, %softmax_output : tensor<8xf32> loc(#loc38)",
+        "%2 = arith.truncf %softmax_output_10 : tensor<8xf32> to tensor<8xbf16> loc(#loc20)",
+        "tt.store %1, %2, %row_4 : tensor<8x!tt.ptr<bf16>> loc(#loc20)"
+      ]
+    },
+    {
+      "input": "fp32",
+      "output": "fp32",
+      "signature": {
+        "output_ptr": "*fp32",
+        "input_ptr": "*fp32",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "compiled",
+      "ttir_sha256": "d70c219b26bf59e56477ac5acf57e581839d11d938b9c6a8b7397929defa329f",
+      "ptx_bytes": 13906,
+      "precision_lines": [
+        "%row_7 = tt.load %row_6, %row_4, %row : tensor<8x!tt.ptr<f32>> loc(#loc26)",
+        "%row_max = \"tt.reduce\"(%row_7) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %row_max_13 : f32 loc(#loc39)",
+        "%numerator_9 = math.exp %numerator_8 : tensor<8xf32> loc(#loc36)",
+        "%denominator = \"tt.reduce\"(%numerator_9) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %denominator_13 : f32 loc(#loc41)",
+        "%softmax_output_10 = arith.divf %numerator_9, %softmax_output : tensor<8xf32> loc(#loc38)",
+        "tt.store %1, %softmax_output_10, %row_4 : tensor<8x!tt.ptr<f32>> loc(#loc20)"
+      ]
+    },
+    {
+      "input": "fp32",
+      "output": "fp64",
+      "signature": {
+        "output_ptr": "*fp64",
+        "input_ptr": "*fp32",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "compiled",
+      "ttir_sha256": "6b52ea440b7e6b91f230a1ce16a9de56fa42837589d47e208f42ffb2ab960594",
+      "ptx_bytes": 13917,
+      "precision_lines": [
+        "%row_7 = tt.load %row_6, %row_4, %row : tensor<8x!tt.ptr<f32>> loc(#loc26)",
+        "%row_max = \"tt.reduce\"(%row_7) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %row_max_13 : f32 loc(#loc39)",
+        "%numerator_9 = math.exp %numerator_8 : tensor<8xf32> loc(#loc36)",
+        "%denominator = \"tt.reduce\"(%numerator_9) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %denominator_13 : f32 loc(#loc41)",
+        "%softmax_output_10 = arith.divf %numerator_9, %softmax_output : tensor<8xf32> loc(#loc38)",
+        "%2 = arith.extf %softmax_output_10 : tensor<8xf32> to tensor<8xf64> loc(#loc20)",
+        "tt.store %1, %2, %row_4 : tensor<8x!tt.ptr<f64>> loc(#loc20)"
+      ]
+    },
+    {
+      "input": "fp32",
+      "output": "fp8e4nv",
+      "signature": {
+        "output_ptr": "*fp8e4nv",
+        "input_ptr": "*fp32",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "compiled",
+      "ttir_sha256": "8b039b5a0b3790cd48ad95ddb493607e3b02b732e585e27b8337af291bcd7cfb",
+      "ptx_bytes": 14117,
+      "precision_lines": [
+        "%row_7 = tt.load %row_6, %row_4, %row : tensor<8x!tt.ptr<f32>> loc(#loc26)",
+        "%row_max = \"tt.reduce\"(%row_7) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %row_max_13 : f32 loc(#loc39)",
+        "%numerator_9 = math.exp %numerator_8 : tensor<8xf32> loc(#loc36)",
+        "%denominator = \"tt.reduce\"(%numerator_9) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %denominator_13 : f32 loc(#loc41)",
+        "%softmax_output_10 = arith.divf %numerator_9, %softmax_output : tensor<8xf32> loc(#loc38)",
+        "tt.store %1, %2, %row_4 : tensor<8x!tt.ptr<f8E4M3FN>> loc(#loc20)"
+      ]
+    },
+    {
+      "input": "fp32",
+      "output": "fp8e5",
+      "signature": {
+        "output_ptr": "*fp8e5",
+        "input_ptr": "*fp32",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "compiled",
+      "ttir_sha256": "6d4887360f2da1b17318658522d415717e79c0335c274e3665ed999ca6d30416",
+      "ptx_bytes": 14116,
+      "precision_lines": [
+        "%row_7 = tt.load %row_6, %row_4, %row : tensor<8x!tt.ptr<f32>> loc(#loc26)",
+        "%row_max = \"tt.reduce\"(%row_7) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %row_max_13 : f32 loc(#loc39)",
+        "%numerator_9 = math.exp %numerator_8 : tensor<8xf32> loc(#loc36)",
+        "%denominator = \"tt.reduce\"(%numerator_9) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %denominator_13 : f32 loc(#loc41)",
+        "%softmax_output_10 = arith.divf %numerator_9, %softmax_output : tensor<8xf32> loc(#loc38)",
+        "tt.store %1, %2, %row_4 : tensor<8x!tt.ptr<f8E5M2>> loc(#loc20)"
+      ]
+    },
+    {
+      "input": "fp64",
+      "output": "fp16",
+      "signature": {
+        "output_ptr": "*fp16",
+        "input_ptr": "*fp64",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "compiled",
+      "ttir_sha256": "27c4b4ce2f26eb498b4f171d0b599b62ce058bf89aef3f24882d4d5de03569b3",
+      "ptx_bytes": 17740,
+      "precision_lines": [
+        "%row_7 = tt.load %row_6, %row_4, %row : tensor<8x!tt.ptr<f64>> loc(#loc26)",
+        "%row_max = \"tt.reduce\"(%row_7) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %row_max_13 : f64 loc(#loc39)",
+        "%numerator_9 = math.exp %numerator_8 : tensor<8xf64> loc(#loc36)",
+        "%denominator = \"tt.reduce\"(%numerator_9) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %denominator_13 : f64 loc(#loc41)",
+        "%softmax_output_10 = arith.divf %numerator_9, %softmax_output : tensor<8xf64> loc(#loc38)",
+        "%2 = arith.truncf %softmax_output_10 : tensor<8xf64> to tensor<8xf16> loc(#loc20)",
+        "tt.store %1, %2, %row_4 : tensor<8x!tt.ptr<f16>> loc(#loc20)"
+      ]
+    },
+    {
+      "input": "fp64",
+      "output": "bf16",
+      "signature": {
+        "output_ptr": "*bf16",
+        "input_ptr": "*fp64",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "compiled",
+      "ttir_sha256": "22baca802840db64c5c1855395210e42d0007e10f5f1093e906367a6d92f4ab4",
+      "ptx_bytes": 17741,
+      "precision_lines": [
+        "%row_7 = tt.load %row_6, %row_4, %row : tensor<8x!tt.ptr<f64>> loc(#loc26)",
+        "%row_max = \"tt.reduce\"(%row_7) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %row_max_13 : f64 loc(#loc39)",
+        "%numerator_9 = math.exp %numerator_8 : tensor<8xf64> loc(#loc36)",
+        "%denominator = \"tt.reduce\"(%numerator_9) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %denominator_13 : f64 loc(#loc41)",
+        "%softmax_output_10 = arith.divf %numerator_9, %softmax_output : tensor<8xf64> loc(#loc38)",
+        "%2 = arith.truncf %softmax_output_10 : tensor<8xf64> to tensor<8xbf16> loc(#loc20)",
+        "tt.store %1, %2, %row_4 : tensor<8x!tt.ptr<bf16>> loc(#loc20)"
+      ]
+    },
+    {
+      "input": "fp64",
+      "output": "fp32",
+      "signature": {
+        "output_ptr": "*fp32",
+        "input_ptr": "*fp64",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "compiled",
+      "ttir_sha256": "ee493af00284fdc717c5ddec54e21dc9d4783bae2abdb0f34f69a5c72725fd7f",
+      "ptx_bytes": 17720,
+      "precision_lines": [
+        "%row_7 = tt.load %row_6, %row_4, %row : tensor<8x!tt.ptr<f64>> loc(#loc26)",
+        "%row_max = \"tt.reduce\"(%row_7) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %row_max_13 : f64 loc(#loc39)",
+        "%numerator_9 = math.exp %numerator_8 : tensor<8xf64> loc(#loc36)",
+        "%denominator = \"tt.reduce\"(%numerator_9) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %denominator_13 : f64 loc(#loc41)",
+        "%softmax_output_10 = arith.divf %numerator_9, %softmax_output : tensor<8xf64> loc(#loc38)",
+        "%2 = arith.truncf %softmax_output_10 : tensor<8xf64> to tensor<8xf32> loc(#loc20)",
+        "tt.store %1, %2, %row_4 : tensor<8x!tt.ptr<f32>> loc(#loc20)"
+      ]
+    },
+    {
+      "input": "fp64",
+      "output": "fp64",
+      "signature": {
+        "output_ptr": "*fp64",
+        "input_ptr": "*fp64",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "compiled",
+      "ttir_sha256": "72f02d29466f7c36f2397bcc58c1bcf43f7380e30c733b9b5ef436de773dac67",
+      "ptx_bytes": 17691,
+      "precision_lines": [
+        "%row_7 = tt.load %row_6, %row_4, %row : tensor<8x!tt.ptr<f64>> loc(#loc26)",
+        "%row_max = \"tt.reduce\"(%row_7) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %row_max_13 : f64 loc(#loc39)",
+        "%numerator_9 = math.exp %numerator_8 : tensor<8xf64> loc(#loc36)",
+        "%denominator = \"tt.reduce\"(%numerator_9) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %denominator_13 : f64 loc(#loc41)",
+        "%softmax_output_10 = arith.divf %numerator_9, %softmax_output : tensor<8xf64> loc(#loc38)",
+        "tt.store %1, %softmax_output_10, %row_4 : tensor<8x!tt.ptr<f64>> loc(#loc20)"
+      ]
+    },
+    {
+      "input": "fp64",
+      "output": "fp8e4nv",
+      "signature": {
+        "output_ptr": "*fp8e4nv",
+        "input_ptr": "*fp64",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "rejected",
+      "error": "RuntimeError: PassManager::run failed"
+    },
+    {
+      "input": "fp64",
+      "output": "fp8e5",
+      "signature": {
+        "output_ptr": "*fp8e5",
+        "input_ptr": "*fp64",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "rejected",
+      "error": "RuntimeError: PassManager::run failed"
+    },
+    {
+      "input": "fp8e4nv",
+      "output": "fp16",
+      "signature": {
+        "output_ptr": "*fp16",
+        "input_ptr": "*fp8e4nv",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "compiled",
+      "ttir_sha256": "5f138b285e1571c8646e3b662af3f670043e2bffeb412f156e0a03e3106dded8",
+      "ptx_bytes": 14460,
+      "precision_lines": [
+        "%row_9 = tt.load %row_6, %row_4, %row_8 : tensor<8x!tt.ptr<f8E4M3FN>> loc(#loc27)",
+        "%row_max = \"tt.reduce\"(%input) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %row_max_15 : f32 loc(#loc42)",
+        "%numerator_11 = math.exp %numerator_10 : tensor<8xf32> loc(#loc38)",
+        "%denominator = \"tt.reduce\"(%numerator_11) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %denominator_15 : f32 loc(#loc44)",
+        "%softmax_output_12 = arith.divf %numerator_11, %softmax_output : tensor<8xf32> loc(#loc40)",
+        "%2 = arith.truncf %softmax_output_12 : tensor<8xf32> to tensor<8xf16> loc(#loc21)",
+        "tt.store %1, %2, %row_4 : tensor<8x!tt.ptr<f16>> loc(#loc21)"
+      ]
+    },
+    {
+      "input": "fp8e4nv",
+      "output": "bf16",
+      "signature": {
+        "output_ptr": "*bf16",
+        "input_ptr": "*fp8e4nv",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "compiled",
+      "ttir_sha256": "29392f6e601f4bdf9e57941b89870037d7f128a6c3cdcc28abe20ea497eaa9a7",
+      "ptx_bytes": 14461,
+      "precision_lines": [
+        "%row_9 = tt.load %row_6, %row_4, %row_8 : tensor<8x!tt.ptr<f8E4M3FN>> loc(#loc27)",
+        "%row_max = \"tt.reduce\"(%input) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %row_max_15 : f32 loc(#loc42)",
+        "%numerator_11 = math.exp %numerator_10 : tensor<8xf32> loc(#loc38)",
+        "%denominator = \"tt.reduce\"(%numerator_11) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %denominator_15 : f32 loc(#loc44)",
+        "%softmax_output_12 = arith.divf %numerator_11, %softmax_output : tensor<8xf32> loc(#loc40)",
+        "%2 = arith.truncf %softmax_output_12 : tensor<8xf32> to tensor<8xbf16> loc(#loc21)",
+        "tt.store %1, %2, %row_4 : tensor<8x!tt.ptr<bf16>> loc(#loc21)"
+      ]
+    },
+    {
+      "input": "fp8e4nv",
+      "output": "fp32",
+      "signature": {
+        "output_ptr": "*fp32",
+        "input_ptr": "*fp8e4nv",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "compiled",
+      "ttir_sha256": "2476e67081e47a56e6b2db3bc0a469bc6ba5370825611266574240824f9639ac",
+      "ptx_bytes": 14431,
+      "precision_lines": [
+        "%row_9 = tt.load %row_6, %row_4, %row_8 : tensor<8x!tt.ptr<f8E4M3FN>> loc(#loc27)",
+        "%row_max = \"tt.reduce\"(%input) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %row_max_15 : f32 loc(#loc42)",
+        "%numerator_11 = math.exp %numerator_10 : tensor<8xf32> loc(#loc38)",
+        "%denominator = \"tt.reduce\"(%numerator_11) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %denominator_15 : f32 loc(#loc44)",
+        "%softmax_output_12 = arith.divf %numerator_11, %softmax_output : tensor<8xf32> loc(#loc40)",
+        "tt.store %1, %softmax_output_12, %row_4 : tensor<8x!tt.ptr<f32>> loc(#loc21)"
+      ]
+    },
+    {
+      "input": "fp8e4nv",
+      "output": "fp64",
+      "signature": {
+        "output_ptr": "*fp64",
+        "input_ptr": "*fp8e4nv",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "compiled",
+      "ttir_sha256": "34ae55df26f078a53c6228ce38dd246ebd2700f324fed0070ecd6899e9f81b52",
+      "ptx_bytes": 14458,
+      "precision_lines": [
+        "%row_9 = tt.load %row_6, %row_4, %row_8 : tensor<8x!tt.ptr<f8E4M3FN>> loc(#loc27)",
+        "%row_max = \"tt.reduce\"(%input) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %row_max_15 : f32 loc(#loc42)",
+        "%numerator_11 = math.exp %numerator_10 : tensor<8xf32> loc(#loc38)",
+        "%denominator = \"tt.reduce\"(%numerator_11) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %denominator_15 : f32 loc(#loc44)",
+        "%softmax_output_12 = arith.divf %numerator_11, %softmax_output : tensor<8xf32> loc(#loc40)",
+        "%2 = arith.extf %softmax_output_12 : tensor<8xf32> to tensor<8xf64> loc(#loc21)",
+        "tt.store %1, %2, %row_4 : tensor<8x!tt.ptr<f64>> loc(#loc21)"
+      ]
+    },
+    {
+      "input": "fp8e4nv",
+      "output": "fp8e4nv",
+      "signature": {
+        "output_ptr": "*fp8e4nv",
+        "input_ptr": "*fp8e4nv",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "compiled",
+      "ttir_sha256": "2f37b867f385a6c9516338dc0c0b499db18d8ab40ad4f6646fbd61e59793793b",
+      "ptx_bytes": 14611,
+      "precision_lines": [
+        "%row_9 = tt.load %row_6, %row_4, %row_8 : tensor<8x!tt.ptr<f8E4M3FN>> loc(#loc27)",
+        "%row_max = \"tt.reduce\"(%input) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %row_max_15 : f32 loc(#loc42)",
+        "%numerator_11 = math.exp %numerator_10 : tensor<8xf32> loc(#loc38)",
+        "%denominator = \"tt.reduce\"(%numerator_11) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %denominator_15 : f32 loc(#loc44)",
+        "%softmax_output_12 = arith.divf %numerator_11, %softmax_output : tensor<8xf32> loc(#loc40)",
+        "tt.store %1, %2, %row_4 : tensor<8x!tt.ptr<f8E4M3FN>> loc(#loc21)"
+      ]
+    },
+    {
+      "input": "fp8e4nv",
+      "output": "fp8e5",
+      "signature": {
+        "output_ptr": "*fp8e5",
+        "input_ptr": "*fp8e4nv",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "compiled",
+      "ttir_sha256": "ce110f67280c3fe2144d835b290fb73c8021277954fbccf041efaa0a1dc5e0a5",
+      "ptx_bytes": 14610,
+      "precision_lines": [
+        "%row_9 = tt.load %row_6, %row_4, %row_8 : tensor<8x!tt.ptr<f8E4M3FN>> loc(#loc27)",
+        "%row_max = \"tt.reduce\"(%input) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %row_max_15 : f32 loc(#loc42)",
+        "%numerator_11 = math.exp %numerator_10 : tensor<8xf32> loc(#loc38)",
+        "%denominator = \"tt.reduce\"(%numerator_11) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %denominator_15 : f32 loc(#loc44)",
+        "%softmax_output_12 = arith.divf %numerator_11, %softmax_output : tensor<8xf32> loc(#loc40)",
+        "tt.store %1, %2, %row_4 : tensor<8x!tt.ptr<f8E5M2>> loc(#loc21)"
+      ]
+    },
+    {
+      "input": "fp8e5",
+      "output": "fp16",
+      "signature": {
+        "output_ptr": "*fp16",
+        "input_ptr": "*fp8e5",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "compiled",
+      "ttir_sha256": "407445c543fe6b999f9329eb8c9821040c690e45e4b5c8ab1f09564548c47c17",
+      "ptx_bytes": 14456,
+      "precision_lines": [
+        "%row_9 = tt.load %row_6, %row_4, %row_8 : tensor<8x!tt.ptr<f8E5M2>> loc(#loc27)",
+        "%row_max = \"tt.reduce\"(%input) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %row_max_15 : f32 loc(#loc42)",
+        "%numerator_11 = math.exp %numerator_10 : tensor<8xf32> loc(#loc38)",
+        "%denominator = \"tt.reduce\"(%numerator_11) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %denominator_15 : f32 loc(#loc44)",
+        "%softmax_output_12 = arith.divf %numerator_11, %softmax_output : tensor<8xf32> loc(#loc40)",
+        "%2 = arith.truncf %softmax_output_12 : tensor<8xf32> to tensor<8xf16> loc(#loc21)",
+        "tt.store %1, %2, %row_4 : tensor<8x!tt.ptr<f16>> loc(#loc21)"
+      ]
+    },
+    {
+      "input": "fp8e5",
+      "output": "bf16",
+      "signature": {
+        "output_ptr": "*bf16",
+        "input_ptr": "*fp8e5",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "compiled",
+      "ttir_sha256": "5e350893a008e1a090694ddbde7debef2edd157da5d1e16fee891b1cd70330e6",
+      "ptx_bytes": 14457,
+      "precision_lines": [
+        "%row_9 = tt.load %row_6, %row_4, %row_8 : tensor<8x!tt.ptr<f8E5M2>> loc(#loc27)",
+        "%row_max = \"tt.reduce\"(%input) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %row_max_15 : f32 loc(#loc42)",
+        "%numerator_11 = math.exp %numerator_10 : tensor<8xf32> loc(#loc38)",
+        "%denominator = \"tt.reduce\"(%numerator_11) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %denominator_15 : f32 loc(#loc44)",
+        "%softmax_output_12 = arith.divf %numerator_11, %softmax_output : tensor<8xf32> loc(#loc40)",
+        "%2 = arith.truncf %softmax_output_12 : tensor<8xf32> to tensor<8xbf16> loc(#loc21)",
+        "tt.store %1, %2, %row_4 : tensor<8x!tt.ptr<bf16>> loc(#loc21)"
+      ]
+    },
+    {
+      "input": "fp8e5",
+      "output": "fp32",
+      "signature": {
+        "output_ptr": "*fp32",
+        "input_ptr": "*fp8e5",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "compiled",
+      "ttir_sha256": "d9006beded9f4270c7dc1092fedc38b5e470e22b39b53ee4055b410c0efb1d7c",
+      "ptx_bytes": 14427,
+      "precision_lines": [
+        "%row_9 = tt.load %row_6, %row_4, %row_8 : tensor<8x!tt.ptr<f8E5M2>> loc(#loc27)",
+        "%row_max = \"tt.reduce\"(%input) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %row_max_15 : f32 loc(#loc42)",
+        "%numerator_11 = math.exp %numerator_10 : tensor<8xf32> loc(#loc38)",
+        "%denominator = \"tt.reduce\"(%numerator_11) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %denominator_15 : f32 loc(#loc44)",
+        "%softmax_output_12 = arith.divf %numerator_11, %softmax_output : tensor<8xf32> loc(#loc40)",
+        "tt.store %1, %softmax_output_12, %row_4 : tensor<8x!tt.ptr<f32>> loc(#loc21)"
+      ]
+    },
+    {
+      "input": "fp8e5",
+      "output": "fp64",
+      "signature": {
+        "output_ptr": "*fp64",
+        "input_ptr": "*fp8e5",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "compiled",
+      "ttir_sha256": "fe93c3853008341ab8bfe2df1194e3d17c9c7e1aba182952cbd1ec358df40a32",
+      "ptx_bytes": 14454,
+      "precision_lines": [
+        "%row_9 = tt.load %row_6, %row_4, %row_8 : tensor<8x!tt.ptr<f8E5M2>> loc(#loc27)",
+        "%row_max = \"tt.reduce\"(%input) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %row_max_15 : f32 loc(#loc42)",
+        "%numerator_11 = math.exp %numerator_10 : tensor<8xf32> loc(#loc38)",
+        "%denominator = \"tt.reduce\"(%numerator_11) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %denominator_15 : f32 loc(#loc44)",
+        "%softmax_output_12 = arith.divf %numerator_11, %softmax_output : tensor<8xf32> loc(#loc40)",
+        "%2 = arith.extf %softmax_output_12 : tensor<8xf32> to tensor<8xf64> loc(#loc21)",
+        "tt.store %1, %2, %row_4 : tensor<8x!tt.ptr<f64>> loc(#loc21)"
+      ]
+    },
+    {
+      "input": "fp8e5",
+      "output": "fp8e4nv",
+      "signature": {
+        "output_ptr": "*fp8e4nv",
+        "input_ptr": "*fp8e5",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "compiled",
+      "ttir_sha256": "17f27227fe9af0a0763bfb0ebe041f27707b049ec2dcb2a125b946cfc2f76a7b",
+      "ptx_bytes": 14607,
+      "precision_lines": [
+        "%row_9 = tt.load %row_6, %row_4, %row_8 : tensor<8x!tt.ptr<f8E5M2>> loc(#loc27)",
+        "%row_max = \"tt.reduce\"(%input) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %row_max_15 : f32 loc(#loc42)",
+        "%numerator_11 = math.exp %numerator_10 : tensor<8xf32> loc(#loc38)",
+        "%denominator = \"tt.reduce\"(%numerator_11) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %denominator_15 : f32 loc(#loc44)",
+        "%softmax_output_12 = arith.divf %numerator_11, %softmax_output : tensor<8xf32> loc(#loc40)",
+        "tt.store %1, %2, %row_4 : tensor<8x!tt.ptr<f8E4M3FN>> loc(#loc21)"
+      ]
+    },
+    {
+      "input": "fp8e5",
+      "output": "fp8e5",
+      "signature": {
+        "output_ptr": "*fp8e5",
+        "input_ptr": "*fp8e5",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "compiled",
+      "ttir_sha256": "45173421540f87722c1c2601ef74e64a38866bc3c9bd96b860c42a972b0dbe7b",
+      "ptx_bytes": 14606,
+      "precision_lines": [
+        "%row_9 = tt.load %row_6, %row_4, %row_8 : tensor<8x!tt.ptr<f8E5M2>> loc(#loc27)",
+        "%row_max = \"tt.reduce\"(%input) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %row_max_15 : f32 loc(#loc42)",
+        "%numerator_11 = math.exp %numerator_10 : tensor<8xf32> loc(#loc38)",
+        "%denominator = \"tt.reduce\"(%numerator_11) <{axis = 0 : i32}> ({",
+        "tt.reduce.return %denominator_15 : f32 loc(#loc44)",
+        "%softmax_output_12 = arith.divf %numerator_11, %softmax_output : tensor<8xf32> loc(#loc40)",
+        "tt.store %1, %2, %row_4 : tensor<8x!tt.ptr<f8E5M2>> loc(#loc21)"
+      ]
+    },
+    {
+      "input": "i1",
+      "output": "i1",
+      "signature": {
+        "output_ptr": "*i1",
+        "input_ptr": "*i1",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "rejected",
+      "error": "CompilationError: at 7:16:\ndef softmax_kernel(output_ptr, input_ptr, input_row_stride, output_row_stride, n_cols, BLOCK_SIZE: tl.constexpr):\n    row_idx = tl.program_id(axis=0)\n    row_start_ptr = input_ptr + row_idx * input_row_stride\n    out_row_start_ptr = output_ptr + row_idx * output_row_stride\n    row = tl.load(row_start_ptr + tl.arange(0, BLOCK_SIZE), mask=tl.arange(0, BLOCK_SIZE) < n_cols, other=-float('inf'))\n    row_max = tl.max(row, axis=0)\n    numerator = tl.exp(row - row_max)\n                ^\nExpected dtype ['fp32', 'fp64'] but got int32"
+    },
+    {
+      "input": "i8",
+      "output": "i8",
+      "signature": {
+        "output_ptr": "*i8",
+        "input_ptr": "*i8",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "rejected",
+      "error": "CompilationError: at 7:16:\ndef softmax_kernel(output_ptr, input_ptr, input_row_stride, output_row_stride, n_cols, BLOCK_SIZE: tl.constexpr):\n    row_idx = tl.program_id(axis=0)\n    row_start_ptr = input_ptr + row_idx * input_row_stride\n    out_row_start_ptr = output_ptr + row_idx * output_row_stride\n    row = tl.load(row_start_ptr + tl.arange(0, BLOCK_SIZE), mask=tl.arange(0, BLOCK_SIZE) < n_cols, other=-float('inf'))\n    row_max = tl.max(row, axis=0)\n    numerator = tl.exp(row - row_max)\n                ^\nExpected dtype ['fp32', 'fp64'] but got int32"
+    },
+    {
+      "input": "i16",
+      "output": "i16",
+      "signature": {
+        "output_ptr": "*i16",
+        "input_ptr": "*i16",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "rejected",
+      "error": "CompilationError: at 7:16:\ndef softmax_kernel(output_ptr, input_ptr, input_row_stride, output_row_stride, n_cols, BLOCK_SIZE: tl.constexpr):\n    row_idx = tl.program_id(axis=0)\n    row_start_ptr = input_ptr + row_idx * input_row_stride\n    out_row_start_ptr = output_ptr + row_idx * output_row_stride\n    row = tl.load(row_start_ptr + tl.arange(0, BLOCK_SIZE), mask=tl.arange(0, BLOCK_SIZE) < n_cols, other=-float('inf'))\n    row_max = tl.max(row, axis=0)\n    numerator = tl.exp(row - row_max)\n                ^\nExpected dtype ['fp32', 'fp64'] but got int32"
+    },
+    {
+      "input": "i32",
+      "output": "i32",
+      "signature": {
+        "output_ptr": "*i32",
+        "input_ptr": "*i32",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "rejected",
+      "error": "CompilationError: at 7:16:\ndef softmax_kernel(output_ptr, input_ptr, input_row_stride, output_row_stride, n_cols, BLOCK_SIZE: tl.constexpr):\n    row_idx = tl.program_id(axis=0)\n    row_start_ptr = input_ptr + row_idx * input_row_stride\n    out_row_start_ptr = output_ptr + row_idx * output_row_stride\n    row = tl.load(row_start_ptr + tl.arange(0, BLOCK_SIZE), mask=tl.arange(0, BLOCK_SIZE) < n_cols, other=-float('inf'))\n    row_max = tl.max(row, axis=0)\n    numerator = tl.exp(row - row_max)\n                ^\nExpected dtype ['fp32', 'fp64'] but got int32"
+    },
+    {
+      "input": "i64",
+      "output": "i64",
+      "signature": {
+        "output_ptr": "*i64",
+        "input_ptr": "*i64",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "rejected",
+      "error": "CompilationError: at 7:16:\ndef softmax_kernel(output_ptr, input_ptr, input_row_stride, output_row_stride, n_cols, BLOCK_SIZE: tl.constexpr):\n    row_idx = tl.program_id(axis=0)\n    row_start_ptr = input_ptr + row_idx * input_row_stride\n    out_row_start_ptr = output_ptr + row_idx * output_row_stride\n    row = tl.load(row_start_ptr + tl.arange(0, BLOCK_SIZE), mask=tl.arange(0, BLOCK_SIZE) < n_cols, other=-float('inf'))\n    row_max = tl.max(row, axis=0)\n    numerator = tl.exp(row - row_max)\n                ^\nExpected dtype ['fp32', 'fp64'] but got int64"
+    },
+    {
+      "input": "u8",
+      "output": "u8",
+      "signature": {
+        "output_ptr": "*u8",
+        "input_ptr": "*u8",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "rejected",
+      "error": "CompilationError: at 7:16:\ndef softmax_kernel(output_ptr, input_ptr, input_row_stride, output_row_stride, n_cols, BLOCK_SIZE: tl.constexpr):\n    row_idx = tl.program_id(axis=0)\n    row_start_ptr = input_ptr + row_idx * input_row_stride\n    out_row_start_ptr = output_ptr + row_idx * output_row_stride\n    row = tl.load(row_start_ptr + tl.arange(0, BLOCK_SIZE), mask=tl.arange(0, BLOCK_SIZE) < n_cols, other=-float('inf'))\n    row_max = tl.max(row, axis=0)\n    numerator = tl.exp(row - row_max)\n                ^\nExpected dtype ['fp32', 'fp64'] but got int32"
+    },
+    {
+      "input": "u16",
+      "output": "u16",
+      "signature": {
+        "output_ptr": "*u16",
+        "input_ptr": "*u16",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "rejected",
+      "error": "CompilationError: at 7:16:\ndef softmax_kernel(output_ptr, input_ptr, input_row_stride, output_row_stride, n_cols, BLOCK_SIZE: tl.constexpr):\n    row_idx = tl.program_id(axis=0)\n    row_start_ptr = input_ptr + row_idx * input_row_stride\n    out_row_start_ptr = output_ptr + row_idx * output_row_stride\n    row = tl.load(row_start_ptr + tl.arange(0, BLOCK_SIZE), mask=tl.arange(0, BLOCK_SIZE) < n_cols, other=-float('inf'))\n    row_max = tl.max(row, axis=0)\n    numerator = tl.exp(row - row_max)\n                ^\nExpected dtype ['fp32', 'fp64'] but got int32"
+    },
+    {
+      "input": "u32",
+      "output": "u32",
+      "signature": {
+        "output_ptr": "*u32",
+        "input_ptr": "*u32",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "rejected",
+      "error": "CompilationError: at 7:16:\ndef softmax_kernel(output_ptr, input_ptr, input_row_stride, output_row_stride, n_cols, BLOCK_SIZE: tl.constexpr):\n    row_idx = tl.program_id(axis=0)\n    row_start_ptr = input_ptr + row_idx * input_row_stride\n    out_row_start_ptr = output_ptr + row_idx * output_row_stride\n    row = tl.load(row_start_ptr + tl.arange(0, BLOCK_SIZE), mask=tl.arange(0, BLOCK_SIZE) < n_cols, other=-float('inf'))\n    row_max = tl.max(row, axis=0)\n    numerator = tl.exp(row - row_max)\n                ^\nExpected dtype ['fp32', 'fp64'] but got uint32"
+    },
+    {
+      "input": "u64",
+      "output": "u64",
+      "signature": {
+        "output_ptr": "*u64",
+        "input_ptr": "*u64",
+        "input_row_stride": "i32",
+        "output_row_stride": "i32",
+        "n_cols": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 8
+      },
+      "status": "rejected",
+      "error": "CompilationError: at 7:16:\ndef softmax_kernel(output_ptr, input_ptr, input_row_stride, output_row_stride, n_cols, BLOCK_SIZE: tl.constexpr):\n    row_idx = tl.program_id(axis=0)\n    row_start_ptr = input_ptr + row_idx * input_row_stride\n    out_row_start_ptr = output_ptr + row_idx * output_row_stride\n    row = tl.load(row_start_ptr + tl.arange(0, BLOCK_SIZE), mask=tl.arange(0, BLOCK_SIZE) < n_cols, other=-float('inf'))\n    row_max = tl.max(row, axis=0)\n    numerator = tl.exp(row - row_max)\n                ^\nExpected dtype ['fp32', 'fp64'] but got uint64"
+    }
+  ]
+}

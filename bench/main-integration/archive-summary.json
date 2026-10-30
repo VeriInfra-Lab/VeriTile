@@ -1,0 +1,9 @@
+{
+  "original_checkpoint_files": 41598,
+  "local_checkpoint_files": 320,
+  "historical_inputs_restored_for_audit": 14755,
+  "archived_paths": 41278,
+  "local_checkpoint_bytes": 23509323,
+  "historical_input_bytes": 3318972375,
+  "archived_bytes": 4042387639
+}

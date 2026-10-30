@@ -16,7 +16,7 @@ class ComparatorGateTests(unittest.TestCase):
         (root / 'bench/tritonbench_g/fixture').mkdir(parents=True)
         for name in ('check_comparator.py', 'comparator_common.py', 'check-artifact.sh', 'source_axioms.py'):
             shutil.copyfile(ROOT / 'scripts' / name, root / 'scripts' / name)
-        for name in ('audit_trust_prep.py', 'check_ports.sh', 'audit_trust.sh', 'check_worker_results.py'):
+        for name in ('audit_trust_prep.py', 'check_ports.sh', 'audit_trust.sh', 'check_worker_results.py', 'port_layout.py'):
             shutil.copyfile(ROOT / 'bench' / name, root / 'bench' / name)
         # The trust-path fixture has a real Lean command boundary without
         # importing this project's Mathlib-heavy library into tiny regressions.
@@ -85,6 +85,29 @@ class ComparatorGateTests(unittest.TestCase):
                 self.assertEqual(len(reports), 1, result.stdout + result.stderr)
                 self.assertFalse(reports[0]['accepted'])
                 self.assertIn('Illegal axiom detected', result.stderr)
+
+    def test_realized_private_match_equations_are_replayed(self):
+        result, reports, inventories = self.run_check('''
+structure Model where
+  binary : Nat → Option Nat → Nat
+  choose : Option Nat → Nat
+private def model : Model where
+  binary := fun x y => match x, y with
+    | 0, none => 1
+    | 0, some _ => 2
+    | _, _ => 3
+  choose := fun x => match x with
+    | some n => n
+    | none => 0
+theorem binary_none : model.binary 0 none = 1 := by simp [model]
+theorem binary_some : model.binary 0 (some 7) = 2 := by simp [model]
+theorem chosen : model.choose (some 7) = 7 := by simp [model]
+''')
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertTrue(reports[0]['accepted'])
+        names = inventories[0]['theorems']
+        self.assertTrue(any('model.match_' in n and '.eq_' in n for n in names), names)
+        self.assertTrue({'binary_none', 'binary_some', 'chosen'}.issubset(names))
 
     def test_sorry_rejected(self):
         result, reports, _ = self.run_check('theorem target : True := by sorry\n')

@@ -1,0 +1,21 @@
+{
+  "provenance": "Terminal tool exit observations recorded by the implementing agent. Raw logs are pinned separately. Failed development builds are retained and are not current-source success evidence. The reviewed driver's 72 final task receipts bind source and object hashes.",
+  "runs": [
+    {"label": "unchanged original 61 task proof modules", "session_id": 38690, "exit_code": 0, "log": "original-build.log", "modules": "original-build-modules.txt"},
+    {"label": "unchanged host and complete source interpreter controls", "session_id": 69233, "exit_code": 0, "log": "host-interpreter-checks.log", "admissions": 1042, "rejections": 43, "FP16_complete_grids": 8},
+    {"label": "unchanged actual binder and offline SM80 compiler checker", "session_id": 3605, "exit_code": 0, "log": "binder-probe.log", "profiles": 8, "GPU_execution": false},
+    {"label": "unchanged source/precision checker", "tool_chunk_id": "92f9a1", "exit_code": 0, "log": "precision-check.log", "profiles": 8},
+    {"label": "initial new Inputs check before dependencies refreshed", "session_id": 8679, "exit_code": 1, "log": "kernel-input-build.log", "cause": "original Output.olean not yet built by ongoing dependency refresh"},
+    {"label": "Inputs syntax development", "session_id": 69312, "exit_code": 1, "log": "kernel-build-2.log", "cause": "Boolean namespace and classical tactic syntax"},
+    {"label": "Inputs passes, Model namespace development", "session_id": 10518, "exit_code": 1, "log": "kernel-build-3.log", "cause": "active resides in Whole, not Source"},
+    {"label": "Model passes, recurrence dependency not yet refreshed", "session_id": 95850, "exit_code": 1, "log": "kernel-build-4.log", "cause": "original Native.olean was still building; unused NativeStaging import replaced by Grid"},
+    {"label": "Inputs, Model and independent specification pass", "session_id": 14235, "exit_code": 1, "log": "kernel-build-5.log", "cause": "Binding needed explicit equality of entry reader functions"},
+    {"label": "Binding and native endpoint pass; Real target rewrite development", "session_id": 84318, "exit_code": 1, "log": "kernel-build-6.log", "cause": "expected_at rewrite replaced by direct equality composition"},
+    {"label": "all current FP16 helpers/endpoints and storage bounds pass", "session_id": 54311, "exit_code": 1, "log": "kernel-build-7.log", "cause": "BF16 Model actual Tensor logicalAddress needed explicit namespace"},
+    {"label": "all BF16 model/specification/binding/endpoints pass", "session_id": 75050, "exit_code": 0, "log": "kernel-build-8.log"},
+    {"label": "final public Contract/Correct/FPEquiv and both-precision audit", "session_id": 81887, "exit_code": 0, "log": "final-build.log", "standard_base_axioms_only": true, "non_circularity": true}
+  ],
+  "build_driver": ".veritile-cache/build-tools/workspace_lean_local_first_v2.py",
+  "build_scope": "Only attention_kernel_aligned task modules rebuilt into workspace overlay; original core/package caches reused. Necessary escalations auto-approved. No rejection or workaround, and no changes to the frozen attention_kernel task.",
+  "GPU_execution": false
+}

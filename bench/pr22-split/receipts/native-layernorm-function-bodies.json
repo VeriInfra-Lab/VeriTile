@@ -1,0 +1,134 @@
+{
+  "schema": 1,
+  "kind": "verbatim_fields_from_archived_review",
+  "archive": {
+    "commit": "5ea0e46126cc1c6eb05e4219ddc5dc13246ec3ce",
+    "path": "bench/review-checkpoints/2026-10-28/native-layernorm-function-bodies/review.json",
+    "sha256": "a3e7a3410949eef9ead818971686d77340bd4bcb7109f670b7760171f5b6eb6c",
+    "url": "https://github.com/VeriInfra-Lab/VeriTile/blob/5ea0e46126cc1c6eb05e4219ddc5dc13246ec3ce/bench/review-checkpoints/2026-10-28/native-layernorm-function-bodies/review.json"
+  },
+  "context": "Verification below was performed on the archived source snapshot. Nested evidence paths resolve in that archive. The full semantic review, theorem audit and logs remain there. This split has separate integration checks.",
+  "excerpt": {
+    "status": "verified_task_batch_corpus_migration_incomplete",
+    "code_commit": "1952c0a31a71117ceadf5f0bbd30a610e2693928",
+    "new_task_migrations": [
+      "layer_norm_fwd"
+    ],
+    "regression_only_pending_body_tasks": [
+      "attn_fwd_triton",
+      "block_sparse_attn",
+      "chunk_bwd_dqkg",
+      "context_attn_mistral"
+    ],
+    "verification": {
+      "focused": {
+        "status": "PASS",
+        "explicit_modules": 293,
+        "compiled_modules": 208,
+        "joint_import": "PASS",
+        "scope": "Latest successful versions across full1 and dependency-complete deltas; intermediate failures retained."
+      },
+      "warm_and_joint": {
+        "status": "PASS",
+        "explicit_modules": 5139,
+        "jobs": 14824
+      },
+      "independent_clean_checkout": {
+        "status": "PASS",
+        "explicit_modules": 5139,
+        "jobs": 14824,
+        "project_build_initially_present": false,
+        "project_objects_imported_from_other_checkouts": false,
+        "only_fixed_external_dependencies_imported": true,
+        "setup": {
+          "path": "bench/review-checkpoints/2026-10-28/native-layernorm-function-bodies/clean.json",
+          "sha256": "e25b47bf7a2e11996fc2ba7b1a498453c8e6e8af8a1ddd5bfc26136a6bc58c2c"
+        }
+      },
+      "axiom_audit": {
+        "status": "PASS",
+        "defining_modules": 1304,
+        "elaborated_theorems": 24193,
+        "private_helpers_included": true,
+        "allowed": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "method": "Theorem roots discovered by defining module; accumulated dependency union checked after every root in one immutable Lean environment."
+      },
+      "fp_assumptions": "LayerNorm index_commuted_equiv and RWKV u_early_equiv print none; cumulative builds replay all imported audit commands.",
+      "python": {
+        "targeted": {
+          "status": "PASS",
+          "tests": 281
+        },
+        "full": {
+          "status": "KNOWN_PREEXISTING_FAILURE",
+          "tests": 526,
+          "errors": 1
+        }
+      },
+      "source": "Four complete 24-statement original/candidate mappings retain the raw body, row int64 cast, seed uint32 cast, explicit rowscale FP32 cast, both Philox streams, all flags and seven output channels. Only the initial X integer row/stride product is commuted in the candidate, checked against the entire Python module. N=1 caller specialization and runtime count conversion are modeled explicitly without arbitrary FP conversion identities. Actual typed source execution, safety, full grid/frame and eight returned views connect to an independent exact-Real formula via logical IO bijections; the actual FP32 source pair uses no numerical rule. Original Python and contracts are byte-identical; retained historical byte/compiler/storage helpers are separate optional artifact views, not certification of the pasted body or all output dtypes.",
+      "official_comparator": {
+        "status": "UNAVAILABLE",
+        "actual_final_source_attempts": 294,
+        "reason": "Pinned official binaries require Landlock ABI v5; host supplies v4 and no systemd user isolation. No bypass."
+      },
+      "torch": "UNAVAILABLE: retained checker requires missing Torch/Triton.",
+      "cpu": {
+        "status": "PASS",
+        "scope": "Complete Python module AST differs only by commuting the initial X row/stride integer product. All wrappers, branches, source casts, streams and host guards remain unchanged."
+      },
+      "original_python_and_contracts": {
+        "status": "PASS",
+        "sha256": {
+          "bench/repairs/tritonbench_g/layer_norm_fwd/Contract.lean": "89c7264500db56480fc0176570950e782d88983bc2cb52f33aeb5eb8b3e0bd3e",
+          "bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/Contract.lean": "2c1caaa835a2b14b7f389d63484fd53a103d210874c620c9d14ed39705a53b21",
+          "bench/repairs/tritonbench_g/layer_norm_fwd/check_contract.py": "55dabd9ca7e33507a32c30c8fdbffe4b8e44de155076429ebc310bda83fe28cc",
+          "bench/repairs/tritonbench_g/layer_norm_fwd/layer_norm_fwd_repaired.py": "e23770ea53c68c79871d768e055478d8f762291d2c7e727eea50544198526eda",
+          "bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Contract.lean": "366419d2e172fd27020d20d45346437c45dd0ee89557877e48b9b69ad67d0da0",
+          "bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/check_candidate.py": "379aa1b92c37da5210c4bda2cca705bbb2c730c19d058279de24e038d497a8f1",
+          "bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/layer_norm_fwd_nonzero_tile.py": "0b53dbb1504fd27fad7a00e9ed2be38b63468eb6d7b88b744507c51fded7fcc1",
+          "bench/tritonbench_g/layer_norm_fwd/layer_norm_fwd.py": "27dfccf23671d5b9c6f4b749cef39ddf69079793c486a833cbae9c57fe3a4de4",
+          "bench/tritonbench_g/layer_norm_fwd/scripts/native_lowering.py": "bd6e468d536e8d01d8081ffa9329f2622da449de3a9a75da3d74cc715ca8a4ed"
+        }
+      },
+      "gpu_or_numerical_experiment": "Not run.",
+      "earlier_failures": "Intermediate drafts failed on actual implicit output casts, an accidentally omitted explicit rowscale input cast, runtime count conversion, exact-Real formula rewrites and proof elaboration. All were repaired before freezing; failed logs and final successful dependency-complete replay retained. No failed draft is counted as passing.",
+      "scope_limits": "Formal source profile is FP32. Existing artifact/compiler/storage-byte views are historical optional interfaces; these do not establish all physical output dtype profiles for the pasted raw source. The full Python suite retains one old Structural numerical receipt hash failure; it was not falsely repinned.",
+      "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending; the known unchanged numerical receipt failure remains explicit."
+    },
+    "corpus_complete": false,
+    "corpus_counts": {
+      "tasks": 183,
+      "examples": 19,
+      "task_status": {
+        "selected_body_copy_checked": 111,
+        "uncovered_jit_functions": 72
+      },
+      "example_status": {
+        "authored_counterpart_body_copy_checked": 2,
+        "selected_body_copy_checked": 2,
+        "spec_derived_body_copy_checked": 15
+      },
+      "selected_jit_functions": 333,
+      "uncovered_selected_jit_functions": 156,
+      "primary_files_with_int64_screen_warning": 21,
+      "primary_lean_file_features": {
+        "tasks": {
+          "in_body_type_directives": 51,
+          "antiquotes": 57,
+          "dsl_loop": 0,
+          "dsl_numeric_helpers": 8
+        },
+        "examples": {
+          "in_body_type_directives": 0,
+          "antiquotes": 0,
+          "dsl_loop": 0,
+          "dsl_numeric_helpers": 0
+        }
+      }
+    }
+  }
+}

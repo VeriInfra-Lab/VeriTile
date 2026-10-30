@@ -1,0 +1,88 @@
+{
+  "schema": 1,
+  "kind": "verbatim_fields_from_archived_review",
+  "archive": {
+    "commit": "5ea0e46126cc1c6eb05e4219ddc5dc13246ec3ce",
+    "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+    "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f",
+    "url": "https://github.com/VeriInfra-Lab/VeriTile/blob/5ea0e46126cc1c6eb05e4219ddc5dc13246ec3ce/bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json"
+  },
+  "context": "Verification below was performed on the archived source snapshot. Nested evidence paths resolve in that archive. The full semantic review, theorem audit and logs remain there. This split has separate integration checks.",
+  "excerpt": {
+    "status": "verified_task_batch_corpus_migration_incomplete",
+    "code_commit": "8a3d868f25a399413776c7d7a62e69238cefa236",
+    "new_task_migrations": [
+      "rms_norm_triton"
+    ],
+    "verification": {
+      "frontend_regressions": {
+        "status": "PASS",
+        "configured_modules": 94,
+        "scope": "All 94 configured modules: preserve the earlier static/range/rebinding/precision guards, retain all previous integer/RNG/precision guards and additionally prove pointer element-attribute casts with a rebound destination have the same complete program as an explicit storage dtype cast; retain fp16 and fp32 cases without an extra implicit store conversion."
+      },
+      "integration": {
+        "status": "PASS",
+        "explicit_modules": 1704,
+        "jobs": 10781
+      },
+      "independent_clean_checkout": {
+        "status": "PASS",
+        "explicit_modules": 1704,
+        "jobs": 10781,
+        "scope": "Every combined root and complete dependency closure; full replay required because shared frontend source changed.",
+        "project_build_initially_present": false,
+        "veritile_cache_initially_present": false,
+        "only_fixed_external_dependencies_reused": true
+      },
+      "joint_import": "PASS: all 1704 roots",
+      "task_directories": "All 27 RMSNorm and 45 fused RMSNorm modules, all 94 configured frontend tests and all prior public/deep migration roots, including historical and optional scopes.",
+      "targeted_python": {
+        "status": "PASS",
+        "tests": 50
+      },
+      "all_python": {
+        "status": "KNOWN_PREEXISTING_FAILURE",
+        "tests": 295,
+        "errors": 1,
+        "reason": "Unchanged Structural.lean rejected by the old numerical receipt; prior baseline preserved, no false repin."
+      },
+      "official_comparator": "UNAVAILABLE: every actual frozen-source invocation reports required host isolation unavailable. Pinned official comparator/exporter/landrun and SHA256-verified Go toolchain are installed; host Landlock ABI v4 is below required v5, and the systemd user bus is unavailable. No isolation bypass.",
+      "optional_cpu_contract": "UNAVAILABLE: current environment lacks torch; actual failure retained.",
+      "gpu_or_numerical_experiment": "Not run. No new numerical law, axiom or hardware-conformance claim.",
+      "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending."
+    },
+    "corpus_complete": false,
+    "corpus_counts": {
+      "tasks": 183,
+      "examples": 19,
+      "task_status": {
+        "legacy_ast_only": 1,
+        "no_selected_jit_resolved": 2,
+        "selected_body_copy_checked": 49,
+        "uncovered_jit_functions": 131
+      },
+      "example_status": {
+        "authored_counterpart_body_copy_checked": 2,
+        "selected_body_copy_checked": 2,
+        "spec_derived_body_copy_checked": 15
+      },
+      "selected_jit_functions": 328,
+      "uncovered_selected_jit_functions": 251,
+      "primary_files_with_int64_screen_warning": 38,
+      "primary_lean_file_features": {
+        "tasks": {
+          "in_body_type_directives": 103,
+          "antiquotes": 115,
+          "dsl_loop": 1,
+          "dsl_numeric_helpers": 8
+        },
+        "examples": {
+          "in_body_type_directives": 0,
+          "antiquotes": 0,
+          "dsl_loop": 0,
+          "dsl_numeric_helpers": 0
+        }
+      }
+    }
+  }
+}

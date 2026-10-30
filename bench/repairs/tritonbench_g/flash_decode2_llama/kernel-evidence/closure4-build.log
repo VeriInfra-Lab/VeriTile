@@ -1,0 +1,7 @@
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/KernelEndpoints.lean:30:2: error: No goals to be solved
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelEndpoints.real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelEndpoints.native: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

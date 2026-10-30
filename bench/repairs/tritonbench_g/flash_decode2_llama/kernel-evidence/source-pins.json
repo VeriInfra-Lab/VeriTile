@@ -1,0 +1,86 @@
+[
+  {
+    "path": "bench/repairs/tritonbench_g/flash_decode2_llama/Contract.lean",
+    "sha256": "a6412291247d365cb78ae72fc68b4bdad60e069fe97a0a422db9568d4782488d"
+  },
+  {
+    "path": "bench/repairs/tritonbench_g/flash_decode2_llama/Correct.lean",
+    "sha256": "280968c194a8c3594d7f22fa5e26c6f22a6bd79ecdb5643aa7edd0d9caddaeb2"
+  },
+  {
+    "path": "bench/repairs/tritonbench_g/flash_decode2_llama/FPEquiv.lean",
+    "sha256": "9d8a8ace844d78ba4789eafd6532a708367ae7598aa4e22b37c28b3dd4fe97c0"
+  },
+  {
+    "path": "bench/repairs/tritonbench_g/flash_decode2_llama/Kernels.lean",
+    "sha256": "6533934f0fa529cd64c6594e4d57477f46ac4afdfdc1cf6e17e71fa5846afee2"
+  },
+  {
+    "path": "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/HistoricalCorrect.lean",
+    "sha256": "27a4d9b6e22aa631a42f9fe6db6def5170a61aecfbe0ca5fc1ae1fcad5b0712c"
+  },
+  {
+    "path": "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/HistoricalFPEquiv.lean",
+    "sha256": "6949c877d7a4cf717add4cd779fba39cfe58b91b36a66032afc5b48bb5420305"
+  },
+  {
+    "path": "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/HistoricalPublic.md",
+    "sha256": "de0e32dda938b3080119d5690e967e9216d9eb14fd8d43fe14da8f6dcedbd643"
+  },
+  {
+    "path": "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/KernelAudit.lean",
+    "sha256": "bc194f0b18ab1b8b677cbdf9c1260866ca08f380bf6974e260655a4cc656850e"
+  },
+  {
+    "path": "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/KernelEndpoints.lean",
+    "sha256": "3f537864ea6433b0f2f39e032caab20214d662a7654fb49bdac0bb84e0d658d0"
+  },
+  {
+    "path": "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/KernelModel.lean",
+    "sha256": "b4a10d027619ce9680e7fb5dfffaee0809ae5d91518c370bae2df484dc26598a"
+  },
+  {
+    "path": "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/KernelNative.lean",
+    "sha256": "76de67ff4d859e97590e62f0697d709717db6f357d277820b5d2cb5a454c7510"
+  },
+  {
+    "path": "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/KernelOrder.lean",
+    "sha256": "33a6f11d96401525b1a1a0213176edecb21bd49d323a9e7e1f207e0514c9186a"
+  },
+  {
+    "path": "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/KernelReal.lean",
+    "sha256": "b8813e025fb25d6caf9e40b6adbe686eed90dabe08eac56842a8b16ecb874202"
+  },
+  {
+    "path": "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/KernelSafety.lean",
+    "sha256": "4a42ab0dc544d91284c93ec9b77c6a31fb007ffce078fc05f8fdaf71b016af94"
+  },
+  {
+    "path": "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/KernelTensor.lean",
+    "sha256": "3b891fcda699dfddc28b74d0e8de946f6fffd707385c6091fa124a1746611834"
+  },
+  {
+    "path": "bench/repairs/tritonbench_g/flash_decode2_llama/README.md",
+    "sha256": "131992b943eb10636b2f98e18f1782cee9e6f237c2396d43996e4a4d6ef9c46b"
+  },
+  {
+    "path": "bench/repairs/tritonbench_g/flash_decode2_llama/check_contract.py",
+    "sha256": "7f98b64dcaf225f2eb4180043dae8ba2bf6e086050000013ca4beb5f4e5c2598"
+  },
+  {
+    "path": "bench/repairs/tritonbench_g/flash_decode2_llama/check_kernel_evidence.py",
+    "sha256": "af62a6e91d235aa4bb87e5205e8cd4ed7020ce1d63fdf87b414710a3f4a2fb5e"
+  },
+  {
+    "path": "bench/repairs/tritonbench_g/flash_decode2_llama/check_kernel_profiles.py",
+    "sha256": "87a932bfd44ebbc2d52553ee0e9a2a529f779ecbd76d9fbe7b4a8b2c7e57238c"
+  },
+  {
+    "path": "bench/repairs/tritonbench_g/flash_decode2_llama/finalize_kernel_evidence.py",
+    "sha256": "5ce9021b7f2d1ee5bdd27a670ecdd9c94ac1ec4fb6a3819d8c19fa09e491fd90"
+  },
+  {
+    "path": "bench/repairs/tritonbench_g/flash_decode2_llama/flash_decode2_llama_repaired.py",
+    "sha256": "2d8a58c053404bcc7b8b58117aaea53cb4eed4742ddcadc90c8eaa6075e34c85"
+  }
+]

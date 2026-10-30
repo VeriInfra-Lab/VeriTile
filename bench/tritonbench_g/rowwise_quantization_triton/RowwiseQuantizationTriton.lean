@@ -207,10 +207,8 @@ theorem quantize_rowwise_max_correct
   funext k
   by_cases hk : (k : Nat) < BLOCK_SIZE
   · by_cases hv : s.readMem x_ptr (s.pids 0 * BLOCK_SIZE + (k : Nat)) < 0
-    · simp [hk, hv]
-      exact fun h => absurd (WithBot.coe_le_coe.mp h) (not_le.mpr hv)
-    · simp [hk, hv]
-      exact fun h => absurd (WithBot.coe_lt_coe.mp h) hv
+    · simp [hk, hv, WithBot.some_eq_coe, WithBot.map_coe, abs_of_neg hv]
+    · simp [hk, hv, WithBot.some_eq_coe, WithBot.map_coe, abs_of_nonneg (le_of_not_gt hv)]
   · simp [hk]
     norm_num
 
@@ -248,10 +246,8 @@ theorem quantize_rowwise_out_correct
     funext k
     by_cases hk : (k : Nat) < BLOCK_SIZE
     · by_cases hv : s.readMem x_ptr (s.pids 0 * BLOCK_SIZE + (k : Nat)) < 0
-      · simp [hk, hv]
-        exact fun h => absurd (WithBot.coe_le_coe.mp h) (not_le.mpr hv)
-      · simp [hk, hv]
-        exact fun h => absurd (WithBot.coe_lt_coe.mp h) hv
+      · simp [hk, hv, WithBot.some_eq_coe, WithBot.map_coe, abs_of_neg hv]
+      · simp [hk, hv, WithBot.some_eq_coe, WithBot.map_coe, abs_of_nonneg (le_of_not_gt hv)]
     · simp [hk]
       norm_num
   · simp [hi]

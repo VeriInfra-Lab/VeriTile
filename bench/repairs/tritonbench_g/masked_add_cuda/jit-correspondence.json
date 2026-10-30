@@ -1,0 +1,198 @@
+[
+  {
+    "lean": "bench/repairs/tritonbench_g/masked_add_cuda/Kernels.lean",
+    "lean_definition": "source32",
+    "signature_definition": "signature32",
+    "profile_variant": "mask_int32",
+    "expected_call_bindings": {
+      "n_elements": "n_elements",
+      "alpha": "alpha"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "grad_ptr",
+          "fp32"
+        ],
+        [
+          "p_ptr",
+          "fp32"
+        ],
+        [
+          "p_mask_ptr",
+          "i32"
+        ]
+      ],
+      "scalars": [
+        [
+          "n_elements",
+          "integer"
+        ],
+        [
+          "alpha",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "grad_ptr",
+        "p_ptr",
+        "p_mask_ptr"
+      ],
+      "writePorts": [
+        "grad_ptr"
+      ]
+    },
+    "python": "bench/repairs/tritonbench_g/masked_add_cuda/masked_add_cuda_repaired.py",
+    "python_function": "masked_add_kernel"
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/masked_add_cuda/Kernels.lean",
+    "lean_definition": "commuted32",
+    "signature_definition": "signature32",
+    "profile_variant": "mask_int32",
+    "expected_call_bindings": {
+      "n_elements": "n_elements",
+      "alpha": "alpha"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "grad_ptr",
+          "fp32"
+        ],
+        [
+          "p_ptr",
+          "fp32"
+        ],
+        [
+          "p_mask_ptr",
+          "i32"
+        ]
+      ],
+      "scalars": [
+        [
+          "n_elements",
+          "integer"
+        ],
+        [
+          "alpha",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "grad_ptr",
+        "p_ptr",
+        "p_mask_ptr"
+      ],
+      "writePorts": [
+        "grad_ptr"
+      ]
+    },
+    "python": "bench/repairs/tritonbench_g/masked_add_cuda/candidate_kernels.py",
+    "python_function": "commuted_masked_add"
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/masked_add_cuda/Kernels.lean",
+    "lean_definition": "source64",
+    "signature_definition": "signature64",
+    "profile_variant": "mask_int64",
+    "expected_call_bindings": {
+      "n_elements": "n_elements",
+      "alpha": "alpha"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "grad_ptr",
+          "fp32"
+        ],
+        [
+          "p_ptr",
+          "fp32"
+        ],
+        [
+          "p_mask_ptr",
+          "i64"
+        ]
+      ],
+      "scalars": [
+        [
+          "n_elements",
+          "integer"
+        ],
+        [
+          "alpha",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "grad_ptr",
+        "p_ptr",
+        "p_mask_ptr"
+      ],
+      "writePorts": [
+        "grad_ptr"
+      ]
+    },
+    "python": "bench/repairs/tritonbench_g/masked_add_cuda/masked_add_cuda_repaired.py",
+    "python_function": "masked_add_kernel"
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/masked_add_cuda/Kernels.lean",
+    "lean_definition": "commuted64",
+    "signature_definition": "signature64",
+    "profile_variant": "mask_int64",
+    "expected_call_bindings": {
+      "n_elements": "n_elements",
+      "alpha": "alpha"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "grad_ptr",
+          "fp32"
+        ],
+        [
+          "p_ptr",
+          "fp32"
+        ],
+        [
+          "p_mask_ptr",
+          "i64"
+        ]
+      ],
+      "scalars": [
+        [
+          "n_elements",
+          "integer"
+        ],
+        [
+          "alpha",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "grad_ptr",
+        "p_ptr",
+        "p_mask_ptr"
+      ],
+      "writePorts": [
+        "grad_ptr"
+      ]
+    },
+    "python": "bench/repairs/tritonbench_g/masked_add_cuda/candidate_kernels.py",
+    "python_function": "commuted_masked_add"
+  }
+]

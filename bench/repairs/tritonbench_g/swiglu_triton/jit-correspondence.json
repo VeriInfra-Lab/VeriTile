@@ -1,0 +1,190 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/swiglu_triton/swiglu_triton_repaired.py",
+    "python_function": "silu",
+    "lean": "bench/repairs/tritonbench_g/swiglu_triton/Kernels.lean",
+    "lean_definition": "siluFunction"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/swiglu_triton/swiglu_triton_repaired.py",
+    "python_function": "_swiglu_forward_kernel",
+    "lean": "bench/repairs/tritonbench_g/swiglu_triton/Kernels.lean",
+    "lean_definition": "forwardKernel",
+    "signature_definition": "forwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "a_ptr",
+          "fp32"
+        ],
+        [
+          "b_ptr",
+          "fp32"
+        ],
+        [
+          "c_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "n_cols",
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "a_ptr",
+        "b_ptr"
+      ],
+      "writePorts": [
+        "c_ptr"
+      ],
+      "functions": [
+        "siluFunction"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride": "stride"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/swiglu_triton/swiglu_triton_repaired.py",
+    "python_function": "_swiglu_backward_kernel",
+    "lean": "bench/repairs/tritonbench_g/swiglu_triton/Kernels.lean",
+    "lean_definition": "backwardKernel",
+    "signature_definition": "backwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "dc_ptr",
+          "fp32"
+        ],
+        [
+          "a_ptr",
+          "fp32"
+        ],
+        [
+          "b_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "n_cols",
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "dc_ptr",
+        "a_ptr",
+        "b_ptr"
+      ],
+      "writePorts": [
+        "a_ptr",
+        "b_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride": "stride"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/swiglu_triton/candidate_kernels.py",
+    "python_function": "_swiglu_forward_kernel_index_commuted",
+    "lean": "bench/repairs/tritonbench_g/swiglu_triton/Kernels.lean",
+    "lean_definition": "forwardIndexCommuted",
+    "signature_definition": "forwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "a_ptr",
+          "fp32"
+        ],
+        [
+          "b_ptr",
+          "fp32"
+        ],
+        [
+          "c_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "n_cols",
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "a_ptr",
+        "b_ptr"
+      ],
+      "writePorts": [
+        "c_ptr"
+      ],
+      "functions": [
+        "siluFunction"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride": "stride"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/swiglu_triton/candidate_kernels.py",
+    "python_function": "_swiglu_backward_kernel_index_commuted",
+    "lean": "bench/repairs/tritonbench_g/swiglu_triton/Kernels.lean",
+    "lean_definition": "backwardIndexCommuted",
+    "signature_definition": "backwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "dc_ptr",
+          "fp32"
+        ],
+        [
+          "a_ptr",
+          "fp32"
+        ],
+        [
+          "b_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "n_cols",
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "dc_ptr",
+        "a_ptr",
+        "b_ptr"
+      ],
+      "writePorts": [
+        "a_ptr",
+        "b_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride": "stride"
+    }
+  }
+]

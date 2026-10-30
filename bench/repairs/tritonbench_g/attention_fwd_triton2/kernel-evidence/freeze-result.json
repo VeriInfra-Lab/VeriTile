@@ -1,0 +1,11 @@
+{
+  "packet": {
+    "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/delivery.json",
+    "sha256": "3f46513a7a08b5ab230f43539f05c0ab6f0b86b9ef7aa0ec76487f74aed896d4"
+  },
+  "task_sources": 42,
+  "successful_build_receipts": 38,
+  "public_import_closure": 199,
+  "audit_import_closure": 200,
+  "preserved_originals": 45
+}

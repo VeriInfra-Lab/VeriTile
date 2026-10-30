@@ -1,0 +1,64 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/cosine_compute/cosine_compute_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/cosine_compute/Kernels.lean",
+    "python_function": "cos_func",
+    "lean_definition": "kernel",
+    "signature_definition": "callSignature",
+    "expected_call_bindings": {
+      "n_elements": "n"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "a",
+          "fp32"
+        ],
+        [
+          "b",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "n_elements",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ]
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/cosine_compute/cosine_compute_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/cosine_compute/Kernels.lean",
+    "python_function": "cos_func_index_commuted",
+    "lean_definition": "indexCommutedKernel",
+    "signature_definition": "callSignature",
+    "expected_call_bindings": {
+      "n_elements": "n"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "a",
+          "fp32"
+        ],
+        [
+          "b",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "n_elements",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ]
+    }
+  }
+]

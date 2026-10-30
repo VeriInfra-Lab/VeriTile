@@ -1,0 +1,819 @@
+{
+  "schema_version": 3,
+  "counts": {
+    "local": 261,
+    "te": 8,
+    "total": 269
+  },
+  "excluded_uncertified": 6,
+  "conversion_status": "LEAN_DRAFTS_IMPORTED",
+  "tasks": [
+    {
+      "id": "local_adamw_multi_foreach_vs_loop"
+    },
+    {
+      "id": "local_adamw_multi_triton_vs_loop"
+    },
+    {
+      "id": "local_attention_baddbmm"
+    },
+    {
+      "id": "local_attention_baddbmm_dk"
+    },
+    {
+      "id": "local_attention_baddbmm_dq"
+    },
+    {
+      "id": "local_attention_baddbmm_dv"
+    },
+    {
+      "id": "local_attention_baddbmm_mla"
+    },
+    {
+      "id": "local_attention_baddbmm_mla_dk"
+    },
+    {
+      "id": "local_attention_baddbmm_mla_dq"
+    },
+    {
+      "id": "local_attention_baddbmm_mla_dv"
+    },
+    {
+      "id": "local_chunked_lm_loss_dx"
+    },
+    {
+      "id": "local_chunked_lm_loss_fwd"
+    },
+    {
+      "id": "local_chunked_lm_loss_wgrad"
+    },
+    {
+      "id": "local_cross_entropy_dx"
+    },
+    {
+      "id": "local_cross_entropy_fwd"
+    },
+    {
+      "id": "local_cross_entropy_ignore_dx"
+    },
+    {
+      "id": "local_cross_entropy_ignore_fwd"
+    },
+    {
+      "id": "local_deepgemm_grouped_accum_wgrad"
+    },
+    {
+      "id": "local_deepgemm_grouped_dx"
+    },
+    {
+      "id": "local_deepgemm_grouped_fwd"
+    },
+    {
+      "id": "local_deepgemm_grouped_wgrad"
+    },
+    {
+      "id": "local_deepgemm_linear_dx"
+    },
+    {
+      "id": "local_deepgemm_linear_fwd"
+    },
+    {
+      "id": "local_deepgemm_linear_fwd_bias"
+    },
+    {
+      "id": "local_deepgemm_linear_wgrad"
+    },
+    {
+      "id": "local_expert_bias_update"
+    },
+    {
+      "id": "local_expert_bias_update_zero_mean"
+    },
+    {
+      "id": "local_fa4_mla_decode"
+    },
+    {
+      "id": "local_fa4_mla_prefill"
+    },
+    {
+      "id": "local_fused_aux_loss"
+    },
+    {
+      "id": "local_fused_aux_loss_coeff001"
+    },
+    {
+      "id": "local_fused_aux_loss_coeff001_dx"
+    },
+    {
+      "id": "local_fused_aux_loss_coeff1"
+    },
+    {
+      "id": "local_fused_aux_loss_coeff1_dx"
+    },
+    {
+      "id": "local_fused_aux_loss_dx"
+    },
+    {
+      "id": "local_fused_aux_loss_global"
+    },
+    {
+      "id": "local_fused_aux_loss_global_dx"
+    },
+    {
+      "id": "local_fused_aux_loss_global_odd"
+    },
+    {
+      "id": "local_fused_aux_loss_global_odd_dx"
+    },
+    {
+      "id": "local_fused_aux_loss_long"
+    },
+    {
+      "id": "local_fused_aux_loss_long_dx"
+    },
+    {
+      "id": "local_fused_aux_loss_long_odd"
+    },
+    {
+      "id": "local_fused_aux_loss_long_odd_dx"
+    },
+    {
+      "id": "local_fused_aux_loss_odd_tokens"
+    },
+    {
+      "id": "local_fused_aux_loss_odd_tokens_dx"
+    },
+    {
+      "id": "local_fused_aux_loss_sequence"
+    },
+    {
+      "id": "local_fused_aux_loss_sequence_dx"
+    },
+    {
+      "id": "local_fused_aux_loss_topk6"
+    },
+    {
+      "id": "local_fused_aux_loss_topk6_dx"
+    },
+    {
+      "id": "local_fused_aux_loss_topk6_odd"
+    },
+    {
+      "id": "local_fused_aux_loss_topk6_odd_dx"
+    },
+    {
+      "id": "local_fused_hc_head_dbase"
+    },
+    {
+      "id": "local_fused_hc_head_dfn"
+    },
+    {
+      "id": "local_fused_hc_head_dscale"
+    },
+    {
+      "id": "local_fused_hc_head_dx"
+    },
+    {
+      "id": "local_fused_hc_head_dx_hc8"
+    },
+    {
+      "id": "local_fused_hc_head_fwd"
+    },
+    {
+      "id": "local_fused_hc_post_bda_dbias"
+    },
+    {
+      "id": "local_fused_hc_post_bda_dout"
+    },
+    {
+      "id": "local_fused_hc_post_bda_dpost"
+    },
+    {
+      "id": "local_fused_hc_post_bda_dres"
+    },
+    {
+      "id": "local_fused_hc_post_bda_fwd"
+    },
+    {
+      "id": "local_fused_hc_post_dout"
+    },
+    {
+      "id": "local_fused_hc_post_dpost"
+    },
+    {
+      "id": "local_fused_hc_post_dres"
+    },
+    {
+      "id": "local_fused_hc_post_fwd"
+    },
+    {
+      "id": "local_fused_hc_pre_dbase"
+    },
+    {
+      "id": "local_fused_hc_pre_dfn"
+    },
+    {
+      "id": "local_fused_hc_pre_dscale"
+    },
+    {
+      "id": "local_fused_hc_pre_dx"
+    },
+    {
+      "id": "local_fused_hc_pre_dx_hc8"
+    },
+    {
+      "id": "local_fused_hc_pre_post_fwd"
+    },
+    {
+      "id": "local_fused_hc_pre_y_fwd"
+    },
+    {
+      "id": "local_fused_permute"
+    },
+    {
+      "id": "local_fused_permute_dprobs"
+    },
+    {
+      "id": "local_fused_permute_padded"
+    },
+    {
+      "id": "local_fused_permute_with_probs"
+    },
+    {
+      "id": "local_fused_probs_scale_dprobs"
+    },
+    {
+      "id": "local_fused_probs_scale_dx"
+    },
+    {
+      "id": "local_fused_probs_scale_fwd"
+    },
+    {
+      "id": "local_fused_router"
+    },
+    {
+      "id": "local_fused_router_sigmoid_bias_optimized"
+    },
+    {
+      "id": "local_fused_router_sigmoid_bias_simple"
+    },
+    {
+      "id": "local_fused_score_for_aux_loss"
+    },
+    {
+      "id": "local_fused_score_for_aux_loss_routing_map"
+    },
+    {
+      "id": "local_fused_swiglu_dx"
+    },
+    {
+      "id": "local_fused_swiglu_fwd"
+    },
+    {
+      "id": "local_fused_unpermute_dmerging_probs"
+    },
+    {
+      "id": "local_fused_unpermute_padded"
+    },
+    {
+      "id": "local_grad_norm_foreach_vs_loop"
+    },
+    {
+      "id": "local_indices_to_multihot_dprobs"
+    },
+    {
+      "id": "local_indices_to_multihot_map"
+    },
+    {
+      "id": "local_indices_to_multihot_probs"
+    },
+    {
+      "id": "local_masked_moe_aux_dx"
+    },
+    {
+      "id": "local_masked_moe_global_aux_dx"
+    },
+    {
+      "id": "local_masked_moe_seq_aux_dx"
+    },
+    {
+      "id": "local_mla_fa4_absorb_bi_linear_dx"
+    },
+    {
+      "id": "local_mla_fa4_absorb_bi_linear_fwd"
+    },
+    {
+      "id": "local_mla_fa4_absorb_bi_linear_o_wgrad"
+    },
+    {
+      "id": "local_mla_fa4_absorb_dx"
+    },
+    {
+      "id": "local_mla_fa4_absorb_fwd"
+    },
+    {
+      "id": "local_mla_fa4_absorb_lseonly_dx"
+    },
+    {
+      "id": "local_mla_fa4_absorb_reuse_dx"
+    },
+    {
+      "id": "local_mla_fa4_absorb_reuse_sink_dsink"
+    },
+    {
+      "id": "local_mla_fa4_absorb_reuse_sink_dx"
+    },
+    {
+      "id": "local_mla_fa4_absorb_reuse_varlen_dx"
+    },
+    {
+      "id": "local_mla_fa4_absorb_reuse_varlen_wgrad"
+    },
+    {
+      "id": "local_mla_fa4_absorb_reuse_wgrad"
+    },
+    {
+      "id": "local_mla_fa4_absorb_seqused_dx"
+    },
+    {
+      "id": "local_mla_fa4_absorb_seqused_fwd"
+    },
+    {
+      "id": "local_mla_fa4_absorb_seqused_wgrad"
+    },
+    {
+      "id": "local_mla_fa4_absorb_sink_dsink"
+    },
+    {
+      "id": "local_mla_fa4_absorb_sink_dx"
+    },
+    {
+      "id": "local_mla_fa4_absorb_sink_epilogue_fwd"
+    },
+    {
+      "id": "local_mla_fa4_absorb_sink_fp32mm_fwd"
+    },
+    {
+      "id": "local_mla_fa4_absorb_sink_fwd"
+    },
+    {
+      "id": "local_mla_fa4_absorb_sink_wgrad"
+    },
+    {
+      "id": "local_mla_fa4_absorb_varlen_dx"
+    },
+    {
+      "id": "local_mla_fa4_absorb_varlen_fwd"
+    },
+    {
+      "id": "local_mla_fa4_absorb_varlen_wgrad"
+    },
+    {
+      "id": "local_mla_fa4_absorb_vs_nonabsorb_dx"
+    },
+    {
+      "id": "local_mla_fa4_absorb_vs_nonabsorb_fwd"
+    },
+    {
+      "id": "local_mla_fa4_absorb_vs_nonabsorb_wgrad"
+    },
+    {
+      "id": "local_mla_fa4_absorb_wgrad"
+    },
+    {
+      "id": "local_mla_fa4_hd256_absorb_dx"
+    },
+    {
+      "id": "local_mla_fa4_hd256_absorb_reuse_sink_dsink"
+    },
+    {
+      "id": "local_mla_fa4_hd256_absorb_reuse_sink_dx"
+    },
+    {
+      "id": "local_mla_fa4_hd256_absorb_sink_dsink"
+    },
+    {
+      "id": "local_mla_fa4_hd256_absorb_sink_dx"
+    },
+    {
+      "id": "local_mla_fa4_hd256_absorb_sink_wgrad"
+    },
+    {
+      "id": "local_mla_fa4_hd256_absorb_wgrad"
+    },
+    {
+      "id": "local_mla_fa4_hd256_nonabsorb_dx"
+    },
+    {
+      "id": "local_mla_fa4_hd256_nonabsorb_fwd"
+    },
+    {
+      "id": "local_mla_fa4_hd256_nonabsorb_sink_dsink"
+    },
+    {
+      "id": "local_mla_fa4_hd256_nonabsorb_sink_dx"
+    },
+    {
+      "id": "local_mla_fa4_hd256_nonabsorb_sink_fwd"
+    },
+    {
+      "id": "local_mla_fa4_hd256_nonabsorb_sink_wgrad"
+    },
+    {
+      "id": "local_mla_fa4_hd256_nonabsorb_varlen_dx"
+    },
+    {
+      "id": "local_mla_fa4_hd256_nonabsorb_varlen_fwd"
+    },
+    {
+      "id": "local_mla_fa4_hd256_nonabsorb_varlen_wgrad"
+    },
+    {
+      "id": "local_mla_fa4_hd256_nonabsorb_wgrad"
+    },
+    {
+      "id": "local_mla_fa4_nonabsorb_dx"
+    },
+    {
+      "id": "local_mla_fa4_nonabsorb_fwd"
+    },
+    {
+      "id": "local_mla_fa4_nonabsorb_native_norm_dx"
+    },
+    {
+      "id": "local_mla_fa4_nonabsorb_native_norm_fwd"
+    },
+    {
+      "id": "local_mla_fa4_nonabsorb_native_norm_wgrad"
+    },
+    {
+      "id": "local_mla_fa4_nonabsorb_seqused_dx"
+    },
+    {
+      "id": "local_mla_fa4_nonabsorb_seqused_fwd"
+    },
+    {
+      "id": "local_mla_fa4_nonabsorb_seqused_wgrad"
+    },
+    {
+      "id": "local_mla_fa4_nonabsorb_sink_dsink"
+    },
+    {
+      "id": "local_mla_fa4_nonabsorb_sink_dx"
+    },
+    {
+      "id": "local_mla_fa4_nonabsorb_sink_fwd"
+    },
+    {
+      "id": "local_mla_fa4_nonabsorb_sink_wgrad"
+    },
+    {
+      "id": "local_mla_fa4_nonabsorb_varlen_dx"
+    },
+    {
+      "id": "local_mla_fa4_nonabsorb_varlen_fwd"
+    },
+    {
+      "id": "local_mla_fa4_nonabsorb_varlen_wgrad"
+    },
+    {
+      "id": "local_mla_fa4_nonabsorb_wgrad"
+    },
+    {
+      "id": "local_mla_fa4_te_rope_absorb_dx"
+    },
+    {
+      "id": "local_mla_fa4_te_rope_absorb_fwd"
+    },
+    {
+      "id": "local_mla_fa4_te_rope_absorb_reuse_dx"
+    },
+    {
+      "id": "local_mla_fa4_te_rope_absorb_reuse_fwd"
+    },
+    {
+      "id": "local_mla_fa4_te_rope_absorb_reuse_wgrad"
+    },
+    {
+      "id": "local_mla_fa4_te_rope_absorb_wgrad"
+    },
+    {
+      "id": "local_mla_fa4_te_rope_cp_absorb_dx"
+    },
+    {
+      "id": "local_mla_fa4_te_rope_cp_absorb_fwd"
+    },
+    {
+      "id": "local_mla_fa4_te_rope_cp_absorb_reuse_dx"
+    },
+    {
+      "id": "local_mla_fa4_te_rope_cp_absorb_reuse_fwd"
+    },
+    {
+      "id": "local_mla_fa4_te_rope_cp_absorb_reuse_wgrad"
+    },
+    {
+      "id": "local_mla_fa4_te_rope_cp_absorb_wgrad"
+    },
+    {
+      "id": "local_mla_fa4_te_rope_cp_nonabsorb_dx"
+    },
+    {
+      "id": "local_mla_fa4_te_rope_cp_nonabsorb_fwd"
+    },
+    {
+      "id": "local_mla_fa4_te_rope_cp_nonabsorb_wgrad"
+    },
+    {
+      "id": "local_mla_fa4_te_rope_mtp_absorb_dx"
+    },
+    {
+      "id": "local_mla_fa4_te_rope_mtp_absorb_fwd"
+    },
+    {
+      "id": "local_mla_fa4_te_rope_mtp_absorb_reuse_dx"
+    },
+    {
+      "id": "local_mla_fa4_te_rope_mtp_absorb_reuse_fwd"
+    },
+    {
+      "id": "local_mla_fa4_te_rope_mtp_absorb_reuse_wgrad"
+    },
+    {
+      "id": "local_mla_fa4_te_rope_mtp_absorb_wgrad"
+    },
+    {
+      "id": "local_mla_fa4_te_rope_mtp_nonabsorb_dx"
+    },
+    {
+      "id": "local_mla_fa4_te_rope_mtp_nonabsorb_fwd"
+    },
+    {
+      "id": "local_mla_fa4_te_rope_mtp_nonabsorb_wgrad"
+    },
+    {
+      "id": "local_mla_fa4_te_rope_nonabsorb_dx"
+    },
+    {
+      "id": "local_mla_fa4_te_rope_nonabsorb_fwd"
+    },
+    {
+      "id": "local_mla_fa4_te_rope_nonabsorb_wgrad"
+    },
+    {
+      "id": "local_mla_fa4_te_rope_thd_absorb_dx"
+    },
+    {
+      "id": "local_mla_fa4_te_rope_thd_absorb_fwd"
+    },
+    {
+      "id": "local_mla_fa4_te_rope_thd_absorb_reuse_dx"
+    },
+    {
+      "id": "local_mla_fa4_te_rope_thd_absorb_reuse_fwd"
+    },
+    {
+      "id": "local_mla_fa4_te_rope_thd_absorb_reuse_wgrad"
+    },
+    {
+      "id": "local_mla_fa4_te_rope_thd_absorb_wgrad"
+    },
+    {
+      "id": "local_mla_fa4_te_rope_thd_nonabsorb_dx"
+    },
+    {
+      "id": "local_mla_fa4_te_rope_thd_nonabsorb_fwd"
+    },
+    {
+      "id": "local_mla_fa4_te_rope_thd_nonabsorb_wgrad"
+    },
+    {
+      "id": "local_mla_rope_fused"
+    },
+    {
+      "id": "local_mla_rope_fused_demb"
+    },
+    {
+      "id": "local_mla_rope_fused_dkv"
+    },
+    {
+      "id": "local_mla_rope_fused_dq"
+    },
+    {
+      "id": "local_mlp_dx"
+    },
+    {
+      "id": "local_mlp_fc1_wgrad"
+    },
+    {
+      "id": "local_mlp_fc2_wgrad"
+    },
+    {
+      "id": "local_mlp_fwd"
+    },
+    {
+      "id": "local_mtp_roll_dx"
+    },
+    {
+      "id": "local_mtp_roll_fwd"
+    },
+    {
+      "id": "local_mtp_roll_packed_dx"
+    },
+    {
+      "id": "local_mtp_roll_packed_fwd"
+    },
+    {
+      "id": "local_mtp_row_boundaries_closed_fwd"
+    },
+    {
+      "id": "local_mtp_row_boundaries_open_fwd"
+    },
+    {
+      "id": "local_mtp_tail_mask_closed_fwd"
+    },
+    {
+      "id": "local_mtp_tail_mask_flat_rows_fwd"
+    },
+    {
+      "id": "local_mtp_tail_mask_open_fwd"
+    },
+    {
+      "id": "local_muon_bmm_vs_loop"
+    },
+    {
+      "id": "local_muon_fused_vs_loop"
+    },
+    {
+      "id": "local_muon_fused_vs_loop_wide"
+    },
+    {
+      "id": "local_muon_momentum_update"
+    },
+    {
+      "id": "local_muon_ns_schedule_bmm_vs_loop"
+    },
+    {
+      "id": "local_muon_param_update"
+    },
+    {
+      "id": "local_muon_spectral_normalize"
+    },
+    {
+      "id": "local_muon_spectral_normalize_transposed"
+    },
+    {
+      "id": "local_muon_syrk_gram"
+    },
+    {
+      "id": "local_pad_routing_map"
+    },
+    {
+      "id": "local_permute"
+    },
+    {
+      "id": "local_permute_with_probs"
+    },
+    {
+      "id": "local_qknorm_dx"
+    },
+    {
+      "id": "local_qknorm_fwd"
+    },
+    {
+      "id": "local_rmsnorm_dx"
+    },
+    {
+      "id": "local_rmsnorm_fwd"
+    },
+    {
+      "id": "local_rope"
+    },
+    {
+      "id": "local_rope_dx"
+    },
+    {
+      "id": "local_rope_interleave"
+    },
+    {
+      "id": "local_rope_interleave_dx"
+    },
+    {
+      "id": "local_route"
+    },
+    {
+      "id": "local_route_expert_bias"
+    },
+    {
+      "id": "local_routed_swiglu"
+    },
+    {
+      "id": "local_router_gating"
+    },
+    {
+      "id": "local_router_gating_batch_invariant"
+    },
+    {
+      "id": "local_situ_glu_b30x30_linear_dx"
+    },
+    {
+      "id": "local_situ_glu_b30x30_linear_fwd"
+    },
+    {
+      "id": "local_situ_glu_b30x30_saturation_dx"
+    },
+    {
+      "id": "local_situ_glu_b30x30_saturation_fwd"
+    },
+    {
+      "id": "local_situ_glu_b30x30_sigmoid_dx"
+    },
+    {
+      "id": "local_situ_glu_b30x30_sigmoid_fwd"
+    },
+    {
+      "id": "local_situ_glu_b30x30_transition_dx"
+    },
+    {
+      "id": "local_situ_glu_b30x30_transition_fwd"
+    },
+    {
+      "id": "local_situ_glu_b4x25_linear_dx"
+    },
+    {
+      "id": "local_situ_glu_b4x25_linear_fwd"
+    },
+    {
+      "id": "local_situ_glu_b4x25_saturation_dx"
+    },
+    {
+      "id": "local_situ_glu_b4x25_saturation_fwd"
+    },
+    {
+      "id": "local_situ_glu_b4x25_transition_dx"
+    },
+    {
+      "id": "local_situ_glu_b4x25_transition_fwd"
+    },
+    {
+      "id": "local_situ_glu_dx"
+    },
+    {
+      "id": "local_situ_glu_fwd"
+    },
+    {
+      "id": "local_triton_matmul"
+    },
+    {
+      "id": "local_triton_router_cast"
+    },
+    {
+      "id": "local_triton_router_cast_a3b"
+    },
+    {
+      "id": "local_triton_router_cast_a7b"
+    },
+    {
+      "id": "local_triton_router_matmul"
+    },
+    {
+      "id": "local_triton_router_matmul_default"
+    },
+    {
+      "id": "local_triton_router_matmul_production"
+    },
+    {
+      "id": "local_triton_topk"
+    },
+    {
+      "id": "local_triton_topk_dx"
+    },
+    {
+      "id": "local_wgrad_accum"
+    },
+    {
+      "id": "te_fused_attn_mla"
+    },
+    {
+      "id": "te_fused_attn_mla_dk"
+    },
+    {
+      "id": "te_fused_attn_mla_dq"
+    },
+    {
+      "id": "te_fused_attn_mla_dv"
+    },
+    {
+      "id": "te_fused_attn_mla_thd"
+    },
+    {
+      "id": "te_fused_attn_mla_thd_dk"
+    },
+    {
+      "id": "te_fused_attn_mla_thd_dq"
+    },
+    {
+      "id": "te_fused_attn_mla_thd_dv"
+    }
+  ]
+}

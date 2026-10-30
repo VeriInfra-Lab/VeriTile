@@ -1,0 +1,102 @@
+{
+  "schema": 1,
+  "kind": "verbatim_fields_from_archived_review",
+  "archive": {
+    "commit": "5ea0e46126cc1c6eb05e4219ddc5dc13246ec3ce",
+    "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/review.json",
+    "sha256": "700c60e2e207f87fd88256791c1ae71feacb33c105c09a58b6227e53b94012fd",
+    "url": "https://github.com/VeriInfra-Lab/VeriTile/blob/5ea0e46126cc1c6eb05e4219ddc5dc13246ec3ce/bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/review.json"
+  },
+  "context": "Verification below was performed on the archived source snapshot. Nested evidence paths resolve in that archive. The full semantic review, theorem audit and logs remain there. This split has separate integration checks.",
+  "excerpt": {
+    "status": "verified_task_batch_corpus_migration_incomplete",
+    "code_commit": "e79ca9afc54302ce133b6ac95306ac44e3f69643",
+    "new_task_migrations": [
+      "kv_cache_filling"
+    ],
+    "regression_only_pending_body_tasks": [],
+    "verification": {
+      "baseline": {
+        "status": "PREEXISTING_FAILURE",
+        "explicit_modules": 51,
+        "reason": "Retained optional WholeBacking source, actual-state output projections and imports were missing; original failure log is retained. Every canonical task root is required to pass after repair."
+      },
+      "frontend_preflight": {
+        "status": "PASS",
+        "explicit_modules": 117,
+        "jobs": 3773,
+        "scope": "All registered frontend roots, including helper evaluation, local scope, tuple/underscore assignments, implicit unsigned arithmetic and stores."
+      },
+      "focused": {
+        "status": "PASS",
+        "explicit_modules": 55,
+        "jobs": 8372,
+        "additional_scope": "Joint import, 7 standalone frontend proof footprints, 255 task theorem audits and the empty public FP assumption report."
+      },
+      "warm_and_joint": {
+        "status": "PASS",
+        "explicit_modules": 4420,
+        "jobs": 14100
+      },
+      "independent_clean_checkout": {
+        "status": "PASS",
+        "explicit_modules": 4420,
+        "jobs": 14100,
+        "project_build_initially_present": false,
+        "project_objects_imported_from_other_checkouts": false,
+        "only_fixed_external_dependencies_imported": true,
+        "setup": {
+          "path": "bench/review-checkpoints/2026-10-28/native-kv-cache-filling-function-bodies/final-clean-setup.json",
+          "sha256": "ee5b9ebc120672655b328a5eff1cb9b2e8c210983034d278b387f2fc1b37f712"
+        }
+      },
+      "trust": "PASS: 255 task theorem footprints and 7 standalone frontend proof footprints use only standard base. The public complete source pair prints no FP assumptions.",
+      "targeted_python": {
+        "status": "PASS",
+        "tests": 230
+      },
+      "all_python": {
+        "status": "KNOWN_PREEXISTING_FAILURE",
+        "tests": 475,
+        "errors": 1,
+        "reason": "Unchanged Structural.lean rejected by old numerical receipt; no false repin."
+      },
+      "source": "PASS: seven complete raw helper and policy original/existing index candidate mappings and caller profile bindings; original Python and public specifications unchanged; actual branches, casts, masks, stores and complete source execution/safety reverified.",
+      "official_comparator": "UNAVAILABLE: 63 actual final-source attempts with verified pinned binaries. Host Landlock ABI v4 is below required v5; no systemd user isolation or bypass.",
+      "cpu": "UNAVAILABLE: the unchanged check_contract.py CPU source interpreter requires missing Torch. No GPU or new numerical experiment was requested or run.",
+      "gpu_or_numerical_experiment": "Not run.",
+      "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending; the known unchanged numerical receipt failure remains explicit."
+    },
+    "corpus_complete": false,
+    "corpus_counts": {
+      "tasks": 183,
+      "examples": 19,
+      "task_status": {
+        "selected_body_copy_checked": 106,
+        "uncovered_jit_functions": 77
+      },
+      "example_status": {
+        "authored_counterpart_body_copy_checked": 2,
+        "selected_body_copy_checked": 2,
+        "spec_derived_body_copy_checked": 15
+      },
+      "selected_jit_functions": 333,
+      "uncovered_selected_jit_functions": 163,
+      "primary_files_with_int64_screen_warning": 22,
+      "primary_lean_file_features": {
+        "tasks": {
+          "in_body_type_directives": 55,
+          "antiquotes": 61,
+          "dsl_loop": 0,
+          "dsl_numeric_helpers": 8
+        },
+        "examples": {
+          "in_body_type_directives": 0,
+          "antiquotes": 0,
+          "dsl_loop": 0,
+          "dsl_numeric_helpers": 0
+        }
+      }
+    }
+  }
+}

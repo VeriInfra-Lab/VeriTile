@@ -1,0 +1,14 @@
+import bench.repairs.tritonbench_g.token_attn_mistral_grid_y_checked.Misc.NativeIOResults
+import bench.repairs.tritonbench_g.token_attn_mistral_grid_y_checked.Misc.RawCorrect
+import bench.repairs.tritonbench_g.token_attn_mistral_grid_y_checked.Misc.RawNative
+import bench.repairs.tritonbench_g.token_attn_mistral_grid_y_checked.Proofs.PhysicalIO
+
+namespace VeriTile.Bench.Repairs.TokenAttnMistralGridYChecked
+#axiomsClean RawCorrect.kernel_correct
+#axiomsClean RawNative.kernel_native
+#axiomsClean PublicIO.real
+#axiomsClean PublicIO.native
+#axiomsClean IOSafety.schedule
+#axiomsClean PhysicalIO.binding
+#axiomsClean PhysicalIO.inBounds
+end VeriTile.Bench.Repairs.TokenAttnMistralGridYChecked

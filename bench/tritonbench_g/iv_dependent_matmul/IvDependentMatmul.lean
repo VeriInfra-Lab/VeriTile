@@ -673,7 +673,7 @@ theorem ivdm_step (A B : RegionName) (s0 : BlockState)
 output mask, masked fp16 store. -/
 def ivdmPostBody (C : RegionName) (M N SCM SCN BM BN : Nat) : List Stmt :=
   [ Stmt.assign FloatDType.fp16.toTileDType [BM, BN] "c"
-      (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref .real [BM, BN] "accumulator")),
+      (Op.castFloat FloatDType.real FloatDType.fp16 (Op.withPrecision .real .fp32 (Op.ref .real [BM, BN] "accumulator"))),
     Stmt.assign .nat [BM] "offs_cm"
       (Op.add .nat Broadcast.scalarL
         (Op.mul .nat Broadcast.nil (Op.ref .nat [] "pid_m") (Op.constNat BM)) (Op.arange BM)),
@@ -815,9 +815,9 @@ theorem ivdm_postLoop (A B C : RegionName) (s0 : BlockState)
     rw [hz]; refine congrArg some ?_; ext idx; simp only [hg, matmulSpec, accPartial, Nat.mul_comm numKBlocks BK]
   unfold ivdmPostBody
   -- step 1: fp16 cast
-  have hcast : evalOp (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref .real [BM, BN] "accumulator")) st
+  have hcast : evalOp (Op.castFloat FloatDType.real FloatDType.fp16 (Op.withPrecision .real .fp32 (Op.ref .real [BM, BN] "accumulator"))) st
       = some (⟨fun idx => FloatDType.real.cast FloatDType.fp16 (some (g idx))⟩ : Tile .fp16 [BM, BN]) := by
-    rw [evalOp_castFloat]
+    rw [evalOp_castFloat, evalOp.eq_def]
     simp [hzspec]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some hcast)]
   set s1 := st.setReg "c" FloatDType.fp16.toTileDType [BM, BN] (⟨fun idx => FloatDType.real.cast FloatDType.fp16 (some (g idx))⟩ : Tile .fp16 [BM, BN]) with hs1
@@ -1233,7 +1233,7 @@ private theorem cmask_eval (s : BlockState) (M N BM BN : Nat)
 site 1, `R.cast` applied lane-wise to the accumulator tile. -/
 private theorem castAcc_evalR (R : RoundingModel) (BM BN : Nat) (s : BlockState)
     (zT : Tile .real [BM, BN]) (hz : s.regs .real [BM, BN] "accumulator" = some zT) :
-    evalOpR R (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref .real [BM, BN] "accumulator")) s
+    evalOpR R (Op.castFloat FloatDType.real FloatDType.fp16 (Op.withPrecision .real .fp32 (Op.ref .real [BM, BN] "accumulator"))) s
       = some ⟨fun idx => RoundingModel.cast R FloatDType.real FloatDType.fp16 (zT.data idx)⟩ := by
   have hz' : s.regs FloatDType.real.toTileDType [BM, BN] "accumulator" = some zT := hz
   simp only [evalOpR.eq_def, hz']
@@ -1282,7 +1282,7 @@ private theorem ivdm_postLoopR (R : RoundingModel) (A B C : RegionName) (s0 : Bl
     ⟨fun idx => RoundingModel.cast R FloatDType.real FloatDType.fp16 (zT.data idx)⟩ with hcT
   erw [stepStmtsR_cons_some (stepStmtR_assign_eq_some
         (show evalOpR R (Op.castFloat FloatDType.real FloatDType.fp16
-              (Op.ref .real [BM, BN] "accumulator")) st = some cT
+              (Op.withPrecision .real .fp32 (Op.ref .real [BM, BN] "accumulator"))) st = some cT
           from castAcc_evalR R BM BN st zT hzspec))]
   set s1 := st.setReg "c" FloatDType.fp16.toTileDType [BM, BN] cT with hs1
   -- 2/3. offs_cm / offs_cn (cast-free)

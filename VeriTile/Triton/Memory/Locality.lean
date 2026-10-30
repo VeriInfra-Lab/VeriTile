@@ -283,8 +283,8 @@ mask lanes never read memory: they read the `undef` channel (equal by
 agreeing states returns **equal** tiles — not merely related ones. -/
 
 /-- `mapM`-level congruence for dynamic block-pointer offset lists. -/
-private theorem mapM_data_agreeOn (s₁ s₂ : BlockState) :
-    ∀ (l : List (Op TileDType.nat [])),
+private theorem mapM_data_agreeOn {dtype : TileDType} (s₁ s₂ : BlockState) :
+    ∀ (l : List (Op dtype [])),
       (∀ off ∈ l, evalOp off s₁ = evalOp off s₂) →
       l.mapM (fun off => do
           let v ← evalOp off s₁
@@ -325,15 +325,45 @@ theorem evalOp_agreeOn (bounds : RegionBounds) :
       simp only [evalOp, hag.numPids]
   | _, _, .ref d sh n, s₁, s₂, hag, _ => by
       simp only [evalOp, hag.regs]
+  | _, _, .philox4x32 cfg plan field seed c0 c1 c2 c3, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp,
+        evalOp_agreeOn bounds seed s₁ s₂ hag hms.1,
+        evalOp_agreeOn bounds c0 s₁ s₂ hag hms.2.1,
+        evalOp_agreeOn bounds c1 s₁ s₂ hag hms.2.2.1,
+        evalOp_agreeOn bounds c2 s₁ s₂ hag hms.2.2.2.1,
+        evalOp_agreeOn bounds c3 s₁ s₂ hag hms.2.2.2.2]
+  | _, _, .uniform32 word, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp, evalOp_agreeOn bounds word s₁ s₂ hag hms]
+  | _, _, .rand cfg seed offsets, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp, evalOp_agreeOn bounds seed s₁ s₂ hag hms.1,
+        evalOp_agreeOn bounds offsets s₁ s₂ hag hms.2]
+  | _, _, .randTensor cfg seed offsets, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp, evalOp_agreeOn bounds seed s₁ s₂ hag hms.1,
+        evalOp_agreeOn bounds offsets s₁ s₂ hag hms.2]
   | _, _, .broadcast e sh, s₁, s₂, hag, hms => by
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds e s₁ s₂ hag hms]
   | _, _, .full sh e, s₁, s₂, hag, hms => by
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds e s₁ s₂ hag hms]
+  | _, _, .withPrecision _ _ a, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simpa only [evalOp] using evalOp_agreeOn bounds a s₁ s₂ hag hms
   | _, _, .castFloat src dst a, s₁, s₂, hag, hms => by
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
+  | _, _, .negFloat dtype a, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
+  | _, _, .absFloat dtype a, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
+  | _, _, .floatToInt .., s₁, s₂, hag, hms => by simp only [evalOp]
+  | _, _, .floatToNat .., s₁, s₂, hag, hms => by simp only [evalOp]
   | _, _, .castNatToInt a, s₁, s₂, hag, hms => by
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
@@ -341,6 +371,9 @@ theorem evalOp_agreeOn (bounds : RegionBounds) :
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
   | _, _, .castRealToInt8 a, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
+  | _, _, .decodeFloat8E5 dst a, s₁, s₂, hag, hms => by
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
   | _, _, .add nd bc a b, s₁, s₂, hag, hms => by
@@ -390,6 +423,21 @@ theorem evalOp_agreeOn (bounds : RegionBounds) :
   | _, _, .exp a, s₁, s₂, hag, hms => by
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
+  | _, _, .libdeviceExp a, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
+  | _, _, .libdeviceLog a, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
+  | _, _, .libdeviceExpm1 a, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
+  | _, _, .libdeviceTanh a, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
+  | _, _, .libdeviceLog1p a, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
   | _, _, .exp2 a, s₁, s₂, hag, hms => by
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
@@ -406,6 +454,9 @@ theorem evalOp_agreeOn (bounds : RegionBounds) :
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
   | _, _, .rsqrt a, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
+  | _, _, .libdeviceRsqrt a, s₁, s₂, hag, hms => by
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
   | _, _, .tanh a, s₁, s₂, hag, hms => by
@@ -430,6 +481,9 @@ theorem evalOp_agreeOn (bounds : RegionBounds) :
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
   | _, _, .erf a, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
+  | _, _, .minPosInf a, s₁, s₂, hag, hms => by
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
   | _, _, .lt cd bc a b, s₁, s₂, hag, hms => by
@@ -471,7 +525,23 @@ theorem evalOp_agreeOn (bounds : RegionBounds) :
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms.1,
         evalOp_agreeOn bounds b s₁ s₂ hag hms.2]
+  | _, _, .maximumFloat dtype bc a b, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms.1,
+        evalOp_agreeOn bounds b s₁ s₂ hag hms.2]
+  | _, _, .minimumFloat dtype bc a b, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms.1,
+        evalOp_agreeOn bounds b s₁ s₂ hag hms.2]
   | _, _, .pow bc a b, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms.1,
+        evalOp_agreeOn bounds b s₁ s₂ hag hms.2]
+  | _, _, .divRN bc a b, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms.1,
+        evalOp_agreeOn bounds b s₁ s₂ hag hms.2]
+  | _, _, .libdevicePowi bc a b, s₁, s₂, hag, hms => by
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms.1,
         evalOp_agreeOn bounds b s₁ s₂ hag hms.2]
@@ -485,13 +555,31 @@ theorem evalOp_agreeOn (bounds : RegionBounds) :
       simp only [evalOp, evalOp_agreeOn bounds c s₁ s₂ hag hms.1,
         evalOp_agreeOn bounds a s₁ s₂ hag hms.2.1,
         evalOp_agreeOn bounds b s₁ s₂ hag hms.2.2]
+  | _, _, .reduceMin ax kd a, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
   | _, _, .reduceMax ax kd a, s₁, s₂, hag, hms => by
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
   | _, _, .reduceMaxNat ax kd a, s₁, s₂, hag, hms => by
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
+  | _, _, .reduceMaxInt ax kd a, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
   | _, _, .reduceSum ax kd a, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
+  | _, _, .reduceSumBool ax kd a, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
+  | _, _, .reduceSumTyped _ ax kd a, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
+  | _, _, .reduceMaxTyped _ ax kd a, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
+  | _, _, .indexedMaxValue _ ax a, s₁, s₂, hag, hms => by
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
   | _, _, .scan op ax dir a, s₁, s₂, hag, hms => by
@@ -500,17 +588,32 @@ theorem evalOp_agreeOn (bounds : RegionBounds) :
   | _, _, .argMax ax a, s₁, s₂, hag, hms => by
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
+  | _, _, .argMaxInt ax a, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
+  | _, _, .argMaxTyped dtype ax a _, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
   | _, _, .argMin ax a, s₁, s₂, hag, hms => by
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
   | _, _, .sort ax a, s₁, s₂, hag, hms => by
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
-  | _, _, .dot a b, s₁, s₂, hag, hms => by
+  | _, _, .dot a b _, s₁, s₂, hag, hms => by
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms.1,
         evalOp_agreeOn bounds b s₁ s₂ hag hms.2]
-  | _, _, .dotInt a b, s₁, s₂, hag, hms => by
+  | _, _, .dotTyped _ _ _ a b _, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms.1,
+        evalOp_agreeOn bounds b s₁ s₂ hag hms.2]
+  | _, _, .dotAcc _ _ _ a b acc _, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms.1,
+        evalOp_agreeOn bounds b s₁ s₂ hag hms.2.1,
+        evalOp_agreeOn bounds acc s₁ s₂ hag hms.2.2]
+  | _, _, .dotInt a b _, s₁, s₂, hag, hms => by
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms.1,
         evalOp_agreeOn bounds b s₁ s₂ hag hms.2]
@@ -554,13 +657,23 @@ theorem evalOp_agreeOn (bounds : RegionBounds) :
   | _, _, .advanceBlockPtr p ds, s₁, s₂, hag, hms => by
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds p s₁ s₂ hag hms]
+  | _, _, .advanceBlockPtrDyn p ds, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      obtain ⟨hmp, hmd⟩ := hms
+      have hmem : ∀ d ∈ ds, evalOp d s₁ = evalOp d s₂ :=
+        fun d hd => evalOp_agreeOn bounds d s₁ s₂ hag (hmd d hd)
+      simp only [evalOp, evalOp_agreeOn bounds p s₁ s₂ hag hmp,
+        mapM_data_agreeOn s₁ s₂ ds hmem]
   | _, _, .natToReal a, s₁, s₂, hag, hms => by
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
   | _, _, .intToReal a, s₁, s₂, hag, hms => by
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
-  | _, _, .load d mem mask, s₁, s₂, hag, hms => by
+  | _, _, .load d mem mask padding, s₁, s₂, hag, hms => by
+      have hpv (dt : TileDType) (r : RegionName) (o : Nat) :
+          s₁.paddingValue dt padding r o = s₂.paddingValue dt padding r o :=
+        BlockState.paddingValue_congr s₁ s₂ dt padding r o hag.undef
       cases mem with
       | region r off =>
           cases mask with
@@ -571,7 +684,7 @@ theorem evalOp_agreeOn (bounds : RegionBounds) :
                 memAccessActiveAddressSafe] at haddr
               have IHoff := evalOp_agreeOn bounds off s₁ s₂ hag hmsmem
               cases hoffs : evalOp off s₂ with
-              | none => simp [IHoff, hoffs]
+              | none => simp [evalOp, IHoff, hoffs]
               | some offs =>
                   simp only [evalOp, IHoff, hoffs]
                   refine congrArg some (Tile.ext fun i => ?_)
@@ -705,9 +818,9 @@ theorem evalOp_agreeOn (bounds : RegionBounds) :
                 memAccessActiveAddressSafe] at haddr
               have IHp := evalOp_agreeOn bounds p s₁ s₂ hag hmsmem
               cases hps : evalOp p s₂ with
-              | none => simp [evalOp, IHp, hps]
+              | none => simp [evalOp, hpv, IHp, hps]
               | some ps =>
-                  simp only [evalOp, IHp, hps]
+                  simp only [evalOp, hpv, IHp, hps]
                   refine congrArg some (Tile.ext fun i => ?_)
                   by_cases hib : (ps.data i).inBounds
                       (TileShape.indexToList _ i) bc = true
@@ -724,12 +837,12 @@ theorem evalOp_agreeOn (bounds : RegionBounds) :
               have IHp := evalOp_agreeOn bounds p s₁ s₂ hag hmsmem
               have IHm := evalOp_agreeOn bounds m s₁ s₂ hag hmsmask
               cases hps : evalOp p s₂ with
-              | none => simp [evalOp, IHp, hps]
+              | none => simp [evalOp, hpv, IHp, hps]
               | some ps =>
                   cases hm : evalOp m s₂ with
-                  | none => simp [evalOp, IHp, hps, IHm, hm]
+                  | none => simp [evalOp, hpv, IHp, hps, IHm, hm]
                   | some ms =>
-                      simp only [evalOp, IHp, hps, IHm, hm]
+                      simp only [evalOp, hpv, IHp, hps, IHm, hm]
                       refine congrArg some (Tile.ext fun i => ?_)
                       by_cases hact : ms.data i = true
                       · simp only [hact, if_true]
@@ -753,16 +866,16 @@ theorem evalOp_agreeOn (bounds : RegionBounds) :
               have IHm := evalOp_agreeOn bounds m s₁ s₂ hag hmm
               have IHo := evalOp_agreeOn bounds other s₁ s₂ hag hmo
               cases hps : evalOp p s₂ with
-              | none => simp [evalOp, IHp, hps]
+              | none => simp [evalOp, hpv, IHp, hps]
               | some ps =>
                   cases hm : evalOp m s₂ with
-                  | none => simp [evalOp, IHp, hps, IHm, hm]
+                  | none => simp [evalOp, hpv, IHp, hps, IHm, hm]
                   | some ms =>
                       cases ho : evalOp other s₂ with
                       | none =>
-                          simp [evalOp, IHp, hps, IHm, hm, IHo, ho]
+                          simp [evalOp, hpv, IHp, hps, IHm, hm, IHo, ho]
                       | some os =>
-                          simp [evalOp, IHp, hps, IHm, hm, IHo, ho]
+                          simp [evalOp, hpv, IHp, hps, IHm, hm, IHo, ho]
                           funext i
                           by_cases hact : ms.data i = true
                           · simp only [hact, if_true]
@@ -1482,6 +1595,31 @@ theorem stepStmt_agreeOn (bounds : RegionBounds) :
                       (c.data PUnit.unit) body s₁ := hnext
                   exact stepForRangeAux_agreeOn bounds idx _ _ _ body s₁ s₂
                     hnext hag
+  | .forRangeInt idx start stop step body, s₁, s₂, hms, hag => by
+      simp only [Stmt.TraceSafe] at hms
+      obtain ⟨hmstart, hmstop, hmstep, hnext⟩ := hms
+      have IHstart := evalOp_agreeOn bounds start s₁ s₂ hag hmstart
+      have IHstop := evalOp_agreeOn bounds stop s₁ s₂ hag hmstop
+      have IHstep := evalOp_agreeOn bounds step s₁ s₂ hag hmstep
+      simp only [stepForRangeIntAux.forRangeInt_unfold, IHstart, IHstop, IHstep]
+      cases hstart : evalOp start s₂ with
+      | none => exact .none
+      | some a =>
+          cases hstop : evalOp stop s₂ with
+          | none => exact .none
+          | some b =>
+              cases hstep : evalOp step s₂ with
+              | none => exact .none
+              | some c =>
+                  rw [IHstart.trans hstart, IHstop.trans hstop,
+                    IHstep.trans hstep] at hnext
+                  replace hnext : Stmt.forRangeIntTraceSafe bounds idx
+                      (a.data PUnit.unit) (b.data PUnit.unit)
+                      (c.data PUnit.unit) body s₁ := hnext
+                  exact stepForRangeIntAux_agreeOn bounds idx _ _ _ body s₁ s₂
+                    hnext hag
+  | .whileLoop _ _, _, _, hms, _ => by
+      simp only [Stmt.TraceSafe] at hms
   | .ifThen c body, s₁, s₂, hms, hag => by
       simp only [Stmt.TraceSafe] at hms
       have IHc := evalOp_agreeOn bounds c s₁ s₂ hag hms.1
@@ -1656,6 +1794,54 @@ theorem stepForRangeAux_agreeOn (bounds : RegionBounds) :
           exact .some hag
   termination_by idx cur stop step body _ _ _ _ =>
     (sizeOf body + 1, stop - cur)
+  decreasing_by all_goals omega
+
+theorem stepForRangeIntAux_agreeOn (bounds : RegionBounds) :
+    ∀ (idx : RegName) (cur stop : Int) (step : Nat) (body : List Stmt)
+      (s₁ s₂ : BlockState),
+      Stmt.forRangeIntTraceSafe bounds idx cur stop step body s₁ →
+      s₁.AgreeOn bounds.Window s₂ →
+      OptionRel (BlockState.AgreeOn bounds.Window)
+        (stepForRangeIntAux idx cur stop step body s₁)
+        (stepForRangeIntAux idx cur stop step body s₂)
+  | idx, cur, stop, step, body, s₁, s₂, hms, hag => by
+      rw [stepForRangeIntAux, stepForRangeIntAux]
+      rw [Stmt.forRangeIntTraceSafe] at hms
+      by_cases hz : step = 0
+      · rw [if_pos hz, if_pos hz]
+        exact .some hag
+      · rw [if_neg hz, if_neg hz]
+        rw [if_neg hz] at hms
+        by_cases hlt : cur < stop
+        · rw [if_pos hlt, if_pos hlt]
+          rw [if_pos hlt] at hms
+          obtain ⟨hbody, hnext⟩ := hms
+          have hstep := stepStmts_agreeOn bounds body _ _ hbody
+            (hag.setReg idx .int [] (Tile.scalar cur))
+          cases h1 : stepStmts body
+              (s₁.setReg idx .int [] (Tile.scalar cur)) with
+          | none =>
+              cases h2 : stepStmts body
+                  (s₂.setReg idx .int [] (Tile.scalar cur)) with
+              | none => exact .none
+              | some t2 => rw [h1, h2] at hstep; cases hstep
+          | some t1 =>
+              cases h2 : stepStmts body
+                  (s₂.setReg idx .int [] (Tile.scalar cur)) with
+              | none => rw [h1, h2] at hstep; cases hstep
+              | some t2 =>
+                  rw [h1, h2] at hstep
+                  cases hstep with
+                  | some hrel =>
+                      rw [h1] at hnext
+                      replace hnext : Stmt.forRangeIntTraceSafe bounds idx
+                          (cur + step) stop step body t1 := hnext
+                      exact stepForRangeIntAux_agreeOn bounds idx (cur + step)
+                        stop step body t1 t2 hnext hrel
+        · rw [if_neg hlt, if_neg hlt]
+          exact .some hag
+  termination_by idx cur stop step body _ _ _ _ =>
+    (sizeOf body + 1, (stop - cur).toNat)
   decreasing_by all_goals omega
 
 end

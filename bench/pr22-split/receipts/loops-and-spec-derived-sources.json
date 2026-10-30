@@ -1,0 +1,93 @@
+{
+  "schema": 1,
+  "kind": "verbatim_fields_from_archived_review",
+  "archive": {
+    "commit": "5ea0e46126cc1c6eb05e4219ddc5dc13246ec3ce",
+    "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
+    "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03",
+    "url": "https://github.com/VeriInfra-Lab/VeriTile/blob/5ea0e46126cc1c6eb05e4219ddc5dc13246ec3ce/bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json"
+  },
+  "context": "Verification below was performed on the archived source snapshot. Nested evidence paths resolve in that archive. The full semantic review, theorem audit and logs remain there. This split has separate integration checks.",
+  "excerpt": {
+    "status": "verified_batch_corpus_migration_incomplete",
+    "code_commit": "478603ecc01546f8d6eb46f85191f2a6d466ae60",
+    "new_task_migrations": [
+      "rmsnorm_fused",
+      "rmsnorm_fused_llama"
+    ],
+    "verification": {
+      "integration": {
+        "status": "PASS",
+        "explicit_modules": 486,
+        "jobs": 9261
+      },
+      "new_directories": {
+        "status": "PASS",
+        "modules": 140,
+        "jobs": 3710
+      },
+      "clean_checkout": {
+        "status": "PASS",
+        "code_commit": "478603ecc01546f8d6eb46f85191f2a6d466ae60",
+        "explicit_modules": 486,
+        "project_build_initially_present": false,
+        "veritile_cache_initially_present": false,
+        "only_external_packages_reused": true,
+        "jobs": 9261
+      },
+      "additional_shared_frontend_regression": {
+        "status": "PASS",
+        "selected_modules": 2,
+        "scope": "kv_cache_filling selected KernelOnly Real/FP plus additional legacy entry replay; separate local and cold-checkout logs"
+      },
+      "joint_import": "PASS: initial 486 modules imported together",
+      "targeted_python": {
+        "status": "PASS",
+        "tests": 32
+      },
+      "all_python": {
+        "status": "KNOWN_PREEXISTING_FAILURE",
+        "tests": 277,
+        "errors": 1,
+        "reason": "test_exact_numerical_bindings import rejects an older receipt hash for unchanged VeriTile/Triton/Float/Structural.lean; prior clean baseline reproduction retained. No receipt was falsely re-pinned."
+      },
+      "official_comparator": "UNAVAILABLE: actual invocation reports required comparator setup failure; no PASS.",
+      "gpu_or_native_experiment": "Not run. No new numerical rules or axioms."
+    },
+    "corpus_complete": false,
+    "corpus_counts": {
+      "tasks": 183,
+      "examples": 19,
+      "task_status": {
+        "legacy_ast_only": 1,
+        "no_selected_jit_resolved": 2,
+        "selected_body_copy_checked": 17,
+        "uncovered_jit_functions": 163
+      },
+      "example_status": {
+        "authored_counterpart_body_copy_checked": 2,
+        "no_independent_python_reference": 7,
+        "selected_body_copy_checked": 1,
+        "spec_derived_body_copy_checked": 8,
+        "uncovered_jit_functions": 1
+      },
+      "selected_jit_functions": 328,
+      "uncovered_selected_jit_functions": 299,
+      "primary_files_with_int64_screen_warning": 44,
+      "primary_lean_file_features": {
+        "tasks": {
+          "in_body_type_directives": 132,
+          "antiquotes": 145,
+          "dsl_loop": 1,
+          "dsl_numeric_helpers": 8
+        },
+        "examples": {
+          "in_body_type_directives": 0,
+          "antiquotes": 8,
+          "dsl_loop": 3,
+          "dsl_numeric_helpers": 2
+        }
+      }
+    }
+  }
+}

@@ -1,4 +1,5 @@
 import VeriTile.Triton
+import VeriTile.Meta.StatementAudit
 
 /-!
 # `parallel_retention_attention` — strict per-kernel correctness
@@ -65,9 +66,11 @@ Arithmetic is over `ℝ` (not bit-accurate IEEE float; the `.to(b_q.dtype)` /
 `.to(tl.float32)` / `.to(p_o.dtype.element_ty)` casts are identities at
 `tl.float32`); `num_warps`/`num_stages` and `tl.debug_barrier()` (an
 intra-program no-op fence, transcribed verbatim) are not modeled at the
-scheduling level. `boundary_check=(0, 1)` block-pointer loads zero-pad
-out-of-window lanes; the specs bake that window directly into the guarded
-value functions, so the headlines hold for **arbitrary ragged tails** with
+scheduling level. The source omits `padding_option` on boundary-checked
+block-pointer loads, so out-of-window lanes use the initial state's
+`undef` value at the load's region and address. The independent guarded
+lane formulas retain these input values; they are not zero-padding formulas.
+The headlines hold for arbitrary ragged tails and arbitrary `undef`, with
 no divisibility hypothesis on `T`. The only trip-count hypothesis is the
 host's own `assert BTL % BTS == 0`.
 
@@ -96,6 +99,14 @@ the frame proof, not a rename. Registered in `proof_blockers.md`.
 namespace VeriTile.Bench.TritonBenchG.ParallelRetentionAttention
 
 open VeriTile.Triton
+
+private theorem pra_eval_cast_real {shape : TileShape} (a : Op .real shape) (s : BlockState) :
+    evalOp (.castFloat .real .real a) s = evalOp a s := by
+  rw [evalOp_castFloat]
+  cases h : evalOp a s with
+  | none => simp [h]
+  | some x => simp [h, FloatDType.cast, FloatDType.toWithBot, FloatDType.ofWithBot]
+attribute [local simp] pra_eval_cast_real
 
 set_option linter.unusedSimpArgs false
 
@@ -274,9 +285,10 @@ The algorithm-lowered statement lists, checked against the macro output by
 `rfl`. `tl.debug_barrier()` erases to the no-op `Stmt.ifThen (constBool
 false) []`; `tl.trans` is `Op.transpose`; `tl.toReal` is `Op.natToReal` and
 `tl.math.exp2`/`log2` are `Op.exp2`/`Op.log2` (the `chunk_retention`
-lowerings); the `.to(x.dtype)` casts erase at lowering while the diagonal
-`b_b.to(tl.float32)` survives as the identity
-`Op.castFloat FloatDType.real FloatDType.real`. -/
+lowerings). Register-dtype casts remain explicit identity
+`Op.castFloat FloatDType.real FloatDType.real` operations, and the dot nodes
+retain `allow_tf32=false`. Pointer-element casts at stores are identities
+eliminated by this real-valued lowering. -/
 
 /-- The forward non-diagonal streaming body: two block-pointer loads, the
 decay-weighted score, the accumulator decay-and-add recurrence, and the two
@@ -284,13 +296,13 @@ decay-weighted score, the accumulator decay-and-add recurrence, and the two
 def praFwdLoop1Body (BTL BTS BK BV : Nat) : List Stmt :=
   [ Stmt.assign .real [BK, BTS] "b_k"
       (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BK, BTS] "p_k") [0, 1])
-        MaskOpt.none),
+        MaskOpt.none .unspecified),
     Stmt.assign .real [BTS, BV] "b_v"
       (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BTS, BV] "p_v") [0, 1])
-        MaskOpt.none),
+        MaskOpt.none .unspecified),
     Stmt.assign .real [BTL, BTS] "b_s"
       (Op.mul .real (Broadcast.consR (Broadcast.consSame Broadcast.nil))
-        (Op.dot (batch := []) (Op.ref .real [BTL, BK] "b_q") (Op.ref .real [BK, BTS] "b_k"))
+        (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) (Op.ref .real [BTL, BK] "b_q") (Op.ref .real [BK, BTS] "b_k"))
         (Op.expandDim ⟨0, by simp⟩ (Op.ref .real [BTS] "d_h"))),
     Stmt.assign .real [BTL, BV] "b_o"
       (Op.mul .real Broadcast.scalarR (Op.ref .real [BTL, BV] "b_o")
@@ -299,7 +311,7 @@ def praFwdLoop1Body (BTL BTS BK BV : Nat) : List Stmt :=
     Stmt.assign .real [BTL, BV] "b_o"
       (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.ref .real [BTL, BV] "b_o")
-        (Op.dot (batch := []) (Op.ref .real [BTL, BTS] "b_s") (Op.ref .real [BTS, BV] "b_v"))),
+        (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) (Op.castFloat .real .real (Op.ref .real [BTL, BTS] "b_s")) (Op.ref .real [BTS, BV] "b_v"))),
     Stmt.assign .blockPtr [BK, BTS] "p_k"
       (Op.advanceBlockPtr (Op.ref .blockPtr [BK, BTS] "p_k") [(0 : Nat), BTS]),
     Stmt.assign .blockPtr [BTS, BV] "p_v"
@@ -310,10 +322,10 @@ def praFwdLoop1Body (BTL BTS BK BV : Nat) : List Stmt :=
 def praFwdLoop2Body (BTL BTS BK BV : Nat) : List Stmt :=
   [ Stmt.assign .real [BK, BTS] "b_k"
       (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BK, BTS] "p_k") [0, 1])
-        MaskOpt.none),
+        MaskOpt.none .unspecified),
     Stmt.assign .real [BTS, BV] "b_v"
       (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BTS, BV] "p_v") [0, 1])
-        MaskOpt.none),
+        MaskOpt.none .unspecified),
     Stmt.assign .bool [BTL, BTS] "m_s"
       (Op.ge ComparableDType.nat (Broadcast.consR (Broadcast.consL Broadcast.nil))
         (Op.expandDim ⟨1, by simp⟩ (Op.ref .nat [BTL] "o_q"))
@@ -328,12 +340,12 @@ def praFwdLoop2Body (BTL BTS BK BV : Nat) : List Stmt :=
         (Op.broadcast (Op.const 0.0) [BTL, BTS])),
     Stmt.assign .real [BTL, BTS] "b_s"
       (Op.mul .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
-        (Op.dot (batch := []) (Op.ref .real [BTL, BK] "b_q") (Op.ref .real [BK, BTS] "b_k"))
+        (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) (Op.ref .real [BTL, BK] "b_q") (Op.ref .real [BK, BTS] "b_k"))
         (Op.ref .real [BTL, BTS] "d_s")),
     Stmt.assign .real [BTL, BV] "b_o"
       (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.ref .real [BTL, BV] "b_o")
-        (Op.dot (batch := []) (Op.ref .real [BTL, BTS] "b_s") (Op.ref .real [BTS, BV] "b_v"))),
+        (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) (Op.castFloat .real .real (Op.ref .real [BTL, BTS] "b_s")) (Op.ref .real [BTS, BV] "b_v"))),
     Stmt.assign .blockPtr [BK, BTS] "p_k"
       (Op.advanceBlockPtr (Op.ref .blockPtr [BK, BTS] "p_k") [(0 : Nat), BTS]),
     Stmt.assign .blockPtr [BTS, BV] "p_v"
@@ -399,10 +411,10 @@ theorem pra_fwd_body_eq (q k v o : RegionName)
           Stmt.assign .real [BTL, BK] "b_q"
             (Op.load .real
               (MemAccess.blockPtr (Op.ref .blockPtr [BTL, BK] "p_q") [0, 1])
-              MaskOpt.none),
+              MaskOpt.none .unspecified),
           Stmt.assign .real [BTL, BK] "b_q"
-            (Op.mul .real Broadcast.scalarR (Op.ref .real [BTL, BK] "b_q")
-              (Op.const scale)),
+            (Op.castFloat .real .real (Op.mul .real Broadcast.scalarR (Op.ref .real [BTL, BK] "b_q")
+              (Op.const scale))),
           Stmt.assign .real [BTL, BV] "b_o" (Op.full [BTL, BV] (Op.const 0)),
           Stmt.forRangeDyn "_i" (Op.constNat 0)
             (Op.mul .nat Broadcast.nil (Op.ref .nat [] "i_c") (Op.constNat BTL))
@@ -483,35 +495,35 @@ def praBwdDescBody (q do_ : RegionName)
           Op.ref .nat [] "i"]),
     Stmt.assign .real [BK, BTS] "b_q"
       (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BK, BTS] "p_q") [0, 1])
-        MaskOpt.none),
+        MaskOpt.none .unspecified),
     Stmt.assign .real [BV, BTS] "b_do"
       (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BV, BTS] "p_do") [0, 1])
-        MaskOpt.none),
+        MaskOpt.none .unspecified),
     Stmt.assign .real [BV, BTS] "b_do"
-      (Op.mul .real (Broadcast.consR (Broadcast.consSame Broadcast.nil))
+      (Op.castFloat .real .real (Op.mul .real (Broadcast.consR (Broadcast.consSame Broadcast.nil))
         (Op.ref .real [BV, BTS] "b_do")
-        (Op.expandDim ⟨0, by simp⟩ (Op.ref .real [BTS] "d_q"))),
+        (Op.expandDim ⟨0, by simp⟩ (Op.ref .real [BTS] "d_q")))),
     Stmt.assign .real [BTL, BV] "b_dv"
       (Op.mul .real Broadcast.scalarR (Op.ref .real [BTL, BV] "b_dv")
         (Op.ref .real [] "d_b")),
     Stmt.assign .real [BTL, BTS] "b_s"
-      (Op.dot (batch := []) (Op.ref .real [BTL, BK] "b_kd")
+      (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) (Op.castFloat .real .real (Op.ref .real [BTL, BK] "b_kd"))
         (Op.ref .real [BK, BTS] "b_q")),
     Stmt.assign .real [BTL, BV] "b_dv"
       (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.ref .real [BTL, BV] "b_dv")
-        (Op.dot (batch := []) (Op.ref .real [BTL, BTS] "b_s")
+        (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) (Op.castFloat .real .real (Op.ref .real [BTL, BTS] "b_s"))
           (Op.transpose (Op.ref .real [BV, BTS] "b_do")))),
     Stmt.assign .real [BTL, BK] "b_dk"
       (Op.mul .real Broadcast.scalarR (Op.ref .real [BTL, BK] "b_dk")
         (Op.ref .real [] "d_b")),
     Stmt.assign .real [BTL, BTS] "b_ds"
-      (Op.dot (batch := []) (Op.ref .real [BTL, BV] "b_v")
+      (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) (Op.ref .real [BTL, BV] "b_v")
         (Op.ref .real [BV, BTS] "b_do")),
     Stmt.assign .real [BTL, BK] "b_dk"
       (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.ref .real [BTL, BK] "b_dk")
-        (Op.dot (batch := []) (Op.ref .real [BTL, BTS] "b_ds")
+        (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) (Op.castFloat .real .real (Op.ref .real [BTL, BTS] "b_ds"))
           (Op.transpose (Op.ref .real [BK, BTS] "b_q")))) ]
 
 /-- The backward diagonal body: two pointer makes, two loads, the causal
@@ -535,10 +547,10 @@ def praBwdDiagBody (q do_ : RegionName)
           Op.ref .nat [] "i"]),
     Stmt.assign .real [BK, BTS] "b_q"
       (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BK, BTS] "p_q") [0, 1])
-        MaskOpt.none),
+        MaskOpt.none .unspecified),
     Stmt.assign .real [BV, BTS] "b_do"
       (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BV, BTS] "p_do") [0, 1])
-        MaskOpt.none),
+        MaskOpt.none .unspecified),
     Stmt.assign .bool [BTL, BTS] "m_s"
       (Op.le ComparableDType.nat (Broadcast.consR (Broadcast.consL Broadcast.nil))
         (Op.expandDim ⟨1, by simp⟩ (Op.ref .nat [BTL] "o_k"))
@@ -555,23 +567,23 @@ def praBwdDiagBody (q do_ : RegionName)
         (Op.const scale)),
     Stmt.assign .real [BTL, BTS] "b_s"
       (Op.mul .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
-        (Op.dot (batch := []) (Op.ref .real [BTL, BK] "b_k")
+        (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) (Op.ref .real [BTL, BK] "b_k")
           (Op.ref .real [BK, BTS] "b_q"))
         (Op.ref .real [BTL, BTS] "d_s")),
     Stmt.assign .real [BTL, BTS] "b_ds"
       (Op.mul .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
-        (Op.dot (batch := []) (Op.ref .real [BTL, BV] "b_v")
+        (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) (Op.ref .real [BTL, BV] "b_v")
           (Op.ref .real [BV, BTS] "b_do"))
         (Op.ref .real [BTL, BTS] "d_s")),
     Stmt.assign .real [BTL, BK] "b_dk"
       (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.ref .real [BTL, BK] "b_dk")
-        (Op.dot (batch := []) (Op.ref .real [BTL, BTS] "b_ds")
+        (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) (Op.castFloat .real .real (Op.ref .real [BTL, BTS] "b_ds"))
           (Op.transpose (Op.ref .real [BK, BTS] "b_q")))),
     Stmt.assign .real [BTL, BV] "b_dv"
       (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.ref .real [BTL, BV] "b_dv")
-        (Op.dot (batch := []) (Op.ref .real [BTL, BTS] "b_s")
+        (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) (Op.castFloat .real .real (Op.ref .real [BTL, BTS] "b_s"))
           (Op.transpose (Op.ref .real [BV, BTS] "b_do")))),
     Stmt.assign .nat [BTS] "o_q"
       (Op.add .nat Broadcast.scalarR (Op.ref .nat [BTS] "o_q") (Op.constNat BTS)) ]
@@ -609,11 +621,11 @@ theorem pra_bwd_body_eq (q k v do_ dk dv : RegionName)
           Stmt.assign .real [BTL, BK] "b_k"
             (Op.load .real
               (MemAccess.blockPtr (Op.ref .blockPtr [BTL, BK] "p_k") [0, 1])
-              MaskOpt.none),
+              MaskOpt.none .unspecified),
           Stmt.assign .real [BTL, BV] "b_v"
             (Op.load .real
               (MemAccess.blockPtr (Op.ref .blockPtr [BTL, BV] "p_v") [0, 1])
-              MaskOpt.none),
+              MaskOpt.none .unspecified),
           Stmt.assign .real [BTL, BK] "b_dk" (Op.full [BTL, BK] (Op.const 0)),
           Stmt.assign .real [BTL, BV] "b_dv" (Op.full [BTL, BV] (Op.const 0)),
           Stmt.assign .real [BTL] "d_h"
@@ -622,9 +634,9 @@ theorem pra_bwd_body_eq (q k v do_ dk dv : RegionName)
                 (Op.arange BTL)))
               (Op.ref .real [] "b_b"))),
           Stmt.assign .real [BTL, BK] "b_kd"
-            (Op.mul .real (Broadcast.consSame (Broadcast.consR Broadcast.nil))
+            (Op.castFloat .real .real (Op.mul .real (Broadcast.consSame (Broadcast.consR Broadcast.nil))
               (Op.ref .real [BTL, BK] "b_k")
-              (Op.expandDim ⟨1, by simp⟩ (Op.ref .real [BTL] "d_h"))),
+              (Op.expandDim ⟨1, by simp⟩ (Op.ref .real [BTL] "d_h")))),
           Stmt.assign .real [BTS] "d_q"
             (Op.exp2 (Op.mul .real Broadcast.scalarR (Op.natToReal (Op.arange BTS))
               (Op.ref .real [] "b_b"))),
@@ -686,9 +698,10 @@ theorem pra_bwd_body_eq (q k v do_ dk dv : RegionName)
 
 /-! ## Closed-form specification (forward)
 
-Every load is boundary-checked, so the guarded value functions bake the
-window directly in: out-of-window lanes are `0` and the closed forms hold
-for arbitrary ragged tails. The decay values mirror the walk exactly:
+Every load is boundary-checked, and the source leaves padding unspecified.
+The guarded value functions read out-of-window lanes from the initial
+state's `undef` at the actual address. The closed forms hold for arbitrary
+ragged tails and arbitrary choices of those input values. The decay values mirror the walk exactly:
 `exp2 x = Real.exp (x·log 2)` and `log2 y = Real.log y / log 2` are the
 semantics' projections (the `chunk_retention` convention). -/
 
@@ -722,14 +735,16 @@ theorem praW_add (β : ℝ) (m n : Nat) :
   ring
 
 /-- The scaled, guarded `b_q` lane `(a, e)`: row `i_c·BTL + a` of the `(T, K)`
-parent, column `i_k·BK + e`, times `scale`; `0` outside the window. -/
+parent, column `i_k·BK + e`, times `scale`; the selected `undef` value
+outside the window is scaled in the same way. -/
 noncomputable def praQGuarded (s : BlockState) (q : RegionName)
     (s_qk_h s_qk_t s_qk_d : Nat) (scale : ℝ) (T K V BTL BK BV : Nat)
     (a e : Nat) : ℝ :=
   if s.pids 1 * BTL + a < T ∧ praIk s V BV * BK + e < K then
     s.readMem q (s.pids 2 * s_qk_h + (s.pids 1 * BTL + a) * s_qk_t
       + (praIk s V BV * BK + e) * s_qk_d) * scale
-  else 0
+  else s.undef q (s.pids 2 * s_qk_h + (s.pids 1 * BTL + a) * s_qk_t
+      + (praIk s V BV * BK + e) * s_qk_d) * scale
 
 /-- The guarded transposed `k` lane `(e, t)` at absolute key `t` (the `(K, T)`
 parent read with strides `(s_qk_d, s_qk_t)`). -/
@@ -738,7 +753,8 @@ noncomputable def praKGuarded (s : BlockState) (k : RegionName)
   if praIk s V BV * BK + e < K ∧ t < T then
     s.readMem k (s.pids 2 * s_qk_h + (praIk s V BV * BK + e) * s_qk_d
       + t * s_qk_t)
-  else 0
+  else s.undef k (s.pids 2 * s_qk_h + (praIk s V BV * BK + e) * s_qk_d
+      + t * s_qk_t)
 
 /-- The guarded `v` lane `(t, p)` at absolute key `t`. -/
 noncomputable def praVGuarded (s : BlockState) (v : RegionName)
@@ -746,7 +762,8 @@ noncomputable def praVGuarded (s : BlockState) (v : RegionName)
   if t < T ∧ praIv s V BV * BV + p < V then
     s.readMem v (s.pids 2 * s_vo_h + t * s_vo_t
       + (praIv s V BV * BV + p) * s_vo_d)
-  else 0
+  else s.undef v (s.pids 2 * s_vo_h + t * s_vo_t
+      + (praIv s V BV * BV + p) * s_vo_d)
 
 /-- The retention score at `(row a, key t)`: `(scale·q) · k` over the `BK`
 head window. -/
@@ -862,12 +879,13 @@ private theorem pra_load_bp_2d (rg : RegionName) (s : BlockState) (name : RegNam
       ⟨fun _ => BlockPtr.mk rg base [rows, cols] [BR, BS] [strideT, strideS]
         [rowOff, colOff]⟩) :
     evalOp (Op.load .real
-      (MemAccess.blockPtr (Op.ref .blockPtr [BR, BS] name) [0, 1]) MaskOpt.none) s
+      (MemAccess.blockPtr (Op.ref .blockPtr [BR, BS] name) [0, 1]) MaskOpt.none .unspecified) s
     = some ⟨fun idx : TileIndex [BR, BS] =>
         if (rowOff + idx.1.val < rows ∧ colOff + idx.2.1.val < cols) then
           some (s.readMem rg (base + (rowOff + idx.1.val) * strideT
             + (colOff + idx.2.1.val) * strideS))
-        else some 0⟩ := by
+        else some (s.undef rg (base + (rowOff + idx.1.val) * strideT
+            + (colOff + idx.2.1.val) * strideS))⟩ := by
   simp only [evalOp, evalOp_ref, hreg, bind, Option.bind]
   refine congrArg some ?_
   ext idx
@@ -876,7 +894,7 @@ private theorem pra_load_bp_2d (rg : RegionName) (s : BlockState) (name : RegNam
     BlockPtr.inBounds_2d_offsets, BlockState.readMemValue_real]
   by_cases h : rowOff + i.val < rows ∧ colOff + j.val < cols
   · simp only [h, and_self, decide_true, if_true]
-  · simp only [h, decide_false, if_false, BlockState.defaultCarrier]
+  · simp only [h, decide_false, if_false, BlockState.paddingValue, BlockState.unspecifiedValue]
     rfl
 
 private theorem pra_mulConst_eval (s : BlockState) (name : RegName) (val c : Nat)
@@ -941,7 +959,7 @@ private theorem pra_zeros_eval (sh : TileShape) (t : BlockState) :
 private theorem pra_dot_eval {M K N : Nat} (x : Op .real [M, K]) (y : Op .real [K, N])
     (t : BlockState) (vx : Tile .real [M, K]) (vy : Tile .real [K, N])
     (hx : evalOp x t = some vx) (hy : evalOp y t = some vy) :
-    evalOp (Op.dot (batch := []) x y) t = some (Tile.dot [] vx vy) := by
+    evalOp (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) x y) t = some (Tile.dot [] vx vy) := by
   erw [evalOp_dot, hx, hy]
   rfl
 
@@ -1237,13 +1255,13 @@ noncomputable def praVTile (s : BlockState) (v : RegionName)
 /-- Loading `p_k` at offsets `[i_k·BK, i]` lands on `praKTile … i`. -/
 private theorem pra_kLoad_eq (s sin : BlockState) (k : RegionName) (name : RegName)
     (s_qk_h s_qk_t s_qk_d : Nat) (T K V BK BV BTS : Nat) (i : Nat)
-    (hmem : sin.mem = s.mem)
+    (hmem : sin.mem = s.mem ∧ sin.undef = s.undef)
     (hreg : sin.regs .blockPtr [BK, BTS] name = some
       ⟨fun _ => BlockPtr.mk k (s.pids 2 * s_qk_h) [K, T] [BK, BTS]
         [s_qk_d, s_qk_t] [praIk s V BV * BK, i]⟩) :
     evalOp (Op.load .real
         (MemAccess.blockPtr (Op.ref .blockPtr [BK, BTS] name) [0, 1])
-        MaskOpt.none) sin
+        MaskOpt.none .unspecified) sin
       = some (praKTile s k s_qk_h s_qk_t s_qk_d T K V BK BV BTS i) := by
   rw [pra_load_bp_2d k sin name (s.pids 2 * s_qk_h) K T BK BTS s_qk_d s_qk_t
     (praIk s V BV * BK) i hreg]
@@ -1251,19 +1269,19 @@ private theorem pra_kLoad_eq (s sin : BlockState) (k : RegionName) (name : RegNa
   obtain ⟨e, c, u⟩ := idx
   simp only [praKTile, praKGuarded]
   by_cases h : praIk s V BV * BK + e.val < K ∧ i + c.val < T
-  · rw [if_pos h, if_pos h, pra_readMem_congr sin s hmem]
-  · rw [if_neg h, if_neg h]
+  · rw [if_pos h, if_pos h, pra_readMem_congr sin s hmem.1]
+  · rw [if_neg h, if_neg h, hmem.2]
 
 /-- Loading `p_v` at offsets `[i, i_v·BV]` lands on `praVTile … i`. -/
 private theorem pra_vLoad_eq (s sin : BlockState) (v : RegionName) (name : RegName)
     (s_vo_h s_vo_t s_vo_d : Nat) (T V BV BTS : Nat) (i : Nat)
-    (hmem : sin.mem = s.mem)
+    (hmem : sin.mem = s.mem ∧ sin.undef = s.undef)
     (hreg : sin.regs .blockPtr [BTS, BV] name = some
       ⟨fun _ => BlockPtr.mk v (s.pids 2 * s_vo_h) [T, V] [BTS, BV]
         [s_vo_t, s_vo_d] [i, praIv s V BV * BV]⟩) :
     evalOp (Op.load .real
         (MemAccess.blockPtr (Op.ref .blockPtr [BTS, BV] name) [0, 1])
-        MaskOpt.none) sin
+        MaskOpt.none .unspecified) sin
       = some (praVTile s v s_vo_h s_vo_t s_vo_d T V BV BTS i) := by
   rw [pra_load_bp_2d v sin name (s.pids 2 * s_vo_h) T V BTS BV s_vo_t s_vo_d
     i (praIv s V BV * BV) hreg]
@@ -1271,8 +1289,8 @@ private theorem pra_vLoad_eq (s sin : BlockState) (v : RegionName) (name : RegNa
   obtain ⟨c, p, u⟩ := idx
   simp only [praVTile, praVGuarded]
   by_cases h : i + c.val < T ∧ praIv s V BV * BV + p.val < V
-  · rw [if_pos h, if_pos h, pra_readMem_congr sin s hmem]
-  · rw [if_neg h, if_neg h]
+  · rw [if_pos h, if_pos h, pra_readMem_congr sin s hmem.1]
+  · rw [if_neg h, if_neg h, hmem.2]
 
 /-! ## Forward per-statement recipes -/
 
@@ -1284,7 +1302,7 @@ private theorem pra_score_eval (s sin : BlockState) (q k : RegionName)
       = some (praQTile s q s_qk_h s_qk_t s_qk_d scale T K V BTL BK BV))
     (hk : sin.regs .real [BK, BTS] "b_k"
       = some (praKTile s k s_qk_h s_qk_t s_qk_d T K V BK BV BTS i)) :
-    evalOp (Op.dot (batch := []) (Op.ref .real [BTL, BK] "b_q")
+    evalOp (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) (Op.ref .real [BTL, BK] "b_q")
         (Op.ref .real [BK, BTS] "b_k")) sin
       = some ⟨fun idx : TileIndex [BTL, BTS] =>
           some (praScore s q k s_qk_h s_qk_t s_qk_d scale T K V BTL BK BV
@@ -1312,7 +1330,7 @@ private theorem pra_sWeighted1_eval (s sin : BlockState) (q k : RegionName)
       = some (praKTile s k s_qk_h s_qk_t s_qk_d T K V BK BV BTS i))
     (hdh : sin.regs .real [BTS] "d_h" = some (praDhTile s H BTS)) :
     evalOp (Op.mul .real (Broadcast.consR (Broadcast.consSame Broadcast.nil))
-        (Op.dot (batch := []) (Op.ref .real [BTL, BK] "b_q")
+        (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) (Op.ref .real [BTL, BK] "b_q")
           (Op.ref .real [BK, BTS] "b_k"))
         (Op.expandDim ⟨0, by simp⟩ (Op.ref .real [BTS] "d_h"))) sin
       = some ⟨fun idx : TileIndex [BTL, BTS] =>
@@ -1338,7 +1356,7 @@ private theorem pra_oDecay_eval (s sin : BlockState) (H BTL BTS BV : Nat)
       = some ⟨fun idx : TileIndex [BTL, BV] =>
           some (g idx.1.val idx.2.1.val
             * Real.exp (praBeta s H * ((BTS : Nat) : ℝ) * Real.log 2))⟩ := by
-  rw [pra_mulTile_eval Broadcast.scalarR _ _ sin _ _
+  erw [pra_mulTile_eval Broadcast.scalarR _ _ sin _ _
     (by rw [evalOp_ref]; exact ho) (pra_dbInline_eval s sin H BTS hbb)]
   refine congrArg some (Tile.ext fun idx => ?_)
   obtain ⟨a, p, u⟩ := idx
@@ -1355,16 +1373,16 @@ private theorem pra_oAdd_eval (sin : BlockState) (BTL BTS BV : Nat)
       = some ⟨fun idx => some (w idx.1.val idx.2.1.val)⟩) :
     evalOp (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.ref .real [BTL, BV] "b_o")
-        (Op.dot (batch := []) (Op.ref .real [BTL, BTS] "b_s")
+        (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) (Op.castFloat .real .real (Op.ref .real [BTL, BTS] "b_s"))
           (Op.ref .real [BTS, BV] "b_v"))) sin
       = some ⟨fun idx : TileIndex [BTL, BV] =>
           some (g idx.1.val idx.2.1.val
             + ∑ c : Fin BTS, f idx.1.val c.val * w c.val idx.2.1.val)⟩ := by
-  have hdot : evalOp (Op.dot (batch := []) (Op.ref .real [BTL, BTS] "b_s")
+  have hdot : evalOp (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) (Op.castFloat .real .real (Op.ref .real [BTL, BTS] "b_s"))
       (Op.ref .real [BTS, BV] "b_v")) sin
       = some (Tile.dot [] (⟨fun idx => some (f idx.1.val idx.2.1.val)⟩ : Tile .real [BTL, BTS])
           (⟨fun idx => some (w idx.1.val idx.2.1.val)⟩ : Tile .real [BTS, BV])) :=
-    pra_dot_eval _ _ sin _ _ (by rw [evalOp_ref]; exact hs)
+    pra_dot_eval _ _ sin _ _ (by erw [pra_eval_cast_real, evalOp_ref]; exact hs)
       (by rw [evalOp_ref]; exact hv)
   erw [pra_addTile_eval _ _ _ sin _ _ (by rw [evalOp_ref]; exact ho) hdot]
   refine congrArg some (Tile.ext fun idx => ?_)
@@ -1446,7 +1464,7 @@ private theorem pra_sWeighted2_eval (s sin : BlockState) (q k : RegionName)
     (hd : sin.regs .real [BTL, BTS] "d_s"
       = some ⟨fun idx => some (fd idx.1.val idx.2.1.val)⟩) :
     evalOp (Op.mul .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
-        (Op.dot (batch := []) (Op.ref .real [BTL, BK] "b_q")
+        (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) (Op.ref .real [BTL, BK] "b_q")
           (Op.ref .real [BK, BTS] "b_k"))
         (Op.ref .real [BTL, BTS] "d_s")) sin
       = some ⟨fun idx : TileIndex [BTL, BTS] =>
@@ -1483,11 +1501,13 @@ private theorem pra_qScale_eval (s sin : BlockState) (q : RegionName)
         if (s.pids 1 * BTL + idx.1.val < T ∧ praIk s V BV * BK + idx.2.1.val < K) then
           some (s.readMem q (s.pids 2 * s_qk_h + (s.pids 1 * BTL + idx.1.val) * s_qk_t
             + (praIk s V BV * BK + idx.2.1.val) * s_qk_d))
-        else some 0⟩) :
-    evalOp (Op.mul .real Broadcast.scalarR (Op.ref .real [BTL, BK] "b_q")
-        (Op.const scale)) sin
+        else some (s.undef q (s.pids 2 * s_qk_h + (s.pids 1 * BTL + idx.1.val) * s_qk_t
+            + (praIk s V BV * BK + idx.2.1.val) * s_qk_d))⟩) :
+    evalOp (Op.castFloat .real .real (Op.mul .real Broadcast.scalarR (Op.ref .real [BTL, BK] "b_q")
+        (Op.const scale))) sin
       = some (praQTile s q s_qk_h s_qk_t s_qk_d scale T K V BTL BK BV) := by
-  rw [pra_mulTile_eval Broadcast.scalarR _ _ sin _ _
+  rw [pra_eval_cast_real]
+  erw [pra_mulTile_eval Broadcast.scalarR _ _ sin _ _
     (by rw [evalOp_ref]; exact hq) (evalOp_const scale sin)]
   refine congrArg some (Tile.ext fun idx => ?_)
   obtain ⟨a, e, u⟩ := idx
@@ -1497,9 +1517,7 @@ private theorem pra_qScale_eval (s sin : BlockState) (q : RegionName)
   · rw [if_pos h, if_pos h]
     rfl
   · rw [if_neg h, if_neg h]
-    show Option.map₂ _ (some (0 : ℝ)) (some scale) = some 0
-    show some ((0 : ℝ) * scale) = some 0
-    rw [zero_mul]
+    rfl
 
 /-- `b_o *= d_q[:, None]`: the mid-section row rescale. -/
 private theorem pra_oRescale_eval (s sin : BlockState) (H BTL BV : Nat)
@@ -1642,7 +1660,7 @@ the anchored decayed accumulator plus the decay registers `b_b`/`d_h`. -/
 def praInv1 (s0 : BlockState) (q k v : RegionName)
     (s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t s_vo_d : Nat) (scale : ℝ)
     (H T K V BTL BTS BK BV : Nat) (i : Nat) (s : BlockState) : Prop :=
-  s.pids = s0.pids ∧ s.mem = s0.mem ∧
+  s.pids = s0.pids ∧ (s.mem = s0.mem ∧ s.undef = s0.undef) ∧
   BTS ∣ i ∧ i ≤ s0.pids 1 * BTL ∧
   s.regs .nat [] "i_c" = some (Tile.scalar (s0.pids 1)) ∧
   s.regs .nat [] "i_bh" = some (Tile.scalar (s0.pids 2)) ∧
@@ -1779,7 +1797,7 @@ diagonal partial sum. -/
 def praInv2 (s0 : BlockState) (q k v : RegionName)
     (s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t s_vo_d : Nat) (scale : ℝ)
     (H T K V BTL BTS BK BV : Nat) (i : Nat) (s : BlockState) : Prop :=
-  s.pids = s0.pids ∧ s.mem = s0.mem ∧
+  s.pids = s0.pids ∧ (s.mem = s0.mem ∧ s.undef = s0.undef) ∧
   s0.pids 1 * BTL ≤ i ∧ BTS ∣ (i - s0.pids 1 * BTL) ∧
   i ≤ (s0.pids 1 + 1) * BTL ∧
   s.regs .nat [] "i_c" = some (Tile.scalar (s0.pids 1)) ∧
@@ -2123,17 +2141,19 @@ theorem praFwdPrologue_run (s : BlockState) (q k v : RegionName)
           Stmt.assign .real [BTL, BK] "b_q"
             (Op.load .real
               (MemAccess.blockPtr (Op.ref .blockPtr [BTL, BK] "p_q") [0, 1])
-              MaskOpt.none),
+              MaskOpt.none .unspecified),
           Stmt.assign .real [BTL, BK] "b_q"
-            (Op.mul .real Broadcast.scalarR (Op.ref .real [BTL, BK] "b_q")
-              (Op.const scale)),
+            (Op.castFloat .real .real (Op.mul .real Broadcast.scalarR (Op.ref .real [BTL, BK] "b_q")
+              (Op.const scale))),
           Stmt.assign .real [BTL, BV] "b_o" (Op.full [BTL, BV] (Op.const 0)) ]
         s = some sP
       ∧ praInv1 s q k v s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t s_vo_d scale
           H T K V BTL BTS BK BV 0 sP := by
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (evalOp_programId 0 s))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (evalOp_programId 1 _))]
+  simp only [BlockState.setReg_pids]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (evalOp_programId 2 _))]
+  simp only [BlockState.setReg_pids]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (pra_NV_eval _ V BV))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (pra_floorDiv_refs_eval _ "i_kv" "NV" (s.pids 0) (praNV V BV)
@@ -2169,7 +2189,7 @@ theorem praFwdPrologue_run (s : BlockState) (q k v : RegionName)
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (pra_load_bp_2d q _ "p_q" (s.pids 2 * s_qk_h) T K BTL BK s_qk_t s_qk_d
       (s.pids 1 * BTL) (s.pids 0 / praNV V BV * BK) (by simp)))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some
+  erw [stepStmts.cons_some (stepStmt_assign_eq_some
     (pra_qScale_eval s _ q s_qk_h s_qk_t s_qk_d scale T K V BTL BK BV
       (by
         have h : (⟨fun idx : TileIndex [BTL, BK] =>
@@ -2178,14 +2198,18 @@ theorem praFwdPrologue_run (s : BlockState) (q k v : RegionName)
               some (s.readMem q (s.pids 2 * s_qk_h
                 + (s.pids 1 * BTL + idx.1.val) * s_qk_t
                 + (s.pids 0 / praNV V BV * BK + idx.2.1.val) * s_qk_d))
-            else some 0⟩ : Tile .real [BTL, BK])
+            else some (s.undef q (s.pids 2 * s_qk_h
+                + (s.pids 1 * BTL + idx.1.val) * s_qk_t
+                + (s.pids 0 / praNV V BV * BK + idx.2.1.val) * s_qk_d))⟩ : Tile .real [BTL, BK])
             = ⟨fun idx : TileIndex [BTL, BK] =>
             if (s.pids 1 * BTL + idx.1.val < T
                 ∧ praIk s V BV * BK + idx.2.1.val < K) then
               some (s.readMem q (s.pids 2 * s_qk_h
                 + (s.pids 1 * BTL + idx.1.val) * s_qk_t
                 + (praIk s V BV * BK + idx.2.1.val) * s_qk_d))
-            else some 0⟩ := rfl
+            else some (s.undef q (s.pids 2 * s_qk_h
+                + (s.pids 1 * BTL + idx.1.val) * s_qk_t
+                + (praIk s V BV * BK + idx.2.1.val) * s_qk_d))⟩ := rfl
         rw [← h]
         simp)))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
@@ -2194,7 +2218,7 @@ theorem praFwdPrologue_run (s : BlockState) (q k v : RegionName)
   refine ⟨_, rfl, ?_, ?_, dvd_zero BTS, Nat.zero_le _, ?_, ?_, ?_, ?_, ?_, ?_,
     ?_, ?_, ?_, ?_⟩
   · rfl
-  · rfl
+  · constructor <;> (funext rg off; simp)
   · simp
   · simp
   · simp [praIk]
@@ -2386,10 +2410,10 @@ specification pra_fwd_o_exec_genuine
       Stmt.assign .real [BTL, BK] "b_q"
         (Op.load .real
           (MemAccess.blockPtr (Op.ref .blockPtr [BTL, BK] "p_q") [0, 1])
-          MaskOpt.none),
+          MaskOpt.none .unspecified),
       Stmt.assign .real [BTL, BK] "b_q"
-        (Op.mul .real Broadcast.scalarR (Op.ref .real [BTL, BK] "b_q")
-          (Op.const scale)),
+        (Op.castFloat .real .real (Op.mul .real Broadcast.scalarR (Op.ref .real [BTL, BK] "b_q")
+          (Op.const scale))),
       Stmt.assign .real [BTL, BV] "b_o" (Op.full [BTL, BV] (Op.const 0)),
       Stmt.forRangeDyn "_i" (Op.constNat 0)
         (Op.mul .nat Broadcast.nil (Op.ref .nat [] "i_c") (Op.constNat BTL))
@@ -2487,10 +2511,10 @@ specification pra_fwd_o_exec_genuine
           Stmt.assign .real [BTL, BK] "b_q"
             (Op.load .real
               (MemAccess.blockPtr (Op.ref .blockPtr [BTL, BK] "p_q") [0, 1])
-              MaskOpt.none),
+              MaskOpt.none .unspecified),
           Stmt.assign .real [BTL, BK] "b_q"
-            (Op.mul .real Broadcast.scalarR (Op.ref .real [BTL, BK] "b_q")
-              (Op.const scale)),
+            (Op.castFloat .real .real (Op.mul .real Broadcast.scalarR (Op.ref .real [BTL, BK] "b_q")
+              (Op.const scale))),
           Stmt.assign .real [BTL, BV] "b_o" (Op.full [BTL, BV] (Op.const 0)) ]
         ++ (Stmt.forRangeDyn "_i" (Op.constNat 0)
             (Op.mul .nat Broadcast.nil (Op.ref .nat [] "i_c") (Op.constNat BTL))
@@ -2576,7 +2600,8 @@ noncomputable def prbKGuarded (s : BlockState) (k : RegionName)
   if i_c * BTL + r < T ∧ i_k * BK + e < K then
     s.readMem k (i_bh * s_qk_h + (i_c * BTL + r) * s_qk_t
       + (i_k * BK + e) * s_qk_d)
-  else 0
+  else s.undef k (i_bh * s_qk_h + (i_c * BTL + r) * s_qk_t
+      + (i_k * BK + e) * s_qk_d)
 
 /-- The guarded `b_v` lane `(r, p)` of the fixed chunk block. -/
 noncomputable def prbVGuarded (s : BlockState) (v : RegionName)
@@ -2585,7 +2610,8 @@ noncomputable def prbVGuarded (s : BlockState) (v : RegionName)
   if i_c * BTL + r < T ∧ i_v * BV + p < V then
     s.readMem v (i_bh * s_vo_h + (i_c * BTL + r) * s_vo_t
       + (i_v * BV + p) * s_vo_d)
-  else 0
+  else s.undef v (i_bh * s_vo_h + (i_c * BTL + r) * s_vo_t
+      + (i_v * BV + p) * s_vo_d)
 
 /-- The guarded transposed `q` lane `(e, t)` at absolute key `t` (the `(K, T)`
 parent read with strides `(s_qk_d, s_qk_t)`). -/
@@ -2594,7 +2620,7 @@ noncomputable def prbQGuarded (s : BlockState) (q : RegionName)
     (e t : Nat) : ℝ :=
   if i_k * BK + e < K ∧ t < T then
     s.readMem q (i_bh * s_qk_h + (i_k * BK + e) * s_qk_d + t * s_qk_t)
-  else 0
+  else s.undef q (i_bh * s_qk_h + (i_k * BK + e) * s_qk_d + t * s_qk_t)
 
 /-- The guarded transposed `do` lane `(p, t)` at absolute key `t`. -/
 noncomputable def prbDoGuarded (s : BlockState) (do_ : RegionName)
@@ -2602,7 +2628,7 @@ noncomputable def prbDoGuarded (s : BlockState) (do_ : RegionName)
     (p t : Nat) : ℝ :=
   if i_v * BV + p < V ∧ t < T then
     s.readMem do_ (i_bh * s_vo_h + (i_v * BV + p) * s_vo_d + t * s_vo_t)
-  else 0
+  else s.undef do_ (i_bh * s_vo_h + (i_v * BV + p) * s_vo_d + t * s_vo_t)
 
 /-- The (unscaled) backward score core at `(row r, key t)`: `k[r] · qᵀ[t]`
 over the `BK` head window. -/
@@ -2651,8 +2677,9 @@ noncomputable def prbDvPart (s : BlockState) (q k v do_ : RegionName)
 
 /-- **The stored `dk` lane** — the retention key-gradient closed form. Over
 the full key sweep (up to the larger of the streamed top `cdiv(T,BTS)·BTS`
-and the diagonal end `(i_c+1)·BTL`; loads beyond `T` read as zero, so the
-tail summands vanish), every causally kept key `t ≥ i_c·BTL + r` contributes
+and the diagonal end `(i_c+1)·BTL`), every causally kept key
+`t ≥ i_c·BTL + r` contributes. Loads beyond `T` use `s.undef`; their tail
+summands remain part of this source-faithful formula. Each key contributes
 its decayed, scaled dscore times the transposed-`q` lane:
 `Σ_t 2^((t − (i_c·BTL+r))·b_b) · scale · (v[r]·doᵀ[t]) · q[e, t]`. -/
 noncomputable def prbDkOut (s : BlockState) (q k v do_ : RegionName)
@@ -3105,13 +3132,13 @@ private theorem prb_constMul_eval (s : BlockState) (a b : Nat) :
 /-- Loading `p_k` at offsets `[i_c·BTL, i_k·BK]` lands on `prbKTile`. -/
 private theorem prb_kLoad_eq (s sin : BlockState) (k : RegionName) (name : RegName)
     (s_qk_h s_qk_t s_qk_d : Nat) (i_bh i_c i_k T K BTL BK : Nat)
-    (hmem : sin.mem = s.mem)
+    (hmem : sin.mem = s.mem ∧ sin.undef = s.undef)
     (hreg : sin.regs .blockPtr [BTL, BK] name = some
       ⟨fun _ => BlockPtr.mk k (i_bh * s_qk_h) [T, K] [BTL, BK]
         [s_qk_t, s_qk_d] [i_c * BTL, i_k * BK]⟩) :
     evalOp (Op.load .real
         (MemAccess.blockPtr (Op.ref .blockPtr [BTL, BK] name) [0, 1])
-        MaskOpt.none) sin
+        MaskOpt.none .unspecified) sin
       = some (prbKTile s k s_qk_h s_qk_t s_qk_d i_bh i_c i_k T K BTL BK) := by
   rw [pra_load_bp_2d k sin name (i_bh * s_qk_h) T K BTL BK s_qk_t s_qk_d
     (i_c * BTL) (i_k * BK) hreg]
@@ -3119,19 +3146,19 @@ private theorem prb_kLoad_eq (s sin : BlockState) (k : RegionName) (name : RegNa
   obtain ⟨r, e, u⟩ := idx
   simp only [prbKTile, prbKGuarded]
   by_cases h : i_c * BTL + r.val < T ∧ i_k * BK + e.val < K
-  · rw [if_pos h, if_pos h, pra_readMem_congr sin s hmem]
-  · rw [if_neg h, if_neg h]
+  · rw [if_pos h, if_pos h, pra_readMem_congr sin s hmem.1]
+  · rw [if_neg h, if_neg h, hmem.2]
 
 /-- Loading `p_v` at offsets `[i_c·BTL, i_v·BV]` lands on `prbVTile`. -/
 private theorem prb_vLoad_eq (s sin : BlockState) (v : RegionName) (name : RegName)
     (s_vo_h s_vo_t s_vo_d : Nat) (i_bh i_c i_v T V BTL BV : Nat)
-    (hmem : sin.mem = s.mem)
+    (hmem : sin.mem = s.mem ∧ sin.undef = s.undef)
     (hreg : sin.regs .blockPtr [BTL, BV] name = some
       ⟨fun _ => BlockPtr.mk v (i_bh * s_vo_h) [T, V] [BTL, BV]
         [s_vo_t, s_vo_d] [i_c * BTL, i_v * BV]⟩) :
     evalOp (Op.load .real
         (MemAccess.blockPtr (Op.ref .blockPtr [BTL, BV] name) [0, 1])
-        MaskOpt.none) sin
+        MaskOpt.none .unspecified) sin
       = some (prbVTile s v s_vo_h s_vo_t s_vo_d i_bh i_c i_v T V BTL BV) := by
   rw [pra_load_bp_2d v sin name (i_bh * s_vo_h) T V BTL BV s_vo_t s_vo_d
     (i_c * BTL) (i_v * BV) hreg]
@@ -3139,20 +3166,20 @@ private theorem prb_vLoad_eq (s sin : BlockState) (v : RegionName) (name : RegNa
   obtain ⟨r, p, u⟩ := idx
   simp only [prbVTile, prbVGuarded]
   by_cases h : i_c * BTL + r.val < T ∧ i_v * BV + p.val < V
-  · rw [if_pos h, if_pos h, pra_readMem_congr sin s hmem]
-  · rw [if_neg h, if_neg h]
+  · rw [if_pos h, if_pos h, pra_readMem_congr sin s hmem.1]
+  · rw [if_neg h, if_neg h, hmem.2]
 
 /-- Loading `p_q` at offsets `[i_k·BK, i]` (the `(K, T)` parent) lands on
 `prbQTile … i`. -/
 private theorem prb_qLoad_eq (s sin : BlockState) (q : RegionName) (name : RegName)
     (s_qk_h s_qk_t s_qk_d : Nat) (i_bh i_k T K BK BTS : Nat) (i : Nat)
-    (hmem : sin.mem = s.mem)
+    (hmem : sin.mem = s.mem ∧ sin.undef = s.undef)
     (hreg : sin.regs .blockPtr [BK, BTS] name = some
       ⟨fun _ => BlockPtr.mk q (i_bh * s_qk_h) [K, T] [BK, BTS]
         [s_qk_d, s_qk_t] [i_k * BK, i]⟩) :
     evalOp (Op.load .real
         (MemAccess.blockPtr (Op.ref .blockPtr [BK, BTS] name) [0, 1])
-        MaskOpt.none) sin
+        MaskOpt.none .unspecified) sin
       = some (prbQTile s q s_qk_h s_qk_t s_qk_d i_bh i_k T K BK BTS i) := by
   rw [pra_load_bp_2d q sin name (i_bh * s_qk_h) K T BK BTS s_qk_d s_qk_t
     (i_k * BK) i hreg]
@@ -3160,21 +3187,21 @@ private theorem prb_qLoad_eq (s sin : BlockState) (q : RegionName) (name : RegNa
   obtain ⟨e, c, u⟩ := idx
   simp only [prbQTile, prbQGuarded]
   by_cases h : i_k * BK + e.val < K ∧ i + c.val < T
-  · rw [if_pos h, if_pos h, pra_readMem_congr sin s hmem]
-  · rw [if_neg h, if_neg h]
+  · rw [if_pos h, if_pos h, pra_readMem_congr sin s hmem.1]
+  · rw [if_neg h, if_neg h, hmem.2]
 
 /-- Loading `p_do` at offsets `[i_v·BV, i]` (the `(V, T)` parent) lands on
 `prbDoTile … i`. -/
 private theorem prb_doLoad_eq (s sin : BlockState) (do_ : RegionName)
     (name : RegName)
     (s_vo_h s_vo_t s_vo_d : Nat) (i_bh i_v T V BV BTS : Nat) (i : Nat)
-    (hmem : sin.mem = s.mem)
+    (hmem : sin.mem = s.mem ∧ sin.undef = s.undef)
     (hreg : sin.regs .blockPtr [BV, BTS] name = some
       ⟨fun _ => BlockPtr.mk do_ (i_bh * s_vo_h) [V, T] [BV, BTS]
         [s_vo_d, s_vo_t] [i_v * BV, i]⟩) :
     evalOp (Op.load .real
         (MemAccess.blockPtr (Op.ref .blockPtr [BV, BTS] name) [0, 1])
-        MaskOpt.none) sin
+        MaskOpt.none .unspecified) sin
       = some (prbDoTile s do_ s_vo_h s_vo_t s_vo_d i_bh i_v T V BV BTS i) := by
   rw [pra_load_bp_2d do_ sin name (i_bh * s_vo_h) V T BV BTS s_vo_d s_vo_t
     (i_v * BV) i hreg]
@@ -3182,8 +3209,8 @@ private theorem prb_doLoad_eq (s sin : BlockState) (do_ : RegionName)
   obtain ⟨p, c, u⟩ := idx
   simp only [prbDoTile, prbDoGuarded]
   by_cases h : i_v * BV + p.val < V ∧ i + c.val < T
-  · rw [if_pos h, if_pos h, pra_readMem_congr sin s hmem]
-  · rw [if_neg h, if_neg h]
+  · rw [if_pos h, if_pos h, pra_readMem_congr sin s hmem.1]
+  · rw [if_neg h, if_neg h, hmem.2]
 
 /-! ## Backward per-statement eval recipes -/
 
@@ -3237,11 +3264,12 @@ private theorem prb_kd_eval (sin : BlockState) (BTL BK : Nat)
     (hk : sin.regs .real [BTL, BK] "b_k"
       = some ⟨fun idx => some (g idx.1.val idx.2.1.val)⟩)
     (hdh : sin.regs .real [BTL] "d_h" = some ⟨fun idx => some (w idx.1.val)⟩) :
-    evalOp (Op.mul .real (Broadcast.consSame (Broadcast.consR Broadcast.nil))
+    evalOp (Op.castFloat .real .real (Op.mul .real (Broadcast.consSame (Broadcast.consR Broadcast.nil))
         (Op.ref .real [BTL, BK] "b_k")
-        (Op.expandDim ⟨1, by simp⟩ (Op.ref .real [BTL] "d_h"))) sin
+        (Op.expandDim ⟨1, by simp⟩ (Op.ref .real [BTL] "d_h")))) sin
       = some ⟨fun idx : TileIndex [BTL, BK] =>
           some (g idx.1.val idx.2.1.val * w idx.1.val)⟩ := by
+  rw [pra_eval_cast_real]
   erw [pra_mulTile_eval (Broadcast.consSame (Broadcast.consR Broadcast.nil))
     _ _ sin _ _ (by rw [evalOp_ref]; exact hk)
     (evalOp_expandDim_ref_of_regs _ _ _ _ _ _ hdh)]
@@ -3295,11 +3323,12 @@ private theorem prb_doScale_eval (sin : BlockState) (BV BTS : Nat)
     (hdo : sin.regs .real [BV, BTS] "b_do"
       = some ⟨fun idx => some (g idx.1.val idx.2.1.val)⟩)
     (hdq : sin.regs .real [BTS] "d_q" = some ⟨fun idx => some (w idx.1.val)⟩) :
-    evalOp (Op.mul .real (Broadcast.consR (Broadcast.consSame Broadcast.nil))
+    evalOp (Op.castFloat .real .real (Op.mul .real (Broadcast.consR (Broadcast.consSame Broadcast.nil))
         (Op.ref .real [BV, BTS] "b_do")
-        (Op.expandDim ⟨0, by simp⟩ (Op.ref .real [BTS] "d_q"))) sin
+        (Op.expandDim ⟨0, by simp⟩ (Op.ref .real [BTS] "d_q")))) sin
       = some ⟨fun idx : TileIndex [BV, BTS] =>
           some (g idx.1.val idx.2.1.val * w idx.2.1.val)⟩ := by
+  rw [pra_eval_cast_real]
   erw [pra_mulTile_eval (Broadcast.consR (Broadcast.consSame Broadcast.nil))
     _ _ sin _ _ (by rw [evalOp_ref]; exact hdo)
     (evalOp_expandDim_ref_of_regs _ _ _ _ _ _ hdq)]
@@ -3317,7 +3346,7 @@ private theorem prb_accDecay_eval (sin : BlockState) (name : RegName)
         (Op.ref .real [] "d_b")) sin
       = some ⟨fun idx : TileIndex [M, N] =>
           some (g idx.1.val idx.2.1.val * D)⟩ := by
-  rw [pra_mulTile_eval Broadcast.scalarR _ _ sin _ _
+  erw [pra_mulTile_eval Broadcast.scalarR _ _ sin _ _
     (by rw [evalOp_ref]; exact hx) (by rw [evalOp_ref]; exact hd)]
   refine congrArg some (Tile.ext fun idx => ?_)
   obtain ⟨a, b, u⟩ := idx
@@ -3334,13 +3363,13 @@ private theorem prb_sDesc_eval (s sin : BlockState) (q k : RegionName)
         * praW (prbBeta i_h) (BTL - idx.1.val))⟩)
     (hq : sin.regs .real [BK, BTS] "b_q"
       = some (prbQTile s q s_qk_h s_qk_t s_qk_d i_bh i_k T K BK BTS i)) :
-    evalOp (Op.dot (batch := []) (Op.ref .real [BTL, BK] "b_kd")
+    evalOp (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) (Op.castFloat .real .real (Op.ref .real [BTL, BK] "b_kd"))
         (Op.ref .real [BK, BTS] "b_q")) sin
       = some ⟨fun idx : TileIndex [BTL, BTS] =>
           some (praW (prbBeta i_h) (BTL - idx.1.val)
             * prbSVal s q k s_qk_h s_qk_t s_qk_d i_bh i_c i_k T K BTL BK
                 idx.1.val (i + idx.2.1.val))⟩ := by
-  rw [pra_dot_eval _ _ sin _ _ (by rw [evalOp_ref]; exact hkd)
+  rw [pra_dot_eval _ _ sin _ _ (by erw [pra_eval_cast_real, evalOp_ref]; exact hkd)
     (by rw [evalOp_ref]; exact hq)]
   refine congrArg some (Tile.ext fun idx => ?_)
   obtain ⟨r, c, u⟩ := idx
@@ -3366,7 +3395,7 @@ private theorem prb_dsDesc_eval (s sin : BlockState) (v do_ : RegionName)
       = some ⟨fun idx => some (prbDoGuarded s do_ s_vo_h s_vo_t s_vo_d i_bh i_v
           T V BV idx.1.val (i + idx.2.1.val)
         * praW (prbBeta i_h) idx.2.1.val)⟩) :
-    evalOp (Op.dot (batch := []) (Op.ref .real [BTL, BV] "b_v")
+    evalOp (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) (Op.ref .real [BTL, BV] "b_v")
         (Op.ref .real [BV, BTS] "b_do")) sin
       = some ⟨fun idx : TileIndex [BTL, BTS] =>
           some (praW (prbBeta i_h) idx.2.1.val
@@ -3398,7 +3427,7 @@ private theorem prb_dvAdd_eval (sin : BlockState) (BTL BTS BV : Nat)
       = some ⟨fun idx => some (w idx.1.val idx.2.1.val)⟩) :
     evalOp (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.ref .real [BTL, BV] "b_dv")
-        (Op.dot (batch := []) (Op.ref .real [BTL, BTS] "b_s")
+        (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) (Op.castFloat .real .real (Op.ref .real [BTL, BTS] "b_s"))
           (Op.transpose (batch := []) (Op.ref .real [BV, BTS] "b_do")))) sin
       = some ⟨fun idx : TileIndex [BTL, BV] =>
           some (g idx.1.val idx.2.1.val
@@ -3408,9 +3437,9 @@ private theorem prb_dvAdd_eval (sin : BlockState) (BTL BTS BV : Nat)
           (⟨fun idx => some (w idx.1.val idx.2.1.val)⟩ : Tile .real [BV, BTS])) := by
     erw [evalOp_transpose, evalOp_ref, hdo]
     rfl
-  have hdot := pra_dot_eval (Op.ref .real [BTL, BTS] "b_s")
+  have hdot := pra_dot_eval (Op.castFloat .real .real (Op.ref .real [BTL, BTS] "b_s"))
     (Op.transpose (batch := []) (Op.ref .real [BV, BTS] "b_do")) sin _ _
-    (by rw [evalOp_ref]; exact hs) htr
+    (by erw [pra_eval_cast_real, evalOp_ref]; exact hs) htr
   erw [pra_addTile_eval (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
     _ _ sin _ _ (by rw [evalOp_ref]; exact hdv) hdot]
   refine congrArg some (Tile.ext fun idx => ?_)
@@ -3431,7 +3460,7 @@ private theorem prb_dkAdd_eval (sin : BlockState) (BTL BTS BK : Nat)
       = some ⟨fun idx => some (qF idx.1.val idx.2.1.val)⟩) :
     evalOp (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.ref .real [BTL, BK] "b_dk")
-        (Op.dot (batch := []) (Op.ref .real [BTL, BTS] "b_ds")
+        (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) (Op.castFloat .real .real (Op.ref .real [BTL, BTS] "b_ds"))
           (Op.transpose (batch := []) (Op.ref .real [BK, BTS] "b_q")))) sin
       = some ⟨fun idx : TileIndex [BTL, BK] =>
           some (g idx.1.val idx.2.1.val
@@ -3441,9 +3470,9 @@ private theorem prb_dkAdd_eval (sin : BlockState) (BTL BTS BK : Nat)
           (⟨fun idx => some (qF idx.1.val idx.2.1.val)⟩ : Tile .real [BK, BTS])) := by
     erw [evalOp_transpose, evalOp_ref, hq]
     rfl
-  have hdot := pra_dot_eval (Op.ref .real [BTL, BTS] "b_ds")
+  have hdot := pra_dot_eval (Op.castFloat .real .real (Op.ref .real [BTL, BTS] "b_ds"))
     (Op.transpose (batch := []) (Op.ref .real [BK, BTS] "b_q")) sin _ _
-    (by rw [evalOp_ref]; exact hds) htr
+    (by erw [pra_eval_cast_real, evalOp_ref]; exact hds) htr
   erw [pra_addTile_eval (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
     _ _ sin _ _ (by rw [evalOp_ref]; exact hdk) hdot]
   refine congrArg some (Tile.ext fun idx => ?_)
@@ -3487,7 +3516,7 @@ private theorem prb_dvScale_eval (sin : BlockState) (BTL BV : Nat) (scale : ℝ)
         (Op.const scale)) sin
       = some ⟨fun idx : TileIndex [BTL, BV] =>
           some (g idx.1.val idx.2.1.val * scale)⟩ := by
-  rw [pra_mulTile_eval Broadcast.scalarR _ _ sin _ _
+  erw [pra_mulTile_eval Broadcast.scalarR _ _ sin _ _
     (by rw [evalOp_ref]; exact hdv) (evalOp_const scale sin)]
   refine congrArg some (Tile.ext fun idx => ?_)
   obtain ⟨r, p, u⟩ := idx
@@ -3571,7 +3600,7 @@ private theorem prb_dsDiag_eval (sin : BlockState) (β : ℝ) (BTL BTS off : Nat
       rfl
     · rw [if_neg (by simpa using h), if_neg h]
       norm_num
-  rw [pra_mulTile_eval Broadcast.scalarR _ _ sin _ _ hwhere
+  erw [pra_mulTile_eval Broadcast.scalarR _ _ sin _ _ hwhere
     (evalOp_const scale sin)]
   refine congrArg some (Tile.ext fun idx => ?_)
   obtain ⟨r, c, u⟩ := idx
@@ -3585,7 +3614,7 @@ private theorem prb_sDot_eval (s sin : BlockState) (q k : RegionName)
       = some (prbKTile s k s_qk_h s_qk_t s_qk_d i_bh i_c i_k T K BTL BK))
     (hq : sin.regs .real [BK, BTS] "b_q"
       = some (prbQTile s q s_qk_h s_qk_t s_qk_d i_bh i_k T K BK BTS i)) :
-    evalOp (Op.dot (batch := []) (Op.ref .real [BTL, BK] "b_k")
+    evalOp (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) (Op.ref .real [BTL, BK] "b_k")
         (Op.ref .real [BK, BTS] "b_q")) sin
       = some ⟨fun idx : TileIndex [BTL, BTS] =>
           some (prbSVal s q k s_qk_h s_qk_t s_qk_d i_bh i_c i_k T K BTL BK
@@ -3613,7 +3642,7 @@ private theorem prb_sDiag_eval (s sin : BlockState) (q k : RegionName)
     (hd : sin.regs .real [BTL, BTS] "d_s"
       = some ⟨fun idx => some (fd idx.1.val idx.2.1.val)⟩) :
     evalOp (Op.mul .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
-        (Op.dot (batch := []) (Op.ref .real [BTL, BK] "b_k")
+        (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) (Op.ref .real [BTL, BK] "b_k")
           (Op.ref .real [BK, BTS] "b_q"))
         (Op.ref .real [BTL, BTS] "d_s")) sin
       = some ⟨fun idx : TileIndex [BTL, BTS] =>
@@ -3638,7 +3667,7 @@ private theorem prb_dsDot_eval (s sin : BlockState) (v do_ : RegionName)
       = some (prbVTile s v s_vo_h s_vo_t s_vo_d i_bh i_c i_v T V BTL BV))
     (hdo : sin.regs .real [BV, BTS] "b_do"
       = some (prbDoTile s do_ s_vo_h s_vo_t s_vo_d i_bh i_v T V BV BTS i)) :
-    evalOp (Op.dot (batch := []) (Op.ref .real [BTL, BV] "b_v")
+    evalOp (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) (Op.ref .real [BTL, BV] "b_v")
         (Op.ref .real [BV, BTS] "b_do")) sin
       = some ⟨fun idx : TileIndex [BTL, BTS] =>
           some (prbDsVal s v do_ s_vo_h s_vo_t s_vo_d i_bh i_c i_v T V BTL BV
@@ -3666,7 +3695,7 @@ private theorem prb_dsDiagMul_eval (s sin : BlockState) (v do_ : RegionName)
     (hd : sin.regs .real [BTL, BTS] "d_s"
       = some ⟨fun idx => some (fd idx.1.val idx.2.1.val)⟩) :
     evalOp (Op.mul .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
-        (Op.dot (batch := []) (Op.ref .real [BTL, BV] "b_v")
+        (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) (Op.ref .real [BTL, BV] "b_v")
           (Op.ref .real [BV, BTS] "b_do"))
         (Op.ref .real [BTL, BTS] "d_s")) sin
       = some ⟨fun idx : TileIndex [BTL, BTS] =>
@@ -3705,7 +3734,7 @@ def prbInvD (s0 : BlockState) (q k v do_ : RegionName)
     (i_bh i_c i_k i_v i_h : Nat)
     (s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t s_vo_d : Nat) (scale : ℝ)
     (T K V BTL BTS BK BV : Nat) (j : Nat) (s : BlockState) : Prop :=
-  s.mem = s0.mem ∧
+  (s.mem = s0.mem ∧ s.undef = s0.undef) ∧
   j ≤ prbTrip T BTS i_c BTL ∧
   s.regs .real [] "b_b" = some (Tile.scalar (some (prbBeta i_h))) ∧
   s.regs .real [] "d_b"
@@ -3769,11 +3798,11 @@ theorem prbBwdPrologue_run (s : BlockState) (q k v do_ : RegionName)
           Stmt.assign .real [BTL, BK] "b_k"
             (Op.load .real
               (MemAccess.blockPtr (Op.ref .blockPtr [BTL, BK] "p_k") [0, 1])
-              MaskOpt.none),
+              MaskOpt.none .unspecified),
           Stmt.assign .real [BTL, BV] "b_v"
             (Op.load .real
               (MemAccess.blockPtr (Op.ref .blockPtr [BTL, BV] "p_v") [0, 1])
-              MaskOpt.none),
+              MaskOpt.none .unspecified),
           Stmt.assign .real [BTL, BK] "b_dk" (Op.full [BTL, BK] (Op.const 0)),
           Stmt.assign .real [BTL, BV] "b_dv" (Op.full [BTL, BV] (Op.const 0)),
           Stmt.assign .real [BTL] "d_h"
@@ -3782,9 +3811,9 @@ theorem prbBwdPrologue_run (s : BlockState) (q k v do_ : RegionName)
                 (Op.arange BTL)))
               (Op.ref .real [] "b_b"))),
           Stmt.assign .real [BTL, BK] "b_kd"
-            (Op.mul .real (Broadcast.consSame (Broadcast.consR Broadcast.nil))
+            (Op.castFloat .real .real (Op.mul .real (Broadcast.consSame (Broadcast.consR Broadcast.nil))
               (Op.ref .real [BTL, BK] "b_k")
-              (Op.expandDim ⟨1, by simp⟩ (Op.ref .real [BTL] "d_h"))),
+              (Op.expandDim ⟨1, by simp⟩ (Op.ref .real [BTL] "d_h")))),
           Stmt.assign .real [BTS] "d_q"
             (Op.exp2 (Op.mul .real Broadcast.scalarR (Op.natToReal (Op.arange BTS))
               (Op.ref .real [] "b_b"))) ] s = some sP
@@ -3807,15 +3836,15 @@ theorem prbBwdPrologue_run (s : BlockState) (q k v do_ : RegionName)
       (prb_constMul_eval _ i_v BV)))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (prb_kLoad_eq s _ k "p_k" s_qk_h s_qk_t s_qk_d i_bh i_c i_k T K BTL BK
-      (by rfl) (by simp)))]
+      (by constructor <;> (funext rg off; simp)) (by simp)))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (prb_vLoad_eq s _ v "p_v" s_vo_h s_vo_t s_vo_d i_bh i_c i_v T V BTL BV
-      (by rfl) (by simp)))]
+      (by constructor <;> (funext rg off; simp)) (by simp)))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (pra_zeros_eval [BTL, BK] _))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (pra_zeros_eval [BTL, BV] _))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (prb_dh_eval _ (prbBeta i_h) BTL (by simp)))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some
+  erw [stepStmts.cons_some (stepStmt_assign_eq_some
     (prb_kd_eval _ BTL BK
       (fun r e => prbKGuarded s k s_qk_h s_qk_t s_qk_d i_bh i_c i_k T K BTL BK
         r e)
@@ -3824,7 +3853,7 @@ theorem prbBwdPrologue_run (s : BlockState) (q k v do_ : RegionName)
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (prb_dq_eval _ (prbBeta i_h) BTS (by simp)))]
   rw [stepStmts.nil]
-  refine ⟨_, rfl, rfl, Nat.zero_le _, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
+  refine ⟨_, rfl, (by constructor <;> (funext rg off; simp)), Nat.zero_le _, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   · simp
   · simp
   · simp
@@ -3895,7 +3924,7 @@ theorem prbBwdDesc_step (s0 sin : BlockState) (q k v do_ : RegionName)
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (prb_doLoad_eq s0 _ do_ "p_do" s_vo_h s_vo_t s_vo_d i_bh i_v T V BV BTS
       (prbNB T BTS - BTS - j * BTS) (by simpa using hmem) (by simp)))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some
+  erw [stepStmts.cons_some (stepStmt_assign_eq_some
     (prb_doScale_eval _ BV BTS
       (fun p c => prbDoGuarded s0 do_ s_vo_h s_vo_t s_vo_d i_bh i_v T V BV
         p (prbNB T BTS - BTS - j * BTS + c))
@@ -4063,7 +4092,7 @@ def prbInvG (s0 : BlockState) (q k v do_ : RegionName)
     (i_bh i_c i_k i_v i_h : Nat)
     (s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t s_vo_d : Nat) (scale : ℝ)
     (T K V BTL BTS BK BV : Nat) (i : Nat) (s : BlockState) : Prop :=
-  s.mem = s0.mem ∧
+  (s.mem = s0.mem ∧ s.undef = s0.undef) ∧
   i_c * BTL ≤ i ∧ BTS ∣ (i - i_c * BTL) ∧ i ≤ (i_c + 1) * BTL ∧
   s.regs .real [] "b_b" = some (Tile.scalar (some (prbBeta i_h))) ∧
   s.regs .real [BTL, BK] "b_k"
@@ -4631,11 +4660,11 @@ specification pra_bwd_dkv_exec_genuine
           Stmt.assign .real [BTL, BK] "b_k"
             (Op.load .real
               (MemAccess.blockPtr (Op.ref .blockPtr [BTL, BK] "p_k") [0, 1])
-              MaskOpt.none),
+              MaskOpt.none .unspecified),
           Stmt.assign .real [BTL, BV] "b_v"
             (Op.load .real
               (MemAccess.blockPtr (Op.ref .blockPtr [BTL, BV] "p_v") [0, 1])
-              MaskOpt.none),
+              MaskOpt.none .unspecified),
           Stmt.assign .real [BTL, BK] "b_dk" (Op.full [BTL, BK] (Op.const 0)),
           Stmt.assign .real [BTL, BV] "b_dv" (Op.full [BTL, BV] (Op.const 0)),
           Stmt.assign .real [BTL] "d_h"
@@ -4644,9 +4673,9 @@ specification pra_bwd_dkv_exec_genuine
                 (Op.arange BTL)))
               (Op.ref .real [] "b_b"))),
           Stmt.assign .real [BTL, BK] "b_kd"
-            (Op.mul .real (Broadcast.consSame (Broadcast.consR Broadcast.nil))
+            (Op.castFloat .real .real (Op.mul .real (Broadcast.consSame (Broadcast.consR Broadcast.nil))
               (Op.ref .real [BTL, BK] "b_k")
-              (Op.expandDim ⟨1, by simp⟩ (Op.ref .real [BTL] "d_h"))),
+              (Op.expandDim ⟨1, by simp⟩ (Op.ref .real [BTL] "d_h")))),
           Stmt.assign .real [BTS] "d_q"
             (Op.exp2 (Op.mul .real Broadcast.scalarR (Op.natToReal (Op.arange BTS))
               (Op.ref .real [] "b_b"))),
@@ -4728,11 +4757,11 @@ specification pra_bwd_dkv_exec_genuine
           Stmt.assign .real [BTL, BK] "b_k"
             (Op.load .real
               (MemAccess.blockPtr (Op.ref .blockPtr [BTL, BK] "p_k") [0, 1])
-              MaskOpt.none),
+              MaskOpt.none .unspecified),
           Stmt.assign .real [BTL, BV] "b_v"
             (Op.load .real
               (MemAccess.blockPtr (Op.ref .blockPtr [BTL, BV] "p_v") [0, 1])
-              MaskOpt.none),
+              MaskOpt.none .unspecified),
           Stmt.assign .real [BTL, BK] "b_dk" (Op.full [BTL, BK] (Op.const 0)),
           Stmt.assign .real [BTL, BV] "b_dv" (Op.full [BTL, BV] (Op.const 0)),
           Stmt.assign .real [BTL] "d_h"
@@ -4741,9 +4770,9 @@ specification pra_bwd_dkv_exec_genuine
                 (Op.arange BTL)))
               (Op.ref .real [] "b_b"))),
           Stmt.assign .real [BTL, BK] "b_kd"
-            (Op.mul .real (Broadcast.consSame (Broadcast.consR Broadcast.nil))
+            (Op.castFloat .real .real (Op.mul .real (Broadcast.consSame (Broadcast.consR Broadcast.nil))
               (Op.ref .real [BTL, BK] "b_k")
-              (Op.expandDim ⟨1, by simp⟩ (Op.ref .real [BTL] "d_h"))),
+              (Op.expandDim ⟨1, by simp⟩ (Op.ref .real [BTL] "d_h")))),
           Stmt.assign .real [BTS] "d_q"
             (Op.exp2 (Op.mul .real Broadcast.scalarR (Op.natToReal (Op.arange BTS))
               (Op.ref .real [] "b_b"))) ]
@@ -4818,4 +4847,38 @@ specification pra_bwd_dkv_exec_genuine
 
 end Correct_without_Rounding
 
+
+/-- A ragged head dimension exposes source-unspecified padding to a retained
+output. In-bounds Q/K are zero, V is one, and the padding value is `u`.
+The complete launched forward body stores `u²`, so choosing `u = 1` gives
+one whereas zero padding gives zero. No output value is supplied to the
+execution proof. -/
+private noncomputable def praPaddingRegressionState (u : ℝ) : BlockState :=
+  { mem := fun rg _ => .real (if rg = "v" then 1 else 0)
+    regs := fun _ _ _ => none
+    pids := fun _ => 0
+    undef := fun _ _ => u }
+
+theorem pra_unspecified_padding_correct (u : ℝ) :
+    ∃ sF, exec (pra_fwd_surface "q" "k" "v" "o" 1 1 1 1 1 1 1
+        1 1 1 1 1 1 1 2 1).toAlgKernel (praPaddingRegressionState u) = some sF
+      ∧ sF.readMem "o" 0 = u * u := by
+  obtain ⟨sF, hExec, hOut⟩ := pra_fwd_o_exec_genuine
+    (praPaddingRegressionState u) "q" "k" "v" "o" 1 1 1 1 1 1 1
+    1 1 1 1 1 1 1 2 1 rfl (by norm_num) (by norm_num) (by norm_num)
+  refine ⟨sF, hExec, ?_⟩
+  have hLane := hOut (⟨0, by decide⟩, ⟨0, by decide⟩, PUnit.unit)
+    (by norm_num [praOActive, praIv, praNV, praPaddingRegressionState])
+  have hOffset : praOOffset (praPaddingRegressionState u)
+      1 1 1 1 1 1 1 1 (⟨0, by decide⟩, ⟨0, by decide⟩, PUnit.unit) = 0 := by
+    norm_num [praOOffset, praOBase, praPaddingRegressionState, praIk, praIv, praNV]
+  rw [hOffset] at hLane
+  rw [hLane]
+  simp [praOOut, praPaddingRegressionState, praW, praScore,
+    praQGuarded, praKGuarded, praVGuarded, praIk, praIv, praNV,
+    Fin.sum_univ_two, BlockState.readMem, MemCell.readAs, MemCell.real,
+    MemCell.of]
+
 end VeriTile.Bench.TritonBenchG.ParallelRetentionAttention
+
+#auditModuleAxioms

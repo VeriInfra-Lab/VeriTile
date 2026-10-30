@@ -1,0 +1,111 @@
+{
+  "schema": 1,
+  "kind": "verbatim_fields_from_archived_review",
+  "archive": {
+    "commit": "5ea0e46126cc1c6eb05e4219ddc5dc13246ec3ce",
+    "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/review.json",
+    "sha256": "0319cd0ef26a53595a12adf233a8778e24b4b410b69cc49885e27b5680235a09",
+    "url": "https://github.com/VeriInfra-Lab/VeriTile/blob/5ea0e46126cc1c6eb05e4219ddc5dc13246ec3ce/bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/review.json"
+  },
+  "context": "Verification below was performed on the archived source snapshot. Nested evidence paths resolve in that archive. The full semantic review, theorem audit and logs remain there. This split has separate integration checks.",
+  "excerpt": {
+    "status": "verified_task_batch_corpus_migration_incomplete",
+    "code_commit": "13ef9a4208615cf5634b3bdf712c728fa7d130f4",
+    "new_task_migrations": [
+      "fused_rwkv6_kernel"
+    ],
+    "regression_only_pending_body_tasks": [],
+    "verification": {
+      "focused_regressions": {
+        "status": "PASS",
+        "first_pass_roots": 877,
+        "dependent_softmax_roots": 2,
+        "scope": "Affected task Real/FP/IO/safety/native proofs and helpers; final cumulative replay supersedes earlier stopped builds."
+      },
+      "warm_and_joint": {
+        "status": "PASS",
+        "explicit_modules": 4846,
+        "jobs": 14544
+      },
+      "independent_clean_checkout": {
+        "status": "PASS",
+        "explicit_modules": 4846,
+        "jobs": 14544,
+        "project_build_initially_present": false,
+        "project_objects_imported_from_other_checkouts": false,
+        "only_fixed_external_dependencies_imported": true,
+        "setup": {
+          "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/clean.json",
+          "sha256": "752bc07cff97410b22414ed071fc8139e1cb95545126fac029855b04cbc16504"
+        }
+      },
+      "axiom_audit": {
+        "status": "PASS",
+        "defining_modules": 1010,
+        "elaborated_theorems": 18817,
+        "private_helpers_included": true,
+        "allowed": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "method": "Discover theorem roots by defining imported module and validate the accumulated dependency union after each root in one immutable checked Lean environment."
+      },
+      "fp_assumptions": "RWKV public u_early_equiv prints none; all imported public audit commands replay during cumulative builds.",
+      "python": {
+        "targeted": {
+          "status": "PASS",
+          "tests": 271
+        },
+        "full": {
+          "status": "KNOWN_PREEXISTING_FAILURE",
+          "tests": 516,
+          "errors": 1,
+          "reason": "Old numerical receipt rejects unchanged Structural.lean hash; no false numerical repin."
+        }
+      },
+      "source": "Ten strict raw body mappings and whole Python candidate AST check pass; original Python and input contracts retained. Full source/IO and independent mathematics reconnected.",
+      "official_comparator": {
+        "status": "UNAVAILABLE",
+        "actual_final_source_attempts": 164,
+        "reason": "Pinned official binaries require Landlock ABI v5; host supplies v4 and no systemd user isolation. No isolation bypass."
+      },
+      "cpu": "PASS: complete module AST permits only the three documented hoists; raw-body tests cover source/ABI drift.",
+      "torch": "UNAVAILABLE: retained checker requires missing Torch/Triton.",
+      "gpu_or_numerical_experiment": "Not run.",
+      "earlier_failures": "Initial and revised builds exposed signed-pointer/old-reference proof regressions and were stopped. A later full module build passed but its joint import exposed a legacy RMS helper name collision; that helper was renamed without changing its statement or proof. None of these incomplete runs is counted as passing. Their logs and the final repairs are retained.",
+      "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending; the known unchanged numerical receipt failure remains explicit."
+    },
+    "corpus_complete": false,
+    "corpus_counts": {
+      "tasks": 183,
+      "examples": 19,
+      "task_status": {
+        "selected_body_copy_checked": 110,
+        "uncovered_jit_functions": 73
+      },
+      "example_status": {
+        "authored_counterpart_body_copy_checked": 2,
+        "selected_body_copy_checked": 2,
+        "spec_derived_body_copy_checked": 15
+      },
+      "selected_jit_functions": 333,
+      "uncovered_selected_jit_functions": 157,
+      "primary_files_with_int64_screen_warning": 22,
+      "primary_lean_file_features": {
+        "tasks": {
+          "in_body_type_directives": 52,
+          "antiquotes": 58,
+          "dsl_loop": 0,
+          "dsl_numeric_helpers": 8
+        },
+        "examples": {
+          "in_body_type_directives": 0,
+          "antiquotes": 0,
+          "dsl_loop": 0,
+          "dsl_numeric_helpers": 0
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,234 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/triton_argmax_nan_first/triton_argmax_nan_first.py",
+    "python_function": "argmax_kernel_1_repaired",
+    "lean": "bench/repairs/tritonbench_g/triton_argmax_nan_first/Kernels.lean",
+    "lean_definition": "stage1",
+    "signature_definition": "stage1Signature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "inp",
+          "fp32"
+        ],
+        [
+          "mid_index",
+          "i64"
+        ]
+      ],
+      "sourceDTypePointers": [
+        "mid_value"
+      ],
+      "scalars": [
+        [
+          "M",
+          "i64"
+        ],
+        [
+          "program_base",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE",
+        "INT64_INDEX"
+      ],
+      "readPorts": [
+        "inp"
+      ],
+      "writePorts": [
+        "mid_value",
+        "mid_index"
+      ]
+    },
+    "expected_source_dtype": {
+      "pointer": "mid_value",
+      "value": "MID_DTYPE"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/triton_argmax_nan_first/triton_argmax_nan_first.py",
+    "python_function": "argmax_kernel_2_repaired",
+    "lean": "bench/repairs/tritonbench_g/triton_argmax_nan_first/Kernels.lean",
+    "lean_definition": "stage2",
+    "signature_definition": "stage2Signature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "mid_index",
+          "i64"
+        ],
+        [
+          "out",
+          "i64"
+        ]
+      ],
+      "sourceDTypePointers": [
+        "mid_value"
+      ],
+      "scalars": [
+        [
+          "mid_size",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_MID"
+      ],
+      "readPorts": [
+        "mid_value",
+        "mid_index"
+      ],
+      "writePorts": [
+        "out"
+      ]
+    },
+    "expected_source_dtype": {
+      "pointer": "mid_value",
+      "value": "MID_DTYPE"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/triton_argmax_nan_first/triton_argmax_nan_first.py",
+    "python_function": "argmax_kernel_repaired",
+    "lean": "bench/repairs/tritonbench_g/triton_argmax_nan_first/Kernels.lean",
+    "lean_definition": "dimension",
+    "signature_definition": "dimensionSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "inp",
+          "fp32"
+        ],
+        [
+          "out_index",
+          "i64"
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "i64"
+        ],
+        [
+          "N",
+          "i64"
+        ],
+        [
+          "K",
+          "i64"
+        ],
+        [
+          "program_base",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_M",
+        "BLOCK_N",
+        "INT64_INDEX"
+      ],
+      "readPorts": [
+        "inp"
+      ],
+      "writePorts": [
+        "out_index"
+      ]
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/triton_argmax_nan_first/triton_argmax_shifted.py",
+    "python_function": "argmax_kernel_1_shifted",
+    "lean": "bench/repairs/tritonbench_g/triton_argmax_nan_first/CandidateKernels.lean",
+    "lean_definition": "stage1",
+    "signature_definition": "stage1Signature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "inp",
+          "fp32"
+        ],
+        [
+          "mid_index",
+          "i64"
+        ]
+      ],
+      "sourceDTypePointers": [
+        "mid_value"
+      ],
+      "scalars": [
+        [
+          "M",
+          "i64"
+        ],
+        [
+          "program_base",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE",
+        "INT64_INDEX"
+      ],
+      "readPorts": [
+        "inp"
+      ],
+      "writePorts": [
+        "mid_value",
+        "mid_index"
+      ]
+    },
+    "expected_source_dtype": {
+      "pointer": "mid_value",
+      "value": "MID_DTYPE"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/triton_argmax_nan_first/triton_argmax_shifted.py",
+    "python_function": "argmax_kernel_shifted",
+    "lean": "bench/repairs/tritonbench_g/triton_argmax_nan_first/CandidateKernels.lean",
+    "lean_definition": "dimension",
+    "signature_definition": "dimensionSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "inp",
+          "fp32"
+        ],
+        [
+          "out_index",
+          "i64"
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "i64"
+        ],
+        [
+          "N",
+          "i64"
+        ],
+        [
+          "K",
+          "i64"
+        ],
+        [
+          "program_base",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_M",
+        "BLOCK_N",
+        "INT64_INDEX"
+      ],
+      "readPorts": [
+        "inp"
+      ],
+      "writePorts": [
+        "out_index"
+      ]
+    }
+  }
+]

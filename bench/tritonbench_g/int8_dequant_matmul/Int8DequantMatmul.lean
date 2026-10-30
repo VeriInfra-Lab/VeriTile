@@ -481,7 +481,7 @@ def i8PostLoop (C bias : RegionName) (divfactor : ℝ) (has_bias : Bool)
             (Op.intToReal (Op.ref .int [BM, BN] "acc"))
             (Op.const divfactor)))),
     Stmt.assign .fp16 [BM, BN] "acc"
-      (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref .real [BM, BN] "acc")),
+      (Op.castFloat FloatDType.real FloatDType.fp16 (Op.withPrecision .real .fp32 (Op.ref .real [BM, BN] "acc"))),
     Stmt.ifThen (Op.constBool has_bias) (i8BiasArm bias BM BN),
     Stmt.assign .ptr [BM, BN] "C"
       (Op.ptrAdd Broadcast.scalarL (Op.ptrBase C)
@@ -849,10 +849,10 @@ private theorem i8_intToReal_eval {sh : TileShape} (x : Op .int sh)
 pointwise `FloatDType.cast` (the `matmul_dequantize` recipe). -/
 private theorem i8_castFp16_eval {sh : TileShape} (nm : RegName) (t : BlockState)
     (vt : Tile .real sh) (h : t.regs .real sh nm = some vt) :
-    evalOp (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref .real sh nm)) t
+    evalOp (Op.castFloat FloatDType.real FloatDType.fp16 (Op.withPrecision .real .fp32 (Op.ref .real sh nm))) t
       = some (⟨fun ix => FloatDType.real.cast FloatDType.fp16 (vt.data ix)⟩
           : Tile .fp16 sh) := by
-  rw [evalOp_castFloat]
+  rw [evalOp_castFloat, evalOp.eq_def]
   simp [evalOp_ref, h]
 
 /-- `tl.dot` on the `.int` channel (`Op.dotInt`) at rank 2. `erw`, not `rw`:
@@ -1902,7 +1902,7 @@ theorem i8PostLoop_run (s0 : BlockState) (A B : Region .int)
       stride_bn BM BN BK pm pn numKBlocks divfactor hw hx hacc))]
   -- 2. `acc = (acc).to(tl.float16)` — the genuine fp16 downcast
   rw [stepStmts.cons_some (@stepStmt_assign_eq_some TileDType.fp16 [BM, BN] "acc"
-    (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref .real [BM, BN] "acc")) _
+    (Op.castFloat FloatDType.real FloatDType.fp16 (Op.withPrecision .real .fp32 (Op.ref .real [BM, BN] "acc"))) _
     (⟨fun ix => FloatDType.real.cast FloatDType.fp16
         ((i8ProdTile s0 A B state_x state_w M N stride_am stride_ak stride_bk
           stride_bn BK numKBlocks divfactor BM BN pm pn).data ix)⟩

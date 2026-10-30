@@ -1,0 +1,327 @@
+{
+  "schema": 1,
+  "task": "rmsnorm_implementation",
+  "status": "unchanged",
+  "owner": {
+    "path": ".veritile-cache/io-unification-20261023/queue12/result-metadata-supplement.json",
+    "sha256": "5f610068288ee6ab6a6762ade1dd840c6b1eb87bbd939e3820ec977386dd1fb3",
+    "task_index": 7
+  },
+  "reason": "Interface.rowIO, oneProgram, logicalInputs/logicalIndices/logicalIO already coexist in IO.lean. PairIO is a distinct profiled source-pair memory view.",
+  "selected_public_entries": [
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Contract.lean",
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Correct.lean",
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/FPEquiv.lean"
+  ],
+  "previous_semantic_review": {
+    "manifest": {
+      "path": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json",
+      "sha256": "5df771b8603eaf5d9f08b4fde0c5b938c18087c00092f5348b47eb54d33a8225"
+    },
+    "task": "rmsnorm_implementation"
+  },
+  "changed_files": [],
+  "removed_files": [],
+  "moved_declarations": [],
+  "preservation": {
+    "kind": "unchanged_sources",
+    "fresh_source_review": {
+      "path": ".veritile-cache/io-unification-20261023/queue12/fresh-source-review.json",
+      "sha256": "b986318afb1581600f2095cbb5349961971de792e1ec308bbb0877173b84169b"
+    },
+    "all_prior_relevant_source_hashes_match": true,
+    "prior_owner_report": {
+      "path": ".veritile-cache/logical-reader-review-20261022/queue12/result.json",
+      "sha256": "1acd093fdb5df5a7fed2f0fba54b4e617613726893846119a55bbd0b72bb6386"
+    }
+  },
+  "verification": [
+    {
+      "kind": "read_only_prior_success_reuse",
+      "new_build": false,
+      "prior_owner_report": {
+        "path": ".veritile-cache/logical-reader-review-20261022/queue12/result.json",
+        "sha256": "1acd093fdb5df5a7fed2f0fba54b4e617613726893846119a55bbd0b72bb6386"
+      },
+      "validated_prior_logs_and_receipts": {
+        "path": ".veritile-cache/io-unification-20261023/queue12/unchanged-prior-reuse.json",
+        "sha256": "3231c110a895456061b2424925263d5266c900cedba228a7cf5695533427dd8d"
+      },
+      "prior_verification": [
+        {
+          "command": [
+            "python",
+            "-u",
+            ".veritile-cache/logical-reader-review-20261022/queue12/build.py",
+            "bench/repairs/tritonbench_g/rmsnorm_implementation/IO.lean",
+            "bench/repairs/tritonbench_g/rmsnorm_implementation/Proofs/LogicalReader.lean",
+            "bench/repairs/tritonbench_g/rmsnorm_implementation/Correct.lean"
+          ],
+          "exit_code": 0,
+          "log": ".veritile-cache/logical-reader-review-20261022/queue12/rmsnorm_implementation-verified-readers.log",
+          "kind": "targeted_readers",
+          "log_sha256": "ea716809228ea3a12fa7f2c2d20adfdc5be5aa28cc5e81ce22a07079d22a2860",
+          "compile_receipts": [
+            {
+              "path": ".veritile-cache/logical-reader-review-20261022/queue12/build/lib/lean/bench/repairs/tritonbench_g/rmsnorm_implementation/IO.workspace-build.json",
+              "sha256": "b9d7cecf35c2770c89e0098926adaf69986239f528462576261b78e65524a817"
+            },
+            {
+              "path": ".veritile-cache/logical-reader-review-20261022/queue12/build/lib/lean/bench/repairs/tritonbench_g/rmsnorm_implementation/Proofs/LogicalReader.workspace-build.json",
+              "sha256": "d4481260848f5f989503bff72ce771c3a03338481469b087f96366ee738909a1"
+            },
+            {
+              "path": ".veritile-cache/logical-reader-review-20261022/queue12/build/lib/lean/bench/repairs/tritonbench_g/rmsnorm_implementation/Correct.workspace-build.json",
+              "sha256": "d9d3af1c0509e709f04b5fbc3a96cd40aa6b58f93cdce5909ed0d3800565e1f5"
+            }
+          ],
+          "note": "Successful queue12 targeted compilation receipts; final validation reuses only source/dependency-hash-matching successful objects."
+        },
+        {
+          "command": [
+            "python",
+            "-u",
+            ".veritile-cache/logical-reader-review-20261022/queue12/build.py",
+            "bench/repairs/tritonbench_g/rmsnorm_implementation/FPEquiv.lean"
+          ],
+          "exit_code": 0,
+          "log": ".veritile-cache/logical-reader-review-20261022/queue12/rmsnorm_implementation-fp-build.log",
+          "kind": "targeted_fp_reader",
+          "log_sha256": "fd40574bf71341607b9a2669db419b6b63b4a313ca6ef03001532025fe65369b",
+          "compile_receipts": [
+            {
+              "path": ".veritile-cache/logical-reader-review-20261022/queue12/build/lib/lean/bench/repairs/tritonbench_g/rmsnorm_implementation/FPEquiv.workspace-build.json",
+              "sha256": "557ec3d6a3f9738fd7056b631c5d3ae2066b4075cf861d7027db84aa0b113ace"
+            }
+          ],
+          "note": "Successful queue12 targeted compilation receipts; final validation reuses only source/dependency-hash-matching successful objects."
+        },
+        {
+          "command": [
+            "python",
+            "-u",
+            ".veritile-cache/logical-reader-review-20261022/queue12/build.py",
+            "--check",
+            ".veritile-cache/logical-reader-review-20261022/queue12/joint/rmsnorm_implementation.lean"
+          ],
+          "exit_code": 0,
+          "log": ".veritile-cache/logical-reader-review-20261022/queue12/rmsnorm_implementation-joint.log",
+          "fixture": ".veritile-cache/logical-reader-review-20261022/queue12/joint/rmsnorm_implementation.lean",
+          "fixture_sha256": "0ae20913cb73ffb9768ec715f5dec0f43096d683bea0eca0581a16665d2fabed",
+          "kind": "per_task_joint",
+          "log_sha256": "c13b5766cf5eafccb2a90b9ad33ae01ec6de9598cfffe2c4c1562da81b1269a5"
+        }
+      ]
+    },
+    {
+      "kind": "fresh_source_and_scope_review",
+      "new_build": false,
+      "review": {
+        "path": ".veritile-cache/io-unification-20261023/queue12/fresh-source-review.json",
+        "sha256": "b986318afb1581600f2095cbb5349961971de792e1ec308bbb0877173b84169b"
+      },
+      "source_hashes_checked": true
+    }
+  ],
+  "verification_status": "unchanged_reused",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Contract.lean": "8ac15410dd421118d6e8621daab06fc940ad48586d8a807789138030303a5ebc",
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Correct.lean": "ea6b4f1006da15834fb0cbe5c8c0d711c1a69c4403f3193d6a5d321265fcc2ae",
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/FPEquiv.lean": "84f4889d65fdd68109ad374115c3c3da293ad2585a866d77be9392d183fc5370",
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/IO.lean": "0df4f7064900e695fdc6c690b1b9aea891348b1f663355b66d65f71926c6cb0b",
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Kernels.lean": "e754f0c19e9cf70e697b13e0bed56163f6f3613ea9b200cfe5cb8c9207e3c0b3",
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/PairIO.lean": "1b0434dac37e4b80fd4845729504be83a81043fe2578aa1e287b24a6ca5d24ce",
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Proofs/FPInterface.lean": "e1ecd1e261f8c00325b4cafced887ca1c31808de012f804bcce252cdee2752ff",
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Proofs/IOResults.lean": "e7eea3b58053b584605268f77e1291f9ab311969818c7c93352aa0a27a9490d8",
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Proofs/LogicalReader.lean": "c9a3b0dbbb226fa24d1cd923df52e8f02e61048cca1040d6a1cf33d811c6a8ee",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8",
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Misc/Auxiliary.lean": "4f3af06de1a267de5af6db76b536f6954c179361651ddb8d0265f29165dae9fa",
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Misc/AuxiliaryCorrect.lean": "e17fb4d21038f5ef92032c72b91551fcfaf0386a487a7d02ad6a4caf3f254e70",
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Misc/FiniteCorrect.lean": "2311d1e4bb12902584948f1f9be30f91b0b7f8369ee2e6e0040989dd3780b08f",
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Misc/HostCorrect.lean": "62e6e772e59a63f66e6b11a658e177b3db9dbc3b5533f83d7c3fc9de1d8275db",
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Misc/TensorBridge.lean": "2d40943f6c67831a733079230b244309cbbc79616f64a65922445c761449412b",
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Proofs/ActiveOutput.lean": "d2a4df75c2e32d2d430e9bbf14d9e8a41a93282ff4639bc733fc79c2e0d0ef16",
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Proofs/Contract.lean": "fac207bf5a5b5c0c6f404f21c1a7a50607f66f962aac2a3c7a0d19df3057aa9d",
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Proofs/FPSuccess.lean": "c76c9ac11b429c3dfc38447b2c78db00aa98a49abf5147608aef8a1970ad9cb2",
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Proofs/Host.lean": "be12a99c2231df92fb1684cce818880dcd6bf40eeda8a4821dbd0ee97ca39678",
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Proofs/IOSafety.lean": "132585fed72060c7587973f00080901785473aaff5583d33346221df36f99092",
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Proofs/KernelValues.lean": "aeb19e82ada7983b3dd11dbbeedeab8f11301e2c0d95c455478b4462f3cda528",
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Proofs/Native.lean": "5221b897925d6e21b4a83e2cd07ef131f3fd903738874c79525a935cbbfbf045",
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Proofs/NativeInterface.lean": "1ab78ad38db35b8fbb02c3d6aee3b2b5c9220b217a1f681a57ab228c560d6387",
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Proofs/NativePrimitives.lean": "ac109c8965710625a1da1d4f36a31fd88c3e70ae9f51b0cc11e98a2efd686ede",
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Proofs/RawCorrect.lean": "e04f6df6260037bea7cf88b3f5288a629c989e9f0b262aa3a7435fac2647f7e6",
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Proofs/Source.lean": "709f7ed93667f279a6f8ec2cae207aaa66ec0511cf92724bfa066cb54a3e7c88",
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Proofs/TensorBinding.lean": "cecef7cf76b8d7da4472111441f55f382fb5233143eaf98ab5259826efacf07a",
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Proofs/TensorSource.lean": "4f9649400374e4ee61fd071230d154d0822c036785dd03d56089d155f1269291"
+  },
+  "source_pin_provenance": {
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Contract.lean": {
+      "owner_tasks": [
+        "rmsnorm_implementation"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Correct.lean": {
+      "owner_tasks": [
+        "rmsnorm_implementation"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/FPEquiv.lean": {
+      "owner_tasks": [
+        "rmsnorm_implementation"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/IO.lean": {
+      "owner_tasks": [
+        "rmsnorm_implementation"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Kernels.lean": {
+      "owner_tasks": [
+        "rmsnorm_implementation"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/PairIO.lean": {
+      "owner_tasks": [
+        "rmsnorm_implementation"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Proofs/FPInterface.lean": {
+      "owner_tasks": [
+        "rmsnorm_implementation"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Proofs/IOResults.lean": {
+      "owner_tasks": [
+        "rmsnorm_implementation"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Proofs/LogicalReader.lean": {
+      "owner_tasks": [
+        "rmsnorm_implementation"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalIO.lean": {
+      "owner_tasks": [
+        "mixed_sparse_attention",
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Misc/Auxiliary.lean": {
+      "owner_tasks": [
+        "rmsnorm_implementation"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Misc/AuxiliaryCorrect.lean": {
+      "owner_tasks": [
+        "rmsnorm_implementation"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Misc/FiniteCorrect.lean": {
+      "owner_tasks": [
+        "rmsnorm_implementation"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Misc/HostCorrect.lean": {
+      "owner_tasks": [
+        "rmsnorm_implementation"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Misc/TensorBridge.lean": {
+      "owner_tasks": [
+        "rmsnorm_implementation"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Proofs/ActiveOutput.lean": {
+      "owner_tasks": [
+        "rmsnorm_implementation"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Proofs/Contract.lean": {
+      "owner_tasks": [
+        "rmsnorm_implementation"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Proofs/FPSuccess.lean": {
+      "owner_tasks": [
+        "rmsnorm_implementation"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Proofs/Host.lean": {
+      "owner_tasks": [
+        "rmsnorm_implementation"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Proofs/IOSafety.lean": {
+      "owner_tasks": [
+        "rmsnorm_implementation"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Proofs/KernelValues.lean": {
+      "owner_tasks": [
+        "rmsnorm_implementation"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Proofs/Native.lean": {
+      "owner_tasks": [
+        "rmsnorm_implementation"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Proofs/NativeInterface.lean": {
+      "owner_tasks": [
+        "rmsnorm_implementation"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Proofs/NativePrimitives.lean": {
+      "owner_tasks": [
+        "rmsnorm_implementation"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Proofs/RawCorrect.lean": {
+      "owner_tasks": [
+        "rmsnorm_implementation"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Proofs/Source.lean": {
+      "owner_tasks": [
+        "rmsnorm_implementation"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Proofs/TensorBinding.lean": {
+      "owner_tasks": [
+        "rmsnorm_implementation"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Proofs/TensorSource.lean": {
+      "owner_tasks": [
+        "rmsnorm_implementation"
+      ]
+    }
+  },
+  "retired_current_source_pins": {},
+  "limits": [
+    "Only IO organization, import ownership and disambiguation of the pre-existing safety proof kernel reference changed. No kernel, candidate, mathematical formula, public condition, domain, schedule, observation, precision or numerical rule change.",
+    "No new numerical experiment, GPU, host/native/Tensor correctness acceptance, or full proof closure replay."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/io-unification-20261023/queue16/result.json",
+    "sha256": "12f6dd5ed523e9f723fee3847af964fd8987958c2cb997aa572210c04de5bc84"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

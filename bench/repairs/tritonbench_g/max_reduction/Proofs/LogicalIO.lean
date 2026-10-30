@@ -1,0 +1,117 @@
+import bench.repairs.tritonbench_g.max_reduction.IO
+import bench.repairs.tritonbench_g.max_reduction.Proofs.RealIO
+import bench.repairs.tritonbench_g.max_reduction.Proofs.AlgorithmSource
+import bench.tritonbench_g.max_reduction.Proofs.StageIO
+
+namespace VeriTile.Bench.Repairs.MaxReduction.LogicalIOProof
+open VeriTile.Triton FP.Structural
+open scoped VeriTile.Triton.LogicalIO
+noncomputable section
+
+def blockMaximum (N B pid : Nat) (xs : Fin B → ℝ) : ℝ :=
+  WithBot.unbotD 0 ((Finset.univ : Finset (Fin B)).sup
+    (fun i => if pid*B+i.val<N then (some (xs i) : WithBot ℝ) else ⊥))
+
+theorem stage1_headline_iff (inp mid : RegionName) (N B : Nat) :
+    (PublicIO.logicalStage1IO inp mid N B ⊨ fun ⟨pid,xs⟩ _ => blockMaximum N B pid xs) ↔
+    (PublicIO.stage1Real inp mid N B).Implements (fun pid xs _ =>
+      VeriTile.Bench.TritonBenchG.MaxReduction.blockMaximum N B pid xs) := Iff.rfl
+
+theorem stage2_headline_iff (mid out : RegionName) (N B : Nat) :
+    (PublicIO.logicalStage2IO mid out N B ⊨ fun ⟨_,xs⟩ _ => blockMaximum N B 0 xs) ↔
+    (PublicIO.stage2Real mid out N B).Implements (fun _ xs _ =>
+      VeriTile.Bench.TritonBenchG.MaxReduction.blockMaximum N B 0 xs) := Iff.rfl
+
+theorem stage1_implements (inp mid : RegionName) (N B : Nat) (hB : 0<B) :
+    (PublicIO.logicalStage1IO inp mid N B ⊨ fun ⟨pid,xs⟩ _ => blockMaximum N B pid xs) := by
+  apply (stage1_headline_iff inp mid N B).2
+  intro A hd hr hc pid hin hout xs s hp hu hx
+  obtain ⟨t,he,values,frame⟩ :=
+    VeriTile.Bench.TritonBenchG.MaxReduction.StageIOProof.stage1_real_correct .fp32 Bool.false
+      inp mid N B hB A hd hr hc pid hin hout xs s hp hu hx
+  have old : VeriTile.Triton.exec (A.flattenKernel
+      (VeriTile.Bench.TritonBenchG.MaxReduction.max_kernel_1 inp mid N B).toAlgKernel)
+      (A.flattenState s) = some t :=
+    (VeriTile.Bench.TritonBenchG.MaxReduction.stage1_flat_exec A .fp32 Bool.false
+      inp mid N B (A.flattenState s)).symm.trans he
+  have same := AlgorithmSource.stage1_memory A inp mid N B hB (A.flattenState s)
+  rw [old] at same
+  cases actual : VeriTile.Triton.exec (A.flattenKernel (stage1 inp mid N B).eraseDType.toAlgKernel) (A.flattenState s) with
+  | none => simp [actual] at same
+  | some u =>
+    have memory : u.mem = t.mem := by simpa only [actual,Option.map_some,Option.some.injEq] using same
+    refine ⟨u,actual,?_,?_⟩
+    · intro i active
+      simpa only [BlockState.readMem,memory] using values i active
+    · intro r o outside
+      change u.mem r o = (A.flattenState s).mem r o
+      rw [memory]
+      exact frame r o outside
+
+theorem stage2_implements (mid out : RegionName) (N B : Nat) (hB : 0<B) :
+    (PublicIO.logicalStage2IO mid out N B ⊨ fun ⟨_,xs⟩ _ => blockMaximum N B 0 xs) := by
+  apply (stage2_headline_iff mid out N B).2
+  intro A hd hr hc pid hin hout xs s hp hu hx
+  obtain ⟨t,he,values,frame⟩ :=
+    VeriTile.Bench.TritonBenchG.MaxReduction.StageIOProof.stage2_real_correct .fp32 Bool.false
+      mid out N B hB A hd hr hc pid hin hout xs s hp hu hx
+  have old : VeriTile.Triton.exec (A.flattenKernel
+      (VeriTile.Bench.TritonBenchG.MaxReduction.max_kernel_2 mid out N B).toAlgKernel)
+      (A.flattenState s) = some t :=
+    (VeriTile.Bench.TritonBenchG.MaxReduction.stage2_flat_exec A .fp32 Bool.false
+      mid out N B (A.flattenState s)).symm.trans he
+  have same := AlgorithmSource.stage2_memory A mid out N B hB (A.flattenState s)
+  rw [old] at same
+  cases actual : VeriTile.Triton.exec (A.flattenKernel (stage2 mid out N B).eraseDType.toAlgKernel) (A.flattenState s) with
+  | none => simp [actual] at same
+  | some u =>
+    have memory : u.mem = t.mem := by simpa only [actual,Option.map_some,Option.some.injEq] using same
+    refine ⟨u,actual,?_,?_⟩
+    · intro i active
+      simpa only [BlockState.readMem,memory] using values i active
+    · intro r o outside
+      change u.mem r o = (A.flattenState s).mem r o
+      rw [memory]
+      exact frame r o outside
+
+theorem dimension_headline_iff (inp ov oi : RegionName) (M N K BM p k : Nat)
+    (plan : ReductionPlan (nextPower N))
+    (relation : (Fin BM → Fin (nextPower N) → ℝ) → ((Fin BM → ℝ) × (Fin BM → Int)) → Prop)
+    (same : ∀ xs ys, relation (PublicIO.dimensionInputs inp BM (nextPower N) xs)
+      (PublicIO.dimensionOutputs ov oi BM ys) = DimensionMath.result inp ov oi M N BM (nextPower N) p xs ys) :
+    (PublicIO.logicalDimensionIO (KernelMath.engine Compute.real plan.tree) RealIO.observe
+      inp ov oi M N K BM (nextPower N) p k).Satisfies relation ↔
+    (PublicIO.dimensionIO (KernelMath.engine Compute.real plan.tree) (fun r : ℝ => (r : WithBot ℝ))
+      RealIO.observe inp ov oi M N K BM (nextPower N) p k).Satisfies
+      (DimensionMath.result inp ov oi M N BM (nextPower N) p) := by
+  have target : (fun xs ys => relation (PublicIO.dimensionInputs inp BM (nextPower N) xs)
+      (PublicIO.dimensionOutputs ov oi BM ys)) = DimensionMath.result inp ov oi M N BM (nextPower N) p := by
+    funext xs ys
+    exact same xs ys
+  change (PublicIO.dimensionIO (KernelMath.engine Compute.real plan.tree)
+    (fun r : ℝ => (r : WithBot ℝ)) RealIO.observe inp ov oi M N K BM (nextPower N) p k).Satisfies
+      (fun xs ys => relation (PublicIO.dimensionInputs inp BM (nextPower N) xs)
+        (PublicIO.dimensionOutputs ov oi BM ys)) ↔ _
+  exact (congrArg
+    (fun r => (PublicIO.dimensionIO (KernelMath.engine Compute.real plan.tree)
+      (fun x : ℝ => (x : WithBot ℝ)) RealIO.observe inp ov oi M N K BM (nextPower N) p k).Satisfies r)
+    target).to_iff
+
+theorem dimension_implements (inp ov oi : RegionName) (M N K BM p k : Nat)
+    (hRegions : ov≠oi) (hK : 0<K) (plan : ReductionPlan (nextPower N))
+    (relation : (Fin BM → Fin (nextPower N) → ℝ) → ((Fin BM → ℝ) × (Fin BM → Int)) → Prop)
+    (same : ∀ xs ys, relation (PublicIO.dimensionInputs inp BM (nextPower N) xs)
+      (PublicIO.dimensionOutputs ov oi BM ys) = DimensionMath.result inp ov oi M N BM (nextPower N) p xs ys) :
+    (PublicIO.logicalDimensionIO (KernelMath.engine Compute.real plan.tree) RealIO.observe
+      inp ov oi M N K BM (nextPower N) p k).Satisfies relation :=
+  (dimension_headline_iff inp ov oi M N K BM p k plan relation same).2
+    (RealIO.satisfies inp ov oi M N K BM p k hK hRegions plan)
+
+#axiomsClean stage1_implements
+#axiomsClean stage2_implements
+#axiomsClean stage1_headline_iff
+#axiomsClean stage2_headline_iff
+#axiomsClean dimension_headline_iff
+#axiomsClean dimension_implements
+end
+end VeriTile.Bench.Repairs.MaxReduction.LogicalIOProof

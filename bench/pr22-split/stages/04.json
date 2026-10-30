@@ -1,0 +1,110 @@
+{
+  "schema": 1,
+  "part": 4,
+  "title": "Quantization, gathered attention and source helpers",
+  "branch": "codex/pr22-04-quantization",
+  "archived_snapshot": "3a25fbb6f5c07013b67dc2069358c8666689d3e4",
+  "archive_head": "5ea0e46126cc1c6eb05e4219ddc5dc13246ec3ce",
+  "base_commit": "25ad2949386cd0b992e2d3cb7cf26fac86f6a25c",
+  "source_identity": "All changed Lean and Python files are byte-identical to the archived snapshot. New base additions are retained verbatim. lakefile.toml combines both target lists.",
+  "receipt_excerpts": [
+    "bench/pr22-split/receipts/loops-and-spec-derived-sources.json",
+    "bench/pr22-split/receipts/native-adam-and-masked-add.json",
+    "bench/pr22-split/receipts/native-block-pointer-reduction.json",
+    "bench/pr22-split/receipts/native-rmsnorm-body.json",
+    "bench/pr22-split/receipts/native-rope-bodies.json",
+    "bench/pr22-split/receipts/native-vector-cumsum-bodies.json",
+    "bench/pr22-split/receipts/native-source-helper-bodies.json"
+  ],
+  "integration_validation": {
+    "status": "passed",
+    "checks": {
+      "formulas": {
+        "command": [
+          "python3",
+          "-B",
+          "bench/check_main_formula_review.py"
+        ],
+        "exit_code": 0,
+        "seconds": 0.56,
+        "log_sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+      },
+      "io": {
+        "command": [
+          "python3",
+          "-B",
+          "bench/check_io_organization.py"
+        ],
+        "exit_code": 0,
+        "seconds": 0.42,
+        "log_sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+      },
+      "roles": {
+        "command": [
+          "python3",
+          "-B",
+          "bench/check_main_entry_roles.py"
+        ],
+        "exit_code": 0,
+        "seconds": 7.43,
+        "log_sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+      },
+      "corpus": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "bench.check_body_corpus",
+          "--check"
+        ],
+        "exit_code": 0,
+        "seconds": 1.81,
+        "log_sha256": "d2a7124375a060f3d00f3411d19b5571381737897f200f5e14d3d0df7b7b9b38"
+      },
+      "python": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "bench.tests.test_jit_correspondence",
+          "bench.tests.test_body_corpus"
+        ],
+        "exit_code": 0,
+        "seconds": 1.79,
+        "log_sha256": "7eb0b243a3692e2bfa4bb82d241c0bf81ac5b69d9fe931b39f495816c5a85694"
+      },
+      "ledger": {
+        "command": [
+          "python3",
+          "-B",
+          "-c",
+          "import sys,json; sys.path.insert(0,'bench'); import task_progress; task_progress.validate(json.load(open('bench/tritonbench_g/task_progress.json')))"
+        ],
+        "exit_code": 0,
+        "seconds": 0.18,
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "base-integration": {
+        "command": [
+          "lake",
+          "build",
+          "VeriTile.Triton.Memory.LogicalScheduledKernelIO",
+          "VeriTile.Triton.Float.GuardedProgramIO",
+          "bench.tests.FPGuardedProgramIO"
+        ],
+        "exit_code": 0,
+        "seconds": 404.04,
+        "log_sha256": "d487d7b5afcabf2a9281ec054f93b1ef6c840d110ba8b95abc4eb1f5d32cfd73"
+      }
+    },
+    "scope": "Fresh metadata/body-copy checks and compilation of the new base interfaces and guarded-program regression on this exact prefix. Task proofs retain the archived exact-source replay; this is not a fresh full-corpus replay for every prefix.",
+    "source_identity_check": {
+      "status": "passed",
+      "files": 19489,
+      "method": "Complete staged application Lean/Python path and Git blob map (historical checkpoint snapshots excluded) equals archived snapshot plus preserved newer base additions, including deletions."
+    }
+  },
+  "changed_source_file_count": 644,
+  "changed_source_blobs_sha256": "dc14407844de850a68950941fb0a3211502d599a0d59f9d9cd4bb3127f3a8bfd"
+}

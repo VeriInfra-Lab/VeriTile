@@ -1,0 +1,450 @@
+{
+  "kind": "static symbolic PTX coordinate/tree/operand audit; no numerical experiment",
+  "GPU_execution": false,
+  "cases": [
+    {
+      "label": "b64-d16",
+      "ptx_sha256": "6f03b2892a3bbaedb5df449fdeeb54ccf232843281570541262374e43ac54fb6",
+      "qk_n": 64,
+      "pv_n": 16,
+      "qk_groups": 1,
+      "pv_groups": 1,
+      "qk_k8_per_group": 2,
+      "pv_k8_per_group": 8,
+      "max_tree_thread_checks": 256,
+      "sum_tree_thread_checks": 256,
+      "pv_route_word_checks": 4096,
+      "output_division_owner_checks": 1024,
+      "qk_scale_swapped_instructions": 32,
+      "normalizer_fmas": [
+        {
+          "ptx_line": 806,
+          "operands": [
+            "%r536",
+            "%r536",
+            "%r426",
+            "%r419"
+          ]
+        },
+        {
+          "ptx_line": 807,
+          "operands": [
+            "%r537",
+            "%r537",
+            "%r427",
+            "%r423"
+          ]
+        }
+      ],
+      "old_accumulator_rescale_count": 8,
+      "shared_bytes": 8192,
+      "SM90_233472_byte_SM_capacity_exceeded": false,
+      "status": "pass"
+    },
+    {
+      "label": "b64-d32",
+      "ptx_sha256": "c7013a52ea80ffe89b8063e0f9e35d9e652676ec066cf65636cd8ec0a30bbc5e",
+      "qk_n": 64,
+      "pv_n": 32,
+      "qk_groups": 1,
+      "pv_groups": 1,
+      "qk_k8_per_group": 4,
+      "pv_k8_per_group": 8,
+      "max_tree_thread_checks": 256,
+      "sum_tree_thread_checks": 256,
+      "pv_route_word_checks": 4096,
+      "output_division_owner_checks": 2048,
+      "qk_scale_swapped_instructions": 32,
+      "normalizer_fmas": [
+        {
+          "ptx_line": 927,
+          "operands": [
+            "%r615",
+            "%r615",
+            "%r482",
+            "%r475"
+          ]
+        },
+        {
+          "ptx_line": 928,
+          "operands": [
+            "%r616",
+            "%r616",
+            "%r483",
+            "%r479"
+          ]
+        }
+      ],
+      "old_accumulator_rescale_count": 16,
+      "shared_bytes": 16384,
+      "SM90_233472_byte_SM_capacity_exceeded": false,
+      "status": "pass"
+    },
+    {
+      "label": "b64-d64",
+      "ptx_sha256": "0cb3e65f826ab6abe714d7d516856ef3c0dc5c54ee08606243bac12ce10c47bc",
+      "qk_n": 64,
+      "pv_n": 64,
+      "qk_groups": 1,
+      "pv_groups": 1,
+      "qk_k8_per_group": 8,
+      "pv_k8_per_group": 8,
+      "max_tree_thread_checks": 256,
+      "sum_tree_thread_checks": 256,
+      "pv_route_word_checks": 4096,
+      "output_division_owner_checks": 4096,
+      "qk_scale_swapped_instructions": 32,
+      "normalizer_fmas": [
+        {
+          "ptx_line": 1084,
+          "operands": [
+            "%r733",
+            "%r733",
+            "%r570",
+            "%r563"
+          ]
+        },
+        {
+          "ptx_line": 1085,
+          "operands": [
+            "%r734",
+            "%r734",
+            "%r571",
+            "%r567"
+          ]
+        }
+      ],
+      "old_accumulator_rescale_count": 32,
+      "shared_bytes": 32768,
+      "SM90_233472_byte_SM_capacity_exceeded": false,
+      "status": "pass"
+    },
+    {
+      "label": "b64-d128",
+      "ptx_sha256": "651090544183e96031bbd05abc16496cf3e5a9222bc6ff6f5c3c8b2a547d2ce2",
+      "qk_n": 32,
+      "pv_n": 64,
+      "qk_groups": 2,
+      "pv_groups": 1,
+      "qk_k8_per_group": 16,
+      "pv_k8_per_group": 8,
+      "max_tree_thread_checks": 512,
+      "sum_tree_thread_checks": 512,
+      "pv_route_word_checks": 8192,
+      "output_division_owner_checks": 8192,
+      "qk_scale_swapped_instructions": 32,
+      "normalizer_fmas": [
+        {
+          "ptx_line": 1193,
+          "operands": [
+            "%r744",
+            "%r744",
+            "%r573",
+            "%r566"
+          ]
+        },
+        {
+          "ptx_line": 1194,
+          "operands": [
+            "%r745",
+            "%r745",
+            "%r574",
+            "%r570"
+          ]
+        }
+      ],
+      "old_accumulator_rescale_count": 32,
+      "shared_bytes": 65536,
+      "SM90_233472_byte_SM_capacity_exceeded": false,
+      "status": "pass"
+    },
+    {
+      "label": "b64-d256",
+      "ptx_sha256": "8446447e2f23fdb6c1cd9c6aaff0daa12a617aa76dc3207eeb1bf804a4829955",
+      "qk_n": 32,
+      "pv_n": 128,
+      "qk_groups": 2,
+      "pv_groups": 1,
+      "qk_k8_per_group": 32,
+      "pv_k8_per_group": 8,
+      "max_tree_thread_checks": 512,
+      "sum_tree_thread_checks": 512,
+      "pv_route_word_checks": 8192,
+      "output_division_owner_checks": 16384,
+      "qk_scale_swapped_instructions": 32,
+      "normalizer_fmas": [
+        {
+          "ptx_line": 1685,
+          "operands": [
+            "%r1004",
+            "%r1004",
+            "%r762",
+            "%r755"
+          ]
+        },
+        {
+          "ptx_line": 1686,
+          "operands": [
+            "%r1005",
+            "%r1005",
+            "%r763",
+            "%r759"
+          ]
+        }
+      ],
+      "old_accumulator_rescale_count": 64,
+      "shared_bytes": 131072,
+      "SM90_233472_byte_SM_capacity_exceeded": false,
+      "status": "pass"
+    },
+    {
+      "label": "b128-d16",
+      "ptx_sha256": "4ad51f4d0d42e23afaa1a05eca79c1d51b8cf3ee5c06075726a0fcf2338c2957",
+      "qk_n": 128,
+      "pv_n": 16,
+      "qk_groups": 2,
+      "pv_groups": 2,
+      "qk_k8_per_group": 2,
+      "pv_k8_per_group": 16,
+      "max_tree_thread_checks": 512,
+      "sum_tree_thread_checks": 512,
+      "pv_route_word_checks": 16384,
+      "output_division_owner_checks": 2048,
+      "qk_scale_swapped_instructions": 128,
+      "normalizer_fmas": [
+        {
+          "ptx_line": 1577,
+          "operands": [
+            "%r1560",
+            "%r1560",
+            "%r1243",
+            "%r1238"
+          ]
+        },
+        {
+          "ptx_line": 1578,
+          "operands": [
+            "%r1561",
+            "%r1561",
+            "%r1244",
+            "%r1237"
+          ]
+        },
+        {
+          "ptx_line": 1579,
+          "operands": [
+            "%r1562",
+            "%r1562",
+            "%r1245",
+            "%r1236"
+          ]
+        },
+        {
+          "ptx_line": 1580,
+          "operands": [
+            "%r1563",
+            "%r1563",
+            "%r1246",
+            "%r1235"
+          ]
+        }
+      ],
+      "old_accumulator_rescale_count": 16,
+      "shared_bytes": 16384,
+      "SM90_233472_byte_SM_capacity_exceeded": false,
+      "status": "pass"
+    },
+    {
+      "label": "b128-d32",
+      "ptx_sha256": "efa449643b8a86b4fb8fbb5d871699a5f62b9a167ca02b6b6201489a4ade4c98",
+      "qk_n": 128,
+      "pv_n": 32,
+      "qk_groups": 2,
+      "pv_groups": 2,
+      "qk_k8_per_group": 4,
+      "pv_k8_per_group": 16,
+      "max_tree_thread_checks": 512,
+      "sum_tree_thread_checks": 512,
+      "pv_route_word_checks": 16384,
+      "output_division_owner_checks": 4096,
+      "qk_scale_swapped_instructions": 128,
+      "normalizer_fmas": [
+        {
+          "ptx_line": 1747,
+          "operands": [
+            "%r1704",
+            "%r1704",
+            "%r1344",
+            "%r1339"
+          ]
+        },
+        {
+          "ptx_line": 1748,
+          "operands": [
+            "%r1705",
+            "%r1705",
+            "%r1345",
+            "%r1338"
+          ]
+        },
+        {
+          "ptx_line": 1749,
+          "operands": [
+            "%r1706",
+            "%r1706",
+            "%r1346",
+            "%r1337"
+          ]
+        },
+        {
+          "ptx_line": 1750,
+          "operands": [
+            "%r1707",
+            "%r1707",
+            "%r1347",
+            "%r1336"
+          ]
+        }
+      ],
+      "old_accumulator_rescale_count": 32,
+      "shared_bytes": 32768,
+      "SM90_233472_byte_SM_capacity_exceeded": false,
+      "status": "pass"
+    },
+    {
+      "label": "b128-d64",
+      "ptx_sha256": "519180a6311bad4754f2447089fad6223286b5d4812b4ce47c215f0b275ba8f1",
+      "qk_n": 128,
+      "pv_n": 64,
+      "qk_groups": 2,
+      "pv_groups": 2,
+      "qk_k8_per_group": 8,
+      "pv_k8_per_group": 16,
+      "max_tree_thread_checks": 512,
+      "sum_tree_thread_checks": 512,
+      "pv_route_word_checks": 16384,
+      "output_division_owner_checks": 8192,
+      "qk_scale_swapped_instructions": 128,
+      "normalizer_fmas": [
+        {
+          "ptx_line": 2120,
+          "operands": [
+            "%r1948",
+            "%r1948",
+            "%r1525",
+            "%r1520"
+          ]
+        },
+        {
+          "ptx_line": 2121,
+          "operands": [
+            "%r1949",
+            "%r1949",
+            "%r1526",
+            "%r1519"
+          ]
+        },
+        {
+          "ptx_line": 2122,
+          "operands": [
+            "%r1950",
+            "%r1950",
+            "%r1527",
+            "%r1518"
+          ]
+        },
+        {
+          "ptx_line": 2123,
+          "operands": [
+            "%r1951",
+            "%r1951",
+            "%r1528",
+            "%r1517"
+          ]
+        }
+      ],
+      "old_accumulator_rescale_count": 64,
+      "shared_bytes": 65536,
+      "SM90_233472_byte_SM_capacity_exceeded": false,
+      "status": "pass"
+    },
+    {
+      "label": "b128-d128",
+      "ptx_sha256": "102ede1771001e99c666fac278f3c87a2b81cdd92ebd76707ddd4a1d93d0ba48",
+      "qk_n": 128,
+      "pv_n": 128,
+      "qk_groups": 1,
+      "pv_groups": 1,
+      "qk_k8_per_group": 16,
+      "pv_k8_per_group": 16,
+      "max_tree_thread_checks": 512,
+      "sum_tree_thread_checks": 512,
+      "pv_route_word_checks": 16384,
+      "output_division_owner_checks": 16384,
+      "qk_scale_swapped_instructions": 64,
+      "normalizer_fmas": [
+        {
+          "ptx_line": 1949,
+          "operands": [
+            "%r1334",
+            "%r1334",
+            "%r1035",
+            "%r1028"
+          ]
+        },
+        {
+          "ptx_line": 1950,
+          "operands": [
+            "%r1335",
+            "%r1335",
+            "%r1036",
+            "%r1032"
+          ]
+        }
+      ],
+      "old_accumulator_rescale_count": 64,
+      "shared_bytes": 131072,
+      "SM90_233472_byte_SM_capacity_exceeded": false,
+      "status": "pass"
+    },
+    {
+      "label": "b128-d256",
+      "ptx_sha256": "98eb89044fc89d6c9c714aadb98007e233b69e6f259b1d5e4ab5c3003bd274d1",
+      "qk_n": 128,
+      "pv_n": 256,
+      "qk_groups": 1,
+      "pv_groups": 1,
+      "qk_k8_per_group": 32,
+      "pv_k8_per_group": 16,
+      "max_tree_thread_checks": 512,
+      "sum_tree_thread_checks": 512,
+      "pv_route_word_checks": 16384,
+      "output_division_owner_checks": 32768,
+      "qk_scale_swapped_instructions": 64,
+      "normalizer_fmas": [
+        {
+          "ptx_line": 2890,
+          "operands": [
+            "%r1891",
+            "%r1891",
+            "%r1448",
+            "%r1441"
+          ]
+        },
+        {
+          "ptx_line": 2891,
+          "operands": [
+            "%r1892",
+            "%r1892",
+            "%r1449",
+            "%r1445"
+          ]
+        }
+      ],
+      "old_accumulator_rescale_count": 128,
+      "shared_bytes": 262144,
+      "SM90_233472_byte_SM_capacity_exceeded": true,
+      "status": "pass"
+    }
+  ]
+}

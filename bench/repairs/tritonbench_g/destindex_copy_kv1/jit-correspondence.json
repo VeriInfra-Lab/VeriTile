@@ -1,0 +1,158 @@
+[
+  {
+    "lean": "bench/repairs/tritonbench_g/destindex_copy_kv1/Kernels.lean",
+    "lean_definition": "kernel",
+    "python": "bench/repairs/tritonbench_g/destindex_copy_kv1/destindex_copy_kv1_repaired.py",
+    "python_function": "_fwd_kernel_destindex_copy_kv",
+    "signature_definition": "sourceSignature",
+    "expected_call_bindings": {
+      "stride_k_bs": "p.stride_k_bs",
+      "stride_k_h": "p.stride_k_h",
+      "stride_k_d": "p.stride_k_d",
+      "stride_o_bs": "p.stride_o_bs",
+      "stride_o_h": "p.stride_o_h",
+      "stride_o_d": "p.stride_o_d",
+      "head_num": "p.head_num",
+      "head_dim": "p.head_dim"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "K",
+          "fp32"
+        ],
+        [
+          "Dest_loc",
+          "i32"
+        ],
+        [
+          "Out",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_k_bs",
+          "integer"
+        ],
+        [
+          "stride_k_h",
+          "integer"
+        ],
+        [
+          "stride_k_d",
+          "integer"
+        ],
+        [
+          "stride_o_bs",
+          "integer"
+        ],
+        [
+          "stride_o_h",
+          "integer"
+        ],
+        [
+          "stride_o_d",
+          "integer"
+        ],
+        [
+          "head_num",
+          "integer"
+        ],
+        [
+          "head_dim",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_DMODEL",
+        "BLOCK_HEAD"
+      ],
+      "readPorts": [
+        "K",
+        "Dest_loc"
+      ],
+      "writePorts": [
+        "Out"
+      ]
+    }
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/destindex_copy_kv1/Kernels.lean",
+    "lean_definition": "indexCommutedKernel",
+    "python": "bench/repairs/tritonbench_g/destindex_copy_kv1/index_commuted.py",
+    "python_function": "_fwd_kernel_destindex_copy_kv_index_commuted",
+    "signature_definition": "sourceSignature",
+    "expected_call_bindings": {
+      "stride_k_bs": "p.stride_k_bs",
+      "stride_k_h": "p.stride_k_h",
+      "stride_k_d": "p.stride_k_d",
+      "stride_o_bs": "p.stride_o_bs",
+      "stride_o_h": "p.stride_o_h",
+      "stride_o_d": "p.stride_o_d",
+      "head_num": "p.head_num",
+      "head_dim": "p.head_dim"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "K",
+          "fp32"
+        ],
+        [
+          "Dest_loc",
+          "i32"
+        ],
+        [
+          "Out",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_k_bs",
+          "integer"
+        ],
+        [
+          "stride_k_h",
+          "integer"
+        ],
+        [
+          "stride_k_d",
+          "integer"
+        ],
+        [
+          "stride_o_bs",
+          "integer"
+        ],
+        [
+          "stride_o_h",
+          "integer"
+        ],
+        [
+          "stride_o_d",
+          "integer"
+        ],
+        [
+          "head_num",
+          "integer"
+        ],
+        [
+          "head_dim",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_DMODEL",
+        "BLOCK_HEAD"
+      ],
+      "readPorts": [
+        "K",
+        "Dest_loc"
+      ],
+      "writePorts": [
+        "Out"
+      ]
+    }
+  }
+]

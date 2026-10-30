@@ -1,0 +1,178 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/log_softmax/log_softmax_repaired.py",
+    "python_function": "log_softmax_kernel_repaired",
+    "lean": "bench/repairs/tritonbench_g/log_softmax/Kernels.lean",
+    "lean_definition": "forward",
+    "signature_definition": "forwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "output_ptr",
+          "fp32"
+        ],
+        [
+          "input_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "K",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_M",
+        "BLOCK_N"
+      ]
+    },
+    "expected_call_bindings": {
+      "M": "M",
+      "N": "N",
+      "K": "K"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/log_softmax/candidate_kernels.py",
+    "python_function": "log_softmax_kernel_repaired_index_commuted",
+    "lean": "bench/repairs/tritonbench_g/log_softmax/Kernels.lean",
+    "lean_definition": "forwardCommuted",
+    "signature_definition": "forwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "output_ptr",
+          "fp32"
+        ],
+        [
+          "input_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "K",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_M",
+        "BLOCK_N"
+      ]
+    },
+    "expected_call_bindings": {
+      "M": "M",
+      "N": "N",
+      "K": "K"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/log_softmax/log_softmax_repaired.py",
+    "python_function": "log_softmax_backward_kernel_repaired",
+    "lean": "bench/repairs/tritonbench_g/log_softmax/Kernels.lean",
+    "lean_definition": "backward",
+    "signature_definition": "backwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "out_ptr",
+          "fp32"
+        ],
+        [
+          "out_grad_ptr",
+          "fp32"
+        ],
+        [
+          "in_grad_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "K",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_M",
+        "BLOCK_N"
+      ]
+    },
+    "expected_call_bindings": {
+      "M": "M",
+      "N": "N",
+      "K": "K"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/log_softmax/candidate_kernels.py",
+    "python_function": "log_softmax_backward_kernel_repaired_index_commuted",
+    "lean": "bench/repairs/tritonbench_g/log_softmax/Kernels.lean",
+    "lean_definition": "backwardCommuted",
+    "signature_definition": "backwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "out_ptr",
+          "fp32"
+        ],
+        [
+          "out_grad_ptr",
+          "fp32"
+        ],
+        [
+          "in_grad_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "K",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_M",
+        "BLOCK_N"
+      ]
+    },
+    "expected_call_bindings": {
+      "M": "M",
+      "N": "N",
+      "K": "K"
+    }
+  }
+]

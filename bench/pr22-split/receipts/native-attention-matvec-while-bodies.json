@@ -1,0 +1,180 @@
+{
+  "schema": 1,
+  "kind": "verbatim_fields_from_archived_review",
+  "archive": {
+    "commit": "5ea0e46126cc1c6eb05e4219ddc5dc13246ec3ce",
+    "path": "bench/review-checkpoints/2026-10-29/native-attention-matvec-while-bodies/review.json",
+    "sha256": "796c12634c6202522025c651a28e0c396a929dbc063540eede12479c95897472",
+    "url": "https://github.com/VeriInfra-Lab/VeriTile/blob/5ea0e46126cc1c6eb05e4219ddc5dc13246ec3ce/bench/review-checkpoints/2026-10-29/native-attention-matvec-while-bodies/review.json"
+  },
+  "context": "Verification below was performed on the archived source snapshot. Nested evidence paths resolve in that archive. The full semantic review, theorem audit and logs remain there. This split has separate integration checks.",
+  "excerpt": {
+    "status": "verified_task_batch_corpus_migration_incomplete",
+    "code_commit": "19b8074c8150397bea1cc6273825db3d7c2bf777",
+    "new_task_migrations": [
+      "attention_score",
+      "matrix_vector_multip"
+    ],
+    "example_regression_domain_corrections": [
+      {
+        "example": "Welford",
+        "change": "The uint64 full-constructor semantics is now enforced: the Real population-statistics claims explicitly require N < 2^64 to exclude count wraparound. This corrects the old overbroad all-Nat Real claim; formulas are unchanged. Public FP specifications already require N <= CountConversion.limit and retain their original headers. Python and quoted Lean kernels are byte-identical to the published source.",
+        "previous_mathematical_spec_sha256": "b67dec22b919918295b2799afc232b5c168e2eb9a5d8d1a18502f40dce645500",
+        "mathematical_spec_sha256": {
+          "bench/examples/Welford/Correct.lean": "4d7696a99b4832848d4df70a1917c070e383ca44e7183c3b778626a0eb819703"
+        },
+        "unchanged_files": {
+          "bench/examples/Welford/native_kernels.py": "5b021702042d4df0bf7213b5dabec155956f757dc489268d057273fbc9f51601",
+          "bench/examples/Welford/Kernels.lean": "7c3d0bdf6cd4780457d7884c6f266c2d3a0b1e57285818d0702cd1ea499102a9",
+          "bench/examples/Welford/FPEquiv.lean": "c765e1db74e8bcf7e84a1b193e19589db6f8b9065aa8254fb92a419d667073c2"
+        }
+      },
+      {
+        "example": "FusedLayerNorm",
+        "change": "The uint64 full-constructor semantics is now enforced: the Real population-statistics claims explicitly require N < 2^64 to exclude count wraparound. This corrects the old overbroad all-Nat Real claim; formulas are unchanged. Public FP specifications already require N <= CountConversion.limit and retain their original headers. Python and quoted Lean kernels are byte-identical to the published source.",
+        "previous_mathematical_spec_sha256": "5023cfb2e095414d9d43f3d4936937f2362f272b49c0463124ee4fd20734075d",
+        "mathematical_spec_sha256": {
+          "bench/examples/FusedLayerNorm/Correct.lean": "91e5d5822f0b5395c4bbdc15592ad575802c3573360189e4acca251454a5be26"
+        },
+        "unchanged_files": {
+          "bench/examples/FusedLayerNorm/native_kernels.py": "f1ac489a38d4d0f10a9d1388b87be02cc1d0b5d0d2cdd39796e573a197d8ebcd",
+          "bench/examples/FusedLayerNorm/Kernels.lean": "b4f1e07e399684ad3718fbd093d57578e48d94e5e77a0f333a05fb1bf5a954db",
+          "bench/examples/FusedLayerNorm/FPEquiv.lean": "d4e341a9c4424df59071b75f526e32dd6b14c2f3c49fd4a3c4a7b887b917b71e"
+        }
+      }
+    ],
+    "regression_only_pending_body_tasks": [
+      "attn_fwd_triton",
+      "block_sparse_attn",
+      "chunk_bwd_dqkg",
+      "context_attn_mistral",
+      "fused_layernorm_triton"
+    ],
+    "verification": {
+      "focused": {
+        "status": "PASS",
+        "explicit_modules": 268,
+        "compiled_modules": 699,
+        "joint_import": "PASS",
+        "scope": "All 268 affected task/frontend roots and joint import pass; focused theorem definitions and private helpers are audited. Final 6163-root warm/clean replays cover every cumulative root with the same shared frontend."
+      },
+      "warm_and_joint": {
+        "status": "PASS",
+        "explicit_modules": 6163,
+        "jobs": 15856
+      },
+      "independent_clean_checkout": {
+        "status": "PASS",
+        "explicit_modules": 6163,
+        "jobs": 15856,
+        "project_build_initially_present": false,
+        "project_objects_imported_from_other_checkouts": false,
+        "only_fixed_external_dependencies_imported": true,
+        "setup": {
+          "path": "bench/review-checkpoints/2026-10-29/native-attention-matvec-while-bodies/clean.json",
+          "sha256": "bdec22270f7db45f9f92925c3f63287aac7555f2bb3d531082a4d21d3e3047c5"
+        }
+      },
+      "axiom_audit": {
+        "status": "PASS",
+        "defining_modules": 2659,
+        "elaborated_theorems": 59809,
+        "private_helpers_included": true,
+        "allowed": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "method": "Theorem roots discovered by defining module; accumulated dependency union checked after every root in one immutable Lean environment."
+      },
+      "fp_assumptions": "Liger and attention-score complete source pairs retain their existing numerical models. Matrix-vector implicit multiply-add and explicit tl.fma agree under the existing selected fused native model, with no new arithmetic axiom or whole-program equivalence assumption. This does not claim equality under an arbitrary unfused backend. Prior strict certificates and experimental rules remain separately audited.",
+      "python": {
+        "targeted": {
+          "status": "PASS",
+          "tests": 439
+        },
+        "full": {
+          "status": "KNOWN_PREEXISTING_FAILURE",
+          "tests": 684,
+          "errors": 1
+        }
+      },
+      "source": {
+        "layer_norm_liger": "The previously published four Liger original/optimized bodies are regression-checked together with the final shared frontend. Their exact source correspondence, complete Real/native execution, full memory IO and actual forward/backward FP pairs remain proved; public statement headers and domains are unchanged.",
+        "attention_score": "The original attention-score body and explicitly labelled scalar-left scale candidate are preserved as complete 21-statement quotations. The actual signed cursor, int64 casts, masks, bare tl.dot and source accumulation order are retained. Independent Real results, selected generic/native FP execution, full memory IO, safety/frame and the complete source pair are reconnected. Original Python, Contract.lean, IO data and public Correct/FPEquiv theorem headers remain unchanged. Four optional historical failures outside the selected closure reproduce on the published baseline and remain separately recorded; they are not accepted as passing.",
+        "matrix_vector_multip": "Both complete matrix-vector bodies retain all 18 top-level statements, the original seven-statement while body, casts, masks, pointer increments, reduction and store. The authored candidate changes only multiply-add syntax to explicit tl.fma. The actual raw-source execution is connected to an independent ordered matrix-vector sum and existing selected native FP model, with termination, memory safety, frame and complete source/candidate execution equivalence proved. Raw-source entry points now explicitly require legal arange sizes and SourceDomain machine/address bounds: N and M below 2^63, PID below 2^31, and active matrix offsets below 2^64. This corrects the old all-Nat source claim, which was invalid for the retained uint64 casts; it is a disclosed premise correction, not an unchanged theorem domain. Existing checked Tensor contracts discharge these bounds and all 48 shape configurations. Original Python and Contract.lean remain unchanged; no new Python guard or value restriction was added. Historical natural-number host models are labelled separately, without asserting AST equality to the raw while program."
+      },
+      "official_comparator": {
+        "status": "UNAVAILABLE",
+        "actual_final_source_attempts": 268,
+        "reason": "Pinned official binaries require Landlock ABI v5; host supplies v4 and no systemd user isolation. No bypass."
+      },
+      "torch": "UNAVAILABLE: retained checker requires missing Torch/Triton.",
+      "cpu": {
+        "status": "PASS",
+        "scope": "CPU-only source/metadata unit checks. These are not Triton runtime or hardware execution."
+      },
+      "original_python_and_contracts": {
+        "status": "PASS",
+        "sha256": {
+          "bench/repairs/tritonbench_g/layer_norm_liger/Contract.lean": "5963b2aa329f646707f4c0f7827f080cbbd57010fc072202ef199b7a48dcd7ad",
+          "bench/repairs/tritonbench_g/layer_norm_liger/Proofs/Contract.lean": "e9aec1fba006cef159bf95c6790c785a3be42df7850aefcf6b094364c540d2c9",
+          "bench/repairs/tritonbench_g/layer_norm_liger/check_kernel.py": "df5fd2c795ee654e20f01c93a5885b281f36401eed8781a820aa1f0681ec6667",
+          "bench/repairs/tritonbench_g/layer_norm_liger/check_lowering.py": "7a590da26debd9c6b601c2f9ee2fac775ad299cd9dca51912d0d55559c343870",
+          "bench/repairs/tritonbench_g/layer_norm_liger/check_source.py": "f27d5663114dd064eb023af7372a326b3c83478bfcda358ab26236afe7d5620f",
+          "bench/repairs/tritonbench_g/layer_norm_liger/layer_norm_liger_optimized.py": "58666428abc0f9d3a6d686e65f31e04782d1c5456bdab9a3acc1db36ea2d0bb8",
+          "bench/repairs/tritonbench_g/layer_norm_liger/layer_norm_liger_repaired.py": "6ba82f8c92986e02bca37469e5c17f2e1471137f939191d7fef4b48bd7266a28",
+          "bench/repairs/tritonbench_g/attention_score_tile_checked/Contract.lean": "de3a1121736d7a9cb8d86de54967d4955ce9b3491050bf9ea5b8397bf004d745",
+          "bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/Reused/Contract.lean": "8377ddba9197d78bd5807f153c31386ca79a5e40aa81208b4dbd18590f3e2ff6",
+          "bench/repairs/tritonbench_g/attention_score_tile_checked/attention_score_tile_checked.py": "01b60924cbd5d95928d0f043e534ed057267faf02309633b1bf32027b59381e6",
+          "bench/repairs/tritonbench_g/attention_score_tile_checked/check_candidate.py": "158f494fdf4ecd2cdbf6e2e5fd06f7d79bb6d2c11dd2ede7e967e5a2b5af12ab",
+          "bench/repairs/tritonbench_g/matrix_vector_multip/Contract.lean": "d4f5be69f60cfe2d44de28da921e1784cef566c6332ba597bea68ea285383526",
+          "bench/repairs/tritonbench_g/matrix_vector_multip/Proofs/Contract.lean": "ed6e939e630dd1a1991ac90d0236c44fed0ca6f5a3a26ae69885ce9abda57793",
+          "bench/repairs/tritonbench_g/matrix_vector_multip/check_contract.py": "86035a13cb86e4cb8c9adf4bf3ac2f0f00f97189528a902714e755ca3b2ddde2",
+          "bench/repairs/tritonbench_g/matrix_vector_multip/matrix_vector_multip_repaired.py": "31a43e4edb448c41b28c99b6a5132a359368a093e75fa806e4cd14d13294e208",
+          "bench/examples/Welford/native_kernels.py": "5b021702042d4df0bf7213b5dabec155956f757dc489268d057273fbc9f51601",
+          "bench/examples/Welford/Kernels.lean": "7c3d0bdf6cd4780457d7884c6f266c2d3a0b1e57285818d0702cd1ea499102a9",
+          "bench/examples/Welford/FPEquiv.lean": "c765e1db74e8bcf7e84a1b193e19589db6f8b9065aa8254fb92a419d667073c2",
+          "bench/examples/FusedLayerNorm/native_kernels.py": "f1ac489a38d4d0f10a9d1388b87be02cc1d0b5d0d2cdd39796e573a197d8ebcd",
+          "bench/examples/FusedLayerNorm/Kernels.lean": "b4f1e07e399684ad3718fbd093d57578e48d94e5e77a0f333a05fb1bf5a954db",
+          "bench/examples/FusedLayerNorm/FPEquiv.lean": "d4e341a9c4424df59071b75f526e32dd6b14c2f3c49fd4a3c4a7b887b917b71e"
+        }
+      },
+      "gpu_or_numerical_experiment": "Not run.",
+      "earlier_failures": "Failed source execution, type propagation and while-safety proof drafts are retained. Four optional unselected attention historical failures are independently reproduced on baseline. Unavailable or failed checks do not count as passing.",
+      "scope_limits": "Necessary Welford/FusedLayerNorm regressions correct overbroad Real count claims with explicit N < 2^64 premises; formulas and Python/Lean bodies remain unchanged, and public FP bounds remain unchanged. The final shared frontend supports statement-preserving while with a current-state guard and no arbitrary fuel, modular uint64 constructor/cast propagation, stable loop-carried dtype/shape, FP32 FMA result typing, bare-dot typed stores and existing typed FP32 arithmetic. Explicit unsigned casts keep their source semantics. Only the uint64 full constructor needed here is added; signed full-constructor extensions and other pending tasks are outside this closing scope. The legacy flat MemorySafe/TraceSafe bridges conservatively reject while; the actual matrix-vector proof uses recursive Structural.Safety. Existing exhaustive shape and flatten walkers recurse through the new while node as a compatibility repair; this does not migrate additional tasks. All cumulative selected roots are rechecked. No numerical or hardware experiment was run. Attention-score and Liger public domains remain unchanged. Matrix-vector raw-source entry points explicitly correct the previously overbroad all-Nat domain to legal arange and machine/address bounds; existing checked Tensor contracts discharge the new premises. The unchanged Python and Contract.lean are separately verified. Full Python discovery retains one historical Structural numerical-receipt module import error; the old receipt is not repinned.",
+      "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending; the pre-existing numerical receipt import error remains explicit."
+    },
+    "corpus_complete": false,
+    "corpus_counts": {
+      "tasks": 183,
+      "examples": 19,
+      "task_status": {
+        "selected_body_copy_checked": 124,
+        "uncovered_jit_functions": 59
+      },
+      "example_status": {
+        "authored_counterpart_body_copy_checked": 2,
+        "selected_body_copy_checked": 2,
+        "spec_derived_body_copy_checked": 15
+      },
+      "selected_jit_functions": 333,
+      "uncovered_selected_jit_functions": 135,
+      "primary_files_with_int64_screen_warning": 18,
+      "primary_lean_file_features": {
+        "tasks": {
+          "in_body_type_directives": 42,
+          "antiquotes": 47,
+          "dsl_loop": 0,
+          "dsl_numeric_helpers": 8
+        },
+        "examples": {
+          "in_body_type_directives": 0,
+          "antiquotes": 0,
+          "dsl_loop": 0,
+          "dsl_numeric_helpers": 0
+        }
+      }
+    }
+  }
+}

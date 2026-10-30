@@ -9,10 +9,10 @@ import { Code } from 'astro:components';
 import { tutorial } from '../../../lib/vector-add-tutorial';
 
 This walkthrough uses the complete, executable
-[VectorAdd showcase](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/examples/VectorAdd.lean).
-Every Lean excerpt below comes from that file at website build time. The
-source includes all helper proofs, imports, and audit commands; use the full
-file when running it. The displayed fragments explain its construction.
+[VectorAdd showcase](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/examples/VectorAdd/Correct.lean).
+The excerpts are read from `Correct.lean`, `Kernels.lean`, and
+`native_kernels.py` at website build time. Execution and memory proofs live
+in `Proofs/Real.lean`; build the full modules when running the example.
 
 ## 1. Choose the translation's scope
 
@@ -23,9 +23,10 @@ size `B` and require each program's whole input and output window to be in
 bounds. Unlike a typical Python vector-add wrapper, it does not mask a partial
 last tile. The Python decorator and host launch are outside the Lean theorem.
 For a masked tail, use the separate
-[FlatVectorAdd example](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/examples/FlatVectorAdd.lean).
+[FlatVectorAdd example](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/examples/FlatVectorAdd/Correct.lean).
 
-Floating values in this example are mathematical real numbers. The result
+The source uses FP32 pointers; this correctness proof interprets its
+mathematical real projection. The result
 does not establish concrete IEEE-754 addition, GPU compilation, or the
 correctness of a Python host wrapper.
 
@@ -35,12 +36,11 @@ correctness of a Python host wrapper.
 
 <Code code={tutorial.kernel} lang="lean" />
 
-`triton { ... }` is the embedded DSL. `$(blockSize)` and `$(xReg)` interpolate
-Lean parameters into it. The Python pointer names become named memory
-regions; `pid * B + arange(B)` is retained as the program's address calculation.
-Lean imports, the namespace, and the parameter types are part of this workflow.
-This is an explicit translation, not automatic verification of arbitrary
-Python source.
+`triton { ... }` contains the Python function body with the same statements.
+`originalSignature` supplies pointer dtypes and constexpr names outside that
+body. The Lean wrapper binds the pointer names to memory regions and
+`blockSize` to the tile size. Imports, the namespace, and this binding are
+part of the surrounding verification setup.
 
 ## 3. State an independent result and the memory windows
 
@@ -84,7 +84,7 @@ then run from the repository root:
 
 ```bash
 lake build
-lake env lean bench/examples/VectorAdd.lean
+lake env lean bench/examples/VectorAdd/Correct.lean
 ```
 
 The file includes these gates:
@@ -102,7 +102,7 @@ With `comparator`, `lean4export`, and `landrun` on `PATH` and the systemd user
 service available, run:
 
 ```bash
-python3 scripts/check_comparator.py --file bench/examples/VectorAdd.lean --trust
+python3 scripts/check_comparator.py --file bench/examples/VectorAdd/Correct.lean --trust
 ```
 
 Success prints the accepted theorem count and a log directory. Missing tools,

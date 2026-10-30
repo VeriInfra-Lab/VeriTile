@@ -1,0 +1,224 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/kldiv_ops/kldiv_ops_repaired.py",
+    "python_function": "_kldiv_kernel_forward",
+    "lean": "bench/repairs/tritonbench_g/kldiv_ops/Kernels.lean",
+    "lean_definition": "forwardBody",
+    "signature_definition": "forwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "y_ptr",
+          "fp32"
+        ],
+        [
+          "gt_ptr",
+          "fp32"
+        ],
+        [
+          "loss_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "y_stride",
+          "integer"
+        ],
+        [
+          "gt_stride",
+          "integer"
+        ],
+        [
+          "loss_stride",
+          "integer"
+        ],
+        [
+          "n_cols",
+          "integer"
+        ],
+        [
+          "eps",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE",
+        "log_target",
+        "reduction"
+      ],
+      "readPorts": [
+        "y_ptr",
+        "gt_ptr"
+      ],
+      "writePorts": [
+        "loss_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "y_stride": "p.cols",
+      "gt_stride": "p.cols",
+      "loss_stride": "outputStride",
+      "n_cols": "p.cols"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/kldiv_ops/candidate_kernels.py",
+    "python_function": "_kldiv_kernel_forward_index_commuted",
+    "lean": "bench/repairs/tritonbench_g/kldiv_ops/Kernels.lean",
+    "lean_definition": "forwardCandidateBody",
+    "signature_definition": "forwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "y_ptr",
+          "fp32"
+        ],
+        [
+          "gt_ptr",
+          "fp32"
+        ],
+        [
+          "loss_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "y_stride",
+          "integer"
+        ],
+        [
+          "gt_stride",
+          "integer"
+        ],
+        [
+          "loss_stride",
+          "integer"
+        ],
+        [
+          "n_cols",
+          "integer"
+        ],
+        [
+          "eps",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE",
+        "log_target",
+        "reduction"
+      ],
+      "readPorts": [
+        "y_ptr",
+        "gt_ptr"
+      ],
+      "writePorts": [
+        "loss_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "y_stride": "p.cols",
+      "gt_stride": "p.cols",
+      "loss_stride": "outputStride",
+      "n_cols": "p.cols"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/kldiv_ops/kldiv_ops_repaired.py",
+    "python_function": "_kldiv_kernel_backward",
+    "lean": "bench/repairs/tritonbench_g/kldiv_ops/Kernels.lean",
+    "lean_definition": "backwardBody",
+    "signature_definition": "backwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "target_ptr",
+          "fp32"
+        ],
+        [
+          "new_grads_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "target_stride",
+          "integer"
+        ],
+        [
+          "new_grads_stride",
+          "integer"
+        ],
+        [
+          "n_cols",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE",
+        "log_target"
+      ],
+      "readPorts": [
+        "target_ptr"
+      ],
+      "writePorts": [
+        "new_grads_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "target_stride": "p.cols",
+      "new_grads_stride": "p.cols",
+      "n_cols": "p.cols"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/kldiv_ops/candidate_kernels.py",
+    "python_function": "_kldiv_kernel_backward_index_commuted",
+    "lean": "bench/repairs/tritonbench_g/kldiv_ops/Kernels.lean",
+    "lean_definition": "backwardCandidateBody",
+    "signature_definition": "backwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "target_ptr",
+          "fp32"
+        ],
+        [
+          "new_grads_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "target_stride",
+          "integer"
+        ],
+        [
+          "new_grads_stride",
+          "integer"
+        ],
+        [
+          "n_cols",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE",
+        "log_target"
+      ],
+      "readPorts": [
+        "target_ptr"
+      ],
+      "writePorts": [
+        "new_grads_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "target_stride": "p.cols",
+      "new_grads_stride": "p.cols",
+      "n_cols": "p.cols"
+    }
+  }
+]

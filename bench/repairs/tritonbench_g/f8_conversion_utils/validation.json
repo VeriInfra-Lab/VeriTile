@@ -1,0 +1,21 @@
+{
+  "source_interpreter_cases": 26,
+  "guard_rejections": 15,
+  "wrapper_admissions": 48,
+  "original_counterexamples": 1,
+  "interpreter_scalar_mismatches": {
+    "fp8e5": [
+      129,
+      130,
+      131,
+      1,
+      2,
+      3
+    ],
+    "fp8e4nv": [
+      127,
+      255
+    ]
+  },
+  "gpu_execution": false
+}

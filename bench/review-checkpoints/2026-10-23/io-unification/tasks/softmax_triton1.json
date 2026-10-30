@@ -1,0 +1,331 @@
+{
+  "schema": 1,
+  "task": "softmax_triton1",
+  "status": "consolidated",
+  "owner": {
+    "path": ".veritile-cache/io-unification-20261023/queue14/result.json",
+    "sha256": "9f5c436d974e47cb67eabe019ec5a5904e01cddfb53f546d7358aa9311197e50",
+    "task_index": 0
+  },
+  "reason": "Existing memory/event interfaces and every associated logical view now share task-level IO.lean; original namespaces retained.",
+  "selected_public_entries": [
+    "bench/repairs/tritonbench_g/softmax_triton1/Contract.lean",
+    "bench/repairs/tritonbench_g/softmax_triton1/Correct.lean",
+    "bench/repairs/tritonbench_g/softmax_triton1/FPEquiv.lean"
+  ],
+  "previous_semantic_review": {
+    "manifest": {
+      "path": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json",
+      "sha256": "5df771b8603eaf5d9f08b4fde0c5b938c18087c00092f5348b47eb54d33a8225"
+    },
+    "task": "softmax_triton1"
+  },
+  "changed_files": [
+    "bench/repairs/tritonbench_g/softmax_triton1/IO.lean",
+    "bench/repairs/tritonbench_g/softmax_triton1/Proofs/LogicalIO.lean"
+  ],
+  "removed_files": [
+    "bench/repairs/tritonbench_g/softmax_triton1/LogicalIO.lean"
+  ],
+  "moved_declarations": [
+    {
+      "from": "bench/repairs/tritonbench_g/softmax_triton1/LogicalIO.lean",
+      "to": "bench/repairs/tritonbench_g/softmax_triton1/IO.lean",
+      "namespace": [
+        "VeriTile.Bench.Repairs.SoftmaxTriton1.Logical"
+      ],
+      "declarations": [
+        "active"
+      ],
+      "body_sha256": "aa0d1c712a3eac1fb38b9b9118d065c9ccec8f75a54d74a7fdab297cb64307ae",
+      "byte_preserved": true
+    }
+  ],
+  "preservation": {
+    "task": "softmax_triton1",
+    "moved_bodies": [
+      {
+        "from": "bench/repairs/tritonbench_g/softmax_triton1/LogicalIO.lean",
+        "to": "bench/repairs/tritonbench_g/softmax_triton1/IO.lean",
+        "namespace": [
+          "VeriTile.Bench.Repairs.SoftmaxTriton1.Logical"
+        ],
+        "declarations": [
+          "active"
+        ],
+        "body_sha256": "aa0d1c712a3eac1fb38b9b9118d065c9ccec8f75a54d74a7fdab297cb64307ae",
+        "byte_preserved": true
+      }
+    ],
+    "imports_only": [
+      "bench/repairs/tritonbench_g/softmax_triton1/Proofs/LogicalIO.lean"
+    ],
+    "unchanged_public_entries": [
+      "bench/repairs/tritonbench_g/softmax_triton1/Contract.lean",
+      "bench/repairs/tritonbench_g/softmax_triton1/Correct.lean",
+      "bench/repairs/tritonbench_g/softmax_triton1/FPEquiv.lean"
+    ],
+    "original_io_body_byte_preserved": true
+  },
+  "verification": [
+    {
+      "task": "softmax_triton1",
+      "kind": "source-build",
+      "command": [
+        "/usr/local/bin/python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue14/build.py",
+        "bench/repairs/tritonbench_g/softmax_triton1/IO.lean",
+        "bench/repairs/tritonbench_g/softmax_triton1/Proofs/LogicalIO.lean",
+        "bench/repairs/tritonbench_g/softmax_triton1/Correct.lean",
+        "bench/repairs/tritonbench_g/softmax_triton1/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue14/verification/softmax_triton1/source-build-01.log",
+      "log_sha256": "4c40229339a0de1771275ce7e409b24bbd7394512157949f3e7500d40dac8425",
+      "elapsed_seconds": 30.659
+    },
+    {
+      "task": "softmax_triton1",
+      "kind": "joint",
+      "command": [
+        "/usr/local/bin/python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue14/build.py",
+        "--check",
+        ".veritile-cache/io-unification-20261023/queue14/verification/softmax_triton1/joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue14/verification/softmax_triton1/joint-01.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "elapsed_seconds": 5.433
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/softmax_triton1/Contract.lean": "2e901920f678b243708b94f9ef46298d6b1418dc60253bdba7ac8c6126e82eee",
+    "bench/repairs/tritonbench_g/softmax_triton1/Correct.lean": "e63d7acbbbbe82b0c3f71d38668c19fe83c39ee88ccd440fb76aaba17537a828",
+    "bench/repairs/tritonbench_g/softmax_triton1/FPEquiv.lean": "4d6fbd19a6bae7cf5052a42c7fffdfd8b16b5933f2a3e8a0399ef62e77640c4f",
+    "bench/repairs/tritonbench_g/softmax_triton1/IO.lean": "c28fe70d9fe589d2dd153680b5e3fc2054f4f859c86ae340a0b1b2cd9b31b765",
+    "bench/repairs/tritonbench_g/softmax_triton1/Kernels.lean": "ae60d687de2439e4e56793a9782c2f4ff4d4079d3601f99a70286a92cbf4a400",
+    "bench/repairs/tritonbench_g/softmax_triton1/Proofs/KernelMath.lean": "d90878b4c62e55d3b4e236f4c78cf26081adc2562b2eb3e5990398611de0e58f",
+    "bench/repairs/tritonbench_g/softmax_triton1/Proofs/LogicalIO.lean": "5f806be6499248e921ef41645a649de7c9b43a0fbd8f2f06ec6fb9487b498ffd",
+    "bench/repairs/tritonbench_g/softmax_triton1/Proofs/RealIO.lean": "dbebc3264e7828c9216df281351e3e198b7a0365fc4f50283b229fb0f3fbe30a",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8",
+    "bench/repairs/tritonbench_g/softmax_triton1/Misc/ReciprocalCorrect.lean": "33884b26a8f2fcaf8171790ca86ae1557e46cba636256370cb9366c7cbf5a3f3",
+    "bench/repairs/tritonbench_g/softmax_triton1/Misc/NativeObservation.lean": "eea4c785c77a8bf02a86ccdd4a012a0d5cef19821a4b7b844c7efb8bb68c402e",
+    "bench/repairs/tritonbench_g/softmax_triton1/Misc/LegacyCorrect.lean": "7b965414c82ecdd87e79bf36b2fe8587e275b764c6ed646c114f0aa82669b431",
+    "bench/repairs/tritonbench_g/softmax_triton1/Misc/LegacyFPEquiv.lean": "ba885546268c27d9e16b704a3ad45c96679e73e0c9612825fab6d242a239379b",
+    "bench/repairs/tritonbench_g/softmax_triton1/Misc/TensorBridge.lean": "7f6a7318040de1fdbafcdfccb22737420be3952ac13ef5b3fc7fa779a50d9e4b",
+    "bench/repairs/tritonbench_g/softmax_triton1/Misc/FPWrapper.lean": "9893f45e3c2163323054cc95cea72ca1badff3c3dbc09cab1ab0cf77c1ca2aa7",
+    "bench/repairs/tritonbench_g/softmax_triton1/Proofs/Real.lean": "9d2dd30b3cf23ba8db5c9cae63532abf400846d4a0d76f833a3eef11ca881e2d",
+    "bench/repairs/tritonbench_g/softmax_triton1/Proofs/NativeKernelResult.lean": "73e4f9ee61247e3a48c36741d139a1d4002c3c7f6b98336f48ef66d818fec29b",
+    "bench/repairs/tritonbench_g/softmax_triton1/Proofs/Rewrite.lean": "19b98151597dc54d7cb2db5d9bf81d819183508363361bfca3d67c2f736c643b",
+    "bench/repairs/tritonbench_g/softmax_triton1/Proofs/Native.lean": "c04f87b5d15dcf3d7bce6de75073c1aa71c9c492af5abf05c0691ec8d4e9a164",
+    "bench/repairs/tritonbench_g/softmax_triton1/Proofs/Grid.lean": "8d47531cfb2a9611f6cf47d28a0ffcc4efb290bb68ef63356bacc1c4c845341d",
+    "bench/repairs/tritonbench_g/softmax_triton1/Proofs/NativeGraph.lean": "a95d340ea5fadf8ce02f9df7ec42645383bf049c9611b94253a36889fce65f5a",
+    "bench/repairs/tritonbench_g/softmax_triton1/Proofs/Host.lean": "fc9a94ea01d814c2f6810e26f04631328fb3b98738fd9f4d857bcf5d1bb7474b",
+    "bench/repairs/tritonbench_g/softmax_triton1/Proofs/Contract.lean": "377a258b2b50761fa49ddd93458f70cbd962c3be623761519e68baec66c153d6",
+    "bench/repairs/tritonbench_g/softmax_triton1/Proofs/FP.lean": "49a7a8019faccb349bde4de9c3a2895e5faf04f200182785765f9cf50a95bd92",
+    "bench/repairs/tritonbench_g/softmax_triton1/Proofs/Storage.lean": "9d8d2d774e3aba1233519aea633663e8725caa9a15f2ac40f2e4d1ac3d99c719",
+    "bench/repairs/tritonbench_g/softmax_triton1/Proofs/Wrapper.lean": "cc102b90b2de92b772edd908adff0fa2be2c7e6717a3bcd6573517d06c78db74",
+    "bench/repairs/tritonbench_g/softmax_triton1/Proofs/RealWrapper.lean": "90675248fdbfeceb7bf9e75c80b507a4b6ecb2f4341229a016b4cdbdbff65241",
+    "bench/repairs/tritonbench_g/softmax_triton1/Proofs/NativeSource.lean": "2269a733950a945e6beb3f025ff0f812ae61a79061bdc3f1027f938ff03a15f8",
+    "bench/repairs/tritonbench_g/softmax_triton1/Proofs/SourceContract.lean": "9bc0ead08723981f0431697ae65c40ddc67af18c5cda22eba544b1124f026f8f",
+    "bench/repairs/tritonbench_g/softmax_triton1/Proofs/FPKernel.lean": "82fcd7b048a69682bcbe6797e460d6b434a6e03a9dbad5483cd6d8b3ca641306",
+    "bench/repairs/tritonbench_g/softmax_triton1/Proofs/InputBinding.lean": "2a136b23271c946d6dfcdb7321fdbf52463b6e5c135c096cfc708551dde42395",
+    "bench/repairs/tritonbench_g/softmax_triton1/Proofs/Addresses.lean": "99db768f15619b632f54358a1aeeeebe1adada046aa19e34644fabdab4d0055c"
+  },
+  "source_pin_provenance": {
+    "bench/repairs/tritonbench_g/softmax_triton1/Contract.lean": {
+      "owner_tasks": [
+        "softmax_triton1"
+      ]
+    },
+    "bench/repairs/tritonbench_g/softmax_triton1/Correct.lean": {
+      "owner_tasks": [
+        "softmax_triton1"
+      ]
+    },
+    "bench/repairs/tritonbench_g/softmax_triton1/FPEquiv.lean": {
+      "owner_tasks": [
+        "softmax_triton1"
+      ]
+    },
+    "bench/repairs/tritonbench_g/softmax_triton1/IO.lean": {
+      "owner_tasks": [
+        "softmax_triton1"
+      ]
+    },
+    "bench/repairs/tritonbench_g/softmax_triton1/Kernels.lean": {
+      "owner_tasks": [
+        "softmax_triton1"
+      ]
+    },
+    "bench/repairs/tritonbench_g/softmax_triton1/Proofs/KernelMath.lean": {
+      "owner_tasks": [
+        "softmax_triton1"
+      ]
+    },
+    "bench/repairs/tritonbench_g/softmax_triton1/Proofs/LogicalIO.lean": {
+      "owner_tasks": [
+        "softmax_triton1"
+      ]
+    },
+    "bench/repairs/tritonbench_g/softmax_triton1/Proofs/RealIO.lean": {
+      "owner_tasks": [
+        "softmax_triton1"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalIO.lean": {
+      "owner_tasks": [
+        "mixed_sparse_attention",
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "bench/repairs/tritonbench_g/softmax_triton1/Misc/ReciprocalCorrect.lean": {
+      "owner_tasks": [
+        "softmax_triton1"
+      ]
+    },
+    "bench/repairs/tritonbench_g/softmax_triton1/Misc/NativeObservation.lean": {
+      "owner_tasks": [
+        "softmax_triton1"
+      ]
+    },
+    "bench/repairs/tritonbench_g/softmax_triton1/Misc/LegacyCorrect.lean": {
+      "owner_tasks": [
+        "softmax_triton1"
+      ]
+    },
+    "bench/repairs/tritonbench_g/softmax_triton1/Misc/LegacyFPEquiv.lean": {
+      "owner_tasks": [
+        "softmax_triton1"
+      ]
+    },
+    "bench/repairs/tritonbench_g/softmax_triton1/Misc/TensorBridge.lean": {
+      "owner_tasks": [
+        "softmax_triton1"
+      ]
+    },
+    "bench/repairs/tritonbench_g/softmax_triton1/Misc/FPWrapper.lean": {
+      "owner_tasks": [
+        "softmax_triton1"
+      ]
+    },
+    "bench/repairs/tritonbench_g/softmax_triton1/Proofs/Real.lean": {
+      "owner_tasks": [
+        "softmax_triton1"
+      ]
+    },
+    "bench/repairs/tritonbench_g/softmax_triton1/Proofs/NativeKernelResult.lean": {
+      "owner_tasks": [
+        "softmax_triton1"
+      ]
+    },
+    "bench/repairs/tritonbench_g/softmax_triton1/Proofs/Rewrite.lean": {
+      "owner_tasks": [
+        "softmax_triton1"
+      ]
+    },
+    "bench/repairs/tritonbench_g/softmax_triton1/Proofs/Native.lean": {
+      "owner_tasks": [
+        "softmax_triton1"
+      ]
+    },
+    "bench/repairs/tritonbench_g/softmax_triton1/Proofs/Grid.lean": {
+      "owner_tasks": [
+        "softmax_triton1"
+      ]
+    },
+    "bench/repairs/tritonbench_g/softmax_triton1/Proofs/NativeGraph.lean": {
+      "owner_tasks": [
+        "softmax_triton1"
+      ]
+    },
+    "bench/repairs/tritonbench_g/softmax_triton1/Proofs/Host.lean": {
+      "owner_tasks": [
+        "softmax_triton1"
+      ]
+    },
+    "bench/repairs/tritonbench_g/softmax_triton1/Proofs/Contract.lean": {
+      "owner_tasks": [
+        "softmax_triton1"
+      ]
+    },
+    "bench/repairs/tritonbench_g/softmax_triton1/Proofs/FP.lean": {
+      "owner_tasks": [
+        "softmax_triton1"
+      ]
+    },
+    "bench/repairs/tritonbench_g/softmax_triton1/Proofs/Storage.lean": {
+      "owner_tasks": [
+        "softmax_triton1"
+      ]
+    },
+    "bench/repairs/tritonbench_g/softmax_triton1/Proofs/Wrapper.lean": {
+      "owner_tasks": [
+        "softmax_triton1"
+      ]
+    },
+    "bench/repairs/tritonbench_g/softmax_triton1/Proofs/RealWrapper.lean": {
+      "owner_tasks": [
+        "softmax_triton1"
+      ]
+    },
+    "bench/repairs/tritonbench_g/softmax_triton1/Proofs/NativeSource.lean": {
+      "owner_tasks": [
+        "softmax_triton1"
+      ]
+    },
+    "bench/repairs/tritonbench_g/softmax_triton1/Proofs/SourceContract.lean": {
+      "owner_tasks": [
+        "softmax_triton1"
+      ]
+    },
+    "bench/repairs/tritonbench_g/softmax_triton1/Proofs/FPKernel.lean": {
+      "owner_tasks": [
+        "softmax_triton1"
+      ]
+    },
+    "bench/repairs/tritonbench_g/softmax_triton1/Proofs/InputBinding.lean": {
+      "owner_tasks": [
+        "softmax_triton1"
+      ]
+    },
+    "bench/repairs/tritonbench_g/softmax_triton1/Proofs/Addresses.lean": {
+      "owner_tasks": [
+        "softmax_triton1"
+      ]
+    }
+  },
+  "retired_current_source_pins": {
+    "bench/repairs/tritonbench_g/softmax_triton1/LogicalIO.lean": "590b15709ca629d2bf8154a4d5c881b5cb1fe6cb07238c2d70668d29044e155b"
+  },
+  "limits": [
+    "IO organization and complete declaration preservation only; public formulas, premises, FP comparison, precision, domains and rules are unchanged.",
+    "Only moved IO, direct import consumers and selected Correct/FPEquiv sources rebuilt; per-task Contract/Correct/FPEquiv joint imports checked. No full dependency closure, GPU, host/native correctness or numerical experiment added."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/io-unification-20261023/queue16/result.json",
+    "sha256": "12f6dd5ed523e9f723fee3847af964fd8987958c2cb997aa572210c04de5bc84"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

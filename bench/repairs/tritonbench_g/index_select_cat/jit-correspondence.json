@@ -1,0 +1,118 @@
+[
+  {
+    "lean": "bench/repairs/tritonbench_g/index_select_cat/Kernels.lean",
+    "lean_definition": "kernel",
+    "python": "bench/repairs/tritonbench_g/index_select_cat/index_select_cat_repaired.py",
+    "python_function": "index_select_cat_fwd_kernel_repaired",
+    "signature_definition": "sourceSignature",
+    "expected_call_bindings": {
+      "num_indices": "p.rows",
+      "num_cols": "p.cols",
+      "stride0": "p.rowStride",
+      "stride1": "p.colStride"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "output_ptr",
+          "fp32"
+        ],
+        [
+          "source_ptr",
+          "fp32"
+        ],
+        [
+          "index_ptr",
+          "i64"
+        ]
+      ],
+      "scalars": [
+        [
+          "num_indices",
+          "integer"
+        ],
+        [
+          "num_cols",
+          "integer"
+        ],
+        [
+          "stride0",
+          "integer"
+        ],
+        [
+          "stride1",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE_INDEX",
+        "BLOCK_SIZE_COL"
+      ],
+      "readPorts": [
+        "source_ptr",
+        "index_ptr"
+      ],
+      "writePorts": [
+        "output_ptr"
+      ]
+    }
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/index_select_cat/Kernels.lean",
+    "lean_definition": "indexCommutedKernel",
+    "python": "bench/repairs/tritonbench_g/index_select_cat/index_select_cat_repaired.py",
+    "python_function": "index_select_cat_fwd_kernel_index_commuted",
+    "signature_definition": "sourceSignature",
+    "expected_call_bindings": {
+      "num_indices": "p.rows",
+      "num_cols": "p.cols",
+      "stride0": "p.rowStride",
+      "stride1": "p.colStride"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "output_ptr",
+          "fp32"
+        ],
+        [
+          "source_ptr",
+          "fp32"
+        ],
+        [
+          "index_ptr",
+          "i64"
+        ]
+      ],
+      "scalars": [
+        [
+          "num_indices",
+          "integer"
+        ],
+        [
+          "num_cols",
+          "integer"
+        ],
+        [
+          "stride0",
+          "integer"
+        ],
+        [
+          "stride1",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE_INDEX",
+        "BLOCK_SIZE_COL"
+      ],
+      "readPorts": [
+        "source_ptr",
+        "index_ptr"
+      ],
+      "writePorts": [
+        "output_ptr"
+      ]
+    }
+  }
+]

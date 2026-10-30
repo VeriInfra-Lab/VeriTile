@@ -1,0 +1,8 @@
+VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.Quote.epilogue_descriptors: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.Quote.fullResult: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteDescriptors.lean:92:12: error: `simp` made no progress
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/QuoteDescriptors.lean:95:0: error: VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.Quote.Result.replay_eq: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

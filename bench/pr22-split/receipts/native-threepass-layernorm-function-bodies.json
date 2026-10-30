@@ -1,0 +1,133 @@
+{
+  "schema": 1,
+  "kind": "verbatim_fields_from_archived_review",
+  "archive": {
+    "commit": "5ea0e46126cc1c6eb05e4219ddc5dc13246ec3ce",
+    "path": "bench/review-checkpoints/2026-10-28/native-threepass-layernorm-function-bodies/review.json",
+    "sha256": "150ce201a096d97b6f7116acd3e2dfbde50168da8d13e84935fc539064cde09b",
+    "url": "https://github.com/VeriInfra-Lab/VeriTile/blob/5ea0e46126cc1c6eb05e4219ddc5dc13246ec3ce/bench/review-checkpoints/2026-10-28/native-threepass-layernorm-function-bodies/review.json"
+  },
+  "context": "Verification below was performed on the archived source snapshot. Nested evidence paths resolve in that archive. The full semantic review, theorem audit and logs remain there. This split has separate integration checks.",
+  "excerpt": {
+    "status": "verified_task_batch_corpus_migration_incomplete",
+    "code_commit": "4319f7a5ed7ae961f685db216fc28af21cf4324a",
+    "new_task_migrations": [
+      "layernorm_fwd_triton"
+    ],
+    "regression_only_pending_body_tasks": [
+      "attn_fwd_triton",
+      "block_sparse_attn",
+      "chunk_bwd_dqkg",
+      "context_attn_mistral"
+    ],
+    "verification": {
+      "focused": {
+        "status": "PASS",
+        "explicit_modules": 69,
+        "compiled_modules": 129,
+        "joint_import": "PASS",
+        "scope": "Latest successful versions across serial batches and direct prerequisite repairs, with dependency-complete deltas; intermediate failures retained."
+      },
+      "warm_and_joint": {
+        "status": "PASS",
+        "explicit_modules": 5208,
+        "jobs": 14878
+      },
+      "independent_clean_checkout": {
+        "status": "PASS",
+        "explicit_modules": 5208,
+        "jobs": 14878,
+        "project_build_initially_present": false,
+        "project_objects_imported_from_other_checkouts": false,
+        "only_fixed_external_dependencies_imported": true,
+        "setup": {
+          "path": "bench/review-checkpoints/2026-10-28/native-threepass-layernorm-function-bodies/clean.json",
+          "sha256": "9c6079b26467cf1e5e19962074cdfb0e8f02a6ad2e0e8ffe208cf7cdcd0bdb4f"
+        }
+      },
+      "axiom_audit": {
+        "status": "PASS",
+        "defining_modules": 1375,
+        "elaborated_theorems": 26219,
+        "private_helpers_included": true,
+        "allowed": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "method": "Theorem roots discovered by defining module; accumulated dependency union checked after every root in one immutable Lean environment."
+      },
+      "fp_assumptions": "Three-pass source_equivalence, LayerNorm index_commuted_equiv and RWKV u_early_equiv print none; cumulative builds replay all imported audit commands.",
+      "python": {
+        "targeted": {
+          "status": "PASS",
+          "tests": 291
+        },
+        "full": {
+          "status": "KNOWN_PREEXISTING_FAILURE",
+          "tests": 536,
+          "errors": 1
+        }
+      },
+      "source": "Two complete 25-statement Python bodies retain all metadata int64 casts, zero/step constructors, three signed loops, all load casts, masked centered variance, runtime epsilon and the explicit final output cast. The candidate only schedules the independent W load after x_hat, checked against the full Python module AST including the documented entry renames. Actual signed source execution reaches complete access safety, every grid output and the exterior frame, with independent Real mathematics and full original/candidate FP equivalence. The column divisor is the actual fromInt conversion. Original Python, Contract and public Real/FP statement parameters and premises remain unchanged. Optional native and Tensor results are reconnected to the actual source at their existing model boundary.",
+      "official_comparator": {
+        "status": "UNAVAILABLE",
+        "actual_final_source_attempts": 73,
+        "reason": "Pinned official binaries require Landlock ABI v5; host supplies v4 and no systemd user isolation. No bypass."
+      },
+      "torch": "UNAVAILABLE: retained checker requires missing Torch/Triton.",
+      "cpu": {
+        "status": "PASS",
+        "scope": "Complete Python module AST differs only by moving the independent output W load after x_hat and renaming the JIT/host entry and call site. All loops, casts, masks, wrappers and host guards remain unchanged.",
+        "public_statements": "The original public Real and FP reader declarations, including every parameter and premise, are text-identical to the previous receipt; only the FP audit command is added."
+      },
+      "original_python_and_contracts": {
+        "status": "PASS",
+        "sha256": {
+          "bench/repairs/tritonbench_g/layernorm_fwd_triton/Contract.lean": "93acd8c533549aadddc4ffcd7b3002476616bdc56924eccb72f73ada69c8d8f8",
+          "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/Contract.lean": "8994617bce890eb42f15e81dbc79ccd37bda1871f4386fb2a5594b78ed34740a",
+          "bench/repairs/tritonbench_g/layernorm_fwd_triton/check_lowering.py": "f96c2f1190e7e6731ff6280440787d435b25303a81a86b2531ce63f682a5e8eb",
+          "bench/repairs/tritonbench_g/layernorm_fwd_triton/check_source.py": "5639ff050a2c256295f20e4e2c549d56b06b000255ee5ec12a917372bd09557a",
+          "bench/repairs/tritonbench_g/layernorm_fwd_triton/layernorm_fwd_triton_repaired.py": "a22618b08165692510fbf836cd2f7ad87943610902d3ee85016824e34e82aae9",
+          "bench/repairs/tritonbench_g/layernorm_fwd_triton/layernorm_fwd_triton_scheduled.py": "c63ae9678e16f68584814ef1521f00ea679c67f84008cb9c4eb9c81d8a70b274",
+          "bench/tritonbench_g/layernorm_fwd_triton/layernorm_fwd_triton.py": "9ad4b038ee7d5fff373705d8ef8c0a4a9a3100a064db07703f89d61b32de6c88"
+        }
+      },
+      "gpu_or_numerical_experiment": "Not run.",
+      "earlier_failures": "Intermediate drafts exposed lost immutable loop dtypes, signed stride lowering, integer pinning of an explicit FP32 constructor, signed/natural index proof mismatches, loop composition and safety binder issues. The public FP assumption printer timed out even with a larger temporary budget. Its abstract-data reachability path was corrected and validated against strict/empirical/opaque regression cases; the final public command uses its normal budget. All final checks pass; failed drafts are retained and are not counted as passing.",
+      "scope_limits": "Formal source profile is FP32 tensor storage and runtime epsilon. Retained optional native/Tensor applications state their instruction, ABI, address and storage models; this is not a blanket hardware-conformance result. The full Python suite retains one old Structural numerical receipt hash failure; it was not falsely repinned.",
+      "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending; the known unchanged numerical receipt failure remains explicit."
+    },
+    "corpus_complete": false,
+    "corpus_counts": {
+      "tasks": 183,
+      "examples": 19,
+      "task_status": {
+        "selected_body_copy_checked": 112,
+        "uncovered_jit_functions": 71
+      },
+      "example_status": {
+        "authored_counterpart_body_copy_checked": 2,
+        "selected_body_copy_checked": 2,
+        "spec_derived_body_copy_checked": 15
+      },
+      "selected_jit_functions": 333,
+      "uncovered_selected_jit_functions": 155,
+      "primary_files_with_int64_screen_warning": 20,
+      "primary_lean_file_features": {
+        "tasks": {
+          "in_body_type_directives": 50,
+          "antiquotes": 56,
+          "dsl_loop": 0,
+          "dsl_numeric_helpers": 8
+        },
+        "examples": {
+          "in_body_type_directives": 0,
+          "antiquotes": 0,
+          "dsl_loop": 0,
+          "dsl_numeric_helpers": 0
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,242 @@
+{
+  "schema_version": 3,
+  "id": "local_fused_permute_dprobs",
+  "suite": "pretrain",
+  "self_contained": true,
+  "proof_status": "UNSOLVED",
+  "backend_binding_status": "PENDING",
+  "numerical_admission": "NONE",
+  "conversion_status": "LEAN_DRAFT",
+  "comparison": {
+    "function": "build_local_fused_permute_dprobs"
+  },
+  "source_organization_status": "PROVISIONAL_LOWERING",
+  "inputs": [
+    [
+      "parameter0",
+      [
+        256,
+        128
+      ],
+      "fp32"
+    ],
+    [
+      "input0",
+      [
+        1536
+      ],
+      "fp64"
+    ]
+  ],
+  "output": [
+    256,
+    128
+  ],
+  "output_precision": "bf16",
+  "scratch": [
+    [
+      "vtopk_value",
+      [
+        256,
+        6
+      ],
+      "fp32"
+    ],
+    [
+      "vtopk_index",
+      [
+        256,
+        6
+      ],
+      "integer"
+    ],
+    [
+      "vscatter",
+      [
+        256,
+        128
+      ],
+      "boolean"
+    ],
+    [
+      "vto_copy_3",
+      [
+        1536
+      ],
+      "bf16"
+    ],
+    [
+      "vsort_value",
+      [
+        32768
+      ],
+      "boolean"
+    ],
+    [
+      "vsort_index",
+      [
+        32768
+      ],
+      "integer"
+    ],
+    [
+      "vindex_put",
+      [
+        32768
+      ],
+      "bf16"
+    ],
+    [
+      "candidate_vtopk_value",
+      [
+        256,
+        6
+      ],
+      "fp32"
+    ],
+    [
+      "candidate_vtopk_index",
+      [
+        256,
+        6
+      ],
+      "integer"
+    ],
+    [
+      "candidate_vscatter",
+      [
+        256,
+        128
+      ],
+      "boolean"
+    ],
+    [
+      "candidate_vto_copy_3",
+      [
+        1536
+      ],
+      "bf16"
+    ],
+    [
+      "candidate_vto_copy_4",
+      [
+        256,
+        128
+      ],
+      "integer"
+    ],
+    [
+      "candidate_vto_copy_5",
+      [
+        256,
+        128
+      ],
+      "boolean"
+    ],
+    [
+      "candidate_vto_copy_6",
+      [
+        256,
+        128
+      ],
+      "integer"
+    ],
+    [
+      "candidate_vsum_2",
+      [
+        128
+      ],
+      "integer"
+    ],
+    [
+      "candidate_vcumsum",
+      [
+        128
+      ],
+      "integer"
+    ],
+    [
+      "candidate_vsub",
+      [
+        128
+      ],
+      "integer"
+    ],
+    [
+      "candidate_vto_copy_7",
+      [
+        256,
+        128
+      ],
+      "integer"
+    ],
+    [
+      "candidate_vcumsum_1",
+      [
+        256,
+        128
+      ],
+      "integer"
+    ],
+    [
+      "candidate_vsub_1",
+      [
+        256,
+        128
+      ],
+      "integer"
+    ],
+    [
+      "candidate_vadd",
+      [
+        256,
+        128
+      ],
+      "integer"
+    ],
+    [
+      "candidate_vwhere",
+      [
+        256,
+        128
+      ],
+      "integer"
+    ],
+    [
+      "candidate_vwhere_1",
+      [
+        256,
+        128
+      ],
+      "integer"
+    ],
+    [
+      "candidate_vslice_backward",
+      [
+        1537
+      ],
+      "bf16"
+    ],
+    [
+      "candidate_vgather",
+      [
+        32768
+      ],
+      "bf16"
+    ],
+    [
+      "candidate_vwhere_4",
+      [
+        256,
+        128
+      ],
+      "bf16"
+    ]
+  ],
+  "scope": "Initialized weights and tensor tables are explicit task parameters. Native layout and configuration connections remain obligations.",
+  "native_comparison": "local_fused_permute_dprobs",
+  "reference_graph_nodes": 44,
+  "candidate_graph_nodes": 62,
+  "real_projection_status": "DIRECT",
+  "metadata_decoder_binding_status": "NOT_REQUIRED"
+}

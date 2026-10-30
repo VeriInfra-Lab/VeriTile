@@ -1,0 +1,195 @@
+{
+  "task": "context_attn_bloom",
+  "status": "standard_kernel_entries_ready_for_focused_independent_review",
+  "scope": "Thin standard-file re-exports of the previously accepted kernel-only conclusions.",
+  "accepted_base": {
+    "delivery.json": {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/kernel-evidence/delivery.json",
+      "sha256": "8c9321c5ce96560d773b801b68f415075ac30e9438c742f4c68efd912d56c932"
+    },
+    "context-attn-bloom-kernel-package.tar.gz": {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/kernel-evidence/context-attn-bloom-kernel-package.tar.gz",
+      "sha256": "73b5b398be0e804ea0830d9aefa43f0423d329133bef50eadb146bd694867261"
+    },
+    "independent-review.json": {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/kernel-evidence/independent-review.json",
+      "sha256": "ea36a004857a07e1adda380a71129e2fdd24a3ea3420627bd06f3299fcb3f09f"
+    },
+    "independent-verification.json": {
+      "path": "bench/repairs/tritonbench_g/context_attn_bloom/kernel-evidence/independent-verification.json",
+      "sha256": "7516444ab127a11e70214becd4fa3906afdc6e022f6d42eb5e94ee5ac9f93dc5"
+    }
+  },
+  "selected_source": {
+    "path": "bench/repairs/tritonbench_g/context_attn_bloom/context_attn_bloom_repaired.py",
+    "sha256": "9b80a67487612a00769133e0794cea1f39b61ee23cbf02fedbaf61d661d7faee"
+  },
+  "standard_entries": {
+    "Contract": {
+      "file": {
+        "path": "bench/repairs/tritonbench_g/context_attn_bloom/Contract.lean",
+        "sha256": "9442e170c890fd0ec7b2655d0b50e47462b9e42fd5a89f468d5bc53025b541a7"
+      },
+      "role": "Checked input conditions and their Boolean checker equivalence.",
+      "declarations": [
+        "VeriTile.Bench.Repairs.ContextAttnBloomWhole001.Checked.InputContract",
+        "VeriTile.Bench.Repairs.ContextAttnBloomWhole001.Checked.checkInputs",
+        "VeriTile.Bench.Repairs.ContextAttnBloomWhole001.Checked.checkInputs_iff"
+      ]
+    },
+    "Kernels": {
+      "file": {
+        "path": "bench/repairs/tritonbench_g/context_attn_bloom/Kernels.lean",
+        "sha256": "671454736ea72a9b3f6a6928aaf6016d271c9712075ad8ee29774224c9955040"
+      },
+      "role": "Shared typed source specialized to FP32 storage.",
+      "declarations": [
+        "VeriTile.Bench.Repairs.ContextAttnBloomSource.kernel"
+      ]
+    },
+    "Correct": {
+      "file": {
+        "path": "bench/repairs/tritonbench_g/context_attn_bloom/Correct.lean",
+        "sha256": "5b951d9cbf77cf6f4b85e9ffd76cbf727239ba57ba88cd08d65ba77c4a73fd1a"
+      },
+      "role": "Public shared-source and independent mathematical Real conclusions.",
+      "declarations": [
+        "VeriTile.Bench.Repairs.ContextAttnBloomWhole001.PublicKernel.correct_real",
+        "VeriTile.Bench.Repairs.ContextAttnBloomWhole001.PublicKernel.shared_source"
+      ]
+    },
+    "FPEquiv": {
+      "file": {
+        "path": "bench/repairs/tritonbench_g/context_attn_bloom/FPEquiv.lean",
+        "sha256": "1acae8b7b742a09f6c42da760b3d1ad56a754d246013670510cafd421d6791c2"
+      },
+      "role": "Public native original-Tensor/byte result, input read connection, and full frames.",
+      "declarations": [
+        "VeriTile.Bench.Repairs.ContextAttnBloomWhole001.PublicKernel.correct_fp32",
+        "VeriTile.Bench.Repairs.ContextAttnBloomWhole001.PublicKernel.input_tensor"
+      ]
+    }
+  },
+  "alias_links": {
+    "path": "bench/repairs/tritonbench_g/context_attn_bloom/kernel-evidence/standard-entry-links.json",
+    "sha256": "fe04a135c8f3c6efcdad8e8087e1275fcd25a376f2a7241db5b85b2cca5e9b8d"
+  },
+  "delta_manifest": {
+    "path": "bench/repairs/tritonbench_g/context_attn_bloom/kernel-evidence/standard-entry-frozen-files.json",
+    "sha256": "23aea3e58a0fa9dd7ccaed2dcde25003caf28043181269c9a368d5f5024af6ca"
+  },
+  "delta_archive": {
+    "path": "bench/repairs/tritonbench_g/context_attn_bloom/kernel-evidence/context-attn-bloom-standard-entries.tar.gz",
+    "sha256": "c0f6875edc4326012db1a3770898298c0f42e047db29d7aaf5bb985ba94a56c0"
+  },
+  "build": {
+    "driver": {
+      "path": ".veritile-cache/build-tools/workspace_lean_local_first_v2.py",
+      "sha256": "23464979d2a667dcebe68ab9ce1c958238ff1bd322c5a010b8989897a406da22"
+    },
+    "log": {
+      "path": ".veritile-cache/task-deliveries/context_attn_bloom/standard-entry-build.log",
+      "sha256": "bbfb57c73affcb60290bed74f05fc532a50069e0ea7169351d39000ac59bcb78"
+    },
+    "exit_code": 0,
+    "modules_rebuilt": 2,
+    "axiom_checks": 4,
+    "current_receipts": [
+      {
+        "source": {
+          "path": "bench/repairs/tritonbench_g/context_attn_bloom/Correct.lean",
+          "sha256": "5b951d9cbf77cf6f4b85e9ffd76cbf727239ba57ba88cd08d65ba77c4a73fd1a"
+        },
+        "receipt": {
+          "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/context_attn_bloom/Correct.workspace-build.json",
+          "sha256": "f111afd293dc87bfba6f6604f331e1892992cadb601d36bbe71434da37c58b3b"
+        },
+        "objects": [
+          {
+            "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/context_attn_bloom/Correct.olean",
+            "sha256": "083cf288aa245121500899b1e1b30256e39756b78d9e5e1710f7c2ac44b73b44"
+          },
+          {
+            "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/context_attn_bloom/Correct.workspace-owned",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/context_attn_bloom/Correct.ilean",
+            "sha256": "89ea03f993f2a121edd687760fa689b93919a1a7c02001145dd8a9fd203c4b25"
+          }
+        ],
+        "source_direct_imports_equal_ilean": true
+      },
+      {
+        "source": {
+          "path": "bench/repairs/tritonbench_g/context_attn_bloom/FPEquiv.lean",
+          "sha256": "1acae8b7b742a09f6c42da760b3d1ad56a754d246013670510cafd421d6791c2"
+        },
+        "receipt": {
+          "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/context_attn_bloom/FPEquiv.workspace-build.json",
+          "sha256": "436e2a61a88500b016a0088dd6cfb830c4e22a7214a7ed73ed0d13aa536518e9"
+        },
+        "objects": [
+          {
+            "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/context_attn_bloom/FPEquiv.ilean",
+            "sha256": "5546a2affa74c3970d5f35ecc00c1825b874bc286eee0912cfb1d350e5863538"
+          },
+          {
+            "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/context_attn_bloom/FPEquiv.workspace-owned",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/context_attn_bloom/FPEquiv.olean",
+            "sha256": "8c22dc3e2515a29eec9af0978757c120a1af8364c961788369fbb62359ab7fcf"
+          }
+        ],
+        "source_direct_imports_equal_ilean": true
+      }
+    ],
+    "remaining_task_receipts": "The other 35 accepted receipts are unchanged and their frozen pins were verified.",
+    "dependency_boundary": "Retains the accepted reused-cache boundary; no transitive cold rebuild."
+  },
+  "preservation": {
+    "accepted_delivery_archive_review_and_verification_unchanged": true,
+    "selected_python_guards_domain_and_proved_semantics_unchanged": true,
+    "existing_theorems_unchanged": true,
+    "unchanged_base_file_pins_verified": 530,
+    "historical_evidence_recopied": false,
+    "CPU_compiler_or_numerics_rerun": false,
+    "GPU_execution": false,
+    "core_Lake_ledger_edited": false
+  },
+  "inherited_boundaries": {
+    "native_numerical_ports": [
+      "literal32",
+      "addRN",
+      "subRN",
+      "mulRN",
+      "divFull",
+      "maxNum",
+      "ex2Approx",
+      "fmaRN",
+      "one-coordinate fixed m16n8k8 TF32 MMA"
+    ],
+    "compiler": "Fixed payload-independent SM80 patterns supported by ten representative actual-wrapper/native-binder compiler artifacts; compiler internals are not proved. Initial 0 + -inf constant folding requires only that scalar-add identity.",
+    "launch_scalar": "FP32 ABI signature plus the independently checked 241-entry bit table, connected by LaunchScale.Bound.",
+    "ordinary_interfaces": [
+      "initial signed metadata observation",
+      "Tensor layout laws",
+      "physical byte-window/storage binding",
+      "region roles and labels",
+      "checked geometry and native bounds"
+    ],
+    "whole_kernel_or_dot_correctness_premise": false,
+    "caller_supplied_native_plan": false,
+    "gpu_execution": false,
+    "full_launcher_execution": false,
+    "known_nonlaunchable_SM80_sample": "b128-d256 requires 327680 shared bytes, exceeding SM80 opt-in capacity; artifact retained only for structural checking",
+    "real_to_FP_error_bound": false
+  },
+  "resource_audit": {
+    "path": "bench/repairs/tritonbench_g/context_attn_bloom/kernel-evidence/resource-audit.json",
+    "sha256": "e1e98956d814ebfba73c298b2194877d3b2d68f934361f74779a6f747b73b746"
+  },
+  "whole_admitted_domain_SM80_execution_established": false
+}

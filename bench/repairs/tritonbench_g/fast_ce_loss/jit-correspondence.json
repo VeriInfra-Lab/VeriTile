@@ -1,0 +1,364 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/fast_ce_loss/fast_ce_loss_body.py",
+    "lean": "bench/repairs/tritonbench_g/fast_ce_loss/Kernels.lean",
+    "python_function": "_cross_entropy_forward",
+    "lean_definition": "forward",
+    "signature_definition": "forwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "logits_ptr",
+          "fp32"
+        ],
+        [
+          "loss_ptr",
+          "fp32"
+        ],
+        [
+          "logsumexp_ptr",
+          "fp32"
+        ],
+        [
+          "labels_ptr",
+          "i64"
+        ]
+      ],
+      "scalars": [
+        [
+          "logits_row_stride",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "VOCAB_SIZE",
+        "BLOCK_SIZE",
+        "DO_SOFTCAPPING",
+        "SOFTCAP",
+        "DO_LOGIT_SCALING",
+        "LOGIT_SCALE"
+      ],
+      "readPorts": [
+        "logits_ptr",
+        "labels_ptr"
+      ],
+      "writePorts": [
+        "loss_ptr",
+        "logsumexp_ptr"
+      ],
+      "unaryImports": [
+        [
+          "triton_tanh",
+          "triton.language.extra.libdevice.tanh"
+        ]
+      ]
+    },
+    "expected_call_bindings": {
+      "logits_row_stride": "logits_row_stride"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/fast_ce_loss/candidate_kernels.py",
+    "lean": "bench/repairs/tritonbench_g/fast_ce_loss/Kernels.lean",
+    "python_function": "_cross_entropy_forward_index_commuted",
+    "lean_definition": "forwardIndexCommuted",
+    "signature_definition": "forwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "logits_ptr",
+          "fp32"
+        ],
+        [
+          "loss_ptr",
+          "fp32"
+        ],
+        [
+          "logsumexp_ptr",
+          "fp32"
+        ],
+        [
+          "labels_ptr",
+          "i64"
+        ]
+      ],
+      "scalars": [
+        [
+          "logits_row_stride",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "VOCAB_SIZE",
+        "BLOCK_SIZE",
+        "DO_SOFTCAPPING",
+        "SOFTCAP",
+        "DO_LOGIT_SCALING",
+        "LOGIT_SCALE"
+      ],
+      "readPorts": [
+        "logits_ptr",
+        "labels_ptr"
+      ],
+      "writePorts": [
+        "loss_ptr",
+        "logsumexp_ptr"
+      ],
+      "unaryImports": [
+        [
+          "triton_tanh",
+          "triton.language.extra.libdevice.tanh"
+        ]
+      ]
+    },
+    "expected_call_bindings": {
+      "logits_row_stride": "logits_row_stride"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/fast_ce_loss/fast_ce_loss_body.py",
+    "lean": "bench/repairs/tritonbench_g/fast_ce_loss/Kernels.lean",
+    "python_function": "_chunked_cross_entropy_forward",
+    "lean_definition": "chunked",
+    "signature_definition": "chunkedSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "logits_ptr",
+          "fp32"
+        ],
+        [
+          "loss_ptr",
+          "fp32"
+        ],
+        [
+          "logsumexp_ptr",
+          "fp32"
+        ],
+        [
+          "labels_ptr",
+          "i64"
+        ]
+      ],
+      "scalars": [
+        [
+          "logits_row_stride",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "VOCAB_SIZE",
+        "N_CHUNKS",
+        "BLOCK_SIZE",
+        "DO_SOFTCAPPING",
+        "SOFTCAP",
+        "DO_LOGIT_SCALING",
+        "LOGIT_SCALE"
+      ],
+      "readPorts": [
+        "logits_ptr",
+        "labels_ptr"
+      ],
+      "writePorts": [
+        "loss_ptr",
+        "logsumexp_ptr"
+      ],
+      "unaryImports": [
+        [
+          "triton_tanh",
+          "triton.language.extra.libdevice.tanh"
+        ]
+      ]
+    },
+    "expected_call_bindings": {
+      "logits_row_stride": "logits_row_stride"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/fast_ce_loss/candidate_kernels.py",
+    "lean": "bench/repairs/tritonbench_g/fast_ce_loss/Kernels.lean",
+    "python_function": "_chunked_cross_entropy_forward_index_commuted",
+    "lean_definition": "chunkedIndexCommuted",
+    "signature_definition": "chunkedSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "logits_ptr",
+          "fp32"
+        ],
+        [
+          "loss_ptr",
+          "fp32"
+        ],
+        [
+          "logsumexp_ptr",
+          "fp32"
+        ],
+        [
+          "labels_ptr",
+          "i64"
+        ]
+      ],
+      "scalars": [
+        [
+          "logits_row_stride",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "VOCAB_SIZE",
+        "N_CHUNKS",
+        "BLOCK_SIZE",
+        "DO_SOFTCAPPING",
+        "SOFTCAP",
+        "DO_LOGIT_SCALING",
+        "LOGIT_SCALE"
+      ],
+      "readPorts": [
+        "logits_ptr",
+        "labels_ptr"
+      ],
+      "writePorts": [
+        "loss_ptr",
+        "logsumexp_ptr"
+      ],
+      "unaryImports": [
+        [
+          "triton_tanh",
+          "triton.language.extra.libdevice.tanh"
+        ]
+      ]
+    },
+    "expected_call_bindings": {
+      "logits_row_stride": "logits_row_stride"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/fast_ce_loss/fast_ce_loss_body.py",
+    "lean": "bench/repairs/tritonbench_g/fast_ce_loss/Kernels.lean",
+    "python_function": "_cross_entropy_backward",
+    "lean_definition": "backward",
+    "signature_definition": "backwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "logits_ptr",
+          "fp32"
+        ],
+        [
+          "dloss_ptr",
+          "fp32"
+        ],
+        [
+          "logsumexp_ptr",
+          "fp32"
+        ],
+        [
+          "labels_ptr",
+          "i64"
+        ]
+      ],
+      "scalars": [
+        [
+          "logits_row_stride",
+          "integer"
+        ],
+        [
+          "dloss_row_stride",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "VOCAB_SIZE",
+        "BLOCK_SIZE",
+        "DO_SOFTCAPPING",
+        "SOFTCAP",
+        "DO_LOGIT_SCALING",
+        "LOGIT_SCALE"
+      ],
+      "readPorts": [
+        "logits_ptr",
+        "labels_ptr",
+        "dloss_ptr",
+        "logsumexp_ptr"
+      ],
+      "writePorts": [
+        "logits_ptr"
+      ],
+      "unaryImports": [
+        [
+          "triton_tanh",
+          "triton.language.extra.libdevice.tanh"
+        ]
+      ]
+    },
+    "expected_call_bindings": {
+      "logits_row_stride": "logits_row_stride",
+      "dloss_row_stride": "dloss_row_stride"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/fast_ce_loss/candidate_kernels.py",
+    "lean": "bench/repairs/tritonbench_g/fast_ce_loss/Kernels.lean",
+    "python_function": "_cross_entropy_backward_index_commuted",
+    "lean_definition": "backwardIndexCommuted",
+    "signature_definition": "backwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "logits_ptr",
+          "fp32"
+        ],
+        [
+          "dloss_ptr",
+          "fp32"
+        ],
+        [
+          "logsumexp_ptr",
+          "fp32"
+        ],
+        [
+          "labels_ptr",
+          "i64"
+        ]
+      ],
+      "scalars": [
+        [
+          "logits_row_stride",
+          "integer"
+        ],
+        [
+          "dloss_row_stride",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "VOCAB_SIZE",
+        "BLOCK_SIZE",
+        "DO_SOFTCAPPING",
+        "SOFTCAP",
+        "DO_LOGIT_SCALING",
+        "LOGIT_SCALE"
+      ],
+      "readPorts": [
+        "logits_ptr",
+        "labels_ptr",
+        "dloss_ptr",
+        "logsumexp_ptr"
+      ],
+      "writePorts": [
+        "logits_ptr"
+      ],
+      "unaryImports": [
+        [
+          "triton_tanh",
+          "triton.language.extra.libdevice.tanh"
+        ]
+      ]
+    },
+    "expected_call_bindings": {
+      "logits_row_stride": "logits_row_stride",
+      "dloss_row_stride": "dloss_row_stride"
+    }
+  }
+]

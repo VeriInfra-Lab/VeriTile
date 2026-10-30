@@ -1,0 +1,1461 @@
+{
+  "status": "CONFIRMED_SOURCE_DOMAIN_DEFECT",
+  "triton": "3.7.1",
+  "torch": "2.13.0+cu130",
+  "gpu_available": false,
+  "gpu_execution": false,
+  "admission": "unchanged checks with CPU storage/CUDA facade",
+  "compiler": "actual JIT binder, original source, default options, offline CUDA SM80/SM90",
+  "source": {
+    "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/rotary_transform_repaired.py",
+    "sha256": "d59d9684bd9131a12e800b0a54859f06001de3f5b60f78b1e9f9eb625259eda8"
+  },
+  "original": {
+    "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/rotary_transform/rotary_transform.py",
+    "sha256": "920032ade0eb2da9a2cb26bbda36318ab1f74260be6b5b58f22427726a6399de"
+  },
+  "compiler_block_limit": 1048576,
+  "independent_target": "For X=1, cosine=1, sine=0 and scalar offset=0, every output is 1.",
+  "results": [
+    {
+      "name": "sm80_interleaved_width262146",
+      "sm": 80,
+      "interleaved": true,
+      "width": 262146,
+      "failure_expected": true,
+      "grid": [
+        1,
+        1,
+        1
+      ],
+      "pointer_elements": 2097152,
+      "events": [
+        [
+          "allocation",
+          [
+            1,
+            1,
+            1,
+            262146
+          ]
+        ],
+        [
+          "device",
+          1
+        ],
+        [
+          "launch_captured",
+          [
+            1,
+            1,
+            1
+          ]
+        ]
+      ],
+      "admitted_arguments": {
+        "OUT": {
+          "shape": [
+            1,
+            1,
+            1,
+            262146
+          ],
+          "strides": [
+            262146,
+            262146,
+            262146,
+            1
+          ],
+          "dtype": "torch.float32",
+          "storage_offset": 0,
+          "data_ptr": 140262438322240,
+          "allocation_base": 140262438322240,
+          "allocation_bytes": 1048584,
+          "contiguous": true
+        },
+        "X": {
+          "shape": [
+            1,
+            1,
+            1,
+            262146
+          ],
+          "strides": [
+            262146,
+            262146,
+            262146,
+            1
+          ],
+          "dtype": "torch.float32",
+          "storage_offset": 0,
+          "data_ptr": 140262447767616,
+          "allocation_base": 140262447767616,
+          "allocation_bytes": 1048584,
+          "contiguous": true
+        },
+        "COS": {
+          "shape": [
+            1,
+            131073
+          ],
+          "strides": [
+            131073,
+            1
+          ],
+          "dtype": "torch.float32",
+          "storage_offset": 0,
+          "data_ptr": 94585743214272,
+          "allocation_base": 94585743214272,
+          "allocation_bytes": 524292,
+          "contiguous": true
+        },
+        "SIN": {
+          "shape": [
+            1,
+            131073
+          ],
+          "strides": [
+            131073,
+            1
+          ],
+          "dtype": "torch.float32",
+          "storage_offset": 0,
+          "data_ptr": 94585743738688,
+          "allocation_base": 94585743738688,
+          "allocation_bytes": 524292,
+          "contiguous": true
+        },
+        "CU_SEQLENS": null,
+        "SEQLEN_OFFSETS": 0,
+        "seqlen": 1,
+        "nheads": 1,
+        "rotary_dim": 262146,
+        "seqlen_ro": 1,
+        "CACHE_KEY_SEQLEN": 0,
+        "stride_out_batch": 262146,
+        "stride_out_seqlen": 262146,
+        "stride_out_nheads": 262146,
+        "stride_out_headdim": 1,
+        "stride_x_batch": 262146,
+        "stride_x_seqlen": 262146,
+        "stride_x_nheads": 262146,
+        "stride_x_headdim": 1,
+        "BLOCK_K": 524288,
+        "IS_SEQLEN_OFFSETS_TENSOR": false,
+        "IS_VARLEN": false,
+        "INTERLEAVED": true,
+        "CONJUGATE": false,
+        "BLOCK_M": 4
+      },
+      "signature": {
+        "OUT": "*fp32",
+        "X": "*fp32",
+        "COS": "*fp32",
+        "SIN": "*fp32",
+        "CU_SEQLENS": "constexpr",
+        "SEQLEN_OFFSETS": "i32",
+        "seqlen": "constexpr",
+        "nheads": "constexpr",
+        "rotary_dim": "i32",
+        "seqlen_ro": "constexpr",
+        "CACHE_KEY_SEQLEN": "i32",
+        "stride_out_batch": "i32",
+        "stride_out_seqlen": "i32",
+        "stride_out_nheads": "i32",
+        "stride_out_headdim": "constexpr",
+        "stride_x_batch": "i32",
+        "stride_x_seqlen": "i32",
+        "stride_x_nheads": "i32",
+        "stride_x_headdim": "constexpr",
+        "BLOCK_K": "constexpr",
+        "IS_SEQLEN_OFFSETS_TENSOR": "constexpr",
+        "IS_VARLEN": "constexpr",
+        "INTERLEAVED": "constexpr",
+        "CONJUGATE": "constexpr",
+        "BLOCK_M": "constexpr"
+      },
+      "options": {},
+      "parsed_options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "CU_SEQLENS": "None",
+        "seqlen": "1",
+        "nheads": "1",
+        "seqlen_ro": "1",
+        "stride_out_headdim": "1",
+        "stride_x_headdim": "1",
+        "BLOCK_K": "524288",
+        "IS_SEQLEN_OFFSETS_TENSOR": "False",
+        "IS_VARLEN": "False",
+        "INTERLEAVED": "True",
+        "CONJUGATE": "False",
+        "BLOCK_M": "4"
+      },
+      "status": "expected_frontend_rejection",
+      "exception": "CompilationError",
+      "error": "at 50:18:\n        x1 = tl.load(X + rotary_dim_half * stride_x_headdim, mask=(rm[:, None] < seqlen) & (rk_half[None, :] < rotary_dim_half), other=0.0).to(tl.float32)\n        if CONJUGATE:\n            sin = -sin\n        o0 = x0 * cos - x1 * sin\n        o1 = x0 * sin + x1 * cos\n        OUT = OUT + (rm[:, None] * stride_out_seqlen + rk_half[None, :] * stride_out_headdim)\n        tl.store(OUT, o0, mask=(rm[:, None] < seqlen) & (rk_half[None, :] < rotary_dim_half))\n        tl.store(OUT + rotary_dim_half * stride_out_headdim, o1, mask=(rm[:, None] < seqlen) & (rk_half[None, :] < rotary_dim_half))\n    else:\n        rk_swap = rk + ((rk + 1) % 2) * 2 - 1\n        rk_repeat = tl.arange(0, BLOCK_K) // 2\n        X0 = X + (rm[:, None] * stride_x_seqlen + rk[None, :] * stride_x_headdim)\n                  ^\nValueError('numel (2097152) exceeds triton maximum tensor numel (1048576)')",
+      "artifact": {
+        "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/source-defect-evidence/sm80_interleaved_width262146.error.txt",
+        "sha256": "4c84c9d8c7d7bdcc2302672866b4bfcb088a764ffa1a86d6d514550b6f46eee4"
+      }
+    },
+    {
+      "name": "sm90_interleaved_width262146",
+      "sm": 90,
+      "interleaved": true,
+      "width": 262146,
+      "failure_expected": true,
+      "grid": [
+        1,
+        1,
+        1
+      ],
+      "pointer_elements": 2097152,
+      "events": [
+        [
+          "allocation",
+          [
+            1,
+            1,
+            1,
+            262146
+          ]
+        ],
+        [
+          "device",
+          1
+        ],
+        [
+          "launch_captured",
+          [
+            1,
+            1,
+            1
+          ]
+        ]
+      ],
+      "admitted_arguments": {
+        "OUT": {
+          "shape": [
+            1,
+            1,
+            1,
+            262146
+          ],
+          "strides": [
+            262146,
+            262146,
+            262146,
+            1
+          ],
+          "dtype": "torch.float32",
+          "storage_offset": 0,
+          "data_ptr": 140262438322240,
+          "allocation_base": 140262438322240,
+          "allocation_bytes": 1048584,
+          "contiguous": true
+        },
+        "X": {
+          "shape": [
+            1,
+            1,
+            1,
+            262146
+          ],
+          "strides": [
+            262146,
+            262146,
+            262146,
+            1
+          ],
+          "dtype": "torch.float32",
+          "storage_offset": 0,
+          "data_ptr": 140262447767616,
+          "allocation_base": 140262447767616,
+          "allocation_bytes": 1048584,
+          "contiguous": true
+        },
+        "COS": {
+          "shape": [
+            1,
+            131073
+          ],
+          "strides": [
+            131073,
+            1
+          ],
+          "dtype": "torch.float32",
+          "storage_offset": 0,
+          "data_ptr": 94585743214272,
+          "allocation_base": 94585743214272,
+          "allocation_bytes": 524292,
+          "contiguous": true
+        },
+        "SIN": {
+          "shape": [
+            1,
+            131073
+          ],
+          "strides": [
+            131073,
+            1
+          ],
+          "dtype": "torch.float32",
+          "storage_offset": 0,
+          "data_ptr": 94585743738688,
+          "allocation_base": 94585743738688,
+          "allocation_bytes": 524292,
+          "contiguous": true
+        },
+        "CU_SEQLENS": null,
+        "SEQLEN_OFFSETS": 0,
+        "seqlen": 1,
+        "nheads": 1,
+        "rotary_dim": 262146,
+        "seqlen_ro": 1,
+        "CACHE_KEY_SEQLEN": 0,
+        "stride_out_batch": 262146,
+        "stride_out_seqlen": 262146,
+        "stride_out_nheads": 262146,
+        "stride_out_headdim": 1,
+        "stride_x_batch": 262146,
+        "stride_x_seqlen": 262146,
+        "stride_x_nheads": 262146,
+        "stride_x_headdim": 1,
+        "BLOCK_K": 524288,
+        "IS_SEQLEN_OFFSETS_TENSOR": false,
+        "IS_VARLEN": false,
+        "INTERLEAVED": true,
+        "CONJUGATE": false,
+        "BLOCK_M": 4
+      },
+      "signature": {
+        "OUT": "*fp32",
+        "X": "*fp32",
+        "COS": "*fp32",
+        "SIN": "*fp32",
+        "CU_SEQLENS": "constexpr",
+        "SEQLEN_OFFSETS": "i32",
+        "seqlen": "constexpr",
+        "nheads": "constexpr",
+        "rotary_dim": "i32",
+        "seqlen_ro": "constexpr",
+        "CACHE_KEY_SEQLEN": "i32",
+        "stride_out_batch": "i32",
+        "stride_out_seqlen": "i32",
+        "stride_out_nheads": "i32",
+        "stride_out_headdim": "constexpr",
+        "stride_x_batch": "i32",
+        "stride_x_seqlen": "i32",
+        "stride_x_nheads": "i32",
+        "stride_x_headdim": "constexpr",
+        "BLOCK_K": "constexpr",
+        "IS_SEQLEN_OFFSETS_TENSOR": "constexpr",
+        "IS_VARLEN": "constexpr",
+        "INTERLEAVED": "constexpr",
+        "CONJUGATE": "constexpr",
+        "BLOCK_M": "constexpr"
+      },
+      "options": {},
+      "parsed_options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e4nv', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=('fp8e4b15',), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=1073741824, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm90', instrumentation_mode='')",
+      "constants": {
+        "CU_SEQLENS": "None",
+        "seqlen": "1",
+        "nheads": "1",
+        "seqlen_ro": "1",
+        "stride_out_headdim": "1",
+        "stride_x_headdim": "1",
+        "BLOCK_K": "524288",
+        "IS_SEQLEN_OFFSETS_TENSOR": "False",
+        "IS_VARLEN": "False",
+        "INTERLEAVED": "True",
+        "CONJUGATE": "False",
+        "BLOCK_M": "4"
+      },
+      "status": "expected_frontend_rejection",
+      "exception": "CompilationError",
+      "error": "at 50:18:\n        x1 = tl.load(X + rotary_dim_half * stride_x_headdim, mask=(rm[:, None] < seqlen) & (rk_half[None, :] < rotary_dim_half), other=0.0).to(tl.float32)\n        if CONJUGATE:\n            sin = -sin\n        o0 = x0 * cos - x1 * sin\n        o1 = x0 * sin + x1 * cos\n        OUT = OUT + (rm[:, None] * stride_out_seqlen + rk_half[None, :] * stride_out_headdim)\n        tl.store(OUT, o0, mask=(rm[:, None] < seqlen) & (rk_half[None, :] < rotary_dim_half))\n        tl.store(OUT + rotary_dim_half * stride_out_headdim, o1, mask=(rm[:, None] < seqlen) & (rk_half[None, :] < rotary_dim_half))\n    else:\n        rk_swap = rk + ((rk + 1) % 2) * 2 - 1\n        rk_repeat = tl.arange(0, BLOCK_K) // 2\n        X0 = X + (rm[:, None] * stride_x_seqlen + rk[None, :] * stride_x_headdim)\n                  ^\nValueError('numel (2097152) exceeds triton maximum tensor numel (1048576)')",
+      "artifact": {
+        "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/source-defect-evidence/sm90_interleaved_width262146.error.txt",
+        "sha256": "4c84c9d8c7d7bdcc2302672866b4bfcb088a764ffa1a86d6d514550b6f46eee4"
+      }
+    },
+    {
+      "name": "sm80_split_width524290",
+      "sm": 80,
+      "interleaved": false,
+      "width": 524290,
+      "failure_expected": true,
+      "grid": [
+        1,
+        1,
+        1
+      ],
+      "pointer_elements": 2097152,
+      "events": [
+        [
+          "allocation",
+          [
+            1,
+            1,
+            1,
+            524290
+          ]
+        ],
+        [
+          "device",
+          1
+        ],
+        [
+          "launch_captured",
+          [
+            1,
+            1,
+            1
+          ]
+        ]
+      ],
+      "admitted_arguments": {
+        "OUT": {
+          "shape": [
+            1,
+            1,
+            1,
+            524290
+          ],
+          "strides": [
+            524290,
+            524290,
+            524290,
+            1
+          ],
+          "dtype": "torch.float32",
+          "storage_offset": 0,
+          "data_ptr": 140262433071168,
+          "allocation_base": 140262433071168,
+          "allocation_bytes": 2097160,
+          "contiguous": true
+        },
+        "X": {
+          "shape": [
+            1,
+            1,
+            1,
+            524290
+          ],
+          "strides": [
+            524290,
+            524290,
+            524290,
+            1
+          ],
+          "dtype": "torch.float32",
+          "storage_offset": 0,
+          "data_ptr": 140262435172416,
+          "allocation_base": 140262435172416,
+          "allocation_bytes": 2097160,
+          "contiguous": true
+        },
+        "COS": {
+          "shape": [
+            1,
+            262145
+          ],
+          "strides": [
+            262145,
+            1
+          ],
+          "dtype": "torch.float32",
+          "storage_offset": 0,
+          "data_ptr": 94585746190720,
+          "allocation_base": 94585746190720,
+          "allocation_bytes": 1048580,
+          "contiguous": true
+        },
+        "SIN": {
+          "shape": [
+            1,
+            262145
+          ],
+          "strides": [
+            262145,
+            1
+          ],
+          "dtype": "torch.float32",
+          "storage_offset": 0,
+          "data_ptr": 94585747239424,
+          "allocation_base": 94585747239424,
+          "allocation_bytes": 1048580,
+          "contiguous": true
+        },
+        "CU_SEQLENS": null,
+        "SEQLEN_OFFSETS": 0,
+        "seqlen": 1,
+        "nheads": 1,
+        "rotary_dim": 524290,
+        "seqlen_ro": 1,
+        "CACHE_KEY_SEQLEN": 0,
+        "stride_out_batch": 524290,
+        "stride_out_seqlen": 524290,
+        "stride_out_nheads": 524290,
+        "stride_out_headdim": 1,
+        "stride_x_batch": 524290,
+        "stride_x_seqlen": 524290,
+        "stride_x_nheads": 524290,
+        "stride_x_headdim": 1,
+        "BLOCK_K": 1048576,
+        "IS_SEQLEN_OFFSETS_TENSOR": false,
+        "IS_VARLEN": false,
+        "INTERLEAVED": false,
+        "CONJUGATE": false,
+        "BLOCK_M": 4
+      },
+      "signature": {
+        "OUT": "*fp32",
+        "X": "*fp32",
+        "COS": "*fp32",
+        "SIN": "*fp32",
+        "CU_SEQLENS": "constexpr",
+        "SEQLEN_OFFSETS": "i32",
+        "seqlen": "constexpr",
+        "nheads": "constexpr",
+        "rotary_dim": "i32",
+        "seqlen_ro": "constexpr",
+        "CACHE_KEY_SEQLEN": "i32",
+        "stride_out_batch": "i32",
+        "stride_out_seqlen": "i32",
+        "stride_out_nheads": "i32",
+        "stride_out_headdim": "constexpr",
+        "stride_x_batch": "i32",
+        "stride_x_seqlen": "i32",
+        "stride_x_nheads": "i32",
+        "stride_x_headdim": "constexpr",
+        "BLOCK_K": "constexpr",
+        "IS_SEQLEN_OFFSETS_TENSOR": "constexpr",
+        "IS_VARLEN": "constexpr",
+        "INTERLEAVED": "constexpr",
+        "CONJUGATE": "constexpr",
+        "BLOCK_M": "constexpr"
+      },
+      "options": {},
+      "parsed_options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "CU_SEQLENS": "None",
+        "seqlen": "1",
+        "nheads": "1",
+        "seqlen_ro": "1",
+        "stride_out_headdim": "1",
+        "stride_x_headdim": "1",
+        "BLOCK_K": "1048576",
+        "IS_SEQLEN_OFFSETS_TENSOR": "False",
+        "IS_VARLEN": "False",
+        "INTERLEAVED": "False",
+        "CONJUGATE": "False",
+        "BLOCK_M": "4"
+      },
+      "status": "expected_frontend_rejection",
+      "exception": "CompilationError",
+      "error": "at 33:17:\n    if pid_m * BLOCK_M >= seqlen:\n        return\n    rm = pid_m * BLOCK_M + tl.arange(0, BLOCK_M)\n    if not IS_SEQLEN_OFFSETS_TENSOR:\n        rm_cs = rm + SEQLEN_OFFSETS\n    else:\n        rm_cs = rm + tl.load(SEQLEN_OFFSETS + pid_batch)\n    rk = tl.arange(0, BLOCK_K)\n    rk_half = tl.arange(0, BLOCK_K // 2)\n\n    if not INTERLEAVED:\n        X = X + (rm[:, None] * stride_x_seqlen + rk_half[None, :] * stride_x_headdim)\n                 ^\nValueError('numel (2097152) exceeds triton maximum tensor numel (1048576)')",
+      "artifact": {
+        "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/source-defect-evidence/sm80_split_width524290.error.txt",
+        "sha256": "482db2a4e8e0f3757a21cc5a16c4d6514719c72109ca48c2fedc8489a0b6e47e"
+      }
+    },
+    {
+      "name": "sm90_split_width524290",
+      "sm": 90,
+      "interleaved": false,
+      "width": 524290,
+      "failure_expected": true,
+      "grid": [
+        1,
+        1,
+        1
+      ],
+      "pointer_elements": 2097152,
+      "events": [
+        [
+          "allocation",
+          [
+            1,
+            1,
+            1,
+            524290
+          ]
+        ],
+        [
+          "device",
+          1
+        ],
+        [
+          "launch_captured",
+          [
+            1,
+            1,
+            1
+          ]
+        ]
+      ],
+      "admitted_arguments": {
+        "OUT": {
+          "shape": [
+            1,
+            1,
+            1,
+            524290
+          ],
+          "strides": [
+            524290,
+            524290,
+            524290,
+            1
+          ],
+          "dtype": "torch.float32",
+          "storage_offset": 0,
+          "data_ptr": 140262433071168,
+          "allocation_base": 140262433071168,
+          "allocation_bytes": 2097160,
+          "contiguous": true
+        },
+        "X": {
+          "shape": [
+            1,
+            1,
+            1,
+            524290
+          ],
+          "strides": [
+            524290,
+            524290,
+            524290,
+            1
+          ],
+          "dtype": "torch.float32",
+          "storage_offset": 0,
+          "data_ptr": 140262435172416,
+          "allocation_base": 140262435172416,
+          "allocation_bytes": 2097160,
+          "contiguous": true
+        },
+        "COS": {
+          "shape": [
+            1,
+            262145
+          ],
+          "strides": [
+            262145,
+            1
+          ],
+          "dtype": "torch.float32",
+          "storage_offset": 0,
+          "data_ptr": 94585746190720,
+          "allocation_base": 94585746190720,
+          "allocation_bytes": 1048580,
+          "contiguous": true
+        },
+        "SIN": {
+          "shape": [
+            1,
+            262145
+          ],
+          "strides": [
+            262145,
+            1
+          ],
+          "dtype": "torch.float32",
+          "storage_offset": 0,
+          "data_ptr": 94585747239424,
+          "allocation_base": 94585747239424,
+          "allocation_bytes": 1048580,
+          "contiguous": true
+        },
+        "CU_SEQLENS": null,
+        "SEQLEN_OFFSETS": 0,
+        "seqlen": 1,
+        "nheads": 1,
+        "rotary_dim": 524290,
+        "seqlen_ro": 1,
+        "CACHE_KEY_SEQLEN": 0,
+        "stride_out_batch": 524290,
+        "stride_out_seqlen": 524290,
+        "stride_out_nheads": 524290,
+        "stride_out_headdim": 1,
+        "stride_x_batch": 524290,
+        "stride_x_seqlen": 524290,
+        "stride_x_nheads": 524290,
+        "stride_x_headdim": 1,
+        "BLOCK_K": 1048576,
+        "IS_SEQLEN_OFFSETS_TENSOR": false,
+        "IS_VARLEN": false,
+        "INTERLEAVED": false,
+        "CONJUGATE": false,
+        "BLOCK_M": 4
+      },
+      "signature": {
+        "OUT": "*fp32",
+        "X": "*fp32",
+        "COS": "*fp32",
+        "SIN": "*fp32",
+        "CU_SEQLENS": "constexpr",
+        "SEQLEN_OFFSETS": "i32",
+        "seqlen": "constexpr",
+        "nheads": "constexpr",
+        "rotary_dim": "i32",
+        "seqlen_ro": "constexpr",
+        "CACHE_KEY_SEQLEN": "i32",
+        "stride_out_batch": "i32",
+        "stride_out_seqlen": "i32",
+        "stride_out_nheads": "i32",
+        "stride_out_headdim": "constexpr",
+        "stride_x_batch": "i32",
+        "stride_x_seqlen": "i32",
+        "stride_x_nheads": "i32",
+        "stride_x_headdim": "constexpr",
+        "BLOCK_K": "constexpr",
+        "IS_SEQLEN_OFFSETS_TENSOR": "constexpr",
+        "IS_VARLEN": "constexpr",
+        "INTERLEAVED": "constexpr",
+        "CONJUGATE": "constexpr",
+        "BLOCK_M": "constexpr"
+      },
+      "options": {},
+      "parsed_options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e4nv', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=('fp8e4b15',), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=1073741824, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm90', instrumentation_mode='')",
+      "constants": {
+        "CU_SEQLENS": "None",
+        "seqlen": "1",
+        "nheads": "1",
+        "seqlen_ro": "1",
+        "stride_out_headdim": "1",
+        "stride_x_headdim": "1",
+        "BLOCK_K": "1048576",
+        "IS_SEQLEN_OFFSETS_TENSOR": "False",
+        "IS_VARLEN": "False",
+        "INTERLEAVED": "False",
+        "CONJUGATE": "False",
+        "BLOCK_M": "4"
+      },
+      "status": "expected_frontend_rejection",
+      "exception": "CompilationError",
+      "error": "at 33:17:\n    if pid_m * BLOCK_M >= seqlen:\n        return\n    rm = pid_m * BLOCK_M + tl.arange(0, BLOCK_M)\n    if not IS_SEQLEN_OFFSETS_TENSOR:\n        rm_cs = rm + SEQLEN_OFFSETS\n    else:\n        rm_cs = rm + tl.load(SEQLEN_OFFSETS + pid_batch)\n    rk = tl.arange(0, BLOCK_K)\n    rk_half = tl.arange(0, BLOCK_K // 2)\n\n    if not INTERLEAVED:\n        X = X + (rm[:, None] * stride_x_seqlen + rk_half[None, :] * stride_x_headdim)\n                 ^\nValueError('numel (2097152) exceeds triton maximum tensor numel (1048576)')",
+      "artifact": {
+        "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/source-defect-evidence/sm90_split_width524290.error.txt",
+        "sha256": "482db2a4e8e0f3757a21cc5a16c4d6514719c72109ca48c2fedc8489a0b6e47e"
+      }
+    },
+    {
+      "name": "sm80_interleaved_width514",
+      "sm": 80,
+      "interleaved": true,
+      "width": 514,
+      "failure_expected": false,
+      "grid": [
+        1,
+        1,
+        1
+      ],
+      "pointer_elements": 4096,
+      "events": [
+        [
+          "allocation",
+          [
+            1,
+            1,
+            1,
+            514
+          ]
+        ],
+        [
+          "device",
+          1
+        ],
+        [
+          "launch_captured",
+          [
+            1,
+            1,
+            1
+          ]
+        ]
+      ],
+      "admitted_arguments": {
+        "OUT": {
+          "shape": [
+            1,
+            1,
+            1,
+            514
+          ],
+          "strides": [
+            514,
+            514,
+            514,
+            1
+          ],
+          "dtype": "torch.float32",
+          "storage_offset": 0,
+          "data_ptr": 94585748928768,
+          "allocation_base": 94585748928768,
+          "allocation_bytes": 2056,
+          "contiguous": true
+        },
+        "X": {
+          "shape": [
+            1,
+            1,
+            1,
+            514
+          ],
+          "strides": [
+            514,
+            514,
+            514,
+            1
+          ],
+          "dtype": "torch.float32",
+          "storage_offset": 0,
+          "data_ptr": 94585743498688,
+          "allocation_base": 94585743498688,
+          "allocation_bytes": 2056,
+          "contiguous": true
+        },
+        "COS": {
+          "shape": [
+            1,
+            257
+          ],
+          "strides": [
+            257,
+            1
+          ],
+          "dtype": "torch.float32",
+          "storage_offset": 0,
+          "data_ptr": 94585748926400,
+          "allocation_base": 94585748926400,
+          "allocation_bytes": 1028,
+          "contiguous": true
+        },
+        "SIN": {
+          "shape": [
+            1,
+            257
+          ],
+          "strides": [
+            257,
+            1
+          ],
+          "dtype": "torch.float32",
+          "storage_offset": 0,
+          "data_ptr": 94585748927552,
+          "allocation_base": 94585748927552,
+          "allocation_bytes": 1028,
+          "contiguous": true
+        },
+        "CU_SEQLENS": null,
+        "SEQLEN_OFFSETS": 0,
+        "seqlen": 1,
+        "nheads": 1,
+        "rotary_dim": 514,
+        "seqlen_ro": 1,
+        "CACHE_KEY_SEQLEN": 0,
+        "stride_out_batch": 514,
+        "stride_out_seqlen": 514,
+        "stride_out_nheads": 514,
+        "stride_out_headdim": 1,
+        "stride_x_batch": 514,
+        "stride_x_seqlen": 514,
+        "stride_x_nheads": 514,
+        "stride_x_headdim": 1,
+        "BLOCK_K": 1024,
+        "IS_SEQLEN_OFFSETS_TENSOR": false,
+        "IS_VARLEN": false,
+        "INTERLEAVED": true,
+        "CONJUGATE": false,
+        "BLOCK_M": 4
+      },
+      "signature": {
+        "OUT": "*fp32",
+        "X": "*fp32",
+        "COS": "*fp32",
+        "SIN": "*fp32",
+        "CU_SEQLENS": "constexpr",
+        "SEQLEN_OFFSETS": "i32",
+        "seqlen": "constexpr",
+        "nheads": "constexpr",
+        "rotary_dim": "i32",
+        "seqlen_ro": "constexpr",
+        "CACHE_KEY_SEQLEN": "i32",
+        "stride_out_batch": "i32",
+        "stride_out_seqlen": "i32",
+        "stride_out_nheads": "i32",
+        "stride_out_headdim": "constexpr",
+        "stride_x_batch": "i32",
+        "stride_x_seqlen": "i32",
+        "stride_x_nheads": "i32",
+        "stride_x_headdim": "constexpr",
+        "BLOCK_K": "constexpr",
+        "IS_SEQLEN_OFFSETS_TENSOR": "constexpr",
+        "IS_VARLEN": "constexpr",
+        "INTERLEAVED": "constexpr",
+        "CONJUGATE": "constexpr",
+        "BLOCK_M": "constexpr"
+      },
+      "options": {},
+      "parsed_options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "CU_SEQLENS": "None",
+        "seqlen": "1",
+        "nheads": "1",
+        "seqlen_ro": "1",
+        "stride_out_headdim": "1",
+        "stride_x_headdim": "1",
+        "BLOCK_K": "1024",
+        "IS_SEQLEN_OFFSETS_TENSOR": "False",
+        "IS_VARLEN": "False",
+        "INTERLEAVED": "True",
+        "CONJUGATE": "False",
+        "BLOCK_M": "4"
+      },
+      "status": "control_compiled",
+      "artifact": {
+        "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/source-defect-evidence/sm80_interleaved_width514.ptx",
+        "sha256": "8b9a10aae78d88d43bf305373d5856b230c28e42ed884fa555db229cb9dd2aab"
+      }
+    },
+    {
+      "name": "sm90_interleaved_width514",
+      "sm": 90,
+      "interleaved": true,
+      "width": 514,
+      "failure_expected": false,
+      "grid": [
+        1,
+        1,
+        1
+      ],
+      "pointer_elements": 4096,
+      "events": [
+        [
+          "allocation",
+          [
+            1,
+            1,
+            1,
+            514
+          ]
+        ],
+        [
+          "device",
+          1
+        ],
+        [
+          "launch_captured",
+          [
+            1,
+            1,
+            1
+          ]
+        ]
+      ],
+      "admitted_arguments": {
+        "OUT": {
+          "shape": [
+            1,
+            1,
+            1,
+            514
+          ],
+          "strides": [
+            514,
+            514,
+            514,
+            1
+          ],
+          "dtype": "torch.float32",
+          "storage_offset": 0,
+          "data_ptr": 94585748928768,
+          "allocation_base": 94585748928768,
+          "allocation_bytes": 2056,
+          "contiguous": true
+        },
+        "X": {
+          "shape": [
+            1,
+            1,
+            1,
+            514
+          ],
+          "strides": [
+            514,
+            514,
+            514,
+            1
+          ],
+          "dtype": "torch.float32",
+          "storage_offset": 0,
+          "data_ptr": 94585743498688,
+          "allocation_base": 94585743498688,
+          "allocation_bytes": 2056,
+          "contiguous": true
+        },
+        "COS": {
+          "shape": [
+            1,
+            257
+          ],
+          "strides": [
+            257,
+            1
+          ],
+          "dtype": "torch.float32",
+          "storage_offset": 0,
+          "data_ptr": 94585748926400,
+          "allocation_base": 94585748926400,
+          "allocation_bytes": 1028,
+          "contiguous": true
+        },
+        "SIN": {
+          "shape": [
+            1,
+            257
+          ],
+          "strides": [
+            257,
+            1
+          ],
+          "dtype": "torch.float32",
+          "storage_offset": 0,
+          "data_ptr": 94585748927552,
+          "allocation_base": 94585748927552,
+          "allocation_bytes": 1028,
+          "contiguous": true
+        },
+        "CU_SEQLENS": null,
+        "SEQLEN_OFFSETS": 0,
+        "seqlen": 1,
+        "nheads": 1,
+        "rotary_dim": 514,
+        "seqlen_ro": 1,
+        "CACHE_KEY_SEQLEN": 0,
+        "stride_out_batch": 514,
+        "stride_out_seqlen": 514,
+        "stride_out_nheads": 514,
+        "stride_out_headdim": 1,
+        "stride_x_batch": 514,
+        "stride_x_seqlen": 514,
+        "stride_x_nheads": 514,
+        "stride_x_headdim": 1,
+        "BLOCK_K": 1024,
+        "IS_SEQLEN_OFFSETS_TENSOR": false,
+        "IS_VARLEN": false,
+        "INTERLEAVED": true,
+        "CONJUGATE": false,
+        "BLOCK_M": 4
+      },
+      "signature": {
+        "OUT": "*fp32",
+        "X": "*fp32",
+        "COS": "*fp32",
+        "SIN": "*fp32",
+        "CU_SEQLENS": "constexpr",
+        "SEQLEN_OFFSETS": "i32",
+        "seqlen": "constexpr",
+        "nheads": "constexpr",
+        "rotary_dim": "i32",
+        "seqlen_ro": "constexpr",
+        "CACHE_KEY_SEQLEN": "i32",
+        "stride_out_batch": "i32",
+        "stride_out_seqlen": "i32",
+        "stride_out_nheads": "i32",
+        "stride_out_headdim": "constexpr",
+        "stride_x_batch": "i32",
+        "stride_x_seqlen": "i32",
+        "stride_x_nheads": "i32",
+        "stride_x_headdim": "constexpr",
+        "BLOCK_K": "constexpr",
+        "IS_SEQLEN_OFFSETS_TENSOR": "constexpr",
+        "IS_VARLEN": "constexpr",
+        "INTERLEAVED": "constexpr",
+        "CONJUGATE": "constexpr",
+        "BLOCK_M": "constexpr"
+      },
+      "options": {},
+      "parsed_options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e4nv', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=('fp8e4b15',), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=1073741824, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm90', instrumentation_mode='')",
+      "constants": {
+        "CU_SEQLENS": "None",
+        "seqlen": "1",
+        "nheads": "1",
+        "seqlen_ro": "1",
+        "stride_out_headdim": "1",
+        "stride_x_headdim": "1",
+        "BLOCK_K": "1024",
+        "IS_SEQLEN_OFFSETS_TENSOR": "False",
+        "IS_VARLEN": "False",
+        "INTERLEAVED": "True",
+        "CONJUGATE": "False",
+        "BLOCK_M": "4"
+      },
+      "status": "control_compiled",
+      "artifact": {
+        "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/source-defect-evidence/sm90_interleaved_width514.ptx",
+        "sha256": "2a4b7611c8e5582704fbb43c47e5e9a34ef1a9461967678808028af3b376018e"
+      }
+    },
+    {
+      "name": "sm80_split_width514",
+      "sm": 80,
+      "interleaved": false,
+      "width": 514,
+      "failure_expected": false,
+      "grid": [
+        1,
+        1,
+        1
+      ],
+      "pointer_elements": 2048,
+      "events": [
+        [
+          "allocation",
+          [
+            1,
+            1,
+            1,
+            514
+          ]
+        ],
+        [
+          "device",
+          1
+        ],
+        [
+          "launch_captured",
+          [
+            1,
+            1,
+            1
+          ]
+        ]
+      ],
+      "admitted_arguments": {
+        "OUT": {
+          "shape": [
+            1,
+            1,
+            1,
+            514
+          ],
+          "strides": [
+            514,
+            514,
+            514,
+            1
+          ],
+          "dtype": "torch.float32",
+          "storage_offset": 0,
+          "data_ptr": 94585745905792,
+          "allocation_base": 94585745905792,
+          "allocation_bytes": 2056,
+          "contiguous": true
+        },
+        "X": {
+          "shape": [
+            1,
+            1,
+            1,
+            514
+          ],
+          "strides": [
+            514,
+            514,
+            514,
+            1
+          ],
+          "dtype": "torch.float32",
+          "storage_offset": 0,
+          "data_ptr": 94585747953344,
+          "allocation_base": 94585747953344,
+          "allocation_bytes": 2056,
+          "contiguous": true
+        },
+        "COS": {
+          "shape": [
+            1,
+            257
+          ],
+          "strides": [
+            257,
+            1
+          ],
+          "dtype": "torch.float32",
+          "storage_offset": 0,
+          "data_ptr": 94585746162368,
+          "allocation_base": 94585746162368,
+          "allocation_bytes": 1028,
+          "contiguous": true
+        },
+        "SIN": {
+          "shape": [
+            1,
+            257
+          ],
+          "strides": [
+            257,
+            1
+          ],
+          "dtype": "torch.float32",
+          "storage_offset": 0,
+          "data_ptr": 94585743893440,
+          "allocation_base": 94585743893440,
+          "allocation_bytes": 1028,
+          "contiguous": true
+        },
+        "CU_SEQLENS": null,
+        "SEQLEN_OFFSETS": 0,
+        "seqlen": 1,
+        "nheads": 1,
+        "rotary_dim": 514,
+        "seqlen_ro": 1,
+        "CACHE_KEY_SEQLEN": 0,
+        "stride_out_batch": 514,
+        "stride_out_seqlen": 514,
+        "stride_out_nheads": 514,
+        "stride_out_headdim": 1,
+        "stride_x_batch": 514,
+        "stride_x_seqlen": 514,
+        "stride_x_nheads": 514,
+        "stride_x_headdim": 1,
+        "BLOCK_K": 1024,
+        "IS_SEQLEN_OFFSETS_TENSOR": false,
+        "IS_VARLEN": false,
+        "INTERLEAVED": false,
+        "CONJUGATE": false,
+        "BLOCK_M": 4
+      },
+      "signature": {
+        "OUT": "*fp32",
+        "X": "*fp32",
+        "COS": "*fp32",
+        "SIN": "*fp32",
+        "CU_SEQLENS": "constexpr",
+        "SEQLEN_OFFSETS": "i32",
+        "seqlen": "constexpr",
+        "nheads": "constexpr",
+        "rotary_dim": "i32",
+        "seqlen_ro": "constexpr",
+        "CACHE_KEY_SEQLEN": "i32",
+        "stride_out_batch": "i32",
+        "stride_out_seqlen": "i32",
+        "stride_out_nheads": "i32",
+        "stride_out_headdim": "constexpr",
+        "stride_x_batch": "i32",
+        "stride_x_seqlen": "i32",
+        "stride_x_nheads": "i32",
+        "stride_x_headdim": "constexpr",
+        "BLOCK_K": "constexpr",
+        "IS_SEQLEN_OFFSETS_TENSOR": "constexpr",
+        "IS_VARLEN": "constexpr",
+        "INTERLEAVED": "constexpr",
+        "CONJUGATE": "constexpr",
+        "BLOCK_M": "constexpr"
+      },
+      "options": {},
+      "parsed_options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=(), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=0, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm80', instrumentation_mode='')",
+      "constants": {
+        "CU_SEQLENS": "None",
+        "seqlen": "1",
+        "nheads": "1",
+        "seqlen_ro": "1",
+        "stride_out_headdim": "1",
+        "stride_x_headdim": "1",
+        "BLOCK_K": "1024",
+        "IS_SEQLEN_OFFSETS_TENSOR": "False",
+        "IS_VARLEN": "False",
+        "INTERLEAVED": "False",
+        "CONJUGATE": "False",
+        "BLOCK_M": "4"
+      },
+      "status": "control_compiled",
+      "artifact": {
+        "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/source-defect-evidence/sm80_split_width514.ptx",
+        "sha256": "d774a79613cde3c4d5dc08f1b675e0d8bb2622ecaadd6dd4e784e14bec5e33c2"
+      }
+    },
+    {
+      "name": "sm90_split_width514",
+      "sm": 90,
+      "interleaved": false,
+      "width": 514,
+      "failure_expected": false,
+      "grid": [
+        1,
+        1,
+        1
+      ],
+      "pointer_elements": 2048,
+      "events": [
+        [
+          "allocation",
+          [
+            1,
+            1,
+            1,
+            514
+          ]
+        ],
+        [
+          "device",
+          1
+        ],
+        [
+          "launch_captured",
+          [
+            1,
+            1,
+            1
+          ]
+        ]
+      ],
+      "admitted_arguments": {
+        "OUT": {
+          "shape": [
+            1,
+            1,
+            1,
+            514
+          ],
+          "strides": [
+            514,
+            514,
+            514,
+            1
+          ],
+          "dtype": "torch.float32",
+          "storage_offset": 0,
+          "data_ptr": 94585745905792,
+          "allocation_base": 94585745905792,
+          "allocation_bytes": 2056,
+          "contiguous": true
+        },
+        "X": {
+          "shape": [
+            1,
+            1,
+            1,
+            514
+          ],
+          "strides": [
+            514,
+            514,
+            514,
+            1
+          ],
+          "dtype": "torch.float32",
+          "storage_offset": 0,
+          "data_ptr": 94585747953344,
+          "allocation_base": 94585747953344,
+          "allocation_bytes": 2056,
+          "contiguous": true
+        },
+        "COS": {
+          "shape": [
+            1,
+            257
+          ],
+          "strides": [
+            257,
+            1
+          ],
+          "dtype": "torch.float32",
+          "storage_offset": 0,
+          "data_ptr": 94585746162368,
+          "allocation_base": 94585746162368,
+          "allocation_bytes": 1028,
+          "contiguous": true
+        },
+        "SIN": {
+          "shape": [
+            1,
+            257
+          ],
+          "strides": [
+            257,
+            1
+          ],
+          "dtype": "torch.float32",
+          "storage_offset": 0,
+          "data_ptr": 94585743893440,
+          "allocation_base": 94585743893440,
+          "allocation_bytes": 1028,
+          "contiguous": true
+        },
+        "CU_SEQLENS": null,
+        "SEQLEN_OFFSETS": 0,
+        "seqlen": 1,
+        "nheads": 1,
+        "rotary_dim": 514,
+        "seqlen_ro": 1,
+        "CACHE_KEY_SEQLEN": 0,
+        "stride_out_batch": 514,
+        "stride_out_seqlen": 514,
+        "stride_out_nheads": 514,
+        "stride_out_headdim": 1,
+        "stride_x_batch": 514,
+        "stride_x_seqlen": 514,
+        "stride_x_nheads": 514,
+        "stride_x_headdim": 1,
+        "BLOCK_K": 1024,
+        "IS_SEQLEN_OFFSETS_TENSOR": false,
+        "IS_VARLEN": false,
+        "INTERLEAVED": false,
+        "CONJUGATE": false,
+        "BLOCK_M": 4
+      },
+      "signature": {
+        "OUT": "*fp32",
+        "X": "*fp32",
+        "COS": "*fp32",
+        "SIN": "*fp32",
+        "CU_SEQLENS": "constexpr",
+        "SEQLEN_OFFSETS": "i32",
+        "seqlen": "constexpr",
+        "nheads": "constexpr",
+        "rotary_dim": "i32",
+        "seqlen_ro": "constexpr",
+        "CACHE_KEY_SEQLEN": "i32",
+        "stride_out_batch": "i32",
+        "stride_out_seqlen": "i32",
+        "stride_out_nheads": "i32",
+        "stride_out_headdim": "constexpr",
+        "stride_x_batch": "i32",
+        "stride_x_seqlen": "i32",
+        "stride_x_nheads": "i32",
+        "stride_x_headdim": "constexpr",
+        "BLOCK_K": "constexpr",
+        "IS_SEQLEN_OFFSETS_TENSOR": "constexpr",
+        "IS_VARLEN": "constexpr",
+        "INTERLEAVED": "constexpr",
+        "CONJUGATE": "constexpr",
+        "BLOCK_M": "constexpr"
+      },
+      "options": {},
+      "parsed_options": "CUDAOptions(num_warps=4, num_ctas=1, num_stages=3, warp_size=32, maxnreg=None, ptx_version=None, ptx_options=None, ir_override=None, enable_fp_fusion=True, enable_reflect_ftz=True, launch_cooperative_grid=False, launch_pdl=False, supported_fp8_dtypes=('fp8e4b15', 'fp8e4nv', 'fp8e5'), deprecated_fp8_dot_operand_dtypes=('fp8e4b15',), default_dot_input_precision='tf32', allowed_dot_input_precisions=('tf32', 'tf32x3', 'ieee', 'bf16x3', 'bf16x6'), max_num_imprecise_acc_default=1073741824, extern_libs=(('libdevice', '/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc'),), debug=False, backend_name='cuda', sanitize_overflow=True, arch='sm90', instrumentation_mode='')",
+      "constants": {
+        "CU_SEQLENS": "None",
+        "seqlen": "1",
+        "nheads": "1",
+        "seqlen_ro": "1",
+        "stride_out_headdim": "1",
+        "stride_x_headdim": "1",
+        "BLOCK_K": "1024",
+        "IS_SEQLEN_OFFSETS_TENSOR": "False",
+        "IS_VARLEN": "False",
+        "INTERLEAVED": "False",
+        "CONJUGATE": "False",
+        "BLOCK_M": "4"
+      },
+      "status": "control_compiled",
+      "artifact": {
+        "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform/source-defect-evidence/sm90_split_width514.ptx",
+        "sha256": "bec1b7ff4fe567a17c1feece46c99e63eca41645d94eb80ec030d59fe21b2a2d"
+      }
+    }
+  ]
+}

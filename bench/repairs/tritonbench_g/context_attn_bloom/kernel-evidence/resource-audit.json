@@ -1,0 +1,74 @@
+{
+  "source_unchanged": true,
+  "target": "CUDA SM80",
+  "sm80_per_CTA_opt_in_architectural_bytes": 166912,
+  "device_property_query_performed": false,
+  "profiles": [
+    {
+      "label": "b64-d16",
+      "shared_bytes": 8192,
+      "fits_sm80_opt_in_architectural_bound": true
+    },
+    {
+      "label": "b64-d32",
+      "shared_bytes": 16384,
+      "fits_sm80_opt_in_architectural_bound": true
+    },
+    {
+      "label": "b64-d64",
+      "shared_bytes": 32768,
+      "fits_sm80_opt_in_architectural_bound": true
+    },
+    {
+      "label": "b64-d96",
+      "shared_bytes": 81920,
+      "fits_sm80_opt_in_architectural_bound": true
+    },
+    {
+      "label": "b64-d256",
+      "shared_bytes": 147456,
+      "fits_sm80_opt_in_architectural_bound": true
+    },
+    {
+      "label": "b128-d16",
+      "shared_bytes": 16384,
+      "fits_sm80_opt_in_architectural_bound": true
+    },
+    {
+      "label": "b128-d32",
+      "shared_bytes": 32768,
+      "fits_sm80_opt_in_architectural_bound": true
+    },
+    {
+      "label": "b128-d64",
+      "shared_bytes": 65536,
+      "fits_sm80_opt_in_architectural_bound": true
+    },
+    {
+      "label": "b128-d96",
+      "shared_bytes": 131072,
+      "fits_sm80_opt_in_architectural_bound": true
+    },
+    {
+      "label": "b128-d256",
+      "shared_bytes": 327680,
+      "fits_sm80_opt_in_architectural_bound": false
+    }
+  ],
+  "excluded_from_runnable_SM80_claim": [
+    "b128-d256"
+  ],
+  "runtime_resource_gate": {
+    "path": "/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py",
+    "sha256": "021a45ca590052ab6ca6d850eb0a102abf542165836ad92bfb3bb573218fc5d3",
+    "one_based_lines": [
+      457,
+      458,
+      459
+    ],
+    "excerpt": "        max_shared = max_shared_mem(device)\n        if self.metadata.shared > max_shared:\n            raise_(OutOfResources(self.metadata.shared, max_shared, \"shared memory\"))"
+  },
+  "impact": "The B128/D256 compiler sample is structurally audited but cannot launch under the SM80 shared-memory bound. The Python guard admits such geometry and has no resource check. No whole-domain SM80 launcher correctness claim is made.",
+  "formal_scope": "The exact Real and fixed native graph semantics, source termination, Tensor/byte readback, and frames remain proved. Hardware execution requires a realizable compiler profile; the known rejected profile is explicitly excluded.",
+  "host_task_or_source_repair_added": false
+}

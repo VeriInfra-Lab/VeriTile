@@ -1,0 +1,108 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/softmax_triton3/softmax_triton3_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/softmax_triton3/Kernels.lean",
+    "python_function": "softmax_kernel",
+    "lean_definition": "softmax_kernel",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "output_ptr",
+          "fp32"
+        ],
+        [
+          "input_ptr",
+          "fp32"
+        ],
+        [
+          "mask_ptr",
+          "fp32"
+        ]
+      ],
+      "optionalPointers": [
+        "mask_ptr"
+      ],
+      "scalars": [
+        [
+          "row_stride",
+          "i64"
+        ],
+        [
+          "n_cols",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "input_ptr",
+        "mask_ptr"
+      ],
+      "writePorts": [
+        "output_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "row_stride": "row_stride_value",
+      "n_cols": "n_cols_value"
+    },
+    "expected_pointer_presence": {
+      "mask_ptr": "HAS_MASK"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/softmax_triton3/softmax_triton3_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/softmax_triton3/Kernels.lean",
+    "python_function": "guarded_reciprocal_kernel",
+    "lean_definition": "guarded_reciprocal_kernel",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "output_ptr",
+          "fp32"
+        ],
+        [
+          "input_ptr",
+          "fp32"
+        ],
+        [
+          "mask_ptr",
+          "fp32"
+        ]
+      ],
+      "optionalPointers": [
+        "mask_ptr"
+      ],
+      "scalars": [
+        [
+          "row_stride",
+          "i64"
+        ],
+        [
+          "n_cols",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "input_ptr",
+        "mask_ptr"
+      ],
+      "writePorts": [
+        "output_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "row_stride": "row_stride_value",
+      "n_cols": "n_cols_value"
+    },
+    "expected_pointer_presence": {
+      "mask_ptr": "HAS_MASK"
+    }
+  }
+]

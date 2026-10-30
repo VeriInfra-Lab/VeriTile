@@ -1,0 +1,110 @@
+[
+  {
+    "python": "bench/examples/FusedSiLU/native_kernels.py",
+    "python_function": "fusedSiLUKernel",
+    "lean": "bench/examples/FusedSiLU/Kernels.lean",
+    "lean_definition": "fusedSiLUKernel",
+    "signature_definition": "fusedSiLUKernelSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "xReg",
+          "fp32"
+        ],
+        [
+          "gateReg",
+          "fp32"
+        ],
+        [
+          "residualReg",
+          "fp32"
+        ],
+        [
+          "outReg",
+          "bf16"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "blockSize"
+      ]
+    }
+  },
+  {
+    "python": "bench/examples/FusedSiLU/native_kernels.py",
+    "python_function": "siluStepGate",
+    "lean": "bench/examples/FusedSiLU/Kernels.lean",
+    "lean_definition": "siluStepGate",
+    "signature_definition": "siluStepGateSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "xReg",
+          "fp32"
+        ],
+        [
+          "gateReg",
+          "fp32"
+        ],
+        [
+          "zReg",
+          "fp32"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "blockSize"
+      ]
+    }
+  },
+  {
+    "python": "bench/examples/FusedSiLU/native_kernels.py",
+    "python_function": "siluStepSilu",
+    "lean": "bench/examples/FusedSiLU/Kernels.lean",
+    "lean_definition": "siluStepSilu",
+    "signature_definition": "siluStepSiluSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "zReg",
+          "fp32"
+        ],
+        [
+          "siluReg",
+          "fp32"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "blockSize"
+      ]
+    }
+  },
+  {
+    "python": "bench/examples/FusedSiLU/native_kernels.py",
+    "python_function": "siluStepResidual",
+    "lean": "bench/examples/FusedSiLU/Kernels.lean",
+    "lean_definition": "siluStepResidual",
+    "signature_definition": "siluStepResidualSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "siluReg",
+          "fp32"
+        ],
+        [
+          "residualReg",
+          "fp32"
+        ],
+        [
+          "outReg",
+          "bf16"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "blockSize"
+      ]
+    }
+  }
+]

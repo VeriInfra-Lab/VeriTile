@@ -1,0 +1,68 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/rowwise_quantization_triton/rowwise_quantization_triton_repaired.py",
+    "python_function": "_quantize_rowwise",
+    "lean": "bench/repairs/tritonbench_g/rowwise_quantization_triton/Kernels.lean",
+    "lean_definition": "source",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "x_ptr",
+          "fp32"
+        ],
+        [
+          "output_ptr",
+          "i8"
+        ],
+        [
+          "output_maxs",
+          "fp16"
+        ]
+      ],
+      "scalars": [
+        [
+          "n_elements",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE",
+        "P2"
+      ]
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/rowwise_quantization_triton/rowwise_quantization_triton_repaired.py",
+    "python_function": "_quantize_rowwise_early_max",
+    "lean": "bench/repairs/tritonbench_g/rowwise_quantization_triton/Kernels.lean",
+    "lean_definition": "earlyMaximumSource",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "x_ptr",
+          "fp32"
+        ],
+        [
+          "output_ptr",
+          "i8"
+        ],
+        [
+          "output_maxs",
+          "fp16"
+        ]
+      ],
+      "scalars": [
+        [
+          "n_elements",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE",
+        "P2"
+      ]
+    }
+  }
+]

@@ -1,4 +1,5 @@
 import VeriTile.Triton
+import VeriTile.Triton.Float.LegacyRealInt8
 import VeriTile.Examples.AttentionForwardClosedForm
 
 /-!
@@ -227,13 +228,16 @@ scale computation, value writeback, and scale writeback. The Python kernel casts
 the scale to `OutScale.dtype.element_ty`; that cast is represented explicitly.
 The final quotient cast to int8 is preserved as a surface dtype annotation and
 lowers through the DSL's fixed-width cast surface. -/
+-- Historical mathematical projection: the final int8 conversion uses the
+-- legacy unbounded Real truncation primitive. The typed FP source and its
+-- width/domain-checked conversion are separate, and never use this wrapper.
 def destindex_copy_quantize_kv_group_real_surface
     (K : RegionName) (DestLoc : Region .nat) (Out OutScale : RegionName)
     (stride_k_bs stride_k_h stride_k_g _stride_k_d
       stride_o_bs stride_o_h stride_o_g _stride_o_d
       stride_os_bs stride_os_h _stride_os_g
       group_size BLOCK_GROUP_NUM BLOCK_GROUP_DIM : Nat) :
-    ComputeKernel := triton {
+    ComputeKernel := legacy_real_int8% triton {
   cur_index = tl.program_id(0)
   cur_head = tl.program_id(1)
   offs_g = tl.arange(0, $(BLOCK_GROUP_NUM))

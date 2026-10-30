@@ -1,0 +1,114 @@
+{
+  "schema": 1,
+  "part": 9,
+  "title": "KV cache, LoRA, RWKV and signed-pointer regressions",
+  "branch": "codex/pr22-09-rwkv-cache",
+  "archived_snapshot": "8defd7008aa03a4d94bd4daa03cee0500d79dc68",
+  "archive_head": "5ea0e46126cc1c6eb05e4219ddc5dc13246ec3ce",
+  "base_commit": "25ad2949386cd0b992e2d3cb7cf26fac86f6a25c",
+  "source_identity": "All changed Lean and Python files are byte-identical to the archived snapshot. New base additions are retained verbatim. lakefile.toml combines both target lists.",
+  "changed_source_file_count": 1236,
+  "changed_source_blobs_sha256": "2838ea1db2c05e01fb7f656b85ffb3504aaee11af16deb2e91c23cc302c3bd9d",
+  "receipt_excerpts": [
+    "bench/pr22-split/receipts/loops-and-spec-derived-sources.json",
+    "bench/pr22-split/receipts/native-adam-and-masked-add.json",
+    "bench/pr22-split/receipts/native-block-pointer-reduction.json",
+    "bench/pr22-split/receipts/native-rope-bodies.json",
+    "bench/pr22-split/receipts/native-ksoftmax-function-bodies.json",
+    "bench/pr22-split/receipts/native-kv-cache-filling-function-bodies.json",
+    "bench/pr22-split/receipts/native-lora-expand-function-bodies.json",
+    "bench/pr22-split/receipts/native-rwkv6-function-bodies.json",
+    "bench/pr22-split/receipts/native-tma-matmul-function-bodies.json",
+    "bench/pr22-split/receipts/native-token-attention-function-bodies.json"
+  ],
+  "integration_validation": {
+    "status": "passed",
+    "checks": {
+      "formulas": {
+        "command": [
+          "python3",
+          "-B",
+          "bench/check_main_formula_review.py"
+        ],
+        "exit_code": 0,
+        "seconds": 0.7,
+        "log_sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+      },
+      "io": {
+        "command": [
+          "python3",
+          "-B",
+          "bench/check_io_organization.py"
+        ],
+        "exit_code": 0,
+        "seconds": 0.42,
+        "log_sha256": "0f30b59dbce8b6a941f456fa71d69795b1865a876e70f3aaa8ba54be4f0dbe9c"
+      },
+      "roles": {
+        "command": [
+          "python3",
+          "-B",
+          "bench/check_main_entry_roles.py"
+        ],
+        "exit_code": 0,
+        "seconds": 7.53,
+        "log_sha256": "d9b26faff45f491e7f11725a6806321e60d1bca058fc70ca625f9baef33f4182"
+      },
+      "corpus": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "bench.check_body_corpus",
+          "--check"
+        ],
+        "exit_code": 0,
+        "seconds": 3.64,
+        "log_sha256": "175339b63c22a4cd7b8760151f770cc3c33d06b45aa9f4c242868976e750b819"
+      },
+      "python": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "bench.tests.test_jit_correspondence",
+          "bench.tests.test_body_corpus"
+        ],
+        "exit_code": 0,
+        "seconds": 5.88,
+        "log_sha256": "23c7e54d341fcd8a45619151739f1bd220e55228657eb0c136411cc12af83b54"
+      },
+      "ledger": {
+        "command": [
+          "python3",
+          "-B",
+          "-c",
+          "import sys,json; sys.path.insert(0,'bench'); import task_progress; task_progress.validate(json.load(open('bench/tritonbench_g/task_progress.json')))"
+        ],
+        "exit_code": 0,
+        "seconds": 0.18,
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "base-integration": {
+        "command": [
+          "lake",
+          "build",
+          "VeriTile.Triton.Memory.LogicalScheduledKernelIO",
+          "VeriTile.Triton.Float.GuardedProgramIO",
+          "bench.tests.FPGuardedProgramIO"
+        ],
+        "exit_code": 0,
+        "seconds": 1.74,
+        "log_sha256": "0bcf9650e048492917412ff238b86f812eace5946a108a8b2454cadf127548e9"
+      }
+    },
+    "scope": "Fresh metadata/body-copy checks and compilation of the new base interfaces and guarded-program regression on this exact prefix. Task proofs retain the archived exact-source replay; this is not a fresh full-corpus replay for every prefix.",
+    "source_identity_check": {
+      "status": "passed",
+      "files": 19687,
+      "application_tree_sha256": "db2d487177d02993975b80770a7f614a96803291a0d6d421da927ea9d0862ba8",
+      "method": "Complete staged application Lean/Python path and Git blob map (historical checkpoint snapshots excluded) equals archived snapshot plus preserved newer base additions, including deletions."
+    }
+  }
+}

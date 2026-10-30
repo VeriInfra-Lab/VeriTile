@@ -1,0 +1,131 @@
+{
+  "source_sha256": "3cf92301a18073573c84be1bf775440e9f7b234dba9dd7c37f9d94eb15eb8fe4",
+  "original_sha256": "a38eb94742c262088ad9107b8eeb64f551476964f93eee2ed612d0890e449f31",
+  "script_sha256": "70118d2b09642e7e2b8d28599ff2817e330d7ef2dd0ef3332265e00e181d83a5",
+  "torch_version": "2.13.0+cu130",
+  "GPU_execution": false,
+  "original_lazy_negative_witnesses": [
+    {
+      "cotangent": "do",
+      "contiguous_preserves_identity_and_lazy_flag": true,
+      "original_passes_lazy_pointer": true,
+      "raw_value": 1.0,
+      "logical_value": -1.0,
+      "raw_pointer_dq_dv": [
+        4.0,
+        1.0
+      ],
+      "logical_reference_dq_dv": [
+        0.0,
+        -1.0
+      ],
+      "scope": "Actual original host body intercepted at launch; scalar pointer-semantics counterexample, not observed GPU output"
+    },
+    {
+      "cotangent": "dz",
+      "contiguous_preserves_identity_and_lazy_flag": true,
+      "original_passes_lazy_pointer": true,
+      "raw_value": 1.0,
+      "logical_value": -1.0,
+      "raw_pointer_dq_dv": [
+        4.0,
+        1.0
+      ],
+      "logical_reference_dq_dv": [
+        0.0,
+        1.0
+      ],
+      "scope": "Actual original host body intercepted at launch; scalar pointer-semantics counterexample, not observed GPU output"
+    }
+  ],
+  "autograd_preserves_lazy_negative_cotangent": true,
+  "rejections": [
+    {
+      "name": "lazy_negative_do",
+      "error": "expected resolved cotangent views"
+    },
+    {
+      "name": "lazy_negative_dz",
+      "error": "expected resolved cotangent views"
+    },
+    {
+      "name": "empty_lazy_negative_do",
+      "error": "expected resolved cotangent views"
+    },
+    {
+      "name": "empty_lazy_negative_dz",
+      "error": "expected resolved cotangent views"
+    },
+    {
+      "name": "non_tensor",
+      "error": "expected ordinary Torch cotangent tensors"
+    },
+    {
+      "name": "do_dtype",
+      "error": "expected strided FP32 CUDA cotangents"
+    },
+    {
+      "name": "dz_dtype",
+      "error": "expected strided FP32 CUDA cotangents"
+    },
+    {
+      "name": "do_shape",
+      "error": "expected dO=[B,H,T,V] and dZ=[B,H,T]"
+    },
+    {
+      "name": "dz_shape",
+      "error": "expected dO=[B,H,T,V] and dZ=[B,H,T]"
+    },
+    {
+      "name": "sparse_layout",
+      "error": "expected strided FP32 CUDA cotangents"
+    },
+    {
+      "name": "cuda_residency_observation",
+      "error": "expected strided FP32 CUDA cotangents"
+    },
+    {
+      "name": "device_mismatch_observation",
+      "error": "cotangents must share the saved inputs' device"
+    },
+    {
+      "name": "conjugate_flag_observation",
+      "error": "expected resolved cotangent views"
+    },
+    {
+      "name": "prepared_noncontiguous",
+      "error": "prepared cotangents must be contiguous"
+    },
+    {
+      "name": "synthetic_negative_stride",
+      "error": "cotangent strides must be nonnegative"
+    },
+    {
+      "name": "synthetic_unaligned",
+      "error": "cotangent elements exceed their FP32 storage span"
+    },
+    {
+      "name": "synthetic_below_storage",
+      "error": "cotangent elements exceed their FP32 storage span"
+    },
+    {
+      "name": "synthetic_short_storage",
+      "error": "cotangent elements exceed their FP32 storage span"
+    },
+    {
+      "name": "synthetic_strided_span",
+      "error": "cotangent elements exceed their FP32 storage span"
+    },
+    {
+      "name": "synthetic_storage_end_signed64",
+      "error": "cotangent elements exceed their FP32 storage span"
+    },
+    {
+      "name": "synthetic_formed_pointer_signed64",
+      "error": "cotangent formed pointers exceed signed 64-bit range"
+    }
+  ],
+  "expanded_copy_and_zero_stride_admitted": true,
+  "all_passed": true,
+  "observation_limits": "CUDA residency, device mismatch and FP32 conjugate-flag controls use explicit metadata observation shims; storage controls use synthetic query records. Original/source pointer witnesses and lazy-negative flags are actual CPU Torch observations."
+}

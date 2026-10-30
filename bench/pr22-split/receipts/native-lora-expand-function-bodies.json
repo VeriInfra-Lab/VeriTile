@@ -1,0 +1,120 @@
+{
+  "schema": 1,
+  "kind": "verbatim_fields_from_archived_review",
+  "archive": {
+    "commit": "5ea0e46126cc1c6eb05e4219ddc5dc13246ec3ce",
+    "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/review.json",
+    "sha256": "58ed1178276609bf1e259ea6673ce1f996fa5167e09f4c7fbd4fe62272dcabd4",
+    "url": "https://github.com/VeriInfra-Lab/VeriTile/blob/5ea0e46126cc1c6eb05e4219ddc5dc13246ec3ce/bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/review.json"
+  },
+  "context": "Verification below was performed on the archived source snapshot. Nested evidence paths resolve in that archive. The full semantic review, theorem audit and logs remain there. This split has separate integration checks.",
+  "excerpt": {
+    "status": "verified_task_batch_corpus_migration_incomplete",
+    "code_commit": "62c1632733dfecadc19a57f2515bdda1dc579e1f",
+    "new_task_migrations": [
+      "lora_expand_gemv"
+    ],
+    "regression_only_pending_body_tasks": [],
+    "verification": {
+      "baseline": {
+        "status": "PASS",
+        "explicit_modules": 90,
+        "code_commit": "8569fda23bee2837aef00143f2f006740a0a522d"
+      },
+      "focused": {
+        "status": "PASS",
+        "explicit_modules": 190,
+        "canonical_task_roots": 94,
+        "additional_affected_roots": 96,
+        "jobs": 3887,
+        "theorem_footprints": 4097
+      },
+      "warm_and_joint": {
+        "status": "PASS",
+        "explicit_modules": 4732,
+        "jobs": 14436
+      },
+      "independent_clean_affected_checkout": {
+        "status": "PASS",
+        "explicit_modules": 190,
+        "jobs": 3887,
+        "local_lean_files": 596,
+        "project_build_initially_present": false,
+        "project_objects_imported_from_other_checkouts": false,
+        "only_fixed_external_dependencies_imported": true,
+        "setup": {
+          "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/final-clean-setup.json",
+          "sha256": "152c704a03c3aaffb3e9a515ce5b2a2fcf25b5d61efb50f91c168f5784cd23e6"
+        }
+      },
+      "source_identical_previous_clean_roots": {
+        "status": "PASS",
+        "explicit_modules": 4542,
+        "previous_receipt": "efd0015c7dffc9a97aba209a79f49c7770866c2b",
+        "closure": {
+          "path": "bench/review-checkpoints/2026-10-28/native-lora-expand-function-bodies/unchanged-previous-closure.json",
+          "sha256": "4d64f2c875b6e3ed16a873c7ffa193b3869dab2815308eb5752f75332c43f440"
+        }
+      },
+      "trust": "PASS: all 4097 elaborated theorem roots in the 190 focused modules, including private helpers, use only the standard base. A shared traversal of one immutable checked Lean environment checks the accumulated axiom union after every root. Public grid_equiv prints no FP assumptions.",
+      "targeted_python": {
+        "status": "PASS",
+        "tests": 257
+      },
+      "all_python": {
+        "status": "KNOWN_PREEXISTING_FAILURE",
+        "tests": 502,
+        "errors": 1,
+        "reason": "Unchanged Structural.lean rejected by old numerical receipt; no false repin."
+      },
+      "source": "PASS: four full raw mappings and twelve focused body/ABI/candidate regressions; original Python and public specifications unchanged; complete source execution, safety, outputs/frames and independent formulas reconnected.",
+      "official_comparator": "UNAVAILABLE: 190 actual final-source attempts with pinned official binaries; Landlock ABI 4 is below required 5 and user-systemd isolation is unavailable. No bypass.",
+      "cpu": "PASS: retained complete candidate AST differs only by the existing single split-length specialization and symbol rename. Wrapper/launch syntax preserved; no arithmetic or GPU.",
+      "torch": {
+        "name": "torch-check",
+        "command": [
+          "python3",
+          "bench/repairs/tritonbench_g/lora_expand_gemv/check_byte_separated.py"
+        ],
+        "exit_code": 1,
+        "code_commit": "62c1632733dfecadc19a57f2515bdda1dc579e1f",
+        "log": "/tmp/lora103-torch-check.log",
+        "status": "UNAVAILABLE",
+        "reason": "Existing Tensor/CPU checks require Torch, which is not installed. The obsolete alias spelling guard was replaced by strict complete-body mappings; numerical profile pins unchanged."
+      },
+      "gpu_or_numerical_experiment": "Not run.",
+      "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending; the known unchanged numerical receipt failure remains explicit."
+    },
+    "corpus_complete": false,
+    "corpus_counts": {
+      "tasks": 183,
+      "examples": 19,
+      "task_status": {
+        "selected_body_copy_checked": 109,
+        "uncovered_jit_functions": 74
+      },
+      "example_status": {
+        "authored_counterpart_body_copy_checked": 2,
+        "selected_body_copy_checked": 2,
+        "spec_derived_body_copy_checked": 15
+      },
+      "selected_jit_functions": 333,
+      "uncovered_selected_jit_functions": 158,
+      "primary_files_with_int64_screen_warning": 22,
+      "primary_lean_file_features": {
+        "tasks": {
+          "in_body_type_directives": 53,
+          "antiquotes": 59,
+          "dsl_loop": 0,
+          "dsl_numeric_helpers": 8
+        },
+        "examples": {
+          "in_body_type_directives": 0,
+          "antiquotes": 0,
+          "dsl_loop": 0,
+          "dsl_numeric_helpers": 0
+        }
+      }
+    }
+  }
+}

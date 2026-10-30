@@ -1,0 +1,9 @@
+fwd_t17_d33_u0_v0_bd32_w4 compiled
+bwd_t17_d33_u0_v0_bd32_w4 compiled
+fwd_t17_d33_u1_v1_bd32_w4 compiled
+bwd_t17_d33_u1_v1_bd32_w4 compiled
+fwd_t1024_d33_u0_v0_bd32_w4 compiled
+bwd_t1024_d33_u0_v0_bd32_w4 compiled
+fwd_t1024_d33_u1_v1_bd32_w4 compiled
+bwd_t1024_d33_u1_v1_bd32_w4 compiled
+PASS: 8 actual-wrapper/JIT-binder source profiles.
