@@ -25,8 +25,11 @@ python3 scripts/check_comparator.py --file bench/examples/VectorAdd/Correct.lean
 bash bench/audit_tritonbench_g.sh
 ```
 
-CI checks the final inventory and library once, builds all 334 draft interfaces,
-and builds/replays the retained corpus in 64 independent shards. Each shard
+PR and main-push CI check the final inventory, source regressions and library
+proofs. Daily CI at 04:00 Asia/Singapore (20:00 UTC), and manual runs with
+`full_audit=true`, also build all 334 draft interfaces and build/replay every
+retained corpus module in 64 independent shards. Before merging proof changes,
+run the complete applicable proof checks locally. Each daily shard
 builds its selected modules and their complete dependencies before creating
 its isolated comparator workspace. The final gate requires every job to pass;
 a global-only result does not establish corpus acceptance. See the
