@@ -4,7 +4,7 @@ import textwrap
 from pathlib import Path
 import unittest
 
-from bench.jit_correspondence import check, check_manifest, quotation
+from bench.jit_correspondence import check, check_manifest, quotation, call_signature
 
 ROOT = Path(__file__).resolve().parents[2]
 DIRECTORY = ROOT / "bench/repairs/tritonbench_g/triton_argmax_nan_first"
@@ -151,7 +151,8 @@ class IntegerCallBodyTests(unittest.TestCase):
                 records = check_manifest(ROOT, ROOT / "bench/repairs/tritonbench_g" / task / "jit-correspondence.json")
                 self.assertTrue(all(r["mode"] == "pasted_body" for r in records))
                 self.assertTrue(all(r["argument_mode"] in
-                                    ("integer_per_call_specialization", "mixed_integer_calls_and_runtime_registers")
+                                    ("integer_per_call_specialization", "mixed_integer_calls_and_runtime_registers",
+                         "typed_per_call_specialization")
                                     for r in records))
 
     def test_spec_derived_example_bodies_remain_exact(self):
@@ -246,5 +247,485 @@ class IntegerCallBodyTests(unittest.TestCase):
                   record["expected_call_bindings"])
 
 
+
+class SeededCallABI(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / "bench/repairs/tritonbench_g/seeded_dropout"
+        self.python = (self.directory / "seeded_dropout_repaired.py").read_text()
+        self.lean = (self.directory / "Kernels.lean").read_text()
+        self.records = json.loads((self.directory / "jit-correspondence.json").read_text())
+
+    def compare(self, record, python=None, lean=None):
+        return check(self.python if python is None else python,
+                     self.lean if lean is None else lean,
+                     record["python_function"], record["lean_definition"],
+                     record["signature_definition"], record["expected_signature"],
+                     record["expected_call_bindings"])
+
+    def test_all_selected_seed_abis_retain_the_same_nine_statements(self):
+        results = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual([r["statements"] for r in results], [9]*6)
+        self.assertEqual({r["runtime_parameters"]["seed"] for r in results},
+                         {"i32", "i64", "u64"})
+
+    def test_unsigned_annotation_and_reviewed_signedness_are_checked(self):
+        record = next(r for r in self.records if r["lean_definition"] == "sourceU64")
+        annotated = self.python.replace("    seed,", "    seed: tl.uint64,", 1)
+        self.assertEqual(self.compare(record, python=annotated)["status"], "PASS")
+        with self.assertRaises(ValueError):
+            self.compare(record, python=annotated.replace("tl.uint64", "tl.int64", 1))
+        with self.assertRaises(ValueError):
+            self.compare(record, lean=self.lean.replace('("seed",.u64)', '("seed",.i64)', 1))
+
+    def test_seed_binding_and_original_store_cannot_disappear(self):
+        record = self.records[0]
+        for before, after in [("seed := seedValue", ""),
+                              ("output, mask=mask)", "(output).to(tl.float32), mask=mask)")]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.compare(record, lean=self.lean.replace(before, after, 1))
+
+
+class ScalarCallModeCorrespondence(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / "bench/repairs/tritonbench_g/rmsnorm_fused_llama"
+        self.records = json.loads((self.directory / "jit-correspondence.json").read_text())
+
+    def test_runtime_and_literal_argument_forms_check_every_body(self):
+        results = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual(len(results), 4)
+        self.assertEqual({r["lean_definition"] for r in results},
+                         {"kernel", "runtimeKernel", "indexCommutedKernel", "runtimeCandidate"})
+        self.assertEqual({"eps" in r["call_bindings"] for r in results}, {True, False})
+
+    def test_renaming_bindings_does_not_allow_duplicate_interfaces(self):
+        from bench.jit_correspondence import validate_manifest_records
+        record = next(r for r in self.records if r["lean_definition"] == "runtimeKernel")
+        duplicate = json.loads(json.dumps(record))
+        duplicate["lean_definition"] = "renamed_copy"
+        duplicate["profile_variant"] = "renamed_alias"
+        duplicate["expected_call_bindings"] = {k: "another_alias" for k in record["expected_call_bindings"]}
+        with self.assertRaisesRegex(ValueError, "duplicate ABI"):
+            validate_manifest_records([record, duplicate])
+
 if __name__ == "__main__":
     unittest.main()
+
+
+class CumsumRawBodyCorrespondence(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/chunk_cumsum_kernel"
+
+    def test_both_complete_signed_loops_are_raw_bodies(self):
+        results = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual([r["statements"] for r in results], [3, 3])
+        self.assertTrue(all(r["mode"] == "pasted_body" for r in results))
+
+    def test_source_casts_and_output_pointer_attribute_cannot_be_removed(self):
+        records = json.loads((self.directory / "jit-correspondence.json").read_text())
+        lean = (self.directory / "Kernels.lean").read_text()
+        python = (self.directory / "chunk_cumsum_kernel_repaired.py").read_text()
+        record = records[0]
+        for before, after in [("tl.cast(0, tl.int64)", "0"),
+                              ("tl.cast(tl.cdiv(T, BT), tl.int64)", "tl.cdiv(T, BT)"),
+                              ("b_o.to(p_o.dtype.element_ty)", "b_o")]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                check(python, lean.replace(before, after, 1), record["python_function"],
+                      record["lean_definition"], record["signature_definition"], record["expected_signature"])
+
+    def test_typed_storage_is_part_of_the_reviewed_call_metadata(self):
+        record = json.loads((self.directory / "jit-correspondence.json").read_text())[0]
+        lean = (self.directory / "Kernels.lean").read_text().replace(
+            "typedFP32Storage := Bool.true", "typedFP32Storage := Bool.false", 1)
+        with self.assertRaisesRegex(ValueError, "reviewed launch types"):
+            check((self.directory / "chunk_cumsum_kernel_repaired.py").read_text(), lean,
+                  record["python_function"], record["lean_definition"],
+                  record["signature_definition"], record["expected_signature"])
+
+
+class LogsumexpRawBodyCorrespondence(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/logsumexp_fwd"
+
+    def test_both_existing_complete_functions(self):
+        results = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual([r["statements"] for r in results], [11, 10])
+        self.assertTrue(all(r["mode"] == "pasted_body" for r in results))
+
+    def test_literal_cast_and_mask_restoration_cannot_be_replaced(self):
+        record = json.loads((self.directory / "jit-correspondence.json").read_text())[0]
+        lean = (self.directory / "Kernels.lean").read_text()
+        python = (self.directory / "logsumexp_fwd_repaired.py").read_text()
+        for before, after in [("positive_inf = float('inf')", "positive_inf = tl.bitcast(tl.full([], 2139095040, dtype=tl.uint32), tl.float32)"),
+                              ("tl.program_id(0).to(tl.int64)", "tl.program_id(0)"),
+                              ("    b_x = tl.where(m_d, b_x, -float('inf'))", "")]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                check(python, lean.replace(before, after, 1), record["python_function"],
+                      record["lean_definition"], record["signature_definition"], record["expected_signature"])
+
+
+class HgrnRawBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/fused_recurrent_hgrn"
+
+    def test_three_source_pairs_and_shared_candidate_backward(self):
+        records = json.loads((self.directory / "jit-correspondence.json").read_text())
+        self.assertEqual(len(check_manifest(ROOT, self.directory / "jit-correspondence.json")), 3)
+        record = records[1]
+        result = check((self.directory / "fused_recurrent_hgrn_stride_folded.py").read_text(),
+                       (self.directory / "Kernels.lean").read_text(),
+                       record["python_function"], record["lean_definition"],
+                       record["signature_definition"], record["expected_signature"])
+        self.assertEqual(result["mode"], "pasted_body")
+
+    def test_counter_cast_seed_and_reverse_branch_cannot_drift(self):
+        records = json.loads((self.directory / "jit-correspondence.json").read_text())
+        lean = (self.directory / "Kernels.lean").read_text()
+        for index, before, after in [
+            (0, "for _ in range(0, T)", "for _i in range(0, T)"),
+            (0, "b_h += tl.load(p_h0", "b_h = tl.load(p_h0"),
+            (0, "b_x = tl.load(p_x, mask=mask, other=0).to(tl.float32)",
+                "b_x = tl.load(p_x, mask=mask, other=0)"),
+            (1, "elif USE_INITIAL_STATE:", "elif USE_FINAL_GRAD:"),
+            (1, "p_do = do +", "p_do = o +"),
+        ]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                record = records[index]
+                self.assertIn(before, lean)
+                check((ROOT / record["python"]).read_text(), lean.replace(before, after, 1),
+                      record["python_function"], record["lean_definition"],
+                      record["signature_definition"], record["expected_signature"])
+
+
+class SwiGluBackwardAndReluBodyTests(unittest.TestCase):
+    def test_all_selected_bodies_and_existing_candidates(self):
+        for name in ("swiglu_backward", "relu_triton_kernel"):
+            with self.subTest(task=name):
+                records = check_manifest(ROOT, ROOT / "bench/repairs/tritonbench_g" / name / "jit-correspondence.json")
+                self.assertEqual(len(records), 2)
+                self.assertTrue(all(r["mode"] == "pasted_body" for r in records))
+
+    def test_optional_recomputation_order_and_tail_mask_stay_exact(self):
+        directory = ROOT / "bench/repairs/tritonbench_g/swiglu_backward"
+        record = json.loads((directory / "jit-correspondence.json").read_text())[0]
+        python = (ROOT / record["python"]).read_text()
+        lean = (ROOT / record["lean"]).read_text()
+        for before, after in (("if RECOMPUTE_OUTPUT:", "if True:"),
+                              ("x_sigmoid * (1 + x * (1 - x_sigmoid)) * y * dout",
+                               "dout * y * x_sigmoid * (1 + x * (1 - x_sigmoid))"),
+                              ("mask=cols < ncols", "mask=cols <= ncols")):
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.assertIn(before, lean)
+                check(python, lean.replace(before, after, 1), record["python_function"],
+                      record["lean_definition"], record["signature_definition"],
+                      record["expected_signature"], record["expected_call_bindings"])
+
+
+class ChunkedCumsumRawBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/chunked_cumsum_fwd"
+
+    def test_original_and_existing_scale_first_candidate(self):
+        pairs = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual(len(pairs), 2)
+        self.assertTrue(all(pair["mode"] == "pasted_body" for pair in pairs))
+
+    def test_mixed_storage_channels_and_unsigned_casts_are_pinned(self):
+        record = json.loads((self.directory / "jit-correspondence.json").read_text())[0]
+        python = (ROOT / record["python"]).read_text()
+        lean = (ROOT / record["lean"]).read_text()
+        for before, after in [('typedFP32Pointers := ["dt_ptr", "A_ptr"]',
+                               'typedFP32Pointers := ["dt_ptr"]'),
+                              ('seqlen = tl.cast(seqlen, tl.uint64)', 'seqlen = seqlen'),
+                              ('dt_min), dt_max)', 'dt_max), dt_min)'),
+                              ('if DT_SOFTPLUS:', 'if True:')]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.assertIn(before, lean)
+                check(python, lean.replace(before, after, 1), record["python_function"],
+                      record["lean_definition"], record["signature_definition"],
+                      record["expected_signature"], record["expected_call_bindings"])
+
+    def test_selective_storage_metadata_rejects_expressions_and_invalid_names(self):
+        lean = (self.directory / "Kernels.lean").read_text()
+        original = 'typedFP32Pointers := ["dt_ptr", "A_ptr"]'
+        for replacement in ['typedFP32Pointers := selected',
+                            'typedFP32Pointers := ["dt_ptr"] ++ ["A_ptr"]',
+                            'typedFP32Pointers := ["missing"]',
+                            'typedFP32Pointers := ["dt_ptr", "dt_ptr"]',
+                            'typedFP32Pointers := [1]']:
+            with self.subTest(replacement=replacement), self.assertRaises(ValueError):
+                call_signature(lean.replace(original, replacement, 1), "callSignature")
+
+
+class MatmulRawBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/matmul_kernel"
+
+    def test_both_existing_complete_functions(self):
+        pairs = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual(len(pairs), 2)
+        self.assertTrue(all(p["mode"] == "pasted_body" for p in pairs))
+
+    def test_live_dot_tail_loop_and_narrowing_cannot_drift(self):
+        records = json.loads((self.directory / "jit-correspondence.json").read_text())
+        lean = (self.directory / "Kernels.lean").read_text()
+        for index, before, after in [
+            (0, "tl.dot(a, b, accumulator)", "tl.dot(a, b) + accumulator"),
+            (0, "tl.cdiv(K, BLOCK_SIZE_K)", "K // BLOCK_SIZE_K"),
+            (0, "tl.cast(accumulator, tl.float16)", "accumulator"),
+            (0, "tl.store(c_ptrs, c,", "tl.store(c_ptrs, tl.cast(c, tl.float32),"),
+            (1, "offs_k[None, :] < K - k * BLOCK_SIZE_K", "offs_k[None, :] < K"),
+        ]:
+            record = records[index]
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                check((ROOT / record["python"]).read_text(), lean.replace(before, after, 1),
+                      record["python_function"], record["lean_definition"],
+                      record["signature_definition"], record["expected_signature"],
+                      record["expected_call_bindings"])
+
+
+class FusedActivationRawBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/fused_activation"
+
+    def test_both_existing_functions_keep_their_string_comparisons(self):
+        pairs = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual(len(pairs), 2)
+        self.assertTrue(all(p["mode"] == "pasted_body" for p in pairs))
+
+    def test_string_branches_and_operation_order_cannot_be_replaced(self):
+        records = json.loads((self.directory / "jit-correspondence.json").read_text())
+        lean = (self.directory / "Kernels.lean").read_text()
+        for before, after in [('if activation == "sigmoid":', 'if useSigmoid:'),
+                              ('elif activation == "relu":', 'else:'),
+                              ('multiplier * tmp3 + tmp0 + tmp1', 'tmp1 + (multiplier * tmp3 + tmp0)'),
+                              ('tl.arange(0, BLOCK_SIZE)[:]', 'tl.arange(0, BLOCK_SIZE)')]:
+            record = records[0]
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.assertIn(before, lean)
+                check((ROOT / record["python"]).read_text(), lean.replace(before, after, 1),
+                      record["python_function"], record["lean_definition"],
+                      record["signature_definition"], record["expected_signature"])
+
+
+class EmbeddingRawBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/embedding_triton_kernel"
+
+    def test_both_existing_signed_index_functions(self):
+        pairs = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual(len(pairs), 2)
+        self.assertTrue(all(p["mode"] == "pasted_body" for p in pairs))
+
+    def test_each_widening_and_mask_order_stays_in_the_source(self):
+        record = json.loads((self.directory / "jit-correspondence.json").read_text())[0]
+        lean = (self.directory / "Kernels.lean").read_text()
+        for before, after in [
+            ("tl.program_id(0).to(tl.int64)", "tl.program_id(0)"),
+            ("tl.arange(0, BLOCK_NN).to(tl.int64)", "tl.arange(0, BLOCK_NN)"),
+            ("tl.arange(0, BLOCK_DMODEL).to(tl.int64)", "tl.arange(0, BLOCK_DMODEL)"),
+            ("other=0).to(tl.int64)", "other=0)"),
+            ("tl.where(id_mask, token_ids, vob_start_id) - vob_start_id",
+             "tl.where(id_mask, token_ids - vob_start_id, 0)"),
+            ('("n_ctx",.i64)', '("n_ctx",.integer)'),
+        ]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.assertIn(before, lean)
+                check((ROOT / record["python"]).read_text(), lean.replace(before, after, 1),
+                      record["python_function"], record["lean_definition"],
+                      record["signature_definition"], record["expected_signature"],
+                      record["expected_call_bindings"])
+
+
+class MaxReductionRawBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/max_reduction"
+
+    def test_three_originals_and_three_retained_candidates_are_raw_bodies(self):
+        pairs = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual(len(pairs), 6)
+        self.assertTrue(all(p["mode"] == "pasted_body" for p in pairs))
+        self.assertEqual(sorted(p["statements"] for p in pairs), [6, 6, 8, 8, 15, 15])
+
+    def test_widenings_paired_reduction_masks_and_abi_cannot_drift(self):
+        records = {r["lean_definition"]: r for r in json.loads(
+            (self.directory / "jit-correspondence.json").read_text())}
+        lean = (self.directory / "Kernels.lean").read_text()
+        mutations = [
+            ("stage1", "tl.program_id(0).to(tl.int64)", "tl.program_id(0)"),
+            ("stage1", "tl.arange(0, BLOCK_SIZE).to(tl.int64)", "tl.arange(0, BLOCK_SIZE)"),
+            ("stage1", '("M",.i32)', '("M",.integer)'),
+            ("stage2", "tl.arange(0, BLOCK_MID).to(tl.int64)", "tl.arange(0, BLOCK_MID)"),
+            ("stage2Complement", "not (mid_size <= offset)", "mid_size < offset"),
+            ("dimension", "tl.program_id(1).to(tl.int64)", "tl.program_id(1)"),
+            ("dimension", "tl.arange(0, BLOCK_M).to(tl.int64)", "tl.arange(0, BLOCK_M)"),
+            ("dimension", "tl.arange(0, BLOCK_N).to(tl.int64)", "tl.arange(0, BLOCK_N)"),
+            ("dimension", "tl.cast(N, tl.int64)", "N"),
+            ("dimension", "tl.cast(K, tl.int64)", "K"),
+            ("dimension", "return_indices=True", "return_indices=False"),
+            ("dimension", "tl.store(out_index_ptrs, result_index, mask=mask1)",
+             "tl.store(out_index_ptrs, result_value, mask=mask1)"),
+            ("dimension", '("out_index",.i64)', '("out_index",.i32)'),
+        ]
+        for definition, before, after in mutations:
+            record = records[definition]
+            with self.subTest(definition=definition, before=before), self.assertRaises(ValueError):
+                self.assertIn(before, lean)
+                check((ROOT / record["python"]).read_text(), lean.replace(before, after, 1),
+                      record["python_function"], definition, record["signature_definition"],
+                      record["expected_signature"], record["expected_call_bindings"])
+
+
+class MaskedSelectRawBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/masked_select"
+
+    def test_complete_original_body_and_natural_prefix_storage_view(self):
+        pairs = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual(len(pairs), 1)
+        self.assertEqual((pairs[0]["mode"], pairs[0]["statements"]), ("pasted_body", 7))
+        record = json.loads((self.directory / "jit-correspondence.json").read_text())[0]
+        lean = (self.directory / "Kernels.lean").read_text()
+        for before, after in [
+            ('naturalIntegerPointers := ["prefix_sum_ptr"]', 'naturalIntegerPointers := []'),
+            ('("prefix_sum_ptr",.i64)', '("prefix_sum_ptr",.u64)'),
+            ('.to(tl.int1)', ''),
+            ('other=0.0) - 1', 'other=0.0) - 0'),
+            ('mask=(select_mask and mask)', 'mask=(mask and select_mask)'),
+        ]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.assertIn(before, lean)
+                check((ROOT / record["python"]).read_text(), lean.replace(before, after, 1),
+                      record["python_function"], record["lean_definition"], record["signature_definition"],
+                      record["expected_signature"], record["expected_call_bindings"])
+
+    def test_natural_integer_metadata_rejects_unreviewed_expressions_and_noninteger_names(self):
+        lean = (self.directory / "Kernels.lean").read_text()
+        before = 'naturalIntegerPointers := ["prefix_sum_ptr"]'
+        for replacement in [
+            'naturalIntegerPointers := names',
+            'naturalIntegerPointers := ["prefix_sum_ptr"] ++ more',
+            'naturalIntegerPointers := ["inp_ptr"]',
+            'naturalIntegerPointers := ["missing"]',
+            'naturalIntegerPointers := ["prefix_sum_ptr", "prefix_sum_ptr"]',
+        ]:
+            with self.subTest(replacement=replacement), self.assertRaisesRegex(ValueError, "natural integer"):
+                call_signature(lean.replace(before, replacement), "callSignature")
+
+
+class Int8AsmRawBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked"
+
+    def test_original_body_keeps_assembly_and_its_complete_abi(self):
+        pairs = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual(len(pairs), 1)
+        self.assertEqual((pairs[0]["mode"], pairs[0]["statements"]), ("pasted_body", 23))
+
+    def test_assembly_cast_shape_and_call_metadata_cannot_drift(self):
+        record = json.loads((self.directory / "jit-correspondence.json").read_text())[0]
+        lean = (self.directory / "Kernels.lean").read_text()
+        for before, after in [
+            ('"add.u32 $0, $1, $2;"', '"sub.u32 $0, $1, $2;"'),
+            ('constraints="=r,r,r"', 'constraints="=r,l,l"'),
+            ('args=[accumulator, partial]', 'args=[partial, accumulator]'),
+            ('is_pure=True', 'is_pure=False'),
+            ('pack=1', 'pack=2'),
+            ('.to(tl.int8)', ''),
+            ('tl.zeros((BLOCK_SIZE_M, BLOCK_SIZE_N)', 'tl.zeros([BLOCK_SIZE_M, BLOCK_SIZE_N]'),
+            ('partial = tl.dot', 'block_sum = tl.dot'),
+            ('("b_ptr",.u8)', '("b_ptr",.i8)'),
+            ('stride_am := stride_am', 'stride_am := stride_ak'),
+        ]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.assertIn(before, lean)
+                check((ROOT / record["python"]).read_text(), lean.replace(before, after, 1),
+                      record["python_function"], record["lean_definition"], record["signature_definition"],
+                      record["expected_signature"], record["expected_call_bindings"])
+
+
+class TokenSoftmaxRawBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/token_softmax_llama"
+
+    def test_both_independent_originals_match_the_shared_source(self):
+        for name in ["token_softmax_llama", "token_softmax_bloom"]:
+            with self.subTest(task=name):
+                pairs = check_manifest(ROOT, ROOT / "bench/repairs/tritonbench_g" / name / "jit-correspondence.json")
+                self.assertEqual(len(pairs), 2)
+                self.assertTrue(all((p["mode"], p["statements"]) == ("pasted_body", 11) for p in pairs))
+
+    def test_all_source_casts_mask_and_floating_family_are_pinned(self):
+        record = json.loads((self.directory / "jit-correspondence.json").read_text())[0]
+        lean = (self.directory / "Kernels.lean").read_text()
+        mutations = [
+            ("tl.program_id(0).to(tl.int64)", "tl.program_id(0)"),
+            ("tl.program_id(1).to(tl.int64)", "tl.program_id(1)"),
+            ("tl.arange(0, BLOCK_SIZE).to(tl.int64)", "tl.arange(0, BLOCK_SIZE)"),
+            ("cur_batch * stride_length).to(tl.int64)", "cur_batch * stride_length)"),
+            ("cur_batch * stride_start).to(tl.int64)", "cur_batch * stride_start)"),
+            ('("Logics",.inputFloat)', '("Logics",.fp32)'),
+            ('("B_Seqlen",.i32)', '("B_Seqlen",.i64)'),
+            ("mask=col_offsets < cur_batch_seq_len", "mask=col_offsets <= cur_batch_seq_len"),
+            ("stride_prob_bs := stride_prob_bs", "stride_prob_bs := stride_logic_bs"),
+        ]
+        for before, after in mutations:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.assertIn(before, lean)
+                check((ROOT / record["python"]).read_text(), lean.replace(before, after, 1),
+                      record["python_function"], record["lean_definition"], record["signature_definition"],
+                      record["expected_signature"], record["expected_call_bindings"])
+
+
+class ReversedCumsumRawBodyTests(unittest.TestCase):
+    def test_both_full_selected_variants_and_all_widenings_are_preserved(self):
+        for task, statements in [("reversed_cumsum_scalar", 3), ("reversed_cumsum", 5)]:
+            directory = ROOT / "bench/repairs/tritonbench_g" / task
+            records = json.loads((directory / "jit-correspondence.json").read_text())
+            pairs = check_manifest(ROOT, directory / "jit-correspondence.json")
+            self.assertEqual(len(pairs), 2)
+            self.assertTrue(all((p["mode"], p["statements"]) == ("pasted_body", statements) for p in pairs))
+            lean = (directory / "Kernels.lean").read_text()
+            for record in records:
+                for before, after in [
+                    ("tl.program_id(0).to(tl.int64)", "tl.program_id(0)"),
+                    ("tl.cast(tl.cdiv(T, BT), tl.int64)", "tl.cdiv(T, BT)"),
+                    ("tl.cast(i_t, tl.int64)", "i_t"),
+                    ("tl.arange(0, BT).to(tl.int64)", "tl.arange(0, BT)"),
+                    ('("s",.inputFloat)', '("s",.fp32)'),
+                ]:
+                    with self.subTest(task=task, definition=record["lean_definition"], before=before), self.assertRaises(ValueError):
+                        self.assertIn(before, lean)
+                        # Mutate both quotations so the selected definition is changed too.
+                        check((ROOT / record["python"]).read_text(), lean.replace(before, after),
+                              record["python_function"], record["lean_definition"], record["signature_definition"],
+                              record["expected_signature"])
+
+    def test_vector_both_program_axes_and_feature_widening_remain_distinct(self):
+        directory = ROOT / "bench/repairs/tritonbench_g/reversed_cumsum"
+        record = json.loads((directory / "jit-correspondence.json").read_text())[0]
+        lean = (directory / "Kernels.lean").read_text()
+        for before, after in [
+            ("tl.program_id(1).to(tl.int64)", "tl.program_id(0).to(tl.int64)"),
+            ("tl.arange(0, BS).to(tl.int64)", "tl.arange(0, BS)"),
+            ("b_z += tl.sum(b_s, 0)", "b_z = tl.sum(b_s, 0)"),
+        ]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.assertIn(before, lean)
+                check((ROOT / record["python"]).read_text(), lean.replace(before, after),
+                      record["python_function"], record["lean_definition"], record["signature_definition"],
+                      record["expected_signature"])
+
+
+class ApplyPenaltyRawBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/apply_penalty"
+
+    def test_both_original_and_reciprocal_keep_metadata_widenings_and_runtime_strides(self):
+        records = json.loads((self.directory / "jit-correspondence.json").read_text())
+        pairs = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual(len(pairs), 2)
+        self.assertTrue(all((p["mode"], p["statements"]) == ("pasted_body", 17) for p in pairs))
+        lean = (self.directory / "Kernels.lean").read_text()
+        for record in records:
+            for before, after in [
+                ("tl.program_id(0).to(tl.int64)", "tl.program_id(0)"),
+                ("tl.load(p_cumsum_seq_len + cur_batch).to(tl.int64)", "tl.load(p_cumsum_seq_len + cur_batch)"),
+                ("tl.arange(0, BLOCK_P).to(tl.int64)", "tl.arange(0, BLOCK_P)"),
+                ("other=0).to(tl.int64)", "other=0)"),
+                ("tl.cast(stride_logit_b, tl.int64)", "stride_logit_b"),
+                ('("p_token_counts",.i32)', '("p_token_counts",.i64)'),
+                ("stride_logit_s := _stride_logit_s", "stride_logit_s := stride_logit_b"),
+            ]:
+                with self.subTest(definition=record["lean_definition"], before=before), self.assertRaises(ValueError):
+                    self.assertIn(before, lean)
+                    check((ROOT / record["python"]).read_text(), lean.replace(before, after),
+                          record["python_function"], record["lean_definition"], record["signature_definition"],
+                          record["expected_signature"], record["expected_call_bindings"])

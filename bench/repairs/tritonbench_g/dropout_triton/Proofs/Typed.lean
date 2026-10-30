@@ -35,7 +35,7 @@ def execution {α : Type} [Inhabited α] (M : Algebra α)
     {t : State α // FP.Structural.exec (castBackend M) (source q p) s = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [source, sourceKernel,
+  simp [source, sourceKernel,VeriTile.Triton.DSL.TypedStores.fp32CallValue,
     FP.Structural.exec, ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
     numericLt, numericEq, natLt, bop, store, Region.cast, castBackend,

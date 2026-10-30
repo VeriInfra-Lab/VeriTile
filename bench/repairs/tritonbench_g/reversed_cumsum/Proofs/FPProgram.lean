@@ -13,8 +13,9 @@ def triOp (c : Config) : Op .real [c.BT,c.BT] :=
     (.broadcast (.const 1.0) [c.BT,c.BT]) (.broadcast (.const 0.0) [c.BT,c.BT])
 
 def initCode (c : Config) : List ComputeStmt :=
-  [.assign .nat [] "i_s" (.alg (.programId 0)),
-   .assign .nat [] "i_bh" (.alg (.programId 1)),
+  [.ifThen (.constBool Bool.true)
+     [.assign .int [] "i_s" (.alg (.castNatToInt (.programId 0))),
+      .assign .int [] "i_bh" (.alg (.castNatToInt (.programId 1)))],
    .assign .nat [c.BT] "o_i" (.alg (.arange c.BT)),
    .assign .real [c.BT,c.BT] "m_s" (.alg (triOp c)),
    .assign .real [BS] "b_z" (.compute (.full [BS] (.alg .fp32 (.const 0))))]
@@ -38,13 +39,13 @@ def storeOp (h : Call) (c : Config) : ComputeStmt :=
 def loopBody (h : Call) (c : Config) : List ComputeStmt :=
   [.assign .int [] "i_t" (.alg indexOp),
    .assign .int [] "start_t" (.alg (startTOp c)),
-   .assign .nat [] "start_s" (.alg startSOp),
+   .assign .int [] "start_s" (.alg startSOp),
    .assign .nat [c.BT] "lane_t" (.alg (.arange c.BT)),
    .assign .nat [BS] "lane_s" (.alg (.arange BS)),
    .assign .bool [c.BT] "active_t" (.alg (activeTOp h c)),
    .assign .bool [BS] "active_s" (.alg (activeSOp h)),
    .assign .int [c.BT] "times" (.alg (timeOp c)),
-   .assign .nat [BS] "features" (.alg featureOp),
+   .assign .int [BS] "features" (.alg featureOp),
    .assign .bool [c.BT,BS] "active" (.alg (maskOp c)),
    .assign .ptr [c.BT,BS] "p_s" (.alg (pointerOp h c h.input)),
    .assign .ptr [c.BT,BS] "p_z" (.alg (pointerOp h c h.output)),

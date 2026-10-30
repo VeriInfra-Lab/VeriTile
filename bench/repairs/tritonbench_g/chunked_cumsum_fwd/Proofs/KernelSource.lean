@@ -1,4 +1,4 @@
-import bench.repairs.tritonbench_g.chunked_cumsum_fwd.Kernels
+import bench.repairs.tritonbench_g.chunked_cumsum_fwd.Proofs.SourcePreservation
 
 /-! Execution helpers for the complete ordinary DSL source in Kernels.lean.
 The historical quotation is independently checked in the campaign source

@@ -85,7 +85,7 @@ theorem candidate_safe_of_access (rest : Algebra α) (zero : α) (p : Parameters
       evalOp_unfold,numeric,ComputeDType.eraseDType,Option.bind]
     congr 1
     funext i
-    exact Nat.mul_comm _ _
+    exact Int.mul_comm _ _
   have safe := source_safe_of_access rest zero p bounds s h
   change Safety.traceSafeList M bounds (source .int32 p).surfaceBody s at safe
   rw [←List.take_append_drop 1 (source .int32 p).surfaceBody] at safe

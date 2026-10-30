@@ -1,36 +1,102 @@
-import bench.tritonbench_g.rms_norm_triton.Kernels
+import VeriTile.Triton.DSL.CallSignature
+import VeriTile.Triton.DSL
 
-/-! The checked repair's JIT AST is identical to the original FP32 source.
-The original reuses the public readable shared DSL; the complete existing
-index-commuted candidate is quoted below. Only the Python guards differ.
-`check_contract.py` checks the exact JIT AST and guard expressions. -/
+/-! Exact original Python body and the retained row-product candidate.
+The caller supplies the contiguous strides and pointer/scalar types outside
+these quotations. Runtime epsilon has its own ordinary register interface;
+the literal verification interface retains the same complete Python body. -/
 namespace VeriTile.Bench.Repairs.RmsNormTriton
 open VeriTile.Triton
 
+def callSignature : CallSignature where
+  pointers := [("Y",.fp32),("X",.fp32),("W",.fp32)]
+  scalars := [("y_stride_r",.i32),("y_stride_c",.i32),("x_stride_r",.i32),("x_stride_c",.i32),("N",.i32),("eps",.fp32)]
+  constexpr := ["BLOCK_SIZE"]
+  readPorts := ["X","W"]
+  writePorts := ["Y"]
+
 def kernel (Y X W : RegionName) (N B : Nat) (eps : ℝ) : ComputeKernel :=
-  VeriTile.Bench.TritonBenchG.RmsNormTriton.kernel Y X W N 1 N 1 N eps B
-
-theorem source_identity (Y X W : RegionName) (N B : Nat) (eps : ℝ) :
-    kernel Y X W N B eps =
-      VeriTile.Bench.TritonBenchG.RmsNormTriton.kernel Y X W N 1 N 1 N eps B := rfl
-
-/-- Reuse the already specified source candidate: commute only the two
-natural row-base products. The FP32 casts and floating expression are intact. -/
-def indexCommutedKernel (Y X W : RegionName) (N B : Nat) (eps : ℝ) : ComputeKernel :=
+  let BLOCK_SIZE := B
+  let unitStride := (1 : Nat)
+  with_triton_call callSignature call_args [y_stride_r := N, y_stride_c := unitStride, x_stride_r := N, x_stride_c := unitStride, N := N, eps := eps] in
   triton {
-  tl.ports inputs=[X, W], outputs=[Y]
-  tl.region Y = tl.float32, X = tl.float32, W = tl.float32
-  pid = tl.program_id(0)
-  Y += $(N) * pid
-  X += $(N) * pid
-  mask = tl.arange(0, $(B)) < $(N)
-  cols = tl.arange(0, $(B))
-  x = tl.load(X + cols * $(1), mask, other=0.0).to(tl.float32)
-  var = tl.sum(x * x, axis=0) / $(N)
-  rrms = 1 / tl.sqrt(var + $((eps : ℝ)).to(tl.float32))
-  w = tl.load(W + tl.arange(0, $(B)), mask=mask, other=0.0)
-  y = (x * rrms).to(tl.float32) * w
-  tl.store(Y + cols * $(1), y, mask=mask)
-}
+    pid = tl.program_id(0)
+    Y += pid * y_stride_r
+    X += pid * x_stride_r
+
+    mask = tl.arange(0, BLOCK_SIZE) < N
+    cols = tl.arange(0, BLOCK_SIZE)
+    x = tl.load(X + cols * x_stride_c, mask, other=0.0).to(tl.float32)
+
+    var = tl.sum(x * x, axis=0) / N
+    rrms = 1 / tl.sqrt(var + eps)
+
+    w = tl.load(W + tl.arange(0, BLOCK_SIZE), mask=mask, other=0.0)
+    y = (x * rrms).to(Y.dtype.element_ty) * w
+    tl.store(Y + cols * y_stride_c, y, mask=mask)
+  }
+
+def runtimeKernel (Y X W : RegionName) (N B : Nat) : ComputeKernel :=
+  let BLOCK_SIZE := B
+  let unitStride := (1 : Nat)
+  with_triton_call callSignature call_args [y_stride_r := N, y_stride_c := unitStride, x_stride_r := N, x_stride_c := unitStride, N := N] in
+  triton {
+    pid = tl.program_id(0)
+    Y += pid * y_stride_r
+    X += pid * x_stride_r
+
+    mask = tl.arange(0, BLOCK_SIZE) < N
+    cols = tl.arange(0, BLOCK_SIZE)
+    x = tl.load(X + cols * x_stride_c, mask, other=0.0).to(tl.float32)
+
+    var = tl.sum(x * x, axis=0) / N
+    rrms = 1 / tl.sqrt(var + eps)
+
+    w = tl.load(W + tl.arange(0, BLOCK_SIZE), mask=mask, other=0.0)
+    y = (x * rrms).to(Y.dtype.element_ty) * w
+    tl.store(Y + cols * y_stride_c, y, mask=mask)
+  }
+
+def indexCommutedKernel (Y X W : RegionName) (N B : Nat) (eps : ℝ) : ComputeKernel :=
+  let BLOCK_SIZE := B
+  let unitStride := (1 : Nat)
+  with_triton_call callSignature call_args [y_stride_r := N, y_stride_c := unitStride, x_stride_r := N, x_stride_c := unitStride, N := N, eps := eps] in
+  triton {
+    pid = tl.program_id(0)
+    Y += y_stride_r * pid
+    X += x_stride_r * pid
+
+    mask = tl.arange(0, BLOCK_SIZE) < N
+    cols = tl.arange(0, BLOCK_SIZE)
+    x = tl.load(X + cols * x_stride_c, mask, other=0.0).to(tl.float32)
+
+    var = tl.sum(x * x, axis=0) / N
+    rrms = 1 / tl.sqrt(var + eps)
+
+    w = tl.load(W + tl.arange(0, BLOCK_SIZE), mask=mask, other=0.0)
+    y = (x * rrms).to(Y.dtype.element_ty) * w
+    tl.store(Y + cols * y_stride_c, y, mask=mask)
+  }
+
+def runtimeCandidate (Y X W : RegionName) (N B : Nat) : ComputeKernel :=
+  let BLOCK_SIZE := B
+  let unitStride := (1 : Nat)
+  with_triton_call callSignature call_args [y_stride_r := N, y_stride_c := unitStride, x_stride_r := N, x_stride_c := unitStride, N := N] in
+  triton {
+    pid = tl.program_id(0)
+    Y += y_stride_r * pid
+    X += x_stride_r * pid
+
+    mask = tl.arange(0, BLOCK_SIZE) < N
+    cols = tl.arange(0, BLOCK_SIZE)
+    x = tl.load(X + cols * x_stride_c, mask, other=0.0).to(tl.float32)
+
+    var = tl.sum(x * x, axis=0) / N
+    rrms = 1 / tl.sqrt(var + eps)
+
+    w = tl.load(W + tl.arange(0, BLOCK_SIZE), mask=mask, other=0.0)
+    y = (x * rrms).to(Y.dtype.element_ty) * w
+    tl.store(Y + cols * y_stride_c, y, mask=mask)
+  }
 
 end VeriTile.Bench.Repairs.RmsNormTriton

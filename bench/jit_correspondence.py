@@ -181,7 +181,7 @@ def call_signature(text: str, name: str) -> dict:
         value = re.search(r"\b" + field + r"\s*:=\s*(\[[^\]]*\])", match[1])
         if not value:
             raise ValueError(f"missing call signature field: {field}")
-        source = re.sub(r"\.(fp16|bf16|fp32|fp64|f8e4|f8e5|i8|i16|i32|i64|u8|u16|u32|u64|boolean|integer)\b", r'"\1"', value[1])
+        source = re.sub(r"\.(fp16|bf16|fp32|fp64|f8e4|f8e5|i8|i16|i32|i64|u8|u16|u32|u64|boolean|integer|inputFloat|outputFloat)\b", r'"\1"', value[1])
         fields[field] = json.loads(json.dumps(ast.literal_eval(source)))
     for field in ("readPorts", "writePorts"):
         value = re.search(r"\b" + field + r"\s*:=\s*(\[[^\]]*\])", match[1])
@@ -190,6 +190,38 @@ def call_signature(text: str, name: str) -> dict:
             if (not isinstance(fields[field], list) or len(set(fields[field])) != len(fields[field])
                 or not set(fields[field]) <= {n for n, _ in fields["pointers"]}):
                 raise ValueError("invalid call memory ports")
+    storage = re.search(r"\btypedFP32Storage\s*:=\s*(?:Bool\.)?(true|false)\b", match[1])
+    if re.search(r"\btypedFP32Storage\s*:=", match[1]) and not storage:
+        raise ValueError("typed FP32 storage selection must be a literal Boolean")
+    if storage:
+        fields["typedFP32Storage"] = storage[1] == "true"
+    selected_storage = re.search(r"\btypedFP32Pointers\s*:=\s*(\[[^\]]*\])(?=\s*(?:[A-Za-z_]\w*\s*:=|$))", match[1], re.S)
+    if re.search(r"\btypedFP32Pointers\s*:=", match[1]) and not selected_storage:
+        raise ValueError("typed FP32 pointers must be a literal list")
+    if selected_storage:
+        try:
+            selected = ast.literal_eval(selected_storage[1])
+        except (ValueError, SyntaxError) as exc:
+            raise ValueError("typed FP32 pointers must be a literal list") from exc
+        if (not isinstance(selected, list) or not all(isinstance(n, str) for n in selected)
+                or len(selected) != len(set(selected))
+                or not set(selected) <= {n for n, dtype in fields["pointers"] if dtype == "fp32"}):
+            raise ValueError("typed FP32 pointers must be distinct FP32 pointer parameter names")
+        fields["typedFP32Pointers"] = selected
+    natural = re.search(r"\bnaturalIntegerPointers\s*:=\s*(\[[^\]]*\])(?=\s*(?:[A-Za-z_]\w*\s*:=|$))", match[1], re.S)
+    if re.search(r"\bnaturalIntegerPointers\s*:=", match[1]) and not natural:
+        raise ValueError("natural integer pointers must be a literal list")
+    if natural:
+        try:
+            selected = ast.literal_eval(natural[1])
+        except (ValueError, SyntaxError) as exc:
+            raise ValueError("natural integer pointers must be a literal list") from exc
+        integers = {"i8", "i16", "i32", "i64", "u8", "u16", "u32", "u64"}
+        if (not isinstance(selected, list) or not all(isinstance(n, str) for n in selected)
+                or len(selected) != len(set(selected))
+                or not set(selected) <= {n for n, dtype in fields["pointers"] if dtype in integers}):
+            raise ValueError("natural integer pointers must be distinct integer pointer parameter names")
+        fields["naturalIntegerPointers"] = selected
     names = [n for n, _ in fields["pointers"] + fields["scalars"]] + fields["constexpr"]
     if len(names) != len(set(names)):
         raise ValueError("duplicate call signature parameter")
@@ -294,13 +326,13 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
             raise ValueError("Python parameters and call signature differ")
         # `integer` is intentionally unbounded; it cannot certify an explicit
         # int32/int64 ABI annotation. Pointer annotations are not scalar args.
-        scalar_types = {"fp32": "tl.float32", "fp64": "tl.float64", "i32": "tl.int32", "i64": "tl.int64"}
+        scalar_types = {"fp32": "tl.float32", "fp64": "tl.float64", "i32": "tl.int32", "i64": "tl.int64", "u32": "tl.uint32", "u64": "tl.uint64"}
         supplied = {n: scalar_types.get(t) for n, t in profile["scalars"]}
         pointer_names = {n for n, _ in profile["pointers"]}
         if pointer_offsets is not None and not set(pointer_offsets) <= pointer_names:
             raise ValueError("offset binding is not a pointer parameter")
         if call_bindings is not None:
-            integer_names = {n for n, t in profile["scalars"] if t in ("i32", "i64", "integer")}
+            integer_names = {n for n, t in profile["scalars"] if t in ("i32", "i64", "u32", "u64", "integer")}
             fp32_names = {n for n, t in profile["scalars"] if t == "fp32"}
             if not integer_names <= set(call_bindings) <= integer_names | fp32_names:
                 raise ValueError("per-call bindings must cover every integer scalar and only supported scalar kinds")
@@ -356,9 +388,11 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
 def validate_manifest_records(records: list[dict]) -> None:
     """Allow explicit distinct ABI profiles of one Python function.
 
-    A profile tag cannot excuse a duplicate mapping: both a distinct Lean
-    definition and a distinct checked ABI are required. Ordinary duplicate
-    records continue to fail closed.
+    A profile tag cannot excuse a duplicate mapping. Besides distinct Lean
+    definitions, require distinct checked ABIs or distinct sets of scalar
+    arguments specialized at the call. The latter checks both literal and
+    runtime-register interfaces of the same source, without treating argument
+    alias renaming or an empty binding list as a different interface.
     """
     lean_keys = [(r["lean"], r["lean_definition"]) for r in records]
     if len(lean_keys) != len(set(lean_keys)):
@@ -377,10 +411,15 @@ def validate_manifest_records(records: list[dict]) -> None:
             signature = record.get("expected_signature")
             if not record.get("signature_definition") or not isinstance(signature, dict):
                 raise ValueError("reused Python correspondence requires checked ABI profiles")
-            abis.append(json.dumps({key: signature.get(key) for key in
-                                   ("pointers", "scalars", "constexpr")}, sort_keys=True))
+            bindings = record.get("expected_call_bindings") or {}
+            if not isinstance(bindings, dict):
+                raise ValueError("reused Python correspondence requires checked call bindings")
+            abis.append(json.dumps({
+                "abi": {key: signature.get(key) for key in ("pointers", "scalars", "constexpr")},
+                "specialized_scalars": sorted(bindings),
+            }, sort_keys=True))
         if len(abis) != len(set(abis)):
-            raise ValueError("reused Python correspondence has duplicate ABI profiles")
+            raise ValueError("reused Python correspondence has duplicate ABI profiles and scalar call modes")
 
 
 def check_manifest(root: Path, manifest: Path) -> list[dict]:

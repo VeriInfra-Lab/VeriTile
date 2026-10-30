@@ -196,11 +196,58 @@ def render (raw : String) : Except String String := do
   for _ in levels.tail! do output := output.push "}"
   return "\n".intercalate output.toList
 
+/-- These are ordinary Python identifiers but reserved by Lean's lexer.
+Escape them only in the parsed view; raw source and quoted strings stay intact.
+The underscore remains the actual register name, including when it is read. -/
+private partial def escapeSourceIdentifiers (input : List Char) (output : String := "") :
+    Except String String := do
+  match input with
+  | [] => return output
+  | c :: tail =>
+      if c == '\"' || c == '\'' then
+        let (raw, rest, _) ← stringToken c tail
+        escapeSourceIdentifiers rest (output ++ String.ofList raw)
+      else if c.isAlpha || c == '_' then
+        let restOfWord := tail.takeWhile (fun ch => ch.isAlphanum || ch == '_')
+        let word := String.ofList (c :: restOfWord)
+        let word := if ["do", "_", "partial", "prefix"].contains word then "«" ++ word ++ "»" else word
+        escapeSourceIdentifiers (tail.drop restOfWord.length) (output ++ word)
+      else escapeSourceIdentifiers tail (output.push c)
+
 /-- The original raw token is preserved in the syntax node. -/
 def rawText (body : TSyntax `tritonPythonBody) : String := body.raw[0].getAtomVal
 
+/-- Lean lexes `value.to` as one dotted identifier, so an attribute cast can
+parse as an ordinary helper call. Recover only the exact Python `.to` spelling
+with a supported type attribute; other helper names/arguments remain unchanged.
+This changes parsed syntax only, before call-site dtype tracking. -/
+private partial def normalizeAttributeCasts (raw : Syntax) : MacroM Syntax := do
+  let children ← raw.getArgs.mapM normalizeAttributeCasts
+  let rebuilt := match raw with
+    | .node info kind _ => Syntax.node info kind children
+    | _ => raw
+  unless rebuilt.getKind == ``tritonSourceHelperCall do return rebuilt
+  let some callee := children[0]? | return rebuilt
+  unless callee.isIdent do return rebuilt
+  let .str receiver "to" := callee.getId.eraseMacroScopes | return rebuilt
+  let some argument := children[2]? | return rebuilt
+  let `(tritonExpr| $target:ident) := argument | return rebuilt
+  let supported := match target.getId.eraseMacroScopes with
+    | .str (.str _ "dtype") "element_ty"
+    | .str (.str _ "type") "element_ty"
+    | .str _ "dtype" => Bool.true
+    | _ => Bool.false
+  unless supported do return rebuilt
+  let receiver := mkIdentFrom callee receiver
+  let expression ← `(tritonExpr| $receiver:ident)
+  let targetTerm ← `(term| $target:ident)
+  return (← `(tritonExpr| ($expression).to($targetTerm:term))).raw
+
 def statements (environment : Environment) (body : TSyntax `tritonPythonBody) : MacroM (Array (TSyntax `tritonStmt)) := do
   let text ← match render (rawText body) with
+    | .ok text => pure text
+    | .error message => Macro.throwErrorAt body message
+  let text ← match escapeSourceIdentifiers text.toList with
     | .ok text => pure text
     | .error message => Macro.throwErrorAt body message
   let stx ← match Parser.runParserCategory environment `term ("triton {\n" ++ text ++ "\n}") with
@@ -208,6 +255,8 @@ def statements (environment : Environment) (body : TSyntax `tritonPythonBody) : 
     | .error message => Macro.throwErrorAt body ("unsupported Python Triton body: " ++ message)
   let `(triton { $stmts:tritonStmt* }) := stx
     | Macro.throwErrorAt body "invalid compiled Python body"
+  let stmts ← stmts.mapM fun st => do
+    return (⟨← normalizeAttributeCasts st.raw⟩ : TSyntax `tritonStmt)
   -- A no-value return at the end of the function is its ordinary exit.
   -- Normalize only this top-level terminal statement. Nested returns and
   -- nonterminal returns still require the existing control-flow semantics;

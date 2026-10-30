@@ -19,12 +19,22 @@ def dropoutIO (source : ComputeKernel) (n : Nat) (p : ℝ) : Prop :=
 /-- Successful per-program execution, active output values, finite access
 bounds and full tagged-memory frame, using the explicitly total Real division. -/
 theorem dropout_kernel_flat_correctness (n : Nat) (p : ℝ) :
-    Spec.Real (dropoutIO (kernel n p) n p) :=
-  RealIO.original_correct .fp32 .int32 "x" "keep" "out" n blockSize p
+    Spec.Real (dropoutIO (kernel n p) n p) := by
+  intro a hd hc u hu bounds
+  obtain ⟨v,ran,values,frame⟩ := RealIO.original_correct .fp32 .int32 "x" "keep" "out" n blockSize p a hd hc u hu bounds
+  refine ⟨v,?_,values,frame⟩
+  change exec (a.flattenKernel (sourceKernel "x" "keep" "out" n blockSize p).eraseDType.toAlgKernel) (a.flattenState u) = _
+  rw [Source.original_flat_execution]
+  exact ran
 
 theorem dropout_index_commuted_flat_correctness (n : Nat) (p : ℝ) :
-    Spec.Real (dropoutIO (indexCommutedKernel n p) n p) :=
-  RealIO.candidate_correct .fp32 .int32 "x" "keep" "out" n blockSize p
+    Spec.Real (dropoutIO (indexCommutedKernel n p) n p) := by
+  intro a hd hc u hu bounds
+  obtain ⟨v,ran,values,frame⟩ := RealIO.candidate_correct .fp32 .int32 "x" "keep" "out" n blockSize p a hd hc u hu bounds
+  refine ⟨v,?_,values,frame⟩
+  change exec (a.flattenKernel (commutedSourceKernel "x" "keep" "out" n blockSize p).eraseDType.toAlgKernel) (a.flattenState u) = _
+  rw [Source.commuted_flat_execution]
+  exact ran
 
 /-- Canonical-source Real correctness, independent of physical input separation.
 The named input regions may be two observations of the same backing bytes.
@@ -45,7 +55,8 @@ theorem dropout_kernel_correctness (n : Nat) (p : ℝ) (before : BlockState)
         final.mem r i = before.mem r i)) := by
   obtain ⟨final, he, hv, hf⟩ := RealProof.run .int32 "x" "keep" "out" n blockSize p before
   refine ⟨final, ?_, ?_, hf⟩
-  · simpa only [exec, RegionProof.original_body] using he
+  · rw [RegionProof.original_execution]
+    exact he
   · intro j hj
     rw [hv j hj]
     simp only [RealProof.expected, RealProof.readKeep, hx j hj, hk j hj,
@@ -77,7 +88,7 @@ theorem dropout_kernel_access_safe (n : Nat) (p : ℝ) (before : BlockState)
     (fun _ active => Nat.lt_of_lt_of_le active hx)
     (fun _ active => Nat.lt_of_lt_of_le active hk)
     (fun _ active => Nat.lt_of_lt_of_le active ho)
-  simpa only [Kernel.TraceSafe, RegionProof.original_body] using safe
+  exact (RegionProof.original_trace n p bounds before).mpr safe
 
 /-- The conventional partial formula is meaningful exactly on its declared
 mathematical domain. This condition is not a Python input guard. -/
@@ -128,7 +139,8 @@ theorem masked_run (n : Nat) (p : ℝ) (s : BlockState)
         address≠RealProof.offset s blockSize j) → t.mem r address=s.mem r address) := by
   obtain ⟨t,ran,values,frame⟩ := RealProof.run .int32 "x" "keep" "out" n blockSize p s
   refine ⟨t,?_,?_,frame⟩
-  · simpa only [exec,RegionProof.original_body] using ran
+  · rw [RegionProof.original_execution]
+    exact ran
   · intro j hj
     rw [values j hj]
     simp only [RealProof.expected,RealProof.readKeep,hx j hj,hk j hj,decide_eq_true_eq]
@@ -142,7 +154,7 @@ theorem masked_safe (n : Nat) (p : ℝ) (bounds : RegionBounds) (s : BlockState)
       RealProof.offset s blockSize j<bounds "out") :
     Kernel.TraceSafe bounds (kernel n p).eraseDType.toAlgKernel s := by
   have safe := RealProof.trace_safe .int32 "x" "keep" "out" n blockSize p bounds s hx hk ho
-  simpa only [Kernel.TraceSafe,RegionProof.original_body] using safe
+  exact (RegionProof.original_trace n p bounds s).mpr safe
 
 theorem candidate_masked_run (n : Nat) (p : ℝ) (s : BlockState)
     (xs : Fin blockSize → ℝ) (keep : Fin blockSize → Int)

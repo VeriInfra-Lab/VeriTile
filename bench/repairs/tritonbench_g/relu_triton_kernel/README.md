@@ -154,3 +154,11 @@ to the unchanged Python source and assertions. No new numerical experiment,
 GPU run or host proof was added.
 
 Optional proof entries are in `Misc/`: [TensorBridge.lean](Misc/TensorBridge.lean). Their declaration namespaces, theorem statements, proof bodies and existing acceptance/program-pair statuses are preserved. The primary `Correct.lean` and `FPEquiv.lean` entries do not import these optional readers.
+
+The complete original and existing inlined Python function bodies are pasted
+unchanged in `Kernels.lean`; `jit-correspondence.json` checks both pairs.
+The FP32 call signature is outside the source. `CoordinateModels.lean` retains
+the earlier arbitrary-base/stride physical models; `Proofs/SourcePreservation.lean`
+proves identical complete optional execution states at the selected element
+coordinates for every backend, including failure. The Real and FP public IO
+now select the pasted bodies. No FP identity is added.

@@ -65,7 +65,9 @@ theorem execution_memory {α : Type} [Inhabited α] (M : Algebra α) (d : FloatD
       startIndex, count, fold_writes_mem, State.setReg, ofFloat, toFloat, Region.cast,
       FloatDType.toTileDType, FloatDType.numericDType, bop, Function.comp_def,
       Broadcast.leftIndex, Broadcast.rightIndex]
-  all_goals rfl
+  all_goals
+    simp only [← Int.natCast_mul, ← Int.natCast_add, Int.ofNat_lt, Int.toNat_natCast]
+    rfl
 
 #axiomsClean execution
 #axiomsClean execution_memory

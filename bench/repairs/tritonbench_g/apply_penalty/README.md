@@ -147,11 +147,10 @@ The contract probe passes 52 actual-wrapper/kernel-body cases on bounded NumPy
 storage, including all tile branches, empty/offset/aliased inputs, complete
 frames and rejection before mutation. It checks that the original and revised
 production ASTs agree after erasing precisely the int64 index casts, and that
-the reciprocal candidate changes only its intended expression. The same probe
-parses both canonical Lean DSL bodies and checks their ASTs against the two
-Python bodies after removing only region precision declarations and the proved
-index-widening casts. Its arithmetic
-interpreter covers source FP32 operations, not native FMA validation.
+the reciprocal candidate changes only its intended expression. The same probe independently checks both complete raw Lean quotations against
+both unchanged Python functions, including every cast, before its bounded CPU
+interpreter erases index widenings. The interpreter covers source FP32 operations;
+it does not validate signed64 boundaries or native FMA schedules.
 
 `Correct.lean` and `FPEquiv.lean` are the mathematical and floating reader
 entries. Operational derivations and optional historical transport lemmas live
@@ -160,3 +159,23 @@ existing DIV-MUL-RCP rule and its evidence are unchanged. No new GPU execution
 or independent numerical replay is claimed.
 
 Optional reader and application modules are in `Misc/`: [Misc/TensorBridge.lean](Misc/TensorBridge.lean), [Misc/AuxiliaryCorrect.lean](Misc/AuxiliaryCorrect.lean), [Misc/FPObservation.lean](Misc/FPObservation.lean). Their declaration namespaces and proof statements are preserved. The main `Contract.lean`, `Correct.lean` and `FPEquiv.lean` entries remain at the task root.
+
+## Raw Python bodies and signed metadata
+
+`Kernels.lean` copies both complete selected JIT bodies without changes to
+the existing Python original or reciprocal candidate. The seven pointer types,
+two runtime integer stride bindings and block constexpr are outside the body.
+The Python strides are unannotated, so metadata uses `.integer` and does not
+assert a fixed native parameter ABI; the original INT64 value casts remain.
+Actual INT32 IDs/counts/cumsum retain their admitted nonnegative mathematical
+memory channels; widening reads those cells before converting their values.
+Every original cast, mask, padding value, temporary and operation order remains.
+
+The actual state keeps signed program IDs and widened metadata. The earlier
+AST identity is replaced by an exact full-memory/failure connection to the
+independent mathematical view, plus a checked equivalence of the actual access
+conditions. These integer connections do not equate the two register states.
+Public IO and retained checked Tensor/whole-grid applications use the canonical
+raw source. The FP comparison keeps its existing active-positive-lane finite
+and nonzero DIV-MUL-RCP domain, full tagged-memory equality, alias behavior and
+frame; no new numerical rule or input restriction is added.

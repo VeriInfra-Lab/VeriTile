@@ -2,7 +2,7 @@ import bench.repairs.tritonbench_g.nested_loops_processing.Proofs.TypedOuter
 import bench.repairs.tritonbench_g.nested_loops_processing.Proofs.TypedInitialize
 
 namespace VeriTile.Bench.Repairs.NestedLoopsProcessing.TypedExecution
-open VeriTile.Triton FP.Structural Kernels
+open VeriTile.Triton FP.Structural Kernels.LegacyPastedSurface
 set_option maxHeartbeats 1000000
 set_option maxRecDepth 10000
 set_option linter.unusedSimpArgs false
@@ -43,9 +43,9 @@ theorem outer_loop (M : Algebra α) (count : Nat) (u : Unique)
 def finalState (count cols : Nat) (s : State α) : State α :=
   outerLoopState count (unique cols) (prefixState s cols) (initialA cols) (initialC cols) 2
 
-/-- Successful execution of the actual typed source, including every load,
-masked store, barrier, cached tile and all eight inner-loop iterations. -/
-theorem source_run (M : Algebra α) (count cols : Nat) (s : State α) :
+/-- Execution of the historical natural-address skeleton. Public IO theorems
+use the current signed source through the complete observation bridge. -/
+theorem legacy_source_run (M : Algebra α) (count cols : Nat) (s : State α) :
     exec M (source count cols) s = some (finalState count cols s) := by
   change run M (source count cols).surfaceBody s = _
   rw [source_decomposition, run_append, prefix_step]

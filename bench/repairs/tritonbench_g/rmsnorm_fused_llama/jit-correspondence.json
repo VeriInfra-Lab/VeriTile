@@ -48,7 +48,61 @@
       "writePorts": [
         "Y"
       ]
-    }
+    },
+    "profile_variant": "runtime_epsilon"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/rmsnorm_fused_llama/rmsnorm_fused_llama_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Kernels.lean",
+    "python_function": "_rms_norm_fwd_fused",
+    "lean_definition": "kernel",
+    "signature_definition": "callSignature",
+    "expected_call_bindings": {
+      "stride": "N",
+      "N": "N",
+      "eps": "eps"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "Y",
+          "fp32"
+        ],
+        [
+          "W",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "eps",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "X",
+        "W"
+      ],
+      "writePorts": [
+        "Y"
+      ]
+    },
+    "profile_variant": "specialized_epsilon"
   },
   {
     "python": "bench/repairs/tritonbench_g/rmsnorm_fused_llama/candidate_kernels.py",
@@ -99,6 +153,60 @@
       "writePorts": [
         "Y"
       ]
-    }
+    },
+    "profile_variant": "runtime_epsilon"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/rmsnorm_fused_llama/candidate_kernels.py",
+    "lean": "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Kernels.lean",
+    "python_function": "_rms_norm_fwd_fused_index_commuted",
+    "lean_definition": "indexCommutedKernel",
+    "signature_definition": "callSignature",
+    "expected_call_bindings": {
+      "stride": "N",
+      "N": "N",
+      "eps": "eps"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "Y",
+          "fp32"
+        ],
+        [
+          "W",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "eps",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "X",
+        "W"
+      ],
+      "writePorts": [
+        "Y"
+      ]
+    },
+    "profile_variant": "specialized_epsilon"
   }
 ]

@@ -1,4 +1,5 @@
 import bench.repairs.tritonbench_g.apply_penalty.Proofs.Execution
+import bench.repairs.tritonbench_g.apply_penalty.Proofs.Projection
 import bench.tritonbench_g.apply_penalty.Proofs.Real
 
 namespace VeriTile.Bench.Repairs.ApplyPenalty.RealProof
@@ -53,7 +54,7 @@ theorem source_traceSafe (a : Arguments) (h : InputContract a) (input : Inputs �
   have r := h.penalties 3 (by decide) (by decide)
   have c := h.cumsum (by omega)
   have windows := (h.windows b hb).2.2.1
-  apply VeriTile.Bench.TritonBenchG.ApplyPenalty.traceSafe_pinned
+  apply Projection.safe_pinned Bool.false
     "logits" "presence" "frequency" "repetition" "ids" "counts" "cumsum"
     a.vocab 1 a.block (capacities a) (programState a s b) (a.start b) (a.stop b)
     (fun j => a.token (a.start b+j.val))
@@ -89,7 +90,7 @@ theorem program_run (a : Arguments) (h : InputContract a) (input : Inputs ℝ)
   let ids : Fin a.block → Nat := fun j => a.token (a.start b+j.val)
   let counts : Fin a.block → Nat := fun j => a.count (a.start b+j.val)
   let xs : Fin a.block → ℝ := fun j => s.readMem "logits" (address a b j.val)
-  obtain ⟨t,he,hv,hf⟩ := VeriTile.Bench.TritonBenchG.ApplyPenalty.apply_penalty_region_run
+  obtain ⟨t,he,hv,hf⟩ := Projection.region_run Bool.false
     "logits" "presence" "frequency" "repetition" "ids" "counts" "cumsum"
     a.vocab 1 a.block (programState a s b) (input.presence b) (input.frequency b)
     (input.repetition b) (a.start b) (a.stop b) ids counts xs

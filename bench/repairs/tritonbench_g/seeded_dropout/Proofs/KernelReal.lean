@@ -27,7 +27,7 @@ theorem seeded_dropout_kernel_correctness (k : SeedKind) (X O : RegionName)
     k X O n p seed pid s hn hp hs
   refine ⟨result.val,result.property,?_,?_⟩
   · intro lane active
-    simpa only [Whole.scalar_real] using
+    simpa only [ActualTile.scalar_real] using
       values Whole.realAlgebra (fun a b => decide (a < b)) rfl k X O n p seed pid s hn hp hs lane active
   · exact frame Whole.realAlgebra (fun a b => decide (a < b)) rfl k X O n p seed pid s hn hp hs
 

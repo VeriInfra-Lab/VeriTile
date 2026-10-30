@@ -48,7 +48,19 @@ multiple or makes a copy to normalize inputs.
 
 ## Public kernel proofs
 
-- `Kernels.lean` contains the readable canonical typed DSL and the existing
+- `Kernels.lean` contains both unchanged Python function bodies directly in
+  `triton { ... }`, including the original `activation == "sigmoid"` and
+  `elif activation == "relu"` tests. Dtypes and constexpr call metadata are
+  outside the bodies. The existing Boolean caller API supplies one of those
+  two valid String values; no Boolean test replaces the written Python.
+  Generic frontend specialization uses only literal alternatives of the actual
+  immutable caller expression and preceding tests on that same name.
+- `Proofs/SourcePreservation.lean` proves complete original/candidate kernel
+  identities with the prior source on both String alternatives, for every
+  pointer, size, multiplier and backend. All prior IO, numerical assumptions,
+  failures, successful states and traces remain in scope. The old bodies are
+  proof-local compatibility models, rather than the actual source entry.
+- The existing
   candidate, which changes only `(multiplier * input + old_x) + bias` to
   `bias + (multiplier * input + old_x)`. The wrapper's multiplier is 0.5.
   Correctness and equivalence share these exact source definitions.
@@ -157,3 +169,10 @@ strict source addition commutation from its empty empirical assumption list.
 Independent mathematical formulas pass noncircularity checks.
 
 `Misc/TensorBridge.lean` holds the supplementary checked-view application, logical-read/pointer aliases and Python-check correspondence. `Correct.lean` has one primary regional IO specification; the optional flat corollary is in `Misc/Flat.lean`, sharing `RealIO.lean` and `Proofs/RealInterface.lean` without importing the reader; scalar derivations and explicit operational access results live in `Proofs/Mathematics.lean` and `Proofs/AccessSafety.lean`. `FPEquiv.lean` retains source equivalence; [Misc/NativeEquivalence.lean](Misc/NativeEquivalence.lean) retains the auxiliary native pair equivalence and its original domain, using strict commutation with the model interpretation described above. `NativeInterface.original_source` is the optional exact-source corollary, outside the main reader. `Proofs/NativeInterface.lean` composes the native full-memory proof with logical input bindings, actual source safety, and the shared IO relation. It retains the raw native result as `NativeInterface.execution_equiv`; neither supporting proof imports a reader entry.
+
+
+The correspondence manifest and mutation checks pin both complete functions,
+including String conditions, their missing final else, slicing, load options
+and operation order. Frontend regression checks reject mutable String
+constexprs and opaque String values without finite literal alternatives.
+No new numerical identity or GPU experiment is introduced by this migration.

@@ -68,7 +68,7 @@ theorem iteration_safe (h : Call) (c : Config) (row : Nat)
     (hout : ∀ t,t<h.T → h.outputStrides.address h.H row t<bounds h.output)
     (j : Int) (u : BlockState) (hj : j<1) (start : (-j).toNat*c.BT<h.T)
     (hr : u.regs .int [] "__rev_i_t"=some (Tile.scalar j))
-    (hh : u.regs .nat [] "i_bh"=some (Tile.scalar row)) :
+    (hh : u.regs .int [] "i_bh"=some (Tile.scalar (row:Int))) :
     Stmt.TraceSafeList bounds (loopBody h c) u := by
   unfold loopBody
   rw [cons_of_run (stepStmt_assign_eq_some (RealStep.index_eval j u hj hr))]
@@ -108,10 +108,9 @@ theorem loop_safe (initial : BlockState) (h : Call) (layout : Geometry.OutputLay
     (hout : ∀ t,t<h.T → h.outputStrides.address h.H row t<bounds h.output) :
     Stmt.TraceSafe bounds (statement h c) u := by
   rw [statement,Stmt.TraceSafe]
-  refine ⟨by simp [VeriTile.Bench.TritonBenchG.ReversedCumsumScalar.TypedProgram.startOp,
-    VeriTile.Bench.TritonBenchG.ReversedCumsumScalar.TypedProgram.countOp,Op.SafeAt],
+  refine ⟨by simp [startIndexOp,Op.SafeAt],
     by simp [Op.SafeAt],by simp [Op.SafeAt],?_⟩
-  simp only [VeriTile.Bench.TritonBenchG.ReversedCumsumScalar.RealProgram.start_eval,evalOp]
+  simp only [startIndex_eval,evalOp]
   change Stmt.forRangeIntTraceSafe bounds "__rev_i_t" (1-(numChunks h c:Int))
     1 1 (loopBody h c) u
   apply VeriTile.Bench.TritonBenchG.ReversedCumsum.SignedRange.safe bounds "__rev_i_t" 1 1 (loopBody h c)

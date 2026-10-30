@@ -78,9 +78,10 @@ executed normally; only strict FP32 addition commutation changes the arithmetic.
   simp only [engine, Algebra.withDefaultPrecision, resolvePrecision,
     Option.getD_some, Option.getD_none]
   simp only [loadedValue] at hvalues
+  simp only [blockSize] at hvalues ⊢
   congr 1
   funext mem i
-  by_cases hi : s.pids 0 * blockSize + i.1.val < n
+  by_cases hi : s.pids 0 * 1024 + i.1.val < n
   · simp only [hi, ↓reduceIte]
     have h := hvalues i hi
     simp only [hi, ↓reduceIte] at h

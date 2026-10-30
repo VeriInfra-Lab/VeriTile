@@ -689,6 +689,7 @@ private def propagateCmpDeps (natPins : List String)
 private partial def intExprWithPins? (pins : List String) :
     TSyntax `tritonExpr → Bool := fun stx =>
   match stx with
+  | `(tritonExpr| tl.cast($_:tritonExpr, tl.int64)) => Bool.true
   | `(tritonExpr| $(($_:term : Int))) => Bool.true
   | `(tritonExpr| $r:ident) => pins.contains r.getId.toString
   | `(tritonExpr| tl.program_id($_:tritonExpr).to(tl.int32)) => Bool.true

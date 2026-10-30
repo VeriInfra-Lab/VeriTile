@@ -1,14 +1,13 @@
 import bench.repairs.tritonbench_g.apply_penalty.Kernels
-import bench.tritonbench_g.apply_penalty.Kernels
 import bench.repairs.tritonbench_g.apply_penalty.Contract
 
-/-! Source definitions only. Widened nonnegative signed indices erase to the
-existing source. `rowLanes` retains loads from the incoming mutable logits,
+/-! Source definitions only. The canonical raw source retains signed indices;
+execution proofs connect its metadata projection to independent row behavior. `rowLanes` retains loads from the incoming mutable logits,
 both arithmetic arms, integer-count conversion, masks and in-place stores. -/
 namespace VeriTile.Bench.Repairs.ApplyPenalty
 open VeriTile.Triton
 
-abbrev realKernel := VeriTile.Bench.TritonBenchG.ApplyPenalty.apply_penalty
+abbrev realKernel := kernel
 
 structure ScalarOps (Word : Type) where
   zero : Word

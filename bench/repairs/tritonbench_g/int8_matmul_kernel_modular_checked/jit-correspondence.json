@@ -1,0 +1,83 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/int8_matmul_kernel_modular_checked.py",
+    "python_function": "matmul_kernel",
+    "lean": "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Kernels.lean",
+    "lean_definition": "kernel",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "a_ptr",
+          "fp32"
+        ],
+        [
+          "b_ptr",
+          "u8"
+        ],
+        [
+          "c_ptr",
+          "i32"
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "stride_am",
+          "integer"
+        ],
+        [
+          "stride_ak",
+          "integer"
+        ],
+        [
+          "stride_bk",
+          "integer"
+        ],
+        [
+          "stride_bn",
+          "integer"
+        ],
+        [
+          "stride_cm",
+          "integer"
+        ],
+        [
+          "stride_cn",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "K",
+        "BLOCK_SIZE_M",
+        "BLOCK_SIZE_N",
+        "BLOCK_SIZE_K",
+        "GROUP_SIZE_M"
+      ],
+      "readPorts": [
+        "a_ptr",
+        "b_ptr"
+      ],
+      "writePorts": [
+        "c_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "M": "M",
+      "N": "N",
+      "stride_am": "stride_am",
+      "stride_ak": "stride_ak",
+      "stride_bk": "stride_bk",
+      "stride_bn": "stride_bn",
+      "stride_cm": "stride_cm",
+      "stride_cn": "stride_cn"
+    }
+  }
+]

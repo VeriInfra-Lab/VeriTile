@@ -1,15 +1,18 @@
-"""Compare the complete readable Lean quotation with the selected Python AST.
+"""Check both complete raw Python/Lean bodies and their external call metadata.
 
-This audit removes only region-type metadata and Lean antiquotation brackets.
-It does not execute a second kernel, normalize arithmetic, remove casts, or
-change a branch, mask, memory operation, or scalar parameter.
+This source audit uses the shared correspondence gate. It does not run a kernel,
+remove casts, normalize arithmetic or certify execution/native lowering.
 """
 import argparse
 import ast
 import hashlib
 import json
 from pathlib import Path
-import re
+import sys
+
+ROOT = Path(__file__).resolve().parents[4]
+sys.path.insert(0, str(ROOT))
+from bench.jit_correspondence import check_manifest
 
 
 def digest(path):
@@ -22,43 +25,22 @@ def main():
     args = parser.parse_args()
     here = Path(__file__).resolve().parent
     python = here / "chunked_cumsum_fwd_repaired.py"
-    lean = here / "Proofs/KernelSource.lean"
-    source = ast.parse(python.read_text())
-    original = next(x for x in source.body if isinstance(x, ast.FunctionDef)
-                    and x.name == "_chunk_cumsum_fwd_kernel")
-    text = lean.read_text()
-    body = text.split("  chunked_runtime_source {\n", 1)[1].split("\n  }", 1)[0]
-    body = body[body.index("    pid_b ="):]
-    body = re.sub(r"\$\(([A-Za-z_][A-Za-z0-9_]*)\)", r"\1", body)
-    lines, depth = [], 0
-    for line in body.splitlines():
-        line = line.strip()
-        if line == "}":
-            depth -= 1
-            assert depth >= 0
-        elif line.endswith("{"):
-            assert line.startswith("if ")
-            lines.append("    " * depth + line[:-1].rstrip() + ":")
-            depth += 1
-        else:
-            lines.append("    " * depth + line)
-    assert depth == 0
-    quoted = ast.parse("\n".join(lines) + "\n")
+    lean = here / "Kernels.lean"
+    manifest = here / "jit-correspondence.json"
+    pairs = check_manifest(ROOT, manifest)
+    assert len(pairs) == 2 and all(pair["mode"] == "pasted_body" for pair in pairs)
+    original = next(node for node in ast.parse(python.read_text()).body
+                    if isinstance(node, ast.FunctionDef) and node.name == "_chunk_cumsum_fwd_kernel")
     expected = ast.Module(body=original.body, type_ignores=[])
-    assert ast.dump(quoted, include_attributes=False) == ast.dump(expected, include_attributes=False)
-    assert '[("dt_min",.real,SInfo.scalar,none),' in text
-    assert '("dt_max",.real,SInfo.scalar,none)]' in text
-    assert "let dtype : FloatDType := .fp32" in text
-    assert "let out_dtype : FloatDType := .fp32" in text
-    assert "tl.region dt_ptr = DTYPE, A_ptr = OUT_DTYPE, dt_bias_ptr = tl.float32" in text
-    assert "dt_out_ptr = tl.float32, dA_cumsum_ptr = tl.float32" in text
     report = {"status": "passed", "python": str(python), "python_sha256": digest(python),
               "lean": str(lean), "lean_sha256": digest(lean),
               "top_level_statements": len(original.body),
-              "all_statements": sum(isinstance(x, ast.stmt) for x in ast.walk(expected)),
+              "all_statements": sum(isinstance(node, ast.stmt) for node in ast.walk(expected)),
               "complete_ast_equal": True, "runtime_bounds": ["dt_min", "dt_max"],
-              "normalization": "region dtype metadata, Lean antiquotation brackets and block braces only",
-              "scope": "Quotation/source identity; Lean execution and native lowering are separate evidence."}
+              "manifest_sha256": digest(manifest), "pairs": pairs,
+              "candidate_provenance": "New native counterpart of the existing Lean scaleFirst candidate",
+              "normalization": "Shared raw-body Python AST gate; all source names, casts, branches and operations retained",
+              "scope": "Quotation and external call interface identity; execution/native lowering are separate evidence."}
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(report, indent=2) + "\n")
     print(json.dumps(report, indent=2))

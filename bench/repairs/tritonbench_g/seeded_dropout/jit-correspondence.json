@@ -1,0 +1,290 @@
+[
+  {
+    "lean": "bench/repairs/tritonbench_g/seeded_dropout/Kernels.lean",
+    "lean_definition": "sourceI32",
+    "python": "bench/repairs/tritonbench_g/seeded_dropout/seeded_dropout_repaired.py",
+    "python_function": "_seeded_dropout",
+    "signature_definition": "signatureI32",
+    "expected_call_bindings": {
+      "n_elements": "n",
+      "p": "probability",
+      "seed": "seedValue"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "x_ptr",
+          "fp32"
+        ],
+        [
+          "output_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "n_elements",
+          "i32"
+        ],
+        [
+          "p",
+          "fp32"
+        ],
+        [
+          "seed",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "x_ptr"
+      ],
+      "writePorts": [
+        "output_ptr"
+      ]
+    },
+    "profile_variant": "I32"
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/seeded_dropout/Kernels.lean",
+    "lean_definition": "candidateI32",
+    "python": "bench/repairs/tritonbench_g/seeded_dropout/seeded_dropout_repaired.py",
+    "python_function": "_seeded_dropout_index_commuted",
+    "signature_definition": "signatureI32",
+    "expected_call_bindings": {
+      "n_elements": "n",
+      "p": "probability",
+      "seed": "seedValue"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "x_ptr",
+          "fp32"
+        ],
+        [
+          "output_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "n_elements",
+          "i32"
+        ],
+        [
+          "p",
+          "fp32"
+        ],
+        [
+          "seed",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "x_ptr"
+      ],
+      "writePorts": [
+        "output_ptr"
+      ]
+    },
+    "profile_variant": "I32"
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/seeded_dropout/Kernels.lean",
+    "lean_definition": "sourceI64",
+    "python": "bench/repairs/tritonbench_g/seeded_dropout/seeded_dropout_repaired.py",
+    "python_function": "_seeded_dropout",
+    "signature_definition": "signatureI64",
+    "expected_call_bindings": {
+      "n_elements": "n",
+      "p": "probability",
+      "seed": "seedValue"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "x_ptr",
+          "fp32"
+        ],
+        [
+          "output_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "n_elements",
+          "i32"
+        ],
+        [
+          "p",
+          "fp32"
+        ],
+        [
+          "seed",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "x_ptr"
+      ],
+      "writePorts": [
+        "output_ptr"
+      ]
+    },
+    "profile_variant": "I64"
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/seeded_dropout/Kernels.lean",
+    "lean_definition": "candidateI64",
+    "python": "bench/repairs/tritonbench_g/seeded_dropout/seeded_dropout_repaired.py",
+    "python_function": "_seeded_dropout_index_commuted",
+    "signature_definition": "signatureI64",
+    "expected_call_bindings": {
+      "n_elements": "n",
+      "p": "probability",
+      "seed": "seedValue"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "x_ptr",
+          "fp32"
+        ],
+        [
+          "output_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "n_elements",
+          "i32"
+        ],
+        [
+          "p",
+          "fp32"
+        ],
+        [
+          "seed",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "x_ptr"
+      ],
+      "writePorts": [
+        "output_ptr"
+      ]
+    },
+    "profile_variant": "I64"
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/seeded_dropout/Kernels.lean",
+    "lean_definition": "sourceU64",
+    "python": "bench/repairs/tritonbench_g/seeded_dropout/seeded_dropout_repaired.py",
+    "python_function": "_seeded_dropout",
+    "signature_definition": "signatureU64",
+    "expected_call_bindings": {
+      "n_elements": "n",
+      "p": "probability",
+      "seed": "seedValue"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "x_ptr",
+          "fp32"
+        ],
+        [
+          "output_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "n_elements",
+          "i32"
+        ],
+        [
+          "p",
+          "fp32"
+        ],
+        [
+          "seed",
+          "u64"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "x_ptr"
+      ],
+      "writePorts": [
+        "output_ptr"
+      ]
+    },
+    "profile_variant": "U64"
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/seeded_dropout/Kernels.lean",
+    "lean_definition": "candidateU64",
+    "python": "bench/repairs/tritonbench_g/seeded_dropout/seeded_dropout_repaired.py",
+    "python_function": "_seeded_dropout_index_commuted",
+    "signature_definition": "signatureU64",
+    "expected_call_bindings": {
+      "n_elements": "n",
+      "p": "probability",
+      "seed": "seedValue"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "x_ptr",
+          "fp32"
+        ],
+        [
+          "output_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "n_elements",
+          "i32"
+        ],
+        [
+          "p",
+          "fp32"
+        ],
+        [
+          "seed",
+          "u64"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "x_ptr"
+      ],
+      "writePorts": [
+        "output_ptr"
+      ]
+    },
+    "profile_variant": "U64"
+  }
+]

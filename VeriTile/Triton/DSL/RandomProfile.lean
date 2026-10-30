@@ -28,6 +28,13 @@ def i32ArangeSize (n : Nat) (_h : ArangeSizeDomain n) : Nat := n
 no machine-width restriction. This records a constexpr source parameter. -/
 def roundsConstexpr (n : Nat) : Nat := n
 
+/-- Call-site source ABI provenance, with an unchanged mathematical value.
+The random evaluator still checks the selected width's actual input domain.
+These adapters add no assignment to the pasted function body. -/
+def sourceIntCallValue (_kind : IntegerType) (value : Int) : Int := value
+
+def sourceNatCallValue (_kind : IntegerType) (value : Nat) : Nat := value
+
 end VeriTile.Triton.Random
 
 open Lean
@@ -120,8 +127,15 @@ private partial def termInfo (t : TSyntax `term) : MacroM Info := do
   | `(($e:term : Nat)) =>
       let info ← termInfo e
       if info.constant.isSome then return { info with constant := some t }
+      if info.externalInput && info.machine.isSome then return info
       return { externalInput := e.raw.isIdent }
-  | `(($e:term : Int)) => return { externalInput := e.raw.isIdent }
+  | `(($e:term : Int)) =>
+      let info ← termInfo e
+      if info.externalInput && info.machine.isSome then return info
+      return { externalInput := e.raw.isIdent }
+  | `(_root_.VeriTile.Triton.Random.sourceIntCallValue $kind:term $_value:term)
+  | `(_root_.VeriTile.Triton.Random.sourceNatCallValue $kind:term $_value:term) =>
+      return { machine := integerTypeTerm? kind, externalInput := Bool.true }
   | `($n:num) => literalInfo n.getNat
   | `(_root_.VeriTile.Triton.Random.i32NatConstexpr $_n:term $_h:term) =>
       return { machine := some .i32, constant := some t }

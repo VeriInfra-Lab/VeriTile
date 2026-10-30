@@ -1,5 +1,6 @@
 import bench.repairs.tritonbench_g.max_reduction.IO
 import bench.repairs.tritonbench_g.max_reduction.Proofs.RealIO
+import bench.repairs.tritonbench_g.max_reduction.Proofs.AlgorithmSource
 import bench.tritonbench_g.max_reduction.Proofs.StageIO
 
 namespace VeriTile.Bench.Repairs.MaxReduction.LogicalIOProof
@@ -22,9 +23,30 @@ theorem stage2_headline_iff (mid out : RegionName) (N B : Nat) :
       VeriTile.Bench.TritonBenchG.MaxReduction.blockMaximum N B 0 xs) := Iff.rfl
 
 theorem stage1_implements (inp mid : RegionName) (N B : Nat) (hB : 0<B) :
-    (PublicIO.logicalStage1IO inp mid N B ⊨ fun ⟨pid,xs⟩ _ => blockMaximum N B pid xs) :=
-  (stage1_headline_iff inp mid N B).2
-    (VeriTile.Bench.TritonBenchG.MaxReduction.StageIOProof.stage1_real_correct .fp32 Bool.false inp mid N B hB)
+    (PublicIO.logicalStage1IO inp mid N B ⊨ fun ⟨pid,xs⟩ _ => blockMaximum N B pid xs) := by
+  apply (stage1_headline_iff inp mid N B).2
+  intro A hd hr hc pid hin hout xs s hp hu hx
+  obtain ⟨t,he,values,frame⟩ :=
+    VeriTile.Bench.TritonBenchG.MaxReduction.StageIOProof.stage1_real_correct .fp32 Bool.false
+      inp mid N B hB A hd hr hc pid hin hout xs s hp hu hx
+  have old : VeriTile.Triton.exec (A.flattenKernel
+      (VeriTile.Bench.TritonBenchG.MaxReduction.max_kernel_1 inp mid N B).toAlgKernel)
+      (A.flattenState s) = some t :=
+    (VeriTile.Bench.TritonBenchG.MaxReduction.stage1_flat_exec A .fp32 Bool.false
+      inp mid N B (A.flattenState s)).symm.trans he
+  have same := AlgorithmSource.stage1_memory A inp mid N B hB (A.flattenState s)
+  rw [old] at same
+  cases actual : VeriTile.Triton.exec (A.flattenKernel (stage1 inp mid N B).eraseDType.toAlgKernel) (A.flattenState s) with
+  | none => simp [actual] at same
+  | some u =>
+    have memory : u.mem = t.mem := by simpa only [actual,Option.map_some,Option.some.injEq] using same
+    refine ⟨u,actual,?_,?_⟩
+    · intro i active
+      simpa only [BlockState.readMem,memory] using values i active
+    · intro r o outside
+      change u.mem r o = (A.flattenState s).mem r o
+      rw [memory]
+      exact frame r o outside
 
 theorem stage2_implements (mid out : RegionName) (N B : Nat) (hB : 0<B) :
     (PublicIO.logicalStage2IO mid out N B ⊨ fun ⟨_,xs⟩ _ => blockMaximum N B 0 xs) :=
@@ -64,6 +86,8 @@ theorem dimension_implements (inp ov oi : RegionName) (M N K BM p k : Nat)
   (dimension_headline_iff inp ov oi M N K BM p k plan relation same).2
     (RealIO.satisfies inp ov oi M N K BM p k hK hRegions plan)
 
+#axiomsClean stage1_implements
+#axiomsClean stage2_implements
 #axiomsClean stage1_headline_iff
 #axiomsClean stage2_headline_iff
 #axiomsClean dimension_headline_iff

@@ -22,6 +22,8 @@ theorem regional_correct (x b input : RegionName)
   · intro o
     simp [activationIO]
   · intro bounds s hr _hw
+    change Kernel.TraceSafe bounds (kernel x b input W N B (1/2) a).toAlgKernel s
+    rw [Projection.original]
     exact fused_add_mul_activation_kernel_traceSafe x b input W N B (1/2) a bounds s
       (fun j hj => hr (⟨0, by decide⟩ : Fin 3) j hj)
       (fun j hj => hr (⟨1, by decide⟩ : Fin 3) j hj)
@@ -35,9 +37,12 @@ theorem regional_correct (x b input : RegionName)
       (fun j hj => hx (⟨0, by decide⟩ : Fin 3) j hj)
       (fun j hj => hx (⟨1, by decide⟩ : Fin 3) j hj)
       (fun j hj => hx (⟨2, by decide⟩ : Fin 3) j hj)
-    refine ⟨t, he, ?_, fun r o outside => hf r o (fun j hj => outside (⟨0, by decide⟩ : Fin 1) j hj)⟩
-    intro o j hj
-    exact (hv j hj).trans (Mathematics.formula_eq a _ _ _)
+    refine ⟨t, ?_, ?_, fun r o outside => hf r o (fun j hj => outside (⟨0, by decide⟩ : Fin 1) j hj)⟩
+    · change exec (kernel x b input W N B (1/2) a).toAlgKernel s = some t
+      rw [Projection.original]
+      exact he
+    · intro o j hj
+      exact (hv j hj).trans (Mathematics.formula_eq a _ _ _)
 
 #axiomsClean regional_correct
 end

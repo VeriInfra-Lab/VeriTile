@@ -13,13 +13,17 @@ allocation, launch orchestration and returned-object proofs are optional.
 `FPEquiv.lean` compares the original repaired kernel with the required
 integer-index commuted variant: `pid * 64` becomes `64 * pid`.
 
-`Kernels.lean` is the authoritative readable Triton DSL source shared by both
-public entries. A single quotation defines both variants; only the first
-integer product differs. It retains the 64-iteration loop, signed int32 ID
-storage, FP32 weight/output storage, all masks and explicit zero padding.
+`Kernels.lean` pastes both unchanged Python function bodies directly inside
+`triton { ... }`, retaining every program/lane/ID int64 conversion and the
+original variable names, masks, load options, loop and operation order.
+The five annotated signed64 runtime arguments, four constexpr values and
+FP32/int32 pointer metadata are supplied outside the bodies. The source still
+uses 64 rows per program and one row per loop iteration.
+
 There is no floating arithmetic. Valid gathers preserve payloads; invalid IDs
-store positive zero. All FP32 values, including NaNs, infinities, subnormals and
-signed zero, are admitted. No alternative handwritten source AST is maintained.
+store positive zero. All FP32 words, including NaNs, infinities, subnormals and
+signed zero, remain admitted. The original and existing candidate Python
+functions are unchanged. No alternate handwritten execution AST is used.
 
 The two Python JIT functions display the same difference. The existing wrapper
 continues to select `embedding_kernel_repaired`; the candidate is
@@ -105,10 +109,22 @@ Tensor/host helpers remain available. Former host public results remain unchange
 in `Proofs/HostReal.lean` and `Proofs/HostFP.lean`; they are not required imports of
 the canonical kernel entries. The regional IO does not claim a new flat-pointer,
 compiler or runtime implementation proof. Python, `Contract.lean` and historical
-sources are unchanged. `Kernels.lean` now contains two complete ordinary `triton`
-quotations instead of a whole-source macro; both complete function identities
-against the previous sources are proved by `rfl`. All existing precision,
-domains, source/candidate identities and theorem statements are retained. There are no native-to-IEEE experiment TODOs.
+sources are unchanged. The execution proofs now operate directly on the raw
+bodies. `Execution.prefix_properties`, `chunk_memory` and `program_correct`
+construct the actual widened row-register states, prove every output and retain
+the entire exterior frame. Mathlib integer cast identities connect those signed
+row expressions to the same logical coordinates. This changes no floating
+operation or conversion and adds no premise to the public mathematical domain.
+`StructuralAccess` and `ProgramSafety` follow the actual widened address
+expressions through all 64 iterations. The original/candidate complete state
+and failure equality now commutes the actual integer multiplication.
+
+The manifest and mutation checks pin both full function bodies and all five
+signed64 ABI annotations. They reject removing any of the four widenings,
+changing selection/subtraction order, or replacing an annotated argument with
+an unbounded scalar declaration. Native bounds, physical storage, mathematical
+formulas, input contracts and all existing public correctness/equivalence scopes
+are retained. No new numerical law or GPU experiment is introduced.
 
 ## Original failures and validation
 

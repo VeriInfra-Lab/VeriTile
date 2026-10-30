@@ -190,13 +190,13 @@ theorem source_safe (cast : Word32 → Byte) (M : Algebra Word32)
       bounds 0 (by omega) defined (preludeInvariant cast M p initial) ha hb
     apply Safety.traceSafeList_cons_intro
     · simpa [Safety.stepSafe_unfold,Safety.safeOp_unfold,
-        evalOp_unfold] using hs
+        evalOp_unfold, Safety.loopSafe_eq_rangeSafe] using hs
     · intro next _; exact Safety.traceSafeList_nil _ _ _
   · intro current ran
     obtain ⟨mid,hm,hi⟩ := outerLoop cast M p initial (preludeExecution cast M p initial).val
       0 (by omega) defined (preludeInvariant cast M p initial)
     rw [run_append,(preludeExecution cast M p initial).property] at ran
-    simp only [Option.bind_some,run,step,evalOp_unfold] at ran
+    simp only [Option.bind_some,run,step,evalOp_unfold,loop_eq_range] at ran
     change (FP.Structural.range (backend cast M) "i" 0 4 1 (outerBody p)
       (preludeExecution cast M p initial).val).bind (fun x => some x) = some current at ran
     rw [hm] at ran

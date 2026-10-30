@@ -5,7 +5,7 @@ conformance. The original benchmark is parsed without running its GPU demo.
 """
 import ast
 import contextlib
-import re
+import sys
 import textwrap
 from pathlib import Path
 from types import SimpleNamespace
@@ -15,6 +15,8 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
 ORIGINAL = ROOT / "tritonbench_g/apply_penalty/apply_penalty.py"
 SOURCE = HERE / "apply_penalty_repaired.py"
+sys.path.insert(0, str(ROOT.parent))
+from bench.jit_correspondence import check_manifest, quotation
 
 
 class Tensor:
@@ -125,13 +127,9 @@ def function(path, name, erase_casts=False):
 
 
 def canonical_body(name):
-    text = (HERE / "Kernels.lean").read_text()
-    start = text.index(f"def {name}\n")
-    start = text.index("ComputeKernel := triton {", start) + len("ComputeKernel := triton {")
-    stop = text.index("\n}", start)
-    body = "\n".join(line for line in text[start:stop].splitlines()
-                     if not line.strip().startswith("tl.region "))
-    body = re.sub(r"\$\(([A-Za-z_][A-Za-z0-9_]*)\)", r"\1", body)
+    # The shared quotation parser handles metadata outside the raw body.
+    # Compare all source casts before any bounded CPU interpretation.
+    _, body = quotation((HERE / "Kernels.lean").read_text(), name)
     return ast.parse(textwrap.dedent(body)).body
 
 
@@ -141,14 +139,18 @@ def same_body(left, right):
 
 
 def load_wrapper():
+    pairs = check_manifest(ROOT.parent, HERE / "jit-correspondence.json")
+    assert len(pairs) == 2 and all(p["mode"] == "pasted_body" for p in pairs)
+    assert same_body(canonical_body("kernel"),
+                     function(SOURCE, "_fwd_kernel_apply_penalty_repaired").body)
+    assert same_body(canonical_body("reciprocalKernel"),
+                     function(SOURCE, "_fwd_kernel_apply_penalty_reciprocal").body)
     original = function(ORIGINAL, "_fwd_kernel_apply_penalty")
     repaired = function(SOURCE, "_fwd_kernel_apply_penalty_repaired", True)
     original.name = repaired.name
     original.body = [n for n in original.body if not isinstance(n, ast.Return)]
     assert ast.dump(original, include_attributes=False) == ast.dump(repaired, include_attributes=False)
-    assert same_body(canonical_body("kernel"), repaired.body), "Python/canonical kernel mismatch"
     reciprocal = function(SOURCE, "_fwd_kernel_apply_penalty_reciprocal", True)
-    assert same_body(canonical_body("reciprocalKernel"), reciprocal.body), "Python/canonical candidate mismatch"
     candidate_repetition = next(n for n in reciprocal.body
                                if isinstance(n, ast.Assign) and n.targets[0].id == "rep_logits")
     assert ast.unparse(candidate_repetition.value) == (

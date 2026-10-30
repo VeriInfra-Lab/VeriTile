@@ -1,5 +1,6 @@
 import bench.tritonbench_g.chunked_cumsum_fwd.Proofs.Program
 import VeriTile.Triton.Semantics.BroadcastReshape
+import VeriTile.Meta.StatementAudit
 
 namespace VeriTile.Bench.TritonBenchG.ChunkedCumsumFwd.Tiles
 open VeriTile.Triton Math Program
@@ -44,6 +45,41 @@ theorem lowerClamp_eval (p : Layout) (u : BlockState) (f : Fin p.BH → Fin p.BC
   rintro ⟨i,j,⟨⟩⟩
   simp [matrix,tile_elementwise,Broadcast.leftIndex,Broadcast.rightIndex, max_def, apply_ite]
   by_cases h : f i j ≤ lower <;> simp [h]
+
+private theorem eval_minimum_real (bc : Broadcast a b out)
+    (x : Op .real a) (y : Op .real b) (s : BlockState) :
+    evalOp (dtype := .real) (.minimumFloat .real bc x y) s = (do
+      let vx ← evalOp x s
+      let vy ← evalOp y s
+      some (Tile.bop (dtype := .real) min bc vx vy)) := by
+  rw [evalOp.eq_def]
+  rfl
+private theorem eval_broadcast_const (upper : ℝ) (shape : TileShape) (s : BlockState) :
+    evalOp (.broadcast (.const upper) shape) s =
+      some (⟨fun _ => some upper⟩ : Tile .real shape) := by
+  simp only [evalOp,Option.bind_some]
+  rfl
+
+/-- The current minimum node and the earlier compare/select spelling have the
+same complete optional Real evaluation, even for undefined cells. This is a
+mathematical projection result, not a floating-point minimum rewrite law. -/
+theorem minimum_real_agrees_with_legacy_clamp (p : Layout) (lower upper : ℝ) (s : BlockState) :
+    evalOp (dtype := .real) (.minimumFloat .real .scalarR (lowerClamp p lower) (.const upper)) s =
+      evalOp (.where (.lt .real .scalarR (lowerClamp p lower) (.const upper))
+        (lowerClamp p lower) (.broadcast (.const upper) [p.BH,p.BC])) s := by
+  simp only [clamp, eval_minimum_real, evalOp_where, evalOp_lt, evalOp_const,
+    eval_broadcast_const]
+  generalize evalOp (lowerClamp p lower) s = evaluated
+  cases evaluated with
+  | none => rfl
+  | some values =>
+      try simp only [Option.bind_some]
+      apply congrArg some
+      apply Tile.ext
+      rintro ⟨i,j,⟨⟩⟩
+      simp [tile_elementwise,Broadcast.leftIndex,Broadcast.rightIndex,
+        ComparableDType.lt,min_def_lt]
+#axiomsClean minimum_real_agrees_with_legacy_clamp
 
 theorem clamp_eval (p : Layout) (u : BlockState) (f : Fin p.BH → Fin p.BC → ℝ) (lower : ℝ) (upper : UpperBound)
     (hf : u.regs .real [p.BH,p.BC] "dt" = some (matrix p f)) :

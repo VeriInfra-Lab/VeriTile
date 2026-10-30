@@ -40,7 +40,14 @@ success, whole-output equation, saved-output equality, or allocator callback.
 The previous wrapper endpoints remain in `Proofs/HistoricalCorrect.lean` and
 `Proofs/HistoricalFPEquiv.lean` outside the default public import closure.
 
-`Kernels.lean` contains both complete readable DSL source bodies. The reused
+`Kernels.lean` quotes the complete, unedited forward/backward bodies from
+`fused_recurrent_hgrn_repaired.py` and the existing stride-folded candidate
+`fused_recurrent_hgrn_stride_folded.py`. The candidate shares the same backward
+body; `jit-correspondence.json` checks the two original bodies and candidate
+forward body. The correspondence regression also checks the candidate backward
+body against the shared Lean definition. Call metadata
+is outside the quotations. The tuple assignment, `_` loop counter, `do` pointer,
+`elif` branch, load/store casts and optional-state branches remain in source order. The reused
 loop and grid proofs establish execution, all outputs, and each phase's full
 tagged-memory frame. `Proofs/KernelTensor.lean` ties source reads and results to
 actual FP32 Tensor pointers and logical coordinates, retaining nonzero storage

@@ -1,6 +1,6 @@
 import VeriTile.Triton.DSL.CallSignature
+import VeriTile.Triton.Float.Structural
 import bench.tritonbench_g.rmsnorm_fused_llama.Kernels
-import bench.repairs.tritonbench_g.rmsnorm_fused_llama.Proofs.IndexTransform
 import VeriTile.Meta.StatementAudit
 
 /-! Complete ordinary quotations for the literal/runtime original source and

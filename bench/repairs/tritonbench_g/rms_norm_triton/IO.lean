@@ -1,4 +1,5 @@
 import bench.tritonbench_g.rms_norm_triton.Proofs.WholeGrid
+import bench.repairs.tritonbench_g.rms_norm_triton.Proofs.ActualGrid
 import bench.tritonbench_g.rms_norm_triton.Proofs.WholeMath
 import bench.tritonbench_g.rms_norm_triton.Proofs.Observed
 import VeriTile.Triton.Float.ProgramIO
@@ -14,9 +15,11 @@ open VeriTile.Triton FP.Structural FP.ProfiledRewrite
 open VeriTile.Bench.TritonBenchG.RmsNormTriton Whole
 noncomputable section
 
-abbrev invocation {α : Type} (M : Algebra α) (c : Layout) (eps : ℝ) (pid : Nat) : Invocation α where
-  kernel := c.source eps
+abbrev invocation {α : Type} (M : Algebra α) (c : Layout) (eps : ℝ) (pid : Nat)
+    (epsilon : α := ActualRow.argument M eps) : Invocation α where
+  kernel := ActualRow.source c
   backend := engine M
+  arguments := [⟨"eps",.real,[],fun _ => epsilon⟩]
   pids := fun ax => if ax=0 then pid else 0
 
 end
@@ -28,7 +31,8 @@ open VeriTile.Bench.TritonBenchG.RmsNormTriton Whole Observed
 noncomputable section
 
 abbrev io {α β : Type} (M : Algebra β) (encode : α → β) (observe : Nat → β → α)
-    (c : Layout) (eps : ℝ) (rows : List Nat) : ProgramIO α β where
+    (c : Layout) (eps : ℝ) (rows : List Nat)
+    (epsilon : β := ActualRow.argument M eps) : ProgramIO α β where
   inputs := [⟨.real,[c.M,c.N],c.X⟩,⟨.real,[c.N],c.W⟩]
   outputs := [⟨.real,[c.M,c.N],c.Y⟩]
   scratch := []
@@ -40,7 +44,7 @@ abbrev io {α β : Type} (M : Algebra β) (encode : α → β) (observe : Nat �
   outputMask := fun _ _ _ => True
   scratchWrite := fun z => Fin.elim0 z
   scratchMask := fun z => Fin.elim0 z
-  schedule := fun _ => rows.map (KernelSafety.invocation M c eps)
+  schedule := fun _ => rows.map (fun pid => KernelSafety.invocation M c eps pid epsilon)
   encode := encode
   observe := fun o => Fin.cases (fun j => observe j.2.1.val) (fun z => Fin.elim0 z) o
 
@@ -72,11 +76,11 @@ noncomputable section
 /-- The original full row schedule and lane-specific native word observer. -/
 abbrev nativeIO (c : Layout) (eps : ℝ) (M : NativeModel (BitVec 32))
     (profile : ReductionFamily) (rows : List Nat) :=
-  GridPublic.io graphAlgebra Term.input (interpret M profile) c eps rows
+  GridPublic.io graphAlgebra Term.input (interpret M profile) c eps rows (.parameter "eps")
 
 def candidateInvocation (c : Layout) (eps : ℝ) (pid : Nat) : Invocation (Term (BitVec 32)) :=
-  { KernelSafety.invocation graphAlgebra c eps pid with
-    kernel := indexCommutedKernel c.Y c.X c.W c.N c.B eps }
+  { KernelSafety.invocation graphAlgebra c eps pid (.parameter "eps") with
+    kernel := runtimeCandidate c.Y c.X c.W c.N c.B }
 
 /-- Same public channels, inputs, runtime epsilon and native observer; the
 existing address-commuted kernel replaces every invocation in the full grid. -/

@@ -82,4 +82,95 @@ def hiddenCarryWrite (X : RegionName) : ComputeKernel :=
 
 #axiomsClean complete_loop
 #axiomsClean overwritten_bound
+
+namespace ImmutableTwoArgumentRange
+
+def source (N : Nat) : ComputeKernel :=
+  with_triton_signature ({constexpr := ["N"]} : CallSignature) in triton {
+    total = 0
+    for _ in range(0, N):
+        total += _
+  }
+/-- Immutable call-time endpoints choose a static natural loop. The original
+underscore is both the written counter and the value read in the body. -/
+theorem complete_program (N : Nat) : source N = triton {
+    total = 0
+    for «_» in range($(0), $(N), $(1)) {
+      total += «_»
+    }
+  } := rfl
+
+def overwritten (N : Nat) : ComputeKernel :=
+  with_triton_signature ({constexpr := ["N"]} : CallSignature) in triton {
+    N = 1
+    for _ in range(0, N):
+        total = _
+  }
+/-- Reassignment prevents caller N from becoming the actual loop endpoint. -/
+theorem local_endpoint (N : Nat) : overwritten N = triton {
+    N = 1
+    for «_» in range((0), N, 1) {
+      total = «_»
+    }
+  } := rfl
+
+/-- Literal-only source loops keep the established dynamic-loop AST, including
+nested loops whose existing decomposition proofs inspect this constructor. -/
+def literalOnly : ComputeKernel :=
+  with_triton_signature ({} : CallSignature) in triton {
+    for i in range(0, 2):
+        for j in range(0, 2):
+            total = i + j
+  }
+theorem literal_constructor : ∃ inner,
+    literalOnly.surfaceBody = [.forRangeDyn "i" (.constNat 0) (.constNat 2) (.constNat 1)
+      [.forRangeDyn "j" (.constNat 0) (.constNat 2) (.constNat 1) inner]] := by
+  exact ⟨_,rfl⟩
+
+#axiomsClean literal_constructor
+#axiomsClean complete_program
+#axiomsClean local_endpoint
+end ImmutableTwoArgumentRange
+
 end VeriTile.Tests.LoopBody
+
+namespace VeriTile.Tests.LoopBody.CompositeCallerEndpoint
+open VeriTile.Triton
+
+def source (K B : Nat) : ComputeKernel :=
+  with_triton_call ({scalars := [("K",.integer)], constexpr := ["B"]} : CallSignature)
+    call_args [K := K] in triton {
+    total = 0
+    for i in range(0, tl.cdiv(K, B)):
+        total += i
+  }
+
+/-- The immutable caller endpoint uses exactly ceil division, including the
+K=0 case. Its native nonzero-block requirement stays in the caller contract. -/
+theorem complete_program (K B : Nat) : source K B = triton {
+    total = 0
+    for i in range($(0), $(((K+B-1)/B : Nat)), $(1)) {
+      total += i
+    }
+  } := rfl
+
+/-- error: tl.cdiv lhs: dtype mismatch -/
+#guard_msgs in
+def mutated (N B : Nat) : ComputeKernel :=
+  with_triton_signature ({constexpr := ["N", "B"]} : CallSignature) in triton {
+    N = 1
+    for i in range(0, tl.cdiv(N, B)):
+        total = i
+  }
+
+/-- error: tl.cdiv rhs: dtype mismatch -/
+#guard_msgs in
+def literalZero (K : Nat) : ComputeKernel :=
+  with_triton_call ({scalars := [("K",.integer)]} : CallSignature)
+    call_args [K := K] in triton {
+    for i in range(0, tl.cdiv(K, 0)):
+        total = i
+  }
+
+#axiomsClean complete_program
+end VeriTile.Tests.LoopBody.CompositeCallerEndpoint

@@ -9,13 +9,23 @@ Its independent mathematical target is
 The Real theorem idealizes the floating operations and conversions; it is not
 an assertion that native TF32/FP16 arithmetic equals the Real result.
 
-`Kernels.lean` transcribes every statement of the selected kernel into the
-shared `ComputeKernel` DSL: both program identifiers, modulo M/N loads, all
-six strides, K masks, live three-argument dot, pointer updates, FP16 narrowing,
-and masked output stores. FP32 output-pointer storage implicitly widens the
-FP16 value in Triton; the DSL represents this by an explicit final FP32 cast.
-That normalization preserves both conversions and their order. The canonical
-Python source is unchanged.
+`Kernels.lean` contains both unchanged Python function bodies directly in
+`triton { ... }`. Input dtypes, the nine runtime integer arguments, the three
+constexpr block sizes and the existing read/write ports are supplied outside
+the quotations. The original `matmul_kernel_repaired.py` and existing candidate
+`matmul_kernel_remaining_k.py` are unchanged. This retains both program ids,
+modulo M/N loads, all six strides, K masks, the live three-argument dot, pointer
+updates, FP16 narrowing, and masked output stores. The frontend supplies the
+actual implicit FP32 store widening; no extra cast is written in the pasted
+source and no floating conversion is assumed to be an identity.
+
+`Proofs/SourcePreservation.lean` proves complete kernel identities, including
+all statements and interface ports, with the previous typed original/candidate
+for every `Config` and symbolic region. This preserves arbitrary primitive
+models, successful and failing execution, complete final states and every
+trace/memory observation. `HostModel.lean` retains the unchanged pure host,
+configuration and instruction model; its previous location is a thin
+compatibility import. Actual source no longer imports its proof directory.
 
 `Correct.lean` displays `realIO`: the actual complete 2D source schedule,
 M×K and K×N input channels, M×N output channel, original stride addresses,
@@ -108,10 +118,8 @@ idempotence have been removed from the public theorem.
   `KernelResult`, `KernelReplay`: actual Tensor readback, exact byte interpretation, source
   bounds and public kernel entries.
 
-The workspace packet `.veritile-cache/task-deliveries/matmul_kernel` records a
-normalized AST equality for all 14 source statements, including the documented
-implicit-store normalization. Direct execution of the exact undecorated
-Python AST passes 52 CPU dataflow/access configurations, 90 programs and 12
+The historical delivery recorded direct execution of the exact undecorated
+Python AST on 52 CPU dataflow/access configurations, 90 programs and 12
 empty cases, with tail blocks, K=0, transposes, positive strided views, nonzero
 offsets and read-only input aliases. The original hard-coded/unmasked source
 reproduces an active-load out-of-bounds failure. These CPU checks use exactly
@@ -151,3 +159,12 @@ bounded by `K`. Empty output launches and K=0 epilogue behavior are retained.
 `Misc/CandidateCorrect.lean` additionally transports the actual ordered physical
 byte replay through the complete candidate source. Independent Real/native and
 Tensor entries retain their full domains and statements.
+
+
+The current correspondence manifest checks both complete function bodies,
+all source parameter names, dtype metadata and call bindings. Mutation checks
+reject splitting the live dot, changing ceil-division loop coverage, deleting
+the FP16 narrowing, inserting a source store cast or weakening the candidate
+K-tail mask. The original and candidate complete AST identities and all 47
+task modules were replayed after migration. Historical CPU/compiler fixtures
+are historical evidence; this run adds no GPU or new numerical experiment.

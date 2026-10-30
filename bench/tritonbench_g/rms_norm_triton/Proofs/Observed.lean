@@ -11,6 +11,8 @@ set_option maxRecDepth 20000
 The interpreter builds these nodes before any native contraction. -/
 inductive Term (α : Type) where
   | input (value : α)
+  /-- A scalar supplied by the call ABI, distinct from a source literal. -/
+  | parameter (name : String)
   | literal (precision : Option ComputeDType) (dtype : FloatDType) (value : ℝ)
   | cast (precision : Option ComputeDType) (source target : FloatDType) (value : Term α)
   | unary (precision : Option ComputeDType) (op : Unary) (value : Term α)
@@ -116,6 +118,7 @@ def addEpsilonInfo (M : NativeModel α) (left : Lowered α) : Lowered α :=
 
 def lower (M : NativeModel α) (profile : ReductionFamily) (lane : Nat) : Term α → Lowered α
   | .input value => ⟨value,none,none,Bool.false⟩
+  | .parameter "eps" => ⟨M.epsilon,none,none,Bool.false⟩
   | .literal (some .fp32) .real r => literalInfo M r
   | .cast (some .fp32) .real .real value => lower M profile lane value
   | .unary (some .fp32) .sqrt value => ⟨M.sqrt (lower M profile lane value).value,none,none,Bool.false⟩
@@ -124,6 +127,8 @@ def lower (M : NativeModel α) (profile : ReductionFamily) (lane : Nat) : Term �
   | .binary (some .fp32) .real .div left right =>
       divideInfo M (lower M profile lane left) (lower M profile lane right)
   | .binary (some .fp32) .real .add left (.cast (some .fp32) .real .real (.literal (some .fp32) .real _)) =>
+      addEpsilonInfo M (lower M profile lane left)
+  | .binary (some .fp32) .real .add left (.parameter "eps") =>
       addEpsilonInfo M (lower M profile lane left)
   | .sum (some .fp32) B values => reduceInfo M profile B lane (fun i => lower M profile lane (values i))
   | _ => ⟨M.unused,none,none,Bool.false⟩

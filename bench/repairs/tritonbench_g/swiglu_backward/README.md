@@ -7,8 +7,12 @@ batches. The wrapper is the boundary for allocation/reshape receipts and the
 executable admission checks. The JIT body is unchanged from the original
 benchmark. No extra copies or arithmetic changes were introduced.
 
-`Kernels.lean` contains complete ordinary FP32 `triton` quotations for the
-selected original and its existing index candidate.
+`Kernels.lean` pastes the unchanged selected Python function body directly
+inside `triton { ... }`, preserving its comments and all source statements.
+The existing integer-address candidate has the explicitly attributed native
+counterpart `candidate_kernels.py`; it commutes only six integer products.
+The FP32 pointer types, signed32 runtime arguments and constexpr flags live
+in the external call signature and bindings.
 `KernelProof.selected_quotation` retains exact identity with the canonical
 source selection. X, Y, DOUT, DX, DY, and active OUT have FP32 storage;
 the three explicit `.to(tl.float32)` loads and native arithmetic order remain.

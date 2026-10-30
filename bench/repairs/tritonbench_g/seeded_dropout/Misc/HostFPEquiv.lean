@@ -16,7 +16,7 @@ specification seeded_dropout_checked_fp32 (M : FP.Structural.Algebra (BitVec 32)
     (api : ∀ a, rt.allocate = .ok a → AllocationAPI a)
     (physical : ∀ a ha, PhysicalAPI x a (api a ha)) :
     (∃ outcome, runChecked (FP.ProfiledRewrite.engine M) x p seed rt = .ok outcome ∧
-      HostSpec (scalar (FP.ProfiledRewrite.engine M) lt p seed) rt outcome) ∧
+      HostSpec (ActualTile.scalar (FP.ProfiledRewrite.engine M) lt p seed) rt outcome) ∧
     ∀ a ha, ActiveAccess x a (api a ha) (physical a ha) := by
   have h := (checkInputs_iff _ _ _).mp admitted
   exact ⟨checked_fp32 M lt compare x p seed h binding rt api,

@@ -10,13 +10,13 @@ set_option linter.unusedSimpArgs false
 
 def indexed (h : Call) (c : Config) (q f : Nat) (u : BlockState) : BlockState :=
   let u1 := u.setReg "start_t" .int [] (Tile.scalar (q*c.BT:Int))
-  let u2 := u1.setReg "start_s" .nat [] (Tile.scalar (f*BS))
+  let u2 := u1.setReg "start_s" .int [] (Tile.scalar (f*BS:Int))
   let u3 := u2.setReg "lane_t" .nat [c.BT] (lanes c.BT)
   let u4 := u3.setReg "lane_s" .nat [BS] (lanes BS)
   let u5 := u4.setReg "active_t" .bool [c.BT] (maskT h c q)
   let u6 := u5.setReg "active_s" .bool [BS] (maskS h f)
   let u7 := u6.setReg "times" .int [c.BT] (times h c q)
-  let u8 := u7.setReg "features" .nat [BS] (features h f)
+  let u8 := u7.setReg "features" .int [BS] (features h f)
   u8.setReg "active" .bool [c.BT,BS] (mask h c q f)
 
 def beforeStore (h : Call) (c : Config) (row q f : Nat) (a : Nat → ℝ)
@@ -73,8 +73,8 @@ def chunkCode (h : Call) (c : Config) : List Stmt := (loopBody h c).tail
 
 theorem executes (h : Call) (c : Config) (row q : Nat) (f : Geometry.FeatureBlock h)
     (a : Nat → ℝ) (acc : Fin BS → ℝ) (u : BlockState) (start : q*c.BT<h.T)
-    (his : u.regs .nat [] "i_s"=some (Tile.scalar f.val))
-    (hih : u.regs .nat [] "i_bh"=some (Tile.scalar row))
+    (his : u.regs .int [] "i_s"=some (Tile.scalar (f.val:Int)))
+    (hih : u.regs .int [] "i_bh"=some (Tile.scalar (row:Int)))
     (hit : u.regs .int [] "i_t"=some (Tile.scalar (q:Int)))
     (read : ∀ off, u.readMem h.input off=a off)
     (htri : u.regs .real [c.BT,c.BT] "m_s"=some (VeriTile.Bench.TritonBenchG.ReversedCumsum.RealMath.upperTriTile c.BT))

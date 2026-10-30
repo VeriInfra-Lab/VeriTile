@@ -28,7 +28,7 @@ def expected (M : Algebra α) (scan : ScanBackend α) (h : Call) (c : Config) (p
 structure Holds (M : Algebra α) (scan : ScanBackend α) (initial : State α) (h : Call) (c : Config)
     (row : Nat) (input : Nat → α) (remaining : Nat) (u : State α) : Prop where
   count_le : remaining≤Geometry.chunks h c
-  head : u.regs .nat [] "i_bh"=some (fun _ => row)
+  head : u.regs .int [] "i_bh"=some (fun _ => (row:Int))
   carryReg : u.regs .real [] "b_z"=some (fun _ => carry M h c input remaining)
   reads : ∀ t, t<h.T → toFloat h.inputDType
     ((u.mem h.input (h.inputStrides.address h.H row t)).read h.inputDType.toTileDType)=input t
@@ -76,7 +76,7 @@ theorem iteration (M : Algebra α) (scan : ScanBackend α) (initial : State α)
     exact (inv.frame r off hn).trans (frame r off hn)
 
 def initial (M : Algebra α) (u : State α) : State α :=
-  (u.setReg "i_bh" .nat [] (fun _ => u.pids 0)).setReg "b_z" .real [] (fun _ => M.literal (some .fp32) .real 0)
+  (u.setReg "i_bh" .int [] (fun _ => (u.pids 0:Int))).setReg "b_z" .real [] (fun _ => M.literal (some .fp32) .real 0)
 
 theorem init_executes (M : Algebra α) (scan : ScanBackend α) (u : State α) :
     run (machine M scan) initCode u=some (initial M u) := by
