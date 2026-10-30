@@ -1,4 +1,4 @@
-import bench.tritonbench_g.rotary_transform_ops.Kernels
+import bench.tritonbench_g.rotary_transform_ops.Model
 namespace VeriTile.Bench.Repairs.RotaryTransformOps
 
 theorem blockM_pos (s : Shape) : 0<s.blockM := by unfold Shape.blockM; split_ifs <;> omega

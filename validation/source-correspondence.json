@@ -50,8 +50,8 @@
     "primary_files_with_int64_screen_warning": 44,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 141,
-        "antiquotes": 495,
+        "in_body_type_directives": 142,
+        "antiquotes": 496,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 86
       },
@@ -29390,10 +29390,10 @@
       "python": "bench/tritonbench_g/rotary_transform_ops/rotary_transform_ops.py",
       "lean": "bench/tritonbench_g/rotary_transform_ops/Kernels.lean",
       "lean_screen": {
-        "quotations": 0,
-        "in_body_type_directives": 0,
-        "antiquotes": 0,
-        "dsl_assignment": 26,
+        "quotations": 8,
+        "in_body_type_directives": 8,
+        "antiquotes": 324,
+        "dsl_assignment": 12,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -29456,7 +29456,7 @@
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/rotary_transform_ops/Kernels.lean": "f3eb064afeaa395ee5691cb94158df9611ef12769d06c19523de5dcd75cf7fef",
+        "bench/tritonbench_g/rotary_transform_ops/Kernels.lean": "286bc861a17f8a2c05cc36dd2983addcbb5a32df82075396a7673b56cbb49120",
         "bench/tritonbench_g/rotary_transform_ops/rotary_transform_ops.py": "405cfe29f94ef81572227c5bf6a4bc956ccd0f36f193b1b5ed5495df45617aa8"
       },
       "collection": "tritonbench_g",
