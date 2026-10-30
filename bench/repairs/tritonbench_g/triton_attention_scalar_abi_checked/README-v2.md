@@ -1,5 +1,11 @@
 # Scalar ABI bound attention revision
 
+Current selected public entries: [Contract.lean](Contract.lean), [Correct.lean](Correct.lean), [FPEquivBound.lean](FPEquivBound.lean). The [contract review](../../../validation/contracts.json) records their current scope and assumptions.
+
+## Historical implementation and audit notes
+
+The notes below describe earlier revisions and their recorded boundaries. Their old file lists, receipts and completion counts are historical; they do not establish the current selected contract.
+
 The current mathematical specification and native auxiliary use finite shared IO.
 The frozen v1/v2 evidence packets remain historical records. The selected
 public certificates are:
@@ -90,4 +96,4 @@ format pass.
 
 Current two-program review: No alternate transformed forward/preprocess/backward pipeline has been specified for a two-program comparison. The single-source native certificates remain useful ordinary theorems with their original names, domains, precision, schedules, and proofs. This missing comparison target or connection is not a numerical-experiment deferral. No Python source, numerical rule, or input contract changed.
 
-Optional proof entries are in [Misc/TensorBridge.lean](Misc/TensorBridge.lean), [Misc/NativeCorrect.lean](Misc/NativeCorrect.lean), [Misc/ReviewEntryV2.lean](Misc/ReviewEntryV2.lean), [Misc/ReviewEntry.lean](Misc/ReviewEntry.lean). Their declaration namespaces, full statements and proof bodies are retained; the primary entries do not import these optional readers.
+Optional proof entries are in [Misc/TensorBridge.lean](https://github.com/VeriInfra-Lab/VeriTile/blob/d67b1d0444c2e0fb8066414c2041129b53bf2931/bench/repairs/tritonbench_g/triton_attention_scalar_abi_checked/Misc/TensorBridge.lean), [Misc/NativeCorrect.lean](https://github.com/VeriInfra-Lab/VeriTile/blob/d67b1d0444c2e0fb8066414c2041129b53bf2931/bench/repairs/tritonbench_g/triton_attention_scalar_abi_checked/Misc/NativeCorrect.lean), [Misc/ReviewEntryV2.lean](https://github.com/VeriInfra-Lab/VeriTile/blob/d67b1d0444c2e0fb8066414c2041129b53bf2931/bench/repairs/tritonbench_g/triton_attention_scalar_abi_checked/Misc/ReviewEntryV2.lean), [Misc/ReviewEntry.lean](https://github.com/VeriInfra-Lab/VeriTile/blob/d67b1d0444c2e0fb8066414c2041129b53bf2931/bench/repairs/tritonbench_g/triton_attention_scalar_abi_checked/Misc/ReviewEntry.lean). Their declaration namespaces, full statements and proof bodies are retained; the primary entries do not import these optional readers.

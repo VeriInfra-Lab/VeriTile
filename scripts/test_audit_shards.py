@@ -275,9 +275,10 @@ class CatalogAuditShardTests(AuditShardTests):
         self.env['MUTATE_CATALOG_PATH'] = self.CATALOG_NAME
         for name in ('current_source_catalog.py', 'adapter_common.py'):
             shutil.copyfile(ROOT / 'bench' / name, self.root / 'bench' / name)
-        shutil.copytree(ROOT / 'bench/current_catalog_vendor',
-                        self.root / 'bench/current_catalog_vendor',
-                        ignore=shutil.ignore_patterns('__pycache__'))
+        for name in ('bench/lean_import_scan.py', 'scripts/spec_sheet.py'):
+            target = self.root / name
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(ROOT / name, target)
         # These top-level contracts and nested helpers are intentionally invalid
         # under old single-source filename inference. Catalog mode must keep all.
         extra = ['bench/tritonbench_g/split/RawBitCorrect.lean',

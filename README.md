@@ -224,15 +224,25 @@ VeriTile/
     Launch/                Grid-launch composition / write footprints
     Concurrency/           Grid-wide atomic-add correctness (above Launch)
   Examples/                Worked correctness/refinement proofs
-bench/tritonbench_g/       TritonBench-G v1 ports (173 pairs; see completion_audit.md)
-bench/examples/            Showcase proofs (SwiGLU rounding invariance, ...)
+bench/tritonbench_g/       Imported sources and retained helpers; selected revisions are in task_progress.json
+bench/repairs/             Explicit source revisions and their public proof entries
+bench/examples/            Worked examples with source, Real and FP entry points
+bench/tests/               Lean and Python regressions
+bench/bug_detection/       65 independent bug-detection challenges
+bench/pretrain_kernels/    269 independent pretraining challenges
+bench/validation/          Current contract review and source fingerprints
 documents/                 Design notes, subset spec, surface guide
+documents/archive/         Historical design and implementation plans
 scripts/                   CI gate, kernel manifest, LLM proof wrapper
+site/                      Documentation website and generated reference pages
 verso/                     Slide deck / overview
 ```
 
 ## Verification
 
+- `bash bench/audit_tritonbench_g.sh --source-only` — source membership, current
+  contract bindings, Python/Lean correspondence and imported-challenge review
+- `python3 scripts/check_docs.py` — tracked Markdown links and reference-copy freshness
 - `lake build` — build the default `VeriTile` library target; standalone
   benchmarks/showcases and the GeLU/trust-report target are separate
 - `lake build VeriTile VeriTileFull` — also build the full analysis and library trust report
@@ -240,7 +250,8 @@ verso/                     Slide deck / overview
 - `lake env lean bench/examples/VectorAdd/Correct.lean` — quick example smoke check after building
 - `scripts/check-artifact.sh` — `lake build` ∧ `no sorry` ∧ axiom
   whitelist ∧ kernel-manifest schema ∧ README/doc-term drift
-- `bench/check_ports.sh` — per-port elaboration and official comparator replay
+- `bench/check_ports.sh` — current selected-corpus trust/replay; named arguments
+  retain the legacy filename-based port interface
 - `bench/audit_tritonbench_g.sh` — the full final-corpus gate: source/contract inventory,
   complete builds, library comparator and corpus trust/replay checks
 - `bench/audit_trust.sh --final-inventory` — trust gates and comparator replay for every retained corpus module

@@ -11,8 +11,8 @@
 # `CHECK_PORTS_JOBS=N`.
 #
 # Usage:
-#   bench/check_ports.sh                  # compile all ports
-#   bench/check_ports.sh <kernel> ...     # compile only the named kernels
+#   bench/check_ports.sh                  # current selected corpus trust/replay
+#   bench/check_ports.sh <kernel> ...     # legacy filename-based named ports
 #   CHECK_PORTS_JOBS=4 bench/check_ports.sh
 #
 # Exit codes:
@@ -68,6 +68,13 @@ JOBS="${CHECK_PORTS_JOBS:-$(default_jobs)}"
 if [[ ! "${JOBS}" =~ ^[1-9][0-9]*$ ]]; then
   printf 'CHECK_PORTS_JOBS must be a positive integer: %s\n' "${JOBS}" >&2
   exit 2
+fi
+
+# Current public revisions may live under repairs/ and use nested entry files.
+# The final inventory is authoritative; scanning old port filenames omits them.
+if [ "$#" -eq 0 ]; then
+  export AUDIT_TRUST_JOBS="${JOBS}"
+  exec bash bench/audit_trust.sh --final-inventory
 fi
 
 TMPDIR_CHECK="$(mktemp -d)"

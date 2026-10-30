@@ -56,7 +56,7 @@ is proved, not supplied as a numerical premise. Flat-pointer transport remains
 an explicit stronger result. A custom native runner needs an actual shared
 source connection; an arbitrary execution callback is not an IO adapter.
 
-The single [task checklist](../tritonbench_g/task_progress.md) distinguishes
+The single [task checklist](../tritonbench_g/task_progress.json) distinguishes
 retained historical acceptance from the current revision. The earlier checkout
 contains accepted original programs or separate repairs for all 183 identities;
 those results retain their exact source, input scope and numerical conditions.

@@ -1,5 +1,11 @@
 # Checked FP32 parallel quadratic attention
 
+Current selected public entries: [Contract.lean](KernelOnly/Contract.lean), [Correct.lean](KernelOnly/Correct.lean), [FPEquiv.lean](KernelOnly/FPEquiv.lean). The [contract review](../../../validation/contracts.json) records their current scope and assumptions.
+
+## Historical implementation and audit notes
+
+The notes below describe earlier revisions and their recorded boundaries. Their old file lists, receipts and completion counts are historical; they do not establish the current selected contract.
+
 Reference responsibilities (2026-10-23): `KernelOnly/Reference.lean` retains the exact Real scalar model and independent shard/gradient formulas; source-to-formula bridge proofs are in `KernelOnly/Proofs/Reference.lean`. The separate main-FP-required ordered model in `KernelOnly/NativeReference.lean` remains on the main proof path.
 
 Optional proofs (layout review 2026-10-21): Native correctness, Tensor applications, and optional readers/audits are now imported explicitly from Misc. Declaration namespaces, theorem types/proofs, kernel-stage boundaries, input domains and prior completion/blocker status are unchanged. Main `FPEquiv.lean` no longer re-exports optional native theorems. Moved entries: `KernelOnly/Misc/TensorBridge.lean`, `KernelOnly/Misc/NativeCorrect.lean`, `KernelOnly/Misc/Public.lean`, `KernelOnly/Misc/PublicV2.lean`, `KernelOnly/Misc/FPEquivV2.lean`.
@@ -9,7 +15,7 @@ raw forward/backward Real grids and the native `FPEquiv.forward_grid` and
 `FPEquiv.backward_grid` results through `KernelOnly/Misc/FPEquivV2.lean`.
 The simultaneous Tensor results `TensorBridge.forward_joint` and
 `TensorBridge.backward_joint`, together with the older per-Tensor applications,
-live in [KernelOnly/Misc/TensorBridge.lean](KernelOnly/Misc/TensorBridge.lean).
+live in [KernelOnly/Misc/TensorBridge.lean](https://github.com/VeriInfra-Lab/VeriTile/blob/d67b1d0444c2e0fb8066414c2041129b53bf2931/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Misc/TensorBridge.lean).
 The auxiliary `KernelOnly/Misc/Public.lean` audit imports that bridge explicitly.
 
 `parallel_attention_repaired.py` implements the complete `parallel_rebased`

@@ -1,5 +1,7 @@
 # Lake build artifacts and downloaded packages
 /.lake
+/verso/.lake/
+/verso/_site/
 /.veritile-cache/bug-detection-build/
 
 # macOS

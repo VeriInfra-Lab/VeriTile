@@ -1,5 +1,9 @@
 # VeriTile MLSys 2027 投稿准备
 
+Planning snapshot: the metrics and dated evidence below describe the earlier
+source revisions linked in this note. Use the [current corpus guide](../bench/current_source_acceptance.md)
+and [contract review](../bench/validation/contracts.json) for present selection and proof scope.
+
 更新日期：2026-10-01。时间安排使用新加坡时间。
 
 已确定投稿目标为 **MLSys 2027**。本文保存当前差距评估、建议的论文主线和逐项处理清单，后续在同一文件更新状态与证据。案例选择、实验协议和排期仍是工作建议；待办的完成条件用于本项目的投稿准备，不是会议规定的录用条件。
@@ -101,7 +105,7 @@ structure RoundingModel where
 
 | 已有内容 | 已检查的证据 | 解释边界 |
 |---|---|---|
-| 173 个 Python/Lean 移植对、345 个 headline 定理 | [覆盖审计](../bench/tritonbench_g/completion_audit.md)、[逐定理记录](../bench/tritonbench_g/coverage_review.json) | 移植数、定理数和完整 kernel 验证数是不同指标 |
+| 173 个 Python/Lean 移植对、345 个 headline 定理 | [覆盖审计](https://github.com/VeriInfra-Lab/VeriTile/blob/d67b1d0444c2e0fb8066414c2041129b53bf2931/bench/tritonbench_g/completion_audit.md)、[逐定理记录](https://github.com/VeriInfra-Lab/VeriTile/blob/d67b1d0444c2e0fb8066414c2041129b53bf2931/bench/tritonbench_g/coverage_review.json) | 移植数、定理数和完整 kernel 验证数是不同指标 |
 | 正确性、等价性、内存条件与抽象舍入接口 | [项目说明](../README.md)、[正确性接口](./CorrectnessSurfaces.md) | 数学模型与抽象舍入不等于 IEEE/PTX/CUDA 执行认证 |
 | 201 个文件的 comparator 重放成功记录 | 本地 `Logs/comparator-check-m6yn0xci/`：173 个 corpus 文件、17 个 showcase、11 个测试文件 | 是已有证明的检查记录，不是新任务的自动证明成功率 |
 | 118 个 library theorem 的重放成功记录 | 本地 `Logs/comparator-check-kol1n_tb/` | 与上面的文件数不能相加当作 kernel 数 |
