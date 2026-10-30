@@ -1,13 +1,14 @@
-import bench.tritonbench_g.streamk_matmul.SourceSyntax
+import bench.tritonbench_g.streamk_matmul.SourceAdapter
 
-/-! Readable source for the independent static-domain candidate. The six
-kernel bodies are unchanged from the frozen parent. ACC_TYPE is FP32 by
-the public contract; method casts use tl.cast and shape tuples use brackets.
-The local reader retains both mapping helpers and all helper arguments. -/
+/-! Complete original and candidate source bodies use the shared control-flow
+frontend. The total typed adapter checks every helper argument, precision and
+statement before extracting the existing executable representation. -/
 namespace VeriTile.Bench.Repairs.StreamK.TileChecked
-open Reader Syntax
+open Reader
+set_option maxRecDepth 50000
+set_option maxHeartbeats 8000000
 
-def swizzle_tile : List Statement := streamk_triton {
+def swizzle_tileSource : VeriTile.Triton.ControlSource.Program := source_program triton {
   grid_m = tl.cdiv(M, BLOCK_M)
   grid_n = tl.cdiv(N, BLOCK_N)
   width = (GROUP_M * grid_n)
@@ -18,13 +19,13 @@ def swizzle_tile : List Statement := streamk_triton {
   return pid_m, pid_n
 }
 
-def linear_tile : List Statement := streamk_triton {
+def linear_tileSource : VeriTile.Triton.ControlSource.Program := source_program triton {
   pid_m = (tile_id // tl.cdiv(N, BLOCK_N))
   pid_n = (tile_id % tl.cdiv(N, BLOCK_N))
   return pid_m, pid_n
 }
 
-def mac_loop : List Statement := streamk_triton {
+def mac_loopSource : VeriTile.Triton.ControlSource.Program := source_program triton {
   tile_id = (start_iter // iters_per_tile)
   if (GROUP_M > 0) {
     pid_m, pid_n = swizzle_tile(tile_id, M, N, K, BLOCK_M, BLOCK_N, BLOCK_K, GROUP_M)
@@ -56,7 +57,7 @@ def mac_loop : List Statement := streamk_triton {
   }
 }
 
-def first_wave : List Statement := streamk_triton {
+def first_waveSource : VeriTile.Triton.ControlSource.Program := source_program triton {
   pid = tl.cast(tl.program_id(0), tl.int64)
   start_iter = ((pid * total_full_tiles_streamk) + tl.minimum(pid, total_partial_tiles_streamk))
   last_iter = (((pid + 1) * total_full_tiles_streamk) + tl.minimum((pid + 1), total_partial_tiles_streamk))
@@ -67,7 +68,7 @@ def first_wave : List Statement := streamk_triton {
   }
 }
 
-def full_tiles : List Statement := streamk_triton {
+def full_tilesSource : VeriTile.Triton.ControlSource.Program := source_program triton {
   tile_id = (tl.cast(tl.program_id(0), tl.int64) + total_tiles_streamk)
   if (GROUP_M > 0) {
     pid_m, pid_n = swizzle_tile(tile_id, M, N, K, BLOCK_M, BLOCK_N, BLOCK_K, GROUP_M)
@@ -97,7 +98,7 @@ def full_tiles : List Statement := streamk_triton {
   tl.store(C, acc, mask=((rm[:, None] < M) & (rn[None, :] < N)))
 }
 
-def reduce_streamk : List Statement := streamk_triton {
+def reduce_streamkSource : VeriTile.Triton.ControlSource.Program := source_program triton {
   tile_id = tl.cast(tl.program_id(0), tl.int64)
   if (GROUP_M > 0) {
     pid_m, pid_n = swizzle_tile(tile_id, M, N, K, BLOCK_M, BLOCK_N, BLOCK_K, GROUP_M)
@@ -122,7 +123,7 @@ def reduce_streamk : List Statement := streamk_triton {
 
 /-! Actual candidates fold the constexpr tile area before the live program
 index multiply. Four complete unchanged helper/stage quotations are shared. -/
-def area_mac_loop : List Statement := streamk_triton {
+def area_mac_loopSource : VeriTile.Triton.ControlSource.Program := source_program triton {
   tile_id = (start_iter // iters_per_tile)
   if (GROUP_M > 0) {
     pid_m, pid_n = swizzle_tile(tile_id, M, N, K, BLOCK_M, BLOCK_N, BLOCK_K, GROUP_M)
@@ -154,7 +155,7 @@ def area_mac_loop : List Statement := streamk_triton {
   }
 }
 
-def area_reduce_streamk : List Statement := streamk_triton {
+def area_reduce_streamkSource : VeriTile.Triton.ControlSource.Program := source_program triton {
   tile_id = tl.cast(tl.program_id(0), tl.int64)
   if (GROUP_M > 0) {
     pid_m, pid_n = swizzle_tile(tile_id, M, N, K, BLOCK_M, BLOCK_N, BLOCK_K, GROUP_M)
@@ -176,6 +177,48 @@ def area_reduce_streamk : List Statement := streamk_triton {
     }
   }
 }
+
+/-- Complete checked lowering. Unsupported source forms cannot silently
+produce a fallback executable. Each witness checks the entire source body. -/
+abbrev swizzle_tileDecoded : { body : List Statement // SourceAdapter.decode swizzle_tileSource = .ok body } := by
+  refine ⟨?_, ?_⟩
+  case refine_2 => rfl
+def swizzle_tile : List Statement := swizzle_tileDecoded.val
+
+abbrev linear_tileDecoded : { body : List Statement // SourceAdapter.decode linear_tileSource = .ok body } := by
+  refine ⟨?_, ?_⟩
+  case refine_2 => rfl
+def linear_tile : List Statement := linear_tileDecoded.val
+
+abbrev mac_loopDecoded : { body : List Statement // SourceAdapter.decode mac_loopSource = .ok body } := by
+  refine ⟨?_, ?_⟩
+  case refine_2 => rfl
+def mac_loop : List Statement := mac_loopDecoded.val
+
+abbrev first_waveDecoded : { body : List Statement // SourceAdapter.decode first_waveSource = .ok body } := by
+  refine ⟨?_, ?_⟩
+  case refine_2 => rfl
+def first_wave : List Statement := first_waveDecoded.val
+
+abbrev full_tilesDecoded : { body : List Statement // SourceAdapter.decode full_tilesSource = .ok body } := by
+  refine ⟨?_, ?_⟩
+  case refine_2 => rfl
+def full_tiles : List Statement := full_tilesDecoded.val
+
+abbrev reduce_streamkDecoded : { body : List Statement // SourceAdapter.decode reduce_streamkSource = .ok body } := by
+  refine ⟨?_, ?_⟩
+  case refine_2 => rfl
+def reduce_streamk : List Statement := reduce_streamkDecoded.val
+
+abbrev area_mac_loopDecoded : { body : List Statement // SourceAdapter.decode area_mac_loopSource = .ok body } := by
+  refine ⟨?_, ?_⟩
+  case refine_2 => rfl
+def area_mac_loop : List Statement := area_mac_loopDecoded.val
+
+abbrev area_reduce_streamkDecoded : { body : List Statement // SourceAdapter.decode area_reduce_streamkSource = .ok body } := by
+  refine ⟨?_, ?_⟩
+  case refine_2 => rfl
+def area_reduce_streamk : List Statement := area_reduce_streamkDecoded.val
 
 def kernels : Sources := ⟨swizzle_tile,linear_tile,mac_loop,first_wave,full_tiles,reduce_streamk⟩
 def areaKernels : Sources :=

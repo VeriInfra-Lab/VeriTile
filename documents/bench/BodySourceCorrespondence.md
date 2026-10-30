@@ -106,14 +106,15 @@ A manifest covering one function cannot certify another stage in the file.
 An unchanged stage in distinct original/candidate files may explicitly reuse
 the same Lean definition; each distinct Python function is still checked.
 
-The spinning-kernel source entry uses the shared `source_program triton`
+The spinning and StreamK source entries use the shared `source_program triton`
 frontend for its complete control flow. Expressions retain their syntax kinds,
 tokens and operands; loops, calls, branches and atomic expressions remain
 explicit. Its typed adapter must successfully decode the entire program.
-`Proofs/SourceEntry.lean` checks equality of both complete lowered programs
-with frozen legacy quotations. The previous task-specific quotation is retained
-only for these preservation fixtures under `Proofs/`. The existing SC execution
-model and public proof scopes are unchanged. This connection is separate from
+`Proofs/SourceEntry.lean` checks equality of each complete lowered source set
+with frozen legacy quotations. StreamK retains all eight helper/stage bodies,
+including the helper argument bindings and explicit FP16 conversion. The previous
+task-specific quotations are retained only for preservation fixtures under
+`Proofs/`. The existing execution models and public proof scopes are unchanged. This connection is separate from
 Python body-copy coverage and CUDA/compiler refinement.
 Any broken registered pair is a hard error even when that task is pending.
 

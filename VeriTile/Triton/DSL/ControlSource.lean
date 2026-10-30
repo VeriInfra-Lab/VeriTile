@@ -62,6 +62,9 @@ syntax "pass" : controlSourceStmt
 syntax:40 tritonExpr:41 " or " tritonExpr:41 : tritonExpr
 syntax "end" : tritonExpr
 syntax "tl.full(" "(" ")" ", " tritonExpr ", " tritonDType ")" : tritonExpr
+-- The effect grammar reserves the combined mask token; retain the same
+-- keyword spelling in the generic load argument grammar.
+syntax "mask=" tritonExpr : tritonMemKwarg
 syntax "source_program " "triton" "{" controlSourceStmt* " }" : term
 
 private partial def quoteExpr (s : Syntax) : MacroM (TSyntax `term) := do

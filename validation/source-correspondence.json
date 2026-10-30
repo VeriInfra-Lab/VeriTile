@@ -31441,10 +31441,10 @@
       "python": "bench/tritonbench_g/streamk_matmul/streamk_matmul.py",
       "lean": "bench/tritonbench_g/streamk_matmul/Kernels.lean",
       "lean_screen": {
-        "quotations": 0,
+        "quotations": 8,
         "in_body_type_directives": 0,
         "antiquotes": 0,
-        "dsl_assignment": 10,
+        "dsl_assignment": 26,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 3
@@ -31724,7 +31724,7 @@
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/streamk_matmul/Kernels.lean": "9c2c1960df7709f2bcb19666a4da98e16577404fc043f389163505daa6c2d4c5",
+        "bench/tritonbench_g/streamk_matmul/Kernels.lean": "9df98de233711f9a47c662f65896680f6e855ece8da9ded857ba4f9871f12b4c",
         "bench/tritonbench_g/streamk_matmul/streamk_matmul.py": "be44f7890921b603557e046e69b740ee00190314ac9d8bbb417cff4dd8a1e977",
         "bench/tritonbench_g/streamk_matmul/streamk_matmul_area.py": "c42c2a6fc70811abe77c59d64f89c7d8fe85f51daf11e1deae82a899e3d4faa7"
       },
