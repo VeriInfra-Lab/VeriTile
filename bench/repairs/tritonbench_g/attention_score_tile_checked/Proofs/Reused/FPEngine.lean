@@ -25,9 +25,9 @@ def withDot {α : Type} (M : Algebra α) (D : Dot α) : Algebra α :=
 def kernel (B D : Nat) (p : RealSource.Parameters) : ComputeKernel :=
   RealSource.source B D p Bool.false
 
-def parts (B D : Nat) (p : RealSource.Parameters) : Source.DynamicRange :=
-  (Source.dynamicRange? (kernel B D p).surfaceBody "start_m").getD
-    ⟨[],.constNat 0,.constNat 0,.constNat 0,[],[]⟩
+def parts (B D : Nat) (p : RealSource.Parameters) : Source.IntRange :=
+  (Source.intRange? (kernel B D p).surfaceBody "start_m").getD
+    ⟨[],.constInt 0,.constInt 0,.constNat 0,[],[]⟩
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

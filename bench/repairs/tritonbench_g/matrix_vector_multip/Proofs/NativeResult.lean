@@ -13,17 +13,19 @@ versus the independent ordered native FMA/add graph. Primitive semantics and
 compiler graph binding are the model boundary, not deferred rewrite laws.
 There is no claim that different reduction trees or split mul/add agree. -/
 theorem mv_fp32_kernel_equiv (native : Scalars) (N M BN BM : Nat)
-    (g : Graph BN BM) (width : 0 < BM) (s : State Payload)
+    (g : Graph BN BM) (width : 0 < BM)
+    (rowShape : Random.ArangeSizeDomain BN) (columnShape : Random.ArangeSizeDomain BM)
+    (s : State Payload) (domain : SourceDomain N M BN BM (s.pids 0))
     (matrix : Nat → Nat → BitVec 32) (vector : Nat → BitVec 32)
     (inputs : KernelFP.InputWords N M s matrix vector) :
-    ∃ t, exec (algebra native g) (Kernels.source N M BN BM) s = some t ∧
+    ∃ t, exec (algebra native g) (Kernels.source N M BN BM rowShape columnShape) s = some t ∧
       t.mem = (reference N BN s (fun i => Payload.word
         (KernelFP.formula native N M BN BM g matrix vector (s.pids 0) i))).mem ∧
       (∀ i : Fin BN, row BN (s.pids 0) i.val < N →
         t.mem "C" (row BN (s.pids 0) i.val) = .mk .fp32 (.word
           (KernelFP.formula native N M BN BM g matrix vector (s.pids 0) i))) ∧
       (∀ r o, Outside N BN (s.pids 0) r o → t.mem r o = s.mem r o) := by
-  obtain ⟨t, ran, values, frame⟩ := execution (algebra native g) N M BN BM width s
+  obtain ⟨t, ran, values, frame⟩ := execution (algebra native g) N M BN BM width rowShape columnShape s domain
   have results : ∀ i : Fin BN, row BN (s.pids 0) i.val < N →
       t.mem "C" (row BN (s.pids 0) i.val) = .mk .fp32 (.word
         (KernelFP.formula native N M BN BM g matrix vector (s.pids 0) i)) := by
@@ -31,22 +33,20 @@ theorem mv_fp32_kernel_equiv (native : Scalars) (N M BN BM : Nat)
     rw [values i hi, KernelFP.formula_eq native g inputs]
   exact ⟨t, ran, memory_ext N BN s t _ results frame, results, frame⟩
 
-/-- Same authoritative source in both public entries; retained FP32 casts,
-initial accumulator and reduction are never erased for this equivalence. -/
-theorem source_binding (N M BN BM : Nat) :
-    Kernels.source N M BN BM = WholeSource.source (parameters N M BN BM) :=
-  KernelSource.source_binding N M BN BM
+/-- The native proof uses the same complete quoted source decomposition. -/
+abbrev source_binding := KernelSource.source_binding
 
 theorem io_correct (native : Scalars) (N M BN BM pid : Nat)
-    (g : Graph BN BM) (width : 0 < BM) :
-    (IO.io (algebra native g) N M BN BM pid Payload.word Payload.bits).Implements
+    (g : Graph BN BM) (width : 0 < BM)
+    (rowShape : Random.ArangeSizeDomain BN) (columnShape : Random.ArangeSizeDomain BM) (domain : SourceDomain N M BN BM pid) :
+    (IO.io (algebra native g) N M BN BM pid rowShape columnShape Payload.word Payload.bits).Implements
       (fun vals => IO.outputValues (KernelFP.formula native N M BN BM g
         (IO.matrixValues vals) (IO.vectorValues vals) pid)) := by
-  apply IO.implements (algebra native g) N M BN BM pid width Payload.word Payload.bits
+  apply IO.implements (algebra native g) N M BN BM pid rowShape columnShape width domain Payload.word Payload.bits
     (fun matrix vector => KernelFP.formula native N M BN BM g matrix vector pid)
   intro s matrix vector matrixRead vectorRead hpid
   obtain ⟨t, ran, _, values, frame⟩ :=
-    mv_fp32_kernel_equiv native N M BN BM g width s matrix vector
+    mv_fp32_kernel_equiv native N M BN BM g width rowShape columnShape s (by simpa [hpid] using domain) matrix vector
       ⟨matrixRead, vectorRead⟩
   refine ⟨t, ran, ?_, ?_⟩
   · intro i active

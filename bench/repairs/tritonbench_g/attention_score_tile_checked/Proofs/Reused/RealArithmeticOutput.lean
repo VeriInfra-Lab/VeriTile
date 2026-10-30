@@ -20,8 +20,8 @@ theorem output_of_execution (s t : BlockState) {D : Nat} (xs : Inputs D)
     (hm : s.regs .real [B] "m" = some (RealTiles.normalizer xs B N startM))
     (ho : s.regs .real [B] "o" = some (Tile.vec (fun k => some (old k))))
     (hs : s.regs .real [] "qk_scale" = some (Tile.scalar (some (scale * 1.4426950408889634))))
-    (hsm : s.regs .nat [] "start_m" = some (Tile.scalar startM))
-    (hsn : s.regs .nat [] "start_n" = some (Tile.scalar startN))
+    (hsm : s.regs .int [] "start_m" = some (Tile.scalar (startM : Int)))
+    (hsn : s.regs .int [] "start_n" = some (Tile.scalar (startN : Int)))
     (he : stepStmts (RealArithmetic.body B D N offset size window complement evenM Bool.false) s = some t) :
     ∀ k : Fin B, (t.regs .real [B] "o").map (fun v => v.data (k,PUnit.unit)) =
       some (some (old k + ∑ r : Fin B,
@@ -54,7 +54,8 @@ theorem output_of_execution (s t : BlockState) {D : Nat} (xs : Inputs D)
       TileShape.dropInsertedIndex, Tile.scalar, Tile.vec, NumericDType.add,
       NumericDType.sub, NumericDType.mul, ComparableDType.ge, ComparableDType.lt,
       RealFormula.distance, hdist, Nat.add_comm, -Tile.scalar_eta]
-  all_goals simp [Int.add_comm]
+  all_goals simp only [Int.add_comm,
+    show ((startM : Int) + (r.val : Int) < (N : Int)) ↔ startM + r.val < N by omega]
 
 /-- Both actual arithmetic fragments execute and update the running output
 by the independent column formula. Loaded-register premises will be established
@@ -67,8 +68,8 @@ theorem correct (s : BlockState) {D : Nat} (xs : Inputs D)
     (hm : s.regs .real [B] "m" = some (RealTiles.normalizer xs B N startM))
     (ho : s.regs .real [B] "o" = some (Tile.vec (fun k => some (old k))))
     (hs : s.regs .real [] "qk_scale" = some (Tile.scalar (some (scale * 1.4426950408889634))))
-    (hsm : s.regs .nat [] "start_m" = some (Tile.scalar startM))
-    (hsn : s.regs .nat [] "start_n" = some (Tile.scalar startN)) :
+    (hsm : s.regs .int [] "start_m" = some (Tile.scalar (startM : Int)))
+    (hsn : s.regs .int [] "start_n" = some (Tile.scalar (startN : Int))) :
     ∃ t, stepStmts (RealArithmetic.body B D N offset size window complement evenM candidate) s = some t ∧
       t.mem = s.mem ∧ t.pids = s.pids ∧ t.undef = s.undef ∧
       ∀ k : Fin B, (t.regs .real [B] "o").map (fun v => v.data (k,PUnit.unit)) =

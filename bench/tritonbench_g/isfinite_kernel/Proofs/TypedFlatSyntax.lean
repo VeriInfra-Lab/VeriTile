@@ -5,8 +5,8 @@ children use the existing syntax transformer; no compute-to-algorithm
 projection is used. These definitions retain unsupported constructs and
 their metadata. This leaf does not prove evaluator or execution commutation.
 
-The current `ComputeStmt` has four loop constructors: `forLoop`, `forRange`,
-`forRangeDyn`, and `forRangeInt`. Every loop and both branch forms occur
+The current `ComputeStmt` has five loop constructors: `forLoop`, `forRange`,
+`forRangeDyn`, `forRangeInt`, and `whileLoop`. Every loop and both branch forms occur
 explicitly below. Kernel port metadata follows the ordinary flattening
 convention, with the single flat region as both input and output. -/
 namespace VeriTile.Bench.TritonBenchG.IsfiniteKernel.TypedFlat
@@ -31,6 +31,10 @@ def flattenExpr (A : FlatAlloc) :
   | _, _, .opaque op => .opaque op
   | _, _, .llrint e => .llrint (flattenExpr A e)
   | _, _, .isFinite precision e => .isFinite precision (flattenExpr A e)
+  | _, _, .fma precision bcAB bcC a b c =>
+      .fma precision bcAB bcC (flattenExpr A a) (flattenExpr A b) (flattenExpr A c)
+  | _, _, .fmaTyped dtype bcAB bcC a b c =>
+      .fmaTyped dtype bcAB bcC (flattenExpr A a) (flattenExpr A b) (flattenExpr A c)
 
 mutual
 
@@ -58,6 +62,7 @@ def flattenComputeStmt (A : FlatAlloc) : ComputeStmt → ComputeStmt
   | .forRangeInt idx start stop step body =>
       .forRangeInt idx (A.flattenOp start) (A.flattenOp stop) (A.flattenOp step)
         (flattenComputeStmts A body)
+  | .whileLoop cond body => .whileLoop (A.flattenOp cond) (flattenComputeStmts A body)
   | .ifThen cond body => .ifThen (A.flattenOp cond) (flattenComputeStmts A body)
   | .ifThenElse cond thenBody elseBody =>
       .ifThenElse (A.flattenOp cond)

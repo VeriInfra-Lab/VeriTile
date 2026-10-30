@@ -2,7 +2,7 @@ import bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.Reused.De
 
 namespace VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.DenseSafety
 open VeriTile.Triton Geometry DenseSource
-open VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.RealAccess
+open VeriTile.Triton.Memory.AccessHelpers
 noncomputable section
 set_option maxHeartbeats 1000000
 set_option maxRecDepth 16000
@@ -62,11 +62,12 @@ theorem all_bounds (c : Shape) (z : Fin c.Z) (h : Fin c.H) (block : Fin c.progra
 /-- Every active load and store of every actual dense-grid program lies in
 the finite host allocation. Inactive M lanes need no allocated cells. -/
 theorem source_safe (c : Shape) (s : BlockState) (z : Fin c.Z) (h : Fin c.H)
-    (block : Fin c.programs) (offset size : Int) (scale : ℝ) (window complement : Bool) :
+    (block : Fin c.programs) (offset size : Int) (scale : ℝ) (window complement : Bool) (hOffsets : KeyOffsetsFit c) :
     (DenseSource.kernel c offset size scale window complement).eraseDType.toAlgKernel.TraceSafe
       (bounds c) (programState c s block.val z.val h.val) := by
   apply RealSource.safe (bounds c) (programState c s block.val z.val h.val) c.B c.D
     (parameters c offset size scale window complement) Bool.false (supported_positive c.B c.block)
+    (by simpa [programState] using hOffsets block)
   rw [config_eq]
   change RealSafety.Bounds _ _ c.N "out"
     (RealSource.outputBase (parameters c offset size scale window complement) (z.val*c.H+h.val))

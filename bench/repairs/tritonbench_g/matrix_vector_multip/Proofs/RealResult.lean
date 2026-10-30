@@ -16,17 +16,18 @@ def matrixVector (M : Nat) (matrix : Nat → Nat → ℝ) (vector : Nat → ℝ)
 column-loop iteration, zero extent and tail is included; the conclusion gives
 successful execution, complete typed memory, active outputs and the frame. -/
 theorem mv_kernel_correctness (N M BN BM : Nat) (width : 0 < BM)
-    (s : State ℝ) (matrix : Nat → Nat → ℝ) (vector : Nat → ℝ)
+    (rowShape : Random.ArangeSizeDomain BN) (columnShape : Random.ArangeSizeDomain BM)
+    (s : State ℝ) (domain : SourceDomain N M BN BM (s.pids 0)) (matrix : Nat → Nat → ℝ) (vector : Nat → ℝ)
     (matrixRead : ∀ i j, i < N → j < M →
       (s.mem "A" (i * M + j)).read .fp32 = matrix i j)
     (vectorRead : ∀ j, j < M → (s.mem "B" j).read .fp32 = vector j) :
-    Spec.Real (∃ t, exec WholeMath.algebra (Kernels.source N M BN BM) s = some t ∧
+    Spec.Real (∃ t, exec WholeMath.algebra (Kernels.source N M BN BM rowShape columnShape) s = some t ∧
       t.mem = (reference N BN s (fun i => matrixVector M matrix vector (row BN (s.pids 0) i.val))).mem ∧
       (∀ i : Fin BN, row BN (s.pids 0) i.val < N →
         t.mem "C" (row BN (s.pids 0) i.val) = .mk .fp32
           (matrixVector M matrix vector (row BN (s.pids 0) i.val))) ∧
       (∀ r o, Outside N BN (s.pids 0) r o → t.mem r o = s.mem r o)) := by
-  obtain ⟨t, ran, values, frame⟩ := execution WholeMath.algebra N M BN BM width s
+  obtain ⟨t, ran, values, frame⟩ := execution WholeMath.algebra N M BN BM width rowShape columnShape s domain
   have mathematical : ∀ i : Fin BN, row BN (s.pids 0) i.val < N →
       WholeSource.tileValue WholeMath.algebra (parameters N M BN BM) (s.pids 0) s.mem i =
         matrixVector M matrix vector (row BN (s.pids 0) i.val) := by
@@ -46,15 +47,16 @@ theorem mv_kernel_correctness (N M BN BM : Nat) (width : 0 < BM)
     rw [values i hi, mathematical i hi]
   exact ⟨t, ran, memory_ext N BN s t _ results frame, results, frame⟩
 
-theorem io_correct (N M BN BM pid : Nat) (width : 0 < BM) :
-    (IO.io WholeMath.algebra N M BN BM pid (id : ℝ → ℝ) id).Implements
+theorem io_correct (N M BN BM pid : Nat) (width : 0 < BM)
+    (rowShape : Random.ArangeSizeDomain BN) (columnShape : Random.ArangeSizeDomain BM) (domain : SourceDomain N M BN BM pid) :
+    (IO.io WholeMath.algebra N M BN BM pid rowShape columnShape (id : ℝ → ℝ) id).Implements
       (fun vals => IO.outputValues (fun i => matrixVector M
         (IO.matrixValues vals) (IO.vectorValues vals) (pid * BN + i.val))) := by
-  apply IO.implements WholeMath.algebra N M BN BM pid width id id
+  apply IO.implements WholeMath.algebra N M BN BM pid rowShape columnShape width domain id id
     (fun matrix vector i => matrixVector M matrix vector (pid * BN + i.val))
   intro s matrix vector matrixRead vectorRead hpid
   obtain ⟨t, ran, _, values, frame⟩ :=
-    mv_kernel_correctness N M BN BM width s matrix vector matrixRead vectorRead
+    mv_kernel_correctness N M BN BM width rowShape columnShape s (by simpa [hpid] using domain) matrix vector matrixRead vectorRead
   refine ⟨t, ran, ?_, ?_⟩
   · intro i active
     have result := values i (by simpa [row, hpid] using active)

@@ -48,9 +48,9 @@ theorem frame (s : BlockState) (Out : RegionName) (B NK base startN : Nat)
 
 theorem executes (s : BlockState) (Out : RegionName) (B NK soz soh batch head startN : Nat)
     (values : Fin B → ℝ)
-    (hz : s.regs .nat [] "off_z" = some (Tile.scalar batch))
-    (hh : s.regs .nat [] "off_h" = some (Tile.scalar head))
-    (hn : s.regs .nat [] "start_n" = some (Tile.scalar startN))
+    (hz : s.regs .int [] "off_z" = some (Tile.scalar (batch : Int)))
+    (hh : s.regs .int [] "off_h" = some (Tile.scalar (head : Int)))
+    (hn : s.regs .int [] "start_n" = some (Tile.scalar (startN : Int)))
     (ho : s.regs .real [B] "o" = some (Tile.vec (fun i => some (values i)))) :
     ∃ t, stepStmts (RealProgram.postlude Out B NK soz soh) s = some t ∧
       (∀ i : Fin B, t.readMem Out (batch*soz+head*soh+startN*B+i.val) =
@@ -59,32 +59,32 @@ theorem executes (s : BlockState) (Out : RegionName) (B NK soz soh batch head st
       (∀ r a, (r ≠ Out ∨ ∀ i : Fin B, startN*B+i.val < NK →
         a ≠ batch*soz+head*soh+startN*B+i.val) → t.mem r a = s.mem r a) := by
   let base := batch*soz+head*soh
-  let so := s.setReg "o_offset" .nat [] (Tile.scalar base)
-  let sr := so.setReg "o_range" .nat [B] (Tile.vec (fun i => i.val+startN*B))
+  let so := s.setReg "o_offset" .int [] (Tile.scalar (base : Int))
+  let sr := so.setReg "o_range" .int [B] (Tile.vec (fun i => ((i.val+startN*B : Nat) : Int)))
   let sp := sr.setReg "o_ptrs" .ptr [B] (Tile.vec (fun i => (Out, base+startN*B+i.val)))
-  have eo : evalOp (.add .nat .nil
-      (.mul .nat .nil (.ref .nat [] "off_z") (.constNat soz))
-      (.mul .nat .nil (.ref .nat [] "off_h") (.constNat soh))) s = some (Tile.scalar base) := by
+  have eo : evalOp (.add .int .nil
+      (.mul .int .nil (.ref .int [] "off_z") (.constInt soz))
+      (.mul .int .nil (.ref .int [] "off_h") (.constInt soh))) s = some (Tile.scalar (base : Int)) := by
     simp only [evalOp.eq_def, hz, hh, bind, Option.bind]
-    rfl
-  have er : evalOp (.add .nat .scalarR (.arange B)
-      (.mul .nat .nil (.ref .nat [] "start_n") (.constNat B))) so =
-      some (Tile.vec (fun i => i.val+startN*B)) := by
+    simp [Tile.bop, Tile.scalar, NumericDType.add, NumericDType.mul, Broadcast.leftIndex, Broadcast.rightIndex, base, -Tile.scalar_eta]
+  have er : evalOp (.add .int .scalarR (.castNatToInt (.arange B))
+      (.mul .int .nil (.ref .int [] "start_n") (.constInt B))) so =
+      some (Tile.vec (fun i => ((i.val+startN*B : Nat) : Int))) := by
     simp [evalOp.eq_def, so, hn]
-    rfl
+    simp [Tile.bop, Tile.scalar, Tile.vec, NumericDType.add, NumericDType.mul, Broadcast.leftIndex, Broadcast.rightIndex, -Tile.scalar_eta]
   have ep : evalOp (.ptrAdd .scalarL (.ptrBase Out)
-      (.add .nat .scalarL (.ref .nat [] "o_offset") (.ref .nat [B] "o_range"))) sr =
+      (.castIntToNat (.add .int .scalarL (.ref .int [] "o_offset") (.ref .int [B] "o_range")))) sr =
       some (Tile.vec (fun i => (Out, base+startN*B+i.val))) := by
     simp [evalOp.eq_def, sr, so, Tile.bop, Tile.ptrAdd, Tile.scalar, Tile.vec,
       Broadcast.leftIndex, Broadcast.rightIndex, NumericDType.add, Nat.add_assoc,
-      Nat.add_left_comm, Nat.add_comm, -Tile.scalar_eta]
+      Nat.add_left_comm, Nat.add_comm, -Tile.scalar_eta, ← Int.natCast_add, ← Int.natCast_mul, -Nat.cast_add, -Nat.cast_mul]
   have es : stepStmt (.store .real [B] (.ptr (.ref .ptr [B] "o_ptrs"))
-      (.ref .real [B] "o") (.mask (.lt .nat .scalarR (.ref .nat [B] "o_range") (.constNat NK)))) sp =
+      (.ref .real [B] "o") (.mask (.lt .int .scalarR (.ref .int [B] "o_range") (.castNatToInt (.constNat NK))))) sp =
       some (writeOutput sp Out B NK base startN values) := by
     simp [stepStmt, evalOp.eq_def, sp, sr, so, ho, writeOutput,
       Tile.cop, Tile.scalar, Tile.vec, Broadcast.leftIndex, Broadcast.rightIndex,
       ComparableDType.lt, BlockState.writeMemTyped_real, FloatDType.storeValue,
-      FloatDType.real_toWithBot, WithBot.unbotD_some, Nat.add_comm, -Tile.scalar_eta]
+      FloatDType.real_toWithBot, WithBot.unbotD_some, Nat.add_comm, -Tile.scalar_eta, ← Int.natCast_add, ← Int.natCast_mul, -Nat.cast_add, -Nat.cast_mul]
   have he : stepStmts (RealProgram.postlude Out B NK soz soh) s =
       some (writeOutput sp Out B NK base startN values) := by
     rw [RealProgram.postlude, stepStmts.cons_some (stepStmt_assign_eq_some eo),

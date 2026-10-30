@@ -1304,6 +1304,12 @@ partial def expandFull (expandExpr : ExprExpander) (env : Env)
 partial def expandComputeFull (expandExpr : ExprExpander) (env : Env)
     (dims : Array (TSyntax `tritonExpr)) (v : TSyntax `tritonExpr)
     (dt : TSyntax `tritonDType) : MacroM EOut := do
+  -- uint64 constructors perform the same low-bit conversion as an explicit
+  -- source cast, before broadcasting. In particular a while counter is not
+  -- an unbounded Nat merely because its initial literal is zero.
+  if let `(tritonDType| tl.uint64) := dt then
+    let converted ← `(tritonExpr| tl.cast($v:tritonExpr, $dt:tritonDType))
+    return ← expandFull expandExpr env dims converted (dtypeHint := some .nat)
   if (← expandDType dt) != .fp32 then
     return ← expandFull expandExpr env dims v (dtypeHint := some (← expandDType dt))
   let value ←

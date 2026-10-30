@@ -597,6 +597,11 @@ private partial def scanStmt (assigned : Assigned)
   | `(tritonStmt| tl.async_wait()) => ({}, assigned)
   | `(tritonStmt| tl.debug_barrier()) => ({}, assigned)
   | `(tritonStmt| tl.static_print($_msg:term)) => ({}, assigned)
+  | `(tritonStmt| while $cond:tritonExpr { $stmts:tritonStmt* }) =>
+      let (info, _) := scanStmts assigned stmts.toList
+      let guardInfo : ScanInfo :=
+        { directPins := directPinsFromExpr assigned cond, cmpDeps := cmpDepsFromExpr cond }
+      (guardInfo.append info, assigned)
   | `(tritonStmt| tl.for $i:ident in $($_:term) { $stmts:tritonStmt* }) =>
       let bodyAssigned := i.getId.toString :: assigned
       let (info, _) := scanStmts bodyAssigned stmts.toList
@@ -812,6 +817,8 @@ private partial def scanIntStmt (pins : List String)
       if pins.contains i.getId.toString || intExprWithPins? pins e then addUnique pins i.getId.toString else pins
   | `(tritonStmt| $i:ident *= $e:tritonExpr) =>
       if pins.contains i.getId.toString || intExprWithPins? pins e then addUnique pins i.getId.toString else pins
+  | `(tritonStmt| while $_:tritonExpr { $stmts:tritonStmt* }) =>
+      scanIntStmts pins stmts.toList
   | `(tritonStmt| tl.for $i:ident in $($_:term) { $stmts:tritonStmt* }) =>
       scanIntStmts pins stmts.toList |>.filter (fun name => name != i.getId.toString)
   | `(tritonStmt| tl.for $i:ident in $_:num { $stmts:tritonStmt* }) =>
@@ -958,6 +965,8 @@ private partial def regionDTypesFromStmt
           | some d => acc ++ [(j.getId.toString, d)]
           | none => acc) []
       head ++ rest
+  | `(tritonStmt| while $_:tritonExpr { $stmts:tritonStmt* }) =>
+      regionDTypesFromStmts stmts.toList
   | `(tritonStmt| tl.for $_:ident in $($_:term) { $stmts:tritonStmt* }) =>
       regionDTypesFromStmts stmts.toList
   | `(tritonStmt| tl.for $_:ident in $_:num { $stmts:tritonStmt* }) =>
@@ -1107,6 +1116,8 @@ private partial def ptrElemsFromStmt (regionDTypes : RegionDTypes)
       match rootedPtrDType regionDTypes acc e with
       | some d => (i.getId.toString, d) :: acc
       | none => acc
+  | `(tritonStmt| while $_:tritonExpr { $stmts:tritonStmt* }) =>
+      ptrElemsFromStmts regionDTypes acc stmts.toList
   | `(tritonStmt| tl.for $_:ident in $($_:term) { $stmts:tritonStmt* }) =>
       ptrElemsFromStmts regionDTypes acc stmts.toList
   | `(tritonStmt| tl.for $_:ident in $_:num { $stmts:tritonStmt* }) =>

@@ -507,6 +507,8 @@ inductive Stmt : Type where
   A zero stride executes no iterations, as in `forRangeDyn`. -/
   | forRangeInt : (idx : RegName) → (start stop : Op .int []) →
       (step : Op .nat []) → (body : List Stmt) → Stmt
+  /-- Reevaluate the scalar guard in the current state before each iteration. -/
+  | whileLoop : (cond : Op .bool []) → (body : List Stmt) → Stmt
   | ifThen  : (cond : Op .bool []) → (body : List Stmt) → Stmt
   | ifThenElse : (cond : Op .bool []) → (thenBody elseBody : List Stmt) → Stmt
 
@@ -989,6 +991,8 @@ inductive ComputeStmt : Type where
   /-- Signed range; floating operations inside the body retain their precision. -/
   | forRangeInt : (idx : RegName) → (start stop : Op .int []) →
       (step : Op .nat []) → (body : List ComputeStmt) → ComputeStmt
+  /-- An unbounded source while loop; body operations retain their precision. -/
+  | whileLoop : (cond : Op .bool []) → (body : List ComputeStmt) → ComputeStmt
   | ifThen : (cond : Op .bool []) → (body : List ComputeStmt) → ComputeStmt
   | ifThenElse : (cond : Op .bool []) →
       (thenBody elseBody : List ComputeStmt) → ComputeStmt
@@ -1031,6 +1035,8 @@ def toAlgorithm? : ComputeStmt → Except EraseDTypeError Stmt
       Except.ok (.forRangeDyn idx start stop step (← listToAlgorithm? body))
   | .forRangeInt idx start stop step body => do
       Except.ok (.forRangeInt idx start stop step (← listToAlgorithm? body))
+  | .whileLoop cond body => do
+      Except.ok (.whileLoop cond (← listToAlgorithm? body))
   | .ifThen cond body => do
       Except.ok (.ifThen cond (← listToAlgorithm? body))
   | .ifThenElse cond thenBody elseBody => do

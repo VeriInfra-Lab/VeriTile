@@ -35,7 +35,8 @@ theorem schedule_run (c : Shape) (offset size : Int) (scale : ℝ) (window compl
 
 theorem values (c : Shape) (offset size : Int) (scale : ℝ) (window complement : Bool)
     (xs : Inputs c) (domain : initialOutput c xs) (s : State NativeStaging.Expr)
-    (binding : (programIO c offset size scale window complement).InputCells xs s) :
+    (binding : (programIO c offset size scale window complement).InputCells xs s)
+    (hOffsets : c.N ≠ 0 → c.outputSize ≠ 0 → KeyOffsetsFit c) :
     ∃ t, runSchedule ((programIO c offset size scale window complement).schedule xs) s=some t ∧
       (programIO c offset size scale window complement).OutputBinding xs
         (formula c offset size scale window complement xs) t ∧
@@ -63,7 +64,8 @@ theorem values (c : Shape) (offset size : Int) (scale : ℝ) (window complement 
     · intro r a outside
       rfl
   · have hn : c.N≠0 := fun h => he (Or.inl h)
-    obtain ⟨t,run,same,values⟩ := FPReturned.grid_tensor algebra dotModel c s offset size scale window complement
+    have fits := hOffsets hn (fun h => he (Or.inr h))
+    obtain ⟨t,run,same,values⟩ := FPReturned.grid_tensor algebra dotModel c s offset size scale window complement fits
     refine ⟨t,?_,?_,?_⟩
     · simpa only [programIO,if_neg he,schedule_run] using run
     · intro o j active
@@ -81,7 +83,7 @@ theorem values (c : Shape) (offset size : Int) (scale : ℝ) (window complement 
       simp only [FPReturned.returnedValue,if_neg hn] at lowered
       exact lowered.trans (Binding.returned c offset size scale window complement s xs binding _ _ _)
     · intro r a outside
-      apply FPReturned.run_frame algebra dotModel c offset size scale window complement (WholeGrid.jobs c) s t run r a
+      apply FPReturned.run_frame algebra dotModel c offset size scale window complement fits (WholeGrid.jobs c) s t run r a
       by_cases hr : r="out"
       · right
         by_contra ha

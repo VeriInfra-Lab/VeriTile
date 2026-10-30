@@ -67,7 +67,8 @@ theorem output_base (c : Shape) (z : Nat) (h : Fin c.H)
 independent column value at every active lane. No execution/output premise is
 required; only the actual host metadata is instantiated. -/
 theorem executes (c : Shape) (s : BlockState) (block z : Nat) (h : Fin c.H)
-    (offset size : Int) (scale : ℝ) (window complement : Bool) :
+    (offset size : Int) (scale : ℝ) (window complement : Bool)
+    (keyOffsetBound : block*c.B < 2147483648) :
     ∃ t, exec (kernel c offset size scale window complement).eraseDType.toAlgKernel
         (programState c s block z h.val) = some t ∧
       (∀ lane : Fin c.B, block*c.B+lane.val < c.NK →
@@ -78,6 +79,7 @@ theorem executes (c : Shape) (s : BlockState) (block z : Nat) (h : Fin c.H)
         a ≠ c.outputBase z h.val+block*c.B+lane.val) → t.mem r a = s.mem r a) := by
   obtain ⟨t,ht,ho,hf⟩ := RealSource.executes (programState c s block z h.val) c.B c.D
     (parameters c offset size scale window complement) Bool.false (supported_positive c.B c.block)
+    (by simpa [programState] using keyOffsetBound)
   refine ⟨t,ht,?_,?_⟩
   · intro lane hl
     obtain ⟨hz,hh⟩ := batch_head c z h

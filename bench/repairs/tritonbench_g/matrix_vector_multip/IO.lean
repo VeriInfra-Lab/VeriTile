@@ -21,8 +21,9 @@ def vectorValues {α : Type} [Inhabited α] {N M : Nat}
     (vals : Inputs α N M) (j : Nat) : α :=
   if h : j < M then vals 1 (⟨j, h⟩, PUnit.unit) else default
 
-def invocation {β : Type} (A : Algebra β) (N M BN BM pid : Nat) : Invocation β where
-  kernel := Kernels.source N M BN BM
+def invocation {β : Type} (A : Algebra β) (N M BN BM pid : Nat)
+    (rowShape : Random.ArangeSizeDomain BN) (columnShape : Random.ArangeSizeDomain BM) : Invocation β where
+  kernel := Kernels.source N M BN BM rowShape columnShape
   backend := A
   pids := fun ax => if ax = 0 then pid else 0
 
@@ -35,6 +36,7 @@ abbrev inputRead {α : Type} (N M : Nat) :
 /-- Shared typed layout used by the independently displayed Real/native IO.
 It retains the entire matrix/vector inputs and the one program's output rows. -/
 abbrev io {α β : Type} (A : Algebra β) (N M BN BM pid : Nat)
+    (rowShape : Random.ArangeSizeDomain BN) (columnShape : Random.ArangeSizeDomain BM)
     (encode : α → β) (observe : β → α) : ProgramIO α β where
   inputs := channels N M
   outputs := [⟨.fp32, [BN], "C"⟩]
@@ -46,7 +48,7 @@ abbrev io {α β : Type} (A : Algebra β) (N M BN BM pid : Nat)
   outputMask := Fin.cases (fun _ i => pid * BN + i.1.val < N) (fun i => i.elim0)
   scratchWrite := fun i => i.elim0
   scratchMask := fun i => i.elim0
-  schedule := fun _ => [invocation A N M BN BM pid]
+  schedule := fun _ => [invocation A N M BN BM pid rowShape columnShape]
   encode := encode
   observe := fun _ _ => observe
 
@@ -98,9 +100,10 @@ open VeriTile.Triton FP.Structural
 noncomputable section
 
 /-- A bijective logical view of the unchanged complete source IO. -/
-def logicalIO (A : Algebra ℝ) (N M BN BM pid : Nat) : LogicalProgramIO ℝ ℝ
+def logicalIO (A : Algebra ℝ) (N M BN BM pid : Nat)
+    (rowShape : Random.ArangeSizeDomain BN) (columnShape : Random.ArangeSizeDomain BM) : LogicalProgramIO ℝ ℝ
     ((Fin N → Fin M → ℝ) × (Fin M → ℝ)) (Fin BN → ℝ) where
-  core := io A N M BN BM pid id id
+  core := io A N M BN BM pid rowShape columnShape id id
   inputs := logicalInputs N M
   outputs := logicalOutputs BN
 

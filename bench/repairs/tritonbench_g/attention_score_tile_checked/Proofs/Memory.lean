@@ -1,5 +1,5 @@
 import bench.repairs.tritonbench_g.attention_score_tile_checked.Contract
-import bench.repairs.tritonbench_g.attention_score_tile_checked.Kernels
+import bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.SourceBridge
 import bench.repairs.tritonbench_g.chunk_gla_simple.Proofs.ByteMemory
 
 namespace VeriTile.Bench.Repairs.AttentionScoreTileChecked

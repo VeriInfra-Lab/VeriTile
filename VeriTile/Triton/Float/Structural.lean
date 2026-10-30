@@ -12,6 +12,7 @@ must establish successful executions, not equality of two failures.
 import VeriTile.Triton.Core.Ast
 import VeriTile.Triton.Core.DiscreteReduction
 import VeriTile.Triton.Core.Reshape
+import VeriTile.Triton.Control.While
 
 namespace VeriTile.Triton.FP.Structural
 
@@ -1017,6 +1018,9 @@ noncomputable def step {α : Type} [Inhabited α] (M : Algebra α) :
       let b ← evalOp M none stop s
       let d ← evalOp M none stride s
       rangeInt M idx (a PUnit.unit) (b PUnit.unit) (d PUnit.unit) body s
+  | .whileLoop cond body, s =>
+      Control.While.run (fun current => (evalOp M none cond current).map (fun c => c PUnit.unit))
+        (fun current => run M body current) s
   | .ifThen cond body, s => do
       let c ← evalOp M none cond s
       if c PUnit.unit then run M body s else some s

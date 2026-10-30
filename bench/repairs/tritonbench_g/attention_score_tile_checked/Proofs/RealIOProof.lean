@@ -2,7 +2,7 @@ import bench.repairs.tritonbench_g.attention_score_tile_checked.RealIO
 
 namespace VeriTile.Bench.Repairs.AttentionScoreTileChecked.RealInterface.Proof
 open VeriTile Triton Reused Geometry Physical
-open VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.RealAccess
+open VeriTile.Triton.Memory.AccessHelpers
 noncomputable section
 set_option maxRecDepth 30000
 set_option maxHeartbeats 2000000
@@ -28,12 +28,13 @@ theorem capacities (c : Shape) (offset size : Int) (scale : ℝ) (window complem
 
 theorem source_safe (c : Shape) (offset size : Int) (scale : ℝ) (window complement : Bool)
     (bounds : RegionBounds) (cap : ∀ r a, a < DenseSafety.bounds c r → a < bounds r)
-    (s : BlockState) (job : WholeGrid.Job c) :
+    (s : BlockState) (job : WholeGrid.Job c) (hOffsets : KeyOffsetsFit c) :
     (AlgorithmStage.single (source c offset size scale window complement) (launch c job)).Safe bounds s := by
   change (DenseSource.kernel c offset size scale window complement).eraseDType.toAlgKernel.TraceSafe
     bounds (DenseSource.programState c s job.2.2.val job.1.val job.2.1.val)
   apply RealSource.safe bounds (DenseSource.programState c s job.2.2.val job.1.val job.2.1.val) c.B c.D
     (parameters c offset size scale window complement) Bool.false (supported_positive c.B c.block)
+    (by simpa [DenseSource.programState] using hOffsets job.2.2)
   rw [DenseSource.config_eq]
   change RealSafety.Bounds _ _ c.N "out"
     (RealSource.outputBase (parameters c offset size scale window complement) (job.1.val*c.H+job.2.1.val))
@@ -51,7 +52,8 @@ theorem source_safe (c : Shape) (offset size : Int) (scale : ℝ) (window comple
 
 theorem execution (c : Shape) (offset size : Int) (scale : ℝ) (window complement : Bool)
     (order : List (WholeGrid.Job c)) (s t : BlockState)
-    (run : WholeGrid.run c offset size scale window complement order s=some t) :
+    (run : WholeGrid.run c offset size scale window complement order s=some t)
+    (hOffsets : KeyOffsetsFit c) :
     ∃ trace : AlgorithmExecution (order.map fun job =>
         .single (source c offset size scale window complement) (launch c job)) s t,
       ∀ bounds, (∀ r a, a < DenseSafety.bounds c r → a < bounds r) → trace.Safe bounds := by
@@ -72,7 +74,7 @@ theorem execution (c : Shape) (offset size : Int) (scale : ℝ) (window compleme
         rw [AlgorithmStage.single_runs]
         exact step
       exact ⟨.cons head trace,fun bounds cap =>
-        ⟨source_safe c offset size scale window complement bounds cap s job,safe bounds cap⟩⟩
+        ⟨source_safe c offset size scale window complement bounds cap s job hOffsets,safe bounds cap⟩⟩
 
 theorem target_binding (c : Shape) (offset size : Int) (scale : ℝ) (window complement : Bool)
     (s : BlockState) (xs : Inputs ℝ c)
@@ -111,7 +113,8 @@ theorem castExecution_safe {a b : List AlgorithmStage} {s t : BlockState} (h : a
   cases h
   rfl
 
-theorem implements (c : Shape) (offset size : Int) (scale : ℝ) (window complement : Bool) :
+theorem implements (c : Shape) (offset size : Int) (scale : ℝ) (window complement : Bool)
+    (hOffsets : c.N ≠ 0 → c.outputSize ≠ 0 → KeyOffsetsFit c) :
     (programIO c offset size scale window complement).ImplementsOn (initialOutput c)
       (formula c offset size scale window complement) := by
   intro xs domain s binding
@@ -131,8 +134,9 @@ theorem implements (c : Shape) (offset size : Int) (scale : ℝ) (window complem
       · exact Fin.elim0 (j.cast ho)
     · intro r a hout hscr
       rfl
-  · obtain ⟨t,run,same,values⟩ := RealReturned.grid_tensor c s offset size scale window complement
-    obtain ⟨trace,safe⟩ := execution c offset size scale window complement (WholeGrid.jobs c) s t run
+  · have fits := hOffsets (by simpa [empty] using (not_or.mp he).1) (by simpa [empty] using (not_or.mp he).2)
+    obtain ⟨t,run,same,values⟩ := RealReturned.grid_tensor c s offset size scale window complement fits
+    obtain ⟨trace,safe⟩ := execution c offset size scale window complement (WholeGrid.jobs c) s t run fits
     have stages : (programIO c offset size scale window complement).stages xs=
         (WholeGrid.jobs c).map (fun job => .single (source c offset size scale window complement) (launch c job)) := by
       simp [programIO,he]
@@ -145,7 +149,7 @@ theorem implements (c : Shape) (offset size : Int) (scale : ℝ) (window complem
       rw [←output_address c j,values]
       exact target_binding c offset size scale window complement s xs binding _ _ _
     · intro r a hout hscr
-      apply RealReturned.run_frame c offset size scale window complement (WholeGrid.jobs c) s t run r a
+      apply RealReturned.run_frame c offset size scale window complement fits (WholeGrid.jobs c) s t run r a
       by_cases hr : r="out"
       · right
         by_contra ha

@@ -1,5 +1,5 @@
 import bench.repairs.tritonbench_g.matrix_vector_multip.Kernels
-import bench.tritonbench_g.matrix_vector_multip.Proofs.WholeSource
+import bench.repairs.tritonbench_g.matrix_vector_multip.Proofs.SourceOutput
 
 namespace VeriTile.Bench.Repairs.MatrixVectorMultip.KernelSource
 open VeriTile.Triton FP.Structural
@@ -9,9 +9,16 @@ noncomputable section
 def parameters (N M BN BM : Nat) : Typed.Parameters :=
   ⟨"A", "B", "C", N, M, M, 1, 1, 1, BN, BM⟩
 
-/-- Literal source binding, including retained FP32 precision tags. -/
-theorem source_binding (N M BN BM : Nat) :
-    Kernels.source N M BN BM = WholeSource.source (parameters N M BN BM) := rfl
+/-- The raw source is decomposed around its actual while constructor.
+Its semantic connection to the historical ordered recurrence is `execution`. -/
+theorem source_binding (N M BN BM : Nat)
+    (rowShape : Random.ArangeSizeDomain BN) (columnShape : Random.ArangeSizeDomain BM) :
+    (Kernels.source N M BN BM rowShape columnShape).surfaceBody =
+      (SourceCode.original N M BN BM rowShape columnShape).before ++
+      [.whileLoop (SourceCode.original N M BN BM rowShape columnShape).condition
+        (SourceCode.original N M BN BM rowShape columnShape).body] ++
+      (SourceCode.original N M BN BM rowShape columnShape).after :=
+  SourceCode.original_decomposition N M BN BM rowShape columnShape
 
 def row (BN pid lane : Nat) : Nat := pid * BN + lane
 
@@ -62,17 +69,18 @@ theorem memory_ext {α : Type} (N BN : Nat) (s t : State α) (value : Fin BN →
       · exact Or.inl hr
     rw [frame r o outside, reference_frame N BN s value r o outside]
 
-/-- Complete source execution for arbitrary column extent, not a one-block
+/-- Complete source execution for the explicit machine-integer domain, not a one-block
 slice. The value graph retains every cast, masked zero and accumulator carry. -/
 theorem execution {α : Type} [Inhabited α] (A : Algebra α) (N M BN BM : Nat)
-    (width : 0 < BM) (s : State α) :
-    ∃ t, exec A (Kernels.source N M BN BM) s = some t ∧
+    (width : 0 < BM)
+    (rowShape : Random.ArangeSizeDomain BN) (columnShape : Random.ArangeSizeDomain BM)
+    (s : State α) (domain : SourceDomain N M BN BM (s.pids 0)) :
+    ∃ t, exec A (Kernels.source N M BN BM rowShape columnShape) s = some t ∧
       (∀ i : Fin BN, row BN (s.pids 0) i.val < N →
         t.mem "C" (row BN (s.pids 0) i.val) = .mk .fp32
           (WholeSource.tileValue A (parameters N M BN BM) (s.pids 0) s.mem i)) ∧
       (∀ r o, Outside N BN (s.pids 0) r o → t.mem r o = s.mem r o) := by
-  rw [source_binding]
-  exact WholeSource.tile_result A (parameters N M BN BM) width rfl s
+  exact SourceOutput.tile_result A N M BN BM rowShape columnShape s domain
 
 #axiomsClean source_binding
 #axiomsClean execution

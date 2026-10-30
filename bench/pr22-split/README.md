@@ -33,3 +33,29 @@ can show already merged changes again. No PR has been merged as part of this spl
 The final source coverage remains 124/183 selected tasks and 19/19 worked examples.
 The remaining 59 tasks are outside this stopped batch. Archived comparator unavailability,
 missing Torch/Triton and the known Structural receipt test failure remain explicit limits.
+
+## Final integration and replay
+
+The ordered PR links are maintained in the [#22 review index](https://github.com/VeriInfra-Lab/VeriTile/pull/22).
+`final-integration.json` records the new full-stack build, joint import, compatibility
+build of the newer base's benchmark libraries, Python results and archive checks.
+The project cache is reused and affected dependencies are rebuilt. Compatibility
+compilation does not discharge the new benchmark drafts' open proof/backend goals.
+
+To replay the exact recorded root set and joint import after building dependencies:
+
+```sh
+python3 - <<'PY'
+import gzip
+from pathlib import Path
+import subprocess
+import tempfile
+roots = gzip.decompress(Path("bench/pr22-split/final-roots.txt.gz").read_bytes()).decode().splitlines()
+subprocess.run(["lake", "build", *roots], check=True)
+with tempfile.TemporaryDirectory(prefix="veritile-pr22-") as temporary:
+    joint = Path(temporary) / "Joint.lean"
+    joint.write_text("".join(f"import {module}\n" for module in roots))
+    subprocess.run(["lake", "env", "lean", str(joint)], check=True)
+PY
+lake build BugDetection PretrainKernels
+```

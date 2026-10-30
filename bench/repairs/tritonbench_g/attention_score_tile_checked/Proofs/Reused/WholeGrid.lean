@@ -59,13 +59,13 @@ def CorrectAt (c : Shape) (initial current : BlockState) (offset size : Int)
       (job.2.2.val*c.B+lane.val)
 
 theorem step (c : Shape) (initial current : BlockState) (same : InputsSame initial current)
-    (offset size : Int) (scale : ℝ) (window complement : Bool) (job : Job c) :
+    (offset size : Int) (scale : ℝ) (window complement : Bool) (hOffsets : KeyOffsetsFit c) (job : Job c) :
     ∃ t, invoke c offset size scale window complement job current=some t ∧
       InputsSame initial t ∧ CorrectAt c initial t offset size scale window complement job ∧
       (∀ old, old≠job → CorrectAt c initial current offset size scale window complement old →
         CorrectAt c initial t offset size scale window complement old) := by
   obtain ⟨t,ht,ho,hf⟩ := DenseSource.executes c current job.2.2.val job.1.val job.2.1
-    offset size scale window complement
+    offset size scale window complement (hOffsets job.2.2)
   refine ⟨t,ht,?_,?_,?_⟩
   · intro r a hr
     exact (hf r a (Or.inl hr)).trans (same r a hr)
@@ -86,14 +86,14 @@ theorem step (c : Shape) (initial current : BlockState) (same : InputsSame initi
 every column already produced; repeated jobs are harmless because their values
 depend only on preserved inputs. The public launch enumerates every job once. -/
 theorem run_correct (c : Shape) (initial current : BlockState) (same : InputsSame initial current)
-    (offset size : Int) (scale : ℝ) (window complement : Bool) (order done : List (Job c))
+    (offset size : Int) (scale : ℝ) (window complement : Bool) (hOffsets : KeyOffsetsFit c) (order done : List (Job c))
     (correct : ∀ job∈done, CorrectAt c initial current offset size scale window complement job) :
     ∃ t, run c offset size scale window complement order current=some t ∧ InputsSame initial t ∧
       ∀ job∈done++order, CorrectAt c initial t offset size scale window complement job := by
   induction order generalizing current done with
   | nil => exact ⟨current,rfl,same,by simpa using correct⟩
   | cons job rest ih =>
-      obtain ⟨next,hn,hs,hnew,hkeep⟩ := step c initial current same offset size scale window complement job
+      obtain ⟨next,hn,hs,hnew,hkeep⟩ := step c initial current same offset size scale window complement hOffsets job
       have hc : ∀ old∈done++[job], CorrectAt c initial next offset size scale window complement old := by
         intro old ho
         by_cases he : old=job
@@ -106,11 +106,11 @@ theorem run_correct (c : Shape) (initial current : BlockState) (same : InputsSam
       · simpa only [List.append_assoc,List.singleton_append] using hout
 
 theorem whole_grid (c : Shape) (initial : BlockState) (offset size : Int) (scale : ℝ)
-    (window complement : Bool) :
+    (window complement : Bool) (hOffsets : KeyOffsetsFit c) :
     ∃ t, run c offset size scale window complement (jobs c) initial=some t ∧
       InputsSame initial t ∧ ∀ job, CorrectAt c initial t offset size scale window complement job := by
   obtain ⟨t,ht,hs,ho⟩ := run_correct c initial initial (by intro _ _ _; rfl)
-    offset size scale window complement (jobs c) [] (by simp)
+    offset size scale window complement hOffsets (jobs c) [] (by simp)
   exact ⟨t,ht,hs,fun job => ho job (by simp [jobs])⟩
 
 #guard_msgs (drop info) in

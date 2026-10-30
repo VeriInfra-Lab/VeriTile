@@ -658,6 +658,10 @@ def Stmt.check (ctx : CheckCtx) : Stmt → Except CheckError CheckCtx
       step.check ctx
       let ctx' ← ctx.setReg idx (pointerEntry .int [] none)
       StmtList.check ctx' body
+  | .whileLoop cond body => do
+      cond.check ctx
+      let _ ← StmtList.check ctx body
+      .ok ctx
   | .ifThen cond body => do
       cond.check ctx
       StmtList.check ctx body

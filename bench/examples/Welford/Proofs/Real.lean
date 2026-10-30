@@ -205,13 +205,13 @@ theorem twopass_projection (xReg meanReg varReg : RegionName) (N stride : Nat) :
     ComputeStmt.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
     ComputeDType.eraseDType, Except.bind,
     Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,
-    Op.eraseDType, VeriTile.Triton.eraseDType, NumericDType.eraseDType,
+    Op.eraseDType, VeriTile.Triton.eraseDType, NumericDType.eraseDType, IntegralDType.eraseDType,
     MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def]
   repeat' apply And.intro
   all_goals try norm_num
   all_goals
     rw [Op.eraseDType.eq_def]
-    simp [Op.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType]
+    simp [Op.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, IntegralDType.eraseDType]
 
 theorem online_projection (xReg meanReg varReg : RegionName) (N stride : Nat) :
     (onlineWelfordKernel xReg meanReg varReg N stride).eraseDType.toAlgorithm? =
@@ -220,26 +220,28 @@ theorem online_projection (xReg meanReg varReg : RegionName) (N stride : Nat) :
     ComputeStmt.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
     ComputeDType.eraseDType, Except.bind,
     Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,
-    Op.eraseDType, VeriTile.Triton.eraseDType, NumericDType.eraseDType,
+    Op.eraseDType, VeriTile.Triton.eraseDType, NumericDType.eraseDType, IntegralDType.eraseDType,
     MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def]
   repeat' apply And.intro
   all_goals try norm_num
   all_goals
     rw [Op.eraseDType.eq_def]
-    simp [Op.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType]
+    simp [Op.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, IntegralDType.eraseDType]
 
 /-- Direct mean/variance computation, including the totalized empty-row case. -/
 theorem twopass_region_run (N stride : Nat) (s : BlockState) (xs : Fin N → ℝ)
-    (hx : InputRowLoadedAt s "x" stride N xs) :
+    (hx : InputRowLoadedAt s "x" stride N xs)
+    (h64 : N < 18446744073709551616) :
     ∃ t, exec (twopassMathKernel "x" "mean" "var" N stride).toAlgKernel s = some t ∧
       t.readMem "mean" 0 = twoPassMean xs ∧
       t.readMem "var" 0 = twoPassS xs / N ∧
       (∀ (r : RegionName) o, (r ≠ "mean" ∨ o ≠ 0) → (r ≠ "var" ∨ o ≠ 0) →
         t.mem r o = s.mem r o) := by
+  have hmod : N % 18446744073709551616 = N := Nat.mod_eq_of_lt h64
   unfold InputRowLoadedAt at hx
   simp only [BlockState.pid_eq] at hx ⊢
   simp [twopassMathKernel, exec, stepStmts, stepStmt, evalOp.eq_def,
-    Tile.bop, Tile.natToReal, NumericDType.add, NumericDType.mul, NumericDType.sub,
+    Tile.bop, Tile.natToReal, hmod, NumericDType.add, NumericDType.mul, NumericDType.sub,
     NumericDType.div, Tile.reduceSumDrop,
     TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex]
   refine ⟨?_, ?_, ?_⟩
@@ -255,18 +257,20 @@ theorem twopass_region_run (N stride : Nat) (s : BlockState) (xs : Fin N → ℝ
 /-- The online program's two stores expose the statistics established by the
 loop invariant. The full cell frame is retained, not only output readback. -/
 theorem online_region_run (N stride : Nat) (s : BlockState) (xs : Fin N → ℝ)
-    (hx : InputRowLoadedAt s "x" stride N xs) :
+    (hx : InputRowLoadedAt s "x" stride N xs)
+    (h64 : N < 18446744073709551616) :
     ∃ t, exec (onlineMathKernel "x" "mean" "var" N stride).toAlgKernel s = some t ∧
       t.readMem "mean" 0 = twoPassMean xs ∧
       t.readMem "var" 0 = twoPassS xs / N ∧
       (∀ (r : RegionName) o, (r ≠ "mean" ∨ o ≠ 0) → (r ≠ "var" ∨ o ≠ 0) →
         t.mem r o = s.mem r o) := by
+  have hmod : N % 18446744073709551616 = N := Nat.mod_eq_of_lt h64
   obtain ⟨t, he, hM, hS, _, _, hmem⟩ := welford_loop_run N stride "x" s xs hx
   let counted := t.setReg "count" .real [] (Tile.scalar (some (N:ℝ)))
   let result := (counted.writeMem "mean" 0 (twoPassMean xs)).writeMem "var" 0 (twoPassS xs / N)
   refine ⟨result, ?_, ?_, ?_, ?_⟩
   · simp [onlineMathKernel, exec, stepStmts, stepStmt, evalOp.eq_def,
-      Tile.bop, Tile.natToReal]
+      Tile.bop, Tile.natToReal, hmod]
     simp only [loopInitial, onlineWelfordLoopBody] at he
     rw [he]
     simp [NumericDType.div, hM, hS, result, counted]

@@ -265,6 +265,13 @@ def stepSafe {α : Type} [Inhabited α] (M : Algebra α)
       match evalOp M none start s, evalOp M none stop s, evalOp M none stride s with
       | some a, some b, some d => rangeIntSafe M bounds idx (a PUnit.unit) (b PUnit.unit) (d PUnit.unit) body s
       | _, _, _ => True
+  | .whileLoop cond body, s =>
+      ∀ current, Control.While.Reaches
+        (fun state => (evalOp M none cond state).map (fun c => c PUnit.unit))
+        (run M body) s current →
+        safeOp M none bounds current cond ∧
+        ((evalOp M none cond current).map (fun c => c PUnit.unit) = some true →
+          traceSafeList M bounds body current)
   | .ifThen cond body, s =>
       safeOp M none bounds s cond ∧
       match evalOp M none cond s with

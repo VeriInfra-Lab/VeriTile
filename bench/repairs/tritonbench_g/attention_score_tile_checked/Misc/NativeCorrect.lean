@@ -33,7 +33,8 @@ theorem kernel_native (I : ISA (BitVec 32)) (c : Shape) (abi : ABI c)
       (observation I c) (NativeInterface.initialOutput c)
       (formula I c offset size scale window complement) :=
   ProgramIO.ObservesOnCells.of_implementsOnCells
-    (NativeInterface.Proof.implements c offset size scale window complement)
+    (NativeInterface.Proof.implements c offset size scale window complement
+      (Whole002.Representation.Domain.key_offsets_fit c abi offset size window _domain))
     (observation I c)
 
 #stmtSurfaceSubset kernel_native ⊆

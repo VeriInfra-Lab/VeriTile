@@ -1,0 +1,81 @@
+{
+  "schema": 1,
+  "source_commit": "4edef6a4e60cb40f2a7bc6339135ffce12293623",
+  "base_commit": "25ad2949386cd0b992e2d3cb7cf26fac86f6a25c",
+  "archive_commit": "5ea0e46126cc1c6eb05e4219ddc5dc13246ec3ce",
+  "original_cumulative_roots": 6163,
+  "explicit_roots_including_base_integration": 6166,
+  "project_cache": "Existing project cache reused; Lake rebuilds dependencies affected by source/base changes. This is not an empty-cache replay.",
+  "checks": {
+    "build": {
+      "exit_code": 0,
+      "seconds": 34.71,
+      "log_sha256": "fab71bbc73149c72134cff859bcc6903e5bc1d9a02fffab60f8b9c700bba04e4",
+      "status": "passed"
+    },
+    "joint": {
+      "exit_code": 0,
+      "seconds": 7.78,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "passed"
+    },
+    "new-base-benchmarks": {
+      "exit_code": 0,
+      "seconds": 622.6,
+      "log_sha256": "16085968f29733991cf580e0e3d8aeb8df3a45d67a4a190f0358c7700a93366a",
+      "status": "passed",
+      "scope": "Compatibility compilation only; existing open proof and backend goals remain open."
+    },
+    "full-python": {
+      "exit_code": 1,
+      "seconds": 66.96,
+      "log_sha256": "c08daced371a9a1a69dd49820612fc1b5c35eac5483bb439817d3d3bdb5ebf36",
+      "status": "known_preexisting_failure",
+      "tests": 684,
+      "errors": 1
+    },
+    "formulas": {
+      "exit_code": 0,
+      "seconds": 0.93,
+      "log_sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de",
+      "status": "passed"
+    },
+    "io": {
+      "exit_code": 0,
+      "seconds": 0.43,
+      "log_sha256": "0f30b59dbce8b6a941f456fa71d69795b1865a876e70f3aaa8ba54be4f0dbe9c",
+      "status": "passed"
+    },
+    "roles": {
+      "exit_code": 0,
+      "seconds": 7.62,
+      "log_sha256": "d9b26faff45f491e7f11725a6806321e60d1bca058fc70ca625f9baef33f4182",
+      "status": "passed"
+    },
+    "body": {
+      "exit_code": 0,
+      "seconds": 4.26,
+      "log_sha256": "6e1b4c24b58605d204248940762a5e9cc7f40aac24c9cabee98f47e358179e51",
+      "status": "passed"
+    }
+  },
+  "limitations": [
+    "Historical Structural numerical-receipt source/hash error remains explicit.",
+    "Official comparator unavailability and missing Torch/Triton remain as archived; no new GPU or numerical experiment.",
+    "The newer base benchmark drafts are preserved; this run does not claim to solve or validate all their open proof goals."
+  ],
+  "archive_excerpt_verification": {
+    "status": "passed",
+    "receipts": 28,
+    "method": "Every extracted field equals the full archived JSON, whose bytes match the recorded SHA-256."
+  },
+  "status": "passed_with_recorded_limits",
+  "seconds": 745.58,
+  "final_application_source_identity": {
+    "status": "passed",
+    "files": 19831,
+    "application_tree_sha256": "f01a5d03aa2c611384306b3b9f5502c80c69efbf5e0783e869572ea2d4cb3c73",
+    "comparison": "Golden #22 application sources plus unchanged newer-base additions; checked again after the final builds and Python tests."
+  },
+  "whitespace_review": "The whitespace report is identical to the archived source report; pasted Python/Lean body whitespace was preserved."
+}

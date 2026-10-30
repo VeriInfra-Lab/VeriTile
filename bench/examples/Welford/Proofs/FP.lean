@@ -187,11 +187,13 @@ reads finish before the two stores. Empty rows still execute the original code. 
 theorem online_run {α : Type} [Inhabited α] (M : Algebra α)
     (xReg meanReg varReg : RegionName) (stride : Nat) (xs : Fin N → α) (s : State α)
     (hd : meanReg ≠ varReg)
-    (hx : ∀ i : Fin N, M.fp32Load ((s.mem xReg (s.pids 0 * stride + i.val)).read .real) = xs i) :
+    (hx : ∀ i : Fin N, M.fp32Load ((s.mem xReg (s.pids 0 * stride + i.val)).read .real) = xs i)
+    (h64 : N < 18446744073709551616) :
     ∃ t, FP.Structural.exec (sourceEngine M) (onlineWelfordKernel xReg meanReg varReg N stride) s = some t ∧
       t.mem meanReg 0 = .mk .bf16 (meanValue (sourceEngine M) xs) ∧
       t.mem varReg 0 = .mk .bf16 (varianceValue (sourceEngine M) xs) ∧
       (∀ r o, (r ≠ meanReg ∨ o ≠ 0) → (r ≠ varReg ∨ o ≠ 0) → t.mem r o = s.mem r o) := by
+  have hmod : N % 18446744073709551616 = N := Nat.mod_eq_of_lt h64
   obtain ⟨u, hu, hm, hv, hmem, _⟩ := loop_run M xReg stride xs s hx
   have he : FP.Structural.exec (sourceEngine M) (onlineWelfordKernel xReg meanReg varReg N stride) s =
       run (sourceEngine M) (initialCode ++ [.forLoop "i" N (body xReg stride)] ++ outputCode meanReg varReg N) s :=
@@ -201,7 +203,7 @@ theorem online_run {α : Type} [Inhabited α] (M : Algebra α)
     (.mk .bf16 (varianceValue (sourceEngine M) xs))
   refine ⟨t, ?_, ?_, ?_, ?_⟩
   · rw [he, run_append, hu]
-    simp [sourceEngine, Algebra.withDefaultPrecision, resolvePrecision, ComputeDType.eraseDType, outputCode, onlineWelfordKernel, ComputeKernel.surfaceBody, run, step, evalExpr, evalComputeOp, evalOp_unfold, realRef, hm, hv, numeric,
+    simp [sourceEngine, Algebra.withDefaultPrecision, resolvePrecision, ComputeDType.eraseDType, outputCode, onlineWelfordKernel, ComputeKernel.surfaceBody, run, step, evalExpr, evalComputeOp, evalOp_unfold, integralMod, hmod, realRef, hm, hv, numeric,
       FP.Structural.bop, store, TileShape.allIndices, Region.cast, meanValue, varianceValue,
       t, counted, State.write, ofFloat, toFloat]
   · exact (State.write_other _ varReg meanReg 0 0 _ (Or.inl hd)).trans
@@ -227,12 +229,14 @@ integer-count conversions and bf16 stores; no fold identity is assumed. -/
 theorem twopass_run {α : Type} [Inhabited α] (M : Algebra α)
     (xReg meanReg varReg : RegionName) (stride : Nat) (xs : Fin N → α) (s : State α)
     (hd : meanReg ≠ varReg)
-    (hx : ∀ i : Fin N, M.fp32Load ((s.mem xReg (s.pids 0 * stride + i.val)).read .real) = xs i) :
+    (hx : ∀ i : Fin N, M.fp32Load ((s.mem xReg (s.pids 0 * stride + i.val)).read .real) = xs i)
+    (h64 : N < 18446744073709551616) :
     ∃ t, FP.Structural.exec (sourceEngine M) (twopassWelfordKernel xReg meanReg varReg N stride) s = some t ∧
       t.mem meanReg 0 = .mk .bf16 ((sourceEngine M).cast none .real .bf16 (twopassMean (sourceEngine M) xs)) ∧
       t.mem varReg 0 = .mk .bf16 ((sourceEngine M).cast none .real .bf16 (twopassVariance (sourceEngine M) xs)) ∧
       (∀ r o, (r ≠ meanReg ∨ o ≠ 0) → (r ≠ varReg ∨ o ≠ 0) → t.mem r o = s.mem r o) := by
-  simp [sourceEngine, Algebra.withDefaultPrecision, resolvePrecision, ComputeDType.eraseDType, twopassWelfordKernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp, evalOp_unfold,
+  have hmod : N % 18446744073709551616 = N := Nat.mod_eq_of_lt h64
+  simp [sourceEngine, Algebra.withDefaultPrecision, resolvePrecision, ComputeDType.eraseDType, twopassWelfordKernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp, evalOp_unfold, integralMod, hmod,
     numeric, FP.Structural.bop, store, State.write, TileShape.allIndices,
     TileShape.eraseAxis, Region.cast, ofFloat, toFloat, hx, hd,
     sumValue, twopassMean, twopassVariance]
@@ -284,26 +288,28 @@ two-output frame. In particular, proving only the mean is insufficient. -/
 theorem online_io_run {α : Type} [Inhabited α] (M : Algebra α)
     (x mean variance : RegionName) (stride : Nat) (xs : Fin N → α) (s : State α)
     (hd : mean ≠ variance)
-    (hx : ∀ i : Fin N, M.fp32Load ((s.mem x (s.pids 0 * stride + i.val)).read .real) = xs i) :
+    (hx : ∀ i : Fin N, M.fp32Load ((s.mem x (s.pids 0 * stride + i.val)).read .real) = xs i)
+    (h64 : N < 18446744073709551616) :
     IO₁ₓ₂PrivateScratch (onlineIO x mean variance N stride) ∧
     ∃ t, FP.Structural.exec (sourceEngine M) (onlineIO x mean variance N stride).kernel s = some t ∧
       t.mem mean 0 = .mk .bf16 (meanValue (sourceEngine M) xs) ∧
       t.mem variance 0 = .mk .bf16 (varianceValue (sourceEngine M) xs) ∧
       IO₁ₓ₂Frame (onlineIO x mean variance N stride) s t := by
-  obtain ⟨t, ht, hm, hv, hf⟩ := online_run M x mean variance stride xs s hd hx
+  obtain ⟨t, ht, hm, hv, hf⟩ := online_run M x mean variance stride xs s hd hx h64
   refine ⟨by simp [sourceEngine, Algebra.withDefaultPrecision, resolvePrecision, ComputeDType.eraseDType, IO₁ₓ₂PrivateScratch, onlineIO], t, ht, hm, hv, ?_⟩
   exact scalar_outputs_frame rfl rfl rfl rfl hf
 
 theorem twopass_io_run {α : Type} [Inhabited α] (M : Algebra α)
     (x mean variance : RegionName) (stride : Nat) (xs : Fin N → α) (s : State α)
     (hd : mean ≠ variance)
-    (hx : ∀ i : Fin N, M.fp32Load ((s.mem x (s.pids 0 * stride + i.val)).read .real) = xs i) :
+    (hx : ∀ i : Fin N, M.fp32Load ((s.mem x (s.pids 0 * stride + i.val)).read .real) = xs i)
+    (h64 : N < 18446744073709551616) :
     IO₁ₓ₂PrivateScratch (twopassIO x mean variance N stride) ∧
     ∃ t, FP.Structural.exec (sourceEngine M) (twopassIO x mean variance N stride).kernel s = some t ∧
       t.mem mean 0 = .mk .bf16 ((sourceEngine M).cast none .real .bf16 (twopassMean (sourceEngine M) xs)) ∧
       t.mem variance 0 = .mk .bf16 ((sourceEngine M).cast none .real .bf16 (twopassVariance (sourceEngine M) xs)) ∧
       IO₁ₓ₂Frame (twopassIO x mean variance N stride) s t := by
-  obtain ⟨t, ht, hm, hv, hf⟩ := twopass_run M x mean variance stride xs s hd hx
+  obtain ⟨t, ht, hm, hv, hf⟩ := twopass_run M x mean variance stride xs s hd hx h64
   refine ⟨by simp [IO₁ₓ₂PrivateScratch, twopassIO, onlineIO], t, ht, hm, hv, ?_⟩
   exact scalar_outputs_frame rfl rfl rfl rfl hf
 
@@ -317,7 +323,8 @@ theorem fp32_online_statistics_run {α : Type} [Inhabited α]
     (xs : Nat → α) (empty : FP.Equational.ReductionTree 0)
     (hx : ∀ i : Fin N, M.fp32Load ((s.mem x (s.pids 0 * stride + i.val)).read .real) = xs i.val)
     (hc : FP.WelfordInduction.CountConversion M N)
-    (hd : FP.WelfordInduction.IterationDomain M D xs empty N) :
+    (hd : FP.WelfordInduction.IterationDomain M D xs empty N)
+    (h64 : N < 18446744073709551616) :
     IO₁ₓ₂PrivateScratch (onlineIO x mean variance N stride) ∧
     ∃ t, FP.Structural.exec (M.withDefaultPrecision .fp32)
         (onlineIO x mean variance N stride).kernel s = some t ∧
@@ -331,7 +338,7 @@ theorem fp32_online_statistics_run {α : Type} [Inhabited α]
           (FP.WelfordReduction.count M (FP.WelfordInduction.tree empty N)))) ∧
       IO₁ₓ₂Frame (onlineIO x mean variance N stride) s t := by
   obtain ⟨hp, t, ht, hm, hv, hf⟩ := online_io_run (M.withDefaultPrecision .fp32)
-    x mean variance stride (FP.WelfordInduction.rowPrefix xs N) s hdistinct hx
+    x mean variance stride (FP.WelfordInduction.rowPrefix xs N) s hdistinct hx h64
   have hs := fp32_recurrence_statistics R M D hM s xs empty N hN hc hd
   have hn := FP.WelfordInduction.converted_count R M D hM s empty N hc hd.initial.zero N le_rfl
   refine ⟨hp, t, ht, ?_, ?_, hf⟩
@@ -446,7 +453,8 @@ theorem original_runs {α : Type} [Inhabited α] (R : Rules) (M : Algebra α)
     (xs : Nat → α) (empty : ReductionPlan 0)
     (hx : ∀ i : Fin N, M.fp32Load ((s.mem x (s.pids 0 * stride + i.val)).read .real) = xs i.val)
     (hc : CountConversion M N) (hi : IterationDomain M D xs empty.tree N)
-    (hs : StatisticsDomain M D (rowPrefix xs N) (plan empty N) (rowPlan plans N)) :
+    (hs : StatisticsDomain M D (rowPrefix xs N) (plan empty N) (rowPlan plans N))
+    (h64 : N < 18446744073709551616) :
     IO₁ₓ₂PrivateScratch (onlineIO x mean variance N stride) ∧
     IO₁ₓ₂PrivateScratch (twopassIO x mean variance N stride) ∧
     ∃ a b, FP.Structural.exec (engine M plans) (onlineIO x mean variance N stride).kernel s = some a ∧
@@ -455,9 +463,9 @@ theorem original_runs {α : Type} [Inhabited α] (R : Rules) (M : Algebra α)
       IO₁ₓ₂Frame (onlineIO x mean variance N stride) s a ∧
       IO₁ₓ₂Frame (twopassIO x mean variance N stride) s b := by
   obtain ⟨hpa, a, ha, hma, hva, hfa⟩ := online_io_run (FP.ScalarReduction.algebra M plans)
-    x mean variance stride (rowPrefix xs N) s hdistinct hx
+    x mean variance stride (rowPrefix xs N) s hdistinct hx h64
   obtain ⟨hpb, b, hb, hmb, hvb, hfb⟩ := twopass_io_run (FP.ScalarReduction.algebra M plans)
-    x mean variance stride (rowPrefix xs N) s hdistinct hx
+    x mean variance stride (rowPrefix xs N) s hdistinct hx h64
   have hv := original_values R M D hM s plans xs empty N hN hc hi hs
   refine ⟨hpa, hpb, a, b, ha, hb, ⟨?_, ?_⟩, hfa, hfb⟩
   · intro i
@@ -531,7 +539,8 @@ theorem original_runs_under_count {α : Type} [Inhabited α] (R : Rules) (M : Al
     (D : Domain α) (hM : Models R.assumptions M D) (s : State α) (plans : Schedules)
     (x mean variance : RegionName) (N stride : Nat) (hN : 0 < N) (hdistinct : mean ≠ variance)
     (empty : ReductionPlan 0) (hc : FP.WelfordInduction.CountConversion M N)
-    (hd : (requirements x N stride empty plans).Holds M D s) :
+    (hd : (requirements x N stride empty plans).Holds M D s)
+    (h64 : N < 18446744073709551616) :
     IO₁ₓ₂PrivateScratch (online x mean variance N stride empty).io ∧
     IO₁ₓ₂PrivateScratch (twopass x mean variance N stride empty).io ∧
     ∃ a b,
@@ -545,7 +554,7 @@ theorem original_runs_under_count {α : Type} [Inhabited α] (R : Rules) (M : Al
       IO₁ₓ₂Frame (twopass x mean variance N stride empty).io s b := by
   obtain ⟨hi, hs⟩ := (requirements_holds M D s x N stride empty plans).mp hd
   exact original_runs R M D hM s plans x mean variance N stride hN hdistinct
-    (rowValues M s x stride) empty (fun _ => rfl) hc hi hs
+    (rowValues M s x stride) empty (fun _ => rfl) hc hi hs h64
 
 /-- Compose strictly certified bounded count conversion and the admitted
 arithmetic relaxations with both executions and output frames. The nonempty-row
@@ -560,6 +569,7 @@ theorem equivalent (N stride : Nat) (hN : 0 < N) (hBound : N ≤ FP.CountConvers
   intro α _ M D hM plans s hd
   exact (original_runs_under_count R.arithmetic M D (FP.CountConversion.arithmetic_models R M D hM)
     s plans "x" "mean" "variance" N stride hN (by decide) empty
-    (FP.CountConversion.conversion R M D hM s N hBound) hd).2.2
+    (FP.CountConversion.conversion R M D hM s N hBound) hd
+    (lt_of_le_of_lt hBound (by decide : FP.CountConversion.limit < 18446744073709551616))).2.2
 
 end VeriTile.Bench.Examples.WelfordFPContract

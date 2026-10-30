@@ -1626,6 +1626,7 @@ def Stmt.TraceSafeR (R : RoundingModel) (bounds : RegionBounds) : Stmt → Block
             Stmt.forRangeIntTraceSafeR R bounds idx (a.data PUnit.unit)
               (b.data PUnit.unit) (c.data PUnit.unit) body s
         | _, _, _ => True)
+  | .whileLoop _ _, _ => False
   | .ifThen c body, s =>
       c.SafeAtR R bounds s ∧
       (match evalOpR R c s with
@@ -2320,6 +2321,7 @@ theorem stepStmtR_undef (R : RoundingModel) : ∀ (st : Stmt) (s s' : BlockState
                       (b.data PUnit.unit) (c.data PUnit.unit) body s
                       = some s' := h
                   exact stepForRangeIntAuxR_undef R idx _ _ _ body s s' hok.2.2.2 h
+  | .whileLoop _ _, _, _, hok, _ => False.elim hok
   | .ifThen c body, s, s', hok, h => by
       simp only [Stmt.FlattenOkR] at hok
       simp only [stepStmtR] at h
@@ -3179,6 +3181,7 @@ theorem FlatAlloc.stepStmtR_flatten (A : FlatAlloc) (hd : A.Disjoint)
                       (c.data PUnit.unit) body s := hmsb
                   exact A.stepForRangeIntAuxR_flatten hd hcov R idx _ _ _ body s
                     hmsb hokb hu
+  | .whileLoop _ _, _, _, hok, _ => False.elim hok
   | .ifThen c body, s, hms, hok, hu => by
       simp only [Stmt.TraceSafeR] at hms
       simp only [Stmt.FlattenOkR] at hok

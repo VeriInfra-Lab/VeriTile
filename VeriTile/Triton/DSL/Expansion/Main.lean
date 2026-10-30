@@ -4153,6 +4153,26 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
       pure (← `(Stmt.ifThen (Op.constBool Bool.false) []),
         ← `(ComputeStmt.ifThen (Op.constBool Bool.false) []), env,
         Bool.false)
+  | `(tritonStmt| while $cond:tritonExpr { $stmts:tritonStmt* }) => do
+      let cond' ← expandBoolCondition env cond
+      ensureDType .bool cond'.dtype "while condition"
+      ensureShape SInfo.scalar cond'.shape "while condition"
+      ensureAlgorithmOnly "while condition" cond'
+      -- Re-evaluate the actual condition in every successor state. Mutable
+      -- registers cannot inherit a branch fact from entry to the loop.
+      let (algBody, computeBody, bodyEnv, bodyHasCompute) ← expandStmts env pinned intPinned regionDTypes ptrElems fpSource
+        (fpLoopProvenance fpSource.regions fpPtrElems (mkIdent `__while_no_iterator) stmts.toList) [] stmts.toList
+      let mut checkedNames : List String := []
+      for entry in env do
+        if checkedNames.contains entry.1 then continue
+        checkedNames := entry.1 :: checkedNames
+        let some after := bodyEnv.find? (fun e => e.1 == entry.1) |
+          Macro.throwError "while-carried register lost its type"
+        unless entry.2.1 == after.2.1 && entry.2.2.1.eq after.2.2.1 &&
+            entry.2.2.2 == after.2.2.2 do
+          Macro.throwError "while-carried register must preserve its dtype and shape"
+      pure (← `(Stmt.whileLoop $cond'.term [$algBody,*]),
+        ← `(ComputeStmt.whileLoop $cond'.term [$computeBody,*]), env, bodyHasCompute)
   | `(tritonStmt| tl.for $i:ident in $($n:term) { $stmts:tritonStmt* }) => do
       let nameLit ← identAsStr i
       let bodyEnv := (i.getId.toString, DInfo.nat, SInfo.scalar, none) :: env

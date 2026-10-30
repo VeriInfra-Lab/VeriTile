@@ -52,6 +52,8 @@ theorem body_context (M : Algebra α) (dot : Dot α) (B D : Nat) (p : RealSource
     (ctx : Context M B D p initial row acc current) :
     Context M B D p initial (row+B) (update M dot B D p initial row acc)
       (FPBody.executes M dot B D p initial current row acc ctx).val := by
+  have mask (i : Nat) : ((row : Int)+(i : Int)<(p.queryContext : Int)) ↔ row+i<p.queryContext := by omega
+  have mask' (i : Nat) : ((i : Int)+(row : Int)<(p.queryContext : Int)) ↔ row+i<p.queryContext := by omega
   by_cases hm : p.evenM = Bool.true
   all_goals by_cases hw : p.window = Bool.true
   all_goals by_cases hc : p.complement = Bool.true
@@ -74,7 +76,8 @@ theorem body_context (M : Algebra α) (dot : Dot α) (B D : Nat) (p : RealSource
       Nat.add_assoc,Nat.add_comm,Nat.add_left_comm]
     all_goals delta FPValues.query
     all_goals simp [hm,FPContext.zero,Nat.add_assoc,Nat.add_comm,Nat.add_left_comm]
-    all_goals try rfl
+    all_goals simp only [mask, mask']
+    all_goals rfl
 
 #specNonCircular update avoiding [FP.Structural.run,FP.Structural.exec,FPBody.executes]
 #guard_msgs (drop info) in

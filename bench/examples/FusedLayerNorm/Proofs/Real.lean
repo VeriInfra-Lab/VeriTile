@@ -74,13 +74,13 @@ theorem twoPass_projection (xReg γReg βReg yReg : RegionName) (N stride : Nat)
     ComputeStmt.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
     ComputeDType.eraseDType,
     Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,
-    Op.eraseDType, VeriTile.Triton.eraseDType, NumericDType.eraseDType,
+    Op.eraseDType, VeriTile.Triton.eraseDType, NumericDType.eraseDType, IntegralDType.eraseDType,
     MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def]
   repeat' apply And.intro
   all_goals try norm_num
   all_goals
     rw [Op.eraseDType.eq_def]
-    simp [Op.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType]
+    simp [Op.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, IntegralDType.eraseDType]
 
 theorem fused_projection (xReg γReg βReg yReg : RegionName) (N stride : Nat) (ε : ℝ) :
     (fusedLayerNormKernel xReg γReg βReg yReg N stride ε).eraseDType.toAlgorithm? =
@@ -89,7 +89,7 @@ theorem fused_projection (xReg γReg βReg yReg : RegionName) (N stride : Nat) (
     ComputeStmt.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
     ComputeDType.eraseDType,
     Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,
-    Op.eraseDType, VeriTile.Triton.eraseDType, NumericDType.eraseDType,
+    Op.eraseDType, VeriTile.Triton.eraseDType, NumericDType.eraseDType, IntegralDType.eraseDType,
     MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def]
   all_goals try norm_num
   all_goals
@@ -100,12 +100,14 @@ theorem twoPass_region_run (N stride : Nat) (ε : ℝ) (s : BlockState)
     (xs gs bs : Fin N → ℝ)
     (hx : InputRowLoadedAt s "x" stride N xs)
     (hg : ∀ i : Fin N, s.readMem "gamma" i.val = gs i)
-    (hb : ∀ i : Fin N, s.readMem "beta" i.val = bs i) :
+    (hb : ∀ i : Fin N, s.readMem "beta" i.val = bs i)
+    (h64 : N < 18446744073709551616) :
     ∃ t, exec (twoPassMathKernel "x" "gamma" "beta" "y" N stride ε).toAlgKernel s = some t ∧
       (∀ i : Fin N, t.readMem "y" (s.pid * stride + i.val) =
         (xs i - twoPassMean xs) / Real.sqrt (twoPassS xs / N + ε) * gs i + bs i) ∧
       (∀ (r : RegionName) o, (r ≠ "y" ∨ ∀ i : Fin N, o ≠ s.pid * stride + i.val) →
         t.mem r o = s.mem r o) := by
+  have hmod : N % 18446744073709551616 = N := Nat.mod_eq_of_lt h64
   have hinj : Function.Injective (fun i : TileIndex [N] => s.pids 0 * stride + i.1.val) := by
     rintro ⟨a, _⟩ ⟨b, _⟩ hab
     obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab)
@@ -113,7 +115,7 @@ theorem twoPass_region_run (N stride : Nat) (ε : ℝ) (s : BlockState)
   unfold InputRowLoadedAt at hx
   simp only [BlockState.pid_eq] at hx ⊢
   simp [twoPassMathKernel, exec, stepStmts, stepStmt, evalOp.eq_def,
-    Tile.bop, Tile.uop, Tile.natToReal, NumericDType.add, NumericDType.mul, NumericDType.sub,
+    Tile.bop, Tile.uop, Tile.natToReal, hmod, NumericDType.add, NumericDType.mul, NumericDType.sub,
     NumericDType.div, Tile.reduceSumDrop,
     TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex]
   refine ⟨fun i => ?_, fun r o hmiss => ?_⟩
@@ -132,12 +134,14 @@ theorem fused_region_run (N stride : Nat) (ε : ℝ) (s : BlockState)
     (xs gs bs : Fin N → ℝ)
     (hx : InputRowLoadedAt s "x" stride N xs)
     (hg : ∀ i : Fin N, s.readMem "gamma" i.val = gs i)
-    (hb : ∀ i : Fin N, s.readMem "beta" i.val = bs i) :
+    (hb : ∀ i : Fin N, s.readMem "beta" i.val = bs i)
+    (h64 : N < 18446744073709551616) :
     ∃ t, exec (fusedMathKernel "x" "gamma" "beta" "y" N stride ε).toAlgKernel s = some t ∧
       (∀ i : Fin N, t.readMem "y" (s.pid * stride + i.val) =
         (xs i - twoPassMean xs) / Real.sqrt (twoPassS xs / N + ε) * gs i + bs i) ∧
       (∀ (r : RegionName) o, (r ≠ "y" ∨ ∀ i : Fin N, o ≠ s.pid * stride + i.val) →
         t.mem r o = s.mem r o) := by
+  have hmod : N % 18446744073709551616 = N := Nat.mod_eq_of_lt h64
   obtain ⟨t, he, hM, hS, hp, _, hmem⟩ := WelfordCorrect.welford_loop_run N stride "x" s xs hx
   have hxt : ∀ i : Fin N, t.readMem "x" (s.pid * stride + i.val) = xs i := by
     intro i
@@ -154,7 +158,7 @@ theorem fused_region_run (N stride : Nat) (ε : ℝ) (s : BlockState)
     rfl
   simp only [BlockState.pid_eq] at hp hxt ⊢
   simp [fusedMathKernel, exec, stepStmts, stepStmt, evalOp.eq_def,
-    Tile.bop, Tile.uop, Tile.natToReal]
+    Tile.bop, Tile.uop, Tile.natToReal, hmod]
   simp only [WelfordCorrect.loopInitial, onlineWelfordLoopBody] at he
   rw [he]
   simp [hM, hS, hp, NumericDType.add, NumericDType.mul,
